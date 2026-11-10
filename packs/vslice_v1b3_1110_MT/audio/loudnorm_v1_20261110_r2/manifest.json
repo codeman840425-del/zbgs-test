@@ -1,0 +1,589 @@
+{
+  "id": "audio.patch.loudnorm_v1",
+  "packId": "audio.patch.loudnorm_v1",
+  "layer": "patch",
+  "kind": "patch",
+  "priority": 100,
+  "name": "loudnorm_v1_20261110_r2",
+  "path": "音频/_补丁包/loudnorm_v1_20261110_r2/",
+  "item_count": 12,
+  "file_count": 24,
+  "id_count": 10,
+  "status": "complete_for_included_ids",
+  "note": "同一 id 的全部格式都自测通过才进包。未通过的 id 不放文件，改走 音频/_配置/audio_bus_gain_v1_20261110.json 的 byId 覆盖。旧半包 loudnorm_v1_20261110/ 是中间稿，保留未改。",
+  "config_only_ids": {
+    "sfx.event.heels_step": "两种格式在限幅后积分只能到约 −22.7 LUFS，无法进入放宽后的窗口（下沿 −20 / −19.6）且同时保持 TP < −1 dBTP。文件峰值很尖，再抬积分就会过峰值线。",
+    "shop.flash_tick": "两种格式限幅后积分约 −22.6～−22.7 LUFS，无法进入放宽后窗口（下沿 −19.6）且保持 TP < −1 dBTP。无限制时 +8 dB 真峰值会冲到 0 以上。",
+    "sfx.pk.skill_talent_hit": "OGG 此前已过，但 MP3 源积分更低（−25.3），限幅后约 −20.5 LUFS，进不了 −19～−15 窗口且保持 TP < −1。按硬规则整 id 不进包。"
+  },
+  "items": [
+    {
+      "id": "bgm.pk.final_150",
+      "file": "bgm/bgm_pk_final_150_loop.ogg",
+      "format": "ogg",
+      "orig_sha256": "4d8dc95fdf7b4f270c488cf384c86d3cb4c6bd613d02c84d097b6d2672afda0b",
+      "new_sha256": "1415c64e1f4dc7c44a83f4b5d6829f07d0548e7c0e250812b555eb29a9274461",
+      "method": "线性增益 +2.20 dB + 4×过采样真峰值限制（天花板 -2.40 dBTP，瞄准 -17.0）",
+      "params": "线性增益 +2.20 dB + 4×过采样真峰值限制（天花板 -2.40 dBTP，瞄准 -17.0）；编码 ogg 44100 Hz 2ch 160000 bps（对齐原件）；输入=loopfix 补丁版",
+      "before": {
+        "lufs": -19.2,
+        "dbtp": -1.7,
+        "duration_s": 11.199977,
+        "jump_dbfs": -55.06,
+        "head_rms_dbfs": -16.31,
+        "tail_rms_dbfs": -24.05
+      },
+      "after": {
+        "lufs": -17.2,
+        "dbtp": -2.1,
+        "duration_s": 11.199977,
+        "jump_dbfs": -49.23,
+        "head_rms_dbfs": -14.09,
+        "tail_rms_dbfs": -22.01
+      },
+      "selftest_pass": true,
+      "loudness_delta_lu": 2.0,
+      "duration_delta_s": 0.0,
+      "orig_from": "audio.patch.loopfix_v1"
+    },
+    {
+      "id": "bgm.pk.final_150",
+      "file": "bgm/bgm_pk_final_150_loop.mp3",
+      "format": "mp3",
+      "orig_sha256": "2c8145ace18681d0c43abea7c63a9b36808ede19ddb7157544019b0c092f86ad",
+      "new_sha256": "aed79ddb66c2bb51147f95ac3be6453fba38d57869cceae1cac376442f05d966",
+      "method": "线性增益 +2.60 dB + 4×过采样真峰值限制（天花板 -2.45 dBTP，瞄准 -17.0）",
+      "params": "线性增益 +2.60 dB + 4×过采样真峰值限制（天花板 -2.45 dBTP，瞄准 -17.0）；编码 mp3 44100 Hz 2ch 192000 bps（对齐原件）；输入=loopfix 补丁版",
+      "before": {
+        "lufs": -19.6,
+        "dbtp": -2.5,
+        "duration_s": 11.199977,
+        "jump_dbfs": -43.71,
+        "head_rms_dbfs": -16.44,
+        "tail_rms_dbfs": -24.22
+      },
+      "after": {
+        "lufs": -17.5,
+        "dbtp": -2.3,
+        "duration_s": 11.199977,
+        "jump_dbfs": -44.19,
+        "head_rms_dbfs": -14.16,
+        "tail_rms_dbfs": -21.95
+      },
+      "selftest_pass": true,
+      "loudness_delta_lu": 2.1,
+      "duration_delta_s": 0.0,
+      "orig_from": "audio.patch.loopfix_v1"
+    },
+    {
+      "id": "stg.gift_xinghe",
+      "file": "bgm/stg_gift_xinghe_01.ogg",
+      "format": "ogg",
+      "orig_sha256": "89fc7b5179e8e4ead60ab65e12d1121b7439f31970998a621d8e5293d2ebd243",
+      "new_sha256": "039d8e02844deca57b13e0eb451e71e1ff29706ce926c94d33d7f5004fea1307",
+      "method": "线性增益 +2.50 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）",
+      "params": "线性增益 +2.50 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）；重试1：收紧限幅到 -1.30 dBTP；重试2：收紧限幅到 -1.45 dBTP；编码 ogg 44100 Hz 2ch 192000 bps（对齐原件）；输入=原件",
+      "before": {
+        "lufs": -16.0,
+        "dbtp": -2.4,
+        "duration_s": 4.3
+      },
+      "after": {
+        "lufs": -13.5,
+        "dbtp": -1.2,
+        "duration_s": 4.3
+      },
+      "selftest_pass": true,
+      "loudness_delta_lu": 2.5,
+      "duration_delta_s": 0.0
+    },
+    {
+      "id": "stg.gift_xinghe",
+      "file": "bgm/stg_gift_xinghe_01.mp3",
+      "format": "mp3",
+      "orig_sha256": "f58519ac36c988aecec2ebcd054cbe8083d35e309551172700c87deb766693c2",
+      "new_sha256": "482b416f92fcc920d510a532fc253709ed388f2a4c98ffb43388c11881e7c3d7",
+      "method": "线性增益 +2.70 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）",
+      "params": "线性增益 +2.70 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）；重试1：收紧限幅到 -1.30 dBTP；重试2：收紧限幅到 -1.45 dBTP；重试3：收紧限幅到 -1.60 dBTP；编码 mp3 44100 Hz 2ch 192000 bps（对齐原件）；输入=原件",
+      "before": {
+        "lufs": -16.2,
+        "dbtp": -2.6,
+        "duration_s": 4.3
+      },
+      "after": {
+        "lufs": -13.8,
+        "dbtp": -1.2,
+        "duration_s": 4.3
+      },
+      "selftest_pass": true,
+      "loudness_delta_lu": 2.4,
+      "duration_delta_s": 0.0
+    },
+    {
+      "id": "stg.gift_xinghe",
+      "file": "bgm/stg_gift_xinghe_02.ogg",
+      "format": "ogg",
+      "orig_sha256": "fa2e625b025f7658beb2cbd3513d678b89195545e6ce76e1d30fc0970e9b1460",
+      "new_sha256": "02070ad5a8b416b3881c9e59903ac39b3133cb00880bbc9f886e231876df8e93",
+      "method": "线性增益 +1.50 dB + 4×过采样真峰值限制（天花板 -1.40 dBTP，瞄准 -14.5）",
+      "params": "线性增益 +1.50 dB + 4×过采样真峰值限制（天花板 -1.40 dBTP，瞄准 -14.5）；编码 ogg 44100 Hz 2ch 192000 bps（对齐原件）；输入=原件",
+      "before": {
+        "lufs": -16.0,
+        "dbtp": -2.4,
+        "duration_s": 4.3
+      },
+      "after": {
+        "lufs": -14.6,
+        "dbtp": -1.4,
+        "duration_s": 4.3
+      },
+      "selftest_pass": true,
+      "loudness_delta_lu": 1.4,
+      "duration_delta_s": 0.0
+    },
+    {
+      "id": "stg.gift_xinghe",
+      "file": "bgm/stg_gift_xinghe_02.mp3",
+      "format": "mp3",
+      "orig_sha256": "9d6aa16fdcc896a63a6183bd47bf5396b7910e990606fa8d1d7f12cabb25025f",
+      "new_sha256": "5ea5a95a6cba7a6dbb8bb013d5838b46a6ede68c8c836806a22f93c60eb3b719",
+      "method": "线性增益 +1.70 dB + 4×过采样真峰值限制（天花板 -1.45 dBTP，瞄准 -14.5）",
+      "params": "线性增益 +1.70 dB + 4×过采样真峰值限制（天花板 -1.45 dBTP，瞄准 -14.5）；编码 mp3 44100 Hz 2ch 192000 bps（对齐原件）；输入=原件",
+      "before": {
+        "lufs": -16.2,
+        "dbtp": -2.3,
+        "duration_s": 4.3
+      },
+      "after": {
+        "lufs": -14.9,
+        "dbtp": -1.7,
+        "duration_s": 4.3
+      },
+      "selftest_pass": true,
+      "loudness_delta_lu": 1.3,
+      "duration_delta_s": 0.0
+    },
+    {
+      "id": "live.gift_t5",
+      "file": "live/live_gift_t5_01.ogg",
+      "format": "ogg",
+      "orig_sha256": "b5c667d124e4436cd34655e90d200aa2936d2c1c62e41abda8db453a9e5568b5",
+      "new_sha256": "f4a0b9c1f54c7cceba85cc25d6f7ce73609aa7e8310f8160e316372f5cd809d5",
+      "method": "线性增益 +8.70 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）",
+      "params": "线性增益 +8.70 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）；重试1：收紧限幅到 -1.30 dBTP；重试2：收紧限幅到 -1.45 dBTP；重试3：收紧限幅到 -1.60 dBTP；编码 ogg 44100 Hz 1ch 96000 bps（对齐原件）；输入=原件",
+      "before": {
+        "lufs": -22.2,
+        "dbtp": -4.9,
+        "duration_s": 3.0
+      },
+      "after": {
+        "lufs": -14.0,
+        "dbtp": -1.3,
+        "duration_s": 3.0
+      },
+      "selftest_pass": true,
+      "loudness_delta_lu": 8.2,
+      "duration_delta_s": 0.0
+    },
+    {
+      "id": "live.gift_t5",
+      "file": "live/live_gift_t5_01.mp3",
+      "format": "mp3",
+      "orig_sha256": "6b754e13b7fc04b6f97567586fd1c4fa5cb349b2446ae7d2f36183ae29e7b644",
+      "new_sha256": "ecd93eb60df5ff5cab67cee607c80c25827787979ff1f390e26c2590471d6724",
+      "method": "线性增益 +9.20 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）",
+      "params": "线性增益 +9.20 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）；编码 mp3 44100 Hz 1ch 96000 bps（对齐原件）；输入=原件",
+      "before": {
+        "lufs": -22.7,
+        "dbtp": -5.3,
+        "duration_s": 3.0
+      },
+      "after": {
+        "lufs": -14.4,
+        "dbtp": -1.4,
+        "duration_s": 3.0
+      },
+      "selftest_pass": true,
+      "loudness_delta_lu": 8.3,
+      "duration_delta_s": 0.0
+    },
+    {
+      "id": "sfx.gift.xinghe_room",
+      "file": "sfx/gift/sfx_gift_xinghe_room_02.ogg",
+      "format": "ogg",
+      "orig_sha256": "dfc704074ee70124092b2e779b195e786335be17514ffe0df75e5cde8f04fd16",
+      "new_sha256": "294afb1199e39810693468ae46384e46b58f7b80571f979fbc4f64bc1f40a920",
+      "method": "线性增益 +2.50 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）",
+      "params": "线性增益 +2.50 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）；重试1：收紧限幅到 -1.30 dBTP；重试2：收紧限幅到 -1.45 dBTP；编码 ogg 44100 Hz 2ch 192000 bps（对齐原件）；输入=原件",
+      "before": {
+        "lufs": -16.0,
+        "dbtp": -2.4,
+        "duration_s": 3.3
+      },
+      "after": {
+        "lufs": -13.5,
+        "dbtp": -1.2,
+        "duration_s": 3.3
+      },
+      "selftest_pass": true,
+      "loudness_delta_lu": 2.5,
+      "duration_delta_s": 0.0
+    },
+    {
+      "id": "sfx.gift.xinghe_room",
+      "file": "sfx/gift/sfx_gift_xinghe_room_02.mp3",
+      "format": "mp3",
+      "orig_sha256": "ec3a3397e1d9f31be7c1383e1095cc8d5bb2be142b27f018877d826d222cc245",
+      "new_sha256": "e8c98f4741b701a419426cbd18cd01bc32cf2fb7cea53014d01f8699c35e2dab",
+      "method": "线性增益 +2.70 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）",
+      "params": "线性增益 +2.70 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）；重试1：收紧限幅到 -1.30 dBTP；重试2：收紧限幅到 -1.45 dBTP；重试3：收紧限幅到 -1.60 dBTP；编码 mp3 44100 Hz 2ch 192000 bps（对齐原件）；输入=原件",
+      "before": {
+        "lufs": -16.2,
+        "dbtp": -2.5,
+        "duration_s": 3.3
+      },
+      "after": {
+        "lufs": -13.8,
+        "dbtp": -1.2,
+        "duration_s": 3.3
+      },
+      "selftest_pass": true,
+      "loudness_delta_lu": 2.4,
+      "duration_delta_s": 0.0
+    },
+    {
+      "id": "sfx.pk.heartbeat_loop",
+      "file": "pk/sfx_pk_heartbeat_loop_01.ogg",
+      "format": "ogg",
+      "orig_sha256": "6c7bda4260594d8cbe673d59c2554aba6d7b104c46428fb31f83eed5ba8c4ff4",
+      "new_sha256": "4d150412d3679e8e00bec10aa9f3420aa8e64f41824aa68a0b574772cc4ac8e5",
+      "method": "线性增益 +10.10 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP，瞄准 -17.2）",
+      "params": "线性增益 +10.10 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP，瞄准 -17.2）；节奏循环：8 ms 等功率尾折 + 尾窗铺底 + 2 ms 边淡；编码 ogg 44100 Hz 1ch 96000 bps（对齐原件）；输入=loopfix 补丁版",
+      "before": {
+        "lufs": -27.3,
+        "dbtp": -9.0,
+        "duration_s": 0.794195,
+        "jump_dbfs": -53.36,
+        "head_rms_dbfs": -13.06,
+        "tail_rms_dbfs": -37.93
+      },
+      "after": {
+        "lufs": -18.9,
+        "dbtp": -1.1,
+        "duration_s": 0.805442,
+        "jump_dbfs": -52.65,
+        "head_rms_dbfs": -5.2,
+        "tail_rms_dbfs": -22.17
+      },
+      "selftest_pass": true,
+      "loudness_delta_lu": 8.4,
+      "duration_delta_s": 0.011247,
+      "orig_from": "audio.patch.loopfix_v1"
+    },
+    {
+      "id": "sfx.pk.heartbeat_loop",
+      "file": "pk/sfx_pk_heartbeat_loop_01.mp3",
+      "format": "mp3",
+      "orig_sha256": "028ad1db0c5fe1fd97844def6333425db377e4ab7bbed98d879b7ac1bd2a5495",
+      "new_sha256": "d317b3666de27f576e51c68b36184a5e30371d413eb86c4e42f71c8e9dc72e64",
+      "method": "线性增益 +10.80 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）",
+      "params": "线性增益 +10.80 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）；编码 mp3 44100 Hz 1ch 96000 bps（对齐原件）；输入=loopfix 补丁版",
+      "before": {
+        "lufs": -27.8,
+        "dbtp": -9.5,
+        "duration_s": 0.797098,
+        "jump_dbfs": -60.61,
+        "head_rms_dbfs": -13.51,
+        "tail_rms_dbfs": -38.45
+      },
+      "after": {
+        "lufs": -17.7,
+        "dbtp": -1.6,
+        "duration_s": 0.797098,
+        "jump_dbfs": -54.05,
+        "head_rms_dbfs": -4.8,
+        "tail_rms_dbfs": -28.1
+      },
+      "selftest_pass": true,
+      "loudness_delta_lu": 10.1,
+      "duration_delta_s": 0.0,
+      "orig_from": "audio.patch.loopfix_v1"
+    },
+    {
+      "id": "tut.desk_slam",
+      "file": "tutorial/tut_desk_slam_01.ogg",
+      "format": "ogg",
+      "orig_sha256": "b9c159cb4de03af5406fd78c0ed3264d49203fa29530ba85be92e97c8bbbe98e",
+      "new_sha256": "3d2ae631b00586091302dc13a1a827bc46cbd2e971610739475f2d683a29e11c",
+      "method": "线性增益 +5.90 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）",
+      "params": "线性增益 +5.90 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）；重试1：收紧限幅到 -1.30 dBTP；重试2：收紧限幅到 -1.45 dBTP；编码 ogg 44100 Hz 1ch 110000 bps（对齐原件）；输入=原件",
+      "before": {
+        "lufs": -23.9,
+        "dbtp": -1.8,
+        "duration_s": 0.80068
+      },
+      "after": {
+        "lufs": -18.5,
+        "dbtp": -1.1,
+        "duration_s": 0.797778
+      },
+      "selftest_pass": true,
+      "loudness_delta_lu": 5.4,
+      "duration_delta_s": -0.002902
+    },
+    {
+      "id": "tut.desk_slam",
+      "file": "tutorial/tut_desk_slam_01.mp3",
+      "format": "mp3",
+      "orig_sha256": "c7c07483940807fd34811dda00109ad045dd72059f582e002d772182bf2f8e82",
+      "new_sha256": "71c918d61f088e9ad361700d38635e10448470116b7791a0d56fb016ac865ac7",
+      "method": "线性增益 +5.90 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）",
+      "params": "线性增益 +5.90 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）；编码 mp3 44100 Hz 1ch 94813 bps（对齐原件）；输入=原件",
+      "before": {
+        "lufs": -23.9,
+        "dbtp": -2.0,
+        "duration_s": 0.80356
+      },
+      "after": {
+        "lufs": -19.0,
+        "dbtp": -1.2,
+        "duration_s": 0.80356
+      },
+      "selftest_pass": true,
+      "loudness_delta_lu": 4.9,
+      "duration_delta_s": 0.0
+    },
+    {
+      "id": "tut.desk_slam",
+      "file": "tutorial/tut_desk_slam_02.ogg",
+      "format": "ogg",
+      "orig_sha256": "c50a564eab22fc8ae240f59a1be94ff4a4c8e89715b529ac286e3743598bb078",
+      "new_sha256": "70841576bcb598f81de3f0e4c9044df198087c0da92eaf38f6686c84b0524152",
+      "method": "线性增益 +5.90 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）",
+      "params": "线性增益 +5.90 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）；重试1：收紧限幅到 -1.30 dBTP；重试2：收紧限幅到 -1.45 dBTP；重试3：收紧限幅到 -1.60 dBTP；编码 ogg 44100 Hz 1ch 110000 bps（对齐原件）；输入=原件",
+      "before": {
+        "lufs": -23.9,
+        "dbtp": -1.1,
+        "duration_s": 0.767687
+      },
+      "after": {
+        "lufs": -18.5,
+        "dbtp": -1.1,
+        "duration_s": 0.764785
+      },
+      "selftest_pass": true,
+      "loudness_delta_lu": 5.4,
+      "duration_delta_s": -0.002902
+    },
+    {
+      "id": "tut.desk_slam",
+      "file": "tutorial/tut_desk_slam_02.mp3",
+      "format": "mp3",
+      "orig_sha256": "e72288de9f5bcab0510c362e1de233bc68c32306f237bd4ca85245d2de1a4a33",
+      "new_sha256": "081be2158cdc77ead2a19a0bca2b42a12e763964c647ec22e4960ead5215e814",
+      "method": "线性增益 +5.90 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）",
+      "params": "线性增益 +5.90 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）；编码 mp3 44100 Hz 1ch 81087 bps（对齐原件）；输入=原件",
+      "before": {
+        "lufs": -23.9,
+        "dbtp": -1.3,
+        "duration_s": 0.778095
+      },
+      "after": {
+        "lufs": -18.9,
+        "dbtp": -1.2,
+        "duration_s": 0.778095
+      },
+      "selftest_pass": true,
+      "loudness_delta_lu": 5.0,
+      "duration_delta_s": 0.0
+    },
+    {
+      "id": "tut.table_crash",
+      "file": "tutorial/tut_table_crash_01.ogg",
+      "format": "ogg",
+      "orig_sha256": "19be1f656a48fad66dfe2f9ff6922a10c3d8c239302e4a86ea62f7688b481b69",
+      "new_sha256": "eb58fc72f11d2c7c55f876575a3d24068eaf97887ec9b4604daf56fbd31e0c88",
+      "method": "线性增益 +6.40 dB + 4×过采样真峰值限制（天花板 -1.40 dBTP，瞄准 -19.0）",
+      "params": "线性增益 +6.40 dB + 4×过采样真峰值限制（天花板 -1.40 dBTP，瞄准 -19.0）；编码 ogg 44100 Hz 1ch 96000 bps（对齐原件）；输入=原件",
+      "before": {
+        "lufs": -25.4,
+        "dbtp": -2.8,
+        "duration_s": 0.797778
+      },
+      "after": {
+        "lufs": -20.7,
+        "dbtp": -1.5,
+        "duration_s": 0.794875
+      },
+      "selftest_pass": true,
+      "loudness_delta_lu": 4.7,
+      "duration_delta_s": -0.002902
+    },
+    {
+      "id": "tut.table_crash",
+      "file": "tutorial/tut_table_crash_01.mp3",
+      "format": "mp3",
+      "orig_sha256": "bdb506afc618ae221d64891e0f393eccc5412f1d936844ec7be89c1133f4584a",
+      "new_sha256": "6e1906e7a03cdf675a3e6667c0fb6e62740f8029cf578412ad36c780f4becd8a",
+      "method": "线性增益 +7.80 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）",
+      "params": "线性增益 +7.80 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）；编码 mp3 44100 Hz 1ch 96000 bps（对齐原件）；输入=原件",
+      "before": {
+        "lufs": -25.8,
+        "dbtp": -3.2,
+        "duration_s": 0.80068
+      },
+      "after": {
+        "lufs": -19.0,
+        "dbtp": -1.2,
+        "duration_s": 0.80068
+      },
+      "selftest_pass": true,
+      "loudness_delta_lu": 6.8,
+      "duration_delta_s": 0.0
+    },
+    {
+      "id": "sfx.m3.staff.office_loop",
+      "file": "sfx/m3/staff/sfx_m3_staff_office_loop_01.ogg",
+      "format": "ogg",
+      "orig_sha256": "af00de6dfd7c3a90bbe75935ca257d6ffe47bc8674127459471239de583ad378",
+      "new_sha256": "0e1c2703f5e6648b8825e29c6e032496f6ec685b28f313b237b62981f03162a9",
+      "method": "线性增益 +10.70 dB",
+      "params": "线性增益 +10.70 dB；编码 ogg 44100 Hz 1ch 96000 bps（对齐原件）；输入=原件",
+      "before": {
+        "lufs": -34.7,
+        "dbtp": -13.5,
+        "duration_s": 12.0,
+        "jump_dbfs": -65.1,
+        "head_rms_dbfs": -36.61,
+        "tail_rms_dbfs": -39.06
+      },
+      "after": {
+        "lufs": -24.0,
+        "dbtp": -2.8,
+        "duration_s": 12.0,
+        "jump_dbfs": -54.62,
+        "head_rms_dbfs": -25.84,
+        "tail_rms_dbfs": -28.17
+      },
+      "selftest_pass": true,
+      "loudness_delta_lu": 10.7,
+      "duration_delta_s": 0.0
+    },
+    {
+      "id": "sfx.m3.staff.office_loop",
+      "file": "sfx/m3/staff/sfx_m3_staff_office_loop_01.mp3",
+      "format": "mp3",
+      "orig_sha256": "5c7107e19e13af1584729e4c9a00d3e0690ab4375ef35849e365c008b769a581",
+      "new_sha256": "31820c4b8aeebecfecce2fe49e9d2bb9d30c1f73df36067d2ca5c31e6c144257",
+      "method": "线性增益 +10.90 dB",
+      "params": "线性增益 +10.90 dB；编码 mp3 44100 Hz 1ch 96000 bps（对齐原件）；输入=原件",
+      "before": {
+        "lufs": -34.9,
+        "dbtp": -13.9,
+        "duration_s": 12.0,
+        "jump_dbfs": -77.38,
+        "head_rms_dbfs": -37.02,
+        "tail_rms_dbfs": -39.4
+      },
+      "after": {
+        "lufs": -24.5,
+        "dbtp": -3.3,
+        "duration_s": 12.0,
+        "jump_dbfs": -63.78,
+        "head_rms_dbfs": -26.55,
+        "tail_rms_dbfs": -28.93
+      },
+      "selftest_pass": true,
+      "loudness_delta_lu": 10.4,
+      "duration_delta_s": 0.0
+    },
+    {
+      "id": "sfx.m3.story.contract_seal",
+      "file": "sfx/m3/story/sfx_m3_story_contract_seal_01.ogg",
+      "format": "ogg",
+      "orig_sha256": "eb48135e477a32a1ac93686b9143fb300b6f011890f411f1837760cf68887112",
+      "new_sha256": "42d8c3d96413248ac6edd2f4298788d415c09f277aa157307bcc4b5e453f6368",
+      "method": "线性增益 +4.70 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）",
+      "params": "线性增益 +4.70 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）；重试1：收紧限幅到 -1.30 dBTP；编码 ogg 44100 Hz 1ch 96000 bps（对齐原件）；输入=原件",
+      "before": {
+        "lufs": -21.7,
+        "dbtp": -3.6,
+        "duration_s": 0.497098
+      },
+      "after": {
+        "lufs": -17.3,
+        "dbtp": -1.1,
+        "duration_s": 0.494195
+      },
+      "selftest_pass": true,
+      "loudness_delta_lu": 4.4,
+      "duration_delta_s": -0.002902
+    },
+    {
+      "id": "sfx.m3.story.contract_seal",
+      "file": "sfx/m3/story/sfx_m3_story_contract_seal_01.mp3",
+      "format": "mp3",
+      "orig_sha256": "4bdc8e8313ba111e729afa221748269584ef99492418155677b82654ea96f575",
+      "new_sha256": "2052e840636cdc73983857344f768ef0826a53a3d5532a723bcacfaeb90b1018",
+      "method": "线性增益 +7.60 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）",
+      "params": "线性增益 +7.60 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）；编码 mp3 44100 Hz 1ch 96000 bps（对齐原件）；输入=原件",
+      "before": {
+        "lufs": -24.6,
+        "dbtp": -3.8,
+        "duration_s": 0.5
+      },
+      "after": {
+        "lufs": -18.3,
+        "dbtp": -1.4,
+        "duration_s": 0.5
+      },
+      "selftest_pass": true,
+      "loudness_delta_lu": 6.3,
+      "duration_delta_s": 0.0
+    },
+    {
+      "id": "stg.motif.azhe.full",
+      "file": "sfx/motif/stg_motif_azhe_full_01.ogg",
+      "format": "ogg",
+      "orig_sha256": "e1b023102eee097bbc2fa7d1d3f1531f92ede632056b34b3a9b82b4232e43d90",
+      "new_sha256": "6cecf78b76b28a23a8741e6e91d32fd96ba6233fac6fe1c71617105562061968",
+      "method": "线性增益 +6.00 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）",
+      "params": "线性增益 +6.00 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）；重试1：收紧限幅到 -1.30 dBTP；编码 ogg 44100 Hz 1ch 110000 bps（对齐原件）；输入=原件",
+      "before": {
+        "lufs": -22.0,
+        "dbtp": -5.9,
+        "duration_s": 5.586168
+      },
+      "after": {
+        "lufs": -15.9,
+        "dbtp": -1.1,
+        "duration_s": 5.586168
+      },
+      "selftest_pass": true,
+      "loudness_delta_lu": 6.1,
+      "duration_delta_s": 0.0
+    },
+    {
+      "id": "stg.motif.azhe.full",
+      "file": "sfx/motif/stg_motif_azhe_full_01.mp3",
+      "format": "mp3",
+      "orig_sha256": "a811a20bfd8803ed5844a107836160c95cfdd6a21d80d255ef9fc10f349082dd",
+      "new_sha256": "aece53355b38688e83fd089422527578bd0ab7fe8fb0435081ce07c636357387",
+      "method": "线性增益 +6.00 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）",
+      "params": "线性增益 +6.00 dB + 4×过采样真峰值限制（天花板 -1.15 dBTP）；编码 mp3 44100 Hz 1ch 95967 bps（对齐原件）；输入=原件",
+      "before": {
+        "lufs": -22.0,
+        "dbtp": -6.0,
+        "duration_s": 5.586168
+      },
+      "after": {
+        "lufs": -16.5,
+        "dbtp": -1.4,
+        "duration_s": 5.586168
+      },
+      "selftest_pass": true,
+      "loudness_delta_lu": 5.5,
+      "duration_delta_s": 0.0
+    }
+  ]
+}
