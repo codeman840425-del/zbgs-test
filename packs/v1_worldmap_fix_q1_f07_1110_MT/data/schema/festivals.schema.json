@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "节日活动表",
+  "type": "object",
+  "required": [
+    "version",
+    "rows"
+  ],
+  "properties": {
+    "$comment": {
+      "type": "string"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "rows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "bgm",
+          "start",
+          "end"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^fest_"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "bgm": {
+            "type": "string",
+            "pattern": "^bgm_"
+          },
+          "start": {
+            "type": "string",
+            "pattern": "^[0-9]{2}-[0-9]{2}$"
+          },
+          "end": {
+            "type": "string",
+            "pattern": "^[0-9]{2}-[0-9]{2}$"
+          },
+          "boostCategories": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "引用 categories.id"
+          },
+          "danmakuTrigger": {
+            "type": "string",
+            "description": "活动期间弹幕库使用的 trigger（如 festival_1111）"
+          }
+        }
+      }
+    }
+  }
+}

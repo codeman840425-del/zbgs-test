@@ -1,0 +1,1251 @@
+{
+ "schema": "v1.parts_manifest.1",
+ "partSchema": "v1.part.rigid.1",
+ "patchMode": "append",
+ "batch": "parts_v1_W2_lib_expand_E1_1110（E1 对稿：29 张 se 色图，只 se；眼嘴只 neutral）",
+ "status": "E1_delivered_for_review",
+ "source_plan": "策划/V1_五官与发型库扩充实施方案_20261110.md（29,021 B，sha256 12debb6b51f6b880162fe85d698a5f41ceab12bc13f245869ee3c7c757b69a85）",
+ "source_convention": "程序/V1骨骼皮肤接入约定_20261110_MT.md（只读，本包不加骨、不加挂点）",
+ "rig": {
+  "f": "rig_q_full_f",
+  "m": "rig_q_full_m",
+  "bones": "程序/src/v1_rig_preview_MT/config/bones_{f,m}_MT.json（只读，不改）",
+  "note": "挂点统一用 redraw_1110。程序只在以后挂新脸的新目录包里改 bones，不改已冻 4177–4183 与 rest 模板。"
+ },
+ "viewProjection": {
+  "note": "E1 只出 se。side_r/ne/p 待 E2。se 与 W2 同口径：boneOriginPx/boneRotView 为该视角母版骨原点与骨角。",
+  "sx": {
+   "se": 1.0
+  },
+  "cx": {
+   "se": 384
+  }
+ },
+ "pivotNote": "脸型：下巴中点 = pivot（贴在 head 骨原点，女 (384,558) / 男 (384,548)）。五官/鼻/胡须挂 head 骨，内容多在骨原点上方，故 pivot.y 常 >1。发型后片挂 hair_b_1。不要写死 (0.5,0)。size/pivot 已按实际切片填写（pivot = (骨原点 − 切片左上) / 切片尺寸）。",
+ "skinTone": {
+  "ref": "skin_02 #FAD7BE",
+  "recolor": "out = src × (目标 / #FAD7BE)，仅 face_shape 与 nose 的 skinmask 区"
+ },
+ "hairNote": "发型与胡须：主文件灰度 RGBA 供程序渐变映射（走角色 hairColor，hc_01–10）；同名 _hi 为高光层。silhouette: short/long/tie。长发只出 hair_b_1。后片 ≤340×420、前片 ≤300×220。",
+ "socketSet": "redraw_1110",
+ "featureAnchorsRel": {
+  "note": "相对下巴 / head 骨原点（se）。鼻点公式 nose = eye_mid + 0.62×(mouth−eye_mid)，与 face_redraw tools/assemble.py 的 nose_y 口径相同。",
+  "f": {
+   "eye_l": [
+    -39,
+    -96
+   ],
+   "eye_r": [
+    39,
+    -96
+   ],
+   "mouth": [
+    0,
+    -35
+   ],
+   "nose": [
+    0.0,
+    -58.18
+   ]
+  },
+  "m": {
+   "eye_l": [
+    -37,
+    -103
+   ],
+   "eye_r": [
+    37,
+    -103
+   ],
+   "mouth": [
+    0,
+    -44
+   ],
+   "nose": [
+    0.0,
+    -66.42
+   ]
+  }
+ },
+ "featureAnchorsMasterPx": {
+  "f": {
+   "headOrigin": [
+    384.0,
+    558.0
+   ],
+   "eye_l": [
+    345.0,
+    462.0
+   ],
+   "eye_r": [
+    423.0,
+    462.0
+   ],
+   "mouth": [
+    384.0,
+    523.0
+   ],
+   "nose": [
+    384.0,
+    499.82
+   ]
+  },
+  "m": {
+   "headOrigin": [
+    384.0,
+    548.0
+   ],
+   "eye_l": [
+    347.0,
+    445.0
+   ],
+   "eye_r": [
+    421.0,
+    445.0
+   ],
+   "mouth": [
+    384.0,
+    504.0
+   ],
+   "nose": [
+    384.0,
+    481.58
+   ]
+  }
+ },
+ "reservedPartSets": {
+  "note": "留给已交最小集和脸重做补齐（同 id 重画）。本清单 append 不得占用、不得覆盖。",
+  "partSets": [
+   "fc_01",
+   "fc_02",
+   "ey_01",
+   "ey_02",
+   "mo_01",
+   "mo_02",
+   "hr_01",
+   "hr_02",
+   "hr_03"
+  ]
+ },
+ "colorPartCount": 29,
+ "colorPartCountNote": "只计色图条数；_hi、_skinmask 不计条数，但已在对应条目的 highlight / skinmask 字段预告同目录相对文件名。",
+ "e1Breakdown": {
+  "nose": "女 no_01–05 + 男 no_01–05 = 10（仅 se，有 skinmask，按 skin_02 #FAD7BE）",
+  "beard": "男 bd_01–05 = 5（仅 se，灰度+_hi，走 hairColor；女库不建）",
+  "hair": "女 hr_04/hr_05 + 男 hr_04/hr_05，各 hair_b_1 + front（se）= 8",
+  "face_shape": "女 fc_03 + 男 fc_03 = 2（有 skinmask，颅顶干净、不画鼻子）",
+  "eyes": "女 ey_03 + 男 ey_03 仅 se_neutral = 2",
+  "mouth": "女 mo_03 + 男 mo_03 仅 se_neutral = 2",
+  "total": "10+5+8+2+2+2=29"
+ },
+ "sizeLimits": {
+  "note": "方案 §2.5。size 为实际切片尺寸（含四边 ≥4px 透明），均在上限内。",
+  "nose_se_p": [
+   56,
+   56
+  ],
+  "nose_side_r": [
+   48,
+   56
+  ],
+  "beard": [
+   220,
+   140
+  ],
+  "hair_back": [
+   340,
+   420
+  ],
+  "hair_front": [
+   300,
+   220
+  ],
+  "face_shape": [
+   256,
+   256
+  ]
+ },
+ "silhouetteSuggestion": {
+  "note": "草稿建议，出图可微调，但 short / long / tie 三类都不要空。",
+  "f": {
+   "hr_04": "short",
+   "hr_05": "long"
+  },
+  "m": {
+   "hr_04": "short",
+   "hr_05": "tie"
+  }
+ },
+ "designNotesDraft": {
+  "note": "以下为草稿建议，不是冻结造型；出图须成年、原创不抄 IP，鼻不做幼圆点鼻，须不超下颌外 6px、不做过胸长须。男女鼻型同一设计意图，比例跟各自 redraw_1110 脸。胡须绘制约束见顶层 beardDrawNote，并已写在每条 bd_* 的 note / tags 字段（不只在 README）。",
+  "nose": {
+   "no_01": "短直鼻：短而挺的成人直鼻，鼻梁浅、鼻头微圆但有鼻翼转折，不做幼儿圆点鼻。建议作默认/青年款。",
+   "no_02": "高窄梁：鼻梁略高、两侧收窄，鼻头小而明确，偏精致成人结构。",
+   "no_03": "软圆头：鼻头略丰、鼻翼自然张开，仍保持成年体积与转折，不是点鼻或糖化符号鼻。",
+   "no_04": "低宽翼：鼻梁偏低、鼻翼稍宽，适合更稳重的脸型，侧面轮廓清楚但不夸张。",
+   "no_05": "微钩脊：鼻梁中段轻微起伏、鼻头略向下，熟龄友好；不做夸张鹰钩或卡通尖鼻。"
+  },
+  "beard": {
+   "bd_01": "浅胡茬：贴肤短茬，覆盖上唇中线到下颌线。 清单 tags: ['stubble', 'short']。【绘制约束】刚性件只有一个 pivot，程序不会做双点对齐。上唇须中线对 mouth、下巴须底对下巴；按同库嘴到下巴距离（女 35 / 男 44；本批只有男须，用男 44，即 mouth 相对 head 原点 (0,−44)）把这两点画准，再切片算出那一个 pivot。轮廓不超出该脸型下颌外 6px，V1 不做过胸长须、不做跨出下颌的大络腮。",
+   "bd_02": "短髭：清晰的上唇短须，不下下巴、不连腮。 清单 tags: ['mustache', 'short']。【绘制约束】刚性件只有一个 pivot，程序不会做双点对齐。上唇须中线对 mouth、下巴须底对下巴；按同库嘴到下巴距离（女 35 / 男 44；本批只有男须，用男 44，即 mouth 相对 head 原点 (0,−44)）把这两点画准，再切片算出那一个 pivot。轮廓不超出该脸型下颌外 6px，V1 不做过胸长须、不做跨出下颌的大络腮。",
+   "bd_03": "下颌圈：沿下颌一圈短须并带浅髭，贴合下颌。 清单 tags: ['jawline', 'short']。【绘制约束】刚性件只有一个 pivot，程序不会做双点对齐。上唇须中线对 mouth、下巴须底对下巴；按同库嘴到下巴距离（女 35 / 男 44；本批只有男须，用男 44，即 mouth 相对 head 原点 (0,−44)）把这两点画准，再切片算出那一个 pivot。轮廓不超出该脸型下颌外 6px，V1 不做过胸长须、不做跨出下颌的大络腮。",
+   "bd_04": "短山羊：下唇凹到下巴尖的短簇须，两颊干净，长度停在下巴。 清单 tags: ['goatee', 'short']。【绘制约束】刚性件只有一个 pivot，程序不会做双点对齐。上唇须中线对 mouth、下巴须底对下巴；按同库嘴到下巴距离（女 35 / 男 44；本批只有男须，用男 44，即 mouth 相对 head 原点 (0,−44)）把这两点画准，再切片算出那一个 pivot。轮廓不超出该脸型下颌外 6px，V1 不做过胸长须、不做跨出下颌的大络腮。",
+   "bd_05": "短络腮：两颊到下颌的短络腮（可连浅髭），轮廓贴下颌。 清单 tags: ['sideburn', 'short']。【绘制约束】刚性件只有一个 pivot，程序不会做双点对齐。上唇须中线对 mouth、下巴须底对下巴；按同库嘴到下巴距离（女 35 / 男 44；本批只有男须，用男 44，即 mouth 相对 head 原点 (0,−44)）把这两点画准，再切片算出那一个 pivot。轮廓不超出该脸型下颌外 6px，V1 不做过胸长须、不做跨出下颌的大络腮。"
+  },
+  "hair": {
+   "f_hr_04": "建议 short：齐下巴内的清爽短发，耳际有层次，颅顶饱满，能盖住新脸型颅顶。",
+   "f_hr_05": "建议 long：过肩长直/微波浪，只出 hair_b_1，发尾收在后片内，不拆 hair_b_2/3。",
+   "m_hr_04": "建议 short：成人短碎发，额前少量层次，不是几何块发。",
+   "m_hr_05": "建议 tie：后脑低束短马尾/束发（tie），前发分开；不做高发髻，本款不声明 blocks acc_top。"
+  },
+  "face_shape": "fc_03：在青年默认脸之外新开一款，颧骨/下颌/下巴与 fc_01 可分辨；颅顶到眉线以上外轮廓与同库已有脸型偏差 ≤4px，耳位偏差 ≤4px；脸底干净，无母版残留发丝/发际线，颅顶补满皮肤；不画鼻子（noseBaked false）。"
+ },
+ "parts": [
+  {
+   "id": "part_f_head_no_01_head_se",
+   "slot": "head",
+   "partSet": "no_01",
+   "gender": "f",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5625,
+    2.0
+   ],
+   "file": "characters/parts_v1/f/head/no_01/part_f_head_no_01_head_se.png",
+   "size": [
+    48,
+    50
+   ],
+   "skinmask": "part_f_head_no_01_head_se_skinmask.png",
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制抠图脚本（10 格多鼻型对稿，底=脚本鼻挂 fc_03 默认配方）｜上线前复核版权",
+   "category": "nose",
+   "status": "delivered_E1",
+   "designRound": "gen_noses_r1（第 1 轮，未返工；10 格多鼻型对稿一次出图，替换脚本版）",
+   "note": "短直鼻：短而挺，鼻头微圆有鼻翼转折",
+   "noseTipRel": [
+    0.0,
+    -58.18
+   ]
+  },
+  {
+   "id": "part_f_head_no_02_head_se",
+   "slot": "head",
+   "partSet": "no_02",
+   "gender": "f",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    2.04
+   ],
+   "file": "characters/parts_v1/f/head/no_02/part_f_head_no_02_head_se.png",
+   "size": [
+    48,
+    50
+   ],
+   "skinmask": "part_f_head_no_02_head_se_skinmask.png",
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制抠图脚本（10 格多鼻型对稿，底=脚本鼻挂 fc_03 默认配方）｜上线前复核版权",
+   "category": "nose",
+   "status": "delivered_E1",
+   "designRound": "gen_noses_r1（第 1 轮，未返工；10 格多鼻型对稿一次出图，替换脚本版）",
+   "note": "高窄梁：鼻梁略高、两侧收窄，鼻头小而明确",
+   "noseTipRel": [
+    0.0,
+    -58.18
+   ]
+  },
+  {
+   "id": "part_f_head_no_03_head_se",
+   "slot": "head",
+   "partSet": "no_03",
+   "gender": "f",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.54348,
+    2.0
+   ],
+   "file": "characters/parts_v1/f/head/no_03/part_f_head_no_03_head_se.png",
+   "size": [
+    46,
+    50
+   ],
+   "skinmask": "part_f_head_no_03_head_se_skinmask.png",
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制抠图脚本（10 格多鼻型对稿，底=脚本鼻挂 fc_03 默认配方）｜上线前复核版权",
+   "category": "nose",
+   "status": "delivered_E1",
+   "designRound": "gen_noses_r1（第 1 轮，未返工；10 格多鼻型对稿一次出图，替换脚本版）",
+   "note": "软圆头：鼻头略丰、鼻翼自然张开，仍有体积转折",
+   "noseTipRel": [
+    0.0,
+    -58.18
+   ]
+  },
+  {
+   "id": "part_f_head_no_04_head_se",
+   "slot": "head",
+   "partSet": "no_04",
+   "gender": "f",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.52083,
+    2.02
+   ],
+   "file": "characters/parts_v1/f/head/no_04/part_f_head_no_04_head_se.png",
+   "size": [
+    48,
+    50
+   ],
+   "skinmask": "part_f_head_no_04_head_se_skinmask.png",
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制抠图脚本（10 格多鼻型对稿，底=脚本鼻挂 fc_03 默认配方）｜上线前复核版权",
+   "category": "nose",
+   "status": "delivered_E1",
+   "designRound": "gen_noses_r1（第 1 轮，未返工；10 格多鼻型对稿一次出图，替换脚本版）",
+   "note": "低宽翼：鼻梁偏低、鼻翼稍宽，稳重",
+   "noseTipRel": [
+    0.0,
+    -58.18
+   ]
+  },
+  {
+   "id": "part_f_head_no_05_head_se",
+   "slot": "head",
+   "partSet": "no_05",
+   "gender": "f",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.54545,
+    2.02
+   ],
+   "file": "characters/parts_v1/f/head/no_05/part_f_head_no_05_head_se.png",
+   "size": [
+    44,
+    50
+   ],
+   "skinmask": "part_f_head_no_05_head_se_skinmask.png",
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制抠图脚本（10 格多鼻型对稿，底=脚本鼻挂 fc_03 默认配方）｜上线前复核版权",
+   "category": "nose",
+   "status": "delivered_E1",
+   "designRound": "gen_noses_r1（第 1 轮，未返工；10 格多鼻型对稿一次出图，替换脚本版）",
+   "note": "微钩脊：鼻梁中段轻起伏、鼻头略向下，熟龄友好",
+   "noseTipRel": [
+    0.0,
+    -58.18
+   ]
+  },
+  {
+   "id": "part_m_head_no_01_head_se",
+   "slot": "head",
+   "partSet": "no_01",
+   "gender": "m",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.48,
+    2.15385
+   ],
+   "file": "characters/parts_v1/m/head/no_01/part_m_head_no_01_head_se.png",
+   "size": [
+    50,
+    52
+   ],
+   "skinmask": "part_m_head_no_01_head_se_skinmask.png",
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制抠图脚本（10 格多鼻型对稿，底=脚本鼻挂 fc_03 默认配方）｜上线前复核版权",
+   "category": "nose",
+   "status": "delivered_E1",
+   "designRound": "gen_noses_r1（第 1 轮，未返工；10 格多鼻型对稿一次出图，替换脚本版）",
+   "note": "短直鼻：短而挺，鼻头微圆有鼻翼转折",
+   "noseTipRel": [
+    0.0,
+    -66.42
+   ]
+  },
+  {
+   "id": "part_m_head_no_02_head_se",
+   "slot": "head",
+   "partSet": "no_02",
+   "gender": "m",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.48,
+    2.17308
+   ],
+   "file": "characters/parts_v1/m/head/no_02/part_m_head_no_02_head_se.png",
+   "size": [
+    50,
+    52
+   ],
+   "skinmask": "part_m_head_no_02_head_se_skinmask.png",
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制抠图脚本（10 格多鼻型对稿，底=脚本鼻挂 fc_03 默认配方）｜上线前复核版权",
+   "category": "nose",
+   "status": "delivered_E1",
+   "designRound": "gen_noses_r1（第 1 轮，未返工；10 格多鼻型对稿一次出图，替换脚本版）",
+   "note": "高窄梁：鼻梁略高、两侧收窄，鼻头小而明确",
+   "noseTipRel": [
+    0.0,
+    -66.42
+   ]
+  },
+  {
+   "id": "part_m_head_no_03_head_se",
+   "slot": "head",
+   "partSet": "no_03",
+   "gender": "m",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.48,
+    2.2
+   ],
+   "file": "characters/parts_v1/m/head/no_03/part_m_head_no_03_head_se.png",
+   "size": [
+    50,
+    50
+   ],
+   "skinmask": "part_m_head_no_03_head_se_skinmask.png",
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制抠图脚本（10 格多鼻型对稿，底=脚本鼻挂 fc_03 默认配方）｜上线前复核版权",
+   "category": "nose",
+   "status": "delivered_E1",
+   "designRound": "gen_noses_r1（第 1 轮，未返工；10 格多鼻型对稿一次出图，替换脚本版）",
+   "note": "软圆头：鼻头略丰、鼻翼自然张开，仍有体积转折",
+   "noseTipRel": [
+    0.0,
+    -66.42
+   ]
+  },
+  {
+   "id": "part_m_head_no_04_head_se",
+   "slot": "head",
+   "partSet": "no_04",
+   "gender": "m",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.48,
+    2.22
+   ],
+   "file": "characters/parts_v1/m/head/no_04/part_m_head_no_04_head_se.png",
+   "size": [
+    50,
+    50
+   ],
+   "skinmask": "part_m_head_no_04_head_se_skinmask.png",
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制抠图脚本（10 格多鼻型对稿，底=脚本鼻挂 fc_03 默认配方）｜上线前复核版权",
+   "category": "nose",
+   "status": "delivered_E1",
+   "designRound": "gen_noses_r1（第 1 轮，未返工；10 格多鼻型对稿一次出图，替换脚本版）",
+   "note": "低宽翼：鼻梁偏低、鼻翼稍宽，稳重",
+   "noseTipRel": [
+    0.0,
+    -66.42
+   ]
+  },
+  {
+   "id": "part_m_head_no_05_head_se",
+   "slot": "head",
+   "partSet": "no_05",
+   "gender": "m",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.48,
+    2.17308
+   ],
+   "file": "characters/parts_v1/m/head/no_05/part_m_head_no_05_head_se.png",
+   "size": [
+    50,
+    52
+   ],
+   "skinmask": "part_m_head_no_05_head_se_skinmask.png",
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制抠图脚本（10 格多鼻型对稿，底=脚本鼻挂 fc_03 默认配方）｜上线前复核版权",
+   "category": "nose",
+   "status": "delivered_E1",
+   "designRound": "gen_noses_r1（第 1 轮，未返工；10 格多鼻型对稿一次出图，替换脚本版）",
+   "note": "微钩脊：鼻梁中段轻起伏、鼻头略向下，熟龄友好",
+   "noseTipRel": [
+    0.0,
+    -66.42
+   ]
+  },
+  {
+   "id": "part_m_head_bd_01_head_se",
+   "slot": "head",
+   "partSet": "bd_01",
+   "gender": "m",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.95455
+   ],
+   "file": "characters/parts_v1/m/head/bd_01/part_m_head_bd_01_head_se.png",
+   "size": [
+    164,
+    110
+   ],
+   "highlight": "part_m_head_bd_01_head_se_hi.png",
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制抠图脚本（以 redraw_1110 男默认脸为底编辑出图）｜上线前复核版权",
+   "category": "beard",
+   "tags": [
+    "stubble",
+    "short"
+   ],
+   "note": "浅胡茬：细碴点+细丝质感，只在下颌线、下巴和上唇中线淡淡一层，脸颊和嘴角干净（Seedream 编辑出图后抠出）。【绘制约束】刚性件只有一个 pivot，程序不会做双点对齐。上唇须中线对 mouth、下巴须底对下巴；按同库嘴到下巴距离（女 35 / 男 44；本批只有男须，用男 44，即 mouth 相对 head 原点 (0,−44)）把这两点画准，再切片算出那一个 pivot。轮廓不超出该脸型下颌外 6px，V1 不做过胸长须、不做跨出下颌的大络腮。",
+   "status": "delivered_E1",
+   "designRound": "gen_bd_01_r1（第 1 轮，未返工；以男 redraw_1110 默认脸为底编辑出图）",
+   "beyondJawPx": {
+    "fc_01(redraw)": 3.14,
+    "fc_02(redraw)": 3.14,
+    "fc_03(E1)": 3.14
+   },
+   "chinBottomRel": 1.0,
+   "mouthSafetyZoneCaliber": "c_redraw_1110_solid_alpha128_bbox_pad0",
+   "mouthSafetyCheck": "overlay_consistency_c"
+  },
+  {
+   "id": "part_m_head_bd_02_head_se",
+   "slot": "head",
+   "partSet": "bd_02",
+   "gender": "m",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    3.05
+   ],
+   "file": "characters/parts_v1/m/head/bd_02/part_m_head_bd_02_head_se.png",
+   "size": [
+    66,
+    20
+   ],
+   "highlight": "part_m_head_bd_02_head_se_hi.png",
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制抠图脚本（以 redraw_1110 男默认脸为底编辑出图）｜上线前复核版权",
+   "category": "beard",
+   "tags": [
+    "mustache",
+    "short"
+   ],
+   "note": "短髭（C2）：旧压扁版逐列整数下移（不拉伸、不重采样，发丝边原样）——上沿离鼻底约 2–3px，下沿贴到两张男嘴里较高那条唇线（到实色边第一行、被嘴盖住），两端止于嘴角外 ≤4px，人中处分开；嘴实色区内 alpha=0（叠嘴一致性）。灰度 + _hi 走 hairColor，镜像对称（仅被嘴盖住处随嘴形不对称）（Seedream 编辑出图后抠出 + 脚本下移）。【绘制约束】刚性件只有一个 pivot，程序不会做双点对齐。上唇须中线对 mouth、下巴须底对下巴；按同库嘴到下巴距离（女 35 / 男 44；本批只有男须，用男 44，即 mouth 相对 head 原点 (0,−44)）把这两点画准，再切片算出那一个 pivot。轮廓不超出该脸型下颌外 6px，V1 不做过胸长须、不做跨出下颌的大络腮。",
+   "status": "delivered_E1",
+   "designRound": "gen_bd_02_r1（第 1 轮；r2 返工两次请求均网络中断失败，未再重试）",
+   "beyondJawPx": {
+    "fc_01(redraw)": 0.0,
+    "fc_02(redraw)": 0.0,
+    "fc_03(E1)": 0.0
+   },
+   "chinBottomRel": -48.0,
+   "mouthSafetyZoneCaliber": "c_redraw_1110_solid_alpha128_bbox_pad0",
+   "mouthSafetyCheck": "overlay_consistency_c"
+  },
+  {
+   "id": "part_m_head_bd_03_head_se",
+   "slot": "head",
+   "partSet": "bd_03",
+   "gender": "m",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.94318
+   ],
+   "file": "characters/parts_v1/m/head/bd_03/part_m_head_bd_03_head_se.png",
+   "size": [
+    152,
+    88
+   ],
+   "highlight": "part_m_head_bd_03_head_se_hi.png",
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制抠图脚本（以 redraw_1110 男默认脸为底编辑出图）｜上线前复核版权",
+   "category": "beard",
+   "tags": [
+    "jawline",
+    "short"
+   ],
+   "note": "下颌圈：沿下颌的窄短须带连到下巴，带上唇浅髭（方案 (c) 恢复）；嘴实色像素下 alpha=0（Seedream 编辑出图后抠出）。【绘制约束】刚性件只有一个 pivot，程序不会做双点对齐。上唇须中线对 mouth、下巴须底对下巴；按同库嘴到下巴距离（女 35 / 男 44；本批只有男须，用男 44，即 mouth 相对 head 原点 (0,−44)）把这两点画准，再切片算出那一个 pivot。轮廓不超出该脸型下颌外 6px，V1 不做过胸长须、不做跨出下颌的大络腮。",
+   "status": "delivered_E1",
+   "designRound": "gen_bd_03_r1（第 1 轮，未返工；以男 redraw_1110 默认脸为底编辑出图）",
+   "beyondJawPx": {
+    "fc_01(redraw)": 3.14,
+    "fc_02(redraw)": 3.14,
+    "fc_03(E1)": 3.14
+   },
+   "chinBottomRel": 1.0,
+   "mouthSafetyZoneCaliber": "c_redraw_1110_solid_alpha128_bbox_pad0",
+   "mouthSafetyCheck": "overlay_consistency_c"
+  },
+  {
+   "id": "part_m_head_bd_04_head_se",
+   "slot": "head",
+   "partSet": "bd_04",
+   "gender": "m",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.8125
+   ],
+   "file": "characters/parts_v1/m/head/bd_04/part_m_head_bd_04_head_se.png",
+   "size": [
+    58,
+    32
+   ],
+   "highlight": "part_m_head_bd_04_head_se_hi.png",
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制抠图脚本（以 redraw_1110 男默认脸为底编辑出图）｜上线前复核版权",
+   "category": "beard",
+   "tags": [
+    "goatee",
+    "short"
+   ],
+   "note": "短山羊：只画下巴一小撮，止于下巴底，两颊与下颌干净；下唇凹在嘴部安全区内，簇须从安全区下沿外起（Seedream 编辑出图后抠出）。【绘制约束】刚性件只有一个 pivot，程序不会做双点对齐。上唇须中线对 mouth、下巴须底对下巴；按同库嘴到下巴距离（女 35 / 男 44；本批只有男须，用男 44，即 mouth 相对 head 原点 (0,−44)）把这两点画准，再切片算出那一个 pivot。轮廓不超出该脸型下颌外 6px，V1 不做过胸长须、不做跨出下颌的大络腮。",
+   "status": "delivered_E1",
+   "designRound": "gen_bd_04_r1（第 1 轮，未返工；以男 redraw_1110 默认脸为底编辑出图）",
+   "beyondJawPx": {
+    "fc_01(redraw)": 3.0,
+    "fc_02(redraw)": 3.0,
+    "fc_03(E1)": 3.0
+   },
+   "chinBottomRel": 1.0,
+   "mouthSafetyZoneCaliber": "c_redraw_1110_solid_alpha128_bbox_pad0",
+   "mouthSafetyCheck": "overlay_consistency_c"
+  },
+  {
+   "id": "part_m_head_bd_05_head_se",
+   "slot": "head",
+   "partSet": "bd_05",
+   "gender": "m",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.94915
+   ],
+   "file": "characters/parts_v1/m/head/bd_05/part_m_head_bd_05_head_se.png",
+   "size": [
+    166,
+    118
+   ],
+   "highlight": "part_m_head_bd_05_head_se_hi.png",
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制抠图脚本（以 redraw_1110 男默认脸为底编辑出图）｜上线前复核版权",
+   "category": "beard",
+   "tags": [
+    "sideburn",
+    "short"
+   ],
+   "note": "短络腮：从鬓角沿下颌线的一条窄带（约 6–12px），贴下颌，下巴很短；不盖脸颊、不盖嘴周（Seedream 编辑出图后抠出）。【绘制约束】刚性件只有一个 pivot，程序不会做双点对齐。上唇须中线对 mouth、下巴须底对下巴；按同库嘴到下巴距离（女 35 / 男 44；本批只有男须，用男 44，即 mouth 相对 head 原点 (0,−44)）把这两点画准，再切片算出那一个 pivot。轮廓不超出该脸型下颌外 6px，V1 不做过胸长须、不做跨出下颌的大络腮。",
+   "status": "delivered_E1",
+   "designRound": "gen_bd_05_r2（第 2 轮，返工 1 次：r1 只从耳下起，r2 从鬓角起）",
+   "beyondJawPx": {
+    "fc_01(redraw)": 3.0,
+    "fc_02(redraw)": 3.0,
+    "fc_03(E1)": 3.0
+   },
+   "chinBottomRel": 1.0,
+   "mouthSafetyZoneCaliber": "c_redraw_1110_solid_alpha128_bbox_pad0",
+   "mouthSafetyCheck": "overlay_consistency_c"
+  },
+  {
+   "id": "part_f_head_hr_04_hair_b_1_se",
+   "slot": "head",
+   "partSet": "hr_04",
+   "gender": "f",
+   "bone": "hair_b_1",
+   "layer": "hair_back",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.50599,
+    0.21168
+   ],
+   "file": "characters/parts_v1/f/head/hr_04/part_f_head_hr_04_hair_b_1_se.png",
+   "size": [
+    334,
+    274
+   ],
+   "highlight": "part_f_head_hr_04_hair_b_1_se_hi.png",
+   "boneOriginPx": [
+    384.0,
+    353.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权",
+   "category": "hair_back",
+   "chain": "hair_b",
+   "silhouette": "short",
+   "status": "delivered_E1",
+   "designRound": "gen_f_A_r1（第 1 轮，未返工）",
+   "note": "后片外缘发梢（|x|>110px）横向收拢 ×0.873 以守 ≤340 宽"
+  },
+  {
+   "id": "part_f_head_hr_04_head_se_front",
+   "slot": "head",
+   "partSet": "hr_04",
+   "gender": "f",
+   "bone": "head",
+   "layer": "hair_front",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    1.18636
+   ],
+   "file": "characters/parts_v1/f/head/hr_04/part_f_head_hr_04_head_se_front.png",
+   "size": [
+    296,
+    220
+   ],
+   "highlight": "part_f_head_hr_04_head_se_front_hi.png",
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权",
+   "category": "hair_front",
+   "partVariant": "front",
+   "silhouette": "short",
+   "status": "delivered_E1",
+   "designRound": "gen_f_A_r1（第 1 轮，未返工）"
+  },
+  {
+   "id": "part_f_head_hr_05_hair_b_1_se",
+   "slot": "head",
+   "partSet": "hr_05",
+   "gender": "f",
+   "bone": "hair_b_1",
+   "layer": "hair_back",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.49405,
+    0.17178
+   ],
+   "file": "characters/parts_v1/f/head/hr_05/part_f_head_hr_05_hair_b_1_se.png",
+   "size": [
+    336,
+    326
+   ],
+   "highlight": "part_f_head_hr_05_hair_b_1_se_hi.png",
+   "boneOriginPx": [
+    384.0,
+    353.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权",
+   "category": "hair_back",
+   "chain": "hair_b",
+   "silhouette": "long",
+   "status": "delivered_E1",
+   "designRound": "gen_f_B_r1（第 1 轮，未返工；以 gen_f_A_r1 为底图编辑换发）",
+   "note": "后片外缘发梢（|x|>110px）横向收拢 ×0.7143 以守 ≤340 宽；长发档（平台 11/10 核定：发尾在下巴下约 59px、到肩前上胸）：后发只出 hair_b_1，不拆 b_2/b_3。",
+   "hairTier": "long"
+  },
+  {
+   "id": "part_f_head_hr_05_head_se_front",
+   "slot": "head",
+   "partSet": "hr_05",
+   "gender": "f",
+   "bone": "head",
+   "layer": "hair_front",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    1.18807
+   ],
+   "file": "characters/parts_v1/f/head/hr_05/part_f_head_hr_05_head_se_front.png",
+   "size": [
+    296,
+    218
+   ],
+   "highlight": "part_f_head_hr_05_head_se_front_hi.png",
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权",
+   "category": "hair_front",
+   "partVariant": "front",
+   "silhouette": "long",
+   "status": "delivered_E1",
+   "designRound": "gen_f_B_r1（第 1 轮，未返工；以 gen_f_A_r1 为底图编辑换发）",
+   "hairTier": "long",
+   "note": "长发档（平台 11/10 核定：发尾在下巴下约 59px、到肩前上胸）：后发只出 hair_b_1，不拆 b_2/b_3。"
+  },
+  {
+   "id": "part_m_head_hr_04_hair_b_1_se",
+   "slot": "head",
+   "partSet": "hr_04",
+   "gender": "m",
+   "bone": "hair_b_1",
+   "layer": "hair_back",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.50901,
+    0.27619
+   ],
+   "file": "characters/parts_v1/m/head/hr_04/part_m_head_hr_04_hair_b_1_se.png",
+   "size": [
+    222,
+    210
+   ],
+   "highlight": "part_m_head_hr_04_hair_b_1_se_hi.png",
+   "boneOriginPx": [
+    384.0,
+    343.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权",
+   "category": "hair_back",
+   "chain": "hair_b",
+   "silhouette": "short",
+   "status": "delivered_E1",
+   "designRound": "gen_m_A_r1（第 1 轮，未返工）"
+  },
+  {
+   "id": "part_m_head_hr_04_head_se_front",
+   "slot": "head",
+   "partSet": "hr_04",
+   "gender": "m",
+   "bone": "head",
+   "layer": "hair_front",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.50901,
+    1.46629
+   ],
+   "file": "characters/parts_v1/m/head/hr_04/part_m_head_hr_04_head_se_front.png",
+   "size": [
+    222,
+    178
+   ],
+   "highlight": "part_m_head_hr_04_head_se_front_hi.png",
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权",
+   "category": "hair_front",
+   "partVariant": "front",
+   "silhouette": "short",
+   "status": "delivered_E1",
+   "designRound": "gen_m_A_r1（第 1 轮，未返工）"
+  },
+  {
+   "id": "part_m_head_hr_05_hair_b_1_se",
+   "slot": "head",
+   "partSet": "hr_05",
+   "gender": "m",
+   "bone": "hair_b_1",
+   "layer": "hair_back",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.51575,
+    0.20205
+   ],
+   "file": "characters/parts_v1/m/head/hr_05/part_m_head_hr_05_hair_b_1_se.png",
+   "size": [
+    254,
+    292
+   ],
+   "highlight": "part_m_head_hr_05_hair_b_1_se_hi.png",
+   "boneOriginPx": [
+    384.0,
+    343.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权",
+   "category": "hair_back",
+   "chain": "hair_b",
+   "silhouette": "tie",
+   "status": "delivered_E1",
+   "designRound": "gen_m_B_r1（第 1 轮，未返工；以 gen_m_A_r1 为底图编辑换发）"
+  },
+  {
+   "id": "part_m_head_hr_05_head_se_front",
+   "slot": "head",
+   "partSet": "hr_05",
+   "gender": "m",
+   "bone": "head",
+   "layer": "hair_front",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.51575,
+    1.18636
+   ],
+   "file": "characters/parts_v1/m/head/hr_05/part_m_head_hr_05_head_se_front.png",
+   "size": [
+    254,
+    220
+   ],
+   "highlight": "part_m_head_hr_05_head_se_front_hi.png",
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权",
+   "category": "hair_front",
+   "partVariant": "front",
+   "silhouette": "tie",
+   "status": "delivered_E1",
+   "designRound": "gen_m_B_r1（第 1 轮，未返工；以 gen_m_A_r1 为底图编辑换发）"
+  },
+  {
+   "id": "part_f_head_fc_03_head_se",
+   "slot": "head",
+   "partSet": "fc_03",
+   "gender": "f",
+   "bone": "head",
+   "layer": "head",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.47222,
+    0.97984
+   ],
+   "file": "characters/parts_v1/f/head/fc_03/part_f_head_fc_03_head_se.png",
+   "size": [
+    216,
+    248
+   ],
+   "skinmask": "part_f_head_fc_03_head_se_skinmask.png",
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权",
+   "category": "face_shape",
+   "status": "delivered_E1",
+   "designRound": "gen_f_A_r1（第 1 轮，未返工）",
+   "noseBaked": false,
+   "note": "新脸型不画鼻子（noseBaked:false，appearance.nose 必填，默认 no_01）；眉线以上颅顶外轮廓与耳取 redraw fc_01 同形，颅顶干净无发际线"
+  },
+  {
+   "id": "part_m_head_fc_03_head_se",
+   "slot": "head",
+   "partSet": "fc_03",
+   "gender": "m",
+   "bone": "head",
+   "layer": "head",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.49,
+    0.98291
+   ],
+   "file": "characters/parts_v1/m/head/fc_03/part_m_head_fc_03_head_se.png",
+   "size": [
+    200,
+    234
+   ],
+   "skinmask": "part_m_head_fc_03_head_se_skinmask.png",
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权",
+   "category": "face_shape",
+   "status": "delivered_E1",
+   "designRound": "gen_m_A_r1（第 1 轮，未返工）",
+   "noseBaked": false,
+   "note": "新脸型不画鼻子（noseBaked:false，appearance.nose 必填，默认 no_01）；眉线以上颅顶外轮廓与耳取 redraw fc_01 同形，颅顶干净无发际线"
+  },
+  {
+   "id": "part_f_head_ey_03_head_se_neutral",
+   "slot": "head",
+   "partSet": "ey_03",
+   "gender": "f",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    2.72727
+   ],
+   "file": "characters/parts_v1/f/head/ey_03/part_f_head_ey_03_head_se_neutral.png",
+   "size": [
+    152,
+    44
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权",
+   "category": "eyes",
+   "expression": "neutral",
+   "status": "delivered_E1",
+   "designRound": "gen_f_A_r1（第 1 轮，未返工）"
+  },
+  {
+   "id": "part_m_head_ey_03_head_se_neutral",
+   "slot": "head",
+   "partSet": "ey_03",
+   "gender": "m",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.50735,
+    3.8125
+   ],
+   "file": "characters/parts_v1/m/head/ey_03/part_m_head_ey_03_head_se_neutral.png",
+   "size": [
+    136,
+    32
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权",
+   "category": "eyes",
+   "expression": "neutral",
+   "status": "delivered_E1",
+   "designRound": "gen_m_A_r1（第 1 轮，未返工）"
+  },
+  {
+   "id": "part_f_head_mo_03_head_se_neutral",
+   "slot": "head",
+   "partSet": "mo_03",
+   "gender": "f",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    1.63333
+   ],
+   "file": "characters/parts_v1/f/head/mo_03/part_f_head_mo_03_head_se_neutral.png",
+   "size": [
+    60,
+    30
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权",
+   "category": "mouth",
+   "expression": "neutral",
+   "status": "delivered_E1",
+   "designRound": "gen_f_A_r1（第 1 轮，未返工）"
+  },
+  {
+   "id": "part_m_head_mo_03_head_se_neutral",
+   "slot": "head",
+   "partSet": "mo_03",
+   "gender": "m",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.48485,
+    2.0
+   ],
+   "file": "characters/parts_v1/m/head/mo_03/part_m_head_mo_03_head_se_neutral.png",
+   "size": [
+    66,
+    28
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权",
+   "category": "mouth",
+   "expression": "neutral",
+   "status": "delivered_E1",
+   "designRound": "gen_m_A_r1（第 1 轮，未返工）"
+  }
+ ],
+ "beardDrawNote": {
+  "note": "【绘制约束】刚性件只有一个 pivot，程序不会做双点对齐。上唇须中线对 mouth、下巴须底对下巴；按同库嘴到下巴距离（女 35 / 男 44；本批只有男须，用男 44，即 mouth 相对 head 原点 (0,−44)）把这两点画准，再切片算出那一个 pivot。轮廓不超出该脸型下颌外 6px，V1 不做过胸长须、不做跨出下颌的大络腮。",
+  "singlePivot": true,
+  "programDualAlign": false,
+  "align": {
+   "mustache_midline": "mouth",
+   "chin_beard_bottom": "chin / head bone origin",
+   "mouthToChinPx": {
+    "f": 35,
+    "m": 44,
+    "thisBatch": "male only, use 44"
+   },
+   "maleMouthRel": [
+    0,
+    -44
+   ],
+   "maleChinRel": [
+    0,
+    0
+   ]
+  },
+  "tagsPolicy": "每个 bd_NN 必须在本清单该条目的 tags 字段自带标签，不要只写在 head_compat。青年档只抽带 stubble / short 的款；E1 五款均为成年短须，故每款都带 short，并另加可区分的款式标签（stubble / mustache / jawline / goatee / sideburn），避免青年档抽空。"
+ },
+ "mouthSafetyZone": {
+  "caliber": "c_redraw_1110_solid_alpha128_bbox_pad0",
+  "m_se": [
+   357.0,
+   493.0,
+   411.0,
+   518.0
+  ],
+  "f_se": [
+   360.0,
+   513.0,
+   409.0,
+   536.0
+  ],
+  "note": "【现行口径 (c)，平台 11/10 定】胡须安全区 = redraw_1110 嘴件（face_redraw_1110 男/女 se 嘴件 + 本包 mo_03）alpha≥128 实色包围盒并集，不外扩；W2_1110 / ne_patch 旧嘴不计。层序不变：胡须在嘴、眼之下。另加叠嘴一致性检查：m/se 下 bd_02、bd_03 与每张 redraw_1110 男嘴（含 mo_03）合成，嘴实色区（alpha≥128）像素须与单放嘴逐像素一致。以后 redraw 男嘴出表情件时，按同一口径重跑。复核见 _recheck_1110/。",
+  "reference_a_redraw_1110_alpha_gt0_pad4": {
+   "m_se": [
+    352.0,
+    488.0,
+    417.0,
+    523.0
+   ],
+   "f_se": [
+    354.0,
+    507.0,
+    414.0,
+    542.0
+   ],
+   "note": "胡须类嘴部安全区只按 redraw_1110 嘴件算（face_redraw_1110 男 se 嘴件 + 本包 mo_03，同 redraw_1110 socketSet），alpha 包围盒并集 +4px，W2_1110 / ne_patch 旧嘴不计入（平台 11/10 裁定 (a)）。层序不变：胡须仍在嘴、眼之下。复核见 _recheck_1110/。注：按此口径 m/se = [352,488,417,523]，只比旧并集 [352,488,417,525] 下沿收 2px；上沿 −60 来自 redraw mo_01 自身（alpha 自 −56 起、−55 起近实色），所以自然位置的 bd_02 与 bd_03 浅髭仍落在区内，本次未换件，待平台再拍板。"
+  },
+  "reference_legacyUnion_W2_included_pad4": {
+   "m_se": [
+    351.9999,
+    487.99988,
+    416.9999,
+    525.0001
+   ]
+  },
+  "beardCheck": "overlay_consistency_c",
+  "beardCheckNote": "【E1 胡须判据，平台 11/10 C2 定】胡须是否压嘴只看叠嘴一致性：m/se 每件胡须 × 每张 redraw_1110 男嘴（含本包 mo_03）合成（胡须在嘴下），嘴实色区（alpha≥128）8 位 RGB 与单放嘴逐像素一致即过；(c) 包围盒内像素数只作参考。以后 redraw 男嘴出表情件时，按同一口径重跑。"
+ },
+ "socketSetPolicy": "同一角色只允许一种 socketSet（w2_legacy 与 redraw_1110 不混挂；W2 旧嘴不会与新脸、本包胡须同挂）。"
+}

@@ -1,0 +1,4921 @@
+{
+  "schema": "v1.parts_manifest.1",
+  "partSchema": "v1.part.rigid.1",
+  "batch": "parts_v1_W2_1110（换装 W2：V1 头类件 / 五官 / 发型）",
+  "source_plan": "策划/V1_换装分件库实施方案_20261110.md (33422 B, 2026-11-10 05:51 Asia/Shanghai)",
+  "source_convention": "程序/V1骨骼皮肤接入约定_20261110_MT.md (05:52)",
+  "rig": {
+    "f": "rig_q_full_f",
+    "m": "rig_q_full_m",
+    "bones": "程序/src/v1_rig_preview_MT/config/bones_{f,m}_MT.json (05:53)"
+  },
+  "viewProjection": {
+    "sx": {
+      "se": 1,
+      "side_r": 0.42,
+      "ne": 0.78,
+      "p": 1
+    },
+    "cx": {
+      "se": 384,
+      "side_r": 384,
+      "ne": 384,
+      "p": 512
+    }
+  },
+  "pivotNote": "脸型：下巴中点 = pivot（贴在 head 骨原点）。五官/年龄挂 head 骨，内容多在骨原点上方，故 pivot.y 常 >1。发型后片挂 hair_b_1。不要写死 (0.5,0)。",
+  "skinTone": {
+    "ref": "skin_02 #FAD7BE",
+    "recolor": "out = src × (目标 / #FAD7BE)，仅 face_shape 的 skinmask 区"
+  },
+  "hairNote": "主文件灰度 RGBA 供程序渐变映射；同名 _hi 为高光层（RGBA）。silhouette: short/long/tie。长发按 W0 只出 hair_b_1，长度画在本片。",
+  "parts": [
+    {
+      "id": "part_f_head_fc_01_head_se",
+      "slot": "head",
+      "partSet": "fc_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "head",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.96774
+      ],
+      "file": "characters/parts_v1/f/head/fc_01/part_f_head_fc_01_head_se.png",
+      "size": [
+        246,
+        248
+      ],
+      "skinmask": "part_f_head_fc_01_head_se_skinmask.png",
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "face_shape"
+    },
+    {
+      "id": "part_f_head_fc_02_head_se",
+      "slot": "head",
+      "partSet": "fc_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "head",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.96774
+      ],
+      "file": "characters/parts_v1/f/head/fc_02/part_f_head_fc_02_head_se.png",
+      "size": [
+        246,
+        248
+      ],
+      "skinmask": "part_f_head_fc_02_head_se_skinmask.png",
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "face_shape"
+    },
+    {
+      "id": "part_f_head_ey_01_head_se_neutral",
+      "slot": "head",
+      "partSet": "ey_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        4.125
+      ],
+      "file": "characters/parts_v1/f/head/ey_01/part_f_head_ey_01_head_se_neutral.png",
+      "size": [
+        148,
+        40
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "neutral"
+    },
+    {
+      "id": "part_f_head_ey_01_head_se_happy",
+      "slot": "head",
+      "partSet": "ey_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        10.2
+      ],
+      "file": "characters/parts_v1/f/head/ey_01/part_f_head_ey_01_head_se_happy.png",
+      "size": [
+        148,
+        15
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "happy"
+    },
+    {
+      "id": "part_f_head_ey_01_head_se_surprised",
+      "slot": "head",
+      "partSet": "ey_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        3.37736
+      ],
+      "file": "characters/parts_v1/f/head/ey_01/part_f_head_ey_01_head_se_surprised.png",
+      "size": [
+        148,
+        53
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "surprised"
+    },
+    {
+      "id": "part_f_head_ey_01_head_se_tired",
+      "slot": "head",
+      "partSet": "ey_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        4.64706
+      ],
+      "file": "characters/parts_v1/f/head/ey_01/part_f_head_ey_01_head_se_tired.png",
+      "size": [
+        148,
+        34
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "tired"
+    },
+    {
+      "id": "part_f_head_ey_02_head_se_neutral",
+      "slot": "head",
+      "partSet": "ey_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        4.31579
+      ],
+      "file": "characters/parts_v1/f/head/ey_02/part_f_head_ey_02_head_se_neutral.png",
+      "size": [
+        144,
+        38
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "neutral"
+    },
+    {
+      "id": "part_f_head_ey_02_head_se_happy",
+      "slot": "head",
+      "partSet": "ey_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        10.2
+      ],
+      "file": "characters/parts_v1/f/head/ey_02/part_f_head_ey_02_head_se_happy.png",
+      "size": [
+        144,
+        15
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "happy"
+    },
+    {
+      "id": "part_f_head_ey_02_head_se_surprised",
+      "slot": "head",
+      "partSet": "ey_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        3.54
+      ],
+      "file": "characters/parts_v1/f/head/ey_02/part_f_head_ey_02_head_se_surprised.png",
+      "size": [
+        144,
+        50
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "surprised"
+    },
+    {
+      "id": "part_f_head_ey_02_head_se_tired",
+      "slot": "head",
+      "partSet": "ey_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        4.90625
+      ],
+      "file": "characters/parts_v1/f/head/ey_02/part_f_head_ey_02_head_se_tired.png",
+      "size": [
+        144,
+        32
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "tired"
+    },
+    {
+      "id": "part_f_head_br_01_head_se",
+      "slot": "head",
+      "partSet": "br_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        8.94737
+      ],
+      "file": "characters/parts_v1/f/head/br_01/part_f_head_br_01_head_se.png",
+      "size": [
+        116,
+        19
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "brow"
+    },
+    {
+      "id": "part_f_head_br_02_head_se",
+      "slot": "head",
+      "partSet": "br_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        8.2381
+      ],
+      "file": "characters/parts_v1/f/head/br_02/part_f_head_br_02_head_se.png",
+      "size": [
+        116,
+        21
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "brow"
+    },
+    {
+      "id": "part_f_head_mo_01_head_se_neutral",
+      "slot": "head",
+      "partSet": "mo_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.8125
+      ],
+      "file": "characters/parts_v1/f/head/mo_01/part_f_head_mo_01_head_se_neutral.png",
+      "size": [
+        46,
+        16
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "neutral"
+    },
+    {
+      "id": "part_f_head_mo_01_head_se_happy",
+      "slot": "head",
+      "partSet": "mo_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.47368
+      ],
+      "file": "characters/parts_v1/f/head/mo_01/part_f_head_mo_01_head_se_happy.png",
+      "size": [
+        52,
+        19
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "happy"
+    },
+    {
+      "id": "part_f_head_mo_01_head_se_surprised",
+      "slot": "head",
+      "partSet": "mo_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        1.73333
+      ],
+      "file": "characters/parts_v1/f/head/mo_01/part_f_head_mo_01_head_se_surprised.png",
+      "size": [
+        26,
+        30
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "surprised"
+    },
+    {
+      "id": "part_f_head_mo_01_head_se_tired",
+      "slot": "head",
+      "partSet": "mo_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.93333
+      ],
+      "file": "characters/parts_v1/f/head/mo_01/part_f_head_mo_01_head_se_tired.png",
+      "size": [
+        44,
+        15
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "tired"
+    },
+    {
+      "id": "part_f_head_mo_02_head_se_neutral",
+      "slot": "head",
+      "partSet": "mo_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.8125
+      ],
+      "file": "characters/parts_v1/f/head/mo_02/part_f_head_mo_02_head_se_neutral.png",
+      "size": [
+        42,
+        16
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "neutral"
+    },
+    {
+      "id": "part_f_head_mo_02_head_se_happy",
+      "slot": "head",
+      "partSet": "mo_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.47368
+      ],
+      "file": "characters/parts_v1/f/head/mo_02/part_f_head_mo_02_head_se_happy.png",
+      "size": [
+        48,
+        19
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "happy"
+    },
+    {
+      "id": "part_f_head_mo_02_head_se_surprised",
+      "slot": "head",
+      "partSet": "mo_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        1.73333
+      ],
+      "file": "characters/parts_v1/f/head/mo_02/part_f_head_mo_02_head_se_surprised.png",
+      "size": [
+        26,
+        30
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "surprised"
+    },
+    {
+      "id": "part_f_head_mo_02_head_se_tired",
+      "slot": "head",
+      "partSet": "mo_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.93333
+      ],
+      "file": "characters/parts_v1/f/head/mo_02/part_f_head_mo_02_head_se_tired.png",
+      "size": [
+        40,
+        15
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "tired"
+    },
+    {
+      "id": "part_f_head_ag_01_head_se",
+      "slot": "head",
+      "partSet": "ag_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        1.27966
+      ],
+      "file": "characters/parts_v1/f/head/ag_01/part_f_head_ag_01_head_se.png",
+      "size": [
+        146,
+        118
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "age"
+    },
+    {
+      "id": "part_f_head_hr_01_hair_b_1_se",
+      "slot": "head",
+      "partSet": "hr_01",
+      "gender": "f",
+      "bone": "hair_b_1",
+      "layer": "hair_back",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        -0.28365
+      ],
+      "file": "characters/parts_v1/f/head/hr_01/part_f_head_hr_01_hair_b_1_se.png",
+      "size": [
+        314,
+        208
+      ],
+      "boneOriginPx": [
+        384,
+        353
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_back",
+      "chain": "hair_b",
+      "silhouette": "short",
+      "highlight": "part_f_head_hr_01_hair_b_1_se_hi.png"
+    },
+    {
+      "id": "part_f_head_hr_01_head_se_front",
+      "slot": "head",
+      "partSet": "hr_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "hair_front",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        1.46988
+      ],
+      "file": "characters/parts_v1/f/head/hr_01/part_f_head_hr_01_head_se_front.png",
+      "size": [
+        228,
+        166
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_front",
+      "partVariant": "front",
+      "silhouette": "short",
+      "highlight": "part_f_head_hr_01_head_se_front_hi.png"
+    },
+    {
+      "id": "part_f_head_hr_02_hair_b_1_se",
+      "slot": "head",
+      "partSet": "hr_02",
+      "gender": "f",
+      "bone": "hair_b_1",
+      "layer": "hair_back",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        -0.16209
+      ],
+      "file": "characters/parts_v1/f/head/hr_02/part_f_head_hr_02_hair_b_1_se.png",
+      "size": [
+        314,
+        364
+      ],
+      "boneOriginPx": [
+        384,
+        353
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_back",
+      "chain": "hair_b",
+      "silhouette": "long",
+      "highlight": "part_f_head_hr_02_hair_b_1_se_hi.png"
+    },
+    {
+      "id": "part_f_head_hr_02_head_se_front",
+      "slot": "head",
+      "partSet": "hr_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "hair_front",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        1.31183
+      ],
+      "file": "characters/parts_v1/f/head/hr_02/part_f_head_hr_02_head_se_front.png",
+      "size": [
+        224,
+        186
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_front",
+      "partVariant": "front",
+      "silhouette": "long",
+      "highlight": "part_f_head_hr_02_head_se_front_hi.png"
+    },
+    {
+      "id": "part_f_head_hr_03_hair_b_1_se",
+      "slot": "head",
+      "partSet": "hr_03",
+      "gender": "f",
+      "bone": "hair_b_1",
+      "layer": "hair_back",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        -0.1891
+      ],
+      "file": "characters/parts_v1/f/head/hr_03/part_f_head_hr_03_hair_b_1_se.png",
+      "size": [
+        314,
+        312
+      ],
+      "boneOriginPx": [
+        384,
+        353
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_back",
+      "chain": "hair_b",
+      "silhouette": "tie",
+      "highlight": "part_f_head_hr_03_hair_b_1_se_hi.png"
+    },
+    {
+      "id": "part_f_head_hr_03_head_se_front",
+      "slot": "head",
+      "partSet": "hr_03",
+      "gender": "f",
+      "bone": "head",
+      "layer": "hair_front",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        3.08861
+      ],
+      "file": "characters/parts_v1/f/head/hr_03/part_f_head_hr_03_head_se_front.png",
+      "size": [
+        216,
+        79
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_front",
+      "partVariant": "front",
+      "silhouette": "tie",
+      "highlight": "part_f_head_hr_03_head_se_front_hi.png"
+    },
+    {
+      "id": "part_f_head_fc_01_head_side_r",
+      "slot": "head",
+      "partSet": "fc_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "head",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.96748
+      ],
+      "file": "characters/parts_v1/f/head/fc_01/part_f_head_fc_01_head_side_r.png",
+      "size": [
+        110,
+        246
+      ],
+      "skinmask": "part_f_head_fc_01_head_side_r_skinmask.png",
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "face_shape"
+    },
+    {
+      "id": "part_f_head_fc_02_head_side_r",
+      "slot": "head",
+      "partSet": "fc_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "head",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.96748
+      ],
+      "file": "characters/parts_v1/f/head/fc_02/part_f_head_fc_02_head_side_r.png",
+      "size": [
+        110,
+        246
+      ],
+      "skinmask": "part_f_head_fc_02_head_side_r_skinmask.png",
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "face_shape"
+    },
+    {
+      "id": "part_f_head_ey_01_head_side_r_neutral",
+      "slot": "head",
+      "partSet": "ey_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        4.125
+      ],
+      "file": "characters/parts_v1/f/head/ey_01/part_f_head_ey_01_head_side_r_neutral.png",
+      "size": [
+        106,
+        40
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "neutral"
+    },
+    {
+      "id": "part_f_head_ey_01_head_side_r_happy",
+      "slot": "head",
+      "partSet": "ey_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        10.2
+      ],
+      "file": "characters/parts_v1/f/head/ey_01/part_f_head_ey_01_head_side_r_happy.png",
+      "size": [
+        106,
+        15
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "happy"
+    },
+    {
+      "id": "part_f_head_ey_01_head_side_r_surprised",
+      "slot": "head",
+      "partSet": "ey_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        3.37736
+      ],
+      "file": "characters/parts_v1/f/head/ey_01/part_f_head_ey_01_head_side_r_surprised.png",
+      "size": [
+        106,
+        53
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "surprised"
+    },
+    {
+      "id": "part_f_head_ey_01_head_side_r_tired",
+      "slot": "head",
+      "partSet": "ey_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        4.64706
+      ],
+      "file": "characters/parts_v1/f/head/ey_01/part_f_head_ey_01_head_side_r_tired.png",
+      "size": [
+        106,
+        34
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "tired"
+    },
+    {
+      "id": "part_f_head_ey_02_head_side_r_neutral",
+      "slot": "head",
+      "partSet": "ey_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        4.31579
+      ],
+      "file": "characters/parts_v1/f/head/ey_02/part_f_head_ey_02_head_side_r_neutral.png",
+      "size": [
+        102,
+        38
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "neutral"
+    },
+    {
+      "id": "part_f_head_ey_02_head_side_r_happy",
+      "slot": "head",
+      "partSet": "ey_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        10.2
+      ],
+      "file": "characters/parts_v1/f/head/ey_02/part_f_head_ey_02_head_side_r_happy.png",
+      "size": [
+        102,
+        15
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "happy"
+    },
+    {
+      "id": "part_f_head_ey_02_head_side_r_surprised",
+      "slot": "head",
+      "partSet": "ey_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        3.54
+      ],
+      "file": "characters/parts_v1/f/head/ey_02/part_f_head_ey_02_head_side_r_surprised.png",
+      "size": [
+        102,
+        50
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "surprised"
+    },
+    {
+      "id": "part_f_head_ey_02_head_side_r_tired",
+      "slot": "head",
+      "partSet": "ey_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        4.90625
+      ],
+      "file": "characters/parts_v1/f/head/ey_02/part_f_head_ey_02_head_side_r_tired.png",
+      "size": [
+        102,
+        32
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "tired"
+    },
+    {
+      "id": "part_f_head_br_01_head_side_r",
+      "slot": "head",
+      "partSet": "br_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        8.89474
+      ],
+      "file": "characters/parts_v1/f/head/br_01/part_f_head_br_01_head_side_r.png",
+      "size": [
+        90,
+        19
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "brow"
+    },
+    {
+      "id": "part_f_head_br_02_head_side_r",
+      "slot": "head",
+      "partSet": "br_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        8.19048
+      ],
+      "file": "characters/parts_v1/f/head/br_02/part_f_head_br_02_head_side_r.png",
+      "size": [
+        90,
+        21
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "brow"
+    },
+    {
+      "id": "part_f_head_mo_01_head_side_r_neutral",
+      "slot": "head",
+      "partSet": "mo_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        3.21429
+      ],
+      "file": "characters/parts_v1/f/head/mo_01/part_f_head_mo_01_head_side_r_neutral.png",
+      "size": [
+        92,
+        14
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "neutral"
+    },
+    {
+      "id": "part_f_head_mo_01_head_side_r_happy",
+      "slot": "head",
+      "partSet": "mo_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.76471
+      ],
+      "file": "characters/parts_v1/f/head/mo_01/part_f_head_mo_01_head_side_r_happy.png",
+      "size": [
+        96,
+        17
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "happy"
+    },
+    {
+      "id": "part_f_head_mo_01_head_side_r_surprised",
+      "slot": "head",
+      "partSet": "mo_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.22727
+      ],
+      "file": "characters/parts_v1/f/head/mo_01/part_f_head_mo_01_head_side_r_surprised.png",
+      "size": [
+        92,
+        22
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "surprised"
+    },
+    {
+      "id": "part_f_head_mo_01_head_side_r_tired",
+      "slot": "head",
+      "partSet": "mo_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        3
+      ],
+      "file": "characters/parts_v1/f/head/mo_01/part_f_head_mo_01_head_side_r_tired.png",
+      "size": [
+        90,
+        15
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "tired"
+    },
+    {
+      "id": "part_f_head_mo_02_head_side_r_neutral",
+      "slot": "head",
+      "partSet": "mo_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        3.21429
+      ],
+      "file": "characters/parts_v1/f/head/mo_02/part_f_head_mo_02_head_side_r_neutral.png",
+      "size": [
+        92,
+        14
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "neutral"
+    },
+    {
+      "id": "part_f_head_mo_02_head_side_r_happy",
+      "slot": "head",
+      "partSet": "mo_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.76471
+      ],
+      "file": "characters/parts_v1/f/head/mo_02/part_f_head_mo_02_head_side_r_happy.png",
+      "size": [
+        96,
+        17
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "happy"
+    },
+    {
+      "id": "part_f_head_mo_02_head_side_r_surprised",
+      "slot": "head",
+      "partSet": "mo_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.22727
+      ],
+      "file": "characters/parts_v1/f/head/mo_02/part_f_head_mo_02_head_side_r_surprised.png",
+      "size": [
+        92,
+        22
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "surprised"
+    },
+    {
+      "id": "part_f_head_mo_02_head_side_r_tired",
+      "slot": "head",
+      "partSet": "mo_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        3
+      ],
+      "file": "characters/parts_v1/f/head/mo_02/part_f_head_mo_02_head_side_r_tired.png",
+      "size": [
+        90,
+        15
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "tired"
+    },
+    {
+      "id": "part_f_head_ag_01_head_side_r",
+      "slot": "head",
+      "partSet": "ag_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        1.27966
+      ],
+      "file": "characters/parts_v1/f/head/ag_01/part_f_head_ag_01_head_side_r.png",
+      "size": [
+        90,
+        118
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "age"
+    },
+    {
+      "id": "part_f_head_hr_01_hair_b_1_side_r",
+      "slot": "head",
+      "partSet": "hr_01",
+      "gender": "f",
+      "bone": "hair_b_1",
+      "layer": "hair_back",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        -0.35542
+      ],
+      "file": "characters/parts_v1/f/head/hr_01/part_f_head_hr_01_hair_b_1_side_r.png",
+      "size": [
+        270,
+        166
+      ],
+      "boneOriginPx": [
+        384,
+        353
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_back",
+      "chain": "hair_b",
+      "silhouette": "short",
+      "highlight": "part_f_head_hr_01_hair_b_1_side_r_hi.png"
+    },
+    {
+      "id": "part_f_head_hr_01_head_side_r_front",
+      "slot": "head",
+      "partSet": "hr_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "hair_front",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        3.58065
+      ],
+      "file": "characters/parts_v1/f/head/hr_01/part_f_head_hr_01_head_side_r_front.png",
+      "size": [
+        142,
+        62
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_front",
+      "partVariant": "front",
+      "silhouette": "short",
+      "highlight": "part_f_head_hr_01_head_side_r_front_hi.png"
+    },
+    {
+      "id": "part_f_head_hr_02_hair_b_1_side_r",
+      "slot": "head",
+      "partSet": "hr_02",
+      "gender": "f",
+      "bone": "hair_b_1",
+      "layer": "hair_back",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        -0.17404
+      ],
+      "file": "characters/parts_v1/f/head/hr_02/part_f_head_hr_02_hair_b_1_side_r.png",
+      "size": [
+        270,
+        339
+      ],
+      "boneOriginPx": [
+        384,
+        353
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_back",
+      "chain": "hair_b",
+      "silhouette": "long",
+      "highlight": "part_f_head_hr_02_hair_b_1_side_r_hi.png"
+    },
+    {
+      "id": "part_f_head_hr_02_head_side_r_front",
+      "slot": "head",
+      "partSet": "hr_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "hair_front",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        1.30588
+      ],
+      "file": "characters/parts_v1/f/head/hr_02/part_f_head_hr_02_head_side_r_front.png",
+      "size": [
+        142,
+        170
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_front",
+      "partVariant": "front",
+      "silhouette": "long",
+      "highlight": "part_f_head_hr_02_head_side_r_front_hi.png"
+    },
+    {
+      "id": "part_f_head_hr_03_hair_b_1_side_r",
+      "slot": "head",
+      "partSet": "hr_03",
+      "gender": "f",
+      "bone": "hair_b_1",
+      "layer": "hair_back",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        -0.21533
+      ],
+      "file": "characters/parts_v1/f/head/hr_03/part_f_head_hr_03_hair_b_1_side_r.png",
+      "size": [
+        270,
+        274
+      ],
+      "boneOriginPx": [
+        384,
+        353
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_back",
+      "chain": "hair_b",
+      "silhouette": "tie",
+      "highlight": "part_f_head_hr_03_hair_b_1_side_r_hi.png"
+    },
+    {
+      "id": "part_f_head_hr_03_head_side_r_front",
+      "slot": "head",
+      "partSet": "hr_03",
+      "gender": "f",
+      "bone": "head",
+      "layer": "hair_front",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        1.30588
+      ],
+      "file": "characters/parts_v1/f/head/hr_03/part_f_head_hr_03_head_side_r_front.png",
+      "size": [
+        142,
+        170
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_front",
+      "partVariant": "front",
+      "silhouette": "tie",
+      "highlight": "part_f_head_hr_03_head_side_r_front_hi.png"
+    },
+    {
+      "id": "part_f_head_fc_01_head_ne",
+      "slot": "head",
+      "partSet": "fc_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "head",
+      "view": "ne",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.96774
+      ],
+      "file": "characters/parts_v1/f/head/fc_01/part_f_head_fc_01_head_ne.png",
+      "size": [
+        220,
+        248
+      ],
+      "skinmask": "part_f_head_fc_01_head_ne_skinmask.png",
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜ne 补丁 1110｜待策划审",
+      "category": "face_shape"
+    },
+    {
+      "id": "part_f_head_fc_02_head_ne",
+      "slot": "head",
+      "partSet": "fc_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "head",
+      "view": "ne",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.96774
+      ],
+      "file": "characters/parts_v1/f/head/fc_02/part_f_head_fc_02_head_ne.png",
+      "size": [
+        220,
+        248
+      ],
+      "skinmask": "part_f_head_fc_02_head_ne_skinmask.png",
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜ne 补丁 1110｜待策划审",
+      "category": "face_shape"
+    },
+    {
+      "id": "part_f_head_br_01_head_ne",
+      "slot": "head",
+      "partSet": "br_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "ne",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "file": "characters/parts_v1/f/head/br_01/part_f_head_br_01_head_ne.png",
+      "size": [
+        10,
+        10
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "brow"
+    },
+    {
+      "id": "part_f_head_br_02_head_ne",
+      "slot": "head",
+      "partSet": "br_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "ne",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "file": "characters/parts_v1/f/head/br_02/part_f_head_br_02_head_ne.png",
+      "size": [
+        10,
+        10
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "brow"
+    },
+    {
+      "id": "part_f_head_ag_01_head_ne",
+      "slot": "head",
+      "partSet": "ag_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "ne",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "file": "characters/parts_v1/f/head/ag_01/part_f_head_ag_01_head_ne.png",
+      "size": [
+        10,
+        10
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "age"
+    },
+    {
+      "id": "part_f_head_hr_01_hair_b_1_ne",
+      "slot": "head",
+      "partSet": "hr_01",
+      "gender": "f",
+      "bone": "hair_b_1",
+      "layer": "hair_back",
+      "view": "ne",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.17391
+      ],
+      "file": "characters/parts_v1/f/head/hr_01/part_f_head_hr_01_hair_b_1_ne.png",
+      "size": [
+        256,
+        276
+      ],
+      "boneOriginPx": [
+        384,
+        353
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜ne 补丁 1110｜待策划审",
+      "category": "hair_back",
+      "chain": "hair_b",
+      "silhouette": "short",
+      "highlight": "part_f_head_hr_01_hair_b_1_ne_hi.png"
+    },
+    {
+      "id": "part_f_head_hr_01_head_ne_front",
+      "slot": "head",
+      "partSet": "hr_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "hair_front",
+      "view": "ne",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "file": "characters/parts_v1/f/head/hr_01/part_f_head_hr_01_head_ne_front.png",
+      "size": [
+        10,
+        10
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_front",
+      "partVariant": "front",
+      "silhouette": "short",
+      "highlight": "part_f_head_hr_01_head_ne_front_hi.png"
+    },
+    {
+      "id": "part_f_head_hr_02_hair_b_1_ne",
+      "slot": "head",
+      "partSet": "hr_02",
+      "gender": "f",
+      "bone": "hair_b_1",
+      "layer": "hair_back",
+      "view": "ne",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.11566
+      ],
+      "file": "characters/parts_v1/f/head/hr_02/part_f_head_hr_02_hair_b_1_ne.png",
+      "size": [
+        256,
+        415
+      ],
+      "boneOriginPx": [
+        384,
+        353
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜ne 补丁 1110｜待策划审",
+      "category": "hair_back",
+      "chain": "hair_b",
+      "silhouette": "long",
+      "highlight": "part_f_head_hr_02_hair_b_1_ne_hi.png"
+    },
+    {
+      "id": "part_f_head_hr_02_head_ne_front",
+      "slot": "head",
+      "partSet": "hr_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "hair_front",
+      "view": "ne",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "file": "characters/parts_v1/f/head/hr_02/part_f_head_hr_02_head_ne_front.png",
+      "size": [
+        10,
+        10
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_front",
+      "partVariant": "front",
+      "silhouette": "long",
+      "highlight": "part_f_head_hr_02_head_ne_front_hi.png"
+    },
+    {
+      "id": "part_f_head_hr_03_hair_b_1_ne",
+      "slot": "head",
+      "partSet": "hr_03",
+      "gender": "f",
+      "bone": "hair_b_1",
+      "layer": "hair_back",
+      "view": "ne",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.11911
+      ],
+      "file": "characters/parts_v1/f/head/hr_03/part_f_head_hr_03_hair_b_1_ne.png",
+      "size": [
+        256,
+        403
+      ],
+      "boneOriginPx": [
+        384,
+        353
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜ne 补丁 1110｜待策划审",
+      "category": "hair_back",
+      "chain": "hair_b",
+      "silhouette": "tie",
+      "highlight": "part_f_head_hr_03_hair_b_1_ne_hi.png"
+    },
+    {
+      "id": "part_f_head_hr_03_head_ne_front",
+      "slot": "head",
+      "partSet": "hr_03",
+      "gender": "f",
+      "bone": "head",
+      "layer": "hair_front",
+      "view": "ne",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "file": "characters/parts_v1/f/head/hr_03/part_f_head_hr_03_head_ne_front.png",
+      "size": [
+        10,
+        10
+      ],
+      "boneOriginPx": [
+        384,
+        558
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_front",
+      "partVariant": "front",
+      "silhouette": "tie",
+      "highlight": "part_f_head_hr_03_head_ne_front_hi.png"
+    },
+    {
+      "id": "part_f_head_fc_01_head_p",
+      "slot": "head",
+      "partSet": "fc_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "head",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.96774
+      ],
+      "file": "characters/parts_v1/f/head/fc_01/part_f_head_fc_01_head_p.png",
+      "size": [
+        246,
+        248
+      ],
+      "skinmask": "part_f_head_fc_01_head_p_skinmask.png",
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "face_shape"
+    },
+    {
+      "id": "part_f_head_fc_02_head_p",
+      "slot": "head",
+      "partSet": "fc_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "head",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.96774
+      ],
+      "file": "characters/parts_v1/f/head/fc_02/part_f_head_fc_02_head_p.png",
+      "size": [
+        246,
+        248
+      ],
+      "skinmask": "part_f_head_fc_02_head_p_skinmask.png",
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "face_shape"
+    },
+    {
+      "id": "part_f_head_ey_01_head_p_neutral",
+      "slot": "head",
+      "partSet": "ey_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        4.125
+      ],
+      "file": "characters/parts_v1/f/head/ey_01/part_f_head_ey_01_head_p_neutral.png",
+      "size": [
+        148,
+        40
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "neutral"
+    },
+    {
+      "id": "part_f_head_ey_01_head_p_happy",
+      "slot": "head",
+      "partSet": "ey_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        10.2
+      ],
+      "file": "characters/parts_v1/f/head/ey_01/part_f_head_ey_01_head_p_happy.png",
+      "size": [
+        148,
+        15
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "happy"
+    },
+    {
+      "id": "part_f_head_ey_01_head_p_surprised",
+      "slot": "head",
+      "partSet": "ey_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        3.37736
+      ],
+      "file": "characters/parts_v1/f/head/ey_01/part_f_head_ey_01_head_p_surprised.png",
+      "size": [
+        148,
+        53
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "surprised"
+    },
+    {
+      "id": "part_f_head_ey_01_head_p_tired",
+      "slot": "head",
+      "partSet": "ey_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        4.64706
+      ],
+      "file": "characters/parts_v1/f/head/ey_01/part_f_head_ey_01_head_p_tired.png",
+      "size": [
+        148,
+        34
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "tired"
+    },
+    {
+      "id": "part_f_head_ey_02_head_p_neutral",
+      "slot": "head",
+      "partSet": "ey_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        4.31579
+      ],
+      "file": "characters/parts_v1/f/head/ey_02/part_f_head_ey_02_head_p_neutral.png",
+      "size": [
+        144,
+        38
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "neutral"
+    },
+    {
+      "id": "part_f_head_ey_02_head_p_happy",
+      "slot": "head",
+      "partSet": "ey_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        10.2
+      ],
+      "file": "characters/parts_v1/f/head/ey_02/part_f_head_ey_02_head_p_happy.png",
+      "size": [
+        144,
+        15
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "happy"
+    },
+    {
+      "id": "part_f_head_ey_02_head_p_surprised",
+      "slot": "head",
+      "partSet": "ey_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        3.54
+      ],
+      "file": "characters/parts_v1/f/head/ey_02/part_f_head_ey_02_head_p_surprised.png",
+      "size": [
+        144,
+        50
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "surprised"
+    },
+    {
+      "id": "part_f_head_ey_02_head_p_tired",
+      "slot": "head",
+      "partSet": "ey_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        4.90625
+      ],
+      "file": "characters/parts_v1/f/head/ey_02/part_f_head_ey_02_head_p_tired.png",
+      "size": [
+        144,
+        32
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "tired"
+    },
+    {
+      "id": "part_f_head_mo_01_head_p_neutral",
+      "slot": "head",
+      "partSet": "mo_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.8125
+      ],
+      "file": "characters/parts_v1/f/head/mo_01/part_f_head_mo_01_head_p_neutral.png",
+      "size": [
+        46,
+        16
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "neutral"
+    },
+    {
+      "id": "part_f_head_mo_01_head_p_happy",
+      "slot": "head",
+      "partSet": "mo_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.47368
+      ],
+      "file": "characters/parts_v1/f/head/mo_01/part_f_head_mo_01_head_p_happy.png",
+      "size": [
+        52,
+        19
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "happy"
+    },
+    {
+      "id": "part_f_head_mo_01_head_p_surprised",
+      "slot": "head",
+      "partSet": "mo_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        1.73333
+      ],
+      "file": "characters/parts_v1/f/head/mo_01/part_f_head_mo_01_head_p_surprised.png",
+      "size": [
+        26,
+        30
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "surprised"
+    },
+    {
+      "id": "part_f_head_mo_01_head_p_tired",
+      "slot": "head",
+      "partSet": "mo_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.93333
+      ],
+      "file": "characters/parts_v1/f/head/mo_01/part_f_head_mo_01_head_p_tired.png",
+      "size": [
+        44,
+        15
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "tired"
+    },
+    {
+      "id": "part_f_head_mo_02_head_p_neutral",
+      "slot": "head",
+      "partSet": "mo_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.8125
+      ],
+      "file": "characters/parts_v1/f/head/mo_02/part_f_head_mo_02_head_p_neutral.png",
+      "size": [
+        42,
+        16
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "neutral"
+    },
+    {
+      "id": "part_f_head_mo_02_head_p_happy",
+      "slot": "head",
+      "partSet": "mo_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.47368
+      ],
+      "file": "characters/parts_v1/f/head/mo_02/part_f_head_mo_02_head_p_happy.png",
+      "size": [
+        48,
+        19
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "happy"
+    },
+    {
+      "id": "part_f_head_mo_02_head_p_surprised",
+      "slot": "head",
+      "partSet": "mo_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        1.73333
+      ],
+      "file": "characters/parts_v1/f/head/mo_02/part_f_head_mo_02_head_p_surprised.png",
+      "size": [
+        26,
+        30
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "surprised"
+    },
+    {
+      "id": "part_f_head_mo_02_head_p_tired",
+      "slot": "head",
+      "partSet": "mo_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.93333
+      ],
+      "file": "characters/parts_v1/f/head/mo_02/part_f_head_mo_02_head_p_tired.png",
+      "size": [
+        40,
+        15
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "tired"
+    },
+    {
+      "id": "part_f_head_hr_01_hair_b_1_p",
+      "slot": "head",
+      "partSet": "hr_01",
+      "gender": "f",
+      "bone": "hair_b_1",
+      "layer": "hair_back",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        -0.28365
+      ],
+      "file": "characters/parts_v1/f/head/hr_01/part_f_head_hr_01_hair_b_1_p.png",
+      "size": [
+        314,
+        208
+      ],
+      "boneOriginPx": [
+        512,
+        415
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_back",
+      "chain": "hair_b",
+      "silhouette": "short",
+      "highlight": "part_f_head_hr_01_hair_b_1_p_hi.png"
+    },
+    {
+      "id": "part_f_head_hr_01_head_p_front",
+      "slot": "head",
+      "partSet": "hr_01",
+      "gender": "f",
+      "bone": "head",
+      "layer": "hair_front",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        1.46988
+      ],
+      "file": "characters/parts_v1/f/head/hr_01/part_f_head_hr_01_head_p_front.png",
+      "size": [
+        228,
+        166
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_front",
+      "partVariant": "front",
+      "silhouette": "short",
+      "highlight": "part_f_head_hr_01_head_p_front_hi.png"
+    },
+    {
+      "id": "part_f_head_hr_02_hair_b_1_p",
+      "slot": "head",
+      "partSet": "hr_02",
+      "gender": "f",
+      "bone": "hair_b_1",
+      "layer": "hair_back",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        -0.16209
+      ],
+      "file": "characters/parts_v1/f/head/hr_02/part_f_head_hr_02_hair_b_1_p.png",
+      "size": [
+        314,
+        364
+      ],
+      "boneOriginPx": [
+        512,
+        415
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_back",
+      "chain": "hair_b",
+      "silhouette": "long",
+      "highlight": "part_f_head_hr_02_hair_b_1_p_hi.png"
+    },
+    {
+      "id": "part_f_head_hr_02_head_p_front",
+      "slot": "head",
+      "partSet": "hr_02",
+      "gender": "f",
+      "bone": "head",
+      "layer": "hair_front",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        1.31183
+      ],
+      "file": "characters/parts_v1/f/head/hr_02/part_f_head_hr_02_head_p_front.png",
+      "size": [
+        224,
+        186
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_front",
+      "partVariant": "front",
+      "silhouette": "long",
+      "highlight": "part_f_head_hr_02_head_p_front_hi.png"
+    },
+    {
+      "id": "part_f_head_hr_03_hair_b_1_p",
+      "slot": "head",
+      "partSet": "hr_03",
+      "gender": "f",
+      "bone": "hair_b_1",
+      "layer": "hair_back",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        -0.1891
+      ],
+      "file": "characters/parts_v1/f/head/hr_03/part_f_head_hr_03_hair_b_1_p.png",
+      "size": [
+        314,
+        312
+      ],
+      "boneOriginPx": [
+        512,
+        415
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_back",
+      "chain": "hair_b",
+      "silhouette": "tie",
+      "highlight": "part_f_head_hr_03_hair_b_1_p_hi.png"
+    },
+    {
+      "id": "part_f_head_hr_03_head_p_front",
+      "slot": "head",
+      "partSet": "hr_03",
+      "gender": "f",
+      "bone": "head",
+      "layer": "hair_front",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        3.08861
+      ],
+      "file": "characters/parts_v1/f/head/hr_03/part_f_head_hr_03_head_p_front.png",
+      "size": [
+        216,
+        79
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_front",
+      "partVariant": "front",
+      "silhouette": "tie",
+      "highlight": "part_f_head_hr_03_head_p_front_hi.png"
+    },
+    {
+      "id": "part_m_head_fc_01_head_se",
+      "slot": "head",
+      "partSet": "fc_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "head",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.96774
+      ],
+      "file": "characters/parts_v1/m/head/fc_01/part_m_head_fc_01_head_se.png",
+      "size": [
+        246,
+        248
+      ],
+      "skinmask": "part_m_head_fc_01_head_se_skinmask.png",
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "face_shape"
+    },
+    {
+      "id": "part_m_head_fc_02_head_se",
+      "slot": "head",
+      "partSet": "fc_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "head",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.96774
+      ],
+      "file": "characters/parts_v1/m/head/fc_02/part_m_head_fc_02_head_se.png",
+      "size": [
+        246,
+        248
+      ],
+      "skinmask": "part_m_head_fc_02_head_se_skinmask.png",
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "face_shape"
+    },
+    {
+      "id": "part_m_head_ey_01_head_se_neutral",
+      "slot": "head",
+      "partSet": "ey_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        4.125
+      ],
+      "file": "characters/parts_v1/m/head/ey_01/part_m_head_ey_01_head_se_neutral.png",
+      "size": [
+        148,
+        40
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "neutral"
+    },
+    {
+      "id": "part_m_head_ey_01_head_se_happy",
+      "slot": "head",
+      "partSet": "ey_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        10.2
+      ],
+      "file": "characters/parts_v1/m/head/ey_01/part_m_head_ey_01_head_se_happy.png",
+      "size": [
+        148,
+        15
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "happy"
+    },
+    {
+      "id": "part_m_head_ey_01_head_se_surprised",
+      "slot": "head",
+      "partSet": "ey_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        3.37736
+      ],
+      "file": "characters/parts_v1/m/head/ey_01/part_m_head_ey_01_head_se_surprised.png",
+      "size": [
+        148,
+        53
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "surprised"
+    },
+    {
+      "id": "part_m_head_ey_01_head_se_tired",
+      "slot": "head",
+      "partSet": "ey_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        4.64706
+      ],
+      "file": "characters/parts_v1/m/head/ey_01/part_m_head_ey_01_head_se_tired.png",
+      "size": [
+        148,
+        34
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "tired"
+    },
+    {
+      "id": "part_m_head_ey_02_head_se_neutral",
+      "slot": "head",
+      "partSet": "ey_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        4.31579
+      ],
+      "file": "characters/parts_v1/m/head/ey_02/part_m_head_ey_02_head_se_neutral.png",
+      "size": [
+        144,
+        38
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "neutral"
+    },
+    {
+      "id": "part_m_head_ey_02_head_se_happy",
+      "slot": "head",
+      "partSet": "ey_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        10.2
+      ],
+      "file": "characters/parts_v1/m/head/ey_02/part_m_head_ey_02_head_se_happy.png",
+      "size": [
+        144,
+        15
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "happy"
+    },
+    {
+      "id": "part_m_head_ey_02_head_se_surprised",
+      "slot": "head",
+      "partSet": "ey_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        3.54
+      ],
+      "file": "characters/parts_v1/m/head/ey_02/part_m_head_ey_02_head_se_surprised.png",
+      "size": [
+        144,
+        50
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "surprised"
+    },
+    {
+      "id": "part_m_head_ey_02_head_se_tired",
+      "slot": "head",
+      "partSet": "ey_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        4.90625
+      ],
+      "file": "characters/parts_v1/m/head/ey_02/part_m_head_ey_02_head_se_tired.png",
+      "size": [
+        144,
+        32
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "tired"
+    },
+    {
+      "id": "part_m_head_br_01_head_se",
+      "slot": "head",
+      "partSet": "br_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        8.94737
+      ],
+      "file": "characters/parts_v1/m/head/br_01/part_m_head_br_01_head_se.png",
+      "size": [
+        116,
+        19
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "brow"
+    },
+    {
+      "id": "part_m_head_br_02_head_se",
+      "slot": "head",
+      "partSet": "br_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        8.2381
+      ],
+      "file": "characters/parts_v1/m/head/br_02/part_m_head_br_02_head_se.png",
+      "size": [
+        116,
+        21
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "brow"
+    },
+    {
+      "id": "part_m_head_mo_01_head_se_neutral",
+      "slot": "head",
+      "partSet": "mo_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.8125
+      ],
+      "file": "characters/parts_v1/m/head/mo_01/part_m_head_mo_01_head_se_neutral.png",
+      "size": [
+        46,
+        16
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "neutral"
+    },
+    {
+      "id": "part_m_head_mo_01_head_se_happy",
+      "slot": "head",
+      "partSet": "mo_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.47368
+      ],
+      "file": "characters/parts_v1/m/head/mo_01/part_m_head_mo_01_head_se_happy.png",
+      "size": [
+        52,
+        19
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "happy"
+    },
+    {
+      "id": "part_m_head_mo_01_head_se_surprised",
+      "slot": "head",
+      "partSet": "mo_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        1.73333
+      ],
+      "file": "characters/parts_v1/m/head/mo_01/part_m_head_mo_01_head_se_surprised.png",
+      "size": [
+        26,
+        30
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "surprised"
+    },
+    {
+      "id": "part_m_head_mo_01_head_se_tired",
+      "slot": "head",
+      "partSet": "mo_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.93333
+      ],
+      "file": "characters/parts_v1/m/head/mo_01/part_m_head_mo_01_head_se_tired.png",
+      "size": [
+        44,
+        15
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "tired"
+    },
+    {
+      "id": "part_m_head_mo_02_head_se_neutral",
+      "slot": "head",
+      "partSet": "mo_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.8125
+      ],
+      "file": "characters/parts_v1/m/head/mo_02/part_m_head_mo_02_head_se_neutral.png",
+      "size": [
+        42,
+        16
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "neutral"
+    },
+    {
+      "id": "part_m_head_mo_02_head_se_happy",
+      "slot": "head",
+      "partSet": "mo_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.47368
+      ],
+      "file": "characters/parts_v1/m/head/mo_02/part_m_head_mo_02_head_se_happy.png",
+      "size": [
+        48,
+        19
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "happy"
+    },
+    {
+      "id": "part_m_head_mo_02_head_se_surprised",
+      "slot": "head",
+      "partSet": "mo_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        1.73333
+      ],
+      "file": "characters/parts_v1/m/head/mo_02/part_m_head_mo_02_head_se_surprised.png",
+      "size": [
+        26,
+        30
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "surprised"
+    },
+    {
+      "id": "part_m_head_mo_02_head_se_tired",
+      "slot": "head",
+      "partSet": "mo_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.93333
+      ],
+      "file": "characters/parts_v1/m/head/mo_02/part_m_head_mo_02_head_se_tired.png",
+      "size": [
+        40,
+        15
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "tired"
+    },
+    {
+      "id": "part_m_head_ag_01_head_se",
+      "slot": "head",
+      "partSet": "ag_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.94375
+      ],
+      "file": "characters/parts_v1/m/head/ag_01/part_m_head_ag_01_head_se.png",
+      "size": [
+        146,
+        160
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "age"
+    },
+    {
+      "id": "part_m_head_hr_01_hair_b_1_se",
+      "slot": "head",
+      "partSet": "hr_01",
+      "gender": "m",
+      "bone": "hair_b_1",
+      "layer": "hair_back",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        -0.28365
+      ],
+      "file": "characters/parts_v1/m/head/hr_01/part_m_head_hr_01_hair_b_1_se.png",
+      "size": [
+        314,
+        208
+      ],
+      "boneOriginPx": [
+        384,
+        343
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_back",
+      "chain": "hair_b",
+      "silhouette": "short",
+      "highlight": "part_m_head_hr_01_hair_b_1_se_hi.png"
+    },
+    {
+      "id": "part_m_head_hr_01_head_se_front",
+      "slot": "head",
+      "partSet": "hr_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "hair_front",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        1.46988
+      ],
+      "file": "characters/parts_v1/m/head/hr_01/part_m_head_hr_01_head_se_front.png",
+      "size": [
+        228,
+        166
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_front",
+      "partVariant": "front",
+      "silhouette": "short",
+      "highlight": "part_m_head_hr_01_head_se_front_hi.png"
+    },
+    {
+      "id": "part_m_head_hr_02_hair_b_1_se",
+      "slot": "head",
+      "partSet": "hr_02",
+      "gender": "m",
+      "bone": "hair_b_1",
+      "layer": "hair_back",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        -0.16209
+      ],
+      "file": "characters/parts_v1/m/head/hr_02/part_m_head_hr_02_hair_b_1_se.png",
+      "size": [
+        314,
+        364
+      ],
+      "boneOriginPx": [
+        384,
+        343
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_back",
+      "chain": "hair_b",
+      "silhouette": "long",
+      "highlight": "part_m_head_hr_02_hair_b_1_se_hi.png"
+    },
+    {
+      "id": "part_m_head_hr_02_head_se_front",
+      "slot": "head",
+      "partSet": "hr_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "hair_front",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        1.31183
+      ],
+      "file": "characters/parts_v1/m/head/hr_02/part_m_head_hr_02_head_se_front.png",
+      "size": [
+        224,
+        186
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_front",
+      "partVariant": "front",
+      "silhouette": "long",
+      "highlight": "part_m_head_hr_02_head_se_front_hi.png"
+    },
+    {
+      "id": "part_m_head_hr_03_hair_b_1_se",
+      "slot": "head",
+      "partSet": "hr_03",
+      "gender": "m",
+      "bone": "hair_b_1",
+      "layer": "hair_back",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        -0.1891
+      ],
+      "file": "characters/parts_v1/m/head/hr_03/part_m_head_hr_03_hair_b_1_se.png",
+      "size": [
+        314,
+        312
+      ],
+      "boneOriginPx": [
+        384,
+        343
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_back",
+      "chain": "hair_b",
+      "silhouette": "tie",
+      "highlight": "part_m_head_hr_03_hair_b_1_se_hi.png"
+    },
+    {
+      "id": "part_m_head_hr_03_head_se_front",
+      "slot": "head",
+      "partSet": "hr_03",
+      "gender": "m",
+      "bone": "head",
+      "layer": "hair_front",
+      "view": "se",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        3.08861
+      ],
+      "file": "characters/parts_v1/m/head/hr_03/part_m_head_hr_03_head_se_front.png",
+      "size": [
+        216,
+        79
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_front",
+      "partVariant": "front",
+      "silhouette": "tie",
+      "highlight": "part_m_head_hr_03_head_se_front_hi.png"
+    },
+    {
+      "id": "part_m_head_fc_01_head_side_r",
+      "slot": "head",
+      "partSet": "fc_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "head",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.96748
+      ],
+      "file": "characters/parts_v1/m/head/fc_01/part_m_head_fc_01_head_side_r.png",
+      "size": [
+        110,
+        246
+      ],
+      "skinmask": "part_m_head_fc_01_head_side_r_skinmask.png",
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "face_shape"
+    },
+    {
+      "id": "part_m_head_fc_02_head_side_r",
+      "slot": "head",
+      "partSet": "fc_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "head",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.96748
+      ],
+      "file": "characters/parts_v1/m/head/fc_02/part_m_head_fc_02_head_side_r.png",
+      "size": [
+        110,
+        246
+      ],
+      "skinmask": "part_m_head_fc_02_head_side_r_skinmask.png",
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "face_shape"
+    },
+    {
+      "id": "part_m_head_ey_01_head_side_r_neutral",
+      "slot": "head",
+      "partSet": "ey_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        4.125
+      ],
+      "file": "characters/parts_v1/m/head/ey_01/part_m_head_ey_01_head_side_r_neutral.png",
+      "size": [
+        106,
+        40
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "neutral"
+    },
+    {
+      "id": "part_m_head_ey_01_head_side_r_happy",
+      "slot": "head",
+      "partSet": "ey_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        10.2
+      ],
+      "file": "characters/parts_v1/m/head/ey_01/part_m_head_ey_01_head_side_r_happy.png",
+      "size": [
+        106,
+        15
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "happy"
+    },
+    {
+      "id": "part_m_head_ey_01_head_side_r_surprised",
+      "slot": "head",
+      "partSet": "ey_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        3.37736
+      ],
+      "file": "characters/parts_v1/m/head/ey_01/part_m_head_ey_01_head_side_r_surprised.png",
+      "size": [
+        106,
+        53
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "surprised"
+    },
+    {
+      "id": "part_m_head_ey_01_head_side_r_tired",
+      "slot": "head",
+      "partSet": "ey_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        4.64706
+      ],
+      "file": "characters/parts_v1/m/head/ey_01/part_m_head_ey_01_head_side_r_tired.png",
+      "size": [
+        106,
+        34
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "tired"
+    },
+    {
+      "id": "part_m_head_ey_02_head_side_r_neutral",
+      "slot": "head",
+      "partSet": "ey_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        4.31579
+      ],
+      "file": "characters/parts_v1/m/head/ey_02/part_m_head_ey_02_head_side_r_neutral.png",
+      "size": [
+        102,
+        38
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "neutral"
+    },
+    {
+      "id": "part_m_head_ey_02_head_side_r_happy",
+      "slot": "head",
+      "partSet": "ey_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        10.2
+      ],
+      "file": "characters/parts_v1/m/head/ey_02/part_m_head_ey_02_head_side_r_happy.png",
+      "size": [
+        102,
+        15
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "happy"
+    },
+    {
+      "id": "part_m_head_ey_02_head_side_r_surprised",
+      "slot": "head",
+      "partSet": "ey_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        3.54
+      ],
+      "file": "characters/parts_v1/m/head/ey_02/part_m_head_ey_02_head_side_r_surprised.png",
+      "size": [
+        102,
+        50
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "surprised"
+    },
+    {
+      "id": "part_m_head_ey_02_head_side_r_tired",
+      "slot": "head",
+      "partSet": "ey_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        4.90625
+      ],
+      "file": "characters/parts_v1/m/head/ey_02/part_m_head_ey_02_head_side_r_tired.png",
+      "size": [
+        102,
+        32
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "tired"
+    },
+    {
+      "id": "part_m_head_br_01_head_side_r",
+      "slot": "head",
+      "partSet": "br_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        8.89474
+      ],
+      "file": "characters/parts_v1/m/head/br_01/part_m_head_br_01_head_side_r.png",
+      "size": [
+        90,
+        19
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "brow"
+    },
+    {
+      "id": "part_m_head_br_02_head_side_r",
+      "slot": "head",
+      "partSet": "br_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        8.19048
+      ],
+      "file": "characters/parts_v1/m/head/br_02/part_m_head_br_02_head_side_r.png",
+      "size": [
+        90,
+        21
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "brow"
+    },
+    {
+      "id": "part_m_head_mo_01_head_side_r_neutral",
+      "slot": "head",
+      "partSet": "mo_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        3.21429
+      ],
+      "file": "characters/parts_v1/m/head/mo_01/part_m_head_mo_01_head_side_r_neutral.png",
+      "size": [
+        92,
+        14
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "neutral"
+    },
+    {
+      "id": "part_m_head_mo_01_head_side_r_happy",
+      "slot": "head",
+      "partSet": "mo_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.76471
+      ],
+      "file": "characters/parts_v1/m/head/mo_01/part_m_head_mo_01_head_side_r_happy.png",
+      "size": [
+        96,
+        17
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "happy"
+    },
+    {
+      "id": "part_m_head_mo_01_head_side_r_surprised",
+      "slot": "head",
+      "partSet": "mo_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.22727
+      ],
+      "file": "characters/parts_v1/m/head/mo_01/part_m_head_mo_01_head_side_r_surprised.png",
+      "size": [
+        92,
+        22
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "surprised"
+    },
+    {
+      "id": "part_m_head_mo_01_head_side_r_tired",
+      "slot": "head",
+      "partSet": "mo_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        3
+      ],
+      "file": "characters/parts_v1/m/head/mo_01/part_m_head_mo_01_head_side_r_tired.png",
+      "size": [
+        90,
+        15
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "tired"
+    },
+    {
+      "id": "part_m_head_mo_02_head_side_r_neutral",
+      "slot": "head",
+      "partSet": "mo_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        3.21429
+      ],
+      "file": "characters/parts_v1/m/head/mo_02/part_m_head_mo_02_head_side_r_neutral.png",
+      "size": [
+        92,
+        14
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "neutral"
+    },
+    {
+      "id": "part_m_head_mo_02_head_side_r_happy",
+      "slot": "head",
+      "partSet": "mo_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.76471
+      ],
+      "file": "characters/parts_v1/m/head/mo_02/part_m_head_mo_02_head_side_r_happy.png",
+      "size": [
+        96,
+        17
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "happy"
+    },
+    {
+      "id": "part_m_head_mo_02_head_side_r_surprised",
+      "slot": "head",
+      "partSet": "mo_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.22727
+      ],
+      "file": "characters/parts_v1/m/head/mo_02/part_m_head_mo_02_head_side_r_surprised.png",
+      "size": [
+        92,
+        22
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "surprised"
+    },
+    {
+      "id": "part_m_head_mo_02_head_side_r_tired",
+      "slot": "head",
+      "partSet": "mo_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        3
+      ],
+      "file": "characters/parts_v1/m/head/mo_02/part_m_head_mo_02_head_side_r_tired.png",
+      "size": [
+        90,
+        15
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "tired"
+    },
+    {
+      "id": "part_m_head_ag_01_head_side_r",
+      "slot": "head",
+      "partSet": "ag_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.96795
+      ],
+      "file": "characters/parts_v1/m/head/ag_01/part_m_head_ag_01_head_side_r.png",
+      "size": [
+        90,
+        156
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "age"
+    },
+    {
+      "id": "part_m_head_hr_01_hair_b_1_side_r",
+      "slot": "head",
+      "partSet": "hr_01",
+      "gender": "m",
+      "bone": "hair_b_1",
+      "layer": "hair_back",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        -0.35542
+      ],
+      "file": "characters/parts_v1/m/head/hr_01/part_m_head_hr_01_hair_b_1_side_r.png",
+      "size": [
+        270,
+        166
+      ],
+      "boneOriginPx": [
+        384,
+        343
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_back",
+      "chain": "hair_b",
+      "silhouette": "short",
+      "highlight": "part_m_head_hr_01_hair_b_1_side_r_hi.png"
+    },
+    {
+      "id": "part_m_head_hr_01_head_side_r_front",
+      "slot": "head",
+      "partSet": "hr_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "hair_front",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        3.58065
+      ],
+      "file": "characters/parts_v1/m/head/hr_01/part_m_head_hr_01_head_side_r_front.png",
+      "size": [
+        142,
+        62
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_front",
+      "partVariant": "front",
+      "silhouette": "short",
+      "highlight": "part_m_head_hr_01_head_side_r_front_hi.png"
+    },
+    {
+      "id": "part_m_head_hr_02_hair_b_1_side_r",
+      "slot": "head",
+      "partSet": "hr_02",
+      "gender": "m",
+      "bone": "hair_b_1",
+      "layer": "hair_back",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        -0.17404
+      ],
+      "file": "characters/parts_v1/m/head/hr_02/part_m_head_hr_02_hair_b_1_side_r.png",
+      "size": [
+        270,
+        339
+      ],
+      "boneOriginPx": [
+        384,
+        343
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_back",
+      "chain": "hair_b",
+      "silhouette": "long",
+      "highlight": "part_m_head_hr_02_hair_b_1_side_r_hi.png"
+    },
+    {
+      "id": "part_m_head_hr_02_head_side_r_front",
+      "slot": "head",
+      "partSet": "hr_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "hair_front",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        1.30588
+      ],
+      "file": "characters/parts_v1/m/head/hr_02/part_m_head_hr_02_head_side_r_front.png",
+      "size": [
+        142,
+        170
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_front",
+      "partVariant": "front",
+      "silhouette": "long",
+      "highlight": "part_m_head_hr_02_head_side_r_front_hi.png"
+    },
+    {
+      "id": "part_m_head_hr_03_hair_b_1_side_r",
+      "slot": "head",
+      "partSet": "hr_03",
+      "gender": "m",
+      "bone": "hair_b_1",
+      "layer": "hair_back",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        -0.21533
+      ],
+      "file": "characters/parts_v1/m/head/hr_03/part_m_head_hr_03_hair_b_1_side_r.png",
+      "size": [
+        270,
+        274
+      ],
+      "boneOriginPx": [
+        384,
+        343
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_back",
+      "chain": "hair_b",
+      "silhouette": "tie",
+      "highlight": "part_m_head_hr_03_hair_b_1_side_r_hi.png"
+    },
+    {
+      "id": "part_m_head_hr_03_head_side_r_front",
+      "slot": "head",
+      "partSet": "hr_03",
+      "gender": "m",
+      "bone": "head",
+      "layer": "hair_front",
+      "view": "side_r",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        1.30588
+      ],
+      "file": "characters/parts_v1/m/head/hr_03/part_m_head_hr_03_head_side_r_front.png",
+      "size": [
+        142,
+        170
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_front",
+      "partVariant": "front",
+      "silhouette": "tie",
+      "highlight": "part_m_head_hr_03_head_side_r_front_hi.png"
+    },
+    {
+      "id": "part_m_head_fc_01_head_ne",
+      "slot": "head",
+      "partSet": "fc_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "head",
+      "view": "ne",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.96774
+      ],
+      "file": "characters/parts_v1/m/head/fc_01/part_m_head_fc_01_head_ne.png",
+      "size": [
+        220,
+        248
+      ],
+      "skinmask": "part_m_head_fc_01_head_ne_skinmask.png",
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜ne 补丁 1110｜待策划审",
+      "category": "face_shape"
+    },
+    {
+      "id": "part_m_head_fc_02_head_ne",
+      "slot": "head",
+      "partSet": "fc_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "head",
+      "view": "ne",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.96774
+      ],
+      "file": "characters/parts_v1/m/head/fc_02/part_m_head_fc_02_head_ne.png",
+      "size": [
+        220,
+        248
+      ],
+      "skinmask": "part_m_head_fc_02_head_ne_skinmask.png",
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜ne 补丁 1110｜待策划审",
+      "category": "face_shape"
+    },
+    {
+      "id": "part_m_head_br_01_head_ne",
+      "slot": "head",
+      "partSet": "br_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "ne",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "file": "characters/parts_v1/m/head/br_01/part_m_head_br_01_head_ne.png",
+      "size": [
+        10,
+        10
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "brow"
+    },
+    {
+      "id": "part_m_head_br_02_head_ne",
+      "slot": "head",
+      "partSet": "br_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "ne",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "file": "characters/parts_v1/m/head/br_02/part_m_head_br_02_head_ne.png",
+      "size": [
+        10,
+        10
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "brow"
+    },
+    {
+      "id": "part_m_head_ag_01_head_ne",
+      "slot": "head",
+      "partSet": "ag_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "ne",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "file": "characters/parts_v1/m/head/ag_01/part_m_head_ag_01_head_ne.png",
+      "size": [
+        10,
+        10
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "age"
+    },
+    {
+      "id": "part_m_head_hr_01_hair_b_1_ne",
+      "slot": "head",
+      "partSet": "hr_01",
+      "gender": "m",
+      "bone": "hair_b_1",
+      "layer": "hair_back",
+      "view": "ne",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.17391
+      ],
+      "file": "characters/parts_v1/m/head/hr_01/part_m_head_hr_01_hair_b_1_ne.png",
+      "size": [
+        256,
+        276
+      ],
+      "boneOriginPx": [
+        384,
+        343
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜ne 补丁 1110｜待策划审",
+      "category": "hair_back",
+      "chain": "hair_b",
+      "silhouette": "short",
+      "highlight": "part_m_head_hr_01_hair_b_1_ne_hi.png"
+    },
+    {
+      "id": "part_m_head_hr_01_head_ne_front",
+      "slot": "head",
+      "partSet": "hr_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "hair_front",
+      "view": "ne",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "file": "characters/parts_v1/m/head/hr_01/part_m_head_hr_01_head_ne_front.png",
+      "size": [
+        10,
+        10
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_front",
+      "partVariant": "front",
+      "silhouette": "short",
+      "highlight": "part_m_head_hr_01_head_ne_front_hi.png"
+    },
+    {
+      "id": "part_m_head_hr_02_hair_b_1_ne",
+      "slot": "head",
+      "partSet": "hr_02",
+      "gender": "m",
+      "bone": "hair_b_1",
+      "layer": "hair_back",
+      "view": "ne",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.11566
+      ],
+      "file": "characters/parts_v1/m/head/hr_02/part_m_head_hr_02_hair_b_1_ne.png",
+      "size": [
+        256,
+        415
+      ],
+      "boneOriginPx": [
+        384,
+        343
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜ne 补丁 1110｜待策划审",
+      "category": "hair_back",
+      "chain": "hair_b",
+      "silhouette": "long",
+      "highlight": "part_m_head_hr_02_hair_b_1_ne_hi.png"
+    },
+    {
+      "id": "part_m_head_hr_02_head_ne_front",
+      "slot": "head",
+      "partSet": "hr_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "hair_front",
+      "view": "ne",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "file": "characters/parts_v1/m/head/hr_02/part_m_head_hr_02_head_ne_front.png",
+      "size": [
+        10,
+        10
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_front",
+      "partVariant": "front",
+      "silhouette": "long",
+      "highlight": "part_m_head_hr_02_head_ne_front_hi.png"
+    },
+    {
+      "id": "part_m_head_hr_03_hair_b_1_ne",
+      "slot": "head",
+      "partSet": "hr_03",
+      "gender": "m",
+      "bone": "hair_b_1",
+      "layer": "hair_back",
+      "view": "ne",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.11911
+      ],
+      "file": "characters/parts_v1/m/head/hr_03/part_m_head_hr_03_hair_b_1_ne.png",
+      "size": [
+        256,
+        403
+      ],
+      "boneOriginPx": [
+        384,
+        343
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜ne 补丁 1110｜待策划审",
+      "category": "hair_back",
+      "chain": "hair_b",
+      "silhouette": "tie",
+      "highlight": "part_m_head_hr_03_hair_b_1_ne_hi.png"
+    },
+    {
+      "id": "part_m_head_hr_03_head_ne_front",
+      "slot": "head",
+      "partSet": "hr_03",
+      "gender": "m",
+      "bone": "head",
+      "layer": "hair_front",
+      "view": "ne",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "file": "characters/parts_v1/m/head/hr_03/part_m_head_hr_03_head_ne_front.png",
+      "size": [
+        10,
+        10
+      ],
+      "boneOriginPx": [
+        384,
+        548
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_front",
+      "partVariant": "front",
+      "silhouette": "tie",
+      "highlight": "part_m_head_hr_03_head_ne_front_hi.png"
+    },
+    {
+      "id": "part_m_head_fc_01_head_p",
+      "slot": "head",
+      "partSet": "fc_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "head",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.96774
+      ],
+      "file": "characters/parts_v1/m/head/fc_01/part_m_head_fc_01_head_p.png",
+      "size": [
+        246,
+        248
+      ],
+      "skinmask": "part_m_head_fc_01_head_p_skinmask.png",
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "face_shape"
+    },
+    {
+      "id": "part_m_head_fc_02_head_p",
+      "slot": "head",
+      "partSet": "fc_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "head",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        0.96774
+      ],
+      "file": "characters/parts_v1/m/head/fc_02/part_m_head_fc_02_head_p.png",
+      "size": [
+        246,
+        248
+      ],
+      "skinmask": "part_m_head_fc_02_head_p_skinmask.png",
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "face_shape"
+    },
+    {
+      "id": "part_m_head_ey_01_head_p_neutral",
+      "slot": "head",
+      "partSet": "ey_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        4.125
+      ],
+      "file": "characters/parts_v1/m/head/ey_01/part_m_head_ey_01_head_p_neutral.png",
+      "size": [
+        148,
+        40
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "neutral"
+    },
+    {
+      "id": "part_m_head_ey_01_head_p_happy",
+      "slot": "head",
+      "partSet": "ey_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        10.2
+      ],
+      "file": "characters/parts_v1/m/head/ey_01/part_m_head_ey_01_head_p_happy.png",
+      "size": [
+        148,
+        15
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "happy"
+    },
+    {
+      "id": "part_m_head_ey_01_head_p_surprised",
+      "slot": "head",
+      "partSet": "ey_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        3.37736
+      ],
+      "file": "characters/parts_v1/m/head/ey_01/part_m_head_ey_01_head_p_surprised.png",
+      "size": [
+        148,
+        53
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "surprised"
+    },
+    {
+      "id": "part_m_head_ey_01_head_p_tired",
+      "slot": "head",
+      "partSet": "ey_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        4.64706
+      ],
+      "file": "characters/parts_v1/m/head/ey_01/part_m_head_ey_01_head_p_tired.png",
+      "size": [
+        148,
+        34
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "tired"
+    },
+    {
+      "id": "part_m_head_ey_02_head_p_neutral",
+      "slot": "head",
+      "partSet": "ey_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        4.31579
+      ],
+      "file": "characters/parts_v1/m/head/ey_02/part_m_head_ey_02_head_p_neutral.png",
+      "size": [
+        144,
+        38
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "neutral"
+    },
+    {
+      "id": "part_m_head_ey_02_head_p_happy",
+      "slot": "head",
+      "partSet": "ey_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        10.2
+      ],
+      "file": "characters/parts_v1/m/head/ey_02/part_m_head_ey_02_head_p_happy.png",
+      "size": [
+        144,
+        15
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "happy"
+    },
+    {
+      "id": "part_m_head_ey_02_head_p_surprised",
+      "slot": "head",
+      "partSet": "ey_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        3.54
+      ],
+      "file": "characters/parts_v1/m/head/ey_02/part_m_head_ey_02_head_p_surprised.png",
+      "size": [
+        144,
+        50
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "surprised"
+    },
+    {
+      "id": "part_m_head_ey_02_head_p_tired",
+      "slot": "head",
+      "partSet": "ey_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        4.90625
+      ],
+      "file": "characters/parts_v1/m/head/ey_02/part_m_head_ey_02_head_p_tired.png",
+      "size": [
+        144,
+        32
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "eyes",
+      "expression": "tired"
+    },
+    {
+      "id": "part_m_head_mo_01_head_p_neutral",
+      "slot": "head",
+      "partSet": "mo_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.8125
+      ],
+      "file": "characters/parts_v1/m/head/mo_01/part_m_head_mo_01_head_p_neutral.png",
+      "size": [
+        46,
+        16
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "neutral"
+    },
+    {
+      "id": "part_m_head_mo_01_head_p_happy",
+      "slot": "head",
+      "partSet": "mo_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.47368
+      ],
+      "file": "characters/parts_v1/m/head/mo_01/part_m_head_mo_01_head_p_happy.png",
+      "size": [
+        52,
+        19
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "happy"
+    },
+    {
+      "id": "part_m_head_mo_01_head_p_surprised",
+      "slot": "head",
+      "partSet": "mo_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        1.73333
+      ],
+      "file": "characters/parts_v1/m/head/mo_01/part_m_head_mo_01_head_p_surprised.png",
+      "size": [
+        26,
+        30
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "surprised"
+    },
+    {
+      "id": "part_m_head_mo_01_head_p_tired",
+      "slot": "head",
+      "partSet": "mo_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.93333
+      ],
+      "file": "characters/parts_v1/m/head/mo_01/part_m_head_mo_01_head_p_tired.png",
+      "size": [
+        44,
+        15
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "tired"
+    },
+    {
+      "id": "part_m_head_mo_02_head_p_neutral",
+      "slot": "head",
+      "partSet": "mo_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.8125
+      ],
+      "file": "characters/parts_v1/m/head/mo_02/part_m_head_mo_02_head_p_neutral.png",
+      "size": [
+        42,
+        16
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "neutral"
+    },
+    {
+      "id": "part_m_head_mo_02_head_p_happy",
+      "slot": "head",
+      "partSet": "mo_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.47368
+      ],
+      "file": "characters/parts_v1/m/head/mo_02/part_m_head_mo_02_head_p_happy.png",
+      "size": [
+        48,
+        19
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "happy"
+    },
+    {
+      "id": "part_m_head_mo_02_head_p_surprised",
+      "slot": "head",
+      "partSet": "mo_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        1.73333
+      ],
+      "file": "characters/parts_v1/m/head/mo_02/part_m_head_mo_02_head_p_surprised.png",
+      "size": [
+        26,
+        30
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "surprised"
+    },
+    {
+      "id": "part_m_head_mo_02_head_p_tired",
+      "slot": "head",
+      "partSet": "mo_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "face",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        2.93333
+      ],
+      "file": "characters/parts_v1/m/head/mo_02/part_m_head_mo_02_head_p_tired.png",
+      "size": [
+        40,
+        15
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "mouth",
+      "expression": "tired"
+    },
+    {
+      "id": "part_m_head_hr_01_hair_b_1_p",
+      "slot": "head",
+      "partSet": "hr_01",
+      "gender": "m",
+      "bone": "hair_b_1",
+      "layer": "hair_back",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        -0.28365
+      ],
+      "file": "characters/parts_v1/m/head/hr_01/part_m_head_hr_01_hair_b_1_p.png",
+      "size": [
+        314,
+        208
+      ],
+      "boneOriginPx": [
+        512,
+        415
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_back",
+      "chain": "hair_b",
+      "silhouette": "short",
+      "highlight": "part_m_head_hr_01_hair_b_1_p_hi.png"
+    },
+    {
+      "id": "part_m_head_hr_01_head_p_front",
+      "slot": "head",
+      "partSet": "hr_01",
+      "gender": "m",
+      "bone": "head",
+      "layer": "hair_front",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        1.46988
+      ],
+      "file": "characters/parts_v1/m/head/hr_01/part_m_head_hr_01_head_p_front.png",
+      "size": [
+        228,
+        166
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_front",
+      "partVariant": "front",
+      "silhouette": "short",
+      "highlight": "part_m_head_hr_01_head_p_front_hi.png"
+    },
+    {
+      "id": "part_m_head_hr_02_hair_b_1_p",
+      "slot": "head",
+      "partSet": "hr_02",
+      "gender": "m",
+      "bone": "hair_b_1",
+      "layer": "hair_back",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        -0.16209
+      ],
+      "file": "characters/parts_v1/m/head/hr_02/part_m_head_hr_02_hair_b_1_p.png",
+      "size": [
+        314,
+        364
+      ],
+      "boneOriginPx": [
+        512,
+        415
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_back",
+      "chain": "hair_b",
+      "silhouette": "long",
+      "highlight": "part_m_head_hr_02_hair_b_1_p_hi.png"
+    },
+    {
+      "id": "part_m_head_hr_02_head_p_front",
+      "slot": "head",
+      "partSet": "hr_02",
+      "gender": "m",
+      "bone": "head",
+      "layer": "hair_front",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        1.31183
+      ],
+      "file": "characters/parts_v1/m/head/hr_02/part_m_head_hr_02_head_p_front.png",
+      "size": [
+        224,
+        186
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_front",
+      "partVariant": "front",
+      "silhouette": "long",
+      "highlight": "part_m_head_hr_02_head_p_front_hi.png"
+    },
+    {
+      "id": "part_m_head_hr_03_hair_b_1_p",
+      "slot": "head",
+      "partSet": "hr_03",
+      "gender": "m",
+      "bone": "hair_b_1",
+      "layer": "hair_back",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        -0.1891
+      ],
+      "file": "characters/parts_v1/m/head/hr_03/part_m_head_hr_03_hair_b_1_p.png",
+      "size": [
+        314,
+        312
+      ],
+      "boneOriginPx": [
+        512,
+        415
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_back",
+      "chain": "hair_b",
+      "silhouette": "tie",
+      "highlight": "part_m_head_hr_03_hair_b_1_p_hi.png"
+    },
+    {
+      "id": "part_m_head_hr_03_head_p_front",
+      "slot": "head",
+      "partSet": "hr_03",
+      "gender": "m",
+      "bone": "head",
+      "layer": "hair_front",
+      "view": "p",
+      "mirrorable": true,
+      "pivot": [
+        0.5,
+        3.08861
+      ],
+      "file": "characters/parts_v1/m/head/hr_03/part_m_head_hr_03_head_p_front.png",
+      "size": [
+        216,
+        79
+      ],
+      "boneOriginPx": [
+        512,
+        620
+      ],
+      "boneRotView": 0,
+      "source": "自制脚本｜待策划审",
+      "category": "hair_front",
+      "partVariant": "front",
+      "silhouette": "tie",
+      "highlight": "part_m_head_hr_03_head_p_front_hi.png"
+    }
+  ],
+  "nePatchOf": "美术/_交付/parts_v1_W2_ne_patch_1110",
+  "nePatchMode": "replace_by_id",
+  "nePatchAppliedAt": "2026-11-10 08:10:10 +08:00"
+}

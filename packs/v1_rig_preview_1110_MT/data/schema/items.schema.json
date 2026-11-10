@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "物品/家具表",
+  "type": "object",
+  "required": ["version", "rows"],
+  "properties": {
+    "version": { "type": "integer", "minimum": 1 },
+    "rows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "type", "price", "footprint", "buffs", "sprite"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z]+_[a-z0-9_]+$" },
+          "name": { "type": "string", "minLength": 1 },
+          "type": { "enum": ["furniture", "decor", "equipment", "wallpaper", "floor"] },
+          "price": { "type": "integer", "minimum": 0 },
+          "footprint": {
+            "type": "object",
+            "required": ["w", "h"],
+            "properties": { "w": { "type": "integer", "minimum": 1, "maximum": 8 }, "h": { "type": "integer", "minimum": 1, "maximum": 8 } }
+          },
+          "buffs": {
+            "type": "array",
+            "items": { "type": "object", "required": ["attr", "value"], "properties": { "attr": { "type": "string" }, "value": { "type": "number" } } }
+          },
+          "sprite": { "type": "string" }
+        }
+      }
+    }
+  }
+}

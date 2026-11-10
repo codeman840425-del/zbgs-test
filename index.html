@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>远程测试总站 v2 · 可上板块</title>
+  <link rel="icon" href="data:,">
+  <style>
+    :root { --bg:#fff6e6; --ink:#2a1f16; --muted:#5a3a2e; --line:#e0c9a0; --card:#fff; --pass:#14321c; --passink:#b6f0c2; --pend:#3a3118; --pendink:#f0d58a; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font: 15px/1.55 ui-sans-serif, system-ui, sans-serif; color: var(--ink); background: var(--bg); }
+    header { padding: 28px 24px 12px; max-width: 980px; margin: 0 auto; }
+    h1 { margin: 0 0 8px; font-size: 26px; }
+    .sub, .note { color: var(--muted); }
+    .verdict { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin: 16px 0 8px; }
+    .chip { border-radius: 8px; padding: 10px 12px; background: var(--pass); color: var(--passink); }
+    .chip.pend { background: var(--pend); color: var(--pendink); }
+    .chip b { display: block; margin-bottom: 2px; }
+    .notice, main, footer { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+    .notice p { background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; }
+    main { padding: 8px 24px 48px; }
+    section h2 { margin: 24px 0 8px; font-size: 18px; }
+    .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    article { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; }
+    article h3 { margin: 0; font-size: 16px; }
+    .meta { font-size: 12px; color: var(--muted); }
+    ul { margin: 0; padding-left: 1.2em; }
+    a.btn { display: inline-block; background: #2a1f16; color: #fff6e6; text-decoration: none; border-radius: 6px; padding: 6px 12px; width: fit-content; }
+    footer { padding: 0 24px 40px; color: var(--muted); font-size: 13px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>远程测试总站 v2</h1>
+    <p class="sub">只挂平台预检（sha 前缀 8a0a0a32）判定可上的板块，以及预检要求改挂的世界地图修复包、新建的衣橱相对路径构建包。本站不收录 M1 / M2 / fixpack 主游戏，也不收录预检判定不上的页面。</p>
+    <div class="verdict">
+      <div class="chip"><b>v1_rig_preview 可上</b>入口必须带 ?v1rig=1&amp;nosw=1</div>
+      <div class="chip"><b>E1_hair_patch2 可上</b>E1 只留这一版；独立预览页，无主游戏入口</div>
+      <div class="chip"><b>room_deco_fix_f01_f04 可上</b>4181 本批通过。入口必须带 ?v1room=1&amp;nosw=1</div>
+      <div class="chip"><b>worldmap_fix_q1_f07 改挂</b>4182 本批通过。入口必须带 ?v1map=1&amp;nosw=1。预检未打开此修复包</div>
+      <div class="chip pend"><b>w3parts rel 构建包 待测</b>相对路径 + 缩略图已打进包。源码 html 与旧构建包不上</div>
+    </div>
+  </header>
+  <div class="notice">
+    <p>骨骼 / 房间 / 地图包若不含预览 flag，会落到 M1 主游戏，并可能被 Service Worker 接管。目录链接已写上对应 flag 和 <code>nosw=1</code>。不上的页面（E1 其余各版、worldmap_preview、源码入口 w3parts_v2_preview_MT.html）未挂入本站。</p>
+  </div>
+  <main>
+    <section>
+      <h2>骨骼预览</h2>
+      <div class="grid">
+        <article>
+          <h3>v1_rig_preview</h3>
+          <div class="meta">flag：<code>?v1rig=1&amp;nosw=1</code>　本批结论：预检可上</div>
+          <p>测什么：多类型动作占位预览（RIG-01～RIG-14），换装锁定、切类型不换衣、状态机。hook <code>__v1RigPreview</code>。占位皮肤，不是正式分件验收。</p>
+          <p>没做：每类第 2 变体独立关键帧、RIG-15 视角按钮、<code>tired_na</code>、正式 W1 分件、装修、完整一天经营、联机、Spine / DragonBones。不报整包 V1，不报 TC-V1-07-05，不报正式分件指标。</p>
+          <p class="note">既有复测（06:45 重建包，占位预览范围）记载通过。预检：子目录可开，相对路径，0 报错 / 0 个 404。</p>
+          <a class="btn" href="./packs/v1_rig_preview_1110_MT/?v1rig=1&amp;nosw=1">打开预览</a>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>五官扩充 E1</h2>
+      <div class="grid">
+        <article>
+          <h3>v1_lib_expand_E1_hair_patch2</h3>
+          <div class="meta">独立预览页（无 M1 flag）　本批结论：预检可上，E1 只留这一版</div>
+          <p>测什么：发型补丁第二版与 2b 覆盖件是否按说明落地；下拉切性别 / 发色；<code>_hi</code> 按发色调色；与上一版对比。</p>
+          <p>没做：D-5（给缺 compat 的旧单测补 compat）、I-9（hand_l / foot_l 写入表并去掉运行时补丁）本次不实现。发色色表未冻结。不是整包 V1，不报验收通过。</p>
+          <p class="note">既有测试报告（当时端口 4195）记载本批通过。预检：打开通过，0 报错 / 0 个 404；preview / contract_fix / hair_patch / presets / fix_ab 已按预检下架。</p>
+          <a class="btn" href="./packs/v1_lib_expand_E1_hair_patch2_1110_MT/">打开预览</a>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>房间装修</h2>
+      <div class="grid">
+        <article>
+          <h3>v1_room_deco_fix_f01_f04</h3>
+          <div class="meta">flag：<code>?v1room=1&amp;nosw=1</code>　本批结论：4181 通过；预检可上</div>
+          <p>测什么：F-01 衔接件按 (gender, id) 取图；F-02 按 paletteSlot / paletteTone 换色；F-03 sit_idle 最短 800ms 改用墙钟；F-04 挂 W3 正式道具（gamepad / mic_hand）。可测 cycleOutfit、切外景。hook <code>__v1RoomDeco</code>。</p>
+          <p>没做：chat 耳机、sell 托盘、skill 笔不挂；手柄随 hand_r 接近竖向的观感（N-04）由策划 / 美术定；WebGL 下 NPOT 锯齿未处理；W3A-04/10/12/15/08/17/18、R-05～R-08、N-02 / N-03 仍为缺口。本包带的 <code>?v1map</code> 不在本次修复范围，本站入口只开房间 flag。不报整包 V1。</p>
+          <p class="note">这是预检点名可上的房间修包（f01_f04），不是 r01_r02。r01_r02 与房间预览初包未挂入。</p>
+          <a class="btn" href="./packs/v1_room_deco_fix_f01_f04_1110_MT/?v1room=1&amp;nosw=1">打开预览</a>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>世界地图</h2>
+      <div class="grid">
+        <article>
+          <h3>v1_worldmap_fix_q1_f07</h3>
+          <div class="meta">flag：<code>?v1map=1&amp;nosw=1</code>　本批结论：4182 通过；预检要求改挂此包（预检未打开本修复包）</div>
+          <p>测什么：Q-1 / F-01 热区；Q-2 / F-02 / F-03 预告卡；Q-3 / F-04 / F-05 镜头夹紧与对称 letterbox；F-06 soon 文案；F-07 面板音。hook <code>__v1WorldMap</code>。</p>
+          <p>没做：S-01 雾弱、S-02 双指缩放本批没进包；S-03 朔磐徽章顶部超出核心区只记录不判；部分倍率下长边大于底图时采用居中对称 letterbox（不改缩放表）。本包 <code>?v1room=1</code> 不作房间交核，本站入口只开地图 flag。创角页、真实 422、图例正式 UI、经营入口、小车动画、帧率压测仍为缺口。不报 WMD 正式通过。</p>
+          <p class="note">worldmap_preview（4180，不通过）按预检不上，未挂入。打开预检当时未对修复包做加载检查，本站已改挂，本地会再做打开自检。</p>
+          <a class="btn" href="./packs/v1_worldmap_fix_q1_f07_1110_MT/?v1map=1&amp;nosw=1">打开预览</a>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>W3 衣橱零件</h2>
+      <div class="grid">
+        <article>
+          <h3>v1_w3parts_v2_preview_rel</h3>
+          <div class="meta">构建产物入口（非源码 html）　本批结论：尚未交平台打开预检，待测</div>
+          <p>测什么：items v3 衣橱一件一条；男女切色；男装官方 id（outfit_m*）；服装缩略图与蒙版换色。本包 base 为相对路径，用到的缩略图和 mask 已打进包内 <code>w3-thumbs/</code>。</p>
+          <p>没做：饰品缩略图尚未交付。源码入口 <code>w3parts_v2_preview_MT.html</code> 和旧构建包（根绝对路径、缩略图未进包）按预检不上，未挂入。不是整包验收。</p>
+          <a class="btn" href="./packs/v1_w3parts_v2_preview_rel_1110_MT/w3parts_v2_preview_rel_MT.html">打开预览</a>
+        </article>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <p>本站用相对路径，可挂在子路径下。站点副本未改原 release 包。对外地址不要包含密钥或内部路径。</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,514 @@
+{
+ "schema": "v1.parts_manifest.1",
+ "partSchema": "v1.part.rigid.1",
+ "batch": "parts_v1_W2_face_redraw_1110（W2 脸重做第一稿：男女默认脸 se 对稿件；非整包，不替换 W2_1110，未合主目录）",
+ "supersedesForReview": "parts_v1_W2_1110 中同 id 的 se 件（对稿通过后补齐其余视角/表情再定替换）",
+ "rig": {
+  "f": "rig_q_full_f",
+  "m": "rig_q_full_m",
+  "bones": "程序/src/v1_rig_preview_MT/config/bones_{f,m}_MT.json"
+ },
+ "viewProjection": {
+  "sx": {
+   "se": 1.0
+  },
+  "cx": {
+   "se": 384
+  }
+ },
+ "pivotNote": "与 W2 同口径：脸型下巴中点 = pivot（head 骨原点）；五官/年龄挂 head 骨（pivot.y 常 >1）；发后片挂 hair_b_1。不要写死 (0.5,0)。",
+ "skinTone": {
+  "ref": "skin_02 #FAD7BE",
+  "recolor": "out = src × (目标 / #FAD7BE)，仅 face_shape 的 skinmask 区"
+ },
+ "hairNote": "主文件灰度（l=0.5 即发色本色，逆 W12Parts_MT.gradientMapHair）+ 同名 _hi 高光层。对稿预览发色：女 #8E5B3B、男 #583C2C。",
+ "featureAnchorsMasterPx": {
+  "f": {
+   "scale_src_to_master": 0.27978,
+   "eye_l": [
+    344.8,
+    462.5
+   ],
+   "eye_r": [
+    423.2,
+    462.5
+   ],
+   "mouth": [
+    384.0,
+    523.0
+   ],
+   "hair_base_rgb": "#8E5B3B"
+  },
+  "m": {
+   "scale_src_to_master": 0.48485,
+   "eye_l": [
+    347.2,
+    445.2
+   ],
+   "eye_r": [
+    420.8,
+    445.2
+   ],
+   "mouth": [
+    384.0,
+    504.4
+   ],
+   "hair_base_rgb": "#583C2C"
+  }
+ },
+ "defaultFace": {
+  "f": [
+   "fc_01",
+   "ey_01:neutral",
+   "br_01",
+   "mo_01:neutral",
+   "hr_02"
+  ],
+  "m": [
+   "fc_01",
+   "ey_01:neutral",
+   "br_01",
+   "mo_01:neutral",
+   "hr_01"
+  ],
+  "mature": "fc_02 + ag_01（其余同青年）"
+ },
+ "parts": [
+  {
+   "id": "part_f_head_fc_01_head_se",
+   "slot": "head",
+   "partSet": "fc_01",
+   "gender": "f",
+   "bone": "head",
+   "layer": "head",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.47706,
+    0.96825
+   ],
+   "file": "characters/parts_v1/f/head/fc_01/part_f_head_fc_01_head_se.png",
+   "size": [
+    218,
+    252
+   ],
+   "skinmask": "part_f_head_fc_01_head_se_skinmask.png",
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权｜待平台对稿",
+   "category": "face_shape"
+  },
+  {
+   "id": "part_f_head_fc_02_head_se",
+   "slot": "head",
+   "partSet": "fc_02",
+   "gender": "f",
+   "bone": "head",
+   "layer": "head",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.47706,
+    0.96825
+   ],
+   "file": "characters/parts_v1/f/head/fc_02/part_f_head_fc_02_head_se.png",
+   "size": [
+    218,
+    252
+   ],
+   "skinmask": "part_f_head_fc_02_head_se_skinmask.png",
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权｜待平台对稿",
+   "category": "face_shape"
+  },
+  {
+   "id": "part_f_head_ey_01_head_se_neutral",
+   "slot": "head",
+   "partSet": "ey_01",
+   "gender": "f",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.49342,
+    2.68182
+   ],
+   "file": "characters/parts_v1/f/head/ey_01/part_f_head_ey_01_head_se_neutral.png",
+   "size": [
+    152,
+    44
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权｜待平台对稿",
+   "category": "eyes",
+   "expression": "neutral"
+  },
+  {
+   "id": "part_f_head_br_01_head_se",
+   "slot": "head",
+   "partSet": "br_01",
+   "gender": "f",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    4.85714
+   ],
+   "file": "characters/parts_v1/f/head/br_01/part_f_head_br_01_head_se.png",
+   "size": [
+    144,
+    28
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权｜待平台对稿",
+   "category": "brow"
+  },
+  {
+   "id": "part_f_head_mo_01_head_se_neutral",
+   "slot": "head",
+   "partSet": "mo_01",
+   "gender": "f",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    1.41667
+   ],
+   "file": "characters/parts_v1/f/head/mo_01/part_f_head_mo_01_head_se_neutral.png",
+   "size": [
+    58,
+    36
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权｜待平台对稿",
+   "category": "mouth",
+   "expression": "neutral"
+  },
+  {
+   "id": "part_f_head_ag_01_head_se",
+   "slot": "head",
+   "partSet": "ag_01",
+   "gender": "f",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    1.39062
+   ],
+   "file": "characters/parts_v1/f/head/ag_01/part_f_head_ag_01_head_se.png",
+   "size": [
+    136,
+    64
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权｜待平台对稿",
+   "category": "age"
+  },
+  {
+   "id": "part_f_head_hr_02_hair_b_1_se",
+   "slot": "head",
+   "partSet": "hr_02",
+   "gender": "f",
+   "bone": "hair_b_1",
+   "layer": "hair_back",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.14433
+   ],
+   "file": "characters/parts_v1/f/head/hr_02/part_f_head_hr_02_hair_b_1_se.png",
+   "size": [
+    256,
+    388
+   ],
+   "boneOriginPx": [
+    384.0,
+    353.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权｜待平台对稿",
+   "category": "hair_back",
+   "highlight": "part_f_head_hr_02_hair_b_1_se_hi.png",
+   "chain": "hair_b",
+   "silhouette": "long"
+  },
+  {
+   "id": "part_f_head_hr_02_head_se_front",
+   "slot": "head",
+   "partSet": "hr_02",
+   "gender": "f",
+   "bone": "head",
+   "layer": "hair_front",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    1.18636
+   ],
+   "file": "characters/parts_v1/f/head/hr_02/part_f_head_hr_02_head_se_front.png",
+   "size": [
+    240,
+    220
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权｜待平台对稿",
+   "category": "hair_front",
+   "highlight": "part_f_head_hr_02_head_se_front_hi.png",
+   "partVariant": "front",
+   "silhouette": "long"
+  },
+  {
+   "id": "part_m_head_fc_01_head_se",
+   "slot": "head",
+   "partSet": "fc_01",
+   "gender": "m",
+   "bone": "head",
+   "layer": "head",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.48529,
+    0.9625
+   ],
+   "file": "characters/parts_v1/m/head/fc_01/part_m_head_fc_01_head_se.png",
+   "size": [
+    204,
+    240
+   ],
+   "skinmask": "part_m_head_fc_01_head_se_skinmask.png",
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权｜待平台对稿",
+   "category": "face_shape"
+  },
+  {
+   "id": "part_m_head_fc_02_head_se",
+   "slot": "head",
+   "partSet": "fc_02",
+   "gender": "m",
+   "bone": "head",
+   "layer": "head",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.48529,
+    0.9625
+   ],
+   "file": "characters/parts_v1/m/head/fc_02/part_m_head_fc_02_head_se.png",
+   "size": [
+    204,
+    240
+   ],
+   "skinmask": "part_m_head_fc_02_head_se_skinmask.png",
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权｜待平台对稿",
+   "category": "face_shape"
+  },
+  {
+   "id": "part_m_head_ey_01_head_se_neutral",
+   "slot": "head",
+   "partSet": "ey_01",
+   "gender": "m",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.49231,
+    3.05
+   ],
+   "file": "characters/parts_v1/m/head/ey_01/part_m_head_ey_01_head_se_neutral.png",
+   "size": [
+    130,
+    40
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权｜待平台对稿",
+   "category": "eyes",
+   "expression": "neutral"
+  },
+  {
+   "id": "part_m_head_br_01_head_se",
+   "slot": "head",
+   "partSet": "br_01",
+   "gender": "m",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.49275,
+    4.53125
+   ],
+   "file": "characters/parts_v1/m/head/br_01/part_m_head_br_01_head_se.png",
+   "size": [
+    138,
+    32
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权｜待平台对稿",
+   "category": "brow"
+  },
+  {
+   "id": "part_m_head_mo_01_head_se_neutral",
+   "slot": "head",
+   "partSet": "mo_01",
+   "gender": "m",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.48387,
+    1.66667
+   ],
+   "file": "characters/parts_v1/m/head/mo_01/part_m_head_mo_01_head_se_neutral.png",
+   "size": [
+    62,
+    36
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权｜待平台对稿",
+   "category": "mouth",
+   "expression": "neutral"
+  },
+  {
+   "id": "part_m_head_ag_01_head_se",
+   "slot": "head",
+   "partSet": "ag_01",
+   "gender": "m",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.95098
+   ],
+   "file": "characters/parts_v1/m/head/ag_01/part_m_head_ag_01_head_se.png",
+   "size": [
+    132,
+    102
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权｜待平台对稿",
+   "category": "age"
+  },
+  {
+   "id": "part_m_head_hr_01_hair_b_1_se",
+   "slot": "head",
+   "partSet": "hr_01",
+   "gender": "m",
+   "bone": "hair_b_1",
+   "layer": "hair_back",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.52609,
+    0.26733
+   ],
+   "file": "characters/parts_v1/m/head/hr_01/part_m_head_hr_01_hair_b_1_se.png",
+   "size": [
+    230,
+    202
+   ],
+   "boneOriginPx": [
+    384.0,
+    343.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权｜待平台对稿",
+   "category": "hair_back",
+   "highlight": "part_m_head_hr_01_hair_b_1_se_hi.png",
+   "chain": "hair_b",
+   "silhouette": "short"
+  },
+  {
+   "id": "part_m_head_hr_01_head_se_front",
+   "slot": "head",
+   "partSet": "hr_01",
+   "gender": "m",
+   "bone": "head",
+   "layer": "hair_front",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.52632,
+    1.285
+   ],
+   "file": "characters/parts_v1/m/head/hr_01/part_m_head_hr_01_head_se_front.png",
+   "size": [
+    228,
+    200
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "source": "火山方舟 Seedream doubao-seedream-5-0-pro 设计母版 + 自制分层脚本｜上线前复核版权｜待平台对稿",
+   "category": "hair_front",
+   "highlight": "part_m_head_hr_01_head_se_front_hi.png",
+   "partVariant": "front",
+   "silhouette": "short"
+  }
+ ]
+}

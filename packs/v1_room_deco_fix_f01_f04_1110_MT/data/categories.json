@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "$comment": "V1 主播品类（4 个，id 与策划弹幕库、美术 manifest 一致：sing/chat/sell/game，直接使用，无映射层）。数值为示例，策划 v0.3 会整体替换；代码只按 id 引用本表，不写死品类。",
+  "rows": [
+    {
+      "id": "sing",
+      "name": "唱才艺",
+      "desc": "唱歌、乐器、才艺表演（示例）",
+      "order": 1,
+      "bgm": "bgm_live_01_sing_loop",
+      "attrWeights": {
+        "charm": 0.3,
+        "talent": 0.5,
+        "eloquence": 0.1,
+        "stamina": 0.1
+      },
+      "danmakuTags": {
+        "praise": 3,
+        "gift": 2,
+        "greet": 1
+      },
+      "color": "coral"
+    },
+    {
+      "id": "chat",
+      "name": "聊天",
+      "desc": "聊天陪伴、情感电台（示例）",
+      "order": 2,
+      "bgm": "bgm_live_03_chat_loop",
+      "attrWeights": {
+        "charm": 0.3,
+        "talent": 0.1,
+        "eloquence": 0.5,
+        "stamina": 0.1
+      },
+      "danmakuTags": {
+        "question": 3,
+        "funny": 2,
+        "greet": 1
+      },
+      "color": "peach"
+    },
+    {
+      "id": "sell",
+      "name": "带货",
+      "desc": "直播带货、好物推荐（示例）",
+      "order": 3,
+      "bgm": "bgm_live_04_shop_loop",
+      "attrWeights": {
+        "charm": 0.2,
+        "talent": 0.1,
+        "eloquence": 0.4,
+        "stamina": 0.3
+      },
+      "danmakuTags": {
+        "question": 3,
+        "spam": 1,
+        "praise": 1
+      },
+      "color": "honey",
+      "minStage": 2
+    },
+    {
+      "id": "game",
+      "name": "游戏",
+      "desc": "游戏实况、电竞解说（示例）",
+      "order": 4,
+      "bgm": "bgm_live_02_game_loop",
+      "attrWeights": {
+        "charm": 0.1,
+        "talent": 0.4,
+        "eloquence": 0.2,
+        "stamina": 0.3
+      },
+      "danmakuTags": {
+        "funny": 3,
+        "praise": 2,
+        "complain": 1
+      },
+      "color": "mint"
+    }
+  ]
+}

@@ -1,0 +1,1954 @@
+{
+  "version": "1.3",
+  "date": "2026-10-28",
+  "status": "定稿（方案 B）；v1.1 补 surprised、角色级开播头部位移、rig_bust_a、昼夜光照叠层见规范 §11｜v1.3：s01 成年整改、s04 m1fix、s12 成年化挂点；tween_rules 只留 hard_limits",
+  "doc": "characters/分层规范.md",
+  "view": "沿用现有 5 张房间底图的微透视正面俯视（主管 10/28 定稿，不做等距视角）；角色正面朝向镜头，只画 1 个朝向，需要反向时程序水平镜像（镜像时 x 坐标按 canvas 宽翻转）",
+  "units": "母版像素，原点在画布左上角；x 向右、y 向下；旋转角度为度，顺时针为正",
+  "rules": {
+    "body": "[dx, dy, sx, sy]：以 foot 为中心先缩放再平移，作用于 body_back / body / front / shadow（shadow 只平移 dx，不跟 dy）",
+    "head": "[dx, dy, rot]：头部挂点 = body 变换后的 (neck + pose.head_delta)，再加 [dx, dy]；head / face / hair_* / acc_head 都以这个挂点为中心旋转 rot",
+    "face": "表情名；表情层跟 head 同一个变换（rel_pivot 相对 neck 摆放）",
+    "front": "[dx, dy]：在 body 变换之后再加的位移（手臂挥动等）；没有 front 层的姿势忽略",
+    "draw_order": [
+      "shadow",
+      "hair_back",
+      "body_back",
+      "body",
+      "head",
+      "face",
+      "hair_front",
+      "acc_head",
+      "front",
+      "fx"
+    ],
+    "lighting": "资产不烘焙昼夜光照；程序按 分层规范 §11 在整个场景合成后叠「早 / 午 / 傍晚 / 夜」4 档光照层（参数见 lighting 段）"
+  },
+  "rigs": {
+    "rig_q_a": {
+      "desc": "主播 Q 版（2.2–2.7 头身，苗条体型 A）",
+      "canvas": [
+        768,
+        1024
+      ],
+      "foot": [
+        384,
+        1000
+      ],
+      "anchor": [
+        0.5,
+        0.9766
+      ],
+      "export_scales": {
+        "building": 0.25,
+        "room": 0.5
+      },
+      "poses": {
+        "idle": {
+          "head_delta": [
+            0,
+            0
+          ],
+          "has_front": false
+        },
+        "live": {
+          "head_delta": [
+            -1,
+            -3
+          ],
+          "has_front": true,
+          "_measured": "streamer01 开播图相对待机图的头部位移实测 [-0.9, -2.7]（母版 px），取整",
+          "_override": "角色开播图的头部位移和 rig 默认差 >1px 时，读 characters.<id>.rig_q_a.head_delta_override.live（M1 起每位角色都写了实测值）"
+        }
+      },
+      "anims": {
+        "idle": {
+          "pose": "idle",
+          "fps": 8,
+          "loop": true,
+          "frames": [
+            {
+              "body": [
+                0,
+                0,
+                1,
+                1
+              ],
+              "head": [
+                0,
+                0,
+                0
+              ],
+              "face": "neutral"
+            },
+            {
+              "body": [
+                0,
+                -1,
+                1,
+                1.01
+              ],
+              "head": [
+                0,
+                -2,
+                0
+              ],
+              "face": "neutral"
+            },
+            {
+              "body": [
+                0,
+                -2,
+                1,
+                1.015
+              ],
+              "head": [
+                0,
+                -3,
+                0
+              ],
+              "face": "blink"
+            },
+            {
+              "body": [
+                0,
+                -1,
+                1,
+                1.01
+              ],
+              "head": [
+                0,
+                -2,
+                0
+              ],
+              "face": "neutral"
+            }
+          ],
+          "tween": {
+            "key_ms": [
+              600,
+              600,
+              600,
+              600
+            ],
+            "ease": [
+              "sineInOut",
+              "sineInOut",
+              "sineInOut",
+              "sineInOut"
+            ]
+          }
+        },
+        "live": {
+          "pose": "live",
+          "fps": 10,
+          "loop": true,
+          "frames": [
+            {
+              "body": [
+                0,
+                0,
+                1,
+                1
+              ],
+              "head": [
+                0,
+                0,
+                0
+              ],
+              "face": "talk_open",
+              "front": [
+                0,
+                0
+              ]
+            },
+            {
+              "body": [
+                0,
+                -3,
+                1,
+                1
+              ],
+              "head": [
+                0,
+                -2,
+                -2
+              ],
+              "face": "neutral",
+              "front": [
+                0,
+                -2
+              ]
+            },
+            {
+              "body": [
+                0,
+                -5,
+                1,
+                1
+              ],
+              "head": [
+                0,
+                -3,
+                0
+              ],
+              "face": "talk_open",
+              "front": [
+                0,
+                -4
+              ]
+            },
+            {
+              "body": [
+                0,
+                -3,
+                1,
+                1
+              ],
+              "head": [
+                0,
+                -2,
+                2
+              ],
+              "face": "neutral",
+              "front": [
+                0,
+                -2
+              ]
+            }
+          ],
+          "tween": {
+            "key_ms": [
+              200,
+              200,
+              200,
+              200
+            ],
+            "ease": [
+              "quadOut",
+              "quadIn",
+              "quadOut",
+              "quadIn"
+            ]
+          }
+        },
+        "react_happy": {
+          "pose": "idle",
+          "fps": 12,
+          "loop": false,
+          "frames": [
+            {
+              "body": [
+                0,
+                0,
+                1.03,
+                0.96
+              ],
+              "head": [
+                0,
+                3,
+                0
+              ],
+              "face": "happy"
+            },
+            {
+              "body": [
+                0,
+                -14,
+                0.98,
+                1.03
+              ],
+              "head": [
+                0,
+                -4,
+                -3
+              ],
+              "face": "happy"
+            },
+            {
+              "body": [
+                0,
+                -22,
+                1,
+                1.02
+              ],
+              "head": [
+                0,
+                -6,
+                3
+              ],
+              "face": "happy"
+            },
+            {
+              "body": [
+                0,
+                0,
+                1.03,
+                0.97
+              ],
+              "head": [
+                0,
+                2,
+                0
+              ],
+              "face": "happy"
+            }
+          ],
+          "tween": {
+            "key_ms": [
+              90,
+              150,
+              120,
+              110
+            ],
+            "ease": [
+              "quadOut",
+              "cubicOut",
+              "sineOut",
+              "quadIn"
+            ],
+            "settle": {
+              "ms": 240,
+              "ease": "backOut",
+              "overshoot": 1.7
+            }
+          }
+        },
+        "react_sad": {
+          "pose": "idle",
+          "fps": 6,
+          "loop": false,
+          "frames": [
+            {
+              "body": [
+                0,
+                0,
+                1,
+                0.99
+              ],
+              "head": [
+                0,
+                3,
+                -2
+              ],
+              "face": "sad"
+            },
+            {
+              "body": [
+                0,
+                1,
+                1.01,
+                0.98
+              ],
+              "head": [
+                0,
+                6,
+                -3
+              ],
+              "face": "sad"
+            },
+            {
+              "body": [
+                0,
+                1,
+                1.01,
+                0.98
+              ],
+              "head": [
+                0,
+                7,
+                -3
+              ],
+              "face": "sad"
+            }
+          ],
+          "tween": {
+            "key_ms": [
+              280,
+              320,
+              400
+            ],
+            "ease": [
+              "sineInOut",
+              "sineInOut",
+              "sineInOut"
+            ],
+            "settle": {
+              "ms": 420,
+              "ease": "sineInOut"
+            }
+          }
+        },
+        "react_surprise": {
+          "pose": "idle",
+          "fps": 12,
+          "loop": false,
+          "frames": [
+            {
+              "body": [
+                0,
+                -6,
+                0.98,
+                1.03
+              ],
+              "head": [
+                0,
+                -8,
+                0
+              ],
+              "face": "surprised"
+            },
+            {
+              "body": [
+                0,
+                -3,
+                1,
+                1.01
+              ],
+              "head": [
+                0,
+                -4,
+                0
+              ],
+              "face": "surprised"
+            },
+            {
+              "body": [
+                0,
+                0,
+                1,
+                1
+              ],
+              "head": [
+                0,
+                0,
+                0
+              ],
+              "face": "surprised"
+            }
+          ],
+          "tween": {
+            "key_ms": [
+              80,
+              160,
+              180
+            ],
+            "ease": [
+              "backOut",
+              "sineOut",
+              "sineInOut"
+            ],
+            "overshoot": [
+              2,
+              null,
+              null
+            ],
+            "settle": {
+              "ms": 180,
+              "ease": "backOut",
+              "overshoot": 1.4
+            }
+          }
+        },
+        "thanks_gift": {
+          "pose": "live",
+          "fps": 8,
+          "loop": false,
+          "frames": [
+            {
+              "body": [
+                0,
+                0,
+                1,
+                1
+              ],
+              "head": [
+                0,
+                4,
+                0
+              ],
+              "face": "happy",
+              "front": [
+                0,
+                0
+              ]
+            },
+            {
+              "body": [
+                0,
+                2,
+                1,
+                0.985
+              ],
+              "head": [
+                0,
+                10,
+                0
+              ],
+              "face": "happy",
+              "front": [
+                0,
+                3
+              ]
+            },
+            {
+              "body": [
+                0,
+                0,
+                1,
+                1
+              ],
+              "head": [
+                0,
+                4,
+                0
+              ],
+              "face": "talk_open",
+              "front": [
+                0,
+                0
+              ]
+            }
+          ],
+          "tween": {
+            "key_ms": [
+              150,
+              240,
+              200
+            ],
+            "ease": [
+              "quadOut",
+              "sineInOut",
+              "backOut"
+            ],
+            "overshoot": [
+              null,
+              null,
+              1.5
+            ],
+            "settle": {
+              "ms": 200,
+              "ease": "backOut",
+              "overshoot": 1.5
+            }
+          }
+        }
+      },
+      "stills": {
+        "react": {
+          "pose": "idle",
+          "frame": {
+            "body": [
+              0,
+              0,
+              1,
+              1
+            ],
+            "head": [
+              0,
+              0,
+              0
+            ]
+          },
+          "faces": [
+            "happy",
+            "awkward",
+            "angry",
+            "tired",
+            "shine",
+            "sad",
+            "surprised"
+          ]
+        }
+      },
+      "faces": [
+        "neutral",
+        "blink",
+        "talk_open",
+        "happy",
+        "awkward",
+        "angry",
+        "tired",
+        "shine",
+        "sad",
+        "surprised"
+      ],
+      "faces_extra": {
+        "cry_secret": "仅 streamer01 糖糖（偷偷哭），剧情演出用；其他角色没有这张，程序找不到时回退 sad"
+      },
+      "frame_pad_top": 64,
+      "frame_canvas": [
+        768,
+        1088
+      ],
+      "frame_foot": [
+        384,
+        1064
+      ],
+      "frame_anchor": [
+        0.5,
+        0.9779
+      ],
+      "_frame_pad_doc": "v1.1：合成动画帧时画布顶部加 64px 安全边（层坐标不变，整体下移 64），否则 react_happy / react_surprise 起跳时头顶被切；实测 M1 角色最高起跳上移 ≈55px，头顶最高处母版 y≈25",
+      "tween_rules": {
+        "doc": "动画规范 v1.0（characters/动画规范.md）：frames 是关键姿势，程序按 tween.key_ms / ease 在两帧之间插值（显示帧率跑，房间里不按 fps 翻帧）；key_ms[i] = 从上一帧到第 i 帧的时长，第 0 帧从静止姿势出发；settle = 最后一帧回到静止姿势；fps 字段只给预合成序列帧（楼层小人、低端机）用",
+        "blink": {
+          "interval_s": [
+            3,
+            5
+          ],
+          "closed_ms": 120,
+          "double_blink_chance": 0.15
+        },
+        "fidget": {
+          "interval_s": [
+            6,
+            10
+          ]
+        },
+        "fidgets": {
+          "look_around": {
+            "head": [
+              [
+                0,
+                0,
+                -3
+              ],
+              [
+                0,
+                0,
+                3
+              ],
+              [
+                0,
+                0,
+                0
+              ]
+            ],
+            "key_ms": [
+              260,
+              420,
+              300
+            ],
+            "ease": [
+              "sineInOut",
+              "sineInOut",
+              "backOut"
+            ],
+            "overshoot": [
+              null,
+              null,
+              1.3
+            ]
+          },
+          "shrug_bounce": {
+            "body": [
+              [
+                0,
+                2,
+                1.02,
+                0.975
+              ],
+              [
+                0,
+                -6,
+                0.99,
+                1.015
+              ],
+              [
+                0,
+                0,
+                1,
+                1
+              ]
+            ],
+            "key_ms": [
+              120,
+              160,
+              220
+            ],
+            "ease": [
+              "quadOut",
+              "cubicOut",
+              "backOut"
+            ],
+            "overshoot": [
+              null,
+              null,
+              1.6
+            ]
+          },
+          "head_tilt_smile": {
+            "head": [
+              [
+                0,
+                1,
+                3
+              ],
+              [
+                0,
+                1,
+                3
+              ],
+              [
+                0,
+                0,
+                0
+              ]
+            ],
+            "face": [
+              "happy",
+              "happy",
+              "neutral"
+            ],
+            "key_ms": [
+              200,
+              500,
+              260
+            ],
+            "ease": [
+              "sineOut",
+              "linearHold",
+              "backOut"
+            ],
+            "overshoot": [
+              null,
+              null,
+              1.3
+            ]
+          }
+        },
+        "talk": {
+          "toggle_hz": [
+            6,
+            8
+          ],
+          "random_hold_ms": [
+            60,
+            180
+          ]
+        },
+        "hard_limits": {
+          "jump_max_px": 24,
+          "overshoot_max_tier_C": 2.5,
+          "head_lag_ms": [
+            80,
+            150
+          ],
+          "_doc": "v1.3（10/28）：删 tween_rules.limits（旧值 jump 22 / overshoot 2.0 等，见 changelog），只保留硬上限；跳 ≤24px、C 档 Back 过冲 ≤2.5、头部跟随滞后 80–150ms（规范 v1.2 增量 §动画、动画轨道格式 v0.2）"
+        }
+      }
+    },
+    "rig_portrait_a": {
+      "desc": "主播立绘（全身，静态，不做帧动画）",
+      "canvas": [
+        1024,
+        1536
+      ],
+      "foot": [
+        512,
+        1488
+      ],
+      "anchor": [
+        0.5,
+        0.9688
+      ],
+      "export_scales": {
+        "hd": 1,
+        "low": 0.5
+      },
+      "poses": {
+        "stand": {
+          "head_delta": [
+            0,
+            0
+          ],
+          "has_front": true
+        }
+      },
+      "anims": {},
+      "stills": {
+        "default": {
+          "pose": "stand",
+          "frame": {
+            "body": [
+              0,
+              0,
+              1,
+              1
+            ],
+            "head": [
+              0,
+              0,
+              0
+            ],
+            "front": [
+              0,
+              0
+            ]
+          }
+        }
+      },
+      "faces": [
+        "neutral",
+        "happy",
+        "awkward",
+        "angry",
+        "tired",
+        "shine",
+        "sad",
+        "surprised"
+      ],
+      "faces_extra": {
+        "cry_secret": "仅 streamer01"
+      }
+    },
+    "rig_bust_a": {
+      "desc": "NPC / 老板 对话半身像（腰部被画布底边截断，静态）",
+      "canvas": [
+        1024,
+        1024
+      ],
+      "foot": [
+        512,
+        1024
+      ],
+      "anchor": [
+        0.5,
+        1
+      ],
+      "export_scales": {
+        "hd": 1,
+        "low": 0.5
+      },
+      "poses": {
+        "stand": {
+          "head_delta": [
+            0,
+            0
+          ],
+          "has_front": false
+        }
+      },
+      "anims": {},
+      "stills": {
+        "default": {
+          "pose": "stand",
+          "frame": {
+            "body": [
+              0,
+              0,
+              1,
+              1
+            ],
+            "head": [
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      },
+      "faces": [
+        "neutral",
+        "happy",
+        "angry",
+        "surprised",
+        "sad",
+        "awkward",
+        "smug"
+      ]
+    }
+  },
+  "characters": {
+    "streamer01": {
+      "measured_from": "work_chars/raw/s01q_base.jpg、s01q_live.jpg（Q 版），s01_full.jpg（立绘）——10/28 成年整改新图（v2）；work_chars/m1/adult/split_adult_s01.py 实测；eye/mouth 为 raw 实测覆盖（自动取点被眉毛/刘海带偏）",
+      "rig_q_a": {
+        "points": {
+          "neck": [
+            369.6,
+            480.7
+          ],
+          "hat": [
+            369.6,
+            142.3
+          ],
+          "eye_l": [
+            313.8,
+            386.2
+          ],
+          "eye_r": [
+            429,
+            372.7
+          ],
+          "mouth": [
+            375,
+            437.5
+          ],
+          "eye_mid": [
+            371.4,
+            379.4
+          ],
+          "eye_dist": 116,
+          "head_radius": 215.1,
+          "hair_pivot": [
+            369.6,
+            212.7
+          ],
+          "squash_origin": "foot",
+          "front_pivot": {
+            "live": {
+              "o0": [
+                259.6,
+                637.9
+              ],
+              "g1": [
+                275.7,
+                641.1
+              ]
+            }
+          },
+          "front_rotatable": {
+            "live": {
+              "o0": false,
+              "g1": false
+            }
+          }
+        },
+        "head_bbox": [
+          168.9,
+          123.4,
+          599.1,
+          480.7
+        ],
+        "face_bbox": [
+          240,
+          304.3,
+          479.4,
+          480.7
+        ],
+        "front_anchor": {
+          "live": {
+            "o0": [
+              352.3,
+              522.2
+            ],
+            "g1": [
+              348.4,
+              521.2
+            ]
+          }
+        },
+        "front_bbox": {
+          "live": {
+            "o0": [
+              213.9,
+              348.4,
+              600.9,
+              650.8
+            ],
+            "g1": [
+              237.3,
+              349.3,
+              600.9,
+              650.8
+            ]
+          }
+        },
+        "_head_delta_live_measured": [
+          -1.8,
+          -2.7
+        ],
+        "_points_v12_doc": "动画线 10/28 补间挂点草案（动画轨道格式 v0.2 §1）：eye_mid=eye_l/eye_r 中点（acc_eye/face_deco 挂点）；eye_dist=两眼距（眼镜缩放）；head_radius=head_bbox 宽/2（共用帽子缩放）；hair_pivot=(hat.x, 头顶+1/4 头高)【估】；front_pivot=front 进入 body 接触边最下 15% 中点【估】，null=无前景层；front_rotatable 现全部 false（front 是遮挡补丁）。待程序 10/31 确认"
+      },
+      "rig_portrait_a": {
+        "points": {
+          "neck": [
+            471.1,
+            607.4
+          ],
+          "hat": [
+            471.1,
+            122.5
+          ],
+          "eye_l": [
+            410.5,
+            469.6
+          ],
+          "eye_r": [
+            573.9,
+            440.2
+          ],
+          "mouth": [
+            497.3,
+            546.2
+          ],
+          "eye_mid": [
+            492.2,
+            454.9
+          ],
+          "eye_dist": 166,
+          "head_radius": 305,
+          "hair_pivot": [
+            471.1,
+            217.8
+          ],
+          "squash_origin": "foot",
+          "front_pivot": {
+            "stand": {
+              "o0": [
+                343.5,
+                837.6
+              ],
+              "g1": [
+                360.3,
+                840.2
+              ]
+            }
+          },
+          "front_rotatable": {
+            "stand": {
+              "o0": false,
+              "g1": false
+            }
+          }
+        },
+        "head_bbox": [
+          206.3,
+          88,
+          816.4,
+          607.4
+        ],
+        "face_bbox": [
+          334,
+          342,
+          640.3,
+          607.4
+        ],
+        "front_anchor": {
+          "stand": {
+            "o0": [
+              393,
+              707.8
+            ],
+            "g1": [
+              398.2,
+              702.2
+            ]
+          }
+        },
+        "front_bbox": {
+          "stand": {
+            "o0": [
+              293.1,
+              569.1,
+              485.8,
+              847.3
+            ],
+            "g1": [
+              316.1,
+              569.1,
+              485.8,
+              847.3
+            ]
+          }
+        },
+        "_points_v12_doc": "动画线 10/28 补间挂点草案（动画轨道格式 v0.2 §1）：eye_mid=eye_l/eye_r 中点（acc_eye/face_deco 挂点）；eye_dist=两眼距（眼镜缩放）；head_radius=head_bbox 宽/2（共用帽子缩放）；hair_pivot=(hat.x, 头顶+1/4 头高)【估】；front_pivot=front 进入 body 接触边最下 15% 中点【估】，null=无前景层；front_rotatable 现全部 false（front 是遮挡补丁）。待程序 10/31 确认"
+      }
+    },
+    "streamer04": {
+      "measured_from": "work_chars/raw/s04q_base.jpg、s04q_live.jpg（Q 版），s04_full.jpg（立绘）；work_chars/m1/split_m1.py 实测｜v1.3：小鹿 m1fix（work_chars/m1/m1fix/split_s04_m1fix.json）立绘挂点网格目测重取、Q 版 live front 重拆",
+      "rig_q_a": {
+        "points": {
+          "neck": [
+            351.4,
+            388.9
+          ],
+          "hat": [
+            351.4,
+            33.4
+          ],
+          "eye_l": [
+            294.8,
+            305.6
+          ],
+          "eye_r": [
+            408.1,
+            297.2
+          ],
+          "mouth": [
+            361.1,
+            360.2
+          ],
+          "eye_mid": [
+            351.5,
+            301.4
+          ],
+          "eye_dist": 113.6,
+          "head_radius": 202.5,
+          "hair_pivot": [
+            351.4,
+            122.3
+          ],
+          "squash_origin": "foot",
+          "front_pivot": {
+            "live": {
+              "o0": [
+                230.5,
+                531.3
+              ]
+            }
+          },
+          "front_rotatable": {
+            "live": {
+              "o0": false
+            }
+          }
+        },
+        "head_bbox": [
+          173.8,
+          33.4,
+          578.8,
+          388.9
+        ],
+        "face_bbox": [
+          250.4,
+          216.1,
+          460,
+          388.9
+        ],
+        "front_anchor": {
+          "live": {
+            "o0": [
+              264.9,
+              445.7
+            ]
+          }
+        },
+        "front_bbox": {
+          "live": {
+            "o0": [
+              192.8,
+              353.3,
+              342.3,
+              535.8
+            ]
+          }
+        },
+        "head_delta_override": {
+          "live": [
+            1,
+            -5
+          ],
+          "_measured": [
+            0.9,
+            -5.4
+          ]
+        },
+        "head_rot_max_deg": 2,
+        "_head_rot_doc": "长发垂到下巴以下的部分在 body 层，头转 >2° 会和身体里的发梢错开；程序把所有帧的 head rot 夹到 ±2°（动画规范 §3）",
+        "_points_v12_doc": "动画线 10/28 补间挂点草案（动画轨道格式 v0.2 §1）：eye_mid=eye_l/eye_r 中点（acc_eye/face_deco 挂点）；eye_dist=两眼距（眼镜缩放）；head_radius=head_bbox 宽/2（共用帽子缩放）；hair_pivot=(hat.x, 头顶+1/4 头高)【估】；front_pivot=front 进入 body 接触边最下 15% 中点【估】，null=无前景层；front_rotatable 现全部 false（front 是遮挡补丁）。待程序 10/31 确认"
+      },
+      "rig_portrait_a": {
+        "points": {
+          "neck": [
+            488,
+            592
+          ],
+          "hat": [
+            488,
+            88
+          ],
+          "eye_l": [
+            393,
+            485
+          ],
+          "eye_r": [
+            548,
+            495
+          ],
+          "mouth": [
+            477.5,
+            557.5
+          ],
+          "eye_mid": [
+            470.5,
+            490
+          ],
+          "eye_dist": 155.3,
+          "head_radius": 289.9,
+          "hair_pivot": [
+            488,
+            214
+          ],
+          "squash_origin": "foot",
+          "front_pivot": null,
+          "front_rotatable": false
+        },
+        "head_bbox": [
+          211.7,
+          88,
+          791.5,
+          592
+        ],
+        "face_bbox": [
+          320.9,
+          366.2,
+          596.5,
+          592
+        ],
+        "_points_v12_doc": "动画线 10/28 补间挂点草案（动画轨道格式 v0.2 §1）：eye_mid=eye_l/eye_r 中点（acc_eye/face_deco 挂点）；eye_dist=两眼距（眼镜缩放）；head_radius=head_bbox 宽/2（共用帽子缩放）；hair_pivot=(hat.x, 头顶+1/4 头高)【估】；front_pivot=front 进入 body 接触边最下 15% 中点【估】，null=无前景层；front_rotatable 现全部 false（front 是遮挡补丁）。待程序 10/31 确认"
+      }
+    },
+    "streamer03": {
+      "measured_from": "work_chars/raw/s03q_base.jpg、s03q_live.jpg（Q 版），s03_full.jpg（立绘）；work_chars/m1/split_m1.py 实测",
+      "rig_q_a": {
+        "points": {
+          "neck": [
+            373.4,
+            414.1
+          ],
+          "hat": [
+            373.4,
+            25.3
+          ],
+          "eye_l": [
+            307.2,
+            290.3
+          ],
+          "eye_r": [
+            439.6,
+            275
+          ],
+          "mouth": [
+            384.7,
+            370.1
+          ],
+          "eye_mid": [
+            373.4,
+            282.6
+          ],
+          "eye_dist": 133.3,
+          "head_radius": 191.2,
+          "hair_pivot": [
+            373.4,
+            122.5
+          ],
+          "squash_origin": "foot",
+          "front_pivot": {
+            "live": {
+              "o0": [
+                164.8,
+                427.2
+              ]
+            }
+          },
+          "front_rotatable": {
+            "live": {
+              "o0": false
+            }
+          }
+        },
+        "head_bbox": [
+          190.5,
+          25.3,
+          573,
+          414.1
+        ],
+        "face_bbox": [
+          257.1,
+          181,
+          486.6,
+          407.8
+        ],
+        "front_anchor": {
+          "live": {
+            "o0": [
+              194.3,
+              279.2
+            ]
+          }
+        },
+        "front_bbox": {
+          "live": {
+            "o0": [
+              123,
+              120.7,
+              276.9,
+              428.5
+            ]
+          }
+        },
+        "head_delta_override": {
+          "live": [
+            -4,
+            -1
+          ],
+          "_measured": [
+            -4.5,
+            -0.9
+          ]
+        },
+        "_points_v12_doc": "动画线 10/28 补间挂点草案（动画轨道格式 v0.2 §1）：eye_mid=eye_l/eye_r 中点（acc_eye/face_deco 挂点）；eye_dist=两眼距（眼镜缩放）；head_radius=head_bbox 宽/2（共用帽子缩放）；hair_pivot=(hat.x, 头顶+1/4 头高)【估】；front_pivot=front 进入 body 接触边最下 15% 中点【估】，null=无前景层；front_rotatable 现全部 false（front 是遮挡补丁）。待程序 10/31 确认"
+      },
+      "rig_portrait_a": {
+        "points": {
+          "neck": [
+            502.1,
+            551.7
+          ],
+          "hat": [
+            502.1,
+            88
+          ],
+          "eye_l": [
+            425,
+            372
+          ],
+          "eye_r": [
+            579.2,
+            342.9
+          ],
+          "mouth": [
+            503.7,
+            464
+          ],
+          "eye_mid": [
+            502.1,
+            357.4
+          ],
+          "eye_dist": 156.9,
+          "head_radius": 251,
+          "hair_pivot": [
+            502.1,
+            203.9
+          ],
+          "squash_origin": "foot",
+          "front_pivot": null,
+          "front_rotatable": false
+        },
+        "head_bbox": [
+          236.2,
+          88,
+          738.1,
+          551.7
+        ],
+        "face_bbox": [
+          368.7,
+          186.1,
+          640,
+          539
+        ],
+        "_points_v12_doc": "动画线 10/28 补间挂点草案（动画轨道格式 v0.2 §1）：eye_mid=eye_l/eye_r 中点（acc_eye/face_deco 挂点）；eye_dist=两眼距（眼镜缩放）；head_radius=head_bbox 宽/2（共用帽子缩放）；hair_pivot=(hat.x, 头顶+1/4 头高)【估】；front_pivot=front 进入 body 接触边最下 15% 中点【估】，null=无前景层；front_rotatable 现全部 false（front 是遮挡补丁）。待程序 10/31 确认"
+      }
+    },
+    "streamer09": {
+      "measured_from": "work_chars/raw/s09q_base.jpg、s09q_live.jpg（Q 版），s09_full.jpg（立绘）；work_chars/m1/split_m1.py 实测",
+      "rig_q_a": {
+        "points": {
+          "neck": [
+            358.9,
+            411.4
+          ],
+          "hat": [
+            358,
+            44.2
+          ],
+          "eye_l": [
+            289.7,
+            281.3
+          ],
+          "eye_r": [
+            426.3,
+            261.2
+          ],
+          "mouth": [
+            374.2,
+            354.6
+          ],
+          "eye_mid": [
+            358,
+            271.2
+          ],
+          "eye_dist": 138.1,
+          "head_radius": 173.2,
+          "hair_pivot": [
+            358,
+            136.9
+          ],
+          "squash_origin": "foot",
+          "front_pivot": null,
+          "front_rotatable": false
+        },
+        "head_bbox": [
+          207.6,
+          44.2,
+          554.1,
+          415
+        ],
+        "face_bbox": [
+          238.2,
+          153.1,
+          548.7,
+          392.5
+        ],
+        "head_delta_override": {
+          "live": [
+            0,
+            -3
+          ],
+          "_measured": [
+            0,
+            -2.7
+          ]
+        },
+        "_points_v12_doc": "动画线 10/28 补间挂点草案（动画轨道格式 v0.2 §1）：eye_mid=eye_l/eye_r 中点（acc_eye/face_deco 挂点）；eye_dist=两眼距（眼镜缩放）；head_radius=head_bbox 宽/2（共用帽子缩放）；hair_pivot=(hat.x, 头顶+1/4 头高)【估】；front_pivot=front 进入 body 接触边最下 15% 中点【估】，null=无前景层；front_rotatable 现全部 false（front 是遮挡补丁）。待程序 10/31 确认"
+      },
+      "rig_portrait_a": {
+        "points": {
+          "neck": [
+            489.8,
+            575
+          ],
+          "hat": [
+            482.3,
+            88
+          ],
+          "eye_l": [
+            388.3,
+            349.4
+          ],
+          "eye_r": [
+            576.3,
+            314.5
+          ],
+          "mouth": [
+            503.2,
+            483.4
+          ],
+          "eye_mid": [
+            482.3,
+            331.9
+          ],
+          "eye_dist": 191.2,
+          "head_radius": 231.2,
+          "hair_pivot": [
+            482.3,
+            209.8
+          ],
+          "squash_origin": "foot",
+          "front_pivot": null,
+          "front_rotatable": false
+        },
+        "head_bbox": [
+          292.5,
+          88,
+          754.9,
+          575
+        ],
+        "face_bbox": [
+          308.1,
+          154.2,
+          717.2,
+          571.1
+        ],
+        "_points_v12_doc": "动画线 10/28 补间挂点草案（动画轨道格式 v0.2 §1）：eye_mid=eye_l/eye_r 中点（acc_eye/face_deco 挂点）；eye_dist=两眼距（眼镜缩放）；head_radius=head_bbox 宽/2（共用帽子缩放）；hair_pivot=(hat.x, 头顶+1/4 头高)【估】；front_pivot=front 进入 body 接触边最下 15% 中点【估】，null=无前景层；front_rotatable 现全部 false（front 是遮挡补丁）。待程序 10/31 确认"
+      }
+    },
+    "streamer12": {
+      "measured_from": "work_chars/raw/s12q_base.jpg、s12q_live.jpg（Q 版），s12_full.jpg（立绘）——10/28 成年化新图；work_chars/m1/adult/split_s12.py 实测",
+      "rig_q_a": {
+        "points": {
+          "neck": [
+            379.5,
+            401.5
+          ],
+          "hat": [
+            379.5,
+            15.4
+          ],
+          "eye_l": [
+            319.6,
+            277.1
+          ],
+          "eye_r": [
+            439.5,
+            266.4
+          ],
+          "mouth": [
+            381,
+            348
+          ],
+          "eye_mid": [
+            379.6,
+            271.8
+          ],
+          "eye_dist": 120.4,
+          "head_radius": 187.2,
+          "hair_pivot": [
+            379.5,
+            111.9
+          ],
+          "squash_origin": "foot",
+          "front_pivot": null,
+          "front_rotatable": false
+        },
+        "head_bbox": [
+          196.8,
+          15.4,
+          571.2,
+          401.5
+        ],
+        "face_bbox": [
+          260.7,
+          139.6,
+          556.8,
+          401.5
+        ],
+        "head_delta_override": {
+          "live": [
+            0,
+            -3
+          ],
+          "_measured": [
+            0,
+            -2.7
+          ]
+        },
+        "_points_v12_doc": "动画线 10/28 补间挂点草案（动画轨道格式 v0.2 §1）：eye_mid=eye_l/eye_r 中点（acc_eye/face_deco 挂点）；eye_dist=两眼距（眼镜缩放）；head_radius=head_bbox 宽/2（共用帽子缩放）；hair_pivot=(hat.x, 头顶+1/4 头高)【估】；front_pivot=front 进入 body 接触边最下 15% 中点【估】，null=无前景层；front_rotatable 现全部 false（front 是遮挡补丁）。待程序 10/31 确认"
+      },
+      "rig_portrait_a": {
+        "points": {
+          "neck": [
+            532.2,
+            623.7
+          ],
+          "hat": [
+            532.2,
+            88
+          ],
+          "eye_l": [
+            465,
+            391
+          ],
+          "eye_r": [
+            606,
+            374
+          ],
+          "mouth": [
+            545,
+            476
+          ],
+          "eye_mid": [
+            535.5,
+            382.5
+          ],
+          "eye_dist": 142,
+          "head_radius": 215.4,
+          "hair_pivot": [
+            532.2,
+            221.9
+          ],
+          "squash_origin": "foot",
+          "front_pivot": null,
+          "front_rotatable": false
+        },
+        "head_bbox": [
+          326.3,
+          88,
+          757.1,
+          623.7
+        ],
+        "face_bbox": [
+          346.5,
+          88,
+          757.1,
+          580.8
+        ],
+        "_points_v12_doc": "动画线 10/28 补间挂点草案（动画轨道格式 v0.2 §1）：eye_mid=eye_l/eye_r 中点（acc_eye/face_deco 挂点）；eye_dist=两眼距（眼镜缩放）；head_radius=head_bbox 宽/2（共用帽子缩放）；hair_pivot=(hat.x, 头顶+1/4 头高)【估】；front_pivot=front 进入 body 接触边最下 15% 中点【估】，null=无前景层；front_rotatable 现全部 false（front 是遮挡补丁）。待程序 10/31 确认"
+      }
+    },
+    "npc_wang": {
+      "measured_from": "work_chars/raw/wang_half_base.jpg",
+      "rig_bust_a": {
+        "points": {
+          "neck": [
+            502.7,
+            466
+          ],
+          "hat": [
+            502.7,
+            23
+          ],
+          "eye_l": [
+            426.2,
+            257.6
+          ],
+          "eye_r": [
+            579.1,
+            258.3
+          ],
+          "mouth": [
+            465.1,
+            360.9
+          ],
+          "eye_mid": [
+            502.6,
+            258
+          ],
+          "eye_dist": 152.9,
+          "head_radius": 237,
+          "hair_pivot": [
+            502.7,
+            133.8
+          ],
+          "squash_origin": "foot",
+          "front_pivot": null,
+          "front_rotatable": false
+        },
+        "head_bbox": [
+          278,
+          23,
+          752,
+          466
+        ],
+        "face_bbox": [
+          370,
+          134,
+          670,
+          448
+        ],
+        "_points_v12_doc": "动画线 10/28 补间挂点草案（动画轨道格式 v0.2 §1）：eye_mid=eye_l/eye_r 中点（acc_eye/face_deco 挂点）；eye_dist=两眼距（眼镜缩放）；head_radius=head_bbox 宽/2（共用帽子缩放）；hair_pivot=(hat.x, 头顶+1/4 头高)【估】；front_pivot=front 进入 body 接触边最下 15% 中点【估】，null=无前景层；front_rotatable 现全部 false（front 是遮挡补丁）。待程序 10/31 确认"
+      }
+    },
+    "boss_temp": {
+      "measured_from": "work_chars/raw/boss_q_base.jpg、boss_half_base.jpg",
+      "rig_q_a": {
+        "points": {
+          "neck": [
+            386,
+            424
+          ],
+          "hat": [
+            386,
+            28.9
+          ],
+          "eye_l": [
+            314.9,
+            312.1
+          ],
+          "eye_r": [
+            457,
+            299.3
+          ],
+          "mouth": [
+            386,
+            379.8
+          ],
+          "eye_mid": [
+            385.9,
+            305.7
+          ],
+          "eye_dist": 142.7,
+          "head_radius": 212,
+          "hair_pivot": [
+            386,
+            127.7
+          ],
+          "squash_origin": "foot",
+          "front_pivot": null,
+          "front_rotatable": false
+        },
+        "head_bbox": [
+          172,
+          28.9,
+          596,
+          424
+        ],
+        "face_bbox": [
+          263,
+          226.9,
+          503.2,
+          350.2
+        ],
+        "anims_allowed": [
+          "idle"
+        ],
+        "_anims_doc": "临时形象只有 neutral / blink 两张表情，只播 idle（含眨眼、fidget 的 look_around）；react 类动画缺表情，正式老板捏脸后再开",
+        "_points_v12_doc": "动画线 10/28 补间挂点草案（动画轨道格式 v0.2 §1）：eye_mid=eye_l/eye_r 中点（acc_eye/face_deco 挂点）；eye_dist=两眼距（眼镜缩放）；head_radius=head_bbox 宽/2（共用帽子缩放）；hair_pivot=(hat.x, 头顶+1/4 头高)【估】；front_pivot=front 进入 body 接触边最下 15% 中点【估】，null=无前景层；front_rotatable 现全部 false（front 是遮挡补丁）。待程序 10/31 确认"
+      },
+      "rig_bust_a": {
+        "points": {
+          "neck": [
+            531.5,
+            445
+          ],
+          "hat": [
+            531.5,
+            24
+          ],
+          "eye_l": [
+            471.3,
+            295.1
+          ],
+          "eye_r": [
+            591.7,
+            295.1
+          ],
+          "mouth": [
+            531.5,
+            386.2
+          ],
+          "eye_mid": [
+            531.5,
+            295.1
+          ],
+          "eye_dist": 120.4,
+          "head_radius": 209,
+          "hair_pivot": [
+            531.5,
+            129.2
+          ],
+          "squash_origin": "foot",
+          "front_pivot": null,
+          "front_rotatable": false
+        },
+        "head_bbox": [
+          292,
+          24,
+          710,
+          445
+        ],
+        "_points_v12_doc": "动画线 10/28 补间挂点草案（动画轨道格式 v0.2 §1）：eye_mid=eye_l/eye_r 中点（acc_eye/face_deco 挂点）；eye_dist=两眼距（眼镜缩放）；head_radius=head_bbox 宽/2（共用帽子缩放）；hair_pivot=(hat.x, 头顶+1/4 头高)【估】；front_pivot=front 进入 body 接触边最下 15% 中点【估】，null=无前景层；front_rotatable 现全部 false（front 是遮挡补丁）。待程序 10/31 确认"
+      }
+    }
+  },
+  "lighting": {
+    "doc": "分层规范 v1.1 §11",
+    "apply_to": "房间场景合成后的整屏（角色、家具、底图一起），UI 不叠",
+    "transition_sec": 1.5,
+    "easing": "sineInOut",
+    "phases": {
+      "morning": {
+        "hours": [
+          6,
+          10
+        ],
+        "tint": "#FFE8C8",
+        "blend": "MULTIPLY",
+        "alpha": 0.1,
+        "add": "#FFF4E0",
+        "add_blend": "SCREEN",
+        "add_alpha": 0.06
+      },
+      "noon": {
+        "hours": [
+          10,
+          16
+        ],
+        "tint": "#FFFFFF",
+        "blend": "NORMAL",
+        "alpha": 0,
+        "add": null,
+        "add_blend": null,
+        "add_alpha": 0
+      },
+      "dusk": {
+        "hours": [
+          16,
+          19
+        ],
+        "tint": "#FFB27A",
+        "blend": "MULTIPLY",
+        "alpha": 0.18,
+        "add": "#FF9A5C",
+        "add_blend": "SCREEN",
+        "add_alpha": 0.08
+      },
+      "night": {
+        "hours": [
+          19,
+          6
+        ],
+        "tint": "#5B6FA8",
+        "blend": "MULTIPLY",
+        "alpha": 0.28,
+        "add": "#FFD9A0",
+        "add_blend": "ADD",
+        "add_alpha": 0,
+        "lamp_glow": "夜间灯具自带 glow 层照常亮（家具规范 glow 层），角色不加自发光"
+      }
+    },
+    "character_rim": {
+      "enabled_phases": [
+        "dusk",
+        "night"
+      ]
+    }
+  },
+  "changelog_v12": [
+    {
+      "date": "2026-10-28",
+      "char": "streamer09",
+      "why": "成年外观整改（主管定案 (c)）：眼睛缩小约 25%、杏仁眼、下颌线与下巴加长（AI 局部重绘），身体层不动",
+      "neck_unchanged": true,
+      "changed_fields": [
+        "characters.streamer09.rig_portrait_a.face_bbox",
+        "characters.streamer09.rig_portrait_a.points.eye_dist",
+        "characters.streamer09.rig_portrait_a.points.eye_l",
+        "characters.streamer09.rig_portrait_a.points.eye_mid",
+        "characters.streamer09.rig_portrait_a.points.eye_r",
+        "characters.streamer09.rig_portrait_a.points.hair_pivot",
+        "characters.streamer09.rig_portrait_a.points.hat",
+        "characters.streamer09.rig_portrait_a.points.mouth",
+        "characters.streamer09.rig_q_a.face_bbox",
+        "characters.streamer09.rig_q_a.head_bbox",
+        "characters.streamer09.rig_q_a.points.eye_dist",
+        "characters.streamer09.rig_q_a.points.eye_l",
+        "characters.streamer09.rig_q_a.points.eye_mid",
+        "characters.streamer09.rig_q_a.points.eye_r",
+        "characters.streamer09.rig_q_a.points.hair_pivot",
+        "characters.streamer09.rig_q_a.points.hat",
+        "characters.streamer09.rig_q_a.points.mouth"
+      ]
+    }
+  ],
+  "changelog_v13": [
+    {
+      "date": "2026-10-28",
+      "char": "streamer01",
+      "why": "成年外观整改（10/28）：长脸+下颌线+缩眼，三套服装换成年日常装，Q 版/立绘整套重拆（AI 重生成/局部重绘 + 程序拆层）",
+      "neck_unchanged": {
+        "rig_q_a": false,
+        "rig_portrait_a": false
+      },
+      "changed_fields": [
+        "characters.streamer01.measured_from",
+        "characters.streamer01.rig_portrait_a.face_bbox",
+        "characters.streamer01.rig_portrait_a.front_anchor.stand.g1",
+        "characters.streamer01.rig_portrait_a.front_anchor.stand.o0",
+        "characters.streamer01.rig_portrait_a.front_bbox.stand.g1",
+        "characters.streamer01.rig_portrait_a.front_bbox.stand.o0",
+        "characters.streamer01.rig_portrait_a.head_bbox",
+        "characters.streamer01.rig_portrait_a.points.eye_dist",
+        "characters.streamer01.rig_portrait_a.points.eye_l",
+        "characters.streamer01.rig_portrait_a.points.eye_mid",
+        "characters.streamer01.rig_portrait_a.points.eye_r",
+        "characters.streamer01.rig_portrait_a.points.front_pivot.stand.g1",
+        "characters.streamer01.rig_portrait_a.points.front_pivot.stand.o0",
+        "characters.streamer01.rig_portrait_a.points.hair_pivot",
+        "characters.streamer01.rig_portrait_a.points.hat",
+        "characters.streamer01.rig_portrait_a.points.head_radius",
+        "characters.streamer01.rig_portrait_a.points.mouth",
+        "characters.streamer01.rig_portrait_a.points.neck",
+        "characters.streamer01.rig_q_a._head_delta_live_measured",
+        "characters.streamer01.rig_q_a.face_bbox",
+        "characters.streamer01.rig_q_a.front_anchor.live.g1",
+        "characters.streamer01.rig_q_a.front_anchor.live.o0",
+        "characters.streamer01.rig_q_a.front_bbox.live.g1",
+        "characters.streamer01.rig_q_a.front_bbox.live.o0",
+        "characters.streamer01.rig_q_a.head_bbox",
+        "characters.streamer01.rig_q_a.points.eye_dist",
+        "characters.streamer01.rig_q_a.points.eye_l",
+        "characters.streamer01.rig_q_a.points.eye_mid",
+        "characters.streamer01.rig_q_a.points.eye_r",
+        "characters.streamer01.rig_q_a.points.front_pivot.live.g1",
+        "characters.streamer01.rig_q_a.points.front_pivot.live.o0",
+        "characters.streamer01.rig_q_a.points.hair_pivot",
+        "characters.streamer01.rig_q_a.points.hat",
+        "characters.streamer01.rig_q_a.points.head_radius",
+        "characters.streamer01.rig_q_a.points.mouth",
+        "characters.streamer01.rig_q_a.points.neck"
+      ]
+    },
+    {
+      "date": "2026-10-28",
+      "char": "streamer04",
+      "why": "小鹿 m1fix：立绘挂点网格目测重取（portrait.m），Q 版 live front 重拆与开播头部位移实测；立绘 stand 无前景层，front 相关字段作废删除",
+      "neck_unchanged": {
+        "rig_q_a": true,
+        "rig_portrait_a": false
+      },
+      "changed_fields": [
+        "characters.streamer04.measured_from",
+        "characters.streamer04.rig_portrait_a.face_bbox",
+        "characters.streamer04.rig_portrait_a.front_anchor",
+        "characters.streamer04.rig_portrait_a.front_bbox",
+        "characters.streamer04.rig_portrait_a.head_bbox",
+        "characters.streamer04.rig_portrait_a.points.eye_dist",
+        "characters.streamer04.rig_portrait_a.points.eye_l",
+        "characters.streamer04.rig_portrait_a.points.eye_mid",
+        "characters.streamer04.rig_portrait_a.points.eye_r",
+        "characters.streamer04.rig_portrait_a.points.front_pivot",
+        "characters.streamer04.rig_portrait_a.points.front_rotatable",
+        "characters.streamer04.rig_portrait_a.points.hair_pivot",
+        "characters.streamer04.rig_portrait_a.points.hat",
+        "characters.streamer04.rig_portrait_a.points.head_radius",
+        "characters.streamer04.rig_portrait_a.points.mouth",
+        "characters.streamer04.rig_portrait_a.points.neck",
+        "characters.streamer04.rig_q_a.front_anchor.live.o0",
+        "characters.streamer04.rig_q_a.front_bbox.live.o0",
+        "characters.streamer04.rig_q_a.head_delta_override._measured",
+        "characters.streamer04.rig_q_a.head_delta_override.live"
+      ]
+    },
+    {
+      "date": "2026-10-28",
+      "char": "streamer12",
+      "why": "成年外观整改（主管定案 (c)，M1 修复包）：缩眼、长脸、下颌转折 + 去针织背心（AI 局部重绘，整套重拆）",
+      "neck_unchanged": {
+        "rig_q_a": false,
+        "rig_portrait_a": false
+      },
+      "changed_fields": [
+        "characters.streamer12.measured_from",
+        "characters.streamer12.rig_portrait_a.face_bbox",
+        "characters.streamer12.rig_portrait_a.head_bbox",
+        "characters.streamer12.rig_portrait_a.points.eye_dist",
+        "characters.streamer12.rig_portrait_a.points.eye_l",
+        "characters.streamer12.rig_portrait_a.points.eye_mid",
+        "characters.streamer12.rig_portrait_a.points.eye_r",
+        "characters.streamer12.rig_portrait_a.points.hair_pivot",
+        "characters.streamer12.rig_portrait_a.points.hat",
+        "characters.streamer12.rig_portrait_a.points.head_radius",
+        "characters.streamer12.rig_portrait_a.points.mouth",
+        "characters.streamer12.rig_portrait_a.points.neck",
+        "characters.streamer12.rig_q_a.face_bbox",
+        "characters.streamer12.rig_q_a.head_bbox",
+        "characters.streamer12.rig_q_a.head_delta_override._measured",
+        "characters.streamer12.rig_q_a.head_delta_override.live",
+        "characters.streamer12.rig_q_a.points.eye_dist",
+        "characters.streamer12.rig_q_a.points.eye_l",
+        "characters.streamer12.rig_q_a.points.eye_mid",
+        "characters.streamer12.rig_q_a.points.eye_r",
+        "characters.streamer12.rig_q_a.points.hair_pivot",
+        "characters.streamer12.rig_q_a.points.hat",
+        "characters.streamer12.rig_q_a.points.head_radius",
+        "characters.streamer12.rig_q_a.points.mouth",
+        "characters.streamer12.rig_q_a.points.neck"
+      ]
+    },
+    {
+      "date": "2026-10-28",
+      "char": "(rig_q_a)",
+      "why": "动画线：tween_rules.limits 删除，只保留 hard_limits",
+      "removed": {
+        "rigs.rig_q_a.tween_rules.limits": {
+          "squash_stretch_max": 0.04,
+          "head_rot_max_deg": 3,
+          "head_rot_max_deg_long_hair_in_body": 2,
+          "overshoot_max": 2,
+          "jump_max_px": 22,
+          "idle_cycle_s": [
+            2,
+            3
+          ]
+        }
+      },
+      "added": [
+        "rigs.rig_q_a.tween_rules.hard_limits"
+      ]
+    },
+    "10/28 19:34 MDT 主管定：删 tween_rules.head_lag_ms=40，头部滞后以 hard_limits.head_lag_ms [80,150] 为准"
+  ]
+}

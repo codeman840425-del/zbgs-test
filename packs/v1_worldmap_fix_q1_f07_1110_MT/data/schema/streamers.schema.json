@@ -1,0 +1,126 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "主播表",
+  "type": "object",
+  "required": [
+    "version",
+    "rows"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "rows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "rarity",
+          "category",
+          "personality",
+          "attrs",
+          "baseFans",
+          "salary",
+          "sprite"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^st_[0-9]{3,}$",
+            "description": "主播 id，st_ + 数字"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12
+          },
+          "rarity": {
+            "enum": [
+              "N",
+              "R",
+              "SR",
+              "SSR"
+            ]
+          },
+          "category": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$",
+            "description": "引用 categories.json 的 id（validate:data 检查引用）"
+          },
+          "personality": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 3,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "lively",
+                "shy",
+                "tsundere",
+                "gentle",
+                "funny",
+                "cool"
+              ]
+            }
+          },
+          "attrs": {
+            "type": "object",
+            "required": [
+              "charm",
+              "talent",
+              "eloquence",
+              "stamina"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "charm": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "talent": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "eloquence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "stamina": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              }
+            }
+          },
+          "baseFans": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "salary": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "sprite": {
+            "type": "string",
+            "description": "美术资源前缀：图集 atlas_<sprite>，动画 <sprite>_idle / <sprite>_talk，头像 avatar_<sprite>_neutral"
+          },
+          "nameKey": {
+            "type": "string",
+            "pattern": "^st\\.[0-9]{3,}\\.name$",
+            "description": "文本表里的显示名 key（有就按文本表取名，取不到用 name）"
+          }
+        }
+      }
+    },
+    "$comment": {
+      "type": "string"
+    }
+  }
+}

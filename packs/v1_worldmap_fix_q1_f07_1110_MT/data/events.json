@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "rows": [
+    {
+      "id": "ev_fan_meet",
+      "title": "粉丝见面会邀请",
+      "desc": "某商场邀请旗下主播参加线下见面会。（示例数据）",
+      "weight": 10,
+      "cooldownSec": 3600,
+      "conditions": { "minFans": 1000 },
+      "options": [
+        { "text": "接受", "effects": [{ "type": "fans", "value": 200 }, { "type": "stamina", "value": -20, "target": "random_streamer" }] },
+        { "text": "婉拒", "effects": [] }
+      ]
+    },
+    {
+      "id": "ev_equipment_broken",
+      "title": "设备故障",
+      "desc": "直播间的声卡坏了。（示例数据）",
+      "weight": 5,
+      "cooldownSec": 7200,
+      "options": [
+        { "text": "立即维修（-500 金币）", "effects": [{ "type": "coins", "value": -500 }] },
+        { "text": "凑合用", "effects": [{ "type": "quality", "value": -10 }] }
+      ]
+    }
+  ]
+}

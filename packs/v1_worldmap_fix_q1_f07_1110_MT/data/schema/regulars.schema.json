@@ -1,0 +1,83 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "老观众台词（策划 文案/regulars.json）",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "regulars"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer"
+    },
+    "regulars": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "regularId",
+          "name",
+          "lines"
+        ],
+        "properties": {
+          "regularId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "regular",
+                "text",
+                "scene",
+                "triggers",
+                "weight",
+                "repeatable",
+                "minStage",
+                "cooldown"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^rg_"
+                },
+                "text": {
+                  "type": "string"
+                },
+                "scene": {
+                  "type": "string"
+                },
+                "triggers": {
+                  "type": "array"
+                },
+                "weight": {
+                  "type": "number"
+                },
+                "repeatable": {
+                  "type": "boolean"
+                },
+                "minStage": {
+                  "type": "integer"
+                },
+                "cooldown": {
+                  "type": "integer"
+                },
+                "minRelation": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

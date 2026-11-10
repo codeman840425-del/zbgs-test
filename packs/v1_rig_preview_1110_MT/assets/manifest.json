@@ -1,0 +1,3015 @@
+{
+  "$comment": "素材清单。美术/音频交付时把对应条目 status 改为 delivered（npm run validate:data 会检查文件是否存在）。pending 条目不发请求，直接用程序占位图。w/h 为逻辑尺寸（= 2x 原图的一半）。规范见 docs/素材对接规范.md。res = 文件本身倍率（美术占位包 v0 文件名不带 @2x：2x 图 res:2，1x 图集 res:1）；alias = 缺失时借用的已交付素材；preload:false = 懒加载。",
+  "version": 3,
+  "nineslice": "art/ui/ui_9slice.json",
+  "fonts": [
+    {
+      "family": "ZCOOL KuaiLe",
+      "path": "fonts/zcool-kuaile.woff2",
+      "weight": 400,
+      "status": "delivered"
+    },
+    {
+      "family": "Noto Sans SC",
+      "path": "fonts/noto-sans-sc-regular.woff2",
+      "weight": 400,
+      "status": "delivered"
+    },
+    {
+      "family": "Noto Sans SC",
+      "path": "fonts/noto-sans-sc-bold.woff2",
+      "weight": 700,
+      "status": "delivered"
+    }
+  ],
+  "groups": {
+    "preload": {
+      "images": [
+        {
+          "key": "ui_bg_pattern",
+          "path": "ui/backgrounds/ui_bg_pattern.png",
+          "w": 256,
+          "h": 256,
+          "hd": true,
+          "sd": true,
+          "status": "delivered"
+        },
+        {
+          "key": "ui_btn_primary_normal",
+          "path": "art/ui/buttons/ui_btn_primary_normal_9s.png",
+          "w": 132,
+          "h": 74,
+          "res": 2,
+          "status": "delivered",
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "svg": "art/ui/buttons/ui_btn_primary_normal_9s.svg",
+          "nineslice": "ui_btn_primary_normal_9s"
+        },
+        {
+          "key": "ui_btn_primary_pressed",
+          "path": "art/ui/buttons/ui_btn_primary_pressed_9s.png",
+          "w": 132,
+          "h": 74,
+          "res": 2,
+          "status": "delivered",
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "svg": "art/ui/buttons/ui_btn_primary_pressed_9s.svg",
+          "nineslice": "ui_btn_primary_pressed_9s"
+        },
+        {
+          "key": "ui_btn_primary_disabled",
+          "path": "art/ui/buttons/ui_btn_primary_disabled_9s.png",
+          "w": 132,
+          "h": 74,
+          "res": 2,
+          "status": "delivered",
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "svg": "art/ui/buttons/ui_btn_primary_disabled_9s.svg",
+          "nineslice": "ui_btn_primary_disabled_9s"
+        },
+        {
+          "key": "ui_btn_secondary_normal",
+          "path": "art/ui/buttons/ui_btn_secondary_normal_9s.png",
+          "w": 132,
+          "h": 74,
+          "res": 2,
+          "status": "delivered",
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "svg": "art/ui/buttons/ui_btn_secondary_normal_9s.svg",
+          "nineslice": "ui_btn_secondary_normal_9s"
+        },
+        {
+          "key": "ui_btn_secondary_pressed",
+          "path": "art/ui/buttons/ui_btn_secondary_pressed_9s.png",
+          "w": 132,
+          "h": 74,
+          "res": 2,
+          "status": "delivered",
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "svg": "art/ui/buttons/ui_btn_secondary_pressed_9s.svg",
+          "nineslice": "ui_btn_secondary_pressed_9s"
+        },
+        {
+          "key": "ui_btn_secondary_disabled",
+          "path": "art/ui/buttons/ui_btn_secondary_disabled_9s.png",
+          "w": 132,
+          "h": 74,
+          "res": 2,
+          "status": "delivered",
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "svg": "art/ui/buttons/ui_btn_secondary_disabled_9s.svg",
+          "nineslice": "ui_btn_secondary_disabled_9s"
+        },
+        {
+          "key": "ui_panel_common_9s",
+          "path": "art/ui/panels/ui_panel_common_9s.png",
+          "w": 128,
+          "h": 128,
+          "res": 2,
+          "status": "delivered",
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "svg": "art/ui/panels/ui_panel_common_9s.svg",
+          "nineslice": "ui_panel_common_9s"
+        },
+        {
+          "key": "ui_icon_coin",
+          "path": "art/ui/icons/ui_icon_coin.png",
+          "w": 48,
+          "h": 48,
+          "res": 2,
+          "status": "delivered",
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "svg": "art/ui/icons/ui_icon_coin.svg"
+        },
+        {
+          "key": "gift_heart",
+          "path": "art/gifts/gift_heart.png",
+          "w": 128,
+          "h": 128,
+          "res": 2,
+          "status": "delivered",
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "tier": "t1",
+          "source": "美术/gifts/gift_heart.png（正式图标，2026-10-28；@2x 同目录）"
+        },
+        {
+          "key": "gift_cake",
+          "path": "art/gifts/gift_cake.png",
+          "w": 128,
+          "h": 128,
+          "res": 2,
+          "status": "delivered",
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "tier": "t2",
+          "source": "美术/gifts/gift_cake.png（正式图标，2026-10-28；@2x 同目录）"
+        },
+        {
+          "key": "gift_crown",
+          "path": "art/gifts/gift_crown.png",
+          "w": 128,
+          "h": 128,
+          "res": 2,
+          "status": "delivered",
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "tier": "t3",
+          "source": "美术/gifts/gift_crown.png（正式图标，2026-10-28；@2x 同目录）"
+        },
+        {
+          "key": "gift_galaxy",
+          "path": "art/gifts/gift_galaxy.png",
+          "w": 128,
+          "h": 128,
+          "res": 2,
+          "status": "delivered",
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "tier": "t5",
+          "source": "美术/gifts/gift_galaxy.png（正式图标，2026-10-28；@2x 同目录；原文件名 gift_t5_galaxy 已改名）"
+        },
+        {
+          "key": "bld_rental_floor_mid_live",
+          "path": "art/scenes/building/bld_rental_floor_mid_live_rental.png",
+          "w": 540,
+          "h": 180,
+          "res": 2,
+          "status": "delivered",
+          "anchor": [
+            0.5,
+            1
+          ]
+        },
+        {
+          "key": "bld_rental_floor_top",
+          "path": "art/scenes/building/bld_rental_floor_top.png",
+          "w": 540,
+          "h": 180,
+          "res": 2,
+          "status": "delivered",
+          "anchor": [
+            0.5,
+            1
+          ]
+        },
+        {
+          "key": "bld_rental_floor_mid_dorm",
+          "path": "art/scenes/building/bld_rental_floor_mid_dorm.png",
+          "w": 540,
+          "h": 180,
+          "res": 2,
+          "status": "pending",
+          "anchor": [
+            0.5,
+            1
+          ],
+          "alias": "bld_rental_floor_mid_live"
+        },
+        {
+          "key": "bld_rental_floor_mid_ops",
+          "path": "art/scenes/building/bld_rental_floor_mid_ops.png",
+          "w": 540,
+          "h": 180,
+          "res": 2,
+          "status": "pending",
+          "anchor": [
+            0.5,
+            1
+          ],
+          "alias": "bld_rental_floor_mid_live"
+        },
+        {
+          "key": "bld_rental_floor_ground",
+          "path": "art/scenes/building/bld_rental_floor_ground.png",
+          "w": 540,
+          "h": 180,
+          "res": 2,
+          "status": "delivered",
+          "anchor": [
+            0.5,
+            1
+          ]
+        }
+      ],
+      "atlases": [
+        {
+          "key": "atlas_furniture_cozy",
+          "path": "atlases/atlas_furniture_cozy",
+          "hd": true,
+          "sd": false,
+          "frames": [
+            "furn_cozy_sofa_01",
+            "furn_cozy_desk_01",
+            "furn_cozy_lamp_01",
+            "furn_cozy_plant_01",
+            "equip_camera_lv1"
+          ],
+          "frameW": 128,
+          "frameH": 128,
+          "status": "pending"
+        }
+      ],
+      "audio": [
+        {
+          "key": "bgm_main_01_loop",
+          "group": "bgm",
+          "path": "audio/bgm/bgm_main_01_loop",
+          "status": "delivered"
+        },
+        {
+          "key": "ui_click",
+          "group": "sfx_ui",
+          "path": "audio/ui/ui_click_01",
+          "status": "delivered",
+          "m1Key": "sfx.ui.click",
+          "source": "音频/ui/ui_click_01（2026-10-28 音频变更清单）"
+        },
+        {
+          "key": "sfx_coin",
+          "group": "sfx_feedback",
+          "path": "audio/economy/eco_coin_tap_01",
+          "status": "delivered",
+          "m1Key": "sfx.eco.coin_tap",
+          "source": "音频/economy/eco_coin_tap_01（2026-10-28 音频变更清单）",
+          "variants": [
+            "audio/economy/eco_coin_tap_02",
+            "audio/economy/eco_coin_tap_03"
+          ]
+        },
+        {
+          "key": "sfx_gift_small",
+          "group": "sfx_feedback",
+          "path": "audio/live/live_gift_small_01",
+          "status": "delivered",
+          "m1Key": "sfx.live.gift_t1",
+          "source": "音频/live/live_gift_small_01（2026-10-28 音频变更清单）"
+        },
+        {
+          "key": "sfx_gift_big",
+          "group": "sfx_big",
+          "path": "audio/live/live_gift_large_01",
+          "status": "delivered",
+          "m1Key": "sfx.live.gift_t3",
+          "source": "音频/live/live_gift_large_01（2026-10-28 音频变更清单）"
+        },
+        {
+          "key": "sfx_follower_up",
+          "group": "sfx_feedback",
+          "path": "audio/live/live_follower_gain_01",
+          "status": "delivered",
+          "m1Key": "sfx.live.follower_gain",
+          "source": "音频/live/live_follower_gain_01（2026-10-28 音频变更清单）"
+        }
+      ]
+    },
+    "giftsExtra": {
+      "$comment": "礼物图标（未进直播礼物轮换的档位，按需 loadKeys，不预载）：t4 两档（gift_rocket、gift_castle）。m1_config 已有 id/价格；gifts.json live/big 未接入，M1 玩法不出现",
+      "images": [
+        {
+          "key": "gift_rocket",
+          "path": "art/gifts/gift_rocket.png",
+          "w": 128,
+          "h": 128,
+          "res": 2,
+          "status": "delivered",
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "tier": "t4",
+          "source": "美术/gifts/gift_rocket.png（正式图标，2026-10-28 物件线 C；@2x 同目录）"
+        },
+        {
+          "key": "gift_castle",
+          "path": "art/gifts/gift_castle.png",
+          "w": 128,
+          "h": 128,
+          "res": 2,
+          "status": "delivered",
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "tier": "t4",
+          "source": "美术/gifts/gift_castle.png（正式图标，2026-10-28 物件线 C；@2x 同目录）"
+        }
+      ]
+    },
+    "live": {
+      "$comment": "直播间分组：进入直播间时加载（大图不阻塞启动）",
+      "images": [
+        {
+          "key": "bg_room_rental_empty",
+          "path": "art/scenes/rooms/bg_room_rental_empty.png",
+          "w": 1200,
+          "h": 1200,
+          "res": 2,
+          "status": "delivered",
+          "anchor": [
+            0.5,
+            0.5
+          ]
+        }
+      ]
+    },
+    "bgm": {
+      "$comment": "正式 BGM v1 + stinger：preload:false 懒加载，首次播放时下载（AudioManager.playBgm / playStinger）",
+      "audio": [
+        {
+          "key": "bgm_main_02_loop",
+          "group": "bgm",
+          "path": "audio/bgm/bgm_main_02_loop",
+          "preload": false,
+          "status": "delivered"
+        },
+        {
+          "key": "bgm_main_03_loop",
+          "group": "bgm",
+          "path": "audio/bgm/bgm_main_03_loop",
+          "preload": false,
+          "status": "delivered"
+        },
+        {
+          "key": "bgm_live_01_sing_loop",
+          "group": "bgm",
+          "path": "audio/bgm/bgm_live_01_sing_loop",
+          "preload": false,
+          "status": "delivered"
+        },
+        {
+          "key": "bgm_live_02_game_loop",
+          "group": "bgm",
+          "path": "audio/bgm/bgm_live_02_game_loop",
+          "preload": false,
+          "status": "delivered"
+        },
+        {
+          "key": "bgm_live_03_chat_loop",
+          "group": "bgm",
+          "path": "audio/bgm/bgm_live_03_chat_loop",
+          "preload": false,
+          "status": "delivered"
+        },
+        {
+          "key": "bgm_live_04_shop_loop",
+          "group": "bgm",
+          "path": "audio/bgm/bgm_live_04_shop_loop",
+          "preload": false,
+          "status": "delivered"
+        },
+        {
+          "key": "bgm_pk_loop",
+          "group": "bgm",
+          "path": "audio/bgm/bgm_pk_loop",
+          "preload": false,
+          "status": "delivered"
+        },
+        {
+          "key": "bgm_decorate_loop",
+          "group": "bgm",
+          "path": "audio/bgm/bgm_decorate_loop",
+          "preload": false,
+          "status": "delivered"
+        },
+        {
+          "key": "bgm_settlement_loop",
+          "group": "bgm",
+          "path": "audio/bgm/bgm_settlement_loop",
+          "preload": false,
+          "status": "delivered"
+        },
+        {
+          "key": "bgm_event_crisis_loop",
+          "group": "bgm",
+          "path": "audio/bgm/bgm_event_crisis_loop",
+          "preload": false,
+          "status": "delivered"
+        },
+        {
+          "key": "bgm_festival_spring_loop",
+          "group": "bgm",
+          "path": "audio/bgm/bgm_festival_spring_loop",
+          "preload": false,
+          "status": "delivered"
+        },
+        {
+          "key": "bgm_festival_1111_xinghuo_loop",
+          "group": "bgm",
+          "path": "audio/bgm/bgm_festival_1111_xinghuo_loop",
+          "preload": false,
+          "status": "delivered"
+        },
+        {
+          "key": "bgm_gala_annual_loop",
+          "group": "bgm",
+          "path": "audio/bgm/bgm_gala_annual_loop",
+          "preload": false,
+          "status": "delivered"
+        },
+        {
+          "key": "bgm_intro_story_loop",
+          "group": "bgm",
+          "path": "audio/bgm/bgm_intro_story_loop",
+          "preload": false,
+          "status": "delivered"
+        },
+        {
+          "key": "bgm_gift_xinghe_bed_loop",
+          "group": "bgm",
+          "path": "audio/bgm/bgm_gift_xinghe_bed_loop",
+          "preload": false,
+          "status": "delivered"
+        },
+        {
+          "key": "stg_win",
+          "group": "stinger",
+          "path": "audio/bgm/stg_win",
+          "preload": false,
+          "status": "delivered"
+        },
+        {
+          "key": "stg_lose",
+          "group": "stinger",
+          "path": "audio/bgm/stg_lose",
+          "preload": false,
+          "status": "delivered"
+        },
+        {
+          "key": "stg_gift_xinghe_01",
+          "group": "stinger",
+          "path": "audio/bgm/stg_gift_xinghe_01",
+          "preload": false,
+          "status": "delivered"
+        },
+        {
+          "key": "stg_gift_xinghe_02",
+          "group": "stinger",
+          "path": "audio/bgm/stg_gift_xinghe_02",
+          "preload": false,
+          "status": "delivered"
+        },
+        {
+          "key": "bgm_settlement_short",
+          "path": "audio/bgm/bgm_settlement_short",
+          "group": "bgm",
+          "status": "delivered",
+          "preload": false,
+          "m1Key": "bgm.settlement.short",
+          "loop": false
+        }
+      ]
+    },
+    "characters": {
+      "$comment": "主播（import-art.py 生成，勿手改）：按需加载 loadKeys",
+      "images": [
+        {
+          "key": "char_streamer11_full",
+          "path": "art/characters/streamers/streamer11/char_streamer11_full.png",
+          "w": 512,
+          "h": 768,
+          "res": 2,
+          "anchor": [
+            0.5,
+            0.96875
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "avatar_streamer11_neutral",
+          "path": "art/characters/streamers/streamer11/avatar_streamer11_neutral.png",
+          "w": 128,
+          "h": 128,
+          "res": 2,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "avatar_streamer11_neutral_128",
+          "path": "art/characters/streamers/streamer11/avatar_streamer11_neutral_128.png",
+          "w": 64,
+          "h": 64,
+          "res": 2,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "char_streamer11_idle_00",
+          "path": "art/characters/streamers/streamer11/char_streamer11_idle_00.png",
+          "w": 512,
+          "h": 512,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        }
+      ],
+      "atlases": []
+    },
+    "props": {
+      "$comment": "家具/设备（import-art.py 生成，勿手改）：按需加载；缩放/层级/朝向见 data/prop_scale.json",
+      "images": [
+        {
+          "key": "equip_chair_lv2",
+          "path": "art/equipment/chair/equip_chair_lv2.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "equip_chair_lv3",
+          "path": "art/equipment/chair/equip_chair_lv3.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "equip_chair_lv4",
+          "path": "art/equipment/chair/equip_chair_lv4.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "equip_chair_lv5",
+          "path": "art/equipment/chair/equip_chair_lv5.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "equip_light_lv1",
+          "path": "art/equipment/light/equip_light_lv1.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "equip_light_lvmax",
+          "path": "art/equipment/light/equip_light_lvmax.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "equip_mic_lv1",
+          "path": "art/equipment/mic/equip_mic_lv1.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "equip_mic_lvmax",
+          "path": "art/equipment/mic/equip_mic_lvmax.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "equip_pc_lv1",
+          "path": "art/equipment/pc/equip_pc_lv1.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "equip_pc_lvmax",
+          "path": "art/equipment/pc/equip_pc_lvmax.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "equip_samplerack_lv1",
+          "path": "art/equipment/samplerack/equip_samplerack_lv1.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "equip_samplerack_lvmax",
+          "path": "art/equipment/samplerack/equip_samplerack_lvmax.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "equip_soundcard_lv1",
+          "path": "art/equipment/soundcard/equip_soundcard_lv1.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "equip_soundcard_lvmax",
+          "path": "art/equipment/soundcard/equip_soundcard_lvmax.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_cozy_aroma_01",
+          "path": "art/furniture/cozy/furn_cozy_aroma_01.png",
+          "w": 128,
+          "h": 128,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_cozy_beanbag_01",
+          "path": "art/furniture/cozy/furn_cozy_beanbag_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_cozy_bed_01",
+          "path": "art/furniture/cozy/furn_cozy_bed_01.png",
+          "w": 384,
+          "h": 384,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_cozy_bookshelf_01",
+          "path": "art/furniture/cozy/furn_cozy_bookshelf_01.png",
+          "w": 384,
+          "h": 384,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_cozy_cabinet_01",
+          "path": "art/furniture/cozy/furn_cozy_cabinet_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_cozy_chair_01",
+          "path": "art/furniture/cozy/furn_cozy_chair_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_cozy_clock_01",
+          "path": "art/furniture/cozy/furn_cozy_clock_01.png",
+          "w": 128,
+          "h": 128,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_cozy_coatrack_01",
+          "path": "art/furniture/cozy/furn_cozy_coatrack_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_cozy_coffeetable_01",
+          "path": "art/furniture/cozy/furn_cozy_coffeetable_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_cozy_curtain_01",
+          "path": "art/furniture/cozy/furn_cozy_curtain_01.png",
+          "w": 384,
+          "h": 384,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_cozy_cushions_01",
+          "path": "art/furniture/cozy/furn_cozy_cushions_01.png",
+          "w": 128,
+          "h": 128,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_cozy_desk_01",
+          "path": "art/furniture/cozy/furn_cozy_desk_01.png",
+          "w": 384,
+          "h": 384,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_cozy_floorlamp_01",
+          "path": "art/furniture/cozy/furn_cozy_floorlamp_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_cozy_painting_01",
+          "path": "art/furniture/cozy/furn_cozy_painting_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_cozy_plant_large_01",
+          "path": "art/furniture/cozy/furn_cozy_plant_large_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_cozy_plant_small_01",
+          "path": "art/furniture/cozy/furn_cozy_plant_small_01.png",
+          "w": 128,
+          "h": 128,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_cozy_plush_01",
+          "path": "art/furniture/cozy/furn_cozy_plush_01.png",
+          "w": 128,
+          "h": 128,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_cozy_rug_01",
+          "path": "art/furniture/cozy/furn_cozy_rug_01.png",
+          "w": 384,
+          "h": 384,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_cozy_sofa_01",
+          "path": "art/furniture/cozy/furn_cozy_sofa_01.png",
+          "w": 384,
+          "h": 384,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_cozy_stringlights_01",
+          "path": "art/furniture/cozy/furn_cozy_stringlights_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_esports_chair_01",
+          "path": "art/furniture/esports/furn_esports_chair_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_esports_desk_01",
+          "path": "art/furniture/esports/furn_esports_desk_01.png",
+          "w": 384,
+          "h": 384,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_esports_drinkfridge_01",
+          "path": "art/furniture/esports/furn_esports_drinkfridge_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_esports_dualmonitor_01",
+          "path": "art/furniture/esports/furn_esports_dualmonitor_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_esports_figurecase_01",
+          "path": "art/furniture/esports/furn_esports_figurecase_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_esports_foamwall_01",
+          "path": "art/furniture/esports/furn_esports_foamwall_01.png",
+          "w": 384,
+          "h": 384,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_esports_headsetstand_01",
+          "path": "art/furniture/esports/furn_esports_headsetstand_01.png",
+          "w": 128,
+          "h": 128,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_esports_keyboardwall_01",
+          "path": "art/furniture/esports/furn_esports_keyboardwall_01.png",
+          "w": 384,
+          "h": 384,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_esports_lazybed_01",
+          "path": "art/furniture/esports/furn_esports_lazybed_01.png",
+          "w": 384,
+          "h": 384,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_esports_neonline_01",
+          "path": "art/furniture/esports/furn_esports_neonline_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_esports_pccase_01",
+          "path": "art/furniture/esports/furn_esports_pccase_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_esports_rgbbar_01",
+          "path": "art/furniture/esports/furn_esports_rgbbar_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_esports_rug_01",
+          "path": "art/furniture/esports/furn_esports_rug_01.png",
+          "w": 384,
+          "h": 384,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_esports_teamflag_01",
+          "path": "art/furniture/esports/furn_esports_teamflag_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_esports_treadmill_01",
+          "path": "art/furniture/esports/furn_esports_treadmill_01.png",
+          "w": 384,
+          "h": 384,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_esports_trophyshelf_01",
+          "path": "art/furniture/esports/furn_esports_trophyshelf_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_goods_basket_01",
+          "path": "art/furniture/goods/furn_goods_basket_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_goods_boxstack_01",
+          "path": "art/furniture/goods/furn_goods_boxstack_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_goods_cart_01",
+          "path": "art/furniture/goods/furn_goods_cart_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_goods_cartons_01",
+          "path": "art/furniture/goods/furn_goods_cartons_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_goods_clothesrail_01",
+          "path": "art/furniture/goods/furn_goods_clothesrail_01.png",
+          "w": 384,
+          "h": 384,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_goods_displaycabinet_01",
+          "path": "art/furniture/goods/furn_goods_displaycabinet_01.png",
+          "w": 384,
+          "h": 384,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_goods_giftpile_01",
+          "path": "art/furniture/goods/furn_goods_giftpile_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_goods_lightsign_01",
+          "path": "art/furniture/goods/furn_goods_lightsign_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_goods_mirror_01",
+          "path": "art/furniture/goods/furn_goods_mirror_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_goods_pegboard_01",
+          "path": "art/furniture/goods/furn_goods_pegboard_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_goods_plant_01",
+          "path": "art/furniture/goods/furn_goods_plant_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_goods_podium_01",
+          "path": "art/furniture/goods/furn_goods_podium_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_goods_pricetag_01",
+          "path": "art/furniture/goods/furn_goods_pricetag_01.png",
+          "w": 128,
+          "h": 128,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_goods_productshelf_01",
+          "path": "art/furniture/goods/furn_goods_productshelf_01.png",
+          "w": 384,
+          "h": 384,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_goods_stool_01",
+          "path": "art/furniture/goods/furn_goods_stool_01.png",
+          "w": 128,
+          "h": 128,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_goods_storagerack_01",
+          "path": "art/furniture/goods/furn_goods_storagerack_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_goods_stripewall_01",
+          "path": "art/furniture/goods/furn_goods_stripewall_01.png",
+          "w": 384,
+          "h": 384,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_goods_trialtable_01",
+          "path": "art/furniture/goods/furn_goods_trialtable_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_goods_turntable_01",
+          "path": "art/furniture/goods/furn_goods_turntable_01.png",
+          "w": 128,
+          "h": 128,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_goods_unboxdesk_01",
+          "path": "art/furniture/goods/furn_goods_unboxdesk_01.png",
+          "w": 384,
+          "h": 384,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_guofeng_armchair_01",
+          "path": "art/furniture/guofeng/furn_guofeng_armchair_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_guofeng_bambooblind_01",
+          "path": "art/furniture/guofeng/furn_guofeng_bambooblind_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_guofeng_bonsai_01",
+          "path": "art/furniture/guofeng/furn_guofeng_bonsai_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_guofeng_cloudrug_01",
+          "path": "art/furniture/guofeng/furn_guofeng_cloudrug_01.png",
+          "w": 384,
+          "h": 384,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_guofeng_curioshelf_01",
+          "path": "art/furniture/guofeng/furn_guofeng_curioshelf_01.png",
+          "w": 384,
+          "h": 384,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_guofeng_fanwall_01",
+          "path": "art/furniture/guofeng/furn_guofeng_fanwall_01.png",
+          "w": 128,
+          "h": 128,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_guofeng_incense_01",
+          "path": "art/furniture/guofeng/furn_guofeng_incense_01.png",
+          "w": 128,
+          "h": 128,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_guofeng_knot_01",
+          "path": "art/furniture/guofeng/furn_guofeng_knot_01.png",
+          "w": 128,
+          "h": 128,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_guofeng_lantern_01",
+          "path": "art/furniture/guofeng/furn_guofeng_lantern_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_guofeng_moongate_01",
+          "path": "art/furniture/guofeng/furn_guofeng_moongate_01.png",
+          "w": 384,
+          "h": 384,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_guofeng_qintable_01",
+          "path": "art/furniture/guofeng/furn_guofeng_qintable_01.png",
+          "w": 384,
+          "h": 384,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_guofeng_roundwindow_01",
+          "path": "art/furniture/guofeng/furn_guofeng_roundwindow_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_guofeng_screen_01",
+          "path": "art/furniture/guofeng/furn_guofeng_screen_01.png",
+          "w": 384,
+          "h": 384,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_guofeng_scroll_01",
+          "path": "art/furniture/guofeng/furn_guofeng_scroll_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_guofeng_teatable_01",
+          "path": "art/furniture/guofeng/furn_guofeng_teatable_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "furn_guofeng_vase_01",
+          "path": "art/furniture/guofeng/furn_guofeng_vase_01.png",
+          "w": 256,
+          "h": 256,
+          "res": 2,
+          "anchor": [
+            0.5,
+            1
+          ],
+          "status": "delivered"
+        }
+      ]
+    },
+    "logo": {
+      "$comment": "Logo（import-art.py 生成）",
+      "images": [
+        {
+          "key": "ui_logo_appicon",
+          "path": "art/ui/logo/ui_logo_appicon.png",
+          "w": 512,
+          "h": 512,
+          "res": 2,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "ui_logo_appicon_nochar",
+          "path": "art/ui/logo/ui_logo_appicon_nochar.png",
+          "w": 512,
+          "h": 512,
+          "res": 2,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "ui_logo_main_h",
+          "path": "art/ui/logo/ui_logo_main_h.png",
+          "w": 600,
+          "h": 200,
+          "res": 2,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "ui_logo_main_v",
+          "path": "art/ui/logo/ui_logo_main_v.png",
+          "w": 400,
+          "h": 400,
+          "res": 2,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "ui_logo_title_only",
+          "path": "art/ui/logo/ui_logo_title_only.png",
+          "w": 550,
+          "h": 150,
+          "res": 2,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "status": "delivered"
+        }
+      ]
+    },
+    "voice": {
+      "$comment": "人声（小鹿哼唱等），懒加载，不进离线预缓存",
+      "audio": []
+    },
+    "m1audio": {
+      "$comment": "音频 M1 清单 m1-2026-10-28c（103 个 key），scripts/import-m1-audio.py 生成；全部懒加载，不进离线预缓存",
+      "audio": [
+        {
+          "key": "bgm.story.intro",
+          "path": "audio/bgm/bgm_intro_story_loop",
+          "group": "bgm",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "loop": true
+        },
+        {
+          "key": "bgm.main.day",
+          "path": "audio/bgm/bgm_main_01_loop",
+          "group": "bgm",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "loop": true
+        },
+        {
+          "key": "bgm.main.prime",
+          "path": "audio/bgm/bgm_main_02_loop",
+          "group": "bgm",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "loop": true
+        },
+        {
+          "key": "bgm.main.night",
+          "path": "audio/bgm/bgm_main_03_loop",
+          "group": "bgm",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "loop": true
+        },
+        {
+          "key": "bgm.decorate",
+          "path": "audio/bgm/bgm_decorate_loop",
+          "group": "bgm",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "loop": true
+        },
+        {
+          "key": "bgm.live.sing",
+          "path": "audio/bgm/bgm_live_01_sing_loop",
+          "group": "bgm",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "loop": true
+        },
+        {
+          "key": "bgm.live.chat",
+          "path": "audio/bgm/bgm_live_03_chat_loop",
+          "group": "bgm",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "loop": true
+        },
+        {
+          "key": "bgm.live.shop",
+          "path": "audio/bgm/bgm_live_04_shop_loop",
+          "group": "bgm",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "loop": true
+        },
+        {
+          "key": "bgm.pk",
+          "path": "audio/bgm/bgm_pk_loop",
+          "group": "bgm",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "loop": true
+        },
+        {
+          "key": "bgm.settlement.short",
+          "path": "audio/bgm/bgm_settlement_short",
+          "group": "bgm",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "loop": false
+        },
+        {
+          "key": "bgm.settlement",
+          "path": "audio/bgm/bgm_settlement_loop",
+          "group": "bgm",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "loop": true
+        },
+        {
+          "key": "bgm.gift.xinghe_bed",
+          "path": "audio/bgm/bgm_gift_xinghe_bed_loop",
+          "group": "bgm",
+          "status": "delivered",
+          "preload": false,
+          "volume": 0.6,
+          "m1": "optional",
+          "loop": true
+        },
+        {
+          "key": "stg.win",
+          "path": "audio/bgm/stg_win",
+          "group": "stinger",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "loop": false
+        },
+        {
+          "key": "stg.lose",
+          "path": "audio/bgm/stg_lose",
+          "group": "stinger",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "loop": false
+        },
+        {
+          "key": "stg.gift.xinghe",
+          "path": "audio/bgm/stg_gift_xinghe_01",
+          "group": "stinger",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "optional",
+          "variants": [
+            "audio/bgm/stg_gift_xinghe_02"
+          ],
+          "loop": false
+        },
+        {
+          "key": "amb.rental_room",
+          "path": "audio/ambience/amb_rental_room_loop",
+          "group": "ambience",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "loop": true
+        },
+        {
+          "key": "amb.live.crowd",
+          "path": "audio/ambience/amb_live_crowd_loop",
+          "group": "ambience",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "loop": true
+        },
+        {
+          "key": "amb.live.crowd_hype",
+          "path": "audio/ambience/amb_live_crowd_hype_loop",
+          "group": "ambience",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "loop": true
+        },
+        {
+          "key": "sfx.ui.click",
+          "path": "audio/ui/ui_click_01",
+          "group": "sfx_ui",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/ui/ui_click_02",
+            "audio/ui/ui_click_03"
+          ]
+        },
+        {
+          "key": "sfx.ui.switch",
+          "path": "audio/ui/ui_switch_01",
+          "group": "sfx_ui",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/ui/ui_switch_02",
+            "audio/ui/ui_switch_03"
+          ]
+        },
+        {
+          "key": "sfx.ui.panel_open",
+          "path": "audio/ui/ui_panel_open_01",
+          "group": "sfx_ui",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/ui/ui_panel_open_02",
+            "audio/ui/ui_panel_open_03"
+          ]
+        },
+        {
+          "key": "sfx.ui.panel_close",
+          "path": "audio/ui/ui_panel_close_01",
+          "group": "sfx_ui",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/ui/ui_panel_close_02",
+            "audio/ui/ui_panel_close_03"
+          ]
+        },
+        {
+          "key": "sfx.ui.confirm",
+          "path": "audio/ui/ui_confirm_01",
+          "group": "sfx_ui",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/ui/ui_confirm_02",
+            "audio/ui/ui_confirm_03"
+          ]
+        },
+        {
+          "key": "sfx.ui.cancel",
+          "path": "audio/ui/ui_cancel_01",
+          "group": "sfx_ui",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/ui/ui_cancel_02",
+            "audio/ui/ui_cancel_03"
+          ]
+        },
+        {
+          "key": "sfx.ui.error",
+          "path": "audio/ui/ui_error_01",
+          "group": "sfx_ui",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/ui/ui_error_02",
+            "audio/ui/ui_error_03"
+          ]
+        },
+        {
+          "key": "sfx.ui.notify",
+          "path": "audio/ui/ui_notify_01",
+          "group": "sfx_ui",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/ui/ui_notify_02",
+            "audio/ui/ui_notify_03"
+          ]
+        },
+        {
+          "key": "sfx.tut.hint_appear",
+          "path": "audio/tutorial/tut_hint_appear_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/tutorial/tut_hint_appear_02",
+            "audio/tutorial/tut_hint_appear_03"
+          ]
+        },
+        {
+          "key": "sfx.tut.finger_point",
+          "path": "audio/tutorial/tut_finger_point_01",
+          "group": "sfx_ui",
+          "status": "delivered",
+          "preload": false,
+          "volume": 0.8,
+          "m1": "required",
+          "variants": [
+            "audio/tutorial/tut_finger_point_02"
+          ]
+        },
+        {
+          "key": "sfx.tut.step_complete",
+          "path": "audio/tutorial/tut_step_complete_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/tutorial/tut_step_complete_02",
+            "audio/tutorial/tut_step_complete_03"
+          ]
+        },
+        {
+          "key": "sfx.tut.complete",
+          "path": "audio/tutorial/tut_complete_01",
+          "group": "sfx_big",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/tutorial/tut_complete_02"
+          ]
+        },
+        {
+          "key": "sfx.tut.dialog_next",
+          "path": "audio/tutorial/tut_dialog_next_01",
+          "group": "sfx_ui",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/tutorial/tut_dialog_next_02",
+            "audio/tutorial/tut_dialog_next_03"
+          ]
+        },
+        {
+          "key": "sfx.tut.desk_slam",
+          "path": "audio/tutorial/tut_desk_slam_01",
+          "group": "sfx_big",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/tutorial/tut_desk_slam_02"
+          ]
+        },
+        {
+          "key": "sfx.deco.select",
+          "path": "audio/decoration/deco_select_01",
+          "group": "sfx_ui",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/decoration/deco_select_02"
+          ]
+        },
+        {
+          "key": "sfx.deco.pickup",
+          "path": "audio/decoration/deco_pickup_01",
+          "group": "sfx_ui",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/decoration/deco_pickup_02",
+            "audio/decoration/deco_pickup_03"
+          ]
+        },
+        {
+          "key": "sfx.deco.place",
+          "path": "audio/decoration/deco_place_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/decoration/deco_place_02",
+            "audio/decoration/deco_place_03"
+          ]
+        },
+        {
+          "key": "sfx.deco.place_invalid",
+          "path": "audio/decoration/deco_place_invalid_01",
+          "group": "sfx_ui",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/decoration/deco_place_invalid_02",
+            "audio/decoration/deco_place_invalid_03"
+          ]
+        },
+        {
+          "key": "sfx.deco.mirror",
+          "path": "audio/decoration/deco_rotate_01",
+          "group": "sfx_ui",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/decoration/deco_rotate_02",
+            "audio/decoration/deco_rotate_03"
+          ]
+        },
+        {
+          "key": "sfx.deco.buy_confirm",
+          "path": "audio/decoration/deco_buy_confirm_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/decoration/deco_buy_confirm_02",
+            "audio/decoration/deco_buy_confirm_03"
+          ]
+        },
+        {
+          "key": "sfx.deco.sell",
+          "path": "audio/decoration/deco_sell_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/decoration/deco_sell_02",
+            "audio/decoration/deco_sell_03"
+          ]
+        },
+        {
+          "key": "sfx.deco.store",
+          "path": "audio/decoration/deco_store_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/decoration/deco_store_02"
+          ]
+        },
+        {
+          "key": "sfx.deco.tab_switch",
+          "path": "audio/decoration/deco_tab_switch_01",
+          "group": "sfx_ui",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/decoration/deco_tab_switch_02",
+            "audio/decoration/deco_tab_switch_03"
+          ]
+        },
+        {
+          "key": "sfx.deco.auto_arrange",
+          "path": "audio/decoration/deco_auto_arrange_01",
+          "group": "sfx_big",
+          "status": "delivered",
+          "preload": false,
+          "volume": 0.9,
+          "m1": "required",
+          "variants": [
+            "audio/decoration/deco_auto_arrange_02"
+          ]
+        },
+        {
+          "key": "sfx.deco.undo",
+          "path": "audio/decoration/deco_undo_01",
+          "group": "sfx_ui",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/decoration/deco_undo_02"
+          ]
+        },
+        {
+          "key": "sfx.deco.set_complete",
+          "path": "audio/decoration/deco_set_complete_01",
+          "group": "sfx_big",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/decoration/deco_set_complete_02",
+            "audio/decoration/deco_set_complete_03"
+          ]
+        },
+        {
+          "key": "sfx.deco.exit_summary",
+          "path": "audio/decoration/deco_exit_summary_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/decoration/deco_exit_summary_02"
+          ]
+        },
+        {
+          "key": "sfx.eco.coin_tap",
+          "path": "audio/economy/eco_coin_tap_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/economy/eco_coin_tap_02",
+            "audio/economy/eco_coin_tap_03"
+          ]
+        },
+        {
+          "key": "sfx.eco.coin_small",
+          "path": "audio/economy/eco_coin_small_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/economy/eco_coin_small_02",
+            "audio/economy/eco_coin_small_03"
+          ]
+        },
+        {
+          "key": "sfx.eco.coin_medium",
+          "path": "audio/economy/eco_coin_medium_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/economy/eco_coin_medium_02",
+            "audio/economy/eco_coin_medium_03"
+          ]
+        },
+        {
+          "key": "sfx.eco.coin_large",
+          "path": "audio/economy/eco_coin_large_01",
+          "group": "sfx_big",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/economy/eco_coin_large_02",
+            "audio/economy/eco_coin_large_03"
+          ]
+        },
+        {
+          "key": "sfx.eco.counter_loop",
+          "path": "audio/economy/eco_counter_loop_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 0.8,
+          "m1": "required",
+          "variants": [
+            "audio/economy/eco_counter_loop_02",
+            "audio/economy/eco_counter_loop_03"
+          ]
+        },
+        {
+          "key": "sfx.eco.counter_end",
+          "path": "audio/economy/eco_counter_end_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/economy/eco_counter_end_02"
+          ]
+        },
+        {
+          "key": "sfx.eco.purchase",
+          "path": "audio/economy/eco_purchase_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/economy/eco_purchase_02",
+            "audio/economy/eco_purchase_03"
+          ]
+        },
+        {
+          "key": "sfx.eco.insufficient",
+          "path": "audio/economy/eco_insufficient_01",
+          "group": "sfx_ui",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/economy/eco_insufficient_02",
+            "audio/economy/eco_insufficient_03"
+          ]
+        },
+        {
+          "key": "sfx.mgmt.sign_contract",
+          "path": "audio/management/mgmt_sign_contract_01",
+          "group": "sfx_big",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/management/mgmt_sign_contract_02",
+            "audio/management/mgmt_sign_contract_03"
+          ]
+        },
+        {
+          "key": "sfx.mgmt.daily_report",
+          "path": "audio/management/mgmt_daily_report_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/management/mgmt_daily_report_02",
+            "audio/management/mgmt_daily_report_03"
+          ]
+        },
+        {
+          "key": "sfx.mgmt.event_popup",
+          "path": "audio/management/mgmt_event_popup_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/management/mgmt_event_popup_02",
+            "audio/management/mgmt_event_popup_03"
+          ]
+        },
+        {
+          "key": "sfx.mgmt.level_up",
+          "path": "audio/management/mgmt_level_up_01",
+          "group": "sfx_big",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/management/mgmt_level_up_02",
+            "audio/management/mgmt_level_up_03"
+          ]
+        },
+        {
+          "key": "sfx.mgmt.unlock",
+          "path": "audio/management/mgmt_unlock_01",
+          "group": "sfx_big",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/management/mgmt_unlock_02",
+            "audio/management/mgmt_unlock_03"
+          ]
+        },
+        {
+          "key": "sfx.live.stream_start",
+          "path": "audio/live/live_stream_start_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/live/live_stream_start_02",
+            "audio/live/live_stream_start_03"
+          ]
+        },
+        {
+          "key": "sfx.live.stream_end",
+          "path": "audio/live/live_stream_end_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/live/live_stream_end_02",
+            "audio/live/live_stream_end_03"
+          ]
+        },
+        {
+          "key": "sfx.live.gift_t1",
+          "path": "audio/live/live_gift_small_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/live/live_gift_small_02",
+            "audio/live/live_gift_small_03"
+          ]
+        },
+        {
+          "key": "sfx.live.gift_t2",
+          "path": "audio/live/live_gift_medium_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/live/live_gift_medium_02",
+            "audio/live/live_gift_medium_03"
+          ]
+        },
+        {
+          "key": "sfx.live.gift_t3",
+          "path": "audio/live/live_gift_large_01",
+          "group": "sfx_big",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/live/live_gift_large_02",
+            "audio/live/live_gift_large_03"
+          ]
+        },
+        {
+          "key": "sfx.live.gift_t4",
+          "path": "audio/live/live_gift_fullscreen_01",
+          "group": "sfx_big",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/live/live_gift_fullscreen_02",
+            "audio/live/live_gift_fullscreen_03"
+          ]
+        },
+        {
+          "key": "sfx.live.follower_gain",
+          "path": "audio/live/live_follower_gain_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/live/live_follower_gain_02",
+            "audio/live/live_follower_gain_03"
+          ]
+        },
+        {
+          "key": "sfx.live.popularity_surge",
+          "path": "audio/live/live_popularity_surge_01",
+          "group": "sfx_big",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/live/live_popularity_surge_02",
+            "audio/live/live_popularity_surge_03"
+          ]
+        },
+        {
+          "key": "sfx.live.awkward_silence",
+          "path": "audio/live/live_awkward_silence_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/live/live_awkward_silence_02",
+            "audio/live/live_awkward_silence_03"
+          ]
+        },
+        {
+          "key": "sfx.live.blunder",
+          "path": "audio/live/live_blunder_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/live/live_blunder_02",
+            "audio/live/live_blunder_03"
+          ]
+        },
+        {
+          "key": "sfx.live.highlight",
+          "path": "audio/live/live_highlight_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/live/live_highlight_02",
+            "audio/live/live_highlight_03"
+          ]
+        },
+        {
+          "key": "sfx.live.lucky_bag",
+          "path": "audio/live/live_lucky_bag_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/live/live_lucky_bag_02",
+            "audio/live/live_lucky_bag_03"
+          ]
+        },
+        {
+          "key": "sfx.live.trending",
+          "path": "audio/live/live_trending_01",
+          "group": "sfx_big",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/live/live_trending_02",
+            "audio/live/live_trending_03"
+          ]
+        },
+        {
+          "key": "sfx.sys.offline_claim",
+          "path": "audio/system/sys_offline_claim_01",
+          "group": "sfx_big",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/system/sys_offline_claim_02"
+          ]
+        },
+        {
+          "key": "sfx.sys.todo_alert",
+          "path": "audio/system/sys_todo_alert_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/system/sys_todo_alert_02"
+          ]
+        },
+        {
+          "key": "sfx.sys.daily_goal_done",
+          "path": "audio/system/sys_daily_goal_done_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/system/sys_daily_goal_done_02",
+            "audio/system/sys_daily_goal_done_03"
+          ]
+        },
+        {
+          "key": "sfx.sys.new_day",
+          "path": "audio/system/sys_new_day_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/system/sys_new_day_02"
+          ]
+        },
+        {
+          "key": "sfx.sys.start_day",
+          "path": "audio/system/sys_start_day_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/system/sys_start_day_02"
+          ]
+        },
+        {
+          "key": "sfx.sys.clip_share",
+          "path": "audio/system/sys_clip_share_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/system/sys_clip_share_02"
+          ]
+        },
+        {
+          "key": "sfx.sys.danmaku_tick",
+          "path": "audio/system/sys_danmaku_tick_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 0.6,
+          "m1": "required",
+          "variants": [
+            "audio/system/sys_danmaku_tick_02",
+            "audio/system/sys_danmaku_tick_03"
+          ]
+        },
+        {
+          "key": "sfx.sys.danmaku_spam",
+          "path": "audio/system/sys_danmaku_spam_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/system/sys_danmaku_spam_02"
+          ]
+        },
+        {
+          "key": "sfx.sys.pin_reply",
+          "path": "audio/system/sys_pin_reply_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/system/sys_pin_reply_02",
+            "audio/system/sys_pin_reply_03"
+          ]
+        },
+        {
+          "key": "sfx.sys.intervention_queued",
+          "path": "audio/system/sys_intervention_queued_01",
+          "group": "sfx_ui",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/system/sys_intervention_queued_02",
+            "audio/system/sys_intervention_queued_03"
+          ]
+        },
+        {
+          "key": "sfx.sys.rescue_alert",
+          "path": "audio/system/sys_rescue_alert_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/system/sys_rescue_alert_02"
+          ]
+        },
+        {
+          "key": "sfx.sys.boost_traffic",
+          "path": "audio/system/sys_boost_traffic_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/system/sys_boost_traffic_02"
+          ]
+        },
+        {
+          "key": "sfx.sys.regular_enter",
+          "path": "audio/system/sys_regular_enter_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/system/sys_regular_enter_02"
+          ]
+        },
+        {
+          "key": "sfx.pk.countdown",
+          "path": "audio/pk/pk_countdown_01",
+          "group": "sfx_feedback",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/pk/pk_countdown_02",
+            "audio/pk/pk_countdown_03"
+          ]
+        },
+        {
+          "key": "sfx.pk.clash",
+          "path": "audio/pk/pk_clash_01",
+          "group": "sfx_big",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/pk/pk_clash_02",
+            "audio/pk/pk_clash_03"
+          ]
+        },
+        {
+          "key": "sfx.pk.win",
+          "path": "audio/pk/pk_win_01",
+          "group": "sfx_big",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/pk/pk_win_02",
+            "audio/pk/pk_win_03"
+          ]
+        },
+        {
+          "key": "sfx.pk.lose",
+          "path": "audio/pk/pk_lose_01",
+          "group": "sfx_big",
+          "status": "delivered",
+          "preload": false,
+          "volume": 1,
+          "m1": "required",
+          "variants": [
+            "audio/pk/pk_lose_02",
+            "audio/pk/pk_lose_03"
+          ]
+        }
+      ]
+    },
+    "tutorial": {
+      "$comment": "新手引导手指终稿（import-art.py 生成，勿手改）：不预载，TutorialFinger 按 tutorial.json fingerArt.textureKey 按需 loadKeys；ui_tut_tap_00–07 为点按动画帧（12fps 循环，M1 代码未用）",
+      "images": [
+        {
+          "key": "ui_tut_hand",
+          "path": "art/ui/tutorial/ui_tut_hand.png",
+          "w": 91,
+          "h": 123,
+          "res": 2,
+          "anchor": [
+            0.39,
+            0.06
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "ui_tut_tap_00",
+          "path": "art/ui/tutorial/ui_tut_tap_00.png",
+          "w": 160,
+          "h": 160,
+          "res": 2,
+          "anchor": [
+            0.469,
+            0.219
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "ui_tut_tap_01",
+          "path": "art/ui/tutorial/ui_tut_tap_01.png",
+          "w": 160,
+          "h": 160,
+          "res": 2,
+          "anchor": [
+            0.469,
+            0.219
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "ui_tut_tap_02",
+          "path": "art/ui/tutorial/ui_tut_tap_02.png",
+          "w": 160,
+          "h": 160,
+          "res": 2,
+          "anchor": [
+            0.469,
+            0.219
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "ui_tut_tap_03",
+          "path": "art/ui/tutorial/ui_tut_tap_03.png",
+          "w": 160,
+          "h": 160,
+          "res": 2,
+          "anchor": [
+            0.469,
+            0.219
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "ui_tut_tap_04",
+          "path": "art/ui/tutorial/ui_tut_tap_04.png",
+          "w": 160,
+          "h": 160,
+          "res": 2,
+          "anchor": [
+            0.469,
+            0.219
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "ui_tut_tap_05",
+          "path": "art/ui/tutorial/ui_tut_tap_05.png",
+          "w": 160,
+          "h": 160,
+          "res": 2,
+          "anchor": [
+            0.469,
+            0.219
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "ui_tut_tap_06",
+          "path": "art/ui/tutorial/ui_tut_tap_06.png",
+          "w": 160,
+          "h": 160,
+          "res": 2,
+          "anchor": [
+            0.469,
+            0.219
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "ui_tut_tap_07",
+          "path": "art/ui/tutorial/ui_tut_tap_07.png",
+          "w": 160,
+          "h": 160,
+          "res": 2,
+          "anchor": [
+            0.469,
+            0.219
+          ],
+          "status": "delivered"
+        }
+      ]
+    },
+    "regulars": {
+      "$comment": "老观众（常客）头像（import-art.py 生成，勿手改）：不预载，按需 loadKeys；key = regulars.json 的 avatar 字段",
+      "images": [
+        {
+          "key": "avatar_regular_anye",
+          "path": "art/characters/viewers/anye/avatar_regular_anye.png",
+          "w": 128,
+          "h": 128,
+          "res": 2,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "avatar_regular_anye_128",
+          "path": "art/characters/viewers/anye/avatar_regular_anye_128.png",
+          "w": 64,
+          "h": 64,
+          "res": 2,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "avatar_regular_atu",
+          "path": "art/characters/viewers/atu/avatar_regular_atu.png",
+          "w": 128,
+          "h": 128,
+          "res": 2,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "avatar_regular_atu_128",
+          "path": "art/characters/viewers/atu/avatar_regular_atu_128.png",
+          "w": 64,
+          "h": 64,
+          "res": 2,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "avatar_regular_kedai",
+          "path": "art/characters/viewers/kedai/avatar_regular_kedai.png",
+          "w": 128,
+          "h": 128,
+          "res": 2,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "avatar_regular_kedai_128",
+          "path": "art/characters/viewers/kedai/avatar_regular_kedai_128.png",
+          "w": 64,
+          "h": 64,
+          "res": 2,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "avatar_regular_tiege",
+          "path": "art/characters/viewers/tiege/avatar_regular_tiege.png",
+          "w": 128,
+          "h": 128,
+          "res": 2,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "avatar_regular_tiege_128",
+          "path": "art/characters/viewers/tiege/avatar_regular_tiege_128.png",
+          "w": 64,
+          "h": 64,
+          "res": 2,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "avatar_regular_tingyu",
+          "path": "art/characters/viewers/tingyu/avatar_regular_tingyu.png",
+          "w": 128,
+          "h": 128,
+          "res": 2,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "status": "delivered"
+        },
+        {
+          "key": "avatar_regular_tingyu_128",
+          "path": "art/characters/viewers/tingyu/avatar_regular_tingyu_128.png",
+          "w": 64,
+          "h": 64,
+          "res": 2,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "status": "delivered"
+        }
+      ]
+    }
+  },
+  "$distExcluded": "构建时按 scripts/dist-exclude.mjs 删掉了 public 里只登记、M1 不用的分组：propAtlases、fxGalaxy"
+}

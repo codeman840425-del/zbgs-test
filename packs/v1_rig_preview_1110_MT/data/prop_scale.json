@@ -1,0 +1,2620 @@
+{
+  "version": 1,
+  "$comment": "家具摆放缩放表（初稿，scripts/gen-prop-scale.py 生成，改规则请改脚本后重跑）。说明见 docs/家具摆放缩放表说明.md",
+  "baseline": {
+    "desc": "基准 H = 主播全身立绘（char_streamerXX_full）内容包围盒高度的中位数（2x 源图像素）",
+    "H": 1400,
+    "samples": 12
+  },
+  "room": {
+    "desc": "直播间底图 bg_room_rental_empty（2400² 2x）：主播站立时内容高度 = roomH 底图像素（约墙高 0.65）",
+    "roomH": 620,
+    "floor": {
+      "desc": "地面网格（等距 3/4 视角，底图像素）：back=后墙角，L/R=左右墙脚方向单位格向量",
+      "back": [
+        1449,
+        1266
+      ],
+      "u": [
+        -160,
+        43
+      ],
+      "v": [
+        141,
+        53
+      ],
+      "cols": 8,
+      "rows": 6
+    }
+  },
+  "grid": {
+    "desc": "占地格子：1 格 = 地面上 u/v 方向各 1 个单位（约 0.26H，≈0.45m）。footprint.w 沿墙方向、d 向房间内；墙面/悬挂物 d=0 不占地面",
+    "cell": 0.26
+  },
+  "layers": {
+    "order": [
+      "wall",
+      "floor_flat",
+      "floor",
+      "desk",
+      "hang"
+    ],
+    "rules": {
+      "wall": "贴墙，按墙面 x 排序，永远在地面物件之后（底层）",
+      "floor_flat": "地毯，贴地，在所有站立物件下面，不参与 y 排序",
+      "floor": "地面物件与主播：按锚点（底边中心）y 升序绘制，y 大（离镜头近）的盖住 y 小的；同 y 按 x",
+      "desk": "桌面物件：放在父家具（surface 字段 = 台面高度 / 家具高度）上，depth = 父 depth + 0.5，随父移动",
+      "hang": "悬挂物：最高层，不参与 y 排序"
+    }
+  },
+  "flipX": "美术统一朝向 = 正面朝左下（看到物件右侧面），适合靠右墙摆放；靠左墙摆放时运行时再镜像。flipX=true 表示该图朝向画反了，引擎先镜像统一朝向",
+  "rows": [
+    {
+      "id": "floor_S",
+      "match": {
+        "mount": "floor",
+        "size": "S"
+      },
+      "heightRatio": 0.22,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor"
+    },
+    {
+      "id": "floor_M",
+      "match": {
+        "mount": "floor",
+        "size": "M"
+      },
+      "heightRatio": 0.55,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor"
+    },
+    {
+      "id": "floor_L",
+      "match": {
+        "mount": "floor",
+        "size": "L"
+      },
+      "heightRatio": 0.6,
+      "footprint": {
+        "w": 3,
+        "d": 2
+      },
+      "layer": "floor"
+    },
+    {
+      "id": "floor_flat_L",
+      "match": {
+        "mount": "floor_flat",
+        "size": "L"
+      },
+      "widthRatio": 1.4,
+      "heightRatio": 0,
+      "footprint": {
+        "w": 4,
+        "d": 3
+      },
+      "layer": "floor_flat"
+    },
+    {
+      "id": "wall_S",
+      "match": {
+        "mount": "wall",
+        "size": "S"
+      },
+      "heightRatio": 0.2,
+      "footprint": {
+        "w": 1,
+        "d": 0
+      },
+      "layer": "wall",
+      "mountHeight": 0.95
+    },
+    {
+      "id": "wall_M",
+      "match": {
+        "mount": "wall",
+        "size": "M"
+      },
+      "heightRatio": 0.4,
+      "footprint": {
+        "w": 2,
+        "d": 0
+      },
+      "layer": "wall",
+      "mountHeight": 0.7
+    },
+    {
+      "id": "wall_L",
+      "match": {
+        "mount": "wall",
+        "size": "L"
+      },
+      "heightRatio": 0.85,
+      "footprint": {
+        "w": 3,
+        "d": 0
+      },
+      "layer": "wall",
+      "mountHeight": 0.25
+    },
+    {
+      "id": "desk_S",
+      "match": {
+        "mount": "desk",
+        "size": "S"
+      },
+      "heightRatio": 0.15,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "desk"
+    },
+    {
+      "id": "desk_M",
+      "match": {
+        "mount": "desk",
+        "size": "M"
+      },
+      "heightRatio": 0.3,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "desk"
+    },
+    {
+      "id": "hang_M",
+      "match": {
+        "mount": "hang",
+        "size": "M"
+      },
+      "heightRatio": 0.35,
+      "footprint": {
+        "w": 1,
+        "d": 0
+      },
+      "layer": "hang"
+    },
+    {
+      "id": "furn_cozy_floorlamp_01",
+      "match": {
+        "keys": [
+          "furn_cozy_floorlamp_01"
+        ]
+      },
+      "heightRatio": 0.85
+    },
+    {
+      "id": "furn_cozy_coatrack_01",
+      "match": {
+        "keys": [
+          "furn_cozy_coatrack_01"
+        ]
+      },
+      "heightRatio": 0.85
+    },
+    {
+      "id": "furn_cozy_coffeetable_01",
+      "match": {
+        "keys": [
+          "furn_cozy_coffeetable_01"
+        ]
+      },
+      "heightRatio": 0.3,
+      "footprint": {
+        "w": 2,
+        "d": 1
+      }
+    },
+    {
+      "id": "furn_cozy_beanbag_01",
+      "match": {
+        "keys": [
+          "furn_cozy_beanbag_01"
+        ]
+      },
+      "heightRatio": 0.36
+    },
+    {
+      "id": "furn_cozy_cabinet_01",
+      "match": {
+        "keys": [
+          "furn_cozy_cabinet_01"
+        ]
+      },
+      "heightRatio": 0.6
+    },
+    {
+      "id": "furn_cozy_plant_large_01",
+      "match": {
+        "keys": [
+          "furn_cozy_plant_large_01"
+        ]
+      },
+      "heightRatio": 0.6
+    },
+    {
+      "id": "furn_cozy_bookshelf_01",
+      "match": {
+        "keys": [
+          "furn_cozy_bookshelf_01"
+        ]
+      },
+      "heightRatio": 1,
+      "footprint": {
+        "w": 2,
+        "d": 1
+      }
+    },
+    {
+      "id": "furn_cozy_desk_01",
+      "match": {
+        "keys": [
+          "furn_cozy_desk_01"
+        ]
+      },
+      "heightRatio": 0.45,
+      "surface": 0.42
+    },
+    {
+      "id": "furn_cozy_sofa_01",
+      "match": {
+        "keys": [
+          "furn_cozy_sofa_01"
+        ]
+      },
+      "heightRatio": 0.45
+    },
+    {
+      "id": "furn_cozy_bed_01",
+      "match": {
+        "keys": [
+          "furn_cozy_bed_01"
+        ]
+      },
+      "heightRatio": 0.45,
+      "footprint": {
+        "w": 3,
+        "d": 4
+      }
+    },
+    {
+      "id": "furn_cozy_stringlights_01",
+      "match": {
+        "keys": [
+          "furn_cozy_stringlights_01"
+        ]
+      },
+      "widthRatio": 1.3,
+      "heightRatio": 0,
+      "mountHeight": 1.1
+    },
+    {
+      "id": "furn_cozy_curtain_01",
+      "match": {
+        "keys": [
+          "furn_cozy_curtain_01"
+        ]
+      },
+      "heightRatio": 0.9,
+      "mountHeight": 0.2
+    },
+    {
+      "id": "furn_esports_desk_01",
+      "match": {
+        "keys": [
+          "furn_esports_desk_01"
+        ]
+      },
+      "heightRatio": 0.45,
+      "surface": 0.4
+    },
+    {
+      "id": "furn_esports_lazybed_01",
+      "match": {
+        "keys": [
+          "furn_esports_lazybed_01"
+        ]
+      },
+      "heightRatio": 0.35
+    },
+    {
+      "id": "furn_esports_treadmill_01",
+      "match": {
+        "keys": [
+          "furn_esports_treadmill_01"
+        ]
+      },
+      "heightRatio": 0.75
+    },
+    {
+      "id": "furn_esports_rgbbar_01",
+      "match": {
+        "keys": [
+          "furn_esports_rgbbar_01"
+        ]
+      },
+      "heightRatio": 0.8
+    },
+    {
+      "id": "furn_esports_teamflag_01",
+      "match": {
+        "keys": [
+          "furn_esports_teamflag_01"
+        ]
+      },
+      "heightRatio": 0.85
+    },
+    {
+      "id": "furn_esports_drinkfridge_01",
+      "match": {
+        "keys": [
+          "furn_esports_drinkfridge_01"
+        ]
+      },
+      "heightRatio": 0.7
+    },
+    {
+      "id": "furn_esports_figurecase_01",
+      "match": {
+        "keys": [
+          "furn_esports_figurecase_01"
+        ]
+      },
+      "heightRatio": 0.8
+    },
+    {
+      "id": "furn_esports_trophyshelf_01",
+      "match": {
+        "keys": [
+          "furn_esports_trophyshelf_01"
+        ]
+      },
+      "heightRatio": 0.7
+    },
+    {
+      "id": "furn_esports_pccase_01",
+      "match": {
+        "keys": [
+          "furn_esports_pccase_01"
+        ]
+      },
+      "heightRatio": 0.45,
+      "flipX": true
+    },
+    {
+      "id": "furn_esports_neonline_01",
+      "match": {
+        "keys": [
+          "furn_esports_neonline_01"
+        ]
+      },
+      "heightRatio": 0.45
+    },
+    {
+      "id": "furn_goods_basket_01",
+      "match": {
+        "keys": [
+          "furn_goods_basket_01"
+        ]
+      },
+      "heightRatio": 0.3
+    },
+    {
+      "id": "furn_goods_cartons_01",
+      "match": {
+        "keys": [
+          "furn_goods_cartons_01"
+        ]
+      },
+      "heightRatio": 0.4
+    },
+    {
+      "id": "furn_goods_giftpile_01",
+      "match": {
+        "keys": [
+          "furn_goods_giftpile_01"
+        ]
+      },
+      "heightRatio": 0.42
+    },
+    {
+      "id": "furn_goods_podium_01",
+      "match": {
+        "keys": [
+          "furn_goods_podium_01"
+        ]
+      },
+      "heightRatio": 0.42
+    },
+    {
+      "id": "furn_goods_storagerack_01",
+      "match": {
+        "keys": [
+          "furn_goods_storagerack_01"
+        ]
+      },
+      "heightRatio": 0.8
+    },
+    {
+      "id": "furn_goods_trialtable_01",
+      "match": {
+        "keys": [
+          "furn_goods_trialtable_01"
+        ]
+      },
+      "heightRatio": 0.5
+    },
+    {
+      "id": "furn_goods_mirror_01",
+      "match": {
+        "keys": [
+          "furn_goods_mirror_01"
+        ]
+      },
+      "heightRatio": 0.85
+    },
+    {
+      "id": "furn_goods_productshelf_01",
+      "match": {
+        "keys": [
+          "furn_goods_productshelf_01"
+        ]
+      },
+      "heightRatio": 0.95,
+      "footprint": {
+        "w": 2,
+        "d": 1
+      }
+    },
+    {
+      "id": "furn_goods_clothesrail_01",
+      "match": {
+        "keys": [
+          "furn_goods_clothesrail_01"
+        ]
+      },
+      "heightRatio": 0.85
+    },
+    {
+      "id": "furn_goods_unboxdesk_01",
+      "match": {
+        "keys": [
+          "furn_goods_unboxdesk_01"
+        ]
+      },
+      "heightRatio": 0.5,
+      "surface": 0.5
+    },
+    {
+      "id": "furn_guofeng_armchair_01",
+      "match": {
+        "keys": [
+          "furn_guofeng_armchair_01"
+        ]
+      },
+      "heightRatio": 0.55
+    },
+    {
+      "id": "furn_guofeng_bonsai_01",
+      "match": {
+        "keys": [
+          "furn_guofeng_bonsai_01"
+        ]
+      },
+      "heightRatio": 0.42
+    },
+    {
+      "id": "furn_guofeng_teatable_01",
+      "match": {
+        "keys": [
+          "furn_guofeng_teatable_01"
+        ]
+      },
+      "heightRatio": 0.3,
+      "surface": 0.75
+    },
+    {
+      "id": "furn_guofeng_vase_01",
+      "match": {
+        "keys": [
+          "furn_guofeng_vase_01"
+        ]
+      },
+      "heightRatio": 0.45
+    },
+    {
+      "id": "furn_guofeng_curioshelf_01",
+      "match": {
+        "keys": [
+          "furn_guofeng_curioshelf_01"
+        ]
+      },
+      "heightRatio": 1,
+      "footprint": {
+        "w": 2,
+        "d": 1
+      }
+    },
+    {
+      "id": "furn_guofeng_moongate_01",
+      "match": {
+        "keys": [
+          "furn_guofeng_moongate_01"
+        ]
+      },
+      "heightRatio": 1.1,
+      "footprint": {
+        "w": 3,
+        "d": 1
+      }
+    },
+    {
+      "id": "furn_guofeng_qintable_01",
+      "match": {
+        "keys": [
+          "furn_guofeng_qintable_01"
+        ]
+      },
+      "heightRatio": 0.35,
+      "surface": 0.6
+    },
+    {
+      "id": "furn_guofeng_screen_01",
+      "match": {
+        "keys": [
+          "furn_guofeng_screen_01"
+        ]
+      },
+      "heightRatio": 0.95,
+      "footprint": {
+        "w": 3,
+        "d": 1
+      }
+    },
+    {
+      "id": "equip_light_lv1",
+      "match": {
+        "keys": [
+          "equip_light_lv1"
+        ]
+      },
+      "heightRatio": 0.9
+    },
+    {
+      "id": "equip_light_lvmax",
+      "match": {
+        "keys": [
+          "equip_light_lvmax"
+        ]
+      },
+      "heightRatio": 0.95
+    },
+    {
+      "id": "equip_samplerack_lv1",
+      "match": {
+        "keys": [
+          "equip_samplerack_lv1"
+        ]
+      },
+      "heightRatio": 0.8
+    },
+    {
+      "id": "equip_samplerack_lvmax",
+      "match": {
+        "keys": [
+          "equip_samplerack_lvmax"
+        ]
+      },
+      "heightRatio": 0.85
+    }
+  ],
+  "items": [
+    {
+      "key": "equip_chair_lv2",
+      "cat": "floor_M",
+      "theme": null,
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.5779,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        98,
+        12,
+        413,
+        500
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "equip_chair_lv3",
+      "cat": "floor_M",
+      "theme": null,
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.5779,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        119,
+        12,
+        393,
+        500
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "equip_chair_lv4",
+      "cat": "floor_M",
+      "theme": null,
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.5779,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        107,
+        12,
+        404,
+        500
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "equip_chair_lv5",
+      "cat": "floor_M",
+      "theme": null,
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.5779,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        106,
+        12,
+        406,
+        500
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "equip_light_lv1",
+      "cat": "floor_M",
+      "theme": null,
+      "status": "v1",
+      "layer": "floor",
+      "k": 3.4615,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        187,
+        136,
+        326,
+        500
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "equip_light_lvmax",
+      "cat": "floor_M",
+      "theme": null,
+      "status": "paused_wait_v0.3",
+      "layer": "floor",
+      "k": 2.7708,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        116,
+        19,
+        405,
+        499
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "equip_mic_lv1",
+      "cat": "desk_M",
+      "theme": null,
+      "status": "v1",
+      "layer": "desk",
+      "k": 1.0145,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        140,
+        82,
+        371,
+        496
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "equip_mic_lvmax",
+      "cat": "desk_M",
+      "theme": null,
+      "status": "paused_wait_v0.3",
+      "layer": "desk",
+      "k": 0.875,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        39,
+        15,
+        470,
+        495
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "equip_pc_lv1",
+      "cat": "desk_M",
+      "theme": null,
+      "status": "v1",
+      "layer": "desk",
+      "k": 1.5,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        122,
+        218,
+        386,
+        498
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "equip_pc_lvmax",
+      "cat": "desk_M",
+      "theme": null,
+      "status": "paused_wait_v0.3",
+      "layer": "desk",
+      "k": 1.1475,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        13,
+        129,
+        499,
+        495
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "equip_samplerack_lv1",
+      "cat": "floor_M",
+      "theme": null,
+      "status": "v1",
+      "layer": "floor",
+      "k": 2.7654,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        131,
+        92,
+        389,
+        497
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "equip_samplerack_lvmax",
+      "cat": "floor_M",
+      "theme": null,
+      "status": "paused_wait_v0.3",
+      "layer": "floor",
+      "k": 2.5758,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        96,
+        28,
+        427,
+        490
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "equip_soundcard_lv1",
+      "cat": "desk_M",
+      "theme": null,
+      "status": "v1",
+      "layer": "desk",
+      "k": 2.6582,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        148,
+        341,
+        363,
+        499
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "equip_soundcard_lvmax",
+      "cat": "desk_M",
+      "theme": null,
+      "status": "paused_wait_v0.3",
+      "layer": "desk",
+      "k": 1.157,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        13,
+        133,
+        496,
+        496
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_cozy_aroma_01",
+      "cat": "floor_S",
+      "theme": "cozy",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.3276,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        45,
+        19,
+        211,
+        251
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_cozy_beanbag_01",
+      "cat": "floor_M",
+      "theme": "cozy",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.2444,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        14,
+        95,
+        499,
+        500
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_cozy_bed_01",
+      "cat": "floor_L",
+      "theme": "cozy",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.0311,
+      "footprint": {
+        "w": 3,
+        "d": 4
+      },
+      "flipX": false,
+      "bbox": [
+        20,
+        136,
+        747,
+        747
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_cozy_bookshelf_01",
+      "cat": "floor_L",
+      "theme": "cozy",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.9284,
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        109,
+        21,
+        658,
+        747
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_cozy_cabinet_01",
+      "cat": "floor_M",
+      "theme": "cozy",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.7248,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        90,
+        12,
+        423,
+        499
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_cozy_chair_01",
+      "cat": "floor_M",
+      "theme": "cozy",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.5779,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        104,
+        12,
+        408,
+        500
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_cozy_clock_01",
+      "cat": "wall_S",
+      "theme": "cozy",
+      "status": "v1",
+      "layer": "wall",
+      "k": 1.1429,
+      "footprint": {
+        "w": 1,
+        "d": 0
+      },
+      "flipX": false,
+      "bbox": [
+        10,
+        6,
+        245,
+        251
+      ],
+      "anchor": [
+        0.5,
+        1
+      ],
+      "mountHeight": 0.95
+    },
+    {
+      "key": "furn_cozy_coatrack_01",
+      "cat": "floor_M",
+      "theme": "cozy",
+      "status": "v1",
+      "layer": "floor",
+      "k": 2.4435,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        142,
+        13,
+        370,
+        500
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_cozy_coffeetable_01",
+      "cat": "floor_M",
+      "theme": "cozy",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.0219,
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        14,
+        87,
+        498,
+        498
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_cozy_curtain_01",
+      "cat": "wall_L",
+      "theme": "cozy",
+      "status": "v1",
+      "layer": "wall",
+      "k": 1.7355,
+      "footprint": {
+        "w": 3,
+        "d": 0
+      },
+      "flipX": false,
+      "bbox": [
+        22,
+        21,
+        746,
+        747
+      ],
+      "anchor": [
+        0.5,
+        1
+      ],
+      "mountHeight": 0.2
+    },
+    {
+      "key": "furn_cozy_cushions_01",
+      "cat": "floor_S",
+      "theme": "cozy",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.6831,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        5,
+        67,
+        250,
+        250
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_cozy_desk_01",
+      "cat": "floor_L",
+      "theme": "cozy",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.121,
+      "footprint": {
+        "w": 3,
+        "d": 2
+      },
+      "flipX": false,
+      "bbox": [
+        22,
+        184,
+        747,
+        746
+      ],
+      "anchor": [
+        0.5,
+        1
+      ],
+      "surface": 0.42
+    },
+    {
+      "key": "furn_cozy_floorlamp_01",
+      "cat": "floor_M",
+      "theme": "cozy",
+      "status": "v1",
+      "layer": "floor",
+      "k": 2.4486,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        161,
+        13,
+        350,
+        499
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_cozy_painting_01",
+      "cat": "wall_M",
+      "theme": "cozy",
+      "status": "v1",
+      "layer": "wall",
+      "k": 1.3559,
+      "footprint": {
+        "w": 2,
+        "d": 0
+      },
+      "flipX": false,
+      "bbox": [
+        12,
+        85,
+        499,
+        498
+      ],
+      "anchor": [
+        0.5,
+        1
+      ],
+      "mountHeight": 0.7
+    },
+    {
+      "key": "furn_cozy_plant_large_01",
+      "cat": "floor_M",
+      "theme": "cozy",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.7248,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        70,
+        13,
+        441,
+        500
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_cozy_plant_small_01",
+      "cat": "floor_S",
+      "theme": "cozy",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.2623,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        42,
+        6,
+        214,
+        250
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_cozy_plush_01",
+      "cat": "floor_S",
+      "theme": "cozy",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.2623,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        44,
+        6,
+        211,
+        250
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_cozy_rug_01",
+      "cat": "floor_flat_L",
+      "theme": "cozy",
+      "status": "v1",
+      "layer": "floor_flat",
+      "k": 2.6997,
+      "footprint": {
+        "w": 4,
+        "d": 3
+      },
+      "flipX": false,
+      "bbox": [
+        21,
+        369,
+        747,
+        742
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_cozy_sofa_01",
+      "cat": "floor_L",
+      "theme": "cozy",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.4094,
+      "footprint": {
+        "w": 3,
+        "d": 2
+      },
+      "flipX": false,
+      "bbox": [
+        19,
+        300,
+        749,
+        747
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_cozy_stringlights_01",
+      "cat": "wall_M",
+      "theme": "cozy",
+      "status": "v1",
+      "layer": "wall",
+      "k": 3.7372,
+      "footprint": {
+        "w": 2,
+        "d": 0
+      },
+      "flipX": false,
+      "bbox": [
+        12,
+        352,
+        499,
+        498
+      ],
+      "anchor": [
+        0.5,
+        1
+      ],
+      "mountHeight": 1.1
+    },
+    {
+      "key": "furn_esports_chair_01",
+      "cat": "floor_M",
+      "theme": "esports",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.5811,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        100,
+        13,
+        413,
+        500
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_esports_desk_01",
+      "cat": "floor_L",
+      "theme": "esports",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.1517,
+      "footprint": {
+        "w": 3,
+        "d": 2
+      },
+      "flipX": false,
+      "bbox": [
+        21,
+        200,
+        749,
+        747
+      ],
+      "anchor": [
+        0.5,
+        1
+      ],
+      "surface": 0.4
+    },
+    {
+      "key": "furn_esports_drinkfridge_01",
+      "cat": "floor_M",
+      "theme": "esports",
+      "status": "v1",
+      "layer": "floor",
+      "k": 2.0165,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        57,
+        13,
+        455,
+        499
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_esports_dualmonitor_01",
+      "cat": "desk_M",
+      "theme": "esports",
+      "status": "v1",
+      "layer": "desk",
+      "k": 1.1898,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        13,
+        146,
+        499,
+        499
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_esports_figurecase_01",
+      "cat": "floor_M",
+      "theme": "esports",
+      "status": "v1",
+      "layer": "floor",
+      "k": 2.3045,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        45,
+        13,
+        469,
+        499
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_esports_foamwall_01",
+      "cat": "wall_L",
+      "theme": "esports",
+      "status": "v1",
+      "layer": "wall",
+      "k": 1.6391,
+      "footprint": {
+        "w": 3,
+        "d": 0
+      },
+      "flipX": false,
+      "bbox": [
+        46,
+        21,
+        721,
+        747
+      ],
+      "anchor": [
+        0.5,
+        1
+      ],
+      "mountHeight": 0.25
+    },
+    {
+      "key": "furn_esports_headsetstand_01",
+      "cat": "desk_S",
+      "theme": "esports",
+      "status": "v1",
+      "layer": "desk",
+      "k": 0.8537,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        47,
+        5,
+        210,
+        251
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_esports_keyboardwall_01",
+      "cat": "wall_L",
+      "theme": "esports",
+      "status": "v1",
+      "layer": "wall",
+      "k": 1.9476,
+      "footprint": {
+        "w": 3,
+        "d": 0
+      },
+      "flipX": false,
+      "bbox": [
+        21,
+        138,
+        749,
+        749
+      ],
+      "anchor": [
+        0.5,
+        1
+      ],
+      "mountHeight": 0.25
+    },
+    {
+      "key": "furn_esports_lazybed_01",
+      "cat": "floor_L",
+      "theme": "esports",
+      "status": "v1",
+      "layer": "floor",
+      "k": 0.98,
+      "footprint": {
+        "w": 3,
+        "d": 2
+      },
+      "flipX": false,
+      "bbox": [
+        20,
+        249,
+        747,
+        749
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_esports_neonline_01",
+      "cat": "wall_M",
+      "theme": "esports",
+      "status": "v1",
+      "layer": "wall",
+      "k": 1.2963,
+      "footprint": {
+        "w": 2,
+        "d": 0
+      },
+      "flipX": false,
+      "bbox": [
+        117,
+        12,
+        395,
+        498
+      ],
+      "anchor": [
+        0.5,
+        1
+      ],
+      "mountHeight": 0.7
+    },
+    {
+      "key": "furn_esports_pccase_01",
+      "cat": "floor_M",
+      "theme": "esports",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.2936,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": true,
+      "bbox": [
+        43,
+        13,
+        467,
+        500
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_esports_rgbbar_01",
+      "cat": "floor_M",
+      "theme": "esports",
+      "status": "v1",
+      "layer": "floor",
+      "k": 2.3093,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        183,
+        13,
+        329,
+        498
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_esports_rug_01",
+      "cat": "floor_flat_L",
+      "theme": "esports",
+      "status": "v1",
+      "layer": "floor_flat",
+      "k": 2.6923,
+      "footprint": {
+        "w": 4,
+        "d": 3
+      },
+      "flipX": false,
+      "bbox": [
+        21,
+        403,
+        749,
+        749
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_esports_teamflag_01",
+      "cat": "floor_M",
+      "theme": "esports",
+      "status": "v1",
+      "layer": "floor",
+      "k": 2.4435,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        36,
+        13,
+        476,
+        500
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_esports_treadmill_01",
+      "cat": "floor_L",
+      "theme": "esports",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.4423,
+      "footprint": {
+        "w": 3,
+        "d": 2
+      },
+      "flipX": false,
+      "bbox": [
+        50,
+        21,
+        715,
+        749
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_esports_trophyshelf_01",
+      "cat": "floor_M",
+      "theme": "esports",
+      "status": "v1",
+      "layer": "floor",
+      "k": 2.0206,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        18,
+        14,
+        494,
+        499
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_goods_basket_01",
+      "cat": "floor_M",
+      "theme": "goods",
+      "status": "v1",
+      "layer": "floor",
+      "k": 0.9929,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        14,
+        77,
+        498,
+        500
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_goods_boxstack_01",
+      "cat": "floor_M",
+      "theme": "goods",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.5844,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        12,
+        14,
+        498,
+        500
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_goods_cart_01",
+      "cat": "floor_M",
+      "theme": "goods",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.5811,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        60,
+        12,
+        452,
+        499
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_goods_cartons_01",
+      "cat": "floor_M",
+      "theme": "goods",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.2444,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        14,
+        48,
+        496,
+        498
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_goods_clothesrail_01",
+      "cat": "floor_L",
+      "theme": "goods",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.6391,
+      "footprint": {
+        "w": 3,
+        "d": 2
+      },
+      "flipX": false,
+      "bbox": [
+        67,
+        21,
+        700,
+        747
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_goods_displaycabinet_01",
+      "cat": "floor_L",
+      "theme": "goods",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.1554,
+      "footprint": {
+        "w": 3,
+        "d": 2
+      },
+      "flipX": false,
+      "bbox": [
+        107,
+        21,
+        660,
+        748
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_goods_giftpile_01",
+      "cat": "floor_M",
+      "theme": "goods",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.2458,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        13,
+        28,
+        498,
+        500
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_goods_lightsign_01",
+      "cat": "wall_M",
+      "theme": "goods",
+      "status": "v1",
+      "layer": "wall",
+      "k": 1.157,
+      "footprint": {
+        "w": 2,
+        "d": 0
+      },
+      "flipX": false,
+      "bbox": [
+        62,
+        14,
+        449,
+        498
+      ],
+      "anchor": [
+        0.5,
+        1
+      ],
+      "mountHeight": 0.7
+    },
+    {
+      "key": "furn_goods_mirror_01",
+      "cat": "floor_M",
+      "theme": "goods",
+      "status": "v1",
+      "layer": "floor",
+      "k": 2.4536,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        128,
+        12,
+        382,
+        497
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_goods_pegboard_01",
+      "cat": "wall_M",
+      "theme": "goods",
+      "status": "v1",
+      "layer": "wall",
+      "k": 1.157,
+      "footprint": {
+        "w": 2,
+        "d": 0
+      },
+      "flipX": false,
+      "bbox": [
+        31,
+        14,
+        480,
+        498
+      ],
+      "anchor": [
+        0.5,
+        1
+      ],
+      "mountHeight": 0.7
+    },
+    {
+      "key": "furn_goods_plant_01",
+      "cat": "floor_M",
+      "theme": "goods",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.5811,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        93,
+        12,
+        418,
+        499
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_goods_podium_01",
+      "cat": "floor_M",
+      "theme": "goods",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.2149,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        19,
+        14,
+        493,
+        498
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_goods_pricetag_01",
+      "cat": "floor_S",
+      "theme": "goods",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.2623,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        19,
+        6,
+        237,
+        250
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_goods_productshelf_01",
+      "cat": "floor_L",
+      "theme": "goods",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.8269,
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        22,
+        21,
+        747,
+        749
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_goods_stool_01",
+      "cat": "floor_S",
+      "theme": "goods",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.2571,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        23,
+        5,
+        233,
+        250
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_goods_storagerack_01",
+      "cat": "floor_M",
+      "theme": "goods",
+      "status": "v1",
+      "layer": "floor",
+      "k": 2.3093,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        79,
+        14,
+        433,
+        499
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_goods_stripewall_01",
+      "cat": "wall_L",
+      "theme": "goods",
+      "status": "v1",
+      "layer": "wall",
+      "k": 1.7172,
+      "footprint": {
+        "w": 3,
+        "d": 0
+      },
+      "flipX": false,
+      "bbox": [
+        19,
+        54,
+        747,
+        747
+      ],
+      "anchor": [
+        0.5,
+        1
+      ],
+      "mountHeight": 0.25
+    },
+    {
+      "key": "furn_goods_trialtable_01",
+      "cat": "floor_M",
+      "theme": "goods",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.4463,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        21,
+        14,
+        493,
+        498
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_goods_turntable_01",
+      "cat": "desk_S",
+      "theme": "goods",
+      "status": "v1",
+      "layer": "desk",
+      "k": 0.8571,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        10,
+        5,
+        245,
+        250
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_goods_unboxdesk_01",
+      "cat": "floor_L",
+      "theme": "goods",
+      "status": "v1",
+      "layer": "floor",
+      "k": 0.9642,
+      "footprint": {
+        "w": 3,
+        "d": 2
+      },
+      "flipX": false,
+      "bbox": [
+        26,
+        21,
+        740,
+        747
+      ],
+      "anchor": [
+        0.5,
+        1
+      ],
+      "surface": 0.5
+    },
+    {
+      "key": "furn_guofeng_armchair_01",
+      "cat": "floor_M",
+      "theme": "guofeng",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.5779,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        69,
+        12,
+        443,
+        500
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_guofeng_bambooblind_01",
+      "cat": "wall_M",
+      "theme": "guofeng",
+      "status": "v1",
+      "layer": "wall",
+      "k": 1.1475,
+      "footprint": {
+        "w": 2,
+        "d": 0
+      },
+      "flipX": false,
+      "bbox": [
+        26,
+        12,
+        485,
+        500
+      ],
+      "anchor": [
+        0.5,
+        1
+      ],
+      "mountHeight": 0.7
+    },
+    {
+      "key": "furn_guofeng_bonsai_01",
+      "cat": "floor_M",
+      "theme": "guofeng",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.2049,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        25,
+        12,
+        486,
+        500
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_guofeng_cloudrug_01",
+      "cat": "floor_flat_L",
+      "theme": "guofeng",
+      "status": "v1",
+      "layer": "floor_flat",
+      "k": 2.6997,
+      "footprint": {
+        "w": 4,
+        "d": 3
+      },
+      "flipX": false,
+      "bbox": [
+        21,
+        352,
+        747,
+        748
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_guofeng_curioshelf_01",
+      "cat": "floor_L",
+      "theme": "guofeng",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.9178,
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        35,
+        19,
+        733,
+        749
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_guofeng_fanwall_01",
+      "cat": "wall_S",
+      "theme": "guofeng",
+      "status": "v1",
+      "layer": "wall",
+      "k": 1.1475,
+      "footprint": {
+        "w": 1,
+        "d": 0
+      },
+      "flipX": false,
+      "bbox": [
+        47,
+        6,
+        209,
+        250
+      ],
+      "anchor": [
+        0.5,
+        1
+      ],
+      "mountHeight": 0.95
+    },
+    {
+      "key": "furn_guofeng_incense_01",
+      "cat": "floor_S",
+      "theme": "guofeng",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.278,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        67,
+        9,
+        189,
+        250
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_guofeng_knot_01",
+      "cat": "wall_S",
+      "theme": "guofeng",
+      "status": "v1",
+      "layer": "wall",
+      "k": 1.1382,
+      "footprint": {
+        "w": 1,
+        "d": 0
+      },
+      "flipX": false,
+      "bbox": [
+        70,
+        5,
+        186,
+        251
+      ],
+      "anchor": [
+        0.5,
+        1
+      ],
+      "mountHeight": 0.95
+    },
+    {
+      "key": "furn_guofeng_lantern_01",
+      "cat": "hang_M",
+      "theme": "guofeng",
+      "status": "v1",
+      "layer": "hang",
+      "k": 1.0041,
+      "footprint": {
+        "w": 1,
+        "d": 0
+      },
+      "flipX": false,
+      "bbox": [
+        132,
+        12,
+        380,
+        500
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_guofeng_moongate_01",
+      "cat": "floor_L",
+      "theme": "guofeng",
+      "status": "v1",
+      "layer": "floor",
+      "k": 2.5539,
+      "footprint": {
+        "w": 3,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        21,
+        146,
+        747,
+        749
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_guofeng_qintable_01",
+      "cat": "floor_L",
+      "theme": "guofeng",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.1449,
+      "footprint": {
+        "w": 3,
+        "d": 2
+      },
+      "flipX": false,
+      "bbox": [
+        19,
+        320,
+        749,
+        748
+      ],
+      "anchor": [
+        0.5,
+        1
+      ],
+      "surface": 0.6
+    },
+    {
+      "key": "furn_guofeng_roundwindow_01",
+      "cat": "wall_M",
+      "theme": "guofeng",
+      "status": "v1",
+      "layer": "wall",
+      "k": 1.157,
+      "footprint": {
+        "w": 2,
+        "d": 0
+      },
+      "flipX": false,
+      "bbox": [
+        16,
+        14,
+        493,
+        498
+      ],
+      "anchor": [
+        0.5,
+        1
+      ],
+      "mountHeight": 0.7
+    },
+    {
+      "key": "furn_guofeng_screen_01",
+      "cat": "floor_L",
+      "theme": "guofeng",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.8919,
+      "footprint": {
+        "w": 3,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        19,
+        46,
+        749,
+        749
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "key": "furn_guofeng_scroll_01",
+      "cat": "wall_M",
+      "theme": "guofeng",
+      "status": "v1",
+      "layer": "wall",
+      "k": 1.1475,
+      "footprint": {
+        "w": 2,
+        "d": 0
+      },
+      "flipX": false,
+      "bbox": [
+        99,
+        12,
+        413,
+        500
+      ],
+      "anchor": [
+        0.5,
+        1
+      ],
+      "mountHeight": 0.7
+    },
+    {
+      "key": "furn_guofeng_teatable_01",
+      "cat": "floor_M",
+      "theme": "guofeng",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.1798,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        13,
+        143,
+        498,
+        499
+      ],
+      "anchor": [
+        0.5,
+        1
+      ],
+      "surface": 0.75
+    },
+    {
+      "key": "furn_guofeng_vase_01",
+      "cat": "floor_M",
+      "theme": "guofeng",
+      "status": "v1",
+      "layer": "floor",
+      "k": 1.299,
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "flipX": false,
+      "bbox": [
+        112,
+        14,
+        397,
+        499
+      ],
+      "anchor": [
+        0.5,
+        1
+      ]
+    }
+  ]
+}

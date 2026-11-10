@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "主播品类表",
+  "type": "object",
+  "required": [
+    "version",
+    "rows"
+  ],
+  "properties": {
+    "$comment": {
+      "type": "string"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "rows": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "order",
+          "bgm",
+          "attrWeights"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 8
+          },
+          "desc": {
+            "type": "string"
+          },
+          "order": {
+            "type": "integer"
+          },
+          "bgm": {
+            "type": "string",
+            "pattern": "^bgm_",
+            "description": "直播间 BGM，需为 manifest 中的音频 key"
+          },
+          "attrWeights": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "danmakuTags": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "color": {
+            "type": "string",
+            "description": "theme.palette 中的颜色名"
+          },
+          "minStage": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "解锁所需公司阶段（带货=2，与弹幕库一致）"
+          }
+        }
+      }
+    }
+  }
+}

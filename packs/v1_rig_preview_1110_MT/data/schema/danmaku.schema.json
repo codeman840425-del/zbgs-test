@@ -1,0 +1,115 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "通用弹幕库（策划 文案/danmaku.json，结构见 弹幕库说明.md）",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "enums",
+    "entries"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "enum": [1, 3],
+      "description": "1 = 旧库；3 = 策划弹幕库 v3（新增 textKey 等字段，10/28 礼物改名后同步）"
+    },
+    "enums": {
+      "type": "object",
+      "required": [
+        "category",
+        "mood"
+      ]
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "text",
+          "category",
+          "mood",
+          "triggers",
+          "weight",
+          "repeatable",
+          "minStage",
+          "cooldown"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^dm_"
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "category": {
+            "enum": [
+              "general",
+              "sing",
+              "chat",
+              "sell",
+              "game"
+            ]
+          },
+          "mood": {
+            "enum": [
+              "cold",
+              "calm",
+              "hype",
+              "fail"
+            ]
+          },
+          "triggers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "weight": {
+            "type": "number",
+            "minimum": 0
+          },
+          "repeatable": {
+            "type": "boolean"
+          },
+          "minStage": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "cooldown": {
+            "type": "integer",
+            "minimum": -1
+          },
+          "minTier": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "viewer": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tone": {
+            "type": "string"
+          },
+          "vars": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "timeSlot": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

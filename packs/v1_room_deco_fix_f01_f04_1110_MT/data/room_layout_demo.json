@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "$comment": "装修演示布局（出租屋直播间 + 才艺主播 + 温馨风家具）。floor 物件用网格坐标 c(沿左墙 u)/r(沿右墙 v)；wall 物件用 wall=left|right + t（沿墙格数）；desk 物件挂在 parent 上。显示比例/层级/朝向全部查 prop_scale.json。 BUG-016（10/28）：地面物件占地 [c,c+w]×[r,r+d] 必须在 cols×rows 内且两两不重叠（地毯 floor_flat 除外）；墙面物件 t 为中心，[t−w/2,t+w/2] 必须在墙长内（left=cols，right=rows）且同墙不重叠；主播站位不被地面物件占地盖住。tests/room-layout.test.ts 校验。",
+  "room": "bg_room_rental_empty",
+  "streamer": {
+    "sprite": "streamer01",
+    "c": 3.6,
+    "r": 3.4
+  },
+  "props": [
+    {
+      "key": "furn_cozy_rug_01",
+      "c": 2.2,
+      "r": 1.6
+    },
+    {
+      "key": "furn_cozy_painting_01",
+      "wall": "left",
+      "t": 3.2
+    },
+    {
+      "key": "furn_cozy_clock_01",
+      "wall": "left",
+      "t": 6.6
+    },
+    {
+      "key": "furn_cozy_curtain_01",
+      "wall": "right",
+      "t": 4.4
+    },
+    {
+      "key": "furn_cozy_bookshelf_01",
+      "c": 1.0,
+      "r": 0.2
+    },
+    {
+      "key": "furn_cozy_sofa_01",
+      "c": 4.0,
+      "r": 0.3
+    },
+    {
+      "key": "furn_cozy_plant_large_01",
+      "c": 7.0,
+      "r": 0.3
+    },
+    {
+      "key": "furn_cozy_floorlamp_01",
+      "c": 0.0,
+      "r": 0.3
+    },
+    {
+      "id": "desk1",
+      "key": "furn_cozy_desk_01",
+      "c": 0.3,
+      "r": 2.6
+    },
+    {
+      "key": "equip_mic_lv1",
+      "parent": "desk1",
+      "dx": -0.15
+    },
+    {
+      "key": "equip_pc_lv1",
+      "parent": "desk1",
+      "dx": 0.2
+    },
+    {
+      "key": "furn_cozy_chair_01",
+      "c": 1.5,
+      "r": 4.6
+    },
+    {
+      "key": "furn_cozy_beanbag_01",
+      "c": 5.6,
+      "r": 4.0
+    },
+    {
+      "key": "furn_cozy_plush_01",
+      "c": 4.4,
+      "r": 5.0
+    },
+    {
+      "key": "furn_cozy_coffeetable_01",
+      "c": 4.6,
+      "r": 2.4
+    },
+    {
+      "key": "equip_light_lv1",
+      "c": 0.0,
+      "r": 4.8
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>V1 五官扩充 E1 发型补丁（非验收）</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%2314321c'/%3E%3C/svg%3E" />
+  <style>html,body{color:#efe8dc;background:#161410;margin:0;font:13px/1.45 ui-sans-serif,system-ui,sans-serif}header{border-bottom:1px solid #3a342c;padding:10px 16px}h1{margin:0 0 4px;font-size:16px;font-weight:600}.sub{color:#b9ae9c}#banner{border-radius:4px;margin-top:8px;padding:6px 8px;display:inline-block}#banner.ok{color:#b6f0c2;background:#14321c}#banner.bad{color:#ffb4b4;background:#3a1515}#status{color:#9ad;padding:8px 16px}.layout{flex-wrap:wrap;align-items:flex-start;gap:16px;padding:12px 16px 24px;display:flex}#stage{background:#fff6e6;border-radius:8px;padding:8px}#stage canvas{display:block}.panel{flex:1;min-width:280px;max-width:420px}label{justify-content:space-between;gap:8px;margin:6px 0;display:flex}select,button{font:inherit}.hint{color:#e6c07b;font-size:12px}.locked{opacity:.7}pre{white-space:pre-wrap;word-break:break-all;color:#d7d0c4;margin:0;padding:12px 16px;font:12px/1.4 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}</style>
+  <script type="module" crossorigin src="./assets/index-CrSpAeTy.js"></script>
+</head>
+<body>
+  <header>
+    <h1>V1 五官扩充 E1 发型补丁 · 覆盖层与高光按发色调色</h1>
+    <div class="sub">以 face_redraw 被采纳为前提。hook: window.__v1LibExpandLoader · version: v1_lib_expand_E1_hair_patch2_1110_MT · prev: v1_lib_expand_E1_hair_patch_1110_MT · 发型补丁第二版+2b（E1→第一版→patch2→2b，像素从补丁包读、挂点用源清单）。_hi 色表未改。本批只在预览端口落地，不进正式包，数字不冻结，不报验收通过</div>
+    <div id="banner">加载中…</div>
+  </header>
+  <div id="status">正在读取清单并跑自检…</div>
+  <div class="layout">
+    <div id="stage"><canvas id="view" width="400" height="420"></canvas></div>
+    <div class="panel" id="tune"></div>
+    <div class="panel" id="presets"></div>
+  </div>
+  <pre id="out"></pre>
+</body>
+</html>

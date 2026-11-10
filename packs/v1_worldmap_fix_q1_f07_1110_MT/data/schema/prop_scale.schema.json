@@ -1,0 +1,128 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "家具摆放缩放表",
+  "type": "object",
+  "required": [
+    "version",
+    "baseline",
+    "room",
+    "grid",
+    "layers",
+    "rows",
+    "items"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer"
+    },
+    "baseline": {
+      "type": "object",
+      "required": [
+        "H"
+      ]
+    },
+    "room": {
+      "type": "object",
+      "required": [
+        "roomH",
+        "floor"
+      ]
+    },
+    "grid": {
+      "type": "object",
+      "required": [
+        "cell"
+      ]
+    },
+    "layers": {
+      "type": "object",
+      "required": [
+        "order"
+      ]
+    },
+    "rows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "heightRatio": {
+            "type": "number",
+            "minimum": 0
+          },
+          "widthRatio": {
+            "type": "number",
+            "minimum": 0
+          },
+          "layer": {
+            "enum": [
+              "wall",
+              "floor_flat",
+              "floor",
+              "desk",
+              "hang"
+            ]
+          },
+          "flipX": {
+            "type": "boolean"
+          },
+          "footprint": {
+            "type": "object",
+            "required": [
+              "w",
+              "d"
+            ]
+          }
+        }
+      }
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "key",
+          "cat",
+          "layer",
+          "k",
+          "footprint",
+          "flipX",
+          "bbox",
+          "anchor"
+        ],
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "k": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "layer": {
+            "enum": [
+              "wall",
+              "floor_flat",
+              "floor",
+              "desk",
+              "hang"
+            ]
+          },
+          "flipX": {
+            "type": "boolean"
+          },
+          "surface": {
+            "type": "number"
+          },
+          "mountHeight": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  }
+}

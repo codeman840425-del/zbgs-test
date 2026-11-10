@@ -1,0 +1,347 @@
+{
+  "schema": "ui2.theme.1",
+  "id": "p2live",
+  "extends": "default",
+  "nineSliceFile": "ui/ui2_9slice.json",
+  "scope": "进入 cam.overview_live 特写端时替换顶区（公司盘面隐藏）、社交栏隐藏，并隐藏房间操作条，把位置让给托盘；全景端仍用 P0 公司盘面和房间操作条，不用直播托盘。邮件/设置入口保持 P1rest 位置不变",
+  "motionMs": {
+    "liveHudSwap": 200,
+    "onairBreath": 1200,
+    "popTierUp": 320,
+    "danmakuIn": 180,
+    "danmakuLife": 4000,
+    "traySlotSelect": 160,
+    "interveneIn": 240
+  },
+  "motionEase": {
+    "liveHudSwap": "Cubic.Out",
+    "onairBreath": "Sine.InOut yoyo",
+    "popTierUp": "Back.Out 1.6",
+    "danmakuIn": "Cubic.Out",
+    "traySlotSelect": "Back.Out 1.4",
+    "interveneIn": "Back.Out 1.4"
+  },
+  "layout": {
+    "design": [
+      1080,
+      1920
+    ],
+    "topZone": {
+      "y": [
+        0,
+        150
+      ],
+      "marginX": 32
+    },
+    "onair": {
+      "x": 32,
+      "y": 28,
+      "canvas": [
+        192,
+        96
+      ],
+      "visible": {
+        "x": 44,
+        "y": 40,
+        "w": 168,
+        "h": 72
+      }
+    },
+    "popTier": {
+      "capsule": {
+        "x": 252,
+        "y": 28,
+        "w": 400,
+        "h": 64,
+        "nineSlice": "ui2_live_pop_tier_9s"
+      },
+      "badge": {
+        "x": 224,
+        "y": 24,
+        "size": 72
+      },
+      "text": {
+        "x": 304,
+        "y": 60,
+        "anchor": "left-middle",
+        "maxRight": 536,
+        "textKey": "ui.live.pop.hud",
+        "sample": "人气 {pop} · {tier}",
+        "color": "line",
+        "size": 28
+      },
+      "pips": {
+        "cx": [
+          556,
+          578,
+          600,
+          622
+        ],
+        "cy": 60,
+        "size": 20
+      }
+    },
+    "topRightEntries": {
+      "mail": {
+        "x": 896,
+        "y": 16,
+        "size": [
+          72,
+          72
+        ]
+      },
+      "settings": {
+        "x": 976,
+        "y": 16,
+        "size": [
+          72,
+          72
+        ]
+      }
+    },
+    "danmaku": {
+      "area": {
+        "x": 32,
+        "y": 1040,
+        "w": 680,
+        "h": 332
+      },
+      "lineH": 56,
+      "gap": 8,
+      "maxLines": 5,
+      "order": "新的在下、旧的上推淡出",
+      "padX": 24,
+      "minW": 120,
+      "maxW": 680,
+      "text": {
+        "size": 28,
+        "color": "line",
+        "nameColor": "stroke"
+      },
+      "kinds": {
+        "normal": "ui2_live_danmaku_bg_normal_9s",
+        "gift": "ui2_live_danmaku_bg_gift_9s",
+        "system": "ui2_live_danmaku_bg_system_9s"
+      }
+    },
+    "giftTray": {
+      "panel": {
+        "x": 32,
+        "y": 1392,
+        "w": 888,
+        "h": 200,
+        "nineSlice": "ui2_live_gift_tray_9s"
+      },
+      "clip": {
+        "x": 44,
+        "y": 1400,
+        "w": 864,
+        "h": 184
+      },
+      "slot": {
+        "w": 144,
+        "h": 168,
+        "y": 1408,
+        "gap": 8,
+        "firstX": 52
+      },
+      "scroll": "横向滑动，惯性 + 回弹；两端用 clip 渐隐 24px（程序 mask，不出贴图）",
+      "iconBox": {
+        "cx": 72,
+        "cy": 66,
+        "size": 96,
+        "src": "gifts/gift_<id>.png（@2x 在高清屏用）"
+      },
+      "pricePill": {
+        "x": 26,
+        "y": 124,
+        "w": 92,
+        "h": 28
+      },
+      "visibleOn": "cam.overview_live 特写端；全景端不用"
+    },
+    "intervene": {
+      "card": {
+        "centerX": 540,
+        "y": 600,
+        "w": 720,
+        "minH": 480,
+        "nineSlice": "ui2_live_intervene_card_9s"
+      },
+      "header": {
+        "bandY": [
+          12,
+          56
+        ],
+        "titleSize": 32,
+        "titleColor": "cream",
+        "titleStroke": "line 3px"
+      },
+      "icon": {
+        "key": "ui2_live_intervene_icon",
+        "offset": [
+          -20,
+          -28
+        ],
+        "size": 80
+      },
+      "buttons": "用 P0 ui2_btn_primary / secondary（不出新钮）；遮罩用 P0 模态规则"
+    }
+  },
+  "components": {
+    "ui2_live_onair": {
+      "states": {
+        "off": {
+          "file": "ui/ui2/ui2_live_onair_off.png",
+          "@3x": "ui/ui2/ui2_live_onair_off@3x.png"
+        },
+        "on": {
+          "file": "ui/ui2/ui2_live_onair_on.png",
+          "@3x": "ui/ui2/ui2_live_onair_on@3x.png"
+        },
+        "hot": {
+          "file": "ui/ui2/ui2_live_onair_hot.png",
+          "@3x": "ui/ui2/ui2_live_onair_hot@3x.png"
+        }
+      },
+      "rule": {
+        "off": "关播 / 未开播",
+        "on": "开播中",
+        "hot": "开播中且人气档 ≥ 3 时 on→hot（live.tier.up）；程序接三态 off/on/hot，已交贴图可直接用"
+      },
+      "breath": {
+        "state": "on",
+        "glowAlphaFrom": 0.75,
+        "glowAlphaTo": 1,
+        "ms": 1200
+      }
+    },
+    "ui2_live_pop_tier": {
+      "capsule": "ui2_live_pop_tier_9s",
+      "height": 64,
+      "badges": {
+        "0": {
+          "file": "ui/ui2/ui2_live_pop_tier_badge_0.png",
+          "@3x": "ui/ui2/ui2_live_pop_tier_badge_0@3x.png"
+        },
+        "1": {
+          "file": "ui/ui2/ui2_live_pop_tier_badge_1.png",
+          "@3x": "ui/ui2/ui2_live_pop_tier_badge_1@3x.png"
+        },
+        "2": {
+          "file": "ui/ui2/ui2_live_pop_tier_badge_2.png",
+          "@3x": "ui/ui2/ui2_live_pop_tier_badge_2@3x.png"
+        },
+        "3": {
+          "file": "ui/ui2/ui2_live_pop_tier_badge_3.png",
+          "@3x": "ui/ui2/ui2_live_pop_tier_badge_3@3x.png"
+        },
+        "4": {
+          "file": "ui/ui2/ui2_live_pop_tier_badge_4.png",
+          "@3x": "ui/ui2/ui2_live_pop_tier_badge_4@3x.png"
+        }
+      },
+      "pips": {
+        "on": {
+          "file": "ui/ui2/ui2_live_pop_tier_pip_on.png",
+          "@3x": "ui/ui2/ui2_live_pop_tier_pip_on@3x.png"
+        },
+        "off": {
+          "file": "ui/ui2/ui2_live_pop_tier_pip_off.png",
+          "@3x": "ui/ui2/ui2_live_pop_tier_pip_off@3x.png"
+        }
+      },
+      "tiers": [
+        {
+          "tier": 0,
+          "textKey": "ui.live.pop.tier.0",
+          "textSample": "刚开播",
+          "badge": "ui2_live_pop_tier_badge_0",
+          "badgeColor": "gray",
+          "fx": null
+        },
+        {
+          "tier": 1,
+          "textKey": "ui.live.pop.tier.1",
+          "textSample": "暖场",
+          "badge": "ui2_live_pop_tier_badge_1",
+          "badgeColor": "mint",
+          "fx": "美术/_交付/gift_trial_M2_1104/fx_popularity/fx_pop_1_confetti.json"
+        },
+        {
+          "tier": 2,
+          "textKey": "ui.live.pop.tier.2",
+          "textSample": "热闹",
+          "badge": "ui2_live_pop_tier_badge_2",
+          "badgeColor": "honey",
+          "fx": "美术/_交付/gift_trial_M2_1104/fx_popularity/fx_pop_2_sweep.json"
+        },
+        {
+          "tier": 3,
+          "textKey": "ui.live.pop.tier.3",
+          "textSample": "火爆",
+          "badge": "ui2_live_pop_tier_badge_3",
+          "badgeColor": "coral",
+          "fx": "美术/_交付/gift_trial_M2_1104/fx_popularity/fx_pop_3_heartrain.json"
+        },
+        {
+          "tier": 4,
+          "textKey": "ui.live.pop.tier.4",
+          "textSample": "出圈",
+          "badge": "ui2_live_pop_tier_badge_4",
+          "badgeColor": "berry",
+          "fx": "美术/_交付/gift_trial_M2_1104/fx_popularity/fx_pop_4_stagebeam.json"
+        }
+      ],
+      "thresholds": "读 params live.pop_tiers（现 2500/13000/23000/36000，不冻结）；本场只升不降",
+      "onTierUp": "徽章 Back.Out 放大 1.0→1.25→1.0（popTierUp）+ 播对应 fx_pop_N（沿用试玩四档，不重出）+ toast textKey ui.live.pop.up"
+    },
+    "ui2_live_danmaku_bg": {
+      "normal": {
+        "nineSlice": "ui2_live_danmaku_bg_normal_9s",
+        "use": "普通观众弹幕"
+      },
+      "gift": {
+        "nineSlice": "ui2_live_danmaku_bg_gift_9s",
+        "use": "送礼弹幕（honey 双线）"
+      },
+      "system": {
+        "nineSlice": "ui2_live_danmaku_bg_system_9s",
+        "use": "系统 / 进场提示（mint 底）"
+      }
+    },
+    "ui2_live_gift_tray": {
+      "panel": "ui2_live_gift_tray_9s",
+      "slot": {
+        "normal": {
+          "file": "ui/ui2/ui2_live_gift_tray_slot_normal.png",
+          "@3x": "ui/ui2/ui2_live_gift_tray_slot_normal@3x.png"
+        },
+        "pressed": {
+          "file": "ui/ui2/ui2_live_gift_tray_slot_pressed.png",
+          "@3x": "ui/ui2/ui2_live_gift_tray_slot_pressed@3x.png"
+        },
+        "selected": {
+          "file": "ui/ui2/ui2_live_gift_tray_slot_selected.png",
+          "@3x": "ui/ui2/ui2_live_gift_tray_slot_selected@3x.png"
+        },
+        "disabled": {
+          "file": "ui/ui2/ui2_live_gift_tray_slot_disabled.png",
+          "@3x": "ui/ui2/ui2_live_gift_tray_slot_disabled@3x.png"
+        }
+      },
+      "slotRule": {
+        "pressed": "面下移 3px、暗 8%",
+        "selected": "coral 双环 + honey 外光 + 角星；价格 pill 变 honey",
+        "disabled": "去饱和（余额不足 / 未解锁）"
+      }
+    },
+    "ui2_live_intervene_card": {
+      "nineSlice": "ui2_live_intervene_card_9s",
+      "icon": {
+        "file": "ui/ui2/ui2_live_intervene_icon.png",
+        "@3x": "ui/ui2/ui2_live_intervene_icon@3x.png"
+      }
+    }
+  }
+}

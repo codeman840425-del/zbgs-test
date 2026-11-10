@@ -1,0 +1,1412 @@
+{
+ "schema": "v1.head_compat.1",
+ "draft": false,
+ "batch": "parts_v1_W2_lib_expand_E1_1110",
+ "source_plan": "策划/V1_五官与发型库扩充实施方案_20261110.md（sha256 12debb6b51f6b880162fe85d698a5f41ceab12bc13f245869ee3c7c757b69a85）§2.3",
+ "note": "只读兼容表，不改已交 W2_1110 / ne_patch / face_redraw 清单，也不写入那些目录。程序可按 (gender, partSet) 查 byGenderPartSet，或按清单 id 查 byId / entries[].id。同键出现多条时，按 loadOrder 后者覆盖（W2_1110 → ne_patch(replace_by_id，不改挂点/noseBaked) → face_redraw（若采纳）→ lib_expand_*（append））。ne 补丁未列入 entries，因其不改变本表字段。本包每一个扩库色图 id（29 条）必须在 entries 与 byId 有记录，缺一条不通过。 【E1】由 A0 草稿同步而来，字段未改，只补胡须 tags 与清单一致性复核。",
+ "lookupKey": [
+  "gender",
+  "partSet"
+ ],
+ "loadOrder": [
+  "parts_v1_W2_1110",
+  "parts_v1_W2_ne_patch_1110",
+  "parts_v1_W2_face_redraw_1110",
+  "parts_v1_W2_lib_expand_*"
+ ],
+ "socketSets": {
+  "w2_legacy": {
+   "note": "W2 几何件旧挂点（相对下巴 / head 原点）。与程序 bones_{f,m}_MT.json 现行值一致；本表只读记录，不改该文件。",
+   "f": {
+    "eye_l": [
+     -44.6,
+     -136.4
+    ],
+    "eye_r": [
+     44.6,
+     -136.4
+    ],
+    "mouth": [
+     0.0,
+     -29.8
+    ]
+   },
+   "m": {
+    "eye_l": [
+     -44.6,
+     -136.4
+    ],
+    "eye_r": [
+     44.6,
+     -136.4
+    ],
+    "mouth": [
+     0.0,
+     -29.8
+    ]
+   }
+  },
+  "redraw_1110": {
+   "note": "平台 2026-11-10 09:14 采纳；face_redraw 及本扩充件一律用这组。程序只在挂新脸的新目录改 bones，不改已冻 4177–4183。两组挂点的件不混挂。",
+   "formula_nose": "nose = eye_mid + 0.62 × (mouth − eye_mid)",
+   "f": {
+    "eye_l": [
+     -39,
+     -96
+    ],
+    "eye_r": [
+     39,
+     -96
+    ],
+    "mouth": [
+     0,
+     -35
+    ],
+    "nose": [
+     0.0,
+     -58.18
+    ]
+   },
+   "m": {
+    "eye_l": [
+     -37,
+     -103
+    ],
+    "eye_r": [
+     37,
+     -103
+    ],
+    "mouth": [
+     0,
+     -44
+    ],
+    "nose": [
+     0.0,
+     -66.42
+    ]
+   }
+  }
+ },
+ "noseBakedRule": {
+  "true": "选中该脸型时 appearance.nose 必须为 null；捏脸「鼻」项显示「脸型自带」并锁定。",
+  "false": "appearance.nose 必填（默认 no_01）；新脸型不画鼻子。"
+ },
+ "entries": [
+  {
+   "gender": "f",
+   "partSet": "fc_01",
+   "sourceBatch": "parts_v1_W2_1110",
+   "socketSet": "w2_legacy",
+   "category": "face_shape",
+   "noseBaked": true,
+   "note": "W2 几何脸型，鼻子画在脸型里。选中时 appearance.nose 必须为 null。"
+  },
+  {
+   "gender": "f",
+   "partSet": "fc_02",
+   "sourceBatch": "parts_v1_W2_1110",
+   "socketSet": "w2_legacy",
+   "category": "face_shape",
+   "noseBaked": true,
+   "note": "W2 几何脸型，鼻子画在脸型里。选中时 appearance.nose 必须为 null。"
+  },
+  {
+   "gender": "f",
+   "partSet": "ey_01",
+   "sourceBatch": "parts_v1_W2_1110",
+   "socketSet": "w2_legacy",
+   "category": "eyes"
+  },
+  {
+   "gender": "f",
+   "partSet": "ey_02",
+   "sourceBatch": "parts_v1_W2_1110",
+   "socketSet": "w2_legacy",
+   "category": "eyes"
+  },
+  {
+   "gender": "f",
+   "partSet": "mo_01",
+   "sourceBatch": "parts_v1_W2_1110",
+   "socketSet": "w2_legacy",
+   "category": "mouth"
+  },
+  {
+   "gender": "f",
+   "partSet": "mo_02",
+   "sourceBatch": "parts_v1_W2_1110",
+   "socketSet": "w2_legacy",
+   "category": "mouth"
+  },
+  {
+   "gender": "f",
+   "partSet": "hr_01",
+   "sourceBatch": "parts_v1_W2_1110",
+   "socketSet": "w2_legacy",
+   "category": "hair"
+  },
+  {
+   "gender": "f",
+   "partSet": "hr_02",
+   "sourceBatch": "parts_v1_W2_1110",
+   "socketSet": "w2_legacy",
+   "category": "hair"
+  },
+  {
+   "gender": "f",
+   "partSet": "hr_03",
+   "sourceBatch": "parts_v1_W2_1110",
+   "socketSet": "w2_legacy",
+   "category": "hair"
+  },
+  {
+   "gender": "f",
+   "partSet": "br_01",
+   "sourceBatch": "parts_v1_W2_1110",
+   "socketSet": "w2_legacy",
+   "category": "brow"
+  },
+  {
+   "gender": "f",
+   "partSet": "br_02",
+   "sourceBatch": "parts_v1_W2_1110",
+   "socketSet": "w2_legacy",
+   "category": "brow"
+  },
+  {
+   "gender": "f",
+   "partSet": "ag_01",
+   "sourceBatch": "parts_v1_W2_1110",
+   "socketSet": "w2_legacy",
+   "category": "age"
+  },
+  {
+   "gender": "m",
+   "partSet": "fc_01",
+   "sourceBatch": "parts_v1_W2_1110",
+   "socketSet": "w2_legacy",
+   "category": "face_shape",
+   "noseBaked": true,
+   "note": "W2 几何脸型，鼻子画在脸型里。选中时 appearance.nose 必须为 null。"
+  },
+  {
+   "gender": "m",
+   "partSet": "fc_02",
+   "sourceBatch": "parts_v1_W2_1110",
+   "socketSet": "w2_legacy",
+   "category": "face_shape",
+   "noseBaked": true,
+   "note": "W2 几何脸型，鼻子画在脸型里。选中时 appearance.nose 必须为 null。"
+  },
+  {
+   "gender": "m",
+   "partSet": "ey_01",
+   "sourceBatch": "parts_v1_W2_1110",
+   "socketSet": "w2_legacy",
+   "category": "eyes"
+  },
+  {
+   "gender": "m",
+   "partSet": "ey_02",
+   "sourceBatch": "parts_v1_W2_1110",
+   "socketSet": "w2_legacy",
+   "category": "eyes"
+  },
+  {
+   "gender": "m",
+   "partSet": "mo_01",
+   "sourceBatch": "parts_v1_W2_1110",
+   "socketSet": "w2_legacy",
+   "category": "mouth"
+  },
+  {
+   "gender": "m",
+   "partSet": "mo_02",
+   "sourceBatch": "parts_v1_W2_1110",
+   "socketSet": "w2_legacy",
+   "category": "mouth"
+  },
+  {
+   "gender": "m",
+   "partSet": "hr_01",
+   "sourceBatch": "parts_v1_W2_1110",
+   "socketSet": "w2_legacy",
+   "category": "hair"
+  },
+  {
+   "gender": "m",
+   "partSet": "hr_02",
+   "sourceBatch": "parts_v1_W2_1110",
+   "socketSet": "w2_legacy",
+   "category": "hair"
+  },
+  {
+   "gender": "m",
+   "partSet": "hr_03",
+   "sourceBatch": "parts_v1_W2_1110",
+   "socketSet": "w2_legacy",
+   "category": "hair"
+  },
+  {
+   "gender": "m",
+   "partSet": "br_01",
+   "sourceBatch": "parts_v1_W2_1110",
+   "socketSet": "w2_legacy",
+   "category": "brow"
+  },
+  {
+   "gender": "m",
+   "partSet": "br_02",
+   "sourceBatch": "parts_v1_W2_1110",
+   "socketSet": "w2_legacy",
+   "category": "brow"
+  },
+  {
+   "gender": "m",
+   "partSet": "ag_01",
+   "sourceBatch": "parts_v1_W2_1110",
+   "socketSet": "w2_legacy",
+   "category": "age",
+   "tags": [
+    "stubble"
+   ],
+   "note": "男 ag_01 带淡须影。与满须同出时以胡须为主，不报错。新画的 ag 不再画须影。"
+  },
+  {
+   "gender": "f",
+   "partSet": "fc_01",
+   "sourceBatch": "parts_v1_W2_face_redraw_1110",
+   "socketSet": "redraw_1110",
+   "category": "face_shape",
+   "noseBaked": true,
+   "note": "face_redraw 第一稿同 id，鼻子仍画在脸型里（noseBaked true）。socketSet 已换 redraw_1110。是否把鼻从 fc_01/02 拆出由脸重做补齐方案自定。"
+  },
+  {
+   "gender": "f",
+   "partSet": "fc_02",
+   "sourceBatch": "parts_v1_W2_face_redraw_1110",
+   "socketSet": "redraw_1110",
+   "category": "face_shape",
+   "noseBaked": true,
+   "note": "face_redraw 第一稿同 id，鼻子仍画在脸型里（noseBaked true）。socketSet 已换 redraw_1110。是否把鼻从 fc_01/02 拆出由脸重做补齐方案自定。"
+  },
+  {
+   "gender": "f",
+   "partSet": "ey_01",
+   "sourceBatch": "parts_v1_W2_face_redraw_1110",
+   "socketSet": "redraw_1110",
+   "category": "eyes"
+  },
+  {
+   "gender": "f",
+   "partSet": "br_01",
+   "sourceBatch": "parts_v1_W2_face_redraw_1110",
+   "socketSet": "redraw_1110",
+   "category": "brow"
+  },
+  {
+   "gender": "f",
+   "partSet": "mo_01",
+   "sourceBatch": "parts_v1_W2_face_redraw_1110",
+   "socketSet": "redraw_1110",
+   "category": "mouth"
+  },
+  {
+   "gender": "f",
+   "partSet": "ag_01",
+   "sourceBatch": "parts_v1_W2_face_redraw_1110",
+   "socketSet": "redraw_1110",
+   "category": "age"
+  },
+  {
+   "gender": "f",
+   "partSet": "hr_02",
+   "sourceBatch": "parts_v1_W2_face_redraw_1110",
+   "socketSet": "redraw_1110",
+   "category": "hair"
+  },
+  {
+   "gender": "m",
+   "partSet": "fc_01",
+   "sourceBatch": "parts_v1_W2_face_redraw_1110",
+   "socketSet": "redraw_1110",
+   "category": "face_shape",
+   "noseBaked": true,
+   "note": "face_redraw 第一稿同 id，鼻子仍画在脸型里（noseBaked true）。socketSet 已换 redraw_1110。是否把鼻从 fc_01/02 拆出由脸重做补齐方案自定。"
+  },
+  {
+   "gender": "m",
+   "partSet": "fc_02",
+   "sourceBatch": "parts_v1_W2_face_redraw_1110",
+   "socketSet": "redraw_1110",
+   "category": "face_shape",
+   "noseBaked": true,
+   "note": "face_redraw 第一稿同 id，鼻子仍画在脸型里（noseBaked true）。socketSet 已换 redraw_1110。是否把鼻从 fc_01/02 拆出由脸重做补齐方案自定。"
+  },
+  {
+   "gender": "m",
+   "partSet": "ey_01",
+   "sourceBatch": "parts_v1_W2_face_redraw_1110",
+   "socketSet": "redraw_1110",
+   "category": "eyes"
+  },
+  {
+   "gender": "m",
+   "partSet": "br_01",
+   "sourceBatch": "parts_v1_W2_face_redraw_1110",
+   "socketSet": "redraw_1110",
+   "category": "brow"
+  },
+  {
+   "gender": "m",
+   "partSet": "mo_01",
+   "sourceBatch": "parts_v1_W2_face_redraw_1110",
+   "socketSet": "redraw_1110",
+   "category": "mouth"
+  },
+  {
+   "gender": "m",
+   "partSet": "ag_01",
+   "sourceBatch": "parts_v1_W2_face_redraw_1110",
+   "socketSet": "redraw_1110",
+   "category": "age",
+   "tags": [
+    "stubble"
+   ],
+   "note": "男 ag_01 带淡须影（第一稿仍保留）。tags: stubble。"
+  },
+  {
+   "gender": "m",
+   "partSet": "hr_01",
+   "sourceBatch": "parts_v1_W2_face_redraw_1110",
+   "socketSet": "redraw_1110",
+   "category": "hair"
+  },
+  {
+   "gender": "f",
+   "partSet": "fc_03",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "face_shape",
+   "noseBaked": false,
+   "note": "新脸型一律不画鼻子；选中时 appearance.nose 必填（默认 no_01）。",
+   "id": "part_f_head_fc_03_head_se",
+   "view": "se"
+  },
+  {
+   "gender": "f",
+   "partSet": "ey_03",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "eyes",
+   "id": "part_f_head_ey_03_head_se_neutral",
+   "view": "se",
+   "expression": "neutral"
+  },
+  {
+   "gender": "f",
+   "partSet": "mo_03",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "mouth",
+   "id": "part_f_head_mo_03_head_se_neutral",
+   "view": "se",
+   "expression": "neutral"
+  },
+  {
+   "gender": "f",
+   "partSet": "hr_04",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "hair_back",
+   "id": "part_f_head_hr_04_hair_b_1_se",
+   "view": "se"
+  },
+  {
+   "gender": "f",
+   "partSet": "hr_04",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "hair_front",
+   "id": "part_f_head_hr_04_head_se_front",
+   "view": "se"
+  },
+  {
+   "gender": "f",
+   "partSet": "hr_05",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "hair_back",
+   "id": "part_f_head_hr_05_hair_b_1_se",
+   "view": "se",
+   "silhouette": "long",
+   "hairTier": "long",
+   "hairBackChain": "hair_b_1 only"
+  },
+  {
+   "gender": "f",
+   "partSet": "hr_05",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "hair_front",
+   "id": "part_f_head_hr_05_head_se_front",
+   "view": "se",
+   "silhouette": "long",
+   "hairTier": "long"
+  },
+  {
+   "gender": "f",
+   "partSet": "no_01",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "nose",
+   "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+   "id": "part_f_head_no_01_head_se",
+   "view": "se"
+  },
+  {
+   "gender": "f",
+   "partSet": "no_02",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "nose",
+   "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+   "id": "part_f_head_no_02_head_se",
+   "view": "se"
+  },
+  {
+   "gender": "f",
+   "partSet": "no_03",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "nose",
+   "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+   "id": "part_f_head_no_03_head_se",
+   "view": "se"
+  },
+  {
+   "gender": "f",
+   "partSet": "no_04",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "nose",
+   "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+   "id": "part_f_head_no_04_head_se",
+   "view": "se"
+  },
+  {
+   "gender": "f",
+   "partSet": "no_05",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "nose",
+   "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+   "id": "part_f_head_no_05_head_se",
+   "view": "se"
+  },
+  {
+   "gender": "m",
+   "partSet": "fc_03",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "face_shape",
+   "noseBaked": false,
+   "note": "新脸型一律不画鼻子；选中时 appearance.nose 必填（默认 no_01）。",
+   "id": "part_m_head_fc_03_head_se",
+   "view": "se"
+  },
+  {
+   "gender": "m",
+   "partSet": "ey_03",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "eyes",
+   "id": "part_m_head_ey_03_head_se_neutral",
+   "view": "se",
+   "expression": "neutral"
+  },
+  {
+   "gender": "m",
+   "partSet": "mo_03",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "mouth",
+   "id": "part_m_head_mo_03_head_se_neutral",
+   "view": "se",
+   "expression": "neutral"
+  },
+  {
+   "gender": "m",
+   "partSet": "hr_04",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "hair_back",
+   "id": "part_m_head_hr_04_hair_b_1_se",
+   "view": "se"
+  },
+  {
+   "gender": "m",
+   "partSet": "hr_04",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "hair_front",
+   "id": "part_m_head_hr_04_head_se_front",
+   "view": "se"
+  },
+  {
+   "gender": "m",
+   "partSet": "hr_05",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "hair_back",
+   "id": "part_m_head_hr_05_hair_b_1_se",
+   "view": "se"
+  },
+  {
+   "gender": "m",
+   "partSet": "hr_05",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "hair_front",
+   "id": "part_m_head_hr_05_head_se_front",
+   "view": "se"
+  },
+  {
+   "gender": "m",
+   "partSet": "no_01",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "nose",
+   "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+   "id": "part_m_head_no_01_head_se",
+   "view": "se"
+  },
+  {
+   "gender": "m",
+   "partSet": "no_02",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "nose",
+   "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+   "id": "part_m_head_no_02_head_se",
+   "view": "se"
+  },
+  {
+   "gender": "m",
+   "partSet": "no_03",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "nose",
+   "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+   "id": "part_m_head_no_03_head_se",
+   "view": "se"
+  },
+  {
+   "gender": "m",
+   "partSet": "no_04",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "nose",
+   "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+   "id": "part_m_head_no_04_head_se",
+   "view": "se"
+  },
+  {
+   "gender": "m",
+   "partSet": "no_05",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "nose",
+   "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+   "id": "part_m_head_no_05_head_se",
+   "view": "se"
+  },
+  {
+   "gender": "m",
+   "partSet": "bd_01",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "beard",
+   "tags": [
+    "stubble",
+    "short"
+   ],
+   "note": "浅胡茬：贴肤短茬，覆盖上唇中线到下颌线。 tags: ['stubble', 'short']。【绘制约束】刚性件只有一个 pivot，程序不会做双点对齐。上唇须中线对 mouth、下巴须底对下巴；按同库嘴到下巴距离（女 35 / 男 44；本批只有男须，用男 44，即 mouth 相对 head 原点 (0,−44)）把这两点画准，再切片算出那一个 pivot。轮廓不超出该脸型下颌外 6px，V1 不做过胸长须、不做跨出下颌的大络腮。",
+   "id": "part_m_head_bd_01_head_se",
+   "view": "se"
+  },
+  {
+   "gender": "m",
+   "partSet": "bd_02",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "beard",
+   "tags": [
+    "mustache",
+    "short"
+   ],
+   "note": "短髭（C2）：上唇短须，人中处分开，下沿贴到唇线（被嘴实色边盖住），两端止于嘴角外 ≤4px。 tags: ['mustache', 'short']。【绘制约束】刚性件只有一个 pivot，程序不会做双点对齐。上唇须中线对 mouth、下巴须底对下巴；按同库嘴到下巴距离（女 35 / 男 44；本批只有男须，用男 44，即 mouth 相对 head 原点 (0,−44)）把这两点画准，再切片算出那一个 pivot。轮廓不超出该脸型下颌外 6px，V1 不做过胸长须、不做跨出下颌的大络腮。",
+   "id": "part_m_head_bd_02_head_se",
+   "view": "se"
+  },
+  {
+   "gender": "m",
+   "partSet": "bd_03",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "beard",
+   "tags": [
+    "jawline",
+    "short"
+   ],
+   "note": "下颌圈：沿下颌一圈短须并带浅髭，贴合下颌。 tags: ['jawline', 'short']。【绘制约束】刚性件只有一个 pivot，程序不会做双点对齐。上唇须中线对 mouth、下巴须底对下巴；按同库嘴到下巴距离（女 35 / 男 44；本批只有男须，用男 44，即 mouth 相对 head 原点 (0,−44)）把这两点画准，再切片算出那一个 pivot。轮廓不超出该脸型下颌外 6px，V1 不做过胸长须、不做跨出下颌的大络腮。",
+   "id": "part_m_head_bd_03_head_se",
+   "view": "se"
+  },
+  {
+   "gender": "m",
+   "partSet": "bd_04",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "beard",
+   "note": "短山羊：下唇凹到下巴尖的短簇须，两颊干净，长度停在下巴。 tags: ['goatee', 'short']。【绘制约束】刚性件只有一个 pivot，程序不会做双点对齐。上唇须中线对 mouth、下巴须底对下巴；按同库嘴到下巴距离（女 35 / 男 44；本批只有男须，用男 44，即 mouth 相对 head 原点 (0,−44)）把这两点画准，再切片算出那一个 pivot。轮廓不超出该脸型下颌外 6px，V1 不做过胸长须、不做跨出下颌的大络腮。",
+   "id": "part_m_head_bd_04_head_se",
+   "view": "se",
+   "tags": [
+    "goatee",
+    "short"
+   ]
+  },
+  {
+   "gender": "m",
+   "partSet": "bd_05",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "beard",
+   "note": "短络腮：两颊到下颌的短络腮（可连浅髭），轮廓贴下颌。 tags: ['sideburn', 'short']。【绘制约束】刚性件只有一个 pivot，程序不会做双点对齐。上唇须中线对 mouth、下巴须底对下巴；按同库嘴到下巴距离（女 35 / 男 44；本批只有男须，用男 44，即 mouth 相对 head 原点 (0,−44)）把这两点画准，再切片算出那一个 pivot。轮廓不超出该脸型下颌外 6px，V1 不做过胸长须、不做跨出下颌的大络腮。",
+   "id": "part_m_head_bd_05_head_se",
+   "view": "se",
+   "tags": [
+    "sideburn",
+    "short"
+   ]
+  }
+ ],
+ "byGenderPartSet": {
+  "note": "按 loadOrder 解析后的有效值（假定 face_redraw 第一稿被采纳进预览链，E1 新 id 已 append）。程序也可忽略本图、自行按 entries+loadOrder 解析。",
+  "f": {
+   "fc_01": {
+    "socketSet": "redraw_1110",
+    "category": "face_shape",
+    "noseBaked": true,
+    "note": "face_redraw 第一稿同 id，鼻子仍画在脸型里（noseBaked true）。socketSet 已换 redraw_1110。是否把鼻从 fc_01/02 拆出由脸重做补齐方案自定。",
+    "effectiveSource": "parts_v1_W2_face_redraw_1110"
+   },
+   "fc_02": {
+    "socketSet": "redraw_1110",
+    "category": "face_shape",
+    "noseBaked": true,
+    "note": "face_redraw 第一稿同 id，鼻子仍画在脸型里（noseBaked true）。socketSet 已换 redraw_1110。是否把鼻从 fc_01/02 拆出由脸重做补齐方案自定。",
+    "effectiveSource": "parts_v1_W2_face_redraw_1110"
+   },
+   "ey_01": {
+    "socketSet": "redraw_1110",
+    "category": "eyes",
+    "effectiveSource": "parts_v1_W2_face_redraw_1110"
+   },
+   "ey_02": {
+    "socketSet": "w2_legacy",
+    "category": "eyes",
+    "effectiveSource": "parts_v1_W2_1110"
+   },
+   "mo_01": {
+    "socketSet": "redraw_1110",
+    "category": "mouth",
+    "effectiveSource": "parts_v1_W2_face_redraw_1110"
+   },
+   "mo_02": {
+    "socketSet": "w2_legacy",
+    "category": "mouth",
+    "effectiveSource": "parts_v1_W2_1110"
+   },
+   "hr_01": {
+    "socketSet": "w2_legacy",
+    "category": "hair",
+    "effectiveSource": "parts_v1_W2_1110"
+   },
+   "hr_02": {
+    "socketSet": "redraw_1110",
+    "category": "hair",
+    "effectiveSource": "parts_v1_W2_face_redraw_1110"
+   },
+   "hr_03": {
+    "socketSet": "w2_legacy",
+    "category": "hair",
+    "effectiveSource": "parts_v1_W2_1110"
+   },
+   "br_01": {
+    "socketSet": "redraw_1110",
+    "category": "brow",
+    "effectiveSource": "parts_v1_W2_face_redraw_1110"
+   },
+   "br_02": {
+    "socketSet": "w2_legacy",
+    "category": "brow",
+    "effectiveSource": "parts_v1_W2_1110"
+   },
+   "ag_01": {
+    "socketSet": "redraw_1110",
+    "category": "age",
+    "effectiveSource": "parts_v1_W2_face_redraw_1110"
+   },
+   "fc_03": {
+    "socketSet": "redraw_1110",
+    "category": "face_shape",
+    "noseBaked": false,
+    "note": "新脸型一律不画鼻子；选中时 appearance.nose 必填（默认 no_01）。",
+    "effectiveSource": "parts_v1_W2_lib_expand_E1_1110",
+    "ids": [
+     "part_f_head_fc_03_head_se"
+    ],
+    "id": "part_f_head_fc_03_head_se"
+   },
+   "ey_03": {
+    "socketSet": "redraw_1110",
+    "category": "eyes",
+    "effectiveSource": "parts_v1_W2_lib_expand_E1_1110",
+    "ids": [
+     "part_f_head_ey_03_head_se_neutral"
+    ],
+    "id": "part_f_head_ey_03_head_se_neutral"
+   },
+   "mo_03": {
+    "socketSet": "redraw_1110",
+    "category": "mouth",
+    "effectiveSource": "parts_v1_W2_lib_expand_E1_1110",
+    "ids": [
+     "part_f_head_mo_03_head_se_neutral"
+    ],
+    "id": "part_f_head_mo_03_head_se_neutral"
+   },
+   "hr_04": {
+    "socketSet": "redraw_1110",
+    "category": "hair",
+    "effectiveSource": "parts_v1_W2_lib_expand_E1_1110",
+    "ids": [
+     "part_f_head_hr_04_hair_b_1_se",
+     "part_f_head_hr_04_head_se_front"
+    ]
+   },
+   "hr_05": {
+    "socketSet": "redraw_1110",
+    "category": "hair",
+    "effectiveSource": "parts_v1_W2_lib_expand_E1_1110",
+    "ids": [
+     "part_f_head_hr_05_hair_b_1_se",
+     "part_f_head_hr_05_head_se_front"
+    ]
+   },
+   "no_01": {
+    "socketSet": "redraw_1110",
+    "category": "nose",
+    "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+    "effectiveSource": "parts_v1_W2_lib_expand_E1_1110",
+    "ids": [
+     "part_f_head_no_01_head_se"
+    ],
+    "id": "part_f_head_no_01_head_se"
+   },
+   "no_02": {
+    "socketSet": "redraw_1110",
+    "category": "nose",
+    "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+    "effectiveSource": "parts_v1_W2_lib_expand_E1_1110",
+    "ids": [
+     "part_f_head_no_02_head_se"
+    ],
+    "id": "part_f_head_no_02_head_se"
+   },
+   "no_03": {
+    "socketSet": "redraw_1110",
+    "category": "nose",
+    "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+    "effectiveSource": "parts_v1_W2_lib_expand_E1_1110",
+    "ids": [
+     "part_f_head_no_03_head_se"
+    ],
+    "id": "part_f_head_no_03_head_se"
+   },
+   "no_04": {
+    "socketSet": "redraw_1110",
+    "category": "nose",
+    "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+    "effectiveSource": "parts_v1_W2_lib_expand_E1_1110",
+    "ids": [
+     "part_f_head_no_04_head_se"
+    ],
+    "id": "part_f_head_no_04_head_se"
+   },
+   "no_05": {
+    "socketSet": "redraw_1110",
+    "category": "nose",
+    "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+    "effectiveSource": "parts_v1_W2_lib_expand_E1_1110",
+    "ids": [
+     "part_f_head_no_05_head_se"
+    ],
+    "id": "part_f_head_no_05_head_se"
+   }
+  },
+  "m": {
+   "fc_01": {
+    "socketSet": "redraw_1110",
+    "category": "face_shape",
+    "noseBaked": true,
+    "note": "face_redraw 第一稿同 id，鼻子仍画在脸型里（noseBaked true）。socketSet 已换 redraw_1110。是否把鼻从 fc_01/02 拆出由脸重做补齐方案自定。",
+    "effectiveSource": "parts_v1_W2_face_redraw_1110"
+   },
+   "fc_02": {
+    "socketSet": "redraw_1110",
+    "category": "face_shape",
+    "noseBaked": true,
+    "note": "face_redraw 第一稿同 id，鼻子仍画在脸型里（noseBaked true）。socketSet 已换 redraw_1110。是否把鼻从 fc_01/02 拆出由脸重做补齐方案自定。",
+    "effectiveSource": "parts_v1_W2_face_redraw_1110"
+   },
+   "ey_01": {
+    "socketSet": "redraw_1110",
+    "category": "eyes",
+    "effectiveSource": "parts_v1_W2_face_redraw_1110"
+   },
+   "ey_02": {
+    "socketSet": "w2_legacy",
+    "category": "eyes",
+    "effectiveSource": "parts_v1_W2_1110"
+   },
+   "mo_01": {
+    "socketSet": "redraw_1110",
+    "category": "mouth",
+    "effectiveSource": "parts_v1_W2_face_redraw_1110"
+   },
+   "mo_02": {
+    "socketSet": "w2_legacy",
+    "category": "mouth",
+    "effectiveSource": "parts_v1_W2_1110"
+   },
+   "hr_01": {
+    "socketSet": "redraw_1110",
+    "category": "hair",
+    "effectiveSource": "parts_v1_W2_face_redraw_1110"
+   },
+   "hr_02": {
+    "socketSet": "w2_legacy",
+    "category": "hair",
+    "effectiveSource": "parts_v1_W2_1110"
+   },
+   "hr_03": {
+    "socketSet": "w2_legacy",
+    "category": "hair",
+    "effectiveSource": "parts_v1_W2_1110"
+   },
+   "br_01": {
+    "socketSet": "redraw_1110",
+    "category": "brow",
+    "effectiveSource": "parts_v1_W2_face_redraw_1110"
+   },
+   "br_02": {
+    "socketSet": "w2_legacy",
+    "category": "brow",
+    "effectiveSource": "parts_v1_W2_1110"
+   },
+   "ag_01": {
+    "socketSet": "redraw_1110",
+    "category": "age",
+    "tags": [
+     "stubble"
+    ],
+    "note": "男 ag_01 带淡须影（第一稿仍保留）。tags: stubble。",
+    "effectiveSource": "parts_v1_W2_face_redraw_1110"
+   },
+   "fc_03": {
+    "socketSet": "redraw_1110",
+    "category": "face_shape",
+    "noseBaked": false,
+    "note": "新脸型一律不画鼻子；选中时 appearance.nose 必填（默认 no_01）。",
+    "effectiveSource": "parts_v1_W2_lib_expand_E1_1110",
+    "ids": [
+     "part_m_head_fc_03_head_se"
+    ],
+    "id": "part_m_head_fc_03_head_se"
+   },
+   "ey_03": {
+    "socketSet": "redraw_1110",
+    "category": "eyes",
+    "effectiveSource": "parts_v1_W2_lib_expand_E1_1110",
+    "ids": [
+     "part_m_head_ey_03_head_se_neutral"
+    ],
+    "id": "part_m_head_ey_03_head_se_neutral"
+   },
+   "mo_03": {
+    "socketSet": "redraw_1110",
+    "category": "mouth",
+    "effectiveSource": "parts_v1_W2_lib_expand_E1_1110",
+    "ids": [
+     "part_m_head_mo_03_head_se_neutral"
+    ],
+    "id": "part_m_head_mo_03_head_se_neutral"
+   },
+   "hr_04": {
+    "socketSet": "redraw_1110",
+    "category": "hair",
+    "effectiveSource": "parts_v1_W2_lib_expand_E1_1110",
+    "ids": [
+     "part_m_head_hr_04_hair_b_1_se",
+     "part_m_head_hr_04_head_se_front"
+    ]
+   },
+   "hr_05": {
+    "socketSet": "redraw_1110",
+    "category": "hair",
+    "effectiveSource": "parts_v1_W2_lib_expand_E1_1110",
+    "ids": [
+     "part_m_head_hr_05_hair_b_1_se",
+     "part_m_head_hr_05_head_se_front"
+    ]
+   },
+   "no_01": {
+    "socketSet": "redraw_1110",
+    "category": "nose",
+    "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+    "effectiveSource": "parts_v1_W2_lib_expand_E1_1110",
+    "ids": [
+     "part_m_head_no_01_head_se"
+    ],
+    "id": "part_m_head_no_01_head_se"
+   },
+   "no_02": {
+    "socketSet": "redraw_1110",
+    "category": "nose",
+    "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+    "effectiveSource": "parts_v1_W2_lib_expand_E1_1110",
+    "ids": [
+     "part_m_head_no_02_head_se"
+    ],
+    "id": "part_m_head_no_02_head_se"
+   },
+   "no_03": {
+    "socketSet": "redraw_1110",
+    "category": "nose",
+    "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+    "effectiveSource": "parts_v1_W2_lib_expand_E1_1110",
+    "ids": [
+     "part_m_head_no_03_head_se"
+    ],
+    "id": "part_m_head_no_03_head_se"
+   },
+   "no_04": {
+    "socketSet": "redraw_1110",
+    "category": "nose",
+    "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+    "effectiveSource": "parts_v1_W2_lib_expand_E1_1110",
+    "ids": [
+     "part_m_head_no_04_head_se"
+    ],
+    "id": "part_m_head_no_04_head_se"
+   },
+   "no_05": {
+    "socketSet": "redraw_1110",
+    "category": "nose",
+    "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+    "effectiveSource": "parts_v1_W2_lib_expand_E1_1110",
+    "ids": [
+     "part_m_head_no_05_head_se"
+    ],
+    "id": "part_m_head_no_05_head_se"
+   },
+   "bd_01": {
+    "socketSet": "redraw_1110",
+    "category": "beard",
+    "tags": [
+     "stubble",
+     "short"
+    ],
+    "note": "浅胡茬：贴肤短茬，覆盖上唇中线到下颌线。 tags: ['stubble', 'short']。【绘制约束】刚性件只有一个 pivot，程序不会做双点对齐。上唇须中线对 mouth、下巴须底对下巴；按同库嘴到下巴距离（女 35 / 男 44；本批只有男须，用男 44，即 mouth 相对 head 原点 (0,−44)）把这两点画准，再切片算出那一个 pivot。轮廓不超出该脸型下颌外 6px，V1 不做过胸长须、不做跨出下颌的大络腮。",
+    "effectiveSource": "parts_v1_W2_lib_expand_E1_1110",
+    "ids": [
+     "part_m_head_bd_01_head_se"
+    ],
+    "id": "part_m_head_bd_01_head_se"
+   },
+   "bd_02": {
+    "socketSet": "redraw_1110",
+    "category": "beard",
+    "tags": [
+     "mustache",
+     "short"
+    ],
+    "note": "短髭：清晰的上唇短须，不下下巴、不连腮。 tags: ['mustache', 'short']。【绘制约束】刚性件只有一个 pivot，程序不会做双点对齐。上唇须中线对 mouth、下巴须底对下巴；按同库嘴到下巴距离（女 35 / 男 44；本批只有男须，用男 44，即 mouth 相对 head 原点 (0,−44)）把这两点画准，再切片算出那一个 pivot。轮廓不超出该脸型下颌外 6px，V1 不做过胸长须、不做跨出下颌的大络腮。",
+    "effectiveSource": "parts_v1_W2_lib_expand_E1_1110",
+    "ids": [
+     "part_m_head_bd_02_head_se"
+    ],
+    "id": "part_m_head_bd_02_head_se"
+   },
+   "bd_03": {
+    "socketSet": "redraw_1110",
+    "category": "beard",
+    "tags": [
+     "jawline",
+     "short"
+    ],
+    "note": "下颌圈：沿下颌一圈短须并带浅髭，贴合下颌。 tags: ['jawline', 'short']。【绘制约束】刚性件只有一个 pivot，程序不会做双点对齐。上唇须中线对 mouth、下巴须底对下巴；按同库嘴到下巴距离（女 35 / 男 44；本批只有男须，用男 44，即 mouth 相对 head 原点 (0,−44)）把这两点画准，再切片算出那一个 pivot。轮廓不超出该脸型下颌外 6px，V1 不做过胸长须、不做跨出下颌的大络腮。",
+    "effectiveSource": "parts_v1_W2_lib_expand_E1_1110",
+    "ids": [
+     "part_m_head_bd_03_head_se"
+    ],
+    "id": "part_m_head_bd_03_head_se"
+   },
+   "bd_04": {
+    "socketSet": "redraw_1110",
+    "category": "beard",
+    "note": "短山羊：下唇凹到下巴尖的短簇须，两颊干净，长度停在下巴。 tags: ['goatee', 'short']。【绘制约束】刚性件只有一个 pivot，程序不会做双点对齐。上唇须中线对 mouth、下巴须底对下巴；按同库嘴到下巴距离（女 35 / 男 44；本批只有男须，用男 44，即 mouth 相对 head 原点 (0,−44)）把这两点画准，再切片算出那一个 pivot。轮廓不超出该脸型下颌外 6px，V1 不做过胸长须、不做跨出下颌的大络腮。",
+    "effectiveSource": "parts_v1_W2_lib_expand_E1_1110",
+    "ids": [
+     "part_m_head_bd_04_head_se"
+    ],
+    "id": "part_m_head_bd_04_head_se",
+    "tags": [
+     "goatee",
+     "short"
+    ]
+   },
+   "bd_05": {
+    "socketSet": "redraw_1110",
+    "category": "beard",
+    "note": "短络腮：两颊到下颌的短络腮（可连浅髭），轮廓贴下颌。 tags: ['sideburn', 'short']。【绘制约束】刚性件只有一个 pivot，程序不会做双点对齐。上唇须中线对 mouth、下巴须底对下巴；按同库嘴到下巴距离（女 35 / 男 44；本批只有男须，用男 44，即 mouth 相对 head 原点 (0,−44)）把这两点画准，再切片算出那一个 pivot。轮廓不超出该脸型下颌外 6px，V1 不做过胸长须、不做跨出下颌的大络腮。",
+    "effectiveSource": "parts_v1_W2_lib_expand_E1_1110",
+    "ids": [
+     "part_m_head_bd_05_head_se"
+    ],
+    "id": "part_m_head_bd_05_head_se",
+    "tags": [
+     "sideburn",
+     "short"
+    ]
+   }
+  }
+ },
+ "byId": {
+  "part_f_head_fc_03_head_se": {
+   "gender": "f",
+   "partSet": "fc_03",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "face_shape",
+   "noseBaked": false,
+   "note": "新脸型一律不画鼻子；选中时 appearance.nose 必填（默认 no_01）。",
+   "view": "se"
+  },
+  "part_f_head_ey_03_head_se_neutral": {
+   "gender": "f",
+   "partSet": "ey_03",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "eyes",
+   "view": "se",
+   "expression": "neutral"
+  },
+  "part_f_head_mo_03_head_se_neutral": {
+   "gender": "f",
+   "partSet": "mo_03",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "mouth",
+   "view": "se",
+   "expression": "neutral"
+  },
+  "part_f_head_hr_04_hair_b_1_se": {
+   "gender": "f",
+   "partSet": "hr_04",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "hair_back",
+   "view": "se"
+  },
+  "part_f_head_hr_04_head_se_front": {
+   "gender": "f",
+   "partSet": "hr_04",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "hair_front",
+   "view": "se"
+  },
+  "part_f_head_hr_05_hair_b_1_se": {
+   "gender": "f",
+   "partSet": "hr_05",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "hair_back",
+   "view": "se",
+   "silhouette": "long",
+   "hairTier": "long",
+   "hairBackChain": "hair_b_1 only"
+  },
+  "part_f_head_hr_05_head_se_front": {
+   "gender": "f",
+   "partSet": "hr_05",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "hair_front",
+   "view": "se",
+   "silhouette": "long",
+   "hairTier": "long"
+  },
+  "part_f_head_no_01_head_se": {
+   "gender": "f",
+   "partSet": "no_01",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "nose",
+   "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+   "view": "se"
+  },
+  "part_f_head_no_02_head_se": {
+   "gender": "f",
+   "partSet": "no_02",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "nose",
+   "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+   "view": "se"
+  },
+  "part_f_head_no_03_head_se": {
+   "gender": "f",
+   "partSet": "no_03",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "nose",
+   "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+   "view": "se"
+  },
+  "part_f_head_no_04_head_se": {
+   "gender": "f",
+   "partSet": "no_04",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "nose",
+   "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+   "view": "se"
+  },
+  "part_f_head_no_05_head_se": {
+   "gender": "f",
+   "partSet": "no_05",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "nose",
+   "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+   "view": "se"
+  },
+  "part_m_head_fc_03_head_se": {
+   "gender": "m",
+   "partSet": "fc_03",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "face_shape",
+   "noseBaked": false,
+   "note": "新脸型一律不画鼻子；选中时 appearance.nose 必填（默认 no_01）。",
+   "view": "se"
+  },
+  "part_m_head_ey_03_head_se_neutral": {
+   "gender": "m",
+   "partSet": "ey_03",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "eyes",
+   "view": "se",
+   "expression": "neutral"
+  },
+  "part_m_head_mo_03_head_se_neutral": {
+   "gender": "m",
+   "partSet": "mo_03",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "mouth",
+   "view": "se",
+   "expression": "neutral"
+  },
+  "part_m_head_hr_04_hair_b_1_se": {
+   "gender": "m",
+   "partSet": "hr_04",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "hair_back",
+   "view": "se"
+  },
+  "part_m_head_hr_04_head_se_front": {
+   "gender": "m",
+   "partSet": "hr_04",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "hair_front",
+   "view": "se"
+  },
+  "part_m_head_hr_05_hair_b_1_se": {
+   "gender": "m",
+   "partSet": "hr_05",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "hair_back",
+   "view": "se"
+  },
+  "part_m_head_hr_05_head_se_front": {
+   "gender": "m",
+   "partSet": "hr_05",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "hair_front",
+   "view": "se"
+  },
+  "part_m_head_no_01_head_se": {
+   "gender": "m",
+   "partSet": "no_01",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "nose",
+   "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+   "view": "se"
+  },
+  "part_m_head_no_02_head_se": {
+   "gender": "m",
+   "partSet": "no_02",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "nose",
+   "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+   "view": "se"
+  },
+  "part_m_head_no_03_head_se": {
+   "gender": "m",
+   "partSet": "no_03",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "nose",
+   "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+   "view": "se"
+  },
+  "part_m_head_no_04_head_se": {
+   "gender": "m",
+   "partSet": "no_04",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "nose",
+   "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+   "view": "se"
+  },
+  "part_m_head_no_05_head_se": {
+   "gender": "m",
+   "partSet": "no_05",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "nose",
+   "note": "可换鼻件；仅在 noseBaked false 的脸型上使用。",
+   "view": "se"
+  },
+  "part_m_head_bd_01_head_se": {
+   "gender": "m",
+   "partSet": "bd_01",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "beard",
+   "tags": [
+    "stubble",
+    "short"
+   ],
+   "note": "浅胡茬：贴肤短茬，覆盖上唇中线到下颌线。 tags: ['stubble', 'short']。【绘制约束】刚性件只有一个 pivot，程序不会做双点对齐。上唇须中线对 mouth、下巴须底对下巴；按同库嘴到下巴距离（女 35 / 男 44；本批只有男须，用男 44，即 mouth 相对 head 原点 (0,−44)）把这两点画准，再切片算出那一个 pivot。轮廓不超出该脸型下颌外 6px，V1 不做过胸长须、不做跨出下颌的大络腮。",
+   "view": "se"
+  },
+  "part_m_head_bd_02_head_se": {
+   "gender": "m",
+   "partSet": "bd_02",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "beard",
+   "tags": [
+    "mustache",
+    "short"
+   ],
+   "note": "短髭（C2）：上唇短须，人中处分开，下沿贴到唇线（被嘴实色边盖住），两端止于嘴角外 ≤4px。 tags: ['mustache', 'short']。【绘制约束】刚性件只有一个 pivot，程序不会做双点对齐。上唇须中线对 mouth、下巴须底对下巴；按同库嘴到下巴距离（女 35 / 男 44；本批只有男须，用男 44，即 mouth 相对 head 原点 (0,−44)）把这两点画准，再切片算出那一个 pivot。轮廓不超出该脸型下颌外 6px，V1 不做过胸长须、不做跨出下颌的大络腮。",
+   "view": "se"
+  },
+  "part_m_head_bd_03_head_se": {
+   "gender": "m",
+   "partSet": "bd_03",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "beard",
+   "tags": [
+    "jawline",
+    "short"
+   ],
+   "note": "下颌圈：沿下颌一圈短须并带浅髭，贴合下颌。 tags: ['jawline', 'short']。【绘制约束】刚性件只有一个 pivot，程序不会做双点对齐。上唇须中线对 mouth、下巴须底对下巴；按同库嘴到下巴距离（女 35 / 男 44；本批只有男须，用男 44，即 mouth 相对 head 原点 (0,−44)）把这两点画准，再切片算出那一个 pivot。轮廓不超出该脸型下颌外 6px，V1 不做过胸长须、不做跨出下颌的大络腮。",
+   "view": "se"
+  },
+  "part_m_head_bd_04_head_se": {
+   "gender": "m",
+   "partSet": "bd_04",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "beard",
+   "note": "短山羊：下唇凹到下巴尖的短簇须，两颊干净，长度停在下巴。 tags: ['goatee', 'short']。【绘制约束】刚性件只有一个 pivot，程序不会做双点对齐。上唇须中线对 mouth、下巴须底对下巴；按同库嘴到下巴距离（女 35 / 男 44；本批只有男须，用男 44，即 mouth 相对 head 原点 (0,−44)）把这两点画准，再切片算出那一个 pivot。轮廓不超出该脸型下颌外 6px，V1 不做过胸长须、不做跨出下颌的大络腮。",
+   "view": "se",
+   "tags": [
+    "goatee",
+    "short"
+   ]
+  },
+  "part_m_head_bd_05_head_se": {
+   "gender": "m",
+   "partSet": "bd_05",
+   "sourceBatch": "parts_v1_W2_lib_expand_E1_1110",
+   "socketSet": "redraw_1110",
+   "category": "beard",
+   "note": "短络腮：两颊到下颌的短络腮（可连浅髭），轮廓贴下颌。 tags: ['sideburn', 'short']。【绘制约束】刚性件只有一个 pivot，程序不会做双点对齐。上唇须中线对 mouth、下巴须底对下巴；按同库嘴到下巴距离（女 35 / 男 44；本批只有男须，用男 44，即 mouth 相对 head 原点 (0,−44)）把这两点画准，再切片算出那一个 pivot。轮廓不超出该脸型下颌外 6px，V1 不做过胸长须、不做跨出下颌的大络腮。",
+   "view": "se",
+   "tags": [
+    "sideburn",
+    "short"
+   ]
+  }
+ },
+ "expansionIdCount": 29,
+ "beardTagsNote": "男须 tags 以清单条目字段为准，本表同步抄录，不能只写在本表。 E1：bd_01=['stubble', 'short'], bd_02=['mustache', 'short'], bd_03=['jawline', 'short'], bd_04=['goatee', 'short'], bd_05=['sideburn', 'short']",
+ "byIdNote": "本包 29 条扩库色图 id 的直接查找表。程序也可按 (gender, partSet) 查 byGenderPartSet；发型同一 partSet 含后片+前片两条 id，不得缺。缺一条视为不通过，不要留空让程序默认。",
+ "socketSetPolicy": "同一角色只允许一种 socketSet（w2_legacy 与 redraw_1110 不混挂；W2 旧嘴不会与新脸、本包胡须同挂）。",
+ "beardMouthSafetyZone": {
+  "caliber": "c_redraw_1110_solid_alpha128_bbox_pad0",
+  "m_se": [
+   357.0,
+   493.0,
+   411.0,
+   518.0
+  ],
+  "note": "【现行口径 (c)，平台 11/10 定】胡须安全区 = redraw_1110 嘴件（face_redraw_1110 男/女 se 嘴件 + 本包 mo_03）alpha≥128 实色包围盒并集，不外扩；W2_1110 / ne_patch 旧嘴不计。层序不变：胡须在嘴、眼之下。另加叠嘴一致性检查：m/se 下 bd_02、bd_03 与每张 redraw_1110 男嘴（含 mo_03）合成，嘴实色区（alpha≥128）像素须与单放嘴逐像素一致。以后 redraw 男嘴出表情件时，按同一口径重跑。复核见 _recheck_1110/。",
+  "reference_a": {
+   "m_se": [
+    352.0,
+    488.0,
+    417.0,
+    523.0
+   ]
+  },
+  "reference_legacyUnion": {
+   "m_se": [
+    351.9999,
+    487.99988,
+    416.9999,
+    525.0001
+   ]
+  },
+  "beardCheck": "overlay_consistency_c",
+  "beardCheckNote": "【E1 胡须判据，平台 11/10 C2 定】胡须是否压嘴只看叠嘴一致性：m/se 每件胡须 × 每张 redraw_1110 男嘴（含本包 mo_03）合成（胡须在嘴下），嘴实色区（alpha≥128）8 位 RGB 与单放嘴逐像素一致即过；(c) 包围盒内像素数只作参考。以后 redraw 男嘴出表情件时，按同一口径重跑。"
+ }
+}

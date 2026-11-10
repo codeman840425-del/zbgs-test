@@ -1,0 +1,4131 @@
+{
+ "schemaVersion": 3,
+ "game": "开播吧！星光经纪",
+ "file": "regulars.json",
+ "desc": "8 位老观众专属台词库（v3.1 10/28 新增 kedai / tiege / anye / tingyu，阶段 2 起出现）。每位老观众带 adult / ageMin（全部成年）。弹幕区用专属颜色和头像框显示。字段说明见 弹幕库说明.md",
+ "scenes": {
+  "daily": "日常",
+  "hype": "高潮",
+  "fail": "翻车",
+  "low": "主播低谷 / 被攻击 / 输了",
+  "bond": "关系升级 / 剧情节点",
+  "special": "教学 / 下播 / 离线留言"
+ },
+ "regulars": [
+  {
+   "regularId": "atu",
+   "nameKey": "rg.atu.name",
+   "name": "早到的阿土",
+   "type": "铁粉",
+   "color": "#FFB547",
+   "avatar": "avatar_regular_atu",
+   "adult": true,
+   "ageMin": 24,
+   "ageNote": "成年：外卖骑手，二十四五岁（10/28 未成年门禁补）",
+   "voice": "外卖骑手，热情、话短、带点跑单生活气；每场第一个进来，小额打赏从不缺席",
+   "appear": "每场开播第 1 个块必到（概率 90%，深夜档 60%），之后每 4–6 个块出现 1 次",
+   "lineCount": 40,
+   "lines": [
+    {
+     "id": "rg_atu_001",
+     "textKey": "rg.atu.001",
+     "regular": "atu",
+     "text": "来了来了！",
+     "scene": "daily",
+     "triggers": [
+      "stream_start"
+     ],
+     "weight": 3,
+     "repeatable": true,
+     "minStage": 1,
+     "cooldown": 0,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_002",
+     "textKey": "rg.atu.002",
+     "regular": "atu",
+     "text": "来了来了！今天第一！",
+     "scene": "daily",
+     "triggers": [
+      "stream_start"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_003",
+     "textKey": "rg.atu.003",
+     "regular": "atu",
+     "text": "歇脚喝口水，先打个卡",
+     "scene": "daily",
+     "triggers": [
+      "stream_start"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_004",
+     "textKey": "rg.atu.004",
+     "regular": "atu",
+     "text": "刚送完一单，来了",
+     "scene": "daily",
+     "triggers": [
+      "stream_start"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_005",
+     "textKey": "rg.atu.005",
+     "regular": "atu",
+     "text": "头盔还没摘就进来了",
+     "scene": "daily",
+     "triggers": [
+      "stream_start"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_006",
+     "textKey": "rg.atu.006",
+     "regular": "atu",
+     "text": "电动车停好了，开看",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_007",
+     "textKey": "rg.atu.007",
+     "regular": "atu",
+     "text": "今天单子多，晚了点",
+     "scene": "daily",
+     "triggers": [
+      "stream_start",
+      "late_arrival"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_008",
+     "textKey": "rg.atu.008",
+     "regular": "atu",
+     "text": "星光心送上 ❤️",
+     "scene": "daily",
+     "triggers": [
+      "gift_small"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_009",
+     "textKey": "rg.atu.009",
+     "regular": "atu",
+     "text": "你播你的，我休息会儿听",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_010",
+     "textKey": "rg.atu.010",
+     "regular": "atu",
+     "text": "这单送完马上回来",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_011",
+     "textKey": "rg.atu.011",
+     "regular": "atu",
+     "text": "今天跑了四十单，值了",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_012",
+     "textKey": "rg.atu.012",
+     "regular": "atu",
+     "text": "下雨了，我在屋檐下看",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_013",
+     "textKey": "rg.atu.013",
+     "regular": "atu",
+     "text": "客户夸我准时，跟你学的",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_014",
+     "textKey": "rg.atu.014",
+     "regular": "atu",
+     "text": "这首歌我在路上哼了一天",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "sing"
+    },
+    {
+     "id": "rg_atu_015",
+     "textKey": "rg.atu.015",
+     "regular": "atu",
+     "text": "楼道里信号差，我爬楼看",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_016",
+     "textKey": "rg.atu.016",
+     "regular": "atu",
+     "text": "啊啊！我在站点尖叫",
+     "scene": "hype",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_017",
+     "textKey": "rg.atu.017",
+     "regular": "atu",
+     "text": "这段我要给同事看",
+     "scene": "hype",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_018",
+     "textKey": "rg.atu.018",
+     "regular": "atu",
+     "text": "送个闪闪棒，全部家当",
+     "scene": "hype",
+     "triggers": [
+      "gift_small"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_019",
+     "textKey": "rg.atu.019",
+     "regular": "atu",
+     "text": "骑手兄弟群已转发！",
+     "scene": "hype",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_020",
+     "textKey": "rg.atu.020",
+     "regular": "atu",
+     "text": "今天的单子都不累了",
+     "scene": "hype",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_021",
+     "textKey": "rg.atu.021",
+     "regular": "atu",
+     "text": "我就知道你可以！",
+     "scene": "hype",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_022",
+     "textKey": "rg.atu.022",
+     "regular": "atu",
+     "text": "没事！我啥也没看见",
+     "scene": "fail",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_023",
+     "textKey": "rg.atu.023",
+     "regular": "atu",
+     "text": "我刚好在爬楼，没听到",
+     "scene": "fail",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_024",
+     "textKey": "rg.atu.024",
+     "regular": "atu",
+     "text": "这比我送错单强多了",
+     "scene": "fail",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_025",
+     "textKey": "rg.atu.025",
+     "regular": "atu",
+     "text": "没关系，我上次还摔车了",
+     "scene": "fail",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_026",
+     "textKey": "rg.atu.026",
+     "regular": "atu",
+     "text": "我在，一直在",
+     "scene": "low",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_027",
+     "textKey": "rg.atu.027",
+     "regular": "atu",
+     "text": "跑单累了就想来看你",
+     "scene": "low",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_028",
+     "textKey": "rg.atu.028",
+     "regular": "atu",
+     "text": "咱俩都加油，明天会好",
+     "scene": "low",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_029",
+     "textKey": "rg.atu.029",
+     "regular": "atu",
+     "text": "不开心就吃顿好的",
+     "scene": "low",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_030",
+     "textKey": "rg.atu.030",
+     "regular": "atu",
+     "text": "今天只有我也要播哦",
+     "scene": "low",
+     "triggers": [
+      "tier_down"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_031",
+     "textKey": "rg.atu.031",
+     "regular": "atu",
+     "text": "陪你三十天了！",
+     "scene": "bond",
+     "triggers": [
+      "milestone_30"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": -1,
+     "minRelation": 60,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_032",
+     "textKey": "rg.atu.032",
+     "regular": "atu",
+     "text": "我生日？你们还记得？",
+     "scene": "bond",
+     "triggers": [
+      "event_atu_birthday"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": -1,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_033",
+     "textKey": "rg.atu.033",
+     "regular": "atu",
+     "text": "谢谢，今年最好的生日",
+     "scene": "bond",
+     "triggers": [
+      "event_atu_birthday"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": -1,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_034",
+     "textKey": "rg.atu.034",
+     "regular": "atu",
+     "text": "我会一直第一个到",
+     "scene": "bond",
+     "triggers": [
+      "stream_end"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 50,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_035",
+     "textKey": "rg.atu.035",
+     "regular": "atu",
+     "text": "以前是顺路看，现在是专门来",
+     "scene": "bond",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 70,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_036",
+     "textKey": "rg.atu.036",
+     "regular": "atu",
+     "text": "来了来了！第一个观众！",
+     "scene": "special",
+     "triggers": [
+      "tutorial_first_stream"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": -1,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_037",
+     "textKey": "rg.atu.037",
+     "regular": "atu",
+     "text": "下播了，我也去接单了",
+     "scene": "special",
+     "triggers": [
+      "stream_end"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_038",
+     "textKey": "rg.atu.038",
+     "regular": "atu",
+     "text": "明天还第一个来",
+     "scene": "special",
+     "triggers": [
+      "stream_end"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_039",
+     "textKey": "rg.atu.039",
+     "regular": "atu",
+     "text": "今天还播吗？等你",
+     "scene": "special",
+     "triggers": [
+      "offline_message"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_atu_040",
+     "textKey": "rg.atu.040",
+     "regular": "atu",
+     "text": "午饭在电动车上吃的",
+     "scene": "special",
+     "triggers": [
+      "offline_message"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    }
+   ]
+  },
+  {
+   "regularId": "laoning",
+   "nameKey": "rg.laoning.name",
+   "name": "杠精老柠",
+   "type": "嘴硬心软的黑粉",
+   "color": "#C9E265",
+   "avatar": "avatar_regular_laoning",
+   "avatarAfterTurn": "avatar_regular_laoning_fan",
+   "adult": true,
+   "ageMin": 30,
+   "ageNote": "成年：上班族，三十岁上下（10/28 未成年门禁补）",
+   "voice": "嘴硬、爱打分、绝不承认喜欢；只挑表现毛病，从不攻击人；主播真出事时第一个护着",
+   "appear": "第 5 天首次出现（引导事件），之后每场 50% 概率出现，每场 2–4 条；关系值 ≥ 80 触发“黑转粉”，切换到 turned=true 的台词",
+   "lineCount": 37,
+   "lines": [
+    {
+     "id": "rg_laoning_001",
+     "textKey": "rg.laoning.001",
+     "regular": "laoning",
+     "text": "唱得一般",
+     "scene": "daily",
+     "triggers": [
+      "tutorial_hater"
+     ],
+     "weight": 2,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 0,
+     "minRelation": 0,
+     "category": "sing",
+     "streamerId": "st_004"
+    },
+    {
+     "id": "rg_laoning_002",
+     "textKey": "rg.laoning.002",
+     "regular": "laoning",
+     "text": "也就那样吧",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_laoning_003",
+     "textKey": "rg.laoning.003",
+     "regular": "laoning",
+     "text": "灯光不错，人嘛，凑合",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_laoning_004",
+     "textKey": "rg.laoning.004",
+     "regular": "laoning",
+     "text": "我是来挑毛病的",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_laoning_005",
+     "textKey": "rg.laoning.005",
+     "regular": "laoning",
+     "text": "暂时还没挑到毛病",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_laoning_006",
+     "textKey": "rg.laoning.006",
+     "regular": "laoning",
+     "text": "这也能火？……再听一首",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "sing"
+    },
+    {
+     "id": "rg_laoning_007",
+     "textKey": "rg.laoning.007",
+     "regular": "laoning",
+     "text": "我就看看，不关注",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_laoning_008",
+     "textKey": "rg.laoning.008",
+     "regular": "laoning",
+     "text": "下播吧我要睡（三小时后）",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_laoning_009",
+     "textKey": "rg.laoning.009",
+     "regular": "laoning",
+     "text": "手机没电才听完的",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_laoning_010",
+     "textKey": "rg.laoning.010",
+     "regular": "laoning",
+     "text": "今天这场我给六十分",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_laoning_011",
+     "textKey": "rg.laoning.011",
+     "regular": "laoning",
+     "text": "讲得一般，但我在听",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_laoning_012",
+     "textKey": "rg.laoning.012",
+     "regular": "laoning",
+     "text": "别误会，我路过的",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_laoning_013",
+     "textKey": "rg.laoning.013",
+     "regular": "laoning",
+     "text": "这话题没意思（没走）",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "chat"
+    },
+    {
+     "id": "rg_laoning_014",
+     "textKey": "rg.laoning.014",
+     "regular": "laoning",
+     "text": "这价格我不信（加购了）",
+     "scene": "daily",
+     "triggers": [
+      "link_up"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "sell"
+    },
+    {
+     "id": "rg_laoning_015",
+     "textKey": "rg.laoning.015",
+     "regular": "laoning",
+     "text": "又是这首，听腻了（跟唱）",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "sing"
+    },
+    {
+     "id": "rg_laoning_016",
+     "textKey": "rg.laoning.016",
+     "regular": "laoning",
+     "text": "这把操作也就那样",
+     "scene": "daily",
+     "triggers": [
+      "game_win"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "game"
+    },
+    {
+     "id": "rg_laoning_017",
+     "textKey": "rg.laoning.017",
+     "regular": "laoning",
+     "text": "哼，这次勉强合格",
+     "scene": "hype",
+     "triggers": [
+      "highlight"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_laoning_018",
+     "textKey": "rg.laoning.018",
+     "regular": "laoning",
+     "text": "……行吧，这句可以",
+     "scene": "hype",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_laoning_019",
+     "textKey": "rg.laoning.019",
+     "regular": "laoning",
+     "text": "我没鼓掌，手滑了",
+     "scene": "hype",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_laoning_020",
+     "textKey": "rg.laoning.020",
+     "regular": "laoning",
+     "text": "别看我，我没感动",
+     "scene": "hype",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_laoning_021",
+     "textKey": "rg.laoning.021",
+     "regular": "laoning",
+     "text": "七十分，不能再多",
+     "scene": "hype",
+     "triggers": [
+      "highlight"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_laoning_022",
+     "textKey": "rg.laoning.022",
+     "regular": "laoning",
+     "text": "我就说吧，翻了",
+     "scene": "fail",
+     "triggers": [
+      "voice_crack",
+      "slip"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_laoning_023",
+     "textKey": "rg.laoning.023",
+     "regular": "laoning",
+     "text": "破音了，记小本本上",
+     "scene": "fail",
+     "triggers": [
+      "voice_crack"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "sing"
+    },
+    {
+     "id": "rg_laoning_024",
+     "textKey": "rg.laoning.024",
+     "regular": "laoning",
+     "text": "这段我能笑一年",
+     "scene": "fail",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_laoning_025",
+     "textKey": "rg.laoning.025",
+     "regular": "laoning",
+     "text": "行了行了，别慌，继续",
+     "scene": "fail",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_laoning_026",
+     "textKey": "rg.laoning.026",
+     "regular": "laoning",
+     "text": "谁说不好？只有我能说",
+     "scene": "low",
+     "triggers": [
+      "hater",
+      "meltdown"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_laoning_027",
+     "textKey": "rg.laoning.027",
+     "regular": "laoning",
+     "text": "都别吵，让人好好播",
+     "scene": "low",
+     "triggers": [
+      "hater"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_laoning_028",
+     "textKey": "rg.laoning.028",
+     "regular": "laoning",
+     "text": "人家已经很努力了",
+     "scene": "low",
+     "triggers": [
+      "meltdown"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_laoning_029",
+     "textKey": "rg.laoning.029",
+     "regular": "laoning",
+     "text": "撑住，别让我看笑话",
+     "scene": "low",
+     "triggers": [
+      "mood_bad"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_laoning_030",
+     "textKey": "rg.laoning.030",
+     "regular": "laoning",
+     "text": "输了吧？……下次赢回来",
+     "scene": "low",
+     "triggers": [
+      "pk_lose",
+      "game_lose"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_laoning_031",
+     "textKey": "rg.laoning.031",
+     "regular": "laoning",
+     "text": "……还行吧",
+     "scene": "bond",
+     "triggers": [
+      "turn_fan"
+     ],
+     "weight": 2,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "turned": true,
+     "category": "general"
+    },
+    {
+     "id": "rg_laoning_032",
+     "textKey": "rg.laoning.032",
+     "regular": "laoning",
+     "text": "换了个头像，没别的意思",
+     "scene": "bond",
+     "triggers": [
+      "turn_fan"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": -1,
+     "minRelation": 0,
+     "turned": true,
+     "category": "general"
+    },
+    {
+     "id": "rg_laoning_033",
+     "textKey": "rg.laoning.033",
+     "regular": "laoning",
+     "text": "今天不杠了，下不为例",
+     "scene": "bond",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "turned": true,
+     "category": "general"
+    },
+    {
+     "id": "rg_laoning_034",
+     "textKey": "rg.laoning.034",
+     "regular": "laoning",
+     "text": "我是你粉丝？我不承认",
+     "scene": "bond",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "turned": true,
+     "category": "general"
+    },
+    {
+     "id": "rg_laoning_035",
+     "textKey": "rg.laoning.035",
+     "regular": "laoning",
+     "text": "好吧，是有点好听",
+     "scene": "bond",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "turned": true,
+     "category": "sing"
+    },
+    {
+     "id": "rg_laoning_036",
+     "textKey": "rg.laoning.036",
+     "regular": "laoning",
+     "text": "关注了，手滑点的",
+     "scene": "bond",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "turned": true,
+     "category": "general"
+    },
+    {
+     "id": "rg_laoning_037",
+     "textKey": "rg.laoning.037",
+     "regular": "laoning",
+     "text": "……下次早点开播",
+     "scene": "bond",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "turned": true,
+     "category": "general"
+    }
+   ]
+  },
+  {
+   "regularId": "whale",
+   "nameKey": "rg.whale.name",
+   "name": "夜行的鲸",
+   "type": "神秘大哥",
+   "color": "#6C8CFF",
+   "avatar": "avatar_regular_whale",
+   "adult": true,
+   "ageMin": 50,
+   "ageNote": "成年：五十出头（剧情结局：季深）",
+   "voice": "几乎不说话，只打句号或极短的字；一出手就是星河；越到后面话越多一点点；与 Vivian 故事线相关",
+   "appear": "只在深夜档出现（timeSlot=late），每场 0–3 条；星河打赏由礼物系统触发，台词跟随",
+   "lineCount": 31,
+   "lines": [
+    {
+     "id": "rg_whale_001",
+     "textKey": "rg.whale.001",
+     "regular": "whale",
+     "text": "。",
+     "scene": "daily",
+     "triggers": [
+      "late_night"
+     ],
+     "weight": 3,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 0,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_whale_002",
+     "textKey": "rg.whale.002",
+     "regular": "whale",
+     "text": "。。",
+     "scene": "daily",
+     "triggers": [
+      "late_night"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_whale_003",
+     "textKey": "rg.whale.003",
+     "regular": "whale",
+     "text": "……",
+     "scene": "daily",
+     "triggers": [
+      "late_night"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_whale_004",
+     "textKey": "rg.whale.004",
+     "regular": "whale",
+     "text": "嗯。",
+     "scene": "daily",
+     "triggers": [
+      "late_night"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_whale_005",
+     "textKey": "rg.whale.005",
+     "regular": "whale",
+     "text": "在。",
+     "scene": "daily",
+     "triggers": [
+      "stream_start"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_whale_006",
+     "textKey": "rg.whale.006",
+     "regular": "whale",
+     "text": "来了。",
+     "scene": "daily",
+     "triggers": [
+      "stream_start"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_whale_007",
+     "textKey": "rg.whale.007",
+     "regular": "whale",
+     "text": "夜。",
+     "scene": "daily",
+     "triggers": [
+      "late_night"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_whale_008",
+     "textKey": "rg.whale.008",
+     "regular": "whale",
+     "text": "。🌙",
+     "scene": "daily",
+     "triggers": [
+      "late_night"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_whale_009",
+     "textKey": "rg.whale.009",
+     "regular": "whale",
+     "text": "🐋",
+     "scene": "daily",
+     "triggers": [
+      "late_night"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_whale_010",
+     "textKey": "rg.whale.010",
+     "regular": "whale",
+     "text": "🌊",
+     "scene": "daily",
+     "triggers": [
+      "late_night"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_whale_011",
+     "textKey": "rg.whale.011",
+     "regular": "whale",
+     "text": "。（点了个赞）",
+     "scene": "daily",
+     "triggers": [
+      "late_night"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_whale_012",
+     "textKey": "rg.whale.012",
+     "regular": "whale",
+     "text": "好。",
+     "scene": "hype",
+     "triggers": [
+      "highlight"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_whale_013",
+     "textKey": "rg.whale.013",
+     "regular": "whale",
+     "text": "。！",
+     "scene": "hype",
+     "triggers": [
+      "gift_big"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general",
+     "gift": "星河"
+    },
+    {
+     "id": "rg_whale_014",
+     "textKey": "rg.whale.014",
+     "regular": "whale",
+     "text": "很好。",
+     "scene": "hype",
+     "triggers": [
+      "highlight",
+      "clutch"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_whale_015",
+     "textKey": "rg.whale.015",
+     "regular": "whale",
+     "text": "再来。",
+     "scene": "hype",
+     "triggers": [
+      "highlight"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_whale_016",
+     "textKey": "rg.whale.016",
+     "regular": "whale",
+     "text": "星河。",
+     "scene": "hype",
+     "triggers": [
+      "gift_big"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general",
+     "gift": "星河"
+    },
+    {
+     "id": "rg_whale_017",
+     "textKey": "rg.whale.017",
+     "regular": "whale",
+     "text": "无妨。",
+     "scene": "fail",
+     "triggers": [
+      "voice_crack",
+      "slip"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_whale_018",
+     "textKey": "rg.whale.018",
+     "regular": "whale",
+     "text": "继续。",
+     "scene": "fail",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_whale_019",
+     "textKey": "rg.whale.019",
+     "regular": "whale",
+     "text": "。（没走）",
+     "scene": "fail",
+     "triggers": [
+      "tier_down"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_whale_020",
+     "textKey": "rg.whale.020",
+     "regular": "whale",
+     "text": "我在。",
+     "scene": "low",
+     "triggers": [
+      "mood_bad",
+      "meltdown"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_whale_021",
+     "textKey": "rg.whale.021",
+     "regular": "whale",
+     "text": "别怕。",
+     "scene": "low",
+     "triggers": [
+      "meltdown",
+      "hater"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_whale_022",
+     "textKey": "rg.whale.022",
+     "regular": "whale",
+     "text": "还早。",
+     "scene": "low",
+     "triggers": [
+      "tier_down"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_whale_023",
+     "textKey": "rg.whale.023",
+     "regular": "whale",
+     "text": "慢慢来。",
+     "scene": "low",
+     "triggers": [
+      "mood_bad"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_whale_024",
+     "textKey": "rg.whale.024",
+     "regular": "whale",
+     "text": "别走老路。",
+     "scene": "bond",
+     "triggers": [
+      "story_vivian_ch3"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": -1,
+     "minRelation": 0,
+     "category": "general",
+     "streamerId": "st_010"
+    },
+    {
+     "id": "rg_whale_025",
+     "textKey": "rg.whale.025",
+     "regular": "whale",
+     "text": "回来了。",
+     "scene": "bond",
+     "triggers": [
+      "story_vivian_ch4"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": -1,
+     "minRelation": 0,
+     "category": "general",
+     "streamerId": "st_010"
+    },
+    {
+     "id": "rg_whale_026",
+     "textKey": "rg.whale.026",
+     "regular": "whale",
+     "text": "好久不见。",
+     "scene": "bond",
+     "triggers": [
+      "story_vivian_ch4"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": -1,
+     "minRelation": 0,
+     "category": "general",
+     "streamerId": "st_010"
+    },
+    {
+     "id": "rg_whale_027",
+     "textKey": "rg.whale.027",
+     "regular": "whale",
+     "text": "这次，稳着来。",
+     "scene": "bond",
+     "triggers": [
+      "story_vivian_ch4"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": -1,
+     "minRelation": 0,
+     "category": "general",
+     "streamerId": "st_010"
+    },
+    {
+     "id": "rg_whale_028",
+     "textKey": "rg.whale.028",
+     "regular": "whale",
+     "text": "当年第一场，我也在。",
+     "scene": "bond",
+     "triggers": [
+      "story_vivian_epilogue"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": -1,
+     "minRelation": 0,
+     "category": "general",
+     "streamerId": "st_010"
+    },
+    {
+     "id": "rg_whale_029",
+     "textKey": "rg.whale.029",
+     "regular": "whale",
+     "text": "一直在，只是没说话。",
+     "scene": "bond",
+     "triggers": [
+      "story_vivian_epilogue"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": -1,
+     "minRelation": 0,
+     "category": "general",
+     "streamerId": "st_010"
+    },
+    {
+     "id": "rg_whale_030",
+     "textKey": "rg.whale.030",
+     "regular": "whale",
+     "text": "我一直在听。",
+     "scene": "bond",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 70,
+     "category": "general"
+    },
+    {
+     "id": "rg_whale_031",
+     "textKey": "rg.whale.031",
+     "regular": "whale",
+     "text": "早点睡。",
+     "scene": "bond",
+     "triggers": [
+      "stream_end"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    }
+   ]
+  },
+  {
+   "regularId": "hunter",
+   "nameKey": "rg.hunter.name",
+   "name": "福袋猎人",
+   "type": "羊毛党",
+   "color": "#FF7AA8",
+   "avatar": "avatar_regular_hunter",
+   "adult": true,
+   "ageMin": 26,
+   "ageNote": "成年：上班族，二十六七岁（10/28 未成年门禁补）",
+   "voice": "职业抢福袋，来得快走得快，话里全是战斗和打猎比喻；中奖 10 次后会“这次我不走了”",
+   "appear": "福袋发出的同一块必到（概率 95%），开奖后 1 块内离场；没有福袋时几乎不出现",
+   "lineCount": 29,
+   "lines": [
+    {
+     "id": "rg_hunter_001",
+     "textKey": "rg.hunter.001",
+     "regular": "hunter",
+     "text": "福袋猎人已到达战场",
+     "scene": "daily",
+     "triggers": [
+      "intervene_bag"
+     ],
+     "weight": 2,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 0,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_hunter_002",
+     "textKey": "rg.hunter.002",
+     "regular": "hunter",
+     "text": "闻到福袋的味道了",
+     "scene": "daily",
+     "triggers": [
+      "intervene_bag"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_hunter_003",
+     "textKey": "rg.hunter.003",
+     "regular": "hunter",
+     "text": "福袋在哪？我来了",
+     "scene": "daily",
+     "triggers": [
+      "intervene_bag"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_hunter_004",
+     "textKey": "rg.hunter.004",
+     "regular": "hunter",
+     "text": "嗖——（猎人进场）",
+     "scene": "daily",
+     "triggers": [
+      "intervene_bag"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_hunter_005",
+     "textKey": "rg.hunter.005",
+     "regular": "hunter",
+     "text": "参与了，主播随意",
+     "scene": "daily",
+     "triggers": [
+      "intervene_bag"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_hunter_006",
+     "textKey": "rg.hunter.006",
+     "regular": "hunter",
+     "text": "我只为福袋而来",
+     "scene": "daily",
+     "triggers": [
+      "intervene_bag"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_hunter_007",
+     "textKey": "rg.hunter.007",
+     "regular": "hunter",
+     "text": "口令已发，静候",
+     "scene": "daily",
+     "triggers": [
+      "intervene_bag"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_hunter_008",
+     "textKey": "rg.hunter.008",
+     "regular": "hunter",
+     "text": "倒计时，心跳加速",
+     "scene": "daily",
+     "triggers": [
+      "intervene_bag"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_hunter_009",
+     "textKey": "rg.hunter.009",
+     "regular": "hunter",
+     "text": "今天的福袋多大？",
+     "scene": "daily",
+     "triggers": [
+      "intervene_bag"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_hunter_010",
+     "textKey": "rg.hunter.010",
+     "regular": "hunter",
+     "text": "三个直播间同时蹲守中",
+     "scene": "daily",
+     "triggers": [
+      "intervene_bag"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_hunter_011",
+     "textKey": "rg.hunter.011",
+     "regular": "hunter",
+     "text": "中了！谢谢老板",
+     "scene": "hype",
+     "triggers": [
+      "lucky_bag_win"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_hunter_012",
+     "textKey": "rg.hunter.012",
+     "regular": "hunter",
+     "text": "谢谢老板，下次见",
+     "scene": "hype",
+     "triggers": [
+      "lucky_bag_win"
+     ],
+     "weight": 2,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 0,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_hunter_013",
+     "textKey": "rg.hunter.013",
+     "regular": "hunter",
+     "text": "又中了，运气守恒吗",
+     "scene": "hype",
+     "triggers": [
+      "lucky_bag_win"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_hunter_014",
+     "textKey": "rg.hunter.014",
+     "regular": "hunter",
+     "text": "福袋加大哥，过年了",
+     "scene": "hype",
+     "triggers": [
+      "intervene_bag",
+      "gift_big"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_hunter_015",
+     "textKey": "rg.hunter.015",
+     "regular": "hunter",
+     "text": "这直播间福袋够肥",
+     "scene": "hype",
+     "triggers": [
+      "intervene_bag"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_hunter_016",
+     "textKey": "rg.hunter.016",
+     "regular": "hunter",
+     "text": "没中，这不科学",
+     "scene": "fail",
+     "triggers": [
+      "lucky_bag_lose"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_hunter_017",
+     "textKey": "rg.hunter.017",
+     "regular": "hunter",
+     "text": "我和这福袋八字不合",
+     "scene": "fail",
+     "triggers": [
+      "lucky_bag_lose"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_hunter_018",
+     "textKey": "rg.hunter.018",
+     "regular": "hunter",
+     "text": "白等了，下一家",
+     "scene": "fail",
+     "triggers": [
+      "lucky_bag_lose"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_hunter_019",
+     "textKey": "rg.hunter.019",
+     "regular": "hunter",
+     "text": "没中，但我会回来的",
+     "scene": "fail",
+     "triggers": [
+      "lucky_bag_lose"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_hunter_020",
+     "textKey": "rg.hunter.020",
+     "regular": "hunter",
+     "text": "撤了撤了，下次见",
+     "scene": "fail",
+     "triggers": [
+      "lucky_bag_end"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_hunter_021",
+     "textKey": "rg.hunter.021",
+     "regular": "hunter",
+     "text": "开完了，告辞 🏃",
+     "scene": "fail",
+     "triggers": [
+      "lucky_bag_end"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_hunter_022",
+     "textKey": "rg.hunter.022",
+     "regular": "hunter",
+     "text": "今天没福袋？我也来了",
+     "scene": "low",
+     "triggers": [
+      "tier_down"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 40,
+     "category": "general"
+    },
+    {
+     "id": "rg_hunter_023",
+     "textKey": "rg.hunter.023",
+     "regular": "hunter",
+     "text": "不发福袋……那我看会",
+     "scene": "low",
+     "triggers": [
+      "mood_bad"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 40,
+     "category": "general"
+    },
+    {
+     "id": "rg_hunter_024",
+     "textKey": "rg.hunter.024",
+     "regular": "hunter",
+     "text": "这次我不走了",
+     "scene": "bond",
+     "triggers": [
+      "hunter_win_10"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": -1,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_hunter_025",
+     "textKey": "rg.hunter.025",
+     "regular": "hunter",
+     "text": "第一次听完一整场",
+     "scene": "bond",
+     "triggers": [
+      "hunter_win_10"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": -1,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_hunter_026",
+     "textKey": "rg.hunter.026",
+     "regular": "hunter",
+     "text": "原来不抢福袋也好玩",
+     "scene": "bond",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 70,
+     "category": "general"
+    },
+    {
+     "id": "rg_hunter_027",
+     "textKey": "rg.hunter.027",
+     "regular": "hunter",
+     "text": "中了十次，该还了",
+     "scene": "bond",
+     "triggers": [
+      "hunter_win_10",
+      "gift_small"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": -1,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_hunter_028",
+     "textKey": "rg.hunter.028",
+     "regular": "hunter",
+     "text": "下次福袋让给新人吧",
+     "scene": "bond",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 70,
+     "category": "general"
+    },
+    {
+     "id": "rg_hunter_029",
+     "textKey": "rg.hunter.029",
+     "regular": "hunter",
+     "text": "送个星光心，回个礼",
+     "scene": "bond",
+     "triggers": [
+      "gift_small"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 1,
+     "cooldown": 3,
+     "minRelation": 60,
+     "category": "general"
+    }
+   ]
+  },
+  {
+   "regularId": "kedai",
+   "nameKey": "rg.kedai.name",
+   "name": "卷王小笔",
+   "type": "职场卷王",
+   "color": "#5BC0EB",
+   "avatar": "avatar_regular_kedai",
+   "adult": true,
+   "ageMin": 20,
+   "ageNote": "成年：30 岁上下，公司数据分析师（11/04 美术成年重画同步）",
+   "minStage": 2,
+   "voice": "爱记笔记、爱划重点，夸人也要列一二三；讲道理不吵架，主播被骂时会冷静摆事实",
+   "appear": "阶段 2 起；晚间档每场 40% 概率出现，每场 1–3 条；深夜档基本不来（第二天要早会）",
+   "lineCount": 30,
+   "lines": [
+    {
+     "id": "rg_kedai_001",
+     "textKey": "rg.kedai.001",
+     "regular": "kedai",
+     "text": "划重点：今天开播了",
+     "scene": "daily",
+     "triggers": [
+      "stream_start"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_kedai_002",
+     "textKey": "rg.kedai.002",
+     "regular": "kedai",
+     "text": "笔记本已打开",
+     "scene": "daily",
+     "triggers": [
+      "stream_start"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_kedai_003",
+     "textKey": "rg.kedai.003",
+     "regular": "kedai",
+     "text": "下班地铁上，戴耳机看",
+     "scene": "daily",
+     "triggers": [
+      "stream_start"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_kedai_004",
+     "textKey": "rg.kedai.004",
+     "regular": "kedai",
+     "text": "刚开完会，来了",
+     "scene": "daily",
+     "triggers": [
+      "stream_start"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_kedai_005",
+     "textKey": "rg.kedai.005",
+     "regular": "kedai",
+     "text": "周报写一半，来充电",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_kedai_006",
+     "textKey": "rg.kedai.006",
+     "regular": "kedai",
+     "text": "这段我记下来了",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_kedai_007",
+     "textKey": "rg.kedai.007",
+     "regular": "kedai",
+     "text": "这个知识点我收了",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_kedai_008",
+     "textKey": "rg.kedai.008",
+     "regular": "kedai",
+     "text": "工位旁边同事问我笑什么",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_kedai_009",
+     "textKey": "rg.kedai.009",
+     "regular": "kedai",
+     "text": "第三点讲得很清楚",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "chat"
+    },
+    {
+     "id": "rg_kedai_010",
+     "textKey": "rg.kedai.010",
+     "regular": "kedai",
+     "text": "声部切换很干净",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "sing"
+    },
+    {
+     "id": "rg_kedai_011",
+     "textKey": "rg.kedai.011",
+     "regular": "kedai",
+     "text": "这波操作有逻辑",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "game"
+    },
+    {
+     "id": "rg_kedai_012",
+     "textKey": "rg.kedai.012",
+     "regular": "kedai",
+     "text": "参数对比讲得明白",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "sell"
+    },
+    {
+     "id": "rg_kedai_013",
+     "textKey": "rg.kedai.013",
+     "regular": "kedai",
+     "text": "这份方案满分！",
+     "scene": "hype",
+     "triggers": [
+      "highlight"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_kedai_014",
+     "textKey": "rg.kedai.014",
+     "regular": "kedai",
+     "text": "这段能进培训教材",
+     "scene": "hype",
+     "triggers": [
+      "highlight"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_kedai_015",
+     "textKey": "rg.kedai.015",
+     "regular": "kedai",
+     "text": "我宣布本场优秀",
+     "scene": "hype",
+     "triggers": [
+      "highlight"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_kedai_016",
+     "textKey": "rg.kedai.016",
+     "regular": "kedai",
+     "text": "星光心一枚，年终奖买的",
+     "scene": "hype",
+     "triggers": [
+      "gift_small"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_kedai_017",
+     "textKey": "rg.kedai.017",
+     "regular": "kedai",
+     "text": "逻辑闭环，漂亮",
+     "scene": "hype",
+     "triggers": [
+      "clutch"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_kedai_018",
+     "textKey": "rg.kedai.018",
+     "regular": "kedai",
+     "text": "没事，复盘表记一笔",
+     "scene": "fail",
+     "triggers": [
+      "slip",
+      "voice_crack"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_kedai_019",
+     "textKey": "rg.kedai.019",
+     "regular": "kedai",
+     "text": "失误率还在正常区间",
+     "scene": "fail",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_kedai_020",
+     "textKey": "rg.kedai.020",
+     "regular": "kedai",
+     "text": "复盘一下，下次就对",
+     "scene": "fail",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_kedai_021",
+     "textKey": "rg.kedai.021",
+     "regular": "kedai",
+     "text": "我画了个图：会变好的",
+     "scene": "low",
+     "triggers": [
+      "mood_bad"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_kedai_022",
+     "textKey": "rg.kedai.022",
+     "regular": "kedai",
+     "text": "别慌，样本还太少",
+     "scene": "low",
+     "triggers": [
+      "tier_down"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_kedai_023",
+     "textKey": "rg.kedai.023",
+     "regular": "kedai",
+     "text": "理性讨论，别人身攻击",
+     "scene": "low",
+     "triggers": [
+      "hater"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_kedai_024",
+     "textKey": "rg.kedai.024",
+     "regular": "kedai",
+     "text": "季度末加班也来陪你",
+     "scene": "low",
+     "triggers": [
+      "tired"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_kedai_025",
+     "textKey": "rg.kedai.025",
+     "regular": "kedai",
+     "text": "陪伴时长已达标",
+     "scene": "bond",
+     "triggers": [
+      "milestone_30"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": -1,
+     "minRelation": 60,
+     "category": "general"
+    },
+    {
+     "id": "rg_kedai_026",
+     "textKey": "rg.kedai.026",
+     "regular": "kedai",
+     "text": "你是我下班后的固定日程",
+     "scene": "bond",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 70,
+     "category": "general"
+    },
+    {
+     "id": "rg_kedai_027",
+     "textKey": "rg.kedai.027",
+     "regular": "kedai",
+     "text": "年终总结里写了这里",
+     "scene": "bond",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": -1,
+     "minRelation": 80,
+     "category": "general"
+    },
+    {
+     "id": "rg_kedai_028",
+     "textKey": "rg.kedai.028",
+     "regular": "kedai",
+     "text": "下班了！哦，是下播了",
+     "scene": "special",
+     "triggers": [
+      "stream_end"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_kedai_029",
+     "textKey": "rg.kedai.029",
+     "regular": "kedai",
+     "text": "今天的笔记已整理",
+     "scene": "special",
+     "triggers": [
+      "stream_end"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_kedai_030",
+     "textKey": "rg.kedai.030",
+     "regular": "kedai",
+     "text": "明天早会，先睡了",
+     "scene": "special",
+     "triggers": [
+      "stream_end"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    }
+   ]
+  },
+  {
+   "regularId": "tiege",
+   "nameKey": "rg.tiege.name",
+   "name": "铁锅大哥",
+   "type": "东北话整活",
+   "color": "#E4572E",
+   "avatar": "avatar_regular_tiege",
+   "adult": true,
+   "ageMin": 38,
+   "ageNote": "成年：开铁锅炖小馆的老板，四十岁上下（10/28 未成年门禁补）",
+   "minStage": 2,
+   "voice": "一口东北话，嗓门大、热心肠、爱唠嗑；夸人实在，护短，从不说脏字",
+   "appear": "阶段 2 起；午间档和深夜档（小馆收摊后）出现，每场 50% 概率，每场 2–3 条",
+   "lineCount": 30,
+   "lines": [
+    {
+     "id": "rg_tiege_001",
+     "textKey": "rg.tiege.001",
+     "regular": "tiege",
+     "text": "铁锅刚刷完，来了",
+     "scene": "daily",
+     "triggers": [
+      "stream_start"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tiege_002",
+     "textKey": "rg.tiege.002",
+     "regular": "tiege",
+     "text": "唠会儿嗑呗",
+     "scene": "daily",
+     "triggers": [
+      "stream_start"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tiege_003",
+     "textKey": "rg.tiege.003",
+     "regular": "tiege",
+     "text": "今儿个店里贼忙",
+     "scene": "daily",
+     "triggers": [
+      "stream_start"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tiege_004",
+     "textKey": "rg.tiege.004",
+     "regular": "tiege",
+     "text": "整挺好，接着整",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tiege_005",
+     "textKey": "rg.tiege.005",
+     "regular": "tiege",
+     "text": "嘎嘎得劲儿",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tiege_006",
+     "textKey": "rg.tiege.006",
+     "regular": "tiege",
+     "text": "炖着酸菜呢，边炖边看",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tiege_007",
+     "textKey": "rg.tiege.007",
+     "regular": "tiege",
+     "text": "咱这屋里贼暖和",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tiege_008",
+     "textKey": "rg.tiege.008",
+     "regular": "tiege",
+     "text": "这嗓子，杠杠的",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "sing"
+    },
+    {
+     "id": "rg_tiege_009",
+     "textKey": "rg.tiege.009",
+     "regular": "tiege",
+     "text": "后厨听着呢，接着唱",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "sing"
+    },
+    {
+     "id": "rg_tiege_010",
+     "textKey": "rg.tiege.010",
+     "regular": "tiege",
+     "text": "这价实在，咱不磨叽",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "sell"
+    },
+    {
+     "id": "rg_tiege_011",
+     "textKey": "rg.tiege.011",
+     "regular": "tiege",
+     "text": "这把整得明白",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "game"
+    },
+    {
+     "id": "rg_tiege_012",
+     "textKey": "rg.tiege.012",
+     "regular": "tiege",
+     "text": "唠得我饭都忘吃了",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "chat"
+    },
+    {
+     "id": "rg_tiege_013",
+     "textKey": "rg.tiege.013",
+     "regular": "tiege",
+     "text": "哎呀妈呀，太带劲了",
+     "scene": "hype",
+     "triggers": [
+      "highlight"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tiege_014",
+     "textKey": "rg.tiege.014",
+     "regular": "tiege",
+     "text": "这一下，嘎嘎猛",
+     "scene": "hype",
+     "triggers": [
+      "clutch"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tiege_015",
+     "textKey": "rg.tiege.015",
+     "regular": "tiege",
+     "text": "送个星光心，别客气",
+     "scene": "hype",
+     "triggers": [
+      "gift_small"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tiege_016",
+     "textKey": "rg.tiege.016",
+     "regular": "tiege",
+     "text": "全店伙计一起鼓掌",
+     "scene": "hype",
+     "triggers": [
+      "highlight"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tiege_017",
+     "textKey": "rg.tiege.017",
+     "regular": "tiege",
+     "text": "没事儿，谁还没个闪失",
+     "scene": "fail",
+     "triggers": [
+      "slip",
+      "voice_crack"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tiege_018",
+     "textKey": "rg.tiege.018",
+     "regular": "tiege",
+     "text": "锅都有糊的时候",
+     "scene": "fail",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tiege_019",
+     "textKey": "rg.tiege.019",
+     "regular": "tiege",
+     "text": "哈哈哈，整岔劈了",
+     "scene": "fail",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tiege_020",
+     "textKey": "rg.tiege.020",
+     "regular": "tiege",
+     "text": "谁欺负人？我瞅瞅",
+     "scene": "low",
+     "triggers": [
+      "hater"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tiege_021",
+     "textKey": "rg.tiege.021",
+     "regular": "tiege",
+     "text": "别上火，喝口热乎的",
+     "scene": "low",
+     "triggers": [
+      "mood_bad"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tiege_022",
+     "textKey": "rg.tiege.022",
+     "regular": "tiege",
+     "text": "咱不跟他一般见识",
+     "scene": "low",
+     "triggers": [
+      "hater"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tiege_023",
+     "textKey": "rg.tiege.023",
+     "regular": "tiege",
+     "text": "下回整回来就完了",
+     "scene": "low",
+     "triggers": [
+      "pk_lose",
+      "game_lose"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tiege_024",
+     "textKey": "rg.tiege.024",
+     "regular": "tiege",
+     "text": "累了就歇会儿",
+     "scene": "low",
+     "triggers": [
+      "tired"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tiege_025",
+     "textKey": "rg.tiege.025",
+     "regular": "tiege",
+     "text": "往后你播我就来",
+     "scene": "bond",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 60,
+     "category": "general"
+    },
+    {
+     "id": "rg_tiege_026",
+     "textKey": "rg.tiege.026",
+     "regular": "tiege",
+     "text": "店里电视就放你直播",
+     "scene": "bond",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 70,
+     "category": "general"
+    },
+    {
+     "id": "rg_tiege_027",
+     "textKey": "rg.tiege.027",
+     "regular": "tiege",
+     "text": "三十天了，请你吃锅包肉",
+     "scene": "bond",
+     "triggers": [
+      "milestone_30"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": -1,
+     "minRelation": 60,
+     "category": "general"
+    },
+    {
+     "id": "rg_tiege_028",
+     "textKey": "rg.tiege.028",
+     "regular": "tiege",
+     "text": "收摊了，你也早点歇",
+     "scene": "special",
+     "triggers": [
+      "stream_end"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tiege_029",
+     "textKey": "rg.tiege.029",
+     "regular": "tiege",
+     "text": "明儿个接着唠",
+     "scene": "special",
+     "triggers": [
+      "stream_end"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tiege_030",
+     "textKey": "rg.tiege.030",
+     "regular": "tiege",
+     "text": "打烊了，锅还热着",
+     "scene": "special",
+     "triggers": [
+      "offline_message"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    }
+   ]
+  },
+  {
+   "regularId": "anye",
+   "nameKey": "rg.anye.name",
+   "name": "暗夜咏叹调",
+   "type": "中二",
+   "color": "#7B2CBF",
+   "avatar": "avatar_regular_anye",
+   "adult": true,
+   "ageMin": 24,
+   "ageNote": "成年：上班族，白天写代码，晚上“觉醒”（10/28 未成年门禁补）",
+   "minStage": 2,
+   "voice": "自称“吾”，满嘴封印、契约、觉醒；偶尔破功露出上班族本色；中二但善良，护主播",
+   "appear": "阶段 2 起；只在晚间档和深夜档出现，每场 40% 概率，每场 1–3 条",
+   "lineCount": 30,
+   "lines": [
+    {
+     "id": "rg_anye_001",
+     "textKey": "rg.anye.001",
+     "regular": "anye",
+     "text": "吾，降临了",
+     "scene": "daily",
+     "triggers": [
+      "stream_start"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_anye_002",
+     "textKey": "rg.anye.002",
+     "regular": "anye",
+     "text": "封印解除，开播确认",
+     "scene": "daily",
+     "triggers": [
+      "stream_start"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_anye_003",
+     "textKey": "rg.anye.003",
+     "regular": "anye",
+     "text": "下班了，吾的夜开始了",
+     "scene": "daily",
+     "triggers": [
+      "stream_start"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_anye_004",
+     "textKey": "rg.anye.004",
+     "regular": "anye",
+     "text": "黑暗中，吾在注视",
+     "scene": "daily",
+     "triggers": [
+      "late_night"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_anye_005",
+     "textKey": "rg.anye.005",
+     "regular": "anye",
+     "text": "今日的契约已续上",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_anye_006",
+     "textKey": "rg.anye.006",
+     "regular": "anye",
+     "text": "吾之右手在躁动",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_anye_007",
+     "textKey": "rg.anye.007",
+     "regular": "anye",
+     "text": "这股力量……不简单",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_anye_008",
+     "textKey": "rg.anye.008",
+     "regular": "anye",
+     "text": "披风已洗，随时出击",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_anye_009",
+     "textKey": "rg.anye.009",
+     "regular": "anye",
+     "text": "此乃命中注定之歌",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "sing"
+    },
+    {
+     "id": "rg_anye_010",
+     "textKey": "rg.anye.010",
+     "regular": "anye",
+     "text": "这一局，暗影在你身后",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "game"
+    },
+    {
+     "id": "rg_anye_011",
+     "textKey": "rg.anye.011",
+     "regular": "anye",
+     "text": "此商品已被吾选中",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "sell"
+    },
+    {
+     "id": "rg_anye_012",
+     "textKey": "rg.anye.012",
+     "regular": "anye",
+     "text": "凡人的话题，吾也爱听",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "chat"
+    },
+    {
+     "id": "rg_anye_013",
+     "textKey": "rg.anye.013",
+     "regular": "anye",
+     "text": "觉醒了！是觉醒了！",
+     "scene": "hype",
+     "triggers": [
+      "highlight"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_anye_014",
+     "textKey": "rg.anye.014",
+     "regular": "anye",
+     "text": "此乃禁忌之技",
+     "scene": "hype",
+     "triggers": [
+      "clutch"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_anye_015",
+     "textKey": "rg.anye.015",
+     "regular": "anye",
+     "text": "献上暗夜的星光心",
+     "scene": "hype",
+     "triggers": [
+      "gift_small"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_anye_016",
+     "textKey": "rg.anye.016",
+     "regular": "anye",
+     "text": "吾的血液沸腾了",
+     "scene": "hype",
+     "triggers": [
+      "highlight"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_anye_017",
+     "textKey": "rg.anye.017",
+     "regular": "anye",
+     "text": "一切皆在吾预言之中",
+     "scene": "fail",
+     "triggers": [
+      "slip",
+      "voice_crack"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_anye_018",
+     "textKey": "rg.anye.018",
+     "regular": "anye",
+     "text": "是封印反噬，不怪你",
+     "scene": "fail",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_anye_019",
+     "textKey": "rg.anye.019",
+     "regular": "anye",
+     "text": "命运小小开了个玩笑",
+     "scene": "fail",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_anye_020",
+     "textKey": "rg.anye.020",
+     "regular": "anye",
+     "text": "暗夜守护者已就位",
+     "scene": "low",
+     "triggers": [
+      "hater",
+      "meltdown"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_anye_021",
+     "textKey": "rg.anye.021",
+     "regular": "anye",
+     "text": "黑暗过后便是黎明",
+     "scene": "low",
+     "triggers": [
+      "mood_bad"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_anye_022",
+     "textKey": "rg.anye.022",
+     "regular": "anye",
+     "text": "退下吧，恶意的使者",
+     "scene": "low",
+     "triggers": [
+      "hater"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_anye_023",
+     "textKey": "rg.anye.023",
+     "regular": "anye",
+     "text": "败北只是序章",
+     "scene": "low",
+     "triggers": [
+      "pk_lose",
+      "game_lose"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_anye_024",
+     "textKey": "rg.anye.024",
+     "regular": "anye",
+     "text": "你已是吾的同伴",
+     "scene": "bond",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 60,
+     "category": "general"
+    },
+    {
+     "id": "rg_anye_025",
+     "textKey": "rg.anye.025",
+     "regular": "anye",
+     "text": "吾的真名……下次告诉你",
+     "scene": "bond",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 70,
+     "category": "general"
+    },
+    {
+     "id": "rg_anye_026",
+     "textKey": "rg.anye.026",
+     "regular": "anye",
+     "text": "三十夜的契约，达成",
+     "scene": "bond",
+     "triggers": [
+      "milestone_30"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": -1,
+     "minRelation": 60,
+     "category": "general"
+    },
+    {
+     "id": "rg_anye_027",
+     "textKey": "rg.anye.027",
+     "regular": "anye",
+     "text": "其实我就想说，加油",
+     "scene": "bond",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": -1,
+     "minRelation": 80,
+     "category": "general"
+    },
+    {
+     "id": "rg_anye_028",
+     "textKey": "rg.anye.028",
+     "regular": "anye",
+     "text": "暗夜退场，明日再会",
+     "scene": "special",
+     "triggers": [
+      "stream_end"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_anye_029",
+     "textKey": "rg.anye.029",
+     "regular": "anye",
+     "text": "闹钟设好了，明天上班",
+     "scene": "special",
+     "triggers": [
+      "stream_end"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_anye_030",
+     "textKey": "rg.anye.030",
+     "regular": "anye",
+     "text": "吾在梦境等你开播",
+     "scene": "special",
+     "triggers": [
+      "offline_message"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    }
+   ]
+  },
+  {
+   "regularId": "tingyu",
+   "nameKey": "rg.tingyu.name",
+   "name": "听雨",
+   "type": "文艺",
+   "color": "#8DA9C4",
+   "avatar": "avatar_regular_tingyu",
+   "adult": true,
+   "ageMin": 27,
+   "ageNote": "成年：独立书店店员，二十七八岁（10/28 未成年门禁补）",
+   "minStage": 2,
+   "voice": "说话轻、爱打比方，句子短而有画面；不抢话，主播低落时会安静地陪着",
+   "appear": "阶段 2 起；深夜档和雨天（天气事件）出现概率高，每场 30% 概率，每场 1–2 条",
+   "lineCount": 30,
+   "lines": [
+    {
+     "id": "rg_tingyu_001",
+     "textKey": "rg.tingyu.001",
+     "regular": "tingyu",
+     "text": "窗外下雨，正好听你",
+     "scene": "daily",
+     "triggers": [
+      "stream_start"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tingyu_002",
+     "textKey": "rg.tingyu.002",
+     "regular": "tingyu",
+     "text": "泡了杯茶，来了",
+     "scene": "daily",
+     "triggers": [
+      "stream_start"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tingyu_003",
+     "textKey": "rg.tingyu.003",
+     "regular": "tingyu",
+     "text": "书店打烊，来听你",
+     "scene": "daily",
+     "triggers": [
+      "stream_start"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tingyu_004",
+     "textKey": "rg.tingyu.004",
+     "regular": "tingyu",
+     "text": "夜很静，你在就好",
+     "scene": "daily",
+     "triggers": [
+      "late_night"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tingyu_005",
+     "textKey": "rg.tingyu.005",
+     "regular": "tingyu",
+     "text": "这句像一首短诗",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tingyu_006",
+     "textKey": "rg.tingyu.006",
+     "regular": "tingyu",
+     "text": "想把这段抄进本子",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tingyu_007",
+     "textKey": "rg.tingyu.007",
+     "regular": "tingyu",
+     "text": "慢一点也很好",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tingyu_008",
+     "textKey": "rg.tingyu.008",
+     "regular": "tingyu",
+     "text": "声音像旧唱片",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "sing"
+    },
+    {
+     "id": "rg_tingyu_009",
+     "textKey": "rg.tingyu.009",
+     "regular": "tingyu",
+     "text": "这首歌有雨的味道",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "sing"
+    },
+    {
+     "id": "rg_tingyu_010",
+     "textKey": "rg.tingyu.010",
+     "regular": "tingyu",
+     "text": "你讲的故事有画面",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "chat"
+    },
+    {
+     "id": "rg_tingyu_011",
+     "textKey": "rg.tingyu.011",
+     "regular": "tingyu",
+     "text": "包装纸很有质感",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "sell"
+    },
+    {
+     "id": "rg_tingyu_012",
+     "textKey": "rg.tingyu.012",
+     "regular": "tingyu",
+     "text": "这一局像场雪仗",
+     "scene": "daily",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "game"
+    },
+    {
+     "id": "rg_tingyu_013",
+     "textKey": "rg.tingyu.013",
+     "regular": "tingyu",
+     "text": "这一刻值得被记住",
+     "scene": "hype",
+     "triggers": [
+      "highlight"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tingyu_014",
+     "textKey": "rg.tingyu.014",
+     "regular": "tingyu",
+     "text": "心里亮了一下",
+     "scene": "hype",
+     "triggers": [
+      "highlight"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tingyu_015",
+     "textKey": "rg.tingyu.015",
+     "regular": "tingyu",
+     "text": "一颗星光心，赠你",
+     "scene": "hype",
+     "triggers": [
+      "gift_small"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tingyu_016",
+     "textKey": "rg.tingyu.016",
+     "regular": "tingyu",
+     "text": "像烟花落进眼里",
+     "scene": "hype",
+     "triggers": [
+      "clutch"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tingyu_017",
+     "textKey": "rg.tingyu.017",
+     "regular": "tingyu",
+     "text": "有瑕疵才是真的",
+     "scene": "fail",
+     "triggers": [
+      "slip",
+      "voice_crack"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tingyu_018",
+     "textKey": "rg.tingyu.018",
+     "regular": "tingyu",
+     "text": "雨天路滑，不要紧",
+     "scene": "fail",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tingyu_019",
+     "textKey": "rg.tingyu.019",
+     "regular": "tingyu",
+     "text": "停顿也是一种节奏",
+     "scene": "fail",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tingyu_020",
+     "textKey": "rg.tingyu.020",
+     "regular": "tingyu",
+     "text": "云散了就是晴天",
+     "scene": "low",
+     "triggers": [
+      "mood_bad"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tingyu_021",
+     "textKey": "rg.tingyu.021",
+     "regular": "tingyu",
+     "text": "别听风声，听自己",
+     "scene": "low",
+     "triggers": [
+      "hater"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tingyu_022",
+     "textKey": "rg.tingyu.022",
+     "regular": "tingyu",
+     "text": "夜再长也会亮",
+     "scene": "low",
+     "triggers": [
+      "meltdown"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tingyu_023",
+     "textKey": "rg.tingyu.023",
+     "regular": "tingyu",
+     "text": "输一场，留一首诗",
+     "scene": "low",
+     "triggers": [
+      "pk_lose",
+      "game_lose"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tingyu_024",
+     "textKey": "rg.tingyu.024",
+     "regular": "tingyu",
+     "text": "人少也很好，安静",
+     "scene": "low",
+     "triggers": [
+      "tier_down"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tingyu_025",
+     "textKey": "rg.tingyu.025",
+     "regular": "tingyu",
+     "text": "第三十天，雨停了",
+     "scene": "bond",
+     "triggers": [
+      "milestone_30"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": -1,
+     "minRelation": 60,
+     "category": "general"
+    },
+    {
+     "id": "rg_tingyu_026",
+     "textKey": "rg.tingyu.026",
+     "regular": "tingyu",
+     "text": "你是我的晴天书签",
+     "scene": "bond",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 70,
+     "category": "general"
+    },
+    {
+     "id": "rg_tingyu_027",
+     "textKey": "rg.tingyu.027",
+     "regular": "tingyu",
+     "text": "有些陪伴不必说出口",
+     "scene": "bond",
+     "triggers": [],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 80,
+     "category": "general"
+    },
+    {
+     "id": "rg_tingyu_028",
+     "textKey": "rg.tingyu.028",
+     "regular": "tingyu",
+     "text": "晚安，今夜好梦",
+     "scene": "special",
+     "triggers": [
+      "stream_end"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tingyu_029",
+     "textKey": "rg.tingyu.029",
+     "regular": "tingyu",
+     "text": "把今天夹进书里",
+     "scene": "special",
+     "triggers": [
+      "stream_end"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    },
+    {
+     "id": "rg_tingyu_030",
+     "textKey": "rg.tingyu.030",
+     "regular": "tingyu",
+     "text": "读到一句话，想念给你听",
+     "scene": "special",
+     "triggers": [
+      "offline_message"
+     ],
+     "weight": 1.0,
+     "repeatable": false,
+     "minStage": 2,
+     "cooldown": 3,
+     "minRelation": 0,
+     "category": "general"
+    }
+   ]
+  }
+ ],
+ "total": 257,
+ "enums": {
+  "category": {
+   "general": "通用（任何品类都可出现）",
+   "sing": "唱歌才艺",
+   "chat": "聊天",
+   "sell": "带货（阶段 2 解锁）",
+   "game": "游戏（文本里不写游戏名，一律用 {game} 占位）"
+  },
+  "scene": {
+   "daily": "日常",
+   "hype": "高潮",
+   "fail": "翻车",
+   "low": "主播低谷 / 被攻击 / 输了",
+   "bond": "关系升级 / 剧情节点",
+   "special": "教学 / 下播 / 离线留言"
+  },
+  "regTriggers": {
+   "late_arrival": "阿土当天比开播晚到（跑单忙）",
+   "milestone_30": "累计陪伴 30 天（每个游戏日最多记 1 次；平台 10/28 定，原「30 场」）",
+   "event_atu_birthday": "“阿土的生日”事件",
+   "tutorial_first_stream": "开局小剧情第 5 步第一场直播",
+   "offline_message": "离线小事 / 日报里的老观众留言（不在直播中显示）",
+   "tutorial_hater": "第 5 天“杠精老柠第一次出现”引导事件",
+   "turn_fan": "老柠关系值 ≥ 80 黑转粉的那一场",
+   "story_vivian_ch3": "Vivian③选择分支那场",
+   "story_vivian_ch4": "Vivian④旧大哥回来",
+   "story_vivian_epilogue": "Vivian 尾声节点：第 58 天盛典前夜深夜档（不算章节、没有选择；v3.2 由原 story_vivian_ch5 改名，按 v0.3章节/剧情结局.md）",
+   "lucky_bag_win": "福袋开奖：猎人中奖",
+   "lucky_bag_lose": "福袋开奖：猎人没中",
+   "lucky_bag_end": "福袋开奖后离场",
+   "hunter_win_10": "猎人累计中奖第 10 次"
+  }
+ }
+}

@@ -1,0 +1,309 @@
+{
+  "schema": "v1.roomLayout.proposed.1",
+  "roomId": "rental_main",
+  "tier": "venue.rental",
+  "citySkins": [
+    "shuopan"
+  ],
+  "canvas": [
+    2400,
+    2400
+  ],
+  "cell": 200,
+  "grid": {
+    "cols": 6,
+    "rows": 6,
+    "origin": [
+      600,
+      700
+    ]
+  },
+  "aabb": [
+    600,
+    700,
+    1800,
+    1900
+  ],
+  "safe_center": [
+    600,
+    700,
+    1800,
+    1900
+  ],
+  "cells": {
+    "structure": [
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        5,
+        0
+      ],
+      [
+        5,
+        1
+      ]
+    ],
+    "reserved": [
+      [
+        1,
+        1
+      ],
+      [
+        0,
+        4
+      ]
+    ]
+  },
+  "placeableCount": 30,
+  "stations": [
+    {
+      "id": "st_live_1",
+      "kind": "live",
+      "cell": [
+        1,
+        1
+      ],
+      "seatFoot": [
+        900,
+        1010
+      ],
+      "facing": "ne",
+      "sockets": "fix_rental_livedesk"
+    },
+    {
+      "id": "sb_1",
+      "kind": "standby",
+      "cell": [
+        2,
+        3
+      ],
+      "foot": [
+        1100,
+        1400
+      ]
+    },
+    {
+      "id": "sb_2",
+      "kind": "standby",
+      "cell": [
+        3,
+        3
+      ],
+      "foot": [
+        1300,
+        1400
+      ]
+    },
+    {
+      "id": "sb_3",
+      "kind": "standby",
+      "cell": [
+        1,
+        3
+      ],
+      "foot": [
+        900,
+        1400
+      ]
+    }
+  ],
+  "doors": [
+    {
+      "id": "door_rental_main",
+      "cell": [
+        0,
+        4
+      ],
+      "side": "left",
+      "target": "exterior",
+      "state": "closed",
+      "sprite": "door_rental_main_{open,close}_00-03",
+      "spriteRect": [
+        340,
+        1224,
+        600,
+        1704
+      ],
+      "opening": [
+        372,
+        1240,
+        572,
+        1700
+      ],
+      "thresholdFx": [
+        700,
+        1600
+      ]
+    }
+  ],
+  "fixtures": [
+    {
+      "key": "fix_rental_livedesk",
+      "cells": [
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ]
+      ],
+      "anchor": [
+        1000,
+        900
+      ],
+      "anchorPx": [
+        200,
+        598
+      ],
+      "spriteRect": [
+        800,
+        302,
+        1200,
+        902
+      ],
+      "sockets": {
+        "light": [
+          877,
+          424
+        ],
+        "mic": [
+          904,
+          691
+        ],
+        "pc": [
+          1000,
+          643
+        ],
+        "cam": [
+          1000,
+          400
+        ],
+        "sound": [
+          1065,
+          691
+        ]
+      },
+      "fg": null
+    },
+    {
+      "key": "fix_rental_kitchen",
+      "cells": [
+        [
+          5,
+          0
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "anchor": [
+        1700,
+        1100
+      ],
+      "anchorPx": [
+        100,
+        598
+      ],
+      "spriteRect": [
+        1600,
+        502,
+        1800,
+        1102
+      ],
+      "fg": null
+    }
+  ],
+  "states": [
+    {
+      "key": "dev_onair_desk_{off,on,hot}",
+      "on": "fix_rental_livedesk",
+      "anchor": [
+        1141,
+        705
+      ],
+      "anchorPx": [
+        80,
+        102
+      ],
+      "size": [
+        160,
+        110
+      ],
+      "sync": "ui2_live_onair（off / on / 人气档≥3 → hot）"
+    },
+    {
+      "key": "dev_monitor_{normal,broken}",
+      "on": "fix_rental_livedesk",
+      "anchor": [
+        1000,
+        643
+      ]
+    },
+    {
+      "key": "bub_knock",
+      "anchor": [
+        670,
+        1060
+      ],
+      "anchorPx": [
+        60,
+        60
+      ],
+      "size": [
+        120,
+        120
+      ],
+      "event": "ev_rnd_neighbor_complain"
+    }
+  ],
+  "wallSlots": [],
+  "windows": [
+    {
+      "mask": "room_rental_main_window_mask",
+      "rect": [
+        984,
+        172,
+        1384,
+        492
+      ],
+      "view": "win_shuopan_street_{time}",
+      "viewPlaceSuggest": [
+        704,
+        92,
+        1664,
+        572
+      ]
+    }
+  ],
+  "layers": [
+    "bg",
+    "window_view",
+    "floor",
+    "fixture",
+    "actors",
+    "fg",
+    "state",
+    "fx"
+  ],
+  "layerFiles": {
+    "bg": "room_rental_main_shuopan_bg.png",
+    "floor": "room_rental_main_shuopan_floor.png",
+    "fg": "room_rental_main_shuopan_fg.png"
+  },
+  "letterbox": {
+    "fill": "#FFF6E6"
+  },
+  "extension": {
+    "futureRooms": []
+  },
+  "movableDecoNote": "开局床 / 工位桌 / 小地毯属可搬分件（另线 deco_v1_min3_1110），不写入本文件 fixtures"
+}

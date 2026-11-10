@@ -1,0 +1,306 @@
+{
+  "schema": "ui2.theme.1",
+  "id": "default",
+  "colors": {
+    "cream": "#FFF6E6",
+    "apricot": "#FBE3C8",
+    "peach": "#FFB59A",
+    "coral": "#FF7F6E",
+    "honey": "#FFC845",
+    "mint": "#6FD3B0",
+    "berry": "#FF5C8A",
+    "line": "#5A3A2E",
+    "stroke": "#7A4E3A",
+    "gray": "#BDB2AA"
+  },
+  "radiusPx": {
+    "window": 24,
+    "button": 40,
+    "capsule": 32,
+    "toast": 44
+  },
+  "strokePx": {
+    "ui": 6,
+    "hud": 5,
+    "toast": 5,
+    "icon": 6
+  },
+  "shadow": {
+    "modalGlow": "honey 20%",
+    "window": "line 30% blur 3 dy 3"
+  },
+  "font": {
+    "family": "Noto Sans CJK SC"
+  },
+  "motionMs": {
+    "btnPress": 120,
+    "panelOpen": 220,
+    "panelClose": 180,
+    "numberRoll": [
+      600,
+      1500
+    ],
+    "rewardFly": 600,
+    "rewardPop": 160,
+    "actionbar": 200,
+    "outfitFade": 240,
+    "toastIn": 200,
+    "toastHold": 2000,
+    "toastOut": 160,
+    "errorShake": 240,
+    "onlinePulse": 1600
+  },
+  "motionEase": {
+    "btnPress": "Back.Out 1.6",
+    "panelOpen": "Cubic.Out",
+    "panelClose": "Cubic.In",
+    "numberRoll": "Quad.Out",
+    "rewardFly": "Sine.InOut",
+    "rewardPop": "Back.Out"
+  },
+  "nineSliceFile": "ui/ui2_9slice.json",
+  "topbar": {
+    "height": 64,
+    "areaY": [
+      0,
+      150
+    ],
+    "marginX": 32,
+    "order": [
+      "ui2_hud_company_funds",
+      "ui2_hud_company_scale",
+      "ui2_hud_company_streamers",
+      "ui2_hud_company_jobs",
+      "ui2_hud_company_power"
+    ],
+    "gap": 16
+  },
+  "components": {
+    "hud": {
+      "ui2_hud_company_funds": {
+        "height": 64,
+        "icon": "ui/ui2/ui2_hud_icon_funds.png",
+        "states": {
+          "normal": {
+            "nineSlice": "ui2_hud_company_funds_normal_9s",
+            "text": "line"
+          },
+          "warn": {
+            "nineSlice": "ui2_hud_company_funds_warn_9s",
+            "text": "line"
+          },
+          "crisis": {
+            "nineSlice": "ui2_hud_company_funds_crisis_9s",
+            "text": "cream",
+            "debtTextKey": "hud.company.funds.debt",
+            "debtFormat": "欠 {n}（千分位，程序渲染）"
+          }
+        },
+        "format": "千分位整数，无货币符号；钻石隐藏"
+      },
+      "ui2_hud_company_power": {
+        "height": 64,
+        "states": {
+          "normal": {
+            "nineSlice": "ui2_hud_company_power_9s",
+            "text": "line"
+          }
+        },
+        "badge": {
+          "D": {
+            "file": "ui/ui2/ui2_hud_company_power_badge_D.png",
+            "@3x": "ui/ui2/ui2_hud_company_power_badge_D@3x.png"
+          },
+          "C": {
+            "file": "ui/ui2/ui2_hud_company_power_badge_C.png",
+            "@3x": "ui/ui2/ui2_hud_company_power_badge_C@3x.png"
+          },
+          "B": {
+            "file": "ui/ui2/ui2_hud_company_power_badge_B.png",
+            "@3x": "ui/ui2/ui2_hud_company_power_badge_B@3x.png"
+          },
+          "A": {
+            "file": "ui/ui2/ui2_hud_company_power_badge_A.png",
+            "@3x": "ui/ui2/ui2_hud_company_power_badge_A@3x.png"
+          },
+          "S": {
+            "file": "ui/ui2/ui2_hud_company_power_badge_S.png",
+            "@3x": "ui/ui2/ui2_hud_company_power_badge_S@3x.png"
+          },
+          "SS": {
+            "file": "ui/ui2/ui2_hud_company_power_badge_SS.png",
+            "@3x": "ui/ui2/ui2_hud_company_power_badge_SS@3x.png"
+          }
+        },
+        "badgeSize": [
+          64,
+          64
+        ],
+        "badgeAnchor": "left, 与胶囊左端重叠 20",
+        "score": "可选，程序渲染"
+      },
+      "ui2_hud_company_scale": {
+        "height": 64,
+        "icon": "ui/ui2/ui2_hud_icon_scale.png",
+        "states": {
+          "normal": {
+            "nineSlice": "ui2_hud_company_scale_9s",
+            "text": "line"
+          }
+        }
+      },
+      "ui2_hud_company_streamers": {
+        "height": 64,
+        "icon": "ui/ui2/ui2_hud_icon_streamers.png",
+        "states": {
+          "normal": {
+            "nineSlice": "ui2_hud_company_streamers_9s",
+            "text": "line"
+          }
+        }
+      },
+      "ui2_hud_company_jobs": {
+        "height": 64,
+        "icon": "ui/ui2/ui2_hud_icon_jobs.png",
+        "states": {
+          "normal": {
+            "nineSlice": "ui2_hud_company_jobs_9s",
+            "text": "line"
+          }
+        },
+        "hideWhen": "无其他工种时整槽不出现，不留空位"
+      }
+    },
+    "buttons": {
+      "ui2_btn_primary": {
+        "height": 112,
+        "textColor": "cream",
+        "pressedOffsetY": 4,
+        "states": {
+          "normal": {
+            "nineSlice": "ui2_btn_primary_normal_9s"
+          },
+          "pressed": {
+            "nineSlice": "ui2_btn_primary_pressed_9s"
+          },
+          "disabled": {
+            "nineSlice": "ui2_btn_primary_disabled_9s"
+          },
+          "alert": {
+            "nineSlice": "ui2_btn_primary_alert_9s"
+          }
+        }
+      },
+      "ui2_btn_secondary": {
+        "height": 88,
+        "textColor": "line",
+        "pressedOffsetY": 4,
+        "states": {
+          "normal": {
+            "nineSlice": "ui2_btn_secondary_normal_9s"
+          },
+          "pressed": {
+            "nineSlice": "ui2_btn_secondary_pressed_9s"
+          },
+          "disabled": {
+            "nineSlice": "ui2_btn_secondary_disabled_9s"
+          },
+          "alert": {
+            "nineSlice": "ui2_btn_secondary_alert_9s"
+          }
+        }
+      },
+      "ui2_btn_close": {
+        "size": [
+          72,
+          72
+        ],
+        "shape": "circle",
+        "states": {
+          "normal": {
+            "file": "ui/ui2/ui2_btn_close_normal.png",
+            "@3x": "ui/ui2/ui2_btn_close_normal@3x.png"
+          },
+          "pressed": {
+            "file": "ui/ui2/ui2_btn_close_pressed.png",
+            "@3x": "ui/ui2/ui2_btn_close_pressed@3x.png"
+          },
+          "disabled": {
+            "file": "ui/ui2/ui2_btn_close_disabled.png",
+            "@3x": "ui/ui2/ui2_btn_close_disabled@3x.png"
+          }
+        }
+      },
+      "ui2_btn_back": {
+        "size": [
+          72,
+          72
+        ],
+        "shape": "circle",
+        "states": {
+          "normal": {
+            "file": "ui/ui2/ui2_btn_back_normal.png",
+            "@3x": "ui/ui2/ui2_btn_back_normal@3x.png"
+          },
+          "pressed": {
+            "file": "ui/ui2/ui2_btn_back_pressed.png",
+            "@3x": "ui/ui2/ui2_btn_back_pressed@3x.png"
+          },
+          "disabled": {
+            "file": "ui/ui2/ui2_btn_back_disabled.png",
+            "@3x": "ui/ui2/ui2_btn_back_disabled@3x.png"
+          }
+        }
+      }
+    },
+    "windows": {
+      "ui2_win_normal": {
+        "nineSlice": "ui2_win_normal_9s"
+      },
+      "ui2_win_modal": {
+        "nineSlice": "ui2_win_modal_9s",
+        "titleSlot": {
+          "nineSlice": "ui2_titlebar_9s",
+          "anchor": "top-center",
+          "offsetY": -36,
+          "insetX": 40
+        }
+      },
+      "ui2_titlebar": {
+        "nineSlice": "ui2_titlebar_9s",
+        "height": 96,
+        "textColor": "cream",
+        "title": "textKey，不烘焙"
+      },
+      "contentPadding": 36,
+      "shadowMargin": 12
+    },
+    "toasts": {
+      "ui2_toast_info": {
+        "nineSlice": "ui2_toast_info_9s",
+        "height": 88,
+        "textColor": "line",
+        "textInsetLeft": 88
+      },
+      "ui2_toast_success": {
+        "nineSlice": "ui2_toast_success_9s",
+        "height": 88,
+        "textColor": "line",
+        "textInsetLeft": 88
+      },
+      "ui2_toast_warn": {
+        "nineSlice": "ui2_toast_warn_9s",
+        "height": 88,
+        "textColor": "line",
+        "textInsetLeft": 88
+      },
+      "layout": {
+        "y": [
+          170,
+          260
+        ],
+        "hold": "motionMs.toastHold"
+      }
+    }
+  }
+}

@@ -1,0 +1,436 @@
+{
+  "schema": "ui2.theme.1",
+  "id": "p1rest",
+  "extends": "default",
+  "nineSliceFile": "ui/ui2_9slice.json",
+  "motionMs": {
+    "onlineDotBreath": 1600,
+    "btnPress": 120,
+    "slotSelect": 160,
+    "panelBarFill": 240
+  },
+  "motionEase": {
+    "onlineDotBreath": "Sine.InOut yoyo",
+    "slotSelect": "Back.Out 1.4",
+    "panelBarFill": "Cubic.Out"
+  },
+  "layout": {
+    "design": [
+      1080,
+      1920
+    ],
+    "topRightEntries": {
+      "mail": {
+        "x": 896,
+        "y": 16,
+        "size": [
+          72,
+          72
+        ]
+      },
+      "settings": {
+        "x": 976,
+        "y": 16,
+        "size": [
+          72,
+          72
+        ]
+      },
+      "gap": 8,
+      "marginRight": 32
+    },
+    "cameraButtonsNote": "镜头钮布局按策划 11-10 确认口径，见 p1min theme（本包不改）",
+    "onlineDot": {
+      "size": 24,
+      "where": [
+        "世界层门牌（名牌左侧）",
+        "社交栏头像右下角（头像 88 时点心偏移 +32,+74 示意）"
+      ],
+      "notInTopbar": true
+    },
+    "dressSlots": {
+      "size": 160,
+      "visible": 148,
+      "order": [
+        "outfit",
+        "acc_top",
+        "acc_hair",
+        "acc_eye"
+      ],
+      "itemArea": {
+        "x": 19,
+        "y": 19,
+        "w": 122,
+        "h": 106
+      },
+      "categoryBadge": {
+        "cx": 29,
+        "cy": 29,
+        "r": 13
+      },
+      "rarityStrip": {
+        "x": 24,
+        "y": 134,
+        "w": 112,
+        "h": 8,
+        "radius": 4,
+        "outline": "line 2px",
+        "default": "apricot",
+        "empty_locked": "gray",
+        "tiers": {
+          "N": "#FBE3C8",
+          "R": "#6FD3B0",
+          "SR": "#FF5C8A",
+          "SSR": "#FFC845"
+        }
+      }
+    },
+    "companyHudAvoidance": {
+      "whenJobsVisible": {
+        "fundsWidth": 232,
+        "otherWidth": 136,
+        "rightMax": 880
+      },
+      "whenJobsHidden": {
+        "useDefaultWidths": true
+      }
+    },
+    "panelBars": {
+      "fill": {
+        "energy": "peach",
+        "fans": "coral",
+        "heat": "honey",
+        "stamina": "mint"
+      },
+      "low": "berry",
+      "empty": "gray"
+    },
+    "mailPress": {
+      "dy": 3,
+      "darken": 0.08
+    }
+  },
+  "components": {
+    "ui2_dot_online": {
+      "states": {
+        "on": {
+          "file": "ui/ui2/ui2_dot_online_on.png",
+          "@3x": "ui/ui2/ui2_dot_online_on@3x.png"
+        },
+        "busy": {
+          "file": "ui/ui2/ui2_dot_online_busy.png",
+          "@3x": "ui/ui2/ui2_dot_online_busy@3x.png"
+        },
+        "off": {
+          "file": "ui/ui2/ui2_dot_online_off.png",
+          "@3x": "ui/ui2/ui2_dot_online_off@3x.png"
+        }
+      },
+      "on": {
+        "breath": {
+          "alphaFrom": 0.6,
+          "alphaTo": 1,
+          "ms": 1600
+        }
+      },
+      "colors": {
+        "on": "mint",
+        "busy": "honey",
+        "off": "gray"
+      },
+      "shapeHint": {
+        "busy": "中心短横",
+        "off": "中心凹点"
+      }
+    },
+    "ui2_slot": {
+      "outfit": {
+        "textKey": "dress.slot.outfit",
+        "textSample": "衣服",
+        "showLabel": false,
+        "states": {
+          "empty": {
+            "file": "ui/ui2/ui2_slot_outfit_empty.png",
+            "@3x": "ui/ui2/ui2_slot_outfit_empty@3x.png"
+          },
+          "filled": {
+            "file": "ui/ui2/ui2_slot_outfit_filled.png",
+            "@3x": "ui/ui2/ui2_slot_outfit_filled@3x.png"
+          },
+          "selected": {
+            "file": "ui/ui2/ui2_slot_outfit_selected.png",
+            "@3x": "ui/ui2/ui2_slot_outfit_selected@3x.png"
+          },
+          "locked": {
+            "file": "ui/ui2/ui2_slot_outfit_locked.png",
+            "@3x": "ui/ui2/ui2_slot_outfit_locked@3x.png"
+          }
+        }
+      },
+      "acc_top": {
+        "textKey": "dress.slot.acc_top",
+        "textSample": "头顶饰",
+        "showLabel": false,
+        "states": {
+          "empty": {
+            "file": "ui/ui2/ui2_slot_acc_top_empty.png",
+            "@3x": "ui/ui2/ui2_slot_acc_top_empty@3x.png"
+          },
+          "filled": {
+            "file": "ui/ui2/ui2_slot_acc_top_filled.png",
+            "@3x": "ui/ui2/ui2_slot_acc_top_filled@3x.png"
+          },
+          "selected": {
+            "file": "ui/ui2/ui2_slot_acc_top_selected.png",
+            "@3x": "ui/ui2/ui2_slot_acc_top_selected@3x.png"
+          },
+          "locked": {
+            "file": "ui/ui2/ui2_slot_acc_top_locked.png",
+            "@3x": "ui/ui2/ui2_slot_acc_top_locked@3x.png"
+          }
+        }
+      },
+      "acc_hair": {
+        "textKey": "dress.slot.acc_hair",
+        "textSample": "发饰",
+        "showLabel": false,
+        "states": {
+          "empty": {
+            "file": "ui/ui2/ui2_slot_acc_hair_empty.png",
+            "@3x": "ui/ui2/ui2_slot_acc_hair_empty@3x.png"
+          },
+          "filled": {
+            "file": "ui/ui2/ui2_slot_acc_hair_filled.png",
+            "@3x": "ui/ui2/ui2_slot_acc_hair_filled@3x.png"
+          },
+          "selected": {
+            "file": "ui/ui2/ui2_slot_acc_hair_selected.png",
+            "@3x": "ui/ui2/ui2_slot_acc_hair_selected@3x.png"
+          },
+          "locked": {
+            "file": "ui/ui2/ui2_slot_acc_hair_locked.png",
+            "@3x": "ui/ui2/ui2_slot_acc_hair_locked@3x.png"
+          }
+        }
+      },
+      "acc_eye": {
+        "textKey": "dress.slot.acc_eye",
+        "textSample": "眼饰",
+        "showLabel": false,
+        "states": {
+          "empty": {
+            "file": "ui/ui2/ui2_slot_acc_eye_empty.png",
+            "@3x": "ui/ui2/ui2_slot_acc_eye_empty@3x.png"
+          },
+          "filled": {
+            "file": "ui/ui2/ui2_slot_acc_eye_filled.png",
+            "@3x": "ui/ui2/ui2_slot_acc_eye_filled@3x.png"
+          },
+          "selected": {
+            "file": "ui/ui2/ui2_slot_acc_eye_selected.png",
+            "@3x": "ui/ui2/ui2_slot_acc_eye_selected@3x.png"
+          },
+          "locked": {
+            "file": "ui/ui2/ui2_slot_acc_eye_locked.png",
+            "@3x": "ui/ui2/ui2_slot_acc_eye_locked@3x.png"
+          }
+        }
+      }
+    },
+    "ui2_btn_mail": {
+      "states": {
+        "normal": {
+          "file": "ui/ui2/ui2_btn_mail_normal.png",
+          "@3x": "ui/ui2/ui2_btn_mail_normal@3x.png"
+        },
+        "unread": {
+          "file": "ui/ui2/ui2_btn_mail_unread.png",
+          "@3x": "ui/ui2/ui2_btn_mail_unread@3x.png"
+        }
+      },
+      "pressed": "程序按 P0 规则：normal 下移 3px + 暗 8%（本包未单出 pressed 皮肤）",
+      "unreadDot": {
+        "cx": 57,
+        "cy": 14,
+        "r": 8.5,
+        "color": "berry"
+      }
+    },
+    "ui2_btn_settings": {
+      "states": {
+        "normal": {
+          "file": "ui/ui2/ui2_btn_settings.png",
+          "@3x": "ui/ui2/ui2_btn_settings@3x.png"
+        },
+        "pressed": {
+          "file": "ui/ui2/ui2_btn_settings_pressed.png",
+          "@3x": "ui/ui2/ui2_btn_settings_pressed@3x.png"
+        },
+        "disabled": {
+          "file": "ui/ui2/ui2_btn_settings_disabled.png",
+          "@3x": "ui/ui2/ui2_btn_settings_disabled@3x.png"
+        }
+      },
+      "visitPermission": {
+        "options": [
+          "all",
+          "friends",
+          "self"
+        ],
+        "textKeys": [
+          "settings.visit.all",
+          "settings.visit.friends",
+          "settings.visit.self"
+        ]
+      }
+    },
+    "ui2_panel_bar": {
+      "boss_energy": {
+        "textKey": "panel.boss.energy",
+        "textSample": "老板精力",
+        "where": "老板面板",
+        "height": 32,
+        "semanticColor": "peach",
+        "lowColor": "berry",
+        "lowThreshold": 0.2,
+        "layers": {
+          "track": "ui2_panel_boss_energy_empty_9s",
+          "full": "ui2_panel_boss_energy_full_9s",
+          "low": "ui2_panel_boss_energy_low_9s"
+        },
+        "states": {
+          "empty": {
+            "file": "ui/ui2/ui2_panel_boss_energy_empty_9s.png",
+            "@3x": "ui/ui2/ui2_panel_boss_energy_empty_9s@3x.png"
+          },
+          "full": {
+            "file": "ui/ui2/ui2_panel_boss_energy_full_9s.png",
+            "@3x": "ui/ui2/ui2_panel_boss_energy_full_9s@3x.png"
+          },
+          "low": {
+            "file": "ui/ui2/ui2_panel_boss_energy_low_9s.png",
+            "@3x": "ui/ui2/ui2_panel_boss_energy_low_9s@3x.png"
+          }
+        }
+      },
+      "boss_fans": {
+        "textKey": "panel.boss.fans",
+        "textSample": "老板侧粉丝",
+        "where": "老板面板；没有则隐藏",
+        "height": 32,
+        "semanticColor": "coral",
+        "lowColor": "berry",
+        "lowThreshold": 0.2,
+        "layers": {
+          "track": "ui2_panel_boss_fans_empty_9s",
+          "full": "ui2_panel_boss_fans_full_9s",
+          "low": "ui2_panel_boss_fans_low_9s"
+        },
+        "states": {
+          "empty": {
+            "file": "ui/ui2/ui2_panel_boss_fans_empty_9s.png",
+            "@3x": "ui/ui2/ui2_panel_boss_fans_empty_9s@3x.png"
+          },
+          "full": {
+            "file": "ui/ui2/ui2_panel_boss_fans_full_9s.png",
+            "@3x": "ui/ui2/ui2_panel_boss_fans_full_9s@3x.png"
+          },
+          "low": {
+            "file": "ui/ui2/ui2_panel_boss_fans_low_9s.png",
+            "@3x": "ui/ui2/ui2_panel_boss_fans_low_9s@3x.png"
+          }
+        }
+      },
+      "streamer_fans": {
+        "textKey": "panel.streamer.fans",
+        "textSample": "主播粉丝",
+        "where": "主播面板",
+        "height": 32,
+        "semanticColor": "coral",
+        "lowColor": "berry",
+        "lowThreshold": 0.2,
+        "layers": {
+          "track": "ui2_panel_streamer_fans_empty_9s",
+          "full": "ui2_panel_streamer_fans_full_9s",
+          "low": "ui2_panel_streamer_fans_low_9s"
+        },
+        "states": {
+          "empty": {
+            "file": "ui/ui2/ui2_panel_streamer_fans_empty_9s.png",
+            "@3x": "ui/ui2/ui2_panel_streamer_fans_empty_9s@3x.png"
+          },
+          "full": {
+            "file": "ui/ui2/ui2_panel_streamer_fans_full_9s.png",
+            "@3x": "ui/ui2/ui2_panel_streamer_fans_full_9s@3x.png"
+          },
+          "low": {
+            "file": "ui/ui2/ui2_panel_streamer_fans_low_9s.png",
+            "@3x": "ui/ui2/ui2_panel_streamer_fans_low_9s@3x.png"
+          }
+        }
+      },
+      "streamer_heat": {
+        "textKey": "panel.streamer.heat",
+        "textSample": "主播热度",
+        "where": "主播面板",
+        "height": 32,
+        "semanticColor": "honey",
+        "lowColor": "berry",
+        "lowThreshold": 0.2,
+        "layers": {
+          "track": "ui2_panel_streamer_heat_empty_9s",
+          "full": "ui2_panel_streamer_heat_full_9s",
+          "low": "ui2_panel_streamer_heat_low_9s"
+        },
+        "states": {
+          "empty": {
+            "file": "ui/ui2/ui2_panel_streamer_heat_empty_9s.png",
+            "@3x": "ui/ui2/ui2_panel_streamer_heat_empty_9s@3x.png"
+          },
+          "full": {
+            "file": "ui/ui2/ui2_panel_streamer_heat_full_9s.png",
+            "@3x": "ui/ui2/ui2_panel_streamer_heat_full_9s@3x.png"
+          },
+          "low": {
+            "file": "ui/ui2/ui2_panel_streamer_heat_low_9s.png",
+            "@3x": "ui/ui2/ui2_panel_streamer_heat_low_9s@3x.png"
+          }
+        }
+      },
+      "streamer_stamina": {
+        "textKey": "panel.streamer.stamina",
+        "textSample": "主播体力",
+        "where": "主播面板",
+        "height": 32,
+        "semanticColor": "mint",
+        "lowColor": "berry",
+        "lowThreshold": 0.2,
+        "layers": {
+          "track": "ui2_panel_streamer_stamina_empty_9s",
+          "full": "ui2_panel_streamer_stamina_full_9s",
+          "low": "ui2_panel_streamer_stamina_low_9s"
+        },
+        "states": {
+          "empty": {
+            "file": "ui/ui2/ui2_panel_streamer_stamina_empty_9s.png",
+            "@3x": "ui/ui2/ui2_panel_streamer_stamina_empty_9s@3x.png"
+          },
+          "full": {
+            "file": "ui/ui2/ui2_panel_streamer_stamina_full_9s.png",
+            "@3x": "ui/ui2/ui2_panel_streamer_stamina_full_9s@3x.png"
+          },
+          "low": {
+            "file": "ui/ui2/ui2_panel_streamer_stamina_low_9s.png",
+            "@3x": "ui/ui2/ui2_panel_streamer_stamina_low_9s@3x.png"
+          }
+        }
+      }
+    },
+    "ui2_panel_bar_rule": {
+      "compose": "底槽 _empty_9s 横拉到条宽 W（固定高 32）；值>0 时在同原点叠填充层：比例≥0.2 用 _full_9s，<0.2 用 _low_9s；填充层宽 = 18 + 比例×(W−18)。填充层画布与底槽同高同原点，填充实体在 x 9…宽−9、y 9…23",
+      "tooNarrow": "填充宽 < 切片 left+right+1（33）时，用最小宽件再裁到填充宽（或用 mask 裁），避免 9-slice 端头挤压变形",
+      "empty": "值=0 只显示底槽（灰），即「耗尽/空变灰」；不改顶栏资金色",
+      "number": "数字程序渲染，建议放条右侧或条上，cream 描 line 2px"
+    }
+  }
+}

@@ -1,0 +1,319 @@
+{
+  "schema": "ui2.theme.1",
+  "id": "placeholder",
+  "colors": {
+    "cream": "#FFF6E6",
+    "apricot": "#FBE3C8",
+    "peach": "#FFB59A",
+    "coral": "#FF7F6E",
+    "honey": "#FFC845",
+    "mint": "#6FD3B0",
+    "berry": "#FF5C8A",
+    "line": "#5A3A2E",
+    "stroke": "#7A4E3A",
+    "gray": "#BDB2AA"
+  },
+  "radiusPx": {
+    "window": 24,
+    "button": 40,
+    "capsule": 32,
+    "toast": 44
+  },
+  "strokePx": {
+    "ui": 2
+  },
+  "shadow": {
+    "modalGlow": "honey 20%"
+  },
+  "font": {
+    "family": "Noto Sans CJK SC"
+  },
+  "motionMs": {
+    "btnPress": 120,
+    "panelOpen": 220,
+    "panelClose": 180,
+    "numberRoll": [
+      600,
+      1500
+    ],
+    "rewardFly": 600,
+    "rewardPop": 160,
+    "actionbar": 200,
+    "outfitFade": 240,
+    "toastIn": 200,
+    "toastHold": 2000,
+    "toastOut": 160,
+    "errorShake": 240,
+    "onlinePulse": 1600
+  },
+  "motionEase": {
+    "btnPress": "Back.Out 1.6",
+    "panelOpen": "Cubic.Out",
+    "panelClose": "Cubic.In",
+    "numberRoll": "Quad.Out",
+    "rewardFly": "Sine.InOut",
+    "rewardPop": "Back.Out"
+  },
+  "topbar": {
+    "height": 64,
+    "areaY": [
+      0,
+      150
+    ],
+    "marginX": 32,
+    "order": [
+      "ui2_hud_company_funds",
+      "ui2_hud_company_scale",
+      "ui2_hud_company_streamers",
+      "ui2_hud_company_jobs",
+      "ui2_hud_company_power"
+    ],
+    "gap": 16
+  },
+  "components": {
+    "hud": {
+      "ui2_hud_company_funds": {
+        "height": 64,
+        "states": {
+          "normal": {
+            "fill": "cream",
+            "stroke": "stroke",
+            "text": "line"
+          },
+          "warn": {
+            "fill": "cream",
+            "stroke": "coral",
+            "text": "line"
+          },
+          "crisis": {
+            "fill": "berry",
+            "stroke": "line",
+            "text": "cream",
+            "debtTextKey": "hud.company.funds.debt",
+            "debtFormat": "欠 {n}（千分位，程序渲染）"
+          }
+        },
+        "format": "千分位整数，无货币符号；钻石隐藏"
+      },
+      "ui2_hud_company_power": {
+        "height": 64,
+        "states": {
+          "normal": {
+            "fill": "cream",
+            "stroke": "stroke",
+            "text": "line"
+          }
+        },
+        "badge": {
+          "D": {
+            "fill": "gray",
+            "stroke": "stroke",
+            "textKey": "hud.company.power.tier.D"
+          },
+          "C": {
+            "fill": "mint",
+            "stroke": "stroke",
+            "textKey": "hud.company.power.tier.C"
+          },
+          "B": {
+            "fill": "honey",
+            "stroke": "stroke",
+            "textKey": "hud.company.power.tier.B"
+          },
+          "A": {
+            "fill": "apricot",
+            "stroke": "stroke",
+            "textKey": "hud.company.power.tier.A"
+          },
+          "S": {
+            "fill": "coral",
+            "stroke": "stroke",
+            "textKey": "hud.company.power.tier.S"
+          },
+          "SS": {
+            "fill": "berry",
+            "stroke": "stroke",
+            "textKey": "hud.company.power.tier.SS"
+          }
+        },
+        "badgeSize": [
+          64,
+          64
+        ],
+        "badgeAnchor": "left, 与胶囊左端重叠 20",
+        "score": "可选，程序渲染"
+      },
+      "ui2_hud_company_scale": {
+        "height": 64,
+        "states": {
+          "normal": {
+            "fill": "cream",
+            "stroke": "stroke",
+            "text": "line"
+          }
+        }
+      },
+      "ui2_hud_company_streamers": {
+        "height": 64,
+        "states": {
+          "normal": {
+            "fill": "cream",
+            "stroke": "stroke",
+            "text": "line"
+          }
+        }
+      },
+      "ui2_hud_company_jobs": {
+        "height": 64,
+        "states": {
+          "normal": {
+            "fill": "cream",
+            "stroke": "stroke",
+            "text": "line"
+          }
+        },
+        "hideWhen": "无其他工种时整槽不出现，不留空位"
+      }
+    },
+    "buttons": {
+      "ui2_btn_primary": {
+        "height": 112,
+        "textColor": "cream",
+        "pressedOffsetY": 4,
+        "states": {
+          "normal": {
+            "fill": "coral",
+            "stroke": "stroke"
+          },
+          "pressed": {
+            "fill": "coral",
+            "stroke": "stroke"
+          },
+          "disabled": {
+            "fill": "gray",
+            "stroke": "stroke"
+          },
+          "alert": {
+            "fill": "coral",
+            "stroke": "stroke",
+            "dot": "berry"
+          }
+        }
+      },
+      "ui2_btn_secondary": {
+        "height": 88,
+        "textColor": "line",
+        "pressedOffsetY": 4,
+        "states": {
+          "normal": {
+            "fill": "cream",
+            "stroke": "stroke"
+          },
+          "pressed": {
+            "fill": "cream",
+            "stroke": "stroke"
+          },
+          "disabled": {
+            "fill": "gray",
+            "stroke": "stroke"
+          },
+          "alert": {
+            "fill": "cream",
+            "stroke": "stroke",
+            "dot": "berry"
+          }
+        }
+      },
+      "ui2_btn_close": {
+        "size": [
+          72,
+          72
+        ],
+        "shape": "circle",
+        "states": {
+          "normal": {
+            "fill": "cream",
+            "stroke": "stroke"
+          },
+          "pressed": {
+            "fill": "cream",
+            "stroke": "stroke"
+          },
+          "disabled": {
+            "fill": "gray",
+            "stroke": "stroke"
+          }
+        }
+      },
+      "ui2_btn_back": {
+        "size": [
+          72,
+          72
+        ],
+        "shape": "circle",
+        "states": {
+          "normal": {
+            "fill": "cream",
+            "stroke": "stroke"
+          },
+          "pressed": {
+            "fill": "cream",
+            "stroke": "stroke"
+          },
+          "disabled": {
+            "fill": "gray",
+            "stroke": "stroke"
+          }
+        }
+      }
+    },
+    "windows": {
+      "ui2_win_normal": {
+        "fill": "cream",
+        "stroke": "stroke",
+        "radius": 24
+      },
+      "ui2_win_modal": {
+        "fill": "cream",
+        "stroke": "stroke",
+        "radius": 24,
+        "glow": "honey 20%",
+        "titleSlot": {
+          "fill": "coral",
+          "height": 96
+        }
+      },
+      "ui2_titlebar": {
+        "fill": "coral",
+        "height": 96,
+        "textColor": "cream"
+      },
+      "contentPadding": 24,
+      "shadowMargin": 0
+    },
+    "toasts": {
+      "ui2_toast_info": {
+        "fill": "honey",
+        "height": 88,
+        "textColor": "line"
+      },
+      "ui2_toast_success": {
+        "fill": "mint",
+        "height": 88,
+        "textColor": "line"
+      },
+      "ui2_toast_warn": {
+        "fill": "coral",
+        "height": 88,
+        "textColor": "line"
+      },
+      "layout": {
+        "y": [
+          170,
+          260
+        ],
+        "hold": "motionMs.toastHold"
+      }
+    }
+  }
+}

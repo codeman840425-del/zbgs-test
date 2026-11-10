@@ -1,0 +1,398 @@
+{
+  "schema": "ui2.theme.1",
+  "id": "p1min",
+  "extends": "default",
+  "nineSliceFile": "ui/ui2_9slice.json",
+  "motionMs": {
+    "actionbar": 200,
+    "btnPress": 120,
+    "tabSelect": 160,
+    "camExpand": 200,
+    "camCollapse": 200
+  },
+  "motionEase": {
+    "actionbar": "Cubic.Out",
+    "tabSelect": "Back.Out 1.4",
+    "camExpand": "Cubic.Out"
+  },
+  "layout": {
+    "design": [
+      1080,
+      1920
+    ],
+    "tabbar": {
+      "areaY": [
+        1700,
+        1920
+      ],
+      "tileSize": [
+        136,
+        184
+      ],
+      "tileVisible": [
+        128,
+        176
+      ],
+      "tileY": 1718,
+      "tileCenterX": {
+        "building": 84,
+        "streamer": 312,
+        "staff": 540,
+        "deco": 768,
+        "more": 996
+      },
+      "goButton": {
+        "size": [
+          260,
+          200
+        ],
+        "x": 410,
+        "y": 1710,
+        "centerX": 540
+      }
+    },
+    "actionbar": {
+      "areaY": [
+        1520,
+        1700
+      ],
+      "x": 20,
+      "width": 1040,
+      "height": 180,
+      "btnSize": 120,
+      "btnY": 1544,
+      "btnGap": "按显示的钮数均分（6 钮时约 40）",
+      "filter": "按选中对象过滤由程序做；隐藏的钮不留空位",
+      "show": "选中角色/设备时从下方升起 motionMs.actionbar"
+    },
+    "camButtons": {
+      "slot": {
+        "x": [
+          940,
+          1060
+        ],
+        "y": [
+          1380,
+          1500
+        ]
+      },
+      "btnSize": 120,
+      "collapsed": "槽内只显示当前镜头的 _on 钮",
+      "expanded": "点当前 on 展开，另两颗 _off 向上排：建议 y 1252–1372、1124–1244（x 不变），不得超过操作条下沿（y1700，实际上沿 y1520）。再点当前钮或点空白收起；点某一 _off 则切换到该镜头并收起（该钮变 _on 回槽内）。",
+      "order": [
+        "room_fixed",
+        "follow_zoom",
+        "overview_live"
+      ],
+      "motionMs": 200
+    }
+  },
+  "components": {
+    "ui2_tab": {
+      "building": {
+        "textKey": "nav.tab.building",
+        "textSample": "公司",
+        "labelCenterY": 138,
+        "labelSize": 28,
+        "states": {
+          "normal": {
+            "file": "ui/ui2/ui2_tab_building_normal.png",
+            "@3x": "ui/ui2/ui2_tab_building_normal@3x.png",
+            "text": "line"
+          },
+          "selected": {
+            "file": "ui/ui2/ui2_tab_building_selected.png",
+            "@3x": "ui/ui2/ui2_tab_building_selected@3x.png",
+            "text": "cream"
+          },
+          "disabled": {
+            "file": "ui/ui2/ui2_tab_building_disabled.png",
+            "@3x": "ui/ui2/ui2_tab_building_disabled@3x.png",
+            "text": "gray"
+          }
+        }
+      },
+      "streamer": {
+        "textKey": "nav.tab.streamer",
+        "textSample": "主播",
+        "labelCenterY": 138,
+        "labelSize": 28,
+        "states": {
+          "normal": {
+            "file": "ui/ui2/ui2_tab_streamer_normal.png",
+            "@3x": "ui/ui2/ui2_tab_streamer_normal@3x.png",
+            "text": "line"
+          },
+          "selected": {
+            "file": "ui/ui2/ui2_tab_streamer_selected.png",
+            "@3x": "ui/ui2/ui2_tab_streamer_selected@3x.png",
+            "text": "cream"
+          },
+          "disabled": {
+            "file": "ui/ui2/ui2_tab_streamer_disabled.png",
+            "@3x": "ui/ui2/ui2_tab_streamer_disabled@3x.png",
+            "text": "gray"
+          }
+        }
+      },
+      "staff": {
+        "textKey": "nav.tab.staff",
+        "textSample": "员工",
+        "labelCenterY": 138,
+        "labelSize": 28,
+        "states": {
+          "normal": {
+            "file": "ui/ui2/ui2_tab_staff_normal.png",
+            "@3x": "ui/ui2/ui2_tab_staff_normal@3x.png",
+            "text": "line"
+          },
+          "selected": {
+            "file": "ui/ui2/ui2_tab_staff_selected.png",
+            "@3x": "ui/ui2/ui2_tab_staff_selected@3x.png",
+            "text": "cream"
+          },
+          "disabled": {
+            "file": "ui/ui2/ui2_tab_staff_disabled.png",
+            "@3x": "ui/ui2/ui2_tab_staff_disabled@3x.png",
+            "text": "gray"
+          }
+        }
+      },
+      "deco": {
+        "textKey": "nav.tab.deco",
+        "textSample": "装修",
+        "labelCenterY": 138,
+        "labelSize": 28,
+        "states": {
+          "normal": {
+            "file": "ui/ui2/ui2_tab_deco_normal.png",
+            "@3x": "ui/ui2/ui2_tab_deco_normal@3x.png",
+            "text": "line"
+          },
+          "selected": {
+            "file": "ui/ui2/ui2_tab_deco_selected.png",
+            "@3x": "ui/ui2/ui2_tab_deco_selected@3x.png",
+            "text": "cream"
+          },
+          "disabled": {
+            "file": "ui/ui2/ui2_tab_deco_disabled.png",
+            "@3x": "ui/ui2/ui2_tab_deco_disabled@3x.png",
+            "text": "gray"
+          }
+        }
+      },
+      "more": {
+        "textKey": "nav.tab.more",
+        "textSample": "更多",
+        "labelCenterY": 138,
+        "labelSize": 28,
+        "states": {
+          "normal": {
+            "file": "ui/ui2/ui2_tab_more_normal.png",
+            "@3x": "ui/ui2/ui2_tab_more_normal@3x.png",
+            "text": "line"
+          },
+          "selected": {
+            "file": "ui/ui2/ui2_tab_more_selected.png",
+            "@3x": "ui/ui2/ui2_tab_more_selected@3x.png",
+            "text": "cream"
+          },
+          "disabled": {
+            "file": "ui/ui2/ui2_tab_more_disabled.png",
+            "@3x": "ui/ui2/ui2_tab_more_disabled@3x.png",
+            "text": "gray"
+          }
+        }
+      }
+    },
+    "ui2_btn_go": {
+      "textKeys": {
+        "stream": "nav.go.stream",
+        "next": "nav.go.next"
+      },
+      "textSamples": {
+        "stream": "开播",
+        "next": "下一步"
+      },
+      "textColor": "cream",
+      "textCenter": [
+        130,
+        88
+      ],
+      "textSize": 52,
+      "pressedOffsetY": 4,
+      "states": {
+        "normal": {
+          "file": "ui/ui2/ui2_btn_go_normal.png",
+          "@3x": "ui/ui2/ui2_btn_go_normal@3x.png"
+        },
+        "pressed": {
+          "file": "ui/ui2/ui2_btn_go_pressed.png",
+          "@3x": "ui/ui2/ui2_btn_go_pressed@3x.png"
+        },
+        "disabled": {
+          "file": "ui/ui2/ui2_btn_go_disabled.png",
+          "@3x": "ui/ui2/ui2_btn_go_disabled@3x.png"
+        }
+      }
+    },
+    "ui2_actionbar": {
+      "nineSlice": "ui2_actionbar_9s",
+      "height": 180
+    },
+    "ui2_actionbtn": {
+      "assign": {
+        "textKey": "room.action.assign",
+        "showLabel": false,
+        "states": {
+          "normal": {
+            "file": "ui/ui2/ui2_actionbtn_assign_normal.png",
+            "@3x": "ui/ui2/ui2_actionbtn_assign_normal@3x.png"
+          },
+          "pressed": {
+            "file": "ui/ui2/ui2_actionbtn_assign_pressed.png",
+            "@3x": "ui/ui2/ui2_actionbtn_assign_pressed@3x.png"
+          },
+          "disabled": {
+            "file": "ui/ui2/ui2_actionbtn_assign_disabled.png",
+            "@3x": "ui/ui2/ui2_actionbtn_assign_disabled@3x.png"
+          }
+        }
+      },
+      "stream": {
+        "textKey": "room.action.stream",
+        "showLabel": false,
+        "states": {
+          "normal": {
+            "file": "ui/ui2/ui2_actionbtn_stream_normal.png",
+            "@3x": "ui/ui2/ui2_actionbtn_stream_normal@3x.png"
+          },
+          "pressed": {
+            "file": "ui/ui2/ui2_actionbtn_stream_pressed.png",
+            "@3x": "ui/ui2/ui2_actionbtn_stream_pressed@3x.png"
+          },
+          "disabled": {
+            "file": "ui/ui2/ui2_actionbtn_stream_disabled.png",
+            "@3x": "ui/ui2/ui2_actionbtn_stream_disabled@3x.png"
+          }
+        }
+      },
+      "rest": {
+        "textKey": "room.action.rest",
+        "showLabel": false,
+        "states": {
+          "normal": {
+            "file": "ui/ui2/ui2_actionbtn_rest_normal.png",
+            "@3x": "ui/ui2/ui2_actionbtn_rest_normal@3x.png"
+          },
+          "pressed": {
+            "file": "ui/ui2/ui2_actionbtn_rest_pressed.png",
+            "@3x": "ui/ui2/ui2_actionbtn_rest_pressed@3x.png"
+          },
+          "disabled": {
+            "file": "ui/ui2/ui2_actionbtn_rest_disabled.png",
+            "@3x": "ui/ui2/ui2_actionbtn_rest_disabled@3x.png"
+          }
+        }
+      },
+      "repair": {
+        "textKey": "room.action.repair",
+        "showLabel": false,
+        "states": {
+          "normal": {
+            "file": "ui/ui2/ui2_actionbtn_repair_normal.png",
+            "@3x": "ui/ui2/ui2_actionbtn_repair_normal@3x.png"
+          },
+          "pressed": {
+            "file": "ui/ui2/ui2_actionbtn_repair_pressed.png",
+            "@3x": "ui/ui2/ui2_actionbtn_repair_pressed@3x.png"
+          },
+          "disabled": {
+            "file": "ui/ui2/ui2_actionbtn_repair_disabled.png",
+            "@3x": "ui/ui2/ui2_actionbtn_repair_disabled@3x.png"
+          }
+        }
+      },
+      "dress": {
+        "textKey": "room.action.dress",
+        "showLabel": false,
+        "states": {
+          "normal": {
+            "file": "ui/ui2/ui2_actionbtn_dress_normal.png",
+            "@3x": "ui/ui2/ui2_actionbtn_dress_normal@3x.png"
+          },
+          "pressed": {
+            "file": "ui/ui2/ui2_actionbtn_dress_pressed.png",
+            "@3x": "ui/ui2/ui2_actionbtn_dress_pressed@3x.png"
+          },
+          "disabled": {
+            "file": "ui/ui2/ui2_actionbtn_dress_disabled.png",
+            "@3x": "ui/ui2/ui2_actionbtn_dress_disabled@3x.png"
+          }
+        }
+      },
+      "gift": {
+        "textKey": "room.action.gift",
+        "showLabel": false,
+        "states": {
+          "normal": {
+            "file": "ui/ui2/ui2_actionbtn_gift_normal.png",
+            "@3x": "ui/ui2/ui2_actionbtn_gift_normal@3x.png"
+          },
+          "pressed": {
+            "file": "ui/ui2/ui2_actionbtn_gift_pressed.png",
+            "@3x": "ui/ui2/ui2_actionbtn_gift_pressed@3x.png"
+          },
+          "disabled": {
+            "file": "ui/ui2/ui2_actionbtn_gift_disabled.png",
+            "@3x": "ui/ui2/ui2_actionbtn_gift_disabled@3x.png"
+          }
+        }
+      }
+    },
+    "ui2_cam_btn": {
+      "room_fixed": {
+        "camId": "cam.room_fixed",
+        "states": {
+          "off": {
+            "file": "ui/ui2/ui2_cam_btn_room_fixed_off.png",
+            "@3x": "ui/ui2/ui2_cam_btn_room_fixed_off@3x.png"
+          },
+          "on": {
+            "file": "ui/ui2/ui2_cam_btn_room_fixed_on.png",
+            "@3x": "ui/ui2/ui2_cam_btn_room_fixed_on@3x.png"
+          }
+        },
+        "on": "当前镜头"
+      },
+      "follow_zoom": {
+        "camId": "cam.follow_zoom",
+        "states": {
+          "off": {
+            "file": "ui/ui2/ui2_cam_btn_follow_zoom_off.png",
+            "@3x": "ui/ui2/ui2_cam_btn_follow_zoom_off@3x.png"
+          },
+          "on": {
+            "file": "ui/ui2/ui2_cam_btn_follow_zoom_on.png",
+            "@3x": "ui/ui2/ui2_cam_btn_follow_zoom_on@3x.png"
+          }
+        },
+        "on": "当前镜头"
+      },
+      "overview_live": {
+        "camId": "cam.overview_live",
+        "states": {
+          "off": {
+            "file": "ui/ui2/ui2_cam_btn_overview_live_off.png",
+            "@3x": "ui/ui2/ui2_cam_btn_overview_live_off@3x.png"
+          },
+          "on": {
+            "file": "ui/ui2/ui2_cam_btn_overview_live_on.png",
+            "@3x": "ui/ui2/ui2_cam_btn_overview_live_on@3x.png"
+          }
+        },
+        "on": "当前镜头"
+      }
+    }
+  }
+}

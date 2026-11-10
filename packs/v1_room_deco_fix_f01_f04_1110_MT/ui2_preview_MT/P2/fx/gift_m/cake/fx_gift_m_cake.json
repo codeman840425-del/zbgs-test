@@ -1,0 +1,534 @@
+{
+ "name": "fx_gift_m_cake",
+ "design_fps": 30,
+ "coords": "归一化 screen 坐标；同 fx_gift_full_galaxy.json（竖屏 1080×1920 设计）",
+ "orientations": {
+  "portrait": [
+   1080,
+   1920
+  ],
+  "landscape": [
+   1920,
+   1080
+  ]
+ },
+ "tier": "M",
+ "size": "中",
+ "duration": 2.2,
+ "gift_id": "gift_cake",
+ "display_name": "小蛋糕",
+ "fallback": {
+  "doc": "手机降档 / 关大特效时沿用已交 S2 轴（不改不删）",
+  "timeline": "../../gift_s2/cake/fx_gift_s2_cake.json",
+  "duration": 1.6
+ },
+ "textures": {
+  "icon": "../../../gifts/gift_cake@2x.png",
+  "rays": "../../giftfx_m3_shared/fx_gm3_rays.png",
+  "glow": "../../giftfx_m3_shared/fx_gm3_glow_warm.png",
+  "glowp": "../../giftfx_m3_shared/fx_gm3_glow_pink.png",
+  "ring": "../../giftfx_m3_shared/fx_gm3_ring.png",
+  "confetti": "../../giftfx_m3_shared/fx_gm3_confetti.png",
+  "heart": "../../giftfx_m3_shared/fx_gm3_heart.png",
+  "star": "../../giftfx_m3_shared/fx_gm3_star.png",
+  "sparkle": "../../giftfx_m3_shared/fx_gm3_sparkle.png"
+ },
+ "layers": [
+  {
+   "id": "flash",
+   "type": "rect",
+   "color": "#FFF6E6",
+   "alpha": [
+    [
+     0,
+     0
+    ],
+    [
+     0.46,
+     0
+    ],
+    [
+     0.52,
+     0.1
+    ],
+    [
+     0.78,
+     0
+    ]
+   ]
+  },
+  {
+   "id": "rays",
+   "type": "image",
+   "tex": "rays",
+   "follow": "hero",
+   "blend": "add",
+   "scale": [
+    [
+     0,
+     0.3
+    ],
+    [
+     0.55,
+     1.2
+    ],
+    [
+     2.2,
+     1.05
+    ]
+   ],
+   "rotate": [
+    [
+     0,
+     0
+    ],
+    [
+     2.2,
+     36
+    ]
+   ],
+   "alpha": [
+    [
+     0,
+     0
+    ],
+    [
+     0.44,
+     0
+    ],
+    [
+     0.6,
+     0.5
+    ],
+    [
+     1.8,
+     0.32
+    ],
+    [
+     2.2,
+     0
+    ]
+   ]
+  },
+  {
+   "id": "glow",
+   "type": "image",
+   "tex": "glow",
+   "follow": "hero",
+   "blend": "add",
+   "scale": [
+    [
+     0,
+     0.6
+    ],
+    [
+     0.5,
+     2.8
+    ],
+    [
+     2.2,
+     2.4
+    ]
+   ],
+   "alpha": [
+    [
+     0,
+     0
+    ],
+    [
+     0.4,
+     0.75
+    ],
+    [
+     1.9,
+     0.5
+    ],
+    [
+     2.2,
+     0
+    ]
+   ]
+  },
+  {
+   "id": "glowp",
+   "type": "image",
+   "tex": "glowp",
+   "pos": [
+    0.5,
+    0.56
+   ],
+   "blend": "add",
+   "scale": [
+    [
+     0.45,
+     1.0
+    ],
+    [
+     0.85,
+     3.4
+    ]
+   ],
+   "alpha": [
+    [
+     0,
+     0
+    ],
+    [
+     0.45,
+     0
+    ],
+    [
+     0.55,
+     0.6
+    ],
+    [
+     1.1,
+     0
+    ]
+   ]
+  },
+  {
+   "id": "hero",
+   "type": "image",
+   "tex": "icon",
+   "pos": [
+    0.5,
+    0.5
+   ],
+   "y": [
+    [
+     0,
+     0.74
+    ],
+    [
+     0.45,
+     0.5
+    ],
+    [
+     2.2,
+     0.49
+    ]
+   ],
+   "ease": "backOut",
+   "scale": [
+    [
+     0,
+     0.3
+    ],
+    [
+     0.45,
+     0.9
+    ],
+    [
+     0.52,
+     1.06
+    ],
+    [
+     0.6,
+     0.92
+    ],
+    [
+     0.7,
+     0.98
+    ],
+    [
+     2.2,
+     0.98
+    ]
+   ],
+   "scale_y": [
+    [
+     0,
+     0.36
+    ],
+    [
+     0.45,
+     0.96
+    ],
+    [
+     0.5,
+     0.84
+    ],
+    [
+     0.6,
+     1.04
+    ],
+    [
+     0.7,
+     0.98
+    ],
+    [
+     2.2,
+     0.98
+    ]
+   ],
+   "rotate": [
+    [
+     0,
+     -10
+    ],
+    [
+     0.45,
+     4
+    ],
+    [
+     0.6,
+     -2
+    ],
+    [
+     0.8,
+     0
+    ],
+    [
+     1.4,
+     0
+    ],
+    [
+     1.55,
+     2.5
+    ],
+    [
+     1.7,
+     -1.5
+    ],
+    [
+     1.85,
+     0
+    ]
+   ],
+   "alpha": [
+    [
+     0,
+     0
+    ],
+    [
+     0.08,
+     1
+    ],
+    [
+     1.95,
+     1
+    ],
+    [
+     2.2,
+     0
+    ]
+   ]
+  },
+  {
+   "id": "ring",
+   "type": "image",
+   "tex": "ring",
+   "pos": [
+    0.5,
+    0.615
+   ],
+   "blend": "add",
+   "scale": [
+    [
+     0.45,
+     0.3
+    ],
+    [
+     0.95,
+     1.8
+    ]
+   ],
+   "scale_y": [
+    [
+     0.45,
+     0.1
+    ],
+    [
+     0.95,
+     0.55
+    ]
+   ],
+   "alpha": [
+    [
+     0,
+     0
+    ],
+    [
+     0.45,
+     0.9
+    ],
+    [
+     0.95,
+     0
+    ]
+   ]
+  },
+  {
+   "id": "shake",
+   "type": "camera",
+   "t0": 0.47,
+   "t1": 0.67,
+   "shake_px": 6
+  },
+  {
+   "id": "burst",
+   "type": "emitter",
+   "tex": "confetti",
+   "pos": [
+    0.5,
+    0.47
+   ],
+   "t0": 0.48,
+   "count": 22,
+   "life": 1.2,
+   "speed": [
+    0.22,
+    0.46
+   ],
+   "gravity": 0.8,
+   "spin": true
+  },
+  {
+   "id": "stars",
+   "type": "emitter",
+   "tex": "star",
+   "pos": [
+    0.5,
+    0.5
+   ],
+   "t0": 0.5,
+   "count": 8,
+   "life": 0.9,
+   "speed": [
+    0.14,
+    0.3
+   ],
+   "gravity": 0.3,
+   "spin": true
+  },
+  {
+   "id": "hearts",
+   "type": "emitter",
+   "tex": "heart",
+   "pos": [
+    0.5,
+    0.5
+   ],
+   "t0": 0.5,
+   "count": 6,
+   "life": 0.9,
+   "speed": [
+    0.12,
+    0.24
+   ],
+   "gravity": 0.25
+  },
+  {
+   "id": "candle",
+   "type": "emitter",
+   "tex": "sparkle",
+   "pos": [
+    0.493,
+    0.437
+   ],
+   "spread_x": 0.05,
+   "t0": 0.55,
+   "t1": 1.9,
+   "rate": 5,
+   "life": 0.7,
+   "speed": [
+    -0.06,
+    -0.02
+   ]
+  },
+  {
+   "id": "rain",
+   "type": "emitter",
+   "tex": "confetti",
+   "pos": [
+    0.5,
+    0.22
+   ],
+   "spread_x": 0.8,
+   "t0": 0.6,
+   "t1": 1.7,
+   "rate": 9,
+   "life": 1.3,
+   "speed": [
+    0.04,
+    0.1
+   ],
+   "dir_deg": 90,
+   "gravity": 0.25,
+   "spin": true
+  },
+  {
+   "id": "twinkle",
+   "type": "emitter",
+   "tex": "sparkle",
+   "pos": [
+    0.5,
+    0.5
+   ],
+   "spread_x": 0.55,
+   "t0": 0.6,
+   "t1": 1.9,
+   "rate": 7,
+   "life": 0.8,
+   "speed": [
+    -0.1,
+    -0.04
+   ]
+  },
+  {
+   "id": "rise",
+   "type": "emitter",
+   "tex": "heart",
+   "pos": [
+    0.5,
+    0.62
+   ],
+   "spread_x": 0.4,
+   "t0": 0.7,
+   "t1": 1.8,
+   "rate": 5,
+   "life": 1.0,
+   "speed": [
+    -0.14,
+    -0.06
+   ]
+  }
+ ],
+ "lowres": {
+  "emitter_count_scale": 0.5,
+  "drop": [
+   "rain",
+   "glowp"
+  ]
+ },
+ "sfx_hint": "0.45s 蛋糕落定「噗」+ 彩纸礼炮；0.55s 起樱桃小闪",
+ "beats": {
+  "0.00–0.45": "蛋糕从主播面前下方升起（y 0.74→0.50，backOut）",
+  "0.45–0.70": "落定压扁回弹 + 光环 + 彩纸/星/心爆开 + 轻抖 6px + 奶油色微闪",
+  "0.55–1.90": "樱桃上方小闪、四周闪光、心上飘、彩纸细雨（0.6–1.7）",
+  "1.40–1.85": "蛋糕左右小摇一次",
+  "1.95–2.20": "淡出"
+ },
+ "prerender": {
+  "doc": "预渲染序列帧图集（TexturePacker hash，≤2048² 多页），用于低档兜底/不支持时间轴的地方/图鉴预览；时间轴本身不引用它，MT 播放器照常读 layers",
+  "pages": [
+   "fx_gift_m_cake_seq_0.json",
+   "fx_gift_m_cake_seq_1.json",
+   "fx_gift_m_cake_seq_2.json"
+  ],
+  "frame_prefix": "fx_gift_m_cake_",
+  "count": 24,
+  "fps": 24,
+  "frame_size": [
+   768,
+   768
+  ],
+  "start_t": 0.0,
+  "center_screen": [
+   0.5,
+   0.52
+  ],
+  "box_px@1080": 1000
+ }
+}

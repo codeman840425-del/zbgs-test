@@ -1,0 +1,133 @@
+{
+  "schema": "v1.decoItem.proposed.1",
+  "sellBackRate": 0.5,
+  "sameBonusCap": 3,
+  "upgrade": {
+    "command": "growth.upgrade",
+    "track": "deco",
+    "costMultPerLevel": 1.6,
+    "costMultFromLv6": 1.8,
+    "effectScale": "base / sqrt(n)",
+    "artTierEveryLevels": 2
+  },
+  "artRoot": "美术/scenes/rooms_v1/deco/",
+  "items": [
+    {
+      "itemId": "deco_rest_bed_01",
+      "nameKey": "deco.item.rest_bed_01.name",
+      "nameZh": "单人床",
+      "cat": "rest",
+      "portable": true,
+      "footprint": [
+        2,
+        2
+      ],
+      "flipAxis": "mirrorX",
+      "wallHug": false,
+      "anchor": "bottom-center",
+      "seatOffset": [
+        0,
+        -100
+      ],
+      "seatOffsetNote": "方案。母版 px，相对占格下沿中心，向上为负。用于躺/休息脚点，不是结构 seatFoot。",
+      "bonus": {
+        "type": "stamina_night",
+        "base": 3,
+        "unit": "stamina"
+      },
+      "levelMax": null,
+      "artTiers": {
+        "1": "rest/deco_rest_bed_01_a1_n.png"
+      },
+      "theme": null,
+      "tags": [],
+      "buyPrice": 300,
+      "upgradePriceLv1to2": 300,
+      "rarity": "N",
+      "starter": true,
+      "defaultPlacement": {
+        "roomId": "rental_main",
+        "c": 4,
+        "r": 4,
+        "flip": false
+      }
+    },
+    {
+      "itemId": "deco_work_desk_01",
+      "nameKey": "deco.item.work_desk_01.name",
+      "nameZh": "工位桌",
+      "cat": "work",
+      "portable": true,
+      "footprint": [
+        2,
+        1
+      ],
+      "flipAxis": "mirrorX",
+      "wallHug": false,
+      "anchor": "bottom-center",
+      "seatOffset": [
+        0,
+        -48
+      ],
+      "seatOffsetNote": "方案。母版 px，相对占格下沿中心，向上为负。可搬工位脚点，不写回 layout。",
+      "bonus": {
+        "type": "dept_bonus",
+        "base": 0.01,
+        "unit": "ratio"
+      },
+      "levelMax": null,
+      "artTiers": {
+        "1": "work/deco_work_desk_01_a1_n.png"
+      },
+      "theme": null,
+      "tags": [],
+      "buyPrice": 400,
+      "upgradePriceLv1to2": 400,
+      "rarity": "N",
+      "starter": true,
+      "defaultPlacement": {
+        "roomId": "rental_main",
+        "c": 3,
+        "r": 2,
+        "flip": false
+      }
+    },
+    {
+      "itemId": "deco_atmo_rug_01",
+      "nameKey": "deco.item.atmo_rug_01.name",
+      "nameZh": "小地毯",
+      "cat": "atmo",
+      "portable": true,
+      "footprint": [
+        2,
+        1
+      ],
+      "flipAxis": "mirrorX",
+      "wallHug": false,
+      "anchor": "bottom-center",
+      "seatOffset": null,
+      "bonus": {
+        "type": "atmo",
+        "base": 3,
+        "unit": "points"
+      },
+      "bonusNote": "方案。开局地毯 +3 氛围分，对齐 75 元/分口径与经营核心附录 A 量级。",
+      "levelMax": null,
+      "artTiers": {
+        "1": "atmo/deco_atmo_rug_01_a1_n.png"
+      },
+      "theme": null,
+      "tags": [],
+      "buyPrice": 200,
+      "upgradePriceLv1to2": 200,
+      "rarity": "N",
+      "starter": true,
+      "defaultPlacement": {
+        "roomId": "rental_main",
+        "c": 2,
+        "r": 4,
+        "flip": false
+      }
+    }
+  ]
+}
