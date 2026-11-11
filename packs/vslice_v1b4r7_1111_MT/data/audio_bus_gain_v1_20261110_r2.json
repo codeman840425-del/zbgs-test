@@ -1,0 +1,3393 @@
+{
+  "schema": "v1.audioBusGain.proposed.2",
+  "id": "audio.bus.gain.v1.r2",
+  "name": "audio_bus_gain_v1_20261110_r2",
+  "unit": "dB",
+  "date": "2026-11-10",
+  "timezone": "Asia/Shanghai",
+  "priority": [
+    "byId",
+    "tiers",
+    "packs",
+    "buses"
+  ],
+  "applyRule": "highest-priority defined numeric value replaces lower layers; values are not summed. byId value is the final gain for that file.",
+  "validation": {
+    "eachEntryHasMax": true,
+    "rule": "程序校验：凡写出的 value 必须 <= 同条目 max（若 max 非 null）；越上限拒绝该配置（或拒绝含该覆盖的包）。单位 dB。min 为建议下限，默认 -12。",
+    "paramsKeys": {
+      "voicePackEnabled": "voicePackEnabled",
+      "voiceGainDb": "voiceGainDb",
+      "buses": "配音与语气音统一走 voiceGainDb；不再使用 audio.bus.voiceGainDb / audio.bus.emoteGainDb。其他包级键仍为 audio.bus.<pack>GainDb（本文件 buses 仅登记 voice / emote 两条，现共用 voiceGainDb）。",
+      "packs": "audio.bus.<pack>GainDb",
+      "byId": "audio.gainDbById",
+      "legacyAliases": {
+        "audio.voicePackEnabled": "voicePackEnabled",
+        "audio.bus.voiceGainDb": "voiceGainDb",
+        "audio.bus.emoteGainDb": "voiceGainDb",
+        "voiceGainDb（旧文档未加前缀的写法）": "voiceGainDb"
+      }
+    },
+    "note": "程序 r2 / 补充说明尚未登记这些键名，本文件是方案提案键，供 params / 独立配置经 schema 校验后读取。 配音开关与增益以本 r2 的 voicePackEnabled / voiceGainDb 为准。 数值覆盖须过 schema，与程序 r2 §2.5、补充说明一致。"
+  },
+  "peakFormula": {
+    "nonBgm": "Gmax = -1.1 - TPmax  （保证施加后真峰值 < -1 dBTP）",
+    "bgm": "Gmax = -2.1 - TPmax  （保证施加后真峰值 < -2 dBTP；若算出来为负则 max=0）"
+  },
+  "sourcePlan": "音频/V1_音频响度归一方案_20261110.md  sha256 前缀 b7e4087f",
+  "programDocs": {
+    "r2": "程序/v1_asset_registry_MT/资源接入口技术草稿_20261110_r2_MT.md  sha256 前缀 17b40a17",
+    "supplement": "程序/v1_asset_registry_MT/资源接入口技术草稿_20261110_r2_补充说明_MT.md  sha256 前缀 4831f210"
+  },
+  "voicePackEnabled": {
+    "key": "voicePackEnabled",
+    "value": false,
+    "default": false,
+    "type": "boolean",
+    "role": "settings_switch",
+    "appliesTo": "pkg.voice 与 pkg.emote（语气音已归入配音，同一开关）",
+    "note": "V1 默认关闭。ch35 v2 曾写 audio.voicePackEnabled，现统一为本键。打开后仍按 ch35 v2：已交配音和语气音不挂载，缺文件静默。"
+  },
+  "buses": {
+    "voice": {
+      "key": "voiceGainDb",
+      "value": 0,
+      "min": -12,
+      "max": 1.6,
+      "unit": "dB",
+      "role": "runtime_reserve",
+      "appliesTo": "pkg.voice / voice/m3_tts 已交 710 条；语气音（pkg.emote / sfx/emote 已交 90 条）也走本键",
+      "tpMax": -2.7,
+      "tpMaxFile": "voice/m3_tts/alan_m/vo_alan_m_splice_05.ogg",
+      "formula": "Gmax = -1.1 - TPmax = -1.1 - (-2.70) = +1.60；施加后最热 -1.10 dBTP",
+      "note": "初值 0，数值与 r1 相同。配音现有 710 条不动，不为配音做归一补丁。 本键是 V1 设置里预留的配音运行时补偿，只在整体调音阶段需要时使用，且不得超过配音 max +1.6 dB。 语气音已归入配音，增益改走本键，不再读 audio.bus.emoteGainDb。 若与语气音同时施加，整体上调还须满足语气音更紧的上限 +1.4 dB（见 buses.emote.max，数值未改）。 暂停样音（streamers / xiaolu 等）不得挂本总线。",
+      "legacyKey": "audio.bus.voiceGainDb"
+    },
+    "emote": {
+      "key": "voiceGainDb",
+      "value": 0,
+      "min": -12,
+      "max": 1.4,
+      "unit": "dB",
+      "role": "runtime_reserve",
+      "appliesTo": "pkg.emote / sfx/emote 已交 90 条（增益键 = voiceGainDb）",
+      "tpMax": -2.5,
+      "tpMaxFile": "sfx/emote/vo_afan_emote_happy_02.ogg",
+      "formula": "Gmax = -1.1 - TPmax = -1.1 - (-2.50) = +1.40；施加后最热 -1.10 dBTP",
+      "note": "初值 0，max +1.4，数值与 r1 相同。语气音已归入配音，增益走 voiceGainDb，不再使用独立键 audio.bus.emoteGainDb。 本条只保留语气音自身的真峰值安全上限，供程序在共用键上调时校验。 同样是运行时预留，不改原件。",
+      "legacyKey": "audio.bus.emoteGainDb"
+    }
+  },
+  "packs": {
+    "ui": {
+      "key": "audio.bus.uiGainDb",
+      "packId": "pkg.ui",
+      "value": 0,
+      "min": -12,
+      "max": 3.49,
+      "unit": "dB",
+      "planSuggested": 2.8,
+      "tpMax": -4.59,
+      "computedGmax": 3.49,
+      "tpMaxFile": "ui/ui_click_01.ogg",
+      "tpMaxId": "ui.click",
+      "measuredCount": 40,
+      "note": "包级增益固定为 0。方案曾按超标子集中位数建议整包抬音，但同包已有达标成曲，整包施加会把它们抬出目标，故改为只在 byId 覆盖。max 是若将来改 value 时的真峰值安全上限。",
+      "peakLineDbTP": -1.0
+    },
+    "economy": {
+      "key": "audio.bus.economyGainDb",
+      "packId": "pkg.economy",
+      "value": 0,
+      "min": -12,
+      "max": 4.6,
+      "unit": "dB",
+      "planSuggested": 3.5,
+      "tpMax": -5.7,
+      "computedGmax": 4.6,
+      "tpMaxFile": "economy/eco_coin_large_01.ogg",
+      "tpMaxId": "eco.coin_large",
+      "measuredCount": 24,
+      "note": "包级增益固定为 0。方案曾按超标子集中位数建议整包抬音，但同包已有达标成曲，整包施加会把它们抬出目标，故改为只在 byId 覆盖。max 是若将来改 value 时的真峰值安全上限。",
+      "peakLineDbTP": -1.0
+    },
+    "management": {
+      "key": "audio.bus.managementGainDb",
+      "packId": "pkg.management",
+      "value": 0,
+      "min": -12,
+      "max": 3.0,
+      "unit": "dB",
+      "planSuggested": 2.7,
+      "tpMax": -4.1,
+      "computedGmax": 3.0,
+      "tpMaxFile": "management/mgmt_office_upgrade_01.ogg",
+      "tpMaxId": "sfx.mgmt.office_upgrade",
+      "measuredCount": 24,
+      "note": "包级增益固定为 0。方案曾按超标子集中位数建议整包抬音，但同包已有达标成曲，整包施加会把它们抬出目标，故改为只在 byId 覆盖。max 是若将来改 value 时的真峰值安全上限。",
+      "peakLineDbTP": -1.0
+    },
+    "system": {
+      "key": "audio.bus.systemGainDb",
+      "packId": "pkg.system",
+      "value": 0,
+      "min": -12,
+      "max": 5.5,
+      "unit": "dB",
+      "planSuggested": 3.2,
+      "tpMax": -6.6,
+      "computedGmax": 5.5,
+      "tpMaxFile": "system/sys_weekly_goal_done_01.ogg",
+      "tpMaxId": "sys.weekly_goal_done",
+      "measuredCount": 34,
+      "note": "包级增益固定为 0。方案曾按超标子集中位数建议整包抬音，但同包已有达标成曲，整包施加会把它们抬出目标，故改为只在 byId 覆盖。max 是若将来改 value 时的真峰值安全上限。",
+      "peakLineDbTP": -1.0
+    },
+    "decoration": {
+      "key": "audio.bus.decorationGainDb",
+      "packId": "pkg.decoration",
+      "value": 0,
+      "min": -12,
+      "max": 0.74,
+      "unit": "dB",
+      "planSuggested": 4.7,
+      "tpMax": -1.84,
+      "computedGmax": 0.74,
+      "tpMaxFile": "decoration/deco_rotate_01.ogg",
+      "tpMaxId": "deco.rotate",
+      "measuredCount": 34,
+      "note": "包级增益固定为 0。方案曾按超标子集中位数建议整包抬音，但同包已有达标成曲，整包施加会把它们抬出目标，故改为只在 byId 覆盖。max 是若将来改 value 时的真峰值安全上限。",
+      "peakLineDbTP": -1.0
+    },
+    "pk": {
+      "key": "audio.bus.pkGainDb",
+      "packId": "pkg.pk",
+      "value": 0,
+      "min": -12,
+      "max": 2.11,
+      "unit": "dB",
+      "planSuggested": 3.5,
+      "tpMax": -3.21,
+      "computedGmax": 2.11,
+      "tpMaxFile": "pk/pk_clash_01.ogg",
+      "tpMaxId": "sfx.event.heels_step",
+      "measuredCount": 27,
+      "note": "包级增益固定为 0。方案曾按超标子集中位数建议整包抬音，但同包已有达标成曲，整包施加会把它们抬出目标，故改为只在 byId 覆盖。max 是若将来改 value 时的真峰值安全上限。",
+      "peakLineDbTP": -1.0
+    },
+    "motif": {
+      "key": "audio.bus.motifGainDb",
+      "packId": "pkg.motif",
+      "value": 0,
+      "min": -12,
+      "max": 4.4,
+      "unit": "dB",
+      "planSuggested": 4.4,
+      "tpMax": -5.5,
+      "computedGmax": 4.4,
+      "tpMaxFile": "sfx/motif/stg_motif_laozhou_full_01.ogg",
+      "tpMaxId": "stg.motif.laozhou.full",
+      "measuredCount": 16,
+      "note": "包级增益固定为 0。方案曾按超标子集中位数建议整包抬音，但同包已有达标成曲，整包施加会把它们抬出目标，故改为只在 byId 覆盖。max 是若将来改 value 时的真峰值安全上限。",
+      "peakLineDbTP": -1.0
+    },
+    "tutorial": {
+      "key": "audio.bus.tutorialGainDb",
+      "packId": "pkg.tutorial",
+      "value": 0,
+      "min": -12,
+      "max": 0.0,
+      "unit": "dB",
+      "planSuggested": 0.0,
+      "tpMax": -1.1,
+      "computedGmax": 0.0,
+      "tpMaxFile": "tutorial/tut_desk_slam_02.ogg",
+      "tpMaxId": "tut.desk_slam",
+      "measuredCount": 21,
+      "note": "包级增益固定为 0。方案曾按超标子集中位数建议整包抬音，但同包已有达标成曲，整包施加会把它们抬出目标，故改为只在 byId 覆盖。max 是若将来改 value 时的真峰值安全上限。",
+      "peakLineDbTP": -1.0
+    },
+    "stinger": {
+      "key": "audio.bus.stingerGainDb",
+      "packId": "pkg.stinger",
+      "value": 0,
+      "min": -12,
+      "max": 0.4,
+      "unit": "dB",
+      "planSuggested": 0.0,
+      "tpMax": -1.5,
+      "computedGmax": 0.4,
+      "tpMaxFile": "bgm/stg_win.ogg",
+      "tpMaxId": "stg.win",
+      "measuredCount": 5,
+      "note": "包级增益固定为 0。方案曾按超标子集中位数建议整包抬音，但同包已有达标成曲，整包施加会把它们抬出目标，故改为只在 byId 覆盖。max 是若将来改 value 时的真峰值安全上限。 `stg.win` TPmax -1.5，包上限仅约 0.4 dB。",
+      "peakLineDbTP": -1.0
+    },
+    "gift": {
+      "key": "audio.bus.giftGainDb",
+      "packId": "pkg.gift",
+      "value": 0,
+      "min": -12,
+      "max": 1.3,
+      "unit": "dB",
+      "planSuggested": 0.0,
+      "tpMax": -2.4,
+      "computedGmax": 1.3,
+      "tpMaxFile": "bgm/stg_gift_xinghe_01.ogg",
+      "tpMaxId": "stg.gift_xinghe",
+      "measuredCount": 24,
+      "note": "包级增益固定为 0。方案曾按超标子集中位数建议整包抬音，但同包已有达标成曲，整包施加会把它们抬出目标，故改为只在 byId 覆盖。max 是若将来改 value 时的真峰值安全上限。",
+      "peakLineDbTP": -1.0
+    },
+    "sfx": {
+      "key": "audio.bus.sfxGainDb",
+      "packId": "pkg.sfx",
+      "value": 0,
+      "min": -12,
+      "max": 0.8,
+      "unit": "dB",
+      "planSuggested": 0.0,
+      "tpMax": -1.9,
+      "computedGmax": 0.8,
+      "tpMaxFile": "sfx/event/sfx_heels_step_01.ogg",
+      "tpMaxId": "sfx.event.heels_step",
+      "measuredCount": 85,
+      "note": "包级增益固定为 0。方案曾按超标子集中位数建议整包抬音，但同包已有达标成曲，整包施加会把它们抬出目标，故改为只在 byId 覆盖。max 是若将来改 value 时的真峰值安全上限。 短音效与氛围循环混包，禁止用单一正包增益。",
+      "peakLineDbTP": -1.0
+    },
+    "bgm": {
+      "key": "audio.bus.bgmGainDb",
+      "packId": "pkg.bgm",
+      "value": 0,
+      "min": -12,
+      "max": 0.0,
+      "unit": "dB",
+      "planSuggested": 0.0,
+      "tpMax": -1.4,
+      "computedGmax": -0.7,
+      "tpMaxFile": "bgm/bgm_settlement_loop.ogg",
+      "tpMaxId": "bgm.settlement",
+      "measuredCount": 21,
+      "note": "包级增益固定为 0。方案曾按超标子集中位数建议整包抬音，但同包已有达标成曲，整包施加会把它们抬出目标，故改为只在 byId 覆盖。max 是若将来改 value 时的真峰值安全上限。 BGM 按 −2.1 − TPmax 计。现有成曲已有真峰值落在 −2～−1（只告警、程序不失败），算出的 Gmax 为负，故 max 记 0，不得再抬。",
+      "peakLineDbTP": -2.0
+    },
+    "live": {
+      "key": "audio.bus.liveGainDb",
+      "packId": "pkg.live",
+      "value": 0,
+      "min": -12,
+      "max": 2.01,
+      "unit": "dB",
+      "planSuggested": 0.0,
+      "tpMax": -3.11,
+      "computedGmax": 2.01,
+      "tpMaxFile": "live/live_blunder_01.ogg",
+      "tpMaxId": "live.blunder",
+      "measuredCount": 27,
+      "note": "包级增益固定为 0。方案曾按超标子集中位数建议整包抬音，但同包已有达标成曲，整包施加会把它们抬出目标，故改为只在 byId 覆盖。max 是若将来改 value 时的真峰值安全上限。",
+      "peakLineDbTP": -1.0
+    },
+    "game": {
+      "key": "audio.bus.gameGainDb",
+      "packId": "pkg.game",
+      "value": 0,
+      "min": -12,
+      "max": 3.43,
+      "unit": "dB",
+      "planSuggested": 0.0,
+      "tpMax": -4.53,
+      "computedGmax": 3.43,
+      "tpMaxFile": "game/game_streak_5x_01.ogg",
+      "tpMaxId": "sfx.event.heels_step",
+      "measuredCount": 21,
+      "note": "包级增益固定为 0。方案曾按超标子集中位数建议整包抬音，但同包已有达标成曲，整包施加会把它们抬出目标，故改为只在 byId 覆盖。max 是若将来改 value 时的真峰值安全上限。",
+      "peakLineDbTP": -1.0
+    },
+    "ambience": {
+      "key": "audio.bus.ambienceGainDb",
+      "packId": "pkg.ambience",
+      "value": 0,
+      "min": -12,
+      "max": 4.2,
+      "unit": "dB",
+      "planSuggested": 0.0,
+      "tpMax": -5.3,
+      "computedGmax": 4.2,
+      "tpMaxFile": "ambience/amb_rental_room_loop.ogg",
+      "tpMaxId": "amb.rental_room",
+      "measuredCount": 4,
+      "note": "包级增益固定为 0。方案曾按超标子集中位数建议整包抬音，但同包已有达标成曲，整包施加会把它们抬出目标，故改为只在 byId 覆盖。max 是若将来改 value 时的真峰值安全上限。",
+      "peakLineDbTP": -1.0
+    }
+  },
+  "tiers": {
+    "gift.small": {
+      "aimLUFS": -19,
+      "value": null,
+      "max": null,
+      "unit": "dB",
+      "ids": [],
+      "files": [],
+      "note": "分档只声明目标与安全上限；实际增益以 byId 为准（同一档内变体峰值余量不同）。优先级上分档高于包、低于 id。"
+    },
+    "gift.medium": {
+      "aimLUFS": -17,
+      "value": null,
+      "max": null,
+      "unit": "dB",
+      "ids": [],
+      "files": [],
+      "note": "分档只声明目标与安全上限；实际增益以 byId 为准（同一档内变体峰值余量不同）。优先级上分档高于包、低于 id。"
+    },
+    "gift.t3": {
+      "aimLUFS": -15,
+      "value": null,
+      "max": 10.6,
+      "unit": "dB",
+      "ids": [
+        "live.gift_t3_sportscar"
+      ],
+      "files": [
+        "live/live_gift_t3_sportscar_01.ogg"
+      ],
+      "note": "分档只声明目标与安全上限；实际增益以 byId 为准（同一档内变体峰值余量不同）。优先级上分档高于包、低于 id。"
+    },
+    "gift.t4": {
+      "aimLUFS": -13.5,
+      "value": null,
+      "max": 5.1,
+      "unit": "dB",
+      "ids": [
+        "live.gift_t4_rocket"
+      ],
+      "files": [
+        "live/live_gift_t4_rocket_01.ogg"
+      ],
+      "note": "分档只声明目标与安全上限；实际增益以 byId 为准（同一档内变体峰值余量不同）。优先级上分档高于包、低于 id。"
+    },
+    "gift.fullscreen": {
+      "aimLUFS": -13.5,
+      "value": null,
+      "max": 1.3,
+      "unit": "dB",
+      "ids": [
+        "live.gift_t5",
+        "sfx.gift.xinghe_room",
+        "stg.gift_xinghe"
+      ],
+      "files": [
+        "bgm/stg_gift_xinghe_01.ogg",
+        "bgm/stg_gift_xinghe_02.ogg",
+        "live/live_gift_t5_01.ogg",
+        "sfx/gift/sfx_gift_xinghe_room_01.ogg",
+        "sfx/gift/sfx_gift_xinghe_room_02.ogg"
+      ],
+      "note": "分档只声明目标与安全上限；实际增益以 byId 为准（同一档内变体峰值余量不同）。优先级上分档高于包、低于 id。"
+    },
+    "gift.combo_10": {
+      "aimLUFS": -17,
+      "value": null,
+      "max": 8.2,
+      "unit": "dB",
+      "ids": [
+        "sfx.gift_combo_10"
+      ],
+      "files": [
+        "sfx/gift/sfx_gift_combo_10_01.ogg"
+      ],
+      "note": "分档只声明目标与安全上限；实际增益以 byId 为准（同一档内变体峰值余量不同）。优先级上分档高于包、低于 id。"
+    },
+    "gift.combo_30": {
+      "aimLUFS": -15,
+      "value": null,
+      "max": 7.6,
+      "unit": "dB",
+      "ids": [
+        "sfx.gift_combo_30"
+      ],
+      "files": [
+        "sfx/gift/sfx_gift_combo_30_01.ogg"
+      ],
+      "note": "分档只声明目标与安全上限；实际增益以 byId 为准（同一档内变体峰值余量不同）。优先级上分档高于包、低于 id。"
+    },
+    "gift.combo_99": {
+      "aimLUFS": -14,
+      "value": null,
+      "max": 5.8,
+      "unit": "dB",
+      "ids": [
+        "sfx.gift_combo_99"
+      ],
+      "files": [
+        "sfx/gift/sfx_gift_combo_99_01.ogg"
+      ],
+      "note": "分档只声明目标与安全上限；实际增益以 byId 为准（同一档内变体峰值余量不同）。优先级上分档高于包、低于 id。"
+    },
+    "gift.combo_end": {
+      "aimLUFS": -17,
+      "value": null,
+      "max": 10.6,
+      "unit": "dB",
+      "ids": [
+        "sfx.gift_combo_end"
+      ],
+      "files": [
+        "sfx/gift/sfx_gift_combo_end_01.ogg"
+      ],
+      "note": "分档只声明目标与安全上限；实际增益以 byId 为准（同一档内变体峰值余量不同）。优先级上分档高于包、低于 id。"
+    }
+  },
+  "byId": [
+    {
+      "id": "bgm.pk.final_150",
+      "file": "bgm/bgm_pk_final_150_loop.ogg",
+      "stem": "bgm/bgm_pk_final_150_loop",
+      "packId": "pkg.bgm",
+      "value": 0,
+      "min": -12,
+      "max": 0.0,
+      "unit": "dB",
+      "source": "patch_r2",
+      "lufs": -19.3,
+      "tp": -2.1,
+      "gNeed": 3.3,
+      "aim": -16.0,
+      "window": [
+        -17.0,
+        -15.0
+      ],
+      "note": "已进入 loudnorm_v1 r2 补丁包（两种格式均通过），补丁后增益 0。max 按补丁后最热真峰值重算。"
+    },
+    {
+      "id": "stg.bankrupt",
+      "file": "bgm/stg_bankrupt_01.ogg",
+      "stem": "bgm/stg_bankrupt_01",
+      "packId": "pkg.stinger",
+      "value": 5.8,
+      "min": -12,
+      "max": 7.9,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -21.8,
+      "tp": -9.0,
+      "gNeed": 5.8,
+      "aim": -16.0,
+      "window": [
+        -17.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "stg.festival_start",
+      "file": "bgm/stg_festival_start_01.ogg",
+      "stem": "bgm/stg_festival_start_01",
+      "packId": "pkg.stinger",
+      "value": 4.6,
+      "min": -12,
+      "max": 4.9,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -20.6,
+      "tp": -6.0,
+      "gNeed": 4.6,
+      "aim": -16.0,
+      "window": [
+        -17.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "live.tier_down",
+      "file": "sfx/ui_m3/live_tier_down_01.ogg",
+      "stem": "sfx/ui_m3/live_tier_down_01",
+      "packId": "pkg.ui",
+      "value": 2.8,
+      "min": -12,
+      "max": 16.0,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -23.8,
+      "tp": -17.1,
+      "gNeed": 2.8,
+      "aim": -21.0,
+      "window": [
+        -22.0,
+        -19.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "mgmt.company_level_up",
+      "file": "sfx/ui_m3/mgmt_company_level_up_01.ogg",
+      "stem": "sfx/ui_m3/mgmt_company_level_up_01",
+      "packId": "pkg.ui",
+      "value": 2.2,
+      "min": -12,
+      "max": 7.7,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -23.2,
+      "tp": -8.8,
+      "gNeed": 2.2,
+      "aim": -21.0,
+      "window": [
+        -22.0,
+        -19.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "mgmt.staff_conflict",
+      "file": "sfx/ui_m3/mgmt_staff_conflict_01.ogg",
+      "stem": "sfx/ui_m3/mgmt_staff_conflict_01",
+      "packId": "pkg.ui",
+      "value": 2.7,
+      "min": -12,
+      "max": 10.3,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -23.7,
+      "tp": -11.4,
+      "gNeed": 2.7,
+      "aim": -21.0,
+      "window": [
+        -22.0,
+        -19.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sys.contract_alert",
+      "file": "sfx/ui_m3/sys_contract_alert_01.ogg",
+      "stem": "sfx/ui_m3/sys_contract_alert_01",
+      "packId": "pkg.ui",
+      "value": 3.2,
+      "min": -12,
+      "max": 10.5,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -24.2,
+      "tp": -11.6,
+      "gNeed": 3.2,
+      "aim": -21.0,
+      "window": [
+        -22.0,
+        -19.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "stg.gift_xinghe",
+      "file": "bgm/stg_gift_xinghe_01.ogg",
+      "stem": "bgm/stg_gift_xinghe_01",
+      "packId": "pkg.gift",
+      "value": 0,
+      "min": -12,
+      "max": 0.1,
+      "unit": "dB",
+      "source": "patch_r2",
+      "lufs": -16.0,
+      "tp": -2.4,
+      "gNeed": 2.5,
+      "aim": -13.5,
+      "window": [
+        -14.5,
+        -12.5
+      ],
+      "note": "已进入 loudnorm_v1 r2 补丁包（两种格式均通过），补丁后增益 0。max 按补丁后最热真峰值重算。",
+      "tier": "gift.fullscreen"
+    },
+    {
+      "id": "stg.gift_xinghe",
+      "file": "bgm/stg_gift_xinghe_02.ogg",
+      "stem": "bgm/stg_gift_xinghe_02",
+      "packId": "pkg.gift",
+      "value": 0,
+      "min": -12,
+      "max": 0.3,
+      "unit": "dB",
+      "source": "patch_r2",
+      "lufs": -16.0,
+      "tp": -2.4,
+      "gNeed": 2.5,
+      "aim": -13.5,
+      "window": [
+        -14.5,
+        -12.5
+      ],
+      "note": "已进入 loudnorm_v1 r2 补丁包（两种格式均通过），补丁后增益 0。max 按补丁后最热真峰值重算。",
+      "tier": "gift.fullscreen"
+    },
+    {
+      "id": "live.gift_t3_sportscar",
+      "file": "live/live_gift_t3_sportscar_01.ogg",
+      "stem": "live/live_gift_t3_sportscar_01",
+      "packId": "pkg.gift",
+      "value": 3.1,
+      "min": -12,
+      "max": 10.6,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -18.1,
+      "tp": -11.7,
+      "gNeed": 3.1,
+      "aim": -15.0,
+      "window": [
+        -16.0,
+        -14.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。",
+      "tier": "gift.t3"
+    },
+    {
+      "id": "live.gift_t4_rocket",
+      "file": "live/live_gift_t4_rocket_01.ogg",
+      "stem": "live/live_gift_t4_rocket_01",
+      "packId": "pkg.gift",
+      "value": 5.1,
+      "min": -12,
+      "max": 5.1,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -19.2,
+      "tp": -6.2,
+      "gNeed": 5.7,
+      "aim": -13.5,
+      "window": [
+        -14.5,
+        -12.5
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。",
+      "tier": "gift.t4"
+    },
+    {
+      "id": "live.gift_t5",
+      "file": "live/live_gift_t5_01.ogg",
+      "stem": "live/live_gift_t5_01",
+      "packId": "pkg.gift",
+      "value": 0,
+      "min": -12,
+      "max": 0.2,
+      "unit": "dB",
+      "source": "patch_r2",
+      "lufs": -22.2,
+      "tp": -4.9,
+      "gNeed": 8.7,
+      "aim": -13.5,
+      "window": [
+        -14.5,
+        -12.5
+      ],
+      "note": "已进入 loudnorm_v1 r2 补丁包（两种格式均通过），补丁后增益 0。max 按补丁后最热真峰值重算。",
+      "tier": "gift.fullscreen"
+    },
+    {
+      "id": "sfx.gift_combo_10",
+      "file": "sfx/gift/sfx_gift_combo_10_01.ogg",
+      "stem": "sfx/gift/sfx_gift_combo_10_01",
+      "packId": "pkg.gift",
+      "value": 4.8,
+      "min": -12,
+      "max": 8.2,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -21.8,
+      "tp": -9.3,
+      "gNeed": 4.8,
+      "aim": -17.0,
+      "window": [
+        -18.0,
+        -16.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。",
+      "tier": "gift.combo_10"
+    },
+    {
+      "id": "sfx.gift_combo_30",
+      "file": "sfx/gift/sfx_gift_combo_30_01.ogg",
+      "stem": "sfx/gift/sfx_gift_combo_30_01",
+      "packId": "pkg.gift",
+      "value": 6.0,
+      "min": -12,
+      "max": 7.6,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -21.0,
+      "tp": -8.7,
+      "gNeed": 6.0,
+      "aim": -15.0,
+      "window": [
+        -16.0,
+        -14.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。",
+      "tier": "gift.combo_30"
+    },
+    {
+      "id": "sfx.gift_combo_99",
+      "file": "sfx/gift/sfx_gift_combo_99_01.ogg",
+      "stem": "sfx/gift/sfx_gift_combo_99_01",
+      "packId": "pkg.gift",
+      "value": 5.8,
+      "min": -12,
+      "max": 5.8,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -19.9,
+      "tp": -6.9,
+      "gNeed": 5.9,
+      "aim": -14.0,
+      "window": [
+        -15.0,
+        -13.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。",
+      "tier": "gift.combo_99"
+    },
+    {
+      "id": "sfx.gift_combo_end",
+      "file": "sfx/gift/sfx_gift_combo_end_01.ogg",
+      "stem": "sfx/gift/sfx_gift_combo_end_01",
+      "packId": "pkg.gift",
+      "value": 6.2,
+      "min": -12,
+      "max": 10.6,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -24.2,
+      "tp": -11.7,
+      "gNeed": 6.2,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。",
+      "tier": "gift.combo_end"
+    },
+    {
+      "id": "sfx.gift.xinghe_room",
+      "file": "sfx/gift/sfx_gift_xinghe_room_01.ogg",
+      "stem": "sfx/gift/sfx_gift_xinghe_room_01",
+      "packId": "pkg.gift",
+      "value": 1.6,
+      "min": -12,
+      "max": 1.6,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -16.0,
+      "tp": -2.7,
+      "gNeed": 2.5,
+      "aim": -13.5,
+      "window": [
+        -14.5,
+        -12.5
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。",
+      "tier": "gift.fullscreen"
+    },
+    {
+      "id": "sfx.gift.xinghe_room",
+      "file": "sfx/gift/sfx_gift_xinghe_room_02.ogg",
+      "stem": "sfx/gift/sfx_gift_xinghe_room_02",
+      "packId": "pkg.gift",
+      "value": 0,
+      "min": -12,
+      "max": 0.1,
+      "unit": "dB",
+      "source": "patch_r2",
+      "lufs": -16.0,
+      "tp": -2.4,
+      "gNeed": 2.5,
+      "aim": -13.5,
+      "window": [
+        -14.5,
+        -12.5
+      ],
+      "note": "已进入 loudnorm_v1 r2 补丁包（两种格式均通过），补丁后增益 0。max 按补丁后最热真峰值重算。",
+      "tier": "gift.fullscreen"
+    },
+    {
+      "id": "mgmt.star_up",
+      "file": "management/mgmt_star_up_01.ogg",
+      "stem": "management/mgmt_star_up_01",
+      "packId": "pkg.management",
+      "value": 2.7,
+      "min": -12,
+      "max": 8.3,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -20.7,
+      "tp": -9.4,
+      "gNeed": 2.7,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "eco.coin_tap",
+      "file": "economy/eco_coin_tap_01.ogg",
+      "stem": "economy/eco_coin_tap_01",
+      "packId": "pkg.economy",
+      "value": 3.3,
+      "min": -12,
+      "max": 7.2,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -23.3,
+      "tp": -8.3,
+      "gNeed": 3.3,
+      "aim": -20.0,
+      "window": [
+        -21.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "eco.coin_tap",
+      "file": "economy/eco_coin_tap_02.ogg",
+      "stem": "economy/eco_coin_tap_02",
+      "packId": "pkg.economy",
+      "value": 3.5,
+      "min": -12,
+      "max": 7.4,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -23.5,
+      "tp": -8.5,
+      "gNeed": 3.5,
+      "aim": -20.0,
+      "window": [
+        -21.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "eco.coin_tap",
+      "file": "economy/eco_coin_tap_03.ogg",
+      "stem": "economy/eco_coin_tap_03",
+      "packId": "pkg.economy",
+      "value": 3.7,
+      "min": -12,
+      "max": 5.6,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -23.7,
+      "tp": -6.7,
+      "gNeed": 3.7,
+      "aim": -20.0,
+      "window": [
+        -21.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "deco.buy_confirm",
+      "file": "decoration/deco_buy_confirm_01.ogg",
+      "stem": "decoration/deco_buy_confirm_01",
+      "packId": "pkg.decoration",
+      "value": 4.0,
+      "min": -12,
+      "max": 11.4,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -24.0,
+      "tp": -12.5,
+      "gNeed": 4.0,
+      "aim": -20.0,
+      "window": [
+        -21.0,
+        -17.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "deco.buy_confirm",
+      "file": "decoration/deco_buy_confirm_02.ogg",
+      "stem": "decoration/deco_buy_confirm_02",
+      "packId": "pkg.decoration",
+      "value": 4.4,
+      "min": -12,
+      "max": 8.3,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -24.4,
+      "tp": -9.4,
+      "gNeed": 4.4,
+      "aim": -20.0,
+      "window": [
+        -21.0,
+        -17.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "deco.buy_confirm",
+      "file": "decoration/deco_buy_confirm_03.ogg",
+      "stem": "decoration/deco_buy_confirm_03",
+      "packId": "pkg.decoration",
+      "value": 4.4,
+      "min": -12,
+      "max": 10.2,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -24.4,
+      "tp": -11.3,
+      "gNeed": 4.4,
+      "aim": -20.0,
+      "window": [
+        -21.0,
+        -17.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "deco.exit_summary",
+      "file": "decoration/deco_exit_summary_01.ogg",
+      "stem": "decoration/deco_exit_summary_01",
+      "packId": "pkg.decoration",
+      "value": 4.6,
+      "min": -12,
+      "max": 9.8,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -24.6,
+      "tp": -10.9,
+      "gNeed": 4.6,
+      "aim": -20.0,
+      "window": [
+        -21.0,
+        -17.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "deco.exit_summary",
+      "file": "decoration/deco_exit_summary_02.ogg",
+      "stem": "decoration/deco_exit_summary_02",
+      "packId": "pkg.decoration",
+      "value": 3.3,
+      "min": -12,
+      "max": 8.3,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -23.3,
+      "tp": -9.4,
+      "gNeed": 3.3,
+      "aim": -20.0,
+      "window": [
+        -21.0,
+        -17.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "deco.select",
+      "file": "decoration/deco_select_01.ogg",
+      "stem": "decoration/deco_select_01",
+      "packId": "pkg.decoration",
+      "value": 7.3,
+      "min": -12,
+      "max": 9.9,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -27.3,
+      "tp": -11.0,
+      "gNeed": 7.3,
+      "aim": -20.0,
+      "window": [
+        -21.0,
+        -17.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "deco.sell",
+      "file": "decoration/deco_sell_01.ogg",
+      "stem": "decoration/deco_sell_01",
+      "packId": "pkg.decoration",
+      "value": 4.7,
+      "min": -12,
+      "max": 11.4,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -24.7,
+      "tp": -12.5,
+      "gNeed": 4.7,
+      "aim": -20.0,
+      "window": [
+        -21.0,
+        -17.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "deco.sell",
+      "file": "decoration/deco_sell_02.ogg",
+      "stem": "decoration/deco_sell_02",
+      "packId": "pkg.decoration",
+      "value": 4.7,
+      "min": -12,
+      "max": 9.0,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -24.7,
+      "tp": -10.1,
+      "gNeed": 4.7,
+      "aim": -20.0,
+      "window": [
+        -21.0,
+        -17.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "deco.sell",
+      "file": "decoration/deco_sell_03.ogg",
+      "stem": "decoration/deco_sell_03",
+      "packId": "pkg.decoration",
+      "value": 5.1,
+      "min": -12,
+      "max": 10.4,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -25.1,
+      "tp": -11.5,
+      "gNeed": 5.1,
+      "aim": -20.0,
+      "window": [
+        -21.0,
+        -17.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "deco.undo",
+      "file": "decoration/deco_undo_02.ogg",
+      "stem": "decoration/deco_undo_02",
+      "packId": "pkg.decoration",
+      "value": 7.0,
+      "min": -12,
+      "max": 10.5,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -27.0,
+      "tp": -11.6,
+      "gNeed": 7.0,
+      "aim": -20.0,
+      "window": [
+        -21.0,
+        -17.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.pk.boss_fans",
+      "file": "pk/sfx_pk_boss_fans_01.ogg",
+      "stem": "pk/sfx_pk_boss_fans_01",
+      "packId": "pkg.pk",
+      "value": 4.3,
+      "min": -12,
+      "max": 5.8,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -22.3,
+      "tp": -6.9,
+      "gNeed": 4.3,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.pk.comeback",
+      "file": "pk/sfx_pk_comeback_01.ogg",
+      "stem": "pk/sfx_pk_comeback_01",
+      "packId": "pkg.pk",
+      "value": 2.6,
+      "min": -12,
+      "max": 4.7,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -20.6,
+      "tp": -5.8,
+      "gNeed": 2.6,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.pk.counter_lose",
+      "file": "pk/sfx_pk_counter_lose_01.ogg",
+      "stem": "pk/sfx_pk_counter_lose_01",
+      "packId": "pkg.pk",
+      "value": 3.8,
+      "min": -12,
+      "max": 7.5,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -21.8,
+      "tp": -8.6,
+      "gNeed": 3.8,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.pk.counter_win",
+      "file": "pk/sfx_pk_counter_win_01.ogg",
+      "stem": "pk/sfx_pk_counter_win_01",
+      "packId": "pkg.pk",
+      "value": 3.8,
+      "min": -12,
+      "max": 7.7,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -21.8,
+      "tp": -8.8,
+      "gNeed": 3.8,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.pk.gong",
+      "file": "pk/sfx_pk_gong.ogg",
+      "stem": "pk/sfx_pk_gong",
+      "packId": "pkg.pk",
+      "value": 3.4,
+      "min": -12,
+      "max": 4.8,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -21.4,
+      "tp": -5.9,
+      "gNeed": 3.4,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.pk.heartbeat_loop",
+      "file": "pk/sfx_pk_heartbeat_loop_01.ogg",
+      "stem": "pk/sfx_pk_heartbeat_loop_01",
+      "packId": "pkg.pk",
+      "value": 0,
+      "min": -12,
+      "max": 0.0,
+      "unit": "dB",
+      "source": "patch_r2",
+      "lufs": -27.4,
+      "tp": -9.1,
+      "gNeed": 9.4,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "已进入 loudnorm_v1 r2 补丁包（两种格式均通过），补丁后增益 0。max 按补丁后最热真峰值重算。"
+    },
+    {
+      "id": "sfx.pk.highlight_transition",
+      "file": "pk/sfx_pk_highlight_transition_01.ogg",
+      "stem": "pk/sfx_pk_highlight_transition_01",
+      "packId": "pkg.pk",
+      "value": 3.9,
+      "min": -12,
+      "max": 6.5,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -21.9,
+      "tp": -7.6,
+      "gNeed": 3.9,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.pk.overtime",
+      "file": "pk/sfx_pk_overtime_01.ogg",
+      "stem": "pk/sfx_pk_overtime_01",
+      "packId": "pkg.pk",
+      "value": 2.6,
+      "min": -12,
+      "max": 9.0,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -20.6,
+      "tp": -10.1,
+      "gNeed": 2.6,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.pk.round_end",
+      "file": "pk/sfx_pk_round_end_01.ogg",
+      "stem": "pk/sfx_pk_round_end_01",
+      "packId": "pkg.pk",
+      "value": 2.1,
+      "min": -12,
+      "max": 4.8,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -20.1,
+      "tp": -5.9,
+      "gNeed": 2.1,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.pk.skill_chat_pick",
+      "file": "pk/sfx_pk_skill_chat_pick_01.ogg",
+      "stem": "pk/sfx_pk_skill_chat_pick_01",
+      "packId": "pkg.pk",
+      "value": 4.4,
+      "min": -12,
+      "max": 8.2,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -22.4,
+      "tp": -9.3,
+      "gNeed": 4.4,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.pk.skill_stunt_burst",
+      "file": "pk/sfx_pk_skill_stunt_burst_01.ogg",
+      "stem": "pk/sfx_pk_skill_stunt_burst_01",
+      "packId": "pkg.pk",
+      "value": 3.6,
+      "min": -12,
+      "max": 3.7,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -21.6,
+      "tp": -4.8,
+      "gNeed": 3.6,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.pk.skill_talent_hit",
+      "file": "pk/sfx_pk_skill_talent_hit_01.ogg",
+      "stem": "pk/sfx_pk_skill_talent_hit_01",
+      "packId": "pkg.pk",
+      "value": 3.5,
+      "min": -12,
+      "max": 3.5,
+      "unit": "dB",
+      "source": "config_only_r2",
+      "lufs": -22.6,
+      "tp": -4.6,
+      "gNeed": 4.6,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "r2 未进补丁包，只走本条配置覆盖。OGG 此前已过，但 MP3 源积分更低（−25.3），限幅后约 −20.5 LUFS，进不了 −19～−15 窗口且保持 TP < −1。按硬规则整 id 不进包。"
+    },
+    {
+      "id": "sfx.pk.vs",
+      "file": "pk/sfx_pk_vs_01.ogg",
+      "stem": "pk/sfx_pk_vs_01",
+      "packId": "pkg.pk",
+      "value": 2.7,
+      "min": -12,
+      "max": 4.8,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -20.7,
+      "tp": -5.9,
+      "gNeed": 2.7,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sys.boost_traffic",
+      "file": "system/sys_boost_traffic_01.ogg",
+      "stem": "system/sys_boost_traffic_01",
+      "packId": "pkg.system",
+      "value": 2.6,
+      "min": -12,
+      "max": 7.7,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -23.6,
+      "tp": -8.8,
+      "gNeed": 2.6,
+      "aim": -21.0,
+      "window": [
+        -22.0,
+        -17.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sys.checkin",
+      "file": "system/sys_checkin_01.ogg",
+      "stem": "system/sys_checkin_01",
+      "packId": "pkg.system",
+      "value": 3.2,
+      "min": -12,
+      "max": 9.2,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -24.2,
+      "tp": -10.3,
+      "gNeed": 3.2,
+      "aim": -21.0,
+      "window": [
+        -22.0,
+        -17.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sys.clip_share",
+      "file": "system/sys_clip_share_02.ogg",
+      "stem": "system/sys_clip_share_02",
+      "packId": "pkg.system",
+      "value": 2.9,
+      "min": -12,
+      "max": 7.9,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -23.9,
+      "tp": -9.0,
+      "gNeed": 2.9,
+      "aim": -21.0,
+      "window": [
+        -22.0,
+        -17.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sys.daily_goal_done",
+      "file": "system/sys_daily_goal_done_01.ogg",
+      "stem": "system/sys_daily_goal_done_01",
+      "packId": "pkg.system",
+      "value": 2.5,
+      "min": -12,
+      "max": 7.2,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -23.5,
+      "tp": -8.3,
+      "gNeed": 2.5,
+      "aim": -21.0,
+      "window": [
+        -22.0,
+        -17.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sys.daily_goal_done",
+      "file": "system/sys_daily_goal_done_02.ogg",
+      "stem": "system/sys_daily_goal_done_02",
+      "packId": "pkg.system",
+      "value": 3.7,
+      "min": -12,
+      "max": 10.2,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -24.7,
+      "tp": -11.3,
+      "gNeed": 3.7,
+      "aim": -21.0,
+      "window": [
+        -22.0,
+        -17.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sys.daily_goal_done",
+      "file": "system/sys_daily_goal_done_03.ogg",
+      "stem": "system/sys_daily_goal_done_03",
+      "packId": "pkg.system",
+      "value": 3.2,
+      "min": -12,
+      "max": 9.0,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -24.2,
+      "tp": -10.1,
+      "gNeed": 3.2,
+      "aim": -21.0,
+      "window": [
+        -22.0,
+        -17.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sys.danmaku_spam",
+      "file": "system/sys_danmaku_spam_01.ogg",
+      "stem": "system/sys_danmaku_spam_01",
+      "packId": "pkg.system",
+      "value": 2.5,
+      "min": -12,
+      "max": 10.2,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -23.5,
+      "tp": -11.3,
+      "gNeed": 2.5,
+      "aim": -21.0,
+      "window": [
+        -22.0,
+        -17.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sys.pin_reply",
+      "file": "system/sys_pin_reply_01.ogg",
+      "stem": "system/sys_pin_reply_01",
+      "packId": "pkg.system",
+      "value": 3.5,
+      "min": -12,
+      "max": 10.5,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -24.5,
+      "tp": -11.6,
+      "gNeed": 3.5,
+      "aim": -21.0,
+      "window": [
+        -22.0,
+        -17.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sys.pin_reply",
+      "file": "system/sys_pin_reply_02.ogg",
+      "stem": "system/sys_pin_reply_02",
+      "packId": "pkg.system",
+      "value": 6.0,
+      "min": -12,
+      "max": 14.7,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -27.0,
+      "tp": -15.8,
+      "gNeed": 6.0,
+      "aim": -21.0,
+      "window": [
+        -22.0,
+        -17.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sys.pin_reply",
+      "file": "system/sys_pin_reply_03.ogg",
+      "stem": "system/sys_pin_reply_03",
+      "packId": "pkg.system",
+      "value": 4.4,
+      "min": -12,
+      "max": 9.5,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -25.4,
+      "tp": -10.6,
+      "gNeed": 4.4,
+      "aim": -21.0,
+      "window": [
+        -22.0,
+        -17.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sys.regular_enter",
+      "file": "system/sys_regular_enter_01.ogg",
+      "stem": "system/sys_regular_enter_01",
+      "packId": "pkg.system",
+      "value": 3.1,
+      "min": -12,
+      "max": 12.7,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -24.1,
+      "tp": -13.8,
+      "gNeed": 3.1,
+      "aim": -21.0,
+      "window": [
+        -22.0,
+        -17.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sys.regular_enter",
+      "file": "system/sys_regular_enter_02.ogg",
+      "stem": "system/sys_regular_enter_02",
+      "packId": "pkg.system",
+      "value": 3.1,
+      "min": -12,
+      "max": 9.2,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -24.1,
+      "tp": -10.3,
+      "gNeed": 3.1,
+      "aim": -21.0,
+      "window": [
+        -22.0,
+        -17.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sys.rescue_alert",
+      "file": "system/sys_rescue_alert_02.ogg",
+      "stem": "system/sys_rescue_alert_02",
+      "packId": "pkg.system",
+      "value": 4.0,
+      "min": -12,
+      "max": 7.5,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -25.0,
+      "tp": -8.6,
+      "gNeed": 4.0,
+      "aim": -21.0,
+      "window": [
+        -22.0,
+        -17.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sys.start_day",
+      "file": "system/sys_start_day_01.ogg",
+      "stem": "system/sys_start_day_01",
+      "packId": "pkg.system",
+      "value": 2.2,
+      "min": -12,
+      "max": 6.4,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -23.2,
+      "tp": -7.5,
+      "gNeed": 2.2,
+      "aim": -21.0,
+      "window": [
+        -22.0,
+        -17.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sys.todo_alert",
+      "file": "system/sys_todo_alert_01.ogg",
+      "stem": "system/sys_todo_alert_01",
+      "packId": "pkg.system",
+      "value": 4.1,
+      "min": -12,
+      "max": 13.7,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -25.1,
+      "tp": -14.8,
+      "gNeed": 4.1,
+      "aim": -21.0,
+      "window": [
+        -22.0,
+        -17.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.feedback_howl",
+      "file": "tutorial/sfx_feedback_howl_01.ogg",
+      "stem": "tutorial/sfx_feedback_howl_01",
+      "packId": "pkg.tutorial",
+      "value": 2.9,
+      "min": -12,
+      "max": 20.8,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -22.9,
+      "tp": -21.9,
+      "gNeed": 2.9,
+      "aim": -20.0,
+      "window": [
+        -21.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "tut.desk_slam",
+      "file": "tutorial/tut_desk_slam_01.ogg",
+      "stem": "tutorial/tut_desk_slam_01",
+      "packId": "pkg.tutorial",
+      "value": 0,
+      "min": -12,
+      "max": 0.0,
+      "unit": "dB",
+      "source": "patch_r2",
+      "lufs": -23.9,
+      "tp": -1.8,
+      "gNeed": 3.9,
+      "aim": -20.0,
+      "window": [
+        -21.0,
+        -15.0
+      ],
+      "note": "已进入 loudnorm_v1 r2 补丁包（两种格式均通过），补丁后增益 0。max 按补丁后最热真峰值重算。"
+    },
+    {
+      "id": "tut.desk_slam",
+      "file": "tutorial/tut_desk_slam_02.ogg",
+      "stem": "tutorial/tut_desk_slam_02",
+      "packId": "pkg.tutorial",
+      "value": 0,
+      "min": -12,
+      "max": 0.0,
+      "unit": "dB",
+      "source": "patch_r2",
+      "lufs": -23.9,
+      "tp": -1.1,
+      "gNeed": 3.9,
+      "aim": -20.0,
+      "window": [
+        -21.0,
+        -15.0
+      ],
+      "note": "已进入 loudnorm_v1 r2 补丁包（两种格式均通过），补丁后增益 0。max 按补丁后最热真峰值重算。"
+    },
+    {
+      "id": "tut.hint_appear",
+      "file": "tutorial/tut_hint_appear_01.ogg",
+      "stem": "tutorial/tut_hint_appear_01",
+      "packId": "pkg.tutorial",
+      "value": 6.5,
+      "min": -12,
+      "max": 11.7,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -26.5,
+      "tp": -12.8,
+      "gNeed": 6.5,
+      "aim": -20.0,
+      "window": [
+        -21.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "tut.hint_appear",
+      "file": "tutorial/tut_hint_appear_02.ogg",
+      "stem": "tutorial/tut_hint_appear_02",
+      "packId": "pkg.tutorial",
+      "value": 5.6,
+      "min": -12,
+      "max": 10.5,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -25.6,
+      "tp": -11.6,
+      "gNeed": 5.6,
+      "aim": -20.0,
+      "window": [
+        -21.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "tut.hint_appear",
+      "file": "tutorial/tut_hint_appear_03.ogg",
+      "stem": "tutorial/tut_hint_appear_03",
+      "packId": "pkg.tutorial",
+      "value": 6.0,
+      "min": -12,
+      "max": 13.6,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -26.0,
+      "tp": -14.7,
+      "gNeed": 6.0,
+      "aim": -20.0,
+      "window": [
+        -21.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "tutorial.hum.long",
+      "file": "tutorial/tut_motif_xiaolu_far_01.ogg",
+      "stem": "tutorial/tut_motif_xiaolu_far_01",
+      "packId": "pkg.tutorial",
+      "value": 9.3,
+      "min": -12,
+      "max": 16.7,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -29.3,
+      "tp": -17.8,
+      "gNeed": 9.3,
+      "aim": -20.0,
+      "window": [
+        -21.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "tut.open_countdown",
+      "file": "tutorial/tut_open_countdown_01.ogg",
+      "stem": "tutorial/tut_open_countdown_01",
+      "packId": "pkg.tutorial",
+      "value": 5.1,
+      "min": -12,
+      "max": 6.7,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -25.1,
+      "tp": -7.8,
+      "gNeed": 5.1,
+      "aim": -20.0,
+      "window": [
+        -21.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "tut.result_stamp",
+      "file": "tutorial/tut_result_stamp_01.ogg",
+      "stem": "tutorial/tut_result_stamp_01",
+      "packId": "pkg.tutorial",
+      "value": 3.1,
+      "min": -12,
+      "max": 3.1,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -23.2,
+      "tp": -4.2,
+      "gNeed": 3.2,
+      "aim": -20.0,
+      "window": [
+        -21.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "tut.step_complete",
+      "file": "tutorial/tut_step_complete_01.ogg",
+      "stem": "tutorial/tut_step_complete_01",
+      "packId": "pkg.tutorial",
+      "value": 3.5,
+      "min": -12,
+      "max": 10.0,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -23.5,
+      "tp": -11.1,
+      "gNeed": 3.5,
+      "aim": -20.0,
+      "window": [
+        -21.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "tut.step_complete",
+      "file": "tutorial/tut_step_complete_02.ogg",
+      "stem": "tutorial/tut_step_complete_02",
+      "packId": "pkg.tutorial",
+      "value": 5.0,
+      "min": -12,
+      "max": 10.3,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -25.0,
+      "tp": -11.4,
+      "gNeed": 5.0,
+      "aim": -20.0,
+      "window": [
+        -21.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "tut.step_complete",
+      "file": "tutorial/tut_step_complete_03.ogg",
+      "stem": "tutorial/tut_step_complete_03",
+      "packId": "pkg.tutorial",
+      "value": 4.2,
+      "min": -12,
+      "max": 9.1,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -24.2,
+      "tp": -10.2,
+      "gNeed": 4.2,
+      "aim": -20.0,
+      "window": [
+        -21.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "tut.table_crash",
+      "file": "tutorial/tut_table_crash_01.ogg",
+      "stem": "tutorial/tut_table_crash_01",
+      "packId": "pkg.tutorial",
+      "value": 0,
+      "min": -12,
+      "max": 0.1,
+      "unit": "dB",
+      "source": "patch_r2",
+      "lufs": -25.4,
+      "tp": -2.8,
+      "gNeed": 5.4,
+      "aim": -20.0,
+      "window": [
+        -21.0,
+        -15.0
+      ],
+      "note": "已进入 loudnorm_v1 r2 补丁包（两种格式均通过），补丁后增益 0。max 按补丁后最热真峰值重算。"
+    },
+    {
+      "id": "sfx.dm.rhythm_end",
+      "file": "sfx/dm/dm_rhythm_end_01.ogg",
+      "stem": "sfx/dm/dm_rhythm_end_01",
+      "packId": "pkg.sfx",
+      "value": 6.3,
+      "min": -12,
+      "max": 6.3,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -24.8,
+      "tp": -7.4,
+      "gNeed": 6.8,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.dm.rhythm_start",
+      "file": "sfx/dm/dm_rhythm_start_01.ogg",
+      "stem": "sfx/dm/dm_rhythm_start_01",
+      "packId": "pkg.sfx",
+      "value": 2.9,
+      "min": -12,
+      "max": 6.9,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -20.9,
+      "tp": -8.0,
+      "gNeed": 2.9,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.event.heels_step",
+      "file": "sfx/event/sfx_elevator_ding_01.ogg",
+      "stem": "sfx/event/sfx_elevator_ding_01",
+      "packId": "pkg.sfx",
+      "value": 5.4,
+      "min": -12,
+      "max": 9.4,
+      "unit": "dB",
+      "source": "config_only_r2",
+      "lufs": -23.4,
+      "tp": -10.5,
+      "gNeed": 5.4,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "r2 未进补丁包，只走本条配置覆盖。两种格式在限幅后积分只能到约 −22.7 LUFS，无法进入放宽后的窗口（下沿 −20 / −19.6）且同时保持 TP < −1 dBTP。文件峰值很尖，再抬积分就会过峰值线。",
+      "catalog_key": "（未登记规范 key）"
+    },
+    {
+      "id": "sfx.event.heels_step",
+      "file": "sfx/event/sfx_heels_step_01.ogg",
+      "stem": "sfx/event/sfx_heels_step_01",
+      "packId": "pkg.sfx",
+      "value": 0.8,
+      "min": -12,
+      "max": 0.8,
+      "unit": "dB",
+      "source": "config_only_r2",
+      "lufs": -25.5,
+      "tp": -1.9,
+      "gNeed": 7.5,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "r2 未进补丁包，只走本条配置覆盖。两种格式在限幅后积分只能到约 −22.7 LUFS，无法进入放宽后的窗口（下沿 −20 / −19.6）且同时保持 TP < −1 dBTP。文件峰值很尖，再抬积分就会过峰值线。",
+      "catalog_key": "（未登记规范 key）"
+    },
+    {
+      "id": "sfx.event.heels_step",
+      "file": "sfx/event/sfx_phone_vibrate_01.ogg",
+      "stem": "sfx/event/sfx_phone_vibrate_01",
+      "packId": "pkg.sfx",
+      "value": 2.4,
+      "min": -12,
+      "max": 12.7,
+      "unit": "dB",
+      "source": "config_only_r2",
+      "lufs": -20.4,
+      "tp": -13.8,
+      "gNeed": 2.4,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "r2 未进补丁包，只走本条配置覆盖。两种格式在限幅后积分只能到约 −22.7 LUFS，无法进入放宽后的窗口（下沿 −20 / −19.6）且同时保持 TP < −1 dBTP。文件峰值很尖，再抬积分就会过峰值线。",
+      "catalog_key": "（未登记规范 key）"
+    },
+    {
+      "id": "stg.motif",
+      "file": "sfx/inst/stg_motif_inst_s04_full_01.ogg",
+      "stem": "sfx/inst/stg_motif_inst_s04_full_01",
+      "packId": "pkg.sfx",
+      "value": 2.8,
+      "min": -12,
+      "max": 6.7,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -20.8,
+      "tp": -7.8,
+      "gNeed": 2.8,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "stg.motif.xiaolu.short",
+      "file": "sfx/inst/stg_motif_inst_s04_short_01.ogg",
+      "stem": "sfx/inst/stg_motif_inst_s04_short_01",
+      "packId": "pkg.sfx",
+      "value": 2.7,
+      "min": -12,
+      "max": 8.3,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -20.7,
+      "tp": -9.4,
+      "gNeed": 2.7,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "tut.motif_inst_s04_far",
+      "file": "sfx/inst/tut_motif_inst_s04_far_01.ogg",
+      "stem": "sfx/inst/tut_motif_inst_s04_far_01",
+      "packId": "pkg.sfx",
+      "value": 11.3,
+      "min": -12,
+      "max": 16.7,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -29.3,
+      "tp": -17.8,
+      "gNeed": 11.3,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.edit.clip_hot",
+      "file": "sfx/m3/company/sfx_m3_company_clip_hot_01.ogg",
+      "stem": "sfx/m3/company/sfx_m3_company_clip_hot_01",
+      "packId": "pkg.sfx",
+      "value": 3.0,
+      "min": -12,
+      "max": 5.4,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -21.0,
+      "tp": -6.5,
+      "gNeed": 3.0,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.agent.deal_win",
+      "file": "sfx/m3/company/sfx_m3_company_deal_win_01.ogg",
+      "stem": "sfx/m3/company/sfx_m3_company_deal_win_01",
+      "packId": "pkg.sfx",
+      "value": 2.4,
+      "min": -12,
+      "max": 6.0,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -20.4,
+      "tp": -7.1,
+      "gNeed": 2.4,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.asst.delivery",
+      "file": "sfx/m3/company/sfx_m3_company_delivery_01.ogg",
+      "stem": "sfx/m3/company/sfx_m3_company_delivery_01",
+      "packId": "pkg.sfx",
+      "value": 3.6,
+      "min": -12,
+      "max": 9.5,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -21.6,
+      "tp": -10.6,
+      "gNeed": 3.6,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.mcn.headhunt_alert",
+      "file": "sfx/m3/company/sfx_m3_company_headhunt_alert_01.ogg",
+      "stem": "sfx/m3/company/sfx_m3_company_headhunt_alert_01",
+      "packId": "pkg.sfx",
+      "value": 3.6,
+      "min": -12,
+      "max": 10.7,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -21.6,
+      "tp": -11.8,
+      "gNeed": 3.6,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.office.move_done",
+      "file": "sfx/m3/company/sfx_m3_company_move_done_01.ogg",
+      "stem": "sfx/m3/company/sfx_m3_company_move_done_01",
+      "packId": "pkg.sfx",
+      "value": 3.5,
+      "min": -12,
+      "max": 5.0,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -21.5,
+      "tp": -6.1,
+      "gNeed": 3.5,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.mcn.renew_fail",
+      "file": "sfx/m3/company/sfx_m3_company_renew_fail_01.ogg",
+      "stem": "sfx/m3/company/sfx_m3_company_renew_fail_01",
+      "packId": "pkg.sfx",
+      "value": 5.9,
+      "min": -12,
+      "max": 8.0,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -23.9,
+      "tp": -9.1,
+      "gNeed": 5.9,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.deco.amb_esports_loop",
+      "file": "sfx/m3/deco/sfx_m3_deco_amb_esports_loop_01.ogg",
+      "stem": "sfx/m3/deco/sfx_m3_deco_amb_esports_loop_01",
+      "packId": "pkg.sfx",
+      "value": 12.0,
+      "min": -12,
+      "max": 16.2,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -30.0,
+      "tp": -17.3,
+      "gNeed": 12.0,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.deco.amb_guofeng_loop",
+      "file": "sfx/m3/deco/sfx_m3_deco_amb_guofeng_loop_01.ogg",
+      "stem": "sfx/m3/deco/sfx_m3_deco_amb_guofeng_loop_01",
+      "packId": "pkg.sfx",
+      "value": 18.5,
+      "min": -12,
+      "max": 18.5,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -36.5,
+      "tp": -19.6,
+      "gNeed": 18.5,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.deco.resale",
+      "file": "sfx/m3/deco/sfx_m3_deco_resale_01.ogg",
+      "stem": "sfx/m3/deco/sfx_m3_deco_resale_01",
+      "packId": "pkg.sfx",
+      "value": 7.8,
+      "min": -12,
+      "max": 7.8,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -26.0,
+      "tp": -8.9,
+      "gNeed": 8.0,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.deco.set_bonus3",
+      "file": "sfx/m3/deco/sfx_m3_deco_set_bonus3_01.ogg",
+      "stem": "sfx/m3/deco/sfx_m3_deco_set_bonus3_01",
+      "packId": "pkg.sfx",
+      "value": 3.0,
+      "min": -12,
+      "max": 6.1,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -21.0,
+      "tp": -7.2,
+      "gNeed": 3.0,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.deco.sr_glow",
+      "file": "sfx/m3/deco/sfx_m3_deco_sr_glow_01.ogg",
+      "stem": "sfx/m3/deco/sfx_m3_deco_sr_glow_01",
+      "packId": "pkg.sfx",
+      "value": 8.1,
+      "min": -12,
+      "max": 16.9,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -26.1,
+      "tp": -18.0,
+      "gNeed": 8.1,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.season.endless",
+      "file": "sfx/m3/season/sfx_m3_season_endless_01.ogg",
+      "stem": "sfx/m3/season/sfx_m3_season_endless_01",
+      "packId": "pkg.sfx",
+      "value": 4.6,
+      "min": -12,
+      "max": 7.2,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -22.6,
+      "tp": -8.3,
+      "gNeed": 4.6,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.season.finale_countdown",
+      "file": "sfx/m3/season/sfx_m3_season_finale_countdown_01.ogg",
+      "stem": "sfx/m3/season/sfx_m3_season_finale_countdown_01",
+      "packId": "pkg.sfx",
+      "value": 2.9,
+      "min": -12,
+      "max": 6.3,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -20.9,
+      "tp": -7.4,
+      "gNeed": 2.9,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.season.goal_fail",
+      "file": "sfx/m3/season/sfx_m3_season_goal_fail_01.ogg",
+      "stem": "sfx/m3/season/sfx_m3_season_goal_fail_01",
+      "packId": "pkg.sfx",
+      "value": 4.1,
+      "min": -12,
+      "max": 6.7,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -22.1,
+      "tp": -7.8,
+      "gNeed": 4.1,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.season.pass_claim",
+      "file": "sfx/m3/season/sfx_m3_season_pass_claim_01.ogg",
+      "stem": "sfx/m3/season/sfx_m3_season_pass_claim_01",
+      "packId": "pkg.sfx",
+      "value": 2.7,
+      "min": -12,
+      "max": 5.8,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -20.7,
+      "tp": -6.9,
+      "gNeed": 2.7,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.season.rank_down",
+      "file": "sfx/m3/season/sfx_m3_season_rank_down_01.ogg",
+      "stem": "sfx/m3/season/sfx_m3_season_rank_down_01",
+      "packId": "pkg.sfx",
+      "value": 5.0,
+      "min": -12,
+      "max": 10.9,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -23.0,
+      "tp": -12.0,
+      "gNeed": 5.0,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.season.rank_up",
+      "file": "sfx/m3/season/sfx_m3_season_rank_up_01.ogg",
+      "stem": "sfx/m3/season/sfx_m3_season_rank_up_01",
+      "packId": "pkg.sfx",
+      "value": 3.0,
+      "min": -12,
+      "max": 6.7,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -21.0,
+      "tp": -7.8,
+      "gNeed": 3.0,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.season.reset_notice",
+      "file": "sfx/m3/season/sfx_m3_season_reset_notice_01.ogg",
+      "stem": "sfx/m3/season/sfx_m3_season_reset_notice_01",
+      "packId": "pkg.sfx",
+      "value": 6.1,
+      "min": -12,
+      "max": 8.6,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -24.1,
+      "tp": -9.7,
+      "gNeed": 6.1,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.season.start",
+      "file": "sfx/m3/season/sfx_m3_season_start_01.ogg",
+      "stem": "sfx/m3/season/sfx_m3_season_start_01",
+      "packId": "pkg.sfx",
+      "value": 2.4,
+      "min": -12,
+      "max": 4.1,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -20.4,
+      "tp": -5.2,
+      "gNeed": 2.4,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.season.task_done",
+      "file": "sfx/m3/season/sfx_m3_season_task_done_01.ogg",
+      "stem": "sfx/m3/season/sfx_m3_season_task_done_01",
+      "packId": "pkg.sfx",
+      "value": 6.4,
+      "min": -12,
+      "max": 7.4,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -24.4,
+      "tp": -8.5,
+      "gNeed": 6.4,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.staff.leave",
+      "file": "sfx/m3/staff/sfx_m3_staff_leave_01.ogg",
+      "stem": "sfx/m3/staff/sfx_m3_staff_leave_01",
+      "packId": "pkg.sfx",
+      "value": 4.1,
+      "min": -12,
+      "max": 6.1,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -22.1,
+      "tp": -7.2,
+      "gNeed": 4.1,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.staff.morning_meeting",
+      "file": "sfx/m3/staff/sfx_m3_staff_morning_meeting_01.ogg",
+      "stem": "sfx/m3/staff/sfx_m3_staff_morning_meeting_01",
+      "packId": "pkg.sfx",
+      "value": 5.0,
+      "min": -12,
+      "max": 7.5,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -23.0,
+      "tp": -8.6,
+      "gNeed": 5.0,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.staff.office_loop",
+      "file": "sfx/m3/staff/sfx_m3_staff_office_loop_01.ogg",
+      "stem": "sfx/m3/staff/sfx_m3_staff_office_loop_01",
+      "packId": "pkg.sfx",
+      "value": 0,
+      "min": -12,
+      "max": 1.7,
+      "unit": "dB",
+      "source": "patch_r2",
+      "lufs": -34.7,
+      "tp": -13.5,
+      "gNeed": 10.7,
+      "aim": -24.0,
+      "window": [
+        -25.0,
+        -23.0
+      ],
+      "note": "已进入 loudnorm_v1 r2 补丁包（两种格式均通过），补丁后增益 0。max 按补丁后最热真峰值重算。"
+    },
+    {
+      "id": "sfx.m3.staff.quarrel_alert",
+      "file": "sfx/m3/staff/sfx_m3_staff_quarrel_alert_01.ogg",
+      "stem": "sfx/m3/staff/sfx_m3_staff_quarrel_alert_01",
+      "packId": "pkg.sfx",
+      "value": 4.9,
+      "min": -12,
+      "max": 8.9,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -22.9,
+      "tp": -10.0,
+      "gNeed": 4.9,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.staff.quarrel_mediate",
+      "file": "sfx/m3/staff/sfx_m3_staff_quarrel_mediate_01.ogg",
+      "stem": "sfx/m3/staff/sfx_m3_staff_quarrel_mediate_01",
+      "packId": "pkg.sfx",
+      "value": 2.7,
+      "min": -12,
+      "max": 6.8,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -20.7,
+      "tp": -7.9,
+      "gNeed": 2.7,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.staff.quarrel_split",
+      "file": "sfx/m3/staff/sfx_m3_staff_quarrel_split_01.ogg",
+      "stem": "sfx/m3/staff/sfx_m3_staff_quarrel_split_01",
+      "packId": "pkg.sfx",
+      "value": 5.1,
+      "min": -12,
+      "max": 10.5,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -23.1,
+      "tp": -11.6,
+      "gNeed": 5.1,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.staff.raise",
+      "file": "sfx/m3/staff/sfx_m3_staff_raise_01.ogg",
+      "stem": "sfx/m3/staff/sfx_m3_staff_raise_01",
+      "packId": "pkg.sfx",
+      "value": 6.7,
+      "min": -12,
+      "max": 6.7,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -25.3,
+      "tp": -7.8,
+      "gNeed": 7.3,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.star.four",
+      "file": "sfx/m3/star/sfx_m3_star_four_01.ogg",
+      "stem": "sfx/m3/star/sfx_m3_star_four_01",
+      "packId": "pkg.sfx",
+      "value": 2.1,
+      "min": -12,
+      "max": 6.0,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -20.1,
+      "tp": -7.1,
+      "gNeed": 2.1,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.story.acquire_offer",
+      "file": "sfx/m3/story/sfx_m3_story_acquire_offer_01.ogg",
+      "stem": "sfx/m3/story/sfx_m3_story_acquire_offer_01",
+      "packId": "pkg.sfx",
+      "value": 2.4,
+      "min": -12,
+      "max": 7.4,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -20.4,
+      "tp": -8.5,
+      "gNeed": 2.4,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.story.chapter_transition",
+      "file": "sfx/m3/story/sfx_m3_story_chapter_transition_01.ogg",
+      "stem": "sfx/m3/story/sfx_m3_story_chapter_transition_01",
+      "packId": "pkg.sfx",
+      "value": 2.7,
+      "min": -12,
+      "max": 5.5,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -20.7,
+      "tp": -6.6,
+      "gNeed": 2.7,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.story.contract_appear",
+      "file": "sfx/m3/story/sfx_m3_story_contract_appear_01.ogg",
+      "stem": "sfx/m3/story/sfx_m3_story_contract_appear_01",
+      "packId": "pkg.sfx",
+      "value": 6.2,
+      "min": -12,
+      "max": 8.5,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -24.2,
+      "tp": -9.6,
+      "gNeed": 6.2,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.story.contract_clause",
+      "file": "sfx/m3/story/sfx_m3_story_contract_clause_01.ogg",
+      "stem": "sfx/m3/story/sfx_m3_story_contract_clause_01",
+      "packId": "pkg.sfx",
+      "value": 5.6,
+      "min": -12,
+      "max": 8.8,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -23.6,
+      "tp": -9.9,
+      "gNeed": 5.6,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.story.contract_seal",
+      "file": "sfx/m3/story/sfx_m3_story_contract_seal_01.ogg",
+      "stem": "sfx/m3/story/sfx_m3_story_contract_seal_01",
+      "packId": "pkg.sfx",
+      "value": 0,
+      "min": -12,
+      "max": 0.0,
+      "unit": "dB",
+      "source": "patch_r2",
+      "lufs": -21.7,
+      "tp": -3.6,
+      "gNeed": 3.7,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "已进入 loudnorm_v1 r2 补丁包（两种格式均通过），补丁后增益 0。max 按补丁后最热真峰值重算。"
+    },
+    {
+      "id": "sfx.m3.story.contract_sign",
+      "file": "sfx/m3/story/sfx_m3_story_contract_sign_01.ogg",
+      "stem": "sfx/m3/story/sfx_m3_story_contract_sign_01",
+      "packId": "pkg.sfx",
+      "value": 4.2,
+      "min": -12,
+      "max": 7.2,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -22.2,
+      "tp": -8.3,
+      "gNeed": 4.2,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.story.ending_bridge",
+      "file": "sfx/m3/story/sfx_m3_story_ending_bridge_01.ogg",
+      "stem": "sfx/m3/story/sfx_m3_story_ending_bridge_01",
+      "packId": "pkg.sfx",
+      "value": 7.1,
+      "min": -12,
+      "max": 9.6,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -25.1,
+      "tp": -10.7,
+      "gNeed": 7.1,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.story.gala_eve",
+      "file": "sfx/m3/story/sfx_m3_story_gala_eve_01.ogg",
+      "stem": "sfx/m3/story/sfx_m3_story_gala_eve_01",
+      "packId": "pkg.sfx",
+      "value": 2.3,
+      "min": -12,
+      "max": 7.2,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -20.3,
+      "tp": -8.3,
+      "gNeed": 2.3,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.story.grey_coda",
+      "file": "sfx/m3/story/sfx_m3_story_grey_coda_01.ogg",
+      "stem": "sfx/m3/story/sfx_m3_story_grey_coda_01",
+      "packId": "pkg.sfx",
+      "value": 6.4,
+      "min": -12,
+      "max": 10.1,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -24.4,
+      "tp": -11.2,
+      "gNeed": 6.4,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.story.key_choice",
+      "file": "sfx/m3/story/sfx_m3_story_key_choice_01.ogg",
+      "stem": "sfx/m3/story/sfx_m3_story_key_choice_01",
+      "packId": "pkg.sfx",
+      "value": 5.6,
+      "min": -12,
+      "max": 5.6,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -24.1,
+      "tp": -6.7,
+      "gNeed": 6.1,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.story.mcn_mail",
+      "file": "sfx/m3/story/sfx_m3_story_mcn_mail_01.ogg",
+      "stem": "sfx/m3/story/sfx_m3_story_mcn_mail_01",
+      "packId": "pkg.sfx",
+      "value": 5.5,
+      "min": -12,
+      "max": 8.8,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -23.5,
+      "tp": -9.9,
+      "gNeed": 5.5,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.story.whale_hint",
+      "file": "sfx/m3/story/sfx_m3_story_whale_hint_01.ogg",
+      "stem": "sfx/m3/story/sfx_m3_story_whale_hint_01",
+      "packId": "pkg.sfx",
+      "value": 7.3,
+      "min": -12,
+      "max": 12.8,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -25.3,
+      "tp": -13.9,
+      "gNeed": 7.3,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.train.course_master",
+      "file": "sfx/m3/train/sfx_m3_train_course_master_01.ogg",
+      "stem": "sfx/m3/train/sfx_m3_train_course_master_01",
+      "packId": "pkg.sfx",
+      "value": 5.7,
+      "min": -12,
+      "max": 5.7,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -23.8,
+      "tp": -6.8,
+      "gNeed": 5.8,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.train.done",
+      "file": "sfx/m3/train/sfx_m3_train_done_01.ogg",
+      "stem": "sfx/m3/train/sfx_m3_train_done_01",
+      "packId": "pkg.sfx",
+      "value": 2.8,
+      "min": -12,
+      "max": 6.3,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -20.8,
+      "tp": -7.4,
+      "gNeed": 2.8,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.train.start",
+      "file": "sfx/m3/train/sfx_m3_train_start_01.ogg",
+      "stem": "sfx/m3/train/sfx_m3_train_start_01",
+      "packId": "pkg.sfx",
+      "value": 7.0,
+      "min": -12,
+      "max": 12.5,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -25.0,
+      "tp": -13.6,
+      "gNeed": 7.0,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "sfx.m3.train.tired",
+      "file": "sfx/m3/train/sfx_m3_train_tired_01.ogg",
+      "stem": "sfx/m3/train/sfx_m3_train_tired_01",
+      "packId": "pkg.sfx",
+      "value": 7.5,
+      "min": -12,
+      "max": 12.6,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -25.5,
+      "tp": -13.7,
+      "gNeed": 7.5,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "shop.bargain_fail",
+      "file": "sfx/shop/shop_bargain_fail_01.ogg",
+      "stem": "sfx/shop/shop_bargain_fail_01",
+      "packId": "pkg.sfx",
+      "value": 3.9,
+      "min": -12,
+      "max": 6.5,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -21.9,
+      "tp": -7.6,
+      "gNeed": 3.9,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "shop.bargain_ok",
+      "file": "sfx/shop/shop_bargain_ok_01.ogg",
+      "stem": "sfx/shop/shop_bargain_ok_01",
+      "packId": "pkg.sfx",
+      "value": 6.1,
+      "min": -12,
+      "max": 9.3,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -24.1,
+      "tp": -10.4,
+      "gNeed": 6.1,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "shop.flash_soldout",
+      "file": "sfx/shop/shop_flash_soldout_01.ogg",
+      "stem": "sfx/shop/shop_flash_soldout_01",
+      "packId": "pkg.sfx",
+      "value": 2.3,
+      "min": -12,
+      "max": 7.0,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -20.3,
+      "tp": -8.1,
+      "gNeed": 2.3,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "shop.flash_tick",
+      "file": "sfx/shop/shop_flash_tick_01.ogg",
+      "stem": "sfx/shop/shop_flash_tick_01",
+      "packId": "pkg.sfx",
+      "value": 4.4,
+      "min": -12,
+      "max": 4.4,
+      "unit": "dB",
+      "source": "config_only_r2",
+      "lufs": -27.1,
+      "tp": -5.5,
+      "gNeed": 9.1,
+      "aim": -18.0,
+      "window": [
+        -19.0,
+        -15.0
+      ],
+      "note": "r2 未进补丁包，只走本条配置覆盖。两种格式限幅后积分约 −22.6～−22.7 LUFS，无法进入放宽后窗口（下沿 −19.6）且保持 TP < −1 dBTP。无限制时 +8 dB 真峰值会冲到 0 以上。"
+    },
+    {
+      "id": "stg.motif.afan.full",
+      "file": "sfx/motif/stg_motif_afan_full_01.ogg",
+      "stem": "sfx/motif/stg_motif_afan_full_01",
+      "packId": "pkg.motif",
+      "value": 2.2,
+      "min": -12,
+      "max": 6.3,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -18.2,
+      "tp": -7.4,
+      "gNeed": 2.2,
+      "aim": -16.0,
+      "window": [
+        -17.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "stg.motif.afan.short",
+      "file": "sfx/motif/stg_motif_afan_short_01.ogg",
+      "stem": "sfx/motif/stg_motif_afan_short_01",
+      "packId": "pkg.motif",
+      "value": 3.8,
+      "min": -12,
+      "max": 7.7,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -19.8,
+      "tp": -8.8,
+      "gNeed": 3.8,
+      "aim": -16.0,
+      "window": [
+        -17.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "stg.motif.azhe.full",
+      "file": "sfx/motif/stg_motif_azhe_full_01.ogg",
+      "stem": "sfx/motif/stg_motif_azhe_full_01",
+      "packId": "pkg.motif",
+      "value": 0,
+      "min": -12,
+      "max": 0.0,
+      "unit": "dB",
+      "source": "patch_r2",
+      "lufs": -22.0,
+      "tp": -5.9,
+      "gNeed": 6.0,
+      "aim": -16.0,
+      "window": [
+        -17.0,
+        -15.0
+      ],
+      "note": "已进入 loudnorm_v1 r2 补丁包（两种格式均通过），补丁后增益 0。max 按补丁后最热真峰值重算。"
+    },
+    {
+      "id": "stg.motif.azhe.short",
+      "file": "sfx/motif/stg_motif_azhe_short_01.ogg",
+      "stem": "sfx/motif/stg_motif_azhe_short_01",
+      "packId": "pkg.motif",
+      "value": 7.0,
+      "min": -12,
+      "max": 7.0,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -23.5,
+      "tp": -8.1,
+      "gNeed": 7.5,
+      "aim": -16.0,
+      "window": [
+        -17.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "stg.motif.laozhou.full",
+      "file": "sfx/motif/stg_motif_laozhou_full_01.ogg",
+      "stem": "sfx/motif/stg_motif_laozhou_full_01",
+      "packId": "pkg.motif",
+      "value": 3.5,
+      "min": -12,
+      "max": 4.4,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -19.5,
+      "tp": -5.5,
+      "gNeed": 3.5,
+      "aim": -16.0,
+      "window": [
+        -17.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "stg.motif.laozhou.short",
+      "file": "sfx/motif/stg_motif_laozhou_short_01.ogg",
+      "stem": "sfx/motif/stg_motif_laozhou_short_01",
+      "packId": "pkg.motif",
+      "value": 3.5,
+      "min": -12,
+      "max": 7.1,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -19.5,
+      "tp": -8.2,
+      "gNeed": 3.5,
+      "aim": -16.0,
+      "window": [
+        -17.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "stg.motif.qinlie.full",
+      "file": "sfx/motif/stg_motif_qinlie_full_01.ogg",
+      "stem": "sfx/motif/stg_motif_qinlie_full_01",
+      "packId": "pkg.motif",
+      "value": 4.5,
+      "min": -12,
+      "max": 8.2,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -20.5,
+      "tp": -9.3,
+      "gNeed": 4.5,
+      "aim": -16.0,
+      "window": [
+        -17.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "stg.motif.qinlie.short",
+      "file": "sfx/motif/stg_motif_qinlie_short_01.ogg",
+      "stem": "sfx/motif/stg_motif_qinlie_short_01",
+      "packId": "pkg.motif",
+      "value": 4.7,
+      "min": -12,
+      "max": 6.8,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -20.7,
+      "tp": -7.9,
+      "gNeed": 4.7,
+      "aim": -16.0,
+      "window": [
+        -17.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "stg.motif.tangtang.full",
+      "file": "sfx/motif/stg_motif_tangtang_full_01.ogg",
+      "stem": "sfx/motif/stg_motif_tangtang_full_01",
+      "packId": "pkg.motif",
+      "value": 5.7,
+      "min": -12,
+      "max": 6.1,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -21.7,
+      "tp": -7.2,
+      "gNeed": 5.7,
+      "aim": -16.0,
+      "window": [
+        -17.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "stg.motif.tangtang.short",
+      "file": "sfx/motif/stg_motif_tangtang_short_01.ogg",
+      "stem": "sfx/motif/stg_motif_tangtang_short_01",
+      "packId": "pkg.motif",
+      "value": 4.9,
+      "min": -12,
+      "max": 5.2,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -20.9,
+      "tp": -6.3,
+      "gNeed": 4.9,
+      "aim": -16.0,
+      "window": [
+        -17.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "stg.motif.vivian.full",
+      "file": "sfx/motif/stg_motif_vivian_full_01.ogg",
+      "stem": "sfx/motif/stg_motif_vivian_full_01",
+      "packId": "pkg.motif",
+      "value": 5.0,
+      "min": -12,
+      "max": 5.5,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -21.0,
+      "tp": -6.6,
+      "gNeed": 5.0,
+      "aim": -16.0,
+      "window": [
+        -17.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "stg.motif.vivian.short",
+      "file": "sfx/motif/stg_motif_vivian_short_01.ogg",
+      "stem": "sfx/motif/stg_motif_vivian_short_01",
+      "packId": "pkg.motif",
+      "value": 4.7,
+      "min": -12,
+      "max": 6.7,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -20.7,
+      "tp": -7.8,
+      "gNeed": 4.7,
+      "aim": -16.0,
+      "window": [
+        -17.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "stg.motif.xiaolu.full",
+      "file": "sfx/motif/stg_motif_xiaolu_full_01.ogg",
+      "stem": "sfx/motif/stg_motif_xiaolu_full_01",
+      "packId": "pkg.motif",
+      "value": 4.8,
+      "min": -12,
+      "max": 6.7,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -20.8,
+      "tp": -7.8,
+      "gNeed": 4.8,
+      "aim": -16.0,
+      "window": [
+        -17.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "stg.motif.xiaolu.short",
+      "file": "sfx/motif/stg_motif_xiaolu_short_01.ogg",
+      "stem": "sfx/motif/stg_motif_xiaolu_short_01",
+      "packId": "pkg.motif",
+      "value": 4.7,
+      "min": -12,
+      "max": 8.3,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -20.7,
+      "tp": -9.4,
+      "gNeed": 4.7,
+      "aim": -16.0,
+      "window": [
+        -17.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "stg.motif.xiaomai.full",
+      "file": "sfx/motif/stg_motif_xiaomai_full_01.ogg",
+      "stem": "sfx/motif/stg_motif_xiaomai_full_01",
+      "packId": "pkg.motif",
+      "value": 3.4,
+      "min": -12,
+      "max": 5.2,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -19.4,
+      "tp": -6.3,
+      "gNeed": 3.4,
+      "aim": -16.0,
+      "window": [
+        -17.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    },
+    {
+      "id": "stg.motif.xiaomai.short",
+      "file": "sfx/motif/stg_motif_xiaomai_short_01.ogg",
+      "stem": "sfx/motif/stg_motif_xiaomai_short_01",
+      "packId": "pkg.motif",
+      "value": 3.6,
+      "min": -12,
+      "max": 5.6,
+      "unit": "dB",
+      "source": "config",
+      "lufs": -19.6,
+      "tp": -6.7,
+      "gNeed": 3.6,
+      "aim": -16.0,
+      "window": [
+        -17.0,
+        -15.0
+      ],
+      "note": "整包不抬；本条偏差由 id 覆盖解决。"
+    }
+  ],
+  "notes": [
+    "包级增益全部为 0；实际增益在 byId（含礼物分档归属）。优先级：byId > tiers > packs > buses，覆盖不累加。",
+    "与方案 b7e4087f 的差异：方案曾建议 ui +2.8、economy +3.5、management +2.7 等整包增益。写入前复核发现同包已有达标成曲，整包施加会把它们抬出目标，故包级改为 0，方案数字落到对应超标条目的 byId。",
+    "配音 710 条原件不动、不做归一补丁。voiceGainDb 仅是 V1 设置预留的运行时补偿，初值 0，配音不得超过 max +1.6 dB；语气音走同一键，若同时施加则不得超过语气音 max +1.4 dB。开关键为 voicePackEnabled，默认 false。",
+    "r2 出包后已同步：进包条目 byId.value=0；sfx.event.heels_step / shop.flash_tick / sfx.pk.skill_talent_hit 只走配置覆盖。",
+    "r2 键名统一：voicePackEnabled（替代 audio.voicePackEnabled）、voiceGainDb（替代 audio.bus.voiceGainDb 与 audio.bus.emoteGainDb）。byId / packs / tiers 数值与 r1 完全相同。"
+  ],
+  "r2Sync": {
+    "pack": "音频/_补丁包/loudnorm_v1_20261110_r2/",
+    "includedIds": [
+      "bgm.pk.final_150",
+      "live.gift_t5",
+      "sfx.gift.xinghe_room",
+      "sfx.m3.staff.office_loop",
+      "sfx.m3.story.contract_seal",
+      "sfx.pk.heartbeat_loop",
+      "stg.gift_xinghe",
+      "stg.motif.azhe.full",
+      "tut.desk_slam",
+      "tut.table_crash"
+    ],
+    "configOnlyIds": [
+      "sfx.event.heels_step",
+      "shop.flash_tick",
+      "sfx.pk.skill_talent_hit"
+    ],
+    "note": "已按 r2 进包结果同步 byId：进包条目 value=0；未进包条目保留安全配置增益。"
+  },
+  "revision": 2,
+  "supersedes": {
+    "file": "音频/_配置/audio_bus_gain_v1_20261110.json",
+    "sha256": "a6967028cf488c0e48b2e0a68b0aa385e4f0d99a5f480d416db74e40a025dd56",
+    "fieldDoc": "音频/_配置/audio_bus_gain_v1_20261110_字段说明.md",
+    "fieldDocSha256": "99edb7f83455bb13020c02d6c24bfcbc1fc57b291784535e39856da269b7a0db",
+    "note": "旧版不动、不覆盖。本 r2 只统一配音开关与增益键名，其他数值不变。"
+  },
+  "createdLocal": "2026-11-10 10:50 MST (America/Denver)"
+}
