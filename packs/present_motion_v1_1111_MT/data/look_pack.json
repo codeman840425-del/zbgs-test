@@ -1,0 +1,141 @@
+{
+ "schema": "vslice.look_pack.1",
+ "_note": "换装接口：脸 + 发型是一整套（manifest + 图集 + pivotSet + 男女发型清单）。v1b4r7 发布包只放已核 v1r3 新脸 dir2v1r3_1111 一套（v1r3 46 条 + T-脸02 叠压补件同 id 覆盖女青 / 女熟后发 2 条；J2 / 旧脸 / r5 中性临时脸 / v1r1 / v1r2 不进包，URL 参数也切不到）。",
+ "defaultSlot": {
+  "status": "filled",
+  "filledBy": "dir2v1r3_1111",
+  "note": "默认脸 = 已核 v1r3 新脸（bo 已定四款默认发型，主管 14:19 合脸派单）；r5 中性临时脸退役（只留暂存内部，不进发布包）"
+ },
+ "active": "dir2v1r3_1111",
+ "activeReason": "formal_default_v1r3",
+ "sets": {
+  "dir2v1r3_1111": {
+   "label": "新脸 V1 定稿 v1r3（方向 2 日系动画柔彩，已核；bo 已定四款默认发型）",
+   "status": "formal_reviewed",
+   "source": "美术/face_dir2_pack_1111/v1r3",
+   "manifestSha256": "08ea0bcf9eee1295a4bc5411be22d4f1a681a8ba741fbacf8c08c3c321192429",
+   "packManifestSha256": "5a72b61290186262ee1c8d8bae6e144f04656c9d77770d7b673d0f4229abbb4c",
+   "manifest": "lookpacks/dir2v1r3_1111/parts_manifest_v1.json",
+   "atlas": {
+    "image": "atlases/parts_w12_se_dir2v1r3.webp",
+    "json": "atlases/parts_w12_se_dir2v1r3.json"
+   },
+   "pivotSet": "dir2v1r3_1111",
+   "headNorm": "native",
+   "frontHairSkipStyles": [],
+   "hair": {
+    "f": [
+     {
+      "id": "hr_31",
+      "style": "long",
+      "age": "young",
+      "hairBaseRgb": "#3E332C"
+     },
+     {
+      "id": "hr_32",
+      "style": "long",
+      "age": "mature",
+      "hairBaseRgb": "#3E3128"
+     }
+    ],
+    "m": [
+     {
+      "id": "hr_31",
+      "style": "short",
+      "age": "young",
+      "hairBaseRgb": "#40332B"
+     },
+     {
+      "id": "hr_32",
+      "style": "short",
+      "age": "mature",
+      "hairBaseRgb": "#4D3B30"
+     }
+    ]
+   },
+   "ageSets": {
+    "fc_01": "young",
+    "fc_02": "mature"
+   },
+   "ageSetsNote": "存档仍存 fc_01（柔和脸 / 青年）/ fc_02（熟龄脸）；渲染时按清单 defaultFace 取整套 fc/er/ey/br/no/mo/hr",
+   "defaultFace": {
+    "f": {
+     "young": {
+      "fc": "fc_31",
+      "er": "er_31",
+      "ey": "ey_31",
+      "br": "br_31",
+      "no": "no_31",
+      "mo": "mo_31",
+      "hr": "hr_31"
+     },
+     "mature": {
+      "fc": "fc_32",
+      "er": "er_32",
+      "ey": "ey_93",
+      "br": "br_32",
+      "no": "no_32",
+      "mo": "mo_32",
+      "hr": "hr_32"
+     }
+    },
+    "m": {
+     "young": {
+      "fc": "fc_31",
+      "er": "er_31",
+      "ey": "ey_31",
+      "br": "br_31",
+      "no": "no_31",
+      "mo": "mo_31",
+      "hr": "hr_31"
+     },
+     "mature": {
+      "fc": "fc_32",
+      "er": "er_32",
+      "ey": "ey_93",
+      "br": "br_32",
+      "no": "no_32",
+      "mo": "mo_32",
+      "hr": "hr_32"
+     }
+    }
+   },
+   "hairColor": {
+    "hc_01": "rgb",
+    "note": "hc_01（默认，不换发色）= 用件自带 _rgb（整头原色，0.5 灰 = 该头 hairBaseRgb）；hc_02 / hc_03 = 灰度主图按所选色 gradientMapHair + _hi"
+   },
+   "faces": [
+    "fc_01",
+    "fc_02"
+   ],
+   "views": [
+    "se"
+   ],
+   "mirror": true,
+   "headBoneOriginPx": {
+    "f": [
+     384.0,
+     558.0
+    ],
+    "m": [
+     384.0,
+     548.0
+    ]
+   },
+   "assembledBy": "tools_MT/vslice_v1b4r6_import_face_v1r3_MT.py",
+   "v1b4r7Patch": {
+    "T-脸02": {
+     "dir": "美术/_交付/parts_v1_W12_v1r3_hair_overlap_1111",
+     "packManifestSha256": "73af2c65e6756df3ff1aaee7d8e1fe022f084e9ed4f7ca47a48eb68fb20d0327",
+     "manifestLines": 33,
+     "manifestSha256": "6fc5ed522afaceff549d4ca12f9da8f5666cabae675773866c25e07a26469bba"
+    },
+    "ids": [
+     "part_f_head_hr_31_hair_b_1_se",
+     "part_f_head_hr_32_hair_b_1_se"
+    ],
+    "note": "v1r3 46 条 + T-脸02 同 id 覆盖 2 条（女青 / 女熟后发叠压 1x 2px）"
+   }
+  }
+ }
+}
