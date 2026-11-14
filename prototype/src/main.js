@@ -632,6 +632,7 @@ class CharacterScene extends Phaser.Scene {
     this.yaw = 0;
     this.actualSpeed = 0;
     this.seatAlign = false;
+    this.pathTurn = null;
     this.backgroundSuspended = document.hidden;
     this.resumeFrame = false;
   }
@@ -791,6 +792,7 @@ class CharacterScene extends Phaser.Scene {
     marker.visible = false;
     this.afterWalk = null;
     this.seatAlign = false;
+    this.pathTurn = null;
   }
   action(name) {
     // Repeated commands are idempotent; only the sit UI button explicitly toggles.
@@ -1165,37 +1167,57 @@ class CharacterScene extends Phaser.Scene {
             Math.sin(heading - this.yaw),
             Math.cos(heading - this.yaw),
           );
-        const yawStep = clamp(angle, -dt * 3.2, dt * 3.2);
-        this.yaw += yawStep;
-        root.rotation.y = this.yaw;
-        this.turning = Math.abs(angle) > 0.2;
-        let remaining = dist;
-        for (let i = 0; i < this.path.length; i++) {
-          const a = i ? this.path[i - 1] : this.target,
-            b = this.path[i];
-          remaining += Math.hypot(b[0] - a[0], b[1] - a[1]);
-        }
-        const cornerFactor =
-          this.path.length && dist < 0.4 ? 0.5 + (0.5 * dist) / 0.4 : 1;
-        const desired =
-          Math.min(this.maxSpeed, Math.sqrt(2 * 1.8 * remaining)) *
-          Math.max(0, Math.cos(angle)) ** 3 *
-          cornerFactor;
-        const accel = desired < this.speed ? 2.5 : 1.5;
-        this.speed += clamp(desired - this.speed, -accel * dt, accel * dt);
-        moved = Math.min(dist, this.speed * dt);
-        const x = root.position.x + (dx / dist) * moved,
-          z = root.position.z + (dz / dist) * moved;
-        if (!blocked(x, z)) {
-          root.position.x = x;
-          root.position.z = z;
-        } else {
-          moved = 0;
+        // A destination is not proof of locomotion. A sharp heading change
+        // first finishes the existing gather steps, then turns in place using
+        // the motion adapter's existing alternating turn steps. No bone reset.
+        if (!this.pathTurn && Math.abs(angle) > 0.65) this.pathTurn = "settle";
+        if (this.pathTurn === "settle") {
           this.speed = 0;
-          this.clearPath();
-          this.setMode("idle");
+          const pose = motion.getMetrics();
+          if (!pose.moving && pose.stopTime >= 0.5 && pose.gait < 0.02)
+            this.pathTurn = "turn";
         }
-        this.distance += moved;
+        if (this.pathTurn === "turn") {
+          this.speed = 0;
+          const yawStep = clamp(angle, -dt * 0.8, dt * 0.8);
+          this.yaw += yawStep;
+          root.rotation.y = this.yaw;
+          this.turning = Math.abs(yawStep) > 1e-9;
+          // Start locomotion on the following substep, preserving lastActual.
+          if (Math.abs(angle) <= dt * 0.8 + 1e-6) this.pathTurn = null;
+        } else if (!this.pathTurn) {
+          const yawStep = clamp(angle, -dt * 3.2, dt * 3.2);
+          this.yaw += yawStep;
+          root.rotation.y = this.yaw;
+          this.turning = Math.abs(angle) > 0.2;
+          let remaining = dist;
+          for (let i = 0; i < this.path.length; i++) {
+            const a = i ? this.path[i - 1] : this.target,
+              b = this.path[i];
+            remaining += Math.hypot(b[0] - a[0], b[1] - a[1]);
+          }
+          const cornerFactor =
+            this.path.length && dist < 0.4 ? 0.5 + (0.5 * dist) / 0.4 : 1;
+          const desired =
+            Math.min(this.maxSpeed, Math.sqrt(2 * 1.8 * remaining)) *
+            Math.max(0, Math.cos(angle)) ** 3 *
+            cornerFactor;
+          const accel = desired < this.speed ? 2.5 : 1.5;
+          this.speed += clamp(desired - this.speed, -accel * dt, accel * dt);
+          moved = Math.min(dist, this.speed * dt);
+          const x = root.position.x + (dx / dist) * moved,
+            z = root.position.z + (dz / dist) * moved;
+          if (!blocked(x, z)) {
+            root.position.x = x;
+            root.position.z = z;
+          } else {
+            moved = 0;
+            this.speed = 0;
+            this.clearPath();
+            this.setMode("idle");
+          }
+          this.distance += moved;
+        }
       }
     } else this.speed = Math.max(0, this.speed - 2.5 * dt);
     if (this.seatAlign) {
@@ -1226,7 +1248,7 @@ class CharacterScene extends Phaser.Scene {
     motion.update(dt, {
       distanceDelta: moved,
       speed: this.actualSpeed,
-      moving: !!this.target,
+      moving: moved > 1e-7,
       action: this.mode === "turn" ? "idle" : this.mode,
       turning: this.turning,
     });
@@ -1282,6 +1304,7 @@ function snapshot() {
     chair: { position: chair.position.toArray(), ...seatTargets() },
     pending: c?.pending,
     seatAlign: c?.seatAlign,
+    pathTurn: c?.pathTurn,
     backgroundSuspended: c?.backgroundSuspended,
     mode: c?.mode,
     outfit: c?.outfit,
