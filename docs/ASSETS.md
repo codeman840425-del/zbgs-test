@@ -2,6 +2,13 @@
 
 核查日期：2026-11-14。这里只记录已取得证据的许可和资产身份；模型在仓库中可下载不等于使用代码仓库的 MIT 许可。替代样本不是原游戏人物，也不表示项目拥有其独占版权。
 
+## 新阶段资产（未替换旧代表角色）
+
+- `prototype/public/assets/foundation/base-female.vrm`：OpenGameArt整理者从VRoid beta0.14.0关闭优化导出的旧Base_Female。嵌入CC0、旧官方New model专门页及导出者来源分别留档于`assets-source/foundation/source.json`；不可将此范围推广到现代VRoid预设。详细证据、限制及其他候选比较见FOUNDATION-ASSET-AUDIT.md。
+- `assets-source/foundation/base-female-editable.blend`：从上述VRM重建，Blender4.5.9/VRM Addon4.10.5；原.vroid未恢复。24张文件型图片均打包。保留几何、UV、权重和56个面部形态键，没有体型参数。
+- `prototype/public/assets/foundation/base-female-roundtrip.vrm`：从保存的blend实际重新导出；制作步骤/哈希/同刻验证见FOUNDATION-WORKFLOW.md、FOUNDATION-PREVIEW-QA.md。
+- 新裤`athletic-bermuda-v1.glb`：由下面pixiv样本许可允许修改的短裤版型衍生，增加裤腿/翻边/侧条，许可仍遵守原模型条件，不标CC0。固定原件身份与使用条件在装备清单、源参数和GARMENT-PIPELINE.md。当前只适配旧代表体型。
+
 ## 本轮二次元代表模型
 
 实际选定文件是 **VRM1_Constraint_Twist_Sample v1.0.1**，作者 **pixiv Inc.**，版权信息 **(c) 2022 pixiv Inc.**。当前文件为 `prototype/public/assets/avatar.vrm`；最初 `seed.vrm` 已纠正，不能据此称它为 Seed-san。运行 `python scripts/fetch-avatar.py` 可按固定提交和 SHA 恢复；已有不同内容会拒绝覆盖。

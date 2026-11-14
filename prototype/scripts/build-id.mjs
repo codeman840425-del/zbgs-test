@@ -19,6 +19,8 @@ const inputs = [
   ...(await files("scripts")),
   ...(await files("public/assets")),
   "index.html",
+  "foundation.html",
+  "vite.config.js",
   "package.json",
   "package-lock.json",
 ].sort();

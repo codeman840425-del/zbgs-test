@@ -80,6 +80,10 @@ export async function loadRetargetedMotions(
     -Math.atan2(forward.x, forward.z),
   );
   const inverseCorrection = correction.clone().invert();
+  // VRM0's normalized rig uses the opposite X/Z basis. rotateVRM0 rotates
+  // the scene for display but does not convert local animation tracks.
+  // Match three-vrm's official loadMixamoAnimation conversion for VRM0.
+  const legacyBasis = vrm.meta?.metaVersion === "0";
   const clips = {};
   for (const [name, sourceName] of Object.entries({
     idle: "Idle_Loop",
@@ -115,6 +119,10 @@ export async function loadRetargetedMotions(
             .multiply(inverseRest)
             .premultiply(correction)
             .multiply(inverseCorrection);
+          if (legacyBasis) {
+            q.x = -q.x;
+            q.z = -q.z;
+          }
           q.multiply(target.quaternion);
           values.push(...q.toArray());
         }
@@ -143,8 +151,12 @@ export async function loadRetargetedMotions(
             .sub(sourceRestHip)
             .addScaledVector(rootTravel, -track.times[i / 3] / clip.duration)
             .applyQuaternion(correction)
-            .multiplyScalar(ratio)
-            .add(target.position);
+            .multiplyScalar(ratio);
+          if (legacyBasis) {
+            v.x = -v.x;
+            v.z = -v.z;
+          }
+          v.add(target.position);
           values.push(...v.toArray());
         }
         tracks.push(

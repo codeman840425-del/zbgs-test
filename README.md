@@ -4,7 +4,9 @@
 
 ## 打开样机
 
-本轮修复固定构建标识 **6e6a4fc03f64**。先看[同条件前后录屏及完整动作链](http://127.0.0.1:4174/output/review/)，再打开[当前可操作候选](http://127.0.0.1:4180/)。实时路线为 Phaser＋Three.js＋VRM，Rigby2D未接入。修复和限制见 [当前说明](docs/CURRENT-REPAIR.md)、[资源与更新约定](docs/AVATAR-CONTRACT.md)。
+最新阶段：**c14a9e3b4083 · 完整人体候选与独立服装生产子里程碑**。打开[本轮录屏与再导出对照](http://127.0.0.1:4174/output/foundation-review/)、[新裤装房间](http://127.0.0.1:4191/)、[完整人体候选](http://127.0.0.1:4191/foundation.html)。双击 `Start-foundation-demo.cmd` 可重新构建并在4192启动，无HMR。状态见 [当前交接](docs/CURRENT-FOUNDATION.md)、[顺序里程碑](docs/FOUNDATION-MILESTONES.md)、[制作步骤](docs/FOUNDATION-WORKFLOW.md)。新基模尚未完成裤/裙与足底、椅面适配，不能称M1全部通过。
+
+上轮修复固定构建 **6e6a4fc03f64** 仍保留：[同条件前后录屏](http://127.0.0.1:4174/output/review/)、[上轮可操作候选](http://127.0.0.1:4180/)。实时路线为 Phaser＋Three.js＋VRM，Rigby2D未接入。上轮限制见 [修复说明](docs/CURRENT-REPAIR.md)、[资源与更新约定](docs/AVATAR-CONTRACT.md)。
 
 重新启动固定版本可双击 `Start-fixed-demo.cmd`：它构建后在 `http://127.0.0.1:4173/` 预览，不使用开发热更新。开发调试仍用下面的 `Start-demo.cmd`。录像保存在本机 `output/`；远端保存代码、资源、复现脚本和精选证据，长录屏不进入Git。
 

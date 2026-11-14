@@ -1,8 +1,8 @@
 """Measure recorded frame intervals separately from application rAF intervals."""
 import argparse,json,re,subprocess
 from pathlib import Path
-p=argparse.ArgumentParser();p.add_argument('--ffmpeg',default='ffmpeg');p.add_argument('--finalize',action='store_true');args=p.parse_args()
-root=Path(__file__).resolve().parents[1];folder=root/'output/playwright/canvas-walk'
+p=argparse.ArgumentParser();p.add_argument('--ffmpeg',default='ffmpeg');p.add_argument('--finalize',action='store_true');p.add_argument('--folder',default='output/playwright/canvas-walk');args=p.parse_args()
+root=Path(__file__).resolve().parents[1];folder=root/args.folder
 report=json.loads((folder/'report.json').read_text(encoding='utf-8'))
 def stats(values):
  s=sorted(values)

@@ -1,6 +1,8 @@
 # 项目交接
 
-**最新入口：先读 `docs/CURRENT-REPAIR.md`。** 当前已转入 `fix/avatar-garment-locomotion` 修复分支；可运行前候选 `b8fea87` 已成功推送到 `origin/recovery/anime-3d-sample`。下面保留早期恢复过程，不应将旧“已通过”扩展到当前版本。原开发工程永久遗失，不得再索取原目录。
+**最新入口：先读 `docs/CURRENT-FOUNDATION.md` 和 `docs/FOUNDATION-MILESTONES.md`。** 当前进入 `feat/avatar-foundation-pipeline`，构建c14a9e3b4083；普通电脑浏览器优先、手机后续。已完成候选人体Blender编辑源重建/再导出、VRM0重定向修复、旧角色独立新增裤装接入；新完整人体与独立裤裙的M1总验收尚未通过，不扩量。原开发工程永久遗失，不得再索取原目录。
+
+下面是前一阶段记录：`fix/avatar-garment-locomotion` 的基线和修复保留，可运行前候选 `b8fea87` 已成功推送到 `origin/recovery/anime-3d-sample`。不要将下面历史的“已通过”扩展到新身体、体型和服装。
 
 最新源码固定构建 **6e6a4fc03f64**，接触/衣物修复里程碑 `9454489` 已远程备份，后续急转修复的提交以本分支HEAD为准。当前可操作入口4180，对照入口4174/output/review；重启固定候选用根目录 `Start-fixed-demo.cmd`（4173）。先读最新修复/验收记录，不从下面历史问题重新开工。保留Phaser＋Three.js＋VRM，Rigby2D不参与。基础模式因原人体胸腹缺面保留覆盖，不能说完整人体已完成。
 

@@ -2,10 +2,19 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { VRMLoaderPlugin, VRMUtils } from "@pixiv/three-vrm";
 import { createSkirt } from "./cloth.js";
+import { createEquipment } from "./equipment.js";
 export async function loadAvatar({ scene, renderer }) {
   const loader = new GLTFLoader();
   loader.register((parser) => new VRMLoaderPlugin(parser));
-  const gltf = await loader.loadAsync("/assets/avatar.vrm"),
+  const response = await fetch("/assets/avatar.vrm");
+  if (!response.ok) throw new Error(`Avatar HTTP ${response.status}`);
+  const avatarBuffer = await response.arrayBuffer();
+  const avatarSha256 = [
+    ...new Uint8Array(await crypto.subtle.digest("SHA-256", avatarBuffer)),
+  ]
+    .map((n) => n.toString(16).padStart(2, "0"))
+    .join("");
+  const gltf = await loader.parseAsync(avatarBuffer, "/assets/"),
     vrm = gltf.userData.vrm;
   VRMUtils.rotateVRM0(vrm);
   const root = new THREE.Group();
@@ -38,6 +47,9 @@ export async function loadAvatar({ scene, renderer }) {
     }
   });
   const cloth = createSkirt(vrm, root, scene);
+  const equipment = await createEquipment({ vrm, avatarSha256 });
+  const newPantsId = "athletic-bermuda-v1";
+  await equipment.load(newPantsId);
   let outfit = 0,
     debugBody = false,
     dynamics = true;
@@ -68,8 +80,10 @@ export async function loadAvatar({ scene, renderer }) {
   // MToon uses material arrays; the old scalar-name visibility filter never
   // matched the shorts. Remove that ineffective code, do not "fix" it by hiding.
   function setOutfit(n) {
-    outfit = Number(n) ? 1 : 0;
-    cloth.mesh.visible = !!outfit && !debugBody;
+    outfit = [0, 1, 2].includes(Number(n)) ? Number(n) : 0;
+    if (outfit === 2 && !debugBody) void equipment.equip(newPantsId);
+    else equipment.unequip("bottoms-overlay");
+    cloth.mesh.visible = outfit === 1 && !debugBody;
   }
   function setDebugBody(enabled) {
     debugBody = Boolean(enabled);
@@ -105,14 +119,16 @@ export async function loadAvatar({ scene, renderer }) {
   function getOutfitInfo() {
     return {
       index: outfit,
-      name: outfit ? "海军蓝百褶裙" : "黑色短裤",
+      name: ["黑色短裤", "海军蓝百褶裙", "新增及膝裤 · 适配试验"][outfit],
       source: "pixiv VRM1_Constraint_Twist_Sample v1.0.1",
       skirt: cloth.info(),
+      equipment: outfit === 2 ? equipment.get(newPantsId)?.stats : null,
       limitations: "保留原短裤；裙为近似重力布料，非通用衣库适配",
     };
   }
   return {
     vrm,
+    equipment,
     root,
     setOutfit,
     setDebugBody,
@@ -125,6 +141,8 @@ export async function loadAvatar({ scene, renderer }) {
     },
     getOutfitInfo,
     skirt: cloth.mesh,
+    // Keep existing continuous draping for now: resetting a skipped solver at
+    // seated re-equip failed visual QA. See RESPONSE-PERF-BASELINE.md.
     updateGarment: (sitProgress, dt, colliders = []) =>
       cloth.update(dt, colliders, dynamics),
   };

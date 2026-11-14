@@ -4,7 +4,8 @@ const fs = require("node:fs/promises");
 const path = require("node:path");
 const assert = require("node:assert/strict");
 const baseMode = process.argv.includes('--base');
-const out = path.resolve(__dirname, baseMode ? "../output/playwright/posture-base" : "../output/playwright/posture");
+const newGarment = process.argv.includes('--new-garment');
+const out = path.resolve(__dirname, newGarment ? '../output/playwright/new-garment' : baseMode ? "../output/playwright/posture-base" : "../output/playwright/posture");
 (async () => {
   await fs.mkdir(out, { recursive: true });
   const browser = await chromium.launch({ channel: "chrome", headless: false });
@@ -96,7 +97,7 @@ const out = path.resolve(__dirname, baseMode ? "../output/playwright/posture-bas
         `${label}: backward knee ${result.minForward}`,
       );
     }
-    for (const outfit of baseMode ? [0] : [0, 1]) {
+    for (const outfit of newGarment ? [2] : baseMode ? [0] : [0, 1]) {
       await page.evaluate((n) => {
         __debug.reset();
         __debug.setOutfit(n);

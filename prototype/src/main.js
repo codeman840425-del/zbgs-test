@@ -873,7 +873,7 @@ class CharacterScene extends Phaser.Scene {
       );
   }
   setOutfit(n) {
-    this.outfit = Number(n) ? 1 : 0;
+    this.outfit = [0, 1, 2].includes(Number(n)) ? Number(n) : 0;
     avatar.setOutfit(this.outfit);
     document
       .querySelectorAll("[data-outfit]")
@@ -1365,7 +1365,7 @@ function snapshot() {
 function refreshUI() {
   const s = snapshot();
   document.querySelector("#scene-state").textContent =
-    `${s.outfit ? "裙装" : "裤装"} · ${names[s.mode] || s.mode}${s.paused ? " · 已暂停" : ""}`;
+    `${["裤装", "裙装", "新增裤装试验"][s.outfit] || "裤装"} · ${names[s.mode] || s.mode}${s.paused ? " · 已暂停" : ""}`;
   document.querySelector("#sit-button").textContent =
     s.mode === "sit" ? "起身" : "坐下";
   document.querySelector("#metrics").textContent =

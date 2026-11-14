@@ -3,17 +3,18 @@
 const {chromium}=require('../prototype/node_modules/playwright');
 const fs=require('node:fs/promises'),path=require('node:path');
 (async()=>{
-  const out=path.resolve('output/playwright/canvas-walk');await fs.mkdir(out,{recursive:true});
+  const outfit=Number(process.env.QA_OUTFIT||0);
+  const out=path.resolve(outfit===2?'output/playwright/new-garment-walk':'output/playwright/canvas-walk');await fs.mkdir(out,{recursive:true});
   const browser=await chromium.launch({channel:'chrome',headless:false});
   const page=await browser.newPage({viewport:{width:1440,height:1080}});
   try{
     await page.goto(process.argv[2]||'http://127.0.0.1:4180/');await page.waitForFunction(()=>__debug?.ready);
-    await page.evaluate(()=>{
-      const d=__debug;d.setBodyMode('dressed');d.setOutfit(0);d.setCorrections('full');
+    await page.evaluate((outfit)=>{
+      const d=__debug;d.setBodyMode('dressed');d.setOutfit(outfit);d.setCorrections('full');
       const r=d.renderer,render=r.render;window.__captureYaw=0;
       r.render=function(scene,camera){const a=d.avatar(),p=a.root.position,y=a.root.rotation.y+window.__captureYaw;camera.position.set(p.x+Math.sin(y)*3.2,1.35,p.z+Math.cos(y)*3.2);camera.lookAt(p.x,.85,p.z);return render.call(this,scene,camera);};
       window.__captureFrames=[];let previous;window.__resetCaptureClock=()=>{previous=undefined};const tick=t=>{if(previous!==undefined)__captureFrames.push(t-previous);previous=t;requestAnimationFrame(tick)};requestAnimationFrame(tick);
-    });
+    },outfit);
     const reports=[];
     for(const [name,speed,angle] of [['normal-front',.85,0],['normal-side',.85,Math.PI/2],['slow-side',.45,Math.PI/2],['fast-side',1.3,Math.PI/2]]){
       await page.evaluate(({speed,angle})=>{
