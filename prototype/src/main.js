@@ -1863,6 +1863,12 @@ loadAvatar({ scene: world, renderer })
     refreshUI();
   })
   .catch((error) => {
+    // A motion/retarget failure can happen after the avatar factory succeeds.
+    // No ready scene may retain this half-initialized primary instance.
+    motion?.dispose?.();
+    avatar?.dispose?.();
+    motion = null; avatar = null; ready = false;
+    window.__debug.ready = false;
     document.querySelector("#loading").innerHTML =
       "<strong>角色加载失败</strong><span></span>";
     document.querySelector("#loading span").textContent = error.message;

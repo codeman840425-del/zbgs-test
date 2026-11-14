@@ -35,6 +35,8 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
   let debugBody = false,
     outfit = 0,
     dynamics = true;
+  let equipment, livePresentation;
+  try {
   vrm.scene.traverse((mesh) => {
     if (!mesh.isMesh) return;
     mesh.frustumCulled = false;
@@ -60,9 +62,9 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     if (materials.some((m) => /Shoes/i.test(m.name))) shoes.push(mesh);
     else if (materials.some((m) => /_CLOTH/.test(m.name))) clothes.push(mesh);
   });
-  const equipment = await createM1Equipment({ vrm, avatarSha256: sha256, bodyType });
+  equipment = await createM1Equipment({ vrm, avatarSha256: sha256, bodyType });
   const surfaces = equipment.getAssetProfile();
-  const livePresentation = createLivePresentation({vrm, root, bodyType: config.referenceBody || bodyType});
+  livePresentation = createLivePresentation({vrm, root, bodyType: config.referenceBody || bodyType});
   const meshRoles = {};
   for (const role of [
     "body",
@@ -193,4 +195,16 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
       limitations: "新人体M1连续动作验收中",
     }),
   };
+  } catch (error) {
+    // The factory has not returned an avatar yet; callers cannot dispose it.
+    // Release partially built equipment and the VRM here, including failures
+    // before createM1Equipment returns (manifest/network/identity errors).
+    livePresentation?.dispose();
+    equipment?.dispose();
+    root.removeFromParent();
+    for (const [mesh, material] of sourceMaterials) mesh.material = material;
+    for (const materials of bodyMaterials.values()) materials.forEach(m => m.dispose());
+    VRMUtils.deepDispose(vrm.scene);
+    throw error;
+  }
 }
