@@ -670,8 +670,15 @@ class CharacterScene extends Phaser.Scene {
     this.seatToken = null;
     this.executingRequest = null;
     this.behaviorTasks = createBehaviorTasks({ownerId: this.actorId, onEvent: event => {
+      if(event.task.kind === "greeting")this.lastGreetingRequest=event.task.requestId;
       if (["cancelled", "failed"].includes(event.type) && this.executingRequest === event.task.requestId) {
         this.executingRequest = null;
+        const wasDeferred=this.deferredBehavior?.requestId===event.task.requestId;
+        this.deferredBehavior = null;
+        if (event.task.kind === "greeting" || wasDeferred) {
+          this.actor?.livePresentation?.cancelGreeting();
+          return; // A cancelled seated gesture must not unexpectedly stand up.
+        }
         this.pending = null;
         this.clearPath();
         this.turnRemaining = 0;
@@ -794,9 +801,24 @@ class CharacterScene extends Phaser.Scene {
     if (result.accepted) this.seatToken = result.lease.token;
     return result.accepted;
   }
+  greetingReady() {
+    if(!this.actor||!this.rig)return false;
+    const m=this.rig.getMetrics(),live=this.actor.livePresentation?.getState();
+    return !this.target&&!this.pending&&!this.turnPolicy.sample().active&&m.danceMix<.001&&
+      !live?.accessories.mic.requested&&!(["loading","playing","fading"].includes(live?.greeting?.status))&&
+      ((this.mode==="idle"&&m.gait<.01&&m.stopTime>=.5)||(this.mode==="sit"&&m.sitProgress===1));
+  }
   requestBehavior({requestId, kind, payload = {}, timeoutSeconds = 60, queue = false} = {}) {
+    const active = this.behaviorTasks.active();
+    if (!requestId && kind === "greeting" && active?.kind === "greeting")
+      return {admission:active.admission, duplicate:true, task:active};
     if (requestId && this.behaviorTasks.get(requestId))
       return this.behaviorTasks.request({requestId, kind, payload, timeoutSeconds, queue});
+    if (kind === "greeting" && !this.greetingReady()) {
+      const admission=this.behaviorTasks.request({requestId,kind,payload,timeoutSeconds,queue:false});
+      if(admission.admission==="accepted")this.behaviorTasks.fail(admission.task.requestId,"greeting-requires-stable-standing-or-seated-empty-hands");
+      return {...admission,task:this.behaviorTasks.get(admission.task.requestId)};
+    }
     if (!queue) {
       for (const task of [this.behaviorTasks.active(), ...this.behaviorTasks.pending()].filter(Boolean))
         this.behaviorTasks.cancel(task.requestId, "superseded");
@@ -809,6 +831,21 @@ class CharacterScene extends Phaser.Scene {
     this.executingRequest = task.requestId;
     try {
       if (!this.actor || !this.rig) throw new Error("avatar-resource-unavailable");
+      const gesture = this.actor.livePresentation?.getState().greeting;
+      if (task.kind !== "greeting" && ["loading","playing","fading"].includes(gesture?.status)) {
+        this.actor.livePresentation.cancelGreeting();
+        this.deferredBehavior = task;
+        return; // Finish the 0.2s outgoing layer while the underlying pose stays stable.
+      }
+      if (task.kind === "greeting") {
+        const live=this.actor.livePresentation;
+        if (!this.greetingReady())throw Error("greeting-requires-stable-standing-or-seated-empty-hands");
+        live.playGreeting({requestId:task.requestId}).then(result=>{
+          if (!result.started && !result.cancelled && !result.duplicate && this.behaviorTasks.get(task.requestId)?.state==="running")
+            this.behaviorTasks.fail(task.requestId,result.error||"greeting-load-failed");
+        }).catch(error=>this.behaviorTasks.fail(task.requestId,error.message));
+        return;
+      }
       if (!["walk", "idle", "sit", "stand", "turn", "dance"].includes(task.kind)) throw new Error("unsupported-behavior");
       if (task.kind === "dance" && task.payload.danceId) this.rig.setDance(task.payload.danceId);
       if (task.kind === "dance" && !danceSpaceAvailable(this.actor.root,this.rig.getDance()?.radius || .6)) throw new Error("insufficient-dance-space");
@@ -821,11 +858,21 @@ class CharacterScene extends Phaser.Scene {
   updateBehavior(dt, metrics) {
     this.behaviorTasks.tick(dt); // Simulation seconds; paused/background time does not count.
     const task = this.behaviorTasks.active();
+    if (this.deferredBehavior && !["loading","playing","fading"].includes(this.actor.livePresentation?.getState().greeting?.status)) {
+      const deferred=this.deferredBehavior;this.deferredBehavior=null;
+      if(task?.requestId===deferred.requestId)this.startBehavior(deferred);
+    }
     if (task) {
       if (task.kind === "sit" && !chair.parent) this.behaviorTasks.fail(task.requestId, "seat-target-invalidated");
       const settled = !this.target && !this.pending && !this.turnPolicy.sample().active && this.mode === "idle" && metrics.gait < .01 && metrics.stopTime >= .5;
       let complete = task.kind === "sit" ? this.mode === "sit" && metrics.sitProgress === 1 && !this.pending :
         ["walk", "idle", "stand", "turn"].includes(task.kind) ? settled : false;
+      if (task.kind === "greeting") {
+        const g=this.actor.livePresentation.getState().greeting;
+        complete=g.requestId===task.requestId&&g.status==="completed";
+        if(g.requestId===task.requestId&&g.status==="failed")this.behaviorTasks.fail(task.requestId,g.error);
+      }
+      if (this.deferredBehavior) complete=false;
       if (task.kind === "walk" && complete && Math.hypot(this.actor.root.position.x-task.payload.x, this.actor.root.position.z-task.payload.z) > .05) {
         this.behaviorTasks.fail(task.requestId, "destination-not-reached"); complete = false;
       }
@@ -851,6 +898,8 @@ class CharacterScene extends Phaser.Scene {
     }
   }
   command(cmd) {
+    if (["route","sequence"].includes(cmd.type) && ["loading","playing","fading"].includes(this.actor?.livePresentation?.getState().greeting?.status))
+      return {applied:false,reason:"请等待招手结束后开始路线或自动序列。"};
     if (["route", "sequence", "reset"].includes(cmd.type))
       for (const task of [this.behaviorTasks.active(), ...this.behaviorTasks.pending()].filter(Boolean)) this.behaviorTasks.cancel(task.requestId, "superseded-by-" + cmd.type);
     if (["action", "walk"].includes(cmd.type)) {
@@ -1129,6 +1178,8 @@ class CharacterScene extends Phaser.Scene {
     return snapshot();
   }
   reset() {
+    this.actor?.livePresentation?.cancelGreeting({immediate:true});
+    this.deferredBehavior=null;
     this.clearPath();
     this.pending = null;
     this.turnRemaining = 0;
@@ -1633,6 +1684,13 @@ function refreshUI() {
   const s = snapshot();
   document.querySelector("#scene-state").textContent =
     `${s.outfitInfo?.name || "裤装"} · ${names[s.mode] || s.mode}${s.paused ? " · 已暂停" : ""}`;
+  const greetingStatus=document.querySelector("#greeting-status");
+  if(greetingStatus){
+    const g=avatar?.livePresentation?.getState().greeting;
+    const task=controller?.lastGreetingRequest?controller.behaviorTasks.get(controller.lastGreetingRequest):null;
+    const reason=task?.reason?(task.state==="cancelled"?"招手已取消":task.reason.includes("resource")||task.reason.includes("load")?"招手资源加载失败，可重试":"请在空手站稳或坐稳后招手"):null;
+    greetingStatus.textContent=reason||({loading:"招手加载中",playing:"招手播放中",fading:"招手退出中",completed:"招手完成",cancelled:"招手已取消",failed:g?.error}[g?.status]||"空手站稳/坐稳后招手");
+  }
   document.querySelector("#sit-button").textContent =
     s.mode === "sit" ? "起身" : "坐下";
   document.querySelector("#metrics").textContent =
@@ -1804,6 +1862,11 @@ function bindFoundationControls(a) {
   const speaking = document.createElement("button"); speaking.textContent = "讲话演示";
   speaking.onclick = () => { const enabled = !a.livePresentation.getState().speaking; emit({type:"speaking",value:enabled}); speaking.textContent = enabled ? "停止讲话" : "讲话演示"; };
   row.append(speaking);
+  const greeting=document.createElement("button");greeting.textContent="单次招手";greeting.dataset.action="greeting";
+  greeting.title="稳定站立或坐姿、空手；男女外观仍待视觉验收";
+  greeting.onclick=()=>{const result=emit({type:"action",name:"greeting"});if(result?.task?.reason)document.querySelector("#scene-state").textContent=result.task.reason;};
+  row.append(greeting);
+  const greetingStatus=document.createElement("span");greetingStatus.id="greeting-status";greetingStatus.setAttribute("role","status");greetingStatus.textContent="空手站稳/坐稳后招手";row.append(greetingStatus);
   const gaze = document.createElement("button"); gaze.textContent = "看向镜头";
   gaze.onclick = () => emit({type:"gaze",target:camera.position.toArray()}); row.append(gaze);
   for (const [kind,label] of [["mic","麦克风"],["glasses","眼镜"]]) {

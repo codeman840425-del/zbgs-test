@@ -314,7 +314,6 @@ export function createMotion(
         .reduce((sum, p) => sum.add(p.local), new V())
         .divideScalar(low.length);
       foot.restSoleOffsets ??= {};
-      foot.restSoleOffsets[kind] = point(center).sub(worldPoint(foot.foot)).applyQuaternion(foot.foot.getWorldQuaternion(new Q()).invert());
       const owner = kind === "toe" && foot.toe ? foot.toe : foot.foot;
       const offset = point(center)
         .sub(worldPoint(owner))
@@ -354,6 +353,12 @@ export function createMotion(
         result.z = points.reduce((s, p) => s + p.z, 0) / points.length;
         return result;
       };
+      // Use the same material-patch XZ and soft-min Y for prediction and
+      // measurement. Arithmetic mean Y sat 4.24 mm above the female sole;
+      // every turn landing/handoff otherwise reapplied that downward error.
+      foot.restSoleOffsets[kind] = foot.soleSamples[kind]()
+        .sub(worldPoint(foot.foot))
+        .applyQuaternion(foot.foot.getWorldQuaternion(new Q()).invert());
       foot.landmarkMethod =
         "weighted Shoes patch XZ + outsole soft-min Y (1 mm)";
     }
@@ -651,6 +656,7 @@ export function createMotion(
     authoredHipWorld = worldPoint(nodes.hips);
   const supportSurfaceDelta = new V();
   const turnHipWorldOffset = new V();
+  const reachHipWorldOffset = new V();
 
   function restore(poses = rest) {
     for (const [node, pose] of poses) {
@@ -662,6 +668,7 @@ export function createMotion(
   }
   function resetContacts() {
     turnHipWorldOffset.set(0,0,0);
+    reachHipWorldOffset.set(0,0,0);
     for (const foot of feet) {
       foot.turnIdleAnchor = null;
       foot.turnIdleQuaternion = null;
@@ -671,6 +678,7 @@ export function createMotion(
       foot.anchor.copy(foot.target);
       foot.swingFrom.copy(foot.target);
       foot.lastActual.copy(foot.target);
+      foot.lastWorldQuaternion = foot.foot.getWorldQuaternion(new Q());
       foot.contact = true;
       foot.swing = false;
       foot.slip = 0;
@@ -1145,6 +1153,8 @@ export function createMotion(
         foot.turnEntryQuaternion = foot.turnWorldQuaternion.clone();
         foot.turnEntryToeQuaternion = foot.toe?.quaternion.clone();
         foot.turnEntryPivot = foot.soleSamples?.toe();
+        foot.turnEntrySoleLocal = foot.turnEntryPivot?.clone().sub(foot.lastActual)
+          .applyQuaternion(foot.turnEntryQuaternion.clone().invert());
         // Raw surface samples belong to the preceding evaluated pose. Capture
         // their local toe lever before the normalized source pose is advanced.
         foot.turnSoleLocal = (foot.restSoleOffsets?.toe || foot.soleOffsets.toe).clone();
@@ -1195,14 +1205,18 @@ export function createMotion(
       // whole stance and drag it beyond reach after restarting or reversing.
       phase = stance / 2;
       for (const foot of feet) {
-        foot.anchorKind = null;
-        foot.lastSupportKind = null;
+        foot.motionEntryQuaternion = (foot.lastWorldQuaternion || foot.foot.getWorldQuaternion(new Q())).clone();
+        const keepSoleAnchor = foot.contact && foot.anchorKind;
+        if(!keepSoleAnchor) {
+          foot.anchorKind = null;
+          foot.lastSupportKind = null;
+          foot.anchor.copy(foot.lastActual);
+          foot.anchor.y = point(foot.local).y;
+        }
         foot.lastCorrection.set(0,0,0);
         foot.releaseOffset.set(0,0,0);
         foot.releasePhase = 1;
-        foot.anchor.copy(foot.lastActual);
-        foot.anchor.y = point(foot.local).y;
-        foot.target.copy(foot.anchor);
+        foot.target.copy(foot.lastActual);
         foot.swingFrom.copy(foot.target);
         foot.swing = false;
       }
@@ -1297,6 +1311,14 @@ export function createMotion(
           vector(new V(0, 0, 1)),
         );
         foot.sourceQuaternion = foot.foot.getWorldQuaternion(new Q());
+        // Position already blends from the corrected idle pose by gait. Foot
+        // orientation must use the same entrance, otherwise the crouched idle
+        // source rotates a planted shoe 42 degrees on the first walking frame.
+        if(moving && foot.motionEntryQuaternion && gait < .9999){
+          foot.sourceQuaternion.copy(foot.motionEntryQuaternion.clone().slerp(foot.sourceQuaternion,smooth(gait)));
+          foot.foot.quaternion.copy(foot.foot.parent.getWorldQuaternion(new Q()).invert().multiply(foot.sourceQuaternion));
+          foot.foot.updateWorldMatrix(true,true);
+        }
         foot.sourceToeOffset = foot.toe
           ? worldPoint(foot.toe)
               .add(
@@ -1538,7 +1560,11 @@ export function createMotion(
           const finalRest = point(foot.local.clone().applyAxisAngle(up, turnPlan.targetYaw - root.rotation.y));
           const finalToe = finalRest.clone().add(foot.turnSoleLocal.clone().applyQuaternion(finalQ));
           finalToe.y = root.position.y;
-          const pivotOffset = foot.turnSoleLocal.clone().applyQuaternion(currentQ);
+          // Preserve the evaluated shoe lever at phrase handoff, then blend
+          // with the toe pose into calibrated rest. A rest-only lever here
+          // displaced a released shoe by 8.5 mm at progress zero.
+          const pivotOffset = (foot.turnEntrySoleLocal || foot.turnSoleLocal).clone()
+            .lerp(foot.turnSoleLocal, entry).applyQuaternion(currentQ);
           if (placement.swing) {
             if (!foot.swing || foot.turnWindow !== placement.window) {
               foot.turnWindow = placement.window;
@@ -1673,7 +1699,7 @@ export function createMotion(
       sitProgress < .01 && danceMix < .001;
     if (moving || turning || gathering)
       for (const foot of feet)
-        if (foot.contact || (turning && turnPlan?.feet[foot.index].swing && turnPlan.feet[foot.index].progress > .75)) {
+        if (foot.contact || (turning && turnPlan)) {
           const hip = worldPoint(foot.upper),
             reach = foot.first + foot.second - 0.001;
           const horizontal = Math.hypot(
@@ -1697,6 +1723,30 @@ export function createMotion(
       at.y -= adaptiveHipDrop;
       nodes.hips.position.copy(nodes.hips.parent.worldToLocal(at));
       root.updateWorldMatrix(true, true);
+    }
+    // At a curved run->walk transition the held feet can require a small
+    // horizontal weight transfer after the vertical reach allowance is used.
+    // Project the pelvis into the intersection of the actual support-leg reach
+    // disks. Keep both contacts fixed; do not add a deeper crouch or move shoes.
+    reachHipWorldOffset.multiplyScalar(Math.exp(-dt*12));
+    if (corrections.pelvis && (moving || turning || gathering)) {
+      for (let pass=0;pass<3;pass++) for(const foot of feet) if(foot.contact || (turning && turnPlan)){
+        const hip=worldPoint(foot.upper).add(reachHipWorldOffset);
+        const reach=foot.first+foot.second-.001;
+        const vertical=hip.y-foot.target.y;
+        const available=Math.sqrt(Math.max(0,reach*reach-vertical*vertical));
+        const toward=foot.target.clone().sub(hip);toward.y=0;
+        const length=toward.length();
+        if(length>available&&length>1e-8) reachHipWorldOffset.addScaledVector(toward,(length-available)/length);
+      }
+      // Unsupported/extreme proportions remain detectable, not unlimited
+      // displacement of the body to force a numerical pass.
+      reachHipWorldOffset.clampLength(0,legLength*.12);
+    }
+    if(corrections.pelvis&&reachHipWorldOffset.lengthSq()>1e-12){
+      const at=worldPoint(nodes.hips).add(reachHipWorldOffset);
+      nodes.hips.position.copy(nodes.hips.parent.worldToLocal(at));
+      root.updateWorldMatrix(true,true);
     }
     for (const foot of feet) {
       const solved = corrections.footIK
@@ -1870,6 +1920,7 @@ export function createMotion(
           }
         : null,
       adaptiveHipDrop,
+      reachHipWorldOffset: reachHipWorldOffset.toArray(),
       sourceGroundLift,
       sourceJogGroundLift,
       talkMix,
