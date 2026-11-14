@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { createGarmentCollider } from "./garment-collider.js";
 // Verlet integration and distance relaxation adapted from Three.js r110
 // webgl_animation_cloth (MIT). Added cylindrical topology and body/seat collision.
 export function createSkirt(vrm, root, scene) {
@@ -12,6 +13,7 @@ export function createSkirt(vrm, root, scene) {
     pins = [];
   const bone = (n) => vrm.humanoid.getRawBoneNode(n),
     hips = bone("hips");
+  const garmentCollider = createGarmentCollider(vrm);
   root.updateMatrixWorld(true);
   const hip = hips.getWorldPosition(new V()),
     left = bone("leftUpperLeg").getWorldPosition(new V()),
@@ -47,6 +49,9 @@ export function createSkirt(vrm, root, scene) {
     }
   const link = (a, b, strength = 1) =>
     links.push([a, b, particles[a].p.distanceTo(particles[b].p), strength]);
+  const referenceParticles = particles.map((item) =>
+    item.p.clone().applyMatrix4(inverse),
+  );
   for (let r = 0; r <= rows; r++)
     for (let s = 0; s < cols; s++) {
       link(at(r, s), at(r, s + 1));
@@ -100,6 +105,34 @@ export function createSkirt(vrm, root, scene) {
   let accumulator = 0,
     steps = 0;
   const capsules = [];
+  const surfacePoint = new V(),
+    surfaceBefore = new V();
+  function constrainPanels() {
+    // Vertex-only collision can leave a triangle cutting through a bent thigh
+    // even though all three corners are outside. Constrain the actual panel's
+    // centre and edge midpoints too; keep the waist pins unchanged.
+    for (let i = 0; i < indices.length; i += 3) {
+      const ids = [indices[i], indices[i + 1], indices[i + 2]];
+      for (const group of [
+        ids,
+        [ids[0], ids[1]],
+        [ids[1], ids[2]],
+        [ids[2], ids[0]],
+      ]) {
+        surfacePoint.set(0, 0, 0);
+        for (const id of group) surfacePoint.add(particles[id].p);
+        surfacePoint.divideScalar(group.length);
+        surfaceBefore.copy(surfacePoint);
+        if (!garmentCollider.collide(surfacePoint)) continue;
+        const free = group.filter((id) => !particles[id].pinned);
+        if (!free.length) continue;
+        surfacePoint
+          .sub(surfaceBefore)
+          .multiplyScalar(group.length / free.length);
+        for (const id of free) particles[id].p.add(surfacePoint);
+      }
+    }
+  }
   function collide(p) {
     for (const c of capsules) {
       axis.subVectors(c.b, c.a);
@@ -118,8 +151,25 @@ export function createSkirt(vrm, root, scene) {
       }
     }
   }
-  function update(dt = 0.016, boxes = []) {
+  function update(dt = 0.016, boxes = [], dynamics = true) {
     root.updateMatrixWorld(true);
+    garmentCollider.update();
+    if (!dynamics) {
+      // Explicit diagnostic reference: no gravity or inertia. The UI labels
+      // this as dynamics-disabled; the fully dressed acceptance uses dynamics.
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].p
+          .copy(referenceParticles[i])
+          .applyMatrix4(hips.matrixWorld);
+        particles[i].old.copy(particles[i].p);
+        particles[i].p.toArray(arr, i * 3);
+      }
+      accumulator = 0;
+      lastHip.copy(hips.getWorldPosition(q));
+      g.attributes.position.needsUpdate = true;
+      g.computeVertexNormals();
+      return;
+    }
     const current = hips.getWorldPosition(q),
       jump = current.distanceTo(lastHip);
     if (jump > 0.5) {
@@ -174,7 +224,12 @@ export function createSkirt(vrm, root, scene) {
         for (let i = cols; i < particles.length; i++) {
           const p = particles[i].p;
           collide(p);
-          for (const box of boxes)
+          garmentCollider.collide(p);
+          for (const box of boxes) {
+            if (box.projectOut) {
+              box.projectOut(p, 0.006);
+              continue;
+            }
             if (box.containsPoint(p)) {
               const faces = [
                   p.x - box.min.x,
@@ -192,6 +247,7 @@ export function createSkirt(vrm, root, scene) {
               if (f === 4) p.z = box.min.z - 0.006;
               if (f === 5) p.z = box.max.z + 0.006;
             }
+          }
           p.y = Math.max(0.015, p.y);
         }
         for (let s = 0; s < cols; s++) {
@@ -199,6 +255,7 @@ export function createSkirt(vrm, root, scene) {
           particles[s].old.copy(particles[s].p);
         }
       }
+      constrainPanels();
     }
     for (let i = 0; i < particles.length; i++)
       particles[i].p.toArray(arr, i * 3);
@@ -209,12 +266,30 @@ export function createSkirt(vrm, root, scene) {
   return {
     mesh,
     update,
+    reset: () => {
+      root.updateWorldMatrix(true, true);
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].p
+          .copy(referenceParticles[i])
+          .applyMatrix4(hips.matrixWorld);
+        particles[i].old.copy(particles[i].p);
+        particles[i].p.toArray(arr, i * 3);
+      }
+      lastHip.copy(hips.getWorldPosition(q));
+      accumulator = 0;
+      g.attributes.position.needsUpdate = true;
+      g.computeVertexNormals();
+    },
     info: () => ({
       vertices: particles.length,
       solver: "Three.js Verlet distance constraints",
       gravity: 9.81,
       substep: 1 / 120,
       steps,
+      garmentCollider: garmentCollider.info(),
+      garmentPenetration: Math.max(
+        ...particles.map((p) => garmentCollider.penetration(p.p)),
+      ),
       limitations: "近似布料，无自碰撞，非通用体型适配",
     }),
   };

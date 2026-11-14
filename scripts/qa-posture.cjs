@@ -3,7 +3,8 @@ const { chromium } = require("../prototype/node_modules/playwright");
 const fs = require("node:fs/promises");
 const path = require("node:path");
 const assert = require("node:assert/strict");
-const out = path.resolve(__dirname, "../output/playwright/posture");
+const baseMode = process.argv.includes('--base');
+const out = path.resolve(__dirname, baseMode ? "../output/playwright/posture-base" : "../output/playwright/posture");
 (async () => {
   await fs.mkdir(out, { recursive: true });
   const browser = await chromium.launch({ channel: "chrome", headless: false });
@@ -18,6 +19,7 @@ const out = path.resolve(__dirname, "../output/playwright/posture");
   try {
     await page.goto(process.argv[2] || "http://127.0.0.1:4180/");
     await page.waitForFunction(() => window.__debug?.ready);
+    if(baseMode) await page.evaluate(()=>{__debug.setBodyMode('base');__debug.setDynamics(false);});
     async function stable(label, outfit) {
       const frames = [];
       for (let i = 0; i < 20; i++) {
@@ -94,7 +96,7 @@ const out = path.resolve(__dirname, "../output/playwright/posture");
         `${label}: backward knee ${result.minForward}`,
       );
     }
-    for (const outfit of [0, 1]) {
+    for (const outfit of baseMode ? [0] : [0, 1]) {
       await page.evaluate((n) => {
         __debug.reset();
         __debug.setOutfit(n);
@@ -170,6 +172,10 @@ const out = path.resolve(__dirname, "../output/playwright/posture");
         {
           date: new Date().toISOString(),
           url: page.url(),
+          buildInfo: await page.evaluate(() => __debug.buildInfo),
+          bodyMode: baseMode ? 'covered-base' : 'dressed',
+          browser: await browser.version(),
+          viewport: page.viewportSize(),
           passed: true,
           errors,
           unchangedPoseError,

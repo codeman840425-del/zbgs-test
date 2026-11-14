@@ -75,3 +75,15 @@
 - CC0 允许在源码备份中保留可用源资产；这只解决使用来源，仍需实际完成骨架重定向、坐标单位、根位移归属、步距同步和连续视觉验收。无根位移版适合路径逻辑作为唯一平移负责人。
 
 QA 正在并行检查已有 Soldier/Mixamo Walk/Idle 的重定向。Adobe [官方 FAQ](https://helpx.adobe.com/creative-cloud/faq/mixamo-faq.html)允许在游戏内免版税使用；[官方工作人员的分发说明](https://community.adobe.com/questions-696/mixamo-faq-licensing-royalties-ownership-eula-and-tos-589400)区分游戏使用和原始动画文件再分发。因此不能仅凭 Three.js 的代码 MIT 就给 Soldier 原始模型/动作贴 MIT，也不要未经核查将其原始文件放入公开源资产仓。Quaternius CC0 更适合本项目要求的可重复、可备份生产流程。
+
+## 官方 Root Motion 步距校准（可重复）
+
+生产步距依据来自同一官方 Standard ZIP 中的 `Unreal-Godot/UAL1_Standard_RM.glb`，不是只用脚踝往返幅度或低位脚速猜测。RM GLB 的 SHA-256 为 `be684571ed655a1b892c2c07e6e2aeca053b606c442d34004adaf1d944090d01`。运行版仍可用 no-root 动作，由路径唯一负责平移。
+
+运行 `python scripts/calibrate-root-motion.py` 从已下载的 `analysis/assets/UAL-Standard.zip` 离线提取并复算；也可 `--source <已解压的UAL1_Standard_RM.glb>`。ZIP和RM文件均验证固定哈希、GLB长度及chunk，解析root位置track；脚本验证root所有祖先为identity且动画没有改变祖先，再把本地root平移视为世界位移，未将root本身的-90°旋转错误作用于它自己的原点。
+
+实测两个动作 `Walk_Loop` / `Walk_Formal_Loop` 共用41个LINEAR位置样本，周期均 **1.3333333730697632秒**，root从 `(0,0,0)` 到 `(0,0,1.2999999523162842)`，累计路径长度和净世界位移均 **1.2999999523162842米**，原生速度约 **0.974999935米/秒**。`--ratio <实际target/source静止髋高比例>` 可计算目标角色步距；例如 `.9906` 得1.287779953米/周期。默认ratio=1避免把示例比例误当所有角色常数。
+
+完整证据写入 `output/playwright/ual-root-motion-calibration.json`。新的身高/体型应重新测实际重定向比例；该数值证明动作原生位移，不自动保证重定向后零滑步或IK连续。
+
+全新工作区如没有官方ZIP：从上方官方 itch 链接选择免费 Standard（不是收费Pro/Source），保存为 `analysis/assets/UAL-Standard.zip` 后运行校准脚本。已有 `scripts/fetch-animations.py` 自动获取的是**同一个官方Standard ZIP**（同一SHA），但默认只保留no-root GLB；不要将它的输出误传给RM校准。ZIP无需加入生产资源或公开Git，哈希不符时应重新审计新版，不能跳过校验。当前校准工作未重新下载，也未安装依赖。

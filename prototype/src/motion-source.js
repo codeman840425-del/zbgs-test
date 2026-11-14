@@ -47,7 +47,10 @@ for (const [suffix, side] of [
           : ["Proximal", "Intermediate", "Distal"][i - 1]);
   }
 
-export async function loadRetargetedMotions(vrm) {
+export async function loadRetargetedMotions(
+  vrm,
+  { walkClip = "Walk_Loop" } = {},
+) {
   const source = await new GLTFLoader().loadAsync(
     "/assets/motion/UAL1_Standard.glb",
   );
@@ -80,7 +83,7 @@ export async function loadRetargetedMotions(vrm) {
   const clips = {};
   for (const [name, sourceName] of Object.entries({
     idle: "Idle_Loop",
-    walk: "Walk_Loop",
+    walk: walkClip,
     dance: "Dance_Loop",
     sitEnter: "Sitting_Enter",
     sitExit: "Sitting_Exit",
@@ -177,5 +180,12 @@ export async function loadRetargetedMotions(vrm) {
     source: "Quaternius Universal Animation Library Standard / CC0",
     retarget: "pixiv three-vrm rest-world conversion adapted for glTF axes",
     ratio,
+    walkClip,
+    // Official companion Root Motion GLB, both clips: +Z 1.2999999523 m
+    // over 1.3333333731 s. Verified by scripts/calibrate-root-motion.py.
+    // Use authored travel, not ankle excursion or instantaneous sole velocity.
+    walkDistance: ["Walk_Loop", "Walk_Formal_Loop"].includes(walkClip)
+      ? 1.2999999523162842 * ratio
+      : null,
   };
 }

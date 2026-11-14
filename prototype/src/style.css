@@ -496,3 +496,91 @@ footer span:first-child {
     animation: none;
   }
 }
+
+/* Minimal inspection tools: playback timing is separate from locomotion speed. */
+.debug-controls {
+  border-top: 1px solid var(--border);
+  margin-top: 18px;
+  padding-top: 2px;
+}
+.debug-controls h3 {
+  margin-top: 16px;
+}
+.debug-row {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 8px;
+}
+.debug-row button {
+  flex: 1;
+  padding: 7px 4px;
+  min-height: 36px;
+  font-size: 10px;
+}
+#helpers-toggle {
+  width: 100%;
+  min-height: 36px;
+  font-size: 11px;
+}
+.debug-legend {
+  font-size: 10px;
+  line-height: 1.7;
+  color: #6d8072;
+  margin: 9px 0 0;
+}
+
+.layer-controls {
+  border-top: 1px solid var(--border);
+  margin-top: 12px;
+  padding-top: 12px;
+}
+.layer-controls label {
+  font-size: 11px;
+  margin-bottom: 7px;
+}
+#correction-mode {
+  width: 100%;
+  min-height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 7px;
+  color: #3a5548;
+  background: #fafbf7;
+  margin-bottom: 9px;
+}
+#correction-mode:focus-visible {
+  outline: 2px solid #2e7065;
+  outline-offset: 2px;
+}
+#dynamics-toggle {
+  width: 100%;
+  min-height: 34px;
+  font-size: 11px;
+}
+.diagnostic-warning {
+  font-size: 10px;
+  line-height: 1.7;
+  color: #8d5933;
+  margin: 8px 0 0;
+}
+button:disabled,
+select:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+/* Keep feet visible when the inspection panel grows; scroll tools separately. */
+@media (min-width: 801px) {
+  .viewport {
+    height: min(980px, calc(100vh - 150px));
+    min-height: 480px;
+    align-self: start;
+    position: sticky;
+    top: 20px;
+  }
+  aside {
+    max-height: min(980px, calc(100vh - 150px));
+    min-height: 480px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+}

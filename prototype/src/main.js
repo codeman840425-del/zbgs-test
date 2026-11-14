@@ -140,11 +140,12 @@ for (let i = 0; i < 8; i++) {
 }
 const rug = cube(4.9, 0.012, 3.3, -0.3, 0.007, 1.15, "#dce5d3");
 rug.castShadow = false;
-// Seat centre is 0.16 m behind the actor, matching the motion adapter contract.
+// Furniture owns the frame: character +Z and chair +Z both point forward.
 const chairBounds = [];
-const seatRoot = { x: 2.65, z: 1.05 };
+const defaultChair = { x: 2.65, z: 0.89, yaw: 0 };
 const chair = new THREE.Group();
-chair.position.set(seatRoot.x, 0, seatRoot.z - 0.16);
+chair.name = "RepresentativeChair";
+chair.position.set(defaultChair.x, 0, defaultChair.z);
 world.add(chair);
 let chairSeat = cube(0.55, 0.07, 0.5, 0, 0.44, 0, "#c1b197", chair),
   chairBack = cube(0.55, 0.5, 0.07, 0, 0.73, -0.22, "#cabda5", chair);
@@ -165,8 +166,108 @@ const obstacles = [
   { name: "desk", x: 1.15, z: -1.95, hw: 1.22, hd: 0.72 },
   { name: "couch", x: -2.9, z: -1.7, hw: 1.22, hd: 0.65 },
   { name: "plant", x: -3.7, z: -2.8, hw: 0.4, hd: 0.4 },
-  { name: "chair", x: seatRoot.x, z: seatRoot.z - 0.4, hw: 0.48, hd: 0.28 },
+  { name: "chair", x: defaultChair.x, z: defaultChair.z, hw: 0.48, hd: 0.35 },
 ];
+// Cloth uses oriented boxes, while navigation conservatively uses a world AABB.
+function chairCollider(mesh, name) {
+  mesh.name = name;
+  mesh.geometry.computeBoundingBox();
+  const localBox = mesh.geometry.boundingBox.clone();
+  const inverseMatrixWorld = new THREE.Matrix4();
+  const local = new THREE.Vector3();
+  return {
+    name,
+    mesh,
+    localBox,
+    matrixWorld: mesh.matrixWorld,
+    inverseMatrixWorld,
+    refresh() {
+      inverseMatrixWorld.copy(mesh.matrixWorld).invert();
+    },
+    projectOut(point, margin = 0) {
+      local.copy(point).applyMatrix4(inverseMatrixWorld);
+      const lo = localBox.min,
+        hi = localBox.max;
+      if (
+        local.x < lo.x - margin ||
+        local.x > hi.x + margin ||
+        local.y < lo.y - margin ||
+        local.y > hi.y + margin ||
+        local.z < lo.z - margin ||
+        local.z > hi.z + margin
+      )
+        return false;
+      const faces = [
+        [local.x - lo.x + margin, "x", lo.x - margin],
+        [hi.x + margin - local.x, "x", hi.x + margin],
+        [local.y - lo.y + margin, "y", lo.y - margin],
+        [hi.y + margin - local.y, "y", hi.y + margin],
+        [local.z - lo.z + margin, "z", lo.z - margin],
+        [hi.z + margin - local.z, "z", hi.z + margin],
+      ];
+      const face = faces.reduce((a, b) => (a[0] < b[0] ? a : b));
+      local[face[1]] = face[2];
+      point.copy(local).applyMatrix4(mesh.matrixWorld);
+      return true;
+    },
+  };
+}
+chairBounds.push(
+  chairCollider(chairSeat, "chairSeat"),
+  chairCollider(chairBack, "chairBack"),
+);
+function refreshChair() {
+  chair.updateMatrixWorld(true);
+  chairBounds.forEach((c) => c.refresh());
+  const box = new THREE.Box3().setFromObject(chairSeat);
+  Object.assign(
+    obstacles.find((o) => o.name === "chair"),
+    {
+      x: (box.min.x + box.max.x) / 2,
+      z: (box.min.z + box.max.z) / 2,
+      hw: (box.max.x - box.min.x) / 2 + 0.1,
+      hd: (box.max.z - box.min.z) / 2 + 0.1,
+    },
+  );
+}
+function seatTargets() {
+  const back = motion?.getMetrics().seatBack || 0.16;
+  const approach = motion?.getSeatApproach() || 0;
+  const point = (z) => chair.localToWorld(new THREE.Vector3(0, 0, z)).toArray();
+  return {
+    yaw: chair.rotation.y,
+    seatedAnchor: point(back),
+    approach: point(back + approach),
+    exit: point(back + approach),
+  };
+}
+function setChairTransform({
+  x = chair.position.x,
+  z = chair.position.z,
+  yaw = chair.rotation.y,
+} = {}) {
+  if (![x, z, yaw].every(Number.isFinite))
+    throw new TypeError("Chair transform must be finite");
+  if (
+    controller &&
+    (controller.mode === "sit" ||
+      controller.mode === "stand" ||
+      controller.seatAlign ||
+      controller.afterWalk === "sit")
+  )
+    throw new Error(
+      "Move the test chair only while it is unoccupied; finish standing first",
+    );
+  chair.position.set(x, 0, z);
+  chair.rotation.y = yaw;
+  refreshChair();
+  // A changed obstacle invalidates the previous route, without teleporting actor.
+  if (controller?.target) {
+    const goal = controller.path.at(-1) || controller.target;
+    controller.go(...goal);
+  }
+  return { position: chair.position.toArray(), ...seatTargets() };
+}
 const marker = new THREE.Mesh(
   new THREE.RingGeometry(0.12, 0.15, 32),
   new THREE.MeshBasicMaterial({
@@ -197,12 +298,228 @@ let avatar = null,
   renderMs = [],
   lastMetrics = 0;
 const initialPosition = [-0.5, 0, 1.15];
+const inspection = { corrections: "full", bodyMode: "dressed", dynamics: true };
+const correctionLayers = {
+  raw: { footIK: false, pelvis: false },
+  ik: { footIK: true, pelvis: false },
+  pelvis: { footIK: false, pelvis: true },
+  full: { footIK: true, pelvis: true },
+};
+function updateAvatar(dt) {
+  // The asset adapter owns raw-bone synchronization and secondary dynamics.
+  avatar.update(dt);
+}
+function syncInspectionUI() {
+  const correctionAvailable = typeof motion?.setCorrections === "function";
+  const bodyAvailable = typeof avatar?.setDebugBody === "function";
+  const dynamicsAvailable = typeof avatar?.setDynamics === "function";
+  const select = document.querySelector("#correction-mode");
+  select.disabled = !correctionAvailable;
+  select.value = inspection.corrections;
+  for (const button of document.querySelectorAll("[data-body-mode]")) {
+    button.disabled = !bodyAvailable;
+    button.setAttribute(
+      "aria-pressed",
+      String(button.dataset.bodyMode === inspection.bodyMode),
+    );
+  }
+  const dynamicsButton = document.querySelector("#dynamics-toggle");
+  dynamicsButton.disabled = !dynamicsAvailable;
+  dynamicsButton.setAttribute("aria-pressed", String(inspection.dynamics));
+  dynamicsButton.textContent = `附加动态：${inspection.dynamics ? "开" : "关"}`;
+  const info = avatar?.getDebugState?.();
+  document.querySelector("#body-mode-note").textContent =
+    (info?.description || "基础模式保留原上衣及短裤覆盖，不是完整裸模。") +
+    (!inspection.dynamics
+      ? " 附加动态当前关闭，仅用于诊断；服装效果验收请打开动态。"
+      : "");
+  if (info?.baseLabel)
+    document.querySelector('[data-body-mode="base"]').textContent =
+      info.baseLabel;
+}
+function setCorrections(name) {
+  if (!Object.hasOwn(correctionLayers, name))
+    throw new RangeError("Corrections must be raw, ik, pelvis or full");
+  if (typeof motion?.setCorrections !== "function")
+    throw new Error("Correction diagnostics are not ready");
+  motion.setCorrections({ ...correctionLayers[name] });
+  // setCorrections refreshes the source pose at the same animation time while
+  // retaining support anchors. Do not call normal update(0), which could
+  // reinterpret a moving frame as a stopped frame.
+  updateAvatar(0);
+  avatar.root.updateMatrixWorld(true);
+  avatar.updateGarment?.(motion.getMetrics().sitProgress, 0, chairBounds);
+  inspection.corrections = name;
+  syncInspectionUI();
+  updateDebugHelpers();
+  renderer.render(world, camera);
+}
+function setDynamics(value) {
+  if (typeof avatar?.setDynamics !== "function")
+    throw new Error("Dynamics adapter is not ready");
+  inspection.dynamics = Boolean(value);
+  avatar.setDynamics(inspection.dynamics);
+  syncInspectionUI();
+}
+function setBodyMode(name) {
+  if (name !== "base" && name !== "dressed")
+    throw new RangeError("Body mode must be base or dressed");
+  if (typeof avatar?.setDebugBody !== "function")
+    throw new Error("Body diagnostics are not ready");
+  avatar.setDebugBody(name === "base");
+  inspection.bodyMode = name;
+  // A complete clothed comparison starts with actual secondary dynamics;
+  // the separate toggle can still disable them explicitly for diagnosis.
+  setDynamics(name === "dressed");
+  syncInspectionUI();
+}
+
+let helpersVisible = false;
+const helperGroup = new THREE.Group();
+helperGroup.name = "NormalizedHumanoidDebug";
+helperGroup.visible = false;
+world.add(helperGroup);
+let skeletonLines = null,
+  normalizedPairs = [],
+  contactMarkers = [];
+const fixedViews = new Set(["front", "side", "back"]);
+function syncViewButtons() {
+  for (const button of document.querySelectorAll("[data-view]"))
+    button.setAttribute(
+      "aria-pressed",
+      String(
+        button.dataset.view ===
+          (fixedViews.has(cameraMode) ? cameraMode : "free"),
+      ),
+    );
+}
+function updateFixedCamera() {
+  if (!avatar || !fixedViews.has(cameraMode)) return;
+  const offset =
+    cameraMode === "front"
+      ? v3(0, 0.5, 3.2)
+      : cameraMode === "back"
+        ? v3(0, 0.5, -3.2)
+        : v3(3.2, 0.5, 0);
+  offset.applyAxisAngle(v3(0, 1, 0), avatar.root.rotation.y);
+  const target = avatar.root.position.clone().add(v3(0, 0.85, 0));
+  camera.position.copy(target).add(offset);
+  camera.lookAt(target);
+  controls?.target.copy(target);
+  camera.updateMatrixWorld(true);
+}
+function createDebugHelpers() {
+  // These are actual normalized humanoid nodes used by the motion/IK adapter,
+  // not raw render bones and not a schematic skeleton.
+  const nodes = new Set(
+    Object.values(avatar.vrm.humanoid.normalizedHumanBones).map((b) => b.node),
+  );
+  normalizedPairs = [];
+  for (const node of nodes) {
+    let parent = node.parent;
+    while (parent && !nodes.has(parent)) parent = parent.parent;
+    if (parent) normalizedPairs.push([parent, node]);
+  }
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute(
+    "position",
+    new THREE.BufferAttribute(new Float32Array(normalizedPairs.length * 6), 3),
+  );
+  skeletonLines = new THREE.LineSegments(
+    geometry,
+    new THREE.LineBasicMaterial({
+      color: 0x8f42ed,
+      depthTest: false,
+      transparent: true,
+      opacity: 0.9,
+    }),
+  );
+  skeletonLines.frustumCulled = false;
+  skeletonLines.renderOrder = 1000;
+  helperGroup.add(skeletonLines);
+  contactMarkers = [0, 1].map(() => {
+    const target = new THREE.Mesh(
+      new THREE.SphereGeometry(0.028, 12, 8),
+      new THREE.MeshBasicMaterial({ color: 0x29bd71, depthTest: false }),
+    );
+    const actual = new THREE.Mesh(
+      new THREE.RingGeometry(0.043, 0.052, 24),
+      new THREE.MeshBasicMaterial({
+        color: 0xffffff,
+        side: THREE.DoubleSide,
+        depthTest: false,
+      }),
+    );
+    actual.rotation.x = -Math.PI / 2;
+    target.renderOrder = actual.renderOrder = 1001;
+    helperGroup.add(target, actual);
+    return { target, actual };
+  });
+  updateDebugHelpers();
+}
+function updateDebugHelpers() {
+  if (!skeletonLines || !motion) return;
+  if (!helpersVisible) return;
+  avatar.root.updateMatrixWorld(true);
+  const attribute = skeletonLines.geometry.attributes.position;
+  const point = v3();
+  normalizedPairs.forEach(([parent, node], index) => {
+    parent.getWorldPosition(point);
+    attribute.setXYZ(index * 2, point.x, point.y, point.z);
+    node.getWorldPosition(point);
+    attribute.setXYZ(index * 2 + 1, point.x, point.y, point.z);
+  });
+  attribute.needsUpdate = true;
+  const feet = motion.getMetrics().feet;
+  for (let i = 0; i < contactMarkers.length; i++) {
+    const foot = feet[i],
+      markers = contactMarkers[i];
+    // Use the authored heel/toe support point, never call an ankle target shoe contact.
+    const shoeContact = foot.contactPoint && foot.contactPoint !== "ankle";
+    const target =
+      shoeContact && foot.supportAnchor ? foot.supportAnchor : foot.target;
+    const actual =
+      shoeContact && foot.supportActual ? foot.supportActual : foot.actual;
+    markers.target.position.set(target[0], 0.035, target[2]);
+    markers.actual.position.set(actual[0], 0.025, actual[2]);
+    markers.target.material.color.set(
+      foot.reachClamp || foot.slip > 0.005
+        ? 0xe23e45
+        : foot.contact
+          ? 0x29bd71
+          : 0xf29b2d,
+    );
+  }
+}
+function setHelpers(value) {
+  helpersVisible = Boolean(value);
+  helperGroup.visible = helpersVisible;
+  document
+    .querySelector("#helpers-toggle")
+    .setAttribute("aria-pressed", String(helpersVisible));
+  document.querySelector("#helpers-toggle").textContent = helpersVisible
+    ? "隐藏骨骼与足部辅助"
+    : "显示骨骼与足部辅助";
+  updateDebugHelpers();
+}
+
 function blocked(x, z) {
   return (
     Math.abs(x) > 4.05 ||
     z < -3.05 ||
     z > 3.05 ||
-    obstacles.some((o) => Math.abs(x - o.x) < o.hw && Math.abs(z - o.z) < o.hd)
+    obstacles.some((o) => {
+      if (!(Math.abs(x - o.x) < o.hw && Math.abs(z - o.z) < o.hd)) return false;
+      if (o.name !== "chair") return true;
+      const p = chair.worldToLocal(new THREE.Vector3(x, 0, z));
+      const b = chairBounds[0].localBox;
+      return (
+        p.x > b.min.x - 0.1 &&
+        p.x < b.max.x + 0.1 &&
+        p.z > b.min.z - 0.1 &&
+        p.z < b.max.z + 0.1
+      );
+    })
   );
 }
 function lineClear(a, b) {
@@ -302,6 +619,9 @@ class CharacterScene extends Phaser.Scene {
     this.afterWalk = null;
     this.pending = null;
     this.paused = false;
+    this.playbackRate = 1;
+    this.simulationTime = 0;
+    this.lastFrameTime = performance.now();
     this.outfit = 0;
     this.sequence = [];
     this.sequenceIndex = -1;
@@ -312,6 +632,8 @@ class CharacterScene extends Phaser.Scene {
     this.yaw = 0;
     this.actualSpeed = 0;
     this.seatAlign = false;
+    this.backgroundSuspended = document.hidden;
+    this.resumeFrame = false;
   }
   create() {
     controller = this;
@@ -340,7 +662,7 @@ class CharacterScene extends Phaser.Scene {
       const hit = ray.intersectObject(floor)[0];
       if (hit) this.command({ type: "walk", x: hit.point.x, z: hit.point.z });
     });
-    this.input.keyboard.on("keydown-SPACE", (e) => {
+    const onSpace = (e) => {
       if (
         e.target instanceof HTMLInputElement ||
         e.target instanceof HTMLButtonElement
@@ -348,8 +670,10 @@ class CharacterScene extends Phaser.Scene {
         return;
       e.preventDefault();
       this.command({ type: "pause" });
-    });
-    this.game.events.on("command", (cmd) => this.command(cmd));
+    };
+    this.input.keyboard.on("keydown-SPACE", onSpace);
+    const onCommand = (cmd) => this.command(cmd);
+    this.game.events.on("command", onCommand);
     controls = new OrbitControls(camera, this.game.canvas);
     controls.target.set(initialPosition[0], 0.85, initialPosition[2]);
     controls.minDistance = 1.5;
@@ -357,7 +681,22 @@ class CharacterScene extends Phaser.Scene {
     controls.maxPolarAngle = Math.PI * 0.48;
     controls.enableDamping = true;
     controls.enablePan = true;
+    const onVisibility = () => {
+      this.backgroundSuspended = document.hidden;
+      this.resumeFrame = true;
+      this.lastFrameTime = performance.now();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
     this.scale.on("resize", resizeThree);
+    const sceneControls = controls;
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      this.game.events.off("command", onCommand);
+      this.input.keyboard.off("keydown-SPACE", onSpace);
+      document.removeEventListener("visibilitychange", onVisibility);
+      this.scale.off("resize", resizeThree);
+      sceneControls.dispose();
+      if (controls === sceneControls) controls = null;
+    });
     this.cameraPreset("close", true);
   }
   cancelSequence() {
@@ -369,7 +708,21 @@ class CharacterScene extends Phaser.Scene {
   }
   command(cmd) {
     if (!ready && cmd.type !== "camera") return;
-    if (!["pause", "camera", "speed", "outfit"].includes(cmd.type))
+    if (
+      ![
+        "pause",
+        "camera",
+        "view",
+        "speed",
+        "outfit",
+        "playbackRate",
+        "helpers",
+        "advance",
+        "corrections",
+        "bodyMode",
+        "dynamics",
+      ].includes(cmd.type)
+    )
       this.cancelSequence();
     switch (cmd.type) {
       case "action":
@@ -391,13 +744,28 @@ class CharacterScene extends Phaser.Scene {
         this.runSequence();
         break;
       case "pause":
-        this.paused = !this.paused;
-        document.querySelector("#pause").textContent = this.paused
-          ? "继续"
-          : "暂停";
-        document
-          .querySelector("#pause")
-          .setAttribute("aria-pressed", String(this.paused));
+        this.setPaused(cmd.value ?? !this.paused);
+        break;
+      case "playbackRate":
+        this.setPlaybackRate(cmd.value);
+        break;
+      case "view":
+        this.setView(cmd.name);
+        break;
+      case "helpers":
+        setHelpers(cmd.value);
+        break;
+      case "advance":
+        this.advance(cmd.seconds);
+        break;
+      case "corrections":
+        setCorrections(cmd.name);
+        break;
+      case "bodyMode":
+        setBodyMode(cmd.name);
+        break;
+      case "dynamics":
+        setDynamics(cmd.value);
         break;
       case "reset":
         this.reset();
@@ -425,8 +793,16 @@ class CharacterScene extends Phaser.Scene {
     this.seatAlign = false;
   }
   action(name) {
-    if (name === "sit" && (this.mode === "sit" || this.mode === "stand"))
-      name = "stand";
+    // Repeated commands are idempotent; only the sit UI button explicitly toggles.
+    if (
+      (name === this.mode &&
+        !(
+          name === "idle" &&
+          (this.pending || this.target || this.seatAlign)
+        )) ||
+      (name === "sit" && (this.afterWalk === "sit" || this.seatAlign))
+    )
+      return;
     if ((this.mode === "sit" || this.mode === "stand") && name !== "stand") {
       this.pending = { type: "action", name };
       this.setMode("stand");
@@ -436,7 +812,8 @@ class CharacterScene extends Phaser.Scene {
     this.clearPath();
     this.turnRemaining = 0;
     if (name === "sit") {
-      this.go(seatRoot.x, seatRoot.z + motion.getSeatApproach(), "sit");
+      const p = seatTargets().approach;
+      this.go(p[0], p[2], "sit");
       return;
     }
     if (name === "turn") {
@@ -449,10 +826,18 @@ class CharacterScene extends Phaser.Scene {
     );
   }
   go(x, z, after = null) {
+    if (![x, z].every(Number.isFinite))
+      throw new TypeError("Walk target must be finite");
     if (this.mode === "sit" || this.mode === "stand") {
       this.pending = { type: "walk", x, z, after };
       this.setMode("stand");
-      return false;
+      return true;
+    }
+    if (this.mode === "dance" || motion.getMetrics().danceMix > 0.001) {
+      this.pending = { type: "walk", x, z, after };
+      this.clearPath();
+      this.setMode("idle");
+      return true;
     }
     const p = pathTo([avatar.root.position.x, avatar.root.position.z], x, z);
     if (!p.length) {
@@ -460,6 +845,8 @@ class CharacterScene extends Phaser.Scene {
         "这里有家具，请选择地面空位";
       return false;
     }
+    this.pending = null;
+    this.seatAlign = false;
     this.path = p;
     this.target = this.path.shift();
     this.afterWalk = after;
@@ -495,23 +882,86 @@ class CharacterScene extends Phaser.Scene {
         ),
       );
   }
+  setPaused(value) {
+    this.paused = Boolean(value);
+    this.lastFrameTime = performance.now();
+    document.querySelector("#pause").textContent = this.paused
+      ? "继续"
+      : "暂停";
+    document
+      .querySelector("#pause")
+      .setAttribute("aria-pressed", String(this.paused));
+  }
+  setPlaybackRate(value) {
+    const rate = Number(value);
+    if (rate !== 1 && rate !== 0.25)
+      throw new RangeError("Playback rate must be 1 or 0.25");
+    this.playbackRate = rate;
+    for (const button of document.querySelectorAll("[data-playback-rate]"))
+      button.setAttribute(
+        "aria-pressed",
+        String(Number(button.dataset.playbackRate) === rate),
+      );
+  }
+  setView(name) {
+    if (name === "free") this.cameraPreset("close");
+    else if (fixedViews.has(name)) this.cameraPreset(name, true);
+    else throw new RangeError("View must be front, side, back or free");
+  }
+  advance(seconds = 1 / 60) {
+    if (!ready) throw new Error("Avatar is not ready");
+    if (!Number.isFinite(seconds) || seconds < 0 || seconds > 30)
+      throw new RangeError("Advance expects 0..30 simulation seconds");
+    this.setPaused(true);
+    // Explicit simulation seconds: independent of playbackRate and the display
+    // refresh rate. Every subsystem receives the same small dt.
+    const steps = Math.ceil(seconds * 120);
+    for (let i = 0; i < steps; i++) this.simulate(seconds / steps);
+    updateFixedCamera();
+    updateDebugHelpers();
+    renderer.render(world, camera);
+    refreshUI();
+    return snapshot();
+  }
   reset() {
     this.clearPath();
     this.pending = null;
     this.turnRemaining = 0;
     this.speed = 0;
     this.distance = 0;
+    this.simulationTime = 0;
+    this.actualSpeed = 0;
     this.yaw = 0;
     avatar.root.position.set(...initialPosition);
     avatar.root.rotation.y = 0;
     this.setMode("idle");
     motion.setAction("idle");
     if (motion.reset) motion.reset();
+    // Reset is an explicit teleport, so secondary dynamics must not inherit
+    // world-space velocity from the previous location. Never reset during walk.
+    motion.update(0, {
+      distanceDelta: 0,
+      speed: 0,
+      moving: false,
+      action: "idle",
+      turning: false,
+    });
+    updateAvatar(0);
+    avatar.root.updateMatrixWorld(true);
+    avatar.resetSecondary?.();
+    avatar.updateGarment?.(0, 0, chairBounds);
     this.setSpeed(0.85);
     this.cameraPreset("close");
   }
   cameraPreset(name, immediate = false) {
     cameraMode = name;
+    cameraTween = null;
+    if (controls) controls.enabled = !fixedViews.has(name);
+    syncViewButtons();
+    if (fixedViews.has(name)) {
+      updateFixedCamera();
+      return;
+    }
     const root = avatar?.root.position || v3(...initialPosition);
     followPosition.copy(root);
     const target = name === "room" ? v3(0, 0.65, 0) : v3(root.x, 0.87, root.z);
@@ -635,10 +1085,20 @@ class CharacterScene extends Phaser.Scene {
     }
   }
   update(time, delta) {
-    const dt = Math.min(delta / 1000, 0.05);
-    frameMs.push(delta);
+    // Phaser smooths delta; use the measured clock for an exact inspection
+    // multiplier, including the first frame after a pause or screenshot.
+    const now = performance.now();
+    const elapsedMs = Math.max(0, now - this.lastFrameTime);
+    this.lastFrameTime = now;
+    const dt = this.resumeFrame ? 0 : Math.min(elapsedMs / 1000, 0.05);
+    this.resumeFrame = false;
+    frameMs.push(elapsedMs);
     if (frameMs.length > 600) frameMs.shift();
-    if (ready && !this.paused) this.simulate(dt);
+    if (ready && !this.paused && !this.backgroundSuspended) {
+      const simulated = dt * this.playbackRate;
+      const steps = Math.max(1, Math.ceil(simulated * 120));
+      for (let i = 0; i < steps; i++) this.simulate(simulated / steps);
+    }
     if (ready && controls) {
       const move = avatar.root.position.clone().sub(followPosition);
       if (cameraMode === "close" && !cameraTween) {
@@ -658,7 +1118,9 @@ class CharacterScene extends Phaser.Scene {
       );
       if (cameraTween.t === 1) cameraTween = null;
     }
-    controls?.update();
+    if (fixedViews.has(cameraMode)) updateFixedCamera();
+    else controls?.update();
+    updateDebugHelpers();
     const before = performance.now();
     renderer.render(world, camera);
     renderMs.push(performance.now() - before);
@@ -669,6 +1131,7 @@ class CharacterScene extends Phaser.Scene {
     }
   }
   simulate(dt) {
+    this.simulationTime += dt;
     this.modeTime += dt;
     let moved = 0;
     this.turning = false;
@@ -677,7 +1140,10 @@ class CharacterScene extends Phaser.Scene {
       let dx = this.target[0] - root.position.x,
         dz = this.target[1] - root.position.z,
         dist = Math.hypot(dx, dz);
-      if (dist < 0.018) {
+      // Seat alignment needs sub-millimetre arrival without a root snap.
+      const arrivalTolerance =
+        this.afterWalk === "sit" && !this.path.length ? 0.0005 : 0.018;
+      if (dist < arrivalTolerance) {
         this.target = this.path.shift() || null;
         if (this.target) {
           dx = this.target[0] - root.position.x;
@@ -733,12 +1199,18 @@ class CharacterScene extends Phaser.Scene {
       }
     } else this.speed = Math.max(0, this.speed - 2.5 * dt);
     if (this.seatAlign) {
-      const delta = Math.atan2(Math.sin(-this.yaw), Math.cos(-this.yaw));
+      const goalYaw = chair.rotation.y;
+      const delta = Math.atan2(
+        Math.sin(goalYaw - this.yaw),
+        Math.cos(goalYaw - this.yaw),
+      );
       this.yaw += clamp(delta, -dt * 2.5, dt * 2.5);
       root.rotation.y = this.yaw;
       this.turning = true;
       if (Math.abs(delta) < 0.025) {
         this.seatAlign = false;
+        this.yaw = goalYaw;
+        root.rotation.y = goalYaw;
         this.setMode("sit");
       }
     }
@@ -758,11 +1230,11 @@ class CharacterScene extends Phaser.Scene {
       action: this.mode === "turn" ? "idle" : this.mode,
       turning: this.turning,
     });
-    avatar.vrm.update(dt);
+    updateAvatar(dt);
     root.updateMatrixWorld(true);
     const m = motion.getMetrics();
     avatar.updateGarment?.(m.sitProgress, dt, chairBounds);
-    if (this.mode === "stand" && (m.transitionComplete || this.modeTime > 3)) {
+    if (this.mode === "stand" && m.transitionComplete) {
       this.setMode("idle");
       if (this.pending) {
         const cmd = this.pending;
@@ -771,10 +1243,16 @@ class CharacterScene extends Phaser.Scene {
         else this.action(cmd.name);
       }
     }
+    if (this.mode === "idle" && this.pending && m.danceMix <= 0.001) {
+      const cmd = this.pending;
+      this.pending = null;
+      if (cmd.type === "walk") this.go(cmd.x, cmd.z, cmd.after);
+      else this.action(cmd.name);
+    }
     if (this.sequence.length) {
       const s = this.sequence[this.sequenceIndex];
       if (s.type === "walk") {
-        if (!this.target && this.speed < 0.02) this.nextStep();
+        if (!this.target && !this.pending && this.speed < 0.02) this.nextStep();
       } else if (s.type === "action") {
         const eligible =
           s.name === "sit"
@@ -800,6 +1278,11 @@ function snapshot() {
     m = motion?.getMetrics() || {};
   return {
     ready,
+    buildInfo,
+    chair: { position: chair.position.toArray(), ...seatTargets() },
+    pending: c?.pending,
+    seatAlign: c?.seatAlign,
+    backgroundSuspended: c?.backgroundSuspended,
     mode: c?.mode,
     outfit: c?.outfit,
     outfitInfo: avatar?.getOutfitInfo(),
@@ -814,6 +1297,26 @@ function snapshot() {
       ? blocked(avatar.root.position.x, avatar.root.position.z)
       : null,
     paused: c?.paused,
+    playbackRate: c?.playbackRate,
+    simulationTime: c?.simulationTime,
+    modeTime: c?.modeTime,
+    view: fixedViews.has(cameraMode) ? cameraMode : "free",
+    camera: {
+      mode: cameraMode,
+      position: camera.position.toArray(),
+      target: controls?.target.toArray(),
+    },
+    helpers: {
+      visible: helpersVisible,
+      normalizedSegments: normalizedPairs.length,
+      contactProjection:
+        "heel/toe support anchor and actual when active; otherwise ankle target and actual, world XZ projected to ground",
+    },
+    inspection: {
+      ...inspection,
+      flags: { ...correctionLayers[inspection.corrections] },
+      asset: avatar?.getDebugState?.() || null,
+    },
     sequenceIndex: c?.sequenceIndex,
     sequenceLength: c?.sequence.length,
     phase: m.phase,
@@ -871,6 +1374,11 @@ resizeThree();
 const emit = (cmd) => game.events.emit("command", cmd);
 window.__debug = {
   ready: false,
+  get buildInfo() {
+    return buildInfo;
+  },
+  setChairTransform,
+  chairColliders: () => chairBounds,
   snapshot,
   action: (name) => emit({ type: "action", name }),
   setSpeed: (value) => emit({ type: "speed", value }),
@@ -879,6 +1387,15 @@ window.__debug = {
   runSequence: () => emit({ type: "sequence" }),
   route: (name) => emit({ type: "route", name }),
   pause: () => emit({ type: "pause" }),
+  setPaused: (value) => emit({ type: "pause", value }),
+  setPlaybackRate: (value) => controller.setPlaybackRate(value),
+  view: (name) => controller.setView(name),
+  setHelpers,
+  setCorrections,
+  setBodyMode,
+  setDynamics,
+  advance: (seconds) => controller.advance(seconds),
+  cameraObject: () => camera,
   reset: () => emit({ type: "reset" }),
   camera: (name) => emit({ type: "camera", name }),
   avatar: () => avatar,
@@ -888,7 +1405,14 @@ window.__debug = {
   game,
 };
 for (const b of document.querySelectorAll("[data-action]"))
-  b.onclick = () => emit({ type: "action", name: b.dataset.action });
+  b.onclick = () =>
+    emit({
+      type: "action",
+      name:
+        b.id === "sit-button" && controller?.mode === "sit"
+          ? "stand"
+          : b.dataset.action,
+    });
 for (const b of document.querySelectorAll("[data-outfit]"))
   b.onclick = () => emit({ type: "outfit", value: b.dataset.outfit });
 for (const b of document.querySelectorAll("[data-speed]"))
@@ -897,11 +1421,41 @@ for (const b of document.querySelectorAll("[data-route]"))
   b.onclick = () => emit({ type: "route", name: b.dataset.route });
 for (const b of document.querySelectorAll("[data-camera]"))
   b.onclick = () => emit({ type: "camera", name: b.dataset.camera });
+for (const button of document.querySelectorAll("[data-playback-rate]"))
+  button.onclick = () =>
+    emit({ type: "playbackRate", value: Number(button.dataset.playbackRate) });
+for (const button of document.querySelectorAll("[data-view]"))
+  button.onclick = () => emit({ type: "view", name: button.dataset.view });
+document.querySelector("#correction-mode").onchange = (event) =>
+  emit({ type: "corrections", name: event.target.value });
+for (const button of document.querySelectorAll("[data-body-mode]"))
+  button.onclick = () =>
+    emit({ type: "bodyMode", name: button.dataset.bodyMode });
+document.querySelector("#dynamics-toggle").onclick = () =>
+  emit({ type: "dynamics", value: !inspection.dynamics });
+document.querySelector("#helpers-toggle").onclick = () =>
+  emit({ type: "helpers", value: !helpersVisible });
+document.querySelector("#advance-frame").onclick = () =>
+  emit({ type: "advance", seconds: 1 / 60 });
 document.querySelector("#speed").oninput = (e) =>
   emit({ type: "speed", value: e.target.value });
 document.querySelector("#sequence").onclick = () => emit({ type: "sequence" });
 document.querySelector("#pause").onclick = () => emit({ type: "pause" });
 document.querySelector("#reset").onclick = () => emit({ type: "reset" });
+let buildInfo = { development: import.meta.env.DEV, shortId: null };
+fetch(`${import.meta.env.BASE_URL}build-info.json`, { cache: "no-store" })
+  .then((r) => (r.ok ? r.json() : null))
+  .then((info) => {
+    buildInfo = { ...info, development: import.meta.env.DEV };
+    document.querySelector(".edition").textContent = import.meta.env.DEV
+      ? "开发预览"
+      : `候选 ${info?.shortId || "未标识"}`;
+  })
+  .catch(() => {
+    document.querySelector(".edition").textContent = import.meta.env.DEV
+      ? "开发预览"
+      : "构建标识缺失";
+  });
 const loadStart = performance.now();
 loadAvatar({ scene: world, renderer })
   .then(async (a) => {
@@ -917,31 +1471,18 @@ loadAvatar({ scene: world, renderer })
       action: "idle",
       turning: false,
     });
-    avatar.vrm.update(0);
+    updateAvatar(0);
     // The root moved from import origin to the room; do not treat that
     // placement as a physics impulse on the first visible hair frame.
     avatar.vrm.springBoneManager?.reset();
     setChairHeight(motion.getSeatHeight());
-    chair.position.z = seatRoot.z - motion.getMetrics().seatBack;
-    chair.updateMatrixWorld(true);
-    chairBounds.push(
-      new THREE.Box3().setFromObject(chairSeat),
-      new THREE.Box3().setFromObject(chairBack),
-    );
-    // Derive navigation occupancy from the rendered seat. The old hard-coded
-    // obstacle was behind it and left the front of the seat walkable.
-    const seatBox = chairBounds[0];
-    Object.assign(
-      obstacles.find((o) => o.name === "chair"),
-      {
-        x: (seatBox.min.x + seatBox.max.x) / 2,
-        z: (seatBox.min.z + seatBox.max.z) / 2,
-        hw: (seatBox.max.x - seatBox.min.x) / 2 + 0.1,
-        hd: (seatBox.max.z - seatBox.min.z) / 2 + 0.1,
-      },
-    );
+    // Preserve the original default seat location; all later targets are local.
+    chair.position.z = 1.05 - motion.getMetrics().seatBack;
+    refreshChair();
     avatar.updateGarment?.(motion.getMetrics().sitProgress, 0, chairBounds);
     loadMs = performance.now() - loadStart;
+    createDebugHelpers();
+    syncInspectionUI();
     ready = true;
     window.__debug.ready = true;
     document.querySelector("#loading").hidden = true;

@@ -95,6 +95,56 @@
             <button id="pause" aria-pressed="false">暂停</button
             ><button id="reset">重新站好</button>
           </div>
+          <section class="debug-controls" aria-label="动作检查工具">
+            <h3>逐帧观察 <span>与行走速度独立</span></h3>
+            <div class="debug-row" aria-label="播放倍率">
+              <button data-playback-rate="1" aria-pressed="true">
+                1× 播放
+              </button>
+              <button data-playback-rate="0.25" aria-pressed="false">
+                0.25× 慢放
+              </button>
+              <button id="advance-frame">单步 1/60 秒</button>
+            </div>
+            <div class="debug-row" aria-label="固定相对视角">
+              <button data-view="front" aria-pressed="false">正面</button>
+              <button data-view="side" aria-pressed="false">侧面</button>
+              <button data-view="back" aria-pressed="false">背面</button>
+              <button data-view="free" aria-pressed="true">自由视角</button>
+            </div>
+            <button id="helpers-toggle" aria-pressed="false">
+              显示骨骼与足部辅助
+            </button>
+            <p class="debug-legend">
+              暂停后可换视角。地面投影：支撑时显示鞋跟/鞋尖接触点，其他状态显示踝目标。绿＝支撑，橙＝摆动，白圈＝对应实际点。
+            </p>
+            <div class="layer-controls">
+              <label for="correction-mode">动作修正层</label>
+              <select id="correction-mode" disabled>
+                <option value="raw">原始重定向</option>
+                <option value="ik">仅足部 IK</option>
+                <option value="pelvis">仅骨盆修正</option>
+                <option value="full" selected>完整修正</option>
+              </select>
+              <div class="debug-row" aria-label="外观诊断模式">
+                <button data-body-mode="base" aria-pressed="false" disabled>
+                  基础动作（保留衣片覆盖）
+                </button>
+                <button data-body-mode="dressed" aria-pressed="true" disabled>
+                  完整穿衣
+                </button>
+              </div>
+              <button id="dynamics-toggle" aria-pressed="true" disabled>
+                附加动态：开
+              </button>
+              <p id="body-mode-note" class="debug-legend">
+                原模型胸腹皮肤缺面；基础模式保留原上衣和短裤覆盖，不是完整裸模。
+              </p>
+              <p class="diagnostic-warning">
+                诊断关闭修正时，接触不代表最终效果。
+              </p>
+            </div>
+          </section>
           <div class="sequence-progress"><div id="progress-bar"></div></div>
           <p id="sequence-label" aria-live="polite">
             手动体验 · 可以随时暂停或换装
@@ -102,6 +152,12 @@
           <details>
             <summary>运行数据与验证说明</summary>
             <pre id="metrics">等待角色加载</pre>
+            <p class="notice">
+              更新顺序：动作先写入 normalized
+              人形骨；角色更新将姿势同步到模型的原始 raw
+              骨并处理附加动态；世界矩阵更新后，服装再进行布料与碰撞更新。紫色辅助线显示
+              normalized 骨，不能单独证明最终模型没有穿模。
+            </p>
             <p class="notice">
               真实蒙皮角色；行走、站立、坐起与舞蹈复用 Quaternius CC0
               动作并重定向。裙装为近似布料，目前无自碰撞和通用体型适配。样板用于观察，动画与碰撞尚未全部通过。Phaser

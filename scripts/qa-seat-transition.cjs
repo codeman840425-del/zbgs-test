@@ -48,9 +48,9 @@ const path = require("node:path");
                     const box = p.colliders.find((b) => b.name === name);
                     return points.map((p) =>
                       Math.min(
-                        ...p.position.flatMap((x, i) => [
-                          x - box.min[i],
-                          box.max[i] - x,
+                        ...p.localPosition.flatMap((x, i) => [
+                          x - box.localMin[i],
+                          box.localMax[i] - x,
                         ]),
                       ),
                     );
@@ -78,10 +78,11 @@ const path = require("node:path");
         {
           date: new Date().toISOString(),
           url: page.url(),
+          buildInfo: await page.evaluate(() => __debug.buildInfo),
           summary,
           results,
           limitation:
-            "Sampled 30 Hz vertex/AABB overlaps, not swept triangle contact or body/cloth self collision.",
+            "Sampled 30 Hz actual mesh vertices against chair local boxes; not swept triangle contact or body/cloth self collision.",
         },
         null,
         2,
