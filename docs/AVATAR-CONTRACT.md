@@ -93,3 +93,9 @@ M1A完整穿衣/真实完整人体中性材质、raw/IK/pelvis/full可同刻对�
 共同时间约定为秒：sceneSimulationTime用于动作，audioTrackTime及actionAudioOffset独立记录；暂停、恢复、循环需验证差值，不以两个独立累加计时器默认同步。当前Phaser禁用音频，以上不是已实现音乐系统。
 
 经营系统掌管任务、收益与PK权威状态；角色系统只显示当前业务状态。未加载角色、动画暂停、帧率下降、取消舞蹈不应直接结算或重算经营收益。未来多人服务另行实现账号、权威存档、结算、排行榜/交易；当前浏览器样板不具有这些能力。
+
+## 展示衍生数据（登记，界面后置）
+
+房间人物、头像、招聘列表、角色详情均引用同一actorId与已保存最终外观。外观/装备/发型变更生成appearanceRevision；静态预览键由actorId、appearanceRevision、assetManifestVersion、renderProfileVersion组成。版本不匹配仅标预览需更新，不能改变身份/重新随机生成。具体预览生成、缓存和页面不在本轮M1实现范围。
+
+基模派生另立bodyAssetId/assetVersion与精确SHA，装备fit明确兼容派生身份；不能绕过校验复用原hash。真实脸/局部体型风险样件在定型前做，结果分别归入CAPABILITIES RISK-01/02，不把表情morph或整体缩放计为外貌几何制作通过。

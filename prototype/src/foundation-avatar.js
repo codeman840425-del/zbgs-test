@@ -2,9 +2,11 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { VRMLoaderPlugin, VRMUtils } from "@pixiv/three-vrm";
 import { createM1Equipment } from "./m1-equipment.js";
+import { foundationProfile } from "./foundation-profiles.js";
+import { createLivePresentation } from "./live-presentation.js";
 
-export async function loadFoundationAvatar({ scene, renderer }) {
-  const url = "/assets/foundation/base-female-roundtrip.vrm";
+export async function loadFoundationAvatar({ scene, renderer, bodyType = "female" }) {
+  const config = foundationProfile(bodyType), url = config.url;
   const response = await fetch(url);
   if (!response.ok) throw new Error(`Foundation HTTP ${response.status}`);
   const buffer = await response.arrayBuffer();
@@ -13,11 +15,7 @@ export async function loadFoundationAvatar({ scene, renderer }) {
   ]
     .map((x) => x.toString(16).padStart(2, "0"))
     .join("");
-  if (
-    sha256 !==
-    "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95"
-  )
-    throw new Error("Foundation identity mismatch");
+  if (sha256 !== config.sha256) throw new Error("Foundation identity mismatch");
   const loader = new GLTFLoader();
   loader.register((p) => new VRMLoaderPlugin(p));
   const gltf = await loader.parseAsync(buffer, "/assets/foundation/");
@@ -36,9 +34,7 @@ export async function loadFoundationAvatar({ scene, renderer }) {
     size = new THREE.Vector2();
   let debugBody = false,
     outfit = 0,
-    dynamics = true,
-    faceTime = 0,
-    facePreset = "neutral";
+    dynamics = true;
   vrm.scene.traverse((mesh) => {
     if (!mesh.isMesh) return;
     mesh.frustumCulled = false;
@@ -64,8 +60,9 @@ export async function loadFoundationAvatar({ scene, renderer }) {
     if (materials.some((m) => /Shoes/i.test(m.name))) shoes.push(mesh);
     else if (materials.some((m) => /_CLOTH/.test(m.name))) clothes.push(mesh);
   });
-  const equipment = await createM1Equipment({ vrm, avatarSha256: sha256 });
+  const equipment = await createM1Equipment({ vrm, avatarSha256: sha256, bodyType });
   const surfaces = equipment.getAssetProfile();
+  const livePresentation = createLivePresentation({vrm, root, bodyType: config.referenceBody || bodyType});
   const meshRoles = {};
   for (const role of [
     "body",
@@ -85,7 +82,8 @@ export async function loadFoundationAvatar({ scene, renderer }) {
   let lastGarmentColliders = [],
     garmentPreparedForHands = false;
   const profile = {
-    id: "beta-base-female-m1",
+    id: config.id,
+    bodyType,
     url,
     sha256,
     bodyComplete: true,
@@ -94,9 +92,10 @@ export async function loadFoundationAvatar({ scene, renderer }) {
     garmentStatus: "independent new-body equipment; visual acceptance pending",
     motion: {
       deriveSeatFromBody: true,
+      get preserveAuthoredHands() { return livePresentation.getState().speaking; },
       seatClothAllowance: 0.006,
       seatHeight: 0.47,
-      seatHandRadii: equipment.getInfo().skirtDynamics.thighRadii,
+      seatHandRadii: equipment.getInfo().skirtDynamics?.thighRadii,
       seatHandSurfaces: (refresh = true) => {
         if (debugBody || outfit !== 1) return [];
         // fitSeatHands runs after current normalized pelvis/legs are solved.
@@ -114,7 +113,7 @@ export async function loadFoundationAvatar({ scene, renderer }) {
       outfits: [
         { name: "base", bodyMode: "base", outfit: 0, dynamics: false },
         { name: "pants", bodyMode: "dressed", outfit: 0, dynamics: true },
-        { name: "skirt", bodyMode: "dressed", outfit: 1, dynamics: true },
+        ...(config.ids.skirt ? [{ name: "skirt", bodyMode: "dressed", outfit: 1, dynamics: true }] : []),
       ],
     },
   };
@@ -123,7 +122,7 @@ export async function loadFoundationAvatar({ scene, renderer }) {
   // floor IK is applied (fixed shoe). Compensate this measured lever ratio,
   // rather than pretending the hip and the thigh underside move together.
   Object.defineProperty(profile.motion, "seatLayerThickness", {
-    get: () => (debugBody ? 0 : 0.006 / 0.61),
+    get: () => (debugBody ? 0 : config.seatLayerThickness),
   });
   function setDebugBody(value) {
     debugBody = Boolean(value);
@@ -132,61 +131,29 @@ export async function loadFoundationAvatar({ scene, renderer }) {
     equipment.setDebugBody(debugBody);
   }
   setDebugBody(false);
-  // This page also retains ?legacy. Only relabel controls for the new adapter.
-  document.querySelector('[data-outfit="0"] b').textContent = "独立及膝裤";
-  const oldTrial = document.querySelector('[data-outfit="2"]');
-  oldTrial.hidden = true;
-  oldTrial.nextElementSibling.textContent =
-    "M1A女性候选：裤装与裙装分别加载并复用当前骨架；视觉验收尚未完成。";
-  const faceControls = document.createElement("div");
-  faceControls.className = "debug-row";
-  for (const [id, label] of [
-    ["neutral", "自然眨眼"],
-    ["happy", "微笑"],
-    ["aa", "口型 A"],
-  ]) {
-    const button = document.createElement("button");
-    button.textContent = label;
-    button.dataset.expression = id;
-    button.onclick = () => {
-      facePreset = id;
-    };
-    faceControls.append(button);
-  }
-  document.querySelector(".debug-controls").append(faceControls);
-  function updateFace(dt) {
-    faceTime += dt;
-    for (const id of ["happy", "aa"])
-      vrm.expressionManager?.setValue(id, facePreset === id ? 0.65 : 0);
-    const blinkPhase = faceTime % 3.6;
-    vrm.expressionManager?.setValue(
-      "blink",
-      blinkPhase < 0.18 ? Math.sin((blinkPhase / 0.18) * Math.PI) : 0,
-    );
-  }
   return {
     vrm,
     root,
     profile,
+    config,
+    livePresentation,
     getAssetProfile: () => profile,
     setOutfit: (n) => {
+      equipment.setOutfit(n);
       outfit = Number(n) === 1 ? 1 : 0;
-      equipment.setOutfit(outfit);
     },
     setDebugBody,
     setDynamics: (value) => {
       dynamics = Boolean(value);
       vrm.springBoneManager?.reset();
     },
-    setExpression: (name) => {
-      if (!["neutral", "happy", "aa"].includes(name))
-        throw new Error("Unsupported M1 expression");
-      facePreset = name;
-    },
-    update: (dt) => {
-      updateFace(dt);
+    setExpression: name => livePresentation.setExpression(name),
+    update: (dt, state = {}) => {
+      livePresentation.preUpdate(dt, state);
       vrm.update(dynamics ? dt : 0);
       if (!dynamics) vrm.springBoneManager?.reset();
+      root.updateMatrixWorld(true);
+      livePresentation.postUpdate();
     },
     resetSecondary: () => vrm.springBoneManager?.reset(),
     updateGarment: (_sit, dt, colliders) => {
@@ -205,15 +172,23 @@ export async function loadFoundationAvatar({ scene, renderer }) {
       dynamics,
       bodyComplete: true,
       baseLabel: "完整人体诊断",
-      label: "新完整人体候选",
+      label: config.label,
       description:
-        "新人体完整皮肤；裤装与裙装是独立装备，基础模式保留同一套鞋。当前为M1A女性候选，画风待确认。",
+        `${config.label}：完整人体与独立装备；基础模式保留同一套鞋。当前组合须独立验收，画风待确认。`,
       asset: profile,
     }),
+    dispose: () => {
+      livePresentation.dispose();
+      equipment.dispose();
+      root.removeFromParent();
+      for (const [mesh, material] of sourceMaterials) mesh.material = material;
+      for (const materials of bodyMaterials.values()) materials.forEach(m => m.dispose());
+      VRMUtils.deepDispose(vrm.scene);
+    },
     getOutfitInfo: () => ({
       index: outfit,
-      name: outfit ? "新人体 · 独立裙装" : "新人体 · 独立及膝裤",
-      source: "Base_Female / reconstructed Blender source",
+      name: outfit ? "新人体 · 独立裙装" : `新人体 · ${config.pantsLabel}`,
+      source: config.source,
       equipment: equipment.getInfo(),
       limitations: "新人体M1连续动作验收中",
     }),

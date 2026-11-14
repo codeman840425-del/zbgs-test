@@ -1,0 +1,106 @@
+{
+  "schema": "zbgs-accessory-candidate-v1",
+  "blender": "4.5.9 LTS",
+  "units": "meters",
+  "license": "CC0-1.0",
+  "parameterSha256": "89a90afc18bb34079f668ea2c12480da57d238697cbf8a0b56565095ec91c7f0",
+  "items": [
+    {
+      "id": "studio-microphone-v1",
+      "url": "/assets/m1c/studio-microphone-v1.glb",
+      "sha256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c",
+      "bytes": 106372,
+      "vertices": 2330,
+      "triangles": 4644,
+      "sourceBlend": "assets-source/m1c-accessories/studio-microphone-v1.blend",
+      "sockets": {
+        "grip": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ]
+        },
+        "capsule": {
+          "position": [
+            0,
+            0.113,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ]
+        }
+      },
+      "bodyFit": {
+        "female": {
+          "bone": "rightHand",
+          "scale": 1,
+          "handLocalPosition": null,
+          "handLocalQuaternion": null,
+          "verified": false
+        },
+        "male": {
+          "bone": "rightHand",
+          "scale": 1,
+          "handLocalPosition": null,
+          "handLocalQuaternion": null,
+          "verified": false
+        }
+      }
+    },
+    {
+      "id": "studio-glasses-v1",
+      "url": "/assets/m1c/studio-glasses-v1.glb",
+      "sha256": "c8098a499434c384850a73e6c207fb6c5e85620e9012c4426cd989952e5bec52",
+      "bytes": 54484,
+      "vertices": 1144,
+      "triangles": 2208,
+      "sourceBlend": "assets-source/m1c-accessories/studio-glasses-v1.blend",
+      "sockets": {
+        "bridge": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "forward": [
+            0,
+            0,
+            1
+          ]
+        }
+      },
+      "bodyFit": {
+        "female": {
+          "bone": "head",
+          "fitReference": "midpoint of leftEye/rightEye; head orientation",
+          "scale": 1,
+          "headLocalPosition": null,
+          "headLocalQuaternion": null,
+          "verified": false
+        },
+        "male": {
+          "bone": "head",
+          "fitReference": "midpoint of leftEye/rightEye; head orientation",
+          "scale": 1,
+          "headLocalPosition": null,
+          "headLocalQuaternion": null,
+          "verified": false
+        }
+      }
+    }
+  ],
+  "limits": [
+    "Generated resources only; no runtime attachment or holding animation approval",
+    "Per-body mount transforms intentionally null until fitted against actual male/female bones",
+    "Glasses have opaque frames and no transparent lenses"
+  ]
+}

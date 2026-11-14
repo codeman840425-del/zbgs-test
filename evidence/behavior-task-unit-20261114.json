@@ -1,0 +1,20 @@
+{
+  "passed": 7,
+  "checks": [
+    "admission separated from execution; stable IDs and immutable snapshots",
+    "terminal exactly once, including reentrant listeners and callback errors",
+    "only simulation seconds advance timeout; queue wait included",
+    "dispose cancels every admitted pending/running task once",
+    "seat unique ownership, owner cannot collect stale second leases",
+    "sit task completes while chair stays occupied; cancellation/failure needs exit",
+    "destroyed owner releases reserved or occupied seat, never another owner"
+  ],
+  "limitations": [
+    "Pure lifecycle/lease checks; no room-controller integration or physical seated detection validated"
+  ],
+  "sourceHashes": {
+    "prototype/src/behavior-tasks.js": "48bea3db65a6e78bb5444916d004c188eac1c26e7928d58c337addf7512f53a8",
+    "prototype/src/seat-lease.js": "7bfde9e1db1631d4f387347c986cd367c22280cf74245bf2416e1da6690c6048",
+    "scripts/qa-behavior-tasks.mjs": "1c4e7ac29fe5972cf9f47f3fcf54d34bedc4d95c07bfaa362d0373291620a34f"
+  }
+}

@@ -6,7 +6,7 @@ import { createEquipment } from "./equipment.js";
 import { loadFoundationAvatar } from "./foundation-avatar.js";
 export async function loadAvatar({ scene, renderer }) {
   if (!new URLSearchParams(location.search).has("legacy"))
-    return loadFoundationAvatar({ scene, renderer });
+    return loadFoundationAvatar({ scene, renderer, bodyType: new URLSearchParams(location.search).get("body") || "female" });
   const loader = new GLTFLoader();
   loader.register((parser) => new VRMLoaderPlugin(parser));
   const response = await fetch("/assets/avatar.vrm");

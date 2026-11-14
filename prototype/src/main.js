@@ -2,9 +2,12 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import Phaser from "phaser";
 import { loadAvatar } from "./assets.js";
+import { loadFoundationAvatar } from "./foundation-avatar.js";
 import { createMotion } from "./motion.js";
 import { loadRetargetedMotions } from "./motion-source.js";
 import { createTurnPolicy } from "./turn-policy.js";
+import { createBehaviorTasks } from "./behavior-tasks.js";
+import { createSeatLeases } from "./seat-lease.js";
 import "./style.css";
 
 // Phaser owns input, path movement, action sequencing and frame scheduling.
@@ -232,9 +235,9 @@ function refreshChair() {
     },
   );
 }
-function seatTargets() {
-  const back = motion?.getMetrics().seatBack || 0.16;
-  const approach = motion?.getSeatApproach() || 0;
+function seatTargets(rig = motion) {
+  const back = rig?.getMetrics().seatBack || 0.16;
+  const approach = rig?.getSeatApproach() || 0;
   const point = (z) => chair.localToWorld(new THREE.Vector3(0, 0, z)).toArray();
   return {
     yaw: chair.rotation.y,
@@ -251,6 +254,7 @@ function setChairTransform({
   if (![x, z, yaw].every(Number.isFinite))
     throw new TypeError("Chair transform must be finite");
   if (
+    seatLeases.forSeat("room-chair-1") ||
     controller &&
     (controller.mode === "sit" ||
       controller.mode === "stand" ||
@@ -286,6 +290,8 @@ world.add(marker);
 const zero = new THREE.Vector3(),
   v3 = (x = 0, y = 0, z = 0) => new THREE.Vector3(x, y, z),
   clamp = THREE.MathUtils.clamp;
+const seatLeases = createSeatLeases();
+let comparison = null, comparisonGeneration = 0, comparisonLoading = false;
 let avatar = null,
   motion = null,
   controller = null,
@@ -524,6 +530,17 @@ function blocked(x, z) {
     })
   );
 }
+function danceSpaceAvailable(root, radius) {
+  const {x,z} = root.position;
+  if (Math.abs(x)+radius>4.05 || Math.abs(z)+radius>3.05) return false;
+  return !obstacles.some(o => {
+    if (o.name === "chair") {
+      const p=chair.worldToLocal(new THREE.Vector3(x,0,z)), b=chairBounds[0].localBox;
+      return Math.hypot(Math.max(b.min.x-p.x,0,p.x-b.max.x),Math.max(b.min.z-p.z,0,p.z-b.max.z))<radius;
+    }
+    return Math.hypot(Math.max(Math.abs(x-o.x)-o.hw,0),Math.max(Math.abs(z-o.z)-o.hd,0))<radius;
+  });
+}
 function lineClear(a, b) {
   // Sampling every 6cm missed a 2.9cm crossing at a rotated chair corner.
   // Intersect the entire segment against obstacle interiors instead.
@@ -640,8 +657,31 @@ const names = {
   turn: "360° 转身",
 };
 class CharacterScene extends Phaser.Scene {
-  constructor() {
-    super("CharacterStudio");
+  get actor() { return this.instanceAvatar || avatar; }
+  get rig() { return this.instanceMotion || motion; }
+  constructor(instance = null) {
+    super(instance ? "CharacterPeer" : "CharacterStudio");
+    this.instanceAvatar = instance?.avatar;
+    this.instanceMotion = instance?.motion;
+    this.isPeer = !!instance;
+    this.actorId = instance?.actorId || "room-primary";
+    this.initialPosition = instance?.position || initialPosition;
+    this.seatSerial = 0;
+    this.seatToken = null;
+    this.executingRequest = null;
+    this.behaviorTasks = createBehaviorTasks({ownerId: this.actorId, onEvent: event => {
+      if (["cancelled", "failed"].includes(event.type) && this.executingRequest === event.task.requestId) {
+        this.executingRequest = null;
+        this.pending = null;
+        this.clearPath();
+        this.turnRemaining = 0;
+        this.releaseSeatRequest(event.task.reason);
+        if (this.actor && this.rig) {
+          if (["sit", "stand"].includes(this.mode)) this.setMode("stand");
+          else this.setMode("idle");
+        }
+      }
+    }});
     this.mode = "idle";
     this.modeTime = 0;
     this.speed = 0;
@@ -737,11 +777,87 @@ class CharacterScene extends Phaser.Scene {
   cancelSequence() {
     this.sequence = [];
     this.sequenceIndex = -1;
+    if (this.isPeer) return;
     document.querySelector("#sequence-label").textContent =
       "手动体验 · 可以随时暂停或换装";
     document.querySelector("#progress-bar").style.width = "0%";
   }
+  releaseSeatRequest(reason) {
+    if (!this.seatToken) return;
+    seatLeases.requestRelease(this.seatToken, reason);
+    if (seatLeases.get(this.seatToken)?.state === "released") this.seatToken = null;
+  }
+  reserveSeat() {
+    if (this.seatToken && seatLeases.get(this.seatToken)?.state !== "released") return true;
+    const result = seatLeases.reserve({ seatId: "room-chair-1", ownerId: this.actorId,
+      requestId: this.executingRequest || `${this.actorId}:direct-seat:${++this.seatSerial}` });
+    if (result.accepted) this.seatToken = result.lease.token;
+    return result.accepted;
+  }
+  requestBehavior({requestId, kind, payload = {}, timeoutSeconds = 60, queue = false} = {}) {
+    if (requestId && this.behaviorTasks.get(requestId))
+      return this.behaviorTasks.request({requestId, kind, payload, timeoutSeconds, queue});
+    if (!queue) {
+      for (const task of [this.behaviorTasks.active(), ...this.behaviorTasks.pending()].filter(Boolean))
+        this.behaviorTasks.cancel(task.requestId, "superseded");
+    }
+    const admission = this.behaviorTasks.request({requestId, kind, payload, timeoutSeconds, queue});
+    if (admission.admission === "accepted" && !admission.duplicate) this.startBehavior(admission.task);
+    return {...admission, task: this.behaviorTasks.get(admission.task.requestId)};
+  }
+  startBehavior(task) {
+    this.executingRequest = task.requestId;
+    try {
+      if (!this.actor || !this.rig) throw new Error("avatar-resource-unavailable");
+      if (!["walk", "idle", "sit", "stand", "turn", "dance"].includes(task.kind)) throw new Error("unsupported-behavior");
+      if (task.kind === "dance" && task.payload.danceId) this.rig.setDance(task.payload.danceId);
+      if (task.kind === "dance" && !danceSpaceAvailable(this.actor.root,this.rig.getDance()?.radius || .6)) throw new Error("insufficient-dance-space");
+      if (task.kind === "sit" && (!chair.parent || !this.reserveSeat())) throw new Error("seat-unavailable");
+      if (task.kind === "walk") {
+        if (!this.go(task.payload.x, task.payload.z)) throw new Error("path-unreachable");
+      } else if (this.action(task.kind) === false) throw new Error(this.actor.livePresentation?.canPerform(task.kind)?.reason || "seat-unavailable");
+    } catch (error) { this.behaviorTasks.fail(task.requestId, error.message); }
+  }
+  updateBehavior(dt, metrics) {
+    this.behaviorTasks.tick(dt); // Simulation seconds; paused/background time does not count.
+    const task = this.behaviorTasks.active();
+    if (task) {
+      if (task.kind === "sit" && !chair.parent) this.behaviorTasks.fail(task.requestId, "seat-target-invalidated");
+      const settled = !this.target && !this.pending && !this.turnPolicy.sample().active && this.mode === "idle" && metrics.gait < .01 && metrics.stopTime >= .5;
+      let complete = task.kind === "sit" ? this.mode === "sit" && metrics.sitProgress === 1 && !this.pending :
+        ["walk", "idle", "stand", "turn"].includes(task.kind) ? settled : false;
+      if (task.kind === "walk" && complete && Math.hypot(this.actor.root.position.x-task.payload.x, this.actor.root.position.z-task.payload.z) > .05) {
+        this.behaviorTasks.fail(task.requestId, "destination-not-reached"); complete = false;
+      }
+      if (task.kind === "dance" && Number.isFinite(task.payload.durationSeconds) && this.modeTime >= task.payload.durationSeconds && this.mode === "dance") this.action("idle");
+      if (task.kind === "dance" && settled && metrics.danceMix < .001) complete = true;
+      if (complete) {
+        this.behaviorTasks.complete(task.requestId, {mode:this.mode,position:this.actor.root.position.toArray(),seatToken:this.seatToken});
+        this.executingRequest = null;
+      }
+    }
+    // Feet are already at the local approach point while seated. Release only
+    // after the actual pelvis rises and exits the seat footprint, not root alone.
+    const lease = this.seatToken && seatLeases.get(this.seatToken);
+    if (lease?.state === "exiting" && metrics.sitProgress === 0) {
+      const hip = chair.worldToLocal(new THREE.Vector3().fromArray(metrics.hipWorld));
+      if (hip.y > this.rig.getSeatHeight() + .25 && hip.z > .25) {
+        seatLeases.releaseAfterExit(this.seatToken); this.seatToken = null;
+      }
+    }
+    if (!this.behaviorTasks.active()) {
+      const next = this.behaviorTasks.startNext();
+      if (next) this.startBehavior(next);
+    }
+  }
   command(cmd) {
+    if (["route", "sequence", "reset"].includes(cmd.type))
+      for (const task of [this.behaviorTasks.active(), ...this.behaviorTasks.pending()].filter(Boolean)) this.behaviorTasks.cancel(task.requestId, "superseded-by-" + cmd.type);
+    if (["action", "walk"].includes(cmd.type)) {
+      this.cancelSequence();
+      return this.requestBehavior({ requestId: cmd.requestId, kind: cmd.type === "walk" ? "walk" : cmd.name,
+        payload: cmd.type === "walk" ? {x:cmd.x,z:cmd.z} : {}, queue: cmd.queue === true });
+    }
     if (!ready && cmd.type !== "camera") return;
     if (
       ![
@@ -769,6 +885,19 @@ class CharacterScene extends Phaser.Scene {
       case "speed":
         this.setSpeed(cmd.value);
         break;
+      case "danceSelect":
+        this.rig.setDance(cmd.id); return {applied:true};
+      case "speaking":
+        this.actor.livePresentation?.setSpeaking(cmd.value);
+        return {applied:true};
+      case "gaze":
+        this.actor.livePresentation?.setGaze(cmd.target);
+        return {applied:true};
+      case "expression":
+        this.actor.setExpression(cmd.name);
+        return {applied:true};
+      case "accessory":
+        return this.actor.livePresentation?.setAccessory(cmd.kind,cmd.value);
       case "outfit":
         this.setOutfit(cmd.value);
         break;
@@ -814,8 +943,10 @@ class CharacterScene extends Phaser.Scene {
     if (this.mode !== name) {
       this.mode = name;
       this.modeTime = 0;
-      if (motion) {
-        motion.setAction(name === "turn" ? "idle" : name);
+      if (name === "sit" && this.seatToken) seatLeases.occupy(this.seatToken);
+      if (name === "stand" && this.seatToken) seatLeases.beginExit(this.seatToken);
+      if (this.rig) {
+        this.rig.setAction(name === "turn" ? "idle" : name);
         this.lastAction = name;
       }
     }
@@ -824,12 +955,19 @@ class CharacterScene extends Phaser.Scene {
     if (!turnLegacy && this.turnPolicy.sample().active) this.turnPolicy.stop();
     this.path = [];
     this.target = null;
-    marker.visible = false;
+    if (!this.isPeer) marker.visible = false;
     this.afterWalk = null;
     this.seatAlign = false;
     this.pathTurn = null;
   }
   action(name) {
+    const support = this.actor?.livePresentation?.canPerform(name);
+    if (support && !support.allowed) {
+      if (!this.isPeer) document.querySelector("#scene-state").textContent = support.reason;
+      return false;
+    }
+    if (name === "sit" && !this.reserveSeat()) return false;
+    if (name !== "sit" && !["sit", "stand"].includes(this.mode)) this.releaseSeatRequest("behavior-changed");
     // Repeated commands are idempotent; only the sit UI button explicitly toggles.
     if (
       (name === this.mode &&
@@ -860,7 +998,7 @@ class CharacterScene extends Phaser.Scene {
     this.clearPath();
     this.turnRemaining = 0;
     if (name === "sit") {
-      const p = seatTargets().approach;
+      const p = seatTargets(this.rig).approach;
       this.go(p[0], p[2], "sit");
       return;
     }
@@ -878,6 +1016,7 @@ class CharacterScene extends Phaser.Scene {
     );
   }
   go(x, z, after = null) {
+    if (after !== "sit") this.releaseSeatRequest("movement-requested");
     if (![x, z].every(Number.isFinite))
       throw new TypeError("Walk target must be finite");
     if (this.mode === "sit" || this.mode === "stand") {
@@ -885,15 +1024,15 @@ class CharacterScene extends Phaser.Scene {
       this.setMode("stand");
       return true;
     }
-    if (this.mode === "dance" || motion.getMetrics().danceMix > 0.001) {
+    if (this.mode === "dance" || this.rig.getMetrics().danceMix > 0.001) {
       this.pending = { type: "walk", x, z, after };
       this.clearPath();
       this.setMode("idle");
       return true;
     }
-    const p = pathTo([avatar.root.position.x, avatar.root.position.z], x, z);
+    const p = pathTo([this.actor.root.position.x, this.actor.root.position.z], x, z);
     if (!p.length) {
-      document.querySelector("#scene-state").textContent =
+      if (!this.isPeer) document.querySelector("#scene-state").textContent =
         "这里有家具，请选择地面空位";
       return false;
     }
@@ -904,20 +1043,20 @@ class CharacterScene extends Phaser.Scene {
     this.afterWalk = after;
     this.turnRemaining = 0;
     this.setMode("walk");
-    marker.position.set(x, 0.028, z);
-    marker.visible = true;
+    if (!this.isPeer) { marker.position.set(x, 0.028, z); marker.visible = true; }
     return true;
   }
   beginTurn() {
     if (this.turnPolicy.sample().active) return;
-    const free = motion.getMetrics().feet.findIndex((f) => !f.contact);
+    const free = this.rig.getMetrics().feet.findIndex((f) => !f.contact);
     this.turnPolicy.reset(this.yaw, { preferredSwing: free < 0 ? 0 : free });
   }
   setSpeed(n) {
-    this.maxSpeed = clamp(Number(n), 0.4, 1.4);
+    this.maxSpeed = clamp(Number(n), 0.4, 3.0);
+    if (this.isPeer) return;
     document.querySelector("#speed").value = this.maxSpeed;
     document.querySelector("#speed-label").textContent =
-      `${this.maxSpeed < 0.65 ? "慢速" : this.maxSpeed > 1.1 ? "较快" : "正常"} · ${this.maxSpeed.toFixed(2)} m/s`;
+      `${this.maxSpeed >= 1.85 ? "跑步" : this.maxSpeed < 0.65 ? "慢速" : this.maxSpeed > 1.1 ? "较快" : "正常"} · ${this.maxSpeed.toFixed(2)} m/s`;
     document
       .querySelectorAll("[data-speed]")
       .forEach((b) =>
@@ -928,8 +1067,10 @@ class CharacterScene extends Phaser.Scene {
       );
   }
   setOutfit(n) {
-    this.outfit = [0, 1, 2].includes(Number(n)) ? Number(n) : 0;
-    avatar.setOutfit(this.outfit);
+    const selection = [0, 1, 2].includes(Number(n)) ? Number(n) : 0;
+    this.actor.setOutfit(selection);
+    this.outfit = selection;
+    if (this.isPeer) return;
     document
       .querySelectorAll("[data-outfit]")
       .forEach((b) =>
@@ -942,6 +1083,7 @@ class CharacterScene extends Phaser.Scene {
   setPaused(value) {
     this.paused = Boolean(value);
     this.lastFrameTime = performance.now();
+    if (this.isPeer) return;
     document.querySelector("#pause").textContent = this.paused
       ? "继续"
       : "暂停";
@@ -990,28 +1132,31 @@ class CharacterScene extends Phaser.Scene {
     this.actualSpeed = 0;
     this.yaw = 0;
     this.turnPolicy.reset(0);
-    avatar.root.position.set(...initialPosition);
-    avatar.root.rotation.y = 0;
+    this.actor.root.position.set(...this.initialPosition);
+    seatLeases.disposeOwner(this.actorId); this.seatToken = null;
+    for (const task of [this.behaviorTasks.active(), ...this.behaviorTasks.pending()].filter(Boolean)) this.behaviorTasks.cancel(task.requestId, "explicit-reset");
+    this.actor.root.rotation.y = 0;
     this.setMode("idle");
-    motion.setAction("idle");
-    if (motion.reset) motion.reset();
+    this.rig.setAction("idle");
+    if (this.rig.reset) this.rig.reset();
     // Reset is an explicit teleport, so secondary dynamics must not inherit
     // world-space velocity from the previous location. Never reset during walk.
-    motion.update(0, {
+    this.rig.update(0, {
       distanceDelta: 0,
       speed: 0,
       moving: false,
       action: "idle",
       turning: false,
     });
-    updateAvatar(0);
-    avatar.root.updateMatrixWorld(true);
-    avatar.resetSecondary?.();
-    avatar.updateGarment?.(0, 0, chairBounds);
+    this.actor.update(0);
+    this.actor.root.updateMatrixWorld(true);
+    this.actor.resetSecondary?.();
+    this.actor.updateGarment?.(0, 0, chairBounds);
     this.setSpeed(0.85);
     this.cameraPreset("close");
   }
   cameraPreset(name, immediate = false) {
+    if (this.isPeer) return;
     cameraMode = name;
     cameraTween = null;
     if (controls) controls.enabled = !fixedViews.has(name);
@@ -1020,7 +1165,7 @@ class CharacterScene extends Phaser.Scene {
       updateFixedCamera();
       return;
     }
-    const root = avatar?.root.position || v3(...initialPosition);
+    const root = this.actor?.root.position || v3(...initialPosition);
     followPosition.copy(root);
     const target = name === "room" ? v3(0, 0.65, 0) : v3(root.x, 0.87, root.z);
     const position =
@@ -1079,7 +1224,7 @@ class CharacterScene extends Phaser.Scene {
   runSequence() {
     this.reset();
     this.sequence = [];
-    for (let outfit = 0; outfit < 2; outfit++) {
+    for (let outfit = 0; outfit < (this.actor.config && !this.actor.config.ids.skirt ? 1 : 2); outfit++) {
       this.sequence.push(
         { type: "outfit", v: outfit },
         { type: "action", name: "idle", duration: 2, label: "站立观察" },
@@ -1158,12 +1303,12 @@ class CharacterScene extends Phaser.Scene {
       for (let i = 0; i < steps; i++) this.simulate(simulated / steps);
     }
     if (ready && controls) {
-      const move = avatar.root.position.clone().sub(followPosition);
+      const move = this.actor.root.position.clone().sub(followPosition);
       if (cameraMode === "close" && !cameraTween) {
         camera.position.add(move);
         controls.target.add(move);
       }
-      followPosition.copy(avatar.root.position);
+      followPosition.copy(this.actor.root.position);
     }
     if (cameraTween) {
       cameraTween.t = Math.min(1, cameraTween.t + dt * 2);
@@ -1194,7 +1339,7 @@ class CharacterScene extends Phaser.Scene {
     let moved = 0;
     let turnPlan = null;
     this.turning = false;
-    const root = avatar.root;
+    const root = this.actor.root;
     if (this.target) {
       let dx = this.target[0] - root.position.x,
         dz = this.target[1] - root.position.z,
@@ -1209,7 +1354,7 @@ class CharacterScene extends Phaser.Scene {
           dz = this.target[1] - root.position.z;
           dist = Math.hypot(dx, dz);
         } else {
-          marker.visible = false;
+          if (!this.isPeer) marker.visible = false;
           this.speed = 0;
           if (this.afterWalk === "sit") {
             this.seatAlign = true;
@@ -1240,7 +1385,7 @@ class CharacterScene extends Phaser.Scene {
           this.pathTurn = "settle";
         if (turnLegacy && this.pathTurn === "settle") {
           this.speed = 0;
-          const pose = motion.getMetrics();
+          const pose = this.rig.getMetrics();
           if (!pose.moving && pose.stopTime >= 0.5 && pose.gait < 0.02)
             this.pathTurn = "turn";
         }
@@ -1334,18 +1479,20 @@ class CharacterScene extends Phaser.Scene {
           : 0;
     }
     this.actualSpeed = dt ? moved / dt : 0;
-    motion.update(dt, {
+    this.rig.update(dt, {
       distanceDelta: moved,
       speed: this.actualSpeed,
       moving: moved > 1e-7,
       action: this.mode === "turn" ? "idle" : this.mode,
       turning: this.turning,
       turnPlan,
+      speaking: this.actor.livePresentation?.getState().speaking,
     });
-    updateAvatar(dt);
+    this.actor.update(dt, {action:this.mode});
+    if (!this.isPeer) comparison?.update(dt);
     root.updateMatrixWorld(true);
-    const m = motion.getMetrics();
-    avatar.updateGarment?.(m.sitProgress, dt, chairBounds);
+    const m = this.rig.getMetrics();
+    this.actor.updateGarment?.(m.sitProgress, dt, chairBounds);
     if (turnPlan && !turnPlan.active) {
       this.pathTurn = null;
       if (this.mode === "turn") this.setMode("idle");
@@ -1370,6 +1517,8 @@ class CharacterScene extends Phaser.Scene {
       if (cmd.type === "walk") this.go(cmd.x, cmd.z, cmd.after);
       else this.action(cmd.name);
     }
+    if (this.mode === "dance" && m.dancePlaybackComplete) this.setMode("idle");
+    this.updateBehavior(dt, m);
     if (this.sequence.length) {
       const s = this.sequence[this.sequenceIndex];
       if (s.type === "walk") {
@@ -1495,7 +1644,7 @@ new ResizeObserver(() => {
   game.scale.resize(stage.clientWidth, stage.clientHeight);
 }).observe(stage);
 resizeThree();
-const emit = (cmd) => game.events.emit("command", cmd);
+const emit = (cmd) => controller?.command(cmd);
 window.__debug = {
   ready: false,
   get buildInfo() {
@@ -1503,6 +1652,10 @@ window.__debug = {
   },
   setChairTransform,
   chairColliders: () => chairBounds,
+  seatLeases,
+  request: request => controller.requestBehavior(request),
+  tasks: () => controller.behaviorTasks,
+  command: emit,
   snapshot,
   action: (name) => emit({ type: "action", name }),
   setSpeed: (value) => emit({ type: "speed", value }),
@@ -1523,6 +1676,9 @@ window.__debug = {
   reset: () => emit({ type: "reset" }),
   camera: (name) => emit({ type: "camera", name }),
   avatar: () => avatar,
+  comparison: () => comparison,
+  loadComparison,
+  removeComparison,
   motion: () => motion,
   scene: world,
   renderer,
@@ -1580,10 +1736,84 @@ fetch(`${import.meta.env.BASE_URL}build-info.json`, { cache: "no-store" })
       ? "开发预览"
       : "构建标识缺失";
   });
+// A second independently parsed rig is an isolation fixture, not a crowd feature.
+// Its own mixer, face clock, equipment and dynamic state advance on the SAME
+// Phaser time step, never a second requestAnimationFrame loop.
+function removeComparison() { comparisonGeneration++; comparison?.dispose(); comparison = null; }
+async function loadComparison(bodyType = avatar.profile.bodyType === "female" ? "male" : "female") {
+  if (comparison || comparisonLoading) throw new Error("Comparison already loaded or loading");
+  comparisonLoading = true;
+  const generation = ++comparisonGeneration;
+  let a;
+  try {
+  a = await loadFoundationAvatar({ scene: world, renderer, bodyType });
+  a.root.position.set(1.2, 0, 1.15);
+  const clips = await loadRetargetedMotions(a.vrm);
+  const m = createMotion(a.vrm, a.root, clips, a.profile.motion);
+  const peerController = new CharacterScene({ avatar: a, motion: m, actorId: `room-peer-${generation}`, position: [1.2, 0, 1.15] });
+  const instance = {
+    avatar: a, motion: m, controller: peerController,
+    action: name => peerController.command({type:"action",name}),
+    request: request => peerController.requestBehavior(request),
+    tasks: peerController.behaviorTasks,
+    command: command => peerController.command(command),
+    update: dt => peerController.simulate(dt),
+    dispose() { peerController.clearPath(); m.dispose?.(); a.dispose(); peerController.behaviorTasks.dispose(); seatLeases.disposeOwner(peerController.actorId); },
+  };
+  instance.update(0); a.resetSecondary();
+  if (generation !== comparisonGeneration) { instance.dispose(); throw new Error("Comparison request cancelled"); }
+  comparison = instance;
+  return instance;
+  } catch (error) { if (a && a.root.parent) a.dispose(); throw error; }
+  finally { comparisonLoading = false; }
+}
+function bindFoundationControls(a) {
+  if (!a.config) return;
+  document.querySelector('[data-outfit="0"] b').textContent = a.config.pantsLabel;
+  document.querySelector('[data-outfit="1"]').hidden = !a.config.ids.skirt;
+  const oldTrial = document.querySelector('[data-outfit="2"]');
+  oldTrial.hidden = true;
+  oldTrial.nextElementSibling.textContent = `${a.config.label}：同一房间与控制器，当前基模独立验证。`;
+  const row = document.createElement("div"); row.className = "debug-row";
+  for (const [bodyType, label] of [["female", "女性候选"], ["male", "男性候选"]]) {
+    const link = document.createElement("a");
+    link.href = `?body=${bodyType}`; link.textContent = label; row.append(link);
+  }
+  for (const [id, label] of [["neutral", "自然眨眼"], ["happy", "微笑"], ["aa", "口型 A"]]) {
+    const button = document.createElement("button"); button.textContent = label;
+    button.dataset.expression = id; button.onclick = () => emit({type:"expression",name:id}); row.append(button);
+  }
+  const speaking = document.createElement("button"); speaking.textContent = "讲话演示";
+  speaking.onclick = () => { const enabled = !a.livePresentation.getState().speaking; emit({type:"speaking",value:enabled}); speaking.textContent = enabled ? "停止讲话" : "讲话演示"; };
+  row.append(speaking);
+  const gaze = document.createElement("button"); gaze.textContent = "看向镜头";
+  gaze.onclick = () => emit({type:"gaze",target:camera.position.toArray()}); row.append(gaze);
+  for (const [kind,label] of [["mic","麦克风"],["glasses","眼镜"]]) {
+    const button = document.createElement("button"); button.textContent = "装备"+label;
+    button.onclick = async () => {
+      const enabled = !a.livePresentation.getState().accessories[kind].requested;
+      const result = await emit({type:"accessory",kind,value:enabled});
+      button.textContent = a.livePresentation.getState().accessories[kind].requested ? "卸下"+label : "装备"+label;
+      if (!result?.applied) document.querySelector("#scene-state").textContent = result?.reason || "附件加载失败";
+    }; row.append(button);
+  }
+  const peer = document.createElement("button"); peer.textContent = "双实例隔离对照";
+  peer.onclick = async () => {
+    peer.disabled = true;
+    try {
+      if (comparison) removeComparison();
+      else await loadComparison();
+      peer.textContent = comparison ? "移除第二实例" : "双实例隔离对照";
+    } catch (error) { console.error(error); peer.textContent = "对照加载失败，可重试"; }
+    finally { peer.disabled = false; }
+  };
+  row.append(peer); document.querySelector(".debug-controls").append(row);
+}
 const loadStart = performance.now();
 loadAvatar({ scene: world, renderer })
   .then(async (a) => {
     avatar = a;
+    bindFoundationControls(a);
     avatar.root.position.set(...initialPosition);
     const motions = await loadRetargetedMotions(avatar.vrm);
     motion = createMotion(
@@ -1592,6 +1822,14 @@ loadAvatar({ scene: world, renderer })
       motions,
       avatar.profile?.motion,
     );
+    const danceSelect=document.createElement("select"); danceSelect.setAttribute("aria-label","舞蹈样件");
+    for (const dance of motion.getDances()) {
+      const option=document.createElement("option");option.value=dance.id;
+      option.textContent=dance.playback === "loop" ? "源短舞参考（循环）" : "技术编排（完整7.2秒）";
+      danceSelect.append(option);
+    }
+    danceSelect.onchange=()=>{try{emit({type:"danceSelect",id:danceSelect.value});}catch(error){danceSelect.value=motion.getDance().id;document.querySelector("#scene-state").textContent=error.message;}};
+    document.querySelector(".debug-controls").append(danceSelect);
     motion.setAction("idle");
     motion.update(0, {
       distanceDelta: 0,

@@ -54,6 +54,29 @@ export async function loadRetargetedMotions(
   const source = await new GLTFLoader().loadAsync(
     "/assets/motion/UAL1_Standard.glb",
   );
+  const jogProfile = await (await fetch("/assets/motion/m1c/jog-ordinary-derived-v1.profile.json")).json();
+  const jogResponse = await fetch("/assets/motion/m1c/jog-ordinary-derived-v1.glb");
+  if (!jogResponse.ok) throw new Error("Jog asset unavailable");
+  const jogBytes = await jogResponse.arrayBuffer();
+  const jogSha = [...new Uint8Array(await crypto.subtle.digest("SHA-256", jogBytes))].map(n => n.toString(16).padStart(2,"0")).join("");
+  if (jogSha !== jogProfile.sha256) throw new Error("Jog resource identity mismatch");
+  const jogSource = await new GLTFLoader().parseAsync(jogBytes, "/assets/motion/m1c/");
+  jogSource.scene.updateWorldMatrix(true, true);
+  const danceManifestResponse = await fetch("/assets/motion/m1c/dance-imports.json");
+  if (!danceManifestResponse.ok) throw new Error("Dance manifest unavailable");
+  const danceManifest = await danceManifestResponse.json();
+  if (danceManifest.schema !== "m1.motion-import-list.1") throw new Error("Unsupported dance manifest");
+  const danceLibraries = await Promise.all(danceManifest.entries.map(async entry => {
+    const response = await fetch("/assets/motion/m1c/" + entry.file);
+    if (!response.ok) throw new Error(`Dance asset unavailable: ${entry.id}`);
+    const bytes = await response.arrayBuffer();
+    const sha = [...new Uint8Array(await crypto.subtle.digest("SHA-256",bytes))].map(n=>n.toString(16).padStart(2,"0")).join("");
+    if (sha !== entry.sha256) throw new Error(`Dance identity mismatch: ${entry.id}`);
+    if (entry.rootPolicy !== "local-displacement") throw new Error(`Unsupported dance root policy: ${entry.id}`);
+    const library = await new GLTFLoader().parseAsync(bytes,"/assets/motion/m1c/");
+    library.scene.updateWorldMatrix(true,true);
+    return {entry, library, key:"dance:"+entry.id};
+  }));
   source.scene.updateWorldMatrix(true, true);
   vrm.scene.updateWorldMatrix(true, true);
   const sourceHips = source.scene.getObjectByName("pelvis");
@@ -88,12 +111,17 @@ export async function loadRetargetedMotions(
   for (const [name, sourceName] of Object.entries({
     idle: "Idle_Loop",
     walk: walkClip,
+    jog: jogProfile.clip,
+    talk: "Idle_Talking_Loop",
+    sitTalk: "Sitting_Talking_Loop",
     dance: "Dance_Loop",
     sitEnter: "Sitting_Enter",
     sitExit: "Sitting_Exit",
     sitIdle: "Sitting_Idle_Loop",
+    ...Object.fromEntries(danceLibraries.map(d => [d.key, d.entry.clip])),
   })) {
-    const clip = THREE.AnimationClip.findByName(source.animations, sourceName);
+    const library = name === "jog" ? jogSource : danceLibraries.find(d => d.key === name)?.library || source;
+    const clip = THREE.AnimationClip.findByName(library.animations, sourceName);
     if (!clip) throw new Error(`Missing source clip ${sourceName}`);
     const tracks = [];
     for (const track of clip.tracks) {
@@ -102,7 +130,8 @@ export async function loadRetargetedMotions(
         property = track.name.slice(dot + 1);
       const mapped = rigMap[sourceName],
         target = mapped && vrm.humanoid.getNormalizedBoneNode(mapped);
-      const sourceBone = source.scene.getObjectByName(sourceName);
+      if (["talk", "sitTalk"].includes(name) && (mapped === "hips" || /(?:UpperLeg|LowerLeg|Foot|Toes)$/.test(mapped || ""))) continue;
+      const sourceBone = library.scene.getObjectByName(sourceName);
       if (!target || !sourceBone) continue;
       if (property === "quaternion") {
         const inverseRest = sourceBone
@@ -142,7 +171,7 @@ export async function loadRetargetedMotions(
           .fromArray(track.values, track.values.length - 3)
           .applyMatrix4(sourceBone.parent.matrixWorld);
         const rootTravel =
-          name === "walk" ? last.clone().sub(first) : new THREE.Vector3();
+          ["walk", "jog"].includes(name) ? last.clone().sub(first) : new THREE.Vector3();
         rootTravel.y = 0;
         for (let i = 0; i < track.values.length; i += 3) {
           const v = new THREE.Vector3()
@@ -175,7 +204,7 @@ export async function loadRetargetedMotions(
     );
   }
   // Source model is used for conversion only and never added to the game scene.
-  source.scene.traverse((object) => {
+  for (const library of [source, jogSource, ...danceLibraries.map(d=>d.library)]) library.scene.traverse((object) => {
     if (object.isMesh) {
       object.geometry.dispose();
       for (const material of Array.isArray(object.material)
@@ -193,6 +222,9 @@ export async function loadRetargetedMotions(
     retarget: "pixiv three-vrm rest-world conversion adapted for glTF axes",
     ratio,
     walkClip,
+    jogDistance: jogProfile.cycleDistance * ratio,
+    jogProfile,
+    dances: danceLibraries.map(d=>({...d.entry,key:d.key,radius:d.entry.space.radiusSourceM*ratio})),
     // Official companion Root Motion GLB, both clips: +Z 1.2999999523 m
     // over 1.3333333731 s. Verified by scripts/calibrate-root-motion.py.
     // Use authored travel, not ankle excursion or instantaneous sole velocity.

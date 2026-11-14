@@ -1,0 +1,187 @@
+{
+  "assetId": "beta-base-male-m1b",
+  "url": "/assets/foundation/base-male-roundtrip.vrm",
+  "sha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+  "equipmentManifestUrl": "/assets/m1b/equipment.json",
+  "materialRoles": {
+    "body": "^M00_001_01_Body_00_SKIN$",
+    "sourceClothes": "_(Tops|Bottoms|Shoes)_|_Accessory_Tie_",
+    "hair": "_HAIR$",
+    "face": "^M00_000_00_(Face|Eye)"
+  },
+  "rawSourceCoordinates": "VRM0 rest; Y up, display forward requires rotateVRM0. Raw left leg is negative X.",
+  "runtimeRootCoordinates": "After rotateVRM0 at root identity: raw source X/Z negated; Y unchanged. All numbers below are measured, not fitted gameplay constants.",
+  "measurementsMeters": {
+    "hipsHeight": 1.008255958557129,
+    "shoulderSpan": 0.29555031843483504,
+    "ankleSpacing": 0.09913671389439122,
+    "legs": {
+      "left": {
+        "upper": 0.3881122772804157,
+        "lower": 0.4568440144369876,
+        "ankleHeight": 0.12132135033607483,
+        "footToToe": 0.15648998725836022
+      },
+      "right": {
+        "upper": 0.38811194803317695,
+        "lower": 0.4568437625233396,
+        "ankleHeight": 0.12132200598716736,
+        "footToToe": 0.15648980844398128
+      }
+    }
+  },
+  "runtimeRestBones": {
+    "hips": [
+      -0.0005088417092338204,
+      1.008255958557129,
+      0.010161482729017735
+    ],
+    "leftUpperLeg": [
+      0.08432579354848713,
+      0.9643067717552185,
+      0.006310062482953072
+    ],
+    "leftLowerLeg": [
+      0.062033000751398504,
+      0.5768977403640747,
+      -0.0006479229778051376
+    ],
+    "leftFoot": [
+      0.049060377641581,
+      0.12132135033607483,
+      -0.03208543919026852
+    ],
+    "leftToes": [
+      0.05045774520840496,
+      0.04447271674871445,
+      0.10422835685312748
+    ],
+    "rightUpperLeg": [
+      -0.08534347696695477,
+      0.9643067717552185,
+      0.006310076452791691
+    ],
+    "rightLowerLeg": [
+      -0.06305014772806317,
+      0.5768980979919434,
+      -0.0006477371789515018
+    ],
+    "rightFoot": [
+      -0.05007633625064045,
+      0.12132200598716736,
+      -0.03208542102947831
+    ],
+    "rightToes": [
+      -0.05147293640766293,
+      0.04447372257709503,
+      0.10422837501391768
+    ],
+    "leftUpperArm": [
+      0.14726629777578637,
+      1.4045658111572266,
+      0.004220846574753523
+    ],
+    "leftLowerArm": [
+      0.36680692358640954,
+      1.3944023847579956,
+      0.005770978983491659
+    ],
+    "leftHand": [
+      0.6148945681634359,
+      1.3937798738479614,
+      0.02635399205610156
+    ],
+    "rightUpperArm": [
+      -0.1482840206590481,
+      1.4045658111572266,
+      0.004220864269882441
+    ],
+    "rightLowerArm": [
+      -0.36782467627199367,
+      1.3944025039672852,
+      0.005770763847976923
+    ],
+    "rightHand": [
+      -0.6159124400583096,
+      1.3937805891036987,
+      0.026353078428655863
+    ]
+  },
+  "shoeCalibrationReference": {
+    "left": {
+      "selectedVertices": 283,
+      "boundsRootSpace": [
+        [
+          0.0020982595160603523,
+          0.0004947282723151147,
+          -0.09159094840288162
+        ],
+        [
+          0.10467324405908585,
+          0.10510508716106415,
+          0.18053147196769714
+        ]
+      ],
+      "patches": {
+        "heel": {
+          "vertices": 15,
+          "centerRootSpace": [
+            0.04076477810740471,
+            0.0007867800149445732,
+            -0.07400059700012207
+          ],
+          "minimumY": 0.0007074018358252943
+        },
+        "toe": {
+          "vertices": 34,
+          "centerRootSpace": [
+            0.05101495591567501,
+            0.0005776496220599202,
+            0.10755288628313471
+          ],
+          "minimumY": 0.0004947282723151147
+        }
+      }
+    },
+    "right": {
+      "selectedVertices": 283,
+      "boundsRootSpace": [
+        [
+          -0.10568833351135254,
+          0.0004947655834257603,
+          -0.0915909931063652
+        ],
+        [
+          -0.0031133524607867002,
+          0.10510511696338654,
+          0.18053147196769714
+        ]
+      ],
+      "patches": {
+        "heel": {
+          "vertices": 15,
+          "centerRootSpace": [
+            -0.041780459508299825,
+            0.0007868273416534067,
+            -0.0740005965034167
+          ],
+          "minimumY": 0.0007075536414049566
+        },
+        "toe": {
+          "vertices": 34,
+          "centerRootSpace": [
+            -0.05202994217603084,
+            0.0005777152272297398,
+            0.10755277842776302
+          ],
+          "minimumY": 0.0004947655834257603
+        }
+      }
+    }
+  },
+  "seatProfile": "No female constants copied. Derive seated pelvis/hand/trouser clearances from this body and current room chair in runtime tests; rest-only audit cannot approve them.",
+  "suggestedAdaptiveFlag": {
+    "deriveSeatFromBody": true
+  },
+  "noSkirt": true
+}

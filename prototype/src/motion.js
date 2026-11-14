@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { projectedSegmentInterval } from "./segment-triangle-projection.js";
 
 const V = THREE.Vector3;
 const Q = THREE.Quaternion;
@@ -81,6 +82,7 @@ export function createMotion(
   const root = suppliedRoot ?? vrm.scene.parent ?? vrm.scene;
   const bone = (name) => vrm.humanoid.getNormalizedBoneNode(name);
   const names = [
+    ...Object.keys(vrm.humanoid.normalizedHumanBones || {}),
     "hips",
     "spine",
     "chest",
@@ -429,7 +431,8 @@ export function createMotion(
     sourceIdle = null,
     sourceActions = {},
     sourceSitHip = null,
-    sourceGroundLift = 0;
+    sourceGroundLift = 0, sourceJogGroundLift = 0;
+  const danceGroundLifts = {};
   if (motions?.clips?.walk && motions?.clips?.idle) {
     sourceMixer = new THREE.AnimationMixer(vrm.scene);
     for (const [name, clip] of Object.entries(motions.clips)) {
@@ -527,6 +530,33 @@ export function createMotion(
     sourceGroundLift = -Math.min(
       ...feet.map((foot) => foot.sourceBounds.minSoleY),
     );
+    if (sourceActions.jog) {
+      sourceWalk.setEffectiveWeight(0); sourceActions.jog.setEffectiveWeight(1);
+      let lowest = Infinity;
+      for (let i = 0; i < 120; i++) {
+        sourceActions.jog.time = i / 120 * motions.clips.jog.duration;
+        sourceMixer.update(0); root.updateWorldMatrix(true, true);
+        for (const foot of feet) {
+          if (foot.soleSamples) for (const kind of ["heel", "toe"])
+            lowest = Math.min(lowest, root.worldToLocal(foot.soleSamples[kind]()).y);
+        }
+      }
+      sourceJogGroundLift = Number.isFinite(lowest) ? -lowest : sourceGroundLift;
+      sourceActions.jog.setEffectiveWeight(0);
+    }
+    for (const dance of motions.dances || []) {
+      for (const action of Object.values(sourceActions)) action.setEffectiveWeight(0);
+      sourceActions[dance.key].setEffectiveWeight(1);
+      let lowest = Infinity;
+      for (let i = 0; i < 121; i++) {
+        sourceActions[dance.key].time = Math.min(i/120*motions.clips[dance.key].duration, motions.clips[dance.key].duration-1e-6);
+        sourceMixer.update(0); root.updateWorldMatrix(true,true);
+        for (const foot of feet) if (foot.soleSamples) for (const kind of ["heel","toe"])
+          lowest = Math.min(lowest, root.worldToLocal(foot.soleSamples[kind]()).y);
+      }
+      danceGroundLifts[dance.key] = Number.isFinite(lowest) ? -lowest : 0;
+      sourceActions[dance.key].setEffectiveWeight(0);
+    }
     if (sourceActions.sitIdle) {
       sourceWalk.setEffectiveWeight(0);
       sourceActions.sitIdle.setEffectiveWeight(1);
@@ -567,6 +597,14 @@ export function createMotion(
     actionTime = 0,
     phase = stance / 2,
     distance = 0;
+  const talkTracks = Object.fromEntries(["talk", "sitTalk"].map(name => [name,
+    (motions?.clips?.[name]?.tracks || []).filter(t => t.name.endsWith(".quaternion")).map(track => ({
+      bone: vrm.scene.getObjectByName(track.name.slice(0,-11)), sample: track.createInterpolant(),
+    })).filter(t=>t.bone)]));
+  let selectedDance = motions?.dances?.[0]?.key || "dance";
+  const danceInfo = () => motions?.dances?.find(d=>d.key===selectedDance);
+  let talkMix = 0;
+  let runMix = 0, runRequested = false, runPhase = .17;
   let sitProgress = 0,
     gait = 0,
     danceMix = 0,
@@ -720,8 +758,12 @@ export function createMotion(
     );
     const poseStable =
       cache &&
-      upperPoints.every((p, i) => p.distanceTo(cache.upperPoints[i]) < 0.025);
-    const validCache = cache && cache.key === cacheKey && cacheKey;
+      upperPoints.every((p, i) => p.distanceTo(cache.upperPoints[i]) < 0.003);
+    const sourceHandPoints = arms.map(arm => root.worldToLocal(worldPoint(arm.hand)));
+    const sourceHandRotations = arms.map(arm => arm.hand.getWorldQuaternion(new Q()).premultiply(rootQuaternion().invert()));
+    const validCache = cache && cache.key === cacheKey && cacheKey &&
+      sourceHandPoints.every((p, i) => p.distanceTo(cache.sourceHandPoints[i]) < .002 &&
+        Math.abs(sourceHandRotations[i].dot(cache.sourceHandRotations[i])) > .9999);
     const leavingIdle = sitProgress <= 0 && requested !== "idle";
     if (
       sitProgress <= 0 &&
@@ -838,24 +880,29 @@ export function createMotion(
       return a.pixels[(y * a.width + x) * 4 + 3] / 255 >= a.cutoff;
     }
     let projectionGrid, gridU, gridV;
-    function clearance(point, outward) {
-      ray.origin.copy(point).addScaledVector(outward, 1);
-      ray.direction.copy(outward).negate();
+    function railClearance(start, end, outward) {
+      const su = start.dot(gridU), sv = start.dot(gridV),
+        eu = end.dot(gridU), ev = end.dot(gridV);
+      const candidates = new Set();
+      for (let x = Math.floor(Math.min(su, eu) / .04); x <= Math.floor(Math.max(su, eu) / .04); x++)
+        for (let y = Math.floor(Math.min(sv, ev) / .04); y <= Math.floor(Math.max(sv, ev) / .04); y++)
+          for (const t of projectionGrid.get(x + ":" + y) || []) candidates.add(t);
       let amount = 0;
-      const candidates =
-        projectionGrid.get(
-          Math.floor(point.dot(gridU) / 0.04) +
-            ":" +
-            Math.floor(point.dot(gridV) / 0.04),
-        ) || [];
-      for (const t of candidates)
-        if (ray.intersectTriangle(...t.points, false, hit) && visible(t)) {
-          const depth = hit.clone().sub(point).dot(outward);
-          // Only the near exterior matters. A remote surface on the far side of
-          // the torso is not a reason to pull this hand through the character.
-          if (depth > -0.008 && depth < 0.3)
-            amount = Math.max(amount, depth + 0.008);
+      for (const t of candidates) {
+        const interval = projectedSegmentInterval(su, sv, eu, ev, t.projected);
+        if (!interval) continue;
+        // In an opaque triangle clearance is affine along this clipped interval,
+        // so its endpoints give the exact extremum. Interior samples additionally
+        // respect the original alpha-MASK texture (not full texture CCD).
+        for (let k = 0; k <= 4; k++) {
+          const at = interval.lo + (interval.hi - interval.lo) * k / 4;
+          hit.set(0, 0, 0);
+          for (let j = 0; j < 3; j++) hit.addScaledVector(t.points[j], interval.start[j] + (interval.end[j] - interval.start[j]) * at);
+          if (!visible(t)) continue;
+          const depth = hit.dot(outward) - (start.dot(outward) + (end.dot(outward) - start.dot(outward)) * at);
+          if (depth > -.008 && depth < .3) amount = Math.max(amount, depth + .008);
         }
+      }
       return amount;
     }
     for (const [i, arm] of arms.entries()) {
@@ -876,7 +923,7 @@ export function createMotion(
         .lerp(b, 0.62)
         .addScaledVector(up, profile.seatHandRadii[i] + 0.025)
         .sub(handOffset);
-      const target = original.clone().lerp(contact, blend);
+      const target = original.clone().lerp(contact, profile?.preserveAuthoredHands ? 0 : blend);
       const pole = kneeBendDirection(
         worldPoint(arm.upper),
         worldPoint(arm.lower),
@@ -895,6 +942,7 @@ export function createMotion(
       gridV = new V().crossVectors(outward, gridU).normalize();
       projectionGrid = new Map();
       for (const t of triangles) {
+        t.projected = t.points.flatMap(p => [p.dot(gridU), p.dot(gridV)]);
         const us = t.points.map((p) => p.dot(gridU) / 0.04),
           vs = t.points.map((p) => p.dot(gridV) / 0.04);
         for (
@@ -927,34 +975,32 @@ export function createMotion(
           arm.second,
           pole,
         );
-        let correction = 0;
-        for (const [start, end, radius] of [
-          [solved.knee, solved.target, 0.012],
-          [solved.target, solved.target.clone().add(handOffset), 0.016],
+        let correction = 0, forearmCorrection = 0, palmCorrection = 0;
+        for (const [part, start, end, radius] of [
+          ["forearm", solved.knee, solved.target, 0.012],
+          ["hand", solved.target, solved.target.clone().add(handOffset), 0.016],
         ]) {
           const direction = end.clone().sub(start).normalize(),
             railX = new V().crossVectors(direction, new V(0, 1, 0)).normalize(),
             railY = new V().crossVectors(direction, railX).normalize();
-          for (let k = 0; k <= 5; k++)
-            for (const [x, y] of [
-              [0, 0],
-              [1, 0],
-              [-1, 0],
-              [0, 1],
-              [0, -1],
-            ]) {
-              const point = start
-                .clone()
-                .lerp(end, k / 5)
-                .addScaledVector(railX, x * radius)
-                .addScaledVector(railY, y * radius);
-              correction = Math.max(correction, clearance(point, outward));
-            }
+          for (const [x, y] of [[0,0], [1,0], [-1,0], [0,1], [0,-1]]) {
+            const offset = railX.clone().multiplyScalar(x * radius).addScaledVector(railY, y * radius);
+            const amount = railClearance(start.clone().add(offset), end.clone().add(offset), outward);
+            if (part === "forearm") forearmCorrection = Math.max(forearmCorrection, amount);
+            else palmCorrection = Math.max(palmCorrection, amount);
+            correction = Math.max(correction, amount);
+          }
         }
         remaining = correction;
         if (correction < 0.0002) break;
-        target.addScaledVector(outward, correction);
-        projection += correction;
+        // An elbow/upper-forearm hit cannot be repaired reliably by only
+        // translating the wrist: solve the bend plane around the shoulder–wrist
+        // axis as well. Preserve lengths and the authored bend hemisphere.
+        const wristCorrection = Math.max(palmCorrection, forearmCorrection * .35);
+        target.addScaledVector(outward, wristCorrection);
+        if (forearmCorrection > 0) pole.copy(kneeBendDirection(
+          worldPoint(arm.upper), solved.knee.clone().addScaledVector(outward, forearmCorrection), target, pole));
+        projection += wristCorrection;
       }
       solved = solveChain(
         arm.upper,
@@ -995,6 +1041,8 @@ export function createMotion(
       fitSeatHands.idleCache = {
         key: cacheKey,
         upperPoints,
+        sourceHandPoints,
+        sourceHandRotations,
         offsets: newIdleOffsets,
       };
       fitSeatHands.cacheWeight = 1;
@@ -1071,6 +1119,20 @@ export function createMotion(
       });
     }
     if (!moving) stopTime += dt;
+    if (sourceActions.jog && !refreshing) {
+      const previousRunRequest = runRequested;
+      if (state.locomotion === "run") runRequested = true;
+      else if (state.locomotion === "walk") runRequested = false;
+      else if (state.speed >= 1.85) runRequested = true;
+      else if (state.speed <= 1.55 && moving) runRequested = false;
+      // Start a new gait at the current support side, not a fixed clip offset.
+      // Different flight/stance duties cannot share a universal phase offset.
+      if (runRequested && !previousRunRequest) runPhase = feet[0].contact ? .17 : .67;
+      if (!runRequested && previousRunRequest) phase = feet[0].contact ? stance / 2 : (stance / 2 + .5) % 1;
+      const desiredRun = moving && runRequested ? 1 : 0;
+      runMix += clamp(desiredRun - runMix, -dt / .30, dt / .30);
+    }
+    const groundLift = THREE.MathUtils.lerp(sourceGroundLift, sourceJogGroundLift, smooth(runMix));
     if (moving && !wasMoving) {
       // A new stride starts at mid-support, because idle feet are underneath
       // the pelvis. Reusing an arbitrary old phase could hold that foot for a
@@ -1084,8 +1146,11 @@ export function createMotion(
         foot.swing = false;
       }
     }
-    if (moving) phase = (phase + step / stride) % 1;
-    lastPhaseDelta = moving ? step / stride : 0;
+    if (moving) {
+      phase = (phase + step / stride) % 1;
+      runPhase = (runPhase + step / (motions?.jogDistance || stride)) % 1;
+    }
+    lastPhaseDelta = moving ? THREE.MathUtils.lerp(step / stride, step / (motions?.jogDistance || stride), smooth(runMix)) : 0;
     gait = THREE.MathUtils.damp(gait, moving ? 1 : 0, moving ? 10 : 13, dt);
     danceMix = THREE.MathUtils.damp(
       danceMix,
@@ -1105,6 +1170,7 @@ export function createMotion(
         1 - smooth(clamp(actionTime / motions.clips.sitExit.duration, 0, 1));
     else sitProgress = THREE.MathUtils.damp(sitProgress, sitTarget, 4.5, dt);
     if (Math.abs(sitProgress - sitTarget) < 0.001) sitProgress = sitTarget;
+    talkMix = THREE.MathUtils.damp(talkMix, state.speaking && requested !== "dance" ? 1 : 0, 9, dt);
     const sourceActive = !!sourceMixer;
     // Three's mixer skips writing unchanged tracks. Restore its last output,
     // not the bind pose or last frame's IK result, before evaluating again.
@@ -1112,6 +1178,7 @@ export function createMotion(
     if (sourceActive) {
       for (const a of Object.values(sourceActions)) a.setEffectiveWeight(0);
       sourceWalk.time = phase * motions.clips.walk.duration;
+      if (sourceActions.jog) sourceActions.jog.time = runPhase * motions.clips.jog.duration;
       sourceIdle.time = clock % motions.clips.idle.duration;
       if (requested === "sit" && sourceActions.sitEnter) {
         const enter = actionTime < motions.clips.sitEnter.duration,
@@ -1127,16 +1194,29 @@ export function createMotion(
           motions.clips.sitExit.duration - 1e-5,
         );
         sourceActions.sitExit.setEffectiveWeight(1);
-      } else if (danceMix > 0.001 && sourceActions.dance) {
-        sourceActions.dance.time = danceClock % motions.clips.dance.duration;
-        sourceActions.dance.setEffectiveWeight(danceMix);
+      } else if (danceMix > 0.001 && sourceActions[selectedDance]) {
+        const clip = motions.clips[selectedDance], action = sourceActions[selectedDance];
+        action.time = danceInfo()?.playback === "once-then-idle" ? Math.min(danceClock,clip.duration-1e-6) : danceClock % clip.duration;
+        action.setEffectiveWeight(danceMix);
         sourceIdle.setEffectiveWeight(1 - danceMix);
       } else {
-        sourceWalk.setEffectiveWeight(gait);
+        sourceWalk.setEffectiveWeight(gait * (1 - smooth(runMix)));
+        sourceActions.jog?.setEffectiveWeight(gait * smooth(runMix));
         sourceIdle.setEffectiveWeight(1 - gait);
       }
       sourceMixer.update(0);
       saveAuthoredPose();
+      // An explicit upper-body layer keeps validated pelvis/leg contact intact.
+      // Evaluate public track interpolants every frame, so constant tracks do not
+      // disappear when the full-body mixer's write cache skips unchanged values.
+      if (talkMix > .0001 && motions.clips.talk && motions.clips.sitTalk) {
+        const standing = new Map(talkTracks.talk.map(t => [t.bone, new Q().fromArray(t.sample.evaluate(clock % motions.clips.talk.duration))]));
+        for (const t of talkTracks.sitTalk) {
+          const sitting = new Q().fromArray(t.sample.evaluate(clock % motions.clips.sitTalk.duration));
+          const target = (standing.get(t.bone) || sitting.clone()).slerp(sitting, smooth(sitProgress));
+          t.bone.quaternion.slerp(target, talkMix);
+        }
+      }
       if (interruptionPose && interruptionAge < 0.16) {
         const blend = smooth(clamp(interruptionAge / 0.16, 0, 1));
         for (const [node, p] of interruptionPose) {
@@ -1190,7 +1270,8 @@ export function createMotion(
     // Raising only ankle targets shortened both legs and introduced a crouch.
     if (sourceActive)
       hipOffset.y +=
-        sourceGroundLift * gait * (1 - sitProgress) * (1 - danceMix);
+        groundLift * gait * (1 - sitProgress) * (1 - danceMix);
+    hipOffset.y += (danceGroundLifts[selectedDance] || 0) * danceMix;
     // Pelvis underside is measured on the new body's real seated skin patch.
     // Clothing thickness is independent of anatomy and eases when equipping
     // while seated; a different outfit must not teleport the pelvis.
@@ -1254,7 +1335,7 @@ export function createMotion(
         // planted endpoint is corrected; hip, shoulder, arm and knee motion
         // comes from the retargeted animation rather than a sine-wave gait.
         const p = foot.sourceLocal.clone();
-        p.y += sourceGroundLift;
+        p.y += groundLift;
         const authored = desiredRest.clone().lerp(point(p), gait);
         const offsets = Object.fromEntries(
           Object.entries(foot.soleOffsets).map(([kind, offset]) => [
@@ -1287,8 +1368,10 @@ export function createMotion(
         // established pivot through that roll; the authored toe-off exceeds
         // 3.5 cm near phase .59. A 12 mm cutoff released it in mid-stance.
         const releaseHeight = kind === "toe" ? 0.035 : 0.02;
-        const active =
-          heights[kind] < (foot.anchorKind ? releaseHeight : 0.003);
+        const localRunPhase = (runPhase + foot.index * .5) % 1;
+        const authoredFlight = runMix > .95 && localRunPhase >= .34;
+        const active = !authoredFlight &&
+          heights[kind] < (foot.anchorKind ? (runMix > .95 ? .018 : releaseHeight) : .003);
         if (!active) {
           if (foot.anchorKind) {
             foot.releaseOffset.copy(foot.lastCorrection);
@@ -1435,8 +1518,10 @@ export function createMotion(
           }
           foot.swing = inSwing;
         }
-      } else if (requested === "dance" && sourceActive) {
-        foot.target.copy(point(foot.sourceLocal));
+      } else if (danceMix > .001 && sourceActive) {
+        const authored = point(foot.sourceLocal);
+        authored.y += (danceGroundLifts[selectedDance] || 0) * danceMix;
+        foot.target.copy(desiredRest).lerp(authored, danceMix);
         foot.contact = false;
         foot.swing = true;
       } else if (requested === "dance") {
@@ -1549,13 +1634,33 @@ export function createMotion(
               ),
           ),
         );
-      else if (sourceActive && (moving || requested === "dance"))
-        foot.foot.quaternion.copy(parentQ.multiply(foot.sourceQuaternion));
+      else if (sourceActive && (moving || danceMix > .001))
+        foot.foot.quaternion.copy(parentQ.multiply(moving ? foot.sourceQuaternion :
+          rootQuaternion().multiply(foot.restWorldQuaternion).slerp(foot.sourceQuaternion,danceMix)));
       else
         foot.foot.quaternion.copy(
           parentQ.multiply(rootQuaternion()).multiply(foot.restWorldQuaternion),
         );
       foot.foot.updateWorldMatrix(true, true);
+      // Stop orientation blends around the ankle, whereas contact belongs to
+      // the actual shoe surface. On the male shoe the authored toe/heel rotation
+      // dipped 12.6 mm during gathering despite a correct ankle target.
+      // Re-evaluate that surface AFTER orientation and solve upward clearance.
+      foot.stopSoleLift = 0;
+      if (corrections.footIK && foot.soleSamples && !moving && !turning &&
+          sitProgress < .01 && danceMix < .001 && stopTime < .5) {
+        const orientation = foot.foot.getWorldQuaternion(new Q());
+        for (let pass = 0; pass < 2; pass++) {
+          const bottom = Math.min(foot.soleSamples.heel().y, foot.soleSamples.toe().y);
+          const lift = Math.max(0, root.getWorldPosition(new V()).y - bottom);
+          if (lift < .00005) break;
+          foot.target.y += lift; foot.stopSoleLift += lift;
+          solveChain(foot.upper, foot.lower, foot.foot, foot.target, foot.first, foot.second,
+            foot.sourcePole?.clone().lerp(vector(new V(0,0,1)), uprightMix).normalize() || vector(new V(0,0,1)));
+          foot.foot.quaternion.copy(foot.foot.parent.getWorldQuaternion(new Q()).invert().multiply(orientation));
+          foot.foot.updateWorldMatrix(true, true);
+        }
+      }
       foot.lastWorldQuaternion = foot.foot.getWorldQuaternion(new Q());
       const actual = worldPoint(foot.foot);
       const support =
@@ -1613,6 +1718,8 @@ export function createMotion(
       stride,
       gait,
       danceMix,
+      dance: {id:danceInfo()?.id || selectedDance, time:danceClock, duration:motions?.clips?.[selectedDance]?.duration, playback:danceInfo()?.playback || "loop", groundLift:danceGroundLifts[selectedDance] || 0},
+      dancePlaybackComplete: requested === "dance" && danceInfo()?.playback === "once-then-idle" && danceClock >= motions.clips[selectedDance].duration,
       sitProgress,
       seatHeight,
       seatPelvisClearance,
@@ -1634,6 +1741,12 @@ export function createMotion(
         : null,
       adaptiveHipDrop,
       sourceGroundLift,
+      sourceJogGroundLift,
+      talkMix,
+      runMix,
+      locomotion: runMix > .5 ? "run" : "walk",
+      jogPhase: runPhase,
+      jogStride: motions?.jogDistance ?? null,
       stopTime,
       frameDt: lastFrameDt,
       phaseDelta: lastPhaseDelta,
@@ -1661,6 +1774,7 @@ export function createMotion(
         target: foot.target.toArray(),
         actual: worldPoint(foot.foot).toArray(),
         contact: foot.contact,
+        stopSoleLift: foot.stopSoleLift ?? 0,
         turnWorldQuaternion: foot.turnWorldQuaternion?.toArray() ?? null,
         supportWeight: foot.supportWeight,
         authoredSoleHeights: foot.soleHeights ? { ...foot.soleHeights } : null,
@@ -1696,6 +1810,7 @@ export function createMotion(
       frame =
         0;
     phase = stance / 2;
+    runMix = 0; runRequested = false; runPhase = .17; talkMix = 0;
     wasMoving = wasTurning = false;
     wasPlannedTurn = false;
     adaptiveHipDrop = 0;
@@ -1730,6 +1845,14 @@ export function createMotion(
     getFootLockCalibration: () =>
       feet.map((f) => ({ side: f.side, selection: f.soleSelectionAudit })),
     setAction,
+    getDances: () => (motions?.dances || []).map(d=>({...d})),
+    getDance: () => danceInfo(),
+    setDance(id) {
+      if (requested === "dance" || danceMix > .001) throw new Error("Stop the current dance before selecting another");
+      const item = motions?.dances?.find(d=>d.id===id);
+      if (!item) throw new Error("Unknown dance resource " + id);
+      selectedDance=item.key; danceClock=0;
+    },
     getMetrics,
     snapshot: getMetrics,
     getSeatHeight: () => seatHeight,
@@ -1737,6 +1860,7 @@ export function createMotion(
     setCorrections,
     refreshPose,
     reset,
+    dispose: () => { sourceMixer?.stopAllAction(); sourceMixer?.uncacheRoot(vrm.scene); },
   };
 }
 

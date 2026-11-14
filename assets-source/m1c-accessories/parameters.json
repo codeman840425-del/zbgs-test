@@ -1,0 +1,36 @@
+{
+  "schema": "zbgs-accessory-source-v1",
+  "authoring": "Original procedural geometry created for this project; no external mesh, texture or font",
+  "license": "CC0-1.0",
+  "coordinates": "Runtime glTF right-handed meters: +Y up, +Z front; Blender authoring converts [x,y,z] to [x,-z,y]",
+  "microphone": {
+    "id": "studio-microphone-v1",
+    "handleRadius": 0.013,
+    "handleBottomY": -0.075,
+    "handleTopY": 0.085,
+    "grilleCenterY": 0.113,
+    "grilleRadii": [0.026, 0.035, 0.026],
+    "radialSegments": 24,
+    "materialColors": {"handle": [0.055, 0.075, 0.085, 1], "grille": [0.24, 0.28, 0.29, 1], "accent": [0.12, 0.46, 0.43, 1]},
+    "sockets": {"grip": {"position": [0, 0, 0], "axis": [0, 1, 0]}, "capsule": {"position": [0, 0.113, 0], "axis": [0, 1, 0]}},
+    "bodyFit": {
+      "female": {"bone": "rightHand", "scale": 1, "handLocalPosition": null, "handLocalQuaternion": null, "verified": false},
+      "male": {"bone": "rightHand", "scale": 1, "handLocalPosition": null, "handLocalQuaternion": null, "verified": false}
+    }
+  },
+  "glasses": {
+    "id": "studio-glasses-v1",
+    "lensWidth": 0.054,
+    "lensHeight": 0.032,
+    "lensCenterSeparation": 0.064,
+    "frameRadius": 0.00135,
+    "templeDepth": 0.105,
+    "materialColors": {"frame": [0.035, 0.055, 0.065, 1], "accent": [0.12, 0.46, 0.43, 1]},
+    "sockets": {"bridge": {"position": [0, 0, 0], "forward": [0, 0, 1]}},
+    "bodyFit": {
+      "female": {"bone": "head", "fitReference": "midpoint of leftEye/rightEye; head orientation", "scale": 1, "headLocalPosition": null, "headLocalQuaternion": null, "verified": false},
+      "male": {"bone": "head", "fitReference": "midpoint of leftEye/rightEye; head orientation", "scale": 1, "headLocalPosition": null, "headLocalQuaternion": null, "verified": false}
+    },
+    "limits": "Opaque frame only; no transparent lens, prescription optics or head-shape adaptation"
+  }
+}

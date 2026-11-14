@@ -70,6 +70,14 @@ export function createM1Skirt({ vrm, source, body }) {
   const accumulated = particles.map(() => new V()),
     contributions = new Uint16Array(particles.length);
   const free = (i) => references[i].y < 0.09;
+  // The topology and pins are immutable. Preserve the exact old group/order
+  // while avoiding 22,400 temporary group arrays/filter results per update.
+  const panels = [];
+  for (const tri of triangles)
+    for (const group of [tri, [tri[0],tri[1]], [tri[1],tri[2]], [tri[2],tri[0]]]) {
+      const movable = group.filter(free);
+      if (movable.length) panels.push({group,movable,factor:group.length/movable.length});
+    }
   function clearCorrections() {
     contributions.fill(0);
     accumulated.forEach((p) => p.set(0, 0, 0));
@@ -88,6 +96,10 @@ export function createM1Skirt({ vrm, source, body }) {
     x = THREE.MathUtils.clamp(x, 0, 1);
     return x * x * (3 - 2 * x);
   };
+  const guide = references.map(r=>({
+    front:smooth((.07-r.z)/.14),depth:Math.max(0,.045-r.y),
+    side:smooth((r.x+.04)/.08),drape:smooth((.055-r.y)/.1),
+  }));
   const legs = ["left", "right"].map((side) => ({
     side,
     upper: vrm.humanoid.getRawBoneNode(side + "UpperLeg"),
@@ -96,6 +108,10 @@ export function createM1Skirt({ vrm, source, body }) {
     b: new V(),
     radius: 0,
     bend: 0,
+    axis: new V(),
+    axisLengthSq: 0,
+    horizontal: new V(),
+    bounds: new THREE.Box3(),
   }));
   vrm.scene.updateMatrixWorld(true);
   // Fit thigh radii from the actual current body surface in its initial rest pose.
@@ -141,7 +157,12 @@ export function createM1Skirt({ vrm, source, body }) {
     near = new V(),
     delta = new V(),
     sample = new V(),
-    before = new V();
+    before = new V(),
+    originalSample = new V(),
+    localA = new V(),
+    localB = new V();
+  const boxCache = new WeakMap();
+  const activeBoxes = [];
   const hipInverse = new THREE.Matrix4(),
     meshInverse = new THREE.Matrix4();
   let revision = 0,
@@ -150,13 +171,13 @@ export function createM1Skirt({ vrm, source, body }) {
   function collision(p, boxes) {
     let changed = false;
     for (const leg of legs) {
-      axis.subVectors(leg.b, leg.a);
+      if (!leg.bounds.containsPoint(p)) continue;
       const t = THREE.MathUtils.clamp(
-        offset.subVectors(p, leg.a).dot(axis) / axis.lengthSq(),
+        offset.subVectors(p, leg.a).dot(leg.axis) / leg.axisLengthSq,
         0,
         1,
       );
-      near.copy(leg.a).addScaledVector(axis, t);
+      near.copy(leg.a).addScaledVector(leg.axis, t);
       offset.subVectors(p, near);
       const d = offset.length();
       if (d < leg.radius) {
@@ -166,7 +187,9 @@ export function createM1Skirt({ vrm, source, body }) {
         changed = true;
       }
     }
-    for (const box of boxes) {
+    for (const item of activeBoxes) {
+      const box=item.box;
+      if(item.bounds && !item.bounds.containsPoint(p))continue;
       before.copy(p);
       if (box.projectOut) box.projectOut(p, 0.006);
       else if (box.containsPoint?.(p)) {
@@ -194,8 +217,12 @@ export function createM1Skirt({ vrm, source, body }) {
     for (const leg of legs) {
       leg.upper.getWorldPosition(leg.a);
       leg.lower.getWorldPosition(leg.b);
-      const a = leg.a.clone().applyMatrix4(hipInverse),
-        b = leg.b.clone().applyMatrix4(hipInverse);
+      leg.axis.subVectors(leg.b,leg.a);
+      leg.axisLengthSq=leg.axis.lengthSq();
+      leg.horizontal.set(leg.axis.z,0,-leg.axis.x).normalize();
+      leg.bounds.makeEmpty().expandByPoint(leg.a).expandByPoint(leg.b).expandByScalar(leg.radius+1e-12);
+      const a = localA.copy(leg.a).applyMatrix4(hipInverse),
+        b = localB.copy(leg.b).applyMatrix4(hipInverse);
       const d = b.sub(a);
       leg.bend = THREE.MathUtils.clamp(
         Math.atan2(-d.z, -d.y),
@@ -203,12 +230,21 @@ export function createM1Skirt({ vrm, source, body }) {
         Math.PI * 0.49,
       );
     }
+    activeBoxes.length=0;
+    for(const box of boxes){
+      let item=boxCache.get(box);
+      if(!item){item={box,bounds:box.localBox&&box.matrixWorld?new THREE.Box3():null};boxCache.set(box,item);}
+      // An expanded local OBB transformed to a conservative world AABB only
+      // skips points that projectOut would already reject. The actual OBB
+      // callback still decides every possible contact.
+      if(item.bounds)item.bounds.copy(box.localBox).expandByScalar(.006+1e-12).applyMatrix4(box.matrixWorld);
+      activeBoxes.push(item);
+    }
+    const bendDrape=smooth((Math.max(legs[0].bend,legs[1].bend)-.65)/.55);
     maxCorrection = 0;
     for (let i = 0; i < references.length; i++) {
       const r = references[i],
-        front = smooth((0.07 - r.z) / 0.14),
-        depth = Math.max(0, 0.045 - r.y),
-        side = smooth((r.x + 0.04) / 0.08);
+        {front,depth,side} = guide[i];
       const bend =
         THREE.MathUtils.lerp(legs[0].bend, legs[1].bend, side) * front;
       target.copy(r);
@@ -219,21 +255,18 @@ export function createM1Skirt({ vrm, source, body }) {
       // of remaining a rigid horizontal shelf at the raised waistband level.
       const drape =
         front *
-        smooth((0.055 - r.y) / 0.1) *
-        smooth((Math.max(...legs.map((l) => l.bend)) - 0.65) / 0.55);
+        guide[i].drape * bendDrape;
       if (drape > 0) {
         let surface = -Infinity;
         for (const leg of legs) {
-          axis.subVectors(leg.b, leg.a);
           const t = THREE.MathUtils.clamp(
-            offset.subVectors(particles[i], leg.a).dot(axis) / axis.lengthSq(),
+            offset.subVectors(particles[i], leg.a).dot(leg.axis) / leg.axisLengthSq,
             0,
             1,
           );
-          near.copy(leg.a).addScaledVector(axis, t);
-          const horizontal = new V(axis.z, 0, -axis.x).normalize(),
-            lateral = Math.abs(
-              offset.subVectors(particles[i], near).dot(horizontal),
+          near.copy(leg.a).addScaledVector(leg.axis, t);
+          const lateral = Math.abs(
+              offset.subVectors(particles[i], near).dot(leg.horizontal),
             );
           if (lateral < leg.radius * 1.1)
             surface = Math.max(
@@ -255,26 +288,17 @@ export function createM1Skirt({ vrm, source, body }) {
     // incident triangle could amplify one leg movement into a long spike.
     for (let pass = 0; pass < 8; pass++) {
       clearCorrections();
-      for (const tri of triangles) {
-        for (const group of [
-          tri,
-          [tri[0], tri[1]],
-          [tri[1], tri[2]],
-          [tri[2], tri[0]],
-        ]) {
+      for (const {group,movable,factor} of panels) {
           sample.set(0, 0, 0);
           for (const i of group) sample.add(particles[i]);
           sample.divideScalar(group.length);
-          const original = sample.clone();
+          originalSample.copy(sample);
           if (!collision(sample, boxes)) continue;
-          const movable = group.filter(free);
-          if (!movable.length) continue;
           delta
-            .subVectors(sample, original)
-            .multiplyScalar(group.length / movable.length);
+            .subVectors(sample, originalSample)
+            .multiplyScalar(factor);
           maxCorrection = Math.max(maxCorrection, delta.length());
           for (const i of movable) addCorrection(i, delta);
-        }
       }
       applyCorrections();
       // Enforce the actual mesh's local connectivity. A skirt panel may fold,

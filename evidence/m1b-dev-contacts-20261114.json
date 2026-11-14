@@ -1,0 +1,133 @@
+{
+  "kind": "M1B developer diagnostic; not fixed-build acceptance",
+  "sourceUnchanged": true,
+  "sourceHashes": {
+    "assets.js": "616a1be35ff5f9f6ba4fe8fc183a73bf82e7b1e2304ea42b25b861bef44c3c05",
+    "cloth.js": "e2a3f8e95ca4fa3c1185e988337378225e7cd14e546334c036bb0411fbe6d992",
+    "equipment.js": "4708d0e20ac1b0977f798ca55ac0ad5cbac5e6e0897d2d98acf849c9a196c160",
+    "foundation-avatar.js": "a4a7a5f9d8574ea613a6535b4235114263c601c84766e8ba9cbf9bcd75fdf544",
+    "foundation-preview.js": "692353a47ebdcc67f322683804d33637ceefe62c4fa0ec1889e4fab200aeafed",
+    "foundation-profiles.js": "24f7ff02bfc85abd05210b7d01239da724d8d51c44ec015af32d631aee895a78",
+    "garment-collider.js": "29fef27ed90feee060a89e37314f86d16df42b94b0688f700d108e6f6f954c49",
+    "m1-equipment.js": "19a350ba3c717c9b0bdfdef3e88fff149ae41a4aadf2be2b0ee0712f400e1a9b",
+    "m1-skirt.js": "10a072d3ceecaeb798f5025c19387e7b7a65ee6ad1adf2f9fbb67507b6184e86",
+    "main.js": "96095bd6a34514645acb6a2baacc2208b976fe9dc084aeba3e201499f195a422",
+    "motion-source.js": "aabb573c85473dc1a342d399792090daeeea22cfc1fed1ea1a5faa7195ccb208",
+    "motion.js": "89f918eaccdc4c98b6dcb3eb29ba02cd64814ec2951ac1759dd4f25e99a6d6d1",
+    "segment-triangle-projection.js": "7cd146079604ea66ff7f3a21c3dce8ba4312d281ca33fd5b20211904faee2315",
+    "turn-policy.js": "7d1040d02d8d5c44483a9739499cea668d5241796058537aaab03d7a0e1eb8e2"
+  },
+  "bodySha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+  "errors": [],
+  "artifactDirectory": "output/playwright/m1b/dev-contacts-1794685285021",
+  "seat": [
+    {
+      "mode": "base",
+      "completed": true,
+      "maxCollision": null,
+      "seatedGaps": {
+        "body": 0.01269729927867247
+      }
+    },
+    {
+      "mode": "pants",
+      "completed": true,
+      "maxCollision": {
+        "depth": 0.0019750982326862676,
+        "role": "pants",
+        "collider": "chairSeat",
+        "vertices": 8
+      },
+      "seatedGaps": {
+        "body": 0.01269729927867247,
+        "pants": -0.0019750982326862676
+      }
+    }
+  ],
+  "walk": [
+    {
+      "side": "left",
+      "lowest": {
+        "side": "left",
+        "measured": true,
+        "kind": "footwear",
+        "sampleIntervalMs": 1.5,
+        "sampleVertices": 283,
+        "surfaceMeshes": [
+          "m1b-uniform-shoes"
+        ],
+        "finite": true,
+        "minHeight": -0.012592215917669927,
+        "maxHeight": 0.13808222735975645,
+        "lowest": {
+          "mesh": "m1b-uniform-shoes",
+          "vertex": 161,
+          "world": [
+            1.0215861770182728,
+            -0.012592215917669927,
+            0.9502771246063245
+          ],
+          "delta": [
+            -6.499949937355254e-05,
+            -7.232368617305848e-05,
+            5.579976553149457e-06
+          ]
+        },
+        "solverContact": true,
+        "solverContactPoint": "ankle",
+        "solverSlip": 8.098657081714366e-13
+      },
+      "frame": 372,
+      "controllerMode": "idle",
+      "phase": 0.34307997194196677,
+      "stopTime": 0.2333333333333333,
+      "gait": 0.048154854099049765,
+      "maxNormalizedFootFrameDisplacement": 0.02101649989304506
+    },
+    {
+      "side": "right",
+      "lowest": {
+        "side": "right",
+        "measured": true,
+        "kind": "footwear",
+        "sampleIntervalMs": 1.100000023841858,
+        "sampleVertices": 283,
+        "surfaceMeshes": [
+          "m1b-uniform-shoes"
+        ],
+        "finite": true,
+        "minHeight": -0.001382102854613878,
+        "maxHeight": 0.11154978110414815,
+        "lowest": {
+          "mesh": "m1b-uniform-shoes",
+          "vertex": 411,
+          "world": [
+            0.05465355946784786,
+            -0.001382102854613878,
+            1.129623208356462
+          ],
+          "delta": [
+            0.00025711051167620624,
+            -1.2070099946892869e-05,
+            -3.616714901433227e-05
+          ]
+        },
+        "solverContact": true,
+        "solverContactPoint": "heel",
+        "solverSlip": 0.002362653798068754
+      },
+      "frame": 178,
+      "controllerMode": "walk",
+      "phase": 0.5898055057806098,
+      "stopTime": 2.724999999999994,
+      "gait": 0.9995318241883472,
+      "maxNormalizedFootFrameDisplacement": 0.026498243064575995
+    }
+  ],
+  "limitations": [
+    "Only default chair and one normal speed path with stop",
+    "Foot bone continuity is normalized bone, not raw skin; sole minima are actual skinned vertices",
+    "120Hz simulation, seat geometry30Hz; not wall-time performance or full visual loop acceptance",
+    "Developer buildInfo is stale and must not be used as fixed candidate identity; source and actual asset hashes retained"
+  ]
+}

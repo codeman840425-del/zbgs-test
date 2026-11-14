@@ -1,0 +1,119 @@
+{
+  "schema": "m1.motion-import-list.1",
+  "sourceSha256": "69591853d817488edaa8fd9bf8fc1d821eaeaf789f8627b3cd23b41c4ed67997",
+  "license": "CC0-1.0 source; project technical choreography derivative",
+  "entries": [
+    {
+      "id": "ual1-dance-reference",
+      "file": "dance-source-reference.glb",
+      "sha256": "b864ec5f440929133787791884e645a0bc73c323d107c9a9ef9937b4f1ca9744",
+      "clip": "Dance_Loop",
+      "duration": 1.0,
+      "playback": "loop",
+      "origin": "Unmodified Quaternius Dance_Loop reference",
+      "rootTranslationOwner": "clip hips only; no path locomotion",
+      "space": {
+        "kind": "local-footprint",
+        "radiusSourceM": 0.9,
+        "scaleBy": "target/sourceRestHipRatio",
+        "includes": "source body reservation; target clothes/hair need live envelope validation",
+        "navigationAllowedDuringPlayback": false
+      },
+      "heldPropsAllowed": false,
+      "rootPolicy": "local-displacement"
+    },
+    {
+      "id": "dance-technical-once-v1",
+      "file": "dance-technical-v1.glb",
+      "sha256": "2d785287de3c0187c76ed90ae6e0b76fed3008cb1a7a2ac75065720d3885304e",
+      "clip": "Dance_Technical_7s_Once_v1",
+      "duration": 7.2,
+      "playback": "once-then-idle",
+      "origin": "Original technical choreography, UAL1 idle reference/rig; not professional dance or mocap",
+      "rootTranslationOwner": "clip hips local weight-shift/jump; no path locomotion",
+      "space": {
+        "kind": "local-footprint",
+        "radiusSourceM": 0.9,
+        "scaleBy": "target/sourceRestHipRatio",
+        "includes": "source body reservation; target clothes/hair need live envelope validation",
+        "navigationAllowedDuringPlayback": false
+      },
+      "heldPropsAllowed": false,
+      "segments": [
+        {
+          "time": [
+            0.6,
+            2.4
+          ],
+          "intent": "raised arms, elbow bend, side bend"
+        },
+        {
+          "time": [
+            2.4,
+            3.9
+          ],
+          "intent": "right foot crosses in front of left then returns"
+        },
+        {
+          "time": [
+            4.1,
+            5.4
+          ],
+          "intent": "torso twist"
+        },
+        {
+          "time": [
+            5.4,
+            6.55
+          ],
+          "intent": "anticipate, small hop, land, absorb"
+        },
+        {
+          "time": [
+            6.55,
+            7.2
+          ],
+          "intent": "return to initial generated idle pose; runtime exit blend required"
+        }
+      ],
+      "contactWindows": {
+        "l": [
+          [
+            0,
+            5.85
+          ],
+          [
+            6.13,
+            7.2
+          ]
+        ],
+        "r": [
+          [
+            0,
+            2.4
+          ],
+          [
+            3.0,
+            3.3
+          ],
+          [
+            3.9,
+            5.85
+          ],
+          [
+            6.13,
+            7.2
+          ]
+        ]
+      },
+      "sourceQAOnly": true,
+      "limits": [
+        "No live avatar/garment or visual acceptance",
+        "Prop must be stowed before full-body choreography",
+        "Crossing is intentional; no never-cross constraint",
+        "Runtime must preserve genuine jump vertical motion and release both feet during flight"
+      ],
+      "rootPolicy": "local-displacement"
+    }
+  ]
+}
