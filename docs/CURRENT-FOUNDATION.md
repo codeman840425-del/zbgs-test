@@ -39,4 +39,6 @@
 
 ## 恢复与备份
 
-运行时与资源已固定在本分支，依赖锁不变；不要从历史报告重新开始。根README、AGENTS、AVATAR-CONTRACT与阶段计划已同步。新检出复建和远程分支备份结果在同目录的交付验证记录更新；未完成前不视为已备份。用户不承担修模/权重/代码操作。
+运行时与资源已固定在本分支，依赖锁不变；不要从历史报告重新开始。根README、AGENTS、AVATAR-CONTRACT与阶段计划已同步。源码里程碑提交 `7c914a80df4a2675cbcdc3bbc8bd98f54f9115da` 已推送并通过 `git ls-remote` 核对到origin同名分支。
+
+实际在独立新检出目录执行npm ci/build，构建ID相同、13个dist文件逐字节一致；独立生成新裤GLB哈希一致。新检出静态站4193上的实际浏览器装备合约回归再次通过。证据为evidence/c14a9e3b4083/rebuild-verification.json与fresh-checkout-runtime.json。这里验证的是同一Windows环境可恢复，不是普通电脑性能达标。用户不承担修模/权重/代码操作。
