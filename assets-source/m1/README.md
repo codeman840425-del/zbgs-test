@@ -48,3 +48,36 @@ node scripts/m1-assets/qa-skirt.cjs 'http://127.0.0.1:5173/foundation.html?sourc
 `m1-skirt.js`用新身体实际带权大腿点测出左右约0.08682m包络半径，按当前髋/大腿角度连续抬起前片，再投影腿与椅OBB碰撞，同时约束三角中心、边中点。上腰保持绑定参考。它是这套裙的姿态约束修正，**没有惯性布料、自碰撞或通用体型适配**，不使用旧人物尺寸。实际调用顺序为动作→VRM→世界矩阵→equipment.update。
 
 同姿势修后截图 `output/m1-skirt-corrective-side.png`，前片已在腿上；坐姿侧摆仍偏硬，手与裙接触仍需房间整合复核。不能仅靠该静帧宣称完整坐起或椅接触通过。连续自检录像/数值在 `output/playwright/m1-skirt-selfcheck/`，该资格页没有椅子，因此正式房间的椅接触、完整动作及正常速度观感由整合验收记录决定。
+
+
+## 后续尖角回归修复（候选源码，尚待固定构建整体录制）
+
+旧裙约束按三角/边逐次把完整碰撞修正直接加到共享粒子，缺少拓扑边长代价。同一高连接度顶点会反复被推，能放大腿部异常位移。失败源码保留为 `failures/m1-skirt-before-spike.js`，SHA256 `a2bb6b943339a6c825a208509f5ceab85a08b018923dee9eba00854ae6ca4618`。
+
+m1-skirt现在每轮以同一状态计算、累计平均碰撞修正（Jacobi），再按真实源拓扑限制边伸长；不把三角顺序当成额外推力。保留原腿/椅碰撞，实际迭代8轮，并报告maxEdgeStretch。1.25倍是约束目标，有限轮次后的实际残差不等于严格硬上限，不能声称所有边都低于1.25。
+
+同一路线120Hz连续480帧：
+
+| 条件 | 最大边倍率（源边>5mm） | 最大局部顶点单帧变化 |
+|---|---:|---:|
+| 固定旧候选，raw关足IK/骨盆，旧裙算法 | 3.443 | 21.1mm |
+| raw关足IK/骨盆，新裙算法 | 2.367 | 17.3mm |
+| 旧错误足标定full + 旧裙算法 | 24.396 | 441.0mm |
+| audit修正鞋顶点分类后的full + 新裙算法 | 2.386 | 22.0mm |
+
+最后两行同时包含足标定修复，不能把整个改善归功于裙算法。raw层对照才隔离裙本身。旧足标定把另一脚鞋顶点混入同脚测量的根因及修复由audit独立交接。截图/全量轨迹在 `output/playwright/m1-skirt-spike/{before,after-stable-gait}/`。更新后的最差边长帧未出现旧大尖角，但正式完整动作画面仍以固定构建最终录制为准。
+
+真实裙面与手部交叉的独立检查入口为 `scripts/m1-assets/qa-skirt-hands.cjs`：完整840个120Hz时刻，raw前臂/手掌中心线及4条12mm/16mm平行边缘线与实际显示三角求交，按真实UV纹理alphaMASK排除透明面。它不是完整皮肤体积CCD。主代理过渡抬手修正后，坐稳1.5–4秒无中心/边缘交叉，但当时起身4–5.5秒仍86个中心线相交时刻（其中39个前臂中心相交）；4.5秒截图仍能看见前臂末端进裙。已将骨点/交点反馈主代理，不通过挖裙洞或隐藏身体规避。最新结果见 `output/playwright/m1-skirt-hands/report.json`，后续手修复重跑会更新该报告。
+
+
+## 坐起手部接触候选（M1A）
+
+后续手修正限定在motion.fitSeatHands与foundation-avatar的必要profile。旧MiddleDistal接触目标虽然IK可以到达，整个掌段/前臂仍能穿过前腰；从侧垂手到腿面的直线插值不等于可行的手部路径。因此保留源手朝向及腿面接触目标，对掌/前臂采样使用真实显示裙面、原纹理alphaMASK和有界5轮IK/表面投影。
+
+更新时序为：本子步腿/臀normalized已求解→profile复制到raw→世界矩阵→同帧裙几何→手部IK→正常VRM收尾。裙求解自身未改；手已采样的这一帧不再重复跑同一无惯性裙pass。射线用方向投影格筛选实际三角，基础/裤装不查询不可见裙。idle使用角色局部避让偏移缓存，装备/基模UUID及上臂局部姿势改变会失效；隐藏裙清除缓存，走起时旧偏移平滑退出而不锁手姿态。
+
+最后实测输出 `output/playwright/m1-skirt-hands/surface-contact-final/`：840个120Hz时刻，掌/前臂中心线相交0，仍有49帧半径边缘线接触：坐入0.400–0.625秒左前臂28帧，结束idle6.108–6.275秒右手21帧。6.25秒正/侧截图为750-front.png / 750.png，正常镜头未见大块截断；这不是完整皮肤体积CCD，不能据中心线0宣传零穿模。候选可评审，边缘接触余量未全通过。
+
+开发机无头Chrome的函数CPU计时：active坐起/坐稳median5.9ms、p956.7ms、max9.9ms/模拟子步（包括同帧裙求值）；idle缓存median0.1ms、p950.2ms，姿势失效时可达7.1ms。这是局部CPU时间，普通目标设备整体帧耗时仍要固定构建测量，不能等同性能达标。
+
+qa-skirt-hands.cjs现在用现有Vector3构造器和脚本内Moller–Trumbore求交，不再从/node_modules动态导入Three。已实际在4191静态dist跑通；旧固定构建的失败报告另存fixed-dist-portability，不能与新候选混作通过证据。QA_LABEL可选报告子目录。定向初始化修复仅把构造器root.updateWorldMatrix(true,true)换成root.updateMatrixWorld(true)，以正确刷新SkinnedMesh bindMatrixInverse；audit的四种初始根变换回归已独立通过。

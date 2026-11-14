@@ -115,7 +115,7 @@ export function createMotion(
     if (!nodes[name])
       throw new Error(`VRM normalized humanoid missing required bone: ${name}`);
   }
-  root.updateWorldMatrix(true, true);
+  root.updateMatrixWorld(true);
   const rest = new Map(
     Object.values(nodes).map((node) => [
       node,
@@ -218,6 +218,7 @@ export function createMotion(
     const raw = vrm.humanoid.getRawBoneNode?.(name);
     if (raw)
       normalizedForRaw.set(raw, {
+        name,
         node,
         inverseRest: node.matrixWorld.clone().invert(),
       });
@@ -256,13 +257,38 @@ export function createMotion(
         if (weight > 1e-6 && source) influences.push({ ...source, weight });
       }
       const local = root.worldToLocal(world.clone());
-      shoeVertices.push({ local, world, influences });
+      shoeVertices.push({ local, world, influences, mesh, vertexIndex: i });
     }
   });
   for (const foot of feet) {
-    const sameFoot = shoeVertices.filter(
+    // A narrow stance puts the opposite shoe inside the old +/- 7 cm X band.
+    // Select actual foot/ankle skin weights: a swinging toe must never borrow
+    // the planted opposite shoe's floor height or horizontal contact point.
+    const belongsToFoot = (p) =>
+      p.influences.reduce(
+        (sum, influence) =>
+          sum +
+          (influence.name.startsWith(foot.side) &&
+          /(?:Foot|Toes|LowerLeg)$/.test(influence.name)
+            ? influence.weight
+            : 0),
+        0,
+      ) > 0.999;
+    const oldSelection = shoeVertices.filter(
       (p) =>
         Math.abs(p.local.x - foot.local.x) < 0.07 &&
+        p.influences.reduce((s, x) => s + x.weight, 0) > 0.999,
+    );
+    foot.soleSelectionAudit = {
+      legacyVertexCount: oldSelection.length,
+      legacyForeignVertexCount: oldSelection.filter((p) => !belongsToFoot(p))
+        .length,
+      selectedVertexCount: shoeVertices.filter(belongsToFoot).length,
+      patches: {},
+    };
+    const sameFoot = shoeVertices.filter(
+      (p) =>
+        belongsToFoot(p) &&
         p.influences.reduce((s, x) => s + x.weight, 0) > 0.999,
     );
     if (sameFoot.length < 8) continue;
@@ -278,6 +304,10 @@ export function createMotion(
       if (!region.length) continue;
       const bottom = Math.min(...region.map((p) => p.local.y));
       const low = region.filter((p) => p.local.y < bottom + 0.012);
+      foot.soleSelectionAudit.patches[kind] = low.map((p) => ({
+        mesh: p.mesh.uuid,
+        vertex: p.vertexIndex,
+      }));
       const center = low
         .reduce((sum, p) => sum.add(p.local), new V())
         .divideScalar(low.length);
@@ -672,6 +702,302 @@ export function createMotion(
         arm.second,
         vector(new V(arm.sign * 0.25, 0, -1)),
       );
+    }
+  }
+  let handContacts = [];
+  function fitSeatHands() {
+    handContacts = [];
+    const handFitStarted = performance.now();
+    if (!profile?.seatHandRadii || !corrections.footIK) return;
+    // Keep the same garment clearance at the idle endpoint, so entering a sit
+    // does not suddenly project an already-intersecting relaxed palm.
+    const references = profile.seatHandSurfaces?.(false) || [];
+    const cacheKey = references.map((mesh) => mesh.uuid).join(":");
+    if (!cacheKey) fitSeatHands.idleCache = null;
+    const cache = fitSeatHands.idleCache;
+    const upperPoints = arms.map((arm) =>
+      root.worldToLocal(worldPoint(arm.upper)),
+    );
+    const poseStable =
+      cache &&
+      upperPoints.every((p, i) => p.distanceTo(cache.upperPoints[i]) < 0.025);
+    const validCache = cache && cache.key === cacheKey && cacheKey;
+    const leavingIdle = sitProgress <= 0 && requested !== "idle";
+    if (
+      sitProgress <= 0 &&
+      validCache &&
+      (leavingIdle || (fitSeatHands.lastProgress === 0 && poseStable))
+    ) {
+      fitSeatHands.cacheWeight = leavingIdle
+        ? (fitSeatHands.cacheWeight ?? 1) * Math.exp(-lastFrameDt * 14)
+        : 1;
+      for (const [i, arm] of arms.entries()) {
+        const original = worldPoint(arm.hand),
+          orientation = arm.hand.getWorldQuaternion(new Q());
+        const target = original
+          .clone()
+          .addScaledVector(vector(cache.offsets[i]), fitSeatHands.cacheWeight);
+        const pole = kneeBendDirection(
+          worldPoint(arm.upper),
+          worldPoint(arm.lower),
+          original,
+          vector(new V(arm.sign, 0, -1)),
+        );
+        const solved = solveChain(
+          arm.upper,
+          arm.lower,
+          arm.hand,
+          target,
+          arm.first,
+          arm.second,
+          pole,
+        );
+        arm.hand.quaternion.copy(
+          arm.hand.parent
+            .getWorldQuaternion(new Q())
+            .invert()
+            .multiply(orientation),
+        );
+        arm.hand.updateWorldMatrix(true, true);
+        handContacts.push({
+          side: arm.side,
+          cached: true,
+          cacheWeight: fitSeatHands.cacheWeight,
+          actual: worldPoint(arm.hand).toArray(),
+          clamped: solved.clamped,
+          fitElapsedMs: performance.now() - handFitStarted,
+        });
+      }
+      fitSeatHands.lastProgress = 0;
+      return;
+    }
+    fitSeatHands.lastProgress = sitProgress;
+    if (leavingIdle || (sitProgress <= 0 && !cacheKey)) return;
+    const blend = smooth(clamp(sitProgress / 0.35, 0, 1));
+    const surfaces = profile.seatHandSurfaces?.(true) || [];
+    const newIdleOffsets = [];
+    const triangles = [];
+    fitSeatHands.alphaCache ||= new WeakMap();
+    for (const mesh of surfaces) {
+      mesh.updateWorldMatrix(true, false);
+      const geometry = mesh.geometry,
+        index = geometry.index;
+      const points = Array.from(
+        { length: geometry.attributes.position.count },
+        (_, i) =>
+          mesh.getVertexPosition(i, new V()).applyMatrix4(mesh.matrixWorld),
+      );
+      const material = Array.isArray(mesh.material)
+        ? mesh.material[0]
+        : mesh.material;
+      let alpha = fitSeatHands.alphaCache.get(material);
+      if (!alpha && material.map?.image) {
+        const image = material.map.image,
+          canvas = document.createElement("canvas");
+        canvas.width = image.width;
+        canvas.height = image.height;
+        const context = canvas.getContext("2d");
+        context.drawImage(image, 0, 0);
+        alpha = {
+          pixels: context.getImageData(0, 0, canvas.width, canvas.height).data,
+          width: canvas.width,
+          height: canvas.height,
+          flip: material.map.flipY,
+          cutoff: material.alphaTest,
+        };
+        fitSeatHands.alphaCache.set(material, alpha);
+      }
+      for (let i = 0; i < index.count; i += 3) {
+        const ids = [index.getX(i), index.getX(i + 1), index.getX(i + 2)];
+        triangles.push({
+          points: ids.map((id) => points[id]),
+          uv: geometry.attributes.uv,
+          ids,
+          alpha,
+        });
+      }
+    }
+    const ray = new THREE.Ray(),
+      hit = new V(),
+      triangle = new THREE.Triangle(),
+      bary = new V();
+    function visible(t) {
+      if (!t.alpha || !t.alpha.cutoff) return true;
+      triangle.set(...t.points).getBarycoord(hit, bary);
+      const u = t.ids.reduce(
+          (v, id, k) => v + t.uv.getX(id) * bary.getComponent(k),
+          0,
+        ),
+        v = t.ids.reduce(
+          (v, id, k) => v + t.uv.getY(id) * bary.getComponent(k),
+          0,
+        ),
+        a = t.alpha;
+      const x = clamp(Math.floor(u * a.width), 0, a.width - 1),
+        y = clamp(Math.floor((a.flip ? 1 - v : v) * a.height), 0, a.height - 1);
+      return a.pixels[(y * a.width + x) * 4 + 3] / 255 >= a.cutoff;
+    }
+    let projectionGrid, gridU, gridV;
+    function clearance(point, outward) {
+      ray.origin.copy(point).addScaledVector(outward, 1);
+      ray.direction.copy(outward).negate();
+      let amount = 0;
+      const candidates =
+        projectionGrid.get(
+          Math.floor(point.dot(gridU) / 0.04) +
+            ":" +
+            Math.floor(point.dot(gridV) / 0.04),
+        ) || [];
+      for (const t of candidates)
+        if (ray.intersectTriangle(...t.points, false, hit) && visible(t)) {
+          const depth = hit.clone().sub(point).dot(outward);
+          // Only the near exterior matters. A remote surface on the far side of
+          // the torso is not a reason to pull this hand through the character.
+          if (depth > -0.008 && depth < 0.3)
+            amount = Math.max(amount, depth + 0.008);
+        }
+      return amount;
+    }
+    for (const [i, arm] of arms.entries()) {
+      const original = worldPoint(arm.hand),
+        orientation = arm.hand.getWorldQuaternion(new Q());
+      const contactBone = bone(arm.side + "MiddleDistal");
+      const handOffset = contactBone
+        ? worldPoint(contactBone).sub(original)
+        : new V();
+      const leg = feet[i],
+        a = worldPoint(leg.upper),
+        b = worldPoint(leg.lower),
+        axis = b.clone().sub(a).normalize();
+      const up = new V(0, 1, 0).addScaledVector(axis, -axis.y);
+      if (up.lengthSq() < 1e-5) up.copy(vector(new V(0, 0, 1)));
+      up.normalize();
+      const contact = a
+        .lerp(b, 0.62)
+        .addScaledVector(up, profile.seatHandRadii[i] + 0.025)
+        .sub(handOffset);
+      const target = original.clone().lerp(contact, blend);
+      const pole = kneeBendDirection(
+        worldPoint(arm.upper),
+        worldPoint(arm.lower),
+        original,
+        vector(new V(arm.sign, 0, -1)),
+      );
+      // Follow an exterior route around the actual garment instead of lerping
+      // the palm through its waistband. At the lap use forward clearance;
+      // relaxed hands take the nearer outside/front quadrant.
+      const outward = vector(
+        new V(arm.sign * (1 - blend) * 0.8, blend * 0.5, 1),
+      ).normalize();
+      // Directional 2D broad phase: rays with this outgoing direction share
+      // the same projected point. Query only intersecting triangle cells.
+      gridU = new V().crossVectors(outward, new V(0, 1, 0)).normalize();
+      gridV = new V().crossVectors(outward, gridU).normalize();
+      projectionGrid = new Map();
+      for (const t of triangles) {
+        const us = t.points.map((p) => p.dot(gridU) / 0.04),
+          vs = t.points.map((p) => p.dot(gridV) / 0.04);
+        for (
+          let x = Math.floor(Math.min(...us));
+          x <= Math.floor(Math.max(...us));
+          x++
+        )
+          for (
+            let y = Math.floor(Math.min(...vs));
+            y <= Math.floor(Math.max(...vs));
+            y++
+          ) {
+            const key = x + ":" + y;
+            let list = projectionGrid.get(key);
+            if (!list) {
+              list = [];
+              projectionGrid.set(key, list);
+            }
+            list.push(t);
+          }
+      }
+      let projection = 0,
+        remaining = 0,
+        solved;
+      for (let iteration = 0; iteration < 5; iteration++) {
+        solved = solveLimb(
+          worldPoint(arm.upper),
+          target,
+          arm.first,
+          arm.second,
+          pole,
+        );
+        let correction = 0;
+        for (const [start, end, radius] of [
+          [solved.knee, solved.target, 0.012],
+          [solved.target, solved.target.clone().add(handOffset), 0.016],
+        ]) {
+          const direction = end.clone().sub(start).normalize(),
+            railX = new V().crossVectors(direction, new V(0, 1, 0)).normalize(),
+            railY = new V().crossVectors(direction, railX).normalize();
+          for (let k = 0; k <= 5; k++)
+            for (const [x, y] of [
+              [0, 0],
+              [1, 0],
+              [-1, 0],
+              [0, 1],
+              [0, -1],
+            ]) {
+              const point = start
+                .clone()
+                .lerp(end, k / 5)
+                .addScaledVector(railX, x * radius)
+                .addScaledVector(railY, y * radius);
+              correction = Math.max(correction, clearance(point, outward));
+            }
+        }
+        remaining = correction;
+        if (correction < 0.0002) break;
+        target.addScaledVector(outward, correction);
+        projection += correction;
+      }
+      solved = solveChain(
+        arm.upper,
+        arm.lower,
+        arm.hand,
+        target,
+        arm.first,
+        arm.second,
+        pole,
+      );
+      arm.hand.quaternion.copy(
+        arm.hand.parent
+          .getWorldQuaternion(new Q())
+          .invert()
+          .multiply(orientation),
+      );
+      arm.hand.updateWorldMatrix(true, true);
+      if (sitProgress <= 0)
+        newIdleOffsets.push(
+          worldPoint(arm.hand)
+            .sub(original)
+            .applyQuaternion(rootQuaternion().invert()),
+        );
+      handContacts.push({
+        side: arm.side,
+        target: target.toArray(),
+        actual: worldPoint(arm.hand).toArray(),
+        contactBone: contactBone?.name,
+        clamped: solved.clamped,
+        blend,
+        sitProgress,
+        garmentProjection: projection,
+        remainingClearance: remaining,
+        fitElapsedMs: performance.now() - handFitStarted,
+      });
+    }
+    if (sitProgress <= 0 && cacheKey) {
+      fitSeatHands.idleCache = {
+        key: cacheKey,
+        upperPoints,
+        offsets: newIdleOffsets,
+      };
+      fitSeatHands.cacheWeight = 1;
     }
   }
   function update(dt, state = {}) {
@@ -1272,12 +1598,14 @@ export function createMotion(
       foot.lastSupportKind = foot.anchorKind;
     }
     if (!sourceActive) poseArms();
+    else fitSeatHands();
     wasMoving = moving;
     wasTurning = turning;
     wasPlannedTurn = Boolean(turnPlan);
   }
   function getMetrics() {
     return {
+      handContacts,
       action: requested,
       actionTime,
       phase,
@@ -1399,6 +1727,8 @@ export function createMotion(
   }
   return {
     update,
+    getFootLockCalibration: () =>
+      feet.map((f) => ({ side: f.side, selection: f.soleSelectionAudit })),
     setAction,
     getMetrics,
     snapshot: getMetrics,

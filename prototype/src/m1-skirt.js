@@ -53,6 +53,37 @@ export function createM1Skirt({ vrm, source, body }) {
     triangles = [];
   for (let i = 0; i < ids.length; i += 3)
     triangles.push([map[ids[i]], map[ids[i + 1]], map[ids[i + 2]]]);
+  const edges = [],
+    edgeKeys = new Set();
+  for (const [a, b, c] of triangles)
+    for (const [i, j] of [
+      [a, b],
+      [b, c],
+      [c, a],
+    ]) {
+      const key = [Math.min(i, j), Math.max(i, j)].join(":");
+      const length = references[i].distanceTo(references[j]);
+      if (length < 1e-5 || edgeKeys.has(key)) continue;
+      edgeKeys.add(key);
+      edges.push([i, j, length]);
+    }
+  const accumulated = particles.map(() => new V()),
+    contributions = new Uint16Array(particles.length);
+  const free = (i) => references[i].y < 0.09;
+  function clearCorrections() {
+    contributions.fill(0);
+    accumulated.forEach((p) => p.set(0, 0, 0));
+  }
+  function addCorrection(i, v, scale = 1) {
+    if (!free(i)) return;
+    accumulated[i].addScaledVector(v, scale);
+    contributions[i]++;
+  }
+  function applyCorrections() {
+    for (let i = 0; i < particles.length; i++)
+      if (contributions[i])
+        particles[i].addScaledVector(accumulated[i], 1 / contributions[i]);
+  }
   const smooth = (x) => {
     x = THREE.MathUtils.clamp(x, 0, 1);
     return x * x * (3 - 2 * x);
@@ -114,7 +145,8 @@ export function createM1Skirt({ vrm, source, body }) {
   const hipInverse = new THREE.Matrix4(),
     meshInverse = new THREE.Matrix4();
   let revision = 0,
-    maxCorrection = 0;
+    maxCorrection = 0,
+    maxEdgeStretch = 1;
   function collision(p, boxes) {
     let changed = false;
     for (const leg of legs) {
@@ -218,9 +250,11 @@ export function createM1Skirt({ vrm, source, body }) {
       }
       if (r.y < 0.09) collision(particles[i], boxes);
     }
-    // Constrain panel interiors too. Per-vertex collision alone can leave a long
-    // triangle crossing a thigh despite all corners being outside.
-    for (let pass = 0; pass < 3; pass++)
+    // Jacobi accumulation: shared vertices receive the mean correction from
+    // one immutable iteration state. The old sequential full projection per
+    // incident triangle could amplify one leg movement into a long spike.
+    for (let pass = 0; pass < 8; pass++) {
+      clearCorrections();
       for (const tri of triangles) {
         for (const group of [
           tri,
@@ -233,15 +267,38 @@ export function createM1Skirt({ vrm, source, body }) {
           sample.divideScalar(group.length);
           const original = sample.clone();
           if (!collision(sample, boxes)) continue;
-          const free = group.filter((i) => references[i].y < 0.09);
-          if (!free.length) continue;
+          const movable = group.filter(free);
+          if (!movable.length) continue;
           delta
             .subVectors(sample, original)
-            .multiplyScalar(group.length / free.length);
+            .multiplyScalar(group.length / movable.length);
           maxCorrection = Math.max(maxCorrection, delta.length());
-          for (const i of free) particles[i].add(delta);
+          for (const i of movable) addCorrection(i, delta);
         }
       }
+      applyCorrections();
+      // Enforce the actual mesh's local connectivity. A skirt panel may fold,
+      // but adjacent points must not separate without a material stretch cost.
+      clearCorrections();
+      for (const [a, b, rest] of edges) {
+        delta.subVectors(particles[b], particles[a]);
+        const length = delta.length();
+        const allowed = rest * 1.25;
+        if (length <= allowed || length < 1e-8) continue;
+        delta.multiplyScalar((length - allowed) / length);
+        const factor = free(a) && free(b) ? 0.5 : 1;
+        addCorrection(a, delta, factor);
+        addCorrection(b, delta, -factor);
+      }
+      applyCorrections();
+    }
+    maxEdgeStretch = 1;
+    for (const [a, b, rest] of edges)
+      if (rest > 0.005)
+        maxEdgeStretch = Math.max(
+          maxEdgeStretch,
+          particles[a].distanceTo(particles[b]) / rest,
+        );
     const array = geometry.attributes.position;
     for (let i = 0; i < map.length; i++) {
       target.copy(particles[map[i]]).applyMatrix4(meshInverse);
@@ -260,6 +317,8 @@ export function createM1Skirt({ vrm, source, body }) {
         "Actual source skirt pose-guided vertex constraints + fitted thigh/chair collision; no cloth inertia/self-collision",
       revision,
       maxPanelCorrection: maxCorrection,
+      maxEdgeStretch,
+      constraintIterations: 8,
       thighRadii: legs.map((l) => l.radius),
       bend: legs.map((l) => l.bend),
       weldedVertices: particles.length,

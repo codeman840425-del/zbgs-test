@@ -93,4 +93,6 @@ QA 正在并行检查已有 Soldier/Mixamo Walk/Idle 的重定向。Adobe [官�
 
 完整证据写入 `output/playwright/ual-root-motion-calibration.json`。新的身高/体型应重新测实际重定向比例；该数值证明动作原生位移，不自动保证重定向后零滑步或IK连续。
 
-全新工作区如没有官方ZIP：从上方官方 itch 链接选择免费 Standard（不是收费Pro/Source），保存为 `analysis/assets/UAL-Standard.zip` 后运行校准脚本。已有 `scripts/fetch-animations.py` 自动获取的是**同一个官方Standard ZIP**（同一SHA），但默认只保留no-root GLB；不要将它的输出误传给RM校准。ZIP无需加入生产资源或公开Git，哈希不符时应重新审计新版，不能跳过校验。当前校准工作未重新下载，也未安装依赖。
+全新工作区如没有官方 ZIP，可执行 `python scripts/fetch-animations.py --archive-output analysis/assets/UAL-Standard.zip`：从官方免费 Standard 流程获取同一固定 SHA 的 ZIP，并显式保留，随后运行 `python scripts/calibrate-root-motion.py --source analysis/assets/UAL-Standard.zip`。若指定 ZIP 已存在且哈希正确，fetch 可离线恢复缺失 no-root GLB；不传新参数时保留原默认行为。ZIP 与 GLB 路径必须不同，任何已有文件哈希不符均拒绝覆盖。不要将 no-root GLB 误传给 RM 校准。
+
+ZIP 无需加入生产资源或公开 Git；上游哈希变化应重新审计，不能跳过校验。2026-11-14 已实测现有 ZIP 离线恢复、官方重新下载保存及新保存归档的两段 walk 校准，记录 `evidence/animation-recovery-20261114.json`。没有新增依赖，没有修改运行动作资源；此恢复链不代表 Jog/Sprint 等片段已接入或通过。

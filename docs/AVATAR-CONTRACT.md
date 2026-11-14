@@ -1,8 +1,10 @@
-# 角色样板资源与更新约定
+# 角色资源与行为约定（暂定）
+
+当前能力和验收状态统一见 [CAPABILITIES.md](CAPABILITIES.md)。以下包含现行实现与未来接口约定；注明未实现的条款不得冒充运行能力。
 
 本轮固定 Phaser 3.90.0、Three.js 0.187.0、three-vrm 3.5.5。Rigby2D不参与。旧VRM1残缺身体仅作历史对照；M1A已接入完整VRM0 Base_Female、独立GLB装备和GLB动作。可编辑blend是从现存资源重建，不是丢失的原工程恢复。
 
-**此规范现在同时面向男女，但仍是暂定规范。** M1B实际男性角色、独立裤装及男女双实例隔离未通过前，不能宣称通用角色基础已完成。M1A当前失败与修复见M1-ROOM.md，男性候选筛选见M1B-CANDIDATE.md。
+**此规范现在同时面向男女，但仍是暂定规范。** M1A/B/C最小样件（含男女实际接入/隔离、跑步/直播及必要附件动作管线）未通过前，不能宣称通用角色基础已完成。M1A当前失败与修复见M1-ROOM.md，男性候选筛选见M1B-CANDIDATE.md。
 
 ## 主播数据分层（约定已确定，完整系统尚未实现）
 
@@ -69,3 +71,25 @@
 ## 验证边界
 
 M1A完整穿衣/真实完整人体中性材质、raw/IK/pelvis/full可同刻对照；旧残缺人体的保留覆盖模式另行标注。M1裙是针对该拓扑的姿态引导、边长与碰撞约束，没有通用布料自碰撞或体型自动适配。身体、衣服与家具检测注明网格/顶点/取样范围，数值通过不代替整段视觉验收。
+
+## 饰品、手持物与动作清单（约定，尚未接入）
+
+装备槽位、语义挂点与具体fit资源独立。扩展槽位包含headwear/eyewear/earwear/neckwear/wristwear/waistAccessory/handheldLeft/handheldRight；不能把槽位名当真实骨名。每基模提供head、eyesBridge、left/rightEar、neck/chest、left/rightWrist、waist、left/rightGrip的语义→humanoid骨+局部位姿映射。耳部/鼻梁等可由head下局部挂点构成，须按真实基模标定。挂点尺度与参考姿态随fit版本保存。
+
+资源声明 attachmentMode=rigid/skinned/secondary 或组合；刚性附件挂点并不解决围巾蒙皮、帽发碰撞或动态。每fit记录适用bodyBase及参数范围、bind/weights、覆盖集合、互斥槽位、叠穿前提、动态/碰撞配置、已验动作。卸下重新求最终覆盖集合并释放独占对象，不残留旧遮挡。
+
+手持fit另存物件局部gripTransform、左右手映射、手指pose、使用pose、可用动作与限制。ownedItemId（拥有）/equipment assignment（装备）/grip assignment（手持）/scene placement（放置）是不同状态；一个实体的位置归属只能有一个。逻辑装备/卸下要幂等，异步加载按版本与请求代号拒绝过期结果；完整拿起放下动画后续，不能通过造两个mesh假装装备完成。先以麦克风验证站讲/走路/坐讲，再扩大。
+
+未来动作manifest至少保存 actionId/version、sourceAssetHash/sourceClip/sourceRigAdapter、duration、loopMode、enter/exit策略、rootMotionPolicy、nominalSpeed/stride/contactProfile、活动空间与朝向、允许装备/持物/体型、单动作修正文件、音乐时间偏移及验收记录。ID不可复用含义；通用控制器依赖语义及策略而非大量舞蹈名字。源适配配置解决同类问题，特殊修正单独版本化。
+
+支持格式必须按已验路径声明：当前只有固定UAL GLB + rigMap，并无通用FBX/BVH/VRMA上传。未来离线转换可用Blender，但在实际导入/导出/回读前不宣称格式支持。原地和空间位移动作分别声明路径/动画根运动权属；循环和完整编舞分别声明结束/中断。当前删除未映射root/scale等轨道的行为不能直接推广给位移舞、小跳或任意源骨架。
+
+## 控制通道与业务边界（部分现有，扩展待实现）
+
+产品入口统一向角色实例提交带requestId的语义命令（move/run/sit/rise/talk/dance/equip/unequip/cancel等），返回accepted/queued/rejected及原因。当前command只覆盖已有单人物动作，新增run/talk/持物协议尚未实现。调试可暴露原始诊断开关，但未来经营/界面不能各写一套骨骼与位置控制。新请求失效旧token，旧任务结束不得反写新任务状态。
+
+明确通道权属：世界位移由选定root策略唯一负责；身体主动作/局部上身混合先求；足部按步态接触状态修正，跑/舞腾空不强制双足着地；手臂持物/接触只覆盖声明通道；手指pose独立；脸部blink/口型/情绪与长期appearance分别管理；视线最后按头眼限制合成；附加动态只管理附属骨。VRM normalized→raw同步不可覆盖最终修正。M1A手接触需要本步腿臀先同步并求裙，再解手，最终VRM同步完成；不重复推进动画时间。
+
+共同时间约定为秒：sceneSimulationTime用于动作，audioTrackTime及actionAudioOffset独立记录；暂停、恢复、循环需验证差值，不以两个独立累加计时器默认同步。当前Phaser禁用音频，以上不是已实现音乐系统。
+
+经营系统掌管任务、收益与PK权威状态；角色系统只显示当前业务状态。未加载角色、动画暂停、帧率下降、取消舞蹈不应直接结算或重算经营收益。未来多人服务另行实现账号、权威存档、结算、排行榜/交易；当前浏览器样板不具有这些能力。

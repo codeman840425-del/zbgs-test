@@ -1,0 +1,367 @@
+{
+  "evidenceKind": "development-only; NOT a run of fixed build 66a09d34d8fe",
+  "associatedCandidate": "66a09d34d8fe",
+  "capturedURL": "http://127.0.0.1:5173/",
+  "implementationRelationship": "Same reviewed hand-contact implementation; final fixed bundle was generated after this development trace. A hidden-equipment cache invalidation guard and formatting were finalized after capture; do not infer byte-identical runtime from folder name.",
+  "originalDevelopmentBuildInfo": {
+    "shortId": "7127534d2536",
+    "sourceDigest": "7127534d25364e8874e87657dc7ffdb782c614e97e5c90e6e286098bb709644c",
+    "inputs": [
+      "foundation.html",
+      "index.html",
+      "package-lock.json",
+      "package.json",
+      "public/assets/avatar.vrm",
+      "public/assets/foundation/base-female-roundtrip.vrm",
+      "public/assets/foundation/base-female.vrm",
+      "public/assets/garments/athletic-bermuda-v1.glb",
+      "public/assets/garments/equipment.json",
+      "public/assets/m1/equipment.json",
+      "public/assets/m1/m1-training-pants.glb",
+      "public/assets/m1/m1-uniform-shoes.glb",
+      "public/assets/m1/m1-uniform-skirt.glb",
+      "public/assets/m1/m1-uniform-top.glb",
+      "public/assets/motion/UAL1_Standard.glb",
+      "scripts/build-id.mjs",
+      "src/assets.js",
+      "src/cloth.js",
+      "src/equipment.js",
+      "src/foundation-avatar.js",
+      "src/foundation-preview.js",
+      "src/garment-collider.js",
+      "src/m1-equipment.js",
+      "src/m1-skirt.js",
+      "src/main.js",
+      "src/motion-source.js",
+      "src/motion.js",
+      "src/style.css",
+      "src/turn-policy.js",
+      "vite.config.js"
+    ],
+    "development": true
+  },
+  "sourceReport": "output\\playwright\\m1-skirt-hands\\surface-contact-final\\report.json",
+  "sourceReportSha256": "873442ca404fc995e02db150ed2ceeac3c46e6421e9ef957a38f54453c89f566",
+  "testScript": "scripts/m1-assets/qa-skirt-hands.cjs",
+  "method": "Actual displayed skirt triangles with material UV alphaMASK filtering versus raw forearm/palm segments plus four 12mm/16mm parallel rails; sampled each 1/120s over complete sit/hold/rise. Not full swept triangle/skin-volume CCD.",
+  "sampleCount": 840,
+  "sampleDt": 0.008333333333333333,
+  "timingNote": "t labels are step/120; each sample was acquired after its step, so elapsed simulation since action is (step+1)/120. Screenshot labels use about/nominal time.",
+  "centerHitFrames": 0,
+  "railHitFrames": 49,
+  "segments": [
+    {
+      "name": "sitEntry",
+      "nominalTimeRange": [
+        0,
+        1.5
+      ],
+      "samples": 180,
+      "hitFrames": 28,
+      "centerHitFrames": 0
+    },
+    {
+      "name": "seated",
+      "nominalTimeRange": [
+        1.5,
+        4
+      ],
+      "samples": 300,
+      "hitFrames": 0,
+      "centerHitFrames": 0
+    },
+    {
+      "name": "sitExit",
+      "nominalTimeRange": [
+        4,
+        5.5
+      ],
+      "samples": 180,
+      "hitFrames": 0,
+      "centerHitFrames": 0
+    },
+    {
+      "name": "idleEndpoint",
+      "nominalTimeRange": [
+        5.5,
+        7
+      ],
+      "samples": 180,
+      "hitFrames": 21,
+      "centerHitFrames": 0
+    }
+  ],
+  "cpu": {
+    "active": {
+      "unit": "CPU milliseconds per physics substep, local headless developer browser",
+      "median": 5.899999976158142,
+      "p95": 6.700000047683716,
+      "max": 9.899999976158142
+    },
+    "idle": {
+      "unit": "CPU milliseconds per physics substep, local headless developer browser",
+      "median": 0.10000002384185791,
+      "p95": 0.20000004768371582,
+      "max": 7.100000023841858
+    }
+  },
+  "selectedSamples": [
+    {
+      "step": 54,
+      "t": 0.45,
+      "mode": "sit",
+      "sitProgress": 0.2852559011550754,
+      "hits": [
+        {
+          "side": "left",
+          "part": "forearm",
+          "rail": "edge1",
+          "triangle": 17,
+          "point": [
+            2.7324573090428346,
+            1.008509212124594,
+            1.325741358679308
+          ]
+        },
+        {
+          "side": "left",
+          "part": "forearm",
+          "rail": "edge3",
+          "triangle": 579,
+          "point": [
+            2.7465374655751944,
+            1.003248813072194,
+            1.3174930131055955
+          ]
+        }
+      ],
+      "segments": [
+        {
+          "side": "left",
+          "part": "forearm",
+          "start": [
+            2.745247563885817,
+            1.0151631959926357,
+            1.323409534133283
+          ],
+          "end": [
+            2.7178150105086996,
+            0.8438747731915283,
+            1.4492371690883428
+          ]
+        },
+        {
+          "side": "left",
+          "part": "hand",
+          "start": [
+            2.7178150105086996,
+            0.8438747731915283,
+            1.4492371690883428
+          ],
+          "end": [
+            2.726195124188867,
+            0.7445386058905356,
+            1.5258774248693106
+          ]
+        },
+        {
+          "side": "right",
+          "part": "forearm",
+          "start": [
+            2.537870753968654,
+            1.014791280800683,
+            1.3826617298939607
+          ],
+          "end": [
+            2.5351539649201063,
+            0.8005090190733374,
+            1.3834117260912087
+          ]
+        },
+        {
+          "side": "right",
+          "part": "hand",
+          "start": [
+            2.5351539649201063,
+            0.8005090190733374,
+            1.3834117260912087
+          ],
+          "end": [
+            2.5869559576602286,
+            0.7509312936501299,
+            1.4851857179030248
+          ]
+        }
+      ],
+      "handContacts": [
+        {
+          "side": "left",
+          "target": [
+            2.7178150108820236,
+            0.8438747733572064,
+            1.4492371690437684
+          ],
+          "actual": [
+            2.7178150105086996,
+            0.8438747731915283,
+            1.4492371690883428
+          ],
+          "contactBone": "Normalized_J_Bip_L_Middle3",
+          "clamped": false,
+          "blend": 0.9100035022625371,
+          "sitProgress": 0.2852559011550754,
+          "garmentProjection": 0.16005514353149783,
+          "remainingClearance": 0.007492046346749935,
+          "fitElapsedMs": 5.200000047683716
+        },
+        {
+          "side": "right",
+          "target": [
+            2.5348206223280183,
+            0.7800473783674515,
+            1.383363753578841
+          ],
+          "actual": [
+            2.5351539649201063,
+            0.8005090190733374,
+            1.3834117260912087
+          ],
+          "contactBone": "Normalized_J_Bip_R_Middle3",
+          "clamped": true,
+          "blend": 0.9100035022625371,
+          "sitProgress": 0.2852559011550754,
+          "garmentProjection": 0.11255334301798368,
+          "remainingClearance": 0.00012152022604407405,
+          "fitElapsedMs": 6
+        }
+      ]
+    },
+    {
+      "step": 750,
+      "t": 6.25,
+      "mode": "idle",
+      "sitProgress": 0,
+      "hits": [
+        {
+          "side": "right",
+          "part": "hand",
+          "rail": "edge2",
+          "triangle": 436,
+          "point": [
+            2.4870153405024693,
+            0.8379058033387763,
+            1.3133080602392533
+          ]
+        }
+      ],
+      "segments": [
+        {
+          "side": "left",
+          "part": "forearm",
+          "start": [
+            2.814728523055029,
+            1.0595266121990528,
+            1.307474141155823
+          ],
+          "end": [
+            2.848783780010318,
+            0.8625983091169366,
+            1.3848326916971483
+          ]
+        },
+        {
+          "side": "left",
+          "part": "hand",
+          "start": [
+            2.848783780010318,
+            0.8625983091169366,
+            1.3848326916971483
+          ],
+          "end": [
+            2.813646148882778,
+            0.8137209295133737,
+            1.403983755464471
+          ]
+        },
+        {
+          "side": "right",
+          "part": "forearm",
+          "start": [
+            2.5008229778212274,
+            1.0679720555687489,
+            1.2011667054521198
+          ],
+          "end": [
+            2.445961495549803,
+            0.8790856658476809,
+            1.2862371503691252
+          ]
+        },
+        {
+          "side": "right",
+          "part": "hand",
+          "start": [
+            2.445961495549803,
+            0.8790856658476809,
+            1.2862371503691252
+          ],
+          "end": [
+            2.4748234598062013,
+            0.8372052464408809,
+            1.323699586960406
+          ]
+        }
+      ],
+      "handContacts": [
+        {
+          "side": "left",
+          "cached": true,
+          "cacheWeight": 1,
+          "actual": [
+            2.848783780010318,
+            0.8625983091169366,
+            1.3848326916971483
+          ],
+          "clamped": false,
+          "fitElapsedMs": 0.09999990463256836
+        },
+        {
+          "side": "right",
+          "cached": true,
+          "cacheWeight": 1,
+          "actual": [
+            2.445961495549803,
+            0.8790856658476809,
+            1.2862371503691252
+          ],
+          "clamped": false,
+          "fitElapsedMs": 0.09999990463256836
+        }
+      ]
+    }
+  ],
+  "images": [
+    {
+      "file": "sit-entry-about-0.45s-side.png",
+      "source": "output\\playwright\\m1-skirt-hands\\surface-contact-final\\54.png",
+      "sha256": "e9e48f8ec6880287de367626e60100319b551208e15bd32cc6b208862aa936d4"
+    },
+    {
+      "file": "idle-about-6.25s-side.png",
+      "source": "output\\playwright\\m1-skirt-hands\\surface-contact-final\\750.png",
+      "sha256": "10f2c46700668325c55e1f079ffefb3f54d51811e8b5d421a61b5f90d067c8b9"
+    },
+    {
+      "file": "idle-about-6.25s-front.png",
+      "source": "output\\playwright\\m1-skirt-hands\\surface-contact-final\\750-front.png",
+      "sha256": "21aa90ad4717f9b3372304e3da2958fdcb06a8ac1c8e5e601fe6530c54088bfc"
+    }
+  ],
+  "missingView": "No development front screenshot at about0.45s was captured; not recreated after freeze. About6.25s has both views.",
+  "limits": [
+    "No claim of zero skin-volume penetration",
+    "Not swept triangle/skin-volume CCD",
+    "CPU cost is not GPU frame time or target-device performance",
+    "Fixed build full-chain replay is separate and owned by integrator"
+  ]
+}

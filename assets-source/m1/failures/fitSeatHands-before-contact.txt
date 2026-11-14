@@ -1,0 +1,35 @@
+  let handContacts=[];
+  function fitSeatHands() {
+    handContacts=[];
+    if (!profile?.seatHandRadii || sitProgress <= 0 || !corrections.footIK) return;
+    const blend = smooth(clamp(sitProgress / 0.35, 0, 1));
+    for (const [i, arm] of arms.entries()) {
+      const leg=feet[i], a=worldPoint(leg.upper), b=worldPoint(leg.lower);
+      const axis=b.clone().sub(a).normalize();
+      const up=new V(0,1,0).addScaledVector(axis,-axis.y);
+      if(up.lengthSq()<1e-5)up.copy(vector(new V(0,0,1)));
+      up.normalize();
+      // The source sit-exit hands press bare thighs. Seat and garment fitting
+      // move this surface: preserve the authored arm, but keep its contact on
+      // the fitted thigh envelope plus the real palm thickness allowance.
+      const contact=a.lerp(b,.62).addScaledVector(up,profile.seatHandRadii[i]+.025);
+      // During approach/release the pleated panel bridges above the thighs.
+      // Lift the palms through that bridge, then settle onto the seated lap.
+      // Measured old wrist depth was 16–26 mm at mid-rise; use a smooth 40 mm
+      // transit clearance, zero at both endpoints (no motion time stretching).
+      contact.y += .04 * Math.sin(Math.PI * sitProgress);
+      const original=worldPoint(arm.hand), orientation=arm.hand.getWorldQuaternion(new Q());
+      // The wrist is not the bottom of the hand. Preserve the authored hand
+      // orientation and place the middle-finger distal contact, so a downward
+      // pointing hand cannot sink below a numerically correct wrist target.
+      const contactBone=bone(arm.side+'MiddleDistal');
+      const handOffset=contactBone?worldPoint(contactBone).sub(original):new V();
+      contact.sub(handOffset);
+      const pole=kneeBendDirection(worldPoint(arm.upper),worldPoint(arm.lower),original,vector(new V(arm.sign,0,-1)));
+      const target=original.lerp(contact,blend);
+      const solved=solveChain(arm.upper,arm.lower,arm.hand,target,arm.first,arm.second,pole);
+      arm.hand.quaternion.copy(arm.hand.parent.getWorldQuaternion(new Q()).invert().multiply(orientation));
+      arm.hand.updateWorldMatrix(true,true);
+      handContacts.push({side:arm.side,target:target.toArray(),actual:worldPoint(arm.hand).toArray(),contactBone:contactBone?.name,clamped:solved.clamped,blend,sitProgress});
+    }
+  }

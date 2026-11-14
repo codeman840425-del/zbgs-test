@@ -1,0 +1,44 @@
+{
+  "date": "2026-11-14",
+  "change": "Explicit --archive-output; default no-root output behavior retained",
+  "scriptSHA256": "f468b484ed793426753e40943bfc71432710409df296c652f7a5ba1c10fbc246",
+  "checks": {
+    "verifiedExistingArchiveRestoresMissingGLB": true,
+    "freshOfficialDownloadSavedRequestedArchive": true,
+    "existingTargetWithoutOptionStillFastPath": true,
+    "badExistingArchiveRejectedWithoutOverwrite": true,
+    "savedArchiveRootMotionCalibration": true
+  },
+  "officialURL": "https://quaternius.itch.io/universal-animation-library",
+  "officialArchiveSHA256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724",
+  "restoredNoRootGLBSHA256": "69591853d817488edaa8fd9bf8fc1d821eaeaf789f8627b3cd23b41c4ed67997",
+  "runtimeNoRootGLBSHA256": "69591853d817488edaa8fd9bf8fc1d821eaeaf789f8627b3cd23b41c4ed67997",
+  "rootMotionGLBSHA256": "be684571ed655a1b892c2c07e6e2aeca053b606c442d34004adaf1d944090d01",
+  "calibration": [
+    {
+      "clip": "Walk_Loop",
+      "seconds": 1.3333333730697632,
+      "cycleMeters": 1.2999999523162842,
+      "rootWorldDelta": [
+        0.0,
+        0.0,
+        1.2999999523162842
+      ]
+    },
+    {
+      "clip": "Walk_Formal_Loop",
+      "seconds": 1.3333333730697632,
+      "cycleMeters": 1.2999999523162842,
+      "rootWorldDelta": [
+        0.0,
+        0.0,
+        1.2999999523162842
+      ]
+    }
+  ],
+  "limits": [
+    "Recoverability only; no new action integrated or quality approved",
+    "Large ZIP/GLB verification outputs remain ignored under output/, not added to source assets",
+    "No browser or Blender used; no new dependency"
+  ]
+}

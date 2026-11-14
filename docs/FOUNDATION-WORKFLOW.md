@@ -4,7 +4,7 @@
 
 ## 只打开已导出的画面
 
-双击根目录 `Start-foundation-demo.cmd`，构建后打开 `http://127.0.0.1:4192/`。这个入口不使用HMR、不覆盖上轮 prototype/dist。房间中“新增及膝裤”是旧角色的独立衣物试验；“查看完整人体候选”进入独立资格检查页。候选人体尚无房间足底/椅子适配。
+双击根目录 `Start-foundation-demo.cmd`，构建当前源码后在4191打开固定预览，不使用HMR。若4191已有本轮固定候选直接打开现有地址；脚本使用strictPort，不会悄悄增加另一个端口。当前主房间为M1A完整女性及独立裤裙，已接入足底/椅子适配但验收状态以CURRENT-FOUNDATION和M1-ROOM为准。`?legacy`保留旧角色；`foundation.html`只是独立导出资格对照页，不能代替房间验收。
 
 新检出手动启动：
 
@@ -12,10 +12,10 @@
 cd prototype
 npm ci
 npm run build
-npm run preview
+npm run preview -- --port 4191 --strictPort
 ```
 
-打开4173主房间或4173/foundation.html；后者 `?source=roundtrip` 查看从保存的Blender工程重新导出的文件。模型、服装、动作已纳入Git，不依赖本机analysis临时目录。许可证与来源见 ASSETS.md、FOUNDATION-ASSET-AUDIT.md 和 assets-source/foundation/source.json。
+打开4191主房间或4191/foundation.html；后者 `?source=roundtrip` 查看从保存的Blender工程重新导出的文件。模型、服装、动作已纳入Git，不依赖本机analysis临时目录。许可证与来源见 ASSETS.md、FOUNDATION-ASSET-AUDIT.md 和 assets-source/foundation/source.json。
 
 ## 候选人体重建与再导出（实施者执行）
 

@@ -82,6 +82,8 @@ export async function loadFoundationAvatar({ scene, renderer }) {
       return mesh.uuid;
     });
   }
+  let lastGarmentColliders = [],
+    garmentPreparedForHands = false;
   const profile = {
     id: "beta-base-female-m1",
     url,
@@ -94,6 +96,19 @@ export async function loadFoundationAvatar({ scene, renderer }) {
       deriveSeatFromBody: true,
       seatClothAllowance: 0.006,
       seatHeight: 0.47,
+      seatHandRadii: equipment.getInfo().skirtDynamics.thighRadii,
+      seatHandSurfaces: (refresh = true) => {
+        if (debugBody || outfit !== 1) return [];
+        // fitSeatHands runs after current normalized pelvis/legs are solved.
+        // Copy them to raw bones before sampling this frame's garment surface.
+        if (refresh) {
+          vrm.humanoid.update();
+          vrm.scene.updateMatrixWorld(true);
+          equipment.update(0, lastGarmentColliders);
+          garmentPreparedForHands = true;
+        }
+        return surfaces.skirt;
+      },
     },
     qa: {
       outfits: [
@@ -122,7 +137,7 @@ export async function loadFoundationAvatar({ scene, renderer }) {
   const oldTrial = document.querySelector('[data-outfit="2"]');
   oldTrial.hidden = true;
   oldTrial.nextElementSibling.textContent =
-    "M1新完整人体：裤装与裙装分别加载并复用当前骨架；视觉验收尚未完成。";
+    "M1A女性候选：裤装与裙装分别加载并复用当前骨架；视觉验收尚未完成。";
   const faceControls = document.createElement("div");
   faceControls.className = "debug-row";
   for (const [id, label] of [
@@ -174,7 +189,17 @@ export async function loadFoundationAvatar({ scene, renderer }) {
       if (!dynamics) vrm.springBoneManager?.reset();
     },
     resetSecondary: () => vrm.springBoneManager?.reset(),
-    updateGarment: (_sit, dt, colliders) => equipment.update(dt, colliders),
+    updateGarment: (_sit, dt, colliders) => {
+      lastGarmentColliders = colliders || [];
+      // fitSeatHands is the last motion operation; only arm bones changed
+      // after its same-frame skirt evaluation. Do not run the identical
+      // stateless skirt constraint pass again in this same simulation step.
+      if (garmentPreparedForHands) {
+        garmentPreparedForHands = false;
+        return;
+      }
+      equipment.update(dt, lastGarmentColliders);
+    },
     getDebugState: () => ({
       mode: debugBody ? "base" : "dressed",
       dynamics,
@@ -182,7 +207,7 @@ export async function loadFoundationAvatar({ scene, renderer }) {
       baseLabel: "完整人体诊断",
       label: "新完整人体候选",
       description:
-        "新人体完整皮肤；裤装与裙装是独立装备，基础模式保留同一套鞋。当前为M1候选，画风待确认。",
+        "新人体完整皮肤；裤装与裙装是独立装备，基础模式保留同一套鞋。当前为M1A女性候选，画风待确认。",
       asset: profile,
     }),
     getOutfitInfo: () => ({
