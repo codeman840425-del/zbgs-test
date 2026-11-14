@@ -64,7 +64,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
   });
   equipment = await createM1Equipment({ vrm, avatarSha256: sha256, bodyType });
   const surfaces = equipment.getAssetProfile();
-  livePresentation = createLivePresentation({vrm, root, bodyType: config.referenceBody || bodyType});
+  livePresentation = createLivePresentation({vrm, root, bodyType: config.referenceBody || bodyType, avatarSha256: sha256});
   const meshRoles = {};
   for (const role of [
     "body",

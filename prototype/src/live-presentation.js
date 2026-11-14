@@ -18,7 +18,7 @@ function orientSegment(bone,child,target){
 }
 /** Independent per-avatar live layer. Call after motion, before vrm.update;
  * postUpdate follows raw-bone/world-matrix synchronization. No audio input. */
-export function createLivePresentation({vrm,root,bodyType='female'}){
+export function createLivePresentation({vrm,root,bodyType='female',avatarSha256=null}){
  if(!vrm?.humanoid||!root)throw new TypeError('Loaded VRM and world root required');
  const bone=name=>vrm.humanoid.getNormalizedBoneNode(name),raw=name=>vrm.humanoid.getRawBoneNode(name);
  const arm={upper:bone('rightUpperArm'),lower:bone('rightLowerArm'),hand:bone('rightHand')};
@@ -42,13 +42,13 @@ export function createLivePresentation({vrm,root,bodyType='female'}){
   const b=finger(name+segment);if(!b)continue;
   const child=b.children.find(x=>x.isBone),forward=child?wp(child).sub(wp(b)).normalize():restForward.clone();
   const hinge=new V().crossVectors(forward,palmNormal).normalize().applyQuaternion(b.getWorldQuaternion(new Q()).invert());
-  fingers.push({bone:b,rest:b.quaternion.clone(),axis:hinge,angle});
+  fingers.push({name:'right'+name+segment,bone:b,rest:b.quaternion.clone(),axis:hinge,angle});
  }
  for(const [segment,angle]of [['Metacarpal',.45],['Proximal',.6],['Distal',.7]]){
   const b=finger('Thumb'+segment);if(!b)continue;
   const child=b.children.find(x=>x.isBone),forward=child?wp(child).sub(wp(b)).normalize():restForward.clone();
   const hinge=new V().crossVectors(forward,palmNormal).normalize().applyQuaternion(b.getWorldQuaternion(new Q()).invert());
-  fingers.push({bone:b,rest:b.quaternion.clone(),axis:hinge,angle});
+  fingers.push({name:'rightThumb'+segment,bone:b,rest:b.quaternion.clone(),axis:hinge,angle});
  }
  const eyesMid=leftEye&&rightEye?wp(leftEye).add(wp(rightEye)).multiplyScalar(.5):wp(head).add(new V(0,.055,.06).applyQuaternion(rootRestQ));
  let eyeSpacing=leftEye&&rightEye?wp(leftEye).distanceTo(wp(rightEye)):.064;
@@ -72,7 +72,7 @@ export function createLivePresentation({vrm,root,bodyType='female'}){
  const fit={glassesForward,glassesUp:0,glassesScale:clamp(eyeSpacing/.064,.8,1.5),micScale:1,eyeFitMethod};
  const mount=new THREE.Group();mount.name='LivePresentation:'+bodyType;root.add(mount);
  const slots=Object.fromEntries(Object.keys(IDS).map(k=>[k,{version:0,requested:false,object:null,abort:null,error:null,status:'off',entry:null}]));
- let manifestPromise=null,disposed=false,time=0,preset='neutral',speaking=false,gaze=null,currentAction='idle',holdWeight=0,armMetrics=null;
+ let manifestPromise=null,gripProfile=null,disposed=false,time=0,preset='neutral',speaking=false,gaze=null,currentAction='idle',holdWeight=0,armMetrics=null;
  const oldLookAt=vrm.lookAt?{autoUpdate:vrm.lookAt.autoUpdate,target:vrm.lookAt.target}:null;
  if(vrm.lookAt){vrm.lookAt.autoUpdate=false;vrm.lookAt.target=null;}
  const facialKeys=['happy','aa','ih','ou','ee','oh','blink'];
@@ -80,6 +80,23 @@ export function createLivePresentation({vrm,root,bodyType='female'}){
  async function manifest(){
   if(!manifestPromise)manifestPromise=fetch('/assets/m1c/accessories.json',{cache:'no-store'}).then(async response=>{if(!response.ok)throw Error('Accessory manifest HTTP '+response.status);const data=await response.json();if(data.schema!=='zbgs-accessory-candidate-v1'||!Array.isArray(data.items))throw Error('Unsupported accessory manifest');return data;}).catch(e=>{manifestPromise=null;throw e;});
   return manifestPromise;
+ }
+ async function loadGrip(signal){
+  if(gripProfile)return gripProfile;
+  const response=await fetch('/assets/m1c/grips/manifest.json',{signal,cache:'no-store'});
+  if(!response.ok)throw Error('Grip manifest HTTP '+response.status);
+  const manifest=await response.json();if(manifest.schema!=='zbgs-grip-profile-manifest-v1'||!Array.isArray(manifest.items))throw Error('Invalid grip manifest');
+  const entry=manifest.items.find(x=>x.compatibleAvatarSha256===avatarSha256);
+  if(!entry)throw Error('当前基模尚无匹配的握麦姿态；麦克风暂不可用，眼镜不受影响。');
+  if(!Number.isInteger(entry.bytes)||!/^[a-f0-9]{64}$/.test(entry.sha256))throw Error('Invalid grip identity');
+  const file=await fetch(entry.url,{signal});if(!file.ok)throw Error('Grip profile HTTP '+file.status);
+  const bytes=await file.arrayBuffer(),hash=[...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(x=>x.toString(16).padStart(2,'0')).join('');
+  if(bytes.byteLength!==entry.bytes||hash!==entry.sha256)throw Error('Grip profile integrity check failed');
+  const profile=JSON.parse(new TextDecoder().decode(bytes));
+  const finite=(array,n)=>Array.isArray(array)&&array.length===n&&array.every(Number.isFinite);
+  if(profile.schema!=='zbgs-grip-profile-v1'||profile.compatibleAvatarSha256!==avatarSha256||profile.accessoryId!==IDS.mic||!/^[a-f0-9]{64}$/.test(profile.compatibleAccessorySha256)||!finite(profile.micRawHandLocal?.position,3)||!finite(profile.micRawHandLocal?.quaternion,4)||fingers.some(f=>!finite(profile.normalizedFingerRotations?.[f.name],4)))throw Error('Grip profile binding mismatch');
+  for(const values of [profile.micRawHandLocal.quaternion,...Object.values(profile.normalizedFingerRotations)])if(Math.abs(Math.hypot(...values)-1)>1e-4)throw Error('Grip quaternion is not normalized');
+  return {...profile,sha256:hash};
  }
  async function setAccessory(kind,value){
   if(disposed)throw Error('Live presentation disposed');const slot=slots[kind];if(!slot)throw Error('Unknown accessory '+kind);
@@ -90,8 +107,10 @@ export function createLivePresentation({vrm,root,bodyType='female'}){
   if(!desired){disposeObject(slot.object);slot.object=null;slot.entry=null;slot.status='off';return{applied:true};}
   slot.status='loading';const controller=new AbortController();slot.abort=controller;let object;
   try{
+   if(kind==='mic'){const profile=await loadGrip(controller.signal);if(disposed||version!==slot.version)return{applied:false,cancelled:true};gripProfile=profile;}
    const data=await manifest();if(disposed||version!==slot.version)return{applied:false,cancelled:true};
    const entry=data.items.find(x=>x.id===IDS[kind]);if(!entry||!Number.isInteger(entry.bytes)||!/^([a-f0-9]{64})$/.test(entry.sha256))throw Error('Invalid accessory identity');
+   if(kind==='mic'&&entry.sha256!==gripProfile.compatibleAccessorySha256)throw Error('Microphone version does not match fitted grip profile');
    const response=await fetch(entry.url,{signal:controller.signal});if(!response.ok)throw Error('Accessory HTTP '+response.status);const bytes=await response.arrayBuffer();
    const hash=[...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(x=>x.toString(16).padStart(2,'0')).join('');if(bytes.byteLength!==entry.bytes||hash!==entry.sha256)throw Error('Accessory integrity check failed: '+entry.id);
    const gltf=await new GLTFLoader().parseAsync(bytes,new URL('.',new URL(entry.url,window.location.href)).href);object=gltf.scene;object.name='LiveAccessory:'+kind;
@@ -128,7 +147,7 @@ export function createLivePresentation({vrm,root,bodyType='female'}){
   // The motion owner restores its full authored humanoid pose before this pass.
   for(const f of fingers){
    f.authored=f.bone.quaternion.clone();
-   if(holdWeight>0){const grip=f.rest.clone().multiply(new Q().setFromAxisAngle(f.axis,f.angle));f.bone.quaternion.slerp(grip,holdWeight);}
+   if(holdWeight>0){const values=gripProfile?.normalizedFingerRotations[f.name];const grip=values?new Q(...values):f.rest.clone().multiply(new Q().setFromAxisAngle(f.axis,f.angle));f.bone.quaternion.slerp(grip,holdWeight);}
   }
  }
  function attachWorld(object,position,quaternion,scale){
@@ -139,8 +158,8 @@ export function createLivePresentation({vrm,root,bodyType='female'}){
   if(vrm.lookAt){if(gaze)vrm.lookAt.lookAt(gaze);else vrm.lookAt.reset();vrm.lookAt.update(0);}
   if(slots.glasses.object){const frameQ=head.getWorldQuaternion(new Q()).multiply(headToFrame),bridge=head.localToWorld(eyeLocal.clone()).add(new V(0,fit.glassesUp,fit.glassesForward).applyQuaternion(frameQ));attachWorld(slots.glasses.object,bridge,frameQ,fit.glassesScale);}
   if(slots.mic.object){
-   const hand=raw('rightHand'),mid=raw('rightMiddleProximal'),ix=raw('rightIndexProximal'),li=raw('rightLittleProximal'),forward=wp(mid).sub(wp(hand)),across=wp(ix).sub(wp(li)).normalize();
-   const normal=new V().crossVectors(across,forward).normalize(),grip=wp(hand).addScaledVector(forward,.72).addScaledVector(normal,.012);const q=new Q().setFromUnitVectors(new V(0,1,0),across);attachWorld(slots.mic.object,grip,q,fit.micScale);
+   const hand=raw('rightHand'),mount=gripProfile.micRawHandLocal;
+   const grip=hand.localToWorld(new V(...mount.position)),q=hand.getWorldQuaternion(new Q()).multiply(new Q(...mount.quaternion));attachWorld(slots.mic.object,grip,q,fit.micScale);
   }
   root.updateMatrixWorld(true);
  }
@@ -149,7 +168,7 @@ export function createLivePresentation({vrm,root,bodyType='female'}){
   setExpression(value){if(!['neutral','happy','aa'].includes(value))throw RangeError('Unknown expression');preset=value;},
   setSpeaking(value){speaking=Boolean(value);},
   setGaze(value){if(value==null){gaze=null;return;}const v=Array.isArray(value)?new V(...value):value.clone();if(![v.x,v.y,v.z].every(Number.isFinite))throw TypeError('Finite world gaze target required');gaze=v;},
-  getState(){return{bodyType,preset,speaking,speakingMode:'procedural-vowel-demo-not-audio-lipsync',time,gaze:gaze?.toArray()??null,action:currentAction,actionSupport:canPerform(currentAction),arm:armMetrics,fit:{...fit,eyeSpacing,armLengths:armLengths.slice(),verified:false},accessories:Object.fromEntries(Object.entries(slots).map(([k,s])=>[k,{requested:s.requested,status:s.status,loaded:Boolean(s.object),error:s.error,sha256:s.entry?.sha256??null}]))};},
+  getState(){return{bodyType,avatarSha256,preset,speaking,speakingMode:'procedural-vowel-demo-not-audio-lipsync',time,gaze:gaze?.toArray()??null,action:currentAction,actionSupport:canPerform(currentAction),arm:armMetrics,fit:{...fit,eyeSpacing,armLengths:armLengths.slice(),gripProfile:gripProfile?{id:gripProfile.id,sha256:gripProfile.sha256,compatibleAvatarSha256:gripProfile.compatibleAvatarSha256,compatibleAccessorySha256:gripProfile.compatibleAccessorySha256,fitVersion:gripProfile.fitVersion,method:gripProfile.method}:null,verified:false},accessories:Object.fromEntries(Object.entries(slots).map(([k,s])=>[k,{requested:s.requested,status:s.status,loaded:Boolean(s.object),error:s.error,sha256:s.entry?.sha256??null}]))};},
   dispose(){if(disposed)return;disposed=true;for(const s of Object.values(slots)){s.version++;s.abort?.abort();disposeObject(s.object);s.object=null;}for(const f of fingers)if(holdWeight>0&&f.authored)f.bone.quaternion.copy(f.authored);for(const k of facialKeys)vrm.expressionManager?.setValue(k,0);if(vrm.lookAt&&oldLookAt){vrm.lookAt.reset();vrm.lookAt.autoUpdate=oldLookAt.autoUpdate;vrm.lookAt.target=oldLookAt.target;}mount.removeFromParent();},
  };
 }

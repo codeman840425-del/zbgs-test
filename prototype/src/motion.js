@@ -359,6 +359,25 @@ export function createMotion(
   const legLength =
     (feet[0].first + feet[0].second + feet[1].first + feet[1].second) / 2;
   let stride = legLength * 1.15;
+  // Clip phase is chosen from the actual two-foot pose. A boolean contact test
+  // cannot choose a support side during a run's flight interval.
+  const gaitPoses = { walk: [], jog: [] };
+  const captureGaitPose = () => feet.map(foot => root.worldToLocal(worldPoint(foot.foot)));
+  let gaitTransition = null;
+  function matchGaitPhase(kind, lift) {
+    const current = feet.map(foot => root.worldToLocal(foot.lastActual.clone()));
+    let best = 0, cost = Infinity;
+    for (let i = 0; i < gaitPoses[kind].length; i++) {
+      const score = gaitPoses[kind][i].reduce((sum, p, side) => {
+        const d = p.clone(); d.y += lift; d.sub(current[side]);
+        return sum + d.x*d.x + .5*d.y*d.y + d.z*d.z;
+      }, 0);
+      if (score < cost) { cost = score; best = i; }
+    }
+    const result = best / Math.max(1, gaitPoses[kind].length);
+    gaitTransition = { to: kind, phase: result, poseError: Math.sqrt(cost), frame };
+    return result;
+  }
   const stance = 0.6;
   const ankleHeight = (feet[0].local.y + feet[1].local.y) / 2;
   const seatHeight =
@@ -459,6 +478,7 @@ export function createMotion(
       sourceWalk.time = (i / 120) * motions.clips.walk.duration;
       sourceMixer.update(0);
       root.updateWorldMatrix(true, true);
+      gaitPoses.walk.push(captureGaitPose());
       for (const foot of feet) {
         const p = root.worldToLocal(worldPoint(foot.foot)),
           b = foot.sourceBounds;
@@ -536,6 +556,7 @@ export function createMotion(
       for (let i = 0; i < 120; i++) {
         sourceActions.jog.time = i / 120 * motions.clips.jog.duration;
         sourceMixer.update(0); root.updateWorldMatrix(true, true);
+        gaitPoses.jog.push(captureGaitPose());
         for (const foot of feet) {
           if (foot.soleSamples) for (const kind of ["heel", "toe"])
             lowest = Math.min(lowest, root.worldToLocal(foot.soleSamples[kind]()).y);
@@ -1135,10 +1156,11 @@ export function createMotion(
       else if (state.locomotion === "walk") runRequested = false;
       else if (state.speed >= 1.85) runRequested = true;
       else if (state.speed <= 1.55 && moving) runRequested = false;
-      // Start a new gait at the current support side, not a fixed clip offset.
-      // Different flight/stance duties cannot share a universal phase offset.
-      if (runRequested && !previousRunRequest) runPhase = feet[0].contact ? .17 : .67;
-      if (!runRequested && previousRunRequest) phase = feet[0].contact ? stance / 2 : (stance / 2 + .5) % 1;
+      // Match both physical feet, including flight where neither is planted.
+      // The old contact ? .3 : .8 fallback selected the opposite half-cycle,
+      // blended a forward swing through the floor and locked its foot behind.
+      if (runRequested && !previousRunRequest) runPhase = matchGaitPhase("jog", sourceJogGroundLift);
+      if (!runRequested && previousRunRequest) phase = matchGaitPhase("walk", sourceGroundLift);
       const desiredRun = moving && runRequested ? 1 : 0;
       runMix += clamp(desiredRun - runMix, -dt / .30, dt / .30);
     }
@@ -1570,11 +1592,15 @@ export function createMotion(
         foot.anchor.copy(foot.target);
       }
     }
-    // At a corner, the pelvis-to-planted-foot diagonal can grow. Lower the
-    // pelvis by the geometric reach requirement instead of moving a planted
-    // foot or silently declaring it airborne. Recovery is damped after lift.
+    // Preserve reach while moving, turning AND gathering the feet. During a
+    // stop the idle pose raises the pelvis before the second planted foot can
+    // step in. Disabling this existing support calculation at zero root speed
+    // left that foot unreachable for .26 s. Only actual support feet constrain
+    // height; recovery after lift remains damped, without sliding the anchor.
     let requiredDrop = 0;
-    if (moving || turning)
+    const gathering = !moving && !turning && stopTime < .5 &&
+      sitProgress < .01 && danceMix < .001;
+    if (moving || turning || gathering)
       for (const foot of feet)
         if (foot.contact) {
           const hip = worldPoint(foot.upper),
@@ -1755,6 +1781,7 @@ export function createMotion(
       sourceJogGroundLift,
       talkMix,
       runMix,
+      gaitTransition,
       locomotion: runMix > .5 ? "run" : "walk",
       jogPhase: runPhase,
       jogStride: motions?.jogDistance ?? null,
@@ -1821,7 +1848,7 @@ export function createMotion(
       frame =
         0;
     phase = stance / 2;
-    runMix = 0; runRequested = false; runPhase = .17; talkMix = 0;
+    runMix = 0; runRequested = false; runPhase = .17; talkMix = 0; gaitTransition = null;
     wasMoving = wasTurning = false;
     wasPlannedTurn = false;
     adaptiveHipDrop = 0;
