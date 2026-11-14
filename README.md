@@ -27,7 +27,7 @@ npm run dev
 
 当前依赖锁定 Phaser 3.90.0、Three.js 0.187.0、three-vrm 3.5.5；Phaser 管理场景输入、路径与动作状态，Three.js/VRM 负责真实蒙皮显示。站走坐舞复用 Quaternius CC0 动作，重定向与足部修正在可读源码中。当前还未接回原经营流程。
 
-为了复现录像入口，在根目录运行 `python scripts/build-review.py`（需要先按修复说明生成录像），再执行 `python -m http.server 4174 --bind 127.0.0.1`。测试脚本使用本机Chrome；视频构建标识保存在对应JSON中。
+为了复现录像入口，在根目录运行 `python scripts/build-review.py`（需要先按修复说明生成录像），再执行 `python scripts/serve-review.py`。此服务器支持视频分段读取和拖动跳转；普通Python静态服务器不支持本次录像所需的Range请求。测试脚本使用本机Chrome；视频构建标识保存在对应JSON中。
 
 针对用户反馈的站姿与椅子穿模，启动服务后在根目录运行：
 

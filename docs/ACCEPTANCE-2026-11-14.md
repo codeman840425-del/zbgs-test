@@ -66,6 +66,7 @@ node scripts/qa-posture.cjs http://127.0.0.1:4180/
 node scripts/qa-canvas-video.cjs http://127.0.0.1:4180/
 python scripts/analyze-capture.py --ffmpeg <ffmpeg可执行文件路径> --finalize
 python scripts/build-review.py
+python scripts/serve-review.py
 ```
 
 前后录制需先从b8fea87建立静态旧候选并在4181服务，执行同一 `qa-outfit-video.cjs ... before`。所有新录像在静态构建上运行，不能拿Vite热更新中混合的版本作验收。FFmpeg只做媒体分析与无重编码封装，不参与产品运行。
