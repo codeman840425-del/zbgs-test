@@ -72,7 +72,12 @@ function rotateSegment(bone, child, point) {
  * normalized VRM humanoid bones. Call vrm.update(dt) AFTER update().
  * +Z is forward, Y is up, floor is y=0, VRM scene must already have unit scale.
  */
-export function createMotion(vrm, suppliedRoot, motions = null) {
+export function createMotion(
+  vrm,
+  suppliedRoot,
+  motions = null,
+  profile = null,
+) {
   const root = suppliedRoot ?? vrm.scene.parent ?? vrm.scene;
   const bone = (name) => vrm.humanoid.getNormalizedBoneNode(name);
   const names = [
@@ -225,10 +230,20 @@ export function createMotion(vrm, suppliedRoot, motions = null) {
       )
     )
       return;
+    // Hidden embedded shoes are replaced by equipment. Only the active
+    // footwear is a contact surface; duplicates must not enter calibration.
+    for (let parent = mesh; parent; parent = parent.parent)
+      if (!parent.visible) return;
     mesh.skeleton.update();
     const indices = mesh.geometry.attributes.skinIndex,
       weights = mesh.geometry.attributes.skinWeight;
-    for (let i = 0; i < mesh.geometry.attributes.position.count; i++) {
+    const referenced = mesh.geometry.index
+      ? new Set(mesh.geometry.index.array)
+      : Array.from(
+          { length: mesh.geometry.attributes.position.count },
+          (_, i) => i,
+        );
+    for (const i of referenced) {
       const world = mesh
         .getVertexPosition(i, new V())
         .applyMatrix4(mesh.matrixWorld);
@@ -315,7 +330,48 @@ export function createMotion(vrm, suppliedRoot, motions = null) {
   const stance = 0.6;
   const ankleHeight = (feet[0].local.y + feet[1].local.y) / 2;
   const seatHeight =
+    profile?.seatHeight ??
     (feet[0].second + feet[1].second) / 2 + ankleHeight - 0.025;
+  let seatPelvisClearance = 0.2;
+  let seatLayerThickness = profile?.seatLayerThickness ?? 0;
+  const pelvisSurface = [];
+  if (profile?.deriveSeatFromBody) {
+    // Pick actual posterior pelvis vertices in the reference pose, then
+    // evaluate that same material patch in the authored seated pose below.
+    vrm.scene.traverse((mesh) => {
+      if (
+        !mesh.isSkinnedMesh ||
+        !(
+          mesh.userData.assetRole === "body" ||
+          (Array.isArray(mesh.material) ? mesh.material : [mesh.material]).some(
+            (m) => /Body_.*SKIN/.test(m.name),
+          )
+        )
+      )
+        return;
+      const referenced = mesh.geometry.index
+        ? new Set(mesh.geometry.index.array)
+        : Array.from(
+            { length: mesh.geometry.attributes.position.count },
+            (_, i) => i,
+          );
+      mesh.skeleton.update();
+      for (const i of referenced) {
+        const p = root.worldToLocal(
+          mesh.getVertexPosition(i, new V()).applyMatrix4(mesh.matrixWorld),
+        );
+        if (
+          p.y > restHip.y - 0.14 &&
+          p.y < restHip.y + 0.035 &&
+          p.z < restHip.z + 0.015 &&
+          Math.abs(p.x - restHip.x) < 0.15
+        )
+          pelvisSurface.push({ mesh, i });
+      }
+    });
+    if (pelvisSurface.length < 8)
+      throw new Error("New body has no calibrated posterior pelvis patch");
+  }
   const seatBack = legLength * 0.23;
   // Root/ankles stay in front of the seat throughout entry and exit. Only the
   // pelvis reaches backward. Sharing the seated root with an upright pose put
@@ -448,6 +504,24 @@ export function createMotion(vrm, suppliedRoot, motions = null) {
       sourceMixer.update(0);
       root.updateWorldMatrix(true, true);
       sourceSitHip = root.worldToLocal(worldPoint(nodes.hips));
+      if (pelvisSurface.length) {
+        vrm.update(0);
+        root.updateWorldMatrix(true, true);
+        const bottom = Math.min(
+          ...pelvisSurface.map(({ mesh, i }) => {
+            mesh.skeleton.update();
+            return root.worldToLocal(
+              mesh.getVertexPosition(i, new V()).applyMatrix4(mesh.matrixWorld),
+            ).y;
+          }),
+        );
+        seatPelvisClearance =
+          sourceSitHip.y - bottom + (profile.seatClothAllowance ?? 0.006);
+        if (seatPelvisClearance < 0.01 || seatPelvisClearance > 0.3)
+          throw new Error(
+            "Implausible new-body seat clearance " + seatPelvisClearance,
+          );
+      }
       sourceActions.sitIdle.setEffectiveWeight(0);
     }
     saveAuthoredPose();
@@ -473,6 +547,7 @@ export function createMotion(vrm, suppliedRoot, motions = null) {
     frame = 0,
     turning = false,
     wasTurning = false,
+    wasPlannedTurn = false,
     turnPhase = stance / 2,
     adaptiveHipDrop = 0;
   const corrections = { footIK: true, pelvis: true };
@@ -627,19 +702,30 @@ export function createMotion(vrm, suppliedRoot, motions = null) {
       Math.sin(root.rotation.y - previousYaw),
       Math.cos(root.rotation.y - previousYaw),
     );
+    const turnPlan = state.turnPlan?.feet?.length === 2 ? state.turnPlan : null;
     turning = refreshing
       ? turning
-      : !moving && (Boolean(state.turning) || Math.abs(yawDelta) > 0.005);
-    if (turning && !wasTurning) {
+      : !moving &&
+        (Boolean(turnPlan) ||
+          Boolean(state.turning) ||
+          Math.abs(yawDelta) > 0.005);
+    if (turning && (!wasTurning || Boolean(turnPlan) !== wasPlannedTurn)) {
       turnPhase = stance / 2;
       for (const foot of feet) {
         foot.anchor.copy(foot.lastActual);
         foot.swingFrom.copy(foot.lastActual);
         foot.target.copy(foot.lastActual);
         foot.swing = false;
+        foot.turnStepId = -1;
+        foot.turnWorldQuaternion = (
+          foot.lastWorldQuaternion ?? foot.foot.getWorldQuaternion(new Q())
+        ).clone();
       }
     }
-    if (turning) turnPhase = (turnPhase + Math.abs(yawDelta) / 1.0) % 1;
+    // Planned turns are advanced exactly once by the path controller.
+    // Keep the original angular phase only for the explicit legacy comparison.
+    if (turning && turnPlan) turnPhase = turnPlan.progress;
+    else if (turning) turnPhase = (turnPhase + Math.abs(yawDelta) / 1.0) % 1;
     previousYaw = root.rotation.y;
     clock += dt;
     actionTime += dt;
@@ -779,14 +865,24 @@ export function createMotion(vrm, suppliedRoot, motions = null) {
     if (sourceActive)
       hipOffset.y +=
         sourceGroundLift * gait * (1 - sitProgress) * (1 - danceMix);
-    // The hip bone is inside the pelvis, not its underside. Reserve 20 cm
-    // above the seat plane for the avatar's pelvis/cloth volume. Keep ankles
-    // on the floor and solve the knees; never lower the chair to hide contact.
+    // Pelvis underside is measured on the new body's real seated skin patch.
+    // Clothing thickness is independent of anatomy and eases when equipping
+    // while seated; a different outfit must not teleport the pelvis.
+    seatLayerThickness +=
+      ((profile?.seatLayerThickness ?? 0) - seatLayerThickness) *
+      (1 - Math.exp(-dt * 14));
     if (sourceActive && sourceSitHip) {
-      hipOffset.y += (seatHeight + 0.2 - sourceSitHip.y) * sitProgress;
+      hipOffset.y +=
+        (seatHeight +
+          seatPelvisClearance +
+          seatLayerThickness -
+          sourceSitHip.y) *
+        sitProgress;
       hipOffset.z += (-seatBack - seatApproach - sourceSitHip.z) * sitProgress;
     } else {
-      hipOffset.y -= (restHip.y - seatHeight - 0.2) * sitProgress;
+      hipOffset.y -=
+        (restHip.y - seatHeight - seatPelvisClearance - seatLayerThickness) *
+        sitProgress;
       hipOffset.z -= (seatBack + seatApproach) * sitProgress;
     }
     if (danceMix > 0.001 && !sourceActive) {
@@ -938,34 +1034,81 @@ export function createMotion(vrm, suppliedRoot, motions = null) {
         }
         foot.swing = inSwing;
       } else if (turning) {
-        // Turn by small alternating steps. A planted foot retains its WORLD
-        // anchor while the pelvis rotates; the free foot lands toward the new
-        // heading. This must not be represented as two sliding idle feet.
-        const p = (turnPhase + foot.index * 0.5) % 1;
-        const inSwing = p >= stance;
-        if (inSwing) {
-          if (!foot.swing) {
-            foot.swingFrom.copy(foot.target);
-            foot.swingStartPhase = p;
+        if (turnPlan) {
+          const placement = turnPlan.feet[foot.index];
+          // Finish the preceding landing before capturing the next lift.
+          // A simulation sample can straddle the exact step boundary.
+          if (foot.turnStepId !== turnPlan.stepId && foot.turnLanding) {
+            foot.anchor.copy(foot.turnLanding);
+            foot.target.copy(foot.turnLanding);
+            foot.turnWorldQuaternion.copy(foot.turnLandingQuaternion);
+            foot.turnLanding = null;
           }
-          const t = clamp(
-            (p - foot.swingStartPhase) / (1 - foot.swingStartPhase),
-            0,
-            1,
-          );
-          const futureYaw = Math.sign(yawDelta) * (1 - p) * 1.0;
-          const landing = point(
-            foot.local.clone().applyAxisAngle(new V(0, 1, 0), futureYaw),
-          );
-          foot.target.copy(foot.swingFrom).lerp(landing, smooth(t));
-          foot.target.y += Math.sin(Math.PI * t) * legLength * 0.07;
-          foot.contact = false;
+          if (placement.swing) {
+            if (foot.turnStepId !== turnPlan.stepId) {
+              foot.turnStepId = turnPlan.stepId;
+              foot.swingFrom.copy(foot.target);
+              foot.turnFromQuaternion = foot.turnWorldQuaternion.clone();
+              foot.turnLanding = point(
+                foot.local
+                  .clone()
+                  .applyAxisAngle(
+                    new V(0, 1, 0),
+                    placement.landingYaw - root.rotation.y,
+                  ),
+              );
+              foot.turnLandingQuaternion = new Q()
+                .setFromAxisAngle(new V(0, 1, 0), placement.landingYaw)
+                .multiply(foot.restWorldQuaternion);
+            }
+            foot.target
+              .copy(foot.swingFrom)
+              .lerp(foot.turnLanding, placement.blend);
+            foot.target.y += placement.lift * Math.min(0.055, legLength * 0.07);
+            foot.turnWorldQuaternion
+              .copy(foot.turnFromQuaternion)
+              .slerp(foot.turnLandingQuaternion, placement.blend);
+            foot.contact = false;
+          } else {
+            if (foot.turnLanding) {
+              foot.anchor.copy(foot.turnLanding);
+              foot.turnWorldQuaternion.copy(foot.turnLandingQuaternion);
+              foot.turnLanding = null;
+            }
+            foot.target.copy(foot.anchor);
+            foot.contact = true;
+          }
+          foot.swing = placement.swing;
         } else {
-          if (foot.swing) foot.anchor.copy(desiredRest);
-          foot.target.copy(foot.anchor);
-          foot.contact = true;
+          // Turn by small alternating steps. A planted foot retains its WORLD
+          // anchor while the pelvis rotates; the free foot lands toward the new
+          // heading. This must not be represented as two sliding idle feet.
+          const p = (turnPhase + foot.index * 0.5) % 1;
+          const inSwing = p >= stance;
+          if (inSwing) {
+            if (!foot.swing) {
+              foot.swingFrom.copy(foot.target);
+              foot.swingStartPhase = p;
+            }
+            const t = clamp(
+              (p - foot.swingStartPhase) / (1 - foot.swingStartPhase),
+              0,
+              1,
+            );
+            const futureYaw = Math.sign(yawDelta) * (1 - p) * 1.0;
+            const landing = point(
+              foot.local.clone().applyAxisAngle(new V(0, 1, 0), futureYaw),
+            );
+            foot.target.copy(foot.swingFrom).lerp(landing, smooth(t));
+            foot.target.y += Math.sin(Math.PI * t) * legLength * 0.07;
+            foot.contact = false;
+          } else {
+            if (foot.swing) foot.anchor.copy(desiredRest);
+            foot.target.copy(foot.anchor);
+            foot.contact = true;
+          }
+          foot.swing = inSwing;
         }
-        foot.swing = inSwing;
       } else if (requested === "dance" && sourceActive) {
         foot.target.copy(point(foot.sourceLocal));
         foot.contact = false;
@@ -1058,6 +1201,10 @@ export function createMotion(vrm, suppliedRoot, motions = null) {
       const parentQ = foot.foot.parent.getWorldQuaternion(new Q()).invert();
       if (!corrections.footIK) {
         // Diagnostic raw-retarget path: retain the mixer leg AND foot pose.
+      } else if (turning && turnPlan && foot.turnWorldQuaternion) {
+        // Lock the complete planted shoe transform. The legacy path held only
+        // the ankle while rotating the sole with root, hiding twist from slip.
+        foot.foot.quaternion.copy(parentQ.multiply(foot.turnWorldQuaternion));
       } else if (
         !moving &&
         !turning &&
@@ -1083,6 +1230,7 @@ export function createMotion(vrm, suppliedRoot, motions = null) {
           parentQ.multiply(rootQuaternion()).multiply(foot.restWorldQuaternion),
         );
       foot.foot.updateWorldMatrix(true, true);
+      foot.lastWorldQuaternion = foot.foot.getWorldQuaternion(new Q());
       const actual = worldPoint(foot.foot);
       const support =
         foot.anchorKind && foot.soleSamples
@@ -1126,6 +1274,7 @@ export function createMotion(vrm, suppliedRoot, motions = null) {
     if (!sourceActive) poseArms();
     wasMoving = moving;
     wasTurning = turning;
+    wasPlannedTurn = Boolean(turnPlan);
   }
   function getMetrics() {
     return {
@@ -1138,6 +1287,8 @@ export function createMotion(vrm, suppliedRoot, motions = null) {
       danceMix,
       sitProgress,
       seatHeight,
+      seatPelvisClearance,
+      seatSurfaceSamples: pelvisSurface.length,
       seatBack,
       seatApproach,
       transitionComplete:
@@ -1145,6 +1296,14 @@ export function createMotion(vrm, suppliedRoot, motions = null) {
       moving: wasMoving,
       turning,
       turnPhase,
+      turnPolicy: lastInput.turnPlan
+        ? {
+            stepId: lastInput.turnPlan.stepId,
+            kind: lastInput.turnPlan.kind,
+            progress: lastInput.turnPlan.progress,
+            remaining: lastInput.turnPlan.remaining,
+          }
+        : null,
       adaptiveHipDrop,
       sourceGroundLift,
       stopTime,
@@ -1174,6 +1333,7 @@ export function createMotion(vrm, suppliedRoot, motions = null) {
         target: foot.target.toArray(),
         actual: worldPoint(foot.foot).toArray(),
         contact: foot.contact,
+        turnWorldQuaternion: foot.turnWorldQuaternion?.toArray() ?? null,
         supportWeight: foot.supportWeight,
         authoredSoleHeights: foot.soleHeights ? { ...foot.soleHeights } : null,
         swingCorrection: foot.lastCorrection.toArray(),
@@ -1209,6 +1369,7 @@ export function createMotion(vrm, suppliedRoot, motions = null) {
         0;
     phase = stance / 2;
     wasMoving = wasTurning = false;
+    wasPlannedTurn = false;
     adaptiveHipDrop = 0;
     stopTime = 1;
     interruptionPose = null;
@@ -1216,6 +1377,10 @@ export function createMotion(vrm, suppliedRoot, motions = null) {
     for (const foot of feet) {
       foot.stopFrom = null;
       foot.stopQuaternion = null;
+      foot.turnLanding = null;
+      foot.turnWorldQuaternion = null;
+      foot.lastWorldQuaternion = null;
+      foot.turnStepId = -1;
     }
     turnPhase = stance / 2;
     previousYaw = root.rotation.y;

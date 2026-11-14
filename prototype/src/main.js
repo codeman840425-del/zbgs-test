@@ -4,11 +4,13 @@ import Phaser from "phaser";
 import { loadAvatar } from "./assets.js";
 import { createMotion } from "./motion.js";
 import { loadRetargetedMotions } from "./motion-source.js";
+import { createTurnPolicy } from "./turn-policy.js";
 import "./style.css";
 
 // Phaser owns input, path movement, action sequencing and frame scheduling.
 // Three.js is a presentation adapter. It never advances root movement itself.
 const stage = document.querySelector("#stage");
+const turnLegacy = new URLSearchParams(location.search).has("turnLegacy");
 const world = new THREE.Scene();
 world.background = new THREE.Color("#e7ede3");
 world.fog = new THREE.Fog("#e7ede3", 18, 35);
@@ -523,13 +525,44 @@ function blocked(x, z) {
   );
 }
 function lineClear(a, b) {
-  const steps = Math.ceil(Math.hypot(b[0] - a[0], b[1] - a[1]) / 0.06);
-  for (let i = 1; i <= steps; i++) {
-    const t = i / steps;
-    if (blocked(a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t))
-      return false;
-  }
-  return true;
+  // Sampling every 6cm missed a 2.9cm crossing at a rotated chair corner.
+  // Intersect the entire segment against obstacle interiors instead.
+  if (blocked(b[0], b[1])) return false;
+  const intersects = (from, to, lo, hi) => {
+    let enter = 0,
+      exit = 1;
+    for (let axis = 0; axis < 2; axis++) {
+      const delta = to[axis] - from[axis];
+      if (Math.abs(delta) < 1e-12) {
+        if (from[axis] <= lo[axis] || from[axis] >= hi[axis]) return false;
+      } else {
+        const t0 = (lo[axis] - from[axis]) / delta,
+          t1 = (hi[axis] - from[axis]) / delta;
+        enter = Math.max(enter, Math.min(t0, t1));
+        exit = Math.min(exit, Math.max(t0, t1));
+        if (exit <= enter + 1e-10) return false;
+      }
+    }
+    return exit > enter + 1e-10;
+  };
+  return !obstacles.some((o) => {
+    if (o.name !== "chair")
+      return intersects(
+        a,
+        b,
+        [o.x - o.hw, o.z - o.hd],
+        [o.x + o.hw, o.z + o.hd],
+      );
+    const localA = chair.worldToLocal(new THREE.Vector3(a[0], 0, a[1])),
+      localB = chair.worldToLocal(new THREE.Vector3(b[0], 0, b[1])),
+      box = chairBounds[0].localBox;
+    return intersects(
+      [localA.x, localA.z],
+      [localB.x, localB.z],
+      [box.min.x - 0.1, box.min.z - 0.1],
+      [box.max.x + 0.1, box.max.z + 0.1],
+    );
+  });
 }
 function pathTo(start, x, z) {
   x = clamp(x, -4, 4);
@@ -633,6 +666,7 @@ class CharacterScene extends Phaser.Scene {
     this.actualSpeed = 0;
     this.seatAlign = false;
     this.pathTurn = null;
+    this.turnPolicy = createTurnPolicy();
     this.backgroundSuspended = document.hidden;
     this.resumeFrame = false;
   }
@@ -787,6 +821,7 @@ class CharacterScene extends Phaser.Scene {
     }
   }
   clearPath() {
+    if (!turnLegacy && this.turnPolicy.sample().active) this.turnPolicy.stop();
     this.path = [];
     this.target = null;
     marker.visible = false;
@@ -800,11 +835,22 @@ class CharacterScene extends Phaser.Scene {
       (name === this.mode &&
         !(
           name === "idle" &&
-          (this.pending || this.target || this.seatAlign)
+          (this.pending ||
+            this.target ||
+            this.seatAlign ||
+            this.turnPolicy.sample().active)
         )) ||
       (name === "sit" && (this.afterWalk === "sit" || this.seatAlign))
     )
       return;
+    if (!turnLegacy && this.turnPolicy.sample().active) {
+      // Keep the airborne step; latest action wins after safe landing.
+      this.clearPath();
+      this.turnRemaining = 0;
+      this.pending = name === "idle" ? null : { type: "action", name };
+      this.setMode("idle");
+      return;
+    }
     if ((this.mode === "sit" || this.mode === "stand") && name !== "stand") {
       this.pending = { type: "action", name };
       this.setMode("stand");
@@ -821,6 +867,10 @@ class CharacterScene extends Phaser.Scene {
     if (name === "turn") {
       this.setMode("turn");
       this.turnRemaining = Math.PI * 2;
+      if (!turnLegacy) {
+        this.beginTurn();
+        this.turnPolicy.requestRotation(Math.PI * 2);
+      }
       return;
     }
     this.setMode(
@@ -857,6 +907,11 @@ class CharacterScene extends Phaser.Scene {
     marker.position.set(x, 0.028, z);
     marker.visible = true;
     return true;
+  }
+  beginTurn() {
+    if (this.turnPolicy.sample().active) return;
+    const free = motion.getMetrics().feet.findIndex((f) => !f.contact);
+    this.turnPolicy.reset(this.yaw, { preferredSwing: free < 0 ? 0 : free });
   }
   setSpeed(n) {
     this.maxSpeed = clamp(Number(n), 0.4, 1.4);
@@ -934,6 +989,7 @@ class CharacterScene extends Phaser.Scene {
     this.simulationTime = 0;
     this.actualSpeed = 0;
     this.yaw = 0;
+    this.turnPolicy.reset(0);
     avatar.root.position.set(...initialPosition);
     avatar.root.rotation.y = 0;
     this.setMode("idle");
@@ -1136,6 +1192,7 @@ class CharacterScene extends Phaser.Scene {
     this.simulationTime += dt;
     this.modeTime += dt;
     let moved = 0;
+    let turnPlan = null;
     this.turning = false;
     const root = avatar.root;
     if (this.target) {
@@ -1144,7 +1201,7 @@ class CharacterScene extends Phaser.Scene {
         dist = Math.hypot(dx, dz);
       // Seat alignment needs sub-millimetre arrival without a root snap.
       const arrivalTolerance =
-        this.afterWalk === "sit" && !this.path.length ? 0.0005 : 0.018;
+        this.path.length || this.afterWalk === "sit" ? 0.0005 : 0.018;
       if (dist < arrivalTolerance) {
         this.target = this.path.shift() || null;
         if (this.target) {
@@ -1170,14 +1227,24 @@ class CharacterScene extends Phaser.Scene {
         // A destination is not proof of locomotion. A sharp heading change
         // first finishes the existing gather steps, then turns in place using
         // the motion adapter's existing alternating turn steps. No bone reset.
-        if (!this.pathTurn && Math.abs(angle) > 0.65) this.pathTurn = "settle";
-        if (this.pathTurn === "settle") {
+        if (
+          !turnLegacy &&
+          (this.turnPolicy.sample().active || Math.abs(angle) > 0.65)
+        ) {
+          this.beginTurn();
+          this.turnPolicy.requestHeading(heading);
+          this.pathTurn = "turn";
+          this.speed = 0;
+        }
+        if (turnLegacy && !this.pathTurn && Math.abs(angle) > 0.65)
+          this.pathTurn = "settle";
+        if (turnLegacy && this.pathTurn === "settle") {
           this.speed = 0;
           const pose = motion.getMetrics();
           if (!pose.moving && pose.stopTime >= 0.5 && pose.gait < 0.02)
             this.pathTurn = "turn";
         }
-        if (this.pathTurn === "turn") {
+        if (turnLegacy && this.pathTurn === "turn") {
           this.speed = 0;
           const yawStep = clamp(angle, -dt * 0.8, dt * 0.8);
           this.yaw += yawStep;
@@ -1185,7 +1252,7 @@ class CharacterScene extends Phaser.Scene {
           this.turning = Math.abs(yawStep) > 1e-9;
           // Start locomotion on the following substep, preserving lastActual.
           if (Math.abs(angle) <= dt * 0.8 + 1e-6) this.pathTurn = null;
-        } else if (!this.pathTurn) {
+        } else if (!this.pathTurn && !this.turnPolicy.sample().active) {
           const yawStep = clamp(angle, -dt * 3.2, dt * 3.2);
           this.yaw += yawStep;
           root.rotation.y = this.yaw;
@@ -1226,23 +1293,45 @@ class CharacterScene extends Phaser.Scene {
         Math.sin(goalYaw - this.yaw),
         Math.cos(goalYaw - this.yaw),
       );
-      this.yaw += clamp(delta, -dt * 2.5, dt * 2.5);
-      root.rotation.y = this.yaw;
-      this.turning = true;
-      if (Math.abs(delta) < 0.025) {
-        this.seatAlign = false;
-        this.yaw = goalYaw;
-        root.rotation.y = goalYaw;
-        this.setMode("sit");
+      if (!turnLegacy) {
+        if (Math.abs(delta) >= 0.025 || this.turnPolicy.sample().active) {
+          this.beginTurn();
+          this.turnPolicy.requestHeading(goalYaw);
+        } else {
+          this.seatAlign = false;
+          this.setMode("sit");
+        }
+      } else {
+        this.yaw += clamp(delta, -dt * 2.5, dt * 2.5);
+        root.rotation.y = this.yaw;
+        this.turning = true;
+        if (Math.abs(delta) < 0.025) {
+          this.seatAlign = false;
+          this.yaw = goalYaw;
+          root.rotation.y = goalYaw;
+          this.setMode("sit");
+        }
       }
     }
-    if (this.mode === "turn" && this.turnRemaining > 0) {
+    if (turnLegacy && this.mode === "turn" && this.turnRemaining > 0) {
       const d = Math.min(this.turnRemaining, dt * 0.8);
       this.turnRemaining -= d;
       this.yaw += d;
       root.rotation.y = this.yaw;
       this.turning = true;
       if (this.turnRemaining < 0.0001) this.setMode("idle");
+    }
+    if (!turnLegacy && this.turnPolicy.sample().active) {
+      turnPlan = this.turnPolicy.update(dt);
+      this.yaw = turnPlan.yaw;
+      root.rotation.y = this.yaw;
+      this.turning = true;
+      this.speed = 0;
+      moved = 0;
+      if (this.mode === "turn")
+        this.turnRemaining = turnPlan.active
+          ? Math.max(1e-6, Math.abs(turnPlan.remaining))
+          : 0;
     }
     this.actualSpeed = dt ? moved / dt : 0;
     motion.update(dt, {
@@ -1251,11 +1340,16 @@ class CharacterScene extends Phaser.Scene {
       moving: moved > 1e-7,
       action: this.mode === "turn" ? "idle" : this.mode,
       turning: this.turning,
+      turnPlan,
     });
     updateAvatar(dt);
     root.updateMatrixWorld(true);
     const m = motion.getMetrics();
     avatar.updateGarment?.(m.sitProgress, dt, chairBounds);
+    if (turnPlan && !turnPlan.active) {
+      this.pathTurn = null;
+      if (this.mode === "turn") this.setMode("idle");
+    }
     if (this.mode === "stand" && m.transitionComplete) {
       this.setMode("idle");
       if (this.pending) {
@@ -1265,7 +1359,12 @@ class CharacterScene extends Phaser.Scene {
         else this.action(cmd.name);
       }
     }
-    if (this.mode === "idle" && this.pending && m.danceMix <= 0.001) {
+    if (
+      this.mode === "idle" &&
+      this.pending &&
+      m.danceMix <= 0.001 &&
+      !this.turnPolicy.sample().active
+    ) {
       const cmd = this.pending;
       this.pending = null;
       if (cmd.type === "walk") this.go(cmd.x, cmd.z, cmd.after);
@@ -1305,6 +1404,8 @@ function snapshot() {
     pending: c?.pending,
     seatAlign: c?.seatAlign,
     pathTurn: c?.pathTurn,
+    turnLegacy,
+    turnPlan: c?.turnPolicy.sample(),
     backgroundSuspended: c?.backgroundSuspended,
     mode: c?.mode,
     outfit: c?.outfit,
@@ -1485,7 +1586,12 @@ loadAvatar({ scene: world, renderer })
     avatar = a;
     avatar.root.position.set(...initialPosition);
     const motions = await loadRetargetedMotions(avatar.vrm);
-    motion = createMotion(avatar.vrm, avatar.root, motions);
+    motion = createMotion(
+      avatar.vrm,
+      avatar.root,
+      motions,
+      avatar.profile?.motion,
+    );
     motion.setAction("idle");
     motion.update(0, {
       distanceDelta: 0,
@@ -1505,6 +1611,11 @@ loadAvatar({ scene: world, renderer })
     avatar.updateGarment?.(motion.getMetrics().sitProgress, 0, chairBounds);
     loadMs = performance.now() - loadStart;
     createDebugHelpers();
+    const initialInspection = avatar.getDebugState?.();
+    if (initialInspection) {
+      inspection.bodyMode = initialInspection.mode;
+      inspection.dynamics = initialInspection.dynamics;
+    }
     syncInspectionUI();
     ready = true;
     window.__debug.ready = true;
