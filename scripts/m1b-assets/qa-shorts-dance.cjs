@@ -1,0 +1,12 @@
+// Supplemental fixed 1x dance in clear floor space; no runtime pose override.
+const {chromium}=require('../../prototype/node_modules/playwright');
+const fs=require('node:fs/promises'),path=require('node:path');
+const {expectations,verifyCandidate}=require('../qa-m1-common.cjs');
+(async()=>{const expected=expectations(),url=new URL(process.argv[2]);url.searchParams.set('body','male');const out=path.resolve(`output/playwright/m1b-shorts/${expected.build}/dance-clear-space`);await fs.mkdir(out,{recursive:true});const browser=await chromium.launch({channel:'chrome',headless:true}),ctx=await browser.newContext({viewport:{width:1440,height:1000},recordVideo:{dir:out,size:{width:1440,height:1000}}}),page=await ctx.newPage(),report={errors:[],samples:[]};page.on('pageerror',e=>report.errors.push(e.message));try{
+ await page.goto(url.href);await page.waitForFunction(()=>__debug?.ready,{timeout:60000});report.initialGate=await verifyCandidate(page,expected);
+ await page.locator('[data-outfit="2"]').click();await page.evaluate(()=>{__debug.setPlaybackRate(1);__debug.view('side');__debug.setPaused(false);});
+ const select=page.locator('select[aria-label="舞蹈样件"]');const id=await select.locator('option').evaluateAll(options=>options.find(o=>o.textContent.includes('7.2')).value);await select.selectOption(id);report.danceId=id;
+ await page.waitForTimeout(600);await page.evaluate(()=>__debug.action('dance'));await page.waitForFunction(()=>__debug.snapshot().mode==='dance',null,{timeout:5000});report.start=await page.evaluate(()=>__debug.snapshot());
+ for(let i=0;i<16;i++){await page.waitForTimeout(500);const s=await page.evaluate(()=>__debug.snapshot());report.samples.push(s);if([2,7,11].includes(i))await page.screenshot({path:path.join(out,`pose-${i}.png`)});}
+ await page.evaluate(()=>__debug.action('idle'));await page.waitForTimeout(1200);report.end=await page.evaluate(()=>__debug.snapshot());report.finalGate=await verifyCandidate(page,expected);report.status='actual technical dance entered; visual review required';
+ }catch(e){report.failure=String(e);process.exitCode=1;}finally{await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));const v=page.video();await ctx.close();await v.saveAs(path.join(out,'shorts-technical-dance.webm'));await browser.close();console.log(out,report.failure||report.status);}})().catch(e=>{console.error(e);process.exitCode=1;});

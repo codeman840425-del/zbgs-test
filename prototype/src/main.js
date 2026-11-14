@@ -1055,7 +1055,7 @@ class CharacterScene extends Phaser.Scene {
   beginTurn() {
     if (this.turnPolicy.sample().active) return;
     const free = this.rig.getMetrics().feet.findIndex((f) => !f.contact);
-    this.turnPolicy.reset(this.yaw, { preferredSwing: free < 0 ? 0 : free });
+    this.turnPolicy.reset(this.yaw, { preferredSwing: free });
   }
   setSpeed(n) {
     this.maxSpeed = clamp(Number(n), 0.4, 3.0);
@@ -1230,7 +1230,7 @@ class CharacterScene extends Phaser.Scene {
   runSequence() {
     this.reset();
     this.sequence = [];
-    for (let outfit = 0; outfit < (this.actor.config && !this.actor.config.ids.skirt ? 1 : 2); outfit++) {
+    for (const outfit of this.actor.config?.outfits?.map((o) => o.index) || [0, 1]) {
       this.sequence.push(
         { type: "outfit", v: outfit },
         { type: "action", name: "idle", duration: 2, label: "站立观察" },
@@ -1280,7 +1280,7 @@ class CharacterScene extends Phaser.Scene {
     }
     const s = this.sequence[this.sequenceIndex];
     document.querySelector("#sequence-label").textContent =
-      `${this.outfit ? "裙装" : "裤装"} · ${s.label || s.type} · ${this.sequenceIndex + 1}/${this.sequence.length}`;
+      `${this.actor.getOutfitInfo().name} · ${s.label || s.type} · ${this.sequenceIndex + 1}/${this.sequence.length}`;
     document.querySelector("#progress-bar").style.width =
       `${(this.sequenceIndex / this.sequence.length) * 100}%`;
     if (s.type === "walk") {
@@ -1375,17 +1375,27 @@ class CharacterScene extends Phaser.Scene {
             Math.sin(heading - this.yaw),
             Math.cos(heading - this.yaw),
           );
-        // A destination is not proof of locomotion. A sharp heading change
-        // first finishes the existing gather steps, then turns in place using
-        // the motion adapter's existing alternating turn steps. No bone reset.
-        if (
-          !turnLegacy &&
-          (this.turnPolicy.sample().active || Math.abs(angle) > 0.65)
-        ) {
-          this.beginTurn();
-          this.turnPolicy.requestHeading(heading);
-          this.pathTurn = "turn";
-          this.speed = 0;
+        // Normal corners steer without restarting the locomotion phase.
+        // A reversal brakes along the current facing before the whole-turn
+        // phrase begins; receiving a new target never zeroes velocity itself.
+        if (!turnLegacy) {
+          if (this.turnPolicy.sample().active) {
+            this.turnPolicy.requestHeading(heading);
+            this.pathTurn = "turn";
+          } else if (Math.abs(angle) > 1.75) {
+            if (this.speed > .06) {
+              this.pathTurn = "brake";
+              this.speed = Math.max(0, this.speed - 4.5 * dt);
+              const travel = this.speed * dt;
+              const x = root.position.x + Math.sin(this.yaw) * travel;
+              const z = root.position.z + Math.cos(this.yaw) * travel;
+              if (!blocked(x,z)) { root.position.x=x;root.position.z=z;moved=travel;this.distance+=travel; }
+              else this.speed=0;
+            } else {
+              this.beginTurn();this.turnPolicy.requestHeading(heading);
+              this.pathTurn="turn";this.speed=0;
+            }
+          } else this.pathTurn=null;
         }
         if (turnLegacy && !this.pathTurn && Math.abs(angle) > 0.65)
           this.pathTurn = "settle";
@@ -1423,8 +1433,9 @@ class CharacterScene extends Phaser.Scene {
           const accel = desired < this.speed ? 2.5 : 1.5;
           this.speed += clamp(desired - this.speed, -accel * dt, accel * dt);
           moved = Math.min(dist, this.speed * dt);
-          const x = root.position.x + (dx / dist) * moved,
-            z = root.position.z + (dz / dist) * moved;
+          const alongFacing = !turnLegacy && dist > .10 && Math.abs(angle) > .06;
+          const x = root.position.x + (alongFacing ? Math.sin(this.yaw) : dx / dist) * moved,
+            z = root.position.z + (alongFacing ? Math.cos(this.yaw) : dz / dist) * moved;
           if (!blocked(x, z)) {
             root.position.x = x;
             root.position.z = z;
@@ -1621,7 +1632,7 @@ function snapshot() {
 function refreshUI() {
   const s = snapshot();
   document.querySelector("#scene-state").textContent =
-    `${["裤装", "裙装", "新增裤装试验"][s.outfit] || "裤装"} · ${names[s.mode] || s.mode}${s.paused ? " · 已暂停" : ""}`;
+    `${s.outfitInfo?.name || "裤装"} · ${names[s.mode] || s.mode}${s.paused ? " · 已暂停" : ""}`;
   document.querySelector("#sit-button").textContent =
     s.mode === "sit" ? "起身" : "坐下";
   document.querySelector("#metrics").textContent =
@@ -1778,7 +1789,8 @@ function bindFoundationControls(a) {
   document.querySelector('[data-outfit="0"] b').textContent = a.config.pantsLabel;
   document.querySelector('[data-outfit="1"]').hidden = !a.config.ids.skirt;
   const oldTrial = document.querySelector('[data-outfit="2"]');
-  oldTrial.hidden = true;
+  oldTrial.hidden = !a.config.ids.shorts;
+  if (a.config.ids.shorts) oldTrial.textContent = a.config.shortsLabel;
   oldTrial.nextElementSibling.textContent = `${a.config.label}：同一房间与控制器，当前基模独立验证。`;
   const row = document.createElement("div"); row.className = "debug-row";
   for (const [bodyType, label] of [["female", "女性候选"], ["male", "男性候选"]]) {

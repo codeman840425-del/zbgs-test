@@ -105,24 +105,28 @@ def export(id,name,slot,parts,method):
         'compatibleAvatarSha256':SPEC['roundtripSha256'],'preserveOriginalBody':True,'requiresRawSkeleton':True,'bindings':bindings,
         'limits':SPEC['limits'],'sourceLicense':provenance,'method':method,'stats':{'vertices':total,'triangles':triangles,'multiBoneVertices':multi,'joints':len(used)}}
 
-entries=[]
-roles=[('m1b-uniform-top','男性制服上衣与领带','top',('_Tops_','_Accessory_Tie_')),
-       ('m1b-uniform-pants','男性原制服长裤','bottom',('_Bottoms_',)),
-       ('m1b-uniform-shoes','男性原制服平底鞋','shoes',('_Shoes_',))]
-for identifier,name,slot,tokens in roles:
-    selected=[i for i,p in enumerate(src['meshes'][body_mesh]['primitives']) if any(token in src['materials'][p['material']]['name'] for token in tokens)]
-    assert len(selected)==(2 if slot=='top' else 1), (identifier,selected)
-    parts=[]
-    for i in selected:
-        a,t=arrays(i)
-        assert set(a)<=set(['POSITION','NORMAL','TEXCOORD_0','JOINTS_0','WEIGHTS_0']),set(a)
-        assert np.all(np.isfinite(a['POSITION'])) and np.all(np.isfinite(a['WEIGHTS_0']))
-        assert np.max(np.abs(a['WEIGHTS_0'].sum(1)-1))<1e-5
-        parts.append((a,t,src['meshes'][body_mesh]['primitives'][i]['material']))
-    entries.append(export(identifier,name,slot,parts,'Exact original male clothing primitive extraction: source topology/UV/textures/weights/inverse binds retained; no female measurements'))
-manifest={'schema':'zbgs-equipment-v1','items':entries}
-(OUT/'equipment.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf8',newline='\n')
-report={'sourceSha256':SPEC['roundtripSha256'],'sourcePrimitiveAudit':audit,'equipment':[{k:v for k,v in e.items() if k not in ['bindings','sourceLicense']} for e in entries],
-        'bodyUnchangedSHA256':hashlib.sha256((ROOT/SPEC['roundtrip']).read_bytes()).hexdigest(),'limits':SPEC['limits']}
-(ROOT/'assets-source/m1b/build-report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf8',newline='\n')
-print(json.dumps({'sourceSHA256':SPEC['roundtripSha256'],'equipment':[{k:e[k] for k in ['id','sha256','bytes','stats']} for e in entries]},ensure_ascii=False,indent=2))
+def main():
+    entries=[]
+    roles=[('m1b-uniform-top','男性制服上衣与领带','top',('_Tops_','_Accessory_Tie_')),
+           ('m1b-uniform-pants','男性原制服长裤','bottom',('_Bottoms_',)),
+           ('m1b-uniform-shoes','男性原制服平底鞋','shoes',('_Shoes_',))]
+    for identifier,name,slot,tokens in roles:
+        selected=[i for i,p in enumerate(src['meshes'][body_mesh]['primitives']) if any(token in src['materials'][p['material']]['name'] for token in tokens)]
+        assert len(selected)==(2 if slot=='top' else 1), (identifier,selected)
+        parts=[]
+        for i in selected:
+            a,t=arrays(i)
+            assert set(a)<=set(['POSITION','NORMAL','TEXCOORD_0','JOINTS_0','WEIGHTS_0']),set(a)
+            assert np.all(np.isfinite(a['POSITION'])) and np.all(np.isfinite(a['WEIGHTS_0']))
+            assert np.max(np.abs(a['WEIGHTS_0'].sum(1)-1))<1e-5
+            parts.append((a,t,src['meshes'][body_mesh]['primitives'][i]['material']))
+        entries.append(export(identifier,name,slot,parts,'Exact original male clothing primitive extraction: source topology/UV/textures/weights/inverse binds retained; no female measurements'))
+    manifest={'schema':'zbgs-equipment-v1','items':entries}
+    (OUT/'equipment.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf8',newline='\n')
+    report={'sourceSha256':SPEC['roundtripSha256'],'sourcePrimitiveAudit':audit,'equipment':[{k:v for k,v in e.items() if k not in ['bindings','sourceLicense']} for e in entries],
+            'bodyUnchangedSHA256':hashlib.sha256((ROOT/SPEC['roundtrip']).read_bytes()).hexdigest(),'limits':SPEC['limits']}
+    (ROOT/'assets-source/m1b/build-report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf8',newline='\n')
+    print(json.dumps({'sourceSHA256':SPEC['roundtripSha256'],'equipment':[{k:e[k] for k in ['id','sha256','bytes','stats']} for e in entries]},ensure_ascii=False,indent=2))
+
+if __name__ == "__main__":
+    main()

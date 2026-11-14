@@ -1,0 +1,658 @@
+{
+  "build": "0df63cf2bdea",
+  "spec": {
+    "body": "female",
+    "fps": [
+      60
+    ],
+    "angles": [
+      1,
+      5,
+      15,
+      45,
+      90,
+      180
+    ],
+    "modes": [],
+    "chairsOnly": true,
+    "extras": true,
+    "units": "meters/radians/seconds",
+    "scope": "Actual fixed room/controller numeric; not pure planner, real wallclock fps or normal-speed video"
+  },
+  "results": [
+    {
+      "fps": 60,
+      "file": "fps-60.json",
+      "scenarios": [
+        {
+          "name": "chair-align-0",
+          "fps": 60,
+          "counts": {
+            "reset": 2,
+            "requestHeading": 174,
+            "requestRotation": 0,
+            "stop": 0,
+            "duplicateHeading": 172,
+            "uniqueHeading": 2
+          },
+          "commands": [
+            {
+              "t": 0,
+              "frame": 0,
+              "phase": "setup",
+              "request": {
+                "requestId": "turn-chain:60:1",
+                "kind": "sit",
+                "payload": {},
+                "timeoutSeconds": 40
+              },
+              "result": {
+                "admission": "accepted",
+                "duplicate": false,
+                "reason": null,
+                "task": {
+                  "requestId": "turn-chain:60:1",
+                  "ownerId": "room-primary",
+                  "kind": "sit",
+                  "payload": {},
+                  "admission": "accepted",
+                  "state": "running",
+                  "requestedAt": 0.14100000000000001,
+                  "startedAt": 0.14100000000000001,
+                  "endedAt": null,
+                  "deadline": 40.141,
+                  "reason": null,
+                  "result": null
+                }
+              },
+              "origin": [
+                -0.5,
+                0,
+                1.15
+              ],
+              "yaw": 0
+            }
+          ],
+          "failures": [],
+          "maxPlantedPositionStep": 2.378908676270137e-12,
+          "maxPlantedYawStep": 4.2146848510894035e-8,
+          "finalChair": {
+            "position": [
+              2,
+              0,
+              0.57332736697
+            ],
+            "yaw": 0,
+            "seatedAnchor": [
+              2,
+              0,
+              0.7499999999996986
+            ],
+            "approach": [
+              2,
+              0,
+              0.9881239836484228
+            ],
+            "exit": [
+              2,
+              0,
+              0.9881239836484228
+            ]
+          },
+          "final": {
+            "mode": "sit",
+            "position": [
+              1.9997982822493516,
+              0,
+              0.9881370449547837
+            ],
+            "yaw": 0,
+            "planner": {
+              "active": false,
+              "yaw": 0,
+              "targetYaw": 0,
+              "remaining": 0,
+              "elapsed": 0.72,
+              "stopped": false,
+              "mode": "idle",
+              "angularVelocity": 0,
+              "stepId": 8,
+              "kind": "idle",
+              "progress": 1,
+              "stepEndYaw": 0,
+              "feet": [
+                {
+                  "index": 0,
+                  "swing": false,
+                  "contact": true,
+                  "progress": 1,
+                  "blend": 1,
+                  "yaw": 0,
+                  "landingYaw": 0,
+                  "lift": 0
+                },
+                {
+                  "index": 1,
+                  "swing": false,
+                  "contact": true,
+                  "progress": 1,
+                  "blend": 1,
+                  "yaw": 0,
+                  "landingYaw": 0,
+                  "lift": 0
+                }
+              ]
+            },
+            "seatAlign": false,
+            "pathTurn": null
+          },
+          "firstYawFeedbackSeconds": 0.008333333333333333,
+          "firstTranslationSeconds": 0.8083333333333329,
+          "duration": 6.166666666666763,
+          "requestOutcomes": [
+            {
+              "requestId": "turn-chain:60:1",
+              "ownerId": "room-primary",
+              "kind": "sit",
+              "payload": {},
+              "admission": "accepted",
+              "state": "completed",
+              "requestedAt": 0.14100000000000001,
+              "startedAt": 0.14100000000000001,
+              "endedAt": 6.30766666666677,
+              "deadline": 40.141,
+              "reason": null,
+              "result": {
+                "mode": "sit",
+                "position": [
+                  1.9997982822493516,
+                  0,
+                  0.9881370449547837
+                ],
+                "seatToken": "seat-lease:1"
+              }
+            }
+          ],
+          "samples": 740,
+          "plannerCalls": 176
+        },
+        {
+          "name": "chair-align-1.0471975511965976",
+          "fps": 60,
+          "counts": {
+            "reset": 4,
+            "requestHeading": 326,
+            "requestRotation": 0,
+            "stop": 0,
+            "duplicateHeading": 322,
+            "uniqueHeading": 4
+          },
+          "commands": [
+            {
+              "t": 0,
+              "frame": 0,
+              "phase": "setup",
+              "request": {
+                "requestId": "turn-chain:60:2",
+                "kind": "sit",
+                "payload": {},
+                "timeoutSeconds": 40
+              },
+              "result": {
+                "admission": "accepted",
+                "duplicate": false,
+                "reason": null,
+                "task": {
+                  "requestId": "turn-chain:60:2",
+                  "ownerId": "room-primary",
+                  "kind": "sit",
+                  "payload": {},
+                  "admission": "accepted",
+                  "state": "running",
+                  "requestedAt": 6.30766666666677,
+                  "startedAt": 6.30766666666677,
+                  "endedAt": null,
+                  "deadline": 46.30766666666677,
+                  "reason": null,
+                  "result": null
+                }
+              },
+              "origin": [
+                -0.5,
+                0,
+                1.15
+              ],
+              "yaw": 0
+            }
+          ],
+          "failures": [],
+          "maxPlantedPositionStep": 7.486954855271922e-12,
+          "maxPlantedYawStep": 1.264405455326821e-7,
+          "finalChair": {
+            "position": [
+              2,
+              0,
+              0.57332736697
+            ],
+            "yaw": 1.0471975511965976,
+            "seatedAnchor": [
+              2.153002988357205,
+              0,
+              0.6616636834848493
+            ],
+            "approach": [
+              2.35922440744735,
+              0,
+              0.7807256753092114
+            ],
+            "exit": [
+              2.35922440744735,
+              0,
+              0.7807256753092114
+            ]
+          },
+          "final": {
+            "mode": "sit",
+            "position": [
+              2.3595282444923007,
+              0,
+              0.7808692968605087
+            ],
+            "yaw": 7.3303828583761845,
+            "planner": {
+              "active": false,
+              "yaw": 7.3303828583761845,
+              "targetYaw": 7.3303828583761845,
+              "remaining": 0,
+              "elapsed": 1.0799999999999987,
+              "stopped": false,
+              "mode": "idle",
+              "angularVelocity": 0,
+              "stepId": 23,
+              "kind": "idle",
+              "progress": 1,
+              "stepEndYaw": 7.3303828583761845,
+              "feet": [
+                {
+                  "index": 0,
+                  "swing": false,
+                  "contact": true,
+                  "progress": 1,
+                  "blend": 1,
+                  "yaw": 7.3303828583761845,
+                  "landingYaw": 7.3303828583761845,
+                  "lift": 0
+                },
+                {
+                  "index": 1,
+                  "swing": false,
+                  "contact": true,
+                  "progress": 1,
+                  "blend": 1,
+                  "yaw": 7.3303828583761845,
+                  "landingYaw": 7.3303828583761845,
+                  "lift": 0
+                }
+              ]
+            },
+            "seatAlign": false,
+            "pathTurn": null
+          },
+          "firstYawFeedbackSeconds": 0.008333333333333333,
+          "firstTranslationSeconds": 0.6250000000000002,
+          "duration": 8.950000000000133,
+          "requestOutcomes": [
+            {
+              "requestId": "turn-chain:60:2",
+              "ownerId": "room-primary",
+              "kind": "sit",
+              "payload": {},
+              "admission": "accepted",
+              "state": "completed",
+              "requestedAt": 6.30766666666677,
+              "startedAt": 6.30766666666677,
+              "endedAt": 15.249333333333109,
+              "deadline": 46.30766666666677,
+              "reason": null,
+              "result": {
+                "mode": "sit",
+                "position": [
+                  2.3595282444923007,
+                  0,
+                  0.7808692968605087
+                ],
+                "seatToken": "seat-lease:2"
+              }
+            }
+          ],
+          "samples": 1074,
+          "plannerCalls": 330
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "initialGate": {
+    "runtimeBuild": {
+      "shortId": "0df63cf2bdea",
+      "sourceDigest": "0df63cf2bdea6605b4309d2e3327b974fc89cb5caa0dcd1ac17d087f52fb61a4",
+      "inputs": [
+        "foundation.html",
+        "index.html",
+        "package-lock.json",
+        "package.json",
+        "public/assets/avatar.vrm",
+        "public/assets/foundation/base-female-roundtrip.vrm",
+        "public/assets/foundation/base-female.vrm",
+        "public/assets/foundation/base-male-roundtrip.vrm",
+        "public/assets/garments/athletic-bermuda-v1.glb",
+        "public/assets/garments/equipment.json",
+        "public/assets/m1-variants/catalog.json",
+        "public/assets/m1-variants/m1a-jaw-v1/avatar.vrm",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/equipment.json",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-training-pants.glb",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-shoes.glb",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-skirt.glb",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-top.glb",
+        "public/assets/m1-variants/m1a-waisthip-v1/avatar.vrm",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/equipment.json",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-training-pants.glb",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-shoes.glb",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-skirt.glb",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-top.glb",
+        "public/assets/m1/equipment.json",
+        "public/assets/m1/m1-training-pants.glb",
+        "public/assets/m1/m1-uniform-shoes.glb",
+        "public/assets/m1/m1-uniform-skirt.glb",
+        "public/assets/m1/m1-uniform-top.glb",
+        "public/assets/m1b/equipment.json",
+        "public/assets/m1b/m1b-uniform-pants.glb",
+        "public/assets/m1b/m1b-uniform-shoes.glb",
+        "public/assets/m1b/m1b-uniform-top.glb",
+        "public/assets/m1c/accessories.json",
+        "public/assets/m1c/grips/female-source-grip-v1.json",
+        "public/assets/m1c/grips/male-source-grip-v1.json",
+        "public/assets/m1c/grips/manifest.json",
+        "public/assets/m1c/runtime-fit-observations.json",
+        "public/assets/m1c/studio-glasses-v1.glb",
+        "public/assets/m1c/studio-microphone-v1.glb",
+        "public/assets/motion/UAL1_Standard.glb",
+        "public/assets/motion/m1c/dance-imports.json",
+        "public/assets/motion/m1c/dance-source-reference.glb",
+        "public/assets/motion/m1c/dance-technical-v1.config.json",
+        "public/assets/motion/m1c/dance-technical-v1.glb",
+        "public/assets/motion/m1c/jog-ordinary-derived-v1.config.json",
+        "public/assets/motion/m1c/jog-ordinary-derived-v1.glb",
+        "public/assets/motion/m1c/jog-ordinary-derived-v1.profile.json",
+        "scripts/build-id.mjs",
+        "src/assets.js",
+        "src/behavior-tasks.js",
+        "src/cloth.js",
+        "src/equipment.js",
+        "src/foundation-avatar.js",
+        "src/foundation-preview.js",
+        "src/foundation-profiles.js",
+        "src/garment-collider.js",
+        "src/live-presentation.js",
+        "src/m1-equipment.js",
+        "src/m1-skirt.js",
+        "src/main.js",
+        "src/motion-source.js",
+        "src/motion.js",
+        "src/seat-lease.js",
+        "src/segment-triangle-projection.js",
+        "src/style.css",
+        "src/turn-policy.js",
+        "vite.config.js"
+      ],
+      "development": false
+    },
+    "servedBuild": {
+      "shortId": "0df63cf2bdea",
+      "sourceDigest": "0df63cf2bdea6605b4309d2e3327b974fc89cb5caa0dcd1ac17d087f52fb61a4",
+      "inputs": [
+        "foundation.html",
+        "index.html",
+        "package-lock.json",
+        "package.json",
+        "public/assets/avatar.vrm",
+        "public/assets/foundation/base-female-roundtrip.vrm",
+        "public/assets/foundation/base-female.vrm",
+        "public/assets/foundation/base-male-roundtrip.vrm",
+        "public/assets/garments/athletic-bermuda-v1.glb",
+        "public/assets/garments/equipment.json",
+        "public/assets/m1-variants/catalog.json",
+        "public/assets/m1-variants/m1a-jaw-v1/avatar.vrm",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/equipment.json",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-training-pants.glb",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-shoes.glb",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-skirt.glb",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-top.glb",
+        "public/assets/m1-variants/m1a-waisthip-v1/avatar.vrm",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/equipment.json",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-training-pants.glb",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-shoes.glb",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-skirt.glb",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-top.glb",
+        "public/assets/m1/equipment.json",
+        "public/assets/m1/m1-training-pants.glb",
+        "public/assets/m1/m1-uniform-shoes.glb",
+        "public/assets/m1/m1-uniform-skirt.glb",
+        "public/assets/m1/m1-uniform-top.glb",
+        "public/assets/m1b/equipment.json",
+        "public/assets/m1b/m1b-uniform-pants.glb",
+        "public/assets/m1b/m1b-uniform-shoes.glb",
+        "public/assets/m1b/m1b-uniform-top.glb",
+        "public/assets/m1c/accessories.json",
+        "public/assets/m1c/grips/female-source-grip-v1.json",
+        "public/assets/m1c/grips/male-source-grip-v1.json",
+        "public/assets/m1c/grips/manifest.json",
+        "public/assets/m1c/runtime-fit-observations.json",
+        "public/assets/m1c/studio-glasses-v1.glb",
+        "public/assets/m1c/studio-microphone-v1.glb",
+        "public/assets/motion/UAL1_Standard.glb",
+        "public/assets/motion/m1c/dance-imports.json",
+        "public/assets/motion/m1c/dance-source-reference.glb",
+        "public/assets/motion/m1c/dance-technical-v1.config.json",
+        "public/assets/motion/m1c/dance-technical-v1.glb",
+        "public/assets/motion/m1c/jog-ordinary-derived-v1.config.json",
+        "public/assets/motion/m1c/jog-ordinary-derived-v1.glb",
+        "public/assets/motion/m1c/jog-ordinary-derived-v1.profile.json",
+        "scripts/build-id.mjs",
+        "src/assets.js",
+        "src/behavior-tasks.js",
+        "src/cloth.js",
+        "src/equipment.js",
+        "src/foundation-avatar.js",
+        "src/foundation-preview.js",
+        "src/foundation-profiles.js",
+        "src/garment-collider.js",
+        "src/live-presentation.js",
+        "src/m1-equipment.js",
+        "src/m1-skirt.js",
+        "src/main.js",
+        "src/motion-source.js",
+        "src/motion.js",
+        "src/seat-lease.js",
+        "src/segment-triangle-projection.js",
+        "src/style.css",
+        "src/turn-policy.js",
+        "vite.config.js"
+      ]
+    },
+    "primary": {
+      "id": "beta-base-female-m1",
+      "url": "http://127.0.0.1:53964/assets/foundation/base-female-roundtrip.vrm",
+      "declaredSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+      "actualSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+      "bytes": 16311576
+    },
+    "url": "http://127.0.0.1:53964/?body=female",
+    "time": "2026-11-14T21:26:07.804Z"
+  },
+  "finalGate": {
+    "runtimeBuild": {
+      "shortId": "0df63cf2bdea",
+      "sourceDigest": "0df63cf2bdea6605b4309d2e3327b974fc89cb5caa0dcd1ac17d087f52fb61a4",
+      "inputs": [
+        "foundation.html",
+        "index.html",
+        "package-lock.json",
+        "package.json",
+        "public/assets/avatar.vrm",
+        "public/assets/foundation/base-female-roundtrip.vrm",
+        "public/assets/foundation/base-female.vrm",
+        "public/assets/foundation/base-male-roundtrip.vrm",
+        "public/assets/garments/athletic-bermuda-v1.glb",
+        "public/assets/garments/equipment.json",
+        "public/assets/m1-variants/catalog.json",
+        "public/assets/m1-variants/m1a-jaw-v1/avatar.vrm",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/equipment.json",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-training-pants.glb",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-shoes.glb",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-skirt.glb",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-top.glb",
+        "public/assets/m1-variants/m1a-waisthip-v1/avatar.vrm",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/equipment.json",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-training-pants.glb",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-shoes.glb",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-skirt.glb",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-top.glb",
+        "public/assets/m1/equipment.json",
+        "public/assets/m1/m1-training-pants.glb",
+        "public/assets/m1/m1-uniform-shoes.glb",
+        "public/assets/m1/m1-uniform-skirt.glb",
+        "public/assets/m1/m1-uniform-top.glb",
+        "public/assets/m1b/equipment.json",
+        "public/assets/m1b/m1b-uniform-pants.glb",
+        "public/assets/m1b/m1b-uniform-shoes.glb",
+        "public/assets/m1b/m1b-uniform-top.glb",
+        "public/assets/m1c/accessories.json",
+        "public/assets/m1c/grips/female-source-grip-v1.json",
+        "public/assets/m1c/grips/male-source-grip-v1.json",
+        "public/assets/m1c/grips/manifest.json",
+        "public/assets/m1c/runtime-fit-observations.json",
+        "public/assets/m1c/studio-glasses-v1.glb",
+        "public/assets/m1c/studio-microphone-v1.glb",
+        "public/assets/motion/UAL1_Standard.glb",
+        "public/assets/motion/m1c/dance-imports.json",
+        "public/assets/motion/m1c/dance-source-reference.glb",
+        "public/assets/motion/m1c/dance-technical-v1.config.json",
+        "public/assets/motion/m1c/dance-technical-v1.glb",
+        "public/assets/motion/m1c/jog-ordinary-derived-v1.config.json",
+        "public/assets/motion/m1c/jog-ordinary-derived-v1.glb",
+        "public/assets/motion/m1c/jog-ordinary-derived-v1.profile.json",
+        "scripts/build-id.mjs",
+        "src/assets.js",
+        "src/behavior-tasks.js",
+        "src/cloth.js",
+        "src/equipment.js",
+        "src/foundation-avatar.js",
+        "src/foundation-preview.js",
+        "src/foundation-profiles.js",
+        "src/garment-collider.js",
+        "src/live-presentation.js",
+        "src/m1-equipment.js",
+        "src/m1-skirt.js",
+        "src/main.js",
+        "src/motion-source.js",
+        "src/motion.js",
+        "src/seat-lease.js",
+        "src/segment-triangle-projection.js",
+        "src/style.css",
+        "src/turn-policy.js",
+        "vite.config.js"
+      ],
+      "development": false
+    },
+    "servedBuild": {
+      "shortId": "0df63cf2bdea",
+      "sourceDigest": "0df63cf2bdea6605b4309d2e3327b974fc89cb5caa0dcd1ac17d087f52fb61a4",
+      "inputs": [
+        "foundation.html",
+        "index.html",
+        "package-lock.json",
+        "package.json",
+        "public/assets/avatar.vrm",
+        "public/assets/foundation/base-female-roundtrip.vrm",
+        "public/assets/foundation/base-female.vrm",
+        "public/assets/foundation/base-male-roundtrip.vrm",
+        "public/assets/garments/athletic-bermuda-v1.glb",
+        "public/assets/garments/equipment.json",
+        "public/assets/m1-variants/catalog.json",
+        "public/assets/m1-variants/m1a-jaw-v1/avatar.vrm",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/equipment.json",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-training-pants.glb",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-shoes.glb",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-skirt.glb",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-top.glb",
+        "public/assets/m1-variants/m1a-waisthip-v1/avatar.vrm",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/equipment.json",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-training-pants.glb",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-shoes.glb",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-skirt.glb",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-top.glb",
+        "public/assets/m1/equipment.json",
+        "public/assets/m1/m1-training-pants.glb",
+        "public/assets/m1/m1-uniform-shoes.glb",
+        "public/assets/m1/m1-uniform-skirt.glb",
+        "public/assets/m1/m1-uniform-top.glb",
+        "public/assets/m1b/equipment.json",
+        "public/assets/m1b/m1b-uniform-pants.glb",
+        "public/assets/m1b/m1b-uniform-shoes.glb",
+        "public/assets/m1b/m1b-uniform-top.glb",
+        "public/assets/m1c/accessories.json",
+        "public/assets/m1c/grips/female-source-grip-v1.json",
+        "public/assets/m1c/grips/male-source-grip-v1.json",
+        "public/assets/m1c/grips/manifest.json",
+        "public/assets/m1c/runtime-fit-observations.json",
+        "public/assets/m1c/studio-glasses-v1.glb",
+        "public/assets/m1c/studio-microphone-v1.glb",
+        "public/assets/motion/UAL1_Standard.glb",
+        "public/assets/motion/m1c/dance-imports.json",
+        "public/assets/motion/m1c/dance-source-reference.glb",
+        "public/assets/motion/m1c/dance-technical-v1.config.json",
+        "public/assets/motion/m1c/dance-technical-v1.glb",
+        "public/assets/motion/m1c/jog-ordinary-derived-v1.config.json",
+        "public/assets/motion/m1c/jog-ordinary-derived-v1.glb",
+        "public/assets/motion/m1c/jog-ordinary-derived-v1.profile.json",
+        "scripts/build-id.mjs",
+        "src/assets.js",
+        "src/behavior-tasks.js",
+        "src/cloth.js",
+        "src/equipment.js",
+        "src/foundation-avatar.js",
+        "src/foundation-preview.js",
+        "src/foundation-profiles.js",
+        "src/garment-collider.js",
+        "src/live-presentation.js",
+        "src/m1-equipment.js",
+        "src/m1-skirt.js",
+        "src/main.js",
+        "src/motion-source.js",
+        "src/motion.js",
+        "src/seat-lease.js",
+        "src/segment-triangle-projection.js",
+        "src/style.css",
+        "src/turn-policy.js",
+        "vite.config.js"
+      ]
+    },
+    "primary": {
+      "id": "beta-base-female-m1",
+      "url": "http://127.0.0.1:53964/assets/foundation/base-female-roundtrip.vrm",
+      "declaredSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+      "actualSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+      "bytes": 16311576
+    },
+    "url": "http://127.0.0.1:53964/?body=female",
+    "time": "2026-11-14T21:26:10.748Z"
+  },
+  "passed": true,
+  "limits": [
+    "Call counts and planted world transforms are diagnostics; not every nonzero change is a new defect",
+    "Small real paths may steer while moving instead of invoking the pure planner; record that fact",
+    "Three outer rates use production120Hz subdivisions; not a claim of real device performance",
+    "Completion/nonfinite/collision/unchanged-heading progress reset gates only; normal-speed visual and body contacts remain separate"
+  ]
+}

@@ -76,7 +76,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     "skirt",
   ]) {
     const label = role === "shoes" ? "footwear" : role;
-    meshRoles[label] = (surfaces[role] ?? []).map((mesh) => {
+    meshRoles[label] = ((role === "pants" ? surfaces.allPants : surfaces[role]) ?? []).map((mesh) => {
       mesh.userData.assetRole = label;
       return mesh.uuid;
     });
@@ -114,8 +114,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     qa: {
       outfits: [
         { name: "base", bodyMode: "base", outfit: 0, dynamics: false },
-        { name: "pants", bodyMode: "dressed", outfit: 0, dynamics: true },
-        ...(config.ids.skirt ? [{ name: "skirt", bodyMode: "dressed", outfit: 1, dynamics: true }] : []),
+        ...config.outfits.map((o) => ({ name: o.role, bodyMode: "dressed", outfit: o.index, dynamics: true })),
       ],
     },
   };
@@ -124,7 +123,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
   // floor IK is applied (fixed shoe). Compensate this measured lever ratio,
   // rather than pretending the hip and the thigh underside move together.
   Object.defineProperty(profile.motion, "seatLayerThickness", {
-    get: () => (debugBody ? 0 : config.seatLayerThickness),
+    get: () => (debugBody ? 0 : (config.outfitSeatLayerThickness?.[outfit] ?? config.seatLayerThickness)),
   });
   function setDebugBody(value) {
     debugBody = Boolean(value);
@@ -142,7 +141,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     getAssetProfile: () => profile,
     setOutfit: (n) => {
       equipment.setOutfit(n);
-      outfit = Number(n) === 1 ? 1 : 0;
+      outfit = equipment.getInfo().outfit;
     },
     setDebugBody,
     setDynamics: (value) => {
@@ -189,7 +188,8 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     },
     getOutfitInfo: () => ({
       index: outfit,
-      name: outfit ? "新人体 · 独立裙装" : `新人体 · ${config.pantsLabel}`,
+      name: `新人体 · ${config.outfits.find((o) => o.index === outfit).label}`,
+      fitStatus: config.outfitFitStatus?.[outfit] || "candidate: current outfit requires independent acceptance",
       source: config.source,
       equipment: equipment.getInfo(),
       limitations: "新人体M1连续动作验收中",

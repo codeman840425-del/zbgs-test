@@ -21,7 +21,12 @@ export const FOUNDATION_PROFILES = {
     source: "Base_Male / reconstructed Blender source",
     label: "M1B 男性候选",
     pantsLabel: "独立长裤",
-    ids: { top: "m1b-uniform-top", shoes: "m1b-uniform-shoes", pants: "m1b-uniform-pants" },
+    shortsLabel: "独立露膝短裤",
+    ids: { top: "m1b-uniform-top", shoes: "m1b-uniform-shoes", pants: "m1b-uniform-pants", shorts: "m1b-uniform-shorts-v1" },
+    // Candidate initial value only: actual upper surface/weights retained within
+    // 1.195e-7; shorts still require their own posed seat/contact acceptance.
+    outfitSeatLayerThickness: { 2: 0.0036 },
+    outfitFitStatus: { 2: "candidate: retained seat geometry; shorts runtime validation pending" },
     // Original male trouser surface: no female-shell offset inherited.
     // Measured male seat surface response: +10 mm pelvis -> +8.289 mm trouser underside.
     // Original fit was -1.975 mm; 3.6 mm gives approximately +1 mm clearance.
@@ -70,5 +75,11 @@ FOUNDATION_PROFILES["m1a-waisthip-v1"] = {
 export function foundationProfile(bodyType = "female") {
   const profile = FOUNDATION_PROFILES[bodyType];
   if (!profile) throw new Error(`Unknown foundation body type: ${bodyType}`);
-  return structuredClone(profile);
+  const result = structuredClone(profile);
+  result.outfits = [
+    { index: 0, role: "pants", label: result.pantsLabel },
+    ...(result.ids.skirt ? [{ index: 1, role: "skirt", label: "独立裙装" }] : []),
+    ...(result.ids.shorts ? [{ index: 2, role: "shorts", label: result.shortsLabel || "独立短裤" }] : []),
+  ];
+  return result;
 }

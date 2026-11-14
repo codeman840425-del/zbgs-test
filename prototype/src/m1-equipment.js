@@ -64,12 +64,14 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     item("top").container.visible = !debugBody;
     item("pants").container.visible = !debugBody && outfit === 0;
     if (IDS.skirt) item("skirt").container.visible = !debugBody && outfit === 1;
+    if (IDS.shorts) item("shorts").container.visible = !debugBody && outfit === 2;
   }
   apply();
   return {
     setOutfit(value) {
-      if (Number(value) === 1 && !IDS.skirt) throw new Error("This body has no validated skirt fit");
-      outfit = Number(value) === 1 ? 1 : 0;
+      const selection = config.outfits.find((o) => o.index === Number(value));
+      if (!selection) throw new Error("This body has no matching outfit fit: " + value);
+      outfit = selection.index;
       apply();
     },
     setDebugBody(value) {
@@ -82,6 +84,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     getInfo() {
       return {
         outfit,
+        selection: config.outfits.find((o) => o.index === outfit),
         debugBody,
         avatarSha256,
         independentEquipment: true,
@@ -102,7 +105,9 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
         hair,
         top: item("top").meshes,
         shoes: item("shoes").meshes,
-        pants: item("pants").meshes,
+        get pants() { return item(outfit === 2 ? "shorts" : "pants").meshes; },
+        allPants: [...item("pants").meshes, ...(IDS.shorts ? item("shorts").meshes : [])],
+        shorts: IDS.shorts ? item("shorts").meshes : [],
         skirt: skirtCorrective ? [skirtCorrective.mesh] : [],
         sourceSkirt: IDS.skirt ? item("skirt").meshes : [],
         sourceClothes: sourceClothes.map((x) => x.mesh),

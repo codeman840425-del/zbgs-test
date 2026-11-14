@@ -313,6 +313,8 @@ export function createMotion(
       const center = low
         .reduce((sum, p) => sum.add(p.local), new V())
         .divideScalar(low.length);
+      foot.restSoleOffsets ??= {};
+      foot.restSoleOffsets[kind] = point(center).sub(worldPoint(foot.foot)).applyQuaternion(foot.foot.getWorldQuaternion(new Q()).invert());
       const owner = kind === "toe" && foot.toe ? foot.toe : foot.foot;
       const offset = point(center)
         .sub(worldPoint(owner))
@@ -648,6 +650,7 @@ export function createMotion(
     lastPhaseDelta = 0,
     authoredHipWorld = worldPoint(nodes.hips);
   const supportSurfaceDelta = new V();
+  const turnHipWorldOffset = new V();
 
   function restore(poses = rest) {
     for (const [node, pose] of poses) {
@@ -658,7 +661,12 @@ export function createMotion(
     root.updateWorldMatrix(true, true);
   }
   function resetContacts() {
+    turnHipWorldOffset.set(0,0,0);
     for (const foot of feet) {
+      foot.turnIdleAnchor = null;
+      foot.turnIdleQuaternion = null;
+      foot.turnPivot = null;
+      foot.turnLanding = null;
       foot.target.copy(point(foot.local));
       foot.anchor.copy(foot.target);
       foot.swingFrom.copy(foot.target);
@@ -1084,7 +1092,10 @@ export function createMotion(
     const refreshing = state.refresh === true;
     lastFrameDt = dt;
     if (!refreshing) lastInput = { ...state };
-    if (state.action && state.action !== requested) setAction(state.action);
+    if (state.action && state.action !== requested) {
+      if (state.action === "sit" || state.action === "dance") for (const foot of feet) {foot.turnIdleAnchor = null;foot.turnIdleQuaternion = null;}
+      setAction(state.action);
+    }
     const step = Math.max(
       0,
       !refreshing && Number.isFinite(state.distanceDelta)
@@ -1114,7 +1125,8 @@ export function createMotion(
         (Boolean(turnPlan) ||
           Boolean(state.turning) ||
           Math.abs(yawDelta) > 0.005);
-    if (turning && (!wasTurning || Boolean(turnPlan) !== wasPlannedTurn)) {
+    if (turning && (!wasTurning || Boolean(turnPlan) !== wasPlannedTurn ||
+        (turnPlan && feet[0].turnPhraseId !== turnPlan.stepId))) {
       turnPhase = stance / 2;
       for (const foot of feet) {
         foot.anchor.copy(foot.lastActual);
@@ -1122,9 +1134,20 @@ export function createMotion(
         foot.target.copy(foot.lastActual);
         foot.swing = false;
         foot.turnStepId = -1;
+        foot.turnPhraseId = turnPlan?.stepId;
+        foot.turnIdleAnchor = null;
+        foot.turnPivot = null;
+        foot.turnWindow = -1;
+        foot.turnWasContact = foot.contact;
         foot.turnWorldQuaternion = (
           foot.lastWorldQuaternion ?? foot.foot.getWorldQuaternion(new Q())
         ).clone();
+        foot.turnEntryQuaternion = foot.turnWorldQuaternion.clone();
+        foot.turnEntryToeQuaternion = foot.toe?.quaternion.clone();
+        foot.turnEntryPivot = foot.soleSamples?.toe();
+        // Raw surface samples belong to the preceding evaluated pose. Capture
+        // their local toe lever before the normalized source pose is advanced.
+        foot.turnSoleLocal = (foot.restSoleOffsets?.toe || foot.soleOffsets.toe).clone();
       }
     }
     // Planned turns are advanced exactly once by the path controller.
@@ -1166,11 +1189,17 @@ export function createMotion(
     }
     const groundLift = THREE.MathUtils.lerp(sourceGroundLift, sourceJogGroundLift, smooth(runMix));
     if (moving && !wasMoving) {
+      for (const foot of feet) {foot.turnIdleAnchor = null;foot.turnIdleQuaternion = null;}
       // A new stride starts at mid-support, because idle feet are underneath
       // the pelvis. Reusing an arbitrary old phase could hold that foot for a
       // whole stance and drag it beyond reach after restarting or reversing.
       phase = stance / 2;
       for (const foot of feet) {
+        foot.anchorKind = null;
+        foot.lastSupportKind = null;
+        foot.lastCorrection.set(0,0,0);
+        foot.releaseOffset.set(0,0,0);
+        foot.releasePhase = 1;
         foot.anchor.copy(foot.lastActual);
         foot.anchor.y = point(foot.local).y;
         foot.target.copy(foot.anchor);
@@ -1333,6 +1362,24 @@ export function createMotion(
       nodes.spine?.rotateY(0.045 * gait * Math.sin(phase * TAU));
       nodes.head?.rotateY(0.025 * Math.sin(clock * 0.7));
     }
+    const supportCenter = new V();
+    if (turning && turnPlan && turnPlan.kind !== "pivot") {
+      let count=0;
+      for (const foot of feet) if (turnPlan.feet[foot.index].contact) {supportCenter.add(foot.target);count++;}
+      if(count) supportCenter.divideScalar(count).sub(root.position);
+      supportCenter.y=0;
+      supportCenter.multiplyScalar(.55);
+      supportCenter.clampLength(0,legLength*.22);
+    }
+    turnHipWorldOffset.lerp(supportCenter,1-Math.exp(-dt*14));
+    if(corrections.pelvis) hipOffset.add(turnHipWorldOffset.clone().applyQuaternion(rootQuaternion().invert()));
+    if (turning && turnPlan && corrections.pelvis) {
+      hipOffset.x += (turnPlan.weightShift || 0) * Math.min(.02, legLength * .025);
+      hipOffset.y -= Math.sin(Math.PI * turnPlan.progress) ** 2 * .012;
+      nodes.spine?.rotateY((turnPlan.torsoLead || 0) * .45);
+      nodes.chest?.rotateY((turnPlan.torsoLead || 0) * .55);
+      nodes.head?.rotateY((turnPlan.torsoLead || 0) * .35);
+    }
     // The library idle is a staggered, crouched stance. Gathering its feet to
     // the neutral stance while retaining its low pelvis forced the knees out.
     // Adapt the pelvis AND bend planes together to an upright relaxed idle.
@@ -1353,6 +1400,12 @@ export function createMotion(
     nodes.hips.position.copy(nodes.hips.parent.worldToLocal(hipWorld));
     root.updateWorldMatrix(true, true);
 
+    if (turning && turnPlan) {
+      const toeBlend=smooth(clamp(turnPlan.progress/.14,0,1));
+      for(const foot of feet) if(foot.toe&&foot.turnEntryToeQuaternion)
+        foot.toe.quaternion.copy(foot.turnEntryToeQuaternion).slerp(rest.get(foot.toe).quaternion,toeBlend);
+      root.updateWorldMatrix(true,true);
+    }
     for (const foot of feet) {
       if (state.treadmill && moving) foot.anchor.add(supportSurfaceDelta);
       const footPhase = (phase + foot.index * 0.5) % 1;
@@ -1477,49 +1530,57 @@ export function createMotion(
       } else if (turning) {
         if (turnPlan) {
           const placement = turnPlan.feet[foot.index];
-          // Finish the preceding landing before capturing the next lift.
-          // A simulation sample can straddle the exact step boundary.
-          if (foot.turnStepId !== turnPlan.stepId && foot.turnLanding) {
-            foot.anchor.copy(foot.turnLanding);
-            foot.target.copy(foot.turnLanding);
-            foot.turnWorldQuaternion.copy(foot.turnLandingQuaternion);
-            foot.turnLanding = null;
-          }
+          const up = new V(0, 1, 0);
+          const entry = smooth(clamp(turnPlan.progress / .14, 0, 1));
+          const currentQ = foot.turnEntryQuaternion.clone().slerp(
+            new Q().setFromAxisAngle(up, turnPlan.yaw).multiply(foot.restWorldQuaternion),entry);
+          const finalQ = new Q().setFromAxisAngle(up, turnPlan.targetYaw).multiply(foot.restWorldQuaternion);
+          const finalRest = point(foot.local.clone().applyAxisAngle(up, turnPlan.targetYaw - root.rotation.y));
+          const finalToe = finalRest.clone().add(foot.turnSoleLocal.clone().applyQuaternion(finalQ));
+          finalToe.y = root.position.y;
+          const pivotOffset = foot.turnSoleLocal.clone().applyQuaternion(currentQ);
           if (placement.swing) {
-            if (foot.turnStepId !== turnPlan.stepId) {
-              foot.turnStepId = turnPlan.stepId;
+            if (!foot.swing || foot.turnWindow !== placement.window) {
+              foot.turnWindow = placement.window;
               foot.swingFrom.copy(foot.target);
               foot.turnFromQuaternion = foot.turnWorldQuaternion.clone();
-              foot.turnLanding = point(
-                foot.local
-                  .clone()
-                  .applyAxisAngle(
-                    new V(0, 1, 0),
-                    placement.landingYaw - root.rotation.y,
-                  ),
-              );
-              foot.turnLandingQuaternion = new Q()
-                .setFromAxisAngle(new V(0, 1, 0), placement.landingYaw)
-                .multiply(foot.restWorldQuaternion);
+              foot.turnPivot = null;
             }
-            foot.target
-              .copy(foot.swingFrom)
-              .lerp(foot.turnLanding, placement.blend);
-            foot.target.y += placement.lift * Math.min(0.055, legLength * 0.07);
-            foot.turnWorldQuaternion
-              .copy(foot.turnFromQuaternion)
-              .slerp(foot.turnLandingQuaternion, placement.blend);
+            // A curved opening step, not a straight chord through the other leg.
+            const landing = finalToe.clone().sub(pivotOffset);
+            const from = foot.swingFrom.clone().sub(root.position);
+            const to = landing.clone().sub(root.position);
+            const fromAngle = Math.atan2(from.x, from.z), toAngle = Math.atan2(to.x, to.z);
+            let arc = Math.atan2(Math.sin(toAngle-fromAngle), Math.cos(toAngle-fromAngle));
+            if (Math.abs(arc) > 2.8) arc = Math.sign(turnPlan.targetYaw-turnPlan.yaw || arc)*Math.abs(arc);
+            const angle = fromAngle + arc * placement.blend;
+            const radius = THREE.MathUtils.lerp(Math.hypot(from.x,from.z), Math.hypot(to.x,to.z), placement.blend);
+            foot.target.set(root.position.x+Math.sin(angle)*radius,
+              THREE.MathUtils.lerp(foot.swingFrom.y,landing.y,placement.blend),
+              root.position.z+Math.cos(angle)*radius);
+            foot.target.y += placement.lift * Math.min(.065,legLength*.08);
+            foot.turnWorldQuaternion.copy(foot.turnFromQuaternion).slerp(currentQ,placement.blend);
             foot.contact = false;
           } else {
-            if (foot.turnLanding) {
-              foot.anchor.copy(foot.turnLanding);
-              foot.turnWorldQuaternion.copy(foot.turnLandingQuaternion);
-              foot.turnLanding = null;
+            if (!foot.turnPivot || foot.swing) {
+              // On landing, toe placement anticipates the final foot orientation.
+              // During support only that contact point is fixed; ankle may pivot.
+              foot.turnPivot = placement.landed ? finalToe.clone()
+                : (foot.turnEntryPivot?.clone() || foot.target.clone().add(foot.turnSoleLocal.clone().applyQuaternion(foot.turnWorldQuaternion)));
+              foot.turnPivotInitialY = foot.turnPivot.y;
             }
-            foot.target.copy(foot.anchor);
-            foot.contact = true;
+            foot.turnWorldQuaternion.copy(currentQ);
+            const pivot = foot.turnPivot.clone();
+            if (!foot.turnWasContact && !placement.landed) pivot.y = THREE.MathUtils.lerp(foot.turnPivotInitialY,root.position.y,entry);
+            foot.target.copy(pivot).sub(pivotOffset);
+            foot.contact = foot.turnWasContact || placement.landed || entry >= 1;
+            foot.anchorKind = foot.contact ? "toe" : null;
+            foot.anchor.copy(foot.contact ? pivot : foot.target);
+            foot.supportWeight = foot.contact ? 1 : 0;
           }
           foot.swing = placement.swing;
+          foot.turnIdleAnchor = foot.target.clone();
+          foot.turnIdleQuaternion = foot.turnWorldQuaternion.clone();
         } else {
           // Turn by small alternating steps. A planted foot retains its WORLD
           // anchor while the pelvis rotates; the free foot lands toward the new
@@ -1577,6 +1638,7 @@ export function createMotion(
       } else {
         // Finish the free leg first, then gather the other leg with a visible
         // short step. The old lerp dragged both shoes along the ground at stop.
+        if (foot.turnIdleAnchor && !wasMoving) desiredRest.copy(foot.turnIdleAnchor);
         const t = clamp((stopTime - (foot.stopOrder ?? 0) * 0.24) / 0.24, 0, 1);
         foot.stopBlend = smooth(t);
         if (foot.stopFrom && t < 1) {
@@ -1602,7 +1664,7 @@ export function createMotion(
       sitProgress < .01 && danceMix < .001;
     if (moving || turning || gathering)
       for (const foot of feet)
-        if (foot.contact) {
+        if (foot.contact || (turning && turnPlan?.feet[foot.index].swing && turnPlan.feet[foot.index].progress > .75)) {
           const hip = worldPoint(foot.upper),
             reach = foot.first + foot.second - 0.001;
           const horizontal = Math.hypot(
@@ -1652,6 +1714,8 @@ export function createMotion(
         // Lock the complete planted shoe transform. The legacy path held only
         // the ankle while rotating the sole with root, hiding twist from slip.
         foot.foot.quaternion.copy(parentQ.multiply(foot.turnWorldQuaternion));
+      } else if (!moving && !turning && sitProgress < .01 && danceMix < .001 && foot.turnIdleQuaternion) {
+        foot.foot.quaternion.copy(parentQ.multiply(foot.turnIdleQuaternion));
       } else if (
         !moving &&
         !turning &&
@@ -1678,6 +1742,22 @@ export function createMotion(
           parentQ.multiply(rootQuaternion()).multiply(foot.restWorldQuaternion),
         );
       foot.foot.updateWorldMatrix(true, true);
+      // The toe patch may include toe-joint skin weights: a rigid ankle lever
+      // alone is not an exact sole constraint. Correct against the measured
+      // deformed contact patch and report that point, not ankle travel as slip.
+      if (corrections.footIK && turning && turnPlan && foot.contact && foot.soleSamples) {
+        const orientation = foot.foot.getWorldQuaternion(new Q());
+        for(let pass=0;pass<2;pass++){
+          const error = foot.anchor.clone().sub(foot.soleSamples.toe());
+          if(error.length()<.00005)break;
+          foot.target.add(error);
+          const result=solveChain(foot.upper,foot.lower,foot.foot,foot.target,foot.first,foot.second,
+            foot.sourcePole?.clone().lerp(vector(new V(0,0,1)),uprightMix).normalize()||vector(new V(0,0,1)));
+          foot.clamped=result.clamped;
+          foot.foot.quaternion.copy(foot.foot.parent.getWorldQuaternion(new Q()).invert().multiply(orientation));
+          foot.foot.updateWorldMatrix(true,true);
+        }
+      }
       // Stop orientation blends around the ankle, whereas contact belongs to
       // the actual shoe surface. On the male shoe the authored toe/heel rotation
       // dipped 12.6 mm during gathering despite a correct ankle target.
@@ -1735,6 +1815,10 @@ export function createMotion(
           : 0;
       peakSlip = Math.max(peakSlip, foot.slip);
       foot.lastActual.copy(actual);
+      if (turning && turnPlan) {
+        foot.turnIdleAnchor = actual.clone();
+        foot.turnIdleQuaternion = foot.lastWorldQuaternion.clone();
+      }
       foot.lastSupport.copy(support);
       foot.lastSupportKind = foot.anchorKind;
     }
