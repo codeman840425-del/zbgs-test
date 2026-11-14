@@ -1,0 +1,1694 @@
+{
+ "schema": "v1.parts_manifest.1",
+ "partSchema": "v1.part.rigid.1",
+ "pivotSet": "dir2v1r3_1111",
+ "faceSet": "dir2v1r3_1111",
+ "batch": "face_dir2_pack_1111/v1r3（方向 2 日系动画柔彩，整头先画后拆；T-脸01 返修 v1r3：在 v1r2 件上补回女青两耳 / 女熟画面左耳耳钉（按 v1r1 后发件原像素），女颈件按已核收 B1 女底模裁到臂与躯干之间不露，清后发内缘靠颈浅灰碎边；发型轮廓 / 分缝 / 发色 / 刘海未动）",
+ "placement": "partTopLeft = round(boneOriginPx − pivot × size)；size / pivot 均为 1x 值；只用 sourceScale 缩放",
+ "layerOrder": "hair_back → neck_fill → body → neck_shadow → head(ear → fc) → face(nose → mouth → eyes → brow) → hair_front(sidel → sider → front)",
+ "defaultFace": {
+  "f": {
+   "young": {
+    "fc": "fc_31",
+    "er": "er_31",
+    "ey": "ey_31",
+    "br": "br_31",
+    "no": "no_31",
+    "mo": "mo_31",
+    "hr": "hr_31"
+   },
+   "mature": {
+    "fc": "fc_32",
+    "er": "er_32",
+    "ey": "ey_93",
+    "br": "br_32",
+    "no": "no_32",
+    "mo": "mo_32",
+    "hr": "hr_32"
+   }
+  },
+  "m": {
+   "young": {
+    "fc": "fc_31",
+    "er": "er_31",
+    "ey": "ey_31",
+    "br": "br_31",
+    "no": "no_31",
+    "mo": "mo_31",
+    "hr": "hr_31"
+   },
+   "mature": {
+    "fc": "fc_32",
+    "er": "er_32",
+    "ey": "ey_93",
+    "br": "br_32",
+    "no": "no_32",
+    "mo": "mo_32",
+    "hr": "hr_32"
+   }
+  }
+ },
+ "pivotSetNote": "同一角色的脸 / 耳 / 五官 / 发只取同一 pivotSet；不要与 J2 / w2_legacy 件混挂",
+ "parts": [
+  {
+   "id": "part_f_head_hr_31_hair_b_1_se",
+   "slot": "head",
+   "partSet": "hr_31",
+   "gender": "f",
+   "bone": "hair_b_1",
+   "layer": "hair_back",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5037,
+    -0.87417
+   ],
+   "size": [
+    270,
+    151
+   ],
+   "boneOriginPx": [
+    384.0,
+    353.0
+   ],
+   "boneRotView": 0.0,
+   "category": "hair_back",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 0,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "chain": "hair_b",
+   "silhouette": "long",
+   "tint": "hairGradientMap",
+   "highlight": "part_f_head_hr_31_hair_b_1_se_hi.png",
+   "rgbFile": "part_f_head_hr_31_hair_b_1_se_rgb.png",
+   "hairBaseRgb": "#3E332C",
+   "hairFormat": "主图灰度（gradientMapHair，0.5=hairBaseRgb）+ _hi（#FFDB94×α）；_rgb = 整头原色（拼回 / 不换发色时用）",
+   "file": "characters/parts_v1/f/head/hr_31/part_f_head_hr_31_hair_b_1_se.png",
+   "sourceScale": 1,
+   "overlapPatch": {
+    "task": "T-脸02",
+    "overlapRows": 2,
+    "with": [
+     "part_f_head_hr_31_head_se_sidel",
+     "part_f_head_hr_31_head_se_sider"
+    ],
+    "note": "后发在侧发切线（画布 1x y 542）以上 2px（1x 像素 2）垫侧发同位像素；侧发件本身未改"
+   },
+   "v1b4r7": "T-脸02"
+  },
+  {
+   "id": "part_f_head_fc_31_head_se_neck",
+   "slot": "head",
+   "partSet": "fc_31",
+   "gender": "f",
+   "bone": "head",
+   "layer": "hair_back",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.50442,
+    0.23301
+   ],
+   "size": [
+    113,
+    103
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "category": "neck_fill",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 1,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "drawOrder": "后发 hair_back 之上、身体 body 之下（新类别；身体颈太窄，下巴下补皮，衣服会盖住下半）",
+   "pairsWith": "part_f_head_fc_31_head_se",
+   "skinmask": "part_f_head_fc_31_head_se_neck_skinmask.png",
+   "skinTone": "skin_02 #FAD7BE 基准",
+   "file": "characters/parts_v1/f/head/fc_31/part_f_head_fc_31_head_se_neck.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_f_head_fc_31_head_se_neckshadow",
+   "slot": "head",
+   "partSet": "fc_31",
+   "gender": "f",
+   "bone": "head",
+   "layer": "neck_shadow",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.50602,
+    0.58824
+   ],
+   "size": [
+    83,
+    34
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "category": "neck_shadow",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 2,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "blend": "normal",
+   "pairsWith": "part_f_head_fc_31_head_se",
+   "drawOrder": "身体之上、脸底之下",
+   "file": "characters/parts_v1/f/head/fc_31/part_f_head_fc_31_head_se_neckshadow.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_f_head_er_31_head_se",
+   "slot": "head",
+   "partSet": "er_31",
+   "gender": "f",
+   "bone": "head",
+   "layer": "head",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.50515,
+    2.10909
+   ],
+   "size": [
+    194,
+    55
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "category": "ear",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 3,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "ageBands": [
+    "young"
+   ],
+   "drawOrder": "脸底 fc 之下（同 head 层，先画耳再画脸底）",
+   "skinmask": "part_f_head_er_31_head_se_skinmask.png",
+   "skinTone": "skin_02 #FAD7BE 基准",
+   "file": "characters/parts_v1/f/head/er_31/part_f_head_er_31_head_se.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_f_head_fc_31_head_se",
+   "slot": "head",
+   "partSet": "fc_31",
+   "gender": "f",
+   "bone": "head",
+   "layer": "head",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.49701,
+    0.9913
+   ],
+   "size": [
+    167,
+    230
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "category": "face_shape",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 4,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "ageBands": [
+    "young"
+   ],
+   "skinmask": "part_f_head_fc_31_head_se_skinmask.png",
+   "skinTone": "skin_02 #FAD7BE 基准",
+   "file": "characters/parts_v1/f/head/fc_31/part_f_head_fc_31_head_se.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_f_head_no_31_head_se",
+   "slot": "head",
+   "partSet": "no_31",
+   "gender": "f",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.44828,
+    2.52632
+   ],
+   "size": [
+    29,
+    38
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "category": "nose",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 5,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "ageBands": [
+    "young"
+   ],
+   "file": "characters/parts_v1/f/head/no_31/part_f_head_no_31_head_se.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_f_head_mo_31_head_se_neutral",
+   "slot": "head",
+   "partSet": "mo_31",
+   "gender": "f",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.49383,
+    1.80645
+   ],
+   "size": [
+    81,
+    31
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "category": "mouth",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 6,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "ageBands": [
+    "young"
+   ],
+   "file": "characters/parts_v1/f/head/mo_31/part_f_head_mo_31_head_se_neutral.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_f_head_ey_31_head_se_neutral",
+   "slot": "head",
+   "partSet": "ey_31",
+   "gender": "f",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.50331,
+    3.63889
+   ],
+   "size": [
+    151,
+    36
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "category": "eyes",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 7,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "ageBands": [
+    "young"
+   ],
+   "file": "characters/parts_v1/f/head/ey_31/part_f_head_ey_31_head_se_neutral.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_f_head_br_31_head_se",
+   "slot": "head",
+   "partSet": "br_31",
+   "gender": "f",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.50355,
+    8.64706
+   ],
+   "size": [
+    141,
+    17
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "category": "brow",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 8,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "ageBands": [
+    "young"
+   ],
+   "file": "characters/parts_v1/f/head/br_31/part_f_head_br_31_head_se.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_f_head_hr_31_head_se_sidel",
+   "slot": "head",
+   "partSet": "hr_31",
+   "gender": "f",
+   "bone": "head",
+   "layer": "hair_front",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    1.4321,
+    1.09091
+   ],
+   "size": [
+    81,
+    154
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "category": "hair_side",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 9,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "spineSlot": "hair/side_l",
+   "drawOrder": "face 之上、hair_front 之下",
+   "tint": "hairGradientMap",
+   "highlight": "part_f_head_hr_31_head_se_sidel_hi.png",
+   "rgbFile": "part_f_head_hr_31_head_se_sidel_rgb.png",
+   "hairBaseRgb": "#3E332C",
+   "hairFormat": "主图灰度（gradientMapHair，0.5=hairBaseRgb）+ _hi（#FFDB94×α）；_rgb = 整头原色（拼回 / 不换发色时用）",
+   "file": "characters/parts_v1/f/head/hr_31/part_f_head_hr_31_head_se_sidel.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_f_head_hr_31_head_se_sider",
+   "slot": "head",
+   "partSet": "hr_31",
+   "gender": "f",
+   "bone": "head",
+   "layer": "hair_front",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    -0.40964,
+    1.09091
+   ],
+   "size": [
+    83,
+    154
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "category": "hair_side",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 10,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "spineSlot": "hair/side_r",
+   "drawOrder": "face 之上、hair_front 之下",
+   "tint": "hairGradientMap",
+   "highlight": "part_f_head_hr_31_head_se_sider_hi.png",
+   "rgbFile": "part_f_head_hr_31_head_se_sider_rgb.png",
+   "hairBaseRgb": "#3E332C",
+   "hairFormat": "主图灰度（gradientMapHair，0.5=hairBaseRgb）+ _hi（#FFDB94×α）；_rgb = 整头原色（拼回 / 不换发色时用）",
+   "file": "characters/parts_v1/f/head/hr_31/part_f_head_hr_31_head_se_sider.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_f_head_hr_31_head_se_front",
+   "slot": "head",
+   "partSet": "hr_31",
+   "gender": "f",
+   "bone": "head",
+   "layer": "hair_front",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.50917,
+    1.07722
+   ],
+   "size": [
+    218,
+    259
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "category": "hair_front",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 11,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "partVariant": "front",
+   "silhouette": "long",
+   "tint": "hairGradientMap",
+   "highlight": "part_f_head_hr_31_head_se_front_hi.png",
+   "rgbFile": "part_f_head_hr_31_head_se_front_rgb.png",
+   "hairBaseRgb": "#3E332C",
+   "hairFormat": "主图灰度（gradientMapHair，0.5=hairBaseRgb）+ _hi（#FFDB94×α）；_rgb = 整头原色（拼回 / 不换发色时用）",
+   "file": "characters/parts_v1/f/head/hr_31/part_f_head_hr_31_head_se_front.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_f_head_hr_32_hair_b_1_se",
+   "slot": "head",
+   "partSet": "hr_32",
+   "gender": "f",
+   "bone": "hair_b_1",
+   "layer": "hair_back",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.47973,
+    -0.9507
+   ],
+   "size": [
+    296,
+    142
+   ],
+   "boneOriginPx": [
+    384.0,
+    353.0
+   ],
+   "boneRotView": 0.0,
+   "category": "hair_back",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 0,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "chain": "hair_b",
+   "silhouette": "long",
+   "tint": "hairGradientMap",
+   "highlight": "part_f_head_hr_32_hair_b_1_se_hi.png",
+   "rgbFile": "part_f_head_hr_32_hair_b_1_se_rgb.png",
+   "hairBaseRgb": "#3E3128",
+   "hairFormat": "主图灰度（gradientMapHair，0.5=hairBaseRgb）+ _hi（#FFDB94×α）；_rgb = 整头原色（拼回 / 不换发色时用）",
+   "file": "characters/parts_v1/f/head/hr_32/part_f_head_hr_32_hair_b_1_se.png",
+   "sourceScale": 1,
+   "overlapPatch": {
+    "task": "T-脸02",
+    "overlapRows": 2,
+    "with": [
+     "part_f_head_hr_32_head_se_sidel",
+     "part_f_head_hr_32_head_se_sider"
+    ],
+    "note": "后发在侧发切线（画布 1x y 546）以上 2px（1x 像素 2）垫侧发同位像素；侧发件本身未改"
+   },
+   "v1b4r7": "T-脸02"
+  },
+  {
+   "id": "part_f_head_fc_32_head_se_neck",
+   "slot": "head",
+   "partSet": "fc_32",
+   "gender": "f",
+   "bone": "head",
+   "layer": "hair_back",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.25688
+   ],
+   "size": [
+    108,
+    109
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "category": "neck_fill",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 1,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "drawOrder": "后发 hair_back 之上、身体 body 之下（新类别；身体颈太窄，下巴下补皮，衣服会盖住下半）",
+   "pairsWith": "part_f_head_fc_32_head_se",
+   "skinmask": "part_f_head_fc_32_head_se_neck_skinmask.png",
+   "skinTone": "skin_02 #FAD7BE 基准",
+   "file": "characters/parts_v1/f/head/fc_32/part_f_head_fc_32_head_se_neck.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_f_head_fc_32_head_se_neckshadow",
+   "slot": "head",
+   "partSet": "fc_32",
+   "gender": "f",
+   "bone": "head",
+   "layer": "neck_shadow",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.45161,
+    0.45714
+   ],
+   "size": [
+    93,
+    35
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "category": "neck_shadow",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 2,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "blend": "normal",
+   "pairsWith": "part_f_head_fc_32_head_se",
+   "drawOrder": "身体之上、脸底之下",
+   "file": "characters/parts_v1/f/head/fc_32/part_f_head_fc_32_head_se_neckshadow.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_f_head_er_32_head_se",
+   "slot": "head",
+   "partSet": "er_32",
+   "gender": "f",
+   "bone": "head",
+   "layer": "head",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.48182,
+    1.7439
+   ],
+   "size": [
+    220,
+    82
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "category": "ear",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 3,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "ageBands": [
+    "mature"
+   ],
+   "drawOrder": "脸底 fc 之下（同 head 层，先画耳再画脸底）",
+   "skinmask": "part_f_head_er_32_head_se_skinmask.png",
+   "skinTone": "skin_02 #FAD7BE 基准",
+   "file": "characters/parts_v1/f/head/er_32/part_f_head_er_32_head_se.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_f_head_fc_32_head_se",
+   "slot": "head",
+   "partSet": "fc_32",
+   "gender": "f",
+   "bone": "head",
+   "layer": "head",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.58586,
+    0.97531
+   ],
+   "size": [
+    198,
+    243
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "category": "face_shape",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 4,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "ageBands": [
+    "mature"
+   ],
+   "skinmask": "part_f_head_fc_32_head_se_skinmask.png",
+   "skinTone": "skin_02 #FAD7BE 基准",
+   "file": "characters/parts_v1/f/head/fc_32/part_f_head_fc_32_head_se.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_f_head_no_32_head_se",
+   "slot": "head",
+   "partSet": "no_32",
+   "gender": "f",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.54054,
+    2.09804
+   ],
+   "size": [
+    37,
+    51
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "category": "nose",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 5,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "ageBands": [
+    "mature"
+   ],
+   "file": "characters/parts_v1/f/head/no_32/part_f_head_no_32_head_se.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_f_head_mo_32_head_se_neutral",
+   "slot": "head",
+   "partSet": "mo_32",
+   "gender": "f",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.50649,
+    1.9
+   ],
+   "size": [
+    77,
+    30
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "category": "mouth",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 6,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "ageBands": [
+    "mature"
+   ],
+   "file": "characters/parts_v1/f/head/mo_32/part_f_head_mo_32_head_se_neutral.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_f_head_ey_93_head_se_neutral",
+   "slot": "head",
+   "partSet": "ey_93",
+   "gender": "f",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.53383,
+    4.33333
+   ],
+   "size": [
+    133,
+    30
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "category": "eyes",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 7,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "ageBands": [
+    "mature"
+   ],
+   "file": "characters/parts_v1/f/head/ey_93/part_f_head_ey_93_head_se_neutral.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_f_head_br_32_head_se",
+   "slot": "head",
+   "partSet": "br_32",
+   "gender": "f",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.50376,
+    8.875
+   ],
+   "size": [
+    133,
+    16
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "category": "brow",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 8,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "ageBands": [
+    "mature"
+   ],
+   "file": "characters/parts_v1/f/head/br_32/part_f_head_br_32_head_se.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_f_head_hr_32_head_se_sidel",
+   "slot": "head",
+   "partSet": "hr_32",
+   "gender": "f",
+   "bone": "head",
+   "layer": "hair_front",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    1.36458,
+    1.06369
+   ],
+   "size": [
+    96,
+    157
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "category": "hair_side",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 9,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "spineSlot": "hair/side_l",
+   "drawOrder": "face 之上、hair_front 之下",
+   "tint": "hairGradientMap",
+   "highlight": "part_f_head_hr_32_head_se_sidel_hi.png",
+   "rgbFile": "part_f_head_hr_32_head_se_sidel_rgb.png",
+   "hairBaseRgb": "#3E3128",
+   "hairFormat": "主图灰度（gradientMapHair，0.5=hairBaseRgb）+ _hi（#FFDB94×α）；_rgb = 整头原色（拼回 / 不换发色时用）",
+   "file": "characters/parts_v1/f/head/hr_32/part_f_head_hr_32_head_se_sidel.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_f_head_hr_32_head_se_sider",
+   "slot": "head",
+   "partSet": "hr_32",
+   "gender": "f",
+   "bone": "head",
+   "layer": "hair_front",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    -0.47423,
+    1.06369
+   ],
+   "size": [
+    97,
+    157
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "category": "hair_side",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 10,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "spineSlot": "hair/side_r",
+   "drawOrder": "face 之上、hair_front 之下",
+   "tint": "hairGradientMap",
+   "highlight": "part_f_head_hr_32_head_se_sider_hi.png",
+   "rgbFile": "part_f_head_hr_32_head_se_sider_rgb.png",
+   "hairBaseRgb": "#3E3128",
+   "hairFormat": "主图灰度（gradientMapHair，0.5=hairBaseRgb）+ _hi（#FFDB94×α）；_rgb = 整头原色（拼回 / 不换发色时用）",
+   "file": "characters/parts_v1/f/head/hr_32/part_f_head_hr_32_head_se_sider.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_f_head_hr_32_head_se_front",
+   "slot": "head",
+   "partSet": "hr_32",
+   "gender": "f",
+   "bone": "head",
+   "layer": "hair_front",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    1.07087
+   ],
+   "size": [
+    220,
+    254
+   ],
+   "boneOriginPx": [
+    384.0,
+    558.0
+   ],
+   "boneRotView": 0.0,
+   "category": "hair_front",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 11,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "partVariant": "front",
+   "silhouette": "long",
+   "tint": "hairGradientMap",
+   "highlight": "part_f_head_hr_32_head_se_front_hi.png",
+   "rgbFile": "part_f_head_hr_32_head_se_front_rgb.png",
+   "hairBaseRgb": "#3E3128",
+   "hairFormat": "主图灰度（gradientMapHair，0.5=hairBaseRgb）+ _hi（#FFDB94×α）；_rgb = 整头原色（拼回 / 不换发色时用）",
+   "file": "characters/parts_v1/f/head/hr_32/part_f_head_hr_32_head_se_front.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_m_head_fc_31_head_se_neck",
+   "slot": "head",
+   "partSet": "fc_31",
+   "gender": "m",
+   "bone": "head",
+   "layer": "hair_back",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.49524,
+    0.1573
+   ],
+   "size": [
+    105,
+    89
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "category": "neck_fill",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 1,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "drawOrder": "后发 hair_back 之上、身体 body 之下（新类别；身体颈太窄，下巴下补皮，衣服会盖住下半）",
+   "pairsWith": "part_m_head_fc_31_head_se",
+   "skinmask": "part_m_head_fc_31_head_se_neck_skinmask.png",
+   "skinTone": "skin_02 #FAD7BE 基准",
+   "file": "characters/parts_v1/m/head/fc_31/part_m_head_fc_31_head_se_neck.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_m_head_fc_31_head_se_neckshadow",
+   "slot": "head",
+   "partSet": "fc_31",
+   "gender": "m",
+   "bone": "head",
+   "layer": "neck_shadow",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.48,
+    0.42308
+   ],
+   "size": [
+    50,
+    26
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "category": "neck_shadow",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 2,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "blend": "normal",
+   "pairsWith": "part_m_head_fc_31_head_se",
+   "drawOrder": "身体之上、脸底之下",
+   "file": "characters/parts_v1/m/head/fc_31/part_m_head_fc_31_head_se_neckshadow.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_m_head_er_31_head_se",
+   "slot": "head",
+   "partSet": "er_31",
+   "gender": "m",
+   "bone": "head",
+   "layer": "head",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.48718,
+    2.06897
+   ],
+   "size": [
+    195,
+    58
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "category": "ear",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 3,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "ageBands": [
+    "young"
+   ],
+   "drawOrder": "脸底 fc 之下（同 head 层，先画耳再画脸底）",
+   "skinmask": "part_m_head_er_31_head_se_skinmask.png",
+   "skinTone": "skin_02 #FAD7BE 基准",
+   "file": "characters/parts_v1/m/head/er_31/part_m_head_er_31_head_se.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_m_head_fc_31_head_se",
+   "slot": "head",
+   "partSet": "fc_31",
+   "gender": "m",
+   "bone": "head",
+   "layer": "head",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.49686,
+    0.99111
+   ],
+   "size": [
+    159,
+    225
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "category": "face_shape",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 4,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "ageBands": [
+    "young"
+   ],
+   "skinmask": "part_m_head_fc_31_head_se_skinmask.png",
+   "skinTone": "skin_02 #FAD7BE 基准",
+   "file": "characters/parts_v1/m/head/fc_31/part_m_head_fc_31_head_se.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_m_head_no_31_head_se",
+   "slot": "head",
+   "partSet": "no_31",
+   "gender": "m",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.53333,
+    2.73529
+   ],
+   "size": [
+    30,
+    34
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "category": "nose",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 5,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "ageBands": [
+    "young"
+   ],
+   "file": "characters/parts_v1/m/head/no_31/part_m_head_no_31_head_se.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_m_head_mo_31_head_se_neutral",
+   "slot": "head",
+   "partSet": "mo_31",
+   "gender": "m",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.43636,
+    2.34783
+   ],
+   "size": [
+    55,
+    23
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "category": "mouth",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 6,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "ageBands": [
+    "young"
+   ],
+   "file": "characters/parts_v1/m/head/mo_31/part_m_head_mo_31_head_se_neutral.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_m_head_ey_31_head_se_neutral",
+   "slot": "head",
+   "partSet": "ey_31",
+   "gender": "m",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    4.16129
+   ],
+   "size": [
+    132,
+    31
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "category": "eyes",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 7,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "ageBands": [
+    "young"
+   ],
+   "file": "characters/parts_v1/m/head/ey_31/part_m_head_ey_31_head_se_neutral.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_m_head_br_31_head_se",
+   "slot": "head",
+   "partSet": "br_31",
+   "gender": "m",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.48889,
+    8.8125
+   ],
+   "size": [
+    135,
+    16
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "category": "brow",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 8,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "ageBands": [
+    "young"
+   ],
+   "file": "characters/parts_v1/m/head/br_31/part_m_head_br_31_head_se.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_m_head_hr_31_head_se_sidel",
+   "slot": "head",
+   "partSet": "hr_31",
+   "gender": "m",
+   "bone": "head",
+   "layer": "hair_front",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    2.82857,
+    2.3913
+   ],
+   "size": [
+    35,
+    69
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "category": "hair_side",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 9,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "spineSlot": "hair/side_l",
+   "drawOrder": "face 之上、hair_front 之下",
+   "tint": "hairGradientMap",
+   "highlight": "part_m_head_hr_31_head_se_sidel_hi.png",
+   "rgbFile": "part_m_head_hr_31_head_se_sidel_rgb.png",
+   "hairBaseRgb": "#40332B",
+   "hairFormat": "主图灰度（gradientMapHair，0.5=hairBaseRgb）+ _hi（#FFDB94×α）；_rgb = 整头原色（拼回 / 不换发色时用）",
+   "file": "characters/parts_v1/m/head/hr_31/part_m_head_hr_31_head_se_sidel.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_m_head_hr_31_head_se_sider",
+   "slot": "head",
+   "partSet": "hr_31",
+   "gender": "m",
+   "bone": "head",
+   "layer": "hair_front",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    -1.7,
+    2.35714
+   ],
+   "size": [
+    40,
+    70
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "category": "hair_side",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 10,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "spineSlot": "hair/side_r",
+   "drawOrder": "face 之上、hair_front 之下",
+   "tint": "hairGradientMap",
+   "highlight": "part_m_head_hr_31_head_se_sider_hi.png",
+   "rgbFile": "part_m_head_hr_31_head_se_sider_rgb.png",
+   "hairBaseRgb": "#40332B",
+   "hairFormat": "主图灰度（gradientMapHair，0.5=hairBaseRgb）+ _hi（#FFDB94×α）；_rgb = 整头原色（拼回 / 不换发色时用）",
+   "file": "characters/parts_v1/m/head/hr_31/part_m_head_hr_31_head_se_sider.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_m_head_hr_31_head_se_front",
+   "slot": "head",
+   "partSet": "hr_31",
+   "gender": "m",
+   "bone": "head",
+   "layer": "hair_front",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.51528,
+    1.54545
+   ],
+   "size": [
+    229,
+    176
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "category": "hair_front",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 11,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "partVariant": "front",
+   "silhouette": "short",
+   "tint": "hairGradientMap",
+   "highlight": "part_m_head_hr_31_head_se_front_hi.png",
+   "rgbFile": "part_m_head_hr_31_head_se_front_rgb.png",
+   "hairBaseRgb": "#40332B",
+   "hairFormat": "主图灰度（gradientMapHair，0.5=hairBaseRgb）+ _hi（#FFDB94×α）；_rgb = 整头原色（拼回 / 不换发色时用）",
+   "file": "characters/parts_v1/m/head/hr_31/part_m_head_hr_31_head_se_front.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_m_head_fc_32_head_se_neck",
+   "slot": "head",
+   "partSet": "fc_32",
+   "gender": "m",
+   "bone": "head",
+   "layer": "hair_back",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.07692
+   ],
+   "size": [
+    96,
+    78
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "category": "neck_fill",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 1,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "drawOrder": "后发 hair_back 之上、身体 body 之下（新类别；身体颈太窄，下巴下补皮，衣服会盖住下半）",
+   "pairsWith": "part_m_head_fc_32_head_se",
+   "skinmask": "part_m_head_fc_32_head_se_neck_skinmask.png",
+   "skinTone": "skin_02 #FAD7BE 基准",
+   "file": "characters/parts_v1/m/head/fc_32/part_m_head_fc_32_head_se_neck.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_m_head_fc_32_head_se_neckshadow",
+   "slot": "head",
+   "partSet": "fc_32",
+   "gender": "m",
+   "bone": "head",
+   "layer": "neck_shadow",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.4898,
+    0.13636
+   ],
+   "size": [
+    49,
+    22
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "category": "neck_shadow",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 2,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "blend": "normal",
+   "pairsWith": "part_m_head_fc_32_head_se",
+   "drawOrder": "身体之上、脸底之下",
+   "file": "characters/parts_v1/m/head/fc_32/part_m_head_fc_32_head_se_neckshadow.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_m_head_er_32_head_se",
+   "slot": "head",
+   "partSet": "er_32",
+   "gender": "m",
+   "bone": "head",
+   "layer": "head",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.48438,
+    1.92958
+   ],
+   "size": [
+    192,
+    71
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "category": "ear",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 3,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "ageBands": [
+    "mature"
+   ],
+   "drawOrder": "脸底 fc 之下（同 head 层，先画耳再画脸底）",
+   "skinmask": "part_m_head_er_32_head_se_skinmask.png",
+   "skinTone": "skin_02 #FAD7BE 基准",
+   "file": "characters/parts_v1/m/head/er_32/part_m_head_er_32_head_se.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_m_head_fc_32_head_se",
+   "slot": "head",
+   "partSet": "fc_32",
+   "gender": "m",
+   "bone": "head",
+   "layer": "head",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.48993,
+    0.9726
+   ],
+   "size": [
+    149,
+    219
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "category": "face_shape",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 4,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "ageBands": [
+    "mature"
+   ],
+   "skinmask": "part_m_head_fc_32_head_se_skinmask.png",
+   "skinTone": "skin_02 #FAD7BE 基准",
+   "file": "characters/parts_v1/m/head/fc_32/part_m_head_fc_32_head_se.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_m_head_no_32_head_se",
+   "slot": "head",
+   "partSet": "no_32",
+   "gender": "m",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    1.94737
+   ],
+   "size": [
+    36,
+    57
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "category": "nose",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 5,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "ageBands": [
+    "mature"
+   ],
+   "file": "characters/parts_v1/m/head/no_32/part_m_head_no_32_head_se.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_m_head_mo_32_head_se_neutral",
+   "slot": "head",
+   "partSet": "mo_32",
+   "gender": "m",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.49296,
+    1.82759
+   ],
+   "size": [
+    71,
+    29
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "category": "mouth",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 6,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "ageBands": [
+    "mature"
+   ],
+   "file": "characters/parts_v1/m/head/mo_32/part_m_head_mo_32_head_se_neutral.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_m_head_ey_93_head_se_neutral",
+   "slot": "head",
+   "partSet": "ey_93",
+   "gender": "m",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.53226,
+    4.92308
+   ],
+   "size": [
+    124,
+    26
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "category": "eyes",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 7,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "ageBands": [
+    "mature"
+   ],
+   "file": "characters/parts_v1/m/head/ey_93/part_m_head_ey_93_head_se_neutral.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_m_head_br_32_head_se",
+   "slot": "head",
+   "partSet": "br_32",
+   "gender": "m",
+   "bone": "head",
+   "layer": "face",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.51969,
+    9.33333
+   ],
+   "size": [
+    127,
+    15
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "category": "brow",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 8,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "ageBands": [
+    "mature"
+   ],
+   "file": "characters/parts_v1/m/head/br_32/part_m_head_br_32_head_se.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_m_head_hr_32_head_se_sidel",
+   "slot": "head",
+   "partSet": "hr_32",
+   "gender": "m",
+   "bone": "head",
+   "layer": "hair_front",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    2.94118,
+    2.36765
+   ],
+   "size": [
+    34,
+    68
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "category": "hair_side",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 9,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "spineSlot": "hair/side_l",
+   "drawOrder": "face 之上、hair_front 之下",
+   "tint": "hairGradientMap",
+   "highlight": "part_m_head_hr_32_head_se_sidel_hi.png",
+   "rgbFile": "part_m_head_hr_32_head_se_sidel_rgb.png",
+   "hairBaseRgb": "#4D3B30",
+   "hairFormat": "主图灰度（gradientMapHair，0.5=hairBaseRgb）+ _hi（#FFDB94×α）；_rgb = 整头原色（拼回 / 不换发色时用）",
+   "file": "characters/parts_v1/m/head/hr_32/part_m_head_hr_32_head_se_sidel.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_m_head_hr_32_head_se_sider",
+   "slot": "head",
+   "partSet": "hr_32",
+   "gender": "m",
+   "bone": "head",
+   "layer": "hair_front",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    -1.58974,
+    2.36765
+   ],
+   "size": [
+    39,
+    68
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "category": "hair_side",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 10,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "spineSlot": "hair/side_r",
+   "drawOrder": "face 之上、hair_front 之下",
+   "tint": "hairGradientMap",
+   "highlight": "part_m_head_hr_32_head_se_sider_hi.png",
+   "rgbFile": "part_m_head_hr_32_head_se_sider_rgb.png",
+   "hairBaseRgb": "#4D3B30",
+   "hairFormat": "主图灰度（gradientMapHair，0.5=hairBaseRgb）+ _hi（#FFDB94×α）；_rgb = 整头原色（拼回 / 不换发色时用）",
+   "file": "characters/parts_v1/m/head/hr_32/part_m_head_hr_32_head_se_sider.png",
+   "sourceScale": 1
+  },
+  {
+   "id": "part_m_head_hr_32_head_se_front",
+   "slot": "head",
+   "partSet": "hr_32",
+   "gender": "m",
+   "bone": "head",
+   "layer": "hair_front",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    1.56024
+   ],
+   "size": [
+    206,
+    166
+   ],
+   "boneOriginPx": [
+    384.0,
+    548.0
+   ],
+   "boneRotView": 0.0,
+   "category": "hair_front",
+   "pivotSet": "dir2v1r3_1111",
+   "faceSet": "dir2v1r3_1111",
+   "drawOrderInHead": 11,
+   "source": "方向 2 整头（火山方舟 Seedream｜上线前复核版权；_gen/dir2v1r1_locked.png）→ 拆件反解（自制脚本｜待策划审）",
+   "partVariant": "front",
+   "silhouette": "short",
+   "tint": "hairGradientMap",
+   "highlight": "part_m_head_hr_32_head_se_front_hi.png",
+   "rgbFile": "part_m_head_hr_32_head_se_front_rgb.png",
+   "hairBaseRgb": "#4D3B30",
+   "hairFormat": "主图灰度（gradientMapHair，0.5=hairBaseRgb）+ _hi（#FFDB94×α）；_rgb = 整头原色（拼回 / 不换发色时用）",
+   "file": "characters/parts_v1/m/head/hr_32/part_m_head_hr_32_head_se_front.png",
+   "sourceScale": 1
+  }
+ ],
+ "v1b4r6Import": {
+  "source": "美术/face_dir2_pack_1111/v1r3",
+  "packManifestSha256": "5a72b61290186262ee1c8d8bae6e144f04656c9d77770d7b673d0f4229abbb4c",
+  "manifestSha256": "2e6bcb3f3a9d43769476127a6ee4eff8d002d61b152e137086f61937ebc3cd99",
+  "manifestLines": 308,
+  "at": "2026-11-11 14:28:44 +08:00",
+  "tool": "tools_MT/vslice_v1b4r6_import_face_v1r3_MT.py",
+  "review": "主管/T-脸01_v1r3核/v1r3裁定_20261111.md（质感核收）；bo 14:13「四款都按现在这版定」"
+ },
+ "v1b4r7Patch": {
+  "dir": "美术/_交付/parts_v1_W12_v1r3_hair_overlap_1111",
+  "packManifestSha256": "73af2c65e6756df3ff1aaee7d8e1fe022f084e9ed4f7ca47a48eb68fb20d0327",
+  "manifestLines": 33,
+  "manifestSha256": "6fc5ed522afaceff549d4ca12f9da8f5666cabae675773866c25e07a26469bba",
+  "ids": [
+   "part_f_head_hr_31_hair_b_1_se",
+   "part_f_head_hr_32_hair_b_1_se"
+  ],
+  "mode": "patchMode append：同 id 以本清单为准覆盖 v1r3；其余 44 条照用 v1r3",
+  "review": "主管/T-脸02_核收_20261111.md（有条件核收）",
+  "dispatch": "主管/T-试玩01_r7派单_20261111.md"
+ }
+}

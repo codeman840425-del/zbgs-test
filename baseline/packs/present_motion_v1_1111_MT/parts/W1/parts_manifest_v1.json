@@ -1,0 +1,2627 @@
+{
+ "schema": "v1.parts_manifest.1",
+ "partSchema": "v1.part.rigid.1",
+ "batch": "parts_v1_W1_1110（换装 W1：身体底 14 片 + 握持手）",
+ "source_plan": "策划/V1_换装分件库实施方案_20261110.md (33422 B, 2026-11-10 05:51 Asia/Shanghai)",
+ "source_convention": "程序/V1骨骼皮肤接入约定_20261110_MT.md (05:52)",
+ "rig": {
+  "f": "rig_q_full_f",
+  "m": "rig_q_full_m",
+  "bones": "程序/src/v1_rig_preview_MT/config/bones_{f,m}_MT.json (05:53)"
+ },
+ "viewProjection": {
+  "note": "side_r/ne 为同一 rest 的 x 向压扁示意（量自程序 rest 模板关节圆）；boneOriginPx/boneRotView 为该视角母版里的骨原点与骨角，切片按此转到骨局部（沿骨 +Y）",
+  "sx": {
+   "se": 1.0,
+   "side_r": 0.42,
+   "ne": 0.78
+  },
+  "cx": 384
+ },
+ "pivotNote": "pivot=[0.5, y]：x 恰为骨轴；y = 骨原点在贴图内的相对高度（因 ≥8px 上重叠边 + 4px 留边，y>0）。程序请按清单 pivot 取值，不要写死 (0.5,0)。",
+ "skinTone": {
+  "ref": "skin_02 #FAD7BE",
+  "recolor": "out = src × (目标 / #FAD7BE)，仅 skinmask 区（按 mask/255 线性混合）"
+ },
+ "parts": [
+  {
+   "id": "part_m_head_body_hip_se",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "hip",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.22093
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_hip_se.png",
+   "size": [
+    108,
+    86
+   ],
+   "skinmask": "part_m_head_body_hip_se_skinmask.png",
+   "boneOriginPx": [
+    384.0,
+    742.0
+   ],
+   "boneRotView": 0.0,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_thigh_l_se",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "thigh_l",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.16763
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_thigh_l_se.png",
+   "size": [
+    54,
+    173
+   ],
+   "skinmask": "part_m_head_body_thigh_l_se_skinmask.png",
+   "boneOriginPx": [
+    354.0,
+    758.0
+   ],
+   "boneRotView": 0.08,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_shin_l_se",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "shin_l",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.16667
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_shin_l_se.png",
+   "size": [
+    42,
+    144
+   ],
+   "skinmask": "part_m_head_body_shin_l_se_skinmask.png",
+   "boneOriginPx": [
+    344.41,
+    877.62
+   ],
+   "boneRotView": 0.13,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_foot_l_se",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "foot_l",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.44231
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_foot_l_se.png",
+   "size": [
+    40,
+    52
+   ],
+   "skinmask": "part_m_head_body_foot_l_se_skinmask.png",
+   "boneOriginPx": [
+    331.45,
+    976.77
+   ],
+   "boneRotView": 0.03,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_thigh_r_se",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "thigh_r",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.16763
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_thigh_r_se.png",
+   "size": [
+    54,
+    173
+   ],
+   "skinmask": "part_m_head_body_thigh_r_se_skinmask.png",
+   "boneOriginPx": [
+    414.0,
+    758.0
+   ],
+   "boneRotView": -0.08,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_shin_r_se",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "shin_r",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.16667
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_shin_r_se.png",
+   "size": [
+    42,
+    144
+   ],
+   "skinmask": "part_m_head_body_shin_r_se_skinmask.png",
+   "boneOriginPx": [
+    423.59,
+    877.62
+   ],
+   "boneRotView": -0.13,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_foot_r_se",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "foot_r",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.44231
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_foot_r_se.png",
+   "size": [
+    40,
+    52
+   ],
+   "skinmask": "part_m_head_body_foot_r_se_skinmask.png",
+   "boneOriginPx": [
+    436.55,
+    976.77
+   ],
+   "boneRotView": -0.03,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_chest_se",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "chest",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.19196
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_chest_se.png",
+   "size": [
+    136,
+    224
+   ],
+   "skinmask": "part_m_head_body_chest_se_skinmask.png",
+   "boneOriginPx": [
+    384.0,
+    578.0
+   ],
+   "boneRotView": 0.0,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_upper_arm_l_se",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "upper_arm_l",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.13986
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_upper_arm_l_se.png",
+   "size": [
+    40,
+    143
+   ],
+   "skinmask": "part_m_head_body_upper_arm_l_se_skinmask.png",
+   "boneOriginPx": [
+    332.0,
+    566.0
+   ],
+   "boneRotView": 0.35,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_fore_arm_l_se",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "fore_arm_l",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.16406
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_fore_arm_l_se.png",
+   "size": [
+    36,
+    128
+   ],
+   "skinmask": "part_m_head_body_fore_arm_l_se_skinmask.png",
+   "boneOriginPx": [
+    297.02,
+    661.82
+   ],
+   "boneRotView": 0.5,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_hand_l_se",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "hand_l",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.32759
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_hand_l_se.png",
+   "size": [
+    38,
+    58
+   ],
+   "skinmask": "part_m_head_body_hand_l_se_skinmask.png",
+   "boneOriginPx": [
+    254.83,
+    739.04
+   ],
+   "boneRotView": 0.5,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_upper_arm_r_se",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "upper_arm_r",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.13986
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_upper_arm_r_se.png",
+   "size": [
+    40,
+    143
+   ],
+   "skinmask": "part_m_head_body_upper_arm_r_se_skinmask.png",
+   "boneOriginPx": [
+    436.0,
+    566.0
+   ],
+   "boneRotView": -0.35,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_fore_arm_r_se",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "fore_arm_r",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.16406
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_fore_arm_r_se.png",
+   "size": [
+    36,
+    128
+   ],
+   "skinmask": "part_m_head_body_fore_arm_r_se_skinmask.png",
+   "boneOriginPx": [
+    470.98,
+    661.82
+   ],
+   "boneRotView": -0.5,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_hand_r_se",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "hand_r",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.32759
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_hand_r_se.png",
+   "size": [
+    38,
+    58
+   ],
+   "skinmask": "part_m_head_body_hand_r_se_skinmask.png",
+   "boneOriginPx": [
+    513.17,
+    739.04
+   ],
+   "boneRotView": -0.5,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_hand_l_se_grip",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "hand_l",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.33333
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_hand_l_se_grip.png",
+   "size": [
+    40,
+    54
+   ],
+   "skinmask": "part_m_head_body_hand_l_se_grip_skinmask.png",
+   "boneOriginPx": [
+    254.83,
+    739.04
+   ],
+   "boneRotView": 0.5,
+   "source": "自制脚本｜待策划审",
+   "partVariant": "grip"
+  },
+  {
+   "id": "part_m_head_body_hand_r_se_grip",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "hand_r",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.33333
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_hand_r_se_grip.png",
+   "size": [
+    40,
+    54
+   ],
+   "skinmask": "part_m_head_body_hand_r_se_grip_skinmask.png",
+   "boneOriginPx": [
+    513.17,
+    739.04
+   ],
+   "boneRotView": -0.5,
+   "source": "自制脚本｜待策划审",
+   "partVariant": "grip"
+  },
+  {
+   "id": "part_m_head_body_hip_side_r",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "hip",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.22619
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_hip_side_r.png",
+   "size": [
+    70,
+    84
+   ],
+   "skinmask": "part_m_head_body_hip_side_r_skinmask.png",
+   "boneOriginPx": [
+    384.0,
+    742.0
+   ],
+   "boneRotView": 0.0,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_thigh_l_side_r",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "thigh_l",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.16374
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_thigh_l_side_r.png",
+   "size": [
+    50,
+    171
+   ],
+   "skinmask": "part_m_head_body_thigh_l_side_r_skinmask.png",
+   "boneOriginPx": [
+    371.4,
+    758.0
+   ],
+   "boneRotView": 0.03366,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_shin_l_side_r",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "shin_l",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.16312
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_shin_l_side_r.png",
+   "size": [
+    40,
+    141
+   ],
+   "skinmask": "part_m_head_body_shin_l_side_r_skinmask.png",
+   "boneOriginPx": [
+    367.37,
+    877.62
+   ],
+   "boneRotView": 0.05485,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_foot_l_side_r",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "foot_l",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.44231
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_foot_l_side_r.png",
+   "size": [
+    48,
+    52
+   ],
+   "skinmask": "part_m_head_body_foot_l_side_r_skinmask.png",
+   "boneOriginPx": [
+    361.93,
+    976.77
+   ],
+   "boneRotView": 0.0126,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_thigh_r_side_r",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "thigh_r",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.16374
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_thigh_r_side_r.png",
+   "size": [
+    50,
+    171
+   ],
+   "skinmask": "part_m_head_body_thigh_r_side_r_skinmask.png",
+   "boneOriginPx": [
+    396.6,
+    758.0
+   ],
+   "boneRotView": -0.03366,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_shin_r_side_r",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "shin_r",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.16312
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_shin_r_side_r.png",
+   "size": [
+    40,
+    141
+   ],
+   "skinmask": "part_m_head_body_shin_r_side_r_skinmask.png",
+   "boneOriginPx": [
+    400.63,
+    877.62
+   ],
+   "boneRotView": -0.05485,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_foot_r_side_r",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "foot_r",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.44231
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_foot_r_side_r.png",
+   "size": [
+    48,
+    52
+   ],
+   "skinmask": "part_m_head_body_foot_r_side_r_skinmask.png",
+   "boneOriginPx": [
+    406.07,
+    976.77
+   ],
+   "boneRotView": -0.0126,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_chest_side_r",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "chest",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.19196
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_chest_side_r.png",
+   "size": [
+    88,
+    224
+   ],
+   "skinmask": "part_m_head_body_chest_side_r_skinmask.png",
+   "boneOriginPx": [
+    384.0,
+    578.0
+   ],
+   "boneRotView": 0.0,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_upper_arm_l_side_r",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "upper_arm_l",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.13971
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_upper_arm_l_side_r.png",
+   "size": [
+    38,
+    136
+   ],
+   "skinmask": "part_m_head_body_upper_arm_l_side_r_skinmask.png",
+   "boneOriginPx": [
+    362.16,
+    566.0
+   ],
+   "boneRotView": 0.15213,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_fore_arm_l_side_r",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "fore_arm_l",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.16949
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_fore_arm_l_side_r.png",
+   "size": [
+    34,
+    118
+   ],
+   "skinmask": "part_m_head_body_fore_arm_l_side_r_skinmask.png",
+   "boneOriginPx": [
+    347.47,
+    661.82
+   ],
+   "boneRotView": 0.22554,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_hand_l_side_r",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "hand_l",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.31579
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_hand_l_side_r.png",
+   "size": [
+    38,
+    57
+   ],
+   "skinmask": "part_m_head_body_hand_l_side_r_skinmask.png",
+   "boneOriginPx": [
+    329.75,
+    739.04
+   ],
+   "boneRotView": 0.22554,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_upper_arm_r_side_r",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "upper_arm_r",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.13971
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_upper_arm_r_side_r.png",
+   "size": [
+    38,
+    136
+   ],
+   "skinmask": "part_m_head_body_upper_arm_r_side_r_skinmask.png",
+   "boneOriginPx": [
+    405.84,
+    566.0
+   ],
+   "boneRotView": -0.15213,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_fore_arm_r_side_r",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "fore_arm_r",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.16949
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_fore_arm_r_side_r.png",
+   "size": [
+    34,
+    118
+   ],
+   "skinmask": "part_m_head_body_fore_arm_r_side_r_skinmask.png",
+   "boneOriginPx": [
+    420.53,
+    661.82
+   ],
+   "boneRotView": -0.22554,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_hand_r_side_r",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "hand_r",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.31579
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_hand_r_side_r.png",
+   "size": [
+    38,
+    57
+   ],
+   "skinmask": "part_m_head_body_hand_r_side_r_skinmask.png",
+   "boneOriginPx": [
+    438.25,
+    739.04
+   ],
+   "boneRotView": -0.22554,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_hand_l_side_r_grip",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "hand_l",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.32692
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_hand_l_side_r_grip.png",
+   "size": [
+    38,
+    52
+   ],
+   "skinmask": "part_m_head_body_hand_l_side_r_grip_skinmask.png",
+   "boneOriginPx": [
+    329.75,
+    739.04
+   ],
+   "boneRotView": 0.22554,
+   "source": "自制脚本｜待策划审",
+   "partVariant": "grip"
+  },
+  {
+   "id": "part_m_head_body_hand_r_side_r_grip",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "hand_r",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.32692
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_hand_r_side_r_grip.png",
+   "size": [
+    38,
+    52
+   ],
+   "skinmask": "part_m_head_body_hand_r_side_r_grip_skinmask.png",
+   "boneOriginPx": [
+    438.25,
+    739.04
+   ],
+   "boneRotView": -0.22554,
+   "source": "自制脚本｜待策划审",
+   "partVariant": "grip"
+  },
+  {
+   "id": "part_m_head_body_hip_ne",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "hip",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.22093
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_hip_ne.png",
+   "size": [
+    96,
+    86
+   ],
+   "skinmask": "part_m_head_body_hip_ne_skinmask.png",
+   "boneOriginPx": [
+    384.0,
+    742.0
+   ],
+   "boneRotView": 0.0,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_thigh_l_ne",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "thigh_l",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.16763
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_thigh_l_ne.png",
+   "size": [
+    54,
+    173
+   ],
+   "skinmask": "part_m_head_body_thigh_l_ne_skinmask.png",
+   "boneOriginPx": [
+    360.6,
+    758.0
+   ],
+   "boneRotView": 0.06245,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_shin_l_ne",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "shin_l",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.16783
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_shin_l_ne.png",
+   "size": [
+    42,
+    143
+   ],
+   "skinmask": "part_m_head_body_shin_l_ne_skinmask.png",
+   "boneOriginPx": [
+    353.12,
+    877.62
+   ],
+   "boneRotView": 0.10162,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_foot_l_ne",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "foot_l",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.44231
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_foot_l_ne.png",
+   "size": [
+    36,
+    52
+   ],
+   "skinmask": "part_m_head_body_foot_l_ne_skinmask.png",
+   "boneOriginPx": [
+    343.01,
+    976.77
+   ],
+   "boneRotView": 0.0234,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_thigh_r_ne",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "thigh_r",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.16763
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_thigh_r_ne.png",
+   "size": [
+    54,
+    173
+   ],
+   "skinmask": "part_m_head_body_thigh_r_ne_skinmask.png",
+   "boneOriginPx": [
+    407.4,
+    758.0
+   ],
+   "boneRotView": -0.06245,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_shin_r_ne",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "shin_r",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.16783
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_shin_r_ne.png",
+   "size": [
+    42,
+    143
+   ],
+   "skinmask": "part_m_head_body_shin_r_ne_skinmask.png",
+   "boneOriginPx": [
+    414.88,
+    877.62
+   ],
+   "boneRotView": -0.10162,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_foot_r_ne",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "foot_r",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.44231
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_foot_r_ne.png",
+   "size": [
+    36,
+    52
+   ],
+   "skinmask": "part_m_head_body_foot_r_ne_skinmask.png",
+   "boneOriginPx": [
+    424.99,
+    976.77
+   ],
+   "boneRotView": -0.0234,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_chest_ne",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "chest",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.19196
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_chest_ne.png",
+   "size": [
+    122,
+    224
+   ],
+   "skinmask": "part_m_head_body_chest_ne_skinmask.png",
+   "boneOriginPx": [
+    384.0,
+    578.0
+   ],
+   "boneRotView": 0.0,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_upper_arm_l_ne",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "upper_arm_l",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.14184
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_upper_arm_l_ne.png",
+   "size": [
+    40,
+    141
+   ],
+   "skinmask": "part_m_head_body_upper_arm_l_ne_skinmask.png",
+   "boneOriginPx": [
+    343.44,
+    566.0
+   ],
+   "boneRotView": 0.27738,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_fore_arm_l_ne",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "fore_arm_l",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.16935
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_fore_arm_l_ne.png",
+   "size": [
+    36,
+    124
+   ],
+   "skinmask": "part_m_head_body_fore_arm_l_ne_skinmask.png",
+   "boneOriginPx": [
+    316.16,
+    661.82
+   ],
+   "boneRotView": 0.40282,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_hand_l_ne",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "hand_l",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.32759
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_hand_l_ne.png",
+   "size": [
+    36,
+    58
+   ],
+   "skinmask": "part_m_head_body_hand_l_ne_skinmask.png",
+   "boneOriginPx": [
+    283.25,
+    739.04
+   ],
+   "boneRotView": 0.40282,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_upper_arm_r_ne",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "upper_arm_r",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.14184
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_upper_arm_r_ne.png",
+   "size": [
+    40,
+    141
+   ],
+   "skinmask": "part_m_head_body_upper_arm_r_ne_skinmask.png",
+   "boneOriginPx": [
+    424.56,
+    566.0
+   ],
+   "boneRotView": -0.27738,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_fore_arm_r_ne",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "fore_arm_r",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.16935
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_fore_arm_r_ne.png",
+   "size": [
+    36,
+    124
+   ],
+   "skinmask": "part_m_head_body_fore_arm_r_ne_skinmask.png",
+   "boneOriginPx": [
+    451.84,
+    661.82
+   ],
+   "boneRotView": -0.40282,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_hand_r_ne",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "hand_r",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.32759
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_hand_r_ne.png",
+   "size": [
+    36,
+    58
+   ],
+   "skinmask": "part_m_head_body_hand_r_ne_skinmask.png",
+   "boneOriginPx": [
+    484.75,
+    739.04
+   ],
+   "boneRotView": -0.40282,
+   "source": "自制脚本｜待策划审"
+  },
+  {
+   "id": "part_m_head_body_hand_l_ne_grip",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "hand_l",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.33333
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_hand_l_ne_grip.png",
+   "size": [
+    40,
+    54
+   ],
+   "skinmask": "part_m_head_body_hand_l_ne_grip_skinmask.png",
+   "boneOriginPx": [
+    283.25,
+    739.04
+   ],
+   "boneRotView": 0.40282,
+   "source": "自制脚本｜待策划审",
+   "partVariant": "grip"
+  },
+  {
+   "id": "part_m_head_body_hand_r_ne_grip",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "m",
+   "bone": "hand_r",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.33333
+   ],
+   "file": "characters/parts_v1/m/head/body/part_m_head_body_hand_r_ne_grip.png",
+   "size": [
+    40,
+    54
+   ],
+   "skinmask": "part_m_head_body_hand_r_ne_grip_skinmask.png",
+   "boneOriginPx": [
+    484.75,
+    739.04
+   ],
+   "boneRotView": -0.40282,
+   "source": "自制脚本｜待策划审",
+   "partVariant": "grip"
+  },
+  {
+   "id": "part_f_head_body_hip_se",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "hip",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.23171
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_hip_se.png",
+   "size": [
+    116,
+    82
+   ],
+   "skinmask": "part_f_head_body_hip_se_skinmask.png",
+   "boneOriginPx": [
+    384.0,
+    745.0
+   ],
+   "boneRotView": 0.0,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_f2_1110:part_f_head_body_hip_se"
+  },
+  {
+   "id": "part_f_head_body_thigh_l_se",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "thigh_l",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.17647
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_thigh_l_se.png",
+   "size": [
+    58,
+    170
+   ],
+   "skinmask": "part_f_head_body_thigh_l_se_skinmask.png",
+   "boneOriginPx": [
+    356.0,
+    761.0
+   ],
+   "boneRotView": 0.08,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_edge_1110:part_f_head_body_thigh_l_se"
+  },
+  {
+   "id": "part_f_head_body_shin_l_se",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "shin_l",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.15714
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_shin_l_se.png",
+   "size": [
+    38,
+    140
+   ],
+   "skinmask": "part_f_head_body_shin_l_se_skinmask.png",
+   "boneOriginPx": [
+    346.57,
+    878.62
+   ],
+   "boneRotView": 0.13,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_edge_1110:part_f_head_body_shin_l_se"
+  },
+  {
+   "id": "part_f_head_body_foot_l_se",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "foot_l",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.40426
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_foot_l_se.png",
+   "size": [
+    36,
+    47
+   ],
+   "skinmask": "part_f_head_body_foot_l_se_skinmask.png",
+   "boneOriginPx": [
+    333.61,
+    977.78
+   ],
+   "boneRotView": 0.03,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_edge_1110:part_f_head_body_foot_l_se"
+  },
+  {
+   "id": "part_f_head_body_thigh_r_se",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "thigh_r",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.17647
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_thigh_r_se.png",
+   "size": [
+    58,
+    170
+   ],
+   "skinmask": "part_f_head_body_thigh_r_se_skinmask.png",
+   "boneOriginPx": [
+    412.0,
+    761.0
+   ],
+   "boneRotView": -0.08,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_edge_1110:part_f_head_body_thigh_r_se"
+  },
+  {
+   "id": "part_f_head_body_shin_r_se",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "shin_r",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.15714
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_shin_r_se.png",
+   "size": [
+    38,
+    140
+   ],
+   "skinmask": "part_f_head_body_shin_r_se_skinmask.png",
+   "boneOriginPx": [
+    421.43,
+    878.62
+   ],
+   "boneRotView": -0.13,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_edge_1110:part_f_head_body_shin_r_se"
+  },
+  {
+   "id": "part_f_head_body_foot_r_se",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "foot_r",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.40426
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_foot_r_se.png",
+   "size": [
+    36,
+    47
+   ],
+   "skinmask": "part_f_head_body_foot_r_se_skinmask.png",
+   "boneOriginPx": [
+    434.39,
+    977.78
+   ],
+   "boneRotView": -0.03,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_edge_1110:part_f_head_body_foot_r_se"
+  },
+  {
+   "id": "part_f_head_body_chest_se",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "chest",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.18433
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_chest_se.png",
+   "size": [
+    112,
+    217
+   ],
+   "skinmask": "part_f_head_body_chest_se_skinmask.png",
+   "boneOriginPx": [
+    384.0,
+    585.0
+   ],
+   "boneRotView": 0.0,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_f3_1111:part_f_head_body_chest_se",
+   "v1b4r7": "T-身02"
+  },
+  {
+   "id": "part_f_head_body_upper_arm_l_se",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "upper_arm_l",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.12977
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_upper_arm_l_se.png",
+   "size": [
+    34,
+    131
+   ],
+   "skinmask": "part_f_head_body_upper_arm_l_se_skinmask.png",
+   "boneOriginPx": [
+    336.0,
+    573.0
+   ],
+   "boneRotView": 0.35,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_edge_1110:part_f_head_body_upper_arm_l_se"
+  },
+  {
+   "id": "part_f_head_body_fore_arm_l_se",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "fore_arm_l",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.15126
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_fore_arm_l_se.png",
+   "size": [
+    32,
+    119
+   ],
+   "skinmask": "part_f_head_body_fore_arm_l_se_skinmask.png",
+   "boneOriginPx": [
+    303.08,
+    663.18
+   ],
+   "boneRotView": 0.5,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_edge_1110:part_f_head_body_fore_arm_l_se"
+  },
+  {
+   "id": "part_f_head_body_hand_l_se",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "hand_l",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.33962
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_hand_l_se.png",
+   "size": [
+    36,
+    53
+   ],
+   "skinmask": "part_f_head_body_hand_l_se_skinmask.png",
+   "boneOriginPx": [
+    262.81,
+    736.9
+   ],
+   "boneRotView": 0.5,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_edge_1110:part_f_head_body_hand_l_se"
+  },
+  {
+   "id": "part_f_head_body_upper_arm_r_se",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "upper_arm_r",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.12977
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_upper_arm_r_se.png",
+   "size": [
+    34,
+    131
+   ],
+   "skinmask": "part_f_head_body_upper_arm_r_se_skinmask.png",
+   "boneOriginPx": [
+    432.0,
+    573.0
+   ],
+   "boneRotView": -0.35,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_edge_1110:part_f_head_body_upper_arm_r_se"
+  },
+  {
+   "id": "part_f_head_body_fore_arm_r_se",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "fore_arm_r",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.15126
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_fore_arm_r_se.png",
+   "size": [
+    32,
+    119
+   ],
+   "skinmask": "part_f_head_body_fore_arm_r_se_skinmask.png",
+   "boneOriginPx": [
+    464.92,
+    663.18
+   ],
+   "boneRotView": -0.5,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_edge_1110:part_f_head_body_fore_arm_r_se"
+  },
+  {
+   "id": "part_f_head_body_hand_r_se",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "hand_r",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.33962
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_hand_r_se.png",
+   "size": [
+    36,
+    53
+   ],
+   "skinmask": "part_f_head_body_hand_r_se_skinmask.png",
+   "boneOriginPx": [
+    505.19,
+    736.9
+   ],
+   "boneRotView": -0.5,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_edge_1110:part_f_head_body_hand_r_se"
+  },
+  {
+   "id": "part_f_head_body_hand_l_se_grip",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "hand_l",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.36
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_hand_l_se_grip.png",
+   "size": [
+    34,
+    50
+   ],
+   "skinmask": "part_f_head_body_hand_l_se_grip_skinmask.png",
+   "boneOriginPx": [
+    262.81,
+    736.9
+   ],
+   "boneRotView": 0.5,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_edge_1110:part_f_head_body_hand_l_se_grip",
+   "partVariant": "grip"
+  },
+  {
+   "id": "part_f_head_body_hand_r_se_grip",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "hand_r",
+   "layer": "body",
+   "view": "se",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.36
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_hand_r_se_grip.png",
+   "size": [
+    34,
+    50
+   ],
+   "skinmask": "part_f_head_body_hand_r_se_grip_skinmask.png",
+   "boneOriginPx": [
+    505.19,
+    736.9
+   ],
+   "boneRotView": -0.5,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_edge_1110:part_f_head_body_hand_r_se_grip",
+   "partVariant": "grip"
+  },
+  {
+   "id": "part_f_head_body_hip_side_r",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "hip",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.54118,
+    0.21951
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_hip_side_r.png",
+   "size": [
+    85,
+    82
+   ],
+   "skinmask": "part_f_head_body_hip_side_r_skinmask.png",
+   "boneOriginPx": [
+    384.0,
+    745.0
+   ],
+   "boneRotView": 0.0,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_f2_1110:part_f_head_body_hip_side_r"
+  },
+  {
+   "id": "part_f_head_body_thigh_l_side_r",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "thigh_l",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.52727,
+    0.17857
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_thigh_l_side_r.png",
+   "size": [
+    55,
+    168
+   ],
+   "skinmask": "part_f_head_body_thigh_l_side_r_skinmask.png",
+   "boneOriginPx": [
+    382.0,
+    761.0
+   ],
+   "boneRotView": 0.04,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_f2_1110:part_f_head_body_thigh_l_side_r"
+  },
+  {
+   "id": "part_f_head_body_shin_l_side_r",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "shin_l",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.52778,
+    0.14493
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_shin_l_side_r.png",
+   "size": [
+    36,
+    138
+   ],
+   "skinmask": "part_f_head_body_shin_l_side_r_skinmask.png",
+   "boneOriginPx": [
+    377.28,
+    878.91
+   ],
+   "boneRotView": 0.09,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_1110:part_f_head_body_shin_l_side_r"
+  },
+  {
+   "id": "part_f_head_body_foot_l_side_r",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "foot_l",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.34694,
+    0.40426
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_foot_l_side_r.png",
+   "size": [
+    49,
+    47
+   ],
+   "skinmask": "part_f_head_body_foot_l_side_r_skinmask.png",
+   "boneOriginPx": [
+    368.29,
+    978.5
+   ],
+   "boneRotView": -0.08,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_1110:part_f_head_body_foot_l_side_r"
+  },
+  {
+   "id": "part_f_head_body_thigh_r_side_r",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "thigh_r",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.52727,
+    0.17857
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_thigh_r_side_r.png",
+   "size": [
+    55,
+    168
+   ],
+   "skinmask": "part_f_head_body_thigh_r_side_r_skinmask.png",
+   "boneOriginPx": [
+    388.0,
+    761.0
+   ],
+   "boneRotView": -0.05,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_f2_1110:part_f_head_body_thigh_r_side_r"
+  },
+  {
+   "id": "part_f_head_body_shin_r_side_r",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "shin_r",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.14493
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_shin_r_side_r.png",
+   "size": [
+    38,
+    138
+   ],
+   "skinmask": "part_f_head_body_shin_r_side_r_skinmask.png",
+   "boneOriginPx": [
+    393.9,
+    878.85
+   ],
+   "boneRotView": -0.1,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_1110:part_f_head_body_shin_r_side_r"
+  },
+  {
+   "id": "part_f_head_body_foot_r_side_r",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "foot_r",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.34694,
+    0.40426
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_foot_r_side_r.png",
+   "size": [
+    49,
+    47
+   ],
+   "skinmask": "part_f_head_body_foot_r_side_r_skinmask.png",
+   "boneOriginPx": [
+    403.88,
+    978.35
+   ],
+   "boneRotView": -0.08,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_1110:part_f_head_body_foot_r_side_r"
+  },
+  {
+   "id": "part_f_head_body_chest_side_r",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "chest",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.44211,
+    0.18433
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_chest_side_r.png",
+   "size": [
+    95,
+    217
+   ],
+   "skinmask": "part_f_head_body_chest_side_r_skinmask.png",
+   "boneOriginPx": [
+    384.0,
+    585.0
+   ],
+   "boneRotView": 0.0,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_f2_1110:part_f_head_body_chest_side_r"
+  },
+  {
+   "id": "part_f_head_body_upper_arm_l_side_r",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "upper_arm_l",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.15038
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_upper_arm_l_side_r.png",
+   "size": [
+    32,
+    133
+   ],
+   "skinmask": "part_f_head_body_upper_arm_l_side_r_skinmask.png",
+   "boneOriginPx": [
+    377.0,
+    573.0
+   ],
+   "boneRotView": 0.1,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_1110:part_f_head_body_upper_arm_l_side_r"
+  },
+  {
+   "id": "part_f_head_body_fore_arm_l_side_r",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "fore_arm_l",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.51724,
+    0.14407
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_fore_arm_l_side_r.png",
+   "size": [
+    29,
+    118
+   ],
+   "skinmask": "part_f_head_body_fore_arm_l_side_r_skinmask.png",
+   "boneOriginPx": [
+    367.42,
+    668.52
+   ],
+   "boneRotView": 0.35,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_1110:part_f_head_body_fore_arm_l_side_r"
+  },
+  {
+   "id": "part_f_head_body_hand_l_side_r",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "hand_l",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.48485,
+    0.33962
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_hand_l_side_r.png",
+   "size": [
+    33,
+    53
+   ],
+   "skinmask": "part_f_head_body_hand_l_side_r_skinmask.png",
+   "boneOriginPx": [
+    338.61,
+    747.43
+   ],
+   "boneRotView": 0.35,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_1110:part_f_head_body_hand_l_side_r"
+  },
+  {
+   "id": "part_f_head_body_upper_arm_r_side_r",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "upper_arm_r",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.15038
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_upper_arm_r_side_r.png",
+   "size": [
+    32,
+    133
+   ],
+   "skinmask": "part_f_head_body_upper_arm_r_side_r_skinmask.png",
+   "boneOriginPx": [
+    390.0,
+    573.0
+   ],
+   "boneRotView": -0.08,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_f2_1110:part_f_head_body_upper_arm_r_side_r",
+   "v1b4r7": "T-身02"
+  },
+  {
+   "id": "part_f_head_body_fore_arm_r_side_r",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "fore_arm_r",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.48276,
+    0.14407
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_fore_arm_r_side_r.png",
+   "size": [
+    29,
+    118
+   ],
+   "skinmask": "part_f_head_body_fore_arm_r_side_r_skinmask.png",
+   "boneOriginPx": [
+    397.67,
+    668.69
+   ],
+   "boneRotView": -0.23,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_f2_1110:part_f_head_body_fore_arm_r_side_r",
+   "v1b4r7": "T-身02"
+  },
+  {
+   "id": "part_f_head_body_hand_r_side_r",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "hand_r",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.46875,
+    0.33962
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_hand_r_side_r.png",
+   "size": [
+    32,
+    53
+   ],
+   "skinmask": "part_f_head_body_hand_r_side_r_skinmask.png",
+   "boneOriginPx": [
+    416.82,
+    750.48
+   ],
+   "boneRotView": -0.23,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_f2_1110:part_f_head_body_hand_r_side_r",
+   "v1b4r7": "T-身02"
+  },
+  {
+   "id": "part_f_head_body_hand_l_side_r_grip",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "hand_l",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.36
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_hand_l_side_r_grip.png",
+   "size": [
+    34,
+    50
+   ],
+   "skinmask": "part_f_head_body_hand_l_side_r_grip_skinmask.png",
+   "boneOriginPx": [
+    338.61,
+    747.43
+   ],
+   "boneRotView": 0.35,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_1110:part_f_head_body_hand_l_side_r_grip",
+   "partVariant": "grip"
+  },
+  {
+   "id": "part_f_head_body_hand_r_side_r_grip",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "hand_r",
+   "layer": "body",
+   "view": "side_r",
+   "mirrorable": true,
+   "pivot": [
+    0.48485,
+    0.36
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_hand_r_side_r_grip.png",
+   "size": [
+    33,
+    50
+   ],
+   "skinmask": "part_f_head_body_hand_r_side_r_grip_skinmask.png",
+   "boneOriginPx": [
+    416.82,
+    750.48
+   ],
+   "boneRotView": -0.23,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_f2_1110:part_f_head_body_hand_r_side_r_grip",
+   "partVariant": "grip",
+   "v1b4r7": "T-身02"
+  },
+  {
+   "id": "part_f_head_body_hip_ne",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "hip",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.23171
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_hip_ne.png",
+   "size": [
+    104,
+    82
+   ],
+   "skinmask": "part_f_head_body_hip_ne_skinmask.png",
+   "boneOriginPx": [
+    384.0,
+    745.0
+   ],
+   "boneRotView": 0.0,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_f2_1110:part_f_head_body_hip_ne"
+  },
+  {
+   "id": "part_f_head_body_thigh_l_ne",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "thigh_l",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.17647
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_thigh_l_ne.png",
+   "size": [
+    58,
+    170
+   ],
+   "skinmask": "part_f_head_body_thigh_l_ne_skinmask.png",
+   "boneOriginPx": [
+    362.16,
+    761.0
+   ],
+   "boneRotView": 0.06245,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_edge_1110:part_f_head_body_thigh_l_ne"
+  },
+  {
+   "id": "part_f_head_body_shin_l_ne",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "shin_l",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.15714
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_shin_l_ne.png",
+   "size": [
+    38,
+    140
+   ],
+   "skinmask": "part_f_head_body_shin_l_ne_skinmask.png",
+   "boneOriginPx": [
+    354.8,
+    878.62
+   ],
+   "boneRotView": 0.10162,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_edge_1110:part_f_head_body_shin_l_ne"
+  },
+  {
+   "id": "part_f_head_body_foot_l_ne",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "foot_l",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.40426
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_foot_l_ne.png",
+   "size": [
+    32,
+    47
+   ],
+   "skinmask": "part_f_head_body_foot_l_ne_skinmask.png",
+   "boneOriginPx": [
+    344.69,
+    977.78
+   ],
+   "boneRotView": 0.0234,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_edge_1110:part_f_head_body_foot_l_ne"
+  },
+  {
+   "id": "part_f_head_body_thigh_r_ne",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "thigh_r",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.17647
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_thigh_r_ne.png",
+   "size": [
+    58,
+    170
+   ],
+   "skinmask": "part_f_head_body_thigh_r_ne_skinmask.png",
+   "boneOriginPx": [
+    405.84,
+    761.0
+   ],
+   "boneRotView": -0.06245,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_edge_1110:part_f_head_body_thigh_r_ne"
+  },
+  {
+   "id": "part_f_head_body_shin_r_ne",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "shin_r",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.15714
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_shin_r_ne.png",
+   "size": [
+    38,
+    140
+   ],
+   "skinmask": "part_f_head_body_shin_r_ne_skinmask.png",
+   "boneOriginPx": [
+    413.2,
+    878.62
+   ],
+   "boneRotView": -0.10162,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_edge_1110:part_f_head_body_shin_r_ne"
+  },
+  {
+   "id": "part_f_head_body_foot_r_ne",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "foot_r",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.40426
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_foot_r_ne.png",
+   "size": [
+    32,
+    47
+   ],
+   "skinmask": "part_f_head_body_foot_r_ne_skinmask.png",
+   "boneOriginPx": [
+    423.31,
+    977.78
+   ],
+   "boneRotView": -0.0234,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_edge_1110:part_f_head_body_foot_r_ne"
+  },
+  {
+   "id": "part_f_head_body_chest_ne",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "chest",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.18433
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_chest_ne.png",
+   "size": [
+    100,
+    217
+   ],
+   "skinmask": "part_f_head_body_chest_ne_skinmask.png",
+   "boneOriginPx": [
+    384.0,
+    585.0
+   ],
+   "boneRotView": 0.0,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_f2_1110:part_f_head_body_chest_ne"
+  },
+  {
+   "id": "part_f_head_body_upper_arm_l_ne",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "upper_arm_l",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.13178
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_upper_arm_l_ne.png",
+   "size": [
+    34,
+    129
+   ],
+   "skinmask": "part_f_head_body_upper_arm_l_ne_skinmask.png",
+   "boneOriginPx": [
+    346.56,
+    573.0
+   ],
+   "boneRotView": 0.27738,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_edge_1110:part_f_head_body_upper_arm_l_ne"
+  },
+  {
+   "id": "part_f_head_body_fore_arm_l_ne",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "fore_arm_l",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.15652
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_fore_arm_l_ne.png",
+   "size": [
+    32,
+    115
+   ],
+   "skinmask": "part_f_head_body_fore_arm_l_ne_skinmask.png",
+   "boneOriginPx": [
+    320.88,
+    663.18
+   ],
+   "boneRotView": 0.40282,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_edge_1110:part_f_head_body_fore_arm_l_ne"
+  },
+  {
+   "id": "part_f_head_body_hand_l_ne",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "hand_l",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.33962
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_hand_l_ne.png",
+   "size": [
+    32,
+    53
+   ],
+   "skinmask": "part_f_head_body_hand_l_ne_skinmask.png",
+   "boneOriginPx": [
+    289.47,
+    736.9
+   ],
+   "boneRotView": 0.40282,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_edge_1110:part_f_head_body_hand_l_ne"
+  },
+  {
+   "id": "part_f_head_body_upper_arm_r_ne",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "upper_arm_r",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.13178
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_upper_arm_r_ne.png",
+   "size": [
+    34,
+    129
+   ],
+   "skinmask": "part_f_head_body_upper_arm_r_ne_skinmask.png",
+   "boneOriginPx": [
+    421.44,
+    573.0
+   ],
+   "boneRotView": -0.27738,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_edge_1110:part_f_head_body_upper_arm_r_ne"
+  },
+  {
+   "id": "part_f_head_body_fore_arm_r_ne",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "fore_arm_r",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.15652
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_fore_arm_r_ne.png",
+   "size": [
+    32,
+    115
+   ],
+   "skinmask": "part_f_head_body_fore_arm_r_ne_skinmask.png",
+   "boneOriginPx": [
+    447.12,
+    663.18
+   ],
+   "boneRotView": -0.40282,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_edge_1110:part_f_head_body_fore_arm_r_ne"
+  },
+  {
+   "id": "part_f_head_body_hand_r_ne",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "hand_r",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.33962
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_hand_r_ne.png",
+   "size": [
+    32,
+    53
+   ],
+   "skinmask": "part_f_head_body_hand_r_ne_skinmask.png",
+   "boneOriginPx": [
+    478.53,
+    736.9
+   ],
+   "boneRotView": -0.40282,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_edge_1110:part_f_head_body_hand_r_ne"
+  },
+  {
+   "id": "part_f_head_body_hand_l_ne_grip",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "hand_l",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.36
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_hand_l_ne_grip.png",
+   "size": [
+    34,
+    50
+   ],
+   "skinmask": "part_f_head_body_hand_l_ne_grip_skinmask.png",
+   "boneOriginPx": [
+    289.47,
+    736.9
+   ],
+   "boneRotView": 0.40282,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_edge_1110:part_f_head_body_hand_l_ne_grip",
+   "partVariant": "grip"
+  },
+  {
+   "id": "part_f_head_body_hand_r_ne_grip",
+   "slot": "head",
+   "partSet": "body",
+   "gender": "f",
+   "bone": "hand_r",
+   "layer": "body",
+   "view": "ne",
+   "mirrorable": true,
+   "pivot": [
+    0.5,
+    0.36
+   ],
+   "file": "characters/parts_v1/f/head/body/part_f_head_body_hand_r_ne_grip.png",
+   "size": [
+    34,
+    50
+   ],
+   "skinmask": "part_f_head_body_hand_r_ne_grip_skinmask.png",
+   "boneOriginPx": [
+    478.53,
+    736.9
+   ],
+   "boneRotView": -0.40282,
+   "source": "自制脚本｜待策划审",
+   "supersedes": "parts_v1_W1_body_edge_1110:part_f_head_body_hand_r_ne_grip",
+   "partVariant": "grip"
+  }
+ ],
+ "v1b4r5Body": {
+  "female": "f2 48 条为底 + B1 覆盖 8 条（替换 W1_1110 女 48 条）",
+  "male": "W1_1110 不动",
+  "b1Ids": [
+   "part_f_head_body_chest_ne",
+   "part_f_head_body_chest_se",
+   "part_f_head_body_chest_side_r",
+   "part_f_head_body_hip_ne",
+   "part_f_head_body_hip_se",
+   "part_f_head_body_hip_side_r",
+   "part_f_head_body_thigh_l_side_r",
+   "part_f_head_body_thigh_r_side_r"
+  ],
+  "f2": {
+   "dir": "美术/_交付/parts_v1_W1_body_f2_1110",
+   "manifestSha256": "2e4809a9a56f8ac685a16051730b4e03d25294473c90cf08faea735ea3941c07"
+  },
+  "B1": {
+   "dir": "美术/_交付/parts_v1_W1_body_f3_1111",
+   "manifestSha256": "d9b1d8bc7b52f7385db6f310c5eaabb09c59edadf8f5aa2c51395928cac1720e"
+  }
+ },
+ "v1b4r7BodyPatch": {
+  "dir": "美术/_交付/parts_v1_W1_body_patch_1111",
+  "packManifestSha256": "b20c5f2e108d6684ed6cb99dbc75ecbdd474683b3c4381125cb1def313b5b7b2",
+  "manifestLines": 67,
+  "manifestSha256": "ccae3cc1e20b5eb80104c8244bd4a1be7436a1b2762c489152dadb7775ffe3e2",
+  "ids": [
+   "part_f_head_body_upper_arm_r_side_r",
+   "part_f_head_body_fore_arm_r_side_r",
+   "part_f_head_body_hand_r_side_r",
+   "part_f_head_body_hand_r_side_r_grip",
+   "part_f_head_body_chest_se"
+  ],
+  "order": "f2 W1_body_f2_1110 → B1 W1_body_f3_1111 → T-身02 本包覆盖 5 条 → m3 / 贴形 r1 / F3（服装层）",
+  "renderNote": "试玩只渲染 se + 镜像：chest_se 色图 + skinmask 进图集；4 条 side_r 只覆盖清单（图集本无 side_r 帧，与 r6 同口径）",
+  "review": "主管/T-身02_裁定_20261111.md（正式核收）"
+ }
+}
