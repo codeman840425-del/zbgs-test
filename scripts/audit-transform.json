@@ -1,0 +1,88 @@
+{
+  "baselineCommit": "92c1ee2b666288526e4ca974187f8b4fc5efb376",
+  "case": "female sit_idle frame 0 thigh_r → shin_r",
+  "angle": -0.25,
+  "sx": 1,
+  "sy": 0.42,
+  "offset": [
+    0,
+    118
+  ],
+  "legacyChildOffset": [
+    29.193667192033708,
+    48.01929961997955
+  ],
+  "imageEndpointOffset": [
+    12.261340220654155,
+    48.01929961997955
+  ],
+  "errorModelUnits": 16.932326971379553,
+  "comparisonPatch": {
+    "status": "passed 45 nonuniform/uniform rotation cases",
+    "offset": [
+      12.261340220654155,
+      48.01929961997955
+    ],
+    "errorModelUnits": 0,
+    "scope": "Parent image endpoint vs immediate child translation only; not a complete affine hierarchy test"
+  },
+  "controls": "passed",
+  "views": {
+    "parts/W1/parts_manifest_v1.json": {
+      "partSchema": "v1.part.rigid.1",
+      "parts": 96,
+      "views": [
+        "se",
+        "side_r",
+        "ne"
+      ],
+      "projection": {
+        "note": "side_r/ne 为同一 rest 的 x 向压扁示意（量自程序 rest 模板关节圆）；boneOriginPx/boneRotView 为该视角母版里的骨原点与骨角，切片按此转到骨局部（沿骨 +Y）",
+        "sx": {
+          "se": 1,
+          "side_r": 0.42,
+          "ne": 0.78
+        },
+        "cx": 384
+      }
+    },
+    "parts/W3/parts_manifest_v1.json": {
+      "partSchema": "v1.part.rigid.1",
+      "parts": 628,
+      "views": [
+        "se",
+        "side_r",
+        "ne",
+        "p"
+      ],
+      "projection": {
+        "note": "与 W1/W2 同口径：side_r/ne 为同一 rest 的 x 向压扁；boneOriginPx/boneRotView 为该视角母版骨原点与骨角",
+        "sx": {
+          "se": 1,
+          "side_r": 0.42,
+          "ne": 0.78,
+          "p": 1
+        },
+        "cx": {
+          "se": 384,
+          "side_r": 384,
+          "ne": 384,
+          "p": 512
+        }
+      }
+    },
+    "lookpacks/dir2v1r3_1111/parts_manifest_v1.json": {
+      "partSchema": "v1.part.rigid.1",
+      "parts": 46,
+      "views": [
+        "se"
+      ],
+      "projection": null
+    }
+  },
+  "atlasFrameUpperBound": {
+    "uniqueFrames": 1333,
+    "rgbaBytes": 54610108,
+    "note": "Static potential copied pixels; not measured GPU/heap memory or rendered-frame cost."
+  }
+}

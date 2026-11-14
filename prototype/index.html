@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#f5f3ed" />
+    <title>青禾直播间 · 角色动作样板</title>
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <div class="brand-mark">青禾</div>
+        <div class="heading">
+          <div class="eyebrow">CHARACTER STUDIO / 01</div>
+          <h1>一个人物，两种日常。</h1>
+        </div>
+        <div class="header-note">
+          <span class="status-dot"></span>二次元 3D · 交互样板
+        </div>
+      </header>
+      <main>
+        <section class="viewport" aria-label="角色与直播间">
+          <div id="stage"></div>
+          <div id="phaser-stage"></div>
+          <div class="scene-label">
+            <span class="pill">实时人物</span>
+            <h2>今天，也认真开播。</h2>
+            <p>新角色技术验证 · 原游戏人物尚未修复</p>
+          </div>
+          <div class="camera-tools">
+            <button data-camera="close" aria-label="人物近景">人物近景</button
+            ><button data-camera="room" aria-label="房间全景">房间全景</button>
+          </div>
+          <div class="scene-bottom">
+            <span id="scene-state">准备直播间…</span
+            ><span>点击地面行走 · 拖动观察 · 滚轮缩放</span>
+          </div>
+          <div id="loading">
+            <div class="loading-ring"></div>
+            <strong>正在准备人物与直播间</strong
+            ><span>首次加载后即可离线重复体验</span>
+          </div>
+        </section>
+        <aside>
+          <div class="section-head">
+            <span class="eyebrow">LOOK & MOTION</span
+            ><span class="edition">第一轮样板</span>
+          </div>
+          <h2>看看她怎样活动</h2>
+          <p class="intro">
+            完整观看走路、落座、转身与舞蹈，再决定角色表现路线。
+          </p>
+          <h3>选择外观 <span>同一个人物</span></h3>
+          <div class="outfits">
+            <button data-outfit="0" aria-pressed="true">
+              <span class="swatch trousers"></span><b>轻装裤装</b
+              ><small>观察髋部与膝盖</small></button
+            ><button data-outfit="1" aria-pressed="false">
+              <span class="swatch skirt"></span><b>日常裙装</b
+              ><small>观察轮廓与遮挡</small>
+            </button>
+          </div>
+          <h3>动作体验</h3>
+          <div class="buttons">
+            <button data-action="idle">站立 / 停止</button
+            ><button data-action="sit" id="sit-button">坐下</button
+            ><button data-action="turn">360° 转身</button
+            ><button data-action="dance">短舞蹈</button>
+          </div>
+          <div class="control">
+            <label for="speed"
+              >行走速度 <b id="speed-label">正常 · 0.85 m/s</b></label
+            ><input
+              id="speed"
+              type="range"
+              min="0.4"
+              max="1.4"
+              step="0.05"
+              value="0.85"
+            />
+            <div class="speed-presets">
+              <button data-speed="0.45">慢速</button
+              ><button data-speed="0.85" aria-pressed="true">正常</button
+              ><button data-speed="1.3">较快</button>
+            </div>
+          </div>
+          <div class="buttons routes">
+            <button data-route="horizontal">左右往返</button
+            ><button data-route="room">绕过家具</button>
+          </div>
+          <button id="sequence" class="primary">
+            <span>播放完整对照</span><small>两套外观 · 三档速度 · 全动作</small>
+          </button>
+          <div class="playback">
+            <button id="pause" aria-pressed="false">暂停</button
+            ><button id="reset">重新站好</button>
+          </div>
+          <div class="sequence-progress"><div id="progress-bar"></div></div>
+          <p id="sequence-label" aria-live="polite">
+            手动体验 · 可以随时暂停或换装
+          </p>
+          <details>
+            <summary>运行数据与验证说明</summary>
+            <pre id="metrics">等待角色加载</pre>
+            <p class="notice">
+              真实蒙皮角色；行走、站立、坐起与舞蹈复用 Quaternius CC0
+              动作并重定向。裙装为近似布料，目前无自碰撞和通用体型适配。样板用于观察，动画与碰撞尚未全部通过。Phaser
+              管理输入、路径与动作流程，Three.js
+              显示人物与房间。尚未接入多人服务器。
+            </p>
+            <a
+              href="http://127.0.0.1:4174/baseline/packs/present_motion_v1_1111_MT/"
+              target="_blank"
+              >打开原版发布包 ↗</a
+            >
+          </details>
+        </aside>
+      </main>
+      <footer>
+        <span>青禾 · 角色工作室</span
+        ><span>精细观感需要完整动作验收，欢迎直接指出不自然的位置。</span>
+      </footer>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
