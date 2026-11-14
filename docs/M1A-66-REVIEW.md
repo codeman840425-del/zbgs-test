@@ -52,3 +52,5 @@ Chrome157.0.8103.51，1440×900，真实WebGL为RTX4090。独占、无录屏及�
 - 媒体和紧凑报告纳入evidence/66a09d34d8fe；源完整采样、被拒录像留在output，可按已保存脚本重跑。已备份媒体是正常速度原录像，不是插帧或挑单帧。
 - 新检出 `cd prototype; npm ci; npm run build; npm run preview -- --port 4191 --strictPort`。根Start-foundation-demo.cmd同入口，不增加4192。重建证据页执行 `python scripts/build-m1-review.py 66a09d34d8fe`，再运行 `python scripts/serve-review.py`。
 - 本构建重建/远程备份结果见CURRENT-FOUNDATION最终记录；本候选技术与视觉总验收均未标通过。下一P1为边缘/裙形和已测成本，M1B男性筛选成果保留，M1C新增范围未混入本构建。
+
+复建与备份实证：源提交59ff577456243f5f6a2ac84055c81686ae1d387f已远程核对；新检出安装/构建18项dist哈希完全一致，见evidence/66a09d34d8fe/rebuild-verification.json。源资产与20项完整媒体均已入Git并推送；output中的完整高频原始采样及被拒录像是本地补充，已保留紧凑失败摘要及可重跑脚本。
