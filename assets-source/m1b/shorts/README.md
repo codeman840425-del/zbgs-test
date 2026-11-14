@@ -1,6 +1,6 @@
 # M1B 独立露膝短裤 v1
 
-这是当前男性完整基模上的新服装几何，不是原长裤改色或改名。原长裤、原身体、上衣和鞋均保留。当前结果仅完成源制作、真实 Blender 往返和离线绑定验证；运行时正常速度、坐起、裤口与腿部遮挡需单独验收。
+这是当前男性完整基模上的新服装几何，不是原长裤改色或改名。原长裤、原身体、上衣和鞋均保留。源制作、真实 Blender 往返和离线绑定已验证；固定38ea的换装、三椅、正常走跑及技术舞补验见 `docs/M1B-SHORTS-38ea4eda48aa.md`。所测流程可运行不等于整体艺术与所有接触验收通过。
 
 - equipment ID：`m1b-uniform-shorts-v1`。
 - style ID：`m1b-tailored-shorts-v1`。
@@ -53,4 +53,4 @@ python scripts/m1b-assets/repack-shorts-editable.py
 
 `node --experimental-vm-modules scripts/m1b-assets/qa-outfit-selection.mjs` 测试真实装备选择实现，加载器使用限定替身：长短裤快切、不可用 outfit 拒绝、基础模式恢复、身体不隐藏、错误身体 SHA 拒绝、重复 dispose 均通过，见 `selection-check.json`。这是状态回归，不是模拟一次可视验收。
 
-独立 Vite 编译输出 `output/m1b-shorts/build-check` 通过，未生成正式候选 build ID；该编译目录不能作为固定发布证据。`shorts-room.json` 可传给既有 `qa-m1-run.cjs` 的 `QA_M1_CONFIG` 执行单套短裤全链。实际浏览器/三椅/画面检查等待协调窗口。
+独立 Vite 编译输出 `output/m1b-shorts/build-check` 通过，未生成正式候选 build ID；该编译目录不能作为固定发布证据。`shorts-room.json` 可传给既有 `qa-m1-run.cjs` 的 `QA_M1_CONFIG` 执行单套短裤全链。后续实际固定复验使用 `qa-shorts-fixed.cjs`；390d reset失败与38ea修后证据分别保留，不覆盖历史结果。

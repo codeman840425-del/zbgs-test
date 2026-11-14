@@ -1,0 +1,14 @@
+{
+  "schema": "m1.offline-initial-layer-fit.1",
+  "capture": "experiments/skirt-offline-corrective/displayed-initial-0df63cf2bdea/standing-01/initial.json",
+  "coordinate": "captured world metres, +Y up",
+  "ordering": ["body", "skirt waist and overlapping upper panels", "top"],
+  "bodyMargin": 0.001,
+  "topMargin": 0.003,
+  "hemUnderlap": 0.020,
+  "minimumFitWorldY": 0.875,
+  "maximumDisplacement": 0.035,
+  "fit": "One-time radial clamp only in actual upper-garment overlap, no iterative runtime correction. First body exit and first top intersection from torso center. Missing or contradictory bounds are rejected. Verified garment caps are removed in separate preserved-source versions; no body/top sidewall collider is deleted. At the hem, sample the actual outer garment envelope in a 20mm underlap band.",
+  "acceptance": "Pure numpy full triangle segments are clear, but must independently recheck native BVH, real minimum clearance, silhouette and pins before cloth. 1mm body/3mm top authoring margins are provisional radial inputs, not validated collision thickness.",
+  "limits": ["Only recorded standing pose", "No sit or dance approval", "Source open-waist GLB remains separately rigged; fitted rest is an authoring shape, not a ready runtime asset"]
+}
