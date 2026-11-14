@@ -145,6 +145,7 @@ export function createLivePresentation({vrm,root,bodyType='female'}){
   root.updateMatrixWorld(true);
  }
  return{preUpdate,postUpdate,setAccessory,canPerform,
+  setAction(name){currentAction=name;},
   setExpression(value){if(!['neutral','happy','aa'].includes(value))throw RangeError('Unknown expression');preset=value;},
   setSpeaking(value){speaking=Boolean(value);},
   setGaze(value){if(value==null){gaze=null;return;}const v=Array.isArray(value)?new V(...value):value.clone();if(![v.x,v.y,v.z].every(Number.isFinite))throw TypeError('Finite world gaze target required');gaze=v;},

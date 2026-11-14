@@ -1,0 +1,645 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>角色、服饰与动作 Agent 生产路线调研</title><style>
+:root{--ink:#182536;--muted:#607080;--line:#dbe4ec;--accent:#126d77;--soft:#edf7f6}
+*{box-sizing:border-box}body{margin:0;background:#eef2f5;color:var(--ink);font:16px/1.8 "Microsoft YaHei","PingFang SC",Arial,sans-serif}main{max-width:1120px;margin:32px auto;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}section{padding:36px 48px;border-bottom:1px solid var(--line)}.lead{background:linear-gradient(125deg,#102d3c,#155967);color:white;padding-top:48px;padding-bottom:44px}.eyebrow{font-size:13px;letter-spacing:2px;color:#a8dcda}h1{font-size:40px;line-height:1.35;margin:18px 0}h2{font-size:23px;line-height:1.4;margin:0 0 22px}h3{font-size:18px;margin:28px 0 12px}.subtitle{max-width:780px;font-size:18px;color:#e2f1f2}.meta{font-size:13px;color:#b8d9df;margin-top:24px}p{margin:12px 0 18px}a{color:#087785;text-underline-offset:3px}table{border-collapse:collapse;table-layout:fixed;width:100%;margin:20px 0;font-size:14px;line-height:1.7}th,td{text-align:left;vertical-align:top;border:1px solid var(--line);padding:13px 15px;overflow-wrap:anywhere}th{background:#eaf1f5;color:#264655;font-weight:700}th:first-child{width:22%}tbody tr:nth-child(even){background:#f8fafb}code{font:13px/1.65 Consolas,monospace;overflow-wrap:anywhere}.decision{background:var(--soft);border-left:5px solid var(--accent);padding:20px 24px;border-radius:0 8px 8px 0}.decision p{margin-bottom:0}.tag{display:inline-block;background:#edf3f9;border-radius:5px;padding:0 6px;margin:0 3px;font-size:13px}.note{background:#fff8e9;border-left:4px solid #d6a54b;padding:15px 18px;font-size:14px;color:#584b33}.handoff{white-space:pre-wrap;font:15px/1.9 "Microsoft YaHei",sans-serif;background:#f4f7fa;border:1px solid var(--line);padding:24px;border-radius:8px}li{margin:8px 0}.sources{font-size:14px;padding-left:22px}.evidence th:first-child{width:65%}.evidence{font-size:12px}details{margin-top:20px;border:1px solid var(--line);border-radius:8px;padding:14px 18px}summary{cursor:pointer;color:var(--accent);font-weight:bold}details pre{font:12px/1.6 Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;max-height:650px;overflow:auto}@media(max-width:740px){main{margin:0;border:0;border-radius:0}section{padding:25px 18px}h1{font-size:30px}h2{font-size:21px}th,td{padding:9px 8px}table{font-size:12px}.handoff{font-size:14px;padding:16px}}@media print{body{background:white}main{border:0;margin:0;max-width:none}section{padding:22px 12px}h2,h3{break-after:avoid}tr{break-inside:avoid}.lead{background:white;color:#182536}.eyebrow,.subtitle,.meta{color:#526777}details{display:none}a{color:#165f69}table{font-size:10px}}
+</style></head><body><main>
+<section class="lead"><div class="eyebrow">项目决策材料 · 第一批</div>
+<h1>角色、服饰与动作<br>Agent 生产路线调研</h1>
+<p class="subtitle">以现有工程为基础，把“可以调用工具”推进到“能够重复交付合格资产”。</p>
+<div class="meta">核查日期：2026-11-14 ｜ Phaser + Three.js + VRM ｜ 普通电脑浏览器优先</div></section>
+
+<section><h2>01　结论与本轮范围</h2>
+<div class="decision"><strong>当前主路线继续采用：现有可编辑基模 + Blender 脚本制作与编辑 + 游戏中验证。</strong><p>简单附件、基础服装和短手势由 Codex 直接制作；人物外观在已验证基模上做受限派生；完整拟人舞蹈优先采用合适源动作，经编辑、重定向和接触修正后交付。暂不因新工具宣传更换引擎或基模。</p></div>
+<p>这是第一批资料核查与本地文件盘点，不是美术验收。没有改动 F:/gamemake、运行其构建或导出脚本，也没有调用付费生成接口、注册账号或上传项目模型。项目仍在开发，本文中的状态仅对应本次观察；实际通过状态仍由工程 CAPABILITIES.md 管理。</p>
+<p>报告区分三类依据：<span class="tag">本轮直接检查</span>文件、哈希、GLB 头与动画时间范围；<span class="tag">工程记录</span>已有生成和验证报告，未在本轮重复执行；<span class="tag">官方资料／工程建议</span>工具文档确认的能力及本报告据此提出的选择。</p>
+</section>
+
+<section><h2>02　已有工作：避免重复派任务</h2>
+<table><thead><tr><th>对象</th><th>已看到的证据</th><th>仍不能据此宣称</th></tr></thead><tbody>
+<tr><td>改脸样件 <code>m1a-jaw-v1</code></td><td>VRM 文件与可编辑制作记录存在。工程记录为下颌局部几何修改，保留各表情相对 Basis 的差值。</td><td>完整捏脸系统、所有脸型与表情兼容，或最终画风通过。</td></tr>
+<tr><td>腰臀样件 <code>m1a-waisthip-v1</code></td><td>独立 VRM 与衣物构建记录存在。工程报告记录局部腰臀变化，以及新裤重新生成。</td><td>男女任意体型自动适配、完整参数组合通过。</td></tr>
+<tr><td>麦克风与眼镜</td><td>本轮确认两件独立 GLB 和 .blend 文件存在。工程 README 记录为程序化原创几何；男女挂点偏移尚未标为已验证。</td><td>手指闭合、握持、头部贴合、讲话与走坐兼容。</td></tr>
+<tr><td>UAL1 动作包</td><td>本轮解析得到 43 段。Dance_Loop 为 1 秒；站／坐 Talking 各约 2.933 秒；Jog 约 0.933 秒。</td><td>43 段舞蹈、完整舞蹈供应，或全部动作已接入。</td></tr>
+<tr><td>新慢跑派生与技术舞</td><td>本轮解析到 Jog_Ordinary_Derived_v1，约 0.933 秒；Dance_Technical_7s_Once_v1，7.2 秒。</td><td>慢跑自然度通过；7.2 秒测试片达到正式表演质量；批量导入已经成立。</td></tr>
+</tbody></table>
+<p>最新能力清单附记已记录男性进入同一房间的开发测试，同时仍保留鞋底和座位接触缺陷。旧表行、开发附记、资产目录之间存在更新时差。应由项目 Codex 在冻结新构建时合并状态；本报告不把文件出现或开发记录直接升级为正式通过。</p>
+<p class="note">关键变化：现在应复用并验收已有的改脸、体型、男装与附件样件，继续下达“从零再做一遍”的任务会造成重复工作。</p>
+</section>
+
+<section><h2>03　角色与服饰：按资源类型选择生产方法</h2>
+<table><thead><tr><th>资源</th><th>建议生产方式</th><th>交付边界与重点</th></tr></thead><tbody>
+<tr><td>脸型／局部体型</td><td>在当前基模上，用版本化参数与几何变形生成派生资产；保留原件。</td><td>先验证有限范围；脸部要复查眼牙、闭眼和口型。对所有形态键加同一位移能保留数值差值，但不自动保证极端脸型的视觉正确。</td></tr>
+<tr><td>基础上衣／裤子</td><td>以完整身体或独立版型为参照生成裁片、厚度、边缘和 UV，再建立蒙皮。</td><td>身体表面的复制适合部分贴身结构；宽松轮廓、领袖、开口和叠穿需要专门版型，不能全部靠沿法线外扩。</td></tr>
+<tr><td>裙子／外套</td><td>独立轮廓与拓扑 + 骨骼蒙皮／必要修正形态；按预算加入附加动态。</td><td>体型适配、关节变形、布料摆动是不同问题。静止贴合通过不能证明坐下或舞蹈通过；不承诺通用布料物理。</td></tr>
+<tr><td>麦克风／眼镜／简单饰品</td><td>曲线、基本体和尺寸参数生成；保存语义挂点与基模适配数据。</td><td>最适合先证明直接自制流程。可编辑源、实际比例、独立对象与安装姿态必须保留。</td></tr>
+<tr><td>发型／复杂装饰</td><td>独立发束或网格模板、UV 与材质，再配置权重／附加骨。</td><td>需处理头围、发际线、帽子关系和动态成本。先一件样品；不承诺一句描述即可稳定产生任意精细发型。</td></tr>
+<tr><td>纹理／材质变化</td><td>基于稳定 UV 生成颜色、图案或贴图变化，保留分层源与材质参数。</td><td>纹理变化不能代替新服装轮廓；Blender 预览须与浏览器材质对照。</td></tr>
+</tbody></table>
+<p>Blender 与 VRM 插件提供 Python 导入、编辑和导出入口，能够组成 Agent 可重复执行的制作流程；glTF 导出能保存蒙皮、形态键和支持的动画。导出能力不等于所有 Blender 材质、修改器或模拟行为都自动进入游戏。<a href="#S1">[S1]</a> <a href="#S2">[S2]</a> <a href="#S3">[S3]</a></p>
+
+<h3>保留三个有明确用途的方案</h3>
+<table><thead><tr><th>方案</th><th>证据与优势</th><th>本轮决定</th></tr></thead><tbody>
+<tr><td>现有 Blender + VRM 制作脚本</td><td>工程锁定 Blender 4.5.9 LTS、VRM 插件 4.10.5；已有可编辑基模、几何派生、裤装和附件。</td><td><strong>继续作为主路线。</strong>先完成现有样件的实际接入和视觉验证。</td></tr>
+<tr><td>MPFB / MakeHuman</td><td>官方提供体型与服装映射／重新贴合机制，包含权重转移与遮挡数据；核心资产和代码的许可分别管理。<a href="#S4">[S4]</a> <a href="#S5">[S5]</a></td><td><strong>保留为方法与工具备选。</strong>它依赖 MakeHuman 基模映射，不是给当前 VRM 任意衣服直接套用的按钮；目标二次元画风与现有工程适配尚未实测。</td></tr>
+<tr><td>生成式 3D 工具，以 Meshy 为调查样本</td><td>官方 API 提供人体绑定；官方说明自定义面部等骨架仍需 DCC 工具处理。<a href="#S12">[S12]</a> <a href="#S13">[S13]</a></td><td><strong>暂不作为统一人物母体来源。</strong>可考虑独立道具／外形试制；一致拓扑、完整隐蔽身体、表情、换装分层和预算均需另外验证。本轮未调用。</td></tr>
+</tbody></table>
+<p>旧 VRoid New model 有官方 CC0 页面；当前 Studio 对内容和角色生成应用另有约定。现有候选来自第三方旧版导出，工程尚未完成与官方原始导出的身份核对。继续保留这一待核事项；新增发型、服装与纹理须独立记录来源，不沿用一个笼统的“VRoid 可商用”标签。<a href="#S6">[S6]</a> <a href="#S7">[S7]</a></p>
+</section>
+
+<section><h2>04　舞蹈与直播动作：直接制作与编辑结合</h2>
+<table><thead><tr><th>动作类型</th><th>主方法</th><th>最小验证</th></tr></thead><tbody>
+<tr><td>挥手／点头／持麦姿态</td><td>Codex 制作关键姿态、曲线与过渡，导出可编辑动作。</td><td>利用 M1C 已计划的一个手势；检查准备、动作、收回，以及手臂／手指与持物通道。</td></tr>
+<tr><td>站姿／坐姿讲话</td><td>先编辑已有 Talking 源，按声明范围控制上身；眨眼、口型、视线独立合成。</td><td>不能仅删除腿部轨道却保留会带动腿的髋部运动；保留坐稳与脚底条件。口型试验不代表音频驱动讲话已经完成。</td></tr>
+<tr><td>走／普通跑</td><td>筛选合适源，或离线编辑形成明确命名的派生动作，保留原源。</td><td>以目标角色实际足轨、步频、支撑和腾空验证速度。新普通跑派生已有文件，直接复用其待验流程。</td></tr>
+<tr><td>完整舞蹈</td><td>源动作／动捕数据 → 编辑与重定向 → 根运动和接触修正 → 游戏验收。</td><td>在现有 M1C 少量样件范围内区分技术压力动作与正式表演样片；正常速度检查重心、连贯性和节奏。</td></tr>
+</tbody></table>
+<p>现有 M1C 源报告已经发现：动作名为 Jog，并不保证在目标角色上适合普通慢跑；仅换速度数字也无法保证脚不滑。这里应继续现有源轨迹分析与派生编辑，不重新把“包里有 Jog”当成完成证据。</p>
+
+<h3>动作来源与生成工具的调查结果</h3>
+<table><thead><tr><th>候选</th><th>已核实内容</th><th>选择与限制</th></tr></thead><tbody>
+<tr><td>Quaternius UAL</td><td>官方标 CC0，Source 层含 .blend。当前本地 UAL1 是 43 段，Dance_Loop 仅 1 秒。<a href="#S8">[S8]</a></td><td><strong>继续用于基础动作和编辑起点。</strong>免费包、整套产品、源工程层和完整舞蹈数量分别核查；本轮不建议为数量直接升级。</td></tr>
+<tr><td>KayKit Character Animations</td><td>作者提供 CC0 动作，含模拟类手势；FBX/glTF 可取得，.blend 源为另一个版本层。工程报告已取得 Free 包。<a href="#S9">[S9]</a></td><td><strong>作为手势／动作备选。</strong>其人物比例不同，源筛选已经暴露普通跑不直接适用，需目标骨架验证；不重复下载已有包。</td></tr>
+<tr><td>Mixamo</td><td>Adobe FAQ 说明需 Adobe ID，可用于包括游戏在内的商业项目，并列出账号类型／地区限制。<a href="#S10">[S10]</a></td><td><strong>条件备选。</strong>本轮未登录、未取得具体舞蹈。账号可用性、实际片段、浏览器分发条件与自动化方式仍须核实，不作为唯一供应。</td></tr>
+<tr><td>Meshy Text to Motion</td><td>官方接口生成独立动作；prime 输出 FBX、swift 输出 BVH；时长 2–10 秒，需付费计划。本次页面列每次 10／3 credits。<a href="#S11">[S11]</a></td><td><strong>只作为短动作试制候选。</strong>未调用、未验证自然度、当前账号价格与具体输出许可未准入；它不能据文档就被称为整首舞蹈生成方案。</td></tr>
+<tr><td>Rokoko Create</td><td>官方提供视频／文字动作生成，经 Studio 编辑后导出，并说明生成动作可商用。<a href="#S14">[S14]</a></td><td><strong>动捕／长动作来源研究候选。</strong>输入素材条件、实际可生成时长、订阅费用和 Agent 自动化流程未实测。本轮未上传视频或注册服务。</td></tr>
+</tbody></table>
+<p>VRMA 可以表达 humanoid 骨骼、表情与视线；它解决交换格式的一部分，不会自动修好不同身材、衣服和地面接触。先保留已能工作的 GLB 流程，有实际来源需要时再验证 VRMA 转换，避免同时实现所有格式。<a href="#S15">[S15]</a></p>
+<p class="note">采购结论：本轮没有发现“必须立即付费才能继续”的证据。先用已取得资源和已生成样件完成验收；需要付费试验时，再给出具体样件、费用上限和成功标准。</p>
+</section>
+
+<section><h2>05　同一套生产验收，不再扩出新里程碑</h2>
+<table><thead><tr><th>复用现有样件</th><th>要证明的生产能力</th><th>完成标准</th></tr></thead><tbody>
+<tr><td>下颌／腰臀两个派生</td><td>改源以后能重新生成真实外观变化，并追溯版本。</td><td>在对应基模实际加载；脸部表情与代表走坐链通过；适配限制单列。男性需要独立核查，不能继承。</td></tr>
+<tr><td>已有男装或变体裤装</td><td>由参数与源文件重建装备，精确匹配主体。</td><td>新装备 ID／绑定数据／覆盖区域正确；相同动作控制可复用，特殊修正保留为资源配置。</td></tr>
+<tr><td>已有麦克风／眼镜</td><td>从自制几何到装备挂点和行为组合。</td><td>男女分别标定；持麦站讲、走路、坐讲和卸下恢复；所有权不串用。</td></tr>
+<tr><td>M1C 一个手势</td><td>Agent 能直接制作并编辑短动作。</td><td>有可编辑源、明确开始结束和过渡；原速可看，手指／持物无明显冲突。</td></tr>
+<tr><td>已有技术舞 + 计划中的代表舞</td><td>测试覆盖和实际表演品质分别成立；新动作可持续进入管线。</td><td>技术舞保留为测试资产；正式样片需有源、版本、根运动／接触声明和正常速度视频。拼接重复不能自动充当新编舞质量。</td></tr>
+</tbody></table>
+<p>每次交付保留：可编辑源、生成／修改参数与脚本、工具版本、来源与使用条件、运行资产、兼容范围、验证视频。记录一次新增样件实际需要的 Agent 操作、返修次数和外部费用；当前没有足够数据给出可靠批量工时或成功率，不编造估价。</p>
+<p>通用流程固定：定义样件与目标 → 制作或选源 → 编辑 → 离线检查 → 导出／转换 → 游戏实际运行 → 视觉复核 → 归档。资产只因文件生成而进入“待验”，通过状态必须绑定实际组合。</p>
+</section>
+
+<section><h2>06　给项目 Codex 的合并说明</h2>
+<p>以下文字可直接交接。它是现有任务的收敛说明，避免重复生成和盲目换工具。</p>
+<pre class="handoff">请将本次生产调研映射到现有 CAPABILITIES 和 M1A/B/C，不新增一套计划。
+
+继续现有 Blender + VRM 制作路线。先盘点并复用已有 m1a-jaw-v1、m1a-waisthip-v1、男性服装、studio-microphone-v1、studio-glasses-v1、普通跑派生与技术舞。文件已经存在的，不从零重做；检查正在进行的工作，补齐当前缺少的游戏接入和验收。
+
+简单附件、基础服装、一个直播手势由你负责制作和编辑；完整拟人舞蹈优先以合适动作源进行编辑与重定向。直接制作和基于源素材编辑都应交付可编辑源、参数/脚本、版本和运行资源。
+
+技术测试舞与正式舞蹈品质分别标记。仅有一段短循环或新生成文件，不足以宣布完整舞蹈生产可用。原速录像、根运动、接触、目标体型与服装适配仍按原计划验收。
+
+衣物体型贴合、动作蒙皮和附加动态分别检查；避免以单件裙的专用修正宣称通用衣物适配。新增同类素材优先用数据与修正配置表达，确需修改核心控制器时说明原因。
+
+MPFB、生成式 3D 和付费动作工具先保留为备选。当前资源足以支持未完成的最小样件，不为本次调研重构项目或直接采购。若现有方法达不到具体样件的质量/成本目标，再提交有证据的替代试验与费用上限。
+
+将文档旧状态、开发结果和新固定构建验收对齐。继续按现有优先级执行，不因收到调研材料暂停，不扩大 M2/M3。所有未验证部分如实保留。</pre>
+</section>
+
+<section><h2>07　经营玩法：首版研究假设</h2>
+<p>这一页用于后续讨论，不作为本轮 M1 开发任务，也不代表已经证明好玩。参考范围：Idol Manager 的人才／公司管理，Youtubers Life 2 的内容选择／趋势与粉丝成长；两者的整套规模不照搬。<a href="#S16">[S16]</a> <a href="#S17">[S17]</a></p>
+<p><strong>候选循环：</strong>选择主播 → 安排直播内容和时段 → 获得资金与粉丝反馈 → 培训、休息和设备投入 → 调整下一次安排。</p>
+<ul><li>首版用资金、粉丝、技能、精力四类状态研究策略，暂不堆叠多种货币。</li><li>主播差异先落在内容适性与培养选择。外观、舞蹈和服装对收益是否有影响，属于待确认产品规则，不能由美术稀有度自动决定。</li><li>离线计算以业务时间和已确认任务为依据。回访时呈现结果与新的可选安排；不要求动画一直运行。</li><li>后续先做单公司完整经营链，再按实际设计接榜单、交易和异步 PK；现在不要求服务器实现。</li><li>下一次产品判断应看可点击的短流程或数值演示：是否有真正需要选择的事情、不同选择是否产生可理解差异、投入能否支撑新的选择。当前不承诺具体留存或收益。</li></ul>
+</section>
+
+<section><h2>08　来源、观察记录与边界</h2>
+<p>下列外部来源均为作者、工具官方文档或发行方页面。工具能力只按文档确认；未登录服务不标为“已取得”，未运行样件不标为“已通过”。页面价格和套餐条件仅代表核查当时，采购前应再次核对。</p>
+<ol class="sources"><li id="S1"><strong>S1</strong>　<a href="https://vrm-addon-for-blender.info/en-us/scripting-api/">VRM Add-on：Python 自动化导入与导出</a></li><li id="S2"><strong>S2</strong>　<a href="https://docs.blender.org/api/current/info_quickstart.html">Blender Python：关键帧与动画曲线</a></li><li id="S3"><strong>S3</strong>　<a href="https://docs.blender.org/manual/en/latest/addons/scene_gltf2.html">Blender：glTF 导出、蒙皮、形态键与动画</a></li><li id="S4"><strong>S4</strong>　<a href="https://github.com/makehumancommunity/mpfb2/blob/master/docs/services/clothesservice.md">MPFB：ClothesService 与服装映射</a></li><li id="S5"><strong>S5</strong>　<a href="https://github.com/makehumancommunity/mpfb2/blob/master/LICENSE.md">MPFB：代码、资产和输出的许可区分</a></li><li id="S6"><strong>S6</strong>　<a href="https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model">VRoid：旧 New model 的专门许可</a></li><li id="S7"><strong>S7</strong>　<a href="https://vroid.com/en/studio/guidelines">VRoid：当前 Studio Guidelines</a></li><li id="S8"><strong>S8</strong>　<a href="https://quaternius.com/packs/universalanimationlibrary.html">Quaternius：Universal Animation Library</a></li><li id="S9"><strong>S9</strong>　<a href="https://kaylousberg.itch.io/kaykit-character-animations">Kay Lousberg：KayKit Character Animations</a></li><li id="S10"><strong>S10</strong>　<a href="https://helpx.adobe.com/creative-cloud/faq/mixamo-faq.html">Adobe：Mixamo FAQ</a></li><li id="S11"><strong>S11</strong>　<a href="https://docs.meshy.ai/en/api/text-to-motion">Meshy：Text to Motion API</a></li><li id="S12"><strong>S12</strong>　<a href="https://docs.meshy.ai/en/api/rigging">Meshy：Rigging API</a></li><li id="S13"><strong>S13</strong>　<a href="https://docs.meshy.ai/en/webapp/guides/3d-model/rigging">Meshy：自定义面部骨架等限制</a></li><li id="S14"><strong>S14</strong>　<a href="https://create.rokoko.com/">Rokoko Create：视频／文字动作生成</a></li><li id="S15"><strong>S15</strong>　<a href="https://vrm.dev/en/vrma/">VRM Animation：格式与能力范围</a></li><li id="S16"><strong>S16</strong>　<a href="https://store.steampowered.com/app/821880/Idol_Manager/">Idol Manager：发行方游戏介绍</a></li><li id="S17"><strong>S17</strong>　<a href="https://store.steampowered.com/app/1493760/Youtubers_Life_2/">Youtubers Life 2：发行方游戏介绍</a></li></ol>
+<h3>本地证据</h3><p>读取时 Git HEAD：<code>1eee0c0ab452b90d1838f358b1c71214e8c00d33</code>；下表包含开发中的工作区产物，不代表均已提交。读取时间：<code>2026-11-14T20:06:45.753773+00:00</code>。单文件读取期间的大小与修改时间一致性已检查；没有取得跨文件原子快照。</p>
+<table class="evidence"><thead><tr><th>项目内相对路径</th><th>本轮直接检查</th></tr></thead><tbody><tr><td><code>docs/CAPABILITIES.md</code></td><td>18,349 bytes · SHA256 60d3ceeec738fede…</td></tr><tr><td><code>docs/FOUNDATION-ASSET-AUDIT.md</code></td><td>11,303 bytes · SHA256 c0063ca296d4bb34…</td></tr><tr><td><code>docs/M1C-SOURCE.md</code></td><td>9,469 bytes · SHA256 365e5f363d9755f4…</td></tr><tr><td><code>assets-source/foundation/toolchain.json</code></td><td>445 bytes · SHA256 4221c89bc005c017…</td></tr><tr><td><code>assets-source/m1-variants/README.md</code></td><td>6,135 bytes · SHA256 04955c0f29d2f58b…</td></tr><tr><td><code>assets-source/m1-variants/audit-report.json</code></td><td>18,832 bytes · SHA256 afd4400afca423e9…</td></tr><tr><td><code>assets-source/m1c-accessories/README.md</code></td><td>3,000 bytes · SHA256 c3cee8b30b784494…</td></tr><tr><td><code>assets-source/m1c-accessories/audit-report.json</code></td><td>941 bytes · SHA256 b6cd0917f3eee092…</td></tr><tr><td><code>prototype/public/assets/m1-variants/m1a-jaw-v1/avatar.vrm</code></td><td>16,311,584 bytes · SHA256 3c11caaed49f6db5…</td></tr><tr><td><code>prototype/public/assets/m1-variants/m1a-waisthip-v1/avatar.vrm</code></td><td>16,311,596 bytes · SHA256 10778174ece87e3e…</td></tr><tr><td><code>prototype/public/assets/m1c/studio-microphone-v1.glb</code></td><td>106,372 bytes · SHA256 4c236a9b58ae2736…</td></tr><tr><td><code>prototype/public/assets/m1c/studio-glasses-v1.glb</code></td><td>54,484 bytes · SHA256 c8098a499434c384…</td></tr><tr><td><code>assets-source/m1c-accessories/studio-microphone-v1.blend</code></td><td>572,036 bytes · SHA256 6b5a6c1d2bce30aa…</td></tr><tr><td><code>assets-source/m1c-accessories/studio-glasses-v1.blend</code></td><td>560,099 bytes · SHA256 24718d825bbd4b2a…</td></tr><tr><td><code>prototype/public/assets/motion/UAL1_Standard.glb</code></td><td>7,618,436 bytes · SHA256 69591853d817488e…</td></tr><tr><td><code>prototype/public/assets/motion/m1c/dance-source-reference.glb</code></td><td>739,436 bytes · SHA256 b864ec5f44092913…</td></tr><tr><td><code>prototype/public/assets/motion/m1c/dance-technical-v1.glb</code></td><td>2,984,076 bytes · SHA256 fbae2356890c897a…</td></tr><tr><td><code>prototype/public/assets/motion/m1c/jog-ordinary-derived-v1.glb</code></td><td>965,540 bytes · SHA256 6ec251d7611f22c6…</td></tr></tbody></table>
+<details><summary>查看完整文件观察数据（含哈希与动作列表）</summary><pre>{
+  &quot;observed_at_utc&quot;: &quot;2026-11-14T20:06:45.753773+00:00&quot;,
+  &quot;scope&quot;: &quot;Read-only local file inventory; active project may change after observation&quot;,
+  &quot;not_performed&quot;: [
+    &quot;No project edits&quot;,
+    &quot;No build/export execution&quot;,
+    &quot;No browser animation QA&quot;,
+    &quot;No paid service calls&quot;
+  ],
+  &quot;items&quot;: [
+    {
+      &quot;path&quot;: &quot;docs/CAPABILITIES.md&quot;,
+      &quot;bytes&quot;: 18349,
+      &quot;sha256&quot;: &quot;60d3ceeec738fede2e57c0e04acfa817069b9f528a76871eba7f0922164a42d0&quot;,
+      &quot;stable_during_read&quot;: true,
+      &quot;modified_utc&quot;: &quot;2026-11-14T19:45:22.875024+00:00&quot;
+    },
+    {
+      &quot;path&quot;: &quot;docs/FOUNDATION-ASSET-AUDIT.md&quot;,
+      &quot;bytes&quot;: 11303,
+      &quot;sha256&quot;: &quot;c0063ca296d4bb348e72d7bbed50a64edc068fd4fa8a2437f792e1238df19212&quot;,
+      &quot;stable_during_read&quot;: true,
+      &quot;modified_utc&quot;: &quot;2026-11-14T17:49:04.300383+00:00&quot;
+    },
+    {
+      &quot;path&quot;: &quot;docs/M1C-SOURCE.md&quot;,
+      &quot;bytes&quot;: 9469,
+      &quot;sha256&quot;: &quot;365e5f363d9755f43c921b13270cf8b23770896d8a2a15e205b74292cef10850&quot;,
+      &quot;stable_during_read&quot;: true,
+      &quot;modified_utc&quot;: &quot;2026-11-14T19:46:09.171921+00:00&quot;
+    },
+    {
+      &quot;path&quot;: &quot;assets-source/foundation/toolchain.json&quot;,
+      &quot;bytes&quot;: 445,
+      &quot;sha256&quot;: &quot;4221c89bc005c01752b06a203dff7c46c25449b540e786222ea14fda1bfc1941&quot;,
+      &quot;stable_during_read&quot;: true,
+      &quot;modified_utc&quot;: &quot;2026-11-14T17:29:02.929500+00:00&quot;
+    },
+    {
+      &quot;path&quot;: &quot;assets-source/m1-variants/README.md&quot;,
+      &quot;bytes&quot;: 6135,
+      &quot;sha256&quot;: &quot;04955c0f29d2f58b7c06477d15eaaf9f7cc77193c691e08b7280bcc5b6076a6b&quot;,
+      &quot;stable_during_read&quot;: true,
+      &quot;modified_utc&quot;: &quot;2026-11-14T19:57:57.408086+00:00&quot;
+    },
+    {
+      &quot;path&quot;: &quot;assets-source/m1-variants/audit-report.json&quot;,
+      &quot;bytes&quot;: 18832,
+      &quot;sha256&quot;: &quot;afd4400afca423e9ec1f881a466f310cdff6417d17e134e1af4439f4c24b0f5c&quot;,
+      &quot;stable_during_read&quot;: true,
+      &quot;modified_utc&quot;: &quot;2026-11-14T19:57:57.356915+00:00&quot;
+    },
+    {
+      &quot;path&quot;: &quot;assets-source/m1c-accessories/README.md&quot;,
+      &quot;bytes&quot;: 3000,
+      &quot;sha256&quot;: &quot;c3cee8b30b784494d922c9aa0c261a32ed1b60f09c8e039a49a94d8f8e5e2038&quot;,
+      &quot;stable_during_read&quot;: true,
+      &quot;modified_utc&quot;: &quot;2026-11-14T19:58:38.621406+00:00&quot;
+    },
+    {
+      &quot;path&quot;: &quot;assets-source/m1c-accessories/audit-report.json&quot;,
+      &quot;bytes&quot;: 941,
+      &quot;sha256&quot;: &quot;b6cd0917f3eee092a51423de12739cca857b3ea2e72fcefe3a086473e4a316d9&quot;,
+      &quot;stable_during_read&quot;: true,
+      &quot;modified_utc&quot;: &quot;2026-11-14T19:58:38.996267+00:00&quot;
+    },
+    {
+      &quot;path&quot;: &quot;prototype/public/assets/m1-variants/m1a-jaw-v1/avatar.vrm&quot;,
+      &quot;bytes&quot;: 16311584,
+      &quot;sha256&quot;: &quot;3c11caaed49f6db514acb7678551352afdf1c2893ef92ca93b959a8d09691011&quot;,
+      &quot;stable_during_read&quot;: true,
+      &quot;modified_utc&quot;: &quot;2026-11-14T19:54:27.871190+00:00&quot;,
+      &quot;mesh_count&quot;: 2,
+      &quot;skin_count&quot;: 2,
+      &quot;animations&quot;: []
+    },
+    {
+      &quot;path&quot;: &quot;prototype/public/assets/m1-variants/m1a-waisthip-v1/avatar.vrm&quot;,
+      &quot;bytes&quot;: 16311596,
+      &quot;sha256&quot;: &quot;10778174ece87e3e3a00ecaf5e0c98eef59cd7d762e9bb52daa50162ee1743b5&quot;,
+      &quot;stable_during_read&quot;: true,
+      &quot;modified_utc&quot;: &quot;2026-11-14T19:54:36.332741+00:00&quot;,
+      &quot;mesh_count&quot;: 2,
+      &quot;skin_count&quot;: 2,
+      &quot;animations&quot;: []
+    },
+    {
+      &quot;path&quot;: &quot;prototype/public/assets/m1c/studio-microphone-v1.glb&quot;,
+      &quot;bytes&quot;: 106372,
+      &quot;sha256&quot;: &quot;4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c&quot;,
+      &quot;stable_during_read&quot;: true,
+      &quot;modified_utc&quot;: &quot;2026-11-14T19:58:16.901590+00:00&quot;,
+      &quot;mesh_count&quot;: 9,
+      &quot;skin_count&quot;: 0,
+      &quot;animations&quot;: []
+    },
+    {
+      &quot;path&quot;: &quot;prototype/public/assets/m1c/studio-glasses-v1.glb&quot;,
+      &quot;bytes&quot;: 54484,
+      &quot;sha256&quot;: &quot;c8098a499434c384850a73e6c207fb6c5e85620e9012c4426cd989952e5bec52&quot;,
+      &quot;stable_during_read&quot;: true,
+      &quot;modified_utc&quot;: &quot;2026-11-14T19:58:16.922807+00:00&quot;,
+      &quot;mesh_count&quot;: 7,
+      &quot;skin_count&quot;: 0,
+      &quot;animations&quot;: []
+    },
+    {
+      &quot;path&quot;: &quot;assets-source/m1c-accessories/studio-microphone-v1.blend&quot;,
+      &quot;bytes&quot;: 572036,
+      &quot;sha256&quot;: &quot;6b5a6c1d2bce30aa6cd7cc77331c35a0962f60c606647c812a0d9ccc69e99ac2&quot;,
+      &quot;stable_during_read&quot;: true,
+      &quot;modified_utc&quot;: &quot;2026-11-14T19:58:16.697739+00:00&quot;
+    },
+    {
+      &quot;path&quot;: &quot;assets-source/m1c-accessories/studio-glasses-v1.blend&quot;,
+      &quot;bytes&quot;: 560099,
+      &quot;sha256&quot;: &quot;24718d825bbd4b2a0e73bd07038e459882690771632f2be91c3a8859edd7635d&quot;,
+      &quot;stable_during_read&quot;: true,
+      &quot;modified_utc&quot;: &quot;2026-11-14T19:58:16.907885+00:00&quot;
+    },
+    {
+      &quot;path&quot;: &quot;prototype/public/assets/motion/UAL1_Standard.glb&quot;,
+      &quot;bytes&quot;: 7618436,
+      &quot;sha256&quot;: &quot;69591853d817488edaa8fd9bf8fc1d821eaeaf789f8627b3cd23b41c4ed67997&quot;,
+      &quot;stable_during_read&quot;: true,
+      &quot;modified_utc&quot;: &quot;2026-11-14T14:28:52.713091+00:00&quot;,
+      &quot;mesh_count&quot;: 1,
+      &quot;skin_count&quot;: 1,
+      &quot;animations&quot;: [
+        {
+          &quot;name&quot;: &quot;A_TPose&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 2.5,
+          &quot;duration_s&quot;: 2.5,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Crouch_Fwd_Loop&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 2,
+          &quot;duration_s&quot;: 2,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Crouch_Idle_Loop&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 2.933333333333333,
+          &quot;duration_s&quot;: 2.933333333333333,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Dance_Loop&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 1,
+          &quot;duration_s&quot;: 1,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Death01&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 2.4,
+          &quot;duration_s&quot;: 2.4,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Driving_Loop&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 1.6666666666666667,
+          &quot;duration_s&quot;: 1.6666666666666667,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Fixing_Kneeling&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 5.2,
+          &quot;duration_s&quot;: 5.2,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Hit_Chest&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 0.3333333333333333,
+          &quot;duration_s&quot;: 0.3333333333333333,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Hit_Head&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 0.43333333333333335,
+          &quot;duration_s&quot;: 0.43333333333333335,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Idle_Loop&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 2.5,
+          &quot;duration_s&quot;: 2.5,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Idle_Talking_Loop&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 2.933333333333333,
+          &quot;duration_s&quot;: 2.933333333333333,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Idle_Torch_Loop&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 1.2666666666666666,
+          &quot;duration_s&quot;: 1.2666666666666666,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Interact&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 2,
+          &quot;duration_s&quot;: 2,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Jog_Fwd_Loop&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 0.9333333333333333,
+          &quot;duration_s&quot;: 0.9333333333333333,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Jump_Land&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 1.2666666666666666,
+          &quot;duration_s&quot;: 1.2666666666666666,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Jump_Loop&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 2.5,
+          &quot;duration_s&quot;: 2.5,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Jump_Start&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 1.3333333333333333,
+          &quot;duration_s&quot;: 1.3333333333333333,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;PickUp_Table&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 0.8333333333333334,
+          &quot;duration_s&quot;: 0.8333333333333334,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Pistol_Aim_Down&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 0.16666666666666666,
+          &quot;duration_s&quot;: 0.16666666666666666,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Pistol_Aim_Neutral&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 0.16666666666666666,
+          &quot;duration_s&quot;: 0.16666666666666666,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Pistol_Aim_Up&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 0.16666666666666666,
+          &quot;duration_s&quot;: 0.16666666666666666,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Pistol_Idle_Loop&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 1.6666666666666667,
+          &quot;duration_s&quot;: 1.6666666666666667,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Pistol_Reload&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 1.6666666666666667,
+          &quot;duration_s&quot;: 1.6666666666666667,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Pistol_Shoot&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 0.6333333333333333,
+          &quot;duration_s&quot;: 0.6333333333333333,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Punch_Cross&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 1,
+          &quot;duration_s&quot;: 1,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Punch_Jab&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 0.8666666666666667,
+          &quot;duration_s&quot;: 0.8666666666666667,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Push_Loop&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 2.6666666666666665,
+          &quot;duration_s&quot;: 2.6666666666666665,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Roll&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 1.4666666666666666,
+          &quot;duration_s&quot;: 1.4666666666666666,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Sitting_Enter&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 1.3,
+          &quot;duration_s&quot;: 1.3,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Sitting_Exit&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 1.0333333333333334,
+          &quot;duration_s&quot;: 1.0333333333333334,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Sitting_Idle_Loop&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 1.6666666666666667,
+          &quot;duration_s&quot;: 1.6666666666666667,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Sitting_Talking_Loop&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 2.933333333333333,
+          &quot;duration_s&quot;: 2.933333333333333,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Spell_Simple_Enter&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 0.5333333333333333,
+          &quot;duration_s&quot;: 0.5333333333333333,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Spell_Simple_Exit&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 0.43333333333333335,
+          &quot;duration_s&quot;: 0.43333333333333335,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Spell_Simple_Idle_Loop&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 2.1,
+          &quot;duration_s&quot;: 2.1,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Spell_Simple_Shoot&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 0.5,
+          &quot;duration_s&quot;: 0.5,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Sprint_Loop&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 0.6666666666666666,
+          &quot;duration_s&quot;: 0.6666666666666666,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Swim_Fwd_Loop&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 1.3333333333333333,
+          &quot;duration_s&quot;: 1.3333333333333333,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Swim_Idle_Loop&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 3.3333333333333335,
+          &quot;duration_s&quot;: 3.3333333333333335,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Sword_Attack&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 1.5333333333333334,
+          &quot;duration_s&quot;: 1.5333333333333334,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Sword_Idle&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 1.6666666666666667,
+          &quot;duration_s&quot;: 1.6666666666666667,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Walk_Formal_Loop&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 1.3333333333333333,
+          &quot;duration_s&quot;: 1.3333333333333333,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        },
+        {
+          &quot;name&quot;: &quot;Walk_Loop&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 1.3333333333333333,
+          &quot;duration_s&quot;: 1.3333333333333333,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        }
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;prototype/public/assets/motion/m1c/dance-source-reference.glb&quot;,
+      &quot;bytes&quot;: 739436,
+      &quot;sha256&quot;: &quot;b864ec5f440929133787791884e645a0bc73c323d107c9a9ef9937b4f1ca9744&quot;,
+      &quot;stable_during_read&quot;: true,
+      &quot;modified_utc&quot;: &quot;2026-11-14T20:06:21.860674+00:00&quot;,
+      &quot;mesh_count&quot;: 1,
+      &quot;skin_count&quot;: 1,
+      &quot;animations&quot;: [
+        {
+          &quot;name&quot;: &quot;Dance_Loop&quot;,
+          &quot;start_s&quot;: 0,
+          &quot;end_s&quot;: 1,
+          &quot;duration_s&quot;: 1,
+          &quot;channel_count&quot;: 195,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        }
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;prototype/public/assets/motion/m1c/dance-technical-v1.glb&quot;,
+      &quot;bytes&quot;: 2984076,
+      &quot;sha256&quot;: &quot;fbae2356890c897a1ea9209274d1315182443a6d03cc1c0cbd1d3e0a2ebe2b91&quot;,
+      &quot;stable_during_read&quot;: true,
+      &quot;modified_utc&quot;: &quot;2026-11-14T20:06:21.805175+00:00&quot;,
+      &quot;mesh_count&quot;: 1,
+      &quot;skin_count&quot;: 1,
+      &quot;animations&quot;: [
+        {
+          &quot;name&quot;: &quot;Dance_Technical_7s_Once_v1&quot;,
+          &quot;start_s&quot;: 0.0,
+          &quot;end_s&quot;: 7.2,
+          &quot;duration_s&quot;: 7.2,
+          &quot;channel_count&quot;: 201,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        }
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;prototype/public/assets/motion/m1c/jog-ordinary-derived-v1.glb&quot;,
+      &quot;bytes&quot;: 965540,
+      &quot;sha256&quot;: &quot;6ec251d7611f22c6bf918d3401fcf438a8f2bc7b72f2826047dea8beef15c9e5&quot;,
+      &quot;stable_during_read&quot;: true,
+      &quot;modified_utc&quot;: &quot;2026-11-14T19:57:40.042628+00:00&quot;,
+      &quot;mesh_count&quot;: 1,
+      &quot;skin_count&quot;: 1,
+      &quot;animations&quot;: [
+        {
+          &quot;name&quot;: &quot;Jog_Ordinary_Derived_v1&quot;,
+          &quot;start_s&quot;: 0.0,
+          &quot;end_s&quot;: 0.9333333373069763,
+          &quot;duration_s&quot;: 0.9333333373069763,
+          &quot;channel_count&quot;: 201,
+          &quot;time_basis&quot;: &quot;glTF input accessor bounds; no runtime or visual evaluation&quot;
+        }
+      ]
+    }
+  ]
+}</pre></details>
+<p class="note">本轮没有重新制作或观看新资产的完整游戏动作，因此不提供这些资产已达到最终画风、自然度或普通电脑性能目标的结论。待接入验证由项目 Codex 在现有阶段中完成。</p>
+</section>
+</main></body></html>

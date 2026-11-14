@@ -660,6 +660,16 @@ export function createMotion(
     previousAction = requested;
     requested = action;
     actionTime = 0;
+    if (action === "dance") {
+      // A new request may arrive while the previous once-clip is fading out.
+      // It owns a new clip clock; preserve the last authored pose for a short
+      // transition instead of reusing the completed clip's terminal time.
+      danceClock = 0;
+      interruptionPose = new Map([...authoredPose].map(([node, p]) => [node, {
+        position: p.position.clone(), quaternion: p.quaternion.clone(), scale: p.scale.clone(),
+      }]));
+      interruptionAge = 0;
+    }
     if (
       (action === "stand" && previousAction === "sit") ||
       (action === "sit" && previousAction === "stand")
@@ -1711,6 +1721,7 @@ export function createMotion(
   function getMetrics() {
     return {
       handContacts,
+      handContactsStage: "body-correction-before-live-accessory-layer; not final held-hand collision",
       action: requested,
       actionTime,
       phase,

@@ -897,6 +897,11 @@ class CharacterScene extends Phaser.Scene {
         this.actor.setExpression(cmd.name);
         return {applied:true};
       case "accessory":
+        // Admission must read the controller's current intent, not last frame's
+        // live-layer snapshot (dance and equip may arrive in the same tick).
+        if (cmd.kind === "mic" && cmd.value && (this.mode === "dance" ||
+            this.pending?.name === "dance" || this.rig.getMetrics().danceMix > .001))
+          return {applied:false,reason:"持麦舞蹈尚未制作；请等待舞蹈退出后装备。"};
         return this.actor.livePresentation?.setAccessory(cmd.kind,cmd.value);
       case "outfit":
         this.setOutfit(cmd.value);
@@ -942,6 +947,7 @@ class CharacterScene extends Phaser.Scene {
   setMode(name) {
     if (this.mode !== name) {
       this.mode = name;
+      this.actor?.livePresentation?.setAction(name);
       this.modeTime = 0;
       if (name === "sit" && this.seatToken) seatLeases.occupy(this.seatToken);
       if (name === "stand" && this.seatToken) seatLeases.beginExit(this.seatToken);
