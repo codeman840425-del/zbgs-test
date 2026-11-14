@@ -1544,6 +1544,7 @@ export function createMotion(
               foot.turnWindow = placement.window;
               foot.swingFrom.copy(foot.target);
               foot.turnFromQuaternion = foot.turnWorldQuaternion.clone();
+              foot.turnArcDelta = null;
               foot.turnPivot = null;
             }
             // A curved opening step, not a straight chord through the other leg.
@@ -1551,9 +1552,17 @@ export function createMotion(
             const from = foot.swingFrom.clone().sub(root.position);
             const to = landing.clone().sub(root.position);
             const fromAngle = Math.atan2(from.x, from.z), toAngle = Math.atan2(to.x, to.z);
-            let arc = Math.atan2(Math.sin(toAngle-fromAngle), Math.cos(toAngle-fromAngle));
-            if (Math.abs(arc) > 2.8) arc = Math.sign(turnPlan.targetYaw-turnPlan.yaw || arc)*Math.abs(arc);
-            const angle = fromAngle + arc * placement.blend;
+            const shortest = Math.atan2(Math.sin(toAngle-fromAngle), Math.cos(toAngle-fromAngle));
+            // Select an opening arc once. Re-evaluating its sign each frame at
+            // 2.8 rad moved the female swing foot 360 mm across the root.
+            // Unwrap successive endpoints relative to the committed branch.
+            if (foot.turnArcDelta === null) {
+              const direction=Math.sign(turnPlan.targetYaw-turnPlan.yaw || shortest);
+              foot.turnArcDelta=shortest;
+              if(Math.abs(shortest)>2.8 && shortest*direction<0) foot.turnArcDelta+=direction*TAU;
+            }
+            else foot.turnArcDelta += Math.atan2(Math.sin(shortest-foot.turnArcDelta),Math.cos(shortest-foot.turnArcDelta));
+            const angle = fromAngle + foot.turnArcDelta * placement.blend;
             const radius = THREE.MathUtils.lerp(Math.hypot(from.x,from.z), Math.hypot(to.x,to.z), placement.blend);
             foot.target.set(root.position.x+Math.sin(angle)*radius,
               THREE.MathUtils.lerp(foot.swingFrom.y,landing.y,placement.blend),

@@ -37,4 +37,3 @@ export function makeRecord(catalog, baseId, actorId, outfitIndex, appearanceRevi
   const record={schemaVersion:SCHEMA,identity:{actorId},appearanceRevision,body:structuredClone(body.recordBody),appearance:{mode:'baked-resource',parameters:{}},equipment:[...structuredClone(outfit.items),...catalog.accessories.map(x=>({...x.record,enabled:enabled[x.record.slot]}))],provenance:{catalogVersion:catalog.catalogVersion,manifestVersions:structuredClone(body.manifestVersions)}};
   validateRecord(record,catalog,baseId);return record;
 }
-

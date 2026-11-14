@@ -22,4 +22,3 @@ if(process.argv.includes('--plan')){console.log(JSON.stringify(plan,null,2));pro
  report.finalGate=await verifyCandidate(page,expected);report.collectionComplete=errors.length===0;report.visualReviewRequired=true;await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));await fs.writeFile(path.join(out,'review.html'),'<!doctype html><meta charset="utf-8"><title>Turn normal '+build+'</title><body style="font:16px system-ui;margin:24px"><h1>'+build+' Normal 1×; visual review required</h1>'+report.cases.map(c=>'<h2>'+c.label+'</h2><video controls preload="metadata" style="width:1100px;max-width:100%" src="'+c.video+'"></video>').join(''));console.log(out);
  }catch(error){if(active&&page)try{await capture(false);}catch{}await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));await writeFailure(out,error);throw error;}finally{await browser?.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;});
-
