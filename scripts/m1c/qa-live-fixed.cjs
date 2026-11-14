@@ -1,0 +1,41 @@
+// Fixed-build normal-speed validation. No module injection, no product mutation.
+const {chromium}=require('../../prototype/node_modules/playwright');
+const fs=require('node:fs/promises'),path=require('node:path');
+const root=path.resolve(__dirname,'../..'),build=process.env.QA_BUILD||'1791ba8f0563';
+const base=process.argv[2]||'http://127.0.0.1:4191/';
+(async()=>{
+ const out=path.join(root,'output/playwright/m1c-live',build);await fs.mkdir(out,{recursive:true});const browser=await chromium.launch({channel:'chrome',headless:true});const reports=[];
+ try{for(const config of [{body:'female',outfit:0,name:'female-pants'},{body:'female',outfit:1,name:'female-skirt'},{body:'male',outfit:0,name:'male-pants'}]){
+  const url=new URL(base);url.searchParams.set('body',config.body);const page=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[];page.on('pageerror',e=>errors.push(String(e)));
+  await page.goto(url.href);await page.waitForFunction(()=>window.__debug?.ready);
+  const identity=await page.evaluate(()=>__debug.buildInfo);if(identity.development||identity.shortId!==build)throw Error('Fixed build mismatch: '+JSON.stringify(identity));
+  const report=await page.evaluate(async({config,build})=>{
+   const d=__debug,c=d.game.scene.getScene('CharacterStudio'),a=d.avatar(),live=a.livePresentation;if(!live)throw Error('Actual integrated live module missing');
+   d.reset();d.setPaused(true);d.setBodyMode('dressed');d.setOutfit(config.outfit);d.setDynamics(true);d.setPlaybackRate(1);d.setCorrections('full');d.setHelpers(false);
+   const seat=d.snapshot().chair;a.root.position.set(...seat.approach);c.yaw=seat.yaw;a.root.rotation.y=seat.yaw;d.motion().reset();a.update(0,{action:'idle'});a.root.updateMatrixWorld(true);a.resetSecondary?.();
+   await Promise.all([live.setAccessory('mic',true),live.setAccessory('glasses',true)]);live.setExpression('neutral');live.setSpeaking(true);
+   const target=side=>a.root.localToWorld(a.root.position.clone().set(side*.65,1.45,3));live.setGaze(target(0));for(let i=0;i<120;i++)c.simulate(1/120);d.view('front');d.advance(0);
+   const V=a.root.position.constructor,handBones=new Set();for(const finger of ['Thumb','Index','Middle','Ring','Little'])for(const segment of ['Metacarpal','Proximal','Intermediate','Distal']){const b=a.vrm.humanoid.getRawBoneNode('right'+finger+segment);if(b)handBones.add(b);}handBones.add(a.vrm.humanoid.getRawBoneNode('rightHand'));
+   const hand=[];a.vrm.scene.traverse(m=>{if(!m.isSkinnedMesh||!(Array.isArray(m.material)?m.material:[m.material]).some(mat=>/Body_.*SKIN/.test(mat.name)))return;const joint=m.geometry.attributes.skinIndex,weight=m.geometry.attributes.skinWeight,ids=new Set(m.geometry.index?.array);for(const i of ids){let sum=0;for(let k=0;k<4;k++)if(handBones.has(m.skeleton.bones[joint.getComponent(i,k)]))sum+=weight.getComponent(i,k);if(sum>.5)hand.push({mesh:m,index:i});}});
+   const p=new V();function contact(){const mic=d.scene.getObjectByName('LiveAccessory:mic');if(!mic)return null;const inverse=mic.matrixWorld.clone().invert();let inside=0,maxDepth=0;for(const item of hand){item.mesh.getVertexPosition(item.index,p);p.applyMatrix4(item.mesh.matrixWorld).applyMatrix4(inverse);if(p.y<-.075||p.y>.085)continue;const depth=.013-Math.hypot(p.x,p.z);if(depth>.001){inside++;maxDepth=Math.max(maxDepth,depth);}}return{handVertices:hand.length,insideHandleOver1mm:inside,maxDepth};}
+   const canvas=document.createElement('canvas');canvas.width=1280;canvas.height=960;const ctx=canvas.getContext('2d'),stream=canvas.captureStream(60),chunks=[],recorder=new MediaRecorder(stream,{mimeType:'video/webm;codecs=vp9',videoBitsPerSecond:6500000});recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data);};
+   const samples=[],events=[],keys={},frameIntervals=[];let step=0,view='front',last;const total=1620;
+   const sample=()=>({step,t:step/120,mode:c.mode,sitProgress:d.motion().getMetrics().sitProgress,live:live.getState(),expressions:Object.fromEntries(['blink','happy','aa','ih','ou','ee','oh'].map(n=>[n,a.vrm.expressionManager?.getValue(n)])),eyes:['leftEye','rightEye'].map(n=>a.vrm.humanoid.getRawBoneNode(n)?.quaternion.toArray()),contact:contact()});
+   const draw=()=>{d.advance(0);const image=d.renderer.domElement;ctx.fillStyle='#e6e8e8';ctx.fillRect(0,0,1280,960);const scale=Math.min(1280/image.width,905/image.height),w=image.width*scale,h=image.height*scale;ctx.drawImage(image,(1280-w)/2,55+(905-h)/2,w,h);ctx.fillStyle='#16343d';ctx.fillRect(0,0,1280,55);ctx.fillStyle='white';ctx.font='19px sans-serif';ctx.fillText(`${build} | ${config.name} | live demo / not audio lipsync | 1x | ${view} | ${(step/120).toFixed(2)}s`,12,34);};
+   samples.push(sample());draw();recorder.start(200);const started=performance.now();
+   await new Promise(resolve=>{const frame=now=>{if(last!==undefined)frameIntervals.push(now-last);last=now;const goal=Math.min(total,Math.floor((now-started)*.12));while(step<goal){
+    if(step===120){live.setGaze(target(-1));events.push({step,event:'gaze-left'});}if(step===240){live.setGaze(target(1));events.push({step,event:'gaze-right'});}if(step===360){live.setGaze(target(0));events.push({step,event:'gaze-center'});}
+    if(step===480){c.action('sit');events.push({step,event:'sit'});}if(step===660){d.view('side');view='side';}
+    if(step===960){c.action('stand');events.push({step,event:'stand'});}if(step===1140){d.view('front');view='front';}
+    if(step===1320){live.setSpeaking(false);live.setExpression('happy');events.push({step,event:'happy-mouth-demo-off'});}if(step===1440){live.setExpression('aa');events.push({step,event:'aa-preset'});}if(step===1560){live.setExpression('neutral');live.setGaze(null);events.push({step,event:'neutral-gaze-reset'});}
+    c.simulate(1/120);step++;if(step%6===0)samples.push(sample());if([120,240,324,540,660,840,1020,1140,1380,1500,1620].includes(step)){draw();keys[String(step)]=canvas.toDataURL('image/png').split(',')[1];}
+   }draw();if(step<total)requestAnimationFrame(frame);else resolve();};requestAnimationFrame(frame);});
+   const wallDuration=(performance.now()-started)/1000;await new Promise(resolve=>{recorder.onstop=resolve;recorder.stop();});stream.getTracks().forEach(t=>t.stop());const bytes=new Uint8Array(await new Blob(chunks,{type:'video/webm'}).arrayBuffer());let binary='';for(let i=0;i<bytes.length;i+=32768)binary+=String.fromCharCode(...bytes.subarray(i,i+32768));
+   const dance=live.canPerform('dance');await live.setAccessory('mic',false);const races=await Promise.allSettled([live.setAccessory('mic',true),live.setAccessory('mic',false),live.setAccessory('mic',true)]);const afterRace=live.getState();await Promise.all([live.setAccessory('mic',false),live.setAccessory('glasses',false)]);for(let i=0;i<120;i++)c.simulate(1/120);const nodes=[];d.scene.traverse(o=>{if(o.name.startsWith('LiveAccessory:'))nodes.push(o.name);});
+   if(nodes.length||!afterRace.accessories.mic.loaded||afterRace.accessories.mic.status!=='on'||dance.allowed)throw Error('Accessory contract failed');
+   return{build:d.buildInfo,inputs:{config,prewarm:1,dt:1/120,duration:13.5,playback:1,start:'chair local approach',viewChanges:{0:'front',5.5:'side',9.5:'front'}},wallDuration,frameIntervals,samples,events,keys,video:btoa(binary),cleanup:{dance,races,afterRace,afterUnload:live.getState(),remainingAccessoryNodes:nodes},limits:['Actual fixed bundle; no diagnostic module injection.','Program vowels, not audio lipsync.','Hand vertices inside the original 13mm-radius microphone handle cylinder are an approximate contact probe, not full hand/mesh CCD.','Requested60FPS capture is not a performance pass; render intervals retained.']};
+  },{config,build});
+  await fs.writeFile(path.join(out,config.name+'.webm'),Buffer.from(report.video,'base64'));delete report.video;for(const[k,v]of Object.entries(report.keys))await fs.writeFile(path.join(out,config.name+'-'+k+'.png'),Buffer.from(v,'base64'));delete report.keys;reports.push({url:url.href,errors,...report});await fs.writeFile(path.join(out,'report.json'),JSON.stringify(reports,null,2));await page.close();console.log(config.name+' fixed movie complete');
+ }
+ }finally{await browser.close();}
+})().catch(e=>{console.error(e);process.exitCode=1});

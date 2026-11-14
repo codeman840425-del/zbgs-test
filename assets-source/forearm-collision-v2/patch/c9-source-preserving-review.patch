@@ -1,0 +1,745 @@
+--- a/prototype/src/motion.js
++++ b/prototype/src/motion.js
+@@ -1,5 +1,7 @@
+ import * as THREE from "three";
+ import { projectedSegmentInterval } from "./segment-triangle-projection.js";
++import { validateForearmProfile } from "./forearm-envelope-projection.js";
++import { forearmContourRails } from "./forearm-contour-rails.js";
+ 
+ const V = THREE.Vector3;
+ const Q = THREE.Quaternion;
+@@ -789,6 +791,8 @@
+       );
+     }
+   }
++  const calibratedForearms = validateForearmProfile(profile?.forearmCollision, profile?.forearmCollisionBodySHA256)
++    ? profile.forearmCollision.profiles : null;
+   let handContacts = [];
+   function fitSeatHands() {
+     handContacts = [];
+@@ -814,6 +818,7 @@
+     const leavingIdle = sitProgress <= 0 && requested !== "idle";
+     if (
+       sitProgress <= 0 &&
++      !calibratedForearms &&
+       validCache &&
+       (leavingIdle || (fitSeatHands.lastProgress === 0 && poseStable))
+     ) {
+@@ -900,6 +905,7 @@
+         const ids = [index.getX(i), index.getX(i + 1), index.getX(i + 2)];
+         triangles.push({
+           points: ids.map((id) => points[id]),
++          arrayPoints: ids.map((id) => points[id].toArray()),
+           uv: geometry.attributes.uv,
+           ids,
+           alpha,
+@@ -926,7 +932,7 @@
+         y = clamp(Math.floor((a.flip ? 1 - v : v) * a.height), 0, a.height - 1);
+       return a.pixels[(y * a.width + x) * 4 + 3] / 255 >= a.cutoff;
+     }
+-    let projectionGrid, gridU, gridV;
++    let projectionGrid, gridU, gridV, measurement;
+     function railClearance(start, end, outward) {
+       const su = start.dot(gridU), sv = start.dot(gridV),
+         eu = end.dot(gridU), ev = end.dot(gridV);
+@@ -936,6 +942,7 @@
+           for (const t of projectionGrid.get(x + ":" + y) || []) candidates.add(t);
+       let amount = 0;
+       for (const t of candidates) {
++        if (measurement) measurement.testedTriangles++;
+         const interval = projectedSegmentInterval(su, sv, eu, ev, t.projected);
+         if (!interval) continue;
+         // In an opaque triangle clearance is affine along this clipped interval,
+@@ -945,15 +952,21 @@
+           const at = interval.lo + (interval.hi - interval.lo) * k / 4;
+           hit.set(0, 0, 0);
+           for (let j = 0; j < 3; j++) hit.addScaledVector(t.points[j], interval.start[j] + (interval.end[j] - interval.start[j]) * at);
+-          if (!visible(t)) continue;
++          if (!visible(t)) { if (measurement) measurement.alphaRejected++; continue; }
+           const depth = hit.dot(outward) - (start.dot(outward) + (end.dot(outward) - start.dot(outward)) * at);
+-          if (depth > -.008 && depth < .3) amount = Math.max(amount, depth + .008);
++          if (depth > -.008 && depth < .3) {
++            amount = Math.max(amount, depth + .008);
++            if (measurement && amount > (measurement.strongest?.amount ?? 0))
++              measurement.strongest = {part:measurement.part,ids:t.ids.slice(),at,hit:hit.toArray(),amount};
++          }
+         }
+       }
+       return amount;
+     }
+     for (const [i, arm] of arms.entries()) {
+       const original = worldPoint(arm.hand),
++        authoredElbow = worldPoint(arm.lower),
++        authoredUpper = worldPoint(arm.upper),
+         orientation = arm.hand.getWorldQuaternion(new Q());
+       const contactBone = bone(arm.side + "MiddleDistal");
+       const handOffset = contactBone
+@@ -970,7 +983,11 @@
+         .lerp(b, 0.62)
+         .addScaledVector(up, profile.seatHandRadii[i] + 0.025)
+         .sub(handOffset);
+-      const target = original.clone().lerp(contact, profile?.preserveAuthoredHands ? 0 : blend);
++      const authoredSitTarget = profile?.preserveAuthoredSitHands !== false &&
++        ((requested === "sit" && sourceActions.sitEnter && sourceActions.sitIdle) ||
++         (requested === "stand" && sourceActions.sitExit));
++      const target = original.clone().lerp(contact, profile?.preserveAuthoredHands || authoredSitTarget ? 0 : blend);
++      const initialTarget = target.clone();
+       const pole = kneeBendDirection(
+         worldPoint(arm.upper),
+         worldPoint(arm.lower),
+@@ -1011,6 +1028,37 @@
+             list.push(t);
+           }
+       }
++      const forearmProfile = calibratedForearms?.find(p => p.side === arm.side);
++      let narrowPhasePairs = 0;
++      function measureArm(elbow, wrist) {
++        measurement = {part:"forearm",testedTriangles:0,alphaRejected:0,strongest:null};
++        let forearmCorrection = 0, palmCorrection = 0;
++        if (forearmProfile) {
++          const rails = forearmContourRails(THREE, elbow, wrist, forearmProfile, outward);
++          for (const [a,b] of rails) {
++            forearmCorrection = Math.max(forearmCorrection, railClearance(a,b,outward));
++            narrowPhasePairs++;
++          }
++        }
++        // Palm stays unchanged. Missing/unmatched profiles retain explicit legacy path.
++        for (const [part, start, end, radius] of [
++          ...(!forearmProfile ? [["forearm", elbow, wrist, 0.012]] : []),
++          ["hand", wrist, wrist.clone().add(handOffset), 0.016],
++        ]) {
++          measurement.part = part;
++          const direction = end.clone().sub(start).normalize(),
++            railX = new V().crossVectors(direction, new V(0, 1, 0)).normalize(),
++            railY = new V().crossVectors(direction, railX).normalize();
++          for (const [x, y] of [[0,0], [1,0], [-1,0], [0,1], [0,-1]]) {
++            const offset = railX.clone().multiplyScalar(x * radius).addScaledVector(railY, y * radius);
++            const amount = railClearance(start.clone().add(offset), end.clone().add(offset), outward);
++            if (part === "forearm") forearmCorrection = Math.max(forearmCorrection, amount);
++            else palmCorrection = Math.max(palmCorrection, amount);
++          }
++        }
++        return {forearmCorrection,palmCorrection,correction:Math.max(forearmCorrection,palmCorrection)};
++      }
++      const iterationTrace = [];
+       let projection = 0,
+         remaining = 0,
+         solved;
+@@ -1022,22 +1070,8 @@
+           arm.second,
+           pole,
+         );
+-        let correction = 0, forearmCorrection = 0, palmCorrection = 0;
+-        for (const [part, start, end, radius] of [
+-          ["forearm", solved.knee, solved.target, 0.012],
+-          ["hand", solved.target, solved.target.clone().add(handOffset), 0.016],
+-        ]) {
+-          const direction = end.clone().sub(start).normalize(),
+-            railX = new V().crossVectors(direction, new V(0, 1, 0)).normalize(),
+-            railY = new V().crossVectors(direction, railX).normalize();
+-          for (const [x, y] of [[0,0], [1,0], [-1,0], [0,1], [0,-1]]) {
+-            const offset = railX.clone().multiplyScalar(x * radius).addScaledVector(railY, y * radius);
+-            const amount = railClearance(start.clone().add(offset), end.clone().add(offset), outward);
+-            if (part === "forearm") forearmCorrection = Math.max(forearmCorrection, amount);
+-            else palmCorrection = Math.max(palmCorrection, amount);
+-            correction = Math.max(correction, amount);
+-          }
+-        }
++        const {correction,forearmCorrection,palmCorrection} = measureArm(solved.knee, solved.target);
++        iterationTrace.push({iteration,elbow:solved.knee.toArray(),wrist:solved.target.toArray(),pole:pole.toArray(),target:target.toArray(),correction,forearmCorrection,palmCorrection,witness:measurement});
+         remaining = correction;
+         if (correction < 0.0002) break;
+         // An elbow/upper-forearm hit cannot be repaired reliably by only
+@@ -1065,6 +1099,9 @@
+           .multiply(orientation),
+       );
+       arm.hand.updateWorldMatrix(true, true);
++      // Recheck the final applied arm, including any IK clamp/pole response.
++      const finalClearance = measureArm(worldPoint(arm.lower), worldPoint(arm.hand));
++      remaining = finalClearance.correction;
+       if (sitProgress <= 0)
+         newIdleOffsets.push(
+           worldPoint(arm.hand)
+@@ -1081,6 +1118,24 @@
+         sitProgress,
+         garmentProjection: projection,
+         remainingClearance: remaining,
++        forearmEnvelope: forearmProfile ? "calibrated-segmented-contours" : "legacy-uncalibrated-rails",
++        forearmProfileSHA: forearmProfile ? profile.forearmCollision.bodySHA256 : null,
++        finalForearmClearance: finalClearance.forearmCorrection,
++        finalPalmClearance: finalClearance.palmCorrection,
++        finalWitness: measurement,
++        authoredElbow: authoredElbow.toArray(),
++        authoredUpper: authoredUpper.toArray(),
++        authoredWrist: original.toArray(),
++        authoredSitTarget: Boolean(authoredSitTarget),
++        initialTarget: initialTarget.toArray(),
++        lapContact: contact.toArray(),
++        lapAxis: axis.toArray(),
++        lapUp: up.toArray(),
++        iterationTrace,
++        finalElbow: worldPoint(arm.lower).toArray(),
++        finalWrist: worldPoint(arm.hand).toArray(),
++        finalClearancePassed: remaining < .0002,
++        narrowPhasePairs,
+         fitElapsedMs: performance.now() - handFitStarted,
+       });
+     }
+--- a/prototype/src/foundation-avatar.js
++++ b/prototype/src/foundation-avatar.js
+@@ -1,210 +1,223 @@
+-import * as THREE from "three";
+-import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+-import { VRMLoaderPlugin, VRMUtils } from "@pixiv/three-vrm";
+-import { createM1Equipment } from "./m1-equipment.js";
+-import { foundationProfile } from "./foundation-profiles.js";
+-import { createLivePresentation } from "./live-presentation.js";
+-
+-export async function loadFoundationAvatar({ scene, renderer, bodyType = "female" }) {
+-  const config = foundationProfile(bodyType), url = config.url;
+-  const response = await fetch(url);
+-  if (!response.ok) throw new Error(`Foundation HTTP ${response.status}`);
+-  const buffer = await response.arrayBuffer();
+-  const sha256 = [
+-    ...new Uint8Array(await crypto.subtle.digest("SHA-256", buffer)),
+-  ]
+-    .map((x) => x.toString(16).padStart(2, "0"))
+-    .join("");
+-  if (sha256 !== config.sha256) throw new Error("Foundation identity mismatch");
+-  const loader = new GLTFLoader();
+-  loader.register((p) => new VRMLoaderPlugin(p));
+-  const gltf = await loader.parseAsync(buffer, "/assets/foundation/");
+-  const vrm = gltf.userData.vrm;
+-  VRMUtils.rotateVRM0(vrm);
+-  const root = new THREE.Group();
+-  root.name = "M1CompleteFoundation";
+-  root.add(vrm.scene);
+-  scene.add(root);
+-  root.updateMatrixWorld(true);
+-  const sourceMaterials = new Map(),
+-    bodyMaterials = new Map(),
+-    clothes = [],
+-    bodyMeshes = [],
+-    shoes = [],
+-    size = new THREE.Vector2();
+-  let debugBody = false,
+-    outfit = 0,
+-    dynamics = true;
+-  let equipment, livePresentation;
+-  try {
+-  vrm.scene.traverse((mesh) => {
+-    if (!mesh.isMesh) return;
+-    mesh.frustumCulled = false;
+-    mesh.castShadow = true;
+-    const materials = Array.isArray(mesh.material)
+-      ? mesh.material
+-      : [mesh.material];
+-    if (materials.some((m) => /Body_.*SKIN/.test(m.name))) {
+-      bodyMeshes.push(mesh);
+-      sourceMaterials.set(mesh, mesh.material);
+-      bodyMaterials.set(
+-        mesh,
+-        materials.map(
+-          () =>
+-            new THREE.MeshStandardMaterial({
+-              color: "#728e9b",
+-              roughness: 1,
+-              side: THREE.DoubleSide,
+-            }),
+-        ),
+-      );
+-    }
+-    if (materials.some((m) => /Shoes/i.test(m.name))) shoes.push(mesh);
+-    else if (materials.some((m) => /_CLOTH/.test(m.name))) clothes.push(mesh);
+-  });
+-  equipment = await createM1Equipment({ vrm, avatarSha256: sha256, bodyType });
+-  const surfaces = equipment.getAssetProfile();
+-  livePresentation = createLivePresentation({vrm, root, bodyType: config.referenceBody || bodyType, avatarSha256: sha256});
+-  const meshRoles = {};
+-  for (const role of [
+-    "body",
+-    "face",
+-    "hair",
+-    "top",
+-    "shoes",
+-    "pants",
+-    "skirt",
+-  ]) {
+-    const label = role === "shoes" ? "footwear" : role;
+-    meshRoles[label] = ((role === "pants" ? surfaces.allPants : surfaces[role]) ?? []).map((mesh) => {
+-      mesh.userData.assetRole = label;
+-      return mesh.uuid;
+-    });
+-  }
+-  let lastGarmentColliders = [],
+-    garmentPreparedForHands = false;
+-  const profile = {
+-    id: config.id,
+-    bodyType,
+-    url,
+-    sha256,
+-    bodyComplete: true,
+-    meshRoles,
+-    footwear: { kind: "shoes", meshes: surfaces.shoes.map((m) => m.name) },
+-    garmentStatus: "independent new-body equipment; visual acceptance pending",
+-    motion: {
+-      deriveSeatFromBody: true,
+-      get preserveAuthoredHands() { return livePresentation.getState().speaking; },
+-      seatClothAllowance: 0.006,
+-      seatHeight: 0.47,
+-      seatHandRadii: equipment.getInfo().skirtDynamics?.thighRadii,
+-      seatHandSurfaces: (refresh = true) => {
+-        if (debugBody || outfit !== 1) return [];
+-        // fitSeatHands runs after current normalized pelvis/legs are solved.
+-        // Copy them to raw bones before sampling this frame's garment surface.
+-        if (refresh) {
+-          vrm.humanoid.update();
+-          vrm.scene.updateMatrixWorld(true);
+-          equipment.update(0, lastGarmentColliders);
+-          garmentPreparedForHands = true;
+-        }
+-        return surfaces.skirt;
+-      },
+-    },
+-    qa: {
+-      outfits: [
+-        { name: "base", bodyMode: "base", outfit: 0, dynamics: false },
+-        ...config.outfits.map((o) => ({ name: o.role, bodyMode: "dressed", outfit: o.index, dynamics: true })),
+-      ],
+-    },
+-  };
+-  // Training pants are exported 6 mm outside the actual body surface. A
+-  // measured 6 mm pelvis raise lifts the lowest thigh patch by 3.66 mm once
+-  // floor IK is applied (fixed shoe). Compensate this measured lever ratio,
+-  // rather than pretending the hip and the thigh underside move together.
+-  Object.defineProperty(profile.motion, "seatLayerThickness", {
+-    get: () => (debugBody ? 0 : (config.outfitSeatLayerThickness?.[outfit] ?? config.seatLayerThickness)),
+-  });
+-  function setDebugBody(value) {
+-    debugBody = Boolean(value);
+-    for (const [mesh, mat] of sourceMaterials)
+-      mesh.material = debugBody ? bodyMaterials.get(mesh) : mat;
+-    equipment.setDebugBody(debugBody);
+-  }
+-  setDebugBody(false);
+-  return {
+-    vrm,
+-    root,
+-    profile,
+-    config,
+-    livePresentation,
+-    getAssetProfile: () => profile,
+-    setOutfit: (n) => {
+-      equipment.setOutfit(n);
+-      outfit = equipment.getInfo().outfit;
+-    },
+-    setDebugBody,
+-    setDynamics: (value) => {
+-      dynamics = Boolean(value);
+-      vrm.springBoneManager?.reset();
+-    },
+-    setExpression: name => livePresentation.setExpression(name),
+-    update: (dt, state = {}) => {
+-      livePresentation.preUpdate(dt, state);
+-      vrm.update(dynamics ? dt : 0);
+-      if (!dynamics) vrm.springBoneManager?.reset();
+-      root.updateMatrixWorld(true);
+-      livePresentation.postUpdate();
+-    },
+-    resetSecondary: () => vrm.springBoneManager?.reset(),
+-    updateGarment: (_sit, dt, colliders) => {
+-      lastGarmentColliders = colliders || [];
+-      // fitSeatHands is the last motion operation; only arm bones changed
+-      // after its same-frame skirt evaluation. Do not run the identical
+-      // stateless skirt constraint pass again in this same simulation step.
+-      if (garmentPreparedForHands) {
+-        garmentPreparedForHands = false;
+-        return;
+-      }
+-      equipment.update(dt, lastGarmentColliders);
+-    },
+-    getDebugState: () => ({
+-      mode: debugBody ? "base" : "dressed",
+-      dynamics,
+-      bodyComplete: true,
+-      baseLabel: "完整人体诊断",
+-      label: config.label,
+-      description:
+-        `${config.label}：完整人体与独立装备；基础模式保留同一套鞋。当前组合须独立验收，画风待确认。`,
+-      asset: profile,
+-    }),
+-    dispose: () => {
+-      livePresentation.dispose();
+-      equipment.dispose();
+-      root.removeFromParent();
+-      for (const [mesh, material] of sourceMaterials) mesh.material = material;
+-      for (const materials of bodyMaterials.values()) materials.forEach(m => m.dispose());
+-      VRMUtils.deepDispose(vrm.scene);
+-    },
+-    getOutfitInfo: () => ({
+-      index: outfit,
+-      name: `新人体 · ${config.outfits.find((o) => o.index === outfit).label}`,
+-      fitStatus: config.outfitFitStatus?.[outfit] || "candidate: current outfit requires independent acceptance",
+-      source: config.source,
+-      equipment: equipment.getInfo(),
+-      limitations: "新人体M1连续动作验收中",
+-    }),
+-  };
+-  } catch (error) {
+-    // The factory has not returned an avatar yet; callers cannot dispose it.
+-    // Release partially built equipment and the VRM here, including failures
+-    // before createM1Equipment returns (manifest/network/identity errors).
+-    livePresentation?.dispose();
+-    equipment?.dispose();
+-    root.removeFromParent();
+-    for (const [mesh, material] of sourceMaterials) mesh.material = material;
+-    for (const materials of bodyMaterials.values()) materials.forEach(m => m.dispose());
+-    VRMUtils.deepDispose(vrm.scene);
+-    throw error;
+-  }
+-}
++import * as THREE from "three";
++import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
++import { VRMLoaderPlugin, VRMUtils } from "@pixiv/three-vrm";
++import { createM1Equipment } from "./m1-equipment.js";
++import { foundationProfile } from "./foundation-profiles.js";
++import { createLivePresentation } from "./live-presentation.js";
++import { validateForearmProfile } from "./forearm-envelope-projection.js";
++
++export async function loadFoundationAvatar({ scene, renderer, bodyType = "female" }) {
++  const config = foundationProfile(bodyType), url = config.url;
++  const response = await fetch(url);
++  if (!response.ok) throw new Error(`Foundation HTTP ${response.status}`);
++  const buffer = await response.arrayBuffer();
++  const sha256 = [
++    ...new Uint8Array(await crypto.subtle.digest("SHA-256", buffer)),
++  ]
++    .map((x) => x.toString(16).padStart(2, "0"))
++    .join("");
++  if (sha256 !== config.sha256) throw new Error("Foundation identity mismatch");
++  let forearmCollision = null;
++  if (bodyType === "female" || bodyType === "male") {
++    const collisionResponse = await fetch(`/assets/forearm-collision-v2/${bodyType}.json`);
++    if (!collisionResponse.ok) throw new Error("Forearm collision profile failed to load");
++    forearmCollision = await collisionResponse.json();
++    if (!validateForearmProfile(forearmCollision, sha256)) throw new Error("Forearm collision body identity mismatch");
++  }
++  // Isolated experiment A/B only. Both branches still validate loaded body/profile.
++  const forearmExperimentEnabled = new URLSearchParams(location.search).get("forearm") !== "legacy";
++  const loader = new GLTFLoader();
++  loader.register((p) => new VRMLoaderPlugin(p));
++  const gltf = await loader.parseAsync(buffer, "/assets/foundation/");
++  const vrm = gltf.userData.vrm;
++  VRMUtils.rotateVRM0(vrm);
++  const root = new THREE.Group();
++  root.name = "M1CompleteFoundation";
++  root.add(vrm.scene);
++  scene.add(root);
++  root.updateMatrixWorld(true);
++  const sourceMaterials = new Map(),
++    bodyMaterials = new Map(),
++    clothes = [],
++    bodyMeshes = [],
++    shoes = [],
++    size = new THREE.Vector2();
++  let debugBody = false,
++    outfit = 0,
++    dynamics = true;
++  let equipment, livePresentation;
++  try {
++  vrm.scene.traverse((mesh) => {
++    if (!mesh.isMesh) return;
++    mesh.frustumCulled = false;
++    mesh.castShadow = true;
++    const materials = Array.isArray(mesh.material)
++      ? mesh.material
++      : [mesh.material];
++    if (materials.some((m) => /Body_.*SKIN/.test(m.name))) {
++      bodyMeshes.push(mesh);
++      sourceMaterials.set(mesh, mesh.material);
++      bodyMaterials.set(
++        mesh,
++        materials.map(
++          () =>
++            new THREE.MeshStandardMaterial({
++              color: "#728e9b",
++              roughness: 1,
++              side: THREE.DoubleSide,
++            }),
++        ),
++      );
++    }
++    if (materials.some((m) => /Shoes/i.test(m.name))) shoes.push(mesh);
++    else if (materials.some((m) => /_CLOTH/.test(m.name))) clothes.push(mesh);
++  });
++  equipment = await createM1Equipment({ vrm, avatarSha256: sha256, bodyType });
++  const surfaces = equipment.getAssetProfile();
++  livePresentation = createLivePresentation({vrm, root, bodyType: config.referenceBody || bodyType, avatarSha256: sha256});
++  const meshRoles = {};
++  for (const role of [
++    "body",
++    "face",
++    "hair",
++    "top",
++    "shoes",
++    "pants",
++    "skirt",
++  ]) {
++    const label = role === "shoes" ? "footwear" : role;
++    meshRoles[label] = ((role === "pants" ? surfaces.allPants : surfaces[role]) ?? []).map((mesh) => {
++      mesh.userData.assetRole = label;
++      return mesh.uuid;
++    });
++  }
++  let lastGarmentColliders = [],
++    garmentPreparedForHands = false;
++  const profile = {
++    id: config.id,
++    bodyType,
++    url,
++    sha256,
++    bodyComplete: true,
++    meshRoles,
++    footwear: { kind: "shoes", meshes: surfaces.shoes.map((m) => m.name) },
++    garmentStatus: "independent new-body equipment; visual acceptance pending",
++    motion: {
++      forearmCollision: forearmExperimentEnabled ? forearmCollision : null,
++      forearmCollisionBodySHA256: sha256,
++      preserveAuthoredSitHands: new URLSearchParams(location.search).get("handTarget") !== "lap",
++      deriveSeatFromBody: true,
++      get preserveAuthoredHands() { return livePresentation.getState().speaking; },
++      seatClothAllowance: 0.006,
++      seatHeight: 0.47,
++      seatHandRadii: equipment.getInfo().skirtDynamics?.thighRadii,
++      seatHandSurfaces: (refresh = true) => {
++        if (debugBody || outfit !== 1) return [];
++        // fitSeatHands runs after current normalized pelvis/legs are solved.
++        // Copy them to raw bones before sampling this frame's garment surface.
++        if (refresh) {
++          vrm.humanoid.update();
++          vrm.scene.updateMatrixWorld(true);
++          equipment.update(0, lastGarmentColliders);
++          garmentPreparedForHands = true;
++        }
++        return surfaces.skirt;
++      },
++    },
++    qa: {
++      outfits: [
++        { name: "base", bodyMode: "base", outfit: 0, dynamics: false },
++        ...config.outfits.map((o) => ({ name: o.role, bodyMode: "dressed", outfit: o.index, dynamics: true })),
++      ],
++    },
++  };
++  // Training pants are exported 6 mm outside the actual body surface. A
++  // measured 6 mm pelvis raise lifts the lowest thigh patch by 3.66 mm once
++  // floor IK is applied (fixed shoe). Compensate this measured lever ratio,
++  // rather than pretending the hip and the thigh underside move together.
++  Object.defineProperty(profile.motion, "seatLayerThickness", {
++    get: () => (debugBody ? 0 : (config.outfitSeatLayerThickness?.[outfit] ?? config.seatLayerThickness)),
++  });
++  function setDebugBody(value) {
++    debugBody = Boolean(value);
++    for (const [mesh, mat] of sourceMaterials)
++      mesh.material = debugBody ? bodyMaterials.get(mesh) : mat;
++    equipment.setDebugBody(debugBody);
++  }
++  setDebugBody(false);
++  return {
++    vrm,
++    root,
++    profile,
++    config,
++    livePresentation,
++    getAssetProfile: () => profile,
++    setOutfit: (n) => {
++      equipment.setOutfit(n);
++      outfit = equipment.getInfo().outfit;
++    },
++    setDebugBody,
++    setDynamics: (value) => {
++      dynamics = Boolean(value);
++      vrm.springBoneManager?.reset();
++    },
++    setExpression: name => livePresentation.setExpression(name),
++    update: (dt, state = {}) => {
++      livePresentation.preUpdate(dt, state);
++      vrm.update(dynamics ? dt : 0);
++      if (!dynamics) vrm.springBoneManager?.reset();
++      root.updateMatrixWorld(true);
++      livePresentation.postUpdate();
++    },
++    resetSecondary: () => vrm.springBoneManager?.reset(),
++    updateGarment: (_sit, dt, colliders) => {
++      lastGarmentColliders = colliders || [];
++      // fitSeatHands is the last motion operation; only arm bones changed
++      // after its same-frame skirt evaluation. Do not run the identical
++      // stateless skirt constraint pass again in this same simulation step.
++      if (garmentPreparedForHands) {
++        garmentPreparedForHands = false;
++        return;
++      }
++      equipment.update(dt, lastGarmentColliders);
++    },
++    getDebugState: () => ({
++      mode: debugBody ? "base" : "dressed",
++      dynamics,
++      bodyComplete: true,
++      baseLabel: "完整人体诊断",
++      label: config.label,
++      description:
++        `${config.label}：完整人体与独立装备；基础模式保留同一套鞋。当前组合须独立验收，画风待确认。`,
++      asset: profile,
++    }),
++    dispose: () => {
++      livePresentation.dispose();
++      equipment.dispose();
++      root.removeFromParent();
++      for (const [mesh, material] of sourceMaterials) mesh.material = material;
++      for (const materials of bodyMaterials.values()) materials.forEach(m => m.dispose());
++      VRMUtils.deepDispose(vrm.scene);
++    },
++    getOutfitInfo: () => ({
++      index: outfit,
++      name: `新人体 · ${config.outfits.find((o) => o.index === outfit).label}`,
++      fitStatus: config.outfitFitStatus?.[outfit] || "candidate: current outfit requires independent acceptance",
++      source: config.source,
++      equipment: equipment.getInfo(),
++      limitations: "新人体M1连续动作验收中",
++    }),
++  };
++  } catch (error) {
++    // The factory has not returned an avatar yet; callers cannot dispose it.
++    // Release partially built equipment and the VRM here, including failures
++    // before createM1Equipment returns (manifest/network/identity errors).
++    livePresentation?.dispose();
++    equipment?.dispose();
++    root.removeFromParent();
++    for (const [mesh, material] of sourceMaterials) mesh.material = material;
++    for (const materials of bodyMaterials.values()) materials.forEach(m => m.dispose());
++    VRMUtils.deepDispose(vrm.scene);
++    throw error;
++  }
++}
+--- /dev/null
++++ b/prototype/src/forearm-contour-rails.js
+@@ -0,0 +1,16 @@
++// Calibrated segmented contour candidate. Finite rails are NOT full-surface CCD.
++export function forearmContourRails(THREE, start, end, profile, outward) {
++  const V=THREE.Vector3,axis=end.clone().sub(start),length=axis.length(),scale=length/profile.length;
++  axis.divideScalar(length);
++  // Include the inward-most contour for this actual correction direction.
++  const x=outward.clone().addScaledVector(axis,-outward.dot(axis));
++  if(x.lengthSq()<1e-8)x.crossVectors(axis,Math.abs(axis.y)<.9?new V(0,1,0):new V(1,0,0));
++  x.normalize();const y=new V().crossVectors(axis,x).normalize();
++  const knots=profile.extendedKnots||profile.knots,sectors=8,inflation=1/Math.cos(Math.PI/sectors);
++  const rings=knots.map(k=>Array.from({length:sectors},(_,i)=>start.clone().addScaledVector(axis,k.t*length).addScaledVector(x,Math.cos(i*2*Math.PI/sectors)*k.radius*scale*inflation).addScaledVector(y,Math.sin(i*2*Math.PI/sectors)*k.radius*scale*inflation)));
++  const rails=[];
++  for(let k=0;k<rings.length-1;k++)for(let i=0;i<sectors;i++)rails.push([rings[k][i],rings[k+1][i]]);
++  // Cover endpoint planes without applying a large sphere along the whole arm.
++  for(const ring of [rings[0],rings.at(-1)])for(let i=0;i<sectors/2;i++)rails.push([ring[i],ring[i+sectors/2]]);
++  return rails;
++}
+--- /dev/null
++++ b/prototype/src/forearm-envelope-projection.js
+@@ -0,0 +1,100 @@
++// Optional calibrated forearm narrow phase. Pure geometry; no animation state.
++// Circumscribed polygonal frusta/caps bound the measured circular envelope.
++const add=(a,b)=>a.map((x,i)=>x+b[i]);
++const sub=(a,b)=>a.map((x,i)=>x-b[i]);
++const mul=(a,s)=>a.map(x=>x*s);
++const dot=(a,b)=>a.reduce((s,x,i)=>s+x*b[i],0);
++const cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
++const length=a=>Math.hypot(...a);
++const norm=a=>mul(a,1/length(a));
++
++function sphereTemplate() {
++  const rings=8,sectors=12,verts=[];
++  for(let j=0;j<=rings;j++) for(let i=0;i<sectors;i++) {
++    const v=Math.PI*j/rings,u=2*Math.PI*i/sectors;
++    verts.push([Math.sin(v)*Math.cos(u),Math.cos(v),Math.sin(v)*Math.sin(u)]);
++  }
++  const faces=[];
++  for(let j=0;j<rings;j++)for(let i=0;i<sectors;i++){
++    const a=j*sectors+i,b=j*sectors+(i+1)%sectors,c=(j+1)*sectors+i,d=(j+1)*sectors+(i+1)%sectors;
++    if(j>0)faces.push([verts[a],verts[c],verts[b]]);
++    if(j<rings-1)faces.push([verts[b],verts[c],verts[d]]);
++  }
++  let minPlane=1;
++  for(const [a,b,c]of faces)minPlane=Math.min(minPlane,Math.abs(dot(norm(cross(sub(b,a),sub(c,a))),a)));
++  // Scaling every plane to >= radius makes the convex polyhedron contain sphere.
++  return {faces:faces.map(f=>f.map(p=>mul(p,1/minPlane))),inflation:1/minPlane};
++}
++const sphere=sphereTemplate();
++export const envelopeApproximation={sectors:12,sphereRadialInflation:sphere.inflation,frustumRadialInflation:1/Math.cos(Math.PI/12)};
++
++export function validateForearmProfile(bundle,bodySHA) {
++  if(!bundle || bundle.schema!=='m1.semantic-forearm-envelope.1' || !bodySHA || bundle.bodySHA256!==bodySHA) return false;
++  return ['left','right'].every(side=>{
++    const p=bundle.profiles?.find(p=>p.side===side);
++    return p && p.length>0 && p.knots?.length>=2 && p.knots[0].t===0 && p.knots.at(-1).t===1 &&
++      p.knots.every((k,i)=>Number.isFinite(k.radius)&&k.radius>0&&Number.isFinite(k.t)&&(!i||k.t>p.knots[i-1].t)) &&
++      [p.elbowCap?.radius,p.wristCap?.radius].every(r=>Number.isFinite(r)&&r>0) &&
++      (!p.extendedKnots || (p.extendedKnots.length>=2 && p.extendedKnots[0].t<=0 && p.extendedKnots.at(-1).t>=1 &&
++        p.extendedKnots.every((k,i)=>Number.isFinite(k.t)&&Number.isFinite(k.radius)&&k.radius>0&&(!i||k.t>p.extendedKnots[i-1].t))));
++  });
++}
++
++export function forearmEnvelopeTriangles(start,end,profile) {
++  const delta=sub(end,start),scale=length(delta)/profile.length,axis=norm(delta);
++  const rx=norm(cross(axis,Math.abs(axis[1])<.9?[0,1,0]:[1,0,0])),ry=cross(axis,rx);
++  const ring=k=>Array.from({length:12},(_,i)=>add(add(start,mul(delta,k.t)),mul(add(mul(rx,Math.cos(i*Math.PI/6)),mul(ry,Math.sin(i*Math.PI/6))),k.radius*scale*envelopeApproximation.frustumRadialInflation)));
++  const rings=profile.knots.map(ring),faces=[];
++  for(let k=0;k<rings.length-1;k++)for(let i=0;i<12;i++){
++    const n=(i+1)%12;
++    faces.push([rings[k][i],rings[k+1][i],rings[k][n]],[rings[k][n],rings[k+1][i],rings[k+1][n]]);
++  }
++  for(const [center,radius]of [[start,profile.elbowCap.radius],[end,profile.wristCap.radius]])
++    faces.push(...sphere.faces.map(f=>f.map(p=>add(center,mul(p,radius*scale)))));
++  // Explicit end discs close the frusta even when a measured end sphere is smaller.
++  for(let i=0;i<12;i++)faces.push([start,rings[0][i],rings[0][(i+1)%12]],[end,rings.at(-1)[i],rings.at(-1)[(i+1)%12]]);
++  return faces;
++}
++
++function area(a,b,c){return(b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0]);}
++function overlap(subject,clip) {
++  let poly=subject.map(p=>p.slice());const winding=Math.sign(area(...clip));
++  if(!winding)return [];
++  for(let j=0;j<3&&poly.length;j++){
++    const a=clip[j],b=clip[(j+1)%3],next=[];
++    for(let i=0;i<poly.length;i++){
++      const p=poly[i],q=poly[(i+1)%poly.length],dp=area(a,b,p)*winding,dq=area(a,b,q)*winding;
++      if(dp>=-1e-12)next.push(p);
++      if((dp>=0)!==(dq>=0)){const t=dp/(dp-dq);next.push([p[0]+t*(q[0]-p[0]),p[1]+t*(q[1]-p[1])]);}
++    }
++    poly=next;
++  }
++  return poly;
++}
++function barycentric(p,t){const den=area(...t);return[area(p,t[1],t[2])/den,area(t[0],p,t[2])/den,area(t[0],t[1],p)/den];}
++
++/** Exact overlap extrema for opaque planar faces of the conservative envelope.
++ * select(projectedBounds) reuses fitSeatHands' garment grid. Candidate.points
++ * are arrays and candidate.projected=[u0,v0,...]. opaque receives its actual
++ * 3D hit for existing alpha-mask sampling. Alpha remains sampled, not exact CCD.
++ */
++export function directionalEnvelopeClearance(faces,basis,select,opaque=()=>true,margin=.008) {
++  let amount=0,pairs=0;const {u,v,outward}=basis;
++  for(const face of faces){
++    const f=face.map(p=>[dot(p,u),dot(p,v)]);if(Math.abs(area(...f))<1e-12)continue;
++    const bounds=[Math.min(...f.map(p=>p[0])),Math.min(...f.map(p=>p[1])),Math.max(...f.map(p=>p[0])),Math.max(...f.map(p=>p[1]))];
++    for(const tri of select(bounds)){
++      const t=[tri.projected.slice(0,2),tri.projected.slice(2,4),tri.projected.slice(4,6)];if(Math.abs(area(...t))<1e-12)continue;
++      const polygon=overlap(t,f);if(!polygon.length)continue;pairs++;
++      // Add centroid only for alpha mask coverage; opaque extrema are vertices.
++      const sample=[...polygon,polygon.reduce((s,p)=>[s[0]+p[0]/polygon.length,s[1]+p[1]/polygon.length],[0,0])];
++      for(const p of sample){
++        const tb=barycentric(p,t),fb=barycentric(p,f),hit=tri.points[0].map((_,i)=>tri.points.reduce((s,q,j)=>s+q[i]*tb[j],0));
++        if(!opaque(tri,hit))continue;
++        const depth=dot(hit,outward)-face.reduce((s,q,j)=>s+dot(q,outward)*fb[j],0);
++        if(depth>-margin&&depth<.3)amount=Math.max(amount,depth+margin);
++      }
++    }
++  }
++  return {amount,pairs};
++}

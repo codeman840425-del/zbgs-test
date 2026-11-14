@@ -20,7 +20,7 @@ node scripts/build-avatar-record-fixture-v2.mjs experiments/turn-candidate-7/dis
 node scripts/qa-avatar-record-contract-v2.mjs --out=evidence/avatar-record-contract-v2-node-38ea4eda48aa.json
 ```
 
-生成器要求 `--source-root`（默认prototype）的完整inputs摘要与该固定dist相同，避免将新runtime profile混入旧构建；旧0df与当前source不匹配会明确拒绝。当前v2已从固定 `38ea4eda48aa` 成功重新生成，完整source摘要匹配。v1保持原样，浏览器尚未验收；不能仅替换manifest哈希。
+生成器要求 `--source-root`（默认prototype）的完整inputs摘要与该固定dist相同，避免将新runtime profile混入旧构建；旧0df与当前source不匹配会明确拒绝。当前v2已从固定 `38ea4eda48aa` 成功重新生成，完整source摘要匹配。v1保持原样；不能仅替换manifest哈希。
 
 装备按实际manifest重建：资源ID、slot、字节长度/hash、兼容body、真实GLB/raw骨名与body/garment两侧inverse bind矩阵均校验；profile.outfits决定可恢复组合。男性短裤的原始styleId与fitId显式存入record，fitResourceId仍是实际加载ID。profile hash现在对实际 `foundationProfile()`返回值计算（包含派生outfits），并在浏览器与avatar.config核对。`scripts/qa-catalog-bindings.mjs`已验证8件实际装备及16个错绑定/错身体拒绝项，见 `evidence/avatar-record-v2-bind-check.json`。这只是离线绑定证据，不是房间穿着通过。
 
@@ -33,3 +33,5 @@ node scripts/run-fixed-check.cjs experiments/turn-candidate-7/dist scripts/qa-av
 ```
 
 它检查F裙/M短裤实际身体和装备、麦克风/眼镜与握姿身份，localStorage保存后关闭页面，同origin新页加载兼容身体并应用，比较实际状态。26个拒绝案例包含旧v1需迁移，且失败不得修改现有显示状态。准备好脚本不等于浏览器验收已通过；最终结果只以对应固定输出报告为证。
+
+本次实际固定浏览器已通过2个新页恢复场景及26个拒绝案例，0页面错误。证据 `evidence/avatar-record-v2-fixed-38ea4eda48aa/summary.json` 与 `pins.json`；完整输出 `output/playwright/m1/38ea4eda48aa/avatar-record-v2-1794692862447`。这只验收本地QA数据合同，既不是游戏完整存档，也不是短裤动作质量通过；同一候选的转向数值另有失败，见 `docs/TURN-CONTACT-REGRESSION.md`。

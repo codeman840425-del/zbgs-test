@@ -1,46 +1,45 @@
-# 直播公司经营 · 角色动作验证
+# 直播公司经营 · 角色基础工程
 
-本工作区保留原演示作为对照，并建立可读源码的角色验证工程。原开发工程已确认因硬盘损坏遗失；`prototype/` 是重建的隔离样机。当前代表人物采用 pixiv 的二次元 VRM 样本，原装短裤与生成的重力布料裙用于动作检查，不是原游戏人物已经修复，也尚未通过用户最终观感验收。
+当前路线是 Phaser＋Three.js＋VRM。原开发工程永久遗失；`baseline/` 保留原静态发布包，`prototype/` 是可维护的新建工程，不是找回了原源码。当前男女人物均为技术候选，最终画风与动作观感尚未获用户验收，真实多人服务及经营系统不属于本次M1修复。
 
-## 打开样机
+## 当前入口与状态
 
-最新阶段：**c14a9e3b4083 · 完整人体候选与独立服装生产子里程碑**。打开[本轮录屏与再导出对照](http://127.0.0.1:4174/output/foundation-review/)、[新裤装房间](http://127.0.0.1:4191/)、[完整人体候选](http://127.0.0.1:4191/foundation.html)。双击 `Start-foundation-demo.cmd` 可重新构建并在4192启动，无HMR。状态见 [当前交接](docs/CURRENT-FOUNDATION.md)、[顺序里程碑](docs/FOUNDATION-MILESTONES.md)、[制作步骤](docs/FOUNDATION-WORKFLOW.md)。新基模尚未完成裤/裙与足底、椅面适配，不能称M1全部通过。
+唯一能力状态见 [CAPABILITIES.md](docs/CAPABILITIES.md)，当前固定构建、服务及执行位置见 [CURRENT-FOUNDATION.md](docs/CURRENT-FOUNDATION.md)，阶段范围见 [FOUNDATION-MILESTONES.md](docs/FOUNDATION-MILESTONES.md)。历史报告不代表当前组合通过。
 
-上轮修复固定构建 **6e6a4fc03f64** 仍保留：[同条件前后录屏](http://127.0.0.1:4174/output/review/)、[上轮可操作候选](http://127.0.0.1:4180/)。实时路线为 Phaser＋Three.js＋VRM，Rigby2D未接入。上轮限制见 [修复说明](docs/CURRENT-REPAIR.md)、[资源与更新约定](docs/AVATAR-CONTRACT.md)。
+本机已开放 [男性动作候选](http://127.0.0.1:4192/?body=male)。点击“独立露膝短裤”可体验已接入的短裤；它与长裤使用同一人体和动作控制。该入口当前为修复候选，男性跑步转弯与裙装仍有未通过项，最新限制查CURRENT。原4180/4191保留对照，不覆盖旧文件。
 
-重新启动固定版本可双击 `Start-fixed-demo.cmd`：它构建后在 `http://127.0.0.1:4173/` 预览，不使用开发热更新。开发调试仍用下面的 `Start-demo.cmd`。录像保存在本机 `output/`；远端保存代码、资源、复现脚本和精选证据，长录屏不进入Git。
+## 新检出后运行
 
-本机可直接双击 `Start-demo.cmd`，或打开已启动的[静态候选版本](http://127.0.0.1:4180/)。服务关闭后需要重新启动；它不是线上部署。
+需要 Node.js 20.19+ 或22.12+（开发验证使用24.13.0）。可运行主体、独立服装与动作资源已经纳入Git，无需先下载旧角色。首次依赖安装需要网络。
 
-手动启动需要 Node.js（本项目 Vite 7 要求 20.19+ 或 22.12+）和 Python。在 PowerShell 中运行：
+双击 `Start-M1-demo.cmd`（另外两个fixed/foundation启动器共用同一流程），或执行：
 
 ```powershell
-cd F:\gamemake
-python scripts/fetch-avatar.py
-python scripts/fetch-animations.py --output prototype/public/assets/motion/UAL1_Standard.glb
-cd prototype
+cd F:\gamemake\prototype
 npm ci
-npm run dev
+npm run build -- --outDir ../output/local-demo/dist
+npm run preview -- --outDir ../output/local-demo/dist --host 127.0.0.1 --port 4173 --strictPort
 ```
 
-浏览器打开 [本地样机](http://127.0.0.1:5173/)。首次 `npm ci` 需要下载依赖；后续直接在 `prototype/` 执行 `npm run dev`。素材获取脚本会核对固定文件哈希，已存在的合格素材不会重复下载。
+打开 [女性](http://127.0.0.1:4173/) 或 [男性](http://127.0.0.1:4173/?body=male)。这是本地固定构建，无开发热更新。输出写入独立目录，不改写当前对照的 `prototype/dist`。端口占用时启动器会明确失败，不杀其他服务；已运行页面的版本须核对页面候选编号。
 
-构建检查：在 `prototype/` 运行 `npm run build`；运行 `npm run preview` 后访问 [构建预览](http://127.0.0.1:4173/)。源模型和使用条件见 [资产记录](docs/ASSETS.md)。
+日常开发：在 `prototype/` 执行 `npm run dev`，使用5173。调试页面有暂停、慢速、视角、基础人体和修正层开关。固定验收不要使用开发页面。
 
-当前依赖锁定 Phaser 3.90.0、Three.js 0.187.0、three-vrm 3.5.5；Phaser 管理场景输入、路径与动作状态，Three.js/VRM 负责真实蒙皮显示。站走坐舞复用 Quaternius CC0 动作，重定向与足部修正在可读源码中。当前还未接回原经营流程。
+## 源资产与验证
 
-为了复现录像入口，在根目录运行 `python scripts/build-review.py`（需要先按修复说明生成录像），再执行 `python scripts/serve-review.py`。此服务器支持视频分段读取和拖动跳转；普通Python静态服务器不支持本次录像所需的Range请求。测试脚本使用本机Chrome；视频构建标识保存在对应JSON中。
+依赖锁定 Phaser3.90.0、Three0.187.0、three-vrm3.5.5；Rigby2D不参与当前播放。Phaser负责输入、路径与行为任务，Three/VRM负责蒙皮和动画求值，原始动作和程序修正分层验证。
 
-针对用户反馈的站姿与椅子穿模，启动服务后在根目录运行：
+可编辑人体、衣物及来源许可在 `assets-source/`；生产入口见 [FOUNDATION-WORKFLOW.md](docs/FOUNDATION-WORKFLOW.md)。男性露膝短裤专用流程在 [shorts/README](assets-source/m1b/shorts/README.md)，包括源blend、裁片/权重、真实重开导出、装备绑定及独立验收。源动作、手持附件和几何派生均保留各自参数及脚本，不要求用户手工修模。
+
+固定浏览器检查使用仓库脚本，并显式核对构建ID与实际主体SHA：
 
 ```powershell
-node scripts/qa-motion.mjs
-node scripts/qa-locomotion.cjs http://127.0.0.1:4180/
-node scripts/qa-seat-transition.cjs http://127.0.0.1:4180/
-node scripts/qa-posture.cjs http://127.0.0.1:4180/
+node scripts/run-fixed-check.cjs <固定dist目录> <检查脚本> <所需参数>
 ```
 
-最后一项使用本机 Chrome，录下两套外观的站立、走停、坐起、舞蹈及转身，输出 `output/playwright/posture/posture-transitions.webm`。视频是本地产物，不提交远端；数值检查不能替代观感验收。
+该工具只为一次检查启动临时服务，结束自动关闭。正常速度录像与程序检查分开记录；历史素材或另一性别通过不能替代当前组合。普通电脑实机尚未具备，高配开发机与模拟测试均不算目标设备通过。
+
+完整开发证据通常在忽略的 `output/`；精选原片、关键图、数据压缩包与SHA清单在 `evidence/` 随Git备份。当前短裤、招手及转向的具体版本和限制从能力清单进入。需要播放证据时执行 `python scripts/serve-review.py`，访问4174；它支持视频Range请求。
 
 ## 打开原演示与坐标修补对照
 

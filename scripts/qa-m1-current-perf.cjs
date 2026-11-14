@@ -3,6 +3,8 @@ const {chromium}=require('../prototype/node_modules/playwright');
 const fs=require('node:fs/promises'),path=require('node:path');
 const {verifyCandidate}=require('./qa-m1-common.cjs');
 const build=process.env.QA_M1_BUILD;
+const sampleSeconds=Number(process.env.QA_PERF_SECONDS||30);
+if(!Number.isFinite(sampleSeconds)||sampleSeconds<12||sampleSeconds>120)throw Error('QA_PERF_SECONDS must be 12..120');
 if(!build)throw Error('Require explicit QA_M1_BUILD');
 const identity={build,assetId:'beta-base-female-m1',sha256:'027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95'};
 const quant=(rows,key)=>{const a=rows.map(r=>r[key]).filter(Number.isFinite).sort((a,b)=>a-b);return {count:a.length,p50:a[Math.floor(a.length*.5)],p95:a[Math.floor(a.length*.95)],p99:a[Math.floor(a.length*.99)],max:a.at(-1),over33:a.filter(x=>x>33.34).length,over50:a.filter(x=>x>50).length};};
@@ -40,7 +42,7 @@ const quant=(rows,key)=>{const a=rows.map(r=>r[key]).filter(Number.isFinite).sor
    await page.waitForTimeout(1000);
    await page.evaluate(()=>{__measure.frames=[];__measure.previous=null;__measure.active=true;});
    const start=Date.now();
-   while(Date.now()-start<12000){
+   while(Date.now()-start<sampleSeconds*1000){
     await page.waitForTimeout(250);
     await page.evaluate(cfg=>{const d=__debug,c=d.game.scene.getScene('CharacterStudio');
      if(cfg.walk&&c.mode==='idle'&&!c.target){window.__perfEndpoint*=-1;d.walkTo(window.__perfEndpoint*2.7,1.8);}
@@ -53,7 +55,7 @@ const quant=(rows,key)=>{const a=rows.map(r=>r[key]).filter(Number.isFinite).sor
    results.push({config,wallMs:Date.now()-start,...data,summary});console.log(config.name,JSON.stringify(summary.frameMs));
   }
   const finalGate=await verifyCandidate(page,identity);
-  await fs.writeFile(path.join(out,'report.json'),JSON.stringify({gate,finalGate,meta,viewport:{width:1440,height:900},browser:browser.version(),errors,results,limitations:['Development machine only; no target ordinary-PC pass.','12-second sustained sample per case, not a soak test.','No video encoding or CPU throttle in this run. Nested motion/VRM/garment timers overlap and must not be summed.','Frame interval is browser/OS pacing; renderSubmit is CPU submission, not GPU completion.','JS heap is not VRAM or whole-process memory.']},null,2));
+  await fs.writeFile(path.join(out,'report.json'),JSON.stringify({gate,finalGate,meta,viewport:{width:1440,height:900},sampleSeconds,browser:browser.version(),errors,results,limitations:['Development machine only; no target ordinary-PC pass.',`${sampleSeconds}-second sustained sample per case, not a soak test.`,'No video encoding or CPU throttle in this run. Nested motion/VRM/garment timers overlap and must not be summed.','Frame interval is browser/OS pacing; renderSubmit is CPU submission, not GPU completion.','JS heap is not VRAM or whole-process memory.']},null,2));
   if(errors.length)throw Error('Page errors in recorded measurement');
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1});

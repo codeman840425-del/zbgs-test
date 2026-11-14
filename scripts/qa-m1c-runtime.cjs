@@ -9,6 +9,7 @@ const CASES=[
  {name:'female-skirt',body:'female',bodyMode:'dressed',outfit:1,dynamics:true},
  {name:'male-base',body:'male',bodyMode:'base',outfit:0,dynamics:false},
  {name:'male-pants',body:'male',bodyMode:'dressed',outfit:0,dynamics:true},
+ {name:'male-shorts',body:'male',bodyMode:'dressed',outfit:2,dynamics:true},
 ];
 const selected=process.argv.find(a=>a.startsWith('--cases='))?.slice(8).split(',');
 if(selected?.some(name=>!CASES.some(c=>c.name===name)))throw Error('Unknown case name');
@@ -52,7 +53,7 @@ function eventLatency(frames,event){
    if(rec&&rec.state!=='inactive')await new Promise((resolve,reject)=>{rec.onstop=resolve;rec.onerror=e=>reject(Error(e.error?.message||'MediaRecorder error'));rec.stop();});
    rec?.stream.getTracks().forEach(t=>t.stop());
    let base64=null;if(rec){const bytes=new Uint8Array(await new Blob(q.chunks,{type:rec.mimeType}).arrayBuffer());let text='';for(let i=0;i<bytes.length;i+=32768)text+=String.fromCharCode(...bytes.subarray(i,i+32768));base64=btoa(text);}
-   return {base64,mimeType:rec?.mimeType,frames:q.frames,events:q.events,violations:q.violations,taskHistory:__debug.tasks().history(),finalState:__debug.snapshot(),recordStart:q.recordStart,recordEnd:performance.now(),canvasSize:[__debug.renderer.domElement.width,__debug.renderer.domElement.height]};
+   return {base64,mimeType:rec?.mimeType,frames:q.frames,events:q.events,violations:q.violations,taskHistory:__debug.tasks().history(),finalState:__debug.snapshot(),recordStart:q.recordStart,recordEnd:performance.now(),canvasSize:[__debug.renderer.domElement.width,__debug.renderer.domElement.height],longTasks:q.longTasks,recordingMode:q.recordingMode};
   });
   recording=false;if(!captured)return null;
   if(captured.base64){const file=activeCase.name+'-normal-TECHNICAL-DANCE-not-professional'+(completed?'':'-incomplete')+'.webm';await fs.writeFile(path.join(out,file),Buffer.from(captured.base64,'base64'));captured.video=file;delete captured.base64;}
@@ -75,7 +76,8 @@ function eventLatency(frames,event){
    },sourcePins);
    await page.evaluate(c=>{
     const d=__debug;d.reset();d.setBodyMode(c.bodyMode);d.setOutfit(c.outfit);d.setDynamics(c.dynamics);d.setCorrections('full');d.setPlaybackRate(1);d.setHelpers(false);d.game.scene.getScene('CharacterStudio').cameraPreset('room',true);d.setSpeed(.85);d.setPaused(false);
-    window.__m1c={running:false,stage:'setup',frames:[],events:[],violations:[],chunks:[],expected:c,recorder:null};
+    window.__m1c={running:false,stage:'setup',frames:[],events:[],violations:[],chunks:[],expected:c,recorder:null,longTasks:[],recordingMode:'canvas-MediaRecorder'};
+    if(PerformanceObserver.supportedEntryTypes.includes('longtask')){const observer=new PerformanceObserver(list=>{for(const e of list.getEntries())__m1c.longTasks.push({startTime:e.startTime,duration:e.duration,name:e.name,stage:__m1c.stage,attribution:e.attribution.map(a=>({name:a.name,containerType:a.containerType,containerSrc:a.containerSrc}))});});observer.observe({type:'longtask',buffered:false});}
     let last=null;const tick=t=>{
      const q=window.__m1c;if(q?.running){const s=d.snapshot(),m=s.motion,a=d.avatar();a.root.updateMatrixWorld(true);
       const raw=b=>a.vrm.humanoid.getRawBoneNode(b).getWorldPosition(a.root.position.clone()).toArray();

@@ -1,4 +1,4 @@
-// Developer-only independent-instance mutation/disposal check.
+// Fixed-candidate independent-instance mutation/disposal check.
 const {chromium}=require('../prototype/node_modules/playwright');
 const fs=require('node:fs/promises'),path=require('node:path'),crypto=require('node:crypto');
 const root=path.resolve(__dirname,'..');
@@ -35,6 +35,6 @@ async function hashes(){const p=path.join(root,'prototype/src');return Object.fr
   }
   const end=await hashes(),report={kind:'fixed instance-isolation diagnostic',initialGate,finalGate:await verifyCandidate(page,expected),start,end,sourceUnchanged:JSON.stringify(start)===JSON.stringify(end),errors,records,limitations:['Only two simultaneous instances, idle/dance mutation probes; not crowd scalability','Paused deterministic updates; not frame-time or memory benchmark','Default face/blink/garment mutation checked, not future accessories or arbitrary body morphs']};
   await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));console.log(out);console.log(JSON.stringify(records.map(r=>({body:r.bodyType,shared:r.shared,mainUnaffected:r.mainUnaffected,peerUnaffected:r.peerUnaffected,mainDisposes:r.mainDisposes,peerRemoved:r.peerRemoved,domUnchanged:r.domUnchanged}))));
-  if(errors.length||records.some(r=>Object.values(r.shared).some(Boolean)||!r.mainUnaffected||!r.peerUnaffected||r.mainDisposes.length||!r.peerRemoved||!r.mainAttached||!r.mainFinite||!r.domUnchanged||!r.configIndependent))throw Error('Instance isolation failed; inspect report');
+  if(errors.length||records.some(r=>Object.values(r.shared).some(Boolean)||!r.mainUnaffected||!r.peerUnaffected||r.mainDisposes.length||!r.peerRemoved||!r.mainAttached||!r.mainFinite||!r.domUnchanged||!r.configIndependent||r.actualHashes[r.bodyType]!==r.peerProfile.sha256))throw Error('Instance isolation failed; inspect report');
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

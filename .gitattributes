@@ -62,3 +62,10 @@ assets-source/forearm-collision-v1/** whitespace=blank-at-eol,blank-at-eof,space
 assets-source/m1/offline-corrective/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 *.f32 binary
 *.npz binary
+
+# Reviewable forearm source bundle pins exact profile and evidence bytes.
+assets-source/forearm-collision-v2/** -text
+assets-source/forearm-collision-v2/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+
+# Archived raw diff includes original CRLF/context whitespace; retain its evidence hash.
+assets-source/forearm-collision-v2/patch/c9-source-preserving-review.patch -whitespace

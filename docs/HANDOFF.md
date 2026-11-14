@@ -1,5 +1,7 @@
 # 项目交接
 
+**2026-11-14：用户已要求暂停，等待明确复工通知。不得因早先持续授权自行恢复。** 暂停现场见 [PAUSE-2026-11-14.md](PAUSE-2026-11-14.md)。
+
 先读 [CURRENT-FOUNDATION.md](CURRENT-FOUNDATION.md)、唯一能力状态 [CAPABILITIES.md](CAPABILITIES.md) 及 [阶段计划](FOUNDATION-MILESTONES.md)。历史报告用于证据，不作为新的任务或通过结论。
 
 - 项目在F:/gamemake，分支feat/m1-foundation-room；原工程永久遗失，baseline为静态发布对照，prototype为可维护新建工程。

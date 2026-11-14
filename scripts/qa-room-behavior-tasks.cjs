@@ -1,5 +1,5 @@
-// Actual room/controller integration. Development diagnostic unless wrapped by a
-// later fixed-candidate gate; pure unit results alone do not pass these checks.
+// Actual fixed room/controller integration with runtime/served/model identity gates.
+// Pure unit results alone do not pass these checks.
 const {chromium}=require('../prototype/node_modules/playwright');
 const fs=require('node:fs/promises'),path=require('node:path'),crypto=require('node:crypto');const root=path.resolve(__dirname,'..');
 const {prepareOutput,verifyCandidate}=require('./qa-m1-common.cjs');
