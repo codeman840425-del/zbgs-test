@@ -7,7 +7,7 @@ async(page)=>{
  for(const [i,s] of stages.entries()){
   await page.evaluate(s=>{__debug.setPaused(true);__debug.reset();__debug.setChairTransform(s.chair);__debug.view(s.view);__debug.setOutfit(1);__debug.setBodyMode('dressed');__debug.setPlaybackRate(1);let cap=document.querySelector('#record-caption');if(!cap){cap=document.createElement('div');cap.id='record-caption';cap.style='position:fixed;bottom:20px;left:40px;background:#fff;padding:14px 24px;border-radius:10px;z-index:999;font:18px sans-serif';document.body.append(cap)}cap.textContent=s.label+' · 候选 '+__debug.buildInfo.shortId;__debug.setPaused(false);__debug.action('sit');},s);
   await page.waitForFunction(()=>__debug.snapshot().mode==='sit'&&__debug.snapshot().motion.sitProgress>.999,{},{timeout:18000});
-  await page.waitForTimeout(650);await page.screenshot({path:'F:/gamemake/output/playwright/controller/seated-'+i+'.png'});
+  await page.waitForTimeout(650);await page.screenshot({path:'output/playwright/controller/seated-'+i+'.png'});
   traces.push(await page.evaluate(()=>__debug.snapshot()));await page.evaluate(()=>__debug.action('stand'));
   await page.waitForFunction(()=>__debug.snapshot().mode==='idle');await page.waitForTimeout(450);
  }

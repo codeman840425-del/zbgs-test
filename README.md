@@ -4,6 +4,10 @@
 
 ## 打开样机
 
+本轮修复固定构建标识 **6e6a4fc03f64**。先看[同条件前后录屏及完整动作链](http://127.0.0.1:4174/output/review/)，再打开[当前可操作候选](http://127.0.0.1:4180/)。实时路线为 Phaser＋Three.js＋VRM，Rigby2D未接入。修复和限制见 [当前说明](docs/CURRENT-REPAIR.md)、[资源与更新约定](docs/AVATAR-CONTRACT.md)。
+
+重新启动固定版本可双击 `Start-fixed-demo.cmd`：它构建后在 `http://127.0.0.1:4173/` 预览，不使用开发热更新。开发调试仍用下面的 `Start-demo.cmd`。录像保存在本机 `output/`；远端保存代码、资源、复现脚本和精选证据，长录屏不进入Git。
+
 本机可直接双击 `Start-demo.cmd`，或打开已启动的[静态候选版本](http://127.0.0.1:4180/)。服务关闭后需要重新启动；它不是线上部署。
 
 手动启动需要 Node.js（本项目 Vite 7 要求 20.19+ 或 22.12+）和 Python。在 PowerShell 中运行：
@@ -22,6 +26,8 @@ npm run dev
 构建检查：在 `prototype/` 运行 `npm run build`；运行 `npm run preview` 后访问 [构建预览](http://127.0.0.1:4173/)。源模型和使用条件见 [资产记录](docs/ASSETS.md)。
 
 当前依赖锁定 Phaser 3.90.0、Three.js 0.187.0、three-vrm 3.5.5；Phaser 管理场景输入、路径与动作状态，Three.js/VRM 负责真实蒙皮显示。站走坐舞复用 Quaternius CC0 动作，重定向与足部修正在可读源码中。当前还未接回原经营流程。
+
+为了复现录像入口，在根目录运行 `python scripts/build-review.py`（需要先按修复说明生成录像），再执行 `python -m http.server 4174 --bind 127.0.0.1`。测试脚本使用本机Chrome；视频构建标识保存在对应JSON中。
 
 针对用户反馈的站姿与椅子穿模，启动服务后在根目录运行：
 
