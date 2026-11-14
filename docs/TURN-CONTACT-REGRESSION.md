@@ -29,8 +29,35 @@ The serial `scripts/run-turn-contact-matrix.cjs` stopped automatically after tha
 
 Root's proposed correction uses the same actual soft-min rest definition and a measured entry lever interpolated to rest alongside toe rotation. At entry progress0, `pivot − (pivot − lastActual)` must equal lastActual, preventing the additional sink. This is a source/algebra agreement, not a new runtime pass; subsequent fixed-candidate floor probes determine acceptance.
 
+`18a7de64033c` batch outcome: Fbase30/60/120Hz each45 scenarios passed the unchanged numerical contact gates (135 total). Rest lever actually used the same soft-min definition in this build, alongside measured entry interpolation. Mbase30Hz then failed three cases and the runner stopped; male60/120 and dressed follow-ups were not executed. M run−90 sustained clamp150 ms; run+90 support76.850 mm, stance drift53.331 mm and clamp375 ms; run-reverse-stop raw/target step100.169 mm. Male cannot inherit the female result. Matrix receipt: `output/turn-contact-matrix-18a7de64033c-1794694465374.json`.
+
+Even female numeric success did not establish visual naturalness: the batch's55.137 mm maximum step was chair-align0 at startup, with almost zero root speed, an unplanned turning foot lifting then becoming walk support. `evidence/turn-18a7-max-step-detail.json` retains that transition. Root identified a production path entering the legacy fallback; the later capture schema `actual-skin-toe-contact-v2` records `motionPolicy` and rejects `row.turning && !row.motionPolicy`. A final planner frame remains valid because its motion policy object exists even when `active=false`. Historical v1 captures are labeled “unplanned gate not recorded”, never retroactively passed.
+
+`136da8e156b3` targeted M30 run±90+extras (11 scenarios) recorded no unplanned-turn violations, but the three male failures persisted. Right toe in positive90 stays continuously contact for.800 s; by peak it has anchored while root travels.80654 m and rotates93.3546°. Downward and horizontal hip corrections both hit the.12leg cap101.39472 mm. At run exit (`t7.608333`, speed1.541667), pose matching changes walk phase.9577487→.5173184, placing this already-planted right foot at local phase.017318 (early walk support); the old world anchor persists. This is evidence to inspect transition support progression, not justification for larger hip constants or an arbitrary new phase. Detailed start/peak/root/hip/foot data: `evidence/turn-136da-male-support-travel.json`.
+
+The136da stop failure is also continuous target motion rather than an arc-branch jump: a new−26.5198° phrase lasts only.216667 s, with one8.333 ms sample progressing.127529→.188143. Its first swing window is compressed to about.12 s despite a large foot-placement distance, producing100.169 mm/frame. `evidence/turn-136da-male-stop-compression.json` preserves the phrase start and peak. An eventual fix needs to respect foot-transfer duration/displacement as well as root angular distance; new fixed regression and normal-speed viewing remain required.
+
 ```powershell
 node scripts/run-fixed-check.cjs experiments/turn-candidate-7/dist scripts/qa-turn-contact-chain.cjs 38ea4eda48aa --body=female --fps=30,60,120 --angles=1,15,45,90,180 --modes=idle,walk,run
 node scripts/qa-turn-regression.cjs <capture-output-directory>
 python scripts/analyze-turn-arc.py <capture-output-directory>/fps-30.json evidence/turn-38ea-arc-reconstruction.json
 ```
+
+## 固定 0df453d35d2c：相位支撑修补与最短转移窗口的数值回归
+
+本次**基础人体** F/M × 30/60/120 外层模拟频率，各45实际路径/转身/重选/停止/360/椅对齐场景，共270/270通过完整接触gate。另有男30Hz run±90+extras11例、男女60Hz真实原地1/5/15/45/90/180°左右各12例，35/35通过。真实原地角请求用 `rotationRadians`，没有将旧idle走路路径当作原地验证。
+
+可恢复紧凑证据：`evidence/turn-0df453d35d2c/summary.json`、`matrix-receipt.json` 与每批 `*-gate.json`。每份gate含构建及身体初末SHA核验；summary固定本次QA脚本SHA。完整逐帧数据在对应 `output/playwright/m1/0df453d35d2c`。矩阵主回执：`output/turn-contact-matrix-0df453d35d2c-1794695983823.json`。
+
+|范围|支撑残差峰值|真实踝单帧最大步进|最低真实鞋底|最长连续clamp（含摆腿）|
+|---|---:|---:|---:|---:|
+|F三频135例|3.901 mm|42.930 mm|−1.047 mm|41.667 ms|
+|M三频135例|4.965 mm|38.439 mm|−1.078 mm|8.333 ms|
+|F真实原地12例|低于.001 mm|12.885 mm|−.360 mm|0|
+|M真实原地12例|.050 mm|12.681 mm|−.147 mm|0|
+
+没有unplanned-turn gate违例。F最大42.93 mm发生run+90 t8.208333→8.216667：双帧该脚均为摆腿、无reachClamp、raw和target一致，runMix0、walkPhase .199953→.208549；这不是此前支撑跳锚，但快速摆腿仍需正常速近景审看。两帧在 `evidence/male-gait-phase-fix/female-run90-maxstep.json`。
+
+原male run±90 prolonged-support原因、隔离patch、Node32相位对比及其**未解决的既存合成人工F加速失败**详见 `docs/GAIT-PHASE-SUPPORT-FIX.md`。候选未靠改髋限值或挪锚点通过。当前开发机完整motion.update换档采样1.8/1.9 ms，不等于全部帧开销或普通PC结果。
+
+本轮仅数值，不是自然度、服装、正常速度影片或真实30/60/120设备性能验收。Root继续安排同固定版裤/裙/短裤的正常速度观察。本轮浏览器与临时server已关闭，audit不继续占用窗口。

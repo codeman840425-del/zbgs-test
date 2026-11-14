@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "checks": [
+    "Reports match exact isolated sources",
+    "Original positive turn support failure reproduced",
+    "Both replay turn directions satisfy unchanged support and frame-step limits",
+    "No airborne initial phase selection changed",
+    "Actual saved root paths do not gain ankle discontinuity",
+    "32 source-phase geometry runs retain original physical limits; pre-existing failures cannot worsen"
+  ],
+  "baselineSha": "cfe9c10ac7ea3448aa592c994dedae9bf7749d9692ea2abb7b98804cfe6a5963",
+  "candidateSha": "7d75fd3bfe4725b5178b1419eaf75fa6fa550c4f3a81a26b0b8620734752b1a2",
+  "preExistingFailures": [
+    {
+      "body": "female",
+      "direction": "walk-to-run",
+      "triggerPhase": 0.05,
+      "omega": 0,
+      "peakSupport": 0.08900046517239342,
+      "maxClamp": 0.05833333333333333,
+      "contactTravel": 0.016096707374915926
+    }
+  ],
+  "limitations": [
+    "The 32 synthetic paths are regression comparisons, NOT 32 acceptance passes; the listed pre-existing F walk-to-run support failure remains.",
+    "Real factory/geometry tests do not validate the scene controller, rendered motion or runtime cost.",
+    "Forecast is a local constant-speed/yaw-rate approximation, not a new hard reach guarantee."
+  ]
+}

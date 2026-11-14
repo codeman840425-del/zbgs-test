@@ -852,7 +852,7 @@ class CharacterScene extends Phaser.Scene {
       if (task.kind === "sit" && (!chair.parent || !this.reserveSeat())) throw new Error("seat-unavailable");
       if (task.kind === "walk") {
         if (!this.go(task.payload.x, task.payload.z)) throw new Error("path-unreachable");
-      } else if (this.action(task.kind) === false) throw new Error(this.actor.livePresentation?.canPerform(task.kind)?.reason || "seat-unavailable");
+      } else if (this.action(task.kind, task.payload) === false) throw new Error(this.actor.livePresentation?.canPerform(task.kind)?.reason || "seat-unavailable");
     } catch (error) { this.behaviorTasks.fail(task.requestId, error.message); }
   }
   updateBehavior(dt, metrics) {
@@ -1015,7 +1015,10 @@ class CharacterScene extends Phaser.Scene {
     this.seatAlign = false;
     this.pathTurn = null;
   }
-  action(name) {
+  action(name, options = {}) {
+    const rotation = name === "turn" ? options.rotationRadians ?? Math.PI * 2 : 0;
+    if (name === "turn" && (!Number.isFinite(rotation) || Math.abs(rotation) < 1e-6 || Math.abs(rotation) > Math.PI * 2))
+      throw new RangeError("turn rotationRadians must be finite, nonzero and within one revolution");
     const support = this.actor?.livePresentation?.canPerform(name);
     if (support && !support.allowed) {
       if (!this.isPeer) document.querySelector("#scene-state").textContent = support.reason;
@@ -1023,6 +1026,11 @@ class CharacterScene extends Phaser.Scene {
     }
     if (name === "sit" && !this.reserveSeat()) return false;
     if (name !== "sit" && !["sit", "stand"].includes(this.mode)) this.releaseSeatRequest("behavior-changed");
+    if (name === "turn" && this.mode === "turn" && !turnLegacy) {
+      this.turnPolicy.requestRotation(rotation);
+      this.turnRemaining = Math.abs(rotation);
+      return;
+    }
     // Repeated commands are idempotent; only the sit UI button explicitly toggles.
     if (
       (name === this.mode &&
@@ -1040,12 +1048,12 @@ class CharacterScene extends Phaser.Scene {
       // Keep the airborne step; latest action wins after safe landing.
       this.clearPath();
       this.turnRemaining = 0;
-      this.pending = name === "idle" ? null : { type: "action", name };
+      this.pending = name === "idle" ? null : { type: "action", name, options };
       this.setMode("idle");
       return;
     }
     if ((this.mode === "sit" || this.mode === "stand") && name !== "stand") {
-      this.pending = { type: "action", name };
+      this.pending = { type: "action", name, options };
       this.setMode("stand");
       return;
     }
@@ -1059,10 +1067,10 @@ class CharacterScene extends Phaser.Scene {
     }
     if (name === "turn") {
       this.setMode("turn");
-      this.turnRemaining = Math.PI * 2;
+      this.turnRemaining = Math.abs(rotation);
       if (!turnLegacy) {
         this.beginTurn();
-        this.turnPolicy.requestRotation(Math.PI * 2);
+        this.turnPolicy.requestRotation(rotation);
       }
       return;
     }
@@ -1433,7 +1441,8 @@ class CharacterScene extends Phaser.Scene {
           if (this.turnPolicy.sample().active) {
             this.turnPolicy.requestHeading(heading);
             this.pathTurn = "turn";
-          } else if (Math.abs(angle) > 1.75) {
+          } else if (Math.abs(angle) > 1.75 ||
+              (this.speed < .06 && !this.rig.getMetrics().moving && Math.abs(angle) > .27)) {
             if (this.speed > .06) {
               this.pathTurn = "brake";
               this.speed = Math.max(0, this.speed - 4.5 * dt);
@@ -1553,6 +1562,9 @@ class CharacterScene extends Phaser.Scene {
       moving: moved > 1e-7,
       action: this.mode === "turn" ? "idle" : this.mode,
       turning: this.turning,
+      // Room turns belong to the planner. Near-zero launch displacement must
+      // not select the legacy yaw-delta alternating-foot fallback.
+      allowUnplannedTurn: turnLegacy,
       turnPlan,
       speaking: this.actor.livePresentation?.getState().speaking,
     });
@@ -1571,7 +1583,7 @@ class CharacterScene extends Phaser.Scene {
         const cmd = this.pending;
         this.pending = null;
         if (cmd.type === "walk") this.go(cmd.x, cmd.z, cmd.after);
-        else this.action(cmd.name);
+        else this.action(cmd.name, cmd.options);
       }
     }
     if (
@@ -1583,7 +1595,7 @@ class CharacterScene extends Phaser.Scene {
       const cmd = this.pending;
       this.pending = null;
       if (cmd.type === "walk") this.go(cmd.x, cmd.z, cmd.after);
-      else this.action(cmd.name);
+      else this.action(cmd.name, cmd.options);
     }
     if (this.mode === "dance" && m.dancePlaybackComplete) this.setMode("idle");
     this.updateBehavior(dt, m);
@@ -1821,7 +1833,9 @@ async function loadComparison(bodyType = avatar.profile.bodyType === "female" ? 
   const generation = ++comparisonGeneration;
   let a;
   try {
-  a = await loadFoundationAvatar({ scene: world, renderer, bodyType });
+  // Keep an unposed peer out of the rendered world until its mixer and contact
+  // calibration are ready. Do not hide its root: calibration reads visibility.
+  a = await loadFoundationAvatar({ scene: world, renderer, bodyType, attachToScene: false });
   a.root.position.set(1.2, 0, 1.15);
   const clips = await loadRetargetedMotions(a.vrm);
   const m = createMotion(a.vrm, a.root, clips, a.profile.motion);
@@ -1836,10 +1850,11 @@ async function loadComparison(bodyType = avatar.profile.bodyType === "female" ? 
     dispose() { peerController.clearPath(); m.dispose?.(); a.dispose(); peerController.behaviorTasks.dispose(); seatLeases.disposeOwner(peerController.actorId); },
   };
   instance.update(0); a.resetSecondary();
-  if (generation !== comparisonGeneration) { instance.dispose(); throw new Error("Comparison request cancelled"); }
+  if (generation !== comparisonGeneration) { instance.dispose(); a = null; throw new Error("Comparison request cancelled"); }
+  world.add(a.root);
   comparison = instance;
   return instance;
-  } catch (error) { if (a && a.root.parent) a.dispose(); throw error; }
+  } catch (error) { if (a) a.dispose(); throw error; }
   finally { comparisonLoading = false; }
 }
 function bindFoundationControls(a) {
@@ -1848,8 +1863,8 @@ function bindFoundationControls(a) {
   document.querySelector('[data-outfit="1"]').hidden = !a.config.ids.skirt;
   const oldTrial = document.querySelector('[data-outfit="2"]');
   oldTrial.hidden = !a.config.ids.shorts;
-  if (a.config.ids.shorts) oldTrial.textContent = a.config.shortsLabel;
-  oldTrial.nextElementSibling.textContent = `${a.config.label}：同一房间与控制器，当前基模独立验证。`;
+  if (a.config.ids.shorts) oldTrial.querySelector("b").textContent = a.config.shortsLabel;
+  document.querySelector("#foundation-legend").textContent = `${a.config.label}：同一房间与控制器，当前基模独立验证。`;
   const row = document.createElement("div"); row.className = "debug-row";
   for (const [bodyType, label] of [["female", "女性候选"], ["male", "男性候选"]]) {
     const link = document.createElement("a");

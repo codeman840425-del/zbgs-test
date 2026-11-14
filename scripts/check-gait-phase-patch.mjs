@@ -1,0 +1,14 @@
+// Check isolated real-asset runs; these are not browser acceptance receipts.
+import fs from 'node:fs';import assert from 'node:assert/strict';import {createHash} from 'node:crypto';
+const dir=process.argv[2]||'analysis/male-phase-fix';
+const read=name=>JSON.parse(fs.readFileSync(`${dir}/${name}.json`,'utf8'));
+const b=read('baseline-replay'),c=read('candidate-replay'),bs=read('baseline-sweep'),cs=read('candidate-sweep');
+const checks=[];function check(name,fn){fn();checks.push(name);}
+check('Reports match exact isolated sources',()=>{for(const [kind,replay,sweep] of [['baseline',b,bs],['candidate',c,cs]]){const sha=createHash('sha256').update(fs.readFileSync(`${dir}/motion-${kind}.js`)).digest('hex');assert.equal(replay.sourceSha256,sha);assert.equal(sweep.sourceSha256,sha);}});
+check('Original positive turn support failure reproduced',()=>assert.ok(b.results.find(r=>r.name==='run-90deg').peakSupport>.07));
+check('Both replay turn directions satisfy unchanged support and frame-step limits',()=>{for(const r of c.results){assert.ok(r.peakSupport<.03);assert.equal(r.maxSupportClamp,0);assert.ok(r.maxAnkleStep<.06);}});
+check('No airborne initial phase selection changed',()=>{for(let i=0;i<c.results.length;i++)assert.equal(c.results[i].transitions[0].phase,b.results[i].transitions[0].phase);});
+check('Actual saved root paths do not gain ankle discontinuity',()=>{for(let i=0;i<c.results.length;i++)assert.ok(c.results[i].maxAnkleStep<=b.results[i].maxAnkleStep+1e-7);});
+check('32 source-phase geometry runs retain original physical limits; pre-existing failures cannot worsen',()=>{assert.equal(cs.results.length,32);for(let i=0;i<cs.results.length;i++){const x=cs.results[i],y=bs.results[i];assert.equal(x.body,y.body);assert.equal(x.direction,y.direction);assert.equal(x.triggerPhase,y.triggerPhase);assert.equal(x.omega,y.omega);const limits={peakSupport:.03,maxStep:.06,maxTarget:.06,maxClamp:.1,contactTravel:.015};for(const [key,limit]of Object.entries(limits))assert.ok(x[key]<=(y[key]>limit?y[key]+1e-7:limit),`${i}: ${key}`);assert.ok(x.floor>=-.006);}});
+const preExisting=cs.results.filter(r=>r.peakSupport>.03||r.contactTravel>.015).map(({body,direction,triggerPhase,omega,peakSupport,maxClamp,contactTravel})=>({body,direction,triggerPhase,omega,peakSupport,maxClamp,contactTravel}));
+const out={passed:true,checks,baselineSha:b.sourceSha256,candidateSha:c.sourceSha256,preExistingFailures:preExisting,limitations:['The 32 synthetic paths are regression comparisons, NOT 32 acceptance passes; the listed pre-existing F walk-to-run support failure remains.','Real factory/geometry tests do not validate the scene controller, rendered motion or runtime cost.','Forecast is a local constant-speed/yaw-rate approximation, not a new hard reach guarantee.']};fs.writeFileSync(`${dir}/checks.json`,JSON.stringify(out,null,2));console.log(JSON.stringify(out,null,2));

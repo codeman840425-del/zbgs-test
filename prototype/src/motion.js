@@ -369,20 +369,68 @@ export function createMotion(
   // Clip phase is chosen from the actual two-foot pose. A boolean contact test
   // cannot choose a support side during a run's flight interval.
   const gaitPoses = { walk: [], jog: [] };
+  const gaitSupport = { walk: [], jog: [] };
   const captureGaitPose = () => feet.map(foot => root.worldToLocal(worldPoint(foot.foot)));
+  const captureGaitSupport = () => feet.map(foot => ({
+    hip: root.worldToLocal(worldPoint(foot.upper)),
+    ankle: root.worldToLocal(worldPoint(foot.foot)),
+    sole: Object.fromEntries(["heel", "toe"].map(kind => [kind, foot.soleSamples
+      ? root.worldToLocal(foot.soleSamples[kind]())
+      : root.worldToLocal(worldPoint(foot.foot).add(foot.soleOffsets[kind].clone().applyQuaternion(foot.foot.getWorldQuaternion(new Q()))))])),
+  }));
+  const gaitSample = (kind, at, side) => {
+    const samples=gaitSupport[kind], p=((at%1)+1)%1*samples.length, i=Math.floor(p), t=p-i;
+    const a=samples[i][side],b=samples[(i+1)%samples.length][side];
+    return {hip:a.hip.clone().lerp(b.hip,t),ankle:a.ankle.clone().lerp(b.ankle,t),
+      sole:Object.fromEntries(["heel","toe"].map(k=>[k,a.sole[k].clone().lerp(b.sole[k],t)]))};
+  };
   let gaitTransition = null;
-  function matchGaitPhase(kind, lift) {
+  function matchGaitPhase(kind, lift, trajectory={}) {
     const current = feet.map(foot => root.worldToLocal(foot.lastActual.clone()));
-    let best = 0, cost = Infinity;
+    const from=kind==="walk"?"jog":"walk",fromPhase=from==="jog"?runPhase:phase;
+    const fromLift=from==="jog"?sourceJogGroundLift:sourceGroundLift;
+    const fromDistance=from==="jog"?(motions.jogDistance||stride):stride;
+    const toDistance=kind==="jog"?(motions.jogDistance||stride):stride;
+    const speed=Math.max(0,trajectory.speed||0),omega=trajectory.angularVelocity||0,yaw=root.rotation.y;
+    // Forecast only a fully established run exit. Flight, walk entry and
+    // a second request during an unfinished fade keep the two-foot pose match.
+    const planted=feet.map(f=>Boolean(kind === "walk" && runMix > .95 && f.contact && f.anchorKind));
+    let best = 0, cost = Infinity, selected=null;
     for (let i = 0; i < gaitPoses[kind].length; i++) {
-      const score = gaitPoses[kind][i].reduce((sum, p, side) => {
+      const poseCost = gaitPoses[kind][i].reduce((sum, p, side) => {
         const d = p.clone(); d.y += lift; d.sub(current[side]);
         return sum + d.x*d.x + .5*d.y*d.y + d.z*d.z;
       }, 0);
-      if (score < cost) { cost = score; best = i; }
+      // Predict existing world anchors through the fade and sampled toe-off.
+      // A nearby pose must not restart an already planted leg at early stance.
+      const active=planted.slice(),releaseDistance=[null,null];let reachCost=0,maxExcess=0;
+      for(let tick=1;tick<=32&&active.some(Boolean);tick++){
+        const time=tick*.025,blend=smooth(clamp(time/.30,0,1)),angle=yaw+omega*time;
+        const travel=Math.abs(omega)>.0001
+          ? new V(speed/omega*(Math.cos(yaw)-Math.cos(angle)),0,speed/omega*(Math.sin(angle)-Math.sin(yaw)))
+          : new V(Math.sin(yaw)*speed*time,0,Math.cos(yaw)*speed*time);
+        const orientation=new Q().setFromAxisAngle(new V(0,1,0),angle);
+        for(let side=0;side<2;side++)if(active[side]){
+          const a=gaitSample(from,fromPhase+speed*time/fromDistance,side),b=gaitSample(kind,i/gaitPoses[kind].length+speed*time/toDistance,side);
+          const mixed={hip:a.hip.lerp(b.hip,blend),ankle:a.ankle.lerp(b.ankle,blend),sole:{heel:a.sole.heel.lerp(b.sole.heel,blend),toe:a.sole.toe.lerp(b.sole.toe,blend)}};
+          const mixedLift=THREE.MathUtils.lerp(fromLift,lift,blend),foot=feet[side],contactKind=foot.anchorKind;
+          if(mixed.sole[contactKind].y+mixedLift>(contactKind==="toe"?.035:.02)){
+            active[side]=false;releaseDistance[side]=speed*time;continue;
+          }
+          const offset=mixed.sole[contactKind].clone().sub(mixed.ankle).applyQuaternion(orientation);
+          const target=foot.anchor.clone().sub(offset);
+          const hip=mixed.hip.clone();hip.y+=mixedLift-adaptiveHipDrop;
+          hip.applyQuaternion(orientation).add(root.position).add(travel);
+          const excess=Math.max(0,hip.distanceTo(target)-(foot.first+foot.second-.001));
+          reachCost+=excess*excess/32;maxExcess=Math.max(maxExcess,excess);
+        }
+      }
+      const score=poseCost+8*reachCost;
+      if (score < cost) { cost = score; best = i;selected={poseCost,reachCost,maxExcess,releaseDistance}; }
     }
     const result = best / Math.max(1, gaitPoses[kind].length);
-    gaitTransition = { to: kind, phase: result, poseError: Math.sqrt(cost), frame };
+    gaitTransition = { to: kind, phase: result, poseError: Math.sqrt(selected?.poseCost??cost), frame,
+      supportForecast:{...selected,planted,speed,angularVelocity:omega,method:"source-sampled-fade-reach-v1"} };
     return result;
   }
   const stance = 0.6;
@@ -486,6 +534,7 @@ export function createMotion(
       sourceMixer.update(0);
       root.updateWorldMatrix(true, true);
       gaitPoses.walk.push(captureGaitPose());
+      gaitSupport.walk.push(captureGaitSupport());
       for (const foot of feet) {
         const p = root.worldToLocal(worldPoint(foot.foot)),
           b = foot.sourceBounds;
@@ -564,6 +613,7 @@ export function createMotion(
         sourceActions.jog.time = i / 120 * motions.clips.jog.duration;
         sourceMixer.update(0); root.updateWorldMatrix(true, true);
         gaitPoses.jog.push(captureGaitPose());
+        gaitSupport.jog.push(captureGaitSupport());
         for (const foot of feet) {
           if (foot.soleSamples) for (const kind of ["heel", "toe"])
             lowest = Math.min(lowest, root.worldToLocal(foot.soleSamples[kind]()).y);
@@ -1131,8 +1181,8 @@ export function createMotion(
       ? turning
       : !moving &&
         (Boolean(turnPlan) ||
-          Boolean(state.turning) ||
-          Math.abs(yawDelta) > 0.005);
+          (state.allowUnplannedTurn !== false &&
+            (Boolean(state.turning) || Math.abs(yawDelta) > 0.005)));
     if (turning && (!wasTurning || Boolean(turnPlan) !== wasPlannedTurn ||
         (turnPlan && feet[0].turnPhraseId !== turnPlan.stepId))) {
       turnPhase = stance / 2;
@@ -1192,8 +1242,8 @@ export function createMotion(
       // Match both physical feet, including flight where neither is planted.
       // The old contact ? .3 : .8 fallback selected the opposite half-cycle,
       // blended a forward swing through the floor and locked its foot behind.
-      if (runRequested && !previousRunRequest) runPhase = matchGaitPhase("jog", sourceJogGroundLift);
-      if (!runRequested && previousRunRequest) phase = matchGaitPhase("walk", sourceGroundLift);
+      if (runRequested && !previousRunRequest) runPhase = matchGaitPhase("jog", sourceJogGroundLift,{speed:state.speed,angularVelocity:dt?yawDelta/dt:0});
+      if (!runRequested && previousRunRequest) phase = matchGaitPhase("walk", sourceGroundLift,{speed:state.speed,angularVelocity:dt?yawDelta/dt:0});
       const desiredRun = moving && runRequested ? 1 : 0;
       runMix += clamp(desiredRun - runMix, -dt / .30, dt / .30);
     }

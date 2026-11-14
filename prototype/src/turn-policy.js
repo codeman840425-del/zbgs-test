@@ -6,7 +6,7 @@ const EPS=1e-8, clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 const smooth=x=>x*x*(3-2*x);
 export const turnAngleDelta=(to,from)=>Math.atan2(Math.sin(to-from),Math.cos(to-from));
 export const TURN_FULL_ROTATION=Math.PI*2;
-export function createTurnPolicy({smallAngle=.27, maxVelocity=3.6, acceleration=14}={}) {
+export function createTurnPolicy({smallAngle=.27, maxVelocity=3.6, acceleration=14, minimumTransferSeconds=.6}={}) {
  let yaw=0,goal=0,velocity=0,elapsed=0,serial=0,phrase=null,mode="idle",stopped=false;
  let headingRequest=null, preferredSwing=-1, footYaws=[0,0];
  function reset(at=0,options={}) {
@@ -65,7 +65,12 @@ export function createTurnPolicy({smallAngle=.27, maxVelocity=3.6, acceleration=
   const amount=velocity*dt;
   if(Math.abs(amount)>Math.abs(left)&&Math.sign(amount)===Math.sign(left)){yaw=phrase.end;velocity=0;}else yaw+=amount;
   const previousProgress=phrase.progress;
-  phrase.progress=clamp((yaw-phrase.start)/(phrase.end-phrase.start),0,1);
+  const angularProgress=clamp((yaw-phrase.start)/(phrase.end-phrase.start),0,1);
+  // A changed heading can leave only a small angle but a full foot transfer.
+  // Keep its physical transfer time independent of that remaining angle:
+  // 26 degrees previously compressed a swing to ~.12s / 100mm per frame.
+  phrase.progress=phrase.small ? angularProgress : Math.max(previousProgress,
+    Math.min(angularProgress,previousProgress+dt/minimumTransferSeconds));
   // Foot transfer follows actual angular travel, not a timer that can expire
   // while a new goal is still 150 degrees away. A changed request is committed
   // at the next landing, preserving current swing and root angular velocity.
@@ -74,7 +79,7 @@ export function createTurnPolicy({smallAngle=.27, maxVelocity=3.6, acceleration=
   if(changed&&(phrase.small||landing)){
    if(stopped)goal=yaw+Math.sign(velocity)*velocity*velocity/(2*acceleration);
    preferredSwing=1-phrase.first;begin();
-  } else if(Math.abs(phrase.end-yaw)<.001&&Math.abs(velocity)<.01){
+  } else if(Math.abs(phrase.end-yaw)<.001&&Math.abs(velocity)<.01&&phrase.progress>=.999){
    yaw=phrase.end;footYaws=[yaw,yaw];
    if(Math.abs(goal-yaw)>.001){preferredSwing=1-phrase.first;begin();}
    else {yaw=goal;velocity=0;phrase=null;mode="idle";headingRequest=null;}

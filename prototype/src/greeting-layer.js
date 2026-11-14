@@ -8,10 +8,15 @@ const URL = '/assets/motion/m1c/greeting/';
 const SHA = 'eec4ef8ab2fb073f7674cc6e839cbad7aea6931e4b19e8e70c0ee46c5fda2d06';
 const BYTES = 1566668;
 const CLIP = 'Greeting_Wave_Left_Once_v1';
+// Pinned source config: the start/end ramps are quintic interpolation from
+// standing Idle to the boundary wave pose. Re-anchor those ramps to THIS
+// frame's authored pose (including seated hands), not the source Idle endpoint.
+const RAISE_END = .65, LOWER_START = 2.05;
 const MAP = {upperarm_l:'leftUpperArm', lowerarm_l:'leftLowerArm', hand_l:'leftHand'};
 for (const [src, dst] of [['index','Index'],['middle','Middle'],['ring','Ring'],['pinky','Little'],['thumb','Thumb']])
   for(let i=1;i<=3;i++) MAP[`${src}_0${i}_l`] = 'left'+dst+(src==='thumb'?['Metacarpal','Proximal','Distal']:['Proximal','Intermediate','Distal'])[i-1];
 const smooth = t => {t=THREE.MathUtils.clamp(t,0,1);return t*t*(3-2*t);};
+const sourceRamp = t => {t=THREE.MathUtils.clamp(t,0,1);return t*t*t*(t*(t*6-15)+10);};
 
 function disposeLibrary(scene) {
   const geometries=new Set(), materials=new Set(), textures=new Set();
@@ -96,7 +101,9 @@ export function createGreetingLayer({vrm,fetchResource=globalThis.fetch,parse=by
     }
     // Motion restores the entire authored normalized pose each tick. Never
     // capture an old frame here or write excluded/root/right-hand tracks.
-    for(const track of loaded.tracks){track.value.fromArray(track.sample.evaluate(state.time));track.bone.quaternion.slerp(track.value,state.weight);}
+    const sampleTime=THREE.MathUtils.clamp(state.time,RAISE_END,LOWER_START);
+    const ramp=state.time<RAISE_END?sourceRamp(state.time/RAISE_END):state.time>LOWER_START?1-sourceRamp((state.time-LOWER_START)/(loaded.duration-LOWER_START)):1;
+    for(const track of loaded.tracks){track.value.fromArray(track.sample.evaluate(sampleTime));track.bone.quaternion.slerp(track.value,state.weight*ramp);}
   }
-  return {start,cancel,update,busy,getState:()=>({...state,duration:loaded?.duration??2.8,layer:'left-arm-and-fingers-only',fadeSeconds:.2}),dispose(){if(disposed)return;cancel({immediate:true});disposed=true;loaded=null;}};
+  return {start,cancel,update,busy,getState:()=>({...state,duration:loaded?.duration??2.8,layer:'left-arm-and-fingers-only',fadeSeconds:.2,endpointPolicy:'current-authored-pose-source-quintic-ramps'}),dispose(){if(disposed)return;cancel({immediate:true});disposed=true;loaded=null;}};
 }

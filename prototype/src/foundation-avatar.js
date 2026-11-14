@@ -5,7 +5,7 @@ import { createM1Equipment } from "./m1-equipment.js";
 import { foundationProfile } from "./foundation-profiles.js";
 import { createLivePresentation } from "./live-presentation.js";
 
-export async function loadFoundationAvatar({ scene, renderer, bodyType = "female" }) {
+export async function loadFoundationAvatar({ scene, renderer, bodyType = "female", attachToScene = true }) {
   const config = foundationProfile(bodyType), url = config.url;
   const response = await fetch(url);
   if (!response.ok) throw new Error(`Foundation HTTP ${response.status}`);
@@ -24,7 +24,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
   const root = new THREE.Group();
   root.name = "M1CompleteFoundation";
   root.add(vrm.scene);
-  scene.add(root);
+  if (attachToScene) scene.add(root);
   root.updateMatrixWorld(true);
   const sourceMaterials = new Map(),
     bodyMaterials = new Map(),
