@@ -10,9 +10,9 @@
 - 检查页：基础身体/服装、修正分层、骨骼接触点、动态、双实例和现有完整链。暂停/停止与脸/半身/全身、正/侧/背及房间镜头常驻，不必切页找它们。
 - 外观恢复只还原发型/配色，不改变几何样件、服装或镜头。发色默认同步眉色；瞳色只染虹膜，保留黑瞳孔、高光、眼白；唇色只染外唇，不染牙齿和口腔。
 
-当前候选为两件刚性head挂接短发，不等于长发动态已完成。发型、脸型及肤色仍待用户观感确认，耳侧贴合和冻结裙/舞瑕疵保留。色彩不是几何编辑。基础人体模式默认无发，回到穿衣模式恢复已选发型。外观页的“面部几何”目前仅原男女嘴宽−4%～+4%，修改Basis及全部口型表情，单项复位还原原几何。眉部位置对照仅原位与“上移1mm、两侧各外移1mm”一个组合样件，不能当连续范围通过；眼鼻等未提供假控件。
+当前候选为两件刚性head挂接短发，不等于长发动态已完成。发型、脸型及肤色仍待用户观感确认，耳侧贴合和冻结裙/舞瑕疵保留。色彩不是几何编辑。基础人体模式默认无发，回到穿衣模式恢复已选发型。外观页的“面部几何”目前仅原男女嘴宽−4%～+4%，修改Basis及全部口型表情，单项复位还原原几何。眉部位置对照仅原位与“上移1mm、两侧各外移1mm”一个组合样件，不能当连续范围通过；鼻尖对照仅原位和向前0.5mm一个端点；眼部未提供假控件。
 
-“保存当前外观/恢复已保存外观”使用此浏览器的本机草稿，按当前基模分开；保存发型/色彩/嘴宽/眉样件/装备及版本，关页重开或切回该基模自动恢复已保存结果。不保存动作/镜头，也不是主播账号或云存档。版本不符明确拒绝，加载中收到新请求时保留新意图。首次几何编辑仍有约315–328ms长帧（开发机无录制），普通电脑未测。
+“保存当前外观/恢复已保存外观”使用此浏览器的本机草稿，按当前基模分开；保存发型/色彩/嘴宽/眉样件/鼻样件/装备及版本，关页重开或切回该基模自动恢复已保存结果。不保存动作/镜头，也不是主播账号或云存档。版本不符明确拒绝，加载中收到新请求时保留新意图。首次几何编辑仍有约315–328ms长帧（开发机无录制），普通电脑未测。
 
 ## 生产与重新构建
 
@@ -22,7 +22,8 @@
 4. `node scripts/install-frozen-dance-workbench.mjs --verify`：核四个封存目标文件，不重新生成/优化动作。原真人视频和供应商FBX不作为公开商用素材包。
 5. `node scripts/install-face-parameters-workbench.mjs --verify` 核两体嘴宽recipe；可编辑源与全部形态处理在`assets-source/face-parameters-v1`、`scripts/face-parameters-v1`。无发源检查在`evidence/workbench-face-source-audit-v1`。
 6. `node scripts/install-face-brow-workbench.mjs --verify` 核单端点源→runtime recipe；源、从原底重复生成及全部表达核查见`assets-source/face-brow-parameters-v1/README.md`，独立CPU命令`node scripts/face-brow-parameters-v1/runtime-check.mjs`。
-7. 在prototype目录执行 `npm ci`、`npm run build -- --outDir ../experiments/<新固定目录>/dist`。构建标识由全源码/资源自动计算；不得覆盖历史固定目录。核对build-info与交付指针后，根目录运行 `python scripts/serve-appearance-workbench.py`。
+7. `node scripts/install-face-nose-workbench.mjs --verify` 核鼻尖端点；源raw/final法线整理、保存源及从原底重生成见`assets-source/face-nose-parameters-v1/README.md`。新增源第一次暂存前先声明精确目录-text，再用`python scripts/check-source-manifest-git.py --manifest <源manifest> --revision INDEX --output <新报告路径>`检查Git将保存的真实字节，不重写pin来迁就错误归档。
+8. 在prototype目录执行 `npm ci`、`npm run build -- --outDir ../experiments/<新固定目录>/dist`。构建标识由全源码/资源自动计算；不得覆盖历史固定目录。核对build-info与交付指针后，根目录运行 `python scripts/serve-appearance-workbench.py`。
 
 `character-appearance.js`、`facial-palette.js`与房间共用人物实例，材质/颜色缓存归属各自实例；换色不在每帧创建贴图。Texture Source独立，恢复原材质引用和透明通道；最新请求优先、失败保留、销毁在定向运行检查中验证。热切换在离屏完成资源和姿势准备后才替换可见人物。
 
