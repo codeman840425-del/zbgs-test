@@ -1,0 +1,81 @@
+--- a/prototype/src/forearm-contact-workspace.js
++++ b/prototype/src/forearm-contact-workspace.js
+@@ -49,8 +49,52 @@
+   };
+ }
+ 
++// Conservative same-query broad phase only; unsupported numbers keep the old path.
++// Units are metres in the orthonormal projected plane. Never a contact tolerance.
++export function prepareQueryTriangleBounds(projected, constants, out = {}) {
++  out.valid = false;
++  if (projected.length !== 6 || constants.length !== 7) return out;
++  let maxAbs = 1;
++  for (const value of projected) {
++    if (!Number.isFinite(value)) return out;
++    maxAbs = Math.max(maxAbs, Math.abs(value));
++  }
++  for (const value of constants) {
++    if (!Number.isFinite(value)) return out;
++    maxAbs = Math.max(maxAbs, Math.abs(value));
++  }
++  if (maxAbs > 100) return out;
++  const minU = Math.min(projected[0], projected[2], projected[4]);
++  const maxU = Math.max(projected[0], projected[2], projected[4]);
++  const minV = Math.min(projected[1], projected[3], projected[5]);
++  const maxV = Math.max(projected[1], projected[3], projected[5]);
++  const span = Math.max(maxU - minU, maxV - minV);
++  if (span < 1e-6 || span > 10 ||
++      Math.abs(constants[6]) <= Math.max(1e-12, span * span * 1e-6)) return out;
++  out.minU = minU; out.maxU = maxU; out.minV = minV; out.maxV = maxV;
++  out.maxAbs = maxAbs; out.valid = true;
++  return out;
++}
++export function prepareQueryRailBounds(su, sv, eu, ev, out = {}) {
++  out.valid = false;
++  if (!Number.isFinite(su) || !Number.isFinite(sv) ||
++      !Number.isFinite(eu) || !Number.isFinite(ev)) return out;
++  const maxAbs = Math.max(1, Math.abs(su), Math.abs(sv), Math.abs(eu), Math.abs(ev));
++  if (maxAbs > 100 || Math.max(Math.abs(eu - su), Math.abs(ev - sv)) > 10) return out;
++  out.minU = Math.min(su, eu); out.maxU = Math.max(su, eu);
++  out.minV = Math.min(sv, ev); out.maxV = Math.max(sv, ev);
++  out.maxAbs = maxAbs; out.valid = true;
++  return out;
++}
++export function queryBoundsRejects(rail, triangle) {
++  if (!rail.valid || !triangle.valid) return false;
++  const margin = 1e-6 + 64 * Number.EPSILON * Math.max(rail.maxAbs, triangle.maxAbs);
++  return rail.maxU < triangle.minU - margin || rail.minU > triangle.maxU + margin ||
++    rail.maxV < triangle.minV - margin || rail.minV > triangle.maxV + margin;
++}
++
+ export function createProjectedContactWorkspace() {
+-  const cells = new Map(), lists=[], candidates=[];
++  const cells = new Map(), lists=[], candidates=[], railBounds={};
+   let usedLists=0, stamp=0;
+   return {
+     build(triangles,u,v) {
+@@ -58,7 +102,8 @@
+       for (const t of triangles) {
+         const p=t.projected;
+         for(let j=0;j<3;j++){p[j*2]=t.points[j].dot(u);p[j*2+1]=t.points[j].dot(v);}
+-        prepareProjectedInterval(p,t.clipConstants||(t.clipConstants=new Array(7)));
++        prepareProjectedInterval(p,t.clipConstants||(t.clipConstants=new Array(7)));
++        prepareQueryTriangleBounds(p,t.clipConstants,t.queryBounds||(t.queryBounds={}));
+         const minX=Math.floor(Math.min(p[0]/.04,p[2]/.04,p[4]/.04));
+         const maxX=Math.floor(Math.max(p[0]/.04,p[2]/.04,p[4]/.04));
+         const minY=Math.floor(Math.min(p[1]/.04,p[3]/.04,p[5]/.04));
+@@ -72,11 +117,12 @@
+     },
+     query(su,sv,eu,ev) {
+       // Number integer counter stays exact for millions of years at normal rates.
+-      stamp++; candidates.length=0;
++      stamp++; candidates.length=0;
++      prepareQueryRailBounds(su,sv,eu,ev,railBounds);
+       for(let x=Math.floor(Math.min(su,eu)/.04);x<=Math.floor(Math.max(su,eu)/.04);x++)
+         for(let y=Math.floor(Math.min(sv,ev)/.04);y<=Math.floor(Math.max(sv,ev)/.04);y++) {
+           const list=cells.get(x+':'+y);if(!list)continue;
+-          for(const t of list)if(t.candidateStamp!==stamp){t.candidateStamp=stamp;candidates.push(t);}
++          for(const t of list)if(t.candidateStamp!==stamp){t.candidateStamp=stamp;if(!queryBoundsRejects(railBounds,t.queryBounds))candidates.push(t);}
+         }
+       return candidates;
+     },

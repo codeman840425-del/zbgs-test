@@ -1,0 +1,20 @@
+--- before/qa-m1-current-perf.cjs
++++ after/qa-m1-current-perf.cjs
+@@ -69,7 +69,7 @@
+    };
+    q.instrument(d.avatar(),d.motion());wrap(c,'simulate','primarySimulateMs');wrap(d.renderer,'render','renderSubmitMs');
+    c.events.on('preupdate',()=>{const t=performance.now();q.current=q.active?{t,frameMs:q.previous===null?null:t-q.previous,exclusive:{},calls:{}}:null;q.previous=t;});
+-   c.events.on('postupdate',()=>{if(q.current){const row=q.current;row.cpuUpdateMs=performance.now()-row.t;row.mode=c.mode;row.speed=c.actualSpeed;row.hidden=document.hidden;row.paused=c.paused;row.background=c.backgroundSuspended;row.rate=c.playbackRate;row.simulationTime=c.simulationTime;const peer=d.comparison();row.peer=peer?{mode:peer.controller.mode,speed:peer.controller.actualSpeed}:null;if(detail)row.lastSubstepHandFit=d.motion().getMetrics().handFitProfile;q.frames.push(row);}q.current=null;});
++   c.events.on('postupdate',()=>{if(q.current){const row=q.current;row.cpuUpdateMs=performance.now()-row.t;row.mode=c.mode;row.speed=c.actualSpeed;row.hidden=document.hidden;row.paused=c.paused;row.background=c.backgroundSuspended;row.rate=c.playbackRate;row.simulationTime=c.simulationTime;const peer=d.comparison();row.peer=peer?{mode:peer.controller.mode,speed:peer.controller.actualSpeed}:null;if(detail){const sampleStart=performance.now();row.lastSubstepHandFit=d.motion().getMetrics().handFitProfile;row.detailSampleMs=performance.now()-sampleStart;}q.frames.push(row);}q.current=null;});
+   },{timerSource:createTimers.toString(),detail});
+   for(const config of selectedCases){   const caseResult={config};report.results.push(caseResult);
+    await page.evaluate(async cfg=>{const d=__debug,c=d.game.scene.getScene('CharacterStudio');d.removeComparison();d.reset();d.setPlaybackRate(1);d.setCorrections('full');d.setHelpers(false);d.setBodyMode(cfg.base?'base':'dressed');d.setOutfit(cfg.skirt?1:0);d.setDynamics(!cfg.base);c.cameraPreset('room',true);d.setSpeed(cfg.speed||.85);d.setPaused(true);
+@@ -92,7 +92,7 @@
+     },config);
+    }
+    const data=await page.evaluate(()=>{__measure.active=false;const s=__debug.snapshot();return {frames:__measure.frames,resources:{renderer:s.renderer,heap:s.heap},end:{mode:s.mode,position:s.position,simulationTime:s.simulationTime,camera:s.camera}};});
+-   const summary={},exclusive={};for(const key of ['frameMs','cpuUpdateMs','primarySimulateMs','motionMs','avatarMs','vrmMs','garmentMs','renderSubmitMs',...(detail?['handSurfaceMs']:[])]){summary[key]=quant(data.frames,key);exclusive[key]=quant(data.frames.map(f=>f.exclusive),key);}
++   const summary={},exclusive={};for(const key of ['frameMs','cpuUpdateMs','primarySimulateMs','motionMs','avatarMs','vrmMs','garmentMs','renderSubmitMs',...(detail?['handSurfaceMs','detailSampleMs']:[])]){summary[key]=quant(data.frames,key);exclusive[key]=quant(data.frames.map(f=>f.exclusive),key);}
+    const modeFrames={};for(const f of data.frames)modeFrames[f.mode]=(modeFrames[f.mode]||0)+1;
+    const validity={frames:data.frames.length,invalidStateFrames:data.frames.filter(f=>f.hidden||f.paused||f.background||f.rate!==1).length,missingInstrumentedFrames:data.frames.filter(f=>!f.calls.renderSubmitMs||!f.calls.primarySimulateMs).length,
+     movingFrames:data.frames.filter(f=>f.speed>.05).length,runningSpeedFrames:data.frames.filter(f=>f.speed>1.5).length,peerMovingFrames:data.frames.filter(f=>f.peer?.speed>.05).length,modeFrames,

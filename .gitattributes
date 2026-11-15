@@ -140,3 +140,12 @@ scripts/video-motion/check-dance-forefoot-v4.mjs -text whitespace=cr-at-eol
 assets-source/video-dance-hard-support-v5/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 docs/research/ADVISOR-MOCAP-ALTERNATIVES-2026-11-15.txt -text whitespace=-blank-at-eof,cr-at-eol
 evidence/dance-video-pose-v1/submit-input-v1/*.txt -text whitespace=-blank-at-eol,cr-at-eol
+
+# Fixed vendor adapter receipts hash authored bytes, including line endings.
+assets-source/rokoko-target-adapter-v1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+# Raw patches are immutable evidence, not newly authored source whitespace.
+evidence/contact-query-bounds-study-v1/*.patch -whitespace
+evidence/contact-query-bounds-study-v1/candidate/portable.patch -whitespace
+evidence/hand-release-038341558517/perf-cause/detail-sampling-qa.patch -whitespace
+evidence/rokoko-pilot-preflight-v1/entrypoint.patch -whitespace
+evidence/hand-release-038341558517/perf-cause/detail/report.json -diff

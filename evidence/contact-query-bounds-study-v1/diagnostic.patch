@@ -1,0 +1,30 @@
+--- 038/motion.js
++++ diagnostic/motion.js
+@@ -1030,11 +1030,15 @@
+       // These rail endpoints stay fixed throughout this query. Keep every
+       // alpha/depth sample while avoiding three repeated dot products per hit.
+       const startDepth = start.dot(outward), depthDelta = end.dot(outward) - startDepth;
+-      const candidates = projectedContactWorkspace.query(su,sv,eu,ev);
++      const candidates = projectedContactWorkspace.query(su,sv,eu,ev);
++      const study=globalThis.__queryBoundsStudy;
++      const studyQuery=study?.active ? {rail:[su,sv,eu,ev],worldStart:start.toArray(),worldEnd:end.toArray(),outward:outward.toArray(),candidates:candidates.map(t=>study.indexMap.get(t)),nonnull:[]} : null;
++      if(studyQuery)study.grids.at(-1).queries.push(studyQuery);
+       let amount = 0;
+       for (const t of candidates) {
+         if (measurement) measurement.testedTriangles++;
+-        const interval = projectedSegmentIntervalPrepared(su, sv, eu, ev, t.clipConstants, projectedInterval);
++        const interval = projectedSegmentIntervalPrepared(su, sv, eu, ev, t.clipConstants, projectedInterval);
++        if(studyQuery && interval)studyQuery.nonnull.push({triangle:study.indexMap.get(t),lo:interval.lo,hi:interval.hi,start:interval.start.slice(),end:interval.end.slice()});
+         if (!interval) continue;
+         // In an opaque triangle clearance is affine along this clipped interval,
+         // so its endpoints give the exact extremum. Interior samples additionally
+@@ -1096,7 +1100,8 @@
+       gridU = new V().crossVectors(outward, new V(0, 1, 0)).normalize();
+       gridV = new V().crossVectors(outward, gridU).normalize();
+       const gridStarted = timing ? performance.now() : 0;
+-      projectedContactWorkspace.build(triangles,gridU,gridV);
++      projectedContactWorkspace.build(triangles,gridU,gridV);
++      if(globalThis.__queryBoundsStudy?.active){const study=globalThis.__queryBoundsStudy;study.indexMap=new Map(triangles.map((t,i)=>[t,i]));study.grids.push({side:arm.side,u:gridU.toArray(),v:gridV.toArray(),triangles:triangles.map(t=>({ids:t.ids.slice(),points:t.points.map(p=>p.toArray()),projected:t.projected.slice(),clipConstants:t.clipConstants.slice()})),queries:[]});}
+       if(timing){timing.gridMs += performance.now()-gridStarted;timing.gridBuilds++;}
+       const forearmProfile = calibratedForearms?.find(p => p.side === arm.side);
+       const handContourStarted = timing ? performance.now() : 0;

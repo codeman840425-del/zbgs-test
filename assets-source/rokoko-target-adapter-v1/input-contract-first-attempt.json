@@ -1,0 +1,10 @@
+{
+  "status": "first actual rebuild rejected at final directory rename; not successful",
+  "error": "EPERM on fs.renameSync of just-written stage on Windows",
+  "diagnosis": "Transient Windows file-hold is plausible, not proven. Final adapter allows at most 1.5 seconds of retry only for EPERM/EACCES/EBUSY on final rename.",
+  "finalOutputAbsent": true,
+  "stagingDirectoriesAbsent": true,
+  "privateFailureLog": "analysis/rokoko-contract-check-v1/valid-output.stderr.txt",
+  "failureLogSha256": "b17b78151a34b4c975f532e76458519ff23c563d333674299a04cc1c38579613",
+  "followup": "input-contract-result.json records fresh successful verification in a different directory; prior logs retained."
+}
