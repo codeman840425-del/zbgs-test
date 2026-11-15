@@ -95,6 +95,7 @@ export function createSimpleSkirtAdapter({ vrm, item, body }) {
   update();
   return {
     meshes: item.meshes,
+    bones: [...controls.values()].map((control) => control.bone),
     update,
     getInfo: () => ({
       type: "diagnostic-private-palette-skin",

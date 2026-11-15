@@ -1,0 +1,240 @@
+{
+  "schema": "single-garment-six-bone-response-v1",
+  "garmentSha256": "cdd2d206650aa7375b335e42b8cea93dcebea9c9269e360124d198964240c885",
+  "captureGzipSha256": "5ef4f71945d14d89656c34af172e7d06ed937361e8b8357782dc60fbb58ccfa5",
+  "qualified": false,
+  "method": "Six bounded offline alternating rigid least-squares sweeps to one editable seated target; no runtime fitting, body projection or old guide",
+  "limits": [
+    "Author target itself is not admitted; body/top/chair gate pending",
+    "Six rigid helpers may not express curved support; residual retained",
+    "Standing source failures not addressed"
+  ],
+  "targetDesign": {
+    "waistY": 0.979,
+    "hemY": 0.73,
+    "frontAngularStart": -0.15,
+    "frontAngularSpan": 0.95,
+    "sourceCenterXZ": [
+      -0.002042822539806366,
+      -0.035029717790031875
+    ],
+    "helperWeightThreshold": 0.005,
+    "iterations": 6
+  },
+  "referenceBendRadians": {
+    "L": 1.4153509577457872,
+    "R": 1.4215911702554778
+  },
+  "controls": [
+    {
+      "source": "J_Sec_L_SkirtBack",
+      "parentSemantic": "leftUpperLeg",
+      "localCorrectionMatrix": [
+        0.9293220250606584,
+        0.34930417101181127,
+        -0.1197796701889492,
+        0.0,
+        -0.1837396388920567,
+        0.15604122348321364,
+        -0.9705106278114973,
+        0.0,
+        -0.3203128451682064,
+        0.92392517538146,
+        0.20919356819652277,
+        0.0,
+        -0.008774274984742814,
+        0.1638838437109963,
+        -0.06696733319457795,
+        1.0
+      ],
+      "translationMetres": 0.17725553826662727,
+      "rotationRadians": 1.4229802190063476
+    },
+    {
+      "source": "J_Sec_L_SkirtFront",
+      "parentSemantic": "leftUpperLeg",
+      "localCorrectionMatrix": [
+        0.6344693722503196,
+        0.06491464779286564,
+        -0.7702173087920854,
+        0.0,
+        0.20289716098614666,
+        0.9475365079744672,
+        0.2469965691574594,
+        0.0,
+        0.7458427164508775,
+        -0.3129866635713549,
+        0.5880118953915416,
+        0.0,
+        -0.02666432894436177,
+        0.010460885610151127,
+        -0.061288958340225796,
+        1.0
+      ],
+      "translationMetres": 0.06765170345402789,
+      "rotationRadians": 0.9459053103671755
+    },
+    {
+      "source": "J_Sec_L_SkirtSide",
+      "parentSemantic": "leftUpperLeg",
+      "localCorrectionMatrix": [
+        0.9090869345526972,
+        -0.4007864557172684,
+        -0.11371526703131986,
+        0.0,
+        -0.18489459658364132,
+        -0.14354052961099306,
+        -0.972219163321829,
+        0.0,
+        0.3733295240434775,
+        0.9048570772716726,
+        -0.20459407023232654,
+        0.0,
+        -0.01859053222301732,
+        0.030291171261701777,
+        0.09848763246643874,
+        1.0
+      ],
+      "translationMetres": 0.10470423436320572,
+      "rotationRadians": 1.7921226976201396
+    },
+    {
+      "source": "J_Sec_R_SkirtBack",
+      "parentSemantic": "rightUpperLeg",
+      "localCorrectionMatrix": [
+        0.7950482168814292,
+        0.6038853930870904,
+        -0.05675178216626057,
+        0.0,
+        -0.19937773442733425,
+        0.17182760775589476,
+        -0.9647402717879698,
+        0.0,
+        -0.5728410354080589,
+        0.7783300745844536,
+        0.25701253468324203,
+        0.0,
+        -0.0064099235091847895,
+        0.15714597435864874,
+        -0.06939059910468137,
+        1.0
+      ],
+      "translationMetres": 0.1719040418973018,
+      "rotationRadians": 1.4586170140135113
+    },
+    {
+      "source": "J_Sec_R_SkirtFront",
+      "parentSemantic": "rightUpperLeg",
+      "localCorrectionMatrix": [
+        0.6419873696621713,
+        -0.0980136951487655,
+        0.760424573922201,
+        0.0,
+        -0.1920568059439189,
+        0.9396176103460819,
+        0.2832541780712348,
+        0.0,
+        -0.7422711098271038,
+        -0.32789031956510684,
+        0.5843984409230618,
+        0.0,
+        0.012508871121231113,
+        0.009161625015026265,
+        -0.0556293068327014,
+        1.0
+      ],
+      "translationMetres": 0.05774969271199946,
+      "rotationRadians": 0.9483779670120899
+    },
+    {
+      "source": "J_Sec_R_SkirtSide",
+      "parentSemantic": "rightUpperLeg",
+      "localCorrectionMatrix": [
+        0.45178758518847,
+        0.8920963045210444,
+        -0.007222268372311738,
+        0.0,
+        0.0649686282986804,
+        -0.040974221451224445,
+        -0.9970457312916213,
+        0.0,
+        -0.8897567393426433,
+        0.4499836623812763,
+        -0.07646991778204269,
+        0.0,
+        0.032401206508262614,
+        0.05559265787881362,
+        0.08657349313226603,
+        1.0
+      ],
+      "translationMetres": 0.10786728654390271,
+      "rotationRadians": 1.910097593829386
+    }
+  ],
+  "fitHistory": [
+    {
+      "iteration": 1,
+      "rmsMetres": 0.017194438897120915,
+      "maxMetres": 0.06781050350793674
+    },
+    {
+      "iteration": 2,
+      "rmsMetres": 0.011760666468166725,
+      "maxMetres": 0.04256348192832739
+    },
+    {
+      "iteration": 3,
+      "rmsMetres": 0.011220960916526372,
+      "maxMetres": 0.039255000670137236
+    },
+    {
+      "iteration": 4,
+      "rmsMetres": 0.011104598790284411,
+      "maxMetres": 0.038468563310120996
+    },
+    {
+      "iteration": 5,
+      "rmsMetres": 0.011060485698816342,
+      "maxMetres": 0.038281561264883336
+    },
+    {
+      "iteration": 6,
+      "rmsMetres": 0.011038057618795435,
+      "maxMetres": 0.038249044987100626
+    }
+  ],
+  "poses": [
+    {
+      "label": "standing",
+      "bendRadians": {
+        "L": 0,
+        "R": 0.03532534034608568
+      },
+      "maxNewDisplacementMetres": 0.0003141614430355889
+    },
+    {
+      "label": "sit-in",
+      "bendRadians": {
+        "L": 0.6849924823920939,
+        "R": 0.6864036380894754
+      },
+      "maxNewDisplacementMetres": 0.0795866732779445
+    },
+    {
+      "label": "seated",
+      "bendRadians": {
+        "L": 1.4153509577457872,
+        "R": 1.4215911702554778
+      },
+      "maxNewDisplacementMetres": 0.15751452131700117
+    },
+    {
+      "label": "rise",
+      "bendRadians": {
+        "L": 0.7648224144779623,
+        "R": 0.7665515947182368
+      },
+      "maxNewDisplacementMetres": 0.09195489463311736
+    }
+  ]
+}

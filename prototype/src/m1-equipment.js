@@ -126,7 +126,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
         skirt: skirtCorrective ? (skirtCorrective.meshes ?? [skirtCorrective.mesh]) : [],
         sourceSkirt: diagnosticSkirt ? diagnosticSkirt.meshes : IDS.skirt ? item("skirt").meshes : [],
         sourceClothes: sourceClothes.map((x) => x.mesh),
-        skirtBones: (IDS.skirt ? item("skirt").meshes[0].skeleton.bones : []).filter((b) =>
+        skirtBones: skirtCorrective?.bones ?? (IDS.skirt ? item("skirt").meshes[0].skeleton.bones : []).filter((b) =>
           /Skirt/.test(b.name),
         ),
         bindCoordinates:
