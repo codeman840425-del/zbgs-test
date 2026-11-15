@@ -52,3 +52,18 @@ prototype 的只读 `two-quad-thirds-v1/native-author-trial-v1/hem-self-clearanc
 运行 `python scripts/audit-author-motion-input.py`，或以 `--worktree <恢复的 codex/simple-skirt-v1 工作树>` 指定输入。脚本核源GLB、捕获包、原试验SHA，只提取已有GLB accessor读取函数并做NumPy LBS/位移计算，不导入bpy、不执行作者试验。默认写上述 evidence JSON，`--output` 可另存。它需要原60帧capture及最新18帧result/preparation，不从运行中的游戏采样。
 
 脚本已实际执行，重建报告逐字节一致；SHA256 `9667e68486ad26f2c7bd8c7fcca99df3b84d7f5a32107b948a929df37b6f2d08`。静止诊断交由 prototype 串行执行，本次审查没有启动该实验。
+
+## 补充：固定带不要求全局 object 碰撞距离必须小于 0.339mm
+
+以下是 Blender 4.5.9 的实际路径，不是对历史参数选择动机的推断。
+
+- `collision.cc` 941–955 行的 `cloth_bvh_collision_is_active()` 对三点 flags 做按位 AND：**整面三点全部 pinned**，或者三点全部 NOOBJCOLL，才跳过该面的 object collision。固定带前 260 面的三点均在 pin 集合，因此这些整面已被原生物理排除；不存在必须缩小全局距离才能避免求解推动该整面的问题。
+- **只固定一个或两个点的过渡面仍参与检测。** `cloth_collision_response_static()` 642–787 行会按接触重心权重生成顶点冲量；`cloth_collision_impulse_vert()` 本身不检查 PINNED。不能把这一步描述成“混合面上的所有冲量都被忽略”。
+- 之后 [SIM_mass_spring.cc](https://github.com/blender/blender/blob/v4.5.9/source/blender/simulation/intern/SIM_mass_spring.cc) 1202–1209 行在应用碰撞速度修正时跳过 pinned 顶点；262–264 行将其设为零自由度约束，1283–1292 行按输入给定速度，1331–1340 行在子步设置插值后的指定位置。因此混合面的固定点不会被碰撞自由推走，自由点仍受响应；不能保证该部分响应与约束边界没有应力集中，也不能认为“整张过渡面不参与”。
+- object 窄相在 `collision.cc` 989 行使用 cloth epsilon 加 collider BVH epsilon；此试验真实作者值 `.002+.001` 对应游戏 **0.3mm**，响应目标（654 行）约为 **0.266667mm**。它与作者门的“活动源初值 2mm”是不同概念；源余量不是 solver 默认厚度。
+
+`AUTHORING-TRIAL-SPEC.md` 23 行明说沿用已有原生试验参数，并记录 fixed zipper 的 0.338647mm 高于 0.3mm。文档支持“曾核对兼容性”，不支持“因 fixed 距离而被迫选择该值”的历史结论。代码也没有这种必然性：整固定面原已不参与 object 推离；其与人体的实际交叉仍是作者制作问题。
+
+可以在结构方案中保留上述原生固定带求解边界，同时完整保留最后的几何验收。现脚本 94 行 `tree(p,faces)` 使用**全部**裙面，和全 body/top/chair 做交叉；100–101 行没有对固定面过滤，pin 残差也另行检查。所以“物理不推动固定带”和“固定带交叉照样失败”当前已经分离。无需删除面、隐藏身体或缩减最终门来实现这个区分。
+
+这只排除了“为迁就整固定带必须维持极小全局距离”的逻辑必然性，**不是增大距离的准入结论**。临界混合面仍被检测，动态 pin 的实际轨迹、自由区身体/上衣夹层、相对速度及自碰厚边约定仍须独立检验。增距可能在 pin 边界或上衣夹层增加冲突；不能据当前静态活动域 2mm 余量声称能解决 row2 动态穿过。本次没有修改距离或实现排除组。
