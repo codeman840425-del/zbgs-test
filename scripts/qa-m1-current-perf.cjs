@@ -39,6 +39,8 @@ if(process.argv.includes('--self-test')){
 }
 const selectedCases=selectCases(process.env.QA_PERF_CASES);
 const detail=process.env.QA_PERF_DETAIL==='1';
+// Keep default headed behavior; paired hidden runs explicitly opt in.
+const headless=process.env.QA_PERF_HEADLESS==='1';
 const build=process.env.QA_M1_BUILD;
 const sampleSeconds=Number(process.env.QA_PERF_SECONDS||30);
 if(!Number.isFinite(sampleSeconds)||sampleSeconds<12||sampleSeconds>120)throw Error('QA_PERF_SECONDS must be 12..120');
@@ -49,9 +51,9 @@ const quant=(rows,key)=>{const a=rows.map(r=>r[key]).filter(Number.isFinite).sor
 (async()=>{
  const out=path.resolve(process.env.QA_M1_RUN_ROOT||`output/playwright/m1/${build}/sustained-perf`);await fs.mkdir(out,{recursive:true});
  try{await fs.access(path.join(out,'report.json'));throw Error('Refuse to overwrite measured report');}catch(e){if(e.code!=='ENOENT')throw e;}
- const browser=await chromium.launch({channel:'chrome',headless:false}),context=await browser.newContext({viewport:{width:1440,height:900}}),page=await context.newPage(),errors=[];
- const report={schema:'sustained-current-perf-v2',build,detail,scriptSHA256:createHash('sha256').update(await fs.readFile(__filename)).digest('hex'),sampleSeconds,selectedCases:selectedCases.map(x=>x.name),viewport:{width:1440,height:900},browser:browser.version(),errors,results:[],passed:false,
-  limitations:['Development machine only; no ordinary-PC pass.',`${sampleSeconds}-second sample per case, not a soak test.`,
+ const browser=await chromium.launch({channel:'chrome',headless}),context=await browser.newContext({viewport:{width:1440,height:900}}),page=await context.newPage(),errors=[];
+ const report={schema:'sustained-current-perf-v2',build,detail,headless,scriptSHA256:createHash('sha256').update(await fs.readFile(__filename)).digest('hex'),sampleSeconds,selectedCases:selectedCases.map(x=>x.name),viewport:{width:1440,height:900},browser:browser.version(),errors,results:[],passed:false,
+  limitations:[`Browser mode: ${headless?'headless':'headed'}; only compare adjacent runs with the same mode.`, 'Development machine only; no ordinary-PC pass.',`${sampleSeconds}-second sample per case, not a soak test.`,
    'Timer Ms fields are inclusive and overlap; do not sum them. exclusive maps remove only nested instrumented calls; their sum is a subset of scene CPU span.',
    'cpuUpdateMs spans Phaser preupdate to postupdate, including scene update, Three CPU render submission and UI work; excludes later Phaser rendering, browser layout/composite and GPU completion.',
    'frameMs is preupdate-to-preupdate wall pacing, not GPU time. Polling commands and all instrumentation overhead remain in observations.',

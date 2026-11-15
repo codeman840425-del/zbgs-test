@@ -1,0 +1,26 @@
+import fs from 'node:fs/promises';import zlib from 'node:zlib';import assert from 'node:assert/strict';import crypto from 'node:crypto';import path from 'node:path';
+import {Vector3} from '../../../prototype/node_modules/three/build/three.module.js';
+import * as old from './workspace.base.mjs';import * as next from './workspace.candidate.mjs';
+const dir=path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/,'$1'));
+const inputFile=path.join(dir,'../../contact-query-bounds-study-v1/capture/fixture.json.gz'),bytes=await fs.readFile(inputFile),input=JSON.parse(zlib.gunzipSync(bytes));
+const report={fixtureSHA256:crypto.createHash('sha256').update(bytes).digest('hex'),queries:0,nonnull:0,finiteGuardQueries:0,poses:[],witnesses:[],edges:[],passed:false};
+const make=g=>g.triangles.map((t,id)=>({id,points:t.points.map(p=>new Vector3(...p)),projected:Array(6).fill(0),clipConstants:Array(7).fill(0),candidateStamp:0}));
+for(const pose of input.fixtures){let count=0;for(const g of pose.grids){const a=old.createProjectedContactWorkspace(),b=next.createProjectedContactWorkspace(),ta=make(g),tb=make(g),u=new Vector3(...g.u),v=new Vector3(...g.v);a.build(ta,u,v);b.build(tb,u,v);for(let i=0;i<ta.length;i++){assert.deepEqual(tb[i].projected,ta[i].projected);assert.deepEqual(Array.from(tb[i].clipConstants),ta[i].clipConstants);}
+for(const q of g.queries){const ca=a.query(...q.rail).slice(),cb=b.query(...q.rail).slice();assert.deepEqual(ca.map(t=>t.id),q.candidates);assert.deepEqual(cb.map(t=>t.id),q.candidates);const captured=new Map(q.nonnull.map(n=>[n.triangle,n]));for(let i=0;i<ca.length;i++){const x=old.projectedSegmentIntervalPrepared(...q.rail,ca[i].clipConstants,old.createProjectedInterval()),y=next.projectedSegmentIntervalPrepared(...q.rail,cb[i].clipConstants,next.createProjectedInterval());assert.deepEqual(y,x);if(x){const e=captured.get(ca[i].id);assert(e);assert.deepEqual(x,{lo:e.lo,hi:e.hi,start:e.start,end:e.end});report.nonnull++;}else assert(!captured.has(ca[i].id));report.queries++;count++;if(cb[i].clipConstants.finiteClipArithmetic)report.finiteGuardQueries++;}}}report.poses.push({label:pose.label,queries:count});}
+function compare(name,tri,rails){const a=old.prepareProjectedInterval(tri,Array(7)),b=next.prepareProjectedInterval(tri,Array(7));assert.deepEqual(Array.from(b),a);let nonnull=0;for(const rail of rails){const x=old.projectedSegmentIntervalPrepared(...rail,a,old.createProjectedInterval()),y=next.projectedSegmentIntervalPrepared(...rail,b,next.createProjectedInterval());assert.deepEqual(y,x);nonnull+=!!x;}report.edges.push({name,triangleGuard:b.finiteClipArithmetic,rails:rails.length,nonnull});return b;}
+const witness=JSON.parse(await fs.readFile(path.join(dir,'../../contact-query-bounds-study-v1/independent-review/workspace-witness.json'),'utf8'));
+for(const w of witness.results){const a=old.prepareProjectedInterval(w.tri,Array(7)),b=next.prepareProjectedInterval(w.tri,Array(7)),x=old.projectedSegmentIntervalPrepared(...w.rail,a,old.createProjectedInterval()),y=next.projectedSegmentIntervalPrepared(...w.rail,b,next.createProjectedInterval());assert.deepEqual(y,x);let amount=0;for(let k=0;k<=4;k++){const t=y.lo+(y.hi-y.lo)*k/4;let depth=0;for(let j=0;j<3;j++)depth+=.02*(y.start[j]+(y.end[j]-y.start[j])*t);if(depth>-.008&&depth<.3)amount=Math.max(amount,depth+.008);}assert.equal(amount,w.old.amount);report.witnesses.push({tag:w.tag,finiteGuard:b.finiteClipArithmetic,interval:y,amount});}
+const rails=[[0,0,1,0],[-1e-9,0,-1e-9,1],[-1e-12,0,-1e-12,1],[0,0,0,1],[1,1,0,0],[NaN,0,1,1],[Infinity,0,1,1],[Number.MAX_VALUE,0,-Number.MAX_VALUE,1],[-0,0,1,-0]];
+compare('ordinary-touch-rails-and-nonfinite-fallback',[0,0,1,0,0,1],rails);
+compare('NaN-triangle',[NaN,0,1,0,0,1],rails);
+compare('Infinity-triangle',[0,0,Infinity,0,0,1],rails);
+compare('zero-denominator',[0,0,0,0,0,0],rails);
+compare('near-degenerate',[0,0,1,0,1,1e-13],rails);
+compare('thin-but-finite',[0,0,1,0,1,1e-8],rails);
+const L=2**100;compare('guard-constant-overflow-domain',[L,0,-L,0,0,L],[[L,0,-L,0],[0,0,1,1]]);
+const S=2**49;compare('large-supported-domain',[0,0,S,0,0,S],[[0,0,S,S],[S,-1,S,S],[-S,0,S,0]]);
+compare('rail-domain-limit',[0,0,1,0,0,1],[[L,0,-L,1],[L*2,0,-L*2,1]]);
+const reused=Array(7);next.prepareProjectedInterval([0,0,1,0,0,1],reused);assert.equal(reused.finiteClipArithmetic,true);next.prepareProjectedInterval([NaN,0,1,0,0,1],reused);assert.equal(reused.finiteClipArithmetic,false);next.prepareProjectedInterval([0,0,1,0,0,1],reused);assert.equal(reused.finiteClipArithmetic,true);
+// No prepare metadata => exact original fallback, even for valid numeric constants.
+const manual=old.prepareProjectedInterval([0,0,1,0,0,1],Array(7));for(const rail of rails)assert.deepEqual(next.projectedSegmentIntervalPrepared(...rail,manual,next.createProjectedInterval()),old.projectedSegmentIntervalPrepared(...rail,manual,old.createProjectedInterval()));
+report.guardRefresh='true→false→true verified; manual constants without metadata fall back';report.passed=true;await fs.writeFile(path.join(dir,'equivalence.json'),JSON.stringify(report,null,2));console.log(JSON.stringify({queries:report.queries,nonnull:report.nonnull,finiteGuardQueries:report.finiteGuardQueries,witness:report.witnesses.map(x=>x.amount),edges:report.edges,passed:report.passed}));

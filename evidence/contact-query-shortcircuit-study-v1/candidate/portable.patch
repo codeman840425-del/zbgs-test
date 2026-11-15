@@ -1,0 +1,56 @@
+--- a/prototype/src/forearm-contact-workspace.js
++++ b/prototype/src/forearm-contact-workspace.js
+@@ -108,13 +108,50 @@
+ }
+ 
+ // Cache only constants of this freshly projected triangle, never a query result.
+-export function prepareProjectedInterval(t,out) {
++// Sufficient arithmetic bound, not a geometric/contact tolerance.
++const CLIP_FINITE_LIMIT = 2 ** 100;
++export function prepareProjectedInterval(t,out) {
++  out.finiteClipArithmetic = false;
+   const [au,av,bu,bv,cu,cv]=t;
+   out[0]=bv-cv;out[1]=cu-bu;out[2]=cv-av;out[3]=au-cu;
+-  out[4]=cu;out[5]=cv;out[6]=(bv-cv)*(au-cu)+(cu-bu)*(av-cv);
++  out[4]=cu;out[5]=cv;out[6]=(bv-cv)*(au-cu)+(cu-bu)*(av-cv);
++  out.finiteClipArithmetic = out.every(value => Number.isFinite(value) && Math.abs(value) <= CLIP_FINITE_LIMIT);
+   return out;
+ }
+-export function projectedSegmentIntervalPrepared(su,sv,eu,ev,c,out) {
++export function projectedSegmentIntervalPrepared(su,sv,eu,ev,c,out) {
++  // Unsupported arithmetic keeps the exact original path, including NaN behavior.
++  if (c.finiteClipArithmetic !== true ||
++      !(Math.abs(su) <= CLIP_FINITE_LIMIT && Math.abs(sv) <= CLIP_FINITE_LIMIT &&
++        Math.abs(eu) <= CLIP_FINITE_LIMIT && Math.abs(ev) <= CLIP_FINITE_LIMIT))
++    return projectedSegmentIntervalPreparedFallback(su,sv,eu,ev,c,out);
++  const denominator=c[6];
++  if(Math.abs(denominator)<1e-12)return null;
++  const start=out.start,end=out.end;
++  let lo=0,hi=1;
++  for(let k=0;k<3;k++){
++    if(k===0){
++      start[0]=(c[0]*(su-c[4])+c[1]*(sv-c[5]))/denominator;
++      end[0]=(c[0]*(eu-c[4])+c[1]*(ev-c[5]))/denominator;
++    }else if(k===1){
++      start[1]=(c[2]*(su-c[4])+c[3]*(sv-c[5]))/denominator;
++      end[1]=(c[2]*(eu-c[4])+c[3]*(ev-c[5]))/denominator;
++    }else{
++      start[2]=1-start[0]-start[1];
++      end[2]=1-end[0]-end[1];
++    }
++    const delta=end[k]-start[k];
++    if(Math.abs(delta)<1e-12){if(start[k]<-1e-9)return null;}
++    else if(delta>0)lo=Math.max(lo,-start[k]/delta);
++    else hi=Math.min(hi,-start[k]/delta);
++    // Finite future constraints can only increase lo or decrease hi.
++    // Retain the old inverted-interval tolerance exactly (thin-wedge witness).
++    if(lo>hi+1e-9)return null;
++  }
++  out.lo=Math.max(0,lo);out.hi=Math.min(1,hi);return out;
++}
++// Null results have no scratch-array contract: the sole product caller continues
++// immediately. Nonnull start/end, and every unsupported input, stay byte-for-value.
++function projectedSegmentIntervalPreparedFallback(su,sv,eu,ev,c,out) {
+   const denominator=c[6];
+   if(Math.abs(denominator)<1e-12)return null;
+   const start=out.start,end=out.end;

@@ -1,0 +1,105 @@
+{
+  "oldBuild": "038341558517",
+  "candidateBuild": "6fb6c051aacd",
+  "excludedWallTimers": [
+    "fitElapsedMs",
+    "simulateMs"
+  ],
+  "results": [
+    {
+      "case": "state",
+      "fields": [
+        "refreshChecks",
+        "cleanAfterOff",
+        "outfitBefore",
+        "outfitAfter",
+        "reenabled",
+        "riseEnd",
+        "reset",
+        "resetSeedCleared"
+      ],
+      "differences": [],
+      "passed": true,
+      "liveClock": null,
+      "samples": {},
+      "beforeSHA256": "5690e973304b2357159963c59c83c172a283180fc4bf91f18b9a69ba1ab9075c",
+      "afterSHA256": "04a8193af2dbdc9233a1d732e345fd5962c3b25b173f138b0f2ea23021c1026c"
+    },
+    {
+      "case": "jaw",
+      "fields": [
+        "scenarioFailure",
+        "timeline",
+        "rows",
+        "maxHits",
+        "assetCombination",
+        "selectedMeshes"
+      ],
+      "differences": [],
+      "passed": true,
+      "liveClock": {
+        "initialOffsetSeconds": 0.02010000002384249,
+        "maxOffsetDriftSeconds": 8.881784197001252e-16,
+        "reason": "Live clock starts before debug pause/reset; retain its absolute difference, verify equal advancement."
+      },
+      "samples": {
+        "timeline": 2441,
+        "rows": 4
+      },
+      "beforeSHA256": "5e70aac53ad4f7fba04f4324bcc7c70f2f18c3b99c75bb2e2cb9395733e5ebcf",
+      "afterSHA256": "980d6cacd72063f61706f7ecdeea1382c1393697251481d50fd63af8a67db7b3"
+    },
+    {
+      "case": "waisthip",
+      "fields": [
+        "scenarioFailure",
+        "timeline",
+        "rows",
+        "maxHits",
+        "assetCombination",
+        "selectedMeshes"
+      ],
+      "differences": [],
+      "passed": true,
+      "liveClock": {
+        "initialOffsetSeconds": 0.02249999988079221,
+        "maxOffsetDriftSeconds": 2.6645352591003757e-15,
+        "reason": "Live clock starts before debug pause/reset; retain its absolute difference, verify equal advancement."
+      },
+      "samples": {
+        "timeline": 2441,
+        "rows": 4
+      },
+      "beforeSHA256": "dab19b56f3b5ca68de2f7cb5467b2269d1575d922691212eada2baffd9293a04",
+      "afterSHA256": "c6df161f5eca68a74bfc8c2907dde5ee5b744ce889b896aece95f76a506497d1"
+    },
+    {
+      "case": "mic-silent",
+      "fields": [
+        "errors",
+        "speaking",
+        "frames",
+        "rows",
+        "maxHits",
+        "sourcePins",
+        "selectedMeshes"
+      ],
+      "differences": [],
+      "passed": true,
+      "liveClock": {
+        "initialOffsetSeconds": -0.05350000000000002,
+        "maxOffsetDriftSeconds": 3.913536161803677e-15,
+        "reason": "Live clock starts before debug pause/reset; retain its absolute difference, verify equal advancement."
+      },
+      "samples": {
+        "frames": 1241,
+        "rows": 672
+      },
+      "beforeSHA256": "d85e10a49ea4f2734205b37f820e95ca28627873c78a37df0f5f977cc36e30d0",
+      "afterSHA256": "7def8266295e3ff451b0f3680bec786eca34eb1f26e24c715af3487e3d545d84"
+    }
+  ],
+  "absoluteLiveClock": "Excluded only live.time/liveState.time from pose comparison; offsets and drift reported separately. Initial failed comparison retained.",
+  "passed": true,
+  "scope": "Exact sampled runtime geometry, state and animation equality, no performance or new visual acceptance."
+}

@@ -1,6 +1,6 @@
 # 角色资源与行为约定（暂定）
 
-当前能力和验收状态统一见 [CAPABILITIES.md](CAPABILITIES.md)。当前公开固定候选为1a0d06fc8ffe，4191；269仅在4192作对照。以下包含现行实现与未来接口约定；注明未实现的条款不得冒充运行能力。旧构建测试仍只证明各自范围。
+当前能力和验收状态统一见 [CAPABILITIES.md](CAPABILITIES.md)。当前固定候选为77e46efb5441，4195；精确版本与回滚指针见 delivery/candidate.json，其他端口仅作历史对照。以下包含现行实现与未来接口约定；注明未实现的条款不得冒充运行能力。旧构建测试仍只证明各自范围。
 
 本轮固定 Phaser 3.90.0、Three.js 0.187.0、three-vrm 3.5.5。Rigby2D不参与。旧VRM1残缺身体仅作历史对照；M1A已接入完整VRM0 Base_Female、独立GLB装备和GLB动作。可编辑blend是从现存资源重建，不是丢失的原工程恢复。
 

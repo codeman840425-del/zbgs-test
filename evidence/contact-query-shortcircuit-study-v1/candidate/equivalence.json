@@ -1,0 +1,142 @@
+{
+  "fixtureSHA256": "d1512678c1da48a4fc887cb10b6bd2cc7c574fa39de9904ed98f112fe04287dd",
+  "queries": 212837,
+  "nonnull": 33626,
+  "finiteGuardQueries": 212837,
+  "poses": [
+    {
+      "label": "standing",
+      "queries": 29442
+    },
+    {
+      "label": "run-96",
+      "queries": 12528
+    },
+    {
+      "label": "run-160",
+      "queries": 13868
+    },
+    {
+      "label": "run-240",
+      "queries": 7144
+    },
+    {
+      "label": "sit-enter-early",
+      "queries": 21171
+    },
+    {
+      "label": "sit-enter-late",
+      "queries": 34969
+    },
+    {
+      "label": "sit-hold",
+      "queries": 47923
+    },
+    {
+      "label": "rise-early",
+      "queries": 25589
+    },
+    {
+      "label": "rise-late",
+      "queries": 20203
+    }
+  ],
+  "witnesses": [
+    {
+      "tag": "exact-witness",
+      "finiteGuard": true,
+      "interval": {
+        "lo": 0.09168085466425932,
+        "hi": 0.0916808543905026,
+        "start": [
+          -12092.919564676471,
+          -33411.37485617136,
+          45505.29442084783
+        ],
+        "end": [
+          119809.42372129587,
+          331030.85372478055,
+          -450839.2774460764
+        ]
+      },
+      "amount": 0.02800000000014552
+    },
+    {
+      "tag": "same-geometry-rebased",
+      "finiteGuard": true,
+      "interval": {
+        "lo": 0.09168085466425932,
+        "hi": 0.0916808543905026,
+        "start": [
+          -12092.919564676471,
+          -33411.37485617136,
+          45505.29442084783
+        ],
+        "end": [
+          119809.42372129587,
+          331030.85372478055,
+          -450839.2774460764
+        ]
+      },
+      "amount": 0.02800000000014552
+    }
+  ],
+  "edges": [
+    {
+      "name": "ordinary-touch-rails-and-nonfinite-fallback",
+      "triangleGuard": true,
+      "rails": 9,
+      "nonnull": 9
+    },
+    {
+      "name": "NaN-triangle",
+      "triangleGuard": false,
+      "rails": 9,
+      "nonnull": 9
+    },
+    {
+      "name": "Infinity-triangle",
+      "triangleGuard": false,
+      "rails": 9,
+      "nonnull": 9
+    },
+    {
+      "name": "zero-denominator",
+      "triangleGuard": true,
+      "rails": 9,
+      "nonnull": 0
+    },
+    {
+      "name": "near-degenerate",
+      "triangleGuard": true,
+      "rails": 9,
+      "nonnull": 0
+    },
+    {
+      "name": "thin-but-finite",
+      "triangleGuard": true,
+      "rails": 9,
+      "nonnull": 9
+    },
+    {
+      "name": "guard-constant-overflow-domain",
+      "triangleGuard": false,
+      "rails": 2,
+      "nonnull": 2
+    },
+    {
+      "name": "large-supported-domain",
+      "triangleGuard": true,
+      "rails": 3,
+      "nonnull": 3
+    },
+    {
+      "name": "rail-domain-limit",
+      "triangleGuard": true,
+      "rails": 2,
+      "nonnull": 2
+    }
+  ],
+  "passed": true,
+  "guardRefresh": "true→false→true verified; manual constants without metadata fall back"
+}
