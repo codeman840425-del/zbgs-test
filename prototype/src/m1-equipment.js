@@ -9,8 +9,8 @@ export const M1_AVATAR_SHA256 =
  * alter body materials, or infer compatibility from a similar-looking model. */
 export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female" }) {
   const config = foundationProfile(bodyType), IDS = config.ids;
-  const diagnostic = bodyType === "female" && new URLSearchParams(location.search).get("skirtSample") === "v4";
-  const diagnosticIds = ["m1-sixfold-skirt-v4", "m1-open-top-existing-source"];
+  const diagnostic = bodyType === "female" && new URLSearchParams(location.search).get("skirtSample") === "layer1";
+  const diagnosticIds = ["m1-sixfold-skirt-layer-transition-v1", "m1-open-top-existing-source"];
   if (avatarSha256 !== config.sha256)
     throw new Error(
       "Equipment requires its exact body roundtrip identity",
@@ -18,7 +18,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
   const adapter = await createEquipment({
     vrm,
     avatarSha256,
-    manifestUrl: diagnostic ? "/assets/simple-skirt-v4/equipment.json" : config.manifestUrl,
+    manifestUrl: diagnostic ? "/assets/simple-skirt-layer1/equipment.json" : config.manifestUrl,
   });
   try {
     await Promise.all([...Object.values(IDS), ...(diagnostic ? diagnosticIds : [])].map((id) => adapter.load(id)));

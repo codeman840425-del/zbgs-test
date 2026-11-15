@@ -4,7 +4,7 @@ import * as THREE from "three";
  * No guide, cloth, body pose writes or authored sitting response is hidden here.
  */
 export function createSimpleSkirtAdapter({ vrm, item, body }) {
-  if (item.id !== "m1-sixfold-skirt-v4" || item.meshes.length !== 2)
+  if (item.id !== "m1-sixfold-skirt-layer-transition-v1" || item.meshes.length !== 2)
     throw new Error("Unexpected diagnostic garment primitives");
   const controls = new Map(), skeletons = new Map();
   const expected = new Set([
