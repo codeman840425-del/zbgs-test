@@ -415,8 +415,9 @@ function updateFixedCamera() {
     const hips = avatar.vrm.humanoid.getRawBoneNode('hips').getWorldPosition(v3());
     const target = framing === 'face' ? head.add(v3(0, .04, 0)) :
       framing === 'half' ? head.add(hips).multiplyScalar(.5).add(v3(0, .035, 0)) :
-      avatar.root.position.clone().add(v3(0, .88, 0));
-    const distance = framing === 'face' ? .78 : framing === 'half' ? 1.8 : 3.8;
+      avatar.root.position.clone().add(v3(0, 1.05, 0));
+    // Include the taller male's raised hands, not just standing head height.
+    const distance = framing === 'face' ? .78 : framing === 'half' ? 1.8 : 4.25;
     const offset = direction === 'front' ? v3(0, 0, distance) : direction === 'back' ? v3(0, 0, -distance) : v3(distance, 0, 0);
     offset.applyAxisAngle(v3(0, 1, 0), avatar.root.rotation.y);
     camera.position.copy(target).add(offset);
