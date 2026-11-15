@@ -13,7 +13,10 @@ if(!/^[a-f0-9]{12}$/.test(build||''))throw Error('Set QA_BUILD to the explicit f
  const p=await browser.newPage({viewport:{width:1600,height:1000}}),errors=[];p.on('pageerror',e=>errors.push(String(e)));
  const ready=()=>p.waitForFunction(()=>window.__debug?.ready&&!document.querySelector('#appearance-identity-fields').disabled);
  try{
-  await p.goto('http://127.0.0.1:4196/?workbench=appearance');await ready();
+  const response=await p.goto('http://127.0.0.1:4196/?workbench=appearance');await ready();
+  const responseCandidate=response.headers()['x-zbgs-candidate'];if(responseCandidate!==build)throw Error('Wrong public X-ZBGS-Candidate header');
+  const servedBuild=await p.evaluate(async()=>{const r=await fetch('/build-info.json',{cache:'no-store'});if(!r.ok)throw Error('Build receipt HTTP '+r.status);return r.json()});if(servedBuild.shortId!==build)throw Error('Wrong public build-info');
+  if(await p.evaluate(()=>__debug.avatar().profile.bodyType)!=='female')throw Error('Wrong initial body');
   const identity=await p.evaluate(()=>__debug.buildInfo.shortId);if(identity!==build)throw Error('Wrong served build');
   await p.evaluate(()=>window.__workbenchDocumentMarker='same-page');
   const controls={};for(const id of expectedControls){controls[id]=await p.locator('#'+id).count();if(controls[id]!==1)throw Error('Missing or duplicated geometry control '+id);}
@@ -27,7 +30,7 @@ if(!/^[a-f0-9]{12}$/.test(build||''))throw Error('Set QA_BUILD to the explicit f
   await p.screenshot({path:path.join(out,'male-workbench.png')});
   const tabs=[];for(const tab of ['actions','inspection','appearance']){const control=p.locator('[data-workbench-tab='+tab+']');await control.click();const selected=await control.getAttribute('aria-selected');if(selected!=='true')throw Error('Tab not selected');tabs.push(tab);}
   if(errors.length)throw Error(errors.join('\n'));
-  await fs.writeFile(path.join(out,'report.json'),JSON.stringify({build,url:p.url(),controls,groups,maleHair,tabs,sameDocument:true,errors,passed:true,scope:'Published identity and UI wiring only; not full animation or visual acceptance'},null,2));
+  await fs.writeFile(path.join(out,'report.json'),JSON.stringify({build,responseCandidate,servedBuild,url:p.url(),controls,groups,maleHair,tabs,sameDocument:true,errors,passed:true,scope:'Published identity and UI wiring only; not full animation or visual acceptance'},null,2));
   console.log(JSON.stringify({build,passed:true,errors}));
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1});
