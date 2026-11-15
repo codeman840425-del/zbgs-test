@@ -80,6 +80,39 @@ FOUNDATION_PROFILES["m1a-waisthip-v1"] = {
   "fitStatus": "candidate: own 3c6e actual seat response 0.53429; recheck required"
 };
 
+// BEGIN audited M2 male jaw specimen
+FOUNDATION_PROFILES["m2-male-jaw-v1"] = {
+  "id": "m2-male-jaw-v1",
+  "referenceBody": "male",
+  "label": "M2 男性下颌离散样件",
+  "source": "Base_Male preserved editable source + one local jaw Basis edit",
+  "url": "/assets/m2-male-face-v1/avatar.vrm",
+  "sha256": "25ac8a8174110d7b0a6bb290ac8cab66ad6939ea522f80cdef62571d2ab24153",
+  "manifestUrl": "/assets/m1b/m2-male-jaw-v1-equipment.json",
+  "forearmCollision": {
+    "url": "/assets/m2-male-face-v1/forearm-profile.json",
+    "sha256": "dabfa98781d168746bb9a2696e61daba782d514d38f588025a32e6aa25626445"
+  },
+  "pantsLabel": "独立长裤",
+  "shortsLabel": "独立露膝短裤",
+  "ids": {
+    "top": "m1b-uniform-top",
+    "shoes": "m1b-uniform-shoes",
+    "pants": "m1b-uniform-pants",
+    "shorts": "m1b-uniform-shorts-v1"
+  },
+  "seatLayerThickness": 0.0036,
+  "outfitSeatLayerThickness": {
+    "2": 0.0036
+  },
+  "outfitFitStatus": {
+    "0": "Body and original male trouser geometry/binds exact; candidate own readback pending",
+    "2": "Body and original male shorts geometry/binds exact; candidate own readback pending"
+  },
+  "fitStatus": "Offline exact Body/bind equality only; expressions/seating/gear actual runtime pending; mic/glasses/normalized motion no automatic compatibility"
+};
+// END audited M2 male jaw specimen
+
 export function foundationProfile(bodyType = "female") {
   const profile = FOUNDATION_PROFILES[bodyType];
   if (!profile) throw new Error(`Unknown foundation body type: ${bodyType}`);
