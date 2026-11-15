@@ -1,0 +1,34 @@
+"""Actual60-frame full-body/garment comparison; optimizer planes do not constitute acceptance."""
+from pathlib import Path
+import ast,struct,json,hashlib,gzip,time
+import numpy as np
+import bpy
+from mathutils.bvhtree import BVHTree
+R=Path(__file__).resolve().parents[3];S=R/'assets-source/m1/simple-skirt-v1';O=S/'top-hem-fit-v1'
+def reuse(path,names):
+ t=ast.parse(path.read_text(encoding='utf-8-sig'));exec(compile(ast.Module(body=[n for n in t.body if isinstance(n,ast.FunctionDef)and n.name in names],type_ignores=[]),str(path),'exec'),globals())
+reuse(R/'scripts/m1-assets/simple-skirt/gate-active-gap-v1.py',['load']);reuse(R/'scripts/m1-assets/simple-skirt/gate-private-layer-initial.py',['point_tri','seg_seg','near_minimum'])
+def asset(path):
+ raw,d,read=load(path);ps=d['meshes'][0]['primitives'];ns=[len(read(p['attributes']['POSITION']))for p in ps];skin=d['skins'][0];return {'sha':hashlib.sha256(raw).hexdigest(),'P':np.concatenate([read(p['attributes']['POSITION'])for p in ps]),'F':np.concatenate([read(p['indices']).reshape(-1,3)+sum(ns[:i])for i,p in enumerate(ps)]),'J':np.concatenate([read(p['attributes']['JOINTS_0'])for p in ps]),'W':np.concatenate([read(p['attributes']['WEIGHTS_0'])for p in ps]),'names':[d['nodes'][i]['name']for i in skin['joints']],'inv':read(skin['inverseBindMatrices']).reshape(-1,4,4).transpose(0,2,1),'counts':ns}
+def posed(a,fr,private=False):
+ world=np.array([np.array(fr['bones'][n]).reshape(4,4).T for n in a['names']]);
+ if private:
+  for c in fr['controls']:world[a['names'].index(c['name'])]=np.array(c['privateWorld']).reshape(4,4).T
+ pal=world@a['inv'];HP=np.c_[a['P'],np.ones(len(a['P']))];return sum(np.einsum('nij,nj->ni',pal[a['J'][:,k]],HP)*a['W'][:,k,None]for k in range(4))[:,:3]
+def tree(p,f):return BVHTree.FromPolygons(np.asarray(p).tolist(),np.asarray(f).tolist(),all_triangles=True,epsilon=0.)
+old=asset(R/'assets-source/m1/offline-corrective/open-waist-v1/m1-uniform-top-open-hem.glb');newPath=O/'m1-uniform-top-open-hem-thighfit-v1.glb';new=asset(newPath);pants=asset(R/'prototype/public/assets/m1/m1-training-pants.glb');skirt=asset(S/'two-quad-thirds-v1/m1-sixfold-skirt-two-quad-thirds-v1.glb');report=json.loads((O/'build-report.json').read_text());e=json.loads((O/'source-fit-evidence.json').read_text());capPath=S/'active-gap-hem-v1/continuous-input-v1/capture.json.gz';cap=json.loads(gzip.decompress(capPath.read_bytes()));four=json.loads(gzip.decompress((S/'private-layer-initial/capture.json.gz').read_bytes()));F=old['F'];changed=np.array(report['changedVertices']);affected=np.flatnonzero(np.any(np.isin(F,changed),axis=1));core=e['coreFailedFaces'];rows=[];started=time.monotonic();weld={};w=[]
+for p in np.round(old['P'],7):weld.setdefault(tuple(p),len(weld));w.append(weld[tuple(p)])
+WF=np.array(w)[F]
+for number,fr in [(i+1,f)for i,f in enumerate(cap['frames'])]+[(f['label'],f)for f in four['frames']]:
+ body=next(m for m in fr['colliders']if m['name']=='Bodybaked');BP=np.array(body['positions']).reshape(-1,3);BF=np.array(body['triangles']).reshape(-1,3);bt=tree(BP,BF);PP=posed(pants,fr);pt=tree(PP,pants['F']);SP=posed(skirt,fr,True);sf=skirt['F'];st=tree(SP,sf[:260]);allst=tree(SP,sf);row={'frame':number,'actionSeconds':fr.get('actionSeconds'),'variants':{}};positions={}
+ for tag,a in [('parentOpenTop',old),('candidate',new)]:
+  P=posed(a,fr);positions[tag]=P;tt=tree(P,F);pairs=sorted(tt.overlap(bt));local=[(i,j)for i,j in pairs if i in affected];corePairs=[(i,j)for i,j in pairs if i in core];minCore={'distanceMetres':0.,'crossingPairs':corePairs}if corePairs else near_minimum(P[F[core]],BP[BF],range=.003)
+  if 'skirtFace'in minCore:minCore['topFace']=core[minCore.pop('skirtFace')]
+  localMin={'distanceMetres':0.,'crossingPairs':local}if local else near_minimum(P[F[affected]],BP[BF],range=.003)
+  if 'skirtFace'in localMin:localMin['topFace']=int(affected[localMin.pop('skirtFace')])
+  selfpairs=[(i,j)for i,j in tt.overlap(tt)if i<j and not(set(WF[i])&set(WF[j]))];row['variants'][tag]={'bodyPairs':pairs,'affectedBodyPairs':local,'coreBodyPairs':corePairs,'coreBodyMin':minCore,'affectedBodyMin':localMin,'pantsPairs':sorted(tt.overlap(pt)),'fixedSkirtPairs':sorted(tt.overlap(st)),'wholeLbsSkirtPairs':sorted(tt.overlap(allst)),'selfPairs':selfpairs}
+ row['maxActualPointDeltaMetres']=float(np.linalg.norm(positions['candidate']-positions['parentOpenTop'],axis=1).max());oldpairs=set(map(tuple,row['variants']['parentOpenTop']['bodyPairs']));newpairs=set(map(tuple,row['variants']['candidate']['bodyPairs']));row['newBodyPairs']=sorted(newpairs-oldpairs);row['removedBodyPairs']=sorted(oldpairs-newpairs);rows.append(row)
+ if isinstance(number,int)and number%10==0:print('frame',number,'local old/new',len(row['variants']['parentOpenTop']['affectedBodyPairs']),len(row['variants']['candidate']['affectedBodyPairs']),flush=True)
+result={'status':'rejected'if any(r['variants']['candidate']['affectedBodyPairs']or r['variants']['candidate']['coreBodyMin'].get('distanceMetres',.003)<.0024 for r in rows)else'local-sampled-gate-pass-not-runtime','candidateSha256':new['sha'],'parentOpenTopSha256':old['sha'],'captureSha256':hashlib.sha256(capPath.read_bytes()).hexdigest(),'fixedSkirtSha256':skirt['sha'],'pantsSha256':pants['sha'],'affectedTopFaces':affected.tolist(),'coreTopFaces':core,'rows':rows,'seconds':time.monotonic()-started,'limits':['Full unfiltered Body and all top faces retained. Local body fit correspondence mask is not used for collision gates.','029 skirt is private LBS source, not dynamic or new cloth. Fixed faces0-259 reported separately.','Pants replayed against same actual bones; not a new pants gameplay capture.','60 samples plus4historic poses, noCCD, no currenthand recapture, no GPU acceptance.','Distances are finite triangle edge/face minima; intersecting pairs explicitly0.','Full remote original top/body problems retained, not claimed repaired.']};(O/'actual-60-gate.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
+bpy.ops.wm.read_factory_settings(use_empty=True);bpy.ops.import_scene.gltf(filepath=str(newPath));bpy.ops.wm.save_as_mainfile(filepath=str(O/'top-hem-fit-v1.blend'));bpy.ops.wm.open_mainfile(filepath=str(O/'top-hem-fit-v1.blend'));(O/'blend-readback.json').write_text(json.dumps({'blender':bpy.app.version_string,'meshes':[(o.name,len(o.data.vertices),len(o.data.polygons))for o in bpy.data.objects if o.type=='MESH'],'blendSha256':hashlib.sha256((O/'top-hem-fit-v1.blend').read_bytes()).hexdigest(),'candidateSha256':new['sha']},indent=2)+'\n',encoding='utf-8')
+print(json.dumps({'status':result['status'],'seconds':result['seconds'],'selected':[{'frame':r['frame'],'oldLocal':len(r['variants']['parentOpenTop']['affectedBodyPairs']),'newLocal':len(r['variants']['candidate']['affectedBodyPairs']),'coreMin':r['variants']['candidate']['coreBodyMin'],'delta':r['maxActualPointDeltaMetres']}for r in rows if r['frame']in[1,19,29,35,60,'standing','seated','rise']]}))
