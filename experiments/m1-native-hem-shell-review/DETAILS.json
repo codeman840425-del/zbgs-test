@@ -1,0 +1,207 @@
+{
+  "frame18BodyContacts": [
+    {
+      "generatedTriangle": 2592,
+      "role": "inner",
+      "authorFace": 392,
+      "original029Face": 392,
+      "originalParentFace": 392,
+      "oldSimVertices": [
+        146,
+        267,
+        147
+      ],
+      "fixedFlags": [
+        true,
+        false,
+        true
+      ],
+      "worldTriangle": [
+        [
+          2.7575511932373047,
+          0.9616170525550842,
+          1.3654766082763672
+        ],
+        [
+          2.7583322525024414,
+          0.9346001148223877,
+          1.3675568103790283
+        ],
+        [
+          2.7551660537719727,
+          0.9610482454299927,
+          1.370369553565979
+        ]
+      ],
+      "bodyTriangles": [
+        534,
+        536,
+        460,
+        533,
+        336
+      ]
+    },
+    {
+      "generatedTriangle": 2590,
+      "role": "inner",
+      "authorFace": 390,
+      "original029Face": 390,
+      "originalParentFace": 390,
+      "oldSimVertices": [
+        145,
+        266,
+        146
+      ],
+      "fixedFlags": [
+        true,
+        false,
+        true
+      ],
+      "worldTriangle": [
+        [
+          2.7598443031311035,
+          0.9613878726959229,
+          1.3606956005096436
+        ],
+        [
+          2.7628238201141357,
+          0.9353284239768982,
+          1.363555908203125
+        ],
+        [
+          2.7575511932373047,
+          0.9616170525550842,
+          1.3654766082763672
+        ]
+      ],
+      "bodyTriangles": [
+        460,
+        340
+      ]
+    },
+    {
+      "generatedTriangle": 2593,
+      "role": "inner",
+      "authorFace": 393,
+      "original029Face": 393,
+      "originalParentFace": 393,
+      "oldSimVertices": [
+        146,
+        266,
+        267
+      ],
+      "fixedFlags": [
+        true,
+        false,
+        false
+      ],
+      "worldTriangle": [
+        [
+          2.7575511932373047,
+          0.9616170525550842,
+          1.3654766082763672
+        ],
+        [
+          2.7628238201141357,
+          0.9353284239768982,
+          1.363555908203125
+        ],
+        [
+          2.7583322525024414,
+          0.9346001148223877,
+          1.3675568103790283
+        ]
+      ],
+      "bodyTriangles": [
+        460,
+        335,
+        336,
+        340
+      ]
+    },
+    {
+      "generatedTriangle": 2591,
+      "role": "inner",
+      "authorFace": 391,
+      "original029Face": 391,
+      "originalParentFace": 391,
+      "oldSimVertices": [
+        145,
+        265,
+        266
+      ],
+      "fixedFlags": [
+        true,
+        false,
+        false
+      ],
+      "worldTriangle": [
+        [
+          2.7598443031311035,
+          0.9613878726959229,
+          1.3606956005096436
+        ],
+        [
+          2.7659053802490234,
+          0.9351019859313965,
+          1.359070062637329
+        ],
+        [
+          2.7628238201141357,
+          0.9353284239768982,
+          1.363555908203125
+        ]
+      ],
+      "bodyTriangles": [
+        460,
+        340
+      ]
+    }
+  ],
+  "nativeMappingSHA256ByFrame": {
+    "1": "9bd627ce54a78022a85d958b8ea01aaa6c65e7eaba65de40923db81b43c186b2",
+    "5": "9bd627ce54a78022a85d958b8ea01aaa6c65e7eaba65de40923db81b43c186b2",
+    "18": "9bd627ce54a78022a85d958b8ea01aaa6c65e7eaba65de40923db81b43c186b2"
+  },
+  "boundedNextStructureAssessmentOnly": {
+    "existingLastOuterRow": {
+      "sourceParentFaces": [
+        1940,
+        2179
+      ],
+      "faces": 240,
+      "vertices": 240,
+      "boundaryEdges": 240,
+      "fixedVertices": 0
+    },
+    "savedRows": [
+      {
+        "frame": 1,
+        "lastOuterRowYRange": [
+          0.7237653732299805,
+          0.7647431373596192
+        ],
+        "oldCompleteReturnSelfPairs": 0
+      },
+      {
+        "frame": 5,
+        "lastOuterRowYRange": [
+          0.7221519470214843,
+          0.7635271072387695
+        ],
+        "oldCompleteReturnSelfPairs": 3
+      },
+      {
+        "frame": 18,
+        "lastOuterRowYRange": [
+          0.7165870666503906,
+          0.7620857715606689
+        ],
+        "oldCompleteReturnSelfPairs": 15
+      }
+    ],
+    "proposal": "Native Solidify only an explicitly constructed 10mm hem outer strip; keep original fixed-band and all outer faces. Reuse bottom perimeter, add actual inner strip and upper seam/rim; weld duplicate top strip boundary to original adjacent outer with exact correspondence. Do not overlap duplicate coplanar outer faces or delete noncap colliders.",
+    "notImplemented": true,
+    "caveat": "Existing last outer row spans much more than10mm; selecting it wholesale is not the proposed10mm fold. Need one source-defined 10mm ring cut with shared material/barycentric correspondence across frames, not per-frame horizontal slicing. Joining a closed thick strip to a zero-thickness upper outer at the same edge creates a T-junction/nonmanifold edge unless seam topology is explicitly authored; native modifier alone does not establish sewn hem attachment."
+  }
+}

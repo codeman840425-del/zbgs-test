@@ -1,0 +1,101 @@
+{
+  "status": "geometry-regression-pass",
+  "source": {
+    "microphone-pose.js": "4d2ee0fde6dc8e48ab9d9991472f47a27d31e70173a09b01013616d2432e42ca",
+    "microphone-presentation-fits.js": "d75b0081e6d3f0e52b67f64ebe0d3325cc094a59c46c50fd563da9bc3829d30e",
+    "live-presentation.js": "3a790c8252551269a72e182dbde167ff7104d0ec954cb825615ce01a9434ae6d"
+  },
+  "scriptSHA": "fb11f6aefb7df4fd2497ebb851eb9cd67a9a9f5c22a2dbc1db400eba70e7741c",
+  "results": [
+    {
+      "body": "female",
+      "bodySHA": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+      "gripSHA": "0d145faa31461db369c3da644e42ef3818b92a6241b82784590f5ba30ff08a4c",
+      "lengths": [
+        0.21925156702605944,
+        0.21430079574573263
+      ],
+      "palmMic": [
+        1,
+        2.7755575615628914e-17,
+        5.800481622797449e-18
+      ],
+      "carryAngle": 0,
+      "talkAngle": 12.601415812641955,
+      "maxIntermediateAngle": 12.601415812641955,
+      "maxWristStep": 0.018464621255292697,
+      "maxElbowStep": 0.012567797998552331,
+      "maxHandAngularStepDegrees": 6.076506316724549,
+      "orientations": [
+        {
+          "yaw": 0,
+          "maxPositionError": 0,
+          "maxQuaternionError": 5.551115123125783e-16
+        },
+        {
+          "yaw": 1.5707963267948966,
+          "maxPositionError": 3.597533769998862e-16,
+          "maxQuaternionError": 4.440892098500626e-16
+        },
+        {
+          "yaw": -1.5707963267948966,
+          "maxPositionError": 4.585973723508303e-16,
+          "maxQuaternionError": 5.551115123125783e-16
+        },
+        {
+          "yaw": 3.141592653589793,
+          "maxPositionError": 4.484050470211362e-16,
+          "maxQuaternionError": 2.220446049250313e-16
+        }
+      ]
+    },
+    {
+      "body": "male",
+      "bodySHA": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+      "gripSHA": "23843bc3450fa0838241543a1fc30c88226fba7c99c1c34b705ac62a76ab099d",
+      "lengths": [
+        0.2197812423040266,
+        0.248940870473473
+      ],
+      "palmMic": [
+        0.9999999999999999,
+        4.163336342344337e-17,
+        -1.2956215961201778e-17
+      ],
+      "carryAngle": 0,
+      "talkAngle": 7.863743878378182,
+      "maxIntermediateAngle": 7.863743878378182,
+      "maxWristStep": 0.02180759796395748,
+      "maxElbowStep": 0.01787323426361206,
+      "maxHandAngularStepDegrees": 6.1142306834184295,
+      "orientations": [
+        {
+          "yaw": 0,
+          "maxPositionError": 0,
+          "maxQuaternionError": 6.661338147750939e-16
+        },
+        {
+          "yaw": 1.5707963267948966,
+          "maxPositionError": 4.743382398173679e-16,
+          "maxQuaternionError": 4.440892098500626e-16
+        },
+        {
+          "yaw": -1.5707963267948966,
+          "maxPositionError": 4.896716022766798e-16,
+          "maxQuaternionError": 5.551115123125783e-16
+        },
+        {
+          "yaw": 3.141592653589793,
+          "maxPositionError": 4.652682298944613e-16,
+          "maxQuaternionError": 3.3306690738754696e-16
+        }
+      ]
+    }
+  ],
+  "scope": "Actual F/M normalized/rest geometry and original raw grip. Production target helper and exact production lerp/slerp/damp formulas; 241 interpolation samples, 240 temporal samples, four yaw orientations. No rendered/live-room/sit-source/finger-skin or acoustic/visual acceptance. Report build f7bdc3be3de4 is context; source bytes separately pinned.",
+  "limitations": [
+    "Carry up projection is singular if forearm parallel to up; selected original-body fixtures are not singular.",
+    "Authored shoulder/head motion may alter interpolation and requires normal-speed room video.",
+    "HoldWeight equip/unequip author-pose blend and actual triangle collision are not tested here."
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "status": "offline-candidate-awaits-game-and-visual-validation",
+  "sequenceSha256": "b8f1e070ee5b0eb3da8033174322d484590095923907fe084e4b1d20708268cc",
+  "skeletonSha256": "69591853d817488edaa8fd9bf8fc1d821eaeaf789f8627b3cd23b41c4ed67997",
+  "assetSha256": "c459ea7a1a5a8f89d162143c80e53843e7cdd19db97e87f8c33c5da6fc8a8845",
+  "frames": 240,
+  "duration": 7.974633333333333,
+  "timestampMaxFloat32Error": 2.377827961197454e-07,
+  "lowConfidenceSamples": 257,
+  "lowConfidenceByLandmark": {
+    "nose": 0,
+    "left_eye_inner": 0,
+    "left_eye": 0,
+    "left_eye_outer": 0,
+    "right_eye_inner": 0,
+    "right_eye": 0,
+    "right_eye_outer": 0,
+    "left_ear": 0,
+    "right_ear": 0,
+    "mouth_left": 0,
+    "mouth_right": 0,
+    "left_shoulder": 0,
+    "right_shoulder": 0,
+    "left_elbow": 52,
+    "right_elbow": 0,
+    "left_wrist": 50,
+    "right_wrist": 0,
+    "left_pinky": 52,
+    "right_pinky": 0,
+    "left_index": 51,
+    "right_index": 0,
+    "left_thumb": 52,
+    "right_thumb": 0,
+    "left_hip": 0,
+    "right_hip": 0,
+    "left_knee": 0,
+    "right_knee": 0,
+    "left_ankle": 0,
+    "right_ankle": 0,
+    "left_heel": 0,
+    "right_heel": 0,
+    "left_foot_index": 0,
+    "right_foot_index": 0
+  },
+  "hipYRange": [
+    0.47476757977711903,
+    0.8829388021972143
+  ],
+  "maxReachExcess": 0.0,
+  "feet": {
+    "l": {
+      "allFootVerticesYRange": [
+        -3.9531949926726743e-08,
+        0.11397876178139087
+      ],
+      "lowestFootVertexYRange": [
+        -3.9531949926726743e-08,
+        1.1253763182022358e-07
+      ],
+      "ankleTargetErrorMax": 1.0829018873625543e-07,
+      "footVertexSingleFrameTravelMax": 0.0026453946914243376
+    },
+    "r": {
+      "allFootVerticesYRange": [
+        -5.078444451837252e-08,
+        0.11485469962513489
+      ],
+      "lowestFootVertexYRange": [
+        -5.078444451837252e-08,
+        1.2185349481191302e-07
+      ],
+      "ankleTargetErrorMax": 1.1851369133553318e-07,
+      "footVertexSingleFrameTravelMax": 0.002787154662757997
+    }
+  },
+  "allFinite": true,
+  "maxBonePositionRoundtripError": 3.2751229541924665e-07,
+  "axisBasisColumns": [
+    [
+      0.7426125217655642,
+      0.0,
+      0.6697213170543321
+    ],
+    [
+      0.0,
+      1.0,
+      -0.0
+    ],
+    [
+      -0.6697213170543321,
+      0.0,
+      0.7426125217655642
+    ]
+  ],
+  "rules": {
+    "confidenceThreshold": 0.5,
+    "filter": "symmetric Gaussian sigma1 frame truncate2; coordinates only; original PTS retained",
+    "root": "mean fixed-length hip-to-ankle chains; fixed support ankles; lateral hip0; forward/back and vertical retained",
+    "missingDetail": "hand/finger/head reference idle, no inferred face/gesture; no axial limb twist measurement",
+    "globalTravel": "none available; stationary squat assumption from observed video"
+  }
+}
