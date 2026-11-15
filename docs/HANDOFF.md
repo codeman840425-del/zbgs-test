@@ -1,6 +1,6 @@
 # 项目交接
 
-**2026-11-14：用户已要求暂停，等待明确复工通知。不得因早先持续授权自行恢复。** 暂停现场见 [PAUSE-2026-11-14.md](PAUSE-2026-11-14.md)。
+**最新状态：用户已正式解除暂停，要求持续推进六工作包。** 最新全文见 [当前目标](M1-ACTIVE-OBJECTIVE-2026-11-14.md)，新增内部制作平台工程标准；现场查CURRENT，不重做已接入成果、不展开完整M2/M3。
 
 先读 [CURRENT-FOUNDATION.md](CURRENT-FOUNDATION.md)、唯一能力状态 [CAPABILITIES.md](CAPABILITIES.md) 及 [阶段计划](FOUNDATION-MILESTONES.md)。历史报告用于证据，不作为新的任务或通过结论。
 

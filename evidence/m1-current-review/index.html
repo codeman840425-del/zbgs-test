@@ -1,0 +1,12 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>M1 当前审查入口 · 未通过候选</title>
+<style>body{font:16px/1.65 system-ui;max-width:1200px;margin:24px auto;padding:20px;background:#edf1f1;color:#20302c}section{background:white;padding:18px;margin:20px 0}h1{font-size:25px}h2{font-size:20px}video,img{width:100%;max-height:760px;object-fit:contain}.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}.note{padding:16px;background:#fff2d6}a{color:#12615c}</style>
+<h1>M1 当前审查入口</h1>
+<p class="note">本页用于比较已有固定证据，不是M1通过声明。以下各片标明自己的构建，不能互相继承验收。建议先看正常房间距离的连续动作，再看近景；近景用于技术审查，不代表正式直播特写已确定。男女仍是技术候选，画风待确认，普通电脑未实测。</p>
+<section><h2>女性走转跑与停止：修补前后，1倍速</h2><p>efdf → 34148e260e6d，同房间/镜头/速度/路径，先完整五步态周期再实际相位触发加速、同距离停止。旧片约13.18秒出现支撑偏差峰90.49mm，新片对应加速峰2.01mm。数值及全时间抽帧已审。用户已接受新版约12–15秒加速与停止片段；仅限该片段，其余动作、衣物与当前集成版仍需各自验收。</p><p><a href="../m1-acceleration-efdf-vs-341/">打开两段完整视频并列播放（可从12秒对照）</a></p></section>
+<section><h2>男性短裤：房间镜头，1倍速走跑及技术舞</h2><p>efdf558930a4。完整片约49秒；已接入共用控制器，短裤硬褶与转向自然度未通过。技术舞不等于正式舞蹈品质。</p><video controls preload="metadata" src="../m1-pause-efdf558930a4/walk-run-dance/male-shorts-normal-TECHNICAL-DANCE-not-professional.webm"></video><p><a href="../m1-pause-efdf558930a4/">查看该版本完整坐起、换装与15段转向原片</a></p></section>
+<section><h2>当前集成175：房间镜头、动态开启坐起</h2><p>新的同镜头1×对照已保存，仍有裙硬折及起身掌指穿插，未通过完整服装验收。</p><p><a href="../m1-seat-175a-room/">打开175两片坐起对照</a></p></section><section><h2>历史女性裙装：接触与性能候选，1倍速坐起</h2><p>ad0e99f456ee，独立试验未合主。保留源动作手腕，缓存优化前后270姿势接触数值相同；开发机房间坐稳平均仍20.31ms/P95 30ms，有长帧，裙硬折仍在。工程审查目前是全时间范围抽帧，不能替代连续自然度确认。</p><video controls preload="metadata" src="../../assets-source/forearm-collision-v2/media/ad0e99-authored.webm"></video></section>
+<section><h2>男性短裤：相同坐姿，仅材质对照</h2><p>392e6f89183d运行时，右侧叠加独立material-trial-v4诊断材质。几何、权重、透明覆盖未改变；只替换布片中的固定褶皱颜色，保留源接缝。此图不证明裤口/裤裆或连续动作通过，尚未加入产品装备。</p><div class="pair"><figure><img src="images/shorts-seated-original.png"><figcaption>现有贴图</figcaption></figure><figure><img src="images/shorts-seated-cloth-v4.png"><figcaption>保留原透明度的材质样件</figcaption></figure></div></section>
+<p>交互旧候选仍在 <a href="http://127.0.0.1:4192/?body=male">4192 男性入口</a>，构建942d35a54f68，有已知跑转向缺陷；不是本页最新修补。修补验收后再统一入口，不覆盖历史对照。</p>
+</html>
+

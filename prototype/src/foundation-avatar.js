@@ -4,6 +4,7 @@ import { VRMLoaderPlugin, VRMUtils } from "@pixiv/three-vrm";
 import { createM1Equipment } from "./m1-equipment.js";
 import { foundationProfile } from "./foundation-profiles.js";
 import { createLivePresentation } from "./live-presentation.js";
+import { validateForearmProfile } from "./forearm-envelope-projection.js";
 
 export async function loadFoundationAvatar({ scene, renderer, bodyType = "female", attachToScene = true }) {
   const config = foundationProfile(bodyType), url = config.url;
@@ -16,6 +17,17 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     .map((x) => x.toString(16).padStart(2, "0"))
     .join("");
   if (sha256 !== config.sha256) throw new Error("Foundation identity mismatch");
+  let forearmCollision = null;
+  if (config.forearmCollision) {
+    const response = await fetch(config.forearmCollision.url);
+    if (!response.ok) throw new Error("Forearm collision profile failed to load");
+    const bytes = await response.arrayBuffer();
+    const digest = [...new Uint8Array(await crypto.subtle.digest("SHA-256", bytes))]
+      .map(n => n.toString(16).padStart(2, "0")).join("");
+    if (digest !== config.forearmCollision.sha256) throw new Error("Forearm collision profile integrity mismatch");
+    forearmCollision = JSON.parse(new TextDecoder().decode(bytes));
+    if (!validateForearmProfile(forearmCollision, sha256)) throw new Error("Forearm collision body identity mismatch");
+  }
   const loader = new GLTFLoader();
   loader.register((p) => new VRMLoaderPlugin(p));
   const gltf = await loader.parseAsync(buffer, "/assets/foundation/");
@@ -93,6 +105,10 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     footwear: { kind: "shoes", meshes: surfaces.shoes.map((m) => m.name) },
     garmentStatus: "independent new-body equipment; visual acceptance pending",
     motion: {
+      forearmCollision: new URLSearchParams(location.search).get("forearm") === "legacy" ? null : forearmCollision,
+      forearmCollisionBodySHA256: sha256,
+      forearmProfileTiming: new URLSearchParams(location.search).has("forearmTiming"),
+      preserveAuthoredSitHands: new URLSearchParams(location.search).get("handTarget") !== "lap",
       deriveSeatFromBody: true,
       get preserveAuthoredHands() { return livePresentation.getState().speaking; },
       seatClothAllowance: 0.006,

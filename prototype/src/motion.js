@@ -1,5 +1,7 @@
 import * as THREE from "three";
-import { projectedSegmentInterval } from "./segment-triangle-projection.js";
+import { createSkinContactWorkspace, createProjectedContactWorkspace, createProjectedInterval, projectedSegmentIntervalPrepared, alphaBarycentricPrepared } from "./forearm-contact-workspace.js";
+import { validateForearmProfile } from "./forearm-envelope-projection.js";
+import { forearmContourRails, createForearmContourWorkspace } from "./forearm-contour-rails.js";
 
 const V = THREE.Vector3;
 const Q = THREE.Quaternion;
@@ -856,10 +858,20 @@ export function createMotion(
       );
     }
   }
+  const calibratedForearms = validateForearmProfile(profile?.forearmCollision, profile?.forearmCollisionBodySHA256)
+    ? profile.forearmCollision.profiles : null;
+  const skinContactWorkspace = createSkinContactWorkspace(THREE);
+  const projectedContactWorkspace = createProjectedContactWorkspace();
+  const projectedInterval = createProjectedInterval();
+  const contactTriangles = [];
+  const contourWorkspaces = new Map(calibratedForearms?.map(p => [p.side, createForearmContourWorkspace(THREE,p)]) || []);
   let handContacts = [];
+  let handFitProfile = null;
   function fitSeatHands() {
     handContacts = [];
     const handFitStarted = performance.now();
+    const timing = profile?.forearmProfileTiming ? {skinMs:0,alphaSetupMs:0,gridMs:0,contourMs:0,railAlphaMs:0,diagnosticMs:0,measureCalls:0,gridBuilds:0,candidateTriangles:0} : null;
+    try {
     if (!profile?.seatHandRadii || !corrections.footIK) return;
     // Keep the same garment clearance at the idle endpoint, so entering a sit
     // does not suddenly project an already-intersecting relaxed palm.
@@ -881,6 +893,7 @@ export function createMotion(
     const leavingIdle = sitProgress <= 0 && requested !== "idle";
     if (
       sitProgress <= 0 &&
+      !calibratedForearms &&
       validCache &&
       (leavingIdle || (fitSeatHands.lastProgress === 0 && poseStable))
     ) {
@@ -932,17 +945,11 @@ export function createMotion(
     const blend = smooth(clamp(sitProgress / 0.35, 0, 1));
     const surfaces = profile.seatHandSurfaces?.(true) || [];
     const newIdleOffsets = [];
-    const triangles = [];
+    const triangles = contactTriangles;
+    triangles.length = 0;
     fitSeatHands.alphaCache ||= new WeakMap();
     for (const mesh of surfaces) {
-      mesh.updateWorldMatrix(true, false);
-      const geometry = mesh.geometry,
-        index = geometry.index;
-      const points = Array.from(
-        { length: geometry.attributes.position.count },
-        (_, i) =>
-          mesh.getVertexPosition(i, new V()).applyMatrix4(mesh.matrixWorld),
-      );
+      const alphaStarted = timing ? performance.now() : 0;
       const material = Array.isArray(mesh.material)
         ? mesh.material[0]
         : mesh.material;
@@ -963,15 +970,10 @@ export function createMotion(
         };
         fitSeatHands.alphaCache.set(material, alpha);
       }
-      for (let i = 0; i < index.count; i += 3) {
-        const ids = [index.getX(i), index.getX(i + 1), index.getX(i + 2)];
-        triangles.push({
-          points: ids.map((id) => points[id]),
-          uv: geometry.attributes.uv,
-          ids,
-          alpha,
-        });
-      }
+      if (timing) timing.alphaSetupMs += performance.now()-alphaStarted;
+      const skinStarted = timing ? performance.now() : 0;
+      for (const t of skinContactWorkspace.refresh(mesh,alpha)) triangles.push(t);
+      if (timing) timing.skinMs += performance.now()-skinStarted;
     }
     const ray = new THREE.Ray(),
       hit = new V(),
@@ -979,31 +981,24 @@ export function createMotion(
       bary = new V();
     function visible(t) {
       if (!t.alpha || !t.alpha.cutoff) return true;
-      triangle.set(...t.points).getBarycoord(hit, bary);
-      const u = t.ids.reduce(
-          (v, id, k) => v + t.uv.getX(id) * bary.getComponent(k),
-          0,
-        ),
-        v = t.ids.reduce(
-          (v, id, k) => v + t.uv.getY(id) * bary.getComponent(k),
-          0,
-        ),
-        a = t.alpha;
+      alphaBarycentricPrepared(t,hit,bary);
+      const values=t.uvValues;
+      const u=0+values[0]*bary.x+values[2]*bary.y+values[4]*bary.z,
+        v=0+values[1]*bary.x+values[3]*bary.y+values[5]*bary.z,
+        a=t.alpha;
       const x = clamp(Math.floor(u * a.width), 0, a.width - 1),
         y = clamp(Math.floor((a.flip ? 1 - v : v) * a.height), 0, a.height - 1);
       return a.pixels[(y * a.width + x) * 4 + 3] / 255 >= a.cutoff;
     }
-    let projectionGrid, gridU, gridV;
+    let gridU, gridV, measurement;
     function railClearance(start, end, outward) {
       const su = start.dot(gridU), sv = start.dot(gridV),
         eu = end.dot(gridU), ev = end.dot(gridV);
-      const candidates = new Set();
-      for (let x = Math.floor(Math.min(su, eu) / .04); x <= Math.floor(Math.max(su, eu) / .04); x++)
-        for (let y = Math.floor(Math.min(sv, ev) / .04); y <= Math.floor(Math.max(sv, ev) / .04); y++)
-          for (const t of projectionGrid.get(x + ":" + y) || []) candidates.add(t);
+      const candidates = projectedContactWorkspace.query(su,sv,eu,ev);
       let amount = 0;
       for (const t of candidates) {
-        const interval = projectedSegmentInterval(su, sv, eu, ev, t.projected);
+        if (measurement) measurement.testedTriangles++;
+        const interval = projectedSegmentIntervalPrepared(su, sv, eu, ev, t.clipConstants, projectedInterval);
         if (!interval) continue;
         // In an opaque triangle clearance is affine along this clipped interval,
         // so its endpoints give the exact extremum. Interior samples additionally
@@ -1012,15 +1007,21 @@ export function createMotion(
           const at = interval.lo + (interval.hi - interval.lo) * k / 4;
           hit.set(0, 0, 0);
           for (let j = 0; j < 3; j++) hit.addScaledVector(t.points[j], interval.start[j] + (interval.end[j] - interval.start[j]) * at);
-          if (!visible(t)) continue;
+          if (!visible(t)) { if (measurement) measurement.alphaRejected++; continue; }
           const depth = hit.dot(outward) - (start.dot(outward) + (end.dot(outward) - start.dot(outward)) * at);
-          if (depth > -.008 && depth < .3) amount = Math.max(amount, depth + .008);
+          if (depth > -.008 && depth < .3) {
+            amount = Math.max(amount, depth + .008);
+            if (measurement && amount > (measurement.strongest?.amount ?? 0))
+              measurement.strongest = {part:measurement.part,ids:t.ids.slice(),at,hit:hit.toArray(),amount};
+          }
         }
       }
       return amount;
     }
     for (const [i, arm] of arms.entries()) {
       const original = worldPoint(arm.hand),
+        authoredElbow = worldPoint(arm.lower),
+        authoredUpper = worldPoint(arm.upper),
         orientation = arm.hand.getWorldQuaternion(new Q());
       const contactBone = bone(arm.side + "MiddleDistal");
       const handOffset = contactBone
@@ -1037,7 +1038,11 @@ export function createMotion(
         .lerp(b, 0.62)
         .addScaledVector(up, profile.seatHandRadii[i] + 0.025)
         .sub(handOffset);
-      const target = original.clone().lerp(contact, profile?.preserveAuthoredHands ? 0 : blend);
+      const authoredSitTarget = profile?.preserveAuthoredSitHands !== false &&
+        ((requested === "sit" && sourceActions.sitEnter && sourceActions.sitIdle) ||
+         (requested === "stand" && sourceActions.sitExit));
+      const target = original.clone().lerp(contact, profile?.preserveAuthoredHands || authoredSitTarget ? 0 : blend);
+      const initialTarget = target.clone();
       const pole = kneeBendDirection(
         worldPoint(arm.upper),
         worldPoint(arm.lower),
@@ -1054,30 +1059,45 @@ export function createMotion(
       // the same projected point. Query only intersecting triangle cells.
       gridU = new V().crossVectors(outward, new V(0, 1, 0)).normalize();
       gridV = new V().crossVectors(outward, gridU).normalize();
-      projectionGrid = new Map();
-      for (const t of triangles) {
-        t.projected = t.points.flatMap(p => [p.dot(gridU), p.dot(gridV)]);
-        const us = t.points.map((p) => p.dot(gridU) / 0.04),
-          vs = t.points.map((p) => p.dot(gridV) / 0.04);
-        for (
-          let x = Math.floor(Math.min(...us));
-          x <= Math.floor(Math.max(...us));
-          x++
-        )
-          for (
-            let y = Math.floor(Math.min(...vs));
-            y <= Math.floor(Math.max(...vs));
-            y++
-          ) {
-            const key = x + ":" + y;
-            let list = projectionGrid.get(key);
-            if (!list) {
-              list = [];
-              projectionGrid.set(key, list);
-            }
-            list.push(t);
+      const gridStarted = timing ? performance.now() : 0;
+      projectedContactWorkspace.build(triangles,gridU,gridV);
+      if(timing){timing.gridMs += performance.now()-gridStarted;timing.gridBuilds++;}
+      const forearmProfile = calibratedForearms?.find(p => p.side === arm.side);
+      let narrowPhasePairs = 0;
+      function measureArm(elbow, wrist) {
+        const measureStarted = timing ? performance.now() : 0;
+        let contourCost = 0;
+        measurement = {part:"forearm",testedTriangles:0,alphaRejected:0,strongest:null};
+        let forearmCorrection = 0, palmCorrection = 0;
+        if (forearmProfile) {
+          const contourStarted = timing ? performance.now() : 0;
+          const rails = forearmContourRails(THREE, elbow, wrist, forearmProfile, outward, contourWorkspaces.get(arm.side));
+          if(timing){contourCost=performance.now()-contourStarted;timing.contourMs+=contourCost;}
+          for (const [a,b] of rails) {
+            forearmCorrection = Math.max(forearmCorrection, railClearance(a,b,outward));
+            narrowPhasePairs++;
           }
+        }
+        // Palm stays unchanged. Missing/unmatched profiles retain explicit legacy path.
+        for (const [part, start, end, radius] of [
+          ...(!forearmProfile ? [["forearm", elbow, wrist, 0.012]] : []),
+          ["hand", wrist, wrist.clone().add(handOffset), 0.016],
+        ]) {
+          measurement.part = part;
+          const direction = end.clone().sub(start).normalize(),
+            railX = new V().crossVectors(direction, new V(0, 1, 0)).normalize(),
+            railY = new V().crossVectors(direction, railX).normalize();
+          for (const [x, y] of [[0,0], [1,0], [-1,0], [0,1], [0,-1]]) {
+            const offset = railX.clone().multiplyScalar(x * radius).addScaledVector(railY, y * radius);
+            const amount = railClearance(start.clone().add(offset), end.clone().add(offset), outward);
+            if (part === "forearm") forearmCorrection = Math.max(forearmCorrection, amount);
+            else palmCorrection = Math.max(palmCorrection, amount);
+          }
+        }
+        if(timing){timing.railAlphaMs += performance.now()-measureStarted-contourCost;timing.measureCalls++;timing.candidateTriangles += measurement.testedTriangles;}
+        return {forearmCorrection,palmCorrection,correction:Math.max(forearmCorrection,palmCorrection)};
       }
+      const iterationTrace = [];
       let projection = 0,
         remaining = 0,
         solved;
@@ -1089,22 +1109,10 @@ export function createMotion(
           arm.second,
           pole,
         );
-        let correction = 0, forearmCorrection = 0, palmCorrection = 0;
-        for (const [part, start, end, radius] of [
-          ["forearm", solved.knee, solved.target, 0.012],
-          ["hand", solved.target, solved.target.clone().add(handOffset), 0.016],
-        ]) {
-          const direction = end.clone().sub(start).normalize(),
-            railX = new V().crossVectors(direction, new V(0, 1, 0)).normalize(),
-            railY = new V().crossVectors(direction, railX).normalize();
-          for (const [x, y] of [[0,0], [1,0], [-1,0], [0,1], [0,-1]]) {
-            const offset = railX.clone().multiplyScalar(x * radius).addScaledVector(railY, y * radius);
-            const amount = railClearance(start.clone().add(offset), end.clone().add(offset), outward);
-            if (part === "forearm") forearmCorrection = Math.max(forearmCorrection, amount);
-            else palmCorrection = Math.max(palmCorrection, amount);
-            correction = Math.max(correction, amount);
-          }
-        }
+        const {correction,forearmCorrection,palmCorrection} = measureArm(solved.knee, solved.target);
+        const traceStarted = timing ? performance.now() : 0;
+        iterationTrace.push({iteration,elbow:solved.knee.toArray(),wrist:solved.target.toArray(),pole:pole.toArray(),target:target.toArray(),correction,forearmCorrection,palmCorrection,witness:measurement});
+        if(timing)timing.diagnosticMs+=performance.now()-traceStarted;
         remaining = correction;
         if (correction < 0.0002) break;
         // An elbow/upper-forearm hit cannot be repaired reliably by only
@@ -1132,12 +1140,16 @@ export function createMotion(
           .multiply(orientation),
       );
       arm.hand.updateWorldMatrix(true, true);
+      // Recheck the final applied arm, including any IK clamp/pole response.
+      const finalClearance = measureArm(worldPoint(arm.lower), worldPoint(arm.hand));
+      remaining = finalClearance.correction;
       if (sitProgress <= 0)
         newIdleOffsets.push(
           worldPoint(arm.hand)
             .sub(original)
             .applyQuaternion(rootQuaternion().invert()),
         );
+      const contactStarted = timing ? performance.now() : 0;
       handContacts.push({
         side: arm.side,
         target: target.toArray(),
@@ -1148,8 +1160,27 @@ export function createMotion(
         sitProgress,
         garmentProjection: projection,
         remainingClearance: remaining,
+        forearmEnvelope: forearmProfile ? "calibrated-segmented-contours" : "legacy-uncalibrated-rails",
+        forearmProfileSHA: forearmProfile ? profile.forearmCollision.bodySHA256 : null,
+        finalForearmClearance: finalClearance.forearmCorrection,
+        finalPalmClearance: finalClearance.palmCorrection,
+        finalWitness: measurement,
+        authoredElbow: authoredElbow.toArray(),
+        authoredUpper: authoredUpper.toArray(),
+        authoredWrist: original.toArray(),
+        authoredSitTarget: Boolean(authoredSitTarget),
+        initialTarget: initialTarget.toArray(),
+        lapContact: contact.toArray(),
+        lapAxis: axis.toArray(),
+        lapUp: up.toArray(),
+        iterationTrace,
+        finalElbow: worldPoint(arm.lower).toArray(),
+        finalWrist: worldPoint(arm.hand).toArray(),
+        finalClearancePassed: remaining < .0002,
+        narrowPhasePairs,
         fitElapsedMs: performance.now() - handFitStarted,
       });
+      if(timing)timing.diagnosticMs+=performance.now()-contactStarted;
     }
     if (sitProgress <= 0 && cacheKey) {
       fitSeatHands.idleCache = {
@@ -1160,6 +1191,10 @@ export function createMotion(
         offsets: newIdleOffsets,
       };
       fitSeatHands.cacheWeight = 1;
+    }
+    } finally {
+      if(timing){timing.totalMs=performance.now()-handFitStarted;timing.otherMs=timing.totalMs-timing.skinMs-timing.alphaSetupMs-timing.gridMs-timing.contourMs-timing.railAlphaMs-timing.diagnosticMs;}
+      handFitProfile=timing;
     }
   }
   function update(dt, state = {}) {
@@ -1961,6 +1996,7 @@ export function createMotion(
   function getMetrics() {
     return {
       handContacts,
+      handFitProfile,
       handContactsStage: "body-correction-before-live-accessory-layer; not final held-hand collision",
       action: requested,
       actionTime,

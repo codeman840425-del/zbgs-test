@@ -4,7 +4,7 @@
 
 本轮固定 Phaser 3.90.0、Three.js 0.187.0、three-vrm 3.5.5。Rigby2D不参与。旧VRM1残缺身体仅作历史对照；M1A已接入完整VRM0 Base_Female、独立GLB装备和GLB动作。可编辑blend是从现存资源重建，不是丢失的原工程恢复。
 
-**此规范现在同时面向男女，但仍是暂定规范。** M1A/B/C最小样件（含男女实际接入/隔离、跑步/直播及必要附件动作管线）未通过前，不能宣称通用角色基础已完成。M1A当前失败与修复见M1-ROOM.md，男性候选筛选见M1B-CANDIDATE.md。
+**此规范现在同时面向男女，但仍是暂定规范。** M1A/B/C最小样件（含男女实际接入/隔离、跑步/直播及必要附件动作管线）未通过前，不能宣称通用角色基础已完成。当前男女实际接入、服装与动作状态见CAPABILITIES；M1-ROOM及M1B-CANDIDATE只保留对应历史证据。
 
 ## 主播数据分层（约定已确定，完整系统尚未实现）
 
@@ -25,13 +25,15 @@
 
 每个fitResource记录styleId、bodyBaseId、版本/hash、允许体型范围、原骨索引/权重/逆绑定数据、覆盖区、动态/姿态配置、已验动作和许可。当前GLB装载已校验目标VRM hash和逆绑定矩阵；这只是绑定准入，不代替实测动作和接触。
 
-第一批鞋仅平底；鞋跟/厚底须专门脚姿/步态/椅面适配。挂接接口以head、left/rightEar（可由head局部定义）、left/rightHand的语义及局部偏移记录；道具不得依赖某个模型的children序号。直播桌面/麦克风行为先保留接口，后续代表验证。
+第一批鞋仅平底；鞋跟/厚底须专门脚姿/步态/椅面适配。挂接接口以head、left/rightEar（可由head局部定义）、left/rightHand的语义及局部偏移记录；道具不得依赖某个模型的children序号。麦克风与眼镜已接入live-presentation.js，并按男女实际身体SHA加载独立fit；连续握持/衣物接触仍验收中。桌面其他道具未实现。
 
 ## 实例隔离与资源生命周期
 
 每个角色持有自己的VRM骨架、Mixer/动作权重、装备选择、材质可变参数、形态键权重、时间、脚接触锚点及动态历史。允许共享只读几何/纹理/动画源；修改材质前克隆实例，不能改共享资源造成B随A变色。销毁时区分共享引用与独占资源，单角色换装不能dispose另一角色仍使用的纹理。
 
-目前equipment加载缓存、motion闭包和表情时钟是实例内状态；主页面controller/UI仍围绕单角色，foundation适配器还有UI初始化副作用。这些在M1B双角色场景需拆开并实际验证，不把“函数工厂”直接当隔离证明。用男女各一个角色检查A换装/变色/表情/动作时B骨架、材质、装备和时间不变；体型操作尚未实现时明确未测。 另外交错发起A/B异步换装，确认旧请求不能覆盖新选择；卸载或销毁A后，B的纹理、骨架和动作继续有效。保存并重开后核对actorId、bodyBaseId与fitResource版本不变。
+目前主/对照角色均使用同一CharacterStudio行为实现、各自motion闭包与livePresentation。foundationProfile每次structuredClone，基模/装备/握姿仍严格按SHA匹配；页面控件绑定在main，不由loadFoundationAvatar初始化UI。loadComparison待动作加载、motion.update(0)和附加骨重置完成后才把root加入场景，取消/失败释放未挂入场景的资源。
+
+男女及男男引用/骨架/表情/装备/销毁隔离已有固定构建证据，最新0df453另验延迟加载、取消、503和重试；具体范围见CAPABILITIES，不代表体型操作或任意共享资源已验。当前裤裙预加载、切换同步；麦克风/眼镜的异步请求按slot版本拒绝过期结果。最终外观保存恢复只完成已有本地QA合同，未实现产品存档UI。
 
 ## 面部能力分类
 
@@ -58,11 +60,11 @@
 ## 单一时钟和更新顺序
 
 1. Phaser帧调度将毫秒转为秒，处理暂停/恢复和倍率，分成不大于1/120秒的模拟子步。
-2. 路径控制世界根位移、朝向和速度。动画中的根平移已移除；脚锁与骨盆修正不再移动世界根。
+2. 路径控制世界根位移、朝向和速度。走跑源的线性前进分量按原片校准去除，防止重复位移；技术舞按local-displacement策略保留局部髋XYZ与小跳，不将所有舞蹈平移统一删除。脚锁与骨盆修正不直接控制世界路径。
 3. 根据实际位移推进步态相位，选择源clip与权重，显式设置action.time。AnimationMixer.update(0)只求当前姿势，不重复推进第二个时钟。
 4. 恢复上次源动画姿势，求新源姿势并缓存；对normalized骨骼施加骨盆/腿IK等修正。避免先清bind pose后被Mixer未改变轨道的缓存漏写。
 5. avatar.update(dt)调用vrm.update：humanoid把normalized同步到raw，运行相应约束和附加动态；不在之后重新覆盖normalized修正。
-6. 更新世界矩阵，根据实际蒙皮上衣/短裤表面和椅子局部实体求裙体碰撞，推进裙体，再渲染。
+6. 更新世界矩阵和裙碰撞。手部拟合若已在本子步腿臀求值后采样并求解裙面，则updateGarment复用该次结果，避免同子步重复求解。头发等附加动态按自身更新阶段推进，再渲染。175集成候选已接入保留源坐姿腕目标与等价缓存；source/UV/index可缓存，每子步实际蒙皮与投影仍更新，不能把静态缓存当动态几何。
 
 官方接口已对照本机安装版本核查：[AnimationMixer的秒制update](https://threejs.org/docs/pages/AnimationMixer.html)、[VRMHumanoid默认同步normalized到raw](https://pixiv.github.io/three-vrm/docs/classes/three-vrm.VRMHumanoid.html)。依赖目录的实际3.5.5实现与此一致。
 
@@ -72,21 +74,21 @@
 
 M1A完整穿衣/真实完整人体中性材质、raw/IK/pelvis/full可同刻对照；旧残缺人体的保留覆盖模式另行标注。M1裙是针对该拓扑的姿态引导、边长与碰撞约束，没有通用布料自碰撞或体型自动适配。身体、衣服与家具检测注明网格/顶点/取样范围，数值通过不代替整段视觉验收。
 
-## 饰品、手持物与动作清单（约定，尚未接入）
+## 饰品、手持物与动作清单（代表样件已接入，扩展仍为约定）
 
 装备槽位、语义挂点与具体fit资源独立。扩展槽位包含headwear/eyewear/earwear/neckwear/wristwear/waistAccessory/handheldLeft/handheldRight；不能把槽位名当真实骨名。每基模提供head、eyesBridge、left/rightEar、neck/chest、left/rightWrist、waist、left/rightGrip的语义→humanoid骨+局部位姿映射。耳部/鼻梁等可由head下局部挂点构成，须按真实基模标定。挂点尺度与参考姿态随fit版本保存。
 
 资源声明 attachmentMode=rigid/skinned/secondary 或组合；刚性附件挂点并不解决围巾蒙皮、帽发碰撞或动态。每fit记录适用bodyBase及参数范围、bind/weights、覆盖集合、互斥槽位、叠穿前提、动态/碰撞配置、已验动作。卸下重新求最终覆盖集合并释放独占对象，不残留旧遮挡。
 
-手持fit另存物件局部gripTransform、左右手映射、手指pose、使用pose、可用动作与限制。ownedItemId（拥有）/equipment assignment（装备）/grip assignment（手持）/scene placement（放置）是不同状态；一个实体的位置归属只能有一个。逻辑装备/卸下要幂等，异步加载按版本与请求代号拒绝过期结果；完整拿起放下动画后续，不能通过造两个mesh假装装备完成。先以麦克风验证站讲/走路/坐讲，再扩大。
+手持fit另存物件局部gripTransform、左右手映射、手指pose、使用pose、可用动作与限制。ownedItemId（拥有）/equipment assignment（装备）/grip assignment（手持）/scene placement（放置）是不同状态；一个实体的位置归属只能有一个。逻辑装备/卸下要幂等，异步加载按版本与请求代号拒绝过期结果；完整拿起放下动画后续，不能通过造两个mesh假装装备完成。当前麦克风已接入站讲/走路/坐讲；持麦舞蹈及空手招手明确互斥。女jaw/waisthip没有精确握姿profile，装备麦克风必须拒绝，不能套原身体身份。其余物品不自动继承兼容。
 
-未来动作manifest至少保存 actionId/version、sourceAssetHash/sourceClip/sourceRigAdapter、duration、loopMode、enter/exit策略、rootMotionPolicy、nominalSpeed/stride/contactProfile、活动空间与朝向、允许装备/持物/体型、单动作修正文件、音乐时间偏移及验收记录。ID不可复用含义；通用控制器依赖语义及策略而非大量舞蹈名字。源适配配置解决同类问题，特殊修正单独版本化。
+动作manifest与源适配配置分别保存；后续资源必须至少声明 actionId/version、sourceAssetHash/sourceClip/sourceRigAdapter、duration、loopMode、enter/exit策略、rootMotionPolicy、nominalSpeed/stride/contactProfile、活动空间与朝向、允许装备/持物/体型、单动作修正文件、音乐时间偏移及验收记录。ID不可复用含义；通用控制器依赖语义及策略而非大量舞蹈名字。源适配配置解决同类问题，特殊修正单独版本化。
 
 支持格式必须按已验路径声明：当前只有固定UAL GLB + rigMap，并无通用FBX/BVH/VRMA上传。未来离线转换可用Blender，但在实际导入/导出/回读前不宣称格式支持。原地和空间位移动作分别声明路径/动画根运动权属；循环和完整编舞分别声明结束/中断。当前删除未映射root/scale等轨道的行为不能直接推广给位移舞、小跳或任意源骨架。
 
 ## 控制通道与业务边界（部分现有，扩展待实现）
 
-产品入口统一向角色实例提交带requestId的语义命令（move/run/sit/rise/talk/dance/equip/unequip/cancel等），返回accepted/queued/rejected及原因。当前command只覆盖已有单人物动作，新增run/talk/持物协议尚未实现。调试可暴露原始诊断开关，但未来经营/界面不能各写一套骨骼与位置控制。新请求失效旧token，旧任务结束不得反写新任务状态。
+当前长行为入口为requestBehavior：walk、idle、turn、sit、stand、dance、greeting；跑步由walk目标与speed设置驱动同一移动控制，不是第二套人物控制器。behavior-tasks分别记录accepted/queued/rejected准入与running/completed/cancelled/failed执行状态；completed/cancelled/failed为最终结果，requestId去重且内容冲突拒绝。讲话、视线、表情、装备及服装使用同实例command通道，装备返回实际applied/cancelled结果，不将即时设置伪装为长任务完成。任务超时使用暂停期间不推进的仿真秒；坐稳完成仍保留座位占用，起身实际离位后释放。调试可暴露原始诊断开关，但未来经营/界面不能各写一套骨骼与位置控制。新请求失效旧token，旧任务结束不得反写新任务状态。
 
 明确通道权属：世界位移由选定root策略唯一负责；身体主动作/局部上身混合先求；足部按步态接触状态修正，跑/舞腾空不强制双足着地；手臂持物/接触只覆盖声明通道；手指pose独立；脸部blink/口型/情绪与长期appearance分别管理；视线最后按头眼限制合成；附加动态只管理附属骨。VRM normalized→raw同步不可覆盖最终修正。M1A手接触需要本步腿臀先同步并求裙，再解手，最终VRM同步完成；不重复推进动画时间。
 
@@ -99,3 +101,9 @@ M1A完整穿衣/真实完整人体中性材质、raw/IK/pelvis/full可同刻对�
 房间人物、头像、招聘列表、角色详情均引用同一actorId与已保存最终外观。外观/装备/发型变更生成appearanceRevision；静态预览键由actorId、appearanceRevision、assetManifestVersion、renderProfileVersion组成。版本不匹配仅标预览需更新，不能改变身份/重新随机生成。具体预览生成、缓存和页面不在本轮M1实现范围。
 
 基模派生另立bodyAssetId/assetVersion与精确SHA，装备fit明确兼容派生身份；不能绕过校验复用原hash。真实脸/局部体型风险样件在定型前做，结果分别归入CAPABILITIES RISK-01/02，不把表情morph或整体缩放计为外貌几何制作通过。
+
+## 前臂接触配置的精确适配（175候选）
+
+foundation-profiles中的forearmCollision明确URL和文件SHA；加载同时验证实际人体SHA，不能把原女性包络套到jaw/waisthip派生。缓存由createMotion每实例创建，姿态相关系数每次实际投影更新。80轮廓轨及alpha采样仅是有限接触近似，不是完整连续碰撞。
+
+默认使用源坐姿腕目标，诊断`handTarget=lap`只供旧目标对照；`forearm=legacy`只供旧接触诊断。两派生没有新的专属包络，会使用原有限轨方式，但源腕目标也发生改变，因此须独立复验。男性目前seatHandRadii缺失，坐手接触层提前返回；成功加载男性包络不等于男性坐手接触已启用或验收。详情以CAPABILITIES与175固定报告为准。

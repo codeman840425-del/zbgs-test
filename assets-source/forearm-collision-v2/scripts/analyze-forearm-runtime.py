@@ -16,7 +16,7 @@ def hand_leg_pairs(points,faces,roles):
 result=[]
 modes=['lap','authored']if(O/'authored.json').exists()else['legacy','calibrated']
 for mode in modes:
- d=json.loads((O/(mode+'.json')).read_text());fixture=d['fixture'];faces=np.array(fixture['bodyTriangles']);records=[]
+ d=json.loads((O/(mode+'.json')).read_text(encoding='utf8'));fixture=d['fixture'];faces=np.array(fixture['bodyTriangles']);records=[]
  for f in d['frames']:
   points=np.array(f['body']);waist_indices=sorted(set(fixture['faceRoles']['forearm']+fixture['faceRoles']['hands']))if'faceRoles'in fixture else list(range(len(faces)))
   tri=points[faces[waist_indices]];a=tri[:,0];e1=tri[:,1]-a;e2=tri[:,2]-a;hits=[]

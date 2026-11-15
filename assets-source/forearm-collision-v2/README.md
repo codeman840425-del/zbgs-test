@@ -49,3 +49,7 @@ QA拒绝覆盖已有capture。运行入口核实际served/runtime build和已加
 ## 正常速录屏补充（暂停时状态）
 
 c9同镜头lap/authored完整坐起视频已归档到media，顺序解码观察见reports/FOREARM-NORMAL-c9f074519f18.md。authored减少旧目标导致的折肘，但坐稳实际rAF均值44.96ms/P9548.6ms，不通过合入。首rAF约320ms含时间戳起点错位，不能当持续卡顿；持续长帧仍真实，需无录制分项复测。本轮依用户要求暂停，没有新建/运行下一短测。
+
+## 正式复工：无录制分项已完成
+
+见reports/FOREARM-UNRECORDED-c9f074519f18.md。四组实际房间对照确认坐稳authored的持续CPU瓶颈：close/room平均48.29/44.55ms，fit全部真实子步42.94/39.65ms。0pageerror，仍未合入。局部数据准备/分配优化仅是下一建议，尚未实施。浏览器窗口已归还。

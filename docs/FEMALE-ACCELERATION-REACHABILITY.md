@@ -114,3 +114,22 @@ Root已合入上述两项修补，固定源SHA为 `c9a3208e0fe4be62b6cb18097d404
 ### 新检出恢复
 
 精确历史源码与manifest已收敛到 `evidence/motion-source-snapshots/`，小型报告和male输入轨迹也已归档。两项receipt脚本不再读取忽略的analysis目录；在无analysis/output/prototype/node_modules的临时输入树实际执行均通过，记录 `evidence/gait-receipt-portability.json`。这不是声称执行过全新Git clone或几何重跑。恢复命令、需要的运行依赖与结果范围见该目录README；旧报告中的原analysis位置保持原样，不改历史hash。
+
+## 正常速度前后录像（已收片，视觉仅抽帧筛查）
+
+`scripts/qa-acceleration-normal-record.cjs`复用既有正常rAF录像流程，未调用simulate/advance，未写相位或骨姿。female base同房间固定镜头，先完整右→左行走5周期，再左→右；稳定.85m/s且真实phase在.76–.79时请求2.55m/s，行进2.8m后请求idle。两次自然相位有微小差异，已保留真实值。
+
+| 版本 | 触发相位 | 加速/停止视频约秒 | 加速段支撑metric峰值 | 完整片 |
+| --- | --- | --- | --- | --- |
+| efdf旧版 | .762907 | 12.010 / 13.485 | 右脚90.487mm，13.179s | 15.039s，903帧 |
+| 341修补版 | .762775 | 12.017 / 13.491 | 左脚2.013mm，12.487s | 15.038s，903帧 |
+
+两片初末build/body身份、1×、相机/外观帧gate均通过，页面错误0。旧片13.142–13.179s真实运行contact=true且metric超30mm；峰值raw踝与target距离也为90.487mm，因此不是只重述120Hz数值负例。但此录像没逐帧重新测所有蒙皮鞋底，不等于完整几何gate。
+
+视频分别在 `output/playwright/m1/efdf558930a4/acceleration-normal-1794700818153/`、`output/playwright/m1/34148e260e6d/acceleration-normal-1794700855383/`，文件均为`female-base-walk-acceleration-stop.webm`。各目录保存原始trace、report、全帧解码摘要、每.25s全时序图、诊断裁切图与visual-review.json。紧凑索引/视频hash汇总为 `evidence/female-acceleration-normal-comparison.json`。
+
+已检查两片各61个覆盖全时序的抽帧：旧片约13.25s可见较长的后伸腿，新片对应后腿更明显屈膝；两片都收回idle。正常走路/转身段未在采样图中看到肢体分离。停止13.5–13.8s的收步顺序明显不同，**不据此宣称连续自然度已通过**；短暂跳变、滑步与重心节奏仍需连续播放审看/用户判断。本轮female base结果不继承至裤裙或男性。
+
+## 用户限定片段验收（2026-11-14）
+
+用户观看上述同镜头1×对照后，对 **34148e260e6d约12–15秒加速与停止** 回复“这段可以接受”。该片段记为用户接受；不扩展到其他转向片段、裤裙、男性、175集成候选或整体M1。原工程抽帧记录保留，未声称工程人员已连续观看全部录像。精确视频SHA及范围见 `evidence/female-acceleration-user-review-341.json`。

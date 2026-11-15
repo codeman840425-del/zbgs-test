@@ -1,0 +1,335 @@
+{
+  "scope": "Normal rAF comparison through real public movement requests, phase-read speed trigger and distance-read idle request; no phase/pose/simulate writes",
+  "oldFailureObservedInRuntimeMetric": true,
+  "newRuntimeMetricBelowOriginal30mm": true,
+  "visualAcceptance": false,
+  "records": [
+    {
+      "build": "efdf558930a4",
+      "folder": "output/playwright/m1/efdf558930a4/acceleration-normal-1794700818153",
+      "video": "female-base-walk-acceleration-stop.webm",
+      "videoSha256": "7ea695a94e4217a21f665e997b69089358db2dbe71feca7fdfaa1a8e9f165473",
+      "traceSha256": "8140a73d4d3aa863a05b987fb32c361d620478e86104a5d6eaba6e576c6987b2",
+      "scriptSha256": "9a01731cb04ed4a3310cc46d181e0ba259d167c7d29faa00386d826b60d6eb61",
+      "bodySha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+      "camera": {
+        "position": [
+          5.8,
+          4.5,
+          7.8
+        ],
+        "target": [
+          0,
+          0.65,
+          0
+        ]
+      },
+      "playbackRate": 1,
+      "preludeCycleWraps": 5,
+      "events": [
+        {
+          "type": "speed",
+          "value": 2.55,
+          "t": 19972.5,
+          "phase": 0.76290726580544,
+          "position": [
+            -2.5848378085385413,
+            0,
+            1.7999922239983377
+          ],
+          "remaining": 5.784837808543767,
+          "runMix": 0,
+          "videoApproxSeconds": 12.010100000023842
+        },
+        {
+          "t": 21447.100000023842,
+          "type": "distance-stop",
+          "distance": 2.800778834756594,
+          "phase": 0.9338533429498136,
+          "jogPhase": 0.08436296178614283,
+          "position": [
+            0.21594102621552275,
+            0,
+            1.7999959888162267
+          ],
+          "request": {
+            "requestId": "accel-video-stop:4",
+            "kind": "idle",
+            "timeoutSeconds": 15
+          },
+          "result": {
+            "admission": "accepted",
+            "duplicate": false,
+            "reason": null,
+            "task": {
+              "requestId": "accel-video-stop:4",
+              "ownerId": "room-primary",
+              "kind": "idle",
+              "payload": {},
+              "admission": "accepted",
+              "state": "running",
+              "requestedAt": 19.61269999992893,
+              "startedAt": 19.61269999992893,
+              "endedAt": null,
+              "deadline": 34.612699999928935,
+              "reason": null,
+              "result": null
+            }
+          },
+          "videoApproxSeconds": 13.484700000047683
+        }
+      ],
+      "stageIndex": {
+        "three-cycle-walk-prelude": {
+          "from": 0.001800000023841676,
+          "to": 9.933100000023842,
+          "frames": 1638
+        },
+        "await-stable-phase": {
+          "from": 9.93920000002384,
+          "to": 12.008000000023843,
+          "frames": 342
+        },
+        "accelerating": {
+          "from": 12.014000000023843,
+          "to": 13.482100000023841,
+          "frames": 243
+        },
+        "stopping": {
+          "from": 13.48820000002384,
+          "to": 15.047400000023842,
+          "frames": 258
+        }
+      },
+      "decoded": [
+        {
+          "movie": "female-base-walk-acceleration-stop.webm",
+          "decodedFrames": 903,
+          "lastFrameSeconds": 15.039,
+          "maxTimestampGap": 0.025000000000000355,
+          "reviewIntervalSeconds": 0.25,
+          "sheets": 8
+        }
+      ],
+      "pageErrors": [],
+      "frameGateViolations": 0,
+      "supportMetric": {
+        "scope": "Existing runtime slip on contact=true in accelerating stage; not a fresh per-frame raw skin sole recomputation",
+        "maxMeters": 0.09048710434345615,
+        "side": "right",
+        "videoApproxSeconds": 13.178800000023843,
+        "over30mmRangeSeconds": [
+          13.14240000002384,
+          13.178800000023843
+        ],
+        "rawAnkleTargetDistanceMeters": 0.09048710451516047
+      },
+      "visualReview": {
+        "method": "All 61 quarter-second samples over full decoded timeline, original fixed-room sheets plus five actor-cropped sheets inspected; no claim to continuous playback acceptance",
+        "reviewedSeconds": [
+          0,
+          15.039
+        ],
+        "notes": [
+          {
+            "range": [
+              0,
+              9.9
+            ],
+            "finding": "Five walking cycles and settle are visible; feet alternate and character remains intact in reviewed frames. Recurring shin overlap at oblique side view alone is not a defect."
+          },
+          {
+            "range": [
+              9.9,
+              12.0
+            ],
+            "finding": "Turn and restart remain visible before acceleration; sampled poses do not establish toe sliding or temporal naturalness."
+          },
+          {
+            "range": [
+              12.0,
+              13.5
+            ],
+            "finding": "Old clip has a conspicuously long trailing leg near 13.25s, with runtime support over30mm at the separately indexed interval."
+          },
+          {
+            "range": [
+              13.5,
+              15.04
+            ],
+            "finding": "Both return to idle. New clip shows a different gathering sequence around13.5–13.8s; no body separation appears in sampled frames, but abruptness/weight transfer require continuous playback review."
+          }
+        ],
+        "continuousNaturalnessAccepted": false,
+        "limits": [
+          "Female base only; no pants/skirt/male acceptance inherited.",
+          "Quarter-second sampling can miss brief jumps, skating or pops.",
+          "Camera view is fixed and distant; actor crops are diagnostic only, not a new camera recording.",
+          "Recording telemetry is not ordinary target-PC performance acceptance."
+        ]
+      }
+    },
+    {
+      "build": "34148e260e6d",
+      "folder": "output/playwright/m1/34148e260e6d/acceleration-normal-1794700855383",
+      "video": "female-base-walk-acceleration-stop.webm",
+      "videoSha256": "7a8a558d2a7e8d6388bd5bc90170c32a898ae03f8ee912ae65a3b9506c8c30e0",
+      "traceSha256": "ebbc40742946d5c43c05873c258acd8b2f21b665d6183f71d4914f73adfaff12",
+      "scriptSha256": "9a01731cb04ed4a3310cc46d181e0ba259d167c7d29faa00386d826b60d6eb61",
+      "bodySha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+      "camera": {
+        "position": [
+          5.8,
+          4.5,
+          7.8
+        ],
+        "target": [
+          0,
+          0.65,
+          0
+        ]
+      },
+      "playbackRate": 1,
+      "preludeCycleWraps": 5,
+      "events": [
+        {
+          "type": "speed",
+          "value": 2.55,
+          "t": 19879.799999952316,
+          "phase": 0.7627745531334935,
+          "position": [
+            -2.5850197965775474,
+            0,
+            1.7999922513453692
+          ],
+          "remaining": 5.785019796582737,
+          "runMix": 0,
+          "videoApproxSeconds": 12.016699999928475
+        },
+        {
+          "t": 21353.799999952316,
+          "type": "distance-stop",
+          "distance": 2.801541989938997,
+          "phase": 0.9343121688631109,
+          "jogPhase": 0.22619500841455595,
+          "position": [
+            0.21652219335893633,
+            0,
+            1.7999960038271368
+          ],
+          "request": {
+            "requestId": "accel-video-stop:4",
+            "kind": "idle",
+            "timeoutSeconds": 15
+          },
+          "result": {
+            "admission": "accepted",
+            "duplicate": false,
+            "reason": null,
+            "task": {
+              "requestId": "accel-video-stop:4",
+              "ownerId": "room-primary",
+              "kind": "idle",
+              "payload": {},
+              "admission": "accepted",
+              "state": "running",
+              "requestedAt": 19.60150000000047,
+              "startedAt": 19.60150000000047,
+              "endedAt": null,
+              "deadline": 34.60150000000047,
+              "reason": null,
+              "result": null
+            }
+          },
+          "videoApproxSeconds": 13.490699999928474
+        }
+      ],
+      "stageIndex": {
+        "three-cycle-walk-prelude": {
+          "from": 0.002199999976158324,
+          "to": 9.933399999976158,
+          "frames": 1638
+        },
+        "await-stable-phase": {
+          "from": 9.939399999976159,
+          "to": 12.01429999997616,
+          "frames": 343
+        },
+        "accelerating": {
+          "from": 12.020399999976158,
+          "to": 13.488499999976156,
+          "frames": 243
+        },
+        "stopping": {
+          "from": 13.494499999976156,
+          "to": 15.053699999976157,
+          "frames": 258
+        }
+      },
+      "decoded": [
+        {
+          "movie": "female-base-walk-acceleration-stop.webm",
+          "decodedFrames": 903,
+          "lastFrameSeconds": 15.038,
+          "maxTimestampGap": 0.025000000000000355,
+          "reviewIntervalSeconds": 0.25,
+          "sheets": 8
+        }
+      ],
+      "pageErrors": [],
+      "frameGateViolations": 0,
+      "supportMetric": {
+        "scope": "Existing runtime slip on contact=true in accelerating stage; not a fresh per-frame raw skin sole recomputation",
+        "maxMeters": 0.0020133017798636735,
+        "side": "left",
+        "videoApproxSeconds": 12.487499999976157,
+        "over30mmRangeSeconds": null,
+        "rawAnkleTargetDistanceMeters": 1.9670222097471167e-11
+      },
+      "visualReview": {
+        "method": "All 61 quarter-second samples over full decoded timeline, original fixed-room sheets plus five actor-cropped sheets inspected; no claim to continuous playback acceptance",
+        "reviewedSeconds": [
+          0,
+          15.038
+        ],
+        "notes": [
+          {
+            "range": [
+              0,
+              9.9
+            ],
+            "finding": "Five walking cycles and settle are visible; feet alternate and character remains intact in reviewed frames. Recurring shin overlap at oblique side view alone is not a defect."
+          },
+          {
+            "range": [
+              9.9,
+              12.0
+            ],
+            "finding": "Turn and restart remain visible before acceleration; sampled poses do not establish toe sliding or temporal naturalness."
+          },
+          {
+            "range": [
+              12.0,
+              13.5
+            ],
+            "finding": "The corresponding late acceleration poses show a bent trailing knee instead of the old extended trailing leg. This is a sampled pose comparison, not continuous quality approval."
+          },
+          {
+            "range": [
+              13.5,
+              15.04
+            ],
+            "finding": "Both return to idle. New clip shows a different gathering sequence around13.5–13.8s; no body separation appears in sampled frames, but abruptness/weight transfer require continuous playback review."
+          }
+        ],
+        "continuousNaturalnessAccepted": false,
+        "limits": [
+          "Female base only; no pants/skirt/male acceptance inherited.",
+          "Quarter-second sampling can miss brief jumps, skating or pops.",
+          "Camera view is fixed and distant; actor crops are diagnostic only, not a new camera recording.",
+          "Recording telemetry is not ordinary target-PC performance acceptance."
+        ]
+      }
+    }
+  ]
+}

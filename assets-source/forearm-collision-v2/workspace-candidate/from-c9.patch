@@ -1,0 +1,247 @@
+--- a/prototype/src/motion.js
++++ b/prototype/src/motion.js
+@@ -1,7 +1,7 @@
+ import * as THREE from "three";
+-import { projectedSegmentInterval } from "./segment-triangle-projection.js";
++import { createSkinContactWorkspace, createProjectedContactWorkspace, createProjectedInterval, projectedSegmentIntervalInto } from "./forearm-contact-workspace.js";
+ import { validateForearmProfile } from "./forearm-envelope-projection.js";
+-import { forearmContourRails } from "./forearm-contour-rails.js";
++import { forearmContourRails, createForearmContourWorkspace } from "./forearm-contour-rails.js";
+ 
+ const V = THREE.Vector3;
+ const Q = THREE.Quaternion;
+@@ -793,6 +793,11 @@
+   }
+   const calibratedForearms = validateForearmProfile(profile?.forearmCollision, profile?.forearmCollisionBodySHA256)
+     ? profile.forearmCollision.profiles : null;
++  const skinContactWorkspace = createSkinContactWorkspace(THREE);
++  const projectedContactWorkspace = createProjectedContactWorkspace();
++  const projectedInterval = createProjectedInterval();
++  const contactTriangles = [];
++  const contourWorkspaces = new Map(calibratedForearms?.map(p => [p.side, createForearmContourWorkspace(THREE,p)]) || []);
+   let handContacts = [];
+   function fitSeatHands() {
+     handContacts = [];
+@@ -870,17 +875,10 @@
+     const blend = smooth(clamp(sitProgress / 0.35, 0, 1));
+     const surfaces = profile.seatHandSurfaces?.(true) || [];
+     const newIdleOffsets = [];
+-    const triangles = [];
++    const triangles = contactTriangles;
++    triangles.length = 0;
+     fitSeatHands.alphaCache ||= new WeakMap();
+     for (const mesh of surfaces) {
+-      mesh.updateWorldMatrix(true, false);
+-      const geometry = mesh.geometry,
+-        index = geometry.index;
+-      const points = Array.from(
+-        { length: geometry.attributes.position.count },
+-        (_, i) =>
+-          mesh.getVertexPosition(i, new V()).applyMatrix4(mesh.matrixWorld),
+-      );
+       const material = Array.isArray(mesh.material)
+         ? mesh.material[0]
+         : mesh.material;
+@@ -901,16 +899,7 @@
+         };
+         fitSeatHands.alphaCache.set(material, alpha);
+       }
+-      for (let i = 0; i < index.count; i += 3) {
+-        const ids = [index.getX(i), index.getX(i + 1), index.getX(i + 2)];
+-        triangles.push({
+-          points: ids.map((id) => points[id]),
+-          arrayPoints: ids.map((id) => points[id].toArray()),
+-          uv: geometry.attributes.uv,
+-          ids,
+-          alpha,
+-        });
+-      }
++      for (const t of skinContactWorkspace.refresh(mesh,alpha)) triangles.push(t);
+     }
+     const ray = new THREE.Ray(),
+       hit = new V(),
+@@ -932,18 +921,15 @@
+         y = clamp(Math.floor((a.flip ? 1 - v : v) * a.height), 0, a.height - 1);
+       return a.pixels[(y * a.width + x) * 4 + 3] / 255 >= a.cutoff;
+     }
+-    let projectionGrid, gridU, gridV, measurement;
++    let gridU, gridV, measurement;
+     function railClearance(start, end, outward) {
+       const su = start.dot(gridU), sv = start.dot(gridV),
+         eu = end.dot(gridU), ev = end.dot(gridV);
+-      const candidates = new Set();
+-      for (let x = Math.floor(Math.min(su, eu) / .04); x <= Math.floor(Math.max(su, eu) / .04); x++)
+-        for (let y = Math.floor(Math.min(sv, ev) / .04); y <= Math.floor(Math.max(sv, ev) / .04); y++)
+-          for (const t of projectionGrid.get(x + ":" + y) || []) candidates.add(t);
++      const candidates = projectedContactWorkspace.query(su,sv,eu,ev);
+       let amount = 0;
+       for (const t of candidates) {
+         if (measurement) measurement.testedTriangles++;
+-        const interval = projectedSegmentInterval(su, sv, eu, ev, t.projected);
++        const interval = projectedSegmentIntervalInto(su, sv, eu, ev, t.projected, projectedInterval);
+         if (!interval) continue;
+         // In an opaque triangle clearance is affine along this clipped interval,
+         // so its endpoints give the exact extremum. Interior samples additionally
+@@ -1004,37 +990,14 @@
+       // the same projected point. Query only intersecting triangle cells.
+       gridU = new V().crossVectors(outward, new V(0, 1, 0)).normalize();
+       gridV = new V().crossVectors(outward, gridU).normalize();
+-      projectionGrid = new Map();
+-      for (const t of triangles) {
+-        t.projected = t.points.flatMap(p => [p.dot(gridU), p.dot(gridV)]);
+-        const us = t.points.map((p) => p.dot(gridU) / 0.04),
+-          vs = t.points.map((p) => p.dot(gridV) / 0.04);
+-        for (
+-          let x = Math.floor(Math.min(...us));
+-          x <= Math.floor(Math.max(...us));
+-          x++
+-        )
+-          for (
+-            let y = Math.floor(Math.min(...vs));
+-            y <= Math.floor(Math.max(...vs));
+-            y++
+-          ) {
+-            const key = x + ":" + y;
+-            let list = projectionGrid.get(key);
+-            if (!list) {
+-              list = [];
+-              projectionGrid.set(key, list);
+-            }
+-            list.push(t);
+-          }
+-      }
++      projectedContactWorkspace.build(triangles,gridU,gridV);
+       const forearmProfile = calibratedForearms?.find(p => p.side === arm.side);
+       let narrowPhasePairs = 0;
+       function measureArm(elbow, wrist) {
+         measurement = {part:"forearm",testedTriangles:0,alphaRejected:0,strongest:null};
+         let forearmCorrection = 0, palmCorrection = 0;
+         if (forearmProfile) {
+-          const rails = forearmContourRails(THREE, elbow, wrist, forearmProfile, outward);
++          const rails = forearmContourRails(THREE, elbow, wrist, forearmProfile, outward, contourWorkspaces.get(arm.side));
+           for (const [a,b] of rails) {
+             forearmCorrection = Math.max(forearmCorrection, railClearance(a,b,outward));
+             narrowPhasePairs++;
+--- a/prototype/src/forearm-contour-rails.js
++++ b/prototype/src/forearm-contour-rails.js
+@@ -1,16 +1,21 @@
+ // Calibrated segmented contour candidate. Finite rails are NOT full-surface CCD.
+-export function forearmContourRails(THREE, start, end, profile, outward) {
+-  const V=THREE.Vector3,axis=end.clone().sub(start),length=axis.length(),scale=length/profile.length;
++export function createForearmContourWorkspace(THREE,profile) {
++  const V=THREE.Vector3,knots=profile.extendedKnots||profile.knots;
++  const rings=knots.map(()=>Array.from({length:8},()=>new V()));
++  const rails=[];
++  for(let k=0;k<rings.length-1;k++)for(let i=0;i<8;i++)rails.push([rings[k][i],rings[k+1][i]]);
++  for(const ring of [rings[0],rings.at(-1)])for(let i=0;i<4;i++)rails.push([ring[i],ring[i+4]]);
++  return {axis:new V(),x:new V(),y:new V(),fallback:new V(),rings,rails};
++}
++export function forearmContourRails(THREE, start, end, profile, outward, workspace) {
++  const w=workspace||createForearmContourWorkspace(THREE,profile);
++  const axis=w.axis.copy(end).sub(start),length=axis.length(),scale=length/profile.length;
+   axis.divideScalar(length);
+   // Include the inward-most contour for this actual correction direction.
+-  const x=outward.clone().addScaledVector(axis,-outward.dot(axis));
+-  if(x.lengthSq()<1e-8)x.crossVectors(axis,Math.abs(axis.y)<.9?new V(0,1,0):new V(1,0,0));
+-  x.normalize();const y=new V().crossVectors(axis,x).normalize();
++  const x=w.x.copy(outward).addScaledVector(axis,-outward.dot(axis));
++  if(x.lengthSq()<1e-8)x.crossVectors(axis,Math.abs(axis.y)<.9?w.fallback.set(0,1,0):w.fallback.set(1,0,0));
++  x.normalize();const y=w.y.crossVectors(axis,x).normalize();
+   const knots=profile.extendedKnots||profile.knots,sectors=8,inflation=1/Math.cos(Math.PI/sectors);
+-  const rings=knots.map(k=>Array.from({length:sectors},(_,i)=>start.clone().addScaledVector(axis,k.t*length).addScaledVector(x,Math.cos(i*2*Math.PI/sectors)*k.radius*scale*inflation).addScaledVector(y,Math.sin(i*2*Math.PI/sectors)*k.radius*scale*inflation)));
+-  const rails=[];
+-  for(let k=0;k<rings.length-1;k++)for(let i=0;i<sectors;i++)rails.push([rings[k][i],rings[k+1][i]]);
+-  // Cover endpoint planes without applying a large sphere along the whole arm.
+-  for(const ring of [rings[0],rings.at(-1)])for(let i=0;i<sectors/2;i++)rails.push([ring[i],ring[i+sectors/2]]);
+-  return rails;
++  for(let k=0;k<knots.length;k++)for(let i=0;i<sectors;i++)w.rings[k][i].copy(start).addScaledVector(axis,knots[k].t*length).addScaledVector(x,Math.cos(i*2*Math.PI/sectors)*knots[k].radius*scale*inflation).addScaledVector(y,Math.sin(i*2*Math.PI/sectors)*knots[k].radius*scale*inflation);
++  return w.rails;
+ }
+--- /dev/null
++++ b/prototype/src/forearm-contact-workspace.js
+@@ -0,0 +1,85 @@
++// Reusable storage only. No cached skin position or clearance result.
++// Each refresh samples every actual vertex; each build reprojects every face.
++export function createSkinContactWorkspace(THREE) {
++  const caches = new WeakMap();
++  return {
++    refresh(mesh, alpha) {
++      const geometry = mesh.geometry, index = geometry.index, uv = geometry.attributes.uv;
++      let cache = caches.get(mesh);
++      if (!cache || cache.geometry !== geometry || cache.index !== index ||
++          cache.indexVersion !== index.version || cache.uv !== uv ||
++          cache.uvVersion !== uv?.version || cache.points.length !== geometry.attributes.position.count) {
++        const points = Array.from({length: geometry.attributes.position.count}, () => new THREE.Vector3());
++        const triangles = [];
++        for (let i=0; i<index.count; i+=3) {
++          const ids = [index.getX(i), index.getX(i+1), index.getX(i+2)];
++          triangles.push({ids, points:ids.map(id=>points[id]), uv, alpha,
++            projected:new Array(6).fill(0), candidateStamp:0});
++        }
++        cache = {geometry,index,indexVersion:index.version,uv,uvVersion:uv?.version,points,triangles};
++        caches.set(mesh,cache);
++      }
++      mesh.updateWorldMatrix(true,false);
++      for (let i=0;i<cache.points.length;i++) mesh.getVertexPosition(i,cache.points[i]).applyMatrix4(mesh.matrixWorld);
++      for (const t of cache.triangles) t.alpha=alpha;
++      return cache.triangles;
++    },
++  };
++}
++
++export function createProjectedContactWorkspace() {
++  const cells = new Map(), lists=[], candidates=[];
++  let usedLists=0, stamp=0;
++  return {
++    build(triangles,u,v) {
++      cells.clear();usedLists=0;
++      for (const t of triangles) {
++        const p=t.projected;
++        for(let j=0;j<3;j++){p[j*2]=t.points[j].dot(u);p[j*2+1]=t.points[j].dot(v);}
++        const minX=Math.floor(Math.min(p[0]/.04,p[2]/.04,p[4]/.04));
++        const maxX=Math.floor(Math.max(p[0]/.04,p[2]/.04,p[4]/.04));
++        const minY=Math.floor(Math.min(p[1]/.04,p[3]/.04,p[5]/.04));
++        const maxY=Math.floor(Math.max(p[1]/.04,p[3]/.04,p[5]/.04));
++        for(let x=minX;x<=maxX;x++)for(let y=minY;y<=maxY;y++) {
++          const key=x+':'+y;let list=cells.get(key);
++          if(!list){list=lists[usedLists]||(lists[usedLists]=[]);usedLists++;list.length=0;cells.set(key,list);}
++          list.push(t);
++        }
++      }
++    },
++    query(su,sv,eu,ev) {
++      // Number integer counter stays exact for millions of years at normal rates.
++      stamp++; candidates.length=0;
++      for(let x=Math.floor(Math.min(su,eu)/.04);x<=Math.floor(Math.max(su,eu)/.04);x++)
++        for(let y=Math.floor(Math.min(sv,ev)/.04);y<=Math.floor(Math.max(sv,ev)/.04);y++) {
++          const list=cells.get(x+':'+y);if(!list)continue;
++          for(const t of list)if(t.candidateStamp!==stamp){t.candidateStamp=stamp;candidates.push(t);}
++        }
++      return candidates;
++    },
++  };
++}
++
++export function createProjectedInterval() { return {lo:0,hi:1,start:[0,0,0],end:[0,0,0]}; }
++// Same arithmetic and clipping order as projectedSegmentInterval, with caller-owned output.
++export function projectedSegmentIntervalInto(su,sv,eu,ev,t,out) {
++  const [au,av,bu,bv,cu,cv]=t;
++  const denominator=(bv-cv)*(au-cu)+(cu-bu)*(av-cv);
++  if(Math.abs(denominator)<1e-12)return null;
++  const start=out.start,end=out.end;
++  start[0]=((bv-cv)*(su-cu)+(cu-bu)*(sv-cv))/denominator;
++  start[1]=((cv-av)*(su-cu)+(au-cu)*(sv-cv))/denominator;
++  start[2]=1-start[0]-start[1];
++  end[0]=((bv-cv)*(eu-cu)+(cu-bu)*(ev-cv))/denominator;
++  end[1]=((cv-av)*(eu-cu)+(au-cu)*(ev-cv))/denominator;
++  end[2]=1-end[0]-end[1];
++  let lo=0,hi=1;
++  for(let k=0;k<3;k++){
++    const delta=end[k]-start[k];
++    if(Math.abs(delta)<1e-12){if(start[k]<-1e-9)return null;}
++    else if(delta>0)lo=Math.max(lo,-start[k]/delta);
++    else hi=Math.min(hi,-start[k]/delta);
++  }
++  if(lo>hi+1e-9)return null;
++  out.lo=Math.max(0,lo);out.hi=Math.min(1,hi);return out;
++}

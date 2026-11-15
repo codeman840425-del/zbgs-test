@@ -1,0 +1,18 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>走跑加速与停止：原片对照</title><style>body{font:16px/1.6 system-ui,sans-serif;max-width:1600px;margin:24px auto;padding:0 20px;background:#f4f6f8;color:#17202a}main{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}article{background:white;border-radius:10px;padding:16px}video{width:100%;background:#111}button{padding:10px 18px;margin:0 8px 16px 0}@media(max-width:800px){main{grid-template-columns:1fr}}</style>
+<h1>走跑加速与停止：同镜头正常速度对照</h1>
+<p>两段均为真实 rAF / 普通路径指令录制，未写入相位或骨姿、未加速时间。自然触发相位略有差异，原片未改名标签或重标版本。</p>
+<p><strong>已做全时序抽帧筛查；用户已接受修补版约12–15秒的加速与停止片段。其余片段仍待验收。</strong>此样本不代表男性、裤裙或普通电脑性能通过。</p>
+<button id="play">两片从头播放 · 1×</button><button id="pause">暂停两片</button><button id="detail">两片跳到 12 秒 · 1×</button><main><article><h2>修改前 · efdf558930a4</h2>
+<video controls preload="metadata" playsinline src="efdf558930a4/female-base-walk-acceleration-stop.webm"></video>
+<p>原片 1× · 同房间/同镜头 · 女性基础体 · 完整前奏 5 周期</p>
+<p>实际加速相位 0.762907；加速 12.010s；停止请求 13.485s。</p>
+<p>加速段运行时支撑 metric 峰值 90.487 mm，约 13.179s；不是录像逐帧重新测量鞋底。</p>
+<a href="efdf558930a4/visual-review.json">原始版本、哈希与抽帧审查记录</a></article><article><h2>修补版 · 34148e260e6d</h2>
+<video controls preload="metadata" playsinline src="34148e260e6d/female-base-walk-acceleration-stop.webm"></video>
+<p>原片 1× · 同房间/同镜头 · 女性基础体 · 完整前奏 5 周期</p>
+<p>实际加速相位 0.762775；加速 12.017s；停止请求 13.491s。</p>
+<p>加速段运行时支撑 metric 峰值 2.013 mm，约 12.487s；不是录像逐帧重新测量鞋底。</p>
+<a href="34148e260e6d/visual-review.json">原始版本、哈希与抽帧审查记录</a></article></main>
+<p><a href="manifest.json">完整归档 metadata / SHA-256</a>。网页同步按钮不提供逐帧同步保证；可分别使用原生播放器完整观看。</p>
+<script>const clips=[...document.querySelectorAll('video')];function seekAndPlay(t){for(const v of clips){v.playbackRate=1;v.currentTime=t;v.play().catch(()=>{});}}document.querySelector('#play').onclick=()=>seekAndPlay(0);document.querySelector('#detail').onclick=()=>seekAndPlay(12);document.querySelector('#pause').onclick=()=>clips.forEach(v=>v.pause());for(const v of clips)v.addEventListener('ratechange',()=>{if(v.playbackRate!==1)v.playbackRate=1;});</script></html>
