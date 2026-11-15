@@ -1,0 +1,122 @@
+{
+  "schema": "sampled-video-review-v1",
+  "build": "abdb18defd26",
+  "case": "male-shorts",
+  "movie": "continuous-chain.webm",
+  "movieSHA256": "098bbe94d0ead3a1694a881f13bc0740b047fee3ab9414f11a6e7821c76ae3eb",
+  "reviewMethod": {
+    "samplingFPS": 2,
+    "sampledImagesViewed": 90,
+    "sheetsViewed": [
+      "000.jpg",
+      "001.jpg",
+      "002.jpg",
+      "003.jpg",
+      "004.jpg",
+      "005.jpg",
+      "006.jpg",
+      "007.jpg"
+    ],
+    "allGeneratedSheetsViewed": true,
+    "fullDurationSampling": true,
+    "continuousNormalSpeedWatched": false,
+    "allEncodedFramesInspected": false,
+    "sheetTimeLabels": "Nominal 0.5-second sample labels from ffmpeg fps filter, not precise operation-event timestamps",
+    "keyFrameTimestamps": "Decoded video PTS in review/frame-metadata.json; separate from simulationTime",
+    "sheetOutput": "output\\abdb-userchain-review\\male-shorts",
+    "sheetHashes": {
+      "000.jpg": "1f2fde2f7a4d805db2a2dd84a21fa8f21f3711926330ae5aaa8aac83b3a09669",
+      "001.jpg": "7acf69a417157a52d4552d0409b54b3a4be918ea4cb46ddc657b9a2eec48caf6",
+      "002.jpg": "99223655dadb9545ebe124841fe8003166d49b2920b2d29eb09cfbaa56eb9472",
+      "003.jpg": "a72be77a5b8281e95038bc810850e49154a82864cecb018dad9029ac0bbb23c3",
+      "004.jpg": "9552ba036b56705906ae50d6335f414eb439324ea66de55fb471dd0b7ca3222b",
+      "005.jpg": "471bea5a22d1ef3708eb14db2ccda4b064d70c1e7e6501c734dc91b8b437439e",
+      "006.jpg": "376e2280cf1c1fcc5d28c2f50016f0e773d1d2e39696507953bf29075811e34d",
+      "007.jpg": "32685791abaa35a8f4077ca032db92533f5cbcfcc9cf5a334fb52540a754217a"
+    }
+  },
+  "programFacts": {
+    "passedStateChecks": 25,
+    "pageErrors": [],
+    "runtimeBuild": "abdb18defd26",
+    "bodySHA256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+    "observedCameraStatesDuringRecordedTrace": 1,
+    "cameraChanges": 0,
+    "recordedTraceSeconds": 41.1748
+  },
+  "visualScreening": [
+    {
+      "videoSeconds": [
+        0,
+        2
+      ],
+      "observation": "Loading UI precedes stable room framing."
+    },
+    {
+      "videoSeconds": [
+        2,
+        12.5
+      ],
+      "observation": "Walking, reversal, approach and seated transition are present; complete head/trunk/arms/legs remain visible in sampled poses. No whole-garment disappearance observed. Foot sliding and single-frame transitions are not accepted from 2FPS."
+    },
+    {
+      "videoSeconds": [
+        15.5,
+        18.5
+      ],
+      "observation": "Grey microphone mesh/handle seen in seated-speaking reference is absent after unload; left hand rises for greeting then returns. Navy collar silhouette near face remains and must not be confused with a leftover microphone. Fine finger trajectories cannot be assessed at this scale."
+    },
+    {
+      "videoSeconds": [
+        18.5,
+        20
+      ],
+      "observation": "Forward lean, rise and departure are visible; knees/lower legs remain visible below shorts. No persistent seated lock or whole-body loss observed; cuff/groin geometry is not certified."
+    },
+    {
+      "videoSeconds": [
+        24,
+        39.5
+      ],
+      "observation": "Reference loop, technical raised-arm/leg poses, completion and replay/interruption are represented. End samples return arms toward locomotion/idle instead of remaining in the raised dance pose. Repetition/phase aliasing at2FPS prevents judging rhythm, smoothness or professional dance quality."
+    },
+    {
+      "videoSeconds": [
+        40,
+        45
+      ],
+      "observation": "Walking after interruption and final idle appear with the selected outfit retained; no loose detached outfit mesh or visibly stuck raised arm in sampled tail."
+    }
+  ],
+  "remainingVisualIssues": [
+    {
+      "status": "visible-in-key-images",
+      "rangeVideoSeconds": [
+        12.5,
+        19.0
+      ],
+      "finding": "Original dark shorts retain strong crease shading and firm cuff/groin silhouette; this film is not a material-recipe A/B and does not establish cloth naturalness."
+    },
+    {
+      "status": "visible-not-root-caused-here",
+      "rangeVideoSeconds": [
+        12.5,
+        19.0
+      ],
+      "finding": "Dotted/stippled outlines around exposed skin and hair/face edges remain visible in original-resolution stills (especially male forearms/shins). These are rendering-edge observations, not proof of missing body triangles."
+    }
+  ],
+  "acceptance": {
+    "programState": "existing25checks-confirmed",
+    "visualScreening": "full-duration2FPSsample-review-complete-with-known-issues",
+    "continuousNaturalness": "pending-user-and-normal-speed-review",
+    "contactGeometry": "not-tested-by-this-review; existing failures remain",
+    "targetDevicePerformance": "not-tested"
+  },
+  "limits": [
+    "Room-view character is small; enlargement cannot recover original missing detail.",
+    "Cannot exclude sub0.5s glitches, floor sliding, motion acceleration discontinuities or hidden/back-side penetrations.",
+    "No new browser/rendering/geometry/performance test was performed.",
+    "Initial loading/setup movie time differs from recorded trace and simulationTime; no exact event-video synchronization asserted."
+  ]
+}

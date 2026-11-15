@@ -1,0 +1,160 @@
+{
+  "build": "abdb18defd26",
+  "diagnosticOnly": true,
+  "scope": "All eight triptychs inspected: female/male, front/side, 3.2m/9m offsets. Original full PNG retained. Native close crops and explicitly labelled nearest-neighbor 2x room-distance crops. Still images only.",
+  "decision": "Do not adopt 1.5mm world width alone as a complete dotted-outline fix.",
+  "observations": {
+    "near": "The 1.5mm width makes jaw, arm and leg outlines darker and more continuous in both bodies, especially side jaw/forearm, but some jagged/punctuated silhouette remains. It did not create a broad filled black rim in these static views; the stronger dark line is nevertheless visibly heavier.",
+    "roomDistance": "Front and side room-distance views retain obvious separated dots on exposed arms/legs at 1.5mm. Increased width does not deliver stable continuous silhouettes across the two distances.",
+    "hair": "Hair was not edited; fringe pattern is not addressed by this experiment.",
+    "restoration": "Character crop restoration is pixel exact except at most 1-channel-level rendering roundoff. Male front close whole-frame difference of 1373 pixels is restricted to bottom-left UI x172..227 y880..910, outside character crop. No claim of whole-frame exact equality for this case.",
+    "limitations": "Single static pose, DPR1, one fixed build/device, no motion/shimmer or target-device test. This does not establish the deeper shader/depth/raster mechanism, and is not a production style acceptance."
+  },
+  "cases": [
+    {
+      "body": "female",
+      "direction": "front",
+      "distance": "close",
+      "comparison": "female-front-close-comparison.png",
+      "comparisonCrop": [
+        380,
+        40,
+        640,
+        855
+      ],
+      "comparisonNearestScale": 1,
+      "restoredMaxChannelDifference": 0,
+      "restoredChangedPixels": 0,
+      "maxCameraNumericDrift": 1.1102230246251565e-16,
+      "characterRestoreMaxChannelDifference": 0,
+      "characterRestoreChangedPixels": 0
+    },
+    {
+      "body": "female",
+      "direction": "front",
+      "distance": "room-distance",
+      "comparison": "female-front-room-distance-comparison.png",
+      "comparisonCrop": [
+        450,
+        310,
+        560,
+        615
+      ],
+      "comparisonNearestScale": 2,
+      "restoredMaxChannelDifference": 1,
+      "restoredChangedPixels": 7,
+      "maxCameraNumericDrift": 0,
+      "characterRestoreMaxChannelDifference": 1,
+      "characterRestoreChangedPixels": 3
+    },
+    {
+      "body": "female",
+      "direction": "side",
+      "distance": "close",
+      "comparison": "female-side-close-comparison.png",
+      "comparisonCrop": [
+        380,
+        40,
+        640,
+        855
+      ],
+      "comparisonNearestScale": 1,
+      "restoredMaxChannelDifference": 0,
+      "restoredChangedPixels": 0,
+      "maxCameraNumericDrift": 2.220446049250313e-16,
+      "characterRestoreMaxChannelDifference": 0,
+      "characterRestoreChangedPixels": 0
+    },
+    {
+      "body": "female",
+      "direction": "side",
+      "distance": "room-distance",
+      "comparison": "female-side-room-distance-comparison.png",
+      "comparisonCrop": [
+        450,
+        310,
+        560,
+        615
+      ],
+      "comparisonNearestScale": 2,
+      "restoredMaxChannelDifference": 1,
+      "restoredChangedPixels": 1,
+      "maxCameraNumericDrift": 1.1102230246251565e-16,
+      "characterRestoreMaxChannelDifference": 0,
+      "characterRestoreChangedPixels": 0
+    },
+    {
+      "body": "male",
+      "direction": "front",
+      "distance": "close",
+      "comparison": "male-front-close-comparison.png",
+      "comparisonCrop": [
+        380,
+        40,
+        640,
+        855
+      ],
+      "comparisonNearestScale": 1,
+      "restoredMaxChannelDifference": 179,
+      "restoredChangedPixels": 1373,
+      "maxCameraNumericDrift": 0,
+      "characterRestoreMaxChannelDifference": 0,
+      "characterRestoreChangedPixels": 0
+    },
+    {
+      "body": "male",
+      "direction": "front",
+      "distance": "room-distance",
+      "comparison": "male-front-room-distance-comparison.png",
+      "comparisonCrop": [
+        450,
+        310,
+        560,
+        615
+      ],
+      "comparisonNearestScale": 2,
+      "restoredMaxChannelDifference": 0,
+      "restoredChangedPixels": 0,
+      "maxCameraNumericDrift": 1.1102230246251565e-16,
+      "characterRestoreMaxChannelDifference": 0,
+      "characterRestoreChangedPixels": 0
+    },
+    {
+      "body": "male",
+      "direction": "side",
+      "distance": "close",
+      "comparison": "male-side-close-comparison.png",
+      "comparisonCrop": [
+        380,
+        40,
+        640,
+        855
+      ],
+      "comparisonNearestScale": 1,
+      "restoredMaxChannelDifference": 0,
+      "restoredChangedPixels": 0,
+      "maxCameraNumericDrift": 1.1102230246251565e-16,
+      "characterRestoreMaxChannelDifference": 0,
+      "characterRestoreChangedPixels": 0
+    },
+    {
+      "body": "male",
+      "direction": "side",
+      "distance": "room-distance",
+      "comparison": "male-side-room-distance-comparison.png",
+      "comparisonCrop": [
+        450,
+        310,
+        560,
+        615
+      ],
+      "comparisonNearestScale": 2,
+      "restoredMaxChannelDifference": 0,
+      "restoredChangedPixels": 0,
+      "maxCameraNumericDrift": 1.1102230246251565e-16,
+      "characterRestoreMaxChannelDifference": 0,
+      "characterRestoreChangedPixels": 0
+    }
+  ],
+  "initialHarnessFailure": "output/playwright/m1/abdb18defd26/foundation-outline-width-1794706248628/report.json: exact floating camera equality rejected 1.11e-16m OrbitControls roundoff. Revised QA records drift and gates <=1e-12m; no runtime change."
+}

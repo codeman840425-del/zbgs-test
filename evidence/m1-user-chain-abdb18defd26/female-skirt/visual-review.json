@@ -1,0 +1,122 @@
+{
+  "schema": "sampled-video-review-v1",
+  "build": "abdb18defd26",
+  "case": "female-skirt",
+  "movie": "continuous-chain.webm",
+  "movieSHA256": "5104879d8cefe8a1c75d4706fbe4c52090512a9501ec1c0490c335360e246c3f",
+  "reviewMethod": {
+    "samplingFPS": 2,
+    "sampledImagesViewed": 91,
+    "sheetsViewed": [
+      "000.jpg",
+      "001.jpg",
+      "002.jpg",
+      "003.jpg",
+      "004.jpg",
+      "005.jpg",
+      "006.jpg",
+      "007.jpg"
+    ],
+    "allGeneratedSheetsViewed": true,
+    "fullDurationSampling": true,
+    "continuousNormalSpeedWatched": false,
+    "allEncodedFramesInspected": false,
+    "sheetTimeLabels": "Nominal 0.5-second sample labels from ffmpeg fps filter, not precise operation-event timestamps",
+    "keyFrameTimestamps": "Decoded video PTS in review/frame-metadata.json; separate from simulationTime",
+    "sheetOutput": "output\\abdb-userchain-review\\female-skirt",
+    "sheetHashes": {
+      "000.jpg": "12f4ef06b3229a2b24fefbf375a474b5bccb23a29a215a314eafcfef7af81f7e",
+      "001.jpg": "91d21843441b80e6d352b6340e9fce9e4dfc522366101ea47d1d5918cae64959",
+      "002.jpg": "2cda07188213a44e348937dbf0252e8023288e9f4c5a0ee81aac7102eeb56370",
+      "003.jpg": "b9d1f7186e0077caaace6b5ddaa6ab7c80c710956372f2c55679c733711f6c2a",
+      "004.jpg": "7742512933631143d148416a402bcf6a598c590b5c3dd9e9c04e6a7890319aff",
+      "005.jpg": "c6be7c1f905735a1d05c25078af7aa9ec647df34513ecd71dd527683315674cc",
+      "006.jpg": "2553f09c195433550d16fb2da27599326c0fecfa6ce639b69fb63b9f4b242396",
+      "007.jpg": "b1cba0072944ea9b824a3c7750e1e08691161867fcb7577951ecda73ba3360f0"
+    }
+  },
+  "programFacts": {
+    "passedStateChecks": 25,
+    "pageErrors": [],
+    "runtimeBuild": "abdb18defd26",
+    "bodySHA256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+    "observedCameraStatesDuringRecordedTrace": 1,
+    "cameraChanges": 0,
+    "recordedTraceSeconds": 41.5754
+  },
+  "visualScreening": [
+    {
+      "videoSeconds": [
+        0,
+        2
+      ],
+      "observation": "Loading UI precedes room view; female film briefly shows initial close preset before QA room trace. This is setup, not tracked-chain camera drift."
+    },
+    {
+      "videoSeconds": [
+        2,
+        12.5
+      ],
+      "observation": "Walking, reversal, approach and seated transition are present; complete head/trunk/arms/legs remain visible in sampled poses. No whole-garment disappearance observed. Foot sliding and single-frame transitions are not accepted from 2FPS."
+    },
+    {
+      "videoSeconds": [
+        15.5,
+        18.5
+      ],
+      "observation": "Grey microphone mesh/handle seen in seated-speaking reference is absent after unload; left hand rises for greeting then returns. Navy collar silhouette near face remains and must not be confused with a leftover microphone. Fine finger trajectories cannot be assessed at this scale."
+    },
+    {
+      "videoSeconds": [
+        18.5,
+        20
+      ],
+      "observation": "Forward lean, rise and departure are visible; no persistent seated lock or missing limb observed. This view does not clear known palm/skirt intersections."
+    },
+    {
+      "videoSeconds": [
+        24,
+        39.5
+      ],
+      "observation": "Reference loop, technical raised-arm/leg poses, completion and replay/interruption are represented. End samples return arms toward locomotion/idle instead of remaining in the raised dance pose. Repetition/phase aliasing at2FPS prevents judging rhythm, smoothness or professional dance quality."
+    },
+    {
+      "videoSeconds": [
+        40,
+        45
+      ],
+      "observation": "Walking after interruption and final idle appear with the selected outfit retained; no loose detached outfit mesh or visibly stuck raised arm in sampled tail."
+    }
+  ],
+  "remainingVisualIssues": [
+    {
+      "status": "visible-in-key-images",
+      "rangeVideoSeconds": [
+        12.5,
+        19.0
+      ],
+      "finding": "Skirt hem still has angular sawtooth pleat tips/rigid fan-like silhouette over the seated knees; this video does not resolve the known hand/skirt defect."
+    },
+    {
+      "status": "visible-not-root-caused-here",
+      "rangeVideoSeconds": [
+        12.5,
+        19.0
+      ],
+      "finding": "Dotted/stippled outlines around exposed skin and hair/face edges remain visible in original-resolution stills (especially male forearms/shins). These are rendering-edge observations, not proof of missing body triangles."
+    }
+  ],
+  "acceptance": {
+    "programState": "existing25checks-confirmed",
+    "visualScreening": "full-duration2FPSsample-review-complete-with-known-issues",
+    "continuousNaturalness": "pending-user-and-normal-speed-review",
+    "contactGeometry": "not-tested-by-this-review; existing failures remain",
+    "targetDevicePerformance": "not-tested"
+  },
+  "limits": [
+    "Room-view character is small; enlargement cannot recover original missing detail.",
+    "Cannot exclude sub0.5s glitches, floor sliding, motion acceleration discontinuities or hidden/back-side penetrations.",
+    "No new browser/rendering/geometry/performance test was performed.",
+    "Initial loading/setup movie time differs from recorded trace and simulationTime; no exact event-video synchronization asserted."
+  ]
+}

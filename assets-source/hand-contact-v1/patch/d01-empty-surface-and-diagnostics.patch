@@ -1,0 +1,61 @@
+--- d01/motion.js
++++ candidate2/motion.js
+@@ -895,7 +895,7 @@
+     const leavingIdle = sitProgress <= 0 && requested !== "idle";
+     if (
+       sitProgress <= 0 &&
+-      !calibratedForearms &&
++      !calibratedForearms && !handSurfaceWorkspace &&
+       validCache &&
+       (leavingIdle || (fitSeatHands.lastProgress === 0 && poseStable))
+     ) {
+@@ -946,8 +946,9 @@
+     if (leavingIdle || (sitProgress <= 0 && !cacheKey)) return;
+     const blend = smooth(clamp(sitProgress / 0.35, 0, 1));
+     const surfaces = profile.seatHandSurfaces?.(true) || [];
++    const activeHandSurface = surfaces.length ? handSurfaceWorkspace : null;
+     const handSkinStarted = timing ? performance.now() : 0;
+-    handSurfaceWorkspace?.refresh(); // callback above owns current raw-pose sync
++    activeHandSurface?.refresh(); // callback above owns current raw-pose sync
+     if(timing)timing.handSkinMs=performance.now()-handSkinStarted;
+     const newIdleOffsets = [];
+     const triangles = contactTriangles;
+@@ -1069,9 +1070,9 @@
+       if(timing){timing.gridMs += performance.now()-gridStarted;timing.gridBuilds++;}
+       const forearmProfile = calibratedForearms?.find(p => p.side === arm.side);
+       const handContourStarted = timing ? performance.now() : 0;
+-      const handSurfaceMetrics = handSurfaceWorkspace?.project(arm.side,gridU,gridV,outward,original);
++      const handSurfaceMetrics = activeHandSurface?.project(arm.side,gridU,gridV,outward,original);
+       if(timing)timing.handContourMs=(timing.handContourMs||0)+performance.now()-handContourStarted;
+-      let narrowPhasePairs = 0;
++      let narrowPhasePairs = 0, handNarrowPhasePairs = 0;
+       function measureArm(elbow, wrist) {
+         const measureStarted = timing ? performance.now() : 0;
+         let contourCost = 0;
+@@ -1086,14 +1087,14 @@
+             narrowPhasePairs++;
+           }
+         }
+-        if(handSurfaceWorkspace){
++        if(activeHandSurface){
+           measurement.part="actual-hand-contours";
+-          for(const [a,b] of handSurfaceWorkspace.railsAt(arm.side,wrist))palmCorrection=Math.max(palmCorrection,railClearance(a,b,outward));
++          for(const [a,b] of activeHandSurface.railsAt(arm.side,wrist)){palmCorrection=Math.max(palmCorrection,railClearance(a,b,outward));handNarrowPhasePairs++;}
+         }
+         // Missing explicit opt-in retains the existing fixed-width palm path.
+         for (const [part, start, end, radius] of [
+           ...(!forearmProfile ? [["forearm", elbow, wrist, 0.012]] : []),
+-          ...(!handSurfaceWorkspace ? [["hand", wrist, wrist.clone().add(handOffset), 0.016]] : []),
++          ...(!activeHandSurface ? [["hand", wrist, wrist.clone().add(handOffset), 0.016]] : []),
+         ]) {
+           measurement.part = part;
+           const direction = end.clone().sub(start).normalize(),
+@@ -1177,6 +1178,8 @@
+         finalForearmClearance: finalClearance.forearmCorrection,
+         finalPalmClearance: finalClearance.palmCorrection,
+         handSurfaceMetrics: handSurfaceMetrics || null,
++        handNarrowPhasePairs,
++        handClearanceBasis: activeHandSurface ? "predicted-wrist-translated-authored-skin-contours-not-final-raw-skin" : "legacy-five-rails",
+         finalWitness: measurement,
+         authoredElbow: authoredElbow.toArray(),
+         authoredUpper: authoredUpper.toArray(),

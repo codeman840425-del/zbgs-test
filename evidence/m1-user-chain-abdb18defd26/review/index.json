@@ -1,0 +1,22 @@
+{
+  "build": "abdb18defd26",
+  "previousManifestSHA256": "1ae2f65815c5432bf28ae3d201b3c7f731a0feedb731e2c572168bcf54eede4e",
+  "moviesUntouched": true,
+  "totalViewedSamples": 181,
+  "totalViewedSheets": 16,
+  "reviewer": "independent audit agent",
+  "cases": [
+    {
+      "case": "female-skirt",
+      "review": "female-skirt/visual-review.json"
+    },
+    {
+      "case": "male-shorts",
+      "review": "male-shorts/visual-review.json"
+    }
+  ],
+  "reproduce": [
+    "python scripts/qa-room-filmstrip.py evidence/m1-user-chain-abdb18defd26/female-skirt/continuous-chain.webm --fps 2 --output output/abdb-userchain-review/female-skirt",
+    "python scripts/qa-room-filmstrip.py evidence/m1-user-chain-abdb18defd26/male-shorts/continuous-chain.webm --fps 2 --output output/abdb-userchain-review/male-shorts"
+  ]
+}
