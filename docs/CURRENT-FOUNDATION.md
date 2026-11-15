@@ -6,6 +6,8 @@
 
 ## 11-15当前发布与优先问题（本段优先于下方历史流水）
 
+7a86后续证据c66b8bd35ab23079993083bc4d19efe9148ca8b9已push并ls-remote核实。当前临时服务全部结束，永久五端口不变。衣下覆盖小闭环完成限定程序/源重复证据，正常片全时段抽帧看完；不是连续人工自然度通过。接续主线：prototype仅在原独立worktree评估已有local-retailor-shared-columns-v1是否值得补此前缺失的完整材质同姿GPU（不第四次求解）；qa只读复算13bb的hand-fingers交叉t4.608/13.108/final与fitSeatHands退出范围，判断实际尺度与触发链，不修改产品。root统一GPU窗口，尚无新手姿修复或替代裙通过。
+
 接续增量7a86c24e34aa（experiments/m1-torso-coverage-v1/dist）：已将prototype的252面覆盖候选b52d来源原字节归档到assets-source/torso-coverage-risk-v1，新增可携带生成器scripts/m1-assets/build-torso-coverage.py，实际重生成字节一致。body-coverage.js仅复制渲染geometry并重建index/group，完整原几何保留WeakMap，motion后臀标定使用完整accessor；其余当前碰撞输入未删。female精确配置启用，男性/派生无覆盖。9项实际房间+20单元+独立真实skin/morph/双实例释放通过；同85步前腹两肤点消失，裙坐姿硬折仍明显。正常坐起转舞19.38s已录，公开4194仍152。当前所有QA临时服务已结束：覆盖边界改为每姿态缓存真实skin后完成248姿态/六角/47224探针，未缺top遮挡；第一版重复skin终止留记录，第二版绝对距离门误报前景遮挡，已用edge163–170实际射线证明top在body前46.215mm，修正后不扩大mask。原失败计数不得当真实洞。二女切换/完整恢复及男性无mask隔离通过；普通PC未验。旧qa-front-skirt-contact只枚举可见body，覆盖开启后不能冒充完整body接触。正常2.4跑片及坐起转舞1×已补，完整片2fps已看，坐姿硬折仍失败；root下一步处理剩余裙形/手接触，有效覆盖候选不代表整裙通过；完整源/运行快照与恢复在assets-source/torso-coverage-runtime-v1，源码621a9e73554af89c9c73cc2f7567f7135badd971已推送并ls-remote核实，新检出npm ci/build65产物字节一致；后续边界/影片增量待当前备份。
 
 本轮现行长目标已按用户在顾问会话批准的修订全文同步至M1-ACTIVE-OBJECTIVE-2026-11-14.md；已通过read_thread核实“可以，把修订后的完整长目标直接发给总工”原用户消息，不把顾问推测当新增批准。三关承接既有六工作包，30秒原片[0,30)/720PTS保留为必需独立交付；旧附件恢复快照不驱动回退。当前正在把新中央躯干覆盖候选做为显式衣下覆盖数据验证，原body/top不删改、完整诊断与碰撞基准须保留；252面仅源静姿候选，不拿它掩盖外露衣边/手腿缺陷。
