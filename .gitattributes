@@ -177,3 +177,10 @@ evidence/face-selective-browser-1fff20c54b2b/*-live-trace.json -diff
 
 # Rejected first-use experiment retains exact helper snapshots for replay.
 evidence/face-program-firstuse-v1/**/actual-helper.js -whitespace
+
+# Exact pre-consolidation recovery documents retain their original bytes.
+docs/history/CAPABILITIES-before-current-consolidation-bcade.md -text
+docs/history/FOUNDATION-MILESTONES-before-current-consolidation-bcade.md -text
+
+# Frozen runtime bundles include upstream GLSL whitespace; keep measured bytes.
+evidence/body-source-cost-bcade-v1/bundles/** -text -whitespace

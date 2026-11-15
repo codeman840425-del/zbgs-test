@@ -55,4 +55,16 @@
 - 真实浏览器：注入compile拒绝保旧、真实重试、等待期间实际移动后改镜头/服装/暂停并采纳最新状态、请求当前体取消旧准备，4组通过。前两次QA错误假设（倍率0.5不支持、90度转向后固定600ms未移动）保留在transactions/r2，最终r3按真实接口与运动条件通过，不算产品修复。
 - 同机同法A-B-A原女→原男：maxrAF旧812.9/837.2→新321.6ms，首draw旧707.7/718.3→新322.7ms，命令等待436–472→523ms。旧角色准备期间仍有57次绘制；未将局部render下降冒充全部流畅。program21→23，geometry84/texture41保持；没有完整新program生命周期测试，不称无泄漏。evidence/body-switch-a0dd-diagnostic-v1/COMPARISON.md。
 - 新旧两条正常速度UI片都完成女→男→女、镜头/配色保留、三分区。工程检查与用户观感分开；视频含实际加载停顿。源c222404从两个独立检出构建98产物逐字节一致，evidence/rebuild-bcade-c222404。
-- 当前剩余：换体仍约0.32秒长帧，改脸a0dd约0.1秒证据仍属原测量；bcade未改该求值但不重标旧测试。普通机无设备、新画风/分区待用户观看。下一项只依据实际用户反馈与明确瓶颈安排，不重启封板裙舞或完整参数库。04分钟会话仅a0dd有证据，不转成bcade长期通过。
+- 当前剩余：换体仍约0.32秒长帧，改脸a0dd约0.1秒证据仍属原测量；bcade未改该求值但不重标旧测试。普通机无设备、新画风/分区待用户观看。下一项只依据实际用户反馈与明确瓶颈安排，不重启封板裙舞或完整参数库。4分钟会话仅a0dd有证据，不转成bcade长期通过。
+
+## bcade取消准备的资源生命周期补验
+
+三次真实compileAsync完成后、commit前取消换体：原女actor/motion/document与geometry/material引用全保持；每个program cacheKey→usedTimes映射都恢复初值。准备时22→28program/106→133引用，取消后每次回22/106，geometry89/texture44不变。随后真实男→女可成功恢复。无录像/强制GC，无错误；仅这三轮，不称长期无泄漏。evidence/body-switch-compile-lifetime-bcade-v1。
+
+动作源只读核查：现重复解析与源资源dispose耦合，普通clone后缓存不能直接安全共享；目前没有支持实施缓存的独立成本证据。removeUnnecessaryVertices/combineMorphs会改变当前脸部配方顶点/表达身份，不能绕准入直接接入。当前保留bcade局部优化，见evidence/workbench-cost-scope-bcade-v1；不继续私有01a方案。
+
+新增成功释放路径：bcade三轮真实女→男→女，无录像/Profiler/GC。同体每轮geometry/texture/program和逐cacheKey/usedTimes严格稳定：男84/41/23/102refs，女84/40/24/101refs；状态/配色保持、0页面错误。初始女22program与返回女24区别单列，不把它当逐轮泄漏，也不声称长期无漏。evidence/body-switch-success-lifetime-bcade-v1。
+
+唯一CPU采样已完成：createMotion同步inclusive约72.9ms，不能被源解析缓存消除；GLTF全资产采样混身体/衣物/动作，未获得动作源可缓存成本的可靠分离。首次infoLog约208ms采样仍在，暂不增加缓存或泛化渲染管线。原profile/bundle/离线复算见evidence/body-source-cost-bcade-v1；不用受Profiler干预的864ms命令墙钟对比无Profiler523ms声称退化。该有界诊断已结束，不重做。
+
+CAPABILITIES与阶段计划已合并过时“当前/下一步”为历史归档，全部54个能力ID保留，旧原字节已保存。当前待产品判断的新外观/布局/画风和普通电脑缺口不变；不因历史失败重新打开封板裙舞，也不自动制作完整M2/M3。
