@@ -1,0 +1,112 @@
+{
+  "scope": "CPU actual production module ordering/catalog/lifecycle; no GPU or image decoding. Parser fixture explicitly replaces parseAsync only, not appearance logic.",
+  "sourceSha256": {
+    "character-appearance.js": "0145dd6ffcb15f93e07f7951d620500e6626d9553b13a5fd8e3e1ff635f9969c",
+    "facial-palette.js": "ee9940b30aac7f52b57f2e6c720d14cd96af3af2a43a8edc579158c5040ba921",
+    "hairstyle-catalog.js": "5803264608a9529a0e2ef8a213d837fe4b6e2d9057e761566ceb068ceaeae26f"
+  },
+  "tests": [
+    {
+      "case": "same-tick reset then black",
+      "body": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+      "results": [
+        {
+          "applied": true
+        },
+        {
+          "applied": true
+        }
+      ],
+      "actual": "black",
+      "pass": true
+    },
+    {
+      "case": "same-tick brown then reset",
+      "body": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+      "pass": true
+    },
+    {
+      "case": "same-tick reset then black",
+      "body": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+      "results": [
+        {
+          "applied": true
+        },
+        {
+          "applied": true
+        }
+      ],
+      "actual": "black",
+      "pass": true
+    },
+    {
+      "case": "same-tick brown then reset",
+      "body": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+      "pass": true
+    },
+    {
+      "case": "male rejects female style before network",
+      "result": {
+        "applied": false,
+        "reason": "该发型尚未适配当前身体；请使用可选款式"
+      },
+      "pass": true
+    },
+    {
+      "case": "delayed male load then reset then black; stale load remains hidden",
+      "cancelled": {
+        "applied": false,
+        "cancelled": true
+      },
+      "pass": true
+    },
+    {
+      "case": "male cached id uses clone of actual male source material",
+      "parseCount": 1,
+      "noExtraFetch": true,
+      "pass": true
+    },
+    {
+      "case": "cached switching and disposal restores original, releases owned mesh once",
+      "pass": true
+    },
+    {
+      "case": "dispose during pending style releases completed fixture without attachment",
+      "result": {
+        "applied": false,
+        "cancelled": true
+      },
+      "pass": true
+    }
+  ],
+  "identities": [
+    {
+      "id": "female-bob-v1",
+      "manifestSha256": "98bc1b0874658a22f696834eb622e03aff92f499d41943d285c825a4fe7ee908",
+      "assetSha256": "3dcf01957d8ab72dfc128c6950f0e9600c2c7b801ea774a612058dc4b5d68110",
+      "sourceMaterial": "F00_000_HairBack_00_HAIR",
+      "compatibleBodies": [
+        "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95"
+      ]
+    },
+    {
+      "id": "male-sidepart-v1",
+      "manifestSha256": "d7bcf95056cb58650887bc941df384c7f6342042743b310e417fdc7a0a941b73",
+      "assetSha256": "fb5fd49352b7bab0e6d2c0ec3f6e565f0004062e4a8975f1afcd93fb24dd48fd",
+      "sourceMaterial": "M00_000_HairBack_00_HAIR",
+      "compatibleBodies": [
+        "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff"
+      ]
+    }
+  ],
+  "fetches": [
+    "/assets/m2-male-hairstyle-v1/manifest.json",
+    "/assets/m2-male-hairstyle-v1/male-sidepart.glb",
+    "/assets/m2-male-hairstyle-v1/manifest.json",
+    "/assets/m2-male-hairstyle-v1/male-sidepart.glb"
+  ],
+  "parseCount": 2,
+  "geometryDisposals": 2,
+  "materialDisposals": 1,
+  "pass": true
+}
