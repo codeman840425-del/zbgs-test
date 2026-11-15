@@ -1,5 +1,6 @@
 # 外观与动作工作台（受限样件）
 
+当前公开4196：aa6fc6159e2d，源码ed9b631，固定目录experiments/m2-appearance-workbench-v19/dist；844为回滚。最终公开入口已核，最新范围见CURRENT；下方历史版检查仅证明其原范围。新增下载/读取v4配方不依赖localStorage，先选择对应基模；代表文件见evidence/appearance-recipe-runtime-89480cf8f66c/representative-female.json与representative-male.json。男性下颌可选嘴宽原位/+4%，其他三域尚未适配。原源双眼笑眨组合已局部修正，单眼不包含。重置位置/动作保所选镜头。
 当前固定入口由 `delivery/appearance-workbench.json` 指定，本机端口4196，入口 `/?workbench=appearance`。旧M1接受基础4195保留。能力状态只见CAPABILITIES；不能把此工作台称为完整捏人或正式主播存档系统。
 
 ## 观看与操作
@@ -35,3 +36,5 @@
 初版b44与8b的证据分别保留原构建身份。b44的深肤偏橙/男性举手裁切已在8b改善；它们不能证明之后新增眼唇、男性发型和页内切换通过。
 
 当前固定版本、最新录像与回归报告见CURRENT-FOUNDATION。CPU注入、实际浏览器、全时段抽帧、用户自然度验收分开记录。RTX4090开发机/无头浏览器不代表普通电脑实测；目标设备缺口按用户决定保留。
+
+新增派生嘴宽制作/验证：assets-source/m2-male-jaw-mouth-v1/README.md；安装核查 node scripts/install-male-jaw-mouth-workbench.mjs --verify。源/法线/配方按真实男jaw身份生成，不改原male recipe。Agent文件入口 __debug.exportAppearanceRecipe() / await __debug.importAppearanceRecipe(text)，与UI读取相同事务；不自动跨体或写本机草稿。

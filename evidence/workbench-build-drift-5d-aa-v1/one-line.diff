@@ -1,0 +1,11 @@
+--- 5d/src/appearance-workbench.js
++++ aa/src/appearance-workbench.js
+@@ -182,7 +182,7 @@
+     note.textContent = actual.bodyMode==='base' ? '基础人体当前无发；返回穿衣模式后恢复所选发型。' : '这里只列出此人物可用的发型，无发保留眉毛与睫毛。';
+     const geometry=actor().facialGeometry?.getState();
+     mouth.disabled=!geometry?.available;mouth.value=String(Math.round((geometry?.mouthWidth||0)*1000)/10);
+-    const discrete=Array.isArray(geometry?.mouthSupportedValues);mouth.hidden=discrete;mouthSample.hidden=!discrete;mouthSample.disabled=!geometry?.available;mouthSample.value=String(geometry?.mouthWidth||0);geometryPanel.querySelector('label[for="mouth-width"],label[for="mouth-width-sample"]').htmlFor=discrete?'mouth-width-sample':'mouth-width';
++    const discrete=Array.isArray(geometry?.mouthSupportedValues);mouth.hidden=discrete;mouthSample.hidden=!discrete;mouthSample.disabled=!geometry?.available;if(discrete)mouthSample.replaceChildren(...geometry.mouthSupportedValues.map(value=>{const option=document.createElement('option');option.value=String(value);option.textContent=value===0?'原位':`嘴宽 ${value>0?'+':''}${value*100}%`;return option;}));mouthSample.value=String(geometry?.mouthWidth||0);geometryPanel.querySelector('label[for="mouth-width"],label[for="mouth-width-sample"]').htmlFor=discrete?'mouth-width-sample':'mouth-width';
+     geometryPanel.querySelector('#mouth-width-reset').disabled=!geometry?.available;
+     brow.disabled=!geometry?.browAvailable;brow.value=geometry?.browSample||'none';
+     nose.disabled=!geometry?.noseAvailable;nose.value=geometry?.noseSample||'none';
