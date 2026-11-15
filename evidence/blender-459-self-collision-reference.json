@@ -1,0 +1,29 @@
+{
+  "source": "https://raw.githubusercontent.com/blender/blender/v4.5.9/source/blender/blenkernel/intern/collision.cc",
+  "sha256": "70b19b5f9a9a599814107a2581103575ba46cf61d1d51e544c3f341f994f84e5",
+  "tag": "v4.5.9",
+  "retrievedUtc": "2026-11-15T04:09:18.310983+00:00",
+  "excerpts": [
+    {
+      "line": 799,
+      "text": "const float min_distance = (2.0f * clmd->coll_parms->selfepsilon) * (8.0f / 9.0f);"
+    },
+    {
+      "line": 1111,
+      "text": "if ((distance <= (epsilon * 2.0f + ALMOST_ZERO)) && (len_squared_v3(vect) > ALMOST_ZERO)) {"
+    }
+  ],
+  "localTrial": {
+    "authorScale": 10,
+    "selfDistanceAuthor": 0.005,
+    "worldTriggerDistanceMetres": 0.001,
+    "worldResponseMinimumMetres": 0.0008888888888888889,
+    "nominalHemInwardOffsetMetres": 0.0008
+  },
+  "status": "potential-source-spacing-conflict-not-confirmed-root-cause",
+  "limits": [
+    "Need actual posed outer/inner closest distances and adjacency filtering.",
+    "Does not prove this caused maximum stretch or body/top crossings.",
+    "No simulation rerun or threshold change."
+  ]
+}
