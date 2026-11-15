@@ -1,0 +1,744 @@
+{
+  "source": "https://raw.githubusercontent.com/blender/blender/v4.5.9/source/blender/blenkernel/intern/collision.cc",
+  "sourceFunctions": [
+    "cloth_bvh_selfcollision_is_active",
+    "cloth_selfcollision",
+    "cloth_selfcollision_response_static"
+  ],
+  "authoringScale": 10,
+  "selfDistanceAuthoring": 0.005,
+  "worldTriggerDistance": 0.001,
+  "worldResponseDistance": 0.0008888888888888889,
+  "rows": [
+    {
+      "frame": 1,
+      "eligibleNonAdjacentPairCountUnder1mm": 240,
+      "minimumEligibleDistanceMetres": 0.0005830765483827074,
+      "localIncidentInnerFaces": [
+        2356,
+        2357,
+        2358,
+        2359,
+        2361
+      ],
+      "localEligibleUnder1mm": 6,
+      "localClosestNonAdjacentPairs": [
+        {
+          "faces": [
+            2361,
+            2120
+          ],
+          "parentFaces": [
+            2341,
+            2100
+          ],
+          "simIndices": [
+            [
+              1120,
+              1241,
+              1240
+            ],
+            [
+              1000,
+              1001,
+              1121
+            ]
+          ],
+          "renderIndices": [
+            [
+              1230,
+              1352,
+              1351
+            ],
+            [
+              1109,
+              1110,
+              1231
+            ]
+          ],
+          "sharedVertices": [],
+          "distanceMetres": 0.0006113069591017784,
+          "officialTrigger1mm": true,
+          "officialResponseTargetDeficitMetres": 0.00027758192978711053
+        },
+        {
+          "faces": [
+            2359,
+            2118
+          ],
+          "parentFaces": [
+            2339,
+            2098
+          ],
+          "simIndices": [
+            [
+              1119,
+              1240,
+              1239
+            ],
+            [
+              999,
+              1000,
+              1120
+            ]
+          ],
+          "renderIndices": [
+            [
+              1229,
+              1351,
+              1350
+            ],
+            [
+              1108,
+              1109,
+              1230
+            ]
+          ],
+          "sharedVertices": [],
+          "distanceMetres": 0.0006176376500411084,
+          "officialTrigger1mm": true,
+          "officialResponseTargetDeficitMetres": 0.00027125123884778055
+        },
+        {
+          "faces": [
+            2357,
+            2116
+          ],
+          "parentFaces": [
+            2337,
+            2096
+          ],
+          "simIndices": [
+            [
+              1118,
+              1239,
+              1238
+            ],
+            [
+              998,
+              999,
+              1119
+            ]
+          ],
+          "renderIndices": [
+            [
+              1228,
+              1350,
+              1349
+            ],
+            [
+              1107,
+              1108,
+              1229
+            ]
+          ],
+          "sharedVertices": [],
+          "distanceMetres": 0.0006240513004076842,
+          "officialTrigger1mm": true,
+          "officialResponseTargetDeficitMetres": 0.0002648375884812047
+        },
+        {
+          "faces": [
+            2359,
+            2121
+          ],
+          "parentFaces": [
+            2339,
+            2101
+          ],
+          "simIndices": [
+            [
+              1119,
+              1240,
+              1239
+            ],
+            [
+              1000,
+              1121,
+              1120
+            ]
+          ],
+          "renderIndices": [
+            [
+              1229,
+              1351,
+              1350
+            ],
+            [
+              1109,
+              1231,
+              1230
+            ]
+          ],
+          "sharedVertices": [],
+          "distanceMetres": 0.0008022906860436603,
+          "officialTrigger1mm": true,
+          "officialResponseTargetDeficitMetres": 8.659820284522858e-05
+        }
+      ],
+      "longestEdgeEndpoints": [
+        {
+          "renderVertex": 1350,
+          "outerFace": 2116,
+          "outerParentFace": 2096,
+          "pointToOuterDistanceMetres": 0.0008025403942449774
+        },
+        {
+          "renderVertex": 1351,
+          "outerFace": 2118,
+          "outerParentFace": 2098,
+          "pointToOuterDistanceMetres": 0.0008022869881492239
+        }
+      ]
+    },
+    {
+      "frame": 3,
+      "eligibleNonAdjacentPairCountUnder1mm": 0,
+      "minimumEligibleDistanceMetres": 0.0013023446875511295,
+      "localIncidentInnerFaces": [
+        2356,
+        2357,
+        2358,
+        2359,
+        2361
+      ],
+      "localEligibleUnder1mm": 0,
+      "localClosestNonAdjacentPairs": [
+        {
+          "faces": [
+            2357,
+            2116
+          ],
+          "parentFaces": [
+            2337,
+            2096
+          ],
+          "simIndices": [
+            [
+              1118,
+              1239,
+              1238
+            ],
+            [
+              998,
+              999,
+              1119
+            ]
+          ],
+          "renderIndices": [
+            [
+              1228,
+              1350,
+              1349
+            ],
+            [
+              1107,
+              1108,
+              1229
+            ]
+          ],
+          "sharedVertices": [],
+          "distanceMetres": 0.001927394736893822,
+          "officialTrigger1mm": false,
+          "officialResponseTargetDeficitMetres": 0.0
+        },
+        {
+          "faces": [
+            2357,
+            2119
+          ],
+          "parentFaces": [
+            2337,
+            2099
+          ],
+          "simIndices": [
+            [
+              1118,
+              1239,
+              1238
+            ],
+            [
+              999,
+              1120,
+              1119
+            ]
+          ],
+          "renderIndices": [
+            [
+              1228,
+              1350,
+              1349
+            ],
+            [
+              1108,
+              1230,
+              1229
+            ]
+          ],
+          "sharedVertices": [],
+          "distanceMetres": 0.0023443644282209026,
+          "officialTrigger1mm": false,
+          "officialResponseTargetDeficitMetres": 0.0
+        },
+        {
+          "faces": [
+            2359,
+            2118
+          ],
+          "parentFaces": [
+            2339,
+            2098
+          ],
+          "simIndices": [
+            [
+              1119,
+              1240,
+              1239
+            ],
+            [
+              999,
+              1000,
+              1120
+            ]
+          ],
+          "renderIndices": [
+            [
+              1229,
+              1351,
+              1350
+            ],
+            [
+              1108,
+              1109,
+              1230
+            ]
+          ],
+          "sharedVertices": [],
+          "distanceMetres": 0.002616650815833177,
+          "officialTrigger1mm": false,
+          "officialResponseTargetDeficitMetres": 0.0
+        },
+        {
+          "faces": [
+            2359,
+            2121
+          ],
+          "parentFaces": [
+            2339,
+            2101
+          ],
+          "simIndices": [
+            [
+              1119,
+              1240,
+              1239
+            ],
+            [
+              1000,
+              1121,
+              1120
+            ]
+          ],
+          "renderIndices": [
+            [
+              1229,
+              1351,
+              1350
+            ],
+            [
+              1109,
+              1231,
+              1230
+            ]
+          ],
+          "sharedVertices": [],
+          "distanceMetres": 0.0032466131053525402,
+          "officialTrigger1mm": false,
+          "officialResponseTargetDeficitMetres": 0.0
+        }
+      ],
+      "longestEdgeEndpoints": [
+        {
+          "renderVertex": 1350,
+          "outerFace": 2119,
+          "outerParentFace": 2099,
+          "pointToOuterDistanceMetres": 0.002417799270610738
+        },
+        {
+          "renderVertex": 1351,
+          "outerFace": 2121,
+          "outerParentFace": 2101,
+          "pointToOuterDistanceMetres": 0.0034547479074483046
+        }
+      ]
+    },
+    {
+      "frame": 7,
+      "eligibleNonAdjacentPairCountUnder1mm": 0,
+      "minimumEligibleDistanceMetres": 0.005418591805568981,
+      "localIncidentInnerFaces": [
+        2356,
+        2357,
+        2358,
+        2359,
+        2361
+      ],
+      "localEligibleUnder1mm": 0,
+      "localClosestNonAdjacentPairs": [
+        {
+          "faces": [
+            2357,
+            2116
+          ],
+          "parentFaces": [
+            2337,
+            2096
+          ],
+          "simIndices": [
+            [
+              1118,
+              1239,
+              1238
+            ],
+            [
+              998,
+              999,
+              1119
+            ]
+          ],
+          "renderIndices": [
+            [
+              1228,
+              1350,
+              1349
+            ],
+            [
+              1107,
+              1108,
+              1229
+            ]
+          ],
+          "sharedVertices": [],
+          "distanceMetres": 0.006566111481037236,
+          "officialTrigger1mm": false,
+          "officialResponseTargetDeficitMetres": 0.0
+        },
+        {
+          "faces": [
+            2357,
+            2119
+          ],
+          "parentFaces": [
+            2337,
+            2099
+          ],
+          "simIndices": [
+            [
+              1118,
+              1239,
+              1238
+            ],
+            [
+              999,
+              1120,
+              1119
+            ]
+          ],
+          "renderIndices": [
+            [
+              1228,
+              1350,
+              1349
+            ],
+            [
+              1108,
+              1230,
+              1229
+            ]
+          ],
+          "sharedVertices": [],
+          "distanceMetres": 0.006566111481037236,
+          "officialTrigger1mm": false,
+          "officialResponseTargetDeficitMetres": 0.0
+        },
+        {
+          "faces": [
+            2359,
+            2121
+          ],
+          "parentFaces": [
+            2339,
+            2101
+          ],
+          "simIndices": [
+            [
+              1119,
+              1240,
+              1239
+            ],
+            [
+              1000,
+              1121,
+              1120
+            ]
+          ],
+          "renderIndices": [
+            [
+              1229,
+              1351,
+              1350
+            ],
+            [
+              1109,
+              1231,
+              1230
+            ]
+          ],
+          "sharedVertices": [],
+          "distanceMetres": 0.006691572112080438,
+          "officialTrigger1mm": false,
+          "officialResponseTargetDeficitMetres": 0.0
+        },
+        {
+          "faces": [
+            2359,
+            2118
+          ],
+          "parentFaces": [
+            2339,
+            2098
+          ],
+          "simIndices": [
+            [
+              1119,
+              1240,
+              1239
+            ],
+            [
+              999,
+              1000,
+              1120
+            ]
+          ],
+          "renderIndices": [
+            [
+              1229,
+              1351,
+              1350
+            ],
+            [
+              1108,
+              1109,
+              1230
+            ]
+          ],
+          "sharedVertices": [],
+          "distanceMetres": 0.006691572112080438,
+          "officialTrigger1mm": false,
+          "officialResponseTargetDeficitMetres": 0.0
+        }
+      ],
+      "longestEdgeEndpoints": [
+        {
+          "renderVertex": 1350,
+          "outerFace": 2119,
+          "outerParentFace": 2099,
+          "pointToOuterDistanceMetres": 0.00840117283311109
+        },
+        {
+          "renderVertex": 1351,
+          "outerFace": 2121,
+          "outerParentFace": 2101,
+          "pointToOuterDistanceMetres": 0.010063037274068456
+        }
+      ]
+    },
+    {
+      "frame": 18,
+      "eligibleNonAdjacentPairCountUnder1mm": 0,
+      "minimumEligibleDistanceMetres": 0.00436231040937192,
+      "localIncidentInnerFaces": [
+        2356,
+        2357,
+        2358,
+        2359,
+        2361
+      ],
+      "localEligibleUnder1mm": 0,
+      "localClosestNonAdjacentPairs": [
+        {
+          "faces": [
+            2359,
+            2121
+          ],
+          "parentFaces": [
+            2339,
+            2101
+          ],
+          "simIndices": [
+            [
+              1119,
+              1240,
+              1239
+            ],
+            [
+              1000,
+              1121,
+              1120
+            ]
+          ],
+          "renderIndices": [
+            [
+              1229,
+              1351,
+              1350
+            ],
+            [
+              1109,
+              1231,
+              1230
+            ]
+          ],
+          "sharedVertices": [],
+          "distanceMetres": 0.005089674191138859,
+          "officialTrigger1mm": false,
+          "officialResponseTargetDeficitMetres": 0.0
+        },
+        {
+          "faces": [
+            2359,
+            2118
+          ],
+          "parentFaces": [
+            2339,
+            2098
+          ],
+          "simIndices": [
+            [
+              1119,
+              1240,
+              1239
+            ],
+            [
+              999,
+              1000,
+              1120
+            ]
+          ],
+          "renderIndices": [
+            [
+              1229,
+              1351,
+              1350
+            ],
+            [
+              1108,
+              1109,
+              1230
+            ]
+          ],
+          "sharedVertices": [],
+          "distanceMetres": 0.005089674191138859,
+          "officialTrigger1mm": false,
+          "officialResponseTargetDeficitMetres": 0.0
+        },
+        {
+          "faces": [
+            2357,
+            2116
+          ],
+          "parentFaces": [
+            2337,
+            2096
+          ],
+          "simIndices": [
+            [
+              1118,
+              1239,
+              1238
+            ],
+            [
+              998,
+              999,
+              1119
+            ]
+          ],
+          "renderIndices": [
+            [
+              1228,
+              1350,
+              1349
+            ],
+            [
+              1107,
+              1108,
+              1229
+            ]
+          ],
+          "sharedVertices": [],
+          "distanceMetres": 0.006599399965915937,
+          "officialTrigger1mm": false,
+          "officialResponseTargetDeficitMetres": 0.0
+        },
+        {
+          "faces": [
+            2357,
+            2119
+          ],
+          "parentFaces": [
+            2337,
+            2099
+          ],
+          "simIndices": [
+            [
+              1118,
+              1239,
+              1238
+            ],
+            [
+              999,
+              1120,
+              1119
+            ]
+          ],
+          "renderIndices": [
+            [
+              1228,
+              1350,
+              1349
+            ],
+            [
+              1108,
+              1230,
+              1229
+            ]
+          ],
+          "sharedVertices": [],
+          "distanceMetres": 0.006599399965915938,
+          "officialTrigger1mm": false,
+          "officialResponseTargetDeficitMetres": 0.0
+        }
+      ],
+      "longestEdgeEndpoints": [
+        {
+          "renderVertex": 1350,
+          "outerFace": 2119,
+          "outerParentFace": 2099,
+          "pointToOuterDistanceMetres": 0.010164372671315366
+        },
+        {
+          "renderVertex": 1351,
+          "outerFace": 2121,
+          "outerParentFace": 2101,
+          "pointToOuterDistanceMetres": 0.007334177802363289
+        }
+      ]
+    }
+  ],
+  "scope": "Only actual inner-return vs outer-hem face sets, no shared sim vertices, no pinned pair; no sewing/no exclusion group in saved trial",
+  "limits": [
+    "Geometrically eligible under official narrow-phase threshold, not an instrumented native impulse log.",
+    "Final post-solve distances do not reconstruct all intermediate substeps or establish causal dominance for edge stretch.",
+    "Zero triangle intersections is different from nonzero-thickness self-contact response."
+  ]
+}

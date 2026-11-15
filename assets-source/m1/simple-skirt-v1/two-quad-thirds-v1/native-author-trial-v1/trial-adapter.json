@@ -1,0 +1,55 @@
+{
+  "originalTrialSha256": "ddd5ea2793e6e80de2b3dd23b014c3e57b5592770e5b55d9855bfb35fa256be2",
+  "compiledTrialSha256": "be9e79a3f85a460bc8bed0c119bcd26a6d998db8c5b13c299f345857c7575885",
+  "changes": [
+    {
+      "from": "A=S/'active-gap-hem-v1'",
+      "to": "A=S/'two-quad-thirds-v1'"
+    },
+    {
+      "from": "asset=A/'m1-sixfold-skirt-active-gap-hem-v1.glb'",
+      "to": "asset=A/'m1-sixfold-skirt-two-quad-thirds-v1.glb'"
+    },
+    {
+      "from": "'8e0887b54bf8849d789c4f91e85be0bd5a54c706d2e5343c0a4462639042f157'",
+      "to": "'02950240c98021c63ae78be5058d248709e7a12a4449782ecb03dd43663f9bc7'"
+    },
+    {
+      "from": "inputPath=A/'continuous-input-v1/capture.json.gz'",
+      "to": "inputPath=S/'active-gap-hem-v1/continuous-input-v1/capture.json.gz'"
+    },
+    {
+      "from": "'activeFaces':[260,2419]",
+      "to": "'activeFaces':[260,2439],'faceLineage':'../face-lineage.json'"
+    },
+    {
+      "from": "preparation={'sourceSha256'",
+      "to": "preparation={'diagnosticContinueAfterContactFailure':True,'sourceSha256'"
+    },
+    {
+      "from": "results=[];reason=None",
+      "to": "results=[];reason=None;firstFailure=None"
+    },
+    {
+      "from": "for i,frame in enumerate(frames):\n    scene.frame_set",
+      "to": "for i,frame in enumerate(frames):\n    reason=None\n    scene.frame_set"
+    },
+    {
+      "from": ";results.append(row)",
+      "to": ";row['exactColliderPairs']=pairs;row['exactSelfPairs']=selfPairs;results.append(row)"
+    },
+    {
+      "from": "    if reason:\n        (O/'rejected-shape.json.gz').write_bytes(gzip.compress(json.dumps({'reason':reason,'frame':row,'exactColliderPairs':pairs,'exactSelfPairs':selfPairs}).encode(),mtime=0));break",
+      "to": "    if reason:\n        if firstFailure is None:\n            firstFailure={'reason':reason,'frame':i+1,'simulationSeconds':i/30}\n            (O/'rejected-shape.json.gz').write_bytes(gzip.compress(json.dumps({'reason':reason,'frame':row,'exactColliderPairs':pairs,'exactSelfPairs':selfPairs}).encode(),mtime=0))\n        if reason!='actual-triangle-crossing':break"
+    },
+    {
+      "from": "result={'status':'rejected'if reason else'completed-author-curves-unreviewed','reason':reason,",
+      "to": "result={'status':'rejected'if firstFailure or reason else'completed-author-curves-unreviewed','reason':firstFailure['reason']if firstFailure else reason,'firstFailure':firstFailure,'terminationReason':'completed60-diagnostic-frames'if len(results)==60 else reason,"
+    }
+  ],
+  "physicsParameterChanges": [],
+  "zeroCrossingGateChanged": false,
+  "policy": "First crossing permanently rejects and is preserved; continue observation only unless structural/material/pin/time failure.",
+  "sameInputCapture": true,
+  "fixedDomainLineageVerified": true
+}
