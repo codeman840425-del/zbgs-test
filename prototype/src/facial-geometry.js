@@ -75,6 +75,23 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender }) {
           !recipe.weights.every(w => Number.isFinite(w) && w >= 0 && w <= 1) ||
           !Array.isArray(recipe.primitiveIdentities) || !recipe.primitiveIdentities.length)
         throw Error('五官几何配方坐标或范围不兼容');
+      // Only this preparation transaction reuses immutable source snapshots.
+      // VRM expressions change influences, not source attributes. External array,
+      // layout or version mutation during preparation is not supported.
+      const snapshots = new WeakMap(), validations = new WeakMap();
+      const snapshot = attribute => {
+        let values = snapshots.get(attribute);
+        if (!values) { values = packed(attribute); snapshots.set(attribute, values); validations.set(values, {}); }
+        return values;
+      };
+      const snapshotDigest = values => {
+        const result = validations.get(values);
+        return result.digest ??= digest(values);
+      };
+      const snapshotFinite = values => {
+        const result = validations.get(values);
+        return result.finite ??= values.every(Number.isFinite);
+      };
       const records = [], identities = recipe.primitiveIdentities, names = new Set();
       for (const identity of identities) {
         if (names.has(identity.materialName)) throw Error('重复五官部件');
@@ -96,21 +113,21 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender }) {
               geometry.getAttribute('normal')?.count !== recipe.positionCount ||
               geometry.morphAttributes.position?.length !== identity.targetCount)
             throw Error('五官源网格/表情格式不匹配');
-          const position = packed(geometry.getAttribute('position')), index = packed(geometry.index), uv = packed(geometry.getAttribute('uv'));
+          const position = snapshot(geometry.getAttribute('position')), index = snapshot(geometry.index), uv = snapshot(geometry.getAttribute('uv'));
           if (!(position instanceof Float32Array) || index.length % 3 || index.some(i => i >= recipe.positionCount) ||
-              await digest(position) !== identity.positionSha256 || await digest(position) !== recipe.basePositionSha256 ||
-              await digest(index) !== identity.indexSha256 || await digest(uv) !== identity.uvSha256)
+              await snapshotDigest(position) !== identity.positionSha256 || await snapshotDigest(position) !== recipe.basePositionSha256 ||
+              await snapshotDigest(index) !== identity.indexSha256 || await snapshotDigest(uv) !== identity.uvSha256)
             throw Error('五官源属性身份不匹配：' + identity.materialName);
           const morphs = geometry.morphAttributes.position.map(attribute => {
             if (attribute.count !== recipe.positionCount || attribute.itemSize !== 3) throw Error('口型顶点数不匹配');
-            const values = packed(attribute);
-            if (!values.every(Number.isFinite)) throw Error('口型数据非有限');
+            const values = snapshot(attribute);
+            if (!snapshotFinite(values)) throw Error('口型数据非有限');
             return values;
           });
           if(mouthAdmission.verifySourceIdentity){
-            if(await digest(packed(geometry.getAttribute('normal')))!==identity.normalSha256 || identity.normalSha256!==recipe.baseNormalSha256)throw Error('派生嘴宽原法线身份不匹配');
+            if(await snapshotDigest(snapshot(geometry.getAttribute('normal')))!==identity.normalSha256 || identity.normalSha256!==recipe.baseNormalSha256)throw Error('派生嘴宽原法线身份不匹配');
             if(recipe.sourceMorphPositionSha256?.length!==morphs.length)throw Error('派生嘴宽表情身份缺失');
-            for(let i=0;i<morphs.length;i++)if(await digest(morphs[i])!==recipe.sourceMorphPositionSha256[i])throw Error('派生嘴宽表情身份不匹配');
+            for(let i=0;i<morphs.length;i++)if(await snapshotDigest(morphs[i])!==recipe.sourceMorphPositionSha256[i])throw Error('派生嘴宽表情身份不匹配');
           }
           records.push({ geometry, meshes: meshes.filter(mesh => mesh.geometry === geometry), identity, position, index, morphs });
         }
@@ -122,7 +139,7 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender }) {
         // Outlines may have separate geometry objects. Count each actual source
         // primitive once for the full-face normal calculation.
         if (!seen.has(record.identity.primitiveIndex)) { seen.add(record.identity.primitiveIndex); fullIndices.push(...record.index); }
-        if (record.morphs.length !== first.morphs.length || record.morphs.some((values, j) => values.some((v, i) => v !== first.morphs[j][i])))
+        if (record.morphs.length !== first.morphs.length || record.morphs.some((values, j) => values !== first.morphs[j] && values.some((v, i) => v !== first.morphs[j][i])))
           throw Error('五官primitive表情缓冲不一致');
       }
       const affected = new Set();
