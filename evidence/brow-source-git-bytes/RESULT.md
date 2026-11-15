@@ -1,0 +1,1 @@
+原ef0归档在首次暂存时规范化CRLF，后补-text没有自动重写已有index，18个已pin源文本哈希不符。运行时public及模型二进制未变。afc8872按既定-text重新归档真实作者字节；全新稀疏检出42文件逐一与源manifest相等，installer --verify通过、工作树干净。原失败report.json保留，修复后fixed-report.json。此修复不改变f7dd构建或资产几何，证明源安装流程能在新检出执行。

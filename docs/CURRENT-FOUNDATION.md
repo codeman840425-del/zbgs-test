@@ -8,6 +8,7 @@
 - 只加原男女一个眉位组合样件（上移1mm、每侧外移1mm）与原位对照，不放行独立滑块/连续范围。保持原Body/骨架/眼骨/全表情，嘴眉共同原底求值、单项复位不互盖。源目录face-brow-parameters-v1，重开blend及从原底重生成后VRM/mapping字节一致；原生blend容器字节不同如实记录。
 - 新v2草稿保存独立嘴/眉身份；旧v1缺眉读取为none，不修改旧记录，保存后才写v2。独立CPU事务13项通过；实际浏览器9组+男女同姿门通过，0pageerror。包含嘴眉组合/复位、v1/v2关页重开/错误SHA保留、男女与同源peer隔离。
 - 真实男女近景1×短片、暂停同骨骼/同相机正侧45°对照在`evidence/m2-brow-sample-f7dd1fbb4d03`。58帧工程抽审未见明确新增浮眉/裂口/黑斑，原侧面眉贴片轮廓仍在；微小间隙与全部表情组合未证明。早期idle图含不同姿势，保留失败比较条件，不作像素归因；同姿补验另存。观感待用户确认。
+- 源归档追加修复afc8872：初次暂存换行规范化导致18个眉源pin文本hash不符，已按-text重存作者字节。全新source-recipe-check-afc8872检出42源文件逐一校验一致、installer --verify通过、工作树干净，失败与修复记录evidence/brow-source-git-bytes；f7dd运行时产物不变。
 - 新检出npm ci/build：**89产物完全一致**，`evidence/rebuild-f7dd-3988ec1`。普通电脑仍缺实机。首次嘴宽编辑长帧仍在；新增无录制女性短测直接嘴宽321.5ms，先眉后嘴91.1ms发生在同一浏览器后测，不能据此宣称因果或已优化，见`evidence/brow-mouth-first-edit-f7dd`。
 - 远端 **889705187ff8b61ccdf6e2368af5d172fdcfcc73** 已push并独立ls-remote核实一致，含ef0眉源、3988运行时与此批实际证据/重建。4196已实际浏览器核f7dd身份、男女按钮/男性发型/三页与眉选项，切换不刷新，见evidence/current-workbench-f7dd1fbb4d03。眼/鼻参数仍未接入，鼻部只开始源地标核查；不动封存裙/舞、不扩完整M2编辑器或M3。
 
