@@ -4,7 +4,7 @@
 
 外观工作台是独立候选，见delivery/appearance-workbench.json；4195仍为M1对照。工作台男女按钮切换受检基模；未保存时继承兼容颜色并显式回退不兼容装备，有已保存草稿时恢复该基模最终选择。每基模本机草稿不等于两位主播身份。真实主播身份仍按下列分层。旧QA-only avatar-record合同的baked-resource/空parameters证据不能替代新工作台的实际保存检查。
 
-当前工作台配方`workbench-appearance-recipe-v3`保存精确基模ID/hash、嘴宽值与recipeSHA、眉/鼻样件ID与各自recipeSHA、发型资源SHA/颜色、装备entry/GLB/绑定及规则版本。表达/口型/视线不混入永久容貌。存储槽`zbgs:appearance-draft:v1:<bodyType>`后缀仅地址；旧v1严格校验后眉鼻均读取为none，旧v2保眉且鼻none；不原地改记录，下一次保存写v3。旧schema混带新字段拒绝，旧程序拒绝v3而非静默丢新字段。加载失败保先前外观；新请求通过每域revision保留最新意图，跨异步操作不是全局原子事务。
+当前工作台配方`workbench-appearance-recipe-v4`保存精确基模ID/hash、嘴宽值与recipeSHA、眉/鼻/眼样件ID与各自recipeSHA、发型资源SHA/颜色、装备entry/GLB/绑定及规则版本。表达/口型/视线不混入永久容貌。存储槽`zbgs:appearance-draft:v1:<bodyType>`后缀仅地址；旧v1严格校验后眉鼻眼均读取为none，旧v2保眉且鼻眼none，旧v3保眉鼻且眼none；不原地改记录，下一次保存写v4。旧schema混带新字段拒绝，旧程序拒绝v4而非静默丢新字段。加载失败保先前外观；新请求通过每域revision保留最新意图，跨异步操作不是全局原子事务。
 
 有限几何编辑以不可变原底和完整参数向量求值，保留原mesh/骨架/表情绑定，每实例独占可变几何；变形身份另记baseSHA+recipeSHA+参数，不修改原文件SHA冒充新源。单项复位保其他域，全零恢复原几何引用。嘴宽±4%、一个眉位组合及鼻尖端点的范围见CAP，不宣称完整连续五官支持。无发基底已核真实头皮，头围/眼睑/牙齿/眼球等仍逐种参数准入；改变嘴位置/头围/眼距应另验持麦、发型和眼镜。
 

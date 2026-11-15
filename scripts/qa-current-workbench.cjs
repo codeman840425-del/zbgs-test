@@ -2,6 +2,8 @@
 const {chromium}=require('../prototype/node_modules/playwright');
 const fs=require('node:fs/promises'),path=require('node:path');
 const build=process.env.QA_BUILD;
+const expectedControls=(process.env.QA_CONTROLS||'mouth-width,brow-sample,nose-sample').split(',');
+if(!expectedControls.every(id=>/^[a-z][a-z-]+$/.test(id)))throw Error('Invalid QA_CONTROLS');
 if(!/^[a-f0-9]{12}$/.test(build||''))throw Error('Set QA_BUILD to the explicit fixed build');
 (async()=>{
  const out=path.resolve('evidence/current-workbench-'+build);
@@ -14,7 +16,7 @@ if(!/^[a-f0-9]{12}$/.test(build||''))throw Error('Set QA_BUILD to the explicit f
   await p.goto('http://127.0.0.1:4196/?workbench=appearance');await ready();
   const identity=await p.evaluate(()=>__debug.buildInfo.shortId);if(identity!==build)throw Error('Wrong served build');
   await p.evaluate(()=>window.__workbenchDocumentMarker='same-page');
-  const controls={};for(const id of ['mouth-width','brow-sample','nose-sample']){controls[id]=await p.locator('#'+id).count();if(controls[id]!==1)throw Error('Missing or duplicated geometry control '+id);}
+  const controls={};for(const id of expectedControls){controls[id]=await p.locator('#'+id).count();if(controls[id]!==1)throw Error('Missing or duplicated geometry control '+id);}
   const groups=await p.locator('[data-appearance-group]').evaluateAll(ns=>ns.map(n=>({name:n.textContent,pressed:n.getAttribute('aria-pressed')})));
   if(groups.length!==2)throw Error('Expected independent female and male buttons');
   await p.screenshot({path:path.join(out,'female-workbench.png')});
