@@ -4,7 +4,7 @@
 
 ## 最新构建与恢复点
 
-- 已提交并逐字核实远程：`aed9597da5fc24c19f232af4f6da62be9d9e61c3`，包含269手关节包络源码、精确三体配置、旧44/08完整证据和cloth-admission失败源。269统一QA/影片及后续bodydebug小修尚待下次归档。
+- 最新远程恢复点已核为 `a1fba5b1c7317f58711dcbb7d59c8b768c089fd8`：包含269完整专项/正常片/性能/入口与源重建证据，以及6bc中性人体重复绘制修复与完整专项。公开269的源码仍固定aed9597，二者不混用。
 - **公开交互269a73423c97 / 4192**：`experiments/m1-joint-integrated-1/dist`，从aed新检出npm ci/build全部61产物字节一致。手修复同版三体100姿态门、原女post-live259样本、资源隔离/失败重试已验；旧新room/close正常1×影片已归档evidence/hand-joint-269a73423c97。原abdb目录不覆盖，人工观感等待，裙形未过。
 - **前一固定abdb18defd26**：`experiments/m1-material-recipe-1/dist`，保留当前招手ready、两派生前臂和可选男短裤材质的基准。其男女各25项整链、两种双实例19任务/peer/本地合同/16生命周期/9场景性能仅证明abdb记录范围，不将版本标签改成269。
 - **175集成基准175a487d5ea3**：`experiments/m1-integrated-contact-1/dist`。341运动修复＋c9源坐姿腕目标＋ad0/4ee两轮等价缓存；未替换旧公开交互入口。前臂集成报告：`assets-source/forearm-collision-v2/integrated-175a/RESULT.md`。
@@ -26,8 +26,9 @@
 ## 当前分工及下一步
 
 - QA：269受影响专项已结束，无后台工具。三体actual/legacy、post-live259、ready/材质/实例/坏配置；room/close两组正常1×；默认动态ON坐稳/切换各30秒已归档，待根负责人统一备份。没有重复未改9场景。原269 source/profile/schema审核仍保留。
-- audit：`6bc09ad85c3d` 独立bodydebug修复已真实跑男女两轮切换，实际debug主camera/shadow各2→1，几何/蒙皮/骨姿不变；正在最后PNG跨版比较。只隐藏诊断材质的重复outline组，不改穿衣。新fixed在experiments/m1-bodydebug-1/dist；共享源码已有此两行修改，未发布/提交。另screen描边对照有连续线但新增深边副作用，已冻结，不合主。
-- prototype：少褶独立真蒙皮源在codex/simple-skirt-v1隔离worktree。v1将开放水平截面误当闭环造成前缘外推；v2只修完整截面参数化，已消除前缘错误，四姿仍有body/top/chair交叉，未进游戏。正在分类可见缺陷和剩余源/权重/坐姿制作缺口；不得盲调或宣称新裙通过。原失败和v2各自保存。后续修改需有明确共同原因。
+- audit：`6bc09ad85c3d` 独立bodydebug修复已真实跑男女两轮切换，实际debug主camera/shadow各2→1，几何/蒙皮/骨姿不变；sameface全图18项最大色道差≤1/255、骨/所有morph/蒙皮逐项一致，首次blink差异失败保留。只隐藏诊断材质的重复outline组，不改穿衣。新fixed在experiments/m1-bodydebug-1/dist；共享源码已有此两行修改且已随a1fba5b备份；6bc仍未发布。另screen描边对照有连续线但新增深边副作用，已冻结，不合主。
+- prototype：在codex/simple-skirt-v1隔离worktree持续少褶样件。v1开放截面错误、v2完整截面修正、v3去错误腰半径保持均冻结失败；v4保留原上腰真实120面（四姿body/top0）与权重，只重制下摆并连续缝合。v4站姿body0，但top层序/内折自交/权重4影响剪枝风险仍在，坐姿控制未制作，未准入。v4 fresh-output重生成同SHA cdd2d206…；源checkpoint dd687ca8c3b85bcb2d113121f0e1458094f79d8d已推origin/codex/simple-skirt-v1并核同SHA；112项包核查、v1–v4 fresh GLB一致（历史脚本保留）。正在隔离17034f3fffc1/dist-v4进行GPU诊断，adapter尚不在此源checkpoint内。新adapter必须退出旧guide，显式管理六私有裙骨与原spring所有权，保留真实thighRadii/两primitive最终手查询；须量hand前到最终显示面的差异，不能只看私有骨。详见SKIRT-ADAPTER-CONTRACT。
+- 独立审查：SIMPLE-SKIRT-INDEPENDENT-REVIEW未发现v3 LBS/逆绑定错误；CPU最近邻/双面/BLEND阈值图只定位可能外露，不是GPU像素证明。open-top多姿叠图曾复用standing pair，已告制作端在四姿使用前修正；原v3仅standing证据未受影响。
 - root：公开269已实际核按钮、身份、资源及观看入口；继续更新CAP/交接、收敛源与真实视觉问题。用户仅接受341约12–15秒片段；已请求269手接触正常片观感，等待期间继续上述独立工作。
 
 所有录像/性能独占，源码/离线准备可并行；固定目录不可覆盖。普通电脑仍缺实机，画风未批准，不展开M2/M3或批量美术。
@@ -38,6 +39,8 @@ M1整体未通过。269已消除所测三体起身掌指交叉，衣物形状与
 
 269默认动态ON实际房间单女裙坐稳30秒：帧P95 11.6ms、场景CPU P95 11.4ms，12帧>16.667ms、0>33.34ms，仍高于暂定8ms场景CPU预留目标；坐起切换P95 6.5ms有多状态混合，不冒充纯坐稳。仅Ryzen9950X3D/RTX4090/Chrome157开发机，普通i5-1135G7/IrisXe/16GB/1440×900/60fps参考设备尚无实测。9场景abdb记录保留历史范围，不重标269。
 
-源码aed新检出61产物一致、旧男短裤保存源重导闭环成立。269新QA/影片尚待下一证据提交；后续6bc仅debug渲染修复尚在QA，不覆盖已固定269。须继续保存所有源、处理步骤、失败证据、固定构建和远端核验，不能依赖临时output。技术检查、工程抽帧、用户连续观感与目标设备性能分别登记。
+源码aed新检出61产物一致、旧男短裤保存源重导闭环成立。269新QA/影片已随a1fba5b备份；6bc仅debug渲染修复已完成专项，不覆盖已固定269。须继续保存所有源、处理步骤、失败证据、固定构建和远端核验，不能依赖临时output。技术检查、工程抽帧、用户连续观感与目标设备性能分别登记。
 
 男女仍为技术美术候选，正式直播特写、最终画风及房间同屏产品目标未批准；只按单人/双实例报告，不把在线人数当同屏规模。用户判断等待只阻塞对应美术/自然度结论，其余授权任务继续。完成M1后再给M2准入建议，不自动展开M2/M3。
+
+只读成本复盘：HAND-COST-SUBSTEP-REVIEW确认不能跳过中间hand fit或跨子步整解缓存；live/VRM会消费结果。仅同次左右同basis grid复用约0.21ms理论收益，低优先级、不据此启动新优化；真实场景CPU预留缺口继续保留。

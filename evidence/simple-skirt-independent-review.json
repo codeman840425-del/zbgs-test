@@ -1,0 +1,99 @@
+{
+  "scope": "Independent bounded read-only audit; no browser, Blender, new asset generation, or runtime edits. Not v4 acceptance.",
+  "review": "docs/SIMPLE-SKIRT-INDEPENDENT-REVIEW.md",
+  "files": [
+    {
+      "path": "experiments/m1-simple-skirt-worktree/assets-source/m1/simple-skirt-v1/input-269/manifest.json",
+      "sha256": "cad08b8ef3b321ff3666705c93c710b2931d83e5a7a9ff82c2977a35c4a33c9b",
+      "bytes": 644
+    },
+    {
+      "path": "experiments/m1-simple-skirt-worktree/assets-source/m1/simple-skirt-v1/input-269/four-poses.json.gz",
+      "sha256": "5ef4f71945d14d89656c34af172e7d06ed937361e8b8357782dc60fbb58ccfa5",
+      "bytes": 5398972
+    },
+    {
+      "path": "experiments/m1-simple-skirt-worktree/assets-source/m1/simple-skirt-v1/generated-v3/m1-sixfold-skirt-v3.glb",
+      "sha256": "6ba760182b8f7ad8246f49fccf8821ab0a4742a53b65af9844dc08cdfc478a72",
+      "bytes": 572784
+    },
+    {
+      "path": "experiments/m1-simple-skirt-worktree/assets-source/m1/simple-skirt-v1/generated-v3/source-waist-comparison.json",
+      "sha256": "53fc78224a933099610ce7fa3f74a136d9fa3a0b7eee4aecdfde4b16efea17d3",
+      "bytes": 127636
+    },
+    {
+      "path": "experiments/m1-simple-skirt-worktree/assets-source/m1/simple-skirt-v1/generated-v3/open-top-gate.json",
+      "sha256": "2dd09c46630da99bc7167f7ebc0d1dbefa5588a85a94af05c691a0b2e7c63900",
+      "bytes": 13944
+    },
+    {
+      "path": "experiments/m1-simple-skirt-worktree/assets-source/m1/simple-skirt-v1/generated-v3/open-top-offline-view-report.json",
+      "sha256": "9aac0fcb5d9645418bcfecd763d26fe48c2b1da77a50d8bb1023554898bd3a3c",
+      "bytes": 168682
+    },
+    {
+      "path": "experiments/m1-simple-skirt-worktree/assets-source/m1/simple-skirt-v1/RESULT.md",
+      "sha256": "2cf71d777bf711c4884e7926b51aa9fe394051fda9f25043d814a3888cb96531",
+      "bytes": 7734
+    },
+    {
+      "path": "experiments/m1-simple-skirt-worktree/scripts/m1-assets/simple-skirt/capture-four-poses.cjs",
+      "sha256": "70daf45231cbe94093ad811636e810cd8b12a027c2a9f397601b8134db0465ba",
+      "bytes": 4562
+    },
+    {
+      "path": "experiments/m1-simple-skirt-worktree/scripts/m1-assets/simple-skirt/gate-four-poses.py",
+      "sha256": "e993eecc5b2619fb37acd0552ed93ace3fb78a2713d8ee831423f36f4f598566",
+      "bytes": 6853
+    },
+    {
+      "path": "experiments/m1-simple-skirt-worktree/scripts/m1-assets/simple-skirt/compare-source-waist.py",
+      "sha256": "708804fd246b498a98591ed064465a68ea4fe58adf7a1f8bcc644500996bb9ce",
+      "bytes": 5206
+    },
+    {
+      "path": "experiments/m1-simple-skirt-worktree/scripts/m1-assets/simple-skirt/check-open-top.py",
+      "sha256": "d369049f477c44bd1b3da43987006d70383bf494e43b690e96f65843d54e537c",
+      "bytes": 3870
+    },
+    {
+      "path": "experiments/m1-simple-skirt-worktree/scripts/m1-assets/simple-skirt/render-four-poses.py",
+      "sha256": "5dadc239581a8b9880d0cdbbc6c4de3529c8c30565029c3738b127d38fdb0e6b",
+      "bytes": 9493
+    }
+  ],
+  "independentlyChecked": {
+    "candidateV3BoneNamesAndOrderEqualOriginal": true,
+    "candidateV3InverseBindExactEqualOriginal": true,
+    "capturedSourceBindIdentity": true,
+    "capturedTopIndicesExactEqualOriginalPrimitive0": true,
+    "sourceStandingTopPairs": {
+      "pairs": 16,
+      "uniqueSkirtFaces": 14,
+      "uniqueTopFaces": 7,
+      "sourceYBounds": [
+        0.8822814226150513,
+        0.945782482624054
+      ]
+    },
+    "sourceSeatedBodyPairs": {
+      "pairs": 89,
+      "uniqueSkirtFaces": 51,
+      "uniqueBodyFaces": 34,
+      "sourceYBounds": [
+        0.841143012046814,
+        0.9738699793815613
+      ]
+    },
+    "bodyTopUsedUvsOutside01": 0
+  },
+  "confirmedToolLimitations": [
+    "CPU nearest instead of actual LINEAR alpha",
+    "CPU no FrontSide culling",
+    "CPU BLEND treated as threshold opaque depth",
+    "Finite intersection endpoint/midpoint visibility not full GPU coverage",
+    "open-top multi-pose overlay currently reuses standing pairs; current standing-only v3 unaffected"
+  ],
+  "status": "No current LBS/cap mapping blocker confirmed; static candidate still unaccepted; route not disproved"
+}
