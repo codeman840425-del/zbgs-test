@@ -1,0 +1,84 @@
+{
+  "source": "prototype\\public\\assets\\m1\\m1-uniform-skirt.glb",
+  "sourceSHA256": "065305626976c59b370d082baa6fd1e2aed8c262490e04e39543345170eb8d8d",
+  "runtimeBuild": "a491efde53fb",
+  "runtimeMaterialObservation": [
+    {
+      "type": "MeshBasicMaterial",
+      "side": 2,
+      "transparent": false,
+      "depthWrite": true,
+      "depthTest": true,
+      "alphaTest": 0.5
+    }
+  ],
+  "rows": [
+    {
+      "mesh": 0,
+      "primitive": 0,
+      "material": {
+        "name": "F00_001_01_Bottoms_01_CLOTH",
+        "alphaMode": "MASK",
+        "alphaCutoff": 0.5,
+        "doubleSided": true,
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "baseColorTexture": {
+            "index": 0
+          },
+          "metallicFactor": 0,
+          "roughnessFactor": 0.9
+        },
+        "extensions": {
+          "KHR_materials_unlit": {}
+        }
+      },
+      "sampler": {},
+      "embeddedImageSHA256": "aab5f12a4bfa423f3e6672ec5ba9f541bb4ec714c897fe145518679c6dd28d63",
+      "width": 1024,
+      "height": 512,
+      "alphaHistogram": {
+        "255": 524288
+      },
+      "wholeTexturePassesOldCutoff": true,
+      "triangleCount": 700,
+      "finiteUVTriangles": 700,
+      "idealUVRectangleCertifiedCount": 700,
+      "idealUVRectangleCertifiedRatio": 1.0,
+      "nonfiniteUVFaces": [],
+      "uvMin": [
+        0.00893389992415905,
+        0.0317835807800293
+      ],
+      "uvMax": [
+        0.9913370013237,
+        0.9803680181503296
+      ]
+    }
+  ],
+  "depthCounterexample": {
+    "fiveSamples": [
+      -0.1,
+      0.05,
+      0.2,
+      0.35,
+      0.5
+    ],
+    "thresholds": [
+      -0.008,
+      0.3
+    ],
+    "originalMaxCorrection": 0.208,
+    "unconditionalEndpointsOnlyCorrection": 0
+  },
+  "limits": [
+    "All source pixels scanned. Ideal UV rectangle count is not a blanket proof for non-finite or ill-conditioned barycentric arithmetic.",
+    "Global texture proof may remove texture-region concerns, but runtime shortcut must preserve old false results for NaN/nonfinite UV/index and texture/cutoff identity.",
+    "No runtime changes, no new browser/performance sweep. Exact runtime texture pixels were not re-read this audit; source SHA and unchanged material clone pipeline support current default only."
+  ]
+}

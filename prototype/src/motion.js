@@ -1,6 +1,6 @@
 import { createJointHandWorkspace } from "./joint-hand-workspace.mjs";
 import * as THREE from "three";
-import { createSkinContactWorkspace, createProjectedContactWorkspace, createProjectedInterval, projectedSegmentIntervalPrepared, alphaBarycentricPrepared } from "./forearm-contact-workspace.js";
+import { createSkinContactWorkspace, createProjectedContactWorkspace, createProjectedInterval, projectedSegmentIntervalPrepared, alphaBarycentricPrepared, alphaImageIsOpaque, opaqueAlphaHitSafe } from "./forearm-contact-workspace.js";
 import { validateForearmProfile } from "./forearm-envelope-projection.js";
 import { forearmContourRails, createForearmContourWorkspace } from "./forearm-contour-rails.js";
 
@@ -974,6 +974,9 @@ export function createMotion(
           flip: material.map.flipY,
           cutoff: material.alphaTest,
         };
+        // Certify the whole immutable cached image once, not a triangle or a
+        // single pose. Mixed-alpha textures retain the exact old sample path.
+        alpha.fullyOpaque = alphaImageIsOpaque(alpha);
         fitSeatHands.alphaCache.set(material, alpha);
       }
       if (timing) timing.alphaSetupMs += performance.now()-alphaStarted;
@@ -987,6 +990,7 @@ export function createMotion(
       bary = new V();
     function visible(t) {
       if (!t.alpha || !t.alpha.cutoff) return true;
+      if (opaqueAlphaHitSafe(t, hit)) return true;
       alphaBarycentricPrepared(t,hit,bary);
       const values=t.uvValues;
       const u=0+values[0]*bary.x+values[2]*bary.y+values[4]*bary.z,
@@ -1000,6 +1004,9 @@ export function createMotion(
     function railClearance(start, end, outward) {
       const su = start.dot(gridU), sv = start.dot(gridV),
         eu = end.dot(gridU), ev = end.dot(gridV);
+      // These rail endpoints stay fixed throughout this query. Keep every
+      // alpha/depth sample while avoiding three repeated dot products per hit.
+      const startDepth = start.dot(outward), depthDelta = end.dot(outward) - startDepth;
       const candidates = projectedContactWorkspace.query(su,sv,eu,ev);
       let amount = 0;
       for (const t of candidates) {
@@ -1014,7 +1021,7 @@ export function createMotion(
           hit.set(0, 0, 0);
           for (let j = 0; j < 3; j++) hit.addScaledVector(t.points[j], interval.start[j] + (interval.end[j] - interval.start[j]) * at);
           if (!visible(t)) { if (measurement) measurement.alphaRejected++; continue; }
-          const depth = hit.dot(outward) - (start.dot(outward) + (end.dot(outward) - start.dot(outward)) * at);
+          const depth = hit.dot(outward) - (startDepth + depthDelta * at);
           if (depth > -.008 && depth < .3) {
             amount = Math.max(amount, depth + .008);
             if (measurement && amount > (measurement.strongest?.amount ?? 0))

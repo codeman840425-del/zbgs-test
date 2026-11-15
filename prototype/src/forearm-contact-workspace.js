@@ -1,5 +1,22 @@
 // Reusable storage only. No cached skin position or clearance result.
 // Each refresh samples every actual vertex; each build reprojects every face.
+export function alphaImageIsOpaque(alpha) {
+  if (!alpha || !Number.isInteger(alpha.width) || !Number.isInteger(alpha.height) ||
+      alpha.width <= 0 || alpha.height <= 0 || !Number.isFinite(alpha.cutoff) ||
+      alpha.pixels?.length !== alpha.width * alpha.height * 4) return false;
+  for (let i = 3; i < alpha.pixels.length; i += 4)
+    if (!(alpha.pixels[i] / 255 >= alpha.cutoff)) return false;
+  return true;
+}
+
+// The old barycentric calculation must remain finite before bypassing it.
+// Deliberately generous bounded inputs cover this metre-scale scene; degenerate
+// or extreme diagnostic geometry keeps the original alpha sampling path.
+export function opaqueAlphaHitSafe(t, point) {
+  return t.opaqueAlphaSafe && Math.abs(point.x) <= 1e6 &&
+    Math.abs(point.y) <= 1e6 && Math.abs(point.z) <= 1e6;
+}
+
 export function createSkinContactWorkspace(THREE) {
   const caches = new WeakMap();
   return {
@@ -125,6 +142,11 @@ export function prepareAlphaTriangle(t) {
   t.alphaDot00=v0.dot(v0);t.alphaDot01=v0.dot(v1);t.alphaDot11=v1.dot(v1);
   t.alphaDenom=t.alphaDot00*t.alphaDot11-t.alphaDot01*t.alphaDot01;
   t.alphaInvDenom=1/t.alphaDenom;
+  t.opaqueAlphaSafe = Boolean(t.alpha?.fullyOpaque && t.alphaDenom > 0 &&
+    t.alphaDot00 <= 1e12 && t.alphaDot11 <= 1e12 &&
+    Number.isFinite(t.alphaInvDenom) && t.alphaInvDenom <= 1e24 &&
+    t.uvValues?.every(v => Math.abs(v) <= 1e6) &&
+    t.points.every(p => Math.abs(p.x) <= 1e6 && Math.abs(p.y) <= 1e6 && Math.abs(p.z) <= 1e6));
 }
 export function alphaBarycentricPrepared(t,point,target) {
   const v2=t.alphaDelta.subVectors(point,t.points[0]);
