@@ -223,3 +223,5 @@ EQUIP-01源试验：hem-return-v1消除站/坐入/起身的局部内折自交，
 13f558e44696为已构建的未公开集成候选：当前6bc诊断绘制修复加上镜腿专属profile，只改live三处局部调用，不合入新裙。两条男女正常房间站坐起片/四姿实际三角/双实例及jaw拒绝均属于13f；原de62同版旧新四片仍保留其原标签。镜腿profile只适配原F/M，未配置派生默认拒绝，显式legacy仅诊断。源包、局部patch及输入SHA可重复生成，独立备份c5e4a2d已核实；连续佩戴自然度和普通PC性能仍未通过，不改变公开269或M1总状态。
 
 眼部只读核查：assets-source/face-eye-parameters-v1保留男女真实图层/眼骨/全部眨眼形态测量。建议眼裂宽+1%单端点仍待制作与回读，未接入、未验证；精确接缝不等于闭眼遮挡通过。不会把调虹膜颜色当眼形编辑。
+
+1188首次编辑/换体成本定向采样：主颜色program已预编译且KHR完成，首次infoLog仍同步阻塞；两depth program到draw才link。归因证据见evidence/workbench-cost-profile-1188-v1、workbench-program-identity-1188-v1。没有优化通过结论，仍非普通电脑/持续性能验收。

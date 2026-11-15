@@ -1,0 +1,109 @@
+{
+  "build": "1188b09aca6f",
+  "scope": "Two separate fresh Chrome processes and temporary profiles; no recording/screenshots. OS/driver shader cache not reset or assumed cold. CPU sampling and JS wrappers add overhead. GL call durations are CPU submission/blocking, not isolated GPU execution.",
+  "cases": [
+    {
+      "scenario": "geometry",
+      "browser": "157.0.8103.51",
+      "environment": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 4090 (0x00002684) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "vendor": "Google Inc. (NVIDIA)",
+        "parallelCompile": true,
+        "maxTextureSize": 16384,
+        "entryBody": "female",
+        "geometryState": {
+          "mouthWidth": 0,
+          "requestedMouthWidth": 0,
+          "available": true,
+          "loading": false,
+          "error": null,
+          "revision": 0,
+          "browSample": "none",
+          "requestedBrowSample": "none",
+          "browAvailable": true,
+          "browRecipeId": null,
+          "browRecipeSha256": null,
+          "noseSample": "none",
+          "requestedNoseSample": "none",
+          "noseAvailable": true,
+          "noseRecipeId": null,
+          "noseRecipeSha256": null,
+          "recipeId": null,
+          "recipeSha256": null,
+          "baseAvatarSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+          "facialGeometryLoading": false,
+          "facialGeometryError": null,
+          "facialGeometryAvailable": true,
+          "facialGeometryCloneCount": 0,
+          "geometryIdentity": {
+            "baseAvatarSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+            "recipeSha256": null,
+            "mouthWidth": 0,
+            "browSample": "none",
+            "browRecipeSha256": null,
+            "noseSample": "none",
+            "noseRecipeSha256": null
+          }
+        }
+      },
+      "profiles": [
+        "geometry-cold-mouth.cpuprofile",
+        "geometry-warm-mouth.cpuprofile"
+      ],
+      "measurements": "geometry.json"
+    },
+    {
+      "scenario": "body-switch",
+      "browser": "157.0.8103.51",
+      "environment": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 4090 (0x00002684) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "vendor": "Google Inc. (NVIDIA)",
+        "parallelCompile": true,
+        "maxTextureSize": 16384,
+        "entryBody": "female",
+        "geometryState": {
+          "mouthWidth": 0,
+          "requestedMouthWidth": 0,
+          "available": true,
+          "loading": false,
+          "error": null,
+          "revision": 0,
+          "browSample": "none",
+          "requestedBrowSample": "none",
+          "browAvailable": true,
+          "browRecipeId": null,
+          "browRecipeSha256": null,
+          "noseSample": "none",
+          "requestedNoseSample": "none",
+          "noseAvailable": true,
+          "noseRecipeId": null,
+          "noseRecipeSha256": null,
+          "recipeId": null,
+          "recipeSha256": null,
+          "baseAvatarSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+          "facialGeometryLoading": false,
+          "facialGeometryError": null,
+          "facialGeometryAvailable": true,
+          "facialGeometryCloneCount": 0,
+          "geometryIdentity": {
+            "baseAvatarSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+            "recipeSha256": null,
+            "mouthWidth": 0,
+            "browSample": "none",
+            "browRecipeSha256": null,
+            "noseSample": "none",
+            "noseRecipeSha256": null
+          }
+        }
+      },
+      "profiles": [
+        "body-switch-female-to-male.cpuprofile"
+      ],
+      "measurements": "body-switch.json"
+    }
+  ],
+  "errors": [],
+  "passed": true
+}
