@@ -347,6 +347,14 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender }) {
           (brow !== 'none' && browPrepared.recipe.browVertices.some(i=>eyePrepared.affected.has(i)))) throw Error('眼部与其他参数域不兼容');
       for (const i of eyePrepared.affected) affected.add(i);
     }
+    // Select by actual referenced vertices, never material names. Unreferenced
+    // full-face buffer components may differ without changing a primitive.
+    const touched = new Set(affected);
+    if(value !== 0) recipe.weights.forEach((weight,i)=>{if(weight>0)touched.add(i);});
+    if(brow !== 'none') for(const i of browPrepared.recipe.browVertices)touched.add(i);
+    if(nose !== 'none') for(const i of nosePrepared.changed)touched.add(i);
+    if(eye !== 'none') for(const i of eyePrepared.changed)touched.add(i);
+    const activeRecords = records.filter(record=>record.index.some(i=>touched.has(i)));
     const recomputeNormals = affected.size > 0;
     for (const record of records) for (const mesh of record.meshes)
       if (mesh.geometry !== record.geometry && mesh.geometry !== owned.get(record.geometry)) throw Error('五官网格被其他操作替换');
@@ -386,7 +394,7 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender }) {
     const next = new Map();
     let bounds=null;
     try {
-      for (const record of records) {
+      for (const record of activeRecords) {
         const geometry = record.geometry.clone(); next.set(record.geometry, geometry);
         geometry.setAttribute('position',positionAttribute);
         geometry.morphAttributes.position=morphAttributes;
@@ -406,12 +414,12 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender }) {
         if(!bounds){geometry.computeBoundingBox();geometry.computeBoundingSphere();bounds={box:geometry.boundingBox,sphere:geometry.boundingSphere};}
         else{geometry.boundingBox=bounds.box.clone();geometry.boundingSphere=bounds.sphere.clone();}
       }
-      if(prepareRender)await prepareRender(records.flatMap(record=>record.meshes.map(mesh=>({mesh,geometry:next.get(record.geometry)}))));
+      if(prepareRender && activeRecords.length)await prepareRender(activeRecords.flatMap(record=>record.meshes.map(mesh=>({mesh,geometry:next.get(record.geometry)}))));
       if(disposed||request!==generation){for(const geometry of next.values())geometry.dispose();return false;}
     } catch (e) { for (const geometry of next.values()) geometry.dispose(); throw e; }
     // No await and no change to meshes/morphTargetInfluences: VRM expression
     // bindings continue to target the same actor and the same morph indices.
-    for (const record of records) for (const mesh of record.meshes) mesh.geometry = next.get(record.geometry);
+    for (const record of records) for (const mesh of record.meshes) mesh.geometry = next.get(record.geometry) || record.geometry;
     for (const geometry of owned.values()) geometry.dispose();
     owned = next; mouthWidth = value;browSample = brow;noseSample = nose;eyeSample = eye;return true;
   }
