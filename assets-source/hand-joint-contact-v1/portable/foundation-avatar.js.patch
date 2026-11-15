@@ -1,0 +1,35 @@
+--- a/prototype/src/foundation-avatar.js
++++ b/prototype/src/foundation-avatar.js
+@@ -5,6 +5,7 @@
+ import { foundationProfile } from "./foundation-profiles.js";
+ import { createLivePresentation } from "./live-presentation.js";
+ import { validateForearmProfile } from "./forearm-envelope-projection.js";
++import { validateJointHandProfile } from "./joint-hand-workspace.mjs";
+ 
+ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female", attachToScene = true }) {
+   const config = foundationProfile(bodyType), url = config.url;
+@@ -27,6 +28,16 @@
+     if (digest !== config.forearmCollision.sha256) throw new Error("Forearm collision profile integrity mismatch");
+     forearmCollision = JSON.parse(new TextDecoder().decode(bytes));
+     if (!validateForearmProfile(forearmCollision, sha256)) throw new Error("Forearm collision body identity mismatch");
++  }
++  let jointHandCollision = null;
++  if (config.handSurfaceContact) {
++    const response = await fetch(config.handSurfaceContact.url);
++    if (!response.ok) throw new Error("Joint-hand profile failed to load");
++    const bytes = await response.arrayBuffer();
++    const digest = [...new Uint8Array(await crypto.subtle.digest("SHA-256", bytes))].map(n => n.toString(16).padStart(2, "0")).join("");
++    if (digest !== config.handSurfaceContact.sha256) throw new Error("Joint-hand profile integrity mismatch");
++    jointHandCollision = JSON.parse(new TextDecoder().decode(bytes));
++    if (!validateJointHandProfile(jointHandCollision, sha256)) throw new Error("Joint-hand body identity/schema mismatch");
+   }
+   const loader = new GLTFLoader();
+   loader.register((p) => new VRMLoaderPlugin(p));
+@@ -107,6 +118,7 @@
+     motion: {
+       forearmCollision: new URLSearchParams(location.search).get("forearm") === "legacy" ? null : forearmCollision,
+       forearmCollisionBodySHA256: sha256,
++      handSurfaceContact: new URLSearchParams(location.search).get("handSkin") === "legacy" || !jointHandCollision ? null : { bodySHA256: sha256, jointProfile: jointHandCollision },
+       forearmProfileTiming: new URLSearchParams(location.search).has("forearmTiming"),
+       preserveAuthoredSitHands: new URLSearchParams(location.search).get("handTarget") !== "lap",
+       deriveSeatFromBody: true,

@@ -1,0 +1,125 @@
+{
+  "status": "rejected-no-native-cloth-authorized",
+  "elapsedSeconds": 0.8429999999934807,
+  "sourceFitSha256": "4c3f17236b81418043cf89c49f9b67bac8bdc77eb5bea9ee9aaf2e3a24505c38",
+  "colliders": [
+    {
+      "name": "Bodybaked",
+      "trianglePairs": [],
+      "exactNearTriangleMinimum": {
+        "minimum": {
+          "skirtFace": 570,
+          "otherFace": 664,
+          "distance": 0.001219369977558661
+        },
+        "testedTrianglePairs": 2914,
+        "searchRangeMetres": 0.003,
+        "noCandidatesMeansAtLeastRange": false
+      },
+      "failurePatchExactMinimum": {
+        "minimum": {
+          "skirtFace": 253,
+          "otherFace": 826,
+          "distance": 0.007819149194566409
+        },
+        "testedTrianglePairs": 27,
+        "searchRangeMetres": 0.012,
+        "noCandidatesMeansAtLeastRange": false
+      }
+    },
+    {
+      "name": "Bodybaked_5",
+      "trianglePairs": []
+    },
+    {
+      "name": "Facebaked",
+      "trianglePairs": []
+    },
+    {
+      "name": "Facebaked_1",
+      "trianglePairs": []
+    },
+    {
+      "name": "Facebaked_2",
+      "trianglePairs": []
+    },
+    {
+      "name": "Facebaked_3",
+      "trianglePairs": []
+    },
+    {
+      "name": "Facebaked_4",
+      "trianglePairs": []
+    },
+    {
+      "name": "Facebaked_5",
+      "trianglePairs": []
+    },
+    {
+      "name": "Facebaked_6",
+      "trianglePairs": []
+    },
+    {
+      "name": "Facebaked_7",
+      "trianglePairs": []
+    },
+    {
+      "name": "Facebaked_8",
+      "trianglePairs": []
+    },
+    {
+      "name": "m1-uniform-shoes",
+      "trianglePairs": []
+    },
+    {
+      "name": "m1-uniform-top_1",
+      "trianglePairs": [],
+      "exactNearTriangleMinimum": {
+        "minimum": {
+          "skirtFace": 340,
+          "otherFace": 772,
+          "distance": 0.0017417037776082766
+        },
+        "testedTrianglePairs": 1931,
+        "searchRangeMetres": 0.003,
+        "noCandidatesMeansAtLeastRange": false
+      }
+    },
+    {
+      "name": "m1-uniform-top_2",
+      "trianglePairs": []
+    }
+  ],
+  "selfPairs": [],
+  "failures": [
+    {
+      "kind": "global-gap-target",
+      "mesh": "Bodybaked",
+      "required": 0.002,
+      "actual": 0.001219369977558661
+    },
+    {
+      "kind": "patch-gap-target",
+      "required": 0.0085,
+      "actual": 0.007819149194566409
+    },
+    {
+      "kind": "global-gap-target",
+      "mesh": "m1-uniform-top_1",
+      "required": 0.002,
+      "actual": 0.0017417037776082766
+    }
+  ],
+  "pins": {
+    "boundaryVertices": 20,
+    "fullBoundaryPin": true,
+    "releaseMetres": 0.025
+  },
+  "distanceRoundoffToleranceMetres": 1e-07,
+  "limits": [
+    "Native all actual triangles kept except independently verified original top/waistcaps.",
+    "Distance gate is exact near-triangle vertex/face+edge/edge for nonintersecting surfaces; noCCD or sustainedcloth conclusion.",
+    "Opening/pin and margin preparation do not resolve long-face interior contact generally.",
+    "On any failure do not start nativecloth or tune this candidate."
+  ]
+}

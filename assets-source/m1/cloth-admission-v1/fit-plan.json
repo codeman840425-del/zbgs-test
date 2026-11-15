@@ -1,0 +1,20 @@
+{
+  "schema": "m1.single-cloth-source-fit-admission.1",
+  "sourceRest": "assets-source/m1/offline-corrective/open-waist-v1/standing-rest-candidate.json",
+  "sourceTopOpening": "assets-source/m1/offline-corrective/open-waist-v1/top-edit.json",
+  "initialCapture": "experiments/skirt-offline-corrective/displayed-initial-0df63cf2bdea/standing-01/initial.json",
+  "bodyMinimumGapMetres": 0.002,
+  "topMinimumGapMetres": 0.002,
+  "historicalFailureSkirtFaces": [253, 494],
+  "failurePatchBodyGapMetres": 0.0085,
+  "failurePatchFalloffMetres": 0.060,
+  "maximumAdditionalSourceDisplacementMetres": 0.006,
+  "worldHeightEditBandMetres": [0.875, 1.070],
+  "iterations": 12,
+  "samplesPerTriangle": 7,
+  "pinSource": "Actual20-point open waist boundary; full boundary pin,25mm geodesic smooth release. Not the oldY cap band.",
+  "why": "Initial whole-mesh0.466mm gap exceeds the0.3mm thin-cloth sum but has only0.166mm reserve. Actual failing faces start5.856mm frombody, move inward~6.454mm, and cross through triangle interiors while vertices remain>=0.922mm outside.2mm general clearance is only a static engineering reserve;8.5mm local target tests whether a bounded real source shape can absorb this recorded relaxation. Neither proves dynamic stability.",
+  "unchanged": ["body", "source material andUV", "triangle topology", "cloth stiffness and quality", "collision thickness", "contact and material rejection thresholds"],
+  "stop": "Only one frozen-parameter fit. Any actual surface crossing, unmet target within6mm edit budget, or unacceptable silhouette rejects. No native cloth until original static gate passes and parent schedules the one60-frame trial.",
+  "status": "planned-not-executed"
+}

@@ -2,6 +2,7 @@
 // Differences stay here; both candidates use the same movement controller.
 export const FOUNDATION_PROFILES = {
   female: {
+    handSurfaceContact: {"url": "/assets/hand-joint-contact-v1/female.json", "sha256": "09688e79fadaca6f58530da7a4cb52c4ad0b3d9b42de4233c6b0a5f682454453"},
     id: "beta-base-female-m1",
     url: "/assets/foundation/base-female-roundtrip.vrm",
     sha256: "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
@@ -38,6 +39,7 @@ export const FOUNDATION_PROFILES = {
 
 // Bounded geometry-risk specimens; original candidates remain available.
 FOUNDATION_PROFILES["m1a-jaw-v1"] = {
+    handSurfaceContact: {"url": "/assets/hand-joint-contact-v1/jaw.json", "sha256": "3377854746d694992b3efb4a5fb3eb3d951d03d4abfe4609f89e53cf2adda12c"},
   "id": "m1a-jaw-v1",
   "url": "/assets/m1-variants/m1a-jaw-v1/avatar.vrm",
   "sha256": "3c11caaed49f6db514acb7678551352afdf1c2893ef92ca93b959a8d09691011",
@@ -57,6 +59,7 @@ FOUNDATION_PROFILES["m1a-jaw-v1"] = {
   "fitStatus": "candidate: own 3c6e actual seat response 0.54815; recheck required"
 };
 FOUNDATION_PROFILES["m1a-waisthip-v1"] = {
+    handSurfaceContact: {"url": "/assets/hand-joint-contact-v1/waisthip.json", "sha256": "07b62497d826e417476c1154224a44722b50f8c38694fff5c653d3c8c1486e0d"},
   "id": "m1a-waisthip-v1",
   "url": "/assets/m1-variants/m1a-waisthip-v1/avatar.vrm",
   "sha256": "10778174ece87e3e3a00ecaf5e0c98eef59cd7d762e9bb52daa50162ee1743b5",

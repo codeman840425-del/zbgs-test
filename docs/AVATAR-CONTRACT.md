@@ -106,7 +106,7 @@ M1A完整穿衣/真实完整人体中性材质、raw/IK/pelvis/full可同刻对�
 
 foundation-profiles中的forearmCollision明确URL和文件SHA；加载同时验证实际人体SHA，不能把原女性包络套到jaw/waisthip派生。缓存由createMotion每实例创建，姿态相关系数每次实际投影更新。80轮廓轨及alpha采样仅是有限接触近似，不是完整连续碰撞。
 
-默认使用源坐姿腕目标，诊断`handTarget=lap`只供旧目标对照；`forearm=legacy`只供旧接触诊断。jaw/waisthip已从各自实际VRM独立生成专属前臂配置；49b3同体开关实测前臂交叉归零，但两体仍各有15个起身掌指交叉采样帧，不能将前臂通过当成整手或裙装通过。当前真实手轮廓改进仍在隔离候选内，未合入abdb。男性目前seatHandRadii缺失，坐手接触层提前返回；成功加载男性包络不等于男性坐手接触已启用或验收。详情以CAPABILITIES与175固定报告为准。
+默认使用源坐姿腕目标，诊断`handTarget=lap`只供旧目标对照；`forearm=legacy`只供旧接触诊断。jaw/waisthip已从各自实际VRM独立生成专属前臂配置；49b3同体开关实测前臂交叉归零，但两体仍各有15个起身掌指交叉采样帧，不能将前臂通过当成整手或裙装通过。abdb保留旧五轨手代理作对照；新269a73423c97独立集成采用每体实际VRM生成的32语义关节局部包络，通过handSurfaceContact的URL/文件SHA/bodySHA加载。每手80有限纵轨和端点不是实体/连续碰撞证明，仍须用最终实际皮肤验收；腕边混权不能凭关节包络继承刚体保证。新集成尚在验证，不替代CAPABILITIES状态。男性目前seatHandRadii缺失，坐手接触层提前返回；成功加载男性包络不等于男性坐手接触已启用或验收。详情以CAPABILITIES与175固定报告为准。
 
 ## 可选服装材质配方（abdb候选）
 

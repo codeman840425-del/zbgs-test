@@ -1,0 +1,83 @@
+--- a/prototype/src/motion.js
++++ b/prototype/src/motion.js
+@@ -1,3 +1,4 @@
++import { createJointHandWorkspace } from "./joint-hand-workspace.mjs";
+ import * as THREE from "three";
+ import { createSkinContactWorkspace, createProjectedContactWorkspace, createProjectedInterval, projectedSegmentIntervalPrepared, alphaBarycentricPrepared } from "./forearm-contact-workspace.js";
+ import { validateForearmProfile } from "./forearm-envelope-projection.js";
+@@ -864,6 +865,7 @@
+   const projectedContactWorkspace = createProjectedContactWorkspace();
+   const projectedInterval = createProjectedInterval();
+   const contactTriangles = [];
++  const handSurfaceWorkspace = profile?.handSurfaceContact ? createJointHandWorkspace(THREE,vrm,root,{bodySHA256:profile.forearmCollisionBodySHA256,expectedSHA256:profile.handSurfaceContact.bodySHA256,jointProfile:profile.handSurfaceContact.jointProfile}) : null;
+   const contourWorkspaces = new Map(calibratedForearms?.map(p => [p.side, createForearmContourWorkspace(THREE,p)]) || []);
+   let handContacts = [];
+   let handFitProfile = null;
+@@ -893,7 +895,7 @@
+     const leavingIdle = sitProgress <= 0 && requested !== "idle";
+     if (
+       sitProgress <= 0 &&
+-      !calibratedForearms &&
++      !calibratedForearms && !handSurfaceWorkspace &&
+       validCache &&
+       (leavingIdle || (fitSeatHands.lastProgress === 0 && poseStable))
+     ) {
+@@ -944,6 +946,10 @@
+     if (leavingIdle || (sitProgress <= 0 && !cacheKey)) return;
+     const blend = smooth(clamp(sitProgress / 0.35, 0, 1));
+     const surfaces = profile.seatHandSurfaces?.(true) || [];
++    const activeHandSurface = surfaces.length ? handSurfaceWorkspace : null;
++    const handSkinStarted = timing ? performance.now() : 0;
++    activeHandSurface?.refresh(); // callback above owns current raw-pose sync
++    if(timing)timing.jointHandTransformMs=performance.now()-handSkinStarted;
+     const newIdleOffsets = [];
+     const triangles = contactTriangles;
+     triangles.length = 0;
+@@ -1063,7 +1069,10 @@
+       projectedContactWorkspace.build(triangles,gridU,gridV);
+       if(timing){timing.gridMs += performance.now()-gridStarted;timing.gridBuilds++;}
+       const forearmProfile = calibratedForearms?.find(p => p.side === arm.side);
+-      let narrowPhasePairs = 0;
++      const handContourStarted = timing ? performance.now() : 0;
++      const handSurfaceMetrics = activeHandSurface?.project(arm.side,gridU,gridV,outward,original);
++      if(timing)timing.jointHandRailsMs=(timing.jointHandRailsMs||0)+performance.now()-handContourStarted;
++      let narrowPhasePairs = 0, handNarrowPhasePairs = 0;
+       function measureArm(elbow, wrist) {
+         const measureStarted = timing ? performance.now() : 0;
+         let contourCost = 0;
+@@ -1078,10 +1087,14 @@
+             narrowPhasePairs++;
+           }
+         }
+-        // Palm stays unchanged. Missing/unmatched profiles retain explicit legacy path.
++        if(activeHandSurface){
++          measurement.part="joint-hand-envelope";
++          for(const [a,b] of activeHandSurface.railsAt(arm.side,wrist)){palmCorrection=Math.max(palmCorrection,railClearance(a,b,outward));handNarrowPhasePairs++;}
++        }
++        // Missing explicit opt-in retains the existing fixed-width palm path.
+         for (const [part, start, end, radius] of [
+           ...(!forearmProfile ? [["forearm", elbow, wrist, 0.012]] : []),
+-          ["hand", wrist, wrist.clone().add(handOffset), 0.016],
++          ...(!activeHandSurface ? [["hand", wrist, wrist.clone().add(handOffset), 0.016]] : []),
+         ]) {
+           measurement.part = part;
+           const direction = end.clone().sub(start).normalize(),
+@@ -1164,6 +1177,9 @@
+         forearmProfileSHA: forearmProfile ? profile.forearmCollision.bodySHA256 : null,
+         finalForearmClearance: finalClearance.forearmCorrection,
+         finalPalmClearance: finalClearance.palmCorrection,
++        handSurfaceMetrics: handSurfaceMetrics || null,
++        handNarrowPhasePairs,
++        handClearanceBasis: activeHandSurface ? "predicted-raw-bone-joint-envelope-not-final-raw-skin" : "legacy-five-rails",
+         finalWitness: measurement,
+         authoredElbow: authoredElbow.toArray(),
+         authoredUpper: authoredUpper.toArray(),
+@@ -1193,7 +1209,7 @@
+       fitSeatHands.cacheWeight = 1;
+     }
+     } finally {
+-      if(timing){timing.totalMs=performance.now()-handFitStarted;timing.otherMs=timing.totalMs-timing.skinMs-timing.alphaSetupMs-timing.gridMs-timing.contourMs-timing.railAlphaMs-timing.diagnosticMs;}
++      if(timing){timing.totalMs=performance.now()-handFitStarted;timing.otherMs=timing.totalMs-timing.skinMs-timing.alphaSetupMs-timing.gridMs-timing.contourMs-timing.railAlphaMs-timing.diagnosticMs-(timing.jointHandTransformMs||0)-(timing.jointHandRailsMs||0);}
+       handFitProfile=timing;
+     }
+   }

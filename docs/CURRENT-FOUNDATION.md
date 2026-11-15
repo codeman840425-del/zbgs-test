@@ -4,7 +4,7 @@
 
 ## 最新构建与恢复点
 
-- 已提交并逐字核实远程：`745e4e931da2b263d97f8f0be3e70848416486b3`，包含abdb运行源码、派生配置、短裤可选材质、音频/生产CLI和已归档证据、17bd裙失败样本。新独立检出npm ci/build产生abdb，58产物逐字节一致（evidence/rebuild-745e4e9）。原1b/175及短裤保存源重导仍保留各自范围。新增手候选与下一源版型试验尚未合主/备份，按独立源目录管理。
+- 已提交并逐字核实远程：`745e4e931da2b263d97f8f0be3e70848416486b3`，包含abdb运行源码、派生配置、短裤可选材质、音频/生产CLI和已归档证据、17bd裙失败样本。新独立检出npm ci/build产生abdb，58产物逐字节一致（evidence/rebuild-745e4e9）。原1b/175及短裤保存源重导仍保留各自范围。后续a296已归档abdb统一链/可靠性/性能与箱褶失败；新269手候选已局部合入工作区，未发布/未备份，cloth-admission失败源包亦待本次归档。
 - **最新集成abdb18defd26**：`experiments/m1-material-recipe-1/dist`，包含49b3两派生真算前臂配置、统一招手ready修复、男短裤可选material recipe。材质两片完整1×已录，四项ready实际回归通过；已完成abdb同镜头男女各25项整链、两种双实例各19任务、peer失败重试、本地2体/26拒绝及16项生命周期（含真实tab）；整片自然度仍待人工验收，recipe仍未持久化。
 - **175集成基准175a487d5ea3**：`experiments/m1-integrated-contact-1/dist`。341运动修复＋c9源坐姿腕目标＋ad0/4ee两轮等价缓存；未替换旧公开交互入口。前臂集成报告：`assets-source/forearm-collision-v2/integrated-175a/RESULT.md`。
 - **已接受的限定片段34148e260e6d**：`experiments/turn-candidate-19/dist`。用户接受同镜头1×录像约12–15秒加速与停止，原话“这段可以接受”。只限该片段；不包括其余转向、衣物、男性或175。范围与视频SHA：`evidence/female-acceleration-user-review-341.json`。
@@ -24,12 +24,14 @@
 
 ## 当前分工及下一步
 
-- prototype：在独立1b检出制作此前失败裙前片的可观看闭环对照，仅m1-skirt源替换；检查新增腰躯干交叉是否外露、mid-sit83mm拉片及硬前片。保持controls冻结，不盲调，不合入主线。
-- qa：独立worktree hand-contact-worktree-1，基于1b/175制作真实手表面轮廓候选，保留源指姿/原80前臂轨/共用grid。14姿态每手164–212轨，明确成本风险；82mm过保守平面已否决。先实际皮肤及无录制成本，再判断是否录/合。
-- audit：派生同体A/B及UI/资源审查已完成，证据可归档；可接独立审查。
-- root：统一归档/能力表、已接受片段和源重建，安排候选窗口及最终集成。两项新候选各自独立固定outDir，不覆盖175/abdb。手83accb29be4b原女性100采样实际皮肤交叉0，但无录制裙坐mean55.90/P9558.6ms，成本明确失败，不合主；正做一次等价alpha成本试验。裙17bd已拒绝，下一件仅前开箱褶源样本，不改变控制器。
+- 最新归档远程已核为 `a2965f9a6d98902209ee517f29ed410ec0c5a36a`；公开4192仍abdb。此前745源码重建结论保留。
+- **新独立集成269a73423c97**：`experiments/m1-joint-integrated-1/dist`。在共享abdb上仅合入经独立审查的手关节包络局部补丁、helper及三体各自真实profile。没有拿08隔离工程覆盖main/live/material。三体schema 3正24负通过，实际主线回归进行中，未发布/未宣称手接触通过。
+- qa占用浏览器：三体actual/legacy100姿态真皮肤门、招手就绪/卸麦、材质恢复/男性短裤、实例和坏资源；再串行无录制成本及同镜头1×坐起。录制/成本期间不运行Blender、FFmpeg或Git大打包。
+- audit：独立核对共享集成及必要旧44/08完整证据归档，不修改runtime。
+- prototype：已完成一次cloth-admission源fit，精确间距1.219/1.742/7.819mm未达2/2/8.5mm，停止，没有运行cloth长片。复核恢复包并推荐最多两条不同机制的局部替代，不继续旧参数搜索。
+- root：集成、能力状态、源/失败证据归档；保留公共abdb和历史固定版本。手joint尚未有完整主线性能和正常片，不继承44/08局部通过。裙shape仍阻塞，男性/直播/接口已做增量继续保留。
 
-浏览器/录屏/性能串行；录制期间避免Blender、重CPU及Git大文件打包。固定新build使用独立outDir，不覆盖prototype/dist或baseline。当前没有购买/换引擎授权需求。
+浏览器、录屏、性能串行。固定新build独立outDir，不覆盖prototype/dist或baseline。当前没有购买/换引擎授权需求。
 
 ## 剩余阻塞与交付门槛
 

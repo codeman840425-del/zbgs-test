@@ -52,3 +52,11 @@ bodydebug 重复绘制另作诊断修正，不混入这次正常材质归因。
 完整材质属性/身份和 simulationTime 校验通过，pageerror=0。相机最大数值舍入变化 2.22e-16m；首次直接 deepEqual 导致 QA 停止，随后只将 QA 改为记录并限制在 1e-12m 内，保留失败，未改产品。还原人物裁切全部为像素完全一致或最大 1/255 色道舍入。男近景正面还原全图有 1373 像素差异，位于底部 UI 区 (172,880)–(228,911)，不在人物区；不得将其写成全图像素相同。
 
 建议：**不单独采用 .0015m world 宽度作为点状描边完整修复**。停止本轮参数试探；后续若继续应独立验证渲染策略，而非自动再加宽/偏移。当前只做静姿诊断，没有产品改动、动态闪烁验收或目标设备验收。
+
+## 只读宽度纹理与屏幕模式核查
+
+源直方图/嵌入图像 SHA：`evidence/foundation-outline-width-textures.json`。男女 **Body_SKIN 都没有 `_OutlineWidthTexture`**；因此身体手臂/腿的点线不能归因于这张纹理把宽度乘零。两体 Face_SKIN 有各自 256×256 图，线性过滤、REPEAT：女图 G=0 占 4.5471%、G=255 占 79.8553%，男图分别 2.4048%/67.5079%；其它为中间灰度。统计覆盖全图而非实际顶点 UV/GPU 采样，不能据此认定这些零区造成了下颌断点，也不应删除脸部局部遮罩。
+
+核对 [官方 MToon 1.0 规范](https://github.com/vrm-c/vrm-specification/blob/master/specification/VRMC_materials_mtoon-1.0/README.md#outline)：screenCoordinates 的宽度随屏幕高度定义，目标是不随相机距离缩细；宽度纹理读取线性 G 通道，未指定时为 1。安装 3.5.5 的 vertex shader 实际按 G 乘 outlineOffset，再在屏幕模式乘 `vViewPosition.z / projectionMatrix[1].y`；v0compat 将源 `_OutlineWidthTexture` 接入该路径，原源图不会因改模式自动丢弃。
+
+只提出一个后续因果对照，尚未执行：**仅 Body_SKIN outline 改为 screenCoordinates，取一个固定的约 1 个 drawing-buffer 像素目标**，不动 Face_SKIN、贴图、side/alpha/depth/法线/颜色，在现有同位两距离做 A/B/还原。按已安装 shader 的透视抵消和 NDC→像素关系，可用 `outlineWidthFactor=2/drawingBufferHeight` 作为单一测试值；法线投影仍影响实际局部宽度，不声称它保证处处 1px。其目的仅检验已排除宽度贴图的身体线条是否因 world 模式随距离变得低于像素覆盖；结果失败则停止，不自动扫描多个宽度/偏移。本轮主集成优先，没有再启动浏览器。
