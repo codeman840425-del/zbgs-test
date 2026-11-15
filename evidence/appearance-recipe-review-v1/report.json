@@ -1,0 +1,146 @@
+{
+  "scope": "No GPU/browser. Actual recipe module with explicit async actor/controller fixtures. Source snapshots bind review identity.",
+  "sourceHashes": {
+    "appearance-recipe.js": "5cab157e70329123026b490d1b5b9d16d75cd44c201e52ef272763de9cc43b45",
+    "appearance-workbench.js": "3df30677051fbcaf9d04a7f7bfaf33728888cc64c5cf89e40e5a4e97d34cbe2a",
+    "foundation-avatar.js": "0aea08e77b60f62204e0e9046be3252d94c9865c63e0e6faa87b4b0b74558928",
+    "main.js": "554ae8d7b28110507a2c802dd08d96ad796814ca6a29b5b50f363243cc21fc2c"
+  },
+  "results": [
+    {
+      "name": "wrong-base-rejects-before-mutation",
+      "pass": true
+    },
+    {
+      "name": "wrong-geometry-version-retains-before-state",
+      "pass": true,
+      "calls": [
+        [
+          "geometry",
+          {
+            "mouthWidth": 0.04,
+            "expectedRecipeSha256": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ],
+        [
+          "appearance",
+          {
+            "hairStyle": "original",
+            "hairColor": "original",
+            "skinTone": "original",
+            "eyeColor": "original",
+            "lipColor": "original"
+          }
+        ],
+        [
+          "geometry",
+          {
+            "mouthWidth": 0,
+            "expectedRecipeSha256": null
+          }
+        ]
+      ]
+    },
+    {
+      "name": "body-switch-does-not-write-new-actor",
+      "pass": true,
+      "result": {
+        "applied": false,
+        "cancelled": true
+      }
+    },
+    {
+      "name": "reproduced-newer-outfit-overwritten",
+      "userNewerOutfit": 2,
+      "actualFinalOutfit": 0,
+      "result": {
+        "applied": true
+      },
+      "calls": [
+        [
+          "geometry",
+          {
+            "mouthWidth": 0,
+            "expectedRecipeSha256": null
+          }
+        ],
+        [
+          "appearance",
+          {
+            "hairStyle": "original",
+            "hairColor": "black",
+            "skinTone": "original",
+            "eyeColor": "original",
+            "lipColor": "original"
+          }
+        ],
+        [
+          "outfit",
+          2
+        ],
+        [
+          "outfit",
+          0
+        ]
+      ]
+    },
+    {
+      "name": "reproduced-superseded-restore-rolls-back-newer-api-edit",
+      "scope": "API-level concurrent request; normal workbench color fields are disabled while restoring",
+      "newerColor": "brown",
+      "actualFinalColor": "original",
+      "result": {
+        "error": "恢复配方失败，先前外观已保留：外观配方未应用"
+      },
+      "calls": [
+        [
+          "geometry",
+          {
+            "mouthWidth": 0,
+            "expectedRecipeSha256": null
+          }
+        ],
+        [
+          "appearance",
+          {
+            "hairStyle": "original",
+            "hairColor": "black",
+            "skinTone": "original",
+            "eyeColor": "original",
+            "lipColor": "original"
+          }
+        ],
+        [
+          "appearance",
+          {
+            "hairColor": "brown"
+          }
+        ],
+        [
+          "appearance",
+          {
+            "hairStyle": "original",
+            "hairColor": "original",
+            "skinTone": "original",
+            "eyeColor": "original",
+            "lipColor": "original"
+          }
+        ],
+        [
+          "geometry",
+          {
+            "mouthWidth": 0,
+            "expectedRecipeSha256": null
+          }
+        ]
+      ]
+    },
+    {
+      "name": "fault-injected-outfit-partial-commit-not-rolled-back",
+      "scope": "Injected synchronous command failure, not claimed an observed ordinary UI failure",
+      "beforeOutfit": 0,
+      "actualFinalOutfit": 1,
+      "message": "恢复配方失败，先前外观已保留：injected outfit UI failure after assignment"
+    }
+  ]
+}

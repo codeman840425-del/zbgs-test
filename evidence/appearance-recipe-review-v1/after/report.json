@@ -1,0 +1,260 @@
+{
+  "scope": "Actual revised recipe functions and actual foundation getEquipmentRecipe closure against male installed manifest; async actor/controller fixtures; no GPU",
+  "sourceHashes": {
+    "appearance-recipe.js": "9da6b7902fb3ce1eb54a57bc60d588703ffd59a104b1d30dd46393dcf294f09c",
+    "appearance-workbench.js": "56672a8af94cf9cb31c0b325f3bfdcf94ab682ba1aec5eeb015c0d44c0dfebc1",
+    "character-appearance.js": "149476656dbfa3eaa53214e814639ea5a96ef513ce261b97ee988f70ea6a747d",
+    "facial-geometry.js": "4e446909fc590859682e8725ef1861f22e217189f0145cf0b4bf5f68caeb9216",
+    "foundation-avatar.js": "640ee94f9cbaf3e349ac19bde16bb605a77ee0f8c13e492b9a7600c61b089f95"
+  },
+  "results": [
+    {
+      "name": "newer-outfit-preserved",
+      "pass": true,
+      "result": {
+        "applied": true,
+        "notice": "较新的服装选择已保留"
+      },
+      "calls": [
+        [
+          "geometry",
+          {
+            "mouthWidth": 0,
+            "expectedRecipeSha256": null
+          }
+        ],
+        [
+          "appearance",
+          {
+            "hairStyle": "original",
+            "hairColor": "black",
+            "skinTone": "original",
+            "eyeColor": "original",
+            "lipColor": "original"
+          }
+        ],
+        [
+          "outfit",
+          2,
+          "old"
+        ]
+      ]
+    },
+    {
+      "name": "cancelled-restore-does-not-rollback-newer-edit",
+      "pass": true,
+      "result": {
+        "applied": false,
+        "cancelled": true
+      },
+      "calls": [
+        [
+          "geometry",
+          {
+            "mouthWidth": 0,
+            "expectedRecipeSha256": null
+          }
+        ],
+        [
+          "appearance",
+          {
+            "hairStyle": "original",
+            "hairColor": "black",
+            "skinTone": "original",
+            "eyeColor": "original",
+            "lipColor": "original"
+          }
+        ],
+        [
+          "appearance",
+          {
+            "hairColor": "brown"
+          }
+        ]
+      ]
+    },
+    {
+      "name": "outfit-partial-commit-rolled-back",
+      "pass": true,
+      "message": "恢复配方失败，先前外观已保留：injected outfit UI failure after assignment",
+      "calls": [
+        [
+          "geometry",
+          {
+            "mouthWidth": 0,
+            "expectedRecipeSha256": null
+          }
+        ],
+        [
+          "appearance",
+          {
+            "hairStyle": "original",
+            "hairColor": "original",
+            "skinTone": "original",
+            "eyeColor": "original",
+            "lipColor": "original"
+          }
+        ],
+        [
+          "outfit",
+          2,
+          "old"
+        ],
+        [
+          "appearance",
+          {
+            "hairStyle": "original",
+            "hairColor": "original",
+            "skinTone": "original",
+            "eyeColor": "original",
+            "lipColor": "original"
+          }
+        ],
+        [
+          "geometry",
+          {
+            "mouthWidth": 0,
+            "expectedRecipeSha256": null
+          }
+        ],
+        [
+          "outfit",
+          0,
+          "old"
+        ]
+      ]
+    },
+    {
+      "name": "outfit-rollback-ui-failure-honest",
+      "pass": true,
+      "message": "恢复配方失败，服装回退未完成：injected outfit UI failure after assignment",
+      "calls": [
+        [
+          "geometry",
+          {
+            "mouthWidth": 0,
+            "expectedRecipeSha256": null
+          }
+        ],
+        [
+          "appearance",
+          {
+            "hairStyle": "original",
+            "hairColor": "original",
+            "skinTone": "original",
+            "eyeColor": "original",
+            "lipColor": "original"
+          }
+        ],
+        [
+          "outfit",
+          2,
+          "old"
+        ],
+        [
+          "appearance",
+          {
+            "hairStyle": "original",
+            "hairColor": "original",
+            "skinTone": "original",
+            "eyeColor": "original",
+            "lipColor": "original"
+          }
+        ],
+        [
+          "geometry",
+          {
+            "mouthWidth": 0,
+            "expectedRecipeSha256": null
+          }
+        ],
+        [
+          "outfit",
+          0,
+          "old"
+        ]
+      ]
+    },
+    {
+      "name": "body-rejects",
+      "pass": true
+    },
+    {
+      "name": "geometry-rejects",
+      "pass": true
+    },
+    {
+      "name": "equipment-sha-rejects",
+      "pass": true
+    },
+    {
+      "name": "equipment-binding-rejects",
+      "pass": true
+    },
+    {
+      "name": "equipment-missing-rejects",
+      "pass": true
+    },
+    {
+      "name": "real-equipment-entry-snapshot-roundtrip-and-no-alias",
+      "pass": true,
+      "parts": [
+        "top",
+        "shoes",
+        "pants"
+      ]
+    },
+    {
+      "name": "actor-switch-during-rollback",
+      "pass": true,
+      "newActorExpectedOutfit": 2,
+      "actualOutfit": 2,
+      "newActorWritten": false,
+      "result": {
+        "applied": false,
+        "cancelled": true
+      },
+      "calls": [
+        [
+          "geometry",
+          {
+            "mouthWidth": 0,
+            "expectedRecipeSha256": null
+          }
+        ],
+        [
+          "appearance",
+          {
+            "hairStyle": "original",
+            "hairColor": "original",
+            "skinTone": "original",
+            "eyeColor": "original",
+            "lipColor": "original"
+          }
+        ],
+        [
+          "appearance",
+          {
+            "hairStyle": "original",
+            "hairColor": "original",
+            "skinTone": "original",
+            "eyeColor": "original",
+            "lipColor": "original"
+          }
+        ],
+        [
+          "geometry",
+          {
+            "mouthWidth": 0,
+            "expectedRecipeSha256": null
+          }
+        ]
+      ]
+    },
+    {
+      "name": "workbench-outfit-busy-and-hot-switch-draft-restore-wired",
+      "pass": true,
+      "scope": "Source assertions, not browser interaction"
+    }
+  ]
+}
