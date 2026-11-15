@@ -611,3 +611,40 @@ select:disabled {
 
 /* Explicit visibility must win over outfit-grid button display rules. */
 [hidden] { display: none !important; }
+
+/* Appearance workbench stays within the existing room; its controls own no pose. */
+#appearance-workbench { border-bottom: 1px solid var(--border); padding-bottom: 22px; margin-bottom: 22px; }
+#appearance-workbench h2 { margin-top: 12px; }
+.appearance-intro, .appearance-hint { font-size: 12px; line-height: 1.65; color: #586f63; }
+.appearance-intro { margin: 0 0 18px; }
+.appearance-hint { margin: 7px 0 13px; }
+#appearance-fields { border: 0; margin: 0; padding: 0; min-width: 0; }
+#appearance-workbench label { display: block; font-size: 13px; font-weight: 550; margin: 13px 0 7px; }
+#appearance-workbench select { display: block; width: 100%; min-width: 0; min-height: 44px; border: 1px solid var(--border); border-radius: 9px; background: #fafbf7; color: #293d3a; font: inherit; font-size: 13px; padding: 9px 10px; }
+#appearance-workbench select:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+#appearance-workbench button { min-height: 44px; font-size: 12px; }
+.appearance-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+#appearance-reset { width: 100%; margin-top: 12px; }
+#appearance-status { min-height: 42px; font-size: 12px; line-height: 1.6; margin: 10px 0 0; color: #38624f; overflow-wrap: anywhere; }
+#appearance-status[data-error="true"] { color: #9b312d; background: #fff1ec; padding: 8px; border-radius: 6px; }
+.appearance-segments { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 8px; }
+body.appearance-workbench .lab-introduction { display: none; }
+body.appearance-workbench .scene-label { display: none; }
+body.appearance-workbench #app { max-width: 1920px; padding: 18px 24px; }
+body.appearance-workbench header { margin-bottom: 16px; }
+body.appearance-workbench main { grid-template-columns: minmax(0, 1fr) 340px; gap: 18px; }
+body.appearance-workbench aside { padding: 20px; }
+body.appearance-workbench .camera-tools button { min-height: 44px; }
+@media (min-width: 801px) {
+  body.appearance-workbench .viewport, body.appearance-workbench aside { height: calc(100vh - 130px); max-height: none; min-height: 520px; }
+}
+@media (max-width: 1000px) and (min-width: 801px) {
+  body.appearance-workbench main { grid-template-columns: minmax(0, 1fr) 300px; gap: 12px; }
+  body.appearance-workbench #app { padding: 14px; }
+  body.appearance-workbench aside { padding: 16px; }
+}
+@media (max-width: 800px) {
+  body.appearance-workbench main { grid-template-columns: minmax(0, 1fr); }
+  body.appearance-workbench #app { padding: 12px; }
+  body.appearance-workbench .viewport { height: 60vh; min-height: 340px; }
+}

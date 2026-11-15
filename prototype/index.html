@@ -42,6 +42,48 @@
           </div>
         </section>
         <aside>
+          <section id="appearance-workbench" hidden aria-labelledby="appearance-title">
+            <div class="section-head"><span class="eyebrow">APPEARANCE STUDIO</span><span class="edition">外观工作台</span></div>
+            <h2 id="appearance-title">近看你的角色</h2>
+            <p class="appearance-intro">先选人物，再试发型与配色。换个角度，看清每一处变化。</p>
+            <form id="appearance-form">
+              <fieldset id="appearance-fields" disabled>
+                <label for="appearance-body">人物</label>
+                <select id="appearance-body">
+                  <option value="female">女性 · 原版</option>
+                  <option value="m1a-jaw-v1">女性 · 下颌变化</option>
+                  <option value="m1a-waisthip-v1">女性 · 腰胯变化</option>
+                  <option value="male">男性 · 原版</option>
+                  <option value="m2-male-jaw-v1">男性 · 下颌变化</option>
+                </select>
+                <label for="appearance-hair-style">发型</label>
+                <select id="appearance-hair-style">
+                  <option value="original">原发型</option>
+                  <option value="female-bob-v1">齐颈短发</option>
+                </select>
+                <p id="appearance-style-note" class="appearance-hint">齐颈短发目前仅适用于原版女性。</p>
+                <div class="appearance-pair">
+                  <div><label for="appearance-hair-color">发色</label><select id="appearance-hair-color"><option value="original">原色</option><option value="black">黑色</option><option value="brown">棕色</option><option value="blonde">金色</option></select></div>
+                  <div><label for="appearance-skin-tone">肤色</label><select id="appearance-skin-tone"><option value="original">原色</option><option value="warm">暖色</option><option value="deep">深色</option></select></div>
+                </div>
+                <button type="button" id="appearance-reset">恢复原发型与配色</button>
+              </fieldset>
+            </form>
+            <p id="appearance-status" role="status" aria-live="polite">正在加载人物外观…</p>
+            <h3>观察距离</h3>
+            <div class="appearance-segments" role="group" aria-label="观察距离">
+              <button type="button" data-inspect-framing="face" aria-pressed="true">放大脸部</button>
+              <button type="button" data-inspect-framing="half" aria-pressed="false">半身</button>
+              <button type="button" data-inspect-framing="full" aria-pressed="false">全身</button>
+            </div>
+            <div class="appearance-segments" role="group" aria-label="观察方向">
+              <button type="button" data-inspect-direction="front" aria-pressed="true">正面</button>
+              <button type="button" data-inspect-direction="side" aria-pressed="false">侧面</button>
+              <button type="button" data-inspect-direction="back" aria-pressed="false">背面</button>
+            </div>
+            <div id="appearance-dance-slot"><h3>看看完整舞蹈</h3><p class="appearance-hint">选择舞蹈后，使用下方动作按钮播放。30 秒舞蹈仅适用于原版男女。</p></div>
+          </section>
+          <div class="lab-introduction">
           <div class="section-head">
             <span class="eyebrow">LOOK & MOTION</span
             ><span class="edition">第一轮样板</span>
@@ -51,6 +93,8 @@
             完整观看走路、落座、转身与舞蹈，再决定角色表现路线。
           </p>
           <p><a href="/foundation.html">查看完整人体候选与再导出对照 ↗</a></p>
+          <p><a href="?body=female&amp;workbench=appearance&amp;view=inspect-face-front">打开外观工作台 ↗</a></p>
+          </div>
           <h3>选择外观 <span>同一个人物</span></h3>
           <div class="outfits">
             <button data-outfit="0" aria-pressed="true">

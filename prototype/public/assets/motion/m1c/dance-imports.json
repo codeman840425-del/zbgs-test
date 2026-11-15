@@ -8,7 +8,7 @@
       "file": "dance-source-reference.glb",
       "sha256": "b864ec5f440929133787791884e645a0bc73c323d107c9a9ef9937b4f1ca9744",
       "clip": "Dance_Loop",
-      "duration": 1.0,
+      "duration": 1,
       "playback": "loop",
       "origin": "Unmodified Quaternius Dance_Loop reference",
       "rootTranslationOwner": "clip hips only; no path locomotion",
@@ -93,7 +93,7 @@
             2.4
           ],
           [
-            3.0,
+            3,
             3.3
           ],
           [
@@ -114,6 +114,74 @@
         "Runtime must preserve genuine jump vertical motion and release both feet during flight"
       ],
       "rootPolicy": "local-displacement"
+    },
+    {
+      "id": "rokoko-5359146-30s-v1",
+      "format": "normalized-vrm-motion.1",
+      "clip": "Rokoko_Pexels5359146_30s_v1",
+      "duration": 30,
+      "playback": "once-then-idle",
+      "rootPolicy": "local-displacement",
+      "origin": "Frozen original Rokoko/Pexels 5359146 target export; user accepted this recorded example as a usable video-to-motion result, with arm-contact limitations.",
+      "rootTranslationOwner": "clip hips only",
+      "heldPropsAllowed": false,
+      "space": {
+        "kind": "local-footprint",
+        "radiusTargetM": 1.5782715941550411,
+        "navigationAllowedDuringPlayback": false
+      },
+      "variants": [
+        {
+          "avatarSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+          "file": "frozen-rokoko-30s-v1/rokoko-5359146-female-v1.motion.json",
+          "sha256": "6d2f7a2e8b51238e4892c99424dbb52cbc566903413731be11f53e29dcc73d5f",
+          "bytes": 4543709
+        },
+        {
+          "avatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+          "file": "frozen-rokoko-30s-v1/rokoko-5359146-male-v1.motion.json",
+          "sha256": "1510d4470965b6ce651c08a7bfb830abbdf34794f06175d50b9a822b34a371bf",
+          "bytes": 4543583
+        }
+      ],
+      "label": "30 秒舞蹈 · 已认可原版",
+      "licenseBoundary": "Existing frozen project target export; Pexels reference is not CC0. No raw video/FBX redistribution. This installation makes no new commercial, provider API, or bulk-motion license claim.",
+      "workbenchRole": "default-30s"
+    },
+    {
+      "id": "rokoko-5359146-30s-arm-local-v1",
+      "format": "normalized-vrm-motion.1",
+      "clip": "Rokoko_Pexels5359146_30s_v1",
+      "duration": 30,
+      "playback": "once-then-idle",
+      "rootPolicy": "local-displacement",
+      "origin": "Single bounded arm adaptation, two windows only; not user accepted; original retained.",
+      "rootTranslationOwner": "clip hips only",
+      "heldPropsAllowed": false,
+      "space": {
+        "kind": "local-footprint",
+        "radiusTargetM": 1.5782715941550411,
+        "navigationAllowedDuringPlayback": false
+      },
+      "variants": [
+        {
+          "avatarSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+          "file": "frozen-rokoko-30s-v1/rokoko-5359146-female-arm-local-v1.motion.json",
+          "sha256": "3677cb727b6025bec6be25f03824ca60da20e39c73fed0484890ee4ff7996e2e",
+          "bytes": 4543695
+        },
+        {
+          "avatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+          "file": "frozen-rokoko-30s-v1/rokoko-5359146-male-arm-local-v1.motion.json",
+          "sha256": "5fe55028a0c48e76ec6a506475656f9486512c86c1fdd4b1bea0226300c50702",
+          "bytes": 4543566
+        }
+      ],
+      "label": "30 秒舞蹈 · 唯一优化封存对照",
+      "licenseBoundary": "Existing frozen project target export; Pexels reference is not CC0. No raw video/FBX redistribution. This installation makes no new commercial, provider API, or bulk-motion license claim.",
+      "workbenchRole": "frozen-comparison"
     }
-  ]
+  ],
+  "workbenchDefaultDanceId": "rokoko-5359146-30s-v1",
+  "licenseScope": "Legacy top-level CC0 license applies only to the original UAL entries. New normalized entries carry their own licenseBoundary."
 }

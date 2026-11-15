@@ -4,6 +4,7 @@ import { VRMLoaderPlugin, VRMUtils } from "@pixiv/three-vrm";
 import { createM1Equipment } from "./m1-equipment.js";
 import { foundationProfile } from "./foundation-profiles.js";
 import { createLivePresentation } from "./live-presentation.js";
+import { createCharacterAppearance } from "./character-appearance.js";
 import { validateForearmProfile } from "./forearm-envelope-projection.js";
 import { validateJointHandProfile } from "./joint-hand-workspace.mjs";
 
@@ -58,7 +59,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
   let debugBody = false,
     outfit = 0,
     dynamics = true;
-  let equipment, livePresentation;
+  let equipment, livePresentation, appearance;
   try {
   vrm.scene.traverse((mesh) => {
     if (!mesh.isMesh) return;
@@ -89,6 +90,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
   });
   equipment = await createM1Equipment({ vrm, avatarSha256: sha256, bodyType });
   const surfaces = equipment.getAssetProfile();
+  appearance = createCharacterAppearance({ vrm, avatarSha256: sha256 });
   livePresentation = createLivePresentation({vrm, root, bodyType: config.referenceBody || bodyType, avatarSha256: sha256});
   const meshRoles = {};
   for (const role of [
@@ -168,6 +170,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     profile,
     config,
     livePresentation,
+    appearance,
     getAssetProfile: () => profile,
     setMaterialRecipe: (id, recipeId) => equipment.setMaterialRecipe(id, recipeId),
     getMaterialRecipeState: (id) => equipment.getMaterialRecipeState(id),
@@ -211,6 +214,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
       asset: profile,
     }),
     dispose: () => {
+      appearance.dispose();
       livePresentation.dispose();
       equipment.dispose();
       root.removeFromParent();
@@ -228,6 +232,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     }),
   };
   } catch (error) {
+    appearance?.dispose();
     // The factory has not returned an avatar yet; callers cannot dispose it.
     // Release partially built equipment and the VRM here, including failures
     // before createM1Equipment returns (manifest/network/identity errors).

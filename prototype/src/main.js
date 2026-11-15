@@ -8,6 +8,7 @@ import { loadRetargetedMotions } from "./motion-source.js";
 import { createTurnPolicy } from "./turn-policy.js";
 import { createBehaviorTasks } from "./behavior-tasks.js";
 import { createSeatLeases } from "./seat-lease.js";
+import { bindAppearanceWorkbench } from "./appearance-workbench.js";
 import "./style.css";
 
 // Phaser owns input, path movement, action sequencing and frame scheduling.
@@ -394,6 +395,8 @@ let skeletonLines = null,
   normalizedPairs = [],
   contactMarkers = [];
 const fixedViews = new Set(["front", "side", "back"]);
+for (const framing of ['face', 'half', 'full'])
+  for (const direction of ['front', 'side', 'back']) fixedViews.add(`inspect-${framing}-${direction}`);
 function syncViewButtons() {
   for (const button of document.querySelectorAll("[data-view]"))
     button.setAttribute(
@@ -406,6 +409,20 @@ function syncViewButtons() {
 }
 function updateFixedCamera() {
   if (!avatar || !fixedViews.has(cameraMode)) return;
+  if (cameraMode.startsWith('inspect-')) {
+    const [, framing, direction] = cameraMode.split('-');
+    const head = avatar.vrm.humanoid.getRawBoneNode('head').getWorldPosition(v3());
+    const hips = avatar.vrm.humanoid.getRawBoneNode('hips').getWorldPosition(v3());
+    const target = framing === 'face' ? head.add(v3(0, .04, 0)) :
+      framing === 'half' ? head.add(hips).multiplyScalar(.5).add(v3(0, .035, 0)) :
+      avatar.root.position.clone().add(v3(0, .88, 0));
+    const distance = framing === 'face' ? .78 : framing === 'half' ? 1.8 : 3.8;
+    const offset = direction === 'front' ? v3(0, 0, distance) : direction === 'back' ? v3(0, 0, -distance) : v3(distance, 0, 0);
+    offset.applyAxisAngle(v3(0, 1, 0), avatar.root.rotation.y);
+    camera.position.copy(target).add(offset);
+    controls?.target.copy(target); camera.lookAt(target); camera.updateMatrixWorld(true);
+    return;
+  }
   const offset =
     cameraMode === "front"
       ? v3(0, 0.5, 3.2)
@@ -973,6 +990,8 @@ class CharacterScene extends Phaser.Scene {
         break;
       case "danceSelect":
         this.rig.setDance(cmd.id); return {applied:true};
+      case "appearance":
+        return this.actor.appearance?.set(cmd) ?? {applied:false,reason:'当前人物不支持外观编辑'};
       case "speaking":
         this.actor.livePresentation?.setSpeaking(cmd.value);
         return {applied:true};
@@ -1688,6 +1707,7 @@ function snapshot() {
     mode: c?.mode,
     outfit: c?.outfit,
     outfitInfo: avatar?.getOutfitInfo(),
+    appearance: avatar?.appearance?.getState(),
     speed: c?.actualSpeed,
     maxSpeed: c?.maxSpeed,
     locomotionIntent: c?.locomotionIntent,
@@ -1983,11 +2003,17 @@ loadAvatar({ scene: world, renderer })
     const danceSelect=document.createElement("select"); danceSelect.setAttribute("aria-label","舞蹈样件");
     for (const dance of motion.getDances()) {
       const option=document.createElement("option");option.value=dance.id;
-      option.textContent=dance.playback === "loop" ? "源短舞参考（循环）" : "技术编排（完整7.2秒）";
+      option.textContent=dance.label || (dance.id === 'rokoko-5359146-30s-v1' ? '视频转动作 · 原30秒（封存）' :
+        dance.id === 'rokoko-5359146-30s-arm-local-v1' ? '视频转动作 · 唯一优化版（封存）' :
+        dance.playback === "loop" ? "源短舞参考（循环）" : "技术编排（完整7.2秒）");
       danceSelect.append(option);
     }
     danceSelect.onchange=()=>{try{emit({type:"danceSelect",id:danceSelect.value});}catch(error){danceSelect.value=motion.getDance().id;document.querySelector("#scene-state").textContent=error.message;}};
     document.querySelector(".debug-controls").append(danceSelect);
+    if (new URLSearchParams(location.search).get('workbench') === 'appearance' &&
+        motion.getDances().some(d => d.id === 'rokoko-5359146-30s-v1')) {
+      motion.setDance('rokoko-5359146-30s-v1'); danceSelect.value = 'rokoko-5359146-30s-v1';
+    }
     motion.setAction("idle");
     motion.update(0, {
       distanceDelta: 0,
@@ -2017,7 +2043,10 @@ loadAvatar({ scene: world, renderer })
     window.__debug.ready = true;
     document.querySelector("#loading").hidden = true;
     document.querySelector("#loading").style.display = "none";
-    controller?.cameraPreset("close");
+    const workbench = new URLSearchParams(location.search).get('workbench') === 'appearance';
+    const initialView = new URLSearchParams(location.search).get('view');
+    controller?.cameraPreset(workbench ? (fixedViews.has(initialView) ? initialView : 'inspect-face-front') : 'close');
+    bindAppearanceWorkbench({avatar,controller});
     refreshUI();
   })
   .catch((error) => {

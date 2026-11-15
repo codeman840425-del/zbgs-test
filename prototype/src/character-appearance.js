@@ -1,0 +1,175 @@
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+export const HAIR_COLORS = { original: null, black: '#343139', brown: '#805039', blonde: '#dab77a' };
+// Presets inspected under the actual room's warm key light and ACES exposure.
+export const SKIN_TONES = { original: null, warm: '#ddc5b4', deep: '#81685b' };
+const hairManifestURL = '/assets/m2-hairstyle-v1/manifest.json';
+const femaleSHA = '027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95';
+const materialsOf = mesh => Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+
+/** Per-instance appearance only. No skeleton, geometry, motion or skin weights
+ * are changed by tinting. Replacements require an exact body admission. */
+export function createCharacterAppearance({ vrm, avatarSha256 }) {
+  const skin = new Set(), hair = new Set(), hairMeshes = [];
+  vrm.scene.traverse(mesh => {
+    if (!mesh.isMesh) return;
+    const materials = materialsOf(mesh);
+    for (const m of materials) {
+      if (/_(Body|Face)_\d+_SKIN/.test(m.name)) skin.add(m);
+      if (/_HAIR|_FaceBrow_/.test(m.name)) hair.add(m);
+    }
+    if (materials.length && materials.every(m => /_HAIR/.test(m.name))) hairMeshes.push({ mesh, visible: mesh.visible });
+  });
+  const originals = new Map([...skin, ...hair].map(m => [m, {
+    color: m.color?.clone(), shade: m.shadeColorFactor?.clone(), map: m.map, shadeMap: m.shadeMultiplyTexture,
+  }]));
+  const grayTextures = new Map();
+  let hairStyle = 'original', hairColor = 'original', skinTone = 'original';
+  let replacement = null, generation = 0, disposed = false, loading = false, error = null;
+  let replacementPromise = null;
+
+  function neutralTexture(texture) {
+    if (!texture) return null;
+    if (grayTextures.has(texture)) return grayTextures.get(texture);
+    const image = texture.image;
+    const canvas = document.createElement('canvas');
+    canvas.width = image.width; canvas.height = image.height;
+    const context = canvas.getContext('2d', { willReadFrequently: true });
+    context.drawImage(image, 0, 0);
+    const data = context.getImageData(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < data.data.length; i += 4) {
+      // Retain authored value detail and alpha without multiplying brown by cyan.
+      const value = Math.max(data.data[i], data.data[i + 1], data.data[i + 2]);
+      data.data[i] = data.data[i + 1] = data.data[i + 2] = value;
+    }
+    context.putImageData(data, 0, 0);
+    const result = texture.clone();
+    // Texture.clone shares Source; detach it before replacing pixels so restore
+    // and other materials retain the original image data.
+    result.source = new THREE.Source(canvas); result.needsUpdate = true;
+    grayTextures.set(texture, result);
+    return result;
+  }
+  function tintHair(m, base) {
+    if (!base.color) return;
+    const tint = HAIR_COLORS[hairColor];
+    m.map = tint ? neutralTexture(base.map) : base.map;
+    if ('shadeMultiplyTexture' in m) m.shadeMultiplyTexture = tint ? neutralTexture(base.shadeMap) : base.shadeMap;
+    m.color.copy(base.color);
+    if (tint) m.color.set(tint);
+    if (base.shade) {
+      m.shadeColorFactor.copy(base.shade);
+      if (tint) m.shadeColorFactor.set(tint).multiplyScalar(Math.max(base.shade.r, base.shade.g, base.shade.b));
+    }
+    m.needsUpdate = true;
+  }
+  function applyColors() {
+    for (const m of hair) tintHair(m, originals.get(m));
+    replacement?.scene.traverse(mesh => {
+      if (mesh.isMesh) for (const m of materialsOf(mesh)) tintHair(m, replacement.materialBase.get(m));
+    });
+    for (const m of skin) {
+      const base = originals.get(m), tint = SKIN_TONES[skinTone];
+      if (base.color) { m.color.copy(base.color); if (tint) m.color.multiply(new THREE.Color(tint)); }
+      if (base.shade) { m.shadeColorFactor.copy(base.shade); if (tint) m.shadeColorFactor.multiply(new THREE.Color(tint)); }
+    }
+  }
+  function releaseReplacement(value) {
+    if (!value) return;
+    value.scene.removeFromParent();
+    value.scene.traverse(mesh => { if (mesh.isMesh) { mesh.geometry.dispose(); materialsOf(mesh).forEach(m => m.dispose()); } });
+  }
+  async function loadReplacement() {
+    const response = await fetch(hairManifestURL);
+    if (!response.ok) throw new Error(`发型清单加载失败 (${response.status})`);
+    const manifest = await response.json();
+    if (manifest.schema !== 'character-hairstyle-v1' || manifest.id !== 'female-bob-v1' ||
+        manifest.mount !== 'head' || manifest.headLocal !== true || !manifest.compatibleBodies.includes(avatarSha256))
+      throw new Error('发型与当前身体未通过兼容检查');
+    const asset = await fetch(manifest.url);
+    if (!asset.ok) throw new Error(`发型资源加载失败 (${asset.status})`);
+    const bytes = await asset.arrayBuffer();
+    const sha = [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))].map(v => v.toString(16).padStart(2, '0')).join('');
+    if (sha !== manifest.sha256) throw new Error('发型资源身份不一致');
+    const source = [...hair].filter(m => m.name === manifest.sourceMaterial);
+    if (!source.length || !hairMeshes.length) throw new Error('原发型材质/独立网格缺失');
+    const gltf = await new GLTFLoader().parseAsync(bytes, '/assets/m2-hairstyle-v1/');
+    const materialBase = new Map(), oldMaterials = new Set();
+    gltf.scene.traverse(mesh => {
+      if (!mesh.isMesh) return;
+      materialsOf(mesh).forEach(m => oldMaterials.add(m));
+      // This export has one surface. Reuse the original MToon surface and its
+      // outline draw group; do not substitute a different lighting model.
+      const cloned = source.map(m => { const c = m.clone(); materialBase.set(c, originals.get(m)); return c; });
+      mesh.material = cloned.length === 1 ? cloned[0] : cloned;
+      mesh.geometry.clearGroups();
+      cloned.forEach((m, i) => mesh.geometry.addGroup(0, mesh.geometry.index?.count ?? mesh.geometry.attributes.position.count, i));
+      mesh.castShadow = true; mesh.frustumCulled = false;
+      mesh.userData.assetRole = 'hair';
+    });
+    const textures = new Set();
+    for (const m of oldMaterials) { for (const value of Object.values(m)) if (value?.isTexture) textures.add(value); m.dispose(); }
+    textures.forEach(t => t.dispose());
+    return { scene: gltf.scene, materialBase, sha256: sha };
+  }
+  async function set(input = {}) {
+    if (disposed) return { applied: false, reason: '人物已卸载' };
+    const desiredStyle = input.reset ? 'original' : input.hairStyle ?? hairStyle;
+    const desiredColor = input.reset ? 'original' : input.hairColor ?? hairColor;
+    const desiredSkin = input.reset ? 'original' : input.skinTone ?? skinTone;
+    if (!(desiredColor in HAIR_COLORS) || !(desiredSkin in SKIN_TONES)) return { applied: false, reason: '未知颜色预设' };
+    if (desiredStyle !== 'original' && (desiredStyle !== 'female-bob-v1' || avatarSha256 !== femaleSHA))
+      return { applied: false, reason: '该发型目前仅适配原女性候选；派生与男性未验证' };
+    hairColor = desiredColor; skinTone = desiredSkin; applyColors();
+    // Color edits do not cancel an in-flight style request.
+    if (input.hairStyle === undefined && !input.reset) return { applied: true };
+    const request = ++generation;
+    error = null;
+    if (desiredStyle === 'original') {
+      hairStyle = desiredStyle; loading = false;
+      if (replacement) replacement.scene.visible = false;
+      hairMeshes.forEach(({ mesh, visible }) => { mesh.visible = visible; });
+      return { applied: true };
+    }
+    loading = true;
+    try {
+      if (!replacement) {
+        if (!replacementPromise) replacementPromise = loadReplacement().then(value => {
+          if (disposed) { releaseReplacement(value); return null; }
+          replacement = value; value.scene.visible = false;
+          vrm.humanoid.getRawBoneNode('head').add(value.scene);
+          return value;
+        }).finally(() => { replacementPromise = null; });
+        await replacementPromise;
+      }
+      if (disposed || request !== generation) return { applied: false, cancelled: true };
+      applyColors(); replacement.scene.visible = true;
+      hairMeshes.forEach(({ mesh }) => { mesh.visible = false; });
+      hairStyle = desiredStyle; loading = false;
+      return { applied: true };
+    } catch (e) {
+      if (request === generation) { error = e.message; loading = false; }
+      return { applied: false, reason: e.message };
+    }
+  }
+  return {
+    set,
+    getState: () => ({ hairStyle, hairColor, skinTone, loading, error,
+      availableStyles: avatarSha256 === femaleSHA ? ['original', 'female-bob-v1'] : ['original'],
+      skinMaterialCount: skin.size, hairMaterialCount: hair.size, neutralTextureCount: grayTextures.size,
+      replacementSHA256: replacement?.sha256 ?? null }),
+    dispose() {
+      disposed = true; generation++;
+      releaseReplacement(replacement); replacement = null;
+      for (const [m, base] of originals) {
+        if (base.color) m.color.copy(base.color);
+        if (base.shade) m.shadeColorFactor.copy(base.shade);
+        m.map = base.map;
+        if ('shadeMultiplyTexture' in m) m.shadeMultiplyTexture = base.shadeMap;
+      }
+      hairMeshes.forEach(({ mesh, visible }) => { mesh.visible = visible; });
+      grayTextures.forEach(t => t.dispose()); grayTextures.clear();
+    },
+  };
+}
