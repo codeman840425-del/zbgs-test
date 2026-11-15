@@ -1,0 +1,93 @@
+{
+  "mediapipe": "1.2.3",
+  "python": "3.13.11",
+  "delegate": "CPU",
+  "mode": "VIDEO",
+  "models": {
+    "hand_landmarker.task": "fbc2a30080c3c557093b5ddfc334698132eb341044ccee322ccf8bcf3607cde1",
+    "pose_landmarker_full.task": "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1"
+  },
+  "thresholds": {
+    "detection": 0.5,
+    "presence": 0.5,
+    "tracking": 0.5
+  },
+  "pose_names": [
+    "nose",
+    "left_eye_inner",
+    "left_eye",
+    "left_eye_outer",
+    "right_eye_inner",
+    "right_eye",
+    "right_eye_outer",
+    "left_ear",
+    "right_ear",
+    "mouth_left",
+    "mouth_right",
+    "left_shoulder",
+    "right_shoulder",
+    "left_elbow",
+    "right_elbow",
+    "left_wrist",
+    "right_wrist",
+    "left_pinky",
+    "right_pinky",
+    "left_index",
+    "right_index",
+    "left_thumb",
+    "right_thumb",
+    "left_hip",
+    "right_hip",
+    "left_knee",
+    "right_knee",
+    "left_ankle",
+    "right_ankle",
+    "left_heel",
+    "right_heel",
+    "left_foot_index",
+    "right_foot_index"
+  ],
+  "semantics": {
+    "normalized": "x/y relative image width/height; z is predicted relative depth, not metric image depth",
+    "world": "model-predicted meters, pose hip-centered and hand hand-centered; no calibrated camera/global trajectory",
+    "pose_visibility": "raw returned likelihood visible, not a measured position accuracy",
+    "pose_presence": "raw returned landmark presence",
+    "hand_visibility_presence": "null means API does not supply per-joint confidence; handedness score is classification, not keypoint confidence",
+    "tracking": "VIDEO mode uses official tracking; no identity guarantee or independent accuracy validation"
+  },
+  "inputs": [
+    {
+      "path": "analysis\\dance-reference-v1\\5359146-original.mp4",
+      "sha256": "c26ca0a91f8b735c575a142a75504696609bfa024e905b9cec13ba61c70c1c48",
+      "time_base": "1/24000",
+      "average_rate": "24000/1001",
+      "requested_interval_seconds": [
+        0.0,
+        30.0
+      ],
+      "spatial_crop": null,
+      "rescale": {
+        "original_size_wh": [
+          3840,
+          2160
+        ],
+        "inference_size_wh": [
+          1280,
+          720
+        ],
+        "scale_xy": [
+          0.3333333333333333,
+          0.3333333333333333
+        ],
+        "offset_xy": [
+          0,
+          0
+        ],
+        "method": "OpenCV INTER_AREA",
+        "normalized_xy_mapping": "same relative image domain; x_original_pixels=x*original_width, y_original_pixels=y*original_height; no spatial crop"
+      },
+      "actual_first_source_seconds": 0.0
+    }
+  ],
+  "elapsed_seconds": 28.462158999987878
+}

@@ -38,6 +38,7 @@ if(process.argv.includes('--self-test')){
  w(x,'inner','innerMs');w(x,'outer','outerMs');w(x,'failure','failureMs');x.outer();assert.equal(row.outerMs,10);assert.equal(row.innerMs,3);assert.equal(row.exclusive.outerMs,7);assert.equal(Object.values(row.exclusive).reduce((a,b)=>a+b,0),10);assert.throws(()=>x.failure(),/expected/);assert.equal(row.exclusive.failureMs,1);assert.throws(()=>w(x,'inner','again'),/Duplicate/);row=null;x.outer();assert.equal(time,21);console.log('PASS nested inclusive/exclusive, exception cleanup, duplicate guard, inactive sampling');process.exit(0);
 }
 const selectedCases=selectCases(process.env.QA_PERF_CASES);
+const detail=process.env.QA_PERF_DETAIL==='1';
 const build=process.env.QA_M1_BUILD;
 const sampleSeconds=Number(process.env.QA_PERF_SECONDS||30);
 if(!Number.isFinite(sampleSeconds)||sampleSeconds<12||sampleSeconds>120)throw Error('QA_PERF_SECONDS must be 12..120');
@@ -49,7 +50,7 @@ const quant=(rows,key)=>{const a=rows.map(r=>r[key]).filter(Number.isFinite).sor
  const out=path.resolve(process.env.QA_M1_RUN_ROOT||`output/playwright/m1/${build}/sustained-perf`);await fs.mkdir(out,{recursive:true});
  try{await fs.access(path.join(out,'report.json'));throw Error('Refuse to overwrite measured report');}catch(e){if(e.code!=='ENOENT')throw e;}
  const browser=await chromium.launch({channel:'chrome',headless:false}),context=await browser.newContext({viewport:{width:1440,height:900}}),page=await context.newPage(),errors=[];
- const report={schema:'sustained-current-perf-v2',build,scriptSHA256:createHash('sha256').update(await fs.readFile(__filename)).digest('hex'),sampleSeconds,selectedCases:selectedCases.map(x=>x.name),viewport:{width:1440,height:900},browser:browser.version(),errors,results:[],passed:false,
+ const report={schema:'sustained-current-perf-v2',build,detail,scriptSHA256:createHash('sha256').update(await fs.readFile(__filename)).digest('hex'),sampleSeconds,selectedCases:selectedCases.map(x=>x.name),viewport:{width:1440,height:900},browser:browser.version(),errors,results:[],passed:false,
   limitations:['Development machine only; no ordinary-PC pass.',`${sampleSeconds}-second sample per case, not a soak test.`,
    'Timer Ms fields are inclusive and overlap; do not sum them. exclusive maps remove only nested instrumented calls; their sum is a subset of scene CPU span.',
    'cpuUpdateMs spans Phaser preupdate to postupdate, including scene update, Three CPU render submission and UI work; excludes later Phaser rendering, browser layout/composite and GPU completion.',
@@ -60,14 +61,16 @@ const quant=(rows,key)=>{const a=rows.map(r=>r[key]).filter(Number.isFinite).sor
  try{
   await page.goto(process.argv[2]);await page.waitForFunction(()=>window.__debug?.ready,null,{timeout:60000});report.gate=await verifyCandidate(page,identity);
   report.meta=await page.evaluate(()=>{const d=__debug,g=d.renderer.getContext(),ext=g.getExtension('WEBGL_debug_renderer_info');return {ua:navigator.userAgent,cores:navigator.hardwareConcurrency,deviceMemory:navigator.deviceMemory,gpu:ext?g.getParameter(ext.UNMASKED_RENDERER_WEBGL):null,loadMs:d.snapshot().loadMs};});
-  await page.evaluate(timerSource=>{
+  await page.evaluate(({timerSource,detail})=>{
    const d=__debug,c=d.game.scene.getScene('CharacterStudio'),q=window.__measure={active:false,frames:[],previous:null,current:null};
    const wrap=(0,eval)('('+timerSource+')')(()=>performance.now(),()=>q.current);
-   q.instrument=(a,m)=>{wrap(m,'update','motionMs');wrap(a,'update','avatarMs');wrap(a,'updateGarment','garmentMs');wrap(a.vrm,'update','vrmMs')};
+   q.instrument=(a,m)=>{wrap(m,'update','motionMs');wrap(a,'update','avatarMs');wrap(a,'updateGarment','garmentMs');wrap(a.vrm,'update','vrmMs');
+    if(detail && a.profile?.motion?.seatHandSurfaces){a.profile.motion.forearmProfileTiming=true;wrap(a.profile.motion,'seatHandSurfaces','handSurfaceMs');}
+   };
    q.instrument(d.avatar(),d.motion());wrap(c,'simulate','primarySimulateMs');wrap(d.renderer,'render','renderSubmitMs');
    c.events.on('preupdate',()=>{const t=performance.now();q.current=q.active?{t,frameMs:q.previous===null?null:t-q.previous,exclusive:{},calls:{}}:null;q.previous=t;});
-   c.events.on('postupdate',()=>{if(q.current){const row=q.current;row.cpuUpdateMs=performance.now()-row.t;row.mode=c.mode;row.speed=c.actualSpeed;row.hidden=document.hidden;row.paused=c.paused;row.background=c.backgroundSuspended;row.rate=c.playbackRate;row.simulationTime=c.simulationTime;const peer=d.comparison();row.peer=peer?{mode:peer.controller.mode,speed:peer.controller.actualSpeed}:null;q.frames.push(row);}q.current=null;});
-  },createTimers.toString());
+   c.events.on('postupdate',()=>{if(q.current){const row=q.current;row.cpuUpdateMs=performance.now()-row.t;row.mode=c.mode;row.speed=c.actualSpeed;row.hidden=document.hidden;row.paused=c.paused;row.background=c.backgroundSuspended;row.rate=c.playbackRate;row.simulationTime=c.simulationTime;const peer=d.comparison();row.peer=peer?{mode:peer.controller.mode,speed:peer.controller.actualSpeed}:null;if(detail)row.lastSubstepHandFit=d.motion().getMetrics().handFitProfile;q.frames.push(row);}q.current=null;});
+  },{timerSource:createTimers.toString(),detail});
   for(const config of selectedCases){   const caseResult={config};report.results.push(caseResult);
    await page.evaluate(async cfg=>{const d=__debug,c=d.game.scene.getScene('CharacterStudio');d.removeComparison();d.reset();d.setPlaybackRate(1);d.setCorrections('full');d.setHelpers(false);d.setBodyMode(cfg.base?'base':'dressed');d.setOutfit(cfg.skirt?1:0);d.setDynamics(!cfg.base);c.cameraPreset('room',true);d.setSpeed(cfg.speed||.85);d.setPaused(true);
     if(cfg.dual){const p=await d.loadComparison('male');__measure.instrument(p.avatar,p.motion);p.controller.yaw=Math.PI/2;p.avatar.root.position.set(-2.2,0,2.6);p.avatar.root.rotation.y=Math.PI/2;p.motion.reset();}
@@ -89,7 +92,7 @@ const quant=(rows,key)=>{const a=rows.map(r=>r[key]).filter(Number.isFinite).sor
     },config);
    }
    const data=await page.evaluate(()=>{__measure.active=false;const s=__debug.snapshot();return {frames:__measure.frames,resources:{renderer:s.renderer,heap:s.heap},end:{mode:s.mode,position:s.position,simulationTime:s.simulationTime,camera:s.camera}};});
-   const summary={},exclusive={};for(const key of ['frameMs','cpuUpdateMs','primarySimulateMs','motionMs','avatarMs','vrmMs','garmentMs','renderSubmitMs']){summary[key]=quant(data.frames,key);exclusive[key]=quant(data.frames.map(f=>f.exclusive),key);}
+   const summary={},exclusive={};for(const key of ['frameMs','cpuUpdateMs','primarySimulateMs','motionMs','avatarMs','vrmMs','garmentMs','renderSubmitMs',...(detail?['handSurfaceMs']:[])]){summary[key]=quant(data.frames,key);exclusive[key]=quant(data.frames.map(f=>f.exclusive),key);}
    const modeFrames={};for(const f of data.frames)modeFrames[f.mode]=(modeFrames[f.mode]||0)+1;
    const validity={frames:data.frames.length,invalidStateFrames:data.frames.filter(f=>f.hidden||f.paused||f.background||f.rate!==1).length,missingInstrumentedFrames:data.frames.filter(f=>!f.calls.renderSubmitMs||!f.calls.primarySimulateMs).length,
     movingFrames:data.frames.filter(f=>f.speed>.05).length,runningSpeedFrames:data.frames.filter(f=>f.speed>1.5).length,peerMovingFrames:data.frames.filter(f=>f.peer?.speed>.05).length,modeFrames,

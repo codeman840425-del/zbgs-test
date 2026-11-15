@@ -36,7 +36,9 @@ def overlay(bgr, data, title):
     cv2.putText(out,'Green: pose; orange: hand; red: low visibility (not ground truth)',(10,40),cv2.FONT_HERSHEY_SIMPLEX,.43,(255,255,255),1)
     return out
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('inputs',nargs='+');ap.add_argument('--out',required=True);ap.add_argument('--video',action='store_true');ap.add_argument('--start',type=float,default=0);ap.add_argument('--end',type=float,default=10);args=ap.parse_args()
+    ap=argparse.ArgumentParser();ap.add_argument('inputs',nargs='+');ap.add_argument('--out',required=True);ap.add_argument('--video',action='store_true');ap.add_argument('--start',type=float,default=0);ap.add_argument('--end',type=float,default=10);ap.add_argument('--max-width',type=int,default=None);args=ap.parse_args()
+    if args.max_width is not None and args.max_width<1:ap.error('--max-width must be positive')
+    if args.video and len(args.inputs)!=1:ap.error('Use one video per invocation to keep tracking state isolated')
     out=Path(args.out);out.mkdir(parents=True,exist_ok=True)
     mode=vision.RunningMode.VIDEO if args.video else vision.RunningMode.IMAGE
     base=lambda name: mp.tasks.BaseOptions(model_asset_path=str(HERE/'models'/name),delegate=mp.tasks.BaseOptions.Delegate.CPU)
@@ -63,10 +65,16 @@ def main():
                         if first_t is None:first_t=t
                         ts=round(t*1000)
                         if ts<=last_ts:raise ValueError('PTS quantization not strictly increasing: refusing retime')
-                        last_ts=ts;bgr=frame.to_ndarray(format='bgr24');rgb=cv2.cvtColor(bgr,cv2.COLOR_BGR2RGB);img=mp.Image(image_format=mp.ImageFormat.SRGB,data=rgb)
+                        last_ts=ts;bgr=frame.to_ndarray(format='bgr24')
+                        if args.max_width is not None and bgr.shape[1]>args.max_width:
+                            original_height,original_width=bgr.shape[:2];width=args.max_width;height=round(original_height*width/original_width)
+                            bgr=cv2.resize(bgr,(width,height),interpolation=cv2.INTER_AREA)
+                            info['rescale']={'original_size_wh':[original_width,original_height],'inference_size_wh':[width,height],'scale_xy':[width/original_width,height/original_height],'offset_xy':[0,0],'method':'OpenCV INTER_AREA','normalized_xy_mapping':'same relative image domain; x_original_pixels=x*original_width, y_original_pixels=y*original_height; no spatial crop'}
+                        rgb=cv2.cvtColor(bgr,cv2.COLOR_BGR2RGB);img=mp.Image(image_format=mp.ImageFormat.SRGB,data=rgb)
                         data=result(pose.detect_for_video(img,ts),hands.detect_for_video(img,ts))
                         data.update({'source_frame_index':source_index,'pts':frame.pts,'time_base':str(frame.time_base),'source_seconds':t,'clip_seconds':t-first_t,'mediapipe_timestamp_ms':ts})
                         frames.append(data)
+                        if len(frames)%120==0:print('Processed',len(frames),'frames; original seconds',t,flush=True)
                         if len(frames)==1 or len(frames)%30==0:cv2.imwrite(str(out/f'frame-{source_index:05d}.jpg'),overlay(bgr,data,f'Original PTS {t:.3f}s; clip {t-first_t:.3f}s'))
                     info['actual_first_source_seconds']=first_t
                 dump(out/'sequence.json',{'metadata':metadata,'frames':frames})

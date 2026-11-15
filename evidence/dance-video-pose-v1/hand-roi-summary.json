@@ -1,0 +1,130 @@
+{
+  "source_manifest": "source.json",
+  "inputs_manifest": "hand-roi-inputs.json",
+  "raw_control_output": "hand-roi-results.raw.json",
+  "raw_control_output_sha256": "9b5255d7b6f89c44678db161089c5de78c6deaa110c03c40e55feb0c958e721f",
+  "comparisons": [
+    {
+      "frame": 29,
+      "source_seconds": 1.2095416666666667,
+      "full_image_1280_count": 0,
+      "rois": [
+        {
+          "pose_named_side": "left",
+          "native_512_count": 1,
+          "same_fov_171_count": 1
+        },
+        {
+          "pose_named_side": "right",
+          "native_512_count": 1,
+          "same_fov_171_count": 1
+        }
+      ]
+    },
+    {
+      "frame": 119,
+      "source_seconds": 4.963291666666667,
+      "full_image_1280_count": 0,
+      "rois": [
+        {
+          "pose_named_side": "left",
+          "native_512_count": 1,
+          "same_fov_171_count": 1
+        },
+        {
+          "pose_named_side": "right",
+          "native_512_count": 1,
+          "same_fov_171_count": 1
+        }
+      ]
+    },
+    {
+      "frame": 299,
+      "source_seconds": 12.470791666666667,
+      "full_image_1280_count": 0,
+      "rois": [
+        {
+          "pose_named_side": "left",
+          "native_512_count": 0,
+          "same_fov_171_count": 0
+        },
+        {
+          "pose_named_side": "right",
+          "native_512_count": 1,
+          "same_fov_171_count": 1
+        }
+      ]
+    },
+    {
+      "frame": 479,
+      "source_seconds": 19.978291666666667,
+      "full_image_1280_count": 0,
+      "rois": [
+        {
+          "pose_named_side": "left",
+          "native_512_count": 1,
+          "same_fov_171_count": 1
+        },
+        {
+          "pose_named_side": "right",
+          "native_512_count": 1,
+          "same_fov_171_count": 2
+        }
+      ]
+    },
+    {
+      "frame": 599,
+      "source_seconds": 24.983291666666666,
+      "full_image_1280_count": 0,
+      "rois": [
+        {
+          "pose_named_side": "left",
+          "native_512_count": 1,
+          "same_fov_171_count": 1
+        },
+        {
+          "pose_named_side": "right",
+          "native_512_count": 0,
+          "same_fov_171_count": 0
+        }
+      ]
+    },
+    {
+      "frame": 719,
+      "source_seconds": 29.988291666666665,
+      "full_image_1280_count": 0,
+      "rois": [
+        {
+          "pose_named_side": "left",
+          "native_512_count": 1,
+          "same_fov_171_count": 1
+        },
+        {
+          "pose_named_side": "right",
+          "native_512_count": 1,
+          "same_fov_171_count": 1
+        }
+      ]
+    }
+  ],
+  "native_roi_with_detection": 10,
+  "low_roi_with_detection": 10,
+  "roi_count": 12,
+  "visual_observation": {
+    "review_image_local_only": "analysis/dance-reference-v1/hand-roi-control/comparison.jpg",
+    "missing": [
+      "299 left: face/hair occlusion",
+      "599 right: incomplete hand absent from fixed body-wrist ROI"
+    ],
+    "479_right_low_second_detection": "Crop edge includes another partly visible hand. Association is ambiguous; not a verified false positive or proof that more detections are better.",
+    "accuracy": "Most detected wrist/palm positions lie near visible hands qualitatively. No quantitative point accuracy or complete-finger acceptance."
+  },
+  "conclusion": "Both native512 and same-FOV171 detect in 10/12 ROIs. Framing/apparent hand scale helps versus whole1280 image, but native4K pixel-detail superiority and pixel resolution as the exclusive cause are not established.",
+  "scope": "Six independent IMAGE samples, same thresholds; not temporal tracking, not a full720 ROI run, no raw-video fusion or correction.",
+  "raw_sequence_integrity": {
+    "snapshot_sha256": "48896b6577667383043d4bfe281cc0011d56c73f2d2a32b619927e6670d08de2",
+    "decompressed_sha256": "ee975632bbd9d8913df5fda88d58762b88ec75d5f17618b7fbe7068364b57cec",
+    "matches_original_summary": true,
+    "matches_local_raw_if_present": true
+  }
+}

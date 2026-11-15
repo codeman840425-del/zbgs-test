@@ -1,0 +1,736 @@
+{
+  "schema": "sustained-current-perf-v2",
+  "build": "f7bdc3be3de4",
+  "detail": null,
+  "passed": true,
+  "scriptSHA256": "168c11222f91c7ea113e5189aeae8f9beca6f35a495b4009256e7ce652218e40",
+  "sampleSeconds": 30,
+  "selectedCases": [
+    "base-walk",
+    "pants-walk",
+    "skirt-sit-hold",
+    "dual-pants-walk"
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "browser": "157.0.8103.51",
+  "meta": {
+    "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+    "cores": 8,
+    "deviceMemory": 32,
+    "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 4090 (0x00002684) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "loadMs": 1585.1000000238419
+  },
+  "limitations": [
+    "Development machine only; no ordinary-PC pass.",
+    "30-second sample per case, not a soak test.",
+    "Timer Ms fields are inclusive and overlap; do not sum them. exclusive maps remove only nested instrumented calls; their sum is a subset of scene CPU span.",
+    "cpuUpdateMs spans Phaser preupdate to postupdate, including scene update, Three CPU render submission and UI work; excludes later Phaser rendering, browser layout/composite and GPU completion.",
+    "frameMs is preupdate-to-preupdate wall pacing, not GPU time. Polling commands and all instrumentation overhead remain in observations.",
+    "Setup uses reset/manual simulation and excludes load/setup/1s warmup from sampling. Route samples include turns/stops/250ms polling idle gaps; actual duty is reported.",
+    "JS heap and renderer object counts are not VRAM/whole-process memory; no video or CPU throttle."
+  ],
+  "rawSHA256": "bd38f1bb96a42160ffae62836c2343ae81287e7ddff0c5cf5c1d0e9d49ad2f0c",
+  "archiveSHA256": "a626d675d4d6b59114a97284aa5231f50b164e584eae1ed21e7c2e978dc4f9bd",
+  "cases": [
+    {
+      "config": {
+        "name": "base-walk",
+        "base": true,
+        "walk": true
+      },
+      "summary": {
+        "frameMs": {
+          "count": 4977,
+          "p50": 6.099999904632568,
+          "p95": 6.299999952316284,
+          "p99": 6.600000023841858,
+          "max": 12.899999976158142,
+          "over33": 0,
+          "over50": 0
+        },
+        "cpuUpdateMs": {
+          "count": 4978,
+          "p50": 1.2999999523162842,
+          "p95": 1.7999999523162842,
+          "p99": 2.1999999284744263,
+          "max": 5.5,
+          "over33": 0,
+          "over50": 0
+        },
+        "primarySimulateMs": {
+          "count": 4978,
+          "p50": 0.7999999523162842,
+          "p95": 1.2000000476837158,
+          "p99": 1.5,
+          "max": 4.899999976158142,
+          "over33": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4978,
+          "p50": 0.40000009536743164,
+          "p95": 0.7999999523162842,
+          "p99": 1,
+          "max": 4.5,
+          "over33": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4978,
+          "p50": 0.2999999523162842,
+          "p95": 0.5,
+          "p99": 0.5999999046325684,
+          "max": 1.600000023841858,
+          "over33": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4978,
+          "p50": 0.09999990463256836,
+          "p95": 0.19999992847442627,
+          "p99": 0.20000004768371582,
+          "max": 0.3999999761581421,
+          "over33": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4978,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0.10000002384185791,
+          "over33": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4978,
+          "p50": 0.5,
+          "p95": 0.6000000238418579,
+          "p99": 0.8000000715255737,
+          "max": 2.799999952316284,
+          "over33": 0,
+          "over50": 0
+        }
+      },
+      "exclusiveSummary": {
+        "frameMs": {
+          "count": 0,
+          "over33": 0,
+          "over50": 0
+        },
+        "cpuUpdateMs": {
+          "count": 0,
+          "over33": 0,
+          "over50": 0
+        },
+        "primarySimulateMs": {
+          "count": 4978,
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.2999999523162842,
+          "max": 0.7000000476837158,
+          "over33": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4978,
+          "p50": 0.40000009536743164,
+          "p95": 0.7999999523162842,
+          "p99": 1,
+          "max": 4.5,
+          "over33": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4978,
+          "p50": 0.20000004768371582,
+          "p95": 0.3999999761581421,
+          "p99": 0.5,
+          "max": 1.399999976158142,
+          "over33": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4978,
+          "p50": 0.09999990463256836,
+          "p95": 0.19999992847442627,
+          "p99": 0.20000004768371582,
+          "max": 0.3999999761581421,
+          "over33": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4978,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0.10000002384185791,
+          "over33": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4978,
+          "p50": 0.5,
+          "p95": 0.6000000238418579,
+          "p99": 0.8000000715255737,
+          "max": 2.799999952316284,
+          "over33": 0,
+          "over50": 0
+        }
+      },
+      "validity": {
+        "frames": 4978,
+        "invalidStateFrames": 0,
+        "missingInstrumentedFrames": 0,
+        "movingFrames": 4142,
+        "runningSpeedFrames": 0,
+        "peerMovingFrames": 0,
+        "modeFrames": {
+          "walk": 4873,
+          "idle": 105
+        },
+        "exclusiveOverSceneFrames": 0
+      },
+      "resources": {
+        "renderer": {
+          "calls": 130,
+          "triangles": 30702,
+          "textures": 44,
+          "geometries": 89
+        },
+        "heap": {
+          "used": 51842200,
+          "total": 106450784
+        }
+      },
+      "valid": true
+    },
+    {
+      "config": {
+        "name": "pants-walk",
+        "walk": true
+      },
+      "summary": {
+        "frameMs": {
+          "count": 4984,
+          "p50": 6.100000023841858,
+          "p95": 6.299999952316284,
+          "p99": 6.600000023841858,
+          "max": 10.200000047683716,
+          "over33": 0,
+          "over50": 0
+        },
+        "cpuUpdateMs": {
+          "count": 4985,
+          "p50": 1.2999999523162842,
+          "p95": 1.7000000476837158,
+          "p99": 2.1999999284744263,
+          "max": 3.799999952316284,
+          "over33": 0,
+          "over50": 0
+        },
+        "primarySimulateMs": {
+          "count": 4985,
+          "p50": 0.7999999523162842,
+          "p95": 1.1999999284744263,
+          "p99": 1.399999976158142,
+          "max": 3,
+          "over33": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4985,
+          "p50": 0.40000009536743164,
+          "p95": 0.7999999523162842,
+          "p99": 1,
+          "max": 2,
+          "over33": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4985,
+          "p50": 0.20000004768371582,
+          "p95": 0.3999999761581421,
+          "p99": 0.5,
+          "max": 0.8999999761581421,
+          "over33": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4985,
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.2999999523162842,
+          "max": 0.7000000476837158,
+          "over33": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4985,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0.10000002384185791,
+          "over33": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4985,
+          "p50": 0.5,
+          "p95": 0.6999999284744263,
+          "p99": 0.8999999761581421,
+          "max": 2,
+          "over33": 0,
+          "over50": 0
+        }
+      },
+      "exclusiveSummary": {
+        "frameMs": {
+          "count": 0,
+          "over33": 0,
+          "over50": 0
+        },
+        "cpuUpdateMs": {
+          "count": 0,
+          "over33": 0,
+          "over50": 0
+        },
+        "primarySimulateMs": {
+          "count": 4985,
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.2999999523162842,
+          "max": 0.8000000715255737,
+          "over33": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4985,
+          "p50": 0.40000009536743164,
+          "p95": 0.7999999523162842,
+          "p99": 1,
+          "max": 2,
+          "over33": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4985,
+          "p50": 0.10000002384185791,
+          "p95": 0.2999999523162842,
+          "p99": 0.30000007152557373,
+          "max": 0.6000000238418579,
+          "over33": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4985,
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.2999999523162842,
+          "max": 0.7000000476837158,
+          "over33": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4985,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0.10000002384185791,
+          "over33": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4985,
+          "p50": 0.5,
+          "p95": 0.6999999284744263,
+          "p99": 0.8999999761581421,
+          "max": 2,
+          "over33": 0,
+          "over50": 0
+        }
+      },
+      "validity": {
+        "frames": 4985,
+        "invalidStateFrames": 0,
+        "missingInstrumentedFrames": 0,
+        "movingFrames": 4140,
+        "runningSpeedFrames": 0,
+        "peerMovingFrames": 0,
+        "modeFrames": {
+          "walk": 4871,
+          "idle": 114
+        },
+        "exclusiveOverSceneFrames": 0
+      },
+      "resources": {
+        "renderer": {
+          "calls": 138,
+          "triangles": 53814,
+          "textures": 44,
+          "geometries": 89
+        },
+        "heap": {
+          "used": 56114288,
+          "total": 119451488
+        }
+      },
+      "valid": true
+    },
+    {
+      "config": {
+        "name": "skirt-sit-hold",
+        "skirt": true,
+        "sit": true
+      },
+      "summary": {
+        "frameMs": {
+          "count": 2998,
+          "p50": 9.899999976158142,
+          "p95": 11.299999952316284,
+          "p99": 14.199999928474426,
+          "max": 29.800000071525574,
+          "over33": 0,
+          "over50": 0
+        },
+        "cpuUpdateMs": {
+          "count": 2999,
+          "p50": 9.700000047683716,
+          "p95": 11,
+          "p99": 13,
+          "max": 29.5,
+          "over33": 0,
+          "over50": 0
+        },
+        "primarySimulateMs": {
+          "count": 2999,
+          "p50": 9.200000047683716,
+          "p95": 10.399999976158142,
+          "p99": 12.299999952316284,
+          "max": 28.300000071525574,
+          "over33": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 2999,
+          "p50": 8.600000143051147,
+          "p95": 9.799999952316284,
+          "p99": 11.5,
+          "max": 26.299999952316284,
+          "over33": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 2999,
+          "p50": 0.40000009536743164,
+          "p95": 0.6000000238418579,
+          "p99": 0.7000001668930054,
+          "max": 1.4000000953674316,
+          "over33": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 2999,
+          "p50": 0.19999992847442627,
+          "p95": 0.30000007152557373,
+          "p99": 0.3999999761581421,
+          "max": 0.6000000238418579,
+          "over33": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 2999,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0.20000004768371582,
+          "over33": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 2999,
+          "p50": 0.5,
+          "p95": 0.7000000476837158,
+          "p99": 1,
+          "max": 1.600000023841858,
+          "over33": 0,
+          "over50": 0
+        }
+      },
+      "exclusiveSummary": {
+        "frameMs": {
+          "count": 0,
+          "over33": 0,
+          "over50": 0
+        },
+        "cpuUpdateMs": {
+          "count": 0,
+          "over33": 0,
+          "over50": 0
+        },
+        "primarySimulateMs": {
+          "count": 2999,
+          "p50": 0.10000002384185791,
+          "p95": 0.2999999523162842,
+          "p99": 0.30000007152557373,
+          "max": 0.6999999284744263,
+          "over33": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 2999,
+          "p50": 8.600000143051147,
+          "p95": 9.799999952316284,
+          "p99": 11.5,
+          "max": 26.299999952316284,
+          "over33": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 2999,
+          "p50": 0.2999999523162842,
+          "p95": 0.40000009536743164,
+          "p99": 0.5000001192092896,
+          "max": 0.9000000953674316,
+          "over33": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 2999,
+          "p50": 0.19999992847442627,
+          "p95": 0.30000007152557373,
+          "p99": 0.3999999761581421,
+          "max": 0.6000000238418579,
+          "over33": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 2999,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0.20000004768371582,
+          "over33": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 2999,
+          "p50": 0.5,
+          "p95": 0.7000000476837158,
+          "p99": 1,
+          "max": 1.600000023841858,
+          "over33": 0,
+          "over50": 0
+        }
+      },
+      "validity": {
+        "frames": 2999,
+        "invalidStateFrames": 0,
+        "missingInstrumentedFrames": 0,
+        "movingFrames": 0,
+        "runningSpeedFrames": 0,
+        "peerMovingFrames": 0,
+        "modeFrames": {
+          "sit": 2999
+        },
+        "exclusiveOverSceneFrames": 0
+      },
+      "resources": {
+        "renderer": {
+          "calls": 136,
+          "triangles": 51998,
+          "textures": 45,
+          "geometries": 90
+        },
+        "heap": {
+          "used": 83696850,
+          "total": 125525854
+        }
+      },
+      "valid": true
+    },
+    {
+      "config": {
+        "name": "dual-pants-walk",
+        "dual": true,
+        "walk": true
+      },
+      "summary": {
+        "frameMs": {
+          "count": 4982,
+          "p50": 6.099999904632568,
+          "p95": 6.200000047683716,
+          "p99": 6.399999976158142,
+          "max": 14.300000071525574,
+          "over33": 0,
+          "over50": 0
+        },
+        "cpuUpdateMs": {
+          "count": 4983,
+          "p50": 1.899999976158142,
+          "p95": 2.399999976158142,
+          "p99": 3,
+          "max": 13.299999952316284,
+          "over33": 0,
+          "over50": 0
+        },
+        "primarySimulateMs": {
+          "count": 4983,
+          "p50": 1.2000000476837158,
+          "p95": 1.600000023841858,
+          "p99": 1.9000000953674316,
+          "max": 12,
+          "over33": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4983,
+          "p50": 0.7000000476837158,
+          "p95": 1.0000001192092896,
+          "p99": 1.2999999523162842,
+          "max": 2.4000000953674316,
+          "over33": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4983,
+          "p50": 0.39999985694885254,
+          "p95": 0.5999999046325684,
+          "p99": 0.6999999284744263,
+          "max": 9.799999833106995,
+          "over33": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4983,
+          "p50": 0.10000002384185791,
+          "p95": 0.29999983310699463,
+          "p99": 0.30000007152557373,
+          "max": 0.6999999284744263,
+          "over33": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4983,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0.10000002384185791,
+          "over33": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4983,
+          "p50": 0.7000000476837158,
+          "p95": 0.8999999761581421,
+          "p99": 1.100000023841858,
+          "max": 6.600000023841858,
+          "over33": 0,
+          "over50": 0
+        }
+      },
+      "exclusiveSummary": {
+        "frameMs": {
+          "count": 0,
+          "over33": 0,
+          "over50": 0
+        },
+        "cpuUpdateMs": {
+          "count": 0,
+          "over33": 0,
+          "over50": 0
+        },
+        "primarySimulateMs": {
+          "count": 4983,
+          "p50": 0.10000002384185791,
+          "p95": 0.2999999523162842,
+          "p99": 0.30000007152557373,
+          "max": 2,
+          "over33": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4983,
+          "p50": 0.7000000476837158,
+          "p95": 1.0000001192092896,
+          "p99": 1.2999999523162842,
+          "max": 2.4000000953674316,
+          "over33": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4983,
+          "p50": 0.20000004768371582,
+          "p95": 0.40000009536743164,
+          "p99": 0.5,
+          "max": 9.49999988079071,
+          "over33": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4983,
+          "p50": 0.10000002384185791,
+          "p95": 0.29999983310699463,
+          "p99": 0.30000007152557373,
+          "max": 0.6999999284744263,
+          "over33": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4983,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0.10000002384185791,
+          "over33": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4983,
+          "p50": 0.7000000476837158,
+          "p95": 0.8999999761581421,
+          "p99": 1.100000023841858,
+          "max": 6.600000023841858,
+          "over33": 0,
+          "over50": 0
+        }
+      },
+      "validity": {
+        "frames": 4983,
+        "invalidStateFrames": 0,
+        "missingInstrumentedFrames": 0,
+        "movingFrames": 4141,
+        "runningSpeedFrames": 0,
+        "peerMovingFrames": 4219,
+        "modeFrames": {
+          "walk": 4896,
+          "idle": 87
+        },
+        "exclusiveOverSceneFrames": 0
+      },
+      "resources": {
+        "renderer": {
+          "calls": 172,
+          "triangles": 101566,
+          "textures": 82,
+          "geometries": 105
+        },
+        "heap": {
+          "used": 66924130,
+          "total": 143324330
+        }
+      },
+      "valid": true
+    }
+  ],
+  "interpretation": [
+    "garmentMs measures the final updateGarment call only. Seated cloth may already have run inside motion/seatHandSurfaces; zero does not mean cloth is free.",
+    "handSurfaceMs includes raw-pose synchronization and garment preparation, not cloth alone.",
+    "lastSubstepHandFitP95 describes the last simulation substep per rendered frame, not the sum of all substeps. Its timings overlap motionMs.",
+    "Detailed instrumentation changes cost. Do not present the difference from a non-detailed run as a product regression.",
+    "Only this development machine and these short sustained samples; ordinary-PC acceptance remains untested."
+  ]
+}

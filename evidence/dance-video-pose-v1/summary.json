@@ -1,0 +1,126 @@
+{
+  "raw_sequence_local_path": "analysis\\dance-reference-v1\\results\\sequence.json",
+  "raw_sequence_sha256": "ee975632bbd9d8913df5fda88d58762b88ec75d5f17618b7fbe7068364b57cec",
+  "raw_snapshot": {
+    "path": "evidence\\dance-video-pose-v1\\sequence.raw.json.gz",
+    "sha256": "48896b6577667383043d4bfe281cc0011d56c73f2d2a32b619927e6670d08de2",
+    "bytes": 2174308,
+    "gzip_mtime": 0,
+    "content": "Exact unfiltered sequence.json bytes; includes raw pose/hand scores and original PTS. No filtered sequence exists in this stage."
+  },
+  "source_manifest": "source.json",
+  "frames": 720,
+  "source_pts_preserved_all_frames": true,
+  "requested_interval_seconds": [
+    0,
+    30
+  ],
+  "actual_first_last_source_seconds": [
+    0.0,
+    29.988291666666665
+  ],
+  "end_boundary_note": "Last selected source sample is 29.9882916667s, not 30s; do not stretch time. Next 9 original frames are retained but not inferred/context in this run.",
+  "pose_missing_frames": [],
+  "pose_detected_frames": 720,
+  "hand_count_histogram": {
+    "0": 633,
+    "1": 84,
+    "2": 3
+  },
+  "duplicate_handedness_frames": [
+    58
+  ],
+  "body_visibility_lt_0_5_count": {
+    "nose": 0,
+    "left_eye_inner": 0,
+    "left_eye": 0,
+    "left_eye_outer": 0,
+    "right_eye_inner": 0,
+    "right_eye": 0,
+    "right_eye_outer": 0,
+    "left_ear": 0,
+    "right_ear": 0,
+    "mouth_left": 0,
+    "mouth_right": 0,
+    "left_shoulder": 0,
+    "right_shoulder": 0,
+    "left_elbow": 125,
+    "right_elbow": 52,
+    "left_wrist": 135,
+    "right_wrist": 62,
+    "left_pinky": 141,
+    "right_pinky": 69,
+    "left_index": 141,
+    "right_index": 69,
+    "left_thumb": 146,
+    "right_thumb": 70,
+    "left_hip": 0,
+    "right_hip": 0,
+    "left_knee": 0,
+    "right_knee": 0,
+    "left_ankle": 0,
+    "right_ankle": 0,
+    "left_heel": 0,
+    "right_heel": 0,
+    "left_foot_index": 0,
+    "right_foot_index": 0
+  },
+  "max_adjacent_predicted_world_jump": {
+    "from_frame": 171,
+    "to_frame": 172,
+    "source_seconds": 7.1738333333333335,
+    "joint": "nose",
+    "world_meters": 0.5965619635055401
+  },
+  "predicted_segment_lengths_m": {
+    "left_thigh": {
+      "min": 0.3423061787683222,
+      "max": 0.4537494424363007,
+      "median": 0.3961682060963604
+    },
+    "right_thigh": {
+      "min": 0.33283385404455446,
+      "max": 0.4240710383136081,
+      "median": 0.38757091674924543
+    },
+    "left_shin": {
+      "min": 0.31829593467711564,
+      "max": 0.4157456668887869,
+      "median": 0.36703142109315845
+    },
+    "right_shin": {
+      "min": 0.3095625256185946,
+      "max": 0.40973785726870626,
+      "median": 0.37058530762450825
+    },
+    "left_upper_arm": {
+      "min": 0.12548957052758883,
+      "max": 0.2874846289395524,
+      "median": 0.21917400345785415
+    },
+    "right_upper_arm": {
+      "min": 0.1578789831321262,
+      "max": 0.2793175022152981,
+      "median": 0.23869236853505052
+    },
+    "left_forearm": {
+      "min": 0.11068632048476829,
+      "max": 0.31672171144382133,
+      "median": 0.2375690426567767
+    },
+    "right_forearm": {
+      "min": 0.1049338500966041,
+      "max": 0.28656195829094255,
+      "median": 0.22000961619760773
+    }
+  },
+  "quality_flag_frames": 718,
+  "identity_and_sides": "One visible source performer; raw model joint names and handedness retained. VIDEO has no exported track identity ID. No auto relabel/mirroring; short turns and crossing limbs require review.",
+  "limitations": [
+    "Quality flags are diagnostic, not verified pose-error truth.",
+    "Single-view world positions lack global root trajectory and reliable bone twist.",
+    "Hands per-joint scores remain null if API does not supply them; handedness is not point confidence.",
+    "No smoothing, gap fill, IK, fixed-bone retarget, editable animation or VRM acceptance in this detection stage.",
+    "Source video, image contact sheets and overlays remain ignored local analysis. Exact raw keypoints are backed up separately as gzip in evidence."
+  ]
+}

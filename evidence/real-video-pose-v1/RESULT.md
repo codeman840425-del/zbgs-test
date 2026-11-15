@@ -37,8 +37,14 @@ The appearance of U.S. Department of War (DoW) visual information does not imply
 - 两个 MP4 实际解码均 240 帧，PTS 相对原序列最大误差 `2.22e-15s`（浮点表示量级）；无变速。哈希与统计在 `temporal-summary.json`。
 - 复跑入口 `scripts/pose-reference/README.md`、`extract.py`、`review_video.py`；依赖锁、模型固定源/哈希都已保存。
 
-后续集成现场：root 已沿现有动作管线在 `5d848494cce5` 实际回读男女，录像位于 `../video-motion-room-5d848494cce5/female.webm` 与 `male.webm`；前约0.5秒待机、原节奏约8秒动作后回待机。观看页链接原文件，没有复制或改时序；游戏录像未与源片精确同步。下一门仍是修正当前左臂错误并验证男女完整动作、重心和足底接触。保留原角色蒙皮；关键点推理不能代替人体骨架适配和视觉验收。
+后续集成现场：root 已沿现有动作管线在 `5d848494cce5` 实际回读男女，录像位于 `../video-motion-room-5d848494cce5/female.webm` 与 `male.webm`；前约0.5秒待机、原节奏约8秒动作后回待机。观看页链接原文件，没有复制或改时序；游戏录像现按trace拟合固定起点作事件时间对齐，不是拍摄标定或逐帧精确同步。下一门仍是修正当前左臂错误并验证男女完整动作、重心和足底接触。保留原角色蒙皮；关键点推理不能代替人体骨架适配和视觉验收。
 
 ## 同屏观看页检查
 
 `index.html` 已实际浏览器验证共同1×播放、暂停、拖动至3.500秒及完整重播；最终两片时间8.008/8.007999秒、速率均1、均暂停，pageerror=0。首轮发现叠图先结束会让源片提前约72ms停止，已改为以源片结束为准，首轮失败结果仍留 `index-qa/initial-check.json`，修后结果见 `final-check.json`。12个本地链接均HTTP200；1440px与390px截图已看/保存，窄屏scrollWidth=390无水平溢出。此项是观看页功能检查，不是角色动作、普通电脑性能或同步逐帧精度验收。
+
+## 四画面事件时间对齐（后续增强）
+
+现有index已扩为真人/overlay/女性/男性共同1×播放暂停seek，仍只引用原完整媒体。`alignment.json`由 `scripts/pose-reference/align_recordings.py` 从原trace的danceMix>=0.999、动作1–7秒中段拟合，固定斜率1。女986样本/男989样本，偏移均约+0.501秒；trace绝对最大残差17.5ms/4.8ms。记录时钟紧邻MediaRecorder.start，但首PTS与记录时钟未另行标定，约一编码帧（中位18ms）的起点误差仅是估计，不是严格上界；女片最大编码帧间隔97ms。拟合残差与浏览器80ms校正阈值分别记录，不混作准确画面同步。
+
+实际验证：共同seek3.5秒对应男女4.001秒；正常1×四片完整结束于动作7.974633秒/男女录像8.475633秒；pageerror0，390px无水平溢出。首轮发现MediaRecorder WebM元数据duration为Infinity导致ready未启用，已以原视频实际解码末PTS辅助范围核查，不重封装/修改媒体；最终 `index-qa/four-aligned-check.json` 与截图保留。v1仅管线跑通，腕掌/脚距/脚底接触未过。
