@@ -4,14 +4,14 @@
 
 ## 最新构建与恢复点
 
-- 最新源码固定 **1a0d06fc8ffe**（`experiments/m1-accessory-ui-2/dist`）：902失败处理基础上，修foundation调试按钮挤压竖排，实际1440×900截图可读；两派生拒绝/503重试/快速取消再装回归通过，真实traverse附件数为1。旧902的scene.children统计0不能证明无重复，原证据保留。902已独立审查及63产物新检出一致；1a完整重建/发布尚未进行。
+- 最新源码固定 **1a0d06fc8ffe**（`experiments/m1-accessory-ui-2/dist`）：902失败处理基础上，修foundation调试按钮挤压竖排，实际1440×900截图可读；两派生拒绝/503重试/快速取消再装回归通过，真实traverse附件数为1。旧902的scene.children统计0不能证明无重复，原证据保留。902已独立审查及63产物新检出一致；1a已从0ae64b8全新检出63文件一致，公开待验入口现为4191，男女实际按钮/人体SHA/版本响应已核；4192保留269对照，4174为证据，共3个本机服务。正常1×本版短片在evidence/accessory-normal-1a0d06fc8ffe。
 
 - 最新本地源码固定 **90297751ab35**（`experiments/m1-accessory-ui-1/dist`）：仅在13f上修附件按钮未处理拒绝、错误提示被scene-state刷新覆盖及过时UI回调；两派生拒绝、男性503重试/卸下、延迟加载取消再装实际按钮通过。证据 `evidence/accessory-ui-90297751ab35`。尚未替换公开269，不将13f影片改标902。
 - **13f完整操作链与重建已补齐**：男女各25状态项、镜头变化0、pageerror0；完整正常速影片 `evidence/m1-user-chain-13f558e44696`，root已看完整时段2fps概览（女95/男91帧），非连续自然度验收。录屏采样女2帧>33ms（最大54.6ms，idle）/男0（最大24.4ms）；不是普通电脑实测。源6fcfc24已远程核同SHA，全新检出npm ci/build全部63产物一致，证据 `evidence/acc01-integrated-rebuild-13f558e44696`。
 - 裙源局部修复仍隔离：hem-return-v1仅改121内折点及权重，站/坐入/起身自交1/1/2→0；坐稳Body194/self95仍失败，椅98→100明确保留。active-gap仅30源点最大2.738mm，活动区初始body2.114/top2.010mm通过原2mm门；全衣zipper仍0.339mm，不称全衣cloth准入。独立源远端checkpoint `8ff76a5e6e7d0741cfc03ee2fad9021af6d1f37c`；正在组合两源修复并复核，尚无新GPU/坐姿通过。
 
 - 本轮接续时主线远程恢复点已核为 `a2f7399a60cc8ec777b1ef2c5bf7ab47649c24fa`（其a1fba5b祖先归档产物）：包含269完整专项/正常片/性能/入口与源重建证据，以及6bc中性人体重复绘制修复与完整专项。公开269的源码仍固定aed9597，二者不混用。
-- **公开交互269a73423c97 / 4192**：`experiments/m1-joint-integrated-1/dist`，从aed新检出npm ci/build全部61产物字节一致。手修复同版三体100姿态门、原女post-live259样本、资源隔离/失败重试已验；旧新room/close正常1×影片已归档evidence/hand-joint-269a73423c97。原abdb目录不覆盖，人工观感等待，裙形未过。
+- **保留对照269a73423c97 / 4192**：`experiments/m1-joint-integrated-1/dist`，从aed新检出npm ci/build全部61产物字节一致。手修复同版三体100姿态门、原女post-live259样本、资源隔离/失败重试已验；旧新room/close正常1×影片已归档evidence/hand-joint-269a73423c97。原abdb目录不覆盖，人工观感等待，裙形未过。
 - **前一固定abdb18defd26**：`experiments/m1-material-recipe-1/dist`，保留当前招手ready、两派生前臂和可选男短裤材质的基准。其男女各25项整链、两种双实例19任务/peer/本地合同/16生命周期/9场景性能仅证明abdb记录范围，不将版本标签改成269。
 - **175集成基准175a487d5ea3**：`experiments/m1-integrated-contact-1/dist`。341运动修复＋c9源坐姿腕目标＋ad0/4ee两轮等价缓存；未替换旧公开交互入口。前臂集成报告：`assets-source/forearm-collision-v2/integrated-175a/RESULT.md`。
 - **已接受的限定片段34148e260e6d**：`experiments/turn-candidate-19/dist`。用户接受同镜头1×录像约12–15秒加速与停止，原话“这段可以接受”。只限该片段；不包括其余转向、衣物、男性或175。范围与视频SHA：`evidence/female-acceleration-user-review-341.json`。

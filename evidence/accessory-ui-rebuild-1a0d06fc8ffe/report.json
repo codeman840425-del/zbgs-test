@@ -1,0 +1,1215 @@
+{
+  "status": "passed",
+  "startedUTC": "2026-11-15T03:38:07Z",
+  "repo": "F:\\gamemake",
+  "requestedCommit": "0ae64b8",
+  "baseline": "F:\\gamemake\\experiments\\m1-accessory-ui-2\\dist",
+  "worktree": "F:\\gamemake\\experiments\\accessory-ui-final-fresh-0ae64b8",
+  "checkoutScope": "fresh detached sparse checkout: complete prototype plus root files; historical evidence/assets-source not needed to build runtime",
+  "steps": [
+    {
+      "name": "resolve-commit",
+      "command": [
+        "git",
+        "rev-parse",
+        "0ae64b8^{commit}"
+      ],
+      "cwd": "F:\\gamemake",
+      "exitCode": 0,
+      "seconds": 0.04283950000535697
+    },
+    {
+      "name": "node-version",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.EXE",
+        "--version"
+      ],
+      "cwd": "F:\\gamemake",
+      "exitCode": 0,
+      "seconds": 0.038258900051005185
+    },
+    {
+      "name": "npm-version",
+      "command": [
+        "C:\\Program Files\\nodejs\\npm.cmd",
+        "--version"
+      ],
+      "cwd": "F:\\gamemake",
+      "exitCode": 0,
+      "seconds": 0.3904821000760421
+    },
+    {
+      "name": "worktree-add",
+      "command": [
+        "git",
+        "worktree",
+        "add",
+        "--detach",
+        "--no-checkout",
+        "F:\\gamemake\\experiments\\accessory-ui-final-fresh-0ae64b8",
+        "0ae64b83384a3ed9853185f6a008ac6b70b1e8cc"
+      ],
+      "cwd": "F:\\gamemake",
+      "exitCode": 0,
+      "seconds": 0.05992210004478693
+    },
+    {
+      "name": "sparse-checkout",
+      "command": [
+        "git",
+        "sparse-checkout",
+        "set",
+        "--cone",
+        "prototype"
+      ],
+      "cwd": "F:\\gamemake\\experiments\\accessory-ui-final-fresh-0ae64b8",
+      "exitCode": 0,
+      "seconds": 0.045653400011360645
+    },
+    {
+      "name": "checkout",
+      "command": [
+        "git",
+        "checkout",
+        "--detach",
+        "0ae64b83384a3ed9853185f6a008ac6b70b1e8cc"
+      ],
+      "cwd": "F:\\gamemake\\experiments\\accessory-ui-final-fresh-0ae64b8",
+      "exitCode": 0,
+      "seconds": 0.4311480999458581
+    },
+    {
+      "name": "actual-commit",
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "cwd": "F:\\gamemake\\experiments\\accessory-ui-final-fresh-0ae64b8",
+      "exitCode": 0,
+      "seconds": 0.041100400034338236
+    },
+    {
+      "name": "initial-status",
+      "command": [
+        "git",
+        "status",
+        "--porcelain",
+        "--untracked-files=all"
+      ],
+      "cwd": "F:\\gamemake\\experiments\\accessory-ui-final-fresh-0ae64b8",
+      "exitCode": 0,
+      "seconds": 0.27020919998176396
+    },
+    {
+      "name": "npm-ci",
+      "command": [
+        "C:\\Program Files\\nodejs\\npm.cmd",
+        "ci"
+      ],
+      "cwd": "F:\\gamemake\\experiments\\accessory-ui-final-fresh-0ae64b8\\prototype",
+      "exitCode": 0,
+      "seconds": 5.866451299982145
+    },
+    {
+      "name": "npm-build",
+      "command": [
+        "C:\\Program Files\\nodejs\\npm.cmd",
+        "run",
+        "build"
+      ],
+      "cwd": "F:\\gamemake\\experiments\\accessory-ui-final-fresh-0ae64b8\\prototype",
+      "exitCode": 0,
+      "seconds": 5.46758120006416
+    },
+    {
+      "name": "final-status",
+      "command": [
+        "git",
+        "status",
+        "--porcelain",
+        "--untracked-files=all"
+      ],
+      "cwd": "F:\\gamemake\\experiments\\accessory-ui-final-fresh-0ae64b8",
+      "exitCode": 0,
+      "seconds": 0.3511673000175506
+    }
+  ],
+  "limitations": [
+    "Same development machine/OS/toolchain; no browser/visual/performance acceptance.",
+    "Source generators are not rerun: this verifies committed runtime source + committed exports + lockfile reproducibly build the fixed runtime."
+  ],
+  "commit": "0ae64b83384a3ed9853185f6a008ac6b70b1e8cc",
+  "referenceBuild": {
+    "shortId": "1a0d06fc8ffe",
+    "sourceDigest": "1a0d06fc8ffe933a01621a97beea847d314ccbc3d8118d453602b259bc76009d",
+    "inputs": [
+      "foundation.html",
+      "index.html",
+      "package-lock.json",
+      "package.json",
+      "public/assets/avatar.vrm",
+      "public/assets/forearm-collision-v2/female.json",
+      "public/assets/forearm-collision-v2/male.json",
+      "public/assets/foundation/base-female-roundtrip.vrm",
+      "public/assets/foundation/base-female.vrm",
+      "public/assets/foundation/base-male-roundtrip.vrm",
+      "public/assets/garments/athletic-bermuda-v1.glb",
+      "public/assets/garments/equipment.json",
+      "public/assets/hand-joint-contact-v1/female.json",
+      "public/assets/hand-joint-contact-v1/jaw.json",
+      "public/assets/hand-joint-contact-v1/waisthip.json",
+      "public/assets/m1-variants/catalog.json",
+      "public/assets/m1-variants/forearm-collision-v2/m1a-jaw-v1.json",
+      "public/assets/m1-variants/forearm-collision-v2/m1a-waisthip-v1.json",
+      "public/assets/m1-variants/m1a-jaw-v1/avatar.vrm",
+      "public/assets/m1-variants/m1a-jaw-v1/equipment/equipment.json",
+      "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-training-pants.glb",
+      "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-shoes.glb",
+      "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-skirt.glb",
+      "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-top.glb",
+      "public/assets/m1-variants/m1a-waisthip-v1/avatar.vrm",
+      "public/assets/m1-variants/m1a-waisthip-v1/equipment/equipment.json",
+      "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-training-pants.glb",
+      "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-shoes.glb",
+      "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-skirt.glb",
+      "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-top.glb",
+      "public/assets/m1/equipment.json",
+      "public/assets/m1/m1-training-pants.glb",
+      "public/assets/m1/m1-uniform-shoes.glb",
+      "public/assets/m1/m1-uniform-skirt.glb",
+      "public/assets/m1/m1-uniform-top.glb",
+      "public/assets/m1b/equipment.json",
+      "public/assets/m1b/m1b-uniform-pants.glb",
+      "public/assets/m1b/m1b-uniform-shoes.glb",
+      "public/assets/m1b/m1b-uniform-shorts-v1.glb",
+      "public/assets/m1b/m1b-uniform-top.glb",
+      "public/assets/m1c/accessories.json",
+      "public/assets/m1c/glasses-fit/female.json",
+      "public/assets/m1c/glasses-fit/male.json",
+      "public/assets/m1c/grips/female-source-grip-v1.json",
+      "public/assets/m1c/grips/male-source-grip-v1.json",
+      "public/assets/m1c/grips/manifest.json",
+      "public/assets/m1c/runtime-fit-observations.json",
+      "public/assets/m1c/studio-glasses-v1.glb",
+      "public/assets/m1c/studio-microphone-v1.glb",
+      "public/assets/material-recipes/m1b-shorts-cloth-v4-review1.json",
+      "public/assets/motion/UAL1_Standard.glb",
+      "public/assets/motion/m1c/dance-imports.json",
+      "public/assets/motion/m1c/dance-source-reference.glb",
+      "public/assets/motion/m1c/dance-technical-v1.config.json",
+      "public/assets/motion/m1c/dance-technical-v1.glb",
+      "public/assets/motion/m1c/greeting/gesture-import.json",
+      "public/assets/motion/m1c/greeting/greeting-wave-left-v1.glb",
+      "public/assets/motion/m1c/jog-ordinary-derived-v1.config.json",
+      "public/assets/motion/m1c/jog-ordinary-derived-v1.glb",
+      "public/assets/motion/m1c/jog-ordinary-derived-v1.profile.json",
+      "scripts/build-id.mjs",
+      "src/assets.js",
+      "src/behavior-tasks.js",
+      "src/cloth-material.js",
+      "src/cloth.js",
+      "src/equipment.js",
+      "src/forearm-contact-workspace.js",
+      "src/forearm-contour-rails.js",
+      "src/forearm-envelope-projection.js",
+      "src/foundation-avatar.js",
+      "src/foundation-preview.js",
+      "src/foundation-profiles.js",
+      "src/garment-collider.js",
+      "src/glasses-temple-fit-manifest.json",
+      "src/glasses-temple-fit.js",
+      "src/greeting-layer.js",
+      "src/joint-hand-workspace.mjs",
+      "src/live-presentation.js",
+      "src/m1-equipment.js",
+      "src/m1-skirt.js",
+      "src/main.js",
+      "src/material-recipes.js",
+      "src/motion-source.js",
+      "src/motion.js",
+      "src/seat-lease.js",
+      "src/segment-triangle-projection.js",
+      "src/style.css",
+      "src/turn-policy.js",
+      "vite.config.js"
+    ]
+  },
+  "environment": {
+    "python": "3.13.11",
+    "platform": "Windows-11-10.0.26100-SP0",
+    "node": "v24.13.0",
+    "npm": "11.6.2"
+  },
+  "actualCommit": "0ae64b83384a3ed9853185f6a008ac6b70b1e8cc",
+  "lockSHA256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7",
+  "buildIdScriptSHA256": "37ac40ce8d7f21e2027db3f4b528dc29db9f4874879174a7c5843e682cf99c2e",
+  "inputFiles": {
+    "foundation.html": {
+      "bytes": 3943,
+      "sha256": "1cc16aa60787d5a0ca818defe1f0d12d45c414fded09c1928ef58f25ae544f4b"
+    },
+    "index.html": {
+      "bytes": 8951,
+      "sha256": "76844aa69af4ac5d76e4aa39a4627d1c9d8d15cd9584790131a67d2562e07d98"
+    },
+    "package-lock.json": {
+      "bytes": 43916,
+      "sha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7"
+    },
+    "package.json": {
+      "bytes": 519,
+      "sha256": "d5f213e6d4de4ad49fc6ad42b16ef6b3d025e4bd9bc4754d9649e396230fd5fb"
+    },
+    "public/assets/avatar.vrm": {
+      "bytes": 10776032,
+      "sha256": "12c2b97e95e700783a6a550dc0eee2d7880aeedccef9ae67bc4c5a2f0f2631a2"
+    },
+    "public/assets/forearm-collision-v2/female.json": {
+      "bytes": 24340,
+      "sha256": "b2ef32aa1566b6ef4b2b3796649cd732602da9788898264fff15dcb7afd4103e"
+    },
+    "public/assets/forearm-collision-v2/male.json": {
+      "bytes": 25016,
+      "sha256": "f6ec1714c80e492bc129078e179d12c48a4f7e072e5d0249d52b4943b75fbf15"
+    },
+    "public/assets/foundation/base-female-roundtrip.vrm": {
+      "bytes": 16311576,
+      "sha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95"
+    },
+    "public/assets/foundation/base-female.vrm": {
+      "bytes": 16323872,
+      "sha256": "1995f174f6c8f2211f3c56c9e5fe4f9daf27ee5e648f129479582a259238149b"
+    },
+    "public/assets/foundation/base-male-roundtrip.vrm": {
+      "bytes": 17902644,
+      "sha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff"
+    },
+    "public/assets/garments/athletic-bermuda-v1.glb": {
+      "bytes": 145520,
+      "sha256": "d21e897c1f475e74cf9b1f5c77a29831f986a547df58d9b0c2346b693d39dee6"
+    },
+    "public/assets/garments/equipment.json": {
+      "bytes": 7650,
+      "sha256": "b1b7e4e4790e230d31ce16bea59bfe3692598dbb19e28ad697b3b4524aa54a91"
+    },
+    "public/assets/hand-joint-contact-v1/female.json": {
+      "bytes": 155943,
+      "sha256": "09688e79fadaca6f58530da7a4cb52c4ad0b3d9b42de4233c6b0a5f682454453"
+    },
+    "public/assets/hand-joint-contact-v1/jaw.json": {
+      "bytes": 155941,
+      "sha256": "3377854746d694992b3efb4a5fb3eb3d951d03d4abfe4609f89e53cf2adda12c"
+    },
+    "public/assets/hand-joint-contact-v1/waisthip.json": {
+      "bytes": 155946,
+      "sha256": "07b62497d826e417476c1154224a44722b50f8c38694fff5c653d3c8c1486e0d"
+    },
+    "public/assets/m1-variants/catalog.json": {
+      "bytes": 1723,
+      "sha256": "65b763d3d23debeb0d079c192561efef3b3dcea6b994689f2666b72d66f3333c"
+    },
+    "public/assets/m1-variants/forearm-collision-v2/m1a-jaw-v1.json": {
+      "bytes": 24341,
+      "sha256": "9717d0b384e7682cedcb0b276bcac933f91dc4d229cec2034a491c27bdbf754b"
+    },
+    "public/assets/m1-variants/forearm-collision-v2/m1a-waisthip-v1.json": {
+      "bytes": 24351,
+      "sha256": "3bc08e1e9d967a3a0f30099c32fec3900f2b4d99a32758b628a68d4e6a688d6b"
+    },
+    "public/assets/m1-variants/m1a-jaw-v1/avatar.vrm": {
+      "bytes": 16311584,
+      "sha256": "3c11caaed49f6db514acb7678551352afdf1c2893ef92ca93b959a8d09691011"
+    },
+    "public/assets/m1-variants/m1a-jaw-v1/equipment/equipment.json": {
+      "bytes": 36235,
+      "sha256": "3a4372a7bc8ab0119c8d4529a27d45ece90d0da39597e57e24a2185a49e423ac"
+    },
+    "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-training-pants.glb": {
+      "bytes": 63552,
+      "sha256": "8f0749d8f6d727d61a4f69d569f9a127968c54038a58e95a636facd016184781"
+    },
+    "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-shoes.glb": {
+      "bytes": 191016,
+      "sha256": "ca387921a6ea031b3a8038342c2afa868c40b9e52e917a12b0d475a2bad95dde"
+    },
+    "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-skirt.glb": {
+      "bytes": 364988,
+      "sha256": "2a4f97d132fad3dab42edb9fd940c5687a04c553ca64e67d86e0ba5562dc721b"
+    },
+    "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-top.glb": {
+      "bytes": 2696580,
+      "sha256": "5d817bd0dfb1819feacf5f9bd6607da0ab9417c452bb418937183b5f84fe595d"
+    },
+    "public/assets/m1-variants/m1a-waisthip-v1/avatar.vrm": {
+      "bytes": 16311596,
+      "sha256": "10778174ece87e3e3a00ecaf5e0c98eef59cd7d762e9bb52daa50162ee1743b5"
+    },
+    "public/assets/m1-variants/m1a-waisthip-v1/equipment/equipment.json": {
+      "bytes": 36275,
+      "sha256": "c789db61ca3f11d9475294b61812e9067350e4a10ec50c734b65a1cea225d57f"
+    },
+    "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-training-pants.glb": {
+      "bytes": 63560,
+      "sha256": "b917446369bbb2f89661a668bad58dc18572b41de6282e8050175a0434c8024e"
+    },
+    "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-shoes.glb": {
+      "bytes": 191028,
+      "sha256": "f0ddc5542f107e21bed11b05a1bf44d72092e67282264a75e3fbf8a1463c2359"
+    },
+    "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-skirt.glb": {
+      "bytes": 364996,
+      "sha256": "b2769d5b3228cc5484371f59b6623c456612de89a0896cb92e845cb4c16feee9"
+    },
+    "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-top.glb": {
+      "bytes": 2696592,
+      "sha256": "f76b2e6142d329d819cc1411f792cc7960d5cd9548b8930bab04c06ce3c3993d"
+    },
+    "public/assets/m1/equipment.json": {
+      "bytes": 34267,
+      "sha256": "d1d700b66317593d8acec72de909d5900a90d81a55f29e287ff91c5e7bc13fc0"
+    },
+    "public/assets/m1/m1-training-pants.glb": {
+      "bytes": 63520,
+      "sha256": "9e41d6df66a0917c2a4c09741c9f963fd05a347335854999d720d96ccee7aa92"
+    },
+    "public/assets/m1/m1-uniform-shoes.glb": {
+      "bytes": 190988,
+      "sha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf"
+    },
+    "public/assets/m1/m1-uniform-skirt.glb": {
+      "bytes": 364956,
+      "sha256": "065305626976c59b370d082baa6fd1e2aed8c262490e04e39543345170eb8d8d"
+    },
+    "public/assets/m1/m1-uniform-top.glb": {
+      "bytes": 2696548,
+      "sha256": "27bcfe020828ad2603f618fabf7f21cf1b09f66035c8ecd740e78cfc3650b9d6"
+    },
+    "public/assets/m1b/equipment.json": {
+      "bytes": 25157,
+      "sha256": "092ee804a86e04a4e0d2f2220acccc3226193a2c87b7ff45bb0c3e164623adec"
+    },
+    "public/assets/m1b/m1b-uniform-pants.glb": {
+      "bytes": 819744,
+      "sha256": "e4e213c9eed7912ff7fa75b81c957b7e944036ffb81cdcbd63813c11bd7e168c"
+    },
+    "public/assets/m1b/m1b-uniform-shoes.glb": {
+      "bytes": 157376,
+      "sha256": "3e855c7f39a183ab44b8aef3ac92898f6ebc36a7cbc0e6ccfdd485b85607fe2f"
+    },
+    "public/assets/m1b/m1b-uniform-shorts-v1.glb": {
+      "bytes": 795852,
+      "sha256": "c8a1afd0742cbb99302abc107673744751a8cfd77c6c89df039b068054a947d0"
+    },
+    "public/assets/m1b/m1b-uniform-top.glb": {
+      "bytes": 2762452,
+      "sha256": "393a2a97e9a933c4f8170720cf1d5792a18f282166abf7e5ffbba0d0de1fc32c"
+    },
+    "public/assets/m1c/accessories.json": {
+      "bytes": 2824,
+      "sha256": "d8380d1a105bff48e1cf8ed9ec92efaac54318e767a6df5836d587152e11c2b1"
+    },
+    "public/assets/m1c/glasses-fit/female.json": {
+      "bytes": 8073,
+      "sha256": "cb56bd93a8f2719de813692dddea6f78ff399945dc45c2022f0fcf37ae012b5a"
+    },
+    "public/assets/m1c/glasses-fit/male.json": {
+      "bytes": 8050,
+      "sha256": "3f14e225d594a4f233cfe5725c2baec83159265046a090220e5acd105b6c965b"
+    },
+    "public/assets/m1c/grips/female-source-grip-v1.json": {
+      "bytes": 3381,
+      "sha256": "0d145faa31461db369c3da644e42ef3818b92a6241b82784590f5ba30ff08a4c"
+    },
+    "public/assets/m1c/grips/male-source-grip-v1.json": {
+      "bytes": 3396,
+      "sha256": "23843bc3450fa0838241543a1fc30c88226fba7c99c1c34b705ac62a76ab099d"
+    },
+    "public/assets/m1c/grips/manifest.json": {
+      "bytes": 990,
+      "sha256": "5a889e73dd3553dfa70c4c4814269c1eb3dfa581d408274a97f5567157d7a6ac"
+    },
+    "public/assets/m1c/runtime-fit-observations.json": {
+      "bytes": 2359,
+      "sha256": "6c564ccaf67d482ec724e0d4b8e627fab89687b979d7338d2a64d68d4eebc52e"
+    },
+    "public/assets/m1c/studio-glasses-v1.glb": {
+      "bytes": 54484,
+      "sha256": "c8098a499434c384850a73e6c207fb6c5e85620e9012c4426cd989952e5bec52"
+    },
+    "public/assets/m1c/studio-microphone-v1.glb": {
+      "bytes": 106372,
+      "sha256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c"
+    },
+    "public/assets/material-recipes/m1b-shorts-cloth-v4-review1.json": {
+      "bytes": 1286,
+      "sha256": "6307ada57e83d74a34305708e747f452c9bde9f4b18dc4caea150f83d9d32824"
+    },
+    "public/assets/motion/UAL1_Standard.glb": {
+      "bytes": 7618436,
+      "sha256": "69591853d817488edaa8fd9bf8fc1d821eaeaf789f8627b3cd23b41c4ed67997"
+    },
+    "public/assets/motion/m1c/dance-imports.json": {
+      "bytes": 3453,
+      "sha256": "3695ec2c5409f88bd0f36beeaa3a16aeb41e194cded3eb4139d7a7305f526829"
+    },
+    "public/assets/motion/m1c/dance-source-reference.glb": {
+      "bytes": 739436,
+      "sha256": "b864ec5f440929133787791884e645a0bc73c323d107c9a9ef9937b4f1ca9744"
+    },
+    "public/assets/motion/m1c/dance-technical-v1.config.json": {
+      "bytes": 588,
+      "sha256": "b4e94a548e6ade2aa3fdbfd3b8b2bb492b686b281fd461bff6aa87ac2c05e854"
+    },
+    "public/assets/motion/m1c/dance-technical-v1.glb": {
+      "bytes": 2984076,
+      "sha256": "2d785287de3c0187c76ed90ae6e0b76fed3008cb1a7a2ac75065720d3885304e"
+    },
+    "public/assets/motion/m1c/greeting/gesture-import.json": {
+      "bytes": 2025,
+      "sha256": "b4f918f9ea8e260f95179e3eab9178a41c9b0266685835860c7284329a8adfb4"
+    },
+    "public/assets/motion/m1c/greeting/greeting-wave-left-v1.glb": {
+      "bytes": 1566668,
+      "sha256": "eec4ef8ab2fb073f7674cc6e839cbad7aea6931e4b19e8e70c0ee46c5fda2d06"
+    },
+    "public/assets/motion/m1c/jog-ordinary-derived-v1.config.json": {
+      "bytes": 593,
+      "sha256": "07958b1b04265be384c999664ecaa4330516ecdb522c42c3e542b25d066001b5"
+    },
+    "public/assets/motion/m1c/jog-ordinary-derived-v1.glb": {
+      "bytes": 965540,
+      "sha256": "6ec251d7611f22c6bf918d3401fcf438a8f2bc7b72f2826047dea8beef15c9e5"
+    },
+    "public/assets/motion/m1c/jog-ordinary-derived-v1.profile.json": {
+      "bytes": 1503,
+      "sha256": "2df4d6b86227b6bce60a5ea7ba97a982d974448044a46b903e413bd243e75ec0"
+    },
+    "scripts/build-id.mjs": {
+      "bytes": 1217,
+      "sha256": "37ac40ce8d7f21e2027db3f4b528dc29db9f4874879174a7c5843e682cf99c2e"
+    },
+    "src/assets.js": {
+      "bytes": 6062,
+      "sha256": "616a1be35ff5f9f6ba4fe8fc183a73bf82e7b1e2304ea42b25b861bef44c3c05"
+    },
+    "src/behavior-tasks.js": {
+      "bytes": 5798,
+      "sha256": "48bea3db65a6e78bb5444916d004c188eac1c26e7928d58c337addf7512f53a8"
+    },
+    "src/cloth-material.js": {
+      "bytes": 3168,
+      "sha256": "4539ac3f83bc5fb1fa9aa91dbfb7323a8f2e7084a5f762d9713d0ae36bcfb565"
+    },
+    "src/cloth.js": {
+      "bytes": 10053,
+      "sha256": "e2a3f8e95ca4fa3c1185e988337378225e7cd14e546334c036bb0411fbe6d992"
+    },
+    "src/equipment.js": {
+      "bytes": 9640,
+      "sha256": "68bcebd5a4f9209a279f54485e70c9e2602861c2873d8c86fe1dacd1c04ebb99"
+    },
+    "src/forearm-contact-workspace.js": {
+      "bytes": 6348,
+      "sha256": "724cc380eb8def65e1b75fbe340465d63fface56f30b0a308d6ee45ad93bab0b"
+    },
+    "src/forearm-contour-rails.js": {
+      "bytes": 1562,
+      "sha256": "fc10b2c76cc914f79ff55b5d28b1ac81ccb19b4564544c40d41cdafeff087e1f"
+    },
+    "src/forearm-envelope-projection.js": {
+      "bytes": 5633,
+      "sha256": "333ed3af9ae1cad3fcbfede79ad40459e00936ba2cd631ee63ca0073524d52fa"
+    },
+    "src/foundation-avatar.js": {
+      "bytes": 10490,
+      "sha256": "a70a0ac3afc4370cb62bd0671147e54fa8d2419ff0595c1d3fc1a83ec56fe639"
+    },
+    "src/foundation-preview.js": {
+      "bytes": 6079,
+      "sha256": "692353a47ebdcc67f322683804d33637ceefe62c4fa0ec1889e4fab200aeafed"
+    },
+    "src/foundation-profiles.js": {
+      "bytes": 5210,
+      "sha256": "7c855a23bdfd8fedd9b1f59b0c96b6cd2b0e4fb7f15bd4bb7a082d2b62af54cf"
+    },
+    "src/garment-collider.js": {
+      "bytes": 4947,
+      "sha256": "29fef27ed90feee060a89e37314f86d16df42b94b0688f700d108e6f6f954c49"
+    },
+    "src/glasses-temple-fit-manifest.json": {
+      "bytes": 648,
+      "sha256": "6ecf38aecc6d7768337a1ea735331918acdc6e7eea634cd2b09c796165b9a09e"
+    },
+    "src/glasses-temple-fit.js": {
+      "bytes": 3942,
+      "sha256": "52a1790c6466fab50c0d258153e024b910fb69e362f18567efd267ea1e202ad6"
+    },
+    "src/greeting-layer.js": {
+      "bytes": 7386,
+      "sha256": "ea0b6b6e4c3137ceee2029f5c686aa6f290f621f7a4e01b0c60123ac0b9a40d9"
+    },
+    "src/joint-hand-workspace.mjs": {
+      "bytes": 4960,
+      "sha256": "4404e6eb0b0ab2b3c89e90b8f511d83940bbfeff25d1629252683b44e5b555d9"
+    },
+    "src/live-presentation.js": {
+      "bytes": 19158,
+      "sha256": "897f2f0cdce22f70a3a56c701e8a762ae26d29489161ad04c256a91d437b80b1"
+    },
+    "src/m1-equipment.js": {
+      "bytes": 4956,
+      "sha256": "292b201b106c48040fdfe82d83c1a568de7929bc09119cd85665859188e65e86"
+    },
+    "src/m1-skirt.js": {
+      "bytes": 12940,
+      "sha256": "10a072d3ceecaeb798f5025c19387e7b7a65ee6ad1adf2f9fbb67507b6184e86"
+    },
+    "src/main.js": {
+      "bytes": 79390,
+      "sha256": "ea379b859b902d5eaca9a9b1840a200261645f73f17b307975723d6b5d1da660"
+    },
+    "src/material-recipes.js": {
+      "bytes": 5110,
+      "sha256": "be6ab537823b6c74ca68bef889cfe2e887bf19eeceed4ea49243ac16902ab1cd"
+    },
+    "src/motion-source.js": {
+      "bytes": 9872,
+      "sha256": "782ad40e8847903931c419a2a80a2616da3424ecf034dc21cecd2d356b60b0bb"
+    },
+    "src/motion.js": {
+      "bytes": 96946,
+      "sha256": "bc1534d75d15bb88e6abb99d9691ecf8af617d97dea9f55fac15e8e8f0620825"
+    },
+    "src/seat-lease.js": {
+      "bytes": 3897,
+      "sha256": "7bfde9e1db1631d4f387347c986cd367c22280cf74245bf2416e1da6690c6048"
+    },
+    "src/segment-triangle-projection.js": {
+      "bytes": 1082,
+      "sha256": "7cd146079604ea66ff7f3a21c3dce8ba4312d281ca33fd5b20211904faee2315"
+    },
+    "src/style.css": {
+      "bytes": 10958,
+      "sha256": "e011212d14b6568b85a65faf4e4b14b7ba136df1cf09a5f9834cb6484135d716"
+    },
+    "src/turn-policy.js": {
+      "bytes": 5444,
+      "sha256": "e4fb53de78708e537a0981ad44cc6c02ace2b744d974a91c010b7878f5ef10b1"
+    },
+    "vite.config.js": {
+      "bytes": 355,
+      "sha256": "8a7deb306917da3200e1db3dbee9a09f29195f0fb881bc230bd0e99b784adf9c"
+    }
+  },
+  "rebuiltBuild": {
+    "shortId": "1a0d06fc8ffe",
+    "sourceDigest": "1a0d06fc8ffe933a01621a97beea847d314ccbc3d8118d453602b259bc76009d",
+    "inputs": [
+      "foundation.html",
+      "index.html",
+      "package-lock.json",
+      "package.json",
+      "public/assets/avatar.vrm",
+      "public/assets/forearm-collision-v2/female.json",
+      "public/assets/forearm-collision-v2/male.json",
+      "public/assets/foundation/base-female-roundtrip.vrm",
+      "public/assets/foundation/base-female.vrm",
+      "public/assets/foundation/base-male-roundtrip.vrm",
+      "public/assets/garments/athletic-bermuda-v1.glb",
+      "public/assets/garments/equipment.json",
+      "public/assets/hand-joint-contact-v1/female.json",
+      "public/assets/hand-joint-contact-v1/jaw.json",
+      "public/assets/hand-joint-contact-v1/waisthip.json",
+      "public/assets/m1-variants/catalog.json",
+      "public/assets/m1-variants/forearm-collision-v2/m1a-jaw-v1.json",
+      "public/assets/m1-variants/forearm-collision-v2/m1a-waisthip-v1.json",
+      "public/assets/m1-variants/m1a-jaw-v1/avatar.vrm",
+      "public/assets/m1-variants/m1a-jaw-v1/equipment/equipment.json",
+      "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-training-pants.glb",
+      "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-shoes.glb",
+      "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-skirt.glb",
+      "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-top.glb",
+      "public/assets/m1-variants/m1a-waisthip-v1/avatar.vrm",
+      "public/assets/m1-variants/m1a-waisthip-v1/equipment/equipment.json",
+      "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-training-pants.glb",
+      "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-shoes.glb",
+      "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-skirt.glb",
+      "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-top.glb",
+      "public/assets/m1/equipment.json",
+      "public/assets/m1/m1-training-pants.glb",
+      "public/assets/m1/m1-uniform-shoes.glb",
+      "public/assets/m1/m1-uniform-skirt.glb",
+      "public/assets/m1/m1-uniform-top.glb",
+      "public/assets/m1b/equipment.json",
+      "public/assets/m1b/m1b-uniform-pants.glb",
+      "public/assets/m1b/m1b-uniform-shoes.glb",
+      "public/assets/m1b/m1b-uniform-shorts-v1.glb",
+      "public/assets/m1b/m1b-uniform-top.glb",
+      "public/assets/m1c/accessories.json",
+      "public/assets/m1c/glasses-fit/female.json",
+      "public/assets/m1c/glasses-fit/male.json",
+      "public/assets/m1c/grips/female-source-grip-v1.json",
+      "public/assets/m1c/grips/male-source-grip-v1.json",
+      "public/assets/m1c/grips/manifest.json",
+      "public/assets/m1c/runtime-fit-observations.json",
+      "public/assets/m1c/studio-glasses-v1.glb",
+      "public/assets/m1c/studio-microphone-v1.glb",
+      "public/assets/material-recipes/m1b-shorts-cloth-v4-review1.json",
+      "public/assets/motion/UAL1_Standard.glb",
+      "public/assets/motion/m1c/dance-imports.json",
+      "public/assets/motion/m1c/dance-source-reference.glb",
+      "public/assets/motion/m1c/dance-technical-v1.config.json",
+      "public/assets/motion/m1c/dance-technical-v1.glb",
+      "public/assets/motion/m1c/greeting/gesture-import.json",
+      "public/assets/motion/m1c/greeting/greeting-wave-left-v1.glb",
+      "public/assets/motion/m1c/jog-ordinary-derived-v1.config.json",
+      "public/assets/motion/m1c/jog-ordinary-derived-v1.glb",
+      "public/assets/motion/m1c/jog-ordinary-derived-v1.profile.json",
+      "scripts/build-id.mjs",
+      "src/assets.js",
+      "src/behavior-tasks.js",
+      "src/cloth-material.js",
+      "src/cloth.js",
+      "src/equipment.js",
+      "src/forearm-contact-workspace.js",
+      "src/forearm-contour-rails.js",
+      "src/forearm-envelope-projection.js",
+      "src/foundation-avatar.js",
+      "src/foundation-preview.js",
+      "src/foundation-profiles.js",
+      "src/garment-collider.js",
+      "src/glasses-temple-fit-manifest.json",
+      "src/glasses-temple-fit.js",
+      "src/greeting-layer.js",
+      "src/joint-hand-workspace.mjs",
+      "src/live-presentation.js",
+      "src/m1-equipment.js",
+      "src/m1-skirt.js",
+      "src/main.js",
+      "src/material-recipes.js",
+      "src/motion-source.js",
+      "src/motion.js",
+      "src/seat-lease.js",
+      "src/segment-triangle-projection.js",
+      "src/style.css",
+      "src/turn-policy.js",
+      "vite.config.js"
+    ]
+  },
+  "referenceFiles": {
+    "assets/avatar.vrm": {
+      "bytes": 10776032,
+      "sha256": "12c2b97e95e700783a6a550dc0eee2d7880aeedccef9ae67bc4c5a2f0f2631a2"
+    },
+    "assets/forearm-collision-v2/female.json": {
+      "bytes": 24340,
+      "sha256": "b2ef32aa1566b6ef4b2b3796649cd732602da9788898264fff15dcb7afd4103e"
+    },
+    "assets/forearm-collision-v2/male.json": {
+      "bytes": 25016,
+      "sha256": "f6ec1714c80e492bc129078e179d12c48a4f7e072e5d0249d52b4943b75fbf15"
+    },
+    "assets/foundation/base-female-roundtrip.vrm": {
+      "bytes": 16311576,
+      "sha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95"
+    },
+    "assets/foundation/base-female.vrm": {
+      "bytes": 16323872,
+      "sha256": "1995f174f6c8f2211f3c56c9e5fe4f9daf27ee5e648f129479582a259238149b"
+    },
+    "assets/foundation/base-male-roundtrip.vrm": {
+      "bytes": 17902644,
+      "sha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff"
+    },
+    "assets/foundation-DSooVeGu.js": {
+      "bytes": 3661,
+      "sha256": "4d443f5b14973601b8e97ce58d9effaedf3df5048f5176010c7bb251f8d920b3"
+    },
+    "assets/garments/athletic-bermuda-v1.glb": {
+      "bytes": 145520,
+      "sha256": "d21e897c1f475e74cf9b1f5c77a29831f986a547df58d9b0c2346b693d39dee6"
+    },
+    "assets/garments/equipment.json": {
+      "bytes": 7650,
+      "sha256": "b1b7e4e4790e230d31ce16bea59bfe3692598dbb19e28ad697b3b4524aa54a91"
+    },
+    "assets/hand-joint-contact-v1/female.json": {
+      "bytes": 155943,
+      "sha256": "09688e79fadaca6f58530da7a4cb52c4ad0b3d9b42de4233c6b0a5f682454453"
+    },
+    "assets/hand-joint-contact-v1/jaw.json": {
+      "bytes": 155941,
+      "sha256": "3377854746d694992b3efb4a5fb3eb3d951d03d4abfe4609f89e53cf2adda12c"
+    },
+    "assets/hand-joint-contact-v1/waisthip.json": {
+      "bytes": 155946,
+      "sha256": "07b62497d826e417476c1154224a44722b50f8c38694fff5c653d3c8c1486e0d"
+    },
+    "assets/m1/equipment.json": {
+      "bytes": 34267,
+      "sha256": "d1d700b66317593d8acec72de909d5900a90d81a55f29e287ff91c5e7bc13fc0"
+    },
+    "assets/m1/m1-training-pants.glb": {
+      "bytes": 63520,
+      "sha256": "9e41d6df66a0917c2a4c09741c9f963fd05a347335854999d720d96ccee7aa92"
+    },
+    "assets/m1/m1-uniform-shoes.glb": {
+      "bytes": 190988,
+      "sha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf"
+    },
+    "assets/m1/m1-uniform-skirt.glb": {
+      "bytes": 364956,
+      "sha256": "065305626976c59b370d082baa6fd1e2aed8c262490e04e39543345170eb8d8d"
+    },
+    "assets/m1/m1-uniform-top.glb": {
+      "bytes": 2696548,
+      "sha256": "27bcfe020828ad2603f618fabf7f21cf1b09f66035c8ecd740e78cfc3650b9d6"
+    },
+    "assets/m1-variants/catalog.json": {
+      "bytes": 1723,
+      "sha256": "65b763d3d23debeb0d079c192561efef3b3dcea6b994689f2666b72d66f3333c"
+    },
+    "assets/m1-variants/forearm-collision-v2/m1a-jaw-v1.json": {
+      "bytes": 24341,
+      "sha256": "9717d0b384e7682cedcb0b276bcac933f91dc4d229cec2034a491c27bdbf754b"
+    },
+    "assets/m1-variants/forearm-collision-v2/m1a-waisthip-v1.json": {
+      "bytes": 24351,
+      "sha256": "3bc08e1e9d967a3a0f30099c32fec3900f2b4d99a32758b628a68d4e6a688d6b"
+    },
+    "assets/m1-variants/m1a-jaw-v1/avatar.vrm": {
+      "bytes": 16311584,
+      "sha256": "3c11caaed49f6db514acb7678551352afdf1c2893ef92ca93b959a8d09691011"
+    },
+    "assets/m1-variants/m1a-jaw-v1/equipment/equipment.json": {
+      "bytes": 36235,
+      "sha256": "3a4372a7bc8ab0119c8d4529a27d45ece90d0da39597e57e24a2185a49e423ac"
+    },
+    "assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-training-pants.glb": {
+      "bytes": 63552,
+      "sha256": "8f0749d8f6d727d61a4f69d569f9a127968c54038a58e95a636facd016184781"
+    },
+    "assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-shoes.glb": {
+      "bytes": 191016,
+      "sha256": "ca387921a6ea031b3a8038342c2afa868c40b9e52e917a12b0d475a2bad95dde"
+    },
+    "assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-skirt.glb": {
+      "bytes": 364988,
+      "sha256": "2a4f97d132fad3dab42edb9fd940c5687a04c553ca64e67d86e0ba5562dc721b"
+    },
+    "assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-top.glb": {
+      "bytes": 2696580,
+      "sha256": "5d817bd0dfb1819feacf5f9bd6607da0ab9417c452bb418937183b5f84fe595d"
+    },
+    "assets/m1-variants/m1a-waisthip-v1/avatar.vrm": {
+      "bytes": 16311596,
+      "sha256": "10778174ece87e3e3a00ecaf5e0c98eef59cd7d762e9bb52daa50162ee1743b5"
+    },
+    "assets/m1-variants/m1a-waisthip-v1/equipment/equipment.json": {
+      "bytes": 36275,
+      "sha256": "c789db61ca3f11d9475294b61812e9067350e4a10ec50c734b65a1cea225d57f"
+    },
+    "assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-training-pants.glb": {
+      "bytes": 63560,
+      "sha256": "b917446369bbb2f89661a668bad58dc18572b41de6282e8050175a0434c8024e"
+    },
+    "assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-shoes.glb": {
+      "bytes": 191028,
+      "sha256": "f0ddc5542f107e21bed11b05a1bf44d72092e67282264a75e3fbf8a1463c2359"
+    },
+    "assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-skirt.glb": {
+      "bytes": 364996,
+      "sha256": "b2769d5b3228cc5484371f59b6623c456612de89a0896cb92e845cb4c16feee9"
+    },
+    "assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-top.glb": {
+      "bytes": 2696592,
+      "sha256": "f76b2e6142d329d819cc1411f792cc7960d5cd9548b8930bab04c06ce3c3993d"
+    },
+    "assets/m1b/equipment.json": {
+      "bytes": 25157,
+      "sha256": "092ee804a86e04a4e0d2f2220acccc3226193a2c87b7ff45bb0c3e164623adec"
+    },
+    "assets/m1b/m1b-uniform-pants.glb": {
+      "bytes": 819744,
+      "sha256": "e4e213c9eed7912ff7fa75b81c957b7e944036ffb81cdcbd63813c11bd7e168c"
+    },
+    "assets/m1b/m1b-uniform-shoes.glb": {
+      "bytes": 157376,
+      "sha256": "3e855c7f39a183ab44b8aef3ac92898f6ebc36a7cbc0e6ccfdd485b85607fe2f"
+    },
+    "assets/m1b/m1b-uniform-shorts-v1.glb": {
+      "bytes": 795852,
+      "sha256": "c8a1afd0742cbb99302abc107673744751a8cfd77c6c89df039b068054a947d0"
+    },
+    "assets/m1b/m1b-uniform-top.glb": {
+      "bytes": 2762452,
+      "sha256": "393a2a97e9a933c4f8170720cf1d5792a18f282166abf7e5ffbba0d0de1fc32c"
+    },
+    "assets/m1c/accessories.json": {
+      "bytes": 2824,
+      "sha256": "d8380d1a105bff48e1cf8ed9ec92efaac54318e767a6df5836d587152e11c2b1"
+    },
+    "assets/m1c/glasses-fit/female.json": {
+      "bytes": 8073,
+      "sha256": "cb56bd93a8f2719de813692dddea6f78ff399945dc45c2022f0fcf37ae012b5a"
+    },
+    "assets/m1c/glasses-fit/male.json": {
+      "bytes": 8050,
+      "sha256": "3f14e225d594a4f233cfe5725c2baec83159265046a090220e5acd105b6c965b"
+    },
+    "assets/m1c/grips/female-source-grip-v1.json": {
+      "bytes": 3381,
+      "sha256": "0d145faa31461db369c3da644e42ef3818b92a6241b82784590f5ba30ff08a4c"
+    },
+    "assets/m1c/grips/male-source-grip-v1.json": {
+      "bytes": 3396,
+      "sha256": "23843bc3450fa0838241543a1fc30c88226fba7c99c1c34b705ac62a76ab099d"
+    },
+    "assets/m1c/grips/manifest.json": {
+      "bytes": 990,
+      "sha256": "5a889e73dd3553dfa70c4c4814269c1eb3dfa581d408274a97f5567157d7a6ac"
+    },
+    "assets/m1c/runtime-fit-observations.json": {
+      "bytes": 2359,
+      "sha256": "6c564ccaf67d482ec724e0d4b8e627fab89687b979d7338d2a64d68d4eebc52e"
+    },
+    "assets/m1c/studio-glasses-v1.glb": {
+      "bytes": 54484,
+      "sha256": "c8098a499434c384850a73e6c207fb6c5e85620e9012c4426cd989952e5bec52"
+    },
+    "assets/m1c/studio-microphone-v1.glb": {
+      "bytes": 106372,
+      "sha256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c"
+    },
+    "assets/main-D3_SRaNZ.js": {
+      "bytes": 1375392,
+      "sha256": "9970b8cc0a9c2ce37a7634ed5c00a91a425823c5fab134bc6ccc6b7d7091eda4"
+    },
+    "assets/main-fFMrUlxq.css": {
+      "bytes": 7988,
+      "sha256": "02002de7a56d7528742e43d27157c9c6d982db63bd28f5374c4d8f8bfe5734d1"
+    },
+    "assets/material-recipes/m1b-shorts-cloth-v4-review1.json": {
+      "bytes": 1286,
+      "sha256": "6307ada57e83d74a34305708e747f452c9bde9f4b18dc4caea150f83d9d32824"
+    },
+    "assets/motion/m1c/dance-imports.json": {
+      "bytes": 3453,
+      "sha256": "3695ec2c5409f88bd0f36beeaa3a16aeb41e194cded3eb4139d7a7305f526829"
+    },
+    "assets/motion/m1c/dance-source-reference.glb": {
+      "bytes": 739436,
+      "sha256": "b864ec5f440929133787791884e645a0bc73c323d107c9a9ef9937b4f1ca9744"
+    },
+    "assets/motion/m1c/dance-technical-v1.config.json": {
+      "bytes": 588,
+      "sha256": "b4e94a548e6ade2aa3fdbfd3b8b2bb492b686b281fd461bff6aa87ac2c05e854"
+    },
+    "assets/motion/m1c/dance-technical-v1.glb": {
+      "bytes": 2984076,
+      "sha256": "2d785287de3c0187c76ed90ae6e0b76fed3008cb1a7a2ac75065720d3885304e"
+    },
+    "assets/motion/m1c/greeting/gesture-import.json": {
+      "bytes": 2025,
+      "sha256": "b4f918f9ea8e260f95179e3eab9178a41c9b0266685835860c7284329a8adfb4"
+    },
+    "assets/motion/m1c/greeting/greeting-wave-left-v1.glb": {
+      "bytes": 1566668,
+      "sha256": "eec4ef8ab2fb073f7674cc6e839cbad7aea6931e4b19e8e70c0ee46c5fda2d06"
+    },
+    "assets/motion/m1c/jog-ordinary-derived-v1.config.json": {
+      "bytes": 593,
+      "sha256": "07958b1b04265be384c999664ecaa4330516ecdb522c42c3e542b25d066001b5"
+    },
+    "assets/motion/m1c/jog-ordinary-derived-v1.glb": {
+      "bytes": 965540,
+      "sha256": "6ec251d7611f22c6bf918d3401fcf438a8f2bc7b72f2826047dea8beef15c9e5"
+    },
+    "assets/motion/m1c/jog-ordinary-derived-v1.profile.json": {
+      "bytes": 1503,
+      "sha256": "2df4d6b86227b6bce60a5ea7ba97a982d974448044a46b903e413bd243e75ec0"
+    },
+    "assets/motion/UAL1_Standard.glb": {
+      "bytes": 7618436,
+      "sha256": "69591853d817488edaa8fd9bf8fc1d821eaeaf789f8627b3cd23b41c4ed67997"
+    },
+    "assets/motion-source-Beq22Q7U.js": {
+      "bytes": 969960,
+      "sha256": "010ae781985febdfbd8cffb97f55010882d44827f1bcda2a1030707f6acc7552"
+    },
+    "build-info.json": {
+      "bytes": 4361,
+      "sha256": "ce81ea0990acb57646fbe6df0c1cd8ae9bf608ff8a1e9c3d59b47510cb04cfcd"
+    },
+    "foundation.html": {
+      "bytes": 4043,
+      "sha256": "ed906367124a832c1a942f80b1e7e63db971675083cd0cb94be461c2a2d0f58d"
+    },
+    "index.html": {
+      "bytes": 9132,
+      "sha256": "c1907ad5b8821376ffeb5b26d39ecd1c7a374224aac18a933686c9c67067004b"
+    }
+  },
+  "rebuiltFiles": {
+    "assets/avatar.vrm": {
+      "bytes": 10776032,
+      "sha256": "12c2b97e95e700783a6a550dc0eee2d7880aeedccef9ae67bc4c5a2f0f2631a2"
+    },
+    "assets/forearm-collision-v2/female.json": {
+      "bytes": 24340,
+      "sha256": "b2ef32aa1566b6ef4b2b3796649cd732602da9788898264fff15dcb7afd4103e"
+    },
+    "assets/forearm-collision-v2/male.json": {
+      "bytes": 25016,
+      "sha256": "f6ec1714c80e492bc129078e179d12c48a4f7e072e5d0249d52b4943b75fbf15"
+    },
+    "assets/foundation/base-female-roundtrip.vrm": {
+      "bytes": 16311576,
+      "sha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95"
+    },
+    "assets/foundation/base-female.vrm": {
+      "bytes": 16323872,
+      "sha256": "1995f174f6c8f2211f3c56c9e5fe4f9daf27ee5e648f129479582a259238149b"
+    },
+    "assets/foundation/base-male-roundtrip.vrm": {
+      "bytes": 17902644,
+      "sha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff"
+    },
+    "assets/foundation-DSooVeGu.js": {
+      "bytes": 3661,
+      "sha256": "4d443f5b14973601b8e97ce58d9effaedf3df5048f5176010c7bb251f8d920b3"
+    },
+    "assets/garments/athletic-bermuda-v1.glb": {
+      "bytes": 145520,
+      "sha256": "d21e897c1f475e74cf9b1f5c77a29831f986a547df58d9b0c2346b693d39dee6"
+    },
+    "assets/garments/equipment.json": {
+      "bytes": 7650,
+      "sha256": "b1b7e4e4790e230d31ce16bea59bfe3692598dbb19e28ad697b3b4524aa54a91"
+    },
+    "assets/hand-joint-contact-v1/female.json": {
+      "bytes": 155943,
+      "sha256": "09688e79fadaca6f58530da7a4cb52c4ad0b3d9b42de4233c6b0a5f682454453"
+    },
+    "assets/hand-joint-contact-v1/jaw.json": {
+      "bytes": 155941,
+      "sha256": "3377854746d694992b3efb4a5fb3eb3d951d03d4abfe4609f89e53cf2adda12c"
+    },
+    "assets/hand-joint-contact-v1/waisthip.json": {
+      "bytes": 155946,
+      "sha256": "07b62497d826e417476c1154224a44722b50f8c38694fff5c653d3c8c1486e0d"
+    },
+    "assets/m1/equipment.json": {
+      "bytes": 34267,
+      "sha256": "d1d700b66317593d8acec72de909d5900a90d81a55f29e287ff91c5e7bc13fc0"
+    },
+    "assets/m1/m1-training-pants.glb": {
+      "bytes": 63520,
+      "sha256": "9e41d6df66a0917c2a4c09741c9f963fd05a347335854999d720d96ccee7aa92"
+    },
+    "assets/m1/m1-uniform-shoes.glb": {
+      "bytes": 190988,
+      "sha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf"
+    },
+    "assets/m1/m1-uniform-skirt.glb": {
+      "bytes": 364956,
+      "sha256": "065305626976c59b370d082baa6fd1e2aed8c262490e04e39543345170eb8d8d"
+    },
+    "assets/m1/m1-uniform-top.glb": {
+      "bytes": 2696548,
+      "sha256": "27bcfe020828ad2603f618fabf7f21cf1b09f66035c8ecd740e78cfc3650b9d6"
+    },
+    "assets/m1-variants/catalog.json": {
+      "bytes": 1723,
+      "sha256": "65b763d3d23debeb0d079c192561efef3b3dcea6b994689f2666b72d66f3333c"
+    },
+    "assets/m1-variants/forearm-collision-v2/m1a-jaw-v1.json": {
+      "bytes": 24341,
+      "sha256": "9717d0b384e7682cedcb0b276bcac933f91dc4d229cec2034a491c27bdbf754b"
+    },
+    "assets/m1-variants/forearm-collision-v2/m1a-waisthip-v1.json": {
+      "bytes": 24351,
+      "sha256": "3bc08e1e9d967a3a0f30099c32fec3900f2b4d99a32758b628a68d4e6a688d6b"
+    },
+    "assets/m1-variants/m1a-jaw-v1/avatar.vrm": {
+      "bytes": 16311584,
+      "sha256": "3c11caaed49f6db514acb7678551352afdf1c2893ef92ca93b959a8d09691011"
+    },
+    "assets/m1-variants/m1a-jaw-v1/equipment/equipment.json": {
+      "bytes": 36235,
+      "sha256": "3a4372a7bc8ab0119c8d4529a27d45ece90d0da39597e57e24a2185a49e423ac"
+    },
+    "assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-training-pants.glb": {
+      "bytes": 63552,
+      "sha256": "8f0749d8f6d727d61a4f69d569f9a127968c54038a58e95a636facd016184781"
+    },
+    "assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-shoes.glb": {
+      "bytes": 191016,
+      "sha256": "ca387921a6ea031b3a8038342c2afa868c40b9e52e917a12b0d475a2bad95dde"
+    },
+    "assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-skirt.glb": {
+      "bytes": 364988,
+      "sha256": "2a4f97d132fad3dab42edb9fd940c5687a04c553ca64e67d86e0ba5562dc721b"
+    },
+    "assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-top.glb": {
+      "bytes": 2696580,
+      "sha256": "5d817bd0dfb1819feacf5f9bd6607da0ab9417c452bb418937183b5f84fe595d"
+    },
+    "assets/m1-variants/m1a-waisthip-v1/avatar.vrm": {
+      "bytes": 16311596,
+      "sha256": "10778174ece87e3e3a00ecaf5e0c98eef59cd7d762e9bb52daa50162ee1743b5"
+    },
+    "assets/m1-variants/m1a-waisthip-v1/equipment/equipment.json": {
+      "bytes": 36275,
+      "sha256": "c789db61ca3f11d9475294b61812e9067350e4a10ec50c734b65a1cea225d57f"
+    },
+    "assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-training-pants.glb": {
+      "bytes": 63560,
+      "sha256": "b917446369bbb2f89661a668bad58dc18572b41de6282e8050175a0434c8024e"
+    },
+    "assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-shoes.glb": {
+      "bytes": 191028,
+      "sha256": "f0ddc5542f107e21bed11b05a1bf44d72092e67282264a75e3fbf8a1463c2359"
+    },
+    "assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-skirt.glb": {
+      "bytes": 364996,
+      "sha256": "b2769d5b3228cc5484371f59b6623c456612de89a0896cb92e845cb4c16feee9"
+    },
+    "assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-top.glb": {
+      "bytes": 2696592,
+      "sha256": "f76b2e6142d329d819cc1411f792cc7960d5cd9548b8930bab04c06ce3c3993d"
+    },
+    "assets/m1b/equipment.json": {
+      "bytes": 25157,
+      "sha256": "092ee804a86e04a4e0d2f2220acccc3226193a2c87b7ff45bb0c3e164623adec"
+    },
+    "assets/m1b/m1b-uniform-pants.glb": {
+      "bytes": 819744,
+      "sha256": "e4e213c9eed7912ff7fa75b81c957b7e944036ffb81cdcbd63813c11bd7e168c"
+    },
+    "assets/m1b/m1b-uniform-shoes.glb": {
+      "bytes": 157376,
+      "sha256": "3e855c7f39a183ab44b8aef3ac92898f6ebc36a7cbc0e6ccfdd485b85607fe2f"
+    },
+    "assets/m1b/m1b-uniform-shorts-v1.glb": {
+      "bytes": 795852,
+      "sha256": "c8a1afd0742cbb99302abc107673744751a8cfd77c6c89df039b068054a947d0"
+    },
+    "assets/m1b/m1b-uniform-top.glb": {
+      "bytes": 2762452,
+      "sha256": "393a2a97e9a933c4f8170720cf1d5792a18f282166abf7e5ffbba0d0de1fc32c"
+    },
+    "assets/m1c/accessories.json": {
+      "bytes": 2824,
+      "sha256": "d8380d1a105bff48e1cf8ed9ec92efaac54318e767a6df5836d587152e11c2b1"
+    },
+    "assets/m1c/glasses-fit/female.json": {
+      "bytes": 8073,
+      "sha256": "cb56bd93a8f2719de813692dddea6f78ff399945dc45c2022f0fcf37ae012b5a"
+    },
+    "assets/m1c/glasses-fit/male.json": {
+      "bytes": 8050,
+      "sha256": "3f14e225d594a4f233cfe5725c2baec83159265046a090220e5acd105b6c965b"
+    },
+    "assets/m1c/grips/female-source-grip-v1.json": {
+      "bytes": 3381,
+      "sha256": "0d145faa31461db369c3da644e42ef3818b92a6241b82784590f5ba30ff08a4c"
+    },
+    "assets/m1c/grips/male-source-grip-v1.json": {
+      "bytes": 3396,
+      "sha256": "23843bc3450fa0838241543a1fc30c88226fba7c99c1c34b705ac62a76ab099d"
+    },
+    "assets/m1c/grips/manifest.json": {
+      "bytes": 990,
+      "sha256": "5a889e73dd3553dfa70c4c4814269c1eb3dfa581d408274a97f5567157d7a6ac"
+    },
+    "assets/m1c/runtime-fit-observations.json": {
+      "bytes": 2359,
+      "sha256": "6c564ccaf67d482ec724e0d4b8e627fab89687b979d7338d2a64d68d4eebc52e"
+    },
+    "assets/m1c/studio-glasses-v1.glb": {
+      "bytes": 54484,
+      "sha256": "c8098a499434c384850a73e6c207fb6c5e85620e9012c4426cd989952e5bec52"
+    },
+    "assets/m1c/studio-microphone-v1.glb": {
+      "bytes": 106372,
+      "sha256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c"
+    },
+    "assets/main-D3_SRaNZ.js": {
+      "bytes": 1375392,
+      "sha256": "9970b8cc0a9c2ce37a7634ed5c00a91a425823c5fab134bc6ccc6b7d7091eda4"
+    },
+    "assets/main-fFMrUlxq.css": {
+      "bytes": 7988,
+      "sha256": "02002de7a56d7528742e43d27157c9c6d982db63bd28f5374c4d8f8bfe5734d1"
+    },
+    "assets/material-recipes/m1b-shorts-cloth-v4-review1.json": {
+      "bytes": 1286,
+      "sha256": "6307ada57e83d74a34305708e747f452c9bde9f4b18dc4caea150f83d9d32824"
+    },
+    "assets/motion/m1c/dance-imports.json": {
+      "bytes": 3453,
+      "sha256": "3695ec2c5409f88bd0f36beeaa3a16aeb41e194cded3eb4139d7a7305f526829"
+    },
+    "assets/motion/m1c/dance-source-reference.glb": {
+      "bytes": 739436,
+      "sha256": "b864ec5f440929133787791884e645a0bc73c323d107c9a9ef9937b4f1ca9744"
+    },
+    "assets/motion/m1c/dance-technical-v1.config.json": {
+      "bytes": 588,
+      "sha256": "b4e94a548e6ade2aa3fdbfd3b8b2bb492b686b281fd461bff6aa87ac2c05e854"
+    },
+    "assets/motion/m1c/dance-technical-v1.glb": {
+      "bytes": 2984076,
+      "sha256": "2d785287de3c0187c76ed90ae6e0b76fed3008cb1a7a2ac75065720d3885304e"
+    },
+    "assets/motion/m1c/greeting/gesture-import.json": {
+      "bytes": 2025,
+      "sha256": "b4f918f9ea8e260f95179e3eab9178a41c9b0266685835860c7284329a8adfb4"
+    },
+    "assets/motion/m1c/greeting/greeting-wave-left-v1.glb": {
+      "bytes": 1566668,
+      "sha256": "eec4ef8ab2fb073f7674cc6e839cbad7aea6931e4b19e8e70c0ee46c5fda2d06"
+    },
+    "assets/motion/m1c/jog-ordinary-derived-v1.config.json": {
+      "bytes": 593,
+      "sha256": "07958b1b04265be384c999664ecaa4330516ecdb522c42c3e542b25d066001b5"
+    },
+    "assets/motion/m1c/jog-ordinary-derived-v1.glb": {
+      "bytes": 965540,
+      "sha256": "6ec251d7611f22c6bf918d3401fcf438a8f2bc7b72f2826047dea8beef15c9e5"
+    },
+    "assets/motion/m1c/jog-ordinary-derived-v1.profile.json": {
+      "bytes": 1503,
+      "sha256": "2df4d6b86227b6bce60a5ea7ba97a982d974448044a46b903e413bd243e75ec0"
+    },
+    "assets/motion/UAL1_Standard.glb": {
+      "bytes": 7618436,
+      "sha256": "69591853d817488edaa8fd9bf8fc1d821eaeaf789f8627b3cd23b41c4ed67997"
+    },
+    "assets/motion-source-Beq22Q7U.js": {
+      "bytes": 969960,
+      "sha256": "010ae781985febdfbd8cffb97f55010882d44827f1bcda2a1030707f6acc7552"
+    },
+    "build-info.json": {
+      "bytes": 4361,
+      "sha256": "ce81ea0990acb57646fbe6df0c1cd8ae9bf608ff8a1e9c3d59b47510cb04cfcd"
+    },
+    "foundation.html": {
+      "bytes": 4043,
+      "sha256": "ed906367124a832c1a942f80b1e7e63db971675083cd0cb94be461c2a2d0f58d"
+    },
+    "index.html": {
+      "bytes": 9132,
+      "sha256": "c1907ad5b8821376ffeb5b26d39ecd1c7a374224aac18a933686c9c67067004b"
+    }
+  },
+  "missingFiles": [],
+  "unexpectedFiles": [],
+  "changedFiles": [],
+  "finalGitStatus": "",
+  "matchingFiles": 63,
+  "referenceTotalBytes": 125721827,
+  "finishedUTC": "2026-11-15T03:38:20Z"
+}
