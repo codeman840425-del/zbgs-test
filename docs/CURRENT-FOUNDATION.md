@@ -4,55 +4,37 @@
 
 目标全文：[M1-ACTIVE-OBJECTIVE](M1-ACTIVE-OBJECTIVE-2026-11-14.md)。能力状态唯一依据：[CAPABILITIES](CAPABILITIES.md)。阶段：[FOUNDATION-MILESTONES](FOUNDATION-MILESTONES.md)。本页仅保存当前现场；更早迭代见对应固定证据及 Git 历史，不按历史岗位条目重新派发。
 
-## 11-15当前发布与优先问题（本段优先于下方历史流水）
+## 当前现场（2026-11-15；下方历史不构成新任务）
 
-下一实际工作已分工：prototype最多核两个有依据的合法可编辑裙源/裁片候选，先复用本机与已有调研；有合格免费源才实际取得打开，找不到即明确缺口，不继续猜曲面或原cloth扫描。顾问报告Rokoko已提交一次30秒：其独立目录无损remux仅缩最后包duration至281/24000、720包bytes/PTS/DTS与解码PTS均未变；根保留原30.03副本及自己的manifest，不重复封装/上传，云输出尚未收到、不记动作通过。038源码不再改，固定观感入口4174/evidence/m1-current-review，公开4194仍152。
+- 主线 `feat/m1-foundation-room`；最近完整备份 `17acd683879d13c35fa291af9464ecaa2382edc4` 已push并独立ls-remote核实。当前工作区从该点接续，不回退旧构建。
+- 公开交互仍 **152b17a0c6e9 / 4194**，男性 `?body=male`；固定指针 `delivery/candidate.json`。保留4193、4191、4192和证据4174，共五常驻，不需新增常驻服务。
+- 最新隔离修复 **038341558517**：`experiments/m1-hand-release-integrated-v1/dist`；源码提交 **5f4250a3ce5d958de16d31ba3ce9a8724cea28a8**。fresh checkout/npm ci/build共65输出逐字节一致，`evidence/rebuild-038-5f4250a`。源双文件、基底和恢复方式在 `assets-source/hand-contact-release-v1`。
+- 统一观看 `http://127.0.0.1:4174/evidence/m1-current-review/`；038正常1×影片/旧对照在 `evidence/hand-release-038341558517/video-index.html`。已全时段4fps抽审，不冒充连续自然度或用户接受；坐裙仍硬。
 
-本批窄验已全部冻结：038男性两裤、两派生专属裙、跨帧换装和双女非零seed隔离完成；脚本/报告各自记录有限范围，初版重复requestId测试失败与preseed范围不足保留，产品无追加改动。所有QA临时服务关闭。动捕输入已冻结在analysis/dance-submit-input-v1，720原PTS、1080p、SHA3c81333c…，**实际30.03s**不是严格30s；manifest在evidence/dance-video-pose-v1/submit-input-v1，顾问已接账户试验，根不上传/付费。本批后续证据已保存于272b1a0及5c63185，已push并独立ls-remote核实5c63185613c8b50f3a01400cd7d5e11967211730。裙形、整体视觉和普通PC仍未过，30秒动捕等待顾问实际原输出，不重启局部补参。
+### 本批实际成果及明确边界
 
-最新接续：038既有jaw/waisthip专属742点裙/fit的四真实手门及四刷新边界完成，未改源/强装原女资源；QA仅再补新增handRelease跨帧换装和双女状态隔离窄验。18段作者坐姿目标已停止，独立分支codex/skirt-longitudinal-bones-v1/9d0b7e4远端独立核实；未做骨拟合/运行时，失败源可从该分支恢复。顾问负责Rokoko现实账户/完整原片输出试验，根不重复注册上传或广泛调研；报告副本已归档research。pose仅核/准备本地720原帧严格PTS的1080p提交副本及可重跑manifest，不上传、不做v6。下一恢复先看这些新窄验/副本结果，不重启旧裙扫描或重做男裤。
+038修复两个共用问题：已校准手部避让在walk/dance继续求解，接触减少以固定60ms连续释放；scene不在姿态求值后抢先重置rig时钟，避免起身末refresh0重入。不是改人体权重、衣物或源动作。c182投影骤降的有限rail退出证据、失败中间版与严格非零差均保留。
 
-恢复备份：038源码与本轮冻结视频失败包已提交 **5f4250a3ce5d958de16d31ba3ce9a8724cea28a8**，push成功且独立ls-remote一致。fresh checkout锁定安装/构建65文件完全相同，证据rebuild-038-5f4250a。038男性长/短裤各10任务与四refresh边界通过，普通片4fps全时段抽审仍见坐裙偏硬；不宣布人工连续自然度。portable录像脚本已移入scripts并只改require路径，历史原脚本/manifest保留。统一观看索引已挂038录像但4194公开仍152。QA继续两件既有女性派生的受影响手skin/refresh窄验；prototype新18段目标前置门失败已停止拟合，等其冻结备份，不继续参数扫描。
+原女性四指定实际手skin门、男性长/短裤时钟/任务、jaw/waisthip各自742点裙和专属fit的四手门/时钟，以及跨帧换装和双女非零释放历史隔离已完成；动态OFF隔离不外推完整动态组合。0b到038 root/phase相同，但腕存在最大0.399mm非零差，完整说明在CONTACT-RESULT。失败QA的重复requestId与preseed检查不足保留。限定结果见对应目录，不把手门0扩大为整裙通过。
 
-最新接续覆盖下方待测描述：7a86/038相邻同设置run/sit成本已完成，证据PERF-RESULT：CPU P95跑3.1→4.4ms、坐均9.9ms，开发机限定、非优化/普通PC通过。038源码和证据准备提交重建；QA补男性共用时钟受影响回归及038影片抽帧，不重跑全矩阵。v5实际VRM/密采样已拒收并冻结，根147mm下沉/膝116–122度跳/插值穿地7–8mm，不做v6。顾问独立核现成视频动捕工具，不重复广泛调研。prototype隔离分支仅制作新六扇区×三纵段曲率静姿样件：先实际完整身体/上衣/椅空间和材料长度门，无可行目标则停止，不把旧六骨结果冒充新机制。公开152/4194及五常驻不变。
+7a86→038相邻同设置30秒成本：跑动CPU P95 3.1→4.4ms，坐稳均9.9ms；RTX4090/1440×900/Chrome157开发机，普通PC未验。外层garment计时近0是工作移入hand回调，不是成本消除；PERF-RESULT保存口径。坐姿成本与裙形仍不达整体交付。
 
-最新接续：根最近已独立核备份e9ab37c5eb1509aa3bcca0a63d02aa69e0d4a099；当前源码新候选 **038341558517** 在 `experiments/m1-hand-release-integrated-v1/dist`，公开仍152/4194、永久五端口不变。c182有限rail退出原因已准确确认，111文件增量按SHA归档supplemental，不覆盖旧55文件；固定接触释放0b修15/13mm局部跳变为7.4/7.9，随后合main时序单行删除修复起身refresh0约.517m重入。最终038四指定真实skin门0、2441root/phase相同；腕对0b最大.399mm、最大新增步量.307mm如实保留严格非零差结果，不继续为零差修改产品。四普通refresh边界0，10任务通过；显式raw关历史的64微米cold差不与pause混同，旧失败脚本/报告仍在，最终contract补真实dance.time/重复时钟/两手存在检查。三条同038正常1×已录，源码双文件快照 `assets-source/hand-contact-release-v1`。下一项根做7a/038相邻同设置run/sit成本与必要保存重建；pose的唯一硬支撑QP当前运行，等其本轮结束后再独占CPU测试。新增源/证据尚待本轮提交。
+原女252面衣下覆盖仅渲染索引，完整7732面源保留；源重生成、实际恢复与释放已有证据，勿重做。覆盖只适配精确原女，不强施派生。独立裙shared-column及6×3纵段作者目标均失败冻结；后者远端 `codex/skirt-longitudinal-bones-v1` / **9d0b7e4e0657b3cf6f850a3bac790654f63324c6**，失败发生在作者目标而非已绑定18骨runtime。不可继续原cloth/混权/目标补参。
 
-视频支线：v3/v4已分别在5b78/8266真实男女回读及原片1×对照，v4只前掌两轨变化，改善205但148右仍33/37mm失败；frozen源、脚本、报告均已完成。pose_extraction正在唯一全段硬约束清理：已知支撑硬地面、未知仅非穿透、v4足姿/原XZ/转体/flight保留；73原PTS输入不变，统一4分动作采样289（不是插入新视频检测帧），不沿失败点添节点/放软门。未出结果，不称30秒完成。裙shared-columns方案仍失败且冻结，手部运行修复不等于裙形已过。所有看片/设备/许可边界沿CAP，M1整体未完成。
+### 当前实际分工与下一产物
 
-7a86后续证据c66b8bd35ab23079993083bc4d19efe9148ca8b9已push并ls-remote核实。当前临时服务全部结束，永久五端口不变。衣下覆盖小闭环完成限定程序/源重复证据，正常片全时段抽帧看完；不是连续人工自然度通过。接续主线：prototype仅在原独立worktree评估已有local-retailor-shared-columns-v1是否值得补此前缺失的完整材质同姿GPU（不第四次求解）；qa只读复算13bb的hand-fingers交叉t4.608/13.108/final与fitSeatHands退出范围，判断实际尺度与触发链，不修改产品。root统一GPU窗口，尚无新手姿修复或替代裙通过。
+1. QA的原女裙装＋麦克风补验已完成，不重跑。讲话和普通携带分别检查，后者前置避让实质激活；最终有限手skin门0交叉，但空手旧新最大差51.956mm、坐稳单步增加4.135mm。正常1×旧新房间/近景完整片在 `evidence/mic-skirt-038-vs-7a86/silent-normal/`，5.50–5.85秒空手回收需人工观感。已发出可选观看问题，未获回答；不把沉默算通过。根已复核两manifest共65条哈希与三脚本语法。产品仍038，未升公开。
+2. prototype的两现成源核查和唯一原生坐姿样件已完成；最新远端70a3a38274885ea7229b8c5664cf6437b6297430已根ls-remote核实。Blender-chan只可作开前襟透明裙的编辑参考，非合格目标闭裙；MakeHuman候选许可冲突。报告归档docs/research/SKIRT-NATIVE-REFERENCE-2026-11-15.md。不再调整其FK/权重/cloth或添加第三资产搜索。
+3. 顾问线程 `01a1dc29-f8d8-7f73-b374-98055d040eaa`：已报告原始Rokoko Studio2.6.2 FBX导出，男女各52轨道；导出首T姿参考帧按明确规则处理，原时间未整体缩放。正在独立隔离4261录完整30秒男女回读。根未验收输出，不重复转换；GPU留给其录制。
+4. 根已只读核Marvelous Designer官方Python/裁片/模拟/导出入口，作为制作工具备选，未安装、开试用、付款或采用；官方示例不证明自动绑定/VRM坐姿通过。需先解决实际裁片来源与可重复游戏适配，不能把离线好看等同平台生产完成。待顾问释放GPU后，优先核其整段成果与现有接口，裙生产仅继续有依据的不同方法。
 
-接续增量7a86c24e34aa（experiments/m1-torso-coverage-v1/dist）：已将prototype的252面覆盖候选b52d来源原字节归档到assets-source/torso-coverage-risk-v1，新增可携带生成器scripts/m1-assets/build-torso-coverage.py，实际重生成字节一致。body-coverage.js仅复制渲染geometry并重建index/group，完整原几何保留WeakMap，motion后臀标定使用完整accessor；其余当前碰撞输入未删。female精确配置启用，男性/派生无覆盖。9项实际房间+20单元+独立真实skin/morph/双实例释放通过；同85步前腹两肤点消失，裙坐姿硬折仍明显。正常坐起转舞19.38s已录，公开4194仍152。当前所有QA临时服务已结束：覆盖边界改为每姿态缓存真实skin后完成248姿态/六角/47224探针，未缺top遮挡；第一版重复skin终止留记录，第二版绝对距离门误报前景遮挡，已用edge163–170实际射线证明top在body前46.215mm，修正后不扩大mask。原失败计数不得当真实洞。二女切换/完整恢复及男性无mask隔离通过；普通PC未验。旧qa-front-skirt-contact只枚举可见body，覆盖开启后不能冒充完整body接触。正常2.4跑片及坐起转舞1×已补，完整片2fps已看，坐姿硬折仍失败；root下一步处理剩余裙形/手接触，有效覆盖候选不代表整裙通过；完整源/运行快照与恢复在assets-source/torso-coverage-runtime-v1，源码621a9e73554af89c9c73cc2f7567f7135badd971已推送并ls-remote核实，新检出npm ci/build65产物字节一致；后续边界/影片增量待当前备份。
+视频根支线v3/v4/v5均冻结；v5求解点可接触却产生147mm下沉、116–122度膝跳，密采样仍穿地7–8mm，不做v6。原30秒目标不取消、不用3秒充数。顾问报告已归档 `docs/research/ADVISOR-MOCAP-ALTERNATIVES-2026-11-15.txt`。
 
-本轮现行长目标已按用户在顾问会话批准的修订全文同步至M1-ACTIVE-OBJECTIVE-2026-11-14.md；已通过read_thread核实“可以，把修订后的完整长目标直接发给总工”原用户消息，不把顾问推测当新增批准。三关承接既有六工作包，30秒原片[0,30)/720PTS保留为必需独立交付；旧附件恢复快照不驱动回退。当前正在把新中央躯干覆盖候选做为显式衣下覆盖数据验证，原body/top不删改、完整诊断与碰撞基准须保留；252面仅源静姿候选，不拿它掩盖外露衣边/手腿缺陷。
+根提供的输入 `analysis/dance-submit-input-v1/5359146-frames0000-0719-1080p-cfr24000_1001.mp4` 保留720原PTS，SHA3c81333c…，实际**30.03s**；源/视频ignored，重跑脚本和全帧映射在`evidence/dance-video-pose-v1/submit-input-v1`。顾问已报告在其目录无损remux将末包duration缩281/24000至30.000s，720包bytes/PTS/DTS和解码PTS不变，并提交云任务；根不重复封装/上传，也未把顾问输入覆盖根CFR证据。
 
-恢复点补记：13bb运行源6b7fe0b0288ce766f3c784bac9229f5e9935bdc5已推送并独立ls-remote核实；fresh sparse checkout/npm ci/build共64产物逐字节相同，evidence/rebuild-skirt-13bb-6b7fe0b。7e24四源快照另修归档换行（原运行src始终正确），以-text+renormalize保存与manifest一致字节。当前无浏览器/性能任务运行，所有临时服务已关。prototype代理现在只制作原女原top的中央躯干覆盖risk数据：原资产没有mask，不称恢复；按真实衣口/袖领距离、躯干权重、外侧不透明top命中选择候选面，不隐藏裙腿/手/外露皮肤，源码和运行尚未接入，未通过。根接续应先收其数据及原型mesh/index匹配，再小范围完整身体恢复/换装/动作回归；不能以这个候选关闭上衣露肤或服装自然度。用户允许明确衣下身体覆盖、要求base完整，此项沿现M1装备规则，不扩完整平台。
+M1整体、裙形/连续自然度、普通PC实机和30秒合格动作仍未通过。M2/M3不展开。下一恢复先看以上具体任务的新证据；若无新变化不重复旧测试。完整能力仅查CAPABILITIES，历史操作日志仅作证据。
 
-再接续13bb00a78605（experiments/m1-skirt-open-waist-runtime-v1/dist）：已实际运行既有open-waist GLB a5de096...，新ID m1-uniform-skirt-open-waist-v1、682点/680面，经现装备+fit接口加载，原资源保留，原女默认指向此隔离候选，jaw/waist原源不动；没有改controller。源安装器scripts/m1-assets/install-open-waist-skirt.py已实际执行，源/导出仍用现成open-waist-v1，不重做Blender。259同姿root/phase/sit严格0差；top对映射后全部相同，body剩余仅手指approach817/dance284/final5，其他阶段所采body/skirt交叉0（非全CCD）。13bb正常2.4跑+坐起转舞录于evidence/skirt-open-waist-13bb00a78605，未宣称视觉通过。原top/独立top真实38姿包括露肤相位世界差最大1.411e-7m，已有资产fit问题而非导出/runtime丢skin。下一步检查上衣源躯干余量/权重及手接触、保留全裙硬折阻塞，不重启冻结cloth扫参。
-
-性能当前有波动：13bb独占30秒坐P9511.6/CPU11.0；同口径旧83当场复测15.2/14.7，>33ms22帧/>50ms5帧。不能归因新skin比历史83慢；普通PC仍未验。f552矩阵缓存虽保持skin一致但无成本收益，已冻结源和失败数据并撤回，当前仍调用Three.getVertexPosition。7e24源/片已远端核4833081208ab85b36654a6305d5b27803c3d7179，13bb增量待本次集中备份。仅5常驻端口不变，所有QA临时端口随进程关闭；公开152/4194不变。7e24 source快照换行归档将补-text确保哈希恢复。
-
-最新接续：用户追问是否每件素材都要精修、是否考虑平台。已解释普通合规范资产不应修改人物controller，版型/身体差异归fit资源，特殊结构须独立准入。目前不是成熟通用服装平台。发现并实际修复主线m1-skirt固定腰带丢失原skin问题，7e24e01556ad固定于experiments/m1-skirt-skinned-anchors-v2/dist（前332只有skin修复，无fit守卫）。源码快照assets-source/skirt-skinned-anchors-v1，以cc22为基底可重建。182固定点2969真实步skin最大<6e-8m；旧83最大26.04mm；60混合边最高比1.2500026，不把此局部当整裙通过。
-
-同姿前腹黑片来自原外裙face587，不是腰cap，修复后已消失；两肤色点仍来自Body610/657穿Top956/957。原top/独立top无导出缺失/原mask丢失（prototype独立审查分支05663a90796cffae9bdc9484dce8866a8ebf5912已远端核），需后续同pose原内置top对照。7e24三速正常1×及坐起转舞1×已录，完整时长抽帧已检，非连续自然度验收。259姿态fullsurface新增body全部原face0–19内部腰cap，混合/自由面新增0；同目录contact/added-body-classification.json.gz保完整逐事件（解压即原JSON）。接下来复用现成assets-source/m1/offline-corrective/open-waist-v1裙源做独立接入，不重新造源、不声称它修复原黑片；Top/衣摆失败仍保留。
-
-新fit合同src/skirt-fit-profiles.json精确列三个既有garment/body/hash与固定/导向区域，m1-equipment通过已验bytes的entry选fit，未知拒绝。qa离线真实工厂正例/负例与三合法十二坏身份已过；不等价位置/权重焊接及morph拒绝。新源/证据在本地等待本轮集中提交；当前公开仍152/4194。新7e24成本需以同detail开关对照，perf首坐样本有FFmpeg重叠只保失败，perf-seated-exclusive为detailON无竞争，perf-seated-comparable使用旧83同detailOFF；不得混用成性能通过。
-
-当前公开152b17a0c6e9在4194（男性?body=male），源码4958e6b；固定目录experiments/m1-mic-curvature-integrated-1/dist。新检出63产物一致，男女真实入口已核。f7/4193保持不变作裙边对照；加旧4191/4192与证据4174，共5项目端口。主线源/片/动作实验、83成本优化与用户闪动反馈均已归档并独立核实远端d89bdd5e47cd7f5566999998bd58c7c7132929fc。当前工作源为83，公开入口仍152；后续腹前露片定位进行中。
-
-用户已对a491四条所链2.0/2.4对照片回复“瞬间闪动明显改善，请加紧进度”，精确回执evidence/front-skirt-a491efde53fb-user-receipt，不等于整裙接受。a491重新本地构建63产物逐字节相同（不是新检出npm ci），恢复evidence/rebuild-a491-root。公开仍152/4194。
-
-a491两项独占30秒无录制已完成：裙跑2.6帧P95 6.7ms/CPU3.0，坐稳帧P95 12.3ms/CPU12.0，均0>33.34ms；运行GPU为RTX4090，不是普通PC。坐稳motion含裙+手接触主成本仍超8ms预算。源码核实当前裙1024×512全部alpha255但MASK .5，每次rail五点仍重算alpha。root制作新83a7372f41b4（experiments/m1-skirt-opaque-alpha-v1/dist）：只全图透明度认证一次并在保守有限数值界限下省略重复alpha查询；保留五样本/depth门与全接触处理，同时提取固定rail dot。1764单元对照与退化/透明像素/深度反例通过；3体各270实际姿态全骨/裙面/非计时手接触严格0差。83坐稳dynON30秒帧P95 6.2ms（旧12.3），每真实motion子步平均4.606→3.770ms，平均子步/显示帧2.010→1.026；没有减模拟频率。仅开发机/此场景，不升级整裙或普通PC通过。源与恢复assets-source/opaque-alpha-contact-v1，810对照evidence/rail-alpha-equivalence，独立成本evidence/rail-alpha-83a7372f41b4-perf。
-
-P1用户报告的日常裙装**>1.80m/s**前边抖动已复现：2.0/2.4的原skin约10–13mm连续变化，最终修正顶点却单帧跳125–142mm；runMix恒1，关闭footIK仍约147mm。已实证两个局部根因：支撑范围硬if产生51.922mm不连续；腿轴接近竖直时，原横轴单步旋转85.244°。只连续化边界的7f309caee479失败，完整真实跑动仍133/140mm跳；不能因数学回归通过发布。
-
-已冻结的闪动修复候选为**a491efde53fb**（其上83只做等价成本优化）：在连续支撑基础上，以实际双UpperLeg关节连线在腿轴法平面的投影定义侧向，实测轴变化1.204°；原故障相位峰值2.0/2.4降为14.74/17.32mm。没有改移动/动作/IK/半径/碰撞次数。三速完整1×及259姿态最终surface检查已做；身体交叉面集合与f7相同，不代表身体无穿；上衣交叉面发生变化，跑步新增交叉线最大28.46mm（线长不是深度），须结合同姿图判断，候选尚未发布/验收。坐起→360转身→走到空地→完整技术舞补片成功；初次椅边舞被space门正确拒绝的失败片保留。源双变体、精确build输入及11边界回归在assets-source/skirt-support-continuity-v1；接触与对照片在evidence/front-skirt-a491efde53fb。不得把18点跟踪当全部网格证明。
-
-独立裙裁片方案在prototype的隔离worktree继续：第一次完整材质出现上衣侧翼/前裙露肤；一次有依据布局修订清除四姿自交与原26个腿部交叉，但真实外层跨行边2.059、上衣1.406仍失败。完整站/坐材质及四Blend已核，独立分支远端ea308af660c6cb6133ae23c434ea341def4472c1已备份；停止第三次盲改，不合主。原cloth/混权/corrective支路不重启。其后仅修跨环材料映射已确认错误，共享材料列使2.059坏边降到.791、全外层最大1.294仍超1.25，衣裙130交叉仍失败；04e76758125b7f6712e7ec1115fc8884491f4934独立分支已远端备份，不追加同类求解。主线下一项由QA在row14精确同姿射线/alpha核查旧新均有的腹前黑板片与白点来自哪个mesh/面/绑定，先查共同源结构，不删面掩盖。
-
-视频动作另有独立进展：官方MotionBERT纯pose模型已固定版本/权重SHA与许可，73原PTS困难段实际CPU推理。目标F/M骨长固定、原方向/整转保留，经normalized loader真实回读；v1=069（有效clear-space目录），v2=ce09。v2仅修左前臂207→208约87°额外扭转为17.1°，其余54轨不变。男女真实任务completed/退出idle；足底悬空、手指与识别误差未通过，完整30秒尚未完成。一次固定规则自动支撑实验误判，不能驱动根高度/IK；已冻结证据，不扫阈值。原视频本地ignored，不将Pexels素材当CC0上传。
-
-普通电脑仍未实测；仅f7开发机4×30秒CPU P95基础/裤/裙坐稳/双裤约1.8/1.7/11.0/2.4ms，152/a491不继承旧数字。M1未整体通过。a491新增上衣交叉已以row14同姿旧新图确认，保持未通过；用户只确认闪动改善。接续归档83成本修复，再继续裁片映射/衣面缺陷；其余独立M1按CAP推进。
+## 以下为历史接续记录（不驱动当前执行）
 
 ## 最新接续：持麦、移动与视频动作（2026-11-14）
 
