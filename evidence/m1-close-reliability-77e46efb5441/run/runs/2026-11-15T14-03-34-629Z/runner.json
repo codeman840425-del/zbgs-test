@@ -1,0 +1,110 @@
+{
+  "id": {
+    "build": "77e46efb5441",
+    "sha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+    "assetId": "beta-base-female-m1"
+  },
+  "url": "http://127.0.0.1:60676/",
+  "runRoot": "F:\\gamemake\\output\\playwright\\m1-close-reliability-77e46efb5441",
+  "stages": [
+    {
+      "name": "tasks",
+      "script": "qa-room-behavior-tasks.cjs",
+      "args": [
+        "http://127.0.0.1:60676/",
+        "77e46efb5441",
+        "female"
+      ],
+      "seconds": 180
+    },
+    {
+      "name": "tasks-mm",
+      "script": "qa-room-behavior-tasks.cjs",
+      "args": [
+        "http://127.0.0.1:60676/",
+        "77e46efb5441",
+        "male"
+      ],
+      "seconds": 180
+    },
+    {
+      "name": "peer",
+      "script": "m1c/qa-peer-ready-fixed.cjs",
+      "args": [
+        "http://127.0.0.1:60676/"
+      ],
+      "seconds": 240
+    },
+    {
+      "name": "restore",
+      "script": "qa-avatar-record-v2.cjs",
+      "args": [
+        "http://127.0.0.1:60676/",
+        "77e46efb5441"
+      ],
+      "seconds": 180
+    },
+    {
+      "name": "lifecycle",
+      "script": "qa-m1-lifecycle-fixed.cjs",
+      "args": [
+        "http://127.0.0.1:60676/"
+      ],
+      "seconds": 150
+    }
+  ],
+  "restoreCatalog": "F:/gamemake/evidence/m1-close-reliability-77e46efb5441/catalog.json",
+  "limits": [
+    "Strictly serial, stops at first failure; collection never grants visual acceptance",
+    "Restore fixture must be generated from the same immutable dist and matching source tree",
+    "Lifecycle uses real headed tab hiding; no synthetic fallback"
+  ],
+  "status": "failed-or-incomplete",
+  "results": [
+    {
+      "name": "tasks",
+      "started": "2026-11-15T14:03:34.642Z",
+      "status": "collected",
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "ended": "2026-11-15T14:03:40.332Z"
+    },
+    {
+      "name": "tasks-mm",
+      "started": "2026-11-15T14:03:40.333Z",
+      "status": "collected",
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "ended": "2026-11-15T14:03:44.161Z"
+    },
+    {
+      "name": "peer",
+      "started": "2026-11-15T14:03:44.162Z",
+      "status": "collected",
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "ended": "2026-11-15T14:03:52.969Z"
+    },
+    {
+      "name": "restore",
+      "started": "2026-11-15T14:03:52.970Z",
+      "status": "collected",
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "ended": "2026-11-15T14:04:00.477Z"
+    },
+    {
+      "name": "lifecycle",
+      "started": "2026-11-15T14:04:00.479Z",
+      "status": "failed",
+      "code": 1,
+      "signal": null,
+      "timedOut": false,
+      "ended": "2026-11-15T14:04:05.856Z"
+    }
+  ]
+}

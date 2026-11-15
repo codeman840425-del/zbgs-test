@@ -12,6 +12,8 @@ for(const file of build.inputs){sourceHash.update(file);sourceHash.update('\0');
 if(sourceHash.digest('hex')!==build.sourceDigest)throw Error('Source tree differs from fixed build; provide matching --source-root');
 const {foundationProfile}=await import(pathToFileURL(path.join(sourceRoot,'src/foundation-profiles.js')));
 catalog.styleMap['m1b-uniform-shorts-v1']='qa-style:male-tailored-shorts-v1';
+// Distinct QA style identity for the fixed open-waist source; never alias the old closed skirt.
+catalog.styleMap['m1-uniform-skirt-open-waist-v1']='qa-style:female-uniform-skirt-open-waist-v1';
 const url='/assets/m1c/grips/manifest.json',bytes=read(url),manifest=JSON.parse(bytes);if(manifest.schema!=='zbgs-grip-profile-manifest-v1')throw Error('Wrong grip manifest');
 catalog.catalogVersion='zbgs-qa-avatar-catalog-v2';catalog.scope='QA-only v2 attachment identity; production saves/migration are not implemented';catalog.legacy={catalogVersion:oldVersion,sha256:hash(legacyBytes)};catalog.presentationBuild={shortId:build.shortId,sourceDigest:build.sourceDigest};catalog.gripManifest={url,schema:manifest.schema,sha256:hash(bytes)};
 for(const body of catalog.bodies){

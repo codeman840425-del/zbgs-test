@@ -1,0 +1,13 @@
+// Offline GLB raw-skeleton evidence only; runtime deformation still requires QA.
+function glb(bytes){if(bytes.readUInt32LE(0)!==0x46546c67||bytes.readUInt32LE(4)!==2||bytes.readUInt32LE(8)!==bytes.length)throw Error('Invalid GLB');let data,bin;for(let o=12;o<bytes.length;){const n=bytes.readUInt32LE(o),t=bytes.readUInt32LE(o+4);if(t===0x4e4f534a)data=JSON.parse(bytes.subarray(o+8,o+8+n).toString());if(t===0x004e4942)bin=bytes.subarray(o+8,o+8+n);o+=8+n;}if(!data||!bin)throw Error('Missing GLB chunks');return {data,bin};}
+function matrices(g,id){const a=g.data.accessors[id],v=g.data.bufferViews[a?.bufferView];if(!a||a.componentType!==5126||a.type!=='MAT4'||a.sparse||!v||v.buffer!==0)throw Error('Unsupported inverse-bind accessor');return Array.from({length:a.count},(_,j)=>Array.from({length:16},(_,i)=>g.bin.readFloatLE((v.byteOffset||0)+(a.byteOffset||0)+j*(v.byteStride||64)+i*4)));}
+function skinMap(g){const map=new Map();for(const s of g.data.skins||[]){const ms=matrices(g,s.inverseBindMatrices);s.joints.forEach((j,i)=>{const name=g.data.nodes[j].name;if(!name||!ms[i])throw Error('Unnamed/missing skin joint');const old=map.get(name);if(old&&old.some((x,k)=>Math.abs(x-ms[i][k])>1e-5))throw Error('Ambiguous inverse bind '+name);map.set(name,ms[i]);});}return map;}
+export function verifyEquipmentBindings(garmentBytes,bodyBytes,entry){
+ const g=glb(garmentBytes),body=glb(bodyBytes);
+ if(!entry.requiresRawSkeleton||!entry.preserveOriginalBody||!Array.isArray(entry.bindings)||!entry.bindings.length)throw Error('Missing raw binding contract '+entry.id);
+ const bindings=new Map(),target=skinMap(body),garment=skinMap(g);
+ for(const b of entry.bindings){if(bindings.has(b.sourceBone))throw Error('Duplicate source binding');const actual=target.get(b.targetRawBone),own=garment.get(b.sourceBone);if(!actual||!own||b.inverseBindMatrix?.length!==16||!b.inverseBindMatrix.every(Number.isFinite)||actual.some((x,i)=>Math.abs(x-b.inverseBindMatrix[i])>1e-5)||own.some((x,i)=>Math.abs(x-b.inverseBindMatrix[i])>1e-5))throw Error('Actual body/garment inverse bind mismatch '+entry.id+':'+b.sourceBone);bindings.set(b.sourceBone,b);}
+ for(const name of garment.keys())if(!bindings.has(name))throw Error('Unmapped garment raw bone '+name);
+ let primitives=0;for(const n of g.data.nodes||[])if(n.mesh!==undefined){if(n.skin===undefined)throw Error('Unskinned garment mesh');for(const p of g.data.meshes[n.mesh].primitives){if(p.attributes.JOINTS_0===undefined||p.attributes.WEIGHTS_0===undefined)throw Error('Missing skin attributes');primitives++;}}
+ if(!primitives)throw Error('No garment primitives');return {joints:garment.size,primitives,bodyAndGarmentInverseBindVerified:true};
+}
