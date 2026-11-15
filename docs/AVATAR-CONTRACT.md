@@ -112,3 +112,9 @@ foundation-profiles中的forearmCollision明确URL和文件SHA；加载同时验
 ## 可选服装材质配方（abdb候选）
 
 材质配方是严格固定身体/服装/fit/实现SHA的数据，当前只允许男短裤一件候选；默认保持原材质，选择与恢复经同一装备API执行。它不修改网格、权重或原alpha，不视为裤口/裤裆几何修复。当前本地v2角色记录尚不保存配方，因此不能宣称这种选择已支持关闭页面恢复。用户材质方向未确认前不改变默认、不批量扩用。
+
+## 镜腿局部形态适配（13f集成，公开入口尚269）
+
+原F/M眼镜在parse并校验完整GLB后，再按精确身体SHA读取固定profile；profile/源附件/POSITION均核身份。两个镜腿各4个横截面只在加载时变形，逐实例clone并原子替换，原镜框/鼻梁/铰链保留。没有新增逐帧求解或更改手、身体控制。
+
+没有精确profile的身体默认明确拒绝并清理；显式glassesFit=legacy只供旧形状诊断，不是兼容降级。当前profile把镜腿支撑目标设为耳外crest，未证明自然佩戴；不得以静态零交叉升级观感。配置来源、版本、生成输入与验证见assets-source/acc01-temple-fit-v1及CAPABILITIES。现本地QA记录以完整presentationBuild固定默认实现，未建设跨版本产品存档迁移；诊断query选择不属于保存合同。
