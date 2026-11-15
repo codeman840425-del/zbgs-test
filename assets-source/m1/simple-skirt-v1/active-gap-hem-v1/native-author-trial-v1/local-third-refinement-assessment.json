@@ -1,0 +1,83 @@
+{
+  "status": "proposal-only-no-new-mesh-or-cloth",
+  "sourceId": "m1-sixfold-skirt-active-gap-hem-v1",
+  "edgeRender": [
+    440,
+    561
+  ],
+  "incidentFaces": [
+    770,
+    773
+  ],
+  "bodyNormalAngleDegrees": 14.18293842803774,
+  "actualFailureEdgeLengthMetres": 0.0293558148143296,
+  "proposedRule": "Only the one proven cross-body active edge, source parameter1/3 and2/3; split both incident triangles into3 and retain all other indices/positions. No recursive/global refinement.",
+  "newRenderVertices": 1394,
+  "newTriangles": 2424,
+  "addedVertices": 2,
+  "addedTriangles": 4,
+  "samples": [
+    {
+      "t": 0.3333333333333333,
+      "sourcePoint": [
+        0.09950385987758636,
+        0.9157115817070007,
+        0.06869646906852722
+      ],
+      "fullInterpolatedWeights": {
+        "J_Bip_C_Hips": 0.8579915659153512,
+        "J_Bip_C_Spine": 0.009308754880948357,
+        "J_Bip_R_UpperLeg": 0.09625323224350696,
+        "J_Sec_R_SkirtBack": 0.027101846093829242,
+        "J_Sec_R_SkirtSide": 0.009344600866364199
+      },
+      "conventionalTop4Weights": {
+        "J_Bip_C_Hips": 0.8660534451500539,
+        "J_Bip_R_UpperLeg": 0.09715764898269609,
+        "J_Sec_R_SkirtBack": 0.02735650105656521,
+        "J_Sec_R_SkirtSide": 0.00943240481068474
+      },
+      "discardedWeight": 0.009308754880948289,
+      "actual60FrameFullWeightVsOldEdgeMaximumMetres": 0.0010376456566231493,
+      "actual60FrameTop4VsOldEdgeMaximumMetres": 0.0010851874996708334,
+      "actual60FramePruningOnlyMaximumMetres": 0.00013782379478965022,
+      "standingTop4VsOldEdgeMetres": 4.295676997236414e-05,
+      "frozenFailurePointNearestNormalSignedMetres": 0.00023790759670626124,
+      "bodyFaceAtFailurePoint": 825
+    },
+    {
+      "t": 0.6666666666666666,
+      "sourcePoint": [
+        0.10063675045967102,
+        0.9065710306167603,
+        0.07126276940107346
+      ],
+      "fullInterpolatedWeights": {
+        "J_Bip_C_Hips": 0.821586996329915,
+        "J_Bip_C_Spine": 0.004654377444808906,
+        "J_Bip_R_UpperLeg": 0.11597388378126594,
+        "J_Sec_R_SkirtBack": 0.03909554069387605,
+        "J_Sec_R_SkirtSide": 0.01868920175013408
+      },
+      "conventionalTop4Weights": {
+        "J_Bip_C_Hips": 0.8254288537691928,
+        "J_Bip_R_UpperLeg": 0.1165161941271664,
+        "J_Sec_R_SkirtBack": 0.039278356992732175,
+        "J_Sec_R_SkirtSide": 0.018776595110908602
+      },
+      "discardedWeight": 0.004654377444808899,
+      "actual60FrameFullWeightVsOldEdgeMaximumMetres": 0.0010376489666411727,
+      "actual60FrameTop4VsOldEdgeMaximumMetres": 0.0010566168762796994,
+      "actual60FramePruningOnlyMaximumMetres": 8.742642204588357e-05,
+      "standingTop4VsOldEdgeMetres": 4.176950337933194e-05,
+      "frozenFailurePointNearestNormalSignedMetres": -5.933324582094204e-05,
+      "bodyFaceAtFailurePoint": 825
+    }
+  ],
+  "limits": [
+    "5-joint union cannot be called lossless4-weight interpolation. Conventional top4 is measured here, not approved or installed.",
+    "New actual renderer must retain these vertices/faces; never map successful dense simulation back to old coarse faces and inherit collision approval.",
+    "All static/private-palette/body/top/self gates must rerun. No claim that this local edge suffices for all body curvature or future motion.",
+    "Explicit old-face to child-face provenance replaces old numeric face-range assumptions."
+  ]
+}
