@@ -1,0 +1,89 @@
+diff --git a/prototype/src/main.js b/prototype/src/main.js
+index da2dad8..b677b38 100644
+--- a/prototype/src/main.js
++++ b/prototype/src/main.js
+@@ -14,6 +14,9 @@ import "./style.css";
+ // Three.js is a presentation adapter. It never advances root movement itself.
+ const stage = document.querySelector("#stage");
+ const turnLegacy = new URLSearchParams(location.search).has("turnLegacy");
++// The selected gait is intent; instantaneous world speed still accelerates.
++// Keep the accepted walking acceleration/braking unchanged.
++const locomotionAcceleration = Object.freeze({ walk: 1.5, run: 3.4, braking: 2.5 });
+ const world = new THREE.Scene();
+ world.background = new THREE.Color("#e7ede3");
+ world.fog = new THREE.Fog("#e7ede3", 18, 35);
+@@ -693,6 +696,7 @@ class CharacterScene extends Phaser.Scene {
+     this.modeTime = 0;
+     this.speed = 0;
+     this.maxSpeed = 0.85;
++    this.locomotionIntent = "walk";
+     this.distance = 0;
+     this.path = [];
+     this.target = null;
+@@ -1117,6 +1121,7 @@ class CharacterScene extends Phaser.Scene {
+   }
+   setSpeed(n) {
+     this.maxSpeed = clamp(Number(n), 0.4, 3.0);
++    this.locomotionIntent = this.maxSpeed >= 1.85 ? "run" : "walk";
+     if (this.isPeer) return;
+     document.querySelector("#speed").value = this.maxSpeed;
+     document.querySelector("#speed-label").textContent =
+@@ -1491,7 +1496,9 @@ class CharacterScene extends Phaser.Scene {
+             Math.min(this.maxSpeed, Math.sqrt(2 * 1.8 * remaining)) *
+             Math.max(0, Math.cos(angle)) ** 3 *
+             cornerFactor;
+-          const accel = desired < this.speed ? 2.5 : 1.5;
++          const accel = desired < this.speed
++            ? locomotionAcceleration.braking
++            : locomotionAcceleration[this.locomotionIntent];
+           this.speed += clamp(desired - this.speed, -accel * dt, accel * dt);
+           moved = Math.min(dist, this.speed * dt);
+           const alongFacing = !turnLegacy && dist > .10 && Math.abs(angle) > .06;
+@@ -1560,6 +1567,7 @@ class CharacterScene extends Phaser.Scene {
+     this.rig.update(dt, {
+       distanceDelta: moved,
+       speed: this.actualSpeed,
++      locomotion: this.locomotionIntent,
+       moving: moved > 1e-7,
+       action: this.mode === "turn" ? "idle" : this.mode,
+       turning: this.turning,
+@@ -1642,6 +1650,7 @@ function snapshot() {
+     outfitInfo: avatar?.getOutfitInfo(),
+     speed: c?.actualSpeed,
+     maxSpeed: c?.maxSpeed,
++    locomotionIntent: c?.locomotionIntent,
+     distance: c?.distance,
+     facing: c?.yaw,
+     position: avatar?.root.position.toArray(),
+diff --git a/prototype/src/motion.js b/prototype/src/motion.js
+index e3fd918..464aa9f 100644
+--- a/prototype/src/motion.js
++++ b/prototype/src/motion.js
+@@ -1316,8 +1316,17 @@ export function createMotion(
+       // blended a forward swing through the floor and locked its foot behind.
+       if (runRequested && !previousRunRequest) runPhase = matchGaitPhase("jog", sourceJogGroundLift,{speed:state.speed,angularVelocity:dt?yawDelta/dt:0});
+       if (!runRequested && previousRunRequest) phase = matchGaitPhase("walk", sourceGroundLift,{speed:state.speed,angularVelocity:dt?yawDelta/dt:0});
+-      const desiredRun = moving && runRequested ? 1 : 0;
+-      runMix += clamp(desiredRun - runMix, -dt / .30, dt / .30);
++      // Explicit run selection also survives braking/zero translation. Gait
++      // already fades locomotion to idle; do not inject walk during that fade.
++      const desiredRun = runRequested && (moving || state.locomotion === "run") ? 1 : 0;
++      if (moving && !wasMoving && state.locomotion === "run" && gait < .01) {
++        // An idle/settled-turn launch blends idle directly into the selected
++        // jog source via gait. There is no visible walk source to crossfade.
++        // Match the actual current feet; keep in-flight walk/run transitions
++        // on the existing trajectory matcher and .30s crossfade below.
++        runPhase = matchGaitPhase("jog", sourceJogGroundLift, {speed:state.speed,angularVelocity:dt?yawDelta/dt:0});
++        runMix = 1;
++      } else runMix += clamp(desiredRun - runMix, -dt / .30, dt / .30);
+     }
+     const groundLift = THREE.MathUtils.lerp(sourceGroundLift, sourceJogGroundLift, smooth(runMix));
+     if (moving && !wasMoving) {
+@@ -2048,6 +2057,7 @@ export function createMotion(
+       sourceJogGroundLift,
+       talkMix,
+       runMix,
++      locomotionIntent: lastInput.locomotion ?? "speed-inferred",
+       gaitTransition,
+       locomotion: runMix > .5 ? "run" : "walk",
+       jogPhase: runPhase,

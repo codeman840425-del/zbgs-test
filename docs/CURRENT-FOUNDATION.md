@@ -4,6 +4,17 @@
 
 目标全文：[M1-ACTIVE-OBJECTIVE](M1-ACTIVE-OBJECTIVE-2026-11-14.md)。能力状态唯一依据：[CAPABILITIES](CAPABILITIES.md)。阶段：[FOUNDATION-MILESTONES](FOUNDATION-MILESTONES.md)。本页仅保存当前现场；更早迭代见对应固定证据及 Git 历史，不按历史岗位条目重新派发。
 
+## 最新接续：持麦、移动与视频动作（2026-11-14）
+
+本节覆盖后面的历史进行中描述；旧失败证据不重做。公开候选仍1a0d06fc8ffe，4191/4192/4174共三常驻服务，以下实验未升公开。
+
+- 主线远端已核d729f9c2c987565bfb334168a2f137d69d336157。裙分支最新远端已核62aefb12224ed84e4fe2af1f6952daae9050a033；单姿上衣corrective与标准Blender裙ShapeKey均失败，后者edge6.855/body115/top46/chair60/self27。原native cloth/权重/单姿修正支路冻结，不再自动参数扫描。prototype已转入视频动作离线转换。
+- 麦克风真实嘴部来自FaceMouth/Face_SKIN接缝，不再眼骨偏移；源/坐标验证evidence/mic-mouth-target。ede候选话筒角度改好却折腕，被用户否决；679/691讲话改善但carry仍约56–58度弯腕，均保留失败。最新f7bdc3be3de4 / experiments/m1-microphone-use-v4/dist将对嘴讲话与低位携带分开：讲话用实际嘴目标；携带先解自然腕位置，再放置刚性握姿。六静态F/M腕carry0度、talk/sit约9–16度，手皮肤有限圆柱探针无>1mm穿入，不是全三角通过。
+- f7男女各约18.6s正常1倍速完整装麦/讲话/坐起/放低/行走/再讲话/卸下已录evidence/microphone-chain-f7bdc3be3de4。尚在审查，不冒充用户自然度通过；开头镜头从room切close，后续沿旧基线的QA头部跟随视角。运行无pageerror，开发机采样非普通PC结论。共享main/motion另包含087直接跑意图修复。
+- 087b4f719f62隔离跑意图候选取消强制先走再跑，F/M源与鞋底回归已有证据；旧1a/087正常1倍速对照evidence/movement-intent-087b4f719f62。087仍保留旧180原地停转。6efcf8c6d380隔离制动弧候选尚未合主，真实两侧180无零速/whole-turn，但最低约.088m/s、横移.494m；另相位最低.00588m/s，仍显著近停，不宣布自然通过。完整片evidence/reversal-arc-6efcf8c6d380。
+- 用户新增视频提取动作生产最小闭环，CAP新增DANCE-06。照片/视频检测已真实跑通OpenCV+MediaPipe Tasks，视频PyAV保原PTS；scripts/pose-reference可复跑，venv不入Git。照片腕误识/暗图0检出保留。当前视频必须使用dvids-squat-source.json，source.json是已拒旧素材，不能混用。240帧含两次下蹲，world脚尖单帧跳124mm、左臂约50帧低可见，不能直接当骨旋转/蒙皮。assets-source/video-motion-v1生成现有UAL1同骨架可编辑GLB，尚待男女房间实际回读；不宣称复杂舞蹈/自动蒙皮通过。
+- 当前工作：root集成持麦回归和视频游戏回读，qa独立查腕姿插值/坐标，prototype完成可编辑视频动作及失败界限；pose_extraction完成原始检测与复跑归档。录制串行，无新增永久端口。其余M1授权继续，M2/M3不展开。
+
 ## 固定版本、观看与备份
 
 - 当前公开待验 **1a0d06fc8ffe**，源码 `0ae64b83384a3ed9853185f6a008ac6b70b1e8cc`，目录 `experiments/m1-accessory-ui-2/dist`。源码/已提交导出资源新检出 npm ci/build 后63产物逐字节一致；不等于重新执行所有Blender生成器。

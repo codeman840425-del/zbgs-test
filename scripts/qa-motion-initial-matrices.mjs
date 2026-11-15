@@ -93,7 +93,8 @@ const sourceUrl = new URL('../prototype/src/motion.js', import.meta.url);
 const source = await readFile(sourceUrl, 'utf8');
 const prefix = source.slice(0, source.indexOf('const rest ='));
 assert.ok(prefix.includes('root.updateMatrixWorld(true)'), 'Production constructor must refresh actual skin bind matrices');
-const importable = source.replace('from "./segment-triangle-projection.js"', `from ${JSON.stringify(new URL('../prototype/src/segment-triangle-projection.js', import.meta.url).href)}`);
+const importable = source.replace(/from\s+"(\.[^"]+)"/g, (_, specifier) =>
+  `from ${JSON.stringify(new URL(specifier, sourceUrl).href)}`);
 const staleSource = importable.replace('root.updateMatrixWorld(true)', 'root.updateWorldMatrix(true, true)')
   .replace('from "three"', `from ${JSON.stringify(new URL('../prototype/node_modules/three/build/three.module.js', import.meta.url).href)}`);
 const stale = await import('data:text/javascript;base64,' + Buffer.from(staleSource).toString('base64'));

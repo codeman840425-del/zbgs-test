@@ -14,6 +14,9 @@ import "./style.css";
 // Three.js is a presentation adapter. It never advances root movement itself.
 const stage = document.querySelector("#stage");
 const turnLegacy = new URLSearchParams(location.search).has("turnLegacy");
+// The selected gait is intent; instantaneous world speed still accelerates.
+// Keep the accepted walking acceleration/braking unchanged.
+const locomotionAcceleration = Object.freeze({ walk: 1.5, run: 3.4, braking: 2.5 });
 const world = new THREE.Scene();
 world.background = new THREE.Color("#e7ede3");
 world.fog = new THREE.Fog("#e7ede3", 18, 35);
@@ -693,6 +696,7 @@ class CharacterScene extends Phaser.Scene {
     this.modeTime = 0;
     this.speed = 0;
     this.maxSpeed = 0.85;
+    this.locomotionIntent = "walk";
     this.distance = 0;
     this.path = [];
     this.target = null;
@@ -1117,6 +1121,7 @@ class CharacterScene extends Phaser.Scene {
   }
   setSpeed(n) {
     this.maxSpeed = clamp(Number(n), 0.4, 3.0);
+    this.locomotionIntent = this.maxSpeed >= 1.85 ? "run" : "walk";
     if (this.isPeer) return;
     document.querySelector("#speed").value = this.maxSpeed;
     document.querySelector("#speed-label").textContent =
@@ -1491,7 +1496,9 @@ class CharacterScene extends Phaser.Scene {
             Math.min(this.maxSpeed, Math.sqrt(2 * 1.8 * remaining)) *
             Math.max(0, Math.cos(angle)) ** 3 *
             cornerFactor;
-          const accel = desired < this.speed ? 2.5 : 1.5;
+          const accel = desired < this.speed
+            ? locomotionAcceleration.braking
+            : locomotionAcceleration[this.locomotionIntent];
           this.speed += clamp(desired - this.speed, -accel * dt, accel * dt);
           moved = Math.min(dist, this.speed * dt);
           const alongFacing = !turnLegacy && dist > .10 && Math.abs(angle) > .06;
@@ -1560,6 +1567,7 @@ class CharacterScene extends Phaser.Scene {
     this.rig.update(dt, {
       distanceDelta: moved,
       speed: this.actualSpeed,
+      locomotion: this.locomotionIntent,
       moving: moved > 1e-7,
       action: this.mode === "turn" ? "idle" : this.mode,
       turning: this.turning,
@@ -1642,6 +1650,7 @@ function snapshot() {
     outfitInfo: avatar?.getOutfitInfo(),
     speed: c?.actualSpeed,
     maxSpeed: c?.maxSpeed,
+    locomotionIntent: c?.locomotionIntent,
     distance: c?.distance,
     facing: c?.yaw,
     position: avatar?.root.position.toArray(),

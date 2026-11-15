@@ -1316,8 +1316,17 @@ export function createMotion(
       // blended a forward swing through the floor and locked its foot behind.
       if (runRequested && !previousRunRequest) runPhase = matchGaitPhase("jog", sourceJogGroundLift,{speed:state.speed,angularVelocity:dt?yawDelta/dt:0});
       if (!runRequested && previousRunRequest) phase = matchGaitPhase("walk", sourceGroundLift,{speed:state.speed,angularVelocity:dt?yawDelta/dt:0});
-      const desiredRun = moving && runRequested ? 1 : 0;
-      runMix += clamp(desiredRun - runMix, -dt / .30, dt / .30);
+      // Explicit run selection also survives braking/zero translation. Gait
+      // already fades locomotion to idle; do not inject walk during that fade.
+      const desiredRun = runRequested && (moving || state.locomotion === "run") ? 1 : 0;
+      if (moving && !wasMoving && state.locomotion === "run" && gait < .01) {
+        // An idle/settled-turn launch blends idle directly into the selected
+        // jog source via gait. There is no visible walk source to crossfade.
+        // Match the actual current feet; keep in-flight walk/run transitions
+        // on the existing trajectory matcher and .30s crossfade below.
+        runPhase = matchGaitPhase("jog", sourceJogGroundLift, {speed:state.speed,angularVelocity:dt?yawDelta/dt:0});
+        runMix = 1;
+      } else runMix += clamp(desiredRun - runMix, -dt / .30, dt / .30);
     }
     const groundLift = THREE.MathUtils.lerp(sourceGroundLift, sourceJogGroundLift, smooth(runMix));
     if (moving && !wasMoving) {
@@ -2048,6 +2057,7 @@ export function createMotion(
       sourceJogGroundLift,
       talkMix,
       runMix,
+      locomotionIntent: lastInput.locomotion ?? "speed-inferred",
       gaitTransition,
       locomotion: runMix > .5 ? "run" : "walk",
       jogPhase: runPhase,

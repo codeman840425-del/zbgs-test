@@ -1,0 +1,15 @@
+--- a/prototype/src/main.js
++++ b/prototype/src/main.js
+@@ -1452,6 +1452,12 @@
+             if (this.speed > .06) {
+               this.pathTurn = "brake";
+               this.speed = Math.max(0, this.speed - 4.5 * dt);
++              // Brake along a bounded turning velocity vector, retaining the
++              // distance-driven gait. Whole-turn remains a zero-speed fallback.
++              const brakeYawStep = clamp(angle, -dt * 3.2, dt * 3.2);
++              this.yaw += brakeYawStep;
++              root.rotation.y = this.yaw;
++              this.turning = Math.abs(brakeYawStep) > 1e-9;
+               const travel = this.speed * dt;
+               const x = root.position.x + Math.sin(this.yaw) * travel;
+               const z = root.position.z + Math.cos(this.yaw) * travel;

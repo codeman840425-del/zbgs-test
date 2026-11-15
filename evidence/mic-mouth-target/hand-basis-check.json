@@ -1,0 +1,168 @@
+{
+  "schema": "mic-hand-basis-audit-v1",
+  "cases": [
+    {
+      "body": "female",
+      "bodySha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+      "gripSha256": "0d145faa31461db369c3da644e42ef3818b92a6241b82784590f5ba30ff08a4c",
+      "rawRestWorldQ": [
+        0,
+        1,
+        0,
+        6.123233995736766e-17
+      ],
+      "normalizedRestWorldQ": [
+        0,
+        1,
+        0,
+        6.123233995736766e-17
+      ],
+      "mouthNormalizedHeadLocal": [
+        2.9197508411016315e-8,
+        -0.0006326176226139069,
+        -0.09603524580597878
+      ],
+      "restHandOriginErrorMetres": 0,
+      "poses": [
+        {
+          "case": 0,
+          "rawTargetErrorRadians": 0,
+          "microphoneTargetErrorRadians": 0,
+          "inverseWristErrorMetres": 2.220446049250313e-16,
+          "handOriginErrorMetres": 0,
+          "mouthWorldErrorMetres": 0
+        },
+        {
+          "case": 1,
+          "rawTargetErrorRadians": 0,
+          "microphoneTargetErrorRadians": 0,
+          "inverseWristErrorMetres": 2.7755575615628914e-17,
+          "handOriginErrorMetres": 0,
+          "mouthWorldErrorMetres": 6.938893903907228e-18
+        },
+        {
+          "case": 2,
+          "rawTargetErrorRadians": 0,
+          "microphoneTargetErrorRadians": 0,
+          "inverseWristErrorMetres": 5.551115123125783e-17,
+          "handOriginErrorMetres": 0,
+          "mouthWorldErrorMetres": 1.3877787807814457e-17
+        },
+        {
+          "case": 3,
+          "rawTargetErrorRadians": 0,
+          "microphoneTargetErrorRadians": 0,
+          "inverseWristErrorMetres": 1.3877787807814457e-17,
+          "handOriginErrorMetres": 1.3877787807814457e-17,
+          "mouthWorldErrorMetres": 0
+        },
+        {
+          "case": 4,
+          "rawTargetErrorRadians": 0,
+          "microphoneTargetErrorRadians": 0,
+          "inverseWristErrorMetres": 2.7755575615628914e-17,
+          "handOriginErrorMetres": 0,
+          "mouthWorldErrorMetres": 0
+        },
+        {
+          "case": 5,
+          "rawTargetErrorRadians": 0,
+          "microphoneTargetErrorRadians": 0,
+          "inverseWristErrorMetres": 7.850462293418876e-17,
+          "handOriginErrorMetres": 0,
+          "mouthWorldErrorMetres": 0
+        }
+      ]
+    },
+    {
+      "body": "male",
+      "bodySha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+      "gripSha256": "23843bc3450fa0838241543a1fc30c88226fba7c99c1c34b705ac62a76ab099d",
+      "rawRestWorldQ": [
+        0,
+        1,
+        0,
+        6.123233995736766e-17
+      ],
+      "normalizedRestWorldQ": [
+        0,
+        1,
+        0,
+        6.123233995736766e-17
+      ],
+      "mouthNormalizedHeadLocal": [
+        1.8302671378478408e-8,
+        -0.009576410055160522,
+        -0.09254585485905409
+      ],
+      "restHandOriginErrorMetres": 0,
+      "poses": [
+        {
+          "case": 0,
+          "rawTargetErrorRadians": 0,
+          "microphoneTargetErrorRadians": 0,
+          "inverseWristErrorMetres": 3.469446951953614e-18,
+          "handOriginErrorMetres": 0,
+          "mouthWorldErrorMetres": 0
+        },
+        {
+          "case": 1,
+          "rawTargetErrorRadians": 2.9802322387695312e-8,
+          "microphoneTargetErrorRadians": 0,
+          "inverseWristErrorMetres": 0,
+          "handOriginErrorMetres": 0,
+          "mouthWorldErrorMetres": 0
+        },
+        {
+          "case": 2,
+          "rawTargetErrorRadians": 0,
+          "microphoneTargetErrorRadians": 0,
+          "inverseWristErrorMetres": 0,
+          "handOriginErrorMetres": 5.551115123125783e-17,
+          "mouthWorldErrorMetres": 1.3877787807814457e-17
+        },
+        {
+          "case": 3,
+          "rawTargetErrorRadians": 0,
+          "microphoneTargetErrorRadians": 0,
+          "inverseWristErrorMetres": 1.3877787807814457e-17,
+          "handOriginErrorMetres": 2.220446049250313e-16,
+          "mouthWorldErrorMetres": 2.220446049250313e-16
+        },
+        {
+          "case": 4,
+          "rawTargetErrorRadians": 0,
+          "microphoneTargetErrorRadians": 0,
+          "inverseWristErrorMetres": 1.3877787807814457e-17,
+          "handOriginErrorMetres": 2.2247786310271853e-16,
+          "mouthWorldErrorMetres": 2.2247786310271853e-16
+        },
+        {
+          "case": 5,
+          "rawTargetErrorRadians": 2.9802322387695312e-8,
+          "microphoneTargetErrorRadians": 0,
+          "inverseWristErrorMetres": 1.1102230246251565e-16,
+          "handOriginErrorMetres": 0,
+          "mouthWorldErrorMetres": 0
+        }
+      ]
+    }
+  ],
+  "formulas": {
+    "rawHandWorld": "micTargetWorldQ * inverse(micRawHandLocalQ)",
+    "normalizedHandWorld": "rawHandTargetWorldQ * inverse(rawHandRestWorldQ) * normalizedHandRestWorldQ",
+    "wristWorld": "micOriginWorld - rotate(rawHandTargetWorldQ, micRawHandLocalPosition)",
+    "micOriginWorld": "frontPoleTargetWorld - rotate(micTargetWorldQ, micScale * grilleFrontPoleLocal)"
+  },
+  "limits": [
+    "Orientation and attachment algebra tested on actual body skeletons, not arm reach/IK convergence or visual acceptance.",
+    "Source geometry/materials retained except texture/material descriptors stripped in memory for headless loading.",
+    "Point formulas require actual world scale; measured cases use unit body/prop scale. Nonuniform scale is not covered."
+  ],
+  "passed": true,
+  "sourcePins": {
+    "script": "018fe0e45f385b661e23ed5738652decad4b54d7510f4e3caacf443c110f9490",
+    "anchors": "811d3ccae191dd5c8d6fd01c8ff76af313a40ba66bed60d30c92d596edd42f11",
+    "vrmCore": "98165da0e7bc6910a136ad80a6f3f562dddad52cce6e102a79aff9c514e48202"
+  }
+}

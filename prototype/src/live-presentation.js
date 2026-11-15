@@ -1,9 +1,11 @@
 import {fitGlassesTemples} from './glasses-temple-fit.js';
+import {microphoneArmTarget,microphoneCarryTarget,microphoneElbow} from './microphone-pose.js';
+import {MICROPHONE_PRESENTATION_FITS} from './microphone-presentation-fits.js';
 import * as THREE from 'three';
 import {createGreetingLayer} from './greeting-layer.js';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 
-const V=THREE.Vector3,Q=THREE.Quaternion,M=THREE.Matrix4;
+const V=THREE.Vector3,Q=THREE.Quaternion;
 const IDS={mic:'studio-microphone-v1',glasses:'studio-glasses-v1'};
 const clamp=THREE.MathUtils.clamp;
 const smooth=x=>{x=clamp(x,0,1);return x*x*(3-2*x);};
@@ -34,12 +36,14 @@ export function createLivePresentation({vrm,root,bodyType='female',avatarSha256=
  const rootRestQ=root.getWorldQuaternion(new Q()),rawHeadRestQ=head.getWorldQuaternion(new Q());
  const headToFrame=rawHeadRestQ.clone().invert().multiply(rootRestQ);
  const handRestQ=arm.hand.getWorldQuaternion(new Q());
+ const microphoneFit=MICROPHONE_PRESENTATION_FITS[avatarSha256]??null;
+ const normalizedHead=bone('head'),chest=bone('upperChest')??bone('chest');
+ const normalizedHeadToFrame=normalizedHead.getWorldQuaternion(new Q()).invert().multiply(rootRestQ);
+ const rawHandToNormalized=raw('rightHand').getWorldQuaternion(new Q()).invert().multiply(handRestQ);
+ const mouthLocal=microphoneFit?normalizedHead.worldToLocal(head.localToWorld(new V(...microphoneFit.mouthRawHeadLocal))):null;
  const restForward=wp(middle).sub(wp(arm.hand)).normalize(),restAcross=wp(index).sub(wp(little)).normalize();
  restAcross.addScaledVector(restForward,-restAcross.dot(restForward)).normalize();
- const restBasis=new Q().setFromRotationMatrix(new M().makeBasis(restForward,restAcross,new V().crossVectors(restForward,restAcross)));
- const handBasisOffset=restBasis.clone().invert().multiply(handRestQ);
  const palmNormal=new V().crossVectors(restAcross,restForward).normalize();
- const palmLocal=wp(middle).sub(wp(arm.hand)).multiplyScalar(.72).addScaledVector(palmNormal,.012).applyQuaternion(handRestQ.clone().invert());
  const fingers=[];
  for(const name of ['Index','Middle','Ring','Little'])for(const [segment,angle]of [['Proximal',.75],['Intermediate',1.08],['Distal',.7]]){
   const b=finger(name+segment);if(!b)continue;
@@ -75,7 +79,7 @@ export function createLivePresentation({vrm,root,bodyType='female',avatarSha256=
  const fit={glassesForward,glassesUp:0,glassesScale:clamp(eyeSpacing/.064,.8,1.5),micScale:1,eyeFitMethod};
  const mount=new THREE.Group();mount.name='LivePresentation:'+bodyType;root.add(mount);
  const slots=Object.fromEntries(Object.keys(IDS).map(k=>[k,{version:0,requested:false,object:null,abort:null,error:null,status:'off',entry:null}]));
- let manifestPromise=null,gripProfile=null,disposed=false,time=0,preset='neutral',speaking=false,gaze=null,currentAction='idle',holdWeight=0,armMetrics=null;
+ let manifestPromise=null,gripProfile=null,disposed=false,time=0,preset='neutral',speaking=false,gaze=null,currentAction='idle',holdWeight=0,talkHoldWeight=0,armMetrics=null;
  const oldLookAt=vrm.lookAt?{autoUpdate:vrm.lookAt.autoUpdate,target:vrm.lookAt.target}:null;
  if(vrm.lookAt){vrm.lookAt.autoUpdate=false;vrm.lookAt.target=null;}
  const facialKeys=['happy','aa','ih','ou','ee','oh','blink'];
@@ -98,6 +102,7 @@ export function createLivePresentation({vrm,root,bodyType='female',avatarSha256=
   const profile=JSON.parse(new TextDecoder().decode(bytes));
   const finite=(array,n)=>Array.isArray(array)&&array.length===n&&array.every(Number.isFinite);
   if(profile.schema!=='zbgs-grip-profile-v1'||profile.compatibleAvatarSha256!==avatarSha256||profile.accessoryId!==IDS.mic||!/^[a-f0-9]{64}$/.test(profile.compatibleAccessorySha256)||!finite(profile.micRawHandLocal?.position,3)||!finite(profile.micRawHandLocal?.quaternion,4)||fingers.some(f=>!finite(profile.normalizedFingerRotations?.[f.name],4)))throw Error('Grip profile binding mismatch');
+  if(!microphoneFit||microphoneFit.microphoneSha256!==profile.compatibleAccessorySha256)throw Error('Microphone presentation fit binding mismatch');
   for(const values of [profile.micRawHandLocal.quaternion,...Object.values(profile.normalizedFingerRotations)])if(Math.abs(Math.hypot(...values)-1)>1e-4)throw Error('Grip quaternion is not normalized');
   return {...profile,sha256:hash};
  }
@@ -135,19 +140,32 @@ export function createLivePresentation({vrm,root,bodyType='female',avatarSha256=
   else expressions?.setValue('aa',preset==='aa'?.65:0);
   const blink=time%3.6;expressions?.setValue('blink',blink<.18?Math.sin(blink/.18*Math.PI):0);
   const target=slots.mic.object&&slots.mic.requested?1:0;holdWeight=THREE.MathUtils.damp(holdWeight,target,14,dt);if(Math.abs(holdWeight-target)<1e-4)holdWeight=target;
+  const talkingTarget=target&&speaking&&['idle','sit'].includes(action)?1:0;
+  talkHoldWeight=THREE.MathUtils.damp(talkHoldWeight,talkingTarget,microphoneFit?.transitionRate??10,dt);
+  if(Math.abs(talkHoldWeight-talkingTarget)<1e-4)talkHoldWeight=talkingTarget;
   if(holdWeight>0){
    root.updateMatrixWorld(true);const authored=[arm.upper.quaternion.clone(),arm.lower.quaternion.clone(),arm.hand.quaternion.clone()];
-   const rootQ=root.getWorldQuaternion(new Q()),headPosition=wp(bone('head')),shoulder=wp(arm.upper),armLength=armLengths[0]+armLengths[1];
-   // Root-local right-side microphone target; follows actual head height during sitting.
-   const grip=headPosition.clone().add(new V(-armLength*.19,-armLength*.27,armLength*.34).applyQuaternion(rootQ));
-   const forward=new V(0,0,1).applyQuaternion(rootQ),across=new V(0,1,0).applyQuaternion(rootQ);
-   const desiredHandQ=new Q().setFromRotationMatrix(new M().makeBasis(forward,across,new V().crossVectors(forward,across))).multiply(handBasisOffset);
-   const wrist=grip.clone().sub(palmLocal.clone().applyQuaternion(desiredHandQ));
-   const direction=wrist.clone().sub(shoulder),wanted=direction.length();direction.normalize();const length=clamp(wanted,Math.abs(armLengths[0]-armLengths[1])+1e-5,armLength-1e-5),along=(armLengths[0]**2-armLengths[1]**2+length**2)/(2*length),height=Math.sqrt(Math.max(0,armLengths[0]**2-along**2));
-   const pole=new V(-.35,-1,.15).applyQuaternion(rootQ);pole.addScaledVector(direction,-pole.dot(direction)).normalize();const elbow=shoulder.clone().addScaledVector(direction,along).addScaledVector(pole,height),reachable=shoulder.clone().addScaledVector(direction,length);
+   const rootQ=root.getWorldQuaternion(new Q()),shoulder=wp(arm.upper);
+   // Use this substep's normalized pose. Raw bones are synchronized later by
+   // vrm.update, so sampling the previous raw head here would introduce lag.
+   const mouth=normalizedHead.localToWorld(mouthLocal.clone());
+   const headFrame=normalizedHead.getWorldQuaternion(new Q()).multiply(normalizedHeadToFrame);
+   const talkingTip=mouth.clone().add(new V(...microphoneFit.speakingTipOffset).applyQuaternion(headFrame));
+   const carriedWrist=wp(chest).add(new V(...microphoneFit.carryWristChestOffset).applyQuaternion(rootQ));
+   const pole=new V(-.35,-1,.15).applyQuaternion(rootQ);
+   const shared={capsuleLocal:microphoneFit.capsuleLocal,mount:gripProfile.micRawHandLocal,rawToNormalized:rawHandToNormalized,shoulder,lengths:armLengths,pole};
+   // The source grip's microphone X follows the palm's long direction. Choose
+   // its free roll from the reaching arm, not the room X axis (which forced
+   // a sideways wrist bend when the capsule was tilted toward the mouth).
+   const carried=microphoneCarryTarget({...shared,wrist:carriedWrist,up:new V(0,1,0).applyQuaternion(rootQ)});
+   const carriedTip=carried.capsule;
+   const talking=microphoneArmTarget({...shared,capsule:talkingTip,axis:mouth.clone().sub(talkingTip)});
+   const desiredHandQ=carried.handQuaternion.slerp(talking.handQuaternion,talkHoldWeight);
+   const wrist=carried.wrist.lerp(talking.wrist,talkHoldWeight);
+   const {elbow,reachable,clamped:reachClamped}=microphoneElbow(shoulder,wrist,armLengths,pole);
    orientSegment(arm.upper,arm.lower,elbow);orientSegment(arm.lower,arm.hand,reachable);arm.hand.quaternion.copy(arm.hand.parent.getWorldQuaternion(new Q()).invert().multiply(desiredHandQ));
    for(const [i,b]of [arm.upper,arm.lower,arm.hand].entries())b.quaternion.copy(authored[i].slerp(b.quaternion,holdWeight));
-   arm.hand.updateWorldMatrix(true,true);armMetrics={desiredGrip:grip.toArray(),desiredWrist:wrist.toArray(),actualWrist:wp(arm.hand).toArray(),reachClamped:Math.abs(wanted-length)>.001,weight:holdWeight};
+   arm.hand.updateWorldMatrix(true,true);armMetrics={desiredGrip:talkingTip.toArray(),desiredWrist:wrist.toArray(),actualWrist:wp(arm.hand).toArray(),mouth:mouth.toArray(),talkingTip:talkingTip.toArray(),carryTip:carriedTip.toArray(),talkHoldWeight,reachClamped,weight:holdWeight,presentationFit:microphoneFit.id};
   }else armMetrics=null;
   // Capture the current authored finger pose after motion. Talking clips can
   // animate these joints; an unloaded live layer must not reset them to rest.
