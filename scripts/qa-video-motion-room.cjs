@@ -2,12 +2,13 @@
 const fs=require('node:fs/promises'),path=require('node:path'),zlib=require('node:zlib');
 const {chromium}=require('../prototype/node_modules/playwright');const {verifyCandidate}=require('./qa-m1-common.cjs');
 const [base,build,outArg,clipId='video-squat-dvids-v1',cameraPreset='room']=process.argv.slice(2),out=path.resolve(outArg);
+const startZ=Number(process.env.QA_VIDEO_START_Z||1.8);if(!Number.isFinite(startZ))throw Error('Invalid starting Z');
 (async()=>{await fs.mkdir(out,{recursive:true});try{await fs.access(path.join(out,'report.json'));throw Error('Refuse overwrite')}catch(e){if(e.code!=='ENOENT')throw e}
  const anchors=JSON.parse(await fs.readFile('evidence/mic-mouth-target/source-anchors.json','utf8')),browser=await chromium.launch({channel:'chrome',headless:false}),rows=[];
  try{for(const body of anchors.bodies){
  const page=await browser.newPage({viewport:{width:1440,height:900}}),errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'?body='+body.body);await page.waitForFunction(()=>window.__debug?.ready,null,{timeout:60000});
  const expected={build,assetId:body.body==='female'?'beta-base-female-m1':'beta-base-male-m1b',sha256:body.bodySha256};const gate=await verifyCandidate(page,expected);
- await page.evaluate(({clipId,cameraPreset})=>{const d=__debug,c=d.game.scene.getScene('CharacterStudio'),a=d.avatar();d.reset();d.setPaused(true);d.setPlaybackRate(1);d.setDynamics(true);d.setCorrections('full');d.setBodyMode('dressed');d.setOutfit(a.config.id==='beta-base-male-m1b'?2:0);a.root.position.set(0,0,1.8);a.root.rotation.y=c.yaw=0;d.motion().reset();c.turnPolicy.reset(0);a.update(0);c.cameraPreset(cameraPreset,true);d.command({type:'danceSelect',id:clipId});window.__capture={frames:[],chunks:[],events:[],sim:0};},{clipId,cameraPreset});
+ await page.evaluate(({clipId,cameraPreset,startZ})=>{const d=__debug,c=d.game.scene.getScene('CharacterStudio'),a=d.avatar();d.reset();d.setPaused(true);d.setPlaybackRate(1);d.setDynamics(true);d.setCorrections('full');d.setBodyMode('dressed');d.setOutfit(a.config.id==='beta-base-male-m1b'?2:0);a.root.position.set(0,0,startZ);a.root.rotation.y=c.yaw=0;d.motion().reset();c.turnPolicy.reset(0);a.update(0);c.cameraPreset(cameraPreset,true);d.command({type:'danceSelect',id:clipId});window.__capture={frames:[],chunks:[],events:[],sim:0};},{clipId,cameraPreset,startZ});
  const selected=await page.evaluate(()=>__debug.motion().getDance());
  if(selected?.id!==clipId || !Number.isFinite(selected.duration) || selected.duration<=0 || selected.duration>60 || selected.playback!=='once-then-idle') throw Error('Expected a declared one-shot clip of at most 60 seconds');
  await page.waitForTimeout(600);
@@ -18,6 +19,8 @@ const [base,build,outArg,clipId='video-squat-dvids-v1',cameraPreset='room']=proc
  await page.waitForTimeout((selected.duration+1.5)*1000);
  const data=await page.evaluate(async()=>{const q=__capture;await new Promise(r=>{q.recorder.onstop=r;q.recorder.stop()});q.stream.getTracks().forEach(t=>t.stop());cancelAnimationFrame(q.raf);const b=new Uint8Array(await new Blob(q.chunks).arrayBuffer());let s='';for(let i=0;i<b.length;i+=32768)s+=String.fromCharCode(...b.subarray(i,i+32768));return{video:btoa(s),frames:q.frames,events:q.events,before:q.before,final:__debug.snapshot(),tasks:__debug.tasks().history()}});
  await fs.writeFile(path.join(out,body.body+'.webm'),Buffer.from(data.video,'base64'));delete data.video;await fs.writeFile(path.join(out,body.body+'.trace.json.gz'),zlib.gzipSync(JSON.stringify(data)));
- rows.push({body:body.body,gate,finalGate:await verifyCandidate(page,expected),errors,selected,frames:data.frames.length,events:data.events,tasks:data.tasks,final:data.final});await page.close();}
- }finally{await browser.close();await fs.writeFile(path.join(out,'report.json'),JSON.stringify({build,clipId,cameraPreset,scope:'Same room/camera, actual existing motion loader and behavior commands; original 1x timing; full declared clip plus exit; source-specific defects remain in its asset report; not visual acceptance.',rows},null,2));}console.log(out);
+ const task=data.tasks.findLast(e=>e.task?.requestId==='video-reference-once')?.task;
+ const playbackVerified=task?.state==='completed' && data.frames.some(f=>f.mode==='dance'&&f.motion.dance.time>selected.duration*.8) && data.final.mode==='idle';
+ rows.push({body:body.body,playbackVerified,task,gate,finalGate:await verifyCandidate(page,expected),errors,selected,frames:data.frames.length,events:data.events,tasks:data.tasks,final:data.final});await page.close();if(!playbackVerified)throw Error('Video action did not complete: '+JSON.stringify(task));}
+ }finally{await browser.close();await fs.writeFile(path.join(out,'report.json'),JSON.stringify({build,clipId,cameraPreset,startZ,scope:'Same room/camera, actual existing motion loader and behavior commands; original 1x timing; full declared clip plus exit; source-specific defects remain in its asset report; not visual acceptance.',rows},null,2));}console.log(out);
 })().catch(e=>{console.error(e);process.exitCode=1});

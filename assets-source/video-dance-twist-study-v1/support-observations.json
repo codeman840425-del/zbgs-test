@@ -1,0 +1,259 @@
+{
+  "source_manifest": "evidence/dance-video-pose-v1/source.json",
+  "reviewed_source_frames": [
+    138,
+    139,
+    140,
+    141,
+    142,
+    143,
+    144,
+    145,
+    146,
+    147,
+    148,
+    149,
+    150,
+    151,
+    152,
+    153,
+    154,
+    155,
+    156,
+    157,
+    158,
+    159,
+    160,
+    161,
+    162,
+    163,
+    164,
+    165,
+    166,
+    167,
+    168,
+    169,
+    170,
+    171,
+    172,
+    173,
+    174,
+    175,
+    176,
+    177,
+    178,
+    179,
+    180,
+    181,
+    182,
+    183,
+    184,
+    185,
+    186,
+    187,
+    188,
+    189,
+    190,
+    191,
+    192,
+    193,
+    194,
+    195,
+    196,
+    197,
+    198,
+    199,
+    200,
+    201,
+    202,
+    203,
+    204,
+    205,
+    206,
+    207,
+    208,
+    209,
+    210
+  ],
+  "inspection": "Three source-only lowerbody contact sheets cover all73frames; native crop138/146/153/171/201/207 also inspected. Full fixed crop/source PTS mapping in support-source-review-inputs.json.",
+  "side_policy": "Anatomical left/right followed from front-facing138 through visible limb motion where possible. Does not trust rawMediaPipe172/173 swapped labels. Explicit unknown for overlap/pivot ambiguity.",
+  "observations": [
+    {
+      "frames": [
+        138,
+        138
+      ],
+      "seconds": [
+        5.75575,
+        5.75575
+      ],
+      "left": "apparent_contact",
+      "right": "apparent_contact",
+      "observation": "Both shoes meet ground near forefoot/edge; weight split unmeasured."
+    },
+    {
+      "frames": [
+        139,
+        140
+      ],
+      "seconds": [
+        5.797458333333333,
+        5.839166666666666
+      ],
+      "left": "lifting_or_unknown",
+      "right": "toe_contact_or_unknown",
+      "observation": "Takeoff transition; motion blur limits exact last-contact frame."
+    },
+    {
+      "frames": [
+        141,
+        144
+      ],
+      "seconds": [
+        5.880875,
+        6.006
+      ],
+      "left": "visibly_airborne",
+      "right": "visibly_airborne",
+      "observation": "Both shoes visibly separated from ground; short real hop is supported."
+    },
+    {
+      "frames": [
+        145,
+        147
+      ],
+      "seconds": [
+        6.0477083333333335,
+        6.131125
+      ],
+      "left": "airborne",
+      "right": "landing_or_unknown",
+      "observation": "Crossing left foot remains raised; lower right shoe approaches ground, exact touchdown blurred."
+    },
+    {
+      "frames": [
+        148,
+        152
+      ],
+      "seconds": [
+        6.172833333333333,
+        6.339666666666667
+      ],
+      "left": "airborne_to_forefoot_contact_unknown",
+      "right": "apparent_contact",
+      "observation": "Cross-step landing; right shoe appears grounded; left touchdown boundary uncertain."
+    },
+    {
+      "frames": [
+        153,
+        164
+      ],
+      "seconds": [
+        6.381375,
+        6.840166666666667
+      ],
+      "left": "apparent_forefoot_contact_heel_raised",
+      "right": "apparent_contact",
+      "observation": "Crossed legs; left toe/edge and right shoe near ground. Pivot/roll allowed; not fixed full soles."
+    },
+    {
+      "frames": [
+        165,
+        170
+      ],
+      "seconds": [
+        6.881875,
+        7.090416666666667
+      ],
+      "left": "pivot_or_reposition_unknown",
+      "right": "pivot_or_contact_unknown",
+      "observation": "Turning and shoe rotation/blur. At least one foot appears in support; exact toe/heel/contact-point identity uncertain."
+    },
+    {
+      "frames": [
+        171,
+        176
+      ],
+      "seconds": [
+        7.132125,
+        7.3406666666666665
+      ],
+      "left": "apparent_contact_pivot",
+      "right": "apparent_contact_pivot",
+      "observation": "Rear-facing shoes appear near ground with changing heel/toe roll; no clear two-foot flight."
+    },
+    {
+      "frames": [
+        177,
+        190
+      ],
+      "seconds": [
+        7.382375,
+        7.9245833333333335
+      ],
+      "left": "unknown_overlap_pivot",
+      "right": "unknown_overlap_pivot",
+      "observation": "Feet overlap during turn, at least one visible shoe appears grounded. Do not force bilateral planted labels."
+    },
+    {
+      "frames": [
+        191,
+        199
+      ],
+      "seconds": [
+        7.966291666666667,
+        8.299958333333333
+      ],
+      "left": "apparent_contact_or_unknown_overlap",
+      "right": "unknown_partial_occlusion",
+      "observation": "Near-front crossed feet; visible front shoe at ground, rear shoe partly obscured; anatomical assignment less certain."
+    },
+    {
+      "frames": [
+        200,
+        205
+      ],
+      "seconds": [
+        8.341666666666667,
+        8.550208333333334
+      ],
+      "left": "visible_swing",
+      "right": "apparent_contact",
+      "observation": "Left shoe lifts while right shoe remains near ground; clear single-foot sequence."
+    },
+    {
+      "frames": [
+        206,
+        206
+      ],
+      "seconds": [
+        8.591916666666666,
+        8.591916666666666
+      ],
+      "left": "airborne",
+      "right": "takeoff_or_unknown",
+      "observation": "Right push-off boundary blurred; do not set exact flight onset from this frame alone."
+    },
+    {
+      "frames": [
+        207,
+        210
+      ],
+      "seconds": [
+        8.633625,
+        8.75875
+      ],
+      "left": "visibly_airborne",
+      "right": "visibly_airborne",
+      "observation": "Both shoes visibly clear ground; next landing is outside the selected segment."
+    }
+  ],
+  "conclusion": "Source contains real short flight intervals, so airborne target frames cannot all be rejected or clamped. Source also has apparent support/pivot intervals that cannot be treated as constant two-foot anchors. These are visual hypotheses, not force/contact ground truth or a fitting schedule.",
+  "unknowns": [
+    "Exact lift-off/touchdown between24fps frames and under blur.",
+    "Toe vs heel force, shoe deformation, friction or sliding versus planted support.",
+    "Anatomical foot association in overlapping177..190 frames.",
+    "Metric floor depth/camera extrinsics and true global root trajectory."
+  ],
+  "scope": "Observation only. No targetroot/foot edits; v1 and twistv2 unchanged."
+}

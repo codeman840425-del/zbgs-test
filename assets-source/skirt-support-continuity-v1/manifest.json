@@ -1,0 +1,36 @@
+{
+  "baseCommit": "4958e6b60d8d97545b9332311958431aae0b20e2",
+  "variants": [
+    {
+      "label": "continuous-only",
+      "build": "7f309caee479",
+      "sourceDigest": "7f309caee479cffb579ce5b83941ae257919ce3bb8b10d940d552d962afbc509",
+      "replaceOrAdd": {
+        "src/m1-skirt.js": {
+          "file": "assets-source/skirt-support-continuity-v1/continuous-only/m1-skirt.js",
+          "sha256": "4e9da736a817c76db6c30a1cfdfbc8157d6d7aeb79535f2d2b0096888df3c364"
+        },
+        "src/skirt-support.js": {
+          "file": "assets-source/skirt-support-continuity-v1/continuous-only/skirt-support.js",
+          "sha256": "18da265c01494570ede5a3241344edc26fc7366ccb3026d2394e1e96b09de8cc"
+        }
+      }
+    },
+    {
+      "label": "anatomical-axis",
+      "build": "a491efde53fb",
+      "sourceDigest": "a491efde53fb118be7c99c4a0a21742ec2f5c7dee69ee5be235d910c5af14129",
+      "replaceOrAdd": {
+        "src/m1-skirt.js": {
+          "file": "assets-source/skirt-support-continuity-v1/anatomical-axis/m1-skirt.js",
+          "sha256": "4dea4c544e5e46fe5c6969775b78805e56a1d755ab3687f91792db9c04c98bb5"
+        },
+        "src/skirt-support.js": {
+          "file": "assets-source/skirt-support-continuity-v1/anatomical-axis/skirt-support.js",
+          "sha256": "1bf2de5dbcc9de695ecaa1f49748900dc53bda4ae8d81b282d3ea8c5199f4966"
+        }
+      }
+    }
+  ],
+  "scope": "Only skirt-support geometry; does not change movement clips, speed, collision radii or solver iterations."
+}

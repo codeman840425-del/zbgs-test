@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { skirtSupportWeight, blendSkirtSupports, skirtLateralAxis } from "./skirt-support.js";
 
 /** Pose-guided constraints on the actual source skirt topology and UVs.
  * This is a fitted corrective, not a cloth/self-collision simulation. */
@@ -160,9 +161,11 @@ export function createM1Skirt({ vrm, source, body }) {
     before = new V(),
     originalSample = new V(),
     localA = new V(),
-    localB = new V();
+    localB = new V(),
+    pelvisAcross = new V();
   const boxCache = new WeakMap();
   const activeBoxes = [];
+  const supportHeights = [0, 0], supportWeights = [0, 0];
   const hipInverse = new THREE.Matrix4(),
     meshInverse = new THREE.Matrix4();
   let revision = 0,
@@ -219,7 +222,6 @@ export function createM1Skirt({ vrm, source, body }) {
       leg.lower.getWorldPosition(leg.b);
       leg.axis.subVectors(leg.b,leg.a);
       leg.axisLengthSq=leg.axis.lengthSq();
-      leg.horizontal.set(leg.axis.z,0,-leg.axis.x).normalize();
       leg.bounds.makeEmpty().expandByPoint(leg.a).expandByPoint(leg.b).expandByScalar(leg.radius+1e-12);
       const a = localA.copy(leg.a).applyMatrix4(hipInverse),
         b = localB.copy(leg.b).applyMatrix4(hipInverse);
@@ -230,6 +232,8 @@ export function createM1Skirt({ vrm, source, body }) {
         Math.PI * 0.49,
       );
     }
+    pelvisAcross.subVectors(legs[1].a, legs[0].a);
+    for (const leg of legs) skirtLateralAxis(leg.axis, pelvisAcross, leg.horizontal);
     activeBoxes.length=0;
     for(const box of boxes){
       let item=boxCache.get(box);
@@ -257,8 +261,8 @@ export function createM1Skirt({ vrm, source, body }) {
         front *
         guide[i].drape * bendDrape;
       if (drape > 0) {
-        let surface = -Infinity;
-        for (const leg of legs) {
+        for (let j = 0; j < legs.length; j++) {
+          const leg = legs[j];
           const t = THREE.MathUtils.clamp(
             offset.subVectors(particles[i], leg.a).dot(leg.axis) / leg.axisLengthSq,
             0,
@@ -268,18 +272,14 @@ export function createM1Skirt({ vrm, source, body }) {
           const lateral = Math.abs(
               offset.subVectors(particles[i], near).dot(leg.horizontal),
             );
-          if (lateral < leg.radius * 1.1)
-            surface = Math.max(
-              surface,
-              near.y +
+          supportWeights[j] = skirtSupportWeight(lateral, leg.radius);
+          supportHeights[j] = near.y +
                 Math.sqrt(
                   Math.max(0, leg.radius * leg.radius - lateral * lateral),
-                ) +
-                0.004,
-            );
+                ) + 0.004;
         }
-        if (Number.isFinite(surface))
-          particles[i].y = THREE.MathUtils.lerp(particles[i].y, surface, drape);
+        particles[i].y = blendSkirtSupports(particles[i].y,
+          supportHeights[0], supportWeights[0], supportHeights[1], supportWeights[1], drape);
       }
       if (r.y < 0.09) collision(particles[i], boxes);
     }

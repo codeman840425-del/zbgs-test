@@ -1,0 +1,8 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>视频动作 v2：困难段回读，未通过</title>
+<style>body{font:16px system-ui;max-width:1500px;margin:24px auto;padding:0 20px;background:#f2f3f1;color:#202523}.pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}video{width:100%;background:#111}button{font:inherit;padding:8px 18px}p{line-height:1.6}@media(max-width:800px){.pair{grid-template-columns:1fr}}</style>
+<h1>视频舞蹈困难段：前臂修正，整体仍未通过</h1>
+<p>同一运行时、角色、镜头与原速1×。左为 v1（069f89e0be4d），右为 v2（ce09c265dadd）。仅左前臂连续性改变；足底悬空、手指与识别误差仍待处理。这不是完整30秒舞蹈，也不是正式可用动作。<a href="RESULT.md">结果与限制</a></p>
+<h2>女性</h2><div class="pair"><div>v1<video controls preload="metadata" src="../video-motion-room-069f89e0be4d-clear-space/female.webm"></video></div><div>v2<video controls preload="metadata" src="female.webm"></video></div></div><button onclick="playPair(0)">两片从头播放 · 1×</button>
+<h2>男性</h2><div class="pair"><div>v1<video controls preload="metadata" src="../video-motion-room-069f89e0be4d-clear-space/male.webm"></video></div><div>v2<video controls preload="metadata" src="male.webm"></video></div></div><button onclick="playPair(1)">两片从头播放 · 1×</button>
+<p>同时起播仅用于观看，不保证逐帧锁相；精确动作时刻以各自trace及原PTS为准。</p>
+<script>async function playPair(i){const all=[...document.querySelectorAll('video')];all.forEach(v=>v.pause());const pair=all.slice(i*2,i*2+2);pair.forEach(v=>{v.currentTime=0;v.playbackRate=1});await Promise.all(pair.map(v=>v.play()));}</script></html>
