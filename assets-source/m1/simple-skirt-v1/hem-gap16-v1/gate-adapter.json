@@ -1,0 +1,41 @@
+{
+  "changes": [
+    {
+      "from": "O=S/'edge-thirds-v1'",
+      "to": "O=S/'hem-gap16-v1'",
+      "count": 1
+    },
+    {
+      "from": "m1-sixfold-skirt-edge-thirds-v1.glb",
+      "to": "m1-sixfold-skirt-hem-gap16-v1.glb",
+      "count": 1
+    },
+    {
+      "from": "S/'active-gap-hem-v1/m1-sixfold-skirt-active-gap-hem-v1.glb'",
+      "to": "S/'two-quad-thirds-v1/m1-sixfold-skirt-two-quad-thirds-v1.glb'",
+      "count": 1
+    },
+    {
+      "from": "    for key in old['attributes']:assert np.array_equal(read(p['attributes'][key])[:n],oldRead(old['attributes'][key]))",
+      "to": "    for key in old['attributes']:\n        if key not in ('POSITION','NORMAL') or i==0:assert np.array_equal(read(p['attributes'][key])[:n],oldRead(old['attributes'][key]))",
+      "count": 1
+    },
+    {
+      "from": "unchanged=~np.isin(origin,[770,773]);assert np.array_equal(faces[unchanged],oldFaces[origin[unchanged]])",
+      "to": "assert np.array_equal(faces,oldFaces)",
+      "count": 1
+    },
+    {
+      "from": "'allExistingAttributesExact':True",
+      "to": "'onlyHemPositionAndAffectedNormalsChanged':True",
+      "count": 1
+    },
+    {
+      "from": "O/'edge-thirds-v1.blend'",
+      "to": "O/'hem-gap16-v1.blend'",
+      "count": 3
+    }
+  ],
+  "thresholdChanges": [],
+  "compiledSha256": "d29938f8d344148f40bcd22b80b77e469f0f4a0111e76254ed3c179a60fe2f4d"
+}
