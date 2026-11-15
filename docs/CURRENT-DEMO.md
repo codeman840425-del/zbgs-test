@@ -1,16 +1,16 @@
 # 当前固定候选的启动与恢复
 
-能力状态以[CAPABILITIES](CAPABILITIES.md)为准。当前固定待验候选1a0d06fc8ffe，源码提交0ae64b83384a3ed9853185f6a008ac6b70b1e8cc。`delivery/candidate.json`保存精确目录、SHA与端口，不是第二套验收表。
+当前候选 **152b17a0c6e9**，源码提交 `4958e6b60d8d97545b9332311958431aae0b20e2`。能力只以[CAPABILITIES](CAPABILITIES.md)为准。`delivery/candidate.json`保存精确目录、摘要、端口和回滚版本。
 
-- 当前交互：http://127.0.0.1:4191/ ；男性加`?body=male`并选“独立露膝短裤”。
-- 当前同版正常短片：http://127.0.0.1:4174/evidence/accessory-normal-1a0d06fc8ffe/ 。完整13f男女链另标原版本，不继承为1a全链验收。
-- 旧269对照仍在http://127.0.0.1:4192/ 。本轮原服务重启动作被工具策略拒绝，未停止或覆盖旧服务，新版使用空闲4191。
-- 录像总入口：http://127.0.0.1:4174/evidence/m1-current-review/ 。目前3个本机服务，不是联网后端。
+- 当前女性：http://127.0.0.1:4194/ ，男性加`?body=male`；男性可选独立露膝短裤。
+- 本版正常1倍速持麦→讲话→直接跑→移动180°重选→停止→讲话→卸下：http://127.0.0.1:4174/evidence/mic-movement-152b17a0c6e9/ 。
+- 总观看索引：http://127.0.0.1:4174/evidence/m1-current-review/ 。
+- 保留对照：f7/4193（持麦已接受、旧移动转向）；1a/4191；269/4192；证据4174。共5个项目端口，均为本机服务，不是多人后端。
 
-根目录运行`python scripts/serve-candidate.py`启动当前4191。端口已有服务时勿重复启动；脚本核完整构建身份再服务，不带热更新。证据服务是`python scripts/serve-review.py --port 4174`。
+152整合用户已分别接受的f7持麦和ece移动转向代码；14项转向/鞋底/终点回归与男女持麦跑动链已实际检查。原影片的接受范围保持其原版本，不能据此宣布整M1或未录场景视觉通过。裙装高速前边跳动、坐姿形状与成本仍未通过；普通电脑未实测。原f7/4193保持不变，用于当前裙边复现。
 
-新检出没有固定产物时，切到上述精确源码提交，在prototype执行`npm ci`，再运行`npm run build -- --outDir ../experiments/m1-accessory-ui-2/dist`。已在全新独立检出实测63文件逐字节一致，见evidence/accessory-ui-rebuild-1a0d06fc8ffe。锁文件与已提交导出资源为构建输入；这不替代每类源资产重导的独立记录。
+根目录运行`python scripts/serve-candidate.py`启动当前4194。已有服务时勿重复启动；服务核完整构建身份，不使用热更新。证据服务：`python scripts/serve-review.py --port 4174`。
 
-previous指针保留269源码aed9597、目录experiments/m1-joint-integrated-1/dist、完整摘要和原4192端口。历史abdb/942目录与影片同样保留。回退须使用对应固定指针/源版本，不覆盖新旧dist。
+新检出恢复固定产物：检出源码提交4958e6b，在`prototype`执行`npm ci`，再执行`npm run build -- --outDir ../experiments/m1-mic-curvature-integrated-1/dist`。回到保存当前指针的检出后运行服务。`evidence/rebuild-152-4958e6b/report.json`记录全新独立检出63个产物逐字节一致；锁文件/已提交资源为输入，不等于重新执行全部Blender制作。
 
-本版修复附件拒绝/失败反馈，精确镜腿仅适配原F/M；派生明确拒绝，legacy查询仅诊断。裙源实验没有合入；服装形状、连续自然度、最终画风和普通电脑性能仍分别待验，不称M1完成。
+旧f7指针保存于`delivery/candidates/f7bdc3be3de4.json`，固定目录`experiments/m1-microphone-use-v4/dist`，源码16bada2。回滚恢复相应指针和产物，不覆盖旧dist。最新已核远端恢复点见CURRENT-FOUNDATION；新生成的实验素材不自动发布到当前固定版。
