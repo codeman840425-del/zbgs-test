@@ -29,7 +29,10 @@ export function parseNormalizedMotion(data, vrm, avatarSha256, entry) {
       if(Math.abs(Math.hypot(...track.values.slice(i,i+4))-1)>1e-3) throw Error('Non-unit normalized rotation');
     return {...track,name:bone.name+'.'+property};
   });
-  const parsed=THREE.AnimationClip.parse({...clip,tracks});
+  // Import identity belongs to this runtime clip, not an optional export UUID.
+  // Three r187 parse overwrites its generated UUID even when JSON omits it;
+  // reusing that value aliases distinct assets in AnimationMixer.clipAction.
+  const parsed=THREE.AnimationClip.parse({...clip,uuid:THREE.MathUtils.generateUUID(),tracks});
   if (!parsed.validate()) throw Error('Normalized clip validation failed');
   return parsed;
 }

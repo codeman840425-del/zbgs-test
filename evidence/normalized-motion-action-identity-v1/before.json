@@ -1,0 +1,51 @@
+{
+  "threeVersion": "187",
+  "results": [
+    {
+      "sourceUuid": "absent",
+      "actionsDistinct": false,
+      "first": [
+        0.5,
+        0,
+        0
+      ],
+      "second": [
+        0.5,
+        0,
+        0
+      ],
+      "restored": [
+        0.5,
+        0,
+        0
+      ],
+      "inputUnchanged": true,
+      "passed": false,
+      "error": "AssertionError [ERR_ASSERTION]: Independent imports must not reuse the same mixer action"
+    },
+    {
+      "sourceUuid": "duplicated",
+      "actionsDistinct": false,
+      "first": [
+        0.5,
+        0,
+        0
+      ],
+      "second": [
+        0.5,
+        0,
+        0
+      ],
+      "restored": [
+        0.5,
+        0,
+        0
+      ],
+      "inputUnchanged": true,
+      "passed": false,
+      "error": "AssertionError [ERR_ASSERTION]: Independent imports must not reuse the same mixer action"
+    }
+  ],
+  "passed": false,
+  "scope": "Two separate clips with identical display names and absent/duplicated export UUIDs must play their own track data and restore independently. No animation shape change."
+}
