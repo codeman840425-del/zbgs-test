@@ -4,7 +4,7 @@
 
 ## 固定入口
 
-- **4196 /?workbench=appearance：1fff20c54b2b**。目录experiments/m2-appearance-workbench-v20/dist，源码c6dfba34e23782502b723fb392774074f03e5223，指针delivery/appearance-workbench.json。新版定向回归evidence/face-selective-browser-1fff20c54b2b；公开4196响应头/build/runtime、男女页内切换/三页检查通过，evidence/current-workbench-1fff20c54b2b。aa/v19保留直接回滚，844/v15仍保留；中间084/894/5d的证据不改标。
+- **4196 /?workbench=appearance：a0dd7fb7bf4a**。目录experiments/m2-appearance-workbench-v21/dist，源码4cb4503d43595cdbadfe532e44ecbf4b206dc9c2，指针delivery/appearance-workbench.json。新版19组回归evidence/face-selective-browser-a0dd7fb7bf4a；公开入口header/build/runtime、男女同文档切换及三分区另核通过：evidence/current-workbench-a0dd7fb7bf4a。1fff/v20保留直接回滚，aa/v19，844/v15仍保留；中间084/894/5d的证据不改标。
 - **4195：77e46efb5441**，用户已限定接受的M1基础，未改。4174提供证据；临时QA端口4277在本次收尾后关闭。其他未知/顾问服务未动。
 - Phaser3.90.0 + Three0.187.0 + three-vrm3.5.5；Rigby2D及真实多人服务器不参与当前工程。
 
@@ -19,23 +19,26 @@
 6. 1fff限定优化：仅克隆实际引用变形/法线邻域的primitive，嘴部9→2；warm按材质/布局版本准备，成功后淘汰同mesh过期材质版本，失败保旧/pending完成清理。60组合、全部引用表达分量及源端点/生命周期技术检查保留。19组真实UI/配方/表情/颜色往返/复位通过，两轮资源计数稳定；这不是长期零泄漏。新增favicon两个入口实际CDP 200。
 7. 首嘴改动A→B→A无录制短测：旧315–358ms长帧，新97–103ms；上传32–33MB→7.1–7.4MB。RTX4090/Chrome157/1600×1000/暂停人物隔离成本，非游戏持续帧率或普通机结论。首次新增眼域仍67–73ms，换体成本本次未优化。详evidence/face-selective-cost-comparison-v1。aa真实短后台三例约1.51秒已补验，不外推新版本全后台/长时间挂起；时间循环未修改。
 
+8. a0dd仅在一次prepare事务内按真实BufferAttribute复用不可变快照/摘要/finite结果，每primitive期望身份门保留，独立数据仍全比较。120共享/独立组合全buffer等价、14坏输入与7生命周期通过；19组真实工作台配方/换体/颜色/表情回归通过。源/CPU证据face-prepare-snapshots-v1，正常讲话及同姿抽审face-selective-browser-a0dd7fb7bf4a。
+9. 新短测的编译前准备75–90→29–44ms，命令152–163→96–109ms；复位/GC后JS backingStorage增量12.3–12.7→1.4MB。首次完整maxrAF仍103–109ms，不称全部卡顿已修；非VRAM/普通机/长期数据。face-snapshot-comparison-v1保存同测法原始数据。
+
 ## 构建与备份
 
-- 1fff由c6dfba3精确提交独立检出构建；第二个全新检出npm ci/build后98产物逐字节一致、检出干净：evidence/rebuild-1fff-c6dfba3。根目录python scripts/serve-appearance-workbench.py；按APPEARANCE-WORKBENCH从精确提交构建新目录，禁止改写旧版。
-- 男jaw源40文件Git字节准确，evidence/jaw-mouth-source-git-bytes。源提交f2dc6d9已远端核实。本轮备份回执delivery/workbench-backup-1fff.json，旧版aa回执保留；以实际回执核实结果，不凭口头push。供应商真人/FBX等既有ignored文件仍只本机，不声称全部远程备份。
+- a0dd由4cb4503精确提交独立检出构建；第二个全新检出npm ci/build后98产物逐字节一致、检出干净：evidence/rebuild-a0dd-4cb4503。根目录python scripts/serve-appearance-workbench.py；按APPEARANCE-WORKBENCH从精确提交构建新目录，禁止改写旧版。
+- 男jaw源40文件Git字节准确，evidence/jaw-mouth-source-git-bytes。源提交f2dc6d9已远端核实。本轮备份回执delivery/workbench-backup-a0dd.json，旧版1fff/aa回执保留；以实际回执核实结果，不凭口头push。供应商真人/FBX等既有ignored文件仍只本机，不声称全部远程备份。
 - 5d第一次重建对比失败保留。确认只因冻结后新增一行UI动态选项，旧源隔离重建97产物精确重现5d；不是CRLF或几何差异。证据evidence/workbench-build-drift-5d-aa-v1。以后固定版从确切提交独立检出构建；不能改旧报告标签。
 
 ## 剩余边界与接续
 
 - 本次有界技术闭环已完成：分区、配方移交、男女代表外观、一个派生体参数复用。新画风/发型/布局及更大外貌差异仍待用户观看，几何微端点不代表明显自由捏脸。等待产品判断，不扩大连续五官范围、体型库、衣库、M3或服务器。
 - 既有嘴眉鼻眼只原男女；男jaw只有单嘴端点。女jaw/waist未获几何参数准入；新发仅原男女。文件是本地制作配方而非稳定主播业务身份或云存档。
-- 首改脸成本已部分下降但未全解：1fff首次嘴97–103ms、眼新增67–73ms仍有长帧；换体843.3ms只保留历史证据。infoLog首次同步阻塞仍存在，既有归因不重复盲查。普通机/长期性能未通过；用户明确无普通机，保缺口。
+- 首改脸准备及数据成本已下降，a0dd首次max帧仍103–109ms；换体843.3ms只保留历史证据。主色首用试验01a未改善整段出帧已撤回，不能重复当未试建议。普通机/长期性能未通过；用户明确无普通机，保缺口。
 - 裙装及30秒Rokoko舞按用户决定封板，既有瑕疵保留，禁止再次精修。M1既有观感不外推新外貌/全部组合。当前单人/双实例，不等于产品已定同屏规模或正式直播特写。
-- 接续优先依据当前工作台的实际反馈；首次程序使用剩余长帧仍是具体性能缺口，下一有界试验可参考evidence/workbench-program-firstuse-readonly-v1，不能把只读建议写成已修。不要再扩大参数/资产或重开封板裙舞；新布局/外观仍待用户观看。
+- 接续优先工作台实际反馈和当前版本未验证的长时运行/首次换体成本；沿已有素材与控制，不扩参数/衣库。首次渲染峰值仍保留；下一方案须区分GPU出帧与CPU阻塞，禁止重复01a或只看render耗时。新布局/画风仍待用户观看，封板裙舞不重开。
 
 
-## 当前独立试验（不替换4196）
+## 本轮候选取舍
 
-- 01a1391b7d32主色逐program首用试验已拒绝发布，源164eaf4由603e483明确撤回，公开仍1fff。首次draw CPU时间虽减，但同无输入测量最大rAF115–121ms没有改善；不能把耗时搬走写成修好。证据face-firstuse-comparison-v1/DECISION.md。
+- 01a1391b7d32主色逐program首用试验已拒绝发布，源164eaf4由603e483明确撤回，当时公开保持1fff，随后a0dd仅合入快照优化。首次draw CPU时间虽减，但同无输入测量最大rAF115–121ms没有改善；不能把耗时搬走写成修好。证据face-firstuse-comparison-v1/DECISION.md。
 - 一次诊断trace记录115ms帧间隔与97ms CrGpuMain WebGL命令处理重叠，该长动画帧无JS脚本/阻塞归因，heartbeat继续；另有64ms源准备任务。只定位GPU进程/浏览器渲染层，未证明具体驱动算法。原始trace/对齐数据见face-frame-gap-trace-01a。
-- 新有界替代正在做：仅prepare事务内复用同BufferAttribute的只读快照/校验结果，不动GPU或法线公式。实际9 Face geometry共1position及54/56个morph属性，旧代码重复复制486/504次。共享证据face-source-sharing-1fff；尚未构建/测得替代收益。后续须精确提交独立构建、成本与输入/坏属性/取消检查，不继承旧通过。
+- 被采用的a0dd仅prepare事务内复用同BufferAttribute的只读快照/校验结果，不动GPU或法线公式。9 Face geometry共1position及54/56个morph属性，旧代码重复复制486/504次；实际共享证据face-source-sharing-1fff。其源码、构建、测量与回归均独立于01a。

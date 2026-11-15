@@ -1,6 +1,6 @@
 # 角色系统能力清单（唯一当前状态依据）
 
-2026-11-15当前增量：4196固定工作台1fff20c54b2b，源码c6dfba3；男女独立入口/三页分区/页内换体延续。新增受影响面部primitive选择及材质预热生命周期修复，19组真实UI/配方/表达/配色回归，98产物独立重建一致。开发机首次嘴编辑长帧由旧315–358ms降至97–103ms，仍非流畅/普通机通过。新外观与布局待用户观感；其他既有范围不扩大。详情只见本页最新增量与CURRENT；不改历史证据标签。
+2026-11-15当前增量：4196固定工作台a0dd7fb7bf4a，源码4cb4503。延续男女独立入口/三分区及受限外观；新增prepare单事务只读快照复用，120组合/14坏输入/7生命周期与19组真实UI回归、98文件独立重建通过。开发机编译前准备29–44ms、复位后相关JS存储增量约1.4MB；首改脸max帧仍103–109ms，普通机和新观感未通过。01a主色首用试验已撤回；不将CPU/render局部改进冒充完整刷新改善。
 
 REL-01当前补验（aa6fc6159e2d）：真实headed Chrome标签页visible→hidden→visible，行走、坐稳、用户暂停坐稳三例各约1.51秒后台，仿真/骨骼原点/25裙点采样不推进；返回首帧dt=0、不追算，用户暂停保持，行走任务正常完成，0页面异常。只代表这三例短时标签页测试，不含原生最小化、长时间挂起或普通电脑。完整1×录像及抽帧工程审查在evidence/background-aa6fc6159e2d-v1；另一次CDP补查将原404定位到/favicon.ico，功能资源未失败。首改脸优化当前只在候选和CPU等价阶段，尚无发布/性能通过结论。
 
@@ -253,3 +253,12 @@ v4本机配方新增eyeSample+eyeRecipeSHA；旧v1–3仅迁移缺失域none，�
 
 
 PERF-01试验边界补记：01a主色首用方案未改善最大出帧间隔，已回退，不属于当前工作台能力；24CPU项只是该历史试验生命周期门。GPU进程97ms/JS准备64ms分项诊断见face-frame-gap-trace-01a，非普通机结果。下一只读snapshot复用候选尚未验证，公开仍1fff，不改能力通过状态。
+
+
+## a0dd面部源准备快照增量
+
+- PIPE/PERF实现：prepare事务内按真实BufferAttribute对象缓存packed snapshot、摘要与finite结果，不全局/跨角色。相同只读snapshot直接相等；独立属性继续逐值检查。逐primitive自身expected SHA/格式条件、原VRM SHA和后续normal/apply逻辑未改。原F/M是morph finite+一致性门，派生jaw另有normal/morph SHA，不能混写成全部均有逐shape SHA。
+- 程序：120共享/独立属性组合全buffer与原1fff相等；14坏输入含同对象不同期望hash/独立坏属性/interleaved offset，7生命周期含准备中reset/dispose，证据face-prepare-snapshots-v1。
+- 实际：三体19组真实配方/换体/颜色往返/原引用复位/讲话和表情检查通过，全部同姿及全时段2fps工程审图未见新增明显缺面；不是用户自然度通过。face-selective-browser-a0dd7fb7bf4a保完整native片及实际播放窗口。
+- 成本：开发机同测法编译前75–90→29–44ms，相关JS backingStorage增量12.3–12.7→1.4MB（GC仅在计时外）；首次maxrAF仍103–109ms，不能称全部首次卡顿解。来源face-snapshot-comparison-v1。01a rejected证据保留，不发布、不宣称其未跑的context/19组通过。
+- PIPE-01：4cb4503两次独立检出98产物一致，备份只看delivery/workbench-backup-a0dd.json；GPU/普通机/新外观观感限制沿CURRENT，不扩完整M2/M3。
