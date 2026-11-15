@@ -1,0 +1,19 @@
+{
+  "schema": "video-wrist-adapter-v2",
+  "wristMatchMaximumPixels": 25.0,
+  "wristMatchAmbiguityPixels": 10.0,
+  "poseWristMinimumConfidence": 0.5,
+  "handednessMinimumClassification": 0.8,
+  "worldXYImageDirectionMaximumDegrees": 45.0,
+  "maximumFlexionDegrees": 65.0,
+  "temporalQuaternionFilterWeights": [
+    1,
+    2,
+    3,
+    2,
+    1
+  ],
+  "fallback": "neutral wrist aligned with actual v1 forearm; source-rest palm twist transported from rest forearm, no reference Idle local hand rotation",
+  "sourceFrameAxes": "Hands predicted world camera axes -> [x,-y,-z] -> same fixed v1 canonical yaw",
+  "fingers": "v1 reference finger rotations retained; fist/open-hand recognition not implemented"
+}

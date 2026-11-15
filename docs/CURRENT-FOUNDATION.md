@@ -15,6 +15,15 @@
 - 用户新增视频提取动作生产最小闭环，CAP新增DANCE-06。照片/视频检测已真实跑通OpenCV+MediaPipe Tasks，视频PyAV保原PTS；scripts/pose-reference可复跑，venv不入Git。照片腕误识/暗图0检出保留。当前视频必须使用dvids-squat-source.json，source.json是已拒旧素材，不能混用。240帧含两次下蹲，world脚尖单帧跳124mm、左臂约50帧低可见，不能直接当骨旋转/蒙皮。assets-source/video-motion-v1生成现有UAL1同骨架可编辑GLB，已通过现有loader在男女房间5d848494cce5正常1×回读，真实执行后回idle，无pageerror；不是动作质量通过。v1腕掌保留Idle未重建，目标VRM脚距缩窄源于既有旋转重定向对比例差异的合同限制；左臂高置信时也有误差，不能笼统归因插值。audit同PTS复算未发现轴/左右方向bug。prototype继续单独Hands腕掌有界v2；v1不覆盖。
 - 当前工作：root集成持麦回归和视频游戏回读，qa独立查腕姿插值/坐标，prototype完成可编辑视频动作及失败界限；pose_extraction完成原始检测与复跑归档。录制串行，无新增永久端口。其余M1授权继续，M2/M3不展开。
 
+### 后续接续（上条备份之后）
+
+- 当前指针f7/4193及用户持麦回执、重建证据已在远端824cdd33d0804ea1c1fbe4f80bddd5f2a4511790核实。没有关闭旧4191/4192，当前四项目服务明确；不能继承旧“三端口”。
+- 视频v1在5d848494cce5实际男女room播放（source-copy receipt和完整trace）；v2在280daa9dbc64实际男女close播放，只手腕两轨改变，199其他轨精确一致，原8秒节奏保留。v2左右缺手时使用显式中性腕fallback，20.8度/帧转腕风险保留，未升级动作质量。新近景证实脚靠拢/膝外展仍明显，不能把缩小room图作为通过。当前另需离线目标骨长/接触适配，不能重复UAL二次重定向；prototype在准备该数据接口，未改runtime。
+- 已有四画面观看页 http://127.0.0.1:4174/evidence/real-video-pose-v1/ ，实际原片/overlay与男女v1按事件时间偏移约0.501s对齐，非视觉同步标定。通过原PTS保节奏，不是专业舞蹈。
+- 顾问转交具体30秒单人舞片Pexels Sergey Makashin 5359146，root已访问官方来源与许可。使用现成视频作为内部制作参考，实际原片SHA c26ca0a91f8b735c575a142a75504696609bfa024e905b9cec13ba61c70c1c48；原片本地analysis/dance-reference-v1，不作为独立库存视频入公开Git。沿锁定OpenCV/MediaPipe/PyAV，720原帧/原PTS选0–30s（24000/1001fps），不循环下蹲凑舞蹈。pose_extraction做输入核查与推理，生成/转换/男女回读尚未通过；许可不写CC0或训练数据授权。
+- 转向afebe/f91试验暴露两次必须修的使用缺陷：较宽曲线碰边后clearPath被旧QA误判完成；快速重选到点曲率不足持续绕圈。均保失败，不发布。qa现在隔离pure-pursuit几何约束+现有碰撞前瞻，明确真实终点门、不同触发相位及左右方向；未合共享main。
+- 录屏窗口按root→pose→qa串行协商，所有临时server关闭。旧裙所有失败支路仍冻结；当前M1未整体完成，持续执行不进入M2/M3。
+
 ## 以下历史固定版本与诊断记录（以顶部最新接续为准）
 
 - 当前公开待验 **1a0d06fc8ffe**，源码 `0ae64b83384a3ed9853185f6a008ac6b70b1e8cc`，目录 `experiments/m1-accessory-ui-2/dist`。源码/已提交导出资源新检出 npm ci/build 后63产物逐字节一致；不等于重新执行所有Blender生成器。

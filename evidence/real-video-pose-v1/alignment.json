@@ -1,0 +1,139 @@
+{
+  "schema": "event-time-alignment-v1",
+  "build": "5d848494cce5",
+  "selected_source_manifest": "dvids-squat-source.json",
+  "scope": "Pipeline v1 only; wrist/palm, foot spacing/contact and naturalness not accepted",
+  "method": {
+    "equation": "media_seconds = common_action_seconds + offset_seconds",
+    "fit": "median(record_t_ms / 1000 - motion.dance.time), slope fixed at 1; no time scaling",
+    "selection": {
+      "mode": "dance",
+      "dance_id": "video-squat-dvids-v1",
+      "minimum_dance_mix": 0.999,
+      "action_seconds_interval_inclusive": [
+        1,
+        7
+      ]
+    },
+    "record_clock_origin": "q.start = performance.now() immediately before MediaRecorder.start; trace t = RAF timestamp - q.start",
+    "clock_source_script": "scripts/qa-video-motion-room.cjs",
+    "record_clock_source_sha256": "e41032bf1022947620bd5c8d95b765ee2ccb83e8f979855636b9612f084981d8",
+    "start_pts_policy": "MediaRecorder first decoded frame PTS is 0; trace epoch to first captured frame was not separately instrumented. Assume common start for event alignment, with about one encoded-frame start uncertainty.",
+    "not_calibration": true
+  },
+  "source": {
+    "id": "source",
+    "media": "source-clip-1x.mp4",
+    "offset_seconds": 0,
+    "sha256": "928b4387fbcb040086dd38d0603cdc64d54c75c5e13a2c7f7d272843ee6c24ed"
+  },
+  "overlay": {
+    "id": "overlay",
+    "media": "overlay-clip-1x.mp4",
+    "offset_seconds": 0,
+    "sha256": "9ff973b0bd4afe887609858b7ca208755de306bc19795a8b636ae5029f34b0d8"
+  },
+  "recordings": [
+    {
+      "id": "female",
+      "media": "../video-motion-room-5d848494cce5/female.webm",
+      "trace": "../video-motion-room-5d848494cce5/female.trace.json.gz",
+      "media_sha256": "e088479370a4681e261749e06b33cde26c601221b7f86c71768756ad21c82522",
+      "trace_sha256": "245705953ef2d8d0421fa78e5f7db06f71171513112a3ae08de4e0346678b39f",
+      "offset_seconds": 0.5010000000000014,
+      "fit_samples": 986,
+      "fit_action_seconds_first_last": [
+        1.0009999999999992,
+        6.994899999976252
+      ],
+      "fit_record_seconds_first_last": [
+        1.5018999999523162,
+        7.495899999952317
+      ],
+      "minimum_selected_mix": 0.9996672103668857,
+      "fixed_slope_residual_seconds": {
+        "median": 0.0,
+        "absolute_p95": 0.00010000004771115734,
+        "absolute_max": 0.017500000000000293,
+        "rmse": 0.0005726172074947575
+      },
+      "diagnostic_free_slope_not_applied": {
+        "slope": 1.0000220582481771,
+        "intercept": 0.5008826125592385
+      },
+      "media_timing": {
+        "decoded_frames": 604,
+        "first_pts_seconds": 0.0,
+        "last_pts_seconds": 10.149,
+        "median_interval_seconds": 0.017999999999999794,
+        "maximum_interval_seconds": 0.097,
+        "largest_interval_pts_seconds": [
+          0.169,
+          0.266
+        ],
+        "middle_maximum_interval_seconds": 0.031999999999999806,
+        "start_origin_uncertainty_nominal_seconds": 0.017999999999999794,
+        "uncertainty_is_estimate_not_proven_bound": true
+      },
+      "blend_boundary": "Offsets fitted only after mix>=0.999. Early common time still includes runtime blend-in; aligned timestamps do not make that pose equal to unblended source."
+    },
+    {
+      "id": "male",
+      "media": "../video-motion-room-5d848494cce5/male.webm",
+      "trace": "../video-motion-room-5d848494cce5/male.trace.json.gz",
+      "media_sha256": "b467fd5c2e1a94f866d4fcefc4b76c16cafe7d6765413f0a0415d49183f0a23b",
+      "trace_sha256": "608a48ef433bab65f6bb158e7ccee783c0212471a23555892061dfd6c47cf77e",
+      "offset_seconds": 0.5009999999761612,
+      "fit_samples": 989,
+      "fit_action_seconds_first_last": [
+        1.000999999999999,
+        6.995200000047768
+      ],
+      "fit_record_seconds_first_last": [
+        1.5021000000238418,
+        7.496000000023842
+      ],
+      "minimum_selected_mix": 0.9996672103668856,
+      "fixed_slope_residual_seconds": {
+        "median": 0.0,
+        "absolute_p95": 0.0001999999523460083,
+        "absolute_max": 0.004799999952387335,
+        "rmse": 0.00030501371233252383
+      },
+      "diagnostic_free_slope_not_applied": {
+        "slope": 0.9999951418263991,
+        "intercept": 0.5009616881424781
+      },
+      "media_timing": {
+        "decoded_frames": 612,
+        "first_pts_seconds": 0.0,
+        "last_pts_seconds": 10.185,
+        "median_interval_seconds": 0.017999999999999794,
+        "maximum_interval_seconds": 0.025000000000000355,
+        "largest_interval_pts_seconds": [
+          3.997,
+          4.022
+        ],
+        "middle_maximum_interval_seconds": 0.025000000000000355,
+        "start_origin_uncertainty_nominal_seconds": 0.017999999999999794,
+        "uncertainty_is_estimate_not_proven_bound": true
+      },
+      "blend_boundary": "Offsets fitted only after mix>=0.999. Early common time still includes runtime blend-in; aligned timestamps do not make that pose equal to unblended source."
+    }
+  ],
+  "browser_sync": {
+    "playback_rate": 1,
+    "seek_correction_threshold_seconds": 0.08,
+    "meaning": "Browser auxiliary comparison, not frame-accurate synchronized capture. All original media are retained."
+  },
+  "common_action_seconds_interval": [
+    0,
+    7.97463321685791
+  ],
+  "precision_limits": [
+    "Fit residual measures trace clock relation only, not image matching or pose quality.",
+    "First PTS/record-start relation is not calibrated; about one actual encoded-frame interval is an estimate, not a strict upper bound.",
+    "Variable captured-frame gaps and source 1001/30000s sampling limit visible pose matching independently of fit residual.",
+    "Browser seeks and scheduling introduce separate timing error; UI displays offset-corrected drift and uses position correction at fixed 1x."
+  ]
+}

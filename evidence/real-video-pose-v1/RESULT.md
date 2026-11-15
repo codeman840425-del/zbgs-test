@@ -1,8 +1,10 @@
 # 短真人视频 → 连续关键点，当前交接状态
 
-2026-11-14。官方 MediaPipe Tasks CPU VIDEO 模式已实际处理 240 帧，运行约 9.26 秒，全部返回身体 33 点。这里只完成源选择、连续数据和 1× 对照输入，不是可编辑骨骼动作完成，也不是男女 VRM 验收或自动蒙皮通过。
+2026-11-14。OpenCV + 官方 MediaPipe Tasks CPU VIDEO + PyAV 保留原 PTS 的检测阶段已实际跑通：处理 240 帧，运行约 9.26 秒，全部返回身体 33 点。此目录记录检测输入与结果；后续 root 已在游戏 `5d848494cce5` 实际回读男女角色，但当前左臂仍有错误，角色脚底接触尚未验收，不是动作或自动蒙皮通过。
 
 ## 选用来源
+
+**唯一当前资产清单为 [dvids-squat-source.json](dvids-squat-source.json)。`source.json` 是已拒旧 CRiles23 素材清单，不能作为本次交付来源。** [观看入口](index.html) 提供真人源片与叠图共同 1× 播放，以及男女实际回读录像。
 
 [DVIDS Body Weight Squat](https://www.dvidshub.net/video/517502/body-weight-squat)，2017，US Marine Corps，说明署名 Cpl. Amber Jennings、发布人 Joshua Pena。页面标示 Public Domain；[使用条件](https://www.dvidshub.net/about/copyright)要求不得表示官方背书，肖像、商标权不因公开发布自动放弃。仅作个人内部动作实验。下载页面公开 1024×576 MP4，原文件 SHA256 `05b5870da6ebc66abcfd5715a2864e21299d176dc2c87524d3f5904c37450f66`；完整页面与条件快照、下载地址保存在 `dvids-squat-source.json` / HTML。
 
@@ -35,4 +37,8 @@ The appearance of U.S. Department of War (DoW) visual information does not imply
 - 两个 MP4 实际解码均 240 帧，PTS 相对原序列最大误差 `2.22e-15s`（浮点表示量级）；无变速。哈希与统计在 `temporal-summary.json`。
 - 复跑入口 `scripts/pose-reference/README.md`、`extract.py`、`review_video.py`；依赖锁、模型固定源/哈希都已保存。
 
-下一交付门：从这份连续输入导出可编辑动作，经现有 GLB/动作管线映射到当前男女 VRM，保持原1×节奏，并与真人原片同时对照。保留原角色蒙皮；关键点推理不能代替人体骨架适配和视觉验收。
+后续集成现场：root 已沿现有动作管线在 `5d848494cce5` 实际回读男女，录像位于 `../video-motion-room-5d848494cce5/female.webm` 与 `male.webm`；前约0.5秒待机、原节奏约8秒动作后回待机。观看页链接原文件，没有复制或改时序；游戏录像未与源片精确同步。下一门仍是修正当前左臂错误并验证男女完整动作、重心和足底接触。保留原角色蒙皮；关键点推理不能代替人体骨架适配和视觉验收。
+
+## 同屏观看页检查
+
+`index.html` 已实际浏览器验证共同1×播放、暂停、拖动至3.500秒及完整重播；最终两片时间8.008/8.007999秒、速率均1、均暂停，pageerror=0。首轮发现叠图先结束会让源片提前约72ms停止，已改为以源片结束为准，首轮失败结果仍留 `index-qa/initial-check.json`，修后结果见 `final-check.json`。12个本地链接均HTTP200；1440px与390px截图已看/保存，窄屏scrollWidth=390无水平溢出。此项是观看页功能检查，不是角色动作、普通电脑性能或同步逐帧精度验收。
