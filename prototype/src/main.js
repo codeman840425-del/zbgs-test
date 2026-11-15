@@ -805,12 +805,13 @@ class CharacterScene extends Phaser.Scene {
     });
     const onSpace = (e) => {
       if (
-        e.target instanceof HTMLInputElement ||
-        e.target instanceof HTMLButtonElement ||
-        e.target instanceof HTMLSelectElement
+        e.target instanceof Element &&
+        (e.target.closest("aside, form, input, button, select, textarea, summary") ||
+          e.target.isContentEditable)
       )
         return;
       e.preventDefault();
+      if (e.repeat) return;
       this.command({ type: "pause" });
     };
     this.input.keyboard.on("keydown-SPACE", onSpace);
