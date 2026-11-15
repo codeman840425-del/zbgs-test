@@ -4,7 +4,7 @@
 
 ## 固定入口
 
-- **4196 /?workbench=appearance：a0dd7fb7bf4a**。目录experiments/m2-appearance-workbench-v21/dist，源码4cb4503d43595cdbadfe532e44ecbf4b206dc9c2，指针delivery/appearance-workbench.json。新版19组回归evidence/face-selective-browser-a0dd7fb7bf4a；公开入口header/build/runtime、男女同文档切换及三分区另核通过：evidence/current-workbench-a0dd7fb7bf4a。1fff/v20保留直接回滚，aa/v19，844/v15仍保留；中间084/894/5d的证据不改标。
+- **4196 /?workbench=appearance：bcade40d24f1**。目录experiments/m2-appearance-workbench-v22/dist，源码c2224049a983b5e1af9e713e6938294bc0478e10，指针delivery/appearance-workbench.json。公开header/build/runtime与男女同文档/三分区smoke通过：evidence/current-workbench-bcade40d24f1；正常1×旧新换人录像与新增等待状态回归：evidence/body-switch-compile-browser-bcade-v1。a0dd/v21直接回滚，1fff/v20及更旧固定目录保持。
 - **4195：77e46efb5441**，用户已限定接受的M1基础，未改。4174提供证据；临时QA端口4277在本次收尾后关闭。其他未知/顾问服务未动。
 - Phaser3.90.0 + Three0.187.0 + three-vrm3.5.5；Rigby2D及真实多人服务器不参与当前工程。
 
@@ -25,7 +25,7 @@
 ## 构建与备份
 
 - a0dd由4cb4503精确提交独立检出构建；第二个全新检出npm ci/build后98产物逐字节一致、检出干净：evidence/rebuild-a0dd-4cb4503。根目录python scripts/serve-appearance-workbench.py；按APPEARANCE-WORKBENCH从精确提交构建新目录，禁止改写旧版。
-- 男jaw源40文件Git字节准确，evidence/jaw-mouth-source-git-bytes。源提交f2dc6d9已远端核实。本轮备份回执delivery/workbench-backup-a0dd.json，旧版1fff/aa回执保留；以实际回执核实结果，不凭口头push。供应商真人/FBX等既有ignored文件仍只本机，不声称全部远程备份。
+- 男jaw源40文件Git字节准确，evidence/jaw-mouth-source-git-bytes。源提交f2dc6d9已远端核实。本轮备份回执delivery/workbench-backup-bcade.json；a0dd回执delivery/workbench-backup-a0dd.json保留，旧版1fff/aa回执保留；以实际回执核实结果，不凭口头push。供应商真人/FBX等既有ignored文件仍只本机，不声称全部远程备份。
 - 5d第一次重建对比失败保留。确认只因冻结后新增一行UI动态选项，旧源隔离重建97产物精确重现5d；不是CRLF或几何差异。证据evidence/workbench-build-drift-5d-aa-v1。以后固定版从确切提交独立检出构建；不能改旧报告标签。
 
 ## 剩余边界与接续
@@ -47,4 +47,12 @@
 
 - a0dd实际243.045秒、6轮男女往返/54计时操作，无页面错误或HTTP失败，源几何复位引用一致。后5轮女复位85/44/27（geometry/texture/program），6轮男85/45/26，返回女84/40/24保持；首轮差异另列。无强制GC、无录制，JS数据含QA开销，不代表长期无泄漏或普通电脑。证据evidence/workbench-session-a0dd-v1。
 - 同测试switch-edit 15次>50ms，最大825.1ms；讲话窗口max12ms不能覆盖切换长帧。新定向换体command436.4ms、首次绘制707.7ms，14次program infoLog共640.8ms；旧人物dispose1.8ms。同key销毁重建4组仅贡献47.8ms infoLog，不是全部原因。evidence/body-switch-a0dd-diagnostic-v1。
-- 下一有界试验：旧角色保持显示期间，用Three公开compileAsync预备新角色材质再提交；需确认不把同一停顿前移、取消失败不影响旧人物。当前公开a0dd未改变，尚无候选通过结论。
+- 该有界试验已形成bcade固定候选并通过后述范围，未扩其他渲染策略。
+
+## bcade换体准备增量（当前公开）
+
+- 仅在换体提交前用Three公开compileAsync准备真实新角色材质，旧角色继续显示。await后先校验请求代数，再重取当前位置/任务/镜头/暂停/服装/诊断模式；不改动作、裙舞、几何配方或颜色算法。22项精确源码CPU检查及独立review通过，evidence/body-switch-compile-v1。
+- 真实浏览器：注入compile拒绝保旧、真实重试、等待期间实际移动后改镜头/服装/暂停并采纳最新状态、请求当前体取消旧准备，4组通过。前两次QA错误假设（倍率0.5不支持、90度转向后固定600ms未移动）保留在transactions/r2，最终r3按真实接口与运动条件通过，不算产品修复。
+- 同机同法A-B-A原女→原男：maxrAF旧812.9/837.2→新321.6ms，首draw旧707.7/718.3→新322.7ms，命令等待436–472→523ms。旧角色准备期间仍有57次绘制；未将局部render下降冒充全部流畅。program21→23，geometry84/texture41保持；没有完整新program生命周期测试，不称无泄漏。evidence/body-switch-a0dd-diagnostic-v1/COMPARISON.md。
+- 新旧两条正常速度UI片都完成女→男→女、镜头/配色保留、三分区。工程检查与用户观感分开；视频含实际加载停顿。源c222404从两个独立检出构建98产物逐字节一致，evidence/rebuild-bcade-c222404。
+- 当前剩余：换体仍约0.32秒长帧，改脸a0dd约0.1秒证据仍属原测量；bcade未改该求值但不重标旧测试。普通机无设备、新画风/分区待用户观看。下一项只依据实际用户反馈与明确瓶颈安排，不重启封板裙舞或完整参数库。04分钟会话仅a0dd有证据，不转成bcade长期通过。

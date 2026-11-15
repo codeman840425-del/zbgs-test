@@ -1,6 +1,6 @@
 # 外观与动作工作台（受限样件）
 
-当前公开4196：a0dd7fb7bf4a，源码4cb4503，固定目录experiments/m2-appearance-workbench-v21/dist；1fff/v20为直接回滚。最终公开入口已核，最新范围见CURRENT；下方历史版检查仅证明其原范围。新增下载/读取v4配方不依赖localStorage，先选择对应基模；代表文件见evidence/appearance-recipe-runtime-89480cf8f66c/representative-female.json与representative-male.json。男性下颌可选嘴宽原位/+4%，其他三域尚未适配。原源双眼笑眨组合已局部修正，单眼不包含。重置位置/动作保所选镜头。
+当前公开4196：bcade40d24f1，源码c222404，固定目录experiments/m2-appearance-workbench-v22/dist；a0dd/v21为直接回滚。换体先准备材质再提交，仍有约0.32秒首次长帧；旧新正常速度片见evidence/body-switch-compile-browser-bcade-v1。最终公开入口已核，最新范围见CURRENT；下方历史版检查仅证明其原范围。新增下载/读取v4配方不依赖localStorage，先选择对应基模；代表文件见evidence/appearance-recipe-runtime-89480cf8f66c/representative-female.json与representative-male.json。男性下颌可选嘴宽原位/+4%，其他三域尚未适配。原源双眼笑眨组合已局部修正，单眼不包含。重置位置/动作保所选镜头。
 当前固定入口由 `delivery/appearance-workbench.json` 指定，本机端口4196，入口 `/?workbench=appearance`。旧M1接受基础4195保留。能力状态只见CAPABILITIES；不能把此工作台称为完整捏人或正式主播存档系统。
 
 ## 观看与操作
