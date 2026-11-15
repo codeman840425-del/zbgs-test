@@ -1,12 +1,14 @@
 # 角色资源与行为约定（暂定）
 
-当前能力和验收状态统一见 [CAPABILITIES.md](CAPABILITIES.md)。当前固定候选为77e46efb5441，4195；精确版本与回滚指针见 delivery/candidate.json，其他端口仅作历史对照。以下包含现行实现与未来接口约定；注明未实现的条款不得冒充运行能力。旧构建测试仍只证明各自范围。
+当前能力和验收状态统一见 [CAPABILITIES.md](CAPABILITIES.md)。当前观看主入口为4196外观工作台，精确构建和回滚只查 delivery/appearance-workbench.json；4195保留已获限定接受的M1基础77e46efb5441，指针为 delivery/candidate.json。4174提供证据。以下包含现行实现与未来接口约定；注明未实现的条款不得冒充运行能力。旧构建测试仍只证明各自范围。
 
 外观工作台是独立候选，见delivery/appearance-workbench.json；4195仍为M1对照。工作台男女按钮切换受检基模；未保存时继承兼容颜色并显式回退不兼容装备，有已保存草稿时恢复该基模最终选择。每基模本机草稿不等于两位主播身份。真实主播身份仍按下列分层。旧QA-only avatar-record合同的baked-resource/空parameters证据不能替代新工作台的实际保存检查。
 
 当前工作台配方`workbench-appearance-recipe-v4`保存精确基模ID/hash、嘴宽值与recipeSHA、眉/鼻/眼样件ID与各自recipeSHA、发型资源SHA/颜色、装备entry/GLB/绑定及规则版本。表达/口型/视线不混入永久容貌。存储槽`zbgs:appearance-draft:v1:<bodyType>`后缀仅地址；旧v1严格校验后眉鼻眼均读取为none，旧v2保眉且鼻眼none，旧v3保眉鼻且眼none；不原地改记录，下一次保存写v4。旧schema混带新字段拒绝，旧程序拒绝v4而非静默丢新字段。加载失败保先前外观；新请求通过每域revision保留最新意图，跨异步操作不是全局原子事务。
 
-有限几何编辑以不可变原底和完整参数向量求值，保留原mesh/骨架/表情绑定，每实例独占可变几何；变形身份另记baseSHA+recipeSHA+参数，不修改原文件SHA冒充新源。单项复位保其他域，全零恢复原几何引用。嘴宽±4%、一个眉位组合及鼻尖端点的范围见CAP，不宣称完整连续五官支持。无发基底已核真实头皮，头围/眼睑/牙齿/眼球等仍逐种参数准入；改变嘴位置/头围/眼距应另验持麦、发型和眼镜。
+有限几何编辑以不可变原底和完整参数向量求值，保留原mesh/骨架/表情绑定，每实例独占可变几何；变形身份另记baseSHA+recipeSHA+参数，不修改原文件SHA冒充新源。单项复位保其他域，全零恢复原几何引用。准入以 facial-geometry-profiles.js 的精确身体SHA为准：原男女嘴宽±4%，眉位/鼻尖/眼裂宽各一个端点；男下颌派生只嘴宽0/+4%，不能取中间值或继承其余三域；女下颌/腰胯派生未准入这些参数。不宣称完整连续五官支持。无发基底已核真实头皮，头围/眼睑/牙齿/眼球等仍逐种参数准入；改变嘴位置/头围/眼距应另验持麦、发型和眼镜。
+
+工作台换体由 main.js 的 switchFoundationBody 统一处理：离场加载新身体/动作/外观，公开 compileAsync 准备材质，等待后检查请求代数，再读取最新位置、服装、诊断、镜头、暂停和倍率后同步提交。等待期间旧人物仍可用；失败保旧，过时准备释放。提交结束旧动作与任务，坐姿换体回到新身体的椅前站位，不承诺跨骨架保留动作相位。外观草稿恢复由工作台另行执行，不把整个操作说成跨域原子事务。原男女选项独立于组内样件，不能把基模选择等同主播身份。
 
 本轮固定 Phaser 3.90.0、Three.js 0.187.0、three-vrm 3.5.5。Rigby2D不参与。旧VRM1残缺身体仅作历史对照；M1A已接入完整VRM0 Base_Female、独立GLB装备和GLB动作。可编辑blend是从现存资源重建，不是丢失的原工程恢复。
 
@@ -39,7 +41,7 @@
 
 目前主/对照角色均使用同一CharacterStudio行为实现、各自motion闭包与livePresentation。foundationProfile每次structuredClone，基模/装备/握姿仍严格按SHA匹配；页面控件绑定在main，不由loadFoundationAvatar初始化UI。loadComparison待动作加载、motion.update(0)和附加骨重置完成后才把root加入场景，取消/失败释放未挂入场景的资源。
 
-男女及男男引用/骨架/表情/装备/销毁隔离已有固定构建证据，0df453曾另验延迟加载、取消、503和重试；具体范围见CAPABILITIES，不代表体型操作或任意共享资源已验。当前裤裙预加载、切换同步；麦克风/眼镜的异步请求按slot版本拒绝过期结果。最终外观保存恢复只完成已有本地QA合同，1a已补男女关页回读和26个错误记录拒绝；它绑定完整presentationBuild，不能当成跨版本自动迁移，未实现产品存档UI。
+男女及男男引用/骨架/表情/装备/销毁隔离已有固定构建证据，0df453曾另验延迟加载、取消、503和重试；具体范围见CAPABILITIES，不代表体型操作或任意共享资源已验。当前裤裙预加载、切换同步；麦克风/眼镜的异步请求按slot版本拒绝过期结果。旧本地QA角色记录绑定完整presentationBuild，关页恢复和错误拒绝证据不等同跨版本迁移。工作台另有上述v4制作配方、本机草稿及真实JSON文件导入/导出：保存最终外观与装备精确版本，但不包含经营身份、动作、镜头或模型本体。它不是正式游戏存档UI，也不能与旧QA记录混用。
 
 ## 面部能力分类
 
@@ -73,7 +75,7 @@
 4. 恢复上次源动画姿势，求新源姿势并缓存；对normalized骨骼施加骨盆/腿IK等修正。避免先清bind pose后被Mixer未改变轨道的缓存漏写。
 5. motion末尾执行手部拟合：038起已有校准的手/前臂路径覆盖坐姿、站立、行走与舞蹈，未校准路径不假继承；按当前源目标保留每实例/每手避让量，减少时固定60ms连续释放，新增避让仍立即求解。显式reset、关闭修正、表面身份变更清历史；普通dt0暂停刷新从同一预求解种子重算，不衰减/累积。先由seatHandSurfaces(true)同步humanoid与raw矩阵，按本步腿臀求装备面，再读取实际手部包络并修正手臂。这里只证明求解所用表面；最终手和衣物接触必须在整个子步结束后检查。
 6. avatar.update(dt)依次执行live.preUpdate、vrm.update、世界矩阵更新和live.postUpdate。直播层可叠加手臂/手指姿态，VRM把normalized同步到raw并推进附加动态；因此不能把手拟合之前的皮肤当成最终显示皮肤。
-7. updateGarment复用本子步已准备的装备面，随后渲染。该复用要求装备所依赖的骨骼/形变在后续直播及VRM更新中不改变；新装备必须实际核对这个条件，不能直接继承旧裙标志。当前1a沿用269的源坐姿腕目标与等价缓存；source/UV/index可缓存，每子步实际蒙皮与投影仍更新，不能把静态缓存当动态几何。
+7. updateGarment复用本子步已准备的装备面，随后渲染。该复用要求装备所依赖的骨骼/形变在后续直播及VRM更新中不改变；新装备必须实际核对这个条件，不能直接继承旧裙标志。历史1a沿用269的源坐姿腕目标与等价缓存；source/UV/index可缓存，每子步实际蒙皮与投影仍更新，不能把静态缓存当动态几何。
 
 官方接口已对照本机安装版本核查：[AnimationMixer的秒制update](https://threejs.org/docs/pages/AnimationMixer.html)、[VRMHumanoid默认同步normalized到raw](https://pixiv.github.io/three-vrm/docs/classes/three-vrm.VRMHumanoid.html)。依赖目录的实际3.5.5实现与此一致。
 
@@ -93,7 +95,7 @@ M1A完整穿衣/真实完整人体中性材质、raw/IK/pelvis/full可同刻对�
 
 动作manifest与源适配配置分别保存；后续资源必须至少声明 actionId/version、sourceAssetHash/sourceClip/sourceRigAdapter、duration、loopMode、enter/exit策略、rootMotionPolicy、nominalSpeed/stride/contactProfile、活动空间与朝向、允许装备/持物/体型、单动作修正文件、音乐时间偏移及验收记录。ID不可复用含义；通用控制器依赖语义及策略而非大量舞蹈名字。源适配配置解决同类问题，特殊修正单独版本化。
 
-支持格式必须按已验路径声明：当前只有固定UAL GLB + rigMap，并无通用FBX/BVH/VRMA上传。未来离线转换可用Blender，但在实际导入/导出/回读前不宣称格式支持。原地和空间位移动作分别声明路径/动画根运动权属；循环和完整编舞分别声明结束/中断。当前删除未映射root/scale等轨道的行为不能直接推广给位移舞、小跳或任意源骨架。
+支持格式必须按已验路径声明：运行端 motion-source.js 接入固定UAL GLB + rigMap，以及精确身体身份匹配的 normalized-vrm-motion.1（由 normalized-motion.js 校验和构造）。后者已有Rokoko固定30秒FBX离线转换到原男女目标资源的实际流程，不等于通用FBX/BVH/VRMA上传或任意视频自动绑定。该30秒舞原版及唯一优化版按用户决定封存；不得借格式整理再优化。原地和空间位移动作分别声明路径/动画根运动权属；循环和完整编舞分别声明结束/中断。删除未映射root/scale等轨道的行为不能直接推广给位移舞、小跳或任意源骨架。
 
 ## 控制通道与业务边界（部分现有，扩展待实现）
 
@@ -101,7 +103,7 @@ M1A完整穿衣/真实完整人体中性材质、raw/IK/pelvis/full可同刻对�
 
 明确通道权属：世界位移由选定root策略唯一负责；身体主动作/局部上身混合先求；足部按步态接触状态修正，跑/舞腾空不强制双足着地；手臂持物/接触只覆盖声明通道；手指pose独立；脸部blink/口型/情绪与长期appearance分别管理；视线最后按头眼限制合成；附加动态只管理附属骨。VRM normalized→raw同步不可覆盖最终修正。M1A手接触需要本步腿臀先同步并求裙，再解手，最终VRM同步完成；不重复推进动画时间。
 
-共同时间约定为秒：sceneSimulationTime用于动作，audioTrackTime及actionAudioOffset独立记录；暂停、恢复、循环需验证差值，不以两个独立累加计时器默认同步。当前Phaser禁用音频，以上不是已实现音乐系统。
+共同时间约定为秒：sceneSimulationTime用于动作，audioTrackTime及actionAudioOffset独立记录；暂停、恢复、循环需验证差值，不以两个独立累加计时器默认同步。Phaser音频禁用不等于没有音频小验：已有独立AudioContext短节拍的实际播放、offset、暂停恢复、循环和退出证据，范围见CAP的DANCE-05。该QA小验不是产品音乐系统或听觉验收通过。
 
 经营系统掌管任务、收益与PK权威状态；角色系统只显示当前业务状态。未加载角色、动画暂停、帧率下降、取消舞蹈不应直接结算或重算经营收益。未来多人服务另行实现账号、权威存档、结算、排行榜/交易；当前浏览器样板不具有这些能力。
 
@@ -121,7 +123,7 @@ foundation-profiles中的forearmCollision明确URL和文件SHA；加载同时验
 
 材质配方是严格固定身体/服装/fit/实现SHA的数据，当前只允许男短裤一件候选；默认保持原材质，选择与恢复经同一装备API执行。它不修改网格、权重或原alpha，不视为裤口/裤裆几何修复。当前本地v2角色记录尚不保存配方，因此不能宣称这种选择已支持关闭页面恢复。用户材质方向未确认前不改变默认、不批量扩用。
 
-## 镜腿局部形态适配（13f集成，当前公开1a沿用）
+## 镜腿局部形态适配（13f集成的既有实现，证据按版本分开）
 
 原F/M眼镜在parse并校验完整GLB后，再按精确身体SHA读取固定profile；profile/源附件/POSITION均核身份。两个镜腿各4个横截面只在加载时变形，逐实例clone并原子替换，原镜框/鼻梁/铰链保留。没有新增逐帧求解或更改手、身体控制。
 

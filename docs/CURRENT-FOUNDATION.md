@@ -70,3 +70,9 @@
 CAPABILITIES与阶段计划已合并过时“当前/下一步”为历史归档，全部54个能力ID保留，旧原字节已保存。当前待产品判断的新外观/布局/画风和普通电脑缺口不变；不因历史失败重新打开封板裙舞，也不自动制作完整M2/M3。
 
 本次资源生命周期、CPU采样及清单整理的远端字节核实回执：delivery/workbench-reliability-bcade-backup.json。运行版/源仍bcade/c222404，旧固定构建和原备份回执不改。
+
+## 最新换人后台补验与合同校正
+
+实际男女按钮在compile完成但尚未提交时切后台，后台提交再返回：行走女→男、暂停男→女两例23项通过；后台约1.5秒模拟均不推进，位置/暂停保持，旧任务取消，UI/URL匹配新角色，0页面错误。evidence/body-switch-background-ui-bcade-v1保存原始报告、脚本和截图；诊断命令19项在body-switch-background-bcade-v1，不能将其未同步DOM的截图当用户界面。无录像或性能结论，不外推长挂起/OS最小化/所有动作。脚本退出、浏览器关闭，无新增常驻服务。
+
+AVATAR-CONTRACT已校正旧唯一4195入口、旧“仅UAL输入”、仅QA保存等过时描述，记录当前v4配方、有限几何准入、换体提交顺序及normalized视频动作路径。未改变运行版/源、冻结裙舞或能力验收范围。剩余产品观感、普通设备和已知首次长帧仍保留；不因历史任务字样重启已完成接入或扩完整M2/M3。备份回执见delivery/workbench-background-bcade-backup.json。
