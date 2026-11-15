@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "checks": [
+    "Shared source remains complete; covered geometry/weights are per-instance clones",
+    "Two active controllers independently toggle geometry",
+    "Mixed weighted skin plus morph preserves every vertex, including hidden-face-only vertex; world delta exactly 0",
+    "Sequential duplicate coverage rejects without replacing active instance",
+    "Double disposal restores original exact attributes and disposes only covered geometry once"
+  ],
+  "maxSkinDelta": 0,
+  "disposedCovered": 1,
+  "disposedOriginal": 0,
+  "sourceHashes": {
+    "prototype/src/body-coverage.js": "b0d1e38a0ca6013284e81937ee478f4bd915df340a987aa26060d35c0d7ccbe9",
+    "prototype/src/m1-equipment.js": "a0d480ef90df8df6621ae727c0bcecda9aadfbe32ee75456402026a547a96db7",
+    "prototype/src/motion.js": "31f272a3744f21642b8762e397f2c1f2210315bdfd78a02a13ef4415b45b87fe",
+    "scripts/qa-body-coverage.mjs": "058cd0543d9c6d665fec0704c075e87882ef0760427c2b6eea34da10d8a7eab4"
+  },
+  "scriptSHA": "d6e77e783b5861a62f6a6cc58371bf234fabd2a90ab463dead4ab60d5f0730b3",
+  "limits": [
+    "No factory/browser/network timing test; source integration separately reviewed.",
+    "Coverage changes triangle enumeration in mesh.geometry; completeBodyGeometry must be used for full-body triangle probes."
+  ]
+}

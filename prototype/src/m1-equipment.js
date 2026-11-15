@@ -2,11 +2,12 @@ import { createEquipment } from "./equipment.js";
 import { createM1Skirt } from "./m1-skirt.js";
 import { selectSkirtFit } from "./skirt-fit.js";
 import { foundationProfile } from "./foundation-profiles.js";
+import { createBodyCoverage } from "./body-coverage.js";
 
 export const M1_AVATAR_SHA256 =
   "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95";
-/** Equipment composition only. Does not control animation, delete body faces,
- * alter body materials, or infer compatibility from a similar-looking model. */
+/** Equipment composition and reversible rendering coverage. Complete body
+ * source geometry remains available for diagnostics and contact calibration. */
 export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female" }) {
   const config = foundationProfile(bodyType), IDS = config.ids;
   if (avatarSha256 !== config.sha256)
@@ -53,18 +54,34 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     debugBody = false,
     disposed = false;
   const item = (role) => adapter.get(IDS[role]);
-  const skirtCorrective = IDS.skirt ? createM1Skirt({
-    vrm,
-    source: item("skirt").meshes[0],
-    body,
-    fit: selectSkirtFit(item("skirt").entry, avatarSha256),
-  }) : null;
+  let coverage;
+  try {
+    coverage = await createBodyCoverage({ body, avatarSha256, topEntry:item("top").entry,
+      descriptor:config.bodyCoverage });
+  } catch (error) {
+    sourceClothes.forEach(({ mesh, visible }) => (mesh.visible = visible));
+    adapter.dispose();
+    throw error;
+  }
+  let skirtCorrective;
+  try {
+    skirtCorrective = IDS.skirt ? createM1Skirt({
+      vrm, source: item("skirt").meshes[0], body,
+      fit: selectSkirtFit(item("skirt").entry, avatarSha256),
+    }) : null;
+  } catch (error) {
+    coverage?.dispose();
+    sourceClothes.forEach(({ mesh, visible }) => (mesh.visible = visible));
+    adapter.dispose();
+    throw error;
+  }
   function apply() {
     if (disposed) return;
     // All assets are already loaded. Visibility changes are synchronous and
     // cannot arrive later over a newer user request.
     item("shoes").container.visible = true;
     item("top").container.visible = !debugBody;
+    coverage?.setEnabled(!debugBody);
     item("pants").container.visible = !debugBody && outfit === 0;
     if (IDS.skirt) item("skirt").container.visible = !debugBody && outfit === 1;
     if (IDS.shorts) item("shorts").container.visible = !debugBody && outfit === 2;
@@ -94,6 +111,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
         avatarSha256,
         independentEquipment: true,
         sourceBodyUnchanged: true,
+        bodyCoverage: coverage?.getInfo() ?? null,
         skirtDynamics: skirtCorrective?.getInfo() ?? null,
         items: Object.fromEntries(
           Object.entries(IDS).map(([role, id]) => [
@@ -128,6 +146,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
       if (disposed) return;
       disposed = true;
       skirtCorrective?.dispose();
+      coverage?.dispose();
       adapter.dispose();
       sourceClothes.forEach(({ mesh, visible }) => (mesh.visible = visible));
     },

@@ -6,6 +6,10 @@
 
 ## 11-15当前发布与优先问题（本段优先于下方历史流水）
 
+接续增量7a86c24e34aa（experiments/m1-torso-coverage-v1/dist）：已将prototype的252面覆盖候选b52d来源原字节归档到assets-source/torso-coverage-risk-v1，新增可携带生成器scripts/m1-assets/build-torso-coverage.py，实际重生成字节一致。body-coverage.js仅复制渲染geometry并重建index/group，完整原几何保留WeakMap，motion后臀标定使用完整accessor；其余当前碰撞输入未删。female精确配置启用，男性/派生无覆盖。9项实际房间+20单元+独立真实skin/morph/双实例释放通过；同85步前腹两肤点消失，裙坐姿硬折仍明显。正常坐起转舞19.38s已录，公开4194仍152。当前唯一临时检查是qa-body-coverage-perimeter.cjs，对完整动作边界midpoint做六角有限射线检查，尚在执行，勿重启重复任务；完成后记录结果/检查失败图。旧qa-front-skirt-contact只枚举可见body，覆盖开启后不能冒充完整body接触。root下一步完成新旧正常速跑片/完整时段抽帧与备份；完整源/运行快照与恢复在assets-source/torso-coverage-runtime-v1，候选源码暂未提交。
+
+本轮现行长目标已按用户在顾问会话批准的修订全文同步至M1-ACTIVE-OBJECTIVE-2026-11-14.md；已通过read_thread核实“可以，把修订后的完整长目标直接发给总工”原用户消息，不把顾问推测当新增批准。三关承接既有六工作包，30秒原片[0,30)/720PTS保留为必需独立交付；旧附件恢复快照不驱动回退。当前正在把新中央躯干覆盖候选做为显式衣下覆盖数据验证，原body/top不删改、完整诊断与碰撞基准须保留；252面仅源静姿候选，不拿它掩盖外露衣边/手腿缺陷。
+
 恢复点补记：13bb运行源6b7fe0b0288ce766f3c784bac9229f5e9935bdc5已推送并独立ls-remote核实；fresh sparse checkout/npm ci/build共64产物逐字节相同，evidence/rebuild-skirt-13bb-6b7fe0b。7e24四源快照另修归档换行（原运行src始终正确），以-text+renormalize保存与manifest一致字节。当前无浏览器/性能任务运行，所有临时服务已关。prototype代理现在只制作原女原top的中央躯干覆盖risk数据：原资产没有mask，不称恢复；按真实衣口/袖领距离、躯干权重、外侧不透明top命中选择候选面，不隐藏裙腿/手/外露皮肤，源码和运行尚未接入，未通过。根接续应先收其数据及原型mesh/index匹配，再小范围完整身体恢复/换装/动作回归；不能以这个候选关闭上衣露肤或服装自然度。用户允许明确衣下身体覆盖、要求base完整，此项沿现M1装备规则，不扩完整平台。
 
 再接续13bb00a78605（experiments/m1-skirt-open-waist-runtime-v1/dist）：已实际运行既有open-waist GLB a5de096...，新ID m1-uniform-skirt-open-waist-v1、682点/680面，经现装备+fit接口加载，原资源保留，原女默认指向此隔离候选，jaw/waist原源不动；没有改controller。源安装器scripts/m1-assets/install-open-waist-skirt.py已实际执行，源/导出仍用现成open-waist-v1，不重做Blender。259同姿root/phase/sit严格0差；top对映射后全部相同，body剩余仅手指approach817/dance284/final5，其他阶段所采body/skirt交叉0（非全CCD）。13bb正常2.4跑+坐起转舞录于evidence/skirt-open-waist-13bb00a78605，未宣称视觉通过。原top/独立top真实38姿包括露肤相位世界差最大1.411e-7m，已有资产fit问题而非导出/runtime丢skin。下一步检查上衣源躯干余量/权重及手接触、保留全裙硬折阻塞，不重启冻结cloth扫参。

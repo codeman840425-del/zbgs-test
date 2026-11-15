@@ -118,3 +118,5 @@ foundation-profiles中的forearmCollision明确URL和文件SHA；加载同时验
 原F/M眼镜在parse并校验完整GLB后，再按精确身体SHA读取固定profile；profile/源附件/POSITION均核身份。两个镜腿各4个横截面只在加载时变形，逐实例clone并原子替换，原镜框/鼻梁/铰链保留。没有新增逐帧求解或更改手、身体控制。
 
 没有精确profile的身体默认明确拒绝并清理；显式glassesFit=legacy只供旧形状诊断，不是兼容降级。当前profile把镜腿支撑目标设为耳外crest，未证明自然佩戴；不得以静态零交叉升级观感。配置来源、版本、生成输入与验证见assets-source/acc01-temple-fit-v1及CAPABILITIES。现本地QA记录以完整presentationBuild固定默认实现，未建设跨版本产品存档迁移；诊断query选择不属于保存合同。
+
+本轮覆盖试验7a86：当前只支持原女原制服上衣的显式中央躯干fit，不等于完整叠穿集合系统。渲染geometry与完整身体接触geometry分开；原坐标、蒙皮、morph与索引保留，base/卸装/销毁恢复原引用。拟扩展碰撞采样必须使用完整身体读取接口，不能把render index中未画的面当作不存在。精确版本/hash、逐face拓扑校验失败即拒绝；派生体和男性不能借用女体mask。动作边界及视觉状态只查CAPABILITIES，不从数据文件存在推定通过。

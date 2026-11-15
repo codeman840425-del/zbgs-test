@@ -2,6 +2,7 @@
 // Differences stay here; both candidates use the same movement controller.
 export const FOUNDATION_PROFILES = {
   female: {
+    bodyCoverage: { url: "/assets/body-coverage-risk-v1/female-top.json", sha256: "800d528d1b05f43e1230571ed57acb443d5ac9c3467775867b0635aca0b97b07" },
     handSurfaceContact: {"url": "/assets/hand-joint-contact-v1/female.json", "sha256": "09688e79fadaca6f58530da7a4cb52c4ad0b3d9b42de4233c6b0a5f682454453"},
     id: "beta-base-female-m1",
     url: "/assets/foundation/base-female-roundtrip.vrm",

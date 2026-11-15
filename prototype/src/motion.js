@@ -1,4 +1,5 @@
 import { createJointHandWorkspace } from "./joint-hand-workspace.mjs";
+import { completeBodyGeometry } from "./body-coverage.js";
 import * as THREE from "three";
 import { createSkinContactWorkspace, createProjectedContactWorkspace, createProjectedInterval, projectedSegmentIntervalPrepared, alphaBarycentricPrepared, alphaImageIsOpaque, opaqueAlphaHitSafe } from "./forearm-contact-workspace.js";
 import { validateForearmProfile } from "./forearm-envelope-projection.js";
@@ -475,10 +476,11 @@ export function createMotion(
         )
       )
         return;
-      const referenced = mesh.geometry.index
-        ? new Set(mesh.geometry.index.array)
+      const contactGeometry = completeBodyGeometry(mesh);
+      const referenced = contactGeometry.index
+        ? new Set(contactGeometry.index.array)
         : Array.from(
-            { length: mesh.geometry.attributes.position.count },
+            { length: contactGeometry.attributes.position.count },
             (_, i) => i,
           );
       mesh.skeleton.update();
