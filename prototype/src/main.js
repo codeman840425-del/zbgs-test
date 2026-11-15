@@ -1203,6 +1203,7 @@ class CharacterScene extends Phaser.Scene {
   setOutfit(n) {
     const selection = [0, 1, 2].includes(Number(n)) ? Number(n) : 0;
     this.actor.setOutfit(selection);
+    this.outfitRevision=(this.outfitRevision||0)+1;
     this.outfit = selection;
     if (this.isPeer) return;
     document
@@ -1717,6 +1718,7 @@ function snapshot() {
     backgroundSuspended: c?.backgroundSuspended,
     mode: c?.mode,
     outfit: c?.outfit,
+    outfitRevision:c?.outfitRevision||0,
     outfitInfo: avatar?.getOutfitInfo(),
     appearance: avatar?.appearance?.getState(),
     facialGeometry: avatar?.facialGeometry?.getState(),

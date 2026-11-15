@@ -40,7 +40,11 @@ export function validateAppearanceRecipe(controller,record){
 export async function applyAppearanceRecipe(controller,record){
  validateAppearanceRecipe(controller,record);
  const actor=controller.actor,before=captureAppearanceRecipe(controller);
- let ownGeometryRevision=null,ownAppearanceRevision=null;
+ // Capture all edit domains before the first await: a new color request can
+ // arrive while geometry is loading, before this restore starts its own color.
+ let ownGeometryRevision=actor.facialGeometry.getState().revision,ownAppearanceRevision=actor.appearance.getState().revision;
+ const initialOutfitRevision=controller.outfitRevision||0;
+ let outfitCommitted=false,ownOutfitRevision=initialOutfitRevision;
  const superseded=()=>controller.actor!==actor||
   (ownGeometryRevision!==null&&actor.facialGeometry.getState().revision!==ownGeometryRevision)||
   (ownAppearanceRevision!==null&&actor.appearance.getState().revision!==ownAppearanceRevision);
@@ -56,8 +60,9 @@ export async function applyAppearanceRecipe(controller,record){
   if(appearance.cancelled||superseded())return{applied:false,cancelled:true};
   if(!appearance.applied)throw Error(appearance.reason||'外观配方未应用');
   if(record.hairAssetSha256&&actor.appearance.getState().replacementSHA256!==record.hairAssetSha256)throw Error('发型资源版本已变化');
-  if(controller.outfit!==before.equipment.index)return{applied:true,notice:'较新的服装选择已保留'};
-  controller.command({type:'outfit',value:record.equipment.index});
+  if((controller.outfitRevision||0)!==initialOutfitRevision)return{applied:true,notice:'较新的服装选择已保留'};
+  try{outfitCommitted=true;controller.command({type:'outfit',value:record.equipment.index});}
+  finally{ownOutfitRevision=controller.outfitRevision||0;}
   return{applied:true};
  }catch(error){
   if(superseded())return{applied:false,cancelled:true};
@@ -65,7 +70,9 @@ export async function applyAppearanceRecipe(controller,record){
   ownAppearanceRevision=actor.appearance.getState().revision;ownGeometryRevision=actor.facialGeometry.getState().revision;
   const restored=await Promise.all([rollbackAppearance,rollbackGeometry]);
   if(superseded()||restored.some(r=>r.cancelled))return{applied:false,cancelled:true};
-  try{controller.command({type:'outfit',value:before.equipment.index});}catch(e){throw Error(`恢复配方失败，服装回退未完成：${e.message}`);}
+  if(outfitCommitted&&(controller.outfitRevision||0)===ownOutfitRevision){
+   try{controller.command({type:'outfit',value:before.equipment.index});}catch(e){throw Error(`恢复配方失败，服装回退未完成：${e.message}`);}
+  }
   if(restored.some(r=>!r.applied))throw Error(`恢复配方失败，回退也未完成：${error.message}`);
   throw Error(`恢复配方失败，先前外观已保留：${error.message}`);
  }
