@@ -1,0 +1,14 @@
+"""Topology and static fold orientation only; no source or physics changes."""
+from pathlib import Path
+R=Path(__file__).resolve().parents[3];src=R/'scripts/m1-assets/simple-skirt/diagnose-two-quad-dynamic.py';exec(compile(src.read_text().split('initialRender=')[0],str(src),'exec'),globals())
+from collections import Counter
+import hashlib
+edges=Counter(tuple(sorted(map(int,e)))for f in faces for e in zip(f,np.roll(f,-1)))
+records=json.loads((S/'hem-return-v1/hem-mapping.json').read_text());offset=counts[0];innerRender=np.array([offset+x['lowerVertex']for x in records]);outerRender=np.array([offset+x['outerVertex']for x in records]);upperRender=np.array([offset+x['upperNeighborVertex']for x in records]);inner=set(mapping[innerRender]);outer=set(mapping[outerRender]);upper=set(mapping[upperRender]);boundary=[list(e)for e,c in edges.items()if c==1 and all(v in inner for v in e)];crossUpper=[list(e)for e in edges if (e[0]in inner and e[1]in upper)or(e[1]in inner and e[0]in upper)];incident=np.flatnonzero(np.any(np.isin(faces,list(inner)),axis=1));outside=set(faces[incident].ravel())-inner-outer
+rows=[]
+for folder in ['native-static-control-v1','native-self025-static-v1']:
+ for number in [1,3,18]:
+  fr=json.loads(gzip.decompress((A/folder/('frame-%02d.json.gz'%number)).read_bytes()));p=np.array(fr['positionsWorld']);b=p[mapping[outerRender[:120]]];u=p[mapping[upperRender[:120]]]-b;u/=np.linalg.norm(u,axis=1)[:,None];v=p[mapping[innerRender[:120]]]-b;length=np.linalg.norm(v,axis=1);proj=np.einsum('ij,ij->i',v,u);angle=np.degrees(np.arccos(np.clip(proj/length,-1,1)))
+  rows.append({'folder':folder,'frame':number,'returnLengthMmMinMedianMax':(np.percentile(length,[0,50,100])*1000).tolist(),'projectionAlongOuterUpMmMinMedianMax':(np.percentile(proj,[0,50,100])*1000).tolist(),'returnVsOuterUpDegreesMinMedianMax':np.percentile(angle,[0,50,100]).tolist(),'point1350':{'projectionMm':float(proj[1350-offset-1109]*1000),'angleDegrees':float(angle[1350-offset-1109])}})
+report={'sourceSha256':hashlib.sha256(raw).hexdigest(),'uniqueInnerVertices':len(inner),'freeInnerBoundaryEdges':len(boundary),'innerToOuterUpperEdges':crossUpper,'innerIncidentUnexpectedVertices':sorted(map(int,outside)),'innerPinnedCount':len(inner&fixed),'nativeSewing':False,'evidence':'Trial creates faces only; no sewing constraint or loose connecting edges. Inner vertices connect only to outer bottom ring, not outer10mm height. All120inner upper-loop segments are open boundary.','rows':rows,'limits':['Unsewn free return orientation is a construction mechanism evidence, not sole attribution of all material/body failures.','Rendering return remains present; this report proposes no hiding or deletion.']}
+(A/'free-hem-structure.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))
