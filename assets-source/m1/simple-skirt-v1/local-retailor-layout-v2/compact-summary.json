@@ -1,0 +1,87 @@
+{
+  "status": "rejected; source frozen; no third layout correction",
+  "parentCheckpoint": "750a2c64f5dcded0c1219bf116212f44e5526e82",
+  "bodySha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+  "stand": {
+    "body": 0,
+    "top": 0,
+    "chair": 0,
+    "self": 0
+  },
+  "seated": {
+    "skirtBodyPairs": 119,
+    "skirtBodyRegion": "all frozen prior hand/arm; not recalculated hand fit",
+    "topLocalBodyPairs": 38,
+    "topLocalBodyRegion": "all frozen prior hand/arm",
+    "skirtTopPairs": 129,
+    "skirtTopNewPanels": 124,
+    "skirtTopNewTransition": 5,
+    "skirtChairPairs": 0,
+    "skirtSelfPairs": 0,
+    "skirtOuterMaxEdgeRatio": 2.0593967,
+    "topLocalMaxEdgeRatio": 1.406
+  },
+  "resolvedWithinStaticSample": [
+    "six return self pairs",
+    "26 actual left-thigh body pairs",
+    "visible radial vest wings"
+  ],
+  "unresolved": [
+    "independent ring correspondence breaks outer longitudinal material length",
+    "new top/skirt layer overlap",
+    "final hand fitting not recomputed",
+    "no continuous motion acceptance",
+    "simple smoother silhouette not approved"
+  ],
+  "gpu": {
+    "gpu-preview": {
+      "build": "58394ce674e4",
+      "views": [
+        "front",
+        "side",
+        "room"
+      ],
+      "matchedCameraProjectionTime": true,
+      "errors": [],
+      "requests": [],
+      "readbackMaxErrorM": {
+        "top": 3.211384838196987e-07,
+        "skirt": 2.2109118533556776e-07
+      },
+      "rawPoseReplay": null,
+      "label": "STATIC rejected layout correction vs frozen prior source, not gameplay acceptance"
+    },
+    "gpu-standing-replayed": {
+      "build": "58394ce674e4",
+      "views": [
+        "front",
+        "side",
+        "room"
+      ],
+      "matchedCameraProjectionTime": true,
+      "errors": [],
+      "requests": [],
+      "readbackMaxErrorM": {
+        "top": 3.4668809581727346e-07,
+        "skirt": 2.3794014691226894e-07
+      },
+      "rawPoseReplay": {
+        "captureSha256": "e494fa798bd954554b430635f43d4aa4417d346aac6391511c08502daebc6d58",
+        "frame": 1,
+        "bones": 83,
+        "privateBones": 6
+      },
+      "label": "STATIC standing exact captured RAW-bone replay, not live animation; seated candidate remains rejected"
+    }
+  },
+  "blenderReadback": {
+    "version": "4.5.9 LTS",
+    "files": 4,
+    "bytesUnchanged": true,
+    "editableShapeKeys": [
+      "Basis",
+      "retailor_seated_v1"
+    ],
+    "nativeReturnModifier": "SOLIDIFY"
+  }
+}
