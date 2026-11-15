@@ -6,12 +6,17 @@ NEW = '7e24e01556ad'
 OLD = '83a7372f41b4'
 out = ROOT / 'evidence' / ('skirt-anchors-' + NEW)
 bundle = ROOT / 'assets-source' / 'skirt-skinned-anchors-v1'
+build = json.loads((ROOT / 'experiments/m1-skirt-skinned-anchors-v2/dist/build-info.json').read_text())
+assert build['shortId'] == NEW
+actual = hashlib.sha256()
+for name in build['inputs']:
+    actual.update(name.encode()); actual.update(b'\0')
+    actual.update((ROOT / 'prototype' / name).read_bytes()); actual.update(b'\0')
+assert actual.hexdigest() == build['sourceDigest'], 'Refuse archiving another working source as this frozen build'
 bundle.mkdir(parents=True, exist_ok=True)
 sources = ['m1-skirt.js', 'm1-equipment.js', 'skirt-fit.js', 'skirt-fit-profiles.json']
 for name in sources:
     shutil.copyfile(ROOT / 'prototype/src' / name, bundle / name)
-build = json.loads((ROOT / 'experiments/m1-skirt-skinned-anchors-v2/dist/build-info.json').read_text())
-assert build['shortId'] == NEW
 (bundle / 'build-info.json').write_text(json.dumps(build, indent=2), encoding='utf-8')
 sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
 record = {'build': NEW, 'baseCommit': 'cc22f62d3e0e219eb14afc142fba10b242003ec9',

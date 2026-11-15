@@ -5,7 +5,7 @@ import * as T from '../prototype/node_modules/three/build/three.module.js';
 import { createM1Skirt } from '../prototype/src/m1-skirt.js';
 import { build } from '../prototype/node_modules/esbuild/lib/main.js';
 const root=path.resolve(import.meta.dirname,'..');
-const out=path.join(root,'evidence/skirt-anchor-source-audit');fs.mkdirSync(out,{recursive:true});
+const out=path.resolve(root,process.env.QA_SKIRT_ANCHOR_OUT||'output/skirt-anchor-source-audit');fs.mkdirSync(out,{recursive:true});
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
 const sourcePath=path.join(root,'prototype/src/m1-skirt.js');
 const sourceSHA=sha(fs.readFileSync(sourcePath));

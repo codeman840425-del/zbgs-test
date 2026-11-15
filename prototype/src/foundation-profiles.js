@@ -11,7 +11,7 @@ export const FOUNDATION_PROFILES = {
     source: "Base_Female / reconstructed Blender source",
     label: "M1A 女性候选",
     pantsLabel: "独立及膝裤",
-    ids: { top: "m1-uniform-top", shoes: "m1-uniform-shoes", skirt: "m1-uniform-skirt", pants: "m1-training-pants" },
+    ids: { top: "m1-uniform-top", shoes: "m1-uniform-shoes", skirt: "m1-uniform-skirt-open-waist-v1", pants: "m1-training-pants" },
     // Measured only for the female generated 6 mm training-pants shell.
     seatLayerThickness: 0.006 / 0.61,
   },

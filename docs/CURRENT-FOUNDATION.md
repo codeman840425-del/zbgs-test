@@ -6,6 +6,10 @@
 
 ## 11-15当前发布与优先问题（本段优先于下方历史流水）
 
+再接续13bb00a78605（experiments/m1-skirt-open-waist-runtime-v1/dist）：已实际运行既有open-waist GLB a5de096...，新ID m1-uniform-skirt-open-waist-v1、682点/680面，经现装备+fit接口加载，原资源保留，原女默认指向此隔离候选，jaw/waist原源不动；没有改controller。源安装器scripts/m1-assets/install-open-waist-skirt.py已实际执行，源/导出仍用现成open-waist-v1，不重做Blender。259同姿root/phase/sit严格0差；top对映射后全部相同，body剩余仅手指approach817/dance284/final5，其他阶段所采body/skirt交叉0（非全CCD）。13bb正常2.4跑+坐起转舞录于evidence/skirt-open-waist-13bb00a78605，未宣称视觉通过。原top/独立top真实38姿包括露肤相位世界差最大1.411e-7m，已有资产fit问题而非导出/runtime丢skin。下一步检查上衣源躯干余量/权重及手接触、保留全裙硬折阻塞，不重启冻结cloth扫参。
+
+性能当前有波动：13bb独占30秒坐P9511.6/CPU11.0；同口径旧83当场复测15.2/14.7，>33ms22帧/>50ms5帧。不能归因新skin比历史83慢；普通PC仍未验。f552矩阵缓存虽保持skin一致但无成本收益，已冻结源和失败数据并撤回，当前仍调用Three.getVertexPosition。7e24源/片已远端核4833081208ab85b36654a6305d5b27803c3d7179，13bb增量待本次集中备份。仅5常驻端口不变，所有QA临时端口随进程关闭；公开152/4194不变。7e24 source快照换行归档将补-text确保哈希恢复。
+
 最新接续：用户追问是否每件素材都要精修、是否考虑平台。已解释普通合规范资产不应修改人物controller，版型/身体差异归fit资源，特殊结构须独立准入。目前不是成熟通用服装平台。发现并实际修复主线m1-skirt固定腰带丢失原skin问题，7e24e01556ad固定于experiments/m1-skirt-skinned-anchors-v2/dist（前332只有skin修复，无fit守卫）。源码快照assets-source/skirt-skinned-anchors-v1，以cc22为基底可重建。182固定点2969真实步skin最大<6e-8m；旧83最大26.04mm；60混合边最高比1.2500026，不把此局部当整裙通过。
 
 同姿前腹黑片来自原外裙face587，不是腰cap，修复后已消失；两肤色点仍来自Body610/657穿Top956/957。原top/独立top无导出缺失/原mask丢失（prototype独立审查分支05663a90796cffae9bdc9484dce8866a8ebf5912已远端核），需后续同pose原内置top对照。7e24三速正常1×及坐起转舞1×已录，完整时长抽帧已检，非连续自然度验收。259姿态fullsurface新增body全部原face0–19内部腰cap，混合/自由面新增0；同目录contact/added-body-classification.json.gz保完整逐事件（解压即原JSON）。接下来复用现成assets-source/m1/offline-corrective/open-waist-v1裙源做独立接入，不重新造源、不声称它修复原黑片；Top/衣摆失败仍保留。

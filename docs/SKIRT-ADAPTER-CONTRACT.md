@@ -1,5 +1,7 @@
 # 新裙样件最小接入约定（只读准备）
 
+11-15实际接线补充：下文描述的是早期隔离新裙方案。当前m1-equipment已用skirt-fit.js按精确garment/body/hash选择参数，不再给任意IDS.skirt静默套用；固定带保留实际source skin，free仍为有界guide。7e24及后续源开腰口13bb是既有原裙修复，不是本文件中尚未通过的全新私有骨样件；最新状态仅以CAPABILITIES为准。
+
 范围仅 `experiments/m1-simple-skirt-worktree/assets-source/m1/simple-skirt-v1` 后续源样件。v1/v2/v3均为冻结失败，v4尚在作者阶段；没有已完成坐姿控制或动态验收。本文不是实施结果，不改人体controller、不建新装备平台、不增加资产。
 
 ## 现有真实接线
