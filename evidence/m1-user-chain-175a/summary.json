@@ -1,0 +1,959 @@
+{
+  "build": "175a487d5ea3",
+  "status": "functional-subsets-collected-background-unverified-visual-pending",
+  "cases": [
+    {
+      "name": "female-skirt",
+      "checks": [
+        {
+          "name": "outfit applied 0",
+          "passed": true
+        },
+        {
+          "name": "outfit applied 1",
+          "passed": true
+        },
+        {
+          "name": "outfit applied 0",
+          "passed": true
+        },
+        {
+          "name": "outfit applied 1",
+          "passed": true
+        },
+        {
+          "name": "walk-first terminal cancelled",
+          "passed": true,
+          "details": {
+            "requestId": "walk-first",
+            "ownerId": "room-primary",
+            "kind": "walk",
+            "payload": {
+              "x": 2,
+              "z": 1.8
+            },
+            "admission": "accepted",
+            "state": "cancelled",
+            "requestedAt": 0.5988000000715256,
+            "startedAt": 0.5988000000715256,
+            "endedAt": 1.3313000000715243,
+            "deadline": 60.59880000007153,
+            "reason": "superseded",
+            "result": null
+          }
+        },
+        {
+          "name": "run-reselect terminal cancelled",
+          "passed": true,
+          "details": {
+            "requestId": "run-reselect",
+            "ownerId": "room-primary",
+            "kind": "walk",
+            "payload": {
+              "x": -2.7,
+              "z": 1.8
+            },
+            "admission": "accepted",
+            "state": "cancelled",
+            "requestedAt": 1.3313000000715243,
+            "startedAt": 1.3313000000715243,
+            "endedAt": 2.157300000071524,
+            "deadline": 61.33130000007152,
+            "reason": "superseded",
+            "result": null
+          }
+        },
+        {
+          "name": "walk-stop terminal completed",
+          "passed": true,
+          "details": {
+            "requestId": "walk-stop",
+            "ownerId": "room-primary",
+            "kind": "walk",
+            "payload": {
+              "x": -0.5,
+              "z": 1.8
+            },
+            "admission": "accepted",
+            "state": "completed",
+            "requestedAt": 2.157300000071524,
+            "startedAt": 2.157300000071524,
+            "endedAt": 4.6923000000715245,
+            "deadline": 62.15730000007152,
+            "reason": null,
+            "result": {
+              "mode": "idle",
+              "position": [
+                -0.4999295956410889,
+                0,
+                1.7833494971590087
+              ],
+              "seatToken": null
+            }
+          }
+        },
+        {
+          "name": "equip mic",
+          "passed": true
+        },
+        {
+          "name": "equip glasses",
+          "passed": true
+        },
+        {
+          "name": "sit-live terminal completed",
+          "passed": true,
+          "details": {
+            "requestId": "sit-live",
+            "ownerId": "room-primary",
+            "kind": "sit",
+            "payload": {},
+            "admission": "accepted",
+            "state": "completed",
+            "requestedAt": 4.856000000119211,
+            "startedAt": 4.856000000119211,
+            "endedAt": 11.78420000004796,
+            "deadline": 64.85600000011921,
+            "reason": null,
+            "result": {
+              "mode": "sit",
+              "position": [
+                2.6497477501021143,
+                0,
+                1.2881636418637479
+              ],
+              "seatToken": "seat-lease:1"
+            }
+          }
+        },
+        {
+          "name": "pause holds simulation",
+          "passed": true
+        },
+        {
+          "name": "held-greeting-rejected terminal failed",
+          "passed": true,
+          "details": {
+            "requestId": "held-greeting-rejected",
+            "ownerId": "room-primary",
+            "kind": "greeting",
+            "payload": {},
+            "admission": "accepted",
+            "state": "failed",
+            "requestedAt": 13.076600000024172,
+            "startedAt": 13.076600000024172,
+            "endedAt": 13.076600000024172,
+            "deadline": 73.07660000002417,
+            "reason": "greeting-requires-stable-standing-or-seated-empty-hands",
+            "result": null
+          }
+        },
+        {
+          "name": "remove mic",
+          "passed": true
+        },
+        {
+          "name": "seated-greeting terminal completed",
+          "passed": true,
+          "details": {
+            "requestId": "seated-greeting",
+            "ownerId": "room-primary",
+            "kind": "greeting",
+            "payload": {},
+            "admission": "accepted",
+            "state": "completed",
+            "requestedAt": 13.762200000048047,
+            "startedAt": 13.762200000048047,
+            "endedAt": 16.583200000048123,
+            "deadline": 73.76220000004804,
+            "reason": null,
+            "result": {
+              "mode": "sit",
+              "position": [
+                2.6497477501021143,
+                0,
+                1.2881636418637479
+              ],
+              "seatToken": "seat-lease:1"
+            }
+          }
+        },
+        {
+          "name": "stand terminal completed",
+          "passed": true,
+          "details": {
+            "requestId": "stand",
+            "ownerId": "room-primary",
+            "kind": "stand",
+            "payload": {},
+            "admission": "accepted",
+            "state": "completed",
+            "requestedAt": 16.66970000004812,
+            "startedAt": 16.66970000004812,
+            "endedAt": 17.663100000024276,
+            "deadline": 76.66970000004812,
+            "reason": null,
+            "result": {
+              "mode": "idle",
+              "position": [
+                2.6497477501021143,
+                0,
+                1.2881636418637479
+              ],
+              "seatToken": "seat-lease:1"
+            }
+          }
+        },
+        {
+          "name": "dance-space terminal completed",
+          "passed": true,
+          "details": {
+            "requestId": "dance-space",
+            "ownerId": "room-primary",
+            "kind": "walk",
+            "payload": {
+              "x": -0.5,
+              "z": 1.8
+            },
+            "admission": "accepted",
+            "state": "completed",
+            "requestedAt": 17.675200000048118,
+            "startedAt": 17.675200000048118,
+            "endedAt": 22.99570000004808,
+            "deadline": 77.67520000004812,
+            "reason": null,
+            "result": {
+              "mode": "idle",
+              "position": [
+                -0.48373350022098666,
+                0,
+                1.7973566816560964
+              ],
+              "seatToken": null
+            }
+          }
+        },
+        {
+          "name": "reference-loop terminal cancelled",
+          "passed": true,
+          "details": {
+            "requestId": "reference-loop",
+            "ownerId": "room-primary",
+            "kind": "dance",
+            "payload": {
+              "danceId": "ual1-dance-reference"
+            },
+            "admission": "accepted",
+            "state": "cancelled",
+            "requestedAt": 23.00789999997655,
+            "startedAt": 23.00789999997655,
+            "endedAt": 26.169000000000377,
+            "deadline": 83.00789999997656,
+            "reason": "qa-full-loop-completed",
+            "result": null
+          }
+        },
+        {
+          "name": "technical-once terminal completed",
+          "passed": true,
+          "details": {
+            "requestId": "technical-once",
+            "ownerId": "room-primary",
+            "kind": "dance",
+            "payload": {
+              "danceId": "dance-technical-once-v1"
+            },
+            "admission": "accepted",
+            "state": "completed",
+            "requestedAt": 27.0501000000242,
+            "startedAt": 27.0501000000242,
+            "endedAt": 35.123200000048286,
+            "deadline": 87.0501000000242,
+            "reason": null,
+            "result": {
+              "mode": "idle",
+              "position": [
+                -0.48373350022098666,
+                0,
+                1.7973566816560964
+              ],
+              "seatToken": null
+            }
+          }
+        },
+        {
+          "name": "technical task includes full7.2s",
+          "passed": true,
+          "details": {
+            "duration": 8.073100000024084
+          }
+        },
+        {
+          "name": "technical-interrupted terminal cancelled",
+          "passed": true,
+          "details": {
+            "requestId": "technical-interrupted",
+            "ownerId": "room-primary",
+            "kind": "dance",
+            "payload": {
+              "danceId": "dance-technical-once-v1"
+            },
+            "admission": "accepted",
+            "state": "cancelled",
+            "requestedAt": 35.1960000000006,
+            "startedAt": 35.1960000000006,
+            "endedAt": 37.210300000072294,
+            "deadline": 95.1960000000006,
+            "reason": "superseded",
+            "result": null
+          }
+        },
+        {
+          "name": "walk-after-dance terminal completed",
+          "passed": true,
+          "details": {
+            "requestId": "walk-after-dance",
+            "ownerId": "room-primary",
+            "kind": "walk",
+            "payload": {
+              "x": 0.5,
+              "z": 1.8
+            },
+            "admission": "accepted",
+            "state": "completed",
+            "requestedAt": 37.210300000072294,
+            "startedAt": 37.210300000072294,
+            "endedAt": 41.15960000002497,
+            "deadline": 97.2103000000723,
+            "reason": null,
+            "result": {
+              "mode": "idle",
+              "position": [
+                0.4820317435996055,
+                0,
+                1.79995171881232
+              ],
+              "seatToken": null
+            }
+          }
+        },
+        {
+          "name": "accessories unloaded",
+          "passed": true,
+          "details": {
+            "mic": {
+              "requested": false,
+              "status": "off",
+              "loaded": false,
+              "error": null,
+              "sha256": null
+            },
+            "glasses": {
+              "requested": false,
+              "status": "off",
+              "loaded": false,
+              "error": null,
+              "sha256": null
+            }
+          }
+        },
+        {
+          "name": "final idle",
+          "passed": true
+        },
+        {
+          "name": "one terminal per request",
+          "passed": true,
+          "details": {
+            "walk-first": 1,
+            "run-reselect": 1,
+            "walk-stop": 1,
+            "sit-live": 1,
+            "held-greeting-rejected": 1,
+            "seated-greeting": 1,
+            "stand": 1,
+            "dance-space": 1,
+            "reference-loop": 1,
+            "technical-once": 1,
+            "technical-interrupted": 1,
+            "walk-after-dance": 1
+          }
+        },
+        {
+          "name": "no pageerror",
+          "passed": true,
+          "details": []
+        }
+      ],
+      "errors": [],
+      "passed": true,
+      "frameCount": 6828,
+      "durationSeconds": 41.727,
+      "cameraStart": {
+        "mode": "room",
+        "position": [
+          5.8,
+          4.5,
+          7.8
+        ],
+        "target": [
+          0,
+          0.65,
+          0
+        ]
+      },
+      "cameraEnd": {
+        "mode": "room",
+        "position": [
+          1.6522199540059805,
+          2.9043461983476537,
+          8.04373073471211
+        ],
+        "target": [
+          0,
+          0.65,
+          0
+        ]
+      },
+      "video": "output\\playwright\\m1\\175a487d5ea3\\final-user-02\\user-chain\\female-skirt\\continuous-chain.webm",
+      "visual": "4 static key images viewed across both cases; continuous full movies still pending"
+    },
+    {
+      "name": "male-shorts",
+      "checks": [
+        {
+          "name": "outfit applied 0",
+          "passed": true
+        },
+        {
+          "name": "outfit applied 2",
+          "passed": true
+        },
+        {
+          "name": "outfit applied 0",
+          "passed": true
+        },
+        {
+          "name": "outfit applied 2",
+          "passed": true
+        },
+        {
+          "name": "walk-first terminal cancelled",
+          "passed": true,
+          "details": {
+            "requestId": "walk-first",
+            "ownerId": "room-primary",
+            "kind": "walk",
+            "payload": {
+              "x": 2,
+              "z": 1.8
+            },
+            "admission": "accepted",
+            "state": "cancelled",
+            "requestedAt": 0.3083999999761582,
+            "startedAt": 0.3083999999761582,
+            "endedAt": 1.0298999999761576,
+            "deadline": 60.30839999997616,
+            "reason": "superseded",
+            "result": null
+          }
+        },
+        {
+          "name": "run-reselect terminal cancelled",
+          "passed": true,
+          "details": {
+            "requestId": "run-reselect",
+            "ownerId": "room-primary",
+            "kind": "walk",
+            "payload": {
+              "x": -2.7,
+              "z": 1.8
+            },
+            "admission": "accepted",
+            "state": "cancelled",
+            "requestedAt": 1.0298999999761576,
+            "startedAt": 1.0298999999761576,
+            "endedAt": 1.8489999998807902,
+            "deadline": 61.02989999997616,
+            "reason": "superseded",
+            "result": null
+          }
+        },
+        {
+          "name": "walk-stop terminal completed",
+          "passed": true,
+          "details": {
+            "requestId": "walk-stop",
+            "ownerId": "room-primary",
+            "kind": "walk",
+            "payload": {
+              "x": -0.5,
+              "z": 1.8
+            },
+            "admission": "accepted",
+            "state": "completed",
+            "requestedAt": 1.8489999998807902,
+            "startedAt": 1.8489999998807902,
+            "endedAt": 4.384699999928465,
+            "deadline": 61.84899999988079,
+            "reason": null,
+            "result": {
+              "mode": "idle",
+              "position": [
+                -0.49995807803171977,
+                0,
+                1.783190702213825
+              ],
+              "seatToken": null
+            }
+          }
+        },
+        {
+          "name": "equip mic",
+          "passed": true
+        },
+        {
+          "name": "equip glasses",
+          "passed": true
+        },
+        {
+          "name": "sit-live terminal completed",
+          "passed": true,
+          "details": {
+            "requestId": "sit-live",
+            "ownerId": "room-primary",
+            "kind": "sit",
+            "payload": {},
+            "admission": "accepted",
+            "state": "completed",
+            "requestedAt": 4.4394999998807805,
+            "startedAt": 4.4394999998807805,
+            "endedAt": 11.361499999881007,
+            "deadline": 64.43949999988078,
+            "reason": null,
+            "result": {
+              "mode": "sit",
+              "position": [
+                2.6496768367148427,
+                0,
+                1.311984707694704
+              ],
+              "seatToken": "seat-lease:1"
+            }
+          }
+        },
+        {
+          "name": "pause holds simulation",
+          "passed": true
+        },
+        {
+          "name": "held-greeting-rejected terminal failed",
+          "passed": true,
+          "details": {
+            "requestId": "held-greeting-rejected",
+            "ownerId": "room-primary",
+            "kind": "greeting",
+            "payload": {},
+            "admission": "accepted",
+            "state": "failed",
+            "requestedAt": 12.63929999995259,
+            "startedAt": 12.63929999995259,
+            "endedAt": 12.63929999995259,
+            "deadline": 72.63929999995258,
+            "reason": "greeting-requires-stable-standing-or-seated-empty-hands",
+            "result": null
+          }
+        },
+        {
+          "name": "remove mic",
+          "passed": true
+        },
+        {
+          "name": "seated-greeting terminal completed",
+          "passed": true,
+          "details": {
+            "requestId": "seated-greeting",
+            "ownerId": "room-primary",
+            "kind": "greeting",
+            "payload": {},
+            "admission": "accepted",
+            "state": "completed",
+            "requestedAt": 13.313099999904933,
+            "startedAt": 13.313099999904933,
+            "endedAt": 16.12269999992887,
+            "deadline": 73.31309999990494,
+            "reason": null,
+            "result": {
+              "mode": "sit",
+              "position": [
+                2.6496768367148427,
+                0,
+                1.311984707694704
+              ],
+              "seatToken": "seat-lease:1"
+            }
+          }
+        },
+        {
+          "name": "stand terminal completed",
+          "passed": true,
+          "details": {
+            "requestId": "stand",
+            "ownerId": "room-primary",
+            "kind": "stand",
+            "payload": {},
+            "admission": "accepted",
+            "state": "completed",
+            "requestedAt": 16.219399999857345,
+            "startedAt": 16.219399999857345,
+            "endedAt": 17.211399999857353,
+            "deadline": 76.21939999985734,
+            "reason": null,
+            "result": {
+              "mode": "idle",
+              "position": [
+                2.6496768367148427,
+                0,
+                1.311984707694704
+              ],
+              "seatToken": "seat-lease:1"
+            }
+          }
+        },
+        {
+          "name": "dance-space terminal completed",
+          "passed": true,
+          "details": {
+            "requestId": "dance-space",
+            "ownerId": "room-primary",
+            "kind": "walk",
+            "payload": {
+              "x": -0.5,
+              "z": 1.8
+            },
+            "admission": "accepted",
+            "state": "completed",
+            "requestedAt": 17.216999999881196,
+            "startedAt": 17.216999999881196,
+            "endedAt": 22.52939999985729,
+            "deadline": 77.2169999998812,
+            "reason": null,
+            "result": {
+              "mode": "idle",
+              "position": [
+                -0.4833113296656971,
+                0,
+                1.7974142342997081
+              ],
+              "seatToken": null
+            }
+          }
+        },
+        {
+          "name": "reference-loop terminal cancelled",
+          "passed": true,
+          "details": {
+            "requestId": "reference-loop",
+            "ownerId": "room-primary",
+            "kind": "dance",
+            "payload": {
+              "danceId": "ual1-dance-reference"
+            },
+            "admission": "accepted",
+            "state": "cancelled",
+            "requestedAt": 22.535499999881132,
+            "startedAt": 22.535499999881132,
+            "endedAt": 25.70239999985729,
+            "deadline": 82.53549999988113,
+            "reason": "qa-full-loop-completed",
+            "result": null
+          }
+        },
+        {
+          "name": "technical-once terminal completed",
+          "passed": true,
+          "details": {
+            "requestId": "technical-once",
+            "ownerId": "room-primary",
+            "kind": "dance",
+            "payload": {
+              "danceId": "dance-technical-once-v1"
+            },
+            "admission": "accepted",
+            "state": "completed",
+            "requestedAt": 26.575999999881113,
+            "startedAt": 26.575999999881113,
+            "endedAt": 34.64469999980978,
+            "deadline": 86.5759999998811,
+            "reason": null,
+            "result": {
+              "mode": "idle",
+              "position": [
+                -0.4833113296656971,
+                0,
+                1.7974142342997081
+              ],
+              "seatToken": null
+            }
+          }
+        },
+        {
+          "name": "technical task includes full7.2s",
+          "passed": true,
+          "details": {
+            "duration": 8.068699999928668
+          }
+        },
+        {
+          "name": "technical-interrupted terminal cancelled",
+          "passed": true,
+          "details": {
+            "requestId": "technical-interrupted",
+            "ownerId": "room-primary",
+            "kind": "dance",
+            "payload": {
+              "danceId": "dance-technical-once-v1"
+            },
+            "admission": "accepted",
+            "state": "cancelled",
+            "requestedAt": 34.70019999980978,
+            "startedAt": 34.70019999980978,
+            "endedAt": 36.70749999988148,
+            "deadline": 94.70019999980978,
+            "reason": "superseded",
+            "result": null
+          }
+        },
+        {
+          "name": "walk-after-dance terminal completed",
+          "passed": true,
+          "details": {
+            "requestId": "walk-after-dance",
+            "ownerId": "room-primary",
+            "kind": "walk",
+            "payload": {
+              "x": 0.5,
+              "z": 1.8
+            },
+            "admission": "accepted",
+            "state": "completed",
+            "requestedAt": 36.70749999988148,
+            "startedAt": 36.70749999988148,
+            "endedAt": 40.65679999983415,
+            "deadline": 96.70749999988148,
+            "reason": null,
+            "result": {
+              "mode": "idle",
+              "position": [
+                0.4821466006368352,
+                0,
+                1.7999530517890787
+              ],
+              "seatToken": null
+            }
+          }
+        },
+        {
+          "name": "accessories unloaded",
+          "passed": true,
+          "details": {
+            "mic": {
+              "requested": false,
+              "status": "off",
+              "loaded": false,
+              "error": null,
+              "sha256": null
+            },
+            "glasses": {
+              "requested": false,
+              "status": "off",
+              "loaded": false,
+              "error": null,
+              "sha256": null
+            }
+          }
+        },
+        {
+          "name": "final idle",
+          "passed": true
+        },
+        {
+          "name": "one terminal per request",
+          "passed": true,
+          "details": {
+            "walk-first": 1,
+            "run-reselect": 1,
+            "walk-stop": 1,
+            "sit-live": 1,
+            "held-greeting-rejected": 1,
+            "seated-greeting": 1,
+            "stand": 1,
+            "dance-space": 1,
+            "reference-loop": 1,
+            "technical-once": 1,
+            "technical-interrupted": 1,
+            "walk-after-dance": 1
+          }
+        },
+        {
+          "name": "no pageerror",
+          "passed": true,
+          "details": []
+        }
+      ],
+      "errors": [],
+      "passed": true,
+      "frameCount": 6782,
+      "durationSeconds": 41.2235,
+      "cameraStart": {
+        "mode": "room",
+        "position": [
+          5.8,
+          4.5,
+          7.8
+        ],
+        "target": [
+          0,
+          0.65,
+          0
+        ]
+      },
+      "cameraEnd": {
+        "mode": "room",
+        "position": [
+          5.580515575691263,
+          4.354307752829546,
+          7.504831291446873
+        ],
+        "target": [
+          0,
+          0.65,
+          0
+        ]
+      },
+      "video": "output\\playwright\\m1\\175a487d5ea3\\final-user-02\\user-chain\\male-shorts\\continuous-chain.webm",
+      "visual": "4 static key images viewed across both cases; continuous full movies still pending"
+    }
+  ],
+  "otherReports": [
+    {
+      "path": "output\\playwright\\m1\\175a487d5ea3\\final-user-02\\avatar-record-v2-1794702454990\\report.json",
+      "sha256": "0cd8906fc648404dd95fabcfd1c59eaf40d27bc5625d90fe99cfb8ddb46eea4e",
+      "passed": true,
+      "checks": 0,
+      "records": 0,
+      "cases": 2,
+      "errors": []
+    },
+    {
+      "path": "output\\playwright\\m1\\175a487d5ea3\\final-user-02\\lifecycle-fixed\\report.json",
+      "sha256": "4d177edf426edc0fbb3ac970dd5caea20deb828d447fafdb2a7435ee34f7b7f4",
+      "passed": null,
+      "checks": 1,
+      "records": 0,
+      "cases": 0,
+      "errors": []
+    },
+    {
+      "path": "output\\playwright\\m1\\175a487d5ea3\\final-user-02\\peer-ready-1794702446517\\report.json",
+      "sha256": "d5a9bdddda1a3c939c81d3229ead838c244f972613e87aad468c1c503b6df131",
+      "passed": true,
+      "checks": 0,
+      "records": 6,
+      "cases": 0,
+      "errors": []
+    },
+    {
+      "path": "output\\playwright\\m1\\175a487d5ea3\\final-user-02\\room-tasks-female-1794702436828\\report.json",
+      "sha256": "60cdc37f174fc651638e073ed86de04a5f625aea32ac765a6fa7cf980a13038e",
+      "passed": null,
+      "checks": 19,
+      "records": 1,
+      "cases": 0,
+      "errors": []
+    },
+    {
+      "path": "output\\playwright\\m1\\175a487d5ea3\\final-user-02\\room-tasks-male-1794702442653\\report.json",
+      "sha256": "030926b20585d664c4d624903ef44897730083c61a8222128710e631ded898fa",
+      "passed": null,
+      "checks": 19,
+      "records": 1,
+      "cases": 0,
+      "errors": []
+    }
+  ],
+  "lifecycle": {
+    "path": "output\\playwright\\m1\\175a487d5ea3\\final-user-03\\lifecycle-fixed\\report.json",
+    "checks": [
+      {
+        "name": "actual tab became hidden",
+        "passed": null,
+        "status": "unverified-environment-did-not-hide",
+        "details": {
+          "start": "visible",
+          "end": "visible"
+        }
+      },
+      {
+        "name": "explicit pause holds",
+        "passed": true
+      },
+      {
+        "name": "resize retains valid canvas",
+        "passed": true
+      },
+      {
+        "name": "resize retains valid canvas",
+        "passed": true
+      },
+      {
+        "name": "peer attached 0",
+        "passed": true
+      },
+      {
+        "name": "peer removed 0",
+        "passed": true
+      },
+      {
+        "name": "peer attached 1",
+        "passed": true
+      },
+      {
+        "name": "peer removed 1",
+        "passed": true
+      },
+      {
+        "name": "peer attached 2",
+        "passed": true
+      },
+      {
+        "name": "peer removed 2",
+        "passed": true
+      },
+      {
+        "name": "continuous simulation progresses",
+        "passed": true
+      },
+      {
+        "name": "root finite",
+        "passed": true
+      },
+      {
+        "name": "no pageerror",
+        "passed": true,
+        "details": []
+      }
+    ],
+    "failure": "Error: Actual background remains unverified; independent pause/resize/reuse/smoke checks were completed without synthetic visibility",
+    "visibility": [],
+    "loadWallMs": 1817,
+    "initialMemory": {
+      "geometries": 88,
+      "textures": 44
+    },
+    "finalMemory": {
+      "geometries": 89,
+      "textures": 45
+    }
+  }
+}

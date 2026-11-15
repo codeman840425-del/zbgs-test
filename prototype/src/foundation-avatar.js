@@ -155,6 +155,8 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     config,
     livePresentation,
     getAssetProfile: () => profile,
+    setMaterialRecipe: (id, recipeId) => equipment.setMaterialRecipe(id, recipeId),
+    getMaterialRecipeState: (id) => equipment.getMaterialRecipeState(id),
     setOutfit: (n) => {
       equipment.setOutfit(n);
       outfit = equipment.getInfo().outfit;

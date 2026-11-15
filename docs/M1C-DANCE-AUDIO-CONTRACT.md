@@ -23,3 +23,5 @@
 QA 注入仅 observer 函数，不替换产品时间源或骨轨。所有样本没有音轨 transport 输入，故 `transportObserved=false`、`driftSeconds=null`；没有把映射自比等同于音频同步。此固定检查通过不自动适用于后续构建。复跑显式设置 `QA_BUILD` 并用 `run-fixed-check.cjs` 指向对应固定目录；该临时服务器随检查关闭，不修改冻结构建。
 
 后续固定 `0df453d35d2c` 已另行实际复验同一合同，92 条样本通过；暂停前后 actual danceClock 均为 1.3019999999999994 秒，.25x 恢复后为 1.5277499999999995 秒，页面异常 0。原始路径 `output/playwright/m1/0df453d35d2c/dance-clock-1794696683112/report.json`，紧凑证据 `evidence/greeting-0df453d35d2c/dance-clock-report.json.gz`。仍无发声、真实 transport 或设备延迟测量，证据不改标为后续构建。
+
+随后另做了**隔离 QA 播放适配**，未修改此映射合同或产品 main/motion。固定 `efdf558930a4` 下实际 WebAudio 图有非零原创节拍输出；初次启动约 123 ms 的时钟落后经 QA 启动门缩至本次最大估计 13.3 ms，失败和修后均保留。详见 `docs/M1C-DANCE-AUDIO-PLAYBACK-QA.md`。这是后续独立证据，不把上面的纯 observer 历史改称发声通过；产品音乐播放器、扬声器听觉同步、完整慢速节拍体验仍未据此完成。

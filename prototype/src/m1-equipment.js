@@ -74,6 +74,8 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
       outfit = selection.index;
       apply();
     },
+    setMaterialRecipe(id, recipeId) { return adapter.setMaterialRecipe(id, recipeId); },
+    getMaterialRecipeState(id) { return adapter.getMaterialRecipeState(id); },
     setDebugBody(value) {
       debugBody = Boolean(value);
       apply();

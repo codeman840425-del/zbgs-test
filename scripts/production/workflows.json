@@ -1,0 +1,587 @@
+{
+  "schema": "zbgs-production-command-index-v1",
+  "authority": "Command index only. docs/CAPABILITIES.md remains the sole current capability list. No acceptance status is maintained here.",
+  "execution": "list/show/validate/dry-run only; never executes commands",
+  "workflows": [
+    {
+      "id": "male-shorts",
+      "title": "M1B independent knee-exposing shorts",
+      "kind": "shorts",
+      "sources": [
+        "assets-source/m1b/shorts/spec.json",
+        "assets-source/m1b/shorts/m1b-uniform-shorts-v1.blend",
+        "assets-source/m1b/spec.json"
+      ],
+      "identity": {
+        "manifest": "prototype/public/assets/m1b/equipment.json",
+        "itemIds": [
+          "m1b-uniform-shorts-v1"
+        ],
+        "spec": "assets-source/m1b/shorts/spec.json"
+      },
+      "requirements": [
+        "scripts/m1b-assets/requirements-shorts.txt",
+        "experiments/tools/blender-4.5.9-windows-x64/blender.exe"
+      ],
+      "stages": {
+        "source": [
+          {
+            "argv": [
+              "python",
+              "scripts/production/flow.py",
+              "show",
+              "male-shorts"
+            ],
+            "writes": [],
+            "note": "Read source declarations and stage boundaries only"
+          }
+        ],
+        "export": [
+          {
+            "argv": [
+              "experiments/tools/blender-4.5.9-windows-x64/blender.exe",
+              "--background",
+              "--factory-startup",
+              "--python-exit-code",
+              "1",
+              "--python",
+              "scripts/m1b-assets/save-shorts-editable.py",
+              "--",
+              "--reuse"
+            ],
+            "writes": [
+              "output/m1b-shorts/",
+              "assets-source/m1b/shorts/editable-report.json"
+            ],
+            "note": "Reopens existing edited blend twice; does NOT rebuild mesh"
+          },
+          {
+            "argv": [
+              "python",
+              "scripts/m1b-assets/repack-shorts-editable.py"
+            ],
+            "writes": [
+              "prototype/public/assets/m1b/m1b-uniform-shorts-v1.glb",
+              "prototype/public/assets/m1b/equipment.json",
+              "assets-source/m1b/shorts/repack-report.json"
+            ],
+            "note": ""
+          }
+        ],
+        "check": [
+          {
+            "argv": [
+              "python",
+              "scripts/m1b-assets/audit.py"
+            ],
+            "writes": [
+              "assets-source/m1b/audit-report.json",
+              "assets-source/m1b/profile-measurements.json"
+            ],
+            "note": ""
+          },
+          {
+            "argv": [
+              "python",
+              "scripts/m1b-assets/audit-shorts.py"
+            ],
+            "writes": [
+              "assets-source/m1b/shorts/geometry-audit.json"
+            ],
+            "note": ""
+          }
+        ],
+        "readback": [
+          {
+            "argv": [
+              "python",
+              "scripts/production/flow.py",
+              "validate",
+              "male-shorts"
+            ],
+            "writes": [],
+            "note": "Read hashes, GLB contents and current bindings; no Blender execution or visual acceptance"
+          }
+        ]
+      },
+      "limits": [
+        "Exact original male body only; no inherited long-trouser visual acceptance",
+        "Full procedural rebuild uses build-shorts.py then save-shorts-editable.py WITHOUT --reuse; that overwrites manual blend edits",
+        "Original build.py recreates the three original items and its manifest; run shorts pipeline afterward if used",
+        "Only documented geometry/UV/weights edit export is supported; not arbitrary material authoring"
+      ],
+      "recovery": "Use an isolated worktree/checkpoint before any displayed write command. On failure retain candidate output/log; do not replace published manifest or relax hash/bind checks. Restore only owned generated outputs from checkpoint, preserve manual edits, then rerun matching exporter and readback.",
+      "sourceRebuild": [
+        {
+          "argv": [
+            "python",
+            "scripts/m1b-assets/build-shorts.py"
+          ],
+          "writes": [
+            "prototype/public/assets/m1b/",
+            "assets-source/m1b/shorts/build-report.json"
+          ],
+          "note": "Explicit procedural restart, not preservation of edited blend"
+        },
+        {
+          "argv": [
+            "experiments/tools/blender-4.5.9-windows-x64/blender.exe",
+            "--background",
+            "--factory-startup",
+            "--python-exit-code",
+            "1",
+            "--python",
+            "scripts/m1b-assets/save-shorts-editable.py"
+          ],
+          "writes": [
+            "assets-source/m1b/shorts/",
+            "output/m1b-shorts/"
+          ],
+          "note": "Overwrites editable blend from regenerated GLB; follow with repack"
+        }
+      ]
+    },
+    {
+      "id": "accessories",
+      "title": "Original microphone and glasses (shared batch exporter)",
+      "kind": "accessories",
+      "sources": [
+        "assets-source/m1c-accessories/parameters.json",
+        "assets-source/m1c-accessories/studio-microphone-v1.blend",
+        "assets-source/m1c-accessories/studio-glasses-v1.blend",
+        "assets-source/m1c-accessories/LICENSE.txt"
+      ],
+      "identity": {
+        "manifest": "prototype/public/assets/m1c/accessories.json",
+        "itemIds": [
+          "studio-microphone-v1",
+          "studio-glasses-v1"
+        ],
+        "grips": "prototype/public/assets/m1c/grips/manifest.json"
+      },
+      "requirements": [
+        "experiments/tools/blender-4.5.9-windows-x64/blender.exe"
+      ],
+      "stages": {
+        "source": [
+          {
+            "argv": [
+              "python",
+              "scripts/production/flow.py",
+              "show",
+              "accessories"
+            ],
+            "writes": [],
+            "note": "Read source declarations and stage boundaries only"
+          }
+        ],
+        "export": [
+          {
+            "argv": [
+              "experiments/tools/blender-4.5.9-windows-x64/blender.exe",
+              "--background",
+              "--factory-startup",
+              "--python-exit-code",
+              "1",
+              "--python",
+              "scripts/m1c-assets/build-accessories.py",
+              "--",
+              "--output",
+              "output/production/accessories",
+              "--no-preview"
+            ],
+            "writes": [
+              "output/production/accessories/"
+            ],
+            "note": "Rebuilds both from parameters into candidate directory; does not rewrite saved source blend/public files"
+          }
+        ],
+        "check": [
+          {
+            "argv": [
+              "python",
+              "scripts/m1c-assets/audit-accessories.py",
+              "--compare-dir",
+              "output/production/accessories"
+            ],
+            "writes": [
+              "assets-source/m1c-accessories/audit-report.json"
+            ],
+            "note": "Checks current published resource plus candidate SHA equality; intentionally edited new version will differ and needs a new reviewed manifest"
+          }
+        ],
+        "readback": [
+          {
+            "argv": [
+              "python",
+              "scripts/production/flow.py",
+              "validate",
+              "accessories"
+            ],
+            "writes": [],
+            "note": "Read hashes, GLB contents and current bindings; no Blender execution or visual acceptance"
+          }
+        ]
+      },
+      "limits": [
+        "No existing exporter that reopens arbitrary hand-edited accessory blend; parameter-driven source is the reproducible route",
+        "Default exporter without --output replaces both source blends and public accessories manifest",
+        "Microphone grip JSON fit/version is separate from GLB identity; changing handle/socket requires re-fitting, not old acceptance inheritance",
+        "Source manifest bodyFit null is not current runtime fit approval"
+      ],
+      "recovery": "Use an isolated worktree/checkpoint before any displayed write command. On failure retain candidate output/log; do not replace published manifest or relax hash/bind checks. Restore only owned generated outputs from checkpoint, preserve manual edits, then rerun matching exporter and readback."
+    },
+    {
+      "id": "technical-dance",
+      "title": "Original 7.2 second technical choreography",
+      "kind": "dance",
+      "sources": [
+        "prototype/public/assets/motion/m1c/dance-technical-v1.config.json",
+        "prototype/public/assets/motion/UAL1_Standard.glb",
+        "scripts/qa-m1c-build-dance.py",
+        "scripts/qa-m1c-glb-pack.py",
+        "scripts/qa-m1c-source.py"
+      ],
+      "identity": {
+        "manifest": "prototype/public/assets/motion/m1c/dance-imports.json",
+        "itemIds": [
+          "dance-technical-once-v1"
+        ],
+        "config": "prototype/public/assets/motion/m1c/dance-technical-v1.config.json"
+      },
+      "requirements": [
+        "scripts/qa-m1c-requirements.txt"
+      ],
+      "stages": {
+        "source": [
+          {
+            "argv": [
+              "python",
+              "scripts/production/flow.py",
+              "show",
+              "technical-dance"
+            ],
+            "writes": [],
+            "note": "Read source declarations and stage boundaries only"
+          }
+        ],
+        "export": [
+          {
+            "argv": [
+              "python",
+              "scripts/qa-m1c-build-dance.py",
+              "--config",
+              "prototype/public/assets/motion/m1c/dance-technical-v1.config.json",
+              "--output",
+              "output/production/technical-dance"
+            ],
+            "writes": [
+              "output/production/technical-dance/"
+            ],
+            "note": "Also generates reference Dance_Loop and import manifest; checks actual source soles at 240Hz before success"
+          }
+        ],
+        "check": [
+          {
+            "argv": [
+              "python",
+              "scripts/production/flow.py",
+              "validate",
+              "technical-dance",
+              "--candidate-dir",
+              "output/production/technical-dance"
+            ],
+            "writes": [],
+            "note": "Candidate config/source hash + output SHA + declared clip/time channels; source-qa numeric booleans must pass"
+          }
+        ],
+        "readback": [
+          {
+            "argv": [
+              "python",
+              "scripts/production/flow.py",
+              "validate",
+              "technical-dance"
+            ],
+            "writes": [],
+            "note": "Read hashes, GLB contents and current bindings; no Blender execution or visual acceptance"
+          }
+        ]
+      },
+      "limits": [
+        "Not mocap or polished dance; current public JSON is canonical editable source, no claimed .blend source",
+        "No root/path double displacement; props forbidden by current import profile",
+        "Candidate identity/readback does not prove target avatar garment contact or choreography quality"
+      ],
+      "recovery": "Use an isolated worktree/checkpoint before any displayed write command. On failure retain candidate output/log; do not replace published manifest or relax hash/bind checks. Restore only owned generated outputs from checkpoint, preserve manual edits, then rerun matching exporter and readback."
+    },
+    {
+      "id": "female-jaw",
+      "title": "Female local jaw specimen",
+      "kind": "variant",
+      "sources": [
+        "assets-source/m1-variants/spec.json",
+        "assets-source/foundation/base-female-editable.blend",
+        "assets-source/m1-variants/m1a-jaw-v1/editable.blend",
+        "assets-source/m1-variants/m1a-jaw-v1/training-pants-editable.blend"
+      ],
+      "identity": {
+        "catalog": "prototype/public/assets/m1-variants/catalog.json",
+        "profileId": "m1a-jaw-v1",
+        "spec": "assets-source/m1-variants/spec.json"
+      },
+      "requirements": [
+        "scripts/m1-assets/requirements.txt",
+        "experiments/tools/blender-4.5.9-windows-x64/blender.exe",
+        "experiments/tools/vrm-addon/VRM_Addon_for_Blender-release/__init__.py"
+      ],
+      "stages": {
+        "source": [
+          {
+            "argv": [
+              "python",
+              "scripts/production/flow.py",
+              "show",
+              "female-jaw"
+            ],
+            "writes": [],
+            "note": "Read source declarations and stage boundaries only"
+          }
+        ],
+        "export": [
+          {
+            "argv": [
+              "experiments/tools/blender-4.5.9-windows-x64/blender.exe",
+              "--background",
+              "--factory-startup",
+              "--python-exit-code",
+              "1",
+              "--python",
+              "scripts/m1-variants/build-variants.py"
+            ],
+            "writes": [
+              "assets-source/m1-variants/",
+              "prototype/public/assets/m1-variants/"
+            ],
+            "note": "BATCH rebuild BOTH jaw and waisthip from original source, saves/reopens each blend and exports twice; overwrites derived manual edits"
+          },
+          {
+            "argv": [
+              "python",
+              "scripts/m1-variants/build-equipment.py",
+              "m1a-jaw-v1"
+            ],
+            "writes": [
+              "assets-source/m1-variants/m1a-jaw-v1/equipment-report.json",
+              "prototype/public/assets/m1-variants/m1a-jaw-v1/equipment/"
+            ],
+            "note": ""
+          },
+          {
+            "argv": [
+              "python",
+              "scripts/m1-variants/build-equipment.py",
+              "m1a-waisthip-v1"
+            ],
+            "writes": [
+              "assets-source/m1-variants/m1a-waisthip-v1/equipment-report.json",
+              "prototype/public/assets/m1-variants/m1a-waisthip-v1/equipment/"
+            ],
+            "note": ""
+          },
+          {
+            "argv": [
+              "experiments/tools/blender-4.5.9-windows-x64/blender.exe",
+              "--background",
+              "--factory-startup",
+              "--python-exit-code",
+              "1",
+              "--python",
+              "scripts/m1-variants/save-pants-editable.py"
+            ],
+            "writes": [
+              "assets-source/m1-variants/"
+            ],
+            "note": "BATCH save/reopen separate pants edit sources"
+          }
+        ],
+        "check": [
+          {
+            "argv": [
+              "python",
+              "scripts/m1-variants/audit.py"
+            ],
+            "writes": [
+              "assets-source/m1-variants/audit-report.json",
+              "prototype/public/assets/m1-variants/catalog.json"
+            ],
+            "note": "Not read-only: rewrites catalog after geometric audits"
+          },
+          {
+            "argv": [
+              "python",
+              "scripts/m1-variants/verify-rebuild.py"
+            ],
+            "writes": [
+              "prototype/public/assets/m1-variants/",
+              "assets-source/m1-variants/"
+            ],
+            "note": "Not read-only: rebuilds BOTH gear sets and checks byte equality"
+          }
+        ],
+        "readback": [
+          {
+            "argv": [
+              "python",
+              "scripts/production/flow.py",
+              "validate",
+              "female-jaw"
+            ],
+            "writes": [],
+            "note": "Read hashes, GLB contents and current bindings; no Blender execution or visual acceptance"
+          }
+        ]
+      },
+      "limits": [
+        "Two bounded independent candidates, not a parameter library",
+        "Every gear item must bind exact derived-body SHA; no original female/male compatibility inheritance",
+        "Existing build recreates both from parameter spec; no separate arbitrary edited-derived-blend publishing command"
+      ],
+      "recovery": "Use an isolated worktree/checkpoint before any displayed write command. On failure retain candidate output/log; do not replace published manifest or relax hash/bind checks. Restore only owned generated outputs from checkpoint, preserve manual edits, then rerun matching exporter and readback."
+    },
+    {
+      "id": "female-waisthip",
+      "title": "Female local waisthip specimen",
+      "kind": "variant",
+      "sources": [
+        "assets-source/m1-variants/spec.json",
+        "assets-source/foundation/base-female-editable.blend",
+        "assets-source/m1-variants/m1a-waisthip-v1/editable.blend",
+        "assets-source/m1-variants/m1a-waisthip-v1/training-pants-editable.blend"
+      ],
+      "identity": {
+        "catalog": "prototype/public/assets/m1-variants/catalog.json",
+        "profileId": "m1a-waisthip-v1",
+        "spec": "assets-source/m1-variants/spec.json"
+      },
+      "requirements": [
+        "scripts/m1-assets/requirements.txt",
+        "experiments/tools/blender-4.5.9-windows-x64/blender.exe",
+        "experiments/tools/vrm-addon/VRM_Addon_for_Blender-release/__init__.py"
+      ],
+      "stages": {
+        "source": [
+          {
+            "argv": [
+              "python",
+              "scripts/production/flow.py",
+              "show",
+              "female-waisthip"
+            ],
+            "writes": [],
+            "note": "Read source declarations and stage boundaries only"
+          }
+        ],
+        "export": [
+          {
+            "argv": [
+              "experiments/tools/blender-4.5.9-windows-x64/blender.exe",
+              "--background",
+              "--factory-startup",
+              "--python-exit-code",
+              "1",
+              "--python",
+              "scripts/m1-variants/build-variants.py"
+            ],
+            "writes": [
+              "assets-source/m1-variants/",
+              "prototype/public/assets/m1-variants/"
+            ],
+            "note": "BATCH rebuild BOTH jaw and waisthip from original source, saves/reopens each blend and exports twice; overwrites derived manual edits"
+          },
+          {
+            "argv": [
+              "python",
+              "scripts/m1-variants/build-equipment.py",
+              "m1a-jaw-v1"
+            ],
+            "writes": [
+              "assets-source/m1-variants/m1a-jaw-v1/equipment-report.json",
+              "prototype/public/assets/m1-variants/m1a-jaw-v1/equipment/"
+            ],
+            "note": ""
+          },
+          {
+            "argv": [
+              "python",
+              "scripts/m1-variants/build-equipment.py",
+              "m1a-waisthip-v1"
+            ],
+            "writes": [
+              "assets-source/m1-variants/m1a-waisthip-v1/equipment-report.json",
+              "prototype/public/assets/m1-variants/m1a-waisthip-v1/equipment/"
+            ],
+            "note": ""
+          },
+          {
+            "argv": [
+              "experiments/tools/blender-4.5.9-windows-x64/blender.exe",
+              "--background",
+              "--factory-startup",
+              "--python-exit-code",
+              "1",
+              "--python",
+              "scripts/m1-variants/save-pants-editable.py"
+            ],
+            "writes": [
+              "assets-source/m1-variants/"
+            ],
+            "note": "BATCH save/reopen separate pants edit sources"
+          }
+        ],
+        "check": [
+          {
+            "argv": [
+              "python",
+              "scripts/m1-variants/audit.py"
+            ],
+            "writes": [
+              "assets-source/m1-variants/audit-report.json",
+              "prototype/public/assets/m1-variants/catalog.json"
+            ],
+            "note": "Not read-only: rewrites catalog after geometric audits"
+          },
+          {
+            "argv": [
+              "python",
+              "scripts/m1-variants/verify-rebuild.py"
+            ],
+            "writes": [
+              "prototype/public/assets/m1-variants/",
+              "assets-source/m1-variants/"
+            ],
+            "note": "Not read-only: rebuilds BOTH gear sets and checks byte equality"
+          }
+        ],
+        "readback": [
+          {
+            "argv": [
+              "python",
+              "scripts/production/flow.py",
+              "validate",
+              "female-waisthip"
+            ],
+            "writes": [],
+            "note": "Read hashes, GLB contents and current bindings; no Blender execution or visual acceptance"
+          }
+        ]
+      },
+      "limits": [
+        "Two bounded independent candidates, not a parameter library",
+        "Every gear item must bind exact derived-body SHA; no original female/male compatibility inheritance",
+        "Existing build recreates both from parameter spec; no separate arbitrary edited-derived-blend publishing command"
+      ],
+      "recovery": "Use an isolated worktree/checkpoint before any displayed write command. On failure retain candidate output/log; do not replace published manifest or relax hash/bind checks. Restore only owned generated outputs from checkpoint, preserve manual edits, then rerun matching exporter and readback."
+    }
+  ]
+}

@@ -73,3 +73,30 @@ assets-source/forearm-collision-v2/** whitespace=blank-at-eol,blank-at-eof,space
 
 # Archived raw diff includes original CRLF/context whitespace; retain its evidence hash.
 assets-source/forearm-collision-v2/patch/c9-source-preserving-review.patch -whitespace
+
+# Reproducible candidate bundles pin the exact input/script/recipe bytes.
+assets-source/m1/seated-front-v1/** -text
+assets-source/m1/shape-guide-review-v1/** -text
+assets-source/m1-variants/forearm-collision-v2/** -text
+assets-source/m1b/shorts/material-trial-v4/** -text
+assets-source/m1b/shorts/material-recipe-candidate-v1/** -text
+assets-source/m1b/shorts/texture-trial-v2/** -text
+assets-source/m1b/shorts/texture-trial-v3/** -text
+assets-source/hand-contact-v1/** -text
+assets-source/m1c-audio-qa/** -text
+scripts/** -text
+scripts/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+*.gz binary
+
+# Hash-pinned Windows text keeps its CRLF bytes without treating CR as whitespace.
+assets-source/m1/seated-front-v1/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/m1/shape-guide-review-v1/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/m1-variants/forearm-collision-v2/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/m1b/shorts/material-trial-v4/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/m1b/shorts/material-recipe-candidate-v1/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/m1b/shorts/texture-trial-v2/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/m1b/shorts/texture-trial-v3/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/hand-contact-v1/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/m1c-audio-qa/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/**/integration.patch -whitespace
+assets-source/**/proposed-config.patch -whitespace

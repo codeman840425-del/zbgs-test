@@ -168,8 +168,11 @@ export function createLivePresentation({vrm,root,bodyType='female',avatarSha256=
   }
   root.updateMatrixWorld(true);
  }
- return{preUpdate,postUpdate,setAccessory,canPerform,
-  playGreeting(options){if(!['idle','sit'].includes(currentAction)||slots.mic.requested||holdWeight>.001)return Promise.resolve({started:false,error:'greeting-requires-settled-empty-hand-pose'});return greeting.start(options);},
+ // Admission and execution share the same real hand-layer readiness. Removing
+ // the prop is immediate, but its arm pose still needs to blend out.
+ const canStartGreeting=()=>['idle','sit'].includes(currentAction)&&!slots.mic.requested&&holdWeight<=.001;
+ return{preUpdate,postUpdate,setAccessory,canPerform,canStartGreeting,
+  playGreeting(options){if(!canStartGreeting())return Promise.resolve({started:false,error:'greeting-requires-settled-empty-hand-pose'});return greeting.start(options);},
   cancelGreeting: options=>greeting.cancel(options),
   setAction(name){currentAction=name;},
   setExpression(value){if(!['neutral','happy','aa'].includes(value))throw RangeError('Unknown expression');preset=value;},

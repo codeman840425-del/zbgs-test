@@ -1,0 +1,100 @@
+{
+  "build": "49b3d2a24f21",
+  "comparisons": [
+    {
+      "body": "m1a-jaw-v1",
+      "bodySHA256": "3c11caaed49f6db514acb7678551352afdf1c2893ef92ca93b959a8d09691011",
+      "profileFileSHA256": "9717d0b384e7682cedcb0b276bcac933f91dc4d229cec2034a491c27bdbf754b",
+      "samples": 100,
+      "sameTimeStageAndSitProgress": true,
+      "legacy": {
+        "forearm": {
+          "pairEvents": 1833,
+          "hitFrames": 53,
+          "maxPairs": 45
+        },
+        "hand-fingers": {
+          "pairEvents": 4732,
+          "hitFrames": 64,
+          "maxPairs": 142
+        },
+        "other": {
+          "pairEvents": 0,
+          "hitFrames": 0,
+          "maxPairs": 0
+        }
+      },
+      "own": {
+        "forearm": {
+          "pairEvents": 0,
+          "hitFrames": 0,
+          "maxPairs": 0
+        },
+        "hand-fingers": {
+          "pairEvents": 673,
+          "hitFrames": 15,
+          "maxPairs": 76
+        },
+        "other": {
+          "pairEvents": 0,
+          "hitFrames": 0,
+          "maxPairs": 0
+        }
+      },
+      "wholeContactGatePassed": false,
+      "forearmOnlyGatePassed": true
+    },
+    {
+      "body": "m1a-waisthip-v1",
+      "bodySHA256": "10778174ece87e3e3a00ecaf5e0c98eef59cd7d762e9bb52daa50162ee1743b5",
+      "profileFileSHA256": "3bc08e1e9d967a3a0f30099c32fec3900f2b4d99a32758b628a68d4e6a688d6b",
+      "samples": 100,
+      "sameTimeStageAndSitProgress": true,
+      "legacy": {
+        "forearm": {
+          "pairEvents": 2155,
+          "hitFrames": 56,
+          "maxPairs": 51
+        },
+        "hand-fingers": {
+          "pairEvents": 4924,
+          "hitFrames": 66,
+          "maxPairs": 134
+        },
+        "other": {
+          "pairEvents": 0,
+          "hitFrames": 0,
+          "maxPairs": 0
+        }
+      },
+      "own": {
+        "forearm": {
+          "pairEvents": 0,
+          "hitFrames": 0,
+          "maxPairs": 0
+        },
+        "hand-fingers": {
+          "pairEvents": 688,
+          "hitFrames": 15,
+          "maxPairs": 86
+        },
+        "other": {
+          "pairEvents": 0,
+          "hitFrames": 0,
+          "maxPairs": 0
+        }
+      },
+      "wholeContactGatePassed": false,
+      "forearmOnlyGatePassed": true
+    }
+  ],
+  "method": "Same fixed build, same body/outfit/controller schedule/chair. Only URL forearm=own vs legacy diagnostic selects own measured profile/null. No pose/bone writes. Two-sided finite skin edge intersections with sampled texture alpha.",
+  "scriptSHA256": "e116887bae8a8a569225b18ad8461a4a5740d022aafbd8a7787d0648dc556099",
+  "sourceClassificationScriptSHA256": "cbb9766206e01c42638339332aab9938fc766a246d9d14a8e44e042cb2d154a0",
+  "remaining": "Both own profiles retain rising palm/finger crossings. Whole-contact acceptance still fails. No new normal-speed visual or target-device perf acceptance.",
+  "limits": [
+    "Triangle pair counts are not penetration depth, area or pixels.",
+    "100 discrete30Hz contact-stage samples; no CCD, coplanar/full containment or exact GPU alpha coverage.",
+    "Source face indices and actual weights independently rechecked; profile hash metric in original reports denotes compatible BODY hash, file hashes are separately pinned here."
+  ]
+}

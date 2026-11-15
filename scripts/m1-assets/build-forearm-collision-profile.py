@@ -15,8 +15,8 @@ def clip(poly,origin,axis,level,keep_below):
   if ina:out.append(a)
   if ina!=inb:out.append(a+(b-a)*da/(da-db))
  return np.array(out)
-def load(sex):
- path=ROOT/f'prototype/public/assets/foundation/base-{sex}-roundtrip.vrm'
+def load(sex,source_path=None):
+ path=pathlib.Path(source_path).resolve() if source_path else ROOT/f'prototype/public/assets/foundation/base-{sex}-roundtrip.vrm'
  raw=path.read_bytes(); n=struct.unpack_from('<I',raw,12)[0]
  d=json.loads(raw[20:20+n]); binary=raw[28+n:]
  def acc(i):
@@ -37,8 +37,8 @@ def prepare(src,side):
  delta=src['pos']-elbow;u=delta@axis/length;rad=np.linalg.norm(delta-u[:,None]*length*axis,axis=1)
  return lower,elbow,wrist,axis,length,weights,faces,ids,u,rad
 
-def build(sex):
- src=load(sex);profiles=[]
+def build(sex,source_path=None,out_dir=None):
+ src=load(sex,source_path);profiles=[]
  for side in ['left','right']:
   lower,a,b,axis,length,weights,faces,ids,u,rad=prepare(src,side)
   knots=np.linspace(0,1,6);bands=[]
@@ -59,7 +59,8 @@ def build(sex):
   wr=float(np.linalg.norm(wp-b,axis=1).max()) if len(wp) else radii[-1]
   profiles.append({'side':side,'semanticStart':side+'LowerArm','semanticEnd':side+'Hand','sourceJointNode':src['skin']['joints'][lower],'sourceJointName':src['d']['nodes'][src['skin']['joints'][lower]]['name'],'sourceInverseBindMatrixColumnMajor':src['ibm'][lower].T.ravel().tolist(),'bindElbow':a.tolist(),'bindWrist':b.tolist(),'bindAxis':axis.tolist(),'length':float(length),'sourceFaceIndices':faces.tolist(),'sourceVertexIndices':ids.tolist(),'sourceAxialRange':[float(u[ids].min()),float(u[ids].max())],'knots':[{'t':float(t),'radius':float(r)} for t,r in zip(knots,radii)],'slabRawRadiusMax':bands,'elbowCap':{'centerT':0,'radius':er},'wristCap':{'centerT':1,'radius':wr},'clearanceMargin':0,'radiusSummary':{'p50':float(np.percentile(rad[ids],50)),'p95':float(np.percentile(rad[ids],95)),'max':float(rad[ids].max())}})
  out={'schema':'m1.semantic-forearm-envelope.1','body':sex,'source':src['path'].relative_to(ROOT).as_posix(),'bodySHA256':src['sha'],'applicability':'Exact body SHA only; regenerate for shape morph or different body. Runtime uniform scale scales lengths/radii; nonuniform scaling requires ellipsoid handling.','units':'metres','coordinate':'Source glTF mesh bind coordinates, no VRM0 world conversion applied. Runtime constructs centerline from actual world LowerArm/Hand; radii are orientation independent.','primitive':{'mesh':src['mesh'],'primitive':src['primitive'],'indexSHA256':sha(src['tri'].astype('<u4').tobytes())},'selection':'All actual Body_SKIN triangles touching a vertex with semantic LowerArm weight >0.5; includes full boundary triangles. No garment thickness.','representation':'Piecewise linear radius on t=0..1 centerline plus spherical elbow and wrist caps. Each slab radius bounds every vertex of every selected triangle intersecting it. Adjacent knot maxima preserve that bound. Endcaps bound exact clipped source polygon beyond each endpoint plane.','limits':['Bind-space selected triangles are conservatively enclosed; arbitrary posed blend deformation is not proven enclosed.','Rotationally symmetric envelope covers empty space and may push arms too far from clothing, especially elbow cap.','Does not assert collision-free clothing, continuous collision detection, or a feasible arm pose.','Hands/palm beyond selected wrist boundary require their own profile; upper arm outside elbow boundary is excluded.','No fixed 8mm clearance baked into measured envelope; integration chooses explicit garment clearance separately.'],'profiles':profiles}
- OUT.mkdir(parents=True,exist_ok=True);(OUT/(sex+'.json')).write_text(json.dumps(out,indent=2),encoding='utf8')
+ target=pathlib.Path(out_dir) if out_dir else OUT
+ target.mkdir(parents=True,exist_ok=True);(target/(sex+'.json')).write_text(json.dumps(out,indent=2),encoding='utf8')
  return out
 
 if __name__=='__main__':

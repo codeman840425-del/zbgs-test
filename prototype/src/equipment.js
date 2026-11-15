@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { createGarmentMaterialRecipes } from "./material-recipes.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 /** Load independent garment GLBs onto a compatible existing raw skeleton.
@@ -33,6 +34,7 @@ export async function createEquipment({
       });
   });
   const loader = new GLTFLoader(), loaded = new Map(), pending = new Map(), slotRequests = new Map();
+  const materialRequests = new Map();
   let disposed = false;
   const sha256 = async (buffer) => [...new Uint8Array(await crypto.subtle.digest("SHA-256", buffer))]
     .map((n) => n.toString(16).padStart(2, "0")).join("");
@@ -128,6 +130,7 @@ export async function createEquipment({
       stats: { primitives: meshes.length, verticesAcrossPrimitives: vertices,
         multiBoneVerticesAcrossPrimitives: multiBoneVertices, maxWeightSumError,
         joints: mapping.size, independentArmatureAttached: false } };
+    result.materialRecipes = createGarmentMaterialRecipes({entry,meshes,avatarSha256,manifestBase,threeRevision:THREE.REVISION});
     loaded.set(entry.id, result);
     return result;
     } catch (error) {
@@ -136,6 +139,7 @@ export async function createEquipment({
     }
   }
   function destroy(item) {
+    item.materialRecipes?.dispose();
     item.container.removeFromParent();
     const geometries = new Set(), materials = new Set(), textures = new Set();
     for (const mesh of item.meshes) {
@@ -165,6 +169,17 @@ export async function createEquipment({
       slotRequests.set(slot, (slotRequests.get(slot) || 0) + 1);
       for (const item of loaded.values()) if (item.entry.slot === slot) item.container.visible = false;
     },
+    async setMaterialRecipe(id, recipeId) {
+      if(disposed)throw new Error("Equipment adapter is disposed");
+      getEntry(id);
+      const ticket=(materialRequests.get(id)||0)+1;materialRequests.set(id,ticket);
+      if(recipeId===null&&!loaded.has(id))return {applied:true,state:null};
+      const item=await load(id);
+      if(disposed)throw new Error("Equipment adapter is disposed");
+      if(materialRequests.get(id)!==ticket)return {applied:false,reason:"superseded"};
+      return item.materialRecipes.select(recipeId);
+    },
+    getMaterialRecipeState(id) { return loaded.get(id)?.materialRecipes.getState() ?? null; },
     get(id) { return loaded.get(id) || null; },
     dispose() {
       if (disposed) return;

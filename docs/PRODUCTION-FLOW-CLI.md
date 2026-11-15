@@ -1,0 +1,52 @@
+# 轻量生产流程入口
+
+这是现有制作脚本的只读入口和结构回读工具，不是新的能力清单或资产管理平台。当前能力状态仍只看 `docs/CAPABILITIES.md`。本次没有重生成资产、打开 Blender、启动浏览器或修改产品控制器。
+
+从仓库根目录执行，Python 标准库即可运行入口：
+
+```powershell
+python scripts/production/flow.py list
+python scripts/production/flow.py show male-shorts
+python scripts/production/flow.py dry-run accessories
+python scripts/production/flow.py validate all
+python scripts/production/qa-flow.py
+```
+
+只有 `list/show/dry-run/validate` 四种命令；没有隐藏的执行、发布或覆盖选项。`dry-run` 输出原脚本的 argv、写入范围、阶段备注、失败恢复提示，**不执行 argv**。参数不可用会非零退出，`validate` 每条流程分别报告失败。导出与深度检查仍需后续明确执行显示的命令，且应使用隔离 worktree；没有用登记替代重建闭环。
+
+## 流程和现有源入口
+
+| CLI ID | 可编辑源 / 身份 | export / check / readback 的实际路径 |
+| --- | --- | --- |
+| `male-shorts` | `assets-source/m1b/shorts/spec.json` + `m1b-uniform-shorts-v1.blend`；style `m1b-tailored-shorts-v1`，fit `beta-base-male-62b44b-shorts-v1` | 既有 `save-shorts-editable.py -- --reuse` 真实重开 blend 导出两次→`repack-shorts-editable.py`→`audit.py`/`audit-shorts.py`；新入口读最终 GLB/精确男体 SHA/权重/原骨逆绑定矩阵 |
+| `accessories` | `assets-source/m1c-accessories/parameters.json` + 两个 blend；`studio-microphone-v1` / `studio-glasses-v1` | 既有 `build-accessories.py -- --output output/production/accessories --no-preview` 批量候选导出→`audit-accessories.py --compare-dir ...`；新入口读 GLB/socket/hash 与男女 grip payload/pin |
+| `technical-dance` | 当前 canonical 参数 `prototype/public/assets/motion/m1c/dance-technical-v1.config.json`，UAL1固定原骨架；`dance-technical-once-v1` | 既有 `qa-m1c-build-dance.py --config ... --output output/production/technical-dance` 自带 240 Hz 源脚面检查→`flow.py validate technical-dance --candidate-dir output/production/technical-dance` 回读候选配置/检查结果/实际动画轨；不是 Blender 动作源 |
+| `female-jaw` | `assets-source/m1-variants/spec.json`、完整女性原 blend、独立 `m1a-jaw-v1/editable.blend` | `build-variants.py` 批量生成两件并各自重开导出两次→两件 `build-equipment.py`→`save-pants-editable.py`→`audit.py`/`verify-rebuild.py`→精确派生 SHA 与8件装备回读 |
+| `female-waisthip` | 同一原件独立派生的 `m1a-waisthip-v1/editable.blend`；不叠加 jaw 修改 | 与 jaw 共用批量生成命令，当前脚本不能按这个 CLI 标签假称只重建一件 |
+
+完整可复制 argv 保存在 `scripts/production/workflows.json`，通过 `show/dry-run` 读取。`source` 阶段只显示源声明；短裤另有显式 `sourceRebuild`，不得与保留人工编辑的 `--reuse` 导出混同。表中命令是可用入口，本次没有执行重建。Blender 固定 4.5.9 LTS，女性 VRM 插件 4.10.5，现有工具链记录 `assets-source/foundation/toolchain.json`。Python依赖指向各脚本已有 requirements，不自动安装。验证器只检查本地工具入口是否存在，不以文件存在冒称已运行版本检查；真实 exporter 内仍有版本断言。
+
+## 有意义的只读回读
+
+`validate` 不导入会写文件的生成模块，不调用 subprocess；读取现有权威 manifest/spec/build report 的精确 ID 和 SHA，而不再维护一份新的通过清单。输出会列当次观察到的实际文件 hash/字节数，便于固定构建追踪。
+
+- 男短裤：源男性 VRM/原编辑源、当前完整男体、短裤 editable blend 与记录一致；style/fit ID 一致；802 个权重顶点、7 根骨的 GLB 真实数据可读；每点权重和、joint index 范围、manifest inverseBindMatrix 同时匹配导出衣服与目标原骨架。
+- 附件：parameters hash→两个 GLB hash/bytes→真实 socket 节点/位置/语义。握麦配置独立验证 ID、身体 SHA、附件 SHA 与配置 payload，而不把麦克风 GLB hash 当整个握持版本。眼镜未被强加麦克风 fit 限制。
+- 技术舞：源 UAL SHA、导入 ID、实际指定 clip、全部时间输入单调且有限、真实约 7.2 秒、201 channels；single-play/props/root 语义保持。候选目录还需配置与 canonical 源相同、生成的 source-qa 全部布尔通过。新设计故意改参数时会拒绝“旧版本可重复”结论，须明确生成新版本再接入，不自动放宽。
+- 女性派生：原完整 blend/VRM 保留，派生 editable blend/两次导出/body catalog pin 一致；每套四件服装角色 ID 集合与实际 manifest 一致，服装权重和真实 raw bind 矩阵匹配各自精确新身体，不能用原女性/另一变体 hash 替代。
+
+五条现有流程均实际只读验证通过。`qa-flow.py` 有 10 项回归：重复流程ID、越界写入范围、缺失脚本、远程资产URL、错误身体fit、过期GLB hash、20mm逆绑定破坏、未知raw骨、错误GLB长度，以及五条真实资产验证前后哈希不变。负向修改仅在内存中，不改源资源。
+
+## 必须保留的生产边界
+
+1. 男短裤支持已有 blend 的几何/UV/权重编辑回导；`build-shorts.py` 后无 `--reuse` 的保存会重建 blend。旧 `m1b/build.py` 还会重写仅三件原装备的清单，因此调用它后必须补短裤链，不能意外丢 outfit2。
+2. 附件当前**可重复的是 parameters 驱动**。保存的 blend 可编辑，但没有现成“任意手编辑 blend→完整规范化清单”回导入口；不能谎称双向编辑已完备。默认无 `--output` 会覆盖两个源 blend 和 public manifest。比较命令还会写 audit-report，因此它不是只读验证。
+3. 女性 `build-variants.py` 会从原件重建两个派生，覆盖手改派生源；`audit.py` 会写 public catalog；`verify-rebuild.py` 会实际重写两套装备。均明确列为有写入的后续命令。不要因名字含 audit/verify 就在只读任务里执行。
+4. 技术舞的源参数暂在 public 路径，已诚实登记，不为这项有界入口迁移目录或重写动作管线。导出器同时产生技术舞和参考舞及 manifest，需要成组审查；结构读回不能代替男女同房间的完整动作/鞋/衣/手验收。
+5. 新几何/纹理/握持/参数版本变化应更新相应源版本和精确身份，再重新生成匹配清单并验收。不要为让 CLI 变绿而修改旧 hash、关闭绑定校验或继承旧录屏。
+
+## 失败及恢复
+
+源或工具缺失时，入口指出具体文件；源hash不符时先区分合法未发布编辑与损坏，保留编辑，不自动覆盖。GLB hash、clip、骨或权重失败时保留候选目录和日志，不替换运行版本。批量脚本中途失败可能已经写出部分文件，应在隔离 worktree 中检查声明的 `writes` 范围，只回退本次生成文件，不删除原编辑源或用户修改。确认源/输出配对后，再跑对应阶段及只读回读，最后由负责人建立新固定构建和真实回读/视觉证据。
+
+CLI 不创建隔离工作区、不做发布、不更新能力状态；它把现有入口与危险边界统一展示，后续真正源修改→导出→重开→接入→完整动作验证仍需逐项执行。

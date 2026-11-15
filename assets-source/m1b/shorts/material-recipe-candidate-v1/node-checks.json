@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "checks": [
+    "Two instances isolated, same-selection idempotent, exact material array restore; geometry/UV/skin/alpha source unchanged; clone-only disposal",
+    "Late completion after clear/dispose cannot apply, requested state cleared, no texture/mesh retention",
+    "Newest async material request wins even when transport ignores abort",
+    "http failure preserves original and clears pending",
+    "hash failure preserves original and clears pending",
+    "Pinned but incompatible fit rejected atomically",
+    "Pinned but incompatible implementation rejected atomically",
+    "Pinned but incompatible primitive rejected atomically",
+    "Pinned but incompatible settings rejected atomically",
+    "Second primitive construction failure disposes first clone and swaps no materials"
+  ],
+  "recipeSha256": "6307ada57e83d74a34305708e747f452c9bde9f4b18dc4caea150f83d9d32824",
+  "garmentSha256": "c8a1afd0742cbb99302abc107673744751a8cfd77c6c89df039b068054a947d0",
+  "implementationSha256": "4539ac3f83bc5fb1fa9aa91dbfb7323a8f2e7084a5f762d9713d0ae36bcfb565",
+  "browserStarted": false,
+  "limits": [
+    "Lifecycle/config tests use real Three material/geometry objects, not a GPU or actual animated browser acceptance.",
+    "Existing reviewed GPU overlay evidence does not pass this new production-loading path.",
+    "Local avatar-record-v2 has no recipe field; this candidate does not silently persist it."
+  ]
+}

@@ -1,0 +1,42 @@
+<!doctype html><meta charset="utf-8"><title>舞蹈共同时间 · 隔离声音小验</title>
+<style>body{margin:0;background:#eef4f0;font:15px system-ui;color:#183e36}header{padding:12px;display:flex;gap:12px;align-items:center}button{padding:10px}iframe{width:100%;height:78vh;border:0}pre{margin:8px;white-space:pre-wrap}</style>
+<header><button id="enable">启用短节拍（将发声）</button><span>仅 QA：原生合成 120 BPM；不是舞蹈配乐制作。播放器不改角色时间。</span></header>
+<iframe id="room" src="/?body=female" allow="autoplay"></iframe><pre id="status">等待固定场景和用户手势。</pre>
+<script type="module">
+import {createDanceAudioTransport,waitForAudioClock} from './dance-audio-transport.mjs';
+const room=document.querySelector('#room'),status=document.querySelector('#status');
+let context,player,analyser,recorder,stream,stopped=false,raf,stopPromise;
+const samples=[],chunks=[],events=[];
+window.__audioHarness={samples,events,get context(){return context;},get player(){return player;},ready:false,
+  offset(value){player.setOffset(value);events.push({kind:'offset',value,wall:performance.now()});},
+  async finish(){if(stopPromise)return stopPromise;stopPromise=(async()=>{stopped=true;cancelAnimationFrame(raf);player?.dispose();
+    if(recorder?.state==='recording')await new Promise(resolve=>{recorder.onstop=resolve;recorder.stop();});
+    const blob=new Blob(chunks,{type:recorder?.mimeType||'audio/webm'}),bytes=new Uint8Array(await blob.arrayBuffer());
+    let binary='';for(const x of bytes)binary+=String.fromCharCode(x);
+    analyser?.disconnect();stream?.stream.getTracks().forEach(t=>t.stop());await context?.close();
+    return{samples,events,readinessGate:window.__audioHarness.readinessGate,transportEvents:player?.getEvents(),audioBase64:btoa(binary),audioMime:blob.type,
+      limits:'Internal WebAudio graph recording only. Speaker capture, acoustic/device latency, listening and choreographic beat alignment unverified.'};})();return stopPromise;}}
+document.querySelector('#enable').onclick=async()=>{
+  if(context)return;
+  try{
+    const d=room.contentWindow.__debug;if(!d?.ready)throw Error('固定场景未就绪');
+    context=new AudioContext({latencyHint:'interactive'});await context.resume();
+    const response=await fetch('./original-beat-120bpm.wav');if(!response.ok)throw Error('PCM load '+response.status);
+    const buffer=await context.decodeAudioData(await response.arrayBuffer());
+    analyser=context.createAnalyser();analyser.fftSize=2048;analyser.connect(context.destination);
+    stream=context.createMediaStreamDestination();analyser.connect(stream);
+    recorder=new MediaRecorder(stream.stream);recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data);};recorder.start(100);
+    player=createDanceAudioTransport({context,buffer,output:analyser});
+    status.textContent='已解锁声音，等待音频实际时钟推进；舞蹈仍暂停。';
+    window.__audioHarness.readinessGate=await waitForAudioClock({context,output:analyser});
+    const data=new Float32Array(analyser.fftSize);
+    const tick=now=>{if(stopped)return;const m=d.motion().getMetrics(),s=d.game.scene.getScene('CharacterStudio');
+      const audio=player.update(m,{paused:s.paused,playbackRate:s.playbackRate});analyser.getFloatTimeDomainData(data);
+      let energy=0;for(const x of data)energy+=x*x;
+      samples.push({wallMs:now,simulationTime:s.simulationTime,paused:s.paused,rate:s.playbackRate,action:m.action,dance:{...m.dance},rms:Math.sqrt(energy/data.length),...audio});
+      status.textContent=JSON.stringify({context:audio.contextState,danceClock:m.dance.time,estimatedAudio:audio.estimatedBufferPosition,driftEstimate:audio.observed.driftSeconds,rms:samples.at(-1).rms,baseLatency:audio.baseLatency,outputLatency:audio.outputLatency},null,2);
+      raf=requestAnimationFrame(tick);};raf=requestAnimationFrame(tick);window.__audioHarness.ready=true;
+  }catch(error){status.textContent=String(error);window.__audioHarness.error=String(error);await window.__audioHarness.finish();}
+};
+window.addEventListener('pagehide',()=>window.__audioHarness.finish());
+</script>

@@ -1,0 +1,23 @@
+{
+  "schema": "cloth-material-offline-review-v1",
+  "three": "0.187.0",
+  "before": {
+    "file": "create-cloth-material.before-review.mjs",
+    "sha256": "fddaf47692aa9d69a96faaa5af48ddc62cc134dd1c7261cf6b89248b37b62ac5",
+    "evidence": "output/shorts-diagnosis/392e6f89183d-cloth-v4",
+    "meaning": "Existing root-captured same-pose diagnosis used the BEFORE module; do not relabel as corrected"
+  },
+  "after": {
+    "file": "create-cloth-material.mjs",
+    "sha256": "4539ac3f83bc5fb1fa9aa91dbfb7323a8f2e7084a5f762d9713d0ae36bcfb565",
+    "revision": "v4-review1",
+    "gpuValidation": "Not run by this offline review"
+  },
+  "scope": "Module-only RGB shading and instance isolation review; no geometry/UV/alpha/weights/resource changes",
+  "changes": [
+    "Copy/freeze settings; per-instance stable key and uniform arrays",
+    "Back-face normal flip for DOUBLE_SIDED",
+    "Use installed nondeprecated inverse-view normal helper",
+    "Explicitly limit to unpatched MeshBasicMaterial, validate numeric uniforms/UV bounds"
+  ]
+}

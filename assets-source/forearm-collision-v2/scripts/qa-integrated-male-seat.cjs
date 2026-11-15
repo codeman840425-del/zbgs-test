@@ -5,7 +5,7 @@ const {chromium}=require(path.join(root,'prototype/node_modules/playwright'));
 const {expectations,verifyCandidate}=require(path.join(root,'scripts/qa-m1-common.cjs'));
 (async()=>{
  const expected=expectations(),base=process.argv[2];if(expected.assetId!=='beta-base-male-m1b')throw Error('Explicit male identity required');
- const out=path.join(root,'output/playwright/forearm-'+expected.build,'male-seat');await fs.mkdir(out,{recursive:true});
+ const out=path.resolve(process.env.QA_FOREARM_OUTPUT||path.join(root,'output/playwright/forearm-'+expected.build,'male-seat'));await fs.mkdir(out,{recursive:true});
  for(const name of ['pants.json','shorts.json','summary.json'])try{await fs.access(path.join(out,name));throw Error('Refuse old evidence');}catch(e){if(e.code!=='ENOENT')throw e;}
  const browser=await chromium.launch({channel:'chrome',headless:true}),page=await browser.newPage({viewport:{width:1440,height:1080}}),errors=[],results=[];
  page.on('pageerror',e=>errors.push(String(e)));

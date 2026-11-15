@@ -805,6 +805,7 @@ class CharacterScene extends Phaser.Scene {
     if(!this.actor||!this.rig)return false;
     const m=this.rig.getMetrics(),live=this.actor.livePresentation?.getState();
     return !this.target&&!this.pending&&!this.turnPolicy.sample().active&&m.danceMix<.001&&
+      this.actor.livePresentation?.canStartGreeting()&&
       !live?.accessories.mic.requested&&!(["loading","playing","fading"].includes(live?.greeting?.status))&&
       ((this.mode==="idle"&&m.gait<.01&&m.stopTime>=.5)||(this.mode==="sit"&&m.sitProgress===1));
   }

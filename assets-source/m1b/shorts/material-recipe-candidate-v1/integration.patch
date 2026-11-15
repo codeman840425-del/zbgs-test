@@ -1,0 +1,251 @@
+--- a/prototype/src/equipment.js
++++ b/prototype/src/equipment.js
+@@ -1,4 +1,5 @@
+ import * as THREE from "three";
++import { createGarmentMaterialRecipes } from "./material-recipes.js";
+ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+ 
+ /** Load independent garment GLBs onto a compatible existing raw skeleton.
+@@ -33,6 +34,7 @@
+       });
+   });
+   const loader = new GLTFLoader(), loaded = new Map(), pending = new Map(), slotRequests = new Map();
++  const materialRequests = new Map();
+   let disposed = false;
+   const sha256 = async (buffer) => [...new Uint8Array(await crypto.subtle.digest("SHA-256", buffer))]
+     .map((n) => n.toString(16).padStart(2, "0")).join("");
+@@ -128,6 +130,7 @@
+       stats: { primitives: meshes.length, verticesAcrossPrimitives: vertices,
+         multiBoneVerticesAcrossPrimitives: multiBoneVertices, maxWeightSumError,
+         joints: mapping.size, independentArmatureAttached: false } };
++    result.materialRecipes = createGarmentMaterialRecipes({entry,meshes,avatarSha256,manifestBase,threeRevision:THREE.REVISION});
+     loaded.set(entry.id, result);
+     return result;
+     } catch (error) {
+@@ -136,6 +139,7 @@
+     }
+   }
+   function destroy(item) {
++    item.materialRecipes?.dispose();
+     item.container.removeFromParent();
+     const geometries = new Set(), materials = new Set(), textures = new Set();
+     for (const mesh of item.meshes) {
+@@ -165,6 +169,17 @@
+       slotRequests.set(slot, (slotRequests.get(slot) || 0) + 1);
+       for (const item of loaded.values()) if (item.entry.slot === slot) item.container.visible = false;
+     },
++    async setMaterialRecipe(id, recipeId) {
++      if(disposed)throw new Error("Equipment adapter is disposed");
++      getEntry(id);
++      const ticket=(materialRequests.get(id)||0)+1;materialRequests.set(id,ticket);
++      if(recipeId===null&&!loaded.has(id))return {applied:true,state:null};
++      const item=await load(id);
++      if(disposed)throw new Error("Equipment adapter is disposed");
++      if(materialRequests.get(id)!==ticket)return {applied:false,reason:"superseded"};
++      return item.materialRecipes.select(recipeId);
++    },
++    getMaterialRecipeState(id) { return loaded.get(id)?.materialRecipes.getState() ?? null; },
+     get(id) { return loaded.get(id) || null; },
+     dispose() {
+       if (disposed) return;
+--- a/prototype/src/m1-equipment.js
++++ b/prototype/src/m1-equipment.js
+@@ -74,6 +74,8 @@
+       outfit = selection.index;
+       apply();
+     },
++    setMaterialRecipe(id, recipeId) { return adapter.setMaterialRecipe(id, recipeId); },
++    getMaterialRecipeState(id) { return adapter.getMaterialRecipeState(id); },
+     setDebugBody(value) {
+       debugBody = Boolean(value);
+       apply();
+--- a/prototype/src/foundation-avatar.js
++++ b/prototype/src/foundation-avatar.js
+@@ -155,6 +155,8 @@
+     config,
+     livePresentation,
+     getAssetProfile: () => profile,
++    setMaterialRecipe: (id, recipeId) => equipment.setMaterialRecipe(id, recipeId),
++    getMaterialRecipeState: (id) => equipment.getMaterialRecipeState(id),
+     setOutfit: (n) => {
+       equipment.setOutfit(n);
+       outfit = equipment.getInfo().outfit;
+--- a/prototype/public/assets/m1b/equipment.json
++++ b/prototype/public/assets/m1b/equipment.json
+@@ -893,7 +893,15 @@
+       },
+       "styleId": "m1b-tailored-shorts-v1",
+       "fitId": "beta-base-male-62b44b-shorts-v1",
+-      "sourceSpec": "assets-source/m1b/shorts/spec.json"
++      "sourceSpec": "assets-source/m1b/shorts/spec.json",
++      "materialRecipes": [
++        {
++          "id": "m1b-shorts-cloth-v4-review1",
++          "url": "/assets/material-recipes/m1b-shorts-cloth-v4-review1.json",
++          "sha256": "6307ada57e83d74a34305708e747f452c9bde9f4b18dc4caea150f83d9d32824",
++          "bytes": 1286
++        }
++      ]
+     }
+   ]
+ }
+--- /dev/null
++++ b/prototype/src/material-recipes.js
+@@ -0,0 +1,58 @@
++import { createClothMaterial } from './cloth-material.js';
++
++// One allowlisted implementation; recipes are data, never downloaded code.
++const IMPLEMENTATION = 'cloth-normal-v4-review1';
++const IMPLEMENTATION_SHA = '4539ac3f83bc5fb1fa9aa91dbfb7323a8f2e7084a5f762d9713d0ae36bcfb565';
++const SHA = /^[a-f0-9]{64}$/;
++export function createGarmentMaterialRecipes({entry,meshes,avatarSha256,manifestBase,threeRevision,fetchImpl=globalThis.fetch,cryptoImpl=globalThis.crypto}) {
++  if ((entry.materialRecipes??[]).length && String(threeRevision)!=='187') throw Error('Material recipe requires reviewed Three revision 187');
++  const refs=new Map((entry.materialRecipes??[]).map(r=>[r.id,Object.freeze({...r})]));
++  if(refs.size!==(entry.materialRecipes??[]).length)throw Error('Duplicate material recipe IDs');
++  for(const r of refs.values())if(!r.id||!SHA.test(r.sha256)||!Number.isSafeInteger(r.bytes)||r.bytes<1||typeof r.url!=='string')throw Error('Invalid material recipe pin');
++  const identity=Object.freeze({id:entry.id,sha256:entry.sha256,body:avatarSha256,fitId:entry.fitId,styleId:entry.styleId});
++  const originals=meshes.map(mesh=>({mesh,material:mesh.material})),cache=new Map();
++  let revision=0,disposed=false,request=null,active=null,clones=[],status='original',error=null,abort=null;
++  const hash=async bytes=>[...new Uint8Array(await cryptoImpl.subtle.digest('SHA-256',bytes))].map(n=>n.toString(16).padStart(2,'0')).join('');
++  function restore(){for(const p of originals)p.mesh.material=p.material;for(const m of clones)m.dispose();clones=[];active=null;}
++  function validate(recipe,id){
++    if(recipe.schema!=='zbgs-garment-material-recipe-v1'||recipe.id!==id||recipe.version!==1||recipe.implementation?.id!==IMPLEMENTATION||recipe.implementation?.sha256!==IMPLEMENTATION_SHA||String(recipe.implementation?.threeRevision)!=='187')throw Error('Unsupported material recipe version/implementation');
++    const fit=recipe.fit;
++    if(fit?.equipmentId!==identity.id||fit?.garmentSha256!==identity.sha256||fit?.avatarSha256!==identity.body||fit?.fitId!==identity.fitId||fit?.styleId!==identity.styleId)throw Error('Material recipe incompatible with garment/body fit');
++    const names=originals.flatMap(p=>(Array.isArray(p.material)?p.material:[p.material]).map(m=>m.name)).sort();
++    if(JSON.stringify(names)!==JSON.stringify(recipe.materialNames?.slice().sort()))throw Error('Material recipe primitive selection differs');
++    // createClothMaterial validates the bounded numerical settings before swap.
++    return recipe;
++  }
++  async function select(id){
++    if(disposed)throw Error('Material recipes disposed');
++    if(id!==null&&!refs.has(id))throw Error('Unknown material recipe '+id);
++    const ticket=++revision;abort?.abort();abort=null;request=id;error=null;
++    if(id===null){restore();status='original';return {applied:true,state:getState()};}
++    if(active?.recipeId===id){status='ready';request=null;return {applied:true,state:getState()};}
++    status='loading';const controller=new AbortController();abort=controller;
++    try{
++      let recipe=cache.get(id);const ref=refs.get(id);
++      if(!recipe){
++        const response=await fetchImpl(new URL(ref.url,manifestBase),{cache:'no-store',signal:controller.signal});
++        if(!response.ok)throw Error('Material recipe HTTP '+response.status);
++        const bytes=await response.arrayBuffer();
++        if(bytes.byteLength!==ref.bytes||await hash(bytes)!==ref.sha256)throw Error('Material recipe integrity check failed');
++        recipe=validate(JSON.parse(new TextDecoder().decode(bytes)),id);
++      }
++      if(disposed||ticket!==revision)return {applied:false,reason:'superseded'};
++      const created=[],replacements=[];
++      try{
++        for(const p of originals){const values=(Array.isArray(p.material)?p.material:[p.material]).map(m=>{const clone=createClothMaterial(m,recipe.settings);created.push(clone);return clone;});replacements.push(Array.isArray(p.material)?values:values[0]);}
++      }catch(e){created.forEach(m=>m.dispose());throw e;}
++      restore();originals.forEach((p,i)=>p.mesh.material=replacements[i]);clones=created;
++      cache.set(id,recipe);active=Object.freeze({schema:'zbgs-equipment-material-selection-v1',equipmentId:identity.id,styleId:identity.styleId,fitId:identity.fitId,garmentSha256:identity.sha256,avatarSha256:identity.body,recipeId:id,recipeVersion:recipe.version,recipeSha256:ref.sha256,implementationId:IMPLEMENTATION,implementationSha256:IMPLEMENTATION_SHA});
++      request=null;status='ready';abort=null;return {applied:true,state:getState()};
++    }catch(e){
++      if(disposed||ticket!==revision)return {applied:false,reason:'superseded'};
++      request=null;status='error';error=String(e.message||e);abort=null;throw e;
++    }
++  }
++  function getState(){return {status,requested:request,active:active?{...active}:null,error,disposed};}
++  return {select,getState,list:()=>[...refs.values()].map(r=>({id:r.id,sha256:r.sha256,bytes:r.bytes})),
++    dispose(){if(disposed)return;disposed=true;revision++;abort?.abort();abort=null;request=null;restore();cache.clear();status='disposed';error=null;}};
++}
+--- /dev/null
++++ b/prototype/src/cloth-material.js
+@@ -0,0 +1,50 @@
++// Isolated editable material experiment; uses the ORIGINAL map alpha unchanged.
++// No body/UV/weights/garment geometry changes. Not a production-approved asset.
++export function createClothMaterial(original, settings = {}) {
++  // Actual current shorts use KHR_materials_unlit -> MeshBasicMaterial.
++  // Keep this bounded to that shader; do not silently drop custom source hooks.
++  if (!original?.isMeshBasicMaterial || Object.hasOwn(original, 'onBeforeCompile')) {
++    throw Error('Cloth trial requires an unpatched MeshBasicMaterial');
++  }
++  const copyValues = (values, length, name) => {
++    if (!Array.isArray(values) || values.length !== length ||
++        !values.every(value => Number.isFinite(value) && value >= 0 && value <= 1)) {
++      throw Error('Invalid cloth ' + name);
++    }
++    return Object.freeze([...values]);
++  };
++  const cloth = copyValues(settings.linearColor ?? [0.025, 0.032, 0.055], 3, 'linearColor');
++  const fabricStart = copyValues(settings.fabricStart ?? [0.17, 0.21], 2, 'fabricStart');
++  if (fabricStart[0] >= fabricStart[1]) throw Error('fabricStart requires increasing UV bounds');
++  const material = original.clone();
++  material.name = original.name + '_source_alpha_toon_cloth_candidate';
++  material.userData.clothCandidate = Object.freeze({ cloth, fabricStart, alphaSource: 'unchanged original map', shaderScope: 'Three 0.187 MeshBasicMaterial; SkinnedMesh' });
++  const programKey = 'm1b-shorts-cloth-trial-v4-review1:' + JSON.stringify({cloth, fabricStart});
++  material.customProgramCacheKey = () => programKey;
++  material.onBeforeCompile = shader => {
++    if (!shader.vertexShader.includes('#include <defaultnormal_vertex>') ||
++        !shader.fragmentShader.includes('#include <map_fragment>')) throw Error('Unsupported cloth shader source');
++    shader.uniforms.clothBase = { value: cloth };
++    shader.vertexShader = 'varying vec3 vClothWorldNormal;\n' + shader.vertexShader.replace(
++      '#include <defaultnormal_vertex>', '#include <defaultnormal_vertex>\nvClothWorldNormal = transformNormalByInverseViewMatrix(transformedNormal, viewMatrix);');
++    shader.fragmentShader = 'varying vec3 vClothWorldNormal;\nuniform vec3 clothBase;\n' + shader.fragmentShader.replace('#include <map_fragment>', `
++      #include <map_fragment>
++      #ifdef USE_MAP
++        // UV-band/stripe retention only; not semantic recognition of every pocket/seam.
++        float fabric = smoothstep(${fabricStart[0].toFixed(5)}, ${fabricStart[1].toFixed(5)}, vMapUv.y);
++        float seamDistance = min(abs(vMapUv.x - 0.25), abs(vMapUv.x - 0.75));
++        float seam = 1.0 - smoothstep(0.0015, 0.006, seamDistance);
++        vec3 clothNormal = normalize(vClothWorldNormal);
++        #ifdef DOUBLE_SIDED
++          clothNormal *= gl_FrontFacing ? 1.0 : -1.0;
++        #endif
++        float light = dot(clothNormal, normalize(vec3(-0.45, 0.85, 0.35)));
++        float band = 0.72 + 0.28 * smoothstep(-0.1, 0.6, light);
++        diffuseColor.rgb = mix(diffuseColor.rgb, clothBase * band, fabric * (1.0 - seam));
++        // diffuseColor.a, alphaTest and clipping intentionally untouched.
++      #endif
++    `);
++  };
++  material.needsUpdate = true;
++  return material;
++}
+--- /dev/null
++++ b/prototype/public/assets/material-recipes/m1b-shorts-cloth-v4-review1.json
+@@ -0,0 +1,43 @@
++{
++  "schema": "zbgs-garment-material-recipe-v1",
++  "id": "m1b-shorts-cloth-v4-review1",
++  "version": 1,
++  "status": "candidate-not-product-visual-acceptance",
++  "fit": {
++    "equipmentId": "m1b-uniform-shorts-v1",
++    "garmentSha256": "c8a1afd0742cbb99302abc107673744751a8cfd77c6c89df039b068054a947d0",
++    "avatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
++    "fitId": "beta-base-male-62b44b-shorts-v1",
++    "styleId": "m1b-tailored-shorts-v1"
++  },
++  "implementation": {
++    "id": "cloth-normal-v4-review1",
++    "sha256": "4539ac3f83bc5fb1fa9aa91dbfb7323a8f2e7084a5f762d9713d0ae36bcfb565",
++    "threeRevision": "187"
++  },
++  "materialNames": [
++    "M00_001_01_Bottoms_01_CLOTH",
++    "M1B_Shorts_InnerFacing"
++  ],
++  "settings": {
++    "linearColor": [
++      0.025,
++      0.032,
++      0.055
++    ],
++    "fabricStart": [
++      0.17,
++      0.21
++    ]
++  },
++  "preserves": [
++    "original GLB geometry/UV/skin weights",
++    "original alpha map/test",
++    "original unmodified materials for restore"
++  ],
++  "limits": [
++    "UV-band/stripe retention is not semantic preservation of every seam/pocket",
++    "Fixed world-light toon approximation, not PBR or fabric simulation",
++    "Only exact current male shorts fit; no male/female/variant generalization"
++  ]
++}
