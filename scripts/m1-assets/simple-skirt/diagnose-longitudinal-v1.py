@@ -1,0 +1,8 @@
+from pathlib import Path
+import argparse,json,numpy as np
+R=Path(__file__).resolve().parents[3];p=argparse.ArgumentParser();p.add_argument('--out',default='assets-source/m1/simple-skirt-v1/longitudinal-bones-v1/author-target-v1');O=(R/p.parse_args().out).resolve();assert O.is_relative_to(R)
+a=np.load(O/'author-arrays.npz');r=json.loads((O/'geometry-gate.json').read_text());F=a['faces'];H=a['hipLocal'];fixed=a['fixed'];i,j=r['edgeGate']['sourceVertices'];domains=[]
+for c in r['collisions']:
+ domains.append({'name':c['name'],'allFixed':sum(bool(fixed[F[i]].all())for i,j in c['pairs']),'mixed':sum(bool(fixed[F[i]].any()and not fixed[F[i]].all())for i,j in c['pairs']),'allFree':sum(bool(not fixed[F[i]].any())for i,j in c['pairs'])})
+r['diagnosis']={'edgeEndpointsHipLocal':H[[i,j]].tolist(),'edgeBlend':a['blend'][[i,j]].tolist(),'edgeFixed':fixed[[i,j]].tolist(),'collisionDomains':domains,'selfDomains':{'allFixed':sum(bool(fixed[F[[i,j]]].all())for i,j in r['selfPairs']),'hasFree':sum(bool(not fixed[F[[i,j]]].all())for i,j in r['selfPairs'])},'lengthQualification':'sourceLengthM in author-spec is source axial extent (.09 minus sector lower quantile), not measured along-surface meridian geodesic. It bounds this one author construction only; cannot prove material-length impossibility.','representationQualification':'Support path was reduced to3 finite chords per sector; actual render vertex residual and cross-sector continuous blend were retained. Clear support anchor/polyline does not imply clear render triangles. No rigid-control fitting to rejected target performed.'}
+(O/'geometry-gate.json').write_text(json.dumps(r,indent=2)+'\n',encoding='utf-8')
