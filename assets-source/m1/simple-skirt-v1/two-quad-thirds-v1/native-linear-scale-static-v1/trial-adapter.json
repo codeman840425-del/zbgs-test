@@ -1,0 +1,171 @@
+{
+  "sourceSha256": "02950240c98021c63ae78be5058d248709e7a12a4449782ecb03dd43663f9bc7",
+  "compiledTrialSha256": "89d3c0f6b944fbaab2d2670359d37cd9f74954dd4b79c8ae1ce013b4c3c30051",
+  "changes": [
+    {
+      "from": "A=S/'active-gap-hem-v1'",
+      "to": "A=S/'two-quad-thirds-v1'"
+    },
+    {
+      "from": "asset=A/'m1-sixfold-skirt-active-gap-hem-v1.glb'",
+      "to": "asset=A/'m1-sixfold-skirt-two-quad-thirds-v1.glb'"
+    },
+    {
+      "from": "'8e0887b54bf8849d789c4f91e85be0bd5a54c706d2e5343c0a4462639042f157'",
+      "to": "'02950240c98021c63ae78be5058d248709e7a12a4449782ecb03dd43663f9bc7'"
+    },
+    {
+      "from": "inputPath=A/'continuous-input-v1/capture.json.gz'",
+      "to": "inputPath=S/'active-gap-hem-v1/continuous-input-v1/capture.json.gz'"
+    },
+    {
+      "from": "'activeFaces':[260,2419]",
+      "to": "'activeFaces':[260,2439],'faceLineage':'../face-lineage.json'"
+    },
+    {
+      "from": "preparation={'sourceSha256'",
+      "to": "preparation={'diagnosticContinueAfterContactFailure':True,'sourceSha256'"
+    },
+    {
+      "from": "results=[];reason=None",
+      "to": "results=[];reason=None;firstFailure=None"
+    },
+    {
+      "from": "for i,frame in enumerate(frames):\n    scene.frame_set",
+      "to": "for i,frame in enumerate(frames):\n    reason=None\n    scene.frame_set"
+    },
+    {
+      "from": ";results.append(row)",
+      "to": ";row['exactColliderPairs']=pairs;row['exactSelfPairs']=selfPairs;results.append(row)"
+    },
+    {
+      "from": "    if reason:\n        (O/'rejected-shape.json.gz').write_bytes(gzip.compress(json.dumps({'reason':reason,'frame':row,'exactColliderPairs':pairs,'exactSelfPairs':selfPairs}).encode(),mtime=0));break",
+      "to": "    if reason:\n        if firstFailure is None:\n            firstFailure={'reason':reason,'frame':i+1,'simulationSeconds':i/30}\n            (O/'rejected-shape.json.gz').write_bytes(gzip.compress(json.dumps({'reason':reason,'frame':row,'exactColliderPairs':pairs,'exactSelfPairs':selfPairs}).encode(),mtime=0))\n        if reason!='actual-triangle-crossing':break"
+    },
+    {
+      "from": "result={'status':'rejected'if reason else'completed-author-curves-unreviewed','reason':reason,",
+      "to": "result={'status':'rejected'if firstFailure or reason else'completed-author-curves-unreviewed','reason':firstFailure['reason']if firstFailure else reason,'firstFailure':firstFailure,'terminationReason':'completed60-diagnostic-frames'if len(results)==60 else reason,"
+    },
+    {
+      "from": "O=A/'native-author-trial-v1'",
+      "to": "O=A/'native-linear-scale-static-v1'"
+    },
+    {
+      "from": "results=[];reason=None;firstFailure=None",
+      "to": "results=[];reason=None;firstFailure=None;firstMaterial=None;comparisons=[]"
+    },
+    {
+      "from": "gate=json.loads",
+      "to": "frames=[frames[0] for _ in range(18)]\ngate=json.loads"
+    },
+    {
+      "from": "    if reason:\n        if firstFailure is None:",
+      "to": "    if stretch.max()>1.25 and firstMaterial is None:\n        firstMaterial={'frame':i+1,'maxEdgeStretch':float(stretch.max())}\n    if reason:\n        if firstFailure is None:"
+    },
+    {
+      "from": "        if reason!='actual-triangle-crossing':break",
+      "to": "        if reason not in ('actual-triangle-crossing','material-edge-stretch'):break\n    if stretch.max()>2.0:reason='diagnostic-hard-edge2';break"
+    },
+    {
+      "from": "    lengths=np.linalg.norm",
+      "to": "    if mode=='moving' and i<18:\n        old=json.loads(gzip.decompress((A/'native-author-trial-v1'/('frame-%02d.json.gz'%(i+1))).read_bytes()))\n        oldP=np.array(old['positionsWorld']);equal=bool(np.array_equal(oldP,p));comparisons.append({'frame':i+1,'exact':equal,'maxAbsoluteDifference':float(np.max(np.abs(oldP-p)))})\n        (O/'first18-comparison.json').write_text(json.dumps(comparisons,indent=2)+'\\n',encoding='utf-8')\n        # Controlled physical setting differs; record actual old/new positions, do not assert equality.\n    lengths=np.linalg.norm"
+    },
+    {
+      "from": "'maxEdgeStretch':float(stretch.max()),",
+      "to": "'maxEdgeStretch':float(stretch.max()),'originalHemEdgeLengthMetres':float(np.linalg.norm(p[1239]-p[1240])),'originalHemEdgeRatio':float(np.linalg.norm(p[1239]-p[1240])/np.linalg.norm(points[1239]-points[1240])),"
+    },
+    {
+      "from": "'firstFailure':firstFailure,",
+      "to": "'firstFailure':firstFailure,'firstMaterialFailure':firstMaterial,'observationMode':mode,'originalAdmissionEdgeLimit':1.25,'diagnosticHardEdgeLimit':2.0,'first18Exact':all(c['exact'] for c in comparisons) if mode=='moving' else None,"
+    },
+    {
+      "from": "'completed60-diagnostic-frames'if len(results)==60 else reason",
+      "to": "'completed-observation-frames'if len(results)==len(frames) else reason"
+    },
+    {
+      "from": "'selfDistanceAuthoring':.005",
+      "to": "'selfDistanceAuthoring':.0025"
+    },
+    {
+      "from": "cc.self_distance_min=.005",
+      "to": "cc.self_distance_min=.0025"
+    },
+    {
+      "from": "'clothDistanceAuthoring':.002",
+      "to": "'clothDistanceAuthoring':.011"
+    },
+    {
+      "from": "cc.distance_min=.002",
+      "to": "cc.distance_min=.011"
+    },
+    {
+      "from": "scale=10.;cfg=",
+      "to": "mappingPath=A/'single-layer-author-v1/mapping.json';authorMap=json.loads(mappingPath.read_text());assert authorMap['sourceSha256']==hashlib.sha256(raw).hexdigest()\nauthorKeep=np.array(authorMap['authorKeepOldSim']);authorFaceIds=np.array(authorMap['authorFaceIndices']);oldToAuthor=np.full(len(points),-1,int);oldToAuthor[authorKeep]=np.arange(len(authorKeep));authorFaces=oldToAuthor[faces[authorFaceIds]];assert authorFaces.min()>=0\nassert np.array_equal(np.array(authorMap['renderToOldSim']),renderToSim)\ndef rebuildRender(q):\n    full=np.empty((len(points),3));full[authorKeep]=q\n    for rec in authorMap['innerMap']:\n        ids=np.array(rec['outerTriangleOldSim']);tri=full[ids];u=tri[1]-tri[0];un=np.linalg.norm(u);n=np.cross(u,tri[2]-tri[0]);nn=np.linalg.norm(n)\n        assert un>1e-9 and nn>2e-12,'Degenerate author mapping frame; hard stop'\n        u/=un;n/=nn;v=np.cross(n,u);full[rec['innerSim']]=np.array(rec['barycentric'])@tri+np.stack([u,v,n],axis=1)@np.array(rec['localOffsetUVNMetres'])\n    return full\nassert np.max(np.linalg.norm(rebuildRender(points[authorKeep])-points,axis=1))<1e-6\nscale=10.;cfg="
+    },
+    {
+      "from": "skirt=mesh('Actual_Source_Skirt_Offline_Cloth',points,faces)",
+      "to": "skirt=mesh('Author_Outer_Surface_Original_Render_Return_Rebuilt',points[authorKeep],authorFaces)"
+    },
+    {
+      "from": "uv[rf.ravel()]",
+      "to": "uv[rf[authorFaceIds].ravel()]"
+    },
+    {
+      "from": "animate(skirt,targets);",
+      "to": "animate(skirt,[q[authorKeep] for q in targets]);"
+    },
+    {
+      "from": "vg.add(fixed.tolist(),1.,'REPLACE')",
+      "to": "vg.add(oldToAuthor[fixed].tolist(),1.,'REPLACE')"
+    },
+    {
+      "from": "p=three(xyz.reshape(-1,3));ev.to_mesh_clear()",
+      "to": "p=rebuildRender(three(xyz.reshape(-1,3)));ev.to_mesh_clear()"
+    },
+    {
+      "from": "'renderVertices':len(source)",
+      "to": "'authorMappingSha256':hashlib.sha256(mappingPath.read_bytes()).hexdigest(),'authorVertices':len(authorKeep),'authorFaces':len(authorFaces),'originalRenderRetained':True,'physicalEquivalenceClaim':False,'renderVertices':len(source)"
+    },
+    {
+      "from": "def rebuildRender(q):\n    full=np.empty((len(points),3));full[authorKeep]=q\n    for rec in authorMap['innerMap']:\n        ids=np.array(rec['outerTriangleOldSim']);tri=full[ids];u=tri[1]-tri[0];un=np.linalg.norm(u);n=np.cross(u,tri[2]-tri[0]);nn=np.linalg.norm(n)\n        assert un>1e-9 and nn>2e-12,'Degenerate author mapping frame; hard stop'\n        u/=un;n/=nn;v=np.cross(n,u);full[rec['innerSim']]=np.array(rec['barycentric'])@tri+np.stack([u,v,n],axis=1)@np.array(rec['localOffsetUVNMetres'])\n    return full\n",
+      "to": "ringPath=A/'ring-frame-reconstruction-v1/mapping.json';ringMap=json.loads(ringPath.read_text());assert ringMap['sourceSha256']==hashlib.sha256(raw).hexdigest()\ndef rebuildRender(q):\n    full=np.empty((len(points),3));full[authorKeep]=q\n    for rec in ringMap['records']:\n        b,u,prev,nxt=rec['frameOldSim'];up=full[u]-full[b];un=np.linalg.norm(up);assert un>1e-9,'Degenerate ring up';up/=un;t=full[nxt]-full[prev];t-=up*np.dot(up,t);tn=np.linalg.norm(t);assert tn>1e-9,'Degenerate ring tangent';t/=tn;n=np.cross(up,t);full[rec['innerOldSim']]=full[b]+np.stack([up,t,n],axis=1)@np.array(rec['coeffUpTangentNormalMetres'])\n    return full\n"
+    },
+    {
+      "from": "s.tension_stiffness=15;s.compression_stiffness=15;s.shear_stiffness=8;",
+      "to": "s.tension_stiffness=150;s.compression_stiffness=150;s.shear_stiffness=80;"
+    },
+    {
+      "from": "'authorMappingSha256':hashlib.sha256(mappingPath.read_bytes()).hexdigest()",
+      "to": "'renderReturnMappingSha256':hashlib.sha256(ringPath.read_bytes()).hexdigest(),'authorMappingSha256':hashlib.sha256(mappingPath.read_bytes()).hexdigest()"
+    },
+    {
+      "from": "'self':cc.self_distance_min}",
+      "to": "'self':cc.self_distance_min},'actualBlenderMaterial':{'tension':s.tension_stiffness,'compression':s.compression_stiffness,'shear':s.shear_stiffness,'bending':s.bending_stiffness,'mass':s.mass,'airDamping':s.air_damping,'quality':s.quality,'collisionQuality':cc.collision_quality},'normalizedLinearBaseAtScale1':{'tension':s.tension_stiffness/scale,'compression':s.compression_stiffness/scale,'shear':s.shear_stiffness/scale}"
+    }
+  ],
+  "sameMappingOldParameterBaseline": "ring-frame-static-v1",
+  "authorMeshUnchangedFromSingleLayer": true,
+  "physicsOnlyChange": {
+    "tension": [
+      15,
+      150
+    ],
+    "compression": [
+      15,
+      150
+    ],
+    "shear": [
+      8,
+      80
+    ]
+  },
+  "bendingUnchanged": 0.6,
+  "selfAuthoringUnchanged": 0.0025,
+  "objectAuthoringUnchanged": [
+    0.011,
+    0.001
+  ],
+  "reason": "Verified avg_spring_len scale normalization: author units10 require linearbase10. Not parameter search.",
+  "admissionUnchanged": true,
+  "mode": "static"
+}

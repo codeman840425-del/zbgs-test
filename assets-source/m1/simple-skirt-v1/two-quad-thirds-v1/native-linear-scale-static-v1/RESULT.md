@@ -1,0 +1,9 @@
+# Verified linear unit correction on same ring map: rejected
+
+Source029render untouched; same1170point singleouter author mesh and same continuousring mapping SHA as savedoldstiffness46framebaseline. Only tension/compression/shear15/15/8→150/150/80 atauthor scale10. ActualBlender material values recorded; normalizedscale1base15/15/8. Mass.15, Angular.6, air2, quality8, collisionquality4, self.0025author, object.011+.001author all unchanged. This is the independently verified avg_spring_len unit correction, not a parameter sweep. No other trial followed.
+
+Static18 firstself5 vsoldring4, no materialfailure, terminalbody/top/chair0, self15allreturn-involved. Outeredge1.027004→1.015753, full1.074404→1.074940. Moving firstself5sameoldring, firstmaterial19=1.296915 vsold24; hard2 at29=2.168294. Terminalbody44/top86/self30 (outer17/return13). Sameframe28 comparison: edge2.107187→1.891114, body40→46, top68→80, self17→32. Differentterminaltimes must not be compared as matchedposes.
+
+Actualmaxedge29 is freeouter sim640–641/render746–747, faces1161(parent1141)/1400(parent1380). It is not causedsolely by reconstructedinner geometry. No pin/degenerate failure. No claim that fixing units cures constrainedcloth; currentresult remains rejected under zeroactualcrossing and1.25edge originalgates. No fullsitstable result becausehard2 stops before60.
+
+See same-mapping-comparison.json (mapping SHA equality asserted), surface-failure-classification.json (outer/full curves and exactanchors), trial-adapter.json (compiledchanges), preparation.json (actualBlender settings), allframefiles andfirstfailure. Terminal18static/29movingfront/side images are only untexturedcollisiondiagnostics, not game/characteracceptance. Reproduce onceinemptyisolatedoutput: SKIRT_OBSERVATION=static/moving; python scripts/m1-assets/simple-skirt/run-linear-scale-v1.py. Read-onlyanalysis/render scripts retained. Nativeprocesses each<5seconds and2threads, no retry.
