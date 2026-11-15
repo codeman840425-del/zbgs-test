@@ -16,8 +16,9 @@ for name in ['package.json','package-lock.json','vite.config.js','index.html','f
  shutil.copy2(ROOT/'prototype'/name,p/name)
 a=ROOT/args.asset_dir;m=p/'public/assets/motion/m1c'
 e=json.loads((a/'dance-imports.entry.json').read_text())
-assert hashlib.sha256((a/e['file']).read_bytes()).hexdigest()==e['sha256']
-shutil.copy2(a/e['file'],m/e['file'])
+for item in e.get('variants',[e]):
+ assert hashlib.sha256((a/item['file']).read_bytes()).hexdigest()==item['sha256']
+ shutil.copy2(a/item['file'],m/item['file'])
 f=m/'dance-imports.json';j=json.loads(f.read_text());j['entries'].append(e);f.write_text(json.dumps(j,ensure_ascii=False,indent=2),encoding='utf-8')
 # Local package resolution only; pinned lockfile is copied and receipt records it.
 subprocess.run(['cmd','/c','mklink','/J',str(p/'node_modules'),str(ROOT/'prototype/node_modules')],check=True)

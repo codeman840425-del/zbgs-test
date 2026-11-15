@@ -2,6 +2,7 @@
 // Animation data: Quaternius Universal Animation Library Standard, CC0.
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { parseNormalizedMotion } from "./normalized-motion.js";
 
 const rigMap = {
   pelvis: "hips",
@@ -49,7 +50,7 @@ for (const [suffix, side] of [
 
 export async function loadRetargetedMotions(
   vrm,
-  { walkClip = "Walk_Loop" } = {},
+  { walkClip = "Walk_Loop", avatarSha256 = null } = {},
 ) {
   const source = await new GLTFLoader().loadAsync(
     "/assets/motion/UAL1_Standard.glb",
@@ -66,13 +67,25 @@ export async function loadRetargetedMotions(
   if (!danceManifestResponse.ok) throw new Error("Dance manifest unavailable");
   const danceManifest = await danceManifestResponse.json();
   if (danceManifest.schema !== "m1.motion-import-list.1") throw new Error("Unsupported dance manifest");
-  const danceLibraries = await Promise.all(danceManifest.entries.map(async entry => {
+  const unavailableDances=[];
+  const danceEntries=danceManifest.entries.flatMap(entry=>{
+    if(entry.format!=='normalized-vrm-motion.1') return [entry];
+    const variant=entry.variants?.find(v=>v.avatarSha256===avatarSha256);
+    if(!variant){unavailableDances.push({id:entry.id,reason:'No fitted clip for this exact avatar'});return [];}
+    return [{...entry,...variant}];
+  });
+  const danceLibraries = await Promise.all(danceEntries.map(async entry => {
     const response = await fetch("/assets/motion/m1c/" + entry.file);
     if (!response.ok) throw new Error(`Dance asset unavailable: ${entry.id}`);
     const bytes = await response.arrayBuffer();
     const sha = [...new Uint8Array(await crypto.subtle.digest("SHA-256",bytes))].map(n=>n.toString(16).padStart(2,"0")).join("");
     if (sha !== entry.sha256) throw new Error(`Dance identity mismatch: ${entry.id}`);
     if (entry.rootPolicy !== "local-displacement") throw new Error(`Unsupported dance root policy: ${entry.id}`);
+    if(entry.format==='normalized-vrm-motion.1') {
+      if(bytes.byteLength!==entry.bytes) throw Error('Normalized motion byte count mismatch');
+      const fitted=parseNormalizedMotion(JSON.parse(new TextDecoder().decode(bytes)),vrm,avatarSha256,entry);
+      return {entry,fitted,key:'dance:'+entry.id};
+    }
     const library = await new GLTFLoader().parseAsync(bytes,"/assets/motion/m1c/");
     library.scene.updateWorldMatrix(true,true);
     return {entry, library, key:"dance:"+entry.id};
@@ -120,6 +133,8 @@ export async function loadRetargetedMotions(
     sitIdle: "Sitting_Idle_Loop",
     ...Object.fromEntries(danceLibraries.map(d => [d.key, d.entry.clip])),
   })) {
+    const fitted=danceLibraries.find(d=>d.key===name)?.fitted;
+    if(fitted){clips[name]=fitted;continue;}
     const library = name === "jog" ? jogSource : danceLibraries.find(d => d.key === name)?.library || source;
     const clip = THREE.AnimationClip.findByName(library.animations, sourceName);
     if (!clip) throw new Error(`Missing source clip ${sourceName}`);
@@ -204,7 +219,7 @@ export async function loadRetargetedMotions(
     );
   }
   // Source model is used for conversion only and never added to the game scene.
-  for (const library of [source, jogSource, ...danceLibraries.map(d=>d.library)]) library.scene.traverse((object) => {
+  for (const library of [source, jogSource, ...danceLibraries.map(d=>d.library)].filter(Boolean)) library.scene.traverse((object) => {
     if (object.isMesh) {
       object.geometry.dispose();
       for (const material of Array.isArray(object.material)
@@ -224,7 +239,8 @@ export async function loadRetargetedMotions(
     walkClip,
     jogDistance: jogProfile.cycleDistance * ratio,
     jogProfile,
-    dances: danceLibraries.map(d=>({...d.entry,key:d.key,radius:d.entry.space.radiusSourceM*ratio})),
+    dances: danceLibraries.map(d=>({...d.entry,key:d.key,radius:d.fitted?d.entry.space.radiusTargetM:d.entry.space.radiusSourceM*ratio})),
+    unavailableDances,
     // Official companion Root Motion GLB, both clips: +Z 1.2999999523 m
     // over 1.3333333731 s. Verified by scripts/calibrate-root-motion.py.
     // Use authored travel, not ankle excursion or instantaneous sole velocity.

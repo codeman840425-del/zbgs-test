@@ -95,7 +95,11 @@ try {
   const assetUrl =
     "/assets/foundation/" +
     (roundtrip ? "base-female-roundtrip.vrm" : "base-female.vrm");
-  const gltf = await loader.loadAsync(assetUrl);
+  const response=await fetch(assetUrl);
+  if(!response.ok) throw Error('Foundation preview asset unavailable');
+  const bytes=await response.arrayBuffer();
+  const avatarSha256=[...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(v=>v.toString(16).padStart(2,'0')).join('');
+  const gltf = await loader.parseAsync(bytes,new URL('.',new URL(assetUrl,location.href)).href);
   vrm = gltf.userData.vrm;
   VRMUtils.rotateVRM0(vrm);
   scene.add(vrm.scene);
@@ -120,7 +124,7 @@ try {
     }
     if (mats.some((m) => /_CLOTH/.test(m.name))) outer.push(mesh);
   });
-  motions = await loadRetargetedMotions(vrm);
+  motions = await loadRetargetedMotions(vrm,{avatarSha256});
   mixer = new THREE.AnimationMixer(vrm.scene);
   view();
   body(true);

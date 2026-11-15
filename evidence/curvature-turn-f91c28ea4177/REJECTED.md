@@ -1,0 +1,1 @@
+Candidate FAILED: late rapid retarget orbits near final goal; final recorded distance183.69mm, later10s wait timed out. Walk180 movie requested out-of-room goalx−5.609 and is invalid as a final-goal test. Preserve all original files. Revised legal walk180 is in sibling corrected directory; no runtime acceptance.

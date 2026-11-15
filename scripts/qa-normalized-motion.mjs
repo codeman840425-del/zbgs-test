@@ -1,0 +1,8 @@
+import fs from 'node:fs/promises';import assert from 'node:assert/strict';
+import {parseNormalizedMotion} from '../prototype/src/normalized-motion.js';
+const dir='assets-source/video-target-adaptation-v1',entry=JSON.parse(await fs.readFile(dir+'/dance-imports.entry.json','utf8'));let checks=0;
+for(const v of entry.variants){const data=JSON.parse(await fs.readFile(dir+'/'+v.file,'utf8')),known=new Set(data.clip.tracks.map(t=>t.name.split('.')[0]));const vrm={humanoid:{getNormalizedBoneNode:n=>known.has(n)?{name:'normalized_'+n}:null}};
+ const result=parseNormalizedMotion(data,vrm,v.avatarSha256,entry);assert.equal(result.tracks.length,data.clip.tracks.length);for(let t=0;t<result.tracks.length;t++){assert.equal(result.tracks[t].name,'normalized_'+data.clip.tracks[t].name);for(let i=0;i<result.tracks[t].values.length;i++)assert.ok(Math.abs(result.tracks[t].values[i]-data.clip.tracks[t].values[i])<1e-6,'Do not apply legacy basis or second retarget');}checks++;
+ for(const mutate of [d=>d.avatarSha256='0'.repeat(64),d=>d.coordinateSpace='raw-bones',d=>d.sourceClipSha256='missing',d=>d.clip.duration+=1,d=>d.clip.tracks.push(d.clip.tracks[0]),d=>d.clip.tracks[0].times[1]=d.clip.tracks[0].times[0],d=>d.clip.tracks[0].values[0]=NaN,d=>d.clip.tracks.find(t=>t.type==='quaternion').values.fill(0),d=>d.clip.tracks[0].name='unknown.quaternion',d=>d.clip.tracks.find(t=>t.type==='vector').name='head.position']){const d=structuredClone(data);mutate(d);assert.throws(()=>parseNormalizedMotion(d,vrm,v.avatarSha256,entry));checks++;}
+}
+console.log(JSON.stringify({checks,status:'pass',scope:'Both exact source fixtures; identity/time/bone/rotation rejection; no visual or collision claim'}));

@@ -1,0 +1,77 @@
+{
+  "schema": "offline-target-motion-input.1",
+  "id": "dvids-squat-target-study-v1",
+  "status": "input/design only; no fitted animation or acceptance",
+  "source": {
+    "motion": "assets-source/video-motion-v2/video-squat-dvids-wrists-v2.glb",
+    "sha256": "57cf1c8e2120341f30987c4032db1c633c46393f52ffc29de78d120da40267d4",
+    "poseSequenceRawSha256": "b8f1e070ee5b0eb3da8033174322d484590095923907fe084e4b1d20708268cc",
+    "timePolicy": "keep original PTS; no faster/slower replay",
+    "hipCoordinates": "model hip-centered prediction; not global displacement"
+  },
+  "calibration": {
+    "windowFrameIndices": [
+      0,
+      29
+    ],
+    "windowSeconds": [
+      0.0,
+      0.9676333333333336
+    ],
+    "method": "median predicted canonical ankle X separation / median predicted left+right thigh+calf length",
+    "predictedLegLengthMetres": 0.7722584102625479,
+    "predictedAnkleSeparationMedianMetres": 0.3760230758712456,
+    "predictedAnkleSeparationMinMaxMetres": [
+      0.3696036429573401,
+      0.40961305765830286
+    ],
+    "stanceToLegRatio": 0.4869135393985641,
+    "confidence": "relative single-view estimate; not metric/camera-calibrated truth"
+  },
+  "contactSchedule": {
+    "scope": "this stationary squat only, visually reviewed support assumption",
+    "left": [
+      {
+        "start": 0,
+        "end": 7.974633333333333,
+        "kind": "planted",
+        "anchorPolicy": "initial observed relative stance scaled by target leg length",
+        "evidence": "video source; explicit authored constraint, not measured contact"
+      }
+    ],
+    "right": [
+      {
+        "start": 0,
+        "end": 7.974633333333333,
+        "kind": "planted",
+        "anchorPolicy": "same",
+        "evidence": "same"
+      }
+    ]
+  },
+  "targetInputs": [
+    {
+      "body": "female",
+      "avatarSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+      "normalizedRigFile": "female-normalized-rig.json",
+      "normalizedRigSha256": "b0e825073cdd5555966215b5ba59fbba9653197bed0cb2a7c71dbce1adecaa67",
+      "footwearSha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf",
+      "meanLegLengthMetres": 0.7681418827378199,
+      "sourceToTargetLengthRatio": 0.9946694947312669,
+      "proposedAnkleWidthMetres": 0.3740186828841487,
+      "status": "proposed fit input, not generated contact result"
+    },
+    {
+      "body": "male",
+      "avatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+      "normalizedRigFile": "male-normalized-rig.json",
+      "normalizedRigSha256": "c63224bec65f4ece4260727fec9aebc7381d0cdbc9af9b4b38e2aca7d1569bbb",
+      "footwearSha256": "3e855c7f39a183ab44b8aef3ac92898f6ebc36a7cbc0e6ccfdd485b85607fe2f",
+      "meanLegLengthMetres": 0.8449560011369599,
+      "sourceToTargetLengthRatio": 1.0941363537234856,
+      "proposedAnkleWidthMetres": 0.4114205171496543,
+      "status": "proposed fit input, not generated contact result"
+    }
+  ],
+  "futureMovingMotion": "A new clip requires per-foot swing/planted/unknown intervals and advancing local root/heading. Do not reuse these constant anchors for turns, jumps or cross-steps."
+}

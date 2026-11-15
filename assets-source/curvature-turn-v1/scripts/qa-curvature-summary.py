@@ -1,0 +1,7 @@
+import pathlib,json,gzip,math,sys
+out=pathlib.Path(sys.argv[1]);summ=[]
+for p in out.glob('*.json.gz'):
+ d=json.loads(gzip.decompress(p.read_bytes()));r=next(x for x in d['events'] if x['kind']=='retarget');t=r['t'];rows=[x for x in d['frames'] if x['t']>=t];active=[x for x in rows if x['target']];first=[x for x in active if x['t']<t+1500];lastGoal=[e['target'] for e in d['events'] if e['kind'] in ['retarget','retarget-again']][-1];final=d['final'];pos=final['position'];err=math.hypot(pos[0]-lastGoal[0],pos[2]-lastGoal[1]);camera=[x['camera'] for x in d['frames']];
+ summary={'file':p.name,'retarget':r,'finalGoal':lastGoal,'finalPosition':pos,'finalGoalError':err,'finalMode':final['mode'],'recordingFailure':d.get('failure'),'minSpeedFirst1_5Seconds':min(x['speed'] for x in first),'zeroMovingFrames':sum(not x['moving'] for x in active),'nearStopFrameMs':sum(x['frameMs'] or 0 for x in first if x['speed']<.1),'wholeTurnFrames':sum(bool(x.get('turnPlan',{}).get('active')) for x in active),'maxDeviationZ':max(abs(x['position'][2]-r['from'][2]) for x in rows),'wallSeconds':(d['frames'][-1]['t']-d['frames'][0]['t'])/1000,'simSeconds':d['frames'][-1]['sim']-d['frames'][0]['sim'],'cameraUnchanged':all(x==camera[0] for x in camera),'maxFrameMs':max(x['frameMs'] or 0 for x in d['frames'])};summary['simWallRatio']=summary['simSeconds']/summary['wallSeconds'];summ.append(summary)
+(out/'summary.json').write_text(json.dumps(summ,indent=2),encoding='utf-8')
+for x in summ:print({k:v for k,v in x.items() if k not in ['retarget']})

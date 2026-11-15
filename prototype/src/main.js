@@ -514,6 +514,38 @@ function setHelpers(value) {
   updateDebugHelpers();
 }
 
+// Geometric pursuit radius contracts with the actual remaining target distance.
+// Limiting both centripetal acceleration and yaw rate avoids a near-goal orbit.
+function movingSteering(angle, distance, speed, maxSpeed) {
+  const curvature = 2*Math.sin(Math.min(Math.abs(angle),Math.PI/2))/Math.min(.8,Math.max(distance,.001));
+  if(curvature<1e-9) return {desiredSpeed:maxSpeed,yawRate:0,curvature};
+  return {
+    desiredSpeed:Math.min(maxSpeed,Math.sqrt(4.5/curvature),3.2/curvature),
+    yawRate:Math.min(3.2,4.5/Math.max(speed,.001),speed*curvature),
+    curvature,
+  };
+}
+// Compare only the two reversal arcs against the existing exact navigation
+// obstacles. This is a bounded look-ahead, not an alternative path planner.
+function reversalArcClearance(position, yaw, speed, maxSpeed, target, side, intent) {
+  const dt = 1 / 60;
+  let x = position.x, z = position.z;
+  for (let tick = 0; tick < 90; tick++) {
+    const dx = target[0]-x, dz = target[1]-z, distance = Math.hypot(dx,dz);
+    if(distance < .018) return 1.5;
+    let angle = Math.atan2(Math.sin(Math.atan2(dx,dz)-yaw),Math.cos(Math.atan2(dx,dz)-yaw));
+    if(Math.abs(angle)>1.3 && Math.sign(angle)!==side) angle += side*Math.PI*2;
+    const steering = movingSteering(angle,distance,speed,maxSpeed);
+    yaw += clamp(angle,-steering.yawRate*dt,steering.yawRate*dt);
+    const desired = Math.min(steering.desiredSpeed,Math.sqrt(2*1.8*distance));
+    const acceleration = desired<speed?locomotionAcceleration.braking:locomotionAcceleration[intent];
+    speed += clamp(desired-speed,-acceleration*dt,acceleration*dt);
+    const travel = Math.min(distance,speed*dt), nx=x+Math.sin(yaw)*travel, nz=z+Math.cos(yaw)*travel;
+    if(blocked(nx,nz)||!lineClear([x,z],[nx,nz])) return tick*dt;
+    x=nx;z=nz;
+  }
+  return 1.5;
+}
 function blocked(x, z) {
   return (
     Math.abs(x) > 4.05 ||
@@ -1012,6 +1044,7 @@ class CharacterScene extends Phaser.Scene {
     }
   }
   clearPath() {
+    this.curveTurnSign = null;
     if (!turnLegacy && this.turnPolicy.sample().active) this.turnPolicy.stop();
     this.path = [];
     this.target = null;
@@ -1084,6 +1117,7 @@ class CharacterScene extends Phaser.Scene {
     );
   }
   go(x, z, after = null) {
+    this.curveTurnSign = null;
     if (after !== "sit") this.releaseSeatRequest("movement-requested");
     if (![x, z].every(Number.isFinite))
       throw new TypeError("Walk target must be finite");
@@ -1435,32 +1469,31 @@ class CharacterScene extends Phaser.Scene {
         }
       }
       if (this.target) {
-        const heading = Math.atan2(dx, dz),
-          angle = Math.atan2(
+        const heading = Math.atan2(dx, dz);
+        let angle = Math.atan2(
             Math.sin(heading - this.yaw),
             Math.cos(heading - this.yaw),
           );
-        // Normal corners steer without restarting the locomotion phase.
-        // A reversal brakes along the current facing before the whole-turn
-        // phrase begins; receiving a new target never zeroes velocity itself.
+        if (!turnLegacy && this.speed > .06 && !this.turnPolicy.sample().active) {
+          if (Math.abs(angle)<1.3) this.curveTurnSign=null;
+          if (!this.curveTurnSign && Math.abs(angle)>2.8) {
+            const shortest=Math.sign(angle), normal=reversalArcClearance(root.position,this.yaw,this.speed,this.maxSpeed,this.target,shortest,this.locomotionIntent);
+            const opposite=reversalArcClearance(root.position,this.yaw,this.speed,this.maxSpeed,this.target,-shortest,this.locomotionIntent);
+            this.curveTurnSign=opposite>normal ? -shortest : shortest;
+          }
+          if(this.curveTurnSign && Math.abs(angle)>1.3 && Math.sign(angle)!==this.curveTurnSign)
+            angle+=this.curveTurnSign*Math.PI*2;
+        }
+        // Moving corners/reversals share a continuous steering envelope.
+        // Only an already stationary character needs the planted turn phrase;
+        // receiving a new target does not reset locomotion or zero velocity.
         if (!turnLegacy) {
           if (this.turnPolicy.sample().active) {
             this.turnPolicy.requestHeading(heading);
             this.pathTurn = "turn";
-          } else if (Math.abs(angle) > 1.75 ||
-              (this.speed < .06 && !this.rig.getMetrics().moving && Math.abs(angle) > .27)) {
-            if (this.speed > .06) {
-              this.pathTurn = "brake";
-              this.speed = Math.max(0, this.speed - 4.5 * dt);
-              const travel = this.speed * dt;
-              const x = root.position.x + Math.sin(this.yaw) * travel;
-              const z = root.position.z + Math.cos(this.yaw) * travel;
-              if (!blocked(x,z)) { root.position.x=x;root.position.z=z;moved=travel;this.distance+=travel; }
-              else this.speed=0;
-            } else {
-              this.beginTurn();this.turnPolicy.requestHeading(heading);
-              this.pathTurn="turn";this.speed=0;
-            }
+          } else if (this.speed < .06 && !this.rig.getMetrics().moving && Math.abs(angle) > .27) {
+            this.beginTurn();this.turnPolicy.requestHeading(heading);
+            this.pathTurn="turn";this.speed=0;
           } else this.pathTurn=null;
         }
         if (turnLegacy && !this.pathTurn && Math.abs(angle) > 0.65)
@@ -1480,7 +1513,11 @@ class CharacterScene extends Phaser.Scene {
           // Start locomotion on the following substep, preserving lastActual.
           if (Math.abs(angle) <= dt * 0.8 + 1e-6) this.pathTurn = null;
         } else if (!this.pathTurn && !this.turnPolicy.sample().active) {
-          const yawStep = clamp(angle, -dt * 3.2, dt * 3.2);
+          // Moving steering uses one continuous lateral-acceleration envelope.
+          // a_lateral = speed * yawRate; no cosine-to-zero speed handoff.
+          const steering = movingSteering(angle,dist,this.speed,this.maxSpeed);
+          const yawRate = turnLegacy ? 3.2 : steering.yawRate;
+          const yawStep = clamp(angle, -dt * yawRate, dt * yawRate);
           this.yaw += yawStep;
           root.rotation.y = this.yaw;
           this.turning = Math.abs(angle) > 0.2;
@@ -1492,9 +1529,10 @@ class CharacterScene extends Phaser.Scene {
           }
           const cornerFactor =
             this.path.length && dist < 0.4 ? 0.5 + (0.5 * dist) / 0.4 : 1;
+          const steeringSpeed = turnLegacy ? Infinity : steering.desiredSpeed;
           const desired =
-            Math.min(this.maxSpeed, Math.sqrt(2 * 1.8 * remaining)) *
-            Math.max(0, Math.cos(angle)) ** 3 *
+            Math.min(this.maxSpeed, Math.sqrt(2 * 1.8 * remaining), steeringSpeed) *
+            (turnLegacy ? Math.max(0, Math.cos(angle)) ** 3 : 1) *
             cornerFactor;
           const accel = desired < this.speed
             ? locomotionAcceleration.braking
@@ -1847,7 +1885,7 @@ async function loadComparison(bodyType = avatar.profile.bodyType === "female" ? 
   // calibration are ready. Do not hide its root: calibration reads visibility.
   a = await loadFoundationAvatar({ scene: world, renderer, bodyType, attachToScene: false });
   a.root.position.set(1.2, 0, 1.15);
-  const clips = await loadRetargetedMotions(a.vrm);
+  const clips = await loadRetargetedMotions(a.vrm,{avatarSha256:a.getAssetProfile().sha256});
   const m = createMotion(a.vrm, a.root, clips, a.profile.motion);
   const peerController = new CharacterScene({ avatar: a, motion: m, actorId: `room-peer-${generation}`, position: [1.2, 0, 1.15] });
   const instance = {
@@ -1933,7 +1971,7 @@ loadAvatar({ scene: world, renderer })
     avatar = a;
     bindFoundationControls(a);
     avatar.root.position.set(...initialPosition);
-    const motions = await loadRetargetedMotions(avatar.vrm);
+    const motions = await loadRetargetedMotions(avatar.vrm,{avatarSha256:avatar.getAssetProfile?.().sha256});
     motion = createMotion(
       avatar.vrm,
       avatar.root,
