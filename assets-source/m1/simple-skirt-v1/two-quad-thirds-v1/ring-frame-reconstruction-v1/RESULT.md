@@ -1,0 +1,7 @@
+# Frozen-outer continuous ring mapping: still rejected
+
+One replacement mapping only, no cloth execution or neighborhood sweep. Original120ring columns use actual bottom/up and cyclicprevious/nextbottom to define orthonormal up/tangent/normal, with source-local coefficients preserving all original points including thickness. Same frozen029render asset and all2440faces retained. Initial double precision reconstruction0m; actualnativefirstframe maxerror.112919µm. Every one of46savedframes has outerarray SHA unchanged, listed in result inputs.
+
+Static18 self15→13 (outer0), fullmax1.092983→1.074404; outermax1.027004 unchanged. Across18frames pair-frame sum260→240,9frames fewer/0more. Moving28 self20→17 (outer4 unchanged), firstself4→5. Across28frames415→367,20frames fewer/3more. Full/outer max2.107187 andbody40/top68 unchanged: render mapping cannot repair failed native outer geometry. No zero-self approval; not all frames improve.
+
+`mapping.json`, `old-new-comparison.json`, siblingring-frame-static/moving-v1 contain exactoriginalinputSHA, new full arrays, actualcollision pair lists, samecamera terminal images. Images only solid collider meshes, not fullcharacter/material/game acceptance. `rebuild-ring-frame-v1.py` runs once on savedouter and refuses output overwrite; no physics. `render-ring-frame-v1.py` renders saved data only. This map is chosen as a controlled baseline for the separately authorized author-unit stiffness correction, not as an accepted garment.

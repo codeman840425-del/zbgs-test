@@ -1,0 +1,36 @@
+"""One continuous column-frame reconstruction on frozen outer arrays. NO CLOTH."""
+from pathlib import Path
+import hashlib,time
+from mathutils.bvhtree import BVHTree
+R=Path(__file__).resolve().parents[3];src=R/'scripts/m1-assets/simple-skirt/diagnose-two-quad-dynamic.py';exec(compile(src.read_text().split('initialRender=')[0],str(src),'exec'),globals())
+D=A/'ring-frame-reconstruction-v1';assert not D.exists();D.mkdir();initial=posed(cap['frames'][0])[representatives];hem=json.loads((S/'hem-return-v1/hem-mapping.json').read_text());previousMap=json.loads((A/'single-layer-author-v1/mapping.json').read_text());keep=np.array(previousMap['authorKeepOldSim']);authorFaceIds=np.array(previousMap['authorFaceIndices']);records=[]
+def frame(P,ids):
+ b,u,prev,nxt=map(int,ids);up=P[u]-P[b];un=np.linalg.norm(up);assert un>1e-9;up/=un;t=P[nxt]-P[prev];t-=up*np.dot(up,t);tn=np.linalg.norm(t);assert tn>1e-9;t/=tn;n=np.cross(up,t);return np.stack([up,t,n],axis=1)
+for row in hem[:120]:
+ col=row['outerVertex']-(20+8*121);ids=[int(mapping[counts[0]+row['outerVertex']]),int(mapping[counts[0]+row['upperNeighborVertex']]),int(mapping[counts[0]+20+8*121+(col-1)%120]),int(mapping[counts[0]+20+8*121+(col+1)%120])];inner=int(mapping[counts[0]+row['lowerVertex']]);F=frame(initial,ids);coeff=F.T@(initial[inner]-initial[ids[0]]);records.append({'column':col,'innerOldSim':inner,'frameOldSim':ids,'coeffUpTangentNormalMetres':coeff.tolist()})
+def rebuild(P):
+ Q=P.copy()
+ for rec in records:
+  ids=rec['frameOldSim'];Q[rec['innerOldSim']]=P[ids[0]]+frame(P,ids)@np.array(rec['coeffUpTangentNormalMetres'])
+ return Q
+initialError=float(np.linalg.norm(rebuild(initial)-initial,axis=1).max());assert initialError<1e-6
+mappingReport={'sourceSha256':hashlib.sha256(raw).hexdigest(),'hemMappingSha256':hashlib.sha256((S/'hem-return-v1/hem-mapping.json').read_bytes()).hexdigest(),'method':'Original120columns: bottom→up plus cyclicprevious/nextbottom; orthonormal up/tangent/cross; restcoefficients exactly preserve source including signed normal residual. No localtriangle nearest selection.','records':records,'initialRebuildMaxMetres':initialError,'neighborhoodSweep':False,'originalRenderAssetUnchanged':True};(D/'mapping.json').write_text(json.dumps(mappingReport,indent=2)+'\n')
+allEdges=np.unique(np.sort(np.concatenate([faces[:,[0,1]],faces[:,[1,2]],faces[:,[2,0]]]),axis=1),axis=0);af=faces[authorFaceIds];ae=np.unique(np.sort(np.concatenate([af[:,[0,1]],af[:,[1,2]],af[:,[2,0]]]),axis=1),axis=0);base=np.linalg.norm(initial[allEdges[:,0]]-initial[allEdges[:,1]],axis=1);abase=np.linalg.norm(initial[ae[:,0]]-initial[ae[:,1]],axis=1);fixedIds=np.array(sorted(fixed));tree=lambda p,f:BVHTree.FromPolygons(np.asarray(p).tolist(),np.asarray(f).tolist(),all_triangles=True);boxFaces=np.array([[0,1,3],[0,3,2],[4,6,7],[4,7,5],[0,4,5],[0,5,1],[2,3,7],[2,7,6],[0,2,6],[0,6,4],[1,5,7],[1,7,3]])
+summary=[]
+for mode in ['static','moving']:
+ old=A/('native-single-layer-'+mode+'-v1');O=A/('ring-frame-'+mode+'-v1');assert not O.exists();O.mkdir();oldResult=json.loads((old/'result.json').read_text());rows=[];first=None;material=None;inputs=[]
+ for number in range(1,oldResult['frames']+1):
+  path=old/('frame-%02d.json.gz'%number);fr=json.loads(gzip.decompress(path.read_bytes()));P=np.array(fr['positionsWorld']);Q=rebuild(P);assert np.array_equal(P[keep],Q[keep]);outerHash=hashlib.sha256(P[keep].astype('<f8').tobytes()).hexdigest();inputs.append({'frame':number,'inputSha256':hashlib.sha256(path.read_bytes()).hexdigest(),'outerSHA256':outerHash,'rebuiltOuterSHA256':hashlib.sha256(Q[keep].astype('<f8').tobytes()).hexdigest()});ct=tree(Q,faces);captureFrame=cap['frames'][0 if mode=='static' else number-1];pairs={}
+  for mesh in captureFrame['colliders']:
+   cp=np.array(mesh['positions']).reshape(-1,3);cf=np.array(mesh['triangles']).reshape(-1,3);pairs[mesh['name']]=ct.overlap(tree(cp,cf))
+  for box in captureFrame['chair']:
+   lo=box['min'];hi=box['max'];cp=np.array([[x,y,z,1]for x in [lo[0],hi[0]]for y in [lo[1],hi[1]]for z in [lo[2],hi[2]]])@np.array(box['matrixWorld']).reshape(4,4);pairs[box['name']]=ct.overlap(tree(cp[:,:3],boxFaces))
+  selfPairs=[(a,b)for a,b in ct.overlap(ct)if a<b and not(set(faces[a])&set(faces[b]))];rat=np.linalg.norm(Q[allEdges[:,0]]-Q[allEdges[:,1]],axis=1)/base;ar=np.linalg.norm(Q[ae[:,0]]-Q[ae[:,1]],axis=1)/abase;areas=np.linalg.norm(np.cross(Q[faces[:,1]]-Q[faces[:,0]],Q[faces[:,2]]-Q[faces[:,0]]),axis=1)*.5;target=posed(captureFrame)[representatives];res=float(np.linalg.norm(Q[fixedIds]-target[fixedIds],axis=1).max());i=int(rat.argmax());edge=allEdges[i]
+  row=dict(fr);row.update(positionsWorld=Q.tolist(),maxEdgeStretch=float(rat.max()),authorOuterMaxEdge=float(ar.max()),minimumAreaMetres2=float(areas.min()),fixedPointResidualMetres=res,exactColliderPairs=pairs,colliderPairs={k:len(v)for k,v in pairs.items()},exactSelfPairs=selfPairs,selfPairs=len(selfPairs),outerOnlySelfPairCount=int(sum(lineage[a]<2180 and lineage[b]<2180 for a,b in selfPairs)),returnInvolvedSelfPairCount=int(sum(lineage[a]>=2180 or lineage[b]>=2180 for a,b in selfPairs)),outerFrozenExact=True,maximumEdgeOldSim=edge.tolist(),maximumEdgeRenderIndices=[np.flatnonzero(mapping==q).tolist()for q in edge],previousLocalTriangleFrame={'selfPairs':fr['selfPairs'],'colliderPairs':fr['colliderPairs'],'maxEdgeStretch':fr['maxEdgeStretch']})
+  # Offline replay evaluates ALL already-frozen frames, even rejected. It does not advance a solver.
+  reason='nonfinite-or-degenerate'if not np.isfinite(Q).all()or areas.min()<1e-12 else'fixed-pin-residual'if res>.00002 else'actual-triangle-crossing'if any(pairs.values())or selfPairs else None
+  if reason and first is None:first={'frame':number,'reason':reason};(O/'rejected-shape.json.gz').write_bytes(gzip.compress(json.dumps({'frame':row,'reason':reason}).encode(),mtime=0))
+  if rat.max()>1.25 and material is None:material={'frame':number,'ratio':float(rat.max())}
+  rows.append({k:v for k,v in row.items()if k!='positionsWorld'});(O/('frame-%02d.json.gz'%number)).write_bytes(gzip.compress(json.dumps(row).encode(),mtime=0))
+ result={'status':'rejected'if first or material else'geometry-only-unreviewed','firstFailure':first,'firstMaterialFailure':material,'frames':len(rows),'physicsExecuted':False,'frozenInputDirectory':old.name,'sourceSha256':hashlib.sha256(raw).hexdigest(),'mappingSha256':hashlib.sha256((D/'mapping.json').read_bytes()).hexdigest(),'initialNativeFrameErrorMetres':float(np.linalg.norm(np.array(json.loads(gzip.decompress((O/'frame-01.json.gz').read_bytes()))['positionsWorld'])-initial,axis=1).max()),'allOuterArraysExactlyUnchanged':True,'summaries':rows,'inputs':inputs,'limits':['No newcloth, no projection, no body/control changes.','Frozenouter failed contact/material remains failed; only inner mapping examined.','Alloriginalrenderfaces remain in fullcontact/self/strain gates.']};(O/'result.json').write_text(json.dumps(result,indent=2)+'\n');summary.append({'mode':mode,'firstFailure':first,'firstMaterial':material,'initialNativeError':result['initialNativeFrameErrorMetres'],'last':{k:rows[-1][k]for k in ['maxEdgeStretch','authorOuterMaxEdge','colliderPairs','selfPairs','outerOnlySelfPairCount','returnInvolvedSelfPairCount']}})
+(D/'summary.json').write_text(json.dumps(summary,indent=2)+'\n');print(json.dumps(summary,indent=2))
