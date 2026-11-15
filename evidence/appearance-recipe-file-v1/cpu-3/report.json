@@ -1,0 +1,87 @@
+{
+  "scope": "Real recipe + facial geometry + actual male GLB/equipment getter; mock colors/controller and file IO. No localStorage or browser. UI download/file chooser awaits fixed browser QA.",
+  "inputs": [
+    {
+      "file": "prototype/src/appearance-recipe.js",
+      "sha256": "1811fadabb25cc4e8340b8f7bc3ef7ffa955d2e94b46e4d19eb778997121a348"
+    },
+    {
+      "file": "prototype/src/appearance-workbench.js",
+      "sha256": "0bbf60016146958eb3dc31304e222f9216351be949b1f4e007ce5e4eef9b85ea"
+    },
+    {
+      "file": "prototype/src/main.js",
+      "sha256": "2c1f6204421c21a75560947e6dc16f39f95534bbeeac02bbbb6c6b243c7aed16"
+    }
+  ],
+  "results": [
+    {
+      "name": "fresh-instance-file-a-without-local-storage",
+      "pass": true
+    },
+    {
+      "name": "fresh-instance-file-b-without-local-storage",
+      "pass": true
+    },
+    {
+      "name": "wrong-base-preserves-current",
+      "pass": true
+    },
+    {
+      "name": "wrong-avatar-sha-preserves-current",
+      "pass": true
+    },
+    {
+      "name": "bad-equipment-binding-preserves-current",
+      "pass": true
+    },
+    {
+      "name": "bad-geometry-dependency-preserves-current",
+      "pass": true
+    },
+    {
+      "name": "bad-rules-preserves-current",
+      "pass": true
+    },
+    {
+      "name": "bad-hair-dependency-preserves-current",
+      "pass": true
+    },
+    {
+      "name": "invalid-json-object-byte-size-and-file-size-rejected",
+      "pass": true
+    },
+    {
+      "name": "file-read-pending-geometry-cancels",
+      "pass": true
+    },
+    {
+      "name": "file-read-pending-appearance-cancels",
+      "pass": true
+    },
+    {
+      "name": "file-read-pending-outfit-cancels",
+      "pass": true
+    },
+    {
+      "name": "file-read-pending-actor-cancels",
+      "pass": true
+    },
+    {
+      "name": "file-read-pending-dispose-cancels",
+      "pass": true
+    },
+    {
+      "name": "concurrent-import-explicitly-rejected-while-loading",
+      "pass": true
+    },
+    {
+      "name": "newer-color-during-import-is-not-rolled-back",
+      "pass": true
+    },
+    {
+      "name": "HTTP-dependency-failure-preserves-original",
+      "pass": true
+    }
+  ]
+}

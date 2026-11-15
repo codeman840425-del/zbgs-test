@@ -35,7 +35,7 @@ export function validateAppearanceRecipe(controller,record){
  if((legacy||legacyBrow)&&(record.geometry?.noseSample!==undefined||record.geometry?.noseRecipeSha256!==undefined))throw Error('旧版配方不能携带新版鼻部数据');
  if((legacy||legacyBrow||legacyNose)&&(record.geometry?.eyeSample!==undefined||record.geometry?.eyeRecipeSha256!==undefined))throw Error('旧版配方不能携带新版眼部数据');
  if(record.base?.bodyType!==a.profile.bodyType||record.base.sha256!==a.profile.sha256)
-  throw Error('此配方属于另一具身体或资源版本，请先选择对应原样件');
+  throw Error(`此配方属于${({female:'女性原版',male:'男性原版','m1a-jaw-v1':'女性下颌样件','m1a-waisthip-v1':'女性腰胯样件','m2-male-jaw-v1':'男性下颌样件'})[record.base?.bodyType]||'未知基模'}，请先选择对应人物；资源 SHA 也必须一致，当前人物未切换`);
  if(!a.appearance.getState().availableStyles.includes(record.appearance?.hairStyle))throw Error('配方发型未适配当前身体');
  for(const [key,choices] of [['hairColor',HAIR_COLORS],['skinTone',SKIN_TONES],['eyeColor',EYE_COLORS],['lipColor',LIP_COLORS]])
   if(!Object.hasOwn(choices,record.appearance[key]))throw Error('未知配色：'+key);
@@ -106,4 +106,35 @@ export async function applyAppearanceRecipe(controller,record){
   if(restored.some(r=>!r.applied))throw Error(`恢复配方失败，回退也未完成：${error.message}`);
   throw Error(`恢复配方失败，先前外观已保留：${error.message}`);
  }
+}
+
+
+// File/agent transport uses the same native recipe and restoration transaction.
+export const APPEARANCE_RECIPE_MAX_BYTES=256*1024;
+export function parseAppearanceRecipeText(text){
+ if(typeof text!=='string')throw Error('配方必须是 JSON 文本');
+ if(text.length>APPEARANCE_RECIPE_MAX_BYTES||new TextEncoder().encode(text).byteLength>APPEARANCE_RECIPE_MAX_BYTES)throw Error('配方文件超过 256 KiB 限制');
+ let record;try{record=JSON.parse(text);}catch{throw Error('配方不是有效的 JSON 文件');}
+ if(!record||typeof record!=='object'||Array.isArray(record))throw Error('配方必须是 JSON 对象');
+ return record;
+}
+export function exportAppearanceRecipe(controller){
+ const record=captureAppearanceRecipe(controller);
+ validateAppearanceRecipe(controller,record);
+ const text=JSON.stringify(record,null,2)+'\n';
+ parseAppearanceRecipeText(text);
+ return text;
+}
+export function importAppearanceRecipe(controller,text){
+ return applyAppearanceRecipe(controller,parseAppearanceRecipeText(text));
+}
+export async function readAppearanceRecipeFile(controller,file,{isCancelled=()=>false}={}){
+ if(!file||!Number.isSafeInteger(file.size)||file.size<0||file.size>APPEARANCE_RECIPE_MAX_BYTES||typeof file.text!=='function')throw Error('配方文件无效或超过 256 KiB 限制');
+ const actor=controller.actor,appearanceRevision=actor.appearance.getState().revision,
+  geometryRevision=actor.facialGeometry.getState().revision,outfitRevision=controller.outfitRevision||0;
+ const text=await file.text();
+ if(isCancelled()||controller.actor!==actor||actor.appearance.getState().revision!==appearanceRevision||
+  actor.facialGeometry.getState().revision!==geometryRevision||(controller.outfitRevision||0)!==outfitRevision)
+  return{applied:false,cancelled:true};
+ return importAppearanceRecipe(controller,text);
 }

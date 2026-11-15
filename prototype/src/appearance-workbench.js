@@ -1,4 +1,4 @@
-import {captureAppearanceRecipe,applyAppearanceRecipe,appearanceDraftKey} from './appearance-recipe.js';
+import {captureAppearanceRecipe,applyAppearanceRecipe,appearanceDraftKey,exportAppearanceRecipe,readAppearanceRecipeFile} from './appearance-recipe.js';
 // DOM binding only: appearance ownership and camera framing stay in the controller.
 export function bindAppearanceWorkbench({ controller }) {
   const url = new URL(window.location.href);
@@ -44,6 +44,12 @@ export function bindAppearanceWorkbench({ controller }) {
   const draftPanel=document.createElement('div');draftPanel.className='appearance-pair';
   draftPanel.innerHTML='<button type="button" id="appearance-save">保存此基模草稿</button><button type="button" id="appearance-restore">恢复已保存草稿</button>';
   fields.append(draftPanel);
+  const filePanel=document.createElement('div');filePanel.className='appearance-pair';
+  filePanel.innerHTML='<button type="button" id="appearance-download">下载配方</button><button type="button" id="appearance-read">读取配方</button><input type="file" accept=".json,application/json" hidden aria-label="读取外观配方 JSON">';
+  fields.append(filePanel);
+  const fileNote=document.createElement('p');fileNote.className='appearance-hint';fileNote.textContent='文件仅含此外观、几何与服装的参数及资源版本，不含账户、动作、镜头或资源本体；读取前请选择对应基模。';fields.append(fileNote);
+  const recipeFile=filePanel.querySelector('input');
+
   const listeners = [];
   let disposed = false, busy = false;
   let roomView = url.searchParams.get('view') === 'room';
@@ -238,6 +244,32 @@ export function bindAppearanceWorkbench({ controller }) {
   on(draftPanel.querySelector('#appearance-save'),'click',()=>{
     try{const recipe=captureAppearanceRecipe(controller);localStorage.setItem(appearanceDraftKey(actor().profile.bodyType),JSON.stringify(recipe));message('此基模草稿已保存；重新打开此基模时自动恢复');}
     catch(e){message('保存失败：'+e.message,true);}
+  });
+  on(filePanel.querySelector('#appearance-download'),'click',()=>{
+    if(busy||disposed)return;
+    let objectURL;
+    try{
+      const text=exportAppearanceRecipe(controller);
+      objectURL=URL.createObjectURL(new Blob([text],{type:'application/json'}));
+      const link=document.createElement('a');link.href=objectURL;
+      link.download=`appearance-${actor().profile.bodyType}.json`;
+      document.body.append(link);try{link.click();}finally{link.remove();}
+      message('配方已下载；读取时请选择同一基模，文件不包含资源本体');
+    }catch(e){message('下载失败：'+e.message,true);}
+    finally{if(objectURL)setTimeout(()=>URL.revokeObjectURL(objectURL),1000);}
+  });
+  on(filePanel.querySelector('#appearance-read'),'click',()=>{if(!busy&&!disposed)recipeFile.click();});
+  on(recipeFile,'change',async()=>{
+    const file=recipeFile.files?.[0];recipeFile.value='';
+    if(!file||busy||disposed)return;
+    setBusy(true);message('正在读取配方并核对资源版本…');
+    try{
+      const result=await readAppearanceRecipeFile(controller,file,{isCancelled:()=>disposed});
+      if(disposed)return;
+      if(!result.applied&&!result.cancelled)throw Error(result.reason||'读取未完成');
+      sync();message(result.cancelled?'较新的操作已保留，文件读取已停止':result.notice||'已从文件恢复外观、几何和服装；未写入本机草稿');
+    }catch(e){if(!disposed){sync();message(String(e.message||e),true);}}
+    finally{if(!disposed)setBusy(false);}
   });
   async function restoreDraft(automatic=false){
     if(busy||disposed)return;

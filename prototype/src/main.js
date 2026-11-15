@@ -9,6 +9,7 @@ import { createTurnPolicy } from "./turn-policy.js";
 import { createBehaviorTasks } from "./behavior-tasks.js";
 import { createSeatLeases } from "./seat-lease.js";
 import { bindAppearanceWorkbench } from "./appearance-workbench.js";
+import { exportAppearanceRecipe, importAppearanceRecipe } from "./appearance-recipe.js";
 import "./style.css";
 
 // Phaser owns input, path movement, action sequencing and frame scheduling.
@@ -1828,6 +1829,8 @@ window.__debug = {
   request: request => controller.requestBehavior(request),
   tasks: () => controller.behaviorTasks,
   command: emit,
+  exportAppearanceRecipe: () => exportAppearanceRecipe(controller),
+  importAppearanceRecipe: text => importAppearanceRecipe(controller, text),
   snapshot,
   action: (name) => emit({ type: "action", name }),
   setSpeed: (value) => emit({ type: "speed", value }),
