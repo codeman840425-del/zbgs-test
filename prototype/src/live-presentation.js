@@ -1,3 +1,4 @@
+import {fitGlassesTemples} from './glasses-temple-fit.js';
 import * as THREE from 'three';
 import {createGreetingLayer} from './greeting-layer.js';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
@@ -117,6 +118,7 @@ export function createLivePresentation({vrm,root,bodyType='female',avatarSha256=
    const response=await fetch(entry.url,{signal:controller.signal});if(!response.ok)throw Error('Accessory HTTP '+response.status);const bytes=await response.arrayBuffer();
    const hash=[...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(x=>x.toString(16).padStart(2,'0')).join('');if(bytes.byteLength!==entry.bytes||hash!==entry.sha256)throw Error('Accessory integrity check failed: '+entry.id);
    const gltf=await new GLTFLoader().parseAsync(bytes,new URL('.',new URL(entry.url,window.location.href)).href);object=gltf.scene;object.name='LiveAccessory:'+kind;
+   if(kind==='glasses'&&new URLSearchParams(location.search).get('glassesFit')!=='legacy'){object.userData.templeFit=await fitGlassesTemples(object,{bodySHA256:avatarSha256,accessorySHA256:hash,signal:controller.signal});}
    if(disposed||version!==slot.version){disposeObject(object);return{applied:false,cancelled:true};}
    object.traverse(o=>{if(o.isMesh){o.castShadow=true;o.frustumCulled=false;}});disposeObject(slot.object);slot.object=object;slot.entry=entry;mount.add(object);slot.status='on';postUpdate();return{applied:true,sha256:hash};
   }catch(e){if(object&&object!==slot.object)disposeObject(object);if(disposed||version!==slot.version||e.name==='AbortError')return{applied:false,cancelled:true};slot.error=String(e.message||e);slot.status='error';slot.requested=false;throw e;}
@@ -178,7 +180,7 @@ export function createLivePresentation({vrm,root,bodyType='female',avatarSha256=
   setExpression(value){if(!['neutral','happy','aa'].includes(value))throw RangeError('Unknown expression');preset=value;},
   setSpeaking(value){speaking=Boolean(value);},
   setGaze(value){if(value==null){gaze=null;return;}const v=Array.isArray(value)?new V(...value):value.clone();if(![v.x,v.y,v.z].every(Number.isFinite))throw TypeError('Finite world gaze target required');gaze=v;},
-  getState(){return{greeting:greeting.getState(),bodyType,avatarSha256,preset,speaking,speakingMode:'procedural-vowel-demo-not-audio-lipsync',time,gaze:gaze?.toArray()??null,action:currentAction,actionSupport:canPerform(currentAction),arm:armMetrics,fit:{...fit,eyeSpacing,armLengths:armLengths.slice(),gripProfile:gripProfile?{id:gripProfile.id,sha256:gripProfile.sha256,compatibleAvatarSha256:gripProfile.compatibleAvatarSha256,compatibleAccessorySha256:gripProfile.compatibleAccessorySha256,fitVersion:gripProfile.fitVersion,method:gripProfile.method}:null,verified:false},accessories:Object.fromEntries(Object.entries(slots).map(([k,s])=>[k,{requested:s.requested,status:s.status,loaded:Boolean(s.object),error:s.error,sha256:s.entry?.sha256??null}]))};},
+  getState(){return{greeting:greeting.getState(),bodyType,avatarSha256,preset,speaking,speakingMode:'procedural-vowel-demo-not-audio-lipsync',time,gaze:gaze?.toArray()??null,action:currentAction,actionSupport:canPerform(currentAction),arm:armMetrics,fit:{...fit,glassesTempleProfile:slots.glasses.object?.userData.templeFit??null,eyeSpacing,armLengths:armLengths.slice(),gripProfile:gripProfile?{id:gripProfile.id,sha256:gripProfile.sha256,compatibleAvatarSha256:gripProfile.compatibleAvatarSha256,compatibleAccessorySha256:gripProfile.compatibleAccessorySha256,fitVersion:gripProfile.fitVersion,method:gripProfile.method}:null,verified:false},accessories:Object.fromEntries(Object.entries(slots).map(([k,s])=>[k,{requested:s.requested,status:s.status,loaded:Boolean(s.object),error:s.error,sha256:s.entry?.sha256??null}]))};},
   dispose(){if(disposed)return;disposed=true;greeting.dispose();for(const s of Object.values(slots)){s.version++;s.abort?.abort();disposeObject(s.object);s.object=null;}for(const f of fingers)if(holdWeight>0&&f.authored)f.bone.quaternion.copy(f.authored);for(const k of facialKeys)vrm.expressionManager?.setValue(k,0);if(vrm.lookAt&&oldLookAt){vrm.lookAt.reset();vrm.lookAt.autoUpdate=oldLookAt.autoUpdate;vrm.lookAt.target=oldLookAt.target;}mount.removeFromParent();},
  };
 }
