@@ -1,0 +1,347 @@
+import * as THREE from "three";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { VRMLoaderPlugin, VRMUtils } from "@pixiv/three-vrm";
+import { createM1Equipment } from "./m1-equipment.js";
+import { foundationProfile } from "./foundation-profiles.js";
+import { createLivePresentation } from "./live-presentation.js";
+import { createCharacterAppearance } from "./character-appearance.js";
+import { createFacialGeometry } from "./facial-geometry.js";
+import { prepareFaceProgramFirstUse } from "./face-program-firstuse.js";
+import { validateForearmProfile } from "./forearm-envelope-projection.js";
+import { validateJointHandProfile } from "./joint-hand-workspace.mjs";
+
+// Each actor owns its prewarm variants. Geometry UUID is deliberately omitted:
+// a new clone with identical layouts/material versions reuses the same program.
+export function createFaceGeometryWarmup(renderer,scene) {
+  const entries=new Map(),batches=new Set();let disposed=false;
+  let contextProperties=renderer.properties,contextGL=renderer.getContext();
+  const layout=a=>[a.count,a.itemSize,a.normalized,a.gpuType,(a.array||a.data?.array)?.constructor.name];
+  const key=({mesh,geometry})=>JSON.stringify([
+    mesh.uuid,!!mesh.isSkinnedMesh,!!mesh.isInstancedMesh,
+    Object.keys(geometry.attributes).sort().map(name=>[name,layout(geometry.attributes[name])]),
+    Object.keys(geometry.morphAttributes).sort().map(name=>[name,geometry.morphAttributes[name].map(layout)]),
+    geometry.morphTargetsRelative,geometry.groups,
+    (Array.isArray(mesh.material)?mesh.material:[mesh.material]).map(m=>[m.uuid,m.version]),
+  ]);
+  const release=entry=>{if(entry.released)return;entry.released=true;for(const material of entry.materials)material.dispose();};
+  const current=entry=>{const materials=Array.isArray(entry.mesh.material)?entry.mesh.material:[entry.mesh.material];return materials.length===entry.originals.length&&materials.every((m,i)=>m===entry.originals[i].material&&m.version===entry.originals[i].version);};
+  const forget=entry=>{if(entries.get(entry.signature)===entry)entries.delete(entry.signature);release(entry);};
+  // Context lifetime belongs to the shared actor cache, not one geometry request.
+  const invalidate=reason=>{
+    for(const batch of batches)batch.abort(reason);
+    for(const entry of entries.values())release(entry);
+    entries.clear();
+  };
+  const contextChanged=()=>{
+    invalidate(Error('Face preparation WebGL context changed'));
+    contextProperties=renderer.properties;contextGL=renderer.getContext();
+  };
+  renderer.domElement.addEventListener('webglcontextlost',contextChanged);
+  renderer.domElement.addEventListener('webglcontextrestored',contextChanged);
+
+
+  return {
+    prepare(parts) {
+      if(disposed)return Promise.reject(Error('人物已卸载'));
+      if(renderer.properties!==contextProperties||renderer.getContext()!==contextGL)contextChanged();
+      if(contextGL.isContextLost()){contextChanged();return Promise.reject(Error('Face preparation WebGL context lost'));}
+      const requests=new Map(parts.map(part=>[key(part),part]));
+      const waits=[],fresh=[],staging=new THREE.Scene();
+      try {
+        for(const [signature,{mesh,geometry}] of requests){
+          const existing=entries.get(signature);if(existing){waits.push(existing.promise);continue;}
+          const entry={signature,mesh,originals:[],materials:[],settled:false,released:false,promise:null};fresh.push(entry);
+          const copy=mesh.clone(false);copy.geometry=geometry;
+          const originals=Array.isArray(mesh.material)?mesh.material:[mesh.material];
+          entry.originals=originals.map(material=>({material,version:material.version}));
+          const materials=originals.map(m=>{const clone=m.clone();entry.materials.push(clone);return clone;});
+          copy.material=Array.isArray(mesh.material)?materials:materials[0];staging.add(copy);
+        }
+      }catch(error){for(const entry of fresh)release(entry);return Promise.reject(error);}
+      if(fresh.length){
+        const batch=new AbortController();batches.add(batch);
+        const promise=Promise.resolve().then(()=>{
+          if(disposed)throw Error('人物已卸载');
+          return prepareFaceProgramFirstUse({renderer,materials:fresh.flatMap(entry=>entry.materials),signal:batch.signal,
+            compile:()=>renderer.compileAsync(staging,new THREE.PerspectiveCamera(),scene)});
+        }).then(()=>{
+          if(batch.signal.aborted)throw batch.signal.reason;
+          for(const entry of fresh){
+            entry.settled=true;
+            if(disposed||!current(entry)){forget(entry);continue;}
+            // Evict obsolete material versions across every layout only after
+            // a current batch succeeds. Pending work releases itself on settle.
+            for(const other of entries.values())if(other.mesh===entry.mesh&&other.settled&&!current(other))forget(other);
+          }
+        }).catch(error=>{
+          // A failed new batch must not release any earlier successful variant
+          // or a different pending batch from this actor.
+          for(const entry of fresh){entry.settled=true;if(entries.get(entry.signature)===entry)entries.delete(entry.signature);release(entry);}
+          throw error;
+        }).finally(()=>batches.delete(batch));
+        for(const entry of fresh){entry.promise=promise;entries.set(entry.signature,entry);}
+        waits.push(promise);
+      }
+      return Promise.all(waits).then(()=>undefined);
+    },
+    dispose(){
+      if(disposed)return;disposed=true;
+      renderer.domElement.removeEventListener('webglcontextlost',contextChanged);
+      renderer.domElement.removeEventListener('webglcontextrestored',contextChanged);
+      invalidate(Error('人物已卸载'));
+    },
+  };
+}
+
+export async function loadFoundationAvatar({ scene, renderer, bodyType = "female", attachToScene = true }) {
+  const config = foundationProfile(bodyType), url = config.url;
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`Foundation HTTP ${response.status}`);
+  const buffer = await response.arrayBuffer();
+  const sha256 = [
+    ...new Uint8Array(await crypto.subtle.digest("SHA-256", buffer)),
+  ]
+    .map((x) => x.toString(16).padStart(2, "0"))
+    .join("");
+  if (sha256 !== config.sha256) throw new Error("Foundation identity mismatch");
+  let forearmCollision = null;
+  if (config.forearmCollision) {
+    const response = await fetch(config.forearmCollision.url);
+    if (!response.ok) throw new Error("Forearm collision profile failed to load");
+    const bytes = await response.arrayBuffer();
+    const digest = [...new Uint8Array(await crypto.subtle.digest("SHA-256", bytes))]
+      .map(n => n.toString(16).padStart(2, "0")).join("");
+    if (digest !== config.forearmCollision.sha256) throw new Error("Forearm collision profile integrity mismatch");
+    forearmCollision = JSON.parse(new TextDecoder().decode(bytes));
+    if (!validateForearmProfile(forearmCollision, sha256)) throw new Error("Forearm collision body identity mismatch");
+  }
+  let jointHandCollision = null;
+  if (config.handSurfaceContact) {
+    const response = await fetch(config.handSurfaceContact.url);
+    if (!response.ok) throw new Error("Joint-hand profile failed to load");
+    const bytes = await response.arrayBuffer();
+    const digest = [...new Uint8Array(await crypto.subtle.digest("SHA-256", bytes))].map(n => n.toString(16).padStart(2, "0")).join("");
+    if (digest !== config.handSurfaceContact.sha256) throw new Error("Joint-hand profile integrity mismatch");
+    jointHandCollision = JSON.parse(new TextDecoder().decode(bytes));
+    if (!validateJointHandProfile(jointHandCollision, sha256)) throw new Error("Joint-hand body identity/schema mismatch");
+  }
+  const loader = new GLTFLoader();
+  loader.register((p) => new VRMLoaderPlugin(p));
+  const gltf = await loader.parseAsync(buffer, "/assets/foundation/");
+  const vrm = gltf.userData.vrm;
+  VRMUtils.rotateVRM0(vrm);
+  const root = new THREE.Group();
+  root.name = "M1CompleteFoundation";
+  root.add(vrm.scene);
+  if (attachToScene) scene.add(root);
+  root.updateMatrixWorld(true);
+  const sourceMaterials = new Map(),
+    bodyMaterials = new Map(),
+    clothes = [],
+    bodyMeshes = [],
+    shoes = [],
+    size = new THREE.Vector2();
+  let debugBody = false,
+    outfit = 0,
+    dynamics = true;
+  let equipment, livePresentation, appearance, facialGeometry;
+  const faceWarmup=createFaceGeometryWarmup(renderer,scene);
+  const releaseFaceWarmup=()=>faceWarmup.dispose();
+  try {
+  vrm.scene.traverse((mesh) => {
+    if (!mesh.isMesh) return;
+    mesh.frustumCulled = false;
+    mesh.castShadow = true;
+    const materials = Array.isArray(mesh.material)
+      ? mesh.material
+      : [mesh.material];
+    if (materials.some((m) => /Body_.*SKIN/.test(m.name))) {
+      bodyMeshes.push(mesh);
+      sourceMaterials.set(mesh, mesh.material);
+      bodyMaterials.set(
+        mesh,
+        materials.map(
+          (sourceMaterial) =>
+            new THREE.MeshStandardMaterial({
+              color: "#728e9b",
+              roughness: 1,
+              side: THREE.DoubleSide,
+              // Keep the outline group, but do not redraw its unexpanded skin.
+              visible: sourceMaterial.isOutline !== true,
+            }),
+        ),
+      );
+    }
+    if (materials.some((m) => /Shoes/i.test(m.name))) shoes.push(mesh);
+    else if (materials.some((m) => /_CLOTH/.test(m.name))) clothes.push(mesh);
+  });
+  equipment = await createM1Equipment({ vrm, avatarSha256: sha256, bodyType });
+  const surfaces = equipment.getAssetProfile();
+  appearance = createCharacterAppearance({ vrm, avatarSha256: sha256 });
+  facialGeometry = createFacialGeometry({ vrm, avatarSha256: sha256,prepareRender:parts=>faceWarmup.prepare(parts) });
+  livePresentation = createLivePresentation({vrm, root, bodyType: config.referenceBody || bodyType, avatarSha256: sha256});
+  const meshRoles = {};
+  for (const role of [
+    "body",
+    "face",
+    "hair",
+    "top",
+    "shoes",
+    "pants",
+    "skirt",
+  ]) {
+    const label = role === "shoes" ? "footwear" : role;
+    meshRoles[label] = ((role === "pants" ? surfaces.allPants : surfaces[role]) ?? []).map((mesh) => {
+      mesh.userData.assetRole = label;
+      return mesh.uuid;
+    });
+  }
+  let lastGarmentColliders = [],
+    garmentPreparedForHands = false;
+  const profile = {
+    id: config.id,
+    bodyType,
+    url,
+    sha256,
+    bodyComplete: true,
+    meshRoles,
+    footwear: { kind: "shoes", meshes: surfaces.shoes.map((m) => m.name) },
+    garmentStatus: "independent new-body equipment; visual acceptance pending",
+    motion: {
+      forearmCollision: new URLSearchParams(location.search).get("forearm") === "legacy" ? null : forearmCollision,
+      forearmCollisionBodySHA256: sha256,
+      handSurfaceContact: new URLSearchParams(location.search).get("handSkin") === "legacy" || !jointHandCollision ? null : { bodySHA256: sha256, jointProfile: jointHandCollision },
+      forearmProfileTiming: new URLSearchParams(location.search).has("forearmTiming"),
+      preserveAuthoredSitHands: new URLSearchParams(location.search).get("handTarget") !== "lap",
+      deriveSeatFromBody: true,
+      get preserveAuthoredHands() { return livePresentation.getState().speaking; },
+      seatClothAllowance: 0.006,
+      seatHeight: 0.47,
+      seatHandRadii: equipment.getInfo().skirtDynamics?.thighRadii,
+      seatHandSurfaces: (refresh = true) => {
+        if (debugBody || outfit !== 1) return [];
+        // fitSeatHands runs after current normalized pelvis/legs are solved.
+        // Copy them to raw bones before sampling this frame's garment surface.
+        if (refresh) {
+          vrm.humanoid.update();
+          vrm.scene.updateMatrixWorld(true);
+          equipment.update(0, lastGarmentColliders);
+          garmentPreparedForHands = true;
+        }
+        return surfaces.skirt;
+      },
+    },
+    qa: {
+      outfits: [
+        { name: "base", bodyMode: "base", outfit: 0, dynamics: false },
+        ...config.outfits.map((o) => ({ name: o.role, bodyMode: "dressed", outfit: o.index, dynamics: true })),
+      ],
+    },
+  };
+  // Training pants are exported 6 mm outside the actual body surface. A
+  // measured 6 mm pelvis raise lifts the lowest thigh patch by 3.66 mm once
+  // floor IK is applied (fixed shoe). Compensate this measured lever ratio,
+  // rather than pretending the hip and the thigh underside move together.
+  Object.defineProperty(profile.motion, "seatLayerThickness", {
+    get: () => (debugBody ? 0 : (config.outfitSeatLayerThickness?.[outfit] ?? config.seatLayerThickness)),
+  });
+  function setDebugBody(value) {
+    const appearanceResult = appearance.setBodyMode(value ? 'base' : 'dressed');
+    if (!appearanceResult.applied) throw new Error(appearanceResult.reason);
+    debugBody = Boolean(value);
+    for (const [mesh, mat] of sourceMaterials)
+      mesh.material = debugBody ? bodyMaterials.get(mesh) : mat;
+    equipment.setDebugBody(debugBody);
+  }
+  setDebugBody(false);
+  return {
+    vrm,
+    root,
+    profile,
+    config,
+    livePresentation,
+    appearance,
+    facialGeometry,
+    getAssetProfile: () => profile,
+    getEquipmentRecipe: (index) => {
+      const role=config.outfits.find(o=>o.index===index)?.role;
+      if(!role)throw Error('Unknown outfit');
+      return Object.fromEntries(['top','shoes',role].map(key=>[key,structuredClone(surfaces.equipment.get(config.ids[key]).entry)]));
+    },
+    setMaterialRecipe: (id, recipeId) => equipment.setMaterialRecipe(id, recipeId),
+    getMaterialRecipeState: (id) => equipment.getMaterialRecipeState(id),
+    setOutfit: (n) => {
+      equipment.setOutfit(n);
+      outfit = equipment.getInfo().outfit;
+    },
+    setDebugBody,
+    setDynamics: (value) => {
+      dynamics = Boolean(value);
+      vrm.springBoneManager?.reset();
+    },
+    setExpression: name => livePresentation.setExpression(name),
+    update: (dt, state = {}) => {
+      livePresentation.preUpdate(dt, state);
+      vrm.update(dynamics ? dt : 0);
+      if (!dynamics) vrm.springBoneManager?.reset();
+      root.updateMatrixWorld(true);
+      livePresentation.postUpdate();
+    },
+    resetSecondary: () => vrm.springBoneManager?.reset(),
+    updateGarment: (_sit, dt, colliders) => {
+      lastGarmentColliders = colliders || [];
+      // fitSeatHands is the last motion operation; only arm bones changed
+      // after its same-frame skirt evaluation. Do not run the identical
+      // stateless skirt constraint pass again in this same simulation step.
+      if (garmentPreparedForHands) {
+        garmentPreparedForHands = false;
+        return;
+      }
+      equipment.update(dt, lastGarmentColliders);
+    },
+    getDebugState: () => ({
+      mode: debugBody ? "base" : "dressed",
+      dynamics,
+      bodyComplete: true,
+      baseLabel: "完整人体诊断",
+      label: config.label,
+      description:
+        `${config.label}：完整人体与独立装备；基础模式保留同一套鞋。当前组合须独立验收，画风待确认。`,
+      asset: profile,
+    }),
+    dispose: () => {
+      releaseFaceWarmup();
+      facialGeometry.dispose();
+      appearance.dispose();
+      livePresentation.dispose();
+      equipment.dispose();
+      root.removeFromParent();
+      for (const [mesh, material] of sourceMaterials) mesh.material = material;
+      for (const materials of bodyMaterials.values()) materials.forEach(m => m.dispose());
+      VRMUtils.deepDispose(vrm.scene);
+    },
+    getOutfitInfo: () => ({
+      index: outfit,
+      name: `新人体 · ${config.outfits.find((o) => o.index === outfit).label}`,
+      fitStatus: config.outfitFitStatus?.[outfit] || "candidate: current outfit requires independent acceptance",
+      source: config.source,
+      equipment: equipment.getInfo(),
+      limitations: "新人体M1连续动作验收中",
+    }),
+  };
+  } catch (error) {
+    releaseFaceWarmup();
+    facialGeometry?.dispose();
+    appearance?.dispose();
+    // The factory has not returned an avatar yet; callers cannot dispose it.
+    // Release partially built equipment and the VRM here, including failures
+    // before createM1Equipment returns (manifest/network/identity errors).
+    livePresentation?.dispose();
+    equipment?.dispose();
+    root.removeFromParent();
+    for (const [mesh, material] of sourceMaterials) mesh.material = material;
+    for (const materials of bodyMaterials.values()) materials.forEach(m => m.dispose());
+    VRMUtils.deepDispose(vrm.scene);
+    throw error;
+  }
+}

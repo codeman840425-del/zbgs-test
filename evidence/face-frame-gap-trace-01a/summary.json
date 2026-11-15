@@ -1,0 +1,112 @@
+{
+  "build": "01a1391b7d32",
+  "tracingOverhead": true,
+  "mappingOffsetMicroseconds": 800506834012.0,
+  "longRaf": [
+    {
+      "t": 2376.7,
+      "now": 2381.5,
+      "dt": 115.19999999999982
+    }
+  ],
+  "gpuSpansOver50ms": [
+    {
+      "name": "Scheduler::RunTask",
+      "startPerformanceMs": 2282.917,
+      "durationMs": 97.168
+    },
+    {
+      "name": "GpuChannel::ExecuteDeferredRequest",
+      "startPerformanceMs": 2282.918,
+      "durationMs": 97.164
+    },
+    {
+      "name": "WebGL",
+      "startPerformanceMs": 2282.922,
+      "durationMs": 97.158
+    },
+    {
+      "name": "CommandBuffer::Flush",
+      "startPerformanceMs": 2282.923,
+      "durationMs": 97.157
+    },
+    {
+      "name": "CommandBufferStub::OnAsyncFlush",
+      "startPerformanceMs": 2282.924,
+      "durationMs": 97.155
+    },
+    {
+      "name": "CommandBufferService:PutChanged",
+      "startPerformanceMs": 2282.926,
+      "durationMs": 97.15
+    }
+  ],
+  "longAnimationFrames": [
+    {
+      "name": "self",
+      "entryType": "longtask",
+      "startTime": 2082.100000023842,
+      "duration": 64,
+      "navigationId": 8946,
+      "attribution": [
+        {
+          "name": "unknown",
+          "entryType": "taskattribution",
+          "startTime": 0,
+          "duration": 0,
+          "navigationId": 8946,
+          "containerType": "window",
+          "containerSrc": "",
+          "containerId": "",
+          "containerName": ""
+        }
+      ]
+    },
+    {
+      "name": "long-animation-frame",
+      "entryType": "long-animation-frame",
+      "startTime": 2080.5,
+      "duration": 67.60000002384186,
+      "navigationId": 8946,
+      "paintTime": 2148.100000023842,
+      "presentationTime": 2156,
+      "renderStart": 2146.2999999523163,
+      "styleAndLayoutStart": 2148.100000023842,
+      "firstUIEventTimestamp": 0,
+      "blockingDuration": 15.9,
+      "scripts": [
+        {
+          "name": "script",
+          "entryType": "script",
+          "startTime": 2082.100000023842,
+          "duration": 64.09999990463257,
+          "navigationId": 8946,
+          "invoker": "Response.arrayBuffer.then",
+          "invokerType": "resolve-promise",
+          "windowAttribution": "self",
+          "executionStart": 2082.100000023842,
+          "forcedStyleAndLayoutDuration": 0,
+          "pauseDuration": 0,
+          "sourceURL": "http://127.0.0.1:58545/assets/main-B_JK4p0F.js",
+          "sourceFunctionName": "",
+          "sourceCharPosition": 1290831
+        }
+      ]
+    },
+    {
+      "name": "long-animation-frame",
+      "entryType": "long-animation-frame",
+      "startTime": 2262.600000023842,
+      "duration": 118.89999997615814,
+      "navigationId": 8946,
+      "paintTime": 2381.5,
+      "presentationTime": 2396,
+      "renderStart": 2380.399999976158,
+      "styleAndLayoutStart": 2381.5,
+      "firstUIEventTimestamp": 0,
+      "blockingDuration": 0,
+      "scripts": []
+    }
+  ],
+  "interpretation": "A 115ms rAF gap overlaps a 97ms CrGpuMain WebGL command-buffer flush. Corresponding long-animation-frame has no attributed script and blockingDuration=0; heartbeat still fires. This identifies GPU-process/browser rendering work, not a proven specific driver/compiler subroutine. Separate ~64ms Promise callback performs geometry preparation."
+}

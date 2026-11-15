@@ -250,3 +250,6 @@ v4本机配方新增eyeSample+eyeRecipeSHA；旧v1–3仅迁移缺失域none，�
 - 实际UI：三体配方读取/导出、原男女嘴→眼→眉→复位、jaw单嘴、两轮唇色/嘴变化、表情/讲话、三页分区与页内换体共19组通过，0页面错误；两入口favicon实际200。证据evidence/face-selective-browser-1fff20c54b2b，工程抽帧不替用户观感。
 - 成本：RTX4090 Chrome157 1600×1000，暂停角色、无录制、A-B-A；首次嘴长帧旧315–358ms，新97–103ms；纹理上传32–33MB→7.1–7.4MB，首次眼新增67–73ms。证据face-selective-cost-comparison-v1；仍未解决所有首次停顿、换体/普通机未重新验。
 - REL-01：aa真实短后台三例见本页增量；1fff没改时间循环，不将aa全证据重新标成1fff通过。独立重建98文件一致；固定版本/备份只查CURRENT和delivery。
+
+
+PERF-01试验边界补记：01a主色首用方案未改善最大出帧间隔，已回退，不属于当前工作台能力；24CPU项只是该历史试验生命周期门。GPU进程97ms/JS准备64ms分项诊断见face-frame-gap-trace-01a，非普通机结果。下一只读snapshot复用候选尚未验证，公开仍1fff，不改能力通过状态。
