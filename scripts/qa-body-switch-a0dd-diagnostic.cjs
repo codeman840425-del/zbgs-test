@@ -1,6 +1,7 @@
 // One fixed-build body switch; timing hooks only, no runtime/source injection.
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict'),crypto=require('node:crypto');
-const BUILD='a0dd7fb7bf4a';
+const BUILD=process.env.QA_SWITCH_BUILD||'a0dd7fb7bf4a';
+assert(/^[a-f0-9]{12}$/.test(BUILD),'Explicit 12-hex candidate required');
 const plan={build:BUILD,operation:{type:'bodySelect',bodyType:'male'},initialBody:'female',viewport:{width:1600,height:1000},
   output:'evidence/body-switch-a0dd-diagnostic-v1/run-v1',recording:false,profiler:false,
   measured:['debug command','renderer compile/compileAsync','old motion/avatar dispose','render/first male draw','GL link/delete/getProgramInfoLog with native program identity','rAF/heartbeat/longtask'],

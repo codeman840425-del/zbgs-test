@@ -2036,12 +2036,19 @@ async function switchFoundationBody(bodyType) {
     const applied = await nextAvatar.appearance.set({hairStyle,hairColor:colors.hairColor,skinTone:colors.skinTone,eyeColor:colors.eyeColor,lipColor:colors.lipColor});
     if (!applied.applied) throw new Error(applied.reason || '外观配置加载失败');
     if (request !== bodySelectionGeneration) return {applied:false,cancelled:true};
+    const initialRole = avatar.config.outfits.find(entry => entry.index === controller.outfit)?.role;
+    nextAvatar.setOutfit(nextAvatar.config.outfits.find(entry => entry.role === initialRole)?.index ?? 0);
+    nextAvatar.setDebugBody(inspection.bodyMode === 'base'); nextAvatar.setDynamics(inspection.dynamics);
+    nextMotion = createMotion(nextAvatar.vrm,nextAvatar.root,clips,nextAvatar.profile.motion);
+    // Prepare this detached actor's real materials against the room lights.
+    // Capture current controller/camera state only after this asynchronous wait.
+    await renderer.compileAsync(nextAvatar.root,camera,world);
+    if (request !== bodySelectionGeneration) return {applied:false,cancelled:true};
     const oldRole = avatar.config.outfits.find(entry => entry.index === controller.outfit)?.role;
     const outfit = nextAvatar.config.outfits.find(entry => entry.role === oldRole)?.index ?? 0;
     if (!nextAvatar.config.outfits.some(entry => entry.role === oldRole)) notices.push('原服装没有此身体版型，已切到裤装');
     nextAvatar.setOutfit(outfit);
     nextAvatar.setDebugBody(inspection.bodyMode === 'base'); nextAvatar.setDynamics(inspection.dynamics);
-    nextMotion = createMotion(nextAvatar.vrm,nextAvatar.root,clips,nextAvatar.profile.motion);
     nextMotion.setCorrections({...correctionLayers[inspection.corrections]});
     const oldAvatar = avatar, oldMotion = motion;
     const saved = {position:avatar.root.position.clone(),yaw:controller.yaw,camera:cameraMode,
