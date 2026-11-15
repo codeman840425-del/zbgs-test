@@ -1866,7 +1866,7 @@ function bindFoundationControls(a) {
   oldTrial.hidden = !a.config.ids.shorts;
   if (a.config.ids.shorts) oldTrial.querySelector("b").textContent = a.config.shortsLabel;
   document.querySelector("#foundation-legend").textContent = `${a.config.label}：同一房间与控制器，当前基模独立验证。`;
-  const row = document.createElement("div"); row.className = "debug-row";
+  const row = document.createElement("div"); row.className = "debug-row foundation-actions";
   for (const [bodyType, label] of [["female", "女性候选"], ["male", "男性候选"]]) {
     const link = document.createElement("a");
     link.href = `?body=${bodyType}`; link.textContent = label; row.append(link);

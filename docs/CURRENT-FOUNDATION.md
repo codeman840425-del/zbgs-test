@@ -4,6 +4,8 @@
 
 ## 最新构建与恢复点
 
+- 最新源码固定 **1a0d06fc8ffe**（`experiments/m1-accessory-ui-2/dist`）：902失败处理基础上，修foundation调试按钮挤压竖排，实际1440×900截图可读；两派生拒绝/503重试/快速取消再装回归通过，真实traverse附件数为1。旧902的scene.children统计0不能证明无重复，原证据保留。902已独立审查及63产物新检出一致；1a完整重建/发布尚未进行。
+
 - 最新本地源码固定 **90297751ab35**（`experiments/m1-accessory-ui-1/dist`）：仅在13f上修附件按钮未处理拒绝、错误提示被scene-state刷新覆盖及过时UI回调；两派生拒绝、男性503重试/卸下、延迟加载取消再装实际按钮通过。证据 `evidence/accessory-ui-90297751ab35`。尚未替换公开269，不将13f影片改标902。
 - **13f完整操作链与重建已补齐**：男女各25状态项、镜头变化0、pageerror0；完整正常速影片 `evidence/m1-user-chain-13f558e44696`，root已看完整时段2fps概览（女95/男91帧），非连续自然度验收。录屏采样女2帧>33ms（最大54.6ms，idle）/男0（最大24.4ms）；不是普通电脑实测。源6fcfc24已远程核同SHA，全新检出npm ci/build全部63产物一致，证据 `evidence/acc01-integrated-rebuild-13f558e44696`。
 - 裙源局部修复仍隔离：hem-return-v1仅改121内折点及权重，站/坐入/起身自交1/1/2→0；坐稳Body194/self95仍失败，椅98→100明确保留。active-gap仅30源点最大2.738mm，活动区初始body2.114/top2.010mm通过原2mm门；全衣zipper仍0.339mm，不称全衣cloth准入。独立源远端checkpoint `8ff76a5e6e7d0741cfc03ee2fad9021af6d1f37c`；正在组合两源修复并复核，尚无新GPU/坐姿通过。

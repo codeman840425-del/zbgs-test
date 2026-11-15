@@ -517,6 +517,30 @@ footer span:first-child {
   min-height: 36px;
   font-size: 10px;
 }
+.foundation-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.foundation-actions button,
+.foundation-actions a {
+  min-width: 0;
+  min-height: 44px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.foundation-actions [role="status"] {
+  grid-column: 1 / -1;
+  min-width: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.foundation-actions [role="status"]:empty {
+  display: none;
+}
 #helpers-toggle {
   width: 100%;
   min-height: 36px;

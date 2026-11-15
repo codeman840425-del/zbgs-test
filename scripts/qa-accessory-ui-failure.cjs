@@ -51,8 +51,9 @@ const bodies=[
     await page.getByRole('button',{name:'装备眼镜',exact:true}).click();
     await page.waitForFunction(()=>__debug.avatar().livePresentation.getState().accessories.glasses.loaded);
     await page.waitForTimeout(650);
-    row.rapid=await page.evaluate(()=>({slot:__debug.avatar().livePresentation.getState().accessories.glasses,notice:document.querySelector('[data-accessory-status="glasses"]').textContent,mounted:__debug.scene.children.filter(o=>o.name==='LiveAccessory:glasses').length}));
+    row.rapid=await page.evaluate(()=>{let mounted=0;__debug.scene.traverse(o=>{if(o.name==='LiveAccessory:glasses')mounted++});return{slot:__debug.avatar().livePresentation.getState().accessories.glasses,notice:document.querySelector('[data-accessory-status="glasses"]').textContent,mounted}});
     assert(row.rapid.slot.loaded&&row.rapid.slot.requested);assert.equal(row.rapid.notice,'');
+    assert.equal(row.rapid.mounted,1,'Exactly one actual descendant accessory mounted');
     assert.equal(errors.length,0);await page.getByRole('button',{name:'卸下眼镜',exact:true}).click();
     await page.waitForFunction(()=>!__debug.avatar().livePresentation.getState().accessories.glasses.loaded);
    }
