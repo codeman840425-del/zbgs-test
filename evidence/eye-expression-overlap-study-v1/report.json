@@ -1,0 +1,1707 @@
+{
+  "scope": "Original-source exact weighted morph geometry only, no endpoint or runtime changes. Female observed same-camera evidence external; male source mechanism only, not new viewing.",
+  "weights": {
+    "neutral": [
+      0,
+      0,
+      0
+    ],
+    "happy": [
+      0.65,
+      0,
+      0
+    ],
+    "blink": [
+      0,
+      0.998971,
+      0
+    ],
+    "mixed-half": [
+      0.65,
+      0.5,
+      0.511979
+    ],
+    "mixed-peak": [
+      0.65,
+      0.998971,
+      0.511979
+    ],
+    "mixed-peak-no-aa": [
+      0.65,
+      0.998971,
+      0
+    ],
+    "proposed-crossfade-peak": [
+      0.0006688499999999653,
+      0.998971,
+      0.511979
+    ]
+  },
+  "formula": "Basis + happy*ALL_Joy + blink*EYE_Close + aa*MTH_A. No normalization across expressions.",
+  "sampleRule": "Fixed 10 barycentric points per original Eyeline/Eyelash triangle; original bilinear texture alpha>=.5. Rays from negative Z to front-facing opaque Face_SKIN. signed depth>1um means behind skin at same XY. Central60 is source same-side layer x middle60%, not transparent root correspondence.",
+  "limits": [
+    "Source frontal rays are not original screenshot camera. Only skin occlusion tested, no MToon/sorting/outline/lighting reproduction.",
+    "Counts are sparse sample points, not pixels or area. Male actual combined screenshot remains untested.",
+    "Proposed whole-happy crossfade is one analytic control counterfactual, not a tuned weight scan or implemented fix."
+  ],
+  "bodies": [
+    {
+      "sex": "female",
+      "sourcePath": "prototype/public/assets/foundation/base-female-roundtrip.vrm",
+      "sourceSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+      "groups": {
+        "joy": {
+          "binds": [
+            {
+              "index": 3,
+              "mesh": 1,
+              "weight": 100.0
+            }
+          ],
+          "isBinary": false,
+          "materialValues": [],
+          "name": "Joy",
+          "presetName": "joy"
+        },
+        "blink": {
+          "binds": [
+            {
+              "index": 13,
+              "mesh": 1,
+              "weight": 100.0
+            }
+          ],
+          "isBinary": false,
+          "materialValues": [],
+          "name": "Blink",
+          "presetName": "blink"
+        },
+        "a": {
+          "binds": [
+            {
+              "index": 37,
+              "mesh": 1,
+              "weight": 100.0
+            }
+          ],
+          "isBinary": false,
+          "materialValues": [],
+          "name": "A",
+          "presetName": "a"
+        }
+      },
+      "indices": {
+        "happy": 3,
+        "blink": 13,
+        "aa": 37
+      },
+      "targetNames": {
+        "happy": "Face.M_F00_000_00_Fcl_ALL_Joy",
+        "blink": "Face.M_F00_000_00_Fcl_EYE_Close",
+        "aa": "Face.M_F00_000_00_Fcl_MTH_A"
+      },
+      "layers": [
+        {
+          "material": "F00_000_00_FaceMouth_00_FACE",
+          "count": 387,
+          "happyMoved": 387,
+          "blinkMoved": 0,
+          "bothMoved": 0,
+          "bothSameHemisphere": 0,
+          "bothCosineMedian": null,
+          "happyMaxM": 0.02626742500410906,
+          "blinkMaxM": 0.0,
+          "aaMaxM": 0.012749465864019576
+        },
+        {
+          "material": "F00_000_00_EyeWhite_00_EYE",
+          "count": 74,
+          "happyMoved": 48,
+          "blinkMoved": 48,
+          "bothMoved": 48,
+          "bothSameHemisphere": 44,
+          "bothCosineMedian": 0.9757440425448385,
+          "happyMaxM": 0.01400546917976265,
+          "blinkMaxM": 0.023397606548523794,
+          "aaMaxM": 0.0
+        },
+        {
+          "material": "F00_000_00_FaceEyeline_00_FACE",
+          "count": 260,
+          "happyMoved": 260,
+          "blinkMoved": 254,
+          "bothMoved": 254,
+          "bothSameHemisphere": 226,
+          "bothCosineMedian": 0.9844758512774183,
+          "happyMaxM": 0.01445658993858832,
+          "blinkMaxM": 0.023389915815797666,
+          "aaMaxM": 0.0,
+          "largestCombinedVertices": [
+            {
+              "index": 613,
+              "basis": [
+                -0.04581448808312416,
+                1.4587593078613281,
+                -0.07430744916200638
+              ],
+              "happyDelta": [
+                0.0008941777050495148,
+                -0.014017820358276367,
+                0.002524249255657196
+              ],
+              "blinkDelta": [
+                -0.0018752366304397583,
+                -0.02287888526916504,
+                0.0027343779802322388
+              ],
+              "aaDelta": [
+                -0.0,
+                0.0,
+                0.0
+              ],
+              "combinedPosition": [
+                -0.047106579586789016,
+                1.4267923817322254,
+                -0.06993512284053863
+              ]
+            },
+            {
+              "index": 538,
+              "basis": [
+                0.046325404196977615,
+                1.458759069442749,
+                -0.07430750131607056
+              ],
+              "happyDelta": [
+                -0.0008941702544689178,
+                -0.014017939567565918,
+                0.002524249255657196
+              ],
+              "blinkDelta": [
+                0.0018752515316009521,
+                -0.02287888526916504,
+                0.0027343854308128357
+              ],
+              "aaDelta": [
+                -0.0,
+                0.0,
+                0.0
+              ],
+              "combinedPosition": [
+                0.04761751542934775,
+                1.426792065827608,
+                -0.06993516755168885
+              ]
+            },
+            {
+              "index": 609,
+              "basis": [
+                -0.04002438485622406,
+                1.4577114582061768,
+                -0.07557244598865509
+              ],
+              "happyDelta": [
+                0.0011560730636119843,
+                -0.014066100120544434,
+                0.0029181763529777527
+              ],
+              "blinkDelta": [
+                -0.0020079277455806732,
+                -0.022954344749450684,
+                0.0030332356691360474
+              ],
+              "aaDelta": [
+                -0.0,
+                0.0,
+                0.0
+              ],
+              "combinedPosition": [
+                -0.04127879895280674,
+                1.4256377683991195,
+                -0.07064551688958705
+              ]
+            },
+            {
+              "index": 534,
+              "basis": [
+                0.040535297244787216,
+                1.4577113389968872,
+                -0.07557249069213867
+              ],
+              "happyDelta": [
+                -0.0011560656130313873,
+                -0.014066100120544434,
+                0.0029181763529777527
+              ],
+              "blinkDelta": [
+                0.002007942646741867,
+                -0.022954344749450684,
+                0.0030332431197166443
+              ],
+              "aaDelta": [
+                -0.0,
+                0.0,
+                0.0
+              ],
+              "combinedPosition": [
+                0.041789731070075185,
+                1.42563764918983,
+                -0.07064555415015668
+              ]
+            },
+            {
+              "index": 614,
+              "basis": [
+                -0.04528678208589554,
+                1.4575761556625366,
+                -0.07322792708873749
+              ],
+              "happyDelta": [
+                0.0009105391800403595,
+                -0.014198541641235352,
+                0.002562284469604492
+              ],
+              "blinkDelta": [
+                -0.0019347555935382843,
+                -0.023148298263549805,
+                0.0027388110756874084
+              ],
+              "aaDelta": [
+                -0.0,
+                0.0,
+                0.0
+              ],
+              "combinedPosition": [
+                -0.046627696348901834,
+                1.425222624931097,
+                -0.06882644934440404
+              ]
+            },
+            {
+              "index": 539,
+              "basis": [
+                0.04579769819974899,
+                1.4575759172439575,
+                -0.07322797924280167
+              ],
+              "happyDelta": [
+                -0.0009105317294597626,
+                -0.014198541641235352,
+                0.002562291920185089
+              ],
+              "blinkDelta": [
+                0.0019347667694091797,
+                -0.023148298263549805,
+                0.0027388185262680054
+              ],
+              "aaDelta": [
+                -0.0,
+                0.0,
+                0.0
+              ],
+              "combinedPosition": [
+                0.04713862847000361,
+                1.425222386512518,
+                -0.06882648921267688
+              ]
+            }
+          ]
+        },
+        {
+          "material": "F00_000_00_FaceEyelash_00_FACE",
+          "count": 150,
+          "happyMoved": 150,
+          "blinkMoved": 150,
+          "bothMoved": 150,
+          "bothSameHemisphere": 136,
+          "bothCosineMedian": 0.9793566526484473,
+          "happyMaxM": 0.014995380873841517,
+          "blinkMaxM": 0.032012425343028596,
+          "aaMaxM": 0.0,
+          "largestCombinedVertices": [
+            {
+              "index": 803,
+              "basis": [
+                -0.03468109667301178,
+                1.4658453464508057,
+                -0.09132866561412811
+              ],
+              "happyDelta": [
+                -7.529929280281067e-05,
+                -0.013275146484375,
+                0.0020204707980155945
+              ],
+              "blinkDelta": [
+                -0.0024016425013542175,
+                -0.028536081314086914,
+                0.0026490166783332825
+              ],
+              "aaDelta": [
+                -0.0,
+                0.0,
+                0.0
+              ],
+              "combinedPosition": [
+                -0.03712921242455393,
+                1.4287097835495473,
+                -0.0873690687552467
+              ]
+            },
+            {
+              "index": 780,
+              "basis": [
+                0.035192012786865234,
+                1.4658453464508057,
+                -0.09132872521877289
+              ],
+              "happyDelta": [
+                7.531046867370605e-05,
+                -0.013275146484375,
+                0.0020204707980155945
+              ],
+              "blinkDelta": [
+                0.0024016648530960083,
+                -0.028536081314086914,
+                0.0026490315794944763
+              ],
+              "aaDelta": [
+                -0.0,
+                0.0,
+                0.0
+              ],
+              "combinedPosition": [
+                0.03764015813146532,
+                1.4287097835495473,
+                -0.08736911347406358
+              ]
+            },
+            {
+              "index": 815,
+              "basis": [
+                -0.05122211575508118,
+                1.4681017398834229,
+                -0.08592158555984497
+              ],
+              "happyDelta": [
+                0.0003207400441169739,
+                -0.011639118194580078,
+                0.0014060139656066895
+              ],
+              "blinkDelta": [
+                -0.0018527917563915253,
+                -0.031950950622558594,
+                0.0007065236568450928
+              ],
+              "aaDelta": [
+                -0.0,
+                0.0,
+                0.0
+              ],
+              "combinedPosition": [
+                -0.05286451996007935,
+                1.4286182399625778,
+                -0.08430187983819842
+              ]
+            },
+            {
+              "index": 763,
+              "basis": [
+                0.05173303931951523,
+                1.4681015014648438,
+                -0.08592163026332855
+              ],
+              "happyDelta": [
+                -0.00032073259353637695,
+                -0.011639118194580078,
+                0.0014060139656066895
+              ],
+              "blinkDelta": [
+                0.0018528178334236145,
+                -0.031950950622558594,
+                0.0007065385580062866
+              ],
+              "aaDelta": [
+                -0.0,
+                0.0,
+                0.0
+              ],
+              "combinedPosition": [
+                0.0533754744175896,
+                1.4286180015439987,
+                -0.0843019096558541
+              ]
+            },
+            {
+              "index": 807,
+              "basis": [
+                -0.043721046298742294,
+                1.468275785446167,
+                -0.08903540670871735
+              ],
+              "happyDelta": [
+                0.00026073306798934937,
+                -0.012812376022338867,
+                0.001676209270954132
+              ],
+              "blinkDelta": [
+                -0.0022127665579319,
+                -0.031780242919921875,
+                0.0016213953495025635
+              ],
+              "aaDelta": [
+                -0.0,
+                0.0,
+                0.0
+              ],
+              "combinedPosition": [
+                -0.045762059425693,
+                1.4282001999816896,
+                -0.08632614374890923
+              ]
+            },
+            {
+              "index": 775,
+              "basis": [
+                0.04423196613788605,
+                1.468275785446167,
+                -0.08903546631336212
+              ],
+              "happyDelta": [
+                -0.00026072561740875244,
+                -0.012812376022338867,
+                0.001676209270954132
+              ],
+              "blinkDelta": [
+                0.002212788909673691,
+                -0.031780242919921875,
+                0.0016214028000831604
+              ],
+              "aaDelta": [
+                -0.0,
+                0.0,
+                0.0
+              ],
+              "combinedPosition": [
+                0.046273006436455995,
+                1.4282001999816896,
+                -0.08632619591064006
+              ]
+            }
+          ]
+        },
+        {
+          "material": "F00_000_00_FaceBrow_00_FACE",
+          "count": 110,
+          "happyMoved": 110,
+          "blinkMoved": 22,
+          "bothMoved": 22,
+          "bothSameHemisphere": 22,
+          "bothCosineMedian": 0.11365524204755528,
+          "happyMaxM": 0.00711556995900949,
+          "blinkMaxM": 6.181001663208008e-05,
+          "aaMaxM": 0.0
+        },
+        {
+          "material": "F00_000_00_EyeIris_00_EYE",
+          "count": 122,
+          "happyMoved": 0,
+          "blinkMoved": 0,
+          "bothMoved": 0,
+          "bothSameHemisphere": 0,
+          "bothCosineMedian": null,
+          "happyMaxM": 0.0,
+          "blinkMaxM": 0.0,
+          "aaMaxM": 0.0
+        },
+        {
+          "material": "F00_000_00_EyeHighlight_00_EYE",
+          "count": 122,
+          "happyMoved": 0,
+          "blinkMoved": 0,
+          "bothMoved": 0,
+          "bothSameHemisphere": 0,
+          "bothCosineMedian": null,
+          "happyMaxM": 0.0,
+          "blinkMaxM": 0.0,
+          "aaMaxM": 0.0
+        },
+        {
+          "material": "F00_000_00_Face_00_SKIN",
+          "count": 780,
+          "happyMoved": 334,
+          "blinkMoved": 187,
+          "bothMoved": 182,
+          "bothSameHemisphere": 166,
+          "bothCosineMedian": 0.9843958734560976,
+          "happyMaxM": 0.02025771273702167,
+          "blinkMaxM": 0.023397606548523794,
+          "aaMaxM": 0.012749465864019576
+        },
+        {
+          "material": "F00_000_00_EyeExtra_01_EYE",
+          "count": 50,
+          "happyMoved": 0,
+          "blinkMoved": 0,
+          "bothMoved": 0,
+          "bothSameHemisphere": 0,
+          "bothCosineMedian": null,
+          "happyMaxM": 0.0,
+          "blinkMaxM": 0.0,
+          "aaMaxM": 0.0
+        }
+      ],
+      "femaleRecordedInfluencesMatch": true
+    },
+    {
+      "sex": "male",
+      "sourcePath": "prototype/public/assets/foundation/base-male-roundtrip.vrm",
+      "sourceSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+      "groups": {
+        "joy": {
+          "binds": [
+            {
+              "index": 4,
+              "mesh": 1,
+              "weight": 100.0
+            }
+          ],
+          "isBinary": false,
+          "materialValues": [],
+          "name": "Joy",
+          "presetName": "joy"
+        },
+        "blink": {
+          "binds": [
+            {
+              "index": 11,
+              "mesh": 1,
+              "weight": 100.0
+            }
+          ],
+          "isBinary": false,
+          "materialValues": [],
+          "name": "Blink",
+          "presetName": "blink"
+        },
+        "a": {
+          "binds": [
+            {
+              "index": 28,
+              "mesh": 1,
+              "weight": 100.0
+            }
+          ],
+          "isBinary": false,
+          "materialValues": [],
+          "name": "A",
+          "presetName": "a"
+        }
+      },
+      "indices": {
+        "happy": 4,
+        "blink": 11,
+        "aa": 28
+      },
+      "targetNames": {
+        "happy": "Face.M_F00_000_00_Fcl_ALL_Joy",
+        "blink": "Face.M_F00_000_00_Fcl_EYE_Close",
+        "aa": "Face.M_F00_000_00_Fcl_MTH_A"
+      },
+      "layers": [
+        {
+          "material": "M00_000_00_FaceBrow_00_FACE",
+          "count": 110,
+          "happyMoved": 110,
+          "blinkMoved": 0,
+          "bothMoved": 0,
+          "bothSameHemisphere": 0,
+          "bothCosineMedian": null,
+          "happyMaxM": 0.013663006421902376,
+          "blinkMaxM": 0.0,
+          "aaMaxM": 0.0003296493266421677
+        },
+        {
+          "material": "M00_000_00_FaceMouth_00_FACE",
+          "count": 384,
+          "happyMoved": 384,
+          "blinkMoved": 0,
+          "bothMoved": 0,
+          "bothSameHemisphere": 0,
+          "bothCosineMedian": null,
+          "happyMaxM": 0.016420689019076375,
+          "blinkMaxM": 0.0,
+          "aaMaxM": 0.01784936443519822
+        },
+        {
+          "material": "M00_000_00_EyeIris_00_EYE",
+          "count": 122,
+          "happyMoved": 0,
+          "blinkMoved": 4,
+          "bothMoved": 0,
+          "bothSameHemisphere": 0,
+          "bothCosineMedian": null,
+          "happyMaxM": 0.0,
+          "blinkMaxM": 0.00022459767152071728,
+          "aaMaxM": 0.0
+        },
+        {
+          "material": "M00_000_00_EyeHighlight_00_EYE",
+          "count": 122,
+          "happyMoved": 0,
+          "blinkMoved": 4,
+          "bothMoved": 0,
+          "bothSameHemisphere": 0,
+          "bothCosineMedian": null,
+          "happyMaxM": 0.0,
+          "blinkMaxM": 0.0002497883708800597,
+          "aaMaxM": 0.0
+        },
+        {
+          "material": "M00_000_00_EyeWhite_00_EYE",
+          "count": 74,
+          "happyMoved": 48,
+          "blinkMoved": 46,
+          "bothMoved": 46,
+          "bothSameHemisphere": 36,
+          "bothCosineMedian": 0.9650103308913578,
+          "happyMaxM": 0.012383595166760356,
+          "blinkMaxM": 0.021183028563989917,
+          "aaMaxM": 0.0
+        },
+        {
+          "material": "M00_000_00_Face_00_SKIN",
+          "count": 784,
+          "happyMoved": 387,
+          "blinkMoved": 180,
+          "bothMoved": 180,
+          "bothSameHemisphere": 154,
+          "bothCosineMedian": 0.9936604256739661,
+          "happyMaxM": 0.016420689019076375,
+          "blinkMaxM": 0.02214110581273935,
+          "aaMaxM": 0.016061528952078876
+        },
+        {
+          "material": "M00_000_00_FaceEyelash_00_FACE",
+          "count": 150,
+          "happyMoved": 150,
+          "blinkMoved": 150,
+          "bothMoved": 150,
+          "bothSameHemisphere": 140,
+          "bothCosineMedian": 0.9961594326077559,
+          "happyMaxM": 0.015364937838243784,
+          "blinkMaxM": 0.028748933894573336,
+          "aaMaxM": 0.0,
+          "largestCombinedVertices": [
+            {
+              "index": 1517,
+              "basis": [
+                -0.059874147176742554,
+                1.6193808317184448,
+                -0.10362054407596588
+              ],
+              "happyDelta": [
+                1.3422220945358276e-05,
+                -0.010768413543701172,
+                0.0010943636298179626
+              ],
+              "blinkDelta": [
+                -0.00013239309191703796,
+                -0.02756786346435547,
+                0.004324473440647125
+              ],
+              "aaDelta": [
+                -0.0,
+                0.0,
+                0.0
+              ],
+              "combinedPosition": [
+                -0.05999767959255353,
+                1.5848418667821884,
+                -0.09858918415910752
+              ]
+            },
+            {
+              "index": 1442,
+              "basis": [
+                0.060891810804605484,
+                1.6193804740905762,
+                -0.10362046957015991
+              ],
+              "happyDelta": [
+                -1.3414770364761353e-05,
+                -0.010768413543701172,
+                0.0010943636298179626
+              ],
+              "blinkDelta": [
+                0.0001324079930782318,
+                -0.02756786346435547,
+                0.004324473440647125
+              ],
+              "aaDelta": [
+                -0.0,
+                0.0,
+                0.0
+              ],
+              "combinedPosition": [
+                0.06101536294912174,
+                1.5848415091543198,
+                -0.09858910965330155
+              ]
+            },
+            {
+              "index": 1494,
+              "basis": [
+                -0.044655658304691315,
+                1.6186941862106323,
+                -0.11013609170913696
+              ],
+              "happyDelta": [
+                -8.367002010345459e-06,
+                -0.010690808296203613,
+                0.0010898038744926453
+              ],
+              "blinkDelta": [
+                -0.00023043155670166016,
+                -0.028159379959106445,
+                0.004364125430583954
+              ],
+              "aaDelta": [
+                -0.0,
+                0.0,
+                0.0
+              ],
+              "combinedPosition": [
+                -0.04489129129862785,
+                1.5836147568609713,
+                -0.10506808444520085
+              ]
+            },
+            {
+              "index": 1422,
+              "basis": [
+                0.04567330703139305,
+                1.6186939477920532,
+                -0.11013603210449219
+              ],
+              "happyDelta": [
+                8.374452590942383e-06,
+                -0.010690808296203613,
+                0.0010898038744926453
+              ],
+              "blinkDelta": [
+                0.00023046135902404785,
+                -0.028159379959106445,
+                0.004364125430583954
+              ],
+              "aaDelta": [
+                -0.0,
+                0.0,
+                0.0
+              ],
+              "combinedPosition": [
+                0.04590897463986277,
+                1.5836145184423922,
+                -0.10506802484055608
+              ]
+            },
+            {
+              "index": 1502,
+              "basis": [
+                -0.05250081419944763,
+                1.619510531425476,
+                -0.10712852329015732
+              ],
+              "happyDelta": [
+                -6.5676867961883545e-06,
+                -0.010668277740478516,
+                0.0010897889733314514
+              ],
+              "blinkDelta": [
+                -0.00020500272512435913,
+                -0.02838277816772461,
+                0.004569143056869507
+              ],
+              "aaDelta": [
+                -0.0,
+                0.0,
+                0.0
+              ],
+              "combinedPosition": [
+                -0.052709874973185356,
+                1.584222578605175,
+                -0.10185571904882788
+              ]
+            },
+            {
+              "index": 1427,
+              "basis": [
+                0.05351846292614937,
+                1.619510293006897,
+                -0.10712845623493195
+              ],
+              "happyDelta": [
+                6.582587957382202e-06,
+                -0.010668277740478516,
+                0.0010897889733314514
+              ],
+              "blinkDelta": [
+                0.0002050250768661499,
+                -0.02838277816772461,
+                0.004569143056869507
+              ],
+              "aaDelta": [
+                -0.0,
+                0.0,
+                0.0
+              ],
+              "combinedPosition": [
+                0.05372755571438372,
+                1.5842223401865958,
+                -0.10185565199360251
+              ]
+            }
+          ]
+        },
+        {
+          "material": "M00_000_00_FaceEyeline_00_FACE",
+          "count": 260,
+          "happyMoved": 260,
+          "blinkMoved": 222,
+          "bothMoved": 222,
+          "bothSameHemisphere": 182,
+          "bothCosineMedian": 0.9903233203706987,
+          "happyMaxM": 0.012374669855756693,
+          "blinkMaxM": 0.021631954845517477,
+          "aaMaxM": 0.0,
+          "largestCombinedVertices": [
+            {
+              "index": 1742,
+              "basis": [
+                -0.04115688428282738,
+                1.6116334199905396,
+                -0.09439431875944138
+              ],
+              "happyDelta": [
+                -0.0006476640701293945,
+                -0.011028289794921875,
+                0.0014331638813018799
+              ],
+              "blinkDelta": [
+                -0.0013325810432434082,
+                -0.021198153495788574,
+                0.002524249255657196
+              ],
+              "aaDelta": [
+                -0.0,
+                0.0,
+                0.0
+              ],
+              "combinedPosition": [
+                -0.042909075745761395,
+                1.5832886910279989,
+                -0.09094111043342203
+              ]
+            },
+            {
+              "index": 1667,
+              "basis": [
+                0.042174529284238815,
+                1.6116331815719604,
+                -0.094394251704216
+              ],
+              "happyDelta": [
+                0.0006476715207099915,
+                -0.011028289794921875,
+                0.0014331638813018799
+              ],
+              "blinkDelta": [
+                0.001332595944404602,
+                -0.021198153495788574,
+                0.002524256706237793
+              ],
+              "aaDelta": [
+                -0.0,
+                0.0,
+                0.0
+              ],
+              "combinedPosition": [
+                0.043926740475878114,
+                1.5832884526094197,
+                -0.0909410359352827
+              ]
+            },
+            {
+              "index": 1737,
+              "basis": [
+                -0.04584420472383499,
+                1.6102423667907715,
+                -0.09020384401082993
+              ],
+              "happyDelta": [
+                -0.0009655915200710297,
+                -0.011861801147460938,
+                0.0015145987272262573
+              ],
+              "blinkDelta": [
+                -0.0009925775229930878,
+                -0.020991206169128418,
+                0.002201780676841736
+              ],
+              "aaDelta": [
+                -0.0,
+                0.0,
+                0.0
+              ],
+              "combinedPosition": [
+                -0.047463395372603086,
+                1.5815625898269414,
+                -0.08701983979360758
+              ]
+            },
+            {
+              "index": 1662,
+              "basis": [
+                0.04686185345053673,
+                1.6102421283721924,
+                -0.09020377695560455
+              ],
+              "happyDelta": [
+                0.000965610146522522,
+                -0.011861801147460938,
+                0.0015145987272262573
+              ],
+              "blinkDelta": [
+                0.0009925998747348785,
+                -0.020991206169128418,
+                0.002201780676841736
+              ],
+              "aaDelta": [
+                -0.0,
+                0.0,
+                0.0
+              ],
+              "combinedPosition": [
+                0.04848107853524014,
+                1.5815623514083623,
+                -0.08701977273838221
+              ]
+            },
+            {
+              "index": 1736,
+              "basis": [
+                -0.046607568860054016,
+                1.6119955778121948,
+                -0.09234189987182617
+              ],
+              "happyDelta": [
+                -0.000866129994392395,
+                -0.011206269264221191,
+                0.001370936632156372
+              ],
+              "blinkDelta": [
+                -0.001031678169965744,
+                -0.021474599838256836,
+                0.0023913681507110596
+              ],
+              "aaDelta": [
+                -0.0,
+                0.0,
+                0.0
+              ],
+              "combinedPosition": [
+                -0.04820116992953792,
+                1.5832590003154279,
+                -0.08906188362804056
+              ]
+            },
+            {
+              "index": 1661,
+              "basis": [
+                0.04762522503733635,
+                1.6119955778121948,
+                -0.0923418402671814
+              ],
+              "happyDelta": [
+                0.000866129994392395,
+                -0.011206269264221191,
+                0.001370936632156372
+              ],
+              "blinkDelta": [
+                0.0010316930711269379,
+                -0.021474599838256836,
+                0.0023913681507110596
+              ],
+              "aaDelta": [
+                -0.0,
+                0.0,
+                0.0
+              ],
+              "combinedPosition": [
+                0.04921884099264816,
+                1.5832590003154279,
+                -0.08906182402339578
+              ]
+            }
+          ]
+        },
+        {
+          "material": "M00_000_00_EyeExtra_01_EYE",
+          "count": 50,
+          "happyMoved": 0,
+          "blinkMoved": 0,
+          "bothMoved": 0,
+          "bothSameHemisphere": 0,
+          "bothCosineMedian": null,
+          "happyMaxM": 0.0,
+          "blinkMaxM": 0.0,
+          "aaMaxM": 0.0
+        }
+      ],
+      "femaleRecordedInfluencesMatch": null
+    }
+  ],
+  "rows": [
+    {
+      "sex": "female",
+      "material": "F00_000_00_FaceEyeline_00_FACE",
+      "case": "neutral",
+      "region": "all",
+      "sampleCount": 1074,
+      "frontSkinIntersectionCount": 994,
+      "behindSkinCount": 0,
+      "behindSkinMaxM": 0.0,
+      "signedDepthMedianM": -0.0005056223182388561
+    },
+    {
+      "sex": "female",
+      "material": "F00_000_00_FaceEyeline_00_FACE",
+      "case": "neutral",
+      "region": "central60",
+      "sampleCount": 706,
+      "frontSkinIntersectionCount": 626,
+      "behindSkinCount": 0,
+      "behindSkinMaxM": 0.0,
+      "signedDepthMedianM": -0.00048368730897177525
+    },
+    {
+      "sex": "female",
+      "material": "F00_000_00_FaceEyeline_00_FACE",
+      "case": "happy",
+      "region": "all",
+      "sampleCount": 1074,
+      "frontSkinIntersectionCount": 773,
+      "behindSkinCount": 9,
+      "behindSkinMaxM": 0.00014858113742020895,
+      "signedDepthMedianM": -0.0010369129097059643
+    },
+    {
+      "sex": "female",
+      "material": "F00_000_00_FaceEyeline_00_FACE",
+      "case": "happy",
+      "region": "central60",
+      "sampleCount": 706,
+      "frontSkinIntersectionCount": 449,
+      "behindSkinCount": 6,
+      "behindSkinMaxM": 0.00014858113742020895,
+      "signedDepthMedianM": -0.0007469512390030075
+    },
+    {
+      "sex": "female",
+      "material": "F00_000_00_FaceEyeline_00_FACE",
+      "case": "blink",
+      "region": "all",
+      "sampleCount": 1074,
+      "frontSkinIntersectionCount": 1042,
+      "behindSkinCount": 67,
+      "behindSkinMaxM": 0.001508540415776194,
+      "signedDepthMedianM": -0.0006544386722270798
+    },
+    {
+      "sex": "female",
+      "material": "F00_000_00_FaceEyeline_00_FACE",
+      "case": "blink",
+      "region": "central60",
+      "sampleCount": 706,
+      "frontSkinIntersectionCount": 676,
+      "behindSkinCount": 54,
+      "behindSkinMaxM": 0.001508540415776194,
+      "signedDepthMedianM": -0.0005295185445667802
+    },
+    {
+      "sex": "female",
+      "material": "F00_000_00_FaceEyeline_00_FACE",
+      "case": "mixed-half",
+      "region": "all",
+      "sampleCount": 1074,
+      "frontSkinIntersectionCount": 1074,
+      "behindSkinCount": 512,
+      "behindSkinMaxM": 0.003786842503709892,
+      "signedDepthMedianM": -0.00018485668360644636
+    },
+    {
+      "sex": "female",
+      "material": "F00_000_00_FaceEyeline_00_FACE",
+      "case": "mixed-half",
+      "region": "central60",
+      "sampleCount": 706,
+      "frontSkinIntersectionCount": 706,
+      "behindSkinCount": 427,
+      "behindSkinMaxM": 0.003786842503709892,
+      "signedDepthMedianM": 0.0007635501103025882
+    },
+    {
+      "sex": "female",
+      "material": "F00_000_00_FaceEyeline_00_FACE",
+      "case": "mixed-peak",
+      "region": "all",
+      "sampleCount": 1074,
+      "frontSkinIntersectionCount": 1074,
+      "behindSkinCount": 841,
+      "behindSkinMaxM": 0.008534032708533423,
+      "signedDepthMedianM": 0.0032720824050714095
+    },
+    {
+      "sex": "female",
+      "material": "F00_000_00_FaceEyeline_00_FACE",
+      "case": "mixed-peak",
+      "region": "central60",
+      "sampleCount": 706,
+      "frontSkinIntersectionCount": 706,
+      "behindSkinCount": 669,
+      "behindSkinMaxM": 0.008534032708533423,
+      "signedDepthMedianM": 0.003618200273713172
+    },
+    {
+      "sex": "female",
+      "material": "F00_000_00_FaceEyeline_00_FACE",
+      "case": "mixed-peak-no-aa",
+      "region": "all",
+      "sampleCount": 1074,
+      "frontSkinIntersectionCount": 1074,
+      "behindSkinCount": 841,
+      "behindSkinMaxM": 0.008534032708533423,
+      "signedDepthMedianM": 0.0032720824050714095
+    },
+    {
+      "sex": "female",
+      "material": "F00_000_00_FaceEyeline_00_FACE",
+      "case": "mixed-peak-no-aa",
+      "region": "central60",
+      "sampleCount": 706,
+      "frontSkinIntersectionCount": 706,
+      "behindSkinCount": 669,
+      "behindSkinMaxM": 0.008534032708533423,
+      "signedDepthMedianM": 0.003618200273713172
+    },
+    {
+      "sex": "female",
+      "material": "F00_000_00_FaceEyeline_00_FACE",
+      "case": "proposed-crossfade-peak",
+      "region": "all",
+      "sampleCount": 1074,
+      "frontSkinIntersectionCount": 1045,
+      "behindSkinCount": 69,
+      "behindSkinMaxM": 0.0015160980625029824,
+      "signedDepthMedianM": -0.0006539380656469668
+    },
+    {
+      "sex": "female",
+      "material": "F00_000_00_FaceEyeline_00_FACE",
+      "case": "proposed-crossfade-peak",
+      "region": "central60",
+      "sampleCount": 706,
+      "frontSkinIntersectionCount": 678,
+      "behindSkinCount": 56,
+      "behindSkinMaxM": 0.0015160980625029824,
+      "signedDepthMedianM": -0.0005200501431550791
+    },
+    {
+      "sex": "female",
+      "material": "F00_000_00_FaceEyelash_00_FACE",
+      "case": "neutral",
+      "region": "all",
+      "sampleCount": 630,
+      "frontSkinIntersectionCount": 627,
+      "behindSkinCount": 11,
+      "behindSkinMaxM": 0.0001323147313308931,
+      "signedDepthMedianM": -0.0017469751606591644
+    },
+    {
+      "sex": "female",
+      "material": "F00_000_00_FaceEyelash_00_FACE",
+      "case": "neutral",
+      "region": "central60",
+      "sampleCount": 308,
+      "frontSkinIntersectionCount": 305,
+      "behindSkinCount": 11,
+      "behindSkinMaxM": 0.0001323147313308931,
+      "signedDepthMedianM": -0.0014641058810164892
+    },
+    {
+      "sex": "female",
+      "material": "F00_000_00_FaceEyelash_00_FACE",
+      "case": "happy",
+      "region": "all",
+      "sampleCount": 630,
+      "frontSkinIntersectionCount": 426,
+      "behindSkinCount": 0,
+      "behindSkinMaxM": 0.0,
+      "signedDepthMedianM": -0.0033947522743675504
+    },
+    {
+      "sex": "female",
+      "material": "F00_000_00_FaceEyelash_00_FACE",
+      "case": "happy",
+      "region": "central60",
+      "sampleCount": 308,
+      "frontSkinIntersectionCount": 121,
+      "behindSkinCount": 0,
+      "behindSkinMaxM": 0.0,
+      "signedDepthMedianM": -0.003579849285230405
+    },
+    {
+      "sex": "female",
+      "material": "F00_000_00_FaceEyelash_00_FACE",
+      "case": "blink",
+      "region": "all",
+      "sampleCount": 630,
+      "frontSkinIntersectionCount": 604,
+      "behindSkinCount": 4,
+      "behindSkinMaxM": 7.045980975946275e-05,
+      "signedDepthMedianM": -0.0022462654371897123
+    },
+    {
+      "sex": "female",
+      "material": "F00_000_00_FaceEyelash_00_FACE",
+      "case": "blink",
+      "region": "central60",
+      "sampleCount": 308,
+      "frontSkinIntersectionCount": 282,
+      "behindSkinCount": 3,
+      "behindSkinMaxM": 7.045980975946275e-05,
+      "signedDepthMedianM": -0.0021722566533857665
+    },
+    {
+      "sex": "female",
+      "material": "F00_000_00_FaceEyelash_00_FACE",
+      "case": "mixed-half",
+      "region": "all",
+      "sampleCount": 630,
+      "frontSkinIntersectionCount": 630,
+      "behindSkinCount": 205,
+      "behindSkinMaxM": 0.003753732024463191,
+      "signedDepthMedianM": -0.001215018558396494
+    },
+    {
+      "sex": "female",
+      "material": "F00_000_00_FaceEyelash_00_FACE",
+      "case": "mixed-half",
+      "region": "central60",
+      "sampleCount": 308,
+      "frontSkinIntersectionCount": 308,
+      "behindSkinCount": 141,
+      "behindSkinMaxM": 0.003753732024463191,
+      "signedDepthMedianM": -0.0003199270394552631
+    },
+    {
+      "sex": "female",
+      "material": "F00_000_00_FaceEyelash_00_FACE",
+      "case": "mixed-peak",
+      "region": "all",
+      "sampleCount": 630,
+      "frontSkinIntersectionCount": 630,
+      "behindSkinCount": 380,
+      "behindSkinMaxM": 0.008790979135746349,
+      "signedDepthMedianM": 0.001291797972209019
+    },
+    {
+      "sex": "female",
+      "material": "F00_000_00_FaceEyelash_00_FACE",
+      "case": "mixed-peak",
+      "region": "central60",
+      "sampleCount": 308,
+      "frontSkinIntersectionCount": 308,
+      "behindSkinCount": 234,
+      "behindSkinMaxM": 0.008753006141561104,
+      "signedDepthMedianM": 0.002265072829143032
+    },
+    {
+      "sex": "female",
+      "material": "F00_000_00_FaceEyelash_00_FACE",
+      "case": "mixed-peak-no-aa",
+      "region": "all",
+      "sampleCount": 630,
+      "frontSkinIntersectionCount": 630,
+      "behindSkinCount": 380,
+      "behindSkinMaxM": 0.008790979135746349,
+      "signedDepthMedianM": 0.001291797972209019
+    },
+    {
+      "sex": "female",
+      "material": "F00_000_00_FaceEyelash_00_FACE",
+      "case": "mixed-peak-no-aa",
+      "region": "central60",
+      "sampleCount": 308,
+      "frontSkinIntersectionCount": 308,
+      "behindSkinCount": 234,
+      "behindSkinMaxM": 0.008753006141561104,
+      "signedDepthMedianM": 0.002265072829143032
+    },
+    {
+      "sex": "female",
+      "material": "F00_000_00_FaceEyelash_00_FACE",
+      "case": "proposed-crossfade-peak",
+      "region": "all",
+      "sampleCount": 630,
+      "frontSkinIntersectionCount": 608,
+      "behindSkinCount": 5,
+      "behindSkinMaxM": 6.985114030079453e-05,
+      "signedDepthMedianM": -0.002237562962505893
+    },
+    {
+      "sex": "female",
+      "material": "F00_000_00_FaceEyelash_00_FACE",
+      "case": "proposed-crossfade-peak",
+      "region": "central60",
+      "sampleCount": 308,
+      "frontSkinIntersectionCount": 286,
+      "behindSkinCount": 3,
+      "behindSkinMaxM": 6.985114030079453e-05,
+      "signedDepthMedianM": -0.0021641783763280825
+    },
+    {
+      "sex": "male",
+      "material": "M00_000_00_FaceEyelash_00_FACE",
+      "case": "neutral",
+      "region": "all",
+      "sampleCount": 285,
+      "frontSkinIntersectionCount": 285,
+      "behindSkinCount": 0,
+      "behindSkinMaxM": 0.0,
+      "signedDepthMedianM": -0.0017418512340546949
+    },
+    {
+      "sex": "male",
+      "material": "M00_000_00_FaceEyelash_00_FACE",
+      "case": "neutral",
+      "region": "central60",
+      "sampleCount": 245,
+      "frontSkinIntersectionCount": 245,
+      "behindSkinCount": 0,
+      "behindSkinMaxM": 0.0,
+      "signedDepthMedianM": -0.0017617129155912264
+    },
+    {
+      "sex": "male",
+      "material": "M00_000_00_FaceEyelash_00_FACE",
+      "case": "happy",
+      "region": "all",
+      "sampleCount": 285,
+      "frontSkinIntersectionCount": 284,
+      "behindSkinCount": 4,
+      "behindSkinMaxM": 0.00010170615652267678,
+      "signedDepthMedianM": -0.0013163787955140713
+    },
+    {
+      "sex": "male",
+      "material": "M00_000_00_FaceEyelash_00_FACE",
+      "case": "happy",
+      "region": "central60",
+      "sampleCount": 245,
+      "frontSkinIntersectionCount": 244,
+      "behindSkinCount": 0,
+      "behindSkinMaxM": 0.0,
+      "signedDepthMedianM": -0.0013556215088640772
+    },
+    {
+      "sex": "male",
+      "material": "M00_000_00_FaceEyelash_00_FACE",
+      "case": "blink",
+      "region": "all",
+      "sampleCount": 285,
+      "frontSkinIntersectionCount": 285,
+      "behindSkinCount": 53,
+      "behindSkinMaxM": 0.0011641197328861597,
+      "signedDepthMedianM": -0.0013398098758178184
+    },
+    {
+      "sex": "male",
+      "material": "M00_000_00_FaceEyelash_00_FACE",
+      "case": "blink",
+      "region": "central60",
+      "sampleCount": 245,
+      "frontSkinIntersectionCount": 245,
+      "behindSkinCount": 38,
+      "behindSkinMaxM": 0.0011641197328861597,
+      "signedDepthMedianM": -0.0013682231065476336
+    },
+    {
+      "sex": "male",
+      "material": "M00_000_00_FaceEyelash_00_FACE",
+      "case": "mixed-half",
+      "region": "all",
+      "sampleCount": 285,
+      "frontSkinIntersectionCount": 285,
+      "behindSkinCount": 113,
+      "behindSkinMaxM": 0.002304194952879604,
+      "signedDepthMedianM": -0.0006905471500420757
+    },
+    {
+      "sex": "male",
+      "material": "M00_000_00_FaceEyelash_00_FACE",
+      "case": "mixed-half",
+      "region": "central60",
+      "sampleCount": 245,
+      "frontSkinIntersectionCount": 245,
+      "behindSkinCount": 90,
+      "behindSkinMaxM": 0.0018924578736210923,
+      "signedDepthMedianM": -0.0007112091628825867
+    },
+    {
+      "sex": "male",
+      "material": "M00_000_00_FaceEyelash_00_FACE",
+      "case": "mixed-peak",
+      "region": "all",
+      "sampleCount": 285,
+      "frontSkinIntersectionCount": 285,
+      "behindSkinCount": 147,
+      "behindSkinMaxM": 0.0045726567781266825,
+      "signedDepthMedianM": 9.853134170689781e-05
+    },
+    {
+      "sex": "male",
+      "material": "M00_000_00_FaceEyelash_00_FACE",
+      "case": "mixed-peak",
+      "region": "central60",
+      "sampleCount": 245,
+      "frontSkinIntersectionCount": 245,
+      "behindSkinCount": 121,
+      "behindSkinMaxM": 0.003948317044281738,
+      "signedDepthMedianM": -2.124699600274116e-05
+    },
+    {
+      "sex": "male",
+      "material": "M00_000_00_FaceEyelash_00_FACE",
+      "case": "mixed-peak-no-aa",
+      "region": "all",
+      "sampleCount": 285,
+      "frontSkinIntersectionCount": 285,
+      "behindSkinCount": 147,
+      "behindSkinMaxM": 0.0045726567781266825,
+      "signedDepthMedianM": 9.853134170689781e-05
+    },
+    {
+      "sex": "male",
+      "material": "M00_000_00_FaceEyelash_00_FACE",
+      "case": "mixed-peak-no-aa",
+      "region": "central60",
+      "sampleCount": 245,
+      "frontSkinIntersectionCount": 245,
+      "behindSkinCount": 121,
+      "behindSkinMaxM": 0.003948317044281738,
+      "signedDepthMedianM": -2.124699600274116e-05
+    },
+    {
+      "sex": "male",
+      "material": "M00_000_00_FaceEyelash_00_FACE",
+      "case": "proposed-crossfade-peak",
+      "region": "all",
+      "sampleCount": 285,
+      "frontSkinIntersectionCount": 285,
+      "behindSkinCount": 53,
+      "behindSkinMaxM": 0.0011735598505736716,
+      "signedDepthMedianM": -0.0013392042709109986
+    },
+    {
+      "sex": "male",
+      "material": "M00_000_00_FaceEyelash_00_FACE",
+      "case": "proposed-crossfade-peak",
+      "region": "central60",
+      "sampleCount": 245,
+      "frontSkinIntersectionCount": 245,
+      "behindSkinCount": 38,
+      "behindSkinMaxM": 0.0011735598505736716,
+      "signedDepthMedianM": -0.0013677323203621639
+    },
+    {
+      "sex": "male",
+      "material": "M00_000_00_FaceEyeline_00_FACE",
+      "case": "neutral",
+      "region": "all",
+      "sampleCount": 1030,
+      "frontSkinIntersectionCount": 975,
+      "behindSkinCount": 0,
+      "behindSkinMaxM": 0.0,
+      "signedDepthMedianM": -0.0006446721622686835
+    },
+    {
+      "sex": "male",
+      "material": "M00_000_00_FaceEyeline_00_FACE",
+      "case": "neutral",
+      "region": "central60",
+      "sampleCount": 672,
+      "frontSkinIntersectionCount": 619,
+      "behindSkinCount": 0,
+      "behindSkinMaxM": 0.0,
+      "signedDepthMedianM": -0.0006288662843609016
+    },
+    {
+      "sex": "male",
+      "material": "M00_000_00_FaceEyeline_00_FACE",
+      "case": "happy",
+      "region": "all",
+      "sampleCount": 1030,
+      "frontSkinIntersectionCount": 988,
+      "behindSkinCount": 0,
+      "behindSkinMaxM": 0.0,
+      "signedDepthMedianM": -0.0004877141406686089
+    },
+    {
+      "sex": "male",
+      "material": "M00_000_00_FaceEyeline_00_FACE",
+      "case": "happy",
+      "region": "central60",
+      "sampleCount": 672,
+      "frontSkinIntersectionCount": 633,
+      "behindSkinCount": 0,
+      "behindSkinMaxM": 0.0,
+      "signedDepthMedianM": -0.0004487672178050406
+    },
+    {
+      "sex": "male",
+      "material": "M00_000_00_FaceEyeline_00_FACE",
+      "case": "blink",
+      "region": "all",
+      "sampleCount": 1030,
+      "frontSkinIntersectionCount": 1028,
+      "behindSkinCount": 175,
+      "behindSkinMaxM": 0.002196305359733877,
+      "signedDepthMedianM": -0.0005700999299541737
+    },
+    {
+      "sex": "male",
+      "material": "M00_000_00_FaceEyeline_00_FACE",
+      "case": "blink",
+      "region": "central60",
+      "sampleCount": 672,
+      "frontSkinIntersectionCount": 670,
+      "behindSkinCount": 79,
+      "behindSkinMaxM": 0.002196305359733877,
+      "signedDepthMedianM": -0.0005255681928609396
+    },
+    {
+      "sex": "male",
+      "material": "M00_000_00_FaceEyeline_00_FACE",
+      "case": "mixed-half",
+      "region": "all",
+      "sampleCount": 1030,
+      "frontSkinIntersectionCount": 1030,
+      "behindSkinCount": 451,
+      "behindSkinMaxM": 0.003032975393323867,
+      "signedDepthMedianM": -0.00022903260165180184
+    },
+    {
+      "sex": "male",
+      "material": "M00_000_00_FaceEyeline_00_FACE",
+      "case": "mixed-half",
+      "region": "central60",
+      "sampleCount": 672,
+      "frontSkinIntersectionCount": 672,
+      "behindSkinCount": 315,
+      "behindSkinMaxM": 0.003032975393323867,
+      "signedDepthMedianM": -0.0001624515870698104
+    },
+    {
+      "sex": "male",
+      "material": "M00_000_00_FaceEyeline_00_FACE",
+      "case": "mixed-peak",
+      "region": "all",
+      "sampleCount": 1030,
+      "frontSkinIntersectionCount": 1030,
+      "behindSkinCount": 811,
+      "behindSkinMaxM": 0.006444616635379236,
+      "signedDepthMedianM": 0.002419867250381638
+    },
+    {
+      "sex": "male",
+      "material": "M00_000_00_FaceEyeline_00_FACE",
+      "case": "mixed-peak",
+      "region": "central60",
+      "sampleCount": 672,
+      "frontSkinIntersectionCount": 672,
+      "behindSkinCount": 574,
+      "behindSkinMaxM": 0.006444616635379236,
+      "signedDepthMedianM": 0.00321810352895089
+    },
+    {
+      "sex": "male",
+      "material": "M00_000_00_FaceEyeline_00_FACE",
+      "case": "mixed-peak-no-aa",
+      "region": "all",
+      "sampleCount": 1030,
+      "frontSkinIntersectionCount": 1030,
+      "behindSkinCount": 811,
+      "behindSkinMaxM": 0.006444616635379236,
+      "signedDepthMedianM": 0.002419867250381638
+    },
+    {
+      "sex": "male",
+      "material": "M00_000_00_FaceEyeline_00_FACE",
+      "case": "mixed-peak-no-aa",
+      "region": "central60",
+      "sampleCount": 672,
+      "frontSkinIntersectionCount": 672,
+      "behindSkinCount": 574,
+      "behindSkinMaxM": 0.006444616635379236,
+      "signedDepthMedianM": 0.00321810352895089
+    },
+    {
+      "sex": "male",
+      "material": "M00_000_00_FaceEyeline_00_FACE",
+      "case": "proposed-crossfade-peak",
+      "region": "all",
+      "sampleCount": 1030,
+      "frontSkinIntersectionCount": 1028,
+      "behindSkinCount": 180,
+      "behindSkinMaxM": 0.0021984198396779453,
+      "signedDepthMedianM": -0.0005695221078283533
+    },
+    {
+      "sex": "male",
+      "material": "M00_000_00_FaceEyeline_00_FACE",
+      "case": "proposed-crossfade-peak",
+      "region": "central60",
+      "sampleCount": 672,
+      "frontSkinIntersectionCount": 670,
+      "behindSkinCount": 84,
+      "behindSkinMaxM": 0.0021984198396779453,
+      "signedDepthMedianM": -0.0005217223810977598
+    }
+  ],
+  "identities": [
+    {
+      "path": "evidence/eye-expression-overlap-study-v1/diagnose.py",
+      "sha256": "6e73cae53b62a18af26305afe1761c02b799975846323319d4b9cdc1625cbfd0"
+    },
+    {
+      "path": "scripts/face-eye-sample-v1/screen-occlusion.py",
+      "sha256": "dd60c8f0bbfa56b9206e16cec15cb97b11fa5f91bea68c4b58350ad3a03e179f"
+    },
+    {
+      "path": "evidence/m2-eye-combined-844e273263a7/report.json",
+      "sha256": "e5098e19d375da12a1d011d75893ec933d98336b0dcb6f789c4b2b63a0eb5c70"
+    },
+    {
+      "path": "prototype/src/live-presentation.js",
+      "sha256": "3a790c8252551269a72e182dbde167ff7104d0ec954cb825615ce01a9434ae6d"
+    },
+    {
+      "path": "prototype/node_modules/@pixiv/three-vrm-core/lib/three-vrm-core.module.js",
+      "sha256": "98165da0e7bc6910a136ad80a6f3f562dddad52cce6e102a79aff9c514e48202"
+    },
+    {
+      "path": "scripts/m2-male-face-v1/glb.py",
+      "sha256": "02e22ec0cf41bcf10cff33d2b417dfc6cde3c3b8ecdd578772de539c72d2aeeb"
+    }
+  ]
+}
