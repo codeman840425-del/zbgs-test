@@ -34,9 +34,9 @@ export function bindAppearanceWorkbench({ controller }) {
   const note = panel.querySelector('#appearance-style-note');
   const geometryPanel=document.createElement('details');
   geometryPanel.id='appearance-geometry';
-  geometryPanel.innerHTML='<summary>面部几何 · 首个参数样件</summary><p class="appearance-hint" id="face-geometry-note">嘴宽 ±4%；其他五官参数仍在制作。</p><label for="mouth-width">嘴宽变化（%）</label><div class="appearance-pair"><input id="mouth-width" type="number" min="-4" max="4" step="0.1" value="0"><button type="button" id="mouth-width-reset">只恢复嘴宽</button></div>';
+  geometryPanel.innerHTML='<summary>面部几何 · 有限样件</summary><p class="appearance-hint" id="face-geometry-note">嘴宽 ±4%；其他五官参数仍在制作。</p><label for="mouth-width">嘴宽变化（%）</label><div class="appearance-pair"><input id="mouth-width" type="number" min="-4" max="4" step="0.1" value="0"><button type="button" id="mouth-width-reset">只恢复嘴宽</button></div><label for="brow-sample">眉部位置对照</label><select id="brow-sample"><option value="none">原位</option><option value="height1-spacing1-v1">上移 1 mm · 两侧各外移 1 mm</option></select><p class="appearance-hint">眉部目前只有这一个组合样件，不代表连续调整范围已通过。</p>';
   fields.prepend(geometryPanel);
-  const mouth=geometryPanel.querySelector('#mouth-width'),faceNote=geometryPanel.querySelector('#face-geometry-note');
+  const mouth=geometryPanel.querySelector('#mouth-width'),faceNote=geometryPanel.querySelector('#face-geometry-note'),brow=geometryPanel.querySelector('#brow-sample');
   const draftPanel=document.createElement('div');draftPanel.className='appearance-pair';
   draftPanel.innerHTML='<button type="button" id="appearance-save">保存此基模草稿</button><button type="button" id="appearance-restore">恢复已保存草稿</button>';
   fields.append(draftPanel);
@@ -169,7 +169,8 @@ export function bindAppearanceWorkbench({ controller }) {
     const geometry=actor().facialGeometry?.getState();
     mouth.disabled=!geometry?.available;mouth.value=String(Math.round((geometry?.mouthWidth||0)*1000)/10);
     geometryPanel.querySelector('#mouth-width-reset').disabled=!geometry?.available;
-    faceNote.textContent=geometry?.available?'真实嘴宽几何 ±4%；其他五官参数仍在制作。':'当前派生身体尚未适配此参数，原版男女可验证。';
+    brow.disabled=!geometry?.browAvailable;brow.value=geometry?.browSample||'none';
+    faceNote.textContent=geometry?.available?'真实嘴宽几何 ±4%；眉位为单个组合样件，眼鼻等尚未接入。':'当前派生身体尚未适配此参数，原版男女可验证。';
   }
   async function apply(patch) {
     if (busy || disposed) return;
@@ -210,6 +211,12 @@ export function bindAppearanceWorkbench({ controller }) {
   }
   on(mouth,'change',()=>changeMouth(Number(mouth.value)/100));
   on(geometryPanel.querySelector('#mouth-width-reset'),'click',()=>changeMouth(0));
+  on(brow,'change',async()=>{
+    if(busy||disposed)return;
+    setBusy(true);message('正在更新眉部几何…');
+    try{const r=await controller.command({type:'faceGeometry',browSample:brow.value});if(!r?.applied)throw Error(r?.reason||'眉部更新未完成');sync();message('眉位已更新；请用正侧面和表情检查贴面效果');}
+    catch(e){sync();message(String(e.message||e),true);}finally{setBusy(false);}
+  });
   on(draftPanel.querySelector('#appearance-save'),'click',()=>{
     try{const recipe=captureAppearanceRecipe(controller);localStorage.setItem(appearanceDraftKey(actor().profile.bodyType),JSON.stringify(recipe));message('此基模草稿已保存；重新打开此基模时自动恢复');}
     catch(e){message('保存失败：'+e.message,true);}
@@ -220,7 +227,7 @@ export function bindAppearanceWorkbench({ controller }) {
     try{raw=localStorage.getItem(appearanceDraftKey(actor().profile.bodyType));}catch(e){message('无法读取本机草稿：'+e.message,true);return;}
     if(!raw){if(!automatic)message('此基模还没有保存的草稿');return;}
     setBusy(true);message('正在恢复此基模草稿…');
-    try{const result=await applyAppearanceRecipe(controller,JSON.parse(raw));if(!result.applied&&!result.cancelled)throw Error(result.reason||'恢复未完成');sync();message(result.cancelled?'较新的操作已保留，旧草稿恢复已停止':result.notice||'已恢复此基模保存的外观、嘴宽与服装');}
+    try{const result=await applyAppearanceRecipe(controller,JSON.parse(raw));if(!result.applied&&!result.cancelled)throw Error(result.reason||'恢复未完成');sync();message(result.cancelled?'较新的操作已保留，旧草稿恢复已停止':result.notice||'已恢复此基模保存的外观、几何与服装');}
     catch(e){sync();message(String(e.message||e),true);}finally{setBusy(false);}
   }
   on(draftPanel.querySelector('#appearance-restore'),'click',()=>restoreDraft());
