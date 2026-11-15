@@ -4,7 +4,7 @@
 
 ## 固定入口
 
-- **4196 /?workbench=appearance：aa6fc6159e2d**。目录experiments/m2-appearance-workbench-v19/dist，源码ed9b6318c33c4e06f6ab5607581be46653174258，指针delivery/appearance-workbench.json。真实公开入口检查通过，evidence/current-workbench-aa6fc6159e2d。844/v15保留回滚；中间084/894/5d的证据不改标。
+- **4196 /?workbench=appearance：1fff20c54b2b**。目录experiments/m2-appearance-workbench-v20/dist，源码c6dfba34e23782502b723fb392774074f03e5223，指针delivery/appearance-workbench.json。新版定向回归evidence/face-selective-browser-1fff20c54b2b；公开4196响应头/build/runtime、男女页内切换/三页检查通过，evidence/current-workbench-1fff20c54b2b。aa/v19保留直接回滚，844/v15仍保留；中间084/894/5d的证据不改标。
 - **4195：77e46efb5441**，用户已限定接受的M1基础，未改。4174提供证据；临时QA端口4277在本次收尾后关闭。其他未知/顾问服务未动。
 - Phaser3.90.0 + Three0.187.0 + three-vrm3.5.5；Rigby2D及真实多人服务器不参与当前工程。
 
@@ -16,16 +16,19 @@
 4. 原源happy与blink叠加闭眼导致中央睫毛隐没，现仅对实际眼部primitive使用已有EYE_Joy补偿，不淡出眉/笑嘴、不改源形态。原男女/5身份CPU与24同姿对、4条完整1×实录在evidence/eye-blink-compatibility-v1、eye-blink-runtime-084c61578262；后续模块原字节不变，aa另有实际讲话。**只覆盖双眼自动眨眼**，单眼组合仍未修。工程看全时段抽帧，不冒充用户连续自然度验收。
 5. 工作台重置明确为“重置位置与动作”，仍回默认速度，但保留已选镜头与按钮状态；最终aa真实单次重置侧脸/位置/idle/.85通过。修正原说明错误“眼部尚未接入”，按真实能力显示。UI空格不误暂停已有检查保留。
 
+6. 1fff限定优化：仅克隆实际引用变形/法线邻域的primitive，嘴部9→2；warm按材质/布局版本准备，成功后淘汰同mesh过期材质版本，失败保旧/pending完成清理。60组合、全部引用表达分量及源端点/生命周期技术检查保留。19组真实UI/配方/表情/颜色往返/复位通过，两轮资源计数稳定；这不是长期零泄漏。新增favicon两个入口实际CDP 200。
+7. 首嘴改动A→B→A无录制短测：旧315–358ms长帧，新97–103ms；上传32–33MB→7.1–7.4MB。RTX4090/Chrome157/1600×1000/暂停人物隔离成本，非游戏持续帧率或普通机结论。首次新增眼域仍67–73ms，换体成本本次未优化。详evidence/face-selective-cost-comparison-v1。aa真实短后台三例约1.51秒已补验，不外推新版本全后台/长时间挂起；时间循环未修改。
+
 ## 构建与备份
 
-- aa由ed9b631独立检出构建，第二个独立检出97产物逐字节一致：evidence/rebuild-aa6f-ed9b631。启动根目录python scripts/serve-appearance-workbench.py；新检出prototype下npm ci，再npm run build -- --outDir ../experiments/m2-appearance-workbench-v19/dist（目录必须新建）；详APPEARANCE-WORKBENCH。
-- 男jaw源40文件Git字节准确，evidence/jaw-mouth-source-git-bytes。源提交f2dc6d9已远端核实。最终统一备份回执delivery/workbench-backup-aa6f.json，核回执而非凭口头push。供应商真人/FBX等既有ignored文件仍只本机，不声称全部远程备份。
+- 1fff由c6dfba3精确提交独立检出构建；第二个全新检出npm ci/build后98产物逐字节一致、检出干净：evidence/rebuild-1fff-c6dfba3。根目录python scripts/serve-appearance-workbench.py；按APPEARANCE-WORKBENCH从精确提交构建新目录，禁止改写旧版。
+- 男jaw源40文件Git字节准确，evidence/jaw-mouth-source-git-bytes。源提交f2dc6d9已远端核实。本轮备份回执delivery/workbench-backup-1fff.json，旧版aa回执保留；以实际回执核实结果，不凭口头push。供应商真人/FBX等既有ignored文件仍只本机，不声称全部远程备份。
 - 5d第一次重建对比失败保留。确认只因冻结后新增一行UI动态选项，旧源隔离重建97产物精确重现5d；不是CRLF或几何差异。证据evidence/workbench-build-drift-5d-aa-v1。以后固定版从确切提交独立检出构建；不能改旧报告标签。
 
 ## 剩余边界与接续
 
 - 本次有界技术闭环已完成：分区、配方移交、男女代表外观、一个派生体参数复用。新画风/发型/布局及更大外貌差异仍待用户观看，几何微端点不代表明显自由捏脸。等待产品判断，不扩大连续五官范围、体型库、衣库、M3或服务器。
 - 既有嘴眉鼻眼只原男女；男jaw只有单嘴端点。女jaw/waist未获几何参数准入；新发仅原男女。文件是本地制作配方而非稳定主播业务身份或云存档。
-- 初次几何编辑约315–328ms、换体843.3ms为先前开发机证据；无性能修复结论。既有主program/KHR完成但infoLog阻塞、depth首次draw才link的归因在workbench-cost-profile-1188-v1及workbench-program-identity-1188-v1，不重复盲查。最新短片不是普通电脑/长期性能通过；用户已明确无普通机，保缺口继续。
+- 首改脸成本已部分下降但未全解：1fff首次嘴97–103ms、眼新增67–73ms仍有长帧；换体843.3ms只保留历史证据。infoLog首次同步阻塞仍存在，既有归因不重复盲查。普通机/长期性能未通过；用户明确无普通机，保缺口。
 - 裙装及30秒Rokoko舞按用户决定封板，既有瑕疵保留，禁止再次精修。M1既有观感不外推新外貌/全部组合。当前单人/双实例，不等于产品已定同屏规模或正式直播特写。
-- 后续若继续，先根据具体用户反馈做受影响的有限样件；未获样片接受不批量生产。没有正在后台持续运行的制作任务，已保存可恢复源与证据。
+- 接续优先依据当前工作台的实际反馈；首次程序使用剩余长帧仍是具体性能缺口，下一有界试验可参考evidence/workbench-program-firstuse-readonly-v1，不能把只读建议写成已修。不要再扩大参数/资产或重开封板裙舞；新布局/外观仍待用户观看。

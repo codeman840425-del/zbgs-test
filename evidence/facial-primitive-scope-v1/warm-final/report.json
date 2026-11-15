@@ -1,0 +1,82 @@
+{
+  "foundationSha": "e7bafc7bf786f0c6198bd754360011dd213aaa895edcf438ac9fc9ca57f3a00e",
+  "scope": "Exact exported helper extracted from product source, real Three objects/actual Face inputs; renderer.compileAsync controlled mock (no GPU, no program/cache performance claims).",
+  "report": [
+    {
+      "case": "actual-geometry-mouth-eye-brow-overlap-reset-parts",
+      "records": [
+        {
+          "args": {
+            "mouthWidth": 0.04
+          },
+          "newCompileCalls": 1,
+          "compilePartCount": 4
+        },
+        {
+          "args": {
+            "mouthWidth": -0.04
+          },
+          "newCompileCalls": 0,
+          "compilePartCount": 0
+        },
+        {
+          "args": {
+            "mouthWidth": 0,
+            "eyeSample": "aperture-width101-v1"
+          },
+          "newCompileCalls": 1,
+          "compilePartCount": 6
+        },
+        {
+          "args": {
+            "eyeSample": "none",
+            "browSample": "height1-spacing1-v1"
+          },
+          "newCompileCalls": 1,
+          "compilePartCount": 2
+        },
+        {
+          "args": {
+            "mouthWidth": 0.04,
+            "eyeSample": "aperture-width101-v1"
+          },
+          "newCompileCalls": 1,
+          "compilePartCount": 2
+        },
+        {
+          "args": {
+            "reset": true
+          },
+          "newCompileCalls": 0,
+          "compilePartCount": 0
+        },
+        {
+          "args": {
+            "mouthWidth": 0.04
+          },
+          "newCompileCalls": 0,
+          "compilePartCount": 0
+        }
+      ],
+      "materialVersionAndIdentityAndRelativeAndAttributeChanges": true,
+      "allMaterialsReleasedOnce": true
+    },
+    {
+      "case": "concurrent-batch-failure-preserves-stable-and-pending-then-retry-dispose",
+      "passed": true,
+      "calls": 3
+    },
+    {
+      "case": "per-actor-independent-cache-and-disposal",
+      "passed": true
+    },
+    {
+      "case": "synchronous-stage-failure-does-not-poison-cache",
+      "passed": true
+    },
+    {
+      "case": "dispose-before-compile-microtask-does-not-start-renderer",
+      "passed": true
+    }
+  ]
+}

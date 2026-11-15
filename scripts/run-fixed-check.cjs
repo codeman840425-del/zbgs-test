@@ -4,7 +4,7 @@ const http=require('node:http'),fs=require('node:fs'),path=require('node:path');
 const {spawn}=require('node:child_process');
 const [dir,script,...args]=process.argv.slice(2);
 if(!dir||!script)throw Error('Usage: node scripts/run-fixed-check.cjs <dist> <check.cjs> [args]');
-const root=path.resolve(dir),types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json','.vrm':'model/gltf-binary','.glb':'model/gltf-binary','.png':'image/png','.jpg':'image/jpeg'};
+const root=path.resolve(dir),types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json','.vrm':'model/gltf-binary','.glb':'model/gltf-binary','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg'};
 const server=http.createServer((req,res)=>{
  let file;try{file=path.resolve(root,'.'+decodeURIComponent(new URL(req.url,'http://localhost').pathname));}catch{res.writeHead(400);res.end();return;}
  if(file!==root&&!file.startsWith(root+path.sep)){res.writeHead(403);res.end();return;}

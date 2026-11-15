@@ -168,3 +168,9 @@ scripts/face-eye-sample-v1/** -text
 assets-source/m2-male-jaw-mouth-v1/** -text
 scripts/m2-male-jaw-mouth-v1/** -text whitespace=-blank-at-eof,cr-at-eol
 evidence/workbench-build-drift-5d-aa-v1/one-line.diff -text -whitespace
+
+# Exact helper snapshots retain their recorded end-of-file whitespace.
+evidence/facial-primitive-scope-v1/warm-*/actual-helper.js -whitespace
+# Large retained telemetry has a compressed twin and a concise human summary.
+evidence/background-aa6fc6159e2d-v1/report.json -diff
+evidence/face-selective-browser-1fff20c54b2b/*-live-trace.json -diff

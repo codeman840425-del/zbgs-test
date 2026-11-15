@@ -1,0 +1,78 @@
+{
+  "foundationSha": "f6e17acf0ec489005b55332f3c6ac3482a33bf3fb69b7ecd964e05c038ebc952",
+  "scope": "Exact exported helper extracted from product source, real Three objects/actual Face inputs; renderer.compileAsync controlled mock (no GPU, no program/cache performance claims).",
+  "report": [
+    {
+      "case": "actual-geometry-mouth-eye-brow-overlap-reset-parts",
+      "records": [
+        {
+          "args": {
+            "mouthWidth": 0.04
+          },
+          "newCompileCalls": 1,
+          "compilePartCount": 4
+        },
+        {
+          "args": {
+            "mouthWidth": -0.04
+          },
+          "newCompileCalls": 0,
+          "compilePartCount": 0
+        },
+        {
+          "args": {
+            "mouthWidth": 0,
+            "eyeSample": "aperture-width101-v1"
+          },
+          "newCompileCalls": 1,
+          "compilePartCount": 6
+        },
+        {
+          "args": {
+            "eyeSample": "none",
+            "browSample": "height1-spacing1-v1"
+          },
+          "newCompileCalls": 1,
+          "compilePartCount": 2
+        },
+        {
+          "args": {
+            "mouthWidth": 0.04,
+            "eyeSample": "aperture-width101-v1"
+          },
+          "newCompileCalls": 1,
+          "compilePartCount": 2
+        },
+        {
+          "args": {
+            "reset": true
+          },
+          "newCompileCalls": 0,
+          "compilePartCount": 0
+        },
+        {
+          "args": {
+            "mouthWidth": 0.04
+          },
+          "newCompileCalls": 0,
+          "compilePartCount": 0
+        }
+      ],
+      "materialVersionAndIdentityAndRelativeAndAttributeChanges": true,
+      "allMaterialsReleasedOnce": true
+    },
+    {
+      "case": "concurrent-batch-failure-preserves-stable-and-pending-then-retry-dispose",
+      "passed": true,
+      "calls": 3
+    },
+    {
+      "case": "per-actor-independent-cache-and-disposal",
+      "passed": true
+    },
+    {
+      "case": "synchronous-stage-failure-does-not-poison-cache",
+      "passed": true
+    }
+  ]
+}
