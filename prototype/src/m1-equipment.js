@@ -1,5 +1,6 @@
 import { createEquipment } from "./equipment.js";
 import { createM1Skirt } from "./m1-skirt.js";
+import { createSimpleSkirtAdapter } from "./simple-skirt-adapter.js";
 import { foundationProfile } from "./foundation-profiles.js";
 
 export const M1_AVATAR_SHA256 =
@@ -8,6 +9,8 @@ export const M1_AVATAR_SHA256 =
  * alter body materials, or infer compatibility from a similar-looking model. */
 export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female" }) {
   const config = foundationProfile(bodyType), IDS = config.ids;
+  const diagnostic = bodyType === "female" && new URLSearchParams(location.search).get("skirtSample") === "v4";
+  const diagnosticIds = ["m1-sixfold-skirt-v4", "m1-open-top-existing-source"];
   if (avatarSha256 !== config.sha256)
     throw new Error(
       "Equipment requires its exact body roundtrip identity",
@@ -15,10 +18,10 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
   const adapter = await createEquipment({
     vrm,
     avatarSha256,
-    manifestUrl: config.manifestUrl,
+    manifestUrl: diagnostic ? "/assets/simple-skirt-v4/equipment.json" : config.manifestUrl,
   });
   try {
-    await Promise.all(Object.values(IDS).map((id) => adapter.load(id)));
+    await Promise.all([...Object.values(IDS), ...(diagnostic ? diagnosticIds : [])].map((id) => adapter.load(id)));
   } catch (error) {
     adapter.dispose();
     throw error;
@@ -51,19 +54,28 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     debugBody = false,
     disposed = false;
   const item = (role) => adapter.get(IDS[role]);
-  const skirtCorrective = IDS.skirt ? createM1Skirt({
-    vrm,
-    source: item("skirt").meshes[0],
-    body,
-  }) : null;
+  const diagnosticSkirt = diagnostic ? adapter.get(diagnosticIds[0]) : null;
+  const diagnosticTop = diagnostic ? adapter.get(diagnosticIds[1]) : null;
+  let skirtCorrective;
+  try {
+    skirtCorrective = diagnostic
+      ? createSimpleSkirtAdapter({ vrm, item: diagnosticSkirt, body })
+      : IDS.skirt ? createM1Skirt({ vrm, source: item("skirt").meshes[0], body }) : null;
+  } catch (error) {
+    adapter.dispose();
+    sourceClothes.forEach(({ mesh, visible }) => (mesh.visible = visible));
+    throw error;
+  }
   function apply() {
     if (disposed) return;
     // All assets are already loaded. Visibility changes are synchronous and
     // cannot arrive later over a newer user request.
     item("shoes").container.visible = true;
-    item("top").container.visible = !debugBody;
+    item("top").container.visible = !debugBody && !(diagnostic && outfit === 1);
+    if (diagnosticTop) diagnosticTop.container.visible = !debugBody && outfit === 1;
     item("pants").container.visible = !debugBody && outfit === 0;
-    if (IDS.skirt) item("skirt").container.visible = !debugBody && outfit === 1;
+    if (IDS.skirt) item("skirt").container.visible = !diagnostic && !debugBody && outfit === 1;
+    if (diagnosticSkirt) diagnosticSkirt.container.visible = !debugBody && outfit === 1;
     if (IDS.shorts) item("shorts").container.visible = !debugBody && outfit === 2;
   }
   apply();
@@ -90,6 +102,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
         debugBody,
         avatarSha256,
         independentEquipment: true,
+        diagnosticGarment: diagnostic ? { id: diagnosticIds[0], qualified: false, sittingResponse: "not authored" } : null,
         sourceBodyUnchanged: true,
         skirtDynamics: skirtCorrective?.getInfo() ?? null,
         items: Object.fromEntries(
@@ -105,13 +118,13 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
         body,
         face,
         hair,
-        top: item("top").meshes,
+        top: [...item("top").meshes, ...(diagnosticTop?.meshes ?? [])],
         shoes: item("shoes").meshes,
         get pants() { return item(outfit === 2 ? "shorts" : "pants").meshes; },
         allPants: [...item("pants").meshes, ...(IDS.shorts ? item("shorts").meshes : [])],
         shorts: IDS.shorts ? item("shorts").meshes : [],
-        skirt: skirtCorrective ? [skirtCorrective.mesh] : [],
-        sourceSkirt: IDS.skirt ? item("skirt").meshes : [],
+        skirt: skirtCorrective ? (skirtCorrective.meshes ?? [skirtCorrective.mesh]) : [],
+        sourceSkirt: diagnosticSkirt ? diagnosticSkirt.meshes : IDS.skirt ? item("skirt").meshes : [],
         sourceClothes: sourceClothes.map((x) => x.mesh),
         skirtBones: (IDS.skirt ? item("skirt").meshes[0].skeleton.bones : []).filter((b) =>
           /Skirt/.test(b.name),
