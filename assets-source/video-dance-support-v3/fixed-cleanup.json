@@ -1,0 +1,68 @@
+{
+  "schema": "human-reviewed-support-cleanup.1",
+  "scopeFrames": [
+    138,
+    210
+  ],
+  "manualObservationFile": "assets-source/video-dance-twist-study-v1/support-observations.json",
+  "manualObservationSha256": "ccca5ccbeb8febeab4e5aaf70edfeba8d2225d9616331ef24f262f514e684f41",
+  "automaticContactLabelsUsed": false,
+  "protectedFlightFrames": [
+    141,
+    142,
+    143,
+    144,
+    207,
+    208,
+    209,
+    210
+  ],
+  "parameterization": "RootY and two ankleY finite cubic spline corrections; one takeoff ease-out coefficient plus12 central cubic coefficients per channel; zero correction/derivative at144 and207.",
+  "basisCoefficientsPerChannel": 13,
+  "centralKnotVector": [
+    144.0,
+    144.0,
+    144.0,
+    144.0,
+    148.84615384615384,
+    153.69230769230768,
+    158.53846153846155,
+    163.3846153846154,
+    168.23076923076923,
+    173.07692307692307,
+    177.9230769230769,
+    182.76923076923077,
+    187.6153846153846,
+    192.46153846153845,
+    197.30769230769232,
+    202.15384615384613,
+    207.0,
+    207.0,
+    207.0,
+    207.0
+  ],
+  "weights": {
+    "support": 100,
+    "rootDisplacement": 0.2,
+    "ankleDisplacement": 0.3,
+    "firstDifference": 1,
+    "secondDifference": 100
+  },
+  "virtualSoleClearanceM": 0.002,
+  "reachMarginM": 0.001,
+  "coefficientBoundM": 0.2,
+  "fixedSkinLinearizationPasses": 4,
+  "optimizer": "SLSQP quadratic linear constraints; maxiter250 ftol1e-11; fixed parameters, no scan",
+  "ankleXZ": "Original each-frame XZ, not stationary support anchors; pivot/slide not solved",
+  "footOrientation": "Original world foot/toe orientation preserved, level fallback; no fabricated measured roll",
+  "unknownPolicy": "No support attraction. Virtual nonpenetration and reach constraints only; not a detected contact claim",
+  "failureGates": {
+    "supportHeightMaxM": 0.01,
+    "minimumSoleYAfterRuntimeLiftM": -0.002,
+    "legLengthErrorM": 1e-05,
+    "maximumChangedLegLocalStepDeg": 45,
+    "phaseSeamRootVelocityChangeMPerS": 0.5,
+    "protectedFlightAssetDifference": 0
+  },
+  "notes": "Physical plausibility and visual quality still require actual character replay. Contact constraints are human-authored hypotheses. Contact drift/XZ friction not recovered."
+}

@@ -1038,7 +1038,9 @@ class CharacterScene extends Phaser.Scene {
       if (name === "sit" && this.seatToken) seatLeases.occupy(this.seatToken);
       if (name === "stand" && this.seatToken) seatLeases.beginExit(this.seatToken);
       if (this.rig) {
-        this.rig.setAction(name === "turn" ? "idle" : name);
+        // Queue the requested mode; rig.update consumes it on the next tick.
+        // Eager setAction resets clocks after the displayed pose was evaluated,
+        // so refreshPose(0) can replay the old input with the new action clock.
         this.lastAction = name;
       }
     }

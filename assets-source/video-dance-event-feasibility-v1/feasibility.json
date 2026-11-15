@@ -1,0 +1,164 @@
+{
+  "schema": "read-only-event-constraint-feasibility.1",
+  "noMotionExported": true,
+  "noParameterSweep": true,
+  "inputs": {
+    "assets-source/video-dance-twist-study-v1/support-observations.json": "ccca5ccbeb8febeab4e5aaf70edfeba8d2225d9616331ef24f262f514e684f41",
+    "assets-source/video-dance-support-v3/female-dance-support-v3.json": "737ee56a0a767a8e64a30559f311737dec876a7a855c37f22fc1facda4b89f53",
+    "assets-source/video-dance-support-v3/male-dance-support-v3.json": "7554447650247fd46b0afe6aebef236d14e425917fe2136cf08579a52a4a8ec1"
+  },
+  "results": [
+    {
+      "body": "female",
+      "fixedLevelFootKinematics": {
+        "duration205to207Seconds": 0.08341666666666667,
+        "fixedLevelFootFullReachMinimumRootLowering205M": 0.03263625352451893,
+        "minimumMeanCorrectionVelocity205to207MPerS": 0.39124379849573143,
+        "originalTargetMeanRootVelocity205to207MPerS": 0.21080106140909355,
+        "correctedMeanRootVelocity205to207NecessaryLowerBoundMPerS": 0.602044859904825,
+        "correctionPeakAbsoluteAccelerationLowerBoundIfZeroCorrectionVelocityAt207": 9.380470693204352,
+        "correctionPeakAccelerationLowerBoundIfZeroCorrectionVelocityBoth205And207": 18.760941386408703,
+        "illustrativeZeroEndVelocityCubic": {
+          "peakCorrectionVelocity": 0.5868656977435972,
+          "peakCorrectionAcceleration": 28.14141207961305
+        },
+        "originalTarget207to208RootVelocityMPerS": 0.06133941846483784,
+        "totalRootPeakAbsoluteAccelerationLowerBoundIfMatch207to208ForwardVelocity": 12.963966627931761,
+        "originalTargetRootY200to210M": [
+          0.8414752216946609,
+          0.8462952426563417,
+          0.864937550876496,
+          0.8893501628328278,
+          0.8950184757842929,
+          0.9040870544855091,
+          0.9150761439280852,
+          0.921671376358051,
+          0.9242297412698552,
+          0.9247983616326189,
+          0.9219803824295107
+        ],
+        "boundaryCaveat": "With endpoint positions alone there is no nonzero acceleration lower bound: constant velocity can connect them. First acceleration bound additionally requires zero correction velocity at207 to join unchanged flight C1. Zero correction velocity at205 is illustrative, not required by contact. Pelvis root is not center of mass; raw projected root is not metric truth."
+      },
+      "singleConfigurationRollFeasibility": {
+        "method": "One scalar geometry root for toe-patch minimumY=0 at source205, bracket0..60deg; not angle scan or motion optimization. Root/ankleXYZ, leg bones and original turn unchanged. Rotate foot/toes rigidly about current ankle lateral axis; retain actual calf skin influence.",
+        "atZero": {
+          "allVertexMinimumY": 0.03681870732315383,
+          "heelSoftMinY": 0.03721963086436463,
+          "heelMinimumY": 0.03681870732315383,
+          "toeSoftMinY": 0.0370807815935517,
+          "toeMinimumY": 0.03683588106611048
+        },
+        "bracketEnd": {
+          "allVertexMinimumY": -0.05082662724308086,
+          "heelSoftMinY": 0.07600762831234507,
+          "heelMinimumY": 0.07583945616359891,
+          "toeSoftMinY": -0.05073926937025198,
+          "toeMinimumY": -0.05082662724308086
+        },
+        "axisWorld": [
+          0.7664220917895822,
+          0.0,
+          -0.6423372768389528
+        ],
+        "ankleWorld": [
+          -0.07022918767387523,
+          0.13979437690388052,
+          -0.2009337477902543
+        ],
+        "bracketHasRoot": true,
+        "toeContactAngleDeg": 14.573709691123105,
+        "atContact": {
+          "allVertexMinimumY": 3.469446951953614e-17,
+          "heelSoftMinY": 0.03696969239499645,
+          "heelMinimumY": 0.03673664672932314,
+          "toeSoftMinY": 0.0006672431716581978,
+          "toeMinimumY": 3.469446951953614e-17
+        },
+        "angleRelease205to207MeanDegPerS": 174.70980648699026,
+        "physicalHumanAngleRecovered": false,
+        "limits": [
+          "This is a single target-shoe configuration, not a temporal clip, not an acceptance result.",
+          "Ankle XZ preserved but rotating shoe changes toe contact XZ; no no-slip anchor assumed.",
+          "Level foot fallback is relaxed; heel lift matches qualitative push-off, exact human foot pitch remains unknown.",
+          "Does not yet test joint limits, shoes/leg collision or continuity of the whole73frame segment."
+        ]
+      }
+    },
+    {
+      "body": "male",
+      "fixedLevelFootKinematics": {
+        "duration205to207Seconds": 0.08341666666666667,
+        "fixedLevelFootFullReachMinimumRootLowering205M": 0.03601003980161821,
+        "minimumMeanCorrectionVelocity205to207MPerS": 0.4316887888305879,
+        "originalTargetMeanRootVelocity205to207MPerS": 0.23268888482265282,
+        "correctedMeanRootVelocity205to207NecessaryLowerBoundMPerS": 0.6643776736532407,
+        "correctionPeakAbsoluteAccelerationLowerBoundIfZeroCorrectionVelocityAt207": 10.350180751182927,
+        "correctionPeakAccelerationLowerBoundIfZeroCorrectionVelocityBoth205And207": 20.700361502365855,
+        "illustrativeZeroEndVelocityCubic": {
+          "peakCorrectionVelocity": 0.6475331832458819,
+          "peakCorrectionAcceleration": 31.050542253548784
+        },
+        "originalTarget207to208RootVelocityMPerS": 0.0677074453282692,
+        "totalRootPeakAbsoluteAccelerationLowerBoundIfMatch207to208ForwardVelocity": 14.305779700099217,
+        "originalTargetRootY200to210M": [
+          0.9332326356536654,
+          0.938553160114762,
+          0.9591310163497372,
+          0.9860783075567178,
+          0.992335100326712,
+          1.0023451909254766,
+          1.01447523450341,
+          1.0217553220677662,
+          1.024579286766666,
+          1.0252069149026293,
+          1.0220963970572594
+        ],
+        "boundaryCaveat": "With endpoint positions alone there is no nonzero acceleration lower bound: constant velocity can connect them. First acceleration bound additionally requires zero correction velocity at207 to join unchanged flight C1. Zero correction velocity at205 is illustrative, not required by contact. Pelvis root is not center of mass; raw projected root is not metric truth."
+      },
+      "singleConfigurationRollFeasibility": {
+        "method": "One scalar geometry root for toe-patch minimumY=0 at source205, bracket0..60deg; not angle scan or motion optimization. Root/ankleXYZ, leg bones and original turn unchanged. Rotate foot/toes rigidly about current ankle lateral axis; retain actual calf skin influence.",
+        "atZero": {
+          "allVertexMinimumY": 0.04061080632829445,
+          "heelSoftMinY": 0.04282265473660453,
+          "heelMinimumY": 0.042351201289094476,
+          "toeSoftMinY": 0.04067618938118774,
+          "toeMinimumY": 0.04061080632829445
+        },
+        "bracketEnd": {
+          "allVertexMinimumY": -0.08085486520627855,
+          "heelSoftMinY": 0.11601881262274752,
+          "heelMinimumY": 0.11569418818648991,
+          "toeSoftMinY": -0.0808341987455315,
+          "toeMinimumY": -0.08085486520627855
+        },
+        "axisWorld": [
+          0.7664220917895822,
+          0.0,
+          -0.6423372768389528
+        ],
+        "ankleWorld": [
+          -0.07694909225608577,
+          0.1614380467320361,
+          -0.21670222042598453
+        ],
+        "bracketHasRoot": true,
+        "toeContactAngleDeg": 11.870305864243058,
+        "atContact": {
+          "allVertexMinimumY": 1.3877787807814457e-17,
+          "heelSoftMinY": 0.0499103114210499,
+          "heelMinimumY": 0.04955386070616362,
+          "toeSoftMinY": 0.0006675091177234596,
+          "toeMinimumY": 1.3877787807814457e-17
+        },
+        "angleRelease205to207MeanDegPerS": 142.30136900191476,
+        "physicalHumanAngleRecovered": false,
+        "limits": [
+          "This is a single target-shoe configuration, not a temporal clip, not an acceptance result.",
+          "Ankle XZ preserved but rotating shoe changes toe contact XZ; no no-slip anchor assumed.",
+          "Level foot fallback is relaxed; heel lift matches qualitative push-off, exact human foot pitch remains unknown.",
+          "Does not yet test joint limits, shoes/leg collision or continuity of the whole73frame segment."
+        ]
+      }
+    }
+  ]
+}

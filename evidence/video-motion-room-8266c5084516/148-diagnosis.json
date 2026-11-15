@@ -1,0 +1,143 @@
+{
+  "scope": "source148 remaining right-support defect; read-only, no next candidate generated",
+  "manualSourceObservation": "148 right shoe visibly near floor during cross-step landing. Left shoe still raised/transitioning. Existing observation has right apparent_contact and left airborne_to_forefoot_contact_unknown. Unlike205 push-off,148 heel/forefoot partition and exact foot pitch are not sufficiently established to mandate a new toe-roll event.",
+  "knownContactIsNotPhysicalMeasurement": true,
+  "automaticContactLabelsUsed": false,
+  "bodies": [
+    {
+      "body": "female",
+      "sourceFrame": 148,
+      "sourcePTS": 148148,
+      "timeBase": "1/24000",
+      "v2RightSoleHeight": 0.06079241450023484,
+      "v3RootDeltaY": -0.033549659769288434,
+      "v3RightAnkleDeltaY": -0.03244135140514301,
+      "v4ExtraRollAt148": 0,
+      "v4RightSoleBeforeLift": 0.028353596054093183,
+      "v4RuntimeLift": 0.005104771253100209,
+      "v4RightSoleAfterLift": 0.03345836730719339,
+      "fixedLevelFootNecessaryRootDropFor148Support": 0.05956962632468854,
+      "additionalRootDropBeyondV3ToReachGroundNecessary": 0.026019966555400106,
+      "protectedFlight144ToSupport148Seconds": 0.16683333333333333,
+      "requiredCorrectionAverageDownwardVelocityFromProtected144": 0.35706069725088035,
+      "correctionPeakAccelerationLowerBoundIfZeroCorrectionVelocityAt144": 4.280447919091473,
+      "v3LeftSoleStillRaisedBeforeLift": 0.1401377791648674,
+      "interpretation": "A known support was a soft objective and was not met; actual normalized loading is not the cause. Stronger flat-foot landing would need extra root/leg adjustment and event-appropriate timing. This is a necessary reach bound, not a solved temporally consistent motion. Root/pose prediction and level-foot assumptions cannot be uniquely separated using monocular data."
+    },
+    {
+      "body": "male",
+      "sourceFrame": 148,
+      "sourcePTS": 148148,
+      "timeBase": "1/24000",
+      "v2RightSoleHeight": 0.06714218619895652,
+      "v3RootDeltaY": -0.03700503468057821,
+      "v3RightAnkleDeltaY": -0.03592326156401121,
+      "v4ExtraRollAt148": 0,
+      "v4RightSoleBeforeLift": 0.031211172053555784,
+      "v4RuntimeLift": 0.005951520713656448,
+      "v4RightSoleAfterLift": 0.037162692767212235,
+      "fixedLevelFootNecessaryRootDropFor148Support": 0.06579711969373869,
+      "additionalRootDropBeyondV3ToReachGroundNecessary": 0.02879208501316048,
+      "protectedFlight144ToSupport148Seconds": 0.16683333333333333,
+      "requiredCorrectionAverageDownwardVelocityFromProtected144": 0.3943883298325996,
+      "correctionPeakAccelerationLowerBoundIfZeroCorrectionVelocityAt144": 4.727932025965229,
+      "v3LeftSoleStillRaisedBeforeLift": 0.1543436615732855,
+      "interpretation": "A known support was a soft objective and was not met; actual normalized loading is not the cause. Stronger flat-foot landing would need extra root/leg adjustment and event-appropriate timing. This is a necessary reach bound, not a solved temporally consistent motion. Root/pose prediction and level-foot assumptions cannot be uniquely separated using monocular data."
+    }
+  ],
+  "existingBasisAffineFeasibilityRelaxation": {
+    "method": "One Chebyshev linear program per body/side, existing13-coefficient basis, all existing known supports. Affine height=current v4 contact height + B*ankleY coefficient delta; coefficients unbounded, reach/floor/smoothness relaxed. No coefficients exported, no clips generated.",
+    "results": [
+      {
+        "body": "female",
+        "side": "left",
+        "knownSupportConstraints": 19,
+        "basisRankOnKnownSupports": 9,
+        "minimumMaximumAbsoluteSupportResidualM": 0.0019088235959319319,
+        "mostRestrictiveFrames": [
+          138,
+          153,
+          155,
+          159,
+          164,
+          171,
+          173,
+          174,
+          175,
+          176
+        ]
+      },
+      {
+        "body": "female",
+        "side": "right",
+        "knownSupportConstraints": 30,
+        "basisRankOnKnownSupports": 12,
+        "minimumMaximumAbsoluteSupportResidualM": 0.011237642034094846,
+        "mostRestrictiveFrames": [
+          138,
+          148,
+          150,
+          153,
+          159,
+          162,
+          164,
+          173,
+          175,
+          176,
+          200,
+          202,
+          204
+        ]
+      },
+      {
+        "body": "male",
+        "side": "left",
+        "knownSupportConstraints": 19,
+        "basisRankOnKnownSupports": 9,
+        "minimumMaximumAbsoluteSupportResidualM": 0.0021073343198565915,
+        "mostRestrictiveFrames": [
+          138,
+          153,
+          155,
+          159,
+          164,
+          171,
+          173,
+          174,
+          175,
+          176
+        ]
+      },
+      {
+        "body": "male",
+        "side": "right",
+        "knownSupportConstraints": 30,
+        "basisRankOnKnownSupports": 12,
+        "minimumMaximumAbsoluteSupportResidualM": 0.012429817347269626,
+        "mostRestrictiveFrames": [
+          138,
+          148,
+          150,
+          153,
+          159,
+          162,
+          164,
+          173,
+          175,
+          176,
+          200,
+          202,
+          204
+        ]
+      }
+    ],
+    "limits": "This is a certificate only for the frozen linearized height model. Changing IK/foot rotations changes shoe skin nonlinearly; not a proof that every exact global solver is infeasible. A right-side lower bound above10mm in this relaxed model means merely raising the old soft weight is not a sufficient demonstrated solution."
+  },
+  "nextRepresentationAdmission": [
+    "All existing clearly observed support intervals, both protected flight intervals and unknown boundaries enter one consistent feasibility problem. Do not optimize only148 or add unsupported roll labels.",
+    "Known support geometry is a hard stated authoring condition with a declared contact patch, distinct from detection certainty. Unknown regions receive nonpenetration/reach only, not invented contact.",
+    "RootXZ, whole turn, target bone lengths and true flight timing remain constraints; check source-clock preservation.",
+    "Contact event boundaries carry unknown velocities unless evidence fixes them; do not use uniform-coefficient soft penalties to silently sacrifice contact.",
+    "Accept only if all support residuals, flight clearances, angular continuity, toe/heel geometry and actual runtime-interpolated shoe skin jointly meet gates. Infeasible means report conflicting constraints, not scan weights or relabel source."
+  ]
+}

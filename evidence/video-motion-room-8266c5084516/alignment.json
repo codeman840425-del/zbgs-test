@@ -1,0 +1,63 @@
+{
+  "schema": "event-time-alignment-v1",
+  "build": "8266c5084516",
+  "clip": "video-dance-forefoot-v4",
+  "commonSeconds": [
+    0,
+    3.003
+  ],
+  "sourceFrameInterval": [
+    138,
+    210
+  ],
+  "sourceManifest": "../dance-video-pose-v1/source.json",
+  "source": {
+    "media": "../../analysis/dance-reference-v1/5359146-original.mp4",
+    "offsetSeconds": 5.75575,
+    "sha256": "c26ca0a91f8b735c575a142a75504696609bfa024e905b9cec13ba61c70c1c48"
+  },
+  "recordings": [
+    {
+      "id": "female",
+      "media": "female.webm",
+      "trace": "female.trace.json.gz",
+      "offsetSeconds": 0.5078999999761613,
+      "fitSamples": 165,
+      "fitRange": [
+        1.5,
+        2.5
+      ],
+      "maxTraceResidualSeconds": 0.00019999999999442686,
+      "medianEncodedFrameIntervalSeconds": 0.018000000000000002,
+      "maximumEncodedFrameIntervalSeconds": 0.025000000000000355,
+      "firstPTS": 0.0,
+      "lastPTS": 5.004,
+      "mediaSha256": "5f6ee92fc5137c273c7796189790652b22b1ba94af0893fa5ecb5d8c5d6e84db",
+      "traceSha256": "d407a5cc5573345bde08b20fc3f60d1aed8ee21a358ea5a1331651091b410357"
+    },
+    {
+      "id": "male",
+      "media": "male.webm",
+      "trace": "male.trace.json.gz",
+      "offsetSeconds": 0.5133000000476926,
+      "fitSamples": 165,
+      "fitRange": [
+        1.5,
+        2.5
+      ],
+      "maxTraceResidualSeconds": 0.0008999999046388485,
+      "medianEncodedFrameIntervalSeconds": 0.017999999999999974,
+      "maximumEncodedFrameIntervalSeconds": 0.025000000000000022,
+      "firstPTS": 0.0,
+      "lastPTS": 5.004,
+      "mediaSha256": "330b6317e23b5ff6f10dc7093fd310ee09a5be3ac67a80ec6a0d6510099a5eaa",
+      "traceSha256": "2faeebb83d4ff2e777ccb19cbd6b2d822b0c2ea2b8977abff7a47529ec15c4bc"
+    }
+  ],
+  "limits": [
+    "Event-time alignment, not camera calibration. Trace t vs media firstPTS has about one encoded-frame uncertainty, not proven bound.",
+    "Source and target have different camera/framing. Early runtime blend-in is preserved.",
+    "All videos remain complete and unchanged, playbackRate1; source selected interval only.",
+    "Three-second partial sample does not complete the full30second task; support cleanup failed10mm gate."
+  ]
+}

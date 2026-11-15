@@ -1,0 +1,50 @@
+--- a/prototype/src/motion.js
++++ b/prototype/src/motion.js
+@@ -1004,6 +1004,7 @@
+       return a.pixels[(y * a.width + x) * 4 + 3] / 255 >= a.cutoff;
+     }
+     let gridU, gridV, measurement;
++    let auditSide = null, auditMeasure = 0, auditRail = 0;
+     function railClearance(start, end, outward) {
+       const su = start.dot(gridU), sv = start.dot(gridV),
+         eu = end.dot(gridU), ev = end.dot(gridV);
+@@ -1032,6 +1033,31 @@
+           }
+         }
+       }
++      const audit = globalThis.__handRailAudit;
++      if(audit?.active && auditSide === "left" && measurement?.part === "joint-hand-envelope") {
++        function evaluateAll(list) {
++          let maximum=0,witness=null,intervals=0,depthRejected=0,alphaRejected=0;const watched=[];
++          for(const t of list){
++            const selected=t.ids.join(',')==='22,25,26'||t.ids.join(',')==='373,376,374';
++            const interval=projectedSegmentIntervalPrepared(su,sv,eu,ev,t.clipConstants,projectedInterval);
++            if(!interval){if(selected)watched.push({ids:t.ids.slice(),rejected:'no-projected-segment-interval'});continue;}
++            intervals++;const samples=[];let triMax=0;
++            for(let k=0;k<=4;k++){
++              const at=interval.lo+(interval.hi-interval.lo)*k/4;
++              hit.set(0,0,0);for(let j=0;j<3;j++)hit.addScaledVector(t.points[j],interval.start[j]+(interval.end[j]-interval.start[j])*at);
++              const alpha=visible(t),depth=hit.dot(outward)-(startDepth+depthDelta*at),accepted=alpha&&depth>-.008&&depth<.3;
++              if(!alpha)alphaRejected++;else if(!accepted)depthRejected++;
++              if(accepted){triMax=Math.max(triMax,depth+.008);if(triMax>maximum){maximum=triMax;witness={ids:t.ids.slice(),at,depth,hit:hit.toArray()};}}
++              if(selected)samples.push({k,at,depth,alpha,accepted});
++            }
++            if(selected)watched.push({ids:t.ids.slice(),interval:{lo:interval.lo,hi:interval.hi},maximum:triMax,samples});
++          }
++          return {maximum,witness,intervals,depthRejected,alphaRejected,watched};
++        }
++        const grid=evaluateAll(candidates),brute=evaluateAll(triangles);
++        audit.rows.push({sim:audit.sim,side:auditSide,measure:auditMeasure,rail:auditRail,start:start.toArray(),end:end.toArray(),outward:outward.toArray(),originalAmount:amount,grid,brute,gridCandidates:candidates.length,totalTriangles:triangles.length});
++      }
++      auditRail++;
+       return amount;
+     }
+     for (const [i, arm] of arms.entries()) {
+@@ -1084,6 +1110,7 @@
+       if(timing)timing.jointHandRailsMs=(timing.jointHandRailsMs||0)+performance.now()-handContourStarted;
+       let narrowPhasePairs = 0, handNarrowPhasePairs = 0;
+       function measureArm(elbow, wrist) {
++        auditSide=arm.side; auditMeasure++; auditRail=0;
+         const measureStarted = timing ? performance.now() : 0;
+         let contourCost = 0;
+         measurement = {part:"forearm",testedTriangles:0,alphaRejected:0,strongest:null};

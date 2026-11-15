@@ -1,0 +1,5 @@
+{
+  "diagnostic_initial_error": "Random-access trace replay followed evaluation at the exact final clip time. LoopOnce clamp paused the diagnostic action, so later samples incorrectly stayed at the end pose.",
+  "fix": "Re-enable and unpause the diagnostic action before each independent mixer.setTime evaluation.",
+  "effect": "Corrected read-only diagnostic replay; no source asset, runtime, evidence trace or fitting parameter changed. Initial wrong residual summary is superseded, not claimed as runtime error."
+}

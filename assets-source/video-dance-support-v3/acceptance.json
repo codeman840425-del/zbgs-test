@@ -1,0 +1,618 @@
+{
+  "frozenParentHashChecks": {
+    "assets-source/video-dance-target-v1/actual-vrm-mixer-check.json": true,
+    "assets-source/video-dance-target-v1/basis-calibration.json": true,
+    "assets-source/video-dance-target-v1/dance-imports.entry.json": true,
+    "assets-source/video-dance-target-v1/direction-contact-audit.json": true,
+    "assets-source/video-dance-target-v1/female-dance-normalized.json": true,
+    "assets-source/video-dance-target-v1/female-frame-audit.json": true,
+    "assets-source/video-dance-target-v1/female-report.json": true,
+    "assets-source/video-dance-target-v1/female-world-reference.json": true,
+    "assets-source/video-dance-target-v1/female-world.npz": true,
+    "assets-source/video-dance-target-v1/implementation-recovery.json": true,
+    "assets-source/video-dance-target-v1/input-provenance.json": true,
+    "assets-source/video-dance-target-v1/male-dance-normalized.json": true,
+    "assets-source/video-dance-target-v1/male-frame-audit.json": true,
+    "assets-source/video-dance-target-v1/male-report.json": true,
+    "assets-source/video-dance-target-v1/male-world-reference.json": true,
+    "assets-source/video-dance-target-v1/male-world.npz": true,
+    "assets-source/video-dance-target-v1/README.md": true,
+    "assets-source/video-dance-target-v1/target-direction-contact.png": true,
+    "scripts/video-motion/bake-dance-target.py": true,
+    "scripts/video-motion/check-dance-target-clips.mjs": true,
+    "scripts/video-motion/analyze-dance-target.py": true,
+    "assets-source/video-dance-target-v2/actual-vrm-mixer-check.json": true,
+    "assets-source/video-dance-target-v2/dance-imports.entry.json": true,
+    "assets-source/video-dance-target-v2/female-dance-normalized-v2.json": true,
+    "assets-source/video-dance-target-v2/female-transport-report.json": true,
+    "assets-source/video-dance-target-v2/female-world-reference.json": true,
+    "assets-source/video-dance-target-v2/female-world.npz": true,
+    "assets-source/video-dance-target-v2/male-dance-normalized-v2.json": true,
+    "assets-source/video-dance-target-v2/male-transport-report.json": true,
+    "assets-source/video-dance-target-v2/male-world-reference.json": true,
+    "assets-source/video-dance-target-v2/male-world.npz": true,
+    "assets-source/video-dance-target-v2/README.md": true,
+    "scripts/video-motion/transport-dance-forearm-v2.py": true,
+    "scripts/video-motion/check-dance-target-v2-clips.mjs": true
+  },
+  "results": [
+    {
+      "body": "female",
+      "only73Frames": true,
+      "frozenParentAllHashesMatch": true,
+      "unchangedTracks": 46,
+      "changedTracks": [
+        "leftUpperLeg.quaternion",
+        "leftLowerLeg.quaternion",
+        "leftFoot.quaternion",
+        "leftToes.quaternion",
+        "rightUpperLeg.quaternion",
+        "rightLowerLeg.quaternion",
+        "rightFoot.quaternion",
+        "rightToes.quaternion",
+        "hips.position"
+      ],
+      "trackTimesExact": true,
+      "rootXZExact": true,
+      "hipsRotationExact": true,
+      "flightKeysExact": true,
+      "runtimeGroundLift": 0.004915284798606595,
+      "supportAfterLiftMaxM": 0.03760654479572302,
+      "supportAfterLiftMedianM": 0.012250317938127833,
+      "worstSupport": {
+        "sourceFrame": 205,
+        "side": "right",
+        "afterRuntimeLiftSelectedSupportHeight": 0.03760654479572302
+      },
+      "dense721MinimumAfterLift": -0.001050732136939703,
+      "coordinateReplayPassed": true,
+      "accepted": false,
+      "failures": [
+        "known support residual exceeds10mm"
+      ],
+      "remainingRisks": [
+        "Forefoot heel-raised observation not reproduced: original level world foot orientation preserved.",
+        "Pivot/sliding friction and stationary contact XZ not recovered.",
+        "Upper-leg/knee changes up to40.61deg and adjacent lower-leg steps up to37.70deg require visual review.",
+        "Dense721 finite sample does not prove continuous nonpenetration.",
+        "Actual5b78bbd34130 one-shot room playback recorded separately; no visual quality acceptance."
+      ],
+      "supportRows": [
+        {
+          "sourceFrame": 138,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.006915255877138408
+        },
+        {
+          "sourceFrame": 138,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.015434425167055664
+        },
+        {
+          "sourceFrame": 148,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.03326888085269978
+        },
+        {
+          "sourceFrame": 149,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.019676496212451697
+        },
+        {
+          "sourceFrame": 150,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.006915273929673566
+        },
+        {
+          "sourceFrame": 151,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.0074955596795877825
+        },
+        {
+          "sourceFrame": 152,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.011574694392544067
+        },
+        {
+          "sourceFrame": 153,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.019570669160382838
+        },
+        {
+          "sourceFrame": 153,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.009365168099355304
+        },
+        {
+          "sourceFrame": 154,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.008580105465705475
+        },
+        {
+          "sourceFrame": 154,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.0069152731405204525
+        },
+        {
+          "sourceFrame": 155,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.007160327746886937
+        },
+        {
+          "sourceFrame": 155,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.008538795105816671
+        },
+        {
+          "sourceFrame": 156,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.013788317367028942
+        },
+        {
+          "sourceFrame": 156,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.014719238572395283
+        },
+        {
+          "sourceFrame": 157,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.019134098471187324
+        },
+        {
+          "sourceFrame": 157,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.01769997152530314
+        },
+        {
+          "sourceFrame": 158,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.017710091816925087
+        },
+        {
+          "sourceFrame": 158,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.014012865440256022
+        },
+        {
+          "sourceFrame": 159,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.013198774412079615
+        },
+        {
+          "sourceFrame": 159,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.009705844425390627
+        },
+        {
+          "sourceFrame": 160,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.007160297160062444
+        },
+        {
+          "sourceFrame": 160,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.0069152751101649096
+        },
+        {
+          "sourceFrame": 161,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.011525230330034372
+        },
+        {
+          "sourceFrame": 161,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.014010242965551294
+        },
+        {
+          "sourceFrame": 162,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.015413008748960889
+        },
+        {
+          "sourceFrame": 162,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.01891293206372055
+        },
+        {
+          "sourceFrame": 163,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.011383971068469168
+        },
+        {
+          "sourceFrame": 163,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.013198768084690527
+        },
+        {
+          "sourceFrame": 164,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.012250317938127833
+        },
+        {
+          "sourceFrame": 164,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.00882463855002796
+        },
+        {
+          "sourceFrame": 171,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.007286793558828207
+        },
+        {
+          "sourceFrame": 171,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.01320478493886926
+        },
+        {
+          "sourceFrame": 172,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.006915306710430207
+        },
+        {
+          "sourceFrame": 172,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.008699931681375575
+        },
+        {
+          "sourceFrame": 173,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.007411130610510164
+        },
+        {
+          "sourceFrame": 173,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.006915293186212666
+        },
+        {
+          "sourceFrame": 174,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.016154603322530568
+        },
+        {
+          "sourceFrame": 174,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.012536084718007623
+        },
+        {
+          "sourceFrame": 175,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.01498983569875574
+        },
+        {
+          "sourceFrame": 175,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.00949934923842935
+        },
+        {
+          "sourceFrame": 176,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.013698101675588097
+        },
+        {
+          "sourceFrame": 176,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.010100866161274084
+        },
+        {
+          "sourceFrame": 200,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.02402678418890542
+        },
+        {
+          "sourceFrame": 201,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.006915292043864156
+        },
+        {
+          "sourceFrame": 202,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.007286747270149965
+        },
+        {
+          "sourceFrame": 203,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.021450742322685713
+        },
+        {
+          "sourceFrame": 204,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.02451834035705385
+        },
+        {
+          "sourceFrame": 205,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.03760654479572302
+        }
+      ]
+    },
+    {
+      "body": "male",
+      "only73Frames": true,
+      "frozenParentAllHashesMatch": true,
+      "unchangedTracks": 46,
+      "changedTracks": [
+        "leftUpperLeg.quaternion",
+        "leftLowerLeg.quaternion",
+        "leftFoot.quaternion",
+        "leftToes.quaternion",
+        "rightUpperLeg.quaternion",
+        "rightLowerLeg.quaternion",
+        "rightFoot.quaternion",
+        "rightToes.quaternion",
+        "hips.position"
+      ],
+      "trackTimesExact": true,
+      "rootXZExact": true,
+      "hipsRotationExact": true,
+      "flightKeysExact": true,
+      "runtimeGroundLift": 0.00569131582844492,
+      "supportAfterLiftMaxM": 0.04167403491938338,
+      "supportAfterLiftMedianM": 0.013474295326606319,
+      "worstSupport": {
+        "sourceFrame": 205,
+        "side": "right",
+        "afterRuntimeLiftSelectedSupportHeight": 0.04167403491938338
+      },
+      "dense721MinimumAfterLift": -0.0010933401027259293,
+      "coordinateReplayPassed": true,
+      "accepted": false,
+      "failures": [
+        "known support residual exceeds10mm"
+      ],
+      "remainingRisks": [
+        "Forefoot heel-raised observation not reproduced: original level world foot orientation preserved.",
+        "Pivot/sliding friction and stationary contact XZ not recovered.",
+        "Upper-leg/knee changes up to40.61deg and adjacent lower-leg steps up to37.70deg require visual review.",
+        "Dense721 finite sample does not prove continuous nonpenetration.",
+        "Actual5b78bbd34130 one-shot room playback recorded separately; no visual quality acceptance."
+      ],
+      "supportRows": [
+        {
+          "sourceFrame": 138,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.007691336419642709
+        },
+        {
+          "sourceFrame": 138,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.017099658910072424
+        },
+        {
+          "sourceFrame": 148,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.036902487882000706
+        },
+        {
+          "sourceFrame": 149,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.021853180166571468
+        },
+        {
+          "sourceFrame": 150,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.007691336720517501
+        },
+        {
+          "sourceFrame": 151,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.008331941635271123
+        },
+        {
+          "sourceFrame": 152,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.012837594891878579
+        },
+        {
+          "sourceFrame": 153,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.0215734240972666
+        },
+        {
+          "sourceFrame": 153,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.010397941992168883
+        },
+        {
+          "sourceFrame": 154,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.009409275614882412
+        },
+        {
+          "sourceFrame": 154,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.007691286796968595
+        },
+        {
+          "sourceFrame": 155,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.007800761995130278
+        },
+        {
+          "sourceFrame": 155,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.009478284148293326
+        },
+        {
+          "sourceFrame": 156,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.01507727384674681
+        },
+        {
+          "sourceFrame": 156,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.01629519156502751
+        },
+        {
+          "sourceFrame": 157,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.02094778632440514
+        },
+        {
+          "sourceFrame": 157,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.019580975487351958
+        },
+        {
+          "sourceFrame": 158,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.019367120690596745
+        },
+        {
+          "sourceFrame": 158,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.015511129555579352
+        },
+        {
+          "sourceFrame": 159,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.01441243625152613
+        },
+        {
+          "sourceFrame": 159,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.010764450127050594
+        },
+        {
+          "sourceFrame": 160,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.007798163055398008
+        },
+        {
+          "sourceFrame": 160,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.007691304498594211
+        },
+        {
+          "sourceFrame": 161,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.012666316570962554
+        },
+        {
+          "sourceFrame": 161,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.015519495716759785
+        },
+        {
+          "sourceFrame": 162,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.01698748880476655
+        },
+        {
+          "sourceFrame": 162,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.020905807757082652
+        },
+        {
+          "sourceFrame": 163,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.01254469287114525
+        },
+        {
+          "sourceFrame": 163,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.01454450601622858
+        },
+        {
+          "sourceFrame": 164,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.013474295326606319
+        },
+        {
+          "sourceFrame": 164,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.009662155424532304
+        },
+        {
+          "sourceFrame": 171,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.008139605379169738
+        },
+        {
+          "sourceFrame": 171,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.014461196091865615
+        },
+        {
+          "sourceFrame": 172,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.007691291219553021
+        },
+        {
+          "sourceFrame": 172,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.009656794379325146
+        },
+        {
+          "sourceFrame": 173,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.008187109413738356
+        },
+        {
+          "sourceFrame": 173,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.007691311315154735
+        },
+        {
+          "sourceFrame": 174,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.01781396226270202
+        },
+        {
+          "sourceFrame": 174,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.013914918856161383
+        },
+        {
+          "sourceFrame": 175,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.016522680827335812
+        },
+        {
+          "sourceFrame": 175,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.010593085421433009
+        },
+        {
+          "sourceFrame": 176,
+          "side": "left",
+          "afterRuntimeLiftSelectedSupportHeight": 0.015116937943589225
+        },
+        {
+          "sourceFrame": 176,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.011239708713428227
+        },
+        {
+          "sourceFrame": 200,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.026612764619790223
+        },
+        {
+          "sourceFrame": 201,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.007691291907865391
+        },
+        {
+          "sourceFrame": 202,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.008093207236717428
+        },
+        {
+          "sourceFrame": 203,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.023750209459621884
+        },
+        {
+          "sourceFrame": 204,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.02717659958221692
+        },
+        {
+          "sourceFrame": 205,
+          "side": "right",
+          "afterRuntimeLiftSelectedSupportHeight": 0.04167403491938338
+        }
+      ]
+    }
+  ]
+}

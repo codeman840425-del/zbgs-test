@@ -1,0 +1,88 @@
+{
+  "schema": "whole-segment-hard-contact.1",
+  "parent": "video-dance-forefoot-v4",
+  "originalSourceFrames": [
+    138,
+    210
+  ],
+  "originalFrameCount": 73,
+  "derivedSolveSamples": 289,
+  "subdivisionsPerOriginalInterval": 4,
+  "samplingMeaning": "Uniform action-constraint solve/export grid, NOT new video frames/detections or increased source framerate. All73 originalPTS remain; rational derived times are identified separately.",
+  "supportIntervals": {
+    "left": [
+      [
+        138,
+        138
+      ],
+      [
+        153,
+        164
+      ],
+      [
+        171,
+        176
+      ]
+    ],
+    "right": [
+      [
+        138,
+        138
+      ],
+      [
+        148,
+        164
+      ],
+      [
+        171,
+        176
+      ],
+      [
+        200,
+        205
+      ]
+    ]
+  },
+  "forefootIntervals": {
+    "left": [
+      [
+        153,
+        164
+      ]
+    ],
+    "right": [
+      [
+        204,
+        205
+      ]
+    ]
+  },
+  "flightIntervals": [
+    [
+      141,
+      144
+    ],
+    [
+      207,
+      210
+    ]
+  ],
+  "unknownPolicy": "No contact label. Whole-shoe nonpenetration and fixed-length reach only.",
+  "preserved": "V4 world foot orientations, original rootXZ/hips turn, all upper-body local tracks; original flight curve protected at every derived point, not just8 original frames.",
+  "hardContact": "Selected actual shoe region minimumY=0, toe region for explicitly authored forefoot and whole sole otherwise. No soft contact cost.",
+  "variables": "One rootY and two ankleY corrections at each uniform action sample; known-support ankles fixed by actual skin geometry iteration; all flight corrections fixed0. No manual per-frame editing or event relabelling.",
+  "objective": "Minimize sum of squared second differences of the three correction trajectories, with fixed1e-8 squared-displacement numerical regularization. Contact stays an equality; objective weights are never searched.",
+  "solver": "SciPy trust-constr sparse quadratic/linear problem, maxiter250 gtol1e-9 xtol1e-11 barrier_tol1e-10, four fixed actual-skin linearization passes per body",
+  "maximumCorrectionM": 0.2,
+  "reachMarginM": 0.001,
+  "fixedSkinPasses": 4,
+  "gates": {
+    "solverConstraintViolationM": 1e-06,
+    "allKnownSupportDenseAbsoluteHeightM": 0.001,
+    "unknownDenseMinimumHeightM": -0.001,
+    "protectedFlightCurvePositionErrorM": 1e-05,
+    "changedLegLocalOriginalIntervalAngleDeg": 45,
+    "finiteAndBoneLengthM": 1e-05
+  },
+  "stopPolicy": "Do not relax ground/flight or rescan parameters after failure. Preserve logs and derived candidate if finite; actual VRM/dense interpolation and real viewing remain necessary."
+}

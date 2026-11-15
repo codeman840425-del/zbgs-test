@@ -871,16 +871,34 @@ export function createMotion(
   const contourWorkspaces = new Map(calibratedForearms?.map(p => [p.side, createForearmContourWorkspace(THREE,p)]) || []);
   let handContacts = [];
   let handFitProfile = null;
+  const hasHandContactCalibration = Boolean(calibratedForearms?.length || handSurfaceWorkspace);
+  // Instance-local contact release. Retain only an outward distance relative
+  // to each frame's authored hand, never a stale world-space hand target.
+  // This trial changes release only: the full existing solve still satisfies
+  // newly required clearance immediately and rechecks the final applied arm.
+  const handRelease = { key: null, amounts: [0, 0], poseSeeds: [0, 0] };
+  function clearHandRelease() {
+    handRelease.key = null;
+    handRelease.amounts.fill(0);
+    handRelease.poseSeeds.fill(0);
+  }
   function fitSeatHands() {
     handContacts = [];
     const handFitStarted = performance.now();
     const timing = profile?.forearmProfileTiming ? {skinMs:0,alphaSetupMs:0,gridMs:0,contourMs:0,railAlphaMs:0,diagnosticMs:0,measureCalls:0,gridBuilds:0,candidateTriangles:0} : null;
     try {
-    if (!profile?.seatHandRadii || !corrections.footIK) return;
+    if (!profile?.seatHandRadii || !corrections.footIK) {
+      clearHandRelease();
+      return;
+    }
     // Keep the same garment clearance at the idle endpoint, so entering a sit
     // does not suddenly project an already-intersecting relaxed palm.
     const references = profile.seatHandSurfaces?.(false) || [];
     const cacheKey = references.map((mesh) => mesh.uuid).join(":");
+    if (handRelease.key !== cacheKey) {
+      clearHandRelease();
+      handRelease.key = cacheKey;
+    }
     if (!cacheKey) fitSeatHands.idleCache = null;
     const cache = fitSeatHands.idleCache;
     const upperPoints = arms.map((arm) =>
@@ -945,7 +963,10 @@ export function createMotion(
       return;
     }
     fitSeatHands.lastProgress = sitProgress;
-    if (leavingIdle || (sitProgress <= 0 && !cacheKey)) return;
+    if ((leavingIdle && (!hasHandContactCalibration || (requested !== "walk" && requested !== "dance"))) || (sitProgress <= 0 && !cacheKey)) {
+      clearHandRelease();
+      return;
+    }
     const blend = smooth(clamp(sitProgress / 0.35, 0, 1));
     const surfaces = profile.seatHandSurfaces?.(true) || [];
     const activeHandSurface = surfaces.length ? handSurfaceWorkspace : null;
@@ -1120,7 +1141,13 @@ export function createMotion(
         return {forearmCorrection,palmCorrection,correction:Math.max(forearmCorrection,palmCorrection)};
       }
       const iterationTrace = [];
-      let projection = 0,
+      const releaseSeed = hasHandContactCalibration
+        ? (lastFrameDt > 0 ? handRelease.amounts[i] * Math.exp(-lastFrameDt / 0.06) : handRelease.poseSeeds[i]) : 0;
+      // Re-evaluate a paused pose from the same pre-solve seed, not the
+      // achieved output of its previous solve (which could change the elbow).
+      if (lastFrameDt > 0) handRelease.poseSeeds[i] = releaseSeed;
+      target.addScaledVector(outward, releaseSeed);
+      let projection = releaseSeed,
         remaining = 0,
         solved;
       for (let iteration = 0; iteration < 5; iteration++) {
@@ -1165,6 +1192,11 @@ export function createMotion(
       // Recheck the final applied arm, including any IK clamp/pole response.
       const finalClearance = measureArm(worldPoint(arm.lower), worldPoint(arm.hand));
       remaining = finalClearance.correction;
+      // Zero-time diagnostic refresh must not accumulate release state.
+      // Keep the achieved component, so IK reach limits cannot build up an
+      // unreachable target in this cache. Existing failure metrics remain.
+      if (hasHandContactCalibration && lastFrameDt > 0) handRelease.amounts[i] = Math.max(0,
+        worldPoint(arm.hand).sub(initialTarget).dot(outward));
       if (sitProgress <= 0)
         newIdleOffsets.push(
           worldPoint(arm.hand)
@@ -1181,6 +1213,7 @@ export function createMotion(
         blend,
         sitProgress,
         garmentProjection: projection,
+        contactReleaseSeed: releaseSeed,
         remainingClearance: remaining,
         forearmEnvelope: forearmProfile ? "calibrated-segmented-contours" : "legacy-uncalibrated-rails",
         forearmProfileSHA: forearmProfile ? profile.forearmCollision.bodySHA256 : null,
@@ -2021,7 +2054,7 @@ export function createMotion(
       foot.lastSupport.copy(support);
       foot.lastSupportKind = foot.anchorKind;
     }
-    if (!sourceActive) poseArms();
+    if (!sourceActive) { clearHandRelease(); poseArms(); }
     else fitSeatHands();
     wasMoving = moving;
     wasTurning = turning;
@@ -2122,6 +2155,7 @@ export function createMotion(
     };
   }
   function reset() {
+    clearHandRelease();
     requested = previousAction = "idle";
     clock =
       actionTime =

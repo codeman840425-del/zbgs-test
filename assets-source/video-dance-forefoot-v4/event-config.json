@@ -1,0 +1,74 @@
+{
+  "schema": "manual-support-event-roll.1",
+  "parent": "video-dance-support-v3",
+  "sourceFrames": [
+    138,
+    210
+  ],
+  "manualObservationFile": "assets-source/video-dance-twist-study-v1/support-observations.json",
+  "manualObservationSha256": "ccca5ccbeb8febeab4e5aaf70edfeba8d2225d9616331ef24f262f514e684f41",
+  "newManualRefinement": {
+    "frames": [
+      204,
+      205
+    ],
+    "side": "right",
+    "label": "apparent_forefoot_support_heel_rising",
+    "basis": "Native source204\u2013207 visual review shows right toe/edge near floor and rising heel before206 uncertain takeoff; this is a human-authored fitting hypothesis, not inferred auto contact.",
+    "privateReviewImage": "analysis\\dance-reference-v1\\support-v3-review\\source-native-204-207.jpg",
+    "privateReviewSha256": "99e93b04a2cfceeacd87ee0f7749709b5371f15517245ac07e42634b64c7278e"
+  },
+  "events": {
+    "left": {
+      "forefootContact": [
+        153,
+        164
+      ],
+      "transitionIn": [
+        148,
+        153
+      ],
+      "transitionOut": [
+        164,
+        171
+      ]
+    },
+    "right": {
+      "forefootContact": [
+        204,
+        205
+      ],
+      "transitionIn": [
+        200,
+        204
+      ],
+      "transitionOut": [
+        205,
+        207
+      ]
+    }
+  },
+  "unknownIntervals": "Transitions create no contact label. Existing uncertain206 remains uncertain, even though roll is interpolated there.",
+  "protectedFlight": [
+    [
+      141,
+      144
+    ],
+    [
+      207,
+      210
+    ]
+  ],
+  "rootLegAnkleXYZ": "All v3 original tracks unchanged; only foot local quaternions may change; toes inherit foot rotation with unchanged local track.",
+  "geometry": "Each authored forefoot frame independently solves actual toe-patch minimumY=0 with fixed calf skin influence, about ankle lateral axis. One bracket0..60deg root, not a parameter scan. Whole-shoe nonpenetration checked afterward; no per-frame root rescue.",
+  "transitions": "Unique cubic Hermite between event endpoints, zero angle/derivative at outer boundaries; inner derivatives are first/last finite difference of solved support angles. No spline coefficient or weight optimization.",
+  "gatePolicy": {
+    "existingV3SupportResidualM": 0.01,
+    "existingV3ChangedLocalQuaternionStepDeg": 45,
+    "additionalRollCorrectionStepDeg": 15,
+    "additionalRollCorrectionSecondDifferenceDeg": 15,
+    "afterRuntimeLiftDenseMinimumM": -0.002
+  },
+  "gateMeaning": "Finite engineering comparison bounds, not biomechanical limits. Even below angle bounds does not prove natural foot motion.",
+  "failurePolicy": "Preserve failure without changing events, bracket, weights, v3 tracks or flight; no further patch in this candidate."
+}

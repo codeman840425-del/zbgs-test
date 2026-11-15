@@ -1,0 +1,347 @@
+{
+  "scope": "Read-only frozen failedv5. No solver rerun, new weights/nodes, branch patch or new motion.",
+  "findings": [
+    "IK projected-reference vector does not approach its1e-10 zero guard at the sampled critical quarter times; not evidence of division-by-zero or an antipodal swing branch.",
+    "Original v4 hip-relative knee bend-plane changes sharply across170->171. The per-time IK copied/reprojected that direction, without a temporal/anatomical branch constraint. Greater knee flexion from a147mm root depression amplifies the knee travel and quaternion jump.",
+    "The minimum-curvature objective with only1e-8 displacement regularization permits a deep middle-interval root sag. This is an underconstrained objective/pose-prior failure, not proof the hard support positions are mathematically incompatible.",
+    "A different model would need joint-space knee-plane continuity/angle bounds within the solve and meaningful bounds or prioritization of root displacement; adding weights until a single bad frame looks good is not authorized."
+  ],
+  "results": [
+    {
+      "body": "female",
+      "rows": [
+        {
+          "sourceFrameFraction": 170,
+          "originalKneePlaneRadiusM": 0.09183403958311674,
+          "newKneePlaneRadiusM": 0.2503377382488912,
+          "projectedReferenceVectorLengthM": 0.08508337603919805,
+          "oldPlaneInHipLocal": [
+            0.3623802550580919,
+            0.06069596146346824,
+            -0.9300519076944347
+          ],
+          "chosenPlaneInHipLocal": [
+            0.4649915358214996,
+            0.07315765002023537,
+            -0.8822872717306307
+          ],
+          "originalKneeFlexionDeg": 27.861453274866207,
+          "newKneeFlexionDeg": 82.26397451640788,
+          "oldKneeWorld": [
+            -0.010343674671801436,
+            0.518628651460828,
+            -0.11868310424756402
+          ],
+          "newKneeWorld": [
+            0.08762260647513917,
+            0.47739353715916977,
+            -0.24231207431164492
+          ],
+          "newRootY": 0.7395269574745619,
+          "rootDeltaY": -0.147171272999975
+        },
+        {
+          "sourceFrameFraction": 170.25,
+          "originalKneePlaneRadiusM": 0.07110106189773421,
+          "newKneePlaneRadiusM": 0.24257809561975624,
+          "projectedReferenceVectorLengthM": 0.06175494790503536,
+          "oldPlaneInHipLocal": [
+            0.08500751107478681,
+            0.06982116868554654,
+            -0.9939309470301517
+          ],
+          "chosenPlaneInHipLocal": [
+            0.17068968908246546,
+            0.09484773564875351,
+            -0.9807491713395609
+          ],
+          "originalKneeFlexionDeg": 21.483207697392995,
+          "newKneeFlexionDeg": 79.17272234540954,
+          "oldKneeWorld": [
+            -0.037209597761606115,
+            0.5145390981772024,
+            -0.10501302854766122
+          ],
+          "newKneeWorld": [
+            0.01179780884872858,
+            0.47953530220522456,
+            -0.26634854258806856
+          ],
+          "newRootY": 0.7401794796931318,
+          "rootDeltaY": -0.14715695920697458,
+          "chosenPlaneChangeFromPreviousDeg": 17.896978926396656,
+          "originalPlaneChangeFromPreviousDeg": 16.372316716938858
+        },
+        {
+          "sourceFrameFraction": 170.5,
+          "originalKneePlaneRadiusM": 0.0595892506011169,
+          "newKneePlaneRadiusM": 0.23696345213807818,
+          "projectedReferenceVectorLengthM": 0.04950558412121207,
+          "oldPlaneInHipLocal": [
+            -0.3577782625833153,
+            0.05878615399576034,
+            -0.9319543459425741
+          ],
+          "chosenPlaneInHipLocal": [
+            -0.37367795076612903,
+            0.08696646546837729,
+            -0.9234725891953501
+          ],
+          "originalKneeFlexionDeg": 17.97256814573645,
+          "newKneeFlexionDeg": 76.98112633166876,
+          "oldKneeWorld": [
+            -0.06334014560094,
+            0.5123559496908423,
+            -0.08948789747512975
+          ],
+          "newKneeWorld": [
+            -0.12184028427017285,
+            0.4783810134274871,
+            -0.2527188944251685
+          ],
+          "newRootY": 0.740841527052083,
+          "rootDeltaY": -0.14713312027359304,
+          "chosenPlaneChangeFromPreviousDeg": 31.77086122390664,
+          "originalPlaneChangeFromPreviousDeg": 25.843385985980696
+        },
+        {
+          "sourceFrameFraction": 170.75,
+          "originalKneePlaneRadiusM": 0.06294068861522854,
+          "newKneePlaneRadiusM": 0.23376786014484185,
+          "projectedReferenceVectorLengthM": 0.05629505845007465,
+          "oldPlaneInHipLocal": [
+            -0.7714553563331987,
+            0.019127994121263665,
+            -0.6359958750068387
+          ],
+          "chosenPlaneInHipLocal": [
+            -0.8395661052649931,
+            0.028846900127419597,
+            -0.5424911162804505
+          ],
+          "originalKneeFlexionDeg": 18.99267765625228,
+          "newKneeFlexionDeg": 75.74946248690362,
+          "oldKneeWorld": [
+            -0.08850495048744894,
+            0.5120841351599246,
+            -0.07220434818981794
+          ],
+          "newKneeWorld": [
+            -0.23408313938918837,
+            0.46415452970857646,
+            -0.1589837715747248
+          ],
+          "newRootY": 0.7415129996356941,
+          "rootDeltaY": -0.14709985611555143,
+          "chosenPlaneChangeFromPreviousDeg": 35.19335652554736,
+          "originalPlaneChangeFromPreviousDeg": 29.558375871409066
+        },
+        {
+          "sourceFrameFraction": 171,
+          "originalKneePlaneRadiusM": 0.07922117466013583,
+          "newKneePlaneRadiusM": 0.23313101073926665,
+          "projectedReferenceVectorLengthM": 0.0769845494556437,
+          "oldPlaneInHipLocal": [
+            -0.9519169749283057,
+            -0.0241832092794411,
+            -0.3054001395420282
+          ],
+          "chosenPlaneInHipLocal": [
+            -0.9802594853196602,
+            -0.027620904204438985,
+            -0.19577647226304754
+          ],
+          "originalKneeFlexionDeg": 23.97190672399514,
+          "newKneeFlexionDeg": 75.5053084677979,
+          "oldKneeWorld": [
+            -0.11248438554505058,
+            0.5137179054941662,
+            -0.053280435704851116
+          ],
+          "newKneeWorld": [
+            -0.26586576841454057,
+            0.4494845915712801,
+            -0.07102791179637756
+          ],
+          "newRootY": 0.7421938452768501,
+          "rootDeltaY": -0.14705721889996493,
+          "chosenPlaneChangeFromPreviousDeg": 21.812797160901972,
+          "originalPlaneChangeFromPreviousDeg": 21.854508984718464
+        }
+      ],
+      "originalHipLocalKneePlane170to171Deg": 93.57676325336485,
+      "chosenHipLocalKneePlane170to171Deg": 106.56494298816011,
+      "minimumReferenceProjectionLengthM": 0.04950558412121207,
+      "originalKneeDisplacement170to171M": 0.12138512798588519,
+      "newKneeDisplacement170to171M": 0.39379081344608724
+    },
+    {
+      "body": "male",
+      "rows": [
+        {
+          "sourceFrameFraction": 170,
+          "originalKneePlaneRadiusM": 0.09993102952976922,
+          "newKneePlaneRadiusM": 0.2668301816353189,
+          "projectedReferenceVectorLengthM": 0.09311549835662038,
+          "oldPlaneInHipLocal": [
+            0.3559007000302677,
+            0.04618997907678314,
+            -0.9333815819646604
+          ],
+          "chosenPlaneInHipLocal": [
+            0.4488777774433148,
+            0.05864970952976557,
+            -0.8916663908041079
+          ],
+          "originalKneeFlexionDeg": 27.55573092994364,
+          "newKneeFlexionDeg": 79.17066209305983,
+          "oldKneeWorld": [
+            -0.012483746133968835,
+            0.5778465680678979,
+            -0.1267873076892239
+          ],
+          "newKneeWorld": [
+            0.0874700225009476,
+            0.5385401161336427,
+            -0.25928358725034023
+          ],
+          "newRootY": 0.8358537104766193,
+          "rootDeltaY": -0.14721415655216918
+        },
+        {
+          "sourceFrameFraction": 170.25,
+          "originalKneePlaneRadiusM": 0.07750662236756474,
+          "newKneePlaneRadiusM": 0.25794867003991373,
+          "projectedReferenceVectorLengthM": 0.06819996533106523,
+          "oldPlaneInHipLocal": [
+            0.07978766371740027,
+            0.05405044361652526,
+            -0.995345406511416
+          ],
+          "chosenPlaneInHipLocal": [
+            0.15592593177265626,
+            0.0770474018695646,
+            -0.9847592607668022
+          ],
+          "originalKneeFlexionDeg": 21.287363115249605,
+          "newKneeFlexionDeg": 76.03020204330036,
+          "oldKneeWorld": [
+            -0.04144939644775169,
+            0.5734495810082615,
+            -0.11175929410585338
+          ],
+          "newKneeWorld": [
+            0.006925431901041855,
+            0.5401830011884016,
+            -0.2825514896334114
+          ],
+          "newRootY": 0.8365878702148226,
+          "rootDeltaY": -0.14716989642319678,
+          "chosenPlaneChangeFromPreviousDeg": 17.71398761407468,
+          "originalPlaneChangeFromPreviousDeg": 16.274493004664436
+        },
+        {
+          "sourceFrameFraction": 170.5,
+          "originalKneePlaneRadiusM": 0.06497923598794723,
+          "newKneePlaneRadiusM": 0.25145163083458477,
+          "projectedReferenceVectorLengthM": 0.05502372789810503,
+          "oldPlaneInHipLocal": [
+            -0.35900429618545726,
+            0.04390740282893374,
+            -0.9323025556637727
+          ],
+          "chosenPlaneInHipLocal": [
+            -0.3733744888107104,
+            0.06931875705846588,
+            -0.9250872396834852
+          ],
+          "originalKneeFlexionDeg": 17.815267812101848,
+          "newKneeFlexionDeg": 73.77739653609785,
+          "oldKneeWorld": [
+            -0.06960286840408524,
+            0.5710708429967802,
+            -0.09474470352722267
+          ],
+          "newKneeWorld": [
+            -0.13104567514621088,
+            0.5384277735296046,
+            -0.2666331196403484
+          ],
+          "newRootY": 0.8373298053873589,
+          "rootDeltaY": -0.14711786085989143,
+          "chosenPlaneChangeFromPreviousDeg": 30.894935952234963,
+          "originalPlaneChangeFromPreviousDeg": 25.618605771229728
+        },
+        {
+          "sourceFrameFraction": 170.75,
+          "originalKneePlaneRadiusM": 0.06840230978707791,
+          "newKneePlaneRadiusM": 0.24765428140769316,
+          "projectedReferenceVectorLengthM": 0.061814618195644794,
+          "oldPlaneInHipLocal": [
+            -0.7704408789696985,
+            0.009089387068250814,
+            -0.6374466527130893
+          ],
+          "chosenPlaneInHipLocal": [
+            -0.831995179945679,
+            0.019365382266237657,
+            -0.5544447695820026
+          ],
+          "originalKneeFlexionDeg": 18.76219697607638,
+          "newKneeFlexionDeg": 72.47683705691168,
+          "oldKneeWorld": [
+            -0.09670251523217316,
+            0.5707152565197099,
+            -0.07584700593576787
+          ],
+          "newKneeWorld": [
+            -0.2477980473559025,
+            0.5238026398579413,
+            -0.1695959338368349
+          ],
+          "newRootY": 0.8380794271152129,
+          "rootDeltaY": -0.14705813874126827,
+          "chosenPlaneChangeFromPreviousDeg": 34.42185455354442,
+          "originalPlaneChangeFromPreviousDeg": 29.39182785048147
+        },
+        {
+          "sourceFrameFraction": 171,
+          "originalKneePlaneRadiusM": 0.08581859212517669,
+          "newKneePlaneRadiusM": 0.24672475045350728,
+          "projectedReferenceVectorLengthM": 0.08357182807548547,
+          "oldPlaneInHipLocal": [
+            -0.9516190765693309,
+            -0.028979314765422825,
+            -0.3059106608555194
+          ],
+          "chosenPlaneInHipLocal": [
+            -0.9778324881164615,
+            -0.03030789261584532,
+            -0.2071836306978824
+          ],
+          "originalKneeFlexionDeg": 23.6021000732911,
+          "newKneeFlexionDeg": 72.16021877650091,
+          "oldKneeWorld": [
+            -0.12251805172185551,
+            0.5723768543566042,
+            -0.05519193121148525
+          ],
+          "newKneeWorld": [
+            -0.28240613510714657,
+            0.5085166806781818,
+            -0.07640853051789873
+          ],
+          "newRootY": 0.838836736203817,
+          "rootDeltaY": -0.14699072926189505,
+          "chosenPlaneChangeFromPreviousDeg": 21.89990484183341,
+          "originalPlaneChangeFromPreviousDeg": 21.889504844142547
+        }
+      ],
+      "originalHipLocalKneePlane170to171Deg": 93.12354087112787,
+      "chosenHipLocalKneePlane170to171Deg": 104.83084118764951,
+      "minimumReferenceProjectionLengthM": 0.05502372789810503,
+      "originalKneeDisplacement170to171M": 0.13139012180252013,
+      "newKneeDisplacement170to171M": 0.41370649622452105
+    }
+  ]
+}

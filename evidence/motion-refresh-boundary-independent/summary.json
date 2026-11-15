@@ -1,0 +1,105 @@
+{
+  "baselineBuild": "7a86c24e34aa",
+  "baselineReportSHA256": "4d58b255dd154d0abd4324550968a38d9dd2c9a1acdb94df315d07e43788b29c",
+  "candidateBuild": "ae6b9ed914f9",
+  "baseline": [
+    {
+      "stage": "approach-contact",
+      "firstDelta": 0,
+      "repeatDelta": 0
+    },
+    {
+      "stage": "seated",
+      "firstDelta": 0,
+      "repeatDelta": 0
+    },
+    {
+      "stage": "rise-end",
+      "firstDelta": 0.5168157214119177,
+      "repeatDelta": 0
+    }
+  ],
+  "candidate": [
+    {
+      "stage": "approach-contact",
+      "firstDelta": 0,
+      "repeatDelta": 0,
+      "quaternionDelta": 0.0,
+      "actionClockUnchanged": true,
+      "simulationTimeUnchanged": true,
+      "phaseUnchanged": true
+    },
+    {
+      "stage": "seated",
+      "firstDelta": 0,
+      "repeatDelta": 0,
+      "quaternionDelta": 0.0,
+      "actionClockUnchanged": true,
+      "simulationTimeUnchanged": true,
+      "phaseUnchanged": true
+    },
+    {
+      "stage": "rise-end",
+      "firstDelta": 0,
+      "repeatDelta": 0,
+      "quaternionDelta": 0.0,
+      "actionClockUnchanged": true,
+      "simulationTimeUnchanged": true,
+      "phaseUnchanged": true
+    },
+    {
+      "stage": "dance-end",
+      "firstDelta": 0,
+      "repeatDelta": 0,
+      "quaternionDelta": 0.0,
+      "actionClockUnchanged": true,
+      "simulationTimeUnchanged": true,
+      "phaseUnchanged": true
+    }
+  ],
+  "taskChecks": [
+    {
+      "name": "sit admitted",
+      "passed": true
+    },
+    {
+      "name": "sit completed only when seated",
+      "passed": true
+    },
+    {
+      "name": "stand admitted running without early pose-clock mutation",
+      "passed": true
+    },
+    {
+      "name": "stand duplicate leaves execution intact",
+      "passed": true
+    },
+    {
+      "name": "first tick consumes stand but not complete",
+      "passed": true
+    },
+    {
+      "name": "stand completes at actual rise endpoint",
+      "passed": true
+    },
+    {
+      "name": "walk following stand completes",
+      "passed": true
+    },
+    {
+      "name": "dance admitted without resetting evaluated pose clock",
+      "passed": true
+    },
+    {
+      "name": "dance first tick starts and remains running",
+      "passed": true
+    },
+    {
+      "name": "once dance completes after fade exactly once",
+      "passed": true
+    }
+  ],
+  "riseOffDelta": 0,
+  "danceOffDelta": 0,
+  "errors": []
+}

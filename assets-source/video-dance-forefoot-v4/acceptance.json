@@ -1,0 +1,2359 @@
+{
+  "frozenChecks": {
+    "assets-source/video-dance-target-v2/actual-vrm-mixer-check.json": true,
+    "assets-source/video-dance-target-v2/dance-imports.entry.json": true,
+    "assets-source/video-dance-target-v2/female-dance-normalized-v2.json": true,
+    "assets-source/video-dance-target-v2/female-transport-report.json": true,
+    "assets-source/video-dance-target-v2/female-world-reference.json": true,
+    "assets-source/video-dance-target-v2/female-world.npz": true,
+    "assets-source/video-dance-target-v2/male-dance-normalized-v2.json": true,
+    "assets-source/video-dance-target-v2/male-transport-report.json": true,
+    "assets-source/video-dance-target-v2/male-world-reference.json": true,
+    "assets-source/video-dance-target-v2/male-world.npz": true,
+    "assets-source/video-dance-target-v2/README.md": true,
+    "scripts/video-motion/transport-dance-forearm-v2.py": true,
+    "scripts/video-motion/check-dance-target-v2-clips.mjs": true,
+    "assets-source/video-dance-support-v3/acceptance.json": true,
+    "assets-source/video-dance-support-v3/actual-vrm-summary.json": true,
+    "assets-source/video-dance-support-v3/dance-imports.entry.json": true,
+    "assets-source/video-dance-support-v3/female-actual-vrm-ground-check.json": true,
+    "assets-source/video-dance-support-v3/female-cleanup-report.json": true,
+    "assets-source/video-dance-support-v3/female-dance-support-v3.json": true,
+    "assets-source/video-dance-support-v3/female-world-reference.json": true,
+    "assets-source/video-dance-support-v3/female-world.npz": true,
+    "assets-source/video-dance-support-v3/fixed-cleanup.json": true,
+    "assets-source/video-dance-support-v3/male-actual-vrm-ground-check.json": true,
+    "assets-source/video-dance-support-v3/male-cleanup-report.json": true,
+    "assets-source/video-dance-support-v3/male-dance-support-v3.json": true,
+    "assets-source/video-dance-support-v3/male-world-reference.json": true,
+    "assets-source/video-dance-support-v3/male-world.npz": true,
+    "assets-source/video-dance-support-v3/README.md": true,
+    "assets-source/video-dance-support-v3/summary.json": true,
+    "assets-source/video-dance-support-v3/v2-v3-ground-comparison.png": true,
+    "scripts/video-motion/cleanup-dance-support-v3.py": true,
+    "scripts/video-motion/check-dance-support-v3.mjs": true,
+    "scripts/video-motion/report-dance-support-v3.py": true
+  },
+  "results": [
+    {
+      "body": "female",
+      "frozenV2V3Unchanged": true,
+      "accepted": false,
+      "coordinateReplayPassed": true,
+      "runtimeGroundLift": 0.005104771253100209,
+      "invariants": {
+        "unchangedTrackCount": 53,
+        "unchangedTrackNames": [
+          "hips.quaternion",
+          "spine.quaternion",
+          "chest.quaternion",
+          "upperChest.quaternion",
+          "neck.quaternion",
+          "head.quaternion",
+          "leftEye.quaternion",
+          "rightEye.quaternion",
+          "leftUpperLeg.quaternion",
+          "leftLowerLeg.quaternion",
+          "leftToes.quaternion",
+          "rightUpperLeg.quaternion",
+          "rightLowerLeg.quaternion",
+          "rightToes.quaternion",
+          "leftShoulder.quaternion",
+          "leftUpperArm.quaternion",
+          "leftLowerArm.quaternion",
+          "leftHand.quaternion",
+          "rightShoulder.quaternion",
+          "rightUpperArm.quaternion",
+          "rightLowerArm.quaternion",
+          "rightHand.quaternion",
+          "leftThumbMetacarpal.quaternion",
+          "leftThumbProximal.quaternion",
+          "leftThumbDistal.quaternion",
+          "leftIndexProximal.quaternion",
+          "leftIndexIntermediate.quaternion",
+          "leftIndexDistal.quaternion",
+          "leftMiddleProximal.quaternion",
+          "leftMiddleIntermediate.quaternion",
+          "leftMiddleDistal.quaternion",
+          "leftRingProximal.quaternion",
+          "leftRingIntermediate.quaternion",
+          "leftRingDistal.quaternion",
+          "leftLittleProximal.quaternion",
+          "leftLittleIntermediate.quaternion",
+          "leftLittleDistal.quaternion",
+          "rightThumbMetacarpal.quaternion",
+          "rightThumbProximal.quaternion",
+          "rightThumbDistal.quaternion",
+          "rightIndexProximal.quaternion",
+          "rightIndexIntermediate.quaternion",
+          "rightIndexDistal.quaternion",
+          "rightMiddleProximal.quaternion",
+          "rightMiddleIntermediate.quaternion",
+          "rightMiddleDistal.quaternion",
+          "rightRingProximal.quaternion",
+          "rightRingIntermediate.quaternion",
+          "rightRingDistal.quaternion",
+          "rightLittleProximal.quaternion",
+          "rightLittleIntermediate.quaternion",
+          "rightLittleDistal.quaternion",
+          "hips.position"
+        ],
+        "rootAndLegTracksExact": true,
+        "flightLocalFootKeysExact": true,
+        "flightWorldMatrixMaxDifference": 0.0,
+        "rootLegAndAnklePositionMaxDifference": 0.0,
+        "onlyFootToeWorldMatricesChanged": true
+      },
+      "allKnownSupportMaximumAfterLift": 0.03345836730719339,
+      "worstKnownSupport": {
+        "sourceFrame": 148,
+        "side": "right",
+        "label": "apparent_contact",
+        "forefootGeometryEnforced": false,
+        "beforeRuntimeLiftHeight": 0.028353596054093183,
+        "afterRuntimeLiftHeight": 0.03345836730719339,
+        "v3AfterRuntimeLiftHeight": 0.03326888085269978
+      },
+      "enforcedForefootSourceKeyMaxAfterLift": 0.005775452861117604,
+      "enforcedForefootDenseMaxAfterLift": 0.005775452861117743,
+      "minimumAfterRuntimeLiftDense721": -0.0009071575486748534,
+      "angularData": {
+        "left": {
+          "maximumWorldAngularSpeedDegPerSecond": 870.0994394938239,
+          "maximumV3WorldAngularSpeedDegPerSecond": 870.9234143134986,
+          "maximumAdditionalRotationSpeedVsV3DegPerSecond": 97.75449946003098,
+          "additionalRotationSpeedMaxTime": 0.6256249999999999,
+          "sourceKeyRollCorrectionMaximumStepDeg": 4.076191561668788,
+          "sourceKeyRollCorrectionMaximumSecondDifferenceDeg": 3.788751217141106
+        },
+        "right": {
+          "maximumWorldAngularSpeedDegPerSecond": 848.3892322876229,
+          "maximumV3WorldAngularSpeedDegPerSecond": 848.3900295428551,
+          "maximumAdditionalRotationSpeedVsV3DegPerSecond": 185.31145310811615,
+          "additionalRotationSpeedMaxTime": 2.836166666666666,
+          "sourceKeyRollCorrectionMaximumStepDeg": 7.725991815428374,
+          "sourceKeyRollCorrectionMaximumSecondDifferenceDeg": 10.399190821856525
+        }
+      },
+      "allKnownSupportRows": [
+        {
+          "sourceFrame": 138,
+          "side": "left",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.0019999710785318136,
+          "afterRuntimeLiftHeight": 0.007104742331632023,
+          "v3AfterRuntimeLiftHeight": 0.006915255877138408
+        },
+        {
+          "sourceFrame": 138,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.01051914036844907,
+          "afterRuntimeLiftHeight": 0.015623911621549278,
+          "v3AfterRuntimeLiftHeight": 0.015434425167055664
+        },
+        {
+          "sourceFrame": 148,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.028353596054093183,
+          "afterRuntimeLiftHeight": 0.03345836730719339,
+          "v3AfterRuntimeLiftHeight": 0.03326888085269978
+        },
+        {
+          "sourceFrame": 149,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.0147612114138451,
+          "afterRuntimeLiftHeight": 0.01986598266694531,
+          "v3AfterRuntimeLiftHeight": 0.019676496212451697
+        },
+        {
+          "sourceFrame": 150,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.0019999891310669713,
+          "afterRuntimeLiftHeight": 0.007104760384167181,
+          "v3AfterRuntimeLiftHeight": 0.006915273929673566
+        },
+        {
+          "sourceFrame": 151,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.0025802748809811878,
+          "afterRuntimeLiftHeight": 0.007685046134081397,
+          "v3AfterRuntimeLiftHeight": 0.0074955596795877825
+        },
+        {
+          "sourceFrame": 152,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.006659409593937472,
+          "afterRuntimeLiftHeight": 0.011764180847037682,
+          "v3AfterRuntimeLiftHeight": 0.011574694392544067
+        },
+        {
+          "sourceFrame": 153,
+          "side": "left",
+          "label": "apparent_forefoot_contact_heel_raised",
+          "forefootGeometryEnforced": true,
+          "beforeRuntimeLiftHeight": 0.0006465121240605364,
+          "afterRuntimeLiftHeight": 0.005751283377160746,
+          "v3AfterRuntimeLiftHeight": 0.019570669160382838
+        },
+        {
+          "sourceFrame": 153,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.004449883300748709,
+          "afterRuntimeLiftHeight": 0.009554654553848917,
+          "v3AfterRuntimeLiftHeight": 0.009365168099355304
+        },
+        {
+          "sourceFrame": 154,
+          "side": "left",
+          "label": "apparent_forefoot_contact_heel_raised",
+          "forefootGeometryEnforced": true,
+          "beforeRuntimeLiftHeight": 0.00046129368301767084,
+          "afterRuntimeLiftHeight": 0.00556606493611788,
+          "v3AfterRuntimeLiftHeight": 0.008580105465705475
+        },
+        {
+          "sourceFrame": 154,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.0019999883419138573,
+          "afterRuntimeLiftHeight": 0.007104759595014066,
+          "v3AfterRuntimeLiftHeight": 0.0069152731405204525
+        },
+        {
+          "sourceFrame": 155,
+          "side": "left",
+          "label": "apparent_forefoot_contact_heel_raised",
+          "forefootGeometryEnforced": true,
+          "beforeRuntimeLiftHeight": 0.0003309895018928208,
+          "afterRuntimeLiftHeight": 0.00543576075499303,
+          "v3AfterRuntimeLiftHeight": 0.007160327746886937
+        },
+        {
+          "sourceFrame": 155,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.0036235103072100763,
+          "afterRuntimeLiftHeight": 0.008728281560310285,
+          "v3AfterRuntimeLiftHeight": 0.008538795105816671
+        },
+        {
+          "sourceFrame": 156,
+          "side": "left",
+          "label": "apparent_forefoot_contact_heel_raised",
+          "forefootGeometryEnforced": true,
+          "beforeRuntimeLiftHeight": 0.0006361364895300351,
+          "afterRuntimeLiftHeight": 0.005740907742630245,
+          "v3AfterRuntimeLiftHeight": 0.013788317367028942
+        },
+        {
+          "sourceFrame": 156,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.009803953773788688,
+          "afterRuntimeLiftHeight": 0.014908725026888899,
+          "v3AfterRuntimeLiftHeight": 0.014719238572395283
+        },
+        {
+          "sourceFrame": 157,
+          "side": "left",
+          "label": "apparent_forefoot_contact_heel_raised",
+          "forefootGeometryEnforced": true,
+          "beforeRuntimeLiftHeight": 0.0006469615718687887,
+          "afterRuntimeLiftHeight": 0.005751732824968998,
+          "v3AfterRuntimeLiftHeight": 0.019134098471187324
+        },
+        {
+          "sourceFrame": 157,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.012784686726696545,
+          "afterRuntimeLiftHeight": 0.017889457979796755,
+          "v3AfterRuntimeLiftHeight": 0.01769997152530314
+        },
+        {
+          "sourceFrame": 158,
+          "side": "left",
+          "label": "apparent_forefoot_contact_heel_raised",
+          "forefootGeometryEnforced": true,
+          "beforeRuntimeLiftHeight": 0.0006481018458497751,
+          "afterRuntimeLiftHeight": 0.005752873098949984,
+          "v3AfterRuntimeLiftHeight": 0.017710091816925087
+        },
+        {
+          "sourceFrame": 158,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.009097580641649427,
+          "afterRuntimeLiftHeight": 0.014202351894749637,
+          "v3AfterRuntimeLiftHeight": 0.014012865440256022
+        },
+        {
+          "sourceFrame": 159,
+          "side": "left",
+          "label": "apparent_forefoot_contact_heel_raised",
+          "forefootGeometryEnforced": true,
+          "beforeRuntimeLiftHeight": 0.000629744116001977,
+          "afterRuntimeLiftHeight": 0.005734515369102186,
+          "v3AfterRuntimeLiftHeight": 0.013198774412079615
+        },
+        {
+          "sourceFrame": 159,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.004790559626784033,
+          "afterRuntimeLiftHeight": 0.009895330879884243,
+          "v3AfterRuntimeLiftHeight": 0.009705844425390627
+        },
+        {
+          "sourceFrame": 160,
+          "side": "left",
+          "label": "apparent_forefoot_contact_heel_raised",
+          "forefootGeometryEnforced": true,
+          "beforeRuntimeLiftHeight": 0.00033095526814128236,
+          "afterRuntimeLiftHeight": 0.005435726521241492,
+          "v3AfterRuntimeLiftHeight": 0.007160297160062444
+        },
+        {
+          "sourceFrame": 160,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.001999990311558315,
+          "afterRuntimeLiftHeight": 0.007104761564658524,
+          "v3AfterRuntimeLiftHeight": 0.0069152751101649096
+        },
+        {
+          "sourceFrame": 161,
+          "side": "left",
+          "label": "apparent_forefoot_contact_heel_raised",
+          "forefootGeometryEnforced": true,
+          "beforeRuntimeLiftHeight": 0.0005987213917653134,
+          "afterRuntimeLiftHeight": 0.005703492644865523,
+          "v3AfterRuntimeLiftHeight": 0.011525230330034372
+        },
+        {
+          "sourceFrame": 161,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.0090949581669447,
+          "afterRuntimeLiftHeight": 0.01419972942004491,
+          "v3AfterRuntimeLiftHeight": 0.014010242965551294
+        },
+        {
+          "sourceFrame": 162,
+          "side": "left",
+          "label": "apparent_forefoot_contact_heel_raised",
+          "forefootGeometryEnforced": true,
+          "beforeRuntimeLiftHeight": 0.0006457783009441368,
+          "afterRuntimeLiftHeight": 0.005750549554044346,
+          "v3AfterRuntimeLiftHeight": 0.015413008748960889
+        },
+        {
+          "sourceFrame": 162,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.013997647265113954,
+          "afterRuntimeLiftHeight": 0.019102418518214162,
+          "v3AfterRuntimeLiftHeight": 0.01891293206372055
+        },
+        {
+          "sourceFrame": 163,
+          "side": "left",
+          "label": "apparent_forefoot_contact_heel_raised",
+          "forefootGeometryEnforced": true,
+          "beforeRuntimeLiftHeight": 0.0005949803308157299,
+          "afterRuntimeLiftHeight": 0.005699751583915939,
+          "v3AfterRuntimeLiftHeight": 0.011383971068469168
+        },
+        {
+          "sourceFrame": 163,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.008283483286083932,
+          "afterRuntimeLiftHeight": 0.01338825453918414,
+          "v3AfterRuntimeLiftHeight": 0.013198768084690527
+        },
+        {
+          "sourceFrame": 164,
+          "side": "left",
+          "label": "apparent_forefoot_contact_heel_raised",
+          "forefootGeometryEnforced": true,
+          "beforeRuntimeLiftHeight": 0.0006148975472621941,
+          "afterRuntimeLiftHeight": 0.005719668800362404,
+          "v3AfterRuntimeLiftHeight": 0.012250317938127833
+        },
+        {
+          "sourceFrame": 164,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.003909353751421365,
+          "afterRuntimeLiftHeight": 0.009014125004521575,
+          "v3AfterRuntimeLiftHeight": 0.00882463855002796
+        },
+        {
+          "sourceFrame": 171,
+          "side": "left",
+          "label": "apparent_contact_pivot",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.0023715087602216123,
+          "afterRuntimeLiftHeight": 0.007476280013321821,
+          "v3AfterRuntimeLiftHeight": 0.007286793558828207
+        },
+        {
+          "sourceFrame": 171,
+          "side": "right",
+          "label": "apparent_contact_pivot",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.008289500140262666,
+          "afterRuntimeLiftHeight": 0.013394271393362876,
+          "v3AfterRuntimeLiftHeight": 0.01320478493886926
+        },
+        {
+          "sourceFrame": 172,
+          "side": "left",
+          "label": "apparent_contact_pivot",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.0020000219118236125,
+          "afterRuntimeLiftHeight": 0.007104793164923822,
+          "v3AfterRuntimeLiftHeight": 0.006915306710430207
+        },
+        {
+          "sourceFrame": 172,
+          "side": "right",
+          "label": "apparent_contact_pivot",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.00378464688276898,
+          "afterRuntimeLiftHeight": 0.008889418135869189,
+          "v3AfterRuntimeLiftHeight": 0.008699931681375575
+        },
+        {
+          "sourceFrame": 173,
+          "side": "left",
+          "label": "apparent_contact_pivot",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.0024958458119035696,
+          "afterRuntimeLiftHeight": 0.007600617065003779,
+          "v3AfterRuntimeLiftHeight": 0.007411130610510164
+        },
+        {
+          "sourceFrame": 173,
+          "side": "right",
+          "label": "apparent_contact_pivot",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.002000008387606071,
+          "afterRuntimeLiftHeight": 0.00710477964070628,
+          "v3AfterRuntimeLiftHeight": 0.006915293186212666
+        },
+        {
+          "sourceFrame": 174,
+          "side": "left",
+          "label": "apparent_contact_pivot",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.011239318523923972,
+          "afterRuntimeLiftHeight": 0.01634408977702418,
+          "v3AfterRuntimeLiftHeight": 0.016154603322530568
+        },
+        {
+          "sourceFrame": 174,
+          "side": "right",
+          "label": "apparent_contact_pivot",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.0076207999194010285,
+          "afterRuntimeLiftHeight": 0.012725571172501237,
+          "v3AfterRuntimeLiftHeight": 0.012536084718007623
+        },
+        {
+          "sourceFrame": 175,
+          "side": "left",
+          "label": "apparent_contact_pivot",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.010074550900149146,
+          "afterRuntimeLiftHeight": 0.015179322153249356,
+          "v3AfterRuntimeLiftHeight": 0.01498983569875574
+        },
+        {
+          "sourceFrame": 175,
+          "side": "right",
+          "label": "apparent_contact_pivot",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.004584064439822756,
+          "afterRuntimeLiftHeight": 0.009688835692922965,
+          "v3AfterRuntimeLiftHeight": 0.00949934923842935
+        },
+        {
+          "sourceFrame": 176,
+          "side": "left",
+          "label": "apparent_contact_pivot",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.008782816876981502,
+          "afterRuntimeLiftHeight": 0.013887588130081712,
+          "v3AfterRuntimeLiftHeight": 0.013698101675588097
+        },
+        {
+          "sourceFrame": 176,
+          "side": "right",
+          "label": "apparent_contact_pivot",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.005185581362667489,
+          "afterRuntimeLiftHeight": 0.010290352615767698,
+          "v3AfterRuntimeLiftHeight": 0.010100866161274084
+        },
+        {
+          "sourceFrame": 200,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.019111499390298825,
+          "afterRuntimeLiftHeight": 0.024216270643399034,
+          "v3AfterRuntimeLiftHeight": 0.02402678418890542
+        },
+        {
+          "sourceFrame": 201,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.0017653035063416533,
+          "afterRuntimeLiftHeight": 0.006870074759441862,
+          "v3AfterRuntimeLiftHeight": 0.006915292043864156
+        },
+        {
+          "sourceFrame": 202,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": -0.0002001418042021988,
+          "afterRuntimeLiftHeight": 0.0049046294488980105,
+          "v3AfterRuntimeLiftHeight": 0.007286747270149965
+        },
+        {
+          "sourceFrame": 203,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.007883199764990169,
+          "afterRuntimeLiftHeight": 0.012987971018090377,
+          "v3AfterRuntimeLiftHeight": 0.021450742322685713
+        },
+        {
+          "sourceFrame": 204,
+          "side": "right",
+          "label": "manual_forefoot_refinement",
+          "forefootGeometryEnforced": true,
+          "beforeRuntimeLiftHeight": 0.0006460171724519396,
+          "afterRuntimeLiftHeight": 0.005750788425552149,
+          "v3AfterRuntimeLiftHeight": 0.02476712228501237
+        },
+        {
+          "sourceFrame": 205,
+          "side": "right",
+          "label": "manual_forefoot_refinement",
+          "forefootGeometryEnforced": true,
+          "beforeRuntimeLiftHeight": 0.0006706816080173943,
+          "afterRuntimeLiftHeight": 0.005775452861117604,
+          "v3AfterRuntimeLiftHeight": 0.03785980023128224
+        }
+      ],
+      "denseForefootSamples": [
+        {
+          "sourceFrameFraction": 153.0,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005751283377161014
+        },
+        {
+          "sourceFrameFraction": 153.1,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005715291548634013
+        },
+        {
+          "sourceFrameFraction": 153.2,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005687263428073515
+        },
+        {
+          "sourceFrameFraction": 153.29999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005666455789798964
+        },
+        {
+          "sourceFrameFraction": 153.4,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005651826862762662
+        },
+        {
+          "sourceFrameFraction": 153.5,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005641948379956708
+        },
+        {
+          "sourceFrameFraction": 153.6,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005634893150452814
+        },
+        {
+          "sourceFrameFraction": 153.7,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005628070271174725
+        },
+        {
+          "sourceFrameFraction": 153.8,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005617956835531991
+        },
+        {
+          "sourceFrameFraction": 153.9,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005599640145036605
+        },
+        {
+          "sourceFrameFraction": 154.0,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005566064936117863
+        },
+        {
+          "sourceFrameFraction": 154.1,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005541504859105699
+        },
+        {
+          "sourceFrameFraction": 154.2,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005519615104843767
+        },
+        {
+          "sourceFrameFraction": 154.3,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0055003580005358425
+        },
+        {
+          "sourceFrameFraction": 154.4,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0054836942846461754
+        },
+        {
+          "sourceFrameFraction": 154.5,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005469583049622409
+        },
+        {
+          "sourceFrameFraction": 154.6,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005457981687419651
+        },
+        {
+          "sourceFrameFraction": 154.7,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005448845838823388
+        },
+        {
+          "sourceFrameFraction": 154.79999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005442129347691922
+        },
+        {
+          "sourceFrameFraction": 154.9,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005437784221361642
+        },
+        {
+          "sourceFrameFraction": 155.0,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005435760754993134
+        },
+        {
+          "sourceFrameFraction": 155.1,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0054850721682688924
+        },
+        {
+          "sourceFrameFraction": 155.2,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0055245668837066615
+        },
+        {
+          "sourceFrameFraction": 155.3,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005557161302871975
+        },
+        {
+          "sourceFrameFraction": 155.4,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005585208357781223
+        },
+        {
+          "sourceFrameFraction": 155.5,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0056105874465711475
+        },
+        {
+          "sourceFrameFraction": 155.6,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005634798333112552
+        },
+        {
+          "sourceFrameFraction": 155.7,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005659044695775207
+        },
+        {
+          "sourceFrameFraction": 155.79999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005684301957732701
+        },
+        {
+          "sourceFrameFraction": 155.89999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005711369241036209
+        },
+        {
+          "sourceFrameFraction": 156.0,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.00574090774263043
+        },
+        {
+          "sourceFrameFraction": 156.1,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005730810308159415
+        },
+        {
+          "sourceFrameFraction": 156.2,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005722702415619293
+        },
+        {
+          "sourceFrameFraction": 156.3,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005716817881817016
+        },
+        {
+          "sourceFrameFraction": 156.4,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0057133588556212605
+        },
+        {
+          "sourceFrameFraction": 156.5,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005712499695185528
+        },
+        {
+          "sourceFrameFraction": 156.6,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005714390192922713
+        },
+        {
+          "sourceFrameFraction": 156.7,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005719158369391528
+        },
+        {
+          "sourceFrameFraction": 156.79999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.00572691294655438
+        },
+        {
+          "sourceFrameFraction": 156.9,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005737745570280976
+        },
+        {
+          "sourceFrameFraction": 157.0,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005751732824968836
+        },
+        {
+          "sourceFrameFraction": 157.1,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005749784213742617
+        },
+        {
+          "sourceFrameFraction": 157.2,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005748296445902547
+        },
+        {
+          "sourceFrameFraction": 157.29999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005747268775888108
+        },
+        {
+          "sourceFrameFraction": 157.4,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0057467002993602705
+        },
+        {
+          "sourceFrameFraction": 157.5,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005746590045267198
+        },
+        {
+          "sourceFrameFraction": 157.6,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005746936973756974
+        },
+        {
+          "sourceFrameFraction": 157.7,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0057477399740498885
+        },
+        {
+          "sourceFrameFraction": 157.8,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005748997862269079
+        },
+        {
+          "sourceFrameFraction": 157.9,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005750709379226929
+        },
+        {
+          "sourceFrameFraction": 158.0,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.00575287309895002
+        },
+        {
+          "sourceFrameFraction": 158.1,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005738751398497657
+        },
+        {
+          "sourceFrameFraction": 158.2,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005727586607810576
+        },
+        {
+          "sourceFrameFraction": 158.29999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0057193139264064006
+        },
+        {
+          "sourceFrameFraction": 158.4,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005713858430265815
+        },
+        {
+          "sourceFrameFraction": 158.5,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005711133998443338
+        },
+        {
+          "sourceFrameFraction": 158.6,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005711042120697706
+        },
+        {
+          "sourceFrameFraction": 158.7,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.00571347055157091
+        },
+        {
+          "sourceFrameFraction": 158.79999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005718291761375258
+        },
+        {
+          "sourceFrameFraction": 158.9,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005725361115002296
+        },
+        {
+          "sourceFrameFraction": 159.0,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.00573451536910232
+        },
+        {
+          "sourceFrameFraction": 159.1,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005668992303058428
+        },
+        {
+          "sourceFrameFraction": 159.2,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005613584684617448
+        },
+        {
+          "sourceFrameFraction": 159.29999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005567748374802036
+        },
+        {
+          "sourceFrameFraction": 159.4,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005530824942284253
+        },
+        {
+          "sourceFrameFraction": 159.5,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005502011645003196
+        },
+        {
+          "sourceFrameFraction": 159.6,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005480322423382392
+        },
+        {
+          "sourceFrameFraction": 159.7,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005464539100269839
+        },
+        {
+          "sourceFrameFraction": 159.8,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005453153724887557
+        },
+        {
+          "sourceFrameFraction": 159.9,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0054443062151112035
+        },
+        {
+          "sourceFrameFraction": 160.0,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005435726521241341
+        },
+        {
+          "sourceFrameFraction": 160.1,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005374727792635758
+        },
+        {
+          "sourceFrameFraction": 160.2,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005330961862711933
+        },
+        {
+          "sourceFrameFraction": 160.29999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0053054808617497
+        },
+        {
+          "sourceFrameFraction": 160.39999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005299207192266379
+        },
+        {
+          "sourceFrameFraction": 160.5,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005312946040962709
+        },
+        {
+          "sourceFrameFraction": 160.6,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0053473988359168684
+        },
+        {
+          "sourceFrameFraction": 160.7,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0054031770363480005
+        },
+        {
+          "sourceFrameFraction": 160.8,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.00548081521270611
+        },
+        {
+          "sourceFrameFraction": 160.9,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005580782832046404
+        },
+        {
+          "sourceFrameFraction": 161.0,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005703492644865639
+        },
+        {
+          "sourceFrameFraction": 161.1,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005536462395822251
+        },
+        {
+          "sourceFrameFraction": 161.2,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005406778332594185
+        },
+        {
+          "sourceFrameFraction": 161.29999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005314794031665931
+        },
+        {
+          "sourceFrameFraction": 161.39999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005260832235557325
+        },
+        {
+          "sourceFrameFraction": 161.5,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005245188667385619
+        },
+        {
+          "sourceFrameFraction": 161.6,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005268135126123482
+        },
+        {
+          "sourceFrameFraction": 161.7,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005329922012623383
+        },
+        {
+          "sourceFrameFraction": 161.79999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005430780408398588
+        },
+        {
+          "sourceFrameFraction": 161.9,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0055709238041724875
+        },
+        {
+          "sourceFrameFraction": 162.0,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005750549554044236
+        },
+        {
+          "sourceFrameFraction": 162.1,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.00559949908505561
+        },
+        {
+          "sourceFrameFraction": 162.2,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0054810631758332356
+        },
+        {
+          "sourceFrameFraction": 162.3,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005395217861938412
+        },
+        {
+          "sourceFrameFraction": 162.39999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0053419159910840786
+        },
+        {
+          "sourceFrameFraction": 162.5,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005321088177778282
+        },
+        {
+          "sourceFrameFraction": 162.6,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005332640658944254
+        },
+        {
+          "sourceFrameFraction": 162.7,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.00537645272072904
+        },
+        {
+          "sourceFrameFraction": 162.79999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005452373568725218
+        },
+        {
+          "sourceFrameFraction": 162.9,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.00556021847852432
+        },
+        {
+          "sourceFrameFraction": 163.0,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005699751583916069
+        },
+        {
+          "sourceFrameFraction": 163.1,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.004940216174201865
+        },
+        {
+          "sourceFrameFraction": 163.2,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.004347171749954424
+        },
+        {
+          "sourceFrameFraction": 163.29999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.003921932365273753
+        },
+        {
+          "sourceFrameFraction": 163.4,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0036656486779460514
+        },
+        {
+          "sourceFrameFraction": 163.5,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0035793069846395934
+        },
+        {
+          "sourceFrameFraction": 163.6,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.003663728569774761
+        },
+        {
+          "sourceFrameFraction": 163.7,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.003919569349487257
+        },
+        {
+          "sourceFrameFraction": 163.79999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.004347319792481147
+        },
+        {
+          "sourceFrameFraction": 163.9,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.004947305099631458
+        },
+        {
+          "sourceFrameFraction": 164.0,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005719668800362593
+        },
+        {
+          "sourceFrameFraction": 204.0,
+          "side": "right",
+          "toeSoftMinAfterLift": 0.005750788425551988
+        },
+        {
+          "sourceFrameFraction": 204.09999999999997,
+          "side": "right",
+          "toeSoftMinAfterLift": 0.005619302826519832
+        },
+        {
+          "sourceFrameFraction": 204.2,
+          "side": "right",
+          "toeSoftMinAfterLift": 0.005517764875719968
+        },
+        {
+          "sourceFrameFraction": 204.29999999999998,
+          "side": "right",
+          "toeSoftMinAfterLift": 0.005446104847824244
+        },
+        {
+          "sourceFrameFraction": 204.39999999999998,
+          "side": "right",
+          "toeSoftMinAfterLift": 0.005404238399332998
+        },
+        {
+          "sourceFrameFraction": 204.5,
+          "side": "right",
+          "toeSoftMinAfterLift": 0.005392084851865358
+        },
+        {
+          "sourceFrameFraction": 204.59999999999997,
+          "side": "right",
+          "toeSoftMinAfterLift": 0.005409578023179554
+        },
+        {
+          "sourceFrameFraction": 204.7,
+          "side": "right",
+          "toeSoftMinAfterLift": 0.005456672155581344
+        },
+        {
+          "sourceFrameFraction": 204.79999999999998,
+          "side": "right",
+          "toeSoftMinAfterLift": 0.005533344651054275
+        },
+        {
+          "sourceFrameFraction": 204.89999999999998,
+          "side": "right",
+          "toeSoftMinAfterLift": 0.005639596744516878
+        },
+        {
+          "sourceFrameFraction": 205.0,
+          "side": "right",
+          "toeSoftMinAfterLift": 0.005775452861117743
+        }
+      ],
+      "failures": [
+        "all known supports still exceed10mm: worst 148 right"
+      ],
+      "scope": "Offline actual VRM only; no game build/recording or visual acceptance. Only two foot tracks change. Unknown transitions stay unlabelled."
+    },
+    {
+      "body": "male",
+      "frozenV2V3Unchanged": true,
+      "accepted": false,
+      "coordinateReplayPassed": true,
+      "runtimeGroundLift": 0.005951520713656448,
+      "invariants": {
+        "unchangedTrackCount": 53,
+        "unchangedTrackNames": [
+          "hips.quaternion",
+          "spine.quaternion",
+          "chest.quaternion",
+          "upperChest.quaternion",
+          "neck.quaternion",
+          "head.quaternion",
+          "leftEye.quaternion",
+          "rightEye.quaternion",
+          "leftUpperLeg.quaternion",
+          "leftLowerLeg.quaternion",
+          "leftToes.quaternion",
+          "rightUpperLeg.quaternion",
+          "rightLowerLeg.quaternion",
+          "rightToes.quaternion",
+          "leftShoulder.quaternion",
+          "leftUpperArm.quaternion",
+          "leftLowerArm.quaternion",
+          "leftHand.quaternion",
+          "rightShoulder.quaternion",
+          "rightUpperArm.quaternion",
+          "rightLowerArm.quaternion",
+          "rightHand.quaternion",
+          "leftThumbMetacarpal.quaternion",
+          "leftThumbProximal.quaternion",
+          "leftThumbDistal.quaternion",
+          "leftIndexProximal.quaternion",
+          "leftIndexIntermediate.quaternion",
+          "leftIndexDistal.quaternion",
+          "leftMiddleProximal.quaternion",
+          "leftMiddleIntermediate.quaternion",
+          "leftMiddleDistal.quaternion",
+          "leftRingProximal.quaternion",
+          "leftRingIntermediate.quaternion",
+          "leftRingDistal.quaternion",
+          "leftLittleProximal.quaternion",
+          "leftLittleIntermediate.quaternion",
+          "leftLittleDistal.quaternion",
+          "rightThumbMetacarpal.quaternion",
+          "rightThumbProximal.quaternion",
+          "rightThumbDistal.quaternion",
+          "rightIndexProximal.quaternion",
+          "rightIndexIntermediate.quaternion",
+          "rightIndexDistal.quaternion",
+          "rightMiddleProximal.quaternion",
+          "rightMiddleIntermediate.quaternion",
+          "rightMiddleDistal.quaternion",
+          "rightRingProximal.quaternion",
+          "rightRingIntermediate.quaternion",
+          "rightRingDistal.quaternion",
+          "rightLittleProximal.quaternion",
+          "rightLittleIntermediate.quaternion",
+          "rightLittleDistal.quaternion",
+          "hips.position"
+        ],
+        "rootAndLegTracksExact": true,
+        "flightLocalFootKeysExact": true,
+        "flightWorldMatrixMaxDifference": 0.0,
+        "rootLegAndAnklePositionMaxDifference": 0.0,
+        "onlyFootToeWorldMatricesChanged": true
+      },
+      "allKnownSupportMaximumAfterLift": 0.037162692767212235,
+      "worstKnownSupport": {
+        "sourceFrame": 148,
+        "side": "right",
+        "label": "apparent_contact",
+        "forefootGeometryEnforced": false,
+        "beforeRuntimeLiftHeight": 0.031211172053555784,
+        "afterRuntimeLiftHeight": 0.037162692767212235,
+        "v3AfterRuntimeLiftHeight": 0.036902487882000706
+      },
+      "enforcedForefootSourceKeyMaxAfterLift": 0.0066258969775276795,
+      "enforcedForefootDenseMaxAfterLift": 0.006625896977527707,
+      "minimumAfterRuntimeLiftDense721": -0.0011058732373022198,
+      "angularData": {
+        "left": {
+          "maximumWorldAngularSpeedDegPerSecond": 870.1162760648516,
+          "maximumV3WorldAngularSpeedDegPerSecond": 870.7639493134478,
+          "maximumAdditionalRotationSpeedVsV3DegPerSecond": 81.9118157953918,
+          "additionalRotationSpeedMaxTime": 0.6381374999999998,
+          "sourceKeyRollCorrectionMaximumStepDeg": 3.4157499100810185,
+          "sourceKeyRollCorrectionMaximumSecondDifferenceDeg": 3.17785538149397
+        },
+        "right": {
+          "maximumWorldAngularSpeedDegPerSecond": 848.3117498317765,
+          "maximumV3WorldAngularSpeedDegPerSecond": 848.3124823815609,
+          "maximumAdditionalRotationSpeedVsV3DegPerSecond": 151.0884101611576,
+          "additionalRotationSpeedMaxTime": 2.836166666666666,
+          "sourceKeyRollCorrectionMaximumStepDeg": 6.299103977274263,
+          "sourceKeyRollCorrectionMaximumSecondDifferenceDeg": 8.478392848024003
+        }
+      },
+      "allKnownSupportRows": [
+        {
+          "sourceFrame": 138,
+          "side": "left",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.0020000205911977886,
+          "afterRuntimeLiftHeight": 0.007951541304854237,
+          "v3AfterRuntimeLiftHeight": 0.007691336419642709
+        },
+        {
+          "sourceFrame": 138,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.011408343081627503,
+          "afterRuntimeLiftHeight": 0.017359863795283953,
+          "v3AfterRuntimeLiftHeight": 0.017099658910072424
+        },
+        {
+          "sourceFrame": 148,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.031211172053555784,
+          "afterRuntimeLiftHeight": 0.037162692767212235,
+          "v3AfterRuntimeLiftHeight": 0.036902487882000706
+        },
+        {
+          "sourceFrame": 149,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.01616186433812655,
+          "afterRuntimeLiftHeight": 0.022113385051782997,
+          "v3AfterRuntimeLiftHeight": 0.021853180166571468
+        },
+        {
+          "sourceFrame": 150,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.0020000208920725807,
+          "afterRuntimeLiftHeight": 0.007951541605729029,
+          "v3AfterRuntimeLiftHeight": 0.007691336720517501
+        },
+        {
+          "sourceFrame": 151,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.0026406258068262037,
+          "afterRuntimeLiftHeight": 0.008592146520482652,
+          "v3AfterRuntimeLiftHeight": 0.008331941635271123
+        },
+        {
+          "sourceFrame": 152,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.0071462790634336595,
+          "afterRuntimeLiftHeight": 0.013097799777090108,
+          "v3AfterRuntimeLiftHeight": 0.012837594891878579
+        },
+        {
+          "sourceFrame": 153,
+          "side": "left",
+          "label": "apparent_forefoot_contact_heel_raised",
+          "forefootGeometryEnforced": true,
+          "beforeRuntimeLiftHeight": 0.0006458975243602996,
+          "afterRuntimeLiftHeight": 0.006597418238016748,
+          "v3AfterRuntimeLiftHeight": 0.0215734240972666
+        },
+        {
+          "sourceFrame": 153,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.004706626163723963,
+          "afterRuntimeLiftHeight": 0.010658146877380412,
+          "v3AfterRuntimeLiftHeight": 0.010397941992168883
+        },
+        {
+          "sourceFrame": 154,
+          "side": "left",
+          "label": "apparent_forefoot_contact_heel_raised",
+          "forefootGeometryEnforced": true,
+          "beforeRuntimeLiftHeight": 0.0005117486287372791,
+          "afterRuntimeLiftHeight": 0.006463269342393727,
+          "v3AfterRuntimeLiftHeight": 0.009409275614882412
+        },
+        {
+          "sourceFrame": 154,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.0019999709685236747,
+          "afterRuntimeLiftHeight": 0.007951491682180123,
+          "v3AfterRuntimeLiftHeight": 0.007691286796968595
+        },
+        {
+          "sourceFrame": 155,
+          "side": "left",
+          "label": "apparent_forefoot_contact_heel_raised",
+          "forefootGeometryEnforced": true,
+          "beforeRuntimeLiftHeight": 0.0004040442181815503,
+          "afterRuntimeLiftHeight": 0.0063555649318379984,
+          "v3AfterRuntimeLiftHeight": 0.007800761995130278
+        },
+        {
+          "sourceFrame": 155,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.0037869683198484064,
+          "afterRuntimeLiftHeight": 0.009738489033504855,
+          "v3AfterRuntimeLiftHeight": 0.009478284148293326
+        },
+        {
+          "sourceFrame": 156,
+          "side": "left",
+          "label": "apparent_forefoot_contact_heel_raised",
+          "forefootGeometryEnforced": true,
+          "beforeRuntimeLiftHeight": 0.0006379173717578105,
+          "afterRuntimeLiftHeight": 0.0065894380854142585,
+          "v3AfterRuntimeLiftHeight": 0.01507727384674681
+        },
+        {
+          "sourceFrame": 156,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.010603875736582592,
+          "afterRuntimeLiftHeight": 0.01655539645023904,
+          "v3AfterRuntimeLiftHeight": 0.01629519156502751
+        },
+        {
+          "sourceFrame": 157,
+          "side": "left",
+          "label": "apparent_forefoot_contact_heel_raised",
+          "forefootGeometryEnforced": true,
+          "beforeRuntimeLiftHeight": 0.0006461137835108418,
+          "afterRuntimeLiftHeight": 0.00659763449716729,
+          "v3AfterRuntimeLiftHeight": 0.02094778632440514
+        },
+        {
+          "sourceFrame": 157,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.013889659658907039,
+          "afterRuntimeLiftHeight": 0.019841180372563487,
+          "v3AfterRuntimeLiftHeight": 0.019580975487351958
+        },
+        {
+          "sourceFrame": 158,
+          "side": "left",
+          "label": "apparent_forefoot_contact_heel_raised",
+          "forefootGeometryEnforced": true,
+          "beforeRuntimeLiftHeight": 0.0006467292795190513,
+          "afterRuntimeLiftHeight": 0.0065982499931755,
+          "v3AfterRuntimeLiftHeight": 0.019367120690596745
+        },
+        {
+          "sourceFrame": 158,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.009819813727134433,
+          "afterRuntimeLiftHeight": 0.01577133444079088,
+          "v3AfterRuntimeLiftHeight": 0.015511129555579352
+        },
+        {
+          "sourceFrame": 159,
+          "side": "left",
+          "label": "apparent_forefoot_contact_heel_raised",
+          "forefootGeometryEnforced": true,
+          "beforeRuntimeLiftHeight": 0.0006328948594628656,
+          "afterRuntimeLiftHeight": 0.006584415573119314,
+          "v3AfterRuntimeLiftHeight": 0.01441243625152613
+        },
+        {
+          "sourceFrame": 159,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.005073134298605675,
+          "afterRuntimeLiftHeight": 0.011024655012262123,
+          "v3AfterRuntimeLiftHeight": 0.010764450127050594
+        },
+        {
+          "sourceFrame": 160,
+          "side": "left",
+          "label": "apparent_forefoot_contact_heel_raised",
+          "forefootGeometryEnforced": true,
+          "beforeRuntimeLiftHeight": 0.00040553626491481574,
+          "afterRuntimeLiftHeight": 0.006357056978571264,
+          "v3AfterRuntimeLiftHeight": 0.007798163055398008
+        },
+        {
+          "sourceFrame": 160,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.0019999886701492914,
+          "afterRuntimeLiftHeight": 0.00795150938380574,
+          "v3AfterRuntimeLiftHeight": 0.007691304498594211
+        },
+        {
+          "sourceFrame": 161,
+          "side": "left",
+          "label": "apparent_forefoot_contact_heel_raised",
+          "forefootGeometryEnforced": true,
+          "beforeRuntimeLiftHeight": 0.000611584634017161,
+          "afterRuntimeLiftHeight": 0.006563105347673609,
+          "v3AfterRuntimeLiftHeight": 0.012666316570962554
+        },
+        {
+          "sourceFrame": 161,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.009828179888314865,
+          "afterRuntimeLiftHeight": 0.015779700601971314,
+          "v3AfterRuntimeLiftHeight": 0.015519495716759785
+        },
+        {
+          "sourceFrame": 162,
+          "side": "left",
+          "label": "apparent_forefoot_contact_heel_raised",
+          "forefootGeometryEnforced": true,
+          "beforeRuntimeLiftHeight": 0.0006454660976757743,
+          "afterRuntimeLiftHeight": 0.006596986811332223,
+          "v3AfterRuntimeLiftHeight": 0.01698748880476655
+        },
+        {
+          "sourceFrame": 162,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.015214491928637733,
+          "afterRuntimeLiftHeight": 0.02116601264229418,
+          "v3AfterRuntimeLiftHeight": 0.020905807757082652
+        },
+        {
+          "sourceFrame": 163,
+          "side": "left",
+          "label": "apparent_forefoot_contact_heel_raised",
+          "forefootGeometryEnforced": true,
+          "beforeRuntimeLiftHeight": 0.0006106356563541167,
+          "afterRuntimeLiftHeight": 0.006562156370010565,
+          "v3AfterRuntimeLiftHeight": 0.01254469287114525
+        },
+        {
+          "sourceFrame": 163,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.00885319018778366,
+          "afterRuntimeLiftHeight": 0.014804710901440109,
+          "v3AfterRuntimeLiftHeight": 0.01454450601622858
+        },
+        {
+          "sourceFrame": 164,
+          "side": "left",
+          "label": "apparent_forefoot_contact_heel_raised",
+          "forefootGeometryEnforced": true,
+          "beforeRuntimeLiftHeight": 0.0006239285803606556,
+          "afterRuntimeLiftHeight": 0.006575449294017104,
+          "v3AfterRuntimeLiftHeight": 0.013474295326606319
+        },
+        {
+          "sourceFrame": 164,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.003970839596087385,
+          "afterRuntimeLiftHeight": 0.009922360309743833,
+          "v3AfterRuntimeLiftHeight": 0.009662155424532304
+        },
+        {
+          "sourceFrame": 171,
+          "side": "left",
+          "label": "apparent_contact_pivot",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.002448289550724819,
+          "afterRuntimeLiftHeight": 0.008399810264381267,
+          "v3AfterRuntimeLiftHeight": 0.008139605379169738
+        },
+        {
+          "sourceFrame": 171,
+          "side": "right",
+          "label": "apparent_contact_pivot",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.008769880263420696,
+          "afterRuntimeLiftHeight": 0.014721400977077144,
+          "v3AfterRuntimeLiftHeight": 0.014461196091865615
+        },
+        {
+          "sourceFrame": 172,
+          "side": "left",
+          "label": "apparent_contact_pivot",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.001999975391108101,
+          "afterRuntimeLiftHeight": 0.00795149610476455,
+          "v3AfterRuntimeLiftHeight": 0.007691291219553021
+        },
+        {
+          "sourceFrame": 172,
+          "side": "right",
+          "label": "apparent_contact_pivot",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.003965478550880226,
+          "afterRuntimeLiftHeight": 0.009916999264536673,
+          "v3AfterRuntimeLiftHeight": 0.009656794379325146
+        },
+        {
+          "sourceFrame": 173,
+          "side": "left",
+          "label": "apparent_contact_pivot",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.002495793585293436,
+          "afterRuntimeLiftHeight": 0.008447314298949885,
+          "v3AfterRuntimeLiftHeight": 0.008187109413738356
+        },
+        {
+          "sourceFrame": 173,
+          "side": "right",
+          "label": "apparent_contact_pivot",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.0019999954867098144,
+          "afterRuntimeLiftHeight": 0.007951516200366262,
+          "v3AfterRuntimeLiftHeight": 0.007691311315154735
+        },
+        {
+          "sourceFrame": 174,
+          "side": "left",
+          "label": "apparent_contact_pivot",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.012122646434257098,
+          "afterRuntimeLiftHeight": 0.018074167147913545,
+          "v3AfterRuntimeLiftHeight": 0.01781396226270202
+        },
+        {
+          "sourceFrame": 174,
+          "side": "right",
+          "label": "apparent_contact_pivot",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.008223603027716462,
+          "afterRuntimeLiftHeight": 0.01417512374137291,
+          "v3AfterRuntimeLiftHeight": 0.013914918856161383
+        },
+        {
+          "sourceFrame": 175,
+          "side": "left",
+          "label": "apparent_contact_pivot",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.010831364998890893,
+          "afterRuntimeLiftHeight": 0.01678288571254734,
+          "v3AfterRuntimeLiftHeight": 0.016522680827335812
+        },
+        {
+          "sourceFrame": 175,
+          "side": "right",
+          "label": "apparent_contact_pivot",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.0049017695929880895,
+          "afterRuntimeLiftHeight": 0.010853290306644538,
+          "v3AfterRuntimeLiftHeight": 0.010593085421433009
+        },
+        {
+          "sourceFrame": 176,
+          "side": "left",
+          "label": "apparent_contact_pivot",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.009425622115144305,
+          "afterRuntimeLiftHeight": 0.015377142828800754,
+          "v3AfterRuntimeLiftHeight": 0.015116937943589225
+        },
+        {
+          "sourceFrame": 176,
+          "side": "right",
+          "label": "apparent_contact_pivot",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.005548392884983308,
+          "afterRuntimeLiftHeight": 0.011499913598639756,
+          "v3AfterRuntimeLiftHeight": 0.011239708713428227
+        },
+        {
+          "sourceFrame": 200,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.020921448791345304,
+          "afterRuntimeLiftHeight": 0.026872969505001752,
+          "v3AfterRuntimeLiftHeight": 0.026612764619790223
+        },
+        {
+          "sourceFrame": 201,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.0015307949075832952,
+          "afterRuntimeLiftHeight": 0.0074823156212397435,
+          "v3AfterRuntimeLiftHeight": 0.007691291907865391
+        },
+        {
+          "sourceFrame": 202,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": -0.0006977072302665199,
+          "afterRuntimeLiftHeight": 0.005253813483389928,
+          "v3AfterRuntimeLiftHeight": 0.008093207236717428
+        },
+        {
+          "sourceFrame": 203,
+          "side": "right",
+          "label": "apparent_contact",
+          "forefootGeometryEnforced": false,
+          "beforeRuntimeLiftHeight": 0.008442074799730422,
+          "afterRuntimeLiftHeight": 0.01439359551338687,
+          "v3AfterRuntimeLiftHeight": 0.023750209459621884
+        },
+        {
+          "sourceFrame": 204,
+          "side": "right",
+          "label": "manual_forefoot_refinement",
+          "forefootGeometryEnforced": true,
+          "beforeRuntimeLiftHeight": 0.0006494932276059764,
+          "afterRuntimeLiftHeight": 0.006601013941262425,
+          "v3AfterRuntimeLiftHeight": 0.027248050621462405
+        },
+        {
+          "sourceFrame": 205,
+          "side": "right",
+          "label": "manual_forefoot_refinement",
+          "forefootGeometryEnforced": true,
+          "beforeRuntimeLiftHeight": 0.0006743762638712313,
+          "afterRuntimeLiftHeight": 0.0066258969775276795,
+          "v3AfterRuntimeLiftHeight": 0.0417388740325534
+        }
+      ],
+      "denseForefootSamples": [
+        {
+          "sourceFrameFraction": 153.0,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006597418238016829
+        },
+        {
+          "sourceFrameFraction": 153.1,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006563775308323751
+        },
+        {
+          "sourceFrameFraction": 153.2,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0065378194524208875
+        },
+        {
+          "sourceFrameFraction": 153.29999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006518931077845833
+        },
+        {
+          "sourceFrameFraction": 153.4,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006506230492939618
+        },
+        {
+          "sourceFrameFraction": 153.5,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006498516675406893
+        },
+        {
+          "sourceFrameFraction": 153.6,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006494221551954363
+        },
+        {
+          "sourceFrameFraction": 153.7,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.00649138210054291
+        },
+        {
+          "sourceFrameFraction": 153.8,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006487601503666277
+        },
+        {
+          "sourceFrameFraction": 153.9,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006479822935646077
+        },
+        {
+          "sourceFrameFraction": 154.0,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006463269342393587
+        },
+        {
+          "sourceFrameFraction": 154.1,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006439529319999698
+        },
+        {
+          "sourceFrameFraction": 154.2,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006418826807397309
+        },
+        {
+          "sourceFrameFraction": 154.3,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006401113636329214
+        },
+        {
+          "sourceFrameFraction": 154.4,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006386336675489247
+        },
+        {
+          "sourceFrameFraction": 154.5,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006374437205467847
+        },
+        {
+          "sourceFrameFraction": 154.6,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006365350234576031
+        },
+        {
+          "sourceFrameFraction": 154.7,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0063590037558406845
+        },
+        {
+          "sourceFrameFraction": 154.79999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006355317947390207
+        },
+        {
+          "sourceFrameFraction": 154.9,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006354204320946807
+        },
+        {
+          "sourceFrameFraction": 155.0,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.00635556493183803
+        },
+        {
+          "sourceFrameFraction": 155.1,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006389540965151786
+        },
+        {
+          "sourceFrameFraction": 155.2,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006414809769223098
+        },
+        {
+          "sourceFrameFraction": 155.3,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.00643573942364214
+        },
+        {
+          "sourceFrameFraction": 155.4,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006454817570674096
+        },
+        {
+          "sourceFrameFraction": 155.5,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006473532187344107
+        },
+        {
+          "sourceFrameFraction": 155.6,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006492867460651969
+        },
+        {
+          "sourceFrameFraction": 155.7,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006513558080153168
+        },
+        {
+          "sourceFrameFraction": 155.79999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0065362089609438965
+        },
+        {
+          "sourceFrameFraction": 155.89999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0065613465117897105
+        },
+        {
+          "sourceFrameFraction": 156.0,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006589438085414239
+        },
+        {
+          "sourceFrameFraction": 156.1,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006578912594753604
+        },
+        {
+          "sourceFrameFraction": 156.2,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006570505720548692
+        },
+        {
+          "sourceFrameFraction": 156.3,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006564404340052531
+        },
+        {
+          "sourceFrameFraction": 156.4,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006560773356667583
+        },
+        {
+          "sourceFrameFraction": 156.5,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006559756729094494
+        },
+        {
+          "sourceFrameFraction": 156.6,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006561478729211098
+        },
+        {
+          "sourceFrameFraction": 156.7,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.00656604540860309
+        },
+        {
+          "sourceFrameFraction": 156.79999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006573546191940501
+        },
+        {
+          "sourceFrameFraction": 156.9,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006584055522309
+        },
+        {
+          "sourceFrameFraction": 157.0,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006597634497167261
+        },
+        {
+          "sourceFrameFraction": 157.1,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006595628267341532
+        },
+        {
+          "sourceFrameFraction": 157.2,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.00659408311735436
+        },
+        {
+          "sourceFrameFraction": 157.29999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006592998630465543
+        },
+        {
+          "sourceFrameFraction": 157.4,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006592374238438228
+        },
+        {
+          "sourceFrameFraction": 157.5,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006592209311665499
+        },
+        {
+          "sourceFrameFraction": 157.6,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006592503157274386
+        },
+        {
+          "sourceFrameFraction": 157.7,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006593255017210736
+        },
+        {
+          "sourceFrameFraction": 157.8,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006594464066308528
+        },
+        {
+          "sourceFrameFraction": 157.9,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.00659612941034949
+        },
+        {
+          "sourceFrameFraction": 158.0,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006598249993175479
+        },
+        {
+          "sourceFrameFraction": 158.1,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0065838022185507284
+        },
+        {
+          "sourceFrameFraction": 158.2,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.00657244238108723
+        },
+        {
+          "sourceFrameFraction": 158.29999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006564117721470645
+        },
+        {
+          "sourceFrameFraction": 158.4,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0065587667795002635
+        },
+        {
+          "sourceFrameFraction": 158.5,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006556318721774437
+        },
+        {
+          "sourceFrameFraction": 158.6,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006556692718862899
+        },
+        {
+          "sourceFrameFraction": 158.7,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006559797397649506
+        },
+        {
+          "sourceFrameFraction": 158.79999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006565530392598331
+        },
+        {
+          "sourceFrameFraction": 158.9,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006573778010595402
+        },
+        {
+          "sourceFrameFraction": 159.0,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.00658441557311927
+        },
+        {
+          "sourceFrameFraction": 159.1,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006515879463569614
+        },
+        {
+          "sourceFrameFraction": 159.2,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006459017416915673
+        },
+        {
+          "sourceFrameFraction": 159.29999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006413487458616449
+        },
+        {
+          "sourceFrameFraction": 159.4,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.00637890142436785
+        },
+        {
+          "sourceFrameFraction": 159.5,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0063548022679757446
+        },
+        {
+          "sourceFrameFraction": 159.6,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006340610861438733
+        },
+        {
+          "sourceFrameFraction": 159.7,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006335512853755164
+        },
+        {
+          "sourceFrameFraction": 159.8,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006338236188513172
+        },
+        {
+          "sourceFrameFraction": 159.9,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006346644872569208
+        },
+        {
+          "sourceFrameFraction": 160.0,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006357056978571264
+        },
+        {
+          "sourceFrameFraction": 160.1,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0062755836825959385
+        },
+        {
+          "sourceFrameFraction": 160.2,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006213541080854134
+        },
+        {
+          "sourceFrameFraction": 160.29999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006172829007473357
+        },
+        {
+          "sourceFrameFraction": 160.39999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006154798308312435
+        },
+        {
+          "sourceFrameFraction": 160.5,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006160415924448015
+        },
+        {
+          "sourceFrameFraction": 160.6,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006190389160786781
+        },
+        {
+          "sourceFrameFraction": 160.7,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006245253889170542
+        },
+        {
+          "sourceFrameFraction": 160.8,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006325434483341781
+        },
+        {
+          "sourceFrameFraction": 160.9,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006431283089441587
+        },
+        {
+          "sourceFrameFraction": 161.0,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.00656310534767364
+        },
+        {
+          "sourceFrameFraction": 161.1,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006370480024496961
+        },
+        {
+          "sourceFrameFraction": 161.2,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006220685251540039
+        },
+        {
+          "sourceFrameFraction": 161.29999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006114026961960472
+        },
+        {
+          "sourceFrameFraction": 161.39999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.00605079033561414
+        },
+        {
+          "sourceFrameFraction": 161.5,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006031241842661701
+        },
+        {
+          "sourceFrameFraction": 161.6,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006055630624207432
+        },
+        {
+          "sourceFrameFraction": 161.7,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006124189505895429
+        },
+        {
+          "sourceFrameFraction": 161.79999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0062371358162927396
+        },
+        {
+          "sourceFrameFraction": 161.9,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0063946721052400525
+        },
+        {
+          "sourceFrameFraction": 162.0,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006596986811332061
+        },
+        {
+          "sourceFrameFraction": 162.1,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006428393993508733
+        },
+        {
+          "sourceFrameFraction": 162.2,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006296571348761497
+        },
+        {
+          "sourceFrameFraction": 162.3,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006201520490539434
+        },
+        {
+          "sourceFrameFraction": 162.39999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006143224105664996
+        },
+        {
+          "sourceFrameFraction": 162.5,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0061216479524056145
+        },
+        {
+          "sourceFrameFraction": 162.6,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.00613674068577264
+        },
+        {
+          "sourceFrameFraction": 162.7,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006188433795127317
+        },
+        {
+          "sourceFrameFraction": 162.79999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006276641556333332
+        },
+        {
+          "sourceFrameFraction": 162.9,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006401260756909413
+        },
+        {
+          "sourceFrameFraction": 163.0,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006562156370011013
+        },
+        {
+          "sourceFrameFraction": 163.1,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005715818901563228
+        },
+        {
+          "sourceFrameFraction": 163.2,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0050542426536039926
+        },
+        {
+          "sourceFrameFraction": 163.29999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.0045791041261725165
+        },
+        {
+          "sourceFrameFraction": 163.4,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.004291896262082069
+        },
+        {
+          "sourceFrameFraction": 163.5,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.004193927402115763
+        },
+        {
+          "sourceFrameFraction": 163.6,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.004286320549680218
+        },
+        {
+          "sourceFrameFraction": 163.7,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.004570012916427689
+        },
+        {
+          "sourceFrameFraction": 163.79999999999998,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005045755725053476
+        },
+        {
+          "sourceFrameFraction": 163.9,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.005714114248750603
+        },
+        {
+          "sourceFrameFraction": 164.0,
+          "side": "left",
+          "toeSoftMinAfterLift": 0.006575449294017281
+        },
+        {
+          "sourceFrameFraction": 204.0,
+          "side": "right",
+          "toeSoftMinAfterLift": 0.0066010139412623105
+        },
+        {
+          "sourceFrameFraction": 204.09999999999997,
+          "side": "right",
+          "toeSoftMinAfterLift": 0.006471197364908435
+        },
+        {
+          "sourceFrameFraction": 204.2,
+          "side": "right",
+          "toeSoftMinAfterLift": 0.006371046479058055
+        },
+        {
+          "sourceFrameFraction": 204.29999999999998,
+          "side": "right",
+          "toeSoftMinAfterLift": 0.006300444432519594
+        },
+        {
+          "sourceFrameFraction": 204.39999999999998,
+          "side": "right",
+          "toeSoftMinAfterLift": 0.006259272443951026
+        },
+        {
+          "sourceFrameFraction": 204.5,
+          "side": "right",
+          "toeSoftMinAfterLift": 0.0062474239861974165
+        },
+        {
+          "sourceFrameFraction": 204.59999999999997,
+          "side": "right",
+          "toeSoftMinAfterLift": 0.006264812906505814
+        },
+        {
+          "sourceFrameFraction": 204.7,
+          "side": "right",
+          "toeSoftMinAfterLift": 0.006311377546659054
+        },
+        {
+          "sourceFrameFraction": 204.79999999999998,
+          "side": "right",
+          "toeSoftMinAfterLift": 0.006387082247516395
+        },
+        {
+          "sourceFrameFraction": 204.89999999999998,
+          "side": "right",
+          "toeSoftMinAfterLift": 0.006491917160035467
+        },
+        {
+          "sourceFrameFraction": 205.0,
+          "side": "right",
+          "toeSoftMinAfterLift": 0.006625896977527707
+        }
+      ],
+      "failures": [
+        "all known supports still exceed10mm: worst 148 right"
+      ],
+      "scope": "Offline actual VRM only; no game build/recording or visual acceptance. Only two foot tracks change. Unknown transitions stay unlabelled."
+    }
+  ]
+}

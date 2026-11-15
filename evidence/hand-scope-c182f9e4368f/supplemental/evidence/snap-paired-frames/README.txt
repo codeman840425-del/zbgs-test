@@ -1,0 +1,1 @@
+Original sequential decoded frames selected by PTS in [0.68,0.96] seconds; no frame interpolation. Left-arm region crop x450..750,y320..610. Columns align ordinal in same capture-relative window, not asserted identical simulation pose; use each trace for actual times. Not a substitute for 1x films.
