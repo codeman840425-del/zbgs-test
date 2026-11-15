@@ -63,8 +63,9 @@
 2. 路径控制世界根位移、朝向和速度。走跑源的线性前进分量按原片校准去除，防止重复位移；技术舞按local-displacement策略保留局部髋XYZ与小跳，不将所有舞蹈平移统一删除。脚锁与骨盆修正不直接控制世界路径。
 3. 根据实际位移推进步态相位，选择源clip与权重，显式设置action.time。AnimationMixer.update(0)只求当前姿势，不重复推进第二个时钟。
 4. 恢复上次源动画姿势，求新源姿势并缓存；对normalized骨骼施加骨盆/腿IK等修正。避免先清bind pose后被Mixer未改变轨道的缓存漏写。
-5. avatar.update(dt)调用vrm.update：humanoid把normalized同步到raw，运行相应约束和附加动态；不在之后重新覆盖normalized修正。
-6. 更新世界矩阵和裙碰撞。手部拟合若已在本子步腿臀求值后采样并求解裙面，则updateGarment复用该次结果，避免同子步重复求解。头发等附加动态按自身更新阶段推进，再渲染。175集成候选已接入保留源坐姿腕目标与等价缓存；source/UV/index可缓存，每子步实际蒙皮与投影仍更新，不能把静态缓存当动态几何。
+5. motion末尾执行坐姿手部拟合：先由seatHandSurfaces(true)同步humanoid与raw矩阵，按本步腿臀求装备面，再读取实际手部包络并修正手臂。这里只证明求解所用表面；最终手和衣物接触必须在整个子步结束后检查。
+6. avatar.update(dt)依次执行live.preUpdate、vrm.update、世界矩阵更新和live.postUpdate。直播层可叠加手臂/手指姿态，VRM把normalized同步到raw并推进附加动态；因此不能把手拟合之前的皮肤当成最终显示皮肤。
+7. updateGarment复用本子步已准备的装备面，随后渲染。该复用要求装备所依赖的骨骼/形变在后续直播及VRM更新中不改变；新装备必须实际核对这个条件，不能直接继承旧裙标志。当前269保留源坐姿腕目标与等价缓存；source/UV/index可缓存，每子步实际蒙皮与投影仍更新，不能把静态缓存当动态几何。
 
 官方接口已对照本机安装版本核查：[AnimationMixer的秒制update](https://threejs.org/docs/pages/AnimationMixer.html)、[VRMHumanoid默认同步normalized到raw](https://pixiv.github.io/three-vrm/docs/classes/three-vrm.VRMHumanoid.html)。依赖目录的实际3.5.5实现与此一致。
 
@@ -102,11 +103,11 @@ M1A完整穿衣/真实完整人体中性材质、raw/IK/pelvis/full可同刻对�
 
 基模派生另立bodyAssetId/assetVersion与精确SHA，装备fit明确兼容派生身份；不能绕过校验复用原hash。真实脸/局部体型风险样件在定型前做，结果分别归入CAPABILITIES RISK-01/02，不把表情morph或整体缩放计为外貌几何制作通过。
 
-## 前臂接触配置的精确适配（当前abdb，继承49b3实测）
+## 前臂与手部配置的精确适配（公开269，历史证据分开）
 
 foundation-profiles中的forearmCollision明确URL和文件SHA；加载同时验证实际人体SHA，不能把原女性包络套到jaw/waisthip派生。缓存由createMotion每实例创建，姿态相关系数每次实际投影更新。80轮廓轨及alpha采样仅是有限接触近似，不是完整连续碰撞。
 
-默认使用源坐姿腕目标，诊断`handTarget=lap`只供旧目标对照；`forearm=legacy`只供旧接触诊断。jaw/waisthip已从各自实际VRM独立生成专属前臂配置；49b3同体开关实测前臂交叉归零，但两体仍各有15个起身掌指交叉采样帧，不能将前臂通过当成整手或裙装通过。abdb保留旧五轨手代理作对照；新269a73423c97独立集成采用每体实际VRM生成的32语义关节局部包络，通过handSurfaceContact的URL/文件SHA/bodySHA加载。每手80有限纵轨和端点不是实体/连续碰撞证明，仍须用最终实际皮肤验收；腕边混权不能凭关节包络继承刚体保证。新集成尚在验证，不替代CAPABILITIES状态。男性目前seatHandRadii缺失，坐手接触层提前返回；成功加载男性包络不等于男性坐手接触已启用或验收。详情以CAPABILITIES与175固定报告为准。
+默认使用源坐姿腕目标，诊断`handTarget=lap`只供旧目标对照；`forearm=legacy`只供旧接触诊断。jaw/waisthip已从各自实际VRM独立生成专属前臂配置；49b3中的掌指失败是历史证据，不作为269结果。公开269a73423c97采用每体实际VRM生成的32语义关节局部包络，通过handSurfaceContact的URL/文件SHA/bodySHA加载；同版三体各100坐起采样、原女性直播叠层后259样本已有专项记录。每手80有限纵轨和端点不是实体/连续碰撞证明，腕边混权不能凭关节包络继承刚体保证，仍按最终实际皮肤与完整画面验收。男性目前seatHandRadii缺失，坐手接触层提前返回；成功加载男性包络不等于男性坐手接触已启用或验收。具体通过范围与未验项只以CAPABILITIES及其269报告为准。
 
 ## 可选服装材质配方（abdb候选）
 
