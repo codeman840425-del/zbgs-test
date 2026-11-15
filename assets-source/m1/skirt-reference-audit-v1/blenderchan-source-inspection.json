@@ -1,0 +1,6779 @@
+{
+  "file": "BlenderChan-Free.blend",
+  "sha256": "f2e6cf2ccc7799bb614a0b6ef982a2b9bbd446884c358796d5ba5eba5f2c22ad",
+  "blender": "4.5.9 LTS",
+  "openedWithAutoexecDisabled": true,
+  "meshes": [
+    {
+      "name": "Bell",
+      "vertices": 186,
+      "polygons": 184,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": [
+        {
+          "name": "Mirror",
+          "type": "MIRROR",
+          "object": null
+        },
+        {
+          "name": "Subdivision",
+          "type": "SUBSURF",
+          "object": null
+        }
+      ]
+    },
+    {
+      "name": "Belt",
+      "vertices": 72,
+      "polygons": 48,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {
+        "spine_01.x": 72,
+        "root.x": 72,
+        "spine_02.x": 63,
+        "shoulder.l": 3,
+        "thigh_twist.l": 6,
+        "thigh_twist.r": 6,
+        "shoulder.r": 3
+      },
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE",
+          "object": "BlenderChan Rig_rig"
+        },
+        {
+          "name": "Solidify",
+          "type": "SOLIDIFY",
+          "object": null
+        },
+        {
+          "name": "Subdivision",
+          "type": "SUBSURF",
+          "object": null
+        }
+      ]
+    },
+    {
+      "name": "Belt Cubes",
+      "vertices": 48,
+      "polygons": 36,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {
+        "root.x": 48,
+        "spine_01.x": 48,
+        "spine_02.x": 38,
+        "shoulder.l": 3,
+        "shoulder.r": 3
+      },
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE",
+          "object": "BlenderChan Rig_rig"
+        },
+        {
+          "name": "CorrectiveSmooth",
+          "type": "CORRECTIVE_SMOOTH",
+          "object": null
+        },
+        {
+          "name": "Bevel",
+          "type": "BEVEL",
+          "object": null
+        }
+      ]
+    },
+    {
+      "name": "Blender Logo",
+      "vertices": 14725,
+      "polygons": 14721,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {
+        "root.x": 14725,
+        "spine_01.x": 14725,
+        "thigh_twist.r": 318,
+        "spine_02.x": 14725
+      },
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE",
+          "object": "BlenderChan Rig_rig"
+        }
+      ]
+    },
+    {
+      "name": "Body Bottom",
+      "vertices": 574,
+      "polygons": 546,
+      "shapeKeys": [
+        "Basis",
+        "Ears Big",
+        "EyeTopL Closed",
+        "EyeTopR Closed",
+        "EyBotL Closed",
+        "EyBotR Closed",
+        "Eyes Shape",
+        "MouthClosed",
+        "MouthClosed Happy",
+        "MouthClosed Happy+",
+        "MouthOpen Smile",
+        "Anatomy"
+      ],
+      "shapeDrivers": [
+        {
+          "path": "key_blocks[\"MouthClosed\"].value",
+          "index": 0,
+          "expression": "location",
+          "variables": [
+            {
+              "name": "location",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "Controller Armature Character",
+                  "bone": "",
+                  "path": "pose.bones[\"MouthClosed\"].location[1]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "key_blocks[\"MouthClosed Happy\"].value",
+          "index": 0,
+          "expression": "location",
+          "variables": [
+            {
+              "name": "location",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "Controller Armature Character",
+                  "bone": "",
+                  "path": "pose.bones[\"MouthClosed Happy\"].location[1]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "key_blocks[\"EyeTopL Closed\"].value",
+          "index": 0,
+          "expression": "location",
+          "variables": [
+            {
+              "name": "location",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "Controller Armature Character",
+                  "bone": "",
+                  "path": "pose.bones[\"EyeTopL Closed\"].location[1]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "key_blocks[\"EyeTopR Closed\"].value",
+          "index": 0,
+          "expression": "location",
+          "variables": [
+            {
+              "name": "location",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "Controller Armature Character",
+                  "bone": "",
+                  "path": "pose.bones[\"EyeTopR Closed\"].location[1]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "key_blocks[\"EyBotL Closed\"].value",
+          "index": 0,
+          "expression": "location",
+          "variables": [
+            {
+              "name": "location",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "Controller Armature Character",
+                  "bone": "",
+                  "path": "pose.bones[\"EyeBotL Closed\"].location[1]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "key_blocks[\"EyBotR Closed\"].value",
+          "index": 0,
+          "expression": "location",
+          "variables": [
+            {
+              "name": "location",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "Controller Armature Character",
+                  "bone": "",
+                  "path": "pose.bones[\"EyeBotR Closed\"].location[1]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "key_blocks[\"MouthOpen Smile\"].value",
+          "index": 0,
+          "expression": "location",
+          "variables": [
+            {
+              "name": "location",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "Controller Armature Character",
+                  "bone": "",
+                  "path": "pose.bones[\"MouthOpen Smile\"].location[1]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "key_blocks[\"MouthClosed Happy+\"].value",
+          "index": 0,
+          "expression": "location",
+          "variables": [
+            {
+              "name": "location",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "Controller Armature Character",
+                  "bone": "",
+                  "path": "pose.bones[\"MouthClosed Happy+\"].location[1]"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "objectDrivers": [],
+      "weights": {
+        "root.x": 407,
+        "spine_01.x": 121,
+        "Butt_L": 123,
+        "thigh_twist.l": 334,
+        "Butt_R": 123,
+        "thigh_twist.r": 334,
+        "thigh_stretch.l": 241,
+        "thigh_stretch.r": 241,
+        "spine_02.x": 5,
+        "leg_stretch.l": 13,
+        "leg_stretch.r": 13
+      },
+      "modifiers": [
+        {
+          "name": "rig",
+          "type": "ARMATURE",
+          "object": "BlenderChan Rig_rig"
+        },
+        {
+          "name": "Mask",
+          "type": "MASK",
+          "object": null
+        },
+        {
+          "name": "Subdivision",
+          "type": "SUBSURF",
+          "object": null
+        }
+      ]
+    },
+    {
+      "name": "Body Top",
+      "vertices": 2388,
+      "polygons": 2378,
+      "shapeKeys": [
+        "Basis",
+        "Ears Big",
+        "EyeTopL Closed",
+        "EyeTopR Closed",
+        "EyBotL Closed",
+        "EyBotR Closed",
+        "Eyes Shape",
+        "MouthClosed",
+        "MouthClosed Happy",
+        "MouthClosed Happy+",
+        "MouthOpen Smile",
+        "Anatomy"
+      ],
+      "shapeDrivers": [
+        {
+          "path": "key_blocks[\"MouthClosed\"].value",
+          "index": 0,
+          "expression": "location",
+          "variables": [
+            {
+              "name": "location",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "Controller Armature Character",
+                  "bone": "",
+                  "path": "pose.bones[\"MouthClosed\"].location[1]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "key_blocks[\"MouthClosed Happy\"].value",
+          "index": 0,
+          "expression": "location",
+          "variables": [
+            {
+              "name": "location",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "Controller Armature Character",
+                  "bone": "",
+                  "path": "pose.bones[\"MouthClosed Happy\"].location[1]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "key_blocks[\"EyeTopL Closed\"].value",
+          "index": 0,
+          "expression": "location",
+          "variables": [
+            {
+              "name": "location",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "Controller Armature Character",
+                  "bone": "",
+                  "path": "pose.bones[\"EyeTopL Closed\"].location[1]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "key_blocks[\"EyeTopR Closed\"].value",
+          "index": 0,
+          "expression": "location",
+          "variables": [
+            {
+              "name": "location",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "Controller Armature Character",
+                  "bone": "",
+                  "path": "pose.bones[\"EyeTopR Closed\"].location[1]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "key_blocks[\"EyBotL Closed\"].value",
+          "index": 0,
+          "expression": "location",
+          "variables": [
+            {
+              "name": "location",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "Controller Armature Character",
+                  "bone": "",
+                  "path": "pose.bones[\"EyeBotL Closed\"].location[1]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "key_blocks[\"EyBotR Closed\"].value",
+          "index": 0,
+          "expression": "location",
+          "variables": [
+            {
+              "name": "location",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "Controller Armature Character",
+                  "bone": "",
+                  "path": "pose.bones[\"EyeBotR Closed\"].location[1]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "key_blocks[\"MouthOpen Smile\"].value",
+          "index": 0,
+          "expression": "location",
+          "variables": [
+            {
+              "name": "location",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "Controller Armature Character",
+                  "bone": "",
+                  "path": "pose.bones[\"MouthOpen Smile\"].location[1]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "key_blocks[\"MouthClosed Happy+\"].value",
+          "index": 0,
+          "expression": "location",
+          "variables": [
+            {
+              "name": "location",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "Controller Armature Character",
+                  "bone": "",
+                  "path": "pose.bones[\"MouthClosed Happy+\"].location[1]"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "objectDrivers": [],
+      "weights": {
+        "arm_stretch.l": 214,
+        "forearm_stretch.l": 187,
+        "c_arm_twist_offset.l": 257,
+        "forearm_twist.l": 157,
+        "shoulder.l": 274,
+        "spine_02.x": 420,
+        "spine_01.x": 165,
+        "Boob_L": 40,
+        "shoulder.r": 274,
+        "neck.x": 798,
+        "Boob_R": 40,
+        "head.x": 1477,
+        "arm_stretch.r": 214,
+        "forearm_stretch.r": 187,
+        "c_arm_twist_offset.r": 257,
+        "forearm_twist.r": 157,
+        "hand.l": 33,
+        "thumb1.l": 15,
+        "hand.r": 33,
+        "thumb1.r": 15,
+        "root.x": 8
+      },
+      "modifiers": [
+        {
+          "name": "rig",
+          "type": "ARMATURE",
+          "object": "BlenderChan Rig_rig"
+        },
+        {
+          "name": "Mask",
+          "type": "MASK",
+          "object": null
+        },
+        {
+          "name": "Subdivision",
+          "type": "SUBSURF",
+          "object": null
+        }
+      ]
+    },
+    {
+      "name": "Boots_ThighHighs",
+      "vertices": 683,
+      "polygons": 658,
+      "shapeKeys": [
+        "Basis",
+        "Key 1"
+      ],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {
+        "leg_twist.l": 278,
+        "leg_stretch.l": 295,
+        "Mask Boots": 635,
+        "thigh_twist.l": 115,
+        "root.x": 16,
+        "Butt_L": 14,
+        "thigh_twist.r": 14,
+        "thigh_stretch.l": 148,
+        "thigh_stretch.r": 12,
+        "foot.l": 424,
+        "Butt_R": 2
+      },
+      "modifiers": [
+        {
+          "name": "Mirror",
+          "type": "MIRROR",
+          "object": null
+        },
+        {
+          "name": "Armature",
+          "type": "ARMATURE",
+          "object": "BlenderChan Rig_rig"
+        },
+        {
+          "name": "Subdivision",
+          "type": "SUBSURF",
+          "object": null
+        }
+      ]
+    },
+    {
+      "name": "Camera_Parent",
+      "vertices": 32,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "Choker",
+      "vertices": 72,
+      "polygons": 48,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {
+        "neck.x": 72,
+        "spine_02.x": 72,
+        "shoulder.r": 34,
+        "shoulder.l": 34,
+        "head.x": 72
+      },
+      "modifiers": [
+        {
+          "name": "Solidify",
+          "type": "SOLIDIFY",
+          "object": null
+        },
+        {
+          "name": "Subdivision",
+          "type": "SUBSURF",
+          "object": null
+        },
+        {
+          "name": "Armature",
+          "type": "ARMATURE",
+          "object": "BlenderChan Rig_rig"
+        }
+      ]
+    },
+    {
+      "name": "Circle",
+      "vertices": 16,
+      "polygons": 1,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_arrow",
+      "vertices": 8,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_arrow_02",
+      "vertices": 8,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_arrow_03",
+      "vertices": 8,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_arrow_cross",
+      "vertices": 44,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_arrow_cross_solid",
+      "vertices": 98,
+      "polygons": 88,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_arrow_twist",
+      "vertices": 24,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_arrow_x_down",
+      "vertices": 8,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_arrow_x_up",
+      "vertices": 8,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_base_finger",
+      "vertices": 32,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_base_finger_end",
+      "vertices": 32,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_box",
+      "vertices": 8,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_box_head",
+      "vertices": 8,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_box_offset",
+      "vertices": 8,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_c_eye",
+      "vertices": 48,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_c_eye_offset",
+      "vertices": 40,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_c_eyelid_micro",
+      "vertices": 48,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_c_foot_ik_offset",
+      "vertices": 515,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_cheek_inflate",
+      "vertices": 32,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_circle_01",
+      "vertices": 32,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_circle_02",
+      "vertices": 32,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_circle_head",
+      "vertices": 32,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_circle_ik",
+      "vertices": 47,
+      "polygons": 11,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_circle_squashed",
+      "vertices": 32,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_ctrl_ik_solid_blue",
+      "vertices": 28,
+      "polygons": 24,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_ctrl_ik_solid_red",
+      "vertices": 28,
+      "polygons": 24,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_cube",
+      "vertices": 8,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_cube_02",
+      "vertices": 8,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_cube_03",
+      "vertices": 8,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_cube_solid",
+      "vertices": 8,
+      "polygons": 6,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_cube_solid_offset",
+      "vertices": 8,
+      "polygons": 6,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_curve",
+      "vertices": 16,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_eye_aim",
+      "vertices": 36,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_eye_aim_global",
+      "vertices": 44,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_eyelid",
+      "vertices": 32,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_eyelid2",
+      "vertices": 20,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_fist",
+      "vertices": 96,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_fk",
+      "vertices": 25,
+      "polygons": 17,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_fly",
+      "vertices": 40,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_foot.l",
+      "vertices": 8,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_foot.r",
+      "vertices": 8,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_foot_fk",
+      "vertices": 8,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_foot_roll",
+      "vertices": 56,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_half_circle",
+      "vertices": 17,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_hand",
+      "vertices": 8,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_jaw",
+      "vertices": 30,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_jaw_square",
+      "vertices": 24,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_plane_1",
+      "vertices": 8,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_plane_2",
+      "vertices": 4,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_plane_3",
+      "vertices": 4,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_plane_4",
+      "vertices": 4,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_plane_4_fill",
+      "vertices": 4,
+      "polygons": 1,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_plane_5",
+      "vertices": 4,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_pos",
+      "vertices": 32,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_pos_solid",
+      "vertices": 128,
+      "polygons": 64,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_pos_solid_eye_offset_blue",
+      "vertices": 128,
+      "polygons": 64,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_pos_solid_eye_offset_red",
+      "vertices": 128,
+      "polygons": 64,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_semi_sphere",
+      "vertices": 34,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_semi_sphere_inv",
+      "vertices": 34,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_shoulder.l",
+      "vertices": 4,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_shoulder.r",
+      "vertices": 4,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_arrow_twist_blue",
+      "vertices": 24,
+      "polygons": 22,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_arrow_twist_red",
+      "vertices": 24,
+      "polygons": 22,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_bar_01",
+      "vertices": 8,
+      "polygons": 2,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_bar_blue",
+      "vertices": 8,
+      "polygons": 2,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_bar_red",
+      "vertices": 8,
+      "polygons": 2,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_circle_01",
+      "vertices": 33,
+      "polygons": 32,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_circle_02",
+      "vertices": 33,
+      "polygons": 32,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_circle_02_blue",
+      "vertices": 66,
+      "polygons": 64,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_circle_02_green",
+      "vertices": 66,
+      "polygons": 64,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_circle_02_red",
+      "vertices": 66,
+      "polygons": 64,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_circle_ik_blue",
+      "vertices": 127,
+      "polygons": 58,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_circle_ik_red",
+      "vertices": 127,
+      "polygons": 58,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_circle_squashed_blue",
+      "vertices": 64,
+      "polygons": 60,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_circle_squashed_green",
+      "vertices": 64,
+      "polygons": 60,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_circle_squashed_red",
+      "vertices": 64,
+      "polygons": 60,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_eye_aim_blue",
+      "vertices": 144,
+      "polygons": 68,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_eye_aim_global",
+      "vertices": 128,
+      "polygons": 64,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_eye_aim_red",
+      "vertices": 144,
+      "polygons": 68,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_eye_blue",
+      "vertices": 128,
+      "polygons": 64,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_eye_red",
+      "vertices": 128,
+      "polygons": 64,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_eyebrow_blue",
+      "vertices": 18,
+      "polygons": 16,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_eyebrow_red",
+      "vertices": 18,
+      "polygons": 16,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_fk_blue",
+      "vertices": 54,
+      "polygons": 45,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_fk_red",
+      "vertices": 54,
+      "polygons": 45,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_plane_2",
+      "vertices": 8,
+      "polygons": 2,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_plane_2_blue",
+      "vertices": 8,
+      "polygons": 2,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_plane_2_red",
+      "vertices": 8,
+      "polygons": 2,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_plane_3",
+      "vertices": 4,
+      "polygons": 1,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_plane_3_blue",
+      "vertices": 8,
+      "polygons": 2,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_plane_3_red",
+      "vertices": 8,
+      "polygons": 2,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_plane_5_blue",
+      "vertices": 8,
+      "polygons": 2,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_plane_5_red",
+      "vertices": 8,
+      "polygons": 2,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_pupil_blue",
+      "vertices": 66,
+      "polygons": 64,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_pupil_red",
+      "vertices": 66,
+      "polygons": 64,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_torus_04_blue",
+      "vertices": 48,
+      "polygons": 46,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_torus_04_red",
+      "vertices": 48,
+      "polygons": 46,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_torus_blue",
+      "vertices": 98,
+      "polygons": 96,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_torus_green",
+      "vertices": 98,
+      "polygons": 96,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_torus_red",
+      "vertices": 98,
+      "polygons": 96,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_solid_triangle",
+      "vertices": 3,
+      "polygons": 1,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_sphere",
+      "vertices": 48,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_sphere_dir1",
+      "vertices": 96,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_sphere_dir2",
+      "vertices": 96,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_sphere_offset",
+      "vertices": 48,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_sphere_solid",
+      "vertices": 42,
+      "polygons": 80,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_sphere_solid_offset",
+      "vertices": 42,
+      "polygons": 80,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_spine",
+      "vertices": 16,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_square",
+      "vertices": 4,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_torus_01",
+      "vertices": 48,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_torus_02",
+      "vertices": 48,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_torus_03",
+      "vertices": 48,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_torus_04",
+      "vertices": 48,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_torus_04_rot",
+      "vertices": 48,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_torus_04_rot2",
+      "vertices": 48,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_torus_05",
+      "vertices": 48,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_torus_tip_01",
+      "vertices": 48,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_triangle",
+      "vertices": 3,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_triangle_02",
+      "vertices": 3,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_twist_shape",
+      "vertices": 4,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_user_c_arm_fk.l",
+      "vertices": 8,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_user_c_arm_fk.r",
+      "vertices": 8,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_user_c_arm_ik.r",
+      "vertices": 8,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_user_c_leg_fk.l",
+      "vertices": 8,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_user_c_leg_fk.r",
+      "vertices": 8,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_user_c_shoulder.l",
+      "vertices": 16,
+      "polygons": 1,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_user_c_shoulder.r",
+      "vertices": 16,
+      "polygons": 1,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_user_c_skull_01.x",
+      "vertices": 17,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_user_c_skull_02.x",
+      "vertices": 17,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_user_c_skull_03.x",
+      "vertices": 17,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_user_c_thigh_fk.l",
+      "vertices": 8,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_user_c_thigh_fk.r",
+      "vertices": 8,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_wavy_circle",
+      "vertices": 64,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_wire_eyebrow",
+      "vertices": 18,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "cs_yeux",
+      "vertices": 44,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "Cube.002",
+      "vertices": 8,
+      "polygons": 6,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": [
+        {
+          "name": "Subdivision",
+          "type": "SUBSURF",
+          "object": null
+        }
+      ]
+    },
+    {
+      "name": "Donut Bracelets",
+      "vertices": 528,
+      "polygons": 528,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {
+        "forearm_twist.l": 264,
+        "hand.l": 251,
+        "thumb1.l": 166,
+        "forearm_stretch.l": 177,
+        "c_index1_base.l": 29,
+        "c_ring1_base.l": 44,
+        "c_pinky1_base.l": 60,
+        "c_middle1_base.l": 1,
+        "forearm_twist.r": 264,
+        "hand.r": 251,
+        "thumb1.r": 166,
+        "forearm_stretch.r": 177,
+        "c_index1_base.r": 29,
+        "c_ring1_base.r": 44,
+        "c_pinky1_base.r": 60,
+        "c_middle1_base.r": 1
+      },
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE",
+          "object": "BlenderChan Rig_rig"
+        },
+        {
+          "name": "CorrectiveSmooth",
+          "type": "CORRECTIVE_SMOOTH",
+          "object": null
+        },
+        {
+          "name": "Subdivision",
+          "type": "SUBSURF",
+          "object": null
+        }
+      ]
+    },
+    {
+      "name": "Donut.001",
+      "vertices": 528,
+      "polygons": 528,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {
+        "leg_twist.l": 264,
+        "foot.l": 203,
+        "leg_stretch.l": 264,
+        "Mask Boots": 528,
+        "leg_twist.r": 264,
+        "foot.r": 203,
+        "leg_stretch.r": 264
+      },
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE",
+          "object": "BlenderChan Rig_rig"
+        },
+        {
+          "name": "CorrectiveSmooth",
+          "type": "CORRECTIVE_SMOOTH",
+          "object": null
+        },
+        {
+          "name": "Subdivision",
+          "type": "SUBSURF",
+          "object": null
+        }
+      ]
+    },
+    {
+      "name": "Eyebrows",
+      "vertices": 20,
+      "polygons": 8,
+      "shapeKeys": [
+        "Basis",
+        "Eyebrows Fierce"
+      ],
+      "shapeDrivers": [
+        {
+          "path": "key_blocks[\"Eyebrows Fierce\"].value",
+          "index": 0,
+          "expression": "location",
+          "variables": [
+            {
+              "name": "location",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "Controller Armature Character",
+                  "bone": "",
+                  "path": "pose.bones[\"Eyebrows Fierce\"].location[1]"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": [
+        {
+          "name": "Displace",
+          "type": "DISPLACE",
+          "object": null
+        },
+        {
+          "name": "Solidify",
+          "type": "SOLIDIFY",
+          "object": null
+        },
+        {
+          "name": "Subdivision - post",
+          "type": "SUBSURF",
+          "object": null
+        }
+      ]
+    },
+    {
+      "name": "Eyelashes",
+      "vertices": 60,
+      "polygons": 36,
+      "shapeKeys": [
+        "Basis",
+        "EyeTopL Closed",
+        "EyeTopR Closed",
+        "EyBotL Closed",
+        "EyBotR Closed",
+        "Eyes Shape"
+      ],
+      "shapeDrivers": [
+        {
+          "path": "key_blocks[\"EyeTopL Closed\"].value",
+          "index": 0,
+          "expression": "value",
+          "variables": [
+            {
+              "name": "value",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "Key",
+                  "bone": "",
+                  "path": "key_blocks[\"EyeTopL Closed\"].value"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "key_blocks[\"EyBotL Closed\"].value",
+          "index": 0,
+          "expression": "value",
+          "variables": [
+            {
+              "name": "value",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "Key",
+                  "bone": "",
+                  "path": "key_blocks[\"EyBotL Closed\"].value"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "key_blocks[\"EyeTopR Closed\"].value",
+          "index": 0,
+          "expression": "value",
+          "variables": [
+            {
+              "name": "value",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "Key",
+                  "bone": "",
+                  "path": "key_blocks[\"EyeTopR Closed\"].value"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "key_blocks[\"EyBotR Closed\"].value",
+          "index": 0,
+          "expression": "value",
+          "variables": [
+            {
+              "name": "value",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "Key",
+                  "bone": "",
+                  "path": "key_blocks[\"EyBotR Closed\"].value"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "key_blocks[\"Eyes Shape\"].value",
+          "index": 0,
+          "expression": "value",
+          "variables": [
+            {
+              "name": "value",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "Key",
+                  "bone": "",
+                  "path": "key_blocks[\"Eyes Shape\"].value"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": [
+        {
+          "name": "Displace",
+          "type": "DISPLACE",
+          "object": null
+        },
+        {
+          "name": "Subdivision - pre",
+          "type": "SUBSURF",
+          "object": null
+        },
+        {
+          "name": "Solidify",
+          "type": "SOLIDIFY",
+          "object": null
+        },
+        {
+          "name": "Subdivision - post",
+          "type": "SUBSURF",
+          "object": null
+        }
+      ]
+    },
+    {
+      "name": "Eyes_Rigged",
+      "vertices": 1928,
+      "polygons": 2048,
+      "shapeKeys": [
+        "Basis",
+        "Small",
+        "Smal_Overdrive",
+        "Narrow"
+      ],
+      "shapeDrivers": [
+        {
+          "path": "key_blocks[\"Smal_Overdrive\"].value",
+          "index": 0,
+          "expression": "location",
+          "variables": [
+            {
+              "name": "location",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "Controller Armature Character",
+                  "bone": "",
+                  "path": "pose.bones[\"Iris Small\"].location[1]"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "objectDrivers": [],
+      "weights": {
+        "Bone_Eye_L": 964,
+        "Mask": 964,
+        "Bone_Eye_R": 964
+      },
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE",
+          "object": "Eyes_Rig"
+        },
+        {
+          "name": "Subdivision",
+          "type": "SUBSURF",
+          "object": null
+        },
+        {
+          "name": "Mask",
+          "type": "MASK",
+          "object": null
+        }
+      ]
+    },
+    {
+      "name": "FreeLights_Parent",
+      "vertices": 32,
+      "polygons": 0,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": []
+    },
+    {
+      "name": "Glasses",
+      "vertices": 26,
+      "polygons": 12,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": [
+        {
+          "name": "Mirror",
+          "type": "MIRROR",
+          "object": null
+        },
+        {
+          "name": "Solidify",
+          "type": "SOLIDIFY",
+          "object": null
+        },
+        {
+          "name": "Bevel",
+          "type": "BEVEL",
+          "object": null
+        },
+        {
+          "name": "Subdivision",
+          "type": "SUBSURF",
+          "object": null
+        }
+      ]
+    },
+    {
+      "name": "Gloves",
+      "vertices": 574,
+      "polygons": 566,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {
+        "forearm_twist.l": 87,
+        "hand.l": 138,
+        "c_index1_base.l": 163,
+        "thumb1.l": 136,
+        "c_thumb2.l": 75,
+        "c_middle1_base.l": 140,
+        "index1.l": 71,
+        "c_thumb3.l": 43,
+        "forearm_stretch.l": 42,
+        "c_ring1_base.l": 164,
+        "c_index2.l": 46,
+        "c_index3.l": 34,
+        "middle1.l": 79,
+        "c_pinky1_base.l": 131,
+        "pinky1.l": 67,
+        "ring1.l": 76,
+        "c_middle2.l": 48,
+        "c_ring2.l": 45,
+        "c_middle3.l": 30,
+        "c_ring3.l": 33,
+        "c_pinky2.l": 37,
+        "c_pinky3.l": 35
+      },
+      "modifiers": [
+        {
+          "name": "Mirror",
+          "type": "MIRROR",
+          "object": null
+        },
+        {
+          "name": "Armature",
+          "type": "ARMATURE",
+          "object": "BlenderChan Rig_rig"
+        },
+        {
+          "name": "Solidify",
+          "type": "SOLIDIFY",
+          "object": null
+        },
+        {
+          "name": "Subdivision",
+          "type": "SUBSURF",
+          "object": null
+        }
+      ]
+    },
+    {
+      "name": "Hair Bun",
+      "vertices": 98,
+      "polygons": 96,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {
+        "Bun0": 97,
+        "Bun1": 91
+      },
+      "modifiers": [
+        {
+          "name": "rig",
+          "type": "ARMATURE",
+          "object": "Hair Rig"
+        },
+        {
+          "name": "Multires",
+          "type": "MULTIRES",
+          "object": null
+        }
+      ]
+    },
+    {
+      "name": "Hair Main",
+      "vertices": 1538,
+      "polygons": 1536,
+      "shapeKeys": [
+        "Basis",
+        "Side"
+      ],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": [
+        {
+          "name": "Multires",
+          "type": "MULTIRES",
+          "object": null
+        }
+      ]
+    },
+    {
+      "name": "Hair Rigged",
+      "vertices": 20864,
+      "polygons": 19872,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {
+        "Front C.001": 224,
+        "Root": 8754,
+        "Spike A.001": 336,
+        "Front C.002": 222,
+        "Front C.003": 224,
+        "Front C.004": 224,
+        "Front C.005": 192,
+        "Front D.001": 256,
+        "Front D.002": 227,
+        "Front D.003": 227,
+        "Front D.004": 225,
+        "Front D.005": 222,
+        "Front A.001": 205,
+        "Front A.002": 192,
+        "Front A.003": 206,
+        "Front A.004": 224,
+        "Front A.005": 209,
+        "Front B.001": 192,
+        "Front B.002": 188,
+        "Front B.003": 163,
+        "Front B.004": 215,
+        "Front B.005": 192,
+        "Front E.001": 224,
+        "Front E.002": 160,
+        "Front E.003": 156,
+        "Front E.004": 144,
+        "Front E.005": 172,
+        "Spike B.001": 302,
+        "Spike B.002": 289,
+        "Spike B.003": 288,
+        "Spike B.004": 256,
+        "Spike C.001": 288,
+        "Spike C.002": 264,
+        "Spike C.003": 288,
+        "Spike C.004": 225,
+        "Spike C.005": 224,
+        "Spike D.001": 384,
+        "Spike D.002": 320,
+        "Spike D.003": 288,
+        "Spike E.001": 320,
+        "Spike E.002": 271,
+        "Spike E.003": 258,
+        "Tail A.001": 384,
+        "Tail A.002": 256,
+        "Tail A.003": 242,
+        "Tail G.001": 450,
+        "Tail G.002": 298,
+        "Tail H.001": 448,
+        "Tail H.002": 305,
+        "Tail D.001": 325,
+        "Tail D.002": 291,
+        "Tail D.003": 256,
+        "Tail I.001": 448,
+        "Tail I.002": 284,
+        "Tail E.001": 384,
+        "Tail E.002": 224,
+        "Tail E.003": 224,
+        "Tail B.001": 352,
+        "Tail B.002": 291,
+        "Tail B.003": 242,
+        "Tail C.001": 384,
+        "Tail C.002": 245,
+        "Tail C.003": 230,
+        "Tail F.001": 442,
+        "Tail F.002": 320,
+        "Side C.001 L": 256,
+        "Side C.002 L": 210,
+        "Side C.003 L": 192,
+        "Side C.004 L": 224,
+        "Side C.005 L": 224,
+        "Side B.001 L": 261,
+        "Side B.002 L": 230,
+        "Side B.003 L": 252,
+        "Side B.004 L": 210,
+        "Side B.005 L": 192,
+        "Side D.001 L": 242,
+        "Side D.002 L": 192,
+        "Side D.003 L": 224,
+        "Side D.004 L": 224,
+        "Side D.005 L": 224,
+        "Side E.002 L": 352,
+        "Side E.003 L": 224,
+        "Side E.004 L": 256,
+        "Side E.005 L": 256,
+        "Side E.006 L": 256,
+        "Side E.007 L": 197,
+        "Side F.002 L": 352,
+        "Side F.003 L": 230,
+        "Side F.004 L": 256,
+        "Side F.005 L": 288,
+        "Side F.006 L": 236,
+        "Side F.007 L": 192,
+        "Side A.001 L": 199,
+        "Side A.002 L": 192,
+        "Side A.003 L": 192,
+        "Side A.004 L": 224,
+        "Side A.005 L": 210,
+        "Side C.001 R": 256,
+        "Side C.002 R": 210,
+        "Side C.003 R": 192,
+        "Side C.004 R": 224,
+        "Side C.005 R": 224,
+        "Side B.001 R": 261,
+        "Side B.002 R": 230,
+        "Side B.003 R": 252,
+        "Side B.004 R": 210,
+        "Side B.005 R": 192,
+        "Side D.001 R": 242,
+        "Side D.002 R": 192,
+        "Side D.003 R": 224,
+        "Side D.004 R": 224,
+        "Side D.005 R": 224,
+        "Side E.002 R": 352,
+        "Side E.003 R": 224,
+        "Side E.004 R": 256,
+        "Side E.005 R": 256,
+        "Side E.006 R": 256,
+        "Side E.007 R": 197,
+        "Side F.002 R": 352,
+        "Side F.003 R": 230,
+        "Side F.004 R": 256,
+        "Side F.005 R": 288,
+        "Side F.006 R": 236,
+        "Side F.007 R": 192,
+        "Side A.001 R": 199,
+        "Side A.002 R": 192,
+        "Side A.003 R": 192,
+        "Side A.004 R": 224,
+        "Side A.005 R": 210,
+        "Spike A.002": 332,
+        "Spike A.003": 265,
+        "Spike A.004": 231
+      },
+      "modifiers": [
+        {
+          "name": "rig",
+          "type": "ARMATURE",
+          "object": "Hair Rig"
+        },
+        {
+          "name": "CorrectiveSmooth",
+          "type": "CORRECTIVE_SMOOTH",
+          "object": null
+        },
+        {
+          "name": "Subdivision",
+          "type": "SUBSURF",
+          "object": null
+        },
+        {
+          "name": "GeometryNodes",
+          "type": "NODES",
+          "object": null
+        }
+      ]
+    },
+    {
+      "name": "Head Tie",
+      "vertices": 16,
+      "polygons": 7,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": [
+        {
+          "name": "Mirror",
+          "type": "MIRROR",
+          "object": null
+        },
+        {
+          "name": "Solidify",
+          "type": "SOLIDIFY",
+          "object": null
+        },
+        {
+          "name": "Subdivision",
+          "type": "SUBSURF",
+          "object": null
+        }
+      ]
+    },
+    {
+      "name": "Leotard Reddit-Safe",
+      "vertices": 669,
+      "polygons": 636,
+      "shapeKeys": [
+        "Basis",
+        "Key 1"
+      ],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {
+        "root.x": 503,
+        "spine_01.x": 499,
+        "thigh_twist.l": 160,
+        "spine_02.x": 406,
+        "Butt_L": 77,
+        "Boob_L": 115,
+        "shoulder.l": 178,
+        "c_arm_twist_offset.l": 113,
+        "Boob_R": 115,
+        "arm_stretch.l": 75,
+        "thigh_twist.r": 160,
+        "thigh_stretch.l": 71,
+        "Butt_R": 83,
+        "thigh_stretch.r": 71,
+        "shoulder.r": 178,
+        "neck.x": 70,
+        "head.x": 16,
+        "c_arm_twist_offset.r": 112,
+        "arm_stretch.r": 75
+      },
+      "modifiers": [
+        {
+          "name": "Mirror",
+          "type": "MIRROR",
+          "object": null
+        },
+        {
+          "name": "Armature",
+          "type": "ARMATURE",
+          "object": "BlenderChan Rig_rig"
+        },
+        {
+          "name": "Solidify",
+          "type": "SOLIDIFY",
+          "object": null
+        },
+        {
+          "name": "Subdivision - post",
+          "type": "SUBSURF",
+          "object": null
+        }
+      ]
+    },
+    {
+      "name": "Mouth_GameReady",
+      "vertices": 816,
+      "polygons": 702,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {
+        "Teeth_Top": 324,
+        "Teeth_Bot": 324,
+        "Tongue": 166,
+        "Tongue.002": 164,
+        "Tongue.001": 145
+      },
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE",
+          "object": "Mouth_GameReady_Rig"
+        },
+        {
+          "name": "Subdivision.001",
+          "type": "SUBSURF",
+          "object": null
+        }
+      ]
+    },
+    {
+      "name": "Ribbons",
+      "vertices": 1112,
+      "polygons": 1110,
+      "shapeKeys": [
+        "Basis",
+        "Key 1"
+      ],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {
+        "root.x": 1112,
+        "spine_01.x": 1112,
+        "spine_02.x": 1068
+      },
+      "modifiers": [
+        {
+          "name": "Mirror",
+          "type": "MIRROR",
+          "object": null
+        },
+        {
+          "name": "Armature",
+          "type": "ARMATURE",
+          "object": "BlenderChan Rig_rig"
+        }
+      ]
+    },
+    {
+      "name": "Shoulder Default Cubes",
+      "vertices": 20,
+      "polygons": 18,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {
+        "shoulder.l": 20
+      },
+      "modifiers": [
+        {
+          "name": "Mirror",
+          "type": "MIRROR",
+          "object": null
+        },
+        {
+          "name": "Bevel",
+          "type": "BEVEL",
+          "object": null
+        },
+        {
+          "name": "Armature",
+          "type": "ARMATURE",
+          "object": "BlenderChan Rig_rig"
+        }
+      ]
+    },
+    {
+      "name": "Skirt",
+      "vertices": 298,
+      "polygons": 266,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {
+        "root.x": 248,
+        "spine_01.x": 136,
+        "spine_02.x": 20,
+        "Butt_L": 80,
+        "Butt_R": 80,
+        "thigh_twist.l": 138,
+        "thigh_twist.r": 139,
+        "thigh_stretch.l": 70,
+        "thigh_stretch.r": 73,
+        "Smooth Corrective": 232
+      },
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE",
+          "object": "BlenderChan Rig_rig"
+        },
+        {
+          "name": "CorrectiveSmooth",
+          "type": "CORRECTIVE_SMOOTH",
+          "object": null
+        },
+        {
+          "name": "Subdivision",
+          "type": "SUBSURF",
+          "object": null
+        },
+        {
+          "name": "Solidify",
+          "type": "SOLIDIFY",
+          "object": null
+        }
+      ]
+    },
+    {
+      "name": "Solid_Base",
+      "vertices": 15,
+      "polygons": 8,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": [
+        {
+          "name": "Mirror",
+          "type": "MIRROR",
+          "object": null
+        },
+        {
+          "name": "Displace",
+          "type": "DISPLACE",
+          "object": null
+        },
+        {
+          "name": "Solidify",
+          "type": "SOLIDIFY",
+          "object": null
+        },
+        {
+          "name": "Subdivision - post",
+          "type": "SUBSURF",
+          "object": null
+        }
+      ]
+    },
+    {
+      "name": "Suzanne",
+      "vertices": 253,
+      "polygons": 228,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {},
+      "modifiers": [
+        {
+          "name": "Subdivision",
+          "type": "SUBSURF",
+          "object": null
+        }
+      ]
+    },
+    {
+      "name": "Tail",
+      "vertices": 1467,
+      "polygons": 1460,
+      "shapeKeys": [],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {
+        "bone0.000": 77,
+        "bone0.001": 108,
+        "bone0.002": 156,
+        "bone0.003": 186,
+        "bone0.004": 204,
+        "bone0.005": 211,
+        "bone0.006": 197,
+        "bone0.007": 180,
+        "bone0.008": 180,
+        "bone0.009": 192,
+        "bone0.010": 199,
+        "bone0.011": 215,
+        "bone0.012": 229,
+        "bone0.013": 172,
+        "bone0.018": 165,
+        "bone0.014": 159,
+        "bone0.017": 143,
+        "bone0.015": 116,
+        "bone0.016": 116
+      },
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE",
+          "object": "Tail Rig"
+        },
+        {
+          "name": "CorrectiveSmooth",
+          "type": "CORRECTIVE_SMOOTH",
+          "object": null
+        },
+        {
+          "name": "GeometryNodes",
+          "type": "NODES",
+          "object": null
+        }
+      ]
+    },
+    {
+      "name": "Tights",
+      "vertices": 528,
+      "polygons": 500,
+      "shapeKeys": [
+        "Basis",
+        "Anatomy"
+      ],
+      "shapeDrivers": [],
+      "objectDrivers": [],
+      "weights": {
+        "root.x": 375,
+        "spine_01.x": 127,
+        "Butt_L": 129,
+        "thigh_twist.l": 295,
+        "Butt_R": 129,
+        "thigh_twist.r": 295,
+        "thigh_stretch.l": 196,
+        "thigh_stretch.r": 196,
+        "spine_02.x": 7,
+        "leg_stretch.l": 16,
+        "leg_stretch.r": 16
+      },
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE",
+          "object": "BlenderChan Rig_rig"
+        },
+        {
+          "name": "Subdivision",
+          "type": "SUBSURF",
+          "object": null
+        },
+        {
+          "name": "Displace",
+          "type": "DISPLACE",
+          "object": null
+        }
+      ]
+    }
+  ],
+  "rigs": [
+    {
+      "name": "BlenderChan Rig_rig",
+      "bones": 339,
+      "skirtBones": [],
+      "drivers": [
+        {
+          "path": "pose.bones[\"forearm.l\"].constraints[\"rotFK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"forearm.r\"].constraints[\"rotFK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.r",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"hand.l\"].constraints[\"rotFK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"hand.l\"].constraints[\"scaleFK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"hand.r\"].constraints[\"scaleFK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.r",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"hand.r\"].constraints[\"rotFK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.r",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"arm.l\"].constraints[\"scaleFK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"forearm.l\"].constraints[\"locFK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"forearm.l\"].constraints[\"scaleFK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"arm.r\"].constraints[\"rotFK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.r",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"arm.r\"].constraints[\"scaleFK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.r",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"forearm.r\"].constraints[\"locFK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.r",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"forearm.r\"].constraints[\"scaleFK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.r",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"arm.l\"].constraints[\"rotFK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"hand.r\"].constraints[\"locIK\"].influence",
+          "index": 0,
+          "expression": "(var_ikfk)",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_autostretchr",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"auto_stretch\"]"
+                }
+              ]
+            },
+            {
+              "name": "var_ikfk",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.r",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"hand.l\"].constraints[\"locIK\"].influence",
+          "index": 0,
+          "expression": "(var_ikfk)",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_autostretchl",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"auto_stretch\"]"
+                }
+              ]
+            },
+            {
+              "name": "var_ikfk",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"forearm_ik.r\"].constraints[\"IK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_autostretchr",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"auto_stretch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"forearm_ik.l\"].constraints[\"IK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_autostretchl",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"auto_stretch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"arm_ik_nostr.r\"].scale",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"stretch_length\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"arm_ik_nostr.r\"].scale",
+          "index": 1,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"stretch_length\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"arm_ik_nostr.r\"].scale",
+          "index": 2,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"stretch_length\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_arm_fk.r\"].scale",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_hand_fk.r\"][\"stretch_length\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_arm_fk.r\"].scale",
+          "index": 1,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_hand_fk.r\"][\"stretch_length\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_arm_fk.r\"].scale",
+          "index": 2,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_hand_fk.r\"][\"stretch_length\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_arm_fk.l\"].scale",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_hand_fk.l\"][\"stretch_length\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_arm_fk.l\"].scale",
+          "index": 1,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_hand_fk.l\"][\"stretch_length\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_arm_fk.l\"].scale",
+          "index": 2,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_hand_fk.l\"][\"stretch_length\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"arm_ik_nostr.l\"].scale",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"stretch_length\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"arm_ik_nostr.l\"].scale",
+          "index": 1,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"stretch_length\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"arm_ik_nostr.l\"].scale",
+          "index": 2,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"stretch_length\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"foot.l\"].constraints[\"locIK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_leg.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"thigh.l\"].constraints[\"rotFK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_leg.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"thigh.l\"].constraints[\"scaleFK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_leg.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"leg.l\"].constraints[\"rotFK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_leg.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"leg.l\"].constraints[\"locFK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_leg.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"leg.l\"].constraints[\"scaleFK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_leg.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"foot.l\"].constraints[\"scaleFK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_leg.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"foot.l\"].constraints[\"rotFK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_leg.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"foot.r\"].constraints[\"locIK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_leg.r",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"thigh.r\"].constraints[\"rotFK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_leg.r",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"thigh.r\"].constraints[\"scaleFK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_leg.r",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"leg.r\"].constraints[\"rotFK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_leg.r",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"leg.r\"].constraints[\"locFK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_leg.r",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"leg.r\"].constraints[\"scaleFK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_leg.r",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"foot.r\"].constraints[\"scaleFK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_leg.r",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"foot.r\"].constraints[\"rotFK\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_leg.r",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"leg_ik.r\"].constraints[\"autostretch\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"auto_stretch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"leg_ik.l\"].constraints[\"autostretch\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"auto_stretch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"thigh_ik_nostr.r\"].scale",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"stretch_length\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"thigh_ik_nostr.r\"].scale",
+          "index": 1,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"stretch_length\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"thigh_ik_nostr.r\"].scale",
+          "index": 2,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"stretch_length\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"thigh_ik_nostr.l\"].scale",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"stretch_length\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"thigh_ik_nostr.l\"].scale",
+          "index": 1,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"stretch_length\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"thigh_ik_nostr.l\"].scale",
+          "index": 2,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"stretch_length\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_thigh_fk.l\"].scale",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_foot_fk.l\"][\"stretch_length\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_thigh_fk.l\"].scale",
+          "index": 1,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_foot_fk.l\"][\"stretch_length\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_thigh_fk.l\"].scale",
+          "index": 2,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_foot_fk.l\"][\"stretch_length\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_thigh_fk.r\"].scale",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_foot_fk.r\"][\"stretch_length\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_thigh_fk.r\"].scale",
+          "index": 1,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_foot_fk.r\"][\"stretch_length\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_thigh_fk.r\"].scale",
+          "index": 2,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_foot_fk.r\"][\"stretch_length\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"toes_01.l\"].constraints[\"fk_rot\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_leg.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"toes_01.l\"].constraints[\"fk_scale\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_leg.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"toes_01.r\"].constraints[\"fk_rot\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_leg.r",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"toes_01.r\"].constraints[\"fk_scale\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_leg.r",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"index_bend_all.l\"].rotation_euler",
+          "index": 0,
+          "expression": "-var - var_001 - (1-var_002)*2.5",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_index1_base.l\"][\"bend_all\"]"
+                }
+              ]
+            },
+            {
+              "name": "var_001",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_hand_fk.l\"][\"fingers_grasp\"]"
+                }
+              ]
+            },
+            {
+              "name": "var_002",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_index1.l\"].scale[0]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"middle_bend_all.l\"].rotation_euler",
+          "index": 0,
+          "expression": "-var - var_001 - (1-var_002)*2.5",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_middle1_base.l\"][\"bend_all\"]"
+                }
+              ]
+            },
+            {
+              "name": "var_001",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_hand_fk.l\"][\"fingers_grasp\"]"
+                }
+              ]
+            },
+            {
+              "name": "var_002",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_middle1.l\"].scale[0]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"ring_bend_all.l\"].rotation_euler",
+          "index": 0,
+          "expression": "-var - var_001 - (1-var_002)*2.5",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_ring1_base.l\"][\"bend_all\"]"
+                }
+              ]
+            },
+            {
+              "name": "var_001",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_hand_fk.l\"][\"fingers_grasp\"]"
+                }
+              ]
+            },
+            {
+              "name": "var_002",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_ring1.l\"].scale[0]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"pinky_bend_all.l\"].rotation_euler",
+          "index": 0,
+          "expression": "-var - var_001 - (1-var_002)*2.5",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_pinky1_base.l\"][\"bend_all\"]"
+                }
+              ]
+            },
+            {
+              "name": "var_001",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_hand_fk.l\"][\"fingers_grasp\"]"
+                }
+              ]
+            },
+            {
+              "name": "var_002",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_pinky1.l\"].scale[0]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"thumb_bend_all.l\"].rotation_euler",
+          "index": 0,
+          "expression": "-var - var_001 - (1-var_002)*2.5",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_thumb1_base.l\"][\"bend_all\"]"
+                }
+              ]
+            },
+            {
+              "name": "var_001",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_hand_fk.l\"][\"fingers_grasp\"]"
+                }
+              ]
+            },
+            {
+              "name": "var_002",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_thumb1.l\"].scale[0]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"thumb_bend_all.r\"].rotation_euler",
+          "index": 0,
+          "expression": "-var - var_001 - (1-var_002)*2.5",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_thumb1_base.r\"][\"bend_all\"]"
+                }
+              ]
+            },
+            {
+              "name": "var_001",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_hand_fk.r\"][\"fingers_grasp\"]"
+                }
+              ]
+            },
+            {
+              "name": "var_002",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_thumb1.r\"].scale[0]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"index_bend_all.r\"].rotation_euler",
+          "index": 0,
+          "expression": "-var - var_001 - (1-var_002)*2.5",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_index1_base.r\"][\"bend_all\"]"
+                }
+              ]
+            },
+            {
+              "name": "var_001",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_hand_fk.r\"][\"fingers_grasp\"]"
+                }
+              ]
+            },
+            {
+              "name": "var_002",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_index1.r\"].scale[0]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"middle_bend_all.r\"].rotation_euler",
+          "index": 0,
+          "expression": "-var - var_001 - (1-var_002)*2.5",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_middle1_base.r\"][\"bend_all\"]"
+                }
+              ]
+            },
+            {
+              "name": "var_001",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_hand_fk.r\"][\"fingers_grasp\"]"
+                }
+              ]
+            },
+            {
+              "name": "var_002",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_middle1.r\"].scale[0]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"ring_bend_all.r\"].rotation_euler",
+          "index": 0,
+          "expression": "-var - var_001 - (1-var_002)*2.5",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_ring1_base.r\"][\"bend_all\"]"
+                }
+              ]
+            },
+            {
+              "name": "var_001",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_hand_fk.r\"][\"fingers_grasp\"]"
+                }
+              ]
+            },
+            {
+              "name": "var_002",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_ring1.r\"].scale[0]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"pinky_bend_all.r\"].rotation_euler",
+          "index": 0,
+          "expression": "-var - var_001 - (1-var_002)*2.5",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_pinky1_base.r\"][\"bend_all\"]"
+                }
+              ]
+            },
+            {
+              "name": "var_001",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_hand_fk.r\"][\"fingers_grasp\"]"
+                }
+              ]
+            },
+            {
+              "name": "var_002",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_pinky1.r\"].scale[0]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_stretch_arm.l\"].constraints[\"Copy Location\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_stretch_arm.l\"][\"elbow_pin\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_stretch_arm.r\"].constraints[\"Copy Location\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_stretch_arm.r\"][\"elbow_pin\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_stretch_leg.l\"].constraints[\"Copy Location\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_stretch_leg.l\"][\"leg_pin\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_stretch_leg.r\"].constraints[\"Copy Location\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_stretch_leg.r\"][\"leg_pin\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"foot_pole.l\"].location",
+          "index": 1,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_foot_ik.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"fix_roll\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"foot_pole.r\"].location",
+          "index": 1,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_foot_ik.r",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"fix_roll\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"head_scale_fix.x\"].constraints[\"Child Of\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_head.x\"][\"head_free\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"leg_ik_nostr.l\"].constraints[\"IK\"].pole_angle",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_thigh_ik.l\"].rotation_euler[1]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"leg_ik_nostr.r\"].constraints[\"IK\"].pole_angle",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_thigh_ik.r\"].rotation_euler[1]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"forearm_ik_nostr.l\"].constraints[\"IK\"].pole_angle",
+          "index": 0,
+          "expression": "var+ 2.0",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_arm_ik.l\"].rotation_euler[1]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"forearm_ik_nostr.r\"].constraints[\"IK\"].pole_angle",
+          "index": 0,
+          "expression": "var+ 2.0",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_arm_ik.r\"].rotation_euler[1]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_leg_pole.l\"].constraints[\"Child Of_local\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_leg_pole.l\"].[\"pole_parent\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_leg_pole.l\"].constraints[\"Child Of_global\"].influence",
+          "index": 0,
+          "expression": "1 - var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_leg_pole.l\"].[\"pole_parent\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_leg_pole.r\"].constraints[\"Child Of_local\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_leg_pole.r\"].[\"pole_parent\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_leg_pole.r\"].constraints[\"Child Of_global\"].influence",
+          "index": 0,
+          "expression": "1 - var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_leg_pole.r\"].[\"pole_parent\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_arms_pole.l\"].constraints[\"Child Of_local\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_arms_pole.l\"].[\"pole_parent\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_arms_pole.l\"].constraints[\"Child Of_global\"].influence",
+          "index": 0,
+          "expression": "1 - var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_arms_pole.l\"].[\"pole_parent\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_arms_pole.r\"].constraints[\"Child Of_local\"].influence",
+          "index": 0,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_arms_pole.r\"].[\"pole_parent\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_arms_pole.r\"].constraints[\"Child Of_global\"].influence",
+          "index": 0,
+          "expression": "1 - var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_arms_pole.r\"].[\"pole_parent\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"head_scale_fix.x\"].constraints[\"Child Of_traj\"].influence",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_head.x\"].[\"head_free\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"thigh_twist.l\"].rotation_euler",
+          "index": 1,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_thigh_b.l\"][\"thigh_twist\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"thigh_twist.r\"].rotation_euler",
+          "index": 1,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_thigh_b.r\"][\"thigh_twist\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"arm_twist_twk.r\"].rotation_euler",
+          "index": 1,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_shoulder.r\"][\"arm_twist\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"arm_twist_twk.l\"].rotation_euler",
+          "index": 1,
+          "expression": "var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_shoulder.l\"][\"arm_twist\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_hand_ik.l\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_hand_ik.l\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_hand_ik.l\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_hand_ik.r\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.r",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_hand_ik.r\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.r",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_hand_ik.r\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.r",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_hand_fk.l\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_hand_fk.l\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_hand_fk.l\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_hand_fk.r\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.r",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_hand_fk.r\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.r",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_hand_fk.r\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.r",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_foot_fk.l\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_foot_fk.l\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_foot_fk.l\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_foot_fk.r\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_foot_fk.r\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_foot_fk.r\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_foot_ik.l\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_foot_ik.l\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_foot_ik.l\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_foot_ik.r\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_foot_ik.r\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_foot_ik.r\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_foot_roll_cursor.l\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_foot_roll_cursor.l\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_foot_roll_cursor.l\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_foot_01.l\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_foot_01.l\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_foot_01.l\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_toes_ik.l\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_toes_ik.l\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_toes_ik.l\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_foot_roll_cursor.r\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_foot_roll_cursor.r\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_foot_roll_cursor.r\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_foot_01.r\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_foot_01.r\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_foot_01.r\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_toes_ik.r\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_toes_ik.r\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_toes_ik.r\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_leg_pole.r\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_leg_pole.r\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_leg_pole.r\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_leg_pole.l\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_leg_pole.l\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_leg_pole.l\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_arms_pole.l\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_arms_pole.l\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_arms_pole.l\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_arms_pole.r\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.r",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_arms_pole.r\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.r",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_arms_pole.r\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.r",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_arm_fk.l\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_arm_fk.l\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_arm_fk.l\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_forearm_fk.l\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_forearm_fk.l\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_forearm_fk.l\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_forearm_fk.r\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.r",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_forearm_fk.r\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.r",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_forearm_fk.r\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.r",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_arm_fk.r\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.r",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_arm_fk.r\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.r",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_arm_fk.r\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.r",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_leg_fk.r\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_leg_fk.r\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_leg_fk.r\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_thigh_fk.r\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_thigh_fk.r\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_thigh_fk.r\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_leg_fk.l\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_leg_fk.l\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_leg_fk.l\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_thigh_fk.l\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_thigh_fk.l\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_thigh_fk.l\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_toes_fk.l\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_toes_fk.l\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_toes_fk.l\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_toes_fk.r\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_toes_fk.r\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_toes_fk.r\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "c_ikfk_arm.l",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_thigh_ik.l\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_thigh_ik.l\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_thigh_ik.l\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_foot_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_thigh_ik.r\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_thigh_ik.r\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_thigh_ik.r\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_foot_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_arm_ik.l\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_arm_ik.l\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_arm_ik.l\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_hand_ik.l\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_arm_ik.r\"].custom_shape_scale_xyz",
+          "index": 0,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_arm_ik.r\"].custom_shape_scale_xyz",
+          "index": 1,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "pose.bones[\"c_arm_ik.r\"].custom_shape_scale_xyz",
+          "index": 2,
+          "expression": "1-var",
+          "variables": [
+            {
+              "name": "var",
+              "type": "SINGLE_PROP",
+              "targets": [
+                {
+                  "id": "BlenderChan Rig_rig",
+                  "bone": "",
+                  "path": "pose.bones[\"c_hand_ik.r\"][\"ik_fk_switch\"]"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "skirtConstraints": []
+    },
+    {
+      "name": "Controller Armature Character",
+      "bones": 11,
+      "skirtBones": [],
+      "drivers": [],
+      "skirtConstraints": []
+    },
+    {
+      "name": "Eyes_Rig",
+      "bones": 6,
+      "skirtBones": [],
+      "drivers": [],
+      "skirtConstraints": []
+    },
+    {
+      "name": "Hair Rig",
+      "bones": 134,
+      "skirtBones": [],
+      "drivers": [],
+      "skirtConstraints": []
+    },
+    {
+      "name": "Mouth_GameReady_Rig",
+      "bones": 5,
+      "skirtBones": [],
+      "drivers": [],
+      "skirtConstraints": []
+    },
+    {
+      "name": "Tail Rig",
+      "bones": 19,
+      "skirtBones": [],
+      "drivers": [],
+      "skirtConstraints": []
+    }
+  ],
+  "actions": [
+    {
+      "name": "[Idle]",
+      "frameRange": [
+        0.0,
+        0.0
+      ],
+      "slots": [
+        "OBLegacy Slot"
+      ],
+      "curves": 2258
+    },
+    {
+      "name": "Cocky Stand",
+      "frameRange": [
+        0.0,
+        0.0
+      ],
+      "slots": [
+        "OBLegacy Slot"
+      ],
+      "curves": 2258
+    },
+    {
+      "name": "Dolly",
+      "frameRange": [
+        0.0,
+        0.0
+      ],
+      "slots": [
+        "XXLegacy Slot"
+      ],
+      "curves": 0
+    },
+    {
+      "name": "Idle Dress",
+      "frameRange": [
+        0.0,
+        1.0
+      ],
+      "slots": [
+        "OBLegacy Slot"
+      ],
+      "curves": 2301
+    },
+    {
+      "name": "Salute",
+      "frameRange": [
+        1.0,
+        1.0
+      ],
+      "slots": [
+        "OBLegacy Slot"
+      ],
+      "curves": 2258
+    },
+    {
+      "name": "Turntable",
+      "frameRange": [
+        1.0,
+        300.0
+      ],
+      "slots": [
+        "OBLegacy Slot"
+      ],
+      "curves": 1
+    },
+    {
+      "name": "V Stand",
+      "frameRange": [
+        1.0,
+        1.0
+      ],
+      "slots": [
+        "OBLegacy Slot"
+      ],
+      "curves": 2258
+    }
+  ],
+  "texts": [],
+  "notes": [
+    "Read only: did not run bundled scripts/install RigTools/pose or save source",
+    "Bone existence is not proof of seated garment acceptance; no target-body fitting performed"
+  ]
+}
