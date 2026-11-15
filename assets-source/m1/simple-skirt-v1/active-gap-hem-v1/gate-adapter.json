@@ -1,0 +1,29 @@
+{
+  "originalGatePath": "scripts/m1-assets/simple-skirt/gate-active-gap-v1.py",
+  "originalGateSha256": "23d7d8d0f645041ea5b36fd86bc2ba4468b587a47f307488486358871278dcf8",
+  "compiledGateSha256": "3c2856e9c6ae403b4d534b8ce90ffc55d4c06a607630e617626ba70cdacff4a1",
+  "changes": [
+    {
+      "from": "default='assets-source/m1/simple-skirt-v1/active-layer-admission-v1'",
+      "to": "default='assets-source/m1/simple-skirt-v1/active-gap-hem-v1'"
+    },
+    {
+      "from": "candidate=O/'m1-sixfold-skirt-active-gap-v1.glb'",
+      "to": "candidate=O/'m1-sixfold-skirt-active-gap-hem-v1.glb'"
+    },
+    {
+      "from": "oldRaw,oldDoc,oldRead=load(S/'layer-transition-v1/m1-sixfold-skirt-layer-transition-v1.glb')",
+      "to": "oldRaw,oldDoc,oldRead=load(S/'hem-return-v1/m1-sixfold-skirt-hem-return-v1.glb')"
+    },
+    {
+      "from": "O/'active-gap-v1.blend'",
+      "to": "O/'active-gap-hem-v1.blend'",
+      "count": 3
+    },
+    {
+      "from": "'Independent hem repair not combined; existing self1 remains recorded.'",
+      "to": "'Independent hem repair combined exactly; full self gate rerun, not inherited.'"
+    }
+  ],
+  "reason": "Compare exact attributes against hem source because only active30 source positions differ; full global material ratios therefore relative to that hem parent."
+}
