@@ -1,0 +1,14 @@
+diff --git a/prototype/src/motion.js b/prototype/src/motion.js
+index ba3d7f6..6462011 100644
+--- a/prototype/src/motion.js
++++ b/prototype/src/motion.js
+@@ -945,7 +945,8 @@ export function createMotion(
+       return;
+     }
+     fitSeatHands.lastProgress = sitProgress;
+-    if (leavingIdle || (sitProgress <= 0 && !cacheKey)) return;
++    // Isolated scope counterexample: retain the identical solver for walk/dance.
++    if ((leavingIdle && requested !== "walk" && requested !== "dance") || (sitProgress <= 0 && !cacheKey)) return;
+     const blend = smooth(clamp(sitProgress / 0.35, 0, 1));
+     const surfaces = profile.seatHandSurfaces?.(true) || [];
+     const activeHandSurface = surfaces.length ? handSurfaceWorkspace : null;
