@@ -1,0 +1,137 @@
+{
+  "sourceSha256": "02950240c98021c63ae78be5058d248709e7a12a4449782ecb03dd43663f9bc7",
+  "compiledTrialSha256": "084a63a12cc73ba0a0155d47185ae888b9fcf3eb196e9e52b16feeb14c5c629a",
+  "changes": [
+    {
+      "from": "A=S/'active-gap-hem-v1'",
+      "to": "A=S/'two-quad-thirds-v1'"
+    },
+    {
+      "from": "asset=A/'m1-sixfold-skirt-active-gap-hem-v1.glb'",
+      "to": "asset=A/'m1-sixfold-skirt-two-quad-thirds-v1.glb'"
+    },
+    {
+      "from": "'8e0887b54bf8849d789c4f91e85be0bd5a54c706d2e5343c0a4462639042f157'",
+      "to": "'02950240c98021c63ae78be5058d248709e7a12a4449782ecb03dd43663f9bc7'"
+    },
+    {
+      "from": "inputPath=A/'continuous-input-v1/capture.json.gz'",
+      "to": "inputPath=S/'active-gap-hem-v1/continuous-input-v1/capture.json.gz'"
+    },
+    {
+      "from": "'activeFaces':[260,2419]",
+      "to": "'activeFaces':[260,2439],'faceLineage':'../face-lineage.json'"
+    },
+    {
+      "from": "preparation={'sourceSha256'",
+      "to": "preparation={'diagnosticContinueAfterContactFailure':True,'sourceSha256'"
+    },
+    {
+      "from": "results=[];reason=None",
+      "to": "results=[];reason=None;firstFailure=None"
+    },
+    {
+      "from": "for i,frame in enumerate(frames):\n    scene.frame_set",
+      "to": "for i,frame in enumerate(frames):\n    reason=None\n    scene.frame_set"
+    },
+    {
+      "from": ";results.append(row)",
+      "to": ";row['exactColliderPairs']=pairs;row['exactSelfPairs']=selfPairs;results.append(row)"
+    },
+    {
+      "from": "    if reason:\n        (O/'rejected-shape.json.gz').write_bytes(gzip.compress(json.dumps({'reason':reason,'frame':row,'exactColliderPairs':pairs,'exactSelfPairs':selfPairs}).encode(),mtime=0));break",
+      "to": "    if reason:\n        if firstFailure is None:\n            firstFailure={'reason':reason,'frame':i+1,'simulationSeconds':i/30}\n            (O/'rejected-shape.json.gz').write_bytes(gzip.compress(json.dumps({'reason':reason,'frame':row,'exactColliderPairs':pairs,'exactSelfPairs':selfPairs}).encode(),mtime=0))\n        if reason!='actual-triangle-crossing':break"
+    },
+    {
+      "from": "result={'status':'rejected'if reason else'completed-author-curves-unreviewed','reason':reason,",
+      "to": "result={'status':'rejected'if firstFailure or reason else'completed-author-curves-unreviewed','reason':firstFailure['reason']if firstFailure else reason,'firstFailure':firstFailure,'terminationReason':'completed60-diagnostic-frames'if len(results)==60 else reason,"
+    },
+    {
+      "from": "O=A/'native-author-trial-v1'",
+      "to": "O=A/'native-single-layer-moving-v1'"
+    },
+    {
+      "from": "results=[];reason=None;firstFailure=None",
+      "to": "results=[];reason=None;firstFailure=None;firstMaterial=None;comparisons=[]"
+    },
+    {
+      "from": "    if reason:\n        if firstFailure is None:",
+      "to": "    if stretch.max()>1.25 and firstMaterial is None:\n        firstMaterial={'frame':i+1,'maxEdgeStretch':float(stretch.max())}\n    if reason:\n        if firstFailure is None:"
+    },
+    {
+      "from": "        if reason!='actual-triangle-crossing':break",
+      "to": "        if reason not in ('actual-triangle-crossing','material-edge-stretch'):break\n    if stretch.max()>2.0:reason='diagnostic-hard-edge2';break"
+    },
+    {
+      "from": "    lengths=np.linalg.norm",
+      "to": "    if mode=='moving' and i<18:\n        old=json.loads(gzip.decompress((A/'native-author-trial-v1'/('frame-%02d.json.gz'%(i+1))).read_bytes()))\n        oldP=np.array(old['positionsWorld']);equal=bool(np.array_equal(oldP,p));comparisons.append({'frame':i+1,'exact':equal,'maxAbsoluteDifference':float(np.max(np.abs(oldP-p)))})\n        (O/'first18-comparison.json').write_text(json.dumps(comparisons,indent=2)+'\\n',encoding='utf-8')\n        # Controlled physical setting differs; record actual old/new positions, do not assert equality.\n    lengths=np.linalg.norm"
+    },
+    {
+      "from": "'maxEdgeStretch':float(stretch.max()),",
+      "to": "'maxEdgeStretch':float(stretch.max()),'originalHemEdgeLengthMetres':float(np.linalg.norm(p[1239]-p[1240])),'originalHemEdgeRatio':float(np.linalg.norm(p[1239]-p[1240])/np.linalg.norm(points[1239]-points[1240])),"
+    },
+    {
+      "from": "'firstFailure':firstFailure,",
+      "to": "'firstFailure':firstFailure,'firstMaterialFailure':firstMaterial,'observationMode':mode,'originalAdmissionEdgeLimit':1.25,'diagnosticHardEdgeLimit':2.0,'first18Exact':all(c['exact'] for c in comparisons) if mode=='moving' else None,"
+    },
+    {
+      "from": "'completed60-diagnostic-frames'if len(results)==60 else reason",
+      "to": "'completed-observation-frames'if len(results)==len(frames) else reason"
+    },
+    {
+      "from": "'selfDistanceAuthoring':.005",
+      "to": "'selfDistanceAuthoring':.0025"
+    },
+    {
+      "from": "cc.self_distance_min=.005",
+      "to": "cc.self_distance_min=.0025"
+    },
+    {
+      "from": "'clothDistanceAuthoring':.002",
+      "to": "'clothDistanceAuthoring':.011"
+    },
+    {
+      "from": "cc.distance_min=.002",
+      "to": "cc.distance_min=.011"
+    },
+    {
+      "from": "scale=10.;cfg=",
+      "to": "mappingPath=A/'single-layer-author-v1/mapping.json';authorMap=json.loads(mappingPath.read_text());assert authorMap['sourceSha256']==hashlib.sha256(raw).hexdigest()\nauthorKeep=np.array(authorMap['authorKeepOldSim']);authorFaceIds=np.array(authorMap['authorFaceIndices']);oldToAuthor=np.full(len(points),-1,int);oldToAuthor[authorKeep]=np.arange(len(authorKeep));authorFaces=oldToAuthor[faces[authorFaceIds]];assert authorFaces.min()>=0\nassert np.array_equal(np.array(authorMap['renderToOldSim']),renderToSim)\ndef rebuildRender(q):\n    full=np.empty((len(points),3));full[authorKeep]=q\n    for rec in authorMap['innerMap']:\n        ids=np.array(rec['outerTriangleOldSim']);tri=full[ids];u=tri[1]-tri[0];un=np.linalg.norm(u);n=np.cross(u,tri[2]-tri[0]);nn=np.linalg.norm(n)\n        assert un>1e-9 and nn>2e-12,'Degenerate author mapping frame; hard stop'\n        u/=un;n/=nn;v=np.cross(n,u);full[rec['innerSim']]=np.array(rec['barycentric'])@tri+np.stack([u,v,n],axis=1)@np.array(rec['localOffsetUVNMetres'])\n    return full\nassert np.max(np.linalg.norm(rebuildRender(points[authorKeep])-points,axis=1))<1e-6\nscale=10.;cfg="
+    },
+    {
+      "from": "skirt=mesh('Actual_Source_Skirt_Offline_Cloth',points,faces)",
+      "to": "skirt=mesh('Author_Outer_Surface_Original_Render_Return_Rebuilt',points[authorKeep],authorFaces)"
+    },
+    {
+      "from": "uv[rf.ravel()]",
+      "to": "uv[rf[authorFaceIds].ravel()]"
+    },
+    {
+      "from": "animate(skirt,targets);",
+      "to": "animate(skirt,[q[authorKeep] for q in targets]);"
+    },
+    {
+      "from": "vg.add(fixed.tolist(),1.,'REPLACE')",
+      "to": "vg.add(oldToAuthor[fixed].tolist(),1.,'REPLACE')"
+    },
+    {
+      "from": "p=three(xyz.reshape(-1,3));ev.to_mesh_clear()",
+      "to": "p=rebuildRender(three(xyz.reshape(-1,3)));ev.to_mesh_clear()"
+    },
+    {
+      "from": "'renderVertices':len(source)",
+      "to": "'authorMappingSha256':hashlib.sha256(mappingPath.read_bytes()).hexdigest(),'authorVertices':len(authorKeep),'authorFaces':len(authorFaces),'originalRenderRetained':True,'physicalEquivalenceClaim':False,'renderVertices':len(source)"
+    }
+  ],
+  "baseline": "native-self025-object12-moving-v1",
+  "physicalParametersSameAsB": true,
+  "authorDOFChanged": true,
+  "originalRenderAssetUnchanged": true,
+  "finalFullRenderGatesUnchanged": true,
+  "mapping": "../single-layer-author-v1/mapping.json",
+  "mode": "moving",
+  "limits": [
+    "No full-body/action approval; authoring-only structure comparison.",
+    "No point collision projection; only local-frame return reconstruction."
+  ]
+}
