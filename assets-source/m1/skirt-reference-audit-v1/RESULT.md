@@ -27,3 +27,5 @@ Official primary transfer stalled and was cancelled; the official files.makehuma
 ## Boundary
 
 Only these two sources were examined. Neither is currently an established seated replacement. Blender-chan is the sole licensed editable reference retained for the authorized native pressure sample. No source fitting, controller changes, original-body hiding, new library, purchase or third-party contact occurred.
+
+The authorized single native pressure sample is now completed and frozen; see [native-pressure-v1/RESULT.md](native-pressure-v1/RESULT.md). It shows a continuous seated arc but material stretch/overlap and target compatibility are not passed. No source retuning follows.

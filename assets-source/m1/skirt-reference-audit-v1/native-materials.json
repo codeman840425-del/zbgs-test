@@ -1,0 +1,2150 @@
+[
+  {
+    "object": "Skirt",
+    "materials": [
+      {
+        "name": "Plastic Transparent",
+        "diffuse": [
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          1.0
+        ],
+        "renderMethod": "BLENDED",
+        "nodes": [
+          {
+            "name": "Principled BSDF",
+            "type": "BSDF_PRINCIPLED",
+            "inputs": {
+              "Metallic": 0.0,
+              "Roughness": 0.0727272778749466,
+              "IOR": 1.5,
+              "Normal": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Weight": 0.0,
+              "Diffuse Roughness": 0.0,
+              "Subsurface Weight": 0.0,
+              "Subsurface Radius": [
+                1.0,
+                0.20000000298023224,
+                0.10000000149011612
+              ],
+              "Subsurface Scale": 0.05000000074505806,
+              "Subsurface IOR": 1.399999976158142,
+              "Subsurface Anisotropy": 0.0,
+              "Specular IOR Level": 0.5,
+              "Specular Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Anisotropic": 0.0,
+              "Anisotropic Rotation": 0.0,
+              "Tangent": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Transmission Weight": 0.0,
+              "Coat Weight": 0.0,
+              "Coat Roughness": 0.029999999329447746,
+              "Coat IOR": 1.5,
+              "Coat Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Coat Normal": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Sheen Weight": 0.0,
+              "Sheen Roughness": 0.5,
+              "Sheen Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Emission Color": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Emission Strength": 0.0,
+              "Thin Film Thickness": 0.0,
+              "Thin Film IOR": 1.3300000429153442
+            }
+          },
+          {
+            "name": "Material Output",
+            "type": "OUTPUT_MATERIAL",
+            "inputs": {
+              "Displacement": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Thickness": 0.0
+            }
+          },
+          {
+            "name": "Fresnel",
+            "type": "FRESNEL",
+            "inputs": {
+              "IOR": 1.600000023841858,
+              "Normal": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "name": "Color Ramp",
+            "type": "VALTORGB",
+            "inputs": {}
+          },
+          {
+            "name": "Mix",
+            "type": "MIX",
+            "inputs": {
+              "Factor": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "A": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "B": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "name": "Fresnel.001",
+            "type": "FRESNEL",
+            "inputs": {
+              "IOR": 1.5
+            }
+          },
+          {
+            "name": "Geometry",
+            "type": "NEW_GEOMETRY",
+            "inputs": {}
+          },
+          {
+            "name": "Color Ramp.001",
+            "type": "VALTORGB",
+            "inputs": {}
+          },
+          {
+            "name": "Mapping.002",
+            "type": "MAPPING",
+            "inputs": {
+              "Location": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Rotation": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          },
+          {
+            "name": "Mix.002",
+            "type": "MIX",
+            "inputs": {
+              "Factor": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "A": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "B": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "name": "Mix.001",
+            "type": "MIX",
+            "inputs": {
+              "Factor": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "A": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "B": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "name": "Layer Weight",
+            "type": "LAYER_WEIGHT",
+            "inputs": {
+              "Blend": 0.6299999952316284,
+              "Normal": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "name": "Color Ramp.002",
+            "type": "VALTORGB",
+            "inputs": {}
+          },
+          {
+            "name": "Color Ramp.003",
+            "type": "VALTORGB",
+            "inputs": {}
+          }
+        ],
+        "links": [
+          {
+            "from": "Color Ramp.Color",
+            "to": "Principled BSDF.Alpha"
+          },
+          {
+            "from": "Fresnel.Fac",
+            "to": "Color Ramp.Fac"
+          },
+          {
+            "from": "Geometry.Tangent",
+            "to": "Mapping.002.Vector"
+          },
+          {
+            "from": "Fresnel.001.Fac",
+            "to": "Color Ramp.001.Fac"
+          },
+          {
+            "from": "Mapping.002.Vector",
+            "to": "Fresnel.001.Normal"
+          },
+          {
+            "from": "Color Ramp.001.Color",
+            "to": "Mix.002.B"
+          },
+          {
+            "from": "Mix.002.Result",
+            "to": "Mix.B"
+          },
+          {
+            "from": "Principled BSDF.BSDF",
+            "to": "Material Output.Surface"
+          },
+          {
+            "from": "Layer Weight.Facing",
+            "to": "Color Ramp.002.Fac"
+          },
+          {
+            "from": "Color Ramp.002.Color",
+            "to": "Mix.001.B"
+          },
+          {
+            "from": "Color Ramp.003.Color",
+            "to": "Mix.001.Factor"
+          },
+          {
+            "from": "Layer Weight.Fresnel",
+            "to": "Color Ramp.003.Fac"
+          },
+          {
+            "from": "Mix.Result",
+            "to": "Mix.001.A"
+          },
+          {
+            "from": "Mix.001.Result",
+            "to": "Principled BSDF.Base Color"
+          }
+        ]
+      },
+      {
+        "name": "Cloth Shiny",
+        "diffuse": [
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          1.0
+        ],
+        "renderMethod": "DITHERED",
+        "nodes": [
+          {
+            "name": "Principled BSDF",
+            "type": "BSDF_PRINCIPLED",
+            "inputs": {
+              "Metallic": 0.0,
+              "IOR": 1.5,
+              "Alpha": 1.0,
+              "Weight": 0.0,
+              "Diffuse Roughness": 0.0,
+              "Subsurface Weight": 0.0,
+              "Subsurface Radius": [
+                1.0,
+                0.20000000298023224,
+                0.10000000149011612
+              ],
+              "Subsurface Scale": 0.05000000074505806,
+              "Subsurface IOR": 1.399999976158142,
+              "Subsurface Anisotropy": 0.0,
+              "Specular IOR Level": 0.5,
+              "Specular Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Anisotropic": 0.0,
+              "Anisotropic Rotation": 0.0,
+              "Tangent": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Transmission Weight": 0.0,
+              "Coat Weight": 0.0,
+              "Coat Roughness": 0.029999999329447746,
+              "Coat IOR": 1.5,
+              "Coat Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Coat Normal": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Sheen Weight": 0.4727272391319275,
+              "Sheen Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Emission Color": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Emission Strength": 0.0,
+              "Thin Film Thickness": 0.0,
+              "Thin Film IOR": 1.3300000429153442
+            }
+          },
+          {
+            "name": "Material Output",
+            "type": "OUTPUT_MATERIAL",
+            "inputs": {
+              "Displacement": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Thickness": 0.0
+            }
+          },
+          {
+            "name": "Normal Map",
+            "type": "NORMAL_MAP",
+            "inputs": {
+              "Strength": 0.5
+            }
+          },
+          {
+            "name": "Mapping",
+            "type": "MAPPING",
+            "inputs": {
+              "Location": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Rotation": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Scale": [
+                2.0,
+                2.0,
+                2.0
+              ]
+            }
+          },
+          {
+            "name": "Texture Coordinate",
+            "type": "TEX_COORD",
+            "inputs": {}
+          },
+          {
+            "name": "Color Ramp",
+            "type": "VALTORGB",
+            "inputs": {}
+          },
+          {
+            "name": "Mix.001",
+            "type": "MIX",
+            "inputs": {
+              "Factor": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "A": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "B": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "name": "Layer Weight",
+            "type": "LAYER_WEIGHT",
+            "inputs": {
+              "Blend": 0.4399999976158142,
+              "Normal": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "name": "Color Ramp.001",
+            "type": "VALTORGB",
+            "inputs": {}
+          },
+          {
+            "name": "Image Texture.002",
+            "type": "TEX_IMAGE",
+            "inputs": {}
+          },
+          {
+            "name": "Image Texture",
+            "type": "TEX_IMAGE",
+            "inputs": {}
+          },
+          {
+            "name": "Color Ramp.002",
+            "type": "VALTORGB",
+            "inputs": {}
+          }
+        ],
+        "links": [
+          {
+            "from": "Normal Map.Normal",
+            "to": "Principled BSDF.Normal"
+          },
+          {
+            "from": "Texture Coordinate.UV",
+            "to": "Mapping.Vector"
+          },
+          {
+            "from": "Color Ramp.Color",
+            "to": "Principled BSDF.Roughness"
+          },
+          {
+            "from": "Color Ramp.Color",
+            "to": "Principled BSDF.Sheen Roughness"
+          },
+          {
+            "from": "Mix.001.Result",
+            "to": "Principled BSDF.Base Color"
+          },
+          {
+            "from": "Layer Weight.Facing",
+            "to": "Color Ramp.001.Fac"
+          },
+          {
+            "from": "Color Ramp.001.Color",
+            "to": "Mix.001.B"
+          },
+          {
+            "from": "Mapping.Vector",
+            "to": "Image Texture.002.Vector"
+          },
+          {
+            "from": "Image Texture.002.Color",
+            "to": "Normal Map.Color"
+          },
+          {
+            "from": "Mapping.Vector",
+            "to": "Image Texture.Vector"
+          },
+          {
+            "from": "Image Texture.Alpha",
+            "to": "Color Ramp.Fac"
+          },
+          {
+            "from": "Color Ramp.002.Color",
+            "to": "Mix.001.Factor"
+          },
+          {
+            "from": "Layer Weight.Fresnel",
+            "to": "Color Ramp.002.Fac"
+          },
+          {
+            "from": "Principled BSDF.BSDF",
+            "to": "Material Output.Surface"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "object": "Body Bottom",
+    "materials": [
+      {
+        "name": "Skin Vertex Color",
+        "diffuse": [
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          1.0
+        ],
+        "renderMethod": "DITHERED",
+        "nodes": [
+          {
+            "name": "Material Output",
+            "type": "OUTPUT_MATERIAL",
+            "inputs": {
+              "Displacement": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Thickness": 0.0
+            }
+          },
+          {
+            "name": "Principled BSDF",
+            "type": "BSDF_PRINCIPLED",
+            "inputs": {
+              "Metallic": 0.0,
+              "IOR": 1.4500000476837158,
+              "Alpha": 1.0,
+              "Weight": 0.0,
+              "Diffuse Roughness": 0.0,
+              "Subsurface Weight": 1.0,
+              "Subsurface Radius": [
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224
+              ],
+              "Subsurface Scale": 0.10000000149011612,
+              "Subsurface IOR": 1.399999976158142,
+              "Subsurface Anisotropy": 0.0,
+              "Specular IOR Level": 0.2434157133102417,
+              "Specular Tint": [
+                0.5470085740089417,
+                0.4110649824142456,
+                0.3529707193374634,
+                1.0
+              ],
+              "Anisotropic": 0.0,
+              "Anisotropic Rotation": 0.0,
+              "Tangent": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Transmission Weight": 0.0,
+              "Coat Weight": 0.0,
+              "Coat Roughness": 0.029999999329447746,
+              "Coat IOR": 1.5,
+              "Coat Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Coat Normal": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Sheen Weight": 0.0,
+              "Sheen Roughness": 0.5,
+              "Sheen Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Emission Color": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "Emission Strength": 1.0,
+              "Thin Film Thickness": 0.0,
+              "Thin Film IOR": 1.3300000429153442
+            }
+          },
+          {
+            "name": "Mix.005",
+            "type": "MIX",
+            "inputs": {
+              "Factor": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "A": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "B": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "name": "Mapping",
+            "type": "MAPPING",
+            "inputs": {
+              "Location": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Rotation": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Scale": [
+                40.0,
+                40.0,
+                40.0
+              ]
+            }
+          },
+          {
+            "name": "Texture Coordinate",
+            "type": "TEX_COORD",
+            "inputs": {}
+          },
+          {
+            "name": "Voronoi Texture",
+            "type": "TEX_VORONOI",
+            "inputs": {
+              "W": 0.0,
+              "Scale": 100.0,
+              "Detail": 1.7000000476837158,
+              "Roughness": 0.75,
+              "Lacunarity": 2.0,
+              "Smoothness": 1.0,
+              "Exponent": 0.5,
+              "Randomness": 1.0
+            }
+          },
+          {
+            "name": "Bump",
+            "type": "BUMP",
+            "inputs": {
+              "Strength": 0.10000000149011612,
+              "Distance": 0.009999999776482582,
+              "Filter Width": 1.0,
+              "Normal": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "name": "Ambient Occlusion.002",
+            "type": "AMBIENT_OCCLUSION",
+            "inputs": {
+              "Color": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Distance": 1.0,
+              "Normal": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "name": "ColorRamp.003",
+            "type": "VALTORGB",
+            "inputs": {}
+          },
+          {
+            "name": "Mix.004",
+            "type": "MIX",
+            "inputs": {
+              "Factor": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "A": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "B": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "name": "Color Ramp",
+            "type": "VALTORGB",
+            "inputs": {}
+          },
+          {
+            "name": "Image Texture.002",
+            "type": "TEX_IMAGE",
+            "inputs": {}
+          },
+          {
+            "name": "Mapping.002",
+            "type": "MAPPING",
+            "inputs": {
+              "Location": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Rotation": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Scale": [
+                5.0,
+                5.0,
+                5.0
+              ]
+            }
+          },
+          {
+            "name": "Texture Coordinate.002",
+            "type": "TEX_COORD",
+            "inputs": {}
+          },
+          {
+            "name": "Color Attribute",
+            "type": "VERTEX_COLOR",
+            "inputs": {}
+          },
+          {
+            "name": "Color Ramp.001",
+            "type": "VALTORGB",
+            "inputs": {}
+          },
+          {
+            "name": "Mix.007",
+            "type": "MIX",
+            "inputs": {
+              "Factor": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "A": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "B": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          }
+        ],
+        "links": [
+          {
+            "from": "Mapping.Vector",
+            "to": "Voronoi Texture.Vector"
+          },
+          {
+            "from": "Bump.Normal",
+            "to": "Principled BSDF.Normal"
+          },
+          {
+            "from": "Texture Coordinate.UV",
+            "to": "Mapping.Vector"
+          },
+          {
+            "from": "Voronoi Texture.Distance",
+            "to": "Bump.Height"
+          },
+          {
+            "from": "Mix.005.Result",
+            "to": "Principled BSDF.Roughness"
+          },
+          {
+            "from": "Ambient Occlusion.002.Color",
+            "to": "ColorRamp.003.Fac"
+          },
+          {
+            "from": "ColorRamp.003.Color",
+            "to": "Mix.004.Factor"
+          },
+          {
+            "from": "Image Texture.002.Color",
+            "to": "Color Ramp.Fac"
+          },
+          {
+            "from": "Mapping.002.Vector",
+            "to": "Image Texture.002.Vector"
+          },
+          {
+            "from": "Texture Coordinate.002.UV",
+            "to": "Mapping.002.Vector"
+          },
+          {
+            "from": "Color Ramp.Color",
+            "to": "Mix.005.A"
+          },
+          {
+            "from": "Color Attribute.Color",
+            "to": "Color Ramp.001.Fac"
+          },
+          {
+            "from": "Color Ramp.001.Color",
+            "to": "Mix.007.Factor"
+          },
+          {
+            "from": "Mix.007.Result",
+            "to": "Principled BSDF.Base Color"
+          },
+          {
+            "from": "Principled BSDF.BSDF",
+            "to": "Material Output.Surface"
+          },
+          {
+            "from": "Color Attribute.Color",
+            "to": "Mix.007.B"
+          },
+          {
+            "from": "Mix.004.Result",
+            "to": "Mix.007.A"
+          }
+        ]
+      },
+      {
+        "name": "Nails",
+        "diffuse": [
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          1.0
+        ],
+        "renderMethod": "DITHERED",
+        "nodes": [
+          {
+            "name": "Material Output",
+            "type": "OUTPUT_MATERIAL",
+            "inputs": {
+              "Displacement": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Thickness": 0.0
+            }
+          },
+          {
+            "name": "Principled BSDF",
+            "type": "BSDF_PRINCIPLED",
+            "inputs": {
+              "Metallic": 0.0,
+              "Roughness": 0.2352941334247589,
+              "IOR": 1.4500000476837158,
+              "Alpha": 1.0,
+              "Normal": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Weight": 0.0,
+              "Diffuse Roughness": 0.0,
+              "Subsurface Weight": 1.0,
+              "Subsurface Radius": [
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224
+              ],
+              "Subsurface Scale": 0.027272727340459824,
+              "Subsurface IOR": 1.399999976158142,
+              "Subsurface Anisotropy": 0.0,
+              "Specular IOR Level": 0.6470588445663452,
+              "Specular Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Anisotropic": 0.0,
+              "Anisotropic Rotation": 0.0,
+              "Tangent": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Transmission Weight": 0.0,
+              "Coat Weight": 0.25,
+              "Coat Roughness": 0.029999999329447746,
+              "Coat IOR": 1.5,
+              "Coat Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Coat Normal": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Sheen Weight": 0.0,
+              "Sheen Roughness": 0.5,
+              "Sheen Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Emission Color": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "Emission Strength": 1.0,
+              "Thin Film Thickness": 0.0,
+              "Thin Film IOR": 1.3300000429153442
+            }
+          },
+          {
+            "name": "Ambient Occlusion.003",
+            "type": "AMBIENT_OCCLUSION",
+            "inputs": {
+              "Color": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Distance": 1.0,
+              "Normal": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "name": "ColorRamp.004",
+            "type": "VALTORGB",
+            "inputs": {}
+          },
+          {
+            "name": "Mix.005",
+            "type": "MIX",
+            "inputs": {
+              "Factor": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "A": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "B": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          }
+        ],
+        "links": [
+          {
+            "from": "Principled BSDF.BSDF",
+            "to": "Material Output.Surface"
+          },
+          {
+            "from": "Ambient Occlusion.003.Color",
+            "to": "ColorRamp.004.Fac"
+          },
+          {
+            "from": "ColorRamp.004.Color",
+            "to": "Mix.005.Factor"
+          },
+          {
+            "from": "Mix.005.Result",
+            "to": "Principled BSDF.Base Color"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "object": "Body Top",
+    "materials": [
+      {
+        "name": "Skin Vertex Color",
+        "diffuse": [
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          1.0
+        ],
+        "renderMethod": "DITHERED",
+        "nodes": [
+          {
+            "name": "Material Output",
+            "type": "OUTPUT_MATERIAL",
+            "inputs": {
+              "Displacement": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Thickness": 0.0
+            }
+          },
+          {
+            "name": "Principled BSDF",
+            "type": "BSDF_PRINCIPLED",
+            "inputs": {
+              "Metallic": 0.0,
+              "IOR": 1.4500000476837158,
+              "Alpha": 1.0,
+              "Weight": 0.0,
+              "Diffuse Roughness": 0.0,
+              "Subsurface Weight": 1.0,
+              "Subsurface Radius": [
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224
+              ],
+              "Subsurface Scale": 0.10000000149011612,
+              "Subsurface IOR": 1.399999976158142,
+              "Subsurface Anisotropy": 0.0,
+              "Specular IOR Level": 0.2434157133102417,
+              "Specular Tint": [
+                0.5470085740089417,
+                0.4110649824142456,
+                0.3529707193374634,
+                1.0
+              ],
+              "Anisotropic": 0.0,
+              "Anisotropic Rotation": 0.0,
+              "Tangent": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Transmission Weight": 0.0,
+              "Coat Weight": 0.0,
+              "Coat Roughness": 0.029999999329447746,
+              "Coat IOR": 1.5,
+              "Coat Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Coat Normal": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Sheen Weight": 0.0,
+              "Sheen Roughness": 0.5,
+              "Sheen Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Emission Color": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "Emission Strength": 1.0,
+              "Thin Film Thickness": 0.0,
+              "Thin Film IOR": 1.3300000429153442
+            }
+          },
+          {
+            "name": "Mix.005",
+            "type": "MIX",
+            "inputs": {
+              "Factor": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "A": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "B": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "name": "Mapping",
+            "type": "MAPPING",
+            "inputs": {
+              "Location": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Rotation": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Scale": [
+                40.0,
+                40.0,
+                40.0
+              ]
+            }
+          },
+          {
+            "name": "Texture Coordinate",
+            "type": "TEX_COORD",
+            "inputs": {}
+          },
+          {
+            "name": "Voronoi Texture",
+            "type": "TEX_VORONOI",
+            "inputs": {
+              "W": 0.0,
+              "Scale": 100.0,
+              "Detail": 1.7000000476837158,
+              "Roughness": 0.75,
+              "Lacunarity": 2.0,
+              "Smoothness": 1.0,
+              "Exponent": 0.5,
+              "Randomness": 1.0
+            }
+          },
+          {
+            "name": "Bump",
+            "type": "BUMP",
+            "inputs": {
+              "Strength": 0.10000000149011612,
+              "Distance": 0.009999999776482582,
+              "Filter Width": 1.0,
+              "Normal": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "name": "Ambient Occlusion.002",
+            "type": "AMBIENT_OCCLUSION",
+            "inputs": {
+              "Color": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Distance": 1.0,
+              "Normal": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "name": "ColorRamp.003",
+            "type": "VALTORGB",
+            "inputs": {}
+          },
+          {
+            "name": "Mix.004",
+            "type": "MIX",
+            "inputs": {
+              "Factor": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "A": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "B": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "name": "Color Ramp",
+            "type": "VALTORGB",
+            "inputs": {}
+          },
+          {
+            "name": "Image Texture.002",
+            "type": "TEX_IMAGE",
+            "inputs": {}
+          },
+          {
+            "name": "Mapping.002",
+            "type": "MAPPING",
+            "inputs": {
+              "Location": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Rotation": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Scale": [
+                5.0,
+                5.0,
+                5.0
+              ]
+            }
+          },
+          {
+            "name": "Texture Coordinate.002",
+            "type": "TEX_COORD",
+            "inputs": {}
+          },
+          {
+            "name": "Color Attribute",
+            "type": "VERTEX_COLOR",
+            "inputs": {}
+          },
+          {
+            "name": "Color Ramp.001",
+            "type": "VALTORGB",
+            "inputs": {}
+          },
+          {
+            "name": "Mix.007",
+            "type": "MIX",
+            "inputs": {
+              "Factor": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "A": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "B": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          }
+        ],
+        "links": [
+          {
+            "from": "Mapping.Vector",
+            "to": "Voronoi Texture.Vector"
+          },
+          {
+            "from": "Bump.Normal",
+            "to": "Principled BSDF.Normal"
+          },
+          {
+            "from": "Texture Coordinate.UV",
+            "to": "Mapping.Vector"
+          },
+          {
+            "from": "Voronoi Texture.Distance",
+            "to": "Bump.Height"
+          },
+          {
+            "from": "Mix.005.Result",
+            "to": "Principled BSDF.Roughness"
+          },
+          {
+            "from": "Ambient Occlusion.002.Color",
+            "to": "ColorRamp.003.Fac"
+          },
+          {
+            "from": "ColorRamp.003.Color",
+            "to": "Mix.004.Factor"
+          },
+          {
+            "from": "Image Texture.002.Color",
+            "to": "Color Ramp.Fac"
+          },
+          {
+            "from": "Mapping.002.Vector",
+            "to": "Image Texture.002.Vector"
+          },
+          {
+            "from": "Texture Coordinate.002.UV",
+            "to": "Mapping.002.Vector"
+          },
+          {
+            "from": "Color Ramp.Color",
+            "to": "Mix.005.A"
+          },
+          {
+            "from": "Color Attribute.Color",
+            "to": "Color Ramp.001.Fac"
+          },
+          {
+            "from": "Color Ramp.001.Color",
+            "to": "Mix.007.Factor"
+          },
+          {
+            "from": "Mix.007.Result",
+            "to": "Principled BSDF.Base Color"
+          },
+          {
+            "from": "Principled BSDF.BSDF",
+            "to": "Material Output.Surface"
+          },
+          {
+            "from": "Color Attribute.Color",
+            "to": "Mix.007.B"
+          },
+          {
+            "from": "Mix.004.Result",
+            "to": "Mix.007.A"
+          }
+        ]
+      },
+      {
+        "name": "Nails",
+        "diffuse": [
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          1.0
+        ],
+        "renderMethod": "DITHERED",
+        "nodes": [
+          {
+            "name": "Material Output",
+            "type": "OUTPUT_MATERIAL",
+            "inputs": {
+              "Displacement": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Thickness": 0.0
+            }
+          },
+          {
+            "name": "Principled BSDF",
+            "type": "BSDF_PRINCIPLED",
+            "inputs": {
+              "Metallic": 0.0,
+              "Roughness": 0.2352941334247589,
+              "IOR": 1.4500000476837158,
+              "Alpha": 1.0,
+              "Normal": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Weight": 0.0,
+              "Diffuse Roughness": 0.0,
+              "Subsurface Weight": 1.0,
+              "Subsurface Radius": [
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224
+              ],
+              "Subsurface Scale": 0.027272727340459824,
+              "Subsurface IOR": 1.399999976158142,
+              "Subsurface Anisotropy": 0.0,
+              "Specular IOR Level": 0.6470588445663452,
+              "Specular Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Anisotropic": 0.0,
+              "Anisotropic Rotation": 0.0,
+              "Tangent": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Transmission Weight": 0.0,
+              "Coat Weight": 0.25,
+              "Coat Roughness": 0.029999999329447746,
+              "Coat IOR": 1.5,
+              "Coat Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Coat Normal": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Sheen Weight": 0.0,
+              "Sheen Roughness": 0.5,
+              "Sheen Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Emission Color": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "Emission Strength": 1.0,
+              "Thin Film Thickness": 0.0,
+              "Thin Film IOR": 1.3300000429153442
+            }
+          },
+          {
+            "name": "Ambient Occlusion.003",
+            "type": "AMBIENT_OCCLUSION",
+            "inputs": {
+              "Color": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Distance": 1.0,
+              "Normal": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "name": "ColorRamp.004",
+            "type": "VALTORGB",
+            "inputs": {}
+          },
+          {
+            "name": "Mix.005",
+            "type": "MIX",
+            "inputs": {
+              "Factor": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "A": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "B": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          }
+        ],
+        "links": [
+          {
+            "from": "Principled BSDF.BSDF",
+            "to": "Material Output.Surface"
+          },
+          {
+            "from": "Ambient Occlusion.003.Color",
+            "to": "ColorRamp.004.Fac"
+          },
+          {
+            "from": "ColorRamp.004.Color",
+            "to": "Mix.005.Factor"
+          },
+          {
+            "from": "Mix.005.Result",
+            "to": "Principled BSDF.Base Color"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "object": "Leotard Reddit-Safe",
+    "materials": [
+      {
+        "name": "Cloth Shiny",
+        "diffuse": [
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          1.0
+        ],
+        "renderMethod": "DITHERED",
+        "nodes": [
+          {
+            "name": "Principled BSDF",
+            "type": "BSDF_PRINCIPLED",
+            "inputs": {
+              "Metallic": 0.0,
+              "IOR": 1.5,
+              "Alpha": 1.0,
+              "Weight": 0.0,
+              "Diffuse Roughness": 0.0,
+              "Subsurface Weight": 0.0,
+              "Subsurface Radius": [
+                1.0,
+                0.20000000298023224,
+                0.10000000149011612
+              ],
+              "Subsurface Scale": 0.05000000074505806,
+              "Subsurface IOR": 1.399999976158142,
+              "Subsurface Anisotropy": 0.0,
+              "Specular IOR Level": 0.5,
+              "Specular Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Anisotropic": 0.0,
+              "Anisotropic Rotation": 0.0,
+              "Tangent": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Transmission Weight": 0.0,
+              "Coat Weight": 0.0,
+              "Coat Roughness": 0.029999999329447746,
+              "Coat IOR": 1.5,
+              "Coat Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Coat Normal": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Sheen Weight": 0.4727272391319275,
+              "Sheen Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Emission Color": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Emission Strength": 0.0,
+              "Thin Film Thickness": 0.0,
+              "Thin Film IOR": 1.3300000429153442
+            }
+          },
+          {
+            "name": "Material Output",
+            "type": "OUTPUT_MATERIAL",
+            "inputs": {
+              "Displacement": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Thickness": 0.0
+            }
+          },
+          {
+            "name": "Normal Map",
+            "type": "NORMAL_MAP",
+            "inputs": {
+              "Strength": 0.5
+            }
+          },
+          {
+            "name": "Mapping",
+            "type": "MAPPING",
+            "inputs": {
+              "Location": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Rotation": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Scale": [
+                2.0,
+                2.0,
+                2.0
+              ]
+            }
+          },
+          {
+            "name": "Texture Coordinate",
+            "type": "TEX_COORD",
+            "inputs": {}
+          },
+          {
+            "name": "Color Ramp",
+            "type": "VALTORGB",
+            "inputs": {}
+          },
+          {
+            "name": "Mix.001",
+            "type": "MIX",
+            "inputs": {
+              "Factor": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "A": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "B": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "name": "Layer Weight",
+            "type": "LAYER_WEIGHT",
+            "inputs": {
+              "Blend": 0.4399999976158142,
+              "Normal": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "name": "Color Ramp.001",
+            "type": "VALTORGB",
+            "inputs": {}
+          },
+          {
+            "name": "Image Texture.002",
+            "type": "TEX_IMAGE",
+            "inputs": {}
+          },
+          {
+            "name": "Image Texture",
+            "type": "TEX_IMAGE",
+            "inputs": {}
+          },
+          {
+            "name": "Color Ramp.002",
+            "type": "VALTORGB",
+            "inputs": {}
+          }
+        ],
+        "links": [
+          {
+            "from": "Normal Map.Normal",
+            "to": "Principled BSDF.Normal"
+          },
+          {
+            "from": "Texture Coordinate.UV",
+            "to": "Mapping.Vector"
+          },
+          {
+            "from": "Color Ramp.Color",
+            "to": "Principled BSDF.Roughness"
+          },
+          {
+            "from": "Color Ramp.Color",
+            "to": "Principled BSDF.Sheen Roughness"
+          },
+          {
+            "from": "Mix.001.Result",
+            "to": "Principled BSDF.Base Color"
+          },
+          {
+            "from": "Layer Weight.Facing",
+            "to": "Color Ramp.001.Fac"
+          },
+          {
+            "from": "Color Ramp.001.Color",
+            "to": "Mix.001.B"
+          },
+          {
+            "from": "Mapping.Vector",
+            "to": "Image Texture.002.Vector"
+          },
+          {
+            "from": "Image Texture.002.Color",
+            "to": "Normal Map.Color"
+          },
+          {
+            "from": "Mapping.Vector",
+            "to": "Image Texture.Vector"
+          },
+          {
+            "from": "Image Texture.Alpha",
+            "to": "Color Ramp.Fac"
+          },
+          {
+            "from": "Color Ramp.002.Color",
+            "to": "Mix.001.Factor"
+          },
+          {
+            "from": "Layer Weight.Fresnel",
+            "to": "Color Ramp.002.Fac"
+          },
+          {
+            "from": "Principled BSDF.BSDF",
+            "to": "Material Output.Surface"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "object": "Boots_ThighHighs",
+    "materials": [
+      {
+        "name": "Cloth Shiny",
+        "diffuse": [
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          1.0
+        ],
+        "renderMethod": "DITHERED",
+        "nodes": [
+          {
+            "name": "Principled BSDF",
+            "type": "BSDF_PRINCIPLED",
+            "inputs": {
+              "Metallic": 0.0,
+              "IOR": 1.5,
+              "Alpha": 1.0,
+              "Weight": 0.0,
+              "Diffuse Roughness": 0.0,
+              "Subsurface Weight": 0.0,
+              "Subsurface Radius": [
+                1.0,
+                0.20000000298023224,
+                0.10000000149011612
+              ],
+              "Subsurface Scale": 0.05000000074505806,
+              "Subsurface IOR": 1.399999976158142,
+              "Subsurface Anisotropy": 0.0,
+              "Specular IOR Level": 0.5,
+              "Specular Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Anisotropic": 0.0,
+              "Anisotropic Rotation": 0.0,
+              "Tangent": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Transmission Weight": 0.0,
+              "Coat Weight": 0.0,
+              "Coat Roughness": 0.029999999329447746,
+              "Coat IOR": 1.5,
+              "Coat Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Coat Normal": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Sheen Weight": 0.4727272391319275,
+              "Sheen Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Emission Color": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Emission Strength": 0.0,
+              "Thin Film Thickness": 0.0,
+              "Thin Film IOR": 1.3300000429153442
+            }
+          },
+          {
+            "name": "Material Output",
+            "type": "OUTPUT_MATERIAL",
+            "inputs": {
+              "Displacement": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Thickness": 0.0
+            }
+          },
+          {
+            "name": "Normal Map",
+            "type": "NORMAL_MAP",
+            "inputs": {
+              "Strength": 0.5
+            }
+          },
+          {
+            "name": "Mapping",
+            "type": "MAPPING",
+            "inputs": {
+              "Location": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Rotation": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Scale": [
+                2.0,
+                2.0,
+                2.0
+              ]
+            }
+          },
+          {
+            "name": "Texture Coordinate",
+            "type": "TEX_COORD",
+            "inputs": {}
+          },
+          {
+            "name": "Color Ramp",
+            "type": "VALTORGB",
+            "inputs": {}
+          },
+          {
+            "name": "Mix.001",
+            "type": "MIX",
+            "inputs": {
+              "Factor": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "A": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "B": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "name": "Layer Weight",
+            "type": "LAYER_WEIGHT",
+            "inputs": {
+              "Blend": 0.4399999976158142,
+              "Normal": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "name": "Color Ramp.001",
+            "type": "VALTORGB",
+            "inputs": {}
+          },
+          {
+            "name": "Image Texture.002",
+            "type": "TEX_IMAGE",
+            "inputs": {}
+          },
+          {
+            "name": "Image Texture",
+            "type": "TEX_IMAGE",
+            "inputs": {}
+          },
+          {
+            "name": "Color Ramp.002",
+            "type": "VALTORGB",
+            "inputs": {}
+          }
+        ],
+        "links": [
+          {
+            "from": "Normal Map.Normal",
+            "to": "Principled BSDF.Normal"
+          },
+          {
+            "from": "Texture Coordinate.UV",
+            "to": "Mapping.Vector"
+          },
+          {
+            "from": "Color Ramp.Color",
+            "to": "Principled BSDF.Roughness"
+          },
+          {
+            "from": "Color Ramp.Color",
+            "to": "Principled BSDF.Sheen Roughness"
+          },
+          {
+            "from": "Mix.001.Result",
+            "to": "Principled BSDF.Base Color"
+          },
+          {
+            "from": "Layer Weight.Facing",
+            "to": "Color Ramp.001.Fac"
+          },
+          {
+            "from": "Color Ramp.001.Color",
+            "to": "Mix.001.B"
+          },
+          {
+            "from": "Mapping.Vector",
+            "to": "Image Texture.002.Vector"
+          },
+          {
+            "from": "Image Texture.002.Color",
+            "to": "Normal Map.Color"
+          },
+          {
+            "from": "Mapping.Vector",
+            "to": "Image Texture.Vector"
+          },
+          {
+            "from": "Image Texture.Alpha",
+            "to": "Color Ramp.Fac"
+          },
+          {
+            "from": "Color Ramp.002.Color",
+            "to": "Mix.001.Factor"
+          },
+          {
+            "from": "Layer Weight.Fresnel",
+            "to": "Color Ramp.002.Fac"
+          },
+          {
+            "from": "Principled BSDF.BSDF",
+            "to": "Material Output.Surface"
+          }
+        ]
+      },
+      {
+        "name": "Boot_Sole",
+        "diffuse": [
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          1.0
+        ],
+        "renderMethod": "DITHERED",
+        "nodes": [
+          {
+            "name": "Material Output",
+            "type": "OUTPUT_MATERIAL",
+            "inputs": {
+              "Displacement": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Thickness": 0.0
+            }
+          },
+          {
+            "name": "Principled BSDF",
+            "type": "BSDF_PRINCIPLED",
+            "inputs": {
+              "Base Color": [
+                0.030407901853322983,
+                0.044853366911411285,
+                0.15515941381454468,
+                1.0
+              ],
+              "Metallic": 0.0,
+              "Roughness": 0.3978102207183838,
+              "IOR": 1.4500000476837158,
+              "Alpha": 1.0,
+              "Normal": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Weight": 0.0,
+              "Diffuse Roughness": 0.0,
+              "Subsurface Weight": 0.0,
+              "Subsurface Radius": [
+                1.0,
+                0.20000000298023224,
+                0.10000000149011612
+              ],
+              "Subsurface Scale": 0.05000000074505806,
+              "Subsurface IOR": 1.399999976158142,
+              "Subsurface Anisotropy": 0.0,
+              "Specular IOR Level": 0.5,
+              "Specular Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Anisotropic": 0.0,
+              "Anisotropic Rotation": 0.0,
+              "Tangent": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Transmission Weight": 0.0,
+              "Coat Weight": 0.0,
+              "Coat Roughness": 0.029999999329447746,
+              "Coat IOR": 1.5,
+              "Coat Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Coat Normal": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Sheen Weight": 0.20000000298023224,
+              "Sheen Roughness": 0.5,
+              "Sheen Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Emission Color": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "Emission Strength": 1.0,
+              "Thin Film Thickness": 0.0,
+              "Thin Film IOR": 1.3300000429153442
+            }
+          }
+        ],
+        "links": [
+          {
+            "from": "Principled BSDF.BSDF",
+            "to": "Material Output.Surface"
+          }
+        ]
+      }
+    ]
+  }
+]
