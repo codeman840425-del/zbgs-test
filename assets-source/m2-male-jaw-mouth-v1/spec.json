@@ -1,0 +1,41 @@
+{
+  "schema": "male-jaw-mouth-fixed-source-v1",
+  "id": "male-jaw-mouth-width104-v1",
+  "parameter": "mouthWidth",
+  "factors": [
+    1.04
+  ],
+  "supportedSamples": [
+    0,
+    0.04
+  ],
+  "rangeStatus": "Only unchanged jaw and one +4% endpoint; no negative or continuous range admission.",
+  "transitionGeodesicM": 0.008,
+  "sourceSpace": "Blender original Face mesh local, X lateral / Y forward / Z up, metres",
+  "mapping": "Basis-fixed per-vertex affine X scaling; all absolute shape keys transformed, deltaNew=A_i*deltaOld",
+  "toolchain": {
+    "blender": "4.5.9",
+    "vrmAddon": [
+      4,
+      10,
+      5
+    ]
+  },
+  "bodies": {
+    "male-jaw": {
+      "sourceBlend": "assets-source/m2-male-face-v1/generated/editable.blend",
+      "sourceBlendSha256": "78a08da05ef949e57e7f585fb8a831aa3e00ac1f0cd686a2a15c1a4a69e12242",
+      "sourceVRM": "assets-source/m2-male-face-v1/generated/avatar.vrm",
+      "sourceVRMSha256": "25ac8a8174110d7b0a6bb290ac8cab66ad6939ea522f80cdef62571d2ab24153",
+      "skinMaterial": "M00_000_00_Face_00_SKIN",
+      "mouthMaterial": "M00_000_00_FaceMouth_00_FACE",
+      "expectedShapeKeys": 55
+    }
+  },
+  "originalAncestorVRMSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+  "reuseAudit": {
+    "path": "evidence/m2-jaw-mouth-reuse-audit-v1/report.json",
+    "sha256": "e245292c493ba1c6acf9ac964f802513b1246abdec6e275b86d2dcdd9e7e3ffb"
+  },
+  "normalRule": "Recompute every absolute shape on full Face topology, substitute mouth-affected triangle neighborhood in jaw authored normals. Keep raw addon export. 28 normal-domain overlaps prohibit old original normals reuse."
+}
