@@ -1,6 +1,6 @@
 # 角色资源与行为约定（暂定）
 
-当前能力和验收状态统一见 [CAPABILITIES.md](CAPABILITIES.md)。以下包含现行实现与未来接口约定；注明未实现的条款不得冒充运行能力。
+当前能力和验收状态统一见 [CAPABILITIES.md](CAPABILITIES.md)。当前公开固定候选为1a0d06fc8ffe，4191；269仅在4192作对照。以下包含现行实现与未来接口约定；注明未实现的条款不得冒充运行能力。旧构建测试仍只证明各自范围。
 
 本轮固定 Phaser 3.90.0、Three.js 0.187.0、three-vrm 3.5.5。Rigby2D不参与。旧VRM1残缺身体仅作历史对照；M1A已接入完整VRM0 Base_Female、独立GLB装备和GLB动作。可编辑blend是从现存资源重建，不是丢失的原工程恢复。
 
@@ -33,11 +33,11 @@
 
 目前主/对照角色均使用同一CharacterStudio行为实现、各自motion闭包与livePresentation。foundationProfile每次structuredClone，基模/装备/握姿仍严格按SHA匹配；页面控件绑定在main，不由loadFoundationAvatar初始化UI。loadComparison待动作加载、motion.update(0)和附加骨重置完成后才把root加入场景，取消/失败释放未挂入场景的资源。
 
-男女及男男引用/骨架/表情/装备/销毁隔离已有固定构建证据，最新0df453另验延迟加载、取消、503和重试；具体范围见CAPABILITIES，不代表体型操作或任意共享资源已验。当前裤裙预加载、切换同步；麦克风/眼镜的异步请求按slot版本拒绝过期结果。最终外观保存恢复只完成已有本地QA合同，未实现产品存档UI。
+男女及男男引用/骨架/表情/装备/销毁隔离已有固定构建证据，0df453曾另验延迟加载、取消、503和重试；具体范围见CAPABILITIES，不代表体型操作或任意共享资源已验。当前裤裙预加载、切换同步；麦克风/眼镜的异步请求按slot版本拒绝过期结果。最终外观保存恢复只完成已有本地QA合同，1a已补男女关页回读和26个错误记录拒绝；它绑定完整presentationBuild，不能当成跨版本自动迁移，未实现产品存档UI。
 
 ## 面部能力分类
 
-现有女候选Face的ALL/BRW/EYE/MTH情绪形态用于表情，EYE_Close/L/R用于闭眼，MTH_A/I/U/E/O用于口型；EYE_Iris_Hide/Highlight_Hide/Extra等属于可见性/特殊表情。HA_Fung/Short等牙齿几何变体是可研究的外貌候选，尚未证明可作为完整长期捏脸参数；没有已验证的脸宽、鼻型或眼距编辑控制。56个形态键不等于56个容貌参数。逐项名录保存在foundation/rebuild-report.json，男性须另核映射和实际闭眼/张嘴。修改容貌后必须重新检查眼皮、眼球、嘴、牙齿、头颈接缝与肤色，不能直接沿用改脸前结果。
+现有女候选Face的ALL/BRW/EYE/MTH情绪形态用于表情，EYE_Close/L/R用于闭眼，MTH_A/I/U/E/O用于口型；EYE_Iris_Hide/Highlight_Hide/Extra等属于可见性/特殊表情。HA_Fung/Short等牙齿几何变体是可研究的外貌候选，尚未证明可作为完整长期捏脸参数；没有已验证的连续脸宽、鼻型或眼距编辑控制；已有女性jaw离散几何派生风险样件，其范围见RISK-01，不能当成通用捏脸参数库。56个形态键不等于56个容貌参数。逐项名录保存在foundation/rebuild-report.json，男性须另核映射和实际闭眼/张嘴。修改容貌后必须重新检查眼皮、眼球、嘴、牙齿、头颈接缝与肤色，不能直接沿用改脸前结果。
 
 2026-11-14扩展：旧角色继续作对照；新Base_Female为独立VRM0资格候选，已有重建blend和再导出文件，不是原.vroid恢复。正式阶段顺序见FOUNDATION-MILESTONES.md，普通电脑浏览器优先。不同VRM版本的本地动画基转换由motion-source.js处理；不因场景朝向已旋转而跳过轨道转换。
 
@@ -65,7 +65,7 @@
 4. 恢复上次源动画姿势，求新源姿势并缓存；对normalized骨骼施加骨盆/腿IK等修正。避免先清bind pose后被Mixer未改变轨道的缓存漏写。
 5. motion末尾执行坐姿手部拟合：先由seatHandSurfaces(true)同步humanoid与raw矩阵，按本步腿臀求装备面，再读取实际手部包络并修正手臂。这里只证明求解所用表面；最终手和衣物接触必须在整个子步结束后检查。
 6. avatar.update(dt)依次执行live.preUpdate、vrm.update、世界矩阵更新和live.postUpdate。直播层可叠加手臂/手指姿态，VRM把normalized同步到raw并推进附加动态；因此不能把手拟合之前的皮肤当成最终显示皮肤。
-7. updateGarment复用本子步已准备的装备面，随后渲染。该复用要求装备所依赖的骨骼/形变在后续直播及VRM更新中不改变；新装备必须实际核对这个条件，不能直接继承旧裙标志。当前269保留源坐姿腕目标与等价缓存；source/UV/index可缓存，每子步实际蒙皮与投影仍更新，不能把静态缓存当动态几何。
+7. updateGarment复用本子步已准备的装备面，随后渲染。该复用要求装备所依赖的骨骼/形变在后续直播及VRM更新中不改变；新装备必须实际核对这个条件，不能直接继承旧裙标志。当前1a沿用269的源坐姿腕目标与等价缓存；source/UV/index可缓存，每子步实际蒙皮与投影仍更新，不能把静态缓存当动态几何。
 
 官方接口已对照本机安装版本核查：[AnimationMixer的秒制update](https://threejs.org/docs/pages/AnimationMixer.html)、[VRMHumanoid默认同步normalized到raw](https://pixiv.github.io/three-vrm/docs/classes/three-vrm.VRMHumanoid.html)。依赖目录的实际3.5.5实现与此一致。
 
@@ -103,17 +103,17 @@ M1A完整穿衣/真实完整人体中性材质、raw/IK/pelvis/full可同刻对�
 
 基模派生另立bodyAssetId/assetVersion与精确SHA，装备fit明确兼容派生身份；不能绕过校验复用原hash。真实脸/局部体型风险样件在定型前做，结果分别归入CAPABILITIES RISK-01/02，不把表情morph或整体缩放计为外貌几何制作通过。
 
-## 前臂与手部配置的精确适配（公开269，历史证据分开）
+## 前臂与手部配置的精确适配（1a沿用269实现，证据按版本分开）
 
 foundation-profiles中的forearmCollision明确URL和文件SHA；加载同时验证实际人体SHA，不能把原女性包络套到jaw/waisthip派生。缓存由createMotion每实例创建，姿态相关系数每次实际投影更新。80轮廓轨及alpha采样仅是有限接触近似，不是完整连续碰撞。
 
-默认使用源坐姿腕目标，诊断`handTarget=lap`只供旧目标对照；`forearm=legacy`只供旧接触诊断。jaw/waisthip已从各自实际VRM独立生成专属前臂配置；49b3中的掌指失败是历史证据，不作为269结果。公开269a73423c97采用每体实际VRM生成的32语义关节局部包络，通过handSurfaceContact的URL/文件SHA/bodySHA加载；同版三体各100坐起采样、原女性直播叠层后259样本已有专项记录。每手80有限纵轨和端点不是实体/连续碰撞证明，腕边混权不能凭关节包络继承刚体保证，仍按最终实际皮肤与完整画面验收。男性目前seatHandRadii缺失，坐手接触层提前返回；成功加载男性包络不等于男性坐手接触已启用或验收。具体通过范围与未验项只以CAPABILITIES及其269报告为准。
+默认使用源坐姿腕目标，诊断`handTarget=lap`只供旧目标对照；`forearm=legacy`只供旧接触诊断。jaw/waisthip已从各自实际VRM独立生成专属前臂配置；49b3中的掌指失败是历史证据，不作为269结果。历史固定269a73423c97采用每体实际VRM生成的32语义关节局部包络，通过handSurfaceContact的URL/文件SHA/bodySHA加载；同版三体各100坐起采样、原女性直播叠层后259样本已有专项记录。每手80有限纵轨和端点不是实体/连续碰撞证明，腕边混权不能凭关节包络继承刚体保证，仍按最终实际皮肤与完整画面验收。男性目前seatHandRadii缺失，坐手接触层提前返回；成功加载男性包络不等于男性坐手接触已启用或验收。具体通过范围与未验项只以CAPABILITIES及其269报告为准。
 
 ## 可选服装材质配方（abdb候选）
 
 材质配方是严格固定身体/服装/fit/实现SHA的数据，当前只允许男短裤一件候选；默认保持原材质，选择与恢复经同一装备API执行。它不修改网格、权重或原alpha，不视为裤口/裤裆几何修复。当前本地v2角色记录尚不保存配方，因此不能宣称这种选择已支持关闭页面恢复。用户材质方向未确认前不改变默认、不批量扩用。
 
-## 镜腿局部形态适配（13f集成，公开入口尚269）
+## 镜腿局部形态适配（13f集成，当前公开1a沿用）
 
 原F/M眼镜在parse并校验完整GLB后，再按精确身体SHA读取固定profile；profile/源附件/POSITION均核身份。两个镜腿各4个横截面只在加载时变形，逐实例clone并原子替换，原镜框/鼻梁/铰链保留。没有新增逐帧求解或更改手、身体控制。
 
