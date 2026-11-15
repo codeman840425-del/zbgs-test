@@ -1,0 +1,71 @@
+{
+  "build": "7a86c24e34aa",
+  "stages": {
+    "stand": {
+      "poses": 3,
+      "visibleSamples": 613,
+      "misses": 0,
+      "maxLayerDistanceM": 0.101471763912653
+    },
+    "run": {
+      "poses": 45,
+      "visibleSamples": 8264,
+      "misses": 0,
+      "maxLayerDistanceM": 0.16741643435734344
+    },
+    "approach-sit": {
+      "poses": 46,
+      "visibleSamples": 8479,
+      "misses": 0,
+      "maxLayerDistanceM": 0.17176711687633772
+    },
+    "sit-hold": {
+      "poses": 10,
+      "visibleSamples": 1650,
+      "misses": 0,
+      "maxLayerDistanceM": 0.0907720549428308
+    },
+    "rise": {
+      "poses": 10,
+      "visibleSamples": 1563,
+      "misses": 0,
+      "maxLayerDistanceM": 0.1941941277294621
+    },
+    "turn": {
+      "poses": 19,
+      "visibleSamples": 3854,
+      "misses": 0,
+      "maxLayerDistanceM": 0.13897446700033722
+    },
+    "clear-space": {
+      "poses": 34,
+      "visibleSamples": 6474,
+      "misses": 0,
+      "maxLayerDistanceM": 0.16702479593493735
+    },
+    "dance": {
+      "poses": 81,
+      "visibleSamples": 16327,
+      "misses": 0,
+      "maxLayerDistanceM": 0.1379515507077378
+    }
+  },
+  "isolation": [
+    {
+      "name": "second female unaffected by first body mode",
+      "passed": true
+    },
+    {
+      "name": "second restores full body independently",
+      "passed": true
+    },
+    {
+      "name": "male receives no female mask",
+      "passed": true
+    }
+  ],
+  "failures": 0,
+  "boundaryEdges": 70,
+  "maxProbeErrorM": 2.6750865664105104e-7,
+  "scope": "10Hz at 120Hz simulation, six actor-relative viewpoints, authored boundary-edge midpoints. Per-pose skin cached in Float32 ray meshes with reported error. For source-body-visible points require top hit ahead, or at most 30mm behind original body point. Front occluders must not fail an absolute distance test. Finite perimeter screening only, not complete holes/CCD/continuous naturalness or fit proof."
+}
