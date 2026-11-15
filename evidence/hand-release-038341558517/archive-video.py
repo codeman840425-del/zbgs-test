@@ -15,6 +15,9 @@ summary={'build':BUILD,'exactTransition':rows,'related':{k:r[k]for k in ['build'
 (E/'VIDEO-SUMMARY.json').write_text(json.dumps(summary,indent=2))
 files=[p for p in E.rglob('*')if p.is_file() and p.name!='video-manifest.json']
 files += [ROOT/'experiments/hand-scope-worktree-1'/p for p in ['qa-snap-video.cjs','qa-related-video.cjs','qa-hand-scope.cjs']]
+files += [ROOT/'scripts/qa-refresh-boundary-male.cjs',ROOT/'scripts/qa-refresh-boundary.cjs',ROOT/'scripts/qa-room-filmstrip.py']
+files += [ROOT/'scripts/qa-hand-scope-variants.cjs',ROOT/'scripts/qa-refresh-boundary-variants.cjs']
+files += [ROOT/'scripts/qa-hand-release-state-isolation.cjs']
 manifest={'build':BUILD,'files':[{'file':p.relative_to(ROOT).as_posix(),'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}for p in files]}
 (E/'video-manifest.json').write_text(json.dumps(manifest,indent=2))
 refs=re.findall(r'(?:src|href)="([^"]+)"',(E/'video-index.html').read_text(encoding='utf8'))

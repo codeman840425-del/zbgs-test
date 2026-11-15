@@ -1,0 +1,80 @@
+30秒真人舞蹈替代工具调研与有界试验包
+核查日期：2026-11-15 UTC。顾问只读工程与公开官方资料；未注册、付费、上传、安装动捕软件或运行推理。下列为文档与接入条件核查，不是工具效果实测通过。
+
+结论
+当前应暂停v3/v4/v5自制落地补偿的继续扫参，转为一条现成工具完整30秒对照。Rokoko Vision 3.0可列第一质量试验候选，DeepMotion Innovator及以上列第二；Move.ai单镜头API列工作平台集成备选。先核实际可用账户/完整单段额度/许可和允许的访问方式，再选一个执行，不能并行安装一堆工具。没有现实访问条件就明确记阻塞，不把广泛调研继续充当动作进展，也不因此拖住独立M1收尾。没有证据证明上述任一工具已解决本视频问题。
+
+A. 已核官方条件与决定
+1. Rokoko Vision 3.0 / Create
+当前Starter免费每月30秒处理、FBX导出；Basic月付12美元每月600秒，年付为10美元/月等价。公开额度尚不能证明实际账户可一次提交精确30秒，单段上限、23.976fps接受和额度计费取整仍需账户实核。新版本已取消双镜头和网页实时拍摄；不能继续照旧版15秒/双镜头教程选型。
+Create官方FAQ明确视频/文字生成动作可商用；Vision 3.0暂不捕手指，不能替代持麦精细握姿。
+重要平台边界：Terms v2.0.1第4.4条限制未经允许的自动化访问；第3.4/6.3涉及内容使用/改进许可。它可作为质量试验候选，但尚不能视作agent自主生产接口；供应商允许的访问方式和素材上传权利未确认，不进行脚本绕过。不要把这项操作交给不会专业工具的用户。
+来源：
+https://www.rokoko.com/products/vision
+https://create.rokoko.com/
+https://www.rokoko.com/pricing
+https://www.rokoko.com/terms-of-use
+https://support.rokoko.com/hc/en-us/articles/48823033216017-Rokoko-Vision-and-Rokoko-Create-What-you-need-to-know
+
+2. DeepMotion Animate 3D
+官方当前表：Free及Starter单段20秒；Innovator单段30秒、1080p/60fps/200MB。因此免费20秒不能交连续30秒，也不能把两段硬拼冒充一次完整识别。Innovator表列17美元/月是年付等价，不是已核月付总价。
+付费计划生成产品有商业许可，免费个人非商业；公开FAQ说明GLB仅自定义角色输出。试验用标准FBX/BVH到本地适配，不必上传本项目VRM。网页计划不等于API开通；API需另核。
+Foot locking建议从Auto开始；Innovator表只列Auto/Never，Grounding/Always列于更高档。不要承诺低档包含所有API选项，更不要Always锁脚抹掉真实腾空。Physics filter等实际可选性按账户确认，不凭表中图片勾号推断。原速输入，若API适用videoSpeedMultiplier=1。
+来源：
+https://deepmotion.com/pricing-animate3d
+https://www.deepmotion.com/faq
+https://deepmotion.com/terms-of-use
+https://github.com/DeepMotion/Animate-3D-REST-API
+https://www.deepmotion.com/article/foot-locking
+https://www.deepmotion.com/article/physics-filter
+
+3. Move.ai s2单镜头API
+已有官方API/SDK，单段2–60秒，500MB、H264/H265 MP4/MOV，文档要求24–120fps。当前原片实际24000/1001，低于字面24fps；不能改标签、加速或无记录补帧假装满足。需要确认23.976实际接受，或者用有明确时间映射的许可转换，保留真实原时长和原PTS索引。
+公开s2处理价0.024美元/秒，1080p倍率1、24fps倍率0.92，30秒计算约0.6624美元；4K再乘1.25约0.828美元。这只是处理费估算，账户最低充值/门槛/税费未验证，不能宣传总花费不到1美元。
+官方接口有FBX等输出。EULA对视频/输出的训练使用、Prohibited Use及将输出作为AI系统输入设条件；普通离线游戏播放与agent辅助处理需按实际方式区分。未核清前，不把它列为已允许的自动平台供应商。优先核它的正式API接入价值，而非抓网页接口。
+来源：
+https://developers.move.ai/docs/pricing/
+https://developers.move.ai/docs/limits/
+https://developers.move.ai/docs/models/s2/
+https://developers.move.ai/docs/authentication/
+https://developers.move.ai/docs/quickstart/
+https://developers.move.ai/docs/intro/
+https://move.ai/move-one-api-eula
+
+4. 本地开源路线
+GVHMR关注全局运动，但官方LICENSE为非商业研究/教育/非营利，需要商业授权；依赖人体模型和权重也分别核许可。WHAM代码MIT，不应误称其代码非商业，但SMPL/SMPLify及权重权利不能由代码MIT推出。ComfyUI-MotionCapture封装GVHMR，换节点界面不会解决核心求解和许可问题。当前不展开新的大环境安装/模型下载；作为后续有条件备选。
+OpenCV/MediaPipe保留为解码、关节点测量和对照工具；它们本身不是完成世界根轨迹、接触和男女重定向的生产流程。
+来源：
+https://github.com/zju3dv/GVHMR
+https://raw.githubusercontent.com/zju3dv/GVHMR/main/LICENSE
+https://raw.githubusercontent.com/zju3dv/GVHMR/main/docs/INSTALL.md
+https://github.com/yohanshin/WHAM
+https://raw.githubusercontent.com/yohanshin/WHAM/main/LICENSE
+https://raw.githubusercontent.com/PozzettiAndrea/ComfyUI-MotionCapture/main/README.md
+
+B. 固定输入与重要纠正
+工程source.json：Pexels5359146，SHA256=c26ca0a91f8b735c575a142a75504696609bfa024e905b9cec13ba61c70c1c48；41,435,980bytes；3840×2160/H264，无音轨；实际24000/1001fps，time_base=1/24000。
+完整任务仍是[0,30)秒，720个原始帧0–719，最后PTS=29.9882916667s；原文件共729帧，不能直接把30.4秒整文件当30秒提交或由容器取整多扣额度。保留原片，只建立有哈希和时间映射的派生输入。必要缩分辨率到1080p允许作为显式编码步骤，不能把慢放或AI补帧当增加真实观测。
+慢放是人工审片方式，离线模型按原帧顺序和真实时间分析；输出动画可以重采样键帧，但须保持30秒动作和时间映射，不要求键帧数机械等于720。最后一个观测29.988...至30秒的边界策略明确记录，不凭空外推新动作或宣称多观测一帧。
+现素材全身可见却有宽松黑裤、交叉腿/背转和模糊；Rokoko新指南明确这些降低识别。它保留为当前难例，不能称理想标准拍摄输入；也不能悄悄换一段简单素材宣告本30秒目标通过。若源级输出仍失败，应补一个清晰衣着/稳定镜头的许可对照来区分输入问题，替换主片需要明确说明。
+素材现行约束为本地内部参考、非CC0且不训练；云服务内容使用条款不能自动从原许可推出。尚未授权注册/付费/上传。本报告不触发这些操作。
+官方拍摄要求：
+https://support.rokoko.com/hc/en-us/articles/48823622640785-Best-Practices-for-Video-Capture-Rokoko-Vision-3-0
+
+C. 一次有界试验，交付应可直接比较
+入口条件：一条可实际访问、允许当前使用方式、连续30秒额度足够的路线；先确认再处理。Rokoko若仅30秒剩余额度，不先烧掉3秒测试再要求剩余额度完成30秒；可一次处理完整30秒，再优先审其5.756–8.759秒困难区间。若访问/授权不具备，交明确阻塞与具体选项，继续其他M1，禁止转回无依据扫参。
+基线处理：固定一组官方默认/有解释设置，保留供应商原始FBX/BVH、版本/日期/任务标识/输入与输出哈希、费用和设置。不要先手工改帧美化再评判工具。
+先看源骨架30秒原速对原片，重点是既有138–210帧转身段、左右身份、髋高度/水平轨迹、膝面连续、脚跟/脚尖接触及腾空。源就严重翻膝/下沉时，停止目标修补。仅允许一次对应明确根因的官方设置对照；同类失败继续存在则换备选或判输入限制。这个有界次数是顾问建议，不是已测试的工具规律。
+源级可用后，接已有男女目标而非另建控制器：
+供应商FBX/BVH → 固定版本离线导入/坐标与单位/rest basis核对 → 男女各自标准化骨骼与脚型适配 → 既有normalized-vrm-motion.1 → 同一AnimationMixer/任务/装备/场景时钟。
+已读prototype/src/normalized-motion.js及motion-source.js：入口严格绑定avatarSha256、sourceClipSha256、normalizedRigSha256、footwearSha256；仅hips允许position，骨语义quaternion；时序单调、有限数值、单位四元数；不二次做UAL/VRM0基础变换。
+可复用scripts/video-motion/export-target-rigs.mjs、bake-dance-target.py等已有方法，但必须审供应商rest/skeleton定义，不能直接假定现MotionBERT的关节名/轴约定适配FBX。新工作应局限离线适配，普通新动作不能不断增加人物controller特例。
+交付至少：原片/原始工具骨架/女性/男性的同时间正常1倍速30秒观看入口（可一个四格或同步四片）；完整开始/播放/退出及一次中断/恢复；同镜头的当前失败段前后对照；时间/来源/输入/工具设置/目标身体鞋型/输出版本清单；失败区间和未测项。
+身体动作先以已验裤装/短裤隔离判断，再按M1范围做实际装备组合，裙仍失败就独立记录，不能让裙问题污染动捕工具比较。不能靠全段根抬高、总是锁脚、截短、遮挡或减速掩盖问题。10mm支撑/45度跳变等沿用现已声明诊断口径并注明采样/接触判定范围；不要把这些数值替代自然度审片。
+平台沉淀：原输出、转换脚本与参数、目标fit、合格派生、拒绝原因/失败回退分开；固定原始输出可离线重建目标资产。云端模型可能更新，不承诺同视频重新调用云端逐字节一致；重建承诺绑定已归档供应商输出。运行游戏无需在线调用供应商。封装适配接口只做本次实际需要，不扩为多供应商平台大改造。
+
+D. 当前工程证据边界
+v5约147mm根下沉及F/M约122/116度腿跳已被总工拒绝，是失败证据，非新30秒交付。本报告未重跑。
+最新紧凑快照cursor43：总工报告男性长/短裤已补共用时钟回归，裙新分段样件仍拉伸/穿插且停止该组权重。此为会话报告，顾问本轮没有独立观看或升级视觉结论。公开仍152/4194；038手释放候选之前已有视频与源哈希审查，仍不等于M1通过。
+顾问应主动承担这类独立工具条件/方法核查，不能只记录“总工正在调研”。30分钟审查继续检查实际可用交付、累计方法成效和平台复现；不以报告数量或每轮解释合理替代结果。
+

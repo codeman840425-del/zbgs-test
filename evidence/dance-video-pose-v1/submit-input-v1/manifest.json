@@ -1,0 +1,238 @@
+{
+  "schema": "local-mocap-input-preparation.1",
+  "purpose": "Reviewable input for a future explicit user/tool choice, NOT uploaded/submitted or service-limit approved.",
+  "inventoryBeforePreparation": [
+    {
+      "path": "analysis/dance-reference-v1/5359146-original.mp4",
+      "bytes": 41435980
+    }
+  ],
+  "reusedExistingVerifiedCopy": false,
+  "source": {
+    "path": "analysis/dance-reference-v1/5359146-original.mp4",
+    "sha256": "c26ca0a91f8b735c575a142a75504696609bfa024e905b9cec13ba61c70c1c48",
+    "bytes": 41435980,
+    "licenseManifest": "evidence/dance-video-pose-v1/source.json",
+    "metadata": {
+      "containerDurationMicroseconds": 30405375,
+      "containerDurationSeconds": 30.405375,
+      "containerStartTime": 0,
+      "streamTimeBase": "1/24000",
+      "streamDurationTicks": 729729,
+      "streamDurationSeconds": 30.405375,
+      "streamStartTime": 0,
+      "declaredFrames": 729,
+      "averageRate": "24000/1001",
+      "baseRate": "24000/1001",
+      "guessedRate": "24000/1001",
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "width": 3840,
+      "height": 2160,
+      "sampleAspectRatio": "None",
+      "audioStreams": 0
+    },
+    "decodedFrames": 729,
+    "retainedUnchanged": true
+  },
+  "selection": {
+    "interval": "[0,30)",
+    "firstIndex": 0,
+    "lastIndex": 719,
+    "frames": 720,
+    "firstPTS": 0,
+    "lastPTS": 719719,
+    "timeBase": "1/24000",
+    "lastObservedSeconds": 29.988291666666665,
+    "outsideFramesExcluded": 9
+  },
+  "output": {
+    "path": "analysis/dance-submit-input-v1/5359146-frames0000-0719-1080p-cfr24000_1001.mp4",
+    "sha256": "3c81333c5da379ea51c0abe20214870c80cef026592ac5b50156440f6dd99597",
+    "bytes": 12117911,
+    "metadata": {
+      "containerDurationMicroseconds": 30030000,
+      "containerDurationSeconds": 30.03,
+      "containerStartTime": 0,
+      "streamTimeBase": "1/24000",
+      "streamDurationTicks": 720720,
+      "streamDurationSeconds": 30.03,
+      "streamStartTime": 0,
+      "declaredFrames": 720,
+      "averageRate": "24000/1001",
+      "baseRate": "24000/1001",
+      "guessedRate": "24000/1001",
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "width": 1920,
+      "height": 1080,
+      "sampleAspectRatio": "None",
+      "audioStreams": 0
+    },
+    "decodedFrames": 720,
+    "lastFrameDurationTicks": 1001,
+    "lastFrameDisplayEndSeconds": 30.03
+  },
+  "tailPolicy": {
+    "policy": "Retain standard CFR1001/24000 duration for final source frame. No new observed frame, duplication, time stretching or invented motion.",
+    "lastObservationSeconds": 29.988291666666665,
+    "requestedEndSeconds": 30,
+    "retainedLastFrameWithinRequestedRangeSeconds": 0.011708333333333333,
+    "actualLastDisplayEndSeconds": 30.03,
+    "containerBeyondRequested30Seconds": 0.030000000000001137,
+    "strict30SecondContainer": false,
+    "warning": "Selected observations are strictly[0,30), but the encoded720-frame CFR container is30.03s. It may exceed a30s cloud quota. No claim of exact30s submission compatibility; do not upload without a later explicit decision."
+  },
+  "imageMapping": {
+    "sourceSize": [
+      3840,
+      2160
+    ],
+    "outputSize": [
+      1920,
+      1080
+    ],
+    "scaleXY": [
+      0.5,
+      0.5
+    ],
+    "crop": null,
+    "rotation": null,
+    "filter": "libswscale Lanczos",
+    "codec": "libx264 H264 yuv420p, CRF18 presetmedium",
+    "audio": "source has none; no audio added"
+  },
+  "timing": {
+    "nominalRate": "24000/1001",
+    "PTSMapping": "output pts=original pts, same1/24000 timebase, all720 values verified exactly",
+    "duplicateOrDroppedSelectedFrames": 0,
+    "speedMultiplier": 1,
+    "AIInterpolation": false,
+    "newDetections": false
+  },
+  "tools": {
+    "ffmpegExecutable": "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\imageio_ffmpeg\\binaries\\ffmpeg-win-x86_64-v7.1.exe",
+    "ffmpegSha256": "2ce797a0f88d7f067180338fb227f7b1928ea727bd9a4d7a1d022f7c52af71a3",
+    "ffmpegVersionFirstLine": "ffmpeg version 7.1-essentials_build-www.gyan.dev Copyright (c) 2000-2024 the FFmpeg developers",
+    "pyavVersion": "16.1.0",
+    "pyavLibraryVersions": {
+      "libavutil": [
+        60,
+        8,
+        100
+      ],
+      "libavcodec": [
+        62,
+        11,
+        100
+      ],
+      "libavformat": [
+        62,
+        3,
+        100
+      ],
+      "libavdevice": [
+        62,
+        1,
+        100
+      ],
+      "libavfilter": [
+        11,
+        4,
+        100
+      ],
+      "libswscale": [
+        9,
+        1,
+        100
+      ],
+      "libswresample": [
+        6,
+        1,
+        100
+      ]
+    },
+    "independentFfprobeAvailable": false,
+    "verificationName": "PyAV decode + independent bundledFFmpeg7.1 showinfo; NOT ffprobe"
+  },
+  "verification": {
+    "sourceToOutputAllPTSExact": true,
+    "pyav720Frames": true,
+    "ffmpegShowinfo720Frames": true,
+    "ffmpegShowinfoTimeBase": "1/24000",
+    "ffmpegShowinfoFrameRate": "24000/1001",
+    "ffmpegDisplayedDuration": "00:00:30.03",
+    "ffmpegAllPTSMatch": true,
+    "sourceStillSha256": "c26ca0a91f8b735c575a142a75504696609bfa024e905b9cec13ba61c70c1c48",
+    "privatePreview": "analysis/dance-submit-input-v1/source-vs-input-first-middle-last.jpg",
+    "previewSha256": "e7ce07d9f661762bd80395a72fae5f13b35ebdc9cf71947ecd7693dc44213a8a",
+    "previewReview": "Completed three-pair manual review; see separately hash-bound visual-review.json. Not all 720 frames visually inspected."
+  },
+  "commands": {
+    "encode": [
+      "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\imageio_ffmpeg\\binaries\\ffmpeg-win-x86_64-v7.1.exe",
+      "-hide_banner",
+      "-nostdin",
+      "-nostats",
+      "-n",
+      "-copyts",
+      "-threads",
+      "2",
+      "-noautorotate",
+      "-i",
+      "F:\\gamemake\\analysis\\dance-reference-v1\\5359146-original.mp4",
+      "-map",
+      "0:v:0",
+      "-an",
+      "-frames:v",
+      "720",
+      "-vf",
+      "scale=1920:1080:flags=lanczos",
+      "-filter_threads",
+      "1",
+      "-fps_mode",
+      "passthrough",
+      "-c:v",
+      "libx264",
+      "-preset",
+      "medium",
+      "-crf",
+      "18",
+      "-threads",
+      "2",
+      "-pix_fmt",
+      "yuv420p",
+      "-enc_time_base",
+      "1:24000",
+      "-video_track_timescale",
+      "24000",
+      "-movflags",
+      "+faststart",
+      "F:\\gamemake\\analysis\\dance-submit-input-v1\\5359146-frames0000-0719-1080p-cfr24000_1001.mp4"
+    ],
+    "secondDecode": [
+      "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\imageio_ffmpeg\\binaries\\ffmpeg-win-x86_64-v7.1.exe",
+      "-hide_banner",
+      "-nostdin",
+      "-nostats",
+      "-copyts",
+      "-threads",
+      "2",
+      "-i",
+      "F:\\gamemake\\analysis\\dance-submit-input-v1\\5359146-frames0000-0719-1080p-cfr24000_1001.mp4",
+      "-map",
+      "0:v:0",
+      "-vf",
+      "showinfo",
+      "-filter_threads",
+      "1",
+      "-fps_mode",
+      "passthrough",
+      "-an",
+      "-f",
+      "null",
+      "-"
+    ]
+  },
+  "useBoundary": "Local internal reference only; source and copy stay under ignored analysis. No account/registration/upload/payment/training. Existing original Pexels usage restrictions remain."
+}
