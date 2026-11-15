@@ -1887,12 +1887,24 @@ function bindFoundationControls(a) {
   gaze.onclick = () => emit({type:"gaze",target:camera.position.toArray()}); row.append(gaze);
   for (const [kind,label] of [["mic","麦克风"],["glasses","眼镜"]]) {
     const button = document.createElement("button"); button.textContent = "装备"+label;
+    const status = document.createElement("span");
+    status.dataset.accessoryStatus = kind; status.setAttribute("role","status");
+    let uiRequest = 0;
     button.onclick = async () => {
+      const request = ++uiRequest;
       const enabled = !a.livePresentation.getState().accessories[kind].requested;
-      const result = await emit({type:"accessory",kind,value:enabled});
-      button.textContent = a.livePresentation.getState().accessories[kind].requested ? "卸下"+label : "装备"+label;
-      if (!result?.applied) document.querySelector("#scene-state").textContent = result?.reason || "附件加载失败";
-    }; row.append(button);
+      status.textContent = enabled ? label+"加载中" : "";
+      try {
+        const result = await emit({type:"accessory",kind,value:enabled});
+        if (request === uiRequest) status.textContent = result?.applied || result?.cancelled
+          ? "" : result?.reason || label+"加载失败，请重试";
+      } catch (error) {
+        if (request === uiRequest) status.textContent = String(error.message || error);
+      } finally {
+        if (request === uiRequest) button.textContent = a.livePresentation.getState().accessories[kind].requested
+          ? "卸下"+label : "装备"+label;
+      }
+    }; row.append(button,status);
   }
   const peer = document.createElement("button"); peer.textContent = "双实例隔离对照";
   peer.onclick = async () => {
