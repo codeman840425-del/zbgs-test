@@ -1,3 +1,4 @@
+import {createEyeBlinkCompatibility} from './eye-blink-compatibility.js';
 import {fitGlassesTemples} from './glasses-temple-fit.js';
 import {microphoneArmTarget,microphoneCarryTarget,microphoneElbow} from './microphone-pose.js';
 import {MICROPHONE_PRESENTATION_FITS} from './microphone-presentation-fits.js';
@@ -83,6 +84,7 @@ export function createLivePresentation({vrm,root,bodyType='female',avatarSha256=
  const oldLookAt=vrm.lookAt?{autoUpdate:vrm.lookAt.autoUpdate,target:vrm.lookAt.target}:null;
  if(vrm.lookAt){vrm.lookAt.autoUpdate=false;vrm.lookAt.target=null;}
  const facialKeys=['happy','aa','ih','ou','ee','oh','blink'];
+ const eyeBlinkCompatibility=createEyeBlinkCompatibility({vrm,avatarSha256});
  function canPerform(action){return action==='dance'&&slots.mic.requested?{allowed:false,reason:'持麦舞蹈尚未制作；请先卸下麦克风。'}:{allowed:true};}
  async function manifest(){
   if(!manifestPromise)manifestPromise=fetch('/assets/m1c/accessories.json',{cache:'no-store'}).then(async response=>{if(!response.ok)throw Error('Accessory manifest HTTP '+response.status);const data=await response.json();if(data.schema!=='zbgs-accessory-candidate-v1'||!Array.isArray(data.items))throw Error('Unsupported accessory manifest');return data;}).catch(e=>{manifestPromise=null;throw e;});
@@ -139,6 +141,7 @@ export function createLivePresentation({vrm,root,bodyType='female',avatarSha256=
   if(speaking){const syllable=time/.27,phase=syllable%1,key=['aa','ih','ou','ee','oh'][Math.floor(syllable)%5];expressions?.setValue(key,.66*Math.sin(Math.PI*phase)**2);}
   else expressions?.setValue('aa',preset==='aa'?.65:0);
   const blink=time%3.6;expressions?.setValue('blink',blink<.18?Math.sin(blink/.18*Math.PI):0);
+  eyeBlinkCompatibility.update();
   const target=slots.mic.object&&slots.mic.requested?1:0;holdWeight=THREE.MathUtils.damp(holdWeight,target,14,dt);if(Math.abs(holdWeight-target)<1e-4)holdWeight=target;
   const talkingTarget=target&&speaking&&['idle','sit'].includes(action)?1:0;
   talkHoldWeight=THREE.MathUtils.damp(talkHoldWeight,talkingTarget,microphoneFit?.transitionRate??10,dt);
@@ -192,13 +195,15 @@ export function createLivePresentation({vrm,root,bodyType='female',avatarSha256=
  // the prop is immediate, but its arm pose still needs to blend out.
  const canStartGreeting=()=>['idle','sit'].includes(currentAction)&&!slots.mic.requested&&holdWeight<=.001;
  return{preUpdate,postUpdate,setAccessory,canPerform,canStartGreeting,
+  setEyeBlinkCompatibility:mode=>eyeBlinkCompatibility.setMode(mode),
+  refreshEyeBlinkCompatibility(){eyeBlinkCompatibility.update();vrm.expressionManager?.update();return eyeBlinkCompatibility.getState();},
   playGreeting(options){if(!canStartGreeting())return Promise.resolve({started:false,error:'greeting-requires-settled-empty-hand-pose'});return greeting.start(options);},
   cancelGreeting: options=>greeting.cancel(options),
   setAction(name){currentAction=name;},
   setExpression(value){if(!['neutral','happy','aa'].includes(value))throw RangeError('Unknown expression');preset=value;},
   setSpeaking(value){speaking=Boolean(value);},
   setGaze(value){if(value==null){gaze=null;return;}const v=Array.isArray(value)?new V(...value):value.clone();if(![v.x,v.y,v.z].every(Number.isFinite))throw TypeError('Finite world gaze target required');gaze=v;},
-  getState(){return{greeting:greeting.getState(),bodyType,avatarSha256,preset,speaking,speakingMode:'procedural-vowel-demo-not-audio-lipsync',time,gaze:gaze?.toArray()??null,action:currentAction,actionSupport:canPerform(currentAction),arm:armMetrics,fit:{...fit,glassesTempleProfile:slots.glasses.object?.userData.templeFit??null,eyeSpacing,armLengths:armLengths.slice(),gripProfile:gripProfile?{id:gripProfile.id,sha256:gripProfile.sha256,compatibleAvatarSha256:gripProfile.compatibleAvatarSha256,compatibleAccessorySha256:gripProfile.compatibleAccessorySha256,fitVersion:gripProfile.fitVersion,method:gripProfile.method}:null,verified:false},accessories:Object.fromEntries(Object.entries(slots).map(([k,s])=>[k,{requested:s.requested,status:s.status,loaded:Boolean(s.object),error:s.error,sha256:s.entry?.sha256??null}]))};},
-  dispose(){if(disposed)return;disposed=true;greeting.dispose();for(const s of Object.values(slots)){s.version++;s.abort?.abort();disposeObject(s.object);s.object=null;}for(const f of fingers)if(holdWeight>0&&f.authored)f.bone.quaternion.copy(f.authored);for(const k of facialKeys)vrm.expressionManager?.setValue(k,0);if(vrm.lookAt&&oldLookAt){vrm.lookAt.reset();vrm.lookAt.autoUpdate=oldLookAt.autoUpdate;vrm.lookAt.target=oldLookAt.target;}mount.removeFromParent();},
+  getState(){return{eyeBlinkCompatibility:eyeBlinkCompatibility.getState(),greeting:greeting.getState(),bodyType,avatarSha256,preset,speaking,speakingMode:'procedural-vowel-demo-not-audio-lipsync',time,gaze:gaze?.toArray()??null,action:currentAction,actionSupport:canPerform(currentAction),arm:armMetrics,fit:{...fit,glassesTempleProfile:slots.glasses.object?.userData.templeFit??null,eyeSpacing,armLengths:armLengths.slice(),gripProfile:gripProfile?{id:gripProfile.id,sha256:gripProfile.sha256,compatibleAvatarSha256:gripProfile.compatibleAvatarSha256,compatibleAccessorySha256:gripProfile.compatibleAccessorySha256,fitVersion:gripProfile.fitVersion,method:gripProfile.method}:null,verified:false},accessories:Object.fromEntries(Object.entries(slots).map(([k,s])=>[k,{requested:s.requested,status:s.status,loaded:Boolean(s.object),error:s.error,sha256:s.entry?.sha256??null}]))};},
+  dispose(){if(disposed)return;disposed=true;eyeBlinkCompatibility.dispose();greeting.dispose();for(const s of Object.values(slots)){s.version++;s.abort?.abort();disposeObject(s.object);s.object=null;}for(const f of fingers)if(holdWeight>0&&f.authored)f.bone.quaternion.copy(f.authored);for(const k of facialKeys)vrm.expressionManager?.setValue(k,0);if(vrm.lookAt&&oldLookAt){vrm.lookAt.reset();vrm.lookAt.autoUpdate=oldLookAt.autoUpdate;vrm.lookAt.target=oldLookAt.target;}mount.removeFromParent();},
  };
 }
