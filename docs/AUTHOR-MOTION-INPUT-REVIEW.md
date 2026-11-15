@@ -67,3 +67,13 @@ prototype 的只读 `two-quad-thirds-v1/native-author-trial-v1/hem-self-clearanc
 可以在结构方案中保留上述原生固定带求解边界，同时完整保留最后的几何验收。现脚本 94 行 `tree(p,faces)` 使用**全部**裙面，和全 body/top/chair 做交叉；100–101 行没有对固定面过滤，pin 残差也另行检查。所以“物理不推动固定带”和“固定带交叉照样失败”当前已经分离。无需删除面、隐藏身体或缩减最终门来实现这个区分。
 
 这只排除了“为迁就整固定带必须维持极小全局距离”的逻辑必然性，**不是增大距离的准入结论**。临界混合面仍被检测，动态 pin 的实际轨迹、自由区身体/上衣夹层、相对速度及自碰厚边约定仍须独立检验。增距可能在 pin 边界或上衣夹层增加冲突；不能据当前静态活动域 2mm 余量声称能解决 row2 动态穿过。本次没有修改距离或实现排除组。
+
+## 后续授权的固定输入 60 帧检查
+
+`scripts/audit-skirt-fixed-band-continuous.py` 已在 Blender 4.5.9 后台执行，只有 GLB/LBS/BVH 几何计算，未创建场景对象、运行 Cloth 或改源。输出为 `evidence/skirt-fixed-band-continuous.json`。
+
+029 源面 0–259 的三点逐面核实全部属于实际 pin 集合。原 capture 的 **60 帧**中，这 260 个固定面与完整 body、两上衣 primitive、椅座和椅背的有限三角交叉均为 **0 对**。没有在这些采样点发现“固定输入已交叉而要求自由布料修复”的不可解条件。
+
+在执行该门之前，原 layer1 GLB 经同一实际 private palette 回放与首帧及旧四姿实际捕获的位置误差最大为 0.362400µm；029 首帧与已保存 native 首帧回读最大差 0.112919µm；旧四姿逐表面的固定面 pair 与冻结 geometry-gate 完全相同。没有使用旧 raw helper 矩阵代替 private palette，也没有要求改造后的029几何等于原layer1捕获几何。
+
+此结果只覆盖 30Hz 的 60 个实际输入样本，不证明帧间无交叉、不检测整片完全包入人体却不穿过表面的体积情况，也不证明自由裙面能稳定响应。运行方式：`blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/audit-skirt-fixed-band-continuous.py`；恢复后的源工作树可通过 `-- --worktree PATH` 指定。
