@@ -68,3 +68,5 @@
 唯一CPU采样已完成：createMotion同步inclusive约72.9ms，不能被源解析缓存消除；GLTF全资产采样混身体/衣物/动作，未获得动作源可缓存成本的可靠分离。首次infoLog约208ms采样仍在，暂不增加缓存或泛化渲染管线。原profile/bundle/离线复算见evidence/body-source-cost-bcade-v1；不用受Profiler干预的864ms命令墙钟对比无Profiler523ms声称退化。该有界诊断已结束，不重做。
 
 CAPABILITIES与阶段计划已合并过时“当前/下一步”为历史归档，全部54个能力ID保留，旧原字节已保存。当前待产品判断的新外观/布局/画风和普通电脑缺口不变；不因历史失败重新打开封板裙舞，也不自动制作完整M2/M3。
+
+本次资源生命周期、CPU采样及清单整理的远端字节核实回执：delivery/workbench-reliability-bcade-backup.json。运行版/源仍bcade/c222404，旧固定构建和原备份回执不改。
