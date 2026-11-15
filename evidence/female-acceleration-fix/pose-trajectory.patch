@@ -1,0 +1,42 @@
+--- a/prototype/src/motion.js
++++ b/prototype/src/motion.js
+@@ -397,6 +397,7 @@
+     const planted=feet.map(f=>Boolean(kind === "walk" && runMix > .95 && f.contact && f.anchorKind));
+     let best = 0, cost = Infinity, selected=null;
+     for (let i = 0; i < gaitPoses[kind].length; i++) {
++      let trajectoryCost=0;
+       const poseCost = gaitPoses[kind][i].reduce((sum, p, side) => {
+         const d = p.clone(); d.y += lift; d.sub(current[side]);
+         return sum + d.x*d.x + .5*d.y*d.y + d.z*d.z;
+@@ -425,12 +426,28 @@
+           reachCost+=excess*excess/32;maxExcess=Math.max(maxExcess,excess);
+         }
+       }
+-      const score=poseCost+8*reachCost;
+-      if (score < cost) { cost = score; best = i;selected={poseCost,reachCost,maxExcess,releaseDistance}; }
++      // Equal foot positions can sit on opposite portions of a stride. Match
++      // the local foot trajectories over the existing fade, not just its first
++      // frame: mean |deltaPosition + t*deltaVelocity|^2 for t in [0,.30].
++      // This changes phase selection only; support anchors/IK remain untouched.
++      if(kind === "jog" && runMix < .05) {
++        for(let side=0;side<2;side++) {
++          const h=1/120,sourceA=gaitSample(from,fromPhase-h,side).ankle,sourceB=gaitSample(from,fromPhase+h,side).ankle;
++          const targetA=gaitSample(kind,i/gaitPoses[kind].length-h,side).ankle,targetB=gaitSample(kind,i/gaitPoses[kind].length+h,side).ankle;
++          const sourceVelocity=sourceB.sub(sourceA).multiplyScalar(speed/fromDistance/(2*h));
++          const targetVelocity=targetB.sub(targetA).multiplyScalar(speed/toDistance/(2*h));
++          const deltaVelocity=targetVelocity.sub(sourceVelocity);
++          const deltaPosition=gaitPoses[kind][i][side].clone();deltaPosition.y+=lift;deltaPosition.sub(current[side]);
++          const T=.30,weightedDot=(a,b)=>a.x*b.x+.5*a.y*b.y+a.z*b.z;
++          trajectoryCost+=T*weightedDot(deltaPosition,deltaVelocity)+T*T/3*weightedDot(deltaVelocity,deltaVelocity);
++        }
++      }
++      const score=poseCost+8*reachCost+trajectoryCost;
++      if (score < cost) { cost = score; best = i;selected={poseCost,reachCost,maxExcess,releaseDistance,trajectoryCost}; }
+     }
+     const result = best / Math.max(1, gaitPoses[kind].length);
+     gaitTransition = { to: kind, phase: result, poseError: Math.sqrt(selected?.poseCost??cost), frame,
+-      supportForecast:{...selected,planted,speed,angularVelocity:omega,method:"source-sampled-fade-reach-v1"} };
++      supportForecast:{...selected,planted,speed,angularVelocity:omega,method:kind === "jog" && runMix < .05 ? "pose-trajectory-integral-v1" : "source-sampled-fade-reach-v1"} };
+     return result;
+   }
+   const stance = 0.6;

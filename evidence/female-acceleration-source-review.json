@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "candidateSha256": "2413410e856e6122eb6ff0ae01aa10d7968a568bd21ac87c01e10a88f64027d3",
+  "baselineSha256": "7d75fd3bfe4725b5178b1419eaf75fa6fa550c4f3a81a26b0b8620734752b1a2",
+  "checks": [
+    "Only matchGaitPhase changed, all thresholds/source calibration/update state byte-identical",
+    "Real gaitSample returns independent vectors, including every sole vector",
+    "Phase wrap handles negative/one-cycle central differences without endpoint alias",
+    "Weighted trajectory expression equals quadrature and stays nonnegative even for negative cross term",
+    "Entry guard excludes run exit and incomplete fade at .05 threshold"
+  ],
+  "units": {
+    "position": "m",
+    "phase": "cycles",
+    "finiteDifference": "m/cycle",
+    "speedDividedByStride": "cycles/s",
+    "velocity": "m/s",
+    "trajectoryCost": "m^2",
+    "fadeSeconds": 0.3
+  },
+  "limits": [
+    "Alias check executes actual extracted gaitSample on synthetic samples, not a new asset/scene test.",
+    "Quadrature verifies first-order mathematical cost, not exact nonlinear blended skeleton predictions.",
+    "Actual-room positive regression and same-build visual/performance checks pending."
+  ]
+}

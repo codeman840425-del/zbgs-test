@@ -33,6 +33,10 @@
 baseline/** -text
 # Captured evidence hashes describe exact bytes, including recorder line endings.
 evidence/** -text
+# Full numerical frame traces stay readable/replayable, but omit enormous
+# raw-line diffs; review the compact causal receipts and reproduction scripts.
+evidence/female-acceleration-controller-law.json -diff
+evidence/female-acceleration-narrow.json -diff
 # Preserve the frozen candidate's Windows-authored input bytes for build-ID
 # reproducibility. These remain readable text; only newline conversion is off.
 prototype/src/equipment.js -text

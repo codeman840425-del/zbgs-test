@@ -1,0 +1,19 @@
+--- a/prototype/src/motion.js
++++ b/prototype/src/motion.js
+@@ -1239,11 +1239,15 @@
+     distance += step;
+     if (!moving && wasMoving && requested !== "sit" && requested !== "dance") {
+       stopTime = 0;
++      // With both feet in flight there is no support foot to wait for.
++      // Serialising an arbitrary second foot holds it away while idle raises
++      // the pelvis, exceeding leg reach before its gathering step starts.
++      const hadSupport = feet.some(foot => foot.contact);
+       const order = [...feet].sort(
+         (a, b) => Number(a.contact) - Number(b.contact),
+       );
+       order.forEach((foot, index) => {
+-        foot.stopOrder = index;
++        foot.stopOrder = hadSupport ? index : 0;
+         foot.stopFrom = foot.lastActual.clone();
+         foot.stopQuaternion = foot.foot.getWorldQuaternion(new Q());
+         foot.stopWasContact = foot.contact;

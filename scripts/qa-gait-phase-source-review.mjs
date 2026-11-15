@@ -1,0 +1,18 @@
+// Narrow source-level arithmetic/alias regression; no browser or product edits.
+import fs from 'node:fs';import assert from 'node:assert/strict';import {createHash} from 'node:crypto';
+import * as THREE from '../prototype/node_modules/three/build/three.module.js';
+const baseline=fs.readFileSync('evidence/motion-source-snapshots/7d75fd3bfe4725b5178b1419eaf75fa6fa550c4f3a81a26b0b8620734752b1a2.js','utf8');
+const candidate=fs.readFileSync('evidence/motion-source-snapshots/2413410e856e6122eb6ff0ae01aa10d7968a568bd21ac87c01e10a88f64027d3.js','utf8');
+const digest=s=>createHash('sha256').update(s).digest('hex'),checks=[];
+const mark=(name,fn)=>{fn();checks.push(name);};
+const split=s=>{const start=s.indexOf('  function matchGaitPhase('),end=s.indexOf('  const stance =',start);assert.ok(start>0&&end>start);return [s.slice(0,start),s.slice(start,end),s.slice(end)];};
+mark('Only matchGaitPhase changed, all thresholds/source calibration/update state byte-identical',()=>{const a=split(baseline),b=split(candidate);assert.equal(a[0],b[0]);assert.equal(a[2],b[2]);});
+const body=candidate.match(/const gaitSample = \(kind, at, side\) => \{([\s\S]*?)\n  \};/)[1];
+const V=THREE.Vector3,gaitSupport={walk:[],jog:[]};for(const kind of Object.keys(gaitSupport))for(let i=0;i<120;i++)gaitSupport[kind].push([0,1].map(side=>({hip:new V(side,i,1),ankle:new V(i,side,2),sole:{heel:new V(3,i,side),toe:new V(4,side,i)}})));
+const gaitSample=new Function('gaitSupport',`return (kind,at,side)=>{${body}}`)(gaitSupport);
+mark('Real gaitSample returns independent vectors, including every sole vector',()=>{const before=JSON.stringify(gaitSupport);for(const phase of [-1/120,0,1/120,.5,119/120,1,1+1/120]){const a=gaitSample('walk',phase,0),b=gaitSample('walk',phase,0);assert.notEqual(a.ankle,b.ankle);a.ankle.sub(b.hip).multiplyScalar(99);a.hip.set(9,8,7);a.sole.toe.sub(b.sole.heel);a.sole.heel.set(0,0,0);}assert.equal(JSON.stringify(gaitSupport),before);});
+mark('Phase wrap handles negative/one-cycle central differences without endpoint alias',()=>{assert.ok(gaitSample('walk',-1/120,0).ankle.distanceTo(gaitSample('walk',119/120,0).ankle)<1e-10);assert.ok(gaitSample('walk',0,0).ankle.distanceTo(gaitSample('walk',1,0).ankle)<1e-10);});
+const dot=(a,b)=>a[0]*b[0]+.5*a[1]*b[1]+a[2]*b[2],T=.30;
+mark('Weighted trajectory expression equals quadrature and stays nonnegative even for negative cross term',()=>{for(const [p,v] of [[[.2,.1,-.4],[1,-3,2]],[[.1,0,0],[-1,0,0]],[[0,0,0],[0,0,0]],[[0,0,0],[1,2,3]]]){const formula=dot(p,p)+T*dot(p,v)+T*T/3*dot(v,v);let numerical=0;const n=10000;for(let i=0;i<n;i++){const x=p.map((value,j)=>value+(i+.5)*T/n*v[j]);numerical+=dot(x,x)/n;}assert.ok(formula>=-1e-14);assert.ok(Math.abs(formula-numerical)<1e-8);}});
+mark('Entry guard excludes run exit and incomplete fade at .05 threshold',()=>{const enabled=(kind,mix)=>kind==='jog'&&mix<.05;assert.equal(enabled('jog',0),true);assert.equal(enabled('jog',.049999),true);assert.equal(enabled('jog',.05),false);assert.equal(enabled('jog',.8),false);assert.equal(enabled('walk',0),false);});
+const result={passed:true,candidateSha256:digest(candidate),baselineSha256:digest(baseline),checks,units:{position:'m',phase:'cycles',finiteDifference:'m/cycle',speedDividedByStride:'cycles/s',velocity:'m/s',trajectoryCost:'m^2',fadeSeconds:T},limits:['Alias check executes actual extracted gaitSample on synthetic samples, not a new asset/scene test.','Quadrature verifies first-order mathematical cost, not exact nonlinear blended skeleton predictions.','Actual-room positive regression and same-build visual/performance checks pending.']};fs.writeFileSync('evidence/female-acceleration-source-review.json',JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result,null,2));
