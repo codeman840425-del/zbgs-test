@@ -60,3 +60,15 @@ bodydebug 重复绘制另作诊断修正，不混入这次正常材质归因。
 核对 [官方 MToon 1.0 规范](https://github.com/vrm-c/vrm-specification/blob/master/specification/VRMC_materials_mtoon-1.0/README.md#outline)：screenCoordinates 的宽度随屏幕高度定义，目标是不随相机距离缩细；宽度纹理读取线性 G 通道，未指定时为 1。安装 3.5.5 的 vertex shader 实际按 G 乘 outlineOffset，再在屏幕模式乘 `vViewPosition.z / projectionMatrix[1].y`；v0compat 将源 `_OutlineWidthTexture` 接入该路径，原源图不会因改模式自动丢弃。
 
 只提出一个后续因果对照，尚未执行：**仅 Body_SKIN outline 改为 screenCoordinates，取一个固定的约 1 个 drawing-buffer 像素目标**，不动 Face_SKIN、贴图、side/alpha/depth/法线/颜色，在现有同位两距离做 A/B/还原。按已安装 shader 的透视抵消和 NDC→像素关系，可用 `outlineWidthFactor=2/drawingBufferHeight` 作为单一测试值；法线投影仍影响实际局部宽度，不声称它保证处处 1px。其目的仅检验已排除宽度贴图的身体线条是否因 world 模式随距离变得低于像素覆盖；结果失败则停止，不自动扫描多个宽度/偏移。本轮主集成优先，没有再启动浏览器。
+
+## 269 唯一 screenCoordinates 对照已执行：改善伴随副作用
+
+上述提案随后获批准，在固定 `269a73423c97` 完成。归档入口：`evidence/foundation-outline-screen-269a73423c97/index.html`，包含两完整原片及静态三联；manifest 保存所有文件与脚本 SHA。没有修改产品，也没有扫描第二个宽度。
+
+男女各 4 个现有相机预设 room/close/front/side，8 组 A/B/还原共 24 原 PNG；只改 Body_SKIN 的 outline mode/factor，**Face 原值保持**，其余采样材质属性逐项不变，全部 raw/normalized 骨 local pose 不变。实际 WebGL drawing buffer 为 1011×928，DPR1，factor=2/928≈.0021551724。全部身份/恢复检查通过，pageerror0；还原图像完全相同或最大1/255通道舍入。
+
+全部三联已看：房间距离身体点线明显变得连续，近景四肢亦更连续，但深色线更重，手指尤明显；女性 room 发顶出现新增一小段/圈深边，与仅 Body outline 干预相关，具体头皮/头发遮挡几何未定位。**属于有副作用的渲染策略候选，不是边缘问题完成。** Face 未修，头发未改。
+
+条件性动态复核已录原女裙两片：现有 room 相机，真实0.85m/s请求从[-2.6,1.8]到[2.6,1.8]，包含起转/行走/停止，无 simulate/相位修改，原/候选各约9.81秒，播放率1，相机逐帧差0。真实rAF初始位置相差约0.10mm，未伪称像素级同轨迹。两片全时段各3fps29帧、共58样本/6总览已全部检查，未见衣物/肢体消失，身体轮廓仍更深。
+
+**3fps抽帧不能证明高频闪烁消失，也不能替代完整1×观看或用户画风接受。** 原片供直接观看；男性动态、其它动作/DPR/目标设备未由此通过。本轮到此停止，不默认合入，不继续扫参数。

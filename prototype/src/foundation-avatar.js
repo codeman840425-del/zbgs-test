@@ -73,11 +73,13 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
       bodyMaterials.set(
         mesh,
         materials.map(
-          () =>
+          (sourceMaterial) =>
             new THREE.MeshStandardMaterial({
               color: "#728e9b",
               roughness: 1,
               side: THREE.DoubleSide,
+              // Keep the outline group, but do not redraw its unexpanded skin.
+              visible: sourceMaterial.isOutline !== true,
             }),
         ),
       );

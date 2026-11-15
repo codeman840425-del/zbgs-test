@@ -3,6 +3,21 @@ const {chromium}=require('../prototype/node_modules/playwright');
 const fs=require('node:fs/promises'),path=require('node:path');
 const assert=require('node:assert/strict'),{createHash}=require('node:crypto');
 const {verifyCandidate}=require('./qa-m1-common.cjs');
+const PERF_CASES = [
+   {name:'base-walk',base:true,walk:true},{name:'pants-walk',walk:true},{name:'skirt-walk',skirt:true,walk:true},
+   {name:'skirt-sit-hold',skirt:true,sit:true},{name:'skirt-sit-rise-switches',skirt:true,switches:true},
+   {name:'pants-run',walk:true,speed:2.6},{name:'skirt-run',skirt:true,walk:true,speed:2.6},
+   {name:'dual-pants-walk',dual:true,walk:true},{name:'dual-skirt-pants-walk',dual:true,skirt:true,walk:true}
+  ];
+function selectCases(value){
+ if(value===undefined)return PERF_CASES;
+ if(typeof value!=='string'||!value.trim())throw Error('QA_PERF_CASES must be a nonempty comma-separated case list');
+ const names=value.split(',').map(x=>x.trim());
+ if(names.some(x=>!x)||new Set(names).size!==names.length)throw Error('Empty or duplicate QA_PERF_CASES entry');
+ const known=new Map(PERF_CASES.map(x=>[x.name,x]));
+ for(const name of names)if(!known.has(name))throw Error('Unknown QA_PERF_CASES entry: '+name);
+ return names.map(name=>known.get(name));
+}
 // Serializable helper used unchanged by the browser and deterministic Node check.
 function createTimers(now,current){
  const installed=new WeakMap(),stack=[];
@@ -18,9 +33,11 @@ function createTimers(now,current){
  };
 }
 if(process.argv.includes('--self-test')){
+ assert.equal(selectCases(undefined).length,9);assert.deepEqual(selectCases('skirt-sit-hold,skirt-sit-rise-switches').map(x=>x.name),['skirt-sit-hold','skirt-sit-rise-switches']);for(const value of ['', ' ', 'unknown', 'skirt-sit-hold,', 'skirt-sit-hold,skirt-sit-hold'])assert.throws(()=>selectCases(value));
  let time=0,row={exclusive:{},calls:{}};const w=createTimers(()=>time,()=>row),x={inner(){time+=3;},outer(){time+=2;this.inner();time+=5;},failure(){time++;throw Error('expected');}};
  w(x,'inner','innerMs');w(x,'outer','outerMs');w(x,'failure','failureMs');x.outer();assert.equal(row.outerMs,10);assert.equal(row.innerMs,3);assert.equal(row.exclusive.outerMs,7);assert.equal(Object.values(row.exclusive).reduce((a,b)=>a+b,0),10);assert.throws(()=>x.failure(),/expected/);assert.equal(row.exclusive.failureMs,1);assert.throws(()=>w(x,'inner','again'),/Duplicate/);row=null;x.outer();assert.equal(time,21);console.log('PASS nested inclusive/exclusive, exception cleanup, duplicate guard, inactive sampling');process.exit(0);
 }
+const selectedCases=selectCases(process.env.QA_PERF_CASES);
 const build=process.env.QA_M1_BUILD;
 const sampleSeconds=Number(process.env.QA_PERF_SECONDS||30);
 if(!Number.isFinite(sampleSeconds)||sampleSeconds<12||sampleSeconds>120)throw Error('QA_PERF_SECONDS must be 12..120');
@@ -32,7 +49,7 @@ const quant=(rows,key)=>{const a=rows.map(r=>r[key]).filter(Number.isFinite).sor
  const out=path.resolve(process.env.QA_M1_RUN_ROOT||`output/playwright/m1/${build}/sustained-perf`);await fs.mkdir(out,{recursive:true});
  try{await fs.access(path.join(out,'report.json'));throw Error('Refuse to overwrite measured report');}catch(e){if(e.code!=='ENOENT')throw e;}
  const browser=await chromium.launch({channel:'chrome',headless:false}),context=await browser.newContext({viewport:{width:1440,height:900}}),page=await context.newPage(),errors=[];
- const report={schema:'sustained-current-perf-v2',build,scriptSHA256:createHash('sha256').update(await fs.readFile(__filename)).digest('hex'),sampleSeconds,viewport:{width:1440,height:900},browser:browser.version(),errors,results:[],passed:false,
+ const report={schema:'sustained-current-perf-v2',build,scriptSHA256:createHash('sha256').update(await fs.readFile(__filename)).digest('hex'),sampleSeconds,selectedCases:selectedCases.map(x=>x.name),viewport:{width:1440,height:900},browser:browser.version(),errors,results:[],passed:false,
   limitations:['Development machine only; no ordinary-PC pass.',`${sampleSeconds}-second sample per case, not a soak test.`,
    'Timer Ms fields are inclusive and overlap; do not sum them. exclusive maps remove only nested instrumented calls; their sum is a subset of scene CPU span.',
    'cpuUpdateMs spans Phaser preupdate to postupdate, including scene update, Three CPU render submission and UI work; excludes later Phaser rendering, browser layout/composite and GPU completion.',
@@ -51,13 +68,7 @@ const quant=(rows,key)=>{const a=rows.map(r=>r[key]).filter(Number.isFinite).sor
    c.events.on('preupdate',()=>{const t=performance.now();q.current=q.active?{t,frameMs:q.previous===null?null:t-q.previous,exclusive:{},calls:{}}:null;q.previous=t;});
    c.events.on('postupdate',()=>{if(q.current){const row=q.current;row.cpuUpdateMs=performance.now()-row.t;row.mode=c.mode;row.speed=c.actualSpeed;row.hidden=document.hidden;row.paused=c.paused;row.background=c.backgroundSuspended;row.rate=c.playbackRate;row.simulationTime=c.simulationTime;const peer=d.comparison();row.peer=peer?{mode:peer.controller.mode,speed:peer.controller.actualSpeed}:null;q.frames.push(row);}q.current=null;});
   },createTimers.toString());
-  for(const config of [
-   {name:'base-walk',base:true,walk:true},{name:'pants-walk',walk:true},{name:'skirt-walk',skirt:true,walk:true},
-   {name:'skirt-sit-hold',skirt:true,sit:true},{name:'skirt-sit-rise-switches',skirt:true,switches:true},
-   {name:'pants-run',walk:true,speed:2.6},{name:'skirt-run',skirt:true,walk:true,speed:2.6},
-   {name:'dual-pants-walk',dual:true,walk:true},{name:'dual-skirt-pants-walk',dual:true,skirt:true,walk:true}
-  ]){
-   const caseResult={config};report.results.push(caseResult);
+  for(const config of selectedCases){   const caseResult={config};report.results.push(caseResult);
    await page.evaluate(async cfg=>{const d=__debug,c=d.game.scene.getScene('CharacterStudio');d.removeComparison();d.reset();d.setPlaybackRate(1);d.setCorrections('full');d.setHelpers(false);d.setBodyMode(cfg.base?'base':'dressed');d.setOutfit(cfg.skirt?1:0);d.setDynamics(!cfg.base);c.cameraPreset('room',true);d.setSpeed(cfg.speed||.85);d.setPaused(true);
     if(cfg.dual){const p=await d.loadComparison('male');__measure.instrument(p.avatar,p.motion);p.controller.yaw=Math.PI/2;p.avatar.root.position.set(-2.2,0,2.6);p.avatar.root.rotation.y=Math.PI/2;p.motion.reset();}
     if(cfg.sit){c.action('sit');for(let i=0;i<2400;i++){c.simulate(1/120);if(c.mode==='sit'&&d.motion().getMetrics().sitProgress===1)break;}if(c.mode!=='sit'||d.motion().getMetrics().sitProgress!==1)throw Error('Sit-hold setup did not settle');}

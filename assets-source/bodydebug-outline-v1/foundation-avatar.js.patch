@@ -1,0 +1,17 @@
+--- a/prototype/src/foundation-avatar.js
++++ b/prototype/src/foundation-avatar.js
+@@ -73,11 +73,13 @@
+       bodyMaterials.set(
+         mesh,
+         materials.map(
+-          () =>
++          (sourceMaterial) =>
+             new THREE.MeshStandardMaterial({
+               color: "#728e9b",
+               roughness: 1,
+               side: THREE.DoubleSide,
++              // Keep the outline group, but do not redraw its unexpanded skin.
++              visible: sourceMaterial.isOutline !== true,
+             }),
+         ),
+       );

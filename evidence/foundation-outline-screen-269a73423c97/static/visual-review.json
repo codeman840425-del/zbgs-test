@@ -1,0 +1,161 @@
+{
+  "build": "269a73423c97",
+  "scope": "Viewed all 8 A/B/restored triptychs, native close crops and labelled nearest-neighbor2x room crops; all24 full PNG retained. Static diagnostic only.",
+  "changed": "Only Body_SKIN outline mode and factor. Actual drawingBufferHeight928; factor2/928=0.0021551724137931034. Face and all other sampled material properties unchanged; all raw/normalized bone local poses unchanged.",
+  "findings": [
+    "Both bodies room view: previously separated skin edge dots become a predominantly connected dark line. Front/side/close likewise show more continuous limb outlines.",
+    "Line is visibly darker/heavier, especially hands/fingers. This is a style choice, not a neutral correction.",
+    "Female room view shows a small new dark segment along the crown/hair silhouette, correlated with the Body-only intervention. Specific underlying head/body/hair geometry not isolated; do not claim hair material was modified.",
+    "Face outline remains the original path; facial edge issues are not fixed by this Body-only test."
+  ],
+  "restoration": "8 groups restored all requested material properties. Decoded images restore exactly or max1/255 channel rounding; no visible pose change.",
+  "decision": "Static continuity improvement supports one pre-authorized same-room normal walk A/B; no production adoption or additional parameter scan.",
+  "dynamic": "Two normal1x female-skirt original/candidate room walks recorded and full duration sampled3fps; see ../walk/visual-review.json. No high-frequency flicker pass.",
+  "comparisons": [
+    {
+      "body": "female",
+      "camera": "room",
+      "comparison": "female-room-comparison.png",
+      "box": [
+        300,
+        310,
+        390,
+        610
+      ],
+      "nearestScale": 2,
+      "restoredFullMaxChannelDelta": 0,
+      "restoredCropMaxChannelDelta": 0,
+      "restoredChangedBounds": null
+    },
+    {
+      "body": "female",
+      "camera": "close",
+      "comparison": "female-close-comparison.png",
+      "box": [
+        350,
+        35,
+        650,
+        860
+      ],
+      "nearestScale": 1,
+      "restoredFullMaxChannelDelta": 1,
+      "restoredCropMaxChannelDelta": 1,
+      "restoredChangedBounds": [
+        218,
+        201,
+        1005,
+        707
+      ]
+    },
+    {
+      "body": "female",
+      "camera": "front",
+      "comparison": "female-front-comparison.png",
+      "box": [
+        350,
+        35,
+        650,
+        860
+      ],
+      "nearestScale": 1,
+      "restoredFullMaxChannelDelta": 0,
+      "restoredCropMaxChannelDelta": 0,
+      "restoredChangedBounds": null
+    },
+    {
+      "body": "female",
+      "camera": "side",
+      "comparison": "female-side-comparison.png",
+      "box": [
+        350,
+        35,
+        650,
+        860
+      ],
+      "nearestScale": 1,
+      "restoredFullMaxChannelDelta": 1,
+      "restoredCropMaxChannelDelta": 0,
+      "restoredChangedBounds": [
+        891,
+        873,
+        892,
+        874
+      ]
+    },
+    {
+      "body": "male",
+      "camera": "room",
+      "comparison": "male-room-comparison.png",
+      "box": [
+        300,
+        310,
+        390,
+        610
+      ],
+      "nearestScale": 2,
+      "restoredFullMaxChannelDelta": 1,
+      "restoredCropMaxChannelDelta": 0,
+      "restoredChangedBounds": [
+        102,
+        174,
+        600,
+        447
+      ]
+    },
+    {
+      "body": "male",
+      "camera": "close",
+      "comparison": "male-close-comparison.png",
+      "box": [
+        350,
+        35,
+        650,
+        860
+      ],
+      "nearestScale": 1,
+      "restoredFullMaxChannelDelta": 1,
+      "restoredCropMaxChannelDelta": 1,
+      "restoredChangedBounds": [
+        218,
+        136,
+        1005,
+        395
+      ]
+    },
+    {
+      "body": "male",
+      "camera": "front",
+      "comparison": "male-front-comparison.png",
+      "box": [
+        350,
+        35,
+        650,
+        860
+      ],
+      "nearestScale": 1,
+      "restoredFullMaxChannelDelta": 1,
+      "restoredCropMaxChannelDelta": 1,
+      "restoredChangedBounds": [
+        112,
+        43,
+        867,
+        504
+      ]
+    },
+    {
+      "body": "male",
+      "camera": "side",
+      "comparison": "male-side-comparison.png",
+      "box": [
+        350,
+        35,
+        650,
+        860
+      ],
+      "nearestScale": 1,
+      "restoredFullMaxChannelDelta": 0,
+      "restoredCropMaxChannelDelta": 0,
+      "restoredChangedBounds": null
+    }
+  ]
+}

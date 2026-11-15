@@ -4,12 +4,13 @@
 
 ## 最新构建与恢复点
 
-- 已提交并逐字核实远程：`745e4e931da2b263d97f8f0be3e70848416486b3`，包含abdb运行源码、派生配置、短裤可选材质、音频/生产CLI和已归档证据、17bd裙失败样本。新独立检出npm ci/build产生abdb，58产物逐字节一致（evidence/rebuild-745e4e9）。原1b/175及短裤保存源重导仍保留各自范围。后续a296已归档abdb统一链/可靠性/性能与箱褶失败；新269手候选已局部合入工作区，未发布/未备份，cloth-admission失败源包亦待本次归档。
-- **最新集成abdb18defd26**：`experiments/m1-material-recipe-1/dist`，包含49b3两派生真算前臂配置、统一招手ready修复、男短裤可选material recipe。材质两片完整1×已录，四项ready实际回归通过；已完成abdb同镜头男女各25项整链、两种双实例各19任务、peer失败重试、本地2体/26拒绝及16项生命周期（含真实tab）；整片自然度仍待人工验收，recipe仍未持久化。
+- 已提交并逐字核实远程：`aed9597da5fc24c19f232af4f6da62be9d9e61c3`，包含269手关节包络源码、精确三体配置、旧44/08完整证据和cloth-admission失败源。269统一QA/影片及后续bodydebug小修尚待下次归档。
+- **公开交互269a73423c97 / 4192**：`experiments/m1-joint-integrated-1/dist`，从aed新检出npm ci/build全部61产物字节一致。手修复同版三体100姿态门、原女post-live259样本、资源隔离/失败重试已验；旧新room/close正常1×影片已归档evidence/hand-joint-269a73423c97。原abdb目录不覆盖，人工观感等待，裙形未过。
+- **前一固定abdb18defd26**：`experiments/m1-material-recipe-1/dist`，保留当前招手ready、两派生前臂和可选男短裤材质的基准。其男女各25项整链、两种双实例19任务/peer/本地合同/16生命周期/9场景性能仅证明abdb记录范围，不将版本标签改成269。
 - **175集成基准175a487d5ea3**：`experiments/m1-integrated-contact-1/dist`。341运动修复＋c9源坐姿腕目标＋ad0/4ee两轮等价缓存；未替换旧公开交互入口。前臂集成报告：`assets-source/forearm-collision-v2/integrated-175a/RESULT.md`。
 - **已接受的限定片段34148e260e6d**：`experiments/turn-candidate-19/dist`。用户接受同镜头1×录像约12–15秒加速与停止，原话“这段可以接受”。只限该片段；不包括其余转向、衣物、男性或175。范围与视频SHA：`evidence/female-acceleration-user-review-341.json`。
 - **efdf558930a4旧对照**：`experiments/turn-candidate-17/dist`，已有男性短裤/走跑舞/15转向影片，保留原构建标识；270+35数值矩阵属于更早0df453d35d2c，不改标。
-- **4192公开交互已更新为abdb18defd26待验候选**，男女实际浏览器入口与服装按钮已核（evidence/current-entry-abdb18defd26）；`?body=male`选择独立露膝短裤。旧942固定目录/影片保留，未覆盖。常驻实查仅4192演示与4174证据；4180/4191/5173当前未监听。启动/回滚见CURRENT-DEMO与delivery/candidate.json。
+- **4192实际男女入口已核为269**（evidence/current-entry-269a73423c97）；男性选择独立露膝短裤。常驻仅4192演示与4174证据，临时QA服务结束关闭。启动/回滚见CURRENT-DEMO与delivery/candidate.json。
 - 录像主索引：`http://127.0.0.1:4174/evidence/m1-current-review/`；341加速对照：`http://127.0.0.1:4174/evidence/m1-acceleration-efdf-vs-341/`。
 
 ## 已确认的修复及严格边界
@@ -24,23 +25,19 @@
 
 ## 当前分工及下一步
 
-- 最新归档远程已核为 `a2965f9a6d98902209ee517f29ed410ec0c5a36a`；公开4192仍abdb。此前745源码重建结论保留。
-- **新独立集成269a73423c97**：`experiments/m1-joint-integrated-1/dist`。在共享abdb上仅合入经独立审查的手关节包络局部补丁、helper及三体各自真实profile。没有拿08隔离工程覆盖main/live/material。三体schema 3正24负通过，实际主线回归进行中，未发布/未宣称手接触通过。
-- qa占用浏览器：三体actual/legacy100姿态真皮肤门、招手就绪/卸麦、材质恢复/男性短裤、实例和坏资源；再串行无录制成本及同镜头1×坐起。录制/成本期间不运行Blender、FFmpeg或Git大打包。
-- audit：独立核对共享集成及必要旧44/08完整证据归档，不修改runtime。
-- prototype：已完成一次cloth-admission源fit，精确间距1.219/1.742/7.819mm未达2/2/8.5mm，停止，没有运行cloth长片。复核恢复包并推荐最多两条不同机制的局部替代，不继续旧参数搜索。
-- root：集成、能力状态、源/失败证据归档；保留公共abdb和历史固定版本。手joint尚未有完整主线性能和正常片，不继承44/08局部通过。裙shape仍阻塞，男性/直播/接口已做增量继续保留。
+- QA：269受影响专项已结束，无后台工具。三体actual/legacy、post-live259、ready/材质/实例/坏配置；room/close两组正常1×；默认动态ON坐稳/切换各30秒已归档，待根负责人统一备份。没有重复未改9场景。原269 source/profile/schema审核仍保留。
+- audit：`6bc09ad85c3d` 独立bodydebug修复已真实跑男女两轮切换，实际debug主camera/shadow各2→1，几何/蒙皮/骨姿不变；正在最后PNG跨版比较。只隐藏诊断材质的重复outline组，不改穿衣。新fixed在experiments/m1-bodydebug-1/dist；共享源码已有此两行修改，未发布/提交。另screen描边对照有连续线但新增深边副作用，已冻结，不合主。
+- prototype：少褶独立真蒙皮源在codex/simple-skirt-v1隔离worktree。v1将开放水平截面误当闭环造成前缘外推；v2只修完整截面参数化，已消除前缘错误，四姿仍有body/top/chair交叉，未进游戏。正在分类可见缺陷和剩余源/权重/坐姿制作缺口；不得盲调或宣称新裙通过。原失败和v2各自保存。后续修改需有明确共同原因。
+- root：公开269已实际核按钮、身份、资源及观看入口；继续更新CAP/交接、收敛源与真实视觉问题。用户仅接受341约12–15秒片段；已请求269手接触正常片观感，等待期间继续上述独立工作。
 
-浏览器、录屏、性能串行。固定新build独立outDir，不覆盖prototype/dist或baseline。当前没有购买/换引擎授权需求。
+所有录像/性能独占，源码/离线准备可并行；固定目录不可覆盖。普通电脑仍缺实机，画风未批准，不展开M2/M3或批量美术。
 
 ## 剩余阻塞与交付门槛
 
-M1整体未通过。裙硬折/边缘及失败前片、男性短裤材质已有abdb完整动作录像、仍待用户选择；其他转向自然度和同版统一直播/舞/持物/异常链仍待收尾。abdb新检出58文件一致已完成；九场景各30秒无录制实测完成，裙坐稳P95 9.9/P99 11.6/max22.1ms，3/4243帧>16.7ms，其余场景无此长帧，所有场景无>33.34ms；开发机结果和活动占比见CURRENT-PERF-abdb18defd26，CPU预留预算仍未全达。目标普通电脑参考i5-1135G7/IrisXe/16GB/1440×900/60fps，尚无实机；RTX4090结果不外推。男女均技术候选，最终画风/正式直播特写/房间同屏目标仍未确认；只测单人双实例，不从在线人数推导同屏规模。
+M1整体未通过。269已消除所测三体起身掌指交叉，衣物形状与连续观感不因此通过；原裙硬折/裙边、男性短裤局部硬褶及最终材质选择、其他转向/舞蹈自然度仍须按固定片验收。两女性派生保留真实编辑闭环及已测范围，不扩成完整外貌参数系统。
 
-下一固定交付需同build页面与正常速证据、实际查看入口、能力状态/限制、源重生成与新检出build、远程提交核实。用户等待视觉判断期间继续其他独立任务；不把局部验收扩大为整体通过，不自行停工或扩到M2/M3。
+269默认动态ON实际房间单女裙坐稳30秒：帧P95 11.6ms、场景CPU P95 11.4ms，12帧>16.667ms、0>33.34ms，仍高于暂定8ms场景CPU预留目标；坐起切换P95 6.5ms有多状态混合，不冒充纯坐稳。仅Ryzen9950X3D/RTX4090/Chrome157开发机，普通i5-1135G7/IrisXe/16GB/1440×900/60fps参考设备尚无实测。9场景abdb记录保留历史范围，不重标269。
 
-## 重建和源资料
+源码aed新检出61产物一致、旧男短裤保存源重导闭环成立。269新QA/影片尚待下一证据提交；后续6bc仅debug渲染修复尚在QA，不覆盖已固定269。须继续保存所有源、处理步骤、失败证据、固定构建和远端核验，不能依赖临时output。技术检查、工程抽帧、用户连续观感与目标设备性能分别登记。
 
-从新检出：`cd prototype` → `npm ci` → `npm run build -- --outDir ../experiments/local-rebuild/dist`。检查：`node scripts/run-fixed-check.cjs <dist> <QA脚本> [参数]`，临时服务随检查结束关闭。745最新已备份提交的新检出已真实完成npm ci/build，58文件与abdb一致；未来改动仍需各自最终复建，不沿用旧证据。
-
-原开发工程永久遗失；prototype是新建可维护工程，baseline不改写。完整生产说明FOUNDATION-WORKFLOW及assets-source。已归档研究HTML49,992bytes、SHA5da0dba12324fdfa4388e0995191427e0b54830c0c18e5fb95701cf688d631db，已在此前远程保存，不重新调研。此前CURRENT现场已存history/CURRENT-before-175-integration-2026-11-14.md，仅作历史证据。
+男女仍为技术美术候选，正式直播特写、最终画风及房间同屏产品目标未批准；只按单人/双实例报告，不把在线人数当同屏规模。用户判断等待只阻塞对应美术/自然度结论，其余授权任务继续。完成M1后再给M2准入建议，不自动展开M2/M3。
