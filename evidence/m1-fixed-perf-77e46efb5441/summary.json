@@ -1,0 +1,3472 @@
+{
+  "schema": "sustained-current-perf-v2",
+  "build": "77e46efb5441",
+  "detail": false,
+  "headless": true,
+  "scriptSHA256": "90d7940617bc66f84bada4f7f1919843bf7bccbf50e6185b4d7865d9e8e4dac4",
+  "sampleSeconds": 30,
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "browser": "157.0.8103.51",
+  "meta": {
+    "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+    "cores": 8,
+    "deviceMemory": 32,
+    "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 4090 (0x00002684) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "loadMs": 1745.7000000476837
+  },
+  "errors": [],
+  "passed": true,
+  "limitations": [
+    "Browser mode: headless; only compare adjacent runs with the same mode.",
+    "Development machine only; no ordinary-PC pass.",
+    "30-second sample per case, not a soak test.",
+    "Timer Ms fields are inclusive and overlap; do not sum them. exclusive maps remove only nested instrumented calls; their sum is a subset of scene CPU span.",
+    "cpuUpdateMs spans Phaser preupdate to postupdate, including scene update, Three CPU render submission and UI work; excludes later Phaser rendering, browser layout/composite and GPU completion.",
+    "frameMs is preupdate-to-preupdate wall pacing, not GPU time. Polling commands and all instrumentation overhead remain in observations.",
+    "Setup uses reset/manual simulation and excludes load/setup/1s warmup from sampling. Route samples include turns/stops/250ms polling idle gaps; actual duty is reported.",
+    "JS heap and renderer object counts are not VRAM/whole-process memory; no video or CPU throttle."
+  ],
+  "environmentLimit": "Other existing Chrome processes were not closed; agents suspended heavy work, but absolute machine isolation is not established.",
+  "identity": {
+    "sourceDigest": "77e46efb54418a1d006d972e0922b96b33a580a2d0e77211884f5df1e225e25c",
+    "primary": {
+      "id": "beta-base-female-m1",
+      "url": "http://127.0.0.1:57265/assets/foundation/base-female-roundtrip.vrm",
+      "declaredSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+      "actualSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+      "bytes": 16311576
+    },
+    "final": {
+      "id": "beta-base-female-m1",
+      "url": "http://127.0.0.1:57265/assets/foundation/base-female-roundtrip.vrm",
+      "declaredSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+      "actualSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+      "bytes": 16311576
+    }
+  },
+  "cases": [
+    {
+      "config": {
+        "name": "base-walk",
+        "base": true,
+        "walk": true
+      },
+      "validity": {
+        "frames": 4951,
+        "invalidStateFrames": 0,
+        "missingInstrumentedFrames": 0,
+        "movingFrames": 4149,
+        "runningSpeedFrames": 0,
+        "peerMovingFrames": 0,
+        "modeFrames": {
+          "walk": 4880,
+          "idle": 71
+        },
+        "exclusiveOverSceneFrames": 0
+      },
+      "wallMs": 30671,
+      "simulationSeconds": 30.041899999976522,
+      "actualSetup": {
+        "bodyMode": "base",
+        "dynamics": false,
+        "corrections": "full"
+      },
+      "outfit": 0,
+      "cameraConstantAtEndpoints": true,
+      "dutyPercent": {
+        "moving": 83.80125227226823,
+        "runSpeedOver1_5": 0.0,
+        "peerMoving": 0.0
+      },
+      "inclusive": {
+        "frameMs": {
+          "count": 4950,
+          "mean": 6.067696969701786,
+          "p50": 6.099999904632568,
+          "p95": 6.399999976158142,
+          "p99": 6.799999952316284,
+          "max": 14.799999952316284,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "cpuUpdateMs": {
+          "count": 4951,
+          "mean": 1.455342354858266,
+          "p50": 1.399999976158142,
+          "p95": 2,
+          "p99": 2.5,
+          "max": 14.600000023841858,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "primarySimulateMs": {
+          "count": 4951,
+          "mean": 0.8940214103122018,
+          "p50": 0.8000000715255737,
+          "p95": 1.2999999523162842,
+          "p99": 1.600000023841858,
+          "max": 13.399999976158142,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4951,
+          "mean": 0.5053928491202925,
+          "p50": 0.5,
+          "p95": 0.8000000715255737,
+          "p99": 1.100000023841858,
+          "max": 12.899999976158142,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4951,
+          "mean": 0.29406180653372715,
+          "p50": 0.2999999523162842,
+          "p95": 0.5,
+          "p99": 0.6000000238418579,
+          "max": 3,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4951,
+          "mean": 0.06435063667332035,
+          "p50": 0.09999990463256836,
+          "p95": 0.19999992847442627,
+          "p99": 0.20000004768371582,
+          "max": 0.5,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4951,
+          "mean": 0.0003837608756549044,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0.10000002384185791,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4951,
+          "mean": 0.5423752771582514,
+          "p50": 0.5,
+          "p95": 0.7999999523162842,
+          "p99": 1.1999999284744263,
+          "max": 6,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        }
+      },
+      "exclusive": {
+        "frameMs": {
+          "count": 0
+        },
+        "cpuUpdateMs": {
+          "count": 0
+        },
+        "primarySimulateMs": {
+          "count": 4951,
+          "mean": 0.09418299378252733,
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.30000007152557373,
+          "max": 1.399999976158142,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4951,
+          "mean": 0.5053928491202925,
+          "p50": 0.5,
+          "p95": 0.8000000715255737,
+          "p99": 1.100000023841858,
+          "max": 12.899999976158142,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4951,
+          "mean": 0.22971116986040682,
+          "p50": 0.20000004768371582,
+          "p95": 0.3999999761581421,
+          "p99": 0.5,
+          "max": 2.9000000953674316,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4951,
+          "mean": 0.06435063667332035,
+          "p50": 0.09999990463256836,
+          "p95": 0.19999992847442627,
+          "p99": 0.20000004768371582,
+          "max": 0.5,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4951,
+          "mean": 0.0003837608756549044,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0.10000002384185791,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4951,
+          "mean": 0.5423752771582514,
+          "p50": 0.5,
+          "p95": 0.7999999523162842,
+          "p99": 1.1999999284744263,
+          "max": 6,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        }
+      },
+      "calls": {
+        "primarySimulateMs": {
+          "count": 4951,
+          "mean": 1.0002019793981014,
+          "p50": 1,
+          "p95": 1,
+          "p99": 1,
+          "max": 2,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4951,
+          "mean": 1.0002019793981014,
+          "p50": 1,
+          "p95": 1,
+          "p99": 1,
+          "max": 2,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4951,
+          "mean": 1.0002019793981014,
+          "p50": 1,
+          "p95": 1,
+          "p99": 1,
+          "max": 2,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4951,
+          "mean": 1.0002019793981014,
+          "p50": 1,
+          "p95": 1,
+          "p99": 1,
+          "max": 2,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4951,
+          "mean": 1.0002019793981014,
+          "p50": 1,
+          "p95": 1,
+          "p99": 1,
+          "max": 2,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4951,
+          "mean": 1.0,
+          "p50": 1,
+          "p95": 1,
+          "p99": 1,
+          "max": 1,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        }
+      },
+      "substepGroups": {
+        "1": {
+          "frames": 4950,
+          "cpuUpdateMs": {
+            "count": 4950,
+            "mean": 1.4548484846317407,
+            "p50": 1.399999976158142,
+            "p95": 2,
+            "p99": 2.5,
+            "max": 14.600000023841858,
+            "over16_667": 0,
+            "over33_34": 0,
+            "over50": 0
+          },
+          "motionMs": {
+            "count": 4950,
+            "mean": 0.5052121204077595,
+            "p50": 0.5,
+            "p95": 0.8000000715255737,
+            "p99": 1.100000023841858,
+            "max": 12.899999976158142,
+            "over16_667": 0,
+            "over33_34": 0,
+            "over50": 0
+          }
+        },
+        "2": {
+          "frames": 1,
+          "cpuUpdateMs": {
+            "count": 1,
+            "mean": 3.899999976158142,
+            "p50": 3.899999976158142,
+            "p95": 3.899999976158142,
+            "p99": 3.899999976158142,
+            "max": 3.899999976158142,
+            "over16_667": 0,
+            "over33_34": 0,
+            "over50": 0
+          },
+          "motionMs": {
+            "count": 1,
+            "mean": 1.399999976158142,
+            "p50": 1.399999976158142,
+            "p95": 1.399999976158142,
+            "p99": 1.399999976158142,
+            "max": 1.399999976158142,
+            "over16_667": 0,
+            "over33_34": 0,
+            "over50": 0
+          }
+        }
+      },
+      "resourcesEnd": {
+        "renderer": {
+          "calls": 130,
+          "triangles": 30702,
+          "textures": 44,
+          "geometries": 90
+        },
+        "heap": {
+          "used": 122838976,
+          "total": 164111600
+        }
+      },
+      "exclusiveSumPerFrame": {
+        "count": 4951,
+        "mean": 1.4363966874704532,
+        "p50": 1.399999976158142,
+        "p95": 1.899999976158142,
+        "p99": 2.5,
+        "max": 14.600000023841858,
+        "over16_667": 0,
+        "over33_34": 0,
+        "over50": 0
+      },
+      "sceneUninstrumentedMs": {
+        "count": 4951,
+        "mean": 0.018945667387812674,
+        "p50": 0.0,
+        "p95": 0.10000002384185791,
+        "p99": 0.2999999523162842,
+        "max": 1.0,
+        "over16_667": 0,
+        "over33_34": 0,
+        "over50": 0
+      }
+    },
+    {
+      "config": {
+        "name": "pants-walk",
+        "walk": true
+      },
+      "validity": {
+        "frames": 4989,
+        "invalidStateFrames": 0,
+        "missingInstrumentedFrames": 0,
+        "movingFrames": 4193,
+        "runningSpeedFrames": 0,
+        "peerMovingFrames": 0,
+        "modeFrames": {
+          "walk": 4924,
+          "idle": 65
+        },
+        "exclusiveOverSceneFrames": 0
+      },
+      "wallMs": 30919,
+      "simulationSeconds": 30.267000000000607,
+      "actualSetup": {
+        "bodyMode": "dressed",
+        "dynamics": true,
+        "corrections": "full"
+      },
+      "outfit": 0,
+      "cameraConstantAtEndpoints": true,
+      "dutyPercent": {
+        "moving": 84.04489877731008,
+        "runSpeedOver1_5": 0.0,
+        "peerMoving": 0.0
+      },
+      "inclusive": {
+        "frameMs": {
+          "count": 4988,
+          "mean": 6.0663592622293505,
+          "p50": 6.100000023841858,
+          "p95": 6.200000047683716,
+          "p99": 6.5,
+          "max": 10.299999952316284,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "cpuUpdateMs": {
+          "count": 4989,
+          "mean": 1.3148326315605514,
+          "p50": 1.2999999523162842,
+          "p95": 1.7000000476837158,
+          "p99": 2.200000047683716,
+          "max": 5.700000047683716,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "primarySimulateMs": {
+          "count": 4989,
+          "mean": 0.7602725999822213,
+          "p50": 0.7000000476837158,
+          "p95": 1.100000023841858,
+          "p99": 1.399999976158142,
+          "max": 3.5,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4989,
+          "mean": 0.43820404796137746,
+          "p50": 0.3999999761581421,
+          "p95": 0.7000000476837158,
+          "p99": 0.9000000953674316,
+          "max": 1.899999976158142,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4989,
+          "mean": 0.2386851084927658,
+          "p50": 0.20000004768371582,
+          "p95": 0.3999999761581421,
+          "p99": 0.5,
+          "max": 1.3000000715255737,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4989,
+          "mean": 0.09577069626133579,
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.2999999523162842,
+          "max": 0.6000000238418579,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4989,
+          "mean": 0.00022048497634890755,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0.10000002384185791,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4989,
+          "mean": 0.5391260772603002,
+          "p50": 0.5,
+          "p95": 0.7000000476837158,
+          "p99": 1,
+          "max": 2.299999952316284,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        }
+      },
+      "exclusive": {
+        "frameMs": {
+          "count": 0
+        },
+        "cpuUpdateMs": {
+          "count": 0
+        },
+        "primarySimulateMs": {
+          "count": 4989,
+          "mean": 0.08316295855172914,
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.2999999523162842,
+          "max": 0.8999999761581421,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4989,
+          "mean": 0.43820404796137746,
+          "p50": 0.3999999761581421,
+          "p95": 0.7000000476837158,
+          "p99": 0.9000000953674316,
+          "max": 1.899999976158142,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4989,
+          "mean": 0.14291441223143003,
+          "p50": 0.10000002384185791,
+          "p95": 0.2999999523162842,
+          "p99": 0.30000007152557373,
+          "max": 0.8999999761581421,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4989,
+          "mean": 0.09577069626133579,
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.2999999523162842,
+          "max": 0.6000000238418579,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4989,
+          "mean": 0.00022048497634890755,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0.10000002384185791,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4989,
+          "mean": 0.5391260772603002,
+          "p50": 0.5,
+          "p95": 0.7000000476837158,
+          "p99": 1,
+          "max": 2.299999952316284,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        }
+      },
+      "calls": {
+        "primarySimulateMs": {
+          "count": 4989,
+          "mean": 1.0004008819402685,
+          "p50": 1,
+          "p95": 1,
+          "p99": 1,
+          "max": 2,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4989,
+          "mean": 1.0004008819402685,
+          "p50": 1,
+          "p95": 1,
+          "p99": 1,
+          "max": 2,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4989,
+          "mean": 1.0004008819402685,
+          "p50": 1,
+          "p95": 1,
+          "p99": 1,
+          "max": 2,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4989,
+          "mean": 1.0004008819402685,
+          "p50": 1,
+          "p95": 1,
+          "p99": 1,
+          "max": 2,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4989,
+          "mean": 1.0004008819402685,
+          "p50": 1,
+          "p95": 1,
+          "p99": 1,
+          "max": 2,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4989,
+          "mean": 1.0,
+          "p50": 1,
+          "p95": 1,
+          "p99": 1,
+          "max": 1,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        }
+      },
+      "substepGroups": {
+        "1": {
+          "frames": 4987,
+          "cpuUpdateMs": {
+            "count": 4987,
+            "mean": 1.3137758168998261,
+            "p50": 1.2999999523162842,
+            "p95": 1.7000000476837158,
+            "p99": 2.200000047683716,
+            "max": 4.299999952316284,
+            "over16_667": 0,
+            "over33_34": 0,
+            "over50": 0
+          },
+          "motionMs": {
+            "count": 4987,
+            "mean": 0.43785843097162025,
+            "p50": 0.3999999761581421,
+            "p95": 0.7000000476837158,
+            "p99": 0.9000000953674316,
+            "max": 1.7999999523162842,
+            "over16_667": 0,
+            "over33_34": 0,
+            "over50": 0
+          }
+        },
+        "2": {
+          "frames": 2,
+          "cpuUpdateMs": {
+            "count": 2,
+            "mean": 3.949999988079071,
+            "p50": 5.700000047683716,
+            "p95": 5.700000047683716,
+            "p99": 5.700000047683716,
+            "max": 5.700000047683716,
+            "over16_667": 0,
+            "over33_34": 0,
+            "over50": 0
+          },
+          "motionMs": {
+            "count": 2,
+            "mean": 1.300000011920929,
+            "p50": 1.899999976158142,
+            "p95": 1.899999976158142,
+            "p99": 1.899999976158142,
+            "max": 1.899999976158142,
+            "over16_667": 0,
+            "over33_34": 0,
+            "over50": 0
+          }
+        }
+      },
+      "resourcesEnd": {
+        "renderer": {
+          "calls": 138,
+          "triangles": 52806,
+          "textures": 44,
+          "geometries": 90
+        },
+        "heap": {
+          "used": 54226341,
+          "total": 112196709
+        }
+      },
+      "exclusiveSumPerFrame": {
+        "count": 4989,
+        "mean": 1.2993986772425214,
+        "p50": 1.2000000476837158,
+        "p95": 1.7000000476837158,
+        "p99": 2.200000047683716,
+        "max": 5.700000047683716,
+        "over16_667": 0,
+        "over33_34": 0,
+        "over50": 0
+      },
+      "sceneUninstrumentedMs": {
+        "count": 4989,
+        "mean": 0.015433954318029939,
+        "p50": 0.0,
+        "p95": 0.10000002384185791,
+        "p99": 0.20000004768371582,
+        "max": 0.6000000238418579,
+        "over16_667": 0,
+        "over33_34": 0,
+        "over50": 0
+      }
+    },
+    {
+      "config": {
+        "name": "skirt-walk",
+        "skirt": true,
+        "walk": true
+      },
+      "validity": {
+        "frames": 4905,
+        "invalidStateFrames": 0,
+        "missingInstrumentedFrames": 0,
+        "movingFrames": 4086,
+        "runningSpeedFrames": 0,
+        "peerMovingFrames": 0,
+        "modeFrames": {
+          "walk": 4817,
+          "idle": 88
+        },
+        "exclusiveOverSceneFrames": 0
+      },
+      "wallMs": 30807,
+      "simulationSeconds": 30.14020000004814,
+      "actualSetup": {
+        "bodyMode": "dressed",
+        "dynamics": true,
+        "corrections": "full"
+      },
+      "outfit": 1,
+      "cameraConstantAtEndpoints": true,
+      "dutyPercent": {
+        "moving": 83.30275229357798,
+        "runSpeedOver1_5": 0.0,
+        "peerMoving": 0.0
+      },
+      "inclusive": {
+        "frameMs": {
+          "count": 4904,
+          "mean": 6.144269983686787,
+          "p50": 6.100000023841858,
+          "p95": 6.300000071525574,
+          "p99": 9.300000071525574,
+          "max": 23.100000023841858,
+          "over16_667": 7,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "cpuUpdateMs": {
+          "count": 4905,
+          "mean": 4.315881754037194,
+          "p50": 4.100000023841858,
+          "p95": 5.299999952316284,
+          "p99": 9.100000023841858,
+          "max": 22.800000071525574,
+          "over16_667": 7,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "primarySimulateMs": {
+          "count": 4905,
+          "mean": 3.708929664570986,
+          "p50": 3.5,
+          "p95": 4.5,
+          "p99": 8.199999928474426,
+          "max": 21.200000047683716,
+          "over16_667": 3,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4905,
+          "mean": 3.40067278235452,
+          "p50": 3.200000047683716,
+          "p95": 4.100000023841858,
+          "p99": 7.5,
+          "max": 20.40000009536743,
+          "over16_667": 2,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4905,
+          "mean": 0.2248114181950187,
+          "p50": 0.20000004768371582,
+          "p95": 0.30000007152557373,
+          "p99": 0.5000001192092896,
+          "max": 2.1999999284744263,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4905,
+          "mean": 0.0899490325093634,
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.20000004768371582,
+          "max": 1.1999999284744263,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4905,
+          "mean": 0.00018348623367138472,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0.10000002384185791,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4905,
+          "mean": 0.5897247706956699,
+          "p50": 0.5999999046325684,
+          "p95": 0.8000000715255737,
+          "p99": 1.5,
+          "max": 5.899999976158142,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        }
+      },
+      "exclusive": {
+        "frameMs": {
+          "count": 0
+        },
+        "cpuUpdateMs": {
+          "count": 0
+        },
+        "primarySimulateMs": {
+          "count": 4905,
+          "mean": 0.0832619777877761,
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.30000007152557373,
+          "max": 0.9000000953674316,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4905,
+          "mean": 3.40067278235452,
+          "p50": 3.200000047683716,
+          "p95": 4.100000023841858,
+          "p99": 7.5,
+          "max": 20.40000009536743,
+          "over16_667": 2,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4905,
+          "mean": 0.1348623856856553,
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.30000007152557373,
+          "max": 1.8000000715255737,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4905,
+          "mean": 0.0899490325093634,
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.20000004768371582,
+          "max": 1.1999999284744263,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4905,
+          "mean": 0.00018348623367138472,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0.10000002384185791,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4905,
+          "mean": 0.5897247706956699,
+          "p50": 0.5999999046325684,
+          "p95": 0.8000000715255737,
+          "p99": 1.5,
+          "max": 5.899999976158142,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        }
+      },
+      "calls": {
+        "primarySimulateMs": {
+          "count": 4905,
+          "mean": 1.0177370030581039,
+          "p50": 1,
+          "p95": 1,
+          "p99": 2,
+          "max": 3,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4905,
+          "mean": 1.0177370030581039,
+          "p50": 1,
+          "p95": 1,
+          "p99": 2,
+          "max": 3,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4905,
+          "mean": 1.0177370030581039,
+          "p50": 1,
+          "p95": 1,
+          "p99": 2,
+          "max": 3,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4905,
+          "mean": 1.0177370030581039,
+          "p50": 1,
+          "p95": 1,
+          "p99": 2,
+          "max": 3,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4905,
+          "mean": 1.0177370030581039,
+          "p50": 1,
+          "p95": 1,
+          "p99": 2,
+          "max": 3,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4905,
+          "mean": 1.0,
+          "p50": 1,
+          "p95": 1,
+          "p99": 1,
+          "max": 1,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        }
+      },
+      "substepGroups": {
+        "1": {
+          "frames": 4825,
+          "cpuUpdateMs": {
+            "count": 4825,
+            "mean": 4.217761658683342,
+            "p50": 4.100000023841858,
+            "p95": 5.099999904632568,
+            "p99": 6.300000071525574,
+            "max": 17.399999976158142,
+            "over16_667": 1,
+            "over33_34": 0,
+            "over50": 0
+          },
+          "motionMs": {
+            "count": 4825,
+            "mean": 3.3166839373297026,
+            "p50": 3.200000047683716,
+            "p95": 4,
+            "p99": 4.699999928474426,
+            "max": 15.699999928474426,
+            "over16_667": 0,
+            "over33_34": 0,
+            "over50": 0
+          }
+        },
+        "2": {
+          "frames": 73,
+          "cpuUpdateMs": {
+            "count": 73,
+            "mean": 9.59589041749092,
+            "p50": 9,
+            "p95": 13.799999952316284,
+            "p99": 22.800000071525574,
+            "max": 22.800000071525574,
+            "over16_667": 2,
+            "over33_34": 0,
+            "over50": 0
+          },
+          "motionMs": {
+            "count": 73,
+            "mean": 7.998630136659701,
+            "p50": 7.5,
+            "p95": 12.100000023841858,
+            "p99": 20.40000009536743,
+            "max": 20.40000009536743,
+            "over16_667": 1,
+            "over33_34": 0,
+            "over50": 0
+          }
+        },
+        "3": {
+          "frames": 7,
+          "cpuUpdateMs": {
+            "count": 7,
+            "mean": 16.885714275496348,
+            "p50": 16.799999952316284,
+            "p95": 21.800000071525574,
+            "p99": 21.800000071525574,
+            "max": 21.800000071525574,
+            "over16_667": 4,
+            "over33_34": 0,
+            "over50": 0
+          },
+          "motionMs": {
+            "count": 7,
+            "mean": 13.342857122421265,
+            "p50": 12.99999988079071,
+            "p95": 17,
+            "p99": 17,
+            "max": 17,
+            "over16_667": 1,
+            "over33_34": 0,
+            "over50": 0
+          }
+        }
+      },
+      "resourcesEnd": {
+        "renderer": {
+          "calls": 138,
+          "triangles": 51078,
+          "textures": 45,
+          "geometries": 91
+        },
+        "heap": {
+          "used": 69497033,
+          "total": 124746853
+        }
+      },
+      "exclusiveSumPerFrame": {
+        "count": 4905,
+        "mean": 4.2986544352666565,
+        "p50": 4.100000023841858,
+        "p95": 5.299999952316284,
+        "p99": 9.100000023841858,
+        "max": 22.800000071525574,
+        "over16_667": 7,
+        "over33_34": 0,
+        "over50": 0
+      },
+      "sceneUninstrumentedMs": {
+        "count": 4905,
+        "mean": 0.017227318770537927,
+        "p50": 0.0,
+        "p95": 0.10000002384185791,
+        "p99": 0.2999999523162842,
+        "max": 0.6000000238418579,
+        "over16_667": 0,
+        "over33_34": 0,
+        "over50": 0
+      }
+    },
+    {
+      "config": {
+        "name": "skirt-sit-hold",
+        "skirt": true,
+        "sit": true
+      },
+      "validity": {
+        "frames": 4699,
+        "invalidStateFrames": 0,
+        "missingInstrumentedFrames": 0,
+        "movingFrames": 0,
+        "runningSpeedFrames": 0,
+        "peerMovingFrames": 0,
+        "modeFrames": {
+          "sit": 4699
+        },
+        "exclusiveOverSceneFrames": 0
+      },
+      "wallMs": 30790,
+      "simulationSeconds": 30.0695999999053,
+      "actualSetup": {
+        "bodyMode": "dressed",
+        "dynamics": true,
+        "corrections": "full"
+      },
+      "outfit": 1,
+      "cameraConstantAtEndpoints": true,
+      "dutyPercent": {
+        "moving": 0.0,
+        "runSpeedOver1_5": 0.0,
+        "peerMoving": 0.0
+      },
+      "inclusive": {
+        "frameMs": {
+          "count": 4698,
+          "mean": 6.398786717752235,
+          "p50": 6.100000023841858,
+          "p95": 9.300000071525574,
+          "p99": 10.700000047683716,
+          "max": 32,
+          "over16_667": 3,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "cpuUpdateMs": {
+          "count": 4699,
+          "mean": 5.162098319055071,
+          "p50": 4.699999928474426,
+          "p95": 9.199999928474426,
+          "p99": 10.5,
+          "max": 31.100000023841858,
+          "over16_667": 3,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "primarySimulateMs": {
+          "count": 4699,
+          "mean": 4.592785699211757,
+          "p50": 4.100000023841858,
+          "p95": 8.5,
+          "p99": 9.700000047683716,
+          "max": 27.5,
+          "over16_667": 2,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4699,
+          "mean": 4.2740583093299795,
+          "p50": 3.8000000715255737,
+          "p95": 7.899999976158142,
+          "p99": 9.100000143051147,
+          "max": 26.90000009536743,
+          "over16_667": 2,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4699,
+          "mean": 0.24298787104319855,
+          "p50": 0.20000004768371582,
+          "p95": 0.49999988079071045,
+          "p99": 0.6000000238418579,
+          "max": 1.5,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4699,
+          "mean": 0.0943179403779151,
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.30000007152557373,
+          "max": 0.7000000476837158,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4699,
+          "mean": 0.00027665452110840934,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0.10000002384185791,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4699,
+          "mean": 0.5537773992792548,
+          "p50": 0.5,
+          "p95": 0.7999999523162842,
+          "p99": 1.1999999284744263,
+          "max": 3.600000023841858,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        }
+      },
+      "exclusive": {
+        "frameMs": {
+          "count": 0
+        },
+        "cpuUpdateMs": {
+          "count": 0
+        },
+        "primarySimulateMs": {
+          "count": 4699,
+          "mean": 0.07546286431747083,
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.30000007152557373,
+          "max": 0.6000001430511475,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4699,
+          "mean": 4.2740583093299795,
+          "p50": 3.8000000715255737,
+          "p95": 7.899999976158142,
+          "p99": 9.100000143051147,
+          "max": 26.90000009536743,
+          "over16_667": 2,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4699,
+          "mean": 0.14866993066528347,
+          "p50": 0.10000002384185791,
+          "p95": 0.30000007152557373,
+          "p99": 0.40000009536743164,
+          "max": 1.2000000476837158,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4699,
+          "mean": 0.0943179403779151,
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.30000007152557373,
+          "max": 0.7000000476837158,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4699,
+          "mean": 0.00027665452110840934,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0.10000002384185791,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4699,
+          "mean": 0.5537773992792548,
+          "p50": 0.5,
+          "p95": 0.7999999523162842,
+          "p99": 1.1999999284744263,
+          "max": 3.600000023841858,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        }
+      },
+      "calls": {
+        "primarySimulateMs": {
+          "count": 4699,
+          "mean": 1.0929985103213449,
+          "p50": 1,
+          "p95": 2,
+          "p99": 2,
+          "max": 4,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4699,
+          "mean": 1.0929985103213449,
+          "p50": 1,
+          "p95": 2,
+          "p99": 2,
+          "max": 4,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4699,
+          "mean": 1.0929985103213449,
+          "p50": 1,
+          "p95": 2,
+          "p99": 2,
+          "max": 4,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4699,
+          "mean": 1.0929985103213449,
+          "p50": 1,
+          "p95": 2,
+          "p99": 2,
+          "max": 4,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4699,
+          "mean": 1.0929985103213449,
+          "p50": 1,
+          "p95": 2,
+          "p99": 2,
+          "max": 4,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4699,
+          "mean": 1.0,
+          "p50": 1,
+          "p95": 1,
+          "p99": 1,
+          "max": 1,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        }
+      },
+      "substepGroups": {
+        "1": {
+          "frames": 4266,
+          "cpuUpdateMs": {
+            "count": 4266,
+            "mean": 4.726699484244122,
+            "p50": 4.600000023841858,
+            "p95": 5.300000071525574,
+            "p99": 6.5,
+            "max": 31.100000023841858,
+            "over16_667": 1,
+            "over33_34": 0,
+            "over50": 0
+          },
+          "motionMs": {
+            "count": 4266,
+            "mean": 3.879160805565619,
+            "p50": 3.799999952316284,
+            "p95": 4.399999976158142,
+            "p99": 5.100000023841858,
+            "max": 26.90000009536743,
+            "over16_667": 1,
+            "over33_34": 0,
+            "over50": 0
+          }
+        },
+        "2": {
+          "frames": 430,
+          "cpuUpdateMs": {
+            "count": 430,
+            "mean": 9.409534886825917,
+            "p50": 9.200000047683716,
+            "p95": 11.199999928474426,
+            "p99": 12.299999952316284,
+            "max": 16.800000071525574,
+            "over16_667": 1,
+            "over33_34": 0,
+            "over50": 0
+          },
+          "motionMs": {
+            "count": 430,
+            "mean": 8.126511625910915,
+            "p50": 7.900000095367432,
+            "p95": 9.600000023841858,
+            "p99": 10.600000023841858,
+            "max": 14.699999928474426,
+            "over16_667": 0,
+            "over33_34": 0,
+            "over50": 0
+          }
+        },
+        "3": {
+          "frames": 2,
+          "cpuUpdateMs": {
+            "count": 2,
+            "mean": 13.600000023841858,
+            "p50": 13.800000071525574,
+            "p95": 13.800000071525574,
+            "p99": 13.800000071525574,
+            "max": 13.800000071525574,
+            "over16_667": 0,
+            "over33_34": 0,
+            "over50": 0
+          },
+          "motionMs": {
+            "count": 2,
+            "mean": 11.899999976158142,
+            "p50": 11.899999976158142,
+            "p95": 11.899999976158142,
+            "p99": 11.899999976158142,
+            "max": 11.899999976158142,
+            "over16_667": 0,
+            "over33_34": 0,
+            "over50": 0
+          }
+        },
+        "4": {
+          "frames": 1,
+          "cpuUpdateMs": {
+            "count": 1,
+            "mean": 19.300000071525574,
+            "p50": 19.300000071525574,
+            "p95": 19.300000071525574,
+            "p99": 19.300000071525574,
+            "max": 19.300000071525574,
+            "over16_667": 1,
+            "over33_34": 0,
+            "over50": 0
+          },
+          "motionMs": {
+            "count": 1,
+            "mean": 17.09999990463257,
+            "p50": 17.09999990463257,
+            "p95": 17.09999990463257,
+            "p99": 17.09999990463257,
+            "max": 17.09999990463257,
+            "over16_667": 1,
+            "over33_34": 0,
+            "over50": 0
+          }
+        }
+      },
+      "resourcesEnd": {
+        "renderer": {
+          "calls": 136,
+          "triangles": 50950,
+          "textures": 45,
+          "geometries": 91
+        },
+        "heap": {
+          "used": 114332232,
+          "total": 167173276
+        }
+      },
+      "exclusiveSumPerFrame": {
+        "count": 4699,
+        "mean": 5.146563098491012,
+        "p50": 4.699999928474426,
+        "p95": 9.199999928474426,
+        "p99": 10.5,
+        "max": 31.100000023841858,
+        "over16_667": 2,
+        "over33_34": 0,
+        "over50": 0
+      },
+      "sceneUninstrumentedMs": {
+        "count": 4699,
+        "mean": 0.015535220564058623,
+        "p50": 0.0,
+        "p95": 0.10000002384185791,
+        "p99": 0.20000004768371582,
+        "max": 0.7000000476837158,
+        "over16_667": 0,
+        "over33_34": 0,
+        "over50": 0
+      }
+    },
+    {
+      "config": {
+        "name": "skirt-sit-rise-switches",
+        "skirt": true,
+        "switches": true
+      },
+      "validity": {
+        "frames": 4798,
+        "invalidStateFrames": 0,
+        "missingInstrumentedFrames": 0,
+        "movingFrames": 633,
+        "runningSpeedFrames": 0,
+        "peerMovingFrames": 0,
+        "modeFrames": {
+          "walk": 635,
+          "idle": 269,
+          "sit": 2296,
+          "stand": 1598
+        },
+        "exclusiveOverSceneFrames": 0
+      },
+      "wallMs": 30740,
+      "simulationSeconds": 30.130299999952726,
+      "actualSetup": {
+        "bodyMode": "dressed",
+        "dynamics": true,
+        "corrections": "full"
+      },
+      "outfit": 1,
+      "cameraConstantAtEndpoints": true,
+      "dutyPercent": {
+        "moving": 13.192997082117548,
+        "runSpeedOver1_5": 0.0,
+        "peerMoving": 0.0
+      },
+      "inclusive": {
+        "frameMs": {
+          "count": 4797,
+          "mean": 6.278736710448998,
+          "p50": 6.100000023841858,
+          "p95": 7.700000047683716,
+          "p99": 11.400000095367432,
+          "max": 26.899999976158142,
+          "over16_667": 11,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "cpuUpdateMs": {
+          "count": 4798,
+          "mean": 4.4323884947392385,
+          "p50": 4.099999904632568,
+          "p95": 7.5,
+          "p99": 11,
+          "max": 26.699999928474426,
+          "over16_667": 10,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "primarySimulateMs": {
+          "count": 4798,
+          "mean": 3.87042517612854,
+          "p50": 3.5,
+          "p95": 6.400000095367432,
+          "p99": 10.200000047683716,
+          "max": 25.799999952316284,
+          "over16_667": 7,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4798,
+          "mean": 3.5533972487890906,
+          "p50": 3.200000047683716,
+          "p95": 5.700000047683716,
+          "p99": 9.399999976158142,
+          "max": 25,
+          "over16_667": 5,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4798,
+          "mean": 0.2323884952311816,
+          "p50": 0.20000004768371582,
+          "p95": 0.3999999761581421,
+          "p99": 0.6000000238418579,
+          "max": 1.899999976158142,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4798,
+          "mean": 0.09343476422680771,
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.2999999523162842,
+          "max": 1.1999999284744263,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4798,
+          "mean": 0.00041684035014589413,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0.10000002384185791,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4798,
+          "mean": 0.5461025436553621,
+          "p50": 0.5,
+          "p95": 0.7000000476837158,
+          "p99": 1.2000000476837158,
+          "max": 4.700000047683716,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        }
+      },
+      "exclusive": {
+        "frameMs": {
+          "count": 0
+        },
+        "cpuUpdateMs": {
+          "count": 0
+        },
+        "primarySimulateMs": {
+          "count": 4798,
+          "mean": 0.08422259175812219,
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.30000007152557373,
+          "max": 1.2999999523162842,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4798,
+          "mean": 3.5533972487890906,
+          "p50": 3.200000047683716,
+          "p95": 5.700000047683716,
+          "p99": 9.399999976158142,
+          "max": 25,
+          "over16_667": 5,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4798,
+          "mean": 0.1389537310043739,
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.3999999761581421,
+          "max": 1.600000023841858,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4798,
+          "mean": 0.09343476422680771,
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.2999999523162842,
+          "max": 1.1999999284744263,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4798,
+          "mean": 0.00041684035014589413,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0.10000002384185791,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4798,
+          "mean": 0.5461025436553621,
+          "p50": 0.5,
+          "p95": 0.7000000476837158,
+          "p99": 1.2000000476837158,
+          "max": 4.700000047683716,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        }
+      },
+      "calls": {
+        "primarySimulateMs": {
+          "count": 4798,
+          "mean": 1.0479366402667778,
+          "p50": 1,
+          "p95": 1,
+          "p99": 2,
+          "max": 4,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4798,
+          "mean": 1.0479366402667778,
+          "p50": 1,
+          "p95": 1,
+          "p99": 2,
+          "max": 4,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4798,
+          "mean": 1.0479366402667778,
+          "p50": 1,
+          "p95": 1,
+          "p99": 2,
+          "max": 4,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4798,
+          "mean": 1.0479366402667778,
+          "p50": 1,
+          "p95": 1,
+          "p99": 2,
+          "max": 4,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4798,
+          "mean": 1.0479366402667778,
+          "p50": 1,
+          "p95": 1,
+          "p99": 2,
+          "max": 4,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4798,
+          "mean": 1.0,
+          "p50": 1,
+          "p95": 1,
+          "p99": 1,
+          "max": 1,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        }
+      },
+      "substepGroups": {
+        "1": {
+          "frames": 4579,
+          "cpuUpdateMs": {
+            "count": 4579,
+            "mean": 4.150753438876274,
+            "p50": 4,
+            "p95": 5.100000023841858,
+            "p99": 6.5,
+            "max": 21.799999952316284,
+            "over16_667": 1,
+            "over33_34": 0,
+            "over50": 0
+          },
+          "motionMs": {
+            "count": 4579,
+            "mean": 3.3000873551146905,
+            "p50": 3.200000047683716,
+            "p95": 4.199999928474426,
+            "p99": 5,
+            "max": 20.59999990463257,
+            "over16_667": 1,
+            "over33_34": 0,
+            "over50": 0
+          }
+        },
+        "2": {
+          "frames": 209,
+          "cpuUpdateMs": {
+            "count": 209,
+            "mean": 9.938277518349972,
+            "p50": 9.5,
+            "p95": 13.299999952316284,
+            "p99": 17.600000023841858,
+            "max": 21.799999952316284,
+            "over16_667": 3,
+            "over33_34": 0,
+            "over50": 0
+          },
+          "motionMs": {
+            "count": 209,
+            "mean": 8.515789476878336,
+            "p50": 8.200000047683716,
+            "p95": 11.50000011920929,
+            "p99": 15,
+            "max": 20.300000071525574,
+            "over16_667": 1,
+            "over33_34": 0,
+            "over50": 0
+          }
+        },
+        "3": {
+          "frames": 9,
+          "cpuUpdateMs": {
+            "count": 9,
+            "mean": 18.077777756585014,
+            "p50": 17,
+            "p95": 26.699999928474426,
+            "p99": 26.699999928474426,
+            "max": 26.699999928474426,
+            "over16_667": 5,
+            "over33_34": 0,
+            "over50": 0
+          },
+          "motionMs": {
+            "count": 9,
+            "mean": 15.65555555290646,
+            "p50": 14.200000047683716,
+            "p95": 25,
+            "p99": 25,
+            "max": 25,
+            "over16_667": 2,
+            "over33_34": 0,
+            "over50": 0
+          }
+        },
+        "4": {
+          "frames": 1,
+          "cpuUpdateMs": {
+            "count": 1,
+            "mean": 20.5,
+            "p50": 20.5,
+            "p95": 20.5,
+            "p99": 20.5,
+            "max": 20.5,
+            "over16_667": 1,
+            "over33_34": 0,
+            "over50": 0
+          },
+          "motionMs": {
+            "count": 1,
+            "mean": 17.399999976158142,
+            "p50": 17.399999976158142,
+            "p95": 17.399999976158142,
+            "p99": 17.399999976158142,
+            "max": 17.399999976158142,
+            "over16_667": 1,
+            "over33_34": 0,
+            "over50": 0
+          }
+        }
+      },
+      "resourcesEnd": {
+        "renderer": {
+          "calls": 136,
+          "triangles": 50950,
+          "textures": 45,
+          "geometries": 91
+        },
+        "heap": {
+          "used": 50534419,
+          "total": 127671399
+        }
+      },
+      "exclusiveSumPerFrame": {
+        "count": 4798,
+        "mean": 4.416527719783902,
+        "p50": 4.0,
+        "p95": 7.400000095367432,
+        "p99": 11.0,
+        "max": 26.699999928474426,
+        "over16_667": 10,
+        "over33_34": 0,
+        "over50": 0
+      },
+      "sceneUninstrumentedMs": {
+        "count": 4798,
+        "mean": 0.015860774955336082,
+        "p50": 0.0,
+        "p95": 0.10000002384185791,
+        "p99": 0.20000004768371582,
+        "max": 0.5,
+        "over16_667": 0,
+        "over33_34": 0,
+        "over50": 0
+      }
+    },
+    {
+      "config": {
+        "name": "pants-run",
+        "walk": true,
+        "speed": 2.6
+      },
+      "validity": {
+        "frames": 4992,
+        "invalidStateFrames": 0,
+        "missingInstrumentedFrames": 0,
+        "movingFrames": 3586,
+        "runningSpeedFrames": 2286,
+        "peerMovingFrames": 0,
+        "modeFrames": {
+          "walk": 4851,
+          "idle": 141
+        },
+        "exclusiveOverSceneFrames": 0
+      },
+      "wallMs": 30925,
+      "simulationSeconds": 30.285100000024357,
+      "actualSetup": {
+        "bodyMode": "dressed",
+        "dynamics": true,
+        "corrections": "full"
+      },
+      "outfit": 0,
+      "cameraConstantAtEndpoints": true,
+      "dutyPercent": {
+        "moving": 71.8349358974359,
+        "runSpeedOver1_5": 45.79326923076923,
+        "peerMoving": 0.0
+      },
+      "inclusive": {
+        "frameMs": {
+          "count": 4991,
+          "mean": 6.066740132242805,
+          "p50": 6.099999904632568,
+          "p95": 6.200000047683716,
+          "p99": 6.5,
+          "max": 9.200000047683716,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "cpuUpdateMs": {
+          "count": 4992,
+          "mean": 1.45897435864959,
+          "p50": 1.399999976158142,
+          "p95": 2,
+          "p99": 2.5,
+          "max": 5.600000023841858,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "primarySimulateMs": {
+          "count": 4992,
+          "mean": 0.8516426279137914,
+          "p50": 0.7999999523162842,
+          "p95": 1.2999999523162842,
+          "p99": 1.7000000476837158,
+          "max": 3.9000000953674316,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4992,
+          "mean": 0.4919070512629472,
+          "p50": 0.40000009536743164,
+          "p95": 0.8999999761581421,
+          "p99": 1.2000000476837158,
+          "max": 3.100000023841858,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4992,
+          "mean": 0.268349358979135,
+          "p50": 0.2999999523162842,
+          "p95": 0.40000009536743164,
+          "p99": 0.6000000238418579,
+          "max": 1.100000023841858,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4992,
+          "mean": 0.1101362173899244,
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.30000007152557373,
+          "max": 0.8000000715255737,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4992,
+          "mean": 0.00026041663323457423,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0.10000002384185791,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4992,
+          "mean": 0.5915264423506764,
+          "p50": 0.6000000238418579,
+          "p95": 0.8000000715255737,
+          "p99": 1.0999999046325684,
+          "max": 2.8000000715255737,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        }
+      },
+      "exclusive": {
+        "frameMs": {
+          "count": 0
+        },
+        "cpuUpdateMs": {
+          "count": 0
+        },
+        "primarySimulateMs": {
+          "count": 4992,
+          "mean": 0.0911258010384746,
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.30000007152557373,
+          "max": 0.6000000238418579,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4992,
+          "mean": 0.4919070512629472,
+          "p50": 0.40000009536743164,
+          "p95": 0.8999999761581421,
+          "p99": 1.2000000476837158,
+          "max": 3.100000023841858,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4992,
+          "mean": 0.15821314158921057,
+          "p50": 0.19999992847442627,
+          "p95": 0.2999999523162842,
+          "p99": 0.3999999761581421,
+          "max": 0.8000000715255737,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4992,
+          "mean": 0.1101362173899244,
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.30000007152557373,
+          "max": 0.8000000715255737,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4992,
+          "mean": 0.00026041663323457423,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0.10000002384185791,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4992,
+          "mean": 0.5915264423506764,
+          "p50": 0.6000000238418579,
+          "p95": 0.8000000715255737,
+          "p99": 1.0999999046325684,
+          "max": 2.8000000715255737,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        }
+      },
+      "calls": {
+        "primarySimulateMs": {
+          "count": 4992,
+          "mean": 1.000400641025641,
+          "p50": 1,
+          "p95": 1,
+          "p99": 1,
+          "max": 2,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4992,
+          "mean": 1.000400641025641,
+          "p50": 1,
+          "p95": 1,
+          "p99": 1,
+          "max": 2,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4992,
+          "mean": 1.000400641025641,
+          "p50": 1,
+          "p95": 1,
+          "p99": 1,
+          "max": 2,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4992,
+          "mean": 1.000400641025641,
+          "p50": 1,
+          "p95": 1,
+          "p99": 1,
+          "max": 2,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4992,
+          "mean": 1.000400641025641,
+          "p50": 1,
+          "p95": 1,
+          "p99": 1,
+          "max": 2,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4992,
+          "mean": 1.0,
+          "p50": 1,
+          "p95": 1,
+          "p99": 1,
+          "max": 1,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        }
+      },
+      "substepGroups": {
+        "1": {
+          "frames": 4990,
+          "cpuUpdateMs": {
+            "count": 4990,
+            "mean": 1.4585771540123857,
+            "p50": 1.399999976158142,
+            "p95": 2,
+            "p99": 2.5,
+            "max": 5.600000023841858,
+            "over16_667": 0,
+            "over33_34": 0,
+            "over50": 0
+          },
+          "motionMs": {
+            "count": 4990,
+            "mean": 0.4918637274501319,
+            "p50": 0.40000009536743164,
+            "p95": 0.8999999761581421,
+            "p99": 1.2000000476837158,
+            "max": 3.100000023841858,
+            "over16_667": 0,
+            "over33_34": 0,
+            "over50": 0
+          }
+        },
+        "2": {
+          "frames": 2,
+          "cpuUpdateMs": {
+            "count": 2,
+            "mean": 2.4499999284744263,
+            "p50": 3.0999999046325684,
+            "p95": 3.0999999046325684,
+            "p99": 3.0999999046325684,
+            "max": 3.0999999046325684,
+            "over16_667": 0,
+            "over33_34": 0,
+            "over50": 0
+          },
+          "motionMs": {
+            "count": 2,
+            "mean": 0.5999999642372131,
+            "p50": 0.6999999284744263,
+            "p95": 0.6999999284744263,
+            "p99": 0.6999999284744263,
+            "max": 0.6999999284744263,
+            "over16_667": 0,
+            "over33_34": 0,
+            "over50": 0
+          }
+        }
+      },
+      "resourcesEnd": {
+        "renderer": {
+          "calls": 138,
+          "triangles": 52806,
+          "textures": 45,
+          "geometries": 91
+        },
+        "heap": {
+          "used": 60218095,
+          "total": 129174687
+        }
+      },
+      "exclusiveSumPerFrame": {
+        "count": 4992,
+        "mean": 1.4431690702644677,
+        "p50": 1.399999976158142,
+        "p95": 2.0,
+        "p99": 2.5,
+        "max": 5.600000023841858,
+        "over16_667": 0,
+        "over33_34": 0,
+        "over50": 0
+      },
+      "sceneUninstrumentedMs": {
+        "count": 4992,
+        "mean": 0.01580528838512225,
+        "p50": 0.0,
+        "p95": 0.10000002384185791,
+        "p99": 0.20000004768371582,
+        "max": 0.5,
+        "over16_667": 0,
+        "over33_34": 0,
+        "over50": 0
+      }
+    },
+    {
+      "config": {
+        "name": "skirt-run",
+        "skirt": true,
+        "walk": true,
+        "speed": 2.6
+      },
+      "validity": {
+        "frames": 4866,
+        "invalidStateFrames": 0,
+        "missingInstrumentedFrames": 0,
+        "movingFrames": 3518,
+        "runningSpeedFrames": 2239,
+        "peerMovingFrames": 0,
+        "modeFrames": {
+          "walk": 4729,
+          "idle": 137
+        },
+        "exclusiveOverSceneFrames": 0
+      },
+      "wallMs": 31056,
+      "simulationSeconds": 30.030600000024183,
+      "actualSetup": {
+        "bodyMode": "dressed",
+        "dynamics": true,
+        "corrections": "full"
+      },
+      "outfit": 1,
+      "cameraConstantAtEndpoints": true,
+      "dutyPercent": {
+        "moving": 72.29757501027538,
+        "runSpeedOver1_5": 46.01315248664201,
+        "peerMoving": 0.0
+      },
+      "inclusive": {
+        "frameMs": {
+          "count": 4865,
+          "mean": 6.171243576572218,
+          "p50": 6.100000023841858,
+          "p95": 6.899999976158142,
+          "p99": 10.5,
+          "max": 23.100000023841858,
+          "over16_667": 4,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "cpuUpdateMs": {
+          "count": 4866,
+          "mean": 4.057131113459238,
+          "p50": 3.799999952316284,
+          "p95": 5.899999976158142,
+          "p99": 10.100000023841858,
+          "max": 22.899999976158142,
+          "over16_667": 3,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "primarySimulateMs": {
+          "count": 4866,
+          "mean": 3.3921085075248283,
+          "p50": 3.1999999284744263,
+          "p95": 4.800000071525574,
+          "p99": 8.899999976158142,
+          "max": 19.5,
+          "over16_667": 1,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4866,
+          "mean": 3.0547472246380143,
+          "p50": 2.8000000715255737,
+          "p95": 4.399999976158142,
+          "p99": 7.899999976158142,
+          "max": 15.5,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4866,
+          "mean": 0.24270447933080996,
+          "p50": 0.20000004768371582,
+          "p95": 0.3999999761581421,
+          "p99": 0.7000000476837158,
+          "max": 3.899999976158142,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4866,
+          "mean": 0.09683518232360476,
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.30000007152557373,
+          "max": 1.3000000715255737,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4866,
+          "mean": 0.00030826140567200987,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0.10000002384185791,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4866,
+          "mean": 0.6463214142107934,
+          "p50": 0.6000000238418579,
+          "p95": 1,
+          "p99": 2,
+          "max": 6.400000095367432,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        }
+      },
+      "exclusive": {
+        "frameMs": {
+          "count": 0
+        },
+        "cpuUpdateMs": {
+          "count": 0
+        },
+        "primarySimulateMs": {
+          "count": 4866,
+          "mean": 0.09434854215033202,
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.3999999761581421,
+          "max": 3.600000023841858,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4866,
+          "mean": 3.0547472246380143,
+          "p50": 2.8000000715255737,
+          "p95": 4.399999976158142,
+          "p99": 7.899999976158142,
+          "max": 15.5,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4866,
+          "mean": 0.14586929700720522,
+          "p50": 0.10000002384185791,
+          "p95": 0.2999999523162842,
+          "p99": 0.5,
+          "max": 3.399999976158142,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4866,
+          "mean": 0.09683518232360476,
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.30000007152557373,
+          "max": 1.3000000715255737,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4866,
+          "mean": 0.00030826140567200987,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0.10000002384185791,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4866,
+          "mean": 0.6463214142107934,
+          "p50": 0.6000000238418579,
+          "p95": 1,
+          "p99": 2,
+          "max": 6.400000095367432,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        }
+      },
+      "calls": {
+        "primarySimulateMs": {
+          "count": 4866,
+          "mean": 1.023633374434854,
+          "p50": 1,
+          "p95": 1,
+          "p99": 2,
+          "max": 3,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4866,
+          "mean": 1.023633374434854,
+          "p50": 1,
+          "p95": 1,
+          "p99": 2,
+          "max": 3,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4866,
+          "mean": 1.023633374434854,
+          "p50": 1,
+          "p95": 1,
+          "p99": 2,
+          "max": 3,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4866,
+          "mean": 1.023633374434854,
+          "p50": 1,
+          "p95": 1,
+          "p99": 2,
+          "max": 3,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4866,
+          "mean": 1.023633374434854,
+          "p50": 1,
+          "p95": 1,
+          "p99": 2,
+          "max": 3,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4866,
+          "mean": 1.0,
+          "p50": 1,
+          "p95": 1,
+          "p99": 1,
+          "max": 1,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        }
+      },
+      "substepGroups": {
+        "1": {
+          "frames": 4755,
+          "cpuUpdateMs": {
+            "count": 4755,
+            "mean": 3.923743427614559,
+            "p50": 3.700000047683716,
+            "p95": 5.300000071525574,
+            "p99": 7.399999976158142,
+            "max": 19.200000047683716,
+            "over16_667": 1,
+            "over33_34": 0,
+            "over50": 0
+          },
+          "motionMs": {
+            "count": 4755,
+            "mean": 2.9430914816921567,
+            "p50": 2.8000000715255737,
+            "p95": 4,
+            "p99": 5.199999928474426,
+            "max": 9.900000095367432,
+            "over16_667": 0,
+            "over33_34": 0,
+            "over50": 0
+          }
+        },
+        "2": {
+          "frames": 107,
+          "cpuUpdateMs": {
+            "count": 107,
+            "mean": 9.600934576765399,
+            "p50": 9.299999952316284,
+            "p95": 13.399999976158142,
+            "p99": 15.799999952316284,
+            "max": 22.899999976158142,
+            "over16_667": 1,
+            "over33_34": 0,
+            "over50": 0
+          },
+          "motionMs": {
+            "count": 107,
+            "mean": 7.685046727412215,
+            "p50": 7.300000071525574,
+            "p95": 11.200000047683716,
+            "p99": 13.799999952316284,
+            "max": 15.299999952316284,
+            "over16_667": 0,
+            "over33_34": 0,
+            "over50": 0
+          }
+        },
+        "3": {
+          "frames": 4,
+          "cpuUpdateMs": {
+            "count": 4,
+            "mean": 14.325000017881393,
+            "p50": 14.300000071525574,
+            "p95": 17.800000071525574,
+            "p99": 17.800000071525574,
+            "max": 17.800000071525574,
+            "over16_667": 1,
+            "over33_34": 0,
+            "over50": 0
+          },
+          "motionMs": {
+            "count": 4,
+            "mean": 11.924999952316284,
+            "p50": 11.799999833106995,
+            "p95": 15.5,
+            "p99": 15.5,
+            "max": 15.5,
+            "over16_667": 0,
+            "over33_34": 0,
+            "over50": 0
+          }
+        }
+      },
+      "resourcesEnd": {
+        "renderer": {
+          "calls": 138,
+          "triangles": 51078,
+          "textures": 45,
+          "geometries": 91
+        },
+        "heap": {
+          "used": 75664471,
+          "total": 126101867
+        }
+      },
+      "exclusiveSumPerFrame": {
+        "count": 4866,
+        "mean": 4.038429921735622,
+        "p50": 3.799999952316284,
+        "p95": 5.899999976158142,
+        "p99": 10.0,
+        "max": 22.899999976158142,
+        "over16_667": 3,
+        "over33_34": 0,
+        "over50": 0
+      },
+      "sceneUninstrumentedMs": {
+        "count": 4866,
+        "mean": 0.018701191723616194,
+        "p50": 0.0,
+        "p95": 0.10000002384185791,
+        "p99": 0.2999999523162842,
+        "max": 2.200000047683716,
+        "over16_667": 0,
+        "over33_34": 0,
+        "over50": 0
+      }
+    },
+    {
+      "config": {
+        "name": "dual-pants-walk",
+        "dual": true,
+        "walk": true
+      },
+      "validity": {
+        "frames": 4977,
+        "invalidStateFrames": 0,
+        "missingInstrumentedFrames": 0,
+        "movingFrames": 4143,
+        "runningSpeedFrames": 0,
+        "peerMovingFrames": 4223,
+        "modeFrames": {
+          "walk": 4913,
+          "idle": 64
+        },
+        "exclusiveOverSceneFrames": 0
+      },
+      "wallMs": 30940,
+      "simulationSeconds": 30.254799999952645,
+      "actualSetup": {
+        "bodyMode": "dressed",
+        "dynamics": true,
+        "corrections": "full"
+      },
+      "outfit": 0,
+      "cameraConstantAtEndpoints": true,
+      "dutyPercent": {
+        "moving": 83.24291742013261,
+        "runSpeedOver1_5": 0.0,
+        "peerMoving": 84.85031143258992
+      },
+      "inclusive": {
+        "frameMs": {
+          "count": 4976,
+          "mean": 6.078014469439002,
+          "p50": 6.099999904632568,
+          "p95": 6.5,
+          "p99": 6.899999976158142,
+          "max": 37.60000002384186,
+          "over16_667": 2,
+          "over33_34": 1,
+          "over50": 0
+        },
+        "cpuUpdateMs": {
+          "count": 4977,
+          "mean": 2.40299377097455,
+          "p50": 2.299999952316284,
+          "p95": 3.399999976158142,
+          "p99": 4.599999904632568,
+          "max": 37.39999997615814,
+          "over16_667": 1,
+          "over33_34": 1,
+          "over50": 0
+        },
+        "primarySimulateMs": {
+          "count": 4977,
+          "mean": 1.5673899937040097,
+          "p50": 1.5,
+          "p95": 2.3000000715255737,
+          "p99": 3,
+          "max": 29.200000047683716,
+          "over16_667": 1,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4977,
+          "mean": 0.9599156106646483,
+          "p50": 0.8999999761581421,
+          "p95": 1.5000001192092896,
+          "p99": 2,
+          "max": 28.299999952316284,
+          "over16_667": 1,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4977,
+          "mean": 0.44000401929461,
+          "p50": 0.40000009536743164,
+          "p95": 0.7000000476837158,
+          "p99": 0.9999998807907104,
+          "max": 3.5,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4977,
+          "mean": 0.1545509345229189,
+          "p50": 0.10000002384185791,
+          "p95": 0.30000007152557373,
+          "p99": 0.5,
+          "max": 1.2999999523162842,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4977,
+          "mean": 0.0008639742002588739,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0.2999999523162842,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4977,
+          "mean": 0.8152501506692367,
+          "p50": 0.7000000476837158,
+          "p95": 1.1999999284744263,
+          "p99": 1.7999999523162842,
+          "max": 12.299999952316284,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        }
+      },
+      "exclusive": {
+        "frameMs": {
+          "count": 0
+        },
+        "cpuUpdateMs": {
+          "count": 0
+        },
+        "primarySimulateMs": {
+          "count": 4977,
+          "mean": 0.16660638954449256,
+          "p50": 0.10000002384185791,
+          "p95": 0.30000007152557373,
+          "p99": 0.6000000238418579,
+          "max": 2.5,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4977,
+          "mean": 0.9599156106646483,
+          "p50": 0.8999999761581421,
+          "p95": 1.5000001192092896,
+          "p99": 2,
+          "max": 28.299999952316284,
+          "over16_667": 1,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4977,
+          "mean": 0.2854530847716911,
+          "p50": 0.2999999523162842,
+          "p95": 0.5,
+          "p99": 0.6999999284744263,
+          "max": 2.6999999284744263,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4977,
+          "mean": 0.1545509345229189,
+          "p50": 0.10000002384185791,
+          "p95": 0.30000007152557373,
+          "p99": 0.5,
+          "max": 1.2999999523162842,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4977,
+          "mean": 0.0008639742002588739,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0.2999999523162842,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4977,
+          "mean": 0.8152501506692367,
+          "p50": 0.7000000476837158,
+          "p95": 1.1999999284744263,
+          "p99": 1.7999999523162842,
+          "max": 12.299999952316284,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        }
+      },
+      "calls": {
+        "primarySimulateMs": {
+          "count": 4977,
+          "mean": 1.0026120152702431,
+          "p50": 1,
+          "p95": 1,
+          "p99": 1,
+          "max": 5,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 4977,
+          "mean": 2.0052240305404863,
+          "p50": 2,
+          "p95": 2,
+          "p99": 2,
+          "max": 10,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 4977,
+          "mean": 2.0052240305404863,
+          "p50": 2,
+          "p95": 2,
+          "p99": 2,
+          "max": 10,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 4977,
+          "mean": 2.0052240305404863,
+          "p50": 2,
+          "p95": 2,
+          "p99": 2,
+          "max": 10,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 4977,
+          "mean": 2.0052240305404863,
+          "p50": 2,
+          "p95": 2,
+          "p99": 2,
+          "max": 10,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 4977,
+          "mean": 1.0,
+          "p50": 1,
+          "p95": 1,
+          "p99": 1,
+          "max": 1,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        }
+      },
+      "substepGroups": {
+        "1": {
+          "frames": 4968,
+          "cpuUpdateMs": {
+            "count": 4968,
+            "mean": 2.39671900122158,
+            "p50": 2.299999952316284,
+            "p95": 3.399999976158142,
+            "p99": 4.399999976158142,
+            "max": 37.39999997615814,
+            "over16_667": 1,
+            "over33_34": 1,
+            "over50": 0
+          },
+          "motionMs": {
+            "count": 4968,
+            "mean": 0.9573872773975566,
+            "p50": 0.8999999761581421,
+            "p95": 1.5000001192092896,
+            "p99": 1.9999998807907104,
+            "max": 28.299999952316284,
+            "over16_667": 1,
+            "over33_34": 0,
+            "over50": 0
+          }
+        },
+        "2": {
+          "frames": 7,
+          "cpuUpdateMs": {
+            "count": 7,
+            "mean": 4.928571445601327,
+            "p50": 4.800000071525574,
+            "p95": 6.299999952316284,
+            "p99": 6.299999952316284,
+            "max": 6.299999952316284,
+            "over16_667": 0,
+            "over33_34": 0,
+            "over50": 0
+          },
+          "motionMs": {
+            "count": 7,
+            "mean": 2.028571435383388,
+            "p50": 2,
+            "p95": 2.6000001430511475,
+            "p99": 2.6000001430511475,
+            "max": 2.6000001430511475,
+            "over16_667": 0,
+            "over33_34": 0,
+            "over50": 0
+          }
+        },
+        "3": {
+          "frames": 1,
+          "cpuUpdateMs": {
+            "count": 1,
+            "mean": 8.399999976158142,
+            "p50": 8.399999976158142,
+            "p95": 8.399999976158142,
+            "p99": 8.399999976158142,
+            "max": 8.399999976158142,
+            "over16_667": 0,
+            "over33_34": 0,
+            "over50": 0
+          },
+          "motionMs": {
+            "count": 1,
+            "mean": 3.200000047683716,
+            "p50": 3.200000047683716,
+            "p95": 3.200000047683716,
+            "p99": 3.200000047683716,
+            "max": 3.200000047683716,
+            "over16_667": 0,
+            "over33_34": 0,
+            "over50": 0
+          }
+        },
+        "5": {
+          "frames": 1,
+          "cpuUpdateMs": {
+            "count": 1,
+            "mean": 9.899999976158142,
+            "p50": 9.899999976158142,
+            "p95": 9.899999976158142,
+            "p99": 9.899999976158142,
+            "max": 9.899999976158142,
+            "over16_667": 0,
+            "over33_34": 0,
+            "over50": 0
+          },
+          "motionMs": {
+            "count": 1,
+            "mean": 3.8000000715255737,
+            "p50": 3.8000000715255737,
+            "p95": 3.8000000715255737,
+            "p99": 3.8000000715255737,
+            "max": 3.8000000715255737,
+            "over16_667": 0,
+            "over33_34": 0,
+            "over50": 0
+          }
+        }
+      },
+      "resourcesEnd": {
+        "renderer": {
+          "calls": 172,
+          "triangles": 100558,
+          "textures": 82,
+          "geometries": 106
+        },
+        "heap": {
+          "used": 67697697,
+          "total": 144162461
+        }
+      },
+      "exclusiveSumPerFrame": {
+        "count": 4977,
+        "mean": 2.382640144373246,
+        "p50": 2.200000047683716,
+        "p95": 3.399999976158142,
+        "p99": 4.5,
+        "max": 37.39999997615814,
+        "over16_667": 1,
+        "over33_34": 1,
+        "over50": 0
+      },
+      "sceneUninstrumentedMs": {
+        "count": 4977,
+        "mean": 0.02035362660130368,
+        "p50": 0.0,
+        "p95": 0.10000002384185791,
+        "p99": 0.30000007152557373,
+        "max": 0.8000000715255737,
+        "over16_667": 0,
+        "over33_34": 0,
+        "over50": 0
+      }
+    },
+    {
+      "config": {
+        "name": "dual-skirt-pants-walk",
+        "dual": true,
+        "skirt": true,
+        "walk": true
+      },
+      "validity": {
+        "frames": 3819,
+        "invalidStateFrames": 0,
+        "missingInstrumentedFrames": 0,
+        "movingFrames": 3127,
+        "runningSpeedFrames": 0,
+        "peerMovingFrames": 3204,
+        "modeFrames": {
+          "walk": 3740,
+          "idle": 79
+        },
+        "exclusiveOverSceneFrames": 0
+      },
+      "wallMs": 30832,
+      "simulationSeconds": 30.236400000096253,
+      "actualSetup": {
+        "bodyMode": "dressed",
+        "dynamics": true,
+        "corrections": "full"
+      },
+      "outfit": 1,
+      "cameraConstantAtEndpoints": true,
+      "dutyPercent": {
+        "moving": 81.88007331762242,
+        "runSpeedOver1_5": 0.0,
+        "peerMoving": 83.89630793401415
+      },
+      "inclusive": {
+        "frameMs": {
+          "count": 3818,
+          "mean": 7.917181770579236,
+          "p50": 6.299999952316284,
+          "p95": 11.800000071525574,
+          "p99": 14.700000047683716,
+          "max": 26.899999976158142,
+          "over16_667": 21,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "cpuUpdateMs": {
+          "count": 3819,
+          "mean": 7.169730296619402,
+          "p50": 5.5,
+          "p95": 11.5,
+          "p99": 14.400000095367432,
+          "max": 26.699999928474426,
+          "over16_667": 19,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "primarySimulateMs": {
+          "count": 3819,
+          "mean": 6.262555643506436,
+          "p50": 4.600000023841858,
+          "p95": 10.200000047683716,
+          "p99": 12.700000047683716,
+          "max": 24.699999928474426,
+          "over16_667": 11,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 3819,
+          "mean": 5.453260016616148,
+          "p50": 4,
+          "p95": 8.900000095367432,
+          "p99": 11.100000143051147,
+          "max": 21.799999952316284,
+          "over16_667": 5,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 3819,
+          "mean": 0.5829536524952691,
+          "p50": 0.5,
+          "p95": 1.0999999046325684,
+          "p99": 1.5000001192092896,
+          "max": 6.4999998807907104,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 3819,
+          "mean": 0.19251112789344837,
+          "p50": 0.19999992847442627,
+          "p95": 0.40000009536743164,
+          "p99": 0.6000000238418579,
+          "max": 1.6000001430511475,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 3819,
+          "mean": 0.0010473947307769464,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0.09999990463256836,
+          "max": 0.20000004768371582,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 3819,
+          "mean": 0.8876931133242795,
+          "p50": 0.7999999523162842,
+          "p95": 1.5,
+          "p99": 2.3000000715255737,
+          "max": 6.600000023841858,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        }
+      },
+      "exclusive": {
+        "frameMs": {
+          "count": 0
+        },
+        "cpuUpdateMs": {
+          "count": 0
+        },
+        "primarySimulateMs": {
+          "count": 3819,
+          "mean": 0.22529457966424182,
+          "p50": 0.20000004768371582,
+          "p95": 0.5,
+          "p99": 0.6999999284744263,
+          "max": 1.399999976158142,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 3819,
+          "mean": 5.453260016616148,
+          "p50": 4,
+          "p95": 8.900000095367432,
+          "p99": 11.100000143051147,
+          "max": 21.799999952316284,
+          "over16_667": 5,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 3819,
+          "mean": 0.3904425246018207,
+          "p50": 0.30000007152557373,
+          "p95": 0.7999998331069946,
+          "p99": 1.0999997854232788,
+          "max": 6.199999928474426,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 3819,
+          "mean": 0.19251112789344837,
+          "p50": 0.19999992847442627,
+          "p95": 0.40000009536743164,
+          "p99": 0.6000000238418579,
+          "max": 1.6000001430511475,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 3819,
+          "mean": 0.0010473947307769464,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0.09999990463256836,
+          "max": 0.20000004768371582,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 3819,
+          "mean": 0.8876931133242795,
+          "p50": 0.7999999523162842,
+          "p95": 1.5,
+          "p99": 2.3000000715255737,
+          "max": 6.600000023841858,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        }
+      },
+      "calls": {
+        "primarySimulateMs": {
+          "count": 3819,
+          "mean": 1.4372872479706729,
+          "p50": 1,
+          "p95": 2,
+          "p99": 2,
+          "max": 4,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "motionMs": {
+          "count": 3819,
+          "mean": 2.8745744959413457,
+          "p50": 2,
+          "p95": 4,
+          "p99": 4,
+          "max": 8,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "avatarMs": {
+          "count": 3819,
+          "mean": 2.8745744959413457,
+          "p50": 2,
+          "p95": 4,
+          "p99": 4,
+          "max": 8,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "vrmMs": {
+          "count": 3819,
+          "mean": 2.8745744959413457,
+          "p50": 2,
+          "p95": 4,
+          "p99": 4,
+          "max": 8,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "garmentMs": {
+          "count": 3819,
+          "mean": 2.8745744959413457,
+          "p50": 2,
+          "p95": 4,
+          "p99": 4,
+          "max": 8,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        },
+        "renderSubmitMs": {
+          "count": 3819,
+          "mean": 1.0,
+          "p50": 1,
+          "p95": 1,
+          "p99": 1,
+          "max": 1,
+          "over16_667": 0,
+          "over33_34": 0,
+          "over50": 0
+        }
+      },
+      "substepGroups": {
+        "1": {
+          "frames": 2172,
+          "cpuUpdateMs": {
+            "count": 2172,
+            "mean": 4.93480662949397,
+            "p50": 4.799999952316284,
+            "p95": 6.299999952316284,
+            "p99": 7.600000023841858,
+            "max": 16.600000023841858,
+            "over16_667": 0,
+            "over33_34": 0,
+            "over50": 0
+          },
+          "motionMs": {
+            "count": 2172,
+            "mean": 3.6040055253448626,
+            "p50": 3.5,
+            "p95": 4.399999976158142,
+            "p99": 5.300000071525574,
+            "max": 15.200000047683716,
+            "over16_667": 0,
+            "over33_34": 0,
+            "over50": 0
+          }
+        },
+        "2": {
+          "frames": 1626,
+          "cpuUpdateMs": {
+            "count": 1626,
+            "mean": 10.034501847232546,
+            "p50": 9.699999928474426,
+            "p95": 12.600000023841858,
+            "p99": 14.800000071525574,
+            "max": 26.699999928474426,
+            "over16_667": 10,
+            "over33_34": 0,
+            "over50": 0
+          },
+          "motionMs": {
+            "count": 1626,
+            "mean": 7.823739238624056,
+            "p50": 7.600000023841858,
+            "p95": 9.700000047683716,
+            "p99": 11.599999904632568,
+            "max": 21.799999952316284,
+            "over16_667": 3,
+            "over33_34": 0,
+            "over50": 0
+          }
+        },
+        "3": {
+          "frames": 19,
+          "cpuUpdateMs": {
+            "count": 19,
+            "mean": 16.147368418542964,
+            "p50": 15.299999952316284,
+            "p95": 26.5,
+            "p99": 26.5,
+            "max": 26.5,
+            "over16_667": 7,
+            "over33_34": 0,
+            "over50": 0
+          },
+          "motionMs": {
+            "count": 19,
+            "mean": 12.81578951132925,
+            "p50": 12.100000262260437,
+            "p95": 21.600000143051147,
+            "p99": 21.600000143051147,
+            "max": 21.600000143051147,
+            "over16_667": 1,
+            "over33_34": 0,
+            "over50": 0
+          }
+        },
+        "4": {
+          "frames": 2,
+          "cpuUpdateMs": {
+            "count": 2,
+            "mean": 19.94999998807907,
+            "p50": 21.799999952316284,
+            "p95": 21.799999952316284,
+            "p99": 21.799999952316284,
+            "max": 21.799999952316284,
+            "over16_667": 2,
+            "over33_34": 0,
+            "over50": 0
+          },
+          "motionMs": {
+            "count": 2,
+            "mean": 16.599999845027924,
+            "p50": 18.399999976158142,
+            "p95": 18.399999976158142,
+            "p99": 18.399999976158142,
+            "max": 18.399999976158142,
+            "over16_667": 1,
+            "over33_34": 0,
+            "over50": 0
+          }
+        }
+      },
+      "resourcesEnd": {
+        "renderer": {
+          "calls": 172,
+          "triangles": 98830,
+          "textures": 82,
+          "geometries": 106
+        },
+        "heap": {
+          "used": 144023345,
+          "total": 186298013
+        }
+      },
+      "exclusiveSumPerFrame": {
+        "count": 3819,
+        "mean": 7.150248756830716,
+        "p50": 5.5,
+        "p95": 11.5,
+        "p99": 14.400000095367432,
+        "max": 26.59999990463257,
+        "over16_667": 18,
+        "over33_34": 0,
+        "over50": 0
+      },
+      "sceneUninstrumentedMs": {
+        "count": 3819,
+        "mean": 0.019481539788686907,
+        "p50": 0.0,
+        "p95": 0.10000002384185791,
+        "p99": 0.30000007152557373,
+        "max": 2.0,
+        "over16_667": 0,
+        "over33_34": 0,
+        "over50": 0
+      }
+    }
+  ]
+}

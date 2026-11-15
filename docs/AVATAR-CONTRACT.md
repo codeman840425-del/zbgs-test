@@ -37,7 +37,7 @@
 
 ## 面部能力分类
 
-现有女候选Face的ALL/BRW/EYE/MTH情绪形态用于表情，EYE_Close/L/R用于闭眼，MTH_A/I/U/E/O用于口型；EYE_Iris_Hide/Highlight_Hide/Extra等属于可见性/特殊表情。HA_Fung/Short等牙齿几何变体是可研究的外貌候选，尚未证明可作为完整长期捏脸参数；没有已验证的连续脸宽、鼻型或眼距编辑控制；已有女性jaw离散几何派生风险样件，其范围见RISK-01，不能当成通用捏脸参数库。56个形态键不等于56个容貌参数。逐项名录保存在foundation/rebuild-report.json，男性须另核映射和实际闭眼/张嘴。修改容貌后必须重新检查眼皮、眼球、嘴、牙齿、头颈接缝与肤色，不能直接沿用改脸前结果。
+现有女候选Face的ALL/BRW/EYE/MTH情绪形态用于表情，EYE_Close/L/R用于闭眼，MTH_A/I/U/E/O用于口型；EYE_Iris_Hide/Highlight_Hide/Extra等属于可见性/特殊表情。HA_Fung/Short等牙齿几何变体是可研究的外貌候选，尚未证明可作为完整长期捏脸参数；没有已验证的连续脸宽、鼻型或眼距编辑控制；已有女性jaw离散几何派生风险样件，其范围见RISK-01，不能当成通用捏脸参数库。56个形态键不等于56个容貌参数。逐项名录保存在foundation/rebuild-report.json，男性映射及原男/单一下颌派生的实际闭眼/AA口型已有3016证据，见CAP的RISK-03；其余口型组合和新的几何变化仍须另核。修改容貌后必须重新检查眼皮、眼球、嘴、牙齿、头颈接缝与肤色，不能直接沿用改脸前结果。
 
 2026-11-14扩展：旧角色继续作对照；新Base_Female为独立VRM0资格候选，已有重建blend和再导出文件，不是原.vroid恢复。正式阶段顺序见FOUNDATION-MILESTONES.md，普通电脑浏览器优先。不同VRM版本的本地动画基转换由motion-source.js处理；不因场景朝向已旋转而跳过轨道转换。
 
