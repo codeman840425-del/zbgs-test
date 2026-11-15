@@ -1,0 +1,65 @@
+{
+  "schema": "cloth-author-scale-result-v1",
+  "blender": "4.5.9 LTS",
+  "blenderBuildHash": "8bf95cbd38d1",
+  "scriptSha256": "93ecc947ad3711e1b8189bb13f611127a90c4679365fdb94f61556653650100f",
+  "inputSha256": "37763549aa3ef621b4afd3178aed30dc814f7f2d267f66f2ad9463eefb6e08f8",
+  "seconds": 0.2029999999795109,
+  "summary": [
+    {
+      "case": {
+        "id": "scale1-original",
+        "scale": 1,
+        "linearFactor": 1
+      },
+      "strainAtHalfOneTwoSeconds": {
+        "0.5": 0.00030576451202057875,
+        "1": 0.00030576543357119235,
+        "2": 0.0003057652395468402
+      },
+      "finalNormalizedColumnLengthMetres": 0.4001223060958187,
+      "maximumNormalizedVertexDifferenceFromScale1Metres": 0.0,
+      "maximumPinResidualMetres": 6.027146680024159e-09,
+      "maximumOutOfPlaneMetres": 0.0
+    },
+    {
+      "case": {
+        "id": "scale10-original",
+        "scale": 10,
+        "linearFactor": 1
+      },
+      "strainAtHalfOneTwoSeconds": {
+        "0.5": 0.003054508935092848,
+        "1": 0.003054508547041923,
+        "2": 0.003054508702262426
+      },
+      "finalNormalizedColumnLengthMetres": 0.40122180348090497,
+      "maximumNormalizedVertexDifferenceFromScale1Metres": 0.0013618867135867369,
+      "maximumPinResidualMetres": 5.960464483090178e-10,
+      "maximumOutOfPlaneMetres": 0.0
+    },
+    {
+      "case": {
+        "id": "scale10-linear-converted",
+        "scale": 10,
+        "linearFactor": 10
+      },
+      "strainAtHalfOneTwoSeconds": {
+        "0.5": 0.000305765215511844,
+        "1": 0.00030576490506439846,
+        "2": 0.00030576047158659136
+      },
+      "finalNormalizedColumnLengthMetres": 0.40012230418863465,
+      "maximumNormalizedVertexDifferenceFromScale1Metres": 2.413114123854663e-08,
+      "maximumPinResidualMetres": 5.960464483090178e-10,
+      "maximumOutOfPlaneMetres": 0.0
+    }
+  ],
+  "limits": [
+    "Mechanism test only, not calibrated real fabric or evidence every garment failure has this cause.",
+    "Vertical symmetric no-collision strip primarily exercises tension; same conversion follows compression/shear source formulas but their independent loading modes are not experimentally isolated.",
+    "ANGULAR bending remains .6, not multiplied; no significant out-of-plane bending load is intended.",
+    "No stiffness weight groups; max_* defaults recorded, not used to silently compensate base values.",
+    "No physics parameter search; exactly three predefined cases, all61frames retained."
+  ]
+}

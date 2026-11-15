@@ -4,6 +4,8 @@
 
 **当前持续实施M1A/B/C及两件既有女性几何风险样件；不扩完整M2/M3。** 最新现场见CURRENT-FOUNDATION；唯一能力状态仍以本表为准。
 
+最新人工限定验收：用户接受13f558e44696男性短裤录像约3–6秒换向走停和19–25秒起身后转向行走，原话“这两段动作可以接受”。回执 `evidence/male-motion-user-review-13f.json` 保存影片SHA；MOVE-01/04/05及POSE-01仅这些片段获得观感接受，不升级整行/整链/衣物/其余构建或M1。
+
 最新限定增量：1a0d06fc8ffe已修foundation按钮与错误提示挤压，1440×900实际截图可读，两派生拒绝/503重试/快速取消再装通过；真实后代附件计数1，旧902错误的scene.children计数不作无重复证据。未扩为全部UI/移动端通过。
 
 REL-01/ACC-01资源限定补测：1a原F/M各6次真实眼镜按钮装卸，挂载根1/卸下0，每次几何回到装前；首轮program各+1保留，之后5轮on/off的几何/纹理/program/scene mesh计数各自严格稳定。`evidence/glasses-resource-cycles-1a0d06fc8ffe`保留逐轮数据；不是显存字节/JS堆、长期零泄漏或普通PC性能通过。
