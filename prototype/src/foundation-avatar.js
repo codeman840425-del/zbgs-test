@@ -6,13 +6,15 @@ import { foundationProfile } from "./foundation-profiles.js";
 import { createLivePresentation } from "./live-presentation.js";
 import { createCharacterAppearance } from "./character-appearance.js";
 import { createFacialGeometry } from "./facial-geometry.js";
+import { prepareFaceProgramFirstUse } from "./face-program-firstuse.js";
 import { validateForearmProfile } from "./forearm-envelope-projection.js";
 import { validateJointHandProfile } from "./joint-hand-workspace.mjs";
 
 // Each actor owns its prewarm variants. Geometry UUID is deliberately omitted:
 // a new clone with identical layouts/material versions reuses the same program.
 export function createFaceGeometryWarmup(renderer,scene) {
-  const entries=new Map();let disposed=false;
+  const entries=new Map(),batches=new Set();let disposed=false;
+  let contextProperties=renderer.properties,contextGL=renderer.getContext();
   const layout=a=>[a.count,a.itemSize,a.normalized,a.gpuType,(a.array||a.data?.array)?.constructor.name];
   const key=({mesh,geometry})=>JSON.stringify([
     mesh.uuid,!!mesh.isSkinnedMesh,!!mesh.isInstancedMesh,
@@ -24,10 +26,25 @@ export function createFaceGeometryWarmup(renderer,scene) {
   const release=entry=>{if(entry.released)return;entry.released=true;for(const material of entry.materials)material.dispose();};
   const current=entry=>{const materials=Array.isArray(entry.mesh.material)?entry.mesh.material:[entry.mesh.material];return materials.length===entry.originals.length&&materials.every((m,i)=>m===entry.originals[i].material&&m.version===entry.originals[i].version);};
   const forget=entry=>{if(entries.get(entry.signature)===entry)entries.delete(entry.signature);release(entry);};
+  // Context lifetime belongs to the shared actor cache, not one geometry request.
+  const invalidate=reason=>{
+    for(const batch of batches)batch.abort(reason);
+    for(const entry of entries.values())release(entry);
+    entries.clear();
+  };
+  const contextChanged=()=>{
+    invalidate(Error('Face preparation WebGL context changed'));
+    contextProperties=renderer.properties;contextGL=renderer.getContext();
+  };
+  renderer.domElement.addEventListener('webglcontextlost',contextChanged);
+  renderer.domElement.addEventListener('webglcontextrestored',contextChanged);
+
 
   return {
     prepare(parts) {
       if(disposed)return Promise.reject(Error('人物已卸载'));
+      if(renderer.properties!==contextProperties||renderer.getContext()!==contextGL)contextChanged();
+      if(contextGL.isContextLost()){contextChanged();return Promise.reject(Error('Face preparation WebGL context lost'));}
       const requests=new Map(parts.map(part=>[key(part),part]));
       const waits=[],fresh=[],staging=new THREE.Scene();
       try {
@@ -42,7 +59,13 @@ export function createFaceGeometryWarmup(renderer,scene) {
         }
       }catch(error){for(const entry of fresh)release(entry);return Promise.reject(error);}
       if(fresh.length){
-        const promise=Promise.resolve().then(()=>{if(disposed)throw Error('人物已卸载');return renderer.compileAsync(staging,new THREE.PerspectiveCamera(),scene);}).then(()=>{
+        const batch=new AbortController();batches.add(batch);
+        const promise=Promise.resolve().then(()=>{
+          if(disposed)throw Error('人物已卸载');
+          return prepareFaceProgramFirstUse({renderer,materials:fresh.flatMap(entry=>entry.materials),signal:batch.signal,
+            compile:()=>renderer.compileAsync(staging,new THREE.PerspectiveCamera(),scene)});
+        }).then(()=>{
+          if(batch.signal.aborted)throw batch.signal.reason;
           for(const entry of fresh){
             entry.settled=true;
             if(disposed||!current(entry)){forget(entry);continue;}
@@ -50,18 +73,23 @@ export function createFaceGeometryWarmup(renderer,scene) {
             // a current batch succeeds. Pending work releases itself on settle.
             for(const other of entries.values())if(other.mesh===entry.mesh&&other.settled&&!current(other))forget(other);
           }
-        },error=>{
+        }).catch(error=>{
           // A failed new batch must not release any earlier successful variant
           // or a different pending batch from this actor.
           for(const entry of fresh){entry.settled=true;if(entries.get(entry.signature)===entry)entries.delete(entry.signature);release(entry);}
           throw error;
-        });
+        }).finally(()=>batches.delete(batch));
         for(const entry of fresh){entry.promise=promise;entries.set(entry.signature,entry);}
         waits.push(promise);
       }
       return Promise.all(waits).then(()=>undefined);
     },
-    dispose(){if(disposed)return;disposed=true;for(const entry of entries.values())if(entry.settled)release(entry);entries.clear();},
+    dispose(){
+      if(disposed)return;disposed=true;
+      renderer.domElement.removeEventListener('webglcontextlost',contextChanged);
+      renderer.domElement.removeEventListener('webglcontextrestored',contextChanged);
+      invalidate(Error('人物已卸载'));
+    },
   };
 }
 
