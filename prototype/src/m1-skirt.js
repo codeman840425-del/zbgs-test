@@ -3,7 +3,12 @@ import { skirtSupportWeight, blendSkirtSupports, skirtLateralAxis } from "./skir
 
 /** Pose-guided constraints on the actual source skirt topology and UVs.
  * This is a fitted corrective, not a cloth/self-collision simulation. */
-export function createM1Skirt({ vrm, source, body }) {
+export function createM1Skirt({ vrm, source, body, fit }) {
+  if (!fit || !Number.isFinite(fit.fixedBandMinY) || !fit.guide ||
+      source.geometry.attributes.position.count !== fit.vertexCount)
+    throw Error("Skirt requires an explicit matching corrective fit");
+  if (Object.values(source.geometry.morphAttributes).some(a => a.length))
+    throw Error("Skirt corrective does not support morph targets; a fitted adapter is required");
   const V = THREE.Vector3,
     hips = vrm.humanoid.getRawBoneNode("hips");
   const sourceGeometry = source.geometry,
@@ -11,27 +16,9 @@ export function createM1Skirt({ vrm, source, body }) {
   const hipIndex = source.skeleton.bones.indexOf(hips);
   if (hipIndex < 0) throw Error("M1 skirt requires its real hips bind");
   const hipBindInverse = source.skeleton.boneInverses[hipIndex];
-  const geometry = sourceGeometry.clone();
-  geometry.deleteAttribute("skinIndex");
-  geometry.deleteAttribute("skinWeight");
-  const material = (
-    Array.isArray(source.material) ? source.material : [source.material]
-  ).map((m) => {
-    const x = m.clone();
-    x.side = THREE.DoubleSide;
-    return x;
-  });
-  const mesh = new THREE.Mesh(
-    geometry,
-    Array.isArray(source.material) ? material : material[0],
-  );
-  mesh.name = "M1_UniformSkirt_Constrained";
-  mesh.frustumCulled = false;
-  mesh.castShadow = true;
-  source.parent.add(mesh);
-  source.visible = false;
   const references = [],
     particles = [],
+    sourceIndices = [],
     map = [],
     lookup = new Map();
   for (let i = 0; i < positions.count; i++) {
@@ -47,9 +34,37 @@ export function createM1Skirt({ vrm, source, body }) {
       lookup.set(key, particles.length);
       references.push(reference);
       particles.push(new V());
+      sourceIndices.push(i);
+    } else {
+      const particle = lookup.get(key), first = sourceIndices[particle];
+      const weights = id => {
+        const result = new Map();
+        for (let k = 0; k < 4; k++) {
+          const joint = sourceGeometry.attributes.skinIndex.getComponent(id, k);
+          const weight = sourceGeometry.attributes.skinWeight.getComponent(id, k);
+          if (weight) result.set(joint, (result.get(joint) || 0) + weight);
+        }
+        return result;
+      };
+      const a = weights(first), b = weights(i);
+      if (references[particle].distanceToSquared(reference) > 1e-24 ||
+          a.size !== b.size || [...a].some(([joint, weight]) => b.get(joint) !== weight))
+        throw Error(`Skirt weld ${first}/${i} has non-equivalent positions or skin weights`);
     }
     map.push(lookup.get(key));
   }
+  // Validate before allocating/attaching the replacement render mesh.
+  const geometry = sourceGeometry.clone();
+  geometry.deleteAttribute("skinIndex");
+  geometry.deleteAttribute("skinWeight");
+  const material = (Array.isArray(source.material) ? source.material : [source.material])
+    .map(m => { const copy = m.clone(); copy.side = THREE.DoubleSide; return copy; });
+  const mesh = new THREE.Mesh(geometry, Array.isArray(source.material) ? material : material[0]);
+  mesh.name = "M1_UniformSkirt_Constrained";
+  mesh.frustumCulled = false;
+  mesh.castShadow = true;
+  source.parent.add(mesh);
+  source.visible = false;
   const ids = geometry.index.array,
     triangles = [];
   for (let i = 0; i < ids.length; i += 3)
@@ -70,7 +85,7 @@ export function createM1Skirt({ vrm, source, body }) {
     }
   const accumulated = particles.map(() => new V()),
     contributions = new Uint16Array(particles.length);
-  const free = (i) => references[i].y < 0.09;
+  const free = (i) => references[i].y < fit.fixedBandMinY;
   // The topology and pins are immutable. Preserve the exact old group/order
   // while avoiding 22,400 temporary group arrays/filter results per update.
   const panels = [];
@@ -98,8 +113,10 @@ export function createM1Skirt({ vrm, source, body }) {
     return x * x * (3 - 2 * x);
   };
   const guide = references.map(r=>({
-    front:smooth((.07-r.z)/.14),depth:Math.max(0,.045-r.y),
-    side:smooth((r.x+.04)/.08),drape:smooth((.055-r.y)/.1),
+    front:smooth((fit.guide.frontOffset-r.z)/fit.guide.frontSpan),
+    depth:Math.max(0,fit.guide.depthOrigin-r.y),
+    side:smooth((r.x+fit.guide.sideOffset)/fit.guide.sideSpan),
+    drape:smooth((fit.guide.drapeOrigin-r.y)/fit.guide.drapeSpan),
   }));
   const legs = ["left", "right"].map((side) => ({
     side,
@@ -249,6 +266,13 @@ export function createM1Skirt({ vrm, source, body }) {
     for (let i = 0; i < references.length; i++) {
       const r = references[i],
         {front,depth,side} = guide[i];
+      // The attachment band is authored with spine/chest/hips weights. A
+      // constrained hem must not replace those weights with a rigid hips bind.
+      // Existing free-panel constraints attach to these live skinned anchors.
+      if (!free(i)) {
+        source.getVertexPosition(sourceIndices[i], particles[i]).applyMatrix4(source.matrixWorld);
+        continue;
+      }
       const bend =
         THREE.MathUtils.lerp(legs[0].bend, legs[1].bend, side) * front;
       target.copy(r);
@@ -281,7 +305,7 @@ export function createM1Skirt({ vrm, source, body }) {
         particles[i].y = blendSkirtSupports(particles[i].y,
           supportHeights[0], supportWeights[0], supportHeights[1], supportWeights[1], drape);
       }
-      if (r.y < 0.09) collision(particles[i], boxes);
+      collision(particles[i], boxes);
     }
     // Jacobi accumulation: shared vertices receive the mean correction from
     // one immutable iteration state. The old sequential full projection per
@@ -337,6 +361,8 @@ export function createM1Skirt({ vrm, source, body }) {
     mesh,
     update,
     getInfo: () => ({
+      fitId: fit.id,
+      fitStatus: fit.status,
       method:
         "Actual source skirt pose-guided vertex constraints + fitted thigh/chair collision; no cloth inertia/self-collision",
       revision,

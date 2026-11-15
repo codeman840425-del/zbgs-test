@@ -1,5 +1,6 @@
 import { createEquipment } from "./equipment.js";
 import { createM1Skirt } from "./m1-skirt.js";
+import { selectSkirtFit } from "./skirt-fit.js";
 import { foundationProfile } from "./foundation-profiles.js";
 
 export const M1_AVATAR_SHA256 =
@@ -19,6 +20,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
   });
   try {
     await Promise.all(Object.values(IDS).map((id) => adapter.load(id)));
+    if (IDS.skirt) selectSkirtFit(adapter.get(IDS.skirt).entry, avatarSha256);
   } catch (error) {
     adapter.dispose();
     throw error;
@@ -55,6 +57,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     vrm,
     source: item("skirt").meshes[0],
     body,
+    fit: selectSkirtFit(item("skirt").entry, avatarSha256),
   }) : null;
   function apply() {
     if (disposed) return;

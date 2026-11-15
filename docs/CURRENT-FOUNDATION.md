@@ -6,6 +6,12 @@
 
 ## 11-15当前发布与优先问题（本段优先于下方历史流水）
 
+最新接续：用户追问是否每件素材都要精修、是否考虑平台。已解释普通合规范资产不应修改人物controller，版型/身体差异归fit资源，特殊结构须独立准入。目前不是成熟通用服装平台。发现并实际修复主线m1-skirt固定腰带丢失原skin问题，7e24e01556ad固定于experiments/m1-skirt-skinned-anchors-v2/dist（前332只有skin修复，无fit守卫）。源码快照assets-source/skirt-skinned-anchors-v1，以cc22为基底可重建。182固定点2969真实步skin最大<6e-8m；旧83最大26.04mm；60混合边最高比1.2500026，不把此局部当整裙通过。
+
+同姿前腹黑片来自原外裙face587，不是腰cap，修复后已消失；两肤色点仍来自Body610/657穿Top956/957。原top/独立top无导出缺失/原mask丢失（prototype独立审查分支05663a90796cffae9bdc9484dce8866a8ebf5912已远端核），需后续同pose原内置top对照。7e24三速正常1×及坐起转舞1×已录，完整时长抽帧已检，非连续自然度验收。259姿态fullsurface新增body全部原face0–19内部腰cap，混合/自由面新增0；同目录contact/added-body-classification.json.gz保完整逐事件（解压即原JSON）。接下来复用现成assets-source/m1/offline-corrective/open-waist-v1裙源做独立接入，不重新造源、不声称它修复原黑片；Top/衣摆失败仍保留。
+
+新fit合同src/skirt-fit-profiles.json精确列三个既有garment/body/hash与固定/导向区域，m1-equipment通过已验bytes的entry选fit，未知拒绝。qa离线真实工厂正例/负例与三合法十二坏身份已过；不等价位置/权重焊接及morph拒绝。新源/证据在本地等待本轮集中提交；当前公开仍152/4194。新7e24成本需以同detail开关对照，perf首坐样本有FFmpeg重叠只保失败，perf-seated-exclusive为detailON无竞争，perf-seated-comparable使用旧83同detailOFF；不得混用成性能通过。
+
 当前公开152b17a0c6e9在4194（男性?body=male），源码4958e6b；固定目录experiments/m1-mic-curvature-integrated-1/dist。新检出63产物一致，男女真实入口已核。f7/4193保持不变作裙边对照；加旧4191/4192与证据4174，共5项目端口。主线源/片/动作实验、83成本优化与用户闪动反馈均已归档并独立核实远端d89bdd5e47cd7f5566999998bd58c7c7132929fc。当前工作源为83，公开入口仍152；后续腹前露片定位进行中。
 
 用户已对a491四条所链2.0/2.4对照片回复“瞬间闪动明显改善，请加紧进度”，精确回执evidence/front-skirt-a491efde53fb-user-receipt，不等于整裙接受。a491重新本地构建63产物逐字节相同（不是新检出npm ci），恢复evidence/rebuild-a491-root。公开仍152/4194。
