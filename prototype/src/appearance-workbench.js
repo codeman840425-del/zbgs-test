@@ -37,6 +37,8 @@ export function bindAppearanceWorkbench({ controller }) {
   geometryPanel.innerHTML='<summary>面部几何 · 有限样件</summary><p class="appearance-hint" id="face-geometry-note">嘴宽 ±4%；其他五官参数仍在制作。</p><label for="mouth-width">嘴宽变化（%）</label><div class="appearance-pair"><input id="mouth-width" type="number" min="-4" max="4" step="0.1" value="0"><button type="button" id="mouth-width-reset">只恢复嘴宽</button></div><label for="brow-sample">眉部位置对照</label><select id="brow-sample"><option value="none">原位</option><option value="height1-spacing1-v1">上移 1 mm · 两侧各外移 1 mm</option></select><p class="appearance-hint">眉部目前只有这一个组合样件，不代表连续调整范围已通过。</p>';
   geometryPanel.insertAdjacentHTML('beforeend','<label for="nose-sample">鼻尖位置对照</label><select id="nose-sample"><option value="none">原位</option><option value="tip-forward05-v1">鼻尖向前 0.5 mm</option></select><p class="appearance-hint">鼻部仅此端点，未开放连续范围。</p>');
   fields.prepend(geometryPanel);
+  geometryPanel.insertAdjacentHTML('beforeend','<label for="eye-sample">眼裂宽度对照</label><select id="eye-sample"><option value="none">原位</option><option value="aperture-width101-v1">眼裂宽 +1%</option></select><p class="appearance-hint">眼部仅此端点，未开放连续范围。</p>');
+  const eyeGeometry=geometryPanel.querySelector('#eye-sample');
   const nose=geometryPanel.querySelector('#nose-sample');
   const mouth=geometryPanel.querySelector('#mouth-width'),faceNote=geometryPanel.querySelector('#face-geometry-note'),brow=geometryPanel.querySelector('#brow-sample');
   const draftPanel=document.createElement('div');draftPanel.className='appearance-pair';
@@ -173,6 +175,7 @@ export function bindAppearanceWorkbench({ controller }) {
     geometryPanel.querySelector('#mouth-width-reset').disabled=!geometry?.available;
     brow.disabled=!geometry?.browAvailable;brow.value=geometry?.browSample||'none';
     nose.disabled=!geometry?.noseAvailable;nose.value=geometry?.noseSample||'none';
+    eyeGeometry.disabled=!geometry?.eyeAvailable;eyeGeometry.value=geometry?.eyeSample||'none';
     faceNote.textContent=geometry?.available?'真实嘴宽几何 ±4%；眉位、鼻尖各一个样件，眼部参数尚未接入。':'当前派生身体尚未适配此参数，原版男女可验证。';
   }
   async function apply(patch) {
@@ -224,6 +227,12 @@ export function bindAppearanceWorkbench({ controller }) {
     if(busy||disposed)return;
     setBusy(true);message('正在更新鼻部几何…');
     try{const r=await controller.command({type:'faceGeometry',noseSample:nose.value});if(!r?.applied)throw Error(r?.reason||'鼻部更新未完成');sync();message('鼻尖已更新；请用侧面和表情检查形状与阴影');}
+    catch(e){sync();message(String(e.message||e),true);}finally{setBusy(false);}
+  });
+  on(eyeGeometry,'change',async()=>{
+    if(busy||disposed)return;
+    setBusy(true);message('正在更新眼部几何…');
+    try{const r=await controller.command({type:'faceGeometry',eyeSample:eyeGeometry.value});if(!r?.applied)throw Error(r?.reason||'眼部更新未完成');sync();message('眼裂样件已更新；请检查半闭眼、单眼和注视时的边缘与阴影');}
     catch(e){sync();message(String(e.message||e),true);}finally{setBusy(false);}
   });
   on(draftPanel.querySelector('#appearance-save'),'click',()=>{

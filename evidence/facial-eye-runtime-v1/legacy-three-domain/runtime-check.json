@@ -1,0 +1,129 @@
+{
+  "scope": "Actual VRM attributes, independent source POSITION/NORMAL endpoint, actual runtime; CPU Three objects/mock HTTP only, no GPU/visual acceptance",
+  "moduleSha256": "a479dfd7b7eaa7272bf4c2469ba4cb9c4b24607dc0f81eab53ab3789df8ae3d8",
+  "manifestSha256": "c510ed739779c423afc7aecbe1b84b01c8f8ba4b03c82610466798fe4892af05",
+  "normalTolerance": 0.00001,
+  "positionToleranceM": 3e-7,
+  "results": [
+    {
+      "sex": "female",
+      "sourceSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+      "endpointSha256": "21bb173a02d33e8640a5e933f106ff87d128acc758ed92e52baf7a0ee808e478",
+      "expressionCount": 56,
+      "positionError": 1.1641532182693481e-10,
+      "normalError": 5.960464477539063e-8,
+      "absoluteExpressionPositionError": 1.1641532182693481e-10,
+      "absoluteExpressionNormalError": 5.960464477539063e-8,
+      "combinationPositionError": 3.725290298461914e-9,
+      "combinationNormalError": 5.960464477539063e-8,
+      "checks": [
+        "all-primitives-and-outlines",
+        "all-authored-position-and-normal-expressions-vs-independent-export",
+        "both-mouth-endpoints-plus-brow-plus-nose",
+        "nose-off-clears-only-nose-normal-neighborhood",
+        "three-domain-independent-reset",
+        "shared-original-isolation",
+        "expression-binding-references",
+        "expected-version-reject",
+        "unknown-sample-reject",
+        "reset-dispose-exact-original-references"
+      ]
+    },
+    {
+      "sex": "male",
+      "sourceSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+      "endpointSha256": "2ee831257ba2a0c6d74ef29921766db9c4d9b2603b5779cb4c6c9c1a2eeb1fef",
+      "expressionCount": 54,
+      "positionError": 1.1641532182693481e-10,
+      "normalError": 5.960464477539063e-8,
+      "absoluteExpressionPositionError": 1.1641532182693481e-10,
+      "absoluteExpressionNormalError": 5.960464477539063e-8,
+      "combinationPositionError": 7.450580596923828e-9,
+      "combinationNormalError": 5.960464477539063e-8,
+      "checks": [
+        "all-primitives-and-outlines",
+        "all-authored-position-and-normal-expressions-vs-independent-export",
+        "both-mouth-endpoints-plus-brow-plus-nose",
+        "nose-off-clears-only-nose-normal-neighborhood",
+        "three-domain-independent-reset",
+        "shared-original-isolation",
+        "expression-binding-references",
+        "expected-version-reject",
+        "unknown-sample-reject",
+        "reset-dispose-exact-original-references"
+      ]
+    },
+    {
+      "scenario": "reset-pending",
+      "pass": true,
+      "result": {
+        "applied": false,
+        "cancelled": true
+      }
+    },
+    {
+      "scenario": "dispose-pending",
+      "pass": true,
+      "result": {
+        "applied": false,
+        "cancelled": true
+      }
+    },
+    {
+      "scenario": "latest-mouth-wins",
+      "pass": true,
+      "result": {
+        "applied": false,
+        "cancelled": true
+      }
+    },
+    {
+      "scenario": "http-failure",
+      "pass": true,
+      "result": {
+        "applied": false,
+        "reason": "鼻部配方清单加载失败 (503)"
+      }
+    },
+    {
+      "scenario": "sha-failure",
+      "pass": true,
+      "result": {
+        "applied": false,
+        "reason": "鼻部配方校验失败"
+      }
+    },
+    {
+      "scenario": "source-morph-mismatch",
+      "pass": true,
+      "result": {
+        "applied": false,
+        "reason": "鼻部表情原数据身份不匹配"
+      }
+    },
+    {
+      "scenario": "source-normal-mismatch",
+      "pass": true,
+      "result": {
+        "applied": false,
+        "reason": "鼻部原法线身份不匹配"
+      }
+    },
+    {
+      "scenario": "prepareRender-reset",
+      "pass": true,
+      "result": {
+        "applied": false,
+        "cancelled": true
+      }
+    },
+    {
+      "scenario": "prepareRender-failure",
+      "pass": true,
+      "result": {
+        "applied": false,
+        "reason": "injected preflight failure"
+      }
+    }
+  ]
+}

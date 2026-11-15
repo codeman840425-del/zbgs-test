@@ -5,6 +5,8 @@ const BROW_BASE_URL = '/assets/face-brow-parameters-v1/';
 const BROW_SAMPLE = 'height1-spacing1-v1';
 const NOSE_BASE_URL = '/assets/face-nose-parameters-v1/';
 const NOSE_SAMPLE = 'tip-forward05-v1';
+const EYE_BASE_URL = '/assets/face-eye-sample-v1/';
+const EYE_SAMPLE = 'aperture-width101-v1';
 const ADMITTED_BASES = new Set([
   '027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95',
   '62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff',
@@ -21,8 +23,8 @@ function packed(attribute) {
     for (let c = 0; c < attribute.itemSize; c++) result[i * attribute.itemSize + c] = attribute.getComponent(i, c);
   return result;
 }
-function normals(position, indices) {
-  const result = new Float32Array(position.length);
+function normals(position, indices, precise = false) {
+  const result = precise ? new Float64Array(position.length) : new Float32Array(position.length);
   for (let i = 0; i < indices.length; i += 3) {
     const a = indices[i] * 3, b = indices[i + 1] * 3, c = indices[i + 2] * 3;
     const ux = position[b] - position[a], uy = position[b + 1] - position[a + 1], uz = position[b + 2] - position[a + 2];
@@ -44,6 +46,7 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender }) {
   let mouthWidth = 0, wanted = 0, loading = false, error = null, available = ADMITTED_BASES.has(avatarSha256);
   let browSample = 'none', wantedBrow = 'none', browPrepared = null, browPreparation = null;
   let noseSample = 'none', wantedNose = 'none', nosePrepared = null, nosePreparation = null;
+  let eyeSample = 'none', wantedEye = 'none', eyePrepared = null, eyePreparation = null;
   let owned = new Map();
 
   async function prepare() {
@@ -247,17 +250,96 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender }) {
     return nosePreparation;
   }
 
+
+  async function prepareEye() {
+    if (eyePrepared) return eyePrepared;
+    if (eyePreparation) return eyePreparation;
+    eyePreparation = (async () => {
+      await prepare();
+      const response = await fetch(EYE_BASE_URL + 'recipe-manifest.json');
+      if (!response.ok) throw Error(`眼部配方清单加载失败 (${response.status})`);
+      const manifest = await response.json();
+      if (manifest.schema !== 'character-face-eye-recipes-v1' || !Array.isArray(manifest.recipes)) throw Error('未知眼部清单');
+      const entries = manifest.recipes.filter(entry => entry.baseAvatarSha256 === avatarSha256);
+      if (entries.length !== 1) throw Error('当前身体尚无眼裂样件适配');
+      const entry = entries[0];
+      if (entry.sampleId !== EYE_SAMPLE || !/^[a-f0-9]{64}$/.test(entry.sha256) || !/^[a-zA-Z0-9_.-]+\.json$/.test(entry.file)) throw Error('眼部配方身份无效');
+      const fetched = await fetch(EYE_BASE_URL + entry.file);
+      if (!fetched.ok) throw Error(`眼部配方加载失败 (${fetched.status})`);
+      const bytes = await fetched.arrayBuffer();
+      if (await digest(bytes) !== entry.sha256) throw Error('眼部配方校验失败');
+      const recipe = JSON.parse(new TextDecoder().decode(bytes)), original = prepared.recipe;
+      if (recipe.schema !== 'character-face-geometry-affine-recipe-v1' || recipe.id !== entry.id ||
+          recipe.sampleId !== EYE_SAMPLE || recipe.parameter !== 'eyeApertureWidthFactor' || recipe.default !== 1 || recipe.fixedEndpoint !== 1.01 ||
+          recipe.baseAvatarSha256 !== avatarSha256 || recipe.basePositionSha256 !== original.basePositionSha256 ||
+          recipe.positionCount !== original.positionCount || recipe.sourceSpace !== 'glTF mesh-local metres' ||
+          recipe.existingRecipeIdentities?.mouth?.sha256 !== prepared.entry.sha256 ||
+          !Array.isArray(recipe.primitiveIdentities) || recipe.primitiveIdentities.length !== original.primitiveIdentities.length ||
+          !Array.isArray(recipe.sourceMorphPositionSha256) || recipe.sourceMorphPositionSha256.length !== prepared.first.morphs.length ||
+          !Array.isArray(recipe.expressionNames) || new Set(recipe.expressionNames).size !== prepared.first.morphs.length)
+        throw Error('眼部配方坐标或共底身份不匹配');
+      for (const identity of original.primitiveIdentities) {
+        const candidate = recipe.primitiveIdentities.find(p => p.primitiveIndex === identity.primitiveIndex);
+        if (!candidate || ['materialName','indexSha256','positionSha256','uvSha256','targetCount'].some(k => candidate[k] !== identity[k])) throw Error('眼部源primitive身份不匹配');
+        for (const record of prepared.records.filter(r => r.identity.primitiveIndex === identity.primitiveIndex))
+          if (await digest(packed(record.geometry.getAttribute('normal'))) !== candidate.normalSha256 || candidate.normalSha256 !== recipe.baseNormalSha256) throw Error('眼部原法线身份不匹配');
+      }
+      for (let i = 0; i < prepared.first.morphs.length; i++)
+        if (await digest(prepared.first.morphs[i]) !== recipe.sourceMorphPositionSha256[i]) throw Error('眼部表情原数据身份不匹配');
+      for (const field of ['xScale','centerX'])
+        if (!Array.isArray(recipe[field]) || recipe[field].length !== original.positionCount || !recipe[field].every(Number.isFinite)) throw Error('眼部仿射数据无效');
+      const changed = new Set(), allowed = new Set(), protectedParts = new Set();
+      for (const record of prepared.records) {
+        const permitted = /_(Face_00_SKIN|EyeWhite_00_EYE|FaceEyeline_00_FACE|FaceEyelash_00_FACE)$/.test(record.identity.materialName);
+        for (const i of record.index) (permitted ? allowed : protectedParts).add(i);
+      }
+      for (let i = 0; i < original.positionCount; i++) {
+        const scale = recipe.xScale[i], center = recipe.centerX[i];
+        if (scale < 1 || scale > 1.01 || Math.abs(center) > .2 || (scale === 1 && center !== 0)) throw Error('眼部仿射超出唯一端点');
+        if (scale !== 1) {
+          if (!allowed.has(i) || protectedParts.has(i) || original.weights[i] !== 0) throw Error('眼部选择集侵犯保护区域');
+          changed.add(i);
+        }
+      }
+      const equalsSet = (list, set) => Array.isArray(list) && list.length === set.size && new Set(list).size === set.size && list.every(i => set.has(i));
+      if (!changed.size || !equalsSet(recipe.selectedVertices, changed)) throw Error('眼部选择集不匹配');
+      const protectedVertices = new Set(Array.from({length:original.positionCount},(_,i)=>i).filter(i=>!changed.has(i)));
+      if (!equalsSet(recipe.protectedVertices, protectedVertices)) throw Error('眼部保护区不匹配');
+      const affected = new Set();
+      for (let i = 0; i < prepared.fullIndices.length; i += 3) {
+        const tri = prepared.fullIndices.slice(i,i+3);
+        if (tri.some(v => changed.has(v))) tri.forEach(v=>affected.add(v));
+      }
+      if (!equalsSet(recipe.normalNeighborhoodVertices, affected) || [...affected].some(i => protectedParts.has(i) || prepared.affected.has(i))) throw Error('眼部法线邻域或保护不匹配');
+      if (!Array.isArray(recipe.skinWhitePairs) || recipe.skinWhitePairs.length !== 48) throw Error('眼部接缝映射缺失');
+      for (const pair of recipe.skinWhitePairs) {
+        if (!Array.isArray(pair) || pair.length !== 2 || pair.some(i=>!changed.has(i))) throw Error('眼部接缝映射无效');
+        const [a,b] = pair;
+        if (recipe.xScale[a] !== recipe.xScale[b] || recipe.centerX[a] !== recipe.centerX[b] ||
+            [0,1,2].some(c=>Math.abs(prepared.first.position[a*3+c]-prepared.first.position[b*3+c])>1e-6)) throw Error('眼部接缝仿射不连续');
+      }
+      if (disposed) throw Error('人物已卸载');
+      eyePrepared = { recipe, entry, changed, affected }; return eyePrepared;
+    })().finally(() => { eyePreparation = null; });
+    return eyePreparation;
+  }
+
   function restore() {
     for (const record of prepared?.records || []) for (const mesh of record.meshes)
       if (mesh.geometry === owned.get(record.geometry)) mesh.geometry = record.geometry;
     for (const geometry of owned.values()) geometry.dispose();
-    owned.clear(); mouthWidth = 0; browSample = 'none'; noseSample = 'none';
+    owned.clear(); mouthWidth = 0; browSample = 'none'; noseSample = 'none'; eyeSample = 'none';
   }
 
-  async function apply(value, brow, nose, request) {
+  async function apply(value, brow, nose, eye, request) {
     const { recipe, records, fullIndices, first } = prepared;
     const affected = new Set(value !== 0 ? prepared.affected : []);
     if (nose !== 'none') for (const i of nosePrepared.affected) affected.add(i);
+    if (eye !== 'none') {
+      if ((nose !== 'none' && [...eyePrepared.affected].some(i=>nosePrepared.affected.has(i))) ||
+          (brow !== 'none' && browPrepared.recipe.browVertices.some(i=>eyePrepared.affected.has(i)))) throw Error('眼部与其他参数域不兼容');
+      for (const i of eyePrepared.affected) affected.add(i);
+    }
     const recomputeNormals = affected.size > 0;
     for (const record of records) for (const mesh of record.meshes)
       if (mesh.geometry !== record.geometry && mesh.geometry !== owned.get(record.geometry)) throw Error('五官网格被其他操作替换');
@@ -270,10 +352,17 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender }) {
     }
     if (nose !== 'none') for (const i of nosePrepared.changed) for (let c = 0; c < 3; c++)
       position[i*3+c] += nosePrepared.recipe.translationVectors[i][c];
-    const baseNormals = recomputeNormals ? normals(position, fullIndices) : null;
+    if (eye !== 'none') for (const i of eyePrepared.changed) {
+      const {xScale,centerX} = eyePrepared.recipe;
+      position[i*3] = centerX[i] + (first.position[i*3] - centerX[i]) * xScale[i];
+      for (const values of morphs) values[i*3] *= xScale[i];
+    }
+    const baseNormals = recomputeNormals ? normals(position, fullIndices, eye !== 'none') : null;
     const targetNormals = recomputeNormals ? morphs.map(values => {
-      const absolute = position.map((v, i) => v + values[i]);
-      return normals(absolute, fullIndices);
+      // The eye source evaluates thin eyelid triangles on Float64 absolute
+      // shapes; rounding base+delta to Float32 first changes their normals.
+      const absolute = eye !== 'none' ? Float64Array.from(position,(v,i)=>v+values[i]) : position.map((v,i)=>v+values[i]);
+      return normals(absolute, fullIndices, eye !== 'none');
     }) : null;
     if (brow !== 'none') {
       const {heightVectors,spacingVectors,browVertices} = browPrepared.recipe;
@@ -316,7 +405,7 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender }) {
     // bindings continue to target the same actor and the same morph indices.
     for (const record of records) for (const mesh of record.meshes) mesh.geometry = next.get(record.geometry);
     for (const geometry of owned.values()) geometry.dispose();
-    owned = next; mouthWidth = value;browSample = brow;noseSample = nose;return true;
+    owned = next; mouthWidth = value;browSample = brow;noseSample = nose;eyeSample = eye;return true;
   }
 
   async function set(input = {}) {
@@ -324,13 +413,15 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender }) {
     const value = input.reset ? 0 : input.mouthWidth ?? wanted;
     const brow = input.reset ? 'none' : input.browSample ?? wantedBrow;
     const nose = input.reset ? 'none' : input.noseSample ?? wantedNose;
+    const eye = input.reset ? 'none' : input.eyeSample ?? wantedEye;
     if (typeof value !== 'number' || !Number.isFinite(value) || value < -.04 || value > .04)
       return { applied: false, reason: '嘴宽范围为 -0.04 到 0.04' };
     if (brow !== 'none' && brow !== BROW_SAMPLE) return { applied: false, reason: '眉位仅支持原位或 +1 毫米组合样件' };
     if (nose !== 'none' && nose !== NOSE_SAMPLE) return { applied: false, reason: '鼻部仅支持原位或鼻尖突出 0.5 毫米样件' };
-    wanted = value; wantedBrow = brow; wantedNose = nose; const request = ++generation; error = null;
+    if (eye !== 'none' && eye !== EYE_SAMPLE) return { applied: false, reason: '眼部仅支持原位或眼裂宽 +1% 样件' };
+    wanted = value; wantedBrow = brow; wantedNose = nose; wantedEye = eye; const request = ++generation; error = null;
     try {
-      if (value !== 0 || brow !== 'none' || nose !== 'none') {
+      if (value !== 0 || brow !== 'none' || nose !== 'none' || eye !== 'none') {
         if (!available) throw Error('当前身体尚无嘴宽几何适配');
         loading = true; await prepare();
         if (value !== 0 && input.expectedRecipeSha256 != null && input.expectedRecipeSha256 !== prepared.entry.sha256)
@@ -344,12 +435,16 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender }) {
         await prepareNose();
         if (input.expectedNoseRecipeSha256 != null && input.expectedNoseRecipeSha256 !== nosePrepared.entry.sha256) throw Error('保存配方的鼻部版本不匹配');
       }
+      if (eye !== 'none') {
+        await prepareEye();
+        if (input.expectedEyeRecipeSha256 != null && input.expectedEyeRecipeSha256 !== eyePrepared.entry.sha256) throw Error('保存配方的眼部版本不匹配');
+      }
       if (disposed || request !== generation) return { applied: false, cancelled: true };
-      if (value === 0 && brow === 'none' && nose === 'none') restore(); else if ((value !== mouthWidth || brow !== browSample || nose !== noseSample) && !await apply(value,brow,nose,request))return{applied:false,cancelled:true};
+      if (value === 0 && brow === 'none' && nose === 'none' && eye === 'none') restore(); else if ((value !== mouthWidth || brow !== browSample || nose !== noseSample || eye !== eyeSample) && !await apply(value,brow,nose,eye,request))return{applied:false,cancelled:true};
       loading = false; return { applied: true };
     } catch (e) {
       if (disposed || request !== generation) return { applied: false, cancelled: true };
-      error = e.message; loading = false; wanted = mouthWidth; wantedBrow = browSample; wantedNose = noseSample;
+      error = e.message; loading = false; wanted = mouthWidth; wantedBrow = browSample; wantedNose = noseSample; wantedEye = eyeSample;
       return { applied: false, reason: error };
     }
   }
@@ -361,9 +456,11 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender }) {
       browRecipeId: browPrepared?.entry.id || null, browRecipeSha256: browPrepared?.entry.sha256 || null,
       noseSample, requestedNoseSample: wantedNose, noseAvailable: available,
       noseRecipeId: nosePrepared?.entry.id || null, noseRecipeSha256: nosePrepared?.entry.sha256 || null,
+      eyeSample, requestedEyeSample: wantedEye, eyeAvailable: available,
+      eyeRecipeId: eyePrepared?.entry.id || null, eyeRecipeSha256: eyePrepared?.entry.sha256 || null,
       recipeId: prepared?.entry.id || null, recipeSha256: prepared?.entry.sha256 || null, baseAvatarSha256: avatarSha256, facialGeometryLoading: loading,
       facialGeometryError: error, facialGeometryAvailable: available, facialGeometryCloneCount: owned.size,
-      geometryIdentity: { baseAvatarSha256: avatarSha256, recipeSha256: prepared?.entry.sha256 || null, mouthWidth, browSample, browRecipeSha256: browPrepared?.entry.sha256 || null, noseSample, noseRecipeSha256:nosePrepared?.entry.sha256||null } }),
-    dispose() { disposed = true; generation++; loading = false; wanted = 0; wantedBrow = 'none'; wantedNose = 'none'; restore(); },
+      geometryIdentity: { baseAvatarSha256: avatarSha256, recipeSha256: prepared?.entry.sha256 || null, mouthWidth, browSample, browRecipeSha256: browPrepared?.entry.sha256 || null, noseSample, noseRecipeSha256:nosePrepared?.entry.sha256||null, eyeSample, eyeRecipeSha256:eyePrepared?.entry.sha256||null } }),
+    dispose() { disposed = true; generation++; loading = false; wanted = 0; wantedBrow = 'none'; wantedNose = 'none'; wantedEye = 'none'; restore(); },
   };
 }
