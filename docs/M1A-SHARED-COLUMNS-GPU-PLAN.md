@@ -42,3 +42,7 @@ Actual generated assets already exist and must not be regenerated for this view.
 ## Decision criteria
 
 Stop on wrong identity, any GPU/HTTP/page failure, missing material primitive, skin/morph mismatch or unmatched pose/camera. Retain failure. Visually reject further work on this sampled method if column shear, hard band, sideways flare, obvious new opening or layer inversion remains at the same practical severity as v2/current defect. A smoother arc is only evidence worth discussing; it does not waive1.25 strain, existing cloth/top/hand contacts, style choice or complete-motion requirements. Record actual source vs final geometry and keep original failures; no automatic parameter iteration follows.
+
+## Execution follow-up
+
+The authorized single GPU check has completed with both identities, both primitive sets, skin/morph readback, pose and camera gates passing. See source package gpu-preview/RESULT.md and compact-summary.json. Outfit remains rejected; no additional solve was performed.
