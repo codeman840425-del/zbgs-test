@@ -42,35 +42,55 @@
           </div>
         </section>
         <aside>
+          <div id="workbench-navigation" hidden>
+            <fieldset id="appearance-identity-fields" disabled>
+              <legend>角色基础</legend>
+              <div class="appearance-pair" role="group" aria-label="人物组">
+                <button type="button" data-appearance-group="female" aria-pressed="true" title="切换到女性原版">女性候选</button>
+                <button type="button" data-appearance-group="male" aria-pressed="false" title="切换到男性原版">男性候选</button>
+              </div>
+              <label for="appearance-body">当前样件</label>
+              <select id="appearance-body" aria-describedby="appearance-body-note"><option value="female">女性 · 原版</option></select>
+              <p id="appearance-body-note" class="appearance-hint">切换男女时使用该组原版，可再选择已有样件。</p>
+            </fieldset>
+            <div class="workbench-tabs" role="tablist" aria-label="工作台分区">
+              <button id="workbench-tab-appearance" type="button" role="tab" aria-selected="true" aria-controls="workbench-page-appearance" data-workbench-tab="appearance">外观</button>
+              <button id="workbench-tab-actions" type="button" role="tab" aria-selected="false" aria-controls="workbench-page-actions" data-workbench-tab="actions" tabindex="-1">动作</button>
+              <button id="workbench-tab-inspection" type="button" role="tab" aria-selected="false" aria-controls="workbench-page-inspection" data-workbench-tab="inspection" tabindex="-1">检查</button>
+            </div>
+            <div id="workbench-transport" aria-label="播放控制"></div>
+          </div>
+          <div id="workbench-pages" hidden>
+            <section id="workbench-page-appearance" role="tabpanel" aria-labelledby="workbench-tab-appearance"></section>
+            <section id="workbench-page-actions" role="tabpanel" aria-labelledby="workbench-tab-actions" hidden></section>
+            <section id="workbench-page-inspection" role="tabpanel" aria-labelledby="workbench-tab-inspection" hidden></section>
+          </div>
           <section id="appearance-workbench" hidden aria-labelledby="appearance-title">
             <div class="section-head"><span class="eyebrow">APPEARANCE STUDIO</span><span class="edition">外观工作台</span></div>
             <h2 id="appearance-title">近看你的角色</h2>
             <p class="appearance-intro">先选人物，再试发型与配色。换个角度，看清每一处变化。</p>
             <form id="appearance-form">
               <fieldset id="appearance-fields" disabled>
-                <label for="appearance-body">人物</label>
-                <select id="appearance-body">
-                  <option value="female">女性 · 原版</option>
-                  <option value="m1a-jaw-v1">女性 · 下颌变化</option>
-                  <option value="m1a-waisthip-v1">女性 · 腰胯变化</option>
-                  <option value="male">男性 · 原版</option>
-                  <option value="m2-male-jaw-v1">男性 · 下颌变化</option>
-                </select>
                 <label for="appearance-hair-style">发型</label>
                 <select id="appearance-hair-style">
                   <option value="original">原发型</option>
-                  <option value="female-bob-v1">齐颈短发</option>
                 </select>
-                <p id="appearance-style-note" class="appearance-hint">齐颈短发目前仅适用于原版女性。</p>
+                <p id="appearance-style-note" class="appearance-hint">正在检查可用发型…</p>
                 <div class="appearance-pair">
                   <div><label for="appearance-hair-color">发色</label><select id="appearance-hair-color"><option value="original">原色</option><option value="black">黑色</option><option value="brown">棕色</option><option value="blonde">金色</option></select></div>
                   <div><label for="appearance-skin-tone">肤色</label><select id="appearance-skin-tone"><option value="original">原色</option><option value="warm">暖色</option><option value="deep">深色</option></select></div>
                 </div>
+                <p class="appearance-hint">眉色随发色一起变化。</p>
+                <div class="appearance-pair">
+                  <div><label for="appearance-eye-color">瞳色</label><select id="appearance-eye-color" disabled aria-describedby="appearance-face-color-note"><option value="original">原色</option><option value="brown">棕色</option><option value="blue">蓝色</option><option value="green">绿色</option><option value="violet">紫色</option></select></div>
+                  <div><label for="appearance-lip-color">唇色</label><select id="appearance-lip-color" disabled aria-describedby="appearance-face-color-note"><option value="original">原色</option><option value="rose">玫瑰色</option><option value="coral">珊瑚色</option><option value="mauve">豆沙色</option></select></div>
+                </div>
+                <p id="appearance-face-color-note" class="appearance-hint">正在检查此人物的瞳色与唇色。</p>
                 <button type="button" id="appearance-reset">恢复原发型与配色</button>
               </fieldset>
             </form>
             <p id="appearance-status" role="status" aria-live="polite">正在加载人物外观…</p>
-            <h3>观察距离</h3>
+            <div id="workbench-camera-toolbar" aria-label="预览镜头">
             <div class="appearance-segments" role="group" aria-label="观察距离">
               <button type="button" data-inspect-framing="face" aria-pressed="true">放大脸部</button>
               <button type="button" data-inspect-framing="half" aria-pressed="false">半身</button>
@@ -80,6 +100,7 @@
               <button type="button" data-inspect-direction="front" aria-pressed="true">正面</button>
               <button type="button" data-inspect-direction="side" aria-pressed="false">侧面</button>
               <button type="button" data-inspect-direction="back" aria-pressed="false">背面</button>
+            </div>
             </div>
             <div id="appearance-dance-slot"><h3>看看完整舞蹈</h3><p class="appearance-hint">选择舞蹈后，使用下方动作按钮播放。30 秒舞蹈仅适用于原版男女。</p></div>
           </section>
@@ -95,7 +116,7 @@
           <p><a href="/foundation.html">查看完整人体候选与再导出对照 ↗</a></p>
           <p><a href="?body=female&amp;workbench=appearance&amp;view=inspect-face-front">打开外观工作台 ↗</a></p>
           </div>
-          <h3>选择外观 <span>同一个人物</span></h3>
+          <h3 id="outfits-title">选择外观 <span>同一个人物</span></h3>
           <div class="outfits">
             <button data-outfit="0" aria-pressed="true">
               <span class="swatch trousers"></span><b>轻装裤装</b
@@ -109,7 +130,7 @@
               ><small>观察裤口、膝盖与小腿</small>
             </button>
           </div>
-          <h3>动作体验</h3>
+          <h3 id="actions-title">动作体验</h3>
           <p class="debug-legend" id="foundation-legend">
             独立版型须逐套验证，换装不代表动作与接触已通过。
           </p>

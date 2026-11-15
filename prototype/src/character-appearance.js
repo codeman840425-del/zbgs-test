@@ -1,16 +1,18 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { createFacialPalette, EYE_COLORS, LIP_COLORS } from './facial-palette.js';
+import { HAIRSTYLES } from './hairstyle-catalog.js';
 
 export const HAIR_COLORS = { original: null, black: '#343139', brown: '#805039', blonde: '#dab77a' };
 // Presets inspected under the actual room's warm key light and ACES exposure.
 export const SKIN_TONES = { original: null, warm: '#ddc5b4', deep: '#81685b' };
-const hairManifestURL = '/assets/m2-hairstyle-v1/manifest.json';
-const femaleSHA = '027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95';
 const materialsOf = mesh => Array.isArray(mesh.material) ? mesh.material : [mesh.material];
 
 /** Per-instance appearance only. No skeleton, geometry, motion or skin weights
  * are changed by tinting. Replacements require an exact body admission. */
 export function createCharacterAppearance({ vrm, avatarSha256 }) {
+  const facialPalette = createFacialPalette({vrm, avatarSha256});
+  const admittedStyles = HAIRSTYLES.filter(entry => entry.compatibleBodies.includes(avatarSha256));
   const skin = new Set(), hair = new Set(), hairMeshes = [];
   vrm.scene.traverse(mesh => {
     if (!mesh.isMesh) return;
@@ -27,7 +29,7 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
   const grayTextures = new Map();
   let hairStyle = 'original', hairColor = 'original', skinTone = 'original';
   let replacement = null, generation = 0, disposed = false, loading = false, error = null;
-  let replacementPromise = null;
+  const replacements = new Map(), replacementPromises = new Map();
 
   function neutralTexture(texture) {
     if (!texture) return null;
@@ -66,8 +68,8 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
   }
   function applyColors() {
     for (const m of hair) tintHair(m, originals.get(m));
-    replacement?.scene.traverse(mesh => {
-      if (mesh.isMesh) for (const m of materialsOf(mesh)) tintHair(m, replacement.materialBase.get(m));
+    for (const value of replacements.values()) value.scene.traverse(mesh => {
+      if (mesh.isMesh) for (const m of materialsOf(mesh)) tintHair(m, value.materialBase.get(m));
     });
     for (const m of skin) {
       const base = originals.get(m), tint = SKIN_TONES[skinTone];
@@ -80,11 +82,11 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
     value.scene.removeFromParent();
     value.scene.traverse(mesh => { if (mesh.isMesh) { mesh.geometry.dispose(); materialsOf(mesh).forEach(m => m.dispose()); } });
   }
-  async function loadReplacement() {
-    const response = await fetch(hairManifestURL);
+  async function loadReplacement(entry) {
+    const response = await fetch(entry.manifestUrl);
     if (!response.ok) throw new Error(`发型清单加载失败 (${response.status})`);
     const manifest = await response.json();
-    if (manifest.schema !== 'character-hairstyle-v1' || manifest.id !== 'female-bob-v1' ||
+    if (manifest.schema !== 'character-hairstyle-v1' || manifest.id !== entry.id ||
         manifest.mount !== 'head' || manifest.headLocal !== true || !manifest.compatibleBodies.includes(avatarSha256))
       throw new Error('发型与当前身体未通过兼容检查');
     const asset = await fetch(manifest.url);
@@ -94,7 +96,7 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
     if (sha !== manifest.sha256) throw new Error('发型资源身份不一致');
     const source = [...hair].filter(m => m.name === manifest.sourceMaterial);
     if (!source.length || !hairMeshes.length) throw new Error('原发型材质/独立网格缺失');
-    const gltf = await new GLTFLoader().parseAsync(bytes, '/assets/m2-hairstyle-v1/');
+    const gltf = await new GLTFLoader().parseAsync(bytes, manifest.url.slice(0, manifest.url.lastIndexOf('/') + 1));
     const materialBase = new Map(), oldMaterials = new Set();
     gltf.scene.traverse(mesh => {
       if (!mesh.isMesh) return;
@@ -119,31 +121,42 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
     const desiredColor = input.reset ? 'original' : input.hairColor ?? hairColor;
     const desiredSkin = input.reset ? 'original' : input.skinTone ?? skinTone;
     if (!(desiredColor in HAIR_COLORS) || !(desiredSkin in SKIN_TONES)) return { applied: false, reason: '未知颜色预设' };
-    if (desiredStyle !== 'original' && (desiredStyle !== 'female-bob-v1' || avatarSha256 !== femaleSHA))
-      return { applied: false, reason: '该发型目前仅适配原女性候选；派生与男性未验证' };
+    if ((input.eyeColor !== undefined && !(input.eyeColor in EYE_COLORS)) || (input.lipColor !== undefined && !(input.lipColor in LIP_COLORS)))
+      return {applied:false,reason:'未知瞳色或唇色'};
+    if (desiredStyle !== 'original' && !admittedStyles.some(entry => entry.id === desiredStyle))
+      return { applied: false, reason: '该发型尚未适配当前身体；请使用可选款式' };
+    // Commit independent color intent before awaiting any asset. An older reset
+    // must never resume later and overwrite a newer hair/skin selection.
     hairColor = desiredColor; skinTone = desiredSkin; applyColors();
-    // Color edits do not cancel an in-flight style request.
-    if (input.hairStyle === undefined && !input.reset) return { applied: true };
+    const jobs = [];
+    if (input.eyeColor !== undefined || input.lipColor !== undefined || input.reset) jobs.push(facialPalette.set(input));
+    if (input.hairStyle !== undefined || input.reset) jobs.push(setStyle(desiredStyle));
+    const results = await Promise.all(jobs);
+    return results.find(result => !result.applied) || {applied:true};
+  }
+  async function setStyle(desiredStyle) {
     const request = ++generation;
     error = null;
     if (desiredStyle === 'original') {
       hairStyle = desiredStyle; loading = false;
-      if (replacement) replacement.scene.visible = false;
+      for (const value of replacements.values()) value.scene.visible = false;
       hairMeshes.forEach(({ mesh, visible }) => { mesh.visible = visible; });
       return { applied: true };
     }
     loading = true;
     try {
-      if (!replacement) {
-        if (!replacementPromise) replacementPromise = loadReplacement().then(value => {
+      if (!replacements.has(desiredStyle)) {
+        if (!replacementPromises.has(desiredStyle)) replacementPromises.set(desiredStyle, loadReplacement(admittedStyles.find(entry => entry.id === desiredStyle)).then(value => {
           if (disposed) { releaseReplacement(value); return null; }
-          replacement = value; value.scene.visible = false;
+          replacements.set(desiredStyle, value); value.scene.visible = false;
           vrm.humanoid.getRawBoneNode('head').add(value.scene);
           return value;
-        }).finally(() => { replacementPromise = null; });
-        await replacementPromise;
+        }).finally(() => { replacementPromises.delete(desiredStyle); }));
+        await replacementPromises.get(desiredStyle);
       }
       if (disposed || request !== generation) return { applied: false, cancelled: true };
+      replacement = replacements.get(desiredStyle);
+      for (const value of replacements.values()) value.scene.visible = false;
       applyColors(); replacement.scene.visible = true;
       hairMeshes.forEach(({ mesh }) => { mesh.visible = false; });
       hairStyle = desiredStyle; loading = false;
@@ -155,13 +168,15 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
   }
   return {
     set,
-    getState: () => ({ hairStyle, hairColor, skinTone, loading, error,
-      availableStyles: avatarSha256 === femaleSHA ? ['original', 'female-bob-v1'] : ['original'],
+    getState: () => ({ hairStyle, hairColor, skinTone, loading, error, ...facialPalette.getState(),
+      availableStyles: ['original', ...admittedStyles.map(entry => entry.id)],
+      styleOptions: [{id:'original',label:'原发型'}, ...admittedStyles.map(({id,label}) => ({id,label}))],
       skinMaterialCount: skin.size, hairMaterialCount: hair.size, neutralTextureCount: grayTextures.size,
       replacementSHA256: replacement?.sha256 ?? null }),
     dispose() {
       disposed = true; generation++;
-      releaseReplacement(replacement); replacement = null;
+      facialPalette.dispose();
+      replacements.forEach(releaseReplacement); replacements.clear(); replacement = null;
       for (const [m, base] of originals) {
         if (base.color) m.color.copy(base.color);
         if (base.shade) m.shadeColorFactor.copy(base.shade);

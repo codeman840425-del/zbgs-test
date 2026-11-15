@@ -5,27 +5,43 @@ import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import assert from 'node:assert/strict';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const source = path.join(root, 'assets-source/m2-hairstyle-v1');
-const destination = path.join(root, 'prototype/public/assets/m2-hairstyle-v1');
+import { HAIRSTYLES } from '../prototype/src/hairstyle-catalog.js';
+import { FOUNDATION_PROFILES } from '../prototype/src/foundation-profiles.js';
 const sha = b => createHash('sha256').update(b).digest('hex');
+const verify = process.argv.includes('--verify');
+assert(process.argv.slice(2).every(a => a === '--verify'), 'Usage: node scripts/install-hairstyle-workbench.mjs [--verify]');
+const copies = [], receipts = [];
+for (const entry of HAIRSTYLES) {
+assert(entry.manifestUrl.startsWith('/assets/') && !entry.manifestUrl.includes('..'));
+const directory = path.posix.dirname(entry.manifestUrl).slice('/assets/'.length);
+const source = path.join(root, 'assets-source', directory);
+const destination = path.join(root, 'prototype/public/assets', directory);
 const manifestBytes = fs.readFileSync(path.join(source, 'manifest.json'));
 const manifest = JSON.parse(manifestBytes);
 assert.equal(manifest.schema, 'character-hairstyle-v1');
-assert.equal(manifest.id, 'female-bob-v1');
-assert.equal(manifest.url, '/assets/m2-hairstyle-v1/female-bob.glb');
+assert.equal(manifest.id, entry.id);
+assert.equal(path.posix.dirname(manifest.url), path.posix.dirname(entry.manifestUrl));
+assert.deepEqual(manifest.compatibleBodies, entry.compatibleBodies);
 assert.equal(manifest.headLocal, true);
 assert.equal(manifest.mount, 'head');
-const body = fs.readFileSync(path.join(root, 'prototype/public/assets/foundation/base-female-roundtrip.vrm'));
-assert(manifest.compatibleBodies.includes(sha(body)), 'Body admission does not match');
-const asset = fs.readFileSync(path.join(source, 'female-bob.glb'));
+for (const hash of manifest.compatibleBodies) {
+  const profile = Object.values(FOUNDATION_PROFILES).find(p => p.sha256 === hash);
+  assert(profile, 'Body admission has no profile');
+  assert.equal(sha(fs.readFileSync(path.join(root, 'prototype/public', profile.url.slice(1)))), hash);
+}
+const assetName = path.posix.basename(manifest.url);
+const asset = fs.readFileSync(path.join(source, assetName));
 assert.equal(sha(asset), manifest.sha256, 'Source hairstyle integrity mismatch');
 assert.equal(asset.toString('ascii', 0, 4), 'glTF');
-const verify = process.argv.includes('--verify');
-assert(process.argv.slice(2).every(a => a === '--verify'), 'Usage: node scripts/install-hairstyle-workbench.mjs [--verify]');
-fs.mkdirSync(destination, { recursive: true });
-for (const [name, bytes] of [['manifest.json', manifestBytes], ['female-bob.glb', asset]]) {
+for (const [name, bytes] of [['manifest.json', manifestBytes], [assetName, asset]]) {
   const target = path.join(destination, name);
-  if (!verify) fs.writeFileSync(target, bytes);
-  assert(fs.readFileSync(target).equals(bytes), `Installed ${name} differs from frozen source`);
+  if (fs.existsSync(target)) assert(fs.readFileSync(target).equals(bytes), `Existing ${target} differs; review asset version before replacing`);
+  copies.push({target,bytes});
 }
-console.log(JSON.stringify({ verified: true, copied: !verify, id: manifest.id, sha256: manifest.sha256, compatibleBodies: manifest.compatibleBodies }));
+receipts.push({id:manifest.id,sha256:manifest.sha256,compatibleBodies:manifest.compatibleBodies});
+}
+for (const {target,bytes} of copies) {
+  if (!verify) { fs.mkdirSync(path.dirname(target),{recursive:true}); fs.writeFileSync(target, bytes); }
+  assert(fs.readFileSync(target).equals(bytes), `Installed ${target} differs from frozen source`);
+}
+console.log(JSON.stringify({verified:true,copied:!verify,hairstyles:receipts}));
