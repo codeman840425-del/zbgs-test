@@ -35,11 +35,13 @@ export function validateAppearanceRecipe(controller,record){
  if((legacy||legacyBrow)&&(record.geometry?.noseSample!==undefined||record.geometry?.noseRecipeSha256!==undefined))throw Error('旧版配方不能携带新版鼻部数据');
  if((legacy||legacyBrow||legacyNose)&&(record.geometry?.eyeSample!==undefined||record.geometry?.eyeRecipeSha256!==undefined))throw Error('旧版配方不能携带新版眼部数据');
  if(record.base?.bodyType!==a.profile.bodyType||record.base.sha256!==a.profile.sha256)
-  throw Error(`此配方属于${({female:'女性原版',male:'男性原版','m1a-jaw-v1':'女性下颌样件','m1a-waisthip-v1':'女性腰胯样件','m2-male-jaw-v1':'男性下颌样件'})[record.base?.bodyType]||'未知基模'}，请先选择对应人物；资源 SHA 也必须一致，当前人物未切换`);
+  throw Error(`此配方属于${({female:'女性原版',male:'男性原版','m1a-jaw-v1':'女性下颌样件','m1a-waisthip-v1':'女性腰胯样件','m2-male-jaw-v1':'男性下颌样件'})[record.base?.bodyType]||'未知基模'}，请先选择对应人物；若已选中，说明素材版本不一致。当前人物未改变`);
  if(!a.appearance.getState().availableStyles.includes(record.appearance?.hairStyle))throw Error('配方发型未适配当前身体');
  for(const [key,choices] of [['hairColor',HAIR_COLORS],['skinTone',SKIN_TONES],['eyeColor',EYE_COLORS],['lipColor',LIP_COLORS]])
   if(!Object.hasOwn(choices,record.appearance[key]))throw Error('未知配色：'+key);
  const v=record.geometry?.mouthWidth;
+ const mouthCapability=a.facialGeometry.getState();
+ if(Array.isArray(mouthCapability.mouthSupportedValues)&&!mouthCapability.mouthSupportedValues.includes(v))throw Error('此身体嘴宽仅支持已制作的离散样件');
  if(!Number.isFinite(v)||v<-.04||v>.04)throw Error('嘴宽参数不在已制作范围内');
  if(v&&(!a.facialGeometry.getState().available||!/^[a-f0-9]{64}$/.test(record.geometry.recipeSha256||'')))throw Error('此身体尚无对应嘴宽几何配方');
  const brow=legacy?'none':record.geometry.browSample;

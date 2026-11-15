@@ -41,6 +41,7 @@ export function bindAppearanceWorkbench({ controller }) {
   const eyeGeometry=geometryPanel.querySelector('#eye-sample');
   const nose=geometryPanel.querySelector('#nose-sample');
   const mouth=geometryPanel.querySelector('#mouth-width'),faceNote=geometryPanel.querySelector('#face-geometry-note'),brow=geometryPanel.querySelector('#brow-sample');
+  const mouthSample=document.createElement('select');mouthSample.id='mouth-width-sample';mouthSample.setAttribute('aria-label','嘴宽离散样件');mouthSample.innerHTML='<option value="0">原位</option><option value="0.04">嘴宽 +4%</option>';mouthSample.hidden=true;mouth.parentElement.prepend(mouthSample);
   const draftPanel=document.createElement('div');draftPanel.className='appearance-pair';
   draftPanel.innerHTML='<button type="button" id="appearance-save">保存此基模草稿</button><button type="button" id="appearance-restore">恢复已保存草稿</button>';
   fields.append(draftPanel);
@@ -106,6 +107,9 @@ export function bindAppearanceWorkbench({ controller }) {
   move('.control', actionsPage);
   move('.routes', actionsPage);
   move('.playback', actionsPage); // Retains the original reset button.
+  const resetPosition=document.querySelector('#reset');resetPosition.textContent='重置位置与动作';
+  // main bound onclick before this workbench is mounted; preserve its reset.
+  on(resetPosition,'click',()=>{if(disposed)return;camera();message('位置与动作已重置，速度回到默认；所选镜头已保留');});
   const foundationActions = aside.querySelector('.foundation-actions');
   if (foundationActions) {
     // The final existing button owns comparison-instance creation/removal.
@@ -178,11 +182,12 @@ export function bindAppearanceWorkbench({ controller }) {
     note.textContent = actual.bodyMode==='base' ? '基础人体当前无发；返回穿衣模式后恢复所选发型。' : '这里只列出此人物可用的发型，无发保留眉毛与睫毛。';
     const geometry=actor().facialGeometry?.getState();
     mouth.disabled=!geometry?.available;mouth.value=String(Math.round((geometry?.mouthWidth||0)*1000)/10);
+    const discrete=Array.isArray(geometry?.mouthSupportedValues);mouth.hidden=discrete;mouthSample.hidden=!discrete;mouthSample.disabled=!geometry?.available;if(discrete)mouthSample.replaceChildren(...geometry.mouthSupportedValues.map(value=>{const option=document.createElement('option');option.value=String(value);option.textContent=value===0?'原位':`嘴宽 ${value>0?'+':''}${value*100}%`;return option;}));mouthSample.value=String(geometry?.mouthWidth||0);geometryPanel.querySelector('label[for="mouth-width"],label[for="mouth-width-sample"]').htmlFor=discrete?'mouth-width-sample':'mouth-width';
     geometryPanel.querySelector('#mouth-width-reset').disabled=!geometry?.available;
     brow.disabled=!geometry?.browAvailable;brow.value=geometry?.browSample||'none';
     nose.disabled=!geometry?.noseAvailable;nose.value=geometry?.noseSample||'none';
     eyeGeometry.disabled=!geometry?.eyeAvailable;eyeGeometry.value=geometry?.eyeSample||'none';
-    faceNote.textContent=geometry?.available?'真实嘴宽几何 ±4%；眉位、鼻尖各一个样件，眼部参数尚未接入。':'当前派生身体尚未适配此参数，原版男女可验证。';
+    faceNote.textContent=geometry?.available?(discrete?'此下颌样件嘴宽仅原位 / +4%；眉、鼻、眼几何尚未适配。':'真实嘴宽几何 ±4%；眉、鼻、眼各一个离散样件。'):'此基模尚无面部几何配方。';
   }
   async function apply(patch) {
     if (busy || disposed) return;
@@ -222,6 +227,7 @@ export function bindAppearanceWorkbench({ controller }) {
     catch(e){sync();message(String(e.message||e),true);}finally{setBusy(false);}
   }
   on(mouth,'change',()=>changeMouth(Number(mouth.value)/100));
+  on(mouthSample,'change',()=>changeMouth(Number(mouthSample.value)));
   on(geometryPanel.querySelector('#mouth-width-reset'),'click',()=>changeMouth(0));
   on(brow,'change',async()=>{
     if(busy||disposed)return;
