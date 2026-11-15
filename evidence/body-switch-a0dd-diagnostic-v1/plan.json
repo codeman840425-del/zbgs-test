@@ -1,0 +1,30 @@
+{
+  "build": "a0dd7fb7bf4a",
+  "operation": {
+    "type": "bodySelect",
+    "bodyType": "male"
+  },
+  "initialBody": "female",
+  "viewport": {
+    "width": 1600,
+    "height": 1000
+  },
+  "output": "evidence/body-switch-a0dd-diagnostic-v1/run-v1",
+  "recording": false,
+  "profiler": false,
+  "measured": [
+    "debug command",
+    "renderer compile/compileAsync",
+    "old motion/avatar dispose",
+    "render/first male draw",
+    "GL link/delete/getProgramInfoLog with native program identity",
+    "rAF/heartbeat/longtask"
+  ],
+  "unmeasured": [
+    "loadFoundationAvatar internals",
+    "parse/retarget",
+    "createMotion/calibration",
+    "new avatar preflight substeps"
+  ],
+  "limitations": "Fresh Chrome process and context, not cleared OS/driver shader cache. Diagnostic hooks add CPU overhead; GL call time is CPU-visible submission/wait, not isolated GPU work. No geometry edits, offscreen draw, forced GC, or shader-check changes."
+}
