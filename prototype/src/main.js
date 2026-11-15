@@ -1000,6 +1000,8 @@ class CharacterScene extends Phaser.Scene {
         this.rig.setDance(cmd.id); return {applied:true};
       case "appearance":
         return this.actor.appearance?.set(cmd) ?? {applied:false,reason:'当前人物不支持外观编辑'};
+      case "faceGeometry":
+        return this.actor.facialGeometry?.set(cmd) ?? {applied:false,reason:'当前人物尚无几何参数适配'};
       case "speaking":
         this.actor.livePresentation?.setSpeaking(cmd.value);
         return {applied:true};
@@ -1717,6 +1719,7 @@ function snapshot() {
     outfit: c?.outfit,
     outfitInfo: avatar?.getOutfitInfo(),
     appearance: avatar?.appearance?.getState(),
+    facialGeometry: avatar?.facialGeometry?.getState(),
     speed: c?.actualSpeed,
     maxSpeed: c?.maxSpeed,
     locomotionIntent: c?.locomotionIntent,

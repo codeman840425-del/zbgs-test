@@ -5,6 +5,7 @@ import { createM1Equipment } from "./m1-equipment.js";
 import { foundationProfile } from "./foundation-profiles.js";
 import { createLivePresentation } from "./live-presentation.js";
 import { createCharacterAppearance } from "./character-appearance.js";
+import { createFacialGeometry } from "./facial-geometry.js";
 import { validateForearmProfile } from "./forearm-envelope-projection.js";
 import { validateJointHandProfile } from "./joint-hand-workspace.mjs";
 
@@ -59,7 +60,10 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
   let debugBody = false,
     outfit = 0,
     dynamics = true;
-  let equipment, livePresentation, appearance;
+  let equipment, livePresentation, appearance, facialGeometry;
+  const faceWarmMaterials=[];
+  let faceWarmPromise=null;
+  const releaseFaceWarmup=()=>{for(const material of faceWarmMaterials)material.dispose();faceWarmMaterials.length=0;};
   try {
   vrm.scene.traverse((mesh) => {
     if (!mesh.isMesh) return;
@@ -91,6 +95,22 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
   equipment = await createM1Equipment({ vrm, avatarSha256: sha256, bodyType });
   const surfaces = equipment.getAssetProfile();
   appearance = createCharacterAppearance({ vrm, avatarSha256: sha256 });
+  facialGeometry = createFacialGeometry({ vrm, avatarSha256: sha256,prepareRender:parts=>{
+    if(!faceWarmPromise){
+      const staging=new THREE.Scene();
+      for(const {mesh,geometry} of parts){
+        const copy=mesh.clone(false);copy.geometry=geometry;
+        const originals=Array.isArray(mesh.material)?mesh.material:[mesh.material];
+        const materials=originals.map(m=>{const clone=m.clone();faceWarmMaterials.push(clone);return clone;});
+        copy.material=Array.isArray(mesh.material)?materials:materials[0];staging.add(copy);
+      }
+      // Separate temporary materials prevent ordinary rendering from changing
+      // compileAsync's current-program readiness check. Keep programs referenced
+      // until avatar disposal so the first real draw reuses the warmed variant.
+      faceWarmPromise=renderer.compileAsync(staging,new THREE.PerspectiveCamera(),scene).then(()=>undefined).catch(error=>{releaseFaceWarmup();faceWarmPromise=null;throw error;});
+    }
+    return faceWarmPromise;
+  }});
   livePresentation = createLivePresentation({vrm, root, bodyType: config.referenceBody || bodyType, avatarSha256: sha256});
   const meshRoles = {};
   for (const role of [
@@ -158,6 +178,8 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     get: () => (debugBody ? 0 : (config.outfitSeatLayerThickness?.[outfit] ?? config.seatLayerThickness)),
   });
   function setDebugBody(value) {
+    const appearanceResult = appearance.setBodyMode(value ? 'base' : 'dressed');
+    if (!appearanceResult.applied) throw new Error(appearanceResult.reason);
     debugBody = Boolean(value);
     for (const [mesh, mat] of sourceMaterials)
       mesh.material = debugBody ? bodyMaterials.get(mesh) : mat;
@@ -171,7 +193,13 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     config,
     livePresentation,
     appearance,
+    facialGeometry,
     getAssetProfile: () => profile,
+    getEquipmentRecipe: (index) => {
+      const role=config.outfits.find(o=>o.index===index)?.role;
+      if(!role)throw Error('Unknown outfit');
+      return Object.fromEntries(['top','shoes',role].map(key=>[key,structuredClone(surfaces.equipment.get(config.ids[key]).entry)]));
+    },
     setMaterialRecipe: (id, recipeId) => equipment.setMaterialRecipe(id, recipeId),
     getMaterialRecipeState: (id) => equipment.getMaterialRecipeState(id),
     setOutfit: (n) => {
@@ -214,6 +242,8 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
       asset: profile,
     }),
     dispose: () => {
+      releaseFaceWarmup();
+      facialGeometry.dispose();
       appearance.dispose();
       livePresentation.dispose();
       equipment.dispose();
@@ -232,6 +262,8 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     }),
   };
   } catch (error) {
+    releaseFaceWarmup();
+    facialGeometry?.dispose();
     appearance?.dispose();
     // The factory has not returned an avatar yet; callers cannot dispose it.
     // Release partially built equipment and the VRM here, including failures

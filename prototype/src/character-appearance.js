@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { createFacialPalette, EYE_COLORS, LIP_COLORS } from './facial-palette.js';
 import { HAIRSTYLES } from './hairstyle-catalog.js';
+import { NO_HAIR_BODIES } from './no-hair-bodies.js';
 
 export const HAIR_COLORS = { original: null, black: '#343139', brown: '#805039', blonde: '#dab77a' };
 // Presets inspected under the actual room's warm key light and ACES exposure.
@@ -14,23 +15,42 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
   const facialPalette = createFacialPalette({vrm, avatarSha256});
   const admittedStyles = HAIRSTYLES.filter(entry => entry.compatibleBodies.includes(avatarSha256));
   const skin = new Set(), hair = new Set(), hairMeshes = [];
+  let mixedHairMesh = false;
   vrm.scene.traverse(mesh => {
     if (!mesh.isMesh) return;
     const materials = materialsOf(mesh);
+    if (materials.some(m => /_HAIR/.test(m.name)) && !materials.every(m => /_HAIR/.test(m.name))) mixedHairMesh = true;
     for (const m of materials) {
       if (/_(Body|Face)_\d+_SKIN/.test(m.name)) skin.add(m);
       if (/_HAIR|_FaceBrow_/.test(m.name)) hair.add(m);
     }
     if (materials.length && materials.every(m => /_HAIR/.test(m.name))) hairMeshes.push({ mesh, visible: mesh.visible });
   });
+  const noHairAdmission = NO_HAIR_BODIES.find(entry => entry.sha256 === avatarSha256);
+  const canHideHair = Boolean(noHairAdmission && hairMeshes.length && !mixedHairMesh);
+  let bodyMode = 'dressed';
   const originals = new Map([...skin, ...hair].map(m => [m, {
     color: m.color?.clone(), shade: m.shadeColorFactor?.clone(), map: m.map, shadeMap: m.shadeMultiplyTexture,
   }]));
   const grayTextures = new Map();
   let hairStyle = 'original', hairColor = 'original', skinTone = 'original';
-  let replacement = null, generation = 0, disposed = false, loading = false, error = null;
+  let replacement = null, generation = 0, revision = 0, disposed = false, loading = false, error = null;
   const replacements = new Map(), replacementPromises = new Map();
 
+  // Mode changes visibility, never the user's selected style. Loading a cached
+  // replacement while in base mode must not make it visible.
+  function applyHairVisibility() {
+    const effectiveStyle = bodyMode === 'base' ? 'none' : hairStyle;
+    hairMeshes.forEach(({ mesh, visible }) => { mesh.visible = effectiveStyle === 'original' && visible; });
+    for (const [id, value] of replacements) value.scene.visible = effectiveStyle === id;
+  }
+  function setBodyMode(mode) {
+    if (disposed) return { applied: false, reason: '人物已卸载' };
+    if (mode !== 'base' && mode !== 'dressed') return { applied: false, reason: '未知人体模式' };
+    if (mode === 'base' && !canHideHair) return { applied: false, reason: '当前身体无发基础尚未准入或缺少独立头发网格' };
+    bodyMode = mode; applyHairVisibility();
+    return { applied: true };
+  }
   function neutralTexture(texture) {
     if (!texture) return null;
     if (grayTextures.has(texture)) return grayTextures.get(texture);
@@ -123,11 +143,11 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
     if (!(desiredColor in HAIR_COLORS) || !(desiredSkin in SKIN_TONES)) return { applied: false, reason: '未知颜色预设' };
     if ((input.eyeColor !== undefined && !(input.eyeColor in EYE_COLORS)) || (input.lipColor !== undefined && !(input.lipColor in LIP_COLORS)))
       return {applied:false,reason:'未知瞳色或唇色'};
-    if (desiredStyle !== 'original' && !admittedStyles.some(entry => entry.id === desiredStyle))
+    if (desiredStyle !== 'original' && !(desiredStyle === 'none' && canHideHair) && !admittedStyles.some(entry => entry.id === desiredStyle))
       return { applied: false, reason: '该发型尚未适配当前身体；请使用可选款式' };
     // Commit independent color intent before awaiting any asset. An older reset
     // must never resume later and overwrite a newer hair/skin selection.
-    hairColor = desiredColor; skinTone = desiredSkin; applyColors();
+    revision++; hairColor = desiredColor; skinTone = desiredSkin; applyColors();
     const jobs = [];
     if (input.eyeColor !== undefined || input.lipColor !== undefined || input.reset) jobs.push(facialPalette.set(input));
     if (input.hairStyle !== undefined || input.reset) jobs.push(setStyle(desiredStyle));
@@ -137,10 +157,9 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
   async function setStyle(desiredStyle) {
     const request = ++generation;
     error = null;
-    if (desiredStyle === 'original') {
-      hairStyle = desiredStyle; loading = false;
-      for (const value of replacements.values()) value.scene.visible = false;
-      hairMeshes.forEach(({ mesh, visible }) => { mesh.visible = visible; });
+    if (desiredStyle === 'original' || desiredStyle === 'none') {
+      hairStyle = desiredStyle; replacement = null; loading = false;
+      applyHairVisibility();
       return { applied: true };
     }
     loading = true;
@@ -156,21 +175,22 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
       }
       if (disposed || request !== generation) return { applied: false, cancelled: true };
       replacement = replacements.get(desiredStyle);
-      for (const value of replacements.values()) value.scene.visible = false;
-      applyColors(); replacement.scene.visible = true;
-      hairMeshes.forEach(({ mesh }) => { mesh.visible = false; });
       hairStyle = desiredStyle; loading = false;
+      applyColors(); applyHairVisibility();
       return { applied: true };
     } catch (e) {
+      if (disposed || request !== generation) return { applied: false, cancelled: true };
       if (request === generation) { error = e.message; loading = false; }
       return { applied: false, reason: e.message };
     }
   }
   return {
-    set,
-    getState: () => ({ hairStyle, hairColor, skinTone, loading, error, ...facialPalette.getState(),
-      availableStyles: ['original', ...admittedStyles.map(entry => entry.id)],
-      styleOptions: [{id:'original',label:'原发型'}, ...admittedStyles.map(({id,label}) => ({id,label}))],
+    set, setBodyMode,
+    getState: () => ({ hairStyle, hairColor, skinTone, loading, error, bodyMode, revision,
+      effectiveHairStyle: bodyMode === 'base' ? 'none' : hairStyle,
+      noHairAdmission: canHideHair ? { ...noHairAdmission } : null, ...facialPalette.getState(),
+      availableStyles: ['original', ...(canHideHair ? ['none'] : []), ...admittedStyles.map(entry => entry.id)],
+      styleOptions: [{id:'original',label:'原发型'}, ...(canHideHair ? [{id:'none',label:'无发（保留眉睫毛）'}] : []), ...admittedStyles.map(({id,label}) => ({id,label}))],
       skinMaterialCount: skin.size, hairMaterialCount: hair.size, neutralTextureCount: grayTextures.size,
       replacementSHA256: replacement?.sha256 ?? null }),
     dispose() {

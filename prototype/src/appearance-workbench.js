@@ -1,3 +1,4 @@
+import {captureAppearanceRecipe,applyAppearanceRecipe,appearanceDraftKey} from './appearance-recipe.js';
 // DOM binding only: appearance ownership and camera framing stay in the controller.
 export function bindAppearanceWorkbench({ controller }) {
   const url = new URL(window.location.href);
@@ -31,6 +32,14 @@ export function bindAppearanceWorkbench({ controller }) {
   const lip = panel.querySelector('#appearance-lip-color');
   const colorNote = panel.querySelector('#appearance-face-color-note');
   const note = panel.querySelector('#appearance-style-note');
+  const geometryPanel=document.createElement('details');
+  geometryPanel.id='appearance-geometry';
+  geometryPanel.innerHTML='<summary>面部几何 · 首个参数样件</summary><p class="appearance-hint" id="face-geometry-note">嘴宽 ±4%；其他五官参数仍在制作。</p><label for="mouth-width">嘴宽变化（%）</label><div class="appearance-pair"><input id="mouth-width" type="number" min="-4" max="4" step="0.1" value="0"><button type="button" id="mouth-width-reset">只恢复嘴宽</button></div>';
+  fields.prepend(geometryPanel);
+  const mouth=geometryPanel.querySelector('#mouth-width'),faceNote=geometryPanel.querySelector('#face-geometry-note');
+  const draftPanel=document.createElement('div');draftPanel.className='appearance-pair';
+  draftPanel.innerHTML='<button type="button" id="appearance-save">保存此基模草稿</button><button type="button" id="appearance-restore">恢复已保存草稿</button>';
+  fields.append(draftPanel);
   const listeners = [];
   let disposed = false, busy = false;
   let roomView = url.searchParams.get('view') === 'room';
@@ -45,6 +54,7 @@ export function bindAppearanceWorkbench({ controller }) {
     busy = value; fields.disabled = value; identityFields.disabled = value;
     form.setAttribute('aria-busy', String(value));
     identityFields.setAttribute('aria-busy', String(value));
+    for(const button of document.querySelectorAll('[data-outfit]'))button.disabled=value;
   };
 
   // Move the original nodes after main has bound them; never clone controls or
@@ -101,7 +111,7 @@ export function bindAppearanceWorkbench({ controller }) {
   move('.sequence-progress', inspectionPage);
   move('#sequence-label', inspectionPage);
   move('.debug-controls', inspectionPage);
-  move('details', inspectionPage);
+  move('details:not(#appearance-geometry)', inspectionPage);
   navigation.hidden = false; pages.hidden = false;
   const tabs = [...navigation.querySelectorAll('[data-workbench-tab]')];
   function selectTab(name, focus = false) {
@@ -155,7 +165,11 @@ export function bindAppearanceWorkbench({ controller }) {
       eye.disabled ? '此人物瞳色暂不可用。' : '瞳色调整虹膜，保留瞳孔与高光。',
       lip.disabled ? '此人物唇色暂不可用。' : '唇色可独立选择。',
     ].join('');
-    note.textContent = options.length > 1 ? '这里只列出此人物可用的发型。' : '此人物暂时保留原发型，其他发型尚未适配。';
+    note.textContent = actual.bodyMode==='base' ? '基础人体当前无发；返回穿衣模式后恢复所选发型。' : '这里只列出此人物可用的发型，无发保留眉毛与睫毛。';
+    const geometry=actor().facialGeometry?.getState();
+    mouth.disabled=!geometry?.available;mouth.value=String(Math.round((geometry?.mouthWidth||0)*1000)/10);
+    geometryPanel.querySelector('#mouth-width-reset').disabled=!geometry?.available;
+    faceNote.textContent=geometry?.available?'真实嘴宽几何 ±4%；其他五官参数仍在制作。':'当前派生身体尚未适配此参数，原版男女可验证。';
   }
   async function apply(patch) {
     if (busy || disposed) return;
@@ -188,6 +202,29 @@ export function bindAppearanceWorkbench({ controller }) {
     } catch (error) { message(`镜头切换失败：${error.message || error}`, true); }
   }
   on(form, 'submit', event => event.preventDefault());
+  async function changeMouth(value){
+    if(busy||disposed)return;
+    setBusy(true);message('正在更新嘴部几何…');
+    try{const r=await controller.command({type:'faceGeometry',mouthWidth:value});if(!r?.applied)throw Error(r?.reason||'几何更新未完成');sync();message('嘴宽已更新，眨眼和讲话可继续检查');}
+    catch(e){sync();message(String(e.message||e),true);}finally{setBusy(false);}
+  }
+  on(mouth,'change',()=>changeMouth(Number(mouth.value)/100));
+  on(geometryPanel.querySelector('#mouth-width-reset'),'click',()=>changeMouth(0));
+  on(draftPanel.querySelector('#appearance-save'),'click',()=>{
+    try{const recipe=captureAppearanceRecipe(controller);localStorage.setItem(appearanceDraftKey(actor().profile.bodyType),JSON.stringify(recipe));message('此基模草稿已保存；重新打开此基模时自动恢复');}
+    catch(e){message('保存失败：'+e.message,true);}
+  });
+  async function restoreDraft(automatic=false){
+    if(busy||disposed)return;
+    let raw;
+    try{raw=localStorage.getItem(appearanceDraftKey(actor().profile.bodyType));}catch(e){message('无法读取本机草稿：'+e.message,true);return;}
+    if(!raw){if(!automatic)message('此基模还没有保存的草稿');return;}
+    setBusy(true);message('正在恢复此基模草稿…');
+    try{const result=await applyAppearanceRecipe(controller,JSON.parse(raw));if(!result.applied&&!result.cancelled)throw Error(result.reason||'恢复未完成');sync();message(result.cancelled?'较新的操作已保留，旧草稿恢复已停止':result.notice||'已恢复此基模保存的外观、嘴宽与服装');}
+    catch(e){sync();message(String(e.message||e),true);}finally{setBusy(false);}
+  }
+  on(draftPanel.querySelector('#appearance-restore'),'click',()=>restoreDraft());
+  for(const button of document.querySelectorAll('[data-body-mode]'))on(button,'click',()=>sync());
   on(style, 'change', () => apply({ hairStyle: style.value }));
   on(hair, 'change', () => apply({ hairColor: hair.value }));
   on(skin, 'change', () => apply({ skinTone: skin.value }));
@@ -202,6 +239,7 @@ export function bindAppearanceWorkbench({ controller }) {
   });
   async function selectBody(requestedBody) {
     if (busy) return;
+    let restoreSelected=false;
     const scrollTop = pages.scrollTop;
     setBusy(true);
     message('正在切换人物，当前人物会保留到加载完成…');
@@ -211,6 +249,7 @@ export function bindAppearanceWorkbench({ controller }) {
       if (!result?.applied && !result?.cancelled) throw Error(result?.reason || '人物切换未完成');
       sync();
       if (result?.applied) {
+        restoreSelected=actor().profile.bodyType===requestedBody;
         // Read the committed actor, not the requested identity or stale URL.
         // Camera/tab state is owned separately and must not be reset here.
         const next = new URL(window.location.href);
@@ -227,6 +266,7 @@ export function bindAppearanceWorkbench({ controller }) {
       if (!disposed) {
         setBusy(false);
         pages.scrollTop = scrollTop;
+        if(restoreSelected)await restoreDraft(true);
       }
     }
   }
@@ -258,6 +298,7 @@ export function bindAppearanceWorkbench({ controller }) {
     if (!actor()?.appearance?.getState) throw Error('当前人物尚未提供外观配置');
     sync(); setBusy(false); message('选择外观，即时查看');
     camera();
+    void restoreDraft(true);
   } catch (error) { message(`外观暂不可用：${error.message || error}`, true); }
   return () => { disposed = true; for (const remove of listeners) remove(); };
 }
