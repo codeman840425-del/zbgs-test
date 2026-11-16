@@ -791,6 +791,8 @@ class CharacterScene extends Phaser.Scene {
     this.sequence = [];
     this.sequenceIndex = -1;
     this.sequenceTime = 0;
+    this.sequenceGeneration = 0;
+    this.sequenceOutfitPending = false;
     this.turnRemaining = 0;
     this.turning = false;
     this.lastAction = "idle";
@@ -878,6 +880,8 @@ class CharacterScene extends Phaser.Scene {
     this.cameraPreset("close", true);
   }
   cancelSequence() {
+    this.sequenceGeneration++;
+    this.sequenceOutfitPending = false;
     this.sequence = [];
     this.sequenceIndex = -1;
     if (this.isPeer) return;
@@ -1415,6 +1419,8 @@ class CharacterScene extends Phaser.Scene {
     this.cameraPreset("room");
   }
   runSequence() {
+    const generation = ++this.sequenceGeneration;
+    this.sequenceOutfitPending = false;
     this.reset();
     this.sequence = [];
     for (const outfit of this.actor.config?.outfits?.map((o) => o.index) || [0, 1]) {
@@ -1453,9 +1459,10 @@ class CharacterScene extends Phaser.Scene {
       );
     }
     this.sequenceIndex = -1;
-    this.nextStep();
+    this.nextStep(generation);
   }
-  nextStep() {
+  nextStep(expectedGeneration = this.sequenceGeneration) {
+    if (expectedGeneration !== this.sequenceGeneration) return;
     this.sequenceIndex++;
     this.sequenceTime = 0;
     if (this.sequenceIndex >= this.sequence.length) {
@@ -1473,11 +1480,36 @@ class CharacterScene extends Phaser.Scene {
     if (s.type === "walk") {
       if (!this.go(...s.p)) this.nextStep();
     } else if (s.type === "action") this.action(s.name);
+    else if (s.type === "outfit") {
+      const index = this.sequenceIndex;
+      this.sequenceOutfitPending = true;
+      this.prepareOutfit(s.v).then((update) => {
+        if (expectedGeneration !== this.sequenceGeneration || this.sequence[index] !== s || this.sequenceIndex !== index) {
+          update.dispose();
+          return;
+        }
+        try {
+          if (!update.isCurrent()) throw new Error("序列换装准备已失效");
+          update.commit();
+          this.refreshOutfitSelection();
+        } catch (error) {
+          if (expectedGeneration === this.sequenceGeneration) this.cancelSequence();
+          return;
+        } finally {
+          update.dispose();
+        }
+        if (expectedGeneration !== this.sequenceGeneration) return;
+        this.sequenceOutfitPending = false;
+        this.nextStep(expectedGeneration);
+      }).catch(() => {
+        if (expectedGeneration === this.sequenceGeneration) this.cancelSequence();
+      });
+      return;
+    }
     else {
       if (s.type === "speed") this.setSpeed(s.v);
-      if (s.type === "outfit") this.setOutfit(s.v);
       if (s.type === "camera") this.cameraPreset(s.name);
-      this.nextStep();
+      this.nextStep(expectedGeneration);
     }
   }
   update(time, delta) {
@@ -2119,7 +2151,8 @@ async function switchFoundationBody(bodyType) {
     const oldRole = avatar.config.outfits.find(entry => entry.index === controller.outfit)?.role;
     const outfit = nextAvatar.config.outfits.find(entry => entry.role === oldRole)?.index ?? 0;
     if (!nextAvatar.config.outfits.some(entry => entry.role === oldRole)) notices.push('原服装没有此身体版型，已切到裤装');
-    nextAvatar.setOutfit(outfit);
+    const outfitUpdate = await nextAvatar.prepareOutfit(outfit);
+    try { outfitUpdate.commit(); } finally { outfitUpdate.dispose(); }
     nextAvatar.setDebugBody(inspection.bodyMode === 'base'); nextAvatar.setDynamics(inspection.dynamics);
     nextMotion.setCorrections({...correctionLayers[inspection.corrections]});
     const oldAvatar = avatar, oldMotion = motion;

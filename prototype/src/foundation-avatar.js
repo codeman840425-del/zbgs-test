@@ -206,7 +206,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
       get preserveAuthoredHands() { return livePresentation.getState().speaking; },
       seatClothAllowance: 0.006,
       seatHeight: 0.47,
-      seatHandRadii: equipment.getInfo().skirtDynamics?.thighRadii,
+      get seatHandRadii() { return equipment.getInfo().skirtDynamics?.thighRadii; },
       seatHandSurfaces: (refresh = true) => {
         if (debugBody || lowerBodyRole !== 'skirt') return [];
         // fitSeatHands runs after current normalized pelvis/legs are solved.

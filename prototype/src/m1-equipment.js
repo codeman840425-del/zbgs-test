@@ -60,7 +60,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
   let coverage, garmentCoverage, skirtCorrective;
   let revision=0,intentRevision=0;
   const pendingUpdates=new Set();
-  function buildPreparedOutfit(nextOutfit,nextDebugBody,nextCoverage=coverage,nextGarmentCoverage=garmentCoverage,nextSkirtCorrective=skirtCorrective){
+  function buildPreparedOutfit(nextOutfit,nextDebugBody,nextCoverage=coverage,nextGarmentCoverage=garmentCoverage,nextSkirtCorrective=skirtCorrective,expectedIntent=intentRevision){
     if(disposed)throw Error('Equipment is disposed');
     const look=outfitSelection(config,nextOutfit),selected=nextDebugBody?[IDS.shoes]:look.ids;
     let update,garmentUpdate,equipmentUpdate;
@@ -68,10 +68,46 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     catch(error){update?.dispose();garmentUpdate?.dispose();throw error;}
     const ticket=++revision;let live=true,cleaned=false,committed=false;
     const prepared={
-      isCurrent:()=>live&&!disposed&&ticket===revision&&equipmentUpdate.isCurrent()&&(!update||update.isCurrent())&&(!garmentUpdate||garmentUpdate.isCurrent()),
+      isCurrent:()=>live&&!disposed&&ticket===revision&&expectedIntent===intentRevision&&equipmentUpdate.isCurrent()&&(!update||update.isCurrent())&&(!garmentUpdate||garmentUpdate.isCurrent()),
       commit(){if(!prepared.isCurrent())throw Error('Outfit preparation is no longer current');equipmentUpdate.commit();update?.commit();garmentUpdate?.commit();outfit=nextOutfit;lowerBodyRole=look.bottomRole;debugBody=nextDebugBody;if(nextGarmentCoverage&&nextGarmentCoverage!==garmentCoverage)garmentCoverage=nextGarmentCoverage;if(nextSkirtCorrective&&nextSkirtCorrective!==skirtCorrective)skirtCorrective=nextSkirtCorrective;committed=true;live=false;pendingUpdates.delete(prepared);},
       dispose(){if(cleaned)return;cleaned=true;live=false;pendingUpdates.delete(prepared);try{equipmentUpdate.dispose();}finally{try{update?.dispose();}finally{garmentUpdate?.dispose();}}if(!committed){if(nextGarmentCoverage&&nextGarmentCoverage!==garmentCoverage)nextGarmentCoverage.dispose();if(nextSkirtCorrective&&nextSkirtCorrective!==skirtCorrective)nextSkirtCorrective.dispose();}},
     };pendingUpdates.add(prepared);return prepared;
+  }
+  function createSkirtAtRest(args) {
+    const humanoid = vrm.humanoid;
+    const snapshot = (nodes) => nodes
+      .filter(Boolean)
+      .map((node) => ({node, position:node.position.clone(), quaternion:node.quaternion.clone(), scale:node.scale.clone()}));
+    const normalizedNodes = Object.values(humanoid?.normalizedHumanBones || {})
+      .map((entry) => entry?.node)
+      .concat(humanoid?.normalizedHumanBonesRoot || []);
+    const rawNodes = Object.values(humanoid?.rawHumanBones || {})
+      .map((entry) => entry?.node);
+    const normalizedSnapshot = snapshot([...new Set(normalizedNodes)]);
+    const rawSnapshot = snapshot([...new Set(rawNodes)]);
+    if (!humanoid?.resetNormalizedPose || !humanoid?.update)
+      throw Error('Skirt preparation requires the VRM rest-pose API');
+    // m1-skirt samples body vertices against raw thigh axes. Calibrate from
+    // the authored VRM T-pose even when the first skirt request arrives while
+    // motion or live presentation has changed normalized and raw bones.
+    humanoid.resetNormalizedPose();
+    humanoid.update();
+    vrm.scene.updateMatrixWorld(true);
+    try {
+      return createM1Skirt(args);
+    } finally {
+      for (const {node,position,quaternion,scale} of normalizedSnapshot) {
+        node.position.copy(position);
+        node.quaternion.copy(quaternion);
+        node.scale.copy(scale);
+      }
+      for (const {node,position,quaternion,scale} of rawSnapshot) {
+        node.position.copy(position);
+        node.quaternion.copy(quaternion);
+        node.scale.copy(scale);
+      }
+      vrm.scene.updateMatrixWorld(true);
+    }
   }
   async function prepareOutfit(nextOutfit=outfit,nextDebugBody=debugBody){
     if(disposed)throw Error('Equipment is disposed');
@@ -80,11 +116,12 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     const missing=selected.filter(id=>!adapter.get(id));if(missing.length)await Promise.all(missing.map(id=>adapter.load(id)));if(disposed)throw Error('Equipment is disposed');if(request!==intentRevision)throw Error('Outfit preparation cancelled by a newer selection');
     let nextGarmentCoverage=garmentCoverage,nextSkirtCorrective=skirtCorrective;
     if(config.garmentCoverage&&selected.includes(IDS.outer)&&!nextGarmentCoverage)nextGarmentCoverage=await createGarmentCoverage({inner:adapter.get(IDS.top),outer:adapter.get(IDS.outer),descriptor:config.garmentCoverage,avatarSha256});
-    if(IDS.skirt&&look.bottomRole==='skirt'&&!nextSkirtCorrective)nextSkirtCorrective=createM1Skirt({vrm,source:adapter.get(IDS.skirt).meshes[0],body,fit:selectSkirtFit(adapter.get(IDS.skirt).entry,avatarSha256)});
+    if(IDS.skirt&&look.bottomRole==='skirt'&&!nextSkirtCorrective)nextSkirtCorrective=createSkirtAtRest({vrm,source:adapter.get(IDS.skirt).meshes[0],body,fit:selectSkirtFit(adapter.get(IDS.skirt).entry,avatarSha256)});
     if(disposed||request!==intentRevision){if(nextGarmentCoverage&&nextGarmentCoverage!==garmentCoverage)nextGarmentCoverage.dispose();if(nextSkirtCorrective&&nextSkirtCorrective!==skirtCorrective)nextSkirtCorrective.dispose();throw Error(disposed?'Equipment is disposed':'Outfit preparation cancelled by a newer selection');}
-    return buildPreparedOutfit(nextOutfit,nextDebugBody,coverage,nextGarmentCoverage,nextSkirtCorrective);
+    return buildPreparedOutfit(nextOutfit,nextDebugBody,coverage,nextGarmentCoverage,nextSkirtCorrective,request);
   }
   function prepareOutfitSync(nextOutfit=outfit,nextDebugBody=debugBody){
+    intentRevision++;
     const look=outfitSelection(config,nextOutfit),selected=nextDebugBody?[IDS.shoes]:look.ids;
     if(selected.some(id=>!adapter.get(id)))throw Error('Outfit resources are not loaded; await prepareOutfit');
     if(config.garmentCoverage&&selected.includes(IDS.outer)&&!garmentCoverage)throw Error('Outfit coverage is not prepared; await prepareOutfit');
@@ -155,12 +192,10 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
         get allPants() { return [...(item("pants")?.meshes || []), ...(IDS.shorts ? item("shorts")?.meshes || [] : []), ...(IDS.onePiece ? item('onePiece')?.meshes || [] : [])]; },
         get onePiece() { return IDS.onePiece ? item('onePiece')?.meshes || [] : []; },
         get shorts() { return IDS.shorts ? item("shorts")?.meshes || [] : []; },
-        skirt: skirtCorrective ? [skirtCorrective.mesh] : [],
+        get skirt() { return skirtCorrective ? [skirtCorrective.mesh] : []; },
         get sourceSkirt() { return IDS.skirt ? item("skirt")?.meshes || [] : []; },
         sourceClothes: sourceClothes.map((x) => x.mesh),
-        skirtBones: (IDS.skirt && item("skirt") ? item("skirt").meshes[0].skeleton.bones : []).filter((b) =>
-          /Skirt/.test(b.name),
-        ),
+        get skirtBones() { return (IDS.skirt && item("skirt") ? item("skirt").meshes[0].skeleton.bones : []).filter((b) => /Skirt/.test(b.name)); },
         bindCoordinates:
           "Original glTF / VRM0 coordinates; world forward follows rotateVRM0(vrm)",
         equipment: adapter,
