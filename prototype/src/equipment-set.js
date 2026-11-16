@@ -29,6 +29,13 @@ export function resolveEquipmentSet(entries, ids, avatarSha256) {
       if (!Array.isArray(outer.layerWith) || !outer.layerWith.includes(inner.id))
         throw Error(`Unvalidated equipment layering: ${outer.id} / ${inner.id}`);
     }
+    if (outer.allowedBottoms !== undefined) {
+      if (!Array.isArray(outer.allowedBottoms)) throw Error(`Invalid lower-layer fit list: ${outer.id}`);
+      for (const lower of selected.filter(entry => ['bottom', 'bottoms-overlay', 'onePiece'].includes(entry.slot))) {
+        if (!outer.allowedBottoms.includes(lower.id))
+          throw Error(`Unvalidated lower-layer fit: ${outer.id} / ${lower.id}`);
+      }
+    }
   }
   return selected;
 }

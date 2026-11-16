@@ -1965,6 +1965,18 @@ async function loadComparison(bodyType = avatar.profile.bodyType === "female" ? 
 }
 function syncFoundationControls(a) {
   if (!a.config) return;
+  document.querySelectorAll('[data-configured-outfit]').forEach(button => button.remove());
+  for (const look of a.config.extraOutfits ?? []) {
+    const button = document.createElement('button');
+    button.type = 'button'; button.dataset.outfit = String(look.index);
+    button.dataset.configuredOutfit = 'true';
+    button.disabled = Boolean(document.querySelector('#appearance-fields')?.disabled);
+    const label = document.createElement('b'); label.textContent = look.label;
+    const note = document.createElement('small'); note.textContent = look.description || '检查组合穿着与动作';
+    button.append(label, note);
+    button.onclick = () => emit({type:'outfit',value:look.index});
+    document.querySelector('.outfits').append(button);
+  }
   document.querySelectorAll("[data-outfit]").forEach(button =>
     button.setAttribute("aria-pressed", String(Number(button.dataset.outfit) === controller.outfit)));
   document.querySelector('[data-outfit="0"] b').textContent = a.config.pantsLabel;

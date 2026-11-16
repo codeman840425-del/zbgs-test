@@ -26,7 +26,11 @@ export const FOUNDATION_PROFILES = {
     label: "M1B 男性候选",
     pantsLabel: "独立长裤",
     shortsLabel: "独立露膝短裤",
-    ids: { top: "m1b-uniform-top", shoes: "m1b-uniform-shoes", pants: "m1b-uniform-pants", shorts: "m1b-uniform-shorts-v1" },
+    ids: { top: "m1b-uniform-top", shoes: "m1b-uniform-shoes", pants: "m1b-uniform-pants", shorts: "m1b-uniform-shorts-v1", outer: "m2-male-open-vest-panels-v2" },
+    extraOutfits: [
+      { index: 3, role: 'outer-pants', bottomRole: 'pants', equipmentRoles: ['top','shoes','pants','outer'], label: '开襟马甲＋长裤', description: '候选：观察叠穿与动作' },
+      { index: 4, role: 'outer-shorts', bottomRole: 'shorts', equipmentRoles: ['top','shoes','shorts','outer'], label: '开襟马甲＋短裤', description: '候选：观察叠穿与动作' },
+    ],
     // Candidate initial value only: actual upper surface/weights retained within
     // 1.195e-7; shorts still require their own posed seat/contact acceptance.
     outfitSeatLayerThickness: { 2: 0.0036 },

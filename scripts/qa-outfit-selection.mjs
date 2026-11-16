@@ -8,6 +8,11 @@ for(const body of Object.keys(FOUNDATION_PROFILES)) {
   const profile=foundationProfile(body);
   for(const look of profile.outfits){
     const actual=outfitSelection(profile,look.index);
+    if(look.equipmentRoles){
+      assert.deepEqual(actual.roles,look.equipmentRoles);
+      assert.equal(actual.bottomRole,look.bottomRole);
+      continue;
+    }
     assert.deepEqual(actual.roles,['top','shoes',look.role]);
     assert.deepEqual(actual.ids,actual.roles.map(role=>profile.ids[role]));
     assert.equal(actual.bottomRole,look.role);legacyLooks++;
@@ -21,6 +26,10 @@ const config={ids:{top:'top',shoes:'shoes',shorts:'shorts',outer:'outer'},outfit
 const selection=outfitSelection(config,'3');
 const catalog=selection.ids.map(id=>({id,slot:({top:'top',shoes:'shoes',shorts:'bottom',outer:'outerwear'})[id],compatibleAvatarSha256:'body',layerWith:id==='outer'?['top']:undefined}));
 assert.deepEqual(resolveEquipmentSet(catalog,selection.ids,'body').map(item=>item.id),selection.ids);
+catalog.find(item=>item.id==='outer').allowedBottoms=['shorts'];
+assert.deepEqual(resolveEquipmentSet(catalog,selection.ids,'body').map(item=>item.id),selection.ids);
+catalog.find(item=>item.id==='outer').allowedBottoms=['unfitted-pants'];
+assert.throws(()=>resolveEquipmentSet(catalog,selection.ids,'body'),/lower-layer fit/);
 for(const change of [{equipmentRoles:['shorts','missing']},{equipmentRoles:['shorts','shorts']},{bottomRole:'skirt'},{equipmentRoles:[]}]){
   assert.throws(()=>outfitSelection({...config,outfits:[{...config.outfits[0],...change}]},3));
 }
