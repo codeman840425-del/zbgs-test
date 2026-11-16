@@ -1,0 +1,34 @@
+{
+  "reviewSourceRoot": "F:/gamemake",
+  "reviewHead": "8385be7b51195fe6a0f3fc7c4db4d87279c2f790",
+  "productChangesReviewed": "Uncommitted outfit-selection, foundation-avatar/profiles, m1-equipment and main plus configured-look QA fixtures.",
+  "findings": [
+    {
+      "issue": "Configured skirt looks outside index 1 lost seat hand surfaces.",
+      "resolved": true,
+      "verification": "Actual current seatHandSurfaces callback returns skirt surfaces by lowerBodyRole, and skips shorts/base."
+    },
+    {
+      "issue": "Actor debug setter committed appearance/debugBody/materials before coverage clone failure.",
+      "resolved": true,
+      "verification": "Actual M1 factory, real coverage clone failure and actual actor/main setter bodies. Fixed actor restores appearance and defers actor/material state until equipment succeeds."
+    }
+  ],
+  "baselineActorSha256": "4c2b2ecb8ebfc251ecfd856af0f39a392449a003778ab73d23daa8dd06d49353",
+  "fixedActorSha256": "5bbcd58ef0da4c900bec16fdd0d149a3ac3f9398bb4fa77ed4ca57f3c7d7cdb8",
+  "legacyV6": {
+    "passed": true,
+    "looks": 10,
+    "result": "Current configured selector preserves exact legacy role ordering, equipment IDs and lower-body roles. Resource cloning order in getEquipmentRecipe remains identical for these looks."
+  },
+  "factoryCoverage": {
+    "passed": true,
+    "groups": 6,
+    "evidence": "../configured-looks-readonly-review-cpu-v1/report.json"
+  },
+  "mainModeOrdering": "main setBodyMode updates inspection only after actor success. Injected failure did not commit inspection, dynamics or UI sync.",
+  "limitations": "Synthetic geometry/adapter/appearance fixtures exercise actual source functions. No actual extraOutfit is declared in current profiles, and this review provides no new garment fitting, GPU, browser or animation acceptance.",
+  "qaCommand": "$env:OUTFIT_REVIEW_SOURCE_ROOT='F:/gamemake'; node scripts/qa-outfit-actor-readonly-review.mjs --expect-fixed",
+  "baselineProvenance": "baseline/report.json was saved before root applied actor and contact fixes, using the initial core version of this same fixture. The final QA adds fixed-state expectations, configured shorts and contact callback assertions.",
+  "qaSourceSha256": "98e712de90cdcd0469b88abcf48199b1830ff922d9aed6cf0780645f2dfc7998"
+}
