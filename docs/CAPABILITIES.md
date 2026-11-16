@@ -16,7 +16,7 @@
 
 2026-11-16有限M2 A、B的本次技术制作/回读范围已完成。A：原男女各基准及两套已有四域组合，6真实v5、36图、6条1×；近景局部可辨，房间辨识度不足。B：既有男短发对male-jaw的独立fit，源复做、真实加载、v6文件回读与正常片均完成。观看evidence/m2-character-presets-a-v1及evidence/m2-male-jaw-hair-runtime-v1。不称完整M2、脸型库或所有体型兼容。用户明确本阶段验证技术路线；具体造型和游戏镜头辨识度后置，撤销此前等待差异方向选择。历史有限样件不扩大通过范围；当前完整M2按P0–P6推进，M3未开工。
 
-- **4196 /?workbench=appearance：fe5c528d9437**，源937df9f，experiments/rebuild-male-jaw-hair-fe5/prototype/dist。B同版1×见evidence/m2-male-jaw-hair-runtime-v1；delivery/history/appearance-workbench-0fb420e5b124.json保回滚。旧版本证据不改标；当前备份以delivery回执为准。
+- **4196 当前固定候选**以 `delivery/appearance-workbench.json` 为准。本轮 f82a7fc6de61 / source71081be 已发布并通过真实编辑、移动及12条对照影片播放检查；回滚ed2保留。历史fe5及其它旧构建证据保原身份，不能当作当前验收。当前备份以CURRENT及远端回执为准。
 - **4195：77e46efb5441** 保留M1基础。用户对原女裙/原男短裤所录完整1×链接受“可以作为下一阶段基础”，明确排除已登记裙瑕疵；仅这些影片范围，不外推新外貌、最终画风、普通电脑或所有组合。回执 `evidence/m1-close-77e46-user-review.json`。
 - **裙装与该30秒舞已封板。** 038裙实现随77保留，已知硬折/局部接触/成本缺口不是继续精修的授权；30秒Rokoko路线获认可，唯一适配尝试后封存，不再追加调参。依据 `evidence/m1-stage-close-user-direction-2026-11-15.json`、`evidence/rokoko-30s-advisor-v1/USER-REVIEW.json`。旧失败仍失败，不因封板变成全部通过，也不因旧失败重新派活。
 - 有限外观闭环及本轮反馈修复：男女独立三分区已获用户接受；原男女新几何嘴±12%/眉3mm/鼻2mm/眼5%、虹膜v3、本地v5配方已接入。旧范围/身份保留；男jaw仍只0/+4%，女jaw/waist无四域准入。具体技术范围保留，整体M2继续按最新长目标推进；不启动M3。
@@ -284,3 +284,11 @@ ed2完整1×、各自裤装和真实新发型的走跑转坐起/短技术舞/表
 2026-11-16 腰部连续前对照已完成：m2-vest-layer-before-ed2-v2，原女+round/soft各房间/近腰六段1×、100ms实际局部蒙皮采样。源top-pants层间fit尚未进游戏。两派生跑步/起身的白/肤色露面另由m2-vest-running-body-ed2-v1实际body/top投影确认：round272/272、soft278/278候选像素Body在top之前，最大沿射线4.94/5.32mm。对应三角都在原女覆盖区域内，但派生未安装自身coverage，不能直接继承原mask身份；下一步重算并验证派生安全覆盖与基础模式恢复。上述为指定视角/姿态的归因，不是全表面最大穿透或动作通过。
 
 2026-11-16 腰部共同适配候选：三套新top的52面×全裤三角9静态状态经独审（最小保守间距0.502mm），原女裤ID误写已修正并保原失败。三套源安全coverage重新生成252/257/247面，原完整Body不变。附加装备目录保旧manifest/entry/配方，通过新pants-layer-fit选衣；source/CPU依赖及恢复检查通过，当前准备固定构建，未替换4196，连续动作和外露边界仍待验。head-only源已封存原strict预检失败，独审判口内纳米pair数值边界不确定；诊断准备不代表生产准入或八体通过。
+
+2026-11-16 腰部增量 f82a7fc6de61（source71081be）：原女、round-full-v2、soft-wide-v2的“裤装·腰部修订对照”已由共用装备接口接入4196，旧造型、Body和裤资源保持。真实旧造型→新造型→基础身体→旧造型、旧ed2配方回读、新配方保存/重载和快速切换最终状态通过（m2-vest-layer-outfit-f82-v1）。同步childadded销毁竞态已定点修复，原失败与新通过保m2-vest-layer-runtime-review-v1；普通控制器不改。
+
+同条件三体×房间/近腰6段完整1×链：m2-vest-layer-after-f82-v1，对照页m2-vest-layer-review-f82-v1。独立房间18表+9大图及root近腰18表+3大图抽审未见原大块腹前露面或新增大缺面；原上衣鼓胀/方折保留，连续自然度与全部外露边界仍未由人类验收。100ms腰部质心子集、全部54动作阶段中，两派生原裤在前采样共1042次→0；原女原采样0→0，不代表原女从来无干涉或全表面穿插为零。round最大沿+Z差1.018mm→−1.334mm、soft0.424mm→−1.867mm，方法边界见paired-summary.json。冻结裙舞不改，其它体型/服装不继承。
+
+该固定候选第二次独立检出npm ci/build的376文件逐字节一致（m2-vest-layer-rebuild-v1）；公开烟测通过（m2-workbench-public-f82-v1）。6段为开发机Chrome157/1440×900短测：rAF p95约6.2ms，最高42.5ms、无>50ms；采样本身p95约0.5–0.6ms。不是普通电脑通过，也不是全运行寿命性能结论。源mask/层间fit、publisher、锁文件、失败和录像身份保留。
+
+head-only一次诊断原8请求已完成，8/8 diagnostic-failed，正式生产准入仍拒绝；不是八体完成。已观察负Jacobian与11.56–47.17mm实际半宽偏差，不因口内浮点边界诊断许可变成通过。诊断资源未入public，待独立核共同失败原因，不进行无证据重复导出。

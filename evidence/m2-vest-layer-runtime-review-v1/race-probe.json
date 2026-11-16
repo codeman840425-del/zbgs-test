@@ -1,0 +1,37 @@
+{
+  "sourceModuleSha256": "2f903c6901d394e2af1a22baa58b950800b831c55ca33a4388ebe54f984e03cb",
+  "checks": [
+    {
+      "id": "bad-layer-fit-keeps-current-visible-set",
+      "passed": true
+    },
+    {
+      "id": "new-set-supersedes-delayed-single-top",
+      "passed": true
+    },
+    {
+      "id": "unequip-supersedes-delayed-final-set",
+      "passed": true
+    },
+    {
+      "id": "delayed-single-top-revalidates-removed-required-bottom",
+      "passed": true
+    },
+    {
+      "id": "dispose-during-fit-fetch-no-late-attachment",
+      "passed": true
+    },
+    {
+      "id": "synchronous-parent-childadded-dispose",
+      "passed": false,
+      "resolved": true,
+      "cachedAfterDispose": true,
+      "attached": [
+        "Equipment:m2-vest-layer-fit-v1-female-top"
+      ],
+      "error": null,
+      "scope": "Real Three Object3D synchronous lifecycle event. Compare against base to classify pre-existing versus newly introduced."
+    }
+  ],
+  "scope": "Actual equipment module, GLTFLoader, original female VRM and authored top/bottom GLBs. Fetch delays and CPU texture decode fixture only. No pose/visual approval."
+}

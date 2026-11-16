@@ -19,7 +19,7 @@ async function main() {
   await fs.copyFile(__filename, path.join(out,'executed-script.cjs'));
   await fs.writeFile(path.join(out,'executed-runtime-index.json'), bytes);
   const report = {schema:'vest-layer-chain-v1', build, status:'running', cases:[],
-    outfitRole, runtimeIndexSha256('sha256').update(bytes).digest('hex'),
+    outfitRole, runtimeIndexSha256:createHash('sha256').update(bytes).digest('hex'),
     limits:[
       '1x wall-clock playback; technical task completion is not visual acceptance.',
       'Front inspection camera follows the same product camera policy in both candidates; room view supplies wider context.',

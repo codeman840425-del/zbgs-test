@@ -1,22 +1,22 @@
 # 当前角色工程：恢复入口
 
-2026-11-16，F:/gamemake，feat/m1-foundation-room。先读AGENTS和本页，再读主包相关CAP/规格/证据；不重读历史全文，不另建状态台账。
+2026-11-16，F:/gamemake，feat/m1-foundation-room。先读AGENTS和本页，再读当前包相关CAP/规格/证据；不重读历史全文，不另建状态台账。
 
 ## 当前工作包（恢复先看）
 
-公开4196已切换 source e69205d85568cbc547a9d2a41ac200ca0cac1f50 / build ed2153a2d822。固定目录 experiments/m2-representative-six-hair-fixed-v1/prototype/dist，精确入口 delivery/appearance-workbench.json，上一1067指针 delivery/history/appearance-workbench-1067.json。公开烟测已通过 evidence/m2-workbench-public-ed2-v1；第二独立检出重建363文件字节一致。最新已核远备8bd6525d10a9be49868cc782558f09d05a7f78ef，包含本轮ed2资源/录像/观看包/研究与交付指针；后续试验另备。
+主包仍为4女+4男代表预设共同生产。v2只有六个源成功，两lean失败；六个脸部请求仍有明显意图损失，不能称8个成功或M2完成。原v1/v2及全部失败保留。当前正式角色路线Phaser+Three+VRM；女裙和30秒舞封存。
 
-当前主包仍为8代表预设共同生产。v2仅6个源通过（3女3男），两lean失败未发布；六脸参数意图仍有8.668–31.058mm半宽投影损失，不称8个完成。原v1保留，失败卷发未入catalog。先调研再试已有工具，不继续原方法扫参。研究见 research/REPRESENTATIVE-SHAPE-PIPELINE-OPTIONS-2026-11-16.md：女lean下颏过渡压缩、男lean唇保护区横向反向；共同固定凹曲线过窄。整身cage试验已封存并合至427baa51：前置绑定通过，但8项均因整圈肩臂控制传播到指端而不可准入，最大458.311mm，非单位错误；32资源重复字节一致，未发布。源与命令assets-source/m2-representative-cage-trial-v1/README.md，独审evidence/m2-representative-cage-preflight-audit-v1。后续有新根因依据的窄包：asset_budget已知sol/high在隔离树做head-only cage，精确保留v2身体段/taper/hand_limit，先数值等价和局部边界/表达门，通过后一次原8请求批次。不得把脸参数设0冒充关闭旧凹曲线投影；不调低门、不扫参、不改public/runtime。
+公开4196已更新：source71081be29b5fee7dc5e6d6fbcc17b9b4c65d4b9d / buildf82a7fc6de61，experiments/m2-vest-layer-fixed-v1/prototype/dist。入口delivery/appearance-workbench.json，旧ed2指针delivery/history/appearance-workbench-ed2.json。第二独立检出npm ci/build的376文件逐字节一致；公开真实编辑、移动及12条前后影片播放烟测通过。旧look保留，新look名称“裤装·腰部修订对照”，适用原女/round-full-v2/soft-wide-v2。4196是唯一角色工作台；4174保录像、4195保M1。
 
-六体带真实新发型的固定ed2运行完成：evidence/m2-representative-six-hair-room-ed2-v1六段完整1×；m2-representative-six-hair-hot-ed2-v1实际六同页切换/短发马尾/恢复/迟到取消通过；review观看包m2-representative-six-hair-review-ed2-v1。root完成24女全时段2fps表+3原图，男性独审24张2fps表+12原图已完成（http_transport_review已知sol/high），同样保头顶平边/下颌折角/下摆鼓胀限制。下颌折角、椅背马尾硬弯、两女前腹裤层绿点保未过；侧面接近椅子被家具遮挡、基础模式仅静态、普通电脑未测，不能扩称完整验收。所有影片保原ed2身份，原68a六片不重复录制。
+当前可看：/evidence/m2-vest-layer-review-f82-v1/（4174），三体×房间/近腰六对原始完整1×。新候选换装/base恢复/旧ed2配方读取/新配方重载/快速请求最终状态证据m2-vest-layer-outfit-f82-v1。root已看18近腰2fps表+3坐姿原图，batch_v2_readback已看18房间表+9原图；各图SHA在close/room-visual-review.json。原大块腹前露面在采样中不再出现；原上衣鼓胀/方折、脸型与马尾椅背硬弯仍保留，连续人类视觉待验。半身不可判全足底。6段旧新影片身份不改标，不能用数值零外推无穿模。
 
-新发型源be595ac4与独立publisher1c93279f已合；实际public/catalog在e69205d8。新门21个v2正反例及12个v1回归，女57/男55单端点；马尾每体2处约.212mm新接触在保守alpha0 footprint，只是有条件源候选。原侧头保护变化失败和混合表情范围保留。首发WinError5原输入一次重试成功，具体锁因不明；输出/合同与初次失败见evidence/m2-preset-hair-v2-root-publication-v1。
+层间修复是资产适配和装备依赖，未改6个共用动作控制器。源m2-vest-layer-fit-v1+body-coverage-v1，publisher新增13文件；真实top/pants身份和fit/mask精确绑定。原女错误bottom编号已在4771fd58修正，原失败留history。运行独审m2-vest-layer-runtime-review-v1：附加目录/依赖/普通race通过；发现旧childadded同步dispose漏洞并在71081be修，长期回归scripts/qa-equipment-attach-dispose.mjs，修前后失败/成功均保。publication独审已合1de8595e。普通电脑未测，f82的开发机短测不冒认目标机。
 
-裤层绿点已回读游戏实际pose/triangles/material，evidence/m2-representative-vest-posed-ed2-v1：上衣完整且alpha全255；代理已将主要绿像素对应到裤面在top之前（round70/71、soft34/34，原女也有8/8），一个边缘像素未解释。固定诊断已合b218cbf1：原裤tri419在上衣前0.415mm，round1.187mm、soft0.747mm；固定world-offset不保证衣物层次。batch_v2_readback在隔离源包m2-vest-layer-fit-v1做共同top外层余量，保绑定/权重/UV及旧源，不改控制器或遮盖。root已完成qa-vest-layer-chain.cjs三体×房间/近腰六段1×前对照m2-vest-layer-before-ed2-v2（v1夹具误将领口当腰面失败已保）。两派生跑步/起身肤色露面另由实际body/top射线确认，m2-vest-running-body-attribution-v1：全部观察像素在原女coverage三角范围，派生coverage=null；需要重新量派生安全覆盖，不直接继承旧SHA或掩盖裸露边界。
+头部方法：整身cage已封存失败，不能重跑。head-only源62f80c7c的正式strict预检仍拒绝；独审判口内纳米pair数值边界不确定。经明确隔离的diagnostic-only入口，原8请求一次批次现已完成且8/8均failed：负det、实际半宽误差11.56–47.17mm和新增strict表达pair。没有生产准入/游戏发布。asset_budget正封存隔离树F:/gamemake-representative-head-cage的diagnostic-v1源与产物；http_transport_review正独立CPU核负det/响应拟合/保护场根因。禁止继续扫参、改门或静默将诊断变成成功。下一步收其提交/独审，依据新证据选一条共同修正或替代方法；无新根因不再导出。
 
-动作自适应调研已保存 research/MOTION-CONTACT-ADAPTATION-OPTIONS-2026-11-16.md，Mink优先离线小试仍未实施；R2ET依赖/输入和CAMR未核代码边界保留。当前没有通用全身舞蹈避碰，不改封存30秒舞。用户要求研究先行已入AGENTS。
+动作自适应已完成方法调研research/MOTION-CONTACT-ADAPTATION-OPTIONS-2026-11-16.md（R2ET/Mink/CAMR源码/许可/限制）。Mink只是离线小试优先候选，未安装求解器/未完成VRM往返/无通用避碰通过；不插入本八体包准入，不重开封存舞。新机制必须先核可复用官方/原作者实现及实际输入输出再小试。
 
-恢复下一步：男女画面审查已合并重打包，本轮固定运行证据/资源指针/CAP及研究已提交并核远备；接收head-only预检与共同top层间fit源包，独立核读后再接候选并补同条件连续运行；整身cage和裤层根因诊断已完成，不重跑。公司副总工dirty/untracked文件不动。GPU/录屏窗口空闲（ed2录制与公开烟测均已结束），不能重启已完成六片。
+最新已核远备仍ec99825cf3de629ba5ebc30839a22b8972fe43b6；其后的f82源码、覆盖源及本轮证据正收尾提交备份，未核远端前不称成功。当前HEAD实际用git核。公司副总工相关dirty/untracked不动、不stage。
 
 ## 当前授权与边界
 
@@ -26,9 +26,8 @@ Phaser+Three+VRM保留；女性封板裙和30秒舞不再精修。普通电脑�
 
 ## 恢复与协作边界
 
-- 旧阶段流水已原字节归档到 history/CURRENT-FOUNDATION-before-ed2-consolidation-2026-11-16.md；其中“当前/下一步”均是历史。具体机制与验收范围按CAP查，不逐条重跑。
-- 4196为角色唯一工作台；4174保历史证据，4195保M1。新候选从确切提交独立构建，录像不换标签；对照/回滚指针不删除。
-- 当前三条有界任务：asset_budget/sol/high做保已证身体段的head-only cage；batch_v2_readback/sol/high做共同top层间fit；http_transport_review/sol/high审查腰部采样夹具并读实际pose子集，封存整身cage独审已完成。配置为已记录请求值，实际provider配置与桌面hook拦截未独立证实。
-- 公司/设施归副总工。本主树company相关dirty/untracked不stage、不覆盖。需要联调时按已有接缝资料核版本，不合并旧人物控制器。
-- 单GPU/录像/编码/重导出窗口。预检CPU脚本与文档审查可并行；不得因压缩恢复重启已完录像。提交显式路径，不git add -A。
-- docs/HANDOFF.md为恢复规则；完整范围见现行v2，生产索引scripts/production/和相关assets-source保实际输入/工具/许可/失败，不以目录存在当通过。M2未完，不进入M3。
+- 当前有界代理：asset_budget与http_transport_review均复用已明确请求gpt-6.1-sol/high，前者封存一次head诊断，后者独审共同失败原因；batch_v2_readback已完成房间审图。真实provider配置和桌面hook拦截未独立核验，不冒认。
+- 单GPU/录像/编码/重导出窗口当前空闲。f82六片、公开烟测和第二独立构建已结束，不因压缩恢复而重录。CPU文档/源码诊断可并行；没有根因依据不再触发head导出。
+- 下一项：完成本轮固定候选证据和远备；收head-only失败封存与独审，选有证据的下一窄包，持续推进完整M2。M2未完，不进入M3。
+- 固定交付按exact commit独立检出；录像与构建身份保持，旧failed不改标。只stage明确路径，不git add -A。公司平台副总工独立交付，未核的CAP-INCREMENT不当本角色集成通过。
+- docs/HANDOFF.md为恢复规则；完整范围见现行v2，生产索引scripts/production/和assets-source保输入/工具/许可/失败，不以目录存在当通过。

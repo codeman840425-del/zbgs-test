@@ -1,0 +1,170 @@
+{
+  "schema": "vest-layer-runtime-independent-review-v1",
+  "status": "bounded-review-no-new-blocker-in-fixed-source",
+  "sourceCommit": "71081be29b5fee7dc5e6d6fbcc17b9b4c65d4b9d",
+  "reviewedFiles": [
+    {
+      "path": "prototype/src/equipment.js",
+      "sha256": "e05354e427f1d0ba580d92a6346ba6f3b8ff72ba68b8204af959138f80bed342",
+      "bytes": 23299,
+      "fixedGitBlobExact": true
+    },
+    {
+      "path": "prototype/src/equipment-set.js",
+      "sha256": "a1609772aac60cbad459e3bfb182dfa8dc051a50b15a6f97401469ac3c4927c9",
+      "bytes": 4744,
+      "fixedGitBlobExact": true
+    },
+    {
+      "path": "prototype/src/garment-layer-fit.js",
+      "sha256": "81bf6aea15bca535e041f06a3b1f0d2f48710a367656c106090f26cbe661b277",
+      "bytes": 2424,
+      "fixedGitBlobExact": true
+    },
+    {
+      "path": "prototype/src/m1-equipment.js",
+      "sha256": "cdfd985a4a1972932d2519f30b3ba57210003429107b0a4e7ed7cf2492dada10",
+      "bytes": 12566,
+      "fixedGitBlobExact": true
+    },
+    {
+      "path": "scripts/qa-alternate-top.mjs",
+      "sha256": "14ba3c5a5bab3562f717f0b00cb361bfdc5c1985a7579d40eba940a3c8ee24f4",
+      "bytes": 6163,
+      "fixedGitBlobExact": true
+    },
+    {
+      "path": "scripts/qa-vest-layer-dependency.mjs",
+      "sha256": "f349912126ae77703c4f4761ff4b8dc5701d9c65c1bb3183241c6dccb08f862c",
+      "bytes": 5690,
+      "fixedGitBlobExact": true
+    },
+    {
+      "path": "scripts/m2-vest-layer-fit-v1/publish.mjs",
+      "sha256": "c69de38e29c1ddc1bad264f981eeec67d6988e339976d4fb3be314acc27d34b8",
+      "bytes": 5388,
+      "fixedGitBlobExact": true
+    },
+    {
+      "path": "prototype/src/foundation-profiles.js",
+      "sha256": "10dd25320187e1d859399b3b61999ddb8023e3bd98bca5a3dd5b5d5adde4a3ec",
+      "bytes": 11246,
+      "fixedGitBlobExact": true
+    },
+    {
+      "path": "prototype/src/body-coverage.js",
+      "sha256": "f0a6801743a12ef13ca5a018bf99e607cfcb91c12188feada6d6b05c4f2f63f4",
+      "bytes": 11710,
+      "fixedGitBlobExact": true
+    },
+    {
+      "path": "prototype/src/outfit-selection.js",
+      "sha256": "830fa636cbf7af636d80d3bcbed0437ce270198ca8f7cc9109170839e687450f",
+      "bytes": 1335,
+      "fixedGitBlobExact": true
+    },
+    {
+      "path": "prototype/public/assets/m2-vest-layer-fit-v1/profiles.json",
+      "sha256": "0e20fc9f985aa552494454cdeab1c4836244bd8a9d4f84d91618f65d27502e35",
+      "bytes": 3315,
+      "fixedGitBlobExact": true
+    }
+  ],
+  "initialSnapshot": "snapshot.json",
+  "newBlockingFindings": [],
+  "confirmedAndResolved": [
+    {
+      "id": "EQUIPMENT-ATTACH-DISPOSE",
+      "origin": "pre-existing at 6238df63; independently reproduced with its actual equipment.js module and current helper/Three dependencies",
+      "trigger": "Real Three Object3D childadded listener calls adapter.dispose synchronously during parent.add(container).",
+      "before": "load resolved and populated cache after disposal, leaving Equipment container attached. Both prior module and initial current module reproduced.",
+      "fix": "71081be checks disposed immediately after parent.add and enters existing destroy catch.",
+      "after": "Actual GLTFLoader/body/top regression rejects with disposed while attaching, leaves no cache/scene child, and releases each of 2 geometries/2 materials/2 textures exactly once.",
+      "evidence": [
+        "base-race-probe.json",
+        "race-probe.json",
+        "attachment-after-71081be/report.json",
+        "race-probe-after-71081be.json"
+      ]
+    }
+  ],
+  "verified": [
+    "Runtime layer fit is fetched and SHA-verified before garment bytes/attachment. validateLayerFit consumes exact body SHA, fit ID/schema/version, top ID/URL/bytes/SHA and required bottom ID/bytes/SHA. Resolver enforces selected exact bottom, including commit-time re-read in single equip.",
+    "Missing lower, wrong fit bytes, wrong body/top/bottom identity and same bottom ID with different bytes hash reject while the prior visible set remains. Unequip of a required bottom validates remaining selection before changing visibility.",
+    "Pinned additive manifests reject digest mismatch and duplicate IDs, carry absolute new resource URLs, and retain the original catalog base URL for existing relative entries. No mutation of on-disk original catalogs is performed by the loader.",
+    "Actual JSON/profile import check preserves all legacy look metadata and selected garment IDs across20 profiles. Original primary manifests for the three changed profiles equal baseline bytes.13 publication outputs match the receipt.",
+    "All3 published extension/fit/coverage descriptors have matching hashes; coverage.topFitIdentity matches the actual fit SHA/ID and body/top. Final publisher checks this link before output creation.",
+    "Coverage CPU fixture uses actual body-coverage/Three geometry and m1-equipment implementation. It demonstrates new top only after commit, mask replacement, original look/mask restore, base/dressed restore, actor isolation and disposal restoring original geometry.",
+    "Independent real-loader races cover bad-fit old-state preservation, delayed single top superseded by newer final set, delayed final set cancelled by bottom removal, delayed single-top dependency recheck after bottom removal, and disposal while fit fetch is pending. All pass at final source."
+  ],
+  "testEvidence": [
+    {
+      "path": "alternate-top-final-71081be/report.json",
+      "scope": "Actual M1 equipment/coverage modules and Three geometry; scoped adapter/profile fixtures."
+    },
+    {
+      "path": "layer-dependency-final-71081be/report.json",
+      "scope": "Actual loader and3 original-body/top/bottom GLB/bind resources, CPU texture-decode and HTTP fixtures."
+    },
+    {
+      "path": "race-probe-after-71081be.json",
+      "scope": "Actual loader/GLBs with delayed real-resource responses,5 request/failure races plus synchronous Three disposal event."
+    },
+    {
+      "path": "profile-publication-probe.json",
+      "scope": "Actual JSON/profile resolver imports,20 baseline profile comparisons,13 pinned publication files and3 additive descriptors."
+    },
+    {
+      "path": "attachment-after-71081be/report.json",
+      "scope": "Fixed loader attachment guard and exactly-once geometry/material/texture disposal."
+    }
+  ],
+  "remainingGaps": [
+    "Browser application of the three actual outfit4 profiles, complete recipe/file/draft restoration and asynchronous body switching remain release-owner verification. Static legacy/profile identity checks and coverage fixtures cover bounded portions of that chain.",
+    "Actual regenerated coverage perimeter behavior, exposed body pixels, cloth layering in motion and visual quality were not assessed here. This review does not repeat author geometry metrics or infer visual acceptance from resource admission.",
+    "Publisher was read and its13 actual outputs/hash/dependency links checked. No publication writes or injected filesystem-failure/partial-write tests were run. Fresh-output I/O interruption recovery is outside these checks.",
+    "The M1 coverage regression uses a fixture adapter/config. The resource/bind regression uses real GLBs with CPU image placeholders and a raw-bone map from parsed source, without a complete running VRM/controller.",
+    "The historical lifecycle reproduction loads exact6238 equipment.js with current helper modules and supplies the fitted item in its primary manifest because that source predates additive catalogs. It establishes the inherited attachment code defect, not a historical complete-build replay."
+  ],
+  "durableRegression": {
+    "path": "qa-equipment-attach-dispose.mjs",
+    "usage": "Run from project root: node PATH_TO_SCRIPT NEW_OUTPUT",
+    "copyReadyForScripts": true,
+    "scope": "Root may copy this evidence-owned file unchanged into scripts. Uses cwd-relative dynamic real-module imports."
+  },
+  "mutationScope": "Reviewer wrote only this evidence directory. Root owns production source fix and integration. No browser/GPU/producer/public changes by reviewer.",
+  "evidenceHashes": [
+    {
+      "path": "F:\\gamemake\\evidence\\m2-vest-layer-runtime-review-v1\\base-race-probe.json",
+      "sha256": "51589dc480d751483b8b0203138249449c6b0d5d0bea2cbbdfce3d11c458566c"
+    },
+    {
+      "path": "F:\\gamemake\\evidence\\m2-vest-layer-runtime-review-v1\\race-probe.json",
+      "sha256": "2db14d4e312a97f2a528dceffb4891b0e0dd710dcb2600fd861d346073b8c85b"
+    },
+    {
+      "path": "F:\\gamemake\\evidence\\m2-vest-layer-runtime-review-v1\\race-probe-after-71081be.json",
+      "sha256": "b9e1cd76b68f21f0d8043e8ec93488d2e2e25ef6749bd278e2f79a81ad2f3c61"
+    },
+    {
+      "path": "F:\\gamemake\\evidence\\m2-vest-layer-runtime-review-v1\\profile-publication-probe.json",
+      "sha256": "84c5f9d1337a0d0b178a603617d63a3592770f62af30a0eb20c8711c927eb638"
+    },
+    {
+      "path": "F:\\gamemake\\evidence\\m2-vest-layer-runtime-review-v1\\attachment-after-71081be\\report.json",
+      "sha256": "f8465cdb84b8bdb435bbf156a94d0bdee30f1d8aea01fe8ec934675d2d620943"
+    },
+    {
+      "path": "F:\\gamemake\\evidence\\m2-vest-layer-runtime-review-v1\\alternate-top-final-71081be\\report.json",
+      "sha256": "5162da82310642b2e05da670e1300c50b36fccef64293f651abb90b741ccb3b0"
+    },
+    {
+      "path": "F:\\gamemake\\evidence\\m2-vest-layer-runtime-review-v1\\layer-dependency-final-71081be\\report.json",
+      "sha256": "e22b3326a882780920158a89b3a93ad1859f0e3cdec4a4d181599067575e4b92"
+    },
+    {
+      "path": "F:\\gamemake\\evidence\\m2-vest-layer-runtime-review-v1\\qa-equipment-attach-dispose.mjs",
+      "sha256": "7984d57b3179d36a78493692d019761e49f60e34c591780907a2d646af64d13b"
+    }
+  ]
+}

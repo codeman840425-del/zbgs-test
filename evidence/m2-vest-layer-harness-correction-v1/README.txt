@@ -1,0 +1,1 @@
+Initial after-capture launch failed before browser startup: replacement for report outfitRole omitted :createHash. Corrected QA harness only; runtime fixed build f82a7fc6de61 unchanged. No video or app failure from that launch.

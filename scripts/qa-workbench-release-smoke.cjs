@@ -1,7 +1,7 @@
 const {chromium}=require('../prototype/node_modules/playwright');
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
 const [build,evidencePath,outPath]=process.argv.slice(2);
-const videoCountArg=process.argv.find(v=>v.startsWith('--video-count='));const videoCount=videoCountArg?Number(videoCountArg.split('=')[1]):2;assert(Number.isInteger(videoCount)&&videoCount>=1&&videoCount<=8);assert(/^[a-f0-9]{12}$/.test(build));assert(/^\/evidence\/[a-z0-9-]+\/$/.test(evidencePath));assert(outPath);const out=path.resolve(outPath);
+const videoCountArg=process.argv.find(v=>v.startsWith('--video-count='));const videoCount=videoCountArg?Number(videoCountArg.split('=')[1]):2;assert(Number.isInteger(videoCount)&&videoCount>=1&&videoCount<=12);assert(/^[a-f0-9]{12}$/.test(build));assert(/^\/evidence\/[a-z0-9-]+\/$/.test(evidencePath));assert(outPath);const out=path.resolve(outPath);
 (async()=>{
  await fs.mkdir(out,{recursive:false});await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
  const r={build,errors:[],videos:[],scope:'Published header/runtime, actual face edit and room movement, explicit-count evidence videos playing >=2s. Not full visual or performance acceptance.'};
