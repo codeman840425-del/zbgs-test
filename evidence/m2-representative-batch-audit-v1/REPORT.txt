@@ -1,0 +1,40 @@
+八预设身体与装备独立 CPU 审查
+
+最终结果
+原女/原男各4套，八个固定ID全部通过身体与装备源回读，共15030项检查。82个实际输入文件在检查结束时逐SHA复验稳定。运行、接触、造型及观感继续由root实际验证。
+被测树 F:/gamemake-representative-batch；manifest SHA256 5a12e7ab55c50547f07371744dffa024c788582f3053197821927fd58f86ad24
+核验脚本 SHA256 c39f15963b334bed0b92d725ee2b464e61e40d18d89cfdb8fb67e2a7261655fa
+
+实际数据与依赖
+每套sourceBody固定原女027bed60...或原男62b44b03...，完整SHA及所有输入/产物字节数见report.json。每套avatar/equipment/fit/profile/report和top/bottom/shoes共8文件均按实际SHA回读，合计174018775字节。四个同性预设的POSITION内容哈希各异。
+完整原始body保持拓扑与索引、UV、JOINTS/WEIGHTS、原骨节点、IBM、humanoid及VRM expression bindings，未删除Body或借隐藏身体满足检查。真实变形点数量按唯一POSITION accessor统计，阈值1e-7米。每个primitive的计数只取实际indices引用顶点。
+NORMAL及morph数组均有实际哈希/有限值检查，目标顺序和源字段保留，允许制作合同声明的新增morph NORMAL。该证据未对表情自然度或法线视觉品质作验收。
+每套三件装备的实际几何、属性集合、原有UV、索引、权重和IBM分别对原装备回读，并核装备/fit的目标body与资源SHA、profile的服装ID和floor声明一致。纯材质女裤合法无UV，源目标均无该字段。此处未独立测量floor或全姿态接触。
+Face_SKIN、FaceMouth、EyeIris的material/image/UV/indices均与各自原源精确一致。原cap HairBack的所有属性及索引均相同。Head/Neck正权重Body区域有真实变化，包含颈部，因此不能把此选择区当作完整解剖头皮，也不能据cap一致将整个头表面视为相同。
+
+逐套摘要，最大残差为统一整体缩放加平移对实际顶点的拟合残差，说明存在区域变形
+ID | 变形点数 | 最大整体缩放拟合残差mm | Head/Neck加权Body变化点数 | 该区最大位移mm
+female-round-full | 3911 | 69.697 | 124 | 5.669
+female-long-slender | 3905 | 38.181 | 124 | 6.714
+female-square-athletic | 3911 | 15.829 | 124 | 7.138
+female-soft-wide | 3903 | 42.087 | 120 | 4.715
+male-wide-muscular | 3425 | 45.485 | 114 | 9.438
+male-long-lean | 3422 | 36.973 | 114 | 7.710
+male-round-stocky | 3424 | 65.527 | 114 | 5.751
+male-angular-athletic | 3424 | 25.304 | 114 | 5.697
+
+失败、重现与成本
+首轮attempt-1保留3套source-passed、5套failed。失败涉及纯材质女裤的错误必需UV假定，以及lean脸部窄lip-mask过渡使Jacobian过小/负值。common-correction.json记录一次共用修正，包括C1横向坐标、下脸支撑过渡和按实际源字段核UV。逐项比对首轮/最终manifest/spec参数一致，singleCaseEdits为0，commonCorrections为1。原始未有manifest预检保留在preflight-no-manifest，八项明确缺失，不换成成功记录。
+制作端最终脚本自报12.5595765秒，含每套初次与重复输出；repeatExport中的avatar及按slot装备SHA均与当前实际文件一致，allAssetBytesIdentical均true。我的工作是独立回读该重复导出证据，未另启重导出。此耗时仅最终导出脚本，不包括研究、作者编码、首轮失败、修正、游戏录制或人工审查，不能作为完整制作成本。
+实际输出174018775字节。独立解析全部输出GLB/VRM内嵌图片后，核对ledger的133272224重复编码图片字节、26923646唯一图片编码字节及42个唯一payload均一致。它衡量文件重复，实际纹理对象、显存、加载开销和目标电脑性能仍需运行测量。
+五个焦点CPU用例通过，包括实际原女拒绝未改动输入、实际jaw识别几何变化、内存整体缩放夹具被拒、坏SHA及坏bytes拒绝。整体缩放用例为分类器夹具，未生成角色或浏览器证据。
+
+剩余依赖与瓶颈
+fit/profile明确保留volume-specific接触配置缺口，八套尚需游戏动作与装备接触检查。palette字节依赖相同可供显式新body准入审查，颜色与换发仍须按精确身份走真实准备/恢复链。
+本批卷发候选已由用户否决，两款失败源封存，4派生fit停止，不能计入合格整套造型。原回执逐字节复制为hair-candidate-rejection.json，SHA256 94c6d5a13e6e0ec0b619ed03e225496a51c8b8090cec919cebca0655aec17280；来源F:/gamemake-medium-curly-hair-v1/assets-source/m2-medium-curly-hair-v1/FAILED-STYLE.json，提交0e7dee17d75a9d77695ea187df1e39d29c1447cd。后续其他发型资源适配须有各自独立fit证据。
+几何保护/数组统计不能判定体型自然、造型明显、衣物适配或发型动态通过。女裙与旧30秒舞未作为本次新预设自动验收范围。
+
+复现
+python -B scripts/qa-representative-batch-v1.py --root F:/gamemake-representative-batch --out evidence/m2-representative-batch-audit-v1
+python -B evidence/m2-representative-batch-audit-v1/focused_cpu.py
+本次未运行导出、浏览器或GPU，未改生产输出、运行代码、准入清单或共享文档。
