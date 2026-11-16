@@ -149,6 +149,7 @@ export async function applyAppearanceRecipe(controller,record){
  const notices=record.paletteVersion===LEGACY_PALETTE?['旧配方已使用新版瞳色渲染，颜色选择保持不变']:[];
  if(cleanupErrors.length)notices.push(`造型已应用，旧资源清理失败：${cleanupErrors.join('；')}`);
  try{controller.refreshOutfitSelection?.();}catch(error){notices.push(`造型已应用，服装按钮更新失败：${error.message}`);}
+ try{if(!controller.isPeer&&controller.actor===actor)controller.game?.events?.emit('appearance-state-changed',{actor});}catch(error){notices.push(`造型已应用，控件同步失败：${error.message}`);}
  return notices.length?{applied:true,notice:notices.join('；')}:{applied:true};
 }
 

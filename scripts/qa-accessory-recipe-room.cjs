@@ -11,7 +11,7 @@ const r={build,status:'running',checks:[],errors:[],scope:'Original female hat/e
   const page=await context.newPage();page.on('pageerror',e=>r.errors.push(name+':'+e));
   await page.goto(url+'?body='+body+'&workbench=appearance');await page.waitForFunction(()=>window.__debug?.ready,null,{timeout:60000});
   await page.waitForFunction(()=>document.querySelector('#appearance-form')?.getAttribute('aria-busy')!=='true');
-  await verifyCandidate(page,{build,assetId:body==='female'?'beta-base-female-m1':'beta-base-male-m1',sha256:body==='female'?'027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95':'62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff'});
+  await verifyCandidate(page,{build,assetId:body==='female'?'beta-base-female-m1':'beta-base-male-m1b',sha256:body==='female'?'027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95':'62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff'});
   return{context,page,close:async()=>{const v=page.video();await context.close();await v.saveAs(path.join(out,name+'.webm'));await v.delete();}};
  };
  const record=p=>p.evaluate(()=>JSON.parse(__debug.exportAppearanceRecipe()));
@@ -26,7 +26,7 @@ const r={build,status:'running',checks:[],errors:[],scope:'Original female hat/e
   await select(p,'#appearance-hat','single');await select(p,'#appearance-ears','pair');await select(p,'#appearance-surface-freckles','0.5');
   target=await record(p);assert.equal(target.accessories.hat.selection,'single');assert.equal(target.accessories.ears.selection,'pair');assert(target.surface.layers.length);
   await p.locator('#appearance-save').click();storage=await active.context.storageState();
-  assert((await apply(p,baseline)).applied);assert.deepEqual(await record(p),baseline);
+  assert((await apply(p,baseline)).applied);assert.deepEqual(await record(p),baseline);assert.equal(await p.locator('#appearance-hat').inputValue(),'none');
   await p.locator('#appearance-restore').click();await p.waitForFunction(()=>document.querySelector('#appearance-form').getAttribute('aria-busy')!=='true');
   assert.deepEqual(await record(p),target);assert.equal(await p.locator('#appearance-hat').inputValue(),'single');
   await p.evaluate(()=>__debug.camera('inspect-half-side'));await p.waitForTimeout(800);await p.screenshot({path:path.join(out,'female-restored.png')});
