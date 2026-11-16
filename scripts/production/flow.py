@@ -35,7 +35,7 @@ def validate_config(config, root=ROOT):
         identifier = workflow['id']
         require(identifier not in ids, 'Duplicate workflow: '+identifier)
         ids.add(identifier)
-        require(workflow['kind'] in ['shorts', 'accessories', 'dance', 'variant'], 'Unknown workflow kind')
+        require(workflow['kind'] in ['shorts', 'accessories', 'dance', 'variant', 'source-package'], 'Unknown workflow kind')
         for name in workflow['sources']+workflow['requirements']:
             local(root, name)
         require(set(workflow['stages']) == {'source', 'export', 'check', 'readback'}, 'Missing workflow stage')
@@ -159,7 +159,10 @@ class Validator:
         missing_tools=[x for x in workflow['requirements'] if not local(self.root,x).is_file()]
         ident=workflow['identity'];kind=workflow['kind'];details=[]
         require(not candidate_dir or kind=='dance', '--candidate-dir currently supports technical-dance only')
-        if kind=='shorts':
+        if kind=='source-package':
+            from source_packages import validate_package
+            details.append(validate_package(self, ident, require, GLB))
+        elif kind=='shorts':
             spec=self.json(ident['spec']);base=self.json('assets-source/m1b/spec.json')
             require(spec['compatibleAvatarSha256']==base['roundtripSha256'], 'Shorts/base pin differs')
             body=GLB(self.pin(base['roundtrip'],base['roundtripSha256']))

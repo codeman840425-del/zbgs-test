@@ -46,5 +46,5 @@ fingerprint=lambda:{str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexd
 before=fingerprint()
 results=[Validator().validate(w)for w in config['workflows']]
 assert fingerprint()==before,'Validator modified source/output files'
-checks.append('five real workflows validate without changing source/output hashes')
+checks.append(str(len(results))+' real workflows validate without changing source/output hashes')
 print(json.dumps({'passed':True,'checks':checks,'readOnlyHashedFiles':len(before),'workflows':[r['workflow']for r in results],'browserStarted':False,'exportersInvoked':False,'scope':'Structural readback and rejection only; no source regeneration or visual acceptance'},indent=2))

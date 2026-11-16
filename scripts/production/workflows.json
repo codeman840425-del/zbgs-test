@@ -582,6 +582,403 @@
         "Existing build recreates both from parameter spec; no separate arbitrary edited-derived-blend publishing command"
       ],
       "recovery": "Use an isolated worktree/checkpoint before any displayed write command. On failure retain candidate output/log; do not replace published manifest or relax hash/bind checks. Restore only owned generated outputs from checkpoint, preserve manual edits, then rerun matching exporter and readback."
+    },
+    {
+      "id": "male-jaw-source",
+      "title": "Male jaw editable source derivative",
+      "kind": "source-package",
+      "sources": [
+        "assets-source/m2-male-face-v1/spec.json",
+        "assets-source/foundation-male/base-male-candidate-editable.blend",
+        "prototype/public/assets/foundation/base-male-roundtrip.vrm",
+        "assets-source/m2-male-face-v1/generated/editable.blend"
+      ],
+      "identity": {
+        "package": "male-face",
+        "manifest": "assets-source/m2-male-face-v1/manifest.json",
+        "manifestSha256": "6ddecd1fc1408c174c28d214b4c5796c41337d7f1a5afa33d1ccd705ea198aef"
+      },
+      "requirements": [
+        "experiments/tools/blender-4.5.9-windows-x64/blender.exe",
+        "scripts/m2-male-face-v1/build.py",
+        "scripts/m2-male-face-v1/glb.py"
+      ],
+      "inputs": [
+        "assets-source/m2-male-face-v1/spec.json",
+        "assets-source/foundation-male/base-male-candidate-editable.blend",
+        "prototype/public/assets/foundation/base-male-roundtrip.vrm",
+        "assets-source/m2-male-face-v1/generated/editable.blend"
+      ],
+      "outputs": [
+        "assets-source/m2-male-face-v1/generated/avatar.vrm",
+        "assets-source/m2-male-face-v1/generated/editable.blend",
+        "assets-source/m2-male-face-v1/expression-map.json",
+        "assets-source/m2-male-face-v1/generated/equipment.json",
+        "assets-source/m2-male-face-v1/generated/forearm-profile.json",
+        "assets-source/m2-male-face-v1/generated/profile-entry.json"
+      ],
+      "stages": {
+        "source": [
+          {
+            "argv": [
+              "python",
+              "scripts/production/flow.py",
+              "show",
+              "male-jaw-source"
+            ],
+            "writes": [],
+            "note": "Declarations only; no tool launch"
+          }
+        ],
+        "export": [
+          {
+            "argv": [
+              "experiments/tools/blender-4.5.9-windows-x64/blender.exe",
+              "--background",
+              "--factory-startup",
+              "--disable-autoexec",
+              "--threads",
+              "2",
+              "--python-exit-code",
+              "1",
+              "--python",
+              "scripts/m2-male-face-v1/build.py",
+              "--",
+              "--rebuild",
+              "--out",
+              "workflow-rebuild"
+            ],
+            "writes": [
+              "assets-source/m2-male-face-v1/workflow-rebuild/"
+            ],
+            "note": "Rebuild from original; requires Blender 4.5.9 and VRM addon 4.10.5. Refuses existing avatar. Does not install public."
+          },
+          {
+            "argv": [
+              "python",
+              "scripts/m2-male-face-v1/build-fit.py"
+            ],
+            "writes": [
+              "assets-source/m2-male-face-v1/generated/equipment.json",
+              "assets-source/m2-male-face-v1/generated/forearm-profile.json",
+              "assets-source/m2-male-face-v1/generated/profile-entry.json",
+              "assets-source/m2-male-face-v1/fit-receipt.json"
+            ],
+            "note": "Historical fixed-generated fit writer; requires existing audit and numpy. Not a check of workflow-rebuild; do not rerun on frozen package."
+          }
+        ],
+        "check": [
+          {
+            "argv": [
+              "python",
+              "scripts/m2-male-face-v1/audit.py"
+            ],
+            "writes": [
+              "assets-source/m2-male-face-v1/audit-report.json",
+              "assets-source/m2-male-face-v1/expression-map.json"
+            ],
+            "note": "Historical numpy audit of fixed generated/rebuild, not custom output; writes reports."
+          },
+          {
+            "argv": [
+              "node",
+              "scripts/m2-male-face-v1/check-fit.mjs"
+            ],
+            "writes": [
+              "assets-source/m2-male-face-v1/fit-data-check.json"
+            ],
+            "note": "Uses current forearm validator and writes receipt; not browser acceptance."
+          }
+        ],
+        "readback": [
+          {
+            "argv": [
+              "python",
+              "scripts/production/flow.py",
+              "validate",
+              "male-jaw-source"
+            ],
+            "writes": [],
+            "note": "Read existing pinned source/export bytes and relations only; no browser or exporter"
+          }
+        ]
+      },
+      "limits": [
+        "One existing 98-vertex jaw specimen; no parametric library.",
+        "Stored generated/rebuild exports are checked, not regenerated in validate. Historical runtime-pending text is not a current capability declaration."
+      ],
+      "recovery": [
+        "Stop on the first named missing/mismatched resource; restore its exact committed bytes and rerun read-only validate. Never regenerate a manifest to bless unexpected changes.",
+        "Export commands are documentation only. Use a separate checkout and an absent output folder; inspect writes before manual use. Frozen outputs and historical receipts are retained.",
+        "Missing Blender/addon/Python packages block regeneration, not stored-byte identity validation. Runtime/visual acceptance stays in docs/CAPABILITIES.md and matching fixed evidence."
+      ]
+    },
+    {
+      "id": "male-jaw-mouth",
+      "title": "Male jaw fixed +4% mouth recipe",
+      "kind": "source-package",
+      "sources": [
+        "assets-source/m2-male-jaw-mouth-v1/spec.json",
+        "assets-source/m2-male-face-v1/generated/editable.blend",
+        "assets-source/m2-male-face-v1/generated/avatar.vrm",
+        "assets-source/m2-male-jaw-mouth-v1/recipe-manifest.json"
+      ],
+      "identity": {
+        "package": "jaw-mouth",
+        "manifest": "assets-source/m2-male-jaw-mouth-v1/manifest.json",
+        "manifestSha256": "2f21ca0ef33db35892b7fee150ff030eb1f15cd6ba8c34da7527ce93cbc0cccd"
+      },
+      "requirements": [
+        "experiments/tools/blender-4.5.9-windows-x64/blender.exe",
+        "scripts/m2-male-jaw-mouth-v1/normal_core.py"
+      ],
+      "inputs": [
+        "assets-source/m2-male-jaw-mouth-v1/spec.json",
+        "assets-source/m2-male-face-v1/generated/editable.blend",
+        "assets-source/m2-male-face-v1/generated/avatar.vrm",
+        "assets-source/m2-male-jaw-mouth-v1/recipe-manifest.json"
+      ],
+      "outputs": [
+        "assets-source/m2-male-jaw-mouth-v1/male-jaw-mouth-width.recipe.json",
+        "assets-source/m2-male-jaw-mouth-v1/recipe-manifest.json",
+        "assets-source/m2-male-jaw-mouth-v1/generated/male-jaw-mouth-width-104-v1/avatar.vrm",
+        "assets-source/m2-male-jaw-mouth-v1/generated/male-jaw-mouth-width-104-v1/normal-reference.npz"
+      ],
+      "stages": {
+        "source": [
+          {
+            "argv": [
+              "python",
+              "scripts/production/flow.py",
+              "show",
+              "male-jaw-mouth"
+            ],
+            "writes": [],
+            "note": "Declarations only; no tool launch"
+          }
+        ],
+        "export": [
+          {
+            "argv": [
+              "experiments/tools/blender-4.5.9-windows-x64/blender.exe",
+              "--background",
+              "--factory-startup",
+              "--disable-autoexec",
+              "--threads",
+              "2",
+              "--python-exit-code",
+              "1",
+              "--python",
+              "scripts/m2-male-jaw-mouth-v1/build.py",
+              "--",
+              "--out",
+              "workflow-rebuild"
+            ],
+            "writes": [
+              "assets-source/m2-male-jaw-mouth-v1/workflow-rebuild/"
+            ],
+            "note": "Requires Blender 4.5.9 + VRM addon 4.10.5; refuses existing sample folder."
+          },
+          {
+            "argv": [
+              "python",
+              "scripts/m2-male-jaw-mouth-v1/finalize.py",
+              "--out",
+              "workflow-rebuild"
+            ],
+            "writes": [
+              "assets-source/m2-male-jaw-mouth-v1/workflow-rebuild/"
+            ],
+            "note": "After build; numpy/scipy. Retains raw addon and creates final per-shape NORMAL export."
+          }
+        ],
+        "check": [
+          {
+            "argv": [
+              "python",
+              "scripts/m2-male-jaw-mouth-v1/check-rebuild.py",
+              "--out",
+              "workflow-rebuild"
+            ],
+            "writes": [
+              "assets-source/m2-male-jaw-mouth-v1/workflow-rebuild/rebuild-comparison.json"
+            ],
+            "note": "Compares custom build/finalize output to retained generated; writes comparison."
+          },
+          {
+            "argv": [
+              "python",
+              "scripts/m2-male-jaw-mouth-v1/manifest.py",
+              "--verify"
+            ],
+            "writes": [],
+            "note": "Read-only frozen files/dependencies pin verification; never omit --verify in this check."
+          },
+          {
+            "argv": [
+              "python",
+              "scripts/m2-male-jaw-mouth-v1/audit.py"
+            ],
+            "writes": [
+              "assets-source/m2-male-jaw-mouth-v1/audit.json",
+              "assets-source/m2-male-jaw-mouth-v1/male-jaw-mouth-width.recipe.json",
+              "assets-source/m2-male-jaw-mouth-v1/recipe-manifest.json",
+              "assets-source/m2-male-jaw-mouth-v1/generated/male-jaw-mouth-width-104-v1/expression-map.json"
+            ],
+            "note": "Historical fixed-generated numpy audit AND RECIPE WRITER. No --out support; not a check of workflow-rebuild. Do not rerun on frozen package."
+          }
+        ],
+        "readback": [
+          {
+            "argv": [
+              "python",
+              "scripts/production/flow.py",
+              "validate",
+              "male-jaw-mouth"
+            ],
+            "writes": [],
+            "note": "Read existing pinned source/export bytes and relations only; no browser or exporter"
+          }
+        ]
+      },
+      "limits": [
+        "Only 0 and +4%; bounds [0,.04] do not admit intermediate values.",
+        "Retained recipe was produced by fixed-generated audit.py (writes recipe/catalog/audit/expression map); it is not silently regenerated for a custom output.",
+        "POSITION-only raw export is not final NORMAL export; preserved normal/visual limitations still apply."
+      ],
+      "recovery": [
+        "Stop on the first named missing/mismatched resource; restore its exact committed bytes and rerun read-only validate. Never regenerate a manifest to bless unexpected changes.",
+        "Export commands are documentation only. Use a separate checkout and an absent output folder; inspect writes before manual use. Frozen outputs and historical receipts are retained.",
+        "Missing Blender/addon/Python packages block regeneration, not stored-byte identity validation. Runtime/visual acceptance stays in docs/CAPABILITIES.md and matching fixed evidence."
+      ]
+    },
+    {
+      "id": "male-jaw-hair-fit",
+      "title": "Existing male short hair with explicit jaw fit",
+      "kind": "source-package",
+      "sources": [
+        "assets-source/m2-male-jaw-hair-fit-v1/source-pins.json",
+        "assets-source/m2-male-jaw-hair-fit-v1/editable.blend",
+        "assets-source/m2-male-face-v1/generated/avatar.vrm",
+        "assets-source/m2-male-jaw-hair-fit-v1/fit.json"
+      ],
+      "identity": {
+        "package": "jaw-hair-fit",
+        "manifest": "evidence/m2-male-jaw-hair-fit-v1/manifest.json",
+        "manifestSha256": "b53243ba9c9e135694fcab7406ae325a2021950b8984602a5f30494faf210f8c"
+      },
+      "requirements": [
+        "experiments/tools/blender-4.5.9-windows-x64/blender.exe",
+        "scripts/m2-male-jaw-hair-fit-v1/build.py"
+      ],
+      "inputs": [
+        "assets-source/m2-male-jaw-hair-fit-v1/source-pins.json",
+        "assets-source/m2-male-jaw-hair-fit-v1/editable.blend",
+        "assets-source/m2-male-face-v1/generated/avatar.vrm",
+        "assets-source/m2-male-jaw-hair-fit-v1/fit.json"
+      ],
+      "outputs": [
+        "assets-source/m2-male-jaw-hair-fit-v1/manifest.json",
+        "assets-source/m2-male-jaw-hair-fit-v1/fit.json",
+        "assets-source/m2-male-jaw-hair-fit-v1/male-sidepart.glb",
+        "assets-source/m2-male-jaw-hair-fit-v1/editable.blend",
+        "prototype/public/assets/m2-male-jaw-hair-fit-v1/"
+      ],
+      "stages": {
+        "source": [
+          {
+            "argv": [
+              "python",
+              "scripts/production/flow.py",
+              "show",
+              "male-jaw-hair-fit"
+            ],
+            "writes": [],
+            "note": "Declarations only; no tool launch"
+          }
+        ],
+        "export": [
+          {
+            "argv": [
+              "python",
+              "scripts/m2-male-jaw-hair-fit-v1/build.py",
+              "--out",
+              "assets-source/m2-male-jaw-hair-fit-v1/workflow-rebuild"
+            ],
+            "writes": [
+              "assets-source/m2-male-jaw-hair-fit-v1/workflow-rebuild/"
+            ],
+            "note": "Deterministic packaging from pinned original hair; --out is repo-relative path. May overwrite its chosen output. No new geometry."
+          },
+          {
+            "argv": [
+              "experiments/tools/blender-4.5.9-windows-x64/blender.exe",
+              "--background",
+              "--factory-startup",
+              "--disable-autoexec",
+              "--threads",
+              "2",
+              "--python-exit-code",
+              "1",
+              "--python",
+              "scripts/m2-male-jaw-hair-fit-v1/export-editable.py",
+              "--",
+              "--out",
+              "workflow-editable-export.glb"
+            ],
+            "writes": [
+              "assets-source/m2-male-jaw-hair-fit-v1/workflow-editable-export.glb",
+              "evidence/m2-male-jaw-hair-fit-v1/workflow-editable-export-receipt.json"
+            ],
+            "note": "Reopens retained editable source, not workflow-rebuild; export diagnostic only, never replaces canonical production GLB."
+          }
+        ],
+        "check": [
+          {
+            "argv": [
+              "python",
+              "scripts/m2-male-jaw-hair-fit-v1/manifest.py",
+              "--verify"
+            ],
+            "writes": [],
+            "note": "Read-only retainedFiles/inputFiles pins; numpy dependency."
+          },
+          {
+            "argv": [
+              "python",
+              "scripts/m2-male-jaw-hair-fit-v1/check.py"
+            ],
+            "writes": [
+              "prototype/public/assets/m2-male-jaw-hair-fit-v1/",
+              "evidence/m2-male-jaw-hair-fit-v1/source-check.json",
+              "evidence/m2-male-jaw-hair-fit-v1/export-normal-diagnostic.json"
+            ],
+            "note": "Historical fixed-output geometry check AND PUBLIC INSTALLER. Requires retained geometry-report and editable-export/reexport-repeat; missing ignored repeat needs explicit isolated reproduction. Not read-only."
+          }
+        ],
+        "readback": [
+          {
+            "argv": [
+              "python",
+              "scripts/production/flow.py",
+              "validate",
+              "male-jaw-hair-fit"
+            ],
+            "writes": [],
+            "note": "Read existing pinned source/export bytes and relations only; no browser or exporter"
+          }
+        ]
+      },
+      "limits": [
+        "Same production GLB, distinct explicit fit ID/version/body; not a compatibility whitelist expansion.",
+        "Editable export has known normal difference from canonical GLB; preserve both identities.",
+        "No hairstyle rendering, v6 restore, animation or visual acceptance is established by this index."
+      ],
+      "recovery": [
+        "Stop on the first named missing/mismatched resource; restore its exact committed bytes and rerun read-only validate. Never regenerate a manifest to bless unexpected changes.",
+        "Export commands are documentation only. Use a separate checkout and an absent output folder; inspect writes before manual use. Frozen outputs and historical receipts are retained.",
+        "Missing Blender/addon/Python packages block regeneration, not stored-byte identity validation. Runtime/visual acceptance stays in docs/CAPABILITIES.md and matching fixed evidence."
+      ]
     }
   ]
 }
