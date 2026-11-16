@@ -266,7 +266,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     getAssetProfile: () => profile,
     getEquipmentRecipe: (index) => {
       const {roles}=outfitSelection(config,index);
-      return Object.fromEntries(roles.map(key=>{const loaded=surfaces.equipment.get(config.ids[key]);if(!loaded)throw Error(`Outfit ${index} resource ${key} is not loaded; await prepareOutfit`);return[key,structuredClone(loaded.entry)];}));
+      return Object.fromEntries(roles.map(key=>[key,surfaces.equipment.describe(config.ids[key])]));
     },
     setMaterialRecipe: (id, recipeId) => equipment.setMaterialRecipe(id, recipeId),
     getMaterialRecipeState: (id) => equipment.getMaterialRecipeState(id),

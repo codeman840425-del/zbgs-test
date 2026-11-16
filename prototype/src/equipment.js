@@ -234,6 +234,9 @@ export async function createEquipment({
   }
   return {
     list: () => manifest.items.map(({ id, name, slot, limits }) => ({ id, name, slot, limits })),
+    // The manifest is available before a garment is loaded. Static admission
+    // and saved-recipe identity checks must not allocate all catalog meshes.
+    describe: (id) => structuredClone(getEntry(id)),
     load,
     applyLoadedSet,
     prepareLoadedSet(ids) {

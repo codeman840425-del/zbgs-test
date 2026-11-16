@@ -17,10 +17,15 @@ const [base,build,folder]=process.argv.slice(2),out=path.resolve(folder);
   finally{clearTimeout(timer);}
  };
  try{
+  let fitFailures=0;
+  await page.route('**/m2-onepiece-v1/fit.json',r=>{fitFailures++;return r.fulfill({status:503,body:'bounded missing fit test'});});
   await page.goto(base+'?body=male&workbench=appearance');await page.waitForFunction(()=>window.__debug?.ready,null,{timeout:60000});
   report.identity=await verifyCandidate(page,{build,assetId:'beta-base-male-m1b',sha256:'62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff'});
+  assert.equal(fitFailures,0);report.checks.push('unselected missing onePiece fit is never requested and does not block default male');
+  report.available=await page.evaluate(()=>__debug.queryAppearanceCandidates());
+  assert.equal(fitFailures,0);assert.equal(await page.evaluate(()=>__debug.avatar().getOutfitInfo().equipment.items.onePiece.loaded),false);
+  report.checks.push('candidate query describes unselected outfits without loading their meshes or fit');
   const previous=await page.evaluate(()=>__debug.exportAppearanceRecipe());
-  await page.route('**/m2-onepiece-v1/fit.json',r=>r.fulfill({status:503,body:'bounded missing fit test'}));
   report.failedFirstSelection=await outfit(5);assert.equal(report.failedFirstSelection?.applied,false);
   assert.equal(await page.evaluate(()=>__debug.exportAppearanceRecipe()),previous);assert.equal(await page.evaluate(()=>__debug.snapshot().outfit),0);
   report.checks.push('missing fit on first selection preserves complete old appearance');
@@ -31,6 +36,11 @@ const [base,build,folder]=process.argv.slice(2),out=path.resolve(folder);
   await outfit(0);assert.equal(await page.evaluate(()=>__debug.exportAppearanceRecipe()),previous);
   assert.equal((await page.evaluate(text=>__debug.importAppearanceRecipe(text),saved)).applied,true);
   report.checks.push('first selection retry and complete onePiece recipe restore succeed');
+  for(const bodyType of ['female','male'])assert.equal((await page.evaluate(bodyType=>__debug.command({type:'bodySelect',bodyType}),bodyType)).applied,true);
+  assert.equal(await page.evaluate(()=>__debug.avatar().getOutfitInfo().equipment.items.onePiece.loaded),false);
+  assert.equal((await page.evaluate(text=>__debug.importAppearanceRecipe(text),saved)).applied,true);
+  assert.equal(await page.evaluate(()=>__debug.exportAppearanceRecipe()),saved);
+  report.checks.push('saved nondefault recipe restores on a fresh actor before its garment was ever loaded');
   // A fresh actor avoids treating a prior warmed garment as a first load.
   for(const bodyType of ['female','male'])assert.equal((await page.evaluate(bodyType=>__debug.command({type:'bodySelect',bodyType}),bodyType)).applied,true);
   const beforeCancelled=await page.evaluate(()=>__debug.exportAppearanceRecipe());
@@ -60,6 +70,22 @@ const [base,build,folder]=process.argv.slice(2),out=path.resolve(folder);
   assert(report.skirtAfter.revision>report.skirtBefore.state.revision);
   assert.equal((await outfit(0))?.applied,true);
   report.checks.push('female skirt solver is created on first selection, exposes current mesh and updates through walking; pants restore');
+  // A delayed garment must also be harmless after the owning actor is gone.
+  assert.equal((await page.evaluate(()=>__debug.command({type:'bodySelect',bodyType:'male'}))).applied,true);
+  const startedDisposed=new Promise(r=>started=r),disposedGate=new Promise(r=>release=r);releasePending=release;
+  await page.route('**/m2-onepiece-v1/author-export.glb',async r=>{started();await disposedGate;await r.continue();});
+  await page.evaluate(()=>{window.__qaOldActor=__debug.avatar();window.__qaDisposedOutfit=Promise.resolve(__debug.command({type:'outfit',value:5})).catch(e=>({applied:false,reason:String(e)}));});
+  let disposedTimer;try{await Promise.race([startedDisposed,new Promise((_,reject)=>{disposedTimer=setTimeout(()=>reject(Error('Disposed actor garment did not start loading')),20000);})]);}finally{clearTimeout(disposedTimer);}
+  assert.equal((await page.evaluate(()=>__debug.command({type:'bodySelect',bodyType:'female'}))).applied,true);
+  const newActorRecipe=await page.evaluate(()=>__debug.exportAppearanceRecipe());release();
+  report.disposedSelection=await page.evaluate(()=>window.__qaDisposedOutfit);
+  assert.notEqual(report.disposedSelection?.applied,true);
+  assert.equal(await page.evaluate(()=>__debug.exportAppearanceRecipe()),newActorRecipe);
+  report.oldActor=await page.evaluate(()=>({attached:!!__qaOldActor.root.parent,items:__qaOldActor.getOutfitInfo().equipment.items}));
+  assert.equal(report.oldActor.attached,false);assert(Object.values(report.oldActor.items).every(item=>item.loaded===false));
+  await page.unroute('**/m2-onepiece-v1/author-export.glb');
+  await page.evaluate(()=>{delete window.__qaOldActor;delete window.__qaDisposedOutfit;});
+  report.checks.push('actor replacement during first garment load disposes old ownership; late result leaves current actor and recipe unchanged');
   assert.equal(report.errors.length,0);report.status='passed';await page.screenshot({path:path.join(out,'restored.png')});
  }catch(error){report.status='failed';report.error=String(error);process.exitCode=1;await page.screenshot({path:path.join(out,'failure.png')}).catch(()=>{});}
  finally{releasePending?.();const video=page.video();await context.close();await video.saveAs(path.join(out,'normal1x.webm'));await browser.close();await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));}
