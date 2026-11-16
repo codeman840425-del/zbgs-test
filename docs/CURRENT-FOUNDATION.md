@@ -182,3 +182,6 @@ source5ba8df87ab13c4ae7760c6b19e5b9d6ebd79ab8c/build508ccb12b857，固定experim
 rootjoin独立检查m2-hair-rootjoin-independent-v1完成14实际GLB/拓扑+5制作沙箱+9真实loader/solver CPU；最初夹具统计owner更新的失败保留。生产索引af26978仍在原workflow16登记修订，root-readback.json确认原26/v2修订16文件及发布字节一致，仅结构回读不等于运行验收。
 
 并行asset_budget(sol/high)在F:/gamemake-hat-hair制作一个原女后开口棒球帽与当前马尾配对源样件，只改assets-source/m2-hat-hair-v1和scripts/m2-hat-hair-v1。先源几何/身份/真实参数改动导出，root待长发运行检查后接共用装备；不批量造帽，不动控制器。公司/设施由副总工独立实施，当前不接其控制器改动；本主线继续完整M2。
+
+
+508核心全时段5张2fps图已逐张抽审，root-image-review.json保每张SHA：发根已连，坐姿椅背仍穿；约15s头附近回卷、16–19s后甩及21.5s入座上甩是新候选必须继续观察的动态观感点。8.5–9.5s家具遮腿，不承认完整脚底检查。fe6366f80f00a652c1b8b6b088d90ddc53c342f5已push并ls-remote一致，回执m2-long-hair-review-508-v1/remote-backup.json；随后汇总工具/本条等仍待下一次备份。独立hair_segment_review明确sol/high审新骨段修正，当前实际椅未触发构造的双盒重入反例；通用多OBB清除与零数学残差不在通过范围，后续以固定运行证据为准。
