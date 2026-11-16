@@ -156,12 +156,15 @@ export async function createEquipment({
     geometries.forEach((g) => g.dispose()); materials.forEach((m) => m.dispose());
     textures.forEach((t) => t.dispose()); new Set(item.skeletons.values()).forEach((s) => s.dispose());
   }
+  function invalidateSlotRequests() {
+    for (const entry of manifest.items)
+      slotRequests.set(entry.slot, (slotRequests.get(entry.slot) || 0) + 1);
+  }
   function applyLoadedSet(ids) {
     if (disposed) throw Error("Equipment adapter is disposed");
     const result = commitLoadedEquipmentSet(loaded, manifest.items, ids, avatarSha256);
     setRevision++;
-    for (const entry of manifest.items)
-      slotRequests.set(entry.slot, (slotRequests.get(entry.slot) || 0) + 1);
+    invalidateSlotRequests();
     return result;
   }
   return {
@@ -172,6 +175,9 @@ export async function createEquipment({
       if (disposed) throw Error("Equipment adapter is disposed");
       const selected = resolveEquipmentSet(manifest.items, ids, avatarSha256);
       const ticket = ++setRevision;
+      // A newer final-set intent supersedes every earlier single-slot request,
+      // even while loading or if this set fails. Keep current visibility intact.
+      invalidateSlotRequests();
       await Promise.all(selected.map(entry => load(entry.id)));
       if (disposed) throw Error("Equipment adapter is disposed");
       if (ticket !== setRevision) return { applied: false, reason: "superseded" };

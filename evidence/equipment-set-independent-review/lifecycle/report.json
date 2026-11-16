@@ -1,0 +1,47 @@
+{
+  "passed": true,
+  "sourceSha256": "3733813545e28920cee6c0127b54ad595677b95aaf4d1cb97c60014ed7e76b6e",
+  "observations": [
+    {
+      "case": "set followed by failing single-slot network",
+      "result": {
+        "applied": false,
+        "reason": "superseded"
+      },
+      "visible": [
+        "m1b-uniform-shoes"
+      ],
+      "oldRequestResurrected": false
+    },
+    {
+      "case": "set followed by failing single-slot unknown",
+      "result": {
+        "applied": false,
+        "reason": "superseded"
+      },
+      "visible": [
+        "m1b-uniform-shoes"
+      ],
+      "oldRequestResurrected": false
+    },
+    {
+      "case": "dispose during pending set",
+      "allContainersDetached": true
+    },
+    {
+      "case": "legacy distinct slot requests remain independent",
+      "visible": [
+        "m1b-uniform-pants",
+        "m1b-uniform-shoes",
+        "m1b-uniform-top"
+      ]
+    }
+  ],
+  "resources": {
+    "geometry": 13,
+    "material": 13,
+    "texture": 10
+  },
+  "allObservedRenderResourcesDisposedExactlyOnce": true,
+  "scope": "Actual garment GLB loader, image decode fixture; CPU events only, no GPU allocation claim"
+}
