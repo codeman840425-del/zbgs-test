@@ -253,9 +253,12 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
       const update={
         isCurrent:()=>live&&!disposed&&revision===requestRevision&&paletteUpdate.isCurrent(),
         applyStyleIntent,
-        commit(){
+          validateCommit(){
           if(!update.isCurrent())throw Error('外观准备已过期');
           if(changeStyle)assertHairChange(desiredStyle);
+          },
+          commit(){
+            update.validateCommit();
           paletteUpdate.commit();
           if(changeStyle){hairStyle=desiredStyle;replacement=replacements.get(desiredStyle)||null;}
           hairColor=desiredColor;skinTone=desiredSkin;applyColors();applyHairVisibility();

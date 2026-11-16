@@ -137,7 +137,15 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     outfit = 0,
     lowerBodyRole = outfitSelection(config, 0).bottomRole,
     dynamics = true;
-  let equipment, livePresentation, rigidAccessories, appearance, facialGeometry, faceRenderCompaction;
+  let equipment, livePresentation, rigidAccessories, headwear, appearance, facialGeometry, faceRenderCompaction;
+  // This candidate was fitted only against neutral face geometry. Expressions
+  // remain supported; modified face geometry needs its own fit evidence.
+  const assertNeutralHeadGeometry = value => {
+    if(value && (value.mouthWidth!==0 || ['browSample','noseSample','eyeSample'].some(key=>value[key]!=='none'))){
+      const error=new Error('当前帽子仅验证原始五官几何；请先卸帽，或使用有对应适配的资源。');
+      error.code='hat-face-incompatible';throw error;
+    }
+  };
   const faceWarmup=createFaceGeometryWarmup(renderer,scene);
   const releaseFaceWarmup=()=>faceWarmup.dispose();
   try {
@@ -170,12 +178,18 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
   });
   equipment = await createM1Equipment({ vrm, avatarSha256: sha256, bodyType });
   const surfaces = equipment.getAssetProfile();
-  appearance = createCharacterAppearance({ vrm, avatarSha256: sha256 });
+  appearance = createCharacterAppearance({ vrm, avatarSha256: sha256,
+    validateHairChange:selection=>headwear?.assertHairSelection(selection) });
   livePresentation = createLivePresentation({vrm, root, bodyType: config.referenceBody || bodyType, avatarSha256: sha256});
   rigidAccessories = createRigidAccessoryLayer({vrm, avatarSha256:sha256});
+  headwear = createRigidAccessoryLayer({vrm, avatarSha256:sha256,kind:'hat',
+    manifestUrl:'/assets/m2-hat-hair-v1/manifest.json',
+    manifestSha256:'c62f1ecbc4b16f5e36a2b691f494e887d4367cbf662ade436d8659924fd182cc',
+    getHairState:()=>{assertNeutralHeadGeometry(facialGeometry?.getState());return appearance.getState();} });
   // Live expression admission and attachment calibration inspect canonical indices first.
   faceRenderCompaction=createFaceRenderCompaction({vrm,avatarSha256:sha256});
-  facialGeometry = createFacialGeometry({ vrm, avatarSha256: sha256,renderCompaction:faceRenderCompaction,prepareRender:parts=>faceWarmup.prepare(parts) });
+  facialGeometry = createFacialGeometry({ vrm, avatarSha256: sha256,renderCompaction:faceRenderCompaction,prepareRender:parts=>faceWarmup.prepare(parts),
+    validateGeometryChange:selection=>{if(headwear.getState().selection!=='none')assertNeutralHeadGeometry(selection);} });
   const meshRoles = {};
   for (const role of [
     "body",
@@ -255,6 +269,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
       throw error;
     }
     debugBody = Boolean(value);
+    headwear.setBodyMode(debugBody ? 'base' : 'dressed');
     for (const [mesh, mat] of sourceMaterials)
       mesh.material = debugBody ? bodyMaterials.get(mesh) : mat;
   }
@@ -268,6 +283,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     config,
     livePresentation,
     rigidAccessories,
+    headwear,
     appearance,
     facialGeometry,
     getAssetProfile: () => profile,
@@ -331,6 +347,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
         `${config.label}：完整人体与独立装备；基础模式保留同一套鞋。当前组合须独立验收，画风待确认。`,
       asset: profile,
       rigidAccessories: rigidAccessories.getState(),
+      headwear: headwear.getState(),
     }),
     dispose: () => {
       releaseFaceWarmup();
@@ -339,6 +356,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
       appearance.dispose();
       livePresentation.dispose();
       rigidAccessories.dispose();
+      headwear.dispose();
       equipment.dispose();
       root.removeFromParent();
       for (const [mesh, material] of sourceMaterials) mesh.material = material;
@@ -364,6 +382,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     // before createM1Equipment returns (manifest/network/identity errors).
     livePresentation?.dispose();
     rigidAccessories?.dispose();
+    headwear?.dispose();
     equipment?.dispose();
     root.removeFromParent();
     for (const [mesh, material] of sourceMaterials) mesh.material = material;

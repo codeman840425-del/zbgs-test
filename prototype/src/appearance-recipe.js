@@ -112,6 +112,9 @@ export async function applyAppearanceRecipe(controller,record){
   // Every domain checks freshness before the first visible write. Commits only
   // switch prepared resources and state synchronously, with no resource I/O.
   if(superseded()||updates.some(update=>!update.isCurrent()))return{applied:false,cancelled:true};
+  // Equipment may have changed while resources were preparing. Recheck all
+  // synchronous dependency guards before any domain becomes visible.
+  for(const update of updates)update.validateCommit?.();
   commitStarted=true;
   for(const update of updates)update.commit();
  }catch(error){

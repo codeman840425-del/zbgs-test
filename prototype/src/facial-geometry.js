@@ -42,7 +42,7 @@ function normals(position, indices, precise = false, vertices) {
 
 /** Source-authored mouth-width recipe. Each value derives from immutable
  * originals. Existing VRM expressions, bones and material references are kept. */
-export function createFacialGeometry({ vrm, avatarSha256, prepareRender, renderCompaction }) {
+export function createFacialGeometry({ vrm, avatarSha256, prepareRender, renderCompaction, validateGeometryChange }) {
   let prepared = null, preparation = null, disposed = false, generation = 0;
   const admission=FACIAL_GEOMETRY_PROFILES[avatarSha256];
   const geometryCapability=facialGeometryCapability(avatarSha256);
@@ -516,6 +516,7 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender, renderC
       selection=resolveFacialGeometrySelection(avatarSha256,{mouthWidth:value,browSample:brow,noseSample:nose,eyeSample:eye,
         recipeSha256:input.expectedRecipeSha256,browRecipeSha256:input.expectedBrowRecipeSha256,
         noseRecipeSha256:input.expectedNoseRecipeSha256,eyeRecipeSha256:input.expectedEyeRecipeSha256});
+      validateGeometryChange?.({mouthWidth:value,browSample:brow,noseSample:nose,eyeSample:eye});
     }catch(error){return{applied:false,reason:error.message,field:error.field,code:error.code};}
     if(trackIntent){wanted = value; wantedBrow = brow; wantedNose = nose; wantedEye = eye;}
     const request = ++generation; error = null;
@@ -552,8 +553,12 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender, renderC
       let live=true,committed=false,cleaned=false;
       const update={
         isCurrent:()=>live&&!disposed&&request===generation,
-        commit(){
+        validateCommit(){
           if(!update.isCurrent())throw Error('五官准备已过期');
+          validateGeometryChange?.({mouthWidth:value,browSample:brow,noseSample:nose,eyeSample:eye});
+        },
+        commit(){
+          update.validateCommit();
           // Only prepared geometry pointers and final selection change here.
           if(nextOwned){
             for(const record of prepared?.records||[])for(const mesh of record.meshes)mesh.geometry=nextOwned.get(record.geometry)||record.renderGeometry;
