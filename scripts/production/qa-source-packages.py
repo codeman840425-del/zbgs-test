@@ -7,9 +7,10 @@ from flow import ROOT, Validator, local, read_json, validate_config
 config = read_json(ROOT/'scripts/production/workflows.json')
 validate_config(config)
 workflows = {w['id']: w for w in config['workflows']}
-assert len(workflows) == 9
+assert len(workflows) == 10
 new = [w for w in workflows.values() if w['kind'] == 'source-package']
-assert len(new) == 4
+assert len(new) == 5
+relative_packages = {'outer-panels': 'assets-source/m2-outer-panels-v2/', 'onepiece': 'assets-source/m2-onepiece-v1/'}
 paths = set()
 for w in workflows.values():
     paths.update(w['sources'])
@@ -17,11 +18,14 @@ for w in new:
     paths.add(w['identity']['manifest'])
     package = read_json(ROOT/w['identity']['manifest'])
     for key in ['files', 'dependencies', 'retainedFiles', 'inputFiles']:
-        prefix = 'assets-source/m2-outer-panels-v2/' if w['identity']['package'] == 'outer-panels' else ''
+        prefix = relative_packages.get(w['identity']['package'], '')
         paths.update(prefix+row['path'] for row in package.get(key, []))
 paths.update(['scripts/m2-outer-panels-v2/build.py',
               'prototype/public/assets/m1b/equipment.json',
-              'prototype/public/assets/m2-outer-panels-v2/author-export.glb'])
+              'prototype/public/assets/m2-outer-panels-v2/author-export.glb',
+              'scripts/m2-onepiece-v1/build.py', 'scripts/install-onepiece-runtime.py',
+              'prototype/public/assets/m2-onepiece-v1/author-export.glb',
+              'prototype/public/assets/m2-onepiece-v1/fit.json'])
 fingerprint = lambda: {p: hashlib.sha256(local(ROOT,p).read_bytes()).hexdigest() for p in sorted(paths)}
 before = fingerprint()
 results = [Validator().validate(w) for w in workflows.values()]
@@ -59,9 +63,9 @@ for w in new:
     package = read_json(ROOT/w['identity']['manifest'])
     rows = package.get('files', package.get('retainedFiles'))
     row = (next(r for r in rows if r['path'] == 'generated/author-export.glb')
-           if w['identity']['package'] == 'outer-panels'
+           if w['identity']['package'] in relative_packages
            else next(r for r in rows if r['path'].endswith(('.vrm', '.glb'))))
-    prefix = 'assets-source/m2-outer-panels-v2/' if w['identity']['package'] == 'outer-panels' else ''
+    prefix = relative_packages.get(w['identity']['package'], '')
     stored_path = prefix+row['path']
     v = Validator(); p = local(ROOT,stored_path); data = bytearray(p.read_bytes()); data[-1] ^= 1
     v.cache[p] = (bytes(data), hashlib.sha256(data).hexdigest())
@@ -99,6 +103,30 @@ p = b+'generated/author-equipment.json'
 rejects('outer corrupt actual source inverse bind',
         lambda: JSONFault(p,lambda j:j['items'][0]['bindings'][0]['inverseBindMatrix'].__setitem__(12, .2)).validate(outer),
         'Inverse bind mismatch')
+onepiece = workflows['male-onepiece-source']
+b = 'assets-source/m2-onepiece-v1/'
+p = b+'generated/fit.json'
+rejects('onepiece wrong fit version', lambda: JSONFault(p,lambda j:j.update(version=2)).validate(onepiece), 'Onepiece fit ID/version')
+rejects('onepiece wrong target body', lambda: JSONFault(p,lambda j:j.update(targetBodySha256='0'*64)).validate(onepiece), 'Onepiece fit body')
+rejects('onepiece loses bottom occupancy', lambda: JSONFault(p,lambda j:j.update(occupies=['top'])).validate(onepiece), 'Onepiece occupancy')
+rejects('onepiece body mask expansion', lambda: JSONFault(p,lambda j:j.update(bodyCoverageMasks=['torso'])).validate(onepiece), 'Onepiece occupancy/coverage')
+rejects('onepiece construction offset drift', lambda: JSONFault(p,lambda j:j.update(outerSurfaceOffsetMetres=.006)).validate(onepiece), 'Onepiece source dimension')
+rejects('onepiece drops known static defects', lambda: JSONFault(p,lambda j:j.update(staticContacts={})).validate(onepiece), 'Onepiece stored static audit')
+p = b+'generated/author-report.json'
+rejects('onepiece no actual edited source', lambda: JSONFault(p,lambda j:j.update(editedFromEarlierSource=None)).validate(onepiece), 'Onepiece edited/repeat')
+p = b+'repeat/author-report.json'
+rejects('onepiece stale repeated author export', lambda: JSONFault(p,lambda j:j.update(authorExportSha256='0'*64)).validate(onepiece), 'Onepiece edited/repeat')
+p = b+'generated/author-equipment.json'
+rejects('onepiece actual source inverse bind corrupt',
+        lambda: JSONFault(p,lambda j:j['items'][0]['bindings'][0]['inverseBindMatrix'].__setitem__(12,.2)).validate(onepiece), 'Inverse bind mismatch')
+p = 'prototype/public/assets/m1b/equipment.json'
+def wrong_onepiece_fit(j):
+    next(e for e in j['items'] if e['id'] == 'm2-male-training-onepiece-v1')['fitResource']['sha256'] = '0'*64
+rejects('onepiece runtime fit SHA drift', lambda: JSONFault(p,wrong_onepiece_fit).validate(onepiece), b+'generated/fit.json')
+p = 'prototype/public/assets/m2-onepiece-v1/fit.json'
+v = Validator(); data = bytearray(local(ROOT,p).read_bytes()); data[-1] ^= 1
+v.cache[local(ROOT,p)] = (bytes(data),hashlib.sha256(data).hexdigest())
+rejects('onepiece corrupt runtime fit bytes', lambda:v.validate(onepiece), p)
 assert fingerprint() == before, 'Source/output changed during read-only checks'
 print(json.dumps({'passed': True, 'workflowCount': len(results),
                   'workflowResults': results, 'negativeCases': failures,

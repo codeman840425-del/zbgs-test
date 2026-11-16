@@ -1,4 +1,4 @@
-"""Bounded declaration regressions for retained hair and outer source writers.
+"""Bounded declaration regressions for retained hair, outer and onepiece writers.
 
 Reads scripts only. Does not import/execute the generator, checker or Blender.
 --source-root allows this check in a scripts-only review checkout.
@@ -69,7 +69,34 @@ for script, paths in outer_required.items():
         bad['writes'].remove(path)
         assert not set(paths).issubset(bad['writes'])
         rejected.append('Missing outer writer declaration: '+path)
+onepiece = next(w for w in config['workflows'] if w['id'] == 'male-onepiece-source')
+onepiece_base = 'assets-source/m2-onepiece-v1/'
+onepiece_scripts = args.source_root/'scripts/m2-onepiece-v1'
+assert "m.OUT = output" in (onepiece_scripts/'build.py').read_text(encoding='utf-8')
+assert "OUT.mkdir(exist_ok=True,parents=True)" in (args.source_root/'scripts/m1b-assets/build.py').read_text(encoding='utf-8')
+assert "parser.add_argument('--edit-from')" in (onepiece_scripts/'author.py').read_text(encoding='utf-8')
+assert "output / 'static-audit.json'" in (onepiece_scripts/'audit.py').read_text(encoding='utf-8')
+assert "write(BASE / 'manifest.json'" in (onepiece_scripts/'finalize.py').read_text(encoding='utf-8')
+assert "temporary=MANIFEST.with_suffix('.install.tmp')" in (args.source_root/'scripts/install-onepiece-runtime.py').read_text(encoding='utf-8')
+onepiece_required = {
+    'scripts/m2-onepiece-v1/build.py': [onepiece_base+'workflow-rebuild/', 'prototype/public/assets/m1b/'],
+    'scripts/m2-onepiece-v1/author.py': [onepiece_base+'workflow-rebuild/'],
+    'scripts/m2-onepiece-v1/audit.py': [onepiece_base+'workflow-rebuild/static-audit.json'],
+    'scripts/m2-onepiece-v1/finalize.py': [onepiece_base+path for path in
+        ['generated/author-equipment.json', 'generated/fit.json', 'generated/verification.json', 'manifest.json']],
+    'scripts/install-onepiece-runtime.py': ['prototype/public/assets/m2-onepiece-v1/author-export.glb',
+        'prototype/public/assets/m2-onepiece-v1/fit.json', 'prototype/public/assets/m1b/equipment.json',
+        'prototype/public/assets/m1b/equipment.install.tmp'],
+}
+for script, paths in onepiece_required.items():
+    c = next(c for commands in onepiece['stages'].values() for c in commands if script in c['argv'])
+    assert set(paths) == set(c['writes']), script+' write scope'
+    for path in paths:
+        bad = copy.deepcopy(c); bad['writes'].remove(path)
+        assert not set(paths).issubset(bad['writes'])
+        rejected.append('Missing onepiece writer declaration: '+path)
 print(json.dumps({'passed': True, 'requiredTransitiveWrites': required,
                   'outerWriterScopes': outer_required,
+                  'onepieceWriterScopes': onepiece_required,
                   'negativeCases': rejected, 'exportersInvoked': False,
-                  'scope': 'Retained hair check and fixed outer writers only, not general static write analysis'}, indent=2))
+                  'scope': 'Retained hair check and fixed outer/onepiece writers only, not general static write analysis'}, indent=2))

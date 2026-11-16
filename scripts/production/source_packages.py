@@ -7,6 +7,9 @@ def validate_package(v, ident, require, GLB):
     if kind == 'outer-panels':
         from outer_package import validate_outer
         return validate_outer(v, ident, require, GLB)
+    if kind == 'onepiece':
+        from onepiece_package import validate_onepiece
+        return validate_onepiece(v, ident, require, GLB)
     require(kind in ['male-face', 'jaw-mouth', 'jaw-hair-fit'], 'Unknown source package')
     path = ident['manifest']
     package = json.loads(v.pin(path, ident['manifestSha256']))

@@ -1,0 +1,69 @@
+{
+  "passed": true,
+  "requiredTransitiveWrites": [
+    "assets-source/m2-male-jaw-hair-fit-v1/fresh/",
+    "evidence/m2-male-jaw-hair-fit-v1/original-generator-rebuild.json"
+  ],
+  "outerWriterScopes": {
+    "finalize.py": [
+      "assets-source/m2-outer-panels-v2/generated/author-equipment.json",
+      "assets-source/m2-outer-panels-v2/generated/fit.json",
+      "assets-source/m2-outer-panels-v2/generated/binding-check.json",
+      "assets-source/m2-outer-panels-v2/generated/source-correspondence.json",
+      "assets-source/m2-outer-panels-v2/manifest.json"
+    ],
+    "install-runtime.py": [
+      "prototype/public/assets/m2-outer-panels-v2/author-export.glb",
+      "prototype/public/assets/m1b/equipment.json"
+    ]
+  },
+  "onepieceWriterScopes": {
+    "scripts/m2-onepiece-v1/build.py": [
+      "assets-source/m2-onepiece-v1/workflow-rebuild/",
+      "prototype/public/assets/m1b/"
+    ],
+    "scripts/m2-onepiece-v1/author.py": [
+      "assets-source/m2-onepiece-v1/workflow-rebuild/"
+    ],
+    "scripts/m2-onepiece-v1/audit.py": [
+      "assets-source/m2-onepiece-v1/workflow-rebuild/static-audit.json"
+    ],
+    "scripts/m2-onepiece-v1/finalize.py": [
+      "assets-source/m2-onepiece-v1/generated/author-equipment.json",
+      "assets-source/m2-onepiece-v1/generated/fit.json",
+      "assets-source/m2-onepiece-v1/generated/verification.json",
+      "assets-source/m2-onepiece-v1/manifest.json"
+    ],
+    "scripts/install-onepiece-runtime.py": [
+      "prototype/public/assets/m2-onepiece-v1/author-export.glb",
+      "prototype/public/assets/m2-onepiece-v1/fit.json",
+      "prototype/public/assets/m1b/equipment.json",
+      "prototype/public/assets/m1b/equipment.install.tmp"
+    ]
+  },
+  "negativeCases": [
+    "Missing transitive write declaration: assets-source/m2-male-jaw-hair-fit-v1/fresh/",
+    "Missing transitive write declaration: evidence/m2-male-jaw-hair-fit-v1/original-generator-rebuild.json",
+    "Missing outer writer declaration: assets-source/m2-outer-panels-v2/generated/author-equipment.json",
+    "Missing outer writer declaration: assets-source/m2-outer-panels-v2/generated/fit.json",
+    "Missing outer writer declaration: assets-source/m2-outer-panels-v2/generated/binding-check.json",
+    "Missing outer writer declaration: assets-source/m2-outer-panels-v2/generated/source-correspondence.json",
+    "Missing outer writer declaration: assets-source/m2-outer-panels-v2/manifest.json",
+    "Missing outer writer declaration: prototype/public/assets/m2-outer-panels-v2/author-export.glb",
+    "Missing outer writer declaration: prototype/public/assets/m1b/equipment.json",
+    "Missing onepiece writer declaration: assets-source/m2-onepiece-v1/workflow-rebuild/",
+    "Missing onepiece writer declaration: prototype/public/assets/m1b/",
+    "Missing onepiece writer declaration: assets-source/m2-onepiece-v1/workflow-rebuild/",
+    "Missing onepiece writer declaration: assets-source/m2-onepiece-v1/workflow-rebuild/static-audit.json",
+    "Missing onepiece writer declaration: assets-source/m2-onepiece-v1/generated/author-equipment.json",
+    "Missing onepiece writer declaration: assets-source/m2-onepiece-v1/generated/fit.json",
+    "Missing onepiece writer declaration: assets-source/m2-onepiece-v1/generated/verification.json",
+    "Missing onepiece writer declaration: assets-source/m2-onepiece-v1/manifest.json",
+    "Missing onepiece writer declaration: prototype/public/assets/m2-onepiece-v1/author-export.glb",
+    "Missing onepiece writer declaration: prototype/public/assets/m2-onepiece-v1/fit.json",
+    "Missing onepiece writer declaration: prototype/public/assets/m1b/equipment.json",
+    "Missing onepiece writer declaration: prototype/public/assets/m1b/equipment.install.tmp"
+  ],
+  "exportersInvoked": false,
+  "scope": "Retained hair check and fixed outer/onepiece writers only, not general static write analysis"
+}

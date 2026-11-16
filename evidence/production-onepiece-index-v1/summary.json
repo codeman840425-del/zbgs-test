@@ -1,0 +1,40 @@
+{
+  "sourceCommit": "b8c20d3",
+  "workflow": "male-onepiece-source",
+  "requestedDispatch": {
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "high",
+    "difficulty": "standard",
+    "desktopHookVerified": false
+  },
+  "checks": {
+    "validateAll": {
+      "workflowCount": 10,
+      "allStructuralPassed": true,
+      "commandsExecuted": false
+    },
+    "qaFlow": {
+      "checkCount": 10,
+      "passed": true
+    },
+    "qaSourcePackages": {
+      "workflowCount": 10,
+      "negativeCases": 41,
+      "passed": true
+    },
+    "qaWriteScope": {
+      "negativeCases": 21,
+      "passed": true
+    }
+  },
+  "sourceSha256": {
+    "scripts/production/workflows.json": "ec15a99d58a9e638c2a1f82bc90266e37249249c6997b0a5270b3e39a158fe39",
+    "scripts/production/source_packages.py": "be90513d68bcaf1552c5b1cccc5c3ccec475960116f88e906f93f75ef27a3366",
+    "scripts/production/onepiece_package.py": "bd2b328ff1bad809d5ad42407aee63767d10652509a4aacb21ce44ed75e174dc",
+    "scripts/production/qa-source-packages.py": "e986c3e619aeaf52661a92b63df3776f20870e7aaf261d1d096fe578606f2fc9",
+    "scripts/production/qa-source-write-scope.py": "428b07a34fd0d8725677a5f3e9fbd56b98f6bb4be800868d05507cba29f1c8ea",
+    "scripts/production/README.md": "29fed0aa78047cb7d028756e007016700d9676faa47de057edd009d20e850fff"
+  },
+  "scope": "Read-only production index. No regeneration, installation, Blender, browser or GPU. Runtime/visual contact evidence remains root-owned. Static 44 body and 368 self pairs remain recorded.",
+  "actualRuntimeSha256": "e0cac5041a50bc07dde65c75414f98bab1501125939302eec0b9e1a5de826c7b"
+}

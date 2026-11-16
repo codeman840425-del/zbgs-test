@@ -1152,6 +1152,186 @@
         "Run displayed write steps manually in isolated checkout only. Keep failed output and log. Select a new absent --out folder for build/save/audit retries and preserve archived generated/rebuild/failed candidates.",
         "Custom rebuild is independent evidence. finalize/install-runtime use only fixed generated source, so new candidates require explicit reviewed version/fit admission before installation. Missing tools affect regeneration only."
       ]
+    },
+    {
+      "id": "male-onepiece-source",
+      "title": "Male continuous one-piece actual edited-source export",
+      "kind": "source-package",
+      "sources": [
+        "assets-source/m2-onepiece-v1/spec.json",
+        "assets-source/m2-onepiece-v1/initial-spec.json",
+        "assets-source/m2-onepiece-v1/provenance.json",
+        "assets-source/m2-onepiece-v1/initial/editable.blend",
+        "assets-source/m2-onepiece-v1/generated/editable.blend",
+        "assets-source/m2-onepiece-v1/generated/author-equipment.json",
+        "assets-source/m2-onepiece-v1/generated/fit.json",
+        "prototype/public/assets/foundation/base-male-roundtrip.vrm",
+        "assets-source/foundation-male/source.json",
+        "assets-source/foundation-male/LICENSE.md"
+      ],
+      "inputs": [
+        "assets-source/m2-onepiece-v1/spec.json",
+        "assets-source/m2-onepiece-v1/initial-spec.json",
+        "assets-source/m2-onepiece-v1/provenance.json",
+        "assets-source/m2-onepiece-v1/initial/editable.blend",
+        "assets-source/m2-onepiece-v1/generated/editable.blend",
+        "assets-source/m2-onepiece-v1/generated/author-equipment.json",
+        "assets-source/m2-onepiece-v1/generated/fit.json",
+        "prototype/public/assets/foundation/base-male-roundtrip.vrm",
+        "assets-source/foundation-male/source.json",
+        "assets-source/foundation-male/LICENSE.md"
+      ],
+      "identity": {
+        "package": "onepiece",
+        "manifest": "assets-source/m2-onepiece-v1/manifest.json",
+        "manifestSha256": "be28984636a779eb4590b4308e255147e1d0cae9071608c28a5eac477e224631"
+      },
+      "requirements": [
+        "experiments/tools/blender-4.5.9-windows-x64/blender.exe",
+        "scripts/m2-onepiece-v1/build.py",
+        "scripts/m2-onepiece-v1/author.py",
+        "scripts/m2-onepiece-v1/audit.py",
+        "scripts/m2-onepiece-v1/finalize.py",
+        "scripts/install-onepiece-runtime.py",
+        "scripts/m1b-assets/build.py"
+      ],
+      "outputs": [
+        "assets-source/m2-onepiece-v1/workflow-rebuild/",
+        "assets-source/m2-onepiece-v1/generated/author-equipment.json",
+        "assets-source/m2-onepiece-v1/generated/fit.json",
+        "assets-source/m2-onepiece-v1/generated/verification.json",
+        "assets-source/m2-onepiece-v1/manifest.json",
+        "prototype/public/assets/m2-onepiece-v1/author-export.glb",
+        "prototype/public/assets/m2-onepiece-v1/fit.json",
+        "prototype/public/assets/m1b/equipment.json"
+      ],
+      "stages": {
+        "source": [
+          {
+            "argv": [
+              "python",
+              "scripts/production/flow.py",
+              "show",
+              "male-onepiece-source"
+            ],
+            "writes": [],
+            "note": "Declarations only. Exact original male, initial editable source and final spec are inputs. numpy and Blender 4.5.9 are regeneration prerequisites; readback uses Python standard library only."
+          }
+        ],
+        "export": [
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/m2-onepiece-v1/build.py",
+              "--out",
+              "workflow-rebuild"
+            ],
+            "writes": [
+              "assets-source/m2-onepiece-v1/workflow-rebuild/",
+              "prototype/public/assets/m1b/"
+            ],
+            "note": "Independent continuous Body-derived pattern. Refuses existing output. Retained m1b builder import also ensures its default m1b DIRECTORY exists; it does not export or rewrite old m1b assets. -B suppresses Python bytecode writes."
+          },
+          {
+            "argv": [
+              "experiments/tools/blender-4.5.9-windows-x64/blender.exe",
+              "--background",
+              "--factory-startup",
+              "--disable-autoexec",
+              "--threads",
+              "2",
+              "--python-exit-code",
+              "1",
+              "--python",
+              "scripts/m2-onepiece-v1/author.py",
+              "--",
+              "--out",
+              "workflow-rebuild",
+              "--edit-from",
+              "initial"
+            ],
+            "writes": [
+              "assets-source/m2-onepiece-v1/workflow-rebuild/"
+            ],
+            "note": "After build. Opens retained initial/editable.blend, really edits its mesh to the new parameter pattern, saves editable.blend and reopens it twice for author GLBs. Does not modify initial. Refuses existing editable.blend."
+          },
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/install-onepiece-runtime.py"
+            ],
+            "writes": [
+              "prototype/public/assets/m2-onepiece-v1/author-export.glb",
+              "prototype/public/assets/m2-onepiece-v1/fit.json",
+              "prototype/public/assets/m1b/equipment.json",
+              "prototype/public/assets/m1b/equipment.install.tmp"
+            ],
+            "note": "FIXED SOURCE INSTALLER uses generated author export/fit only, never workflow-rebuild. Idempotent for identical input; differing existing resources/entry reject. Manifest replacement uses the declared temporary file."
+          }
+        ],
+        "check": [
+          {
+            "argv": [
+              "experiments/tools/blender-4.5.9-windows-x64/blender.exe",
+              "--background",
+              "--factory-startup",
+              "--disable-autoexec",
+              "--threads",
+              "2",
+              "--python-exit-code",
+              "1",
+              "--python",
+              "scripts/m2-onepiece-v1/audit.py",
+              "--",
+              "--out",
+              "workflow-rebuild"
+            ],
+            "writes": [
+              "assets-source/m2-onepiece-v1/workflow-rebuild/static-audit.json"
+            ],
+            "note": "After author. Writes static BVH and sampled contact diagnostics, not visual or full-speed motion acceptance. Existing small contact counts remain defects, not a zero-count gate."
+          },
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/m2-onepiece-v1/finalize.py"
+            ],
+            "writes": [
+              "assets-source/m2-onepiece-v1/generated/author-equipment.json",
+              "assets-source/m2-onepiece-v1/generated/fit.json",
+              "assets-source/m2-onepiece-v1/generated/verification.json",
+              "assets-source/m2-onepiece-v1/manifest.json"
+            ],
+            "note": "HISTORICAL FIXED SOURCE WRITER. Uses archived generated/repeat, checks source edits/actual binds/repeat bytes and rewrites these files. Inventory scans the entire source package. Does not promote workflow-rebuild; do not run on frozen package."
+          }
+        ],
+        "readback": [
+          {
+            "argv": [
+              "python",
+              "scripts/production/flow.py",
+              "validate",
+              "male-onepiece-source"
+            ],
+            "writes": [],
+            "note": "Read 61 package files, actual binds, initial/edit/repeat identities, provenance and installed actual GLB/fit bytes only. No export, installation, Blender, browser or acceptance promotion."
+          }
+        ]
+      },
+      "limits": [
+        "Actual edited author-export SHA e0cac5041a50bc07dde65c75414f98bab1501125939302eec0b9e1a5de826c7b is the runtime source; parameter GLB 3f258308f1496d14a43ce40a0ccbad9984ce4423dfac2136f88d4ae7baade808 keeps its own identity.",
+        "Exact original male only. onePiece occupies top and bottom, with 5 garment openings and continuous chest/waist/pelvis/two legs. Skinning only; no body masks, female/derived-body fit or arbitrary morph adaptation.",
+        "Stored rest-body 44 and self 368 triangle pairs plus sampled 1.576mm depth remain recorded. They are not full continuous penetration measurements or a visual pass/fail gate. Historical runtime-pending fields remain unchanged.",
+        "Package paths are relative to assets-source/m2-onepiece-v1. Current capability and matching normal-speed evidence are owned by CAPABILITIES and root validation."
+      ],
+      "recovery": [
+        "Restore the named exact committed source/export/fit bytes on failed readback; never rewrite hashes to bless unexpected input.",
+        "Run displayed writers only in an isolated checkout with a new absent output directory. Preserve failed outputs and choose another directory after repair. No displayed command is executed by this index.",
+        "Independent workflow-rebuild does not replace fixed generated/repeat or become installed automatically. Finalize/install use frozen paths and need an explicitly reviewed new candidate for changes. Missing tools affect regeneration only."
+      ]
     }
   ]
 }
