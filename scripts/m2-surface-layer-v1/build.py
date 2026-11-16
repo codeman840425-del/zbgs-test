@@ -209,11 +209,20 @@ def make_plan(spec):
 
 
 def main():
-    ap = argparse.ArgumentParser(); ap.add_argument('--spec', default='assets-source/m2-surface-layer-v1/spec.json'); ap.add_argument('--check', action='store_true'); args = ap.parse_args()
+    ap = argparse.ArgumentParser(); ap.add_argument('--spec', default='assets-source/m2-surface-layer-v1/spec.json')
+    ap.add_argument('--out', default='assets-source/m2-surface-layer-v1/generated'); ap.add_argument('--check', action='store_true'); args = ap.parse_args()
+    out = local(ROOT, args.out)
+    require(out == BASE/'generated' or (out.is_relative_to(BASE/'exports') and out != BASE/'exports'), 'Output must be generated or a new directory below this source package exports/')
+    require(not out.exists() or out.is_dir(), 'Output is not a directory: '+args.out)
     spec = json.loads(local(ROOT, args.spec).read_text(encoding='utf-8')); plan = make_plan(spec)
+    for name, data in plan.items():
+        target = out/name
+        require(not target.is_symlink(), 'Symlink output refused: '+name)
+        require(not target.exists() or target.read_bytes() == data, 'Differing existing output '+args.out+'/'+name+'; choose a new --out directory')
     if not args.check:
-        out = BASE/'generated'; out.mkdir(exist_ok=True)
-        for name, data in plan.items(): (out/name).write_bytes(data)
+        out.mkdir(parents=True, exist_ok=True)
+        for name, data in plan.items():
+            if not (out/name).exists(): (out/name).write_bytes(data)
     print(json.dumps({'status': 'checked' if args.check else 'exported', 'files': [{'file': n, 'sha256': sha(data), 'bytes': len(data)} for n, data in plan.items()]}))
 
 
