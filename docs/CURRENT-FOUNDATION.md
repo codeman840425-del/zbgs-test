@@ -21,6 +21,8 @@ Phaser+Three+VRM保留；女性封板裙和30秒舞不再精修。普通电脑�
 
 真实缺口：appearance-recipe按脸几何→发型颜色→装备逐域提交，失败后异步回退，准备中可能显示半套新外观。输入用已有男女v6配方/脸/发/服装；不新增美术样件、不改动作。
 
+固定8e实际基线已复现：evidence/m2-whole-look-baseline-8e2-v1，头发GLB延迟700ms再503期间口宽/眉/鼻及3个网格position哈希已变而发/衣仍旧，失败后才恢复。scripts/qa-whole-look-visible-atomicity.cjs可同输入跑修后检查。
+
 实现分支codex/whole-look-prepare，独立worktree F:/gamemake-whole-look-prepare。显式sol/high，复杂异步事务；CPU实现进行中，浏览器/GPU由主负责人统一分配。最小门：延迟准备始终保旧完整外观；成功统一提交；资源失败/过期/取消/较新单域请求不混合旧新，释放正确；旧v1–v6语义及有限配方恢复不变。commit前完成所有可失败分配/校验。禁止暂停渲染或隐藏人物规避。
 
 尝试预算：定位与实现各一轮；同因两轮无新证据或改善停止扫参、重新定位。完成固定验证后继续P1机器准入/实际形体fit等缺口；连体、衣层遮挡、按需加载未完成，不能宣称P1或M2通过。
@@ -31,4 +33,4 @@ Phaser+Three+VRM保留；女性封板裙和30秒舞不再精修。普通电脑�
 
 当前宿主是GPT桌面内Codex，不是Codex CLI。每次spawn显式model/reasoning_effort/fork_turns=none和DISPATCH_CONFIG；记录evidence/subagent-explicit-dispatch-2026-11-16.json。实际provider配置工具未另暴露，桌面hook拦截未验证；UI开关/CLI/本地脚本不能代替。旧未知配置不复用为已知；本轮whole_look_prepare已知请求sol/high。
 
-一次一个GPU/录屏/重Blender/编码任务。4295已关闭；4207是root临时固定候选。只关闭自己创建的服务。旧远端最后已核0de84e5；本包备份正在提交，核实后在此更新。不要声称未推送提交已备份。
+一次一个GPU/录屏/重Blender/编码任务。4295已关闭；4207是root临时固定候选。只关闭自己创建的服务。外搭与v2归档提交bff48b7a35ba6b23f3dd43fb21d5232aa81de39f已推送并通过ls-remote核对同SHA。后续主包仍在独立实现，不声称未推送提交已备份。
