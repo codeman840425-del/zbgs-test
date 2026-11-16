@@ -12,6 +12,7 @@ import { createSeatLeases } from "./seat-lease.js";
 import { bindAppearanceWorkbench } from "./appearance-workbench.js";
 import { exportAppearanceRecipe, importAppearanceRecipe } from "./appearance-recipe.js";
 import {queryAppearanceCandidates,admitAppearanceCandidate} from './appearance-candidates.js';
+import { createCompanyRoom } from "./company/room.js";
 import "./style.css";
 
 // Phaser owns input, path movement, action sequencing and frame scheduling.
@@ -54,138 +55,12 @@ fill.position.set(4, 3, 1);
 world.add(fill);
 const colorMat = (color, opts = {}) =>
   new THREE.MeshStandardMaterial({ color, roughness: 0.85, ...opts });
-function cube(w, h, d, x, y, z, color, parent = world) {
-  const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), colorMat(color));
-  m.position.set(x, y, z);
-  m.castShadow = true;
-  m.receiveShadow = true;
-  parent.add(m);
-  return m;
-}
-function round(r, h, x, y, z, color, parent = world) {
-  const m = new THREE.Mesh(
-    new THREE.CylinderGeometry(r, r, h, 32),
-    colorMat(color),
-  );
-  m.position.set(x, y, z);
-  m.castShadow = true;
-  m.receiveShadow = true;
-  parent.add(m);
-  return m;
-}
-function labelTexture(text, bg = "#fffaf0", color = "#507b69") {
-  const c = document.createElement("canvas");
-  c.width = 512;
-  c.height = 256;
-  const ctx = c.getContext("2d");
-  ctx.fillStyle = bg;
-  ctx.fillRect(0, 0, 512, 256);
-  ctx.fillStyle = color;
-  ctx.textAlign = "center";
-  ctx.font = "500 58px Microsoft YaHei";
-  ctx.fillText(text, 256, 145);
-  const t = new THREE.CanvasTexture(c);
-  t.colorSpace = THREE.SRGBColorSpace;
-  return t;
-}
-const floor = cube(9, 0.12, 7, 0, -0.06, 0, "#d7c8ac");
-floor.castShadow = false;
-for (let z = -3.4; z < 3.5; z += 0.32) {
-  const line = cube(9, 0.001, 0.006, 0, 0.002, z, "#c4b99f");
-  line.castShadow = false;
-}
-const backWall = new THREE.Group();
-const leftWall = new THREE.Group();
-backWall.name = "InspectionBackWall";
-leftWall.name = "InspectionLeftWall";
-world.add(backWall, leftWall);
-cube(9, 3.5, 0.12, 0, 1.75, -3.5, "#eceddf", backWall);
-cube(0.12, 3.5, 7, -4.5, 1.75, 0, "#e0e8d9", leftWall);
-cube(9, 0.09, 0.06, 0, 0.06, -3.4, "#c6cdbd", backWall);
-cube(0.06, 0.09, 7, -4.4, 0.06, 0, "#c6cdbd", leftWall);
-// Soft window, framed prints and a compact streaming desk.
-cube(2.3, 1.65, 0.08, -2.7, 2.1, -3.4, "#b8c8b4", backWall);
-cube(2.1, 1.45, 0.03, -2.7, 2.1, -3.345, "#e9f6ef", backWall);
-cube(0.055, 1.45, 0.04, -2.7, 2.1, -3.3, "#becdbb", backWall);
-cube(2.1, 0.05, 0.04, -2.7, 2.1, -3.3, "#becdbb", backWall);
-for (let x of [-3.95, -1.45]) {
-  const curtain = cube(0.32, 2.0, 0.12, x, 1.9, -3.15, "#c0d2bd", backWall);
-  curtain.castShadow = false;
-}
-const poster = new THREE.Mesh(
-  new THREE.PlaneGeometry(1.2, 0.6),
-  new THREE.MeshBasicMaterial({ map: labelTexture("青禾直播间") }),
-);
-poster.position.set(0.35, 2.2, -3.42);
-backWall.add(poster);
-cube(2.0, 0.1, 1.0, 1.15, 0.79, -1.95, "#d7b994");
-for (let x of [0.3, 2])
-  for (let z of [-2.35, -1.55]) cube(0.065, 0.74, 0.065, x, 0.37, z, "#a7b3a6");
-cube(0.8, 0.5, 0.055, 1.15, 1.18, -2.2, "#6e7b78");
-cube(0.73, 0.42, 0.014, 1.15, 1.18, -2.161, "#a4c7bc");
-cube(0.06, 0.22, 0.06, 1.15, 0.9, -2.2, "#7d8f87");
-cube(0.35, 0.025, 0.2, 1.15, 0.847, -2.14, "#788b80");
-cube(0.55, 0.025, 0.18, 1.15, 0.851, -1.74, "#f0ebe0");
-round(0.065, 0.14, 1.9, 0.9, -1.75, "#b6cdb8");
-const micStand = round(0.018, 0.42, 0.35, 1.05, -1.77, "#607770");
-const mic = new THREE.Mesh(
-  new THREE.CapsuleGeometry(0.045, 0.1, 6, 12),
-  colorMat("#647b72"),
-);
-mic.position.set(0.35, 1.3, -1.77);
-world.add(mic);
-// Couch at the far left and a plant. All furniture participates in depth occlusion.
-cube(1.9, 0.36, 0.8, -2.9, 0.32, -1.7, "#8fae94");
-cube(1.9, 0.6, 0.18, -2.9, 0.72, -2.05, "#a3bca2");
-for (let x of [-3.8, -2]) cube(0.15, 0.55, 0.8, x, 0.48, -1.7, "#98b298");
-cube(0.46, 0.38, 0.18, -3.35, 0.7, -1.88, "#d9ddc1");
-cube(0.42, 0.36, 0.18, -2.65, 0.67, -1.88, "#bacbba");
-round(0.23, 0.4, -3.7, 0.2, -2.8, "#c4ac8d");
-for (let i = 0; i < 8; i++) {
-  const a = (i / 8) * Math.PI * 2,
-    m = new THREE.Mesh(
-      new THREE.SphereGeometry(0.18, 12, 12),
-      colorMat(i % 2 ? "#7a9c7a" : "#93ae85"),
-    );
-  m.scale.set(0.6, 2.3, 0.8);
-  m.position.set(
-    -3.7 + Math.cos(a) * 0.12,
-    0.7 + Math.sin(i * 4) * 0.15,
-    -2.8 + Math.sin(a) * 0.12,
-  );
-  m.rotation.z = Math.cos(a) * 0.4;
-  world.add(m);
-}
-const rug = cube(4.9, 0.012, 3.3, -0.3, 0.007, 1.15, "#dce5d3");
-rug.castShadow = false;
-// Furniture owns the frame: character +Z and chair +Z both point forward.
+// Company data supplies existing presentation/navigation inputs. Actor execution stays below.
+const companyRoom = createCompanyRoom(world,
+  new URLSearchParams(location.search).get("companyLayout") || "legacy");
+const { floor, backWall, leftWall, chair, chairSeat, chairBack,
+  obstacles, setChairHeight } = companyRoom;
 const chairBounds = [];
-const defaultChair = { x: 2.65, z: 0.89, yaw: 0 };
-const chair = new THREE.Group();
-chair.name = "RepresentativeChair";
-chair.position.set(defaultChair.x, 0, defaultChair.z);
-world.add(chair);
-let chairSeat = cube(0.55, 0.07, 0.5, 0, 0.44, 0, "#c1b197", chair),
-  chairBack = cube(0.55, 0.5, 0.07, 0, 0.73, -0.22, "#cabda5", chair);
-const chairLegs = [];
-for (let x of [-0.22, 0.22])
-  for (let z of [-0.19, 0.19])
-    chairLegs.push(cube(0.035, 0.42, 0.035, x, 0.21, z, "#a1aea0", chair));
-function setChairHeight(h) {
-  if (!Number.isFinite(h)) return;
-  chairSeat.position.y = h - 0.035;
-  chairBack.position.y = h + 0.23;
-  for (const leg of chairLegs) {
-    leg.scale.y = (h - 0.07) / 0.42;
-    leg.position.y = (h - 0.07) / 2;
-  }
-}
-const obstacles = [
-  { name: "desk", x: 1.15, z: -1.95, hw: 1.22, hd: 0.72 },
-  { name: "couch", x: -2.9, z: -1.7, hw: 1.22, hd: 0.65 },
-  { name: "plant", x: -3.7, z: -2.8, hw: 0.4, hd: 0.4 },
-  { name: "chair", x: defaultChair.x, z: defaultChair.z, hw: 0.48, hd: 0.35 },
-];
 // Cloth uses oriented boxes, while navigation conservatively uses a world AABB.
 function chairCollider(mesh, name) {
   mesh.name = name;
@@ -1913,6 +1788,9 @@ window.__debug = {
   },
   setChairTransform,
   chairColliders: () => chairBounds,
+  companyLayout: () => ({...companyRoom.getSnapshot(), targets: seatTargets(),
+    seatHeight: motion?.getSeatHeight(), seatMetrics: {
+      seatBack: motion?.getMetrics().seatBack, approach: motion?.getSeatApproach() }}),
   seatLeases,
   request: request => controller.requestBehavior(request),
   tasks: () => controller.behaviorTasks,
@@ -2292,8 +2170,9 @@ loadAvatar({ scene: world, renderer })
     // placement as a physics impulse on the first visible hair frame.
     avatar.vrm.springBoneManager?.reset();
     setChairHeight(motion.getSeatHeight());
-    // Preserve the original default seat location; all later targets are local.
-    chair.position.z = 1.05 - motion.getMetrics().seatBack;
+    // Legacy opening remains body-calibrated; configured layouts own their transform.
+    if (companyRoom.layout.initialization === "legacy-calibrated")
+      chair.position.z = 1.05 - motion.getMetrics().seatBack;
     refreshChair();
     avatar.updateGarment?.(motion.getMetrics().sitProgress, 0, chairBounds);
     loadMs = performance.now() - loadStart;
