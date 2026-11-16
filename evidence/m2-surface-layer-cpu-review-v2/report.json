@@ -1,0 +1,51 @@
+{
+  "status": "passed",
+  "sources": {
+    "surface-layer-compositor.js": "a7b1a8df12766bc579d55aa23c8a76a896a177fbfb3fa3ecfe8716bfba8ef4d6",
+    "surface-layers.js": "c166b670d335cb14952613d0b7f32cd4ad7165cb602da41c5891c4f13a14e28d",
+    "facial-palette.js": "6c5556860ed39e8c374344036d2417941e0d84d307512f2a89d34d2732cf10cd",
+    "appearance-recipe.js": "835f953c42998cdae6853f55fd9bef2d76959508235f292b6345b70119e3b002",
+    "character-appearance.js": "7670de0ad70d795c28311c68f9c1edef819e163fa7cec6d0bb432b6666c58765",
+    "surface-layer-catalog.js": "617c9a0778c0cd6e330ed885defa97a48d73ef6e7ddf58112baf52e3232de708",
+    "facial-palette-contract.js": "1bcca2a5c067ffc5ed1fec0cab8f2e7f0d79d17b6922406695a1cbcc8e5cd10e"
+  },
+  "checks": [
+    "compositor transparent texels and original alpha preserved",
+    "opacity zero/one endpoints and partial rounding",
+    "compositor supplied order changes overlapping RGB",
+    "invalid pixels/opacity/selection and duplicate IDs rejected",
+    "surface manager declared order, map/shade sharing, staged discard and replacement disposal",
+    "unpublished package and partially composed texture failure reject and release candidates",
+    "actual facial palette stale preparation cancellation and failed load preserve current materials",
+    "dispose while palette loading cancels and retains original textures",
+    "actual recipe/character appearance v7 surface roundtrip, v1-v6 explicit clear and version refusal"
+  ],
+  "findings": [],
+  "scope": {
+    "actualModules": [
+      "surface-layer-compositor.js",
+      "surface-layers.js",
+      "facial-palette.js",
+      "appearance-recipe.js",
+      "character-appearance.js",
+      "surface-layer-catalog.js",
+      "facial-palette-contract.js"
+    ],
+    "injectedFixtures": [
+      "Published surface catalog identity",
+      "Facial palette manifest URL/hash with original palette version constants",
+      "fetch returning SHA-checked fixture JSON bytes",
+      "Canvas pixel transport",
+      "createImageBitmap JSON fixture decode",
+      "Two-pixel texture images, scene traversal and empty outfit/facial geometry preparation domains"
+    ],
+    "realLibrary": "Installed prototype Three.js Texture/Source/material classes and esbuild",
+    "GPUUsed": false,
+    "browserStarted": false,
+    "sourceAssetAcceptance": false,
+    "runtimeAcceptance": false
+  },
+  "bundleSha256": "ab985b11ff97696187deaf579c726447db0c390714cab54bbda6ff684faf94be",
+  "bitmapCloseCount": 17,
+  "sourceStableDuringRun": true
+}
