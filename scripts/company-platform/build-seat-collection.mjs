@@ -131,7 +131,7 @@ function buildChair(parameters) {
   } else if (s === 'crossbeam') {
     for (const x of [-0.235, 0.235]) {
       box(object, `crossbeam-side-${x < 0 ? 'left' : 'right'}`, [0.035, 0.42, 0.035], structureMat, [x, 0.21, 0]);
-      box(object, `crossbeam-diagonal-${x < 0 ? 'left' : 'right'}`, [0.035, 0.56, 0.035], structureMat, [x, 0.28, 0], [0.32, 0, 0]);
+      box(object, `crossbeam-diagonal-${x < 0 ? 'left' : 'right'}`, [0.035, 0.40, 0.035], structureMat, [x, 0.21, 0], [0.32, 0, 0]);
       box(object, `crossbeam-rail-${x < 0 ? 'left' : 'right'}`, [0.035, 0.035, 0.45], structureMat, [x, 0.14, 0]);
     }
     box(object, 'crossbeam-front', [0.47, 0.03, 0.03], structureMat, [0, 0.15, 0.19]);

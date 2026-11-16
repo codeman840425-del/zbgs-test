@@ -4,11 +4,19 @@ const fs=require('node:fs/promises'),path=require('node:path'),assert=require('n
 const [dist,build,outArg]=process.argv.slice(2),out=path.resolve(outArg);
 const report={build,status:'running',branches:[],checks:[],limits:['Production preview and preservation only; no real actor usage or ordinary-PC performance claim.']};
 let server,context,page;const errors=[];
-async function open(){context=await chromium.launchPersistentContext(path.join(out,'profile'),{headless:true,viewport:{width:1280,height:900}});page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));await page.goto(server.url);await page.waitForFunction(()=>window.company?.ready&&company.buildInfo);assert.equal(await page.evaluate(()=>company.buildInfo.shortId),build);}
-async function frame(){await page.evaluate(async()=>{company.renderer.render(company.world,company.camera);await new Promise(requestAnimationFrame);company.renderer.render(company.world,company.camera);});}
+async function open(){context=await chromium.launchPersistentContext(path.join(out,'profile'),{headless:true,viewport:{width:1280,height:900},args:process.argv.includes('--software')?['--use-angle=swiftshader','--enable-unsafe-swiftshader']:[]});page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));await page.goto(server.url);await page.waitForFunction(()=>window.company?.ready&&company.buildInfo);assert.equal(await page.evaluate(()=>company.buildInfo.shortId),build);}
+async function frame(){const result=await page.evaluate(async()=>{
+ await new Promise(requestAnimationFrame);company.renderer.render(company.world,company.camera);
+ const gl=company.renderer.getContext();if(gl.isContextLost())throw Error('WebGL context lost: image evidence invalid');
+ const colors=new Set(),pixel=new Uint8Array(4);
+ for(let x=1;x<10;x++)for(let y=1;y<10;y++){gl.readPixels(Math.floor(gl.drawingBufferWidth*x/10),Math.floor(gl.drawingBufferHeight*y/10),1,1,gl.RGBA,gl.UNSIGNED_BYTE,pixel);colors.add(Array.from(pixel).join(','));}
+ if(colors.size<4)throw Error('Blank or uniform WebGL framebuffer: image evidence invalid');
+ const debug=gl.getExtension('WEBGL_debug_renderer_info');return{sampledColors:colors.size,renderer:debug?gl.getParameter(debug.UNMASKED_RENDERER_WEBGL):'unknown',contextLost:false};
+ });report.renderEnvironment=result;}
 (async()=>{
  await fs.mkdir(path.dirname(out),{recursive:true});await fs.mkdir(out);server=await serve(dist,build,{manifest:'company-build-info.json',entry:'company.html'});await open();
- const selected=process.argv[5]?.split(',');
+ report.harnessSha256=require('node:crypto').createHash('sha256').update(await fs.readFile(__filename)).digest('hex');
+ const selected=process.argv.slice(5).find(value=>!value.startsWith('--'))?.split(',');
  const branches=(await page.evaluate(()=>company.appearanceBranches.filter(([b])=>company.appearanceCandidates(b).length>=4))).filter(([b])=>!selected||selected.includes(b));
  for(const [branch,label]of branches){
   const record={branch,label,candidates:[],closedReopened:false};report.branches.push(record);let expected;

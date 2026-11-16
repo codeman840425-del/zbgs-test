@@ -85,15 +85,15 @@ function buildLight(p) {
     cylinder(rootObject,d,.09,.30,diffuser,[0,1.70,.05],[0,0,Math.PI/2],24);
   } else if (p.frame === 'wing') {
     box(rootObject,'wing-base',[.38,.05,.3],frame,[0,.025,0]); for (const x of [-.14,.14]) box(rootObject,`wing-leg-${x<0?'left':'right'}`,[.03,1.65,.03],trim,[x,.84,0],[0,0,x<0?.04:-.04]);
-    box(rootObject,'wing-rail',[.36,.04,.04],trim,[0,1.66,0]); box(rootObject,'wing-shield',[.42,.36,.06],frame,[0,1.70,.05],[.16,0,0]); box(rootObject,d,[.34,.27,.014],diffuser,[0,1.70,.05],[.16,0,0]);
-    box(rootObject,'wing-hinge',[.05,.05,.28],trim,[0,1.68,.05]);
+    box(rootObject,'wing-rail',[.36,.04,.04],trim,[0,1.66,-.02]); box(rootObject,'wing-shield',[.42,.36,.06],frame,[0,1.70,0],[.16,0,0]); box(rootObject,d,[.34,.27,.014],diffuser,[0,1.70,.05],[.16,0,0]);
+    box(rootObject,'wing-hinge',[.05,.05,.20],trim,[0,1.68,-.08]);
   } else if (p.frame === 'column') {
-    box(rootObject,'column-base',[.4,.045,.34],frame,[0,.0225,0]); box(rootObject,'column-body',[.13,1.64,.10],frame,[0,.82,0]);
-    for (const x of [-.11,.11]) box(rootObject,`slot-rail-${x<0?'left':'right'}`,[.025,1.42,.04],trim,[x,.88,.07]); box(rootObject,'column-cap',[.24,.06,.16],trim,[0,1.66,.05]); box(rootObject,d,[.22,.72,.014],diffuser,[0,1.70,.05]);
+    box(rootObject,'column-base',[.4,.045,.34],frame,[0,.0225,0]); box(rootObject,'column-body',[.13,1.64,.16],frame,[0,.82,-.04]);
+    for (const x of [-.11,.11]) box(rootObject,`slot-rail-${x<0?'left':'right'}`,[.025,1.42,.04],trim,[x,.88,-.02]); box(rootObject,'column-cap',[.24,.06,.16],trim,[0,1.66,-.04]); box(rootObject,d,[.22,.72,.014],diffuser,[0,1.70,.05]);
   } else {
     box(rootObject,'panel-ballast',[.4,.055,.34],frame,[0,.0275,0]); box(rootObject,'panel-arm',[.04,1.64,.04],trim,[0,.82,-.04]);
-    box(rootObject,'panel-crossbar',[.34,.05,.06],trim,[0,1.66,-.02]); box(rootObject,'panel-shield',[.42,.34,.07],frame,[0,1.70,.05],[-.12,0,0]); box(rootObject,d,[.34,.25,.014],diffuser,[0,1.70,.05],[-.12,0,0]);
-    box(rootObject,'hinge-left',[.07,.07,.1],trim,[-.16,1.68,.05]); box(rootObject,'hinge-right',[.07,.07,.1],trim,[.16,1.68,.05]);
+    box(rootObject,'panel-crossbar',[.34,.05,.06],trim,[0,1.66,-.02]); box(rootObject,'panel-shield',[.42,.34,.07],frame,[0,1.70,-.02],[-.12,0,0]); box(rootObject,d,[.34,.25,.014],diffuser,[0,1.70,.05],[-.12,0,0]);
+    box(rootObject,'hinge-left',[.07,.07,.1],trim,[-.16,1.68,-.02]); box(rootObject,'hinge-right',[.07,.07,.1],trim,[.16,1.68,-.02]);
   }
   rootObject.updateMatrixWorld(true); return rootObject;
 }
@@ -114,6 +114,20 @@ function structuralCheck(object, p) {
     if (p.frame === 'panel') { touches('panel-ballast', 'panel-arm'); touches('panel-arm', 'panel-crossbar'); touches('panel-crossbar', 'hinge-left'); touches('panel-crossbar', 'hinge-right'); touches('hinge-left', 'panel-shield'); }
   }
 }
+function frontSurfaceCheck(object, p) {
+  if (p.type !== 'fill-light') return;
+  const diffuser = object.getObjectByName('diffuser-panel'); assert(diffuser?.isMesh, `${p.designId} missing diffuser panel`);
+  const bounds = new THREE.Box3().setFromObject(diffuser), hits = [];
+  for (const x of [bounds.min.x * .55 + bounds.max.x * .45, (bounds.min.x + bounds.max.x) / 2, bounds.min.x * .45 + bounds.max.x * .55]) {
+    for (const y of [bounds.min.y * .55 + bounds.max.y * .45, (bounds.min.y + bounds.max.y) / 2, bounds.min.y * .45 + bounds.max.y * .55]) {
+      const ray = new THREE.Raycaster(new THREE.Vector3(x, y, 2), new THREE.Vector3(0, 0, -1));
+      const first = ray.intersectObject(object, true).find(hit => hit.object.isMesh);
+      assert(first?.object === diffuser, `${p.designId} +Z diffuser sample is occluded by ${first?.object?.name || 'empty space'}`);
+      hits.push({x, y, first: first.object.name});
+    }
+  }
+  return hits;
+}
 
 function verifyContract(resource, reference, type) {
   for (const key of ['category','mountRole','mount','stateDefaults']) assert.deepEqual(resource[key], reference[key], `${type} ${key} changed`);
@@ -130,7 +144,12 @@ async function readback(bytes, resource, expectedNames) {
   for(const name of expectedNames) assert(scene.getObjectByName(name)?.isMesh,`Missing mesh ${name}`); assert(bounds.min.y>=-1e-6, 'Model must rest on ground/support plane');
   if(resource.id.startsWith('monitor-')) { assert(bounds.max.x<.6 && bounds.min.x>-.6 && bounds.max.z<.3 && bounds.min.z>-.3, 'Monitor exceeds desk support envelope'); }
   else assert(bounds.max.x<=.22+.001 && bounds.min.x>=-.22-.001 && bounds.max.z<=.2+.001 && bounds.min.z>=-.2-.001, 'Light exceeds blocking footprint');
-  return {meshCount:names.length,nodeNames:names,bounds:{min:bounds.min.toArray(),max:bounds.max.toArray()},externalUris:0,skins:json.skins?.length||0,animations:json.animations?.length||0};
+  let frontSurfaceHits=[];
+  if (resource.id.startsWith('fill-light-')) {
+    const diffuser=scene.getObjectByName('diffuser-panel'); assert(diffuser?.isMesh); const diffuserBounds=new THREE.Box3().setFromObject(diffuser);
+    for(const x of [diffuserBounds.min.x*.55+diffuserBounds.max.x*.45,(diffuserBounds.min.x+diffuserBounds.max.x)/2,diffuserBounds.min.x*.45+diffuserBounds.max.x*.55]) for(const y of [diffuserBounds.min.y*.55+diffuserBounds.max.y*.45,(diffuserBounds.min.y+diffuserBounds.max.y)/2,diffuserBounds.min.y*.45+diffuserBounds.max.y*.55]) { const first=new THREE.Raycaster(new THREE.Vector3(x,y,2),new THREE.Vector3(0,0,-1)).intersectObject(scene,true).find(hit=>hit.object.isMesh); assert(first?.object===diffuser,`${resource.id} readback +Z sample is occluded by ${first?.object?.name||'empty space'}`); frontSurfaceHits.push(first.object.name); }
+  }
+  return {meshCount:names.length,nodeNames:names,bounds:{min:bounds.min.toArray(),max:bounds.max.toArray()},externalUris:0,skins:json.skins?.length||0,animations:json.animations?.length||0,frontSurfaceHits};
 }
 
 const records=[]; const allCandidates = [...source.screens.map(p=>({...p,type:'monitor',reference:monitorContract})), ...source.lights.map(p=>({...p,type:'fill-light',reference:lightContract}))];
@@ -144,8 +163,9 @@ async function emit(url, value) {
   else { await fs.mkdir(new URL('./', url), {recursive:true}); await fs.writeFile(url, bytes); }
 }
 for(const p of all) {
-  const object = p.type==='monitor' ? buildMonitor(p) : buildLight(p); structuralCheck(object,{...p,type:p.type}); const bytes=await exportGlb(object); const repeatObject=p.type==='monitor'?buildMonitor(p):buildLight(p); structuralCheck(repeatObject,{...p,type:p.type}); const repeat=await exportGlb(repeatObject); assert(bytes.equals(repeat),`${p.designId} export is not deterministic`);
+  const object = p.type==='monitor' ? buildMonitor(p) : buildLight(p); structuralCheck(object,{...p,type:p.type}); const frontHits = frontSurfaceCheck(object,{...p,type:p.type}); const bytes=await exportGlb(object); const repeatObject=p.type==='monitor'?buildMonitor(p):buildLight(p); structuralCheck(repeatObject,{...p,type:p.type}); frontSurfaceCheck(repeatObject,{...p,type:p.type}); const repeat=await exportGlb(repeatObject); assert(bytes.equals(repeat),`${p.designId} export is not deterministic`);
   const names=p.type==='monitor'?['screen-surface']:['diffuser-panel']; const probe = await readback(bytes,{id:p.type==='monitor'?`monitor-${p.designId}`:`fill-light-${p.designId}`},names);
+  if (p.type === 'fill-light') probe.frontSurfaceHits = frontHits;
   const id = p.designId; const isMonitor=p.type==='monitor'; const contractPath=isMonitor?monitorContractPath:lightContractPath; const resource={id,version:1,category:p.reference.category,mountRole:p.reference.mountRole,provenance:{license:source.license,tools:[`Three.js ${THREE.REVISION}`,'BoxGeometry','RoundedBoxGeometry','CylinderGeometry','GLTFExporter','GLTFLoader readback'],sourceParameters:sourcePath,sourceParametersSha256:hash(sourceBytes),functionalContractSource:contractPath,functionalContractSourceSha256:isMonitor?monitorContractSha256:lightContractSha256,reference:{catalog:`prototype/src/company/library-catalog.json#${p.type}@1`,catalogResourceSha256:isMonitor?monitorCatalogReferenceSha256:lightCatalogReferenceSha256},generator:'scripts/company-platform/build-device-collection.mjs',generatorSha256,designId:id,method:p.styleDirection},coordinates:p.reference.coordinates,stateDefaults:structuredClone(p.reference.stateDefaults),mount:p.reference.mount,footprint:structuredClone(p.reference.footprint ?? null),materialSlots:p.type==='monitor'?{'screen-surface':['screen-surface']}:{'diffuser-panel':['diffuser-panel']},display:{screen:{nodes:names,onColor:p.screenColor,offColor:p.offColor,emissive:p.emissive,onIntensity:p.onIntensity}},asset:{format:'glb',url:`/company-assets/device-collection/${id}/v1/model.glb`,sha256:hash(bytes),bytes:bytes.length}};
   if(p.type==='fill-light') resource.light=structuredClone(p.reference.light); verifyContract(resource,p.reference,p.type); const parameter={...p}; delete parameter.reference; parameter.type=p.type; parameter.productionPrompt=productionPrompt(p);
   const folder=new URL(`prototype/public/company-assets/device-collection/${id}/v1/`,root), sourceFolder=new URL(`assets-source/company-device-collection/${id}/`,root), evidenceFolder=new URL(`evidence/company-device-collection-v1/${id}/`,root); await Promise.all([fs.mkdir(folder,{recursive:true}),fs.mkdir(sourceFolder,{recursive:true}),fs.mkdir(evidenceFolder,{recursive:true})]);
