@@ -42,6 +42,7 @@ const indices=onePiece?[5]:process.argv.includes('--shorts-only')?[4]:[3,4];
    });
    if(onePiece)r.originalBody=await bodyIdentity();
    await p.locator(`[data-outfit="${index}"]`).click();
+   await p.waitForFunction(index=>__debug.snapshot().outfit===index,index,{timeout:20000});
    r.equipment=await p.evaluate(()=>__debug.avatar().getOutfitInfo().equipment);
    assert.equal(r.equipment.outfit,index);
    if(checkGarmentCoverage){assert.equal(r.equipment.garmentCoverage.hiddenFaces,56);assert.equal((await topIdentity()).count,r.completeTop.count-56*3);}

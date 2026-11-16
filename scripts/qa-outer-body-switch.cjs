@@ -14,7 +14,9 @@ const checkGarmentCoverage=process.argv.includes('--garment-coverage');
  try{
   await p.goto(base+'?body=male&workbench=appearance');await p.waitForFunction(()=>window.__debug?.ready&&!document.querySelector('#appearance-fields').disabled,null,{timeout:60000});
   report.identity=await verifyCandidate(p,{build,assetId:'beta-base-male-m1b',sha256:'62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff'});
-  await p.locator(`[data-outfit="${outfit}"]`).click();const recipe=await p.evaluate(()=>__debug.exportAppearanceRecipe());
+  await p.locator(`[data-outfit="${outfit}"]`).click();
+  await p.waitForFunction(outfit=>__debug.snapshot().outfit===outfit,outfit,{timeout:20000});
+  const recipe=await p.evaluate(()=>__debug.exportAppearanceRecipe());
   let s=await state();assert.equal(s.equipment.items[role].visible,true);report.checks.push({label:'male-'+role,state:s});
   if(checkGarmentCoverage){assert.equal(s.equipment.garmentCoverage.active,true);assert.equal(s.equipment.garmentCoverage.hiddenFaces,56);}
   const maleExtraCount=s.buttons.filter(n=>n.index>2).length;
