@@ -1,0 +1,14 @@
+{
+  "checks": 14,
+  "findings": [
+    {
+      "name": "preparing token cannot change live hair through alternate applyStyleIntent path",
+      "passed": false,
+      "actualHair": "original",
+      "actualHat": "single",
+      "liveDependencyError": "hat-hair-incompatible",
+      "call": "prepareUpdate({hairStyle:original},{trackIntent:true,accessoryTransaction:context.token}); update.applyStyleIntent() without beginCommit"
+    }
+  ],
+  "fatal": null
+}
