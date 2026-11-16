@@ -1,0 +1,44 @@
+{
+  "status": "code-path-audit-and-research-not-implemented",
+  "localEvidence": [
+    {
+      "path": "prototype/src/motion-source.js",
+      "sha256": "28b9e21ca91a6aab72b78815e6c19d004b58ab7a019b57a699f7d510738af3ef"
+    },
+    {
+      "path": "prototype/src/normalized-motion.js",
+      "sha256": "fd0c05c6542b5a177dbbad0bd4d8a1991e7663c3006a1565a21ed2476bdaa81e"
+    },
+    {
+      "path": "prototype/src/motion.js",
+      "sha256": "22cf4adaa1b5cb0839150c1e6ce00cd33b895c28f737b6b60343081ee34308fb"
+    },
+    {
+      "path": "prototype/src/foundation-avatar.js",
+      "sha256": "b3634ccbe0c8cba31634e3357ddc4d31281d08c85ffdf101bdd1c398febeba83"
+    },
+    {
+      "path": "prototype/public/assets/motion/m1c/dance-imports.json",
+      "sha256": "6d24632e2839937fa5741228a145d0ebb490d55cd2817ffdd15d0d666e06c4f2"
+    }
+  ],
+  "findings": [
+    "Current forearm/hand correction is driven by seatHandRadii and skirt surface references; no general torso/head/arm-arm dance collision solve is established.",
+    "Current frozen 30s default is the original accepted route with known arm-contact limits; the sole local optimization remains archived."
+  ],
+  "proposedPath": "Offline target-body/garment-aware bounded IK with pose preservation, joint limits, temporal smoothing and explicit desired contacts; validate the resulting skinned meshes in the existing VRM runtime. A small live correction layer is a separate measured option.",
+  "primarySources": [
+    {
+      "url": "https://arxiv.org/abs/2109.07431",
+      "scope": "Contact-aware skinned-motion retargeting research, not a runtime integration claim"
+    },
+    {
+      "url": "https://github.com/Kebii/R2ET",
+      "scope": "Public geometry-aware retargeting implementation candidate; license/assets/dependencies require selection review before use"
+    },
+    {
+      "url": "https://kevinzakka.github.io/mink/api/limits.html",
+      "scope": "Concrete joint/velocity/collision constraints for IK; robotics model conversion is not plug-and-play VRM support"
+    }
+  ]
+}
