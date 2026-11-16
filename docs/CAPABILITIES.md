@@ -7,9 +7,13 @@
 - **4196 /?workbench=appearance：bcade40d24f1**，源c2224049a983b5e1af9e713e6938294bc0478e10，`experiments/m2-appearance-workbench-v22/dist`。唯一交付指针为 `delivery/appearance-workbench.json`，备份回执 `delivery/workbench-backup-bcade.json`。a0dd/v21直接回滚，1fff及更旧固定目录保留。公开smoke：`evidence/current-workbench-bcade40d24f1/report.json`。
 - **4195：77e46efb5441** 保留M1基础。用户对原女裙/原男短裤所录完整1×链接受“可以作为下一阶段基础”，明确排除已登记裙瑕疵；仅这些影片范围，不外推新外貌、最终画风、普通电脑或所有组合。回执 `evidence/m1-close-77e46-user-review.json`。
 - **裙装与该30秒舞已封板。** 038裙实现随77保留，已知硬折/局部接触/成本缺口不是继续精修的授权；30秒Rokoko路线获认可，唯一适配尝试后封存，不再追加调参。依据 `evidence/m1-stage-close-user-direction-2026-11-15.json`、`evidence/rokoko-30s-advisor-v1/USER-REVIEW.json`。旧失败仍失败，不因封板变成全部通过，也不因旧失败重新派活。
-- 有限M2技术闭环已完成：男女独立入口/三分区、已有有限几何与配色、本地v4配方文件/草稿、男性jaw单嘴参数复用。原男女嘴宽±4%与眉/鼻/眼各一个端点；男jaw只嘴宽0/+4%，女jaw/waist未获四域准入。新外观/布局/画风观感仍待用户，不扩完整编辑器、体型衣库、M3或服务器。
+- 有限M2技术闭环已完成：男女独立入口/三分区、已有有限几何与配色、本地v4配方文件/草稿、男性jaw单嘴参数复用。原男女嘴宽±4%与眉/鼻/眼各一个端点；男jaw只嘴宽0/+4%，女jaw/waist未获四域准入。工作台分区已获用户接受（evidence/workbench-layout-user-review-bcade.json）；新外观/画风观感仍待用户，不扩完整编辑器、体型衣库、M3或服务器。
 - bcade只新增换体提交前compileAsync准备及等待后最新状态采纳：22项CPU、4组浏览器事务、旧新正常1×与公开smoke通过；三轮真实compile后取消逐cacheKey/usedTimes回初值另有限定通过。见 `evidence/body-switch-compile-v1`、`evidence/body-switch-compile-browser-bcade-v1`、`evidence/body-switch-compile-lifetime-bcade-v1/RESULT.md`。**不把77整链、aa短后台或a0dd243秒会话重标为bcade全路径/长期通过。**
 - 开发机首次长帧仍在：a0dd改脸103–109ms；bcade换体同法A-B-A约322ms，均非普通电脑验收。用户明确“暂时没有，保留实测缺口继续”，见 `evidence/ordinary-pc-deferred-2026-11-15.json`。01a主色首用方案未改善整体出帧已撤回，不能重当未试建议。
+
+## 当前优先修复
+
+用户已接受工作台分区，但明确拒绝当前瞳色，要求更明显的面部几何幅度，并报告移动失效。记录见evidence/appearance-feedback-2026-11-15/feedback.json。优先复现并修复移动；并行修订虹膜遮罩/混色与重新制作有限几何端点，不能只扩大UI值或继承旧视觉结论。旧构建的技术检查保留，当前外观验收未通过。
 
 ## 状态口径与适用范围
 
@@ -56,7 +60,7 @@ F=完整Base_Female原基模，M=同系列Base_Male原基模，P=独立裤，S=�
 | BODY-01 完整女性与练功诊断 | 原VRM、重建blend、再导出、皮肤面存在 | 是 | 原女性roundtrip/同房间B/P/S；77原女裙所录整链用户接受；无发20b五体15角技术回读保原版 | 已验证可用：77展示基础；新外观/最终画风待用户 | 非原.vroid恢复；无连续Body身材morph；不外推新外貌或全部装备动作组合 | M1基础封板；有限M2外观 |
 | BODY-02 真实男性 | Base_Male独立身体、源blend、独立上衣裤鞋 | 是 | 真实男接入与独立装备；77任务/男男隔离和原男短裤完整链接受，旧数值保原版本 | 已验证可用：77展示基础；最终画风待用户 | 足底/体型/装备按所测范围，不继承任意派生或普通电脑性能 | M1B基础封板 |
 | BODY-03 年龄感/身高/胖瘦/比例 | 男女Body无现成体型morph | 否 | 无 | 未实现 | 拟议成年青年/成熟、少量局部变化；范围待可视样件，不承诺全年龄连续变化 | P3 M2受限；完整后续 |
-| FACE-01 长期脸型五官/肤色编辑 | 原男女嘴宽±4%、单眉位组合、鼻尖+0.5mm、眼裂宽+1%；女jaw/waist、男jaw源；配色与遮罩 | 共用工作台页内基模/参数/配色；原男女四域，男jaw25ac8a仅嘴宽0/+4%；女jaw/waist几何参数拒绝 | 00fd/844各源端点与定向运行；aa男jaw源→配方→6组回读/正常1×与文件往返；894布局/文件、a0dd19组、bcade公开smoke。见evidence/m2-male-jaw-mouth-browser-aa6fc6159e2d、evidence/face-selective-browser-a0dd7fb7bf4a、evidence/current-workbench-bcade40d24f1/report.json | 已验证可用：限定制作/编辑技术路径；新外观/布局/画风观感待用户 | 配色/表情不等于几何捏脸；眉鼻眼仅各一个端点，男jaw不支持2%/负嘴宽及其他域；嘴高/连续眉鼻眼/完整自由编辑未实现 | 有限M2闭环，不扩参数库 |
+| FACE-01 长期脸型五官/肤色编辑 | 原男女嘴宽±4%、单眉位组合、鼻尖+0.5mm、眼裂宽+1%；女jaw/waist、男jaw源；配色与遮罩 | 共用工作台页内基模/参数/配色；原男女四域，男jaw25ac8a仅嘴宽0/+4%；女jaw/waist几何参数拒绝 | 00fd/844各源端点与定向运行；aa男jaw源→配方→6组回读/正常1×与文件往返；894布局/文件、a0dd19组、bcade公开smoke。见evidence/m2-male-jaw-mouth-browser-aa6fc6159e2d、evidence/face-selective-browser-a0dd7fb7bf4a、evidence/current-workbench-bcade40d24f1/report.json | 已验证可用：限定制作/编辑技术路径；工作台分区获用户接受；新外观/画风观感待用户 | 配色/表情不等于几何捏脸；眉鼻眼仅各一个端点，男jaw不支持2%/负嘴宽及其他域；嘴高/连续眉鼻眼/完整自由编辑未实现 | 有限M2闭环，不扩参数库 |
 | RISK-01 真实女性脸部几何派生 | 既有女jaw源及精确body/装备fit | 离散样件已接；四域几何参数未准入 | 77原样件真实裤走跑→裤坐起→专属裙坐起/行走/技术舞→回裤，7完成/2取消；25门及QA子标签失败交叉核实，evidence/m1-variants-current-77e46efb5441 | 已验证可用：该离散样件所测技术链；样件观感未继承原男女接受 | 未新制；精细接触/完整表情未扩大，mic/glasses/新发/原男女配方不能默认继承 | 既有风险样件保留，不批量扩展 |
 | RISK-02 真实女性局部体型派生 | 既有腰+3.99%/臀+3.62%源及专属装备 | 离散样件已接；几何参数未准入 | 77该样件7完成/2取消/26门，裤裙完整技术链与正常1×在evidence/m1-variants-current-77e46efb5441 | 已验证可用：该样件所测技术链；新体型观感待用户 | 不是整体缩放；不能继承原female身份或所有服装接触通过；男体型样件未制作 | 既有风险样件保留 |
 | RISK-03 男性独立下颌几何派生 | 25ac8a真实98点≤2.306mm；editable源/54形态、Body及绑定不变 | 既有3016样件；现仅新增单嘴原位/+4%配方 | evidence/m2-male-face-room-v1、evidence/m2-male-face-motion-v1；aa单嘴6组/正常短裤讲话走停与新context文件回读，evidence/m2-male-jaw-mouth-browser-aa6fc6159e2d | 已验证可用：所列离散制作/参数复用技术路径；用户脸型观感未验 | 不继承原男77观感；眉鼻眼/连续或负嘴宽拒绝，未配mic/glasses/新发/专属动作及材料recipe不自动准入 | 有限M2已完成一个复用证明 |
@@ -93,7 +97,7 @@ F=完整Base_Female原基模，M=同系列Base_Male原基模，P=独立裤，S=�
 
 ## 产品未决与明确不支持
 
-新布局、男女代表发型/脸型/比例/材质画风及更大外貌差异仍待用户观看选择；已有微端点不是显著自由捏脸。正式直播特写是否必需、房间预计同屏数量未定，当前只验单人/双实例，不从线上玩家数推导同屏规模。这些产品选择不使已接受的77展示基础回到“整片待验”。
+现有男女独立入口、外观/动作/检查分区及常驻镜头/暂停/停止已获用户接受，见evidence/workbench-layout-user-review-bcade.json；男女代表发型/脸型/比例/材质画风及更大外貌差异仍待用户观看选择；已有微端点不是显著自由捏脸。正式直播特写是否必需、房间预计同屏数量未定，当前只验单人/双实例，不从线上玩家数推导同屏规模。这些产品选择不使已接受的77展示基础回到“整片待验”。
 
 用户接受动作连贯前提下轻微穿模，见 `evidence/visual-acceptance-scale-2026-11-15.json`。正常速度完整画面优先，零交叉不是所有衣物/动作的一票否决；严重错位/跳姿/持续滑步仍记录并按当前授权处理。该尺度不修改旧实验的预声明失败门，也不允许重启用户已封板的裙/舞精修。
 
