@@ -120,7 +120,6 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
   const root = new THREE.Group();
   root.name = "M1CompleteFoundation";
   root.add(vrm.scene);
-  if (attachToScene) scene.add(root);
   root.updateMatrixWorld(true);
   const sourceMaterials = new Map(),
     bodyMaterials = new Map(),
@@ -243,6 +242,8 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     equipment.setDebugBody(debugBody);
   }
   setDebugBody(false);
+  // Do not render/upload canonical Face geometry while equipment is still loading.
+  if (attachToScene) scene.add(root);
   return {
     vrm,
     root,

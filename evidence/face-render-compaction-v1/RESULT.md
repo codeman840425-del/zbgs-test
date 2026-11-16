@@ -33,3 +33,9 @@ Canonical CPU originals remain for verified author operations. Face render verti
 ## Preserved preparation failures
 
 cpu-1/cpu-2 reject both baseline and candidate on the same legacy brow recipe SHA. The new sparse worktree had been populated before its root .gitattributes was restored;19 public text files had CRLF checkout bytes. `checkout-byte-repair.json` records before/after hashes. They were restored byte-for-byte from the unchanged6e Git blobs, not repinned or reformatted by a new source recipe. Public assets have no Git diff. cpu-3 passed the initial matrix; cpu-4 adds full-actor teardown and failure-after-success. Historical files are not relabelled.
+
+## Initial attachment correction (after c371 diagnostic)
+
+QA's actual c371 doc-start capture (`F:/gamemake/evidence/face-compact-bridge-review/initial-c371/report.json`) showed canonical Face rendering/upload before equipment completed, followed by compact rendering/upload. Therefore the earlier capacity figures were not sufficient proof of actual initial residency reduction. The follow-up changes only initial `scene.add(root)` timing: after equipment, canonical live admission, compaction, editor construction and body-mode setup all succeed. `attachToScene=false` still never attaches. No temporary GPU upload/dispose workaround is introduced.
+
+`attachment-1` runs the actual factory function with dependency fixtures to hold/fail equipment and layers:5 cases verify no root during await, success-only attach, false remains offscene, equipment/compaction/body-mode failure cleanup, unchanged calibration matrix, old implementation's pending-root witness. Existing actual-asset cpu-4 remains the unchanged math/ownership gate. A new exact build must verify real initial uploads before the full screenshots/cost sequence.
