@@ -1,0 +1,39 @@
+{
+  "reviewedInitialCommit": "55d8bf93926f9a84321b76598ea52d96eab362be",
+  "reviewedFixCommit": "ffdb9677a54dc87934be60548ba02d0f5083158b",
+  "fixedSourceSha256": {
+    "scripts/production/asset_budget.py": "4ba613606522009304afe98cde144cf9aacaea16b14394f520304e981355f447",
+    "scripts/production/qa-asset-budget.py": "8aeb8cc310c8a312b579b86d592d8da25d7c57936fe2984c3101880416703ed4",
+    "scripts/production/asset-budgets-v1.json": "b5f792da80d061aa8dfac1045e2f69e699207dd5d4a05b5ea9959ef532dc9d63"
+  },
+  "blockingFindingsRemaining": [],
+  "resolvedFinding": {
+    "optionalInstancingBefore": {
+      "status": "admitted",
+      "nodeTriangles": 1
+    },
+    "installedThreeCpuLoader": {
+      "isInstancedMesh": true,
+      "count": 10000,
+      "effectiveTriangles": 10000
+    },
+    "sameFixtureAfter": {
+      "exitCode": 2,
+      "status": "invalid",
+      "error": "nodes[0].extensions: unsupported ['EXT_mesh_gpu_instancing']"
+    },
+    "rejectionScope": "All node extensions are explicitly outside this static meter; optional/required/undeclared instances are rejected from actual node content."
+  },
+  "verification": [
+    "Existing 25 checks passed on original code.",
+    "Exact 928 triangle threshold admits actual shorts; 927 rejects with unchanged source SHA.",
+    "Fixed suite including all three instancing declarations passed.",
+    "Exact original saved fixture rejected by fixed CLI as structured invalid.",
+    "Actual Three loader proof used CPU parsing without renderer/GPU."
+  ],
+  "limits": [
+    "Single-asset and direct PNG/JPEG dependency costs only. No complete glTF validation or runtime integration proof.",
+    "Configured ceilings remain provisional. Ordinary-PC memory/frame costs remain unmeasured.",
+    "Existing legacy over-budget assets retain their source bytes and recorded status."
+  ]
+}

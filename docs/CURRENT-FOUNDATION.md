@@ -12,7 +12,7 @@ Phaser+Three+VRM保留；女性封板裙和30秒舞不再精修。普通电脑�
 
 - 公开4196 `/?workbench=appearance` 仍fe5c528d9437/source937df9f；准确路径/回滚见delivery/appearance-workbench.json。
 - 4195/77e46保留M1；4174提供evidence。未把新外搭直接推为公开通过版。
-- 历史8e2926da4939/source a74090f1ed704a6c5b2eea3122b3e6fe5f44cd93保留experiments/m2-outer-camera-verified/prototype/dist，127文件重建一致；已退出4207服务。当前4207见下方086；历史录像和源码身份未改。
+- 历史8e2926da4939/source a74090f1ed704a6c5b2eea3122b3e6fe5f44cd93保留experiments/m2-outer-camera-verified/prototype/dist，127文件重建一致；已退出4207服务。当前4207见下方ae36；历史录像和源码身份未改。
 - 本包观看：4174/evidence/m2-outer-runtime-room-8e2-v1/，4条完整1×影片。实际author-export SHA0631cf9d…、配置长裤/短裤、旧84b配方恢复、新配方恢复、基础模式和男女切换清理通过。工程全时段2fps抽审只说明抽样，连续观感待验；没有普通电脑性能结论。源与生产命令assets-source/m2-outer-panels-v2及scripts/m2-outer-panels-v2，实际资源已进入production第9流程。
 - 失败未删除：m2-layered-outer-v1原表面偏移失败；m2-outer-panels-v2/failed-free-panel-grid肩带/板片失败；m2-outer-runtime-room-3c7-v1检查镜头墙挡。8e只对检查镜头建筑物做截面，角色/家具/镜头尺度未变。
 - 旧84b完整男女动作链及9bf覆盖失败保原、旧单件equip组合校验证据保留，不给它们换8e标签；外搭不等于连体装或衣层覆盖通过。
@@ -27,17 +27,23 @@ Phaser+Three+VRM保留；女性封板裙和30秒舞不再精修。普通电脑�
 
 ## 最近完成：P1 / CUSTOM-I01 现有候选查询与静态准入
 
-当前4207固定086c5e904d5b/source e53bfa3047c9808a2d288fe7f3211e2cfab46617；experiments/m2-candidate-admission-fixed-086/prototype/dist，127文件独立构建一致。现有原男女/男jaw的真实支持值和精确资源选择共用纯resolver，query/admit不改变人物修订号；实际文件digest/网格/绑定仍走prepare。
+历史086c5e904d5b/source e53bfa3047c9808a2d288fe7f3211e2cfab46617；experiments/m2-candidate-admission-fixed-086/prototype/dist，127文件独立构建一致。现有原男女/男jaw的真实支持值和精确资源选择共用纯resolver，query/admit不改变人物修订号；实际文件digest/网格/绑定仍走prepare。
 
 坏嘴宽/眉部资源输入此前静态接受、准备才拒绝；现提前拒绝。19 CPU、固定提交独立复核及9项实际浏览器通过（原男女查询/默认加载恢复、坏身份在网络前拒绝、未知字段拒绝、在途加载不被查询取消、坏字节仍拒绝）。正常1×及查询JSON：4174/evidence/m2-candidate-admission-browser-086-v1/，已全时段2fps抽查脸部无明显新裂面。不是新外观参数或通用fit通过，不重录全M1。
 
-## 主工作包：P1 / CUSTOM-E02/E04 真实连体装备
+## 最近完成：P1 / CUSTOM-E02/E04 真实连体装备运行
 
-缺口：底层onePiece占top+bottom，但房间outfitSelection仍拒绝，且没有真实连体实物。最少输入为当前完整男性和已验短裤生产方法；制作一件躯干→腰胯→双大腿实际连接的简洁连体练功服，独立源/skin/导出，不把旧衣裤改ID冒充连体。源生产由whole_look_prepare已知sol/high在独立codex/onepiece-source执行；root负责共用装备facade、接触/切换、固定浏览器验证。
+当前4207固定ae36ee9f440f/source b8c20d3b9d53938be88f6285b3042942816b716c，experiments/m2-onepiece-fixed-contact/prototype/dist。原男性62b44b＋真实e0cac504连体作者导出＋原鞋，保完整body，不复制旧衣裤改名；单连通、裁切权重、实际改源与四次重复导出经独立CPU核。源44body/368self和1.576mm近面采样深度保留，不以零交叉为门。生产索引整合正在独立分支完成。
 
-最小产物：可编辑源和参数→实际重新导出→onePiece装备/fit→房间沿原动作控制器加载；普通上下装↔连体互斥/卸下恢复，代表走跑转/坐起/动作及正常1×。必要接触角色映射放装备配置，不给单件动作加名称特例。不重开冻结裙舞、不为漂亮反复修。两轮同因无新证据停止扫参重定位。root和资产agent互斥使用GPU/重Blender；连体源正在独占Blender回开导出。用户新增并行授权后，asset_budget以显式sol/high独立做CUSTOM-P04实际GLB/VRM成本与只读预算检查，不占GPU、不碰运行源码；主集成交付仍为onePiece。
+80e实测坐稳零额外抬高留4.41mmgap，+10mm留11.84mm，最终ae36采用0，不继承旧裤补偿。该数值是坐稳的实际顶点/椅局部盒检查，不是全过程三角碰撞通过。ae36独立重建文件一致；房间、正面完整1×走跑/转/坐起/短动作链、旧84b与新连体配方往返、完整身体POSITION/index不变、男女切换后恢复通过。观看4174/evidence/m2-onepiece-room-ae3-v1/。root已看全部2fps两条链和正侧背/坐姿大图，抽样无大片断裂/裸露；不代替连续人类验收，也不扩大到派生体型。
 
-实际形体fit、衣层覆盖、按需加载等仍未完成，不宣称P1或M2通过。
+## 并行完成：CUSTOM-P04 单资产预算
+
+scripts/production/asset_budget.py check，m2-technical-v1；25初版门发现optional EXT_mesh_gpu_instancing可少算10000倍，已在ffdb967最小拒绝实际node未计量扩展，28门与独立实际Three纯CPU复现检查通过。7原代表资产结果保持；原男女RGBA8+mip估算约128/133MiB超过暂定body96MiB，麦克风9primitive超过附件8，原素材未改。连体2356v/4724t/1材质/157980bytes在garment预算内。此为静态估算与暂定技术门，非实测显存或普通机表现。整套/额外材质纹理/按需加载仍待后续，不能称P04完成。
+
+## 下一主工作包：CUSTOM-FIT01 实际形体与依赖
+
+连体源入口收尾后，利用已有派生身体/五官修改与装备，补实际形体身份和受影响fit依赖，避免只认基模SHA却忽略已修改的几何。m2_v2_scope_audit已知sol/high先做有界只读缺口核查；不造新头围参数、不改旧v6语义、不重开已验整套事务。最小修改及证据依据其实际调用/复现再定，未实现前不写通过。衣层覆盖、按需加载等仍留P1，M2未完成。
 
 ## 文档和派工恢复
 

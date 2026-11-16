@@ -1,0 +1,29 @@
+{
+  "reviewedSourceCommit": "55d8bf93926f9a84321b76598ea52d96eab362be",
+  "sourceHashes": {
+    "scripts/production/asset_budget.py": "10921d9ddcdf2fb789bb400c2ad791c5bb00f694bbaf270199c226cb756ce111",
+    "scripts/production/asset-budgets-v1.json": "b5f792da80d061aa8dfac1045e2f69e699207dd5d4a05b5ea9959ef532dc9d63",
+    "scripts/production/qa-asset-budget.py": "12fa40594ffccd08644ecdc64088a4b516c35806b6ffb330d9e5c813d35f1898"
+  },
+  "fixtureSha256": "134bc1e84b13b3b8da24ee3ce2876d5d6fec44a9410b6d27883ac8fb97cbed3f",
+  "blockingFinding": {
+    "field": "nodes[].extensions.EXT_mesh_gpu_instancing",
+    "sourceLines": [
+      58,
+      222,
+      226
+    ],
+    "observedBudgetStatus": "admitted",
+    "observedNodeTriangles": 1,
+    "actualInstalledThreeLoaderInstances": 10000,
+    "actualEffectiveTriangles": 10000,
+    "configuredAccessoryNodeTriangleLimit": 6000,
+    "minimumRemedy": "Reject this unmeasured node extension before static admission, including when optional."
+  },
+  "boundaryChecks": {
+    "exactTriangleLimitAdmitted": true,
+    "oneBelowActualTriangleCountRejected": true,
+    "existingAssetBytesPreserved": true
+  },
+  "scope": "CPU only. Threshold calibration is provisional and ordinary-PC unmeasured. Existing over-budget assets are observations, not an instruction to edit art."
+}

@@ -3,6 +3,7 @@ const {chromium}=require('../prototype/node_modules/playwright');
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
 const {verifyCandidate}=require('./qa-m1-common.cjs');
 const [base,build,folder]=process.argv.slice(2),out=path.resolve(folder);
+const onePiece=process.argv.includes('--one-piece'),outfit=onePiece?5:4,role=onePiece?'onePiece':'outer';
 (async()=>{
  await fs.mkdir(out,{recursive:false});await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
  const browser=await chromium.launch({channel:'chrome',headless:true});
@@ -12,20 +13,23 @@ const [base,build,folder]=process.argv.slice(2),out=path.resolve(folder);
  try{
   await p.goto(base+'?body=male&workbench=appearance');await p.waitForFunction(()=>window.__debug?.ready&&!document.querySelector('#appearance-fields').disabled,null,{timeout:60000});
   report.identity=await verifyCandidate(p,{build,assetId:'beta-base-male-m1b',sha256:'62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff'});
-  await p.locator('[data-outfit="4"]').click();const recipe=await p.evaluate(()=>__debug.exportAppearanceRecipe());
-  let s=await state();assert.equal(s.equipment.items.outer.visible,true);report.checks.push({label:'male-outer-shorts',state:s});
+  await p.locator(`[data-outfit="${outfit}"]`).click();const recipe=await p.evaluate(()=>__debug.exportAppearanceRecipe());
+  let s=await state();assert.equal(s.equipment.items[role].visible,true);report.checks.push({label:'male-'+role,state:s});
+  const maleExtraCount=s.buttons.filter(n=>n.index>2).length;
   for(const body of ['female','male']){
    const result=await p.evaluate(body=>__debug.command({type:'bodySelect',bodyType:body}),body);
    assert.equal(result.applied,true,JSON.stringify(result));s=await state();assert.equal(s.body,body);
-   const extra=s.buttons.filter(n=>n.index>2);assert.equal(extra.length,body==='male'?2:0);
-   assert.equal(Boolean(s.equipment.items.outer?.visible),false);
+   const extra=s.buttons.filter(n=>n.index>2);assert.equal(extra.length,body==='male'?maleExtraCount:0);
+   assert.equal(Boolean(s.equipment.items[role]?.visible),false);
    report.checks.push({label:'replace-with-'+body,result,state:s});
   }
   assert.equal((await p.evaluate(text=>__debug.importAppearanceRecipe(text),recipe)).applied,true);
   assert.deepEqual(JSON.parse(await p.evaluate(()=>__debug.exportAppearanceRecipe())),JSON.parse(recipe));
-  s=await state();assert.equal(s.equipment.items.outer.visible,true);assert.equal(s.equipment.items.shorts.visible,true);
-  assert.deepEqual(s.buttons.filter(n=>n.active==='true').map(n=>n.index),[4]);
-  report.checks.push({label:'saved-outer-look-restored',state:s});
+  s=await state();assert.equal(s.equipment.items[role].visible,true);
+  if(onePiece)assert.deepEqual(Object.entries(s.equipment.items).filter(([,v])=>v.visible).map(([k])=>k).sort(),['onePiece','shoes']);
+  else assert.equal(s.equipment.items.shorts.visible,true);
+  assert.deepEqual(s.buttons.filter(n=>n.active==='true').map(n=>n.index),[outfit]);
+  report.checks.push({label:'saved-'+role+'-look-restored',state:s});
   // Actual wrong-body resource rejection is already covered by the recipe suite.
   // This check concentrates on successful replacement and UI/gear cleanup only.
   assert.equal(report.errors.length,0);report.status='passed';await p.screenshot({path:path.join(out,'restored.png')});
