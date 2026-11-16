@@ -1,0 +1,32 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "name": "actual official solver deforms weighted vertex, preserves bone length, isolates peer",
+      "passed": true,
+      "localVertexDelta": 0.008630610748700659
+    },
+    {
+      "name": "zero delta freezes; disable resets once; re-enable resumes; reset does not accumulate",
+      "passed": true
+    },
+    {
+      "name": "nonfinite/unsupported time and malformed chain rejected",
+      "passed": true
+    },
+    {
+      "name": "bad chain cleans colliders; bad weights and borrowed skeleton rejected",
+      "passed": true
+    },
+    {
+      "name": "dispose removes body collider and is idempotent",
+      "passed": true
+    },
+    {
+      "name": "avatar reference removes steady root-translation drag while local head motion remains",
+      "passed": true,
+      "maxRotationDifference": 3.8311367966947785e-15
+    }
+  ],
+  "scope": "Actual imported Three.js and three-vrm-springbone solver with small authored CPU skin fixture; no real hair asset/render/visual/performance acceptance"
+}

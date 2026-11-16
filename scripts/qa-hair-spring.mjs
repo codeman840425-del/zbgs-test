@@ -19,12 +19,13 @@ function rig(){
   g.setAttribute('skinWeight',new THREE.Float32BufferAttribute([1,0,0,0,.5,.5,0,0,.5,.5,0,0],4));g.setIndex([0,1,2]);
   const mesh=new THREE.SkinnedMesh(g,new THREE.MeshBasicMaterial());scene.add(mesh);root.updateMatrixWorld(true);
   const skeleton=new THREE.Skeleton([tail,tip]);mesh.bind(skeleton);root.updateMatrixWorld(true);
-  const vrm={humanoid:{getRawBoneNode:semantic=>semantic==='head'?head:null}};
+  const vrm={scene:root,humanoid:{getRawBoneNode:semantic=>semantic==='head'?head:null}};
   return{root,head,scene,tail,tip,mesh,vrm};
 }
 try{
  const a=rig(),b=rig();validateHairSkin(a.scene,[a.mesh]);
  const ma=createHairSpring({...a,config}),mb=createHairSpring({...b,config});ma.reset();mb.reset();
+ assert.equal(ma.getState().simulationFrame,'avatar-scene');assert.equal(ma.getState().rootMotionInertia,false);
  a.mesh.skeleton.update();const before=a.mesh.getVertexPosition(1,new THREE.Vector3()).clone();
  const peerBefore=mb.getState(),initialHeadChildren=a.head.children.length;
  a.head.rotation.z=.45;
@@ -52,6 +53,19 @@ try{
  checks.push({name:'bad chain cleans colliders; bad weights and borrowed skeleton rejected',passed:true});
  ma.dispose();ma.dispose();mb.dispose();assert.equal(a.head.children.length,initialHeadChildren-1);
  checks.push({name:'dispose removes body collider and is idempotent',passed:true});
+ const c=rig(),d=rig(),mc=createHairSpring({...c,config}),md=createHairSpring({...d,config});
+ mc.reset();md.reset();let maxRotationDifference=0;
+ for(let i=0;i<240;i++){
+   c.root.position.z=i/120*1.05;
+   c.head.rotation.x=d.head.rotation.x=Math.sin(i/24)*.15;
+   c.root.updateMatrixWorld(true);d.root.updateMatrixWorld(true);
+   mc.update(1/120);md.update(1/120);
+   const left=mc.getState().localRotations.flat(),right=md.getState().localRotations.flat();
+   maxRotationDifference=Math.max(maxRotationDifference,...left.map((v,k)=>Math.abs(v-right[k])));
+ }
+ assert(maxRotationDifference<1e-9);assert(Math.abs(c.tail.quaternion.x)>.001);
+ mc.dispose();md.dispose();
+ checks.push({name:'avatar reference removes steady root-translation drag while local head motion remains',passed:true,maxRotationDifference});
  await fs.writeFile(path.join(out,'report.json'),JSON.stringify({status:'passed',checks,
    scope:'Actual imported Three.js and three-vrm-springbone solver with small authored CPU skin fixture; no real hair asset/render/visual/performance acceptance'},null,2));
  console.log(JSON.stringify({status:'passed',checks}));

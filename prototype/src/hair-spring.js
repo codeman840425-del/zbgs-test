@@ -195,6 +195,8 @@ class RoomBoxShape extends VRMSpringBoneColliderShape {
 // from resetting the original VRM's hair. Called once after humanoid/raw sync.
 export function createHairSpring({vrm,scene,config,environmentColliders=[]}) {
   validateHairSpringConfig(config);
+  const simulationCenter=vrm.scene??null;
+  check(simulationCenter===null||simulationCenter.isObject3D,'动态参考节点无效');
   const manager=new VRMSpringBoneManager(), colliders=[], joints=[], names=new Map();
   const environmentGroups = [], ownedColliders = new Set(), cleanupErrors = [];
   let environmentObjects = [];
@@ -216,6 +218,10 @@ export function createHairSpring({vrm,scene,config,environmentColliders=[]}) {
       const environmentGroup = {colliders:[]}; environmentGroups.push(environmentGroup);
       const joint=new VRMSpringBoneJoint(b,child,{hitRadius:j.hitRadius,stiffness:j.stiffness,
         gravityPower:j.gravityPower,gravityDir:new THREE.Vector3().fromArray(j.gravityDir),dragForce:j.dragForce},[{colliders},environmentGroup]);
+      // Store history in the avatar frame. World-history drag otherwise makes
+      // constant locomotion hold the tail nearly horizontal. Local head/body
+      // animation still drives this official solver; root inertia is excluded.
+      joint.center=simulationCenter;
       joints.push(joint);manager.addJoint(joint);
     }
     setEnvironmentColliders(environmentColliders);
@@ -301,6 +307,7 @@ export function createHairSpring({vrm,scene,config,environmentColliders=[]}) {
       manager.update(dt);updates++;
     },
     getState:()=>({implementation:'three-vrm-springbone-3.5.5',jointCount:joints.length,colliderCount:colliders.length,
+      simulationFrame:simulationCenter?'avatar-scene':'world',rootMotionInertia:simulationCenter===null,
       bodyColliderCount:colliders.length,environmentColliderCount:environmentSources.length,
       environmentColliderObjectCount:environmentObjects.length,
       environmentCollisionDiagnostics:environmentObjects.map(c=>({box:c.shape.proxy.name??null,bone:c.shape.bone.name,
