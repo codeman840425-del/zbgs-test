@@ -13,7 +13,7 @@ python scripts/production/qa-flow.py
 python scripts/production/qa-source-packages.py
 ```
 
-十三条入口共用既有命令索引；已有 `male-jaw-source`、`male-jaw-mouth`、`male-jaw-hair-fit`。没有运行命令的子命令、shell、自动导出或浏览器。`show`/`dry-run` 只输出参数和写入范围；`validate` 只读现有文件。工具或依赖缺失与源文件缺失分开报告。
+十四条入口共用既有命令索引；已有 `male-jaw-source`、`male-jaw-mouth`、`male-jaw-hair-fit`。没有运行命令的子命令、shell、自动导出或浏览器。`show`/`dry-run` 只输出参数和写入范围；`validate` 只读现有文件。工具或依赖缺失与源文件缺失分开报告。
 
 新增三包清单 SHA 固定在 workflows.json。男下颌包核文件及原始基模、独立重建/重复导出的身份；嘴包核 files/dependencies、精确 jaw 基模与仅 0/+4% 配方及最终 NORMAL 产物；头发包使用 evidence 下的包清单，并核同 GLB 的独立 fit ID/version/body、挂点及 public 三文件。头发目录的 manifest.json 是运行时描述，不能当文件清单。
 
@@ -61,3 +61,7 @@ if (result.accepted) await __debug.importAppearanceRecipe(JSON.stringify(record)
 `python -B scripts/m2-socks-layer-v1/publish.py` 先预检完整计划，再发布新目录两GLB及source manifest，最后逐文件原子更新原m1/m1b装备清单。只追加对应socks条目，GLB URL绝对指向新目录；原entry及其相对URL、材质配方/fitResource、顶层元数据与顺序保留。已有socks ID必须深度完全相等。这样原profiles与v6 manifestUrl继续使用既有路径。其余原装备GLB、Body和冻结资产是保护输入。中断可能留下部分新文件，可用同源重复发布继续，每文件原子性不代表跨文件事务。
 
 定向回归为 `python -B scripts/production/qa-socks-package.py`，只在OS临时镜像内测试发布/重复/冲突和完整预检，主仓资源不写入。source-only QA保留runtimeAccepted=false，原女性Body长袜贴图与已有鞋/男长裤交叉诊断保持；运行、恢复及观感仍需固定版本证据。
+
+小腿比例入口为 `lower-leg-proportion-source`。只读回读固定24文件清单，另钉住后来加入的 publisher SHA，不改写源清单。核原男性 Body、可编辑检查点、派生 Body 和双侧固定 +20 mm、三件装备的实际绑定与独立 fit。鞋重新变形并重绑脚部，上衣和短裤保留原 GLB 字节，使用派生 Body 专属 fit，旧材质配方未继承。前臂 profile 保留原测量数据，核原 profile SHA、上身原始骨骼/几何/权重/绑定等价证据及派生 profile 身份，发布七文件逐一核实源字节与实际绝对 URL。
+
+隔离检出重做顺序为 `build.py`、`qa-upper-fit.py`、`node qa-vrm.mjs`、`qa.py`、索引 `validate lower-leg-proportion-source`，再 `publish.py`。前三个 Python 制作/检查脚本使用 `python -B scripts/m2-lower-leg-proportion-v1/<脚本>`，Node 同目录入口使用锁定 prototype 依赖。`qa.py` 会重跑 build，并刷新生成物、QA 和清单，须在上身与 loader QA 后运行。publisher 在任何目标写入前逐项核源清单 SHA/字节与三份 QA passed，再预检身体/装备/profile 身份及全部已有输出字节。索引另固定清单版本。它仅向独立发布目录写七文件及临时文件，逐文件原子发布，相同源可恢复中断。失败保留错误与原身份，不冒用旧 Body/旧 fit。`python -B scripts/production/qa-lower-leg-package.py` 做只读回读、内存阴性注入和 OS 临时镜像内的重复发布及源清单/失败 QA 拒绝验证，运行、足底接触、坐姿和观感验收均待对应固定游戏证据。

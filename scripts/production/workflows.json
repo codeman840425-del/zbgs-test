@@ -1694,6 +1694,156 @@
         "Retain failure. Restore exact source bytes for a SHA failure. Rebuild and QA only in an isolated checkout.",
         "For differing existing output, compare identities before explicitly restoring it. Never overwrite an unrelated entry. Do not change original profiles URLs."
       ]
+    },
+    {
+      "id": "lower-leg-proportion-source",
+      "title": "Original male fixed +20 mm lower-leg derivative and exact equipment fits",
+      "kind": "source-package",
+      "sources": [
+        "assets-source/m2-lower-leg-proportion-v1/spec.json",
+        "assets-source/m2-lower-leg-proportion-v1/provenance.json",
+        "scripts/m2-lower-leg-proportion-v1/build.py",
+        "scripts/m2-lower-leg-proportion-v1/upper_fit.py",
+        "scripts/m2-lower-leg-proportion-v1/qa-upper-fit.py",
+        "scripts/m2-lower-leg-proportion-v1/qa-vrm.mjs",
+        "scripts/m2-lower-leg-proportion-v1/qa.py",
+        "scripts/m2-lower-leg-proportion-v1/publish.py"
+      ],
+      "inputs": [
+        "assets-source/m2-lower-leg-proportion-v1/spec.json",
+        "prototype/public/assets/foundation/base-male-roundtrip.vrm",
+        "assets-source/foundation-male/base-male-candidate-editable.blend",
+        "prototype/public/assets/m1b/equipment.json",
+        "prototype/public/assets/forearm-collision-v2/male.json"
+      ],
+      "identity": {
+        "package": "lower-leg",
+        "manifest": "assets-source/m2-lower-leg-proportion-v1/generated/package-files.json",
+        "manifestSha256": "76a5b3c31f6eb41e64d8623e04f8270613985d032510f864c08740a9e37f8567",
+        "publisherSha256": "4081e2ba38b5f08f80fb29e7ef1adebbacd44170f1c5b2e3ddbe34bc2ee340fd"
+      },
+      "requirements": [
+        "scripts/m2-lower-leg-proportion-v1/requirements.txt",
+        "prototype/package-lock.json"
+      ],
+      "outputs": [
+        "assets-source/m2-lower-leg-proportion-v1/generated/",
+        "prototype/public/assets/m2-lower-leg-proportion-v1/"
+      ],
+      "agentInput": {
+        "spec": "assets-source/m2-lower-leg-proportion-v1/spec.json",
+        "supportedBases": [
+          "exact original male only"
+        ],
+        "supportedValuesM": [
+          0.02
+        ],
+        "generationDependencies": "Python 3.13 with numpy==2.4.2; CPU VRM loader QA uses prototype locked Node/Three/@pixiv/three-vrm. Readback uses Python standard library. No Blender/GPU."
+      },
+      "stages": {
+        "source": [
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/production/flow.py",
+              "show",
+              "lower-leg-proportion-source"
+            ],
+            "writes": []
+          }
+        ],
+        "export": [
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/m2-lower-leg-proportion-v1/build.py"
+            ],
+            "writes": [
+              "assets-source/m2-lower-leg-proportion-v1/generated/"
+            ],
+            "note": "Fixed output paths. Use an isolated checkout for remake. Writes derivative VRM, equipment and forearm evidence/profile. Preserves original Body, editable checkpoint and original equipment."
+          },
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/m2-lower-leg-proportion-v1/publish.py"
+            ],
+            "writes": [
+              "prototype/public/assets/m2-lower-leg-proportion-v1/"
+            ],
+            "note": "After all source QA and inventory refresh. Preflight all seven outputs; reject any differing existing bytes. Per-file .tmp then os.replace, missing outputs only. Exact same-source retry continues interrupted installation. Publisher checks every stored inventory entry SHA/bytes and all three passed QA reports before target writes, plus body/equipment/profile identity. Index readback also pins the exact inventory version. Never repoint original body/profile IDs on failure."
+          }
+        ],
+        "check": [
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/m2-lower-leg-proportion-v1/qa-upper-fit.py"
+            ],
+            "writes": [
+              "assets-source/m2-lower-leg-proportion-v1/generated/upper-body-qa.json"
+            ],
+            "note": "CPU exact source/top/selected forearm verification. Uses and removes OS temporary corrupt fixture. Writes this report only."
+          },
+          {
+            "argv": [
+              "node",
+              "scripts/m2-lower-leg-proportion-v1/qa-vrm.mjs"
+            ],
+            "writes": [
+              "assets-source/m2-lower-leg-proportion-v1/generated/vrm-loader-qa.json"
+            ],
+            "note": "Actual CPU VRM loader normalized/raw mapping. Placeholder texture decode checks skeleton only; Python QA checks retained original texture bytes."
+          },
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/m2-lower-leg-proportion-v1/qa.py"
+            ],
+            "writes": [
+              "assets-source/m2-lower-leg-proportion-v1/generated/"
+            ],
+            "note": "Transitive build rewrites fixed generated files, then repeat/source/bind QA and package-files. Run after upper and VRM loader QA so final inventory captures all current evidence. Source inventory currently contains 24 files; publisher is separately SHA pinned in this index. No game or visual acceptance."
+          },
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/production/qa-lower-leg-package.py"
+            ],
+            "writes": [],
+            "note": "Read-only frozen-package checks and bounded in-memory rejection fixtures. Publisher success/retry and failed inventory/QA are checked only in an OS temporary mirror, removed afterwards. No main-repository asset writes."
+          }
+        ],
+        "readback": [
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/production/flow.py",
+              "validate",
+              "lower-leg-proportion-source"
+            ],
+            "writes": []
+          }
+        ]
+      },
+      "limits": [
+        "One male bilateral +20 mm knee-to-ankle source parameter only. No continuous range, female, socks or other garments inferred.",
+        "Shoes have new geometry/raw foot binds. Top and shorts retain exact source GLB bytes under distinct derived-body fit identities. Original material recipes omitted.",
+        "Forearm measured data reuse has exact upper-body geometry/weights/raw-rest/bind evidence. Runtime contacts and movement remain pending.",
+        "Source runtimeAccepted=false remains. Publishing is per-file atomic, not a cross-file transaction. Existing different outputs require identity review."
+      ],
+      "recovery": [
+        "Keep failed evidence and restore exact input/export bytes for SHA mismatch. Do not edit inventory to bless corrupt data.",
+        "Rebuild only in an isolated checkout with the same fixed source and supported +20 mm spec. Rerun upper QA, CPU VRM loader QA, then repeat/source QA and readback before publish.",
+        "If publish is interrupted, retry with identical source after validation. On differing existing output stop that publication and inspect identities. Do not fall back silently to the original body or old fit."
+      ]
     }
   ]
 }

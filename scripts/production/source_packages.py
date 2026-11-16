@@ -4,6 +4,9 @@ import json
 
 def validate_package(v, ident, require, GLB):
     kind = ident['package']
+    if kind == 'lower-leg':
+        from lower_leg_package import validate_lower_leg
+        return validate_lower_leg(v, ident, require, GLB)
     if kind == 'socks':
         from socks_package import validate_socks
         return validate_socks(v, ident, require, GLB)
