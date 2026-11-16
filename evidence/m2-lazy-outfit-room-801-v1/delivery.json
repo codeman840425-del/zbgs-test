@@ -1,0 +1,38 @@
+{
+  "build": "801c7a9c9026",
+  "sourceCommit": "58bc10748cc9fa618f8ecf58b54abbb7de12ffb8",
+  "fixedDist": "experiments/m2-lazy-outfit-fixed-801/prototype/dist",
+  "liveCandidate": "http://127.0.0.1:4208/?workbench=appearance",
+  "public4196Unchanged": true,
+  "technicalStatus": "bounded selected-outfit loading and four lifecycle cycles verified",
+  "visualStatus": "normal1x recordings retained; 2fps engineering sample review, not human naturalness acceptance",
+  "equipmentRequestBytes": {
+    "male": {
+      "before": 4843460,
+      "after": 3739572
+    },
+    "female": {
+      "before": 3363744,
+      "after": 2951056
+    },
+    "scope": "Equipment GLB response bytes only; not full payload, compression or memory"
+  },
+  "evidence": [
+    "m2-selected-equipment-male-801-v1",
+    "m2-selected-equipment-female-801-v1",
+    "m2-lazy-outfit-transactions-801-v2",
+    "m2-lazy-skirt-initialization-801-v1",
+    "m2-lazy-outfit-sequence-801-v1",
+    "m2-lazy-outfit-lifecycle-801-v1",
+    "m2-lazy-outfit-rebuild-801-v1"
+  ],
+  "limitations": [
+    "Visited equipment remains cached until actor disposal; no general cache eviction",
+    "No measured GPU bytes, long-duration leak pass or ordinary-PC result",
+    "First-skirt diagnostic clips contain deliberate paused selection; movement after resume is 1x",
+    "Frozen skirt and dance defects unchanged",
+    "No compression format selected or implemented"
+  ],
+  "environment": "Development Windows PC, Ryzen 9 9950X3D / RTX4090, Chrome, 1440x900; not target ordinary PC",
+  "rebuild": "git checkout 58bc10748cc9fa618f8ecf58b54abbb7de12ffb8; in prototype run npm ci then npm run build; serve dist; exact rebuild record linked"
+}

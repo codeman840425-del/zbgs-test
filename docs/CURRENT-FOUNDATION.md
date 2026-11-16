@@ -43,7 +43,7 @@ scripts/production/asset_budget.py check，m2-technical-v1；25初版门发现op
 
 ## 最近完成：CUSTOM-FIT01 实际形体与依赖
 
-当前4208固定9a03cf3a05c4/source f56d9be338aec070ced8bffd0368fe71ef29d4ea，experiments/m2-shape-fit-fixed-9a0/prototype/dist。独立重建一致；观看4174/evidence/m2-shape-dependency-browser-9a0-v1/。真实fit缺失保留旧人物、Body点变化拒绝旧适配、嘴形/复位不误伤服装、坐稳换装均通过。root全时段2fps抽帧，坐稳/换装可见；接近椅子中有家具遮挡，不把本片当行走视觉通过。独立CPU还复现f9单equip hash等待期间卸衣后旧ids复活衣物，f56在最后同步重读/复核后通过。基线与修复证据保evidence/m2-shape-fit-independent-v1，旧ea2372与484证据保各自原身份。
+历史4208固定9a03cf3a05c4/source f56d9be338aec070ced8bffd0368fe71ef29d4ea，experiments/m2-shape-fit-fixed-9a0/prototype/dist。独立重建一致；观看4174/evidence/m2-shape-dependency-browser-9a0-v1/。真实fit缺失保留旧人物、Body点变化拒绝旧适配、嘴形/复位不误伤服装、坐稳换装均通过。root全时段2fps抽帧，坐稳/换装可见；接近椅子中有家具遮挡，不把本片当行走视觉通过。独立CPU还复现f9单equip hash等待期间卸衣后旧ids复活衣物，f56在最后同步重读/复核后通过。基线与修复证据保evidence/m2-shape-fit-independent-v1，旧ea2372与484证据保各自原身份。
 
 源sidecar实际按锁定Three187 GLTFLoader生成运行权重摘要并保raw SHA，主工作区重复生成输出一致。只为登记的原男onePiece声明Body依赖，旧衣服不自动获得该能力；越过needsUpdate的原地数组改写不支持。当前全套预载使未选onePiece的fit缺失也会阻止男性准备；失败保原已验，按实际选择加载留CUSTOM-P05。
 
@@ -51,9 +51,15 @@ scripts/production/asset_budget.py check，m2-technical-v1；25初版门发现op
 
 当前4207为d714aae9f601/source b89d9ab0088f396e0f67c3b24c979c159c96d697，独立检出experiments/m2-garment-coverage-fixed-d71/prototype/dist。观看4174/evidence/m2-garment-coverage-room-d71-v1/，含房间/背面1×完整链、男女切换恢复及旧8e2房间参考。原男top393a＋outer0631配对56face遮挡，卸外搭/基础模式恢复原6012索引及SHA，原Body不改。root全时段2fps两片与关键大图抽审未见新大片露面；椅背部分挡坐姿背面，不代替全表面碰撞或连续人类验收。完整top访问器仅供依赖方使用，座位仍按Body接触。原源生成首次Windows换行失败保留，后续显式UTF8 LF已跨主目录复跑一致。
 
-## 当前主工作包：CUSTOM-P05 实际选中服装按需加载
+## 最近完成：CUSTOM-P05 实际选中服装按需加载
 
-whole_look_prepare已知sol/high从b89d9ab独立实现：初始只实际outfit角色资源，outer/skirt/onePiece首次选择再prepare；延迟mask/裙solver，动态surface/meshRoles，controller/recipe/body switch沿async prepare提交和取消清理。root负责实际网络、旧请求/坏资源保原、首次切换及动作。d714浏览器基线已记录默认男实际请求全部6件装备4843460bytes（已选3件共3739572bytes）；只是装备GLB字节，不含全部人体/动作/贴图或实测内存，evidence/m2-selected-equipment-baseline-d71-v1。先当前资源范围和实例销毁，不为此改步态或建通用LRU；缓存回收限制如实记录。asset_budget已知sol/high独立补衣层源进现有生产索引，不改runtime。禁止重开女裙与30秒舞。
+当前4208固定801c7a9c9026/source58bc10748cc9fa618f8ecf58b54abbb7de12ffb8，独立检出experiments/m2-lazy-outfit-fixed-801/prototype/dist且重建字节一致。观看4174/evidence/m2-lazy-outfit-room-801-v1/。公开4196未替换。
+
+默认男6→3件装备请求4843460→3739572bytes，女4→3件3363744→2951056bytes；仅装备GLB。真实12项首次选择/失败保原/冷配方恢复/取消/基础模式/旧人物销毁检查通过；序列等待与中断通过。原男短裤外搭房间完整1×走跑转坐起及短动作，女性首次裙装在idle/walk/sit时原始/标准化骨骼TRS保持；校准半径与旧预载差<1e-7m。诊断换裙录像包含故意暂停，恢复后1×；抽样2fps工程检查未见新大片缺面，不代替连续人工观感通过。女裙和30秒舞未改。
+
+修复实际发现：未加载装备配方身份查询、迟到旧覆盖清理恢复新top索引、基础模式材质改名导致找不到Body；均保留失败。真实coverage模块回归纠正了独立审查dispose计数假通过，不能继承旧mock结论。801事务v1误把基础模式下缓存选择当立即适配失败，夹具已改为恢复穿衣时验证，保留fixture-correction；v2同运行版通过。
+
+四次真实第二女性创建/基础模式/销毁后均回86几何41纹理23程序，主实例不受影响；对象数非实测显存或长期泄漏。已访问服装仍缓存至actor销毁，无通用淘汰。下一工作包：审查现有整套造型静态预算成果（只测量，不实施压缩），同时等顾问同类游戏压缩调研；之后按CAP接续P1缺口。普通机未测，不停止独立工作。
 
 ## 文档和派工恢复
 
@@ -64,3 +70,7 @@ whole_look_prepare已知sol/high从b89d9ab独立实现：初始只实际outfit�
 一次一个GPU/录屏/重Blender/编码任务。4295已关闭；4207/4208是root临时固定候选。只关闭自己创建的服务。最新连体源/运行/三片及预算审查提交aebea01a830e79abaad65f8c6894191cb90ef08b已推送并用ls-remote核实；回执evidence/m2-onepiece-room-ae3-v1/remote-backup.json。I01的e1c85f3与L02的78f823e远备亦保留；后续生产索引、复位修复与适配缺陷基线已于e1b80326e352045670af9033ebcdbfce9475e457远备并ls-remote核实；回执evidence/m2-fit-resource-baseline-ae3-v1/remote-backup.json。shape-fit固定运行与证据已随5f1a2d33ba9846bc1d6a982bfe2a735e0fa83704推送并ls-remote一致；回执evidence/m2-shape-dependency-browser-9a0-v1/remote-backup.json。衣层覆盖源/运行/固定录像与按需加载基线已随14b873dc566739359ef4fa3ce46edaa762e36319远备并ls-remote一致，回执evidence/m2-garment-coverage-room-d71-v1/remote-backup.json。尚未合入的按需实现不继承该结论。
 
 顾问新增轻量工具：官方 gltf-validator 2.0.0-dev.3.10，已有ae36原男女与连体精确SHA核心格式0error报告，只复制归档docs/research/gltf-validator-pilot-2026-11-16，未重跑。后续只新字节/格式排障按需用；VRM扩展、适配、视觉不在其验证范围，warning保留，不增全库门禁。
+
+## 当前插入：游戏发布资源压缩调研
+
+用户明确要求先让现有顾问调研类似技术游戏的实际压缩方式，不能自行选格式或压旧模型。已通过原生桌面工具向“核对项目交接与未通过项”发送有界调研（显式gpt-6.1-sol/high；请求记录docs/research/RESOURCE-COMPRESSION-ADVISOR-REQUEST-2026-11-16.txt）。期待报告在顾问既有目录RESOURCE-COMPRESSION-GAME-PRACTICES-2026-11-16.html。只读调研，不改工程、不采购、不录屏、不重导出；root待报告核实后归档并决定试验，当前P05验证继续。按需加载、HTTP传输压缩与贴图/模型运行格式压缩分别记录，尚无后两项已验流程。

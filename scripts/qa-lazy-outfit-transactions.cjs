@@ -91,9 +91,14 @@ const [base,build,folder]=process.argv.slice(2),out=path.resolve(folder);
    __debug.setBodyMode('base');const a=__debug.avatar(),m=a.root.getObjectByProperty('uuid',a.getAssetProfile().meshRoles.body[0]);
    const p=m.geometry.attributes.position;p.setX(0,p.getX(0)+.001);p.needsUpdate=true;
   });
-  report.shapeRejection=await outfit(5);assert.equal(report.shapeRejection?.applied,false);
+  // In base mode, selecting a cached garment does not make it visible.
+  // The shape guard must reject the later attempt to display that garment.
+  assert.equal((await outfit(5))?.applied,true);
+  report.shapeRejection=await page.evaluate(()=>{try{__debug.setBodyMode('dressed');return {rejected:false};}catch(error){return {rejected:true,reason:String(error),visible:__debug.avatar().getOutfitInfo().equipment.items.onePiece.visible};}});
+  assert.equal(report.shapeRejection.rejected,true);assert.equal(report.shapeRejection.visible,false);
   assert.match(report.shapeRejection.reason,/refit|changed|differs/);
-  report.checks.push('diagnostic display does not bypass the actual geometry-version fit guard');
+  report.checks.push('returning from diagnostic display rejects cached clothing whose actual geometry dependency changed');
+  await outfit(0);
   await page.evaluate(()=>__debug.setBodyMode('dressed'));
   // Replace once more so the following lifetime test owns a real first load.
   for(const bodyType of ['female','male'])assert.equal((await page.evaluate(bodyType=>__debug.command({type:'bodySelect',bodyType}),bodyType)).applied,true);

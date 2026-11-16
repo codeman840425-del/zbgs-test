@@ -212,6 +212,20 @@
       "configuration": "known requested gpt-6.1-sol/high retained; followup cannot change configuration",
       "reason": "Fix concrete omitted material-recipe texture mip cost and verify actual recipe dependency completeness without expanding runtime scope.",
       "work": "Incremental selected_look_budget repair and bounded actual recipe checks; no GPU or runtime edits."
+    },
+    {
+      "task": "advisor-resource-compression",
+      "interface": "codex_app.send_message_to_thread",
+      "threadId": "01a1dc29-f8d8-7f73-b374-98055d040eaa",
+      "hostId": "local",
+      "difficulty": "complex",
+      "model": "gpt-6.1-sol",
+      "thinking": "high",
+      "reason": "Research verified comparable games and exact VRM/version implications before choosing a release compression pipeline.",
+      "userAuthorization": "别自己玩压缩了，让顾问调研类似我们技术的游戏是如何对资源进行压缩的",
+      "promptFile": "docs/research/RESOURCE-COMPRESSION-ADVISOR-REQUEST-2026-11-16.txt",
+      "actualProviderConfiguration": "not independently exposed; explicit requested parameters recorded",
+      "hookInterception": "not a spawn_agent call; no enforcement claim"
     }
   ],
   "latestDesktopHookProbe": {

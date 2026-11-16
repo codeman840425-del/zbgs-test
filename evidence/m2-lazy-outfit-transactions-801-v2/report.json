@@ -1,0 +1,5379 @@
+{
+  "build": "801c7a9c9026",
+  "checks": [
+    "unselected missing onePiece fit is never requested and does not block default male",
+    "candidate query describes unselected outfits without loading their meshes or fit",
+    "missing fit on first selection preserves complete old appearance",
+    "first selection retry and complete onePiece recipe restore succeed",
+    "saved nondefault recipe restores on a fresh actor before its garment was ever loaded",
+    "new default selection prevents delayed old onePiece from becoming visible",
+    "old prepared outer cleanup preserves newer actual top indices, not just outfit flags",
+    "first outer load activates exact coverage; removal restores it",
+    "female skirt solver is created on first selection, exposes current mesh and updates through walking; pants restore",
+    "selecting an unvisited outfit in base mode prepares it for atomic dressed-mode restore",
+    "returning from diagnostic display rejects cached clothing whose actual geometry dependency changed",
+    "actor replacement during first garment load disposes old ownership; late result leaves current actor and recipe unchanged"
+  ],
+  "errors": [],
+  "scope": "Actual original male default/onePiece/outer first-load transactions and actor replacement; no target-PC performance pass.",
+  "identity": {
+    "runtimeBuild": {
+      "shortId": "801c7a9c9026",
+      "sourceDigest": "801c7a9c90260da47b0fc771caf3f282f67f8962d77fb6a15a07db3aca1fc0dc",
+      "inputs": [
+        "foundation.html",
+        "index.html",
+        "package-lock.json",
+        "package.json",
+        "public/assets/appearance-color-v1/female-iris-mask.png",
+        "public/assets/appearance-color-v1/female-outer-lip-mask.png",
+        "public/assets/appearance-color-v1/male-iris-mask.png",
+        "public/assets/appearance-color-v1/male-outer-lip-mask.png",
+        "public/assets/appearance-color-v1/runtime-manifest.json",
+        "public/assets/appearance-color-v2/female-iris-mask.png",
+        "public/assets/appearance-color-v2/female-outer-lip-mask.png",
+        "public/assets/appearance-color-v2/male-iris-mask.png",
+        "public/assets/appearance-color-v2/male-outer-lip-mask.png",
+        "public/assets/appearance-color-v2/runtime-manifest.json",
+        "public/assets/appearance-color-v3/female-iris-mask.png",
+        "public/assets/appearance-color-v3/female-iris-neutral.png",
+        "public/assets/appearance-color-v3/female-outer-lip-mask.png",
+        "public/assets/appearance-color-v3/male-iris-mask.png",
+        "public/assets/appearance-color-v3/male-iris-neutral.png",
+        "public/assets/appearance-color-v3/male-outer-lip-mask.png",
+        "public/assets/appearance-color-v3/runtime-manifest.json",
+        "public/assets/avatar.vrm",
+        "public/assets/body-coverage-risk-v1/female-top.json",
+        "public/assets/face-brow-parameters-v1/female-brow.runtime.json",
+        "public/assets/face-brow-parameters-v1/male-brow.runtime.json",
+        "public/assets/face-brow-parameters-v1/recipe-manifest.json",
+        "public/assets/face-brow-visible-v2/female-brow.recipe.json",
+        "public/assets/face-brow-visible-v2/male-brow.recipe.json",
+        "public/assets/face-brow-visible-v2/recipe-manifest.json",
+        "public/assets/face-eye-sample-v1/female-eye.recipe.json",
+        "public/assets/face-eye-sample-v1/male-eye.recipe.json",
+        "public/assets/face-eye-sample-v1/recipe-manifest.json",
+        "public/assets/face-eye-visible-v2/female-eye.recipe.json",
+        "public/assets/face-eye-visible-v2/male-eye.recipe.json",
+        "public/assets/face-eye-visible-v2/recipe-manifest.json",
+        "public/assets/face-nose-parameters-v1/female-nose.recipe.json",
+        "public/assets/face-nose-parameters-v1/male-nose.recipe.json",
+        "public/assets/face-nose-parameters-v1/recipe-manifest.json",
+        "public/assets/face-nose-visible-v2/female-nose.recipe.json",
+        "public/assets/face-nose-visible-v2/male-nose.recipe.json",
+        "public/assets/face-nose-visible-v2/recipe-manifest.json",
+        "public/assets/face-parameters-v1/female-mouth-width.recipe.json",
+        "public/assets/face-parameters-v1/male-mouth-width.recipe.json",
+        "public/assets/face-parameters-v1/recipe-manifest.json",
+        "public/assets/forearm-collision-v2/female.json",
+        "public/assets/forearm-collision-v2/male.json",
+        "public/assets/foundation/base-female-roundtrip.vrm",
+        "public/assets/foundation/base-female.vrm",
+        "public/assets/foundation/base-male-roundtrip.vrm",
+        "public/assets/garments/athletic-bermuda-v1.glb",
+        "public/assets/garments/equipment.json",
+        "public/assets/hand-joint-contact-v1/female.json",
+        "public/assets/hand-joint-contact-v1/jaw.json",
+        "public/assets/hand-joint-contact-v1/waisthip.json",
+        "public/assets/m1-variants/catalog.json",
+        "public/assets/m1-variants/forearm-collision-v2/m1a-jaw-v1.json",
+        "public/assets/m1-variants/forearm-collision-v2/m1a-waisthip-v1.json",
+        "public/assets/m1-variants/m1a-jaw-v1/avatar.vrm",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/equipment.json",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-training-pants.glb",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-shoes.glb",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-skirt.glb",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-top.glb",
+        "public/assets/m1-variants/m1a-waisthip-v1/avatar.vrm",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/equipment.json",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-training-pants.glb",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-shoes.glb",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-skirt.glb",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-top.glb",
+        "public/assets/m1/equipment.json",
+        "public/assets/m1/m1-training-pants.glb",
+        "public/assets/m1/m1-uniform-shoes.glb",
+        "public/assets/m1/m1-uniform-skirt-open-waist-v1.glb",
+        "public/assets/m1/m1-uniform-skirt.glb",
+        "public/assets/m1/m1-uniform-top.glb",
+        "public/assets/m1b/equipment.json",
+        "public/assets/m1b/m1b-uniform-pants.glb",
+        "public/assets/m1b/m1b-uniform-shoes.glb",
+        "public/assets/m1b/m1b-uniform-shorts-v1.glb",
+        "public/assets/m1b/m1b-uniform-top.glb",
+        "public/assets/m1b/m2-male-jaw-v1-equipment.json",
+        "public/assets/m1c/accessories.json",
+        "public/assets/m1c/glasses-fit/female.json",
+        "public/assets/m1c/glasses-fit/male.json",
+        "public/assets/m1c/grips/female-source-grip-v1.json",
+        "public/assets/m1c/grips/male-source-grip-v1.json",
+        "public/assets/m1c/grips/manifest.json",
+        "public/assets/m1c/runtime-fit-observations.json",
+        "public/assets/m1c/studio-glasses-v1.glb",
+        "public/assets/m1c/studio-microphone-v1.glb",
+        "public/assets/m2-garment-coverage-v1/coverage-mask.json",
+        "public/assets/m2-hairstyle-v1/female-bob.glb",
+        "public/assets/m2-hairstyle-v1/manifest.json",
+        "public/assets/m2-male-face-v1/avatar.vrm",
+        "public/assets/m2-male-face-v1/forearm-profile.json",
+        "public/assets/m2-male-hairstyle-v1/male-sidepart.glb",
+        "public/assets/m2-male-hairstyle-v1/manifest.json",
+        "public/assets/m2-male-jaw-hair-fit-v1/.gitattributes",
+        "public/assets/m2-male-jaw-hair-fit-v1/fit.json",
+        "public/assets/m2-male-jaw-hair-fit-v1/male-sidepart.glb",
+        "public/assets/m2-male-jaw-hair-fit-v1/manifest.json",
+        "public/assets/m2-male-jaw-mouth-v1/male-jaw-mouth-width.recipe.json",
+        "public/assets/m2-male-jaw-mouth-v1/recipe-manifest.json",
+        "public/assets/m2-onepiece-v1/author-export.glb",
+        "public/assets/m2-onepiece-v1/fit.json",
+        "public/assets/m2-onepiece-v1/shape-fit.json",
+        "public/assets/m2-outer-panels-v2/author-export.glb",
+        "public/assets/material-recipes/m1b-shorts-cloth-v4-review1.json",
+        "public/assets/motion/UAL1_Standard.glb",
+        "public/assets/motion/m1c/dance-imports.json",
+        "public/assets/motion/m1c/dance-source-reference.glb",
+        "public/assets/motion/m1c/dance-technical-v1.config.json",
+        "public/assets/motion/m1c/dance-technical-v1.glb",
+        "public/assets/motion/m1c/frozen-rokoko-30s-v1/README.md",
+        "public/assets/motion/m1c/frozen-rokoko-30s-v1/install-receipt.json",
+        "public/assets/motion/m1c/frozen-rokoko-30s-v1/rokoko-5359146-female-arm-local-v1.motion.json",
+        "public/assets/motion/m1c/frozen-rokoko-30s-v1/rokoko-5359146-female-v1.motion.json",
+        "public/assets/motion/m1c/frozen-rokoko-30s-v1/rokoko-5359146-male-arm-local-v1.motion.json",
+        "public/assets/motion/m1c/frozen-rokoko-30s-v1/rokoko-5359146-male-v1.motion.json",
+        "public/assets/motion/m1c/greeting/gesture-import.json",
+        "public/assets/motion/m1c/greeting/greeting-wave-left-v1.glb",
+        "public/assets/motion/m1c/jog-ordinary-derived-v1.config.json",
+        "public/assets/motion/m1c/jog-ordinary-derived-v1.glb",
+        "public/assets/motion/m1c/jog-ordinary-derived-v1.profile.json",
+        "public/assets/mouth-visible-v2/female-mouth-width.recipe.json",
+        "public/assets/mouth-visible-v2/male-mouth-width.recipe.json",
+        "public/assets/mouth-visible-v2/recipe-manifest.json",
+        "public/favicon.svg",
+        "scripts/build-id.mjs",
+        "scripts/qa-face-compact-attachment.mjs",
+        "scripts/qa-face-render-compaction.mjs",
+        "src/appearance-candidates.js",
+        "src/appearance-recipe.js",
+        "src/appearance-workbench.js",
+        "src/assets.js",
+        "src/behavior-tasks.js",
+        "src/body-coverage.js",
+        "src/character-appearance.js",
+        "src/cloth-material.js",
+        "src/cloth.js",
+        "src/equipment-set.js",
+        "src/equipment.js",
+        "src/eye-blink-compatibility.js",
+        "src/face-render-compaction.js",
+        "src/face-shadow-preparation.js",
+        "src/facial-geometry-contract.js",
+        "src/facial-geometry-profiles.js",
+        "src/facial-geometry-selection.js",
+        "src/facial-geometry.js",
+        "src/facial-palette-contract.js",
+        "src/facial-palette.js",
+        "src/forearm-contact-workspace.js",
+        "src/forearm-contour-rails.js",
+        "src/forearm-envelope-projection.js",
+        "src/foundation-avatar.js",
+        "src/foundation-preview.js",
+        "src/foundation-profiles.js",
+        "src/garment-collider.js",
+        "src/garment-coverage.js",
+        "src/glasses-temple-fit-manifest.json",
+        "src/glasses-temple-fit.js",
+        "src/greeting-layer.js",
+        "src/hair-fit-contract.js",
+        "src/hairstyle-catalog.js",
+        "src/joint-hand-workspace.mjs",
+        "src/live-presentation.js",
+        "src/m1-equipment.js",
+        "src/m1-skirt.js",
+        "src/main.js",
+        "src/material-recipes.js",
+        "src/microphone-pose.js",
+        "src/microphone-presentation-fits.js",
+        "src/motion-source.js",
+        "src/motion.js",
+        "src/no-hair-bodies.js",
+        "src/normalized-motion.js",
+        "src/outfit-selection.js",
+        "src/render-context-guard.js",
+        "src/seat-lease.js",
+        "src/segment-triangle-projection.js",
+        "src/shape-fit-registry.js",
+        "src/skirt-fit-profiles.json",
+        "src/skirt-fit.js",
+        "src/skirt-support.js",
+        "src/style.css",
+        "src/turn-policy.js",
+        "vite.config.js"
+      ],
+      "development": false
+    },
+    "servedBuild": {
+      "shortId": "801c7a9c9026",
+      "sourceDigest": "801c7a9c90260da47b0fc771caf3f282f67f8962d77fb6a15a07db3aca1fc0dc",
+      "inputs": [
+        "foundation.html",
+        "index.html",
+        "package-lock.json",
+        "package.json",
+        "public/assets/appearance-color-v1/female-iris-mask.png",
+        "public/assets/appearance-color-v1/female-outer-lip-mask.png",
+        "public/assets/appearance-color-v1/male-iris-mask.png",
+        "public/assets/appearance-color-v1/male-outer-lip-mask.png",
+        "public/assets/appearance-color-v1/runtime-manifest.json",
+        "public/assets/appearance-color-v2/female-iris-mask.png",
+        "public/assets/appearance-color-v2/female-outer-lip-mask.png",
+        "public/assets/appearance-color-v2/male-iris-mask.png",
+        "public/assets/appearance-color-v2/male-outer-lip-mask.png",
+        "public/assets/appearance-color-v2/runtime-manifest.json",
+        "public/assets/appearance-color-v3/female-iris-mask.png",
+        "public/assets/appearance-color-v3/female-iris-neutral.png",
+        "public/assets/appearance-color-v3/female-outer-lip-mask.png",
+        "public/assets/appearance-color-v3/male-iris-mask.png",
+        "public/assets/appearance-color-v3/male-iris-neutral.png",
+        "public/assets/appearance-color-v3/male-outer-lip-mask.png",
+        "public/assets/appearance-color-v3/runtime-manifest.json",
+        "public/assets/avatar.vrm",
+        "public/assets/body-coverage-risk-v1/female-top.json",
+        "public/assets/face-brow-parameters-v1/female-brow.runtime.json",
+        "public/assets/face-brow-parameters-v1/male-brow.runtime.json",
+        "public/assets/face-brow-parameters-v1/recipe-manifest.json",
+        "public/assets/face-brow-visible-v2/female-brow.recipe.json",
+        "public/assets/face-brow-visible-v2/male-brow.recipe.json",
+        "public/assets/face-brow-visible-v2/recipe-manifest.json",
+        "public/assets/face-eye-sample-v1/female-eye.recipe.json",
+        "public/assets/face-eye-sample-v1/male-eye.recipe.json",
+        "public/assets/face-eye-sample-v1/recipe-manifest.json",
+        "public/assets/face-eye-visible-v2/female-eye.recipe.json",
+        "public/assets/face-eye-visible-v2/male-eye.recipe.json",
+        "public/assets/face-eye-visible-v2/recipe-manifest.json",
+        "public/assets/face-nose-parameters-v1/female-nose.recipe.json",
+        "public/assets/face-nose-parameters-v1/male-nose.recipe.json",
+        "public/assets/face-nose-parameters-v1/recipe-manifest.json",
+        "public/assets/face-nose-visible-v2/female-nose.recipe.json",
+        "public/assets/face-nose-visible-v2/male-nose.recipe.json",
+        "public/assets/face-nose-visible-v2/recipe-manifest.json",
+        "public/assets/face-parameters-v1/female-mouth-width.recipe.json",
+        "public/assets/face-parameters-v1/male-mouth-width.recipe.json",
+        "public/assets/face-parameters-v1/recipe-manifest.json",
+        "public/assets/forearm-collision-v2/female.json",
+        "public/assets/forearm-collision-v2/male.json",
+        "public/assets/foundation/base-female-roundtrip.vrm",
+        "public/assets/foundation/base-female.vrm",
+        "public/assets/foundation/base-male-roundtrip.vrm",
+        "public/assets/garments/athletic-bermuda-v1.glb",
+        "public/assets/garments/equipment.json",
+        "public/assets/hand-joint-contact-v1/female.json",
+        "public/assets/hand-joint-contact-v1/jaw.json",
+        "public/assets/hand-joint-contact-v1/waisthip.json",
+        "public/assets/m1-variants/catalog.json",
+        "public/assets/m1-variants/forearm-collision-v2/m1a-jaw-v1.json",
+        "public/assets/m1-variants/forearm-collision-v2/m1a-waisthip-v1.json",
+        "public/assets/m1-variants/m1a-jaw-v1/avatar.vrm",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/equipment.json",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-training-pants.glb",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-shoes.glb",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-skirt.glb",
+        "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-top.glb",
+        "public/assets/m1-variants/m1a-waisthip-v1/avatar.vrm",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/equipment.json",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-training-pants.glb",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-shoes.glb",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-skirt.glb",
+        "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-top.glb",
+        "public/assets/m1/equipment.json",
+        "public/assets/m1/m1-training-pants.glb",
+        "public/assets/m1/m1-uniform-shoes.glb",
+        "public/assets/m1/m1-uniform-skirt-open-waist-v1.glb",
+        "public/assets/m1/m1-uniform-skirt.glb",
+        "public/assets/m1/m1-uniform-top.glb",
+        "public/assets/m1b/equipment.json",
+        "public/assets/m1b/m1b-uniform-pants.glb",
+        "public/assets/m1b/m1b-uniform-shoes.glb",
+        "public/assets/m1b/m1b-uniform-shorts-v1.glb",
+        "public/assets/m1b/m1b-uniform-top.glb",
+        "public/assets/m1b/m2-male-jaw-v1-equipment.json",
+        "public/assets/m1c/accessories.json",
+        "public/assets/m1c/glasses-fit/female.json",
+        "public/assets/m1c/glasses-fit/male.json",
+        "public/assets/m1c/grips/female-source-grip-v1.json",
+        "public/assets/m1c/grips/male-source-grip-v1.json",
+        "public/assets/m1c/grips/manifest.json",
+        "public/assets/m1c/runtime-fit-observations.json",
+        "public/assets/m1c/studio-glasses-v1.glb",
+        "public/assets/m1c/studio-microphone-v1.glb",
+        "public/assets/m2-garment-coverage-v1/coverage-mask.json",
+        "public/assets/m2-hairstyle-v1/female-bob.glb",
+        "public/assets/m2-hairstyle-v1/manifest.json",
+        "public/assets/m2-male-face-v1/avatar.vrm",
+        "public/assets/m2-male-face-v1/forearm-profile.json",
+        "public/assets/m2-male-hairstyle-v1/male-sidepart.glb",
+        "public/assets/m2-male-hairstyle-v1/manifest.json",
+        "public/assets/m2-male-jaw-hair-fit-v1/.gitattributes",
+        "public/assets/m2-male-jaw-hair-fit-v1/fit.json",
+        "public/assets/m2-male-jaw-hair-fit-v1/male-sidepart.glb",
+        "public/assets/m2-male-jaw-hair-fit-v1/manifest.json",
+        "public/assets/m2-male-jaw-mouth-v1/male-jaw-mouth-width.recipe.json",
+        "public/assets/m2-male-jaw-mouth-v1/recipe-manifest.json",
+        "public/assets/m2-onepiece-v1/author-export.glb",
+        "public/assets/m2-onepiece-v1/fit.json",
+        "public/assets/m2-onepiece-v1/shape-fit.json",
+        "public/assets/m2-outer-panels-v2/author-export.glb",
+        "public/assets/material-recipes/m1b-shorts-cloth-v4-review1.json",
+        "public/assets/motion/UAL1_Standard.glb",
+        "public/assets/motion/m1c/dance-imports.json",
+        "public/assets/motion/m1c/dance-source-reference.glb",
+        "public/assets/motion/m1c/dance-technical-v1.config.json",
+        "public/assets/motion/m1c/dance-technical-v1.glb",
+        "public/assets/motion/m1c/frozen-rokoko-30s-v1/README.md",
+        "public/assets/motion/m1c/frozen-rokoko-30s-v1/install-receipt.json",
+        "public/assets/motion/m1c/frozen-rokoko-30s-v1/rokoko-5359146-female-arm-local-v1.motion.json",
+        "public/assets/motion/m1c/frozen-rokoko-30s-v1/rokoko-5359146-female-v1.motion.json",
+        "public/assets/motion/m1c/frozen-rokoko-30s-v1/rokoko-5359146-male-arm-local-v1.motion.json",
+        "public/assets/motion/m1c/frozen-rokoko-30s-v1/rokoko-5359146-male-v1.motion.json",
+        "public/assets/motion/m1c/greeting/gesture-import.json",
+        "public/assets/motion/m1c/greeting/greeting-wave-left-v1.glb",
+        "public/assets/motion/m1c/jog-ordinary-derived-v1.config.json",
+        "public/assets/motion/m1c/jog-ordinary-derived-v1.glb",
+        "public/assets/motion/m1c/jog-ordinary-derived-v1.profile.json",
+        "public/assets/mouth-visible-v2/female-mouth-width.recipe.json",
+        "public/assets/mouth-visible-v2/male-mouth-width.recipe.json",
+        "public/assets/mouth-visible-v2/recipe-manifest.json",
+        "public/favicon.svg",
+        "scripts/build-id.mjs",
+        "scripts/qa-face-compact-attachment.mjs",
+        "scripts/qa-face-render-compaction.mjs",
+        "src/appearance-candidates.js",
+        "src/appearance-recipe.js",
+        "src/appearance-workbench.js",
+        "src/assets.js",
+        "src/behavior-tasks.js",
+        "src/body-coverage.js",
+        "src/character-appearance.js",
+        "src/cloth-material.js",
+        "src/cloth.js",
+        "src/equipment-set.js",
+        "src/equipment.js",
+        "src/eye-blink-compatibility.js",
+        "src/face-render-compaction.js",
+        "src/face-shadow-preparation.js",
+        "src/facial-geometry-contract.js",
+        "src/facial-geometry-profiles.js",
+        "src/facial-geometry-selection.js",
+        "src/facial-geometry.js",
+        "src/facial-palette-contract.js",
+        "src/facial-palette.js",
+        "src/forearm-contact-workspace.js",
+        "src/forearm-contour-rails.js",
+        "src/forearm-envelope-projection.js",
+        "src/foundation-avatar.js",
+        "src/foundation-preview.js",
+        "src/foundation-profiles.js",
+        "src/garment-collider.js",
+        "src/garment-coverage.js",
+        "src/glasses-temple-fit-manifest.json",
+        "src/glasses-temple-fit.js",
+        "src/greeting-layer.js",
+        "src/hair-fit-contract.js",
+        "src/hairstyle-catalog.js",
+        "src/joint-hand-workspace.mjs",
+        "src/live-presentation.js",
+        "src/m1-equipment.js",
+        "src/m1-skirt.js",
+        "src/main.js",
+        "src/material-recipes.js",
+        "src/microphone-pose.js",
+        "src/microphone-presentation-fits.js",
+        "src/motion-source.js",
+        "src/motion.js",
+        "src/no-hair-bodies.js",
+        "src/normalized-motion.js",
+        "src/outfit-selection.js",
+        "src/render-context-guard.js",
+        "src/seat-lease.js",
+        "src/segment-triangle-projection.js",
+        "src/shape-fit-registry.js",
+        "src/skirt-fit-profiles.json",
+        "src/skirt-fit.js",
+        "src/skirt-support.js",
+        "src/style.css",
+        "src/turn-policy.js",
+        "vite.config.js"
+      ]
+    },
+    "primary": {
+      "id": "beta-base-male-m1b",
+      "url": "http://127.0.0.1:4208/assets/foundation/base-male-roundtrip.vrm",
+      "declaredSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+      "actualSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+      "bytes": 17902644
+    },
+    "url": "http://127.0.0.1:4208/?body=male&workbench=appearance&view=inspect-face-front",
+    "time": "2026-11-16T13:53:18.085Z"
+  },
+  "available": {
+    "schema": "workbench-appearance-candidates-v1",
+    "base": {
+      "bodyType": "male",
+      "sha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff"
+    },
+    "defaultRecipe": {
+      "schema": "workbench-appearance-recipe-v6",
+      "rulesVersion": "workbench-appearance-rules-v6",
+      "paletteVersion": "appearance-color-v3:2eff13c1d3837c4f8f76b7d97007b219059c212c1031d77e27a2f824715af321",
+      "base": {
+        "bodyType": "male",
+        "sha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff"
+      },
+      "appearance": {
+        "hairStyle": "original",
+        "hairColor": "original",
+        "skinTone": "original",
+        "eyeColor": "original",
+        "lipColor": "original"
+      },
+      "hairAssetSha256": null,
+      "hairFit": null,
+      "geometry": {
+        "mouthWidth": 0,
+        "recipeSha256": null,
+        "browSample": "none",
+        "browRecipeSha256": null,
+        "noseSample": "none",
+        "noseRecipeSha256": null,
+        "eyeSample": "none",
+        "eyeRecipeSha256": null
+      },
+      "equipment": {
+        "index": 0,
+        "role": "pants",
+        "manifestUrl": "/assets/m1b/equipment.json",
+        "resources": {
+          "top": {
+            "id": "m1b-uniform-top",
+            "name": "男性制服上衣与领带",
+            "slot": "top",
+            "url": "m1b-uniform-top.glb",
+            "sha256": "393a2a97e9a933c4f8170720cf1d5792a18f282166abf7e5ffbba0d0de1fc32c",
+            "bytes": 2762452,
+            "compatibleAvatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+            "preserveOriginalBody": true,
+            "requiresRawSkeleton": true,
+            "bindings": [
+              {
+                "sourceBone": "J_Bip_C_Hips",
+                "targetRawBone": "J_Bip_C_Hips",
+                "humanoidSemantic": "hips",
+                "inverseBindMatrix": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  -0.0005088417092338204,
+                  -1.008255958557129,
+                  0.010161482729017735,
+                  1
+                ]
+              },
+              {
+                "sourceBone": "J_Bip_C_Spine",
+                "targetRawBone": "J_Bip_C_Spine",
+                "humanoidSemantic": "spine",
+                "inverseBindMatrix": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  -0.0005088208126835525,
+                  -1.1487853527069092,
+                  0.010900395922362804,
+                  1
+                ]
+              },
+              {
+                "sourceBone": "J_Bip_C_Chest",
+                "targetRawBone": "J_Bip_C_Chest",
+                "humanoidSemantic": "chest",
+                "inverseBindMatrix": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  -0.0005088094039820135,
+                  -1.2277686595916748,
+                  0.00648072361946106,
+                  1
+                ]
+              },
+              {
+                "sourceBone": "J_Bip_C_UpperChest",
+                "targetRawBone": "J_Bip_C_UpperChest",
+                "humanoidSemantic": "upperChest",
+                "inverseBindMatrix": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  -0.0005088213947601616,
+                  -1.3051296472549438,
+                  0.0024858862161636353,
+                  1
+                ]
+              },
+              {
+                "sourceBone": "J_Bip_C_Neck",
+                "targetRawBone": "J_Bip_C_Neck",
+                "humanoidSemantic": "neck",
+                "inverseBindMatrix": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  -0.0005088449106551707,
+                  -1.4563363790512085,
+                  -0.008182634599506855,
+                  1
+                ]
+              },
+              {
+                "sourceBone": "J_Bip_C_Head",
+                "targetRawBone": "J_Bip_C_Head",
+                "humanoidSemantic": "head",
+                "inverseBindMatrix": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  -0.0005088170291855931,
+                  -1.5453999042510986,
+                  0.006267889402806759,
+                  1
+                ]
+              },
+              {
+                "sourceBone": "J_Bip_L_Shoulder",
+                "targetRawBone": "J_Bip_L_Shoulder",
+                "humanoidSemantic": "leftShoulder",
+                "inverseBindMatrix": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0.024115361273288727,
+                  -1.4260398149490356,
+                  -0.002688511274755001,
+                  1
+                ]
+              },
+              {
+                "sourceBone": "J_Bip_L_UpperArm",
+                "targetRawBone": "J_Bip_L_UpperArm",
+                "humanoidSemantic": "leftUpperArm",
+                "inverseBindMatrix": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0.14726629853248596,
+                  -1.4045658111572266,
+                  0.004220846574753523,
+                  1
+                ]
+              },
+              {
+                "sourceBone": "J_Bip_R_Shoulder",
+                "targetRawBone": "J_Bip_R_Shoulder",
+                "humanoidSemantic": "rightShoulder",
+                "inverseBindMatrix": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  -0.0251330379396677,
+                  -1.4260398149490356,
+                  -0.002688511274755001,
+                  1
+                ]
+              },
+              {
+                "sourceBone": "J_Bip_R_UpperArm",
+                "targetRawBone": "J_Bip_R_UpperArm",
+                "humanoidSemantic": "rightUpperArm",
+                "inverseBindMatrix": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  -0.14828401803970337,
+                  -1.4045658111572266,
+                  0.004220864269882441,
+                  1
+                ]
+              }
+            ],
+            "limits": [
+              "One default male body only; not female scaled or renamed",
+              "Original male top/tie, trousers and flat shoes split into independent weighted equipment; not a new garment design",
+              "No arbitrary body morph fitting, runtime visual acceptance or seated contact approval",
+              "Current skin surface remains intact; only duplicate source clothes may later be hidden by runtime adapter"
+            ],
+            "sourceLicense": {
+              "url": "https://opengameart.org/sites/default/files/base_male.zip",
+              "zipBytes": 14825707,
+              "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+              "vrmBytes": 17914788,
+              "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+              "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+              "publisher": "hecko",
+              "attributedAuthor": "VRoid Project",
+              "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+              "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+              "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+            },
+            "method": "Exact original male clothing primitive extraction: source topology/UV/textures/weights/inverse binds retained; no female measurements",
+            "stats": {
+              "vertices": 1476,
+              "triangles": 2096,
+              "multiBoneVertices": 1316,
+              "joints": 10
+            }
+          },
+          "shoes": {
+            "id": "m1b-uniform-shoes",
+            "name": "男性原制服平底鞋",
+            "slot": "shoes",
+            "url": "m1b-uniform-shoes.glb",
+            "sha256": "3e855c7f39a183ab44b8aef3ac92898f6ebc36a7cbc0e6ccfdd485b85607fe2f",
+            "bytes": 157376,
+            "compatibleAvatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+            "preserveOriginalBody": true,
+            "requiresRawSkeleton": true,
+            "bindings": [
+              {
+                "sourceBone": "J_Bip_L_LowerLeg",
+                "targetRawBone": "J_Bip_L_LowerLeg",
+                "humanoidSemantic": "leftLowerLeg",
+                "inverseBindMatrix": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0.062032997608184814,
+                  -0.5768977403640747,
+                  -0.0006479229778051376,
+                  1
+                ]
+              },
+              {
+                "sourceBone": "J_Bip_L_Foot",
+                "targetRawBone": "J_Bip_L_Foot",
+                "humanoidSemantic": "leftFoot",
+                "inverseBindMatrix": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0.04906037449836731,
+                  -0.12132135033607483,
+                  -0.032085441052913666,
+                  1
+                ]
+              },
+              {
+                "sourceBone": "J_Bip_L_ToeBase",
+                "targetRawBone": "J_Bip_L_ToeBase",
+                "humanoidSemantic": "leftToes",
+                "inverseBindMatrix": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0.05045774206519127,
+                  -0.04447271674871445,
+                  0.10422835499048233,
+                  1
+                ]
+              },
+              {
+                "sourceBone": "J_Bip_R_LowerLeg",
+                "targetRawBone": "J_Bip_R_LowerLeg",
+                "humanoidSemantic": "rightLowerLeg",
+                "inverseBindMatrix": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  -0.06305015087127686,
+                  -0.5768980979919434,
+                  -0.0006477371789515018,
+                  1
+                ]
+              },
+              {
+                "sourceBone": "J_Bip_R_Foot",
+                "targetRawBone": "J_Bip_R_Foot",
+                "humanoidSemantic": "rightFoot",
+                "inverseBindMatrix": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  -0.05007633939385414,
+                  -0.12132200598716736,
+                  -0.03208542242646217,
+                  1
+                ]
+              },
+              {
+                "sourceBone": "J_Bip_R_ToeBase",
+                "targetRawBone": "J_Bip_R_ToeBase",
+                "humanoidSemantic": "rightToes",
+                "inverseBindMatrix": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  -0.05147293955087662,
+                  -0.04447372257709503,
+                  0.10422837734222412,
+                  1
+                ]
+              }
+            ],
+            "limits": [
+              "One default male body only; not female scaled or renamed",
+              "Original male top/tie, trousers and flat shoes split into independent weighted equipment; not a new garment design",
+              "No arbitrary body morph fitting, runtime visual acceptance or seated contact approval",
+              "Current skin surface remains intact; only duplicate source clothes may later be hidden by runtime adapter"
+            ],
+            "sourceLicense": {
+              "url": "https://opengameart.org/sites/default/files/base_male.zip",
+              "zipBytes": 14825707,
+              "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+              "vrmBytes": 17914788,
+              "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+              "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+              "publisher": "hecko",
+              "attributedAuthor": "VRoid Project",
+              "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+              "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+              "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+            },
+            "method": "Exact original male clothing primitive extraction: source topology/UV/textures/weights/inverse binds retained; no female measurements",
+            "stats": {
+              "vertices": 566,
+              "triangles": 540,
+              "multiBoneVertices": 408,
+              "joints": 6
+            }
+          },
+          "pants": {
+            "id": "m1b-uniform-pants",
+            "name": "男性原制服长裤",
+            "slot": "bottom",
+            "url": "m1b-uniform-pants.glb",
+            "sha256": "e4e213c9eed7912ff7fa75b81c957b7e944036ffb81cdcbd63813c11bd7e168c",
+            "bytes": 819744,
+            "compatibleAvatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+            "preserveOriginalBody": true,
+            "requiresRawSkeleton": true,
+            "bindings": [
+              {
+                "sourceBone": "J_Bip_C_Hips",
+                "targetRawBone": "J_Bip_C_Hips",
+                "humanoidSemantic": "hips",
+                "inverseBindMatrix": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  -0.0005088417092338204,
+                  -1.008255958557129,
+                  0.010161482729017735,
+                  1
+                ]
+              },
+              {
+                "sourceBone": "J_Bip_C_Spine",
+                "targetRawBone": "J_Bip_C_Spine",
+                "humanoidSemantic": "spine",
+                "inverseBindMatrix": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  -0.0005088208126835525,
+                  -1.1487853527069092,
+                  0.010900395922362804,
+                  1
+                ]
+              },
+              {
+                "sourceBone": "J_Bip_C_Chest",
+                "targetRawBone": "J_Bip_C_Chest",
+                "humanoidSemantic": "chest",
+                "inverseBindMatrix": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  -0.0005088094039820135,
+                  -1.2277686595916748,
+                  0.00648072361946106,
+                  1
+                ]
+              },
+              {
+                "sourceBone": "J_Bip_L_UpperLeg",
+                "targetRawBone": "J_Bip_L_UpperLeg",
+                "humanoidSemantic": "leftUpperLeg",
+                "inverseBindMatrix": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0.08432579040527344,
+                  -0.9643067717552185,
+                  0.006310062482953072,
+                  1
+                ]
+              },
+              {
+                "sourceBone": "J_Bip_L_LowerLeg",
+                "targetRawBone": "J_Bip_L_LowerLeg",
+                "humanoidSemantic": "leftLowerLeg",
+                "inverseBindMatrix": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0.062032997608184814,
+                  -0.5768977403640747,
+                  -0.0006479229778051376,
+                  1
+                ]
+              },
+              {
+                "sourceBone": "J_Bip_L_Foot",
+                "targetRawBone": "J_Bip_L_Foot",
+                "humanoidSemantic": "leftFoot",
+                "inverseBindMatrix": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0.04906037449836731,
+                  -0.12132135033607483,
+                  -0.032085441052913666,
+                  1
+                ]
+              },
+              {
+                "sourceBone": "J_Bip_R_UpperLeg",
+                "targetRawBone": "J_Bip_R_UpperLeg",
+                "humanoidSemantic": "rightUpperLeg",
+                "inverseBindMatrix": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  -0.08534348011016846,
+                  -0.9643067717552185,
+                  0.006310076452791691,
+                  1
+                ]
+              },
+              {
+                "sourceBone": "J_Bip_R_LowerLeg",
+                "targetRawBone": "J_Bip_R_LowerLeg",
+                "humanoidSemantic": "rightLowerLeg",
+                "inverseBindMatrix": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  -0.06305015087127686,
+                  -0.5768980979919434,
+                  -0.0006477371789515018,
+                  1
+                ]
+              },
+              {
+                "sourceBone": "J_Bip_R_Foot",
+                "targetRawBone": "J_Bip_R_Foot",
+                "humanoidSemantic": "rightFoot",
+                "inverseBindMatrix": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  -0.05007633939385414,
+                  -0.12132200598716736,
+                  -0.03208542242646217,
+                  1
+                ]
+              }
+            ],
+            "limits": [
+              "One default male body only; not female scaled or renamed",
+              "Original male top/tie, trousers and flat shoes split into independent weighted equipment; not a new garment design",
+              "No arbitrary body morph fitting, runtime visual acceptance or seated contact approval",
+              "Current skin surface remains intact; only duplicate source clothes may later be hidden by runtime adapter"
+            ],
+            "sourceLicense": {
+              "url": "https://opengameart.org/sites/default/files/base_male.zip",
+              "zipBytes": 14825707,
+              "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+              "vrmBytes": 17914788,
+              "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+              "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+              "publisher": "hecko",
+              "attributedAuthor": "VRoid Project",
+              "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+              "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+              "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+            },
+            "method": "Exact original male clothing primitive extraction: source topology/UV/textures/weights/inverse binds retained; no female measurements",
+            "stats": {
+              "vertices": 1096,
+              "triangles": 1624,
+              "multiBoneVertices": 924,
+              "joints": 9
+            }
+          }
+        }
+      }
+    },
+    "appearance": {
+      "hairStyle": {
+        "default": "original",
+        "choices": [
+          {
+            "value": "original",
+            "assetSha256": null,
+            "hairFit": null
+          },
+          {
+            "value": "none",
+            "assetSha256": null,
+            "hairFit": null
+          },
+          {
+            "value": "male-sidepart-v1",
+            "assetSha256": "fb5fd49352b7bab0e6d2c0ec3f6e565f0004062e4a8975f1afcd93fb24dd48fd",
+            "hairFit": {
+              "kind": "legacy-head-local-v1",
+              "manifestSha256": "d7bcf95056cb58650887bc941df384c7f6342042743b310e417fdc7a0a941b73"
+            },
+            "manifestUrl": "/assets/m2-male-hairstyle-v1/manifest.json"
+          }
+        ]
+      },
+      "hairColor": {
+        "default": "original",
+        "unit": "preset",
+        "choices": [
+          {
+            "value": "original",
+            "color": null
+          },
+          {
+            "value": "black",
+            "color": "#343139"
+          },
+          {
+            "value": "brown",
+            "color": "#805039"
+          },
+          {
+            "value": "blonde",
+            "color": "#dab77a"
+          }
+        ]
+      },
+      "skinTone": {
+        "default": "original",
+        "unit": "preset",
+        "choices": [
+          {
+            "value": "original",
+            "color": null
+          },
+          {
+            "value": "warm",
+            "color": "#ddc5b4"
+          },
+          {
+            "value": "deep",
+            "color": "#81685b"
+          }
+        ]
+      },
+      "eyeColor": {
+        "default": "original",
+        "unit": "preset",
+        "choices": [
+          {
+            "value": "original",
+            "color": null
+          },
+          {
+            "value": "brown",
+            "color": "#916138"
+          },
+          {
+            "value": "blue",
+            "color": "#507fa9"
+          },
+          {
+            "value": "green",
+            "color": "#5e8b60"
+          },
+          {
+            "value": "violet",
+            "color": "#8b63a6"
+          }
+        ]
+      },
+      "lipColor": {
+        "default": "original",
+        "unit": "preset",
+        "choices": [
+          {
+            "value": "original",
+            "color": null
+          },
+          {
+            "value": "rose",
+            "color": "#bf7482"
+          },
+          {
+            "value": "coral",
+            "color": "#cc8773"
+          },
+          {
+            "value": "mauve",
+            "color": "#a66b87"
+          }
+        ]
+      }
+    },
+    "geometry": {
+      "mouthWidth": {
+        "default": 0,
+        "unit": "ratio",
+        "axis": "glTF mesh-local X",
+        "continuousRange": [
+          -0.04,
+          0.04
+        ],
+        "discreteValues": [
+          -0.12,
+          0,
+          0.12
+        ],
+        "resources": [
+          {
+            "baseURL": "/assets/face-parameters-v1/",
+            "recipeSha256": "a9acdcd5866786b031c4e3ec16fde91f77d97fbda08636f061dc742499c6ed6e",
+            "continuousRange": [
+              -0.04,
+              0.04
+            ],
+            "supportedValues": null
+          },
+          {
+            "baseURL": "/assets/mouth-visible-v2/",
+            "recipeSha256": "1b3e019f92c799bc2486b4608584e347aa5c8fe1bfda8170a2d3e54e16f0009c",
+            "continuousRange": null,
+            "supportedValues": [
+              -0.12,
+              0,
+              0.12
+            ]
+          }
+        ]
+      },
+      "browSample": {
+        "default": "none",
+        "choices": [
+          {
+            "value": "none",
+            "resource": null
+          },
+          {
+            "value": "height1-spacing1-v1",
+            "resource": {
+              "sampleId": "height1-spacing1-v1",
+              "baseURL": "/assets/face-brow-parameters-v1/",
+              "endpoint": 0.001,
+              "unit": "metres",
+              "recipeSha256": "895317030af557621b248b6731ad4a80e998f2f13ed18f0616d81355772e9983",
+              "visible": false,
+              "mouthRecipeSha256": "a9acdcd5866786b031c4e3ec16fde91f77d97fbda08636f061dc742499c6ed6e"
+            }
+          },
+          {
+            "value": "height3-spacing3-v2",
+            "resource": {
+              "sampleId": "height3-spacing3-v2",
+              "baseURL": "/assets/face-brow-visible-v2/",
+              "endpoint": 0.003,
+              "unit": "metres",
+              "recipeSha256": "8bf834f87892fdda07c856ed4c5223cae74fa731be6b73d9c3f1c2ef4924241f",
+              "visible": true,
+              "mouthRecipeSha256": "1b3e019f92c799bc2486b4608584e347aa5c8fe1bfda8170a2d3e54e16f0009c"
+            }
+          }
+        ]
+      },
+      "noseSample": {
+        "default": "none",
+        "choices": [
+          {
+            "value": "none",
+            "resource": null
+          },
+          {
+            "value": "tip-forward05-v1",
+            "resource": {
+              "sampleId": "tip-forward05-v1",
+              "baseURL": "/assets/face-nose-parameters-v1/",
+              "endpoint": 0.0005,
+              "unit": "metres",
+              "recipeSha256": "323d584194c25af47169c1ffd1a20246033bca07e6be7d68ddb8794b25c7a3bc",
+              "visible": false,
+              "mouthRecipeSha256": "a9acdcd5866786b031c4e3ec16fde91f77d97fbda08636f061dc742499c6ed6e"
+            }
+          },
+          {
+            "value": "tip-forward2-v2",
+            "resource": {
+              "sampleId": "tip-forward2-v2",
+              "baseURL": "/assets/face-nose-visible-v2/",
+              "endpoint": 0.002,
+              "unit": "metres",
+              "recipeSha256": "7dae82cac4553844ae5b1a0f871feeb77f33b580aa72d1724cac51cfd00cf07a",
+              "visible": true,
+              "mouthRecipeSha256": "1b3e019f92c799bc2486b4608584e347aa5c8fe1bfda8170a2d3e54e16f0009c"
+            }
+          }
+        ]
+      },
+      "eyeSample": {
+        "default": "none",
+        "choices": [
+          {
+            "value": "none",
+            "resource": null
+          },
+          {
+            "value": "aperture-width101-v1",
+            "resource": {
+              "sampleId": "aperture-width101-v1",
+              "baseURL": "/assets/face-eye-sample-v1/",
+              "endpoint": 1.01,
+              "unit": "ratio",
+              "recipeSha256": "3080a3d7bdf7891d287ccf1a7086aaacb1459793b6829b2906c95d504f4d761e",
+              "visible": false,
+              "mouthRecipeSha256": "a9acdcd5866786b031c4e3ec16fde91f77d97fbda08636f061dc742499c6ed6e"
+            }
+          },
+          {
+            "value": "aperture-width105-v2",
+            "resource": {
+              "sampleId": "aperture-width105-v2",
+              "baseURL": "/assets/face-eye-visible-v2/",
+              "endpoint": 1.05,
+              "unit": "ratio",
+              "recipeSha256": "d31841fc9bab96e1284a2ccb275c20aa5c100d9c1737e00867a4bcb63dd177f0",
+              "visible": true,
+              "mouthRecipeSha256": "1b3e019f92c799bc2486b4608584e347aa5c8fe1bfda8170a2d3e54e16f0009c"
+            }
+          }
+        ]
+      },
+      "constraints": [
+        "mouthWidth is a weighted width multiplier delta; endpoints do not admit their interior interval",
+        "brow samples couple authored height and spacing; eye samples use an authored aperture width ratio",
+        "geometry and expressions are checked during preparation; attachment and garment fit are limited to existing registered assets"
+      ]
+    },
+    "equipment": {
+      "defaultIndex": 0,
+      "sets": [
+        {
+          "index": 0,
+          "role": "pants",
+          "bottomRole": "pants",
+          "manifestUrl": "/assets/m1b/equipment.json",
+          "resources": {
+            "top": {
+              "id": "m1b-uniform-top",
+              "name": "男性制服上衣与领带",
+              "slot": "top",
+              "url": "m1b-uniform-top.glb",
+              "sha256": "393a2a97e9a933c4f8170720cf1d5792a18f282166abf7e5ffbba0d0de1fc32c",
+              "bytes": 2762452,
+              "compatibleAvatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+              "preserveOriginalBody": true,
+              "requiresRawSkeleton": true,
+              "bindings": [
+                {
+                  "sourceBone": "J_Bip_C_Hips",
+                  "targetRawBone": "J_Bip_C_Hips",
+                  "humanoidSemantic": "hips",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088417092338204,
+                    -1.008255958557129,
+                    0.010161482729017735,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Spine",
+                  "targetRawBone": "J_Bip_C_Spine",
+                  "humanoidSemantic": "spine",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088208126835525,
+                    -1.1487853527069092,
+                    0.010900395922362804,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Chest",
+                  "targetRawBone": "J_Bip_C_Chest",
+                  "humanoidSemantic": "chest",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088094039820135,
+                    -1.2277686595916748,
+                    0.00648072361946106,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_UpperChest",
+                  "targetRawBone": "J_Bip_C_UpperChest",
+                  "humanoidSemantic": "upperChest",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088213947601616,
+                    -1.3051296472549438,
+                    0.0024858862161636353,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Neck",
+                  "targetRawBone": "J_Bip_C_Neck",
+                  "humanoidSemantic": "neck",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088449106551707,
+                    -1.4563363790512085,
+                    -0.008182634599506855,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Head",
+                  "targetRawBone": "J_Bip_C_Head",
+                  "humanoidSemantic": "head",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088170291855931,
+                    -1.5453999042510986,
+                    0.006267889402806759,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_Shoulder",
+                  "targetRawBone": "J_Bip_L_Shoulder",
+                  "humanoidSemantic": "leftShoulder",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.024115361273288727,
+                    -1.4260398149490356,
+                    -0.002688511274755001,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_UpperArm",
+                  "targetRawBone": "J_Bip_L_UpperArm",
+                  "humanoidSemantic": "leftUpperArm",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.14726629853248596,
+                    -1.4045658111572266,
+                    0.004220846574753523,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_Shoulder",
+                  "targetRawBone": "J_Bip_R_Shoulder",
+                  "humanoidSemantic": "rightShoulder",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0251330379396677,
+                    -1.4260398149490356,
+                    -0.002688511274755001,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_UpperArm",
+                  "targetRawBone": "J_Bip_R_UpperArm",
+                  "humanoidSemantic": "rightUpperArm",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.14828401803970337,
+                    -1.4045658111572266,
+                    0.004220864269882441,
+                    1
+                  ]
+                }
+              ],
+              "limits": [
+                "One default male body only; not female scaled or renamed",
+                "Original male top/tie, trousers and flat shoes split into independent weighted equipment; not a new garment design",
+                "No arbitrary body morph fitting, runtime visual acceptance or seated contact approval",
+                "Current skin surface remains intact; only duplicate source clothes may later be hidden by runtime adapter"
+              ],
+              "sourceLicense": {
+                "url": "https://opengameart.org/sites/default/files/base_male.zip",
+                "zipBytes": 14825707,
+                "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+                "vrmBytes": 17914788,
+                "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "publisher": "hecko",
+                "attributedAuthor": "VRoid Project",
+                "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+                "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+              },
+              "method": "Exact original male clothing primitive extraction: source topology/UV/textures/weights/inverse binds retained; no female measurements",
+              "stats": {
+                "vertices": 1476,
+                "triangles": 2096,
+                "multiBoneVertices": 1316,
+                "joints": 10
+              }
+            },
+            "shoes": {
+              "id": "m1b-uniform-shoes",
+              "name": "男性原制服平底鞋",
+              "slot": "shoes",
+              "url": "m1b-uniform-shoes.glb",
+              "sha256": "3e855c7f39a183ab44b8aef3ac92898f6ebc36a7cbc0e6ccfdd485b85607fe2f",
+              "bytes": 157376,
+              "compatibleAvatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+              "preserveOriginalBody": true,
+              "requiresRawSkeleton": true,
+              "bindings": [
+                {
+                  "sourceBone": "J_Bip_L_LowerLeg",
+                  "targetRawBone": "J_Bip_L_LowerLeg",
+                  "humanoidSemantic": "leftLowerLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.062032997608184814,
+                    -0.5768977403640747,
+                    -0.0006479229778051376,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_Foot",
+                  "targetRawBone": "J_Bip_L_Foot",
+                  "humanoidSemantic": "leftFoot",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.04906037449836731,
+                    -0.12132135033607483,
+                    -0.032085441052913666,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_ToeBase",
+                  "targetRawBone": "J_Bip_L_ToeBase",
+                  "humanoidSemantic": "leftToes",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.05045774206519127,
+                    -0.04447271674871445,
+                    0.10422835499048233,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_LowerLeg",
+                  "targetRawBone": "J_Bip_R_LowerLeg",
+                  "humanoidSemantic": "rightLowerLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.06305015087127686,
+                    -0.5768980979919434,
+                    -0.0006477371789515018,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_Foot",
+                  "targetRawBone": "J_Bip_R_Foot",
+                  "humanoidSemantic": "rightFoot",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.05007633939385414,
+                    -0.12132200598716736,
+                    -0.03208542242646217,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_ToeBase",
+                  "targetRawBone": "J_Bip_R_ToeBase",
+                  "humanoidSemantic": "rightToes",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.05147293955087662,
+                    -0.04447372257709503,
+                    0.10422837734222412,
+                    1
+                  ]
+                }
+              ],
+              "limits": [
+                "One default male body only; not female scaled or renamed",
+                "Original male top/tie, trousers and flat shoes split into independent weighted equipment; not a new garment design",
+                "No arbitrary body morph fitting, runtime visual acceptance or seated contact approval",
+                "Current skin surface remains intact; only duplicate source clothes may later be hidden by runtime adapter"
+              ],
+              "sourceLicense": {
+                "url": "https://opengameart.org/sites/default/files/base_male.zip",
+                "zipBytes": 14825707,
+                "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+                "vrmBytes": 17914788,
+                "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "publisher": "hecko",
+                "attributedAuthor": "VRoid Project",
+                "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+                "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+              },
+              "method": "Exact original male clothing primitive extraction: source topology/UV/textures/weights/inverse binds retained; no female measurements",
+              "stats": {
+                "vertices": 566,
+                "triangles": 540,
+                "multiBoneVertices": 408,
+                "joints": 6
+              }
+            },
+            "pants": {
+              "id": "m1b-uniform-pants",
+              "name": "男性原制服长裤",
+              "slot": "bottom",
+              "url": "m1b-uniform-pants.glb",
+              "sha256": "e4e213c9eed7912ff7fa75b81c957b7e944036ffb81cdcbd63813c11bd7e168c",
+              "bytes": 819744,
+              "compatibleAvatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+              "preserveOriginalBody": true,
+              "requiresRawSkeleton": true,
+              "bindings": [
+                {
+                  "sourceBone": "J_Bip_C_Hips",
+                  "targetRawBone": "J_Bip_C_Hips",
+                  "humanoidSemantic": "hips",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088417092338204,
+                    -1.008255958557129,
+                    0.010161482729017735,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Spine",
+                  "targetRawBone": "J_Bip_C_Spine",
+                  "humanoidSemantic": "spine",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088208126835525,
+                    -1.1487853527069092,
+                    0.010900395922362804,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Chest",
+                  "targetRawBone": "J_Bip_C_Chest",
+                  "humanoidSemantic": "chest",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088094039820135,
+                    -1.2277686595916748,
+                    0.00648072361946106,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_UpperLeg",
+                  "targetRawBone": "J_Bip_L_UpperLeg",
+                  "humanoidSemantic": "leftUpperLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.08432579040527344,
+                    -0.9643067717552185,
+                    0.006310062482953072,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_LowerLeg",
+                  "targetRawBone": "J_Bip_L_LowerLeg",
+                  "humanoidSemantic": "leftLowerLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.062032997608184814,
+                    -0.5768977403640747,
+                    -0.0006479229778051376,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_Foot",
+                  "targetRawBone": "J_Bip_L_Foot",
+                  "humanoidSemantic": "leftFoot",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.04906037449836731,
+                    -0.12132135033607483,
+                    -0.032085441052913666,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_UpperLeg",
+                  "targetRawBone": "J_Bip_R_UpperLeg",
+                  "humanoidSemantic": "rightUpperLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.08534348011016846,
+                    -0.9643067717552185,
+                    0.006310076452791691,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_LowerLeg",
+                  "targetRawBone": "J_Bip_R_LowerLeg",
+                  "humanoidSemantic": "rightLowerLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.06305015087127686,
+                    -0.5768980979919434,
+                    -0.0006477371789515018,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_Foot",
+                  "targetRawBone": "J_Bip_R_Foot",
+                  "humanoidSemantic": "rightFoot",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.05007633939385414,
+                    -0.12132200598716736,
+                    -0.03208542242646217,
+                    1
+                  ]
+                }
+              ],
+              "limits": [
+                "One default male body only; not female scaled or renamed",
+                "Original male top/tie, trousers and flat shoes split into independent weighted equipment; not a new garment design",
+                "No arbitrary body morph fitting, runtime visual acceptance or seated contact approval",
+                "Current skin surface remains intact; only duplicate source clothes may later be hidden by runtime adapter"
+              ],
+              "sourceLicense": {
+                "url": "https://opengameart.org/sites/default/files/base_male.zip",
+                "zipBytes": 14825707,
+                "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+                "vrmBytes": 17914788,
+                "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "publisher": "hecko",
+                "attributedAuthor": "VRoid Project",
+                "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+                "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+              },
+              "method": "Exact original male clothing primitive extraction: source topology/UV/textures/weights/inverse binds retained; no female measurements",
+              "stats": {
+                "vertices": 1096,
+                "triangles": 1624,
+                "multiBoneVertices": 924,
+                "joints": 9
+              }
+            }
+          }
+        },
+        {
+          "index": 2,
+          "role": "shorts",
+          "bottomRole": "shorts",
+          "manifestUrl": "/assets/m1b/equipment.json",
+          "resources": {
+            "top": {
+              "id": "m1b-uniform-top",
+              "name": "男性制服上衣与领带",
+              "slot": "top",
+              "url": "m1b-uniform-top.glb",
+              "sha256": "393a2a97e9a933c4f8170720cf1d5792a18f282166abf7e5ffbba0d0de1fc32c",
+              "bytes": 2762452,
+              "compatibleAvatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+              "preserveOriginalBody": true,
+              "requiresRawSkeleton": true,
+              "bindings": [
+                {
+                  "sourceBone": "J_Bip_C_Hips",
+                  "targetRawBone": "J_Bip_C_Hips",
+                  "humanoidSemantic": "hips",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088417092338204,
+                    -1.008255958557129,
+                    0.010161482729017735,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Spine",
+                  "targetRawBone": "J_Bip_C_Spine",
+                  "humanoidSemantic": "spine",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088208126835525,
+                    -1.1487853527069092,
+                    0.010900395922362804,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Chest",
+                  "targetRawBone": "J_Bip_C_Chest",
+                  "humanoidSemantic": "chest",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088094039820135,
+                    -1.2277686595916748,
+                    0.00648072361946106,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_UpperChest",
+                  "targetRawBone": "J_Bip_C_UpperChest",
+                  "humanoidSemantic": "upperChest",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088213947601616,
+                    -1.3051296472549438,
+                    0.0024858862161636353,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Neck",
+                  "targetRawBone": "J_Bip_C_Neck",
+                  "humanoidSemantic": "neck",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088449106551707,
+                    -1.4563363790512085,
+                    -0.008182634599506855,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Head",
+                  "targetRawBone": "J_Bip_C_Head",
+                  "humanoidSemantic": "head",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088170291855931,
+                    -1.5453999042510986,
+                    0.006267889402806759,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_Shoulder",
+                  "targetRawBone": "J_Bip_L_Shoulder",
+                  "humanoidSemantic": "leftShoulder",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.024115361273288727,
+                    -1.4260398149490356,
+                    -0.002688511274755001,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_UpperArm",
+                  "targetRawBone": "J_Bip_L_UpperArm",
+                  "humanoidSemantic": "leftUpperArm",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.14726629853248596,
+                    -1.4045658111572266,
+                    0.004220846574753523,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_Shoulder",
+                  "targetRawBone": "J_Bip_R_Shoulder",
+                  "humanoidSemantic": "rightShoulder",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0251330379396677,
+                    -1.4260398149490356,
+                    -0.002688511274755001,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_UpperArm",
+                  "targetRawBone": "J_Bip_R_UpperArm",
+                  "humanoidSemantic": "rightUpperArm",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.14828401803970337,
+                    -1.4045658111572266,
+                    0.004220864269882441,
+                    1
+                  ]
+                }
+              ],
+              "limits": [
+                "One default male body only; not female scaled or renamed",
+                "Original male top/tie, trousers and flat shoes split into independent weighted equipment; not a new garment design",
+                "No arbitrary body morph fitting, runtime visual acceptance or seated contact approval",
+                "Current skin surface remains intact; only duplicate source clothes may later be hidden by runtime adapter"
+              ],
+              "sourceLicense": {
+                "url": "https://opengameart.org/sites/default/files/base_male.zip",
+                "zipBytes": 14825707,
+                "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+                "vrmBytes": 17914788,
+                "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "publisher": "hecko",
+                "attributedAuthor": "VRoid Project",
+                "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+                "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+              },
+              "method": "Exact original male clothing primitive extraction: source topology/UV/textures/weights/inverse binds retained; no female measurements",
+              "stats": {
+                "vertices": 1476,
+                "triangles": 2096,
+                "multiBoneVertices": 1316,
+                "joints": 10
+              }
+            },
+            "shoes": {
+              "id": "m1b-uniform-shoes",
+              "name": "男性原制服平底鞋",
+              "slot": "shoes",
+              "url": "m1b-uniform-shoes.glb",
+              "sha256": "3e855c7f39a183ab44b8aef3ac92898f6ebc36a7cbc0e6ccfdd485b85607fe2f",
+              "bytes": 157376,
+              "compatibleAvatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+              "preserveOriginalBody": true,
+              "requiresRawSkeleton": true,
+              "bindings": [
+                {
+                  "sourceBone": "J_Bip_L_LowerLeg",
+                  "targetRawBone": "J_Bip_L_LowerLeg",
+                  "humanoidSemantic": "leftLowerLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.062032997608184814,
+                    -0.5768977403640747,
+                    -0.0006479229778051376,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_Foot",
+                  "targetRawBone": "J_Bip_L_Foot",
+                  "humanoidSemantic": "leftFoot",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.04906037449836731,
+                    -0.12132135033607483,
+                    -0.032085441052913666,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_ToeBase",
+                  "targetRawBone": "J_Bip_L_ToeBase",
+                  "humanoidSemantic": "leftToes",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.05045774206519127,
+                    -0.04447271674871445,
+                    0.10422835499048233,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_LowerLeg",
+                  "targetRawBone": "J_Bip_R_LowerLeg",
+                  "humanoidSemantic": "rightLowerLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.06305015087127686,
+                    -0.5768980979919434,
+                    -0.0006477371789515018,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_Foot",
+                  "targetRawBone": "J_Bip_R_Foot",
+                  "humanoidSemantic": "rightFoot",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.05007633939385414,
+                    -0.12132200598716736,
+                    -0.03208542242646217,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_ToeBase",
+                  "targetRawBone": "J_Bip_R_ToeBase",
+                  "humanoidSemantic": "rightToes",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.05147293955087662,
+                    -0.04447372257709503,
+                    0.10422837734222412,
+                    1
+                  ]
+                }
+              ],
+              "limits": [
+                "One default male body only; not female scaled or renamed",
+                "Original male top/tie, trousers and flat shoes split into independent weighted equipment; not a new garment design",
+                "No arbitrary body morph fitting, runtime visual acceptance or seated contact approval",
+                "Current skin surface remains intact; only duplicate source clothes may later be hidden by runtime adapter"
+              ],
+              "sourceLicense": {
+                "url": "https://opengameart.org/sites/default/files/base_male.zip",
+                "zipBytes": 14825707,
+                "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+                "vrmBytes": 17914788,
+                "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "publisher": "hecko",
+                "attributedAuthor": "VRoid Project",
+                "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+                "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+              },
+              "method": "Exact original male clothing primitive extraction: source topology/UV/textures/weights/inverse binds retained; no female measurements",
+              "stats": {
+                "vertices": 566,
+                "triangles": 540,
+                "multiBoneVertices": 408,
+                "joints": 6
+              }
+            },
+            "shorts": {
+              "id": "m1b-uniform-shorts-v1",
+              "name": "男性露膝独立短裤",
+              "slot": "bottom",
+              "url": "m1b-uniform-shorts-v1.glb",
+              "sha256": "c8a1afd0742cbb99302abc107673744751a8cfd77c6c89df039b068054a947d0",
+              "bytes": 795852,
+              "compatibleAvatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+              "preserveOriginalBody": true,
+              "requiresRawSkeleton": true,
+              "bindings": [
+                {
+                  "sourceBone": "J_Bip_C_Hips",
+                  "targetRawBone": "J_Bip_C_Hips",
+                  "humanoidSemantic": "hips",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088417092338204,
+                    -1.008255958557129,
+                    0.010161482729017735,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Spine",
+                  "targetRawBone": "J_Bip_C_Spine",
+                  "humanoidSemantic": "spine",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088208126835525,
+                    -1.1487853527069092,
+                    0.010900395922362804,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Chest",
+                  "targetRawBone": "J_Bip_C_Chest",
+                  "humanoidSemantic": "chest",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088094039820135,
+                    -1.2277686595916748,
+                    0.00648072361946106,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_UpperLeg",
+                  "targetRawBone": "J_Bip_L_UpperLeg",
+                  "humanoidSemantic": "leftUpperLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.08432579040527344,
+                    -0.9643067717552185,
+                    0.006310062482953072,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_LowerLeg",
+                  "targetRawBone": "J_Bip_L_LowerLeg",
+                  "humanoidSemantic": "leftLowerLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.062032997608184814,
+                    -0.5768977403640747,
+                    -0.0006479229778051376,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_UpperLeg",
+                  "targetRawBone": "J_Bip_R_UpperLeg",
+                  "humanoidSemantic": "rightUpperLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.08534348011016846,
+                    -0.9643067717552185,
+                    0.006310076452791691,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_LowerLeg",
+                  "targetRawBone": "J_Bip_R_LowerLeg",
+                  "humanoidSemantic": "rightLowerLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.06305015087127686,
+                    -0.5768980979919434,
+                    -0.0006477371789515018,
+                    1
+                  ]
+                }
+              ],
+              "limits": [
+                "Exact original male body only; not fitted to female or shape variants",
+                "New shortened geometry and hem need separate runtime posture/contact/visual acceptance",
+                "No cloth simulation and no automatic arbitrary-body adaptation"
+              ],
+              "sourceLicense": {
+                "url": "https://opengameart.org/sites/default/files/base_male.zip",
+                "zipBytes": 14825707,
+                "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+                "vrmBytes": 17914788,
+                "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "publisher": "hecko",
+                "attributedAuthor": "VRoid Project",
+                "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+                "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+              },
+              "method": "Actual editable Blender mesh export repacked to verified original male raw skeleton; no body faces removed",
+              "stats": {
+                "vertices": 802,
+                "triangles": 928,
+                "multiBoneVertices": 742,
+                "joints": 7
+              },
+              "styleId": "m1b-tailored-shorts-v1",
+              "fitId": "beta-base-male-62b44b-shorts-v1",
+              "sourceSpec": "assets-source/m1b/shorts/spec.json",
+              "materialRecipes": [
+                {
+                  "id": "m1b-shorts-cloth-v4-review1",
+                  "url": "/assets/material-recipes/m1b-shorts-cloth-v4-review1.json",
+                  "sha256": "6307ada57e83d74a34305708e747f452c9bde9f4b18dc4caea150f83d9d32824",
+                  "bytes": 1286
+                }
+              ]
+            }
+          }
+        },
+        {
+          "index": 3,
+          "role": "outer-pants",
+          "bottomRole": "pants",
+          "manifestUrl": "/assets/m1b/equipment.json",
+          "resources": {
+            "top": {
+              "id": "m1b-uniform-top",
+              "name": "男性制服上衣与领带",
+              "slot": "top",
+              "url": "m1b-uniform-top.glb",
+              "sha256": "393a2a97e9a933c4f8170720cf1d5792a18f282166abf7e5ffbba0d0de1fc32c",
+              "bytes": 2762452,
+              "compatibleAvatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+              "preserveOriginalBody": true,
+              "requiresRawSkeleton": true,
+              "bindings": [
+                {
+                  "sourceBone": "J_Bip_C_Hips",
+                  "targetRawBone": "J_Bip_C_Hips",
+                  "humanoidSemantic": "hips",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088417092338204,
+                    -1.008255958557129,
+                    0.010161482729017735,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Spine",
+                  "targetRawBone": "J_Bip_C_Spine",
+                  "humanoidSemantic": "spine",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088208126835525,
+                    -1.1487853527069092,
+                    0.010900395922362804,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Chest",
+                  "targetRawBone": "J_Bip_C_Chest",
+                  "humanoidSemantic": "chest",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088094039820135,
+                    -1.2277686595916748,
+                    0.00648072361946106,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_UpperChest",
+                  "targetRawBone": "J_Bip_C_UpperChest",
+                  "humanoidSemantic": "upperChest",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088213947601616,
+                    -1.3051296472549438,
+                    0.0024858862161636353,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Neck",
+                  "targetRawBone": "J_Bip_C_Neck",
+                  "humanoidSemantic": "neck",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088449106551707,
+                    -1.4563363790512085,
+                    -0.008182634599506855,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Head",
+                  "targetRawBone": "J_Bip_C_Head",
+                  "humanoidSemantic": "head",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088170291855931,
+                    -1.5453999042510986,
+                    0.006267889402806759,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_Shoulder",
+                  "targetRawBone": "J_Bip_L_Shoulder",
+                  "humanoidSemantic": "leftShoulder",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.024115361273288727,
+                    -1.4260398149490356,
+                    -0.002688511274755001,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_UpperArm",
+                  "targetRawBone": "J_Bip_L_UpperArm",
+                  "humanoidSemantic": "leftUpperArm",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.14726629853248596,
+                    -1.4045658111572266,
+                    0.004220846574753523,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_Shoulder",
+                  "targetRawBone": "J_Bip_R_Shoulder",
+                  "humanoidSemantic": "rightShoulder",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0251330379396677,
+                    -1.4260398149490356,
+                    -0.002688511274755001,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_UpperArm",
+                  "targetRawBone": "J_Bip_R_UpperArm",
+                  "humanoidSemantic": "rightUpperArm",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.14828401803970337,
+                    -1.4045658111572266,
+                    0.004220864269882441,
+                    1
+                  ]
+                }
+              ],
+              "limits": [
+                "One default male body only; not female scaled or renamed",
+                "Original male top/tie, trousers and flat shoes split into independent weighted equipment; not a new garment design",
+                "No arbitrary body morph fitting, runtime visual acceptance or seated contact approval",
+                "Current skin surface remains intact; only duplicate source clothes may later be hidden by runtime adapter"
+              ],
+              "sourceLicense": {
+                "url": "https://opengameart.org/sites/default/files/base_male.zip",
+                "zipBytes": 14825707,
+                "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+                "vrmBytes": 17914788,
+                "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "publisher": "hecko",
+                "attributedAuthor": "VRoid Project",
+                "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+                "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+              },
+              "method": "Exact original male clothing primitive extraction: source topology/UV/textures/weights/inverse binds retained; no female measurements",
+              "stats": {
+                "vertices": 1476,
+                "triangles": 2096,
+                "multiBoneVertices": 1316,
+                "joints": 10
+              }
+            },
+            "shoes": {
+              "id": "m1b-uniform-shoes",
+              "name": "男性原制服平底鞋",
+              "slot": "shoes",
+              "url": "m1b-uniform-shoes.glb",
+              "sha256": "3e855c7f39a183ab44b8aef3ac92898f6ebc36a7cbc0e6ccfdd485b85607fe2f",
+              "bytes": 157376,
+              "compatibleAvatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+              "preserveOriginalBody": true,
+              "requiresRawSkeleton": true,
+              "bindings": [
+                {
+                  "sourceBone": "J_Bip_L_LowerLeg",
+                  "targetRawBone": "J_Bip_L_LowerLeg",
+                  "humanoidSemantic": "leftLowerLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.062032997608184814,
+                    -0.5768977403640747,
+                    -0.0006479229778051376,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_Foot",
+                  "targetRawBone": "J_Bip_L_Foot",
+                  "humanoidSemantic": "leftFoot",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.04906037449836731,
+                    -0.12132135033607483,
+                    -0.032085441052913666,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_ToeBase",
+                  "targetRawBone": "J_Bip_L_ToeBase",
+                  "humanoidSemantic": "leftToes",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.05045774206519127,
+                    -0.04447271674871445,
+                    0.10422835499048233,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_LowerLeg",
+                  "targetRawBone": "J_Bip_R_LowerLeg",
+                  "humanoidSemantic": "rightLowerLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.06305015087127686,
+                    -0.5768980979919434,
+                    -0.0006477371789515018,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_Foot",
+                  "targetRawBone": "J_Bip_R_Foot",
+                  "humanoidSemantic": "rightFoot",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.05007633939385414,
+                    -0.12132200598716736,
+                    -0.03208542242646217,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_ToeBase",
+                  "targetRawBone": "J_Bip_R_ToeBase",
+                  "humanoidSemantic": "rightToes",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.05147293955087662,
+                    -0.04447372257709503,
+                    0.10422837734222412,
+                    1
+                  ]
+                }
+              ],
+              "limits": [
+                "One default male body only; not female scaled or renamed",
+                "Original male top/tie, trousers and flat shoes split into independent weighted equipment; not a new garment design",
+                "No arbitrary body morph fitting, runtime visual acceptance or seated contact approval",
+                "Current skin surface remains intact; only duplicate source clothes may later be hidden by runtime adapter"
+              ],
+              "sourceLicense": {
+                "url": "https://opengameart.org/sites/default/files/base_male.zip",
+                "zipBytes": 14825707,
+                "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+                "vrmBytes": 17914788,
+                "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "publisher": "hecko",
+                "attributedAuthor": "VRoid Project",
+                "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+                "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+              },
+              "method": "Exact original male clothing primitive extraction: source topology/UV/textures/weights/inverse binds retained; no female measurements",
+              "stats": {
+                "vertices": 566,
+                "triangles": 540,
+                "multiBoneVertices": 408,
+                "joints": 6
+              }
+            },
+            "pants": {
+              "id": "m1b-uniform-pants",
+              "name": "男性原制服长裤",
+              "slot": "bottom",
+              "url": "m1b-uniform-pants.glb",
+              "sha256": "e4e213c9eed7912ff7fa75b81c957b7e944036ffb81cdcbd63813c11bd7e168c",
+              "bytes": 819744,
+              "compatibleAvatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+              "preserveOriginalBody": true,
+              "requiresRawSkeleton": true,
+              "bindings": [
+                {
+                  "sourceBone": "J_Bip_C_Hips",
+                  "targetRawBone": "J_Bip_C_Hips",
+                  "humanoidSemantic": "hips",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088417092338204,
+                    -1.008255958557129,
+                    0.010161482729017735,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Spine",
+                  "targetRawBone": "J_Bip_C_Spine",
+                  "humanoidSemantic": "spine",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088208126835525,
+                    -1.1487853527069092,
+                    0.010900395922362804,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Chest",
+                  "targetRawBone": "J_Bip_C_Chest",
+                  "humanoidSemantic": "chest",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088094039820135,
+                    -1.2277686595916748,
+                    0.00648072361946106,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_UpperLeg",
+                  "targetRawBone": "J_Bip_L_UpperLeg",
+                  "humanoidSemantic": "leftUpperLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.08432579040527344,
+                    -0.9643067717552185,
+                    0.006310062482953072,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_LowerLeg",
+                  "targetRawBone": "J_Bip_L_LowerLeg",
+                  "humanoidSemantic": "leftLowerLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.062032997608184814,
+                    -0.5768977403640747,
+                    -0.0006479229778051376,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_Foot",
+                  "targetRawBone": "J_Bip_L_Foot",
+                  "humanoidSemantic": "leftFoot",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.04906037449836731,
+                    -0.12132135033607483,
+                    -0.032085441052913666,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_UpperLeg",
+                  "targetRawBone": "J_Bip_R_UpperLeg",
+                  "humanoidSemantic": "rightUpperLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.08534348011016846,
+                    -0.9643067717552185,
+                    0.006310076452791691,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_LowerLeg",
+                  "targetRawBone": "J_Bip_R_LowerLeg",
+                  "humanoidSemantic": "rightLowerLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.06305015087127686,
+                    -0.5768980979919434,
+                    -0.0006477371789515018,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_Foot",
+                  "targetRawBone": "J_Bip_R_Foot",
+                  "humanoidSemantic": "rightFoot",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.05007633939385414,
+                    -0.12132200598716736,
+                    -0.03208542242646217,
+                    1
+                  ]
+                }
+              ],
+              "limits": [
+                "One default male body only; not female scaled or renamed",
+                "Original male top/tie, trousers and flat shoes split into independent weighted equipment; not a new garment design",
+                "No arbitrary body morph fitting, runtime visual acceptance or seated contact approval",
+                "Current skin surface remains intact; only duplicate source clothes may later be hidden by runtime adapter"
+              ],
+              "sourceLicense": {
+                "url": "https://opengameart.org/sites/default/files/base_male.zip",
+                "zipBytes": 14825707,
+                "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+                "vrmBytes": 17914788,
+                "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "publisher": "hecko",
+                "attributedAuthor": "VRoid Project",
+                "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+                "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+              },
+              "method": "Exact original male clothing primitive extraction: source topology/UV/textures/weights/inverse binds retained; no female measurements",
+              "stats": {
+                "vertices": 1096,
+                "triangles": 1624,
+                "multiBoneVertices": 924,
+                "joints": 9
+              }
+            },
+            "outer": {
+              "id": "m2-male-open-vest-panels-v2",
+              "name": "男性独立裁片开襟无袖外搭（技术样件）",
+              "slot": "outerwear",
+              "url": "/assets/m2-outer-panels-v2/author-export.glb",
+              "sha256": "0631cf9d1ec297e8504d5ed73f5e1325d3154be9de09906bb6e7131488e89330",
+              "bytes": 150056,
+              "compatibleAvatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+              "preserveOriginalBody": true,
+              "requiresRawSkeleton": true,
+              "bindings": [
+                {
+                  "sourceBone": "J_Bip_C_Hips",
+                  "targetRawBone": "J_Bip_C_Hips",
+                  "humanoidSemantic": "hips",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088417092338204,
+                    -1.008255958557129,
+                    0.010161482729017735,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Spine",
+                  "targetRawBone": "J_Bip_C_Spine",
+                  "humanoidSemantic": "spine",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088208126835525,
+                    -1.1487853527069092,
+                    0.010900395922362804,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Chest",
+                  "targetRawBone": "J_Bip_C_Chest",
+                  "humanoidSemantic": "chest",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088094039820135,
+                    -1.2277686595916748,
+                    0.00648072361946106,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_UpperChest",
+                  "targetRawBone": "J_Bip_C_UpperChest",
+                  "humanoidSemantic": "upperChest",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088213947601616,
+                    -1.3051296472549438,
+                    0.0024858862161636353,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Neck",
+                  "targetRawBone": "J_Bip_C_Neck",
+                  "humanoidSemantic": "neck",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088449106551707,
+                    -1.4563363790512085,
+                    -0.008182634599506855,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_Shoulder",
+                  "targetRawBone": "J_Bip_L_Shoulder",
+                  "humanoidSemantic": "leftShoulder",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.024115361273288727,
+                    -1.4260398149490356,
+                    -0.002688511274755001,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_UpperArm",
+                  "targetRawBone": "J_Bip_L_UpperArm",
+                  "humanoidSemantic": "leftUpperArm",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.14726629853248596,
+                    -1.4045658111572266,
+                    0.004220846574753523,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_Shoulder",
+                  "targetRawBone": "J_Bip_R_Shoulder",
+                  "humanoidSemantic": "rightShoulder",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0251330379396677,
+                    -1.4260398149490356,
+                    -0.002688511274755001,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_UpperArm",
+                  "targetRawBone": "J_Bip_R_UpperArm",
+                  "humanoidSemantic": "rightUpperArm",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.14828401803970337,
+                    -1.4045658111572266,
+                    0.004220864269882441,
+                    1
+                  ]
+                }
+              ],
+              "limits": [
+                "Exact original male only. No automatic body morph adaptation.",
+                "Static and animated acceptance reported separately.",
+                "Skinning only. No cloth dynamics or coverage masks."
+              ],
+              "sourceLicense": {
+                "url": "https://opengameart.org/sites/default/files/base_male.zip",
+                "zipBytes": 14825707,
+                "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+                "vrmBytes": 17914788,
+                "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "publisher": "hecko",
+                "attributedAuthor": "VRoid Project",
+                "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+                "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+              },
+              "method": "Independent welded panels sampled from original top local cross sections; shoulder straps follow real top upper envelope; continuous low-density normals and 5mm outer surface gap with 2mm thickness; exact sampled-triangle skin transfer.",
+              "stats": {
+                "vertices": 2278,
+                "triangles": 4560,
+                "multiBoneVertices": 2278,
+                "joints": 9
+              },
+              "styleId": "male-open-vest-panels-v2",
+              "fitId": "male-open-vest-panels-original-fit-v2",
+              "version": 2,
+              "layerWith": [
+                "m1b-uniform-top"
+              ],
+              "allowedBottoms": [
+                "m1b-uniform-pants",
+                "m1b-uniform-shorts-v1"
+              ],
+              "sourceSpec": "assets-source/m2-outer-panels-v2/spec.json",
+              "admission": "static-source-candidate-runtime-pending"
+            }
+          }
+        },
+        {
+          "index": 4,
+          "role": "outer-shorts",
+          "bottomRole": "shorts",
+          "manifestUrl": "/assets/m1b/equipment.json",
+          "resources": {
+            "top": {
+              "id": "m1b-uniform-top",
+              "name": "男性制服上衣与领带",
+              "slot": "top",
+              "url": "m1b-uniform-top.glb",
+              "sha256": "393a2a97e9a933c4f8170720cf1d5792a18f282166abf7e5ffbba0d0de1fc32c",
+              "bytes": 2762452,
+              "compatibleAvatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+              "preserveOriginalBody": true,
+              "requiresRawSkeleton": true,
+              "bindings": [
+                {
+                  "sourceBone": "J_Bip_C_Hips",
+                  "targetRawBone": "J_Bip_C_Hips",
+                  "humanoidSemantic": "hips",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088417092338204,
+                    -1.008255958557129,
+                    0.010161482729017735,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Spine",
+                  "targetRawBone": "J_Bip_C_Spine",
+                  "humanoidSemantic": "spine",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088208126835525,
+                    -1.1487853527069092,
+                    0.010900395922362804,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Chest",
+                  "targetRawBone": "J_Bip_C_Chest",
+                  "humanoidSemantic": "chest",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088094039820135,
+                    -1.2277686595916748,
+                    0.00648072361946106,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_UpperChest",
+                  "targetRawBone": "J_Bip_C_UpperChest",
+                  "humanoidSemantic": "upperChest",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088213947601616,
+                    -1.3051296472549438,
+                    0.0024858862161636353,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Neck",
+                  "targetRawBone": "J_Bip_C_Neck",
+                  "humanoidSemantic": "neck",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088449106551707,
+                    -1.4563363790512085,
+                    -0.008182634599506855,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Head",
+                  "targetRawBone": "J_Bip_C_Head",
+                  "humanoidSemantic": "head",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088170291855931,
+                    -1.5453999042510986,
+                    0.006267889402806759,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_Shoulder",
+                  "targetRawBone": "J_Bip_L_Shoulder",
+                  "humanoidSemantic": "leftShoulder",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.024115361273288727,
+                    -1.4260398149490356,
+                    -0.002688511274755001,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_UpperArm",
+                  "targetRawBone": "J_Bip_L_UpperArm",
+                  "humanoidSemantic": "leftUpperArm",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.14726629853248596,
+                    -1.4045658111572266,
+                    0.004220846574753523,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_Shoulder",
+                  "targetRawBone": "J_Bip_R_Shoulder",
+                  "humanoidSemantic": "rightShoulder",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0251330379396677,
+                    -1.4260398149490356,
+                    -0.002688511274755001,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_UpperArm",
+                  "targetRawBone": "J_Bip_R_UpperArm",
+                  "humanoidSemantic": "rightUpperArm",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.14828401803970337,
+                    -1.4045658111572266,
+                    0.004220864269882441,
+                    1
+                  ]
+                }
+              ],
+              "limits": [
+                "One default male body only; not female scaled or renamed",
+                "Original male top/tie, trousers and flat shoes split into independent weighted equipment; not a new garment design",
+                "No arbitrary body morph fitting, runtime visual acceptance or seated contact approval",
+                "Current skin surface remains intact; only duplicate source clothes may later be hidden by runtime adapter"
+              ],
+              "sourceLicense": {
+                "url": "https://opengameart.org/sites/default/files/base_male.zip",
+                "zipBytes": 14825707,
+                "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+                "vrmBytes": 17914788,
+                "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "publisher": "hecko",
+                "attributedAuthor": "VRoid Project",
+                "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+                "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+              },
+              "method": "Exact original male clothing primitive extraction: source topology/UV/textures/weights/inverse binds retained; no female measurements",
+              "stats": {
+                "vertices": 1476,
+                "triangles": 2096,
+                "multiBoneVertices": 1316,
+                "joints": 10
+              }
+            },
+            "shoes": {
+              "id": "m1b-uniform-shoes",
+              "name": "男性原制服平底鞋",
+              "slot": "shoes",
+              "url": "m1b-uniform-shoes.glb",
+              "sha256": "3e855c7f39a183ab44b8aef3ac92898f6ebc36a7cbc0e6ccfdd485b85607fe2f",
+              "bytes": 157376,
+              "compatibleAvatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+              "preserveOriginalBody": true,
+              "requiresRawSkeleton": true,
+              "bindings": [
+                {
+                  "sourceBone": "J_Bip_L_LowerLeg",
+                  "targetRawBone": "J_Bip_L_LowerLeg",
+                  "humanoidSemantic": "leftLowerLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.062032997608184814,
+                    -0.5768977403640747,
+                    -0.0006479229778051376,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_Foot",
+                  "targetRawBone": "J_Bip_L_Foot",
+                  "humanoidSemantic": "leftFoot",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.04906037449836731,
+                    -0.12132135033607483,
+                    -0.032085441052913666,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_ToeBase",
+                  "targetRawBone": "J_Bip_L_ToeBase",
+                  "humanoidSemantic": "leftToes",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.05045774206519127,
+                    -0.04447271674871445,
+                    0.10422835499048233,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_LowerLeg",
+                  "targetRawBone": "J_Bip_R_LowerLeg",
+                  "humanoidSemantic": "rightLowerLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.06305015087127686,
+                    -0.5768980979919434,
+                    -0.0006477371789515018,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_Foot",
+                  "targetRawBone": "J_Bip_R_Foot",
+                  "humanoidSemantic": "rightFoot",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.05007633939385414,
+                    -0.12132200598716736,
+                    -0.03208542242646217,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_ToeBase",
+                  "targetRawBone": "J_Bip_R_ToeBase",
+                  "humanoidSemantic": "rightToes",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.05147293955087662,
+                    -0.04447372257709503,
+                    0.10422837734222412,
+                    1
+                  ]
+                }
+              ],
+              "limits": [
+                "One default male body only; not female scaled or renamed",
+                "Original male top/tie, trousers and flat shoes split into independent weighted equipment; not a new garment design",
+                "No arbitrary body morph fitting, runtime visual acceptance or seated contact approval",
+                "Current skin surface remains intact; only duplicate source clothes may later be hidden by runtime adapter"
+              ],
+              "sourceLicense": {
+                "url": "https://opengameart.org/sites/default/files/base_male.zip",
+                "zipBytes": 14825707,
+                "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+                "vrmBytes": 17914788,
+                "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "publisher": "hecko",
+                "attributedAuthor": "VRoid Project",
+                "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+                "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+              },
+              "method": "Exact original male clothing primitive extraction: source topology/UV/textures/weights/inverse binds retained; no female measurements",
+              "stats": {
+                "vertices": 566,
+                "triangles": 540,
+                "multiBoneVertices": 408,
+                "joints": 6
+              }
+            },
+            "shorts": {
+              "id": "m1b-uniform-shorts-v1",
+              "name": "男性露膝独立短裤",
+              "slot": "bottom",
+              "url": "m1b-uniform-shorts-v1.glb",
+              "sha256": "c8a1afd0742cbb99302abc107673744751a8cfd77c6c89df039b068054a947d0",
+              "bytes": 795852,
+              "compatibleAvatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+              "preserveOriginalBody": true,
+              "requiresRawSkeleton": true,
+              "bindings": [
+                {
+                  "sourceBone": "J_Bip_C_Hips",
+                  "targetRawBone": "J_Bip_C_Hips",
+                  "humanoidSemantic": "hips",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088417092338204,
+                    -1.008255958557129,
+                    0.010161482729017735,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Spine",
+                  "targetRawBone": "J_Bip_C_Spine",
+                  "humanoidSemantic": "spine",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088208126835525,
+                    -1.1487853527069092,
+                    0.010900395922362804,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Chest",
+                  "targetRawBone": "J_Bip_C_Chest",
+                  "humanoidSemantic": "chest",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088094039820135,
+                    -1.2277686595916748,
+                    0.00648072361946106,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_UpperLeg",
+                  "targetRawBone": "J_Bip_L_UpperLeg",
+                  "humanoidSemantic": "leftUpperLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.08432579040527344,
+                    -0.9643067717552185,
+                    0.006310062482953072,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_LowerLeg",
+                  "targetRawBone": "J_Bip_L_LowerLeg",
+                  "humanoidSemantic": "leftLowerLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.062032997608184814,
+                    -0.5768977403640747,
+                    -0.0006479229778051376,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_UpperLeg",
+                  "targetRawBone": "J_Bip_R_UpperLeg",
+                  "humanoidSemantic": "rightUpperLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.08534348011016846,
+                    -0.9643067717552185,
+                    0.006310076452791691,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_LowerLeg",
+                  "targetRawBone": "J_Bip_R_LowerLeg",
+                  "humanoidSemantic": "rightLowerLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.06305015087127686,
+                    -0.5768980979919434,
+                    -0.0006477371789515018,
+                    1
+                  ]
+                }
+              ],
+              "limits": [
+                "Exact original male body only; not fitted to female or shape variants",
+                "New shortened geometry and hem need separate runtime posture/contact/visual acceptance",
+                "No cloth simulation and no automatic arbitrary-body adaptation"
+              ],
+              "sourceLicense": {
+                "url": "https://opengameart.org/sites/default/files/base_male.zip",
+                "zipBytes": 14825707,
+                "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+                "vrmBytes": 17914788,
+                "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "publisher": "hecko",
+                "attributedAuthor": "VRoid Project",
+                "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+                "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+              },
+              "method": "Actual editable Blender mesh export repacked to verified original male raw skeleton; no body faces removed",
+              "stats": {
+                "vertices": 802,
+                "triangles": 928,
+                "multiBoneVertices": 742,
+                "joints": 7
+              },
+              "styleId": "m1b-tailored-shorts-v1",
+              "fitId": "beta-base-male-62b44b-shorts-v1",
+              "sourceSpec": "assets-source/m1b/shorts/spec.json",
+              "materialRecipes": [
+                {
+                  "id": "m1b-shorts-cloth-v4-review1",
+                  "url": "/assets/material-recipes/m1b-shorts-cloth-v4-review1.json",
+                  "sha256": "6307ada57e83d74a34305708e747f452c9bde9f4b18dc4caea150f83d9d32824",
+                  "bytes": 1286
+                }
+              ]
+            },
+            "outer": {
+              "id": "m2-male-open-vest-panels-v2",
+              "name": "男性独立裁片开襟无袖外搭（技术样件）",
+              "slot": "outerwear",
+              "url": "/assets/m2-outer-panels-v2/author-export.glb",
+              "sha256": "0631cf9d1ec297e8504d5ed73f5e1325d3154be9de09906bb6e7131488e89330",
+              "bytes": 150056,
+              "compatibleAvatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+              "preserveOriginalBody": true,
+              "requiresRawSkeleton": true,
+              "bindings": [
+                {
+                  "sourceBone": "J_Bip_C_Hips",
+                  "targetRawBone": "J_Bip_C_Hips",
+                  "humanoidSemantic": "hips",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088417092338204,
+                    -1.008255958557129,
+                    0.010161482729017735,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Spine",
+                  "targetRawBone": "J_Bip_C_Spine",
+                  "humanoidSemantic": "spine",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088208126835525,
+                    -1.1487853527069092,
+                    0.010900395922362804,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Chest",
+                  "targetRawBone": "J_Bip_C_Chest",
+                  "humanoidSemantic": "chest",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088094039820135,
+                    -1.2277686595916748,
+                    0.00648072361946106,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_UpperChest",
+                  "targetRawBone": "J_Bip_C_UpperChest",
+                  "humanoidSemantic": "upperChest",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088213947601616,
+                    -1.3051296472549438,
+                    0.0024858862161636353,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Neck",
+                  "targetRawBone": "J_Bip_C_Neck",
+                  "humanoidSemantic": "neck",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0005088449106551707,
+                    -1.4563363790512085,
+                    -0.008182634599506855,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_Shoulder",
+                  "targetRawBone": "J_Bip_L_Shoulder",
+                  "humanoidSemantic": "leftShoulder",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.024115361273288727,
+                    -1.4260398149490356,
+                    -0.002688511274755001,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_UpperArm",
+                  "targetRawBone": "J_Bip_L_UpperArm",
+                  "humanoidSemantic": "leftUpperArm",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.14726629853248596,
+                    -1.4045658111572266,
+                    0.004220846574753523,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_Shoulder",
+                  "targetRawBone": "J_Bip_R_Shoulder",
+                  "humanoidSemantic": "rightShoulder",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.0251330379396677,
+                    -1.4260398149490356,
+                    -0.002688511274755001,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_UpperArm",
+                  "targetRawBone": "J_Bip_R_UpperArm",
+                  "humanoidSemantic": "rightUpperArm",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.14828401803970337,
+                    -1.4045658111572266,
+                    0.004220864269882441,
+                    1
+                  ]
+                }
+              ],
+              "limits": [
+                "Exact original male only. No automatic body morph adaptation.",
+                "Static and animated acceptance reported separately.",
+                "Skinning only. No cloth dynamics or coverage masks."
+              ],
+              "sourceLicense": {
+                "url": "https://opengameart.org/sites/default/files/base_male.zip",
+                "zipBytes": 14825707,
+                "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+                "vrmBytes": 17914788,
+                "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "publisher": "hecko",
+                "attributedAuthor": "VRoid Project",
+                "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+                "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+              },
+              "method": "Independent welded panels sampled from original top local cross sections; shoulder straps follow real top upper envelope; continuous low-density normals and 5mm outer surface gap with 2mm thickness; exact sampled-triangle skin transfer.",
+              "stats": {
+                "vertices": 2278,
+                "triangles": 4560,
+                "multiBoneVertices": 2278,
+                "joints": 9
+              },
+              "styleId": "male-open-vest-panels-v2",
+              "fitId": "male-open-vest-panels-original-fit-v2",
+              "version": 2,
+              "layerWith": [
+                "m1b-uniform-top"
+              ],
+              "allowedBottoms": [
+                "m1b-uniform-pants",
+                "m1b-uniform-shorts-v1"
+              ],
+              "sourceSpec": "assets-source/m2-outer-panels-v2/spec.json",
+              "admission": "static-source-candidate-runtime-pending"
+            }
+          }
+        },
+        {
+          "index": 5,
+          "role": "onePiece",
+          "bottomRole": "onePiece",
+          "manifestUrl": "/assets/m1b/equipment.json",
+          "resources": {
+            "shoes": {
+              "id": "m1b-uniform-shoes",
+              "name": "男性原制服平底鞋",
+              "slot": "shoes",
+              "url": "m1b-uniform-shoes.glb",
+              "sha256": "3e855c7f39a183ab44b8aef3ac92898f6ebc36a7cbc0e6ccfdd485b85607fe2f",
+              "bytes": 157376,
+              "compatibleAvatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+              "preserveOriginalBody": true,
+              "requiresRawSkeleton": true,
+              "bindings": [
+                {
+                  "sourceBone": "J_Bip_L_LowerLeg",
+                  "targetRawBone": "J_Bip_L_LowerLeg",
+                  "humanoidSemantic": "leftLowerLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.062032997608184814,
+                    -0.5768977403640747,
+                    -0.0006479229778051376,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_Foot",
+                  "targetRawBone": "J_Bip_L_Foot",
+                  "humanoidSemantic": "leftFoot",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.04906037449836731,
+                    -0.12132135033607483,
+                    -0.032085441052913666,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_ToeBase",
+                  "targetRawBone": "J_Bip_L_ToeBase",
+                  "humanoidSemantic": "leftToes",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0.05045774206519127,
+                    -0.04447271674871445,
+                    0.10422835499048233,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_LowerLeg",
+                  "targetRawBone": "J_Bip_R_LowerLeg",
+                  "humanoidSemantic": "rightLowerLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.06305015087127686,
+                    -0.5768980979919434,
+                    -0.0006477371789515018,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_Foot",
+                  "targetRawBone": "J_Bip_R_Foot",
+                  "humanoidSemantic": "rightFoot",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.05007633939385414,
+                    -0.12132200598716736,
+                    -0.03208542242646217,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_ToeBase",
+                  "targetRawBone": "J_Bip_R_ToeBase",
+                  "humanoidSemantic": "rightToes",
+                  "inverseBindMatrix": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    -0.05147293955087662,
+                    -0.04447372257709503,
+                    0.10422837734222412,
+                    1
+                  ]
+                }
+              ],
+              "limits": [
+                "One default male body only; not female scaled or renamed",
+                "Original male top/tie, trousers and flat shoes split into independent weighted equipment; not a new garment design",
+                "No arbitrary body morph fitting, runtime visual acceptance or seated contact approval",
+                "Current skin surface remains intact; only duplicate source clothes may later be hidden by runtime adapter"
+              ],
+              "sourceLicense": {
+                "url": "https://opengameart.org/sites/default/files/base_male.zip",
+                "zipBytes": 14825707,
+                "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+                "vrmBytes": 17914788,
+                "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "publisher": "hecko",
+                "attributedAuthor": "VRoid Project",
+                "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+                "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+              },
+              "method": "Exact original male clothing primitive extraction: source topology/UV/textures/weights/inverse binds retained; no female measurements",
+              "stats": {
+                "vertices": 566,
+                "triangles": 540,
+                "multiBoneVertices": 408,
+                "joints": 6
+              }
+            },
+            "onePiece": {
+              "id": "m2-male-training-onepiece-v1",
+              "name": "男性短袖短腿连体练功服（技术样件）",
+              "slot": "onePiece",
+              "url": "/assets/m2-onepiece-v1/author-export.glb",
+              "sha256": "e0cac5041a50bc07dde65c75414f98bab1501125939302eec0b9e1a5de826c7b",
+              "bytes": 157980,
+              "compatibleAvatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+              "preserveOriginalBody": true,
+              "requiresRawSkeleton": true,
+              "bindings": [
+                {
+                  "sourceBone": "J_Bip_C_Hips",
+                  "targetRawBone": "J_Bip_C_Hips",
+                  "humanoidSemantic": "hips",
+                  "inverseBindMatrix": [
+                    1,
+                    1.5178124201077289e-15,
+                    3.8959111492431475e-8,
+                    0,
+                    -1.5178124201077289e-15,
+                    1,
+                    3.8959111492431475e-8,
+                    0,
+                    -3.8959111492431475e-8,
+                    -5.913262218035806e-23,
+                    1,
+                    0,
+                    -0.0005088421166874468,
+                    -1.008255958557129,
+                    0.0101614436134696,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Spine",
+                  "targetRawBone": "J_Bip_C_Spine",
+                  "humanoidSemantic": "spine",
+                  "inverseBindMatrix": [
+                    1,
+                    1.661145111980615e-15,
+                    3.5318930002858906e-8,
+                    0,
+                    -1.3893865551944527e-15,
+                    1,
+                    3.528005620978547e-8,
+                    0,
+                    -3.5318930002858906e-8,
+                    3.6790550606013994e-9,
+                    1,
+                    0,
+                    -0.0005088212201371789,
+                    -1.1487853527069092,
+                    0.010900350287556648,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Chest",
+                  "targetRawBone": "J_Bip_C_Chest",
+                  "humanoidSemantic": "chest",
+                  "inverseBindMatrix": [
+                    1,
+                    1.661145111980615e-15,
+                    3.606790244248259e-8,
+                    0,
+                    -1.4158102773796427e-15,
+                    1,
+                    3.528005620978547e-8,
+                    0,
+                    -3.606790244248259e-8,
+                    3.6790550606013994e-9,
+                    1,
+                    0,
+                    -0.0005088096368126571,
+                    -1.2277686595916748,
+                    0.006480677984654903,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_UpperChest",
+                  "targetRawBone": "J_Bip_C_UpperChest",
+                  "humanoidSemantic": "upperChest",
+                  "inverseBindMatrix": [
+                    1,
+                    1.5251503724089113e-15,
+                    3.393467196133315e-8,
+                    0,
+                    -1.3325064928413136e-15,
+                    1,
+                    3.9050576106092194e-8,
+                    0,
+                    -3.393467196133315e-8,
+                    -9.146394752690412e-11,
+                    1,
+                    0,
+                    -0.0005088214529678226,
+                    -1.3051296472549438,
+                    0.0024858356919139624,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Neck",
+                  "targetRawBone": "J_Bip_C_Neck",
+                  "humanoidSemantic": "neck",
+                  "inverseBindMatrix": [
+                    1,
+                    1.8754192484057722e-15,
+                    3.0965573216690245e-8,
+                    0,
+                    -1.247208051591319e-15,
+                    1,
+                    2.8728718959314392e-8,
+                    0,
+                    -3.0965573216690245e-8,
+                    1.0230393421295503e-8,
+                    1,
+                    0,
+                    -0.000508844677824527,
+                    -1.4563363790512085,
+                    -0.008182664401829243,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_C_Head",
+                  "targetRawBone": "J_Bip_C_Head",
+                  "humanoidSemantic": "head",
+                  "inverseBindMatrix": [
+                    1,
+                    1.8754192484057722e-15,
+                    3.6126500901900727e-8,
+                    0,
+                    -1.3954749221401982e-15,
+                    1,
+                    2.8728718959314392e-8,
+                    0,
+                    -3.6126500901900727e-8,
+                    1.0230393421295503e-8,
+                    1,
+                    0,
+                    -0.0005088172620162368,
+                    -1.5453999042510986,
+                    0.006267855875194073,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_Shoulder",
+                  "targetRawBone": "J_Bip_L_Shoulder",
+                  "humanoidSemantic": "leftShoulder",
+                  "inverseBindMatrix": [
+                    1,
+                    1.65136505781338e-15,
+                    3.347407684373138e-8,
+                    0,
+                    -1.3162330841004271e-15,
+                    1,
+                    3.533123305032859e-8,
+                    0,
+                    -3.347407684373138e-8,
+                    3.6278779980136733e-9,
+                    1,
+                    0,
+                    0.02411535754799843,
+                    -1.4260398149490356,
+                    -0.002688559703528881,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_UpperArm",
+                  "targetRawBone": "J_Bip_L_UpperArm",
+                  "humanoidSemantic": "leftUpperArm",
+                  "inverseBindMatrix": [
+                    1,
+                    1.7222882911572851e-15,
+                    3.389999747582806e-8,
+                    0,
+                    -1.3303789578360476e-15,
+                    1,
+                    3.3212483430133943e-8,
+                    0,
+                    -3.389999747582806e-8,
+                    5.746628062297532e-9,
+                    1,
+                    0,
+                    0.14726628363132477,
+                    -1.4045658111572266,
+                    0.0042208037339150906,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_LowerArm",
+                  "targetRawBone": "J_Bip_L_LowerArm",
+                  "humanoidSemantic": "leftLowerArm",
+                  "inverseBindMatrix": [
+                    1,
+                    1.7043319338293228e-15,
+                    3.3899979712259665e-8,
+                    0,
+                    -1.3303783225613371e-15,
+                    1,
+                    3.3742171723361025e-8,
+                    0,
+                    -3.3899979712259665e-8,
+                    5.21694065724887e-9,
+                    1,
+                    0,
+                    0.36680689454078674,
+                    -1.3944023847579956,
+                    0.005770942661911249,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_Shoulder",
+                  "targetRawBone": "J_Bip_R_Shoulder",
+                  "humanoidSemantic": "rightShoulder",
+                  "inverseBindMatrix": [
+                    1,
+                    1.6513649519342617e-15,
+                    3.347404486930827e-8,
+                    0,
+                    -1.3162319194301247e-15,
+                    1,
+                    3.533123660304227e-8,
+                    0,
+                    -3.347404486930827e-8,
+                    3.6278744452999945e-9,
+                    1,
+                    0,
+                    -0.02513303980231285,
+                    -1.4260398149490356,
+                    -0.0026885615661740303,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_UpperArm",
+                  "targetRawBone": "J_Bip_R_UpperArm",
+                  "humanoidSemantic": "rightUpperArm",
+                  "inverseBindMatrix": [
+                    1,
+                    1.7222880793990483e-15,
+                    3.3899979712259665e-8,
+                    0,
+                    -1.3303783225613371e-15,
+                    1,
+                    3.321248698284762e-8,
+                    0,
+                    -3.3899979712259665e-8,
+                    5.7466231773162235e-9,
+                    1,
+                    0,
+                    -0.14828401803970337,
+                    -1.4045658111572266,
+                    0.004220811650156975,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_LowerArm",
+                  "targetRawBone": "J_Bip_R_LowerArm",
+                  "humanoidSemantic": "rightLowerArm",
+                  "inverseBindMatrix": [
+                    1,
+                    1.704331722071086e-15,
+                    3.3899979712259665e-8,
+                    0,
+                    -1.3303782166822187e-15,
+                    1,
+                    3.3742175276074704e-8,
+                    0,
+                    -3.3899979712259665e-8,
+                    5.216936216356771e-9,
+                    1,
+                    0,
+                    -0.3678246736526489,
+                    -1.3944025039672852,
+                    0.005770702380686998,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_UpperLeg",
+                  "targetRawBone": "J_Bip_L_UpperLeg",
+                  "humanoidSemantic": "leftUpperLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    1.681415033924884e-15,
+                    8.441476495590905e-8,
+                    0,
+                    -3.097840680740707e-15,
+                    1.0000001192092896,
+                    3.475977550237985e-8,
+                    0,
+                    -8.441476495590905e-8,
+                    4.199338210497672e-9,
+                    1,
+                    0,
+                    0.08432579040527344,
+                    -0.9643068313598633,
+                    0.006310035474598408,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_L_LowerLeg",
+                  "targetRawBone": "J_Bip_L_LowerLeg",
+                  "humanoidSemantic": "leftLowerLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    1.782696881010449e-15,
+                    8.50146761877113e-8,
+                    0,
+                    -3.1179735951057577e-15,
+                    1.0000001192092896,
+                    3.3559963696916384e-8,
+                    0,
+                    -8.50146761877113e-8,
+                    5.399148683693511e-9,
+                    1,
+                    0,
+                    0.062032997608184814,
+                    -0.5768977999687195,
+                    -0.0006479425937868655,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_UpperLeg",
+                  "targetRawBone": "J_Bip_R_UpperLeg",
+                  "humanoidSemantic": "rightUpperLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    1.6814151398040025e-15,
+                    8.441473653419962e-8,
+                    0,
+                    -3.097839410191286e-15,
+                    1.0000001192092896,
+                    3.4759768396952495e-8,
+                    0,
+                    -8.441473653419962e-8,
+                    4.19934220730056e-9,
+                    1,
+                    0,
+                    -0.08534348011016846,
+                    -0.9643068313598633,
+                    0.006310034543275833,
+                    1
+                  ]
+                },
+                {
+                  "sourceBone": "J_Bip_R_LowerLeg",
+                  "targetRawBone": "J_Bip_R_LowerLeg",
+                  "humanoidSemantic": "rightLowerLeg",
+                  "inverseBindMatrix": [
+                    1,
+                    1.7826970927686857e-15,
+                    3.419463467935202e-8,
+                    0,
+                    -1.4124548622382132e-15,
+                    1.0000001192092896,
+                    3.3559956591489026e-8,
+                    0,
+                    -3.419463467935202e-8,
+                    5.399153568674819e-9,
+                    1,
+                    0,
+                    -0.06305015087127686,
+                    -0.5768981575965881,
+                    -0.0006477731512859464,
+                    1
+                  ]
+                }
+              ],
+              "limits": [
+                "Exact original male only; no shape-variant fit.",
+                "Skinning-only; static and animated acceptance separate.",
+                "Intact body; no body coverage masks."
+              ],
+              "sourceLicense": {
+                "url": "https://opengameart.org/sites/default/files/base_male.zip",
+                "zipBytes": 14825707,
+                "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+                "vrmBytes": 17914788,
+                "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "publisher": "hecko",
+                "attributedAuthor": "VRoid Project",
+                "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+                "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+              },
+              "method": "Independent continuous male Body-derived short-sleeve short-leg unitard shell. Clip neckline, sleeve and leg openings; preserve continuous body skin weights with edge interpolation; create a closed material shell without removing body triangles.",
+              "stats": {
+                "vertices": 2356,
+                "triangles": 4724,
+                "multiBoneVertices": 2122,
+                "joints": 16
+              },
+              "styleId": "male-training-onepiece-v1",
+              "fitId": "original-male-training-onepiece-fit-v1",
+              "version": 1,
+              "sourceSpec": "assets-source/m2-onepiece-v1/spec.json",
+              "admission": "source-topology-and-binding-checked; rest-contact-defects-recorded; runtime-pending",
+              "fitResource": {
+                "url": "/assets/m2-onepiece-v1/fit.json",
+                "sha256": "016ba8e78d1584ddf82a21c9a4bacfd2133dd242e784b76278900e146b8837ef"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "limitations": {
+      "scope": "same loaded base; existing v6 recipe fields and configured equipment sets",
+      "geometryFit": "Only registered resources are listed. Geometry choices do not certify new attachment or garment fits.",
+      "colorCoupling": "hairColor also tints authored eyebrows; independent eyebrow color is not implemented",
+      "requiresPreparation": [
+        "resource bytes and digest",
+        "source geometry and expressions",
+        "skin weights and rest binds",
+        "actual head attachment and registered fit"
+      ]
+    }
+  },
+  "failedFirstSelection": {
+    "applied": false,
+    "cancelled": false,
+    "reason": "Garment m2-male-training-onepiece-v1 fit resource HTTP 503"
+  },
+  "retriedFirstSelection": {
+    "applied": true
+  },
+  "newerSelection": {
+    "applied": true
+  },
+  "cancelledSelection": {
+    "applied": false,
+    "cancelled": true,
+    "reason": "Outfit preparation cancelled by a newer selection"
+  },
+  "coverageOwnership": {
+    "indexCount": 5844,
+    "coverage": {
+      "id": "m2-male-open-vest-panels-v2-inner-top-back-mask-v1",
+      "status": "exact authored inner-top mask; action and perimeter validation required",
+      "active": true,
+      "outerId": "m2-male-open-vest-panels-v2",
+      "innerTopId": "m1b-uniform-top",
+      "hiddenFaces": 56,
+      "fullFaces": 2004,
+      "renderFaces": 1948,
+      "completeContactFaces": 2004,
+      "sourceTopUnchanged": true
+    }
+  },
+  "skirtBefore": {
+    "state": {
+      "fitId": "m1-uniform-skirt-open-waist-v1-pose-guide-v1",
+      "fitStatus": "experimental-not-visual-approved",
+      "method": "Actual source skirt pose-guided vertex constraints + fitted thigh/chair collision; no cloth inertia/self-collision",
+      "revision": 2,
+      "maxPanelCorrection": 0.003782462128593402,
+      "maxEdgeStretch": 1.1537816896852202,
+      "constraintIterations": 8,
+      "thighRadii": [
+        0.08681700171710337,
+        0.0868170202163488
+      ],
+      "bend": [
+        0,
+        0.004307324693757001
+      ],
+      "weldedVertices": 380
+    },
+    "meshes": [
+      "8d7cb18a-d59c-4d27-80a5-6ae6d108d625"
+    ]
+  },
+  "skirtAfter": {
+    "fitId": "m1-uniform-skirt-open-waist-v1-pose-guide-v1",
+    "fitStatus": "experimental-not-visual-approved",
+    "method": "Actual source skirt pose-guided vertex constraints + fitted thigh/chair collision; no cloth inertia/self-collision",
+    "revision": 497,
+    "maxPanelCorrection": 0.0045678542358777805,
+    "maxEdgeStretch": 1.607380402601886,
+    "constraintIterations": 8,
+    "thighRadii": [
+      0.08681700171710337,
+      0.0868170202163488
+    ],
+    "bend": [
+      0,
+      0.45409522433512967
+    ],
+    "weldedVertices": 380
+  },
+  "baseModeSelection": {
+    "applied": true
+  },
+  "shapeRejection": {
+    "rejected": true,
+    "reason": "Error: Body surface M00_001_01_Body_00_SKIN position changed; refit is required",
+    "visible": false
+  },
+  "disposedSelection": {
+    "applied": false,
+    "cancelled": false,
+    "reason": "Equipment disposed while loading"
+  },
+  "oldActor": {
+    "attached": false,
+    "items": {
+      "top": {
+        "id": "m1b-uniform-top",
+        "loaded": false
+      },
+      "shoes": {
+        "id": "m1b-uniform-shoes",
+        "loaded": false
+      },
+      "pants": {
+        "id": "m1b-uniform-pants",
+        "loaded": false
+      },
+      "shorts": {
+        "id": "m1b-uniform-shorts-v1",
+        "loaded": false
+      },
+      "outer": {
+        "id": "m2-male-open-vest-panels-v2",
+        "loaded": false
+      },
+      "onePiece": {
+        "id": "m2-male-training-onepiece-v1",
+        "loaded": false
+      }
+    }
+  },
+  "status": "passed"
+}
