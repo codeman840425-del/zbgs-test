@@ -1,0 +1,282 @@
+{
+  "schema": "company-layout",
+  "version": 1,
+  "id": "small-home-company",
+  "name": "连续饰面 · 民房",
+  "revision": 2,
+  "scale": "small-home",
+  "catalog": {
+    "id": "company-facilities",
+    "version": 1
+  },
+  "nodes": [
+    {
+      "id": "small-home-company/floor-1",
+      "kind": "floor",
+      "parentId": "small-home-company",
+      "name": "一层",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "connections": []
+    },
+    {
+      "id": "small-home-company/room-1",
+      "kind": "room",
+      "parentId": "small-home-company/floor-1",
+      "name": "直播与休息单间",
+      "bounds": {
+        "width": 6,
+        "depth": 5.25
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "purpose": "streaming",
+      "entry": {
+        "position": [
+          0,
+          0,
+          2
+        ]
+      },
+      "finishes": {
+        "north": {
+          "resource": {
+            "id": "wall-fine-stripes",
+            "version": 1
+          },
+          "tileMeters": [
+            2,
+            2
+          ]
+        },
+        "south": {
+          "resource": {
+            "id": "wall-fine-stripes",
+            "version": 1
+          },
+          "tileMeters": [
+            2,
+            2
+          ]
+        },
+        "west": {
+          "resource": {
+            "id": "wall-fine-stripes",
+            "version": 1
+          },
+          "tileMeters": [
+            2,
+            2
+          ]
+        },
+        "east": {
+          "resource": {
+            "id": "wall-fine-stripes",
+            "version": 1
+          },
+          "tileMeters": [
+            2,
+            2
+          ]
+        },
+        "floor": {
+          "resource": {
+            "id": "floor-checker-tile",
+            "version": 1
+          },
+          "tileMeters": [
+            2,
+            2
+          ],
+          "quarterTurns": 1
+        }
+      }
+    },
+    {
+      "id": "station-1",
+      "kind": "workstation",
+      "parentId": "small-home-company/room-1",
+      "name": "station-1",
+      "transform": {
+        "position": [
+          -1.5,
+          0,
+          -0.45
+        ],
+        "yaw": 0
+      },
+      "template": {
+        "id": "stream-station",
+        "version": 1
+      }
+    },
+    {
+      "id": "station-1/desk",
+      "kind": "facility",
+      "stationId": "station-1",
+      "partKey": "desk",
+      "parentId": "station-1",
+      "resource": {
+        "id": "desk",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -0.9
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "station-1/monitor",
+      "kind": "facility",
+      "stationId": "station-1",
+      "partKey": "monitor",
+      "parentId": "station-1/desk",
+      "resource": {
+        "id": "monitor",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          -0.25
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "station-1/keyboard",
+      "kind": "facility",
+      "stationId": "station-1",
+      "partKey": "keyboard",
+      "parentId": "station-1/desk",
+      "resource": {
+        "id": "keyboard",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          0.21
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "station-1/microphone",
+      "kind": "facility",
+      "stationId": "station-1",
+      "partKey": "microphone",
+      "parentId": "station-1/desk",
+      "resource": {
+        "id": "desk-microphone",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.8,
+          0.84,
+          0.18
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "station-1/chair",
+      "kind": "facility",
+      "stationId": "station-1",
+      "partKey": "chair",
+      "parentId": "station-1",
+      "resource": {
+        "id": "chair",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0.55
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "station-1/fill-light",
+      "kind": "facility",
+      "stationId": "station-1",
+      "partKey": "fill-light",
+      "parentId": "station-1",
+      "resource": {
+        "id": "fill-light",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.75,
+          0,
+          -0.15
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "lounge/sofa",
+      "kind": "facility",
+      "parentId": "small-home-company/room-1",
+      "resource": {
+        "id": "lounge-sofa",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1.1,
+          0,
+          -1
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "home/plant",
+      "kind": "facility",
+      "parentId": "small-home-company/room-1",
+      "resource": {
+        "id": "plant",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          2.5,
+          0,
+          1.85
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    }
+  ]
+}

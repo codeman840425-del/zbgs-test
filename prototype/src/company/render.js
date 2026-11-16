@@ -6,6 +6,7 @@ import {describeArchitecture} from './architecture.js';
 import {describeCompanyUsePoint} from './use-point-data.js';
 import {createContactResourceStore} from './contact-resources.js';
 import {WALL_HEIGHT,WALL_CENTER_Y,evaluateWallVisibility,groupWallSegments,wallEdge} from './wall-visibility.js';
+import {applySurfaceFinish,describeSurfaceMeshes} from './surface-finish-render.js';
 
 const geometryTypes={BoxGeometry:THREE.BoxGeometry,CylinderGeometry:THREE.CylinderGeometry,PlaneGeometry:THREE.PlaneGeometry,CapsuleGeometry:THREE.CapsuleGeometry,SphereGeometry:THREE.SphereGeometry};
 const clone=value=>structuredClone(value);
@@ -63,6 +64,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
     if(derived.nodes.get(floorId)?.kind!=='floor')throw new CompanyError('unknown-floor',floorId,'Choose an existing floor');
     const root=new THREE.Group();root.name=`Company:${document.id}`;
     const groups=new Map(),facilities=new Map(),points=new Map(),floors=[],walls=[],lights=[];
+    const finishMaterials=new Map(),finishes=new Map((derived.surfaceFinishes||[]).map(finish=>[finish.id,finish]));
     function group(id) {
       if(id===document.id)return root;
       if(groups.has(id))return groups.get(id);
@@ -82,8 +84,10 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
           const {width,depth}=node.bounds;
           const floor=structureMesh(width,.12,depth,node.kind==='area'?'#c6c7bc':'#d7d5c7');floor.position.y=-.06;floor.name=`Floor:${node.id}`;parent.add(floor);floors.push(floor);
           floor.userData={roomId:node.id,floorId};
+          applySurfaceFinish(floor,finishes.get(`${node.id}#finish:floor`),node,null,assetLibrary,finishMaterials);
           for(const boundary of architecture.walls.filter(w=>w.regionId===node.id)) {
             const wall=structureMesh(...boundary.size,node.kind==='area'?'#b5c4b8':'#c4d1c1');wall.position.fromArray(boundary.position);wall.name=boundary.id;wall.userData={roomId:node.id,edge:boundary.edge,physicalBoundary:boundary.id,height:WALL_HEIGHT};parent.add(wall);walls.push(wall);
+            applySurfaceFinish(wall,finishes.get(`${node.id}#finish:${boundary.edge}`),node,boundary,assetLibrary,finishMaterials);
           }
         }
       }
@@ -298,6 +302,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
       return current.derived.usePoints.filter(point=>floorId===undefined||point.floorId===floorId).map(point=>describeCompanyUsePoint(current.document,current.derived,point.id));
     },
     navigation,
+    surfacePresentation(){live();return describeSurfaceMeshes([...current.floors,...current.walls]);},
     snapshot(){return {document:clone(current.document),view:this.view,wallView:clone(current.wallView),visibleFloorId:current.floorId,displayedFacilities:current.facilities.size,points:[...current.points.values()].map(p=>({id:p.id,facilityId:p.facilityId,position:p.chair.getWorldPosition(new THREE.Vector3()).toArray(),yaw:p.world.yaw+(p.yaw||0)})),lights:current.lights.map(l=>({id:l.id,intensity:l.light.intensity,castsShadow:l.light.castShadow})),navigation:navigation().obstacles.map(({object,...o})=>o)};},
     setView({mode='floor',floorId=current.floorId,roomId=null}={}) {
       live();if(!['floor','room','building'].includes(mode))throw new CompanyError('invalid-view',mode,'Use floor, room or building');

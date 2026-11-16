@@ -1,0 +1,16 @@
+连续饰面样件生产规范 v1
+
+用途：真实整面墙纸/地板材质源，供agent读取JSON制作、登记、铺设；不作为家具或局部小面板安装。八款为程序生成的技术美术样件，非外部素材；允许本项目修改和使用。
+
+统一制作提示：按指定墙面/地面用途制作可重复的图案，保持米制铺装尺度；图案边界周期连续，无画框、透视、阴影烘焙或文字水印。结构/碰撞/座位规格与素材分离，外观替换不得改变设施身份、布局、通行或占用。
+输入：各ID.json中的pattern、base/accent RGB、params的指定周期参数、tile米制尺度。输出：512×512 RGBA PNG、内嵌PNG的静态glTF2 GLB、resource.json及collection.json。面节点finish-surface，朝向/单位沿平台合同。
+
+当前每个pattern仅支持其具名周期参数，整数16–128且整除256；不支持任意像素周期。base/accent是RGB整数；tile范围0.1–4米。不是仅通过改色凑四款。鱼骨为旋转坐标中的交错2:1板条；木板错缝、棋盘、水磨石分别有独立铺装图案。
+
+在交付source根目录执行：
+node scripts/company-platform/build-surface-finishes.mjs
+node scripts/company-platform/build-surface-finishes.mjs --check
+node scripts/company-platform/build-library.mjs
+
+源JSON改动后重导出并登记，再重建预览；不能沿用旧资源哈希。模块导入没有写文件副作用，texture/glb为同一生产入口。固化的旧交付不自动更新；发布新资源时沿既有版本升级规则。
+输入及输出哈希见各resource.provenance；生产参数真实修改证据见company-surface-production-v1/root-verification。早期失败与不完整代理自检保留但不是最终通过依据。

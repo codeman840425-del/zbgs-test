@@ -109,9 +109,10 @@ function releasePack(pack) {
 
 // Failed GLTF parsing can leave fulfilled dependencies outside the returned scene.
 // The pinned Three loader exposes these dependency promises on its parser cache.
-async function releaseFailedParser(parser, json) {
+async function releaseFailedParser(parser, json, pack) {
   if (!parser) return;
   const visited = new Set(), owned = ownedResources();
+  collect(pack?.scenes, owned);
   let pending;
   do {
     pending = [];
@@ -277,7 +278,7 @@ export function createCompanyAssetLibrary({fetchImpl = globalThis.fetch} = {}) {
       if(entries.get(description.key)!==entry)throw error('asset-load-cancelled',description.path,'The resource is no longer requested by the active view');
       entry.pack = pack; return pack;
     } catch (cause) {
-      if (pack) releasePack(pack); else if (parser) await releaseFailedParser(parser, json);
+      if (parser) await releaseFailedParser(parser, json, pack); else if (pack) releasePack(pack);
       if (disposed) throw error('asset-library-disposed', description.path, 'Loading completed after library disposal');
       if (cause instanceof CompanyError) throw cause;
       throw error('asset-load-failed', description.path, cause.message || String(cause));

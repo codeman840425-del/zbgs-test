@@ -1,0 +1,20 @@
+连续墙地饰材主包合同 v1（2026-11-16）
+范围：四款墙面、四款地面；真实整面材质与存档依赖。本包不改结构/设施功能，不提前加入顶面、门窗新几何或其他v3分类。
+
+选型依据：Three.js官方纹理手册说明材质map、BoxGeometry分面材质以及UV重复/旋转；Texture文档明确wrap/repeat/rotation及Source/释放边界。沿锁定Three0.187.0与现有静态GLB加载器，不新增独立贴图下载、缓存或第二套资产注册机制。
+https://threejs.org/manual/pages/textures.html
+https://threejs.org/docs/pages/Texture.html
+
+资源沿library-catalog.resources，新增kind='surface-finish'、mountRole='surface-finish'，coordinates保持metres/+Y/+Z，asset仍是内嵌PNG的静态GLB。finish={allowedSurfaces:['wall']或['floor'],materialNode:'finish-surface',tileMeters:[1,1]}；材质节点唯一且为有baseColor纹理的实际网格，materialSlots={finish:['finish-surface']}，stateDefaults={}，不声明交互/阻挡。可编辑源、PNG及GLB、sourceParameters/generator SHA和许可沿现有provenance合同。饰材资源不能通过add-facility当家具使用。
+
+room或area可选finishes对象，键限定floor/north/south/west/east。每值为{resource:{id,version},tileMeters?:[u,v],quarterTurns?:0|1|2|3}；tileMeters省略时用资源默认，quarterTurns默认0。米制重复尺度范围暂定0.1–4米，验证首包支持边界；不接受未知键、非有限/非正尺度、不支持角度、错误资源类型或wall/floor不匹配。其他node种类不得带finishes。未设置finishes的旧文档及存档保持原语义。
+操作：{type:'set-surface-finish',id:regionId,surface:'floor'或墙向,finish:上述值或null}，null明确清除这一面；空finishes对象删除。换饰面不使座位busy、不改变设施ID、变换、状态或占用；更新revision即可。所有输入仍走现有事务校验与预载成功后提交。
+deriveCompany返回新增surfaceFinishes数组，每项{id:regionId+'#finish:'+surface,regionId,floorId,surface,resource,tileMeters,quarterTurns}；resource为完整资源定义。验证每个选中饰材，非选中候选不启动下载。
+保存依赖沿原resources pins收集所有楼层node.finishes里的resource引用，不另开存档版本；旧档无饰面时pins原样。坏资源/内容摘要/未知归属拒绝且保旧。
+authoring的preload/retainOnly把当前层surfaceFinishes的resource合入原资源列表；building观看不载入室内，失败/迟到/切层继续沿现有generation事务和prune。
+
+渲染直接替换结构地板顶面与结构墙的内侧材质，不叠加一堆局部小模型。材质从已验证GLB实例提取并获得独立Texture/Source所有权；临时模型和过期材质正确释放。纹理UV按房间局部米制坐标连续建立，门口两侧墙段共享同一铺设原点，不跨洞口补面。墙北内侧+Z、南-Z、西+X、东-X；地板顶面+Y。其他面保持原结构材质，厚度/高度/门户/导航不变。切墙时饰材随墙隐藏。
+正常旋转使用quarterTurns*PI/2；方向和tileMeters存档可恢复，房间90度旋转时纹理随房间。资源默认纹理重复尺度与图像像素独立，不把512px当512米。
+
+最小验收：8款真实不同图案逐款进入实际房间并保存/关闭恢复；核整面覆盖、门口边界与分段UV连续、尺度和方向、不同房间独立、变换随房间；换饰面前后设施/使用点/导航相同；坏哈希/不兼容表面/非法尺度保原；切层/切方案重复后资源释放；源参数真实修改重新导出且第二输入复用。最终固定源码/构建/录像一致，软件渲染不作性能达标结论。
+尝试预算：一次实现及一轮有证据修正；同因两轮无改善重定位。已有墙体包保持ccf固定入口，不覆盖。

@@ -16,6 +16,9 @@ async function dependencies(document,catalog,templates) {
   for(const node of document.nodes) {
     if(node.resource)resourceRefs.set(refKey(node.resource),node.resource);
     if(node.template)templateRefs.set(refKey(node.template),node.template);
+    for (const finish of Object.values(node.finishes || {})) {
+      if (finish?.resource) resourceRefs.set(refKey(finish.resource), finish.resource);
+    }
   }
   const collect=async(refs,map)=>Promise.all([...refs].sort(([a],[b])=>a.localeCompare(b)).map(async([key,ref])=>({...ref,sha256:await digest(map.get(key))})));
   return {resources:await collect(resourceRefs,maps.resources),templates:await collect(templateRefs,maps.combinations)};

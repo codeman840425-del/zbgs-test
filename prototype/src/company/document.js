@@ -70,6 +70,66 @@ function validateAppearance(appearance, resource, path) {
       fail('invalid-appearance', `${path}.materials.${slot}`, 'Supported fields are #RRGGBB color and finite roughness from 0 to 1');
   }
 }
+
+const surfaceKeys = new Set(['floor', 'north', 'south', 'west', 'east']);
+function validateSurfaceResource(resource, path, surface) {
+  if (!resource || typeof resource !== 'object' || Array.isArray(resource))
+    fail('invalid-surface-resource', path, 'Expected a catalog surface-finish resource');
+  if (resource.kind !== 'surface-finish' || resource.mountRole !== 'surface-finish')
+    fail('invalid-surface-resource', path, 'Resource must declare kind and mountRole surface-finish');
+  if (!resource.coordinates || resource.coordinates.units !== 'metres' || resource.coordinates.up !== '+Y' || resource.coordinates.forward !== '+Z')
+    fail('invalid-surface-resource', `${path}.coordinates`, 'Surface resources use metres with +Y up and +Z forward');
+  if (!resource.asset || resource.asset.format !== 'glb' || typeof resource.asset.url !== 'string' || typeof resource.asset.sha256 !== 'string')
+    fail('invalid-surface-resource', `${path}.asset`, 'Surface resources require a static GLB asset with a content hash');
+  const finish = resource.finish;
+  if (!finish || typeof finish !== 'object' || Array.isArray(finish) ||
+      Object.keys(finish).some(field => !['allowedSurfaces', 'materialNode', 'tileMeters'].includes(field)) ||
+      !Array.isArray(finish.allowedSurfaces) ||
+      (finish.allowedSurfaces.length !== 1 || !['floor', 'wall'].includes(finish.allowedSurfaces[0])) ||
+      finish.materialNode !== 'finish-surface' || !Array.isArray(finish.tileMeters))
+    fail('invalid-surface-resource', path, 'Surface resource finish contract is invalid');
+  const defaultTile = finish.tileMeters;
+  if (defaultTile.length !== 2 || !defaultTile.every(Number.isFinite) || defaultTile.some(n => n < 0.1 || n > 4))
+    fail('invalid-surface-resource', `${path}.finish.tileMeters`, 'Default tileMeters must contain two finite values from 0.1 to 4 metres');
+  const expectedSurface = surface === 'floor' ? 'floor' : 'wall';
+  if (!finish.allowedSurfaces.includes(expectedSurface))
+    fail('incompatible-surface-finish', path, `Resource is not allowed on ${expectedSurface}`);
+  if (!resource.materialSlots || typeof resource.materialSlots !== 'object' || Array.isArray(resource.materialSlots) ||
+      Object.keys(resource.materialSlots).some(slot => slot !== 'finish') ||
+      !Array.isArray(resource.materialSlots.finish) ||
+      resource.materialSlots.finish.length !== 1 || resource.materialSlots.finish[0] !== 'finish-surface')
+    fail('invalid-surface-resource', `${path}.materialSlots`, 'Surface resource must expose the finish-surface material slot');
+  if (!resource.stateDefaults || typeof resource.stateDefaults !== 'object' || Array.isArray(resource.stateDefaults) ||
+      Object.keys(resource.stateDefaults).length)
+    fail('invalid-surface-resource', `${path}.stateDefaults`, 'Surface resources cannot declare state');
+  if (resource.footprint?.blocking || (Array.isArray(resource.usePoints) && resource.usePoints.length))
+    fail('invalid-surface-resource', path, 'Surface resources cannot declare blocking or interactive behaviour');
+  return defaultTile;
+}
+function validateSurfaceFinish(finish, resources, path, surface) {
+  if (!finish || typeof finish !== 'object' || Array.isArray(finish))
+    fail('invalid-surface-finish', path, 'Expected a resource reference with optional tileMeters and quarterTurns');
+  const fields = Object.keys(finish);
+  if (fields.some(field => !['resource', 'tileMeters', 'quarterTurns'].includes(field)))
+    fail('invalid-surface-finish', path, 'Unknown surface finish field');
+  const resourceRef = finish.resource;
+  if (!resourceRef || typeof resourceRef !== 'object' || Array.isArray(resourceRef) ||
+      Object.keys(resourceRef).some(field => !['id', 'version'].includes(field)) ||
+      typeof resourceRef.id !== 'string' || !Number.isInteger(resourceRef.version) || resourceRef.version < 1)
+    fail('invalid-surface-finish', `${path}.resource`, 'Expected a resource ID and version');
+  checkId(resourceRef.id, `${path}.resource.id`);
+  const resource = resources.get(key(resourceRef));
+  if (!resource) fail('missing-resource-version', `${path}.resource`, key(resourceRef));
+  const defaultTile = validateSurfaceResource(resource, `${path}.resource`, surface);
+  const tileMeters = finish.tileMeters === undefined ? defaultTile : finish.tileMeters;
+  if (!Array.isArray(tileMeters) || tileMeters.length !== 2 || !tileMeters.every(Number.isFinite) ||
+      tileMeters.some(n => n < 0.1 || n > 4))
+    fail('invalid-surface-scale', `${path}.tileMeters`, 'tileMeters must contain two finite values from 0.1 to 4 metres');
+  const quarterTurns = finish.quarterTurns === undefined ? 0 : finish.quarterTurns;
+  if (!Number.isInteger(quarterTurns) || quarterTurns < 0 || quarterTurns > 3)
+    fail('invalid-surface-rotation', `${path}.quarterTurns`, 'quarterTurns must be an integer from 0 to 3');
+  return { resource, tileMeters: [...tileMeters], quarterTurns };
+}
 export function catalogMaps(catalog, templates) {
   const resources = new Map(), combinations = new Map();
   for (const [list, map, path] of [[catalog?.resources, resources, 'catalog.resources'], [templates?.templates, combinations, 'templates.templates']]) {
@@ -97,6 +157,8 @@ export function deriveCompany(document, catalog, templates) {
     checkId(node.id, 'nodes.id');
     if (nodes.has(node.id) || node.id === document.id) fail('duplicate-instance', node.id, 'Instance identity must be globally unique');
     if (!Object.hasOwn(parents,node.kind)) fail('unsupported-kind', node.id, String(node.kind));
+    if (node.finishes !== undefined && !['room', 'area'].includes(node.kind))
+      fail('invalid-surface-owner', `${node.id}.finishes`, 'Only a room or area may own surface finishes');
     transform(node.transform, `${node.id}.transform`, ['floor', 'room', 'area', 'workstation'].includes(node.kind));
     if (node.name !== undefined && typeof node.name !== 'string') fail('invalid-name', node.id, 'Name must be text');
     nodes.set(node.id, node);
@@ -131,6 +193,19 @@ export function deriveCompany(document, catalog, templates) {
       if (installed > 2 || (room.purpose !== 'streaming' && installed)) fail('room-capacity', room.id, 'At most two streaming stations in a streaming room');
     }
   }
+  const surfaceFinishes = [];
+  for (const region of document.nodes.filter(n => ['room', 'area'].includes(n.kind))) {
+    if (region.finishes === undefined) continue;
+    if (!region.finishes || typeof region.finishes !== 'object' || Array.isArray(region.finishes))
+      fail('invalid-surface-finishes', `${region.id}.finishes`, 'Expected an object keyed by floor or wall direction');
+    for (const surface of Object.keys(region.finishes)) {
+      if (!surfaceKeys.has(surface)) fail('invalid-surface-key', `${region.id}.finishes.${surface}`, 'Use floor, north, south, west or east');
+      const checked = validateSurfaceFinish(region.finishes[surface], resources, `${region.id}.finishes.${surface}`, surface);
+      surfaceFinishes.push({ id: `${region.id}#finish:${surface}`, regionId: region.id,
+        floorId: floorIds.get(region.id), surface, resource: checked.resource,
+        tileMeters: checked.tileMeters, quarterTurns: checked.quarterTurns });
+    }
+  }
   for (const station of stations) {
     const template = combinations.get(key(station.template));
     if (!template) fail('missing-template-version', station.id, key(station.template));
@@ -157,6 +232,8 @@ export function deriveCompany(document, catalog, templates) {
   for (const node of document.nodes.filter(n => n.kind === 'facility')) {
     const resource = resources.get(key(node.resource));
     if (!resource) fail('missing-resource-version', node.id, key(node.resource));
+    if (resource.kind === 'surface-finish' || resource.mountRole === 'surface-finish')
+      fail('surface-finish-as-facility', node.id, 'Surface finish resources are selected on a room or area surface');
     if (node.appearance !== undefined) validateAppearance(node.appearance, resource, `${node.id}.appearance`);
     if (node.stationId && !stations.some(n => n.id === node.stationId)) fail('missing-station', node.id, node.stationId);
     const world = worlds.get(node.id), state = { ...resource.stateDefaults, ...node.state };
@@ -229,7 +306,7 @@ export function deriveCompany(document, catalog, templates) {
     if (a.floorId === b.floorId && a.min[0] < b.max[0] - 1e-8 && a.max[0] > b.min[0] + 1e-8 && a.min[1] < b.max[1] - 1e-8 && a.max[1] > b.min[1] + 1e-8)
       fail('overlapping-facilities', a.id, `Blocking footprint overlaps ${b.id}`, { otherId: b.id });
   }
-  return { nodes, worlds, floorIds, roomIds, facilities, usePoints, obstacles,
+  return { nodes, worlds, floorIds, roomIds, facilities, usePoints, obstacles, surfaceFinishes,
     capacity: { maximum: capacity, installedStations: stations.length, businessRooms: rooms.length, floors: floors.length } };
 }
 
@@ -352,6 +429,21 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
     if (op.type === 'group-facilities') { groupFacilities(next, op, deriveCompany(next, catalog, templates), affected); continue; }
     const node = next.nodes.find(n => n.id === op.id);
     if (!node) fail('missing-instance', op.id, 'Operation target does not exist');
+    if (op.type === 'set-surface-finish') {
+      if (!['room', 'area'].includes(node.kind)) fail('invalid-operation', node.id, 'Surface finishes belong to a room or area');
+      if (!surfaceKeys.has(op.surface)) fail('invalid-surface-key', `${node.id}.finishes`, 'Use floor, north, south, west or east');
+      if (!Object.hasOwn(op, 'finish')) fail('invalid-surface-finish', `${node.id}.finishes.${op.surface}`, 'Provide a finish value or null to clear it');
+      if (op.finish === null) {
+        if (node.finishes) {
+          delete node.finishes[op.surface];
+          if (!Object.keys(node.finishes).length) delete node.finishes;
+        }
+      } else {
+        if (!node.finishes) node.finishes = {};
+        node.finishes[op.surface] = copy(op.finish);
+      }
+      continue;
+    }
     if (op.type === 'set-state') {
       if (node.kind !== 'facility') fail('invalid-operation', node.id, 'State belongs to a facility');
       node.state = { ...node.state, ...copy(op.state) }; continue;

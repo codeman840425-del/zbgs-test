@@ -1,0 +1,48 @@
+{
+  "id": "wall-diamond-grid",
+  "version": 1,
+  "kind": "surface-finish",
+  "displayName": "菱格墙面",
+  "mountRole": "surface-finish",
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z"
+  },
+  "finish": {
+    "allowedSurfaces": [
+      "wall"
+    ],
+    "materialNode": "finish-surface",
+    "tileMeters": [
+      1,
+      1
+    ]
+  },
+  "materialSlots": {
+    "finish": [
+      "finish-surface"
+    ]
+  },
+  "stateDefaults": {},
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/surface-finishes-v1/wall-diamond-grid/v1/model.glb",
+    "sha256": "377180044e9471652d028c36b6ddf9f0a44dd94447b7e4152754610db4b65a93",
+    "bytes": 7328
+  },
+  "provenance": {
+    "license": "Project-authored procedural surface sample. No external art assets.",
+    "sourceParameters": "assets-source/company-surface-finishes-v1/wall-diamond-grid.json",
+    "sourceParametersSha256": "221a892c5e034ba1f75988ed3b6cb698919e21495a4b8c7d4662b20a885abb55",
+    "generator": "scripts/company-platform/build-surface-finishes.mjs",
+    "generatorSha256": "a467e28e01f2484b2b6f7cd1e882fe09644c24494e9bc544ba01b1457b732d6e",
+    "sourceParametersSummary": {
+      "gridPx": 128
+    },
+    "tools": [
+      "Node.js zlib PNG encoder",
+      "hand-packed glTF 2.0"
+    ]
+  }
+}

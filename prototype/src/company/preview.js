@@ -8,6 +8,8 @@ import alternate from './examples/c1-two-stations-alternate.json' with {type:'js
 import studio from './examples/c1-studio.json' with {type:'json'};
 import smallHome from './examples/c2-small-home.json' with {type:'json'};
 import rentalHome from './examples/c2-rental-home.json' with {type:'json'};
+import surfaceCompany from './examples/c2-surface-company.json' with {type:'json'};
+import surfaceHome from './examples/c1-surface-home.json' with {type:'json'};
 import mixedCompany from './examples/c2-mixed-company.json' with {type:'json'};
 import {createCompanyAuthoring} from './authoring.js';
 import {createCompanyAssetLibrary} from './asset-library.js';
@@ -28,7 +30,7 @@ const sun=new THREE.DirectionalLight(0xfff0d6,2.3);sun.position.set(-3,8,5);sun.
 Object.assign(sun.shadow.camera,{left:-8,right:8,top:8,bottom:-8});sun.shadow.normalBias=.015;world.add(sun);
 const camera=new THREE.PerspectiveCamera(38,1,.05,300),orbit=new OrbitControls(camera,renderer.domElement);
 orbit.enableDamping=false;orbit.maxPolarAngle=Math.PI*.48;orbit.minDistance=2;orbit.maxDistance=160;
-const layouts={base,alternate,studio,...createScaleExamples(catalog,templates),smallHome,rental:rentalHome,mixed:mixedCompany},assetLibrary=createCompanyAssetLibrary();let session,activeView='room',busy=false,game;
+const layouts={base,alternate,studio,...createScaleExamples(catalog,templates),smallHome,rental:rentalHome,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome},assetLibrary=createCompanyAssetLibrary();let session,activeView='room',busy=false,game;
 let regionLabels=[];
 let buildingPresentation='exterior';
 let wallMode='cutaway';
@@ -82,6 +84,31 @@ function sofaNode(){
 function fillSampleLooks(){
   const branch=element('sample-branch').value;
   fillOptions('sample-look',appearanceCandidates(catalog,branch).map((r,i)=>({id:String(i),name:r.displayName||r.name||r.id})),'0');
+}
+const finishChoice=finish=>finish?`${finish.resource.id}@${finish.resource.version}`:'';
+const finishResources=type=>catalog.resources.filter(resource=>resource.kind==='surface-finish'&&resource.finish.allowedSurfaces.includes(type));
+function currentFinishRoom(){return session.document.nodes.find(node=>node.id===element('room').value&&node.kind==='room');}
+function syncFinishes(){
+  const room=currentFinishRoom(),unavailable=busy||!room||session.scene.view.mode==='building';
+  element('finish-scope').textContent=room?`适用于：${room.name||room.id}`:'先选择一个房间';
+  for(const type of ['floor','wall']) {
+    const select=element(`finish-${type}`),surfaces=type==='floor'?['floor']:['north','south','west','east'];
+    const choices=new Set(surfaces.map(surface=>finishChoice(room?.finishes?.[surface])));
+    const selected=choices.size===1?[...choices][0]:'mixed';
+    select.replaceChildren(...[{value:'',name:'结构原材质'},...finishResources(type).map(resource=>({value:`${resource.id}@${resource.version}`,name:resource.displayName||resource.id})),...(selected==='mixed'?[{value:'mixed',name:'各面分别配置',disabled:true}]:[])].map(item=>{
+      const option=document.createElement('option');option.value=item.value;option.textContent=item.name;option.disabled=Boolean(item.disabled);return option;
+    }));
+    select.value=selected;select.disabled=unavailable||!finishResources(type).length;
+  }
+  element('finish-turn').disabled=unavailable||!room?.finishes?.floor;
+}
+async function changeFinish(type){
+  const room=currentFinishRoom(),choice=element(`finish-${type}`).value;
+  const resource=finishResources(type).find(resource=>`${resource.id}@${resource.version}`===choice);
+  if(!room||(choice&&!resource))throw Error('Choose a supported room finish');
+  const surfaces=type==='floor'?['floor']:['north','south','west','east'];
+  return session.apply(surfaces.map(surface=>({type:'set-surface-finish',id:room.id,surface,
+    finish:resource?{...room.finishes?.[surface],resource:{id:resource.id,version:resource.version}}:null})));
 }
 async function showAppearanceSample(branch,index){
   const sample=createAppearanceSample(branch,index,catalog,templates);
@@ -138,6 +165,7 @@ function sync(){
   element('building-view').disabled=busy||doc.scale!=='building';
   const building=view.mode==='building';element('building-stage').hidden=!building;stage.hidden=building;
   element('wall-view').disabled=busy||building;element('wall-view').value=wallMode;updateWallView();
+  syncFinishes();
   if(building)buildingView.render(doc,{presentation:buildingPresentation});
   element('camera-hint').textContent=building?'先进入侧剖面，再选择楼层。':view.mode==='room'?'单间可拖动旋转，滚轮缩放。':'当前为固定角度总览，点击房间进入三维查看。';
   document.querySelectorAll('[data-view]').forEach(button=>{button.disabled=busy||view.mode!=='room';});
@@ -177,6 +205,12 @@ async function start(){
   fillOptions('sample-branch',appearanceBranches.filter(([branch])=>appearanceCandidates(catalog,branch).length).map(([id,name])=>({id,name})),'desk');fillSampleLooks();
   element('sample-branch').onchange=fillSampleLooks;
   element('sample-show').onclick=()=>perform('正在替换并检查外观…',()=>showAppearanceSample(element('sample-branch').value,Number(element('sample-look').value)));
+  for(const type of ['wall','floor'])element(`finish-${type}`).onchange=()=>perform('正在准备整面饰材…',()=>changeFinish(type));
+  element('finish-turn').onclick=()=>perform('正在调整地板铺设方向…',()=>{
+    const room=currentFinishRoom(),finish=room?.finishes?.floor;
+    if(!finish)throw Error('Choose a floor finish first');
+    return session.apply([{type:'set-surface-finish',id:room.id,surface:'floor',finish:{...finish,quarterTurns:((finish.quarterTurns||0)+1)%4}}]);
+  });
   element('layout').onchange=()=>perform('正在加载方案…',()=>window.company.load(layouts[element('layout').value]));
   element('floor').onchange=()=>perform('正在查看楼层…',()=>showSpace('floor'));
   element('room').onchange=()=>perform('正在查看房间…',()=>showSpace('room'));

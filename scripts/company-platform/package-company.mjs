@@ -12,6 +12,10 @@ const extraFiles=[
   'scripts/company-platform/build-timber-sofa.mjs',
   'scripts/company-platform/build-home-examples.mjs',
   'scripts/company-platform/build-mixed-company.mjs',
+  'scripts/company-platform/apply-surface-recipe.mjs',
+  'scripts/company-platform/build-surface-examples.mjs',
+  'docs/COMPANY-SURFACE-FINISH-CONTRACT-v1.txt',
+  'assets-source/company-surface-finishes-v1/PRODUCTION.txt',
   'scripts/company-platform/build-appearance-batch.mjs',
   'docs/COMPANY-APPEARANCE-PRODUCTION-STANDARD.md',
   'docs/COMPANY-SPACE-DESIGN-NOTES-2026-11-16.md',
@@ -136,7 +140,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   add('data/library-catalog.json',catalogBytes,'complete-catalog');
   add('data/templates.json',templateBytes,'complete-templates');
   const supplemental=new Set(extraFiles);
-  for(const folder of ['scripts/company-platform/batch-inputs','scripts/company-platform/space-inputs'])for(const name of await list(source,folder)){
+  for(const folder of ['scripts/company-platform/batch-inputs','scripts/company-platform/space-inputs','scripts/company-platform/surface-inputs'])for(const name of await list(source,folder)){
     if(!name.endsWith('.json'))fail('unsupported-production-input',name,'Production input folders must contain JSON only');supplemental.add(name);
   }
   const assetDependencies=[],provenance=[];

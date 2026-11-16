@@ -12,7 +12,8 @@ export async function createCompanyAuthoring(world,initialDocument,{catalog,temp
   function resources(document,view={},contacts=[]) {
     const derived=deriveCompany(document,catalog,templates);
     const floorId=view.floorId||document.nodes.find(n=>n.kind==='floor').id;
-    return [...(view.mode==='building'?[]:derived.facilities.filter(f=>f.floorId===floorId).map(f=>f.resource)),...contacts];
+    const surfaceResources=view.mode==='building'?[]:derived.surfaceFinishes.filter(f=>f.floorId===floorId).map(f=>f.resource);
+    return [...(view.mode==='building'?[]:derived.facilities.filter(f=>f.floorId===floorId).map(f=>f.resource)),...surfaceResources,...contacts];
   }
   function pendingResources() { return pendingPreloads.get(generation)||[]; }
   async function preload(document,view={},token=null) {
