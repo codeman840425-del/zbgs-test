@@ -50,7 +50,7 @@ for (const [suffix, side] of [
 
 export async function loadRetargetedMotions(
   vrm,
-  { walkClip = "Walk_Loop", avatarSha256 = null } = {},
+  { walkClip = "Walk_Loop", avatarSha256 = null, targetFloorY = null } = {},
 ) {
   const source = await new GLTFLoader().loadAsync(
     "/assets/motion/UAL1_Standard.glb",
@@ -97,7 +97,11 @@ export async function loadRetargetedMotions(
   const targetHips = vrm.humanoid.getNormalizedBoneNode("hips");
   const sourceRestHip = sourceHips.getWorldPosition(new THREE.Vector3());
   const targetRestHip = targetHips.getWorldPosition(new THREE.Vector3());
-  const targetFloor = vrm.scene.getWorldPosition(new THREE.Vector3()).y;
+  // A fitted model may be translated inside its world-movement root to align
+  // its source shoe plane. Retarget against that root's ground, not the shifted
+  // model origin, or proportional hip travel silently retains the old height.
+  const targetFloor = targetFloorY ?? vrm.scene.getWorldPosition(new THREE.Vector3()).y;
+  if (!Number.isFinite(targetFloor)) throw new Error('Invalid retarget floor');
   const ratio = (targetRestHip.y - targetFloor) / sourceRestHip.y;
   // Align facing using the left/right hip line, never the pelvis bone's local
   // pitch: that pitch is an authoring axis, not the character's facing.

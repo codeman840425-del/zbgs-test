@@ -133,6 +133,9 @@ FOUNDATION_PROFILES['m2-male-lower-leg-v1'] = {
   source: 'Base_Male + both shin segments 20 mm; source/rest equivalence evidence retained',
   url: '/assets/m2-lower-leg-proportion-v1/avatar.vrm',
   sha256: '968a9d997683cd99de4eea8f77965184eea6d7bc639a6ae062085928325189d8',
+  // Exact min of the derived rest shoe surface. Place this model origin on
+  // the game floor before sampling motion; do not bend the knees to absorb it.
+  sourceFloorY: -0.01944977603852749,
   manifestUrl: '/assets/m2-lower-leg-proportion-v1/equipment.json',
   forearmCollision: {
     url: '/assets/m2-lower-leg-proportion-v1/forearm-profile.json',

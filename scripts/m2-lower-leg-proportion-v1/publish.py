@@ -13,6 +13,14 @@ def sha(data):
     return hashlib.sha256(data).hexdigest()
 
 def main():
+    inventory=json.loads((SOURCE/'package-files.json').read_text(encoding='utf-8'))['files']
+    for entry in inventory:
+        candidate=(ROOT/entry['path']).resolve()
+        assert candidate.is_relative_to(ROOT.resolve()), 'Source inventory escaped repository'
+        data=candidate.read_bytes()
+        assert len(data)==entry['bytes'] and sha(data)==entry['sha256'], 'Source inventory mismatch: '+entry['path']
+    for name in ['qa-report.json','upper-body-qa.json','vrm-loader-qa.json']:
+        assert json.loads((SOURCE/name).read_text(encoding='utf-8'))['passed'] is True, 'Source QA incomplete: '+name
     fit = json.loads((SOURCE / 'fit.json').read_text(encoding='utf-8'))
     manifest = json.loads((SOURCE / 'equipment.json').read_text(encoding='utf-8'))
     avatar = (SOURCE / 'avatar.vrm').read_bytes()

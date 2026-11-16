@@ -120,6 +120,9 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
   const gltf = await loader.parseAsync(buffer, "/assets/foundation/");
   const vrm = gltf.userData.vrm;
   VRMUtils.rotateVRM0(vrm);
+  const sourceFloorY = config.sourceFloorY ?? 0;
+  if (!Number.isFinite(sourceFloorY)) throw new Error('Invalid measured model floor');
+  vrm.scene.position.y -= sourceFloorY;
   const root = new THREE.Group();
   root.name = "M1CompleteFoundation";
   root.add(vrm.scene);
@@ -195,6 +198,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     url,
     sha256,
     bodyComplete: true,
+    floorAlignment: { sourceFloorY, modelOffsetY: -sourceFloorY, basis: 'configured source footwear rest plane; scene ground remains owned by actor root' },
     meshRoles,
     footwear: { kind: "shoes", meshes: surfaces.shoes.map((m) => m.name) },
     garmentStatus: "independent new-body equipment; visual acceptance pending",

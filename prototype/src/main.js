@@ -2015,7 +2015,7 @@ async function loadComparison(bodyType = avatar.profile.bodyType === "female" ? 
   // calibration are ready. Do not hide its root: calibration reads visibility.
   a = await loadFoundationAvatar({ scene: world, renderer, bodyType, attachToScene: false });
   a.root.position.set(1.2, 0, 1.15);
-  const clips = await loadRetargetedMotions(a.vrm,{avatarSha256:a.getAssetProfile().sha256});
+  const clips = await loadRetargetedMotions(a.vrm,{avatarSha256:a.getAssetProfile().sha256,targetFloorY:a.root.getWorldPosition(new THREE.Vector3()).y});
   const m = createMotion(a.vrm, a.root, clips, a.profile.motion);
   const peerController = new CharacterScene({ avatar: a, motion: m, actorId: `room-peer-${generation}`, position: [1.2, 0, 1.15] });
   const instance = {
@@ -2132,7 +2132,7 @@ async function switchFoundationBody(bodyType) {
     nextAvatar = await loadFoundationAvatar({scene:world,renderer,bodyType,attachToScene:false});
     if (request !== bodySelectionGeneration) return {applied:false,cancelled:true};
     nextAvatar.root.position.copy(avatar.root.position);
-    const clips = await loadRetargetedMotions(nextAvatar.vrm,{avatarSha256:nextAvatar.profile.sha256});
+    const clips = await loadRetargetedMotions(nextAvatar.vrm,{avatarSha256:nextAvatar.profile.sha256,targetFloorY:nextAvatar.root.getWorldPosition(new THREE.Vector3()).y});
     if (request !== bodySelectionGeneration) return {applied:false,cancelled:true};
     const colors = avatar.appearance.getState();
     const hairStyle = nextAvatar.appearance.getState().availableStyles.includes(colors.hairStyle) ? colors.hairStyle : 'original';
@@ -2258,7 +2258,7 @@ loadAvatar({ scene: world, renderer })
     avatar = a;
     bindFoundationControls(a);
     avatar.root.position.set(...initialPosition);
-    const motions = await loadRetargetedMotions(avatar.vrm,{avatarSha256:avatar.getAssetProfile?.().sha256});
+    const motions = await loadRetargetedMotions(avatar.vrm,{avatarSha256:avatar.getAssetProfile?.().sha256,targetFloorY:avatar.root.getWorldPosition(new THREE.Vector3()).y});
     motion = createMotion(
       avatar.vrm,
       avatar.root,
