@@ -11,9 +11,14 @@ const extraFiles=[
   'scripts/company-platform/library-inputs.json','scripts/company-platform/build-sofa.mjs',
   'scripts/company-platform/build-timber-sofa.mjs',
   'scripts/company-platform/build-home-examples.mjs',
+  'scripts/company-platform/build-mixed-company.mjs',
   'scripts/company-platform/build-appearance-batch.mjs',
   'docs/COMPANY-APPEARANCE-PRODUCTION-STANDARD.md',
   'docs/COMPANY-SPACE-DESIGN-NOTES-2026-11-16.md',
+  'docs/research/COMPANY-WALL-VIEW-RESEARCH-2026-11-16.md',
+  'docs/research/COMPANY-PLATFORM-COMPLETE-LONG-GOAL-v3-2026-11-16.txt',
+  'docs/research/COMPANY-ENVIRONMENT-CATEGORY-RESEARCH-2026-11-16.txt',
+  'docs/research/COMPANY-SPACE-DRESSING-RESEARCH-2026-11-16.txt',
 ];
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 class PackageError extends Error{constructor(code,location,message){super(message);this.code=code;this.path=location;}}

@@ -5,6 +5,7 @@ import {CompanyError,deriveCompany,prepareCompanyChange,serializeCompany,restore
 import {describeArchitecture} from './architecture.js';
 import {describeCompanyUsePoint} from './use-point-data.js';
 import {createContactResourceStore} from './contact-resources.js';
+import {WALL_HEIGHT,WALL_CENTER_Y,evaluateWallVisibility,groupWallSegments,wallEdge} from './wall-visibility.js';
 
 const geometryTypes={BoxGeometry:THREE.BoxGeometry,CylinderGeometry:THREE.CylinderGeometry,PlaneGeometry:THREE.PlaneGeometry,CapsuleGeometry:THREE.CapsuleGeometry,SphereGeometry:THREE.SphereGeometry};
 const clone=value=>structuredClone(value);
@@ -55,7 +56,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
   if(!world?.isObject3D)throw new TypeError('Company scene requires a Three world');
   let current,disposed=false,generation=0;
   const prepared=new Map();
-  function build(document,floorId,view={mode:'floor',roomId:null}) {
+  function build(document,floorId,view={mode:'floor',roomId:null},wallView={mode:'full',cameraPosition:null}) {
     const derived=deriveCompany(document,catalog,templates);
     const architecture=describeArchitecture(document,catalog,templates);
     floorId ||= document.nodes.find(n=>n.kind==='floor').id;
@@ -73,7 +74,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
       if(view.mode==='building') {
         // Whole-building views use a lightweight presentation in the host UI.
         // Keep only the logical document here; no indoor meshes are constructed.
-        return {root,document:clone(document),derived,architecture,floorId,view,groups,facilities,points,floors,walls,lights};
+        return {root,document:clone(document),derived,architecture,floorId,view,wallView:clone(wallView),groups,facilities,points,floors,walls,lights,wallGroups:new Map()};
       }
       for(const node of document.nodes)if(derived.floorIds.get(node.id)===floorId) {
         const parent=group(node.id);
@@ -82,7 +83,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
           const floor=structureMesh(width,.12,depth,node.kind==='area'?'#c6c7bc':'#d7d5c7');floor.position.y=-.06;floor.name=`Floor:${node.id}`;parent.add(floor);floors.push(floor);
           floor.userData={roomId:node.id,floorId};
           for(const boundary of architecture.walls.filter(w=>w.regionId===node.id)) {
-            const wall=structureMesh(...boundary.size,node.kind==='area'?'#b5c4b8':'#c4d1c1');wall.position.fromArray(boundary.position);wall.name=boundary.id;wall.userData={roomId:node.id,edge:boundary.edge,physicalBoundary:boundary.id};parent.add(wall);walls.push(wall);
+            const wall=structureMesh(...boundary.size,node.kind==='area'?'#b5c4b8':'#c4d1c1');wall.position.fromArray(boundary.position);wall.name=boundary.id;wall.userData={roomId:node.id,edge:boundary.edge,physicalBoundary:boundary.id,height:WALL_HEIGHT};parent.add(wall);walls.push(wall);
           }
         }
       }
@@ -123,7 +124,18 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
             }
           }
         }
-        const facility={...entry,root,parts,visual};facilities.set(entry.id,facility);
+        const facility={...entry,root,parts,visual};
+        if(['wall','portal'].includes(entry.resource.mount)) {
+          const edge=wallEdge(entry.node.transform.yaw);
+          const along=['north','south'].includes(edge)?entry.node.transform.position[0]:entry.node.transform.position[2];
+          const candidates=architecture.walls.filter(w=>w.regionId===entry.roomId&&w.edge===edge);
+          const mountedWall=candidates.find(w=>{
+            const axis=['north','south'].includes(edge)?0:2;
+            return Math.abs(along-w.position[axis])<=w.size[axis]/2+1e-6;
+          })||candidates[0];
+          facility.wallBinding={edge,wallId:mountedWall?.id||null};
+        }
+        facilities.set(entry.id,facility);
         if(entry.resource.light) {
           const def=entry.resource.light;
           const light=new THREE.SpotLight(def.color,entry.state.on?entry.state.intensity:0,def.distance,def.angle,def.penumbra,2);
@@ -164,7 +176,10 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
       }
       lights.sort((a,b)=>a.id.localeCompare(b.id));
       for(let i=0;i<lights.length;i++)lights[i].light.intensity=i<maxRealtimeLights?lights[i].desired:0;
-      return {root,document:clone(document),derived,architecture,floorId,view,groups,facilities,points,floors,walls,lights};
+      const wallGroups=groupWallSegments(architecture.walls);
+      for(const wall of walls)wall.userData.wallGroup=wallGroups.get(wall.name)||wall.name;
+      for(const facility of facilities.values())if(facility.wallBinding?.wallId)facility.wallBinding.wallGroup=wallGroups.get(facility.wallBinding.wallId)||facility.wallBinding.wallId;
+      return {root,document:clone(document),derived,architecture,floorId,view,wallView:clone(wallView),groups,facilities,points,floors,walls,lights,wallGroups};
     } catch(error) {disposeTree(root);throw error;}
   }
   function contactSource(id,visible) {
@@ -205,6 +220,10 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
     return id=>external(id)||contactResources.isBusy(id);
   }
   function install(candidate) {
+    // Wall viewing is transient presentation state.  Preserve the latest
+    // camera/mode when a prepared document candidate is published so a camera
+    // update cannot roll back a user's current cutaway.
+    const latestWallView=current?.wallView;
     // Keep unchanged seat Object3Ds alive so an occupied actor's existing contact
     // references survive a screen/light edit elsewhere in the scene.
     if(current)for(const [id,nextFacility]of candidate.facilities) {
@@ -228,25 +247,27 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
         point.chair=current.points.get(point.id)?.chair||oldRoot;point.chairSeat=oldFacility.parts.get(point.seatNodeId);point.chairBack=oldFacility.parts.get(point.backNodeId);
       }
     }
+    if(latestWallView)candidate.wallView=clone(latestWallView);
     world.add(candidate.root);candidate.root.updateMatrixWorld(true);
     if(current)disposeTree(current.root);current=candidate;generation++;applyPresentation();
   }
   function applyPresentation() {
     const focused=current.view.mode==='room'?current.view.roomId:null;
-    const mountedWalls=new Set();
+    const wallVisibility=evaluateWallVisibility({walls:current.architecture.walls,document:current.document,derived:current.derived,
+      floorId:current.floorId,view:current.view,mode:current.wallView?.mode,cameraPosition:current.wallView?.cameraPosition,groups:current.wallGroups});
+    const hiddenGroups=wallVisibility.hiddenGroups;
     for(const facility of current.facilities.values()) {
       const detailed=!focused||facility.roomId===focused;
-      facility.visual.visible=detailed;if(facility.proxy)facility.proxy.visible=!detailed;
-      if(['wall','portal'].includes(facility.resource.mount)) {
-        const yaw=((facility.node.transform.yaw%(Math.PI*2))+Math.PI*2)%(Math.PI*2);
-        const edge=Math.abs(yaw)<1e-6?'north':Math.abs(yaw-Math.PI/2)<1e-6?'west':Math.abs(yaw-Math.PI)<1e-6?'south':'east';
-        if(focused)mountedWalls.add(`${facility.node.parentId}:${edge}`);
-        const clip=focused?[]:[new THREE.Plane(new THREE.Vector3(0,-1,0),.504)];
-        facility.visual.traverse(object=>{for(const material of object.material?[object.material].flat():[]){material.clippingPlanes=clip;material.clipShadows=true;material.needsUpdate=true;}});
-      }
+      const wallHidden=facility.wallBinding?.wallGroup&&hiddenGroups.has(facility.wallBinding.wallGroup);
+      facility.visual.visible=detailed&&!wallHidden;if(facility.proxy)facility.proxy.visible=!detailed;
+      if(['wall','portal'].includes(facility.resource.mount))facility.root.visible=detailed&&!wallHidden;
+      // Wall-mounted assets retain their complete geometry.  Older cutaway
+      // clipping planes must be cleared when a candidate is reused.
+      facility.visual.traverse(object=>{for(const material of object.material?[object.material].flat():[])if(material.clippingPlanes?.length||material.clipShadows){material.clippingPlanes=[];material.clipShadows=false;material.needsUpdate=true;}});
     }
-    // A low cutaway is a display transform only; physical wall records remain 2.8m.
-    for(const wall of current.walls){const scale=mountedWalls.has(`${wall.userData.roomId}:${wall.userData.edge}`)?1:.18;wall.scale.y=scale;wall.position.y=2.8*scale/2;}
+    // Wall geometry is always physically complete.  Cutaway changes display
+    // visibility only, preserving the real 2.8m height and center.
+    for(const wall of current.walls){wall.scale.y=1;wall.position.y=WALL_CENTER_Y;wall.visible=!hiddenGroups.has(wall.userData.wallGroup);}
     const eligible=current.lights.filter(l=>!focused||l.roomId===focused).sort((a,b)=>a.id.localeCompare(b.id));
     const enabled=new Set(eligible.filter(l=>l.desired>0).slice(0,maxRealtimeLights));
     for(const light of current.lights)light.light.intensity=enabled.has(light)?light.desired:0;
@@ -277,19 +298,43 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
       return current.derived.usePoints.filter(point=>floorId===undefined||point.floorId===floorId).map(point=>describeCompanyUsePoint(current.document,current.derived,point.id));
     },
     navigation,
-    snapshot(){return {document:clone(current.document),view:this.view,visibleFloorId:current.floorId,displayedFacilities:current.facilities.size,points:[...current.points.values()].map(p=>({id:p.id,facilityId:p.facilityId,position:p.chair.getWorldPosition(new THREE.Vector3()).toArray(),yaw:p.world.yaw+(p.yaw||0)})),lights:current.lights.map(l=>({id:l.id,intensity:l.light.intensity,castsShadow:l.light.castShadow})),navigation:navigation().obstacles.map(({object,...o})=>o)};},
+    snapshot(){return {document:clone(current.document),view:this.view,wallView:clone(current.wallView),visibleFloorId:current.floorId,displayedFacilities:current.facilities.size,points:[...current.points.values()].map(p=>({id:p.id,facilityId:p.facilityId,position:p.chair.getWorldPosition(new THREE.Vector3()).toArray(),yaw:p.world.yaw+(p.yaw||0)})),lights:current.lights.map(l=>({id:l.id,intensity:l.light.intensity,castsShadow:l.light.castShadow})),navigation:navigation().obstacles.map(({object,...o})=>o)};},
     setView({mode='floor',floorId=current.floorId,roomId=null}={}) {
       live();if(!['floor','room','building'].includes(mode))throw new CompanyError('invalid-view',mode,'Use floor, room or building');
       if(current.derived.nodes.get(floorId)?.kind!=='floor')throw new CompanyError('unknown-floor',floorId,'Choose an existing floor');
       if(mode==='room'&&(!['room','area'].includes(current.derived.nodes.get(roomId)?.kind)||current.derived.floorIds.get(roomId)!==floorId))throw new CompanyError('invalid-view-room',roomId,'Focused room must belong to viewed floor');
       const view={mode,roomId};
       if(floorId===current.floorId&&mode!=='building'&&current.view.mode!=='building'){current.view=view;generation++;applyPresentation();}
-      else install(build(current.document,floorId,view));
+      else install(build(current.document,floorId,view,current.wallView));
       return this.snapshot();
+    },
+    setWallView({mode='full',cameraPosition}={}) {
+      live();
+      if(!['cutaway','full'].includes(mode))throw new CompanyError('invalid-wall-view',mode,'Use cutaway or full');
+      let position=current.wallView?.cameraPosition||null;
+      if(cameraPosition===null)position=null;
+      else if(cameraPosition!==undefined) {
+        if(!Array.isArray(cameraPosition)||cameraPosition.length!==3||!cameraPosition.every(Number.isFinite))
+          throw new CompanyError('invalid-wall-camera','cameraPosition','Wall view camera position requires three finite numbers');
+        position=[...cameraPosition];
+      }
+      current.wallView={mode,cameraPosition:position};applyPresentation();return this.wallPresentation();
+    },
+    wallPresentation() {
+      live();
+      const evaluated=evaluateWallVisibility({walls:current.architecture.walls,document:current.document,derived:current.derived,
+        floorId:current.floorId,view:current.view,mode:current.wallView?.mode,cameraPosition:current.wallView?.cameraPosition,groups:current.wallGroups});
+      const mountedByGroup=new Map();
+      for(const facility of current.facilities.values())if(facility.wallBinding?.wallGroup) {
+        const list=mountedByGroup.get(facility.wallBinding.wallGroup)||[];list.push({id:facility.id,visible:facility.visual.visible});mountedByGroup.set(facility.wallBinding.wallGroup,list);
+      }
+      return {mode:current.wallView?.mode||'full',effectiveMode:evaluated.effectiveMode,cameraPosition:current.wallView?.cameraPosition?[...current.wallView.cameraPosition]:null,
+        targets:evaluated.targets.map(target=>[...target]),walls:current.walls.map(wall=>({id:wall.name,region:wall.userData.roomId,edge:wall.userData.edge,
+          height:wall.userData.height||WALL_HEIGHT,visible:wall.visible,mounted:mountedByGroup.get(wall.userData.wallGroup)||[]}))};
     },
     prepareChange(operations,guards={}) {
       live();const result=prepareCompanyChange(current.document,operations,{catalog,templates,...guards,isUsePointBusy:guardedBusy(guards)});
-      const candidate=build(result.document,current.floorId,current.view);candidate.operations=clone(operations);candidate.previousRevision=current.document.revision;candidate.generation=generation;
+      const candidate=build(result.document,current.floorId,current.view,current.wallView);candidate.operations=clone(operations);candidate.previousRevision=current.document.revision;candidate.generation=generation;
       const handle=Object.freeze({get document(){return clone(candidate.document);},previousRevision:candidate.previousRevision});prepared.set(handle,candidate);return handle;
     },
     commit(handle,guards={}) {
@@ -304,7 +349,10 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
     restore(text,{isUsePointBusy=()=>false}={}) {
       live();const busy=id=>isUsePointBusy(id)||contactResources.isBusy(id);for(const point of current.derived.usePoints)if(busy(point.id))throw new CompanyError('facility-busy',point.id,'Leave occupied facilities before replacing the full company document');
       const next=restoreCompany(text,catalog,templates),floorId=next.nodes.some(n=>n.id===current.floorId&&n.kind==='floor')?current.floorId:undefined;
-      install(build(next,floorId));return this.snapshot();
+      const nextFloorId=floorId||next.nodes.find(node=>node.kind==='floor')?.id;
+      const roomStillExists=current.view.mode!=='room'||next.nodes.some(node=>node.id===current.view.roomId&&['room','area'].includes(node.kind)&&node.parentId===nextFloorId);
+      const nextView=roomStillExists?current.view:{mode:current.view.mode==='room'?'floor':current.view.mode,roomId:null};
+      install(build(next,nextFloorId,nextView,current.wallView));return this.snapshot();
     },
     retainUsePointContact(id){live();return contactResources.retainUsePointContact(id);},
     releaseUsePointContact(handle){if(handle?.release)handle.release();},

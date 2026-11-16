@@ -8,6 +8,7 @@ import alternate from './examples/c1-two-stations-alternate.json' with {type:'js
 import studio from './examples/c1-studio.json' with {type:'json'};
 import smallHome from './examples/c2-small-home.json' with {type:'json'};
 import rentalHome from './examples/c2-rental-home.json' with {type:'json'};
+import mixedCompany from './examples/c2-mixed-company.json' with {type:'json'};
 import {createCompanyAuthoring} from './authoring.js';
 import {createCompanyAssetLibrary} from './asset-library.js';
 import {createScaleExamples} from './scale-examples.js';
@@ -27,9 +28,12 @@ const sun=new THREE.DirectionalLight(0xfff0d6,2.3);sun.position.set(-3,8,5);sun.
 Object.assign(sun.shadow.camera,{left:-8,right:8,top:8,bottom:-8});sun.shadow.normalBias=.015;world.add(sun);
 const camera=new THREE.PerspectiveCamera(38,1,.05,300),orbit=new OrbitControls(camera,renderer.domElement);
 orbit.enableDamping=false;orbit.maxPolarAngle=Math.PI*.48;orbit.minDistance=2;orbit.maxDistance=160;
-const layouts={base,alternate,studio,...createScaleExamples(catalog,templates),smallHome,rental:rentalHome},assetLibrary=createCompanyAssetLibrary();let session,activeView='room',busy=false,game;
+const layouts={base,alternate,studio,...createScaleExamples(catalog,templates),smallHome,rental:rentalHome,mixed:mixedCompany},assetLibrary=createCompanyAssetLibrary();let session,activeView='room',busy=false,game;
 let regionLabels=[];
 let buildingPresentation='exterior';
+let wallMode='cutaway';
+function updateWallView(){if(session)session.scene.setWallView({mode:wallMode,cameraPosition:camera.position.toArray()});}
+orbit.addEventListener('change',updateWallView);
 const buildingView=createBuildingView(element('building-stage'),{
   onSelectFloor:floorId=>perform('正在查看楼层…',()=>showSpace('floor',floorId)),
   onPresentationChange:presentation=>{buildingPresentation=presentation;if(session?.scene.view.mode==='building')element('view-label').textContent=presentation==='section'?'大楼侧剖面':'大楼外观';},
@@ -46,7 +50,7 @@ function setView(name){
     box=new THREE.Box3();
     for(const region of doc.nodes.filter(n=>['room','area'].includes(n.kind)&&derived.floorIds.get(n.id)===view.floorId&&(!focused||n.id===focused))) {
       const frame=derived.worlds.get(region.id),half=Math.max(region.bounds.width,region.bounds.depth)/2;
-      box.expandByPoint(new THREE.Vector3(frame.position[0]-half,0,frame.position[2]-half));box.expandByPoint(new THREE.Vector3(frame.position[0]+half,0,frame.position[2]+half));
+      box.expandByPoint(new THREE.Vector3(frame.position[0]-half,0,frame.position[2]-half));box.expandByPoint(new THREE.Vector3(frame.position[0]+half,2.8,frame.position[2]+half));
     }
     target=box.getCenter(new THREE.Vector3());
   }
@@ -65,12 +69,16 @@ function setView(name){
     distance=Math.max(distance,towards+Math.abs(relative.dot(right))/(tangent*camera.aspect),towards+Math.abs(relative.dot(up))/tangent);
   }
   distance*=1.12;
-  camera.position.copy(target).addScaledVector(offset,distance);orbit.update();
+  camera.position.copy(target).addScaledVector(offset,distance);orbit.update();updateWallView();
   sun.castShadow=view.mode==='room'||doc.nodes.filter(n=>n.kind==='room').length===1;
   sun.position.copy(target).add(new THREE.Vector3(-3,8,5));sun.target.position.copy(target);sun.target.updateMatrixWorld();
   document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.view===name)));
 }
-function sofaNode(){return session.document.nodes.find(n=>n.kind==='facility'&&['lounge-sofa','timber-sofa'].includes(n.resource.id)&&deriveCompany(session.document,catalog,templates).roomIds.get(n.id)===element('room').value);}
+const sofaChoice=resource=>resource.id==='lounge-sofa'?String(resource.version):resource.id==='timber-sofa'?'timber':`${resource.id}@${resource.version}`;
+function sofaNode(){
+  const derived=deriveCompany(session.document,catalog,templates);
+  return session.document.nodes.find(n=>n.kind==='facility'&&derived.roomIds.get(n.id)===element('room').value&&catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.mountRole==='sofa');
+}
 function fillSampleLooks(){
   const branch=element('sample-branch').value;
   fillOptions('sample-look',appearanceCandidates(catalog,branch).map((r,i)=>({id:String(i),name:r.displayName||r.name||r.id})),'0');
@@ -113,8 +121,14 @@ function sync(){
   element('layout').value=Object.entries(layouts).find(([,value])=>JSON.stringify(value)===JSON.stringify(doc))?.[0]||'custom';
   element('scene-name').textContent=doc.name; element('scene-count').textContent=`${doc.nodes.filter(n=>n.kind==='floor').length} 层 · ${doc.nodes.filter(n=>n.kind==='room').length} 间经营房间 · 已配置 ${doc.nodes.filter(n=>n.kind==='workstation').length} 个工位`;
   element('view-label').textContent=view.mode==='building'?(buildingPresentation==='section'?'大楼侧剖面':'大楼外观'):view.mode==='room'?`房间聚焦 · ${derived.nodes.get(view.roomId).name}`:`楼层总览 · ${derived.nodes.get(view.floorId).name||'当前层'}`;
-  const sofa=sofaNode();element('sofa').disabled=busy||!sofa;if(sofa)element('sofa').value=sofa.resource.id==='timber-sofa'?'timber':String(sofa.resource.version);
-  element('fabric').disabled=busy||!sofa;const fabric=sofa?.appearance?.materials?.fabric;
+  const sofa=sofaNode(),sofaResources=appearanceCandidates(catalog,'sofa');
+  if(sofa&&!sofaResources.some(r=>r.id===sofa.resource.id&&r.version===sofa.resource.version)){
+    const current=catalog.resources.find(r=>r.id===sofa.resource.id&&r.version===sofa.resource.version);if(current)sofaResources.push({...current,displayName:'当前历史沙发（独立规格）'});
+  }
+  fillOptions('sofa',sofaResources.map(r=>({id:sofaChoice(r),name:r.displayName||r.id})),sofa?sofaChoice(sofa.resource):'1');
+  element('sofa').disabled=busy||!sofa;
+  const sofaResource=sofa&&catalog.resources.find(r=>r.id===sofa.resource.id&&r.version===sofa.resource.version);
+  element('fabric').disabled=busy||!sofaResource?.materialSlots?.fabric;const fabric=sofa?.appearance?.materials?.fabric;
   element('fabric').value=!fabric?'original':fabric.color==='#345c83'?'blue':'custom';
   for(const [button,part,label]of[['screen','monitor','屏幕'],['light','fill-light','补光']]) {
     const node=facilities.find(n=>n.id===`${id}/${part}`),resource=catalog.resources.find(r=>r.id===node?.resource.id&&r.version===node?.resource.version);
@@ -123,6 +137,7 @@ function sync(){
   element('upgrade').disabled=busy||!id||doc.nodes.find(n=>n.id===id)?.template.version===2;
   element('building-view').disabled=busy||doc.scale!=='building';
   const building=view.mode==='building';element('building-stage').hidden=!building;stage.hidden=building;
+  element('wall-view').disabled=busy||building;element('wall-view').value=wallMode;updateWallView();
   if(building)buildingView.render(doc,{presentation:buildingPresentation});
   element('camera-hint').textContent=building?'先进入侧剖面，再选择楼层。':view.mode==='room'?'单间可拖动旋转，滚轮缩放。':'当前为固定角度总览，点击房间进入三维查看。';
   document.querySelectorAll('[data-view]').forEach(button=>{button.disabled=busy||view.mode!=='room';});
@@ -155,8 +170,8 @@ async function start(){
   async function saveCurrent(){const result=await session.save();localStorage.setItem('company-preview:last-company',session.document.id);return result;}
   window.company={ready:true,catalog,templates,session,assetLibrary,renderer,world,camera,view:setView,showSpace,layouts,showAppearanceSample,appearanceBranches,appearanceCandidates:branch=>appearanceCandidates(catalog,branch),
     async apply(ops){const r=await session.apply(ops);sync();return r;},
-    async load(doc){const r=await session.load(doc);sync();await defaultSpace();return r;},
-    snapshot:()=>session.snapshot(),save:saveCurrent,restore:async()=>{const r=await session.restore();sync();await defaultSpace();return r;},export:()=>session.export()};
+    async load(doc){const r=await session.load(doc);await defaultSpace();return r;},
+    snapshot:()=>session.snapshot(),save:saveCurrent,restore:async()=>{const r=await session.restore();await defaultSpace();return r;},export:()=>session.export()};
   game=new Phaser.Game({type:Phaser.CANVAS,parent:'phaser-stage',width:1,height:1,transparent:true,audio:{noAudio:true},fps:{target:30},scene:CompanyPreview});
   resize();new ResizeObserver(resize).observe(stage);sync();await defaultSpace();status(restoreError?`已保留默认方案，存档未载入：${restoreError.message}`:restored?'已恢复上次保存的方案。':'方案已加载。',Boolean(restoreError));
   fillOptions('sample-branch',appearanceBranches.filter(([branch])=>appearanceCandidates(catalog,branch).length).map(([id,name])=>({id,name})),'desk');fillSampleLooks();
@@ -168,7 +183,12 @@ async function start(){
   element('floor-view').onclick=()=>perform('正在查看整层…',()=>showSpace('floor'));
   element('building-view').onclick=()=>perform('正在查看大楼…',()=>showSpace('building',element('floor').value,null,'section'));
   element('station').onchange=sync;
-  element('sofa').onchange=()=>perform('正在替换沙发外观…',()=>session.apply([{type:'replace-resource',id:sofaNode().id,resource:element('sofa').value==='timber'?{id:'timber-sofa',version:1}:{id:'lounge-sofa',version:1}}]));
+  element('wall-view').onchange=()=>perform('正在调整墙体观看…',()=>{wallMode=element('wall-view').value;updateWallView();});
+  element('sofa').onchange=()=>perform('正在替换沙发外观…',()=>{
+    const resource=catalog.resources.find(r=>r.mountRole==='sofa'&&sofaChoice(r)===element('sofa').value);
+    if(!resource)throw Error('Unknown sofa appearance');
+    return session.apply([{type:'replace-resource',id:sofaNode().id,resource:{id:resource.id,version:resource.version}}]);
+  });
   element('fabric').onchange=()=>perform('正在更新面料…',()=>session.apply([{type:'set-appearance',id:sofaNode().id,appearance:element('fabric').value==='original'?{}:{materials:{fabric:{color:'#345c83',roughness:.9}}}}]));
   document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>setView(b.dataset.view));
   for(const [button,part]of[['screen','monitor'],['light','fill-light']])element(button).onclick=()=>perform('正在更新设施…',()=>{
@@ -194,6 +214,7 @@ async function start(){
   fetch('/company-build-info.json').then(r=>r.ok?r.json():null).then(info=>{if(info){element('build-label').textContent=`构建 ${info.shortId}`;window.company.buildInfo=info;}}).catch(()=>{});
   const query=new URLSearchParams(location.search),requested=query.get('sample');
   if(requested&&appearanceBranches.some(([branch])=>branch===requested))await showAppearanceSample(requested,Number(query.get('look')||0));
+  else if(Object.hasOwn(layouts,query.get('layout')))await window.company.load(layouts[query.get('layout')]);
 }
 start().catch(error=>{status(`场景加载失败：${error.message}`,true);console.error(error);});
 addEventListener('pagehide',()=>{game?.destroy(true);session?.dispose();assetLibrary.dispose();orbit.dispose();buildingView.dispose();renderer.dispose();},{once:true});

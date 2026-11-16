@@ -3,7 +3,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import catalog from '../../prototype/src/company/library-catalog.json' with {type:'json'};
-import templates from '../../prototype/src/company/templates.json' with {type:'json'};
+import templates from '../../prototype/src/company/templates-extended.json' with {type:'json'};
 import {CompanyError,deriveCompany,prepareCompanyChange} from '../../prototype/src/company/document.js';
 import {createScaledCompany,inspectCompanyConnections} from '../../prototype/src/company/space.js';
 import {inspectCompanyPlacement} from '../../prototype/src/company/placement.js';
@@ -15,7 +15,7 @@ const sourceFiles=[
   'prototype/src/company/document.js','prototype/src/company/placement.js',
   'prototype/src/company/appearance-contract.js',
   'prototype/src/company/persistence.js','prototype/src/company/library-catalog.json',
-  'prototype/src/company/templates.json',
+  'prototype/src/company/templates-extended.json',
 ];
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 function canonical(value){

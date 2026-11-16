@@ -4,7 +4,7 @@ const fs=require('node:fs/promises'),path=require('node:path'),assert=require('n
 const [packageArg,outArg]=process.argv.slice(2),root=path.resolve(packageArg),out=path.resolve(outArg);
 const report={package:root,status:'running',checks:[],limits:['No character or ordinary-PC acceptance. Dependency installation may use local npm cache and network; not an offline install proof.']};let server,context,url;
 async function check(name,fn){const result=await fn();report.checks.push({name,passed:true,result});}
-async function open(){context=await chromium.launchPersistentContext(path.join(out,'profile'),{headless:true,viewport:{width:1440,height:1000}});const page=await context.newPage();await page.goto(url);await page.waitForFunction(()=>window.company?.ready&&company.buildInfo);return page;}
+async function open(){context=await chromium.launchPersistentContext(path.join(out,'profile'),{headless:true,viewport:{width:1440,height:1000},args:process.argv.includes('--software')?['--use-angle=swiftshader','--enable-unsafe-swiftshader']:[]});const page=await context.newPage();await page.goto(url);await page.waitForFunction(()=>window.company?.ready&&company.buildInfo);return page;}
 (async()=>{
  await fs.mkdir(path.dirname(out),{recursive:true});await fs.mkdir(out);
  const manifest=JSON.parse(await fs.readFile(path.join(root,'transfer-manifest.json'),'utf8'));report.build=manifest.buildId;
@@ -14,7 +14,10 @@ async function open(){context=await chromium.launchPersistentContext(path.join(o
   await fs.writeFile(path.join(out,'disconnected.json'),JSON.stringify(bad));let failure;
   try{execFileSync(process.execPath,[path.join(root,'edit.mjs'),'validate',path.join(out,'disconnected.json')],{cwd:root,encoding:'utf8',stdio:'pipe'});}catch(e){failure=JSON.parse(e.stderr).code;}
   assert.equal(failure,'disconnected-regions');
-  const screen=layout.nodes.find(n=>n.resource?.id==='monitor');await fs.writeFile(path.join(out,'operations.json'),JSON.stringify([{type:'set-state',id:screen.id,state:{on:true}}]));
+  const catalog=JSON.parse(await fs.readFile(path.join(root,'data/library-catalog.json'),'utf8'));
+  const screen=layout.nodes.find(n=>catalog.resources.find(r=>r.id===n.resource?.id&&r.version===n.resource?.version)?.mountRole==='monitor');assert(screen,'Delivered company needs a real monitor');
+  const resource=catalog.resources.find(r=>r.id===screen.resource.id&&r.version===screen.resource.version),on=!(screen.state?.on??resource.stateDefaults.on);
+  await fs.writeFile(path.join(out,'operations.json'),JSON.stringify([{type:'set-state',id:screen.id,state:{on}}]));
   const result=JSON.parse(execFileSync(process.execPath,[path.join(root,'edit.mjs'),'apply',path.join(root,'data/save.json'),path.join(out,'operations.json'),path.join(out,'edited')],{cwd:root,encoding:'utf8'}));assert.equal(result.floors.length,2);return{rejected:failure,...result};
  });
  server=spawn(process.execPath,[path.join(root,'serve.mjs')],{cwd:root,windowsHide:true,stdio:['ignore','pipe','pipe']});
@@ -25,6 +28,11 @@ async function open(){context=await chromium.launchPersistentContext(path.join(o
   assert.deepEqual(await page.evaluate(()=>company.session.document),saved);assert.equal(await page.evaluate(()=>company.buildInfo.shortId),manifest.buildId);
   for(const floor of saved.nodes.filter(n=>n.kind==='floor'))await page.evaluate(id=>company.showSpace('floor',id),floor.id);
   assert(requests.every(request=>request.startsWith(new URL(url).origin)||request.startsWith('blob:')||request.startsWith('data:')));
+  report.renderEnvironment=await page.evaluate(async()=>{
+    await new Promise(requestAnimationFrame);company.renderer.render(company.world,company.camera);const gl=company.renderer.getContext();if(gl.isContextLost())throw Error('WebGL context lost');
+    const colors=new Set(),pixel=new Uint8Array(4);for(let x=1;x<12;x++)for(let y=1;y<12;y++){gl.readPixels(Math.floor(gl.drawingBufferWidth*x/12),Math.floor(gl.drawingBufferHeight*y/12),1,1,gl.RGBA,gl.UNSIGNED_BYTE,pixel);colors.add(Array.from(pixel).join(','));}
+    if(colors.size<4)throw Error('Blank framebuffer');const ext=gl.getExtension('WEBGL_debug_renderer_info');return{colors:colors.size,renderer:ext?gl.getParameter(ext.UNMASKED_RENDERER_WEBGL):'unknown'};
+  });
   await page.screenshot({path:path.join(out,'independent-viewer.png')});return{floors:saved.nodes.filter(n=>n.kind==='floor').length,requests:requests.filter(u=>u.endsWith('.glb'))};
  });
  let edited;

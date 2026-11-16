@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import catalog from '../../prototype/src/company/library-catalog.json' with {type:'json'};
-import templates from '../../prototype/src/company/templates.json' with {type:'json'};
+import templates from '../../prototype/src/company/templates-extended.json' with {type:'json'};
 import {createCompany, prepareCompanyChange, deriveCompany, restoreCompany, serializeCompany} from '../../prototype/src/company/document.js';
 import {inspectCompanyPlacement} from '../../prototype/src/company/placement.js';
 

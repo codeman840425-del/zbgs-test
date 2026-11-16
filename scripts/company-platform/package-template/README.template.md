@@ -38,4 +38,6 @@ source/assets-source保留模型参数，source/scripts/company-platform保留�
 
 当前民房示例的生产入口为source/scripts/company-platform/build-home-examples.mjs。有限功能规格和外观制作约定见source/docs/COMPANY-APPEARANCE-PRODUCTION-STANDARD.md。source/docs/COMPANY-SPACE-DESIGN-NOTES-2026-11-16.md记录后续产品思路，按当前工作包验收范围执行。
 
+混合素材的两层公司输入保存在source/prototype/src/company/examples/c2-mixed-company.json；对应编辑操作在c2-mixed-company-edit.ops.json。source/scripts/company-platform/build-mixed-company.mjs可重新生成，随后用--check核对。生成器会写入自己的示例及证据输出；修改交付公司的副本请使用上述edit.mjs入口并选新输出目录，不覆盖原存档。批量生产可沿source/scripts/company-platform/batch.mjs使用明确的document或input配置。
+
 node_modules未随包提供。npm ci需要锁定依赖可取得，干净离线安装未测试。固定源码摘要与包内运行字节已核对，源码重建字节一致和真实浏览器运行应有单独验证记录。角色资产、真实人物使用、跨层交通和经营业务不在本包验证范围。
