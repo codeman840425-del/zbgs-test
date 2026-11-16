@@ -2,10 +2,12 @@ const {chromium}=require('../prototype/node_modules/playwright');
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
 const {verifyCandidate}=require('./qa-m1-common.cjs');
 const [url,build,destination]=process.argv.slice(2),out=path.resolve(destination);
+const expectedHairSHA=process.env.EXPECTED_HAIR_SHA||'010a615ed5650e106bacd2c1da576a7c42db2a22047c4011596fb43b648cb015';
+const hairAssetPath=process.env.HAIR_ASSET_PATH||'/assets/m2-long-hair-v1/female-ponytail.glb';
 (async()=>{
  await fs.mkdir(out,{recursive:false});await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
  const browser=await chromium.launch({channel:'chrome',headless:true}),ctx=await browser.newContext({viewport:{width:1440,height:900},recordVideo:{dir:out,size:{width:1440,height:900}}}),p=await ctx.newPage();
- const r={build,status:'running',checks:[],errors:[],scope:'Original female, authored ponytail v1; normal-speed real room. CPU/static source checks remain separate; no target-PC or universal collision approval.'};
+ const r={build,status:'running',checks:[],errors:[],expectedHairSHA,hairAssetPath,scope:'Original female, exact authored ponytail; normal-speed real room. CPU/static source checks remain separate; no target-PC or universal collision approval.'};
  p.on('pageerror',e=>r.errors.push(String(e)));
  const set=input=>p.evaluate(input=>__debug.command({type:'appearance',...input}),input);
  const state=()=>p.evaluate(()=>__debug.avatar().appearance.getState());
@@ -20,7 +22,7 @@ const [url,build,destination]=process.argv.slice(2),out=path.resolve(destination
    function sample(now){if(last!==null)__frameIntervals.push(now-last);last=now;if(now-lastSample>=100){const d=__debug.avatar().appearance.getState().hairDynamics;__hairSamples.push({ms:now,phase:__hairPhase,body:__debug.avatar().profile.bodyType,hair:d,mode:__debug.snapshot().mode});lastSample=now;}window.__hairRAF=requestAnimationFrame(sample);}window.__hairRAF=requestAnimationFrame(sample);
   });
   const before=await state();assert((await set({hairStyle:'female-ponytail-v1'})).applied,'Actual skinned hair must load');
-  await p.waitForTimeout(1000);let s=await state();assert.equal(s.hairDynamics.jointCount,6);assert.equal(s.hairDynamics.colliderCount,3);assert(s.hairDynamics.updates>0);assert.equal(s.replacementSHA256,'010a615ed5650e106bacd2c1da576a7c42db2a22047c4011596fb43b648cb015');
+  await p.waitForTimeout(1000);let s=await state();assert.equal(s.hairDynamics.jointCount,6);assert.equal(s.hairDynamics.colliderCount,3);assert(s.hairDynamics.updates>0);assert.equal(s.replacementSHA256,expectedHairSHA);
   const meshes=await p.evaluate(()=>{const list=[];__debug.avatar().vrm.scene.traverse(n=>{if(n.isMesh&&n.userData.assetRole==='hair'&&n.parent.visible)list.push({name:n.name,skinned:n.isSkinnedMesh,vertices:n.geometry.attributes.position.count,bones:n.skeleton?.bones.map(b=>b.name)});});return list;});
   assert.equal(meshes.length,1);assert(meshes[0].skinned);assert.equal(meshes[0].bones.length,8);await shot('back-idle');
   r.checks.push({name:'actual pinned multi-bone mesh uses isolated official solver in room',passed:true,before,loaded:s,meshes});
@@ -58,9 +60,9 @@ const [url,build,destination]=process.argv.slice(2),out=path.resolve(destination
   if(r.status==='technical-checks-passed-visual-pending'){
    const cold=await browser.newContext({viewport:{width:1440,height:900}}),q=await cold.newPage();
    try{await q.goto(url+'?body=female&workbench=appearance');await q.waitForFunction(()=>window.__debug?.ready,null,{timeout:60000});
-    await q.route('**/m2-long-hair-v1/female-ponytail.glb',route=>route.fulfill({status:503,body:'planned unavailable asset'}));
+    await q.route('**'+hairAssetPath,route=>route.fulfill({status:503,body:'planned unavailable asset'}));
     const fail=await q.evaluate(async text=>{try{return await __debug.importAppearanceRecipe(text);}catch(e){return{applied:false,reason:String(e)};}},recipe);assert.equal(fail.applied,false);assert.equal(await q.evaluate(()=>__debug.avatar().appearance.getState().hairStyle),'original');
-    await q.unroute('**/m2-long-hair-v1/female-ponytail.glb');assert((await q.evaluate(text=>__debug.importAppearanceRecipe(text),recipe)).applied);
+    await q.unroute('**'+hairAssetPath);assert((await q.evaluate(text=>__debug.importAppearanceRecipe(text),recipe)).applied);
     assert.equal(await q.evaluate(()=>__debug.exportAppearanceRecipe()),recipe);await q.evaluate(()=>__debug.camera('inspect-half-back'));await q.waitForTimeout(700);await q.screenshot({path:path.join(out,'cold-restored.png')});
     r.checks.push({name:'fresh context missing GLB preserves previous whole look; retry restores exact v7',passed:true,fail});
    }catch(e){r.status='failed-or-incomplete';r.restoreError=String(e);process.exitCode=1;}finally{await cold.close();}
