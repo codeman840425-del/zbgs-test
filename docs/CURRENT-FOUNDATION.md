@@ -12,11 +12,11 @@
 
 层间修复是资产适配和装备依赖，未改6个共用动作控制器。源m2-vest-layer-fit-v1+body-coverage-v1，publisher新增13文件；真实top/pants身份和fit/mask精确绑定。原女错误bottom编号已在4771fd58修正，原失败留history。运行独审m2-vest-layer-runtime-review-v1：附加目录/依赖/普通race通过；发现旧childadded同步dispose漏洞并在71081be修，长期回归scripts/qa-equipment-attach-dispose.mjs，修前后失败/成功均保。publication独审已合1de8595e。普通电脑未测，f82的开发机短测不冒认目标机。
 
-头部方法：整身cage已封存失败，不能重跑。head-only源62f80c7c的正式strict预检仍拒绝；独审判口内纳米pair数值边界不确定。经明确隔离的diagnostic-only入口，原8请求一次批次现已完成且8/8均failed：负det、实际半宽误差11.56–47.17mm和新增strict表达pair。没有生产准入/游戏发布。asset_budget正封存隔离树F:/gamemake-representative-head-cage的diagnostic-v1源与产物；http_transport_review正独立CPU核负det/响应拟合/保护场根因。禁止继续扫参、改门或静默将诊断变成成功。下一步收其提交/独审，依据新证据选一条共同修正或替代方法；无新根因不再导出。
+头部方法：整身cage已封存失败，不能重跑。head-only源62f80c7c的正式strict预检仍拒绝；独审判口内纳米pair数值边界不确定。经明确隔离的diagnostic-only入口，原8请求一次批次现已完成且8/8均failed：负det、实际半宽误差11.56–47.17mm和新增strict表达pair。没有生产准入/游戏发布。asset_budget正封存隔离树F:/gamemake-representative-head-cage的diagnostic-v1源与产物。独立读回已确认8/8控制笼Y链反序、6/8宽度符号翻转、控制位移0.713–2.483m，单位/重复body叠加未见错误。现有202个地标未证完全锁死与target直接矛盾。完整response未落盘，故condition尚未知。已授权asset封存后仅一次逐性别2mm响应提取（无新角色/衣物输出），http独审源与子空间，batch核官方SciPy约束求解和必要可行性接口。禁止扫参、改门或将诊断变生产；先用实际矩阵判共同结构可行性，再定是否值得下一次形状尝试。
 
 动作自适应已完成方法调研research/MOTION-CONTACT-ADAPTATION-OPTIONS-2026-11-16.md（R2ET/Mink/CAMR源码/许可/限制）。Mink只是离线小试优先候选，未安装求解器/未完成VRM往返/无通用避碰通过；不插入本八体包准入，不重开封存舞。新机制必须先核可复用官方/原作者实现及实际输入输出再小试。
 
-最新已核远备仍ec99825cf3de629ba5ebc30839a22b8972fe43b6；其后的f82源码、覆盖源及本轮证据正收尾提交备份，未核远端前不称成功。当前HEAD实际用git核。公司副总工相关dirty/untracked不动、不stage。
+最新已核远备d39bd253c0bacc20a5b0fcd31062163291ec7060，push后ls-remote精确一致，覆盖f82源码、覆盖源及本轮证据；回执evidence/m2-vest-layer-review-f82-v1/remote-backup.json。后续head诊断另备，不冒认已覆盖未提交产物。当前HEAD实际用git核。公司副总工相关dirty/untracked不动、不stage。
 
 ## 当前授权与边界
 
@@ -26,7 +26,7 @@ Phaser+Three+VRM保留；女性封板裙和30秒舞不再精修。普通电脑�
 
 ## 恢复与协作边界
 
-- 当前有界代理：asset_budget与http_transport_review均复用已明确请求gpt-6.1-sol/high，前者封存一次head诊断，后者独审共同失败原因；batch_v2_readback已完成房间审图。真实provider配置和桌面hook拦截未独立核验，不冒认。
+- 当前有界代理：asset_budget与http_transport_review均复用已明确请求gpt-6.1-sol/high，前者封存一次head诊断，后者独审共同失败原因；batch_v2_readback已完成房间审图，现只读核官方约束求解选项。真实provider配置和桌面hook拦截未独立核验，不冒认。
 - 单GPU/录像/编码/重导出窗口当前空闲。f82六片、公开烟测和第二独立构建已结束，不因压缩恢复而重录。CPU文档/源码诊断可并行；没有根因依据不再触发head导出。
 - 下一项：完成本轮固定候选证据和远备；收head-only失败封存与独审，选有证据的下一窄包，持续推进完整M2。M2未完，不进入M3。
 - 固定交付按exact commit独立检出；录像与构建身份保持，旧failed不改标。只stage明确路径，不git add -A。公司平台副总工独立交付，未核的CAP-INCREMENT不当本角色集成通过。
