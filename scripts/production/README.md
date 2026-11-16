@@ -24,3 +24,18 @@ python scripts/production/qa-source-packages.py
 男性外搭入口 `male-outer-panels-source` 登记原男性身体、原上衣、独立裁片 spec、来源、可编辑源及 author-equipment/fit。`show` 展示生成、Blender 两次回开导出、独立目录静态检查、固定源 finalize 和 install-runtime 的完整写范围及前置条件。`workflow-rebuild` 须为不存在的目录，失败保留后另选目录重试。固定源 finalize 会替换源 manifest/fit/回执，install-runtime 会写 public 清单和实物，二者都只登记供隔离检出手动使用。
 
 该包 manifest 的 files 路径相对包根。只读核验检查完整114文件清单、spec/generator、实际 source GLB 的9骨绑定、fit版本/身体/内层/两种下装限制、generated/rebuild重复导出，以及游戏清单与实际 public GLB。运行实物来自 author-export SHA 0631cf9d1ec297e8504d5ed73f5e1325d3154be9de09906bb6e7131488e89330，参数模式 GLB 的 ef9171d06988941332b53c6d0636513aa6e1f9a4fbdae92b3696cb6b966c836b 保留独立身份。静态报告和历史 pending 字段保持原记录，连续动作视觉适配仍须对应版本审查。
+
+## 运行候选查询与准入（086，现有配方范围）
+
+共用模块 `prototype/src/appearance-candidates.js` 导出 `queryAppearanceCandidates(controller)` 与 `admitAppearanceCandidate(controller, record)`；当前工作台的 `__debug` 同名入口供agent调用，不依赖新增UI。query返回当前加载基模的默认v6配方、真实范围/离散值、颜色、发型及fit身份和已配置装备集合；输出为独立副本，查询不取消在途修改。
+
+```javascript
+const choices = __debug.queryAppearanceCandidates();
+const record = structuredClone(choices.defaultRecipe);
+const result = __debug.admitAppearanceCandidate(record);
+if (result.accepted) await __debug.importAppearanceRecipe(JSON.stringify(record));
+```
+
+`accepted`只表示静态元数据匹配；真实字节、几何/表情、蒙皮和绑定仍由实际prepare检查。未知字段、错误身份或不兼容值返回issues内field/code/reason，不夹紧或删除请求内容。不是完整形体依赖、任意输入格式或正式角色存档接口。
+
+实际查询输出、错误输入与运行结果见evidence/m2-candidate-admission-browser-086-v1及m2-static-admission-baseline-1fa-v1。复现检查：`node scripts/qa-candidate-admission-browser.cjs <固定URL> <准确build> <新证据目录>`，需已构建的Node/Playwright依赖和Chrome；失败保留原目录，不覆盖历史。它是真实浏览器检查，需独占当前GPU验证窗口。

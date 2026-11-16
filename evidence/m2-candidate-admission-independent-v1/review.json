@@ -1,0 +1,34 @@
+{
+  "reviewedCommit": "09e99f3d07bcc227e8e951fd1e557632b33a9647",
+  "decision": "No material blocker found within the bounded static-admission scope.",
+  "sourceHashesMatchCommittedSummary": {
+    "prototype/src/appearance-recipe.js": true,
+    "prototype/src/facial-geometry-contract.js": true,
+    "prototype/src/facial-geometry-profiles.js": true,
+    "prototype/src/facial-geometry.js": true,
+    "prototype/src/hair-fit-contract.js": true,
+    "prototype/src/main.js": true,
+    "prototype/src/facial-geometry-selection.js": true,
+    "prototype/src/appearance-candidates.js": true,
+    "scripts/qa-candidate-admission.mjs": true
+  },
+  "independentlyExecuted": [
+    "Existing CPU candidate admission suite, including actual resource identities for three geometry-enabled bases and unchanged-only query for two female derived bases.",
+    "Saved wrong-mouth and wrong-brow full v6 inputs from baseline 1fa59bd, early structured rejection without fetch or revision changes, then corrected inputs apply and restore."
+  ],
+  "verifiedBoundaries": [
+    "Query/admit do not advance revisions or cancel a pending actual geometry request.",
+    "Defaults are authored initial selections and query returns detached data.",
+    "Original mouth continuous range remains [-0.04,0.04] plus discrete visible endpoints. Male jaw remains [0,0.04] discrete.",
+    "Unknown native fields return accepted:false.",
+    "Pure selector is shared before runtime generation changes.",
+    "Correct static identity with corrupted actual resource bytes is still rejected by existing preparation digest checks.",
+    "v1-v6 compatible restores retain input bytes and resource meanings."
+  ],
+  "limitations": [
+    "Static metadata admission for currently loaded existing bases and registered v6 fields/resources.",
+    "Actual CPU VRM, face/hair/equipment resources are used by the suite. Texture decoding and presentation use fixtures.",
+    "Browser/GPU/visual acceptance and new shape-fit certification remain outside this review."
+  ],
+  "issues": []
+}

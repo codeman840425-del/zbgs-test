@@ -1,0 +1,185 @@
+{
+  "build": "086c5e904d5b",
+  "checks": [
+    {
+      "name": "male query and default admission preserve state",
+      "status": "passed",
+      "result": {
+        "admission": {
+          "accepted": true,
+          "stage": "static",
+          "issues": [],
+          "requiresPreparation": [
+            "resource bytes and digest",
+            "source geometry and expressions",
+            "skin weights and rest binds",
+            "actual head attachment and registered fit"
+          ]
+        },
+        "defaultMatchesInitial": true
+      }
+    },
+    {
+      "name": "unimplemented requested parameter is rejected instead of silently dropped",
+      "status": "passed",
+      "result": {
+        "accepted": false,
+        "stage": "static",
+        "issues": [
+          {
+            "field": "geometry.headWidth",
+            "code": "unknown-field",
+            "reason": "候选包含尚未实现的字段"
+          }
+        ],
+        "requiresPreparation": [
+          "resource bytes and digest",
+          "source geometry and expressions",
+          "skin weights and rest binds",
+          "actual head attachment and registered fit"
+        ]
+      }
+    },
+    {
+      "name": "mouth wrong-source rejected before fetch and without state writes",
+      "status": "passed",
+      "result": {
+        "admission": {
+          "accepted": false,
+          "stage": "static",
+          "issues": [
+            {
+              "field": "geometry.recipeSha256",
+              "code": "resource-identity-mismatch",
+              "reason": "保存配方的五官资源版本不匹配"
+            }
+          ],
+          "requiresPreparation": [
+            "resource bytes and digest",
+            "source geometry and expressions",
+            "skin weights and rest binds",
+            "actual head attachment and registered fit"
+          ]
+        },
+        "applied": {
+          "error": "Error: 保存配方的五官资源版本不匹配"
+        },
+        "resourceRequests": []
+      }
+    },
+    {
+      "name": "brow wrong-source rejected before fetch and without state writes",
+      "status": "passed",
+      "result": {
+        "admission": {
+          "accepted": false,
+          "stage": "static",
+          "issues": [
+            {
+              "field": "geometry.browRecipeSha256",
+              "code": "resource-identity-mismatch",
+              "reason": "保存配方的五官资源版本不匹配"
+            }
+          ],
+          "requiresPreparation": [
+            "resource bytes and digest",
+            "source geometry and expressions",
+            "skin weights and rest binds",
+            "actual head attachment and registered fit"
+          ]
+        },
+        "applied": {
+          "error": "Error: 保存配方的五官资源版本不匹配"
+        },
+        "resourceRequests": []
+      }
+    },
+    {
+      "name": "read-only query during held geometry preparation keeps original intent",
+      "status": "passed",
+      "result": {
+        "result": {
+          "done": true,
+          "result": {
+            "applied": true
+          }
+        },
+        "admission": {
+          "accepted": true,
+          "stage": "static",
+          "issues": [],
+          "requiresPreparation": [
+            "resource bytes and digest",
+            "source geometry and expressions",
+            "skin weights and rest binds",
+            "actual head attachment and registered fit"
+          ]
+        },
+        "restored": true
+      }
+    },
+    {
+      "name": "male catalog default loads and roundtrips",
+      "status": "passed",
+      "result": {
+        "applied": true
+      }
+    },
+    {
+      "name": "female query and default admission preserve state",
+      "status": "passed",
+      "result": {
+        "admission": {
+          "accepted": true,
+          "stage": "static",
+          "issues": [],
+          "requiresPreparation": [
+            "resource bytes and digest",
+            "source geometry and expressions",
+            "skin weights and rest binds",
+            "actual head attachment and registered fit"
+          ]
+        },
+        "defaultMatchesInitial": true
+      }
+    },
+    {
+      "name": "female catalog default loads and roundtrips",
+      "status": "passed",
+      "result": {
+        "applied": true
+      }
+    },
+    {
+      "name": "static accepted candidate still rejects corrupted actual resource and retains look",
+      "status": "passed",
+      "result": {
+        "admission": {
+          "accepted": true,
+          "stage": "static",
+          "issues": [],
+          "requiresPreparation": [
+            "resource bytes and digest",
+            "source geometry and expressions",
+            "skin weights and rest binds",
+            "actual head attachment and registered fit"
+          ]
+        },
+        "applied": {
+          "error": "Error: 恢复配方失败，先前外观已保留：眉位配方校验失败"
+        },
+        "corruptedResourceHits": 1
+      }
+    }
+  ],
+  "errors": [],
+  "environment": {
+    "browser": "157.0.8103.51",
+    "viewport": [
+      1440,
+      900
+    ],
+    "device": "Development Windows host; not ordinary-PC acceptance"
+  },
+  "status": "passed"
+}

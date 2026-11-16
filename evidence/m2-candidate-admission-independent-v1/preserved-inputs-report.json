@@ -1,0 +1,54 @@
+{
+  "commit": "09e99f3d07bcc227e8e951fd1e557632b33a9647",
+  "rows": [
+    {
+      "id": "mouth",
+      "inputPath": "F:/gamemake/evidence/m2-static-admission-baseline-1fa-v1/mouth-wrong-source-v6.json",
+      "staticRejection": {
+        "accepted": false,
+        "stage": "static",
+        "issues": [
+          {
+            "field": "geometry.recipeSha256",
+            "code": "resource-identity-mismatch",
+            "reason": "保存配方的五官资源版本不匹配"
+          }
+        ],
+        "requiresPreparation": [
+          "resource bytes and digest",
+          "source geometry and expressions",
+          "skin weights and rest binds",
+          "actual head attachment and registered fit"
+        ]
+      },
+      "fetchesDuringRejectedInput": 0,
+      "revisionAndVisibleGeometryPreserved": true,
+      "correctedAppliesAndRestores": true
+    },
+    {
+      "id": "brow",
+      "inputPath": "F:/gamemake/evidence/m2-static-admission-baseline-1fa-v1/brow-wrong-source-v6.json",
+      "staticRejection": {
+        "accepted": false,
+        "stage": "static",
+        "issues": [
+          {
+            "field": "geometry.browRecipeSha256",
+            "code": "resource-identity-mismatch",
+            "reason": "保存配方的五官资源版本不匹配"
+          }
+        ],
+        "requiresPreparation": [
+          "resource bytes and digest",
+          "source geometry and expressions",
+          "skin weights and rest binds",
+          "actual head attachment and registered fit"
+        ]
+      },
+      "fetchesDuringRejectedInput": 0,
+      "revisionAndVisibleGeometryPreserved": true,
+      "correctedAppliesAndRestores": true
+    }
+  ],
+  "scope": "Saved full v6 inputs from 1fa59bd. Actual pinned male VRM and face recipes. Texture decode and outfit commit use CPU fixtures. fetch counter and revision equality measured before corrected-resource apply. No browser/GPU."
+}
