@@ -71,6 +71,23 @@ with tempfile.TemporaryDirectory(prefix='asset-budget-') as directory:
     verify('one source image and two texture objects stay distinct', m['uniqueImagePayloads'] == 1
            and m['uniqueImageRgba8MipBytes'] == 44 and m['metrics']['rgba8MipBytes'] == 88
            and m['metrics']['externalImageBytes'] == len(image.getvalue()))
+    instanced = copy.deepcopy(doc)
+    instanced['meshes'][0]['primitives'] = instanced['meshes'][0]['primitives'][:1]
+    instanced['nodes'] = [{'mesh': 0, 'extensions': {
+        'EXT_mesh_gpu_instancing': {'attributes': {'TRANSLATION': 1}}}}]
+    instanced['bufferViews'].append({'buffer': 0, 'byteOffset': 36, 'byteLength': 120000})
+    instanced['accessors'].append({'bufferView': 1, 'componentType': 5126, 'type': 'VEC3', 'count': 10000})
+    instanced_binary = binary+bytes(120000)
+    instanced['buffers'][0]['byteLength'] = len(instanced_binary)
+    for declaration in ['optional', 'required', 'undeclared']:
+        fixture = copy.deepcopy(instanced)
+        if declaration != 'undeclared':
+            fixture['extensionsUsed'] = ['EXT_mesh_gpu_instancing']
+        if declaration == 'required':
+            fixture['extensionsRequired'] = ['EXT_mesh_gpu_instancing']
+        write_glb(path, fixture, instanced_binary)
+        rejects(declaration+' actual node instancing rejected before cost admission',
+                lambda: check(path, 'accessory', config), 'nodes[0].extensions: unsupported')
     skinned = copy.deepcopy(doc)
     skinned['bufferViews'] += [{'buffer': 0, 'byteOffset': 36, 'byteLength': 12},
                               {'buffer': 0, 'byteOffset': 48, 'byteLength': 48}]

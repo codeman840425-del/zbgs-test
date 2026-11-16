@@ -1,0 +1,52 @@
+{
+  "passed": 28,
+  "checks": [
+    "real shorts actual triangles and image dimensions",
+    "real asset low budget rejects without changing asset",
+    "shared accessor and repeated node counts stay distinct",
+    "one source image and two texture objects stay distinct",
+    "optional actual node instancing rejected before cost admission",
+    "required actual node instancing rejected before cost admission",
+    "undeclared actual node instancing rejected before cost admission",
+    "actual joint and weight accounting",
+    "joint index must fit referenced skin",
+    "zero sum weights rejected",
+    "external geometry buffer rejected explicitly",
+    "dependency rejects missing.png",
+    "dependency rejects ../image.png",
+    "dependency rejects %2e%2e/image.png",
+    "dependency rejects https://host/image.png",
+    "dependency rejects image.png?x=1",
+    "dependency rejects /image.png",
+    "accessor cannot spill outside bufferView",
+    "negative count rejected",
+    "nonfinite geometry rejected",
+    "bad GLB rejected",
+    "corrupt image rejected",
+    "boolean budget rejected",
+    "wrong budget version rejected",
+    "missing metric rejected",
+    "normal CLI structured success",
+    "missing asset CLI structured invalid exit 2",
+    "legacy over-budget CLI structured rejection exit 1"
+  ],
+  "GPUUsed": false,
+  "command": "python scripts/production/qa-asset-budget.py",
+  "repairsCommitParent": "55d8bf93926f9a84321b76598ea52d96eab362be",
+  "scope": "CPU-only explicit rejection of unmetered node extensions; budgets and asset bytes preserved",
+  "independentFixture": {
+    "path": "F:\\gamemake\\evidence\\m2-asset-budget-independent-v1\\optional-instancing-10000.glb",
+    "sha256": "134bc1e84b13b3b8da24ee3ce2876d5d6fec44a9410b6d27883ac8fb97cbed3f",
+    "error": "nodes[0].extensions: unsupported ['EXT_mesh_gpu_instancing']",
+    "declaredInstances": 10000
+  },
+  "unchangedRepresentativeResults": [
+    "prototype/public/assets/foundation/base-female-roundtrip.vrm",
+    "prototype/public/assets/foundation/base-male-roundtrip.vrm",
+    "prototype/public/assets/m2-hairstyle-v1/female-bob.glb",
+    "prototype/public/assets/m2-male-hairstyle-v1/male-sidepart.glb",
+    "prototype/public/assets/m1b/m1b-uniform-shorts-v1.glb",
+    "prototype/public/assets/m2-outer-panels-v2/author-export.glb",
+    "prototype/public/assets/m1c/studio-microphone-v1.glb"
+  ]
+}

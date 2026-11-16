@@ -55,6 +55,10 @@ class AssetCost:
         self.doc = self.glb.doc
         require(isinstance(self.doc, dict), 'GLB JSON: expected object')
         require(self.doc.get('asset', {}).get('version') == '2.0', 'asset.version: expected glTF 2.0')
+        for i, node in enumerate(self.doc.get('nodes', [])):
+            extensions = node.get('extensions', {})
+            require(isinstance(extensions, dict), 'nodes[%d].extensions: expected object' % i)
+            require(not extensions, 'nodes[%d].extensions: unsupported %s' % (i, sorted(extensions)))
         required = set(self.doc.get('extensionsRequired', []))
         unsupported = required - {'VRM', 'VRMC_vrm', 'VRMC_springBone', 'VRMC_materials_mtoon',
                                    'KHR_materials_unlit', 'KHR_texture_transform'}

@@ -21,7 +21,7 @@ python scripts/production/qa-asset-budget.py
 - RGBA8+mip 是固定格式假设下的静态估算。浏览器色彩空间/采样器分配、VRM材质附加贴图、缓存与实例共享会改变实际分配，当前结果没有实测显存含义。全部声明材质/texture 都计入相应数量上限。
 - 原生 VRM0 secondaryAnimation 统计动态根及其后代，VRM1 springBone 统计声明 joints，并列出 collider 数量。可选 descriptor 目前仅核当前 `character-hairstyle-v1` 的 SHA 与 rigid 配置，其他外部动态格式拒绝。未提供 descriptor 时显式写 `not supplied`，原生动态仍计入。
 
-范围限定为现有未压缩 GLB 2.0/VRM、内嵌 BIN、非 sparse accessor、TRIANGLES、PNG/JPEG。直接外部图片只能位于 GLB 所在目录或其子目录，先解 URI 转义，再核路径及符号链接真实路径。缺文件、绝对/远端/data URI、向上遍历、未知必需扩展、压缩 primitive/view/texture 均拒绝。新格式须扩展解析与回归后准入。
+范围限定为现有未压缩 GLB 2.0/VRM、内嵌 BIN、非 sparse accessor、TRIANGLES、PNG/JPEG。直接外部图片只能位于 GLB 所在目录或其子目录，先解 URI 转义，再核路径及符号链接真实路径。缺文件、绝对/远端/data URI、向上遍历、未知必需扩展、压缩 primitive/view/texture 均拒绝。node 上的扩展尚未计量，按实际 node 内容拒绝，即使扩展仅声明于 extensionsUsed 或未声明也拒绝，包括 EXT_mesh_gpu_instancing。新格式须扩展解析与回归后准入。
 
 这项检查覆盖单个 GLB/VRM 及其直接图像依赖。运行时 materialRecipes 的替换或额外纹理、整套造型累计、动作流、实例缓存/释放及帧耗时仍待运行链验证。其结构检查也不代替完整 glTF/VRM 标准验证器。当前没有普通电脑设备数据，开发机 4090 未参与本 CPU 检查，不能推导普通机性能通过。
 
