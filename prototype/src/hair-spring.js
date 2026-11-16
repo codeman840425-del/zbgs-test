@@ -9,6 +9,7 @@ const name=x=>typeof x==='string'&&x.length>0&&x.length<=128;
 
 export function validateHairSpringConfig(config) {
   check(config?.schema==='hair-spring-v1','未知配置版本');
+  check(!Object.hasOwn(config,'simulationReference')||['avatar-scene','raw-head'].includes(config.simulationReference),'未知动态参考节点');
   check(Array.isArray(config.joints)&&config.joints.length>0&&config.joints.length<=32,'骨链数量无效');
   const seen=new Set();
   for(const j of config.joints){
@@ -195,8 +196,10 @@ class RoomBoxShape extends VRMSpringBoneColliderShape {
 // from resetting the original VRM's hair. Called once after humanoid/raw sync.
 export function createHairSpring({vrm,scene,config,environmentColliders=[]}) {
   validateHairSpringConfig(config);
-  const simulationCenter=vrm.scene??null;
-  check(simulationCenter===null||simulationCenter.isObject3D,'动态参考节点无效');
+  const simulationReference=config.simulationReference??'avatar-scene';
+  const simulationCenter=simulationReference==='raw-head'?vrm.humanoid?.getRawBoneNode?.('head'):vrm.scene??null;
+  check(simulationReference!=='raw-head'||simulationCenter?.isObject3D,'缺少raw head动态参考节点');
+  check(simulationCenter===null||simulationCenter?.isObject3D,'动态参考节点无效');
   const manager=new VRMSpringBoneManager(), colliders=[], joints=[], names=new Map();
   const environmentGroups = [], ownedColliders = new Set(), cleanupErrors = [];
   let environmentObjects = [];
@@ -218,9 +221,8 @@ export function createHairSpring({vrm,scene,config,environmentColliders=[]}) {
       const environmentGroup = {colliders:[]}; environmentGroups.push(environmentGroup);
       const joint=new VRMSpringBoneJoint(b,child,{hitRadius:j.hitRadius,stiffness:j.stiffness,
         gravityPower:j.gravityPower,gravityDir:new THREE.Vector3().fromArray(j.gravityDir),dragForce:j.dragForce},[{colliders},environmentGroup]);
-      // Store history in the avatar frame. World-history drag otherwise makes
-      // constant locomotion hold the tail nearly horizontal. Local head/body
-      // animation still drives this official solver; root inertia is excluded.
+      // The fit may choose raw-head history. The legacy avatar reference still
+      // carries local head/body animation into the official solver history.
       joint.center=simulationCenter;
       joints.push(joint);manager.addJoint(joint);
     }
@@ -307,7 +309,7 @@ export function createHairSpring({vrm,scene,config,environmentColliders=[]}) {
       manager.update(dt);updates++;
     },
     getState:()=>({implementation:'three-vrm-springbone-3.5.5',jointCount:joints.length,colliderCount:colliders.length,
-      simulationFrame:simulationCenter?'avatar-scene':'world',rootMotionInertia:simulationCenter===null,
+      simulationFrame:simulationCenter?simulationReference:'world',rootMotionInertia:simulationCenter===null,
       bodyColliderCount:colliders.length,environmentColliderCount:environmentSources.length,
       environmentColliderObjectCount:environmentObjects.length,
       environmentCollisionDiagnostics:environmentObjects.map(c=>({box:c.shape.proxy.name??null,bone:c.shape.bone.name,
