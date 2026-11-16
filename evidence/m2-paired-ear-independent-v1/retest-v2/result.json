@@ -1,0 +1,376 @@
+{
+  "schema": "independent-paired-ear-cpu-v1",
+  "time": "2026-11-16T14:59:12.125Z",
+  "node": "v24.13.0",
+  "sourceSha256": {
+    "prototype/src/rigid-accessory-layer.js": "b8bbc87690287cc5fb105a3410b06278b1453c685f4e7964e01be7baacda801c",
+    "prototype/src/foundation-avatar.js": "a5d214c224547fd827c7d85217adcaa5c6e8cb70ee38dffbc7bf26449a00c39f",
+    "prototype/src/main.js": "5ccb6fdbcc33cf7a91fdfbcc4f842695d1354932a5ff40f6ee8a320ee681841e"
+  },
+  "finalSha256": {
+    "prototype/src/rigid-accessory-layer.js": "b8bbc87690287cc5fb105a3410b06278b1453c685f4e7964e01be7baacda801c",
+    "prototype/src/foundation-avatar.js": "a5d214c224547fd827c7d85217adcaa5c6e8cb70ee38dffbc7bf26449a00c39f",
+    "prototype/src/main.js": "5ccb6fdbcc33cf7a91fdfbcc4f842695d1354932a5ff40f6ee8a320ee681841e"
+  },
+  "assets": {
+    "schema": "zbgs-paired-rigid-accessory-style-v1",
+    "styleId": "compact-gold-stud-v1",
+    "pairId": "compact-gold-stud-pair-v1",
+    "version": 1,
+    "asset": {
+      "file": "stud.glb",
+      "sha256": "e07f8b1078ba125e186dae5627352ade4bcb3f0ef649645b5168ece82a81b146",
+      "bytes": 6440,
+      "units": "metres",
+      "localOutwardAxis": "+Z",
+      "localUpAxis": "+Y"
+    },
+    "instances": [
+      {
+        "id": "compact-gold-stud-left-v1",
+        "side": "left",
+        "socket": "ear.left",
+        "styleId": "compact-gold-stud-v1",
+        "pairId": "compact-gold-stud-pair-v1"
+      },
+      {
+        "id": "compact-gold-stud-right-v1",
+        "side": "right",
+        "socket": "ear.right",
+        "styleId": "compact-gold-stud-v1",
+        "pairId": "compact-gold-stud-pair-v1"
+      }
+    ],
+    "fits": [
+      {
+        "bodyType": "female",
+        "fitId": "compact-gold-stud-female-original-fit-v1",
+        "file": "female-fit.json",
+        "sha256": "22c157adcd53f80e2f1d95e16c48c9a27fd2283a6d2e6b2cd71349fde18f0174",
+        "baseAvatarSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95"
+      },
+      {
+        "bodyType": "male",
+        "fitId": "compact-gold-stud-male-original-fit-v1",
+        "file": "male-fit.json",
+        "sha256": "92bb47d13238fbec1677b359e9260473b63685234af9f27c8e844575399f7596",
+        "baseAvatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff"
+      }
+    ],
+    "physics": "rigid-head-attachment",
+    "provenance": "../provenance.json",
+    "license": "CC0-1.0",
+    "runtimeAccepted": false
+  },
+  "bodyRecords": [
+    {
+      "bodyType": "male",
+      "sha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+      "bones": 67,
+      "meshes": 15,
+      "headName": "J_Bip_C_Head",
+      "headParent": "J_Bip_C_Neck"
+    },
+    {
+      "bodyType": "female",
+      "sha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+      "bones": 83,
+      "meshes": 15,
+      "headName": "J_Bip_C_Head",
+      "headParent": "J_Bip_C_Neck"
+    }
+  ],
+  "checks": [
+    {
+      "name": "male empty and none issue no network",
+      "ok": true
+    },
+    {
+      "name": "male mounts actual raw head",
+      "ok": true
+    },
+    {
+      "name": "male exact local TRS",
+      "ok": true
+    },
+    {
+      "name": "male per-side mutable materials",
+      "ok": true
+    },
+    {
+      "name": "male color mutation isolated",
+      "ok": true
+    },
+    {
+      "name": "male attachment follows actual head without local rewrite",
+      "ok": true
+    },
+    {
+      "name": "male source bones unchanged",
+      "ok": true
+    },
+    {
+      "name": "male source geometry attributes and indices unchanged",
+      "ok": true
+    },
+    {
+      "name": "male double dispose leaves no attachments",
+      "ok": true
+    },
+    {
+      "name": "female empty and none issue no network",
+      "ok": true
+    },
+    {
+      "name": "female mounts actual raw head",
+      "ok": true
+    },
+    {
+      "name": "female exact local TRS",
+      "ok": true
+    },
+    {
+      "name": "female per-side mutable materials",
+      "ok": true
+    },
+    {
+      "name": "female color mutation isolated",
+      "ok": true
+    },
+    {
+      "name": "female attachment follows actual head without local rewrite",
+      "ok": true
+    },
+    {
+      "name": "female source bones unchanged",
+      "ok": true
+    },
+    {
+      "name": "female source geometry attributes and indices unchanged",
+      "ok": true
+    },
+    {
+      "name": "female double dispose leaves no attachments",
+      "ok": true
+    },
+    {
+      "name": "independent actors have separate material and geometry ownership",
+      "ok": true
+    },
+    {
+      "name": "dispose first actor preserves second",
+      "ok": true
+    },
+    {
+      "name": "unsupported body stays usable as empty layer",
+      "ok": true
+    },
+    {
+      "name": "unsupported body fails only requested accessory",
+      "ok": true,
+      "error": "Rigid accessory has no exact fit for this body"
+    },
+    {
+      "name": "delayed manifest.json none cancels old request",
+      "ok": true
+    },
+    {
+      "name": "delayed manifest.json no late installation",
+      "ok": true
+    },
+    {
+      "name": "delayed manifest.json dispose cancels old request",
+      "ok": true
+    },
+    {
+      "name": "delayed manifest.json no late installation",
+      "ok": true
+    },
+    {
+      "name": "delayed manifest.json newer-right cancels old request",
+      "ok": true
+    },
+    {
+      "name": "delayed manifest.json installs only latest side",
+      "ok": true
+    },
+    {
+      "name": "delayed manifest.json late503 cancels old request",
+      "ok": true
+    },
+    {
+      "name": "delayed manifest.json no late installation",
+      "ok": true
+    },
+    {
+      "name": "delayed male-fit.json none cancels old request",
+      "ok": true
+    },
+    {
+      "name": "delayed male-fit.json no late installation",
+      "ok": true
+    },
+    {
+      "name": "delayed male-fit.json dispose cancels old request",
+      "ok": true
+    },
+    {
+      "name": "delayed male-fit.json no late installation",
+      "ok": true
+    },
+    {
+      "name": "delayed male-fit.json newer-right cancels old request",
+      "ok": true
+    },
+    {
+      "name": "delayed male-fit.json installs only latest side",
+      "ok": true
+    },
+    {
+      "name": "delayed male-fit.json late503 cancels old request",
+      "ok": true
+    },
+    {
+      "name": "delayed male-fit.json no late installation",
+      "ok": true
+    },
+    {
+      "name": "delayed stud.glb none cancels old request",
+      "ok": true
+    },
+    {
+      "name": "delayed stud.glb no late installation",
+      "ok": true
+    },
+    {
+      "name": "delayed stud.glb dispose cancels old request",
+      "ok": true
+    },
+    {
+      "name": "delayed stud.glb no late installation",
+      "ok": true
+    },
+    {
+      "name": "delayed stud.glb newer-right cancels old request",
+      "ok": true
+    },
+    {
+      "name": "delayed stud.glb installs only latest side",
+      "ok": true
+    },
+    {
+      "name": "delayed stud.glb late503 cancels old request",
+      "ok": true
+    },
+    {
+      "name": "delayed stud.glb no late installation",
+      "ok": true
+    },
+    {
+      "name": "second clone failure preserves existing side",
+      "ok": true
+    },
+    {
+      "name": "second clone failure releases prior prepared clone once",
+      "ok": true,
+      "clones": 1,
+      "partialReleases": 1
+    },
+    {
+      "name": "active material cleanup reentry releases each material exactly once",
+      "ok": true,
+      "counts": [
+        1,
+        1
+      ]
+    },
+    {
+      "name": "dispose during actual head childadded prevents late commit",
+      "ok": true,
+      "result": {
+        "applied": false,
+        "reason": "cancelled"
+      },
+      "state": {
+        "schema": "zbgs-rigid-accessory-layer-state-v1",
+        "styleId": "compact-gold-stud-v1",
+        "pairId": "compact-gold-stud-pair-v1",
+        "fitId": "compact-gold-stud-male-original-fit-v1",
+        "avatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+        "assetSha256": "e07f8b1078ba125e186dae5627352ade4bcb3f0ef649645b5168ece82a81b146",
+        "selection": "none",
+        "requested": null,
+        "status": "disposed",
+        "error": null,
+        "disposed": true,
+        "instances": [],
+        "cachedGeometries": 0,
+        "cleanupErrors": []
+      },
+      "attached": 0
+    },
+    {
+      "name": "tested sources unchanged",
+      "ok": true
+    }
+  ],
+  "failures": [],
+  "fatal": null,
+  "warnings": [],
+  "requests": [
+    "manifest.json",
+    "male-fit.json",
+    "stud.glb",
+    "manifest.json",
+    "female-fit.json",
+    "stud.glb",
+    "manifest.json",
+    "male-fit.json",
+    "stud.glb",
+    "manifest.json",
+    "female-fit.json",
+    "stud.glb",
+    "manifest.json",
+    "manifest.json",
+    "manifest.json",
+    "manifest.json",
+    "male-fit.json",
+    "stud.glb",
+    "manifest.json",
+    "manifest.json",
+    "male-fit.json",
+    "manifest.json",
+    "male-fit.json",
+    "manifest.json",
+    "male-fit.json",
+    "stud.glb",
+    "manifest.json",
+    "male-fit.json",
+    "manifest.json",
+    "male-fit.json",
+    "stud.glb",
+    "manifest.json",
+    "male-fit.json",
+    "stud.glb",
+    "manifest.json",
+    "male-fit.json",
+    "stud.glb",
+    "manifest.json",
+    "male-fit.json",
+    "stud.glb",
+    "manifest.json",
+    "male-fit.json",
+    "stud.glb",
+    "manifest.json",
+    "male-fit.json",
+    "stud.glb",
+    "manifest.json",
+    "male-fit.json",
+    "stud.glb"
+  ],
+  "limits": [
+    "Actual full source VRM parsed with Three187 and VRM3.5.5. Texture objects are CPU placeholders. Image decode/render/occlusion and visual fit are outside this review.",
+    "Actual published stud GLTF is parsed by the production layer without substitution. HTTP cancellation uses a real local server.",
+    "foundation-avatar/main integration reviewed statically at recorded hashes. Full actor/browser lifecycle is root responsibility."
+  ]
+}

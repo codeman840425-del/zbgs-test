@@ -13,7 +13,7 @@ python scripts/production/qa-flow.py
 python scripts/production/qa-source-packages.py
 ```
 
-十一条入口共用既有命令索引；已有 `male-jaw-source`、`male-jaw-mouth`、`male-jaw-hair-fit`。没有运行命令的子命令、shell、自动导出或浏览器。`show`/`dry-run` 只输出参数和写入范围；`validate` 只读现有文件。工具或依赖缺失与源文件缺失分开报告。
+十二条入口共用既有命令索引；已有 `male-jaw-source`、`male-jaw-mouth`、`male-jaw-hair-fit`。没有运行命令的子命令、shell、自动导出或浏览器。`show`/`dry-run` 只输出参数和写入范围；`validate` 只读现有文件。工具或依赖缺失与源文件缺失分开报告。
 
 新增三包清单 SHA 固定在 workflows.json。男下颌包核文件及原始基模、独立重建/重复导出的身份；嘴包核 files/dependencies、精确 jaw 基模与仅 0/+4% 配方及最终 NORMAL 产物；头发包使用 evidence 下的包清单，并核同 GLB 的独立 fit ID/version/body、挂点及 public 三文件。头发目录的 manifest.json 是运行时描述，不能当文件清单。
 

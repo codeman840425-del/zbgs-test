@@ -105,3 +105,17 @@ P03导出器与固定包实际录像/失败记录已随f223e3c216e9b858385feb054
 独立CPU/HTTP初轮两失败：未声明文件可代替manifest；导出失败占最终输出。一次修复0efd508后418检查通过，原失败和源码快照保留。男性初轮镜头face无效，v2用inspect-face-front并保原fixture-correction。男女四影片完整时段2fps抽审、近景已看，不代替人类连续观感验收。原runtime801不因传输层换标签，临时QA服务已关。
 
 并行分工：asset_budget已提交耳钉source(主仓85f161c/e217f91，root复跑8检查)，继续新rigid-accessory-layer/publish/CPU，root尚待集成；ktx_texture_sample已导出原男女各Body2048+Hair1024四图，KTX4.4.2固定UASTC配置，source commit a621cab，body文件变小、hair反增；继续实验adapter与明确PNG染色回退，未替换固定资源或宣称GPU/视觉通过。http_transport_review独立审查结束，后续可分派准确SHA审查。模型/effort均显式sol/high按各任务难度记录；已将主动拆分并行规则加入AGENTS。继续CUSTOM-A01和KTX小验证，不停工、不展开M3。
+
+
+## CUSTOM-A01成对耳饰限定闭环完成；接续贴身层源准备
+
+运行e0417a70bf40/source2ef7d472e807940f6468f3ad3b082a5c2b35f5c4在experiments/m2-paired-ear-fixed-v1/prototype/dist，第二独立检出重建字节一致。原男女各单侧/双侧/卸下、眼镜讲话、走跑坐起/头局部随动、两实例geometry/material/状态/销毁隔离、关闭context同版side-record恢复通过。观看4174/evidence/m2-paired-ear-room-e04-v1/，2条完整1×，8张全时段2fps抽帧及近景已检查，人工连续观感仍待验。当前无耳饰人工菜单，agent共用command accessory kind=ears；旧v6未扩，完整记录合并留P5。临时验证服务已关闭，公开4196和4208未替换。
+
+独立实际审查4cd5发现none清理重入双dispose、head.childadded内dispose却继续commit；sourceowner定点修b8bbc，17作者CPU及51独立检查过，失败保留evidence/m2-paired-ear-independent-v1。生产入口paired-ear-accessory-source已成为第12流程，root验证publishedBytesMatchSource=true及6阴性，完整源/重复导出/参数变体保留。
+
+下一主包CUSTOM-E03：独立薄crew袜蒙皮层，原男女同款各fit与现鞋/裤实际覆盖，先source-only检查与制作。asset_budget已知sol/high在隔离树接续；不动runtime/冻结裙舞，不扩款式。root同时收尾已授权KTX单配置实测：07bd371可选releaseInactiveGpu，当前正在男/女v2实际重录含释放、Canvas回退及503保原。固定801原资源不改，当前不是生产压缩VRM；仍缺实际GPU占用测量/普通机。
+
+
+KTX v2男女实际运行均完成，root看完6张完整时段2fps抽帧与女性原尺寸PNG/KTX近景；实际decoder/样件SHA在package脚本复核一致。40→42→40只证当前纹理分配计数回落，非显存字节；原PNG仍下载、CPU仍保图，未生产采用。独立审查当前核Canvas已染色后第二次失败的旧状态保留问题，不能先称完整回退通过。袜层source准备继续。
+
+顾问原生消息转达用户提前建设公司场景设施基础的决定，报告已原字节归档docs/research/COMPANY-SCENE-FACILITY-FOUNDATION-SCOPE-2026-11-16.txt（acc2b922686123cc171506c4608af9de36ec6152bfbf19863559f749292adf9c）。仅派独立只读代码/最小包依赖审查；不改M2完成条件，不开M3/业务、不抢main.js或GPU。待报告在安全衔接点落实范围。
