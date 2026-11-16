@@ -49,6 +49,17 @@ const [base,build,folder]=process.argv.slice(2),out=path.resolve(folder);
   assert.equal(coverage.active,true);assert.equal(coverage.hiddenFaces,56);
   await outfit(0);assert.equal(await page.evaluate(()=>__debug.avatar().getOutfitInfo().equipment.garmentCoverage?.active??false),false);
   report.checks.push('first outer load activates exact coverage; removal restores it');
+  assert.equal((await page.evaluate(()=>__debug.command({type:'bodySelect',bodyType:'female'}))).applied,true);
+  assert.equal(await page.evaluate(()=>__debug.avatar().getOutfitInfo().equipment.skirtDynamics),null);
+  assert.equal((await outfit(1))?.applied,true);
+  report.skirtBefore=await page.evaluate(()=>({state:__debug.avatar().getOutfitInfo().equipment.skirtDynamics,meshes:__debug.avatar().getAssetProfile().meshRoles.skirt}));
+  assert(report.skirtBefore.meshes.length>0,'Lazy skirt must appear in current motion/inspection mesh roles');
+  await page.evaluate(()=>{__debug.camera('room');__debug.setSpeed(1.05);__debug.walkTo(1,1.8);});
+  await page.waitForFunction(()=>{const s=__debug.snapshot();return s.mode==='idle'&&!s.target&&!s.pending;},null,{timeout:30000});
+  report.skirtAfter=await page.evaluate(()=>__debug.avatar().getOutfitInfo().equipment.skirtDynamics);
+  assert(report.skirtAfter.revision>report.skirtBefore.state.revision);
+  assert.equal((await outfit(0))?.applied,true);
+  report.checks.push('female skirt solver is created on first selection, exposes current mesh and updates through walking; pants restore');
   assert.equal(report.errors.length,0);report.status='passed';await page.screenshot({path:path.join(out,'restored.png')});
  }catch(error){report.status='failed';report.error=String(error);process.exitCode=1;await page.screenshot({path:path.join(out,'failure.png')}).catch(()=>{});}
  finally{releasePending?.();const video=page.video();await context.close();await video.saveAs(path.join(out,'normal1x.webm'));await browser.close();await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));}
