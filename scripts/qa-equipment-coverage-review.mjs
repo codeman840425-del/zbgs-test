@@ -6,7 +6,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import * as T from '../prototype/node_modules/three/build/three.module.js';
 import {createBodyCoverageSet,completeBodyGeometry} from '../prototype/src/body-coverage.js';
-import {commitLoadedEquipmentSet} from '../prototype/src/equipment-set.js';
+import {commitLoadedEquipmentSet,prepareLoadedEquipmentSet} from '../prototype/src/equipment-set.js';
 if(!process.argv[2])throw Error('Pass a new evidence output directory');
 const out=path.resolve(process.argv[2]);await fs.mkdir(out,{recursive:false});
 const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
@@ -55,7 +55,11 @@ try{
   const catalog=Object.values(ids).map(id=>({...f.binding.entry,id,slot:id==='pants'||id==='shorts'?'bottom':id==='skirt'?'bottoms-overlay':id}));
   const loaded=new Map(catalog.map(entry=>[entry.id,{entry,meshes:[{}],container:{visible:false},stats:{}}]));
   const state={adapterDisposed:0,skirtDisposed:0,applied:0,failPrepare:false,failAdapter:false};
-  const adapter={load:async()=>{},get:id=>loaded.get(id),applyLoadedSet(selected){
+  const adapter={load:async()=>{},get:id=>loaded.get(id),prepareLoadedSet(selected){
+   if(state.failAdapter)throw Error('injected adapter validation failure');
+   const apply=prepareLoadedEquipmentSet(loaded,catalog,selected,'body');let live=true;
+   return{isCurrent:()=>live,commit(){state.applied++;live=false;return apply();},dispose(){live=false;}};
+  },applyLoadedSet(selected){
    state.applied++;if(state.failAdapter)throw Error('injected adapter validation failure');
    return commitLoadedEquipmentSet(loaded,catalog,selected,'body');
   },dispose(){state.adapterDisposed++}};

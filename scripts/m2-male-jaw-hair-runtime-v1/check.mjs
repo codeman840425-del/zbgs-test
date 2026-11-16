@@ -37,7 +37,17 @@ function fixture(body=jaw){const scene=new T.Group(),head=new T.Group();head.nam
  const a=createCharacterAppearance({vrm:{scene,humanoid:{getRawBoneNode:n=>n==='head'?head:null}},avatarSha256:body});const f={a,scene,head,hair,material,bodyMesh};instances.push(f);return f;}
 const snapshot=f=>{const s=f.a.getState();return{hairStyle:s.hairStyle,hairColor:s.hairColor,skinTone:s.skinTone,hairFit:s.hairFit,asset:s.replacementSHA256,visibility:f.hair.visible,body:f.bodyMesh.visible};};
 const check=async(name,fn)=>{await fn();tests.push({name,pass:true});};
-function controller(f,body=jaw){let geo={revision:0,mouthWidth:0,browSample:'none',noseSample:'none',eyeSample:'none',available:true,mouthRange:[-.04,.04],browAvailable:false,noseAvailable:false,eyeAvailable:false};const c={outfit:0,outfitRevision:0,command(cmd){this.outfit=cmd.value;this.outfitRevision++;},actor:{appearance:f.a,profile:{bodyType:body===jaw?'m2-male-jaw-v1':body===female?'female':'male',sha256:body},config:{outfits:[{index:0,role:'base'},{index:1,role:'outfit'}],manifestUrl:'/fixture-equipment.json'},getEquipmentRecipe:i=>[{id:'fixture-'+i,sha256:'a'.repeat(64),bindings:{head:'real-fixture'}}],facialGeometry:{getState:()=>({...geo}),async set(v){geo={...geo,...v,revision:geo.revision+1};return{applied:true};}}}};return c;}
+function controller(f,body=jaw){let geo={revision:0,mouthWidth:0,browSample:'none',noseSample:'none',eyeSample:'none',available:true,mouthRange:[-.04,.04],browAvailable:false,noseAvailable:false,eyeAvailable:false};const c={outfit:0,outfitRevision:0,command(cmd){this.outfit=cmd.value;this.outfitRevision++;},actor:{appearance:f.a,profile:{bodyType:body===jaw?'m2-male-jaw-v1':body===female?'female':'male',sha256:body},config:{outfits:[{index:0,role:'base'},{index:1,role:'outfit'}],manifestUrl:'/fixture-equipment.json'},getEquipmentRecipe:i=>[{id:'fixture-'+i,sha256:'a'.repeat(64),bindings:{head:'real-fixture'}}],facialGeometry:{getState:()=>({...geo}),async set(v){geo={...geo,...v,revision:geo.revision+1};return{applied:true};}}}};c.actor.facialGeometry.prepareUpdate=async value=>{
+ const ticket=++geo.revision;let live=true;
+ return{isCurrent:()=>live&&ticket===geo.revision,
+  commit(){assert(live&&ticket===geo.revision);geo={...geo,...value};live=false;return{applied:true};},dispose(){live=false;}};
+};
+c.prepareOutfit=value=>{
+ const revision=c.outfitRevision;let live=true;
+ return{isCurrent:()=>live&&revision===c.outfitRevision,
+  commit(){assert(live&&revision===c.outfitRevision);c.command({type:'outfit',value});live=false;},dispose(){live=false;}};
+};
+return c;}
 const oldRecord=(record,version)=>{const r=structuredClone(record);r.schema='workbench-appearance-recipe-v'+version;r.rulesVersion='workbench-appearance-rules-v'+version;delete r.hairFit;if(version<4){delete r.geometry.eyeSample;delete r.geometry.eyeRecipeSha256;}if(version<3){delete r.geometry.noseSample;delete r.geometry.noseRecipeSha256;}if(version<2){delete r.geometry.browSample;delete r.geometry.browRecipeSha256;}return r;};
 try{
  for(const entry of HAIRSTYLES){const b=await fs.readFile(path.join(root,'prototype/public',entry.manifestUrl)),m=JSON.parse(b),a=await fs.readFile(path.join(root,'prototype/public',m.url));assert.equal(sha(b),entry.manifestSha256);assert.equal(sha(a),entry.assetSha256);assert.equal(m.sha256,entry.assetSha256);assets.set(entry.id+entry.compatibleBodies[0],sha(a));let fit=null;if(entry.fit){const raw=await fs.readFile(path.join(root,'prototype/public',entry.fit.url));assert.equal(sha(raw),entry.fit.sha256);fit=JSON.parse(raw);contract.validateHairFitData(fit,entry,entry.compatibleBodies[0],m);}identities.push({entry,fit});}

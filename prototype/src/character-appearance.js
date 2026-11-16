@@ -37,6 +37,8 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
   let hairStyle = 'original', hairColor = 'original', skinTone = 'original';
   let replacement = null, generation = 0, revision = 0, disposed = false, loading = false, error = null;
   const replacements = new Map(), replacementPromises = new Map();
+  const pendingUpdates = new Set();
+  let pendingStyleRequest=0;
 
   // Mode changes visibility, never the user's selected style. Loading a cached
   // replacement while in base mode must not make it visible.
@@ -49,6 +51,7 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
     if (disposed) return { applied: false, reason: '人物已卸载' };
     if (mode !== 'base' && mode !== 'dressed') return { applied: false, reason: '未知人体模式' };
     if (mode === 'base' && !canHideHair) return { applied: false, reason: '当前身体无发基础尚未准入或缺少独立头发网格' };
+    if(bodyMode!==mode)revision++;
     bodyMode = mode; applyHairVisibility();
     return { applied: true };
   }
@@ -165,7 +168,7 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
     textures.forEach(t => t.dispose());
     return { scene: gltf.scene, materialBase, sha256: sha, hairFit: hairFitIdentity(entry) };
   }
-  async function set(input = {}) {
+  async function prepareUpdate(input = {}, {trackIntent=false}={}) {
     if (disposed) return { applied: false, reason: '人物已卸载' };
     const desiredStyle = input.reset ? 'original' : input.hairStyle ?? hairStyle;
     const desiredColor = input.reset ? 'original' : input.hairColor ?? hairColor;
@@ -178,54 +181,78 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
     try { validateHairSelection(avatarSha256,desiredStyle,input); }
     catch(e) { return {applied:false,reason:e.message}; }
     const requestRevision = ++revision;
-    // A replacement's fetched fit must pass before this request changes colors.
-    // A newer color intent wins while loading; stale style requests stay guarded
-    // by their independent generation in setStyle.
-    if (input.hairStyle !== undefined && !['original','none'].includes(desiredStyle)) {
-      const style = await setStyle(desiredStyle);
-      if (!style.applied) return style;
-      if (disposed || revision !== requestRevision) return {applied:false,cancelled:true};
-    }
-    hairColor = desiredColor; skinTone = desiredSkin; applyColors();
-    const jobs = [];
-    if (input.eyeColor !== undefined || input.lipColor !== undefined || input.reset) jobs.push(facialPalette.set(input));
-    if (input.reset || (input.hairStyle !== undefined && ['original','none'].includes(desiredStyle))) jobs.push(setStyle(desiredStyle));
-    const results = await Promise.all(jobs);
-    return results.find(result => !result.applied) || {applied:true};
-  }
-  async function setStyle(desiredStyle) {
-    const request = ++generation;
-    error = null;
-    if (desiredStyle === 'original' || desiredStyle === 'none') {
-      hairStyle = desiredStyle; replacement = null; loading = false;
-      applyHairVisibility();
-      return { applied: true };
-    }
-    loading = true;
+    const changeStyle=!trackIntent||input.reset||input.hairStyle!==undefined;
+    const styleRequest=changeStyle?++generation:generation;
+    if(changeStyle)pendingStyleRequest=0;
+    // Standalone hair/color controls retain their independent intents. A whole
+    // recipe never lends its staged hair selection to a newer color request.
+    const applyStyleIntent=()=>{
+      if(!trackIntent||!changeStyle||disposed||styleRequest!==generation)return;
+      hairStyle=desiredStyle;replacement=replacements.get(desiredStyle)||null;
+      applyColors();applyHairVisibility();
+    };
+    error=null;loading=true;
+    let paletteUpdate=null;
     try {
-      if (!replacements.has(desiredStyle)) {
+      if (!['original','none'].includes(desiredStyle)&&!replacements.has(desiredStyle)) {
         if (!replacementPromises.has(desiredStyle)) replacementPromises.set(desiredStyle, loadReplacement(admittedStyles.find(entry => entry.id === desiredStyle)).then(value => {
           if (disposed) { releaseReplacement(value); return null; }
           replacements.set(desiredStyle, value); value.scene.visible = false;
           vrm.humanoid.getRawBoneNode('head').add(value.scene);
           return value;
         }).finally(() => { replacementPromises.delete(desiredStyle); }));
-        await replacementPromises.get(desiredStyle);
+        if(trackIntent)pendingStyleRequest=styleRequest;
+        try{await replacementPromises.get(desiredStyle);}
+        finally{if(pendingStyleRequest===styleRequest)pendingStyleRequest=0;}
       }
-      if (disposed || request !== generation) return { applied: false, cancelled: true };
-      replacement = replacements.get(desiredStyle);
-      hairStyle = desiredStyle; loading = false;
-      applyColors(); applyHairVisibility();
-      return { applied: true };
+      if(disposed||revision!==requestRevision){applyStyleIntent();return{applied:false,cancelled:true};}
+      // Mask decoding and texture creation happen before any selected material
+      // or visible hair changes. Cached variants never rewrite a live texture.
+      paletteUpdate=await facialPalette.prepareUpdate(input,{trackIntent});
+      if(!paletteUpdate.commit){loading=false;return paletteUpdate;}
+      if(disposed||revision!==requestRevision){paletteUpdate.dispose();applyStyleIntent();return{applied:false,cancelled:true};}
+      if(desiredColor!=='original'){
+        for(const material of hair){const base=originals.get(material);neutralTexture(base.map);neutralTexture(base.shadeMap);}
+        for(const value of replacements.values())for(const base of value.materialBase.values()){neutralTexture(base.map);neutralTexture(base.shadeMap);}
+      }
+      let live=true;
+      const update={
+        isCurrent:()=>live&&!disposed&&revision===requestRevision&&paletteUpdate.isCurrent(),
+        applyStyleIntent,
+        commit(){
+          if(!update.isCurrent())throw Error('外观准备已过期');
+          paletteUpdate.commit();
+          if(changeStyle){hairStyle=desiredStyle;replacement=replacements.get(desiredStyle)||null;}
+          hairColor=desiredColor;skinTone=desiredSkin;applyColors();applyHairVisibility();
+          loading=false;live=false;pendingUpdates.delete(update);return{applied:true};
+        },
+        dispose(){
+          if(!live)return;live=false;pendingUpdates.delete(update);paletteUpdate.dispose();
+          if(revision===requestRevision)loading=false;
+        },
+      };
+      pendingUpdates.add(update);return update;
     } catch (e) {
-      if (disposed || request !== generation) return { applied: false, cancelled: true };
-      if (request === generation) { error = e.message; loading = false; }
+      paletteUpdate?.dispose();
+      if (disposed || revision !== requestRevision) return { applied: false, cancelled: true };
+      error = e.message; loading = false;
       return { applied: false, reason: e.message };
+    } finally {
+      if(revision===requestRevision&&!pendingUpdates.size)loading=false;
     }
   }
+  async function set(input={}){
+    const update=await prepareUpdate(input,{trackIntent:true});
+    if(!update.commit)return update;
+    try{
+      if(update.isCurrent())return update.commit();
+      update.applyStyleIntent();return{applied:false,cancelled:true};
+    }
+    finally{update.dispose();}
+  }
   return {
-    set, setBodyMode,
-    getState: () => ({ hairStyle, hairColor, skinTone, loading, error, bodyMode, revision,
+    set, prepareUpdate, setBodyMode,
+    getState: () => ({ hairStyle, hairColor, skinTone, loading:loading||pendingStyleRequest!==0, error, bodyMode, revision,
       effectiveHairStyle: bodyMode === 'base' ? 'none' : hairStyle,
       noHairAdmission: canHideHair ? { ...noHairAdmission } : null, ...facialPalette.getState(),
       availableStyles: ['original', ...(canHideHair ? ['none'] : []), ...admittedStyles.map(entry => entry.id)],
@@ -233,7 +260,9 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
       skinMaterialCount: skin.size, hairMaterialCount: hair.size, neutralTextureCount: grayTextures.size,
       hairFit: replacement ? { ...replacement.hairFit } : null, replacementSHA256: replacement?.sha256 ?? null }),
     dispose() {
-      disposed = true; generation++;
+      if(disposed)return;
+      disposed = true; generation++;revision++;loading=false;pendingStyleRequest=0;
+      for(const update of pendingUpdates)update.dispose();
       facialPalette.dispose();
       replacements.forEach(releaseReplacement); replacements.clear(); replacement = null;
       for (const [m, base] of originals) {

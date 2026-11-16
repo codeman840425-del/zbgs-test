@@ -62,6 +62,7 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender, renderC
   let visibleMouth = null, visibleMouthJob = null;
   const domainCache = {brow:new Map(),nose:new Map(),eye:new Map()};
   const domainJobs = {brow:new Map(),nose:new Map(),eye:new Map()};
+  const pendingUpdates = new Set();
   function domainConfig(domain,sample) {
     const legacy={brow:[BROW_SAMPLE,BROW_BASE_URL,.001],nose:[NOSE_SAMPLE,NOSE_BASE_URL,.0005],eye:[EYE_SAMPLE,EYE_BASE_URL,1.01]}[domain];
     if(sample===legacy[0])return{sampleId:sample,baseURL:legacy[1],endpoint:legacy[2],mouthSha:prepared?.entry.sha256,visible:false};
@@ -511,22 +512,19 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender, renderC
       if(prepareRender && activeRecords.length)await prepareRender(activeRecords.flatMap(record=>record.meshes.map(mesh=>({mesh,geometry:next.get(record.geometry)}))));
       if(disposed||request!==generation){for(const geometry of next.values())geometry.dispose();return false;}
     } catch (e) { for (const geometry of next.values()) geometry.dispose(); throw e; }
-    // No await and no change to meshes/morphTargetInfluences: VRM expression
-    // bindings continue to target the same actor and the same morph indices.
-    for (const record of records) for (const mesh of record.meshes) mesh.geometry = next.get(record.geometry) || record.renderGeometry;
-    for (const geometry of owned.values()) geometry.dispose();
-    owned = next; mouthWidth = value;browSample = brow;noseSample = nose;eyeSample = eye;return true;
+    return next;
   }
 
-  async function set(input = {}) {
+  async function prepareUpdate(input = {}, {trackIntent=false}={}) {
     if (disposed) return { applied: false, reason: '人物已卸载' };
-    const value = input.reset ? 0 : input.mouthWidth ?? wanted;
-    const brow = input.reset ? 'none' : input.browSample ?? wantedBrow;
-    const nose = input.reset ? 'none' : input.noseSample ?? wantedNose;
-    const eye = input.reset ? 'none' : input.eyeSample ?? wantedEye;
+    const value = input.reset ? 0 : input.mouthWidth ?? (trackIntent?wanted:mouthWidth);
+    const brow = input.reset ? 'none' : input.browSample ?? (trackIntent?wantedBrow:browSample);
+    const nose = input.reset ? 'none' : input.noseSample ?? (trackIntent?wantedNose:noseSample);
+    const eye = input.reset ? 'none' : input.eyeSample ?? (trackIntent?wantedEye:eyeSample);
     if(!mouthValueSupported(mouthCapability(),value))return{applied:false,reason:'嘴宽只支持当前人物已制作的连续范围或离散端点'};
     if(!samplesFor('brow',browAvailable).includes(brow)||!samplesFor('nose',noseAvailable).includes(nose)||!samplesFor('eye',eyeAvailable).includes(eye))return{applied:false,reason:'五官样件未适配当前人物'};
-    wanted = value; wantedBrow = brow; wantedNose = nose; wantedEye = eye; const request = ++generation; error = null;
+    if(trackIntent){wanted = value; wantedBrow = brow; wantedNose = nose; wantedEye = eye;}
+    const request = ++generation; error = null;
     try {
       const selected={mouth:prepared,brow:null,nose:null,eye:null};
       if (value !== 0 || brow !== 'none' || nose !== 'none' || eye !== 'none') {
@@ -549,18 +547,55 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender, renderC
         if (input.expectedEyeRecipeSha256 != null && input.expectedEyeRecipeSha256 !== selected.eye.entry.sha256) throw Error('保存配方的眼部版本不匹配');
       }
       if (disposed || request !== generation) return { applied: false, cancelled: true };
-      if (value === 0 && brow === 'none' && nose === 'none' && eye === 'none') restore(); else if ((value !== mouthWidth || brow !== browSample || nose !== noseSample || eye !== eyeSample) && !await apply(value,brow,nose,eye,request,selected))return{applied:false,cancelled:true};
-      currentMouth=selected.mouth; browPrepared=selected.brow; nosePrepared=selected.nose; eyePrepared=selected.eye;
-      loading = false; return { applied: true };
+      const reset=value===0&&brow==='none'&&nose==='none'&&eye==='none';
+      const changed=value!==mouthWidth||brow!==browSample||nose!==noseSample||eye!==eyeSample;
+      const next=!reset&&changed?await apply(value,brow,nose,eye,request,selected):null;
+      if(next===false||disposed||request!==generation){
+        for(const geometry of next?.values?.()||[])geometry.dispose();
+        return{applied:false,cancelled:true};
+      }
+      const nextOwned=reset?new Map():next,previousOwned=owned;
+      let live=true,committed=false,cleaned=false;
+      const update={
+        isCurrent:()=>live&&!disposed&&request===generation,
+        commit(){
+          if(!update.isCurrent())throw Error('五官准备已过期');
+          // Only prepared geometry pointers and final selection change here.
+          if(nextOwned){
+            for(const record of prepared?.records||[])for(const mesh of record.meshes)mesh.geometry=nextOwned.get(record.geometry)||record.renderGeometry;
+            owned=nextOwned;
+          }
+          mouthWidth=value;browSample=brow;noseSample=nose;eyeSample=eye;
+          wanted=value;wantedBrow=brow;wantedNose=nose;wantedEye=eye;
+          currentMouth=selected.mouth;browPrepared=selected.brow;nosePrepared=selected.nose;eyePrepared=selected.eye;
+          loading=false;live=false;committed=true;pendingUpdates.delete(update);
+          return{applied:true};
+        },
+        dispose(){
+          if(cleaned)return;cleaned=true;live=false;pendingUpdates.delete(update);
+          const released=committed?(nextOwned?previousOwned:null):nextOwned;
+          let failure;
+          for(const geometry of released?.values()||[])try{geometry.dispose();}catch(error){failure??=error;}
+          if(!committed&&request===generation){loading=false;wanted=mouthWidth;wantedBrow=browSample;wantedNose=noseSample;wantedEye=eyeSample;}
+          if(failure)throw failure;
+        },
+      };
+      pendingUpdates.add(update);return update;
     } catch (e) {
       if (disposed || request !== generation) return { applied: false, cancelled: true };
       error = e.message; loading = false; wanted = mouthWidth; wantedBrow = browSample; wantedNose = noseSample; wantedEye = eyeSample;
       return { applied: false, reason: error };
     }
   }
+  async function set(input={}){
+    const update=await prepareUpdate(input,{trackIntent:true});
+    if(!update.commit)return update;
+    try{return update.isCurrent()?update.commit():{applied:false,cancelled:true};}
+    finally{update.dispose();}
+  }
 
   return {
-    set,
+    set, prepareUpdate,
     getState: () => ({ mouthWidth, requestedMouthWidth: wanted, available, loading, error, revision:generation,
       mouthRange:mouthAdmission?[...mouthAdmission.range]:null,mouthSupportedValues:mouthAdmission?.supportedValues?[...mouthAdmission.supportedValues]:null,
       mouthEndpointValues:mouthAdmission?.visible?[-.12,.12]:[],browSamples:samplesFor('brow',browAvailable),noseSamples:samplesFor('nose',noseAvailable),eyeSamples:samplesFor('eye',eyeAvailable),
@@ -573,6 +608,6 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender, renderC
       recipeId: currentMouth?.entry.id || prepared?.entry.id || null, recipeSha256: currentMouth?.entry.sha256 || prepared?.entry.sha256 || null, baseAvatarSha256: avatarSha256, facialGeometryLoading: loading,
       facialGeometryError: error, facialGeometryAvailable: available, facialGeometryCloneCount: owned.size,
       geometryIdentity: { baseAvatarSha256: avatarSha256, recipeSha256: currentMouth?.entry.sha256 || prepared?.entry.sha256 || null, mouthWidth, browSample, browRecipeSha256: browPrepared?.entry.sha256 || null, noseSample, noseRecipeSha256:nosePrepared?.entry.sha256||null, eyeSample, eyeRecipeSha256:eyePrepared?.entry.sha256||null } }),
-    dispose() { disposed = true; generation++; loading = false; wanted = 0; wantedBrow = 'none'; wantedNose = 'none'; wantedEye = 'none'; restore(); },
+    dispose() { disposed = true; generation++;for(const update of pendingUpdates)update.dispose(); loading = false; wanted = 0; wantedBrow = 'none'; wantedNose = 'none'; wantedEye = 'none'; restore(); },
   };
 }

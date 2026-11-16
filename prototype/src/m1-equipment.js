@@ -57,22 +57,38 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     disposed = false;
   const item = (role) => adapter.get(IDS[role]);
   let coverage, skirtCorrective;
-  function apply(nextOutfit = outfit, nextDebugBody = debugBody) {
-    if (disposed) return;
+  let revision=0;
+  const pendingUpdates=new Set();
+  function prepareOutfit(nextOutfit = outfit, nextDebugBody = debugBody) {
+    if (disposed) throw Error('Equipment is disposed');
     // All assets are already loaded. Visibility changes are synchronous and
     // cannot arrive later over a newer user request.
     const look = outfitSelection(config, nextOutfit);
     const selected = nextDebugBody ? [IDS.shoes] : look.ids;
     const update = coverage?.prepareEquipmentSet(selected);
-    try {
-      adapter.applyLoadedSet(selected);
-      update?.commit();
-      outfit = nextOutfit;
-      lowerBodyRole = look.bottomRole;
-      debugBody = nextDebugBody;
-    } finally {
-      update?.dispose();
-    }
+    let equipmentUpdate;
+    try { equipmentUpdate=adapter.prepareLoadedSet(selected); }
+    catch(error){update?.dispose();throw error;}
+    const ticket=++revision;let live=true,cleaned=false;
+    const prepared={
+      isCurrent:()=>live&&!disposed&&ticket===revision&&equipmentUpdate.isCurrent()&&(!update||update.isCurrent()),
+      commit(){
+        if(!prepared.isCurrent())throw Error('Outfit preparation is no longer current');
+        equipmentUpdate.commit();update?.commit();
+        outfit=nextOutfit;lowerBodyRole=look.bottomRole;debugBody=nextDebugBody;
+        live=false;pendingUpdates.delete(prepared);
+      },
+      dispose(){
+        if(cleaned)return;cleaned=true;live=false;pendingUpdates.delete(prepared);
+        try{equipmentUpdate.dispose();}finally{update?.dispose();}
+      },
+    };
+    pendingUpdates.add(prepared);return prepared;
+  }
+  function apply(nextOutfit = outfit, nextDebugBody = debugBody) {
+    if(disposed)return;
+    const update=prepareOutfit(nextOutfit,nextDebugBody);
+    try{update.commit();}finally{update.dispose();}
   }
   try {
     coverage = await createBodyCoverageSet({ body, avatarSha256,
@@ -92,6 +108,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     throw error;
   }
   return {
+    prepareOutfit,
     setOutfit(value) {
       const { selection } = outfitSelection(config, value);
       apply(selection.index, debugBody);
@@ -146,6 +163,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     dispose() {
       if (disposed) return;
       disposed = true;
+      for(const update of pendingUpdates)update.dispose();
       skirtCorrective?.dispose();
       coverage?.dispose();
       adapter.dispose();

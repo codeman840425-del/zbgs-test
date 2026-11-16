@@ -132,7 +132,8 @@ export async function createBodyCoverageSet({ body, avatarSha256, bindings }) {
   }
   for (const [mesh, original] of sources) completeBodies.set(mesh, original);
   let activeIds = [], disposed = false, revision = 0;
-  const owned = new Map(), pending = new Set();
+  let owned = new Map();
+  const pending = new Set();
   function prepareEquipmentSet(ids) {
     if (disposed) throw Error("Body coverage is disposed");
     if (!Array.isArray(ids) || new Set(ids).size !== ids.length) throw Error("Invalid coverage equipment set");
@@ -157,24 +158,28 @@ export async function createBodyCoverageSet({ body, avatarSha256, bindings }) {
           geometry.addGroup(prefix[g.start/3],prefix[(g.start+g.count)/3]-prefix[g.start/3],g.materialIndex);
       }
     } catch (error) { for (const geometry of prepared.values()) geometry.dispose(); throw error; }
+    const previousOwned=owned;
+    let committed=false,cleaned=false;
     const update = {
+      isCurrent:()=>pending.has(update)&&!disposed&&preparedRevision===revision,
       commit() {
-        if (!pending.has(update) || disposed || preparedRevision !== revision)
+        if (!update.isCurrent())
           throw Error("Body coverage preparation is no longer current");
         pending.delete(update);
+        committed=true;
         if (unchanged) return;
         for (const [mesh, original] of sources) mesh.geometry = prepared.get(mesh) ?? original;
-        for (const geometry of owned.values()) geometry.dispose();
-        owned.clear();
-        for (const [mesh, geometry] of prepared) owned.set(mesh, geometry);
-        prepared.clear();
+        owned=prepared;
         activeIds = next;
         revision++;
       },
       dispose() {
-        if (!pending.delete(update)) return;
-        for (const geometry of prepared.values()) geometry.dispose();
-        prepared.clear();
+        if(cleaned)return;cleaned=true;pending.delete(update);
+        const released=committed?(unchanged?null:previousOwned):prepared;
+        let failure;
+        for(const geometry of released?.values()||[])try{geometry.dispose();}catch(error){failure??=error;}
+        released?.clear();
+        if(failure)throw failure;
       },
     };
     pending.add(update);

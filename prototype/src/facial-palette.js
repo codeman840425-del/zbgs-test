@@ -13,6 +13,7 @@ export function createFacialPalette({ vrm, avatarSha256 }) {
   let parts = null, preparation = null, disposed = false, generation = 0;
   let eyeColor = 'original', lipColor = 'original', wantedEye = eyeColor, wantedLip = lipColor;
   let loading = false, error = null;
+  const pendingUpdates = new Set();
   async function prepare() {
     if (parts) return parts;
     if (preparation) return preparation;
@@ -78,7 +79,9 @@ export function createFacialPalette({ vrm, avatarSha256 }) {
   }
   function variantTexture(part, source, hex) {
     if (!source) return null;
-    let item = part.variants.get(source);
+    let colors = part.variants.get(source);
+    if (!colors) { colors = new Map(); part.variants.set(source, colors); }
+    let item = colors.get(hex);
     if (!item) {
       if (source.image.width !== part.width || source.image.height !== part.height) throw new Error('配色阴影图尺寸不匹配');
       const canvas = document.createElement('canvas'); canvas.width = part.width; canvas.height = part.height;
@@ -86,7 +89,7 @@ export function createFacialPalette({ vrm, avatarSha256 }) {
       const pixels = context.getImageData(0, 0, canvas.width, canvas.height);
       const texture = source.clone(); texture.source = new THREE.Source(canvas);
       item = { texture, context, pixels, original: new Uint8ClampedArray(pixels.data), color: null };
-      part.variants.set(source, item);
+      colors.set(hex, item);
     }
     if (item.color !== hex) {
       const rgb = [1, 3, 5].map(start => parseInt(hex.slice(start, start + 2), 16));
@@ -104,48 +107,77 @@ export function createFacialPalette({ vrm, avatarSha256 }) {
     }
     return item.texture;
   }
-  function applyPart(name, selection, presets) {
+  function preparePart(name, selection, presets) {
     const part = parts?.[name];
-    if (!part || part.last === selection) return;
-    for (const record of part.records) {
-      record.material.map = selection === 'original' ? record.map : variantTexture(part, record.map, presets[selection]);
+    if (!part || part.last === selection) return [];
+    return part.records.map(record=>({record,
+      map:selection==='original'?record.map:variantTexture(part,record.map,presets[selection]),
+      shadeMap:selection==='original'?record.shadeMap:variantTexture(part,record.shadeMap,presets[selection]),
+    }));
+  }
+  function applyPart(name, selection, assignments) {
+    const part=parts?.[name];
+    if(!part)return;
+    for (const {record,map,shadeMap} of assignments) {
+      record.material.map = map;
       if ('shadeMultiplyTexture' in record.material)
-        record.material.shadeMultiplyTexture = selection === 'original' ? record.shadeMap : variantTexture(part, record.shadeMap, presets[selection]);
+        record.material.shadeMultiplyTexture = shadeMap;
       record.material.needsUpdate = true;
     }
     part.last = selection;
   }
-  async function set(input) {
+  async function prepareUpdate(input, {trackIntent=false}={}) {
     if (disposed) return { applied: false, reason: '人物已卸载' };
-    const nextEye = input.reset ? 'original' : input.eyeColor ?? wantedEye;
-    const nextLip = input.reset ? 'original' : input.lipColor ?? wantedLip;
+    const nextEye = input.reset ? 'original' : input.eyeColor ?? (trackIntent?wantedEye:eyeColor);
+    const nextLip = input.reset ? 'original' : input.lipColor ?? (trackIntent?wantedLip:lipColor);
     if (!(nextEye in EYE_COLORS) || !(nextLip in LIP_COLORS)) return { applied: false, reason: '未知瞳色或唇色' };
-    wantedEye = nextEye; wantedLip = nextLip;
+    if(trackIntent){wantedEye = nextEye; wantedLip = nextLip;}
     const request = ++generation; error = null;
     try {
       if (nextEye !== 'original' || nextLip !== 'original') { loading = true; await prepare(); }
       if (disposed || request !== generation) return { applied: false, cancelled: true };
-      applyPart('iris', wantedEye, EYE_COLORS); applyPart('lips', wantedLip, LIP_COLORS);
-      eyeColor = wantedEye; lipColor = wantedLip; loading = false;
-      return { applied: true };
+      const iris=preparePart('iris',nextEye,EYE_COLORS),lips=preparePart('lips',nextLip,LIP_COLORS);
+      let live=true;
+      const update={
+        isCurrent:()=>live&&!disposed&&request===generation,
+        commit(){
+          if(!update.isCurrent())throw Error('五官配色准备已过期');
+          applyPart('iris',nextEye,iris);applyPart('lips',nextLip,lips);
+          eyeColor=nextEye;lipColor=nextLip;wantedEye=nextEye;wantedLip=nextLip;loading=false;live=false;pendingUpdates.delete(update);
+          return{applied:true};
+        },
+        dispose(){
+          if(!live)return;live=false;pendingUpdates.delete(update);
+          if(request===generation){loading=false;wantedEye=eyeColor;wantedLip=lipColor;}
+        },
+      };
+      pendingUpdates.add(update);return update;
     } catch (e) {
+      if(disposed||request!==generation)return{applied:false,cancelled:true};
       if (request === generation) { error = e.message; loading = false; wantedEye = eyeColor; wantedLip = lipColor; }
       return { applied: false, reason: e.message };
     }
   }
+  async function set(input){
+    const update=await prepareUpdate(input,{trackIntent:true});
+    if(!update.commit)return update;
+    try{return update.isCurrent()?update.commit():{applied:false,cancelled:true};}
+    finally{update.dispose();}
+  }
   return {
-    set,
+    set, prepareUpdate,
     getState: () => ({ eyeColor, lipColor, facialPaletteLoading: loading, facialPaletteError: error,
-      facialTextureCount: parts ? Object.values(parts).reduce((n, p) => n + p.variants.size, 0) : 0,
+      facialTextureCount: parts ? Object.values(parts).reduce((n, p) => n + [...p.variants.values()].reduce((count,colors)=>count+colors.size,0), 0) : 0,
       facialMaskIdentity: parts ? Object.fromEntries(Object.entries(parts).map(([key, p]) => [key, p.descriptor.maskSha256])) : null }),
     dispose() {
       disposed = true; generation++;
+      for(const update of pendingUpdates)update.dispose();
       for (const part of Object.values(parts || {})) {
         for (const record of part.records) {
           record.material.map = record.map;
           if ('shadeMultiplyTexture' in record.material) record.material.shadeMultiplyTexture = record.shadeMap;
         }
-        part.variants.forEach(v => v.texture.dispose()); part.variants.clear();
+        part.variants.forEach(colors => colors.forEach(v=>v.texture.dispose())); part.variants.clear();
       }
     },
   };

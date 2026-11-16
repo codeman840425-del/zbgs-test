@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { createGarmentMaterialRecipes } from "./material-recipes.js";
-import { resolveEquipmentSet, commitLoadedEquipmentSet } from "./equipment-set.js";
+import { resolveEquipmentSet, commitLoadedEquipmentSet, prepareLoadedEquipmentSet } from "./equipment-set.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 /** Load independent garment GLBs onto a compatible existing raw skeleton.
@@ -171,6 +171,21 @@ export async function createEquipment({
     list: () => manifest.items.map(({ id, name, slot, limits }) => ({ id, name, slot, limits })),
     load,
     applyLoadedSet,
+    prepareLoadedSet(ids) {
+      if(disposed)throw Error("Equipment adapter is disposed");
+      const apply=prepareLoadedEquipmentSet(loaded,manifest.items,ids,avatarSha256);
+      const ticket=++setRevision;invalidateSlotRequests();
+      let live=true;
+      const update={
+        isCurrent:()=>live&&!disposed&&ticket===setRevision,
+        commit(){
+          if(!update.isCurrent())throw Error("Equipment preparation is no longer current");
+          live=false;return apply();
+        },
+        dispose(){live=false;},
+      };
+      return update;
+    },
     async equipSet(ids) {
       if (disposed) throw Error("Equipment adapter is disposed");
       const selected = resolveEquipmentSet(manifest.items, ids, avatarSha256);

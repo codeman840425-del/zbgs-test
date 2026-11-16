@@ -73,50 +73,55 @@ export function validateAppearanceRecipe(controller,record){
 }
 export async function applyAppearanceRecipe(controller,record){
  validateAppearanceRecipe(controller,record);
- const actor=controller.actor,before=captureAppearanceRecipe(controller);
- // Capture all edit domains before the first await: a new color request can
- // arrive while geometry is loading, before this restore starts its own color.
- let ownGeometryRevision=actor.facialGeometry.getState().revision,ownAppearanceRevision=actor.appearance.getState().revision;
- const initialOutfitRevision=controller.outfitRevision||0;
- const paletteNotice=record.paletteVersion===LEGACY_PALETTE?'旧配方已使用新版瞳色渲染，颜色选择保持不变':'';
- let outfitCommitted=false,ownOutfitRevision=initialOutfitRevision;
+ // Snapshot the requested values before awaiting resource I/O. The caller may
+ // reuse its JSON object, but it cannot change an in-flight transaction.
+ record=structuredClone(record);
+ const actor=controller.actor;
+ let geometryRevision=actor.facialGeometry.getState().revision;
+ let appearanceRevision=actor.appearance.getState().revision;
+ const outfitRevision=controller.outfitRevision||0;
+ const updates=[],cleanupErrors=[];
+ let commitStarted=false;
  const superseded=()=>controller.actor!==actor||
-  (ownGeometryRevision!==null&&actor.facialGeometry.getState().revision!==ownGeometryRevision)||
-  (ownAppearanceRevision!==null&&actor.appearance.getState().revision!==ownAppearanceRevision);
+  actor.facialGeometry.getState().revision!==geometryRevision||
+  actor.appearance.getState().revision!==appearanceRevision||
+  (controller.outfitRevision||0)!==outfitRevision;
+ const prepare=async(domain,input)=>{
+  if(superseded())return false;
+  const job=domain.prepareUpdate(input);
+  if(domain===actor.facialGeometry)geometryRevision=domain.getState().revision;
+  else appearanceRevision=domain.getState().revision;
+  const update=await job;
+  if(update.commit)updates.push(update);
+  if(update.cancelled||superseded())return false;
+  if(!update.commit)throw Error(update.reason||'造型资源准备失败');
+  return true;
+ };
  try{
-  const geometryJob=actor.facialGeometry.set({mouthWidth:record.geometry.mouthWidth,expectedRecipeSha256:record.geometry.recipeSha256,
+  if(!await prepare(actor.facialGeometry,{mouthWidth:record.geometry.mouthWidth,expectedRecipeSha256:record.geometry.recipeSha256,
    browSample:record.geometry.browSample??'none',expectedBrowRecipeSha256:record.geometry.browRecipeSha256,
    noseSample:record.geometry.noseSample??'none',expectedNoseRecipeSha256:record.geometry.noseRecipeSha256,
-   eyeSample:record.geometry.eyeSample??'none',expectedEyeRecipeSha256:record.geometry.eyeRecipeSha256});
-  ownGeometryRevision=actor.facialGeometry.getState().revision;
-  const geometry=await geometryJob;
-  if(geometry.cancelled||superseded())return{applied:false,cancelled:true};
-  if(!geometry.applied)throw Error(geometry.reason||'几何配方未应用');
-  const appearanceJob=actor.appearance.set({...record.appearance,expectedHairAssetSha256:record.hairAssetSha256,...(Object.hasOwn(record,'hairFit')?{expectedHairFit:record.hairFit}:{})});
-  ownAppearanceRevision=actor.appearance.getState().revision;
-  const appearance=await appearanceJob;
-  if(appearance.cancelled||superseded())return{applied:false,cancelled:true};
-  if(!appearance.applied)throw Error(appearance.reason||'外观配方未应用');
-  if(record.hairAssetSha256&&actor.appearance.getState().replacementSHA256!==record.hairAssetSha256)throw Error('发型资源版本已变化');
-  if((controller.outfitRevision||0)!==initialOutfitRevision)return{applied:true,notice:[paletteNotice,'较新的服装选择已保留'].filter(Boolean).join('；')};
-  try{outfitCommitted=true;controller.command({type:'outfit',value:record.equipment.index});}
-  finally{ownOutfitRevision=controller.outfitRevision||0;}
-  return paletteNotice?{applied:true,notice:paletteNotice}:{applied:true};
+   eyeSample:record.geometry.eyeSample??'none',expectedEyeRecipeSha256:record.geometry.eyeRecipeSha256}))return{applied:false,cancelled:true};
+  if(!await prepare(actor.appearance,{...record.appearance,expectedHairAssetSha256:record.hairAssetSha256,
+   ...(Object.hasOwn(record,'hairFit')?{expectedHairFit:record.hairFit}:{})}))return{applied:false,cancelled:true};
+  const outfit=controller.prepareOutfit(record.equipment.index);updates.push(outfit);
+  // Every domain checks freshness before the first visible write. Commits only
+  // switch prepared resources and state synchronously, with no resource I/O.
+  if(superseded()||updates.some(update=>!update.isCurrent()))return{applied:false,cancelled:true};
+  commitStarted=true;
+  for(const update of updates)update.commit();
  }catch(error){
+  if(commitStarted)throw Error(`造型同步提交失败：${error.message}`);
   if(superseded())return{applied:false,cancelled:true};
-  const rollbackAppearance=actor.appearance.set({...before.appearance,expectedHairAssetSha256:before.hairAssetSha256,expectedHairFit:before.hairFit}),rollbackGeometry=actor.facialGeometry.set({mouthWidth:before.geometry.mouthWidth,expectedRecipeSha256:before.geometry.recipeSha256,
-   browSample:before.geometry.browSample,expectedBrowRecipeSha256:before.geometry.browRecipeSha256,
-   noseSample:before.geometry.noseSample,expectedNoseRecipeSha256:before.geometry.noseRecipeSha256,
-   eyeSample:before.geometry.eyeSample,expectedEyeRecipeSha256:before.geometry.eyeRecipeSha256});
-  ownAppearanceRevision=actor.appearance.getState().revision;ownGeometryRevision=actor.facialGeometry.getState().revision;
-  const restored=await Promise.all([rollbackAppearance,rollbackGeometry]);
-  if(superseded()||restored.some(r=>r.cancelled))return{applied:false,cancelled:true};
-  if(outfitCommitted&&(controller.outfitRevision||0)===ownOutfitRevision){
-   try{controller.command({type:'outfit',value:before.equipment.index});}catch(e){throw Error(`恢复配方失败，服装回退未完成：${e.message}`);}
-  }
-  if(restored.some(r=>!r.applied))throw Error(`恢复配方失败，回退也未完成：${error.message}`);
   throw Error(`恢复配方失败，先前外观已保留：${error.message}`);
+ }finally{
+  for(const update of updates)try{update.dispose();}catch(error){cleanupErrors.push(error.message);}
+  if(cleanupErrors.length&&!commitStarted)throw Error(`先前外观已保留，准备资源清理失败：${cleanupErrors.join('；')}`);
  }
+ const notices=record.paletteVersion===LEGACY_PALETTE?['旧配方已使用新版瞳色渲染，颜色选择保持不变']:[];
+ if(cleanupErrors.length)notices.push(`造型已应用，旧资源清理失败：${cleanupErrors.join('；')}`);
+ try{controller.refreshOutfitSelection?.();}catch(error){notices.push(`造型已应用，服装按钮更新失败：${error.message}`);}
+ return notices.length?{applied:true,notice:notices.join('；')}:{applied:true};
 }
 
 

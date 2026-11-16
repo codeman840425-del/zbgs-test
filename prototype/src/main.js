@@ -1246,6 +1246,18 @@ class CharacterScene extends Phaser.Scene {
     this.actor.setOutfit(selection);
     this.outfitRevision=(this.outfitRevision||0)+1;
     this.outfit = selection;
+    this.refreshOutfitSelection();
+  }
+  prepareOutfit(n) {
+    const selection=Number(n),actor=this.actor,revision=this.outfitRevision||0;
+    const update=actor.prepareOutfit(selection);
+    return{
+      isCurrent:()=>this.actor===actor&&(this.outfitRevision||0)===revision&&update.isCurrent(),
+      commit:()=>{update.commit();this.outfit=selection;this.outfitRevision=revision+1;},
+      dispose:()=>update.dispose(),
+    };
+  }
+  refreshOutfitSelection() {
     if (this.isPeer) return;
     document
       .querySelectorAll("[data-outfit]")

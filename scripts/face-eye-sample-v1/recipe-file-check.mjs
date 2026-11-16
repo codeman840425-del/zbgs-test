@@ -8,6 +8,7 @@ import * as THREE from '../../prototype/node_modules/three/build/three.module.js
 import {createFacialGeometry} from '../../prototype/src/facial-geometry.js';
 import {captureAppearanceRecipe,applyAppearanceRecipe,validateAppearanceRecipe,appearanceDraftKey,exportAppearanceRecipe,importAppearanceRecipe,readAppearanceRecipeFile,parseAppearanceRecipeText,APPEARANCE_RECIPE_MAX_BYTES} from '../../prototype/src/appearance-recipe.js';
 import {foundationProfile} from '../../prototype/src/foundation-profiles.js';
+import {outfitSelection} from '../../prototype/src/outfit-selection.js';
 const dir=path.dirname(fileURLToPath(import.meta.url)),root=path.resolve(dir,'../..');
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
 globalThis.fetch=async url=>new Response(fs.readFileSync(path.join(root,'prototype/public',String(url).slice(1))));
@@ -40,18 +41,27 @@ function controllerFixture(){
  const source=glb(path.join(root,'prototype/public/assets/foundation/base-male-roundtrip.vrm')),f=fixture(source);
  const config=foundationProfile('male'),manifest=JSON.parse(fs.readFileSync(path.join(root,'prototype/public',config.manifestUrl)));
  const surfaces={equipment:new Map(manifest.items.map(entry=>[entry.id,{entry}]))};
- const getEquipmentRecipe=vm.runInNewContext('('+getter+')',{config,surfaces,structuredClone});
+ const getEquipmentRecipe=vm.runInNewContext('('+getter+')',{config,surfaces,structuredClone,outfitSelection});
  let appearance={hairStyle:'original',hairColor:'original',skinTone:'original',eyeColor:'original',lipColor:'original'},revision=0;
  let appearanceGate=null,geometryGate=null,failAppearance=0,outfitFailures=0;const calls=[];
  const actor={config,profile:{bodyType:'male',sha256:source.sha},getEquipmentRecipe,
-  appearance:{getState:()=>({...appearance,availableStyles:['original','none'],replacementSHA256:null,revision}),async set(value){
+  appearance:{getState:()=>({...appearance,availableStyles:['original','none'],replacementSHA256:null,hairFit:null,revision}),async prepareUpdate(value){
    const ticket=++revision;calls.push(['appearance',value]);if(failAppearance){failAppearance--;return{applied:false,reason:'injected color failure'};}
    const gate=appearanceGate;appearanceGate=null;if(gate){gate.enter();await gate.promise;}
-   if(ticket!==revision)return{applied:false,cancelled:true};appearance={...appearance,...value};return{applied:true};
+   if(ticket!==revision)return{applied:false,cancelled:true};let live=true;
+   return{isCurrent:()=>live&&ticket===revision,
+    commit(){assert(live&&ticket===revision);appearance={...appearance,...value};live=false;return{applied:true};},dispose(){live=false;}};
   }},facialGeometry:createFacialGeometry({vrm:f.vrm,avatarSha256:source.sha,prepareRender:async()=>{
    const gate=geometryGate;geometryGate=null;if(gate){gate.enter();await gate.promise;}
   }})};
+ actor.appearance.set=async value=>{const update=await actor.appearance.prepareUpdate(value);if(!update.commit)return update;try{return update.commit();}finally{update.dispose();}};
  const controller={actor,outfit:0,outfitRevision:0,command(cmd){assert.equal(cmd.type,'outfit');this.outfitRevision++;this.outfit=cmd.value;calls.push(['outfit',cmd.value]);if(outfitFailures){outfitFailures--;throw Error('injected outfit UI failure');}}};
+ controller.prepareOutfit=value=>{
+  if(outfitFailures){outfitFailures--;throw Error('injected outfit allocation failure');}
+  const revision=controller.outfitRevision;let live=true;
+  return{isCurrent:()=>live&&revision===controller.outfitRevision,
+   commit(){controller.command({type:'outfit',value});live=false;},dispose(){live=false;}};
+ };
  const delay=domain=>{let release,enter;const promise=new Promise(r=>release=r),started=new Promise(r=>enter=r);const gate={promise,enter};if(domain==='appearance')appearanceGate=gate;else geometryGate=gate;return{release,started};};
  return{f,actor,controller,calls,delay,failColor:()=>failAppearance++,failOutfit:()=>outfitFailures++};
 }
@@ -103,10 +113,10 @@ for(const change of['geometry','appearance','outfit','actor','dispose'])await ch
  const before=captureAppearanceRecipe(fresh.controller);release(textA);assert.equal((await pending).cancelled,true);
  assert.deepEqual(captureAppearanceRecipe(fresh.controller),before);fresh.actor.facialGeometry.dispose();other.actor.facialGeometry.dispose();
 });
-await check('concurrent-import-explicitly-rejected-while-loading',async()=>{
+await check('concurrent-import-keeps-only-latest-whole-request',async()=>{
  const fresh=controllerFixture(),gate=fresh.delay('geometry'),pending=importAppearanceRecipe(fresh.controller,textA);await gate.started;
- await assert.rejects(importAppearanceRecipe(fresh.controller,textB),/等待外观加载/);gate.release();
- assert.equal((await pending).applied,true);assert.equal(JSON.stringify(captureAppearanceRecipe(fresh.controller)),JSON.stringify(recordA));fresh.actor.facialGeometry.dispose();
+ assert((await importAppearanceRecipe(fresh.controller,textB)).applied);gate.release();
+ assert.equal((await pending).cancelled,true);assert.equal(JSON.stringify(captureAppearanceRecipe(fresh.controller)),JSON.stringify(recordB));fresh.actor.facialGeometry.dispose();
 });
 await check('newer-color-during-import-is-not-rolled-back',async()=>{
  const fresh=controllerFixture(),gate=fresh.delay('geometry'),pending=importAppearanceRecipe(fresh.controller,textA);await gate.started;

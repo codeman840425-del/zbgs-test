@@ -40,12 +40,18 @@ export function resolveEquipmentSet(entries, ids, avatarSha256) {
   return selected;
 }
 
-export function commitLoadedEquipmentSet(loaded, entries, ids, avatarSha256) {
+export function prepareLoadedEquipmentSet(loaded, entries, ids, avatarSha256) {
   const selected = resolveEquipmentSet(entries, ids, avatarSha256);
   for (const entry of selected) {
     if (!loaded.has(entry.id)) throw Error(`Equipment not loaded: ${entry.id}`);
   }
   const visible = new Set(selected.map(entry => entry.id));
-  for (const [id, item] of loaded) item.container.visible = visible.has(id);
-  return selected.map(entry => ({ id: entry.id, sha256: entry.sha256, slot: entry.slot }));
+  const result=selected.map(entry => ({ id: entry.id, sha256: entry.sha256, slot: entry.slot }));
+  return()=>{
+    for (const [id, item] of loaded) item.container.visible = visible.has(id);
+    return result;
+  };
+}
+export function commitLoadedEquipmentSet(loaded, entries, ids, avatarSha256) {
+  return prepareLoadedEquipmentSet(loaded,entries,ids,avatarSha256)();
 }

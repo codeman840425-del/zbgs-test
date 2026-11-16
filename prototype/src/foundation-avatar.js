@@ -277,6 +277,17 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
       outfit = equipment.getInfo().outfit;
       lowerBodyRole = outfitSelection(config, outfit).bottomRole;
     },
+    prepareOutfit: (n) => {
+      const {bottomRole}=outfitSelection(config,n);
+      const update=equipment.prepareOutfit(n);
+      return{
+        isCurrent:()=>update.isCurrent(),
+        commit:()=>{
+          update.commit();outfit=n;lowerBodyRole=bottomRole;
+        },
+        dispose:()=>update.dispose(),
+      };
+    },
     setDebugBody,
     setDynamics: (value) => {
       dynamics = Boolean(value);

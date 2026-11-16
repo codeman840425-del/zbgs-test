@@ -1,0 +1,75 @@
+{
+  "scope": "Same-base v1-v6 whole appearance recipes. Actual male VRM, face recipes, hair GLB/fit and M1 equipment/binds. CPU texture decoding, canvas pixel data and controller UI are fixtures. Browser/GPU validation is pending root integration.",
+  "baseCommit": "a74090f1ed704a6c5b2eea3122b3e6fe5f44cd93",
+  "requestedDispatch": {
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "high",
+    "difficulty": "complex",
+    "desktopHookVerified": false
+  },
+  "baseline": {
+    "during": {
+      "face": 0.04,
+      "hair": "original",
+      "outfit": 0
+    },
+    "result": {
+      "applied": true
+    }
+  },
+  "cpuCases": [
+    "actual delayed hair preparation retains complete prior look",
+    "standalone pending hair and newer color retain both intents",
+    "prepared palette color cannot rewrite an already visible cached texture",
+    "uncommitted whole palette intent cannot leak into newer hair-only selection",
+    "hair actual preparation failure preserves old look and releases staged face",
+    "palette actual preparation failure preserves old look and releases staged face",
+    "equipment preparation failure cannot expose staged face or hair",
+    "newer color cancels old whole request without overwriting its choice",
+    "newer geometry cancels old whole request without overwriting its choice",
+    "newer outfit cancels old whole request without overwriting its choice",
+    "newer recipe cancels old whole request without overwriting its choice",
+    "newer actor cancels old whole request without overwriting its choice",
+    "newer dispose cancels old whole request without overwriting its choice",
+    "prepared face owns clones until commit or explicit cancellation",
+    "caller mutation cannot change in-flight recipe",
+    "button refresh failure reports committed result",
+    "new color between prepare continuations cannot be adopted as old request revision",
+    "old geometry dispose event runs after complete commit and cleanup failure is reported"
+  ],
+  "regressions": {
+    "hairFitAndV1ToV6": 39,
+    "recipeFile": 17,
+    "faceShadowPreparation": 13,
+    "coverageLifecycle": 6,
+    "coverageSets": 2,
+    "equipmentRace": 2,
+    "equipmentSingleContract": "passed"
+  },
+  "build": "npm run build passed; root must build the exact integrated commit for browser evidence",
+  "cacheOwnership": "Prepared face/coverage geometry is released on cancellation. Committed old geometry is released after all domains commit. Hidden hair and per-source/per-preset palette caches are finite and released on actor disposal.",
+  "knownLegacyCheck": "m2-male-jaw-mouth-runtime-check.mjs fails on baseline a74090f and candidate before recipe cases because its first primitive is unchanged and has no morph normals. This is preserved as a pre-existing fixture limitation. Modern v1-v6 hair/file regressions pass.",
+  "commands": [
+    "node scripts/qa-whole-look-transaction.mjs <new-output-dir>",
+    "node scripts/m2-male-jaw-hair-runtime-v1/check.mjs <new-output-dir>",
+    "node scripts/face-eye-sample-v1/recipe-file-check.mjs --out <new-output-dir>",
+    "node scripts/qa-face-shadow-preparation.mjs <new-output-dir>",
+    "node scripts/qa-equipment-coverage-review.mjs <new-output-dir>"
+  ],
+  "sourceSha256": {
+    "prototype/src/appearance-recipe.js": "9b3c67ecf178bbaa7f334ac0623354d1dc8d1c7e45fe3f8a9a0e22baeae48fe6",
+    "prototype/src/body-coverage.js": "f0a6801743a12ef13ca5a018bf99e607cfcb91c12188feada6d6b05c4f2f63f4",
+    "prototype/src/character-appearance.js": "7670de0ad70d795c28311c68f9c1edef819e163fa7cec6d0bb432b6666c58765",
+    "prototype/src/equipment-set.js": "e20ee25b6113926b3fa13f7cf01519a6fc98060cd27e8fe7cb6552f19899733f",
+    "prototype/src/equipment.js": "9b1db06932c9aecc916ef99c0d484ed19ce07deefdab6d4736d34d88f875bcc8",
+    "prototype/src/facial-geometry.js": "9ac5300b602434e4316835b188bec7b57147c7fe29313903740dba5d1d5ab2a6",
+    "prototype/src/facial-palette.js": "8a5540b1f96e49d1fe1ce78596fc472b3472250db9f7ca685406be2c6e24d09c",
+    "prototype/src/foundation-avatar.js": "31a8237d90362702a1140b36bc941849e9016def2aa58ac131ba75cdbc8bf215",
+    "prototype/src/m1-equipment.js": "8e08a799885a1dcde1e7b2ae56341d062e1c82555fb109aa1b2df76800bba476",
+    "prototype/src/main.js": "fdfa1720212d9c712a1c0e0839cd7eeb96bbf76c240de901723f047d9dd0f8da",
+    "scripts/face-eye-sample-v1/recipe-file-check.mjs": "b521b43d06dccc579dc8164c758e67c0cf6233b8b335076e2649137dae079795",
+    "scripts/m2-male-jaw-hair-runtime-v1/check.mjs": "c76b2c92982f75179d6c3d0af4cd38fb856cdfedb48904dd202c5dd05fc37e4a",
+    "scripts/qa-equipment-coverage-review.mjs": "ba8774732824808d0332c27e71fbfddd13632002a12214d86166d20cea3882fc",
+    "scripts/qa-whole-look-transaction.mjs": "26a7e0b9de73c6a5d0766b4bda6299316ac547795666dbe77399702094bba14e"
+  }
+}
