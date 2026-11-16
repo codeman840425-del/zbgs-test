@@ -1,0 +1,140 @@
+{
+  "schema": "representative-head-cage-independent-audit-v1",
+  "status": "reviewed-precision-boundary-uncertain-original-strict-failure-retained",
+  "commit": "2ff35cd0548da3f9b67be1f699aa361e508141e8",
+  "sourceTree": "F:/gamemake-representative-head-cage",
+  "pinnedPreflightSHA256": "da45d4f1fb6d3e5222de827de659ba53bb5be6c212f7783bad16927b0c98eab9",
+  "pinnedPairDiagnosisSHA256": "39a75b618693c6732e2270a5291d4c2e11072e3b121269f8e15b510729c3b628",
+  "inventoryGitBlobAndDiskExact": 30,
+  "conclusion": "mouth47/skin1007应归为precision-boundary-uncertain。源中已有inclusive极短相交，modifier浮点扰动使其跨过旧strict边界排除阈值。原preflight失败、原pair及其数值全部保留，尚无生产或游戏准入。",
+  "pairIdentity": {
+    "sourceAvatarSHA256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+    "mouthIndices": [
+      150,
+      154,
+      155
+    ],
+    "skinIndices": [
+      1375,
+      1370,
+      1372
+    ],
+    "sourceTarget": 0,
+    "binding": [
+      {
+        "binds": [
+          {
+            "index": 0,
+            "mesh": 1,
+            "weight": 100.0
+          }
+        ],
+        "isBinary": false,
+        "materialValues": [],
+        "name": "Neutral",
+        "presetName": "neutral"
+      }
+    ],
+    "sourceWeights": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ]
+  },
+  "independentResults": {
+    "sourceRestStrictPairCount": 0,
+    "sourceTarget0StrictPairCount": 22,
+    "sourceAndAnalyticInclusiveSegmentLengthM": 2.2720848876416398e-11,
+    "actualModifierInclusiveSegmentLengthM": 1.8193026337428122e-09,
+    "sourceAndModifierRepresentedTriangleMinimumDistanceM": 0,
+    "analyticFloat32TriangleMinimumDistanceM": 6.183536252540944e-11,
+    "actualSixPointMaxErrorAgainstAnalyticPerAxisM": [
+      1.0160263627830013e-08,
+      0.0,
+      0.0
+    ],
+    "actualSixPointMaximumDifferentialResidualM": 3.434251993894577e-09,
+    "float32ULPAtIntersectionPerAxisM": [
+      2.3283064365386963e-10,
+      1.1920928955078125e-07,
+      7.450580596923828e-09
+    ],
+    "halfULPBoxEuclideanRadiusM": 5.972106009721756e-08,
+    "coordinateFact": "actualModifier六点已等于其float32往返表示。把这些值提升为float64不能恢复modifier中丢失的精度。解析float64统一3mm平移保留原几何，重新量化为float32后本pair变为极小间距。",
+    "predicateFact": "原segment_hits使用abs(det)>1e-12 m^3，u/v/t及1-u-v/1-t的dimensionless排除带为1e-7。本对det约7.45e-8及1.25e-7 m^3，触发变化来自边界barycentric门。源边界余量约5.575e-9/3.329e-9，actual约4.464e-7/2.666e-7。原门对应本三角的边内距离约0.31–0.68nm，具有尺寸依赖。",
+    "ulpInterpretation": "1.819nm交段小于y/z方向ULP，但大于x方向ULP。单拿最大ULP与交段长度比较不足以作安全结论。该pair已有源inclusive接触，且3.434nm相对顶点扰动超过该交段长度，支持边界不确定分类。"
+  },
+  "bodyAndBoundary": {
+    "bodyOnlyRequests": 8,
+    "bodyOnlyMaximumComponentErrorM": 0,
+    "distalMaximumDisplacementM": 0,
+    "bodyFactorBasis": "独立导入body_displacement并对实际原男女全部base/morph端点逐组比较原v2 Mapper.field在s=self.source之前的语句。保完整原参数，未调用face_curve，未用face参数置零来假关闭旧投影。",
+    "eyesAndHair": "实际全端点float32眼/睫线与HAIR锚点的head权重为零，失败六点权重均为1。独立支持核使用实际Head.weights函数与SciPy最近点距离，验证饱和/零权重区域。mathutils KDTree逐bit及实际modifier位移未独立重跑。",
+    "neck": "neck_start到neck_end使用smoothstep空间过渡，起始以下权重为零。保存的±10微米实际modifier边界探针最大位移9.313e-10m。该位置证据支持局部颈部边界，尚无整个场全局C1或所有过渡三角安全证明。",
+    "outsideHead": "对实际引用Body_SKIN顶点，|x-head.x|>.15m且head权重大于零的数量为0。宽cage bbox含共享POSITION数组点，本身不能证明肩部已被移动。",
+    "fieldLimit": "空间权重在输入探针位置重算，较固定vertex mask具有明确空间导数意义。最近锚点身份切换处的全局光滑性、各混合表情以及后续实际目标仍需对应证据。",
+    "details": "body-boundary-probe.json"
+  },
+  "robustCriterionProposal": [
+    {
+      "step": "保留两套事实",
+      "definition": "保存旧strict结果和exact/adaptive inclusive表示坐标拓扑。沿源primitive/triangle/target身份比较，记录既有边界接触。已有inclusive源pair跨strict阈值时标注strict-boundary-crossing。旧失败不删除、不改阈值。"
+    },
+    {
+      "step": "建立有单位的误差预算",
+      "definition": "按每个实际坐标的float32 ulp计算输入/输出量化cell，保各轴差异。加入modifier相对误差的有依据界及谓词求值误差。共同刚体平移误差不应充作相对形状变化。样本观察到的最大误差只作经验量，缺乏保守界时保unknown。"
+    },
+    {
+      "step": "局部化与稳健谓词",
+      "definition": "用局部中心化float64及自适应/精确orientation求符号，显式处理退化/共面。将空间误差通过投影和三角实际altitude/condition转换到barycentric区间，取代把固定无量纲epsilon调大。det容差需与边长三次尺度及运算误差相容。"
+    },
+    {
+      "step": "resolved interior intersection",
+      "definition": "要求相交见证的平面侧别、有限三角内部距离和重叠段在误差区间内均保持。判新增还要求源为有稳健分离见证或清楚的源兼容基线。仅支持平面毫米级straddle不够，交点可能在有限三角外或边界内。"
+    },
+    {
+      "step": "boundary-uncertain",
+      "definition": "符号/edge距离区间含零、源已处边界接触，或重叠只在误差带内可改变拓扑时保boundary-uncertain，记录所有pair和有单位测量。该状态不能写成resolved-new-intersection、已分离或已安全。"
+    },
+    {
+      "step": "separated",
+      "definition": "仅在三角距离/分离平面区间下界超过相应两侧误差预算时给稳健分离结论。薄开放表面的三角距离与交段不直接提供体积穿透深度。"
+    }
+  ],
+  "diagnosticContinuation": {
+    "recommendation": "可在root明确安排后，把本项带着原strict失败状态进入一次离线诊断候选生成，以量实际八请求的形状响应和其他实质缺陷。",
+    "currentBehavior": "当前原批次入口继续要求preflight-passed，因此仍会拒绝此失败回执。本审查未运行批次，也未修改入口或producer。",
+    "requiredSeparation": "诊断输出保diagnosticOnly/runtimeAccepted=false及未解决pair，沿全部原八参数、det>0.12、绑定/眼发/手脚和衣物身份门保数据。形状请求与achieved横截面/颏值应真实回读。",
+    "gameAdmission": "边界分类或诊断生成不授予游戏准入。完整表达/动作/适配与视觉证据仍待后续。"
+  },
+  "scopeLimits": [
+    "本审查没有调用Blender、浏览器或GPU。实际modifier六点来自固定诊断JSON，已对真实源GLB和索引/目标身份核接。该诊断是同3mm条件的保存readback，独立审查没有重演完整modifier状态。",
+    "严格source rest/target0计数独立重算，probe全局23对是作者readback。具体失败pair的六点、strict边界、精确inclusive交段、距离和float32表示独立复算。",
+    "body-only精确等价与head前置identity/边界响应不等于脸型achieved。八请求shapeBatchStarted=false，实际新形状、全表达端点碰撞、混合表情、装备或动作尚未通过。"
+  ],
+  "evidence": [
+    {
+      "path": "F:\\gamemake\\evidence\\m2-head-cage-preflight-audit-v1\\pair-probe.json",
+      "sha256": "af36088ae74022fa6de0c0bc9208b94b9f5430a9cd0194b34cb63acf40d5735a"
+    },
+    {
+      "path": "F:\\gamemake\\evidence\\m2-head-cage-preflight-audit-v1\\body-boundary-probe.json",
+      "sha256": "c7a07c8b404651ffc241783a1ed67131c63864b8d2d93d6ec16c0254a6fa8bf5"
+    },
+    {
+      "path": "F:\\gamemake\\evidence\\m2-head-cage-preflight-audit-v1\\pin-check.json",
+      "sha256": "16c395f56f231a11afd6cda0fb4fd1a622757211ff21c1a11a7902b7ba3cddb1"
+    },
+    {
+      "path": "F:\\gamemake\\evidence\\m2-head-cage-preflight-audit-v1\\probe-pair.py",
+      "sha256": "1990c36eca4809282ffdb9b388ae01fc3f5d084c97c743998a91534d49d1118c"
+    },
+    {
+      "path": "F:\\gamemake\\evidence\\m2-head-cage-preflight-audit-v1\\probe-body-boundary.py",
+      "sha256": "7dd6f29cbb5b6365faa5aa86ff9ad2e8864605ab2c82aadbae1e3f1f4e9b585c"
+    }
+  ]
+}

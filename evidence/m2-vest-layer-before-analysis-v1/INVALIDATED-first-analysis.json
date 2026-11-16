@@ -1,0 +1,11 @@
+{
+  "status": "INVALIDATED",
+  "reason": "Initial analysis used source rest -Z as actor-root-local front. Actual rotateVRM0 child scene reverses X/Z. It measured the wrong front envelope. Capture world coordinates remain valid.",
+  "evidence": {
+    "sourceRestExampleTopZ": -0.11109690368175507,
+    "firstSampleActorLocalExampleTopZ": 0.11972239274392282,
+    "runtimeCall": "prototype/src/foundation-avatar.js VRMUtils.rotateVRM0(vrm), followed by root.add(vrm.scene)"
+  },
+  "correctedOutput": "corrected-positive-z-v2/report.json",
+  "archivedReportSha256": "28421bf0813d23615298729ff8440a587ac7b18d1464ec6c01c3aacd08da0eb8"
+}
