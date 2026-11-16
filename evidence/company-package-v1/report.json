@@ -1,0 +1,117 @@
+{
+  "status": "passed",
+  "configuration": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "reuseKnownConfiguration": true,
+    "difficulty": "complex",
+    "reason": "Complete fixed-identity handoff, safe file boundaries and detached continued editing",
+    "actualProviderConfiguration": "not independently verified",
+    "desktopHookInterception": "not independently verified"
+  },
+  "runDirectory": "F:\\gamemake-company-platform-c1\\evidence\\company-package-v1\\run-0WzJux",
+  "packageToolSha256": "fe95058344aeaa627a5b8d64679cd9635bb542cd47f47325c430795e8495e07e",
+  "checks": [
+    {
+      "name": "Earlier requested production identity is checked against the actual current dist and source",
+      "passed": true,
+      "observed": {
+        "requestedBuild": "81060c5d434c",
+        "actualDistBuild": "d372885f8ef0",
+        "code": "package-build-mismatch",
+        "message": "Fixed dist identity does not match the requested build"
+      }
+    },
+    {
+      "name": "Real isolated CPU Vite build produces a complete two-floor handoff with template v2",
+      "passed": true,
+      "observed": {
+        "buildId": "2a319b1e9de7",
+        "files": 79,
+        "floors": [
+          "package-two-floors/floor-1",
+          "package-two-floors/floor-2"
+        ],
+        "assetVersions": [
+          "lounge-sofa@1",
+          "lounge-sofa@2",
+          "timber-sofa@1"
+        ],
+        "purpose": "Actual minimal CPU fixture build only, not a production company-viewer acceptance"
+      }
+    },
+    {
+      "name": "Every copied file and fixed runtime byte matches its actual recorded SHA",
+      "passed": true,
+      "observed": {
+        "hashedFiles": 79,
+        "producerSourceReferences": 7
+      }
+    },
+    {
+      "name": "Detached handoff validates and edits complete saves without original project modules",
+      "passed": true,
+      "observed": {
+        "standaloneValidation": {
+          "ok": true,
+          "id": "package-two-floors",
+          "revision": 3,
+          "floors": [
+            "package-two-floors/floor-1",
+            "package-two-floors/floor-2"
+          ]
+        },
+        "continuedFloors": 2,
+        "retainedTemplateVersion": 2
+      }
+    },
+    {
+      "name": "Existing output is refused and every valid existing byte remains unchanged",
+      "passed": true
+    },
+    {
+      "name": "Changed fixed source bytes refuse publication",
+      "passed": true
+    },
+    {
+      "name": "Missing GLB on a nonselected visible floor is still rejected",
+      "passed": true
+    },
+    {
+      "name": "Missing source GLB identifies the exact absent manifest path",
+      "passed": true
+    },
+    {
+      "name": "Tampered pinned source parameters or generator cannot masquerade as editable provenance",
+      "passed": true
+    },
+    {
+      "name": "Manifest path traversal rejects before source reads or output publication",
+      "passed": true
+    },
+    {
+      "name": "A junction dist input is refused without reading through it",
+      "passed": true
+    },
+    {
+      "name": "An unrelated runtime asset cannot enter the handoff",
+      "passed": true
+    },
+    {
+      "name": "Wrong saved dependency content pin refuses publication",
+      "passed": true
+    },
+    {
+      "name": "Complete original batch-result files are retained and hash-checked",
+      "passed": true,
+      "observed": {
+        "retainedOriginalFiles": 4
+      }
+    }
+  ],
+  "limits": [
+    "The positive package is an actual isolated Vite build of a minimal CPU viewer fixture. Current production identity is recorded separately without relabeling dist files.",
+    "No browser/GPU run or fresh npm ci was performed. Existing installed libraries supplied only the CPU fixture build; no node_modules are packaged.",
+    "Production fixed source rebuild equivalence and detached real browser acceptance remain root-owned steps."
+  ]
+}

@@ -1,0 +1,288 @@
+{
+  "status": "cpu-explicit-upgrade-passed",
+  "generatedAt": "2026-11-16T18:37:04.202Z",
+  "inputHashes": {
+    "prototype/src/company/upgrade.js": "06c85a5ab9e3e84b5481a3552682461af4c7c9a1e5f7371c040967d31bc1191c",
+    "prototype/src/company/templates.json": "c5d7e3c573df6b8f88c54c553f02dba3db96ae76c9c2bb8e677e2a67cb0dfa53",
+    "prototype/src/company/templates-extended.json": "58158412ae0451f4b39d26d621743f67749461c818e844517c7eeb25276c727e",
+    "prototype/src/company/library-catalog.json": "ff2b1ad7f2b8284cd11d28fb20f242fd1afc1768e6ec0e8ef5c9d4823b927378",
+    "prototype/src/company/document.js": "d2019429d7e13250d8bbec823c1aa8e7f5c4aa7680c2a1651b1227909792254d",
+    "prototype/src/company/placement.js": "06b8d2c050285dc95ce5d650b6296c19869af999c3f27e089b005cabdbb0c7cf",
+    "prototype/src/company/persistence.js": "ce81dfba9e3bedec435b10173cf8989db4ee5006b0810cc4d74a25f1963c998c",
+    "prototype/src/company/examples/c1-two-stations.json": "989bf2c7f4421180dba45c917c110b8cac2114537d1a0f9920dab1f7b7dbee53",
+    "scripts/company-platform/qa-upgrade.mjs": "666d38e2dc0a10158aeaed20c10ad487ab41bf21bf9ef876cc6b015f1168ebc6"
+  },
+  "inputHashesUnchangedAtEnd": true,
+  "checks": [
+    {
+      "name": "new exact template version preserves every existing entry and old save defaults",
+      "status": "passed",
+      "observed": {
+        "oldSaveSha256": "45cf34bb37c005ca84c8e60eafe599f8113244695886ea3b2c031c0a074d8b0a",
+        "oldEntryBytePrefixRetained": true,
+        "targetDefaultDeskZ": -1.05
+      }
+    },
+    {
+      "name": "explicit default migration updates only one station and round-trips the new pinned save",
+      "status": "passed",
+      "observed": {
+        "saveSha256": "4c2a35aac0fc9107ed9a2c71f4d27155cef85156bc3803a0a230bdcaf467a761",
+        "changes": [
+          {
+            "type": "template",
+            "instanceId": "station-1",
+            "from": {
+              "id": "stream-station",
+              "version": 1
+            },
+            "to": {
+              "id": "stream-station",
+              "version": 2
+            }
+          },
+          {
+            "type": "updated-part",
+            "partKey": "desk",
+            "instanceId": "station-1/desk",
+            "field": "transform",
+            "from": {
+              "position": [
+                0,
+                0,
+                -0.9
+              ],
+              "yaw": 0
+            },
+            "to": {
+              "position": [
+                0,
+                0,
+                -1.05
+              ],
+              "yaw": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "opaque facility IDs and compatible transform, explicit state and real material-slot overrides survive",
+      "status": "passed",
+      "observed": {
+        "retainedOverrides": [
+          {
+            "partKey": "desk",
+            "instanceId": "opaque-desk-identity-42",
+            "field": "transform",
+            "value": {
+              "position": [
+                0.05,
+                0,
+                -0.97
+              ],
+              "yaw": 0
+            }
+          },
+          {
+            "partKey": "monitor",
+            "instanceId": "station-1/monitor",
+            "field": "state.on",
+            "value": false
+          },
+          {
+            "partKey": "chair",
+            "instanceId": "station-1/chair",
+            "field": "appearance",
+            "value": {
+              "materials": {
+                "chair-seat": {
+                  "color": "#764b94",
+                  "roughness": 0.65
+                }
+              }
+            }
+          },
+          {
+            "partKey": "fill-light",
+            "instanceId": "station-1/fill-light",
+            "field": "state.on",
+            "value": true
+          },
+          {
+            "partKey": "fill-light",
+            "instanceId": "station-1/fill-light",
+            "field": "state.intensity",
+            "value": 2
+          }
+        ],
+        "declaredChairSlot": [
+          "chair-seat"
+        ]
+      }
+    },
+    {
+      "name": "real sofa asset resource override and fabric appearance remain compatible across a template migration",
+      "status": "passed",
+      "observed": {
+        "resource": {
+          "id": "lounge-sofa",
+          "version": 2
+        },
+        "fabricSlotNodes": [
+          "seat-left",
+          "seat-right",
+          "back-left",
+          "back-right",
+          "arm-left",
+          "arm-right"
+        ]
+      }
+    },
+    {
+      "name": "removed default parts can be deleted while local transforms, state, appearance and custom children refuse deletion",
+      "status": "passed",
+      "observed": [
+        {
+          "code": "template-upgrade-conflict",
+          "path": "station-1.parts.fill-light.state.on",
+          "message": "template-upgrade-conflict at station-1.parts.fill-light.state.on: Removing this part would discard a local override",
+          "details": {}
+        },
+        {
+          "code": "template-upgrade-conflict",
+          "path": "station-1.parts.fill-light.transform",
+          "message": "template-upgrade-conflict at station-1.parts.fill-light.transform: Removing this part would discard a local override",
+          "details": {}
+        },
+        {
+          "code": "template-upgrade-conflict",
+          "path": "station-1.parts.chair.appearance",
+          "message": "template-upgrade-conflict at station-1.parts.chair.appearance: Removing this part would discard a local override",
+          "details": {}
+        },
+        {
+          "code": "template-upgrade-conflict",
+          "path": "station-1.parts.desk.children",
+          "message": "template-upgrade-conflict at station-1.parts.desk.children: Removing this part would discard a custom child dependency",
+          "details": {
+            "childId": "custom-child"
+          }
+        }
+      ]
+    },
+    {
+      "name": "new defaults can reattach to a new part with collision-free ID while relative overrides refuse changed parent frames",
+      "status": "passed",
+      "observed": {
+        "addedId": "solo/side-desk-1",
+        "retainedMonitorId": "solo/monitor",
+        "failure": {
+          "code": "template-upgrade-conflict",
+          "path": "station-1.parts.monitor.transform",
+          "message": "template-upgrade-conflict at station-1.parts.monitor.transform: The parentKey changed while a relative transform override exists; specify the new placement explicitly",
+          "details": {
+            "sourceParentKey": "desk",
+            "targetParentKey": "side-desk"
+          }
+        }
+      }
+    },
+    {
+      "name": "role, full use-point contract, changed actual surface and unsupported appearance fail with part and field reasons",
+      "status": "passed",
+      "observed": [
+        {
+          "code": "template-upgrade-conflict",
+          "path": "station-1.parts.chair.resource.mountRole",
+          "message": "template-upgrade-conflict at station-1.parts.chair.resource.mountRole: Matching part keys must retain the target role and category",
+          "details": {}
+        },
+        {
+          "code": "template-upgrade-conflict",
+          "path": "station-1.parts.chair.resource.usePoints",
+          "message": "template-upgrade-conflict at station-1.parts.chair.resource.usePoints: The full declared use-point contract differs",
+          "details": {}
+        },
+        {
+          "code": "template-upgrade-conflict",
+          "path": "station-1.parts.monitor.transform",
+          "message": "template-upgrade-conflict at station-1.parts.monitor.transform: Candidate rejected by invalid-surface-fit: invalid-surface-fit at station-1/monitor: Device mount origin must be on the declared parent surface",
+          "details": {
+            "cause": {
+              "code": "invalid-surface-fit",
+              "path": "station-1/monitor",
+              "details": {}
+            }
+          }
+        },
+        {
+          "code": "template-upgrade-conflict",
+          "path": "station-1.parts.chair.appearance",
+          "message": "template-upgrade-conflict at station-1.parts.chair.appearance: Candidate rejected by unsupported-appearance: unsupported-appearance at station-1/chair.appearance: This resource declares no editable material slots",
+          "details": {
+            "cause": {
+              "code": "unsupported-appearance",
+              "path": "station-1/chair.appearance",
+              "details": {}
+            }
+          }
+        },
+        {
+          "code": "template-upgrade-conflict",
+          "path": "station-1.parts.monitor.state.on",
+          "message": "template-upgrade-conflict at station-1.parts.monitor.state.on: Candidate rejected by invalid-device-state: invalid-device-state at station-1/monitor.state.on: State must match declared resource fields and supported numeric bounds",
+          "details": {
+            "cause": {
+              "code": "invalid-device-state",
+              "path": "station-1/monitor.state.on",
+              "details": {}
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "busy points, exact version references and failed placement cannot return a partial candidate",
+      "status": "passed",
+      "observed": [
+        {
+          "code": "template-upgrade-conflict",
+          "path": "station-1.parts.desk.transform",
+          "message": "template-upgrade-conflict at station-1.parts.desk.transform: Candidate rejected by outside-room: outside-room at station-1/desk: Footprint lies outside company-demo/room-1",
+          "details": {
+            "cause": {
+              "code": "outside-room",
+              "path": "station-1/desk",
+              "details": {}
+            }
+          }
+        },
+        {
+          "code": "template-upgrade-conflict",
+          "path": "station-1.parts.chair.seat.approach",
+          "message": "template-upgrade-conflict at station-1.parts.chair.seat.approach: Candidate rejected by outside-use-space: outside-use-space at station-1/chair#seat.approach: Static envelope extends beyond its room boundary",
+          "details": {
+            "cause": {
+              "code": "outside-use-space",
+              "path": "station-1/chair#seat.approach",
+              "details": {}
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "requestedDispatch": {
+    "difficulty": "complex",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "high"
+  },
+  "verifiedRuntimeModelAndEffort": false,
+  "verifiedHostHookInterception": false,
+  "limits": [
+    "CPU authoring migration and conservative static placement only. No browser, GPU, actor task or occupancy state.",
+    "The production template variant changes the default desk Z only. Incompatible targets and sofa template tests are in-memory QA combinations using the actual library catalog.",
+    "Material slot declarations are real library-catalog declarations. Actual material rendering and character contact are C3 work."
+  ]
+}

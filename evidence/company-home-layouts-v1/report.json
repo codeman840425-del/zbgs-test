@@ -1,0 +1,1555 @@
+{
+  "status": "passed",
+  "reference": {
+    "input": "prototype/src/company/examples/c1-studio.json",
+    "width": 9,
+    "depth": 7,
+    "area": 63
+  },
+  "sizeRule": {
+    "A": 31.5,
+    "smallHome": "A",
+    "singleRoom": "2A",
+    "rentalHome": "3A plus one connected public living space"
+  },
+  "examples": [
+    {
+      "name": "small-home",
+      "regions": [
+        {
+          "id": "small-home-company/room-1",
+          "name": "直播与休息单间",
+          "kind": "room",
+          "purpose": "streaming",
+          "width": 6,
+          "depth": 5.25,
+          "area": 31.5,
+          "center": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "totalArea": 31.5,
+      "businessRooms": 1,
+      "installedStations": 1,
+      "checkedPoints": 3,
+      "checkedPortalSides": 0,
+      "documentSha256": "364ca43db062a1ab7d69d5020853381e4c5b2ef4c84b7882b9f696aed72afc61",
+      "connections": {
+        "scope": "C2 same-floor rectangular portal geometry only",
+        "interiorInset": 0.35,
+        "capacity": {
+          "maximum": {
+            "floors": 1,
+            "rooms": 1,
+            "stations": 2
+          },
+          "installedStations": 1,
+          "businessRooms": 1,
+          "floors": 1
+        },
+        "floors": [
+          {
+            "floorId": "small-home-company/floor-1",
+            "regionIds": [
+              "small-home-company/room-1"
+            ],
+            "businessRooms": 1,
+            "connections": []
+          }
+        ],
+        "limits": [
+          "Floors are viewing layers at Y=0. No stairs, lifts or cross-floor connections.",
+          "Coincident portals and interior samples do not prove obstacle clearance or character navigation."
+        ]
+      },
+      "staticPlacement": {
+        "rules": {
+          "scope": "C1/C2 static conservative placement and same-floor portal connectivity",
+          "envelopeRadius": 0.25,
+          "gridSpacing": 0.2,
+          "gridNeighbours": 4,
+          "obstacleExpansion": "conservative square",
+          "endpointConnectorMaximum": 0.4,
+          "roomRangeMetres": [
+            3,
+            20
+          ],
+          "supportedYaw": "quarter turns",
+          "occupancyState": "not produced",
+          "portalMinimumWidth": 0.6,
+          "portalTotalWidthMargin": 0.1,
+          "portalCrossingEnvelopeRadius": 0.3,
+          "portalInteriorInset": 0.35
+        },
+        "rooms": [
+          {
+            "id": "small-home-company/room-1",
+            "entry": [
+              0,
+              0,
+              2
+            ],
+            "entryWorld": [
+              0,
+              0,
+              2
+            ],
+            "entrySource": "declared room-local test entry",
+            "grid": {
+              "columns": 28,
+              "rows": 24,
+              "reachableCells": 418
+            }
+          }
+        ],
+        "checkedPoints": [
+          {
+            "id": "station-1/chair#seat",
+            "facilityId": "station-1/chair",
+            "roomId": "small-home-company/room-1",
+            "capacity": 1,
+            "position": {
+              "local": [
+                -1.5,
+                0,
+                0.10000000000000003
+              ],
+              "world": [
+                -1.5,
+                0,
+                0.10000000000000003
+              ]
+            },
+            "approach": {
+              "local": [
+                -1.5,
+                0,
+                -0.49999999999999994
+              ],
+              "world": [
+                -1.5,
+                0,
+                -0.49999999999999994
+              ]
+            },
+            "exit": {
+              "local": [
+                -1.5,
+                0,
+                -0.55
+              ],
+              "world": [
+                -1.5,
+                0,
+                -0.55
+              ]
+            },
+            "approachConnected": true,
+            "exitConnected": true
+          },
+          {
+            "id": "lounge/sofa#left",
+            "facilityId": "lounge/sofa",
+            "roomId": "small-home-company/room-1",
+            "capacity": 1,
+            "position": {
+              "local": [
+                0.6200000000000001,
+                0,
+                -0.96
+              ],
+              "world": [
+                0.6200000000000001,
+                0,
+                -0.96
+              ]
+            },
+            "approach": {
+              "local": [
+                0.6200000000000001,
+                0,
+                0.020000000000000018
+              ],
+              "world": [
+                0.6200000000000001,
+                0,
+                0.020000000000000018
+              ]
+            },
+            "exit": {
+              "local": [
+                0.6200000000000001,
+                0,
+                0.1499999999999999
+              ],
+              "world": [
+                0.6200000000000001,
+                0,
+                0.1499999999999999
+              ]
+            },
+            "approachConnected": true,
+            "exitConnected": true
+          },
+          {
+            "id": "lounge/sofa#right",
+            "facilityId": "lounge/sofa",
+            "roomId": "small-home-company/room-1",
+            "capacity": 1,
+            "position": {
+              "local": [
+                1.58,
+                0,
+                -0.96
+              ],
+              "world": [
+                1.58,
+                0,
+                -0.96
+              ]
+            },
+            "approach": {
+              "local": [
+                1.58,
+                0,
+                0.020000000000000018
+              ],
+              "world": [
+                1.58,
+                0,
+                0.020000000000000018
+              ]
+            },
+            "exit": {
+              "local": [
+                1.58,
+                0,
+                0.1499999999999999
+              ],
+              "world": [
+                1.58,
+                0,
+                0.1499999999999999
+              ]
+            },
+            "approachConnected": true,
+            "exitConnected": true
+          }
+        ],
+        "checkedPortals": [],
+        "warnings": [
+          "C1/C2 static authoring reserve only. Radius 0.25m has no verified C3 character fit.",
+          "0.20m four-neighbour grid and square obstacle expansion are conservative. Narrow or diagonal feasible paths may be rejected.",
+          "Every grid edge, endpoint connector and portal crossing segment is checked continuously against expanded footprints.",
+          "Region boundaries are closed except for declared portals. Same-floor portal and grid connectivity is static conservative admission only.",
+          "Contact meshes, actual door hardware, stairs/lifts, vertical travel and real character navigation remain unverified."
+        ]
+      }
+    },
+    {
+      "name": "rental-home",
+      "regions": [
+        {
+          "id": "rental/stream",
+          "name": "直播间",
+          "kind": "room",
+          "purpose": "streaming",
+          "width": 6,
+          "depth": 5.25,
+          "area": 31.5,
+          "center": [
+            -6,
+            0,
+            -2.625
+          ]
+        },
+        {
+          "id": "rental/work",
+          "name": "工作间",
+          "kind": "room",
+          "purpose": "work",
+          "width": 6,
+          "depth": 5.25,
+          "area": 31.5,
+          "center": [
+            3,
+            0,
+            -2.625
+          ]
+        },
+        {
+          "id": "rental/rest",
+          "name": "休息间",
+          "kind": "room",
+          "purpose": "rest",
+          "width": 6,
+          "depth": 5.25,
+          "area": 31.5,
+          "center": [
+            -6,
+            0,
+            2.625
+          ]
+        },
+        {
+          "id": "rental/living",
+          "name": "公共客厅",
+          "kind": "area",
+          "purpose": "public",
+          "width": 6,
+          "depth": 5.25,
+          "area": 31.5,
+          "center": [
+            0,
+            0,
+            2.625
+          ]
+        },
+        {
+          "id": "rental/living-entry",
+          "name": "客厅入口",
+          "kind": "area",
+          "purpose": "public",
+          "width": 3,
+          "depth": 3,
+          "area": 9,
+          "center": [
+            -1.5,
+            0,
+            -1.5
+          ]
+        }
+      ],
+      "totalArea": 135,
+      "businessRooms": 3,
+      "installedStations": 2,
+      "checkedPoints": 7,
+      "checkedPortalSides": 8,
+      "documentSha256": "91d7defd75cd84a0dadc6e08e33f97836cc704fe1b0f7209b7a26fc2c0eb53ee",
+      "connections": {
+        "scope": "C2 same-floor rectangular portal geometry only",
+        "interiorInset": 0.35,
+        "capacity": {
+          "maximum": {
+            "floors": 1,
+            "rooms": 3,
+            "stations": 6
+          },
+          "installedStations": 2,
+          "businessRooms": 3,
+          "floors": 1
+        },
+        "floors": [
+          {
+            "floorId": "rental-home-company/floor-1",
+            "regionIds": [
+              "rental/stream",
+              "rental/work",
+              "rental/rest",
+              "rental/living",
+              "rental/living-entry"
+            ],
+            "businessRooms": 3,
+            "connections": [
+              {
+                "id": "rental/door-stream",
+                "from": {
+                  "regionId": "rental/stream",
+                  "edge": "east",
+                  "offset": 1.125,
+                  "width": 1.4,
+                  "local": {
+                    "start": [
+                      3,
+                      0,
+                      0.42500000000000004
+                    ],
+                    "end": [
+                      3,
+                      0,
+                      1.825
+                    ],
+                    "center": [
+                      3,
+                      0,
+                      1.125
+                    ],
+                    "interior": [
+                      2.65,
+                      0,
+                      1.125
+                    ]
+                  },
+                  "world": {
+                    "start": [
+                      -3,
+                      0,
+                      -2.2
+                    ],
+                    "end": [
+                      -3,
+                      0,
+                      -0.8
+                    ],
+                    "center": [
+                      -3,
+                      0,
+                      -1.5
+                    ],
+                    "interior": [
+                      -3.35,
+                      0,
+                      -1.5
+                    ],
+                    "normal": [
+                      1,
+                      0,
+                      0
+                    ]
+                  }
+                },
+                "to": {
+                  "regionId": "rental/living-entry",
+                  "edge": "west",
+                  "offset": 0,
+                  "width": 1.4,
+                  "local": {
+                    "start": [
+                      -1.5,
+                      0,
+                      -0.7
+                    ],
+                    "end": [
+                      -1.5,
+                      0,
+                      0.7
+                    ],
+                    "center": [
+                      -1.5,
+                      0,
+                      0
+                    ],
+                    "interior": [
+                      -1.15,
+                      0,
+                      0
+                    ]
+                  },
+                  "world": {
+                    "start": [
+                      -3,
+                      0,
+                      -2.2
+                    ],
+                    "end": [
+                      -3,
+                      0,
+                      -0.8
+                    ],
+                    "center": [
+                      -3,
+                      0,
+                      -1.5
+                    ],
+                    "interior": [
+                      -2.65,
+                      0,
+                      -1.5
+                    ],
+                    "normal": [
+                      -1,
+                      0,
+                      0
+                    ]
+                  }
+                }
+              },
+              {
+                "id": "rental/door-work",
+                "from": {
+                  "regionId": "rental/work",
+                  "edge": "south",
+                  "offset": -1.5,
+                  "width": 1.4,
+                  "local": {
+                    "start": [
+                      -2.2,
+                      0,
+                      2.625
+                    ],
+                    "end": [
+                      -0.8,
+                      0,
+                      2.625
+                    ],
+                    "center": [
+                      -1.5,
+                      0,
+                      2.625
+                    ],
+                    "interior": [
+                      -1.5,
+                      0,
+                      2.275
+                    ]
+                  },
+                  "world": {
+                    "start": [
+                      0.7999999999999998,
+                      0,
+                      0
+                    ],
+                    "end": [
+                      2.2,
+                      0,
+                      0
+                    ],
+                    "center": [
+                      1.5,
+                      0,
+                      0
+                    ],
+                    "interior": [
+                      1.5,
+                      0,
+                      -0.3500000000000001
+                    ],
+                    "normal": [
+                      0,
+                      0,
+                      1
+                    ]
+                  }
+                },
+                "to": {
+                  "regionId": "rental/living",
+                  "edge": "north",
+                  "offset": 1.5,
+                  "width": 1.4,
+                  "local": {
+                    "start": [
+                      0.8,
+                      0,
+                      -2.625
+                    ],
+                    "end": [
+                      2.2,
+                      0,
+                      -2.625
+                    ],
+                    "center": [
+                      1.5,
+                      0,
+                      -2.625
+                    ],
+                    "interior": [
+                      1.5,
+                      0,
+                      -2.275
+                    ]
+                  },
+                  "world": {
+                    "start": [
+                      0.8,
+                      0,
+                      0
+                    ],
+                    "end": [
+                      2.2,
+                      0,
+                      0
+                    ],
+                    "center": [
+                      1.5,
+                      0,
+                      0
+                    ],
+                    "interior": [
+                      1.5,
+                      0,
+                      0.3500000000000001
+                    ],
+                    "normal": [
+                      0,
+                      0,
+                      -1
+                    ]
+                  }
+                }
+              },
+              {
+                "id": "rental/door-rest",
+                "from": {
+                  "regionId": "rental/rest",
+                  "edge": "east",
+                  "offset": 0,
+                  "width": 1.4,
+                  "local": {
+                    "start": [
+                      3,
+                      0,
+                      -0.7
+                    ],
+                    "end": [
+                      3,
+                      0,
+                      0.7
+                    ],
+                    "center": [
+                      3,
+                      0,
+                      0
+                    ],
+                    "interior": [
+                      2.65,
+                      0,
+                      0
+                    ]
+                  },
+                  "world": {
+                    "start": [
+                      -3,
+                      0,
+                      1.925
+                    ],
+                    "end": [
+                      -3,
+                      0,
+                      3.325
+                    ],
+                    "center": [
+                      -3,
+                      0,
+                      2.625
+                    ],
+                    "interior": [
+                      -3.35,
+                      0,
+                      2.625
+                    ],
+                    "normal": [
+                      1,
+                      0,
+                      0
+                    ]
+                  }
+                },
+                "to": {
+                  "regionId": "rental/living",
+                  "edge": "west",
+                  "offset": 0,
+                  "width": 1.4,
+                  "local": {
+                    "start": [
+                      -3,
+                      0,
+                      -0.7
+                    ],
+                    "end": [
+                      -3,
+                      0,
+                      0.7
+                    ],
+                    "center": [
+                      -3,
+                      0,
+                      0
+                    ],
+                    "interior": [
+                      -2.65,
+                      0,
+                      0
+                    ]
+                  },
+                  "world": {
+                    "start": [
+                      -3,
+                      0,
+                      1.925
+                    ],
+                    "end": [
+                      -3,
+                      0,
+                      3.325
+                    ],
+                    "center": [
+                      -3,
+                      0,
+                      2.625
+                    ],
+                    "interior": [
+                      -2.65,
+                      0,
+                      2.625
+                    ],
+                    "normal": [
+                      -1,
+                      0,
+                      0
+                    ]
+                  }
+                }
+              },
+              {
+                "id": "rental/living-connection",
+                "from": {
+                  "regionId": "rental/living-entry",
+                  "edge": "south",
+                  "offset": 0,
+                  "width": 1.4,
+                  "local": {
+                    "start": [
+                      -0.7,
+                      0,
+                      1.5
+                    ],
+                    "end": [
+                      0.7,
+                      0,
+                      1.5
+                    ],
+                    "center": [
+                      0,
+                      0,
+                      1.5
+                    ],
+                    "interior": [
+                      0,
+                      0,
+                      1.15
+                    ]
+                  },
+                  "world": {
+                    "start": [
+                      -2.2,
+                      0,
+                      0
+                    ],
+                    "end": [
+                      -0.8,
+                      0,
+                      0
+                    ],
+                    "center": [
+                      -1.5,
+                      0,
+                      0
+                    ],
+                    "interior": [
+                      -1.5,
+                      0,
+                      -0.3500000000000001
+                    ],
+                    "normal": [
+                      0,
+                      0,
+                      1
+                    ]
+                  }
+                },
+                "to": {
+                  "regionId": "rental/living",
+                  "edge": "north",
+                  "offset": -1.5,
+                  "width": 1.4,
+                  "local": {
+                    "start": [
+                      -2.2,
+                      0,
+                      -2.625
+                    ],
+                    "end": [
+                      -0.8,
+                      0,
+                      -2.625
+                    ],
+                    "center": [
+                      -1.5,
+                      0,
+                      -2.625
+                    ],
+                    "interior": [
+                      -1.5,
+                      0,
+                      -2.275
+                    ]
+                  },
+                  "world": {
+                    "start": [
+                      -2.2,
+                      0,
+                      0
+                    ],
+                    "end": [
+                      -0.8,
+                      0,
+                      0
+                    ],
+                    "center": [
+                      -1.5,
+                      0,
+                      0
+                    ],
+                    "interior": [
+                      -1.5,
+                      0,
+                      0.3500000000000001
+                    ],
+                    "normal": [
+                      0,
+                      0,
+                      -1
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "limits": [
+          "Floors are viewing layers at Y=0. No stairs, lifts or cross-floor connections.",
+          "Coincident portals and interior samples do not prove obstacle clearance or character navigation."
+        ]
+      },
+      "staticPlacement": {
+        "rules": {
+          "scope": "C1/C2 static conservative placement and same-floor portal connectivity",
+          "envelopeRadius": 0.25,
+          "gridSpacing": 0.2,
+          "gridNeighbours": 4,
+          "obstacleExpansion": "conservative square",
+          "endpointConnectorMaximum": 0.4,
+          "roomRangeMetres": [
+            3,
+            20
+          ],
+          "supportedYaw": "quarter turns",
+          "occupancyState": "not produced",
+          "portalMinimumWidth": 0.6,
+          "portalTotalWidthMargin": 0.1,
+          "portalCrossingEnvelopeRadius": 0.3,
+          "portalInteriorInset": 0.35
+        },
+        "rooms": [
+          {
+            "id": "rental/stream",
+            "entry": [
+              2.4,
+              0,
+              2.025
+            ],
+            "entryWorld": [
+              -3.6,
+              0,
+              -0.6000000000000001
+            ],
+            "entrySource": "default internal test origin, not a real door",
+            "grid": {
+              "columns": 28,
+              "rows": 24,
+              "reachableCells": 422
+            }
+          },
+          {
+            "id": "rental/work",
+            "entry": [
+              2.4,
+              0,
+              2.025
+            ],
+            "entryWorld": [
+              5.4,
+              0,
+              -0.6000000000000001
+            ],
+            "entrySource": "default internal test origin, not a real door",
+            "grid": {
+              "columns": 28,
+              "rows": 24,
+              "reachableCells": 556
+            }
+          },
+          {
+            "id": "rental/rest",
+            "entry": [
+              2.4,
+              0,
+              2.025
+            ],
+            "entryWorld": [
+              -3.6,
+              0,
+              4.65
+            ],
+            "entrySource": "default internal test origin, not a real door",
+            "grid": {
+              "columns": 28,
+              "rows": 24,
+              "reachableCells": 574
+            }
+          },
+          {
+            "id": "rental/living",
+            "entry": [
+              -1.5,
+              0,
+              1.8
+            ],
+            "entryWorld": [
+              -1.5,
+              0,
+              4.425
+            ],
+            "entrySource": "declared room-local test entry",
+            "grid": {
+              "columns": 28,
+              "rows": 24,
+              "reachableCells": 532
+            }
+          },
+          {
+            "id": "rental/living-entry",
+            "entry": [
+              0.9,
+              0,
+              0.9
+            ],
+            "entryWorld": [
+              -0.6,
+              0,
+              -0.6
+            ],
+            "entrySource": "default internal test origin, not a real door",
+            "grid": {
+              "columns": 13,
+              "rows": 13,
+              "reachableCells": 169
+            }
+          }
+        ],
+        "checkedPoints": [
+          {
+            "id": "station-1/chair#seat",
+            "facilityId": "station-1/chair",
+            "roomId": "rental/stream",
+            "capacity": 1,
+            "position": {
+              "local": [
+                -1.4000000000000004,
+                0,
+                0.25
+              ],
+              "world": [
+                -7.4,
+                0,
+                -2.375
+              ]
+            },
+            "approach": {
+              "local": [
+                -1.4000000000000004,
+                0,
+                -0.3500000000000001
+              ],
+              "world": [
+                -7.4,
+                0,
+                -2.975
+              ]
+            },
+            "exit": {
+              "local": [
+                -1.4000000000000004,
+                0,
+                -0.3999999999999999
+              ],
+              "world": [
+                -7.4,
+                0,
+                -3.025
+              ]
+            },
+            "approachConnected": true,
+            "exitConnected": true
+          },
+          {
+            "id": "station-2/chair#seat",
+            "facilityId": "station-2/chair",
+            "roomId": "rental/stream",
+            "capacity": 1,
+            "position": {
+              "local": [
+                1.4000000000000004,
+                0,
+                0.25
+              ],
+              "world": [
+                -4.6,
+                0,
+                -2.375
+              ]
+            },
+            "approach": {
+              "local": [
+                1.4000000000000004,
+                0,
+                -0.3500000000000001
+              ],
+              "world": [
+                -4.6,
+                0,
+                -2.975
+              ]
+            },
+            "exit": {
+              "local": [
+                1.4000000000000004,
+                0,
+                -0.3999999999999999
+              ],
+              "world": [
+                -4.6,
+                0,
+                -3.025
+              ]
+            },
+            "approachConnected": true,
+            "exitConnected": true
+          },
+          {
+            "id": "work/chair#seat",
+            "facilityId": "work/chair",
+            "roomId": "rental/work",
+            "capacity": 1,
+            "position": {
+              "local": [
+                -1.3,
+                0,
+                0.6499999999999999
+              ],
+              "world": [
+                1.7,
+                0,
+                -1.975
+              ]
+            },
+            "approach": {
+              "local": [
+                -1.3,
+                0,
+                0.04999999999999982
+              ],
+              "world": [
+                1.7,
+                0,
+                -2.575
+              ]
+            },
+            "exit": {
+              "local": [
+                -1.3,
+                0,
+                0
+              ],
+              "world": [
+                1.7,
+                0,
+                -2.625
+              ]
+            },
+            "approachConnected": true,
+            "exitConnected": true
+          },
+          {
+            "id": "rest/sofa#left",
+            "facilityId": "rest/sofa",
+            "roomId": "rental/rest",
+            "capacity": 1,
+            "position": {
+              "local": [
+                -0.4800000000000004,
+                0,
+                -0.96
+              ],
+              "world": [
+                -6.48,
+                0,
+                1.665
+              ]
+            },
+            "approach": {
+              "local": [
+                -0.4800000000000004,
+                0,
+                0.020000000000000018
+              ],
+              "world": [
+                -6.48,
+                0,
+                2.645
+              ]
+            },
+            "exit": {
+              "local": [
+                -0.4800000000000004,
+                0,
+                0.1499999999999999
+              ],
+              "world": [
+                -6.48,
+                0,
+                2.775
+              ]
+            },
+            "approachConnected": true,
+            "exitConnected": true
+          },
+          {
+            "id": "rest/sofa#right",
+            "facilityId": "rest/sofa",
+            "roomId": "rental/rest",
+            "capacity": 1,
+            "position": {
+              "local": [
+                0.4800000000000004,
+                0,
+                -0.96
+              ],
+              "world": [
+                -5.52,
+                0,
+                1.665
+              ]
+            },
+            "approach": {
+              "local": [
+                0.4800000000000004,
+                0,
+                0.020000000000000018
+              ],
+              "world": [
+                -5.52,
+                0,
+                2.645
+              ]
+            },
+            "exit": {
+              "local": [
+                0.4800000000000004,
+                0,
+                0.1499999999999999
+              ],
+              "world": [
+                -5.52,
+                0,
+                2.775
+              ]
+            },
+            "approachConnected": true,
+            "exitConnected": true
+          },
+          {
+            "id": "public/sofa#left",
+            "facilityId": "public/sofa",
+            "roomId": "rental/living",
+            "capacity": 1,
+            "position": {
+              "local": [
+                1.78,
+                0,
+                0.96
+              ],
+              "world": [
+                1.78,
+                0,
+                3.585
+              ]
+            },
+            "approach": {
+              "local": [
+                1.7800000000000002,
+                0,
+                -0.020000000000000018
+              ],
+              "world": [
+                1.7800000000000002,
+                0,
+                2.605
+              ]
+            },
+            "exit": {
+              "local": [
+                1.7800000000000002,
+                0,
+                -0.1499999999999999
+              ],
+              "world": [
+                1.7800000000000002,
+                0,
+                2.475
+              ]
+            },
+            "approachConnected": true,
+            "exitConnected": true
+          },
+          {
+            "id": "public/sofa#right",
+            "facilityId": "public/sofa",
+            "roomId": "rental/living",
+            "capacity": 1,
+            "position": {
+              "local": [
+                0.8200000000000001,
+                0,
+                0.96
+              ],
+              "world": [
+                0.8200000000000001,
+                0,
+                3.585
+              ]
+            },
+            "approach": {
+              "local": [
+                0.8200000000000002,
+                0,
+                -0.020000000000000018
+              ],
+              "world": [
+                0.8200000000000002,
+                0,
+                2.605
+              ]
+            },
+            "exit": {
+              "local": [
+                0.8200000000000002,
+                0,
+                -0.1499999999999999
+              ],
+              "world": [
+                0.8200000000000002,
+                0,
+                2.475
+              ]
+            },
+            "approachConnected": true,
+            "exitConnected": true
+          }
+        ],
+        "checkedPortals": [
+          {
+            "connectionId": "rental/door-stream",
+            "side": "from",
+            "regionId": "rental/stream",
+            "floorId": "rental-home-company/floor-1",
+            "width": 1.4,
+            "interior": {
+              "local": [
+                2.65,
+                0,
+                1.125
+              ],
+              "world": [
+                -3.35,
+                0,
+                -1.5
+              ]
+            },
+            "center": {
+              "local": [
+                3,
+                0,
+                1.125
+              ],
+              "world": [
+                -3,
+                0,
+                -1.5
+              ]
+            },
+            "connected": true
+          },
+          {
+            "connectionId": "rental/door-work",
+            "side": "from",
+            "regionId": "rental/work",
+            "floorId": "rental-home-company/floor-1",
+            "width": 1.4,
+            "interior": {
+              "local": [
+                -1.5,
+                0,
+                2.275
+              ],
+              "world": [
+                1.5,
+                0,
+                -0.3500000000000001
+              ]
+            },
+            "center": {
+              "local": [
+                -1.5,
+                0,
+                2.625
+              ],
+              "world": [
+                1.5,
+                0,
+                0
+              ]
+            },
+            "connected": true
+          },
+          {
+            "connectionId": "rental/door-rest",
+            "side": "from",
+            "regionId": "rental/rest",
+            "floorId": "rental-home-company/floor-1",
+            "width": 1.4,
+            "interior": {
+              "local": [
+                2.65,
+                0,
+                0
+              ],
+              "world": [
+                -3.35,
+                0,
+                2.625
+              ]
+            },
+            "center": {
+              "local": [
+                3,
+                0,
+                0
+              ],
+              "world": [
+                -3,
+                0,
+                2.625
+              ]
+            },
+            "connected": true
+          },
+          {
+            "connectionId": "rental/door-work",
+            "side": "to",
+            "regionId": "rental/living",
+            "floorId": "rental-home-company/floor-1",
+            "width": 1.4,
+            "interior": {
+              "local": [
+                1.5,
+                0,
+                -2.275
+              ],
+              "world": [
+                1.5,
+                0,
+                0.3500000000000001
+              ]
+            },
+            "center": {
+              "local": [
+                1.5,
+                0,
+                -2.625
+              ],
+              "world": [
+                1.5,
+                0,
+                0
+              ]
+            },
+            "connected": true
+          },
+          {
+            "connectionId": "rental/door-rest",
+            "side": "to",
+            "regionId": "rental/living",
+            "floorId": "rental-home-company/floor-1",
+            "width": 1.4,
+            "interior": {
+              "local": [
+                -2.65,
+                0,
+                0
+              ],
+              "world": [
+                -2.65,
+                0,
+                2.625
+              ]
+            },
+            "center": {
+              "local": [
+                -3,
+                0,
+                0
+              ],
+              "world": [
+                -3,
+                0,
+                2.625
+              ]
+            },
+            "connected": true
+          },
+          {
+            "connectionId": "rental/living-connection",
+            "side": "to",
+            "regionId": "rental/living",
+            "floorId": "rental-home-company/floor-1",
+            "width": 1.4,
+            "interior": {
+              "local": [
+                -1.5,
+                0,
+                -2.275
+              ],
+              "world": [
+                -1.5,
+                0,
+                0.3500000000000001
+              ]
+            },
+            "center": {
+              "local": [
+                -1.5,
+                0,
+                -2.625
+              ],
+              "world": [
+                -1.5,
+                0,
+                0
+              ]
+            },
+            "connected": true
+          },
+          {
+            "connectionId": "rental/door-stream",
+            "side": "to",
+            "regionId": "rental/living-entry",
+            "floorId": "rental-home-company/floor-1",
+            "width": 1.4,
+            "interior": {
+              "local": [
+                -1.15,
+                0,
+                0
+              ],
+              "world": [
+                -2.65,
+                0,
+                -1.5
+              ]
+            },
+            "center": {
+              "local": [
+                -1.5,
+                0,
+                0
+              ],
+              "world": [
+                -3,
+                0,
+                -1.5
+              ]
+            },
+            "connected": true
+          },
+          {
+            "connectionId": "rental/living-connection",
+            "side": "from",
+            "regionId": "rental/living-entry",
+            "floorId": "rental-home-company/floor-1",
+            "width": 1.4,
+            "interior": {
+              "local": [
+                0,
+                0,
+                1.15
+              ],
+              "world": [
+                -1.5,
+                0,
+                -0.3500000000000001
+              ]
+            },
+            "center": {
+              "local": [
+                0,
+                0,
+                1.5
+              ],
+              "world": [
+                -1.5,
+                0,
+                0
+              ]
+            },
+            "connected": true
+          }
+        ],
+        "warnings": [
+          "C1/C2 static authoring reserve only. Radius 0.25m has no verified C3 character fit.",
+          "0.20m four-neighbour grid and square obstacle expansion are conservative. Narrow or diagonal feasible paths may be rejected.",
+          "Every grid edge, endpoint connector and portal crossing segment is checked continuously against expanded footprints.",
+          "Region boundaries are closed except for declared portals. Same-floor portal and grid connectivity is static conservative admission only.",
+          "Contact meshes, actual door hardware, stairs/lifts, vertical travel and real character navigation remain unverified."
+        ]
+      }
+    }
+  ],
+  "routes": [
+    "Small home test entry to one workstation and independent sofa within one room.",
+    "Rental stream room to 3x3 living entrance to public living room.",
+    "Rental work room directly to public living room.",
+    "Rental rest room directly to public living room.",
+    "The living entrance and living rectangle form one connected public living space. No business room is used as a passage."
+  ],
+  "layoutReview": [
+    "Rental actual area 135m2 inside a 15x10.5m stepped outline. The exterior bounding box is 157.5m2 and occupied coverage is about 85.7%.",
+    "Three business rooms are each exactly 31.5m2. Public living is 31.5m2 plus a 9m2 entrance.",
+    "Only a 3m deep entrance joins the living room. There is no repeated corridor-cell row.",
+    "Workstations face desks. Rest sofa faces into its room. Public sofa faces into the common living space.",
+    "Furniture retains resource dimensions and unit scale. Door widths are 1.4m, with exact shared-edge portal correspondence."
+  ],
+  "planReview": {
+    "method": "Reviewed CPU PNG plans drawn directly from derived world-coordinate regions, footprints, use points and portal endpoints.",
+    "artifacts": [
+      "small-home.plan.png",
+      "rental-home.plan.png"
+    ],
+    "observed": [
+      "Workstation devices remain parented to their desks. Functional furniture footprints leave central circulation space.",
+      "Rental shared doors match room boundaries. Three business-room routes join public space without crossing another business room."
+    ]
+  },
+  "commands": [
+    "node scripts/company-platform/build-home-examples.mjs",
+    "node scripts/company-platform/build-home-examples.mjs --check",
+    "python evidence/company-home-layouts-v1/draw-plan.py evidence/company-home-layouts-v1/small-home.plan.json",
+    "python evidence/company-home-layouts-v1/draw-plan.py evidence/company-home-layouts-v1/rental-home.plan.json"
+  ],
+  "sourceSha256": "68a17e1a4cac33a62acc1ed8d15e81ee590f1a8c64ccf30526122017ca397a56",
+  "dispatch": {
+    "difficulty": "standard",
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "medium",
+    "reason": "Explicit residential scale, shared-space routes and common-primitive layout creation with conservative static checks.",
+    "configurationEvidence": "Parent-confirmed existing configuration. Host hook interception unverified."
+  },
+  "limitations": [
+    "Static geometry and conservative grid admission only. Real character use, contact, navigation and browser/GPU visual acceptance remain unverified.",
+    "Small home starts with one workstation. This example does not establish its product capacity limit.",
+    "Default or explicit entry positions are internal test origins. External entrance doors, kitchen and bathroom functionality are unverified."
+  ]
+}

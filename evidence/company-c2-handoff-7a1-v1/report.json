@@ -1,0 +1,59 @@
+{
+  "package": "F:\\gamemake-company-c2-delivery-7a1-v2",
+  "status": "passed",
+  "checks": [
+    {
+      "name": "Every delivered file still matches its complete package manifest",
+      "passed": true,
+      "result": {
+        "files": 83
+      }
+    },
+    {
+      "name": "Standalone data editor rejects disconnected rooms and produces a complete editable save",
+      "passed": true,
+      "result": {
+        "rejected": "disconnected-regions",
+        "ok": true,
+        "id": "two-floor-company",
+        "revision": 6,
+        "floors": [
+          "two-floor-company/floor-1",
+          "two-floor-company/floor-2"
+        ],
+        "output": "F:\\gamemake-company-platform-c1\\evidence\\company-c2-handoff-7a1-v1\\edited"
+      }
+    },
+    {
+      "name": "Packaged HTTP viewer imports the entire delivered company without source-tree resources",
+      "passed": true,
+      "result": {
+        "floors": 2,
+        "requests": [
+          "http://127.0.0.1:58713/company-assets/lounge-sofa/v1/model.glb",
+          "http://127.0.0.1:58713/company-assets/timber-sofa/v1/model.glb"
+        ]
+      }
+    },
+    {
+      "name": "Package-produced edits can be imported and saved, with all template and resource pins intact",
+      "passed": true,
+      "result": {
+        "id": "two-floor-company",
+        "revision": 6
+      }
+    },
+    {
+      "name": "Independent viewer closes and reopens with the edited multi-floor company",
+      "passed": true,
+      "result": {
+        "companyId": "two-floor-company",
+        "allNodes": 40
+      }
+    }
+  ],
+  "limits": [
+    "No character or ordinary-PC acceptance. Dependency installation may use local npm cache and network; not an offline install proof."
+  ],
+  "build": "7a140ad0443d"
+}

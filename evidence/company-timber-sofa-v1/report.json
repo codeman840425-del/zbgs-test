@@ -1,0 +1,516 @@
+{
+  "status": "passed",
+  "scope": "New parametric static furniture production and standard GLB CPU readback",
+  "dispatch": {
+    "difficulty": "standard",
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "medium",
+    "reason": "Structurally different open-frame two-seat geometry through existing deterministic GLB production conventions.",
+    "configurationEvidence": "Parent-confirmed existing configuration. Host hook interception unverified."
+  },
+  "commands": [
+    "node scripts/company-platform/build-timber-sofa.mjs",
+    "node scripts/company-platform/build-timber-sofa.mjs --check",
+    "node evidence/company-timber-sofa-v1/verify-disk.mjs"
+  ],
+  "generatorSha256": "3f8d0e5f9e36d8133a59ad615b1d16dae450c3eced6b055c0f05cc11b465489c",
+  "sourceParametersSha256": "dcc1d63aa5232b51afee5aba1c27948b5ec492107e20661b8fa120670ac5bf89",
+  "results": [
+    {
+      "name": "primary",
+      "sha256": "fa72ac0c6ab944d2679ce824dcfe08834b715bc8472b23fc4daced3a9070dd96",
+      "bytes": 266968,
+      "parameterSha256": "dcc1d63aa5232b51afee5aba1c27948b5ec492107e20661b8fa120670ac5bf89",
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "usePoints": [
+          {
+            "id": "left",
+            "position": [
+              -0.48,
+              0,
+              0.04
+            ],
+            "yaw": 0,
+            "seatHeight": 0.47,
+            "capacity": 1,
+            "clearance": {
+              "width": 0.92,
+              "depth": 1.11
+            },
+            "limitations": [
+              "Metres. Fixed 0.47m seat height. Static data preview only. Actual character usage awaits C3.",
+              "Clearance width is centred on use-point X. Depth extends forward from use-point Z through the exit point.",
+              "Declared allocation only. Character body clearance, reach, contact and approach/exit motion remain unverified."
+            ],
+            "seatNodeId": "seat-left",
+            "backNodeId": "back-left",
+            "approach": [
+              -0.48,
+              0,
+              1.02
+            ],
+            "exit": [
+              -0.48,
+              0,
+              1.15
+            ]
+          },
+          {
+            "id": "right",
+            "position": [
+              0.48,
+              0,
+              0.04
+            ],
+            "yaw": 0,
+            "seatHeight": 0.47,
+            "capacity": 1,
+            "clearance": {
+              "width": 0.92,
+              "depth": 1.11
+            },
+            "limitations": [
+              "Metres. Fixed 0.47m seat height. Static data preview only. Actual character usage awaits C3.",
+              "Clearance width is centred on use-point X. Depth extends forward from use-point Z through the exit point.",
+              "Declared allocation only. Character body clearance, reach, contact and approach/exit motion remain unverified."
+            ],
+            "seatNodeId": "seat-right",
+            "backNodeId": "back-right",
+            "approach": [
+              0.48,
+              0,
+              1.02
+            ],
+            "exit": [
+              0.48,
+              0,
+              1.15
+            ]
+          }
+        ],
+        "contacts": [
+          {
+            "id": "left",
+            "seatBounds": {
+              "min": [
+                -0.9400000083446503,
+                0.37999999821186065,
+                -0.3300000047683716
+              ],
+              "max": [
+                -0.019999991655349714,
+                0.47000000178813933,
+                0.41000000476837156
+              ]
+            },
+            "backBounds": {
+              "min": [
+                -0.9499999988079071,
+                0.4989396650791186,
+                -0.4028824549406762
+              ],
+              "max": [
+                -0.010000001192092878,
+                1.0210603349208816,
+                -0.2657394902485791
+              ]
+            },
+            "fixedSeatContact": [
+              -0.48,
+              0.47000000178813933,
+              0.04
+            ],
+            "fixedBackContact": [
+              -0.47999999999999987,
+              0.72,
+              -0.30000000015093975
+            ],
+            "backFrontFace": {
+              "position": [
+                -0.48,
+                0.7643812506818918,
+                -0.3071622223017979
+              ],
+              "normal": [
+                0,
+                0.159318206614246,
+                0.987227283375627
+              ]
+            }
+          },
+          {
+            "id": "right",
+            "seatBounds": {
+              "min": [
+                0.019999991655349714,
+                0.37999999821186065,
+                -0.3300000047683716
+              ],
+              "max": [
+                0.9400000083446503,
+                0.47000000178813933,
+                0.41000000476837156
+              ]
+            },
+            "backBounds": {
+              "min": [
+                0.010000001192092878,
+                0.4989396650791186,
+                -0.4028824549406762
+              ],
+              "max": [
+                0.9499999988079071,
+                1.0210603349208816,
+                -0.2657394902485791
+              ]
+            },
+            "fixedSeatContact": [
+              0.48,
+              0.47000000178813933,
+              0.04
+            ],
+            "fixedBackContact": [
+              0.47999999999999987,
+              0.72,
+              -0.30000000015093975
+            ],
+            "backFrontFace": {
+              "position": [
+                0.48,
+                0.7643812506818918,
+                -0.3071622223017979
+              ],
+              "normal": [
+                0,
+                0.159318206614246,
+                0.987227283375627
+              ]
+            }
+          }
+        ],
+        "footprint": {
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            1.100000023841858,
+            0.5199999809265137
+          ],
+          "blocking": true
+        },
+        "visualFootprint": {
+          "center": [
+            0,
+            -0.015942787601004788
+          ],
+          "halfSize": [
+            1.0899999993294478,
+            0.46094278797353383
+          ]
+        },
+        "bounds": {
+          "min": [
+            -1.0899999993294478,
+            -3.576278662098531e-9,
+            -0.4768855755745386
+          ],
+          "max": [
+            1.0899999993294478,
+            1.0210603349208816,
+            0.445000000372529
+          ]
+        },
+        "size": [
+          2.1799999986588956,
+          1.0210603384971602,
+          0.9218855759470677
+        ],
+        "meshCount": 18,
+        "geometryTypes": {
+          "cylinderMeshes": 6,
+          "roundedCushions": 4,
+          "boxFrameMeshes": 8
+        },
+        "identityScale": true,
+        "externalUris": 0,
+        "skins": 0,
+        "animations": 0
+      }
+    },
+    {
+      "name": "geometry-variant-evidence-only",
+      "sha256": "d0a9065f99e0eedf557a5c0a4bdddd3c22d336536655dfb31f47c5d36424815b",
+      "bytes": 266968,
+      "parameterSha256": "c82c8fec5aee6a9ea082b289092d1b0955b90c4a6786ca4af158ac1cd372c837",
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "usePoints": [
+          {
+            "id": "left",
+            "position": [
+              -0.48,
+              0,
+              0.04
+            ],
+            "yaw": 0,
+            "seatHeight": 0.47,
+            "capacity": 1,
+            "clearance": {
+              "width": 0.92,
+              "depth": 1.11
+            },
+            "limitations": [
+              "Metres. Fixed 0.47m seat height. Static data preview only. Actual character usage awaits C3.",
+              "Clearance width is centred on use-point X. Depth extends forward from use-point Z through the exit point.",
+              "Declared allocation only. Character body clearance, reach, contact and approach/exit motion remain unverified."
+            ],
+            "seatNodeId": "seat-left",
+            "backNodeId": "back-left",
+            "approach": [
+              -0.48,
+              0,
+              1.02
+            ],
+            "exit": [
+              -0.48,
+              0,
+              1.15
+            ]
+          },
+          {
+            "id": "right",
+            "position": [
+              0.48,
+              0,
+              0.04
+            ],
+            "yaw": 0,
+            "seatHeight": 0.47,
+            "capacity": 1,
+            "clearance": {
+              "width": 0.92,
+              "depth": 1.11
+            },
+            "limitations": [
+              "Metres. Fixed 0.47m seat height. Static data preview only. Actual character usage awaits C3.",
+              "Clearance width is centred on use-point X. Depth extends forward from use-point Z through the exit point.",
+              "Declared allocation only. Character body clearance, reach, contact and approach/exit motion remain unverified."
+            ],
+            "seatNodeId": "seat-right",
+            "backNodeId": "back-right",
+            "approach": [
+              0.48,
+              0,
+              1.02
+            ],
+            "exit": [
+              0.48,
+              0,
+              1.15
+            ]
+          }
+        ],
+        "contacts": [
+          {
+            "id": "left",
+            "seatBounds": {
+              "min": [
+                -0.9400000083446503,
+                0.37999999821186065,
+                -0.3300000047683716
+              ],
+              "max": [
+                -0.019999991655349714,
+                0.47000000178813933,
+                0.41000000476837156
+              ]
+            },
+            "backBounds": {
+              "min": [
+                -0.9199999976158142,
+                0.5009153136105474,
+                -0.4266146067664056
+              ],
+              "max": [
+                -0.04000000238418577,
+                1.0190846863894527,
+                -0.24958565723073312
+              ]
+            },
+            "fixedSeatContact": [
+              -0.48,
+              0.47000000178813933,
+              0.04
+            ],
+            "fixedBackContact": [
+              -0.4799999999999999,
+              0.7200000000000001,
+              -0.3000000001534086
+            ],
+            "backFrontFace": {
+              "position": [
+                -0.48,
+                0.7665368222267462,
+                -0.3113883376901386
+              ],
+              "normal": [
+                0,
+                0.23770262642713463,
+                0.9713379748520297
+              ]
+            }
+          },
+          {
+            "id": "right",
+            "seatBounds": {
+              "min": [
+                0.019999991655349714,
+                0.37999999821186065,
+                -0.3300000047683716
+              ],
+              "max": [
+                0.9400000083446503,
+                0.47000000178813933,
+                0.41000000476837156
+              ]
+            },
+            "backBounds": {
+              "min": [
+                0.04000000238418577,
+                0.5009153136105474,
+                -0.4266146067664056
+              ],
+              "max": [
+                0.9199999976158142,
+                1.0190846863894527,
+                -0.24958565723073312
+              ]
+            },
+            "fixedSeatContact": [
+              0.48,
+              0.47000000178813933,
+              0.04
+            ],
+            "fixedBackContact": [
+              0.4799999999999999,
+              0.7200000000000001,
+              -0.3000000001534089
+            ],
+            "backFrontFace": {
+              "position": [
+                0.48,
+                0.7665368222267462,
+                -0.3113883376901386
+              ],
+              "normal": [
+                0,
+                0.23770262642713463,
+                0.9713379748520297
+              ]
+            }
+          }
+        ],
+        "footprint": {
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            1.100000023841858,
+            0.5199999809265137
+          ],
+          "blocking": true
+        },
+        "visualFootprint": {
+          "center": [
+            0,
+            -0.02827757521722571
+          ],
+          "halfSize": [
+            1.0840000002086163,
+            0.4702775750980164
+          ]
+        },
+        "bounds": {
+          "min": [
+            -1.0840000002086163,
+            -3.576278662098531e-9,
+            -0.4985551503152421
+          ],
+          "max": [
+            1.0840000002086163,
+            1.0190846863894527,
+            0.4419999998807907
+          ]
+        },
+        "size": [
+          2.1680000004172326,
+          1.0190846899657313,
+          0.9405551501960328
+        ],
+        "meshCount": 18,
+        "geometryTypes": {
+          "cylinderMeshes": 6,
+          "roundedCushions": 4,
+          "boxFrameMeshes": 8
+        },
+        "identityScale": true,
+        "externalUris": 0,
+        "skins": 0,
+        "animations": 0
+      }
+    }
+  ],
+  "structuralDifferences": [
+    "Open frame without upholstered base slab",
+    "Six cylindrical frame meshes including slender long posts and open arm rails",
+    "Two 0.09m thin seat cushions",
+    "Separate rear-leaning thin back panels with explicit front-face normals",
+    "Appearance adapted offline to unchanged two-seat functional geometry and contact anchors"
+  ],
+  "functionalContract": {
+    "source": "prototype/public/company-assets/lounge-sofa/v1/resource.json",
+    "sourceSha256": "4559d986812ef7e455fc8f0bd369380cd487d5672cd5bd7349ed9aaac8e1fb27",
+    "usePointsByteSemanticsEqual": true,
+    "footprintExactEqual": true,
+    "contactAnchors": {
+      "seatHeight": 0.47,
+      "seatX": [
+        -0.48,
+        0.48
+      ],
+      "seatZ": 0.04,
+      "backY": 0.72,
+      "backZ": -0.3
+    }
+  },
+  "evidenceVariant": {
+    "registered": false,
+    "changed": {
+      "armRadius": [
+        0.03,
+        0.024
+      ],
+      "postRadius": [
+        0.025,
+        0.022
+      ],
+      "backWidth": [
+        0.94,
+        0.88
+      ],
+      "backTilt": [
+        -0.16,
+        -0.24
+      ]
+    },
+    "functionalContractUnchanged": true
+  },
+  "errorHandling": "Invalid source identity, nonfinite parameters, contract height/support mismatch, missing named meshes, footprint overflow, contact separation or nondeterminism reject before any output is written.",
+  "limitations": [
+    "Project-authored schematic sample. Final art style and browser/GPU visual acceptance remain unverified.",
+    "Metadata and contact-face geometry only. Character seating, body contact, navigation, approach/exit animation and actual use await C3."
+  ]
+}

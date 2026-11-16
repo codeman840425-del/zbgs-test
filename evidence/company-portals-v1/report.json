@@ -1,0 +1,401 @@
+{
+  "status": "passed",
+  "command": "node scripts/company-platform/qa-portals.mjs",
+  "dispatch": {
+    "difficulty": "standard",
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "medium",
+    "reason": "Bounded extension of conservative placement grid to resolved portals and shared-edge obstacles.",
+    "configurationEvidence": "Parent-confirmed existing configuration. Host hook interception unverified."
+  },
+  "sourceSha256": "06b8d2c050285dc95ce5d650b6296c19869af999c3f27e089b005cabdbb0c7cf",
+  "checks": [
+    {
+      "name": "C1 two-stations single-room compatibility",
+      "passed": true,
+      "observed": {
+        "points": 2
+      }
+    },
+    {
+      "name": "C1 studio single-room compatibility",
+      "passed": true,
+      "observed": {
+        "points": 4
+      }
+    },
+    {
+      "name": "rental-home every portal side and installed use-point joins its room grid",
+      "passed": true,
+      "observed": {
+        "name": "rental-home",
+        "floors": 1,
+        "regions": 6,
+        "businessRooms": 3,
+        "portalConnections": 5,
+        "checkedPortalSides": 10,
+        "checkedUsePoints": 5,
+        "rules": {
+          "scope": "C1/C2 static conservative placement and same-floor portal connectivity",
+          "envelopeRadius": 0.25,
+          "gridSpacing": 0.2,
+          "gridNeighbours": 4,
+          "obstacleExpansion": "conservative square",
+          "endpointConnectorMaximum": 0.4,
+          "roomRangeMetres": [
+            3,
+            20
+          ],
+          "supportedYaw": "quarter turns",
+          "occupancyState": "not produced",
+          "portalMinimumWidth": 0.6,
+          "portalTotalWidthMargin": 0.1,
+          "portalCrossingEnvelopeRadius": 0.3,
+          "portalInteriorInset": 0.35
+        }
+      }
+    },
+    {
+      "name": "building-two-floors every portal side and installed use-point joins its room grid",
+      "passed": true,
+      "observed": {
+        "name": "building-two-floors",
+        "floors": 2,
+        "regions": 8,
+        "businessRooms": 4,
+        "portalConnections": 6,
+        "checkedPortalSides": 12,
+        "checkedUsePoints": 8,
+        "rules": {
+          "scope": "C1/C2 static conservative placement and same-floor portal connectivity",
+          "envelopeRadius": 0.25,
+          "gridSpacing": 0.2,
+          "gridNeighbours": 4,
+          "obstacleExpansion": "conservative square",
+          "endpointConnectorMaximum": 0.4,
+          "roomRangeMetres": [
+            3,
+            20
+          ],
+          "supportedYaw": "quarter turns",
+          "occupancyState": "not produced",
+          "portalMinimumWidth": 0.6,
+          "portalTotalWidthMargin": 0.1,
+          "portalCrossingEnvelopeRadius": 0.3,
+          "portalInteriorInset": 0.35
+        }
+      }
+    },
+    {
+      "name": "building every portal side and installed use-point joins its room grid",
+      "passed": true,
+      "observed": {
+        "name": "building",
+        "floors": 5,
+        "regions": 30,
+        "businessRooms": 15,
+        "portalConnections": 25,
+        "checkedPortalSides": 50,
+        "checkedUsePoints": 25,
+        "rules": {
+          "scope": "C1/C2 static conservative placement and same-floor portal connectivity",
+          "envelopeRadius": 0.25,
+          "gridSpacing": 0.2,
+          "gridNeighbours": 4,
+          "obstacleExpansion": "conservative square",
+          "endpointConnectorMaximum": 0.4,
+          "roomRangeMetres": [
+            3,
+            20
+          ],
+          "supportedYaw": "quarter turns",
+          "occupancyState": "not produced",
+          "portalMinimumWidth": 0.6,
+          "portalTotalWidthMargin": 0.1,
+          "portalCrossingEnvelopeRadius": 0.3,
+          "portalInteriorInset": 0.35
+        }
+      }
+    },
+    {
+      "name": "maximum every portal side and installed use-point joins its room grid",
+      "passed": true,
+      "observed": {
+        "name": "maximum",
+        "floors": 5,
+        "regions": 75,
+        "businessRooms": 50,
+        "portalConnections": 70,
+        "checkedPortalSides": 140,
+        "checkedUsePoints": 100,
+        "rules": {
+          "scope": "C1/C2 static conservative placement and same-floor portal connectivity",
+          "envelopeRadius": 0.25,
+          "gridSpacing": 0.2,
+          "gridNeighbours": 4,
+          "obstacleExpansion": "conservative square",
+          "endpointConnectorMaximum": 0.4,
+          "roomRangeMetres": [
+            3,
+            20
+          ],
+          "supportedYaw": "quarter turns",
+          "occupancyState": "not produced",
+          "portalMinimumWidth": 0.6,
+          "portalTotalWidthMargin": 0.1,
+          "portalCrossingEnvelopeRadius": 0.3,
+          "portalInteriorInset": 0.35
+        }
+      }
+    },
+    {
+      "name": "Two-floor input retains parallel and quarter-turn facility layouts under separate floor IDs",
+      "passed": true,
+      "observed": {
+        "stationYaws": [
+          0,
+          1.5707963267948966
+        ]
+      }
+    },
+    {
+      "name": "Exactly 0.60m portal admits the 0.50m envelope plus 0.10m total width margin",
+      "passed": true,
+      "observed": {
+        "width": 0.6,
+        "margin": 0.1
+      }
+    },
+    {
+      "name": "0.59m portal rejects insufficient declared effective width",
+      "passed": true,
+      "observed": {
+        "expectedCode": "narrow-portal"
+      }
+    },
+    {
+      "name": "Thin furnishing on first side blocks the boundary crossing envelope",
+      "passed": true,
+      "observed": {
+        "expectedCode": "blocked-portal"
+      }
+    },
+    {
+      "name": "Portal physical clearance also retains the extra 0.05m margin on each side",
+      "passed": true,
+      "observed": {
+        "expectedCode": "blocked-portal"
+      }
+    },
+    {
+      "name": "First side checks furnishing across the shared boundary on the opposite side",
+      "passed": true,
+      "observed": {
+        "expectedCode": "blocked-portal"
+      }
+    },
+    {
+      "name": "Clear portal endpoints still reject an intermediate thin divider sealing the room grid",
+      "passed": true,
+      "observed": {
+        "expectedCode": "disconnected-portal"
+      }
+    },
+    {
+      "name": "Multiple portals of one corridor must join the same grid component",
+      "passed": true,
+      "observed": {
+        "expectedCode": "disconnected-portal"
+      }
+    },
+    {
+      "name": "Quarter-turn floor transforms preserve portal interior and shared-boundary geometry",
+      "passed": true,
+      "observed": {
+        "floorId": "two-floor-demo/floor-1",
+        "portalSides": 12,
+        "witness": {
+          "connectionId": "two-floor-demo/floor-1/portal-corridor-1",
+          "side": "from",
+          "regionId": "two-floor-demo/floor-1/corridor-1",
+          "floorId": "two-floor-demo/floor-1",
+          "width": 1.4,
+          "interior": {
+            "local": [
+              4.25,
+              0,
+              0
+            ],
+            "world": [
+              12,
+              0,
+              -7.65
+            ]
+          },
+          "center": {
+            "local": [
+              4.6,
+              0,
+              0
+            ],
+            "world": [
+              12,
+              0,
+              -8
+            ]
+          },
+          "connected": true
+        }
+      }
+    },
+    {
+      "name": "Opposite-side blocker is still detected after rotating and translating its floor",
+      "passed": true,
+      "observed": {
+        "expectedCode": "blocked-portal"
+      }
+    },
+    {
+      "name": "Missing multi-region connections fail the reused structural graph gate",
+      "passed": true
+    },
+    {
+      "name": "Maximum input proves five separate viewing floors and fifty business rooms",
+      "passed": true,
+      "observed": {
+        "maximum": {
+          "floors": 5,
+          "rooms": 50,
+          "stations": 100
+        },
+        "installedStations": 100,
+        "businessRooms": 50,
+        "floors": 5
+      }
+    }
+  ],
+  "examples": [
+    {
+      "name": "rental-home",
+      "floors": 1,
+      "regions": 6,
+      "businessRooms": 3,
+      "portalConnections": 5,
+      "checkedPortalSides": 10,
+      "checkedUsePoints": 5,
+      "rules": {
+        "scope": "C1/C2 static conservative placement and same-floor portal connectivity",
+        "envelopeRadius": 0.25,
+        "gridSpacing": 0.2,
+        "gridNeighbours": 4,
+        "obstacleExpansion": "conservative square",
+        "endpointConnectorMaximum": 0.4,
+        "roomRangeMetres": [
+          3,
+          20
+        ],
+        "supportedYaw": "quarter turns",
+        "occupancyState": "not produced",
+        "portalMinimumWidth": 0.6,
+        "portalTotalWidthMargin": 0.1,
+        "portalCrossingEnvelopeRadius": 0.3,
+        "portalInteriorInset": 0.35
+      }
+    },
+    {
+      "name": "building-two-floors",
+      "floors": 2,
+      "regions": 8,
+      "businessRooms": 4,
+      "portalConnections": 6,
+      "checkedPortalSides": 12,
+      "checkedUsePoints": 8,
+      "rules": {
+        "scope": "C1/C2 static conservative placement and same-floor portal connectivity",
+        "envelopeRadius": 0.25,
+        "gridSpacing": 0.2,
+        "gridNeighbours": 4,
+        "obstacleExpansion": "conservative square",
+        "endpointConnectorMaximum": 0.4,
+        "roomRangeMetres": [
+          3,
+          20
+        ],
+        "supportedYaw": "quarter turns",
+        "occupancyState": "not produced",
+        "portalMinimumWidth": 0.6,
+        "portalTotalWidthMargin": 0.1,
+        "portalCrossingEnvelopeRadius": 0.3,
+        "portalInteriorInset": 0.35
+      }
+    },
+    {
+      "name": "building",
+      "floors": 5,
+      "regions": 30,
+      "businessRooms": 15,
+      "portalConnections": 25,
+      "checkedPortalSides": 50,
+      "checkedUsePoints": 25,
+      "rules": {
+        "scope": "C1/C2 static conservative placement and same-floor portal connectivity",
+        "envelopeRadius": 0.25,
+        "gridSpacing": 0.2,
+        "gridNeighbours": 4,
+        "obstacleExpansion": "conservative square",
+        "endpointConnectorMaximum": 0.4,
+        "roomRangeMetres": [
+          3,
+          20
+        ],
+        "supportedYaw": "quarter turns",
+        "occupancyState": "not produced",
+        "portalMinimumWidth": 0.6,
+        "portalTotalWidthMargin": 0.1,
+        "portalCrossingEnvelopeRadius": 0.3,
+        "portalInteriorInset": 0.35
+      }
+    },
+    {
+      "name": "maximum",
+      "floors": 5,
+      "regions": 75,
+      "businessRooms": 50,
+      "portalConnections": 70,
+      "checkedPortalSides": 140,
+      "checkedUsePoints": 100,
+      "rules": {
+        "scope": "C1/C2 static conservative placement and same-floor portal connectivity",
+        "envelopeRadius": 0.25,
+        "gridSpacing": 0.2,
+        "gridNeighbours": 4,
+        "obstacleExpansion": "conservative square",
+        "endpointConnectorMaximum": 0.4,
+        "roomRangeMetres": [
+          3,
+          20
+        ],
+        "supportedYaw": "quarter turns",
+        "occupancyState": "not produced",
+        "portalMinimumWidth": 0.6,
+        "portalTotalWidthMargin": 0.1,
+        "portalCrossingEnvelopeRadius": 0.3,
+        "portalInteriorInset": 0.35
+      }
+    }
+  ],
+  "boundaries": {
+    "radius": 0.25,
+    "gridSpacing": 0.2,
+    "portalMinimumWidth": 0.6,
+    "totalPortalWidthMargin": 0.1,
+    "portalSegmentExpansion": 0.3,
+    "portalInteriorInset": 0.35,
+    "portalChecks": "Both interior-to-center segments, all same-floor facility obstacles, one common grid per room/area"
+  },
+  "limitations": [
+    "Static conservative passage only. No real character use, navigation, animation or body-fit acceptance.",
+    "Floors are separate viewing layers. Stairs, lifts, vertical travel, animated doors and crowd capacities are unverified.",
+    "Square envelope expansion and four-neighbour 0.20m sampling may reject narrow or diagonal feasible routes."
+  ]
+}

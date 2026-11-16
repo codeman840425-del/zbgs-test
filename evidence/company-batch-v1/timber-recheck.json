@@ -1,0 +1,76 @@
+{
+  "status": "passed",
+  "configuration": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "reuseKnownConfiguration": true,
+    "difficulty": "standard",
+    "reason": "Atomic independent result bundles and isolated deterministic retries",
+    "actualProviderConfiguration": "not independently verified",
+    "desktopHookInterception": "not independently verified"
+  },
+  "runDirectory": "F:\\gamemake-company-platform-c1\\evidence\\company-batch-v1\\run-HIbkXG",
+  "batchSourceSha256": "20f5ad09b8600705230ae5241bbdc693b804fca9b09a3911eb389ab079fc620a",
+  "checks": [
+    {
+      "name": "Real CLI produces two complete results with same-spec real models and explicit style/pose",
+      "passed": true,
+      "observed": {
+        "results": [
+          {
+            "key": "sofa-room-original",
+            "status": "created"
+          },
+          {
+            "key": "sofa-room-blue",
+            "status": "created"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Replacement models preserve the complete declared functional contract",
+      "passed": true,
+      "observed": {
+        "functionalFieldsUnchanged": [
+          "category",
+          "mountRole",
+          "footprint",
+          "usePoints",
+          "stateDefaults",
+          "coordinate basis/scale"
+        ],
+        "actualAssetHashes": [
+          "a457c8e142f5745bb66140f0c15c1748cdcda63f536af5f119a16f7ee633116c",
+          "fa72ac0c6ab944d2679ce824dcfe08834b715bc8472b23fc4daced3a9070dd96"
+        ],
+        "distinctModelIds": [
+          "lounge-sofa",
+          "timber-sofa"
+        ]
+      }
+    },
+    {
+      "name": "Identical retry verifies existing bytes and is idempotent",
+      "passed": true,
+      "observed": {
+        "byteHashesUnchanged": true
+      }
+    },
+    {
+      "name": "One failed key leaves another success usable and can retry alone",
+      "passed": true,
+      "observed": {
+        "failureKey": "sofa-room-blue",
+        "code": "missing-instance",
+        "singleKeyRetry": "created",
+        "successfulSiblingUnchanged": true
+      }
+    }
+  ],
+  "limits": [
+    "Actual local CLI, filesystem, source/GLB hashing, static placement and save pin round-trip only. No render/GPU or character navigation.",
+    "Same-key concurrent publishers honor exclusive lock files. An interrupted process may leave a lock which must be inspected before removal."
+  ],
+  "scope": "Only same-spec model representatives, complete save outputs, idempotency and isolated retry. Earlier full batch checks retained."
+}

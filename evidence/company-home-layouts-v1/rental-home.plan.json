@@ -1,0 +1,403 @@
+{
+  "rectangles": [
+    {
+      "id": "rental/stream",
+      "name": "直播间",
+      "kind": "room",
+      "purpose": "streaming",
+      "area": 31.5,
+      "min": [
+        -9,
+        -5.25
+      ],
+      "max": [
+        -3,
+        0
+      ]
+    },
+    {
+      "id": "rental/work",
+      "name": "工作间",
+      "kind": "room",
+      "purpose": "work",
+      "area": 31.5,
+      "min": [
+        0,
+        -5.25
+      ],
+      "max": [
+        6,
+        0
+      ]
+    },
+    {
+      "id": "rental/rest",
+      "name": "休息间",
+      "kind": "room",
+      "purpose": "rest",
+      "area": 31.5,
+      "min": [
+        -9,
+        0
+      ],
+      "max": [
+        -3,
+        5.25
+      ]
+    },
+    {
+      "id": "rental/living",
+      "name": "公共客厅",
+      "kind": "area",
+      "purpose": "public",
+      "area": 31.5,
+      "min": [
+        -3,
+        0
+      ],
+      "max": [
+        3,
+        5.25
+      ]
+    },
+    {
+      "id": "rental/living-entry",
+      "name": "客厅入口",
+      "kind": "area",
+      "purpose": "public",
+      "area": 9,
+      "min": [
+        -3,
+        -3
+      ],
+      "max": [
+        0,
+        0
+      ]
+    }
+  ],
+  "obstacles": [
+    {
+      "id": "station-1/desk",
+      "min": [
+        -8.4,
+        -4.324999999999999
+      ],
+      "max": [
+        -6.4,
+        -3.3249999999999997
+      ],
+      "category": "decor"
+    },
+    {
+      "id": "station-1/chair",
+      "min": [
+        -7.675000000000001,
+        -2.63
+      ],
+      "max": [
+        -7.125,
+        -2.12
+      ],
+      "category": "seat"
+    },
+    {
+      "id": "station-1/fill-light",
+      "min": [
+        -8.370000000000001,
+        -3.275
+      ],
+      "max": [
+        -7.930000000000001,
+        -2.8749999999999996
+      ],
+      "category": "dynamic"
+    },
+    {
+      "id": "station-2/desk",
+      "min": [
+        -5.6,
+        -4.324999999999999
+      ],
+      "max": [
+        -3.5999999999999996,
+        -3.3249999999999997
+      ],
+      "category": "decor"
+    },
+    {
+      "id": "station-2/chair",
+      "min": [
+        -4.875,
+        -2.63
+      ],
+      "max": [
+        -4.324999999999999,
+        -2.12
+      ],
+      "category": "seat"
+    },
+    {
+      "id": "station-2/fill-light",
+      "min": [
+        -5.569999999999999,
+        -3.275
+      ],
+      "max": [
+        -5.13,
+        -2.8749999999999996
+      ],
+      "category": "dynamic"
+    },
+    {
+      "id": "work/desk",
+      "min": [
+        0.7,
+        -3.925
+      ],
+      "max": [
+        2.7,
+        -2.925
+      ],
+      "category": "decor"
+    },
+    {
+      "id": "work/chair",
+      "min": [
+        1.4249999999999998,
+        -2.23
+      ],
+      "max": [
+        1.975,
+        -1.7200000000000002
+      ],
+      "category": "seat"
+    },
+    {
+      "id": "rest/sofa",
+      "min": [
+        -7.100000023841858,
+        1.1050000190734863
+      ],
+      "max": [
+        -4.899999976158142,
+        2.1449999809265137
+      ],
+      "category": "multi-use"
+    },
+    {
+      "id": "public/sofa",
+      "min": [
+        0.19999997615814208,
+        3.1050000190734863
+      ],
+      "max": [
+        2.4000000238418577,
+        4.144999980926514
+      ],
+      "category": "multi-use"
+    },
+    {
+      "id": "public/plant",
+      "min": [
+        -2.8,
+        0.6249999999999999
+      ],
+      "max": [
+        -2,
+        1.4249999999999998
+      ],
+      "category": "decor"
+    }
+  ],
+  "portals": [
+    {
+      "id": "rental/door-stream",
+      "from": "rental/stream",
+      "to": "rental/living-entry",
+      "start": [
+        -3,
+        0,
+        -2.2
+      ],
+      "end": [
+        -3,
+        0,
+        -0.8
+      ]
+    },
+    {
+      "id": "rental/door-work",
+      "from": "rental/work",
+      "to": "rental/living",
+      "start": [
+        0.7999999999999998,
+        0,
+        0
+      ],
+      "end": [
+        2.2,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "rental/door-rest",
+      "from": "rental/rest",
+      "to": "rental/living",
+      "start": [
+        -3,
+        0,
+        1.925
+      ],
+      "end": [
+        -3,
+        0,
+        3.325
+      ]
+    },
+    {
+      "id": "rental/living-connection",
+      "from": "rental/living-entry",
+      "to": "rental/living",
+      "start": [
+        -2.2,
+        0,
+        0
+      ],
+      "end": [
+        -0.8,
+        0,
+        0
+      ]
+    }
+  ],
+  "points": [
+    {
+      "id": "station-1/chair#seat",
+      "position": [
+        -7.4,
+        0,
+        -2.375
+      ],
+      "approach": [
+        -7.4,
+        0,
+        -2.975
+      ],
+      "exit": [
+        -7.4,
+        0,
+        -3.025
+      ]
+    },
+    {
+      "id": "station-2/chair#seat",
+      "position": [
+        -4.6,
+        0,
+        -2.375
+      ],
+      "approach": [
+        -4.6,
+        0,
+        -2.975
+      ],
+      "exit": [
+        -4.6,
+        0,
+        -3.025
+      ]
+    },
+    {
+      "id": "work/chair#seat",
+      "position": [
+        1.7,
+        0,
+        -1.975
+      ],
+      "approach": [
+        1.7,
+        0,
+        -2.575
+      ],
+      "exit": [
+        1.7,
+        0,
+        -2.625
+      ]
+    },
+    {
+      "id": "rest/sofa#left",
+      "position": [
+        -6.48,
+        0,
+        1.665
+      ],
+      "approach": [
+        -6.48,
+        0,
+        2.645
+      ],
+      "exit": [
+        -6.48,
+        0,
+        2.775
+      ]
+    },
+    {
+      "id": "rest/sofa#right",
+      "position": [
+        -5.52,
+        0,
+        1.665
+      ],
+      "approach": [
+        -5.52,
+        0,
+        2.645
+      ],
+      "exit": [
+        -5.52,
+        0,
+        2.775
+      ]
+    },
+    {
+      "id": "public/sofa#left",
+      "position": [
+        1.78,
+        0,
+        3.585
+      ],
+      "approach": [
+        1.7800000000000002,
+        0,
+        2.605
+      ],
+      "exit": [
+        1.7800000000000002,
+        0,
+        2.475
+      ]
+    },
+    {
+      "id": "public/sofa#right",
+      "position": [
+        0.8200000000000001,
+        0,
+        3.585
+      ],
+      "approach": [
+        0.8200000000000002,
+        0,
+        2.605
+      ],
+      "exit": [
+        0.8200000000000002,
+        0,
+        2.475
+      ]
+    }
+  ]
+}

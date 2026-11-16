@@ -1,0 +1,88 @@
+{
+  "dependencies": {
+    "resources": [
+      {
+        "id": "lounge-sofa",
+        "sha256": "74263f483160dae65598c1a293fc926911b005b9e0725a079f2417240e7441f6",
+        "version": 2
+      }
+    ],
+    "templates": []
+  },
+  "document": {
+    "catalog": {
+      "id": "company-facilities",
+      "version": 1
+    },
+    "id": "batch-sofa-blue",
+    "name": "休息室蓝色变体",
+    "nodes": [
+      {
+        "connections": [],
+        "id": "batch-sofa-blue/floor-1",
+        "kind": "floor",
+        "name": "楼层1",
+        "parentId": "batch-sofa-blue",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "bounds": {
+          "depth": 7,
+          "width": 9
+        },
+        "id": "batch-sofa-blue/floor-1/room-1",
+        "kind": "room",
+        "name": "休息室",
+        "parentId": "batch-sofa-blue/floor-1",
+        "purpose": "rest",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "appearance": {
+          "materials": {
+            "fabric": {
+              "color": "#345c83",
+              "roughness": 0.82
+            }
+          }
+        },
+        "id": "batch-sofa-blue/floor-1/room-1/sofa",
+        "kind": "facility",
+        "parentId": "batch-sofa-blue/floor-1/room-1",
+        "resource": {
+          "id": "lounge-sofa",
+          "version": 2
+        },
+        "state": {},
+        "transform": {
+          "position": [
+            -1,
+            0,
+            -0.5
+          ],
+          "yaw": 1.5707963267948966
+        }
+      }
+    ],
+    "revision": 2,
+    "scale": "single-room",
+    "schema": "company-layout",
+    "version": 1
+  },
+  "schema": "company-save",
+  "version": 1
+}

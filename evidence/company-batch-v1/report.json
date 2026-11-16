@@ -1,0 +1,140 @@
+{
+  "status": "passed",
+  "configuration": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "reuseKnownConfiguration": true,
+    "difficulty": "standard",
+    "reason": "Atomic independent result bundles and isolated deterministic retries",
+    "actualProviderConfiguration": "not independently verified",
+    "desktopHookInterception": "not independently verified"
+  },
+  "runDirectory": "F:\\gamemake-company-platform-c1\\evidence\\company-batch-v1\\run-fR5zMD",
+  "batchSourceSha256": "20f5ad09b8600705230ae5241bbdc693b804fca9b09a3911eb389ab079fc620a",
+  "checks": [
+    {
+      "name": "Real CLI produces two complete results with different pinned sofa versions and explicit style/pose",
+      "passed": true,
+      "observed": {
+        "results": [
+          {
+            "key": "sofa-room-original",
+            "status": "created"
+          },
+          {
+            "key": "sofa-room-blue",
+            "status": "created"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Identical retry verifies existing bytes and is idempotent",
+      "passed": true,
+      "observed": {
+        "byteHashesUnchanged": true
+      }
+    },
+    {
+      "name": "Independent output root receives byte-identical portable results",
+      "passed": true,
+      "observed": {
+        "allEightFilesIdentical": true
+      }
+    },
+    {
+      "name": "JSON property ordering does not change deterministic result bytes",
+      "passed": true
+    },
+    {
+      "name": "Changed input reports output-conflict and preserves every existing valid byte",
+      "passed": true
+    },
+    {
+      "name": "One failed key leaves another success usable and can retry alone",
+      "passed": true,
+      "observed": {
+        "failureKey": "sofa-room-blue",
+        "code": "missing-instance",
+        "singleKeyRetry": "created",
+        "successfulSiblingUnchanged": true
+      }
+    },
+    {
+      "name": "Malformed per-item operations stay isolated and an explicit empty operation array is valid",
+      "passed": true
+    },
+    {
+      "name": "Duplicate key rejects before any output directory is created",
+      "passed": true,
+      "observed": {
+        "code": "duplicate-batch-key"
+      }
+    },
+    {
+      "name": "Windows-case duplicate key rejects before any output directory is created",
+      "passed": true,
+      "observed": {
+        "code": "duplicate-batch-key"
+      }
+    },
+    {
+      "name": "Duplicate company identity rejects before any output directory is created",
+      "passed": true,
+      "observed": {
+        "code": "duplicate-company-id"
+      }
+    },
+    {
+      "name": "Directory traversal key rejects before any output directory is created",
+      "passed": true,
+      "observed": {
+        "code": "invalid-batch-key"
+      }
+    },
+    {
+      "name": "Windows device-name key rejects before any output directory is created",
+      "passed": true,
+      "observed": {
+        "code": "invalid-batch-key"
+      }
+    },
+    {
+      "name": "Tampered existing result is rejected without replacing the tampered bytes",
+      "passed": true
+    },
+    {
+      "name": "Additional or missing bundle files are reported and never repaired over existing data",
+      "passed": true
+    },
+    {
+      "name": "Existing file or junction cannot redirect result writes outside its result directory",
+      "passed": true
+    },
+    {
+      "name": "An existing key lock reports busy without touching a result and retries after release",
+      "passed": true
+    },
+    {
+      "name": "Concurrent real CLI publishers cannot mix or overwrite result bundles",
+      "passed": true,
+      "observed": {
+        "publisherStates": [
+          [
+            "created",
+            "created"
+          ],
+          [
+            "idempotent",
+            "idempotent"
+          ]
+        ],
+        "noStagingOrLocksRemain": true
+      }
+    }
+  ],
+  "limits": [
+    "Actual local CLI, filesystem, source/GLB hashing, static placement and save pin round-trip only. No render/GPU or character navigation.",
+    "Same-key concurrent publishers honor exclusive lock files. An interrupted process may leave a lock which must be inspected before removal."
+  ]
+}

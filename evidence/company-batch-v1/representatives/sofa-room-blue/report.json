@@ -1,0 +1,219 @@
+{
+  "assetDependencies": [
+    {
+      "bytes": 631248,
+      "id": "lounge-sofa",
+      "path": "prototype/public/company-assets/lounge-sofa/v2/model.glb",
+      "sha256": "909662780545112153e591cffbe2463a0e2c3ad1727edd3f84b1a58c4e653c84",
+      "version": 2
+    }
+  ],
+  "checks": {
+    "connections": {
+      "capacity": {
+        "businessRooms": 1,
+        "floors": 1,
+        "installedStations": 0,
+        "maximum": {
+          "floors": 1,
+          "rooms": 1,
+          "stations": 2
+        }
+      },
+      "floors": [
+        {
+          "businessRooms": 1,
+          "connections": [],
+          "floorId": "batch-sofa-blue/floor-1",
+          "regionIds": [
+            "batch-sofa-blue/floor-1/room-1"
+          ]
+        }
+      ],
+      "interiorInset": 0.35,
+      "limits": [
+        "Floors are viewing layers at Y=0. No stairs, lifts or cross-floor connections.",
+        "Coincident portals and interior samples do not prove obstacle clearance or character navigation."
+      ],
+      "scope": "C2 same-floor rectangular portal geometry only"
+    },
+    "placement": {
+      "checkedPoints": [
+        {
+          "approach": {
+            "local": [
+              0.020000000000000018,
+              0,
+              -0.019999999999999955
+            ],
+            "world": [
+              0.020000000000000018,
+              0,
+              -0.019999999999999955
+            ]
+          },
+          "approachConnected": true,
+          "capacity": 1,
+          "exit": {
+            "local": [
+              0.1499999999999999,
+              0,
+              -0.01999999999999995
+            ],
+            "world": [
+              0.1499999999999999,
+              0,
+              -0.01999999999999995
+            ]
+          },
+          "exitConnected": true,
+          "facilityId": "batch-sofa-blue/floor-1/room-1/sofa",
+          "id": "batch-sofa-blue/floor-1/room-1/sofa#left",
+          "position": {
+            "local": [
+              -0.96,
+              0,
+              -0.020000000000000014
+            ],
+            "world": [
+              -0.96,
+              0,
+              -0.020000000000000014
+            ]
+          },
+          "roomId": "batch-sofa-blue/floor-1/room-1"
+        },
+        {
+          "approach": {
+            "local": [
+              0.020000000000000018,
+              0,
+              -0.9799999999999999
+            ],
+            "world": [
+              0.020000000000000018,
+              0,
+              -0.9799999999999999
+            ]
+          },
+          "approachConnected": true,
+          "capacity": 1,
+          "exit": {
+            "local": [
+              0.1499999999999999,
+              0,
+              -0.9799999999999999
+            ],
+            "world": [
+              0.1499999999999999,
+              0,
+              -0.9799999999999999
+            ]
+          },
+          "exitConnected": true,
+          "facilityId": "batch-sofa-blue/floor-1/room-1/sofa",
+          "id": "batch-sofa-blue/floor-1/room-1/sofa#right",
+          "position": {
+            "local": [
+              -0.96,
+              0,
+              -0.98
+            ],
+            "world": [
+              -0.96,
+              0,
+              -0.98
+            ]
+          },
+          "roomId": "batch-sofa-blue/floor-1/room-1"
+        }
+      ],
+      "checkedPortals": [],
+      "rooms": [
+        {
+          "entry": [
+            3.9,
+            0,
+            2.9
+          ],
+          "entrySource": "default internal test origin, not a real door",
+          "entryWorld": [
+            3.9,
+            0,
+            2.9
+          ],
+          "grid": {
+            "columns": 43,
+            "reachableCells": 1307,
+            "rows": 33
+          },
+          "id": "batch-sofa-blue/floor-1/room-1"
+        }
+      ],
+      "rules": {
+        "endpointConnectorMaximum": 0.4,
+        "envelopeRadius": 0.25,
+        "gridNeighbours": 4,
+        "gridSpacing": 0.2,
+        "obstacleExpansion": "conservative square",
+        "occupancyState": "not produced",
+        "portalCrossingEnvelopeRadius": 0.3,
+        "portalInteriorInset": 0.35,
+        "portalMinimumWidth": 0.6,
+        "portalTotalWidthMargin": 0.1,
+        "roomRangeMetres": [
+          3,
+          20
+        ],
+        "scope": "C1/C2 static conservative placement and same-floor portal connectivity",
+        "supportedYaw": "quarter turns"
+      },
+      "warnings": [
+        "C1/C2 static authoring reserve only. Radius 0.25m has no verified C3 character fit.",
+        "0.20m four-neighbour grid and square obstacle expansion are conservative. Narrow or diagonal feasible paths may be rejected.",
+        "Every grid edge, endpoint connector and portal crossing segment is checked continuously against expanded footprints.",
+        "Region boundaries are closed except for declared portals. Same-floor portal and grid connectivity is static conservative admission only.",
+        "Contact meshes, actual door hardware, stairs/lifts, vertical travel and real character navigation remain unverified."
+      ]
+    }
+  },
+  "companyId": "batch-sofa-blue",
+  "dependencies": {
+    "resources": [
+      {
+        "id": "lounge-sofa",
+        "sha256": "74263f483160dae65598c1a293fc926911b005b9e0725a079f2417240e7441f6",
+        "version": 2
+      }
+    ],
+    "templates": []
+  },
+  "documentRevision": 2,
+  "files": {
+    "input.json": {
+      "bytes": 827,
+      "sha256": "0bd02b7e85af5bd3dd7f81db8296801563cf967f13faae9d5c4d5800f6f70547"
+    },
+    "layout.json": {
+      "bytes": 1418,
+      "sha256": "847e443845e068e43fe7b9bf08829067a64a88ed6262d40489fe616227a8d013"
+    },
+    "save.json": {
+      "bytes": 1849,
+      "sha256": "3632dcbfce4b4fe631a80e6c5ea3f1de59f8d8f5ac1e67cbe4019d24509953fd"
+    }
+  },
+  "key": "sofa-room-blue",
+  "schema": "company-batch-result",
+  "scope": "Complete deterministic authoring result. Static geometry and placement admission only; rendering and character usage require their own evidence.",
+  "sourceHashes": {
+    "prototype/src/company/document.js": "d2019429d7e13250d8bbec823c1aa8e7f5c4aa7680c2a1651b1227909792254d",
+    "prototype/src/company/library-catalog.json": "ff2b1ad7f2b8284cd11d28fb20f242fd1afc1768e6ec0e8ef5c9d4823b927378",
+    "prototype/src/company/persistence.js": "ce81dfba9e3bedec435b10173cf8989db4ee5006b0810cc4d74a25f1963c998c",
+    "prototype/src/company/placement.js": "06b8d2c050285dc95ce5d650b6296c19869af999c3f27e089b005cabdbb0c7cf",
+    "prototype/src/company/space.js": "cb1f98b56cf6da0a5cdf47e5a3697a74c807045289b2c35a646819001c6ce336",
+    "prototype/src/company/templates.json": "c5d7e3c573df6b8f88c54c553f02dba3db96ae76c9c2bb8e677e2a67cb0dfa53",
+    "scripts/company-platform/batch.mjs": "f71300a3c70986e34cba50b6733d4b902c4e3cb7567cdc95a955d65deca54991"
+  },
+  "version": 1
+}

@@ -1,0 +1,194 @@
+{
+  "status": "failed",
+  "generatedAt": "2026-11-16T19:29:10.828Z",
+  "configuration": {
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "high",
+    "difficulty": "complex",
+    "actualProviderConfiguration": "not independently verified",
+    "hostHookInterception": "not independently verified"
+  },
+  "beforeHashes": {
+    "prototype/src/company/render.js": "4371db2eb49f9b0030ff797475ecb43c9e904e0e0656febe24ccce05a2ba469f",
+    "prototype/src/company/authoring.js": "a52e38e1060c95841401d78902732d5e6ce280ff0fb250fd0333e746d772284d",
+    "prototype/src/company/asset-library.js": "ce02880ab9ca77f3d4095a940b263d379068894da852ce9fdffc3d5fcc0452f9",
+    "prototype/src/company/architecture.js": "277429f0d1706f27f8e5549c90c8d2b478b7b947788ac9f12452829cfb85d492",
+    "prototype/src/company/space.js": "cb1f98b56cf6da0a5cdf47e5a3697a74c807045289b2c35a646819001c6ce336"
+  },
+  "afterHashes": {
+    "prototype/src/company/render.js": "4371db2eb49f9b0030ff797475ecb43c9e904e0e0656febe24ccce05a2ba469f",
+    "prototype/src/company/authoring.js": "a52e38e1060c95841401d78902732d5e6ce280ff0fb250fd0333e746d772284d",
+    "prototype/src/company/asset-library.js": "ce02880ab9ca77f3d4095a940b263d379068894da852ce9fdffc3d5fcc0452f9",
+    "prototype/src/company/architecture.js": "277429f0d1706f27f8e5549c90c8d2b478b7b947788ac9f12452829cfb85d492",
+    "prototype/src/company/space.js": "cb1f98b56cf6da0a5cdf47e5a3697a74c807045289b2c35a646819001c6ce336"
+  },
+  "sourcesStable": true,
+  "checks": [
+    {
+      "name": "Real GLB floor selection, same-name state isolation and display resource disposal",
+      "passed": true,
+      "observed": {
+        "loadedUrls": [
+          "/company-assets/lounge-sofa/v1/model.glb",
+          "/company-assets/lounge-sofa/v2/model.glb",
+          "/company-assets/lounge-sofa/v1/model.glb"
+        ],
+        "disposedDisplayedGeometries": 88,
+        "sameNameRooms": 4
+      }
+    },
+    {
+      "name": "Room focus retains actual contact references and invalidates an older prepared handle",
+      "passed": true,
+      "observed": {
+        "physicalWallHeight": 2.8,
+        "displayedWallHeight": 0.504,
+        "contactReferencePreserved": true
+      }
+    },
+    {
+      "name": "Building overview releases GLB cache and retains complete per-floor physical navigation",
+      "passed": false,
+      "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(meshes>0)\n\n    at file:///F:/gamemake-company-platform-c1/scripts/company-platform/qa-c2-view-independent.mjs:62:66\n    at async check (file:///F:/gamemake-company-platform-c1/scripts/company-platform/qa-c2-view-independent.mjs:32:75)\n    at async file:///F:/gamemake-company-platform-c1/scripts/company-platform/qa-c2-view-independent.mjs:58:1"
+    },
+    {
+      "name": "Overlapping floor views use the latest requested floor and cancel the stale cache entry",
+      "passed": true,
+      "observed": {
+        "stale": {
+          "code": "asset-load-cancelled"
+        },
+        "staleFetchAborted": true
+      }
+    },
+    {
+      "name": "A edit while another floor loads preserves the winning full document",
+      "passed": true,
+      "observed": {
+        "winningDocumentPreserved": true
+      }
+    },
+    {
+      "name": "A load while another floor loads preserves the winning full document",
+      "passed": true,
+      "observed": {
+        "winningDocumentPreserved": true
+      }
+    },
+    {
+      "name": "Failed next-floor fetch preserves live root and complete document and evicts failed cache",
+      "passed": true,
+      "observed": {
+        "failure": "asset-fetch-failed",
+        "currentRootPreserved": true
+      }
+    },
+    {
+      "name": "Building overview whole-document restore checks an occupied offscreen contact",
+      "passed": true,
+      "observed": {
+        "busyPoint": "two-floor-demo/floor-2/room-1/station-1/chair#seat",
+        "logicalGuardConsulted": true
+      }
+    },
+    {
+      "name": "Rejected apply superseding a pending floor load releases unneeded resources",
+      "passed": true,
+      "observed": {
+        "stale": {
+          "code": "asset-load-cancelled"
+        },
+        "cache": {
+          "cachedAssets": 1,
+          "loadedAssets": 1
+        },
+        "view": {
+          "mode": "floor",
+          "roomId": null,
+          "floorId": "two-floor-demo/floor-1"
+        }
+      }
+    },
+    {
+      "name": "Rejected import superseding a pending floor load releases unneeded resources",
+      "passed": true,
+      "observed": {
+        "stale": {
+          "code": "asset-load-cancelled"
+        },
+        "cache": {
+          "cachedAssets": 1,
+          "loadedAssets": 1
+        },
+        "view": {
+          "mode": "floor",
+          "roomId": null,
+          "floorId": "two-floor-demo/floor-1"
+        }
+      }
+    },
+    {
+      "name": "Rejected upgrade superseding a pending floor load releases unneeded resources",
+      "passed": true,
+      "observed": {
+        "stale": {
+          "code": "asset-load-cancelled"
+        },
+        "cache": {
+          "cachedAssets": 1,
+          "loadedAssets": 1
+        },
+        "view": {
+          "mode": "floor",
+          "roomId": null,
+          "floorId": "two-floor-demo/floor-1"
+        }
+      }
+    },
+    {
+      "name": "Rejected restore superseding a pending floor load releases unneeded resources",
+      "passed": true,
+      "observed": {
+        "stale": {
+          "code": "asset-load-cancelled"
+        },
+        "cache": {
+          "cachedAssets": 1,
+          "loadedAssets": 1
+        },
+        "view": {
+          "mode": "floor",
+          "roomId": null,
+          "floorId": "two-floor-demo/floor-1"
+        }
+      }
+    },
+    {
+      "name": "Stale import finishing dependency verification cannot start orphaned asset loads after a newer floor wins",
+      "passed": true,
+      "observed": {
+        "result": {
+          "code": "revision-conflict"
+        },
+        "lateRequests": [],
+        "cache": {
+          "cachedAssets": 1,
+          "loadedAssets": 1
+        }
+      }
+    },
+    {
+      "name": "One failed asset cancels a sibling late GLB and disposes its parsed resources",
+      "passed": true,
+      "observed": {
+        "lateFetchAborted": true,
+        "lateParsedGeometryDisposals": 18,
+        "currentDocumentPreserved": true
+      }
+    }
+  ],
+  "limits": [
+    "CPU actual Three scene construction and GLTFLoader parsing only. No GPU, browser or character integration.",
+    "Fetch gates intentionally ignore abort to verify late-result cancellation and resource ownership."
+  ]
+}

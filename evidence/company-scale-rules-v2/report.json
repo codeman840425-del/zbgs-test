@@ -1,0 +1,47 @@
+{
+  "status": "small-home-admission-passed",
+  "generatedAt": "2026-11-16T19:13:29.945Z",
+  "inputHashes": {
+    "prototype/src/company/document.js": "c604fe1d12a4c299dcdce48c2306fe4af57da6cae2cc56ce61991516f2cefe86",
+    "prototype/src/company/space.js": "cb1f98b56cf6da0a5cdf47e5a3697a74c807045289b2c35a646819001c6ce336",
+    "prototype/src/company/library-catalog.json": "e7c0423826af85fd64276fb41b7af5b522060ff388ecb836e3133d60943bedea",
+    "prototype/src/company/templates.json": "c5d7e3c573df6b8f88c54c553f02dba3db96ae76c9c2bb8e677e2a67cb0dfa53",
+    "prototype/src/company/examples/c2-small-home.json": "364ca43db062a1ab7d69d5020853381e4c5b2ef4c84b7882b9f696aed72afc61",
+    "prototype/src/company/placement.js": "06b8d2c050285dc95ce5d650b6296c19869af999c3f27e089b005cabdbb0c7cf",
+    "prototype/src/company/persistence.js": "ce81dfba9e3bedec435b10173cf8989db4ee5006b0810cc4d74a25f1963c998c",
+    "evidence/company-space-v1/maximum.layout.json": "51567aa28ecf7aed6558e30604003f31985aa389012f052bedb91f28c3c494af",
+    "evidence/company-appearance-contract-v1/report.json": "afee2b8543b76a546e78104f5c300b9a69c87f1be3adbf8145588c0a4847d519",
+    "evidence/company-scale-rules-v2/check-small-home.mjs": "b3ce960a1457449b146131fd9fcde9190880ae79382f46d1427d74078369b1f4"
+  },
+  "inputHashesUnchangedAtEnd": true,
+  "checks": [
+    {
+      "name": "only small-home admission changes the previously verified appearance document; original space factory bytes are restored",
+      "passed": true
+    },
+    {
+      "name": "actual 6 by 5.25 metre small-home has one business room and one initial station",
+      "passed": true
+    },
+    {
+      "name": "second business room rejects atomically without changing the actual small-home input",
+      "passed": true
+    },
+    {
+      "name": "historical five-floor fifty-room one-hundred-station layout remains unchanged and accepted",
+      "passed": true
+    }
+  ],
+  "scope": "Small-home document admission only. Existing floor factory bytes and prior limits are retained.",
+  "deferred": [
+    "16-room hotel floor",
+    "configurable building floor count",
+    "additional public spaces",
+    "boss room and upper floor ideas"
+  ],
+  "limits": [
+    "No GPU/browser or character-use work. Portal graph and static placement only.",
+    "The existing factory continues to consume its original technical input scales. Small-home is consumed from its explicit new layout JSON.",
+    "The inherited two-station room ceiling is an upper bound, not a claim that any two-station fitout has passed."
+  ]
+}

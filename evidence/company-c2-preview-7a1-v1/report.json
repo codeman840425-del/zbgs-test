@@ -1,0 +1,203 @@
+{
+  "build": "7a140ad0443d",
+  "status": "passed",
+  "checks": [
+    {
+      "name": "Different sofa geometry replaces only appearance, preserving physical/navigation/use identity",
+      "passed": true,
+      "result": {
+        "newMeshes": 18,
+        "unchangedPhysicalContract": true
+      }
+    },
+    {
+      "name": "Rental rooms display real matching door gaps and connected public passage",
+      "passed": true,
+      "result": {
+        "regions": 5,
+        "connections": 4,
+        "wallObstacles": 28
+      }
+    },
+    {
+      "name": "Building overview loads no detailed facilities; floor switching loads only its own asset",
+      "passed": true,
+      "result": {
+        "states": [
+          {
+            "floorId": "two-floor-company/floor-1",
+            "cache": {
+              "cachedAssets": 1,
+              "loadedAssets": 1
+            },
+            "points": [
+              "two-floor-company/floor-1/room-1/station-1/chair#seat",
+              "two-floor-company/floor-1/room-1/station-2/chair#seat",
+              "two-floor-company/floor-1/room-2/sofa#left",
+              "two-floor-company/floor-1/room-2/sofa#right"
+            ],
+            "memory": {
+              "geometries": 81,
+              "textures": 3
+            },
+            "drawCalls": 81
+          },
+          {
+            "floorId": "two-floor-company/floor-2",
+            "cache": {
+              "cachedAssets": 1,
+              "loadedAssets": 1
+            },
+            "points": [
+              "two-floor-company/floor-2/room-1/sofa#left",
+              "two-floor-company/floor-2/room-1/sofa#right",
+              "two-floor-company/floor-2/room-2/station-1/chair#seat",
+              "two-floor-company/floor-2/room-2/station-2/chair#seat"
+            ],
+            "memory": {
+              "geometries": 88,
+              "textures": 3
+            },
+            "drawCalls": 88
+          },
+          {
+            "floorId": "two-floor-company/floor-1",
+            "cache": {
+              "cachedAssets": 1,
+              "loadedAssets": 1
+            },
+            "points": [
+              "two-floor-company/floor-1/room-1/station-1/chair#seat",
+              "two-floor-company/floor-1/room-1/station-2/chair#seat",
+              "two-floor-company/floor-1/room-2/sofa#left",
+              "two-floor-company/floor-1/room-2/sofa#right"
+            ],
+            "memory": {
+              "geometries": 81,
+              "textures": 3
+            },
+            "drawCalls": 81
+          }
+        ],
+        "documentUnchanged": true
+      }
+    },
+    {
+      "name": "Same-name rooms and stations keep separate state, and viewing leaves full configuration intact",
+      "passed": true,
+      "result": {
+        "unchanged": true,
+        "secondOn": true,
+        "lights": [
+          {
+            "id": "two-floor-company/floor-2/room-2/station-1/fill-light",
+            "intensity": 5,
+            "castsShadow": false
+          },
+          {
+            "id": "two-floor-company/floor-2/room-2/station-2/fill-light",
+            "intensity": 5,
+            "castsShadow": false
+          }
+        ],
+        "cache": {
+          "cachedAssets": 1,
+          "loadedAssets": 1
+        },
+        "focused": {
+          "mode": "room",
+          "roomId": "two-floor-company/floor-2/room-2",
+          "floorId": "two-floor-company/floor-2"
+        }
+      }
+    },
+    {
+      "name": "Explicit template upgrade retains state/local overrides and saves every floor",
+      "passed": true,
+      "result": {
+        "floors": 2,
+        "pinnedResources": 8
+      }
+    },
+    {
+      "name": "Close browser process and reopen the last saved company with all floors and state",
+      "passed": true,
+      "result": {
+        "lastCompany": "two-floor-company",
+        "allNodes": 40
+      }
+    },
+    {
+      "name": "A failed offscreen resource load preserves both current view and full company data",
+      "passed": true,
+      "result": {
+        "code": "asset-fetch-failed",
+        "unchanged": true
+      }
+    },
+    {
+      "name": "Five-floor structure uses one display floor at a time and bounded realtime lights",
+      "passed": true,
+      "result": {
+        "logicalFloors": 5,
+        "displayedFacilities": 15,
+        "logicalFacilities": 75,
+        "lights": [
+          {
+            "id": "building-company/floor-5/room-1/station-1/fill-light",
+            "intensity": 5,
+            "castsShadow": false
+          },
+          {
+            "id": "building-company/floor-5/room-1/station-2/fill-light",
+            "intensity": 5,
+            "castsShadow": false
+          }
+        ],
+        "cache": {
+          "cachedAssets": 1,
+          "loadedAssets": 1
+        },
+        "drawCalls": 106,
+        "memory": {
+          "geometries": 106,
+          "textures": 3
+        }
+      }
+    },
+    {
+      "name": "Explicit 100-station configuration renders only one 20-station floor under the same light cap",
+      "passed": true,
+      "result": {
+        "stationCount": 100,
+        "displayedFacilities": 120,
+        "lights": 2,
+        "drawCalls": 543,
+        "triangles": 14836,
+        "memory": {
+          "geometries": 543,
+          "textures": 3
+        },
+        "frameIntervalMs": {
+          "median": 122.10000002384186,
+          "p95": 133.90000009536743
+        },
+        "cpuRenderSubmissionMs": {
+          "median": 1.3000000715255737,
+          "p95": 2
+        },
+        "environment": {
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "width": 1440,
+          "height": 1000,
+          "pixelRatio": 1
+        },
+        "limits": "Short functional development-browser sample; not isolated performance benchmarking, GPU timings or ordinary-PC acceptance."
+      }
+    }
+  ],
+  "limits": [
+    "No real character usage or ordinary-PC performance acceptance. Browser frame samples describe only this environment."
+  ]
+}

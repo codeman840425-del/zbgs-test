@@ -1,0 +1,56 @@
+{
+  "build": "0e3551c8d5eb",
+  "status": "passed",
+  "checks": [
+    {
+      "name": "Whole-building exterior is lightweight and has zero detailed 3D facilities or cached assets",
+      "passed": true,
+      "result": {
+        "view": {
+          "mode": "building",
+          "roomId": null,
+          "floorId": "building-company/floor-1"
+        },
+        "children": 0,
+        "assets": {
+          "cachedAssets": 0,
+          "loadedAssets": 0
+        },
+        "facilities": 0,
+        "canvasHidden": true
+      }
+    },
+    {
+      "name": "Keyboard entry animates only the shell transition, without changing company data",
+      "passed": true,
+      "result": {
+        "floors": 5,
+        "transitionMilliseconds": 600
+      }
+    },
+    {
+      "name": "Selecting a floor loads its real scene; floor camera stays fixed while dragging",
+      "passed": true,
+      "result": {
+        "floorId": "building-company/floor-3",
+        "locked": true
+      }
+    },
+    {
+      "name": "Entering a room enables full 3D viewing and all changes remain presentation only",
+      "passed": true,
+      "result": {
+        "roomId": "building-company/floor-3/room-1",
+        "documentUnchanged": true
+      }
+    },
+    {
+      "name": "Return to section/exterior releases detailed resources; small viewport and reduced motion remain usable",
+      "passed": true,
+      "result": {
+        "released": true,
+        "reducedMotion": true
+      }
+    }
+  ]
+}

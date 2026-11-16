@@ -1,0 +1,546 @@
+{
+  "schema": "company-layout",
+  "version": 1,
+  "id": "rental-demo",
+  "name": "rental-demo",
+  "revision": 1,
+  "scale": "rental-home",
+  "catalog": {
+    "id": "company-facilities",
+    "version": 1
+  },
+  "nodes": [
+    {
+      "id": "rental-demo/floor-1",
+      "kind": "floor",
+      "parentId": "rental-demo",
+      "name": "楼层1",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "connections": [
+        {
+          "id": "rental-demo/floor-1/portal-corridor-1",
+          "from": {
+            "regionId": "rental-demo/floor-1/corridor-1",
+            "edge": "east",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "rental-demo/floor-1/corridor-2",
+            "edge": "west",
+            "offset": 0,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "rental-demo/floor-1/portal-corridor-2",
+          "from": {
+            "regionId": "rental-demo/floor-1/corridor-2",
+            "edge": "east",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "rental-demo/floor-1/corridor-3",
+            "edge": "west",
+            "offset": 0,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "rental-demo/floor-1/portal-room-1",
+          "from": {
+            "regionId": "rental-demo/floor-1/room-1",
+            "edge": "south",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "rental-demo/floor-1/corridor-1",
+            "edge": "north",
+            "offset": 0,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "rental-demo/floor-1/portal-room-2",
+          "from": {
+            "regionId": "rental-demo/floor-1/room-2",
+            "edge": "south",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "rental-demo/floor-1/corridor-2",
+            "edge": "north",
+            "offset": 0,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "rental-demo/floor-1/portal-room-3",
+          "from": {
+            "regionId": "rental-demo/floor-1/room-3",
+            "edge": "south",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "rental-demo/floor-1/corridor-3",
+            "edge": "north",
+            "offset": 0,
+            "width": 1.4
+          }
+        }
+      ]
+    },
+    {
+      "id": "rental-demo/floor-1/corridor-1",
+      "kind": "area",
+      "parentId": "rental-demo/floor-1",
+      "name": "公共通道",
+      "bounds": {
+        "width": 9.2,
+        "depth": 3
+      },
+      "transform": {
+        "position": [
+          -9.2,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "rental-demo/floor-1/corridor-2",
+      "kind": "area",
+      "parentId": "rental-demo/floor-1",
+      "name": "公共通道",
+      "bounds": {
+        "width": 9.2,
+        "depth": 3
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "rental-demo/floor-1/corridor-3",
+      "kind": "area",
+      "parentId": "rental-demo/floor-1",
+      "name": "公共通道",
+      "bounds": {
+        "width": 9.2,
+        "depth": 3
+      },
+      "transform": {
+        "position": [
+          9.2,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "rental-demo/floor-1/room-1",
+      "kind": "room",
+      "parentId": "rental-demo/floor-1",
+      "name": "同名房间",
+      "purpose": "streaming",
+      "bounds": {
+        "width": 9,
+        "depth": 7
+      },
+      "transform": {
+        "position": [
+          -9.2,
+          0,
+          -5
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "rental-demo/floor-1/room-2",
+      "kind": "room",
+      "parentId": "rental-demo/floor-1",
+      "name": "同名房间",
+      "purpose": "work",
+      "bounds": {
+        "width": 9,
+        "depth": 7
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -5
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "rental-demo/floor-1/room-3",
+      "kind": "room",
+      "parentId": "rental-demo/floor-1",
+      "name": "同名房间",
+      "purpose": "rest",
+      "bounds": {
+        "width": 9,
+        "depth": 7
+      },
+      "transform": {
+        "position": [
+          9.2,
+          0,
+          -5
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "rental-demo/floor-1/room-1/station-1",
+      "kind": "workstation",
+      "parentId": "rental-demo/floor-1/room-1",
+      "name": "rental-demo/floor-1/room-1/station-1",
+      "transform": {
+        "position": [
+          -1.5,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "template": {
+        "id": "stream-station",
+        "version": 1
+      }
+    },
+    {
+      "id": "rental-demo/floor-1/room-1/station-1/desk",
+      "kind": "facility",
+      "stationId": "rental-demo/floor-1/room-1/station-1",
+      "partKey": "desk",
+      "parentId": "rental-demo/floor-1/room-1/station-1",
+      "resource": {
+        "id": "desk",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -0.9
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "rental-demo/floor-1/room-1/station-1/monitor",
+      "kind": "facility",
+      "stationId": "rental-demo/floor-1/room-1/station-1",
+      "partKey": "monitor",
+      "parentId": "rental-demo/floor-1/room-1/station-1/desk",
+      "resource": {
+        "id": "monitor",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          -0.25
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "rental-demo/floor-1/room-1/station-1/keyboard",
+      "kind": "facility",
+      "stationId": "rental-demo/floor-1/room-1/station-1",
+      "partKey": "keyboard",
+      "parentId": "rental-demo/floor-1/room-1/station-1/desk",
+      "resource": {
+        "id": "keyboard",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          0.21
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "rental-demo/floor-1/room-1/station-1/microphone",
+      "kind": "facility",
+      "stationId": "rental-demo/floor-1/room-1/station-1",
+      "partKey": "microphone",
+      "parentId": "rental-demo/floor-1/room-1/station-1/desk",
+      "resource": {
+        "id": "desk-microphone",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.8,
+          0.84,
+          0.18
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "rental-demo/floor-1/room-1/station-1/chair",
+      "kind": "facility",
+      "stationId": "rental-demo/floor-1/room-1/station-1",
+      "partKey": "chair",
+      "parentId": "rental-demo/floor-1/room-1/station-1",
+      "resource": {
+        "id": "chair",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0.55
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "rental-demo/floor-1/room-1/station-1/fill-light",
+      "kind": "facility",
+      "stationId": "rental-demo/floor-1/room-1/station-1",
+      "partKey": "fill-light",
+      "parentId": "rental-demo/floor-1/room-1/station-1",
+      "resource": {
+        "id": "fill-light",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.75,
+          0,
+          -0.15
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "rental-demo/floor-1/room-1/station-2",
+      "kind": "workstation",
+      "parentId": "rental-demo/floor-1/room-1",
+      "name": "rental-demo/floor-1/room-1/station-2",
+      "transform": {
+        "position": [
+          1.5,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "template": {
+        "id": "stream-station",
+        "version": 1
+      }
+    },
+    {
+      "id": "rental-demo/floor-1/room-1/station-2/desk",
+      "kind": "facility",
+      "stationId": "rental-demo/floor-1/room-1/station-2",
+      "partKey": "desk",
+      "parentId": "rental-demo/floor-1/room-1/station-2",
+      "resource": {
+        "id": "desk",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -0.9
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "rental-demo/floor-1/room-1/station-2/monitor",
+      "kind": "facility",
+      "stationId": "rental-demo/floor-1/room-1/station-2",
+      "partKey": "monitor",
+      "parentId": "rental-demo/floor-1/room-1/station-2/desk",
+      "resource": {
+        "id": "monitor",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          -0.25
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "rental-demo/floor-1/room-1/station-2/keyboard",
+      "kind": "facility",
+      "stationId": "rental-demo/floor-1/room-1/station-2",
+      "partKey": "keyboard",
+      "parentId": "rental-demo/floor-1/room-1/station-2/desk",
+      "resource": {
+        "id": "keyboard",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          0.21
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "rental-demo/floor-1/room-1/station-2/microphone",
+      "kind": "facility",
+      "stationId": "rental-demo/floor-1/room-1/station-2",
+      "partKey": "microphone",
+      "parentId": "rental-demo/floor-1/room-1/station-2/desk",
+      "resource": {
+        "id": "desk-microphone",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.8,
+          0.84,
+          0.18
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "rental-demo/floor-1/room-1/station-2/chair",
+      "kind": "facility",
+      "stationId": "rental-demo/floor-1/room-1/station-2",
+      "partKey": "chair",
+      "parentId": "rental-demo/floor-1/room-1/station-2",
+      "resource": {
+        "id": "chair",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0.55
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "rental-demo/floor-1/room-1/station-2/fill-light",
+      "kind": "facility",
+      "stationId": "rental-demo/floor-1/room-1/station-2",
+      "partKey": "fill-light",
+      "parentId": "rental-demo/floor-1/room-1/station-2",
+      "resource": {
+        "id": "fill-light",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.75,
+          0,
+          -0.15
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "rental-demo/floor-1/room-2/desk",
+      "kind": "facility",
+      "parentId": "rental-demo/floor-1/room-2",
+      "resource": {
+        "id": "desk",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -0.9
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "rental-demo/floor-1/room-2/chair",
+      "kind": "facility",
+      "parentId": "rental-demo/floor-1/room-2",
+      "resource": {
+        "id": "chair",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0.55
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "rental-demo/floor-1/room-3/sofa",
+      "kind": "facility",
+      "parentId": "rental-demo/floor-1/room-3",
+      "resource": {
+        "id": "lounge-sofa",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    }
+  ]
+}
