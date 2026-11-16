@@ -1,0 +1,460 @@
+{
+  "schema": "head-cage-diagnostic-independent-audit-v1",
+  "status": "confirmed-unconstrained-invalid-cage-controls-all-eight-remain-failed",
+  "requestedConfiguration": {
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "high",
+    "actualProviderOrHookIndependentlyVerified": false
+  },
+  "sourceCommitAtRead": "9649f3c65eac0d76235b7f23d59104367c8383b6",
+  "scope": "Once-only original eight requests. CPU readback and pure source formula reconstruction. No Blender, export, GPU, browser, parameter changes or admission changes.",
+  "mostSupportedCommonCause": {
+    "finding": "Head.fit solves independent axis ridge least-squares without cage ordering, width-sign or control-displacement constraints. It returns metre-scale controls that reverse the existing cage before body displacement or mesh baking. This is a confirmed common failure in the head-only construction.",
+    "allEightHaveReversedFrontYOrdering": true,
+    "sixHaveReversedFrontWidthSign": true,
+    "maximumAbsoluteControlCoefficientRangeM": [
+      0.7129756798398176,
+      2.4828444618764323
+    ],
+    "maximumActualCageVertexDisplacementRangeM": [
+      0.7143025464341188,
+      2.4828445569343462
+    ],
+    "maximumRequestedLandmarkDisplacementRangeM": [
+      0.011644033579489593,
+      0.03220417535067732
+    ],
+    "minimumAdjacentFrontRingDeltaYM": -0.268155574798584,
+    "minimumFrontSignedWidthM": -1.9235321283340454,
+    "minimumRecordedAmbientDeterminant": -5.687944776508422,
+    "maximumHalfWidthErrorRangeM": [
+      0.011556204619930009,
+      0.047168089602276336
+    ],
+    "causalLimit": "The stored minimum ambient determinant has no point/J tensor, so the relative contributions of invalid cage geometry and the spatial protection-weight gradient are not isolated. A positive ordered cage would also not alone prove positive mesh Jacobians."
+  },
+  "unitsAndComposition": {
+    "responseUnits": "Landmark displacement metres divided by probe .002 metres gives dimensionless response. Coefficients are metres. Ridge lambda is .0001, augmented diagonal .01.",
+    "requestedFormulaVerifiedAllEight": true,
+    "targetUnits": "jawWidth/cheekWidth multiply original head-relative x, chinLengthM/chinProjectionM apply directly in metres. Recomputed requestedPoints agree within 1e-12m.",
+    "bodyAddedOnce": "Head.evaluate computes P + official evaluated displacement + body_displacement once. Fit/probe calls omit body parameters. CPU body contribution is exactly zero at all fitted source landmarks for all eight.",
+    "noObservedDuplicateAccumulation": "Each response column and each final fit starts from rest cage. Response is cached by sex. Four final outputs on their used control span superpose to <=6.394e-8m. These observations provide no support for duplicate-cage/body accumulation as the source of metre-scale controls."
+  },
+  "responseIdentifiability": {
+    "completeResponseMatricesSaved": false,
+    "completeMatrixConditionNumber": null,
+    "usedControlSubspace": "Each sex has only rank2 X and rank1 Y/Z coefficient variations among its four requests. Readback estimates the response on this span only. Full202x9 matrices cannot be uniquely recovered.",
+    "femaleUsedXResponseSingularValues": [
+      0.13922535037570077,
+      0.02070117247497382
+    ],
+    "maleUsedXResponseSingularValues": [
+      0.16964763038628633,
+      0.02528191331302166
+    ],
+    "usedXSubspaceConditionNumbers": [
+      6.72548139696019,
+      6.710237009590089
+    ],
+    "interpretation": "Small observed response gains are consistent with amplification and cancellation among controls. Their used-subspace condition numbers around6.7 do not establish severe ill-conditioning of the complete matrix, nor identify a unique weak ring/anchor cause.",
+    "nextRequiredDataForSeparation": "Original per-axis response matrices, source landmark edge identities, rest cage, source weights and the worst-point Jacobian/protection derivative decomposition. This audit performs no new extraction/export."
+  },
+  "protectedTargetCompatibility": {
+    "method": "CPU Float64 KD nearest query over actual Float32 source eye/eyeline/eyelash/hair base and morph endpoint anchors, producer smooth spatial factors, then source-edge weight interpolation. This is not a Blender evaluation.",
+    "femaleLandmarkWeightRange": [
+      0.1401711593435961,
+      1.0
+    ],
+    "maleLandmarkWeightRange": [
+      0.07512698516510814,
+      1.0
+    ],
+    "directZeroWeightNonzeroTargetConflictsAmong202FitLandmarks": 0,
+    "conclusion": "No directly locked fit landmark is demonstrated by the saved202-point target. All-surface/head-circumference targets, neighbouring locked eye/hair vertices, morph endpoints and continuous feasibility remain unknown. Nonzero weights do not prove attainable targets or safe gradient transitions."
+  },
+  "comparisonWithPreviousV2": {
+    "sharedBodyPart": "head-only body.py explicitly factors the unchanged v2 body contribution before its face code; this audit pins both source files.",
+    "differentFaceAlgorithms": "v2 uses a globally concave constrained width B-spline plus analytic lip/neck transitions. head-only uses protected actual MeshDeform response fitting with unconstrained cage controls. The older two lean field failures and intent loss do not establish the same exact numerical failure mechanism.",
+    "commonDesignGapSupported": "In both implementations, fitting a low-dimensional face target and preserving some interfaces does not enforce the feasibility of the complete protected three-dimensional field. For the current implementation the concrete missing control constraints and cage reversals are now directly measured.",
+    "limit": "This audit does not rerun old v2 solves or promote historical worst-point explanations into a measured current Jacobian decomposition. Blender MeshDeform itself is not ruled out by this failed project cage/fit design."
+  },
+  "actualArtifactLink": {
+    "sourceLandmarksExactAllEight": true,
+    "requestedLandmarksExactAllEight": true,
+    "sampledAchievedLandmarksExactlyMatchFloat32AvatarAllEight": true,
+    "originalNodesAndSkinsEqualAllEight": true,
+    "avatarHashesCheckedAgainstReports": true
+  },
+  "cases": [
+    {
+      "id": "female-long-slender-head-cage-diagnostic-v1",
+      "sex": "female",
+      "status": "diagnostic-failed",
+      "minimumRecordedCombinedJacobianDeterminant": -1.8581627753992278,
+      "maximumRecordedHalfWidthErrorM": 0.015546029777930688,
+      "maximumRequestedLandmarkDisplacementM": 0.018325315540571048,
+      "maximumCageVertexDisplacementM": 1.2366759045637956,
+      "maximumAbsoluteCoefficientPerAxisM": [
+        1.2366505450931222,
+        0.1460832513982926,
+        0.03698765866075544
+      ],
+      "minimumFrontAdjacentDeltaYM": -0.07222509384155273,
+      "reversedFrontYIntervals": [
+        0,
+        6,
+        7,
+        8
+      ],
+      "minimumFrontWidthM": -1.9235321283340454,
+      "reversedFrontWidthRings": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "sourceLandmarksExact": true,
+      "actualFloat32LandmarkBakeErrorM": 0.0,
+      "requestedLandmarksMatchOriginalUnitsAndFormula": true,
+      "bodyContributionAtFitLandmarksM": 0.0,
+      "protectionCompatibility": {
+        "method": "Source Float32 endpoints and the producer spatial factors with CPU Float64 nearest distances. Exact-zero anchors remain exact. No Blender response evaluation.",
+        "zeroWeightLandmarkCount": 0,
+        "nonzeroTargetAtZeroWeightCount": 0,
+        "conflictingLandmarkIds": [],
+        "maximumRequestedDisplacementAtLockedLandmarksM": 0.0,
+        "landmarkInterpolatedWeightMinMax": [
+          0.1401711593435961,
+          1.0
+        ],
+        "exactAnchorSkinVertexCount": 826
+      },
+      "avatarSHA256": "c7d9bcd352da8e659c12a0cc64abfb5a5b1cc802debb46bd1f2c6707e068a996",
+      "reportSHA256": "8a5b73ae1188689e6a1e001b45042e5c8065482cf78cc5ef6e118e9d2d1b0239"
+    },
+    {
+      "id": "female-round-full-head-cage-diagnostic-v1",
+      "sex": "female",
+      "status": "diagnostic-failed",
+      "minimumRecordedCombinedJacobianDeterminant": -5.181970757238646,
+      "maximumRecordedHalfWidthErrorM": 0.043310887772189804,
+      "maximumRequestedLandmarkDisplacementM": 0.027154769184666236,
+      "maximumCageVertexDisplacementM": 2.3037940824435723,
+      "maximumAbsoluteCoefficientPerAxisM": [
+        2.3037930110656406,
+        0.036520812849573064,
+        0.024658439107170273
+      ],
+      "minimumFrontAdjacentDeltaYM": -0.04235398769378662,
+      "reversedFrontYIntervals": [
+        5
+      ],
+      "minimumFrontWidthM": -0.5469189584255219,
+      "reversedFrontWidthRings": [
+        1,
+        2,
+        3
+      ],
+      "sourceLandmarksExact": true,
+      "actualFloat32LandmarkBakeErrorM": 0.0,
+      "requestedLandmarksMatchOriginalUnitsAndFormula": true,
+      "bodyContributionAtFitLandmarksM": 0.0,
+      "protectionCompatibility": {
+        "method": "Source Float32 endpoints and the producer spatial factors with CPU Float64 nearest distances. Exact-zero anchors remain exact. No Blender response evaluation.",
+        "zeroWeightLandmarkCount": 0,
+        "nonzeroTargetAtZeroWeightCount": 0,
+        "conflictingLandmarkIds": [],
+        "maximumRequestedDisplacementAtLockedLandmarksM": 0.0,
+        "landmarkInterpolatedWeightMinMax": [
+          0.1401711593435961,
+          1.0
+        ],
+        "exactAnchorSkinVertexCount": 826
+      },
+      "avatarSHA256": "58cd24d822d399dec00fba6d672bf20bb2a466ea4aa9ab672c6b84b4aa4e0cb3",
+      "reportSHA256": "9ded99724a5a59a470e01fd1dfd826d72160a0198083118461fd3283ad60d183"
+    },
+    {
+      "id": "female-soft-wide-head-cage-diagnostic-v1",
+      "sex": "female",
+      "status": "diagnostic-failed",
+      "minimumRecordedCombinedJacobianDeterminant": -5.687944776508422,
+      "maximumRecordedHalfWidthErrorM": 0.047168089602276336,
+      "maximumRequestedLandmarkDisplacementM": 0.02947517114017588,
+      "maximumCageVertexDisplacementM": 2.4828445569343462,
+      "maximumAbsoluteCoefficientPerAxisM": [
+        2.4828444618764323,
+        0.01217360428319025,
+        0.0
+      ],
+      "minimumFrontAdjacentDeltaYM": -0.007451415061950684,
+      "reversedFrontYIntervals": [
+        5
+      ],
+      "minimumFrontWidthM": -0.6184462010860443,
+      "reversedFrontWidthRings": [
+        1,
+        2,
+        3
+      ],
+      "sourceLandmarksExact": true,
+      "actualFloat32LandmarkBakeErrorM": 0.0,
+      "requestedLandmarksMatchOriginalUnitsAndFormula": true,
+      "bodyContributionAtFitLandmarksM": 0.0,
+      "protectionCompatibility": {
+        "method": "Source Float32 endpoints and the producer spatial factors with CPU Float64 nearest distances. Exact-zero anchors remain exact. No Blender response evaluation.",
+        "zeroWeightLandmarkCount": 0,
+        "nonzeroTargetAtZeroWeightCount": 0,
+        "conflictingLandmarkIds": [],
+        "maximumRequestedDisplacementAtLockedLandmarksM": 0.0,
+        "landmarkInterpolatedWeightMinMax": [
+          0.1401711593435961,
+          1.0
+        ],
+        "exactAnchorSkinVertexCount": 826
+      },
+      "avatarSHA256": "9b58fc89b73eacd3bc074201c6be0a914990e88fba1309b5f1fab4d2d022c244",
+      "reportSHA256": "487e80c8880c6d387266dd78beadf94b2c5abe2da48597526f0309b9a4f4b37a"
+    },
+    {
+      "id": "female-square-athletic-head-cage-diagnostic-v1",
+      "sex": "female",
+      "status": "diagnostic-failed",
+      "minimumRecordedCombinedJacobianDeterminant": -2.3651703273678146,
+      "maximumRecordedHalfWidthErrorM": 0.026574603342776407,
+      "maximumRequestedLandmarkDisplacementM": 0.020214162046496474,
+      "maximumCageVertexDisplacementM": 0.9263032279437317,
+      "maximumAbsoluteCoefficientPerAxisM": [
+        0.9262993424208679,
+        0.036520812849573064,
+        0.04931687821434054
+      ],
+      "minimumFrontAdjacentDeltaYM": -0.002933502197265625,
+      "reversedFrontYIntervals": [
+        7
+      ],
+      "minimumFrontWidthM": 0.5497689545154572,
+      "reversedFrontWidthRings": [],
+      "sourceLandmarksExact": true,
+      "actualFloat32LandmarkBakeErrorM": 0.0,
+      "requestedLandmarksMatchOriginalUnitsAndFormula": true,
+      "bodyContributionAtFitLandmarksM": 0.0,
+      "protectionCompatibility": {
+        "method": "Source Float32 endpoints and the producer spatial factors with CPU Float64 nearest distances. Exact-zero anchors remain exact. No Blender response evaluation.",
+        "zeroWeightLandmarkCount": 0,
+        "nonzeroTargetAtZeroWeightCount": 0,
+        "conflictingLandmarkIds": [],
+        "maximumRequestedDisplacementAtLockedLandmarksM": 0.0,
+        "landmarkInterpolatedWeightMinMax": [
+          0.1401711593435961,
+          1.0
+        ],
+        "exactAnchorSkinVertexCount": 826
+      },
+      "avatarSHA256": "3bbef42fa7b6c02ea389e7a2d65605815d2c97d392ad4728223c6d83213f74d5",
+      "reportSHA256": "903e002be8278a3ef5c098bb323d0e53b8c9920d4b7a40fb84ab9fb68a22515e"
+    },
+    {
+      "id": "male-angular-athletic-head-cage-diagnostic-v1",
+      "sex": "male",
+      "status": "diagnostic-failed",
+      "minimumRecordedCombinedJacobianDeterminant": -1.245837890757453,
+      "maximumRecordedHalfWidthErrorM": 0.011556204619930009,
+      "maximumRequestedLandmarkDisplacementM": 0.011644033579489593,
+      "maximumCageVertexDisplacementM": 0.7143025464341188,
+      "maximumAbsoluteCoefficientPerAxisM": [
+        0.7129756798398176,
+        0.11158819153849432,
+        0.09097804911516424
+      ],
+      "minimumFrontAdjacentDeltaYM": -0.10038316249847412,
+      "reversedFrontYIntervals": [
+        0,
+        2,
+        6,
+        7
+      ],
+      "minimumFrontWidthM": -0.13192275166511536,
+      "reversedFrontWidthRings": [
+        8
+      ],
+      "sourceLandmarksExact": true,
+      "actualFloat32LandmarkBakeErrorM": 0.0,
+      "requestedLandmarksMatchOriginalUnitsAndFormula": true,
+      "bodyContributionAtFitLandmarksM": 0.0,
+      "protectionCompatibility": {
+        "method": "Source Float32 endpoints and the producer spatial factors with CPU Float64 nearest distances. Exact-zero anchors remain exact. No Blender response evaluation.",
+        "zeroWeightLandmarkCount": 0,
+        "nonzeroTargetAtZeroWeightCount": 0,
+        "conflictingLandmarkIds": [],
+        "maximumRequestedDisplacementAtLockedLandmarksM": 0.0,
+        "landmarkInterpolatedWeightMinMax": [
+          0.07512698516510814,
+          1.0
+        ],
+        "exactAnchorSkinVertexCount": 826
+      },
+      "avatarSHA256": "6ac45bbb114cdbc149e533db93e902d03f4c76e23cbc48db451fde06261b7aff",
+      "reportSHA256": "5ef05ba52d9537b0ee6b037f49382cfc334bfa26476d30750a81f1cd8adbd103"
+    },
+    {
+      "id": "male-long-lean-head-cage-diagnostic-v1",
+      "sex": "male",
+      "status": "diagnostic-failed",
+      "minimumRecordedCombinedJacobianDeterminant": -0.3032910200895616,
+      "maximumRecordedHalfWidthErrorM": 0.015431485215054566,
+      "maximumRequestedLandmarkDisplacementM": 0.021394823280891193,
+      "maximumCageVertexDisplacementM": 1.0111684693076513,
+      "maximumAbsoluteCoefficientPerAxisM": [
+        0.9983041288130947,
+        0.26037244692315464,
+        0.07278243929213155
+      ],
+      "minimumFrontAdjacentDeltaYM": -0.268155574798584,
+      "reversedFrontYIntervals": [
+        0,
+        2,
+        6,
+        7
+      ],
+      "minimumFrontWidthM": -1.397739589214325,
+      "reversedFrontWidthRings": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "sourceLandmarksExact": true,
+      "actualFloat32LandmarkBakeErrorM": 0.0,
+      "requestedLandmarksMatchOriginalUnitsAndFormula": true,
+      "bodyContributionAtFitLandmarksM": 0.0,
+      "protectionCompatibility": {
+        "method": "Source Float32 endpoints and the producer spatial factors with CPU Float64 nearest distances. Exact-zero anchors remain exact. No Blender response evaluation.",
+        "zeroWeightLandmarkCount": 0,
+        "nonzeroTargetAtZeroWeightCount": 0,
+        "conflictingLandmarkIds": [],
+        "maximumRequestedDisplacementAtLockedLandmarksM": 0.0,
+        "landmarkInterpolatedWeightMinMax": [
+          0.07512698516510814,
+          1.0
+        ],
+        "exactAnchorSkinVertexCount": 826
+      },
+      "avatarSHA256": "ae7bdc322ba4dfde0d865d923f8e54e35bf6e7c65b5da6e96987f523cd4a88a9",
+      "reportSHA256": "d390a99ebf10be51eea289a482816a771960e17372ed14a682c2bdcabd0c8f34"
+    },
+    {
+      "id": "male-round-stocky-head-cage-diagnostic-v1",
+      "sex": "male",
+      "status": "diagnostic-failed",
+      "minimumRecordedCombinedJacobianDeterminant": -4.564349409117797,
+      "maximumRecordedHalfWidthErrorM": 0.04572615318195396,
+      "maximumRequestedLandmarkDisplacementM": 0.03220417535067732,
+      "maximumCageVertexDisplacementM": 2.0129053226353033,
+      "maximumAbsoluteCoefficientPerAxisM": [
+        2.0124851897223284,
+        0.07439212769232947,
+        0.018195609823032734
+      ],
+      "minimumFrontAdjacentDeltaYM": -0.07220053672790527,
+      "reversedFrontYIntervals": [
+        3,
+        4,
+        9
+      ],
+      "minimumFrontWidthM": -0.8521265983581543,
+      "reversedFrontWidthRings": [
+        1,
+        2
+      ],
+      "sourceLandmarksExact": true,
+      "actualFloat32LandmarkBakeErrorM": 0.0,
+      "requestedLandmarksMatchOriginalUnitsAndFormula": true,
+      "bodyContributionAtFitLandmarksM": 0.0,
+      "protectionCompatibility": {
+        "method": "Source Float32 endpoints and the producer spatial factors with CPU Float64 nearest distances. Exact-zero anchors remain exact. No Blender response evaluation.",
+        "zeroWeightLandmarkCount": 0,
+        "nonzeroTargetAtZeroWeightCount": 0,
+        "conflictingLandmarkIds": [],
+        "maximumRequestedDisplacementAtLockedLandmarksM": 0.0,
+        "landmarkInterpolatedWeightMinMax": [
+          0.07512698516510814,
+          1.0
+        ],
+        "exactAnchorSkinVertexCount": 826
+      },
+      "avatarSHA256": "511d336f1cd7a1de055856c2810df3b1385f6f4d6ba3f1ac6187847ac9aedb98",
+      "reportSHA256": "319e8fdc04cd946e51191da35c91b00ca9d24d7b2a7ddaa1b2b1d837dfa72902"
+    },
+    {
+      "id": "male-wide-muscular-head-cage-diagnostic-v1",
+      "sex": "male",
+      "status": "diagnostic-failed",
+      "minimumRecordedCombinedJacobianDeterminant": -2.2239541849994935,
+      "maximumRecordedHalfWidthErrorM": 0.029301015063039976,
+      "maximumRequestedLandmarkDisplacementM": 0.026215816470274142,
+      "maximumCageVertexDisplacementM": 0.9731296922635738,
+      "maximumAbsoluteCoefficientPerAxisM": [
+        0.9712144182057918,
+        0.03719606384616486,
+        0.09097804911516424
+      ],
+      "minimumFrontAdjacentDeltaYM": -0.016496896743774414,
+      "reversedFrontYIntervals": [
+        0,
+        2,
+        6,
+        7
+      ],
+      "minimumFrontWidthM": 0.5988686680793762,
+      "reversedFrontWidthRings": [],
+      "sourceLandmarksExact": true,
+      "actualFloat32LandmarkBakeErrorM": 0.0,
+      "requestedLandmarksMatchOriginalUnitsAndFormula": true,
+      "bodyContributionAtFitLandmarksM": 0.0,
+      "protectionCompatibility": {
+        "method": "Source Float32 endpoints and the producer spatial factors with CPU Float64 nearest distances. Exact-zero anchors remain exact. No Blender response evaluation.",
+        "zeroWeightLandmarkCount": 0,
+        "nonzeroTargetAtZeroWeightCount": 0,
+        "conflictingLandmarkIds": [],
+        "maximumRequestedDisplacementAtLockedLandmarksM": 0.0,
+        "landmarkInterpolatedWeightMinMax": [
+          0.07512698516510814,
+          1.0
+        ],
+        "exactAnchorSkinVertexCount": 826
+      },
+      "avatarSHA256": "fd6d1550bc35752607d92758cdb8e22a44a7b0327afd84c239d7d1367e80f9d7",
+      "reportSHA256": "1880bd910d4862ab7d154e78bb36b9fee8eb7435d10d32879b4e3970eccb8c98"
+    }
+  ],
+  "limits": [
+    "All eight remain diagnostic-failed, productionAdmitted=false and runtimeAccepted=false. Original strict failures remain retained.",
+    "The reported ambient determinant is a producer scalar, not an independently re-evaluated tensor. This audit did not repeat expression contact tests or garment geometry validation.",
+    "No complete trajectory, expression mixture, visual quality or runtime fit conclusion follows from these CPU checks.",
+    "No constrained candidate was solved because the complete original response matrices were not retained. No shape generation or parameter sweep occurred."
+  ],
+  "evidence": {
+    "readbackSHA256": "8e1d3bad370f15299050b872585eefe2392a38b0065652e5bf2c632f1aec69b9",
+    "probeSHA256": "68d3e6b3b0153c1971d34d511d18e76db1e083889a09ce33f3ce52ea0070caa5",
+    "sourcePinCount": 35
+  },
+  "authorFinalSealedCommit": "253eecb88caf918ff1497b6efab625ce85351d3e",
+  "productionAdmitted": false,
+  "runtimeAccepted": false,
+  "sealedIdentityVerification": {
+    "schema": "head-cage-independent-sealed-pin-check-v1",
+    "sealedCommit": "253eecb88caf918ff1497b6efab625ce85351d3e",
+    "preparedCommit": "9649f3c65eac0d76235b7f23d59104367c8383b6",
+    "rootCherryCommits": [
+      "1999fc3c",
+      "4a0a52c0"
+    ],
+    "checked": 35,
+    "allMatch": true,
+    "geometryRecomputed": false,
+    "blenderStarted": false,
+    "receiptSHA256": "ba4efb4c299b6483105d74861c6c809e7d6f267137430cb5510374a45b0ea377"
+  }
+}
