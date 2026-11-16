@@ -1,0 +1,270 @@
+{
+  "schema": "company-save",
+  "version": 1,
+  "document": {
+    "schema": "company-layout",
+    "version": 1,
+    "id": "appearance-stream-station",
+    "name": "组合直播工位 · 横梁与悬臂",
+    "revision": 14,
+    "scale": "single-room",
+    "catalog": {
+      "id": "company-facilities",
+      "version": 1
+    },
+    "nodes": [
+      {
+        "id": "appearance-stream-station/floor-1",
+        "kind": "floor",
+        "parentId": "appearance-stream-station",
+        "name": "一层",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        },
+        "connections": [
+          {
+            "id": "appearance-stream-station/entry",
+            "from": {
+              "regionId": "appearance-stream-station/room-1",
+              "edge": "south",
+              "offset": 0,
+              "width": 1.4
+            },
+            "to": {
+              "regionId": "appearance-stream-station/public",
+              "edge": "north",
+              "offset": 0,
+              "width": 1.4
+            }
+          }
+        ]
+      },
+      {
+        "id": "appearance-stream-station/room-1",
+        "kind": "room",
+        "parentId": "appearance-stream-station/floor-1",
+        "name": "直播间",
+        "purpose": "streaming",
+        "bounds": {
+          "width": 9,
+          "depth": 7
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "appearance-stream-station/public",
+        "kind": "area",
+        "parentId": "appearance-stream-station/floor-1",
+        "name": "公共入口",
+        "bounds": {
+          "width": 9,
+          "depth": 3
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            5
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "sample/station",
+        "kind": "workstation",
+        "parentId": "appearance-stream-station/room-1",
+        "name": "sample/station",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        },
+        "template": {
+          "id": "stream-station",
+          "version": 1
+        }
+      },
+      {
+        "id": "sample/station/desk",
+        "kind": "facility",
+        "stationId": "sample/station",
+        "partKey": "desk",
+        "parentId": "sample/station",
+        "resource": {
+          "id": "desk-pedestal",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            -0.9
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "sample/station/monitor",
+        "kind": "facility",
+        "stationId": "sample/station",
+        "partKey": "monitor",
+        "parentId": "sample/station/desk",
+        "resource": {
+          "id": "monitor-ribbon",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0.84,
+            -0.25
+          ],
+          "yaw": 0
+        },
+        "state": {
+          "on": true
+        }
+      },
+      {
+        "id": "sample/station/keyboard",
+        "kind": "facility",
+        "stationId": "sample/station",
+        "partKey": "keyboard",
+        "parentId": "sample/station/desk",
+        "resource": {
+          "id": "keyboard-split",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0.84,
+            0.21
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "sample/station/microphone",
+        "kind": "facility",
+        "stationId": "sample/station",
+        "partKey": "microphone",
+        "parentId": "sample/station/desk",
+        "resource": {
+          "id": "desk-microphone-ribbon",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.8,
+            0.84,
+            0.18
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "sample/station/chair",
+        "kind": "facility",
+        "stationId": "sample/station",
+        "partKey": "chair",
+        "parentId": "sample/station",
+        "resource": {
+          "id": "chair-pedestal",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0.55
+          ],
+          "yaw": 3.141592653589793
+        },
+        "state": {}
+      },
+      {
+        "id": "sample/station/fill-light",
+        "kind": "facility",
+        "stationId": "sample/station",
+        "partKey": "fill-light",
+        "parentId": "sample/station",
+        "resource": {
+          "id": "fill-light-wing",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.75,
+            0,
+            -0.15
+          ],
+          "yaw": 0
+        },
+        "state": {
+          "on": true,
+          "intensity": 5
+        }
+      }
+    ]
+  },
+  "dependencies": {
+    "resources": [
+      {
+        "id": "chair-pedestal",
+        "version": 1,
+        "sha256": "26cda769f8e96ec7b6347f7ab7b2aa571f769b4cb0a35dc7e17270e3de9b1b24"
+      },
+      {
+        "id": "desk-microphone-ribbon",
+        "version": 1,
+        "sha256": "b0a2b1c55990db1e1ba09e007395c1dc56c40bc2f48607e949390d894f868736"
+      },
+      {
+        "id": "desk-pedestal",
+        "version": 1,
+        "sha256": "ae29cddf5e50ad0bd0f39f73fb5820f448e9caf7ba47252770f06807899e2c2b"
+      },
+      {
+        "id": "fill-light-wing",
+        "version": 1,
+        "sha256": "3fac0d8ea271a306bd72c0888acf7aeb5c3255258c60bf6f8a348266897dea3d"
+      },
+      {
+        "id": "keyboard-split",
+        "version": 1,
+        "sha256": "985509d0a7f882c15d3cb2fd14441592e452442d759e09d13dae67422bbbeb72"
+      },
+      {
+        "id": "monitor-ribbon",
+        "version": 1,
+        "sha256": "28dad5ca3dc1f014084e305f84968873882a83836534f7726defcc63fcd1f18f"
+      }
+    ],
+    "templates": [
+      {
+        "id": "stream-station",
+        "version": 1,
+        "sha256": "47dc0c9ae9e042c8e36a728022536ad2abbded2c7afebf314e8cf8105a74bdbc"
+      }
+    ]
+  }
+}

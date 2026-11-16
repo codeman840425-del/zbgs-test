@@ -1,0 +1,27 @@
+{
+  "status": "repaired",
+  "resource": "chair-pedestal@1",
+  "failure": {
+    "code": "invalid-asset-transform",
+    "path": "resources.chair-pedestal.nodes[3].matrix",
+    "message": "Node transforms must be finite",
+    "observedDuring": "createCompanyAssetLibrary runtime load"
+  },
+  "beforeFix": {
+    "glbSha256": "f3b4edf1d7b0174bce61c4d99640045fc0a78d1ce9f9073427a15a9fce918dfe",
+    "bytes": 131984,
+    "cause": "build-seat-collection.mjs passed [] as the explicit rotation array to CylinderGeometry helpers, producing undefined Euler components and NaN matrix values in GLTF JSON"
+  },
+  "fix": {
+    "source": "scripts/company-platform/build-seat-collection.mjs",
+    "change": "pedestal column and hub now pass [0,0,0] rotation explicitly",
+    "finiteMatrixReadback": true,
+    "runtimeRecheck": "pending root catalog refresh"
+  },
+  "afterFix": {
+    "glbSha256": "997f303f79097dc5ba807e395aebfe0a59e59e132202c5d8f55341b42efcd410",
+    "bytes": 131928,
+    "cpuGLTFLoaderReadback": true
+  },
+  "note": "The old invalid GLB was not retained as a runtime asset after repair. Its digest, byte length, failure path and exact source cause are retained here for audit."
+}

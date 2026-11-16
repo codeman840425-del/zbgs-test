@@ -1,0 +1,225 @@
+{
+  "catalog": {
+    "id": "company-facilities",
+    "version": 1
+  },
+  "id": "four-stream-station-2",
+  "name": "组合直播工位 · 双柱与转椅",
+  "nodes": [
+    {
+      "connections": [
+        {
+          "from": {
+            "edge": "south",
+            "offset": 0,
+            "regionId": "four-stream-station-2/appearance-stream-station/room-1",
+            "width": 1.4
+          },
+          "id": "appearance-stream-station/entry",
+          "to": {
+            "edge": "north",
+            "offset": 0,
+            "regionId": "four-stream-station-2/appearance-stream-station/public",
+            "width": 1.4
+          }
+        }
+      ],
+      "id": "four-stream-station-2/appearance-stream-station/floor-1",
+      "kind": "floor",
+      "name": "一层",
+      "parentId": "four-stream-station-2",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "bounds": {
+        "depth": 7,
+        "width": 9
+      },
+      "id": "four-stream-station-2/appearance-stream-station/room-1",
+      "kind": "room",
+      "name": "直播间",
+      "parentId": "four-stream-station-2/appearance-stream-station/floor-1",
+      "purpose": "streaming",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "bounds": {
+        "depth": 3,
+        "width": 9
+      },
+      "id": "four-stream-station-2/appearance-stream-station/public",
+      "kind": "area",
+      "name": "公共入口",
+      "parentId": "four-stream-station-2/appearance-stream-station/floor-1",
+      "transform": {
+        "position": [
+          0,
+          0,
+          5
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "four-stream-station-2/sample/station",
+      "kind": "workstation",
+      "name": "four-stream-station-2/sample/station",
+      "parentId": "four-stream-station-2/appearance-stream-station/room-1",
+      "template": {
+        "id": "stream-station",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "four-stream-station-2/sample/station/desk",
+      "kind": "facility",
+      "parentId": "four-stream-station-2/sample/station",
+      "partKey": "desk",
+      "resource": {
+        "id": "desk-pedestal",
+        "version": 1
+      },
+      "state": {},
+      "stationId": "four-stream-station-2/sample/station",
+      "transform": {
+        "position": [
+          0,
+          0,
+          -0.9
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "four-stream-station-2/sample/station/monitor",
+      "kind": "facility",
+      "parentId": "four-stream-station-2/sample/station/desk",
+      "partKey": "monitor",
+      "resource": {
+        "id": "monitor-ribbon",
+        "version": 1
+      },
+      "state": {
+        "on": true
+      },
+      "stationId": "four-stream-station-2/sample/station",
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          -0.25
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "four-stream-station-2/sample/station/keyboard",
+      "kind": "facility",
+      "parentId": "four-stream-station-2/sample/station/desk",
+      "partKey": "keyboard",
+      "resource": {
+        "id": "keyboard-split",
+        "version": 1
+      },
+      "state": {},
+      "stationId": "four-stream-station-2/sample/station",
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          0.21
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "four-stream-station-2/sample/station/microphone",
+      "kind": "facility",
+      "parentId": "four-stream-station-2/sample/station/desk",
+      "partKey": "microphone",
+      "resource": {
+        "id": "desk-microphone-ribbon",
+        "version": 1
+      },
+      "state": {},
+      "stationId": "four-stream-station-2/sample/station",
+      "transform": {
+        "position": [
+          -0.8,
+          0.84,
+          0.18
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "four-stream-station-2/sample/station/chair",
+      "kind": "facility",
+      "parentId": "four-stream-station-2/sample/station",
+      "partKey": "chair",
+      "resource": {
+        "id": "chair-pedestal",
+        "version": 1
+      },
+      "state": {},
+      "stationId": "four-stream-station-2/sample/station",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0.55
+        ],
+        "yaw": 3.141592653589793
+      }
+    },
+    {
+      "id": "four-stream-station-2/sample/station/fill-light",
+      "kind": "facility",
+      "parentId": "four-stream-station-2/sample/station",
+      "partKey": "fill-light",
+      "resource": {
+        "id": "fill-light-wing",
+        "version": 1
+      },
+      "state": {
+        "intensity": 5,
+        "on": true
+      },
+      "stationId": "four-stream-station-2/sample/station",
+      "transform": {
+        "position": [
+          -0.75,
+          0,
+          -0.15
+        ],
+        "yaw": 0
+      }
+    }
+  ],
+  "revision": 1,
+  "scale": "single-room",
+  "schema": "company-layout",
+  "version": 1
+}

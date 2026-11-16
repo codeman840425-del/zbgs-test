@@ -1,0 +1,68 @@
+{
+  "status": "passed",
+  "designId": "monitor-pillar",
+  "type": "monitor",
+  "styleDirection": "Industrial pillar frame with corner braces and weighted plinth",
+  "productionPrompt": "为公司场景制作一份可运行3D外观资源。designId=monitor-pillar，造型方向=Industrial pillar frame with corner braces and weighted plinth，目标规格=monitor@1。保持使用点、容量、位置、座高、接近/离开点、clearance、footprint、mount、surface 与状态语义。允许改变轮廓、构件、材质和显示节点映射。按米制、Y向上、局部+Z朝前导出GLB，记录可编辑参数、来源许可、工具版本、资源身份、GLB回读、边界/安装检查、节点映射和重复导出一致性。",
+  "sourceParameters": "assets-source/company-device-collection/monitor-pillar/parameters.json",
+  "sourceParametersSha256": "5cfe09d9c70fde98c8ce034dcd9aae758e4fe3029012aa9c108b7d519ae24d27",
+  "functionalContract": {
+    "reference": "monitor@1",
+    "source": "assets-source/company-device-collection/contracts/monitor.json",
+    "sourceSha256": "a6c4dfce8d372a71a7d0896d0d8c826ddb266afe89e33e3fd6e102bc0a47d5a6",
+    "compatible": true,
+    "stateDefaultsEqual": true,
+    "mountEqual": true,
+    "footprintEqual": true
+  },
+  "displayMapping": {
+    "screen": {
+      "nodes": [
+        "screen-surface"
+      ],
+      "onColor": "#b9ceff",
+      "offColor": "#24304b",
+      "emissive": "#83a8ff",
+      "onIntensity": 1.5
+    }
+  },
+  "asset": {
+    "url": "/company-assets/device-collection/monitor-pillar/v1/model.glb",
+    "sha256": "788cab7eb3dfd470e8ad08aabd4469ea86d7db0c0c76985639aba157cad56d19",
+    "bytes": 18224,
+    "repeatedExportByteIdentical": true,
+    "readback": {
+      "meshCount": 8,
+      "nodeNames": [
+        "pillar-bezel",
+        "screen-surface",
+        "pillar-left",
+        "brace-left",
+        "pillar-right",
+        "brace-right",
+        "weighted-plinth",
+        "plinth-spine"
+      ],
+      "bounds": {
+        "min": [
+          -0.4674999998509884,
+          0.0004999999254941927,
+          -0.08000000059604645
+        ],
+        "max": [
+          0.4674999998509884,
+          0.6599999904632569,
+          0.20000000059604645
+        ]
+      },
+      "externalUris": 0,
+      "skins": 0,
+      "animations": 0,
+      "frontSurfaceHits": []
+    }
+  },
+  "limitations": [
+    "CPU GLB readback only. Browser visual and runtime state mapping await root integration.",
+    "Project-authored solid-color geometry with no external art license."
+  ]
+}

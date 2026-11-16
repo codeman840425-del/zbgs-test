@@ -1,0 +1,27 @@
+{
+  "status": "repaired",
+  "scope": "Seat and sofa structural support connections",
+  "before": {
+    "chair-cantilever": {"sha256":"a62ef3c4ad42b69cc83239a8ee4035e36fad9c7d2cb81eded82287e4aaa1005f","bytes":139580},
+    "chair-pedestal": {"sha256":"997f303f79097dc5ba807e395aebfe0a59e59e132202c5d8f55341b42efcd410","bytes":131928},
+    "chair-ladder": {"sha256":"416453391360a9dd6c9342031ed6efdd391841fcdcb60123a18984449217f75a","bytes":137304},
+    "chair-crossbeam": {"sha256":"b3711cb07de577f89c4d2172ce2352fed6f146180410b8200a46358c42132812","bytes":130160},
+    "sofa-modular": {"sha256":"7b1d4205a40da0c91cebbc202e61dc0c88a45fd2ee861c2a3f87dc7a0a2cd898","bytes":407248},
+    "sofa-arch": {"sha256":"f178e2e8ec36d6817f228fbe842c7c7fd00e85b036c64960dfc4f63dc5696f80","bytes":422120}
+  },
+  "changes": [
+    "Added seat-support-rail and paired back-support posts to every chair.",
+    "Moved cantilever sled rails to y=0.018m so their cylindrical contact reaches the ground.",
+    "Added per-seat support platforms and rear back-support posts to both sofas."
+  ],
+  "after": {
+    "chair-cantilever": {"sha256":"949aa3bd17805c3eecad739fb2387edcf71d9b0f9fef81bc8100f63fa007869d","bytes":145060},
+    "chair-pedestal": {"sha256":"b9aa62fec75c4eb8e7ed3278e533def4fcd94ab5ad1ed1f0d668309bab21bb46","bytes":137404},
+    "chair-ladder": {"sha256":"1e207a753a5d46371076a1e616366fa24ab3223becf1261f67013fdd7484100c","bytes":142784},
+    "chair-crossbeam": {"sha256":"6ac5a3ff6beb8657df66e30993e09d1f733526acad49bf68c5673d700cbe8040","bytes":135640},
+    "sofa-modular": {"sha256":"e56568c8748df03e2f838307394fccbfcfd1f20682a57839985eb117910f165a","bytes":525460},
+    "sofa-arch": {"sha256":"6a995fda57ad94c15431573e02894c2a8698a291d3c8fa0f177138a803105e0d","bytes":540332}
+  },
+  "verification": {"commands":["node scripts/company-platform/build-seat-collection.mjs","node scripts/company-platform/build-seat-collection.mjs --check"],"contactRaysAndFootprints":"passed","cpuGLTFLoaderReadback":"passed","repeatExportByteIdentical":"passed"},
+  "limitations":["Browser/GPU and character seating visual review remain pending."]
+}

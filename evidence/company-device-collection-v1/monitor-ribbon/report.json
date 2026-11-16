@@ -1,0 +1,67 @@
+{
+  "status": "passed",
+  "designId": "monitor-ribbon",
+  "type": "monitor",
+  "styleDirection": "Wide ribbon bezel with twin side pylons and cable bridge",
+  "productionPrompt": "为公司场景制作一份可运行3D外观资源。designId=monitor-ribbon，造型方向=Wide ribbon bezel with twin side pylons and cable bridge，目标规格=monitor@1。保持使用点、容量、位置、座高、接近/离开点、clearance、footprint、mount、surface 与状态语义。允许改变轮廓、构件、材质和显示节点映射。按米制、Y向上、局部+Z朝前导出GLB，记录可编辑参数、来源许可、工具版本、资源身份、GLB回读、边界/安装检查、节点映射和重复导出一致性。",
+  "sourceParameters": "assets-source/company-device-collection/monitor-ribbon/parameters.json",
+  "sourceParametersSha256": "61220dd36a1c8f9ff955b753b4fd8d321e8945ec89a47542321d92c5f3f2b3fd",
+  "functionalContract": {
+    "reference": "monitor@1",
+    "source": "assets-source/company-device-collection/contracts/monitor.json",
+    "sourceSha256": "a6c4dfce8d372a71a7d0896d0d8c826ddb266afe89e33e3fd6e102bc0a47d5a6",
+    "compatible": true,
+    "stateDefaultsEqual": true,
+    "mountEqual": true,
+    "footprintEqual": true
+  },
+  "displayMapping": {
+    "screen": {
+      "nodes": [
+        "screen-surface"
+      ],
+      "onColor": "#ffd6a1",
+      "offColor": "#49311e",
+      "emissive": "#ffb35a",
+      "onIntensity": 1.8
+    }
+  },
+  "asset": {
+    "url": "/company-assets/device-collection/monitor-ribbon/v1/model.glb",
+    "sha256": "81e1696d7285dcf8db480c5d9093975f6d0196273068fe264f3645743e548582",
+    "bytes": 111532,
+    "repeatedExportByteIdentical": true,
+    "readback": {
+      "meshCount": 7,
+      "nodeNames": [
+        "ribbon-bezel",
+        "screen-surface",
+        "pylon-left",
+        "bridge-left",
+        "pylon-right",
+        "bridge-right",
+        "cable-bridge"
+      ],
+      "bounds": {
+        "min": [
+          -0.46000000834465027,
+          -5.9604643443123e-10,
+          -0.050000003576278686
+        ],
+        "max": [
+          0.46000000834465027,
+          0.63,
+          0.1300000035762787
+        ]
+      },
+      "externalUris": 0,
+      "skins": 0,
+      "animations": 0,
+      "frontSurfaceHits": []
+    }
+  },
+  "limitations": [
+    "CPU GLB readback only. Browser visual and runtime state mapping await root integration.",
+    "Project-authored solid-color geometry with no external art license."
+  ]
+}

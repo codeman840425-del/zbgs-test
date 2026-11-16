@@ -1,0 +1,163 @@
+{
+  "status": "passed",
+  "configuration": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "reuseKnownConfiguration": true,
+    "difficulty": "standard",
+    "reason": "Atomic independent result bundles and isolated deterministic retries",
+    "actualProviderConfiguration": "not independently verified",
+    "desktopHookInterception": "not independently verified"
+  },
+  "runDirectory": "F:\\gamemake-company-platform-c1\\evidence\\company-batch-v1\\run-7QPFy8",
+  "batchSourceSha256": "bec96aa1aeb45dc2d8f74450d0d2523d2605530ad837886711185b46ff51b790",
+  "checks": [
+    {
+      "name": "Real CLI produces two complete results with same-spec real models and explicit style/pose",
+      "passed": true,
+      "observed": {
+        "results": [
+          {
+            "key": "sofa-room-original",
+            "status": "created"
+          },
+          {
+            "key": "sofa-room-blue",
+            "status": "created"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Replacement models preserve the complete declared functional contract",
+      "passed": true,
+      "observed": {
+        "functionalFieldsUnchanged": [
+          "category",
+          "mountRole",
+          "footprint",
+          "usePoints",
+          "stateDefaults",
+          "coordinate basis/scale"
+        ],
+        "actualAssetHashes": [
+          "a457c8e142f5745bb66140f0c15c1748cdcda63f536af5f119a16f7ee633116c",
+          "fa72ac0c6ab944d2679ce824dcfe08834b715bc8472b23fc4daced3a9070dd96"
+        ],
+        "distinctModelIds": [
+          "lounge-sofa",
+          "timber-sofa"
+        ]
+      }
+    },
+    {
+      "name": "Identical retry verifies existing bytes and is idempotent",
+      "passed": true,
+      "observed": {
+        "byteHashesUnchanged": true
+      }
+    },
+    {
+      "name": "Independent output root receives byte-identical portable results",
+      "passed": true,
+      "observed": {
+        "allEightFilesIdentical": true
+      }
+    },
+    {
+      "name": "JSON property ordering does not change deterministic result bytes",
+      "passed": true
+    },
+    {
+      "name": "Changed input reports output-conflict and preserves every existing valid byte",
+      "passed": true
+    },
+    {
+      "name": "One failed key leaves another success usable and can retry alone",
+      "passed": true,
+      "observed": {
+        "failureKey": "sofa-room-blue",
+        "code": "missing-instance",
+        "singleKeyRetry": "created",
+        "successfulSiblingUnchanged": true
+      }
+    },
+    {
+      "name": "Malformed per-item operations stay isolated and an explicit empty operation array is valid",
+      "passed": true
+    },
+    {
+      "name": "Duplicate key rejects before any output directory is created",
+      "passed": true,
+      "observed": {
+        "code": "duplicate-batch-key"
+      }
+    },
+    {
+      "name": "Windows-case duplicate key rejects before any output directory is created",
+      "passed": true,
+      "observed": {
+        "code": "duplicate-batch-key"
+      }
+    },
+    {
+      "name": "Duplicate company identity rejects before any output directory is created",
+      "passed": true,
+      "observed": {
+        "code": "duplicate-company-id"
+      }
+    },
+    {
+      "name": "Directory traversal key rejects before any output directory is created",
+      "passed": true,
+      "observed": {
+        "code": "invalid-batch-key"
+      }
+    },
+    {
+      "name": "Windows device-name key rejects before any output directory is created",
+      "passed": true,
+      "observed": {
+        "code": "invalid-batch-key"
+      }
+    },
+    {
+      "name": "Tampered existing result is rejected without replacing the tampered bytes",
+      "passed": true
+    },
+    {
+      "name": "Additional or missing bundle files are reported and never repaired over existing data",
+      "passed": true
+    },
+    {
+      "name": "Existing file or junction cannot redirect result writes outside its result directory",
+      "passed": true
+    },
+    {
+      "name": "An existing key lock reports busy without touching a result and retries after release",
+      "passed": true
+    },
+    {
+      "name": "Concurrent real CLI publishers cannot mix or overwrite result bundles",
+      "passed": true,
+      "observed": {
+        "publisherStates": [
+          [
+            "created",
+            "created"
+          ],
+          [
+            "idempotent",
+            "idempotent"
+          ]
+        ],
+        "noStagingOrLocksRemain": true
+      }
+    }
+  ],
+  "limits": [
+    "Actual local CLI, filesystem, source/GLB hashing, static placement and save pin round-trip only. No render/GPU or character navigation.",
+    "Same-key concurrent publishers honor exclusive lock files. An interrupted process may leave a lock which must be inspected before removal."
+  ],
+  "scope": "Full batch CLI and filesystem checks"
+}

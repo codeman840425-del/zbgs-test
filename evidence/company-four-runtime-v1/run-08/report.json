@@ -1,0 +1,376 @@
+{
+  "status": "passed",
+  "generatedAt": "2026-11-16T21:01:59.400Z",
+  "configuration": {
+    "difficulty": "complex",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "high",
+    "actualProviderConfiguration": "not independently verified",
+    "hostHookInterception": "not independently verified"
+  },
+  "beforeHashes": {
+    "prototype/src/company/render.js": "b81776a7d0105601d9f4c20b4ee7581c666262db6cf5e7c1f7d68bca3ec789d9",
+    "prototype/src/company/asset-library.js": "e41c61be0e64b73863c7d70f8200153c6ed329ae7f98cbd53eaf1b1d1a614691",
+    "prototype/src/company/authoring.js": "733882285b45aa4614002cbaeff8aba9ae18b4b10d881ef97b4e6c46c702a1b1"
+  },
+  "afterHashes": {
+    "prototype/src/company/render.js": "b81776a7d0105601d9f4c20b4ee7581c666262db6cf5e7c1f7d68bca3ec789d9",
+    "prototype/src/company/asset-library.js": "e41c61be0e64b73863c7d70f8200153c6ed329ae7f98cbd53eaf1b1d1a614691",
+    "prototype/src/company/authoring.js": "733882285b45aa4614002cbaeff8aba9ae18b4b10d881ef97b4e6c46c702a1b1"
+  },
+  "sourcesStable": true,
+  "checks": [
+    {
+      "name": "Every GLB candidate imports through the real asset library, replacement path, and save restore",
+      "passed": true,
+      "observed": {
+        "tested": [
+          {
+            "id": "desk-trestle",
+            "mountRole": "desk",
+            "assetBytes": 13844,
+            "saveBytes": 9270,
+            "resourceUrl": "/company-assets/static-collection/desk-trestle/v1/model.glb"
+          },
+          {
+            "id": "desk-pedestal",
+            "mountRole": "desk",
+            "assetBytes": 15392,
+            "saveBytes": 9272,
+            "resourceUrl": "/company-assets/static-collection/desk-pedestal/v1/model.glb"
+          },
+          {
+            "id": "desk-cabinet",
+            "mountRole": "desk",
+            "assetBytes": 19752,
+            "saveBytes": 9270,
+            "resourceUrl": "/company-assets/static-collection/desk-cabinet/v1/model.glb"
+          },
+          {
+            "id": "desk-frame",
+            "mountRole": "desk",
+            "assetBytes": 15796,
+            "saveBytes": 9266,
+            "resourceUrl": "/company-assets/static-collection/desk-frame/v1/model.glb"
+          },
+          {
+            "id": "keyboard-compact",
+            "mountRole": "keyboard",
+            "assetBytes": 69744,
+            "saveBytes": 9432,
+            "resourceUrl": "/company-assets/static-collection/keyboard-compact/v1/model.glb"
+          },
+          {
+            "id": "keyboard-split",
+            "mountRole": "keyboard",
+            "assetBytes": 63692,
+            "saveBytes": 9428,
+            "resourceUrl": "/company-assets/static-collection/keyboard-split/v1/model.glb"
+          },
+          {
+            "id": "keyboard-retro",
+            "mountRole": "keyboard",
+            "assetBytes": 158544,
+            "saveBytes": 9428,
+            "resourceUrl": "/company-assets/static-collection/keyboard-retro/v1/model.glb"
+          },
+          {
+            "id": "keyboard-console",
+            "mountRole": "keyboard",
+            "assetBytes": 83932,
+            "saveBytes": 9432,
+            "resourceUrl": "/company-assets/static-collection/keyboard-console/v1/model.glb"
+          },
+          {
+            "id": "desk-microphone-ball",
+            "mountRole": "desk-microphone",
+            "assetBytes": 26500,
+            "saveBytes": 9600,
+            "resourceUrl": "/company-assets/static-collection/desk-microphone-ball/v1/model.glb"
+          },
+          {
+            "id": "desk-microphone-ribbon",
+            "mountRole": "desk-microphone",
+            "assetBytes": 25480,
+            "saveBytes": 9604,
+            "resourceUrl": "/company-assets/static-collection/desk-microphone-ribbon/v1/model.glb"
+          },
+          {
+            "id": "desk-microphone-broadcast",
+            "mountRole": "desk-microphone",
+            "assetBytes": 23220,
+            "saveBytes": 9610,
+            "resourceUrl": "/company-assets/static-collection/desk-microphone-broadcast/v1/model.glb"
+          },
+          {
+            "id": "desk-microphone-capsule",
+            "mountRole": "desk-microphone",
+            "assetBytes": 36412,
+            "saveBytes": 9606,
+            "resourceUrl": "/company-assets/static-collection/desk-microphone-capsule/v1/model.glb"
+          },
+          {
+            "id": "monitor-aurora",
+            "mountRole": "monitor",
+            "assetBytes": 108012,
+            "saveBytes": 9799,
+            "resourceUrl": "/company-assets/device-collection/monitor-aurora/v1/model.glb"
+          },
+          {
+            "id": "monitor-ribbon",
+            "mountRole": "monitor",
+            "assetBytes": 111532,
+            "saveBytes": 9799,
+            "resourceUrl": "/company-assets/device-collection/monitor-ribbon/v1/model.glb"
+          },
+          {
+            "id": "monitor-pillar",
+            "mountRole": "monitor",
+            "assetBytes": 18224,
+            "saveBytes": 9799,
+            "resourceUrl": "/company-assets/device-collection/monitor-pillar/v1/model.glb"
+          },
+          {
+            "id": "monitor-slate",
+            "mountRole": "monitor",
+            "assetBytes": 107144,
+            "saveBytes": 9797,
+            "resourceUrl": "/company-assets/device-collection/monitor-slate/v1/model.glb"
+          },
+          {
+            "id": "fill-light-orbit",
+            "mountRole": "fill-light",
+            "assetBytes": 33860,
+            "saveBytes": 10017,
+            "resourceUrl": "/company-assets/device-collection/fill-light-orbit/v1/model.glb"
+          },
+          {
+            "id": "fill-light-wing",
+            "mountRole": "fill-light",
+            "assetBytes": 13968,
+            "saveBytes": 10015,
+            "resourceUrl": "/company-assets/device-collection/fill-light-wing/v1/model.glb"
+          },
+          {
+            "id": "fill-light-column",
+            "mountRole": "fill-light",
+            "assetBytes": 11820,
+            "saveBytes": 10019,
+            "resourceUrl": "/company-assets/device-collection/fill-light-column/v1/model.glb"
+          },
+          {
+            "id": "fill-light-panel",
+            "mountRole": "fill-light",
+            "assetBytes": 11996,
+            "saveBytes": 10017,
+            "resourceUrl": "/company-assets/device-collection/fill-light-panel/v1/model.glb"
+          },
+          {
+            "id": "chair-cantilever",
+            "mountRole": "chair",
+            "assetBytes": 139580,
+            "saveBytes": 10186,
+            "resourceUrl": "/company-assets/seat-collection/chair-cantilever/v1/model.glb"
+          },
+          {
+            "id": "chair-pedestal",
+            "mountRole": "chair",
+            "assetBytes": 131928,
+            "saveBytes": 10182,
+            "resourceUrl": "/company-assets/seat-collection/chair-pedestal/v1/model.glb"
+          },
+          {
+            "id": "chair-ladder",
+            "mountRole": "chair",
+            "assetBytes": 137304,
+            "saveBytes": 10178,
+            "resourceUrl": "/company-assets/seat-collection/chair-ladder/v1/model.glb"
+          },
+          {
+            "id": "chair-crossbeam",
+            "mountRole": "chair",
+            "assetBytes": 130160,
+            "saveBytes": 10184,
+            "resourceUrl": "/company-assets/seat-collection/chair-crossbeam/v1/model.glb"
+          }
+        ],
+        "skipped": [
+          {
+            "id": "lounge-sofa",
+            "mountRole": "sofa",
+            "reason": "No matching facility in the minimal two-station fixture"
+          },
+          {
+            "id": "lounge-sofa",
+            "mountRole": "sofa",
+            "reason": "No matching facility in the minimal two-station fixture"
+          },
+          {
+            "id": "timber-sofa",
+            "mountRole": "sofa",
+            "reason": "No matching facility in the minimal two-station fixture"
+          },
+          {
+            "id": "plant-palm",
+            "mountRole": "plant",
+            "reason": "No matching facility in the minimal two-station fixture"
+          },
+          {
+            "id": "plant-bonsai",
+            "mountRole": "plant",
+            "reason": "No matching facility in the minimal two-station fixture"
+          },
+          {
+            "id": "plant-cactus",
+            "mountRole": "plant",
+            "reason": "No matching facility in the minimal two-station fixture"
+          },
+          {
+            "id": "plant-broadleaf",
+            "mountRole": "plant",
+            "reason": "No matching facility in the minimal two-station fixture"
+          },
+          {
+            "id": "wall-art-triptych",
+            "mountRole": "wall-art",
+            "reason": "No matching facility in the minimal two-station fixture"
+          },
+          {
+            "id": "wall-art-sunburst",
+            "mountRole": "wall-art",
+            "reason": "No matching facility in the minimal two-station fixture"
+          },
+          {
+            "id": "wall-art-relief",
+            "mountRole": "wall-art",
+            "reason": "No matching facility in the minimal two-station fixture"
+          },
+          {
+            "id": "wall-art-woven",
+            "mountRole": "wall-art",
+            "reason": "No matching facility in the minimal two-station fixture"
+          },
+          {
+            "id": "sofa-modular",
+            "mountRole": "sofa",
+            "reason": "No matching facility in the minimal two-station fixture"
+          },
+          {
+            "id": "sofa-arch",
+            "mountRole": "sofa",
+            "reason": "No matching facility in the minimal two-station fixture"
+          }
+        ],
+        "failed": [],
+        "loadedAssets": 6
+      }
+    },
+    {
+      "name": "Four monitor variants apply independent on/off display mappings and survive save restore",
+      "passed": true,
+      "observed": {
+        "variantChecks": [
+          {
+            "id": "monitor-aurora",
+            "saveBytes": 10186,
+            "offColor": "#183638",
+            "onColor": "#9fe8df"
+          },
+          {
+            "id": "monitor-ribbon",
+            "saveBytes": 10186,
+            "offColor": "#49311e",
+            "onColor": "#ffd6a1"
+          },
+          {
+            "id": "monitor-pillar",
+            "saveBytes": 10186,
+            "offColor": "#24304b",
+            "onColor": "#b9ceff"
+          },
+          {
+            "id": "monitor-slate",
+            "saveBytes": 10184,
+            "offColor": "#262735",
+            "onColor": "#d1d8ff"
+          }
+        ],
+        "savedBytes": 10231,
+        "instanceIndependent": true,
+        "off": {
+          "color": "#183638",
+          "emissiveIntensity": 0
+        },
+        "on": {
+          "color": "#ffd6a1",
+          "emissiveIntensity": 1.8
+        }
+      }
+    },
+    {
+      "name": "Four fill light variants drive isolated diffuser materials and real SpotLight state",
+      "passed": true,
+      "observed": {
+        "variantChecks": [
+          {
+            "id": "fill-light-orbit",
+            "saveBytes": 10231,
+            "offColor": "#574f3a",
+            "onColor": "#fff4d6"
+          },
+          {
+            "id": "fill-light-wing",
+            "saveBytes": 10229,
+            "offColor": "#4b3326",
+            "onColor": "#ffe7cf"
+          },
+          {
+            "id": "fill-light-column",
+            "saveBytes": 10233,
+            "offColor": "#28314b",
+            "onColor": "#dbe5ff"
+          },
+          {
+            "id": "fill-light-panel",
+            "saveBytes": 10231,
+            "offColor": "#4a453d",
+            "onColor": "#fff8eb"
+          }
+        ],
+        "savedBytes": 10298,
+        "instanceIndependent": true,
+        "lights": [
+          {
+            "id": "single-demo/floor-1/room-1/station-1/fill-light",
+            "intensity": 0,
+            "castsShadow": false
+          },
+          {
+            "id": "single-demo/floor-1/room-1/station-2/fill-light",
+            "intensity": 2,
+            "castsShadow": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "Base facility contracts remain available after the collection exercises",
+      "passed": true,
+      "observed": {
+        "targetCount": 6,
+        "currentRevision": 55,
+        "currentView": {
+          "mode": "floor",
+          "roomId": null,
+          "floorId": "single-demo/floor-1"
+        }
+      }
+    }
+  ],
+  "limits": [
+    "CPU Three scene construction and GLTFLoader asset-library import only. No GPU/browser/character activity.",
+    "The minimal two-station fixture exercises desk, monitor, keyboard, desk-microphone, chair and fill-light mount roles. Sofa, plant and wall-art assets are recorded as skipped when no matching facility exists.",
+    "Wall, floor and portal installation constraints are not runtime-tested here because this fixture has no wall-mounted asset nodes.",
+    "During concurrent catalog integration, local resource.json sidecars are overlaid onto the imported catalog so the tested bytes and provenance are the exact generated files. Root must rebuild the catalog from those sidecars before release."
+  ]
+}

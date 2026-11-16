@@ -1,0 +1,66 @@
+{
+  "status": "passed",
+  "designId": "monitor-slate",
+  "type": "monitor",
+  "styleDirection": "Thin floating slate panel with articulated V support",
+  "productionPrompt": "为公司场景制作一份可运行3D外观资源。designId=monitor-slate，造型方向=Thin floating slate panel with articulated V support，目标规格=monitor@1。保持使用点、容量、位置、座高、接近/离开点、clearance、footprint、mount、surface 与状态语义。允许改变轮廓、构件、材质和显示节点映射。按米制、Y向上、局部+Z朝前导出GLB，记录可编辑参数、来源许可、工具版本、资源身份、GLB回读、边界/安装检查、节点映射和重复导出一致性。",
+  "sourceParameters": "assets-source/company-device-collection/monitor-slate/parameters.json",
+  "sourceParametersSha256": "dc11910944ecd68215a566cf61333510de105529fb27079d5b1d408359b75eca",
+  "functionalContract": {
+    "reference": "monitor@1",
+    "source": "assets-source/company-device-collection/contracts/monitor.json",
+    "sourceSha256": "a6c4dfce8d372a71a7d0896d0d8c826ddb266afe89e33e3fd6e102bc0a47d5a6",
+    "compatible": true,
+    "stateDefaultsEqual": true,
+    "mountEqual": true,
+    "footprintEqual": true
+  },
+  "displayMapping": {
+    "screen": {
+      "nodes": [
+        "screen-surface"
+      ],
+      "onColor": "#d1d8ff",
+      "offColor": "#262735",
+      "emissive": "#a6b6ff",
+      "onIntensity": 1.7
+    }
+  },
+  "asset": {
+    "url": "/company-assets/device-collection/monitor-slate/v1/model.glb",
+    "sha256": "4481f3d0cb98375443355141a924a097d2698742683e6513606c67949ee677ba",
+    "bytes": 107144,
+    "repeatedExportByteIdentical": true,
+    "readback": {
+      "meshCount": 6,
+      "nodeNames": [
+        "slate-frame",
+        "screen-surface",
+        "v-support-left",
+        "v-support-right",
+        "v-support-foot",
+        "hinge"
+      ],
+      "bounds": {
+        "min": [
+          -0.4099999964237213,
+          -4.321336743301485e-10,
+          -0.07000000357627868
+        ],
+        "max": [
+          0.4099999964237213,
+          0.6499999946355819,
+          0.11000000357627869
+        ]
+      },
+      "externalUris": 0,
+      "skins": 0,
+      "animations": 0,
+      "frontSurfaceHits": []
+    }
+  },
+  "limitations": [
+    "CPU GLB readback only. Browser visual and runtime state mapping await root integration.",
+    "Project-authored solid-color geometry with no external art license."
+  ]
+}

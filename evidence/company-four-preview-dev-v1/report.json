@@ -1,0 +1,300 @@
+{
+  "build": "54bb1e77e07f",
+  "status": "failed",
+  "branches": [
+    {
+      "branch": "desk",
+      "label": "桌子",
+      "candidates": [
+        {
+          "resource": {
+            "id": "desk-trestle",
+            "version": 1
+          },
+          "geometryHash": "c34a68fff9e36b3148d31fc0930914a27b97c2ae4974c4425b95ca19f3846861",
+          "meshCount": 14,
+          "displayTargets": 0,
+          "screenshot": "desk-1.png"
+        },
+        {
+          "resource": {
+            "id": "desk-pedestal",
+            "version": 1
+          },
+          "geometryHash": "7eb0736bcec181759adb185dfabf2d5f1abf451d484ee36aa4c40055631b3527",
+          "meshCount": 12,
+          "displayTargets": 0,
+          "screenshot": "desk-2.png"
+        },
+        {
+          "resource": {
+            "id": "desk-cabinet",
+            "version": 1
+          },
+          "geometryHash": "9c94be557bbbbe262d9104819f96c33ebc7df088acf549d477bd1b3b30eea5f9",
+          "meshCount": 17,
+          "displayTargets": 0,
+          "screenshot": "desk-3.png"
+        },
+        {
+          "resource": {
+            "id": "desk-frame",
+            "version": 1
+          },
+          "geometryHash": "f4a30b731264899a0ff0fcd6f3ffd712eb23f90ce06c6bd8395113a7b2923916",
+          "meshCount": 15,
+          "displayTargets": 0,
+          "screenshot": "desk-4.png"
+        }
+      ],
+      "closedReopened": true
+    },
+    {
+      "branch": "chair",
+      "label": "单人座椅",
+      "candidates": [
+        {
+          "resource": {
+            "id": "chair-cantilever",
+            "version": 1
+          },
+          "geometryHash": "0660660c94e95580295349a76d14d01920d108760e7921856fc077ac97960037",
+          "meshCount": 9,
+          "displayTargets": 0,
+          "screenshot": "chair-1.png"
+        }
+      ],
+      "closedReopened": false,
+      "lastDocument": {
+        "schema": "company-layout",
+        "version": 1,
+        "id": "appearance-chair",
+        "name": "单人座椅 · chair-cantilever",
+        "revision": 7,
+        "scale": "single-room",
+        "catalog": {
+          "id": "company-facilities",
+          "version": 1
+        },
+        "nodes": [
+          {
+            "id": "appearance-chair/floor-1",
+            "kind": "floor",
+            "parentId": "appearance-chair",
+            "name": "一层",
+            "transform": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "yaw": 0
+            },
+            "connections": [
+              {
+                "id": "appearance-chair/entry",
+                "from": {
+                  "regionId": "appearance-chair/room-1",
+                  "edge": "south",
+                  "offset": 0,
+                  "width": 1.4
+                },
+                "to": {
+                  "regionId": "appearance-chair/public",
+                  "edge": "north",
+                  "offset": 0,
+                  "width": 1.4
+                }
+              }
+            ]
+          },
+          {
+            "id": "appearance-chair/room-1",
+            "kind": "room",
+            "parentId": "appearance-chair/floor-1",
+            "name": "直播间",
+            "purpose": "streaming",
+            "bounds": {
+              "width": 9,
+              "depth": 7
+            },
+            "transform": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "yaw": 0
+            }
+          },
+          {
+            "id": "appearance-chair/public",
+            "kind": "area",
+            "parentId": "appearance-chair/floor-1",
+            "name": "公共入口",
+            "bounds": {
+              "width": 9,
+              "depth": 3
+            },
+            "transform": {
+              "position": [
+                0,
+                0,
+                5
+              ],
+              "yaw": 0
+            }
+          },
+          {
+            "id": "sample/station",
+            "kind": "workstation",
+            "parentId": "appearance-chair/room-1",
+            "name": "sample/station",
+            "transform": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "yaw": 0
+            },
+            "template": {
+              "id": "stream-station",
+              "version": 1
+            }
+          },
+          {
+            "id": "sample/station/desk",
+            "kind": "facility",
+            "stationId": "sample/station",
+            "partKey": "desk",
+            "parentId": "sample/station",
+            "resource": {
+              "id": "desk",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                0,
+                0,
+                -0.9
+              ],
+              "yaw": 0
+            },
+            "state": {}
+          },
+          {
+            "id": "sample/station/monitor",
+            "kind": "facility",
+            "stationId": "sample/station",
+            "partKey": "monitor",
+            "parentId": "sample/station/desk",
+            "resource": {
+              "id": "monitor",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                0,
+                0.84,
+                -0.25
+              ],
+              "yaw": 0
+            },
+            "state": {
+              "on": true
+            }
+          },
+          {
+            "id": "sample/station/keyboard",
+            "kind": "facility",
+            "stationId": "sample/station",
+            "partKey": "keyboard",
+            "parentId": "sample/station/desk",
+            "resource": {
+              "id": "keyboard",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                0,
+                0.84,
+                0.21
+              ],
+              "yaw": 0
+            },
+            "state": {}
+          },
+          {
+            "id": "sample/station/microphone",
+            "kind": "facility",
+            "stationId": "sample/station",
+            "partKey": "microphone",
+            "parentId": "sample/station/desk",
+            "resource": {
+              "id": "desk-microphone",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                -0.8,
+                0.84,
+                0.18
+              ],
+              "yaw": 0
+            },
+            "state": {}
+          },
+          {
+            "id": "sample/station/chair",
+            "kind": "facility",
+            "stationId": "sample/station",
+            "partKey": "chair",
+            "parentId": "sample/station",
+            "resource": {
+              "id": "chair-cantilever",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                0,
+                0,
+                0.55
+              ],
+              "yaw": 3.141592653589793
+            },
+            "state": {}
+          },
+          {
+            "id": "sample/station/fill-light",
+            "kind": "facility",
+            "stationId": "sample/station",
+            "partKey": "fill-light",
+            "parentId": "sample/station",
+            "resource": {
+              "id": "fill-light",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                -0.75,
+                0,
+                -0.15
+              ],
+              "yaw": 0
+            },
+            "state": {
+              "on": true,
+              "intensity": 5
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "checks": [],
+  "limits": [
+    "Production preview and preservation only; no real actor usage or ordinary-PC performance claim."
+  ],
+  "error": "page.evaluate: CompanyError: invalid-asset-transform at resources.chair-pedestal.nodes[3].matrix: Node transforms must be finite\n    at ne (http://127.0.0.1:49529/assets/company-Bi2xd0x3.js:4294:65390)\n    at gS (http://127.0.0.1:49529/assets/company-Bi2xd0x3.js:4294:68991)\n    at R (http://127.0.0.1:49529/assets/company-Bi2xd0x3.js:4294:74263)\n    at async P (http://127.0.0.1:49529/assets/company-Bi2xd0x3.js:4294:75926)\n    at async Promise.all (index 0)\n    at async Object.preload (http://127.0.0.1:49529/assets/company-Bi2xd0x3.js:4294:76069)\n    at async s (http://127.0.0.1:49529/assets/company-Bi2xd0x3.js:4294:16531)\n    at async http://127.0.0.1:49529/assets/company-Bi2xd0x3.js:4294:17422\n    at async u (http://127.0.0.1:49529/assets/company-Bi2xd0x3.js:4294:16982)\n    at async Object.rf [as showAppearanceSample] (http://127.0.0.1:49529/assets/company-Bi2xd0x3.js:4294:88451)\n    at F:\\gamemake-company-platform-c1\\scripts\\company-platform\\qa-four-preview.cjs:15:28"
+}

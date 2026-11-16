@@ -1,0 +1,10 @@
+{
+  "status": "repaired",
+  "resource": "chair-crossbeam@1",
+  "reference": "evidence/company-four-preview-910-software-v1/review-row-2.png",
+  "defect": "Diagonal crossbeam members projected through the seat top like spikes.",
+  "before": {"sha256":"6ac5a3ff6beb8657df66e30993e09d1f733526acad49bf68c5673d700cbe8040","bytes":135640,"diagonalSizeY":0.56,"diagonalCenterY":0.28,"tiltRadians":0.32,"estimatedTopY":0.55},
+  "fix": {"generator":"scripts/company-platform/build-seat-collection.mjs","diagonalSizeY":0.40,"diagonalCenterY":0.21,"tiltRadians":0.32,"estimatedTopY":0.41,"seatTopY":0.47,"footprintUnchanged":true,"seatAndBackContactUnchanged":true},
+  "after": {"sha256":"79751d9f66837ecf5cdad92e16903f970b308a3b56c1927368f894280ce3c5e1","bytes":135644},
+  "verification": {"commands":["node scripts/company-platform/build-seat-collection.mjs","node scripts/company-platform/build-seat-collection.mjs --check"],"status":"passed","allSixSidecarsRegenerated":true}
+}

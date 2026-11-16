@@ -1,0 +1,449 @@
+{
+  "auditId": "company-four-coverage-audit-v1",
+  "date": "2026-11-16",
+  "project": "F:/gamemake-company-platform-c1",
+  "purpose": "Audit the explicit appearance branches in the company platform scope against the current catalog. The user requirement is at least four distinct, replaceable appearances per category and sub-branch. A recolor, version label, duplicate instance, or incompatible footprint is not a countable appearance.",
+  "minimumDistinctAppearancesPerAppearanceBranch": 4,
+  "countingRules": [
+    "Count a resource only when it is a distinct geometry or construction that can replace another resource while preserving the branch function contract.",
+    "Do not count repeated instances, template copies, color-only changes, or the same generator output under another version label.",
+    "A resource with a changed footprint or changed use-point contract is a separate functional specification, not a replacement for the reference specification.",
+    "A child mesh inside a compound resource is not an independently replaceable appearance unless it has its own catalog identity, source, and replacement path.",
+    "Layout and use-purpose branches are recorded because the scope documents name them, but they are not silently converted into appearance assets. Their appearance count is null until a resource branch is explicitly defined."
+  ],
+  "sourceDocuments": [
+    {
+      "path": "docs/COMPANY-PLATFORM-DEPUTY-BRIEF.txt",
+      "sha256": "44B69265F883B3810BA33630D8DF962D802FC8DBD362AB4B6FFE4227259E2A7D",
+      "anchors": ["3.1", "3.2", "3.3", "5.1", "6"]
+    },
+    {
+      "path": "docs/COMPANY-APPEARANCE-PRODUCTION-STANDARD.md",
+      "sha256": "18D9A3EFEBA0C94F92D8B2E253BC2CC2411E57FF8B7872FDC541853E00F378AC",
+      "anchors": ["有限、版本化的规格库", "当前实际尺寸", "生产与导入实检"]
+    },
+    {
+      "path": "docs/COMPANY-SPACE-DESIGN-NOTES-2026-11-16.md",
+      "sha256": "1EED2984AE35A2F798D089527A132B1E6CE6F416D53A0B09216F12357DF2CA5B",
+      "anchors": ["五档空间的组成关系", "公共空间", "老板的专属设施与私人空间"]
+    },
+    {
+      "path": "docs/research/COMPANY-PLATFORM-CONTINUOUS-GOAL-v2-2026-11-16.md",
+      "sha256": "90939669F8B32458FE0D92B3F2D29095E1D5BE98590B1CB3490C247745AAD2B6",
+      "anchors": ["C1", "组件与组合设施", "四类设施的生产与显示基础", "C2"]
+    },
+    {
+      "path": "prototype/src/company/library-catalog.json",
+      "sha256": "E7C0423826AF85FD64276FB41B7AF5B522060FF388ECB836E3133D60943BEDEA",
+      "anchors": ["resources"]
+    },
+    {
+      "path": "prototype/src/company/facility-catalog.json",
+      "sha256": "1BB239E08FA8BB466EAA048A69EC15B23BE1D033A7DB44604B639F91E8D283AD",
+      "anchors": ["resources"]
+    },
+    {
+      "path": "prototype/src/company/resources.json",
+      "sha256": "9A55C30DF1C4492E1E470B6B1E5E988B4F67024AC9979C85BFC4050437B7F22E",
+      "anchors": ["resources"]
+    },
+    {
+      "path": "assets-source/company-static-collection/collection.json",
+      "sha256": "DBC727A40D9280EB32F45DE5DA02146E9BB9E4243350A10CCF6E6B5C4281E6C5",
+      "anchors": ["resources"]
+    },
+    {
+      "path": "evidence/company-static-collection-v1/report.json",
+      "sha256": "65A4C89F2F3993B5244583A7A34F17974390BB8A7F29DCCAD73450FCB4A407C0",
+      "anchors": ["source-export-readback-passed", "results"]
+    }
+  ],
+  "appearanceBranches": [
+    {
+      "id": "architecture.floor",
+      "category": "architecture-module",
+      "branch": "floor",
+      "scopeStatus": "explicit",
+      "specStatus": "named module and reusable dimensions are required; the current procedural floor is only a graybox reference",
+      "catalogRecords": ["resources.json#/resources[id=floor]", "resources.json#/resources[id=floor-stripes]"],
+      "countableAppearances": [],
+      "rawProceduralRecords": ["floor", "floor-stripes"],
+      "eligibleCount": 0,
+      "gapToMinimum": 4,
+      "notes": "The two records are one procedural room floor plus a stripe overlay. The overlay is not a replaceable floor model."
+    },
+    {
+      "id": "architecture.wall",
+      "category": "architecture-module",
+      "branch": "wall",
+      "scopeStatus": "explicit",
+      "specStatus": "shape, corners, openings, dimensions, and connection limits are explicitly left for a layout-spec work package",
+      "catalogRecords": ["resources.json#/resources[id=back-wall]", "resources.json#/resources[id=left-wall]"],
+      "countableAppearances": [],
+      "rawProceduralRecords": ["back-wall", "left-wall"],
+      "eligibleCount": 0,
+      "gapToMinimum": 4,
+      "notes": "These are placement-specific graybox room panels from one procedural extraction, not four independently replaceable wall appearances."
+    },
+    {
+      "id": "architecture.rug",
+      "category": "architecture-module",
+      "branch": "rug / floor-surface decor",
+      "scopeStatus": "explicitly present in the actual room resource and layouts",
+      "specStatus": "current rug is a ground decoration record; four-variant production target is not yet in the architecture catalog",
+      "catalogRecords": ["resources.json#/resources[id=rug]", "layouts.json#/layouts[*]/resources[id=rug]"],
+      "countableAppearances": ["rug@1 procedural box"],
+      "eligibleCount": 1,
+      "gapToMinimum": 3,
+      "notes": "Include rug in the audit as a static floor-surface appearance branch. Its existing resource is one graybox model, not a count of floor-panel variants."
+    },
+    {
+      "id": "architecture.door-frame",
+      "category": "architecture-module",
+      "branch": "door frame",
+      "scopeStatus": "explicit",
+      "specStatus": "door module is named, but no standalone door-frame resource specification exists",
+      "catalogRecords": ["prototype/src/company/examples/c2-rental-home.json#/nodes[id=rental-home-company/floor-1].connections[id=rental/door-stream|door-work|door-rest]"],
+      "countableAppearances": [],
+      "eligibleCount": 0,
+      "gapToMinimum": 4,
+      "notes": "Connection IDs prove portal intent only. They are not visual door-frame resources, and no door leaf or opening behavior is implied by this audit."
+    },
+    {
+      "id": "architecture.window-panel",
+      "category": "architecture-module",
+      "branch": "window panel",
+      "scopeStatus": "explicit",
+      "specStatus": "window module is named, but no standalone window-panel resource specification exists",
+      "catalogRecords": ["resources.json#/resources[id=back-wall] child window-frame/window-pane/window-mullion/window-crossbar"],
+      "countableAppearances": [],
+      "eligibleCount": 0,
+      "gapToMinimum": 4,
+      "notes": "The one embedded window is part of back-wall and cannot be replaced independently."
+    },
+    {
+      "id": "architecture.corridor-passage",
+      "category": "architecture-mechanism",
+      "branch": "corridor or passage",
+      "scopeStatus": "explicit",
+      "specStatus": "real connected passage is required, but no corridor resource or appearance contract exists",
+      "catalogRecords": ["prototype/src/company/examples/c2-rental-home.json#/nodes[id=rental-home-company/floor-1].connections"],
+      "countableAppearances": [],
+      "eligibleCount": null,
+      "gapToMinimum": null,
+      "appearanceQuota": null,
+      "notes": "A corridor/passage is a functional spatial mechanism. It must be validated for connection and clearance, not multiplied into four camera or logic variants."
+    },
+    {
+      "id": "architecture.boundary",
+      "category": "architecture-mechanism",
+      "branch": "boundary",
+      "scopeStatus": "explicit",
+      "specStatus": "boundary is named as spatial content, with legal shapes and dimensions still to be specified",
+      "catalogRecords": [],
+      "countableAppearances": [],
+      "eligibleCount": null,
+      "gapToMinimum": null,
+      "appearanceQuota": null,
+      "notes": "Boundary is functional spatial data. Any boundary display resource can be audited separately if a resource branch is defined."
+    },
+    {
+      "id": "architecture.area-connection",
+      "category": "architecture-mechanism",
+      "branch": "area connection",
+      "scopeStatus": "explicit",
+      "specStatus": "region connection and navigation continuity are required",
+      "catalogRecords": ["prototype/src/company/examples/c2-rental-home.json#/nodes[id=rental-home-company/floor-1].connections"],
+      "countableAppearances": [],
+      "eligibleCount": null,
+      "gapToMinimum": null,
+      "appearanceQuota": null,
+      "notes": "Area connections are relationship and navigation data. The four-appearance rule applies to a future portal/door display resource, not to connection records."
+    },
+    {
+      "id": "architecture.space-material",
+      "category": "architecture-appearance-data",
+      "branch": "space material",
+      "scopeStatus": "explicit",
+      "specStatus": "materials are named as configurable space content, but no material variant catalog is present",
+      "catalogRecords": ["resources.json material fields on floor/back-wall/left-wall"],
+      "countableAppearances": [],
+      "eligibleCount": null,
+      "gapToMinimum": null,
+      "appearanceQuota": null,
+      "notes": "Inline color or material fields cannot be used to claim four geometry appearances. A future surface resource would need its own branch and distinct structures."
+    },
+    {
+      "id": "architecture.lighting",
+      "category": "architecture-mechanism",
+      "branch": "architectural lighting",
+      "scopeStatus": "explicit",
+      "specStatus": "lighting and actual rendered illumination are required, with budgets still open",
+      "catalogRecords": [],
+      "countableAppearances": [],
+      "eligibleCount": null,
+      "gapToMinimum": null,
+      "appearanceQuota": null,
+      "notes": "Architectural lighting is a runtime/rendering mechanism. fill-light is counted as a facility resource and workstation part."
+    },
+    {
+      "id": "architecture.view-camera",
+      "category": "architecture-module",
+      "branch": "required viewing camera",
+      "scopeStatus": "explicit",
+      "specStatus": "viewing modes are required, but the camera is a runtime viewing mechanism rather than an appearance resource",
+      "catalogRecords": [],
+      "countableAppearances": [],
+      "eligibleCount": null,
+      "gapToMinimum": null,
+      "notes": "Recorded to avoid dropping an explicitly named scope item. It is excluded from the four-appearance asset quota until the product defines camera presets as replaceable visual content."
+    },
+    {
+      "id": "facility.static-decoration.plant",
+      "category": "facility-static-decoration",
+      "branch": "plant",
+      "scopeStatus": "explicit",
+      "specStatus": "specified as static decoration with ground, wall, or desk placement",
+      "catalogRecords": ["library-catalog.json#/resources[id=plant,version=1]", "facility-catalog.json#/resources[id=plant,version=1]", "evidence/company-static-collection-v1/report.json#/results[branch=plant]"],
+      "countableAppearances": ["plant-palm", "plant-bonsai", "plant-cactus", "plant-broadleaf"],
+      "eligibleCount": 4,
+      "gapToMinimum": 0,
+      "notes": "The static collection adds four source-export/readback-passed plant models. plant@1 remains the original procedural reference and is not counted as a fifth design."
+    },
+    {
+      "id": "facility.static-decoration.hanging-picture",
+      "category": "facility-static-decoration",
+      "branch": "hanging picture",
+      "scopeStatus": "explicit",
+      "specStatus": "named representative static decoration; the current static collection supplies four structurally distinct wall-art resources",
+      "catalogRecords": ["evidence/company-static-collection-v1/report.json#/resources[branch=wall-art]", "prototype/public/company-assets/static-collection/*/resource.json"],
+      "countableAppearances": ["wall-art-triptych", "wall-art-sunburst", "wall-art-relief", "wall-art-woven"],
+      "eligibleCount": 4,
+      "gapToMinimum": 0,
+      "notes": "The four wall-art models differ by construction and silhouette. They share the fixed wall-art mount contract."
+    },
+    {
+      "id": "facility.simple-dynamic.fill-light",
+      "category": "facility-simple-dynamic",
+      "branch": "fill light",
+      "scopeStatus": "explicit",
+      "specStatus": "dynamic state, actual light, and save/restore semantics are specified",
+      "catalogRecords": ["library-catalog.json#/resources[id=fill-light,version=1]", "facility-catalog.json#/resources[id=fill-light,version=1]"],
+      "countableAppearances": ["fill-light@1 procedural stand and diffuser"],
+      "eligibleCount": 1,
+      "gapToMinimum": 3,
+      "notes": "State fields on/on-intensity do not create additional appearances."
+    },
+    {
+      "id": "facility.simple-dynamic.screen",
+      "category": "facility-simple-dynamic",
+      "branch": "screen",
+      "scopeStatus": "explicit",
+      "specStatus": "dynamic display state is specified; current implementation candidate is monitor",
+      "catalogRecords": ["library-catalog.json#/resources[id=monitor,version=1]", "facility-catalog.json#/resources[id=monitor,version=1]"],
+      "countableAppearances": ["monitor@1 procedural model"],
+      "eligibleCount": 1,
+      "gapToMinimum": 3,
+      "notes": "The catalog calls the resource monitor. It is the only inspected screen implementation."
+    },
+    {
+      "id": "facility.single-person.chair",
+      "category": "facility-single-person",
+      "branch": "chair",
+      "scopeStatus": "explicit",
+      "specStatus": "chair@1 functional specification is versioned with one seat use point",
+      "catalogRecords": ["library-catalog.json#/resources[id=chair,version=1]", "facility-catalog.json#/resources[id=chair,version=1]"],
+      "countableAppearances": ["chair@1 procedural model"],
+      "eligibleCount": 1,
+      "gapToMinimum": 3,
+      "notes": "The fixed seat contract does not make alternate body shapes or instances into appearances."
+    },
+    {
+      "id": "facility.single-person.live-workstation",
+      "category": "facility-single-person",
+      "branch": "single-person live workstation",
+      "scopeStatus": "explicit",
+      "specStatus": "combination and single-person use are specified, but only one stream-station template exists",
+      "catalogRecords": ["templates.json#/templates[id=stream-station]", "templates-extended.json#/templates[id=stream-station]"],
+      "countableAppearances": ["stream-station template using one component set"],
+      "eligibleCount": 1,
+      "gapToMinimum": 3,
+      "notes": "Two station instances in examples are duplicate instances and do not count as two appearances."
+    },
+    {
+      "id": "facility.multi-use.double-sofa",
+      "category": "facility-multi-use",
+      "branch": "double sofa",
+      "scopeStatus": "explicit",
+      "specStatus": "lounge-sofa@1 fixed two-seat function contract is versioned; timber-sofa@1 reuses it",
+      "catalogRecords": ["library-catalog.json#/resources[id=lounge-sofa,version=1]", "library-catalog.json#/resources[id=lounge-sofa,version=2]", "library-catalog.json#/resources[id=timber-sofa,version=1]", "prototype/public/company-assets/*sofa*/resource.json"],
+      "countableAppearances": ["lounge-sofa@1", "timber-sofa@1"],
+      "excludedRecords": ["lounge-sofa@2"],
+      "eligibleCount": 2,
+      "gapToMinimum": 2,
+      "notes": "lounge-sofa@2 has a different footprint and is rejected as a replacement for the @1 function specification. Its version label cannot raise the count."
+    },
+    {
+      "id": "combination.stream-station",
+      "category": "combination",
+      "branch": "whole live workstation",
+      "scopeStatus": "explicit",
+      "specStatus": "formal template unit with independent instances is required",
+      "catalogRecords": ["templates.json#/templates[id=stream-station]", "templates-extended.json#/templates[id=stream-station]"],
+      "countableAppearances": ["stream-station template v1"],
+      "eligibleCount": 1,
+      "gapToMinimum": 3,
+      "notes": "The extended template repeats the same component design. It is not a second appearance."
+    },
+    {
+      "id": "combination.part.desk",
+      "category": "combination-part",
+      "branch": "desk",
+      "scopeStatus": "explicit",
+      "specStatus": "desk@1 fixed surface and footprint specification",
+      "catalogRecords": ["library-catalog.json#/resources[id=desk,version=1]", "facility-catalog.json#/resources[id=desk,version=1]", "evidence/company-static-collection-v1/report.json#/results[branch=desk]"],
+      "countableAppearances": ["desk-trestle", "desk-pedestal", "desk-cabinet", "desk-frame"],
+      "eligibleCount": 4,
+      "gapToMinimum": 0,
+      "notes": "Four static-collection desk models are source-export/readback-passed. desk@1 remains the fixed functional reference."
+    },
+    {
+      "id": "combination.part.monitor",
+      "category": "combination-part",
+      "branch": "monitor",
+      "scopeStatus": "explicit",
+      "specStatus": "desk-mounted dynamic display part",
+      "catalogRecords": ["library-catalog.json#/resources[id=monitor,version=1]", "facility-catalog.json#/resources[id=monitor,version=1]"],
+      "countableAppearances": ["monitor@1 procedural model"],
+      "eligibleCount": 1,
+      "gapToMinimum": 3
+    },
+    {
+      "id": "combination.part.keyboard",
+      "category": "combination-part",
+      "branch": "keyboard",
+      "scopeStatus": "explicit",
+      "specStatus": "desk-mounted input part",
+      "catalogRecords": ["library-catalog.json#/resources[id=keyboard,version=1]", "facility-catalog.json#/resources[id=keyboard,version=1]", "evidence/company-static-collection-v1/report.json#/results[branch=keyboard]"],
+      "countableAppearances": ["keyboard-compact", "keyboard-split", "keyboard-retro", "keyboard-console"],
+      "eligibleCount": 4,
+      "gapToMinimum": 0,
+      "notes": "Four static-collection keyboard models are source-export/readback-passed. keyboard@1 remains the fixed mounted-part reference."
+    },
+    {
+      "id": "combination.part.desk-microphone",
+      "category": "combination-part",
+      "branch": "desk microphone",
+      "scopeStatus": "explicit",
+      "specStatus": "desk-mounted microphone part",
+      "catalogRecords": ["library-catalog.json#/resources[id=desk-microphone,version=1]", "facility-catalog.json#/resources[id=desk-microphone,version=1]", "evidence/company-static-collection-v1/report.json#/results[branch=desk-microphone]"],
+      "countableAppearances": ["desk-microphone-ball", "desk-microphone-ribbon", "desk-microphone-broadcast", "desk-microphone-capsule"],
+      "eligibleCount": 4,
+      "gapToMinimum": 0,
+      "notes": "Four static-collection microphone models are source-export/readback-passed. desk-microphone@1 remains the fixed mounted-part reference."
+    },
+    {
+      "id": "combination.part.chair",
+      "category": "combination-part",
+      "branch": "chair",
+      "scopeStatus": "explicit",
+      "specStatus": "single-person seat part reusing chair@1 contract",
+      "catalogRecords": ["library-catalog.json#/resources[id=chair,version=1]", "facility-catalog.json#/resources[id=chair,version=1]"],
+      "countableAppearances": ["chair@1 procedural model"],
+      "eligibleCount": 1,
+      "gapToMinimum": 3
+    },
+    {
+      "id": "combination.part.fill-light-system",
+      "category": "combination-part",
+      "branch": "fill-light system",
+      "scopeStatus": "explicit",
+      "specStatus": "multi-light system with lamp, stand, state, direction, intensity, and color temperature is specified",
+      "catalogRecords": ["library-catalog.json#/resources[id=fill-light,version=1]", "facility-catalog.json#/resources[id=fill-light,version=1]"],
+      "countableAppearances": ["fill-light@1 compound model"],
+      "eligibleCount": 1,
+      "gapToMinimum": 3,
+      "notes": "One compound procedural resource exists. Its light state/configuration is data, not a second appearance."
+    },
+    {
+      "id": "combination.part.lamp",
+      "category": "combination-part",
+      "branch": "lamp",
+      "scopeStatus": "explicit",
+      "specStatus": "lamp is a named subpart of the fill-light system; the production contract permits a complete lamp-and-stand system to be replaced as one resource",
+      "catalogRecords": ["facility-catalog.json#/resources[id=fill-light] child light-housing/light-diffuser"],
+      "countableAppearances": [],
+      "eligibleCount": null,
+      "gapToMinimum": null,
+      "appearanceQuota": null,
+      "notes": "Do not demand four child-mesh resources. The complete fill-light system is the replaceable combination part, and every variant must retain lamp and stand geometry plus the light contract."
+    },
+    {
+      "id": "combination.part.stand",
+      "category": "combination-part",
+      "branch": "stand",
+      "scopeStatus": "explicit",
+      "specStatus": "stand is a named subpart of the fill-light system; the production contract permits a complete lamp-and-stand system to be replaced as one resource",
+      "catalogRecords": ["facility-catalog.json#/resources[id=fill-light] child light-base/light-pole"],
+      "countableAppearances": [],
+      "eligibleCount": null,
+      "gapToMinimum": null,
+      "appearanceQuota": null,
+      "notes": "Do not demand four child-mesh resources. The complete fill-light system is the replaceable combination part, and every variant must retain lamp and stand geometry plus the light contract."
+    }
+  ],
+  "layoutAndFutureBranches": [
+    {
+      "branch": "streaming/work/rest/public living",
+      "scopeStatus": "explicit",
+      "currentEvidence": ["c2-rental-home.json room/area purpose values and connection records"],
+      "appearanceQuota": null,
+      "status": "layout/use-purpose configuration exists in examples; it is not an independent appearance branch"
+    },
+    {
+      "branch": "民房 A / 单间屋 2A / 整套出租屋 3A+客厅 / 整层 16 rooms / 整栋 configurable floors",
+      "scopeStatus": "explicit future product composition",
+      "currentEvidence": ["COMPANY-SPACE-DESIGN-NOTES-2026-11-16.md"],
+      "appearanceQuota": null,
+      "status": "composition and viewing direction are recorded. Absolute A and final capacity are not fixed product values."
+    },
+    {
+      "branch": "boss workstation",
+      "scopeStatus": "future candidate",
+      "currentEvidence": [],
+      "appearanceQuota": null,
+      "status": "candidate combination reusing fixed function production; not requested as current package output"
+    },
+    {
+      "branch": "boss room",
+      "scopeStatus": "future candidate",
+      "currentEvidence": [],
+      "appearanceQuota": null,
+      "status": "candidate private room container; no current asset"
+    },
+    {
+      "branch": "private top floor",
+      "scopeStatus": "future candidate",
+      "currentEvidence": [],
+      "appearanceQuota": null,
+      "status": "candidate private floor container; no current asset"
+    }
+  ],
+  "catalogSnapshot": {
+    "libraryCatalogResources": ["desk@1", "monitor@1", "keyboard@1", "desk-microphone@1", "chair@1", "plant@1", "fill-light@1", "lounge-sofa@1", "lounge-sofa@2", "timber-sofa@1"],
+    "facilityCatalogResources": ["desk@1", "monitor@1", "keyboard@1", "desk-microphone@1", "chair@1", "plant@1", "fill-light@1"],
+    "proceduralRoomResources": ["floor@1", "floor-stripes@1", "back-wall@1", "left-wall@1", "desk@1 compound", "couch@1", "plant@1", "rug@1", "chair@1"],
+    "sofaCompatibility": {
+      "compatibleWithLoungeSofaV1": ["lounge-sofa@1", "timber-sofa@1"],
+      "excludedFromLoungeSofaV1ReplacementCount": ["lounge-sofa@2"],
+      "reason": "lounge-sofa@2 footprint halfSize X differs from the @1 functional contract"
+    }
+  },
+  "summary": {
+    "appearanceBranchesRequiringFour": 19,
+    "branchesAtOrAboveFour": 5,
+    "branchesBelowFour": 14,
+    "nonAppearanceScopeBranches": 13,
+    "interpretation": "The inspected implementation has five branches at four eligible appearances: plant, hanging-picture, desk, keyboard, and desk-microphone via the current static collection. Double sofa is the closest remaining branch at two compatible models. Most other current records are one procedural graybox or one compound template. Functional layout mechanisms, inline materials, viewing cameras, and lamp/stand child subparts are explicitly excluded from an independent four-asset quota."
+  }
+}

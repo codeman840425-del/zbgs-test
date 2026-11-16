@@ -1,0 +1,113 @@
+{
+  "status": "passed",
+  "designId": "fill-light-wing",
+  "type": "fill-light",
+  "styleDirection": "Angled wing reflector with twin brace legs and rectangular diffuser",
+  "productionPrompt": "为公司场景制作一份可运行3D外观资源。designId=fill-light-wing，造型方向=Angled wing reflector with twin brace legs and rectangular diffuser，目标规格=fill-light@1。保持使用点、容量、位置、座高、接近/离开点、clearance、footprint、mount、surface 与状态语义。允许改变轮廓、构件、材质和显示节点映射。按米制、Y向上、局部+Z朝前导出GLB，记录可编辑参数、来源许可、工具版本、资源身份、GLB回读、边界/安装检查、节点映射和重复导出一致性。",
+  "sourceParameters": "assets-source/company-device-collection/fill-light-wing/parameters.json",
+  "sourceParametersSha256": "b9ea059358ca6e3a7014d5fcbc49098542b8b8f037196fcc141153f91dd92ff3",
+  "functionalContract": {
+    "reference": "fill-light@1",
+    "source": "assets-source/company-device-collection/contracts/fill-light.json",
+    "sourceSha256": "1fae60cbeeff60cb34a20149f56a81f36140a2a5c49aa8c6d8535114aaf6e945",
+    "compatible": true,
+    "stateDefaultsEqual": true,
+    "mountEqual": true,
+    "footprintEqual": true
+  },
+  "displayMapping": {
+    "screen": {
+      "nodes": [
+        "diffuser-panel"
+      ],
+      "onColor": "#ffe7cf",
+      "offColor": "#4b3326",
+      "emissive": "#ffc08e",
+      "onIntensity": 1.25
+    }
+  },
+  "asset": {
+    "url": "/company-assets/device-collection/fill-light-wing/v1/model.glb",
+    "sha256": "6a2a5f8fff2dd68b7ab70bc5d52daa4076736591d54d24ccdee51320c7cd5556",
+    "bytes": 13972,
+    "repeatedExportByteIdentical": true,
+    "readback": {
+      "meshCount": 7,
+      "nodeNames": [
+        "wing-base",
+        "wing-leg-left",
+        "wing-leg-right",
+        "wing-rail",
+        "wing-shield",
+        "diffuser-panel",
+        "wing-hinge"
+      ],
+      "bounds": {
+        "min": [
+          -0.20999999344348907,
+          -3.725290284584126e-10,
+          -0.18000000149011613
+        ],
+        "max": [
+          0.20999999344348907,
+          1.8824804641604087,
+          0.15000000596046448
+        ]
+      },
+      "externalUris": 0,
+      "skins": 0,
+      "animations": 0,
+      "frontSurfaceHits": [
+        {
+          "x": -0.017000000178813937,
+          "y": 1.6865609083967668,
+          "first": "diffuser-panel"
+        },
+        {
+          "x": -0.017000000178813937,
+          "y": 1.7,
+          "first": "diffuser-panel"
+        },
+        {
+          "x": -0.017000000178813937,
+          "y": 1.7134390916032332,
+          "first": "diffuser-panel"
+        },
+        {
+          "x": 0,
+          "y": 1.6865609083967668,
+          "first": "diffuser-panel"
+        },
+        {
+          "x": 0,
+          "y": 1.7,
+          "first": "diffuser-panel"
+        },
+        {
+          "x": 0,
+          "y": 1.7134390916032332,
+          "first": "diffuser-panel"
+        },
+        {
+          "x": 0.017000000178813937,
+          "y": 1.6865609083967668,
+          "first": "diffuser-panel"
+        },
+        {
+          "x": 0.017000000178813937,
+          "y": 1.7,
+          "first": "diffuser-panel"
+        },
+        {
+          "x": 0.017000000178813937,
+          "y": 1.7134390916032332,
+          "first": "diffuser-panel"
+        }
+      ]
+    }
+  },
+  "limitations": [
+    "CPU GLB readback only. Browser visual and runtime state mapping await root integration.",
+    "Project-authored solid-color geometry with no external art license."
+  ]
+}

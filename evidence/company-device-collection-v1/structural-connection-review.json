@@ -1,0 +1,37 @@
+{
+  "status": "fixed-cpu-and-front-surface-review",
+  "resources": ["fill-light-orbit@1", "fill-light-wing@1", "fill-light-column@1", "fill-light-panel@1"],
+  "defectEvidence": [
+    "evidence/company-four-preview-dev-v2/fill-light-1.png",
+    "evidence/company-four-preview-910-software-v1/review-row-5.png"
+  ],
+  "defects": [
+    "The initial orbit preview showed a visible gap between support rods and the light head.",
+    "The wing and panel diffuser faces were hidden behind their shields, and the column diffuser was partially occluded by its cap/body."
+  ],
+  "fix": {
+    "generator": "scripts/company-platform/build-device-collection.mjs",
+    "changes": [
+      "Moved all four diffuser panels to the fixed light origin [0,1.70,0.05].",
+      "Extended support structures to the new head height while preserving the fixed XZ footprint and SpotLight contract.",
+      "Moved wing shield/hinge, column body/rails/cap, and panel shield/hinges behind the diffuser along +Z.",
+      "Added orbit collars and extended tripod rods to remove the original floating head gap."
+    ]
+  },
+  "cpuEvidence": {
+    "generatorStructuralCheck": "structuralCheck() requires support/head box overlap before export.",
+    "frontSurfaceCheck": "frontSurfaceCheck() samples nine +Z rays per diffuser and requires diffuser-panel as the first mesh hit.",
+    "fixedLightOrigin": [0,1.7,0.05],
+    "allFourDiffusersCoverOrigin": true,
+    "allFourNineRaySamplesHitDiffuserFirst": true,
+    "repeatExportByteIdentical": true,
+    "glbSha256": {
+      "fill-light-orbit": "8de04bab6b8899069e081664a16faade3f9a691a84fa7299d0e6561fd947de15",
+      "fill-light-wing": "6a2a5f8fff2dd68b7ab70bc5d52daa4076736591d54d24ccdee51320c7cd5556",
+      "fill-light-column": "d3a4b67a83e84572afcd02da2205af10c2d8439735623e6eb88822a7e4816ed2",
+      "fill-light-panel": "9d240fe7a799d1c45a343d5617fbe6fcff977a1565d155a7f0a3b984447018a2"
+    }
+  },
+  "runtimeEvidence": "evidence/company-four-runtime-v1/run-12/report.json",
+  "visualRecheck": "Root must rerun the browser preview after integrating the rebuilt GLBs."
+}

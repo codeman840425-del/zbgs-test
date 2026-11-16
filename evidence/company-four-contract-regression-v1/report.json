@@ -1,0 +1,552 @@
+{
+  "status": "cpu-fixed-function-appearance-passed",
+  "generatedAt": "2026-11-16T21:00:05.700Z",
+  "inputHashes": {
+    "prototype/src/company/appearance-contract.js": "78353b8c34caee672cf5f65a4ee3aa2d233b16818bf654ac63365d2e5587f4c0",
+    "prototype/src/company/document.js": "15fecd1dcc632f2421d958a5060335b4c23624ec23d0bc4bd30d40b888975bd8",
+    "prototype/src/company/upgrade.js": "ea31e9159b191232bab1a1ae38b0b151d12f2dad574cc94c7ccb369690d02bd5",
+    "prototype/src/company/library-catalog.json": "43e474f6011c453d4e2d797132c8e562e2d6fb64298045cd7107127baf80b812",
+    "prototype/src/company/templates-extended.json": "58158412ae0451f4b39d26d621743f67749461c818e844517c7eeb25276c727e",
+    "prototype/src/company/persistence.js": "ce81dfba9e3bedec435b10173cf8989db4ee5006b0810cc4d74a25f1963c998c",
+    "prototype/src/company/examples/c1-studio.json": "8c9524a144a662372aeceac0765f6fb9cb08f3b94100587890444f33ec119ac8",
+    "prototype/public/company-assets/lounge-sofa/v1/resource.json": "4559d986812ef7e455fc8f0bd369380cd487d5672cd5bd7349ed9aaac8e1fb27",
+    "prototype/public/company-assets/timber-sofa/v1/resource.json": "b9eed0c1d072ce72055d646f48b7c0198a41b435bb19e5f6a1eb6e57150fe12e",
+    "prototype/public/company-assets/lounge-sofa/v1/model.glb": "a457c8e142f5745bb66140f0c15c1748cdcda63f536af5f119a16f7ee633116c",
+    "prototype/public/company-assets/timber-sofa/v1/model.glb": "fa72ac0c6ab944d2679ce824dcfe08834b715bc8472b23fc4daced3a9070dd96",
+    "docs/COMPANY-APPEARANCE-PRODUCTION-STANDARD.md": "18d9a3efeba0c94f92d8b2e253bc2cc2411e57ff8b7872fdc541853e00f378ac",
+    "scripts/company-platform/qa-appearance-contract.mjs": "7c40ad203d11a300f597e22db0f59398da60aeb90bd75587bcd0d70835bfa101"
+  },
+  "inputHashesUnchangedAtEnd": true,
+  "checks": [
+    {
+      "name": "real timber geometry differs while its complete fixed sofa function matches",
+      "status": "passed",
+      "observed": {
+        "oldGeometry": {
+          "sha256": "a457c8e142f5745bb66140f0c15c1748cdcda63f536af5f119a16f7ee633116c",
+          "meshes": 11,
+          "positionCounts": [
+            1764,
+            1764,
+            1764,
+            1764,
+            1764,
+            1764,
+            1764,
+            1764,
+            1764,
+            1764,
+            1764
+          ],
+          "vertices": 19404
+        },
+        "newGeometry": {
+          "sha256": "fa72ac0c6ab944d2679ce824dcfe08834b715bc8472b23fc4daced3a9070dd96",
+          "meshes": 18,
+          "positionCounts": [
+            1764,
+            1764,
+            76,
+            76,
+            76,
+            24,
+            24,
+            1764,
+            1764,
+            76,
+            76,
+            76,
+            24,
+            24,
+            24,
+            24,
+            24,
+            24
+          ],
+          "vertices": 7704
+        },
+        "function": {
+          "category": "multi-use",
+          "mountRole": "sofa",
+          "coordinates": {
+            "units": "metres",
+            "up": "+Y",
+            "forward": "+Z"
+          },
+          "mount": null,
+          "mounting": null,
+          "surface": null,
+          "footprint": {
+            "blocking": true,
+            "center": [
+              0,
+              0
+            ],
+            "halfSize": [
+              1.100000023841858,
+              0.5199999809265137
+            ]
+          },
+          "usePoints": [
+            {
+              "approach": [
+                -0.48,
+                0,
+                1.02
+              ],
+              "capacity": 1,
+              "clearance": {
+                "depth": 1.11,
+                "width": 0.92
+              },
+              "exit": [
+                -0.48,
+                0,
+                1.15
+              ],
+              "id": "left",
+              "position": [
+                -0.48,
+                0,
+                0.04
+              ],
+              "seatHeight": 0.47,
+              "yaw": 0
+            },
+            {
+              "approach": [
+                0.48,
+                0,
+                1.02
+              ],
+              "capacity": 1,
+              "clearance": {
+                "depth": 1.11,
+                "width": 0.92
+              },
+              "exit": [
+                0.48,
+                0,
+                1.15
+              ],
+              "id": "right",
+              "position": [
+                0.48,
+                0,
+                0.04
+              ],
+              "seatHeight": 0.47,
+              "yaw": 0
+            }
+          ],
+          "capacity": null,
+          "clearance": null,
+          "state": {
+            "fields": {},
+            "schema": null,
+            "semantics": null
+          }
+        }
+      }
+    },
+    {
+      "name": "legacy sofa2 still loads while new sofa1-to-sofa2 replacement rejects its changed blocking footprint",
+      "status": "passed",
+      "observed": {
+        "failure": {
+          "code": "incompatible-replacement",
+          "path": "lounge/sofa.resource.footprint.halfSize[0]",
+          "differences": [
+            {
+              "field": "footprint.halfSize[0]",
+              "from": 1.100000023841858,
+              "to": 1.1599999994039536
+            }
+          ]
+        },
+        "previousSaveSha256": "7a30e57bc9b2d62216fff41f17fa8c583d8daea36d42368d9ed01a5bd9a3e4f3",
+        "legacy2SaveSha256": "3fb31acbc00edf7cacc68444cdd2e849bb1e980fdc9cbd963694744ece8ba3b4"
+      }
+    },
+    {
+      "name": "every actual seat function coordinate, capacity, orientation, approach, exit and clearance participates",
+      "status": "passed",
+      "observed": [
+        {
+          "code": "incompatible-replacement",
+          "path": "station-1/chair.resource.usePoints[0].id",
+          "differences": [
+            {
+              "field": "usePoints[0].id",
+              "from": "seat",
+              "to": "different-seat"
+            }
+          ]
+        },
+        {
+          "code": "incompatible-replacement",
+          "path": "station-1/chair.resource.usePoints[0].position[0]",
+          "differences": [
+            {
+              "field": "usePoints[0].position[0]",
+              "from": 0,
+              "to": 0.01
+            }
+          ]
+        },
+        {
+          "code": "incompatible-replacement",
+          "path": "station-1/chair.resource.usePoints[0].capacity",
+          "differences": [
+            {
+              "field": "usePoints[0].capacity",
+              "from": 1,
+              "to": 2
+            }
+          ]
+        },
+        {
+          "code": "incompatible-replacement",
+          "path": "station-1/chair.resource.usePoints[0].yaw",
+          "differences": [
+            {
+              "field": "usePoints[0].yaw",
+              "from": 0,
+              "to": 1.5707963267948966
+            }
+          ]
+        },
+        {
+          "code": "incompatible-replacement",
+          "path": "station-1/chair.resource.usePoints[0].seatHeight",
+          "differences": [
+            {
+              "field": "usePoints[0].seatHeight",
+              "from": 0.47,
+              "to": 0.48
+            }
+          ]
+        },
+        {
+          "code": "incompatible-replacement",
+          "path": "station-1/chair.resource.usePoints[0].approach[2]",
+          "differences": [
+            {
+              "field": "usePoints[0].approach[2]",
+              "from": 0.6,
+              "to": 0.61
+            }
+          ]
+        },
+        {
+          "code": "incompatible-replacement",
+          "path": "station-1/chair.resource.usePoints[0].exit[2]",
+          "differences": [
+            {
+              "field": "usePoints[0].exit[2]",
+              "from": 0.65,
+              "to": 0.66
+            }
+          ]
+        },
+        {
+          "code": "incompatible-replacement",
+          "path": "station-1/chair.resource.usePoints[0].clearance.width",
+          "differences": [
+            {
+              "field": "usePoints[0].clearance.width",
+              "from": 0.7,
+              "to": 0.71
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mount, actual surface, blocking footprint and state schema changes are rejected",
+      "status": "passed",
+      "observed": [
+        {
+          "code": "incompatible-replacement",
+          "path": "station-1/monitor.resource.mount",
+          "differences": [
+            {
+              "field": "mount",
+              "from": "desk-surface",
+              "to": "wall"
+            }
+          ]
+        },
+        {
+          "code": "incompatible-replacement",
+          "path": "station-1/desk.resource.surface.topY",
+          "differences": [
+            {
+              "field": "surface.topY",
+              "from": 0.84,
+              "to": 0.85
+            }
+          ]
+        },
+        {
+          "code": "incompatible-replacement",
+          "path": "station-1/desk.resource.footprint.center[0]",
+          "differences": [
+            {
+              "field": "footprint.center[0]",
+              "from": 0,
+              "to": 0.01
+            }
+          ]
+        },
+        {
+          "code": "incompatible-replacement",
+          "path": "station-1/monitor.resource.state.fields.on",
+          "differences": [
+            {
+              "field": "state.fields.on",
+              "from": "boolean",
+              "to": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "display mesh mappings and descriptive limits can vary, numeric function limits and live point identity remain fixed",
+      "status": "passed",
+      "observed": {
+        "meshMapCheck": "pure metadata comparison only; actual surfaces are an import check",
+        "numericLimitsRejected": true,
+        "busyRejected": true
+      }
+    },
+    {
+      "name": "appearance replacement keeps original effective booleans and intensity instead of adopting replacement defaults",
+      "status": "passed",
+      "observed": {
+        "implicitState": {
+          "on": true,
+          "intensity": 5
+        },
+        "explicitState": {
+          "on": false,
+          "intensity": 3
+        }
+      }
+    },
+    {
+      "name": "a decorative resource without blocking or use function can change its visual identity",
+      "status": "passed",
+      "observed": {
+        "scope": "in-memory static decor metadata with existing procedural geometry",
+        "original": "qa-decoration",
+        "replacement": "qa-other-decoration"
+      }
+    },
+    {
+      "name": "explicit upgrades use the fixed function contract and refuse target defaults that would reset old state",
+      "status": "passed",
+      "observed": {
+        "failures": [
+          {
+            "code": "template-upgrade-conflict",
+            "path": "station-1.parts.monitor.state.on"
+          }
+        ],
+        "capturedStateSurvives": true,
+        "targetPartStateResetRejected": true
+      }
+    }
+  ],
+  "profiles": {
+    "chair@1": {
+      "category": "seat",
+      "mountRole": "chair",
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z"
+      },
+      "mount": null,
+      "mounting": null,
+      "surface": null,
+      "footprint": {
+        "blocking": true,
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.275,
+          0.255
+        ]
+      },
+      "usePoints": [
+        {
+          "approach": [
+            0,
+            0,
+            0.6
+          ],
+          "capacity": 1,
+          "clearance": {
+            "depth": 0.65,
+            "width": 0.7
+          },
+          "exit": [
+            0,
+            0,
+            0.65
+          ],
+          "id": "seat",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "seatHeight": 0.47,
+          "yaw": 0
+        }
+      ],
+      "capacity": null,
+      "clearance": null,
+      "state": {
+        "fields": {},
+        "schema": null,
+        "semantics": null
+      }
+    },
+    "lounge-sofa@1": {
+      "category": "multi-use",
+      "mountRole": "sofa",
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z"
+      },
+      "mount": null,
+      "mounting": null,
+      "surface": null,
+      "footprint": {
+        "blocking": true,
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          1.100000023841858,
+          0.5199999809265137
+        ]
+      },
+      "usePoints": [
+        {
+          "approach": [
+            -0.48,
+            0,
+            1.02
+          ],
+          "capacity": 1,
+          "clearance": {
+            "depth": 1.11,
+            "width": 0.92
+          },
+          "exit": [
+            -0.48,
+            0,
+            1.15
+          ],
+          "id": "left",
+          "position": [
+            -0.48,
+            0,
+            0.04
+          ],
+          "seatHeight": 0.47,
+          "yaw": 0
+        },
+        {
+          "approach": [
+            0.48,
+            0,
+            1.02
+          ],
+          "capacity": 1,
+          "clearance": {
+            "depth": 1.11,
+            "width": 0.92
+          },
+          "exit": [
+            0.48,
+            0,
+            1.15
+          ],
+          "id": "right",
+          "position": [
+            0.48,
+            0,
+            0.04
+          ],
+          "seatHeight": 0.47,
+          "yaw": 0
+        }
+      ],
+      "capacity": null,
+      "clearance": null,
+      "state": {
+        "fields": {},
+        "schema": null,
+        "semantics": null
+      }
+    },
+    "desk@1": {
+      "category": "decor",
+      "mountRole": "desk",
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z"
+      },
+      "mount": null,
+      "mounting": null,
+      "surface": {
+        "halfSize": [
+          1,
+          0.5
+        ],
+        "topY": 0.84
+      },
+      "footprint": {
+        "blocking": true,
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          1,
+          0.5
+        ]
+      },
+      "usePoints": [],
+      "capacity": null,
+      "clearance": null,
+      "state": {
+        "fields": {},
+        "schema": null,
+        "semantics": null
+      }
+    }
+  },
+  "requestedDispatch": {
+    "difficulty": "complex",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "high"
+  },
+  "verifiedRuntimeModelAndEffort": false,
+  "verifiedHostHookInterception": false,
+  "limits": [
+    "CPU comparison, GLB geometry counts and document transactions only. No new GPU/browser/contact verification.",
+    "Real timber source import/contact evidence belongs to its production package; this check consumes its fixed resource and GLB bytes.",
+    "Existing sofa2 layouts retain their old meaning. The former sofa1-to-sofa2 replacement result is historical evidence under the earlier contract."
+  ]
+}

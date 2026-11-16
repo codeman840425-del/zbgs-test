@@ -1,0 +1,223 @@
+{
+  "document": {
+    "catalog": {
+      "id": "company-facilities",
+      "version": 1
+    },
+    "id": "four-desk-1",
+    "name": "桌子 · 双横梁桌",
+    "nodes": [
+      {
+        "connections": [
+          {
+            "from": {
+              "edge": "south",
+              "offset": 0,
+              "regionId": "four-desk-1/appearance-desk/room-1",
+              "width": 1.4
+            },
+            "id": "appearance-desk/entry",
+            "to": {
+              "edge": "north",
+              "offset": 0,
+              "regionId": "four-desk-1/appearance-desk/public",
+              "width": 1.4
+            }
+          }
+        ],
+        "id": "four-desk-1/appearance-desk/floor-1",
+        "kind": "floor",
+        "name": "一层",
+        "parentId": "four-desk-1",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "bounds": {
+          "depth": 7,
+          "width": 9
+        },
+        "id": "four-desk-1/appearance-desk/room-1",
+        "kind": "room",
+        "name": "直播间",
+        "parentId": "four-desk-1/appearance-desk/floor-1",
+        "purpose": "streaming",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "bounds": {
+          "depth": 3,
+          "width": 9
+        },
+        "id": "four-desk-1/appearance-desk/public",
+        "kind": "area",
+        "name": "公共入口",
+        "parentId": "four-desk-1/appearance-desk/floor-1",
+        "transform": {
+          "position": [
+            0,
+            0,
+            5
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "four-desk-1/sample/station",
+        "kind": "workstation",
+        "name": "four-desk-1/sample/station",
+        "parentId": "four-desk-1/appearance-desk/room-1",
+        "template": {
+          "id": "stream-station",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "four-desk-1/sample/station/desk",
+        "kind": "facility",
+        "parentId": "four-desk-1/sample/station",
+        "partKey": "desk",
+        "resource": {
+          "id": "desk-trestle",
+          "version": 1
+        },
+        "state": {},
+        "stationId": "four-desk-1/sample/station",
+        "transform": {
+          "position": [
+            0,
+            0,
+            -0.9
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "four-desk-1/sample/station/monitor",
+        "kind": "facility",
+        "parentId": "four-desk-1/sample/station/desk",
+        "partKey": "monitor",
+        "resource": {
+          "id": "monitor",
+          "version": 1
+        },
+        "state": {},
+        "stationId": "four-desk-1/sample/station",
+        "transform": {
+          "position": [
+            0,
+            0.84,
+            -0.25
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "four-desk-1/sample/station/keyboard",
+        "kind": "facility",
+        "parentId": "four-desk-1/sample/station/desk",
+        "partKey": "keyboard",
+        "resource": {
+          "id": "keyboard",
+          "version": 1
+        },
+        "state": {},
+        "stationId": "four-desk-1/sample/station",
+        "transform": {
+          "position": [
+            0,
+            0.84,
+            0.21
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "four-desk-1/sample/station/microphone",
+        "kind": "facility",
+        "parentId": "four-desk-1/sample/station/desk",
+        "partKey": "microphone",
+        "resource": {
+          "id": "desk-microphone",
+          "version": 1
+        },
+        "state": {},
+        "stationId": "four-desk-1/sample/station",
+        "transform": {
+          "position": [
+            -0.8,
+            0.84,
+            0.18
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "four-desk-1/sample/station/chair",
+        "kind": "facility",
+        "parentId": "four-desk-1/sample/station",
+        "partKey": "chair",
+        "resource": {
+          "id": "chair",
+          "version": 1
+        },
+        "state": {},
+        "stationId": "four-desk-1/sample/station",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0.55
+          ],
+          "yaw": 3.141592653589793
+        }
+      },
+      {
+        "id": "four-desk-1/sample/station/fill-light",
+        "kind": "facility",
+        "parentId": "four-desk-1/sample/station",
+        "partKey": "fill-light",
+        "resource": {
+          "id": "fill-light",
+          "version": 1
+        },
+        "state": {},
+        "stationId": "four-desk-1/sample/station",
+        "transform": {
+          "position": [
+            -0.75,
+            0,
+            -0.15
+          ],
+          "yaw": 0
+        }
+      }
+    ],
+    "revision": 1,
+    "scale": "single-room",
+    "schema": "company-layout",
+    "version": 1
+  },
+  "key": "four-desk-1"
+}

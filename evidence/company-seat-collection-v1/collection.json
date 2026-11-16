@@ -1,0 +1,621 @@
+{
+  "status": "passed",
+  "collectionId": "company-seat-collection-v1",
+  "generatedAt": "2026-11-16",
+  "generator": "scripts/company-platform/build-seat-collection.mjs",
+  "generatorSha256": "2a48feced7a8b993b8a4bd9d85e43ee0f34b71481605d2accb0969f64f8bad85",
+  "dispatch": {
+    "difficulty": "complex",
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "reason": "Four independent single-seat structures plus two independent two-seat sofa structures with exact contact and footprint contracts.",
+    "configurationEvidence": "Parent dispatch selected sol/high. Host hook interception not independently verified."
+  },
+  "contracts": {
+    "chair": {
+      "source": "prototype/src/company/library-catalog.json",
+      "sourceSha256": "85593a00831a465019d57cf167cb7728bea6eb8b4df921f637f6720247d48c07",
+      "reference": "chair@1",
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.275,
+          0.255
+        ],
+        "blocking": true
+      }
+    },
+    "sofa": {
+      "source": "prototype/public/company-assets/lounge-sofa/v1/resource.json",
+      "sourceSha256": "4559d986812ef7e455fc8f0bd369380cd487d5672cd5bd7349ed9aaac8e1fb27",
+      "reference": "lounge-sofa@1",
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          1.100000023841858,
+          0.5199999809265137
+        ],
+        "blocking": true
+      }
+    }
+  },
+  "resources": [
+    {
+      "designId": "chair-cantilever",
+      "targetProfileId": "chair",
+      "targetProfileVersion": 1,
+      "sourcePath": "assets-source/company-seat-collection/chair-cantilever.json",
+      "resourcePath": "prototype/public/company-assets/seat-collection/chair-cantilever/v1/resource.json",
+      "assetPath": "prototype/public/company-assets/seat-collection/chair-cantilever/v1/model.glb",
+      "sourceSha256": "b7ec77e3f807f1a4d7ed66cfb3c4c337e64f09ccf01e79625c05d829c9a38526",
+      "glbSha256": "949aa3bd17805c3eecad739fb2387edcf71d9b0f9fef81bc8100f63fa007869d",
+      "bytes": 145060,
+      "repeatByteIdentical": true,
+      "structure": "Cantilever sled frame with rear spreader",
+      "checks": {
+        "bounds": {
+          "min": [
+            -0.2750000059604645,
+            7.748603321477976e-10,
+            -0.2550000001490116
+          ],
+          "max": [
+            0.2750000059604645,
+            0.98,
+            0.25
+          ]
+        },
+        "size": [
+          0.550000011920929,
+          0.9799999992251397,
+          0.5050000001490116
+        ],
+        "center": [
+          0,
+          0.49000000038743013,
+          -0.0025000000745057926
+        ],
+        "meshCount": 12,
+        "meshNames": [
+          "chair-seat",
+          "chair-back",
+          "seat-support-rail",
+          "back-support-left",
+          "back-support-right",
+          "sled-left",
+          "front-leg-left",
+          "rear-leg-left",
+          "sled-right",
+          "front-leg-right",
+          "rear-leg-right",
+          "sled-front-crossbar"
+        ],
+        "pointChecks": [
+          {
+            "id": "seat",
+            "seatBounds": {
+              "min": [
+                -0.2750000059604645,
+                0.3999999998509884,
+                -0.25
+              ],
+              "max": [
+                0.2750000059604645,
+                0.4700000001490116,
+                0.25
+              ]
+            },
+            "backContact": [
+              0,
+              0.72,
+              -0.1849999998509884
+            ],
+            "seatContact": [
+              0,
+              0.4700000001490116,
+              0
+            ]
+          }
+        ],
+        "animations": 0,
+        "skins": 0,
+        "images": 0,
+        "externalUris": 0,
+        "identityScale": true
+      }
+    },
+    {
+      "designId": "chair-pedestal",
+      "targetProfileId": "chair",
+      "targetProfileVersion": 1,
+      "sourcePath": "assets-source/company-seat-collection/chair-pedestal.json",
+      "resourcePath": "prototype/public/company-assets/seat-collection/chair-pedestal/v1/resource.json",
+      "assetPath": "prototype/public/company-assets/seat-collection/chair-pedestal/v1/model.glb",
+      "sourceSha256": "c7fb6f7c011206a4157e661677c1a3ef899c67fe6fb30ef03130b90adcdd0c66",
+      "glbSha256": "b9aa62fec75c4eb8e7ed3278e533def4fcd94ab5ad1ed1f0d668309bab21bb46",
+      "bytes": 137404,
+      "repeatByteIdentical": true,
+      "structure": "Central pedestal with four-foot star base",
+      "checks": {
+        "bounds": {
+          "min": [
+            -0.2750000059604645,
+            -2.980232227667301e-9,
+            -0.2550000001490116
+          ],
+          "max": [
+            0.2750000059604645,
+            0.98,
+            0.25
+          ]
+        },
+        "size": [
+          0.550000011920929,
+          0.9800000029802323,
+          0.5050000001490116
+        ],
+        "center": [
+          0,
+          0.48999999850988385,
+          -0.0025000000745057926
+        ],
+        "meshCount": 11,
+        "meshNames": [
+          "chair-seat",
+          "chair-back",
+          "seat-support-rail",
+          "back-support-left",
+          "back-support-right",
+          "pedestal-column",
+          "pedestal-hub",
+          "pedestal-foot-front",
+          "pedestal-foot-right",
+          "pedestal-foot-rear",
+          "pedestal-foot-left"
+        ],
+        "pointChecks": [
+          {
+            "id": "seat",
+            "seatBounds": {
+              "min": [
+                -0.2750000059604645,
+                0.3999999998509884,
+                -0.25
+              ],
+              "max": [
+                0.2750000059604645,
+                0.4700000001490116,
+                0.25
+              ]
+            },
+            "backContact": [
+              0,
+              0.72,
+              -0.1849999998509884
+            ],
+            "seatContact": [
+              0,
+              0.4700000001490116,
+              0
+            ]
+          }
+        ],
+        "animations": 0,
+        "skins": 0,
+        "images": 0,
+        "externalUris": 0,
+        "identityScale": true
+      }
+    },
+    {
+      "designId": "chair-ladder",
+      "targetProfileId": "chair",
+      "targetProfileVersion": 1,
+      "sourcePath": "assets-source/company-seat-collection/chair-ladder.json",
+      "resourcePath": "prototype/public/company-assets/seat-collection/chair-ladder/v1/resource.json",
+      "assetPath": "prototype/public/company-assets/seat-collection/chair-ladder/v1/model.glb",
+      "sourceSha256": "1a8faaf6d4de55b9029c8140f00f3f009c33c620eb40e17847ac2ccc1dac6ec0",
+      "glbSha256": "1e207a753a5d46371076a1e616366fa24ab3223becf1261f67013fdd7484100c",
+      "bytes": 142784,
+      "repeatByteIdentical": true,
+      "structure": "Ladder-back with visible rear uprights and rungs",
+      "checks": {
+        "bounds": {
+          "min": [
+            -0.2750000059604645,
+            6.5565109175214076e-9,
+            -0.2550000001490116
+          ],
+          "max": [
+            0.2750000059604645,
+            0.98,
+            0.25
+          ]
+        },
+        "size": [
+          0.550000011920929,
+          0.9799999934434891,
+          0.5050000001490116
+        ],
+        "center": [
+          0,
+          0.49000000327825544,
+          -0.0025000000745057926
+        ],
+        "meshCount": 17,
+        "meshNames": [
+          "chair-seat",
+          "chair-back",
+          "seat-support-rail",
+          "back-support-left",
+          "back-support-right",
+          "ladder-upright-left",
+          "ladder-rung-1-left",
+          "ladder-rung-2-left",
+          "ladder-rung-3-left",
+          "ladder-upright-right",
+          "ladder-rung-1-right",
+          "ladder-rung-2-right",
+          "ladder-rung-3-right",
+          "ladder-leg-left-rear",
+          "ladder-leg-left-front",
+          "ladder-leg-right-rear",
+          "ladder-leg-right-front"
+        ],
+        "pointChecks": [
+          {
+            "id": "seat",
+            "seatBounds": {
+              "min": [
+                -0.2750000059604645,
+                0.3999999998509884,
+                -0.25
+              ],
+              "max": [
+                0.2750000059604645,
+                0.4700000001490116,
+                0.25
+              ]
+            },
+            "backContact": [
+              0,
+              0.72,
+              -0.1849999998509884
+            ],
+            "seatContact": [
+              0,
+              0.4700000001490116,
+              0
+            ]
+          }
+        ],
+        "animations": 0,
+        "skins": 0,
+        "images": 0,
+        "externalUris": 0,
+        "identityScale": true
+      }
+    },
+    {
+      "designId": "chair-crossbeam",
+      "targetProfileId": "chair",
+      "targetProfileVersion": 1,
+      "sourcePath": "assets-source/company-seat-collection/chair-crossbeam.json",
+      "resourcePath": "prototype/public/company-assets/seat-collection/chair-crossbeam/v1/resource.json",
+      "assetPath": "prototype/public/company-assets/seat-collection/chair-crossbeam/v1/model.glb",
+      "sourceSha256": "6f83ce2066808a90bf093b3e2a6cd40a11d572b94fab42093c839aabf820fc25",
+      "glbSha256": "79751d9f66837ecf5cdad92e16903f970b308a3b56c1927368f894280ce3c5e1",
+      "bytes": 135644,
+      "repeatByteIdentical": true,
+      "structure": "Crossbeam side frame with diagonal braces",
+      "checks": {
+        "bounds": {
+          "min": [
+            -0.2750000059604645,
+            6.5565109175214076e-9,
+            -0.2550000001490116
+          ],
+          "max": [
+            0.2750000059604645,
+            0.98,
+            0.25
+          ]
+        },
+        "size": [
+          0.550000011920929,
+          0.9799999934434891,
+          0.5050000001490116
+        ],
+        "center": [
+          0,
+          0.49000000327825544,
+          -0.0025000000745057926
+        ],
+        "meshCount": 13,
+        "meshNames": [
+          "chair-seat",
+          "chair-back",
+          "seat-support-rail",
+          "back-support-left",
+          "back-support-right",
+          "crossbeam-side-left",
+          "crossbeam-diagonal-left",
+          "crossbeam-rail-left",
+          "crossbeam-side-right",
+          "crossbeam-diagonal-right",
+          "crossbeam-rail-right",
+          "crossbeam-front",
+          "crossbeam-rear"
+        ],
+        "pointChecks": [
+          {
+            "id": "seat",
+            "seatBounds": {
+              "min": [
+                -0.2750000059604645,
+                0.3999999998509884,
+                -0.25
+              ],
+              "max": [
+                0.2750000059604645,
+                0.4700000001490116,
+                0.25
+              ]
+            },
+            "backContact": [
+              0,
+              0.72,
+              -0.18499999985098817
+            ],
+            "seatContact": [
+              0,
+              0.4700000001490116,
+              0
+            ]
+          }
+        ],
+        "animations": 0,
+        "skins": 0,
+        "images": 0,
+        "externalUris": 0,
+        "identityScale": true
+      }
+    },
+    {
+      "designId": "sofa-modular",
+      "targetProfileId": "lounge-sofa",
+      "targetProfileVersion": 1,
+      "sourcePath": "assets-source/company-seat-collection/sofa-modular.json",
+      "resourcePath": "prototype/public/company-assets/seat-collection/sofa-modular/v1/resource.json",
+      "assetPath": "prototype/public/company-assets/seat-collection/sofa-modular/v1/model.glb",
+      "sourceSha256": "f3e11c4151b840abd2e2ecb39f83ae36664b6f868ef754c63579fc63abc87441",
+      "glbSha256": "e56568c8748df03e2f838307394fccbfcfd1f20682a57839985eb117910f165a",
+      "bytes": 525460,
+      "repeatByteIdentical": true,
+      "structure": "Split modular sofa with broad plinth and block arms",
+      "checks": {
+        "bounds": {
+          "min": [
+            -1.0999999982118607,
+            -1.3113021835042815e-8,
+            -0.41999998688697815
+          ],
+          "max": [
+            1.0999999982118607,
+            1.0699999999999998,
+            0.41999998688697815
+          ]
+        },
+        "size": [
+          2.1999999964237213,
+          1.0700000131130216,
+          0.8399999737739563
+        ],
+        "center": [
+          0,
+          0.534999993443489,
+          0
+        ],
+        "meshCount": 14,
+        "meshNames": [
+          "seat-left",
+          "back-left",
+          "seat-support-left",
+          "back-support-left",
+          "seat-right",
+          "back-right",
+          "seat-support-right",
+          "back-support-right",
+          "modular-plinth",
+          "modular-arm-left",
+          "modular-arm-right",
+          "modular-divider",
+          "modular-foot-left",
+          "modular-foot-right"
+        ],
+        "pointChecks": [
+          {
+            "id": "left",
+            "seatBounds": {
+              "min": [
+                -0.9400000083446503,
+                0.3999999998509884,
+                -0.3300000047683716
+              ],
+              "max": [
+                -0.019999991655349714,
+                0.4700000001490116,
+                0.41000000476837156
+              ]
+            },
+            "backContact": [
+              -0.48,
+              0.72,
+              -0.3000000008940699
+            ],
+            "seatContact": [
+              -0.48,
+              0.4700000001490116,
+              0.04
+            ]
+          },
+          {
+            "id": "right",
+            "seatBounds": {
+              "min": [
+                0.019999991655349714,
+                0.3999999998509884,
+                -0.3300000047683716
+              ],
+              "max": [
+                0.9400000083446503,
+                0.4700000001490116,
+                0.41000000476837156
+              ]
+            },
+            "backContact": [
+              0.48,
+              0.72,
+              -0.3000000008940699
+            ],
+            "seatContact": [
+              0.48,
+              0.4700000001490116,
+              0.04
+            ]
+          }
+        ],
+        "animations": 0,
+        "skins": 0,
+        "images": 0,
+        "externalUris": 0,
+        "identityScale": true
+      }
+    },
+    {
+      "designId": "sofa-arch",
+      "targetProfileId": "lounge-sofa",
+      "targetProfileVersion": 1,
+      "sourcePath": "assets-source/company-seat-collection/sofa-arch.json",
+      "resourcePath": "prototype/public/company-assets/seat-collection/sofa-arch/v1/resource.json",
+      "assetPath": "prototype/public/company-assets/seat-collection/sofa-arch/v1/model.glb",
+      "sourceSha256": "44705e7e8678603ba00235eaa10e4d2d64c17e2bd38f92387c97301a5feaa171",
+      "glbSha256": "6a995fda57ad94c15431573e02894c2a8698a291d3c8fa0f177138a803105e0d",
+      "bytes": 540332,
+      "repeatByteIdentical": true,
+      "structure": "Open arch back with paired round supports and floating cushions",
+      "checks": {
+        "bounds": {
+          "min": [
+            -1.0950000029802323,
+            -1.3113021835042815e-8,
+            -0.4099999964237213
+          ],
+          "max": [
+            1.0950000029802323,
+            1.0699999999999998,
+            0.41000000476837156
+          ]
+        },
+        "size": [
+          2.1900000059604645,
+          1.0700000131130216,
+          0.8200000011920929
+        ],
+        "center": [
+          0,
+          0.534999993443489,
+          4.1723251242853365e-9
+        ],
+        "meshCount": 18,
+        "meshNames": [
+          "seat-left",
+          "back-left",
+          "seat-support-left",
+          "back-support-left",
+          "seat-right",
+          "back-right",
+          "seat-support-right",
+          "back-support-right",
+          "arch-base",
+          "arch-arm-left",
+          "arch-post-left",
+          "arch-shoulder-left",
+          "arch-arm-right",
+          "arch-post-right",
+          "arch-shoulder-right",
+          "arch-crossbar",
+          "arch-foot-left",
+          "arch-foot-right"
+        ],
+        "pointChecks": [
+          {
+            "id": "left",
+            "seatBounds": {
+              "min": [
+                -0.9400000083446503,
+                0.3999999998509884,
+                -0.3300000047683716
+              ],
+              "max": [
+                -0.019999991655349714,
+                0.4700000001490116,
+                0.41000000476837156
+              ]
+            },
+            "backContact": [
+              -0.48,
+              0.72,
+              -0.3000000008940699
+            ],
+            "seatContact": [
+              -0.48,
+              0.4700000001490116,
+              0.04
+            ]
+          },
+          {
+            "id": "right",
+            "seatBounds": {
+              "min": [
+                0.019999991655349714,
+                0.3999999998509884,
+                -0.3300000047683716
+              ],
+              "max": [
+                0.9400000083446503,
+                0.4700000001490116,
+                0.41000000476837156
+              ]
+            },
+            "backContact": [
+              0.48,
+              0.72,
+              -0.3000000008940699
+            ],
+            "seatContact": [
+              0.48,
+              0.4700000001490116,
+              0.04
+            ]
+          }
+        ],
+        "animations": 0,
+        "skins": 0,
+        "images": 0,
+        "externalUris": 0,
+        "identityScale": true
+      }
+    }
+  ],
+  "limitations": [
+    "CPU GLTFExporter and GLTFLoader readback only. Browser/GPU preview and character seating remain unverified.",
+    "Existing library-catalog.json and runtime render/preview files were not modified."
+  ]
+}

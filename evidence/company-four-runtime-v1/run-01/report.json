@@ -1,0 +1,49 @@
+{
+  "status": "failed",
+  "generatedAt": "2026-11-16T20:55:36.049Z",
+  "configuration": {
+    "difficulty": "complex",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "high",
+    "actualProviderConfiguration": "not independently verified",
+    "hostHookInterception": "not independently verified"
+  },
+  "beforeHashes": {
+    "prototype/src/company/render.js": "b81776a7d0105601d9f4c20b4ee7581c666262db6cf5e7c1f7d68bca3ec789d9",
+    "prototype/src/company/asset-library.js": "e41c61be0e64b73863c7d70f8200153c6ed329ae7f98cbd53eaf1b1d1a614691",
+    "prototype/src/company/authoring.js": "733882285b45aa4614002cbaeff8aba9ae18b4b10d881ef97b4e6c46c702a1b1"
+  },
+  "afterHashes": {
+    "prototype/src/company/render.js": "b81776a7d0105601d9f4c20b4ee7581c666262db6cf5e7c1f7d68bca3ec789d9",
+    "prototype/src/company/asset-library.js": "e41c61be0e64b73863c7d70f8200153c6ed329ae7f98cbd53eaf1b1d1a614691",
+    "prototype/src/company/authoring.js": "733882285b45aa4614002cbaeff8aba9ae18b4b10d881ef97b4e6c46c702a1b1"
+  },
+  "sourcesStable": true,
+  "checks": [
+    {
+      "name": "Every GLB candidate imports through the real asset library, replacement path, and save restore",
+      "passed": false,
+      "error": "CompanyError: missing-instance at single-demo/floor-1/room-1/station-1/desk/keyboard: Operation target does not exist\n    at fail (file:///F:/gamemake-company-platform-c1/prototype/src/company/document.js:9:56)\n    at prepareCompanyChange (file:///F:/gamemake-company-platform-c1/prototype/src/company/document.js:354:16)\n    at file:///F:/gamemake-company-platform-c1/prototype/src/company/authoring.js:46:46\n    at transaction (file:///F:/gamemake-company-platform-c1/prototype/src/company/authoring.js:33:22)\n    at Object.apply (file:///F:/gamemake-company-platform-c1/prototype/src/company/authoring.js:45:14)\n    at replace (file:///F:/gamemake-company-platform-c1/prototype/scripts/qa-four-collection.mjs:53:19)\n    at file:///F:/gamemake-company-platform-c1/prototype/scripts/qa-four-collection.mjs:63:11\n    at async check (file:///F:/gamemake-company-platform-c1/prototype/scripts/qa-four-collection.mjs:43:52)\n    at async file:///F:/gamemake-company-platform-c1/prototype/scripts/qa-four-collection.mjs:58:1"
+    },
+    {
+      "name": "Four monitor variants apply independent on/off display mappings and survive save restore",
+      "passed": false,
+      "error": "CompanyError: missing-instance at single-demo/floor-1/room-1/station-1/desk/monitor: Operation target does not exist\n    at fail (file:///F:/gamemake-company-platform-c1/prototype/src/company/document.js:9:56)\n    at prepareCompanyChange (file:///F:/gamemake-company-platform-c1/prototype/src/company/document.js:354:16)\n    at file:///F:/gamemake-company-platform-c1/prototype/src/company/authoring.js:46:46\n    at transaction (file:///F:/gamemake-company-platform-c1/prototype/src/company/authoring.js:33:22)\n    at Object.apply (file:///F:/gamemake-company-platform-c1/prototype/src/company/authoring.js:45:14)\n    at replace (file:///F:/gamemake-company-platform-c1/prototype/scripts/qa-four-collection.mjs:53:19)\n    at file:///F:/gamemake-company-platform-c1/prototype/scripts/qa-four-collection.mjs:76:9\n    at check (file:///F:/gamemake-company-platform-c1/prototype/scripts/qa-four-collection.mjs:43:58)\n    at file:///F:/gamemake-company-platform-c1/prototype/scripts/qa-four-collection.mjs:73:7"
+    },
+    {
+      "name": "Four fill light variants drive isolated diffuser materials and real SpotLight state",
+      "passed": false,
+      "error": "CompanyError: invalid-asset-transform at resources.fill-light-orbit.nodes[1].matrix: Node transforms must be finite\n    at error (file:///F:/gamemake-company-platform-c1/prototype/src/company/asset-library.js:10:40)\n    at inspectGlb (file:///F:/gamemake-company-platform-c1/prototype/src/company/asset-library.js:84:13)\n    at load (file:///F:/gamemake-company-platform-c1/prototype/src/company/asset-library.js:242:22)\n    at async preloadOne (file:///F:/gamemake-company-platform-c1/prototype/src/company/asset-library.js:296:18)\n    at async Promise.all (index 1)\n    at async Object.preload (file:///F:/gamemake-company-platform-c1/prototype/src/company/asset-library.js:301:7)\n    at async preload (file:///F:/gamemake-company-platform-c1/prototype/src/company/authoring.js:21:58)\n    at async file:///F:/gamemake-company-platform-c1/prototype/src/company/authoring.js:49:11\n    at async transaction (file:///F:/gamemake-company-platform-c1/prototype/src/company/authoring.js:33:16)\n    at async replace (file:///F:/gamemake-company-platform-c1/prototype/scripts/qa-four-collection.mjs:53:3)"
+    },
+    {
+      "name": "Base facility contracts remain available after the collection exercises",
+      "passed": false,
+      "error": "AssertionError [ERR_ASSERTION]: Missing node single-demo/floor-1/room-1/station-1/desk/monitor\n    at resourceAt (file:///F:/gamemake-company-platform-c1/prototype/scripts/qa-four-collection.mjs:51:105)\n    at file:///F:/gamemake-company-platform-c1/prototype/scripts/qa-four-collection.mjs:103:57\n    at check (file:///F:/gamemake-company-platform-c1/prototype/scripts/qa-four-collection.mjs:43:58)\n    at file:///F:/gamemake-company-platform-c1/prototype/scripts/qa-four-collection.mjs:102:7"
+    }
+  ],
+  "limits": [
+    "CPU Three scene construction and GLTFLoader asset-library import only. No GPU/browser/character activity.",
+    "The minimal two-station fixture exercises desk, monitor, keyboard, desk-microphone, chair and fill-light mount roles. Sofa, plant and wall-art assets are recorded as skipped when no matching facility exists.",
+    "Wall, floor and portal installation constraints are not runtime-tested here because this fixture has no wall-mounted asset nodes."
+  ]
+}

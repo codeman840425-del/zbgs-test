@@ -1,0 +1,113 @@
+{
+  "status": "passed",
+  "designId": "fill-light-panel",
+  "type": "fill-light",
+  "styleDirection": "Cantilever panel light with folded shield, ballast foot and hinge blocks",
+  "productionPrompt": "为公司场景制作一份可运行3D外观资源。designId=fill-light-panel，造型方向=Cantilever panel light with folded shield, ballast foot and hinge blocks，目标规格=fill-light@1。保持使用点、容量、位置、座高、接近/离开点、clearance、footprint、mount、surface 与状态语义。允许改变轮廓、构件、材质和显示节点映射。按米制、Y向上、局部+Z朝前导出GLB，记录可编辑参数、来源许可、工具版本、资源身份、GLB回读、边界/安装检查、节点映射和重复导出一致性。",
+  "sourceParameters": "assets-source/company-device-collection/fill-light-panel/parameters.json",
+  "sourceParametersSha256": "94311d57875a7b2cafded194fa3e9eae1beb5ee538d419830beb92d41837d741",
+  "functionalContract": {
+    "reference": "fill-light@1",
+    "source": "assets-source/company-device-collection/contracts/fill-light.json",
+    "sourceSha256": "1fae60cbeeff60cb34a20149f56a81f36140a2a5c49aa8c6d8535114aaf6e945",
+    "compatible": true,
+    "stateDefaultsEqual": true,
+    "mountEqual": true,
+    "footprintEqual": true
+  },
+  "displayMapping": {
+    "screen": {
+      "nodes": [
+        "diffuser-panel"
+      ],
+      "onColor": "#fff8eb",
+      "offColor": "#4a453d",
+      "emissive": "#ffe0a0",
+      "onIntensity": 1.3
+    }
+  },
+  "asset": {
+    "url": "/company-assets/device-collection/fill-light-panel/v1/model.glb",
+    "sha256": "9d240fe7a799d1c45a343d5617fbe6fcff977a1565d155a7f0a3b984447018a2",
+    "bytes": 13820,
+    "repeatedExportByteIdentical": true,
+    "readback": {
+      "meshCount": 7,
+      "nodeNames": [
+        "panel-ballast",
+        "panel-arm",
+        "panel-crossbar",
+        "panel-shield",
+        "diffuser-panel",
+        "hinge-left",
+        "hinge-right"
+      ],
+      "bounds": {
+        "min": [
+          -0.20999999344348907,
+          1.4901161207725444e-10,
+          -0.17000000178813934
+        ],
+        "max": [
+          0.20999999344348907,
+          1.872967397143388,
+          0.17000000178813934
+        ]
+      },
+      "externalUris": 0,
+      "skins": 0,
+      "animations": 0,
+      "frontSurfaceHits": [
+        {
+          "x": -0.017000000178813937,
+          "y": 1.6875060935041377,
+          "first": "diffuser-panel"
+        },
+        {
+          "x": -0.017000000178813937,
+          "y": 1.7,
+          "first": "diffuser-panel"
+        },
+        {
+          "x": -0.017000000178813937,
+          "y": 1.7124939064958622,
+          "first": "diffuser-panel"
+        },
+        {
+          "x": 0,
+          "y": 1.6875060935041377,
+          "first": "diffuser-panel"
+        },
+        {
+          "x": 0,
+          "y": 1.7,
+          "first": "diffuser-panel"
+        },
+        {
+          "x": 0,
+          "y": 1.7124939064958622,
+          "first": "diffuser-panel"
+        },
+        {
+          "x": 0.017000000178813937,
+          "y": 1.6875060935041377,
+          "first": "diffuser-panel"
+        },
+        {
+          "x": 0.017000000178813937,
+          "y": 1.7,
+          "first": "diffuser-panel"
+        },
+        {
+          "x": 0.017000000178813937,
+          "y": 1.7124939064958622,
+          "first": "diffuser-panel"
+        }
+      ]
+    }
+  },
+  "limitations": [
+    "CPU GLB readback only. Browser visual and runtime state mapping await root integration.",
+    "Project-authored solid-color geometry with no external art license."
+  ]
+}

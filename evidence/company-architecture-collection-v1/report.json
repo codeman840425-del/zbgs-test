@@ -1,0 +1,729 @@
+{
+  "status": "source-export-readback-passed",
+  "collection": "architecture-collection",
+  "previousWindowPanelFailure": {
+    "reference": "evidence/company-four-preview-architecture-dev-v1/report.json",
+    "resource": "window-panel-cross",
+    "error": "asset-mount-envelope-mismatch",
+    "oldBounds": {
+      "min": [
+        -0.45,
+        -0.4,
+        -0.05
+      ],
+      "max": [
+        0.45,
+        0.4,
+        0.05
+      ]
+    },
+    "note": "Previous preview rejected the old local Z range. The corrected export keeps the same .9x.8x.1 contract and shifts every window mesh to back plane z=0 through front z=.10."
+  },
+  "previousHerringboneIssue": {
+    "reference": "evidence/company-four-preview-architecture-dev-v1/floor-panel-4.png",
+    "resource": "floor-panel-herringbone",
+    "note": "The prior preview showed five separated parallel short bars. The corrected source uses three repeated V pairs with opposite angles inside the fixed 1x1 tile."
+  },
+  "branchCounts": {
+    "floor-panel": 4,
+    "wall-panel": 4,
+    "door-frame": 4,
+    "window-panel": 4,
+    "rug": 4
+  },
+  "results": [
+    {
+      "id": "floor-panel-grid",
+      "branch": "floor-panel",
+      "label": "细格地板",
+      "resourcePath": "prototype/public/company-assets/architecture-collection/floor-panel-grid/v1/resource.json",
+      "geometryHash": "3e9e4a33c58dae7080d8f1b37beb504c96384580b9e20e27857acb0713f46442",
+      "sha256": "3431e400d948273818049844795ce2d691d7a10dbaafb2a1f5e1778a4453b51d",
+      "triangles": 84,
+      "meshes": 7,
+      "bounds": {
+        "min": [
+          -0.5,
+          -1.899898051382909e-10,
+          -0.5
+        ],
+        "max": [
+          0.5,
+          0.01000000004749745,
+          0.5
+        ]
+      },
+      "mounting": {
+        "width": 1,
+        "depth": 1,
+        "height": 0.01,
+        "origin": "bottom"
+      },
+      "apertureClear": false,
+      "backplaneChecked": false,
+      "backplaneZ": null,
+      "repeatByteIdentical": true,
+      "functionCompatible": true,
+      "prompt": "为公司场景制作 细格地板。固定功能规格为 {\"id\":\"floor-panel-standard\",\"version\":1,\"category\":\"decor\",\"mountRole\":\"floor-panel\",\"mount\":\"floor-surface\",\"coordinates\":{\"units\":\"metres\",\"up\":\"+Y\",\"forward\":\"+Z\",\"origin\":\"Bottom centre of a 1x1 tile\"},\"mounting\":{\"width\":1,\"depth\":1,\"height\":0.01,\"origin\":\"bottom\"},\"usePoints\":[],\"stateDefaults\":{}}。保留固定单位、基点、挂载和包络，以独立构造几何形成真实结构差异。门框只制作显示框体，窗板只制作显示面板，不添加开合机制。"
+    },
+    {
+      "id": "floor-panel-plank",
+      "branch": "floor-panel",
+      "label": "长条地板",
+      "resourcePath": "prototype/public/company-assets/architecture-collection/floor-panel-plank/v1/resource.json",
+      "geometryHash": "fe8cf83248bcc5c3da961c9769f9b7dcfa090ce571c0191517a8f4d822daf562",
+      "sha256": "5400c751bc0e8d488215d789c41e84cd5909c965a3b72a65157a042f9e5953be",
+      "triangles": 72,
+      "meshes": 6,
+      "bounds": {
+        "min": [
+          -0.5,
+          -1.899898051382909e-10,
+          -0.5
+        ],
+        "max": [
+          0.5,
+          0.01000000004749745,
+          0.5
+        ]
+      },
+      "mounting": {
+        "width": 1,
+        "depth": 1,
+        "height": 0.01,
+        "origin": "bottom"
+      },
+      "apertureClear": false,
+      "backplaneChecked": false,
+      "backplaneZ": null,
+      "repeatByteIdentical": true,
+      "functionCompatible": true,
+      "prompt": "为公司场景制作 长条地板。固定功能规格为 {\"id\":\"floor-panel-standard\",\"version\":1,\"category\":\"decor\",\"mountRole\":\"floor-panel\",\"mount\":\"floor-surface\",\"coordinates\":{\"units\":\"metres\",\"up\":\"+Y\",\"forward\":\"+Z\",\"origin\":\"Bottom centre of a 1x1 tile\"},\"mounting\":{\"width\":1,\"depth\":1,\"height\":0.01,\"origin\":\"bottom\"},\"usePoints\":[],\"stateDefaults\":{}}。保留固定单位、基点、挂载和包络，以独立构造几何形成真实结构差异。门框只制作显示框体，窗板只制作显示面板，不添加开合机制。"
+    },
+    {
+      "id": "floor-panel-tile",
+      "branch": "floor-panel",
+      "label": "四格地砖",
+      "resourcePath": "prototype/public/company-assets/architecture-collection/floor-panel-tile/v1/resource.json",
+      "geometryHash": "1c555026414227e94fed6dea35a6f517831918bdf14465a491ea90991fba8ecc",
+      "sha256": "d80ca88889594821cea4dbdf122ca62c5551da13450814e7ba10f8b98b64097a",
+      "triangles": 60,
+      "meshes": 5,
+      "bounds": {
+        "min": [
+          -0.5,
+          -1.899898051382909e-10,
+          -0.5
+        ],
+        "max": [
+          0.5,
+          0.01000000004749745,
+          0.5
+        ]
+      },
+      "mounting": {
+        "width": 1,
+        "depth": 1,
+        "height": 0.01,
+        "origin": "bottom"
+      },
+      "apertureClear": false,
+      "backplaneChecked": false,
+      "backplaneZ": null,
+      "repeatByteIdentical": true,
+      "functionCompatible": true,
+      "prompt": "为公司场景制作 四格地砖。固定功能规格为 {\"id\":\"floor-panel-standard\",\"version\":1,\"category\":\"decor\",\"mountRole\":\"floor-panel\",\"mount\":\"floor-surface\",\"coordinates\":{\"units\":\"metres\",\"up\":\"+Y\",\"forward\":\"+Z\",\"origin\":\"Bottom centre of a 1x1 tile\"},\"mounting\":{\"width\":1,\"depth\":1,\"height\":0.01,\"origin\":\"bottom\"},\"usePoints\":[],\"stateDefaults\":{}}。保留固定单位、基点、挂载和包络，以独立构造几何形成真实结构差异。门框只制作显示框体，窗板只制作显示面板，不添加开合机制。"
+    },
+    {
+      "id": "floor-panel-herringbone",
+      "branch": "floor-panel",
+      "label": "人字拼地板",
+      "resourcePath": "prototype/public/company-assets/architecture-collection/floor-panel-herringbone/v1/resource.json",
+      "geometryHash": "5addcb0c567774199f5a3ef3f0fe868cb0d637179995b6e304ce5732473b5e99",
+      "sha256": "ade662a575e75c520144d79e99e0a51123c0093741a074cf4e1b8669f1ff5730",
+      "triangles": 84,
+      "meshes": 7,
+      "bounds": {
+        "min": [
+          -0.5,
+          -1.899898051382909e-10,
+          -0.5
+        ],
+        "max": [
+          0.5,
+          0.01000000004749745,
+          0.5
+        ]
+      },
+      "mounting": {
+        "width": 1,
+        "depth": 1,
+        "height": 0.01,
+        "origin": "bottom"
+      },
+      "apertureClear": false,
+      "backplaneChecked": false,
+      "backplaneZ": null,
+      "repeatByteIdentical": true,
+      "functionCompatible": true,
+      "prompt": "为公司场景制作 人字拼地板。固定功能规格为 {\"id\":\"floor-panel-standard\",\"version\":1,\"category\":\"decor\",\"mountRole\":\"floor-panel\",\"mount\":\"floor-surface\",\"coordinates\":{\"units\":\"metres\",\"up\":\"+Y\",\"forward\":\"+Z\",\"origin\":\"Bottom centre of a 1x1 tile\"},\"mounting\":{\"width\":1,\"depth\":1,\"height\":0.01,\"origin\":\"bottom\"},\"usePoints\":[],\"stateDefaults\":{}}。保留固定单位、基点、挂载和包络，以独立构造几何形成真实结构差异。门框只制作显示框体，窗板只制作显示面板，不添加开合机制。"
+    },
+    {
+      "id": "wall-panel-slat",
+      "branch": "wall-panel",
+      "label": "竖向木格墙板",
+      "resourcePath": "prototype/public/company-assets/architecture-collection/wall-panel-slat/v1/resource.json",
+      "geometryHash": "5fa13d82df7658a2f0eacc69db73c82aab7387cbba270f98adf42863ed076012",
+      "sha256": "c864bcd1bde2ab429c585ed700cd564158f6344ca35bd6ca78e9d68d344c502a",
+      "triangles": 96,
+      "meshes": 8,
+      "bounds": {
+        "min": [
+          -0.5,
+          2.3841857821338408e-8,
+          4.470348362317633e-10
+        ],
+        "max": [
+          0.5,
+          2.799999976158142,
+          0.04999999988824129
+        ]
+      },
+      "mounting": {
+        "width": 1,
+        "height": 2.8,
+        "depth": 0.05,
+        "origin": "bottom"
+      },
+      "apertureClear": false,
+      "backplaneChecked": false,
+      "backplaneZ": null,
+      "repeatByteIdentical": true,
+      "functionCompatible": true,
+      "prompt": "为公司场景制作 竖向木格墙板。固定功能规格为 {\"id\":\"wall-panel-standard\",\"version\":1,\"category\":\"decor\",\"mountRole\":\"wall-panel\",\"mount\":\"wall\",\"coordinates\":{\"units\":\"metres\",\"up\":\"+Y\",\"forward\":\"+Z\",\"origin\":\"Bottom centre; back plane z=0\"},\"mounting\":{\"width\":1,\"height\":2.8,\"depth\":0.05,\"origin\":\"bottom\"},\"usePoints\":[],\"stateDefaults\":{}}。保留固定单位、基点、挂载和包络，以独立构造几何形成真实结构差异。门框只制作显示框体，窗板只制作显示面板，不添加开合机制。"
+    },
+    {
+      "id": "wall-panel-brick",
+      "branch": "wall-panel",
+      "label": "横向砖缝墙板",
+      "resourcePath": "prototype/public/company-assets/architecture-collection/wall-panel-brick/v1/resource.json",
+      "geometryHash": "5dce7bc7a5d6341decf233f47a7489a890ce746a3dcfe5823d30e1b84543a8f7",
+      "sha256": "213fab250b3308720bd04b7c019d134abaaa48c4b2068c50049a506334dd945e",
+      "triangles": 264,
+      "meshes": 22,
+      "bounds": {
+        "min": [
+          -0.5,
+          2.3841857821338408e-8,
+          4.470348362317633e-10
+        ],
+        "max": [
+          0.5,
+          2.799999976158142,
+          0.04999999988824129
+        ]
+      },
+      "mounting": {
+        "width": 1,
+        "height": 2.8,
+        "depth": 0.05,
+        "origin": "bottom"
+      },
+      "apertureClear": false,
+      "backplaneChecked": false,
+      "backplaneZ": null,
+      "repeatByteIdentical": true,
+      "functionCompatible": true,
+      "prompt": "为公司场景制作 横向砖缝墙板。固定功能规格为 {\"id\":\"wall-panel-standard\",\"version\":1,\"category\":\"decor\",\"mountRole\":\"wall-panel\",\"mount\":\"wall\",\"coordinates\":{\"units\":\"metres\",\"up\":\"+Y\",\"forward\":\"+Z\",\"origin\":\"Bottom centre; back plane z=0\"},\"mounting\":{\"width\":1,\"height\":2.8,\"depth\":0.05,\"origin\":\"bottom\"},\"usePoints\":[],\"stateDefaults\":{}}。保留固定单位、基点、挂载和包络，以独立构造几何形成真实结构差异。门框只制作显示框体，窗板只制作显示面板，不添加开合机制。"
+    },
+    {
+      "id": "wall-panel-panel",
+      "branch": "wall-panel",
+      "label": "分格墙板",
+      "resourcePath": "prototype/public/company-assets/architecture-collection/wall-panel-panel/v1/resource.json",
+      "geometryHash": "9b7118c963ae207d131b79477007ba80f7bdb47569dbd0aadca5413b64930977",
+      "sha256": "7684a45d0146f202bd11e53a66ab1afda7135d42dba63baf591dbf9a57c5534c",
+      "triangles": 84,
+      "meshes": 7,
+      "bounds": {
+        "min": [
+          -0.5,
+          2.3841857821338408e-8,
+          4.470348362317633e-10
+        ],
+        "max": [
+          0.5,
+          2.799999976158142,
+          0.04999999988824129
+        ]
+      },
+      "mounting": {
+        "width": 1,
+        "height": 2.8,
+        "depth": 0.05,
+        "origin": "bottom"
+      },
+      "apertureClear": false,
+      "backplaneChecked": false,
+      "backplaneZ": null,
+      "repeatByteIdentical": true,
+      "functionCompatible": true,
+      "prompt": "为公司场景制作 分格墙板。固定功能规格为 {\"id\":\"wall-panel-standard\",\"version\":1,\"category\":\"decor\",\"mountRole\":\"wall-panel\",\"mount\":\"wall\",\"coordinates\":{\"units\":\"metres\",\"up\":\"+Y\",\"forward\":\"+Z\",\"origin\":\"Bottom centre; back plane z=0\"},\"mounting\":{\"width\":1,\"height\":2.8,\"depth\":0.05,\"origin\":\"bottom\"},\"usePoints\":[],\"stateDefaults\":{}}。保留固定单位、基点、挂载和包络，以独立构造几何形成真实结构差异。门框只制作显示框体，窗板只制作显示面板，不添加开合机制。"
+    },
+    {
+      "id": "wall-panel-ribbed",
+      "branch": "wall-panel",
+      "label": "竖向凸棱墙板",
+      "resourcePath": "prototype/public/company-assets/architecture-collection/wall-panel-ribbed/v1/resource.json",
+      "geometryHash": "c9640d431d6612be1fb7405c98c25e073fbb122f3ae9c04571f0b00b281a5cec",
+      "sha256": "969150bf842a983cd1292377065ca7cec73c0f9fc9e6f8b74f05ddb6bb177162",
+      "triangles": 120,
+      "meshes": 10,
+      "bounds": {
+        "min": [
+          -0.5,
+          2.3841857821338408e-8,
+          4.470348362317633e-10
+        ],
+        "max": [
+          0.5,
+          2.799999976158142,
+          0.04999999988824129
+        ]
+      },
+      "mounting": {
+        "width": 1,
+        "height": 2.8,
+        "depth": 0.05,
+        "origin": "bottom"
+      },
+      "apertureClear": false,
+      "backplaneChecked": false,
+      "backplaneZ": null,
+      "repeatByteIdentical": true,
+      "functionCompatible": true,
+      "prompt": "为公司场景制作 竖向凸棱墙板。固定功能规格为 {\"id\":\"wall-panel-standard\",\"version\":1,\"category\":\"decor\",\"mountRole\":\"wall-panel\",\"mount\":\"wall\",\"coordinates\":{\"units\":\"metres\",\"up\":\"+Y\",\"forward\":\"+Z\",\"origin\":\"Bottom centre; back plane z=0\"},\"mounting\":{\"width\":1,\"height\":2.8,\"depth\":0.05,\"origin\":\"bottom\"},\"usePoints\":[],\"stateDefaults\":{}}。保留固定单位、基点、挂载和包络，以独立构造几何形成真实结构差异。门框只制作显示框体，窗板只制作显示面板，不添加开合机制。"
+    },
+    {
+      "id": "door-frame-plain",
+      "branch": "door-frame",
+      "label": "直线门框",
+      "resourcePath": "prototype/public/company-assets/architecture-collection/door-frame-plain/v1/resource.json",
+      "geometryHash": "4e268a0f44fe55ee0d23bf81630327946dead251e3e0a42c494135b6a646d41f",
+      "sha256": "dcc326142b75a72eb77b4934a4fbe1cbf6b5212ac06ddb0efdd79e5db9c99d4b",
+      "triangles": 36,
+      "meshes": 3,
+      "bounds": {
+        "min": [
+          -0.8500000238418579,
+          -2.3841857821338408e-8,
+          -7.450580569168253e-10
+        ],
+        "max": [
+          0.8500000238418579,
+          2.400000001490116,
+          0.10000000074505806
+        ]
+      },
+      "mounting": {
+        "width": 1.7,
+        "height": 2.4,
+        "depth": 0.1,
+        "origin": "bottom",
+        "apertureWidth": 1.4,
+        "apertureHeight": 2.2
+      },
+      "apertureClear": true,
+      "backplaneChecked": false,
+      "backplaneZ": null,
+      "repeatByteIdentical": true,
+      "functionCompatible": true,
+      "prompt": "为公司场景制作 直线门框。固定功能规格为 {\"id\":\"door-frame-standard\",\"version\":1,\"category\":\"decor\",\"mountRole\":\"door-frame\",\"mount\":\"portal\",\"coordinates\":{\"units\":\"metres\",\"up\":\"+Y\",\"forward\":\"+Z\",\"origin\":\"Ground centre on XZ portal interface; +Z inward\"},\"mounting\":{\"width\":1.7,\"height\":2.4,\"depth\":0.1,\"origin\":\"bottom\",\"apertureWidth\":1.4,\"apertureHeight\":2.2},\"usePoints\":[],\"stateDefaults\":{}}。保留固定单位、基点、挂载和包络，以独立构造几何形成真实结构差异。门框只制作显示框体，窗板只制作显示面板，不添加开合机制。"
+    },
+    {
+      "id": "door-frame-stepped",
+      "branch": "door-frame",
+      "label": "阶梯门框",
+      "resourcePath": "prototype/public/company-assets/architecture-collection/door-frame-stepped/v1/resource.json",
+      "geometryHash": "0510418f6c04c403be2e36f3be48adae71354fdda0624e027e31fa82a08b15fa",
+      "sha256": "9762d8876ade1be29c811dad41d17c2112cf1dee4f8471851ee917fdb1e88248",
+      "triangles": 60,
+      "meshes": 5,
+      "bounds": {
+        "min": [
+          -0.8500000238418579,
+          -2.3841857821338408e-8,
+          -7.450580569168253e-10
+        ],
+        "max": [
+          0.8500000238418579,
+          2.400000001490116,
+          0.10000000074505806
+        ]
+      },
+      "mounting": {
+        "width": 1.7,
+        "height": 2.4,
+        "depth": 0.1,
+        "origin": "bottom",
+        "apertureWidth": 1.4,
+        "apertureHeight": 2.2
+      },
+      "apertureClear": true,
+      "backplaneChecked": false,
+      "backplaneZ": null,
+      "repeatByteIdentical": true,
+      "functionCompatible": true,
+      "prompt": "为公司场景制作 阶梯门框。固定功能规格为 {\"id\":\"door-frame-standard\",\"version\":1,\"category\":\"decor\",\"mountRole\":\"door-frame\",\"mount\":\"portal\",\"coordinates\":{\"units\":\"metres\",\"up\":\"+Y\",\"forward\":\"+Z\",\"origin\":\"Ground centre on XZ portal interface; +Z inward\"},\"mounting\":{\"width\":1.7,\"height\":2.4,\"depth\":0.1,\"origin\":\"bottom\",\"apertureWidth\":1.4,\"apertureHeight\":2.2},\"usePoints\":[],\"stateDefaults\":{}}。保留固定单位、基点、挂载和包络，以独立构造几何形成真实结构差异。门框只制作显示框体，窗板只制作显示面板，不添加开合机制。"
+    },
+    {
+      "id": "door-frame-inset",
+      "branch": "door-frame",
+      "label": "内嵌门框",
+      "resourcePath": "prototype/public/company-assets/architecture-collection/door-frame-inset/v1/resource.json",
+      "geometryHash": "b132962a79c4a243b64fba65f2c20c547c03ecc32245a2617fff3de6f5d29c53",
+      "sha256": "cc3d9ffd9988e39790b626d562ed40fe5be23e3442878113a5d333324a743424",
+      "triangles": 72,
+      "meshes": 6,
+      "bounds": {
+        "min": [
+          -0.8500000238418579,
+          -2.3841857821338408e-8,
+          -7.450580569168253e-10
+        ],
+        "max": [
+          0.8500000238418579,
+          2.400000001490116,
+          0.10000000074505806
+        ]
+      },
+      "mounting": {
+        "width": 1.7,
+        "height": 2.4,
+        "depth": 0.1,
+        "origin": "bottom",
+        "apertureWidth": 1.4,
+        "apertureHeight": 2.2
+      },
+      "apertureClear": true,
+      "backplaneChecked": false,
+      "backplaneZ": null,
+      "repeatByteIdentical": true,
+      "functionCompatible": true,
+      "prompt": "为公司场景制作 内嵌门框。固定功能规格为 {\"id\":\"door-frame-standard\",\"version\":1,\"category\":\"decor\",\"mountRole\":\"door-frame\",\"mount\":\"portal\",\"coordinates\":{\"units\":\"metres\",\"up\":\"+Y\",\"forward\":\"+Z\",\"origin\":\"Ground centre on XZ portal interface; +Z inward\"},\"mounting\":{\"width\":1.7,\"height\":2.4,\"depth\":0.1,\"origin\":\"bottom\",\"apertureWidth\":1.4,\"apertureHeight\":2.2},\"usePoints\":[],\"stateDefaults\":{}}。保留固定单位、基点、挂载和包络，以独立构造几何形成真实结构差异。门框只制作显示框体，窗板只制作显示面板，不添加开合机制。"
+    },
+    {
+      "id": "door-frame-crown",
+      "branch": "door-frame",
+      "label": "冠饰门框",
+      "resourcePath": "prototype/public/company-assets/architecture-collection/door-frame-crown/v1/resource.json",
+      "geometryHash": "e35d57d6bf01b148b681d2405248e5ee1ab273ebb045ff6d6f9b184250be99a9",
+      "sha256": "c248c9c428ea00306eae7bd4a9ac7a9d3e3b61f60dcb836a0159c29a232e01d6",
+      "triangles": 72,
+      "meshes": 6,
+      "bounds": {
+        "min": [
+          -0.8500000238418579,
+          -2.3841857821338408e-8,
+          -7.450580569168253e-10
+        ],
+        "max": [
+          0.8500000238418579,
+          2.400000001490116,
+          0.10000000074505806
+        ]
+      },
+      "mounting": {
+        "width": 1.7,
+        "height": 2.4,
+        "depth": 0.1,
+        "origin": "bottom",
+        "apertureWidth": 1.4,
+        "apertureHeight": 2.2
+      },
+      "apertureClear": true,
+      "backplaneChecked": false,
+      "backplaneZ": null,
+      "repeatByteIdentical": true,
+      "functionCompatible": true,
+      "prompt": "为公司场景制作 冠饰门框。固定功能规格为 {\"id\":\"door-frame-standard\",\"version\":1,\"category\":\"decor\",\"mountRole\":\"door-frame\",\"mount\":\"portal\",\"coordinates\":{\"units\":\"metres\",\"up\":\"+Y\",\"forward\":\"+Z\",\"origin\":\"Ground centre on XZ portal interface; +Z inward\"},\"mounting\":{\"width\":1.7,\"height\":2.4,\"depth\":0.1,\"origin\":\"bottom\",\"apertureWidth\":1.4,\"apertureHeight\":2.2},\"usePoints\":[],\"stateDefaults\":{}}。保留固定单位、基点、挂载和包络，以独立构造几何形成真实结构差异。门框只制作显示框体，窗板只制作显示面板，不添加开合机制。"
+    },
+    {
+      "id": "window-panel-cross",
+      "branch": "window-panel",
+      "label": "十字分格窗",
+      "resourcePath": "prototype/public/company-assets/architecture-collection/window-panel-cross/v1/resource.json",
+      "geometryHash": "b1dc0d4780b149b1672188b4a3e28ef12629d12dd9f842353e5530d8cc8b35da",
+      "sha256": "e08bf313183f715664dcbc95a9e94af01e43bc9bc7460865aea3e12f96fb1a00",
+      "triangles": 84,
+      "meshes": 7,
+      "bounds": {
+        "min": [
+          -0.4499999991059303,
+          -0.3999999991059303,
+          -7.450580569168253e-10
+        ],
+        "max": [
+          0.4499999991059303,
+          0.3999999991059303,
+          0.10000000074505806
+        ]
+      },
+      "mounting": {
+        "width": 0.9,
+        "height": 0.8,
+        "depth": 0.1,
+        "origin": "center"
+      },
+      "apertureClear": false,
+      "backplaneChecked": true,
+      "backplaneZ": 0,
+      "repeatByteIdentical": true,
+      "functionCompatible": true,
+      "prompt": "为公司场景制作 十字分格窗。固定功能规格为 {\"id\":\"window-panel-standard\",\"version\":1,\"category\":\"decor\",\"mountRole\":\"window-panel\",\"mount\":\"wall\",\"coordinates\":{\"units\":\"metres\",\"up\":\"+Y\",\"forward\":\"+Z\",\"origin\":\"Wall XY mounting centre; back plane z=0; +Z inward\"},\"mounting\":{\"width\":0.9,\"height\":0.8,\"depth\":0.1,\"origin\":\"center\"},\"productionProfile\":{\"id\":\"window-panel-wall-mount-v2\",\"backPlaneZ\":0,\"localZRange\":[0,0.1],\"localZOffset\":0.05,\"visualOnly\":true},\"usePoints\":[],\"stateDefaults\":{}}。保留固定单位、基点、挂载和包络，以独立构造几何形成真实结构差异。门框只制作显示框体，窗板只制作显示面板，不添加开合机制。"
+    },
+    {
+      "id": "window-panel-lattice",
+      "branch": "window-panel",
+      "label": "菱格窗",
+      "resourcePath": "prototype/public/company-assets/architecture-collection/window-panel-lattice/v1/resource.json",
+      "geometryHash": "7334f223bacc8d6e013623333413766ebc1c7bc16f2a8a4da224d4d35cdabb97",
+      "sha256": "f654a3e142ee131d5610b7a91f9a66aaaef75498c0cde90693fa127d188734eb",
+      "triangles": 132,
+      "meshes": 11,
+      "bounds": {
+        "min": [
+          -0.4499999991059303,
+          -0.3999999991059303,
+          -7.450580569168253e-10
+        ],
+        "max": [
+          0.4499999991059303,
+          0.3999999991059303,
+          0.10000000074505806
+        ]
+      },
+      "mounting": {
+        "width": 0.9,
+        "height": 0.8,
+        "depth": 0.1,
+        "origin": "center"
+      },
+      "apertureClear": false,
+      "backplaneChecked": true,
+      "backplaneZ": 0,
+      "repeatByteIdentical": true,
+      "functionCompatible": true,
+      "prompt": "为公司场景制作 菱格窗。固定功能规格为 {\"id\":\"window-panel-standard\",\"version\":1,\"category\":\"decor\",\"mountRole\":\"window-panel\",\"mount\":\"wall\",\"coordinates\":{\"units\":\"metres\",\"up\":\"+Y\",\"forward\":\"+Z\",\"origin\":\"Wall XY mounting centre; back plane z=0; +Z inward\"},\"mounting\":{\"width\":0.9,\"height\":0.8,\"depth\":0.1,\"origin\":\"center\"},\"productionProfile\":{\"id\":\"window-panel-wall-mount-v2\",\"backPlaneZ\":0,\"localZRange\":[0,0.1],\"localZOffset\":0.05,\"visualOnly\":true},\"usePoints\":[],\"stateDefaults\":{}}。保留固定单位、基点、挂载和包络，以独立构造几何形成真实结构差异。门框只制作显示框体，窗板只制作显示面板，不添加开合机制。"
+    },
+    {
+      "id": "window-panel-slat",
+      "branch": "window-panel",
+      "label": "横向百叶窗",
+      "resourcePath": "prototype/public/company-assets/architecture-collection/window-panel-slat/v1/resource.json",
+      "geometryHash": "beb3436b6642494123b847b8f296795eada4f3e0d8eedc549ebdd56b511b6471",
+      "sha256": "e8c14d3527891d3d2d820755fb043f63a84467910558e34402b1422cda384806",
+      "triangles": 120,
+      "meshes": 10,
+      "bounds": {
+        "min": [
+          -0.4499999991059303,
+          -0.3999999991059303,
+          -7.450580569168253e-10
+        ],
+        "max": [
+          0.4499999991059303,
+          0.3999999991059303,
+          0.10000000074505806
+        ]
+      },
+      "mounting": {
+        "width": 0.9,
+        "height": 0.8,
+        "depth": 0.1,
+        "origin": "center"
+      },
+      "apertureClear": false,
+      "backplaneChecked": true,
+      "backplaneZ": 0,
+      "repeatByteIdentical": true,
+      "functionCompatible": true,
+      "prompt": "为公司场景制作 横向百叶窗。固定功能规格为 {\"id\":\"window-panel-standard\",\"version\":1,\"category\":\"decor\",\"mountRole\":\"window-panel\",\"mount\":\"wall\",\"coordinates\":{\"units\":\"metres\",\"up\":\"+Y\",\"forward\":\"+Z\",\"origin\":\"Wall XY mounting centre; back plane z=0; +Z inward\"},\"mounting\":{\"width\":0.9,\"height\":0.8,\"depth\":0.1,\"origin\":\"center\"},\"productionProfile\":{\"id\":\"window-panel-wall-mount-v2\",\"backPlaneZ\":0,\"localZRange\":[0,0.1],\"localZOffset\":0.05,\"visualOnly\":true},\"usePoints\":[],\"stateDefaults\":{}}。保留固定单位、基点、挂载和包络，以独立构造几何形成真实结构差异。门框只制作显示框体，窗板只制作显示面板，不添加开合机制。"
+    },
+    {
+      "id": "window-panel-round",
+      "branch": "window-panel",
+      "label": "圆形内窗",
+      "resourcePath": "prototype/public/company-assets/architecture-collection/window-panel-round/v1/resource.json",
+      "geometryHash": "396de5728c574873ad5f28b36a849c5dadfd164ae8bdea5432f815525e2673fe",
+      "sha256": "6a510b869b4c747cecf00a5054ea475ef2f32e625309e337c60a4b3eac09ae2b",
+      "triangles": 220,
+      "meshes": 14,
+      "bounds": {
+        "min": [
+          -0.4499999991059303,
+          -0.3999999991059303,
+          -7.450580569168253e-10
+        ],
+        "max": [
+          0.4499999991059303,
+          0.3999999991059303,
+          0.10000000074505806
+        ]
+      },
+      "mounting": {
+        "width": 0.9,
+        "height": 0.8,
+        "depth": 0.1,
+        "origin": "center"
+      },
+      "apertureClear": false,
+      "backplaneChecked": true,
+      "backplaneZ": 0,
+      "repeatByteIdentical": true,
+      "functionCompatible": true,
+      "prompt": "为公司场景制作 圆形内窗。固定功能规格为 {\"id\":\"window-panel-standard\",\"version\":1,\"category\":\"decor\",\"mountRole\":\"window-panel\",\"mount\":\"wall\",\"coordinates\":{\"units\":\"metres\",\"up\":\"+Y\",\"forward\":\"+Z\",\"origin\":\"Wall XY mounting centre; back plane z=0; +Z inward\"},\"mounting\":{\"width\":0.9,\"height\":0.8,\"depth\":0.1,\"origin\":\"center\"},\"productionProfile\":{\"id\":\"window-panel-wall-mount-v2\",\"backPlaneZ\":0,\"localZRange\":[0,0.1],\"localZOffset\":0.05,\"visualOnly\":true},\"usePoints\":[],\"stateDefaults\":{}}。保留固定单位、基点、挂载和包络，以独立构造几何形成真实结构差异。门框只制作显示框体，窗板只制作显示面板，不添加开合机制。"
+    },
+    {
+      "id": "rug-border",
+      "branch": "rug",
+      "label": "边框地毯",
+      "resourcePath": "prototype/public/company-assets/architecture-collection/rug-border/v1/resource.json",
+      "geometryHash": "a157379015f87f4d7fa70d00a70f83cabedc348b356046c51a34c634ee406732",
+      "sha256": "b92a99dd828b53a6f909ae3e2fa546312df389b4c7727764b55a928931eb2711",
+      "triangles": 60,
+      "meshes": 5,
+      "bounds": {
+        "min": [
+          -0.800000011920929,
+          -2.6077032026783353e-11,
+          -0.550000011920929
+        ],
+        "max": [
+          0.800000011920929,
+          0.010000000094994903,
+          0.550000011920929
+        ]
+      },
+      "mounting": {
+        "width": 1.6,
+        "depth": 1.1,
+        "height": 0.01,
+        "origin": "bottom"
+      },
+      "apertureClear": false,
+      "backplaneChecked": false,
+      "backplaneZ": null,
+      "repeatByteIdentical": true,
+      "functionCompatible": true,
+      "prompt": "为公司场景制作 边框地毯。固定功能规格为 {\"id\":\"rug-standard\",\"version\":1,\"category\":\"decor\",\"mountRole\":\"rug\",\"mount\":\"floor-surface\",\"coordinates\":{\"units\":\"metres\",\"up\":\"+Y\",\"forward\":\"+Z\",\"origin\":\"Bottom centre of floor-surface decor\"},\"mounting\":{\"width\":1.6,\"depth\":1.1,\"height\":0.01,\"origin\":\"bottom\"},\"usePoints\":[],\"stateDefaults\":{}}。保留固定单位、基点、挂载和包络，以独立构造几何形成真实结构差异。门框只制作显示框体，窗板只制作显示面板，不添加开合机制。"
+    },
+    {
+      "id": "rug-inset",
+      "branch": "rug",
+      "label": "嵌套方毯",
+      "resourcePath": "prototype/public/company-assets/architecture-collection/rug-inset/v1/resource.json",
+      "geometryHash": "241944da8bd5338d42cf33d7028ab977c497231817c17cfed7dfb4e5753a10ba",
+      "sha256": "2fa5b18aa661a22a7c57e2ccf15ffc7533279aa8edf4a438c684ff3e8979865e",
+      "triangles": 36,
+      "meshes": 3,
+      "bounds": {
+        "min": [
+          -0.800000011920929,
+          -2.6077032026783353e-11,
+          -0.550000011920929
+        ],
+        "max": [
+          0.800000011920929,
+          0.010000000094994903,
+          0.550000011920929
+        ]
+      },
+      "mounting": {
+        "width": 1.6,
+        "depth": 1.1,
+        "height": 0.01,
+        "origin": "bottom"
+      },
+      "apertureClear": false,
+      "backplaneChecked": false,
+      "backplaneZ": null,
+      "repeatByteIdentical": true,
+      "functionCompatible": true,
+      "prompt": "为公司场景制作 嵌套方毯。固定功能规格为 {\"id\":\"rug-standard\",\"version\":1,\"category\":\"decor\",\"mountRole\":\"rug\",\"mount\":\"floor-surface\",\"coordinates\":{\"units\":\"metres\",\"up\":\"+Y\",\"forward\":\"+Z\",\"origin\":\"Bottom centre of floor-surface decor\"},\"mounting\":{\"width\":1.6,\"depth\":1.1,\"height\":0.01,\"origin\":\"bottom\"},\"usePoints\":[],\"stateDefaults\":{}}。保留固定单位、基点、挂载和包络，以独立构造几何形成真实结构差异。门框只制作显示框体，窗板只制作显示面板，不添加开合机制。"
+    },
+    {
+      "id": "rug-stripe",
+      "branch": "rug",
+      "label": "条纹地毯",
+      "resourcePath": "prototype/public/company-assets/architecture-collection/rug-stripe/v1/resource.json",
+      "geometryHash": "92bbd2c7e6c8e206ab05c5a82bf505922be5051f66ffe464c8cc965cea01b0b8",
+      "sha256": "8161b8539ac7b095bb39e6e7cd53b962e42333aa124dabe992a995606743e60f",
+      "triangles": 84,
+      "meshes": 7,
+      "bounds": {
+        "min": [
+          -0.800000011920929,
+          -2.6077032026783353e-11,
+          -0.550000011920929
+        ],
+        "max": [
+          0.800000011920929,
+          0.010000000094994903,
+          0.550000011920929
+        ]
+      },
+      "mounting": {
+        "width": 1.6,
+        "depth": 1.1,
+        "height": 0.01,
+        "origin": "bottom"
+      },
+      "apertureClear": false,
+      "backplaneChecked": false,
+      "backplaneZ": null,
+      "repeatByteIdentical": true,
+      "functionCompatible": true,
+      "prompt": "为公司场景制作 条纹地毯。固定功能规格为 {\"id\":\"rug-standard\",\"version\":1,\"category\":\"decor\",\"mountRole\":\"rug\",\"mount\":\"floor-surface\",\"coordinates\":{\"units\":\"metres\",\"up\":\"+Y\",\"forward\":\"+Z\",\"origin\":\"Bottom centre of floor-surface decor\"},\"mounting\":{\"width\":1.6,\"depth\":1.1,\"height\":0.01,\"origin\":\"bottom\"},\"usePoints\":[],\"stateDefaults\":{}}。保留固定单位、基点、挂载和包络，以独立构造几何形成真实结构差异。门框只制作显示框体，窗板只制作显示面板，不添加开合机制。"
+    },
+    {
+      "id": "rug-medallion",
+      "branch": "rug",
+      "label": "中心纹章地毯",
+      "resourcePath": "prototype/public/company-assets/architecture-collection/rug-medallion/v1/resource.json",
+      "geometryHash": "5a720422ff8d61f40a58bd90aadd2d300cddade7af45c83d4bd3d88685c86412",
+      "sha256": "4fe0266a21a9d45b186cac19b186394c243c6ee110baa57a517e359ef56e11dc",
+      "triangles": 84,
+      "meshes": 7,
+      "bounds": {
+        "min": [
+          -0.800000011920929,
+          -2.6077032026783353e-11,
+          -0.550000011920929
+        ],
+        "max": [
+          0.800000011920929,
+          0.010000000094994903,
+          0.550000011920929
+        ]
+      },
+      "mounting": {
+        "width": 1.6,
+        "depth": 1.1,
+        "height": 0.01,
+        "origin": "bottom"
+      },
+      "apertureClear": false,
+      "backplaneChecked": false,
+      "backplaneZ": null,
+      "repeatByteIdentical": true,
+      "functionCompatible": true,
+      "prompt": "为公司场景制作 中心纹章地毯。固定功能规格为 {\"id\":\"rug-standard\",\"version\":1,\"category\":\"decor\",\"mountRole\":\"rug\",\"mount\":\"floor-surface\",\"coordinates\":{\"units\":\"metres\",\"up\":\"+Y\",\"forward\":\"+Z\",\"origin\":\"Bottom centre of floor-surface decor\"},\"mounting\":{\"width\":1.6,\"depth\":1.1,\"height\":0.01,\"origin\":\"bottom\"},\"usePoints\":[],\"stateDefaults\":{}}。保留固定单位、基点、挂载和包络，以独立构造几何形成真实结构差异。门框只制作显示框体，窗板只制作显示面板，不添加开合机制。"
+    }
+  ],
+  "limits": [
+    "Display resources only. No door leaf, door open/close, window opening, or navigation change is implemented.",
+    "The fixed unit tile and mounting envelopes do not change physical navigation or the original room walls.",
+    "Character use and browser integrated replacement remain separate checks."
+  ]
+}
