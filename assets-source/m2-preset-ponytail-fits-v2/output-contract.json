@@ -1,0 +1,27 @@
+{
+  "schema": "preset-ponytail-fit-batch-v2",
+  "canonicalManifest": "assets-source/m2-preset-ponytail-fits-v2/generated/manifest.json",
+  "resultsField": "results",
+  "expectedTargets": 3,
+  "resultFields": ["targetId", "targetBodySha256", "status", "completeEndpoints", "actualGeometryFailure", "files"],
+  "filesShape": {"<filename>": "<actual SHA256>"},
+  "supportedStatuses": ["source-fit-ready-measured-v2", "source-contact-candidate-measured-v2", "failed"],
+  "fitSchema": "character-hair-fit-v2",
+  "fitVersion": 2,
+  "manifestVersion": 3,
+  "styleId": "female-ponytail-headref-v3",
+  "assetSha256": "1b785f9d54107818cee39eda2de7263ad0720ce90968fbaa7cc32c2465e3c385",
+  "evidence": {
+    "fitField": "fitEvidence",
+    "schema": "hair-fit-evidence-v2",
+    "reportReferences": ["geometryReport", "contactReport", "proxyReport"],
+    "referenceShape": {"url": "<public URL inside this prefix>", "sha256": "<actual SHA256>"},
+    "identityFields": ["targetId", "targetBodySha256", "assetSha256"],
+    "actualEndpointCountIncludingNeutral": 57,
+    "proxySelections": "proxy-report.json proxyChanges contains original and target selected-position SHA, counts, radius, offset and tail",
+    "conditionalRule": "No empty transparent exception. Every new strict/inclusive pair must have matching fresh current-target contact measurement and both nonempty V-orientation footprints with max alpha exactly zero."
+  },
+  "publicPrefix": "/assets/m2-preset-ponytail-fits-v2/",
+  "archivesAreNotAdmissions": true,
+  "runtimeAccepted": false
+}

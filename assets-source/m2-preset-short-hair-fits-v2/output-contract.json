@@ -1,0 +1,26 @@
+{
+  "schema": "preset-short-hair-fit-batch-v2",
+  "canonicalManifest": "assets-source/m2-preset-short-hair-fits-v2/generated/manifest.json",
+  "resultsField": "results",
+  "expectedTargets": 6,
+  "resultFields": ["targetId", "targetBodySha256", "status", "completeEndpoints", "actualGeometryFailure", "files"],
+  "filesShape": {"<filename>": "<actual SHA256>"},
+  "supportedStatuses": ["source-fit-ready-measured-v2", "source-contact-candidate-measured-v2", "failed"],
+  "fitSchema": "character-hair-fit-v1",
+  "fitVersion": 2,
+  "manifestVersion": 2,
+  "evidence": {
+    "fitField": "fitEvidence",
+    "schema": "hair-fit-evidence-v2",
+    "referenceFields": ["schema", "url", "sha256"],
+    "reportReferences": ["geometryReport", "contactReport"],
+    "identityFields": ["targetId", "targetBodySha256", "assetSha256"],
+    "bodyChanges": "neutralHeadChanges includes mesh/primitive/material/indexed source and target head-local positions and max displacement",
+    "endpointCount": "faceEndpointCountIncludingNeutral is 57 female and 55 male",
+    "introducedCount": "introducedPairsAcrossEndpoints counts union of strict-interior and source inclusive added pair occurrences",
+    "conditionalRule": "Every occurrence requires matching contact-report record and both nonempty conservative V-orientation footprints with max alpha exactly zero. Empty contact records are valid only when introduced count is zero."
+  },
+  "publicPrefix": "/assets/m2-preset-short-hair-fits-v2/",
+  "archivesAreNotAdmissions": true,
+  "runtimeAccepted": false
+}
