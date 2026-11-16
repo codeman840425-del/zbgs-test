@@ -3,6 +3,7 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import Phaser from "phaser";
 import { loadAvatar } from "./assets.js";
 import { loadFoundationAvatar } from "./foundation-avatar.js";
+import { createRenderContextGuard } from "./render-context-guard.js";
 import { createMotion } from "./motion.js";
 import { loadRetargetedMotions } from "./motion-source.js";
 import { createTurnPolicy } from "./turn-policy.js";
@@ -2038,9 +2039,11 @@ async function switchFoundationBody(bodyType) {
   bodySelection.requested = bodyType; bodySelection.error = null;
   if (avatar.profile.bodyType === bodyType) { bodySelection.loading = false; return {applied:true,bodyType}; }
   bodySelection.loading = true;
+  const renderContext = createRenderContextGuard(renderer);
   let nextAvatar, nextMotion, committed = false;
   const notices = [];
   try {
+    renderContext.check();
     // Prepare completely off-scene; the current avatar remains usable on failure.
     nextAvatar = await loadFoundationAvatar({scene:world,renderer,bodyType,attachToScene:false});
     if (request !== bodySelectionGeneration) return {applied:false,cancelled:true};
@@ -2059,7 +2062,7 @@ async function switchFoundationBody(bodyType) {
     nextMotion = createMotion(nextAvatar.vrm,nextAvatar.root,clips,nextAvatar.profile.motion);
     // Prepare this detached actor's real materials against the room lights.
     // Capture current controller/camera state only after this asynchronous wait.
-    await renderer.compileAsync(nextAvatar.root,camera,world);
+    await renderContext.wait(() => renderer.compileAsync(nextAvatar.root,camera,world));
     if (request !== bodySelectionGeneration) return {applied:false,cancelled:true};
     const oldRole = avatar.config.outfits.find(entry => entry.index === controller.outfit)?.role;
     const outfit = nextAvatar.config.outfits.find(entry => entry.role === oldRole)?.index ?? 0;
@@ -2090,6 +2093,7 @@ async function switchFoundationBody(bodyType) {
 
     // Attach before transferring ownership: an attachment error still disposes
     // the prepared actor. This synchronous section cannot render a mixed frame.
+    renderContext.check();
     world.add(nextAvatar.root);
     avatar = nextAvatar; motion = nextMotion; nextAvatar = null; nextMotion = null;
     committed = true;
@@ -2144,6 +2148,7 @@ async function switchFoundationBody(bodyType) {
     if (request === bodySelectionGeneration) bodySelection.error = error.message;
     return {applied:false,reason:error.message};
   } finally {
+    renderContext.dispose();
     try { nextMotion?.dispose(); } finally { nextAvatar?.dispose(); }
     if (request === bodySelectionGeneration) bodySelection.loading = false;
   }

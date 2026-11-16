@@ -4,6 +4,7 @@ import vm from 'node:vm';
 import crypto from 'node:crypto';
 import assert from 'node:assert/strict';
 import { createBehaviorTasks } from '../prototype/src/behavior-tasks.js';
+import { createRenderContextGuard } from '../prototype/src/render-context-guard.js';
 const dir=path.resolve('.');
 const oi=process.argv.indexOf('--out');if(oi<0)throw Error('--out NEW_DIR required');
 const out=path.resolve(process.argv[oi+1]);if(fs.existsSync(out))throw Error('Refuse overwrite');fs.mkdirSync(out,{recursive:true});
@@ -31,6 +32,9 @@ function fixture(fault){
   compileCalls.push({root,camera,target});assert.equal(root,next.root);assert.equal(root.parent,undefined);assert.equal(target,world);assert(world.children.has(old.root));assert.equal(next.outfit,0);assert.equal(next.colors.hairColor,'black');
   if(fault==='compile-sync')throw Error('injected compile sync');if(fault==='compile-reject')return Promise.reject(Error('injected compile reject'));return Promise.resolve(root);
  }},loadFoundationAvatar:async()=>next,loadRetargetedMotions:async()=>{if(fault==='load')throw Error('injected load');return {};},createMotion:()=>newRig,controller:c,inspection:{bodyMode:'full',dynamics:true,corrections:'full'},correctionLayers:{full:{}},cameraMode:'close',camera:{position:new V(4,3,6)},controls:{target:new V(1,.9,2)},performance:{now:()=>123},marker:{visible:true},seatLeases:{disposeOwner(id){effects.push(['seat-release',id]);}},chairBounds:[],seatTargets:()=>({approach:[0,0,0]}),document:{querySelector:element,querySelectorAll:()=>outfitElements},populateDanceSelect(){if(fault==='ui')throw Error('injected UI');},createDebugHelpers(){if(fault==='helpers')throw Error('injected helpers');},syncInspectionUI:noop,fixedViews:new Set(),cameraTween:null,followPosition:new V(),updateFixedCamera:noop,syncViewButtons:noop,location:{href:'http://localhost/?body=old'},history:{state:{},replaceState:noop},refreshUI:noop,URL};
+ ctx.createRenderContextGuard=createRenderContextGuard;
+ ctx.renderer.domElement=new EventTarget();ctx.renderer.lost=false;
+ ctx.renderer.getContext=()=>({isContextLost:()=>ctx.renderer.lost});
  vm.createContext(ctx);vm.runInContext(sync+'\n'+fn,ctx);
  return {ctx,old,next,oldRig,newRig,world,elements,c,effects,compileCalls};
 }
@@ -107,8 +111,26 @@ for(const seated of [false,true]){
  release();const result=await pending;assert.equal(result.applied,true);assert.equal(f.c.outfit,2);assert.equal(f.next.outfit,2);assert.equal(f.next.debug,true);assert.equal(f.next.dynamics,false);assert.deepEqual({...f.newRig.corrections},f.ctx.correctionLayers.off);
  assert(!result.notice.includes('原服装没有此身体版型'));results.push({name:'latest-outfit-debug-dynamics-corrections-after-compile',pass:true,result});
 }
+for(const phase of ['before-load','during-compile','restored-before-settle']){
+ const f=fixture(null),r=f.ctx.renderer;let enter,release;
+ const entered=new Promise(resolve=>enter=resolve),gate=new Promise(resolve=>release=resolve);
+ r.compileAsync=()=>{enter();return gate;};
+ if(phase==='before-load')r.lost=true;
+ const pending=f.ctx.switchFoundationBody('new');
+ if(phase!=='before-load'){
+  await entered;r.lost=true;r.domElement.dispatchEvent(new Event('webglcontextlost'));
+  if(phase==='restored-before-settle'){r.lost=false;r.domElement.dispatchEvent(new Event('webglcontextrestored'));}
+ }
+ let deadline;const result=await Promise.race([pending,new Promise((_,reject)=>{deadline=setTimeout(()=>reject(Error('context loss left switch pending')),500);})]);clearTimeout(deadline);
+ assert.equal(result.applied,false);assert.match(result.reason,/图形上下文/);assert.equal(f.ctx.avatar,f.old);assert.equal(f.old.disposed,false);assert.equal(f.ctx.bodySelection.loading,false);
+ if(phase!=='before-load'){assert(f.next.disposed);assert(f.newRig.disposed);}
+ release();await Promise.resolve();assert.equal(f.ctx.avatar,f.old);
+ assert.equal(f.c.behaviorTasks.active().requestId,'old-task');
+ results.push({name:'context-'+phase,pass:true,result});
+}
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
 const report={scope:'Exact current switch/sync functions; actual behavior-tasks module; controlled actor/scene/renderer fixtures. No GPU or shader readiness/performance claim.',sourceSha256:sha(fs.readFileSync(path.join(dir,'prototype/src/main.js'))),passed:results.length,results};
 fs.writeFileSync(path.join(out,'executed-script.mjs'),fs.readFileSync(new URL(import.meta.url)));
 fs.writeFileSync(path.join(out,'main.tested.js'),fs.readFileSync(path.join(dir,'prototype/src/main.js')));
+fs.copyFileSync('prototype/src/render-context-guard.js',path.join(out,'render-context-guard.js'));
 fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({sourceSha256:report.sourceSha256,passed:results.length}));
