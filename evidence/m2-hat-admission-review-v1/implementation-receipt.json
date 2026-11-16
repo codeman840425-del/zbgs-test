@@ -1,0 +1,53 @@
+{
+  "schema": "m2-hat-admission-independent-review-v1",
+  "rootCommit": "b3d6bb3d197bcb6a7b8d7a718b77bf05bc59c5f5",
+  "result": "No material guard or atomicity defect found in bounded CPU review",
+  "checks": [
+    {
+      "name": "actual appearance neutral switch succeeds without hat",
+      "passed": true
+    },
+    {
+      "name": "actual appearance change rejects equipped-hat mismatch before visibility",
+      "passed": true
+    },
+    {
+      "name": "staged hair update final guard preserves old state after concurrent hat",
+      "passed": true
+    },
+    {
+      "name": "actual facial geometry selection rejects nonneutral change while hat",
+      "passed": true,
+      "geometryCalls": 3
+    },
+    {
+      "name": "root wiring precommits all domains only after hair and face guards",
+      "passed": true
+    }
+  ],
+  "failure": null,
+  "sourceSha256": {
+    "prototype/src/foundation-avatar.js": "81ea5a5667824b81b8401d78ef45e005105be4f97e15396901f0be7c27f7eed1",
+    "prototype/src/character-appearance.js": "afc20f468a6261eb2faf2432122480f8549cb6132e67d7663ab07398c9fd651a",
+    "prototype/src/facial-geometry.js": "70a637a51d3c6269718c9eb316b30fe30fee10fefe615e22912c3c03c2b2cc3d",
+    "prototype/src/appearance-recipe.js": "b180b89fcaeaebcc533ab1b55f141104bd0aebb22a985bbb845ebe1a6a28200b"
+  },
+  "probe": "probe.mjs",
+  "scope": [
+    "Actual female roundtrip VRM loaded through GLTFLoader with 1x1 CPU texture decode. Actual createCharacterAppearance and createFacialGeometry entrypoints use integrated callback-shaped guards.",
+    "Actual callback guard state simulates headwear selection because headwear loader and full foundation renderer are root-owned. Hair and face changes are checked before visibility/geometry writes, plus staged hair validateCommit after concurrent hat state.",
+    "appearance-recipe source ordering is checked directly. All domain validateCommit hooks execute before commitStarted and domain commit calls."
+  ],
+  "evidence": [
+    "Neutral hair change succeeds when hat state absent.",
+    "Equipped hat blocks hair before visibility commit and propagates hat-hair-incompatible.",
+    "Prepared hair update fails validateCommit after concurrent hat state and retains old hair.",
+    "Equipped hat blocks nonneutral facial geometry before resource writes and retains mouthWidth zero.",
+    "Foundation callback schema and recipe precommit ordering match root integration."
+  ],
+  "limits": [
+    "No browser/GPU or full loadFoundationAvatar renderer transaction.",
+    "No full recipe apply with actual outfit assets in this probe. Existing qa-whole-look-transaction.mjs invocation was attempted and preserved as harness-failure.txt because its male fixture requests an unloaded outfit role before transaction setup.",
+    "Face mouth .04 resource fetch is intentionally omitted after guard-boundary rejection. Root owns browser and full recipe acceptance."
+  ]
+}

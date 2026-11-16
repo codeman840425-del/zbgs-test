@@ -1,0 +1,39 @@
+{
+  "schema": "m2-hat-admission-independent-cpu-v1",
+  "rootCommit": "b3d6bb3d197bcb6a7b8d7a718b77bf05bc59c5f5",
+  "checks": [
+    {
+      "name": "actual appearance neutral switch succeeds without hat",
+      "passed": true
+    },
+    {
+      "name": "actual appearance change rejects equipped-hat mismatch before visibility",
+      "passed": true
+    },
+    {
+      "name": "staged hair update final guard preserves old state after concurrent hat",
+      "passed": true
+    },
+    {
+      "name": "actual facial geometry selection rejects nonneutral change while hat",
+      "passed": true,
+      "geometryCalls": 3
+    },
+    {
+      "name": "root wiring precommits all domains only after hair and face guards",
+      "passed": true
+    }
+  ],
+  "failure": null,
+  "sourceSha256": {
+    "prototype/src/foundation-avatar.js": "81ea5a5667824b81b8401d78ef45e005105be4f97e15396901f0be7c27f7eed1",
+    "prototype/src/character-appearance.js": "afc20f468a6261eb2faf2432122480f8549cb6132e67d7663ab07398c9fd651a",
+    "prototype/src/facial-geometry.js": "70a637a51d3c6269718c9eb316b30fe30fee10fefe615e22912c3c03c2b2cc3d",
+    "prototype/src/appearance-recipe.js": "b180b89fcaeaebcc533ab1b55f141104bd0aebb22a985bbb845ebe1a6a28200b"
+  },
+  "limits": [
+    "Actual female roundtrip VRM and actual appearance/facial modules. Texture decode uses1x1 CPU data.",
+    "The actual headwear callback is represented by the integrated synchronous guard state; browser loader and complete foundation renderer transaction remain root-owned.",
+    "Mouth .04 resource fetch is not exercised because this probe checks the guard boundary before I/O."
+  ]
+}
