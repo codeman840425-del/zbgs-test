@@ -1998,6 +1998,145 @@
         }
       ],
       "stateDefaults": {}
+    },
+    {
+      "id": "timber-sofa",
+      "version": 1,
+      "category": "multi-use",
+      "mountRole": "sofa",
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Wood-frame ground centre",
+        "scale": "Identity only"
+      },
+      "provenance": {
+        "license": "Project-authored schematic geometry and solid-color materials. No external art assets.",
+        "tools": [
+          "Three.js 187",
+          "BoxGeometry",
+          "CylinderGeometry",
+          "RoundedBoxGeometry",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-timber-sofa/parameters.json",
+        "sourceParametersSha256": "dcc1d63aa5232b51afee5aba1c27948b5ec492107e20661b8fa120670ac5bf89",
+        "functionalContractSource": "prototype/public/company-assets/lounge-sofa/v1/resource.json",
+        "functionalContractSourceSha256": "4559d986812ef7e455fc8f0bd369380cd487d5672cd5bd7349ed9aaac8e1fb27",
+        "generator": "scripts/company-platform/build-timber-sofa.mjs",
+        "generatorSha256": "3f8d0e5f9e36d8133a59ad615b1d16dae450c3eced6b055c0f05cc11b465489c",
+        "method": "New open timber frame, cylindrical arm posts/rails, thin cushions and separate rear-leaning back panels."
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/timber-sofa/v1/model.glb",
+        "sha256": "fa72ac0c6ab944d2679ce824dcfe08834b715bc8472b23fc4daced3a9070dd96",
+        "bytes": 266968
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          1.100000023841858,
+          0.5199999809265137
+        ],
+        "blocking": true
+      },
+      "materialSlots": {
+        "fabric": [
+          "seat-left",
+          "seat-right",
+          "back-left",
+          "back-right"
+        ],
+        "frame": [
+          "post-left-front",
+          "post-left-rear",
+          "post-right-front",
+          "post-right-rear",
+          "arm-left",
+          "arm-right",
+          "rail-front",
+          "rail-rear",
+          "rail-left",
+          "rail-right",
+          "rail-centre",
+          "back-support-left",
+          "back-support-right",
+          "back-crossbar"
+        ]
+      },
+      "usePoints": [
+        {
+          "id": "left",
+          "position": [
+            -0.48,
+            0,
+            0.04
+          ],
+          "yaw": 0,
+          "seatHeight": 0.47,
+          "capacity": 1,
+          "clearance": {
+            "width": 0.92,
+            "depth": 1.11
+          },
+          "limitations": [
+            "Metres. Fixed 0.47m seat height. Static data preview only. Actual character usage awaits C3.",
+            "Clearance width is centred on use-point X. Depth extends forward from use-point Z through the exit point.",
+            "Declared allocation only. Character body clearance, reach, contact and approach/exit motion remain unverified."
+          ],
+          "seatNodeId": "seat-left",
+          "backNodeId": "back-left",
+          "approach": [
+            -0.48,
+            0,
+            1.02
+          ],
+          "exit": [
+            -0.48,
+            0,
+            1.15
+          ]
+        },
+        {
+          "id": "right",
+          "position": [
+            0.48,
+            0,
+            0.04
+          ],
+          "yaw": 0,
+          "seatHeight": 0.47,
+          "capacity": 1,
+          "clearance": {
+            "width": 0.92,
+            "depth": 1.11
+          },
+          "limitations": [
+            "Metres. Fixed 0.47m seat height. Static data preview only. Actual character usage awaits C3.",
+            "Clearance width is centred on use-point X. Depth extends forward from use-point Z through the exit point.",
+            "Declared allocation only. Character body clearance, reach, contact and approach/exit motion remain unverified."
+          ],
+          "seatNodeId": "seat-right",
+          "backNodeId": "back-right",
+          "approach": [
+            0.48,
+            0,
+            1.02
+          ],
+          "exit": [
+            0.48,
+            0,
+            1.15
+          ]
+        }
+      ],
+      "stateDefaults": {}
     }
   ]
 }

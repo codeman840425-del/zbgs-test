@@ -257,7 +257,9 @@ export function createCompanyAssetLibrary({fetchImpl = globalThis.fetch} = {}) {
       }
       pack.scene?.traverse(node => { if (node.isMesh) meshes++; });
       if (!meshes) throw error('empty-asset', description.path, 'Default scene contains no mesh');
-      validateResource(pack, description); live(); entry.pack = pack; return pack;
+      validateResource(pack, description); live();
+      if(entries.get(description.key)!==entry)throw error('asset-load-cancelled',description.path,'The resource is no longer requested by the active view');
+      entry.pack = pack; return pack;
     } catch (cause) {
       if (pack) releasePack(pack); else if (parser) await releaseFailedParser(parser, json);
       if (disposed) throw error('asset-library-disposed', description.path, 'Loading completed after library disposal');
@@ -289,6 +291,13 @@ export function createCompanyAssetLibrary({fetchImpl = globalThis.fetch} = {}) {
       try { return cloneInstance(pack); }
       catch (cause) { throw error('asset-instance-failed', description.path, cause.message || String(cause)); }
     },
+    retainOnly(resources) {
+      live();const keys=new Set(resources.filter(resource=>Object.hasOwn(resource||{},'asset')).map(resource=>describe(resource).key));
+      for(const [key,entry]of entries)if(!keys.has(key)) {
+        entries.delete(key);entry.abort.abort();if(entry.pack){releasePack(entry.pack);entry.pack=null;}
+      }
+    },
+    snapshot(){return {cachedAssets:entries.size,loadedAssets:[...entries.values()].filter(entry=>entry.pack).length};},
     dispose() {
       if (disposed) return;
       disposed = true;

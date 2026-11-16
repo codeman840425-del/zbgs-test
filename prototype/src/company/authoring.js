@@ -2,52 +2,79 @@ import {deriveCompany,prepareCompanyChange,CompanyError} from './document.js';
 import {createCompanyScene} from './render.js';
 import {createCompanySaveStore,encodeCompanySave,decodeCompanySave} from './persistence.js';
 import {inspectCompanyPlacement} from './placement.js';
+import {prepareTemplateUpgrade} from './upgrade.js';
 
 // Agent-facing authoring transactions. No character, movement, task or lease state.
 export async function createCompanyAuthoring(world,initialDocument,{catalog,templates,storage,assetLibrary,isUsePointBusy=()=>false}={}) {
   let generation=0,disposed=false;
   const store=createCompanySaveStore({storage,catalog,templates});
-  async function preload(document) {
+  function resources(document,view={}) {
     const derived=deriveCompany(document,catalog,templates);
+    const floorId=view.floorId||document.nodes.find(n=>n.kind==='floor').id;
+    return view.mode==='building'?[]:derived.facilities.filter(f=>f.floorId===floorId).map(f=>f.resource);
+  }
+  async function preload(document,view={}) {
     inspectCompanyPlacement(document,catalog,templates);
-    await assetLibrary?.preload(derived.facilities.map(f=>f.resource));
+    await assetLibrary?.preload(resources(document,view));
     return document;
   }
   await preload(initialDocument);
   const scene=createCompanyScene(world,initialDocument,{catalog,templates,assetLibrary});
   function intent(){if(disposed)throw new CompanyError('scene-disposed','authoring','Authoring session is closed');return ++generation;}
   function latest(token){if(disposed||generation!==token)throw new CompanyError('revision-conflict','authoring','A newer edit or load superseded this prepared scene');}
+  function prune(token){if(!disposed&&generation===token)assetLibrary?.retainOnly?.(resources(scene.document,scene.view));}
+  async function transaction(action) {
+    const token=intent();
+    try{return await action(token);}finally{prune(token);}
+  }
+  async function replace(candidate,token) {
+    latest(token);
+    const floorId=candidate.nodes.some(n=>n.id===scene.view.floorId&&n.kind==='floor')?scene.view.floorId:undefined;
+    await preload(candidate,{floorId});latest(token);return scene.restore(JSON.stringify(candidate),{isUsePointBusy});
+  }
   return {
     scene,
     get document(){return scene.document;},
     snapshot:()=>scene.snapshot(),
     async apply(operations) {
-      const token=intent(),revision=scene.revision;
-      const result=prepareCompanyChange(scene.document,operations,{catalog,templates,isUsePointBusy});
-      await preload(result.document);latest(token);
-      const handle=scene.prepareChange(operations,{expectedRevision:revision,isUsePointBusy});
-      try{return scene.commit(handle,{isUsePointBusy});}finally{scene.discard(handle);}
+      return transaction(async token=>{
+        const revision=scene.revision,result=prepareCompanyChange(scene.document,operations,{catalog,templates,isUsePointBusy});
+        let handle;
+        try {
+          await preload(result.document,scene.view);latest(token);
+          handle=scene.prepareChange(operations,{expectedRevision:revision,isUsePointBusy});
+          return scene.commit(handle,{isUsePointBusy});
+        } finally {if(handle)scene.discard(handle);}
+      });
     },
     async load(document) {
-      const token=intent(),candidate=structuredClone(document);
-      await preload(candidate);latest(token);
-      return scene.restore(JSON.stringify(candidate),{isUsePointBusy});
+      return transaction(token=>replace(structuredClone(document),token));
     },
     async import(text) {
-      const token=intent();let candidate;
-      try{candidate=JSON.parse(text);}catch(error){throw new CompanyError('invalid-json','import',error.message);}
-      if(candidate.schema==='company-save')candidate=await decodeCompanySave(text,catalog,templates);
-      await preload(candidate);latest(token);
-      return scene.restore(JSON.stringify(candidate),{isUsePointBusy});
+      return transaction(async token=>{
+        let candidate;
+        try{candidate=JSON.parse(text);}catch(error){throw new CompanyError('invalid-json','import',error.message);}
+        if(candidate?.schema==='company-save')candidate=await decodeCompanySave(text,catalog,templates);
+        return replace(candidate,token);
+      });
     },
     async save() {
       const token=generation,document=scene.document;
       return store.save(document,{isCurrent:revision=>!disposed&&generation===token&&scene.document.id===document.id&&scene.revision===revision});
     },
     async restore(id=scene.document.id) {
-      const token=intent(),document=await store.load(id);
-      await preload(document);latest(token);
-      return scene.restore(JSON.stringify(document),{isUsePointBusy});
+      return transaction(async token=>replace(await store.load(id),token));
+    },
+    async setView(view) {
+      return transaction(async token=>{
+        const next={...scene.view,...view};await preload(scene.document,next);latest(token);return scene.setView(next);
+      });
+    },
+    async upgrade(stationId,targetRef) {
+      return transaction(async token=>{
+        const result=prepareTemplateUpgrade(scene.document,stationId,targetRef,{catalog,templates,isUsePointBusy});
+        await replace(result.document,token);return result;
+      });
     },
     export:()=>encodeCompanySave(scene.document,catalog,templates),
     dispose(){if(disposed)return;disposed=true;generation++;scene.dispose();},

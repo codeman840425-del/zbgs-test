@@ -1,7 +1,10 @@
 import { CompanyError, deriveCompany, pointInTransform } from './document.js';
+import { inspectCompanyConnections } from './space.js';
 
 const RADIUS = 0.25;
 const GRID = 0.2;
+const PORTAL_MARGIN = 0.1;
+const PORTAL_WIDTH = RADIUS * 2 + PORTAL_MARGIN;
 const EPSILON = 1e-8;
 const fail = (code, path, message, details) => { throw new CompanyError(code, path, message, details); };
 const vector = value => Array.isArray(value) && value.length === 3 && value.every(Number.isFinite);
@@ -19,11 +22,11 @@ function inside(point, bounds, padding) {
 
 // Segment/slab intersection includes touching. A square radius expansion safely
 // contains the requested circular envelope, at the cost of conservative corners.
-function intersects(a, b, obstacle) {
+function intersects(a, b, obstacle, padding = RADIUS) {
   let first = 0, last = 1;
   for (const [axis, coordinate] of [[0, 0], [1, 2]]) {
-    const min = obstacle.min[axis] - RADIUS;
-    const max = obstacle.max[axis] + RADIUS;
+    const min = obstacle.min[axis] - padding;
+    const max = obstacle.max[axis] + padding;
     const delta = b[coordinate] - a[coordinate];
     if (Math.abs(delta) < EPSILON) {
       if (a[coordinate] < min - EPSILON || a[coordinate] > max + EPSILON) return false;
@@ -71,14 +74,15 @@ function gridFor(bounds, obstacles, start) {
     connected: point => [...reached].some(index => connects(point, index)) };
 }
 
-/** Static C1 authoring admission only. Does not create occupancy or actor state. */
+/** Static C1/C2 authoring admission only. Does not create occupancy or actor state. */
 export function inspectCompanyPlacement(document, catalog, templates) {
   const derived = deriveCompany(document, catalog, templates);
   const warnings = [
-    'C1 static authoring reserve only. Radius 0.25m has no verified C3 character fit.',
+    'C1/C2 static authoring reserve only. Radius 0.25m has no verified C3 character fit.',
     '0.20m four-neighbour grid and square obstacle expansion are conservative. Narrow or diagonal feasible paths may be rejected.',
-    'Every grid edge and endpoint connector is checked continuously against expanded footprints. Room edges are the only C1 walls.',
-    'Connectivity is inside each open rectangular room/area. Doors, cross-room routes, contact meshes and real character navigation are unverified.',
+    'Every grid edge, endpoint connector and portal crossing segment is checked continuously against expanded footprints.',
+    'Region boundaries are closed except for declared portals. Same-floor portal and grid connectivity is static conservative admission only.',
+    'Contact meshes, actual door hardware, stairs/lifts, vertical travel and real character navigation remain unverified.',
   ];
   const rooms = [], checkedPoints = [];
   const roomNodes = document.nodes.filter(node => ['room', 'area'].includes(node.kind));
@@ -91,6 +95,20 @@ export function inspectCompanyPlacement(document, catalog, templates) {
     if(a.floorId===b.floorId&&a.min[0]<b.max[0]-EPSILON&&a.max[0]>b.min[0]+EPSILON&&a.min[1]<b.max[1]-EPSILON&&a.max[1]>b.min[1]+EPSILON)
       fail('overlapping-spaces',a.id,'Room and public-area interiors must not overlap',{otherId:b.id});
   }
+  const connections = inspectCompanyConnections(document, catalog, templates);
+  const portalSides = new Map(roomNodes.map(room => [room.id, []]));
+  for (const floor of connections.floors) {
+    for (const connection of floor.connections) {
+      for (const side of ['from', 'to']) {
+        const portal = connection[side];
+        if (portal.width < PORTAL_WIDTH - EPSILON)
+          fail('narrow-portal', connection.id, 'Static 0.50m envelope requires 0.10m additional total width margin',
+            { minimumWidth: PORTAL_WIDTH, actualWidth: portal.width });
+        portalSides.get(portal.regionId).push({ connectionId: connection.id, side, portal });
+      }
+    }
+  }
+  const checkedPortals = [];
   for (const point of derived.usePoints) {
     if (!point.roomId) fail('missing-use-room', point.id, 'Use-space inspection requires a room or area ancestor');
   }
@@ -115,6 +133,21 @@ export function inspectCompanyPlacement(document, catalog, templates) {
     const entrySource = explicitEntry ? 'declared room-local test entry' : 'default internal test origin, not a real door';
     rooms.push({ id: room.id, entry: [...entry], entryWorld: pointInTransform(world, entry), entrySource,
       grid: { columns: grid.columns, rows: grid.rows, reachableCells: grid.reachableCells } });
+    for (const { connectionId, side, portal } of portalSides.get(room.id)) {
+      const { interior, center } = portal.local;
+      if (!inside(interior, room.bounds, RADIUS))
+        fail('outside-portal-interior', connectionId, 'Portal interior envelope extends beyond its region bounds');
+      // Include all obstacles on this floor, also those authored on the opposite
+      // side of the shared edge. Only the wall opening exempts the room boundary.
+      const blocker = obstacles.find(obstacle => intersects(interior, center, obstacle, RADIUS + PORTAL_MARGIN / 2));
+      if (blocker) fail('blocked-portal', connectionId, 'Portal interior-to-boundary segment lacks the static envelope and width margin',
+        { regionId: room.id, side, obstacleId: blocker.id });
+      if (!grid.connected(interior))
+        fail('disconnected-portal', connectionId, 'Portal interior cannot join the room test-origin grid', { regionId: room.id, side });
+      checkedPortals.push({ connectionId, side, regionId: room.id, floorId: derived.floorIds.get(room.id),
+        width: portal.width, interior: { local: [...interior], world: [...portal.world.interior] },
+        center: { local: [...center], world: [...portal.world.center] }, connected: true });
+    }
     for (const point of derived.usePoints.filter(candidate => candidate.roomId === room.id)) {
       const facility = derived.facilities.find(candidate => candidate.id === point.facilityId);
       let position = point.position;
@@ -144,8 +177,10 @@ export function inspectCompanyPlacement(document, catalog, templates) {
         approachConnected: true, exitConnected: true });
     }
   }
-  return { rules: { scope: 'C1 static placement only', envelopeRadius: RADIUS, gridSpacing: GRID,
+  return { rules: { scope: 'C1/C2 static conservative placement and same-floor portal connectivity', envelopeRadius: RADIUS, gridSpacing: GRID,
     gridNeighbours: 4, obstacleExpansion: 'conservative square', endpointConnectorMaximum: GRID * 2,
-    roomRangeMetres: [3, 20], supportedYaw: 'quarter turns', occupancyState: 'not produced' },
-  rooms, checkedPoints, warnings };
+    roomRangeMetres: [3, 20], supportedYaw: 'quarter turns', occupancyState: 'not produced',
+    portalMinimumWidth: PORTAL_WIDTH, portalTotalWidthMargin: PORTAL_MARGIN,
+    portalCrossingEnvelopeRadius: RADIUS + PORTAL_MARGIN / 2, portalInteriorInset: connections.interiorInset },
+  rooms, checkedPoints, checkedPortals, warnings };
 }

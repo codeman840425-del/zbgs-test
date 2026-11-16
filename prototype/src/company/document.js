@@ -1,4 +1,5 @@
 // Company authoring data. Actor tasks and seat leases remain in the character platform.
+import {compareFacilityFunction} from './appearance-contract.js';
 export class CompanyError extends Error {
   constructor(code, path, message, details = {}) {
     super(`${code} at ${path}: ${message}`);
@@ -10,6 +11,7 @@ const copy = value => structuredClone(value);
 const key = ref => `${ref?.id}@${ref?.version}`;
 const ID = /^[A-Za-z0-9][A-Za-z0-9_.:/-]*$/;
 const capacities = {
+  'small-home': { floors: 1, rooms: 1, stations: 2 },
   'single-room': { floors: 1, rooms: 1, stations: 2 },
   'rental-home': { floors: 1, rooms: 3, stations: 6 },
   'leased-floor': { floors: 1, rooms: 10, stations: 20 },
@@ -357,10 +359,12 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
       const replacement = resources.get(key(op.resource));
       if (!replacement) fail('missing-resource-version', node.id, key(op.resource));
       const original = resources.get(key(node.resource));
-      if ((original.mountRole || original.id) !== (replacement.mountRole || replacement.id) ||
-          original.category !== replacement.category || JSON.stringify((original.usePoints || []).map(p => [p.id,p.seatHeight])) !== JSON.stringify((replacement.usePoints || []).map(p => [p.id,p.seatHeight])))
-        fail('incompatible-replacement', node.id, 'Replacement changes the facility usage contract');
-      node.resource = copy(op.resource); node.state = { ...copy(replacement.stateDefaults), ...node.state };
+      const compatibility = compareFacilityFunction(original, replacement);
+      if (!compatibility.compatible)
+        fail('incompatible-replacement', `${node.id}.resource.${compatibility.differences[0].field}`,
+          'Appearance replacement must preserve every functional field', {differences: compatibility.differences});
+      node.state = { ...copy(original.stateDefaults), ...node.state };
+      node.resource = copy(op.resource);
     } else if (op.type === 'copy-workstation' || op.type === 'copy-group') {
       const expectedKind = op.type === 'copy-workstation' ? 'workstation' : 'assembly';
       if (node.kind !== expectedKind) fail('invalid-operation', node.id, `Copy expects ${expectedKind}`);

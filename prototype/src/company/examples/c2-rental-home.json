@@ -1,0 +1,556 @@
+{
+  "schema": "company-layout",
+  "version": 1,
+  "id": "rental-home-company",
+  "name": "出租屋 · 三房与公共客厅",
+  "revision": 1,
+  "scale": "rental-home",
+  "catalog": {
+    "id": "company-facilities",
+    "version": 1
+  },
+  "nodes": [
+    {
+      "id": "rental-home-company/floor-1",
+      "kind": "floor",
+      "parentId": "rental-home-company",
+      "name": "一层",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "connections": [
+        {
+          "id": "rental/door-stream",
+          "from": {
+            "regionId": "rental/stream",
+            "edge": "east",
+            "offset": 1.125,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "rental/living-entry",
+            "edge": "west",
+            "offset": 0,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "rental/door-work",
+          "from": {
+            "regionId": "rental/work",
+            "edge": "south",
+            "offset": -1.5,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "rental/living",
+            "edge": "north",
+            "offset": 1.5,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "rental/door-rest",
+          "from": {
+            "regionId": "rental/rest",
+            "edge": "east",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "rental/living",
+            "edge": "west",
+            "offset": 0,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "rental/living-connection",
+          "from": {
+            "regionId": "rental/living-entry",
+            "edge": "south",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "rental/living",
+            "edge": "north",
+            "offset": -1.5,
+            "width": 1.4
+          }
+        }
+      ]
+    },
+    {
+      "id": "rental/stream",
+      "kind": "room",
+      "parentId": "rental-home-company/floor-1",
+      "name": "直播间",
+      "bounds": {
+        "width": 6,
+        "depth": 5.25
+      },
+      "transform": {
+        "position": [
+          -6,
+          0,
+          -2.625
+        ],
+        "yaw": 0
+      },
+      "purpose": "streaming"
+    },
+    {
+      "id": "rental/work",
+      "kind": "room",
+      "parentId": "rental-home-company/floor-1",
+      "name": "工作间",
+      "bounds": {
+        "width": 6,
+        "depth": 5.25
+      },
+      "transform": {
+        "position": [
+          3,
+          0,
+          -2.625
+        ],
+        "yaw": 0
+      },
+      "purpose": "work"
+    },
+    {
+      "id": "rental/rest",
+      "kind": "room",
+      "parentId": "rental-home-company/floor-1",
+      "name": "休息间",
+      "bounds": {
+        "width": 6,
+        "depth": 5.25
+      },
+      "transform": {
+        "position": [
+          -6,
+          0,
+          2.625
+        ],
+        "yaw": 0
+      },
+      "purpose": "rest"
+    },
+    {
+      "id": "rental/living",
+      "kind": "area",
+      "parentId": "rental-home-company/floor-1",
+      "name": "公共客厅",
+      "bounds": {
+        "width": 6,
+        "depth": 5.25
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          2.625
+        ],
+        "yaw": 0
+      },
+      "entry": {
+        "position": [
+          -1.5,
+          0,
+          1.8
+        ]
+      }
+    },
+    {
+      "id": "rental/living-entry",
+      "kind": "area",
+      "parentId": "rental-home-company/floor-1",
+      "name": "客厅入口",
+      "bounds": {
+        "width": 3,
+        "depth": 3
+      },
+      "transform": {
+        "position": [
+          -1.5,
+          0,
+          -1.5
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "station-1",
+      "kind": "workstation",
+      "parentId": "rental/stream",
+      "name": "station-1",
+      "transform": {
+        "position": [
+          -1.4,
+          0,
+          -0.3
+        ],
+        "yaw": 0
+      },
+      "template": {
+        "id": "stream-station",
+        "version": 1
+      }
+    },
+    {
+      "id": "station-1/desk",
+      "kind": "facility",
+      "stationId": "station-1",
+      "partKey": "desk",
+      "parentId": "station-1",
+      "resource": {
+        "id": "desk",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -0.9
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "station-1/monitor",
+      "kind": "facility",
+      "stationId": "station-1",
+      "partKey": "monitor",
+      "parentId": "station-1/desk",
+      "resource": {
+        "id": "monitor",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          -0.25
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "station-1/keyboard",
+      "kind": "facility",
+      "stationId": "station-1",
+      "partKey": "keyboard",
+      "parentId": "station-1/desk",
+      "resource": {
+        "id": "keyboard",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          0.21
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "station-1/microphone",
+      "kind": "facility",
+      "stationId": "station-1",
+      "partKey": "microphone",
+      "parentId": "station-1/desk",
+      "resource": {
+        "id": "desk-microphone",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.8,
+          0.84,
+          0.18
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "station-1/chair",
+      "kind": "facility",
+      "stationId": "station-1",
+      "partKey": "chair",
+      "parentId": "station-1",
+      "resource": {
+        "id": "chair",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0.55
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "station-1/fill-light",
+      "kind": "facility",
+      "stationId": "station-1",
+      "partKey": "fill-light",
+      "parentId": "station-1",
+      "resource": {
+        "id": "fill-light",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.75,
+          0,
+          -0.15
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "station-2",
+      "kind": "workstation",
+      "parentId": "rental/stream",
+      "name": "station-2",
+      "transform": {
+        "position": [
+          1.4,
+          0,
+          -0.3
+        ],
+        "yaw": 0
+      },
+      "template": {
+        "id": "stream-station",
+        "version": 1
+      }
+    },
+    {
+      "id": "station-2/desk",
+      "kind": "facility",
+      "stationId": "station-2",
+      "partKey": "desk",
+      "parentId": "station-2",
+      "resource": {
+        "id": "desk",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -0.9
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "station-2/monitor",
+      "kind": "facility",
+      "stationId": "station-2",
+      "partKey": "monitor",
+      "parentId": "station-2/desk",
+      "resource": {
+        "id": "monitor",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          -0.25
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "station-2/keyboard",
+      "kind": "facility",
+      "stationId": "station-2",
+      "partKey": "keyboard",
+      "parentId": "station-2/desk",
+      "resource": {
+        "id": "keyboard",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          0.21
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "station-2/microphone",
+      "kind": "facility",
+      "stationId": "station-2",
+      "partKey": "microphone",
+      "parentId": "station-2/desk",
+      "resource": {
+        "id": "desk-microphone",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.8,
+          0.84,
+          0.18
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "station-2/chair",
+      "kind": "facility",
+      "stationId": "station-2",
+      "partKey": "chair",
+      "parentId": "station-2",
+      "resource": {
+        "id": "chair",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0.55
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "station-2/fill-light",
+      "kind": "facility",
+      "stationId": "station-2",
+      "partKey": "fill-light",
+      "parentId": "station-2",
+      "resource": {
+        "id": "fill-light",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.75,
+          0,
+          -0.15
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "work/desk",
+      "kind": "facility",
+      "parentId": "rental/work",
+      "resource": {
+        "id": "desk",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -1.3,
+          0,
+          -0.8
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "work/chair",
+      "kind": "facility",
+      "parentId": "rental/work",
+      "resource": {
+        "id": "chair",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -1.3,
+          0,
+          0.65
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "rest/sofa",
+      "kind": "facility",
+      "parentId": "rental/rest",
+      "resource": {
+        "id": "lounge-sofa",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -1
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "public/sofa",
+      "kind": "facility",
+      "parentId": "rental/living",
+      "resource": {
+        "id": "lounge-sofa",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1.3,
+          0,
+          1
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "public/plant",
+      "kind": "facility",
+      "parentId": "rental/living",
+      "resource": {
+        "id": "plant",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -2.4,
+          0,
+          -1.6
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    }
+  ]
+}

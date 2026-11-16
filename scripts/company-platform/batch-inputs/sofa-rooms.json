@@ -1,0 +1,78 @@
+{
+  "schema": "company-batch",
+  "version": 1,
+  "items": [
+    {
+      "key": "sofa-room-original",
+      "input": {
+        "id": "batch-sofa-original",
+        "name": "休息室原版",
+        "scale": "single-room",
+        "floors": [
+          {
+            "rooms": [
+              {
+                "purpose": "rest",
+                "name": "休息室",
+                "sofaVersion": 1
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "key": "sofa-room-blue",
+      "input": {
+        "id": "batch-sofa-blue",
+        "name": "休息室木框蓝色变体",
+        "scale": "single-room",
+        "floors": [
+          {
+            "rooms": [
+              {
+                "purpose": "rest",
+                "name": "休息室",
+                "sofaVersion": 1
+              }
+            ]
+          }
+        ]
+      },
+      "operations": [
+        {
+          "type": "replace-resource",
+          "id": "batch-sofa-blue/floor-1/room-1/sofa",
+          "resource": {
+            "id": "timber-sofa",
+            "version": 1
+          }
+        },
+        {
+          "type": "move",
+          "id": "batch-sofa-blue/floor-1/room-1/sofa",
+          "transform": {
+            "position": [
+              -1,
+              0,
+              -0.5
+            ],
+            "yaw": 1.5707963267948966
+          }
+        },
+        {
+          "type": "set-appearance",
+          "id": "batch-sofa-blue/floor-1/room-1/sofa",
+          "appearance": {
+            "materials": {
+              "fabric": {
+                "color": "#345c83",
+                "roughness": 0.82
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
