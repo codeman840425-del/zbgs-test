@@ -79,7 +79,7 @@ scripts/production/asset_budget.py check，m2-technical-v1；25初版门发现op
 
 已全文读取并原字节归档research/RESOURCE-COMPRESSION-GAME-PRACTICES-2026-11-16.html和SOURCES.json；回执evidence/resource-compression-advisor-2026-11-16/receipt.json核23个顾问源码快照SHA。研究Webaverse/Hubs/MML/Hyperfy，证据边界和许可保留；不是同栈商业经营游戏通用模板，也无线上压缩率实测。关键本地复核：染色Canvas读图路径；Three187加载器支持但尚未注入解码器。采纳分层发布/输入输出独立身份与失败回退；建议试验顺序HTTP→少量纹理→视测量决定网格，不直接跑全VRM optimize。先不选编码格式/不压旧模型，继续P03依赖移交，这也是后续发布派生基础。
 
-801按需加载源和实际录屏已于256e7042b26a1c6ee82ee9551d0e1a1faf2616df推送并ls-remote一致，回执m2-lazy-outfit-room-801-v1/remote-backup.json。报告归档与整套预算的后续提交须另核远备。
+801按需加载源和实际录屏已于256e7042b26a1c6ee82ee9551d0e1a1faf2616df推送并ls-remote一致，回执m2-lazy-outfit-room-801-v1/remote-backup.json。报告归档与整套预算已随bcc9b2217123e1d06439404d2af9e4afcc909a60推送并ls-remote核实，回执resource-compression-advisor-2026-11-16/remote-backup.json。
 
 ## 当前主包：CUSTOM-P03 完整运行依赖移交
 
