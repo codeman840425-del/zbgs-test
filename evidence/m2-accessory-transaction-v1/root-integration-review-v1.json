@@ -1,0 +1,73 @@
+{
+  "reviewedRootCommits": [
+    "b8918fe64adc1cc3be2d17e714194d1d19169a13",
+    "9f0fa6d832d0a57675a3348e558974ce2fd6aa2f"
+  ],
+  "sourceSha256": {
+    "prototype/src/accessory-recipe.js": "6df67fe53aff932960fcf7d1c04a947b84abb70af3af49b3ce8907a8edb0a7f0",
+    "prototype/src/appearance-recipe.js": "8b8381dd76663daaf55e57730bec23e30bc219120a8561ef0a6d80a54ed11c4b",
+    "prototype/src/character-appearance.js": "2961da2c00012d4134c843f14e6720154ba1c20fa39866a044e2740596c0467c",
+    "prototype/src/facial-geometry.js": "6316a17f5d3cf464ccf3ce6087ae7892f3ee70d8dd449cecf0fd63474c9d1d43",
+    "prototype/src/foundation-avatar.js": "b3634ccbe0c8cba31634e3357ddc4d31281d08c85ffdf101bdd1c398febeba83",
+    "prototype/src/rigid-accessory-layer.js": "cd89002bcbed08c69e467068dbee9bbffc6ec59f55865f8ab272ecd99912102b"
+  },
+  "checks": [
+    {
+      "name": "actual foundation v8 original hair/none to exact long hair/hat/pair and back roundtrips",
+      "passed": true,
+      "notifications": 2
+    },
+    {
+      "name": "actual missing final hat resource retains all previous appearance geometry outfit and accessories",
+      "passed": true,
+      "error": "恢复配方失败，先前外观已保留：Rigid accessory HTTP 503: http://fixture.invalid/assets/m2-hat-hair-v1/baseball-cap.glb"
+    },
+    {
+      "name": "actual delayed hat plus newer ear edit cancels full recipe and preserves newer visible ear",
+      "passed": true,
+      "result": {
+        "applied": false,
+        "cancelled": true
+      }
+    },
+    {
+      "name": "legacy recipe changes compatible appearance while leaving both accessory domains and revisions untouched",
+      "passed": true
+    },
+    {
+      "name": "neutral face reset and normal expression remain allowed with current hat",
+      "passed": true
+    },
+    {
+      "name": "direct appearance preparation context cannot bypass equipped hat when caller commits only appearance",
+      "passed": false,
+      "actualHair": "original",
+      "actualHat": "single",
+      "liveDependencyError": "hat-hair-incompatible",
+      "call": "actor.appearance.prepareUpdate({hairStyle:original},{accessories:valid earsPair/hatNone}); update.commit()"
+    },
+    {
+      "name": "actual staged nonneutral face refuses final commit after concurrent hat equip",
+      "passed": true
+    },
+    {
+      "name": "actual peer actor accessory state remains independent",
+      "passed": true
+    }
+  ],
+  "findings": [
+    {
+      "name": "direct appearance preparation context cannot bypass equipped hat when caller commits only appearance",
+      "passed": false,
+      "actualHair": "original",
+      "actualHat": "single",
+      "liveDependencyError": "hat-hair-incompatible",
+      "call": "actor.appearance.prepareUpdate({hairStyle:original},{accessories:valid earsPair/hatNone}); update.commit()"
+    }
+  ],
+  "fatal": null,
+  "limits": [
+    "Actual loadFoundationAvatar, real original female VRMs and all published GLTF/fit resources. Renderer compileAsync and texture decode are CPU placeholders, with shadow rendering disabled.",
+    "Controller fixture only delegates real actor.prepareOutfit and tracks controller outfit revisions/events. No browser/GPU, surface pixel rendering or motion/visual acceptance."
+  ]
+}
