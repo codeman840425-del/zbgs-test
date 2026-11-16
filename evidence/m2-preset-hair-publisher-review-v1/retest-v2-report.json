@@ -1,0 +1,266 @@
+{
+  "baselineCommit": "1518ad14a9964cd83c51b5c14c7937aaa667eae4",
+  "implementation": "isolated publisher fix",
+  "publisherSha256": "8b3310b1a0fc3c876b9b9401c3be6fc5849861966165556b7d44719c182bf059",
+  "cases": [
+    {
+      "name": "actual-short-eight",
+      "kind": "short",
+      "expectedAccepted": true,
+      "actualAccepted": true,
+      "passed": true,
+      "publicOutputBytesUnchanged": true,
+      "exitCode": 0,
+      "stdout": "{\"published\": 8, \"catalogSHA256\": \"38e9b26af74c5331c58ad4fb3eb1218f92722f5b941875eef42ad1b346e4c86e\", \"visualAcceptance\": \"pending\"}\n",
+      "stderr": "",
+      "changes": {},
+      "publishedEntries": 8,
+      "catalogStyleIds": [
+        "female-bob-v1",
+        "male-sidepart-v1"
+      ]
+    },
+    {
+      "name": "actual-ponytail-four",
+      "kind": "ponytail",
+      "expectedAccepted": true,
+      "actualAccepted": true,
+      "passed": true,
+      "publicOutputBytesUnchanged": true,
+      "exitCode": 0,
+      "stdout": "{\"published\": 4, \"catalogSHA256\": \"2a70115b8ab03e66049079a83a45969754aa93b9327b4c61c10059234d9b8cb0\", \"visualAcceptance\": \"pending\"}\n",
+      "stderr": "",
+      "changes": {},
+      "publishedEntries": 4,
+      "catalogStyleIds": [
+        "female-ponytail-headref-v3"
+      ]
+    },
+    {
+      "name": "unhashed-fit-change",
+      "kind": "short",
+      "expectedAccepted": false,
+      "actualAccepted": false,
+      "passed": true,
+      "publicOutputBytesUnchanged": true,
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\unhashed-fit-change\\scripts\\publish-preset-short-hair.py\", line 263, in <module>\n    main()\n    ~~~~^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\unhashed-fit-change\\scripts\\publish-preset-short-hair.py\", line 230, in main\n    payloads = {name: pinned(result['source']/name, result['files'][name]) for name in names}\n                      ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\unhashed-fit-change\\scripts\\publish-preset-short-hair.py\", line 42, in pinned\n    require(digest(data) == expected, 'SHA mismatch: '+str(path))\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\unhashed-fit-change\\scripts\\publish-preset-short-hair.py\", line 25, in require\n    raise ValueError(message)\nValueError: SHA mismatch: F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\unhashed-fit-change\\assets-source\\m2-preset-short-hair-fits-v1\\ready\\female-round-full\\fit.json\n",
+      "changes": {
+        "field": "fit.sourceBodySha256",
+        "rehash": false
+      },
+      "publishedEntries": 8,
+      "catalogStyleIds": [
+        "female-bob-v1",
+        "male-sidepart-v1"
+      ]
+    },
+    {
+      "name": "consistent-wrong-source-body",
+      "kind": "short",
+      "expectedAccepted": false,
+      "actualAccepted": false,
+      "passed": true,
+      "publicOutputBytesUnchanged": true,
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\consistent-wrong-source-body\\scripts\\publish-preset-short-hair.py\", line 263, in <module>\n    main()\n    ~~~~^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\consistent-wrong-source-body\\scripts\\publish-preset-short-hair.py\", line 245, in main\n    require(fit == expected_fit, 'Fit fields differ from pinned source template')\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\consistent-wrong-source-body\\scripts\\publish-preset-short-hair.py\", line 25, in require\n    raise ValueError(message)\nValueError: Fit fields differ from pinned source template\n",
+      "changes": {
+        "field": "fit.sourceBodySha256",
+        "actual": "0000000000000000000000000000000000000000000000000000000000000000",
+        "allDeclaredFileHashesConsistent": true,
+        "originalBodyManifestUnchanged": true
+      },
+      "publishedEntries": 8,
+      "catalogStyleIds": [
+        "female-bob-v1",
+        "male-sidepart-v1"
+      ]
+    },
+    {
+      "name": "relabel-rejected-style",
+      "kind": "short",
+      "expectedAccepted": false,
+      "actualAccepted": false,
+      "passed": true,
+      "publicOutputBytesUnchanged": true,
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\relabel-rejected-style\\scripts\\publish-preset-short-hair.py\", line 263, in <module>\n    main()\n    ~~~~^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\relabel-rejected-style\\scripts\\publish-preset-short-hair.py\", line 245, in main\n    require(fit == expected_fit, 'Fit fields differ from pinned source template')\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\relabel-rejected-style\\scripts\\publish-preset-short-hair.py\", line 25, in require\n    raise ValueError(message)\nValueError: Fit fields differ from pinned source template\n",
+      "changes": {
+        "relabelledStyleId": "male-medium-curls-v1",
+        "assetGeometry": "Existing exact male-sidepart GLB retained. This probes family/style binding, without re-exporting or publishing failed curl geometry."
+      },
+      "publishedEntries": 8,
+      "catalogStyleIds": [
+        "female-bob-v1",
+        "male-sidepart-v1"
+      ]
+    },
+    {
+      "name": "conditional-empty-measurements",
+      "kind": "short",
+      "expectedAccepted": false,
+      "actualAccepted": false,
+      "passed": true,
+      "publicOutputBytesUnchanged": true,
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\conditional-empty-measurements\\scripts\\publish-preset-short-hair.py\", line 263, in <module>\n    main()\n    ~~~~^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\conditional-empty-measurements\\scripts\\publish-preset-short-hair.py\", line 243, in main\n    validate_contact(json.loads(payloads['contact-report.json']), result, reference)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\conditional-empty-measurements\\scripts\\publish-preset-short-hair.py\", line 130, in validate_contact\n    require(isinstance(measurements, list) and measurements, 'Empty contact measurements')\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\conditional-empty-measurements\\scripts\\publish-preset-short-hair.py\", line 25, in require\n    raise ValueError(message)\nValueError: Empty contact measurements\n",
+      "changes": {
+        "contactPoseCount": 55,
+        "allMeasurementListsEmpty": true,
+        "allDeclaredFileHashesConsistent": true
+      },
+      "publishedEntries": 8,
+      "catalogStyleIds": [
+        "female-bob-v1",
+        "male-sidepart-v1"
+      ]
+    },
+    {
+      "name": "conditional-zero-texel-footprints",
+      "kind": "short",
+      "expectedAccepted": false,
+      "actualAccepted": false,
+      "passed": true,
+      "publicOutputBytesUnchanged": true,
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\conditional-zero-texel-footprints\\scripts\\publish-preset-short-hair.py\", line 263, in <module>\n    main()\n    ~~~~^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\conditional-zero-texel-footprints\\scripts\\publish-preset-short-hair.py\", line 243, in main\n    validate_contact(json.loads(payloads['contact-report.json']), result, reference)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\conditional-zero-texel-footprints\\scripts\\publish-preset-short-hair.py\", line 141, in validate_contact\n    require(all(type(p['conservativeTexelFootprint']) is int and p['conservativeTexelFootprint'] > 0 and type(p['maxAlpha0To255']) is int and p['maxAlpha0To255'] == 0 for p in footprints), 'Empty or opaque contact texel footprint')\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\conditional-zero-texel-footprints\\scripts\\publish-preset-short-hair.py\", line 25, in require\n    raise ValueError(message)\nValueError: Empty or opaque contact texel footprint\n",
+      "changes": {
+        "allTexelFootprintCounts": 0,
+        "alphaFieldsRetainZero": true,
+        "allDeclaredFileHashesConsistent": true
+      },
+      "publishedEntries": 8,
+      "catalogStyleIds": [
+        "female-bob-v1",
+        "male-sidepart-v1"
+      ]
+    },
+    {
+      "name": "ponytail-reference-drift",
+      "kind": "ponytail",
+      "expectedAccepted": false,
+      "actualAccepted": false,
+      "passed": true,
+      "publicOutputBytesUnchanged": true,
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\ponytail-reference-drift\\scripts\\publish-preset-short-hair.py\", line 263, in <module>\n    main()\n    ~~~~^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\ponytail-reference-drift\\scripts\\publish-preset-short-hair.py\", line 245, in main\n    require(fit == expected_fit, 'Fit fields differ from pinned source template')\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\ponytail-reference-drift\\scripts\\publish-preset-short-hair.py\", line 25, in require\n    raise ValueError(message)\nValueError: Fit fields differ from pinned source template\n",
+      "changes": {
+        "field": "fit.dynamics.simulationReference",
+        "before": "raw-head",
+        "after": "avatar-scene",
+        "approvedSourceTemplateUnchanged": true,
+        "allDeclaredFileHashesConsistent": true
+      },
+      "publishedEntries": 4,
+      "catalogStyleIds": [
+        "female-ponytail-headref-v3"
+      ]
+    },
+    {
+      "name": "consistent-wrong-target",
+      "kind": "short",
+      "expectedAccepted": false,
+      "actualAccepted": false,
+      "passed": true,
+      "publicOutputBytesUnchanged": true,
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\consistent-wrong-target\\scripts\\publish-preset-short-hair.py\", line 263, in <module>\n    main()\n    ~~~~^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\consistent-wrong-target\\scripts\\publish-preset-short-hair.py\", line 221, in main\n    require(target['status'] == 'source-passed' and target_sha == result['targetBodySha256'] == profile['sha256'], 'Target SHA differs from body source')\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\consistent-wrong-target\\scripts\\publish-preset-short-hair.py\", line 25, in require\n    raise ValueError(message)\nValueError: Target SHA differs from body source\n",
+      "changes": {
+        "coherentCandidateAndRuntimeSHA": "1111111111111111111111111111111111111111111111111111111111111111",
+        "bodyManifestAndActualTargetBytesUnchanged": true
+      },
+      "publishedEntries": 8,
+      "catalogStyleIds": [
+        "female-bob-v1",
+        "male-sidepart-v1"
+      ]
+    },
+    {
+      "name": "conditional-wrong-pose-set",
+      "kind": "short",
+      "expectedAccepted": false,
+      "actualAccepted": false,
+      "passed": true,
+      "publicOutputBytesUnchanged": true,
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\conditional-wrong-pose-set\\scripts\\publish-preset-short-hair.py\", line 263, in <module>\n    main()\n    ~~~~^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\conditional-wrong-pose-set\\scripts\\publish-preset-short-hair.py\", line 243, in main\n    validate_contact(json.loads(payloads['contact-report.json']), result, reference)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\conditional-wrong-pose-set\\scripts\\publish-preset-short-hair.py\", line 125, in validate_contact\n    require(records and {r['pose'] for r in records} == poses, 'Contact poses must be neutral plus morph-0..53')\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\conditional-wrong-pose-set\\scripts\\publish-preset-short-hair.py\", line 25, in require\n    raise ValueError(message)\nValueError: Contact poses must be neutral plus morph-0..53\n",
+      "changes": {
+        "malformedConditionalField": "poses",
+        "allDeclaredFileHashesConsistent": true
+      },
+      "publishedEntries": 8,
+      "catalogStyleIds": [
+        "female-bob-v1",
+        "male-sidepart-v1"
+      ]
+    },
+    {
+      "name": "conditional-count-mismatch",
+      "kind": "short",
+      "expectedAccepted": false,
+      "actualAccepted": false,
+      "passed": true,
+      "publicOutputBytesUnchanged": true,
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\conditional-count-mismatch\\scripts\\publish-preset-short-hair.py\", line 263, in <module>\n    main()\n    ~~~~^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\conditional-count-mismatch\\scripts\\publish-preset-short-hair.py\", line 243, in main\n    validate_contact(json.loads(payloads['contact-report.json']), result, reference)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\conditional-count-mismatch\\scripts\\publish-preset-short-hair.py\", line 131, in validate_contact\n    require(type(summary['introducedPairs']) is int and summary['introducedPairs'] == len(measurements), 'Contact measurement count differs')\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\conditional-count-mismatch\\scripts\\publish-preset-short-hair.py\", line 25, in require\n    raise ValueError(message)\nValueError: Contact measurement count differs\n",
+      "changes": {
+        "malformedConditionalField": "counts",
+        "allDeclaredFileHashesConsistent": true
+      },
+      "publishedEntries": 8,
+      "catalogStyleIds": [
+        "female-bob-v1",
+        "male-sidepart-v1"
+      ]
+    },
+    {
+      "name": "conditional-nan-depth",
+      "kind": "short",
+      "expectedAccepted": false,
+      "actualAccepted": false,
+      "passed": true,
+      "publicOutputBytesUnchanged": true,
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\conditional-nan-depth\\scripts\\publish-preset-short-hair.py\", line 263, in <module>\n    main()\n    ~~~~^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\conditional-nan-depth\\scripts\\publish-preset-short-hair.py\", line 243, in main\n    validate_contact(json.loads(payloads['contact-report.json']), result, reference)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\conditional-nan-depth\\scripts\\publish-preset-short-hair.py\", line 138, in validate_contact\n    require(finite(depth) and depth >= 0, 'Invalid contact depth')\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-review-v1\\scratch\\retest-v2-n442xdmj\\conditional-nan-depth\\scripts\\publish-preset-short-hair.py\", line 25, in require\n    raise ValueError(message)\nValueError: Invalid contact depth\n",
+      "changes": {
+        "malformedConditionalField": "nan",
+        "allDeclaredFileHashesConsistent": true
+      },
+      "publishedEntries": 8,
+      "catalogStyleIds": [
+        "female-bob-v1",
+        "male-sidepart-v1"
+      ]
+    }
+  ],
+  "actualCurrentCatalogs": {
+    "m2-preset-short-hair-fits-v1": {
+      "entries": 8,
+      "styleIds": [
+        "female-bob-v1",
+        "male-sidepart-v1"
+      ]
+    },
+    "m2-preset-ponytail-fits-v1": {
+      "entries": 4,
+      "styleIds": [
+        "female-ponytail-headref-v3"
+      ]
+    }
+  },
+  "scope": "Exact publisher snapshot executed in private scratch roots with copied actual source JSON, conditional reports and canonical GLB bytes. Root public outputs never passed as output paths.",
+  "limits": [
+    "Mutation cases recompute declarations deliberately to test semantic identity/evidence gates beyond raw-byte corruption. These are prepared-input negative fixtures, not observed live catalog corruption.",
+    "No browser/GPU or mesh changes. Large VRM inputs use read-only hardlinks to actual local sources. Mutation functions only rewrite private JSON copies. Current actual catalog contents are checked separately."
+  ]
+}
