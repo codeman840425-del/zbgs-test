@@ -34,8 +34,10 @@ export const FOUNDATION_PROFILES = {
     ],
     // Candidate initial value only: actual upper surface/weights retained within
     // 1.195e-7; shorts still require their own posed seat/contact acceptance.
-    outfitSeatLayerThickness: { 2: 0.0036, 5: 0.009 },
-    outfitFitStatus: { 2: "candidate: retained seat geometry; shorts runtime validation pending", 5: "candidate: 9mm construction offset only; actual seated response pending" },
+    // onePiece 80e actual posed surface: zero extra lift leaves 4.41mm clearance;
+    // +10mm lift widens it to 11.84mm. Do not inherit trouser compensation.
+    outfitSeatLayerThickness: { 2: 0.0036, 5: 0 },
+    outfitFitStatus: { 2: "candidate: retained seat geometry; shorts runtime validation pending", 5: "80e actual seated garment gap 4.41mm at zero lift; continuous runtime review pending" },
     // Original male trouser surface: no female-shell offset inherited.
     // Measured male seat surface response: +10 mm pelvis -> +8.289 mm trouser underside.
     // Original fit was -1.975 mm; 3.6 mm gives approximately +1 mm clearance.
