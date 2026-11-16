@@ -3,6 +3,7 @@ const {chromium}=require('../../prototype/node_modules/playwright');
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
 const {serve}=require('./serve.cjs');
 const {verifyCandidate}=require('../qa-m1-common.cjs');
+const {execFileSync}=require('node:child_process'),os=require('node:os');
 const [dist,build,outArg,oldDist]=process.argv.slice(2),out=path.resolve(outArg||'');
 if(!dist||!/^[a-f0-9]{12}$/.test(build||'')||!outArg||!oldDist)
   throw Error('Usage: node scripts/company-platform/qa-room.cjs DIST BUILD OUTPUT ORIGINAL_4FD_DIST');
@@ -15,6 +16,7 @@ const report={build,status:'running',calibration:[],cases:[],errors:[],limits:[
   'No composite facility, layout persistence, generic placement validation or new art asset claim',
   'Numerical task/contact observations and screenshots do not replace human continuous visual acceptance']};
 let browser,current,old,context;
+function gpuSnapshot(){try{return execFileSync('nvidia-smi',['--query-gpu=name,driver_version,memory.total,memory.used,utilization.gpu,temperature.gpu','--format=csv,noheader'],{encoding:'utf8'}).trim();}catch(e){return 'unavailable: '+e.message;}}
 async function identity(page,body,b=build){return verifyCandidate(page,{build:b,...bodies[body]});}
 async function open(page,url,body,layout){
   await page.goto(`${url}?body=${body}${layout?'&companyLayout='+layout:''}`);
@@ -44,8 +46,9 @@ async function mark(page,label){await page.evaluate(label=>{
 (async()=>{
   await fs.mkdir(out,{recursive:false});await fs.copyFile(__filename,path.join(out,'executed-qa.cjs'));
   current=await serve(dist,build);old=await serve(oldDist,'4fdc1b3e1667');
+  report.fixedSourceDigest=current.info.sourceDigest;
   browser=await chromium.launch({channel:'chrome',headless:true});
-  report.environment={browser:browser.version(),platform:process.platform,viewport:[1440,900],recordingRate:'normal simulation 1x'};
+  report.environment={browser:browser.version(),platform:process.platform,os:os.release(),cpu:os.cpus()[0].model,memoryGiB:os.totalmem()/2**30,viewport:[1440,900],recordingRate:'normal simulation 1x',gpuStart:gpuSnapshot(),loadScope:'Function and normal-speed evidence on the development PC; GPU endpoints are not an isolated performance measurement.'};
   for(const body of Object.keys(bodies)){
     context=await browser.newContext({viewport:{width:1440,height:900}});const page=await context.newPage();
     page.on('pageerror',e=>report.errors.push(String(e)));
@@ -137,6 +140,18 @@ async function mark(page,label){await page.evaluate(label=>{
   });assert(report.lifecycle.checks.every(c=>c.passed),JSON.stringify(report.lifecycle.checks));
   const before=await state(page);await page.locator('#pause').click();assert.equal((await state(page)).paused,false);await page.locator('#pause').click();assert.equal((await state(page)).paused,true);
   const after=await state(page);close(before.position[0],after.position[0],'UI click should not move actor x');close(before.position[2],after.position[2],'UI click should not move actor z');
+  report.genderLinks=[];
+  for(const layout of ['room-a','room-b']){
+    await open(page,current.url,'male',layout);
+    for(const [body,label]of [['female','女性候选'],['male','男性候选']]){
+      await page.getByRole('link',{name:label,exact:true}).click();
+      await page.waitForFunction(()=>window.__debug?.ready,null,{timeout:60000});
+      const id=await identity(page,body),s=await state(page);
+      assert.equal(new URL(page.url()).searchParams.get('companyLayout'),layout,'Gender link preserves selected layout');
+      assert.equal(s.layout.layout.id,layout);assert.equal(s.layout.layout.initialization,'layout-owned');
+      report.genderLinks.push({layout,body,identity:id,chair:s.chair});
+    }
+  }
   await context.close();context=null;assert.equal(report.errors.length,0);report.status='passed';
 })().catch(e=>{report.status='failed';report.error=String(e);report.stack=e.stack;console.error(e);process.exitCode=1;})
-.finally(async()=>{if(context)await context.close();if(browser)await browser.close();if(current)await current.close();if(old)await old.close();await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));console.log(path.join(out,'report.json'));});
+.finally(async()=>{if(report.environment)report.environment.gpuEnd=gpuSnapshot();if(context)await context.close();if(browser)await browser.close();if(current)await current.close();if(old)await old.close();await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));console.log(path.join(out,'report.json'));});

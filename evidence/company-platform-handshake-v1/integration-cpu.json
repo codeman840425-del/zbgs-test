@@ -1,0 +1,177 @@
+{
+  "schema": "company-platform-handshake-integration-cpu-v1",
+  "roleBaseCommit": "a40403857df58e2b2cff345bd6d2da34b6711111",
+  "deputyImplementation": "a183bd2db7499c0f030178582335caa9a4025a15",
+  "deputyQaCommit": "1c3a49c5eec914eff205232f1ffd2f27aeecd642",
+  "integrationCommit": "c4b799d131dcb372ab3a740bff81e817a95ec626",
+  "passed": true,
+  "checks": [
+    {
+      "name": "all three exact role retarget calls and explicit floor inputs preserved",
+      "passed": true,
+      "calls": [
+        "const clips = await loadRetargetedMotions(a.vrm,{avatarSha256:a.getAssetProfile().sha256,targetFloorY:a.root.getWorldPosition(new THREE.Vector3()).y});",
+        "const clips = await loadRetargetedMotions(nextAvatar.vrm,{avatarSha256:nextAvatar.profile.sha256,targetFloorY:nextAvatar.root.getWorldPosition(new THREE.Vector3()).y});",
+        "const motions = await loadRetargetedMotions(avatar.vrm,{avatarSha256:avatar.getAssetProfile?.().sha256,targetFloorY:avatar.root.getWorldPosition(new THREE.Vector3()).y});"
+      ]
+    },
+    {
+      "name": "CharacterScene movement actions behavior and lease integration unchanged",
+      "passed": true,
+      "canonicalLfSha256": "7d79a2aacee619f8901ddf6cdfa8735cefaa17fe3ecb2a406fd58eafe7e6b9f6",
+      "characters": 42304
+    },
+    {
+      "name": "navigation steering blocking space and paths unchanged",
+      "passed": true,
+      "canonicalLfSha256": "0b26915378d023ef133b88df3a177f59dc1950359efc1aa4b79b2add78c78f65",
+      "characters": 5679
+    },
+    {
+      "name": "chair collider refresh targets and transform seam unchanged",
+      "passed": true,
+      "canonicalLfSha256": "d6fc31fc98ba75b3accacc46f05afd43455c6e955c9f26f15c3a10f934654ad1",
+      "characters": 3603
+    },
+    {
+      "name": "prototype/src/motion-source.js exact tracked source preserved",
+      "passed": true,
+      "gitBlob": "d0ae0f9feda3df28db04c464e7e3212a5491a39a",
+      "workingSha256": "28b9e21ca91a6aab72b78815e6c19d004b58ab7a019b57a699f7d510738af3ef"
+    },
+    {
+      "name": "prototype/src/motion.js exact tracked source preserved",
+      "passed": true,
+      "gitBlob": "fc6f67afd26c68a159604dcd5a98b1c95c141bad",
+      "workingSha256": "22cf4adaa1b5cb0839150c1e6ce00cd33b895c28f737b6b60343081ee34308fb"
+    },
+    {
+      "name": "prototype/src/seat-lease.js exact tracked source preserved",
+      "passed": true,
+      "gitBlob": "cb2b8c5449c820f31fa33dbd08dd15b225defd8a",
+      "workingSha256": "7bfde9e1db1631d4f387347c986cd367c22280cf74245bf2416e1da6690c6048"
+    },
+    {
+      "name": "prototype/src/behavior-tasks.js exact tracked source preserved",
+      "passed": true,
+      "gitBlob": "d7f3096135d55d44e23fd54a78cf9fc5121ca94c",
+      "workingSha256": "48bea3db65a6e78bb5444916d004c188eac1c26e7928d58c337addf7512f53a8"
+    },
+    {
+      "name": "prototype/src/foundation-avatar.js exact tracked source preserved",
+      "passed": true,
+      "gitBlob": "f31615b5bbca64a479285782c279976ef799f2cd",
+      "workingSha256": "1e4fc70628eda85a2ecbb09dec6eb6d48706edefa3540707210784d196945807"
+    },
+    {
+      "name": "prototype/src/foundation-profiles.js exact tracked source preserved",
+      "passed": true,
+      "gitBlob": "18dd8f2abcc097170a4806d89fc44cb1362262cb",
+      "workingSha256": "367759af871eb5f27f661f076ab7a9d6118a3d74c38bc088638ebe7870be1a85"
+    },
+    {
+      "name": "prototype/src/company/room.js matches deputy implementation",
+      "passed": true,
+      "gitBlob": "5ebae59db2549f83a0d11a6a93052f3d7eddb4c1",
+      "workingSha256": "062f9fda49a0da9ea2daa891e723aa2e0afa98d53f175d938a5ba967e28fd640"
+    },
+    {
+      "name": "prototype/src/company/resources.json matches deputy implementation",
+      "passed": true,
+      "gitBlob": "50bf97c16ef7427e556827b8bfbd7df9de780389",
+      "workingSha256": "9a55c30df1c4492e1e470b6b1e5e988b4f67024ac9979c85bfc4050437b7f22e"
+    },
+    {
+      "name": "prototype/src/company/layouts.json matches deputy implementation",
+      "passed": true,
+      "gitBlob": "2bfbc596c51bb48ef2eb4731051090a63c86e90a",
+      "workingSha256": "b40a462e77cbe454c1435f16c5cfd1e05ec5a8072de86bc23f56a5148c279eb6"
+    },
+    {
+      "name": "complete main change is exactly room seam plus approved body-link layout retention",
+      "passed": true,
+      "canonicalLfSha256": "d6b90213be1e7d8acd1917f7d90c68fb365e324de8be2f683d1c3297c318b64f"
+    },
+    {
+      "name": "actual body-link construction empty query",
+      "passed": true,
+      "links": [
+        "?body=female",
+        "?body=male"
+      ]
+    },
+    {
+      "name": "actual body-link construction ?body=male",
+      "passed": true,
+      "links": [
+        "?body=female",
+        "?body=male"
+      ]
+    },
+    {
+      "name": "actual body-link construction ?companyLayout=legacy",
+      "passed": true,
+      "links": [
+        "?body=female",
+        "?body=male"
+      ]
+    },
+    {
+      "name": "actual body-link construction ?companyLayout=unknown",
+      "passed": true,
+      "links": [
+        "?body=female",
+        "?body=male"
+      ]
+    },
+    {
+      "name": "actual body-link construction ?companyLayout=room-a",
+      "passed": true,
+      "links": [
+        "?body=female&companyLayout=room-a",
+        "?body=male&companyLayout=room-a"
+      ]
+    },
+    {
+      "name": "actual body-link construction ?companyLayout=room-b&workbench=appearance",
+      "passed": true,
+      "links": [
+        "?body=female&companyLayout=room-b",
+        "?body=male&companyLayout=room-b"
+      ]
+    },
+    {
+      "name": "deputy latest QA requires completed stand task",
+      "passed": true
+    },
+    {
+      "name": "deputy latest QA compares same-body original4fd seated pelvis height",
+      "passed": true
+    },
+    {
+      "name": "runtime source scope is exactly four agreed files",
+      "passed": true,
+      "implementationPaths": [
+        "prototype/src/company/layouts.json",
+        "prototype/src/company/resources.json",
+        "prototype/src/company/room.js",
+        "prototype/src/main.js"
+      ]
+    },
+    {
+      "name": "actual imported room CPU geometry review passes",
+      "passed": true,
+      "checks": 17
+    },
+    {
+      "name": "fixed runtime inputs remain clean after CPU review",
+      "passed": true,
+      "dirty": ""
+    }
+  ],
+  "failures": [],
+  "limits": [
+    "Static exact-source scope and actual Three CPU room geometry checks only. No browser or GPU was started.",
+    "Company browser and normal1x acceptance belong to the deputy using this integration identity. No ordinary-device performance qualification."
+  ]
+}
