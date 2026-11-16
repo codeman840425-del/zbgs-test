@@ -1,0 +1,119 @@
+{
+  "status": "passed",
+  "configuration": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "reuseKnownConfiguration": true,
+    "difficulty": "complex",
+    "reason": "Targeted original-failure retest and parent surface attachment invariants",
+    "actualProviderConfiguration": "not independently verified",
+    "desktopHookInterception": "not independently verified"
+  },
+  "inputs": [
+    {
+      "path": "prototype/src/company/document.js",
+      "sha256": "34dd3186c1d7b2bd2c49e0a85b8807173d7c5537f8962904a462a9a3285e53ab"
+    },
+    {
+      "path": "prototype/src/company/facility-catalog.json",
+      "sha256": "1bb239e08fa8bb466eaa048a69ec15b23be1d033a7db44604b639f91e8d283ad"
+    },
+    {
+      "path": "prototype/src/company/templates.json",
+      "sha256": "c5d7e3c573df6b8f88c54c553f02dba3db96ae76c9c2bb8e677e2a67cb0dfa53"
+    }
+  ],
+  "checks": [
+    {
+      "name": "Original failure fixed: valid arbitrary stable part IDs copy with edits and parent identity preserved",
+      "passed": true,
+      "details": {
+        "newUsePoint": "station-copy/chair#seat",
+        "sourceUsePoint": "asset-chair#seat"
+      }
+    },
+    {
+      "name": "Original failure fixed: required desk cannot become keyboard",
+      "passed": true,
+      "details": {
+        "expectedError": "incompatible-replacement",
+        "inputUnchanged": true
+      }
+    },
+    {
+      "name": "Original failure fixed: restore rejects chair slot without its seat contract",
+      "passed": true,
+      "details": {
+        "expectedError": "incompatible-template-part"
+      }
+    },
+    {
+      "name": "Changed declared desk height rejects unadapted devices and keeps original",
+      "passed": true,
+      "details": {
+        "expectedError": "invalid-surface-fit",
+        "inputUnchanged": true
+      }
+    },
+    {
+      "name": "Narrower declared desk surface rejects microphone mount beyond its edge",
+      "passed": true,
+      "details": {
+        "expectedError": "invalid-surface-fit",
+        "inputUnchanged": true
+      }
+    },
+    {
+      "name": "Desk with missing declared support rejects attached devices",
+      "passed": true,
+      "details": {
+        "expectedError": "missing-mount-surface",
+        "inputUnchanged": true
+      }
+    },
+    {
+      "name": "Compatible declared desk contract replacement preserves edited local assembly",
+      "passed": true,
+      "details": {
+        "scope": "Synthetic catalog metadata contract input only, with identical geometry and support dimensions."
+      }
+    },
+    {
+      "name": "Local monitor height change rejects floating installation",
+      "passed": true,
+      "details": {
+        "expectedError": "invalid-surface-fit",
+        "inputUnchanged": true
+      }
+    },
+    {
+      "name": "Local monitor origin outside support rejects in X and Z",
+      "passed": true,
+      "details": {
+        "testedAxes": [
+          "X",
+          "Z"
+        ]
+      }
+    },
+    {
+      "name": "Legal local monitor edit remains supported after parent desk quarter-turn",
+      "passed": true,
+      "details": {
+        "world": {
+          "position": [
+            -1.65,
+            0.84,
+            -1
+          ],
+          "yaw": 3.141592653589793
+        }
+      }
+    }
+  ],
+  "scope": "Only three original failures and affected surface/assembly checks. Original initial-report.json retained.",
+  "limits": [
+    "CPU authoring data only. Synthetic catalog variants test declared surface compatibility and are not new produced art assets.",
+    "Mount checks establish declared installation origin height and XZ bounds. They do not establish full device geometry containment, physical support, actor reach or browser behavior."
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "scope": "Independent CPU data-only review",
+  "configuration": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "reuseKnownConfiguration": true,
+    "difficulty": "complex",
+    "reason": "Identity, parent frames, compound busy transactions and atomic recovery invariants",
+    "actualProviderConfiguration": "not independently verified",
+    "desktopHookInterception": "not independently verified"
+  },
+  "inputs": [
+    {
+      "path": "prototype/src/company/document.js",
+      "sha256": "e8b0aa12abb00c8bc349f5896442d310c059563847cdaf99efeed3c679bd2ef9"
+    },
+    {
+      "path": "prototype/src/company/facility-catalog.json",
+      "sha256": "9aa1f9c0be2fcade90ee1097d8fa18658591788170e2d5418a2aa271945e48a7"
+    },
+    {
+      "path": "prototype/src/company/templates.json",
+      "sha256": "9ea2cdb1ccb8dc54b36b4f7b805eae534d03775ad4306a5c3572f6708cfe329d"
+    },
+    {
+      "path": "scripts/company-platform/company.mjs",
+      "sha256": "fca92f39f90a68b6bf502c0c1cb19678329525a2bda1fd48cbaaa222b9046687"
+    }
+  ],
+  "rows": [
+    {
+      "name": "Parent rotation and local desk edit preserve independent siblings",
+      "status": "passed",
+      "monitorWorld": {
+        "position": [
+          -2.6,
+          0.84,
+          0.24999999999999994
+        ],
+        "yaw": 3.141592653589793
+      }
+    },
+    {
+      "name": "Busy direct chair move",
+      "status": "passed",
+      "expectedError": "facility-busy",
+      "inputUnchanged": true
+    },
+    {
+      "name": "Busy room ancestor move",
+      "status": "passed",
+      "expectedError": "facility-busy",
+      "inputUnchanged": true
+    },
+    {
+      "name": "Busy remove then recreate same station",
+      "status": "passed",
+      "expectedError": "facility-busy",
+      "inputUnchanged": true
+    },
+    {
+      "name": "Busy no-op replacement still rejects",
+      "status": "passed",
+      "expectedError": "facility-busy",
+      "inputUnchanged": true
+    },
+    {
+      "name": "Busy move then inverse move cannot erase affected set",
+      "status": "passed",
+      "expectedError": "facility-busy",
+      "inputUnchanged": true
+    },
+    {
+      "name": "Copy retains actual local edits and mutable state with independent new identities",
+      "status": "passed",
+      "instanceCount": 16
+    },
+    {
+      "name": "Restored valid stable IDs need not have a station prefix but copy assumes one",
+      "status": "defect-reproduced",
+      "code": "duplicate-instance",
+      "message": "duplicate-instance at station-copy: Instance identity must be globally unique",
+      "validInputAcceptedByRestore": true,
+      "expected": "Copy a valid document with unique IDs based on the actual graph rather than slicing an undeclared ID prefix"
+    },
+    {
+      "name": "Replacing required supporting desk with keyboard retains floating children",
+      "status": "defect-reproduced",
+      "replacementAccepted": true,
+      "supportResource": "keyboard",
+      "monitorWorld": {
+        "position": [
+          -1.5,
+          0.84,
+          -1.15
+        ],
+        "yaw": 0
+      },
+      "keyboardResourceOrigin": "Support plane at original desk top, centred in XZ.",
+      "expected": "Reject replacement that removes the declared desktop support needed by attached devices"
+    },
+    {
+      "name": "Restore accepts a template chair part pointing at a keyboard resource",
+      "status": "defect-reproduced",
+      "accepted": true,
+      "usePointCount": 0,
+      "expected": "Restore must enforce template part compatibility as well as member identity and attachment"
+    },
+    {
+      "name": "Required part membership cannot migrate to another existing station",
+      "status": "passed"
+    },
+    {
+      "name": "Failed later operation preserves original and no prefix of the transaction commits",
+      "status": "passed",
+      "expectedError": "outside-room",
+      "inputUnchanged": true
+    },
+    {
+      "name": "Serialization restores independent authoring data without using an occupancy callback",
+      "status": "passed",
+      "scope": "Only document data is restored. No runtime seat reservation API exists in this module."
+    },
+    {
+      "name": "CLI existing-output collision keeps source and output bytes",
+      "status": "passed",
+      "source": "F:\\gamemake-company-platform-c1\\evidence\\company-c1-document-independent-v1\\cli-source.json",
+      "operations": "F:\\gamemake-company-platform-c1\\evidence\\company-c1-document-independent-v1\\cli-operations.json",
+      "output": "F:\\gamemake-company-platform-c1\\evidence\\company-c1-document-independent-v1\\cli-existing.json",
+      "exitCode": 1,
+      "stderr": "{\n  \"ok\": false,\n  \"code\": \"EEXIST\",\n  \"path\": \"F:\\\\gamemake-company-platform-c1\\\\evidence\\\\company-c1-document-independent-v1\\\\cli-existing.json\",\n  \"message\": \"EEXIST: file already exists, open 'F:\\\\gamemake-company-platform-c1\\\\evidence\\\\company-c1-document-independent-v1\\\\cli-existing.json'\"\n}"
+    }
+  ],
+  "limits": [
+    "No browser, GPU, real character, navigation or physical placement claim. C2 common navigation/room placement remains outside this data-only review.",
+    "No runtime occupancy is restored by document.js. Full application state restoration requires scene/actor integration checks."
+  ]
+}

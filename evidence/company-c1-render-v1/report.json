@@ -1,0 +1,44 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "name": "Two independent actual contact meshes resolve by stable use-point identity",
+      "passed": true
+    },
+    {
+      "name": "Desk transform prepares off-scene then commits all attached real meshes",
+      "passed": true
+    },
+    {
+      "name": "Screen material and real spot-light intensity change with only one instance state",
+      "passed": true
+    },
+    {
+      "name": "Commit rechecks a lease acquired after preparation and retains current scene",
+      "passed": true
+    },
+    {
+      "name": "Stale prepared candidate cannot roll back a later screen edit",
+      "passed": true
+    },
+    {
+      "name": "Restore is whole-document and cannot silently replace occupied furniture",
+      "passed": true
+    },
+    {
+      "name": "Failed resource construction preserves the live scene before any publication",
+      "passed": true
+    },
+    {
+      "name": "Prepared preview document is isolated from the actual staged commit",
+      "passed": true
+    },
+    {
+      "name": "Scene disposal removes its resources and rejects further edits",
+      "passed": true
+    }
+  ],
+  "limits": [
+    "Actual Three meshes/materials/lights under CPU only. No WebGL image, character usage, navigation or browser close/reopen proof yet."
+  ]
+}

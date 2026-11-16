@@ -1,0 +1,23 @@
+# C1渲染生命周期独立CPU审查
+
+本轮继续已知显式请求配置gpt-6.1-sol/high，任务难度complex，检查真实Three资源生命周期、候选原子切换与占用座面引用。实际provider配置和桌面Hook拦截未独立验证。
+
+使用真实Three r187对象与dispose事件执行9个独立案例，5项通过，4项复现缺陷。初始失败保存在initial-report.json，包含输入SHA，复现入口为本目录reproduce.mjs。未改产品、提交Git或运行浏览器/GPU。
+
+## 实际复现缺陷
+
+1. scene.dispose仅清理current。prepareChange创建的未提交候选存于WeakMap，场景销毁时仍有47个geometry和47个material未收到dispose。后续显式discard才能清掉它们。候选需要可枚举的所有权集合，场景销毁应统一清理并使handle失效。
+
+2. buildResource的group递归尚未返回并挂到外层root时，后续子节点构造失败。第一子mesh已创建但仅挂在局部group内，build的catch清外root时无法找到它。独立坏资源在第二子节点触发unsupported-geometry，实测漏掉1个geometry和1个material，当前有效场景仍保留。局部构造失败也应清理已创建分支。
+
+3. prepare屏幕1关闭的候选后，restore一份相同revision但屏幕2关闭的文档，再commit旧handle。提交没有错误，屏幕2实际材质重新点亮，恢复状态被旧快照覆盖。仅比较文档revision无法区分恢复前后身份，需在restore时使旧候选失效或检查场景generation。
+
+4. 有效存档省略chair.state后，空set-state变更把该字段规范成空对象。busy回调为true仍可提交，install因节点JSON变化重造座面，原chairSeat geometry收到dispose，原座面引用被替换。应以影响座面身份/几何的语义判断复用，或在无法保留引用时拒绝忙碌设施变更。
+
+## 实际通过范围
+
+显式discard释放全部候选geometry/material并拒绝再次commit。提交前新租约正确拒绝移动且保持有效场景与座面。常规revision过时的候选不能提交，显式discard后资源清理完整。无关屏幕变更保持两个占用座面引用且无dispose。
+
+合成目录增加第二usePoint并别名到同组实际seat/back网格后，无关状态编辑同时保留两个引用。此例仅检验共享facility引用更新，未验证独立沙发座位几何、多人接触或占用行为。
+
+本证据为CPU对象与释放事件。WebGL图像、浏览器行为、GPU成本和真实角色使用均未由本审查建立。

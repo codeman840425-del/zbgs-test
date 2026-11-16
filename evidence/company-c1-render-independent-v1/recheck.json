@@ -1,0 +1,102 @@
+{
+  "configuration": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "reuseKnownConfiguration": true,
+    "difficulty": "complex",
+    "reason": "Actual Three resource lifecycle, atomic publication and occupied contact references",
+    "actualProviderConfiguration": "not independently verified",
+    "desktopHookInterception": "not independently verified"
+  },
+  "threeRevision": "187",
+  "inputs": [
+    {
+      "path": "prototype/src/company/render.js",
+      "sha256": "2532fb3ac0244d52514fd961be8cebe91bbecbfd45a134db0518946549d5e132"
+    },
+    {
+      "path": "prototype/src/company/document.js",
+      "sha256": "34dd3186c1d7b2bd2c49e0a85b8807173d7c5537f8962904a462a9a3285e53ab"
+    },
+    {
+      "path": "prototype/src/company/facility-catalog.json",
+      "sha256": "1bb239e08fa8bb466eaa048a69ec15b23be1d033a7db44604b639f91e8d283ad"
+    },
+    {
+      "path": "prototype/src/company/templates.json",
+      "sha256": "c5d7e3c573df6b8f88c54c553f02dba3db96ae76c9c2bb8e677e2a67cb0dfa53"
+    }
+  ],
+  "rows": [
+    {
+      "name": "Explicit discard cleans prepared actual Three allocations and prevents commit",
+      "status": "passed",
+      "before": {
+        "geometryCreated": 47,
+        "geometryDisposed": 0,
+        "geometryUndisposed": 47,
+        "materialCreated": 47,
+        "materialDisposed": 0,
+        "materialUndisposed": 47
+      },
+      "after": {
+        "geometryCreated": 47,
+        "geometryDisposed": 47,
+        "geometryUndisposed": 0,
+        "materialCreated": 47,
+        "materialDisposed": 47,
+        "materialUndisposed": 0
+      }
+    },
+    {
+      "name": "Unrelated screen update keeps both occupied seat mesh references alive",
+      "status": "passed"
+    },
+    {
+      "name": "Disposing a scene also owns outstanding staged candidate resources",
+      "status": "passed",
+      "resourcesAfterSceneDispose": {
+        "geometryCreated": 47,
+        "geometryDisposed": 47,
+        "geometryUndisposed": 0,
+        "materialCreated": 47,
+        "materialDisposed": 47,
+        "materialUndisposed": 0
+      },
+      "expected": "All staged candidate resources must be disposed with their owning scene"
+    },
+    {
+      "name": "Partial recursive resource failure cleans meshes already built inside unattached groups",
+      "status": "passed",
+      "resources": {
+        "geometryCreated": 4,
+        "geometryDisposed": 4,
+        "geometryUndisposed": 0,
+        "materialCreated": 4,
+        "materialDisposed": 4,
+        "materialUndisposed": 0
+      },
+      "liveSceneRetained": true
+    },
+    {
+      "name": "Restore invalidates candidates from a previous document even when revision numbers match",
+      "status": "passed",
+      "commitError": "revision-conflict",
+      "unrelatedRestoredMonitorOn": false,
+      "expected": "Pre-restore candidate must not overwrite the restored state"
+    },
+    {
+      "name": "Valid legacy document omitting empty chair state survives no-op state edit while occupied",
+      "status": "passed",
+      "seatReferencePreserved": true,
+      "oldSeatGeometryDisposeEvents": 0,
+      "expected": "A semantic no-op state edit must preserve occupied contacts or be rejected"
+    }
+  ],
+  "limits": [
+    "Actual Three CPU objects and real dispose events. No WebGL/browser/GPU or physical actor usage validation.",
+    "Synthetic malformed resource and alias use points test resource ownership/reference behavior only. They do not establish new production assets or independent multi-slot interaction."
+  ],
+  "scope": "Targeted four original failures plus explicit discard and unrelated state edit. Initial failure evidence retained.",
+  "status": "passed"
+}

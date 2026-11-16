@@ -1,0 +1,125 @@
+{
+  "id": "company-templates",
+  "version": 1,
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Station ground centre."
+  },
+  "templates": [
+    {
+      "id": "stream-station",
+      "version": 1,
+      "assumptions": [
+        "Candidate arrangement. Actor reach, seat alignment and microphone contact require runtime verification.",
+        "Devices use desk ground-centre coordinates. Their Y=0.84 denotes the desk surface.",
+        "Chair faces -Z toward desk and screen. Station +Z points toward seated user."
+      ],
+      "parts": [
+        {
+          "key": "desk",
+          "parentKey": null,
+          "requiredRole": "desk",
+          "resource": {
+            "id": "desk",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0,
+              0,
+              -0.9
+            ],
+            "yaw": 0
+          }
+        },
+        {
+          "key": "monitor",
+          "parentKey": "desk",
+          "requiredRole": "monitor",
+          "resource": {
+            "id": "monitor",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0,
+              0.84,
+              -0.25
+            ],
+            "yaw": 0
+          }
+        },
+        {
+          "key": "keyboard",
+          "parentKey": "desk",
+          "requiredRole": "keyboard",
+          "resource": {
+            "id": "keyboard",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0,
+              0.84,
+              0.21
+            ],
+            "yaw": 0
+          }
+        },
+        {
+          "key": "microphone",
+          "parentKey": "desk",
+          "requiredRole": "desk-microphone",
+          "resource": {
+            "id": "desk-microphone",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -0.8,
+              0.84,
+              0.18
+            ],
+            "yaw": 0
+          }
+        },
+        {
+          "key": "chair",
+          "parentKey": null,
+          "requiredRole": "chair",
+          "resource": {
+            "id": "chair",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0,
+              0,
+              0.55
+            ],
+            "yaw": 3.141592653589793
+          }
+        },
+        {
+          "key": "fill-light",
+          "parentKey": null,
+          "requiredRole": "fill-light",
+          "resource": {
+            "id": "fill-light",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -0.75,
+              0,
+              -0.15
+            ],
+            "yaw": 0
+          }
+        }
+      ]
+    }
+  ]
+}

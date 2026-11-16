@@ -1,0 +1,114 @@
+{
+  "id": "company-c1-catalog-cpu-v1",
+  "sourceSha256": "9a55c30df1c4492e1e470b6b1e5e988b4f67024ac9979c85bfc4050437b7f22e",
+  "dispatch": {
+    "difficulty": "standard",
+    "model": "sol (parent-confirmed shorthand)",
+    "reasoning_effort": "medium",
+    "reason": "Bounded catalog role and mount metadata correction with deterministic CPU validation.",
+    "verificationScope": "Parent-confirmed existing agent configuration. Host hook interception is unverified here."
+  },
+  "validation": "CPU geometry only",
+  "splitChecks": [
+    {
+      "resourceId": "desk",
+      "vertices": 120,
+      "restoredOriginalOrigin": [
+        1.15,
+        0,
+        -1.95
+      ]
+    },
+    {
+      "resourceId": "monitor",
+      "vertices": 96,
+      "restoredOriginalOrigin": [
+        1.15,
+        0.84,
+        -2.2
+      ]
+    },
+    {
+      "resourceId": "keyboard",
+      "vertices": 24,
+      "restoredOriginalOrigin": [
+        1.15,
+        0.84,
+        -1.74
+      ]
+    },
+    {
+      "resourceId": "desk-microphone",
+      "vertices": 378,
+      "restoredOriginalOrigin": [
+        0.35,
+        0.84,
+        -1.77
+      ]
+    },
+    {
+      "resourceId": "chair",
+      "vertices": 144,
+      "restoredOriginalOrigin": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "resourceId": "plant",
+      "vertices": 1548,
+      "restoredOriginalOrigin": [
+        -3.7,
+        0,
+        -2.8
+      ]
+    }
+  ],
+  "vertexCount": 2310,
+  "maxVertexErrorMetres": 5.551115123125783e-17,
+  "resourceCount": 7,
+  "twoStationBounds": [
+    {
+      "groundOrigin": [
+        -1.5,
+        0,
+        0
+      ],
+      "min": [
+        -2.5,
+        -4.768371586472142e-9,
+        -1.4
+      ],
+      "max": [
+        -0.5,
+        1.8700000017881393,
+        0.8050000001490116
+      ]
+    },
+    {
+      "groundOrigin": [
+        1.5,
+        0,
+        0
+      ],
+      "min": [
+        0.5,
+        -4.768371586472142e-9,
+        -1.4
+      ],
+      "max": [
+        2.5,
+        1.8700000017881393,
+        0.8050000001490116
+      ]
+    }
+  ],
+  "limitations": [
+    "No actor, reach, microphone use, browser or GPU acceptance performed.",
+    "Legacy monitor foot bottom is 0.8345m and keyboard bottom is 0.8385m against 0.84m desktop. Original overlaps retained.",
+    "Legacy chair mesh seat top is 0.475m. Requested use-point seatHeight is 0.47m.",
+    "Desktop cup is intentionally excluded from station resources. Plant is standalone decor.",
+    "Fill light output, aim and collision need runtime review. Room placement is owned by the layout."
+  ]
+}
