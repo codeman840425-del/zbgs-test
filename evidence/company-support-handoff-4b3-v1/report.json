@@ -1,0 +1,54 @@
+{
+  "package": "F:\\gamemake-company-support-delivery-4b3",
+  "status": "passed",
+  "checks": [
+    {
+      "name": "All standalone package files match their manifest",
+      "passed": true,
+      "result": {
+        "files": 491
+      }
+    },
+    {
+      "name": "Standalone edit rejects overhang and reattaches a prop using pinned support dependencies",
+      "passed": true,
+      "result": {
+        "rejection": "invalid-support-fit",
+        "edited": {
+          "ok": true,
+          "id": "appearance-storage-shelf",
+          "revision": 3,
+          "floors": [
+            "appearance-storage-shelf/floor-1"
+          ],
+          "output": "F:\\gamemake-company-platform-c1\\evidence\\company-support-handoff-4b3-v1\\edited"
+        }
+      }
+    },
+    {
+      "name": "Independent viewer loads edited support geometry and saves without source-tree asset requests",
+      "passed": true,
+      "result": {
+        "requests": [
+          "http://127.0.0.1:57289/company-assets/support-collection-v1/shelves/frame-posts/v1/model.glb",
+          "http://127.0.0.1:57289/company-assets/support-collection-v1/ornaments/stacked-stones/v1/model.glb",
+          "http://127.0.0.1:57289/company-assets/support-collection-v1/ornaments/arched-sculpture/v1/model.glb",
+          "http://127.0.0.1:57289/company-assets/support-collection-v1/ornaments/vase/v1/model.glb",
+          "http://127.0.0.1:57289/company-assets/support-collection-v1/ornaments/geometric-sculpture/v1/model.glb"
+        ]
+      }
+    },
+    {
+      "name": "Separate browser restart restores exact attachment IDs and transforms",
+      "passed": true,
+      "result": {
+        "nodes": 17,
+        "attachments": 6
+      }
+    }
+  ],
+  "limits": [
+    "Software rendering; not ordinary-PC, character or offline npm-install proof"
+  ],
+  "build": "4b3ceab3e56f"
+}

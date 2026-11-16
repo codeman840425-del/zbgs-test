@@ -1,0 +1,420 @@
+{
+  "schema": "company-save",
+  "version": 1,
+  "document": {
+    "schema": "company-layout",
+    "version": 1,
+    "id": "support-alternate",
+    "name": "多层承载 · 转向布局",
+    "revision": 3,
+    "scale": "single-room",
+    "catalog": {
+      "id": "company-facilities",
+      "version": 1
+    },
+    "nodes": [
+      {
+        "id": "support-alternate/floor-1",
+        "kind": "floor",
+        "parentId": "support-alternate",
+        "name": "一层",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "support-alternate/room-1",
+        "kind": "room",
+        "parentId": "support-alternate/floor-1",
+        "name": "直播间",
+        "purpose": "streaming",
+        "bounds": {
+          "width": 7,
+          "depth": 5.25
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        },
+        "entry": {
+          "position": [
+            2.4,
+            0,
+            1.9
+          ]
+        }
+      },
+      {
+        "id": "support/station",
+        "kind": "workstation",
+        "parentId": "support-alternate/room-1",
+        "name": "support/station",
+        "transform": {
+          "position": [
+            -1.4,
+            0,
+            0
+          ],
+          "yaw": 0
+        },
+        "template": {
+          "id": "stream-station",
+          "version": 1
+        }
+      },
+      {
+        "id": "support/station/desk",
+        "kind": "facility",
+        "stationId": "support/station",
+        "partKey": "desk",
+        "parentId": "support/station",
+        "resource": {
+          "id": "desk",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            -0.9
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "support/station/monitor",
+        "kind": "facility",
+        "stationId": "support/station",
+        "partKey": "monitor",
+        "parentId": "support/station/desk",
+        "resource": {
+          "id": "monitor",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0.84,
+            -0.25
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "support/station/keyboard",
+        "kind": "facility",
+        "stationId": "support/station",
+        "partKey": "keyboard",
+        "parentId": "support/station/desk",
+        "resource": {
+          "id": "keyboard",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0.84,
+            0.21
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "support/station/microphone",
+        "kind": "facility",
+        "stationId": "support/station",
+        "partKey": "microphone",
+        "parentId": "support/station/desk",
+        "resource": {
+          "id": "desk-microphone",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.8,
+            0.84,
+            0.18
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "support/station/chair",
+        "kind": "facility",
+        "stationId": "support/station",
+        "partKey": "chair",
+        "parentId": "support/station",
+        "resource": {
+          "id": "chair",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0.55
+          ],
+          "yaw": 3.141592653589793
+        },
+        "state": {}
+      },
+      {
+        "id": "support/station/fill-light",
+        "kind": "facility",
+        "stationId": "support/station",
+        "partKey": "fill-light",
+        "parentId": "support/station",
+        "resource": {
+          "id": "fill-light",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.75,
+            0,
+            -0.15
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "support/shelf",
+        "kind": "facility",
+        "parentId": "support/display",
+        "resource": {
+          "id": "support-shelf-frame-posts",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            1.7,
+            0,
+            -0.4
+          ],
+          "yaw": 1.5707963267948966
+        },
+        "state": {}
+      },
+      {
+        "id": "support/prop-lower-left",
+        "kind": "facility",
+        "parentId": "support/shelf",
+        "resource": {
+          "id": "tabletop-ornament-stacked-stones",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            1.05,
+            0
+          ],
+          "yaw": 1.5707963267948966
+        },
+        "state": {},
+        "attachment": {
+          "surfaceId": "middle"
+        }
+      },
+      {
+        "id": "support/prop-lower-right",
+        "kind": "facility",
+        "parentId": "support/shelf",
+        "resource": {
+          "id": "tabletop-ornament-arched-sculpture",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0.23,
+            0.45,
+            0
+          ],
+          "yaw": 0
+        },
+        "state": {},
+        "attachment": {
+          "surfaceId": "lower"
+        }
+      },
+      {
+        "id": "support/prop-middle-left",
+        "kind": "facility",
+        "parentId": "support/shelf",
+        "resource": {
+          "id": "tabletop-ornament-arched-sculpture",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.23,
+            1.05,
+            0
+          ],
+          "yaw": 0
+        },
+        "state": {},
+        "attachment": {
+          "surfaceId": "middle"
+        }
+      },
+      {
+        "id": "support/prop-middle-right",
+        "kind": "facility",
+        "parentId": "support/shelf",
+        "resource": {
+          "id": "tabletop-ornament-vase",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0.23,
+            1.05,
+            0
+          ],
+          "yaw": 0
+        },
+        "state": {},
+        "attachment": {
+          "surfaceId": "middle"
+        }
+      },
+      {
+        "id": "support/prop-top-left",
+        "kind": "facility",
+        "parentId": "support/shelf",
+        "resource": {
+          "id": "tabletop-ornament-vase",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.23,
+            1.8,
+            0
+          ],
+          "yaw": 0
+        },
+        "state": {},
+        "attachment": {
+          "surfaceId": "top"
+        }
+      },
+      {
+        "id": "support/prop-top-right",
+        "kind": "facility",
+        "parentId": "support/shelf",
+        "resource": {
+          "id": "tabletop-ornament-geometric-sculpture",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0.23,
+            1.8,
+            0
+          ],
+          "yaw": 0
+        },
+        "state": {},
+        "attachment": {
+          "surfaceId": "top"
+        }
+      },
+      {
+        "id": "support/display",
+        "kind": "assembly",
+        "parentId": "support-alternate/room-1",
+        "name": "support/display",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      }
+    ]
+  },
+  "dependencies": {
+    "resources": [
+      {
+        "id": "chair",
+        "version": 1,
+        "sha256": "85593a00831a465019d57cf167cb7728bea6eb8b4df921f637f6720247d48c07"
+      },
+      {
+        "id": "desk-microphone",
+        "version": 1,
+        "sha256": "c519d0db034673cdc1d02de653ee8a5e6540d9aee355b7668a62629d2d27e853"
+      },
+      {
+        "id": "desk",
+        "version": 1,
+        "sha256": "938b3904b32bb89d6fe18518b50619adeb93fe0b1e9408a4b1e3d400735163d8"
+      },
+      {
+        "id": "fill-light",
+        "version": 1,
+        "sha256": "52a149c6017acf6ca35b5987c651870c353bc036f299e1fdbc1e037955d3bd4b"
+      },
+      {
+        "id": "keyboard",
+        "version": 1,
+        "sha256": "52423572c215536ef73c6daf96157912893f661000b9ca741dc35051a4b7d9d9"
+      },
+      {
+        "id": "monitor",
+        "version": 1,
+        "sha256": "cc761bf4e4fc786e1cccdfef1af1f4ec01a4f0049a3b142733091c0bf66f4fd0"
+      },
+      {
+        "id": "support-shelf-frame-posts",
+        "version": 1,
+        "sha256": "5191dcb89779b38b27c1b4248527e05ab2069997eee0c5261344f494e3b7abba"
+      },
+      {
+        "id": "tabletop-ornament-arched-sculpture",
+        "version": 1,
+        "sha256": "879063369b7eea5590ec76d589e9f959d1f159a22cfbafc52defbdf942462a3c"
+      },
+      {
+        "id": "tabletop-ornament-geometric-sculpture",
+        "version": 1,
+        "sha256": "e69c5adb624d50342f84a567a1cbc1a67ad845e10ed9758bb2ba8e8108693999"
+      },
+      {
+        "id": "tabletop-ornament-stacked-stones",
+        "version": 1,
+        "sha256": "66afcce4e9c07cd1458a77a799420b5c81c77ca5c7b61e4bffbbcda7359c1b87"
+      },
+      {
+        "id": "tabletop-ornament-vase",
+        "version": 1,
+        "sha256": "e34d9128082c0e8d9f03d0889c2c0b0434a0231e9d5dd417585dfbdaa525a4dc"
+      }
+    ],
+    "templates": [
+      {
+        "id": "stream-station",
+        "version": 1,
+        "sha256": "47dc0c9ae9e042c8e36a728022536ad2abbded2c7afebf314e8cf8105a74bdbc"
+      }
+    ]
+  }
+}

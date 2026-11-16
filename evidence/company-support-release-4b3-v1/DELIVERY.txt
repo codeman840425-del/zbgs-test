@@ -1,0 +1,40 @@
+具名多层承载与四架四摆件：固定交付（2026-11-16）
+
+源码：300e9dffe22c1e91ecd28a211e3ea21ee14a07f8
+构建：4b3ceab3e56f
+独立检出：F:/gamemake-company-support-fixed-v1
+独立包：F:/gamemake-company-support-delivery-4b3
+观看：http://127.0.0.1:52236/?sample=storage-shelf&look=0
+左侧“外观样件对照”选择“多层开放架”或“台面陈列摆件”，每类四款；布局选择“多层承载 · 陈列与工位”或“多层承载 · 转向布局”。旧顶面5bb和墙地3d7检出/交付保留。
+
+本包：具名lower/middle/top承载面、完整旋转包络和净空；显式attach-surface换层；父物移动旋转、分组复制和兼容替换保留子物依附；同层重叠、悬浮、越界、超高与错面明确拒绝。运行加载核真实矩形板顶、底部接触和净空，不能只报元数据。已有76个资源定义保持，目录现84个资源版本。角色系统未改。
+
+四架为框柱、侧板、交叉背架、拱形侧架；四摆件为叠石、拱形摆件、花瓶、几何雕塑。保持各自固定功能/尺寸/安装合同，用真实几何差异计四款。不是柜门、抽屉、壁架或全部环境细分完成。旧desk-surface维持原合同，新支持面能力须显式登记。
+
+证据：
+- company-support-fixed-4b3-v1/report.json：五组实际浏览器检查通过。八款逐款真实替换/浏览器进程关闭恢复；三层实体板顶与摆件底接触；父旋转/复制/身份隔离；越界/浮空/重叠/错面/功能变更保旧；缺实际网格映射与HTTP503保文档和存档；显式换层、第二输入、资源绑定和显示资源释放。
+- company-support-handoff-4b3-v1/report.json：四组独立包检查通过。完整清单、独立CLI越界拒绝不留失败产物及换层编辑、包内HTTP实际资源加载和保存、关闭浏览器恢复。
+- company-support-rebuild-4b3-v1/report.json：491个清单文件摘要一致；独立source执行npm ci及构建，与viewer全部172文件逐字节相同，无排除项。包内生产、资源登记和两输入--check也通过，不要求制作证据目录存在。
+- company-support-recording-4b3-v1/support-preview-normal1x.webm：42秒/1440×1000/25fps/正常1×。已核看全时段间隔抽帧及原尺寸摆件/恢复图；不是连续人类验收。
+- company-support-data-dev-v1：11项数据合同检查。company-support-geometry-v1-r2：11项实际Three几何CPU检查，含共享边伪矩形、同mesh突起、无surface的小物浮空与嵌套变换。CPU不冒称实际角色使用。
+- company-support-production-v1：统一提示标准、可编辑参数、真实GLB导出/回读/重复、修改源及初始候选；正式框柱横梁改为.06m及叠石宽度改为[.15,.115,.095]已登记并实际运行。root-production-check确认模块导入不写文件、旧76定义保持及正式生成--check。
+
+已修正并留记录：初稿叠石层间间隙、斜撑未接侧柱，集合路径与现有登记入口不一致、--check依赖证据目录；初始源/候选与report-initial-candidate保留，不冒称原始运行通过。几何审查修复共享边三角形漏面、同mesh突起绕净空、普通支持面子物跳过底接校验。dev-e4d证据保原身份，固定4b3重新验证；源码规范化换行改变构建摘要，不给旧证据换标签。
+
+重复（固定检出prototype目录）：
+npm ci --no-audit --no-fund
+node scripts/build-company-id.mjs
+npx vite build --config vite.company.config.js
+
+固定检出根目录：
+node scripts/company-platform/serve-company.cjs prototype/dist-company 4b3ceab3e56f
+node scripts/company-platform/qa-support-preview.cjs prototype/dist-company 4b3ceab3e56f NEW_EVIDENCE_DIR
+node scripts/company-platform/record-support-preview.cjs prototype/dist-company 4b3ceab3e56f NEW_RECORDING_DIR
+node scripts/company-platform/build-support-collection.mjs --check
+node scripts/company-platform/build-library.mjs --check
+node scripts/company-platform/build-support-examples.mjs --check
+
+独立包：node serve.mjs；node edit.mjs validate data/save.json；edit.mjs apply可消费attach-surface等同一操作。参数、完整公司运行代码、导出器、合同和锁文件均在source。安装可用网络/npm缓存，不声称离线安装。
+
+范围：受限水平矩形支持面与四分之一yaw；净空按真实构件包络保守拒绝，可能拒绝穿过空心构件包围盒的特殊摆法，不是任意曲面、质量承重或物理模拟。未做真实角色C3、普通电脑性能和用户最终验收，平台未完成。
+生产规格目录经审查分为107项（含1个老板候选），用于安排后续输入，不是107项能力已实现；四个文字槽位不计四件素材。后续继续状态部件、时间信息及其余C1/C2缺口，到阶段集成点再集中交总工。

@@ -1,0 +1,125 @@
+{
+  "status": "passed",
+  "generatedAt": "2026-11-16T23:49:01.823Z",
+  "configuration": {
+    "difficulty": "complex",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "high",
+    "actualProviderConfiguration": "not independently verified",
+    "hostHookInterception": "not independently verified"
+  },
+  "api": "validateSupportGeometry(scene, resource, fail)",
+  "checks": [
+    {
+      "name": "nested parent transforms preserve resource-local support coordinates and adjacent geometry is safe",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "surfaces": [
+          {
+            "mesh": "middle-board",
+            "triangles": 2,
+            "area": 0.28520000736713413,
+            "topY": 0.45
+          }
+        ],
+        "bottomY": -7.450580569168253e-10
+      }
+    },
+    {
+      "name": "missing support node is rejected",
+      "passed": true,
+      "observed": {
+        "code": "missing-support-node",
+        "path": "resource.supportSurfaces[0].id",
+        "message": "Support node name must uniquely resolve to one actual mesh"
+      }
+    },
+    {
+      "name": "wrong top height is rejected from actual triangles",
+      "passed": true,
+      "observed": {
+        "code": "invalid-support-topology",
+        "path": "resource.supportSurfaces[0].supportNodes",
+        "message": "Support top must be exactly two upward coplanar triangles"
+      }
+    },
+    {
+      "name": "hole or incomplete rectangle is rejected",
+      "passed": true,
+      "observed": {
+        "code": "invalid-support-topology",
+        "path": "resource.supportSurfaces[0].supportNodes",
+        "message": "Support top must be exactly two upward coplanar triangles"
+      }
+    },
+    {
+      "name": "triangles sharing a rectangle edge are rejected",
+      "passed": true,
+      "observed": {
+        "code": "invalid-support-topology",
+        "path": "resource.supportSurfaces[0].supportNodes",
+        "message": "Support top triangles must share the rectangle diagonal, not an edge"
+      }
+    },
+    {
+      "name": "inward-facing support triangles are rejected",
+      "passed": true,
+      "observed": {
+        "code": "inward-support-top",
+        "path": "resource.supportSurfaces[0].supportNodes",
+        "message": "Support top contains a downward-facing triangle"
+      }
+    },
+    {
+      "name": "another post entering the clear prism is rejected",
+      "passed": true,
+      "observed": {
+        "code": "support-clearance-occupied",
+        "path": "resource.supportSurfaces[0].clearanceHeight",
+        "message": "Another mesh enters the declared support clearance prism"
+      }
+    },
+    {
+      "name": "same support mesh cannot hide a clearance violating protrusion",
+      "passed": true,
+      "observed": {
+        "code": "support-clearance-occupied",
+        "path": "resource.supportSurfaces[0].supportNodes",
+        "message": "Support mesh geometry rises into its own declared clearance prism"
+      }
+    },
+    {
+      "name": "resource without y=0 contact is rejected",
+      "passed": true,
+      "observed": {
+        "code": "support-mount-ground-contact",
+        "path": "resource.supportSurfaces",
+        "message": "Support resource geometry must touch the installation plane at y=0 within 1mm"
+      }
+    },
+    {
+      "name": "support-mounted prop without surfaces still requires y=0 contact",
+      "passed": true,
+      "observed": {
+        "code": "support-mount-ground-contact",
+        "path": "resource",
+        "message": "Support resource geometry must touch the installation plane at y=0 within 1mm"
+      }
+    },
+    {
+      "name": "floor-standing support resource requires y=0 contact",
+      "passed": true,
+      "observed": {
+        "code": "support-mount-ground-contact",
+        "path": "resource.supportSurfaces",
+        "message": "Support resource geometry must touch the installation plane at y=0 within 1mm"
+      }
+    }
+  ],
+  "limits": [
+    "CPU-only Three synthetic scenes. No browser, GPU, physics engine or GLB decode was used.",
+    "The contract verifies rectangular boards represented by two upward triangles and conservative mesh AABB clearance.",
+    "This is not a general collision, concave support or stacked-physics proof."
+  ]
+}

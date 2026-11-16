@@ -1,0 +1,1017 @@
+{
+  "status": "passed",
+  "scope": "Four open support shelves and four static tabletop ornaments, CPU-only GLB production and readback",
+  "dispatch": {
+    "difficulty": "complex",
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "reason": "Eight distinct procedural assets with shared support geometry and deterministic GLB readback.",
+    "configurationEvidence": "Parent-confirmed explicit configuration. Host hook interception unverified."
+  },
+  "commands": [
+    "node scripts/company-platform/build-support-collection.mjs",
+    "node scripts/company-platform/build-support-collection.mjs --check"
+  ],
+  "sourceParameters": "assets-source/company-support-collection-v1/parameters.json",
+  "sourceParametersSha256": "4c1adf390b6709837c034e0076017a8d188beb95900180992be8cd297ca3c2dd",
+  "functionalContractSource": "docs/COMPANY-SUPPORT-SURFACE-CONTRACT-v1.txt",
+  "functionalContractSourceSha256": "97cd43c11e3a37b0cd03f11ceae295d5f6e1539f540c888076a1fd85d8d26aca",
+  "generator": "scripts/company-platform/build-support-collection.mjs",
+  "generatorSha256": "4f95b1f2fb8128b8f8a56d789a92d6509d3c277c3e704f583ade2fe0d7d959fc",
+  "promptStandard": "Purpose: authored company decor for open storage and static tabletop display. Specification: shelves are 1.00m wide x 1.80m high x 0.35m deep with 0.92m x 0.31m x 0.035m boards at the declared support heights, ornaments use a 0.16m x 0.12m x 0.20m envelope. Units are metres, up is +Y, forward is +Z, and the ground or prop origin is the declared bottom centre. Installation and load bearing: shelves are ground-blocking facilities, ornaments are bottom-centred support-surface props. Keep all structure outside each rectangular support clearance prism. Budget: deterministic CPU-only primitive geometry and binary GLB export with no external art. State: static decor, no pickup or animation. Source/export: project-authored Three.js 0.187.0 parameters, GLTFExporter and GLTFLoader readback.",
+  "shelves": [
+    {
+      "id": "frame-posts",
+      "sha256": "20aec5b88912706e70c57d30aa9f3440902137cc66c3731ab67633b914e74d7e",
+      "bytes": 15288,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "bounds": {
+          "min": [
+            -0.500000000372529,
+            2.384185793236071e-8,
+            -0.17500000037252902
+          ],
+          "max": [
+            0.500000000372529,
+            1.8000000000745058,
+            0.17500000037252902
+          ]
+        },
+        "size": [
+          1.000000000745058,
+          1.7999999762326477,
+          0.35000000074505805
+        ],
+        "supportNodes": {
+          "lower": "shelf-board-lower",
+          "middle": "shelf-board-middle",
+          "top": "shelf-board-top"
+        },
+        "meshCount": 8,
+        "meshReports": [
+          {
+            "name": "shelf-board-lower",
+            "min": [
+              -0.46000000834465027,
+              0.4149999999254942,
+              -0.1550000011920929
+            ],
+            "max": [
+              0.46000000834465027,
+              0.4500000000745058,
+              0.1550000011920929
+            ]
+          },
+          {
+            "name": "shelf-board-middle",
+            "min": [
+              -0.46000000834465027,
+              1.0149999999254942,
+              -0.1550000011920929
+            ],
+            "max": [
+              0.46000000834465027,
+              1.0500000000745058,
+              0.1550000011920929
+            ]
+          },
+          {
+            "name": "shelf-board-top",
+            "min": [
+              -0.46000000834465027,
+              1.7649999999254942,
+              -0.1550000011920929
+            ],
+            "max": [
+              0.46000000834465027,
+              1.8000000000745058,
+              0.1550000011920929
+            ]
+          },
+          {
+            "name": "frame-post-left-rear",
+            "min": [
+              -0.500000000372529,
+              2.384185793236071e-8,
+              -0.17500000037252902
+            ],
+            "max": [
+              -0.44999999962747095,
+              1.799999976158142,
+              -0.12499999962747096
+            ]
+          },
+          {
+            "name": "frame-post-left-front",
+            "min": [
+              -0.500000000372529,
+              2.384185793236071e-8,
+              0.12499999962747096
+            ],
+            "max": [
+              -0.44999999962747095,
+              1.799999976158142,
+              0.17500000037252902
+            ]
+          },
+          {
+            "name": "frame-post-right-rear",
+            "min": [
+              0.44999999962747095,
+              2.384185793236071e-8,
+              -0.17500000037252902
+            ],
+            "max": [
+              0.500000000372529,
+              1.799999976158142,
+              -0.12499999962747096
+            ]
+          },
+          {
+            "name": "frame-post-right-front",
+            "min": [
+              0.44999999962747095,
+              2.384185793236071e-8,
+              0.12499999962747096
+            ],
+            "max": [
+              0.500000000372529,
+              1.799999976158142,
+              0.17500000037252902
+            ]
+          },
+          {
+            "name": "frame-rear-rail",
+            "min": [
+              -0.46000000834465027,
+              1.6900000006705522,
+              -0.16999999966472387
+            ],
+            "max": [
+              0.46000000834465027,
+              1.7499999993294477,
+              -0.14000000033527613
+            ]
+          }
+        ],
+        "identityScale": true,
+        "externalUris": 0
+      }
+    },
+    {
+      "id": "sideboards",
+      "sha256": "246fc102d30c5f84f82d6da76adac86c5a04be053dc2fb6aa81c96924ebb3221",
+      "bytes": 13448,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "bounds": {
+          "min": [
+            -0.4999999993294477,
+            2.384185793236071e-8,
+            -0.17499999701976776
+          ],
+          "max": [
+            0.4999999993294477,
+            1.8000000000745058,
+            0.17499999701976776
+          ]
+        },
+        "size": [
+          0.9999999986588954,
+          1.7999999762326477,
+          0.3499999940395355
+        ],
+        "supportNodes": {
+          "lower": "shelf-board-lower",
+          "middle": "shelf-board-middle",
+          "top": "shelf-board-top"
+        },
+        "meshCount": 7,
+        "meshReports": [
+          {
+            "name": "shelf-board-lower",
+            "min": [
+              -0.46000000834465027,
+              0.4149999999254942,
+              -0.1550000011920929
+            ],
+            "max": [
+              0.46000000834465027,
+              0.4500000000745058,
+              0.1550000011920929
+            ]
+          },
+          {
+            "name": "shelf-board-middle",
+            "min": [
+              -0.46000000834465027,
+              1.0149999999254942,
+              -0.1550000011920929
+            ],
+            "max": [
+              0.46000000834465027,
+              1.0500000000745058,
+              0.1550000011920929
+            ]
+          },
+          {
+            "name": "shelf-board-top",
+            "min": [
+              -0.46000000834465027,
+              1.7649999999254942,
+              -0.1550000011920929
+            ],
+            "max": [
+              0.46000000834465027,
+              1.8000000000745058,
+              0.1550000011920929
+            ]
+          },
+          {
+            "name": "sideboard-left",
+            "min": [
+              -0.4999999993294477,
+              2.384185793236071e-8,
+              -0.17499999701976776
+            ],
+            "max": [
+              -0.4400000006705522,
+              1.799999976158142,
+              0.17499999701976776
+            ]
+          },
+          {
+            "name": "sideboard-right",
+            "min": [
+              0.4400000006705522,
+              2.384185793236071e-8,
+              -0.17499999701976776
+            ],
+            "max": [
+              0.4999999993294477,
+              1.799999976158142,
+              0.17499999701976776
+            ]
+          },
+          {
+            "name": "sideboard-rear-rail",
+            "min": [
+              -0.4399999976158142,
+              1.7125000001490116,
+              -0.16999999966472387
+            ],
+            "max": [
+              0.4399999976158142,
+              1.7674999998509884,
+              -0.14000000033527613
+            ]
+          },
+          {
+            "name": "sideboard-top-tie",
+            "min": [
+              -0.4399999976158142,
+              1.7624999999254942,
+              -0.16999999966472387
+            ],
+            "max": [
+              0.4399999976158142,
+              1.7975000000745058,
+              -0.14000000033527613
+            ]
+          }
+        ],
+        "identityScale": true,
+        "externalUris": 0
+      }
+    },
+    {
+      "id": "crossback",
+      "sha256": "1256ba64b25d074fd161048a2a1a395f0ce929ab819d73978d0406a10cf37fda",
+      "bytes": 17252,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "bounds": {
+          "min": [
+            -0.49999999955296515,
+            2.384185793236071e-8,
+            -0.17499999955296516
+          ],
+          "max": [
+            0.49999999955296515,
+            1.8000000000745058,
+            0.1749999998882413
+          ]
+        },
+        "size": [
+          0.9999999991059303,
+          1.7999999762326477,
+          0.34999999944120647
+        ],
+        "supportNodes": {
+          "lower": "shelf-board-lower",
+          "middle": "shelf-board-middle",
+          "top": "shelf-board-top"
+        },
+        "braceConnections": {
+          "spansSidePosts": true,
+          "diagonalBounds": {
+            "min": [
+              -0.477635693008596,
+              0.030566954149497727,
+              -0.16999999966472387
+            ],
+            "max": [
+              0.477635693008596,
+              1.7694330458505023,
+              -0.14000000033527613
+            ]
+          }
+        },
+        "meshCount": 9,
+        "meshReports": [
+          {
+            "name": "shelf-board-lower",
+            "min": [
+              -0.46000000834465027,
+              0.4149999999254942,
+              -0.1550000011920929
+            ],
+            "max": [
+              0.46000000834465027,
+              0.4500000000745058,
+              0.1550000011920929
+            ]
+          },
+          {
+            "name": "shelf-board-middle",
+            "min": [
+              -0.46000000834465027,
+              1.0149999999254942,
+              -0.1550000011920929
+            ],
+            "max": [
+              0.46000000834465027,
+              1.0500000000745058,
+              0.1550000011920929
+            ]
+          },
+          {
+            "name": "shelf-board-top",
+            "min": [
+              -0.46000000834465027,
+              1.7649999999254942,
+              -0.1550000011920929
+            ],
+            "max": [
+              0.46000000834465027,
+              1.8000000000745058,
+              0.1550000011920929
+            ]
+          },
+          {
+            "name": "crossback-left-post",
+            "min": [
+              -0.49999999955296515,
+              2.384185793236071e-8,
+              -0.17499999955296516
+            ],
+            "max": [
+              -0.4600000004470348,
+              1.799999976158142,
+              -0.13500000044703483
+            ]
+          },
+          {
+            "name": "crossback-right-post",
+            "min": [
+              0.4600000004470348,
+              2.384185793236071e-8,
+              -0.17499999955296516
+            ],
+            "max": [
+              0.49999999955296515,
+              1.799999976158142,
+              -0.13500000044703483
+            ]
+          },
+          {
+            "name": "crossback-diagonal-left",
+            "min": [
+              -0.477635693008596,
+              0.030566954149497727,
+              -0.16999999966472387
+            ],
+            "max": [
+              0.477635693008596,
+              1.7694330458505023,
+              -0.14000000033527613
+            ]
+          },
+          {
+            "name": "crossback-diagonal-right",
+            "min": [
+              -0.477635693008596,
+              0.030566954149497727,
+              -0.16999999966472387
+            ],
+            "max": [
+              0.477635693008596,
+              1.7694330458505023,
+              -0.14000000033527613
+            ]
+          },
+          {
+            "name": "crossback-top-rail",
+            "min": [
+              -0.46000000834465027,
+              1.7624999999254942,
+              -0.16999999966472387
+            ],
+            "max": [
+              0.46000000834465027,
+              1.7975000000745058,
+              -0.14000000033527613
+            ]
+          },
+          {
+            "name": "crossback-front-rail",
+            "min": [
+              -0.46000000834465027,
+              1.7024999999254942,
+              0.16500000011175872
+            ],
+            "max": [
+              0.46000000834465027,
+              1.7375000000745058,
+              0.1749999998882413
+            ]
+          }
+        ],
+        "identityScale": true,
+        "externalUris": 0
+      }
+    },
+    {
+      "id": "arched-sides",
+      "sha256": "9c0effaf56d18a25134ad4d603cf06d5ae8ea5b36ce4dc4296492713db0c8a0f",
+      "bytes": 57240,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "bounds": {
+          "min": [
+            -0.49999999955296515,
+            2.384185793236071e-8,
+            -0.1749999998882413
+          ],
+          "max": [
+            0.49999999955296515,
+            1.8000000000745058,
+            0.1749999998882413
+          ]
+        },
+        "size": [
+          0.9999999991059303,
+          1.7999999762326477,
+          0.3499999997764826
+        ],
+        "supportNodes": {
+          "lower": "shelf-board-lower",
+          "middle": "shelf-board-middle",
+          "top": "shelf-board-top"
+        },
+        "meshCount": 12,
+        "meshReports": [
+          {
+            "name": "shelf-board-lower",
+            "min": [
+              -0.46000000834465027,
+              0.4149999999254942,
+              -0.1550000011920929
+            ],
+            "max": [
+              0.46000000834465027,
+              0.4500000000745058,
+              0.1550000011920929
+            ]
+          },
+          {
+            "name": "shelf-board-middle",
+            "min": [
+              -0.46000000834465027,
+              1.0149999999254942,
+              -0.1550000011920929
+            ],
+            "max": [
+              0.46000000834465027,
+              1.0500000000745058,
+              0.1550000011920929
+            ]
+          },
+          {
+            "name": "shelf-board-top",
+            "min": [
+              -0.46000000834465027,
+              1.7649999999254942,
+              -0.1550000011920929
+            ],
+            "max": [
+              0.46000000834465027,
+              1.8000000000745058,
+              0.1550000011920929
+            ]
+          },
+          {
+            "name": "arched-side-left-rear",
+            "min": [
+              -0.4779888093471527,
+              0.019365087151527405,
+              -0.17299999296665192
+            ],
+            "max": [
+              -0.421999990940094,
+              1.780634880065918,
+              -0.13699999451637268
+            ]
+          },
+          {
+            "name": "arched-side-left-front",
+            "min": [
+              -0.4779888093471527,
+              0.019365087151527405,
+              0.13699999451637268
+            ],
+            "max": [
+              -0.421999990940094,
+              1.780634880065918,
+              0.17299999296665192
+            ]
+          },
+          {
+            "name": "arched-side-right-rear",
+            "min": [
+              0.421999990940094,
+              0.019365087151527405,
+              -0.17299999296665192
+            ],
+            "max": [
+              0.4779888093471527,
+              1.780634880065918,
+              -0.13699999451637268
+            ]
+          },
+          {
+            "name": "arched-side-right-front",
+            "min": [
+              0.421999990940094,
+              0.019365087151527405,
+              0.13699999451637268
+            ],
+            "max": [
+              0.4779888093471527,
+              1.780634880065918,
+              0.17299999296665192
+            ]
+          },
+          {
+            "name": "arched-outer-post-left",
+            "min": [
+              -0.49999999955296515,
+              2.384185793236071e-8,
+              -0.014999999664723873
+            ],
+            "max": [
+              -0.4600000004470348,
+              1.799999976158142,
+              0.014999999664723873
+            ]
+          },
+          {
+            "name": "arched-outer-post-right",
+            "min": [
+              0.4600000004470348,
+              2.384185793236071e-8,
+              -0.014999999664723873
+            ],
+            "max": [
+              0.49999999955296515,
+              1.799999976158142,
+              0.014999999664723873
+            ]
+          },
+          {
+            "name": "arched-rear-top-rail",
+            "min": [
+              -0.4399999976158142,
+              1.7524999999254942,
+              -0.16999999966472387
+            ],
+            "max": [
+              0.4399999976158142,
+              1.7875000000745058,
+              -0.14000000033527613
+            ]
+          },
+          {
+            "name": "arched-depth-front-rail",
+            "min": [
+              -0.4399999976158142,
+              1.7024999999254942,
+              0.16500000011175872
+            ],
+            "max": [
+              0.4399999976158142,
+              1.7375000000745058,
+              0.1749999998882413
+            ]
+          },
+          {
+            "name": "arched-depth-rear-rail",
+            "min": [
+              -0.4399999976158142,
+              1.7024999999254942,
+              -0.1749999998882413
+            ],
+            "max": [
+              0.4399999976158142,
+              1.7375000000745058,
+              -0.16500000011175872
+            ]
+          }
+        ],
+        "identityScale": true,
+        "externalUris": 0
+      }
+    }
+  ],
+  "ornaments": [
+    {
+      "id": "stacked-stones",
+      "sha256": "4c7494b7bfc5b3fdb4ecb036b6d44663751e5d11d3d7270dd403f47b2afd126b",
+      "bytes": 37720,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "bounds": {
+          "min": [
+            -0.075,
+            0,
+            -0.06
+          ],
+          "max": [
+            0.075,
+            0.16249999999999998,
+            0.06
+          ]
+        },
+        "size": [
+          0.15,
+          0.16249999999999998,
+          0.12
+        ],
+        "bottomContact": 0,
+        "meshCount": 3,
+        "identityScale": true,
+        "externalUris": 0
+      }
+    },
+    {
+      "id": "arched-sculpture",
+      "sha256": "4e39604b3064f7e2e7ea857dccce92ffde19ebb40f8b8e2f72246c95fbd2e596",
+      "bytes": 11500,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "bounds": {
+          "min": [
+            -0.07991120219230652,
+            2.2351741811588166e-10,
+            -0.05000000074505806
+          ],
+          "max": [
+            0.07991120219230652,
+            0.19200000166893005,
+            0.05000000074505806
+          ]
+        },
+        "size": [
+          0.15982240438461304,
+          0.19200000144541263,
+          0.10000000149011612
+        ],
+        "bottomContact": 2.2351741811588166e-10,
+        "meshCount": 2,
+        "identityScale": true,
+        "externalUris": 0
+      }
+    },
+    {
+      "id": "vase",
+      "sha256": "b155c363ba82c1abee277e87f2be6d127fad39d4b43f3050db3ef02a7e033ea0",
+      "bytes": 29460,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "bounds": {
+          "min": [
+            -0.05999999865889549,
+            -1.862645142292063e-10,
+            -0.05999999865889549
+          ],
+          "max": [
+            0.05999999865889549,
+            0.20000000005215407,
+            0.05999999865889549
+          ]
+        },
+        "size": [
+          0.11999999731779099,
+          0.20000000023841857,
+          0.11999999731779099
+        ],
+        "bottomContact": -1.862645142292063e-10,
+        "meshCount": 4,
+        "identityScale": true,
+        "externalUris": 0
+      }
+    },
+    {
+      "id": "geometric-sculpture",
+      "sha256": "00eb6872cc326bc82480224e40bba4bf6d72125b4bf1632fea725c48139af246",
+      "bytes": 6280,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "bounds": {
+          "min": [
+            -0.07000000029802322,
+            3.3527612630646075e-10,
+            -0.05999999865889549
+          ],
+          "max": [
+            0.07000000029802322,
+            0.20000000089406966,
+            0.05999999865889549
+          ]
+        },
+        "size": [
+          0.14000000059604645,
+          0.20000000055879352,
+          0.11999999731779099
+        ],
+        "bottomContact": 3.3527612630646075e-10,
+        "meshCount": 3,
+        "identityScale": true,
+        "externalUris": 0
+      }
+    }
+  ],
+  "sourceModificationEvidence": {
+    "shelf": {
+      "design": "frame-posts",
+      "parameters": {
+        "postWidth": 0.05,
+        "postDepth": 0.05,
+        "rearRailHeight": 0.08
+      },
+      "sha256": "1728ccc1c593fea87e65462eaef28fed3866e6d3a2cffe21d8a9c17d22586364",
+      "bytes": 15284,
+      "parametersPath": "evidence/company-support-production-v1/variant-shelf-frame-posts.parameters.json",
+      "parametersSha256": "1aae48b617e50bc080150cbd896c3a61b58a9e43b71c53e4356c3136cfc2dd43",
+      "outputPath": "evidence/company-support-production-v1/variant-shelf-frame-posts.glb",
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "bounds": {
+          "min": [
+            -0.500000000372529,
+            2.384185793236071e-8,
+            -0.17500000037252902
+          ],
+          "max": [
+            0.500000000372529,
+            1.8000000000745058,
+            0.17500000037252902
+          ]
+        },
+        "size": [
+          1.000000000745058,
+          1.7999999762326477,
+          0.35000000074505805
+        ],
+        "supportNodes": {
+          "lower": "shelf-board-lower",
+          "middle": "shelf-board-middle",
+          "top": "shelf-board-top"
+        },
+        "meshCount": 8,
+        "meshReports": [
+          {
+            "name": "shelf-board-lower",
+            "min": [
+              -0.46000000834465027,
+              0.4149999999254942,
+              -0.1550000011920929
+            ],
+            "max": [
+              0.46000000834465027,
+              0.4500000000745058,
+              0.1550000011920929
+            ]
+          },
+          {
+            "name": "shelf-board-middle",
+            "min": [
+              -0.46000000834465027,
+              1.0149999999254942,
+              -0.1550000011920929
+            ],
+            "max": [
+              0.46000000834465027,
+              1.0500000000745058,
+              0.1550000011920929
+            ]
+          },
+          {
+            "name": "shelf-board-top",
+            "min": [
+              -0.46000000834465027,
+              1.7649999999254942,
+              -0.1550000011920929
+            ],
+            "max": [
+              0.46000000834465027,
+              1.8000000000745058,
+              0.1550000011920929
+            ]
+          },
+          {
+            "name": "frame-post-left-rear",
+            "min": [
+              -0.500000000372529,
+              2.384185793236071e-8,
+              -0.17500000037252902
+            ],
+            "max": [
+              -0.44999999962747095,
+              1.799999976158142,
+              -0.12499999962747096
+            ]
+          },
+          {
+            "name": "frame-post-left-front",
+            "min": [
+              -0.500000000372529,
+              2.384185793236071e-8,
+              0.12499999962747096
+            ],
+            "max": [
+              -0.44999999962747095,
+              1.799999976158142,
+              0.17500000037252902
+            ]
+          },
+          {
+            "name": "frame-post-right-rear",
+            "min": [
+              0.44999999962747095,
+              2.384185793236071e-8,
+              -0.17500000037252902
+            ],
+            "max": [
+              0.500000000372529,
+              1.799999976158142,
+              -0.12499999962747096
+            ]
+          },
+          {
+            "name": "frame-post-right-front",
+            "min": [
+              0.44999999962747095,
+              2.384185793236071e-8,
+              0.12499999962747096
+            ],
+            "max": [
+              0.500000000372529,
+              1.799999976158142,
+              0.17500000037252902
+            ]
+          },
+          {
+            "name": "frame-rear-rail",
+            "min": [
+              -0.46000000834465027,
+              1.6800000008940696,
+              -0.16999999966472387
+            ],
+            "max": [
+              0.46000000834465027,
+              1.7599999991059303,
+              -0.14000000033527613
+            ]
+          }
+        ],
+        "identityScale": true,
+        "externalUris": 0
+      }
+    },
+    "ornament": {
+      "design": "stacked-stones",
+      "parameters": {
+        "stoneCount": 3,
+        "stoneWidths": [
+          0.16,
+          0.12,
+          0.1
+        ]
+      },
+      "sha256": "d53a281199c79eaddf571d954fded4738ffbcd4df658cff0cf055c5b078d06b3",
+      "bytes": 37716,
+      "parametersPath": "evidence/company-support-production-v1/variant-ornament-stacked-stones.parameters.json",
+      "parametersSha256": "b65fe4ffa77ce7749280c6e5ee446d807b891926f080dd1b2e5c6ccbaaa72fd9",
+      "outputPath": "evidence/company-support-production-v1/variant-ornament-stacked-stones.glb",
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "bounds": {
+          "min": [
+            -0.08,
+            0,
+            -0.06
+          ],
+          "max": [
+            0.08,
+            0.16249999999999998,
+            0.06
+          ]
+        },
+        "size": [
+          0.16,
+          0.16249999999999998,
+          0.12
+        ],
+        "bottomContact": 0,
+        "meshCount": 3,
+        "identityScale": true,
+        "externalUris": 0
+      }
+    }
+  },
+  "initialCandidateEvidence": {
+    "sourceValues": {
+      "shelfRearRailHeight": 0.08,
+      "ornamentStoneWidths": [
+        0.16,
+        0.12,
+        0.1
+      ]
+    },
+    "shelf": {
+      "parametersPath": "evidence/company-support-production-v1/initial-shelf-frame-posts.parameters.json",
+      "parametersSha256": "1aae48b617e50bc080150cbd896c3a61b58a9e43b71c53e4356c3136cfc2dd43",
+      "outputPath": "evidence/company-support-production-v1/initial-shelf-frame-posts.glb",
+      "sha256": "1728ccc1c593fea87e65462eaef28fed3866e6d3a2cffe21d8a9c17d22586364",
+      "bytes": 15284
+    },
+    "ornament": {
+      "parametersPath": "evidence/company-support-production-v1/initial-ornament-stacked-stones.parameters.json",
+      "parametersSha256": "b65fe4ffa77ce7749280c6e5ee446d807b891926f080dd1b2e5c6ccbaaa72fd9",
+      "outputPath": "evidence/company-support-production-v1/initial-ornament-stacked-stones.glb",
+      "sha256": "d53a281199c79eaddf571d954fded4738ffbcd4df658cff0cf055c5b078d06b3",
+      "bytes": 37716
+    }
+  },
+  "history": {
+    "previousReport": "evidence/company-support-production-v1/report-initial-candidate.json",
+    "failureRootCauses": [
+      "Original stacked-stones source left visible vertical gaps between the three stone meshes. Formal source now uses touching centers 0.035, 0.1 and 0.145.",
+      "Original crossback braces used a short 1.76m bar at a 0.22rad angle and did not reach the side columns. Formal source now derives angle and length from braceSpan 0.92m and braceRise 1.72m.",
+      "A temporary variant post-width edit changed the declared outer envelope. Source modification evidence now varies rear rail height while preserving the fixed envelope."
+    ]
+  },
+  "contract": {
+    "shelfEnvelope": [
+      "support-shelf-frame-posts",
+      "support-shelf-sideboards",
+      "support-shelf-crossback",
+      "support-shelf-arched-sides"
+    ],
+    "supportSurfaceIds": [
+      "lower",
+      "middle",
+      "top"
+    ],
+    "patchHalfSize": [
+      0.42,
+      0.13
+    ],
+    "board": {
+      "width": 0.92,
+      "depth": 0.31,
+      "thickness": 0.035
+    },
+    "ornamentEnvelope": [
+      0.16,
+      0.12,
+      0.2
+    ]
+  },
+  "limitations": [
+    "Project-authored schematic geometry. Browser visual acceptance and physical character use remain outside this CPU-only package.",
+    "Support rectangles are the declared compatibility contract. Arbitrary curved supports, doors, drawers and physics are not represented."
+  ]
+}
