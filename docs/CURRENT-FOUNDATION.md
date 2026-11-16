@@ -43,11 +43,11 @@ scripts/production/asset_budget.py check，m2-technical-v1；25初版门发现op
 
 ## 下一主工作包：CUSTOM-FIT01 实际形体与依赖
 
-连体源入口收尾后，利用已有派生身体/五官修改与装备，补实际形体身份和受影响fit依赖，避免只认基模SHA却忽略已修改的几何。独立审确认mouth .12→reset实际顶点还原而geometryIdentity残留旧配方，fb2a407已修零值canonical，实际VRM CPU复核保Body/head/hair/equipment不变。真实ae36浏览器还复现fitResource未被fetch：把连体fit路由503仍成功加载male；evidence/m2-fit-resource-baseline-ae3-v1。whole_look_prepare已知sol/high独立补精确fit文件验证和onePiece实际Body几何依赖sidecar；不改冻结源/旧v6语义/动作控制器，root负责坏资源保旧与修改Body拒绝/改脸复用的固定验证。衣层覆盖、按需加载等仍留P1，M2未完成。
+连体源入口收尾后，利用已有派生身体/五官修改与装备，补实际形体身份和受影响fit依赖，避免只认基模SHA却忽略已修改的几何。独立审确认mouth .12→reset实际顶点还原而geometryIdentity残留旧配方，fb2a407已修零值canonical，实际VRM CPU复核保Body/head/hair/equipment不变。真实ae36浏览器还复现fitResource未被fetch：把连体fit路由503仍成功加载male；evidence/m2-fit-resource-baseline-ae3-v1。whole_look_prepare已知sol/high独立补精确fit文件验证和onePiece实际Body几何依赖sidecar；不改冻结源/旧v6语义/动作控制器，root负责坏资源保旧与修改Body拒绝/改脸复用的固定验证。当前全套衣物预载意味着未选onePiece的fit缺失也会阻止新男性加载；本包核失败保原，不固化为最终产品规则。后续CUSTOM-P05按实际选中装备按需加载处理，不在FIT01重构。衣层覆盖、按需加载等仍留P1，M2未完成。
 
 ## 文档和派工恢复
 
-本次v2只读核查补CAP CUSTOM-FIT01/L02/I01/P03–05，补支撑道具、本地原子记录、批部分失败重试及生产幂等边界。没有另建能力清单。9流程索引只读检查通过，不等于完整自定义生产。
+本次v2只读核查补CAP CUSTOM-FIT01/L02/I01/P03–05，补支撑道具、本地原子记录、批部分失败重试及生产幂等边界。没有另建能力清单。当前10流程索引只读检查通过，不等于完整自定义生产。
 
 当前宿主是GPT桌面内Codex，不是Codex CLI。每次spawn显式model/reasoning_effort/fork_turns=none和DISPATCH_CONFIG；记录evidence/subagent-explicit-dispatch-2026-11-16.json。实际provider配置工具未另暴露；用户最新明确已给Hook信任，但asset_budget真实spawn后仍无安装audit.jsonl，桌面hook拦截继续未验证，不因UI开关/CLI/本地脚本推定。旧未知配置不复用为已知；本轮whole_look_prepare已知请求sol/high。
 
