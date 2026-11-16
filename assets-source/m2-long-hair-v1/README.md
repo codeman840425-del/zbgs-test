@@ -1,0 +1,29 @@
+# Tied long ponytail technical source v1
+
+This single style fits only original female SHA `027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95`. The original VRM remains immutable. The original 225-vertex head hair shell, crown and fringe retain their topology and UVs. A newly authored closed tapered/lobed ponytail and tie band use a separate auxiliary skin with eight joints. The cap is fixed to HairAnchor and the new tail has 288 actual two-joint weighted vertices.
+
+The code-parametric source is `spec.json` plus the generator. `lengthM` controls the vertical centerline drop from the tie. The default is 390 mm and the one retained parameter edit is 430 mm. Back sweep, radius and resolution stay fixed. The generated variant demonstrates a real new GLB and inverse binds, with exactly 40 mm additional leaf-center drop. Its surface minimum differs by about 39.993 mm because the final ring's local orientation also changes. No original bob geometry is stretched and no body/model scale is used.
+
+```powershell
+python -B scripts/m2-long-hair-v1/build.py
+node scripts/m2-long-hair-v1/qa-runtime.mjs
+python -B scripts/m2-long-hair-v1/qa.py
+```
+
+Python source dependencies are numpy 2.4.2 and Pillow 12.1.0. The CPU Node check uses the prototype lockfile's Three 187 and @pixiv/three-vrm-springbone 3.5.5. In an isolated worktree, `--modules-root <existing prototype node_modules>` selects that installation. The generator computes and compares all planned bytes before writing. It preserves identical existing outputs and refuses differing files. A fresh `--out assets-source/m2-long-hair-v1/exports/<name>` supports an explicit independent export. The default generated snapshot is source evidence for subsequent controlled publication.
+
+All mesh positions and inverse binds are in original raw-head bind-local metres. The raw head's original bind translation is `[0.0002554518, 1.3875614405, 0.0079646232]`. The asset scene, mesh and HairAnchor have identity transforms. Auxiliary nodes Pony0 through Pony6 form six segments. Their rest translations follow the authored curve and each inverse bind cancels its actual head-local rest transform. Mount the complete asset scene under raw semantic head and retain its auxiliary skeleton. Original humanoid bones are preserved.
+
+The root comes from actual source hair vertex 7619, extruded 19.3 mm along its original outward normal so the new tie can surround the bundle while clearing the rear head. The first extrusion of 14 mm produced 16 tie/body crossing pairs. The one geometry correction was calculated from the actual rear-head support plane with a 2 mm margin. Failed base/variant GLBs, fit, parameters and measurements are retained under `failed-source-v1/` and `initial-clearance-failure.json`. `source-correction.json` records the calculation. Tail length, sweep and radius were never swept.
+
+The original HAIR material, UVs and embedded base/normal/emission images are preserved. The new tube/tie UVs sample the measured opaque patch of the original main image. QA checks that patch's alpha is 255. Runtime appearance expects actor-local clones of the original `F00_000_HairBack_00_HAIR` MToon material and its matching Outline, preserving the existing hair color pipeline.
+
+For publication the default ready files are `generated/female-ponytail.glb`, `fit.json` and `manifest.json`. The manifest keeps `character-hairstyle-v1`, headLocal/head mount and declares `skinned=true`, `physics=vrm-spring`. Its explicit fit uses `character-hair-fit-v2`. These resources have canonical `/assets/m2-long-hair-v1/` URLs, and the manifest pins the fit SHA. Existing rigid-v1 validation must remain a separate contract. The changed-length subdirectory is a source proof and is not another registered style.
+
+`fit.dynamics` uses `hair-spring-v1`. Create one isolated official VRMSpringBoneManager, add each bone/child pair with its settings, and bind the three collider shapes to the listed raw humanoid head/chest semantics. Offsets and capsule tails are local to those exact source raw bones. Set initial state only after mounting and updating current world matrices. The source API smoke exercises official construction, one finite update, reset and joint deletion. Runtime owns update ordering, activation/pause/reset and disposal. The original VRM manager is left intact.
+
+Collider radii bound the explicitly measured rest-pose vertex selections with 2 mm margin. The head sphere uses Face_SKIN plus actual Body_SKIN Head-weighted indexed vertices. The neck/collar and shoulder/back capsules use the recorded bounded Body_SKIN and original top selections. Their regions and position hashes are in build-report. The proxy covers those selected rest points, with empty space around curved anatomy. It supplies no enclosure proof for all moving skin, arms, arbitrary clothing or intermediate hair triangles during large swings.
+
+The new tube/tie has zero measured noncoplanar crossing pairs against original Body_SKIN, Face_SKIN and top in both source lengths. The minimum new-hair vertex distance to Body is about 2.79 mm for the base and 1.80 mm for the variant. The retained cap keeps its original near contacts, including submicrometre distances to original head/face skin. These static counts and unsigned vertex/surface distances are separate from continuous collision or inside/outside guarantees.
+
+`runtime-cpu-qa.json` records actual GLTFLoader skinning under the real female raw head. Retained cap world coordinates agree within about 3 nanometres. Rotating Pony2 by 0.15 radians moves tail vertices about 38.98 mm while cap movement stays zero. This is actual weighted deformation and official API smoke. Game motion, spring stability, hair/body/collar contact through walking/seating/turns, saved appearance restoration and visual acceptance remain pending.
