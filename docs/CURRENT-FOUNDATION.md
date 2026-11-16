@@ -4,9 +4,11 @@
 
 ## 当前工作包（恢复先看）
 
-公开4196保持60a395622d91；提交148265693cca1e4819f4e3cdaed2e833fc249583已远端核实，回执m2-workbench-4196-live-60a-v1/remote-backup.json。新增功能统一此入口。正在补v8耳饰/帽子整套造型保存与原子恢复，source4fac249/build29d729e435f2已固定但完整运行未通过（m2-accessory-record-room-29d-v1/v2：椅前路径网格取整导致任务挂起，asset_budget已知sol/high正在最小修复）；独立真实foundation审查还复现单域附件上下文绕过，root已用294e87b事务token修复待独立复核，旧v6/v7保原语义；root负责配方/接入/浏览器，http_transport_review已知sol/high实现附件prepare/commit，socks_evidence_package已知sol/medium核纯资源记录身份。
+公开4196已更新785be36def90/source23c1140a01d26b6f1c10ac4f8064f366add3ba17，准确入口delivery/appearance-workbench.json；60a回滚delivery/history/appearance-workbench-60a.json。当前公开控件实际点击检查m2-workbench-4196-live-785-v1通过，v8精确耳帽/表面/已有外观整套恢复已完成4真实会话，165文件独立重建一致；录像由工作台检查区进入m2-accessory-record-review-v1。独立14项foundation复核通过，实际端点路径修复有29d/785同路径全身房间录像。长发坐入上甩仍失败；普通机未测；v8尚无麦克风/眼镜或稳定主播记录。最后已独立核实远端27492b9502e248bba5d2feebce109a60c8239857，后续增量正在备份，不沿用旧回执。
 
-长发坐入原因诊断：root实际e9b逐碰撞521帧采集完成，见m2-hair-seat-collision-e9b-v1，观察器全部恢复；身体9378次查询无负gap，上甩在首次椅背修正之前。仅因果诊断，不作性能或视觉通过。asset_budget已知sol/high继续同轨迹官方solver复算，尚未改物理参数。公司副总工文件保留不提交。
+下一主包：asset_budget（已知sol/high）基于真实碰撞诊断只制作一个显式raw-head模拟参考候选，保历史fit/default及碰撞/重力参数。root已派有界CPU/配置工作，浏览器由root独占；不扫描参数。真实521帧碰撞：身体9378查询无负gap；首次椅背修正晚于最高上甩570.3ms，不能将碰撞当成该上甩根因。两次全图CPU重放未吻合实际尾点保失败，不能借其数值宣称修复。
+
+公司C3仅本地接缝回执docs/CHARACTER-COMPANY-C3-SEAM-2026-11-16.md，未实现、未合并副总工旧人物文件，不打断M2。副总工文件保留不提交。
 
 ## 当前授权与边界
 
@@ -16,7 +18,7 @@ Phaser+Three+VRM保留；女性封板裙和30秒舞不再精修。普通电脑�
 
 ## 入口与最近固定交付
 
-- 统一4196 `/?workbench=appearance` 当前60a395622d91/sourcec4fb1c8；新增验证样件控件已实际点击通过。准确路径见delivery/appearance-workbench.json，旧fe5回滚delivery/history/appearance-workbench-fe5.json。
+- 统一4196 `/?workbench=appearance` 当前785be36def90/source23c1140；新增验证样件控件已实际点击通过。准确路径见delivery/appearance-workbench.json，旧fe5回滚delivery/history/appearance-workbench-fe5.json。
 - 4195/77e46保留M1；4174提供evidence。未把新外搭直接推为公开通过版。
 - 历史8e2926da4939/source a74090f1ed704a6c5b2eea3122b3e6fe5f44cd93保留experiments/m2-outer-camera-verified/prototype/dist，127文件重建一致；已退出4207服务。当前4207见下方ae36；历史录像和源码身份未改。
 - 本包观看：4174/evidence/m2-outer-runtime-room-8e2-v1/，4条完整1×影片。实际author-export SHA0631cf9d…、配置长裤/短裤、旧84b配方恢复、新配方恢复、基础模式和男女切换清理通过。工程全时段2fps抽审只说明抽样，连续观感待验；没有普通电脑性能结论。源与生产命令assets-source/m2-outer-panels-v2及scripts/m2-outer-panels-v2，实际资源已进入production第9流程。
