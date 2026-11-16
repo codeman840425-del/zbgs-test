@@ -56,4 +56,3 @@ const out=new URL('./original-qa/',import.meta.url);
 await fs.mkdir(out,{recursive:true});
 await fs.writeFile(new URL('report.json',out),JSON.stringify({status:'passed',checks,limits:['CPU authoring checks only; no character reachability, actual rendering or browser persistence claim.']},null,2)+'\n');
 console.log(`${checks.length} document authoring checks passed`);
-
