@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {FACIAL_PALETTE_MANIFEST_URL,FACIAL_PALETTE_MANIFEST_SHA256} from './facial-palette-contract.js';
+import {facialPaletteContract} from './facial-palette-contract.js';
 import {createSurfaceLayers} from './surface-layers.js';
 import {validateSurfaceSelection} from './surface-layer-compositor.js';
 const IRIS_COLOR_OPERATION = 'neutral-iris-multiply-v3';
@@ -12,6 +12,7 @@ const digest = async bytes => [...new Uint8Array(await crypto.subtle.digest('SHA
 /** Masked, per-instance texture variants. Iris pupil and lip-exterior pixels
  * are authored protection regions, not a whole-material color multiplier. */
 export function createFacialPalette({ vrm, avatarSha256 }) {
+  const paletteContract=facialPaletteContract(avatarSha256);
   const surfaces=createSurfaceLayers({avatarSha256});
   let surfaceLayers=[],wantedSurface=[];
   let parts = null, preparation = null, disposed = false, generation = 0;
@@ -22,10 +23,10 @@ export function createFacialPalette({ vrm, avatarSha256 }) {
     if (parts) return parts;
     if (preparation) return preparation;
     preparation = (async () => {
-      const response = await fetch(FACIAL_PALETTE_MANIFEST_URL);
+      const response = await fetch(paletteContract.url);
       if (!response.ok) throw new Error(`五官配色清单加载失败 (${response.status})`);
       const manifestBytes = await response.arrayBuffer();
-      if (await digest(manifestBytes) !== FACIAL_PALETTE_MANIFEST_SHA256) throw new Error('五官配色清单版本不匹配');
+      if (await digest(manifestBytes) !== paletteContract.sha256) throw new Error('五官配色清单版本不匹配');
       const manifest = JSON.parse(new TextDecoder().decode(manifestBytes));
       if (manifest.schema !== 'character-facial-palette-v1') throw new Error('未知五官配色格式');
       const variant = manifest.variants.find(v => v.avatarSha256 === avatarSha256);

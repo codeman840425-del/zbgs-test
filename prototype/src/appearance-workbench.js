@@ -2,6 +2,7 @@ import {captureAppearanceRecipe,applyAppearanceRecipe,appearanceDraftKey,exportA
 import {queryAppearanceCandidates} from './appearance-candidates.js';
 import {HAIRSTYLES} from './hairstyle-catalog.js';
 import {FOUNDATION_PROFILES} from './foundation-profiles.js';
+import {REPRESENTATIVE_PRESETS} from './representative-batch.js';
 import earManifest from '../public/assets/m2-paired-ear-accessory-v1/manifest.json' with {type:'json'};
 import hatFit from '../public/assets/m2-hat-hair-v1/fit.json' with {type:'json'};
 // DOM binding only: appearance ownership and camera framing stay in the controller.
@@ -30,6 +31,7 @@ export function bindAppearanceWorkbench({ controller }) {
       { id: 'm2-male-lower-leg-v1', label: '小腿比例样件' },
     ],
   };
+  for(const preset of REPRESENTATIVE_PRESETS)bodyGroups[preset.sex].push({id:preset.id,label:preset.label+' · 批次候选'});
   const groupFor = bodyType => Object.keys(bodyGroups).find(group => bodyGroups[group].some(item => item.id === bodyType));
   const style = panel.querySelector('#appearance-hair-style');
   const hair = panel.querySelector('#appearance-hair-color');

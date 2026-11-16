@@ -1,3 +1,5 @@
+import {REPRESENTATIVE_PROFILES} from './representative-batch.js';
+
 // Body type is an asset/fit identity, not the streamer's gender or personality.
 // Differences stay here; both candidates use the same movement controller.
 export const FOUNDATION_PROFILES = {
@@ -146,6 +148,8 @@ FOUNDATION_PROFILES['m2-male-lower-leg-v1'] = {
   seatLayerThickness: 0,
   fitStatus: 'Candidate: actual derived-body floor and seated contact must be measured; no inherited 3.6 mm original trouser compensation',
 };
+
+Object.assign(FOUNDATION_PROFILES,REPRESENTATIVE_PROFILES);
 
 export function foundationProfile(bodyType = "female") {
   const profile = FOUNDATION_PROFILES[bodyType];

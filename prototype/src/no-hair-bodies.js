@@ -1,6 +1,8 @@
 // Exact implementation admissions, not visual acceptance.
 // Original source audit covers only female/male; derived scalps still need own readback.
+import {REPRESENTATIVE_NO_HAIR} from './representative-batch.js';
 export const NO_HAIR_BODIES = [
+  ...REPRESENTATIVE_NO_HAIR,
   {
     id: 'm2-male-lower-leg-v1',
     sha256: '968a9d997683cd99de4eea8f77965184eea6d7bc639a6ae062085928325189d8',

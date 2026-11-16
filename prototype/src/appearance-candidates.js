@@ -1,6 +1,6 @@
 import {ACCESSORY_SCHEMA,queryAccessoryCandidates} from './accessory-recipe.js';
 import {SCHEMA,RULES,SURFACE_SCHEMA,SURFACE_RULES,validateAppearanceRecipe} from './appearance-recipe.js';
-import {FACIAL_PALETTE_VERSION} from './facial-palette-contract.js';
+import {facialPaletteContract} from './facial-palette-contract.js';
 import {HAIR_COLORS,SKIN_TONES} from './character-appearance.js';
 import {EYE_COLORS,LIP_COLORS} from './facial-palette.js';
 import {HAIRSTYLES} from './hairstyle-catalog.js';
@@ -54,7 +54,7 @@ export function queryAppearanceCandidates(controller){
   const appearance={hairStyle:{default:'original',choices:styles}};
   for(const [field,presets] of Object.entries({hairColor:HAIR_COLORS,skinTone:SKIN_TONES,eyeColor:EYE_COLORS,lipColor:LIP_COLORS}))
     appearance[field]={default:'original',unit:'preset',choices:Object.entries(presets).map(([value,color])=>({value,color}))};
-  const defaultRecipe={schema:SCHEMA,rulesVersion:RULES,paletteVersion:FACIAL_PALETTE_VERSION,base,
+  const defaultRecipe={schema:SCHEMA,rulesVersion:RULES,paletteVersion:facialPaletteContract(base.sha256).version,base,
     appearance:Object.fromEntries(Object.keys(appearance).map(field=>[field,appearance[field].default])),
     hairAssetSha256:null,hairFit:null,geometry:{mouthWidth:0,recipeSha256:null,browSample:'none',browRecipeSha256:null,
       noseSample:'none',noseRecipeSha256:null,eyeSample:'none',eyeRecipeSha256:null},

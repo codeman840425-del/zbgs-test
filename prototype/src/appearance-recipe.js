@@ -3,7 +3,7 @@ import {ACCESSORY_SCHEMA,ACCESSORY_RULES,captureAccessories,validateAccessories,
 import {validateHairSelection} from './hair-fit-contract.js';
 import {HAIR_COLORS,SKIN_TONES} from './character-appearance.js';
 import {EYE_COLORS,LIP_COLORS} from './facial-palette.js';
-import {FACIAL_PALETTE_VERSION as PALETTE,LEGACY_FACIAL_PALETTE_VERSION as LEGACY_PALETTE} from './facial-palette-contract.js';
+import {facialPaletteContract,compatiblePaletteVersions,LEGACY_FACIAL_PALETTE_VERSION as LEGACY_PALETTE} from './facial-palette-contract.js';
 import {resolveFacialGeometrySelection,appearanceAdmissionError} from './facial-geometry-selection.js';
 import {SURFACE_LAYER_PACKAGE} from './surface-layer-catalog.js';
 import {validateSurfaceSelection} from './surface-layer-compositor.js';
@@ -20,7 +20,7 @@ export function captureAppearanceRecipe(controller){
  const outfit=a.config.outfits.find(o=>o.index===controller.outfit);
  const hasSurface=Boolean(s.surfaceLayers?.length);
  const accessories=a.rigidAccessories&&a.headwear?captureAccessories(a):null;
- return{schema:accessories?ACCESSORY_SCHEMA:hasSurface?SURFACE_SCHEMA:SCHEMA,rulesVersion:accessories?ACCESSORY_RULES:hasSurface?SURFACE_RULES:RULES,paletteVersion:PALETTE,
+ return{schema:accessories?ACCESSORY_SCHEMA:hasSurface?SURFACE_SCHEMA:SCHEMA,rulesVersion:accessories?ACCESSORY_RULES:hasSurface?SURFACE_RULES:RULES,paletteVersion:facialPaletteContract(a.profile.sha256).version,
   ...(accessories?{accessories}:{}),
   ...(hasSurface?{surface:{manifestSha256:s.surfaceManifestSha256,layers:structuredClone(s.surfaceLayers)}}:{}),
   base:{bodyType:a.profile.bodyType,sha256:a.profile.sha256},
@@ -45,7 +45,7 @@ export function validateAppearanceRecipe(controller,record){
  const accessoryVersion=record?.schema===ACCESSORY_SCHEMA&&record.rulesVersion===ACCESSORY_RULES;
  const surfaceVersion=record?.schema===SURFACE_SCHEMA&&record.rulesVersion===SURFACE_RULES;
  const hasSurface=surfaceVersion||(accessoryVersion&&Object.hasOwn(record,'surface'));
- if((!oldFit&&!surfaceVersion&&!accessoryVersion&&(record?.schema!==SCHEMA||record.rulesVersion!==RULES))||![PALETTE,LEGACY_PALETTE].includes(record.paletteVersion))
+ if((!oldFit&&!surfaceVersion&&!accessoryVersion&&(record?.schema!==SCHEMA||record.rulesVersion!==RULES))||!compatiblePaletteVersions(a.profile.sha256).includes(record.paletteVersion))
   throw appearanceAdmissionError('schema','incompatible-version','外观配方版本不兼容，已保留当前外观');
  if(!surfaceVersion&&!accessoryVersion&&Object.hasOwn(record,'surface'))throw appearanceAdmissionError('surface','incompatible-version','旧版配方不能携带新版皮肤层');
  if(hasSurface){
