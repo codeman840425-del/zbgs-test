@@ -1,0 +1,50 @@
+{
+  "sourceSha256": "4ecdcd367fdacb4a9498cca6b7f59af28027f3fc8d0a5200285a75c5c123a1ef",
+  "checks": [
+    {
+      "name": "actual captured outside endpoints and intersecting middle correct on fixed length sphere",
+      "passed": true,
+      "correctionM": 0.0493303705088249,
+      "boneLengthM": 0.0650099885779328,
+      "postNormalizationShiftM": 0
+    },
+    {
+      "name": "inside endpoint and parallel-normal degeneracy choose a finite sphere-plane circle point",
+      "passed": true
+    },
+    {
+      "name": "rotated nonuniformly scaled and moved OBB keeps sphere length and current dependency transform",
+      "passed": true
+    },
+    {
+      "name": "sphere entirely inside expanded box reports infeasibility and returns finite no correction",
+      "passed": true
+    },
+    {
+      "name": "inside pivot with already outside endpoint preserves it and reports unresolved segment",
+      "passed": true
+    },
+    {
+      "name": "logical proxy counts remain separate from per-joint physical ownership through replace clear dispose",
+      "passed": true
+    },
+    {
+      "name": "partial second-joint attachment failure rolls back all new physical colliders",
+      "passed": true
+    },
+    {
+      "name": "reentrant disposal during second-joint attachment removes all pending physical colliders",
+      "passed": true
+    },
+    {
+      "name": "invalid sample radius pivot and transforms reject explicitly",
+      "passed": true
+    }
+  ],
+  "failure": null,
+  "limits": [
+    "Real official manager/joints with CPU fixtures. Segment clearance comparisons allow1e-10 local floating tolerance.",
+    "A common outer face is a conservative separating constraint. It can redirect the strand more than a tangent corner solution.",
+    "Contained fixed-length spheres and inside pivots expose unresolved diagnostics. No body/triangle/continuous collision or browser acceptance."
+  ]
+}

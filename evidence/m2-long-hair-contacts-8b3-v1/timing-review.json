@@ -1,0 +1,19 @@
+{
+  "build": "8b37d9f853e2",
+  "source": "report.json",
+  "frameSpikesOver25ms": [
+    {
+      "index": 2474,
+      "phase": "skirt-walk",
+      "ms": 60.70000000000073,
+      "phaseIndex": 0
+    },
+    {
+      "index": 5626,
+      "phase": "skirt-moved-seat",
+      "ms": 30.39999999999418,
+      "phaseIndex": 158
+    }
+  ],
+  "interpretation": "60.7ms is first recorded frame of skirt-walk after outfit change; this localizes the transition but does not identify compile/load/render as cause. No repeated steady-state spike or target-PC conclusion from this short run. Hair solver p95~0.2ms and max~0.8ms excludes garment/render."
+}

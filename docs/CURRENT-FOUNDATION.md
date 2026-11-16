@@ -185,3 +185,12 @@ rootjoin独立检查m2-hair-rootjoin-independent-v1完成14实际GLB/拓扑+5制
 
 
 508核心全时段5张2fps图已逐张抽审，root-image-review.json保每张SHA：发根已连，坐姿椅背仍穿；约15s头附近回卷、16–19s后甩及21.5s入座上甩是新候选必须继续观察的动态观感点。8.5–9.5s家具遮腿，不承认完整脚底检查。fe6366f80f00a652c1b8b6b088d90ddc53c342f5已push并ls-remote一致，回执m2-long-hair-review-508-v1/remote-backup.json；随后汇总工具/本条等仍待下一次备份。独立hair_segment_review明确sol/high审新骨段修正，当前实际椅未触发构造的双盒重入反例；通用多OBB清除与零数学残差不在通过范围，后续以固定运行证据为准。
+
+
+## 8b3实机接触改进，持续平移动态问题另行定位；帽源已集成
+
+source11033125c07c64690da2a87ede250d57f63f318b/build8b37d9f853e2，fixed-v3与第二fresh-rebuild162文件字节一致。core和contacts真实1×均技术完成；观看m2-long-hair-review-8b3-v1/before-after.html。坐稳box采样19.03/19.11mm→1.84/1.71mm，过程样本max1.13/1.75mm；没有用清零计数替代视觉。root逐张看完9页contacts并看坐姿原图，保root-image-review；核心5页尚未全看，不声称全片人工通过。updateDynamics p95约.2ms/max.8ms，裙walk第一rAF60.7ms、移位椅30.4ms尖峰都保留。开发机库存9950X3D/4090（非活动WebGL适配器确认），普通机未测。
+
+新独立已复现缺陷：平移期间发束持续后拉近水平、入座上甩，旧508同样存在；hair_segment_review明确sol/high正在用真实GLB/官方solver比对world与角色局部center，不扫参数、不改冻结资产。其前项几何独审57e213已集成5640c38：单盒定长有界成立，多盒顺序反例及.05–.08mm expanded数学残差保留，不作为新的泛化求解工程。
+
+帽源作者四提交已集成为49bfee9/f2b9d09/419460c/f7e0174；只原女+rootjoin-v2、后开口帽、完整head/hair保留，首次失败及55→65mm实际改源/重导已归档。http_transport_review(sol/high)在隔离树复用rigid-accessory-layer加载/清理扩单件hat，root负责appearance提交前hair依赖守卫及实际入口/运行；socks_evidence_package(sol/medium)独立做第17workflow和精确3文件publisher，不改冻结27文件源库存。帽候选未运行不称通过；不展开衣库/公司/M3。
