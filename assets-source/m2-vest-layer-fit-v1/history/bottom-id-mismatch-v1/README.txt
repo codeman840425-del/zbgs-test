@@ -1,0 +1,1 @@
+Original author outputs retained: bottom slot lookup selected skirt ID but training-pants bytes. Fixed by unique slot+SHA+bytes matching. Geometry/fit parameters unchanged; this is a source metadata fix, not the reserved visual fit adjustment. Original author QA missed ID-to-byte association.

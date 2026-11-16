@@ -294,6 +294,12 @@ def rewrite(source, positions, normals):
     )
 
 
+def exact_equipment(equipment, slot, descriptor):
+    matches = [item for item in equipment["items"] if item["slot"] == slot and item["sha256"] == descriptor["sha256"] and item["bytes"] == descriptor["bytes"]]
+    require(len(matches) == 1, "Expected one exact equipment identity for " + slot)
+    return matches[0]
+
+
 def build_plan(spec):
     template, weights, rows = load_inputs(spec)
     amplitude, before, history = solve(rows, weights, spec)
@@ -352,10 +358,8 @@ def build_plan(spec):
         )
         folder = case["id"]
         identifier = "m2-vest-layer-fit-v1-" + folder + "-top"
-        old = next(item for item in row["equipment"]["items"] if item["slot"] == "top")
-        bottom = next(
-            item for item in row["equipment"]["items"] if item["slot"] == "bottom"
-        )
+        old = exact_equipment(row["equipment"], "top", case["top"])
+        bottom = exact_equipment(row["equipment"], "bottom", case["bottom"])
         entry = copy.deepcopy(old)
         for field in ["fitResource", "materialRecipes", "sourceResource"]:
             entry.pop(field, None)

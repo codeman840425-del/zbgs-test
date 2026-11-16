@@ -173,6 +173,8 @@ def main():
             "body-bottom-new-top-identity-" + case["id"],
             fit["body"] == case["body"]
             and fit["bottom"]["sha256"] == case["bottom"]["sha256"]
+            and fit["bottom"]["id"] == build.exact_equipment(row["equipment"], "bottom", case["bottom"])["id"]
+            and record["bottomId"] == fit["bottom"]["id"]
             and entry["sha256"] == record["files"]["top.glb"]["sha256"]
             and entry["compatibleAvatarSha256"] == case["body"]["sha256"]
             and entry["id"] != record["sourceTopId"],
@@ -182,6 +184,15 @@ def main():
             build.rewrite(row["top"], target["positions"], target["normals"])
             == build.checked(record["files"]["top.glb"]),
         )
+    synthetic = {"items": [{"id":"skirt-first","slot":"bottom","sha256":"wrong","bytes":2},{"id":"pants-second","slot":"bottom","sha256":"right","bytes":3}]}
+    check("bottom-selection-ignores-catalog-order", build.exact_equipment(synthetic,"bottom",{"sha256":"right","bytes":3})["id"] == "pants-second")
+    for descriptor in [{"sha256":"wrong","bytes":3},{"sha256":"missing","bytes":3}]:
+        try:
+            build.exact_equipment(synthetic,"bottom",descriptor)
+        except ValueError:
+            check("negative-bottom-identity-"+descriptor["sha256"], True)
+        else:
+            check("negative-bottom-identity-"+descriptor["sha256"], False)
     bad = copy.deepcopy(spec["cases"][0]["top"])
     bad["sha256"] = "0" * 64
     try:

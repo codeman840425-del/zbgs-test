@@ -37,3 +37,7 @@ This is the first planned source batch with one setup. One evidence-based common
 The prior unexplained pixel at `[482,454]` is retained. Root separately attributed running pale exposures to Body/derived torso coverage. That independent gap has no clearance correction in this package and does not consume the reserved layer-fit correction budget.
 
 Two QA authoring errors were corrected before the 77-check pass and are preserved in `qa-initial-error.txt`. Neither changed the produced asset bytes or source fit parameters.
+
+## Root metadata correction
+
+The first author batch selected the first bottom-slot entry, incorrectly naming the original female skirt while using training-pants bytes. Original metadata and its inadequate QA are retained in `history/bottom-id-mismatch-v1`. Production now requires a unique slot, SHA and byte-length match for both top and bottom. QA additionally exercises catalog-order and mismatched-identity cases (80 checks). Geometry and the common amplitude are unchanged. This does not consume the runtime visual-correction budget.
