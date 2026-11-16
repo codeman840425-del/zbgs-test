@@ -94,3 +94,5 @@ scripts/production/asset_budget.py check，m2-technical-v1；25初版门发现op
 ## 下一主包已启动：CUSTOM-A01 成对刚性附件
 
 最小实际样件为一款小耳饰的左右装备，原男女各自实际耳部/头骨局部fit；同款资源与不同fit分离，不靠整体缩放或改骨骼名冒充。先制作/检查源GLB+独立左右挂点配置，随后共用运行模块接入，验证单侧/双侧/卸下恢复、和眼镜共存及双实例隔离。缺口在当前mic/glasses专用两槽外的语义挂点、侧别/成对管理；不改麦克风已验姿态、不制作衣库。先使用当前完整原男女，派生脸型仅明确未验。连续两轮同根因无新证据即重定位。asset_budget已知sol/high受派在隔离树生成源与fit，root负责运行集成/正常动作与近景证据；本包不做压缩。
+
+P03导出器与固定包实际录像/失败记录已随f223e3c216e9b858385feb05494a1b23eb8b808b远备并ls-remote核实，回执evidence/m2-runtime-transfer-801-v1/remote-backup.json。新增附件源制作在隔离树进行，尚未接入不称通过。
