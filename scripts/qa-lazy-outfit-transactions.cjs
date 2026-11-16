@@ -54,6 +54,14 @@ const [base,build,folder]=process.argv.slice(2),out=path.resolve(folder);
   assert.equal(await page.evaluate(()=>__debug.exportAppearanceRecipe()),beforeCancelled);assert.equal(await page.evaluate(()=>__debug.snapshot().outfit),0);
   report.checks.push('new default selection prevents delayed old onePiece from becoming visible');
   await page.unroute('**/m2-onepiece-v1/author-export.glb');
+  report.coverageOwnership=await page.evaluate(async()=>{
+   const a=__debug.avatar(),old=await a.prepareOutfit(3),latest=await a.prepareOutfit(4);
+   latest.commit();latest.dispose();old.dispose();
+   const m=a.getAssetProfile().meshRoles.top.map(id=>a.root.getObjectByProperty('uuid',id)).find(m=>(Array.isArray(m.material)?m.material:[m.material]).some(v=>v.name==='M00_001_01_Tops_01_CLOTH'));
+   return {indexCount:m.geometry.index.count,coverage:a.getOutfitInfo().equipment.garmentCoverage};
+  });
+  assert.equal(report.coverageOwnership.indexCount,6012-56*3);
+  report.checks.push('old prepared outer cleanup preserves newer actual top indices, not just outfit flags');
   assert.equal((await outfit(4))?.applied,true);
   const coverage=await page.evaluate(()=>__debug.avatar().getOutfitInfo().equipment.garmentCoverage);
   assert.equal(coverage.active,true);assert.equal(coverage.hiddenFaces,56);
@@ -72,6 +80,13 @@ const [base,build,folder]=process.argv.slice(2),out=path.resolve(folder);
   report.checks.push('female skirt solver is created on first selection, exposes current mesh and updates through walking; pants restore');
   // A delayed garment must also be harmless after the owning actor is gone.
   assert.equal((await page.evaluate(()=>__debug.command({type:'bodySelect',bodyType:'male'}))).applied,true);
+  await page.evaluate(()=>__debug.setBodyMode('base'));
+  assert.equal((await outfit(5))?.applied,true);
+  await page.evaluate(()=>__debug.setBodyMode('dressed'));
+  assert.equal(await page.evaluate(()=>__debug.avatar().getOutfitInfo().equipment.items.onePiece.visible),true);
+  report.checks.push('selecting an unvisited outfit in base mode prepares it for atomic dressed-mode restore');
+  // Replace once more so the following lifetime test owns a real first load.
+  for(const bodyType of ['female','male'])assert.equal((await page.evaluate(bodyType=>__debug.command({type:'bodySelect',bodyType}),bodyType)).applied,true);
   const startedDisposed=new Promise(r=>started=r),disposedGate=new Promise(r=>release=r);releasePending=release;
   await page.route('**/m2-onepiece-v1/author-export.glb',async r=>{started();await disposedGate;await r.continue();});
   await page.evaluate(()=>{window.__qaOldActor=__debug.avatar();window.__qaDisposedOutfit=Promise.resolve(__debug.command({type:'outfit',value:5})).catch(e=>({applied:false,reason:String(e)}));});

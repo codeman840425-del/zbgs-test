@@ -57,20 +57,20 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     debugBody = false,
     disposed = false;
   const item = (role) => adapter.get(IDS[role]);
-  let coverage, garmentCoverage, skirtCorrective;
+  let coverage, garmentCoverage, garmentCoveragePending, skirtCorrective;
   let revision=0,intentRevision=0;
   const pendingUpdates=new Set();
-  function buildPreparedOutfit(nextOutfit,nextDebugBody,nextCoverage=coverage,nextGarmentCoverage=garmentCoverage,nextSkirtCorrective=skirtCorrective,expectedIntent=intentRevision){
+  function buildPreparedOutfit(nextOutfit,nextDebugBody,expectedIntent=intentRevision){
     if(disposed)throw Error('Equipment is disposed');
     const look=outfitSelection(config,nextOutfit),selected=nextDebugBody?[IDS.shoes]:look.ids;
     let update,garmentUpdate,equipmentUpdate;
-    try{update=nextCoverage?.prepareEquipmentSet(selected);garmentUpdate=nextGarmentCoverage?.prepareEquipmentSet(selected);equipmentUpdate=adapter.prepareLoadedSet(selected);}
+    try{update=coverage?.prepareEquipmentSet(selected);garmentUpdate=garmentCoverage?.prepareEquipmentSet(selected);equipmentUpdate=adapter.prepareLoadedSet(selected);}
     catch(error){update?.dispose();garmentUpdate?.dispose();throw error;}
-    const ticket=++revision;let live=true,cleaned=false,committed=false;
+    const ticket=++revision;let live=true,cleaned=false;
     const prepared={
       isCurrent:()=>live&&!disposed&&ticket===revision&&expectedIntent===intentRevision&&equipmentUpdate.isCurrent()&&(!update||update.isCurrent())&&(!garmentUpdate||garmentUpdate.isCurrent()),
-      commit(){if(!prepared.isCurrent())throw Error('Outfit preparation is no longer current');equipmentUpdate.commit();update?.commit();garmentUpdate?.commit();outfit=nextOutfit;lowerBodyRole=look.bottomRole;debugBody=nextDebugBody;if(nextGarmentCoverage&&nextGarmentCoverage!==garmentCoverage)garmentCoverage=nextGarmentCoverage;if(nextSkirtCorrective&&nextSkirtCorrective!==skirtCorrective)skirtCorrective=nextSkirtCorrective;committed=true;live=false;pendingUpdates.delete(prepared);},
-      dispose(){if(cleaned)return;cleaned=true;live=false;pendingUpdates.delete(prepared);try{equipmentUpdate.dispose();}finally{try{update?.dispose();}finally{garmentUpdate?.dispose();}}if(!committed){if(nextGarmentCoverage&&nextGarmentCoverage!==garmentCoverage)nextGarmentCoverage.dispose();if(nextSkirtCorrective&&nextSkirtCorrective!==skirtCorrective)nextSkirtCorrective.dispose();}},
+      commit(){if(!prepared.isCurrent())throw Error('Outfit preparation is no longer current');equipmentUpdate.commit();update?.commit();garmentUpdate?.commit();outfit=nextOutfit;lowerBodyRole=look.bottomRole;debugBody=nextDebugBody;live=false;pendingUpdates.delete(prepared);},
+      dispose(){if(cleaned)return;cleaned=true;live=false;pendingUpdates.delete(prepared);try{equipmentUpdate.dispose();}finally{try{update?.dispose();}finally{garmentUpdate?.dispose();}}},
     };pendingUpdates.add(prepared);return prepared;
   }
   function createSkirtAtRest(args) {
@@ -109,16 +109,38 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
       vrm.scene.updateMatrixWorld(true);
     }
   }
+  function ensureGarmentCoverage() {
+    if (garmentCoverage) return Promise.resolve(garmentCoverage);
+    if (!garmentCoveragePending) {
+      // A helper owns the shared top's original geometry. It belongs to the
+      // actor, not to a request whose later cancellation could restore that
+      // geometry over a newer committed mask. Concurrent requests share it.
+      garmentCoveragePending = createGarmentCoverage({
+        inner:item('top'),outer:item('outer'),descriptor:config.garmentCoverage,avatarSha256,
+      }).then(helper=>{
+        if(disposed){helper?.dispose();throw Error('Equipment is disposed');}
+        garmentCoverage=helper;
+        return helper;
+      }).finally(()=>{garmentCoveragePending=null;});
+    }
+    return garmentCoveragePending;
+  }
   async function prepareOutfit(nextOutfit=outfit,nextDebugBody=debugBody){
     if(disposed)throw Error('Equipment is disposed');
     const request=++intentRevision;
-    const look=outfitSelection(config,nextOutfit),selected=nextDebugBody?[IDS.shoes]:look.ids;
-    const missing=selected.filter(id=>!adapter.get(id));if(missing.length)await Promise.all(missing.map(id=>adapter.load(id)));if(disposed)throw Error('Equipment is disposed');if(request!==intentRevision)throw Error('Outfit preparation cancelled by a newer selection');
-    let nextGarmentCoverage=garmentCoverage,nextSkirtCorrective=skirtCorrective;
-    if(config.garmentCoverage&&selected.includes(IDS.outer)&&!nextGarmentCoverage)nextGarmentCoverage=await createGarmentCoverage({inner:adapter.get(IDS.top),outer:adapter.get(IDS.outer),descriptor:config.garmentCoverage,avatarSha256});
-    if(IDS.skirt&&look.bottomRole==='skirt'&&!nextSkirtCorrective)nextSkirtCorrective=createSkirtAtRest({vrm,source:adapter.get(IDS.skirt).meshes[0],body,fit:selectSkirtFit(adapter.get(IDS.skirt).entry,avatarSha256)});
-    if(disposed||request!==intentRevision){if(nextGarmentCoverage&&nextGarmentCoverage!==garmentCoverage)nextGarmentCoverage.dispose();if(nextSkirtCorrective&&nextSkirtCorrective!==skirtCorrective)nextSkirtCorrective.dispose();throw Error(disposed?'Equipment is disposed':'Outfit preparation cancelled by a newer selection');}
-    return buildPreparedOutfit(nextOutfit,nextDebugBody,coverage,nextGarmentCoverage,nextSkirtCorrective,request);
+    const look=outfitSelection(config,nextOutfit);
+    // Diagnostic body mode hides the chosen look; it does not discard it.
+    // Prepare the chosen outfit so returning to dressed mode remains atomic.
+    const missing=look.ids.filter(id=>!adapter.get(id));
+    if(missing.length)await Promise.all(missing.map(id=>adapter.load(id)));
+    if(disposed)throw Error('Equipment is disposed');
+    if(request!==intentRevision)throw Error('Outfit preparation cancelled by a newer selection');
+    if(config.garmentCoverage&&look.ids.includes(IDS.outer))await ensureGarmentCoverage();
+    if(disposed)throw Error('Equipment is disposed');
+    if(request!==intentRevision)throw Error('Outfit preparation cancelled by a newer selection');
+    if(IDS.skirt&&look.bottomRole==='skirt'&&!skirtCorrective)
+      skirtCorrective=createSkirtAtRest({vrm,source:item('skirt').meshes[0],body,fit:selectSkirtFit(item('skirt').entry,avatarSha256)});
+    return buildPreparedOutfit(nextOutfit,nextDebugBody,request);
   }
   function prepareOutfitSync(nextOutfit=outfit,nextDebugBody=debugBody){
     intentRevision++;
