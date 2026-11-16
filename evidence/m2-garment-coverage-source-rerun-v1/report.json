@@ -1,0 +1,9 @@
+{
+  "status": "failed",
+  "sourceCommit": "e3064503b7ad04e55ac33e95fc46d9deb3ccf0bb",
+  "integratedCommit": "7a17b10",
+  "command": "python scripts/m2-garment-coverage-v1/qa.py",
+  "failedAssertion": "assert digest(mask_path) == before",
+  "confirmedCause": "Windows write_text newline conversion writes CRLF, committed Git text blob uses LF; git diff --numstat has no semantic diff. Production script must preserve exact output bytes.",
+  "runtimeClaim": false
+}
