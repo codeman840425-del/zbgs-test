@@ -1,0 +1,241 @@
+{
+  "passed": true,
+  "baseCommit": "c30f745",
+  "workflowId": "male-outer-panels-source",
+  "workflowCount": 9,
+  "sourcePackages": 4,
+  "inventoryFiles": 114,
+  "authorExportSha256": "0631cf9d1ec297e8504d5ed73f5e1325d3154be9de09906bb6e7131488e89330",
+  "patternSha256": "ef9171d06988941332b53c6d0636513aa6e1f9a4fbdae92b3696cb6b966c836b",
+  "commands": {
+    "list": {
+      "exitCode": 0,
+      "readOnly": true,
+      "commandsExecuted": false
+    },
+    "show": {
+      "exitCode": 0,
+      "readOnly": true,
+      "commandsExecuted": false
+    },
+    "dry-run": {
+      "exitCode": 0,
+      "readOnly": true,
+      "commandsExecuted": false
+    },
+    "validate": {
+      "exitCode": 0,
+      "readOnly": true,
+      "commandsExecuted": false
+    }
+  },
+  "qaFlowChecks": [
+    "duplicate workflow ID",
+    "write-scope traversal",
+    "missing exporter entry",
+    "absolute/remote asset URL",
+    "wrong body fit rejected before GLB use",
+    "stale exported asset SHA",
+    "20mm declared inverse-bind corruption",
+    "unknown raw-bone mapping",
+    "truncated/misdeclared GLB length",
+    "9 real workflows validate without changing source/output hashes"
+  ],
+  "packageNegativeCases": [
+    {
+      "case": "male-jaw-source wrong frozen package version",
+      "error": "SHA mismatch: assets-source/m2-male-face-v1/manifest.json",
+      "expectedResourceOrReason": "assets-source/m2-male-face-v1/manifest.json",
+      "injection": "memory only; frozen files unchanged"
+    },
+    {
+      "case": "male-jaw-source missing editable source",
+      "error": "Missing editable source: assets-source/male-jaw-source/missing-editable.blend",
+      "expectedResourceOrReason": "assets-source/male-jaw-source/missing-editable.blend",
+      "injection": "memory only; frozen files unchanged"
+    },
+    {
+      "case": "male-jaw-source corrupt stored export",
+      "error": "SHA mismatch: assets-source/m2-male-face-v1/generated/avatar.vrm",
+      "expectedResourceOrReason": "assets-source/m2-male-face-v1/generated/avatar.vrm",
+      "injection": "memory only; frozen files unchanged"
+    },
+    {
+      "case": "male-jaw-mouth wrong frozen package version",
+      "error": "SHA mismatch: assets-source/m2-male-jaw-mouth-v1/manifest.json",
+      "expectedResourceOrReason": "assets-source/m2-male-jaw-mouth-v1/manifest.json",
+      "injection": "memory only; frozen files unchanged"
+    },
+    {
+      "case": "male-jaw-mouth missing editable source",
+      "error": "Missing editable source: assets-source/male-jaw-mouth/missing-editable.blend",
+      "expectedResourceOrReason": "assets-source/male-jaw-mouth/missing-editable.blend",
+      "injection": "memory only; frozen files unchanged"
+    },
+    {
+      "case": "male-jaw-mouth corrupt stored export",
+      "error": "SHA mismatch: assets-source/m2-male-jaw-mouth-v1/fresh-check/male-jaw-mouth-width-104-v1/addon-export.vrm",
+      "expectedResourceOrReason": "assets-source/m2-male-jaw-mouth-v1/fresh-check/male-jaw-mouth-width-104-v1/addon-export.vrm",
+      "injection": "memory only; frozen files unchanged"
+    },
+    {
+      "case": "male-jaw-hair-fit wrong frozen package version",
+      "error": "SHA mismatch: evidence/m2-male-jaw-hair-fit-v1/manifest.json",
+      "expectedResourceOrReason": "evidence/m2-male-jaw-hair-fit-v1/manifest.json",
+      "injection": "memory only; frozen files unchanged"
+    },
+    {
+      "case": "male-jaw-hair-fit missing editable source",
+      "error": "Missing editable source: assets-source/male-jaw-hair-fit/missing-editable.blend",
+      "expectedResourceOrReason": "assets-source/male-jaw-hair-fit/missing-editable.blend",
+      "injection": "memory only; frozen files unchanged"
+    },
+    {
+      "case": "male-jaw-hair-fit corrupt stored export",
+      "error": "SHA mismatch: assets-source/m2-male-jaw-hair-fit-v1/editable-export.glb",
+      "expectedResourceOrReason": "assets-source/m2-male-jaw-hair-fit-v1/editable-export.glb",
+      "injection": "memory only; frozen files unchanged"
+    },
+    {
+      "case": "male-outer-panels-source wrong frozen package version",
+      "error": "SHA mismatch: assets-source/m2-outer-panels-v2/manifest.json",
+      "expectedResourceOrReason": "assets-source/m2-outer-panels-v2/manifest.json",
+      "injection": "memory only; frozen files unchanged"
+    },
+    {
+      "case": "male-outer-panels-source missing editable source",
+      "error": "Missing editable source: assets-source/male-outer-panels-source/missing-editable.blend",
+      "expectedResourceOrReason": "assets-source/male-outer-panels-source/missing-editable.blend",
+      "injection": "memory only; frozen files unchanged"
+    },
+    {
+      "case": "male-outer-panels-source corrupt stored export",
+      "error": "SHA mismatch: assets-source/m2-outer-panels-v2/generated/author-export.glb",
+      "expectedResourceOrReason": "assets-source/m2-outer-panels-v2/generated/author-export.glb",
+      "injection": "memory only; frozen files unchanged"
+    },
+    {
+      "case": "male face stale repeat export receipt",
+      "error": "Male face export identity: assets-source/m2-male-face-v1/generated/build-report.json",
+      "expectedResourceOrReason": "assets-source/m2-male-face-v1/generated/build-report.json",
+      "injection": "memory only; frozen files unchanged"
+    },
+    {
+      "case": "jaw mouth cannot inherit continuous range",
+      "error": "Mouth source sample/version: assets-source/m2-male-jaw-mouth-v1/spec.json",
+      "expectedResourceOrReason": "assets-source/m2-male-jaw-mouth-v1/spec.json",
+      "injection": "memory only; frozen files unchanged"
+    },
+    {
+      "case": "same hair GLB wrong fit version",
+      "error": "Hair fit ID/version: assets-source/m2-male-jaw-hair-fit-v1/fit.json",
+      "expectedResourceOrReason": "Hair fit ID/version",
+      "injection": "memory only; frozen files unchanged"
+    },
+    {
+      "case": "same hair GLB wrong target body",
+      "error": "Hair style/target mismatch",
+      "expectedResourceOrReason": "Hair style/target mismatch",
+      "injection": "memory only; frozen files unchanged"
+    },
+    {
+      "case": "outer wrong fit version",
+      "error": "Outer fit ID/version mismatch",
+      "expectedResourceOrReason": "Outer fit ID/version",
+      "injection": "memory only; frozen files unchanged"
+    },
+    {
+      "case": "outer wrong target body",
+      "error": "Outer fit body/inner top mismatch",
+      "expectedResourceOrReason": "Outer fit body",
+      "injection": "memory only; frozen files unchanged"
+    },
+    {
+      "case": "outer wrong inner top",
+      "error": "Outer fit body/inner top mismatch",
+      "expectedResourceOrReason": "Outer fit body/inner top",
+      "injection": "memory only; frozen files unchanged"
+    },
+    {
+      "case": "outer unsupported layer",
+      "error": "Outer layer/bottom/physics restriction mismatch",
+      "expectedResourceOrReason": "Outer layer/bottom",
+      "injection": "memory only; frozen files unchanged"
+    },
+    {
+      "case": "outer unsupported bottom",
+      "error": "Outer layer/bottom/physics restriction mismatch",
+      "expectedResourceOrReason": "Outer layer/bottom",
+      "injection": "memory only; frozen files unchanged"
+    },
+    {
+      "case": "outer coverage expansion",
+      "error": "Outer layer/bottom/physics restriction mismatch",
+      "expectedResourceOrReason": "Outer layer/bottom",
+      "injection": "memory only; frozen files unchanged"
+    },
+    {
+      "case": "outer stale fit asset",
+      "error": "Outer actual source export identity mismatch",
+      "expectedResourceOrReason": "Outer actual source export",
+      "injection": "memory only; frozen files unchanged"
+    },
+    {
+      "case": "outer wrong generator",
+      "error": "SHA mismatch: scripts/m2-outer-panels-v2/build.py",
+      "expectedResourceOrReason": "scripts/m2-outer-panels-v2/build.py",
+      "injection": "memory only; frozen files unchanged"
+    },
+    {
+      "case": "outer stale rebuild export",
+      "error": "Outer editable/rebuild export mismatch",
+      "expectedResourceOrReason": "Outer editable/rebuild",
+      "injection": "memory only; frozen files unchanged"
+    },
+    {
+      "case": "outer runtime is not actual source",
+      "error": "Outer runtime/source entry mismatch",
+      "expectedResourceOrReason": "Outer runtime/source",
+      "injection": "memory only; frozen files unchanged"
+    },
+    {
+      "case": "outer corrupt actual source inverse bind",
+      "error": "Inverse bind mismatch: J_Bip_C_Hips",
+      "expectedResourceOrReason": "Inverse bind mismatch",
+      "injection": "memory only; frozen files unchanged"
+    }
+  ],
+  "readOnlyPackageHashedFiles": 256,
+  "writeScopeNegativeCases": [
+    "Missing transitive write declaration: assets-source/m2-male-jaw-hair-fit-v1/fresh/",
+    "Missing transitive write declaration: evidence/m2-male-jaw-hair-fit-v1/original-generator-rebuild.json",
+    "Missing outer writer declaration: assets-source/m2-outer-panels-v2/generated/author-equipment.json",
+    "Missing outer writer declaration: assets-source/m2-outer-panels-v2/generated/fit.json",
+    "Missing outer writer declaration: assets-source/m2-outer-panels-v2/generated/binding-check.json",
+    "Missing outer writer declaration: assets-source/m2-outer-panels-v2/generated/source-correspondence.json",
+    "Missing outer writer declaration: assets-source/m2-outer-panels-v2/manifest.json",
+    "Missing outer writer declaration: prototype/public/assets/m2-outer-panels-v2/author-export.glb",
+    "Missing outer writer declaration: prototype/public/assets/m1b/equipment.json"
+  ],
+  "outerWriterScopes": {
+    "finalize.py": [
+      "assets-source/m2-outer-panels-v2/generated/author-equipment.json",
+      "assets-source/m2-outer-panels-v2/generated/fit.json",
+      "assets-source/m2-outer-panels-v2/generated/binding-check.json",
+      "assets-source/m2-outer-panels-v2/generated/source-correspondence.json",
+      "assets-source/m2-outer-panels-v2/manifest.json"
+    ],
+    "install-runtime.py": [
+      "prototype/public/assets/m2-outer-panels-v2/author-export.glb",
+      "prototype/public/assets/m1b/equipment.json"
+    ]
+  },
+  "exportsInvoked": false,
+  "browserStarted": false,
+  "sourceAssetsModified": false,
+  "limitations": [
+    "Stored bytes and binding only. No new generation, static collision recomputation, action or visual acceptance.",
+    "Isolated checkout lacks local Blender binary. Stored-byte readback passes without it. Regeneration prerequisite was reported missing.",
+    "Original source pending/admission fields retained as historical labels. Matching fixed game evidence remains external to this index."
+  ]
+}
