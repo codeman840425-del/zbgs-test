@@ -1,0 +1,37 @@
+{
+  "schema": "character-representative-batch-v1",
+  "version": 1,
+  "variants": [],
+  "contract": {
+    "paths": "repo-root-relative",
+    "variant": {
+      "id": "<preset>",
+      "sex": "female|male",
+      "status": "source-passed|failed",
+      "sourceBody": {
+        "path": "<source.vrm>",
+        "sha256": "<sourceSHA>"
+      },
+      "parameters": {},
+      "avatar": {
+        "path": "assets-source/m2-representative-batch-v1/generated/<preset>/avatar.vrm",
+        "sha256": "<actualSHA>",
+        "bytes": 0
+      },
+      "equipmentManifest": {
+        "path": "assets-source/m2-representative-batch-v1/generated/<preset>/equipment.json",
+        "sha256": "<actualSHA>",
+        "bytes": 0
+      },
+      "fit": {
+        "path": "assets-source/m2-representative-batch-v1/generated/<preset>/fit.json",
+        "sha256": "<actualSHA>"
+      },
+      "report": {
+        "path": "assets-source/m2-representative-batch-v1/generated/<preset>/build-report.json",
+        "sha256": "<actualSHA>"
+      }
+    }
+  },
+  "runtimeAccepted": false
+}
