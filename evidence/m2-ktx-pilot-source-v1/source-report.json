@@ -1,0 +1,627 @@
+{
+  "schema": "m2-ktx-pilot-source-v1",
+  "fixedBuildId": "801c7a9c9026",
+  "fixedSourceCommit": "58bc10748cc9fa618f8ecf58b54abbb7de12ffb8",
+  "tool": {
+    "version": "4.4.2",
+    "downloadUrl": "https://github.com/KhronosGroup/KTX-Software/releases/download/v4.4.2/KTX-Software-4.4.2-Linux-x86_64.tar.bz2",
+    "archiveSha256": "a8781bad05f9624edbf910b7f258cd0a4ba7d3e63b49ecc0a0ab440bf6a0a245",
+    "archiveBytes": 7030325,
+    "executableSha256": "2028e023a18e827e66362a9e184052f40192566b10f92655a337e2eb8ea0829b",
+    "execution": "Existing WSL Ubuntu, isolated extracted Linux x86_64 release, no installation",
+    "releaseUrl": "https://github.com/KhronosGroup/KTX-Software/releases/tag/v4.4.2",
+    "publishedDigestUrl": "https://github.com/KhronosGroup/KTX-Software/releases/expanded_assets/v4.4.2",
+    "license": "Apache-2.0 for project files plus upstream third-party licenses. See licenses/README.md.",
+    "python": "3.13.11",
+    "pillow": "12.1.0",
+    "sourceCommit": "4d6fc70eaf62ad0558e63e8d97eb9766118327a6"
+  },
+  "configuration": {
+    "id": "uastc-q2-zstd18-srgb-full-mips-v1",
+    "options": [
+      "--format",
+      "R8G8B8A8_SRGB",
+      "--encode",
+      "uastc",
+      "--uastc-quality",
+      "2",
+      "--zstd",
+      "18",
+      "--generate-mipmap",
+      "--mipmap-filter",
+      "lanczos4",
+      "--mipmap-wrap",
+      "wrap",
+      "--assign-tf",
+      "srgb",
+      "--assign-primaries",
+      "bt709",
+      "--assign-texcoord-origin",
+      "top-left",
+      "--threads",
+      "4"
+    ],
+    "attemptBudget": "One configuration, at most one evidence-driven correction, no sweep"
+  },
+  "samples": [
+    {
+      "id": "male-body-color",
+      "gender": "male",
+      "sourceModel": "experiments/m2-runtime-transfer-801/male-final-package/assets/foundation/base-male-roundtrip.vrm",
+      "sourceModelSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+      "sourceModelBytes": 17902644,
+      "imageIndex": 0,
+      "imageName": "M00_001_00_Body_00",
+      "mimeType": "image/png",
+      "sourceBufferView": 0,
+      "sourceBufferViewOffset": 0,
+      "sourcePng": "assets-source/m2-ktx-pilot-v1/images/male-body-color.png",
+      "sourcePngSha256": "42d85fafad031d5ae2d138510b3c6e84ffcbb9c72a6ae7546379467346b42a41",
+      "sourcePngBytes": 2713614,
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "alphaPixels": {
+        "zero": 0,
+        "oneTo254": 0,
+        "opaque255": 4194304
+      },
+      "sourcePngMetadata": {},
+      "materialUses": [
+        {
+          "materialIndex": 0,
+          "name": "M00_001_01_Body_00_SKIN",
+          "gltfBaseColorTextureIndex": 0,
+          "mtoonTextureProperties": {
+            "_MainTex": 0,
+            "_ShadeTexture": 0
+          },
+          "alphaMode": "MASK",
+          "alphaCutoff": 0.5,
+          "primitiveUses": [
+            {
+              "meshIndex": 0,
+              "meshName": "Body.baked",
+              "primitiveIndex": 0,
+              "positionAccessor": 7
+            }
+          ]
+        }
+      ],
+      "textureIndices": [
+        0
+      ],
+      "samplers": [
+        {
+          "magFilter": 9729,
+          "minFilter": 9729,
+          "wrapS": 10497,
+          "wrapT": 10497
+        }
+      ],
+      "colorSpace": "sRGB RGB, linear straight alpha, glTF baseColor and MToon color/shade roles",
+      "mipDeclaration": {
+        "sourcePngLevels": 1,
+        "sourceSamplerMinFilter": 9729,
+        "encodedLevels": 12,
+        "filter": "lanczos4",
+        "wrap": "wrap",
+        "runtimeRule": "Preserve original LINEAR minFilter, wrapping, flipY=false and material alpha state. Record original actual generated mips separately."
+      },
+      "canvasReadSource": null,
+      "canvasRule": "Hair requires original PNG texture.image for neutralTexture. Keep PNG Source separate from CompressedTexture Source. Original face/iris/brow PNG remain unchanged.",
+      "encoded": {
+        "path": "assets-source/m2-ktx-pilot-v1/encoded/male-body-color.ktx2",
+        "sha256": "018e138bd803934f662e16ada787b657a2f23eb03d76751c2a973aacb71c4bf0",
+        "bytes": 2417760,
+        "encodingSeconds": 2.426964099984616,
+        "header": {
+          "vkFormat": 0,
+          "typeSize": 1,
+          "pixelWidth": 2048,
+          "pixelHeight": 2048,
+          "pixelDepth": 0,
+          "layerCount": 0,
+          "faceCount": 1,
+          "levelCount": 12,
+          "supercompressionScheme": 2,
+          "levels": [
+            {
+              "byteOffset": 748929,
+              "byteLength": 1668831,
+              "uncompressedByteLength": 4194304
+            },
+            {
+              "byteOffset": 230029,
+              "byteLength": 518900,
+              "uncompressedByteLength": 1048576
+            },
+            {
+              "byteOffset": 69342,
+              "byteLength": 160687,
+              "uncompressedByteLength": 262144
+            },
+            {
+              "byteOffset": 19952,
+              "byteLength": 49390,
+              "uncompressedByteLength": 65536
+            },
+            {
+              "byteOffset": 5730,
+              "byteLength": 14222,
+              "uncompressedByteLength": 16384
+            },
+            {
+              "byteOffset": 1964,
+              "byteLength": 3766,
+              "uncompressedByteLength": 4096
+            },
+            {
+              "byteOffset": 956,
+              "byteLength": 1008,
+              "uncompressedByteLength": 1024
+            },
+            {
+              "byteOffset": 696,
+              "byteLength": 260,
+              "uncompressedByteLength": 256
+            },
+            {
+              "byteOffset": 623,
+              "byteLength": 73,
+              "uncompressedByteLength": 64
+            },
+            {
+              "byteOffset": 598,
+              "byteLength": 25,
+              "uncompressedByteLength": 16
+            },
+            {
+              "byteOffset": 573,
+              "byteLength": 25,
+              "uncompressedByteLength": 16
+            },
+            {
+              "byteOffset": 548,
+              "byteLength": 25,
+              "uncompressedByteLength": 16
+            }
+          ]
+        },
+        "validation": "KTX4.4.2 validate exit0"
+      }
+    },
+    {
+      "id": "male-hair-alpha-canvas",
+      "gender": "male",
+      "sourceModel": "experiments/m2-runtime-transfer-801/male-final-package/assets/foundation/base-male-roundtrip.vrm",
+      "sourceModelSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+      "sourceModelBytes": 17902644,
+      "imageIndex": 9,
+      "imageName": "M00_000_HairBack_00",
+      "mimeType": "image/png",
+      "sourceBufferView": 9,
+      "sourceBufferViewOffset": 10104821,
+      "sourcePng": "assets-source/m2-ktx-pilot-v1/images/male-hair-alpha-canvas.png",
+      "sourcePngSha256": "5af587d3970780a72afc8dbebcbea1b9b63c6965d44e19bee8b7bb8e07d742a5",
+      "sourcePngBytes": 366352,
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "alphaPixels": {
+        "zero": 545924,
+        "oneTo254": 9806,
+        "opaque255": 492846
+      },
+      "sourcePngMetadata": {},
+      "materialUses": [
+        {
+          "materialIndex": 5,
+          "name": "M00_000_HairBack_00_HAIR",
+          "gltfBaseColorTextureIndex": 9,
+          "mtoonTextureProperties": {
+            "_MainTex": 9,
+            "_ShadeTexture": 9
+          },
+          "alphaMode": "BLEND",
+          "alphaCutoff": null,
+          "primitiveUses": [
+            {
+              "meshIndex": 0,
+              "meshName": "Body.baked",
+              "primitiveIndex": 5,
+              "positionAccessor": 7
+            }
+          ]
+        }
+      ],
+      "textureIndices": [
+        9
+      ],
+      "samplers": [
+        {
+          "magFilter": 9729,
+          "minFilter": 9729,
+          "wrapS": 10497,
+          "wrapT": 10497
+        }
+      ],
+      "colorSpace": "sRGB RGB, linear straight alpha, glTF baseColor and MToon color/shade roles",
+      "mipDeclaration": {
+        "sourcePngLevels": 1,
+        "sourceSamplerMinFilter": 9729,
+        "encodedLevels": 11,
+        "filter": "lanczos4",
+        "wrap": "wrap",
+        "runtimeRule": "Preserve original LINEAR minFilter, wrapping, flipY=false and material alpha state. Record original actual generated mips separately."
+      },
+      "canvasReadSource": "assets-source/m2-ktx-pilot-v1/images/male-hair-alpha-canvas.png",
+      "canvasRule": "Hair requires original PNG texture.image for neutralTexture. Keep PNG Source separate from CompressedTexture Source. Original face/iris/brow PNG remain unchanged.",
+      "encoded": {
+        "path": "assets-source/m2-ktx-pilot-v1/encoded/male-hair-alpha-canvas.ktx2",
+        "sha256": "2fdafc7fd8cb1b4ce1183130f5a8011f75cc478e4636238f0c6f9add2bfd813c",
+        "bytes": 373399,
+        "encodingSeconds": 0.6321627999423072,
+        "header": {
+          "vkFormat": 0,
+          "typeSize": 1,
+          "pixelWidth": 1024,
+          "pixelHeight": 1024,
+          "pixelDepth": 0,
+          "layerCount": 0,
+          "faceCount": 1,
+          "levelCount": 11,
+          "supercompressionScheme": 2,
+          "levels": [
+            {
+              "byteOffset": 126225,
+              "byteLength": 247174,
+              "uncompressedByteLength": 1048576
+            },
+            {
+              "byteOffset": 39371,
+              "byteLength": 86854,
+              "uncompressedByteLength": 262144
+            },
+            {
+              "byteOffset": 12477,
+              "byteLength": 26894,
+              "uncompressedByteLength": 65536
+            },
+            {
+              "byteOffset": 4271,
+              "byteLength": 8206,
+              "uncompressedByteLength": 16384
+            },
+            {
+              "byteOffset": 1771,
+              "byteLength": 2500,
+              "uncompressedByteLength": 4096
+            },
+            {
+              "byteOffset": 929,
+              "byteLength": 842,
+              "uncompressedByteLength": 1024
+            },
+            {
+              "byteOffset": 672,
+              "byteLength": 257,
+              "uncompressedByteLength": 256
+            },
+            {
+              "byteOffset": 599,
+              "byteLength": 73,
+              "uncompressedByteLength": 64
+            },
+            {
+              "byteOffset": 574,
+              "byteLength": 25,
+              "uncompressedByteLength": 16
+            },
+            {
+              "byteOffset": 549,
+              "byteLength": 25,
+              "uncompressedByteLength": 16
+            },
+            {
+              "byteOffset": 524,
+              "byteLength": 25,
+              "uncompressedByteLength": 16
+            }
+          ]
+        },
+        "validation": "KTX4.4.2 validate exit0"
+      }
+    },
+    {
+      "id": "female-body-color",
+      "gender": "female",
+      "sourceModel": "experiments/m2-runtime-transfer-801/female-final-package/assets/foundation/base-female-roundtrip.vrm",
+      "sourceModelSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+      "sourceModelBytes": 16311576,
+      "imageIndex": 0,
+      "imageName": "F00_001_01_Body_00",
+      "mimeType": "image/png",
+      "sourceBufferView": 0,
+      "sourceBufferViewOffset": 0,
+      "sourcePng": "assets-source/m2-ktx-pilot-v1/images/female-body-color.png",
+      "sourcePngSha256": "ff84d277896e7fd0e365763e7426ca27a89aadd42f24880cfbed25ce8203c6da",
+      "sourcePngBytes": 2982493,
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "alphaPixels": {
+        "zero": 0,
+        "oneTo254": 0,
+        "opaque255": 4194304
+      },
+      "sourcePngMetadata": {},
+      "materialUses": [
+        {
+          "materialIndex": 0,
+          "name": "F00_001_01_Body_00_SKIN",
+          "gltfBaseColorTextureIndex": 0,
+          "mtoonTextureProperties": {
+            "_MainTex": 0,
+            "_ShadeTexture": 0
+          },
+          "alphaMode": "MASK",
+          "alphaCutoff": 0.5,
+          "primitiveUses": [
+            {
+              "meshIndex": 0,
+              "meshName": "Body.baked",
+              "primitiveIndex": 0,
+              "positionAccessor": 7
+            }
+          ]
+        }
+      ],
+      "textureIndices": [
+        0
+      ],
+      "samplers": [
+        {
+          "magFilter": 9729,
+          "minFilter": 9729,
+          "wrapS": 10497,
+          "wrapT": 10497
+        }
+      ],
+      "colorSpace": "sRGB RGB, linear straight alpha, glTF baseColor and MToon color/shade roles",
+      "mipDeclaration": {
+        "sourcePngLevels": 1,
+        "sourceSamplerMinFilter": 9729,
+        "encodedLevels": 12,
+        "filter": "lanczos4",
+        "wrap": "wrap",
+        "runtimeRule": "Preserve original LINEAR minFilter, wrapping, flipY=false and material alpha state. Record original actual generated mips separately."
+      },
+      "canvasReadSource": null,
+      "canvasRule": "Hair requires original PNG texture.image for neutralTexture. Keep PNG Source separate from CompressedTexture Source. Original face/iris/brow PNG remain unchanged.",
+      "encoded": {
+        "path": "assets-source/m2-ktx-pilot-v1/encoded/female-body-color.ktx2",
+        "sha256": "0dcb955291081c598175011cefd588c90b2143bbc835c197749c58a3e5c51ac5",
+        "bytes": 2560821,
+        "encodingSeconds": 2.3130192999960855,
+        "header": {
+          "vkFormat": 0,
+          "typeSize": 1,
+          "pixelWidth": 2048,
+          "pixelHeight": 2048,
+          "pixelDepth": 0,
+          "layerCount": 0,
+          "faceCount": 1,
+          "levelCount": 12,
+          "supercompressionScheme": 2,
+          "levels": [
+            {
+              "byteOffset": 771972,
+              "byteLength": 1788849,
+              "uncompressedByteLength": 4194304
+            },
+            {
+              "byteOffset": 232980,
+              "byteLength": 538992,
+              "uncompressedByteLength": 1048576
+            },
+            {
+              "byteOffset": 69373,
+              "byteLength": 163607,
+              "uncompressedByteLength": 262144
+            },
+            {
+              "byteOffset": 19966,
+              "byteLength": 49407,
+              "uncompressedByteLength": 65536
+            },
+            {
+              "byteOffset": 5741,
+              "byteLength": 14225,
+              "uncompressedByteLength": 16384
+            },
+            {
+              "byteOffset": 1950,
+              "byteLength": 3791,
+              "uncompressedByteLength": 4096
+            },
+            {
+              "byteOffset": 948,
+              "byteLength": 1002,
+              "uncompressedByteLength": 1024
+            },
+            {
+              "byteOffset": 696,
+              "byteLength": 252,
+              "uncompressedByteLength": 256
+            },
+            {
+              "byteOffset": 623,
+              "byteLength": 73,
+              "uncompressedByteLength": 64
+            },
+            {
+              "byteOffset": 598,
+              "byteLength": 25,
+              "uncompressedByteLength": 16
+            },
+            {
+              "byteOffset": 573,
+              "byteLength": 25,
+              "uncompressedByteLength": 16
+            },
+            {
+              "byteOffset": 548,
+              "byteLength": 25,
+              "uncompressedByteLength": 16
+            }
+          ]
+        },
+        "validation": "KTX4.4.2 validate exit0"
+      }
+    },
+    {
+      "id": "female-hair-alpha-canvas",
+      "gender": "female",
+      "sourceModel": "experiments/m2-runtime-transfer-801/female-final-package/assets/foundation/base-female-roundtrip.vrm",
+      "sourceModelSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+      "sourceModelBytes": 16311576,
+      "imageIndex": 9,
+      "imageName": "F00_000_HairBack_00",
+      "mimeType": "image/png",
+      "sourceBufferView": 9,
+      "sourceBufferViewOffset": 8277074,
+      "sourcePng": "assets-source/m2-ktx-pilot-v1/images/female-hair-alpha-canvas.png",
+      "sourcePngSha256": "1be9a663f784c4db3c89f8b07319d4b8311f61a9bfd3100f8954e5f539a11c47",
+      "sourcePngBytes": 287349,
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "alphaPixels": {
+        "zero": 533831,
+        "oneTo254": 5055,
+        "opaque255": 509690
+      },
+      "sourcePngMetadata": {},
+      "materialUses": [
+        {
+          "materialIndex": 5,
+          "name": "F00_000_HairBack_00_HAIR",
+          "gltfBaseColorTextureIndex": 9,
+          "mtoonTextureProperties": {
+            "_MainTex": 9,
+            "_ShadeTexture": 9
+          },
+          "alphaMode": "BLEND",
+          "alphaCutoff": null,
+          "primitiveUses": [
+            {
+              "meshIndex": 0,
+              "meshName": "Body.baked",
+              "primitiveIndex": 5,
+              "positionAccessor": 7
+            }
+          ]
+        }
+      ],
+      "textureIndices": [
+        9
+      ],
+      "samplers": [
+        {
+          "magFilter": 9729,
+          "minFilter": 9729,
+          "wrapS": 10497,
+          "wrapT": 10497
+        }
+      ],
+      "colorSpace": "sRGB RGB, linear straight alpha, glTF baseColor and MToon color/shade roles",
+      "mipDeclaration": {
+        "sourcePngLevels": 1,
+        "sourceSamplerMinFilter": 9729,
+        "encodedLevels": 11,
+        "filter": "lanczos4",
+        "wrap": "wrap",
+        "runtimeRule": "Preserve original LINEAR minFilter, wrapping, flipY=false and material alpha state. Record original actual generated mips separately."
+      },
+      "canvasReadSource": "assets-source/m2-ktx-pilot-v1/images/female-hair-alpha-canvas.png",
+      "canvasRule": "Hair requires original PNG texture.image for neutralTexture. Keep PNG Source separate from CompressedTexture Source. Original face/iris/brow PNG remain unchanged.",
+      "encoded": {
+        "path": "assets-source/m2-ktx-pilot-v1/encoded/female-hair-alpha-canvas.ktx2",
+        "sha256": "534956895f39a65a9c585d7de656d439668ff67d83b1f50ee768f84da91e915d",
+        "bytes": 313435,
+        "encodingSeconds": 0.5228279000148177,
+        "header": {
+          "vkFormat": 0,
+          "typeSize": 1,
+          "pixelWidth": 1024,
+          "pixelHeight": 1024,
+          "pixelDepth": 0,
+          "layerCount": 0,
+          "faceCount": 1,
+          "levelCount": 11,
+          "supercompressionScheme": 2,
+          "levels": [
+            {
+              "byteOffset": 127610,
+              "byteLength": 185825,
+              "uncompressedByteLength": 1048576
+            },
+            {
+              "byteOffset": 39530,
+              "byteLength": 88080,
+              "uncompressedByteLength": 262144
+            },
+            {
+              "byteOffset": 12367,
+              "byteLength": 27163,
+              "uncompressedByteLength": 65536
+            },
+            {
+              "byteOffset": 4180,
+              "byteLength": 8187,
+              "uncompressedByteLength": 16384
+            },
+            {
+              "byteOffset": 1735,
+              "byteLength": 2445,
+              "uncompressedByteLength": 4096
+            },
+            {
+              "byteOffset": 917,
+              "byteLength": 818,
+              "uncompressedByteLength": 1024
+            },
+            {
+              "byteOffset": 669,
+              "byteLength": 248,
+              "uncompressedByteLength": 256
+            },
+            {
+              "byteOffset": 599,
+              "byteLength": 70,
+              "uncompressedByteLength": 64
+            },
+            {
+              "byteOffset": 574,
+              "byteLength": 25,
+              "uncompressedByteLength": 16
+            },
+            {
+              "byteOffset": 549,
+              "byteLength": 25,
+              "uncompressedByteLength": 16
+            },
+            {
+              "byteOffset": 524,
+              "byteLength": 25,
+              "uncompressedByteLength": 16
+            }
+          ]
+        },
+        "validation": "KTX4.4.2 validate exit0"
+      }
+    }
+  ],
+  "runtimeVerified": false
+}

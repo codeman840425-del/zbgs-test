@@ -1,0 +1,21 @@
+{
+  "schema": "m2-ktx-pilot-acquisition-events-v1",
+  "events": [
+    {
+      "action": "Read official GitHub releases API tag v4.4.2",
+      "url": "https://api.github.com/repos/KhronosGroup/KTX-Software/releases/tags/v4.4.2",
+      "result": "HTTP403 rate limit exceeded",
+      "recovery": "Official public release and expanded_assets page expose Linux archive URL and SHA256. Official binary download succeeded and matched that SHA."
+    },
+    {
+      "action": "Read license paths listed or inferred from upstream LICENSE.md",
+      "result": "Three obsolete source paths returned404, retained in licenses/source-snapshots.json",
+      "recovery": "Read actual v4.4.2 git tree and sourceCommit to obtain REUSE.toml and actual third-party paths."
+    }
+  ],
+  "encodingFailures": [],
+  "encodingConfigurationCount": 1,
+  "correctionsUsed": 0,
+  "browserExecuted": false,
+  "gpuExecuted": false
+}
