@@ -1,0 +1,222 @@
+{
+  "id": "fill-light",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "fill-light",
+  "provenance": {
+    "sourceFile": "scripts/company-platform/build-facility-catalog.mjs",
+    "method": "Project-authored procedural stand and rectangular diffuser. No external asset.",
+    "productionScope": "C1 procedural graybox. Independent C3 model production is unverified."
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Ground centre of stand. Diffuser faces +Z."
+  },
+  "node": {
+    "id": "fill-light",
+    "type": "group",
+    "position": [
+      0,
+      0,
+      0
+    ],
+    "rotation": [
+      0,
+      0,
+      0
+    ],
+    "scale": [
+      1,
+      1,
+      1
+    ],
+    "children": [
+      {
+        "id": "light-base",
+        "type": "mesh",
+        "position": [
+          0,
+          0.025,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "geometry": {
+          "type": "BoxGeometry",
+          "parameters": [
+            0.4,
+            0.05,
+            0.4
+          ]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#607770",
+          "roughness": 0.85
+        },
+        "castShadow": true,
+        "receiveShadow": true
+      },
+      {
+        "id": "light-pole",
+        "type": "mesh",
+        "position": [
+          0,
+          0.85,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "geometry": {
+          "type": "BoxGeometry",
+          "parameters": [
+            0.035,
+            1.65,
+            0.035
+          ]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#a7b3a6",
+          "roughness": 0.85
+        },
+        "castShadow": true,
+        "receiveShadow": true
+      },
+      {
+        "id": "light-housing",
+        "type": "mesh",
+        "position": [
+          0,
+          1.7,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "geometry": {
+          "type": "BoxGeometry",
+          "parameters": [
+            0.44,
+            0.34,
+            0.06
+          ]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#6e7b78",
+          "roughness": 0.85
+        },
+        "castShadow": true,
+        "receiveShadow": true
+      },
+      {
+        "id": "light-diffuser",
+        "type": "mesh",
+        "position": [
+          0,
+          1.7,
+          0.036
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "geometry": {
+          "type": "BoxGeometry",
+          "parameters": [
+            0.4,
+            0.3,
+            0.015
+          ]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#fffaf0",
+          "roughness": 0.85
+        },
+        "castShadow": true,
+        "receiveShadow": true
+      }
+    ]
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.22,
+      0.2
+    ],
+    "blocking": true
+  },
+  "usePoints": [],
+  "stateDefaults": {
+    "on": true,
+    "intensity": 5
+  },
+  "light": {
+    "kind": "spot",
+    "position": [
+      0,
+      1.7,
+      0.05
+    ],
+    "target": [
+      0.7,
+      1.2,
+      1.4
+    ],
+    "color": "#ffffff",
+    "intensity": 5,
+    "distance": 5,
+    "angle": 0.7853981633974483,
+    "penumbra": 0.6
+  },
+  "materialSlots": {
+    "light-base": [
+      "light-base"
+    ],
+    "light-pole": [
+      "light-pole"
+    ],
+    "light-housing": [
+      "light-housing"
+    ],
+    "light-diffuser": [
+      "light-diffuser"
+    ]
+  }
+}

@@ -11,6 +11,7 @@ const extraFiles=[
   'scripts/company-platform/library-inputs.json','scripts/company-platform/build-sofa.mjs',
   'scripts/company-platform/build-timber-sofa.mjs',
   'scripts/company-platform/build-home-examples.mjs',
+  'scripts/company-platform/build-appearance-batch.mjs',
   'docs/COMPANY-APPEARANCE-PRODUCTION-STANDARD.md',
   'docs/COMPANY-SPACE-DESIGN-NOTES-2026-11-16.md',
 ];
@@ -151,6 +152,9 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
       if(hash(original)!==entry[pin])fail('production-source-hash-mismatch',target,'Actual editable source differs from the model provenance pin');
       supplemental.add(target);provenance.push({resourceId:resource.id,version:resource.version,field,path:target,sha256:hash(original)});
       if(field==='sourceParameters'){
+        // Collection producers may read shared design inputs beside each item.
+        const collectionRoot=target.split('/').slice(0,2).join('/');
+        if(collectionRoot.startsWith('assets-source/company-'))for(const dependency of await list(source,collectionRoot))supplemental.add(dependency);
         const readme=path.posix.join(path.posix.dirname(target),'README.md');
         try{await read(source,readme);supplemental.add(readme);}catch(error){if(error.code!=='ENOENT')throw error;}
       }

@@ -1,0 +1,90 @@
+{
+  "id": "fill-light-column",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "fill-light",
+  "provenance": {
+    "license": "Project-authored parametric geometry and solid-color materials. No external art assets.",
+    "tools": [
+      "Three.js 187",
+      "BoxGeometry",
+      "RoundedBoxGeometry",
+      "CylinderGeometry",
+      "GLTFExporter",
+      "GLTFLoader readback"
+    ],
+    "sourceParameters": "assets-source/company-device-collection/parameters.json",
+    "sourceParametersSha256": "62dc1e8f377d2a958249694c6c95db37ad270517d64db2674af4b82f4b0ae836",
+    "functionalContractSource": "assets-source/company-device-collection/contracts/fill-light.json",
+    "functionalContractSourceSha256": "1fae60cbeeff60cb34a20149f56a81f36140a2a5c49aa8c6d8535114aaf6e945",
+    "reference": {
+      "catalog": "prototype/src/company/library-catalog.json#fill-light@1",
+      "catalogResourceSha256": "ecf4aafa9be2bd388b2cf9326767839aa185a05010cc44a3911a20a15c9a38a2"
+    },
+    "generator": "scripts/company-platform/build-device-collection.mjs",
+    "generatorSha256": "95eecae930eb393d5fc8149798752a047931f4b2b5dfef217a22bcb785ed12d7",
+    "designId": "fill-light-column",
+    "method": "Vertical column lantern with slotted side rails and cap mount"
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Ground centre of stand. Diffuser faces +Z."
+  },
+  "stateDefaults": {
+    "on": true,
+    "intensity": 5
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.22,
+      0.2
+    ],
+    "blocking": true
+  },
+  "materialSlots": {
+    "diffuser-panel": [
+      "diffuser-panel"
+    ]
+  },
+  "display": {
+    "screen": {
+      "nodes": [
+        "diffuser-panel"
+      ],
+      "onColor": "#dbe5ff",
+      "offColor": "#28314b",
+      "emissive": "#9dbaff",
+      "onIntensity": 1.15
+    }
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/device-collection/fill-light-column/v1/model.glb",
+    "sha256": "f78feaa822c002052a64ce05348958430b72d2898c486bd4b4f99b0e0107053c",
+    "bytes": 11900
+  },
+  "light": {
+    "kind": "spot",
+    "position": [
+      0,
+      1.7,
+      0.05
+    ],
+    "target": [
+      0.7,
+      1.2,
+      1.4
+    ],
+    "color": "#ffffff",
+    "intensity": 5,
+    "distance": 5,
+    "angle": 0.7853981633974483,
+    "penumbra": 0.6
+  }
+}

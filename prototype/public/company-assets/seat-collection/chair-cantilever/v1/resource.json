@@ -1,0 +1,211 @@
+{
+  "id": "chair-cantilever",
+  "version": 1,
+  "designId": "chair-cantilever",
+  "targetProfileId": "chair",
+  "targetProfileVersion": 1,
+  "category": "seat",
+  "mountRole": "chair",
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Ground centre",
+    "scale": "Identity only"
+  },
+  "provenance": {
+    "license": "Project-authored schematic geometry and solid-color materials. No external art assets.",
+    "tools": [
+      "Three.js 187",
+      "BoxGeometry",
+      "CylinderGeometry",
+      "RoundedBoxGeometry",
+      "GLTFExporter",
+      "GLTFLoader independent readback"
+    ],
+    "sourceParameters": "assets-source/company-seat-collection/chair-cantilever.json",
+    "sourceParametersSha256": "b7ec77e3f807f1a4d7ed66cfb3c4c337e64f09ccf01e79625c05d829c9a38526",
+    "generator": "scripts/company-platform/build-seat-collection.mjs",
+    "generatorSha256": "0a7fba132acc9aaf6123b4e87b221fe4bbb07a88e46f87a41fd66484fc117a23",
+    "method": "Cantilever sled frame with rear spreader",
+    "promptTemplate": "为公司场景制作一份可运行 3D 外观资源。designId={{designId}}，造型方向={{styleDirection}}，目标规格={{targetProfileId}}@{{targetProfileVersion}}。保持使用点、座高、接近/离开点、clearance、footprint 与状态语义，调整轮廓、构件和材质，座面与靠背真实三角形覆盖固定接触区域，完成 GLB 导出、锁定 Three.js 导入回读和重复生成检查。",
+    "prompt": "为公司场景制作一份可运行 3D 外观资源。designId=chair-cantilever，造型方向=Cantilever sled frame with rear spreader，目标规格=chair@1。保持使用点、座高、接近/离开点、clearance、footprint 与状态语义，调整轮廓、构件和材质，座面与靠背真实三角形覆盖固定接触区域，完成 GLB 导出、锁定 Three.js 导入回读和重复生成检查。"
+  },
+  "parameters": {
+    "seatDepth": 0.5,
+    "backHeight": 0.5,
+    "kind": "chair",
+    "backWidth": 0.54,
+    "backRadius": 0.025,
+    "seatRadius": 0.035,
+    "frame": "cantilever",
+    "colors": {
+      "seat": "#687b86",
+      "structure": "#263238",
+      "back": "#7e9aa6"
+    },
+    "seatWidth": 0.55
+  },
+  "functionalContract": {
+    "targetProfileId": "chair",
+    "targetProfileVersion": 1,
+    "reference": "chair@1",
+    "source": "prototype/src/company/library-catalog.json",
+    "sourceSha256": "85593a00831a465019d57cf167cb7728bea6eb8b4df921f637f6720247d48c07"
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/seat-collection/chair-cantilever/v1/model.glb",
+    "sha256": "949aa3bd17805c3eecad739fb2387edcf71d9b0f9fef81bc8100f63fa007869d",
+    "bytes": 145060
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.275,
+      0.255
+    ],
+    "blocking": true
+  },
+  "usePoints": [
+    {
+      "id": "seat",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "yaw": 0,
+      "seatHeight": 0.47,
+      "seatNodeId": "chair-seat",
+      "backNodeId": "chair-back",
+      "capacity": 1,
+      "approach": [
+        0,
+        0,
+        0.6
+      ],
+      "exit": [
+        0,
+        0,
+        0.65
+      ],
+      "clearance": {
+        "width": 0.7,
+        "depth": 0.65
+      },
+      "limits": [
+        "Static authoring envelope only; exact body alignment and use remain C3 validation."
+      ]
+    }
+  ],
+  "stateDefaults": {},
+  "materialSlots": {
+    "seat": [
+      "chair-seat"
+    ],
+    "back": [
+      "chair-back"
+    ],
+    "structure": [
+      "seat-support-rail",
+      "back-support-left",
+      "back-support-right",
+      "sled-left",
+      "front-leg-left",
+      "rear-leg-left",
+      "sled-right",
+      "front-leg-right",
+      "rear-leg-right",
+      "sled-front-crossbar"
+    ]
+  },
+  "meshNames": [
+    "chair-seat",
+    "chair-back",
+    "seat-support-rail",
+    "back-support-left",
+    "back-support-right",
+    "sled-left",
+    "front-leg-left",
+    "rear-leg-left",
+    "sled-right",
+    "front-leg-right",
+    "rear-leg-right",
+    "sled-front-crossbar"
+  ],
+  "checks": {
+    "bounds": {
+      "min": [
+        -0.2750000059604645,
+        7.748603321477976e-10,
+        -0.2550000001490116
+      ],
+      "max": [
+        0.2750000059604645,
+        0.98,
+        0.25
+      ]
+    },
+    "size": [
+      0.550000011920929,
+      0.9799999992251397,
+      0.5050000001490116
+    ],
+    "center": [
+      0,
+      0.49000000038743013,
+      -0.0025000000745057926
+    ],
+    "meshCount": 12,
+    "meshNames": [
+      "chair-seat",
+      "chair-back",
+      "seat-support-rail",
+      "back-support-left",
+      "back-support-right",
+      "sled-left",
+      "front-leg-left",
+      "rear-leg-left",
+      "sled-right",
+      "front-leg-right",
+      "rear-leg-right",
+      "sled-front-crossbar"
+    ],
+    "pointChecks": [
+      {
+        "id": "seat",
+        "seatBounds": {
+          "min": [
+            -0.2750000059604645,
+            0.3999999998509884,
+            -0.25
+          ],
+          "max": [
+            0.2750000059604645,
+            0.4700000001490116,
+            0.25
+          ]
+        },
+        "backContact": [
+          0,
+          0.72,
+          -0.1849999998509884
+        ],
+        "seatContact": [
+          0,
+          0.4700000001490116,
+          0
+        ]
+      }
+    ],
+    "animations": 0,
+    "skins": 0,
+    "images": 0,
+    "externalUris": 0,
+    "identityScale": true
+  }
+}

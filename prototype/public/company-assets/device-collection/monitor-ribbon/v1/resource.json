@@ -1,0 +1,62 @@
+{
+  "id": "monitor-ribbon",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "monitor",
+  "provenance": {
+    "license": "Project-authored parametric geometry and solid-color materials. No external art assets.",
+    "tools": [
+      "Three.js 187",
+      "BoxGeometry",
+      "RoundedBoxGeometry",
+      "CylinderGeometry",
+      "GLTFExporter",
+      "GLTFLoader readback"
+    ],
+    "sourceParameters": "assets-source/company-device-collection/parameters.json",
+    "sourceParametersSha256": "62dc1e8f377d2a958249694c6c95db37ad270517d64db2674af4b82f4b0ae836",
+    "functionalContractSource": "assets-source/company-device-collection/contracts/monitor.json",
+    "functionalContractSourceSha256": "a6c4dfce8d372a71a7d0896d0d8c826ddb266afe89e33e3fd6e102bc0a47d5a6",
+    "reference": {
+      "catalog": "prototype/src/company/library-catalog.json#monitor@1",
+      "catalogResourceSha256": "6e2b1fe7617df25e9a4e8f9060fa8f3a0290e44973b768bdb32f412332322f38"
+    },
+    "generator": "scripts/company-platform/build-device-collection.mjs",
+    "generatorSha256": "95eecae930eb393d5fc8149798752a047931f4b2b5dfef217a22bcb785ed12d7",
+    "designId": "monitor-ribbon",
+    "method": "Wide ribbon bezel with twin side pylons and cable bridge"
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Support plane at original desk top, centred on monitor stem. Screen faces +Z."
+  },
+  "stateDefaults": {
+    "on": true
+  },
+  "mount": "desk-surface",
+  "footprint": null,
+  "materialSlots": {
+    "screen-surface": [
+      "screen-surface"
+    ]
+  },
+  "display": {
+    "screen": {
+      "nodes": [
+        "screen-surface"
+      ],
+      "onColor": "#ffd6a1",
+      "offColor": "#49311e",
+      "emissive": "#ffb35a",
+      "onIntensity": 1.8
+    }
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/device-collection/monitor-ribbon/v1/model.glb",
+    "sha256": "81e1696d7285dcf8db480c5d9093975f6d0196273068fe264f3645743e548582",
+    "bytes": 111532
+  }
+}

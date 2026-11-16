@@ -13,6 +13,7 @@ const workspace=new URL('../../',import.meta.url);
 const sourceFiles=[
   'scripts/company-platform/batch.mjs','prototype/src/company/space.js',
   'prototype/src/company/document.js','prototype/src/company/placement.js',
+  'prototype/src/company/appearance-contract.js',
   'prototype/src/company/persistence.js','prototype/src/company/library-catalog.json',
   'prototype/src/company/templates.json',
 ];
@@ -34,15 +35,17 @@ function validateBatch(batch,only){
   const keys=new Set(),ids=new Set();
   for(const [index,item]of batch.items.entries()){
     const location=`items[${index}]`;
-    if(!item||Object.keys(item).some(key=>!['key','input','operations'].includes(key))||
+    if(!item||Object.keys(item).some(key=>!['key','input','document','operations'].includes(key))||
         typeof item.key!=='string'||!/^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/.test(item.key)||
         /^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/i.test(item.key))
       fail('invalid-batch-key',location,'Use a portable nonempty directory key with letters, digits, underscore or hyphen');
     if(keys.has(item.key.toLowerCase()))fail('duplicate-batch-key',`${location}.key`,'Keys must be distinct including filesystem case');
     keys.add(item.key.toLowerCase());
-    if(typeof item.input?.id==='string'&&item.input.id){
-      if(ids.has(item.input.id))fail('duplicate-company-id',`${location}.input.id`,'A batch cannot publish multiple results for one company identity');
-      ids.add(item.input.id);
+    if(Boolean(item.input)===Boolean(item.document))fail('invalid-batch-item',location,'Provide exactly one scaled input or explicit layout document');
+    const companyId=(item.input||item.document)?.id;
+    if(typeof companyId==='string'&&companyId){
+      if(ids.has(companyId))fail('duplicate-company-id',`${location}.id`,'A batch cannot publish multiple results for one company identity');
+      ids.add(companyId);
     }
   }
   if(only!==undefined&&!batch.items.some(item=>item.key===only))fail('unknown-batch-key','only',String(only));
@@ -72,11 +75,12 @@ async function verifyExisting(directory,expected){
   }
 }
 async function prepare(item,sourceHashes){
-  if(!item.input||typeof item.input!=='object'||typeof item.input.id!=='string'||!item.input.id)
+  const input=item.input||item.document;
+  if(!input||typeof input!=='object'||typeof input.id!=='string'||!input.id)
     fail('invalid-batch-item',`${item.key}.input.id`,'Each result requires an explicit company identity');
   if(item.operations!==undefined&&!Array.isArray(item.operations))
     fail('invalid-batch-operations',`${item.key}.operations`,'Optional operations must be an array');
-  let document=createScaledCompany(item.input,catalog,templates);
+  let document=item.document?structuredClone(item.document):createScaledCompany(item.input,catalog,templates);
   if(item.operations?.length)document=prepareCompanyChange(document,item.operations,{catalog,templates}).document;
   const connections=inspectCompanyConnections(document,catalog,templates);
   const placement=inspectCompanyPlacement(document,catalog,templates);

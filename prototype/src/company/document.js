@@ -170,6 +170,31 @@ export function deriveCompany(document, catalog, templates) {
           Math.abs(node.transform.position[0]) > surface.halfSize[0] || Math.abs(node.transform.position[2]) > surface.halfSize[1])
         fail('invalid-surface-fit', node.id, 'Device mount origin must be on the declared parent surface');
     }
+    if (['wall','portal','floor-surface'].includes(resource.mount)) {
+      const region=nodes.get(node.parentId),spec=resource.mounting;
+      if(!['room','area'].includes(region?.kind)||!spec||
+        ![spec.width,spec.height,spec.depth].every(v=>Number.isFinite(v)&&v>0))
+        fail('missing-mount-region',node.id,'Architectural display needs a room/area parent and finite mounting envelope');
+      const [x,y,z]=node.transform.position,angle=((node.transform.yaw%(Math.PI*2))+Math.PI*2)%(Math.PI*2);
+      if(resource.mount==='floor-surface') {
+        const swapped=Math.abs(Math.sin(angle))>.5,halfX=(swapped?spec.depth:spec.width)/2,halfZ=(swapped?spec.width:spec.depth)/2;
+        if(Math.abs(y)>.001||Math.abs(x)+halfX>region.bounds.width/2-.1+.001||Math.abs(z)+halfZ>region.bounds.depth/2-.1+.001)
+          fail('invalid-floor-fit',node.id,'Floor covering must be grounded and fit inside the existing walls');
+      } else {
+        const edge=Math.abs(angle)<1e-6?'north':Math.abs(angle-Math.PI/2)<1e-6?'west':Math.abs(angle-Math.PI)<1e-6?'south':'east';
+        const horizontal=['north','south'].includes(edge),span=horizontal?region.bounds.width:region.bounds.depth;
+        const plane=(['north','west'].includes(edge)?-1:1)*((horizontal?region.bounds.depth:region.bounds.width)/2-.1);
+        const along=horizontal?x:z,normal=horizontal?z:x,low=spec.origin==='center'?y-spec.height/2:y;
+        if(Math.abs(normal-plane)>.001||Math.abs(along)+spec.width/2>span/2-.001||low<-.001||low+spec.height>2.8+.001)
+          fail('invalid-wall-fit',node.id,'Display back plane, height and width must fit its wall interior face');
+        const floor=nodes.get(floorIds.get(node.id)),portals=(floor.connections||[]).flatMap(c=>[c.from,c.to]).filter(p=>p.regionId===region.id&&p.edge===edge);
+        if(resource.mount==='portal') {
+          if(Math.abs(y)>.001||!portals.some(p=>Math.abs(p.offset-along)<.001&&Math.abs(p.width-spec.apertureWidth)<.001))
+            fail('invalid-portal-fit',node.id,'Door frame must match an existing portal position and unchanged clear width');
+        } else if(portals.some(p=>Math.abs(p.offset-along)<(p.width+spec.width)/2-.001))
+          fail('wall-display-over-portal',node.id,'Wall display cannot cover a real portal');
+      }
+    }
     for (const [field, value] of Object.entries(node.state || {})) {
       const expected = resource.stateDefaults?.[field];
       if (expected === undefined || typeof value !== typeof expected ||

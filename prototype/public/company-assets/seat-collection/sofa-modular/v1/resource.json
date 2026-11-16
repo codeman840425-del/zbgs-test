@@ -1,0 +1,274 @@
+{
+  "id": "sofa-modular",
+  "version": 1,
+  "designId": "sofa-modular",
+  "targetProfileId": "lounge-sofa",
+  "targetProfileVersion": 1,
+  "category": "multi-use",
+  "mountRole": "sofa",
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Ground centre",
+    "scale": "Identity only"
+  },
+  "provenance": {
+    "license": "Project-authored schematic geometry and solid-color materials. No external art assets.",
+    "tools": [
+      "Three.js 187",
+      "BoxGeometry",
+      "CylinderGeometry",
+      "RoundedBoxGeometry",
+      "GLTFExporter",
+      "GLTFLoader independent readback"
+    ],
+    "sourceParameters": "assets-source/company-seat-collection/sofa-modular.json",
+    "sourceParametersSha256": "f3e11c4151b840abd2e2ecb39f83ae36664b6f868ef754c63579fc63abc87441",
+    "generator": "scripts/company-platform/build-seat-collection.mjs",
+    "generatorSha256": "0a7fba132acc9aaf6123b4e87b221fe4bbb07a88e46f87a41fd66484fc117a23",
+    "method": "Split modular sofa with broad plinth and block arms",
+    "promptTemplate": "为公司场景制作一份可运行 3D 外观资源。designId={{designId}}，造型方向={{styleDirection}}，目标规格={{targetProfileId}}@{{targetProfileVersion}}。保持使用点、座高、接近/离开点、clearance、footprint 与状态语义，调整轮廓、构件和材质，座面与靠背真实三角形覆盖固定接触区域，完成 GLB 导出、锁定 Three.js 导入回读和重复生成检查。",
+    "prompt": "为公司场景制作一份可运行 3D 外观资源。designId=sofa-modular，造型方向=Split modular sofa with broad plinth and block arms，目标规格=lounge-sofa@1。保持使用点、座高、接近/离开点、clearance、footprint 与状态语义，调整轮廓、构件和材质，座面与靠背真实三角形覆盖固定接触区域，完成 GLB 导出、锁定 Three.js 导入回读和重复生成检查。"
+  },
+  "parameters": {
+    "seatDepth": 0.74,
+    "backHeight": 0.5,
+    "kind": "sofa",
+    "backWidth": 0.92,
+    "backRadius": 0.03,
+    "seatRadius": 0.03,
+    "frame": "modular",
+    "colors": {
+      "seat": "#4b6e86",
+      "structure": "#273b4a",
+      "back": "#5f8aa7"
+    },
+    "seatWidth": 0.92
+  },
+  "functionalContract": {
+    "targetProfileId": "lounge-sofa",
+    "targetProfileVersion": 1,
+    "reference": "lounge-sofa@1",
+    "source": "prototype/public/company-assets/lounge-sofa/v1/resource.json",
+    "sourceSha256": "4559d986812ef7e455fc8f0bd369380cd487d5672cd5bd7349ed9aaac8e1fb27"
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/seat-collection/sofa-modular/v1/model.glb",
+    "sha256": "e56568c8748df03e2f838307394fccbfcfd1f20682a57839985eb117910f165a",
+    "bytes": 525460
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      1.100000023841858,
+      0.5199999809265137
+    ],
+    "blocking": true
+  },
+  "usePoints": [
+    {
+      "id": "left",
+      "position": [
+        -0.48,
+        0,
+        0.04
+      ],
+      "yaw": 0,
+      "seatHeight": 0.47,
+      "capacity": 1,
+      "clearance": {
+        "width": 0.92,
+        "depth": 1.11
+      },
+      "limitations": [
+        "Metres. Fixed 0.47m seat height. Static data preview only. Actual character usage awaits C3.",
+        "Clearance width is centred on use-point X. Depth extends forward from use-point Z through the exit point.",
+        "Declared allocation only. Character body clearance, reach, contact and approach/exit motion remain unverified."
+      ],
+      "seatNodeId": "seat-left",
+      "backNodeId": "back-left",
+      "approach": [
+        -0.48,
+        0,
+        1.02
+      ],
+      "exit": [
+        -0.48,
+        0,
+        1.15
+      ]
+    },
+    {
+      "id": "right",
+      "position": [
+        0.48,
+        0,
+        0.04
+      ],
+      "yaw": 0,
+      "seatHeight": 0.47,
+      "capacity": 1,
+      "clearance": {
+        "width": 0.92,
+        "depth": 1.11
+      },
+      "limitations": [
+        "Metres. Fixed 0.47m seat height. Static data preview only. Actual character usage awaits C3.",
+        "Clearance width is centred on use-point X. Depth extends forward from use-point Z through the exit point.",
+        "Declared allocation only. Character body clearance, reach, contact and approach/exit motion remain unverified."
+      ],
+      "seatNodeId": "seat-right",
+      "backNodeId": "back-right",
+      "approach": [
+        0.48,
+        0,
+        1.02
+      ],
+      "exit": [
+        0.48,
+        0,
+        1.15
+      ]
+    }
+  ],
+  "stateDefaults": {},
+  "materialSlots": {
+    "fabric": [
+      "seat-left",
+      "seat-right",
+      "back-left",
+      "back-right"
+    ],
+    "structure": [
+      "seat-support-left",
+      "back-support-left",
+      "seat-support-right",
+      "back-support-right",
+      "modular-plinth",
+      "modular-arm-left",
+      "modular-arm-right",
+      "modular-divider",
+      "modular-foot-left",
+      "modular-foot-right"
+    ]
+  },
+  "meshNames": [
+    "seat-left",
+    "back-left",
+    "seat-support-left",
+    "back-support-left",
+    "seat-right",
+    "back-right",
+    "seat-support-right",
+    "back-support-right",
+    "modular-plinth",
+    "modular-arm-left",
+    "modular-arm-right",
+    "modular-divider",
+    "modular-foot-left",
+    "modular-foot-right"
+  ],
+  "checks": {
+    "bounds": {
+      "min": [
+        -1.0999999982118607,
+        -1.3113021835042815e-8,
+        -0.41999998688697815
+      ],
+      "max": [
+        1.0999999982118607,
+        1.0699999999999998,
+        0.41999998688697815
+      ]
+    },
+    "size": [
+      2.1999999964237213,
+      1.0700000131130216,
+      0.8399999737739563
+    ],
+    "center": [
+      0,
+      0.534999993443489,
+      0
+    ],
+    "meshCount": 14,
+    "meshNames": [
+      "seat-left",
+      "back-left",
+      "seat-support-left",
+      "back-support-left",
+      "seat-right",
+      "back-right",
+      "seat-support-right",
+      "back-support-right",
+      "modular-plinth",
+      "modular-arm-left",
+      "modular-arm-right",
+      "modular-divider",
+      "modular-foot-left",
+      "modular-foot-right"
+    ],
+    "pointChecks": [
+      {
+        "id": "left",
+        "seatBounds": {
+          "min": [
+            -0.9400000083446503,
+            0.3999999998509884,
+            -0.3300000047683716
+          ],
+          "max": [
+            -0.019999991655349714,
+            0.4700000001490116,
+            0.41000000476837156
+          ]
+        },
+        "backContact": [
+          -0.48,
+          0.72,
+          -0.3000000008940699
+        ],
+        "seatContact": [
+          -0.48,
+          0.4700000001490116,
+          0.04
+        ]
+      },
+      {
+        "id": "right",
+        "seatBounds": {
+          "min": [
+            0.019999991655349714,
+            0.3999999998509884,
+            -0.3300000047683716
+          ],
+          "max": [
+            0.9400000083446503,
+            0.4700000001490116,
+            0.41000000476837156
+          ]
+        },
+        "backContact": [
+          0.48,
+          0.72,
+          -0.3000000008940699
+        ],
+        "seatContact": [
+          0.48,
+          0.4700000001490116,
+          0.04
+        ]
+      }
+    ],
+    "animations": 0,
+    "skins": 0,
+    "images": 0,
+    "externalUris": 0,
+    "identityScale": true
+  }
+}

@@ -82,7 +82,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
           const floor=structureMesh(width,.12,depth,node.kind==='area'?'#c6c7bc':'#d7d5c7');floor.position.y=-.06;floor.name=`Floor:${node.id}`;parent.add(floor);floors.push(floor);
           floor.userData={roomId:node.id,floorId};
           for(const boundary of architecture.walls.filter(w=>w.regionId===node.id)) {
-            const wall=structureMesh(...boundary.size,node.kind==='area'?'#b5c4b8':'#c4d1c1');wall.position.fromArray(boundary.position);wall.name=boundary.id;wall.userData={roomId:node.id,physicalBoundary:boundary.id};parent.add(wall);walls.push(wall);
+            const wall=structureMesh(...boundary.size,node.kind==='area'?'#b5c4b8':'#c4d1c1');wall.position.fromArray(boundary.position);wall.name=boundary.id;wall.userData={roomId:node.id,edge:boundary.edge,physicalBoundary:boundary.id};parent.add(wall);walls.push(wall);
           }
         }
       }
@@ -102,6 +102,24 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
             for(const material of [mesh.material].flat()) {
               if(values.color!==undefined)material.color.set(values.color);
               if(values.roughness!==undefined)material.roughness=values.roughness;
+            }
+          }
+        }
+        // Imported models declare their display targets separately from fixed state semantics.
+        const screen=entry.resource.display?.screen;
+        if(screen) {
+          if(!Array.isArray(screen.nodes)||!screen.nodes.length||
+            !Number.isFinite(screen.onIntensity)||screen.onIntensity<0||screen.onIntensity>10||
+            ![screen.onColor,screen.offColor,screen.emissive].every(c=>typeof c==='string'&&/^#[0-9a-fA-F]{6}$/.test(c)))
+            throw new CompanyError('invalid-display-mapping',entry.id,'Screen display requires named meshes, colors and a bounded emissive intensity');
+          for(const name of screen.nodes) {
+            const mesh=parts.get(name);
+            if(!mesh?.isMesh)throw new CompanyError('missing-display-mesh',`${entry.id}.${name}`,'Screen state target must resolve to a mesh');
+            for(const material of [mesh.material].flat()) {
+              if(!material?.emissive)throw new CompanyError('invalid-display-material',`${entry.id}.${name}`,'Screen target requires an emissive-capable material');
+              material.color.set(entry.state.on?screen.onColor:screen.offColor);
+              material.emissive.set(entry.state.on?screen.emissive:'#000000');
+              material.emissiveIntensity=entry.state.on?screen.onIntensity:0;
             }
           }
         }
@@ -215,12 +233,20 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
   }
   function applyPresentation() {
     const focused=current.view.mode==='room'?current.view.roomId:null;
+    const mountedWalls=new Set();
     for(const facility of current.facilities.values()) {
       const detailed=!focused||facility.roomId===focused;
       facility.visual.visible=detailed;if(facility.proxy)facility.proxy.visible=!detailed;
+      if(['wall','portal'].includes(facility.resource.mount)) {
+        const yaw=((facility.node.transform.yaw%(Math.PI*2))+Math.PI*2)%(Math.PI*2);
+        const edge=Math.abs(yaw)<1e-6?'north':Math.abs(yaw-Math.PI/2)<1e-6?'west':Math.abs(yaw-Math.PI)<1e-6?'south':'east';
+        if(focused)mountedWalls.add(`${facility.node.parentId}:${edge}`);
+        const clip=focused?[]:[new THREE.Plane(new THREE.Vector3(0,-1,0),.504)];
+        facility.visual.traverse(object=>{for(const material of object.material?[object.material].flat():[]){material.clippingPlanes=clip;material.clipShadows=true;material.needsUpdate=true;}});
+      }
     }
     // A low cutaway is a display transform only; physical wall records remain 2.8m.
-    for(const wall of current.walls){wall.scale.y=.18;wall.position.y=2.8*.18/2;}
+    for(const wall of current.walls){const scale=mountedWalls.has(`${wall.userData.roomId}:${wall.userData.edge}`)?1:.18;wall.scale.y=scale;wall.position.y=2.8*scale/2;}
     const eligible=current.lights.filter(l=>!focused||l.roomId===focused).sort((a,b)=>a.id.localeCompare(b.id));
     const enabled=new Set(eligible.filter(l=>l.desired>0).slice(0,maxRealtimeLights));
     for(const light of current.lights)light.light.intensity=enabled.has(light)?light.desired:0;

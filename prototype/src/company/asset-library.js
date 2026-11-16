@@ -35,7 +35,7 @@ function describe(resource) {
       !footprint.center.every(Number.isFinite) || !Array.isArray(footprint.halfSize) ||
       footprint.halfSize.length !== 2 || !footprint.halfSize.every(value => Number.isFinite(value) && value > 0)))
     throw error('invalid-asset-footprint', `${path}.footprint`, 'Blocking assets require finite center[2] and positive halfSize[2]');
-  return {path, footprint, targets: [...new Set(targets)], asset: {...asset, sha256: asset.sha256.toLowerCase()},
+  return {path, footprint, mounting: resource.mounting?structuredClone(resource.mounting):null, mount:resource.mount, targets: [...new Set(targets)], asset: {...asset, sha256: asset.sha256.toLowerCase()},
     key: JSON.stringify([resource.id, resource.version, asset.url, asset.sha256.toLowerCase(), asset.bytes])};
 }
 
@@ -131,6 +131,7 @@ async function releaseFailedParser(parser, json) {
 }
 
 function validateResource(pack, description) {
+  pack.scene.updateMatrixWorld(true);
   for (const target of description.targets) {
     const definitions = (pack.json.nodes || []).filter(node => node.name === target);
     const matches = [];
@@ -145,6 +146,21 @@ function validateResource(pack, description) {
       box.min[axis] < center[index] - halfSize[index] - 0.001 ||
       box.max[axis] > center[index] + halfSize[index] + 0.001)
       throw error('asset-footprint-mismatch', `${description.path}.footprint`, 'Declared blocking footprint must enclose the default scene XZ bounds within 1mm');
+  }
+  if(description.mounting) {
+    const s=description.mounting,b=new THREE.Box3().setFromObject(pack.scene),wall=['wall','portal'].includes(description.mount);
+    const lo=wall&&s.origin==='center'?-s.height/2:0;
+    if(![s.width,s.height,s.depth].every(v=>Number.isFinite(v)&&v>0)||
+      b.min.x < -s.width/2-.001||b.max.x > s.width/2+.001||b.min.y<lo-.001||b.max.y>lo+s.height+.001||
+      b.min.z<(wall?0:-s.depth/2)-.001||b.max.z>(wall?s.depth:s.depth/2)+.001)
+      throw error('asset-mount-envelope-mismatch',description.path,'Actual model exceeds its fixed installation envelope');
+    if(description.mount==='portal') {
+      // Sample the actual imported triangles across the required clear opening.
+      for(const x of [-.49,-.25,0,.25,.49].map(v=>v*s.apertureWidth))for(const y of [.01,.25,.5,.75,.99].map(v=>v*s.apertureHeight)) {
+        if(new THREE.Raycaster(new THREE.Vector3(x,y,s.depth+1),new THREE.Vector3(0,0,-1)).intersectObject(pack.scene,true).length)
+          throw error('asset-blocks-portal',description.path,'Display geometry crosses the declared open doorway');
+      }
+    }
   }
 }
 

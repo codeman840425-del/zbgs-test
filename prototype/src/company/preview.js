@@ -13,11 +13,13 @@ import {createCompanyAssetLibrary} from './asset-library.js';
 import {createScaleExamples} from './scale-examples.js';
 import {deriveCompany} from './document.js';
 import {createBuildingView} from './building-view.js';
+import {appearanceBranches,appearanceCandidates,createAppearanceSample} from './appearance-samples.js';
 import './preview.css';
 
 const element=id=>document.getElementById(id),stage=element('stage');
 const world=new THREE.Scene();world.background=new THREE.Color('#e7ede3');
 const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:false});
+renderer.localClippingEnabled=true;
 renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFShadowMap;
 renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.08;stage.append(renderer.domElement);
 world.add(new THREE.HemisphereLight(0xe9f4ff,0xa5aa94,2));
@@ -69,6 +71,27 @@ function setView(name){
   document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.view===name)));
 }
 function sofaNode(){return session.document.nodes.find(n=>n.kind==='facility'&&['lounge-sofa','timber-sofa'].includes(n.resource.id)&&deriveCompany(session.document,catalog,templates).roomIds.get(n.id)===element('room').value);}
+function fillSampleLooks(){
+  const branch=element('sample-branch').value;
+  fillOptions('sample-look',appearanceCandidates(catalog,branch).map((r,i)=>({id:String(i),name:r.displayName||r.name||r.id})),'0');
+}
+async function showAppearanceSample(branch,index){
+  const sample=createAppearanceSample(branch,index,catalog,templates);
+  if(session.document.id===sample.document.id){
+    const replacements=sample.document.nodes.filter(n=>n.resource).map(n=>({type:'replace-resource',id:n.id,resource:n.resource}));
+    await session.apply(replacements);
+  }else await session.load(sample.document);
+  await showSpace('room',sample.document.nodes[0].id,sample.document.nodes[1].id);
+  element('sample-branch').value=branch;fillSampleLooks();element('sample-look').value=String(index);
+  const object=session.scene.root.getObjectByName(sample.target),box=new THREE.Box3().setFromObject(object);
+  const target=box.getCenter(new THREE.Vector3()),size=box.getSize(new THREE.Vector3());
+  const offset=['floor-panel','rug'].includes(branch)?new THREE.Vector3(.15,1,.35):new THREE.Vector3(.5,.45,1);
+  offset.normalize().applyQuaternion(object.getWorldQuaternion(new THREE.Quaternion()));
+  const distance=Math.max(size.y,size.x/camera.aspect,size.z)*1.9+.35;
+  camera.position.copy(target).addScaledVector(offset,distance);orbit.target.copy(target);orbit.update();
+  element('scene-name').textContent=sample.document.name;renderer.render(world,camera);
+  return sample;
+}
 function fillOptions(id,nodes,selected){const select=element(id);select.replaceChildren(...nodes.map((node,index)=>{const option=document.createElement('option');option.value=node.id;option.textContent=`${index+1} · ${node.name||node.id.split('/').at(-1)}`;return option;}));if(nodes.some(n=>n.id===selected))select.value=selected;}
 function updateRegionLabels(){
   for(const {label,position}of regionLabels) {
@@ -130,12 +153,15 @@ async function start(){
   let restored=false,restoreError;
   try{await session.restore(localStorage.getItem('company-preview:last-company')||session.document.id);restored=true;}catch(error){if(error.code!=='save-not-found')restoreError=error;}
   async function saveCurrent(){const result=await session.save();localStorage.setItem('company-preview:last-company',session.document.id);return result;}
-  window.company={ready:true,catalog,templates,session,assetLibrary,renderer,world,camera,view:setView,showSpace,layouts,
+  window.company={ready:true,catalog,templates,session,assetLibrary,renderer,world,camera,view:setView,showSpace,layouts,showAppearanceSample,appearanceBranches,appearanceCandidates:branch=>appearanceCandidates(catalog,branch),
     async apply(ops){const r=await session.apply(ops);sync();return r;},
     async load(doc){const r=await session.load(doc);sync();await defaultSpace();return r;},
     snapshot:()=>session.snapshot(),save:saveCurrent,restore:async()=>{const r=await session.restore();sync();await defaultSpace();return r;},export:()=>session.export()};
   game=new Phaser.Game({type:Phaser.CANVAS,parent:'phaser-stage',width:1,height:1,transparent:true,audio:{noAudio:true},fps:{target:30},scene:CompanyPreview});
   resize();new ResizeObserver(resize).observe(stage);sync();await defaultSpace();status(restoreError?`已保留默认方案，存档未载入：${restoreError.message}`:restored?'已恢复上次保存的方案。':'方案已加载。',Boolean(restoreError));
+  fillOptions('sample-branch',appearanceBranches.filter(([branch])=>appearanceCandidates(catalog,branch).length).map(([id,name])=>({id,name})),'desk');fillSampleLooks();
+  element('sample-branch').onchange=fillSampleLooks;
+  element('sample-show').onclick=()=>perform('正在替换并检查外观…',()=>showAppearanceSample(element('sample-branch').value,Number(element('sample-look').value)));
   element('layout').onchange=()=>perform('正在加载方案…',()=>window.company.load(layouts[element('layout').value]));
   element('floor').onchange=()=>perform('正在查看楼层…',()=>showSpace('floor'));
   element('room').onchange=()=>perform('正在查看房间…',()=>showSpace('room'));
@@ -166,6 +192,8 @@ async function start(){
     if(hit){const {floorId,roomId}=hit.object.userData;perform('正在查看空间…',()=>showSpace(session.scene.view.mode==='building'?'floor':'room',floorId,roomId));}
   });
   fetch('/company-build-info.json').then(r=>r.ok?r.json():null).then(info=>{if(info){element('build-label').textContent=`构建 ${info.shortId}`;window.company.buildInfo=info;}}).catch(()=>{});
+  const query=new URLSearchParams(location.search),requested=query.get('sample');
+  if(requested&&appearanceBranches.some(([branch])=>branch===requested))await showAppearanceSample(requested,Number(query.get('look')||0));
 }
 start().catch(error=>{status(`场景加载失败：${error.message}`,true);console.error(error);});
 addEventListener('pagehide',()=>{game?.destroy(true);session?.dispose();assetLibrary.dispose();orbit.dispose();buildingView.dispose();renderer.dispose();},{once:true});

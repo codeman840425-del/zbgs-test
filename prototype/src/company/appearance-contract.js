@@ -24,7 +24,7 @@ export function describeFacilityFunction(resource) {
     category: resource.category ?? null,
     mountRole: decorative ? null : resource.mountRole || resource.id,
     coordinates: {units: resource.coordinates?.units ?? 'metres', up: resource.coordinates?.up ?? '+Y', forward: resource.coordinates?.forward ?? '+Z'},
-    mount, surface, footprint, usePoints,
+    mount, mounting:normalized(resource.mounting??null), surface, footprint, usePoints,
     capacity, clearance,
     state: {fields: stateFields, schema: normalized(resource.stateSchema ?? null), semantics: normalized(resource.stateSemantics ?? null)},
   };

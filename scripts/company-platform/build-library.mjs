@@ -14,7 +14,12 @@ for(const resource of catalog.resources){
   if(resource.node)scan(resource.node);
   resource.materialSlots=materialSlots;
 }
-for(const name of plan.resources){
+const resourcePaths=[...plan.resources];
+for(const collectionPath of plan.collections||[]) {
+  const collection=JSON.parse(await fs.readFile(path.join(root,collectionPath),'utf8'));
+  for(const entry of collection.resources)resourcePaths.push(typeof entry==='string'?entry:entry.resourcePath);
+}
+for(const name of resourcePaths){
   const resource=JSON.parse(await fs.readFile(path.join(root,name),'utf8'));
   const asset=resource.asset,publicRoot=path.resolve(root,'prototype/public'),target=path.resolve(publicRoot,'.'+asset.url);
   if(!asset.url.startsWith('/company-assets/')||!target.startsWith(publicRoot+path.sep))throw Error(`Asset URL must stay inside company-assets: ${name}`);

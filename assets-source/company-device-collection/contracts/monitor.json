@@ -1,0 +1,222 @@
+{
+  "id": "monitor",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "monitor",
+  "provenance": {
+    "sourceCommit": "af47b6a7ff37d542bfb1b55247a923d7f98cf4a9",
+    "sourceFile": "prototype/src/main.js",
+    "extractedFile": "prototype/src/company/resources.json",
+    "sourceSha256": "9a55c30df1c4492e1e470b6b1e5e988b4f67024ac9979c85bfc4050437b7f22e",
+    "sourceResourceId": "desk",
+    "sourceNodeIds": [
+      "monitor-frame",
+      "monitor-screen",
+      "monitor-stem",
+      "monitor-foot"
+    ],
+    "originalOrigin": [
+      1.15,
+      0.84,
+      -2.2
+    ],
+    "method": "Existing project procedural geometry translated into a reusable local frame.",
+    "productionScope": "C1 procedural graybox. Independent C3 model production is unverified."
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Support plane at original desk top, centred on monitor stem. Screen faces +Z."
+  },
+  "node": {
+    "id": "monitor-root",
+    "type": "group",
+    "position": [
+      0,
+      0,
+      0
+    ],
+    "rotation": [
+      0,
+      0,
+      0
+    ],
+    "scale": [
+      1,
+      1,
+      1
+    ],
+    "children": [
+      {
+        "id": "monitor-frame",
+        "type": "mesh",
+        "position": [
+          0,
+          0.33999999999999997,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "geometry": {
+          "type": "BoxGeometry",
+          "parameters": [
+            0.8,
+            0.5,
+            0.055,
+            1,
+            1,
+            1
+          ]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#6e7b78",
+          "roughness": 0.85
+        },
+        "castShadow": true,
+        "receiveShadow": true
+      },
+      {
+        "id": "monitor-screen",
+        "type": "mesh",
+        "position": [
+          0,
+          0.33999999999999997,
+          0.039000000000000146
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "geometry": {
+          "type": "BoxGeometry",
+          "parameters": [
+            0.73,
+            0.42,
+            0.014,
+            1,
+            1,
+            1
+          ]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#a4c7bc",
+          "roughness": 0.85
+        },
+        "castShadow": true,
+        "receiveShadow": true,
+        "screen": true
+      },
+      {
+        "id": "monitor-stem",
+        "type": "mesh",
+        "position": [
+          0,
+          0.06000000000000005,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "geometry": {
+          "type": "BoxGeometry",
+          "parameters": [
+            0.06,
+            0.22,
+            0.06,
+            1,
+            1,
+            1
+          ]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#7d8f87",
+          "roughness": 0.85
+        },
+        "castShadow": true,
+        "receiveShadow": true
+      },
+      {
+        "id": "monitor-foot",
+        "type": "mesh",
+        "position": [
+          0,
+          0.007000000000000006,
+          0.06000000000000005
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "geometry": {
+          "type": "BoxGeometry",
+          "parameters": [
+            0.35,
+            0.025,
+            0.2,
+            1,
+            1,
+            1
+          ]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#788b80",
+          "roughness": 0.85
+        },
+        "castShadow": true,
+        "receiveShadow": true
+      }
+    ]
+  },
+  "footprint": null,
+  "usePoints": [],
+  "stateDefaults": {
+    "on": true
+  },
+  "mount": "desk-surface",
+  "materialSlots": {
+    "monitor-frame": [
+      "monitor-frame"
+    ],
+    "monitor-screen": [
+      "monitor-screen"
+    ],
+    "monitor-stem": [
+      "monitor-stem"
+    ],
+    "monitor-foot": [
+      "monitor-foot"
+    ]
+  }
+}
