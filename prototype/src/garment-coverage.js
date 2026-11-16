@@ -2,6 +2,8 @@ import * as THREE from "three";
 
 const digest = async (bytes) => [...new Uint8Array(await crypto.subtle.digest("SHA-256", bytes))]
   .map((n) => n.toString(16).padStart(2, "0")).join("");
+const completeTops = new WeakMap();
+export const completeGarmentGeometry = (mesh) => completeTops.get(mesh) ?? mesh.geometry;
 
 const sourceBytes = (array) => new Uint8Array(array.buffer, array.byteOffset, array.byteLength);
 
@@ -10,7 +12,7 @@ const sourceBytes = (array) => new Uint8Array(array.buffer, array.byteOffset, ar
  * is selected. The original geometry remains owned by this instance for
  * contact and for restoration. No avatar body geometry is touched.
  */
-export async function createGarmentCoverage({ inner, outer, descriptor }) {
+export async function createGarmentCoverage({ inner, outer, descriptor, avatarSha256 }) {
   if (!descriptor || !inner || !outer) return null;
   const response = await fetch(descriptor.url, { cache: "no-store" });
   if (!response.ok) throw Error(`Garment coverage HTTP ${response.status}`);
@@ -19,8 +21,9 @@ export async function createGarmentCoverage({ inner, outer, descriptor }) {
   const fit = JSON.parse(new TextDecoder().decode(bytes));
   if (fit.schema !== "zbgs-garment-coverage-mask-v1" ||
       fit.innerTopId !== inner.entry.id || fit.innerTopSha256 !== inner.entry.sha256 ||
-      fit.outerId !== outer.entry.id || fit.outerAssetSha256 !== outer.entry.sha256)
-    throw Error("Garment coverage requires exact inner and outer asset versions");
+      fit.outerId !== outer.entry.id || fit.outerAssetSha256 !== outer.entry.sha256 ||
+      fit.binding?.bodySha256 !== avatarSha256)
+    throw Error("Garment coverage requires exact body, inner and outer asset versions");
   const matches = inner.meshes.filter((mesh) => (Array.isArray(mesh.material) ? mesh.material : [mesh.material])
     .some((material) => material.name === fit.innerTopMaterial));
   if (matches.length !== 1) throw Error("Garment coverage inner top primitive is ambiguous or missing");
@@ -46,6 +49,7 @@ export async function createGarmentCoverage({ inner, outer, descriptor }) {
       throw Error("Unsupported garment coverage material group");
   }
   let active = false, disposed = false, revision = 0, owned = null;
+  completeTops.set(mesh, original);
   const pending = new Set();
   const outerId = outer.entry.id, innerId = inner.entry.id;
   const desired = (ids) => {
@@ -109,6 +113,7 @@ export async function createGarmentCoverage({ inner, outer, descriptor }) {
       disposed = true;
       for (const update of pending) update.dispose();
       mesh.geometry = original;
+      completeTops.delete(mesh);
       owned?.dispose();
       owned = null; active = false;
     },

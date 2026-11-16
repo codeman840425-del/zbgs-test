@@ -1,1 +1,22 @@
-{   "schema": "zbgs-garment-coverage-runtime-qa-v1",   "passed": true,   "checks": [     "exact descriptor and inactive initial state",     "inner top alone preserves complete geometry",     "outer plus inner commits selected face mask",     "material groups remap across hidden face",     "two instances own independent covered geometry",     "disposing one instance restores only itself",     "removing outer restores complete top",     "wrong outer identity rejects before mutation",     "dispose restores original geometry"   ],   "GPUUsed": false,   "actualSourceDescriptorCheckedByPython": true,   "runtimeOrVisualAcceptance": false }
+{
+  "schema": "zbgs-garment-coverage-runtime-qa-v1",
+  "passed": true,
+  "checks": [
+    "exact descriptor and inactive initial state",
+    "complete top accessor is available before masking",
+    "inner top alone preserves complete geometry",
+    "outer plus inner commits selected face mask",
+    "contact accessor remains complete while mask is active",
+    "material groups remap across hidden face",
+    "two instances own independent covered geometry",
+    "disposing one instance restores only itself",
+    "removing outer restores complete top",
+    "wrong outer identity rejects before mutation",
+    "wrong body identity rejects before mutation",
+    "dispose restores original geometry",
+    "contact accessor remains complete after dispose"
+  ],
+  "GPUUsed": false,
+  "actualSourceDescriptorCheckedByPython": true,
+  "runtimeOrVisualAcceptance": false
+}

@@ -66,10 +66,12 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     // cannot arrive later over a newer user request.
     const look = outfitSelection(config, nextOutfit);
     const selected = nextDebugBody ? [IDS.shoes] : look.ids;
-    const update = coverage?.prepareEquipmentSet(selected);
-    const garmentUpdate = garmentCoverage?.prepareEquipmentSet(selected);
-    let equipmentUpdate;
-    try { equipmentUpdate=adapter.prepareLoadedSet(selected); }
+    let update,garmentUpdate,equipmentUpdate;
+    try {
+      update=coverage?.prepareEquipmentSet(selected);
+      garmentUpdate=garmentCoverage?.prepareEquipmentSet(selected);
+      equipmentUpdate=adapter.prepareLoadedSet(selected);
+    }
     catch(error){update?.dispose();garmentUpdate?.dispose();throw error;}
     const ticket=++revision;let live=true,cleaned=false;
     const prepared={
@@ -96,7 +98,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     coverage = await createBodyCoverageSet({ body, avatarSha256,
       bindings: config.bodyCoverage ? [{entry:item("top").entry, descriptor:config.bodyCoverage}] : [] });
     garmentCoverage = config.garmentCoverage ? await createGarmentCoverage({
-      inner: item("top"), outer: item("outer"), descriptor: config.garmentCoverage,
+      inner: item("top"), outer: item("outer"), descriptor: config.garmentCoverage, avatarSha256,
     }) : null;
     skirtCorrective = IDS.skirt ? createM1Skirt({
       vrm, source: item("skirt").meshes[0], body,
@@ -107,6 +109,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     sourceClothes.forEach(({ mesh }) => (mesh.visible = false));
   } catch (error) {
     skirtCorrective?.dispose();
+    garmentCoverage?.dispose();
     coverage?.dispose();
     sourceClothes.forEach(({ mesh, visible }) => (mesh.visible = visible));
     adapter.dispose();
