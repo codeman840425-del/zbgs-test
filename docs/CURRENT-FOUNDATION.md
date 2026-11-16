@@ -4,9 +4,9 @@
 
 ## 当前工作包（恢复先看）
 
-公开4196已更新785be36def90/source23c1140a01d26b6f1c10ac4f8064f366add3ba17，准确入口delivery/appearance-workbench.json；60a回滚delivery/history/appearance-workbench-60a.json。当前公开控件实际点击检查m2-workbench-4196-live-785-v1通过，v8精确耳帽/表面/已有外观整套恢复已完成4真实会话，165文件独立重建一致；录像由工作台检查区进入m2-accessory-record-review-v1。独立14项foundation复核通过，实际端点路径修复有29d/785同路径全身房间录像。长发坐入上甩仍失败；普通机未测；v8尚无麦克风/眼镜或稳定主播记录。本次源码/录像/发布已远备9d555f54ff754d25573dea4b3ed976c49dc3428a并ls-remote核实；回执m2-workbench-4196-live-785-v1/remote-backup.json。
+公开4196已更新1067d6618775/source1447d994774e3e22157b38e20422579b508f28dc，准确入口delivery/appearance-workbench.json；785回滚delivery/history/appearance-workbench-785.json。脸型/身形移入外观，派生未适配发型显式禁用说明；原女性新增raw-head长发参考候选。固定构建与全新检出重建一致，实际4196控件点击检查m2-workbench-4196-live-106-v1通过；m2-hair-reference-review-v1有785/106同条件正常速度录像。新候选抽样未见原坐入上甩，但椅背顶处尾端明显折弯，动态自然度/普通机仍未通过。旧耳帽v8及座位路径成果保留。106尚待远备核验，不继承旧9d555f5远备结论。
 
-下一主包：asset_budget（已知sol/high）基于真实碰撞诊断只制作一个显式raw-head模拟参考候选，保历史fit/default及碰撞/重力参数。root已派有界CPU/配置工作，浏览器由root独占；不扫描参数。真实521帧碰撞：身体9378查询无负gap；首次椅背修正晚于最高上甩570.3ms，不能将碰撞当成该上甩根因。两次全图CPU重放未吻合实际尾点保失败，不能借其数值宣称修复。
+当前主包：整批4女4男，共8个明显不同脸型与局部身形预设，同一生产流程产出后统一运行验证。asset_budget(sol/high)身体/衣物生成，http_transport_review(sol/high)中长卷发，socks_evidence_package(sol/medium)独立身份/成本审查；root负责配置接入/真实动作/4196发布。三工作者均在运行；保单浏览器/GPU窗口。不得逐个精修后等待用户；失败逐项保留，重复根因修共用链路。当前8个尚未接入，不能把106 UI发布称为整批完成。
 
 公司C3仅本地接缝回执docs/CHARACTER-COMPANY-C3-SEAM-2026-11-16.md，未实现、未合并副总工旧人物文件，不打断M2。副总工文件保留不提交。
 
@@ -24,7 +24,7 @@ Phaser+Three+VRM保留；女性封板裙和30秒舞不再精修。普通电脑�
 
 ## 入口与最近固定交付
 
-- 统一4196 `/?workbench=appearance` 当前785be36def90/source23c1140；新增验证样件控件已实际点击通过。准确路径见delivery/appearance-workbench.json，旧fe5回滚delivery/history/appearance-workbench-fe5.json。
+- 统一4196 `/?workbench=appearance` 当前1067d6618775/source1447d99；新增验证样件控件已实际点击通过。准确路径见delivery/appearance-workbench.json，旧fe5回滚delivery/history/appearance-workbench-fe5.json。
 - 4195/77e46保留M1；4174提供evidence。未把新外搭直接推为公开通过版。
 - 历史8e2926da4939/source a74090f1ed704a6c5b2eea3122b3e6fe5f44cd93保留experiments/m2-outer-camera-verified/prototype/dist，127文件重建一致；已退出4207服务。当前4207见下方ae36；历史录像和源码身份未改。
 - 本包观看：4174/evidence/m2-outer-runtime-room-8e2-v1/，4条完整1×影片。实际author-export SHA0631cf9d…、配置长裤/短裤、旧84b配方恢复、新配方恢复、基础模式和男女切换清理通过。工程全时段2fps抽审只说明抽样，连续观感待验；没有普通电脑性能结论。源与生产命令assets-source/m2-outer-panels-v2及scripts/m2-outer-panels-v2，实际资源已进入production第9流程。
