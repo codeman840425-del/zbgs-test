@@ -159,3 +159,12 @@ source a40403857df58e2b2cff345bd6d2da34b6711111，build a367ba9dd96d，experimen
 独立下一主包CUSTOM-H02：一具原女性上的真实蒙皮长束发与附加骨动态制作/接入，原短发刚性实现不能冒充；asset_budget sol/high在隔离树制作可编辑源与精确head局部fit，root接现有VRM运行链。最小验收：源修改/重复导出、实际多骨权重、站走转坐起/暂停恢复、染色与换发卸下、双实例/失败保旧和同版本1×；一保守源参数集，出现同因两轮无进展重新定位，不扫参。不是扩衣库、M3或公司平台。
 
 表面主包4ae8afdf35dab71e9d19556fdeb5d3232a0ad18a已push并ls-remote核实，回执m2-surface-review-aed-v1/remote-backup.json。后续平台补齐固定source45e37ab/build fe834ac7f5f0，m2-surface-platform-fe8-v2实际原男女v7查询/静态准入/真实加载、agent命令后界面同步、真实按钮、peer不串UI均通过；156文件独立重建一致。v1失败为QA仍携带rose唇色却期待未有lip-fit的派生换人成功；保留报告，v2先验证拒绝保旧再显式恢复原唇瞳后成功。观看同目录index。具体并行发型/颜色返回cancelled但独立style intent可能稍后生效的UI边界正审查，不继承到所有并发操作。长束发源与运行接入仍进行；单独官方spring CPU验证已有，真实源尚未加载，不算动态长发通过。
+
+
+## 当前主包：独立长发真实加载，保留两个视觉失败
+
+source fc8c91d4231cd8579548a33b72bad625dd14c189 / build 36365874e557，固定experiments/m2-long-hair-fixed-v1/prototype/dist。实际691点8骨、6关节官方spring，染色/走跑转坐起/暂停/卸下再装/同女双实例/503保旧及v7冷恢复技术检查通过；5张全时段2fps图root已逐张查看，正常1×保留m2-long-hair-review-363-v1。明确未通过：侧面发根与cap可见脱离，坐稳发梢进入椅背上缘。后侧移动片段有家具挡住下半身，不作为全身接触验收；运行中甩动需修复后连续复查。
+
+并行asset_budget已知sol/high制作一次真实焊接rootjoin-v2（新路径/新身份，保旧源），http_transport_review已知sol/high为官方spring接可选房间OBB代理，root集成、固定构建及实际画面验证。只修本包，不改封板裙/舞/公司平台。生产第16项30f2374合入；还需服装/短舞与移动旋转椅回归。首帧rAF -2.3ms是夹具两个时钟基准差，下一采样跳过首个区间，不改原始记录，不将帧间隔当solver成本。
+
+表面层后续并发修复：363实际浏览器m2-surface-platform-363-v3已通过延迟发型/新颜色及当前UI同步；此前fe8影视身份保留。远备最新核实仍4ae8afdf35dab71e9d19556fdeb5d3232a0ad18a，后续尚待推送核实。公开4196仍未替换。公司由副总工独立推进，本主线聚焦完整M2角色平台。

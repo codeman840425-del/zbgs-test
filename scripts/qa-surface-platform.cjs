@@ -45,7 +45,17 @@ const [url,build,destination]=process.argv.slice(2),out=path.resolve(destination
   s=await read();assert.equal(s.ui.body,'female');assert.equal(s.appearance.hairColor,'blonde');assert.deepEqual(s.appearance.surfaceLayers,recipe.surface.layers);
   await p.waitForTimeout(600);await p.screenshot({path:path.join(out,'female-ui-click.png')});
   report.checks.push({name:'real UI color and gender controls still work after agent requests',passed:true,state:s});
-  assert((await p.evaluate(()=>__debug.command({type:'appearance',surfaceLayers:[]}))).applied);
+  let releaseHair,enteredHair;const gate=new Promise(resolve=>releaseHair=resolve),entered=new Promise(resolve=>enteredHair=resolve);
+  await p.route('**/m2-hairstyle-v1/manifest.json',async route=>{enteredHair();await gate;await route.continue();});
+  await p.evaluate(()=>{window.__delayedStyle=__debug.command({type:'appearance',hairStyle:'female-bob-v1'});});
+  await entered;
+  assert((await p.evaluate(()=>__debug.command({type:'appearance',hairColor:'black'}))).applied);
+  releaseHair();const delayed=await p.evaluate(()=>window.__delayedStyle);await p.unroute('**/m2-hairstyle-v1/manifest.json');
+  s=await read();assert.equal(s.appearance.hairStyle,'female-bob-v1');assert.equal(s.appearance.hairColor,'black');
+  assert.equal(await p.locator('#appearance-hair-style').inputValue(),'female-bob-v1');assert.equal(s.ui.hair,'black');
+  report.checks.push({name:'delayed independent hairstyle intent synchronizes actual UI despite cancelled result',passed:true,result:delayed,state:s});
+  await p.waitForTimeout(400);await p.screenshot({path:path.join(out,'delayed-hair-synchronized.png')});
+  assert((await p.evaluate(()=>__debug.command({type:'appearance',surfaceLayers:[],hairStyle:'original'}))).applied);
   const beforeDerived=await read(),lipFitRejected=await p.evaluate(()=>__debug.command({type:'bodySelect',bodyType:'m2-male-lower-leg-v1'}));
   assert.equal(lipFitRejected.applied,false);assert.equal((await read()).uuid,beforeDerived.uuid);
   assert((await p.evaluate(()=>__debug.command({type:'appearance',lipColor:'original',eyeColor:'original'}))).applied);
