@@ -1,0 +1,47 @@
+{
+  "sourceSha256": "2b3de7e844fb37fb8fd4ae42cefde647483b0856404b614ba33f7986c53ca485",
+  "expectBug": false,
+  "observations": [
+    {
+      "case": "new set waits while earlier single-slot request loads",
+      "olderApplied": false,
+      "intermediateVisible": [
+        "m1b-uniform-shoes"
+      ],
+      "finalVisible": [
+        "m1b-uniform-shoes",
+        "m1b-uniform-shorts-v1"
+      ],
+      "setResult": {
+        "applied": true,
+        "items": [
+          {
+            "id": "m1b-uniform-shoes",
+            "sha256": "3e855c7f39a183ab44b8aef3ac92898f6ebc36a7cbc0e6ccfdd485b85607fe2f",
+            "slot": "shoes"
+          },
+          {
+            "id": "m1b-uniform-shorts-v1",
+            "sha256": "c8a1afd0742cbb99302abc107673744751a8cfd77c6c89df039b068054a947d0",
+            "slot": "bottom"
+          }
+        ]
+      }
+    },
+    {
+      "case": "new set fails while earlier single-slot request loads",
+      "olderApplied": false,
+      "intermediateVisible": [
+        "m1b-uniform-shoes"
+      ],
+      "finalVisible": [
+        "m1b-uniform-shoes"
+      ],
+      "setResult": {
+        "error": "Injected garment network failure"
+      }
+    }
+  ],
+  "textureDecodeFixture": true,
+  "browserStarted": false
+}
