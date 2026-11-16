@@ -126,6 +126,24 @@ FOUNDATION_PROFILES["m2-male-jaw-v1"] = {
 };
 // END audited M2 male jaw specimen
 
+// Real segment-proportion specimen: original controller, measured derived fits.
+FOUNDATION_PROFILES['m2-male-lower-leg-v1'] = {
+  id: 'm2-male-lower-leg-v1', referenceBody: 'male',
+  label: 'M2 男性小腿比例样件',
+  source: 'Base_Male + both shin segments 20 mm; source/rest equivalence evidence retained',
+  url: '/assets/m2-lower-leg-proportion-v1/avatar.vrm',
+  sha256: '968a9d997683cd99de4eea8f77965184eea6d7bc639a6ae062085928325189d8',
+  manifestUrl: '/assets/m2-lower-leg-proportion-v1/equipment.json',
+  forearmCollision: {
+    url: '/assets/m2-lower-leg-proportion-v1/forearm-profile.json',
+    sha256: '151537eabc65a643c775cc9d2fdc4e0d59a9b279686df32ac82d54a2bf09131b',
+  },
+  pantsLabel: '比例适配露膝短裤',
+  ids: {top:'male-lower-leg-plus20-v1-top',shoes:'male-lower-leg-plus20-v1-shoes',pants:'male-lower-leg-plus20-v1-bottom'},
+  seatLayerThickness: 0,
+  fitStatus: 'Candidate: actual derived-body floor and seated contact must be measured; no inherited 3.6 mm original trouser compensation',
+};
+
 export function foundationProfile(bodyType = "female") {
   const profile = FOUNDATION_PROFILES[bodyType];
   if (!profile) throw new Error(`Unknown foundation body type: ${bodyType}`);

@@ -22,6 +22,7 @@ export function bindAppearanceWorkbench({ controller }) {
     male: [
       { id: 'male', label: '原版' },
       { id: 'm2-male-jaw-v1', label: '下颌变化' },
+      { id: 'm2-male-lower-leg-v1', label: '小腿比例样件' },
     ],
   };
   const groupFor = bodyType => Object.keys(bodyGroups).find(group => bodyGroups[group].some(item => item.id === bodyType));
