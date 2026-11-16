@@ -1,0 +1,13 @@
+公司顶面饰材样件生产规范 v1
+
+四款资源是可编辑 JSON 驱动的程序材质，不复用墙面或地面图案。每款使用独立的 panel-grid、perforated、woven 或 linear 图案函数，生成 512x512 RGBA PNG 和内嵌 PNG 的静态 glTF 2.0 GLB。GLB 网格节点和材质节点均为 finish-surface，顶面内侧法线为 -Y，坐标沿平台 metres/+Y/+Z 合同。
+
+方格顶板使用 4m 默认铺装，让 64px 面板周期对应 0.5m 的实际顶板格。点孔纹是平面纹理表现，不声明真实开洞几何或额外碰撞。交织纤维的四分之一周期线程保证 512px 边界和声明周期连续。
+
+输入是各 ID JSON 的 pattern、base/accent RGB、params 中唯一的具名周期参数和 tile 米制尺度。周期支持 16–128 的整数且必须整除 512，tile 每轴为 0.1–4 米。非法身份、未知参数、非整型周期、错误颜色或范围外尺度会拒绝。每个声明的参数参与实际像素生成，改变周期会改变 PNG、GLB 和来源登记哈希。
+
+在仓库根目录执行：
+node scripts/company-platform/build-ceiling-finishes.mjs
+node scripts/company-platform/build-ceiling-finishes.mjs --check
+
+生成器只在 CLI 模式写出文件，作为 ES 模块导入时仅声明函数，不执行构建。此包不依赖旧墙地生成器，productionDependencies 为空数组。来源、PNG、GLB 和 generator/sourceParameters 哈希记录在各 resource.json 及 evidence/company-ceiling-production-v1/production-report.json。

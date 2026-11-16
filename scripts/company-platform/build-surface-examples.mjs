@@ -4,6 +4,8 @@ const root=new URL('../../',import.meta.url),check=process.argv.includes('--chec
 const inputs=[
   {layout:'c2-mixed-company',recipe:'warm',output:'c2-surface-company',name:'连续饰面 · 两层住宅',removeOldPanels:true},
   {layout:'c2-small-home',recipe:'graphic',output:'c1-surface-home',name:'连续饰面 · 民房'},
+  {layout:'c2-surface-company',recipe:'ceilings',output:'c2-ceiling-company',name:'完整饰面 · 两层住宅'},
+  {layout:'c1-surface-home',recipe:'ceilings',output:'c1-ceiling-home',name:'完整饰面 · 民房'},
 ];
 for(const input of inputs) {
   const read=async name=>JSON.parse(await fs.readFile(new URL(name,root)));

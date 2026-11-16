@@ -15,6 +15,7 @@ const extraFiles=[
   'scripts/company-platform/apply-surface-recipe.mjs',
   'scripts/company-platform/build-surface-examples.mjs',
   'docs/COMPANY-SURFACE-FINISH-CONTRACT-v1.txt',
+  'docs/COMPANY-CEILING-FINISH-CONTRACT-v1.txt',
   'assets-source/company-surface-finishes-v1/PRODUCTION.txt',
   'scripts/company-platform/build-appearance-batch.mjs',
   'docs/COMPANY-APPEARANCE-PRODUCTION-STANDARD.md',

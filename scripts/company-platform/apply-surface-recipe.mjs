@@ -10,8 +10,8 @@ export function applySurfaceRecipe(document,recipe) {
   const operations=[];
   for(const region of document.nodes.filter(node=>['room','area'].includes(node.kind))) {
     const selection={...recipe.default,...recipe.purposes?.[region.purpose||'public']};
-    if(Object.keys(selection).some(key=>!['wall','floor'].includes(key)))throw Error('Recipe accepts wall and floor finishes only');
-    for(const [type,finish]of Object.entries(selection))for(const surface of type==='wall'?['north','south','west','east']:['floor'])
+    if(Object.keys(selection).some(key=>!['wall','floor','ceiling'].includes(key)))throw Error('Recipe accepts wall, floor and ceiling finishes only');
+    for(const [type,finish]of Object.entries(selection))for(const surface of type==='wall'?['north','south','west','east']:[type])
       operations.push({type:'set-surface-finish',id:region.id,surface,finish});
   }
   return prepareCompanyChange(document,operations,{catalog,templates}).document;

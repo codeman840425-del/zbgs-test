@@ -51,14 +51,14 @@ export function applySurfaceFinish(mesh,finish,region,boundary,assetLibrary,mate
   const positions=mesh.geometry.getAttribute('position'),uv=mesh.geometry.getAttribute('uv');
   if(!positions||!uv)throw new CompanyError('missing-finish-uv',finish.id,'The structural mesh needs position and UV attributes');
   const {width,depth}=region.bounds,surface=finish.surface;
-  const face={floor:2,north:4,south:5,west:0,east:1}[surface];
+  const face={floor:2,ceiling:3,north:4,south:5,west:0,east:1}[surface];
   if(face===undefined)throw new CompanyError('unsupported-finish-surface',finish.id,surface);
   for(let index=0;index<positions.count;index++) {
     const x=positions.getX(index)+(boundary?.position[0]||0);
     const y=positions.getY(index)+(boundary?.position[1]||0);
     const z=positions.getZ(index)+(boundary?.position[2]||0);
     const u=surface==='south'?width/2-x:surface==='west'?depth/2-z:surface==='east'?z+depth/2:x+width/2;
-    const v=surface==='floor'?depth/2-z:y;
+    const v=['floor','ceiling'].includes(surface)?depth/2-z:y;
     uv.setXY(index,u,v);
   }
   uv.needsUpdate=true;

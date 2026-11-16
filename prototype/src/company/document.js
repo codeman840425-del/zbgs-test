@@ -71,7 +71,7 @@ function validateAppearance(appearance, resource, path) {
   }
 }
 
-const surfaceKeys = new Set(['floor', 'north', 'south', 'west', 'east']);
+const surfaceKeys = new Set(['floor', 'ceiling', 'north', 'south', 'west', 'east']);
 function validateSurfaceResource(resource, path, surface) {
   if (!resource || typeof resource !== 'object' || Array.isArray(resource))
     fail('invalid-surface-resource', path, 'Expected a catalog surface-finish resource');
@@ -85,13 +85,13 @@ function validateSurfaceResource(resource, path, surface) {
   if (!finish || typeof finish !== 'object' || Array.isArray(finish) ||
       Object.keys(finish).some(field => !['allowedSurfaces', 'materialNode', 'tileMeters'].includes(field)) ||
       !Array.isArray(finish.allowedSurfaces) ||
-      (finish.allowedSurfaces.length !== 1 || !['floor', 'wall'].includes(finish.allowedSurfaces[0])) ||
+      (finish.allowedSurfaces.length !== 1 || !['floor', 'wall', 'ceiling'].includes(finish.allowedSurfaces[0])) ||
       finish.materialNode !== 'finish-surface' || !Array.isArray(finish.tileMeters))
     fail('invalid-surface-resource', path, 'Surface resource finish contract is invalid');
   const defaultTile = finish.tileMeters;
   if (defaultTile.length !== 2 || !defaultTile.every(Number.isFinite) || defaultTile.some(n => n < 0.1 || n > 4))
     fail('invalid-surface-resource', `${path}.finish.tileMeters`, 'Default tileMeters must contain two finite values from 0.1 to 4 metres');
-  const expectedSurface = surface === 'floor' ? 'floor' : 'wall';
+  const expectedSurface = surface === 'ceiling' ? 'ceiling' : surface === 'floor' ? 'floor' : 'wall';
   if (!finish.allowedSurfaces.includes(expectedSurface))
     fail('incompatible-surface-finish', path, `Resource is not allowed on ${expectedSurface}`);
   if (!resource.materialSlots || typeof resource.materialSlots !== 'object' || Array.isArray(resource.materialSlots) ||
@@ -199,7 +199,7 @@ export function deriveCompany(document, catalog, templates) {
     if (!region.finishes || typeof region.finishes !== 'object' || Array.isArray(region.finishes))
       fail('invalid-surface-finishes', `${region.id}.finishes`, 'Expected an object keyed by floor or wall direction');
     for (const surface of Object.keys(region.finishes)) {
-      if (!surfaceKeys.has(surface)) fail('invalid-surface-key', `${region.id}.finishes.${surface}`, 'Use floor, north, south, west or east');
+      if (!surfaceKeys.has(surface)) fail('invalid-surface-key', `${region.id}.finishes.${surface}`, 'Use floor, ceiling, north, south, west or east');
       const checked = validateSurfaceFinish(region.finishes[surface], resources, `${region.id}.finishes.${surface}`, surface);
       surfaceFinishes.push({ id: `${region.id}#finish:${surface}`, regionId: region.id,
         floorId: floorIds.get(region.id), surface, resource: checked.resource,
@@ -431,7 +431,7 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
     if (!node) fail('missing-instance', op.id, 'Operation target does not exist');
     if (op.type === 'set-surface-finish') {
       if (!['room', 'area'].includes(node.kind)) fail('invalid-operation', node.id, 'Surface finishes belong to a room or area');
-      if (!surfaceKeys.has(op.surface)) fail('invalid-surface-key', `${node.id}.finishes`, 'Use floor, north, south, west or east');
+      if (!surfaceKeys.has(op.surface)) fail('invalid-surface-key', `${node.id}.finishes`, 'Use floor, ceiling, north, south, west or east');
       if (!Object.hasOwn(op, 'finish')) fail('invalid-surface-finish', `${node.id}.finishes.${op.surface}`, 'Provide a finish value or null to clear it');
       if (op.finish === null) {
         if (node.finishes) {

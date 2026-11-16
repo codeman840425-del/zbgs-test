@@ -63,7 +63,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
     floorId ||= document.nodes.find(n=>n.kind==='floor').id;
     if(derived.nodes.get(floorId)?.kind!=='floor')throw new CompanyError('unknown-floor',floorId,'Choose an existing floor');
     const root=new THREE.Group();root.name=`Company:${document.id}`;
-    const groups=new Map(),facilities=new Map(),points=new Map(),floors=[],walls=[],lights=[];
+    const groups=new Map(),facilities=new Map(),points=new Map(),floors=[],walls=[],ceilings=[],lights=[];
     const finishMaterials=new Map(),finishes=new Map((derived.surfaceFinishes||[]).map(finish=>[finish.id,finish]));
     function group(id) {
       if(id===document.id)return root;
@@ -76,7 +76,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
       if(view.mode==='building') {
         // Whole-building views use a lightweight presentation in the host UI.
         // Keep only the logical document here; no indoor meshes are constructed.
-        return {root,document:clone(document),derived,architecture,floorId,view,wallView:clone(wallView),groups,facilities,points,floors,walls,lights,wallGroups:new Map()};
+        return {root,document:clone(document),derived,architecture,floorId,view,wallView:clone(wallView),groups,facilities,points,floors,walls,ceilings,lights,wallGroups:new Map()};
       }
       for(const node of document.nodes)if(derived.floorIds.get(node.id)===floorId) {
         const parent=group(node.id);
@@ -85,6 +85,12 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
           const floor=structureMesh(width,.12,depth,node.kind==='area'?'#c6c7bc':'#d7d5c7');floor.position.y=-.06;floor.name=`Floor:${node.id}`;parent.add(floor);floors.push(floor);
           floor.userData={roomId:node.id,floorId};
           applySurfaceFinish(floor,finishes.get(`${node.id}#finish:floor`),node,null,assetLibrary,finishMaterials);
+          if(finishes.has(`${node.id}#finish:ceiling`)) {
+            const ceiling=structureMesh(width,.08,depth,'#e2dfd5');ceiling.position.y=WALL_HEIGHT+.04;
+            ceiling.name=`Ceiling:${node.id}`;ceiling.userData={roomId:node.id,floorId};
+            parent.add(ceiling);ceilings.push(ceiling);
+            applySurfaceFinish(ceiling,finishes.get(`${node.id}#finish:ceiling`),node,null,assetLibrary,finishMaterials);
+          }
           for(const boundary of architecture.walls.filter(w=>w.regionId===node.id)) {
             const wall=structureMesh(...boundary.size,node.kind==='area'?'#b5c4b8':'#c4d1c1');wall.position.fromArray(boundary.position);wall.name=boundary.id;wall.userData={roomId:node.id,edge:boundary.edge,physicalBoundary:boundary.id,height:WALL_HEIGHT};parent.add(wall);walls.push(wall);
             applySurfaceFinish(wall,finishes.get(`${node.id}#finish:${boundary.edge}`),node,boundary,assetLibrary,finishMaterials);
@@ -183,7 +189,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
       const wallGroups=groupWallSegments(architecture.walls);
       for(const wall of walls)wall.userData.wallGroup=wallGroups.get(wall.name)||wall.name;
       for(const facility of facilities.values())if(facility.wallBinding?.wallId)facility.wallBinding.wallGroup=wallGroups.get(facility.wallBinding.wallId)||facility.wallBinding.wallId;
-      return {root,document:clone(document),derived,architecture,floorId,view,wallView:clone(wallView),groups,facilities,points,floors,walls,lights,wallGroups};
+      return {root,document:clone(document),derived,architecture,floorId,view,wallView:clone(wallView),groups,facilities,points,floors,walls,ceilings,lights,wallGroups};
     } catch(error) {disposeTree(root);throw error;}
   }
   function contactSource(id,visible) {
@@ -272,6 +278,12 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
     // Wall geometry is always physically complete.  Cutaway changes display
     // visibility only, preserving the real 2.8m height and center.
     for(const wall of current.walls){wall.scale.y=1;wall.position.y=WALL_CENTER_Y;wall.visible=!hiddenGroups.has(wall.userData.wallGroup);}
+    for(const ceiling of current.ceilings) {
+      const camera=current.wallView?.cameraPosition,region=current.derived.nodes.get(ceiling.userData.roomId);
+      const local=camera?ceiling.parent.worldToLocal(new THREE.Vector3(...camera)):null;
+      ceiling.visible=Boolean(focused===region.id&&local&&local.y>.05&&local.y<WALL_HEIGHT-.05&&
+        Math.abs(local.x)<region.bounds.width/2-.05&&Math.abs(local.z)<region.bounds.depth/2-.05);
+    }
     const eligible=current.lights.filter(l=>!focused||l.roomId===focused).sort((a,b)=>a.id.localeCompare(b.id));
     const enabled=new Set(eligible.filter(l=>l.desired>0).slice(0,maxRealtimeLights));
     for(const light of current.lights)light.light.intensity=enabled.has(light)?light.desired:0;
@@ -302,7 +314,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
       return current.derived.usePoints.filter(point=>floorId===undefined||point.floorId===floorId).map(point=>describeCompanyUsePoint(current.document,current.derived,point.id));
     },
     navigation,
-    surfacePresentation(){live();return describeSurfaceMeshes([...current.floors,...current.walls]);},
+    surfacePresentation(){live();return describeSurfaceMeshes([...current.floors,...current.walls,...current.ceilings]);},
     snapshot(){return {document:clone(current.document),view:this.view,wallView:clone(current.wallView),visibleFloorId:current.floorId,displayedFacilities:current.facilities.size,points:[...current.points.values()].map(p=>({id:p.id,facilityId:p.facilityId,position:p.chair.getWorldPosition(new THREE.Vector3()).toArray(),yaw:p.world.yaw+(p.yaw||0)})),lights:current.lights.map(l=>({id:l.id,intensity:l.light.intensity,castsShadow:l.light.castShadow})),navigation:navigation().obstacles.map(({object,...o})=>o)};},
     setView({mode='floor',floorId=current.floorId,roomId=null}={}) {
       live();if(!['floor','room','building'].includes(mode))throw new CompanyError('invalid-view',mode,'Use floor, room or building');
