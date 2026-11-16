@@ -1,21 +1,11 @@
 # 项目交接
 
-先读[CURRENT-FOUNDATION.md](CURRENT-FOUNDATION.md)、唯一状态清单[CAPABILITIES.md](CAPABILITIES.md)与[阶段计划](FOUNDATION-MILESTONES.md)。历史交接已存history/HANDOFF-before-m2-hair-fit-2026-11-16.md，不依据历史“下一步”重复生产。
+恢复先读AGENTS.md和CURRENT-FOUNDATION.md，然后读当前工作包的CAPABILITIES条目、FOUNDATION-MILESTONES退出条件和实际证据。CAP是唯一能力事实，历史报告不是新待办。
 
-- 当前F:/gamemake，feat/m1-foundation-room；baseline是静态原发布包，prototype是新建可维护工程，不能称丢失原工程恢复。
-- Phaser管理逻辑，Three.js＋VRM实时显示；Rigby2D/真实联网不参与。长期面向男女多样化主播、独立装备与动作复用；身份、身体、容貌、造型、行为分别管理。
-- M1已获限定基础接受；裙装和30秒舞按用户要求封存，禁止继续精修。普通电脑暂无测试设备，不能借开发机结果通过。
-- 当前有限M2 A已经发布证据并备份；B男性短发→male-jaw独立fit已发布固定fe5，有限技术检查/正常片/重建完成。准确源码/目录/证据/待办见CURRENT与delivery指针。
-- 新容貌与发型观感由用户判断。技术门、工程抽帧、用户验收、目标设备性能分开，不把A原体结果继承到B，也不把一次fit复用推广为所有头围自动适配。
-- 当前配方v6新增实际hairFit，旧v1–v5保原语义；文件/按基模草稿不是永久主播身份、多人档案或云存档。详AVATAR-CONTRACT。
-- 持续执行已授权工作，阶段汇报不等于结束。不得自动扩完整参数库、衣库、M3、服务器或另开性能探索；用户已纠正：具体角色造型用途与房间辨识度后置，不能作为技术平台等待项。当前补既有生产索引的3条男性M2流程，不新造模型或扩大前端。
-- 一次只占用一个GPU/录屏/重Blender/编码窗口。复用既有源和脚本；固定产物来自确切提交的新检出，证据不重标，远端备份必须核实。用户不承担专业制作。
-- 索引完成不等于M2框架完成。下一缺口是最终装备集合、互斥及覆盖恢复，沿现有装备加载实现；实际状态只见CAP。M3随机生成仍未授权/未开始，不把调研问题当新实施指令。
-
-2026-11-16更新：完整M2长目标已取代上文有限范围，准确授权/现场见CURRENT与research/M2-FULL-USER-GOAL-2026-11-16.txt。确定性独立角色记录属M2，随机策略仍M3。派工必须显式模型/深度，桌面钩子真实拦截仍待修正版验证；不得以CLI状态替代。依阶段计划P0–P6继续，不停在索引/样件交付。
-# 2026-11-16 本轮接续补记：桌面环境与装备覆盖候选
-
-当前是GPT桌面内的Codex，不是Codex CLI。工具派工显式模型/深度实际参数已用于outer_panels、single_equipment_contract，记录evidence/subagent-explicit-dispatch-2026-11-16.json。宿主实际provider配置未另暴露，Hook真实拦截仍未验证；本地脚本或桌面启用截图不能替代。不要再用CLI版本/features推断本会话。
-
-装备失败清理1f5172f已远端核实。43b91f8独立构建84b0c3f350cb完成实际现有男女换装/覆盖恢复/v6导入往返/坏资源保原、四轮第二女性回收及正常1×完整动作链；精确证据/限制见CURRENT-FOUNDATION与CAPABILITIES。公开4196仍fe5，临时4207是84b。新外搭第一结构39d620d失败归档；新裁片静图出现悬浮肩带/方板轮廓，不能以零相交宣称可用，正在按真实肩体截面修正。旧单件equip组合校验独立修复待集成，未包含于84b证据。
-
+- F:/gamemake / feat/m1-foundation-room；baseline不动，prototype是新建工程而非遗失源码恢复。
+- 当前M2以research/M2-COMPLETE-CUSTOMIZATION-LONG-GOAL-v2-2026-11-16.txt完整范围及后续用户决定为准。一个主包闭环后继续；M2必需项未齐不能宣告完成，用户确认前不开M3。
+- Phaser+Three.js+VRM；封板女裙与30秒舞不再精修。普通电脑缺设备实测，不以开发机代替，不阻塞其他任务。
+- 最新公开入口/候选/源码/录像/备份/主包与阻塞只查CURRENT及delivery指针，不复制旧版本流水。旧证据保原身份。
+- 当前是在GPT桌面中的Codex，不是Codex CLI。派工显式配置与桌面hook强制执行分开，后者仍未验证。具体派工记录evidence/subagent-explicit-dispatch-2026-11-16.json。
+- 用户负责产品与观看，agent负责专业制作和验证；不因审美选型或远景差异暂停技术工作，不把有限资源兼容外推为任意模型自动适配。
+- 一次一个GPU/录像/重导出任务；固定产物从确切提交独立检出构建，备份核对远端SHA。禁止给旧证据换新构建标签。
