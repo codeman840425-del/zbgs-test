@@ -17,6 +17,7 @@ export const FOUNDATION_PROFILES = {
     seatLayerThickness: 0.006 / 0.61,
   },
   male: {
+    garmentCoverage: { url: "/assets/m2-garment-coverage-v1/coverage-mask.json", sha256: "9da63589879a129aacddded37d9dfcc60d7f32364a394c316737c9999f65bfc6" },
     id: "beta-base-male-m1b",
     url: "/assets/foundation/base-male-roundtrip.vrm",
     sha256: "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",

@@ -299,14 +299,14 @@ def build():
         ],
     }
     OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / 'coverage-mask.json').write_text(json.dumps(fit, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    (OUT / 'coverage-mask.json').write_bytes((json.dumps(fit, ensure_ascii=False, indent=2) + '\n').encode('utf-8'))
     report = dict(fit)
     report['sourceFiles'] = {
         'innerTop': {'path': top_path.relative_to(ROOT).as_posix(), 'sha256': fit['innerTopSha256'], 'bytes': top_path.stat().st_size},
         'outer': {'path': outer_path.relative_to(ROOT).as_posix(), 'sha256': fit['outerAssetSha256'], 'bytes': outer_path.stat().st_size},
     }
     report['rebuild'] = {'command': 'python scripts/m2-garment-coverage-v1/build.py', 'numpyCPUOnly': True}
-    (OUT / 'report.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    (OUT / 'report.json').write_bytes((json.dumps(report, ensure_ascii=False, indent=2) + '\n').encode('utf-8'))
     print(json.dumps({'selectedTriangles': len(selected), 'coveredAreaM2': fit['coveredAreaM2'],
                       'maxSelectedCornerDistanceM': fit['observations']['maxSelectedCornerDistanceM'],
                       'components': fit['connectedComponents'], 'innerTopSha256': fit['innerTopSha256'],

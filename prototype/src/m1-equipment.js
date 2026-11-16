@@ -3,6 +3,7 @@ import { createM1Skirt } from "./m1-skirt.js";
 import { selectSkirtFit } from "./skirt-fit.js";
 import { foundationProfile } from "./foundation-profiles.js";
 import { createBodyCoverageSet } from "./body-coverage.js";
+import { createGarmentCoverage } from "./garment-coverage.js";
 import { outfitSelection } from "./outfit-selection.js";
 
 export const M1_AVATAR_SHA256 =
@@ -56,7 +57,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     debugBody = false,
     disposed = false;
   const item = (role) => adapter.get(IDS[role]);
-  let coverage, skirtCorrective;
+  let coverage, garmentCoverage, skirtCorrective;
   let revision=0;
   const pendingUpdates=new Set();
   function prepareOutfit(nextOutfit = outfit, nextDebugBody = debugBody) {
@@ -66,21 +67,22 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     const look = outfitSelection(config, nextOutfit);
     const selected = nextDebugBody ? [IDS.shoes] : look.ids;
     const update = coverage?.prepareEquipmentSet(selected);
+    const garmentUpdate = garmentCoverage?.prepareEquipmentSet(selected);
     let equipmentUpdate;
     try { equipmentUpdate=adapter.prepareLoadedSet(selected); }
-    catch(error){update?.dispose();throw error;}
+    catch(error){update?.dispose();garmentUpdate?.dispose();throw error;}
     const ticket=++revision;let live=true,cleaned=false;
     const prepared={
-      isCurrent:()=>live&&!disposed&&ticket===revision&&equipmentUpdate.isCurrent()&&(!update||update.isCurrent()),
+      isCurrent:()=>live&&!disposed&&ticket===revision&&equipmentUpdate.isCurrent()&&(!update||update.isCurrent())&&(!garmentUpdate||garmentUpdate.isCurrent()),
       commit(){
         if(!prepared.isCurrent())throw Error('Outfit preparation is no longer current');
-        equipmentUpdate.commit();update?.commit();
+        equipmentUpdate.commit();update?.commit();garmentUpdate?.commit();
         outfit=nextOutfit;lowerBodyRole=look.bottomRole;debugBody=nextDebugBody;
         live=false;pendingUpdates.delete(prepared);
       },
       dispose(){
         if(cleaned)return;cleaned=true;live=false;pendingUpdates.delete(prepared);
-        try{equipmentUpdate.dispose();}finally{update?.dispose();}
+        try{equipmentUpdate.dispose();}finally{try{update?.dispose();}finally{garmentUpdate?.dispose();}}
       },
     };
     pendingUpdates.add(prepared);return prepared;
@@ -93,6 +95,9 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
   try {
     coverage = await createBodyCoverageSet({ body, avatarSha256,
       bindings: config.bodyCoverage ? [{entry:item("top").entry, descriptor:config.bodyCoverage}] : [] });
+    garmentCoverage = config.garmentCoverage ? await createGarmentCoverage({
+      inner: item("top"), outer: item("outer"), descriptor: config.garmentCoverage,
+    }) : null;
     skirtCorrective = IDS.skirt ? createM1Skirt({
       vrm, source: item("skirt").meshes[0], body,
       fit: selectSkirtFit(item("skirt").entry, avatarSha256),
@@ -130,6 +135,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
         independentEquipment: true,
         sourceBodyUnchanged: true,
         bodyCoverage: coverage?.getInfo() ?? null,
+        garmentCoverage: garmentCoverage?.getInfo() ?? null,
         skirtDynamics: skirtCorrective?.getInfo() ?? null,
         items: Object.fromEntries(
           Object.entries(IDS).map(([role, id]) => [
@@ -145,6 +151,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
         face,
         hair,
         get top() { return item(lowerBodyRole === 'onePiece' ? 'onePiece' : 'top').meshes; },
+        outer: IDS.outer ? item("outer").meshes : [],
         shoes: item("shoes").meshes,
         get pants() { return item(['shorts','onePiece'].includes(lowerBodyRole) ? lowerBodyRole : 'pants').meshes; },
         allPants: [...item("pants").meshes, ...(IDS.shorts ? item("shorts").meshes : []), ...(IDS.onePiece ? item('onePiece').meshes : [])],
@@ -166,6 +173,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
       disposed = true;
       for(const update of pendingUpdates)update.dispose();
       skirtCorrective?.dispose();
+      garmentCoverage?.dispose();
       coverage?.dispose();
       adapter.dispose();
       sourceClothes.forEach(({ mesh, visible }) => (mesh.visible = visible));
