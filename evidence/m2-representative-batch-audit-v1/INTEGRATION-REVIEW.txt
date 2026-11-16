@@ -1,0 +1,20 @@
+八预设运行接入合同补充审阅
+
+结果
+对 root 当前真实发布产物及实际模块做 CPU 合同检查，147项通过，静态查询/准入网络请求为0。运行清单SHA256为212b7542e319a69a511a5549b42631ccb22f7382059c501a48ab0fc250a7b0c6。各被测模块、清单与历史配方的字节SHA见palette-recipe-contract-results.json。
+
+旧语义
+对照296fe29中的原appearance-recipe.js和appearance-candidates.js实际模块，原女、原男、女jaw、女waisthip和男jaw的完整query与capture均一致。原palette版本与legacy版本允许集合保持原值。真实785历史男女v8配方仍通过验证，当前捕获与旧实现一致。男女v7表面配方仍按原资源身份验证。
+旧palette文件实际SHA仍为2eff13c1d3837c4f8f76b7d97007b219059c212c1031d77e27a2f824715af321，发布器写入独立批次palette，没有改写该文件或将旧版本重命名。
+
+新身体
+八个实际新body SHA均只选择新批次palette合同。新manifest中的完整variant描述除明确bodyType/avatarSHA外与各自原男女variant一致，新manifest磁盘SHA与运行清单pin一致。查询默认v6使用新版本且可静态准入；新v8的none附件可捕获/验证，schema仍为v8。原palette、legacy palette、错新palette SHA、错body、错装备SHA，以及未有新body fit的原帽选择均拒绝。输入配方未被验证过程修改。
+这些是实际query/validation/capture模块与真实已发布metadata检查。controller展示状态使用CPU夹具，未调用纹理准备/角色加载/事务提交，不表示完整运行恢复或视觉通过。
+
+发布器问题与修复核验
+初读指出两个缺口，root已补齐。--manifest现在必须与审查记录的canonical路径及SHA一致，旧palette源必须等于原pin。随后import实际当前发布器，在临时ROOT做failed audit、不同manifest路径、同路径改bytes、旧palette改bytes四个负例，均拒绝，所有临时文件前后内容相同，source/public目录均未产生。证据publisher-gate-results.json，脚本publisher_gate_cpu.py可重复运行。这些用例覆盖发布前身份拒绝，未重做成功发布或八条浏览器动作链。
+
+范围与复现
+本次未修改发布器或任何运行模块，没有GPU、浏览器或重导出。静态数组报告仍为本目录REPORT.txt/report.json，卷发否决与体积接触待测缺口继续保留。
+node evidence/m2-representative-batch-audit-v1/palette_recipe_cpu.mjs
+python -B evidence/m2-representative-batch-audit-v1/publisher_gate_cpu.py
