@@ -73,6 +73,7 @@ try {
     const derived=deriveCompany(fixture,catalog,templates),left=describeCompanyUsePoint(fixture,derived,'lounge/sofa#left'),right=describeCompanyUsePoint(fixture,derived,'lounge/sofa#right');
     close(left.transform.position,[10.04,0,20.48]);close(right.transform.position,[10.04,0,19.52]);
     close(left.approachPosition,[11.02,0,20.48]);close(left.exitPosition,[11.15,0,20.48]);
+    assert.deepEqual(left.local,{coordinateSpace:'facility',position:[-.48,0,.04],yaw:0,approach:[-.48,0,1.02],exit:[-.48,0,1.15]});
     assert.equal(left.transform.yaw,Math.PI/2);assert.equal(left.contact.seatNodeId,'seat-left');assert.equal(right.contact.seatNodeId,'seat-right');
   });
   check('Historical points without approach metadata remain explicit rather than inventing a target',()=>{

@@ -14,6 +14,8 @@ export function describeCompanyUsePoint(document,derived,id) {
     facilityId:point.facilityId,floorId:point.floorId,roomId:point.roomId,
     resource:facility.node.resource,
     transform,facilityTransform:point.world,
+    local:{coordinateSpace:'facility',position:point.position||[0,0,0],yaw:point.yaw||0,
+      approach:point.approach??null,exit:point.exit??null},
     // Authored approach/exit are FACILITY-local, not use-point-local. Adding
     // the sofa seat offset a second time would send actors to the wrong place.
     approachPosition:point.approach?pointInTransform(point.world,point.approach):null,
