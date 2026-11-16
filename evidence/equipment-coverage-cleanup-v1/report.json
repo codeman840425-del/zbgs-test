@@ -1,0 +1,25 @@
+{
+  "scope": "Actual functions; synthetic SkinnedMesh and adapter using real equipment-set commit. CPU errors injected; no browser/GPU claim.",
+  "sourceSHA": {
+    "m1": "f8129c26a39e87035338893fba1c6569d282b6de25151fb18b369a48cc12db64",
+    "coverage": "60277f4c1a0f9b7e5aa257d0bc0bd1844a4159f95e80341cf20bf644f6e95e03"
+  },
+  "checks": [
+    "Concurrent new-set preparation has one owner; idempotent dispose restores full body",
+    "Clone failure, abandoned preparation and stale commit preserve state; valid retry works",
+    "Controller dispose releases uncommitted clone once, rejects late commit and releases owner",
+    "First apply failure cleans adapter/corrective/coverage, keeps original clothes and allows reacquisition"
+  ],
+  "passed": false,
+  "factoryFailure": {
+    "adapterDisposed": 1,
+    "skirtDisposed": 1,
+    "sourceClothesVisible": true,
+    "appliedSetCalls": 0,
+    "ownerReacquired": true
+  },
+  "error": {
+    "message": "skirtCorrective?.getInfo is not a function",
+    "stack": "TypeError: skirtCorrective?.getInfo is not a function\n    at Object.getInfo (eval at factoryFixture (file:///F:/gamemake/scripts/qa-equipment-coverage-review.mjs:65:17), <anonymous>:104:41)\n    at file:///F:/gamemake/scripts/qa-equipment-coverage-review.mjs:80:25"
+  }
+}

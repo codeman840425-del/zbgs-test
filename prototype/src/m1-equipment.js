@@ -2,7 +2,7 @@ import { createEquipment } from "./equipment.js";
 import { createM1Skirt } from "./m1-skirt.js";
 import { selectSkirtFit } from "./skirt-fit.js";
 import { foundationProfile } from "./foundation-profiles.js";
-import { createBodyCoverage } from "./body-coverage.js";
+import { createBodyCoverageSet } from "./body-coverage.js";
 
 export const M1_AVATAR_SHA256 =
   "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95";
@@ -48,57 +48,54 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     adapter.dispose();
     throw new Error("M1 expected separate body/clothing primitives");
   }
-  // These are exact duplicated clothing surfaces, not body coverage removal.
-  sourceClothes.forEach(({ mesh }) => (mesh.visible = false));
   let outfit = 0,
     debugBody = false,
     disposed = false;
   const item = (role) => adapter.get(IDS[role]);
-  let coverage;
-  try {
-    coverage = await createBodyCoverage({ body, avatarSha256, topEntry:item("top").entry,
-      descriptor:config.bodyCoverage });
-  } catch (error) {
-    sourceClothes.forEach(({ mesh, visible }) => (mesh.visible = visible));
-    adapter.dispose();
-    throw error;
+  let coverage, skirtCorrective;
+  function apply(nextOutfit = outfit, nextDebugBody = debugBody) {
+    if (disposed) return;
+    // All assets are already loaded. Visibility changes are synchronous and
+    // cannot arrive later over a newer user request.
+    const bottomRole = nextOutfit === 1 ? "skirt" : nextOutfit === 2 ? "shorts" : "pants";
+    const selected = nextDebugBody ? [IDS.shoes] : [IDS.top, IDS.shoes, IDS[bottomRole]];
+    const update = coverage?.prepareEquipmentSet(selected);
+    try {
+      adapter.applyLoadedSet(selected);
+      update?.commit();
+      outfit = nextOutfit;
+      debugBody = nextDebugBody;
+    } finally {
+      update?.dispose();
+    }
   }
-  let skirtCorrective;
   try {
+    coverage = await createBodyCoverageSet({ body, avatarSha256,
+      bindings: config.bodyCoverage ? [{entry:item("top").entry, descriptor:config.bodyCoverage}] : [] });
     skirtCorrective = IDS.skirt ? createM1Skirt({
       vrm, source: item("skirt").meshes[0], body,
       fit: selectSkirtFit(item("skirt").entry, avatarSha256),
     }) : null;
+    apply();
+    // These are exact duplicated clothing surfaces, not body coverage removal.
+    sourceClothes.forEach(({ mesh }) => (mesh.visible = false));
   } catch (error) {
+    skirtCorrective?.dispose();
     coverage?.dispose();
     sourceClothes.forEach(({ mesh, visible }) => (mesh.visible = visible));
     adapter.dispose();
     throw error;
   }
-  function apply() {
-    if (disposed) return;
-    // All assets are already loaded. Visibility changes are synchronous and
-    // cannot arrive later over a newer user request.
-    const bottomRole = outfit === 1 ? "skirt" : outfit === 2 ? "shorts" : "pants";
-    const selected = debugBody ? [IDS.shoes] : [IDS.top, IDS.shoes, IDS[bottomRole]];
-    adapter.applyLoadedSet(selected);
-    // Existing exact-top coverage follows the final set, not a separately
-    // toggled costume flag. Multi-item coverage remains a separate work item.
-    coverage?.setEnabled(selected.includes(IDS.top));
-  }
-  apply();
   return {
     setOutfit(value) {
       const selection = config.outfits.find((o) => o.index === Number(value));
       if (!selection) throw new Error("This body has no matching outfit fit: " + value);
-      outfit = selection.index;
-      apply();
+      apply(selection.index, debugBody);
     },
     setMaterialRecipe(id, recipeId) { return adapter.setMaterialRecipe(id, recipeId); },
     getMaterialRecipeState(id) { return adapter.getMaterialRecipeState(id); },
     setDebugBody(value) {
-      debugBody = Boolean(value);
-      apply();
+      apply(outfit, Boolean(value));
     },
     update(dt, colliders = []) {
       if (!debugBody && outfit === 1) skirtCorrective?.update(dt, colliders);

@@ -1,0 +1,31 @@
+{
+  "scope": "Actual functions; synthetic SkinnedMesh and adapter; clone failure is injected, not observed GPU OOM",
+  "sourceSHA": {
+    "m1": "07306d3025353a6aa663fc1541d5f00b425d907c2ae78db8a84244e546ae9acb",
+    "coverage": "d65d47244e9ef253586e78aeca04fab3f60563eff4117a64da1d936daf87e680"
+  },
+  "checks": [
+    {
+      "name": "Concurrent new-set preparation has one owner",
+      "pass": true
+    },
+    {
+      "name": "Coverage helper failed preparation preserves existing render and can retry",
+      "pass": true
+    }
+  ],
+  "factoryFailure": {
+    "error": "injected clone failure",
+    "adapterDisposed": 0,
+    "sourceClothesVisible": false,
+    "appliedSetCalls": 1,
+    "retryCoverageError": "Body coverage index layout mismatch",
+    "expected": {
+      "adapterDisposed": 1,
+      "sourceClothesVisible": true,
+      "retryCoverageError": null
+    }
+  },
+  "factoryCleanupPassed": false,
+  "status": "confirmed-factory-cleanup-gap"
+}
