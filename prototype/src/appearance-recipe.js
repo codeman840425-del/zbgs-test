@@ -3,16 +3,22 @@ import {HAIR_COLORS,SKIN_TONES} from './character-appearance.js';
 import {EYE_COLORS,LIP_COLORS} from './facial-palette.js';
 import {FACIAL_PALETTE_VERSION as PALETTE,LEGACY_FACIAL_PALETTE_VERSION as LEGACY_PALETTE} from './facial-palette-contract.js';
 import {resolveFacialGeometrySelection,appearanceAdmissionError} from './facial-geometry-selection.js';
+import {SURFACE_LAYER_PACKAGE} from './surface-layer-catalog.js';
+import {validateSurfaceSelection} from './surface-layer-compositor.js';
 
 export const SCHEMA='workbench-appearance-recipe-v6';
 export const RULES='workbench-appearance-rules-v6';
+export const SURFACE_SCHEMA='workbench-appearance-recipe-v7';
+export const SURFACE_RULES='workbench-appearance-rules-v7';
 const fields=['hairStyle','hairColor','skinTone','eyeColor','lipColor'];
 export const appearanceDraftKey=bodyType=>'zbgs:appearance-draft:v1:'+bodyType;
 export function captureAppearanceRecipe(controller){
  const a=controller.actor,s=a.appearance.getState(),face=a.facialGeometry.getState();
  if(s.loading||s.facialPaletteLoading||face.loading)throw Error('请等待外观加载完成后保存');
  const outfit=a.config.outfits.find(o=>o.index===controller.outfit);
- return{schema:SCHEMA,rulesVersion:RULES,paletteVersion:PALETTE,
+ const hasSurface=Boolean(s.surfaceLayers?.length);
+ return{schema:hasSurface?SURFACE_SCHEMA:SCHEMA,rulesVersion:hasSurface?SURFACE_RULES:RULES,paletteVersion:PALETTE,
+  ...(hasSurface?{surface:{manifestSha256:s.surfaceManifestSha256,layers:structuredClone(s.surfaceLayers)}}:{}),
   base:{bodyType:a.profile.bodyType,sha256:a.profile.sha256},
   appearance:Object.fromEntries(fields.map(key=>[key,s[key]])),
   hairAssetSha256:s.replacementSHA256, hairFit:s.hairFit,
@@ -32,8 +38,17 @@ export function validateAppearanceRecipe(controller,record){
  const legacyFit=record?.schema==='workbench-appearance-recipe-v5'&&record.rulesVersion==='workbench-appearance-rules-v5';
  const oldGeometry=legacy||legacyBrow||legacyNose||legacyEye;
  const oldFit=oldGeometry||legacyFit;
- if((!oldFit&&(record?.schema!==SCHEMA||record.rulesVersion!==RULES))||![PALETTE,LEGACY_PALETTE].includes(record.paletteVersion))
+ const surfaceVersion=record?.schema===SURFACE_SCHEMA&&record.rulesVersion===SURFACE_RULES;
+ if((!oldFit&&!surfaceVersion&&(record?.schema!==SCHEMA||record.rulesVersion!==RULES))||![PALETTE,LEGACY_PALETTE].includes(record.paletteVersion))
   throw appearanceAdmissionError('schema','incompatible-version','外观配方版本不兼容，已保留当前外观');
+ if(!surfaceVersion&&Object.hasOwn(record,'surface'))throw appearanceAdmissionError('surface','incompatible-version','旧版配方不能携带新版皮肤层');
+ if(surfaceVersion){
+  try{
+   if(!SURFACE_LAYER_PACKAGE||record.surface?.manifestSha256!==SURFACE_LAYER_PACKAGE.sha256)throw Error('皮肤层资源版本不匹配');
+   const layers=validateSurfaceSelection(record.surface.layers);
+   if(!layers.length)throw Error('新版皮肤层配方缺少实际选择');
+  }catch(e){throw appearanceAdmissionError('surface','incompatible-resource',e.message);}
+ }
  if(legacy&&(record.geometry?.browSample!==undefined||record.geometry?.browRecipeSha256!==undefined))throw appearanceAdmissionError('geometry.browSample','incompatible-version','旧版配方不能携带新版眉部数据');
  if((legacy||legacyBrow)&&(record.geometry?.noseSample!==undefined||record.geometry?.noseRecipeSha256!==undefined))throw appearanceAdmissionError('geometry.noseSample','incompatible-version','旧版配方不能携带新版鼻部数据');
  if((legacy||legacyBrow||legacyNose)&&(record.geometry?.eyeSample!==undefined||record.geometry?.eyeRecipeSha256!==undefined))throw appearanceAdmissionError('geometry.eyeSample','incompatible-version','旧版配方不能携带新版眼部数据');
@@ -89,7 +104,9 @@ export async function applyAppearanceRecipe(controller,record){
    browSample:record.geometry.browSample??'none',expectedBrowRecipeSha256:record.geometry.browRecipeSha256,
    noseSample:record.geometry.noseSample??'none',expectedNoseRecipeSha256:record.geometry.noseRecipeSha256,
    eyeSample:record.geometry.eyeSample??'none',expectedEyeRecipeSha256:record.geometry.eyeRecipeSha256}))return{applied:false,cancelled:true};
-  if(!await prepare(actor.appearance,{...record.appearance,expectedHairAssetSha256:record.hairAssetSha256,
+  if(!await prepare(actor.appearance,{...record.appearance,
+   surfaceLayers:record.surface?.layers??[],expectedSurfaceManifestSha256:record.surface?.manifestSha256??null,
+   expectedHairAssetSha256:record.hairAssetSha256,
    ...(Object.hasOwn(record,'hairFit')?{expectedHairFit:record.hairFit}:{})}))return{applied:false,cancelled:true};
   const outfit=await controller.prepareOutfit(record.equipment.index);updates.push(outfit);
   // Every domain checks freshness before the first visible write. Commits only

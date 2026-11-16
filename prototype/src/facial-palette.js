@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import {FACIAL_PALETTE_MANIFEST_URL,FACIAL_PALETTE_MANIFEST_SHA256} from './facial-palette-contract.js';
+import {createSurfaceLayers} from './surface-layers.js';
+import {validateSurfaceSelection} from './surface-layer-compositor.js';
 const IRIS_COLOR_OPERATION = 'neutral-iris-multiply-v3';
 
 export const EYE_COLORS = { original: null, brown: '#916138', blue: '#507fa9', green: '#5e8b60', violet: '#8b63a6' };
@@ -10,6 +12,8 @@ const digest = async bytes => [...new Uint8Array(await crypto.subtle.digest('SHA
 /** Masked, per-instance texture variants. Iris pupil and lip-exterior pixels
  * are authored protection regions, not a whole-material color multiplier. */
 export function createFacialPalette({ vrm, avatarSha256 }) {
+  const surfaces=createSurfaceLayers({avatarSha256});
+  let surfaceLayers=[],wantedSurface=[];
   let parts = null, preparation = null, disposed = false, generation = 0;
   let eyeColor = 'original', lipColor = 'original', wantedEye = eyeColor, wantedLip = lipColor;
   let loading = false, error = null;
@@ -107,9 +111,9 @@ export function createFacialPalette({ vrm, avatarSha256 }) {
     }
     return item.texture;
   }
-  function preparePart(name, selection, presets) {
+  function preparePart(name, selection, presets, force=false) {
     const part = parts?.[name];
-    if (!part || part.last === selection) return [];
+    if (!part || (!force && part.last === selection)) return [];
     return part.records.map(record=>({record,
       map:selection==='original'?record.map:variantTexture(part,record.map,presets[selection]),
       shadeMap:selection==='original'?record.shadeMap:variantTexture(part,record.shadeMap,presets[selection]),
@@ -130,31 +134,40 @@ export function createFacialPalette({ vrm, avatarSha256 }) {
     if (disposed) return { applied: false, reason: '人物已卸载' };
     const nextEye = input.reset ? 'original' : input.eyeColor ?? (trackIntent?wantedEye:eyeColor);
     const nextLip = input.reset ? 'original' : input.lipColor ?? (trackIntent?wantedLip:lipColor);
+    let nextSurface;
+    try{nextSurface=validateSurfaceSelection(input.reset?[]:input.surfaceLayers??(trackIntent?wantedSurface:surfaceLayers));}
+    catch(e){return{applied:false,reason:e.message};}
     if (!(nextEye in EYE_COLORS) || !(nextLip in LIP_COLORS)) return { applied: false, reason: '未知瞳色或唇色' };
-    if(trackIntent){wantedEye = nextEye; wantedLip = nextLip;}
+    if(trackIntent){wantedEye = nextEye; wantedLip = nextLip; wantedSurface=nextSurface;}
     const request = ++generation; error = null;
+    let surfaceUpdate=null;
     try {
-      if (nextEye !== 'original' || nextLip !== 'original') { loading = true; await prepare(); }
+      if (nextEye !== 'original' || nextLip !== 'original' || nextSurface.length) { loading = true; await prepare(); }
       if (disposed || request !== generation) return { applied: false, cancelled: true };
-      const iris=preparePart('iris',nextEye,EYE_COLORS),lips=preparePart('lips',nextLip,LIP_COLORS);
+      const iris=preparePart('iris',nextEye,EYE_COLORS);
+      const lips=preparePart('lips',nextLip,LIP_COLORS,Boolean(nextSurface.length||surfaceLayers.length));
+      surfaceUpdate=await surfaces.prepare(lips,nextSurface,input.expectedSurfaceManifestSha256);
+      if(disposed||request!==generation){surfaceUpdate.dispose();return{applied:false,cancelled:true};}
       let live=true;
       const update={
         isCurrent:()=>live&&!disposed&&request===generation,
         commit(){
           if(!update.isCurrent())throw Error('五官配色准备已过期');
-          applyPart('iris',nextEye,iris);applyPart('lips',nextLip,lips);
+          applyPart('iris',nextEye,iris);applyPart('lips',nextLip,surfaceUpdate.assignments);
+          surfaceUpdate.commit();surfaceLayers=nextSurface;wantedSurface=nextSurface;
           eyeColor=nextEye;lipColor=nextLip;wantedEye=nextEye;wantedLip=nextLip;loading=false;live=false;pendingUpdates.delete(update);
           return{applied:true};
         },
         dispose(){
-          if(!live)return;live=false;pendingUpdates.delete(update);
-          if(request===generation){loading=false;wantedEye=eyeColor;wantedLip=lipColor;}
+          if(!live)return;live=false;pendingUpdates.delete(update);surfaceUpdate.dispose();
+          if(request===generation){loading=false;wantedEye=eyeColor;wantedLip=lipColor;wantedSurface=surfaceLayers;}
         },
       };
       pendingUpdates.add(update);return update;
     } catch (e) {
+      surfaceUpdate?.dispose();
       if(disposed||request!==generation)return{applied:false,cancelled:true};
-      if (request === generation) { error = e.message; loading = false; wantedEye = eyeColor; wantedLip = lipColor; }
+      if (request === generation) { error = e.message; loading = false; wantedEye = eyeColor; wantedLip = lipColor; wantedSurface=surfaceLayers; }
       return { applied: false, reason: e.message };
     }
   }
@@ -166,7 +179,7 @@ export function createFacialPalette({ vrm, avatarSha256 }) {
   }
   return {
     set, prepareUpdate,
-    getState: () => ({ eyeColor, lipColor, facialPaletteLoading: loading, facialPaletteError: error,
+    getState: () => ({ eyeColor, lipColor, ...surfaces.getState(), facialPaletteLoading: loading, facialPaletteError: error,
       facialTextureCount: parts ? Object.values(parts).reduce((n, p) => n + [...p.variants.values()].reduce((count,colors)=>count+colors.size,0), 0) : 0,
       facialMaskIdentity: parts ? Object.fromEntries(Object.entries(parts).map(([key, p]) => [key, p.descriptor.maskSha256])) : null }),
     dispose() {
@@ -179,6 +192,7 @@ export function createFacialPalette({ vrm, avatarSha256 }) {
         }
         part.variants.forEach(colors => colors.forEach(v=>v.texture.dispose())); part.variants.clear();
       }
+      surfaces.dispose();
     },
   };
 }
