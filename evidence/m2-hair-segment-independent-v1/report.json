@@ -1,0 +1,851 @@
+{
+  "revision": "3072a3d500f9b3e0fdcd3df1310519f24e2b4081",
+  "sourceSha256": "4ecdcd367fdacb4a9498cca6b7f59af28027f3fc8d0a5200285a75c5c123a1ef",
+  "dirty": "",
+  "checks": [
+    {
+      "name": "actual508 segment 0",
+      "passed": true,
+      "before": {
+        "depth": 0.016227461748761267,
+        "witness": 0.435
+      },
+      "after": {
+        "depth": 0,
+        "witness": null
+      },
+      "lengthError": 4.163336342344337e-17,
+      "correction": 0.04628578112076381,
+      "outcome": "corrected-segment"
+    },
+    {
+      "name": "actual508 segment 1",
+      "passed": true,
+      "before": {
+        "depth": 0.020615089377571554,
+        "witness": 0.499
+      },
+      "after": {
+        "depth": 0,
+        "witness": null
+      },
+      "lengthError": 4.163336342344337e-17,
+      "correction": 0.0493303705088249,
+      "outcome": "corrected-segment"
+    },
+    {
+      "name": "actual508 segment 2",
+      "passed": true,
+      "before": {
+        "depth": 0.02009372342950394,
+        "witness": 0.51
+      },
+      "after": {
+        "depth": 0,
+        "witness": null
+      },
+      "lengthError": 1.3877787807814457e-17,
+      "correction": 0.04682075346254783,
+      "outcome": "corrected-segment"
+    },
+    {
+      "name": "two disjoint room boxes preserve both prior constraints after official update",
+      "passed": false,
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "initial": [
+        1,
+        1,
+        0
+      ],
+      "afterFirst": [
+        0.39,
+        1.3593748563218317,
+        0
+      ],
+      "afterSecond": [
+        1.1729876384685394,
+        0.79,
+        0
+      ],
+      "official": [
+        1.172987638468539,
+        0.79,
+        0
+      ],
+      "finalPenetrations": [
+        {
+          "depth": 0.10969273398759753,
+          "witness": 0.426
+        },
+        {
+          "depth": 0,
+          "witness": null
+        }
+      ],
+      "lengthError": 2.220446049250313e-16,
+      "feasibleEndpoint": [
+        0,
+        -1.4142135623730951,
+        0
+      ],
+      "feasiblePenetrations": [
+        {
+          "depth": 0,
+          "witness": null
+        },
+        {
+          "depth": 0,
+          "witness": null
+        }
+      ],
+      "diagnostics": [
+        {
+          "box": "independent-box-0",
+          "bone": "root",
+          "collisions": 2,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "corrected-segment"
+        },
+        {
+          "box": "independent-box-1",
+          "bone": "root",
+          "collisions": 2,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "corrected-segment"
+        }
+      ]
+    },
+    {
+      "name": "zero-length",
+      "passed": true,
+      "point": [
+        0,
+        0,
+        0
+      ],
+      "outcome": "no-fixed-length-endpoint"
+    },
+    {
+      "name": "contained-sphere",
+      "passed": true,
+      "point": [
+        0,
+        0.2,
+        0
+      ],
+      "outcome": "no-fixed-length-endpoint"
+    },
+    {
+      "name": "reflected rotated nonuniform box projection",
+      "passed": true,
+      "after": {
+        "depth": 0,
+        "witness": null
+      },
+      "lengthError": 1.6653345369377348e-16
+    },
+    {
+      "name": "actual GLB three508 seat/back official single step 0",
+      "passed": false,
+      "replayError": 0,
+      "remainingContacts": [
+        {
+          "bone": "Pony4",
+          "radius": 0.01206325204308154,
+          "contacts": [
+            {
+              "box": "chairSeat",
+              "depth": 0,
+              "witness": null
+            },
+            {
+              "box": "chairBack",
+              "depth": 0.00005633804168625467,
+              "witness": 1
+            }
+          ]
+        }
+      ],
+      "cleanupCount": 0
+    },
+    {
+      "name": "actual GLB three508 seat/back official single step 1",
+      "passed": false,
+      "replayError": 0,
+      "remainingContacts": [
+        {
+          "bone": "Pony4",
+          "radius": 0.01206325204308154,
+          "contacts": [
+            {
+              "box": "chairSeat",
+              "depth": 0,
+              "witness": null
+            },
+            {
+              "box": "chairBack",
+              "depth": 0.00007464407071888779,
+              "witness": 1
+            }
+          ]
+        }
+      ],
+      "cleanupCount": 0
+    },
+    {
+      "name": "actual GLB three508 seat/back official single step 2",
+      "passed": false,
+      "replayError": 0,
+      "remainingContacts": [
+        {
+          "bone": "Pony4",
+          "radius": 0.01206325204308154,
+          "contacts": [
+            {
+              "box": "chairSeat",
+              "depth": 0,
+              "witness": null
+            },
+            {
+              "box": "chairBack",
+              "depth": 0.00006729869274180178,
+              "witness": 1
+            }
+          ]
+        }
+      ],
+      "cleanupCount": 0
+    },
+    {
+      "name": "shared proxy two-manager ownership and disposal isolation",
+      "passed": true,
+      "ownedBefore": 2,
+      "ownedAfter": 1,
+      "finalOwned": 0
+    },
+    {
+      "name": "detached reset then shared-root attach refreshes public manager dependency order",
+      "passed": true,
+      "colliderMatrixMatches": true,
+      "state": {
+        "implementation": "three-vrm-springbone-3.5.5",
+        "jointCount": 1,
+        "colliderCount": 0,
+        "bodyColliderCount": 0,
+        "environmentColliderCount": 1,
+        "environmentColliderObjectCount": 1,
+        "environmentCollisionDiagnostics": [
+          {
+            "box": "independent-box-0",
+            "bone": "root",
+            "collisions": 1,
+            "unresolvedCollisions": 0,
+            "lastOutcome": "corrected-segment"
+          }
+        ],
+        "environmentCollisionScope": "conservative-expanded-oriented-box-bone-segment-fixed-length",
+        "cleanupErrors": [],
+        "initialized": true,
+        "enabled": true,
+        "updates": 1,
+        "resets": 1,
+        "localRotations": [
+          [
+            -0.38729833462074165,
+            0,
+            0,
+            0.9219544457292888
+          ]
+        ],
+        "worldTails": [
+          [
+            0,
+            0.06,
+            0.142828568570857
+          ]
+        ]
+      }
+    }
+  ],
+  "actualRows": [
+    {
+      "sample": 0,
+      "replayError": 0,
+      "segments": [
+        {
+          "bone": "Pony0",
+          "radius": 0.023663574487137944,
+          "contacts": [
+            {
+              "box": "chairSeat",
+              "depth": 0,
+              "witness": null
+            },
+            {
+              "box": "chairBack",
+              "depth": 0,
+              "witness": null
+            }
+          ]
+        },
+        {
+          "bone": "Pony1",
+          "radius": 0.02118151016093912,
+          "contacts": [
+            {
+              "box": "chairSeat",
+              "depth": 0,
+              "witness": null
+            },
+            {
+              "box": "chairBack",
+              "depth": 0,
+              "witness": null
+            }
+          ]
+        },
+        {
+          "bone": "Pony2",
+          "radius": 0.018503658030112932,
+          "contacts": [
+            {
+              "box": "chairSeat",
+              "depth": 0,
+              "witness": null
+            },
+            {
+              "box": "chairBack",
+              "depth": 0,
+              "witness": null
+            }
+          ]
+        },
+        {
+          "bone": "Pony3",
+          "radius": 0.015537529607053412,
+          "contacts": [
+            {
+              "box": "chairSeat",
+              "depth": 0,
+              "witness": null
+            },
+            {
+              "box": "chairBack",
+              "depth": 0,
+              "witness": null
+            }
+          ]
+        },
+        {
+          "bone": "Pony4",
+          "radius": 0.01206325204308154,
+          "contacts": [
+            {
+              "box": "chairSeat",
+              "depth": 0,
+              "witness": null
+            },
+            {
+              "box": "chairBack",
+              "depth": 0.00005633804168625467,
+              "witness": 1
+            }
+          ]
+        },
+        {
+          "bone": "Pony5",
+          "radius": 0.0065,
+          "contacts": [
+            {
+              "box": "chairSeat",
+              "depth": 0,
+              "witness": null
+            },
+            {
+              "box": "chairBack",
+              "depth": 0,
+              "witness": null
+            }
+          ]
+        }
+      ],
+      "diagnostics": [
+        {
+          "box": "chairSeat",
+          "bone": "Pony0",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairBack",
+          "bone": "Pony0",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairSeat",
+          "bone": "Pony1",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairBack",
+          "bone": "Pony1",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairSeat",
+          "bone": "Pony2",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairBack",
+          "bone": "Pony2",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairSeat",
+          "bone": "Pony3",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairBack",
+          "bone": "Pony3",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairSeat",
+          "bone": "Pony4",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairBack",
+          "bone": "Pony4",
+          "collisions": 1,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "corrected-segment"
+        },
+        {
+          "box": "chairSeat",
+          "bone": "Pony5",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairBack",
+          "bone": "Pony5",
+          "collisions": 1,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "corrected-segment"
+        }
+      ]
+    },
+    {
+      "sample": 1,
+      "replayError": 0,
+      "segments": [
+        {
+          "bone": "Pony0",
+          "radius": 0.023663574487137944,
+          "contacts": [
+            {
+              "box": "chairSeat",
+              "depth": 0,
+              "witness": null
+            },
+            {
+              "box": "chairBack",
+              "depth": 0,
+              "witness": null
+            }
+          ]
+        },
+        {
+          "bone": "Pony1",
+          "radius": 0.02118151016093912,
+          "contacts": [
+            {
+              "box": "chairSeat",
+              "depth": 0,
+              "witness": null
+            },
+            {
+              "box": "chairBack",
+              "depth": 0,
+              "witness": null
+            }
+          ]
+        },
+        {
+          "bone": "Pony2",
+          "radius": 0.018503658030112932,
+          "contacts": [
+            {
+              "box": "chairSeat",
+              "depth": 0,
+              "witness": null
+            },
+            {
+              "box": "chairBack",
+              "depth": 0,
+              "witness": null
+            }
+          ]
+        },
+        {
+          "bone": "Pony3",
+          "radius": 0.015537529607053412,
+          "contacts": [
+            {
+              "box": "chairSeat",
+              "depth": 0,
+              "witness": null
+            },
+            {
+              "box": "chairBack",
+              "depth": 0,
+              "witness": null
+            }
+          ]
+        },
+        {
+          "bone": "Pony4",
+          "radius": 0.01206325204308154,
+          "contacts": [
+            {
+              "box": "chairSeat",
+              "depth": 0,
+              "witness": null
+            },
+            {
+              "box": "chairBack",
+              "depth": 0.00007464407071888779,
+              "witness": 1
+            }
+          ]
+        },
+        {
+          "bone": "Pony5",
+          "radius": 0.0065,
+          "contacts": [
+            {
+              "box": "chairSeat",
+              "depth": 0,
+              "witness": null
+            },
+            {
+              "box": "chairBack",
+              "depth": 0,
+              "witness": null
+            }
+          ]
+        }
+      ],
+      "diagnostics": [
+        {
+          "box": "chairSeat",
+          "bone": "Pony0",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairBack",
+          "bone": "Pony0",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairSeat",
+          "bone": "Pony1",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairBack",
+          "bone": "Pony1",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairSeat",
+          "bone": "Pony2",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairBack",
+          "bone": "Pony2",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairSeat",
+          "bone": "Pony3",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairBack",
+          "bone": "Pony3",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairSeat",
+          "bone": "Pony4",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairBack",
+          "bone": "Pony4",
+          "collisions": 1,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "corrected-segment"
+        },
+        {
+          "box": "chairSeat",
+          "bone": "Pony5",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairBack",
+          "bone": "Pony5",
+          "collisions": 1,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "corrected-segment"
+        }
+      ]
+    },
+    {
+      "sample": 2,
+      "replayError": 0,
+      "segments": [
+        {
+          "bone": "Pony0",
+          "radius": 0.023663574487137944,
+          "contacts": [
+            {
+              "box": "chairSeat",
+              "depth": 0,
+              "witness": null
+            },
+            {
+              "box": "chairBack",
+              "depth": 0,
+              "witness": null
+            }
+          ]
+        },
+        {
+          "bone": "Pony1",
+          "radius": 0.02118151016093912,
+          "contacts": [
+            {
+              "box": "chairSeat",
+              "depth": 0,
+              "witness": null
+            },
+            {
+              "box": "chairBack",
+              "depth": 0,
+              "witness": null
+            }
+          ]
+        },
+        {
+          "bone": "Pony2",
+          "radius": 0.018503658030112932,
+          "contacts": [
+            {
+              "box": "chairSeat",
+              "depth": 0,
+              "witness": null
+            },
+            {
+              "box": "chairBack",
+              "depth": 0,
+              "witness": null
+            }
+          ]
+        },
+        {
+          "bone": "Pony3",
+          "radius": 0.015537529607053412,
+          "contacts": [
+            {
+              "box": "chairSeat",
+              "depth": 0,
+              "witness": null
+            },
+            {
+              "box": "chairBack",
+              "depth": 0,
+              "witness": null
+            }
+          ]
+        },
+        {
+          "bone": "Pony4",
+          "radius": 0.01206325204308154,
+          "contacts": [
+            {
+              "box": "chairSeat",
+              "depth": 0,
+              "witness": null
+            },
+            {
+              "box": "chairBack",
+              "depth": 0.00006729869274180178,
+              "witness": 1
+            }
+          ]
+        },
+        {
+          "bone": "Pony5",
+          "radius": 0.0065,
+          "contacts": [
+            {
+              "box": "chairSeat",
+              "depth": 0,
+              "witness": null
+            },
+            {
+              "box": "chairBack",
+              "depth": 0,
+              "witness": null
+            }
+          ]
+        }
+      ],
+      "diagnostics": [
+        {
+          "box": "chairSeat",
+          "bone": "Pony0",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairBack",
+          "bone": "Pony0",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairSeat",
+          "bone": "Pony1",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairBack",
+          "bone": "Pony1",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairSeat",
+          "bone": "Pony2",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairBack",
+          "bone": "Pony2",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairSeat",
+          "bone": "Pony3",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairBack",
+          "bone": "Pony3",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairSeat",
+          "bone": "Pony4",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairBack",
+          "bone": "Pony4",
+          "collisions": 1,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "corrected-segment"
+        },
+        {
+          "box": "chairSeat",
+          "bone": "Pony5",
+          "collisions": 0,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "clear"
+        },
+        {
+          "box": "chairBack",
+          "bone": "Pony5",
+          "collisions": 1,
+          "unresolvedCollisions": 0,
+          "lastOutcome": "corrected-segment"
+        }
+      ]
+    }
+  ],
+  "assetSha256": "1b785f9d54107818cee39eda2de7263ad0720ce90968fbaa7cc32c2465e3c385",
+  "captureSha256": "953e9d30189ebed1c7d8558abe1b702f577ba6e37139bcf45fe388b54ae973f1",
+  "versions": {
+    "three": "0.187.0",
+    "threeVrm": "3.5.5"
+  },
+  "limits": [
+    "CPU only, actual Three0.187/VRM3.5.5 module and official manager. No browser or visual acceptance.",
+    "Actual captured GLB replay uses frozen head matrix and omits body colliders because original raw-body frames were not captured.",
+    "Penetration check samples 1001 segment locations. Positive interior depths prove intersection; zero is a bounded sample result."
+  ]
+}
