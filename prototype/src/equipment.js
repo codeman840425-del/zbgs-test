@@ -284,7 +284,15 @@ export async function createEquipment({
       await assertShapeDependencies([...ids,id]);
       if(disposed) throw new Error("Equipment adapter is disposed");
       if(slotRequests.get(entry.slot) !== request) return { ...item, applied: false };
-      commitLoadedEquipmentSet(loaded, manifest.items, [...ids, id], avatarSha256);
+      // Another slot can change while its shape digest is awaited. Re-read
+      // the actual visible set and validate synchronously at the commit point;
+      // never resurrect an item removed during that asynchronous window.
+      const currentIds = [...loaded.values()]
+        .filter(other => other.container.visible && other.entry.slot !== entry.slot)
+        .map(other => other.id);
+      for (const selectedId of [...currentIds, id])
+        shapeDependencies.get(selectedId)?.assertCurrentSync();
+      commitLoadedEquipmentSet(loaded, manifest.items, [...currentIds, id], avatarSha256);
       return { ...item, applied: true };
     },
     unequip(slot = "bottoms-overlay") {
