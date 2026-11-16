@@ -7,30 +7,35 @@ import {prepareTemplateUpgrade} from './upgrade.js';
 // Agent-facing authoring transactions. No character, movement, task or lease state.
 export async function createCompanyAuthoring(world,initialDocument,{catalog,templates,storage,assetLibrary,isUsePointBusy=()=>false}={}) {
   let generation=0,disposed=false;
+  const pendingPreloads=new Map();
   const store=createCompanySaveStore({storage,catalog,templates});
-  function resources(document,view={}) {
+  function resources(document,view={},contacts=[]) {
     const derived=deriveCompany(document,catalog,templates);
     const floorId=view.floorId||document.nodes.find(n=>n.kind==='floor').id;
-    return view.mode==='building'?[]:derived.facilities.filter(f=>f.floorId===floorId).map(f=>f.resource);
+    return [...(view.mode==='building'?[]:derived.facilities.filter(f=>f.floorId===floorId).map(f=>f.resource)),...contacts];
   }
-  async function preload(document,view={}) {
-    inspectCompanyPlacement(document,catalog,templates);
-    await assetLibrary?.preload(resources(document,view));
+  function pendingResources() { return pendingPreloads.get(generation)||[]; }
+  async function preload(document,view={},token=null) {
+    const requested=resources(document,view);
+    if(token!==null)pendingPreloads.set(token,requested);
+    inspectCompanyPlacement(document,catalog,templates); await assetLibrary?.preload(requested);
     return document;
   }
   await preload(initialDocument);
   const scene=createCompanyScene(world,initialDocument,{catalog,templates,assetLibrary});
   function intent(){if(disposed)throw new CompanyError('scene-disposed','authoring','Authoring session is closed');return ++generation;}
   function latest(token){if(disposed||generation!==token)throw new CompanyError('revision-conflict','authoring','A newer edit or load superseded this prepared scene');}
-  function prune(token){if(!disposed&&generation===token)assetLibrary?.retainOnly?.(resources(scene.document,scene.view));}
+  function prune() {
+    if(!disposed)assetLibrary?.retainOnly?.([...resources(scene.document,scene.view,scene.contactResources?.()||[]),...pendingResources()]);
+  }
   async function transaction(action) {
     const token=intent();
-    try{return await action(token);}finally{prune(token);}
+    try{return await action(token);}finally{pendingPreloads.delete(token);prune();}
   }
   async function replace(candidate,token) {
     latest(token);
     const floorId=candidate.nodes.some(n=>n.id===scene.view.floorId&&n.kind==='floor')?scene.view.floorId:undefined;
-    await preload(candidate,{floorId});latest(token);return scene.restore(JSON.stringify(candidate),{isUsePointBusy});
+    await preload(candidate,{floorId},token);latest(token);return scene.restore(JSON.stringify(candidate),{isUsePointBusy});
   }
   return {
     scene,
@@ -41,7 +46,7 @@ export async function createCompanyAuthoring(world,initialDocument,{catalog,temp
         const revision=scene.revision,result=prepareCompanyChange(scene.document,operations,{catalog,templates,isUsePointBusy});
         let handle;
         try {
-          await preload(result.document,scene.view);latest(token);
+          await preload(result.document,scene.view,token);latest(token);
           handle=scene.prepareChange(operations,{expectedRevision:revision,isUsePointBusy});
           return scene.commit(handle,{isUsePointBusy});
         } finally {if(handle)scene.discard(handle);}
@@ -67,8 +72,21 @@ export async function createCompanyAuthoring(world,initialDocument,{catalog,temp
     },
     async setView(view) {
       return transaction(async token=>{
-        const next={...scene.view,...view};await preload(scene.document,next);latest(token);return scene.setView(next);
+        const next={...scene.view,...view};await preload(scene.document,next,token);latest(token);return scene.setView(next);
       });
+    },
+    async retainUsePointContact(id) {
+      if(disposed)throw new CompanyError('scene-disposed','authoring','Authoring session is closed');
+      let handle;
+      try {
+        handle=await scene.retainUsePointContact(id);
+        if(disposed) { handle.release?.(); throw new CompanyError('scene-disposed','authoring','Authoring session is closed'); }
+        return handle;
+      } finally { prune(); }
+    },
+    releaseUsePointContact(handle) {
+      scene.releaseUsePointContact(handle);
+      prune();
     },
     async upgrade(stationId,targetRef) {
       return transaction(async token=>{

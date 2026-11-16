@@ -4,6 +4,7 @@ import defaultTemplates from './templates.json' with {type:'json'};
 import {CompanyError,deriveCompany,prepareCompanyChange,serializeCompany,restoreCompany} from './document.js';
 import {describeArchitecture} from './architecture.js';
 import {describeCompanyUsePoint} from './use-point-data.js';
+import {createContactResourceStore} from './contact-resources.js';
 
 const geometryTypes={BoxGeometry:THREE.BoxGeometry,CylinderGeometry:THREE.CylinderGeometry,PlaneGeometry:THREE.PlaneGeometry,CapsuleGeometry:THREE.CapsuleGeometry,SphereGeometry:THREE.SphereGeometry};
 const clone=value=>structuredClone(value);
@@ -148,6 +149,43 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
       return {root,document:clone(document),derived,architecture,floorId,view,groups,facilities,points,floors,walls,lights};
     } catch(error) {disposeTree(root);throw error;}
   }
+  function contactSource(id,visible) {
+    const point=current?.derived.usePoints.find(candidate=>candidate.id===id);
+    if(!point)return null;
+    const facility=current.derived.facilities.find(candidate=>candidate.id===point.facilityId);
+    if(!facility)return null;
+    const local={position:point.position||[0,0,0],yaw:point.yaw||0};
+    const source={usePointId:id,documentId:current.document.id,revision:current.document.revision,facilityId:facility.id,
+      resource:facility.resource,state:facility.state,facilityTransform:clone(point.world),transform:clone(describeCompanyUsePoint(current.document,current.derived,id).transform),
+      seatNodeId:point.seatNodeId,backNodeId:point.backNodeId,visible,preload:resource=>assetLibrary?.preload?.([resource]),
+      isCurrent:()=>{
+        const latest=current.derived.usePoints.find(candidate=>candidate.id===id),latestFacility=latest&&current.derived.facilities.find(candidate=>candidate.id===latest.facilityId);
+        return Boolean(current.document.id===source.documentId&&latest&&latestFacility&&latest.facilityId===facility.id&&latestFacility.resource.id===facility.resource.id&&latestFacility.resource.version===facility.resource.version&&
+          JSON.stringify(latest.world)===JSON.stringify(point.world)&&JSON.stringify({position:latest.position||[0,0,0],yaw:latest.yaw||0})===JSON.stringify(local));
+      },
+    };
+    return source;
+  }
+  async function captureLogical(source) {
+    if(source.resource.asset&&!assetLibrary)throw new CompanyError('asset-library-required',source.facilityId,'Preload this GLB resource before retaining its contact');
+    let root,parts;
+    if(source.resource.asset) { const instance=assetLibrary.instantiate(source.resource);root=instance.root;parts=instance.nodes; }
+    else { parts=new Map();root=buildResource(source.resource.node,parts,source.state); }
+    const transform=new THREE.Matrix4().makeRotationY(source.facilityTransform.yaw).setPosition(...source.facilityTransform.position);
+    root.matrixAutoUpdate=false;root.matrix.copy(transform);root.matrixWorld.copy(transform);root.updateMatrixWorld(true);
+    return {seat:parts.get(source.seatNodeId),back:parts.get(source.backNodeId),dispose:()=>disposeTree(root)};
+  }
+  async function captureVisible(point) { return {seat:point.chairSeat,back:point.chairBack}; }
+  const contactResources=createContactResourceStore({
+    resolveVisible:id=>current?.points.get(id)||null,
+    resolveLogical:(id,visible)=>contactSource(id,visible),
+    captureVisible,captureLogical,
+    assetResources:()=>[],
+  });
+  function guardedBusy(guards={}) {
+    const external=guards.isUsePointBusy||(()=>false);
+    return id=>external(id)||contactResources.isBusy(id);
+  }
   function install(candidate) {
     // Keep unchanged seat Object3Ds alive so an occupied actor's existing contact
     // references survive a screen/light edit elsewhere in the scene.
@@ -224,7 +262,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
       return this.snapshot();
     },
     prepareChange(operations,guards={}) {
-      live();const result=prepareCompanyChange(current.document,operations,{catalog,templates,...guards});
+      live();const result=prepareCompanyChange(current.document,operations,{catalog,templates,...guards,isUsePointBusy:guardedBusy(guards)});
       const candidate=build(result.document,current.floorId,current.view);candidate.operations=clone(operations);candidate.previousRevision=current.document.revision;candidate.generation=generation;
       const handle=Object.freeze({get document(){return clone(candidate.document);},previousRevision:candidate.previousRevision});prepared.set(handle,candidate);return handle;
     },
@@ -232,16 +270,19 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
       live();const candidate=prepared.get(handle);if(!candidate)throw new CompanyError('unknown-candidate','company','Only locally prepared candidates can commit');
       if(candidate.generation!==generation)throw new CompanyError('revision-conflict','company','Scene was committed or restored after this candidate was prepared');
       // Recheck authoritative leases/revision just before synchronously publishing.
-      prepareCompanyChange(current.document,candidate.operations,{catalog,templates,...guards,expectedRevision:candidate.previousRevision});
+      prepareCompanyChange(current.document,candidate.operations,{catalog,templates,...guards,isUsePointBusy:guardedBusy(guards),expectedRevision:candidate.previousRevision});
       prepared.delete(handle);install(candidate);return this.snapshot();
     },
     discard(handle){const candidate=prepared.get(handle);if(candidate){prepared.delete(handle);disposeTree(candidate.root);}},
     save(){live();return serializeCompany(current.document,catalog,templates);},
     restore(text,{isUsePointBusy=()=>false}={}) {
-      live();for(const point of current.derived.usePoints)if(isUsePointBusy(point.id))throw new CompanyError('facility-busy',point.id,'Leave occupied facilities before replacing the full company document');
+      live();const busy=id=>isUsePointBusy(id)||contactResources.isBusy(id);for(const point of current.derived.usePoints)if(busy(point.id))throw new CompanyError('facility-busy',point.id,'Leave occupied facilities before replacing the full company document');
       const next=restoreCompany(text,catalog,templates),floorId=next.nodes.some(n=>n.id===current.floorId&&n.kind==='floor')?current.floorId:undefined;
       install(build(next,floorId));return this.snapshot();
     },
-    dispose(){if(disposed)return;disposed=true;for(const candidate of prepared.values())disposeTree(candidate.root);prepared.clear();disposeTree(current.root);},
+    retainUsePointContact(id){live();return contactResources.retainUsePointContact(id);},
+    releaseUsePointContact(handle){if(handle?.release)handle.release();},
+    contactResources:()=>contactResources.resources(),
+    dispose(){if(disposed)return;disposed=true;contactResources.dispose();for(const candidate of prepared.values())disposeTree(candidate.root);prepared.clear();disposeTree(current.root);},
   };
 }

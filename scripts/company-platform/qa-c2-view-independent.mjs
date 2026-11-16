@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
+import path from 'node:path';
+import {pathToFileURL} from 'node:url';
 import {createHash} from 'node:crypto';
 import * as THREE from '../../prototype/node_modules/three/build/three.module.js';
 import catalog from '../../prototype/src/company/library-catalog.json' with {type:'json'};
@@ -12,7 +14,9 @@ import {createCompanyAssetLibrary} from '../../prototype/src/company/asset-libra
 import {encodeCompanySave} from '../../prototype/src/company/persistence.js';
 
 globalThis.ProgressEvent ??= class extends Event {constructor(type,init={}){super(type);Object.assign(this,init);}};
-const root=new URL('../../',import.meta.url),out=new URL('evidence/company-c2-view-independent-v1/',root);
+if(!process.argv[2])throw new Error('Pass a NEW_OUTPUT_DIR');
+const root=new URL('../../',import.meta.url),out=pathToFileURL(path.resolve(process.argv[2])+path.sep);
+await fs.mkdir(out,{recursive:false});
 const sourceFiles=['prototype/src/company/render.js','prototype/src/company/authoring.js','prototype/src/company/asset-library.js','prototype/src/company/architecture.js','prototype/src/company/space.js'];
 async function hashes(){return Object.fromEntries(await Promise.all(sourceFiles.map(async name=>[name,createHash('sha256').update(await fs.readFile(new URL(name,root))).digest('hex')])));}
 const beforeHashes=await hashes(),checks=[];
@@ -125,6 +129,5 @@ await check('One failed asset cancels a sibling late GLB and disposes its parsed
   }finally{THREE.BufferGeometry.prototype.dispose=originalDispose;f.dispose();}
 });
 
-await fs.mkdir(out,{recursive:true});
 const afterHashes=await hashes(),report={status:checks.every(row=>row.passed)?'passed':'failed',generatedAt:new Date().toISOString(),configuration:{requestedModel:'gpt-6.1-sol',requestedReasoningEffort:'high',difficulty:'complex',actualProviderConfiguration:'not independently verified',hostHookInterception:'not independently verified'},beforeHashes,afterHashes,sourcesStable:JSON.stringify(beforeHashes)===JSON.stringify(afterHashes),checks,limits:['CPU actual Three scene construction and GLTFLoader parsing only. No GPU, browser or character integration.', 'Fetch gates intentionally ignore abort to verify late-result cancellation and resource ownership.']};
 await fs.writeFile(new URL('report.json',out),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({status:report.status,checks:checks.length,failures:checks.filter(row=>!row.passed)},null,2));if(report.status!=='passed')process.exitCode=1;

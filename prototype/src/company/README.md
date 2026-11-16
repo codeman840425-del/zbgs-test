@@ -57,6 +57,10 @@ node scripts/company-platform/serve-company.cjs prototype/dist-company BUILD
 
 ## C3 集中对接时使用的接缝
 
+接触资源由公司 provider 显式持有。`scene.retainUsePointContact(usePointId)` 返回带 `usePointId`、文档身份、设施资源版本、座面与靠背几何以及完整 `matrixWorld` 的句柄。句柄只复制实际座面和靠背所需资源，不依赖当前可见楼层，`handle.release()` 幂等且多持有者按同一使用点引用计数。`scene.releaseUsePointContact(handle)` 是同义释放入口，`scene.contactResources()` 返回仍在加载的精确资源供 authoring `retainOnly` 保留。视图切换不会释放句柄，场景 `dispose()` 会释放所有复制资源并使旧句柄失效。离屏 GLB 会先加载精确资源，设施身份或资源版本在等待期间变化则明确拒绝，不返回旧接触。
+
+该取得接口为异步，使用 `await session.retainUsePointContact(id)`。句柄的 `seat` / `back` 是独立真实几何副本，无贴图；`root` 是不挂入显示世界的单位矩阵容器，不是座位基点。使用点坐标系读取 `handle.transform`，设施坐标系读取 `handle.facilityTransform`；不要把 root 的零位置用于角色接近或身体适配。active 记录只留纯元数据和两块接触几何，释放/场景销毁后读取几何属性会明确报错。已持有接触的设施变更与整文档恢复也会拒绝；此为资源保护，预约/占用依旧来自总工 seat-lease。观看和接触请求互不取消，在途显示资源按最新有效场景事务保留，失败/过期事务结束后清理闲置缓存。
+
 `createCompanyScene(world, document)` 只向既有 Three world 添加环境，不创建人物或推进时钟。共享运行入口持有一个实例：
 
 - `resolveUsePoint(id)` 返回 `{id,facilityId,floorId,chair,chairSeat,chairBack,seatHeight,footprint,...}`。接触网格是真实 Mesh，`chair` 为设施局部基点；局部前向 +Z，当前椅实例按工位旋转 π 后面向桌子。世界朝向应读取世界变换，不直接取嵌套节点的局部 `rotation.y`。
