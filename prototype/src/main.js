@@ -2193,6 +2193,9 @@ async function switchFoundationBody(bodyType) {
     return {applied:true,bodyType,notice:notices.join('；')};
   } catch (error) {
     if (committed) return {applied:true,bodyType,notice:[...notices,`人物已切换，后续更新失败：${error.message || error}`].join('；')};
+    // A superseded load may fail after the newer choice already succeeded.
+    // Its result belongs to the cancelled request, not to the current actor.
+    if (request !== bodySelectionGeneration) return {applied:false,cancelled:true};
     if (request === bodySelectionGeneration) bodySelection.error = error.message;
     return {applied:false,reason:error.message};
   } finally {

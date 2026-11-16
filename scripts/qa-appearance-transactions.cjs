@@ -8,6 +8,7 @@ const out=path.resolve(process.env.QA_OUT||'evidence/appearance-transactions-'+b
 (async()=>{
  await fs.mkdir(out,{recursive:true});
  try{await fs.access(path.join(out,'report.json'));throw Error('Refuse overwrite');}catch(e){if(e.code!=='ENOENT')throw e;}
+ await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
  const browser=await chromium.launch({channel:'chrome',headless:true});
  const report={build,base,started:new Date().toISOString(),checks:[],errors:[],environment:{browser:browser.version(),viewport:[1366,768],kind:'development machine headless browser; not ordinary-PC acceptance'}};
  const context=await browser.newContext({viewport:{width:1366,height:768}}),page=await context.newPage();
@@ -30,7 +31,19 @@ const out=path.resolve(process.env.QA_OUT||'evidence/appearance-transactions-'+b
   await check('latest body selection cancels older detached load',async()=>{
    await page.route('**/base-male-roundtrip.vrm',async r=>{await new Promise(resolve=>setTimeout(resolve,450));await r.continue();});
    const result=await page.evaluate(async()=>{const a=__debug.command({type:'bodySelect',bodyType:'male'});const b=__debug.command({type:'bodySelect',bodyType:'female'});return{a:await a,b:await b,body:__debug.avatar().profile.bodyType,same:__debug.avatar()===oldActor};});
-   assert(result.a.cancelled&&result.b.applied&&result.same);assert.equal(result.body,'female');await page.unroute('**/base-male-roundtrip.vrm');return result;
+   assert(result.a.cancelled&&result.b.applied&&result.same,JSON.stringify(result));assert.equal(result.body,'female');await page.unroute('**/base-male-roundtrip.vrm');return result;
+  });
+  await check('late failed body load reports cancellation after a newer choice',async()=>{
+   let release,hit;const held=new Promise(resolve=>release=resolve),arrived=new Promise(resolve=>hit=resolve);
+   const pattern='**/base-male-roundtrip.vrm';
+   await page.route(pattern,async route=>{hit();await held;await route.fulfill({status:503,body:'intentional late obsolete load failure'});});
+   try{
+    await page.evaluate(()=>{window.__lateBody={done:false};__debug.command({type:'bodySelect',bodyType:'male'}).then(result=>Object.assign(__lateBody,{done:true,result}));});
+    await arrived;const latest=await page.evaluate(()=>__debug.command({type:'bodySelect',bodyType:'female'}));
+    release();await page.waitForFunction(()=>__lateBody.done);
+    const result=await page.evaluate(()=>({old:__lateBody.result,body:__debug.avatar().profile.bodyType,same:__debug.avatar()===oldActor,selection:__debug.snapshot().bodySelection}));
+    assert.equal(latest.applied,true);assert.equal(result.old.cancelled,true,JSON.stringify(result));assert(result.same);assert.equal(result.body,'female');return{latest,...result};
+   }finally{release();await page.unroute(pattern);}
   });
   await check('skirt to male fallback updates actual and pressed outfit',async()=>{
    await page.evaluate(()=>__debug.setOutfit(1));const result=await switchBody('male');
@@ -41,7 +54,7 @@ const out=path.resolve(process.env.QA_OUT||'evidence/appearance-transactions-'+b
    await switchBody(body);
    await check(body+' palette preserves every outside-mask and alpha byte, reset restores references',async()=>page.evaluate(async()=>{
     const a=__debug.avatar();await a.appearance.set({reset:true});
-    const manifest=await(await fetch('/assets/appearance-color-v1/runtime-manifest.json')).json();
+    const manifest=await(await fetch('/assets/appearance-color-v3/runtime-manifest.json')).json();
     const v=manifest.variants.find(v=>v.avatarSha256===a.profile.sha256);
     const pixels=image=>{const c=document.createElement('canvas');c.width=image.width;c.height=image.height;const ctx=c.getContext('2d',{willReadFrequently:true});ctx.drawImage(image,0,0);return ctx.getImageData(0,0,c.width,c.height).data;};
     const rows=[];
