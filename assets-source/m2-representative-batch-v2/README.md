@@ -35,6 +35,8 @@ python -B scripts/m2-representative-batch-v2/build.py --out assets-source/m2-rep
 python -B scripts/m2-representative-batch-v2/qa.py
 ```
 
+The actual run used CPython 3.13.11, NumPy 2.4.2, SciPy 1.18.1 and Pillow 12.1.0 on 64-bit Windows 11 build 26100. `requirements.txt` pins those three dependency versions and `toolchain.json` records the actual interpreter/platform/wheel tags. The recorded identical exports are repeated calculations in the same process/toolchain. Cross-platform byte determinism, another BLAS build and another Python version have not been established. Version locks document the observed environment without making that broader claim. This dependency receipt does not regenerate or relabel any fixed resource.
+
 Use a new output directory to retain fixed run timing. Each candidate plan is computed twice and asset/report bytes must match. Differing existing files are refused. The manifest includes measured run timing and file/encoded-image costs, so it changes between invocations. The source-author QA verifies the fixed generated resources, all six exported curve constraints and actual facial cross-sections, garment identities/offset reports, finite attributes/morphs and explicit failed entries. It does not call failed entries successful or replace independent review.
 
 CPU three-view comparison is generated separately with `scripts/m2-representative-batch-v2/preview.py`, showing original/v1/v2 in the same front/side/back views. Failed columns remain visibly blank with a failure label. These approximate neutral-pose CPU images do not establish game visual, motion/contact, dynamic-hair or ordinary-PC performance acceptance. Root owns those decisions after independent readback.
