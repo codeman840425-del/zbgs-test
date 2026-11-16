@@ -1,0 +1,275 @@
+{
+  "schema": "representative-cage-independent-audit-v1",
+  "status": "final-pin-reviewed-eight-production-admissions-failed",
+  "scope": "Read-only audit of in-progress author tree, saved real Blender preflight and frozen first-batch 8 avatars plus 24 independent garments. No Blender/browser/GPU or producer edits.",
+  "authorTree": "F:/gamemake-representative-cage-trial",
+  "reviewedSnapshot": {
+    "worktreeHEAD": "88ad482ebdb23e74dc9f4c5d971a556d60f1936d",
+    "files": [
+      {
+        "source": "F:\\gamemake-representative-cage-trial\\scripts\\m2-representative-cage-trial-v1\\preflight.py",
+        "snapshot": "F:\\gamemake\\evidence\\m2-representative-cage-preflight-audit-v1\\snapshot-initial\\preflight.py",
+        "sha256": "cbc4a1044daeb55a457c9b68ffa648211de4341982f980ec146108358379e24e",
+        "bytes": 12632
+      },
+      {
+        "source": "F:\\gamemake-representative-cage-trial\\scripts\\m2-representative-cage-trial-v1\\batch.py",
+        "snapshot": "F:\\gamemake\\evidence\\m2-representative-cage-preflight-audit-v1\\snapshot-initial\\batch.py",
+        "sha256": "2278a397aa67861f46ddd7b63e6cd7dfeee8b31135da0bf80fb9ae00928639af",
+        "bytes": 12996
+      },
+      {
+        "source": "F:\\gamemake-representative-cage-trial\\scripts\\m2-representative-cage-trial-v1\\export.py",
+        "snapshot": "F:\\gamemake\\evidence\\m2-representative-cage-preflight-audit-v1\\snapshot-initial\\export.py",
+        "sha256": "1eae97500d3bcf334cdcc5464bbfff079aadfe1fff58348ac8843e2f4c488830",
+        "bytes": 2843
+      },
+      {
+        "source": "F:\\gamemake-representative-cage-trial\\scripts\\m2-representative-cage-trial-v1\\run.py",
+        "snapshot": "F:\\gamemake\\evidence\\m2-representative-cage-preflight-audit-v1\\snapshot-initial\\run.py",
+        "sha256": "c257e3a48ec42f30e8abd9f33dc44751ebffb3409aa91e7ec1bf14bb7baa53e7",
+        "bytes": 3414
+      },
+      {
+        "source": "F:\\gamemake-representative-cage-trial\\assets-source\\m2-representative-cage-trial-v1\\spec.json",
+        "snapshot": "F:\\gamemake\\evidence\\m2-representative-cage-preflight-audit-v1\\snapshot-initial\\spec.json",
+        "sha256": "935712da2ac08ee7cb0924d67f37207dca7553e060062bc1e39089b157fffa2d",
+        "bytes": 7407
+      },
+      {
+        "source": "F:\\gamemake-representative-cage-trial\\assets-source\\m2-representative-cage-trial-v1\\generated\\preflight.json",
+        "snapshot": "F:\\gamemake\\evidence\\m2-representative-cage-preflight-audit-v1\\snapshot-initial\\preflight.json",
+        "sha256": "2b98300ee7adfd7bd3074903caa2674246a5b72441a55401b025ca65cf202c66",
+        "bytes": 11755
+      },
+      {
+        "source": "F:\\gamemake-representative-cage-trial\\assets-source\\m2-representative-cage-trial-v1\\generated\\run-report.json",
+        "snapshot": "F:\\gamemake\\evidence\\m2-representative-cage-preflight-audit-v1\\snapshot-initial\\run-report.json",
+        "sha256": "f0f6b8a270822fd5246d3dca3dd17db7ef4b60705a70093dac49b1dd3db0b17a",
+        "bytes": 542
+      },
+      {
+        "source": "F:\\gamemake-representative-cage-trial\\assets-source\\m2-representative-cage-trial-v1\\generated\\blender.log",
+        "snapshot": "F:\\gamemake\\evidence\\m2-representative-cage-preflight-audit-v1\\snapshot-initial\\blender.log",
+        "sha256": "2a398ad7b0d7432244d4e9b59145efec85470048f8a0e0227110804458d39241",
+        "bytes": 8350
+      }
+    ]
+  },
+  "findings": [
+    {
+      "id": "CAGE-01",
+      "severity": "source-admission-blocker",
+      "status": "confirmed-in-actual-output",
+      "summary": "Whole transverse cage-ring mass controls move original hands/fingers by 111.807–458.311mm while bones and bindings remain fixed.",
+      "cause": "requested_cage arm term depends only on vertical distance from leftUpperArm and scales every ring x/z coordinate, including extended hands. configure_modifier uses source_helpers.protect that covers hair/eyes/brows/lips, but omits hand/wrist/foot semantic geometry protection.",
+      "evidence": "actual-batch-displacement-probe.json",
+      "minimumRequiredStructuralConclusion": "The existing transverse shared cage lacks independent local arm/torso control and hand/wrist boundary constraints. Bone/IBM preservation does not enforce skin-surface proximity to the original bones. This is sufficient evidence to reject current eight outputs and identify a partitioning requirement. It does not determine a unique next cage topology or demonstrate that official Mesh/Surface Deform cannot be used.",
+      "budget": "No width/precision/strength sweep, single-case grooming or new producer change performed by reviewer."
+    },
+    {
+      "id": "CAGE-02",
+      "severity": "provenance-gap",
+      "status": "resolved-at-final-pin-initial-gap-preserved",
+      "summary": "Initial direct batch entry accepts a passed preflight status without binding that receipt to exact spec, script or source hashes.",
+      "evidence": "snapshot-initial/batch.py and snapshot-initial/inventory.json",
+      "impact": "Saved preflight could refer to different source/spec/script bytes, so status alone cannot authorize a changed batch. The launcher hashes declared source inputs, but the initial direct batch entry and old receipt do not establish that correspondence. Author confirmed a receipt/direct-entry identity fix is underway.",
+      "resolution": "Final input_receipt rehashes exact source inputs, producer scripts/spec/helpers and the Blender binary, and checks app version/build. Direct batch entry requires exact receipt equality. Independent CPU entry probes reject missing, stale-producer and stale-input receipts before solve_source. Bad body SHA/binary SHA/version/build also rejected. No modifier operation executed by reviewer.",
+      "finalEvidence": "final-pin-probe.json; snapshot-final/preflight.py; snapshot-final/batch.py"
+    }
+  ],
+  "verified": [
+    "Reviewed source calls actual bpy.ops.object.meshdeform_bind with MESH_DEFORM/use_dynamic_bind=True and bpy.ops.object.surfacedeform_bind. Saved log records Blender 4.5.9 LTS build 8bf95cbd38d1, successful binds and saved editable scenes. This reviewer did not execute or introspect Blender scenes.",
+    "Installed root Blender binary independently hashed to 42c096b04d79bd0ff234429f67178881047c1c370d25ad3aef2766f3eeac4024. No executable invocation.",
+    "Original 8 request parameter records and sourceSpec SHA exact. Actual source POSITION/index/morph endpoint receipts independently recomputed; female58 and male56 base+endpoint arrays fit the rectangular preflight cage with approximately40mm boundary margin.",
+    "Actual eight source containers through inspected exporter identity mapping preserve POSITION/NORMAL and morph deltas exactly. On these actual inputs, all primitives sharing POSITION also share NORMAL/targets. The final group_records entry now explicitly rejects mismatched NORMAL/target groups.",
+    "All32 actual first-batch outputs preserve source binary prefix, old accessors, nodes/skins/IBMs, UV/JOINTS/WEIGHTS, materials/images/textures/VRM metadata and primitive connectivity. These container checks do not approve deformed geometry.",
+    "All eight first-batch outputs explicitly retain runtimeAccepted=false and trial-unaccepted-pending-metrics. Garment spatial Jacobian is explicitly unmeasured-not-passed. No ready-source or runtime acceptance inferred.",
+    "Final shared POSITION groups explicitly reject differing NORMAL accessors or morph target mappings before Blender object/binding construction.",
+    "Final canonical QA is source-author evidence, independentReview=false. All8 failed-production-admission, runtimeAccepted=false. Static inclusive noncoplanar intersection pairs and unsigned vertex-to-triangle distances are accurately scoped and are not labeled signed clearance, posed contact, or continuous collision approval."
+  ],
+  "measurements": [
+    {
+      "id": "female-round-full-cage-trial-v1",
+      "avatarSha256": "84dbe0b832e80f502a8bd1dc04cd0fd310759a963cc337b507a2117828da89a9",
+      "maximumHandDominantDisplacementM": 0.18865476938101472,
+      "maximumFootDominantDisplacementM": 0.0001673292609841697,
+      "maximumPointDominantWeights": [
+        {
+          "joint": "rightMiddleDistal",
+          "weight": 1.0
+        }
+      ],
+      "reportedMinimumModifierJacobianDeterminant": 0.9125694632530212
+    },
+    {
+      "id": "female-long-slender-cage-trial-v1",
+      "avatarSha256": "7e37fc13e740ad0b8ca0ffac02d9e3d3627f615d85bf2ac37fcd9d1f6e2ca76c",
+      "maximumHandDominantDisplacementM": 0.11180738507507029,
+      "maximumFootDominantDisplacementM": 7.166892077648835e-05,
+      "maximumPointDominantWeights": [
+        {
+          "joint": "rightRingDistal",
+          "weight": 1.0
+        }
+      ],
+      "reportedMinimumModifierJacobianDeterminant": 0.6379700303077698
+    },
+    {
+      "id": "female-square-athletic-cage-trial-v1",
+      "avatarSha256": "73b6ce6182bc82d7ea3cba4790628439b4c46634c55ce59254f06cf3b3511e33",
+      "maximumHandDominantDisplacementM": 0.3052134609643158,
+      "maximumFootDominantDisplacementM": 0.00011911108720166996,
+      "maximumPointDominantWeights": [
+        {
+          "joint": "rightRingDistal",
+          "weight": 1.0
+        }
+      ],
+      "reportedMinimumModifierJacobianDeterminant": 0.9093672037124634
+    },
+    {
+      "id": "female-soft-wide-cage-trial-v1",
+      "avatarSha256": "5ccadd7b41a95e55b0a51c383b90c248bbdaca135259eba04e7788c4f5250647",
+      "maximumHandDominantDisplacementM": 0.14119133062650333,
+      "maximumFootDominantDisplacementM": 9.570568364056261e-05,
+      "maximumPointDominantWeights": [
+        {
+          "joint": "rightRingDistal",
+          "weight": 1.0
+        }
+      ],
+      "reportedMinimumModifierJacobianDeterminant": 0.9137638211250305
+    },
+    {
+      "id": "male-wide-muscular-cage-trial-v1",
+      "avatarSha256": "b17d2b9999d436f61569d97fffcc710715212d62f37305317a73e099193a310a",
+      "maximumHandDominantDisplacementM": 0.4583108694237335,
+      "maximumFootDominantDisplacementM": 6.481208659961878e-05,
+      "maximumPointDominantWeights": [
+        {
+          "joint": "rightMiddleDistal",
+          "weight": 1.0
+        }
+      ],
+      "reportedMinimumModifierJacobianDeterminant": 0.8933533430099487
+    },
+    {
+      "id": "male-long-lean-cage-trial-v1",
+      "avatarSha256": "0a6f02757fd4d9bb55f82342bece71492c54a27410fc59b5a1926e0194d4bd18",
+      "maximumHandDominantDisplacementM": 0.1218131066314267,
+      "maximumFootDominantDisplacementM": 3.645749376961577e-05,
+      "maximumPointDominantWeights": [
+        {
+          "joint": "rightMiddleDistal",
+          "weight": 1.0
+        }
+      ],
+      "reportedMinimumModifierJacobianDeterminant": 0.4127485752105713
+    },
+    {
+      "id": "male-round-stocky-cage-trial-v1",
+      "avatarSha256": "48bda15d55309a844a87d01cfefb4358503956ac920ed1b802438276875af773",
+      "maximumHandDominantDisplacementM": 0.22216426212737755,
+      "maximumFootDominantDisplacementM": 5.0634635660223484e-05,
+      "maximumPointDominantWeights": [
+        {
+          "joint": "rightMiddleDistal",
+          "weight": 1.0
+        }
+      ],
+      "reportedMinimumModifierJacobianDeterminant": 0.9383430480957031
+    },
+    {
+      "id": "male-angular-athletic-cage-trial-v1",
+      "avatarSha256": "4ba53e3eea19e40323d2a5145fca2a8e1235d1937571f7f0b3ccaef05efb2a9d",
+      "maximumHandDominantDisplacementM": 0.3205666126155201,
+      "maximumFootDominantDisplacementM": 4.050933054159504e-05,
+      "maximumPointDominantWeights": [
+        {
+          "joint": "rightMiddleDistal",
+          "weight": 1.0
+        }
+      ],
+      "reportedMinimumModifierJacobianDeterminant": 0.8527878522872925
+    }
+  ],
+  "metricInterpretation": [
+    "Preflight identity/affine-translation errors check the binding prerequisite and one actual morph endpoint per sex. They do not prove nonaffine eight-request geometry or all expression combinations.",
+    "Reported batch Jacobian differentiates evaluated dynamic MeshDeform output at actual base/all endpoint inputs using 0.1mm probes with fixed per-source-vertex influence. It is not merely a cage ring score. It does not establish global injectivity, behavior across hard protected/unprotected boundaries, triangle-interior orientation, garment SurfaceDeform spatial derivatives or inter-layer clearance.",
+    "All reported modifier determinant minima are positive (.4127486–.9383430), while severe hand displacements persist. The determinant gate and requested-shape/protection constraints test different properties.",
+    "Cage endpoint containment margin is distance to rectangular source cage boundaries, not cloth clearance. No source-offset algebra has been accepted here as a garment normal or top-bottom separation measurement.",
+    "Final section widths/depths use source-selected anatomical vertex bands and requestedWidth=sourceWidth*(1+parameter) diagnostics. They quantify sampled realization/residual, not a proof of complete anatomical intent, smoothness or all-section fit. Contact distances remain unsigned and one sampled surface direction. Final QA metrics were read at exact SHA, not rerun independently."
+  ],
+  "pendingAndLimits": [
+    "No pending final source/receipt identity check in this bounded audit. Final fixed commit,134 inventory blobs and32 repeated resources were verified.",
+    "Original geometry rejection stands. Future local cage/arm/hand constraints require a separate decision and production experiment. This report does not approve a next cage layout or authorize parameter iteration.",
+    "Full triangle-interior/protected-boundary/global-injectivity and garment spatial Jacobian validation remain unproven. Actual static contact/section metrics are author evidence reviewed for definitions and identity, not independently recomputed here.",
+    "No independent Blender modifier reevaluation, pose reconstruction, runtime load, GPU/browser check, continuous/mixed-expression or human visual approval."
+  ],
+  "evidence": [
+    {
+      "path": "F:\\gamemake\\evidence\\m2-representative-cage-preflight-audit-v1\\actual-batch-displacement-probe.json",
+      "sha256": "0132519252f79bd7c9bcb8c251594dc68c5d2a0a2fb837daf9bd76eb7df51ff2"
+    },
+    {
+      "path": "F:\\gamemake\\evidence\\m2-representative-cage-preflight-audit-v1\\actual-container-probe.json",
+      "sha256": "8611abe9557a18df46a91fb7c2af5fec3857c38e760a1adbb9b510da1638b991"
+    },
+    {
+      "path": "F:\\gamemake\\evidence\\m2-representative-cage-preflight-audit-v1\\export-identity-probe.json",
+      "sha256": "e5341212a13a5f720f84754ea35d2240a8f6bbc818ea6357c2be89ca4abe0ded"
+    },
+    {
+      "path": "F:\\gamemake\\evidence\\m2-representative-cage-preflight-audit-v1\\preflight-input-probe.json",
+      "sha256": "2377e925ccd3285447309812e63f1806698403cffb5684e09a98bb5a42cd0b1e"
+    },
+    {
+      "path": "F:\\gamemake\\evidence\\m2-representative-cage-preflight-audit-v1\\installed-binary-identity.json",
+      "sha256": "62755e87e4539bf7285e9777dea95a8c4f9b2f412dfe3b641138d751f143df81"
+    },
+    {
+      "path": "F:\\gamemake\\evidence\\m2-representative-cage-preflight-audit-v1\\final-pin-probe.json",
+      "sha256": "51829c3713ac51fb3dc27aed474130cbe24f8cc56ecfa4d94cc325b69adbb958"
+    }
+  ],
+  "finalCommit": "d31ce67e7c6ea5aab3ec8d6abe914add5eea4e0a",
+  "finalReviewed": {
+    "preflightSha256": "221061315809ce1f2b8bb352f57d6bf5ff6a2072a38625a6755ef6fabc92e02c",
+    "batchSha256": "2e033090e1c233da0807067697562dc6c1ee89fdd07b0a8bad70645bebd2b7c5",
+    "qaSha256": "8a3b5ea16702bf8ae6b08a53c4279aa69f85b51bddd4cf90c33cff283d950bea",
+    "inventorySha256": "df7835680aaae9f181f6d77ec8d77d344426a5369d089a1dbbdcffa5b9d04a42",
+    "gitBlobAndDiskInventoryExact": 134,
+    "repeatedResourcesByteExact": 32,
+    "matchesPriorIndependentGeometrySnapshot": true,
+    "cageAndSolveFunctionASTUnchanged": true,
+    "actualPythonEntryChecks": [
+      {
+        "case": "valid",
+        "result": "accepted-until-solve-boundary"
+      },
+      {
+        "case": "missing",
+        "result": "rejected-before-solve",
+        "error": "Preflight source/tool/producer identity changed"
+      },
+      {
+        "case": "stale-producer",
+        "result": "rejected-before-solve",
+        "error": "Preflight source/tool/producer identity changed"
+      },
+      {
+        "case": "stale-input",
+        "result": "rejected-before-solve",
+        "error": "Preflight source/tool/producer identity changed"
+      }
+    ],
+    "inputGuardNegatives": [
+      "bad body SHA",
+      "bad binary SHA",
+      "bad version",
+      "bad build"
+    ],
+    "entryProbeLimit": "Actual Python input_receipt and batch.main AST executed with recorded app metadata and actual files. Stops before solve_source. Blender APIs never executed."
+  }
+}
