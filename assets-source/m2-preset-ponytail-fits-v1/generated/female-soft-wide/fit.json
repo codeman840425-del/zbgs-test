@@ -1,0 +1,165 @@
+{
+  "schema": "character-hair-fit-v2",
+  "id": "female-ponytail-headref-v3-female-soft-wide-fit-v1",
+  "version": 1,
+  "styleId": "female-ponytail-headref-v3",
+  "sourceBodySha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+  "targetBodySha256": "23822f642840ce6d2af63fdd6edc1b27401df14fa0129ce65d211f201a92ebfa",
+  "assetSha256": "1b785f9d54107818cee39eda2de7263ad0720ce90968fbaa7cc32c2465e3c385",
+  "sourceMaterial": "F00_000_HairBack_00_HAIR",
+  "rawBone": "J_Bip_C_Head",
+  "physics": "vrm-spring",
+  "attachment": {
+    "bone": "head",
+    "space": "raw-head-bind-local",
+    "position": [
+      0,
+      0,
+      0
+    ],
+    "quaternion": [
+      0,
+      0,
+      0,
+      1
+    ],
+    "scale": [
+      1,
+      1,
+      1
+    ]
+  },
+  "hideOriginal": {
+    "materialNames": [
+      "F00_000_HairBack_00_HAIR"
+    ],
+    "hideWholeBody": false
+  },
+  "dynamics": {
+    "schema": "hair-spring-v1",
+    "joints": [
+      {
+        "bone": "Pony0",
+        "child": "Pony1",
+        "hitRadius": 0.023663574487137944,
+        "stiffness": 0.8,
+        "gravityPower": 0.04,
+        "gravityDir": [
+          0,
+          -1,
+          0
+        ],
+        "dragForce": 0.6
+      },
+      {
+        "bone": "Pony1",
+        "child": "Pony2",
+        "hitRadius": 0.02118151016093912,
+        "stiffness": 0.8,
+        "gravityPower": 0.04,
+        "gravityDir": [
+          0,
+          -1,
+          0
+        ],
+        "dragForce": 0.6
+      },
+      {
+        "bone": "Pony2",
+        "child": "Pony3",
+        "hitRadius": 0.018503658030112932,
+        "stiffness": 0.8,
+        "gravityPower": 0.04,
+        "gravityDir": [
+          0,
+          -1,
+          0
+        ],
+        "dragForce": 0.6
+      },
+      {
+        "bone": "Pony3",
+        "child": "Pony4",
+        "hitRadius": 0.015537529607053412,
+        "stiffness": 0.8,
+        "gravityPower": 0.04,
+        "gravityDir": [
+          0,
+          -1,
+          0
+        ],
+        "dragForce": 0.6
+      },
+      {
+        "bone": "Pony4",
+        "child": "Pony5",
+        "hitRadius": 0.01206325204308154,
+        "stiffness": 0.8,
+        "gravityPower": 0.04,
+        "gravityDir": [
+          0,
+          -1,
+          0
+        ],
+        "dragForce": 0.6
+      },
+      {
+        "bone": "Pony5",
+        "child": "Pony6",
+        "hitRadius": 0.0065,
+        "stiffness": 0.8,
+        "gravityPower": 0.04,
+        "gravityDir": [
+          0,
+          -1,
+          0
+        ],
+        "dragForce": 0.6
+      }
+    ],
+    "colliders": [
+      {
+        "bone": "head",
+        "shape": "sphere",
+        "offset": [
+          6.257323548197746e-09,
+          0.08761352300643921,
+          -0.0030238041654229164
+        ],
+        "radius": 0.146304969975662
+      },
+      {
+        "bone": "head",
+        "shape": "capsule",
+        "offset": [
+          1.743319444358349e-08,
+          -0.09906208515167236,
+          0.002670035697519779
+        ],
+        "radius": 0.1231993497402402,
+        "tail": [
+          1.743319444358349e-08,
+          0.023443222045898438,
+          0.002670035697519779
+        ]
+      },
+      {
+        "bone": "chest",
+        "shape": "capsule",
+        "offset": [
+          -0.27264504725462757,
+          0.11258232593536377,
+          -0.0045289546251297
+        ],
+        "radius": 0.1448524416470522,
+        "tail": [
+          0.2726450950431172,
+          0.11258232593536377,
+          -0.0045289546251297
+        ]
+      }
+    ],
+    "simulationReference": "raw-head"
+  },
+  "runtimeAccepted": false
+}
