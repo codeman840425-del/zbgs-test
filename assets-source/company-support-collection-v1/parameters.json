@@ -1,0 +1,79 @@
+{
+  "id": "company-support-collection-v1",
+  "version": 1,
+  "common": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "promptStandard": "Purpose: authored company decor for open storage and static tabletop display. Specification: shelves are 1.00m wide x 1.80m high x 0.35m deep with 0.92m x 0.31m x 0.035m boards at the declared support heights, ornaments use a 0.16m x 0.12m x 0.20m envelope. Units are metres, up is +Y, forward is +Z, and the ground or prop origin is the declared bottom centre. Installation and load bearing: shelves are ground-blocking facilities, ornaments are bottom-centred support-surface props. Keep all structure outside each rectangular support clearance prism. Budget: deterministic CPU-only primitive geometry and binary GLB export with no external art. State: static decor, no pickup or animation. Source/export: project-authored Three.js 0.187.0 parameters, GLTFExporter and GLTFLoader readback.",
+    "shelfEnvelope": { "width": 1, "height": 1.8, "depth": 0.35 },
+    "shelfFootprint": { "center": [0, 0], "halfSize": [0.5, 0.175] },
+    "board": { "width": 0.92, "depth": 0.31, "thickness": 0.035 },
+    "supportSurfaces": [
+      { "id": "lower", "center": [0, 0], "topY": 0.45, "halfSize": [0.42, 0.13], "clearanceHeight": 0.5 },
+      { "id": "middle", "center": [0, 0], "topY": 1.05, "halfSize": [0.42, 0.13], "clearanceHeight": 0.65 },
+      { "id": "top", "center": [0, 0], "topY": 1.8, "halfSize": [0.42, 0.13], "clearanceHeight": 0.4 }
+    ],
+    "ornamentEnvelope": { "width": 0.16, "depth": 0.12, "height": 0.2 }
+  },
+  "shelves": [
+    {
+      "id": "frame-posts",
+      "label": "框柱开放架",
+      "prompt": "Project-authored open shelf with four slender square corner posts and rear rails, keeping the three boards visually light.",
+      "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+      "differences": { "postWidth": 0.05, "postDepth": 0.05, "rearRailHeight": 0.06 }
+    },
+    {
+      "id": "sideboards",
+      "label": "侧板开放架",
+      "prompt": "Project-authored open shelf with full-height side cheeks and a restrained rear tie, contrasting with a post frame.",
+      "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+      "differences": { "sideThickness": 0.06, "rearRailHeight": 0.055 }
+    },
+    {
+      "id": "crossback",
+      "label": "交叉背架",
+      "prompt": "Project-authored open shelf with two diagonal rear braces forming a visible X while leaving every loading patch clear.",
+      "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+      "differences": { "braceWidth": 0.04, "braceRise": 1.72, "braceSpan": 0.92, "rearDepth": 0.03 }
+    },
+    {
+      "id": "arched-sides",
+      "label": "拱形侧架",
+      "prompt": "Project-authored open shelf with paired curved side rails made from deterministic tube geometry and three matching boards.",
+      "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+      "differences": { "tubeRadius": 0.018, "archInset": 0.02, "railDepth": 0.03 }
+    }
+  ],
+  "ornaments": [
+    {
+      "id": "stacked-stones",
+      "label": "叠石",
+      "prompt": "Project-authored static tabletop ornament built from three offset rounded stones.",
+      "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+      "differences": { "stoneCount": 3, "stoneWidths": [0.15, 0.115, 0.095] }
+    },
+    {
+      "id": "arched-sculpture",
+      "label": "拱形摆件",
+      "prompt": "Project-authored static tabletop ornament with a small solid base and a raised tube arch silhouette.",
+      "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+      "differences": { "archRadius": 0.012, "archHeight": 0.18 }
+    },
+    {
+      "id": "vase",
+      "label": "花瓶",
+      "prompt": "Project-authored static tabletop ornament using a stepped cylindrical body, neck and rim.",
+      "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+      "differences": { "bodyRadius": 0.06, "neckRadius": 0.035, "rimRadius": 0.04 }
+    },
+    {
+      "id": "geometric-sculpture",
+      "label": "几何雕塑",
+      "prompt": "Project-authored static tabletop ornament using a low-sided faceted cone on a contrasting base.",
+      "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+      "differences": { "baseWidth": 0.14, "coneRadius": 0.06, "coneSides": 6 }
+    }
+  ]
+}

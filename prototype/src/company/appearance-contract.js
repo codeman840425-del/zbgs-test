@@ -17,14 +17,15 @@ export function describeFacilityFunction(resource) {
   const stateFields = Object.fromEntries(Object.keys(resource.stateDefaults || {}).sort().map(field => [field, typeof resource.stateDefaults[field]]));
   const footprint = resource.footprint?.blocking ? normalized(resource.footprint) : null;
   const surface = resource.surface ? normalized(resource.surface) : null;
+  const supportSurfaces = resource.supportSurfaces ? normalized([...resource.supportSurfaces].sort((a,b) => a.id.localeCompare(b.id))) : null;
   const mount = resource.mount ?? null;
   const capacity = normalized(resource.capacity ?? null), clearance = normalized(resource.clearance ?? null);
-  const decorative = resource.category === 'decor' && !usePoints.length && !footprint && !surface && !mount && !Object.keys(stateFields).length && capacity === null && clearance === null;
+  const decorative = resource.category === 'decor' && !usePoints.length && !footprint && !surface && !supportSurfaces && !mount && !Object.keys(stateFields).length && capacity === null && clearance === null;
   return {
     category: resource.category ?? null,
     mountRole: decorative ? null : resource.mountRole || resource.id,
     coordinates: {units: resource.coordinates?.units ?? 'metres', up: resource.coordinates?.up ?? '+Y', forward: resource.coordinates?.forward ?? '+Z'},
-    mount, mounting:normalized(resource.mounting??null), surface, footprint, usePoints,
+    mount, mounting:normalized(resource.mounting??null), surface, supportSurfaces, footprint, usePoints,
     capacity, clearance,
     state: {fields: stateFields, schema: normalized(resource.stateSchema ?? null), semantics: normalized(resource.stateSemantics ?? null)},
   };

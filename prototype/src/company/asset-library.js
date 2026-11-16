@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {CompanyError} from './document.js';
+import {validateSupportResource} from './support-data.js';
+import {validateSupportGeometry} from './support-geometry.js';
 
 const compressionExtensions = new Set([
   'KHR_draco_mesh_compression', 'EXT_meshopt_compression',
@@ -14,6 +16,7 @@ function describe(resource) {
   if (!resource || typeof resource.id !== 'string' || !identityPattern.test(resource.id) ||
       !Number.isSafeInteger(resource.version) || resource.version < 1)
     throw error('invalid-asset-resource', path, 'Expected stable resource id and positive version');
+  validateSupportResource(resource, (code, location, message) => { throw error(code, location, message); }, path);
   const asset = resource.asset;
   if (!asset || asset.format !== 'glb' || typeof asset.url !== 'string' || !asset.url.trim() ||
       !/^[a-fA-F0-9]{64}$/.test(asset.sha256 || '') || !Number.isSafeInteger(asset.bytes) || asset.bytes < 20)
@@ -35,7 +38,7 @@ function describe(resource) {
       !footprint.center.every(Number.isFinite) || !Array.isArray(footprint.halfSize) ||
       footprint.halfSize.length !== 2 || !footprint.halfSize.every(value => Number.isFinite(value) && value > 0)))
     throw error('invalid-asset-footprint', `${path}.footprint`, 'Blocking assets require finite center[2] and positive halfSize[2]');
-  return {path, footprint, mounting: resource.mounting?structuredClone(resource.mounting):null, mount:resource.mount, targets: [...new Set(targets)], asset: {...asset, sha256: asset.sha256.toLowerCase()},
+  return {path, resource: structuredClone(resource), footprint, mounting: resource.mounting?structuredClone(resource.mounting):null, mount:resource.mount, targets: [...new Set(targets)], asset: {...asset, sha256: asset.sha256.toLowerCase()},
     key: JSON.stringify([resource.id, resource.version, asset.url, asset.sha256.toLowerCase(), asset.bytes])};
 }
 
@@ -133,6 +136,7 @@ async function releaseFailedParser(parser, json, pack) {
 
 function validateResource(pack, description) {
   pack.scene.updateMatrixWorld(true);
+  validateSupportGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   for (const target of description.targets) {
     const definitions = (pack.json.nodes || []).filter(node => node.name === target);
     const matches = [];

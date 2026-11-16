@@ -1,0 +1,4592 @@
+{
+  "schemaVersion": "company-environment-specs-v1",
+  "title": "公司环境与设施有限生产分支规格 v1",
+  "date": "2026-11-16",
+  "purpose": "把 COMPANY-PLATFORM-COMPLETE-LONG-GOAL-v3 的 12 组环境范围映射为有限、具名、可复用的生产分支。本文件是生产规格，不记录能力完成状态。",
+  "sources": [
+    "docs/research/COMPANY-PLATFORM-COMPLETE-LONG-GOAL-v3-2026-11-16.txt",
+    "docs/research/COMPANY-ENVIRONMENT-CATEGORY-RESEARCH-2026-11-16.txt",
+    "docs/research/COMPANY-SPACE-DRESSING-RESEARCH-2026-11-16.txt",
+    "prototype/src/company/appearance-samples.js",
+    "prototype/src/company/library-catalog.json"
+  ],
+  "rules": {
+    "units": "metres",
+    "minimumAppearancesPerBranch": 4,
+    "appearanceAcceptance": "四款必须使用相同用途、安装面、包络、接触面和状态规格。模型需有真实几何差异，饰面需有不同有效图案或铺装设计。单改色、复制改名、尺寸不兼容不计数。",
+    "evidenceAcceptance": "每支仍需可编辑源或参数修改、导出、登记、实际游戏加载、适用状态或功能检查、保存与关闭恢复证据。资源引用只表示输入或样件，不表示机制完成。",
+    "replacementSemantics": "兼容替换保留实例身份、最终变换、容量、使用点、状态和有效占用。改变洞口、父子关系、使用空间或结构必须走显式布置或结构修改。",
+    "pendingDimensions": "verification=pending 的尺寸是 agent 的最小样件起始值，由代表布局测量后固定，不向用户逐项询问。",
+    "boundary": "真实采集推流、声学仿真、通用布料或柔性线缆物理、连续楼梯电梯交通、完整拿取放置和经营结算不在本规格中。",
+    "reuseReferences": "All reusableResources pin ID/version and are inputs/candidates only; no compatible or state capability is inferred without per-branch evidence."
+  },
+  "branchFieldContract": [
+    "id",
+    "scope",
+    "purposeLabels",
+    "fixedFunctionAndInstall",
+    "mechanismDependencies",
+    "minimumCompatibleAppearances",
+    "reusableResources",
+    "requiredIndependentMechanisms"
+  ],
+  "groups": [
+    {
+      "id": "architectural-finish",
+      "name": "建筑饰面",
+      "branches": [
+        {
+          "id": "wall-paint-finish",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "连续墙面",
+            "平涂"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "wall-surface",
+            "dimensionsMeters": {
+              "width": "room-span",
+              "height": "room-height",
+              "depth": 0.01,
+              "verification": "pending"
+            },
+            "parent": "room.wall",
+            "state": "static-finish"
+          },
+          "mechanismDependencies": [
+            "continuous-surface",
+            "texture-slot",
+            "opening-boundary",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "暖中性平涂",
+            "冷中性平涂",
+            "浅哑光平涂",
+            "深哑光平涂"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "整面覆盖与材质槽",
+            "洞口裁切和接缝",
+            "换材质保墙体身份"
+          ]
+        },
+        {
+          "id": "wall-wallpaper-pattern",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "连续墙面",
+            "壁纸/墙布",
+            "图案纹理"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "wall-surface",
+            "dimensionsMeters": {
+              "width": "room-span",
+              "height": "room-height",
+              "depth": 0.01,
+              "verification": "pending"
+            },
+            "parent": "room.wall",
+            "state": "static-finish"
+          },
+          "mechanismDependencies": [
+            "continuous-surface",
+            "texture-repeat",
+            "texture-scale",
+            "opening-boundary",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "细条纹图案",
+            "叶形纹理",
+            "菱格纹理",
+            "弧形图案"
+          ],
+          "reusableResources": [
+            {
+              "id": "wall-fine-stripes",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "wall-leaf-damask",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "wall-diamond-grid",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "wall-arc-fan",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            }
+          ],
+          "requiredIndependentMechanisms": [
+            "整面重复、方向和物理尺度",
+            "边界/洞口处理",
+            "保存关闭恢复"
+          ]
+        },
+        {
+          "id": "wall-wood-panel",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "连续墙面",
+            "木饰面/护墙板",
+            "几何饰面"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "wall-surface",
+            "dimensionsMeters": {
+              "width": "room-span",
+              "height": "room-height",
+              "depth": 0.05,
+              "verification": "pending"
+            },
+            "parent": "room.wall",
+            "state": "static-finish"
+          },
+          "mechanismDependencies": [
+            "continuous-surface",
+            "panel-seam",
+            "opening-boundary",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "竖向木格",
+            "竖向凸棱",
+            "分格护墙",
+            "混宽木条"
+          ],
+          "reusableResources": [
+            {
+              "id": "wall-panel-slat",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "wall-panel-ribbed",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "wall-panel-panel",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            }
+          ],
+          "requiredIndependentMechanisms": [
+            "连续几何铺装",
+            "板缝/收边",
+            "洞口避让"
+          ]
+        },
+        {
+          "id": "wall-masonry-finish",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "连续墙面",
+            "砖石饰面",
+            "几何纹理"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "wall-surface",
+            "dimensionsMeters": {
+              "width": "room-span",
+              "height": "room-height",
+              "depth": 0.05,
+              "verification": "pending"
+            },
+            "parent": "room.wall",
+            "state": "static-finish"
+          },
+          "mechanismDependencies": [
+            "continuous-surface",
+            "pattern-repeat",
+            "opening-boundary",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "横向砖缝",
+            "石块纹理",
+            "微水泥",
+            "吸声外观砖纹"
+          ],
+          "reusableResources": [
+            {
+              "id": "wall-panel-brick",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            }
+          ],
+          "requiredIndependentMechanisms": [
+            "整面纹理铺设",
+            "砖缝方向和裁切",
+            "墙面与声学标签分离"
+          ]
+        },
+        {
+          "id": "floor-wood-plank",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "连续地面",
+            "木地板",
+            "硬质铺装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": "room-span",
+              "depth": "room-span",
+              "height": 0.01,
+              "verification": "pending"
+            },
+            "parent": "room.floor",
+            "state": "static-finish"
+          },
+          "mechanismDependencies": [
+            "continuous-surface",
+            "tile-repeat",
+            "floor-boundary",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "错缝木板",
+            "鱼骨拼",
+            "宽板",
+            "人字/鱼骨变体"
+          ],
+          "reusableResources": [
+            {
+              "id": "floor-offset-plank",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "floor-herringbone",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "floor-panel-plank",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "floor-panel-herringbone",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            }
+          ],
+          "requiredIndependentMechanisms": [
+            "整屋连续铺装",
+            "方向/重复尺度",
+            "边界裁切和门口处理"
+          ]
+        },
+        {
+          "id": "floor-tile-stone",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "连续地面",
+            "瓷砖/石材",
+            "硬质铺装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": "room-span",
+              "depth": "room-span",
+              "height": 0.012,
+              "verification": "pending"
+            },
+            "parent": "room.floor",
+            "state": "static-finish"
+          },
+          "mechanismDependencies": [
+            "continuous-surface",
+            "tile-repeat",
+            "floor-boundary",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "棋盘砖",
+            "水磨石",
+            "大板石材",
+            "六角砖"
+          ],
+          "reusableResources": [
+            {
+              "id": "floor-checker-tile",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "floor-terrazzo",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "floor-panel-tile",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            }
+          ],
+          "requiredIndependentMechanisms": [
+            "整屋连续铺装",
+            "砖缝/图案尺度",
+            "门洞和边界裁切"
+          ]
+        },
+        {
+          "id": "floor-resilient-finish",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "连续地面",
+            "地胶/弹性地面"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": "room-span",
+              "depth": "room-span",
+              "height": 0.008,
+              "verification": "pending"
+            },
+            "parent": "room.floor",
+            "state": "static-finish"
+          },
+          "mechanismDependencies": [
+            "continuous-surface",
+            "texture-repeat",
+            "floor-boundary",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "整片地胶",
+            "颗粒地胶",
+            "橡胶格纹",
+            "亚麻地板"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "整面覆盖与拼接",
+            "防滑/粗糙度槽",
+            "边界裁切"
+          ]
+        },
+        {
+          "id": "floor-carpet-installation",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "连续地面",
+            "地毯铺装",
+            "软质饰面"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": "room-span",
+              "depth": "room-span",
+              "height": 0.012,
+              "verification": "pending"
+            },
+            "parent": "room.floor",
+            "state": "static-finish"
+          },
+          "mechanismDependencies": [
+            "continuous-surface",
+            "texture-repeat",
+            "floor-boundary",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "圈绒",
+            "平织",
+            "吸声地毯外观",
+            "方块地毯"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "整面地毯边界",
+            "图案重复与方向",
+            "与活动地毯层分离"
+          ]
+        },
+        {
+          "id": "ceiling-flat-finish",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "顶面",
+            "普通顶面"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "ceiling-surface",
+            "dimensionsMeters": {
+              "width": "room-span",
+              "depth": "room-span",
+              "height": 0.01,
+              "verification": "pending"
+            },
+            "parent": "room.ceiling",
+            "state": "static-finish"
+          },
+          "mechanismDependencies": [
+            "continuous-surface",
+            "ceiling-visibility",
+            "top-mount",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "细格铺装",
+            "微孔铺装",
+            "线性接缝铺装",
+            "抹灰旋纹铺装"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "顶面连续材质",
+            "观看剖切/隐藏规则",
+            "灯具安装面"
+          ]
+        },
+        {
+          "id": "ceiling-suspended-finish",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "顶面",
+            "吊顶/灯槽"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "ceiling-surface",
+            "dimensionsMeters": {
+              "width": "room-span",
+              "depth": "room-span",
+              "height": 0.2,
+              "verification": "pending"
+            },
+            "parent": "room.ceiling",
+            "state": "static-finish"
+          },
+          "mechanismDependencies": [
+            "continuous-surface",
+            "ceiling-visibility",
+            "top-mount",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "平吊顶",
+            "线性灯槽",
+            "吸声吊片",
+            "阶梯吊顶"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "顶部结构包络",
+            "灯槽/顶部依附",
+            "观看隐藏不改阻挡"
+          ]
+        },
+        {
+          "id": "baseboard-and-edge",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "踢脚线",
+            "收边",
+            "墙地交界"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "wall-floor-boundary",
+            "dimensionsMeters": {
+              "width": "room-perimeter",
+              "height": 0.12,
+              "depth": 0.02,
+              "verification": "pending"
+            },
+            "parent": "room.boundary",
+            "state": "static-finish"
+          },
+          "mechanismDependencies": [
+            "boundary-seam",
+            "opening-boundary",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "直角踢脚",
+            "阴影缝",
+            "木质收边",
+            "石材收边"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "随墙地变换重建",
+            "门洞/转角收边",
+            "材料槽替换"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "makeup-change-theme-live",
+      "name": "化妆/更衣与主题直播",
+      "branches": [
+        {
+          "id": "vanity-table",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "化妆台",
+            "镜/收纳承载"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": 1.1,
+              "height": 0.78,
+              "depth": 0.5,
+              "verification": "pending"
+            },
+            "parent": "room.floor",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "floor-mount",
+            "support-surface",
+            "clearance",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "单台化妆台",
+            "抽屉化妆台",
+            "转角化妆台",
+            "移动化妆台"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "桌面承载",
+            "镜/收纳父子关系",
+            "使用留空"
+          ]
+        },
+        {
+          "id": "makeup-mirror",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "化妆镜",
+            "受限反射",
+            "局部照明"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "vanity-surface",
+            "dimensionsMeters": {
+              "width": 0.7,
+              "height": 0.6,
+              "depth": 0.08,
+              "verification": "pending"
+            },
+            "parent": "vanity-table",
+            "state": "reflective-on-off"
+          },
+          "mechanismDependencies": [
+            "support-surface-or-wall",
+            "mirror-reflection",
+            "light-output",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "圆镜",
+            "带灯镜",
+            "拱镜",
+            "三折镜"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "受限反射",
+            "灯光与发光面分离",
+            "安装面/包络"
+          ]
+        },
+        {
+          "id": "makeup-storage",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "化妆品/工具收纳",
+            "静置收纳"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "vanity-surface",
+            "dimensionsMeters": {
+              "width": 0.45,
+              "height": 0.25,
+              "depth": 0.25,
+              "verification": "pending"
+            },
+            "parent": "vanity-table",
+            "state": "static-or-open"
+          },
+          "mechanismDependencies": [
+            "support-surface",
+            "drawer-state",
+            "parent-transform",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "托盘",
+            "分格收纳",
+            "刷具杯",
+            "化妆箱"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "承载面/抽屉关系",
+            "开合状态驱动",
+            "父子变换"
+          ]
+        },
+        {
+          "id": "garment-rack-wardrobe",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "衣架/衣柜",
+            "更衣收纳"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": 1.0,
+              "height": 1.8,
+              "depth": 0.5,
+              "verification": "pending"
+            },
+            "parent": "room.floor",
+            "state": "closed-open"
+          },
+          "mechanismDependencies": [
+            "floor-mount",
+            "hinge-or-slide",
+            "support-surface",
+            "clearance",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "开放衣架",
+            "双门衣柜",
+            "单杆衣架",
+            "收纳衣柜"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "衣物挂点/容量",
+            "柜门/滑门状态",
+            "使用留空"
+          ]
+        },
+        {
+          "id": "theme-live-kit",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "歌舞/访谈/带货主题配置",
+            "代表物件与留空"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "room-composition",
+            "dimensionsMeters": {
+              "width": "room-span",
+              "height": "room-height",
+              "depth": "room-span",
+              "verification": "pending"
+            },
+            "parent": "room",
+            "state": "composition-static"
+          },
+          "mechanismDependencies": [
+            "composition-parenting",
+            "clearance",
+            "display-state",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "唱播：落地麦架/谱架",
+            "舞播：镜面/背景/留空",
+            "谈播：多座/茶几",
+            "带货：展示台/商品背景"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "主题部件父子关系",
+            "不同留空和通道规则",
+            "单件替换保留身份"
+          ],
+          "notes": "角色演奏、化妆、换衣和持物动作属于 C3 或既有角色机制。",
+          "kind": "composition"
+        },
+        {
+          "id": "makeup-mirror-wall",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "化妆镜",
+            "受限反射",
+            "局部照明",
+            "墙面安装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "wall",
+            "dimensionsMeters": {
+              "width": 0.7,
+              "height": 0.6,
+              "depth": 0.08,
+              "verification": "pending"
+            },
+            "parent": "room.wall",
+            "state": "reflective-on-off"
+          },
+          "mechanismDependencies": [
+            "support-surface-or-wall",
+            "mirror-reflection",
+            "light-output",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "圆镜",
+            "带灯镜",
+            "拱镜",
+            "三折镜"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "受限反射",
+            "灯光与发光面分离",
+            "安装面/包络",
+            "墙面安装"
+          ]
+        },
+        {
+          "id": "makeup-storage-drawer",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "化妆品/工具收纳",
+            "静置收纳",
+            "抽屉安装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "vanity-drawer",
+            "dimensionsMeters": {
+              "width": 0.45,
+              "height": 0.25,
+              "depth": 0.25,
+              "verification": "pending"
+            },
+            "parent": "vanity-table.drawer",
+            "state": "static-or-open"
+          },
+          "mechanismDependencies": [
+            "support-surface",
+            "drawer-state",
+            "parent-transform",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "托盘",
+            "分格收纳",
+            "刷具杯",
+            "化妆箱"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "承载面/抽屉关系",
+            "开合状态驱动",
+            "父子变换",
+            "抽屉安装"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "public-provision",
+      "name": "公共配套",
+      "branches": [
+        {
+          "id": "reception-waiting",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "前台/接待/等候",
+            "公共区"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": 2.2,
+              "height": 1.1,
+              "depth": 0.75,
+              "verification": "pending"
+            },
+            "parent": "floor.public-area",
+            "state": "static-or-single-use"
+          },
+          "mechanismDependencies": [
+            "floor-mount",
+            "use-space",
+            "display-state",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "接待台",
+            "等候沙发",
+            "签到台",
+            "外衣收纳"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "公共区通道",
+            "接待台承载/显示",
+            "座位使用点若有"
+          ],
+          "kind": "composition"
+        },
+        {
+          "id": "meeting-training",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "办公/会议/培训",
+            "白板/桌椅"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": "room-span",
+              "height": 0.8,
+              "depth": "room-span",
+              "verification": "pending"
+            },
+            "parent": "floor.public-area",
+            "state": "multi-seat-use"
+          },
+          "mechanismDependencies": [
+            "floor-mount",
+            "multi-use-points",
+            "display-state",
+            "clearance",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "会议桌",
+            "培训桌椅",
+            "U形桌",
+            "白板组合"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "多座使用点",
+            "白板/显示状态",
+            "通道与留空"
+          ],
+          "kind": "composition"
+        },
+        {
+          "id": "storage-cleaning",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "储物与清洁",
+            "器材/清洁物件"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": 0.9,
+              "height": 1.8,
+              "depth": 0.45,
+              "verification": "pending"
+            },
+            "parent": "floor.public-area",
+            "state": "static-or-open"
+          },
+          "mechanismDependencies": [
+            "floor-shelf-mount",
+            "support-surface",
+            "clearance",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "清洁柜",
+            "器材柜",
+            "耗材架",
+            "清洁推车"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "层板承载",
+            "柜门/抽屉状态",
+            "清洁区通道"
+          ]
+        },
+        {
+          "id": "tea-rest",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "茶水/休息",
+            "饮水机/茶水台"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": 1.2,
+              "height": 0.9,
+              "depth": 0.6,
+              "verification": "pending"
+            },
+            "parent": "floor.public-area",
+            "state": "on-off-or-static"
+          },
+          "mechanismDependencies": [
+            "floor-mount",
+            "support-surface",
+            "display-state",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "饮水机",
+            "茶水台",
+            "咖啡台",
+            "休息边几"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "台面承载",
+            "设备状态",
+            "通道/清洁包络"
+          ]
+        },
+        {
+          "id": "sanitary-support",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "卫生配套",
+            "卫生间入口/洗手台"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-and-wall",
+            "dimensionsMeters": {
+              "width": 1.2,
+              "height": 0.9,
+              "depth": 0.6,
+              "verification": "pending"
+            },
+            "parent": "floor.public-area+wall",
+            "state": "static-or-on-off"
+          },
+          "mechanismDependencies": [
+            "floor-wall-mount",
+            "display-state",
+            "clearance",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "洗手台",
+            "卫生镜",
+            "卫生标识",
+            "清洁分配器"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "墙地安装",
+            "显示/镜面",
+            "入口与通道"
+          ],
+          "notes": "模型存在不意味着卫生需求玩法或自动化清洁行为。"
+        },
+        {
+          "id": "corridor-vertical-entry",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "走廊",
+            "电梯/楼梯入口标识与设施"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "room-structure",
+            "dimensionsMeters": {
+              "width": "corridor-span",
+              "height": 2.8,
+              "depth": "corridor-span",
+              "verification": "pending"
+            },
+            "parent": "floor.public-circulation",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "structure-topology",
+            "portal-signage",
+            "clearance",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "走廊段",
+            "电梯厅标识",
+            "楼梯入口标识",
+            "导视牌"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "公共通路拓扑",
+            "入口标识",
+            "切层保持身份"
+          ]
+        },
+        {
+          "id": "boss-private-workbench-candidate",
+          "scope": "reserved-candidate",
+          "purposeLabels": [
+            "老板专属工作台",
+            "后续产品候选"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": 1.6,
+              "height": 0.75,
+              "depth": 0.8,
+              "verification": "pending"
+            },
+            "parent": "private-room.floor",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "floor-mount",
+            "support-surface",
+            "clearance",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "专属桌",
+            "奖杯陈列桌",
+            "私人休息边几",
+            "工作/休息组合"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "候选资源父子关系",
+            "承载面/留空",
+            "显式产品开关"
+          ],
+          "notes": "保留老板房/顶层方向，不把影响力、收益或经营结算写入场景。"
+        },
+        {
+          "id": "storage-cleaning-shelf",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "储物与清洁",
+            "器材/清洁物件",
+            "层板安装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "storage-shelf",
+            "dimensionsMeters": {
+              "width": 0.9,
+              "height": 1.8,
+              "depth": 0.45,
+              "verification": "pending"
+            },
+            "parent": "public.storage.shelf",
+            "state": "static-or-open"
+          },
+          "mechanismDependencies": [
+            "floor-shelf-mount",
+            "support-surface",
+            "clearance",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "清洁柜",
+            "器材柜",
+            "耗材架",
+            "清洁推车"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "层板承载",
+            "柜门/抽屉状态",
+            "清洁区通道",
+            "层板安装"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "time-information-decor",
+      "name": "时间与信息装饰",
+      "branches": [
+        {
+          "id": "analog-clock",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "指针钟",
+            "时间动态物件"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "wall",
+            "dimensionsMeters": {
+              "width": 0.35,
+              "height": 0.35,
+              "depth": 0.08,
+              "verification": "pending"
+            },
+            "parent": "room.wall",
+            "state": "time-driven"
+          },
+          "mechanismDependencies": [
+            "wall-shelf-mount",
+            "host-time-input",
+            "display-state",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "圆形挂钟",
+            "方形挂钟",
+            "台式指针钟",
+            "工业风指针钟"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "宿主时间输入",
+            "指针驱动",
+            "安装面与朝向"
+          ]
+        },
+        {
+          "id": "digital-clock",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "数字钟",
+            "时间动态物件"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "wall",
+            "dimensionsMeters": {
+              "width": 0.5,
+              "height": 0.18,
+              "depth": 0.06,
+              "verification": "pending"
+            },
+            "parent": "room.wall",
+            "state": "time-driven"
+          },
+          "mechanismDependencies": [
+            "wall-shelf-mount",
+            "host-time-input",
+            "display-state",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "LED数字",
+            "翻页数字",
+            "分段数字",
+            "日期时间组合"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "宿主时间输入",
+            "数字显示字段",
+            "开关/亮度"
+          ]
+        },
+        {
+          "id": "information-board",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "白板/公告板/标牌/门牌",
+            "图文信息面"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "wall",
+            "dimensionsMeters": {
+              "width": 1.0,
+              "height": 0.7,
+              "depth": 0.05,
+              "verification": "pending"
+            },
+            "parent": "room.wall",
+            "state": "content-driven"
+          },
+          "mechanismDependencies": [
+            "wall-floor-mount",
+            "content-slot",
+            "display-state",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "白板",
+            "公告板",
+            "门牌",
+            "直播中指示牌"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "图文内容槽",
+            "安装面",
+            "显示状态"
+          ]
+        },
+        {
+          "id": "framed-art",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "画框/墙面摆饰",
+            "静态装饰"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "wall",
+            "dimensionsMeters": {
+              "width": 0.8,
+              "height": 0.8,
+              "depth": 0.12
+            },
+            "parent": "room.wall",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "wall-mount",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "三联几何挂画",
+            "放射圆盘墙饰",
+            "山形浮雕挂画",
+            "栅格编织墙饰"
+          ],
+          "reusableResources": [
+            {
+              "id": "wall-art-triptych",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "wall-art-sunburst",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "wall-art-relief",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "wall-art-woven",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            }
+          ],
+          "requiredIndependentMechanisms": [
+            "墙面安装",
+            "图案/几何差异",
+            "有效包络"
+          ]
+        },
+        {
+          "id": "mirror",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "镜",
+            "受限反射"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "wall",
+            "dimensionsMeters": {
+              "width": 0.8,
+              "height": 1.8,
+              "depth": 0.04,
+              "verification": "pending"
+            },
+            "parent": "room.wall",
+            "state": "static-reflective"
+          },
+          "mechanismDependencies": [
+            "wall-floor-mount",
+            "mirror-reflection",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "圆镜",
+            "全身镜",
+            "拱镜",
+            "分格镜"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "真实受限反射",
+            "安装包络",
+            "成本/预算"
+          ]
+        },
+        {
+          "id": "display-object",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "陈列摆件/奖杯/雕塑",
+            "静态装饰"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "shelf-surface",
+            "dimensionsMeters": {
+              "width": 0.25,
+              "height": 0.35,
+              "depth": 0.25,
+              "verification": "pending"
+            },
+            "parent": "support-surface",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "support-surface",
+            "parent-transform",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "奖杯",
+            "桌面雕塑",
+            "书籍叠放",
+            "公司标志摆件"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "承载面规格",
+            "随父物移动",
+            "包络/阻挡"
+          ]
+        },
+        {
+          "id": "analog-clock-shelf",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "指针钟",
+            "时间动态物件",
+            "层板安装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "shelf-surface",
+            "dimensionsMeters": {
+              "width": 0.35,
+              "height": 0.35,
+              "depth": 0.08,
+              "verification": "pending"
+            },
+            "parent": "room.shelf",
+            "state": "time-driven"
+          },
+          "mechanismDependencies": [
+            "wall-shelf-mount",
+            "host-time-input",
+            "display-state",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "圆形挂钟",
+            "方形挂钟",
+            "台式指针钟",
+            "工业风指针钟"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "宿主时间输入",
+            "指针驱动",
+            "安装面与朝向",
+            "层板安装"
+          ]
+        },
+        {
+          "id": "digital-clock-shelf",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "数字钟",
+            "时间动态物件",
+            "层板安装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "shelf-surface",
+            "dimensionsMeters": {
+              "width": 0.5,
+              "height": 0.18,
+              "depth": 0.06,
+              "verification": "pending"
+            },
+            "parent": "room.shelf",
+            "state": "time-driven"
+          },
+          "mechanismDependencies": [
+            "wall-shelf-mount",
+            "host-time-input",
+            "display-state",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "LED数字",
+            "翻页数字",
+            "分段数字",
+            "日期时间组合"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "宿主时间输入",
+            "数字显示字段",
+            "开关/亮度",
+            "层板安装"
+          ]
+        },
+        {
+          "id": "information-board-floor",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "白板/公告板/标牌/门牌",
+            "图文信息面",
+            "地面安装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": 1.0,
+              "height": 0.7,
+              "depth": 0.05,
+              "verification": "pending"
+            },
+            "parent": "floor.public-area",
+            "state": "content-driven"
+          },
+          "mechanismDependencies": [
+            "wall-floor-mount",
+            "content-slot",
+            "display-state",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "白板",
+            "公告板",
+            "门牌",
+            "直播中指示牌"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "图文内容槽",
+            "安装面",
+            "显示状态",
+            "地面安装"
+          ]
+        },
+        {
+          "id": "floor-mirror",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "镜",
+            "受限反射",
+            "落地安装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": 0.8,
+              "height": 1.8,
+              "depth": 0.04,
+              "verification": "pending"
+            },
+            "parent": "room.floor",
+            "state": "static-reflective"
+          },
+          "mechanismDependencies": [
+            "wall-floor-mount",
+            "mirror-reflection",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "圆镜",
+            "全身镜",
+            "拱镜",
+            "分格镜"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "真实受限反射",
+            "安装包络",
+            "成本/预算",
+            "落地安装"
+          ]
+        },
+        {
+          "id": "table-display-object",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "陈列摆件/奖杯/雕塑",
+            "静态装饰",
+            "桌面安装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "table-surface",
+            "dimensionsMeters": {
+              "width": 0.25,
+              "height": 0.35,
+              "depth": 0.25,
+              "verification": "pending"
+            },
+            "parent": "desk.surface",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "support-surface",
+            "parent-transform",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "奖杯",
+            "桌面雕塑",
+            "书籍叠放",
+            "公司标志摆件"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "承载面规格",
+            "随父物移动",
+            "包络/阻挡",
+            "桌面安装"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "soft-furnishings-small-items",
+      "name": "软装与生活小物",
+      "branches": [
+        {
+          "id": "area-rug",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "活动地毯",
+            "软装",
+            "地面独立物件"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": 1.6,
+              "depth": 1.1,
+              "height": 0.01
+            },
+            "parent": "room.floor",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "floor-surface",
+            "clearance",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "边框地毯",
+            "嵌套方毯",
+            "条纹地毯",
+            "中心纹章地毯"
+          ],
+          "reusableResources": [
+            {
+              "id": "rug-border",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "rug-inset",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "rug-stripe",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "rug-medallion",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            }
+          ],
+          "requiredIndependentMechanisms": [
+            "与整面地面层分离",
+            "有效占用/绊倒包络",
+            "父地面变换"
+          ]
+        },
+        {
+          "id": "static-textile",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "抱枕/毯子/沙发罩",
+            "固定造型布艺"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "seat-surface",
+            "dimensionsMeters": {
+              "width": 0.6,
+              "height": 0.15,
+              "depth": 0.45,
+              "verification": "pending"
+            },
+            "parent": "sofa",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "support-surface",
+            "parent-transform",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "抱枕",
+            "搭毯",
+            "沙发罩",
+            "桌垫"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "固定造型而非布料仿真",
+            "父子变换",
+            "接触/穿插检查"
+          ]
+        },
+        {
+          "id": "desk-life-items",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "杯子/水瓶/纸巾盒/笔筒/笔记本",
+            "桌面日用品"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "desk-surface",
+            "dimensionsMeters": {
+              "width": 0.18,
+              "height": 0.25,
+              "depth": 0.18,
+              "verification": "pending"
+            },
+            "parent": "desk.desktop",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "support-surface",
+            "parent-transform",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "杯子",
+            "水瓶",
+            "纸巾盒",
+            "笔筒与笔记本"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "桌面承载",
+            "父物移动/复制",
+            "小物包络"
+          ]
+        },
+        {
+          "id": "plant-floor-installation",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "绿植",
+            "落地安装规格"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": 0.6,
+              "height": 1.8,
+              "depth": 0.6,
+              "verification": "pending"
+            },
+            "parent": "room.floor",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "floor-mount",
+            "parent-transform",
+            "clearance",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "扇叶棕榈",
+            "阔叶盆栽",
+            "落地琴叶",
+            "落地竹簇"
+          ],
+          "reusableResources": [
+            {
+              "id": "plant-palm",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "plant-broadleaf",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            }
+          ],
+          "requiredIndependentMechanisms": [
+            "盆底与包络",
+            "父子变换",
+            "落地通道"
+          ]
+        },
+        {
+          "id": "plant-desktop-installation",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "绿植",
+            "桌面安装规格"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "support-surface",
+            "dimensionsMeters": {
+              "width": 0.35,
+              "height": 0.55,
+              "depth": 0.35,
+              "verification": "pending"
+            },
+            "parent": "desk.surface",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "support-surface",
+            "parent-transform",
+            "clearance",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "层冠盆景",
+            "分叉仙人掌",
+            "桌面阔叶",
+            "桌面多肉"
+          ],
+          "reusableResources": [
+            {
+              "id": "plant-bonsai",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "plant-cactus",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "plant-broadleaf",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            }
+          ],
+          "requiredIndependentMechanisms": [
+            "桌面承载",
+            "盆底与包络",
+            "父子变换"
+          ]
+        },
+        {
+          "id": "plant-hanging-installation",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "绿植",
+            "悬挂安装规格"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "ceiling-hook",
+            "dimensionsMeters": {
+              "width": 0.45,
+              "height": 0.75,
+              "depth": 0.45,
+              "verification": "pending"
+            },
+            "parent": "room.ceiling",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "top-wall-mount",
+            "parent-transform",
+            "clearance",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "悬挂阔叶",
+            "悬挂藤蔓",
+            "悬挂蕨类",
+            "悬挂花盆"
+          ],
+          "reusableResources": [
+            {
+              "id": "plant-broadleaf",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            }
+          ],
+          "requiredIndependentMechanisms": [
+            "挂点安装",
+            "下垂包络",
+            "父子变换"
+          ]
+        },
+        {
+          "id": "waste-and-storage-small",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "垃圾桶/储物盒",
+            "生活配套小物"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": 0.32,
+              "height": 0.45,
+              "depth": 0.32,
+              "verification": "pending"
+            },
+            "parent": "room.floor",
+            "state": "static-or-open"
+          },
+          "mechanismDependencies": [
+            "floor-surface",
+            "support-surface",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "垃圾桶",
+            "储物盒",
+            "分类桶",
+            "布篮"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "安装面/承载",
+            "开合状态若有则单列",
+            "通道包络"
+          ]
+        },
+        {
+          "id": "floor-textile",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "抱枕/毯子/沙发罩",
+            "固定造型布艺",
+            "地面安装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": 0.6,
+              "height": 0.15,
+              "depth": 0.45,
+              "verification": "pending"
+            },
+            "parent": "room.floor",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "support-surface",
+            "parent-transform",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "抱枕",
+            "搭毯",
+            "沙发罩",
+            "桌垫"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "固定造型而非布料仿真",
+            "父子变换",
+            "接触/穿插检查",
+            "地面安装"
+          ]
+        },
+        {
+          "id": "side-table-life-items",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "杯子/水瓶/纸巾盒/笔筒/笔记本",
+            "桌面日用品",
+            "边几安装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "side-table-surface",
+            "dimensionsMeters": {
+              "width": 0.18,
+              "height": 0.25,
+              "depth": 0.18,
+              "verification": "pending"
+            },
+            "parent": "side-table",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "support-surface",
+            "parent-transform",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "杯子",
+            "水瓶",
+            "纸巾盒",
+            "笔筒与笔记本"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "桌面承载",
+            "父物移动/复制",
+            "小物包络",
+            "边几安装"
+          ]
+        },
+        {
+          "id": "plant-hanging-wall",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "绿植",
+            "悬挂安装规格",
+            "墙面挂点"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "wall-hook",
+            "dimensionsMeters": {
+              "width": 0.45,
+              "height": 0.75,
+              "depth": 0.45,
+              "verification": "pending"
+            },
+            "parent": "room.wall",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "top-wall-mount",
+            "parent-transform",
+            "clearance",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "悬挂阔叶",
+            "悬挂藤蔓",
+            "悬挂蕨类",
+            "悬挂花盆"
+          ],
+          "reusableResources": [
+            {
+              "id": "plant-broadleaf",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            }
+          ],
+          "requiredIndependentMechanisms": [
+            "挂点安装",
+            "下垂包络",
+            "父子变换",
+            "墙面挂点"
+          ]
+        },
+        {
+          "id": "support-small-items",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "垃圾桶/储物盒",
+            "生活配套小物",
+            "承载面安装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "support-surface",
+            "dimensionsMeters": {
+              "width": 0.32,
+              "height": 0.45,
+              "depth": 0.32,
+              "verification": "pending"
+            },
+            "parent": "desk.surface",
+            "state": "static-or-open"
+          },
+          "mechanismDependencies": [
+            "floor-surface",
+            "support-surface",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "垃圾桶",
+            "储物盒",
+            "分类桶",
+            "布篮"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "安装面/承载",
+            "开合状态若有则单列",
+            "通道包络",
+            "承载面安装"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wiring-environment-equipment",
+      "name": "布线与环境设备",
+      "branches": [
+        {
+          "id": "outlet-switch",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "插座/开关",
+            "墙面状态部件"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "wall",
+            "dimensionsMeters": {
+              "width": 0.12,
+              "height": 0.2,
+              "depth": 0.04,
+              "verification": "pending"
+            },
+            "parent": "room.wall",
+            "state": "on-off"
+          },
+          "mechanismDependencies": [
+            "wall-mount",
+            "state-range",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "单插座",
+            "多孔插座",
+            "开关",
+            "控制面板"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "墙面安装",
+            "开关状态驱动",
+            "非法状态拒绝"
+          ]
+        },
+        {
+          "id": "power-strip",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "插排",
+            "供电设备"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "desk-surface",
+            "dimensionsMeters": {
+              "width": 0.35,
+              "height": 0.04,
+              "depth": 0.06,
+              "verification": "pending"
+            },
+            "parent": "desk.desktop",
+            "state": "on-off"
+          },
+          "mechanismDependencies": [
+            "support-surface",
+            "cable-endpoints",
+            "state-range",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "桌面插排",
+            "桌下插排",
+            "塔式插排",
+            "USB插排"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "端点数量",
+            "设备连接关系",
+            "整体移动保持连接"
+          ]
+        },
+        {
+          "id": "cable-route",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "理线槽/线篮/设备线缆",
+            "受限线形连接"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "parent-device-endpoints",
+            "dimensionsMeters": {
+              "width": "endpoint-distance",
+              "height": 0.03,
+              "depth": 0.03,
+              "verification": "pending"
+            },
+            "parent": "desk.parent",
+            "state": "connected-disconnected"
+          },
+          "mechanismDependencies": [
+            "cable-endpoints",
+            "parent-transform",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "桌下线篮",
+            "理线槽",
+            "短线",
+            "线束"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "端点和安装关系",
+            "受限线形重建",
+            "断连拒绝或报错"
+          ]
+        },
+        {
+          "id": "router-network-device",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "路由器/网络设备",
+            "静置状态"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "desk-surface",
+            "dimensionsMeters": {
+              "width": 0.25,
+              "height": 0.06,
+              "depth": 0.18,
+              "verification": "pending"
+            },
+            "parent": "desk.desktop",
+            "state": "on-off-status"
+          },
+          "mechanismDependencies": [
+            "support-surface",
+            "display-state",
+            "cable-endpoints",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "路由器",
+            "交换机",
+            "无线接入点",
+            "调制解调器"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "承载面",
+            "状态指示",
+            "端点连接"
+          ]
+        },
+        {
+          "id": "hvac",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "空调",
+            "环境设备",
+            "适用显示状态"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "wall",
+            "dimensionsMeters": {
+              "width": 1.0,
+              "height": 0.35,
+              "depth": 0.22,
+              "verification": "pending"
+            },
+            "parent": "room.wall",
+            "state": "on-off-mode"
+          },
+          "mechanismDependencies": [
+            "wall-top-mount",
+            "state-range",
+            "display-state",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "壁挂空调",
+            "吊顶空调",
+            "移动空调",
+            "送风口"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "墙面/顶部安装",
+            "模式字段范围",
+            "显示状态"
+          ]
+        },
+        {
+          "id": "fan-and-air-purifier",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "风扇/空气净化器",
+            "环境设备"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": 0.4,
+              "height": 0.8,
+              "depth": 0.4,
+              "verification": "pending"
+            },
+            "parent": "room.floor",
+            "state": "on-off-speed"
+          },
+          "mechanismDependencies": [
+            "floor-desk-mount",
+            "state-range",
+            "display-state",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "塔扇",
+            "桌面风扇",
+            "循环扇",
+            "空气净化器"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "安装包络",
+            "速度/模式字段范围",
+            "显示状态"
+          ]
+        },
+        {
+          "id": "floor-power-strip",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "插排",
+            "供电设备",
+            "地面安装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": 0.35,
+              "height": 0.04,
+              "depth": 0.06,
+              "verification": "pending"
+            },
+            "parent": "room.floor",
+            "state": "on-off"
+          },
+          "mechanismDependencies": [
+            "support-surface",
+            "cable-endpoints",
+            "state-range",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "桌面插排",
+            "桌下插排",
+            "塔式插排",
+            "USB插排"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "端点数量",
+            "设备连接关系",
+            "整体移动保持连接",
+            "地面安装"
+          ]
+        },
+        {
+          "id": "shelf-router-network-device",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "路由器/网络设备",
+            "静置状态",
+            "层板安装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "shelf-surface",
+            "dimensionsMeters": {
+              "width": 0.25,
+              "height": 0.06,
+              "depth": 0.18,
+              "verification": "pending"
+            },
+            "parent": "room.shelf",
+            "state": "on-off-status"
+          },
+          "mechanismDependencies": [
+            "support-surface",
+            "display-state",
+            "cable-endpoints",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "路由器",
+            "交换机",
+            "无线接入点",
+            "调制解调器"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "承载面",
+            "状态指示",
+            "端点连接",
+            "层板安装"
+          ]
+        },
+        {
+          "id": "ceiling-hvac",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "空调",
+            "环境设备",
+            "适用显示状态",
+            "顶部安装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "ceiling",
+            "dimensionsMeters": {
+              "width": 1.0,
+              "height": 0.35,
+              "depth": 0.22,
+              "verification": "pending"
+            },
+            "parent": "room.ceiling",
+            "state": "on-off-mode"
+          },
+          "mechanismDependencies": [
+            "wall-top-mount",
+            "state-range",
+            "display-state",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "壁挂空调",
+            "吊顶空调",
+            "移动空调",
+            "送风口"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "墙面/顶部安装",
+            "模式字段范围",
+            "显示状态",
+            "顶部安装"
+          ]
+        },
+        {
+          "id": "desk-fan-and-air-purifier",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "风扇/空气净化器",
+            "环境设备",
+            "桌面安装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "desk-surface",
+            "dimensionsMeters": {
+              "width": 0.4,
+              "height": 0.8,
+              "depth": 0.4,
+              "verification": "pending"
+            },
+            "parent": "desk.desktop",
+            "state": "on-off-speed"
+          },
+          "mechanismDependencies": [
+            "floor-desk-mount",
+            "state-range",
+            "display-state",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "塔扇",
+            "桌面风扇",
+            "循环扇",
+            "空气净化器"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "安装包络",
+            "速度/模式字段范围",
+            "显示状态",
+            "桌面安装"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lighting",
+      "name": "照明",
+      "branches": [
+        {
+          "id": "key-fill-rim-floor-stand",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "主光/辅助光/轮廓光",
+            "补光系统",
+            "落地支架"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": 0.8,
+              "height": 1.8,
+              "depth": 0.5,
+              "verification": "pending"
+            },
+            "parent": "room.floor",
+            "state": "on-intensity-color"
+          },
+          "mechanismDependencies": [
+            "floor-mount",
+            "light-transform",
+            "light-output",
+            "state-range",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "环形补光",
+            "翼形补光",
+            "柱形补光",
+            "面板补光"
+          ],
+          "reusableResources": [
+            {
+              "id": "fill-light-orbit",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "fill-light-wing",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "fill-light-column",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "fill-light-panel",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            }
+          ],
+          "requiredIndependentMechanisms": [
+            "落地包络",
+            "光向与姿态",
+            "强度/色温范围",
+            "关灯效果"
+          ]
+        },
+        {
+          "id": "key-fill-desk-mount",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "主光/辅助光/轮廓光",
+            "补光系统",
+            "桌面安装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "desk-surface",
+            "dimensionsMeters": {
+              "width": 0.45,
+              "height": 0.65,
+              "depth": 0.25,
+              "verification": "pending"
+            },
+            "parent": "desk.desktop",
+            "state": "on-intensity-color"
+          },
+          "mechanismDependencies": [
+            "desk-surface",
+            "light-transform",
+            "light-output",
+            "state-range",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "短臂面板灯",
+            "桌面环灯",
+            "桌面条灯",
+            "桌面小翼灯"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "桌面承载",
+            "光向与姿态",
+            "强度/色温范围",
+            "关灯效果"
+          ]
+        },
+        {
+          "id": "key-fill-clamp-mount",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "主光/辅助光/轮廓光",
+            "补光系统",
+            "夹持安装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "desk-edge-clamp",
+            "dimensionsMeters": {
+              "width": 0.55,
+              "height": 1.0,
+              "depth": 0.15,
+              "verification": "pending"
+            },
+            "parent": "desk.edge",
+            "state": "on-intensity-color"
+          },
+          "mechanismDependencies": [
+            "clamp-mount",
+            "light-transform",
+            "light-output",
+            "state-range",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "夹式环灯",
+            "夹式面板灯",
+            "夹式条灯",
+            "夹式小翼灯"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "夹持面约束",
+            "父子变换",
+            "强度/色温范围",
+            "关灯效果"
+          ]
+        },
+        {
+          "id": "ceiling-general-light",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "一般照明",
+            "顶灯/吊灯",
+            "顶部安装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "ceiling",
+            "dimensionsMeters": {
+              "width": 0.45,
+              "height": 0.35,
+              "depth": 0.45,
+              "verification": "pending"
+            },
+            "parent": "room.ceiling",
+            "state": "on-intensity"
+          },
+          "mechanismDependencies": [
+            "top-mount",
+            "light-output",
+            "state-range",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "吸顶圆灯",
+            "线性吊灯",
+            "筒形吊灯",
+            "轨道顶灯"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "顶部安装面",
+            "实际照明输出",
+            "开关/强度范围"
+          ]
+        },
+        {
+          "id": "wall-general-light",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "一般照明",
+            "壁灯",
+            "墙面安装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "wall",
+            "dimensionsMeters": {
+              "width": 0.25,
+              "height": 0.45,
+              "depth": 0.12,
+              "verification": "pending"
+            },
+            "parent": "room.wall",
+            "state": "on-intensity"
+          },
+          "mechanismDependencies": [
+            "wall-mount",
+            "light-output",
+            "state-range",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "壁灯筒",
+            "壁灯盘",
+            "壁灯线槽",
+            "壁灯罩"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "墙面安装面",
+            "实际照明输出",
+            "开关/强度范围"
+          ]
+        },
+        {
+          "id": "desk-lamp",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "台灯",
+            "局部照明",
+            "桌面安装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "desk-surface",
+            "dimensionsMeters": {
+              "width": 0.3,
+              "height": 0.5,
+              "depth": 0.3,
+              "verification": "pending"
+            },
+            "parent": "desk.desktop",
+            "state": "on-intensity-angle"
+          },
+          "mechanismDependencies": [
+            "desk-surface",
+            "light-output",
+            "state-range",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "鹅颈台灯",
+            "条形台灯",
+            "灯罩台灯",
+            "柱形台灯"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "桌面承载",
+            "光向/强度",
+            "开关状态"
+          ]
+        },
+        {
+          "id": "desk-clamp-lamp",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "夹式台灯",
+            "局部照明",
+            "夹持安装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "desk-edge-clamp",
+            "dimensionsMeters": {
+              "width": 0.22,
+              "height": 0.65,
+              "depth": 0.18,
+              "verification": "pending"
+            },
+            "parent": "desk.edge",
+            "state": "on-intensity-angle"
+          },
+          "mechanismDependencies": [
+            "clamp-mount",
+            "light-output",
+            "state-range",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "鹅颈夹灯",
+            "条形夹灯",
+            "圆罩夹灯",
+            "短臂夹灯"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "夹持面约束",
+            "光向/强度",
+            "开关状态"
+          ]
+        },
+        {
+          "id": "ambient-led-and-neon",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "背景氛围",
+            "灯带/发光字/霓虹牌"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "wall",
+            "dimensionsMeters": {
+              "width": "background-span",
+              "height": 0.35,
+              "depth": 0.04,
+              "verification": "pending"
+            },
+            "parent": "wall.background",
+            "state": "on-color-intensity"
+          },
+          "mechanismDependencies": [
+            "wall-mount",
+            "emissive-material",
+            "light-output",
+            "state-range",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "灯带",
+            "霓虹字",
+            "背景灯",
+            "品牌发光标"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "发光材质与实际照明分离",
+            "颜色/强度范围",
+            "安装与遮挡"
+          ]
+        },
+        {
+          "id": "background-ambient-led-and-neon",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "背景氛围",
+            "灯带/发光字/霓虹牌",
+            "背景安装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "background-panel",
+            "dimensionsMeters": {
+              "width": "background-span",
+              "height": 0.35,
+              "depth": 0.04,
+              "verification": "pending"
+            },
+            "parent": "room.background",
+            "state": "on-color-intensity"
+          },
+          "mechanismDependencies": [
+            "wall-mount",
+            "emissive-material",
+            "light-output",
+            "state-range",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "灯带",
+            "霓虹字",
+            "背景灯",
+            "品牌发光标"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "发光材质与实际照明分离",
+            "颜色/强度范围",
+            "安装与遮挡",
+            "背景安装"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "acoustic-layout",
+      "name": "声学布置",
+      "branches": [
+        {
+          "id": "wall-absorber-panel",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "墙面吸音板",
+            "声学外观"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "wall",
+            "dimensionsMeters": {
+              "width": 0.6,
+              "height": 1.2,
+              "depth": 0.08,
+              "verification": "pending"
+            },
+            "parent": "room.wall",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "wall-mount",
+            "pattern-repeat",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "六边形毡板",
+            "吸声木格",
+            "布面板",
+            "泡棉格"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "墙面安装与包络",
+            "声学用途标签",
+            "图案/材质替换"
+          ],
+          "notes": "只提供布置与标签，不宣称声学模拟。"
+        },
+        {
+          "id": "corner-absorber",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "角部吸声件",
+            "声学外观"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "wall-corner",
+            "dimensionsMeters": {
+              "width": 0.35,
+              "height": 2.2,
+              "depth": 0.35,
+              "verification": "pending"
+            },
+            "parent": "room.wall.corner",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "corner-mount",
+            "clearance",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "三角角吸",
+            "柱状角吸",
+            "分片角吸",
+            "布艺角吸"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "角部锚定",
+            "墙体包络相容",
+            "声学标签"
+          ]
+        },
+        {
+          "id": "movable-absorber-screen",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "移动吸音屏",
+            "可移动分隔"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": 1.2,
+              "height": 1.8,
+              "depth": 0.12,
+              "verification": "pending"
+            },
+            "parent": "room.floor",
+            "state": "static-folding"
+          },
+          "mechanismDependencies": [
+            "floor-mount",
+            "parent-transform",
+            "clearance",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "折叠屏",
+            "带轮屏",
+            "双面屏",
+            "弧形屏"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "移动占地/通道",
+            "复制与旋转",
+            "声学标签"
+          ]
+        },
+        {
+          "id": "ceiling-acoustic-baffle",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "顶部吸声体",
+            "声学外观"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "ceiling",
+            "dimensionsMeters": {
+              "width": 1.2,
+              "height": 0.08,
+              "depth": 0.4,
+              "verification": "pending"
+            },
+            "parent": "room.ceiling",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "top-mount",
+            "ceiling-visibility",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "云朵吊片",
+            "条形吊片",
+            "毡片",
+            "木格吊片"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "顶部依附",
+            "观看隐藏规则",
+            "声学标签"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "furniture-storage",
+      "name": "家具与承载收纳",
+      "branches": [
+        {
+          "id": "desk-work-surface",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "桌/工作台",
+            "桌面承载"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": 2,
+              "depth": 1,
+              "surfaceHeight": 0.84
+            },
+            "parent": "room.floor",
+            "state": "static",
+            "specificationSource": "Pinned existing catalog resource functional contract; visual mesh height is not a newly invented fixed limit"
+          },
+          "mechanismDependencies": [
+            "floor-mount",
+            "support-surface",
+            "use-space",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "双横梁桌",
+            "双柱底盘桌",
+            "侧柜书桌",
+            "金属框架桌"
+          ],
+          "reusableResources": [
+            {
+              "id": "desk-trestle",
+              "version": 1,
+              "reuseKind": "existing-functional-contract-candidate"
+            },
+            {
+              "id": "desk-pedestal",
+              "version": 1,
+              "reuseKind": "existing-functional-contract-candidate"
+            },
+            {
+              "id": "desk-cabinet",
+              "version": 1,
+              "reuseKind": "existing-functional-contract-candidate"
+            },
+            {
+              "id": "desk-frame",
+              "version": 1,
+              "reuseKind": "existing-functional-contract-candidate"
+            }
+          ],
+          "requiredIndependentMechanisms": [
+            "桌面承载面",
+            "单人使用空间",
+            "子物父子变换"
+          ]
+        },
+        {
+          "id": "single-seat",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "单人座椅",
+            "单人交互设施"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "footprintWidth": 0.55,
+              "footprintDepth": 0.51
+            },
+            "parent": "room.floor",
+            "state": "seat-use",
+            "specificationSource": "Pinned existing catalog resource functional contract; visual mesh height is not a newly invented fixed limit"
+          },
+          "mechanismDependencies": [
+            "floor-mount",
+            "single-use-point",
+            "clearance",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "悬臂椅",
+            "底盘椅",
+            "梯背椅",
+            "横梁椅"
+          ],
+          "reusableResources": [
+            {
+              "id": "chair-cantilever",
+              "version": 1,
+              "reuseKind": "existing-functional-contract-candidate"
+            },
+            {
+              "id": "chair-pedestal",
+              "version": 1,
+              "reuseKind": "existing-functional-contract-candidate"
+            },
+            {
+              "id": "chair-ladder",
+              "version": 1,
+              "reuseKind": "existing-functional-contract-candidate"
+            },
+            {
+              "id": "chair-crossbeam",
+              "version": 1,
+              "reuseKind": "existing-functional-contract-candidate"
+            }
+          ],
+          "requiredIndependentMechanisms": [
+            "使用点/接近/离开",
+            "座高与包络",
+            "父变换"
+          ]
+        },
+        {
+          "id": "double-seat",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "双人座位",
+            "多使用点设施"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "footprintWidth": 2.2,
+              "footprintDepth": 1.04
+            },
+            "parent": "room.floor",
+            "state": "multi-seat-use",
+            "specificationSource": "Pinned existing catalog resource functional contract; visual mesh height is not a newly invented fixed limit"
+          },
+          "mechanismDependencies": [
+            "floor-mount",
+            "multi-use-points",
+            "clearance",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "模块沙发",
+            "拱形沙发",
+            "木质沙发",
+            "线性双座"
+          ],
+          "reusableResources": [
+            {
+              "id": "sofa-modular",
+              "version": 1,
+              "reuseKind": "existing-functional-contract-candidate"
+            },
+            {
+              "id": "sofa-arch",
+              "version": 1,
+              "reuseKind": "existing-functional-contract-candidate"
+            },
+            {
+              "id": "timber-sofa",
+              "version": 1,
+              "reuseKind": "existing-functional-contract-candidate"
+            },
+            {
+              "id": "lounge-sofa",
+              "version": 1,
+              "reuseKind": "existing-functional-contract-candidate"
+            }
+          ],
+          "requiredIndependentMechanisms": [
+            "两个独立使用点",
+            "争用/释放",
+            "接近/离开空间"
+          ]
+        },
+        {
+          "id": "hinged-cabinet",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "柜门收纳柜"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": 0.9,
+              "height": 1.2,
+              "depth": 0.45,
+              "verification": "pending"
+            },
+            "parent": "room.floor",
+            "state": {
+              "openFraction": {
+                "type": "number",
+                "min": 0,
+                "max": 1
+              },
+              "mechanism": "hinge",
+              "verification": "pending-production-contract"
+            }
+          },
+          "mechanismDependencies": [
+            "floor-mount",
+            "hinge",
+            "support-surface",
+            "clearance",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "平板双门柜",
+            "框板双门柜",
+            "百叶造型双门柜",
+            "曲边双门柜"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "柜门铰接与开放净空",
+            "柜顶承载",
+            "动态阻挡与保存"
+          ]
+        },
+        {
+          "id": "sliding-drawer-cabinet",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "抽屉收纳柜"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": 0.9,
+              "height": 1.2,
+              "depth": 0.45,
+              "verification": "pending"
+            },
+            "parent": "room.floor",
+            "state": {
+              "openFraction": {
+                "type": "number",
+                "min": 0,
+                "max": 1
+              },
+              "mechanism": "slide",
+              "verification": "pending-production-contract"
+            }
+          },
+          "mechanismDependencies": [
+            "floor-mount",
+            "slide",
+            "support-surface",
+            "clearance",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "平面抽屉柜",
+            "框面抽屉柜",
+            "条纹造型抽屉柜",
+            "曲边抽屉柜"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "抽屉平移与开放净空",
+            "柜顶承载",
+            "动态阻挡与保存"
+          ]
+        },
+        {
+          "id": "floor-open-shelf",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "落地开放架",
+            "多层陈列承载"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": 1,
+              "height": 1.8,
+              "depth": 0.35
+            },
+            "parent": "room.floor",
+            "state": "static",
+            "contract": "docs/COMPANY-SUPPORT-SURFACE-CONTRACT-v1.txt"
+          },
+          "mechanismDependencies": [
+            "floor-mount",
+            "support-surfaces",
+            "parent-transform",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "框柱开放架",
+            "侧板开放架",
+            "交叉背架",
+            "拱形侧架"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "层板承载字段",
+            "物件父子变换",
+            "非法承载拒绝"
+          ]
+        },
+        {
+          "id": "cart-and-equipment-storage",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "推车/器材收纳",
+            "可移动收纳"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": 0.7,
+              "height": 1.0,
+              "depth": 0.5,
+              "verification": "pending"
+            },
+            "parent": "room.floor",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "floor-mount",
+            "parent-transform",
+            "support-surface",
+            "clearance",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "推车",
+            "器材箱叠放",
+            "多层工具车",
+            "展示推车"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "移动占地/通道",
+            "多层承载",
+            "父子复制"
+          ]
+        },
+        {
+          "id": "side-table",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "边几/茶几",
+            "桌面承载"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": 0.65,
+              "height": 0.5,
+              "depth": 0.5,
+              "verification": "pending"
+            },
+            "parent": "room.floor",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "floor-mount",
+            "support-surface",
+            "clearance",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "圆几",
+            "方几",
+            "套几",
+            "低茶几"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "桌面承载",
+            "接近/通道",
+            "子物父变换"
+          ]
+        },
+        {
+          "id": "wall-shelf",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "壁架",
+            "墙面多层陈列承载"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "wall",
+            "dimensionsMeters": {
+              "width": 1.0,
+              "height": 1.8,
+              "depth": 0.35,
+              "verification": "pending"
+            },
+            "parent": "room.wall",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "wall-mount",
+            "support-surfaces",
+            "parent-transform",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "侧托壁架",
+            "悬挑壁架",
+            "框式壁架",
+            "背板壁架"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "层板承载字段",
+            "物件父子变换",
+            "非法承载拒绝",
+            "墙面安装"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "doors-windows-partitions",
+      "name": "门窗与分隔",
+      "branches": [
+        {
+          "id": "door-frame-and-opening",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "门框",
+            "真实洞口",
+            "开放口"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "portal-opening",
+            "dimensionsMeters": {
+              "width": 1.7,
+              "height": 2.4,
+              "depth": 0.1
+            },
+            "parent": "room.wall.portal",
+            "state": "static-opening"
+          },
+          "mechanismDependencies": [
+            "portal-topology",
+            "opening-boundary",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "直线门框",
+            "阶梯门框",
+            "内嵌门框",
+            "冠饰门框"
+          ],
+          "reusableResources": [
+            {
+              "id": "door-frame-plain",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "door-frame-stepped",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "door-frame-inset",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "door-frame-crown",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            }
+          ],
+          "requiredIndependentMechanisms": [
+            "真实洞口拓扑",
+            "净口与墙体裁切",
+            "门户通路数据"
+          ]
+        },
+        {
+          "id": "door-leaf-swing",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "门扇",
+            "单人交互设施",
+            "可开合"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "portal-opening",
+            "dimensionsMeters": {
+              "width": 1.4,
+              "height": 2.2,
+              "depth": 0.05
+            },
+            "parent": "room.wall.portal",
+            "state": "closed-open"
+          },
+          "mechanismDependencies": [
+            "portal-topology",
+            "hinge-state",
+            "sweep-clearance",
+            "dynamic-blocking",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "实木平门",
+            "玻璃框门",
+            "分格门",
+            "格栅门"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "铰链状态",
+            "开启扫掠空间",
+            "通行包络同步",
+            "失败保旧"
+          ]
+        },
+        {
+          "id": "window-opening-and-glass",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "窗洞",
+            "窗体",
+            "透明玻璃"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "wall-opening",
+            "dimensionsMeters": {
+              "width": 1.6,
+              "height": 1.2,
+              "depth": 0.12
+            },
+            "parent": "room.wall",
+            "state": "closed-open"
+          },
+          "mechanismDependencies": [
+            "wall-opening",
+            "transparent-material",
+            "dynamic-blocking",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "透明玻璃",
+            "磨砂玻璃",
+            "分格玻璃",
+            "圆形内窗"
+          ],
+          "reusableResources": [
+            {
+              "id": "window-panel-cross",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "window-panel-lattice",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "window-panel-round",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            }
+          ],
+          "requiredIndependentMechanisms": [
+            "真实窗洞与玻璃槽",
+            "透明/遮挡表现",
+            "开启状态字段"
+          ]
+        },
+        {
+          "id": "window-curtain",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "窗帘",
+            "遮光",
+            "可开合软装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "wall-window-rail",
+            "dimensionsMeters": {
+              "width": 1.8,
+              "height": 2.2,
+              "depth": 0.08,
+              "verification": "pending"
+            },
+            "parent": "window-opening",
+            "state": "open-closed"
+          },
+          "mechanismDependencies": [
+            "rail-mount",
+            "curtain-state",
+            "dynamic-blocking",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "纱帘",
+            "遮光帘",
+            "双开帘",
+            "褶皱帘"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "轨道安装",
+            "预制开合状态",
+            "遮挡同步"
+          ]
+        },
+        {
+          "id": "window-blind",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "卷帘/百叶",
+            "遮光",
+            "可开合软装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "wall-window-frame",
+            "dimensionsMeters": {
+              "width": 1.6,
+              "height": 1.2,
+              "depth": 0.06,
+              "verification": "pending"
+            },
+            "parent": "window-opening",
+            "state": "open-closed-angle"
+          },
+          "mechanismDependencies": [
+            "frame-mount",
+            "blind-state",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "横向百叶",
+            "卷帘",
+            "竖向百叶",
+            "布艺卷帘"
+          ],
+          "reusableResources": [
+            {
+              "id": "window-panel-slat",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            }
+          ],
+          "requiredIndependentMechanisms": [
+            "角度/开合字段范围",
+            "帘体显示变化",
+            "安装面包络"
+          ]
+        },
+        {
+          "id": "screen-partition",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "屏风/隔断",
+            "可移动分隔"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": 1.8,
+              "height": 2.0,
+              "depth": 0.08,
+              "verification": "pending"
+            },
+            "parent": "room.floor",
+            "state": "static-or-folding"
+          },
+          "mechanismDependencies": [
+            "floor-mount",
+            "parent-transform",
+            "clearance",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "折叠木屏风",
+            "布面屏风",
+            "吸声屏风外观",
+            "玻璃隔断"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "父物移动/旋转/复制",
+            "有效占用与通道",
+            "分隔状态"
+          ]
+        },
+        {
+          "id": "glass-partition",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "玻璃隔断",
+            "透明分隔"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-and-ceiling",
+            "dimensionsMeters": {
+              "width": 2.4,
+              "height": 2.4,
+              "depth": 0.08,
+              "verification": "pending"
+            },
+            "parent": "room.floor+room.ceiling",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "top-bottom-anchor",
+            "transparent-material",
+            "clearance",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "透明",
+            "磨砂",
+            "有色",
+            "带框"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "顶底锚定",
+            "透明材质",
+            "碰撞/通路"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "camera-background",
+      "name": "摄像与背景",
+      "branches": [
+        {
+          "id": "camera-static",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "摄像头/相机",
+            "桌面静置设备"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "desk-surface",
+            "dimensionsMeters": {
+              "width": 0.18,
+              "height": 0.12,
+              "depth": 0.12,
+              "verification": "pending"
+            },
+            "parent": "desk.desktop",
+            "state": "static-status"
+          },
+          "mechanismDependencies": [
+            "desk-surface",
+            "device-status",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "桌面摄像头",
+            "桌面相机机身",
+            "桌面摄像机",
+            "桌面手机摄像"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "设备包络",
+            "朝向/视线",
+            "录制指示状态"
+          ]
+        },
+        {
+          "id": "camera-mount",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "桌夹/悬臂/三脚支架",
+            "摄像承载"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "desk-edge-clamp",
+            "dimensionsMeters": {
+              "width": 0.8,
+              "height": 1.8,
+              "depth": 0.8,
+              "verification": "pending"
+            },
+            "parent": "desk.edge",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "clamp-mount",
+            "tripod-mount",
+            "parent-transform",
+            "clearance"
+          ],
+          "minimumCompatibleAppearances": [
+            "桌夹",
+            "悬臂",
+            "三脚架",
+            "墙臂"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "夹持面约束",
+            "父子变换重建",
+            "脚架通道"
+          ]
+        },
+        {
+          "id": "phone-static",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "手机",
+            "静置显示"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "desk-surface",
+            "dimensionsMeters": {
+              "width": 0.09,
+              "height": 0.18,
+              "depth": 0.03,
+              "verification": "pending"
+            },
+            "parent": "desk.desktop",
+            "state": "on-off-display"
+          },
+          "mechanismDependencies": [
+            "surface-mount",
+            "display-state",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "竖屏手机",
+            "横屏手机",
+            "支架手机",
+            "夹持手机"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "设备朝向",
+            "显示状态",
+            "支架/夹持安装"
+          ]
+        },
+        {
+          "id": "background-fabric",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "背景布/幕",
+            "绿幕",
+            "静态背景"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-and-background-rail",
+            "dimensionsMeters": {
+              "width": 3.0,
+              "height": 2.4,
+              "depth": 0.08,
+              "verification": "pending"
+            },
+            "parent": "room.floor+background-rail",
+            "state": "rolled-deployed"
+          },
+          "mechanismDependencies": [
+            "floor-mount",
+            "rail-mount",
+            "state-display",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "绿幕",
+            "蓝幕",
+            "图案背景布",
+            "半透背景布"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "卷起/展开状态",
+            "地面占地与通道",
+            "布面包络"
+          ]
+        },
+        {
+          "id": "background-panel",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "背景板",
+            "品牌背景",
+            "静态展示"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": 2.4,
+              "height": 2.2,
+              "depth": 0.08,
+              "verification": "pending"
+            },
+            "parent": "room.floor",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "floor-wall-mount",
+            "content-slot",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "品牌标志背景板",
+            "条格背景板",
+            "纹理背景板",
+            "商品网格背景板"
+          ],
+          "reusableResources": [
+            {
+              "id": "wall-panel-slat",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "wall-panel-panel",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            }
+          ],
+          "requiredIndependentMechanisms": [
+            "图文/内容槽",
+            "安装兼容",
+            "有效占用"
+          ]
+        },
+        {
+          "id": "background-display",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "背景显示",
+            "动态显示屏"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "wall",
+            "dimensionsMeters": {
+              "width": 2.4,
+              "height": 1.4,
+              "depth": 0.08,
+              "verification": "pending"
+            },
+            "parent": "room.wall",
+            "state": "on-off-content"
+          },
+          "mechanismDependencies": [
+            "wall-mount",
+            "display-state",
+            "content-slot",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "品牌页显示",
+            "场景图显示",
+            "色块显示",
+            "信息滚动显示"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "显示内容字段",
+            "开关状态",
+            "屏幕包络与安装"
+          ]
+        },
+        {
+          "id": "floor-tripod-camera-mount",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "桌夹/悬臂/三脚支架",
+            "摄像承载",
+            "三脚架落地安装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": 0.8,
+              "height": 1.8,
+              "depth": 0.8,
+              "verification": "pending"
+            },
+            "parent": "room.floor",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "clamp-mount",
+            "tripod-mount",
+            "parent-transform",
+            "clearance"
+          ],
+          "minimumCompatibleAppearances": [
+            "桌夹",
+            "悬臂",
+            "三脚架",
+            "墙臂"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "夹持面约束",
+            "父子变换重建",
+            "脚架通道",
+            "三脚架落地安装"
+          ]
+        },
+        {
+          "id": "phone-holder",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "手机",
+            "静置显示",
+            "支架安装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "phone-holder",
+            "dimensionsMeters": {
+              "width": 0.09,
+              "height": 0.18,
+              "depth": 0.03,
+              "verification": "pending"
+            },
+            "parent": "desk.desktop",
+            "state": "on-off-display"
+          },
+          "mechanismDependencies": [
+            "surface-mount",
+            "display-state",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "竖屏手机",
+            "横屏手机",
+            "支架手机",
+            "夹持手机"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "设备朝向",
+            "显示状态",
+            "支架/夹持安装",
+            "支架安装"
+          ]
+        },
+        {
+          "id": "wall-background-panel",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "背景板",
+            "品牌背景",
+            "静态展示",
+            "墙面安装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "wall",
+            "dimensionsMeters": {
+              "width": 2.4,
+              "height": 2.2,
+              "depth": 0.08,
+              "verification": "pending"
+            },
+            "parent": "room.wall",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "floor-wall-mount",
+            "content-slot",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "品牌标志背景板",
+            "条格背景板",
+            "纹理背景板",
+            "商品网格背景板"
+          ],
+          "reusableResources": [
+            {
+              "id": "wall-panel-slat",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "wall-panel-panel",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            }
+          ],
+          "requiredIndependentMechanisms": [
+            "图文/内容槽",
+            "安装兼容",
+            "有效占用",
+            "墙面安装"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "computer-audio",
+      "name": "电脑与音频设备",
+      "branches": [
+        {
+          "id": "display-monitor",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "屏幕",
+            "可见显示",
+            "动态状态"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "desk-surface",
+            "dimensionsMeters": {
+              "width": 0.7,
+              "height": 0.45,
+              "depth": 0.2
+            },
+            "parent": "desk.desktop",
+            "state": "on-off"
+          },
+          "mechanismDependencies": [
+            "desk-surface",
+            "display-state",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "极光屏",
+            "带状屏",
+            "立柱屏",
+            "石板屏"
+          ],
+          "reusableResources": [
+            {
+              "id": "monitor-aurora",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "monitor-ribbon",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "monitor-pillar",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "monitor-slate",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            }
+          ],
+          "requiredIndependentMechanisms": [
+            "显示开关",
+            "内容槽",
+            "桌面承载"
+          ]
+        },
+        {
+          "id": "desktop-computer",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "电脑主机",
+            "设备静置"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "floor-surface",
+            "dimensionsMeters": {
+              "width": 0.22,
+              "height": 0.45,
+              "depth": 0.45,
+              "verification": "pending"
+            },
+            "parent": "room.floor",
+            "state": "power-on-off"
+          },
+          "mechanismDependencies": [
+            "surface-mount",
+            "power-state",
+            "cable-endpoints",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "塔式主机",
+            "小型主机",
+            "机架主机",
+            "透明侧板主机"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "承载面规格",
+            "电源状态",
+            "线缆端点"
+          ]
+        },
+        {
+          "id": "laptop-computer",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "笔记本",
+            "可见显示",
+            "动态状态"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "desk-surface",
+            "dimensionsMeters": {
+              "width": 0.34,
+              "height": 0.02,
+              "depth": 0.24,
+              "verification": "pending"
+            },
+            "parent": "desk.desktop",
+            "state": "open-closed-on-off"
+          },
+          "mechanismDependencies": [
+            "desk-surface",
+            "hinge-state",
+            "display-state",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "办公本",
+            "游戏本",
+            "轻薄本",
+            "二合一"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "开合铰链",
+            "屏幕状态",
+            "桌面承载"
+          ]
+        },
+        {
+          "id": "keyboard-input",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "键盘",
+            "桌面输入"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "desk-surface",
+            "dimensionsMeters": {
+              "width": 0.45,
+              "height": 0.04,
+              "depth": 0.16
+            },
+            "parent": "desk.desktop",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "desk-surface",
+            "cable-endpoints",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "紧凑机械",
+            "分体",
+            "圆键复古",
+            "带旋钮控制"
+          ],
+          "reusableResources": [
+            {
+              "id": "keyboard-compact",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "keyboard-split",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "keyboard-retro",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "keyboard-console",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            }
+          ],
+          "requiredIndependentMechanisms": [
+            "桌面包络",
+            "输入设备标签",
+            "线缆端点（如有）"
+          ]
+        },
+        {
+          "id": "mouse-and-pad",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "鼠标/鼠标垫",
+            "桌面输入"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "desk-surface",
+            "dimensionsMeters": {
+              "width": 0.28,
+              "height": 0.02,
+              "depth": 0.22,
+              "verification": "pending"
+            },
+            "parent": "desk.desktop",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "desk-surface",
+            "cable-endpoints",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "办公鼠标",
+            "游戏鼠标",
+            "轨迹球",
+            "大桌垫组合"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "桌面接触",
+            "桌垫范围",
+            "线缆端点"
+          ]
+        },
+        {
+          "id": "desk-microphone",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "麦克风",
+            "桌面音频设备"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "desk-surface",
+            "dimensionsMeters": {
+              "width": 0.22,
+              "height": 0.5,
+              "depth": 0.22,
+              "verification": "pending"
+            },
+            "parent": "desk.desktop",
+            "state": "static-status"
+          },
+          "mechanismDependencies": [
+            "desk-surface",
+            "mount-arm",
+            "device-status",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "球形桌麦",
+            "矩形带式",
+            "横向广播",
+            "悬挂胶囊"
+          ],
+          "reusableResources": [
+            {
+              "id": "desk-microphone-ball",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "desk-microphone-ribbon",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "desk-microphone-broadcast",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            },
+            {
+              "id": "desk-microphone-capsule",
+              "version": 1,
+              "reuseKind": "source-only-needs-contract-validation"
+            }
+          ],
+          "requiredIndependentMechanisms": [
+            "桌面/支架安装",
+            "收音端朝向",
+            "状态指示"
+          ]
+        },
+        {
+          "id": "microphone-arm-and-pop",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "麦克风悬臂",
+            "防喷罩",
+            "夹持支架"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "desk-edge",
+            "dimensionsMeters": {
+              "width": 0.85,
+              "height": 0.8,
+              "depth": 0.12,
+              "verification": "pending"
+            },
+            "parent": "desk.desktop",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "clamp-mount",
+            "parent-transform",
+            "clearance",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "悬臂",
+            "折臂",
+            "防震架",
+            "防喷罩"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "夹持规格",
+            "父子旋转/复制",
+            "接近留空"
+          ]
+        },
+        {
+          "id": "headphones-and-stand",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "耳机",
+            "耳机架",
+            "静置音频"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "desk-surface",
+            "dimensionsMeters": {
+              "width": 0.22,
+              "height": 0.28,
+              "depth": 0.18,
+              "verification": "pending"
+            },
+            "parent": "desk.desktop",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "surface-or-wall-mount",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "头戴式",
+            "压耳式",
+            "入耳盒",
+            "耳机架"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "安装面/挂点",
+            "静置包络",
+            "角色佩戴另由 C3"
+          ]
+        },
+        {
+          "id": "audio-control",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "声卡/混音台/控制面板",
+            "音频设备"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "desk-surface",
+            "dimensionsMeters": {
+              "width": 0.42,
+              "height": 0.08,
+              "depth": 0.24,
+              "verification": "pending"
+            },
+            "parent": "desk.desktop",
+            "state": "on-off-display"
+          },
+          "mechanismDependencies": [
+            "desk-surface",
+            "display-state",
+            "cable-endpoints",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "混音台",
+            "声卡",
+            "控制面板",
+            "音箱"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "桌面承载",
+            "按钮/显示状态",
+            "线缆端点"
+          ]
+        },
+        {
+          "id": "shelf-desktop-computer",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "电脑主机",
+            "设备静置",
+            "层板安装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "shelf-surface",
+            "dimensionsMeters": {
+              "width": 0.22,
+              "height": 0.45,
+              "depth": 0.45,
+              "verification": "pending"
+            },
+            "parent": "room.shelf",
+            "state": "power-on-off"
+          },
+          "mechanismDependencies": [
+            "surface-mount",
+            "power-state",
+            "cable-endpoints",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "塔式主机",
+            "小型主机",
+            "机架主机",
+            "透明侧板主机"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "承载面规格",
+            "电源状态",
+            "线缆端点",
+            "层板安装"
+          ]
+        },
+        {
+          "id": "hook-headphones",
+          "scope": "confirmed",
+          "purposeLabels": [
+            "耳机",
+            "耳机架",
+            "静置音频",
+            "挂点安装"
+          ],
+          "fixedFunctionAndInstall": {
+            "mount": "wall-hook",
+            "dimensionsMeters": {
+              "width": 0.22,
+              "height": 0.28,
+              "depth": 0.18,
+              "verification": "pending"
+            },
+            "parent": "room.wall",
+            "state": "static"
+          },
+          "mechanismDependencies": [
+            "surface-or-wall-mount",
+            "save-restore"
+          ],
+          "minimumCompatibleAppearances": [
+            "头戴式",
+            "压耳式",
+            "入耳盒",
+            "耳机架"
+          ],
+          "reusableResources": [],
+          "requiredIndependentMechanisms": [
+            "安装面/挂点",
+            "静置包络",
+            "角色佩戴另由 C3",
+            "挂点安装"
+          ]
+        }
+      ]
+    }
+  ],
+  "nextMinimalDependencySample": {
+    "id": "floor-shelf-supported-ornaments-v1",
+    "contract": "docs/COMPANY-SUPPORT-SURFACE-CONTRACT-v1.txt",
+    "parts": [
+      {
+        "role": "four floor shelf appearances",
+        "mount": "floor",
+        "dimensionsMeters": {
+          "width": 1,
+          "height": 1.8,
+          "depth": 0.35
+        },
+        "supportSurfaces": [
+          {
+            "id": "lower",
+            "center": [
+              0,
+              0
+            ],
+            "topY": 0.45,
+            "halfSize": [
+              0.42,
+              0.13
+            ],
+            "clearanceHeight": 0.5
+          },
+          {
+            "id": "middle",
+            "center": [
+              0,
+              0
+            ],
+            "topY": 1.05,
+            "halfSize": [
+              0.42,
+              0.13
+            ],
+            "clearanceHeight": 0.65
+          },
+          {
+            "id": "top",
+            "center": [
+              0,
+              0
+            ],
+            "topY": 1.8,
+            "halfSize": [
+              0.42,
+              0.13
+            ],
+            "clearanceHeight": 0.4
+          }
+        ]
+      },
+      {
+        "role": "four tabletop ornament appearances",
+        "mount": "support-surface",
+        "dimensionsMeters": {
+          "width": 0.16,
+          "height": 0.2,
+          "depth": 0.12
+        },
+        "parent": "facility",
+        "attachment": "surfaceId"
+      }
+    ],
+    "reuse": [],
+    "minimumChecks": [
+      "actual geometry support planes and free space",
+      "whole-envelope fit and overlap rejection",
+      "parent move/rotate/copy, independent instance IDs",
+      "explicit reattachment and compatible appearance replacement",
+      "four appearances runtime and process restart",
+      "second layout via same input chain"
+    ],
+    "notIncluded": [
+      "wall shelving",
+      "cabinet hinge and drawer slide",
+      "physical mass/load simulation"
+    ]
+  }
+}

@@ -19,6 +19,7 @@ import {createScaleExamples} from './scale-examples.js';
 import {deriveCompany} from './document.js';
 import {createBuildingView} from './building-view.js';
 import {appearanceBranches,appearanceCandidates,createAppearanceSample} from './appearance-samples.js';
+import {createSupportSample} from './support-samples.js';
 import './preview.css';
 
 const element=id=>document.getElementById(id),stage=element('stage');
@@ -32,7 +33,8 @@ const sun=new THREE.DirectionalLight(0xfff0d6,2.3);sun.position.set(-3,8,5);sun.
 Object.assign(sun.shadow.camera,{left:-8,right:8,top:8,bottom:-8});sun.shadow.normalBias=.015;world.add(sun);
 const camera=new THREE.PerspectiveCamera(38,1,.05,300),orbit=new OrbitControls(camera,renderer.domElement);
 orbit.enableDamping=false;orbit.maxPolarAngle=Math.PI*.48;orbit.minDistance=2;orbit.maxDistance=160;
-const layouts={base,alternate,studio,...createScaleExamples(catalog,templates),smallHome,rental:rentalHome,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome,ceilings:ceilingCompany,ceilingHome},assetLibrary=createCompanyAssetLibrary();let session,activeView='room',busy=false,game;
+const layouts={base,alternate,studio,...createScaleExamples(catalog,templates),smallHome,rental:rentalHome,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome,ceilings:ceilingCompany,ceilingHome,
+  supports:createSupportSample(catalog,templates).document,supportAlternate:createSupportSample(catalog,templates,{alternate:true}).document},assetLibrary=createCompanyAssetLibrary();let session,activeView='room',busy=false,game;
 let regionLabels=[];
 let buildingPresentation='exterior';
 let wallMode='cutaway';

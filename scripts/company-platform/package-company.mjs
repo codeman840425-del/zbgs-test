@@ -16,6 +16,8 @@ const extraFiles=[
   'scripts/company-platform/build-surface-examples.mjs',
   'docs/COMPANY-SURFACE-FINISH-CONTRACT-v1.txt',
   'docs/COMPANY-CEILING-FINISH-CONTRACT-v1.txt',
+  'docs/COMPANY-SUPPORT-SURFACE-CONTRACT-v1.txt',
+  'scripts/company-platform/build-support-examples.mjs',
   'assets-source/company-surface-finishes-v1/PRODUCTION.txt',
   'scripts/company-platform/build-appearance-batch.mjs',
   'docs/COMPANY-APPEARANCE-PRODUCTION-STANDARD.md',
@@ -156,7 +158,8 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     for(const [field,pin]of [['sourceParameters','sourceParametersSha256'],['generator','generatorSha256'],['functionalContractSource','functionalContractSourceSha256']]){
       if(field==='functionalContractSource'&&!entry?.[field])continue;
       const target=entry?.[field];relative(target);
-      if(!target.startsWith('assets-source/company-')&&!target.startsWith('scripts/company-platform/')&&!target.startsWith('prototype/public/company-assets/'))
+      if(!target.startsWith('assets-source/company-')&&!target.startsWith('scripts/company-platform/')&&!target.startsWith('prototype/public/company-assets/')&&
+          !(field==='functionalContractSource'&&extraFiles.includes(target)&&target.startsWith('docs/COMPANY-')))
         fail('unsafe-production-source',target,'Model production sources must belong to the company package grammar');
       const original=await read(source,target);
       if(hash(original)!==entry[pin])fail('production-source-hash-mismatch',target,'Actual editable source differs from the model provenance pin');

@@ -1,0 +1,18 @@
+柜架与多层承载：有界主包 v1（2026-11-16）
+
+缺口：现有desk-surface只有单一topY，且只验子物原点，不能表达不同层板、完整物件越界和上方净空。父子TRS、分组复制、兼容替换、prepare/commit、完整保存已有，复用这些机制。基线eb4d70a/build5bb；不改角色M2或占用系统。
+已查一手实现：Three Object3D父子局部/世界矩阵、Box3真实网格包络、Raycaster面向约束。保持米制+Y、+Z及四分之一yaw，不引入物理引擎。AABB适合本轮矩形支持面及离散旋转；不推定任意曲面支撑或堆叠物理。
+https://threejs.org/docs/pages/Object3D.html
+https://threejs.org/docs/pages/Box3.html
+https://threejs.org/docs/pages/Raycaster.html
+
+固定输入与生产：四款落地开放架，外包络width1m/height1.8m/depth0.35m；落地blocking footprint center[0,0],halfSize[.5,.175]；category decor，mountRole storage-shelf；mount不设（沿既有落地阻挡规则）。四款为框柱、侧板、交叉背架、拱形侧架，承载板同规格且造型差异真实。三处支持面lower/middle/top：topY=.45/1.05/1.8；center[0,0]，halfSize[.42,.13]；clearanceHeight=.5/.65/.4。板厚.035，实体板面width.92/depth.31。所有装饰构件不得侵入承载净空。不得用同模型只换色计四款。
+同时制作四款静态台面陈列小物（叠石/拱形摆件/花瓶/几何雕塑），同一底部居中安装包络width.16/depth.12/height.2，category decor，mountRole tabletop-ornament，mount support-surface，mounting.origin bottom，usePoints[]、stateDefaults{}。不是拿取放置玩法。可编辑参数→重导出→登记→实际加载→替换/恢复，同款第二输入复用。
+
+资源增量：supportSurfaces为非空数组，各项且仅含id,center[2],topY,halfSize[2],clearanceHeight；数值有限、尺寸/净空正数，ID唯一。本包水平矩形且均位于资源声明包络内。supportNodes为显示适配映射surfaceId→唯一实际板网格名，不计入功能身份；运行加载核真实板的水平矩形顶面覆盖所声明支持面、顶高误差≤1mm，并核其他构件不侵入净空。模型底部实际接触安装平面，几何不越声明包络。实际网格检查不能由元数据代替。
+功能替换比较必须包含supportSurfaces（顺序不影响语义，以id归一）及子物mount/mounting，supportNodes名称允许各模型不同。改变支持面ID/高/范围/净空是功能变化，不能当兼容外观替换。
+实例增量：support-surface子物必须直接以设施为parentId，attachment且仅含surfaceId。位置仍是父设施局部TRS；底部y必须等于选中支持面topY，完整旋转后XZ包络必须在支持面内，高度不得超过净空。相同父支持面上小物包络不得相互重叠；不同层不能被当作二维重叠。非法附着/未声明面/悬浮/超边界/超高/重叠明确拒绝并保原。
+新增attach-surface操作显式指定parentId,surfaceId,transform，并走既有事务/忙碌检查；add-facility可带attachment。复制分组保留surfaceId和独立父子ID；移动父物、替换父外观不重排子物。旧desk-surface和旧存档语义保持，不给旧资源偷偷补新能力；缺失支持合同的旧桌面不自动通过新安装。
+
+最小验收：四架/四小物逐款实际加载/兼容替换/浏览器关闭恢复；三面不同高度真实接触；父移动旋转、整体复制、子物换层与第二布局；错面/越界/超高/重叠/不兼容父/模型虚报支持面与真实加载失败保原；完整资源版本保存、复制身份隔离和资源释放。固定源码构建、正常1×观看、独立包重建。
+尝试预算：一次有依据实现、一轮依据失败修正；同因两轮无改善先重定位。净空采用受限矩形合同和实际几何核查，不冒称任意曲面物理；抽屉柜门、壁架、夹持、其他四款分支后续分别落实，不加本包条件。角色真实使用留C3。

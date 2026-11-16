@@ -1,5 +1,6 @@
 // Company authoring data. Actor tasks and seat leases remain in the character platform.
 import {compareFacilityFunction} from './appearance-contract.js';
+import {validateSupportResource, validateSupportAttachments} from './support-data.js';
 export class CompanyError extends Error {
   constructor(code, path, message, details = {}) {
     super(`${code} at ${path}: ${message}`);
@@ -152,6 +153,7 @@ export function deriveCompany(document, catalog, templates) {
     fail('catalog-version-mismatch', 'document.catalog', 'Load the pinned resource catalog');
   if (!Array.isArray(document.nodes)) fail('invalid-nodes', 'document.nodes', 'Expected an array');
   const { resources, combinations } = catalogMaps(catalog, templates);
+  for (const resource of resources.values()) validateSupportResource(resource, fail);
   const nodes = new Map(), worlds = new Map(), floorIds = new Map(), roomIds = new Map();
   for (const node of document.nodes) {
     checkId(node.id, 'nodes.id');
@@ -306,6 +308,7 @@ export function deriveCompany(document, catalog, templates) {
     if (a.floorId === b.floorId && a.min[0] < b.max[0] - 1e-8 && a.max[0] > b.min[0] + 1e-8 && a.min[1] < b.max[1] - 1e-8 && a.max[1] > b.min[1] + 1e-8)
       fail('overlapping-facilities', a.id, `Blocking footprint overlaps ${b.id}`, { otherId: b.id });
   }
+  validateSupportAttachments(nodes, resources, fail);
   return { nodes, worlds, floorIds, roomIds, facilities, usePoints, obstacles, surfaceFinishes,
     capacity: { maximum: capacity, installedStations: stations.length, businessRooms: rooms.length, floors: floors.length } };
 }
@@ -424,6 +427,7 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
     if (op.type === 'add-facility') {
       const node = { id: op.id, kind: 'facility', parentId: op.parentId, resource: copy(op.resource), transform: copy(op.transform || identityTransform()), state: copy(op.state || {}) };
       if (op.appearance !== undefined) node.appearance = copy(op.appearance);
+      if (op.attachment !== undefined) node.attachment = copy(op.attachment);
       next.nodes.push(node); continue;
     }
     if (op.type === 'group-facilities') { groupFacilities(next, op, deriveCompany(next, catalog, templates), affected); continue; }
@@ -451,6 +455,13 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
     const related = descendants(next.nodes, node.id);
     if (!['copy-workstation', 'copy-group'].includes(op.type)) for (const id of related) affected.add(id);
     if (op.type === 'move') node.transform = copy(op.transform);
+    else if (op.type === 'attach-surface') {
+      if (node.kind !== 'facility' || resources.get(key(node.resource))?.mount !== 'support-surface')
+        fail('invalid-support-attachment', node.id, 'Only support-surface props can be reattached');
+      node.parentId = op.parentId;
+      node.attachment = {surfaceId: op.surfaceId};
+      node.transform = copy(op.transform);
+    }
     else if (op.type === 'set-room') {
       if (!['room', 'area'].includes(node.kind)) fail('invalid-operation', node.id, 'Room fields belong to a room or public area');
       const fields = Object.keys(op).filter(field => !['type', 'id'].includes(field));
