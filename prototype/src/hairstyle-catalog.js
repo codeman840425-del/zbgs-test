@@ -1,7 +1,11 @@
+import revisedShortHair from '../public/assets/m2-preset-short-hair-fits-v2/catalog.json' with {type:'json'};
+import revisedPonytail from '../public/assets/m2-preset-ponytail-fits-v2/catalog.json' with {type:'json'};
 import presetPonytail from '../public/assets/m2-preset-ponytail-fits-v1/catalog.json' with {type:'json'};
 import presetShortHair from '../public/assets/m2-preset-short-hair-fits-v1/catalog.json' with {type:'json'};
 // Exact body + resource + fit admissions; no motion-controller branches.
 export const HAIRSTYLES = [
+  ...revisedShortHair,
+  ...revisedPonytail,
   ...presetShortHair,
   ...presetPonytail,
 {
