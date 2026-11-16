@@ -1,0 +1,49 @@
+{
+  "passed": true,
+  "firstMirrorExportMatchesFiveFiles": true,
+  "repeatPreservesBytesAndMtimes": true,
+  "refusals": [
+    {
+      "case": "conflictingOutput",
+      "exit": 1,
+      "lastError": "ValueError: Existing output differs; choose a fresh --out: manifest.json",
+      "zeroWrites": true
+    },
+    {
+      "case": "corruptBody",
+      "exit": 1,
+      "lastError": "ValueError: Input SHA mismatch: prototype/public/assets/foundation/base-female-roundtrip.vrm",
+      "zeroWrites": true
+    },
+    {
+      "case": "missingBody",
+      "exit": 1,
+      "lastError": "FileNotFoundError: [Errno 2] No such file or directory: '<mirror>/prototype/public/assets/foundation/base-female-roundtrip.vrm'",
+      "zeroWrites": true
+    },
+    {
+      "case": "invalidNumber",
+      "exit": 1,
+      "lastError": "ValueError: Invalid numeric geometry parameter: brimLengthM",
+      "zeroWrites": true
+    },
+    {
+      "case": "unsupportedBrim",
+      "exit": 1,
+      "lastError": "ValueError: Only the base and single declared brim edit are supported",
+      "zeroWrites": true
+    }
+  ],
+  "brimEdit": {
+    "baseM": 0.055,
+    "editM": 0.065,
+    "actualForwardExtentDeltaM": 0.009999990463256836,
+    "shellPositionsIdentical": true,
+    "baseAssetSha256": "21e1a23238b046106d2822f5821384502c6ec39c755cd78e6f17b1f1c4241bb7",
+    "editAssetSha256": "3f0e5bfd5b638b09c670a2821fcd8d0449e90f4cd3a4a8c819953ec4c732ada6",
+    "repeatBytesAndMtimesIdentical": true
+  },
+  "sourceDependenciesRechecked": true,
+  "review": "source-author CPU checks",
+  "runtimeAccepted": false
+}
