@@ -33,7 +33,7 @@ Phaser+Three+VRM保留；女性封板裙和30秒舞不再精修。普通电脑�
 
 ## 最近完成：P1 / CUSTOM-E02/E04 真实连体装备运行
 
-当前4207固定ae36ee9f440f/source b8c20d3b9d53938be88f6285b3042942816b716c，experiments/m2-onepiece-fixed-contact/prototype/dist。原男性62b44b＋真实e0cac504连体作者导出＋原鞋，保完整body，不复制旧衣裤改名；单连通、裁切权重、实际改源与四次重复导出经独立CPU核。源44body/368self和1.576mm近面采样深度保留，不以零交叉为门。生产索引整合正在独立分支完成。
+当前4207固定ae36ee9f440f/source b8c20d3b9d53938be88f6285b3042942816b716c，experiments/m2-onepiece-fixed-contact/prototype/dist。原男性62b44b＋真实e0cac504连体作者导出＋原鞋，保完整body，不复制旧衣裤改名；单连通、裁切权重、实际改源与四次重复导出经独立CPU核。源44body/368self和1.576mm近面采样深度保留，不以零交叉为门。生产索引第10流程male-onepiece-source已合入3ebcb6f，真实源/运行fit核验、41负例/21写范围负例通过；没有重跑重型导出。
 
 80e实测坐稳零额外抬高留4.41mmgap，+10mm留11.84mm，最终ae36采用0，不继承旧裤补偿。该数值是坐稳的实际顶点/椅局部盒检查，不是全过程三角碰撞通过。ae36独立重建文件一致；房间、正面完整1×走跑/转/坐起/短动作链、旧84b与新连体配方往返、完整身体POSITION/index不变、男女切换后恢复通过。观看4174/evidence/m2-onepiece-room-ae3-v1/。root已看全部2fps两条链和正侧背/坐姿大图，抽样无大片断裂/裸露；不代替连续人类验收，也不扩大到派生体型。
 
@@ -43,7 +43,7 @@ scripts/production/asset_budget.py check，m2-technical-v1；25初版门发现op
 
 ## 下一主工作包：CUSTOM-FIT01 实际形体与依赖
 
-连体源入口收尾后，利用已有派生身体/五官修改与装备，补实际形体身份和受影响fit依赖，避免只认基模SHA却忽略已修改的几何。m2_v2_scope_audit已知sol/high先做有界只读缺口核查；不造新头围参数、不改旧v6语义、不重开已验整套事务。最小修改及证据依据其实际调用/复现再定，未实现前不写通过。衣层覆盖、按需加载等仍留P1，M2未完成。
+连体源入口收尾后，利用已有派生身体/五官修改与装备，补实际形体身份和受影响fit依赖，避免只认基模SHA却忽略已修改的几何。独立审确认mouth .12→reset实际顶点还原而geometryIdentity残留旧配方，fb2a407已修零值canonical，实际VRM CPU复核保Body/head/hair/equipment不变。真实ae36浏览器还复现fitResource未被fetch：把连体fit路由503仍成功加载male；evidence/m2-fit-resource-baseline-ae3-v1。whole_look_prepare已知sol/high独立补精确fit文件验证和onePiece实际Body几何依赖sidecar；不改冻结源/旧v6语义/动作控制器，root负责坏资源保旧与修改Body拒绝/改脸复用的固定验证。衣层覆盖、按需加载等仍留P1，M2未完成。
 
 ## 文档和派工恢复
 
