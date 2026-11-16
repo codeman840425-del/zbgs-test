@@ -1,0 +1,22 @@
+{
+  "schema": "character-representative-batch-v1",
+  "version": 2,
+  "paths": "repository-root-relative",
+  "manifest": "assets-source/m2-representative-batch-v2/generated/manifest.json",
+  "identity": "variant.id and profile.bodyType are original basePresetId plus -v2; all garment IDs and public paths are new",
+  "variantReferenceFields": ["avatar", "equipmentManifest", "fit", "profile", "report"],
+  "referenceShape": {"path": "<repository-relative-file>", "sha256": "<actual-sha256>", "bytes": 0},
+  "statuses": {
+    "source-passed": "Eight actual files exist with deterministic repeated assets. Face parameter intent is only partial-constrained-face-projection. This is no runtime or visual admission.",
+    "failed": "Only FAILED.json exists for the current candidate. There is no admitted avatar or clothing. error contains actual failing determinant and source location."
+  },
+  "fit": {"schema": "character-batch-fit-v1", "version": 2},
+  "equipmentManifest": {"schema": "zbgs-equipment-v1", "slots": ["top", "bottom", "shoes"]},
+  "profile": {"schema": "foundation-profile-draft-v1", "contactDependencies": null, "runtimeAccepted": false},
+  "faceCurve": "Per-variant build-report.json contains requested/actual/source widths, source height domain, cubic degree, knots, coefficient values, projection discrepancy and active constraints",
+  "garmentNormals": "Inverse transpose of actual fixed-source donor-displacement Jacobian, not the previous global field Jacobian",
+  "ledger": {"initialRuns": 1, "commonStructuralCorrections": 1, "singleCaseEdits": 0},
+  "history": "attempt-1 retains first export results, original manifest and producer-source snapshots; numerical-preflight.json retains the earlier source-curve solver refusal",
+  "runtimeAccepted": false,
+  "allEightAccepted": false
+}
