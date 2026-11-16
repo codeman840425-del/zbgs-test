@@ -61,6 +61,7 @@ node scripts/company-platform/serve-company.cjs prototype/dist-company BUILD
 
 - `resolveUsePoint(id)` 返回 `{id,facilityId,floorId,chair,chairSeat,chairBack,seatHeight,footprint,...}`。接触网格是真实 Mesh，`chair` 为设施局部基点；局部前向 +Z，当前椅实例按工位旋转 π 后面向桌子。世界朝向应读取世界变换，不直接取嵌套节点的局部 `rotation.y`。
 - `listUsePoints()` 列出实际当前楼层使用点。首两个稳定 ID 为 `station-1/chair#seat` 与 `station-2/chair#seat`。
+- `describeUsePoint(id)` / `describeUsePoints({floorId}={})` 返回与观看无关的纯数据。整栋模式零室内网格时及离屏楼层仍可查询全部稳定身份、归属、资源版本、世界使用点 `transform`、`approachPosition` / `exitPosition`、设施世界变换和接触网格名称。接近/离开点原始配置是设施局部坐标，不再叠加双人沙发的座位偏移。返回值可序列化且修改不影响场景，不包含角色租约或任务。历史资源缺接近/离开等字段时返回 null 和 `missingFields`，不假定默认位置。此接口不解决实际 Mesh 的离屏保留/重绑定，后者仍由 C3 集成处理。
 - `navigation(floorId)` 返回 `{floorId,floors,obstacles,regions,connections}`，可查询离屏楼层的逻辑阻挡；离屏 object 为 null。障碍携带实例 ID、真实物体和世界 x/z/hw/hd，区域携带世界 transform、矩形 bounds 与导航 inset；来自与显示及使用点相同的实例数据。
 - `prepareChange(ops, guards)` 在场景外构造完整候选，`commit(handle, guards)` 在提交瞬间再次检查修订与真实占用。C3 接入必须传 `isUsePointBusy(id)`，数据源为总工的既有 `seatLeases.forSeat(id)`。当前无人物的制作模式无占用，不另造占用表。
 - `discard(handle)` 清理未采用候选；`dispose()` 清理当前及所有候选。无关屏幕状态修改保留被角色持有的原座面对象，恢复后旧候选不能覆盖新状态。

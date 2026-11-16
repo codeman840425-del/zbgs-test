@@ -3,6 +3,7 @@ import defaultCatalog from './facility-catalog.json' with {type:'json'};
 import defaultTemplates from './templates.json' with {type:'json'};
 import {CompanyError,deriveCompany,prepareCompanyChange,serializeCompany,restoreCompany} from './document.js';
 import {describeArchitecture} from './architecture.js';
+import {describeCompanyUsePoint} from './use-point-data.js';
 
 const geometryTypes={BoxGeometry:THREE.BoxGeometry,CylinderGeometry:THREE.CylinderGeometry,PlaneGeometry:THREE.PlaneGeometry,CapsuleGeometry:THREE.CapsuleGeometry,SphereGeometry:THREE.SphereGeometry};
 const clone=value=>structuredClone(value);
@@ -206,6 +207,11 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
     get view(){return clone({...current.view,floorId:current.floorId});},
     resolveUsePoint(id){live();return current.points.get(id)||null;},
     listUsePoints(){live();return [...current.points.values()];},
+    describeUsePoint(id){live();return describeCompanyUsePoint(current.document,current.derived,id);},
+    describeUsePoints({floorId}={}){
+      live();if(floorId!==undefined&&current.derived.nodes.get(floorId)?.kind!=='floor')throw new CompanyError('unknown-floor',floorId,'Choose an existing floor');
+      return current.derived.usePoints.filter(point=>floorId===undefined||point.floorId===floorId).map(point=>describeCompanyUsePoint(current.document,current.derived,point.id));
+    },
     navigation,
     snapshot(){return {document:clone(current.document),view:this.view,visibleFloorId:current.floorId,displayedFacilities:current.facilities.size,points:[...current.points.values()].map(p=>({id:p.id,facilityId:p.facilityId,position:p.chair.getWorldPosition(new THREE.Vector3()).toArray(),yaw:p.world.yaw+(p.yaw||0)})),lights:current.lights.map(l=>({id:l.id,intensity:l.light.intensity,castsShadow:l.light.castShadow})),navigation:navigation().obstacles.map(({object,...o})=>o)};},
     setView({mode='floor',floorId=current.floorId,roomId=null}={}) {

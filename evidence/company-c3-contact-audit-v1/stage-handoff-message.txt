@@ -1,0 +1,20 @@
+公司 C2 阶段已有可观看、可移交成果，现集中做一次 C3 接缝移交。不要求中断当前角色 M2；请在合适的阶段边界安排独立集成。
+
+固定公司源码 aff9dd8b3eeca02ecbb3e110f0b572a294a3e193，构建 0e3551c8d5eb，独立检出 F:/gamemake-company-c2-fixed。远端 refs/heads/codex/company-platform-c1 已核实为 c9f8433886e02c7ae6965251302735e40db1f639，包含源码及交付证据。
+观看入口 F:/gamemake-company-platform-c1/evidence/company-c2-delivery-0e3-v1/index.html；完整可编辑包为同目录 company-platform-0e3551c8d5eb.zip。独立包已 npm ci、重建字节一致、真实浏览器检查及正常 1x 录像。真实角色接入、占用/接触与角色受光尚未验证。
+
+已有制作能力：组件组合/变换/复制、真实新 GLB 接入与兼容模型替换、自定义布局、批量生成独立输入结果、全部楼层保存恢复、显式模板升级失败保旧。轻量整栋外观→竖剖面过渡→选楼层加载真实3D；大楼模式零室内网格，整层受限镜头、单间完整3D。Dota仅是用户举例，不是投影/角度/美术规范。16房/动态楼层/老板空间按用户要求留后续，不扩大当前出口。
+
+C3 实际接缝在 prototype/src/company/render.js，文档见同目录 README.md 第58行起：
+- createCompanyScene(world,document,{catalog,templates,assetLibrary})；resolveUsePoint(id)、listUsePoints() 目前返回可见楼层真实接触网格，带设施/楼层/房间ID、seatHeight、approach/exit和朝向。两个工位点为 station-1/chair#seat、station-2/chair#seat；沙发 lounge/sofa#left、#right。
+- navigation(floorId) 可查询离屏楼层逻辑障碍/区域/门户，离屏 object 为 null。显示/阻挡/使用点来自同一配置。
+- prepareChange/commit 在提交瞬间重核 isUsePointBusy(id)，接你已有 seatLeases.forSeat(id)。restore 整文档时拒绝忙碌设施，保留旧场景。公司不维护角色占用表。
+
+核实的角色侧缺口：现 main.js reserveSeat 硬编码 room-chair-1，sit/seatTargets/实际离位仍共享全局 chair。C3 要在既有任务/租约中贯通 payload.usePointId，并让每个角色的接近、接触、坐稳、退出/释放消费其指定设施；不复制控制器或动画时钟。配置提交后由既有导航执行者刷新阻挡及受影响路径。
+另一个生命周期缺口：观看切层/返回大楼会释放显示网格，不能让角色失去接触引用、移动楼层或清空租约。公司侧将补与观看无关的逻辑使用点查询；接触资源保留/重绑定方案需集中约定。我已安排一次只读CPU接缝审查，未改你角色代码。
+
+建议先从你合适的稳定角色提交建立独立集成树，保留 M2 最新有效修复，以公司 aff9dd8 为制作输入；不要用我们旧 c4b799d 角色源码覆盖你主线。请一次回复：固定角色基线/集成归属、共享段修改安排，以及离屏接触的最小消费约定。你负责 CharacterScene/导航/动作/seat-lease/最终集成，我负责 company 模块/资源/配置/QA。你确认具体消费约定前，我继续公司侧纯数据和失败样例，不启动共享角色或GPU联调。
+
+同一固定候选的代表验收：男女完整接近→坐下→起身→实际离开；双工位与多使用点独立、争用/取消/失败/离位清理；转向设施；忙碌编辑失败保旧；观看不改任务/占用；关闭恢复有效状态；角色受光及新沙发/新布局复用。同源构建/录像，普通电脑未测仍留缺口。
+
+此次为用户授权的 C1/C2 阶段成果后的集中对接，不是每个小提交求确认，也不要求等待完整 M2 结束。公开4196/4174及你的进程均未触碰。
