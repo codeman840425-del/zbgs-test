@@ -32,10 +32,13 @@ export async function prepareFaceShadowPrograms(renderer, scene, parts, signal, 
   // Capture one complete ordinary frame of the OLD geometry. All clones are
   // made inside the callback: Three mutates its shared depth material per mesh.
   await new Promise((resolve,reject)=>{
-    let done=false,raf1,raf2,timer;
-    const finish=error=>{if(done)return;done=true;clearTimeout(timer);cancelAnimationFrame(raf1);cancelAnimationFrame(raf2);signal.removeEventListener('abort',abort);for(const unsubscribe of hooks)unsubscribe();error?reject(error):resolve();};
+    let done=false,raf,lastVisible=null,visibleMs=0;
+    const page=typeof document==='undefined'?null:document;
+    const visibility=()=>{lastVisible=null;};
+    const finish=error=>{if(done)return;done=true;cancelAnimationFrame(raf);page?.removeEventListener('visibilitychange',visibility);signal.removeEventListener('abort',abort);for(const unsubscribe of hooks)unsubscribe();error?reject(error):resolve();};
     const abort=()=>finish(Error('阴影预备已取消'));
     signal.addEventListener('abort',abort,{once:true});
+    page?.addEventListener('visibilitychange',visibility);
     try{
       for(const part of eligible){
         const {mesh}=part;
@@ -53,8 +56,18 @@ export async function prepareFaceShadowPrograms(renderer, scene, parts, signal, 
         };
         hooks.push(subscribe(mesh,callback));
       }
-      raf1=requestAnimationFrame(()=>{raf2=requestAnimationFrame(()=>finish());});
-      timer=setTimeout(()=>finish(Error('等待真实阴影帧超时')),2000);
+      const frame=t=>{
+        if(done)return;
+        if(page?.hidden){lastVisible=null;raf=requestAnimationFrame(frame);return;}
+        if(lastVisible!==null)visibleMs+=Math.max(0,t-lastVisible);
+        lastVisible=t;
+        // A frame following an actual capture is sufficient. Browser rAF may
+        // run faster than the scene renderer, so two empty rAFs prove nothing.
+        if(captured.length){finish();return;}
+        if(visibleMs>=2000){finish(Error('可见帧预算内未捕获真实阴影绘制'));return;}
+        raf=requestAnimationFrame(frame);
+      };
+      raf=requestAnimationFrame(frame);
     }catch(error){finish(error);}
   });
   check();
