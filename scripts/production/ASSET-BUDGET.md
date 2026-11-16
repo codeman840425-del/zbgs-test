@@ -36,6 +36,8 @@ python scripts/production/selected_look_budget.py measure scripts/production/sel
 python scripts/production/qa-selected-look-budget.py
 ```
 
-聚合结果按每个 GLB/VRM 文件和显式 recipe texture 对象累加文件字节、网格、骨骼、材质、texture object、编码图片字节和 RGBA8+mip 估算。相同图片 SHA 的跨文件重复只额外给出 informational 去重值，不从 texture object 或显存估算中扣除。material recipe 没有明确 `textureFiles` 时计为零个额外 texture，不能据此推断渲染器没有运行时克隆或替换分配。依赖 JSON 的字节另列为 `dependencyBytes`，不混入 GLB 几何字节。
+聚合结果按每个 GLB/VRM 累加文件字节、网格、骨骼、材质、texture object、编码图片字节和 RGBA8+mip 估算。相同图片 SHA 的跨文件重复只额外给出 informational 去重值，不从 texture object 或显存估算中扣除。纹理累计共用操作同时加入对象数、编码字节及完整 mip 字节，4×2 PNG 的回归固定增加 44 bytes。
 
-聚合状态为 `legacy-observation` 时，至少一个选中资产超过现有单资产预算。`measured-unadmitted-temporary-limit` 表示数据已测但聚合临时上限没有普通目标机校准，不能作为准入或性能结论。当前聚合临时值只用于报告，不能覆盖 body/garment 的既有 legacy 状态。浏览器纹理缓存、sampler、材质 clone、共享关系、GPU 显存和帧时延仍未测。
+material recipe 限定当前实际 `zbgs-garment-material-recipe-v1` 版本1与 `cloth-normal-v4-review1` 实现。检查实际 recipe JSON、已选 garment/body、manifest 内 recipe SHA/bytes/fit/style、真实材质名、数值范围，并核 `material-recipes.js` 与 `cloth-material.js` 的源码 SHA。该实现 clone 材质并沿用原 map 引用，额外纹理数为零。非空调用者 `textureFiles`、实际 recipe 中未知纹理引用或不支持实现均拒绝。支持范围没有外部纹理 recipe，不把调用者清单视为完整依赖证据。以后真实实现新增纹理读取须先扩展依赖解析与回归。依赖 JSON/实现源码的字节另列为 `dependencyBytes`，不混入 GLB 几何字节。
+
+聚合状态为 `legacy-observation` 时，至少一个选中资产超过现有单资产预算。`measured-unadmitted-temporary-limit` 表示数据已测但聚合临时上限没有普通目标机校准，不能作为准入或性能结论。`aggregateLimitExcesses` 列出实测累计超过临时上限的指标、实际值和限值。当前聚合临时值只用于报告，不能覆盖 body/garment 的既有 legacy 状态。浏览器纹理缓存、sampler、材质 clone 的实际分配、共享关系、GPU 显存和帧时延仍未测。

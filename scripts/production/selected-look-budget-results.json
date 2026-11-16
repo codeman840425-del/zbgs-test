@@ -81,9 +81,11 @@
         "rgba8MipBytes": 158335660,
         "springJoints": 16,
         "colliders": 6,
-        "encodedImageBytes": 15424274,
-        "textureObjects": 27,
         "recipeTextureObjects": 0,
+        "recipeTextureEncodedBytes": 0,
+        "recipeTextureRgba8MipBytes": 0,
+        "textureObjects": 27,
+        "encodedImageBytes": 15424274,
         "dependencyBytes": 45357,
         "uniqueImagePayloadBytesInformational": 12708300,
         "uniqueImageRgba8MipBytesInformational": 134218416,
@@ -100,6 +102,7 @@
         "textureObjects": 96,
         "ordinaryPCPerformance": "unmeasured"
       },
+      "aggregateLimitExcesses": [],
       "ordinaryPCPerformance": "unmeasured"
     },
     {
@@ -181,9 +184,11 @@
         "rgba8MipBytes": 168821416,
         "springJoints": 0,
         "colliders": 0,
-        "encodedImageBytes": 17893782,
-        "textureObjects": 28,
         "recipeTextureObjects": 0,
+        "recipeTextureEncodedBytes": 0,
+        "recipeTextureRgba8MipBytes": 0,
+        "textureObjects": 28,
+        "encodedImageBytes": 17893782,
         "dependencyBytes": 46524,
         "uniqueImagePayloadBytesInformational": 14396762,
         "uniqueImageRgba8MipBytesInformational": 139111768,
@@ -200,6 +205,7 @@
         "textureObjects": 96,
         "ordinaryPCPerformance": "unmeasured"
       },
+      "aggregateLimitExcesses": [],
       "ordinaryPCPerformance": "unmeasured"
     },
     {
@@ -276,6 +282,18 @@
           "sha256": "6307ada57e83d74a34305708e747f452c9bde9f4b18dc4caea150f83d9d32824",
           "bytes": 1286,
           "kind": "material-recipe"
+        },
+        {
+          "path": "prototype/src/material-recipes.js",
+          "sha256": "be6ab537823b6c74ca68bef889cfe2e887bf19eeceed4ea49243ac16902ab1cd",
+          "bytes": 5110,
+          "kind": "recipe-implementation-source"
+        },
+        {
+          "path": "prototype/src/cloth-material.js",
+          "sha256": "4539ac3f83bc5fb1fa9aa91dbfb7323a8f2e7084a5f762d9713d0ae36bcfb565",
+          "bytes": 3168,
+          "kind": "recipe-implementation-source"
         }
       ],
       "materialRecipes": [
@@ -284,7 +302,15 @@
           "path": "prototype/public/assets/material-recipes/m1b-shorts-cloth-v4-review1.json",
           "sha256": "6307ada57e83d74a34305708e747f452c9bde9f4b18dc4caea150f83d9d32824",
           "textureFiles": [],
-          "textureObjects": 0
+          "textureObjects": 0,
+          "externalTextureDependencyValidation": "complete for pinned current implementation",
+          "implementation": {
+            "id": "cloth-normal-v4-review1",
+            "sha256": "4539ac3f83bc5fb1fa9aa91dbfb7323a8f2e7084a5f762d9713d0ae36bcfb565",
+            "threeRevision": "187"
+          },
+          "materialClones": 2,
+          "sourceTextureReferences": "shared original garment maps; no new texture fetch"
         }
       ],
       "totals": {
@@ -304,10 +330,12 @@
         "rgba8MipBytes": 168821416,
         "springJoints": 0,
         "colliders": 0,
-        "encodedImageBytes": 17893782,
-        "textureObjects": 28,
         "recipeTextureObjects": 0,
-        "dependencyBytes": 47810,
+        "recipeTextureEncodedBytes": 0,
+        "recipeTextureRgba8MipBytes": 0,
+        "textureObjects": 28,
+        "encodedImageBytes": 17893782,
+        "dependencyBytes": 56088,
         "uniqueImagePayloadBytesInformational": 14396762,
         "uniqueImageRgba8MipBytesInformational": 139111768,
         "crossAssetDuplicatePayloadBytesInformational": 3497020
@@ -323,6 +351,7 @@
         "textureObjects": 96,
         "ordinaryPCPerformance": "unmeasured"
       },
+      "aggregateLimitExcesses": [],
       "ordinaryPCPerformance": "unmeasured"
     },
     {
@@ -352,6 +381,15 @@
           "sha256": "e0cac5041a50bc07dde65c75414f98bab1501125939302eec0b9e1a5de826c7b",
           "assetStatus": "admitted-by-single-asset-budget",
           "violations": []
+        },
+        {
+          "id": "m1b-uniform-shoes",
+          "role": "shoes",
+          "class": "garment",
+          "path": "prototype/public/assets/m1b/m1b-uniform-shoes.glb",
+          "sha256": "3e855c7f39a183ab44b8aef3ac92898f6ebc36a7cbc0e6ccfdd485b85607fe2f",
+          "assetStatus": "admitted-by-single-asset-budget",
+          "violations": []
         }
       ],
       "dependencies": [
@@ -376,29 +414,31 @@
       ],
       "materialRecipes": [],
       "totals": {
-        "fileBytes": 18060624,
+        "fileBytes": 18218000,
         "externalImageBytes": 0,
-        "uniquePositionVertices": 12267,
-        "primitiveVertices": 67990,
-        "triangles": 19900,
-        "nodeTriangles": 19900,
-        "primitives": 16,
-        "skins": 3,
-        "jointSlots": 150,
+        "uniquePositionVertices": 12833,
+        "primitiveVertices": 68556,
+        "triangles": 20440,
+        "nodeTriangles": 20440,
+        "primitives": 17,
+        "skins": 4,
+        "jointSlots": 156,
         "morphAccessorBytes": 1332288,
-        "materials": 16,
-        "textures": 24,
-        "images": 24,
-        "rgba8MipBytes": 139111768,
+        "materials": 17,
+        "textures": 25,
+        "images": 25,
+        "rgba8MipBytes": 140509868,
         "springJoints": 0,
         "colliders": 0,
-        "encodedImageBytes": 14396762,
-        "textureObjects": 24,
         "recipeTextureObjects": 0,
+        "recipeTextureEncodedBytes": 0,
+        "recipeTextureRgba8MipBytes": 0,
+        "textureObjects": 25,
+        "encodedImageBytes": 14511424,
         "dependencyBytes": 49845,
         "uniqueImagePayloadBytesInformational": 14396762,
         "uniqueImageRgba8MipBytesInformational": 139111768,
-        "crossAssetDuplicatePayloadBytesInformational": 0
+        "crossAssetDuplicatePayloadBytesInformational": 114662
       },
       "legacyObservationAssets": [
         "male-body"
@@ -410,8 +450,33 @@
         "textureObjects": 96,
         "ordinaryPCPerformance": "unmeasured"
       },
+      "aggregateLimitExcesses": [],
       "ordinaryPCPerformance": "unmeasured"
     }
   ],
+  "validation": {
+    "schema": "zbgs-selected-look-budget-qa-v1",
+    "passed": true,
+    "checks": [
+      "four explicit representatives measure",
+      "legacy over-budget body/assets remain observation",
+      "texture objects counted per GLB without cross-asset dedupe",
+      "onePiece and actual selected shoes retained",
+      "actual recipe parsed against pinned runtime and manifest; two material clones share source maps",
+      "actual 4x2 PNG adds one object and exactly 44 mip bytes through shared accumulator",
+      "current material recipe rejects caller-invented external texture declaration",
+      "recipe requires actual selected manifest dependency",
+      "missing dependency rejected",
+      "duplicate selected recipe rejected",
+      "wrong selected asset SHA rejected",
+      "temporary low budget leaves real over-limit assets as observation",
+      "aggregate limit exceedance is reported without admitting legacy assets",
+      "unsupported texture reference in actual recipe JSON rejected",
+      "unknown look ID returns structured invalid exit 2"
+    ],
+    "lookCount": 4,
+    "GPUUsed": false,
+    "ordinaryPCPerformance": "unmeasured"
+  },
   "scope": "Four explicit current representatives; CPU only; no browser/GPU/Blender/full library"
 }

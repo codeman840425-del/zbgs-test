@@ -3,12 +3,20 @@ import argparse
 import hashlib
 import io
 import json
+import math
 import pathlib
+import struct
 import sys
 
 from PIL import Image
 
 from asset_budget import AssetCost, ROOT, budget_config, check, local, read_json, require
+
+RECIPE_IMPLEMENTATION = 'cloth-normal-v4-review1'
+RECIPE_SOURCE_PINS = {
+    'prototype/src/material-recipes.js': 'be6ab537823b6c74ca68bef889cfe2e887bf19eeceed4ea49243ac16902ab1cd',
+    'prototype/src/cloth-material.js': '4539ac3f83bc5fb1fa9aa91dbfb7323a8f2e7084a5f762d9713d0ae36bcfb565',
+}
 
 
 AGGREGATE_LIMITS = {
@@ -70,6 +78,62 @@ def aggregate(metrics):
     return {name: sum(row['cost']['metrics'][name] for row in metrics) for name in names}
 
 
+def add_recipe_texture_cost(totals, recipe_objects):
+    """Keep the texture count, encoded payload and mip estimate in one operation."""
+    totals['recipeTextureObjects'] = len(recipe_objects)
+    totals['recipeTextureEncodedBytes'] = sum(row['encodedBytes'] for row in recipe_objects)
+    totals['recipeTextureRgba8MipBytes'] = sum(row['rgba8MipBytes'] for row in recipe_objects)
+    totals['textureObjects'] = totals['textures'] + totals['recipeTextureObjects']
+    totals['rgba8MipBytes'] += totals['recipeTextureRgba8MipBytes']
+
+
+def validate_recipe(selection, asset_rows, dependencies):
+    """Mirror the one current runtime recipe and its clone/shared-map behavior."""
+    recipe = read_json(local(ROOT, selection['path']))
+    allowed = {'schema', 'id', 'version', 'status', 'fit', 'implementation', 'materialNames', 'settings', 'preserves', 'limits'}
+    require(isinstance(recipe, dict) and set(recipe) == allowed, 'Recipe fields unsupported: '+selection['path'])
+    impl = recipe['implementation']
+    require(recipe['schema'] == 'zbgs-garment-material-recipe-v1' and recipe['id'] == selection['id'] and
+            type(recipe['version']) is int and recipe['version'] == 1 and
+            impl == {'id': RECIPE_IMPLEMENTATION, 'sha256': RECIPE_SOURCE_PINS['prototype/src/cloth-material.js'], 'threeRevision': '187'},
+            'Recipe version/implementation unsupported: '+selection['path'])
+    # The reviewed implementation clones materials and reuses their original
+    # map references. It has no external texture fetch or texture-file field.
+    require(selection.get('textureFiles', []) == [], 'Recipe implementation declares no external textures: '+selection['path'])
+    fit = recipe['fit']
+    matching = [row for row in asset_rows if row['id'] == fit.get('equipmentId')]
+    bodies = [row for row in asset_rows if row['class'] == 'body']
+    require(len(matching) == len(bodies) == 1 and matching[0]['sha256'] == fit.get('garmentSha256') and
+            bodies[0]['sha256'] == fit.get('avatarSha256'), 'Recipe selected garment/body mismatch')
+    manifests = [read_json(local(ROOT, dep['path'])) for dep in dependencies if dep['path'].endswith('.json')]
+    entries = [entry for manifest in manifests if manifest.get('schema') == 'zbgs-equipment-v1'
+               for entry in manifest['items'] if entry['id'] == fit['equipmentId']]
+    require(len(entries) == 1, 'Recipe requires one pinned equipment manifest entry')
+    entry = entries[0]
+    require(fit == {'equipmentId': entry['id'], 'garmentSha256': entry['sha256'],
+                    'avatarSha256': entry['compatibleAvatarSha256'], 'fitId': entry['fitId'], 'styleId': entry['styleId']},
+            'Recipe manifest fit mismatch')
+    refs = [row for row in entry.get('materialRecipes', []) if row['id'] == recipe['id']]
+    require(len(refs) == 1 and refs[0]['sha256'] == selection['sha256'] and
+            refs[0]['bytes'] == local(ROOT, selection['path']).stat().st_size and
+            selection['path'] == 'prototype/public'+refs[0]['url'], 'Recipe manifest resource pin mismatch')
+    garment = AssetCost(local(ROOT, matching[0]['path'])).doc
+    names = [garment['materials'][primitive['material']]['name'] for mesh in garment['meshes'] for primitive in mesh['primitives']]
+    require(sorted(names) == sorted(recipe['materialNames']), 'Recipe material names mismatch')
+    settings = recipe['settings']
+    require(set(settings) <= {'linearColor', 'fabricStart'}, 'Recipe texture/settings fields unsupported')
+    for name, default, length in [('linearColor', [.025, .032, .055], 3), ('fabricStart', [.17, .21], 2)]:
+        values = settings.get(name, default)
+        require(isinstance(values, list) and len(values) == length and
+                all(type(value) in [int, float] and math.isfinite(value) and 0 <= value <= 1 for value in values),
+                'Recipe settings invalid: '+name)
+    bounds = settings.get('fabricStart', [.17, .21])
+    require(bounds[0] < bounds[1], 'Recipe fabricStart must increase')
+    return {'id': recipe['id'], 'path': selection['path'], 'sha256': selection['sha256'],
+            'textureFiles': [], 'textureObjects': 0, 'externalTextureDependencyValidation': 'complete for pinned current implementation',
+            'implementation': impl, 'materialClones': len(names), 'sourceTextureReferences': 'shared original garment maps; no new texture fetch'}
+
+
 def measure_look(look, config):
     require(look.get('schema') == 'zbgs-selected-look-budget-v1', 'Look schema unsupported')
     require(isinstance(look.get('assets'), list) and look['assets'], 'Look assets must be nonempty')
@@ -97,44 +161,45 @@ def measure_look(look, config):
             dependencies.append(dep); seen_dependencies.add(dep['path'])
     recipe_rows = []
     recipe_objects = []
+    recipe_ids = set()
     for recipe in look.get('materialRecipes', []):
+        require(set(recipe) <= {'id', 'path', 'sha256', 'bytes', 'textureFiles'}, 'Recipe selection fields unsupported')
+        require(recipe.get('id') not in recipe_ids, 'Duplicate selected recipe ID: '+str(recipe.get('id')))
+        recipe_ids.add(recipe.get('id'))
         dep = read_dependency({**recipe, 'kind': 'material-recipe'})
         if dep['path'] not in seen_dependencies:
             dependencies.append(dep); seen_dependencies.add(dep['path'])
-        textures = []
-        for texture in recipe.get('textureFiles', []):
-            require(texture.get('path') not in [x['path'] for x in textures], 'Duplicate recipe texture path: '+str(texture.get('path')))
-            texture_path = local(ROOT, texture['path'])
-            observed = recipe_texture(texture_path)
-            require(observed['sha256'] == texture.get('sha256'), 'Recipe texture SHA mismatch: '+texture['path'])
-            textures.append(observed)
-            recipe_objects.append({**observed, 'recipeId': recipe.get('id')})
-        recipe_rows.append({'id': recipe.get('id'), 'path': dep['path'], 'sha256': dep['sha256'],
-                            'textureFiles': textures, 'textureObjects': len(textures)})
+        recipe_rows.append(validate_recipe(recipe, asset_rows, dependencies))
+    if recipe_rows:
+        for path, expected in RECIPE_SOURCE_PINS.items():
+            dependencies.append(read_dependency({'path': path, 'sha256': expected, 'kind': 'recipe-implementation-source'}))
     totals = aggregate(asset_rows)
+    add_recipe_texture_cost(totals, recipe_objects)
     encoded_images = sum(image['encodedBytes'] for row in asset_rows for image in row['cost']['images']) + sum(x['encodedBytes'] for x in recipe_objects)
-    texture_objects = totals['textures'] + len(recipe_objects)
     all_payloads = [(image['sha256'], image['encodedBytes'], image['rgba8MipBytes'], 'GLB/VRM')
                     for row in asset_rows for image in row['cost']['images']]
     all_payloads += [(image['sha256'], image['encodedBytes'], image['rgba8MipBytes'], 'material-recipe') for image in recipe_objects]
     unique = {}
     for image_sha, encoded, mip, kind in all_payloads:
         unique.setdefault(image_sha, {'encodedBytes': encoded, 'rgba8MipBytes': mip, 'kinds': set()})['kinds'].add(kind)
-    totals.update({'encodedImageBytes': encoded_images, 'textureObjects': texture_objects,
-                   'recipeTextureObjects': len(recipe_objects), 'dependencyBytes': sum(x['bytes'] for x in dependencies),
+    totals.update({'encodedImageBytes': encoded_images, 'dependencyBytes': sum(x['bytes'] for x in dependencies),
                    'uniqueImagePayloadBytesInformational': sum(x['encodedBytes'] for x in unique.values()),
                    'uniqueImageRgba8MipBytesInformational': sum(x['rgba8MipBytes'] for x in unique.values()),
                    'crossAssetDuplicatePayloadBytesInformational': encoded_images - sum(x['encodedBytes'] for x in unique.values())})
     legacy = [row['id'] for row in asset_rows if row['assetStatus'] == 'legacy-observation']
+    excesses = [{'metric': name, 'actual': totals[name], 'limit': AGGREGATE_LIMITS[name]}
+                for name in ['fileBytes', 'rgba8MipBytes', 'textureObjects'] if totals[name] > AGGREGATE_LIMITS[name]]
     return {'schema': 'zbgs-selected-look-budget-result-v1', 'lookId': look['id'],
+            'budgetVersion': config['version'],
             'role': look.get('role'), 'bodyType': look.get('bodyType'),
             'assetRows': asset_rows, 'dependencies': dependencies, 'materialRecipes': recipe_rows,
             'totals': totals, 'legacyObservationAssets': legacy,
             'temporaryAggregateLimits': AGGREGATE_LIMITS,
+            'aggregateLimitExcesses': excesses,
             'status': 'legacy-observation' if legacy else 'measured-unadmitted-temporary-limit',
             'ordinaryPCPerformance': 'unmeasured',
             'limitations': ['Cross-GLB image hash dedupe is informational only and never reduces texture-object or RGBA8 estimates.',
-                            'Material recipe texture files are counted as additional texture objects when explicitly declared.',
+                            'Only the pinned current cloth-normal-v4-review1 recipe implementation is supported; it shares source maps and fetches no additional textures.',
                             'Renderer clone/cache/ sampler allocation and browser GPU memory are unmeasured.',
                             'Aggregate limits are temporary and do not admit a look or override single-asset legacy status.']}
 
@@ -157,7 +222,7 @@ def main():
         result = measure_look(look, config)
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
-    except (ValueError, KeyError, IndexError, TypeError, OSError, ImportError) as error:
+    except (ValueError, KeyError, IndexError, TypeError, AttributeError, OSError, ImportError, struct.error) as error:
         print(json.dumps({'schema': 'zbgs-selected-look-budget-result-v1', 'look': args.look,
                           'status': 'invalid', 'error': str(error), 'ordinaryPCPerformance': 'unmeasured'}, ensure_ascii=False, indent=2))
         return 2
