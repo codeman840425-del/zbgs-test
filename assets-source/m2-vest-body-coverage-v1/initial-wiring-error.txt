@@ -1,0 +1,2 @@
+Initial wrapper import wiring missed struct/json in the isolated namespace used by the pinned load function. It stopped before geometric selection or output. Added the original imports to that namespace. No rule constants, assets or selection thresholds changed.
+QA initial sample readback promoted vertex samples to float64 before evaluation, while the original rule evaluates original float32 vertex arrays directly. Corrected the verifier to preserve original vertex/interior evaluation arithmetic. No rule or output changed.
