@@ -48,7 +48,7 @@ export function bindAppearanceWorkbench({ controller }) {
   const mouthSample=document.createElement('select');mouthSample.id='mouth-width-sample';mouthSample.setAttribute('aria-label','嘴宽离散样件');mouthSample.innerHTML='<option value="0">原位</option><option value="0.04">嘴宽 +4%</option>';mouthSample.hidden=true;mouth.parentElement.prepend(mouthSample);
   const samplesPanel=document.createElement('details');samplesPanel.id='appearance-validation-samples';samplesPanel.open=true;
   samplesPanel.innerHTML=`<summary>验证样件</summary>
-    <p class="appearance-hint">技术候选。长发起身时发梢可能上甩，可在“检查”查看原速证据。</p>
+    <p class="appearance-hint">技术候选。长发坐下时发梢仍可能明显上甩，可在“检查”查看原速证据。</p>
     <div class="appearance-pair">
       <div><label for="appearance-surface-freckles">雀斑</label><select id="appearance-surface-freckles" aria-describedby="appearance-surface-note appearance-samples-status"></select></div>
       <div><label for="appearance-surface-blush">腮红</label><select id="appearance-surface-blush" aria-describedby="appearance-surface-note appearance-samples-status"></select></div>
@@ -180,7 +180,7 @@ export function bindAppearanceWorkbench({ controller }) {
   move('.debug-controls', inspectionPage);
   move('details:not(#appearance-geometry):not(#appearance-validation-samples)', inspectionPage);
   const previewInfo=document.createElement('section');previewInfo.id='workbench-preview-info';
-  previewInfo.innerHTML='<h3>当前预览</h3><p id="workbench-preview-build" class="appearance-hint"></p><p class="appearance-hint">技术候选，长发起身时发梢可能上甩；帽发与椅子接触请结合原速证据查看。</p><p><a id="workbench-hair-evidence" target="_blank" rel="noopener noreferrer">长发前后对照</a> · <a id="workbench-hat-evidence" target="_blank" rel="noopener noreferrer">帽发与动作证据</a></p>';
+  previewInfo.innerHTML='<h3>当前预览</h3><p id="workbench-preview-build" class="appearance-hint"></p><p class="appearance-hint">技术候选，长发坐下时发梢仍可能明显上甩；帽发与椅子接触请结合原速证据查看。</p><p><a id="workbench-hair-evidence" target="_blank" rel="noopener noreferrer">长发前后对照</a> · <a id="workbench-hat-evidence" target="_blank" rel="noopener noreferrer">帽发与动作证据</a></p>';
   for(const [id,path] of [['workbench-hair-evidence','/evidence/m2-long-hair-review-e9b-v1/before-after.html'],['workbench-hat-evidence','/evidence/m2-hat-hair-review-6e0-v1/']]){
     const evidence=new URL(window.location.href);evidence.port='4174';evidence.pathname=path;evidence.search='';evidence.hash='';
     previewInfo.querySelector('#'+id).href=evidence.href;
