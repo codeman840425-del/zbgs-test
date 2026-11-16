@@ -104,7 +104,7 @@ def family(spec):
     return original, manifest, vertices[triangles], head, inverse
 
 
-def inspect(original, target, hair, head, inverse, material):
+def inspect(original, target, hair, head, inverse, material, classify=None):
     require(original.doc['nodes'] == target.doc['nodes'], 'Target nodes/raw transforms differ')
     require(original.doc['materials'] == target.doc['materials'] and images(original) == images(target), 'Target material/image identity differs')
     require(len(original.doc['skins']) == len(target.doc['skins']), 'Skin count differs')
@@ -160,20 +160,56 @@ def inspect(original, target, hair, head, inverse, material):
                 introduced = sorted(new_pairs-old_pairs)
                 row['poseChecks'].append({'pose': pose_name, 'changedTriangles': len(changed_triangles), 'sourcePairs': len(old_pairs), 'targetPairs': len(new_pairs), 'introducedPairs': introduced[:24]})
                 if introduced:
-                    diagnostics.append(row)
-                    return diagnostics, {'material': name, 'pose': pose_name, 'introducedStrictPairs': len(introduced), 'samplePairs': introduced[:24]}
+                    review = classify(introduced, source_pose, target_pose, indices, name, pose_name) if classify else None
+                    if review:
+                        row['poseChecks'][-1]['contactClassification'] = review
+                    if not review or not review['allPositiveDepthPatchesTransparent']:
+                        diagnostics.append(row)
+                        return diagnostics, {'material': name, 'pose': pose_name, 'introducedStrictPairs': len(introduced), 'samplePairs': introduced[:24]}
             diagnostics.append(row)
     return diagnostics, None
 
 
-def export(spec, row, batch_root):
+def export(spec, row, batch_root, contact_policy=None):
     original, manifest, hair, head, inverse = family(spec)
     target_bytes = pinned(batch_root, row['avatar']['path'], row['avatar']['sha256'])
     target = GLB(target_bytes)
-    diagnostics, failure = inspect(original, target, hair, head, inverse, spec['material'])
+    contact_records = []
+    texture_sha = None
+    classifier = None
+    if contact_policy == 'transparent-source-texels':
+        import io
+        from PIL import Image
+        from contact_geometry import measure_pair
+        asset = GLB(pinned(ROOT, spec['asset'], spec['assetSha256']))
+        primitive = asset.doc['meshes'][0]['primitives'][0]
+        uv = points(asset, primitive, 'TEXCOORD_0')
+        hair_indices = np.array(asset.accessor(primitive['indices']), int).reshape(-1, 3)
+        material = asset.doc['materials'][primitive['material']]
+        require(material.get('alphaMode') == 'BLEND', 'Conditional source must retain reviewed alpha blending')
+        texture = asset.doc['textures'][material['pbrMetallicRoughness']['baseColorTexture']['index']]
+        image = asset.doc['images'][texture['source']]
+        view = asset.doc['bufferViews'][image['bufferView']]
+        image_bytes = asset.binary[view.get('byteOffset', 0):view.get('byteOffset', 0)+view['byteLength']]
+        texture_sha = sha(image_bytes)
+        alpha_image = Image.open(io.BytesIO(image_bytes)).convert('RGBA')
+        def classifier(pairs, source_pose, target_pose, indices, name, pose):
+            measurements = []
+            for hair_index, face_index in pairs:
+                result = measure_pair(hair[hair_index], source_pose[indices[face_index]], target_pose[indices[face_index]], uv[hair_indices[hair_index]], alpha_image, inverse)
+                measurements.append({'hairTriangle': hair_index, 'targetTriangle': face_index, **result})
+            transparent = all(len(m['positiveDepthTextureFootprints']) == 2 and all(f['conservativeTexelFootprint'] > 0 and f['maxAlpha0To255'] == 0 for f in m['positiveDepthTextureFootprints']) for m in measurements)
+            summary = {'allPositiveDepthPatchesTransparent': transparent, 'introducedPairs': len(pairs),
+                       'maxProjectedPlaneDepthM': max(m['targetProjectedPlaneDepthM'] for m in measurements)}
+            contact_records.append({'material': name, 'pose': pose, 'summary': summary, 'measurements': measurements})
+            return summary
+    diagnostics, failure = inspect(original, target, hair, head, inverse, spec['material'], classifier)
     report = {'targetId': row['id'], 'styleId': spec['styleId'], 'targetBodySha256': sha(target_bytes),
               'sourceBodySha256': spec['bodySha256'], 'assetSha256': spec['assetSha256'], 'primitives': diagnostics,
               'failure': failure, 'runtimeAccepted': False, 'scope': 'Exact raw/head/material dependencies plus neutral and individual authored morph endpoint changed-triangle checks. Preserved source intersection pairs remain. No alpha-aware or continuous motion acceptance.'}
+    if contact_policy:
+        report['contactPolicy'] = contact_policy
+        report['contactSummary'] = [record['summary'] for record in contact_records]
     if failure:
         return {'FAILED.json': diagnostic_bytes(report)}, 'failed'
     fit = {'schema': 'character-hair-fit-v1', 'id': spec['styleId']+'-'+row['id']+'-fit-v1', 'version': 1,
@@ -182,10 +218,24 @@ def export(spec, row, batch_root):
            'physics': 'rigid', 'geometryReuse': True,
            'attachment': {'bone': 'head', 'space': 'raw-head-bind-local', 'position': [0, 0, 0], 'quaternion': [0, 0, 0, 1], 'scale': [1, 1, 1]},
            'hideOriginal': {'materialNames': [spec['material']], 'hideWholeBody': False}, 'runtimeAccepted': False}
+    url_base = '/assets/m2-preset-short-hair-fits-v1/'
+    extra = {}
+    status = 'source-fit-ready'
     manifest = copy.deepcopy(manifest)
+    if contact_records:
+        url_base += 'conditional/'
+        contact_report = {'targetId': row['id'], 'targetBodySha256': sha(target_bytes), 'sourceAssetSha256': spec['assetSha256'],
+                          'sourceTextureSha256': texture_sha, 'policy': contact_policy, 'records': contact_records, 'runtimeAccepted': False,
+                          'limits': ['All introduced pairs in neutral and individual authored morph endpoints have zero alpha over their conservative positive-depth UV footprints in both V orientations.',
+                                     'Original geometric intersections are retained. Combined expressions, shader/outline behavior and game motion require actual root verification.']}
+        contact_bytes = diagnostic_bytes(contact_report)
+        fit['contactEvidence'] = {'url': url_base+row['id']+'/contact-report.json', 'sha256': sha(contact_bytes), 'status': 'conditional-transparent-source-contact'}
+        manifest['status'] = 'source-contact-candidate-not-visually-accepted'
+        extra['contact-report.json'] = contact_bytes
+        status = 'source-contact-candidate'
     manifest['compatibleBodies'] = [sha(target_bytes)]
-    manifest['fit'] = {'id': fit['id'], 'version': 1, 'url': '/assets/m2-preset-short-hair-fits-v1/'+row['id']+'/fit.json', 'sha256': sha(encoded(fit))}
-    return {'fit.json': encoded(fit), 'manifest.json': encoded(manifest), 'fit-report.json': diagnostic_bytes(report)}, 'source-fit-ready'
+    manifest['fit'] = {'id': fit['id'], 'version': 1, 'url': url_base+row['id']+'/fit.json', 'sha256': sha(encoded(fit))}
+    return {'fit.json': encoded(fit), 'manifest.json': encoded(manifest), 'fit-report.json': diagnostic_bytes(report), **extra}, status
 
 
 def main():
@@ -194,6 +244,8 @@ def main():
     parser.add_argument('--batch-root', required=True)
     parser.add_argument('--batch-manifest', default='assets-source/m2-representative-batch-v1/generated/manifest.json')
     parser.add_argument('--out', default='assets-source/m2-preset-short-hair-fits-v1/ready')
+    parser.add_argument('--contact-policy', choices=['transparent-source-texels'])
+    parser.add_argument('--only', nargs='+')
     args = parser.parse_args()
     batch_root = Path(args.batch_root).resolve()
     batch_bytes = local(batch_root, args.batch_manifest).read_bytes()
@@ -204,10 +256,12 @@ def main():
     require(out.is_relative_to(BASE) and out != BASE, 'Output outside new source package')
     results = []
     for row in batch['variants']:
+        if args.only and row['id'] not in args.only:
+            continue
         require(re.fullmatch(r'[a-z0-9-]{1,64}', row['id']), 'Unsafe target id')
         require(row['status'] == 'source-passed' and row['sex'] in spec['families'], 'Source target not ready')
         try:
-            files, status = export(spec['families'][row['sex']], row, batch_root)
+            files, status = export(spec['families'][row['sex']], row, batch_root, args.contact_policy)
         except Exception as error:
             files, status = {'FAILED.json': encoded({'targetId': row['id'], 'targetBodySha256': row['avatar']['sha256'], 'error': str(error), 'runtimeAccepted': False})}, 'failed'
         folder = out/row['id']
