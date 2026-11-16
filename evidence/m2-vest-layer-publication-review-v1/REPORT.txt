@@ -1,0 +1,23 @@
+独立发布读回
+
+实际主树提交为71081be29b5fee7dc5e6d6fbcc17b9b4c65d4b9d。
+301项检查通过，记录64个真实文件的SHA256和字节数。完整清单和逐项结果见report.json。
+
+公开两目录共13个文件，文件集合与publication.json完全相同。三套top.glb、fit.json及coverage-fit.json均逐字节等于固定源产物。发布脚本构造阶段在内存重新生成13份预期字节，与磁盘文件完全相同。此次审查对主树只读。
+
+三套新profile保留原body SHA、原equipment manifest和原pants ID。原女为m1-training-pants，round和soft分别保留各自原bottom。extension manifest仅含唯一新top，原entry只增加精确layerFitResource依赖。新coverage同时绑定真实body、新top和对应fit，选面252、257、247，直接核了实际body的index accessor SHA及每个三角索引。
+
+三份原equipment manifest及其全部旧资源、原女旧coverage文件均与c24581c0652c8f9161fed47e5af38c91ef846cd7一致。motion、normalized-motion、m1-skirt、skirt-fit、behavior-tasks及turn-policy也与该基准字节一致。新增profile数据只涉及新装备、覆盖和outfit入口。
+
+ed2是构建摘要前缀。封存三配方对应完整构建摘要ed2153a2d82253aba5e7365bb5601a4a04678d048cfc38bf7555a47550cf0078。捕获记录的body实际SHA/声明SHA及大小一致，三份配方的旧top/shoes/pants对象逐字段等于现存原manifest条目。所有相对URL均按各原manifest解析并核了实际资源字节，保留旧look表达所需资源。
+
+发布回执SHA256为da95554f85aa0d8750dbe3090ebae53bade52452564116190812e8b6b1ab1d01。
+发布脚本SHA256为c69de38e29c1ddc1bad264f981eeec67d6988e339976d4fb3be314acc27d34b8。
+profiles.json SHA256为0e20fc9f985aa552494454cdeab1c4836244bd8a9d4f84d91618f65d27502e35。
+
+复核命令
+python evidence/m2-vest-layer-publication-review-v1/review.py --root F:/gamemake
+脚本只写自身同目录report.json，可用--output指定证据输出位置。
+
+范围及限制
+这是CPU发布字节和依赖读回。运行集成实现另有独审，root承担全速动作、换装、实际关闭恢复及视觉验收。本文确认旧配方资源仍能表达，UI恢复结果待root实际验收。没有运行浏览器、GPU、ffmpeg或资源生成。历史未解释边缘像素[482,454]继续保留。此次通过只适用于所列实际字节。
