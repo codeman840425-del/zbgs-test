@@ -10,6 +10,13 @@ export const VISIBLE_FACE_SOURCES = Object.freeze({
     sampleId:'aperture-width105-v2',endpoint:1.05,recipes:{female:'5ddc174eb166c2aeec34a7e6a29c62d9518bd244e5edf00e3784e80e93dad778',male:'d31841fc9bab96e1284a2ccb275c20aa5c100d9c1737e00867a4bcb63dd177f0'}},
 });
 export const LEGACY_FACE_SAMPLES=Object.freeze({brow:'height1-spacing1-v1',nose:'tip-forward05-v1',eye:'aperture-width101-v1'});
+// Existing manifest entries pinned for pure admission and the runtime loaders.
+export const LEGACY_FACE_SOURCES=Object.freeze({
+  mouth:{directory:'face-parameters-v1',recipes:{female:'7818eb8e1f1c2ac194d3dd5950dc9de1f875fcad137546bfd5ae69c520ea06c1',male:'a9acdcd5866786b031c4e3ec16fde91f77d97fbda08636f061dc742499c6ed6e'}},
+  brow:{directory:'face-brow-parameters-v1',sampleId:LEGACY_FACE_SAMPLES.brow,endpoint:.001,unit:'metres',recipes:{female:'4b8a6c09a86aa5b8d51f31842e2c95fd71d567c2de793acafb5ae13a6c04ce7c',male:'895317030af557621b248b6731ad4a80e998f2f13ed18f0616d81355772e9983'}},
+  nose:{directory:'face-nose-parameters-v1',sampleId:LEGACY_FACE_SAMPLES.nose,endpoint:.0005,unit:'metres',recipes:{female:'351c825c39d5a9a056fdd9c783d9ace35b304963c8d06a74e2ccfb3bd3b36da6',male:'323d584194c25af47169c1ffd1a20246033bca07e6be7d68ddb8794b25c7a3bc'}},
+  eye:{directory:'face-eye-sample-v1',sampleId:LEGACY_FACE_SAMPLES.eye,endpoint:1.01,unit:'ratio',recipes:{female:'19913f4c8ab2f6dd52cf112117e513d4292b17a0b1944873daca2a5f9f85df21',male:'3080a3d7bdf7891d287ccf1a7086aaacb1459793b6829b2906c95d504f4d761e'}},
+});
 export function mouthValueSupported(capability,value){
   if(!Number.isFinite(value))return false;
   if(value===0)return true;

@@ -2,13 +2,10 @@ import {validateHairSelection} from './hair-fit-contract.js';
 import {HAIR_COLORS,SKIN_TONES} from './character-appearance.js';
 import {EYE_COLORS,LIP_COLORS} from './facial-palette.js';
 import {FACIAL_PALETTE_VERSION as PALETTE,LEGACY_FACIAL_PALETTE_VERSION as LEGACY_PALETTE} from './facial-palette-contract.js';
-import {mouthValueSupported,faceSampleSupported} from './facial-geometry-contract.js';
+import {resolveFacialGeometrySelection,appearanceAdmissionError} from './facial-geometry-selection.js';
 
-const SCHEMA='workbench-appearance-recipe-v6';
-const RULES='workbench-appearance-rules-v6';
-const BROW_SAMPLE='height1-spacing1-v1';
-const NOSE_SAMPLE='tip-forward05-v1';
-const EYE_SAMPLE='aperture-width101-v1';
+export const SCHEMA='workbench-appearance-recipe-v6';
+export const RULES='workbench-appearance-rules-v6';
 const fields=['hairStyle','hairColor','skinTone','eyeColor','lipColor'];
 export const appearanceDraftKey=bodyType=>'zbgs:appearance-draft:v1:'+bodyType;
 export function captureAppearanceRecipe(controller){
@@ -36,39 +33,29 @@ export function validateAppearanceRecipe(controller,record){
  const oldGeometry=legacy||legacyBrow||legacyNose||legacyEye;
  const oldFit=oldGeometry||legacyFit;
  if((!oldFit&&(record?.schema!==SCHEMA||record.rulesVersion!==RULES))||![PALETTE,LEGACY_PALETTE].includes(record.paletteVersion))
-  throw Error('外观配方版本不兼容，已保留当前外观');
- if(legacy&&(record.geometry?.browSample!==undefined||record.geometry?.browRecipeSha256!==undefined))throw Error('旧版配方不能携带新版眉部数据');
- if((legacy||legacyBrow)&&(record.geometry?.noseSample!==undefined||record.geometry?.noseRecipeSha256!==undefined))throw Error('旧版配方不能携带新版鼻部数据');
- if((legacy||legacyBrow||legacyNose)&&(record.geometry?.eyeSample!==undefined||record.geometry?.eyeRecipeSha256!==undefined))throw Error('旧版配方不能携带新版眼部数据');
+  throw appearanceAdmissionError('schema','incompatible-version','外观配方版本不兼容，已保留当前外观');
+ if(legacy&&(record.geometry?.browSample!==undefined||record.geometry?.browRecipeSha256!==undefined))throw appearanceAdmissionError('geometry.browSample','incompatible-version','旧版配方不能携带新版眉部数据');
+ if((legacy||legacyBrow)&&(record.geometry?.noseSample!==undefined||record.geometry?.noseRecipeSha256!==undefined))throw appearanceAdmissionError('geometry.noseSample','incompatible-version','旧版配方不能携带新版鼻部数据');
+ if((legacy||legacyBrow||legacyNose)&&(record.geometry?.eyeSample!==undefined||record.geometry?.eyeRecipeSha256!==undefined))throw appearanceAdmissionError('geometry.eyeSample','incompatible-version','旧版配方不能携带新版眼部数据');
  if(record.base?.bodyType!==a.profile.bodyType||record.base.sha256!==a.profile.sha256)
-  throw Error(`此配方属于${({female:'女性原版',male:'男性原版','m1a-jaw-v1':'女性下颌样件','m1a-waisthip-v1':'女性腰胯样件','m2-male-jaw-v1':'男性下颌样件'})[record.base?.bodyType]||'未知基模'}，请先选择对应人物；若已选中，说明素材版本不一致。当前人物未改变`);
- if(!a.appearance.getState().availableStyles.includes(record.appearance?.hairStyle))throw Error('配方发型未适配当前身体');
+  throw appearanceAdmissionError('base','incompatible-body',`此配方属于${({female:'女性原版',male:'男性原版','m1a-jaw-v1':'女性下颌样件','m1a-waisthip-v1':'女性腰胯样件','m2-male-jaw-v1':'男性下颌样件'})[record.base?.bodyType]||'未知基模'}，请先选择对应人物；若已选中，说明素材版本不一致。当前人物未改变`);
+ if(!a.appearance.getState().availableStyles.includes(record.appearance?.hairStyle))throw appearanceAdmissionError('appearance.hairStyle','unsupported-resource','配方发型未适配当前身体');
  for(const [key,choices] of [['hairColor',HAIR_COLORS],['skinTone',SKIN_TONES],['eyeColor',EYE_COLORS],['lipColor',LIP_COLORS]])
-  if(!Object.hasOwn(choices,record.appearance[key]))throw Error('未知配色：'+key);
- const v=record.geometry?.mouthWidth;
- const mouthCapability=a.facialGeometry.getState();
- if(!mouthValueSupported(mouthCapability,v)||(oldGeometry&&(v<-.04||v>.04)))throw Error('嘴宽参数不在该版本已制作范围内');
- if(v&&(!a.facialGeometry.getState().available||!/^[a-f0-9]{64}$/.test(record.geometry.recipeSha256||'')))throw Error('此身体尚无对应嘴宽几何配方');
- const brow=legacy?'none':record.geometry.browSample;
- if(!faceSampleSupported(mouthCapability,'brow',brow)||(oldGeometry&&!['none',BROW_SAMPLE].includes(brow)))throw Error('眉部样件不在已制作范围内');
- if(brow!=='none'&&(!a.facialGeometry.getState().browAvailable||!/^[a-f0-9]{64}$/.test(record.geometry.browRecipeSha256||'')))throw Error('此身体尚无对应眉部几何配方');
- if(!legacy&&brow==='none'&&record.geometry.browRecipeSha256!==null)throw Error('原位眉部不能携带派生配方身份');
- const nose=legacy||legacyBrow?'none':record.geometry.noseSample;
- if(!faceSampleSupported(mouthCapability,'nose',nose)||(oldGeometry&&!['none',NOSE_SAMPLE].includes(nose)))throw Error('鼻部样件不在已制作范围内');
- if(nose!=='none'&&(!a.facialGeometry.getState().noseAvailable||!/^[a-f0-9]{64}$/.test(record.geometry.noseRecipeSha256||'')))throw Error('此身体尚无对应鼻部几何配方');
- if(!legacy&&!legacyBrow&&nose==='none'&&record.geometry.noseRecipeSha256!==null)throw Error('原位鼻部不能携带派生配方身份');
- const eye=legacy||legacyBrow||legacyNose?'none':record.geometry.eyeSample;
- if(!faceSampleSupported(mouthCapability,'eye',eye)||(oldGeometry&&!['none',EYE_SAMPLE].includes(eye)))throw Error('眼部样件不在已制作范围内');
- if(eye!=='none'&&(!a.facialGeometry.getState().eyeAvailable||!/^[a-f0-9]{64}$/.test(record.geometry.eyeRecipeSha256||'')))throw Error('此身体尚无对应眼部几何配方');
- if(!legacy&&!legacyBrow&&!legacyNose&&eye==='none'&&record.geometry.eyeRecipeSha256!==null)throw Error('原位眼部不能携带派生配方身份');
+  if(!Object.hasOwn(choices,record.appearance[key]))throw appearanceAdmissionError('appearance.'+key,'unsupported-value','未知配色：'+key);
+ resolveFacialGeometrySelection(a.profile.sha256,{
+  mouthWidth:record.geometry?.mouthWidth,recipeSha256:record.geometry?.recipeSha256,
+  browSample:legacy?'none':record.geometry?.browSample,browRecipeSha256:legacy?null:record.geometry?.browRecipeSha256,
+  noseSample:legacy||legacyBrow?'none':record.geometry?.noseSample,noseRecipeSha256:legacy||legacyBrow?null:record.geometry?.noseRecipeSha256,
+  eyeSample:legacy||legacyBrow||legacyNose?'none':record.geometry?.eyeSample,eyeRecipeSha256:legacy||legacyBrow||legacyNose?null:record.geometry?.eyeRecipeSha256,
+ },{legacy:oldGeometry,requireIdentities:true});
  if(!a.config.outfits.some(o=>o.index===record.equipment?.index&&o.role===record.equipment.role)||record.equipment.manifestUrl!==a.config.manifestUrl)
-  throw Error('服装版型版本不兼容');
- if(JSON.stringify(record.equipment.resources)!==JSON.stringify(a.getEquipmentRecipe(record.equipment.index)))throw Error('服装资源或绑定版本已变化');
+  throw appearanceAdmissionError('equipment','incompatible-resource','服装版型版本不兼容');
+ if(JSON.stringify(record.equipment.resources)!==JSON.stringify(a.getEquipmentRecipe(record.equipment.index)))throw appearanceAdmissionError('equipment.resources','resource-identity-mismatch','服装资源或绑定版本已变化');
  const style=record.appearance.hairStyle;
- if(oldFit&&Object.hasOwn(record,'hairFit'))throw Error('旧版配方不能携带新版发型适配数据');
- if(!oldFit&&!Object.hasOwn(record,'hairFit'))throw Error('配方缺少发型适配身份');
+ if(oldFit&&Object.hasOwn(record,'hairFit'))throw appearanceAdmissionError('hairFit','incompatible-version','旧版配方不能携带新版发型适配数据');
+ if(!oldFit&&!Object.hasOwn(record,'hairFit'))throw appearanceAdmissionError('hairFit','missing-identity','配方缺少发型适配身份');
  validateHairSelection(a.profile.sha256,style,{legacy:oldFit,expectedHairAssetSha256:record.hairAssetSha256,...(!oldFit?{expectedHairFit:record.hairFit}:{})});
- if(!['original','none'].includes(style)&&!/^[a-f0-9]{64}$/.test(record.hairAssetSha256||''))throw Error('发型资源身份缺失');
+ if(!['original','none'].includes(style)&&!/^[a-f0-9]{64}$/.test(record.hairAssetSha256||''))throw appearanceAdmissionError('hairAssetSha256','missing-identity','发型资源身份缺失');
  return true;
 }
 export async function applyAppearanceRecipe(controller,record){

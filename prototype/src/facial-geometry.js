@@ -1,13 +1,6 @@
 import * as THREE from 'three';
 import {FACIAL_GEOMETRY_PROFILES} from './facial-geometry-profiles.js';
-import {VISIBLE_FACE_SOURCES, mouthValueSupported} from './facial-geometry-contract.js';
-
-const BROW_BASE_URL = '/assets/face-brow-parameters-v1/';
-const BROW_SAMPLE = 'height1-spacing1-v1';
-const NOSE_BASE_URL = '/assets/face-nose-parameters-v1/';
-const NOSE_SAMPLE = 'tip-forward05-v1';
-const EYE_BASE_URL = '/assets/face-eye-sample-v1/';
-const EYE_SAMPLE = 'aperture-width101-v1';
+import {facialGeometryCapability,facialSampleResource,resolveFacialGeometrySelection} from './facial-geometry-selection.js';
 const digest = async bytes => [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))]
   .map(value => value.toString(16).padStart(2, '0')).join('');
 const materialsOf = mesh => Array.isArray(mesh.material) ? mesh.material : [mesh.material];
@@ -52,6 +45,7 @@ function normals(position, indices, precise = false, vertices) {
 export function createFacialGeometry({ vrm, avatarSha256, prepareRender, renderCompaction }) {
   let prepared = null, preparation = null, disposed = false, generation = 0;
   const admission=FACIAL_GEOMETRY_PROFILES[avatarSha256];
+  const geometryCapability=facialGeometryCapability(avatarSha256);
   const mouthAdmission=admission?.mouth;
   const browAvailable=!!admission?.brow,noseAvailable=!!admission?.nose,eyeAvailable=!!admission?.eye;
   let mouthWidth = 0, wanted = 0, loading = false, error = null, available = !!mouthAdmission;
@@ -64,14 +58,10 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender, renderC
   const domainJobs = {brow:new Map(),nose:new Map(),eye:new Map()};
   const pendingUpdates = new Set();
   function domainConfig(domain,sample) {
-    const legacy={brow:[BROW_SAMPLE,BROW_BASE_URL,.001],nose:[NOSE_SAMPLE,NOSE_BASE_URL,.0005],eye:[EYE_SAMPLE,EYE_BASE_URL,1.01]}[domain];
-    if(sample===legacy[0])return{sampleId:sample,baseURL:legacy[1],endpoint:legacy[2],mouthSha:prepared?.entry.sha256,visible:false};
-    const entry=VISIBLE_FACE_SOURCES[domain];
-    if(admission?.visibleSex&&sample===entry.sampleId)return{sampleId:sample,baseURL:'/assets/'+entry.directory+'/',endpoint:entry.endpoint,recipeSha:entry.recipes[admission.visibleSex],mouthSha:mouthAdmission.visible.recipeSha256,visible:true};
-    return null;
+    const source=facialSampleResource(avatarSha256,domain,sample);
+    return source?{...source,recipeSha:source.recipeSha256,mouthSha:source.mouthRecipeSha256}:null;
   }
-  function samplesFor(domain,enabled){return enabled?['none',{brow:BROW_SAMPLE,nose:NOSE_SAMPLE,eye:EYE_SAMPLE}[domain],...(admission?.visibleSex?[VISIBLE_FACE_SOURCES[domain].sampleId]:[])]:['none'];}
-  function mouthCapability(){return{available,mouthRange:mouthAdmission?.range,mouthSupportedValues:mouthAdmission?.supportedValues,mouthEndpointValues:mouthAdmission?.visible?[-.12,.12]:[]};}
+  function samplesFor(domain,enabled){return enabled?[...geometryCapability[domain+'Samples']]:['none'];}
   async function verifyCompleteSource(recipe){
     const original=prepared.recipe;
     if(recipe.baseAvatarSha256!==avatarSha256||recipe.basePositionSha256!==original.basePositionSha256||recipe.positionCount!==original.positionCount||
@@ -521,8 +511,12 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender, renderC
     const brow = input.reset ? 'none' : input.browSample ?? (trackIntent?wantedBrow:browSample);
     const nose = input.reset ? 'none' : input.noseSample ?? (trackIntent?wantedNose:noseSample);
     const eye = input.reset ? 'none' : input.eyeSample ?? (trackIntent?wantedEye:eyeSample);
-    if(!mouthValueSupported(mouthCapability(),value))return{applied:false,reason:'嘴宽只支持当前人物已制作的连续范围或离散端点'};
-    if(!samplesFor('brow',browAvailable).includes(brow)||!samplesFor('nose',noseAvailable).includes(nose)||!samplesFor('eye',eyeAvailable).includes(eye))return{applied:false,reason:'五官样件未适配当前人物'};
+    let selection;
+    try{
+      selection=resolveFacialGeometrySelection(avatarSha256,{mouthWidth:value,browSample:brow,noseSample:nose,eyeSample:eye,
+        recipeSha256:input.expectedRecipeSha256,browRecipeSha256:input.expectedBrowRecipeSha256,
+        noseRecipeSha256:input.expectedNoseRecipeSha256,eyeRecipeSha256:input.expectedEyeRecipeSha256});
+    }catch(error){return{applied:false,reason:error.message,field:error.field,code:error.code};}
     if(trackIntent){wanted = value; wantedBrow = brow; wantedNose = nose; wantedEye = eye;}
     const request = ++generation; error = null;
     try {
@@ -530,7 +524,7 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender, renderC
       if (value !== 0 || brow !== 'none' || nose !== 'none' || eye !== 'none') {
         if (!available) throw Error('当前身体尚无嘴宽几何适配');
         loading = true; await prepare();
-        selected.mouth=mouthAdmission.visible&&(value<mouthAdmission.range[0]||value>mouthAdmission.range[1])?await prepareVisibleMouth():prepared;
+        selected.mouth=selection.mouthSource.visible?await prepareVisibleMouth():prepared;
         if (value !== 0 && input.expectedRecipeSha256 != null && input.expectedRecipeSha256 !== selected.mouth.entry.sha256)
           throw Error('保存配方的五官几何版本不匹配');
       }
@@ -598,7 +592,7 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender, renderC
     set, prepareUpdate,
     getState: () => ({ mouthWidth, requestedMouthWidth: wanted, available, loading, error, revision:generation,
       mouthRange:mouthAdmission?[...mouthAdmission.range]:null,mouthSupportedValues:mouthAdmission?.supportedValues?[...mouthAdmission.supportedValues]:null,
-      mouthEndpointValues:mouthAdmission?.visible?[-.12,.12]:[],browSamples:samplesFor('brow',browAvailable),noseSamples:samplesFor('nose',noseAvailable),eyeSamples:samplesFor('eye',eyeAvailable),
+      mouthEndpointValues:[...geometryCapability.mouthEndpointValues],browSamples:samplesFor('brow',browAvailable),noseSamples:samplesFor('nose',noseAvailable),eyeSamples:samplesFor('eye',eyeAvailable),
       browSample, requestedBrowSample: wantedBrow, browAvailable,
       browRecipeId: browPrepared?.entry.id || null, browRecipeSha256: browPrepared?.entry.sha256 || null,
       noseSample, requestedNoseSample: wantedNose, noseAvailable,

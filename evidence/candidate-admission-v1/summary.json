@@ -1,0 +1,55 @@
+{
+  "passed": true,
+  "rows": [
+    "male query identities match actual manifests and query-built candidate applies/restores",
+    "female query identities match actual manifests and query-built candidate applies/restores",
+    "m2-male-jaw-v1 query identities match actual manifests and query-built candidate applies/restores",
+    "m1a-jaw-v1 query exposes only implemented unchanged geometry",
+    "m1a-waisthip-v1 query exposes only implemented unchanged geometry",
+    "wrong mouth source is a structured static rejection without I/O or revision changes",
+    "wrong brow source is a structured static rejection without I/O or revision changes",
+    "unsupported mouth gap is a structured static rejection without I/O or revision changes",
+    "unknown geometry field is a structured static rejection without I/O or revision changes",
+    "unknown appearance field is a structured static rejection without I/O or revision changes",
+    "unknown equipment field is a structured static rejection without I/O or revision changes",
+    "wrong hair fit is a structured static rejection without I/O or revision changes",
+    "wrong equipment resource is a structured static rejection without I/O or revision changes",
+    "wrong body is a structured static rejection without I/O or revision changes",
+    "unknown color is a structured static rejection without I/O or revision changes",
+    "runtime prepare shares the pure identity resolver before changing its generation",
+    "query/admit during a real pending geometry request do not cancel it or expose mutable catalogs",
+    "correct static identity still requires byte validation and a failed actual fetch preserves the previous look",
+    "existing v1-v6 restore keeps original source identities and input bytes"
+  ],
+  "sourceSha256": {
+    "prototype/src/appearance-recipe.js": "ca4ef6d9c633f621e2a54e718c2626937d577554f0f0020be8146bbc927ff551",
+    "prototype/src/facial-geometry-contract.js": "0e0e7d635f1f5061d05bfc5ce55ac4fd1f60577ca7145cddf44fb378b0151319",
+    "prototype/src/facial-geometry-profiles.js": "9555e28a901b8bf7ae6413509900abc8bc3f4dc7d8d0078c44be5f40a8e63e87",
+    "prototype/src/facial-geometry.js": "7d45ec991c207def468532727cee6a3c3fab15e2df56ce4a1433d25221c5b7df",
+    "prototype/src/hair-fit-contract.js": "6c62c8dcfb5c216d4e7f3351413b11c936fb0372d843a6e27b6982166113e775",
+    "prototype/src/main.js": "b9b80c96a517be84023bf0c842a9b902271c7660e388abea4e1dda5e2b87ed5f",
+    "prototype/src/facial-geometry-selection.js": "1cb790c4263e632559c96600ea200d9f938dff68acbceb0e715cffae934daf16",
+    "prototype/src/appearance-candidates.js": "e8f15022b9fbe588e182caa5f5a2ff436e1ed56bf3d8972a21123a9f84fcfe35",
+    "scripts/qa-candidate-admission.mjs": "5216cd005516fa46fd1ab9a67b3618023b601676aea3b03935bf0ecc530b650e"
+  },
+  "scope": "Actual existing resources and runtime modules on CPU; textures decode to null, canvas/rendering/GPU untested; no new shape-fit certification",
+  "baseCommit": "78f823e0d7e9dc486965fcb590a0c83422857a44",
+  "requestedDispatch": {
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "high",
+    "difficulty": "complex",
+    "desktopHookVerified": false
+  },
+  "regressions": {
+    "wholeLook": 18,
+    "hairAndV1ToV6": 39,
+    "recipeFile": 17
+  },
+  "build": "npm run build passed with source ID 086c5e904d5b; browser/GPU and fixed integrated build remain root-owned",
+  "api": {
+    "query": "queryAppearanceCandidates(controller) / __debug.queryAppearanceCandidates()",
+    "admit": "admitAppearanceCandidate(controller,record) / __debug.admitAppearanceCandidate(record)"
+  },
+  "boundary": "Admission is pure metadata validation. New candidate entry rejects unknown native fields. Existing v1-v6 recovery identities and exact geometry ranges remain intact. Resource byte hashes, topology, skin weights, binds and actual fit stay in runtime preparation. No new arbitrary-shape fit certification.",
+  "sourcePins": "Only actually consumed recipe SHA identities are reported. Unused historical manifestSha256 constants are not exposed as verified file identities."
+}

@@ -2,7 +2,7 @@ import { HAIRSTYLES } from './hairstyle-catalog.js';
 
 export function hairEntry(body, style) {
   const entries = HAIRSTYLES.filter(e => e.id === style && e.compatibleBodies.includes(body));
-  if (entries.length !== 1) throw Error('该发型尚未适配当前人物');
+  if (entries.length !== 1) throw Object.assign(Error('该发型尚未适配当前人物'),{field:'appearance.hairStyle',code:'unsupported-resource'});
   return entries[0];
 }
 export function hairFitIdentity(entry) {
@@ -20,10 +20,10 @@ export function sameHairFit(actual, expected) {
 // Omitted expectations are normal UI selection; explicit null is a strict identity.
 export function validateHairSelection(body, style, options = {}) {
   const entry = ['original','none'].includes(style) ? null : hairEntry(body,style);
-  if (options.legacy && entry && !entry.legacyImplicitFit) throw Error('旧版配方未记录此人物的发型适配版本');
+  if (options.legacy && entry && !entry.legacyImplicitFit) throw Object.assign(Error('旧版配方未记录此人物的发型适配版本'),{field:'hairFit',code:'incompatible-version'});
   const identity = hairFitIdentity(entry);
-  if (Object.hasOwn(options,'expectedHairFit') && !sameHairFit(identity,options.expectedHairFit)) throw Error('发型适配版本不一致，当前外观未改变');
-  if (Object.hasOwn(options,'expectedHairAssetSha256') && options.expectedHairAssetSha256 !== (entry?.assetSha256 ?? null)) throw Error('发型素材版本不一致，当前外观未改变');
+  if (Object.hasOwn(options,'expectedHairFit') && !sameHairFit(identity,options.expectedHairFit)) throw Object.assign(Error('发型适配版本不一致，当前外观未改变'),{field:'hairFit',code:'resource-identity-mismatch'});
+  if (Object.hasOwn(options,'expectedHairAssetSha256') && options.expectedHairAssetSha256 !== (entry?.assetSha256 ?? null)) throw Object.assign(Error('发型素材版本不一致，当前外观未改变'),{field:'hairAssetSha256',code:'resource-identity-mismatch'});
   return entry;
 }
 export function validateHairFitData(fit, entry, body, manifest) {
