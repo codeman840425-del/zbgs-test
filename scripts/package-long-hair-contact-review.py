@@ -32,6 +32,7 @@ def main():
     parser.add_argument('--out', default='evidence/m2-long-hair-contacts-review-363-v1')
     parser.add_argument('--build', default='36365874e557')
     parser.add_argument('--source-commit', default='fc8c91d4231cd8579548a33b72bad625dd14c189')
+    parser.add_argument('--review-note', default='发根与原发帽脱离及长发与椅子重叠，观感未通过。')
     args = parser.parse_args()
     room, out = ROOT/args.room, ROOT/args.out
     report = json.loads((room/'report.json').read_text(encoding='utf-8'))
@@ -47,7 +48,7 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
     summary = {'build': args.build, 'sourceCommit': args.source_commit, 'sourceCommitProvenance': 'Exact fixed-source work order',
                'sourceDigest': report['identity']['runtimeBuild']['sourceDigest'], 'status': report['status'],
-               'visualReview': 'not-accepted', 'knownDefects': ['Visible hair-root separation from original cap', 'Hair/chair overlap retained'],
+               'visualReview': 'not-accepted', 'reviewNote': args.review_note,
                'ordinaryPcTested': False, 'sourceFiles': [], 'sheets': [],
                'sampling': {'fps': 2, 'framesPerPage': 12, 'sheetWidth': 1440, 'cpuThreads': 2},
                'contactDiagnostic': diagnostic,
@@ -64,10 +65,11 @@ def main():
     diagnostic_link = register(room/'diagnostic-summary.json')
     movie_link = register(room/'normal1x.webm')
     register(room/'executed-script.cjs')
-    script_link = register(Path(__file__).resolve())
+    (out/'executed-package.py').write_bytes(Path(__file__).read_bytes())
+    script_link = register(out/'executed-package.py')
     parts = ['<h1>长发、衣物与椅子接触基线</h1>',
              f'<p>构建 {html.escape(args.build)} · 源码 {html.escape(args.source_commit)} · 技术动作已完成，接触与观感仍需审查。</p>',
-             '<p>本基线仍有发根与原发帽脱离及长发与椅子重叠，观感未通过。记录使用原女性、指定长发、既有裤装与裙装，以及原椅和移位转向后的椅子。</p>',
+             f'<p>{html.escape(args.review_note)} 记录使用原女性、指定长发、既有裤装与裙装，以及原椅和移位转向后的椅子。</p>',
              '<p>每 200 ms 采样实际蒙皮后顶点是否位于椅子 OBB 内。下表保留各阶段峰值，局部盒内深度仅描述盒体采样，完整三角穿透与连续碰撞仍未验证。</p>',
              f'<p><a href="{report_link}">完整原始报告</a> · <a href="{diagnostic_link}">原始诊断汇总</a> · <a href="summary.json">源文件 SHA 与抽帧索引</a> · <a href="{script_link}">包装脚本</a></p>',
              '<div class="table"><table><thead><tr><th>阶段</th><th>采样次数</th><th>OBB 内顶点峰值</th><th>局部盒内深度峰值（mm）</th></tr></thead><tbody>']

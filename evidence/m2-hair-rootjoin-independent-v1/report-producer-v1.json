@@ -1,0 +1,40 @@
+{
+  "schema": "hair-rootjoin-independent-producer-v1",
+  "generatorSha256": "fe2938bd0f90beb600322d14973edc6d973a4543c9b0783c2bac1b6cb97fede7",
+  "checks": [
+    {
+      "name": "actual producer with isolated output root emits exact committed five-file bytes",
+      "passed": true,
+      "output": {
+        "exported": true,
+        "assetSha256": "1b785f9d54107818cee39eda2de7263ad0720ce90968fbaa7cc32c2465e3c385",
+        "manifestSha256": "28337f44c1d297f2657b8ca32466e0c3b9e0cfceb17c39bda019fc19bfb48b9d",
+        "fitSha256": "5e6d7499852ffc6198e6c7190a50cf5b55abd51f535c038044201b1cd9ada04f"
+      },
+      "outputRedirection": "F:\\gamemake\\evidence\\m2-hair-rootjoin-independent-v1\\producer-stage"
+    },
+    {
+      "name": "actual producer repeated invocation preserves bytes and modification times",
+      "passed": true
+    },
+    {
+      "name": "actual producer rejects conflicting planned output before any write",
+      "passed": true,
+      "error": "Existing revision output differs; choose a fresh --out: fit.json"
+    },
+    {
+      "name": "actual producer rejects output outside its isolated revision root",
+      "passed": true,
+      "error": "Output must remain inside rootjoin-v2"
+    },
+    {
+      "name": "producer probes never change actual source inventory inputs or revision files",
+      "passed": true
+    }
+  ],
+  "fatal": null,
+  "limits": [
+    "Actual producer main executed with its REV output root redirected into owned evidence. Input BASE, build helpers, body source and code unchanged.",
+    "Conflict staging intentionally retains a corrupt fit.json as negative evidence. It is not a publishable package."
+  ]
+}

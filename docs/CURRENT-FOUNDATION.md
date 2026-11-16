@@ -171,3 +171,14 @@ source fc8c91d4231cd8579548a33b72bad625dd14c189 / build 36365874e557，固定exp
 
 
 363旧版追加受影响回归：m2-long-hair-contacts-363-v3已实际走完裤装坐起、未改裙装走跑/technical-once舞、移动旋转椅坐起及离椅释放。每200ms实际蒙皮顶点对OBB采样：原椅裤装最大81点/34.89mm，移动椅裙装79点/33.01mm；确认旧长发房间碰撞缺失，不把流程completed写成视觉通过。appearance.updateDynamics单独计时p95约0.1ms（计时量化），不包含裙/render；开发机录制带诊断，不代表普通电脑。v1测试期望SHA漏1字符被身份门正确拒绝，v2默认舞蹈在位置不足时正确失败；v3明确既有technical-once与安全区域，不修改产品行为。当前新候选还待源rootjoin及环境代理集成。远端已核到cc4b368784108eb4b4993e8bfb605f8b1534ff0d，后续补片待备份。
+
+
+## 长发508修订：发根已连接，椅背仍失败；并行帽发源样件
+
+source5ba8df87ab13c4ae7760c6b19e5b9d6ebd79ab8c/build508ccb12b857，固定experiments/m2-long-hair-fixed-v2/prototype/dist。真实rootjoin-v2为609点/1162面，原cap与束发焊接、根环48权重重分配；原v1资源与失败尝试保持。原363旧配方在新目录明确拒绝并保当前，不静默升级。核心加载/失败/恢复及裤裙/短技术舞/旋转椅动作已运行，观看m2-long-hair-review-508-v1和m2-long-hair-contacts-review-508-v1；root已看原尺寸side/seated图，剩余全时段抽审未完成，不宣告视觉通过。
+
+椅背仍未通过：508坐稳约32/34点、19.03/19.11mm穿入，虽过程最大值较原363下降但坐稳更差。m2-hair-chair-actual-508-v1实际三帧捕获完整蒙皮顶点/骨矩阵/椅OBB；确认骨段两端在盒外但中间跨越盒体，另有长度恢复后端点再入盒。http_transport_review(sol/high)正在隔离树做一次完整段+定长约束构造，官方求值及原半径保留；CPU改进不能替代游戏完整运行。appearance.updateDynamics诊断p95约0.2ms，旋转椅阶段单次12.7ms尖峰保留，不含裙/render，非普通机实测。
+
+rootjoin独立检查m2-hair-rootjoin-independent-v1完成14实际GLB/拓扑+5制作沙箱+9真实loader/solver CPU；最初夹具统计owner更新的失败保留。生产索引af26978仍在原workflow16登记修订，root-readback.json确认原26/v2修订16文件及发布字节一致，仅结构回读不等于运行验收。
+
+并行asset_budget(sol/high)在F:/gamemake-hat-hair制作一个原女后开口棒球帽与当前马尾配对源样件，只改assets-source/m2-hat-hair-v1和scripts/m2-hat-hair-v1。先源几何/身份/真实参数改动导出，root待长发运行检查后接共用装备；不批量造帽，不动控制器。公司/设施由副总工独立实施，当前不接其控制器改动；本主线继续完整M2。

@@ -1,0 +1,56 @@
+{
+  "schema": "hair-rootjoin-independent-review-receipt-v1",
+  "result": "No material blocker found within the bounded source and CPU review",
+  "authorCommit": "cc12df498bde6696cdbb402901a9585420a46794",
+  "rootIntegratedSourceCommit": "4919b88eb2264e41b9911f23ffeb8920243515a2",
+  "sourceSha256": {
+    "asset": "1b785f9d54107818cee39eda2de7263ad0720ce90968fbaa7cc32c2465e3c385",
+    "fit": "5e6d7499852ffc6198e6c7190a50cf5b55abd51f535c038044201b1cd9ada04f",
+    "manifest": "28337f44c1d297f2657b8ca32466e0c3b9e0cfceb17c39bda019fc19bfb48b9d",
+    "producer": "fe2938bd0f90beb600322d14973edc6d973a4543c9b0783c2bac1b6cb97fede7",
+    "authorCpuQa": "17bc4ac6bd5b08ca198464aeb585911a160f53d0687cbff880f415917f6923fd"
+  },
+  "checks": {
+    "geometryAndIdentity": {
+      "passed": 14,
+      "report": "report-geometry-v1.json"
+    },
+    "producer": {
+      "passed": 5,
+      "report": "report-producer-v1.json"
+    },
+    "actualRuntimeImports": {
+      "passed": 9,
+      "report": "report-runtime-v2.json"
+    }
+  },
+  "observations": [
+    "Revised actual GLB has 609 vertices and 1162 triangles in one connected component. The 22 connector triangles share six original cap and sixteen retained tail indices. Original 54 boundary edges remain identical, all interior edges have reversed incident directions.",
+    "All retained rest positions and UVs are exactly copied. Only root-ring old vertex IDs 241..288 change JOINTS/WEIGHTS, using .25/.5/.75 Pony0 fractions. Skeleton nodes, skins, inverse binds, materials, texture descriptors and embedded image bytes retain identity.",
+    "Both frozen 26-file v1 inventory and revised inventory match actual bytes. git diff 75cefb1..4919b88 has no changes to generated v1 resources or v1 build.py/qa.py.",
+    "Actual producer main, with REV output root redirected to owned evidence only, creates five byte-identical outputs, preserves repeated-output mtimes, rejects a conflicting fit.json before writes and rejects an outside destination. Original source package remains unchanged.",
+    "Actual revised GLTF passes runtime validateHairSkin and validateHairFitData. Explicit v1 saved-fit identity rejects against a process-local v2 catalog entry. Catalog source stays unchanged.",
+    "Under the original female raw head, rest-position discrepancy is 4.300674478950181e-9m, cap motion is 1.5515838457795457e-17m, distal difference from identically posed v1 is zero and blended root motion is .001895665554248288m.",
+    "An actual official-solver step through current hair runtime stays finite with six joints and three body proxies. Creation/reset/update/disposal preserve original body bone TRS once the original VRM owner update has its separate baseline.",
+    "All source-package runtimeAccepted flags checked remain false. New manifest/fit use version2 and /assets/m2-long-hair-rootjoin-v2/ identities."
+  ],
+  "preservedFailures": [
+    {
+      "path": "fixture-owner-update-failure/report.json",
+      "cause": "Initial independent fixture compared body before and after vrm.update, which intentionally advances original chest/skirt secondary bones.",
+      "correction": "Separate the original owner update from the added hair manager and compare against the owner-updated baseline. Manual auxiliary pose and manager init/reset are checked separately.",
+      "result": "Revised independent runtime probe passes all nine checks."
+    }
+  ],
+  "limits": [
+    "No browser/GPU, actual rendered root-gap closure, long game-motion chain, furniture collision or performance acceptance. Root owns candidate publishing and fixed-build visual/contact checks.",
+    "The source author noncoplanar intersection and 110 alpha/distance samples were inspected as bounded author diagnostics. This review independently verifies topology, attributes, bytes and CPU loading, and does not upgrade those counts to continuous triangle clearance.",
+    "Actual VRM and hair GLTFLoader textures use 1x1 CPU decode placeholders. Embedded source image bytes and material identities are independently compared in the binary probe.",
+    "producer-stage/fit.json deliberately remains conflicting negative-test evidence. That isolated stage is not a publishable output."
+  ],
+  "probeSha256": {
+    "probe-geometry.py": "a8857c7c7069cfb74c88fa7cc8c9847009e8b183b28ca2a1d7d1bc5557778471",
+    "probe-producer.py": "026fec6e9883f40089c18188510b137d9a965b0ec8e91182aeae7c40fd1e8e88",
+    "probe-runtime.mjs": "e4e0616a665d12d51ed5197a371186aa56cd6228adac2df0cf4c9003323a1a26"
+  }
+}

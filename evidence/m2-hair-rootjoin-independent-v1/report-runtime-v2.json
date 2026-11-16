@@ -1,0 +1,167 @@
+{
+  "schema": "hair-rootjoin-independent-runtime-cpu-v1",
+  "checks": [
+    {
+      "name": "actual revised GLTF passes runtime rest-skin contract before mounting",
+      "passed": true
+    },
+    {
+      "name": "actual fit validator admits v2 exact resources and rejects v1 fit against v2 asset",
+      "passed": true
+    },
+    {
+      "name": "actual catalog-backed admission rejects old saved fit identity after explicit v2 promotion",
+      "passed": true,
+      "catalogChange": "process memory only, restored"
+    },
+    {
+      "name": "real source skins under original raw head retain cap and distal behavior with blended moving root",
+      "passed": true,
+      "restErrorM": 4.300674478950181e-9,
+      "capMotionM": 1.5515838457795457e-17,
+      "distalPoseDifferenceM": 0,
+      "rootMotionM": 0.001895665554248288,
+      "manualPose": {
+        "Pony0Z": 0.2,
+        "Pony2X": -0.15
+      }
+    },
+    {
+      "name": "manual auxiliary source pose leaves original body bones unchanged",
+      "passed": true
+    },
+    {
+      "name": "hair manager initialization reset leaves original body bone TRS unchanged",
+      "passed": true
+    },
+    {
+      "name": "real revised asset executes one isolated official-solver step then removes owned body proxies",
+      "passed": true,
+      "solverState": {
+        "implementation": "three-vrm-springbone-3.5.5",
+        "jointCount": 6,
+        "colliderCount": 3,
+        "bodyColliderCount": 3,
+        "environmentColliderCount": 0,
+        "environmentCollisionScope": "conservative-expanded-oriented-box-point-sphere",
+        "cleanupErrors": [],
+        "initialized": true,
+        "enabled": true,
+        "updates": 1,
+        "resets": 1,
+        "localRotations": [
+          [
+            0.0011889638636994714,
+            2.069350539760231e-19,
+            1.8299822983370727e-19,
+            0.9999992931822155
+          ],
+          [
+            -0.0015233846634892614,
+            -3.3053545839305275e-19,
+            -6.725784497776434e-19,
+            0.9999988396489102
+          ],
+          [
+            -0.00018164767778909704,
+            1.7068066534930595e-19,
+            7.991370898502168e-19,
+            0.9999999835020604
+          ],
+          [
+            0.0002877682482152727,
+            0,
+            0,
+            0.9999999585947167
+          ],
+          [
+            0.00016136667570606296,
+            -1.6829627330145e-20,
+            -4.171916392302389e-19,
+            0.9999999869803978
+          ],
+          [
+            0.00004417182699385338,
+            -7.32381271201739e-21,
+            -4.177441676187158e-19,
+            0.9999999990244249
+          ]
+        ],
+        "worldTails": [
+          [
+            -0.00025536626617535783,
+            1.462336319722849,
+            -0.20853227911858235
+          ],
+          [
+            -0.0002553662661753538,
+            1.3973576997149566,
+            -0.24051968545147406
+          ],
+          [
+            -0.00025536626617535214,
+            1.332372063272308,
+            -0.2544695455350191
+          ],
+          [
+            -0.00025536626617535143,
+            1.2673748249188723,
+            -0.26053265466062636
+          ],
+          [
+            -0.0002553662661753511,
+            1.2023751765182655,
+            -0.2631634742060572
+          ],
+          [
+            -0.0002553662661753509,
+            1.13737522846338,
+            -0.2643060011270345
+          ]
+        ]
+      }
+    },
+    {
+      "name": "hair-only pose and lifecycle preserve original body bone TRS and raw head matrix",
+      "passed": true,
+      "bodyBones": 83,
+      "headChildrenBefore": 2,
+      "expectedOriginalVrmUpdateChangedBones": [
+        "J_Sec_L_Bust1",
+        "J_Sec_L_Bust2",
+        "J_Sec_R_Bust2",
+        "J_Sec_L_SkirtBack_end",
+        "J_Sec_L_SkirtFront_end",
+        "J_Sec_L_SkirtSide_end",
+        "J_Sec_R_SkirtBack_end",
+        "J_Sec_R_SkirtFront_end",
+        "J_Sec_R_SkirtSide_end"
+      ]
+    },
+    {
+      "name": "source bytes remain stable through independent CPU imports",
+      "passed": true
+    }
+  ],
+  "failure": null,
+  "sourceSha256": {
+    "prototype/src/hair-spring.js": "8f4712f563ef377ff2b82a99a45e81241662e205adcbf45d8c5155707f32c366",
+    "prototype/src/hair-fit-contract.js": "47aa8cf8e23b4cf8b96a1ef6621cfb360998478a35dc2ccbb147b2b3a49caa5c",
+    "prototype/src/hairstyle-catalog.js": "5676f464cf74487fffd759145960f563c88803c27de058a8d4c400e384376f35",
+    "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/female-ponytail.glb": "1b785f9d54107818cee39eda2de7263ad0720ce90968fbaa7cc32c2465e3c385",
+    "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/fit.json": "5e6d7499852ffc6198e6c7190a50cf5b55abd51f535c038044201b1cd9ada04f",
+    "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/manifest.json": "28337f44c1d297f2657b8ca32466e0c3b9e0cfceb17c39bda019fc19bfb48b9d"
+  },
+  "finalSha256": {
+    "prototype/src/hair-spring.js": "8f4712f563ef377ff2b82a99a45e81241662e205adcbf45d8c5155707f32c366",
+    "prototype/src/hair-fit-contract.js": "47aa8cf8e23b4cf8b96a1ef6621cfb360998478a35dc2ccbb147b2b3a49caa5c",
+    "prototype/src/hairstyle-catalog.js": "5676f464cf74487fffd759145960f563c88803c27de058a8d4c400e384376f35",
+    "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/female-ponytail.glb": "1b785f9d54107818cee39eda2de7263ad0720ce90968fbaa7cc32c2465e3c385",
+    "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/fit.json": "5e6d7499852ffc6198e6c7190a50cf5b55abd51f535c038044201b1cd9ada04f",
+    "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/manifest.json": "28337f44c1d297f2657b8ca32466e0c3b9e0cfceb17c39bda019fc19bfb48b9d"
+  },
+  "limits": [
+    "Real revised and v1 GLBs and original female VRM, GLTFLoader and runtime fit/skin/spring modules. Textures use 1x1 CPU placeholders. Embedded original texture bytes were checked separately.",
+    "Two explicit auxiliary-bone rotations and one official-solver step only. No actual game animation, chair contact, rendered connector appearance or performance acceptance."
+  ]
+}
