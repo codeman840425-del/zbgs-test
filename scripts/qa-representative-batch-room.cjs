@@ -1,29 +1,56 @@
 // Whole deterministic batch through the existing controller, never eight controllers.
-const {chromium}=require('../prototype/node_modules/playwright');
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
 const {verifyCandidate}=require('./qa-m1-common.cjs');
-const [url,build,destination,indexPath]=process.argv.slice(2);
-const out=path.resolve(destination);
-async function main(){
- const index=JSON.parse(await fs.readFile(indexPath,'utf8'));
+const {createHash}=require('node:crypto');
+const PRESETS={
+ 'female-round-full':'female','female-long-slender':'female','female-square-athletic':'female','female-soft-wide':'female',
+ 'male-wide-muscular':'male','male-long-lean':'male','male-round-stocky':'male','male-angular-athletic':'male',
+};
+function batchCoverage(index){
  assert.equal(index.schema,'representative-runtime-index-v1');
- assert.equal(index.presets.length,8);
- for(const sex of ['female','male'])assert.equal(index.presets.filter(x=>x.sex===sex).length,4);
+ const partial=index.completeBatch===false;
+ const failed=['female-long-slender-v2','male-long-lean-v2'];
+ const expected=partial?Object.fromEntries(Object.entries(PRESETS).map(([id,sex])=>[id+'-v2',sex]).filter(([id])=>!failed.includes(id))):PRESETS;
+ assert.equal(index.presets.length,Object.keys(expected).length);
+ assert.deepEqual(index.presets.map(p=>p.id).sort(),Object.keys(expected).sort());
+ for(const p of index.presets)assert.equal(p.sex,expected[p.id]);
+ if(partial){
+  assert.equal(index.declaredBatchSize,8);
+  assert.equal(index.unpublished.length,2);
+  assert.deepEqual(index.unpublished.map(p=>p.id).sort(),failed.sort());
+  assert(index.unpublished.every(p=>p.status==='not-published-source-failed'));
+ }else{assert.equal(index.presets.length,8);assert.equal((index.unpublished??[]).length,0);}
+ return {declaredBatchSize:8,publishedCount:index.presets.length,completeBatch:!partial,unpublished:index.unpublished??[],
+  faceParameterLimit:partial?'脸宽参数仅部分实现，源意图投影差与实际轮廓仍待审查。':null};
+}
+async function main(){
+ const [url,build,destination,indexPath,...options]=process.argv.slice(2);
+ assert(options.every(option=>option==='--front-seat'),'Unknown capture option');
+ const out=path.resolve(destination);
+ const indexBytes=await fs.readFile(indexPath);
+ const index=JSON.parse(indexBytes);
+ const coverage=batchCoverage(index);
+ const frontSeat=!coverage.completeBatch||options.includes('--front-seat');
+ const {chromium}=require('../prototype/node_modules/playwright');
  await fs.mkdir(out,{recursive:false});
  await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
  await fs.copyFile(indexPath,path.join(out,'executed-runtime-index.json'));
- const summary={build,status:'running',cases:[],limits:[
+ const summary={build,status:'running',captureSchema:'representative-room-capture-v2',batchCoverage:coverage,
+  runtimeIndexSha256:createHash('sha256').update(indexBytes).digest('hex'),cases:[],limits:[
   'Technical completion and screenshots are not continuous visual acceptance.',
   'Development Chrome only, not ordinary-PC performance approval.',
   'This batch admits only its own configured clothes and hair; no frozen skirt inheritance.',
   'Frame times include recording; no assertion of performance from average FPS.',
+  'The original side-view seat approach has furniture occlusion; supplemental front seating does not verify the missing side-view interval.',
+  ...(coverage.faceParameterLimit?[coverage.faceParameterLimit]:[]),
  ]};
  const browser=await chromium.launch({channel:'chrome',headless:true});
  try{for(const spec of index.presets){
   const folder=path.join(out,spec.id);await fs.mkdir(folder);
   const context=await browser.newContext({viewport:{width:1440,height:900},recordVideo:{dir:folder,size:{width:1440,height:900}}});
   const p=await context.newPage();
-  const r={id:spec.id,sex:spec.sex,build,status:'running',errors:[],checks:[],tasks:[],visualAcceptance:'pending'};
+  const r={id:spec.id,sex:spec.sex,build,status:'running',errors:[],checks:[],tasks:[],visualAcceptance:'pending',
+   requestedHairStyle:spec.sex==='female'?'female-ponytail-headref-v3':'male-sidepart-v1'};
   let trace=null;
   p.on('pageerror',e=>r.errors.push(String(e)));
   const ready=()=>p.waitForFunction(()=>document.querySelector('#appearance-form')?.getAttribute('aria-busy')==='false',null,{timeout:60000});
@@ -57,7 +84,7 @@ async function main(){
     const applied=await p.evaluate(value=>__debug.command({type:'appearance',...value}),spec.appearance);
     assert(applied.applied,JSON.stringify(applied));
    }
-   const desiredStyle=spec.sex==='female'?'female-ponytail-headref-v3':'male-sidepart-v1';
+   const desiredStyle=r.requestedHairStyle;
    const choices=await p.evaluate(()=>__debug.avatar().appearance.getState().availableStyles);
    if(choices.includes(desiredStyle)){
     await p.selectOption('#appearance-hair-style',desiredStyle);await ready();
@@ -66,6 +93,10 @@ async function main(){
    }else r.hairLimit='Requested replacement hairstyle not admitted on this body; original hair retained, not counted as replacement pass.';
    for(const direction of ['front','side','back']){
     await mark('static-'+direction);await p.evaluate(view=>__debug.camera(view),'inspect-full-'+direction);await shot('full-'+direction);
+   }
+   await p.evaluate(()=>__debug.command({type:'expression',name:'neutral'}));
+   for(const direction of ['front','side','back']){
+    await mark('face-static-'+direction);await p.evaluate(view=>__debug.camera(view),'inspect-face-'+direction);await shot('face-'+direction);
    }
    await p.evaluate(()=>__debug.camera('inspect-face-front'));
    for(const expression of ['neutral','happy','aa']){
@@ -82,6 +113,14 @@ async function main(){
    await mark('sit');await p.evaluate(()=>{__debug.setSpeed(1.05);__debug.camera('inspect-full-side');});await request('sit');
    await p.waitForTimeout(1200);await shot('seated');
    await mark('stand');await request('stand');await shot('standing');
+   if(frontSeat){
+    r.supplementalFrontSeat={requested:true,camera:'inspect-full-front',completed:false,scope:'Supplement after original side-view sit/rise; furniture and baseline route retained.'};
+    await mark('supplemental-front-sit');await p.evaluate(()=>__debug.camera('inspect-full-front'));
+    await request('sit');r.supplementalFrontSeat.sitRequestId=r.tasks.at(-1).requestId;
+    await p.waitForTimeout(1200);await shot('seated-front');
+    await mark('supplemental-front-stand');await request('stand');r.supplementalFrontSeat.standRequestId=r.tasks.at(-1).requestId;
+    await shot('standing-front');r.supplementalFrontSeat.completed=true;
+   }
    await mark('leave');await p.evaluate(()=>__debug.camera('room'));await request('walk',{x:-.5,z:1.8});
    await mark('dance');await request('dance',{danceId:'dance-technical-once-v1'});await p.waitForTimeout(600);
    r.checks.push({name:'own exact body/clothing loaded; walk, run turn, sit, rise and technical dance tasks completed',passed:true});
@@ -104,7 +143,8 @@ async function main(){
    await fs.writeFile(path.join(folder,'report.json'),JSON.stringify(r,null,2)+'\n');summary.cases.push(r);
    await fs.writeFile(path.join(out,'report.json'),JSON.stringify(summary,null,2)+'\n');console.log(JSON.stringify({id:r.id,status:r.status,error:r.error}));
   }
- }}finally{await browser.close();summary.status=summary.cases.length===8&&summary.cases.every(r=>r.status==='technical-checks-passed-visual-pending')?'technical-checks-passed-visual-pending':'incomplete-or-failed';await fs.writeFile(path.join(out,'report.json'),JSON.stringify(summary,null,2)+'\n');}
+ }}finally{await browser.close();summary.status=summary.cases.length===coverage.publishedCount&&summary.cases.every(r=>r.status==='technical-checks-passed-visual-pending')?'technical-checks-passed-visual-pending':'incomplete-or-failed';await fs.writeFile(path.join(out,'report.json'),JSON.stringify(summary,null,2)+'\n');}
  if(summary.status==='incomplete-or-failed')process.exitCode=1;
 }
-main().catch(e=>{console.error(e);process.exitCode=1;});
+module.exports={batchCoverage};
+if(require.main===module)main().catch(e=>{console.error(e);process.exitCode=1;});
