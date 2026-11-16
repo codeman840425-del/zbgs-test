@@ -1,0 +1,31 @@
+原女与 jaw / waisthip 派生体长束发依赖审查
+
+结论
+当前 female-ponytail-v1 目录只准入原 female 的精确 body SHA。切换身体时 main.js 检查目标 availableStyles，缺少该发型便选择 original 并提示未适配。两种派生体均未获该发型准入，因此用户看到人物原发型恢复。这里记录的是代码与资源身份检查，未另做浏览器复现。
+
+实际资源
+female → prototype/public/assets/foundation/base-female-roundtrip.vrm
+SHA256 027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95
+m1a-jaw-v1 → prototype/public/assets/m1-variants/m1a-jaw-v1/avatar.vrm
+SHA256 3c11caaed49f6db514acb7678551352afdf1c2893ef92ca93b959a8d09691011
+m1a-waisthip-v1 → prototype/public/assets/m1-variants/m1a-waisthip-v1/avatar.vrm
+SHA256 10778174ece87e3e3a00ecaf5e0c98eef59cd7d762e9bb52daa50162ee1743b5
+实际 foundationProfile、源 spec/build-report、编辑 Blend、当前目录/fit/manifest 和解析器的路径及字节 SHA 均在 report.json。脚本验证原源与重复导出的 SHA 关系。
+
+两派生体均确认相同的依赖
+实际 GLB 各材质 primitive 索引逐字节一致。原 HairBack 发帽的 POSITION、NORMAL、UV、JOINTS、WEIGHTS 全部逐字节一致。glTF 材质、VRM 材质属性及内嵌图片哈希一致。所有 skin inverse bind、humanoid 映射一致。hips/spine/chest/upperChest/neck/head 原始骨的 local/world frame 和 inverse bind 一致，Body/Face mesh 节点 frame 一致。按原始 Head/Neck 正权重选出的 Body_SKIN 397 点，其五类属性在两派生体均一致。
+
+实际变化
+jaw 的 Body 位置未变，Face 导出 accessor 有 651 项精确变化，其中 60 项差值不超过 1e-7 米。Face_SKIN 使用点变化 264 个，最大 4.4721 毫米；FaceMouth 使用点变化 387 个，最大 1.4212 毫米。源作者 Blender 报告计 613 个变形点，其统计范围与导出浮点 accessor 的精确差异不同。UV、关节索引、权重保留。264 个变化 Face_SKIN 点位于既有头球/头胶囊静态代理内。Chest/UpperChest 加权 Body 区域 1025 点均未变。
+waisthip 的 Face 位置未变，Body 导出 accessor 有 1782 项精确变化，其中 8 项不超过 1e-7 米。Body_SKIN 变化 787 点，最大 5.8560 毫米，原坐标 Y 范围 0.77379–1.17986 米。Tops 变化 324 点，最大 5.9653 毫米；Bottoms 变化 671 点，最大 6.2788 毫米。UV、关节索引、权重保留。Chest/UpperChest 加权 Body 区域中 437 点变化，最大 3.6866 毫米。按既有静态代理选点，头球内变化 Body 点为 0，下部头胶囊内为 4（最大 0.0408 毫米），胸胶囊内为 308（最大 3.5734 毫米）。因此腰臀名称本身不足以界定实际受影响区域。
+
+有限复用条件
+上述一致数据为同一个原女 rootjoin-v2 长束发 GLB 的复用提供源依赖依据。两派生体仍需各自明确的目标 body 身份/fit，检查根部静态连接及改变后的头/胸表面与现有代理关系，再走实际动作、接触、切换和恢复验证。jaw 的面部变化及 waisthip 的胸部变化均须纳入。头/胸代理锚点及其 offset/tail 的源坐标变换虽相同，代理覆盖的身体几何已有上述变化。
+现有 fit 为 female-ponytail-v1-rootjoin-fit-v2，绑定原女。fit SHA256 为 5e6d7499852ffc6198e6c7190a50cf5b55abd51f535c038044201b1cd9ada04f。GLB SHA256 为 1b785f9d54107818cee39eda2de7263ad0720ce90968fbaa7cc32c2465e3c385。manifest SHA256 为 28337f44c1d297f2657b8ca32466e0c3b9e0cfceb17c39bda019fc19bfb48b9d。
+
+范围
+本包只有实际模块配置与 GLB CPU 数组审查。静态代理内点数仅表示点的空间归属，三角面接触、动态物理、完整姿态和观感均待实际验证。未新增 fit 或准入，未修改运行代码。后续批次可复用该依赖检查方法，仍须使用各自实际资源身份与变化区域。
+
+复现
+在 F:/gamemake 执行 python -B evidence/m2-derived-hair-admission-audit-v1/audit.py
+依赖现有 Python NumPy 和 Node。stdout.txt 保存本次实际输出，report.json 保存全部逐属性哈希、骨架帧、源记录及代理比较。脚本末尾逐 SHA 重验输入未在运行中变化。
