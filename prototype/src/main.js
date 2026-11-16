@@ -1055,6 +1055,8 @@ class CharacterScene extends Phaser.Scene {
         this.actor.setExpression(cmd.name);
         return {applied:true};
       case "accessory":
+        if (cmd.kind === "ears") return this.actor.rigidAccessories?.setSelection(cmd.value)
+          ?? {applied:false,reason:'当前人物没有成对耳饰适配入口'};
         // Admission must read the controller's current intent, not last frame's
         // live-layer snapshot (dance and equip may arrive in the same tick).
         if (cmd.kind === "mic" && cmd.value && (this.mode === "dance" ||

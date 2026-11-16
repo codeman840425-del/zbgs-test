@@ -5,6 +5,7 @@ import { createM1Equipment } from "./m1-equipment.js";
 import { outfitSelection } from "./outfit-selection.js";
 import { foundationProfile } from "./foundation-profiles.js";
 import { createLivePresentation } from "./live-presentation.js";
+import { createRigidAccessoryLayer } from "./rigid-accessory-layer.js";
 import { createCharacterAppearance } from "./character-appearance.js";
 import { createFaceRenderCompaction } from "./face-render-compaction.js";
 import { createFacialGeometry } from "./facial-geometry.js";
@@ -133,7 +134,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     outfit = 0,
     lowerBodyRole = outfitSelection(config, 0).bottomRole,
     dynamics = true;
-  let equipment, livePresentation, appearance, facialGeometry, faceRenderCompaction;
+  let equipment, livePresentation, rigidAccessories, appearance, facialGeometry, faceRenderCompaction;
   const faceWarmup=createFaceGeometryWarmup(renderer,scene);
   const releaseFaceWarmup=()=>faceWarmup.dispose();
   try {
@@ -168,6 +169,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
   const surfaces = equipment.getAssetProfile();
   appearance = createCharacterAppearance({ vrm, avatarSha256: sha256 });
   livePresentation = createLivePresentation({vrm, root, bodyType: config.referenceBody || bodyType, avatarSha256: sha256});
+  rigidAccessories = createRigidAccessoryLayer({vrm, avatarSha256:sha256});
   // Live expression admission and attachment calibration inspect canonical indices first.
   faceRenderCompaction=createFaceRenderCompaction({vrm,avatarSha256:sha256});
   facialGeometry = createFacialGeometry({ vrm, avatarSha256: sha256,renderCompaction:faceRenderCompaction,prepareRender:parts=>faceWarmup.prepare(parts) });
@@ -261,6 +263,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     profile,
     config,
     livePresentation,
+    rigidAccessories,
     appearance,
     facialGeometry,
     getAssetProfile: () => profile,
@@ -320,6 +323,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
       description:
         `${config.label}：完整人体与独立装备；基础模式保留同一套鞋。当前组合须独立验收，画风待确认。`,
       asset: profile,
+      rigidAccessories: rigidAccessories.getState(),
     }),
     dispose: () => {
       releaseFaceWarmup();
@@ -327,6 +331,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
       faceRenderCompaction?.dispose();
       appearance.dispose();
       livePresentation.dispose();
+      rigidAccessories.dispose();
       equipment.dispose();
       root.removeFromParent();
       for (const [mesh, material] of sourceMaterials) mesh.material = material;
@@ -351,6 +356,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     // Release partially built equipment and the VRM here, including failures
     // before createM1Equipment returns (manifest/network/identity errors).
     livePresentation?.dispose();
+    rigidAccessories?.dispose();
     equipment?.dispose();
     root.removeFromParent();
     for (const [mesh, material] of sourceMaterials) mesh.material = material;
