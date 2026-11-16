@@ -12,10 +12,11 @@ try{
   const persistence=await load('persistence.js'),documentTools=await load('document.js');
   const bytes=await fs.readFile(input,'utf8'),raw=JSON.parse(bytes);
   let document=raw.schema==='company-save'?await persistence.decodeCompanySave(bytes,catalog,templates):documentTools.restoreCompany(bytes,catalog,templates);
+  const space=await load('space.js'),placement=await load('placement.js');
+  space.inspectCompanyConnections(document,catalog,templates);placement.inspectCompanyPlacement(document,catalog,templates);
   if(command==='apply'){
     if(!operations||!output)throw Error('Use apply INPUT_SAVE OPS_JSON NEW_RESULT_DIRECTORY');
     document=documentTools.prepareCompanyChange(document,JSON.parse(await fs.readFile(operations,'utf8')),{catalog,templates}).document;
-    const space=await load('space.js'),placement=await load('placement.js');
     space.inspectCompanyConnections(document,catalog,templates);placement.inspectCompanyPlacement(document,catalog,templates);
     const target=path.resolve(output),parent=path.dirname(target);let stage;
     try{await fs.lstat(target);throw Error('Output exists; select a new directory');}catch(error){if(error.code!=='ENOENT')throw error;}

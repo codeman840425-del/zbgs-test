@@ -69,20 +69,8 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
     }
     try {
       if(view.mode==='building') {
-        document.nodes.filter(n=>n.kind==='floor').forEach((floor,index)=>{
-          const layer=new THREE.Group();layer.name=`Overview:${floor.id}`;layer.position.y=index*4;root.add(layer);
-          for(const region of document.nodes.filter(n=>['room','area'].includes(n.kind)&&derived.floorIds.get(n.id)===floor.id)) {
-            const colors={streaming:'#bfd5c2',work:'#c5ccd8',rest:'#e0c6a8',training:'#d2c4d7'};
-            const frame=derived.worlds.get(region.id),slab=structureMesh(region.bounds.width,.25,region.bounds.depth,region.kind==='area'?'#a8b8ac':colors[region.purpose]);
-            slab.position.fromArray(frame.position);slab.rotation.y=frame.yaw;slab.userData={floorId:floor.id,roomId:region.id};layer.add(slab);
-            const stations=document.nodes.filter(n=>n.kind==='workstation'&&n.parentId===region.id);
-            for(const station of stations) {
-              const screen=derived.facilities.find(f=>f.node.stationId===station.id&&f.resource.id==='monitor');
-              const marker=structureMesh(1.4,.35,.7,screen?.state.on?'#416c57':'#747b79');marker.position.fromArray(derived.worlds.get(station.id).position);marker.position.y+=.3;layer.add(marker);
-            }
-          }
-        });
-        root.updateMatrixWorld(true);
+        // Whole-building views use a lightweight presentation in the host UI.
+        // Keep only the logical document here; no indoor meshes are constructed.
         return {root,document:clone(document),derived,architecture,floorId,view,groups,facilities,points,floors,walls,lights};
       }
       for(const node of document.nodes)if(derived.floorIds.get(node.id)===floorId) {

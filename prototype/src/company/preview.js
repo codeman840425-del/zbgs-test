@@ -12,6 +12,7 @@ import {createCompanyAuthoring} from './authoring.js';
 import {createCompanyAssetLibrary} from './asset-library.js';
 import {createScaleExamples} from './scale-examples.js';
 import {deriveCompany} from './document.js';
+import {createBuildingView} from './building-view.js';
 import './preview.css';
 
 const element=id=>document.getElementById(id),stage=element('stage');
@@ -26,10 +27,17 @@ const camera=new THREE.PerspectiveCamera(38,1,.05,300),orbit=new OrbitControls(c
 orbit.enableDamping=false;orbit.maxPolarAngle=Math.PI*.48;orbit.minDistance=2;orbit.maxDistance=160;
 const layouts={base,alternate,studio,...createScaleExamples(catalog,templates),smallHome,rental:rentalHome},assetLibrary=createCompanyAssetLibrary();let session,activeView='room',busy=false,game;
 let regionLabels=[];
+let buildingPresentation='exterior';
+const buildingView=createBuildingView(element('building-stage'),{
+  onSelectFloor:floorId=>perform('正在查看楼层…',()=>showSpace('floor',floorId)),
+  onPresentationChange:presentation=>{buildingPresentation=presentation;if(session?.scene.view.mode==='building')element('view-label').textContent=presentation==='section'?'大楼侧剖面':'大楼外观';},
+});
 function status(text,error=false){element('status').textContent=text;element('status').dataset.error=String(error);}
 function setView(name){
   activeView=name;
   const doc=session.document,derived=deriveCompany(doc,catalog,templates),view=session.scene.view;
+  orbit.enableRotate=view.mode==='room';orbit.enablePan=view.mode==='room';orbit.enableZoom=view.mode==='room';
+  if(view.mode==='building')return;
   let box=new THREE.Box3().setFromObject(session.scene.root),target=box.getCenter(new THREE.Vector3());
   if(view.mode!=='building') {
     const focused=view.mode==='room'?view.roomId:null;
@@ -68,10 +76,10 @@ function updateRegionLabels(){
     label.hidden=!visible;label.style.left=`${(projected.x+1)*stage.clientWidth/2}px`;label.style.top=`${(1-projected.y)*stage.clientHeight/2}px`;
   }
 }
-async function showSpace(mode,floorId=element('floor').value,roomId=element('room').value){
-  await session.setView({mode,floorId,roomId:mode==='room'?roomId:null});sync();setView(mode==='building'?'building':'room');
+async function showSpace(mode,floorId=element('floor').value,roomId=element('room').value,presentation='exterior'){
+  await session.setView({mode,floorId,roomId:mode==='room'?roomId:null});if(mode==='building')buildingPresentation=presentation;sync();resize();setView(mode==='building'?'building':'room');
 }
-async function defaultSpace(){const doc=session.document;await showSpace(doc.scale==='building'?'building':'floor',session.scene.view.floorId);}
+async function defaultSpace(){const doc=session.document,rooms=doc.nodes.filter(n=>n.kind==='room');await showSpace(doc.scale==='building'?'building':rooms.length===1?'room':'floor',session.scene.view.floorId,rooms[0]?.id);}
 function sync(){
   if(!session)return;const doc=session.document,facilities=doc.nodes.filter(n=>n.kind==='facility'),previous=element('station').value,derived=deriveCompany(doc,catalog,templates),view=session.scene.view;
   fillOptions('floor',doc.nodes.filter(n=>n.kind==='floor'),view.floorId);
@@ -81,7 +89,7 @@ function sync(){
   if(stations.some(n=>n.id===previous))element('station').value=previous;const id=element('station').value;element('station').disabled=busy||!stations.length;
   element('layout').value=Object.entries(layouts).find(([,value])=>JSON.stringify(value)===JSON.stringify(doc))?.[0]||'custom';
   element('scene-name').textContent=doc.name; element('scene-count').textContent=`${doc.nodes.filter(n=>n.kind==='floor').length} 层 · ${doc.nodes.filter(n=>n.kind==='room').length} 间经营房间 · 已配置 ${doc.nodes.filter(n=>n.kind==='workstation').length} 个工位`;
-  element('view-label').textContent=view.mode==='building'?'大楼概览':view.mode==='room'?`房间聚焦 · ${derived.nodes.get(view.roomId).name}`:`楼层总览 · ${derived.nodes.get(view.floorId).name||'当前层'}`;
+  element('view-label').textContent=view.mode==='building'?(buildingPresentation==='section'?'大楼侧剖面':'大楼外观'):view.mode==='room'?`房间聚焦 · ${derived.nodes.get(view.roomId).name}`:`楼层总览 · ${derived.nodes.get(view.floorId).name||'当前层'}`;
   const sofa=sofaNode();element('sofa').disabled=busy||!sofa;if(sofa)element('sofa').value=sofa.resource.id==='timber-sofa'?'timber':String(sofa.resource.version);
   element('fabric').disabled=busy||!sofa;const fabric=sofa?.appearance?.materials?.fabric;
   element('fabric').value=!fabric?'original':fabric.color==='#345c83'?'blue':'custom';
@@ -91,8 +99,12 @@ function sync(){
   }
   element('upgrade').disabled=busy||!id||doc.nodes.find(n=>n.id===id)?.template.version===2;
   element('building-view').disabled=busy||doc.scale!=='building';
+  const building=view.mode==='building';element('building-stage').hidden=!building;stage.hidden=building;
+  if(building)buildingView.render(doc,{presentation:buildingPresentation});
+  element('camera-hint').textContent=building?'先进入侧剖面，再选择楼层。':view.mode==='room'?'单间可拖动旋转，滚轮缩放。':'当前为固定角度总览，点击房间进入三维查看。';
+  document.querySelectorAll('[data-view]').forEach(button=>{button.disabled=busy||view.mode!=='room';});
   regionLabels=[];element('region-labels').replaceChildren();
-  const labelNodes=view.mode==='building'?doc.nodes.filter(n=>n.kind==='floor'):doc.nodes.filter(n=>['room','area'].includes(n.kind)&&derived.floorIds.get(n.id)===view.floorId&&(!view.roomId||n.id===view.roomId));
+  const labelNodes=building?[]:doc.nodes.filter(n=>['room','area'].includes(n.kind)&&derived.floorIds.get(n.id)===view.floorId&&(!view.roomId||n.id===view.roomId));
   for(const [index,node]of labelNodes.entries()) {
     const label=document.createElement('span');label.className='region-label';label.textContent=node.name||`空间 ${index+1}`;element('region-labels').append(label);
     let position;
@@ -111,8 +123,8 @@ async function perform(label,action){
   }
   finally{busy=false;document.querySelectorAll('button,select').forEach(e=>e.disabled=false);sync();}
 }
-function resize(){const w=stage.clientWidth,h=stage.clientHeight;renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();renderer.render(world,camera);updateRegionLabels();}
-class CompanyPreview extends Phaser.Scene {update(){if(!document.hidden){renderer.render(world,camera);updateRegionLabels();}}}
+function resize(){const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();renderer.render(world,camera);updateRegionLabels();}
+class CompanyPreview extends Phaser.Scene {update(){if(!document.hidden&&session?.scene.view.mode!=='building'){renderer.render(world,camera);updateRegionLabels();}}}
 async function start(){
   session=await createCompanyAuthoring(world,smallHome,{catalog,templates,storage:localStorage,assetLibrary});
   let restored=false,restoreError;
@@ -128,7 +140,7 @@ async function start(){
   element('floor').onchange=()=>perform('正在查看楼层…',()=>showSpace('floor'));
   element('room').onchange=()=>perform('正在查看房间…',()=>showSpace('room'));
   element('floor-view').onclick=()=>perform('正在查看整层…',()=>showSpace('floor'));
-  element('building-view').onclick=()=>perform('正在查看大楼…',()=>showSpace('building'));
+  element('building-view').onclick=()=>perform('正在查看大楼…',()=>showSpace('building',element('floor').value,null,'section'));
   element('station').onchange=sync;
   element('sofa').onchange=()=>perform('正在替换沙发外观…',()=>session.apply([{type:'replace-resource',id:sofaNode().id,resource:element('sofa').value==='timber'?{id:'timber-sofa',version:1}:{id:'lounge-sofa',version:1}}]));
   element('fabric').onchange=()=>perform('正在更新面料…',()=>session.apply([{type:'set-appearance',id:sofaNode().id,appearance:element('fabric').value==='original'?{}:{materials:{fabric:{color:'#345c83',roughness:.9}}}}]));
@@ -156,4 +168,4 @@ async function start(){
   fetch('/company-build-info.json').then(r=>r.ok?r.json():null).then(info=>{if(info){element('build-label').textContent=`构建 ${info.shortId}`;window.company.buildInfo=info;}}).catch(()=>{});
 }
 start().catch(error=>{status(`场景加载失败：${error.message}`,true);console.error(error);});
-addEventListener('pagehide',()=>{game?.destroy(true);session?.dispose();assetLibrary.dispose();orbit.dispose();renderer.dispose();},{once:true});
+addEventListener('pagehide',()=>{game?.destroy(true);session?.dispose();assetLibrary.dispose();orbit.dispose();buildingView.dispose();renderer.dispose();},{once:true});

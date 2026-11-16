@@ -173,7 +173,10 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     limits:['Fixed manifest source identity and exact packaged viewer bytes are verified. Rebuild equivalence and browser use require separate acceptance.',
       'No node_modules or character assets are included. npm ci requires the pinned dependencies to be available; a fresh offline installation is untested.']};
   add('transfer-manifest.json',json(manifest),'package-manifest');
-  const parent=path.dirname(output);await fs.mkdir(parent,{recursive:true});await noLinks(parent);
+  const parent=path.dirname(output);
+  // Windows rejects mkdir on an existing drive root even with recursive:true.
+  if(parent!==path.parse(parent).root)await fs.mkdir(parent,{recursive:true});
+  await noLinks(parent);
   const lockPath=path.join(parent,`.${path.basename(output)}.package-lock`);let lock,stage;
   try{
     try{lock=await fs.open(lockPath,'wx');}catch(error){if(error.code==='EEXIST')fail('package-output-busy',output,'An active or interrupted publisher holds the output lock');throw error;}

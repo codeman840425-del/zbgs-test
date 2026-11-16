@@ -20,8 +20,9 @@ let server,browser,context,video;
  await page.getByLabel('沙发样件').selectOption('timber');await page.waitForFunction(()=>!document.getElementById('save').disabled);
  await show('换成真实木框模型；座位、接近点、阻挡及设施身份保持。','03-timber-sofa');
  await page.evaluate(()=>company.load(company.layouts.rental));await show('三间经营房分别通向公共客厅，沿同一配置加载。','04-rental-home');
- await page.evaluate(()=>company.load(company.layouts.twoFloors));await show('两份不同布局构成两层；概览仅显示轻量结构。','05-two-floors');
- await page.evaluate(()=>company.showSpace('floor','two-floor-company/floor-1'));await show('进入一层，加载这一层的真实组件。','06-first-floor');
+ await page.evaluate(()=>company.load(company.layouts.twoFloors));await show('整栋显示轻量完整外观，不加载室内模型。','05-two-floors');
+ await page.locator('.company-building-view__facade').click();await show('点击后过渡到竖向侧剖面，只用于选择楼层。','05b-section');
+ await page.locator('.company-building-view__floor[data-floor-id="two-floor-company/floor-1"]').click();await page.waitForFunction(()=>company.session.scene.view.mode==='floor'&&!document.getElementById('save').disabled);await show('选中一层才加载真实组件，整层固定镜头查看。','06-first-floor');
  await page.evaluate(()=>company.showSpace('room','two-floor-company/floor-2','two-floor-company/floor-2/room-2'));await show('二层采用转向工位，附近详细显示，远处简化。','07-second-floor');
  await page.evaluate(async()=>{const node=company.session.document.nodes.find(n=>n.id.endsWith('/floor-2/room-2/station-1/monitor'));await company.apply([{type:'set-state',id:node.id,state:{on:false}}]);await company.save();});
  await fs.writeFile(path.join(out,'all-floors.company.json'),await page.evaluate(()=>company.export()));
@@ -29,7 +30,8 @@ let server,browser,context,video;
  const saved=await page.evaluate(()=>company.session.document);await page.reload();await page.waitForFunction(()=>window.company?.ready&&company.buildInfo);
  if(JSON.stringify(saved)!==JSON.stringify(await page.evaluate(()=>company.session.document)))throw Error('Reload did not restore complete saved document');
  await page.evaluate(()=>company.showSpace('floor','two-floor-company/floor-2'));await show('刷新后完整恢复，可继续修改；真实浏览器关闭重开另有检查。','09-restored');
- await page.evaluate(()=>company.load(company.layouts.building));await show('同一机制组成五层代表配置；新的16房与老板空间方案留后续。','10-building');
+ await page.evaluate(()=>company.load(company.layouts.building));await show('同一观看机制用于五层代表配置；新的16房与老板空间方案留后续。','10-building');
+ await page.locator('.company-building-view__facade').click();await show('楼层竖向排列，点选进入；返回整栋释放室内显示资源。','11-building-section');
  report.durationSeconds=(Date.now()-start)/1000;report.status='recorded';
 })().catch(error=>{report.status='failed';report.error=error.stack;process.exitCode=1;}).finally(async()=>{
  if(context)await context.close();if(video){await video.saveAs(path.join(out,'company-c2-normal1x.webm'));await video.delete();}

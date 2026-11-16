@@ -59,7 +59,7 @@ await check('Building overview releases GLB cache and retains complete per-floor
   const f=await fixture();try{const {scene}=f.authoring,saved=scene.save(),navigation=[floor1,floor2].map(id=>logicalNavigation(scene,id));
     await f.authoring.setView({mode:'building'});assert.equal(scene.save(),saved);assert.deepEqual([floor1,floor2].map(id=>logicalNavigation(scene,id)),navigation);
     assert.equal(scene.snapshot().displayedFacilities,0);assert.equal(scene.listUsePoints().length,0);assert.deepEqual(f.library.snapshot(),{cachedAssets:0,loadedAssets:0});
-    let meshes=0;scene.root.traverse(n=>{if(n.isMesh)meshes++;});assert(meshes>0);return {overviewMeshes:meshes,logicalNodes:scene.document.nodes.length,perFloorWallObstacles:navigation.map(n=>n.obstacles.filter(o=>o.kind==='wall').length)};
+    let meshes=0;scene.root.traverse(n=>{if(n.isMesh)meshes++;});assert.equal(meshes,0);return {overviewMeshes:meshes,logicalNodes:scene.document.nodes.length,perFloorWallObstacles:navigation.map(n=>n.obstacles.filter(o=>o.kind==='wall').length)};
   }finally{f.dispose();}
 });
 
