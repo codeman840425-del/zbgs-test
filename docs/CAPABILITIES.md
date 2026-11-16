@@ -1,10 +1,12 @@
 # 角色系统能力清单（唯一当前状态依据）
 
+> 当前增量：4196固定版 **460b72813f68**（源6e4801f），只修换体准备中的图形上下文失效：保留原人物、明确失败、恢复后可重试。25项CPU＋独立6项helper＋真实浏览器保旧/重试与正常/故障换体门通过，新检出122文件一致。1×原片见 `evidence/body-context-guard-delivery-v1/`。34e及其外观/性能证据保留原版本，以下此前34e描述均属上一固定版；新观感未自动通过，普通机仍未测。零NORMAL4f候选因换体/加载回退不采用。最新指针以delivery/appearance-workbench.json为准。
+
 更新：2026-11-15。本文件只保留当前限定状态；逐轮推进、旧公开指针和失败试验流水的原字节归档在 [历史清单](history/CAPABILITIES-before-current-consolidation-bcade.md)。历史中的“当前/下一步”不是新任务，原证据状态不改标。
 
 ## 当前交付与阶段边界
 
-- **4196 /?workbench=appearance：34e7745e78ab**，源9248dfe，experiments/face-shadow-prepare-final-v1/dist-final。唯一指针delivery/appearance-workbench.json；a7efd及历史版保留回滚。当前1×同镜头见evidence/face-shadow-prepare-v1；原反馈修复对照仍在appearance-repair-ab074。当前备份以delivery回执为准。
+- **4196 /?workbench=appearance：460b72813f68**，源6e4801f，experiments/body-context-guard-build-v1/dist。唯一指针delivery/appearance-workbench.json；34e及历史版保留回滚。当前换体1×见evidence/body-context-guard-delivery-v1；原34e近景/ab074反馈对照保持各自构建。当前备份以delivery回执为准。
 - **4195：77e46efb5441** 保留M1基础。用户对原女裙/原男短裤所录完整1×链接受“可以作为下一阶段基础”，明确排除已登记裙瑕疵；仅这些影片范围，不外推新外貌、最终画风、普通电脑或所有组合。回执 `evidence/m1-close-77e46-user-review.json`。
 - **裙装与该30秒舞已封板。** 038裙实现随77保留，已知硬折/局部接触/成本缺口不是继续精修的授权；30秒Rokoko路线获认可，唯一适配尝试后封存，不再追加调参。依据 `evidence/m1-stage-close-user-direction-2026-11-15.json`、`evidence/rokoko-30s-advisor-v1/USER-REVIEW.json`。旧失败仍失败，不因封板变成全部通过，也不因旧失败重新派活。
 - 有限外观闭环及本轮反馈修复：男女独立三分区已获用户接受；原男女新几何嘴±12%/眉3mm/鼻2mm/眼5%、虹膜v3、本地v5配方已接入。旧范围/身份保留；男jaw仍只0/+4%，女jaw/waist无四域准入。新外观待用户观看，不扩完整M2/M3。
@@ -100,6 +102,12 @@ F=完整Base_Female原基模，M=同系列Base_Male原基模，P=独立裤，S=�
 ## 本轮接续：首绘与可靠性
 
 34e当前版在保留阴影的前提下提前准备实际depth程序。最终原男女开发机有窗口自动化Chrome短测最大rAF约91ms，请求223–235ms；前序两序对照峰值减少但请求更长，稀疏输入收益不稳定。PERF-01仍未完全通过。当前13项受控CPU生命周期、4项实际原生焦点/后台/换体、10项UI配方/色彩、122文件新检出重建及公开入口smoke通过，适用REL-01/03和PIPE-02的这些有限路径；不外推其他组合。当前原片已录，工程审查为末13秒2fps六图及关键静止姿势，不代替用户连续观感。源/证据见face-shadow-prepare-v1及rebuild-face-shadow-34e。
+
+## 首用备选与恢复检查补充
+
+PERF-01/02：零NORMAL布局4f候选不采用；首改改善但换男长帧327.6→570.2ms，初始化和每体约10MiB CPU/GPU基础纹理成本均增加。详face-normal-reserve-gpu-v1的RESULT与BODY-SWITCH-RESULT；非34e同版性能或普通机结果。原失败QA断言保留，离线状态复核和性能解释单列。
+
+REL-03：34e原男女实际UI改嘴各一次，在真实WebGL上下文失效后保旧、清理、退出加载；restore后同值重试及reset共6阶段通过。证据face-context-recovery-34e-v1；检查截图有角色，不作完整视觉验收。扩展触发不等于驱动崩溃，不覆盖其他故障；换体等待的独立460修复见顶部与body-context-guard-delivery-v1。
 
 ## 本轮接续：源导出精度修复
 

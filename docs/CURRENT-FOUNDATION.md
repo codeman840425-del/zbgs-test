@@ -1,15 +1,18 @@
 # 当前角色工程：恢复入口
 
+> 当前增量：4196固定版 **460b72813f68**（源6e4801f），只修换体准备中的图形上下文失效：保留原人物、明确失败、恢复后可重试。25项CPU＋独立6项helper＋真实浏览器保旧/重试与正常/故障换体门通过，新检出122文件一致。1×原片见 `evidence/body-context-guard-delivery-v1/`。34e及其外观/性能证据保留原版本，以下此前34e描述均属上一固定版；新观感未自动通过，普通机仍未测。零NORMAL4f候选因换体/加载回退不采用。最新指针以delivery/appearance-workbench.json为准。
+
 更新：2026-11-15（最新增量 UTC 16日）。F:/gamemake；分支 feat/m1-foundation-room。先读本页、AGENTS 与唯一能力清单 CAPABILITIES.md。旧流水归档 history/CURRENT-before-visible-ab074.md，不能据旧“下一步”重开封板任务。
 
 ## 固定入口
 
-- **4196 /?workbench=appearance：34e7745e78ab**。源9248dfe7842197894bb1160edd311173158c415b，experiments/face-shadow-prepare-final-v1/dist-final。提前准备实际阴影程序；保留阴影与角色几何。指针 delivery/appearance-workbench.json，前版a7efd历史指针已保存，不覆盖旧产物。
-- **当前正常速度录像：4174/evidence/face-shadow-prepare-v1/**，同脚本、同镜头旧新男女近景。原瞳色/几何/移动修复对照仍在appearance-repair-ab074；不把旧片换标。
+- **4196 /?workbench=appearance：460b72813f68**。源6e4801f6f69c13af44adf7e7ceb014868cbc6631，experiments/body-context-guard-build-v1/dist。换体上下文失效保旧/重试修复；指针delivery/appearance-workbench.json。前版34e保留于experiments/face-shadow-prepare-final-v1/dist-final及delivery/history/appearance-workbench-34e7745e78ab.json。
+- **当前正常换人与故障恢复1×录像：4174/evidence/body-context-guard-delivery-v1/**；25CPU、独立6helper、实际故障恢复、正常3门/故障3门、新检出122文件、公开入口UI移动/视频播放通过。
+- **前版34e近景录像：4174/evidence/face-shadow-prepare-v1/**，同脚本、同镜头旧新男女近景。原瞳色/几何/移动修复对照仍在appearance-repair-ab074；不把旧片换标。
 - **4195：77e46efb5441** 仍为用户限定接受的M1基础。4191–4194既有历史服务未动；此次没有新增常驻端口，临时QA服务全退出。
 - Phaser3.90.0 + Three0.187.0 + three-vrm3.5.5。Rigby2D、真实多人服务器不参与。普通电脑暂无设备，明确未实测。
 
-## 最新成本增量
+## 前版34e成本与其证据（460未重新测性能）
 
 - 34e最终当前版：有窗口自动化Chrome/RTX4090/1600×1000，无录像短测原男女首改最大rAF91.0/90.9ms、请求235.4/222.7ms。前序bb6试验与a7两种顺序均降低帧峰，但请求变长且输入改善不稳定；不宣称已流畅。自动化focus配置不等于原生屏幕呈现，普通机未测。
 - 当前实际原生焦点/后台4门、UI配方/颜色10门通过；13项受控CPU生命周期含清理反例修复。新检出122文件一致，公开header/runtime/UI移动及两段录像实际播放已核。当前证据face-shadow-prepare-v1、rebuild-face-shadow-34e、current-workbench-34e7745e78ab。
@@ -57,10 +60,15 @@
 2. 男嘴−12%源NORMAL：生产导出规范化与独立参考合同已实际实现，55形态保护域/法线与原底重生成通过；男±12%新合同过原门，旧负reference仍保失败。见 evidence/mouth-quantization-reference-v1/RESULT.md。未改公开配方/保存/几何，未声称新recipe准入；独立审查与Git真实字节24项核验通过；当前完成归档备份。
 3. 4196已更新34e固定候选，正常速度片/配方门/恢复门/重建/公开入口均实际检查；当前交付备份已核实，用户瞳色与幅度问题已集中发出待答。只暂停依赖观感的分支，不重开裙舞或扩大M3。
 
-4. 接续独立技术小验：pose_extraction在experiments隔离检出从0137源评估“加载时零NORMAL morph布局”，不叠shadow准备，不改当前34e。原男女6个受影响Face几何预计每体各新增约10MiB CPU纹理backing及同量级GPU纹理；须初始化前准备，不能在已建纹理后原地加stride。先做数学/源合同与完整输出对照，未GPU实测、不宣称优于当前。不重做已完成的导出精度包。
+4. 零 NORMAL 布局候选4f33a4f72f21已完成CPU、实际GPU和同页女→男→女对照，**不采用、不替换34e**。首改长帧降低，但首次切男最大rAF327.6→570.2ms，UI请求至首render返回937.2→1153.7ms，每体常驻CPU backing和GPU基础存储各增加约10MiB。一次高配开发机/单顺序，不是普通机或屏幕呈现结论。保留独立分支codex/m2-face-normal-reserve及evidence/face-normal-reserve-gpu-v1；不继续扫描参数或以首改收益掩盖换体回退。两项QA错误断言保原报告，离线仅复核实际状态不变量，不重跑或改标原报告。
+5. 当前34e实际WebGL失效/恢复检查：原男女各一次真实UI改嘴，在compile期间用WEBGL_lose_context失效；失败保原网格、退出loading、预备材质各释放一次；恢复后同值重试、reset成功，截图已检查人物仍可见。6个阶段状态通过，evidence/face-context-recovery-34e-v1。仅浏览器扩展模拟上下文失效，不是驱动崩溃/长期/普通电脑验收。该独立路径随后复现失效期间早报成功并在460修复，详body-context-guard-delivery-v1。
 
 长目标工具目前仍返回blocked，现有工具不提供恢复状态操作；这是工具状态限制，不是停止本轮执行的理由。不创建替代目标，不将目标误标完成。继续按当前用户授权实施。
 
 ## 上轮有界目标核对的适用范围
 
 六个原工作包的证据核对保存在 evidence/goal-scope-audit-a7efd/independent/RESULT.md。它不表示首绘停顿、源NORMAL失败或人工/设备缺口已解决，也不能推出没有可继续的技术工作。AVATAR-CONTRACT现行v5、CAP DATA-01和README4196主入口的纠正继续有效；现行状态由CAP与delivery维护。
+
+## 本次恢复记录
+
+460已经实际发布4196，公开header/runtime与改脸后房间实际移动、两段录像1×播放均通过。新修复只涉及换体准备；外观取舍仍待用户，普通电脑缺口仍保留。当前性能实验4f已否决，不反复调参或重开冻结裙舞。已授权的可靠性局部修复发现即实施；不要将局部待验当作整个计划自动完成或暂停。备份回执见delivery/workbench-backup-460.json（核实后写入）。

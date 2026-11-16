@@ -1,0 +1,33 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import path from 'node:path';
+import {pathToFileURL} from 'node:url';
+const root=path.resolve('experiments/m1-face-normal-reserve-candidate');
+const load=p=>import(pathToFileURL(path.join(root,p)));
+const {glb,fixture}=await load('scripts/face-visible-fixture.mjs');
+const {reserveFaceNormalLayout,reservedNormalCacheKey}=await load('prototype/src/face-normal-reservation.js');
+const {createFacialGeometry}=await load('prototype/src/facial-geometry.js');
+globalThis.fetch=async url=>new Response(fs.readFileSync(path.join(root,'prototype/public',String(url).slice(1))));
+const rows=[];
+for(const sex of ['female','male']){
+ const src=glb(path.join(root,`prototype/public/assets/foundation/base-${sex}-roundtrip.vrm`));
+ const a=fixture(src),b=fixture(src);
+ reserveFaceNormalLayout(a.vrm,src.sha);reserveFaceNormalLayout(b.vrm,src.sha);
+ const ag=a.geometries.filter(g=>reservedNormalCacheKey(g)),bg=b.geometries.filter(g=>reservedNormalCacheKey(g));
+ assert.equal(new Set(ag.map(reservedNormalCacheKey)).size,1);
+ assert.notEqual(reservedNormalCacheKey(ag[0]),reservedNormalCacheKey(bg[0]));
+ assert.notEqual(ag[0].morphAttributes.normal[0].array.buffer,bg[0].morphAttributes.normal[0].array.buffer);
+ const api=createFacialGeometry({vrm:a.vrm,avatarSha256:src.sha});
+ assert.equal((await api.set({browSample:'height3-spacing3-v2'})).applied,true);
+ const changed=[...new Set(a.meshes.map(m=>m.geometry))].filter(g=>!a.geometries.includes(g));
+ const buffers=new Set(changed.flatMap(g=>(g.morphAttributes.normal||[]).map(n=>n.array.buffer)));
+ assert(changed.length>0);assert(changed.every(g=>g.morphAttributes.normal.every(n=>n.array.every(v=>v===0))));
+ const events=[];changed.forEach(g=>g.addEventListener('dispose',()=>events.push(g.uuid)));
+ assert.equal((await api.set({reset:true})).applied,true);
+ assert(a.meshes.every((m,i)=>m.geometry===a.geometries[Math.floor(i/2)]));
+ assert.equal(events.length,changed.length);api.dispose();assert.equal(events.length,changed.length);
+ assert(bg.every(g=>g.morphAttributes.normal.every(n=>n.array.every(v=>v===0))));
+ rows.push({sex,bodySHA:src.sha,actorKeysAndBuffersIndependent:true,browCloneCount:changed.length,retainedZeroBufferCount:buffers.size,retainedZeroBytes:[...buffers].reduce((n,b)=>n+b.byteLength,0),resetDisposeEvents:events.length,otherActorUnchanged:true});
+}
+fs.writeFileSync('evidence/face-normal-reserve-v1/independent-review/check.json',JSON.stringify({scope:'CPU actual source-array fixture, real reservation and facial APIs. No GPU or texture allocation measurement.',rows},null,2));
+console.log(JSON.stringify(rows));
