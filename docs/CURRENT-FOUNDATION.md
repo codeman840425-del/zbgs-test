@@ -4,13 +4,15 @@
 
 ## 当前工作包（恢复先看）
 
-公开4196仍为1067d6618775/source1447d99，准确入口delivery/appearance-workbench.json；未发布8新体。其源/记录远备已于f797f62226bcfec3a69e3715b767403730a69f60核实（回执m2-workbench-4196-live-106-v1/remote-backup.json），本批后续尚未远备。
+公开4196仍为1067d6618775/source1447d99，准确入口delivery/appearance-workbench.json；未发布8新体。当前8体v1源、运行候选与失败卷发已于7b803e54e03852011e2b712985a5170b2b5f9093远备并核对远端（evidence/m2-representative-room-374-v1/remote-backup.json）；其后增量另行备份，不继承该结论。
 
-当前整批4女4男已完成真实局部几何+对应3衣物生成：共同修正无UV/脸部Jacobian后8/8源通过，15030独立CPU检查/82输入SHA；不是整体缩放。两款粗绳状卷发明确造型拒绝并封存，未进入public/catalog，禁止再调或用作8体凑数。复用现有短发8套精确fit（2男为透明接触条件候选）及4女长马尾重新计算代理，原源/失败均保。
+整批4女4男v1已有真实局部几何+各自3衣物，15030独立CPU检查/82输入SHA；不是整体缩放。两款粗绳状卷发明确造型拒绝并封存，未进入public/catalog，禁止再调或用作8体凑数。截图黑眼圈/三角面来自未还原游戏材质的CPU投影，发型粗绳轮廓则是实际造型问题，不能以诊断渲染作辩解。既有短发8套精确fit（2男为透明接触条件候选）及4女长马尾重新计算代理，原源/失败均保。
 
-当前固定候选source1518ad14a9964cd83c51b5c14c7937aaa667eae4/build374aad1390d9，目录experiments/m2-representative-batch-fixed-v3/prototype/dist。8冷加载b92先通过；374正在录制8整套1×实际动作，evidence/m2-representative-room-374-v1。脚本qa-representative-batch-room.cjs；程序完成不等视觉通过，原房间小图/特写分开。第一套圆脸丰满女可见上衣下摆过度鼓胀和长发椅背硬弯，需结合完整录像登记。新体只验证自身裤装/鞋，不继承冻结女裙。
+固定候选source1518ad14a9964cd83c51b5c14c7937aaa667eae4/build374aad1390d9，experiments/m2-representative-batch-fixed-v3/prototype/dist。8整套1×录像已完成，evidence/m2-representative-room-374-v1；同页8体热切、非原色眼唇、女短发/长发、修改后文件/草稿恢复与三请求迟到取消已通过，evidence/m2-representative-hot-374-v3。v1空值夹具错误及v2请求拦截死锁保留，不能算应用卡顿。第二独立检出重建通过m2-representative-batch-rebuild-v3。均为技术结果，视觉仍有缺陷：上衣下摆鼓胀、男女下颊回折/尖折、马尾坐姿椅背折弯；接近椅子约17–20秒被家具遮挡，不能声称全过程接触通过。新体不继承冻结女裙。
 
-asset_budget(sol/high)写8体同页热切换脚本（不跑GPU），http_transport_review(sol/high)只读发布器证据审查，socks_evidence_package(sol/medium)生成大图/1×观看页脚本。root单浏览器统一录制和视觉检查。热切换补非原色眼/唇、女短发/长发、真实改变后恢复和连续重选；尚未执行。完成后独立重建、4196安全更新、远备核验，然后接续CAP中M2缺口，不以8体包完成当长目标完成。
+当前主修复：源诊断m2-representative-shape-diagnosis-v1证实胸腰胯band叠加且衣体余量一起放大；脸部连续场本身已有回凹，非只材质/稀疏网格。asset_budget(sol/high)独立一次共同v2结构修正，8参数保持、8新-v2身份；连续分区及固定身体表面对应传递衣物位移，脸部可行域约束如实记录，不静默削参数。输出后root独立读回、重新生成依赖与运行验证，v1保留。
+
+http_transport_review(sol/high)修独立反例查出的发型发布证据漏洞（原8/4实际资源合法，反例不影响374），须合法输出不变、坏输入零发布。socks_evidence_package(sol/medium)已实际抽看四男29张表/326帧+8大图并提交8715862，正在把结果合入统一观看页；root四女抽审在visual-review.json。抽样不代替1×人工自然度验收。观看页evidence/m2-representative-review-374-v1。v2过检后再更新4196，之后继续CAP的M2未完成项，不以8体包结束为M2结束。
 
 公司C3仅本地接缝回执docs/CHARACTER-COMPANY-C3-SEAM-2026-11-16.md，未联调，不合并副总工旧人物文件；其dirty/untracked文件保留。原女裙与30秒舞不重开，普通机未测继续保留。
 

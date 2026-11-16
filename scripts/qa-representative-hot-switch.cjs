@@ -274,6 +274,9 @@ async function main() {
       await page.waitForFunction(id => __debug.avatar().profile.bodyType === id && !__debug.snapshot().bodySelection.loading, winner.id, {timeout: 90000});
       result.race.winnerBeforeOldResponses = await assertBody(winner);
       for (const prior of race.slice(0, -1).reverse()) { await held.get(prior.id).continue(); held.delete(prior.id); }
+      // Identity verification fetches the winner again; stop intercepting before it.
+      releaseAll = true;
+      await page.unroute('**/assets/m2-representative-batch-v1/*/avatar.vrm', routeHandler);
       result.race.requests = await page.evaluate(() => __hotRaceDone);
       assert.equal(result.race.requests[2].outcome.applied, true);
       for (const prior of result.race.requests.slice(0, -1)) assert.equal(prior.outcome.cancelled, true);
