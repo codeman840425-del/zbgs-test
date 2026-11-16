@@ -31,9 +31,9 @@ const save = () => fs.writeFile(path.join(out, 'report.json'), JSON.stringify(re
 
 async function ready() {
   await page.waitForFunction(() => {
-    const d = window.__debug, s = d?.avatar?.().appearance?.getState();
+    const d = window.__debug, s = d?.avatar?.()?.appearance?.getState();
     return d?.ready && document.querySelector('#appearance-form')?.getAttribute('aria-busy') === 'false' &&
-      !d.snapshot().bodySelection.loading && !s.loading && !s.facialPaletteLoading;
+      !d.snapshot().bodySelection.loading && s && !s.loading && !s.facialPaletteLoading;
   }, null, {timeout: 90000});
 }
 async function state() {

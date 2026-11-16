@@ -4,11 +4,15 @@
 
 ## 当前工作包（恢复先看）
 
-公开4196已更新1067d6618775/source1447d994774e3e22157b38e20422579b508f28dc，准确入口delivery/appearance-workbench.json；785回滚delivery/history/appearance-workbench-785.json。脸型/身形移入外观，派生未适配发型显式禁用说明；原女性新增raw-head长发参考候选。固定构建与全新检出重建一致，实际4196控件点击检查m2-workbench-4196-live-106-v1通过；m2-hair-reference-review-v1有785/106同条件正常速度录像。新候选抽样未见原坐入上甩，但椅背顶处尾端明显折弯，动态自然度/普通机仍未通过。旧耳帽v8及座位路径成果保留。106尚待远备核验，不继承旧9d555f5远备结论。
+公开4196仍为1067d6618775/source1447d99，准确入口delivery/appearance-workbench.json；未发布8新体。其源/记录远备已于f797f62226bcfec3a69e3715b767403730a69f60核实（回执m2-workbench-4196-live-106-v1/remote-backup.json），本批后续尚未远备。
 
-当前主包：整批4女4男，共8个明显不同脸型与局部身形预设，同一生产流程产出后统一运行验证。asset_budget(sol/high)身体/衣物生成，http_transport_review(sol/high)中长卷发，socks_evidence_package(sol/medium)独立身份/成本审查；root负责配置接入/真实动作/4196发布。三工作者均在运行；保单浏览器/GPU窗口。不得逐个精修后等待用户；失败逐项保留，重复根因修共用链路。当前8个尚未接入，不能把106 UI发布称为整批完成。
+当前整批4女4男已完成真实局部几何+对应3衣物生成：共同修正无UV/脸部Jacobian后8/8源通过，15030独立CPU检查/82输入SHA；不是整体缩放。两款粗绳状卷发明确造型拒绝并封存，未进入public/catalog，禁止再调或用作8体凑数。复用现有短发8套精确fit（2男为透明接触条件候选）及4女长马尾重新计算代理，原源/失败均保。
 
-公司C3仅本地接缝回执docs/CHARACTER-COMPANY-C3-SEAM-2026-11-16.md，未实现、未合并副总工旧人物文件，不打断M2。副总工文件保留不提交。
+当前固定候选source1518ad14a9964cd83c51b5c14c7937aaa667eae4/build374aad1390d9，目录experiments/m2-representative-batch-fixed-v3/prototype/dist。8冷加载b92先通过；374正在录制8整套1×实际动作，evidence/m2-representative-room-374-v1。脚本qa-representative-batch-room.cjs；程序完成不等视觉通过，原房间小图/特写分开。第一套圆脸丰满女可见上衣下摆过度鼓胀和长发椅背硬弯，需结合完整录像登记。新体只验证自身裤装/鞋，不继承冻结女裙。
+
+asset_budget(sol/high)写8体同页热切换脚本（不跑GPU），http_transport_review(sol/high)只读发布器证据审查，socks_evidence_package(sol/medium)生成大图/1×观看页脚本。root单浏览器统一录制和视觉检查。热切换补非原色眼/唇、女短发/长发、真实改变后恢复和连续重选；尚未执行。完成后独立重建、4196安全更新、远备核验，然后接续CAP中M2缺口，不以8体包完成当长目标完成。
+
+公司C3仅本地接缝回执docs/CHARACTER-COMPANY-C3-SEAM-2026-11-16.md，未联调，不合并副总工旧人物文件；其dirty/untracked文件保留。原女裙与30秒舞不重开，普通机未测继续保留。
 
 ## 最新用户补充：分区与代表性生产验收
 

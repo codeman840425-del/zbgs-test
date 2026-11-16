@@ -24,10 +24,11 @@ async function main(){
   const context=await browser.newContext({viewport:{width:1440,height:900},recordVideo:{dir:folder,size:{width:1440,height:900}}});
   const p=await context.newPage();
   const r={id:spec.id,sex:spec.sex,build,status:'running',errors:[],checks:[],tasks:[],visualAcceptance:'pending'};
+  let trace=null;
   p.on('pageerror',e=>r.errors.push(String(e)));
   const ready=()=>p.waitForFunction(()=>document.querySelector('#appearance-form')?.getAttribute('aria-busy')==='false',null,{timeout:60000});
   const mark=label=>p.evaluate(label=>{window.__batchPhase=label;},label);
-  const shot=async name=>{await p.waitForTimeout(350);await p.screenshot({path:path.join(folder,name+'.png')});};
+  const shot=async name=>{await p.waitForTimeout(350);await p.screenshot({path:path.join(folder,name+'.png')});await p.locator('#stage').screenshot({path:path.join(folder,name+'-stage.png')});};
   const request=async(kind,payload={})=>{
    const requestId=spec.id+'-'+kind+'-'+r.tasks.length;
    const admission=await p.evaluate(q=>__debug.request(q),{requestId,kind,payload});
@@ -56,6 +57,13 @@ async function main(){
     const applied=await p.evaluate(value=>__debug.command({type:'appearance',...value}),spec.appearance);
     assert(applied.applied,JSON.stringify(applied));
    }
+   const desiredStyle=spec.sex==='female'?'female-ponytail-headref-v3':'male-sidepart-v1';
+   const choices=await p.evaluate(()=>__debug.avatar().appearance.getState().availableStyles);
+   if(choices.includes(desiredStyle)){
+    await p.selectOption('#appearance-hair-style',desiredStyle);await ready();
+    assert.equal(await p.evaluate(()=>__debug.avatar().appearance.getState().hairStyle),desiredStyle);
+    r.loadedHair=await p.evaluate(()=>__debug.avatar().appearance.getState());
+   }else r.hairLimit='Requested replacement hairstyle not admitted on this body; original hair retained, not counted as replacement pass.';
    for(const direction of ['front','side','back']){
     await mark('static-'+direction);await p.evaluate(view=>__debug.camera(view),'inspect-full-'+direction);await shot('full-'+direction);
    }
@@ -81,11 +89,16 @@ async function main(){
    assert((await p.evaluate(text=>__debug.importAppearanceRecipe(text),recipe)).applied);
    assert.equal(await p.evaluate(()=>__debug.exportAppearanceRecipe()),recipe);
    r.checks.push({name:'same-body exact appearance recipe restores',passed:true});
+   trace=await p.evaluate(()=>{cancelAnimationFrame(window.__batchRAF);return {states:window.__batchRows??[],frameTimes:window.__batchFrameTimes??[]};});
+   await mark('reload-and-restore');await p.reload();await p.waitForFunction(()=>window.__debug?.ready,null,{timeout:60000});await ready();
+   assert((await p.evaluate(text=>__debug.importAppearanceRecipe(text),recipe)).applied);
+   assert.equal(await p.evaluate(()=>__debug.exportAppearanceRecipe()),recipe);
+   r.checks.push({name:'same saved final recipe restores after real page reload',passed:true});
    r.final=await p.evaluate(()=>({profile:__debug.avatar().profile,appearance:__debug.avatar().appearance.getState(),live:__debug.avatar().livePresentation.getState(),snapshot:__debug.snapshot()}));
    assert.deepEqual(r.errors,[]);r.status='technical-checks-passed-visual-pending';
   }catch(e){r.status='failed';r.error=String(e.stack??e);try{await shot('failure');}catch{}}
   finally{
-   try{const data=await p.evaluate(()=>{cancelAnimationFrame(window.__batchRAF);return {states:window.__batchRows??[],frameTimes:window.__batchFrameTimes??[]};});await fs.writeFile(path.join(folder,'frame-samples.json'),JSON.stringify(data));
+   try{const data=trace??await p.evaluate(()=>{cancelAnimationFrame(window.__batchRAF);return {states:window.__batchRows??[],frameTimes:window.__batchFrameTimes??[]};});await fs.writeFile(path.join(folder,'frame-samples.json'),JSON.stringify(data));
     const dt=data.frameTimes.map(x=>x.dt).filter(Number.isFinite).sort((a,b)=>a-b);r.frameTimes={sampleCount:dt.length,max:dt.at(-1),p95:dt[Math.floor(dt.length*.95)],over50ms:dt.filter(x=>x>50).length,scope:'recording run only; state sampled at 100ms'};}catch{}
    const video=p.video();await context.close();await video.saveAs(path.join(folder,'normal1x.webm'));await video.delete();
    await fs.writeFile(path.join(folder,'report.json'),JSON.stringify(r,null,2)+'\n');summary.cases.push(r);
