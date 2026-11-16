@@ -1,3 +1,4 @@
+import {ACCESSORY_SCHEMA,ACCESSORY_RULES,captureAccessories,validateAccessories,assertAccessoryHair,assertAccessoryGeometry} from './accessory-recipe.js';
 import {validateHairSelection} from './hair-fit-contract.js';
 import {HAIR_COLORS,SKIN_TONES} from './character-appearance.js';
 import {EYE_COLORS,LIP_COLORS} from './facial-palette.js';
@@ -17,7 +18,9 @@ export function captureAppearanceRecipe(controller){
  if(s.loading||s.facialPaletteLoading||face.loading)throw Error('请等待外观加载完成后保存');
  const outfit=a.config.outfits.find(o=>o.index===controller.outfit);
  const hasSurface=Boolean(s.surfaceLayers?.length);
- return{schema:hasSurface?SURFACE_SCHEMA:SCHEMA,rulesVersion:hasSurface?SURFACE_RULES:RULES,paletteVersion:PALETTE,
+ const accessories=a.rigidAccessories&&a.headwear?captureAccessories(a):null;
+ return{schema:accessories?ACCESSORY_SCHEMA:hasSurface?SURFACE_SCHEMA:SCHEMA,rulesVersion:accessories?ACCESSORY_RULES:hasSurface?SURFACE_RULES:RULES,paletteVersion:PALETTE,
+  ...(accessories?{accessories}:{}),
   ...(hasSurface?{surface:{manifestSha256:s.surfaceManifestSha256,layers:structuredClone(s.surfaceLayers)}}:{}),
   base:{bodyType:a.profile.bodyType,sha256:a.profile.sha256},
   appearance:Object.fromEntries(fields.map(key=>[key,s[key]])),
@@ -38,16 +41,24 @@ export function validateAppearanceRecipe(controller,record){
  const legacyFit=record?.schema==='workbench-appearance-recipe-v5'&&record.rulesVersion==='workbench-appearance-rules-v5';
  const oldGeometry=legacy||legacyBrow||legacyNose||legacyEye;
  const oldFit=oldGeometry||legacyFit;
+ const accessoryVersion=record?.schema===ACCESSORY_SCHEMA&&record.rulesVersion===ACCESSORY_RULES;
  const surfaceVersion=record?.schema===SURFACE_SCHEMA&&record.rulesVersion===SURFACE_RULES;
- if((!oldFit&&!surfaceVersion&&(record?.schema!==SCHEMA||record.rulesVersion!==RULES))||![PALETTE,LEGACY_PALETTE].includes(record.paletteVersion))
+ const hasSurface=surfaceVersion||(accessoryVersion&&Object.hasOwn(record,'surface'));
+ if((!oldFit&&!surfaceVersion&&!accessoryVersion&&(record?.schema!==SCHEMA||record.rulesVersion!==RULES))||![PALETTE,LEGACY_PALETTE].includes(record.paletteVersion))
   throw appearanceAdmissionError('schema','incompatible-version','外观配方版本不兼容，已保留当前外观');
- if(!surfaceVersion&&Object.hasOwn(record,'surface'))throw appearanceAdmissionError('surface','incompatible-version','旧版配方不能携带新版皮肤层');
- if(surfaceVersion){
+ if(!surfaceVersion&&!accessoryVersion&&Object.hasOwn(record,'surface'))throw appearanceAdmissionError('surface','incompatible-version','旧版配方不能携带新版皮肤层');
+ if(hasSurface){
   try{
    if(!SURFACE_LAYER_PACKAGE||record.surface?.manifestSha256!==SURFACE_LAYER_PACKAGE.sha256)throw Error('皮肤层资源版本不匹配');
    const layers=validateSurfaceSelection(record.surface.layers);
    if(!layers.length)throw Error('新版皮肤层配方缺少实际选择');
   }catch(e){throw appearanceAdmissionError('surface','incompatible-resource',e.message);}
+ }
+ if(!accessoryVersion&&Object.hasOwn(record,'accessories'))throw appearanceAdmissionError('accessories','incompatible-version','旧版配方不能携带新版附件');
+ if(accessoryVersion){
+  validateAccessories(a.profile.sha256,record.accessories);
+  assertAccessoryGeometry(a.profile.sha256,record.accessories,record.geometry);
+  assertAccessoryHair(a.profile.sha256,record.accessories,{hairStyle:record.appearance?.hairStyle,replacementSHA256:record.hairAssetSha256,hairFit:record.hairFit});
  }
  if(legacy&&(record.geometry?.browSample!==undefined||record.geometry?.browRecipeSha256!==undefined))throw appearanceAdmissionError('geometry.browSample','incompatible-version','旧版配方不能携带新版眉部数据');
  if((legacy||legacyBrow)&&(record.geometry?.noseSample!==undefined||record.geometry?.noseRecipeSha256!==undefined))throw appearanceAdmissionError('geometry.noseSample','incompatible-version','旧版配方不能携带新版鼻部数据');
@@ -82,17 +93,22 @@ export async function applyAppearanceRecipe(controller,record){
  let geometryRevision=actor.facialGeometry.getState().revision;
  let appearanceRevision=actor.appearance.getState().revision;
  const outfitRevision=controller.outfitRevision||0;
+ const accessoryVersion=record.schema===ACCESSORY_SCHEMA;
+ const accessoryDomains=[actor.rigidAccessories,actor.headwear].filter(Boolean);
+ const accessoryRevisions=new Map(accessoryDomains.map(domain=>[domain,domain.getState().revision]));
  const updates=[],cleanupErrors=[];
  let commitStarted=false;
  const superseded=()=>controller.actor!==actor||
   actor.facialGeometry.getState().revision!==geometryRevision||
   actor.appearance.getState().revision!==appearanceRevision||
-  (controller.outfitRevision||0)!==outfitRevision;
- const prepare=async(domain,input)=>{
+  (controller.outfitRevision||0)!==outfitRevision||
+  accessoryDomains.some(domain=>domain.getState().revision!==accessoryRevisions.get(domain));
+ const prepare=async(domain,input,options)=>{
   if(superseded())return false;
-  const job=domain.prepareUpdate(input);
+  const job=domain.prepareUpdate(input,options);
   if(domain===actor.facialGeometry)geometryRevision=domain.getState().revision;
-  else appearanceRevision=domain.getState().revision;
+  else if(domain===actor.appearance)appearanceRevision=domain.getState().revision;
+  else accessoryRevisions.set(domain,domain.getState().revision);
   const update=await job;
   if(update.commit)updates.push(update);
   if(update.cancelled||superseded())return false;
@@ -100,15 +116,20 @@ export async function applyAppearanceRecipe(controller,record){
   return true;
  };
  try{
+  const options=accessoryVersion?{accessories:record.accessories}:undefined;
   if(!await prepare(actor.facialGeometry,{mouthWidth:record.geometry.mouthWidth,expectedRecipeSha256:record.geometry.recipeSha256,
    browSample:record.geometry.browSample??'none',expectedBrowRecipeSha256:record.geometry.browRecipeSha256,
    noseSample:record.geometry.noseSample??'none',expectedNoseRecipeSha256:record.geometry.noseRecipeSha256,
-   eyeSample:record.geometry.eyeSample??'none',expectedEyeRecipeSha256:record.geometry.eyeRecipeSha256}))return{applied:false,cancelled:true};
+   eyeSample:record.geometry.eyeSample??'none',expectedEyeRecipeSha256:record.geometry.eyeRecipeSha256},options))return{applied:false,cancelled:true};
   if(!await prepare(actor.appearance,{...record.appearance,
    surfaceLayers:record.surface?.layers??[],expectedSurfaceManifestSha256:record.surface?.manifestSha256??null,
    expectedHairAssetSha256:record.hairAssetSha256,
-   ...(Object.hasOwn(record,'hairFit')?{expectedHairFit:record.hairFit}:{})}))return{applied:false,cancelled:true};
+   ...(Object.hasOwn(record,'hairFit')?{expectedHairFit:record.hairFit}:{})},options))return{applied:false,cancelled:true};
   const outfit=await controller.prepareOutfit(record.equipment.index);updates.push(outfit);
+  if(accessoryVersion){
+   if(!await prepare(actor.rigidAccessories,record.accessories.ears.selection))return{applied:false,cancelled:true};
+   if(!await prepare(actor.headwear,record.accessories.hat.selection,{hairState:{hairStyle:record.appearance.hairStyle,replacementSHA256:record.hairAssetSha256,hairFit:record.hairFit}}))return{applied:false,cancelled:true};
+  }
   // Every domain checks freshness before the first visible write. Commits only
   // switch prepared resources and state synchronously, with no resource I/O.
   if(superseded()||updates.some(update=>!update.isCurrent()))return{applied:false,cancelled:true};
@@ -155,9 +176,10 @@ export async function readAppearanceRecipeFile(controller,file,{isCancelled=()=>
  if(!file||!Number.isSafeInteger(file.size)||file.size<0||file.size>APPEARANCE_RECIPE_MAX_BYTES||typeof file.text!=='function')throw Error('配方文件无效或超过 256 KiB 限制');
  const actor=controller.actor,appearanceRevision=actor.appearance.getState().revision,
   geometryRevision=actor.facialGeometry.getState().revision,outfitRevision=controller.outfitRevision||0;
+ const accessoryRevisions=[actor.rigidAccessories,actor.headwear].filter(Boolean).map(domain=>[domain,domain.getState().revision]);
  const text=await file.text();
  if(isCancelled()||controller.actor!==actor||actor.appearance.getState().revision!==appearanceRevision||
-  actor.facialGeometry.getState().revision!==geometryRevision||(controller.outfitRevision||0)!==outfitRevision)
+  actor.facialGeometry.getState().revision!==geometryRevision||(controller.outfitRevision||0)!==outfitRevision||accessoryRevisions.some(([domain,revision])=>domain.getState().revision!==revision))
   return{applied:false,cancelled:true};
  return importAppearanceRecipe(controller,text);
 }

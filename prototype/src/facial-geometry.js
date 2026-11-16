@@ -505,7 +505,8 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender, renderC
     return next;
   }
 
-  async function prepareUpdate(input = {}, {trackIntent=false}={}) {
+  async function prepareUpdate(input = {}, {trackIntent=false,accessories}={}) {
+    const accessoryContext=accessories===undefined?undefined:structuredClone(accessories);
     if (disposed) return { applied: false, reason: '人物已卸载' };
     const value = input.reset ? 0 : input.mouthWidth ?? (trackIntent?wanted:mouthWidth);
     const brow = input.reset ? 'none' : input.browSample ?? (trackIntent?wantedBrow:browSample);
@@ -516,7 +517,7 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender, renderC
       selection=resolveFacialGeometrySelection(avatarSha256,{mouthWidth:value,browSample:brow,noseSample:nose,eyeSample:eye,
         recipeSha256:input.expectedRecipeSha256,browRecipeSha256:input.expectedBrowRecipeSha256,
         noseRecipeSha256:input.expectedNoseRecipeSha256,eyeRecipeSha256:input.expectedEyeRecipeSha256});
-      validateGeometryChange?.({mouthWidth:value,browSample:brow,noseSample:nose,eyeSample:eye});
+      validateGeometryChange?.({mouthWidth:value,browSample:brow,noseSample:nose,eyeSample:eye},accessoryContext);
     }catch(error){return{applied:false,reason:error.message,field:error.field,code:error.code};}
     if(trackIntent){wanted = value; wantedBrow = brow; wantedNose = nose; wantedEye = eye;}
     const request = ++generation; error = null;
@@ -555,7 +556,7 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender, renderC
         isCurrent:()=>live&&!disposed&&request===generation,
         validateCommit(){
           if(!update.isCurrent())throw Error('五官准备已过期');
-          validateGeometryChange?.({mouthWidth:value,browSample:brow,noseSample:nose,eyeSample:eye});
+          validateGeometryChange?.({mouthWidth:value,browSample:brow,noseSample:nose,eyeSample:eye},accessoryContext);
         },
         commit(){
           update.validateCommit();

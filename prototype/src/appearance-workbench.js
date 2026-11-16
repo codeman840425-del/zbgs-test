@@ -57,7 +57,7 @@ export function bindAppearanceWorkbench({ controller }) {
       <div><label for="appearance-ears">耳饰</label><select id="appearance-ears" aria-describedby="appearance-ears-note appearance-samples-status"><option value="none">不装备</option><option value="left">仅左耳</option><option value="right">仅右耳</option><option value="pair">左右成对</option></select></div>
       <div><label for="appearance-hat">帽子</label><select id="appearance-hat" aria-describedby="appearance-hat-note appearance-samples-status"><option value="none">不装备</option><option value="single">帽子样件</option></select></div>
     </div><p id="appearance-ears-note" class="appearance-hint"></p><p id="appearance-hat-note" class="appearance-hint"></p>
-    <p class="appearance-hint">耳饰与帽子仅临时预览，草稿与配方文件不保存。</p>
+    <p class="appearance-hint">新配方与草稿一并保存耳饰、帽子和适配版本；旧版配方保留原语义。</p>
     <p id="appearance-samples-status" class="appearance-hint" role="status" aria-live="polite"></p>`;
   fields.append(samplesPanel);
   const freckles=samplesPanel.querySelector('#appearance-surface-freckles'),blush=samplesPanel.querySelector('#appearance-surface-blush');
@@ -180,8 +180,8 @@ export function bindAppearanceWorkbench({ controller }) {
   move('.debug-controls', inspectionPage);
   move('details:not(#appearance-geometry):not(#appearance-validation-samples)', inspectionPage);
   const previewInfo=document.createElement('section');previewInfo.id='workbench-preview-info';
-  previewInfo.innerHTML='<h3>当前预览</h3><p id="workbench-preview-build" class="appearance-hint"></p><p class="appearance-hint">技术候选，长发坐下时发梢仍可能明显上甩；帽发与椅子接触请结合原速证据查看。</p><p><a id="workbench-hair-evidence" target="_blank" rel="noopener noreferrer">长发前后对照</a> · <a id="workbench-hat-evidence" target="_blank" rel="noopener noreferrer">帽发与动作证据</a></p>';
-  for(const [id,path] of [['workbench-hair-evidence','/evidence/m2-long-hair-review-e9b-v1/before-after.html'],['workbench-hat-evidence','/evidence/m2-hat-hair-review-6e0-v1/']]){
+  previewInfo.innerHTML='<h3>当前预览</h3><p id="workbench-preview-build" class="appearance-hint"></p><p class="appearance-hint">技术候选，长发坐下时发梢仍可能明显上甩；帽发与椅子接触请结合原速证据查看。</p><p><a id="workbench-hair-evidence" target="_blank" rel="noopener noreferrer">长发前后对照</a> · <a id="workbench-hat-evidence" target="_blank" rel="noopener noreferrer">帽发与动作证据</a> · <a id="workbench-accessory-record-evidence" target="_blank" rel="noopener noreferrer">整套造型保存与恢复</a></p>';
+  for(const [id,path] of [['workbench-hair-evidence','/evidence/m2-long-hair-review-e9b-v1/before-after.html'],['workbench-hat-evidence','/evidence/m2-hat-hair-review-6e0-v1/'],['workbench-accessory-record-evidence','/evidence/m2-accessory-record-review-v1/']]){
     const evidence=new URL(window.location.href);evidence.port='4174';evidence.pathname=path;evidence.search='';evidence.hash='';
     previewInfo.querySelector('#'+id).href=evidence.href;
   }
@@ -454,7 +454,7 @@ export function bindAppearanceWorkbench({ controller }) {
       const result=await readAppearanceRecipeFile(controller,file,{isCancelled:()=>disposed});
       if(disposed)return;
       if(!result.applied&&!result.cancelled)throw Error(result.reason||'读取未完成');
-      sync();message(result.cancelled?'较新的操作已保留，文件读取已停止':result.notice||'已从文件恢复外观、几何和服装；未写入本机草稿');
+      sync();message(result.cancelled?'较新的操作已保留，文件读取已停止':result.notice||'已从文件恢复配方中的外观、几何、服装和附件；未写入本机草稿');
     }catch(e){if(!disposed){sync();message(String(e.message||e),true);}}
     finally{if(!disposed)setBusy(false);}
   });

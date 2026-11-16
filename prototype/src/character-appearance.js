@@ -190,12 +190,13 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
 
   // Equipped headwear can depend on exact hair geometry. Recheck immediately
   // before either commit path: a hat may have equipped while decoding waited.
-  function assertHairChange(style) {
+  function assertHairChange(style, accessoryContext) {
     const entry = validateHairSelection(avatarSha256, style);
     validateHairChange?.({ hairStyle: style, replacementSHA256: entry?.assetSha256 ?? null,
-      hairFit: entry ? hairFitIdentity(entry) : null });
+      hairFit: entry ? hairFitIdentity(entry) : null }, accessoryContext);
   }
-  async function prepareUpdate(input = {}, {trackIntent=false}={}) {
+  async function prepareUpdate(input = {}, {trackIntent=false,accessories}={}) {
+    const accessoryContext=accessories===undefined?undefined:structuredClone(accessories);
     if (disposed) return { applied: false, reason: '人物已卸载' };
     const desiredStyle = input.reset ? 'original' : input.hairStyle ?? hairStyle;
     const desiredColor = input.reset ? 'original' : input.hairColor ?? hairColor;
@@ -205,7 +206,7 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
       return {applied:false,reason:'未知瞳色或唇色'};
     if (desiredStyle !== 'original' && !(desiredStyle === 'none' && canHideHair) && !admittedStyles.some(entry => entry.id === desiredStyle))
       return { applied: false, reason: '该发型尚未适配当前身体；请使用可选款式' };
-    try { validateHairSelection(avatarSha256,desiredStyle,input); assertHairChange(desiredStyle); }
+    try { validateHairSelection(avatarSha256,desiredStyle,input); assertHairChange(desiredStyle,accessoryContext); }
     catch(e) { return {applied:false,reason:e.message}; }
     const requestRevision = ++revision;
     const changeStyle=!trackIntent||input.reset||input.hairStyle!==undefined;
@@ -215,7 +216,7 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
     // recipe never lends its staged hair selection to a newer color request.
     const applyStyleIntent=()=>{
       if(!trackIntent||!changeStyle||disposed||styleRequest!==generation)return;
-      assertHairChange(desiredStyle);
+      assertHairChange(desiredStyle,accessoryContext);
       hairStyle=desiredStyle;replacement=replacements.get(desiredStyle)||null;
       applyColors();applyHairVisibility();
     };
@@ -255,7 +256,7 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
         applyStyleIntent,
           validateCommit(){
           if(!update.isCurrent())throw Error('外观准备已过期');
-          if(changeStyle)assertHairChange(desiredStyle);
+          if(changeStyle)assertHairChange(desiredStyle,accessoryContext);
           },
           commit(){
             update.validateCommit();

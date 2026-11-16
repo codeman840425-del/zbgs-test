@@ -1,3 +1,4 @@
+import {assertAccessoryHair,assertAccessoryGeometry,EAR_MANIFEST_SHA,HAT_MANIFEST_SHA} from './accessory-recipe.js';
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { VRMLoaderPlugin, VRMUtils } from "@pixiv/three-vrm";
@@ -179,17 +180,17 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
   equipment = await createM1Equipment({ vrm, avatarSha256: sha256, bodyType });
   const surfaces = equipment.getAssetProfile();
   appearance = createCharacterAppearance({ vrm, avatarSha256: sha256,
-    validateHairChange:selection=>headwear?.assertHairSelection(selection) });
+    validateHairChange:(selection,accessories)=>accessories===undefined?headwear?.assertHairSelection(selection):assertAccessoryHair(sha256,accessories,selection) });
   livePresentation = createLivePresentation({vrm, root, bodyType: config.referenceBody || bodyType, avatarSha256: sha256});
-  rigidAccessories = createRigidAccessoryLayer({vrm, avatarSha256:sha256});
+  rigidAccessories = createRigidAccessoryLayer({vrm, avatarSha256:sha256,manifestSha256:EAR_MANIFEST_SHA});
   headwear = createRigidAccessoryLayer({vrm, avatarSha256:sha256,kind:'hat',
     manifestUrl:'/assets/m2-hat-hair-v1/manifest.json',
-    manifestSha256:'c62f1ecbc4b16f5e36a2b691f494e887d4367cbf662ade436d8659924fd182cc',
+    manifestSha256:HAT_MANIFEST_SHA,
     getHairState:()=>{assertNeutralHeadGeometry(facialGeometry?.getState());return appearance.getState();} });
   // Live expression admission and attachment calibration inspect canonical indices first.
   faceRenderCompaction=createFaceRenderCompaction({vrm,avatarSha256:sha256});
   facialGeometry = createFacialGeometry({ vrm, avatarSha256: sha256,renderCompaction:faceRenderCompaction,prepareRender:parts=>faceWarmup.prepare(parts),
-    validateGeometryChange:selection=>{if(headwear.getState().selection!=='none')assertNeutralHeadGeometry(selection);} });
+    validateGeometryChange:(selection,accessories)=>{if(accessories!==undefined)assertAccessoryGeometry(sha256,accessories,selection);else if(headwear.getState().selection!=='none')assertNeutralHeadGeometry(selection);} });
   const meshRoles = {};
   for (const role of [
     "body",

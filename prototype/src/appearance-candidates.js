@@ -1,3 +1,4 @@
+import {ACCESSORY_SCHEMA,queryAccessoryCandidates} from './accessory-recipe.js';
 import {SCHEMA,RULES,SURFACE_SCHEMA,SURFACE_RULES,validateAppearanceRecipe} from './appearance-recipe.js';
 import {FACIAL_PALETTE_VERSION} from './facial-palette-contract.js';
 import {HAIR_COLORS,SKIN_TONES} from './character-appearance.js';
@@ -59,8 +60,8 @@ export function queryAppearanceCandidates(controller){
       noseSample:'none',noseRecipeSha256:null,eyeSample:'none',eyeRecipeSha256:null},
     equipment:{index:0,role:sets.find(set=>set.index===0).role,manifestUrl:actor.config.manifestUrl,resources:actor.getEquipmentRecipe(0)}};
   return structuredClone({schema:'workbench-appearance-candidates-v1',base,defaultRecipe,appearance,
-    geometry:queryFacialGeometry(base.sha256),equipment:{defaultIndex:0,sets},surface:querySurfaceCandidates(base),
-    limitations:{scope:'same loaded base; default v6 recipe, registered v7 surface metadata and configured equipment sets',
+    geometry:queryFacialGeometry(base.sha256),equipment:{defaultIndex:0,sets},surface:querySurfaceCandidates(base),accessories:queryAccessoryCandidates(base.sha256),
+    limitations:{scope:'same loaded base; default v6 recipe, registered v7 surface/v8 accessory metadata and configured equipment sets',
       geometryFit:'Only registered resources are listed. Geometry choices do not certify new attachment or garment fits.',
       surfaceFit:'Surface choices require the exact registered body SHA. Preparation still verifies the published resources and current face pixels.',
       colorCoupling:'hairColor also tints authored eyebrows; independent eyebrow color is not implemented',
@@ -70,10 +71,11 @@ export function queryAppearanceCandidates(controller){
 // A successful result admits metadata only. Applying still enters the existing
 // prepare/commit path, which verifies the actual resource bytes and geometry.
 export function admitAppearanceCandidate(controller,record){
-  const surfaceVersion=record?.schema===SURFACE_SCHEMA;
+  const accessoryVersion=record?.schema===ACCESSORY_SCHEMA;
+  const surfaceVersion=record?.schema===SURFACE_SCHEMA||(accessoryVersion&&Object.hasOwn(record,'surface'));
   const requiresPreparation=[...preparationChecks,...(surfaceVersion?surfacePreparationChecks:[])];
   try{
-    const fields=surfaceVersion?{...recordFields,'':[...recordFields[''],'surface'],surface:['manifestSha256','layers']}:recordFields;
+    const fields={...recordFields,'':[...recordFields[''],...(surfaceVersion?['surface']:[]),...(accessoryVersion?['accessories']:[])],...(surfaceVersion?{surface:['manifestSha256','layers']}:{}),...(accessoryVersion?{accessories:['ears','hat']}:{})};
     for(const [path,allowed] of Object.entries(fields)){
       const object=path?record?.[path]:record;
       const unknown=Object.keys(object??{}).find(key=>!allowed.includes(key));
