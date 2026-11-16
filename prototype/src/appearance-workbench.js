@@ -186,7 +186,11 @@ export function bindAppearanceWorkbench({ controller }) {
     const actual = state();
     const actualBody = actor().profile.bodyType;
     const group = groupFor(actualBody);
-    if (!group) throw Error('当前人物不在此工作台的已有样件中');
+    if (!group) {
+      body.replaceChildren();
+      for (const button of groupButtons) button.setAttribute('aria-pressed', 'false');
+      throw Error('当前人物不在此工作台的已有样件中');
+    }
     body.replaceChildren(...bodyGroups[group].map(({ id, label }) => {
       const option = document.createElement('option'); option.value = id; option.textContent = label; return option;
     }));
@@ -243,6 +247,13 @@ export function bindAppearanceWorkbench({ controller }) {
       ?'大幅对照：嘴宽 ±12%、眉位 3 mm、鼻尖 2 mm、眼裂宽 +5%。旧小幅样件保留；新幅度是离散样件，不代表任意组合已验收。'
       :discrete?'此下颌样件嘴宽仅原位 / +4%；眉、鼻、眼几何尚未适配。':'真实嘴宽几何 ±4%；眉、鼻、眼按已制作样件选择。';
   }
+  const appearanceChanged = event => {
+    if (disposed || event?.actor !== actor()) return;
+    try { sync(); }
+    catch (error) { message(`人物已更新，工作台同步未完成：${error.message || error}`, true); }
+  };
+  controller.game.events.on('appearance-state-changed', appearanceChanged);
+  listeners.push(() => controller.game.events.off('appearance-state-changed', appearanceChanged));
   async function apply(patch) {
     if (busy || disposed) return;
     setBusy(true);

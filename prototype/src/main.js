@@ -740,6 +740,12 @@ const names = {
   dance: "短舞蹈",
   turn: "360° 转身",
 };
+function notifyAppearanceStateChanged(actor) {
+  if (!controller || controller.actor !== actor) return;
+  try { controller.game.events.emit('appearance-state-changed', {actor}); }
+  catch (error) { console.warn('人物已更新，外观工作台通知失败', error); }
+}
+
 class CharacterScene extends Phaser.Scene {
   get actor() { return this.instanceAvatar || avatar; }
   get rig() { return this.instanceMotion || motion; }
@@ -1042,9 +1048,20 @@ class CharacterScene extends Phaser.Scene {
       case "danceSelect":
         this.rig.setDance(cmd.id); return {applied:true};
       case "appearance":
-        return this.actor.appearance?.set(cmd) ?? {applied:false,reason:'当前人物不支持外观编辑'};
-      case "faceGeometry":
-        return this.actor.facialGeometry?.set(cmd) ?? {applied:false,reason:'当前人物尚无几何参数适配'};
+      case "faceGeometry": {
+        const actor = this.actor;
+        const domain = cmd.type === 'appearance' ? actor.appearance : actor.facialGeometry;
+        const result = domain?.set(cmd) ?? {applied:false,reason:cmd.type === 'appearance'
+          ? '当前人物不支持外观编辑' : '当前人物尚无几何参数适配'};
+        if (this.isPeer || this !== controller) return result;
+        const revision = domain?.getState().revision;
+        const committed = outcome => {
+          if (outcome?.applied && !outcome.cancelled && this === controller && this.actor === actor && domain?.getState().revision === revision)
+            notifyAppearanceStateChanged(actor);
+          return outcome;
+        };
+        return typeof result?.then === 'function' ? result.then(committed) : committed(result);
+      }
       case "speaking":
         this.actor.livePresentation?.setSpeaking(cmd.value);
         return {applied:true};
@@ -2231,9 +2248,13 @@ async function switchFoundationBody(bodyType) {
       const url = new URL(location.href); url.searchParams.set('body',bodyType); history.replaceState(history.state,'',url);
     });
     finish('状态界面更新失败', () => refreshUI());
+    notifyAppearanceStateChanged(avatar);
     return {applied:true,bodyType,notice:notices.join('；')};
   } catch (error) {
-    if (committed) return {applied:true,bodyType,notice:[...notices,`人物已切换，后续更新失败：${error.message || error}`].join('；')};
+    if (committed) {
+      notifyAppearanceStateChanged(avatar);
+      return {applied:true,bodyType,notice:[...notices,`人物已切换，后续更新失败：${error.message || error}`].join('；')};
+    }
     // A superseded load may fail after the newer choice already succeeded.
     // Its result belongs to the cancelled request, not to the current actor.
     if (request !== bodySelectionGeneration) return {applied:false,cancelled:true};
