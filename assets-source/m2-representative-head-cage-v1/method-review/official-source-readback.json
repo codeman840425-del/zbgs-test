@@ -1,0 +1,128 @@
+{
+  "kind": "installed-version-official-source-readback",
+  "blenderBuildRef": "8bf95cbd38d1",
+  "items": [
+    {
+      "url": "https://raw.githubusercontent.com/blender/blender/8bf95cbd38d1/source/blender/modifiers/intern/MOD_meshdeform.cc",
+      "status": "read",
+      "bytes": 19296,
+      "sha256": "5abe3c21d4d77546a2dd863d7e97fe70eb6ec086677220a23b721f39f7bd9da2",
+      "hits": [
+        {
+          "term": "defgrp_name",
+          "matches": 2,
+          "examples": [
+            {
+              "line": 121,
+              "text": "\n  /* Ask for vertex-groups if we need them. */\n  if (mmd->defgrp_name[0] != '\\0') {\n    r_cddata_masks->vmask |= CD_MASK_MDEFORMVERT;\n  }\n}"
+            },
+            {
+              "line": 410,
+              "text": "  }\n\n  MOD_get_vgroup(ob, mesh, mmd->defgrp_name, &dvert, &defgrp_index);\n\n  /* Initialize data to be pass to the for body function. */\n  data.mmd = mmd;"
+            }
+          ]
+        },
+        {
+          "term": "use_dynamic",
+          "matches": 1,
+          "examples": [
+            {
+              "line": 526,
+              "text": "  uiLayoutSetEnabled(col, !is_bound);\n  col->prop(ptr, \"precision\", UI_ITEM_NONE, std::nullopt, ICON_NONE);\n  col->prop(ptr, \"use_dynamic_bind\", UI_ITEM_NONE, std::nullopt, ICON_NONE);\n\n  layout->op(\"OBJECT_OT_meshdeform_bind\", is_bound ? IFACE_(\"Unbind\") : IFACE_(\"Bind\"), ICON_NONE);\n"
+            }
+          ]
+        },
+        {
+          "term": "influences",
+          "matches": 34,
+          "examples": [
+            {
+              "line": 57,
+              "text": "  MeshDeformModifierData *mmd = (MeshDeformModifierData *)md;\n\n  if (mmd->bindinfluences) {\n    MEM_freeN(mmd->bindinfluences);\n  }\n  if (mmd->bindoffsets) {"
+            },
+            {
+              "line": 58,
+              "text": "\n  if (mmd->bindinfluences) {\n    MEM_freeN(mmd->bindinfluences);\n  }\n  if (mmd->bindoffsets) {\n    MEM_freeN(mmd->bindoffsets);"
+            },
+            {
+              "line": 69,
+              "text": "    MEM_freeN(mmd->dyngrid);\n  }\n  if (mmd->dyninfluences) {\n    MEM_freeN(mmd->dyninfluences);\n  }\n  if (mmd->dynverts) {"
+            }
+          ]
+        },
+        {
+          "term": "cagecos",
+          "matches": 13,
+          "examples": [
+            {
+              "line": 63,
+              "text": "    MEM_freeN(mmd->bindoffsets);\n  }\n  if (mmd->bindcagecos) {\n    MEM_freeN(mmd->bindcagecos);\n  }\n  if (mmd->dyngrid) {"
+            },
+            {
+              "line": 64,
+              "text": "  }\n  if (mmd->bindcagecos) {\n    MEM_freeN(mmd->bindcagecos);\n  }\n  if (mmd->dyngrid) {\n    MEM_freeN(mmd->dyngrid);"
+            },
+            {
+              "line": 96,
+              "text": "    tmmd->bindoffsets = static_cast<int *>(MEM_dupallocN(mmd->bindoffsets));\n  }\n  if (mmd->bindcagecos) {\n    tmmd->bindcagecos = static_cast<float *>(MEM_dupallocN(mmd->bindcagecos));\n  }\n  if (mmd->dyngrid) {"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/blender/blender/8bf95cbd38d1/source/blender/makesrna/intern/rna_modifier.cc",
+      "status": "read",
+      "bytes": 508663,
+      "sha256": "f37bdbabcdec0c4e2eebd7bf7fb97184a77ab58f8a6caa5c65f91aee627cdd20",
+      "hits": [
+        {
+          "term": "use_dynamic_bind",
+          "matches": 1,
+          "examples": [
+            {
+              "line": 4418,
+              "text": "  RNA_def_property_update(prop, 0, \"rna_Modifier_update\");\n\n  prop = RNA_def_property(srna, \"use_dynamic_bind\", PROP_BOOLEAN, PROP_NONE);\n  RNA_def_property_boolean_sdna(prop, nullptr, \"flag\", MOD_MDEF_DYNAMIC_BIND);\n  RNA_def_property_ui_text(prop,\n                           \"Dynamic\","
+            }
+          ]
+        },
+        {
+          "term": "vertex_group",
+          "matches": 134,
+          "examples": [
+            {
+              "line": 2136,
+              "text": "    }\n\n#  define RNA_MOD_GREASE_PENCIL_VERTEX_GROUP_SET(_type) \\\n    static void rna_##_type##Modifier_vertex_group_name_set(PointerRNA *ptr, const char *value) \\\n    { \\\n      _type##ModifierData *tmd = static_cast<_type##ModifierData *>(ptr->data); \\"
+            },
+            {
+              "line": 2137,
+              "text": "\n#  define RNA_MOD_GREASE_PENCIL_VERTEX_GROUP_SET(_type) \\\n    static void rna_##_type##Modifier_vertex_group_name_set(PointerRNA *ptr, const char *value) \\\n    { \\\n      _type##ModifierData *tmd = static_cast<_type##ModifierData *>(ptr->data); \\\n      rna_object_vgroup_name_set(ptr, \\"
+            },
+            {
+              "line": 2142,
+              "text": "      rna_object_vgroup_name_set(ptr, \\\n                                 value, \\\n                                 tmd->influence.vertex_group_name, \\\n                                 sizeof(tmd->influence.vertex_group_name)); \\\n    }\n"
+            }
+          ]
+        },
+        {
+          "term": "MeshDeformModifier",
+          "matches": 7,
+          "examples": [
+            {
+              "line": 1346,
+              "text": "}\n\nstatic bool rna_MeshDeformModifier_is_bound_get(PointerRNA *ptr)\n{\n  return (((MeshDeformModifierData *)ptr->data)->bindcagecos != nullptr);\n}"
+            },
+            {
+              "line": 1348,
+              "text": "static bool rna_MeshDeformModifier_is_bound_get(PointerRNA *ptr)\n{\n  return (((MeshDeformModifierData *)ptr->data)->bindcagecos != nullptr);\n}\n\nstatic PointerRNA rna_SoftBodyModifier_settings_get(PointerRNA *ptr)"
+            },
+            {
+              "line": 4381,
+              "text": "#  endif\n\n  srna = RNA_def_struct(brna, \"MeshDeformModifier\", \"Modifier\");\n  RNA_def_struct_ui_text(\n      srna, \"MeshDeform Modifier\", \"Mesh deformation modifier to deform with other meshes\");\n  RNA_def_struct_sdna(srna, \"MeshDeformModifierData\");"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
