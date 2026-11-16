@@ -6,16 +6,19 @@ import { foundationProfile } from "./foundation-profiles.js";
 import { createLivePresentation } from "./live-presentation.js";
 import { createCharacterAppearance } from "./character-appearance.js";
 import { createFacialGeometry } from "./facial-geometry.js";
+import { prepareFaceShadowPrograms, waitFaceShadowJob } from "./face-shadow-preparation.js";
 import { validateForearmProfile } from "./forearm-envelope-projection.js";
 import { validateJointHandProfile } from "./joint-hand-workspace.mjs";
 
 // Each actor owns its prewarm variants. Geometry UUID is deliberately omitted:
 // a new clone with identical layouts/material versions reuses the same program.
 export function createFaceGeometryWarmup(renderer,scene) {
-  const entries=new Map();let disposed=false;
+  const entries=new Map();let disposed=false,lifetime=new AbortController();
   const layout=a=>[a.count,a.itemSize,a.normalized,a.gpuType,(a.array||a.data?.array)?.constructor.name];
   const key=({mesh,geometry})=>JSON.stringify([
-    mesh.uuid,!!mesh.isSkinnedMesh,!!mesh.isInstancedMesh,
+    mesh.uuid,!!mesh.isSkinnedMesh,!!mesh.isInstancedMesh,mesh.castShadow,
+    renderer.shadowMap?.enabled,renderer.shadowMap?.autoUpdate,renderer.shadowMap?.type,
+    mesh.customDepthMaterial?.uuid,mesh.customDepthMaterial?.version,
     Object.keys(geometry.attributes).sort().map(name=>[name,layout(geometry.attributes[name])]),
     Object.keys(geometry.morphAttributes).sort().map(name=>[name,geometry.morphAttributes[name].map(layout)]),
     geometry.morphTargetsRelative,geometry.groups,
@@ -25,6 +28,10 @@ export function createFaceGeometryWarmup(renderer,scene) {
   const current=entry=>{const materials=Array.isArray(entry.mesh.material)?entry.mesh.material:[entry.mesh.material];return materials.length===entry.originals.length&&materials.every((m,i)=>m===entry.originals[i].material&&m.version===entry.originals[i].version);};
   const forget=entry=>{if(entries.get(entry.signature)===entry)entries.delete(entry.signature);release(entry);};
 
+  const invalidate=()=>{lifetime.abort();for(const entry of entries.values())if(entry.settled)release(entry);entries.clear();lifetime=new AbortController();};
+  renderer.domElement?.addEventListener('webglcontextlost',invalidate);
+  renderer.domElement?.addEventListener('webglcontextrestored',invalidate);
+
   return {
     prepare(parts) {
       if(disposed)return Promise.reject(Error('人物已卸载'));
@@ -33,7 +40,7 @@ export function createFaceGeometryWarmup(renderer,scene) {
       try {
         for(const [signature,{mesh,geometry}] of requests){
           const existing=entries.get(signature);if(existing){waits.push(existing.promise);continue;}
-          const entry={signature,mesh,originals:[],materials:[],settled:false,released:false,promise:null};fresh.push(entry);
+          const entry={signature,mesh,geometry,originals:[],materials:[],settled:false,released:false,promise:null};fresh.push(entry);
           const copy=mesh.clone(false);copy.geometry=geometry;
           const originals=Array.isArray(mesh.material)?mesh.material:[mesh.material];
           entry.originals=originals.map(material=>({material,version:material.version}));
@@ -42,7 +49,13 @@ export function createFaceGeometryWarmup(renderer,scene) {
         }
       }catch(error){for(const entry of fresh)release(entry);return Promise.reject(error);}
       if(fresh.length){
-        const promise=Promise.resolve().then(()=>{if(disposed)throw Error('人物已卸载');return renderer.compileAsync(staging,new THREE.PerspectiveCamera(),scene);}).then(()=>{
+        const signal=lifetime.signal;
+        const promise=Promise.resolve().then(async()=>{
+          if(disposed||signal.aborted)throw Error('人物已卸载');
+          await waitFaceShadowJob(renderer.compileAsync(staging,new THREE.PerspectiveCamera(),scene),signal);
+          await prepareFaceShadowPrograms(renderer,scene,fresh,signal,(entry,material)=>entry.materials.push(material));
+          if(disposed||signal.aborted)throw Error('人物已卸载');
+        }).then(()=>{
           for(const entry of fresh){
             entry.settled=true;
             if(disposed||!current(entry)){forget(entry);continue;}
@@ -50,7 +63,7 @@ export function createFaceGeometryWarmup(renderer,scene) {
             // a current batch succeeds. Pending work releases itself on settle.
             for(const other of entries.values())if(other.mesh===entry.mesh&&other.settled&&!current(other))forget(other);
           }
-        },error=>{
+        }).catch(error=>{
           // A failed new batch must not release any earlier successful variant
           // or a different pending batch from this actor.
           for(const entry of fresh){entry.settled=true;if(entries.get(entry.signature)===entry)entries.delete(entry.signature);release(entry);}
@@ -61,7 +74,7 @@ export function createFaceGeometryWarmup(renderer,scene) {
       }
       return Promise.all(waits).then(()=>undefined);
     },
-    dispose(){if(disposed)return;disposed=true;for(const entry of entries.values())if(entry.settled)release(entry);entries.clear();},
+    dispose(){if(disposed)return;disposed=true;lifetime.abort();renderer.domElement?.removeEventListener('webglcontextlost',invalidate);renderer.domElement?.removeEventListener('webglcontextrestored',invalidate);for(const entry of entries.values())if(entry.settled)release(entry);entries.clear();},
   };
 }
 
