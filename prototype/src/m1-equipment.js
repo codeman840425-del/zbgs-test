@@ -79,12 +79,12 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     if (disposed) return;
     // All assets are already loaded. Visibility changes are synchronous and
     // cannot arrive later over a newer user request.
-    item("shoes").container.visible = true;
-    item("top").container.visible = !debugBody;
-    coverage?.setEnabled(!debugBody);
-    item("pants").container.visible = !debugBody && outfit === 0;
-    if (IDS.skirt) item("skirt").container.visible = !debugBody && outfit === 1;
-    if (IDS.shorts) item("shorts").container.visible = !debugBody && outfit === 2;
+    const bottomRole = outfit === 1 ? "skirt" : outfit === 2 ? "shorts" : "pants";
+    const selected = debugBody ? [IDS.shoes] : [IDS.top, IDS.shoes, IDS[bottomRole]];
+    adapter.applyLoadedSet(selected);
+    // Existing exact-top coverage follows the final set, not a separately
+    // toggled costume flag. Multi-item coverage remains a separate work item.
+    coverage?.setEnabled(selected.includes(IDS.top));
   }
   apply();
   return {

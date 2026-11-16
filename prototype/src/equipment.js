@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { createGarmentMaterialRecipes } from "./material-recipes.js";
+import { resolveEquipmentSet, commitLoadedEquipmentSet } from "./equipment-set.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 /** Load independent garment GLBs onto a compatible existing raw skeleton.
@@ -36,6 +37,7 @@ export async function createEquipment({
   const loader = new GLTFLoader(), loaded = new Map(), pending = new Map(), slotRequests = new Map();
   const materialRequests = new Map();
   let disposed = false;
+  let setRevision = 0;
   const sha256 = async (buffer) => [...new Uint8Array(await crypto.subtle.digest("SHA-256", buffer))]
     .map((n) => n.toString(16).padStart(2, "0")).join("");
   function getEntry(id) {
@@ -125,6 +127,8 @@ export async function createEquipment({
       vertices += geometry.getAttribute("position").count;
     }
     if (disposed) throw new Error("Equipment disposed while loading");
+    // Loading prepares a resource; only an explicit selection makes it visible.
+    container.visible = false;
     parent.add(container);
     const result = { id: entry.id, entry, container, meshes, skeletons: new Set(skeletons.values()),
       stats: { primitives: meshes.length, verticesAcrossPrimitives: vertices,
@@ -152,10 +156,29 @@ export async function createEquipment({
     geometries.forEach((g) => g.dispose()); materials.forEach((m) => m.dispose());
     textures.forEach((t) => t.dispose()); new Set(item.skeletons.values()).forEach((s) => s.dispose());
   }
+  function applyLoadedSet(ids) {
+    if (disposed) throw Error("Equipment adapter is disposed");
+    const result = commitLoadedEquipmentSet(loaded, manifest.items, ids, avatarSha256);
+    setRevision++;
+    for (const entry of manifest.items)
+      slotRequests.set(entry.slot, (slotRequests.get(entry.slot) || 0) + 1);
+    return result;
+  }
   return {
     list: () => manifest.items.map(({ id, name, slot, limits }) => ({ id, name, slot, limits })),
     load,
+    applyLoadedSet,
+    async equipSet(ids) {
+      if (disposed) throw Error("Equipment adapter is disposed");
+      const selected = resolveEquipmentSet(manifest.items, ids, avatarSha256);
+      const ticket = ++setRevision;
+      await Promise.all(selected.map(entry => load(entry.id)));
+      if (disposed) throw Error("Equipment adapter is disposed");
+      if (ticket !== setRevision) return { applied: false, reason: "superseded" };
+      return { applied: true, items: applyLoadedSet(selected.map(entry => entry.id)) };
+    },
     async equip(id) {
+      setRevision++;
       const entry = getEntry(id), request = (slotRequests.get(entry.slot) || 0) + 1;
       slotRequests.set(entry.slot, request);
       const item = await load(id);
@@ -166,6 +189,7 @@ export async function createEquipment({
       return { ...item, applied: true };
     },
     unequip(slot = "bottoms-overlay") {
+      setRevision++;
       slotRequests.set(slot, (slotRequests.get(slot) || 0) + 1);
       for (const item of loaded.values()) if (item.entry.slot === slot) item.container.visible = false;
     },
