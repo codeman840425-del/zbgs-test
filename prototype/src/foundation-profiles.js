@@ -26,15 +26,16 @@ export const FOUNDATION_PROFILES = {
     label: "M1B 男性候选",
     pantsLabel: "独立长裤",
     shortsLabel: "独立露膝短裤",
-    ids: { top: "m1b-uniform-top", shoes: "m1b-uniform-shoes", pants: "m1b-uniform-pants", shorts: "m1b-uniform-shorts-v1", outer: "m2-male-open-vest-panels-v2" },
+    ids: { top: "m1b-uniform-top", shoes: "m1b-uniform-shoes", pants: "m1b-uniform-pants", shorts: "m1b-uniform-shorts-v1", outer: "m2-male-open-vest-panels-v2", onePiece: "m2-male-training-onepiece-v1" },
     extraOutfits: [
       { index: 3, role: 'outer-pants', bottomRole: 'pants', equipmentRoles: ['top','shoes','pants','outer'], label: '开襟马甲＋长裤', description: '候选：观察叠穿与动作' },
       { index: 4, role: 'outer-shorts', bottomRole: 'shorts', equipmentRoles: ['top','shoes','shorts','outer'], label: '开襟马甲＋短裤', description: '候选：观察叠穿与动作' },
+      { index: 5, role: 'onePiece', bottomRole: 'onePiece', equipmentRoles: ['shoes','onePiece'], label: '短袖连体练功服', description: '技术候选：检查连体换装与接触' },
     ],
     // Candidate initial value only: actual upper surface/weights retained within
     // 1.195e-7; shorts still require their own posed seat/contact acceptance.
-    outfitSeatLayerThickness: { 2: 0.0036 },
-    outfitFitStatus: { 2: "candidate: retained seat geometry; shorts runtime validation pending" },
+    outfitSeatLayerThickness: { 2: 0.0036, 5: 0.009 },
+    outfitFitStatus: { 2: "candidate: retained seat geometry; shorts runtime validation pending", 5: "candidate: 9mm construction offset only; actual seated response pending" },
     // Original male trouser surface: no female-shell offset inherited.
     // Measured male seat surface response: +10 mm pelvis -> +8.289 mm trouser underside.
     // Original fit was -1.975 mm; 3.6 mm gives approximately +1 mm clearance.

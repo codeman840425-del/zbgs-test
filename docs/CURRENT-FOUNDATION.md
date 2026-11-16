@@ -35,7 +35,7 @@ Phaser+Three+VRM保留；女性封板裙和30秒舞不再精修。普通电脑�
 
 缺口：底层onePiece占top+bottom，但房间outfitSelection仍拒绝，且没有真实连体实物。最少输入为当前完整男性和已验短裤生产方法；制作一件躯干→腰胯→双大腿实际连接的简洁连体练功服，独立源/skin/导出，不把旧衣裤改ID冒充连体。源生产由whole_look_prepare已知sol/high在独立codex/onepiece-source执行；root负责共用装备facade、接触/切换、固定浏览器验证。
 
-最小产物：可编辑源和参数→实际重新导出→onePiece装备/fit→房间沿原动作控制器加载；普通上下装↔连体互斥/卸下恢复，代表走跑转/坐起/动作及正常1×。必要接触角色映射放装备配置，不给单件动作加名称特例。不重开冻结裙舞、不为漂亮反复修。两轮同因无新证据停止扫参重定位。root和资产agent互斥使用GPU/重Blender；当前GPU空闲，等待新源。
+最小产物：可编辑源和参数→实际重新导出→onePiece装备/fit→房间沿原动作控制器加载；普通上下装↔连体互斥/卸下恢复，代表走跑转/坐起/动作及正常1×。必要接触角色映射放装备配置，不给单件动作加名称特例。不重开冻结裙舞、不为漂亮反复修。两轮同因无新证据停止扫参重定位。root和资产agent互斥使用GPU/重Blender；连体源正在独占Blender回开导出。用户新增并行授权后，asset_budget以显式sol/high独立做CUSTOM-P04实际GLB/VRM成本与只读预算检查，不占GPU、不碰运行源码；主集成交付仍为onePiece。
 
 实际形体fit、衣层覆盖、按需加载等仍未完成，不宣称P1或M2通过。
 
@@ -43,6 +43,6 @@ Phaser+Three+VRM保留；女性封板裙和30秒舞不再精修。普通电脑�
 
 本次v2只读核查补CAP CUSTOM-FIT01/L02/I01/P03–05，补支撑道具、本地原子记录、批部分失败重试及生产幂等边界。没有另建能力清单。9流程索引只读检查通过，不等于完整自定义生产。
 
-当前宿主是GPT桌面内Codex，不是Codex CLI。每次spawn显式model/reasoning_effort/fork_turns=none和DISPATCH_CONFIG；记录evidence/subagent-explicit-dispatch-2026-11-16.json。实际provider配置工具未另暴露，桌面hook拦截未验证；UI开关/CLI/本地脚本不能代替。旧未知配置不复用为已知；本轮whole_look_prepare已知请求sol/high。
+当前宿主是GPT桌面内Codex，不是Codex CLI。每次spawn显式model/reasoning_effort/fork_turns=none和DISPATCH_CONFIG；记录evidence/subagent-explicit-dispatch-2026-11-16.json。实际provider配置工具未另暴露；用户最新明确已给Hook信任，但asset_budget真实spawn后仍无安装audit.jsonl，桌面hook拦截继续未验证，不因UI开关/CLI/本地脚本推定。旧未知配置不复用为已知；本轮whole_look_prepare已知请求sol/high。
 
 一次一个GPU/录屏/重Blender/编码任务。4295已关闭；4207/4208是root临时固定候选。只关闭自己创建的服务。最新I01源码/固定证据提交e1c85f3a8daa671f88cc95982dfc162705a9df6a已推送并用ls-remote核实；回执evidence/m2-candidate-admission-browser-086-v1/remote-backup.json。L02的78f823e远备亦保留；新onePiece增量尚未完成，不继承此结论。
