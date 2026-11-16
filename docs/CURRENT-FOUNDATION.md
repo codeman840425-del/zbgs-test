@@ -33,7 +33,7 @@ Phaser+Three+VRM保留；女性封板裙和30秒舞不再精修。普通电脑�
 
 ## 最近完成：P1 / CUSTOM-E02/E04 真实连体装备运行
 
-当前4207固定ae36ee9f440f/source b8c20d3b9d53938be88f6285b3042942816b716c，experiments/m2-onepiece-fixed-contact/prototype/dist。原男性62b44b＋真实e0cac504连体作者导出＋原鞋，保完整body，不复制旧衣裤改名；单连通、裁切权重、实际改源与四次重复导出经独立CPU核。源44body/368self和1.576mm近面采样深度保留，不以零交叉为门。生产索引第10流程male-onepiece-source已合入3ebcb6f，真实源/运行fit核验、41负例/21写范围负例通过；没有重跑重型导出。
+历史固定ae36ee9f440f/source b8c20d3b9d53938be88f6285b3042942816b716c，experiments/m2-onepiece-fixed-contact/prototype/dist。原男性62b44b＋真实e0cac504连体作者导出＋原鞋，保完整body，不复制旧衣裤改名；单连通、裁切权重、实际改源与四次重复导出经独立CPU核。源44body/368self和1.576mm近面采样深度保留，不以零交叉为门。生产索引第10流程male-onepiece-source已合入3ebcb6f，真实源/运行fit核验、41负例/21写范围负例通过；没有重跑重型导出。
 
 80e实测坐稳零额外抬高留4.41mmgap，+10mm留11.84mm，最终ae36采用0，不继承旧裤补偿。该数值是坐稳的实际顶点/椅局部盒检查，不是全过程三角碰撞通过。ae36独立重建文件一致；房间、正面完整1×走跑/转/坐起/短动作链、旧84b与新连体配方往返、完整身体POSITION/index不变、男女切换后恢复通过。观看4174/evidence/m2-onepiece-room-ae3-v1/。root已看全部2fps两条链和正侧背/坐姿大图，抽样无大片断裂/裸露；不代替连续人类验收，也不扩大到派生体型。
 
@@ -47,9 +47,13 @@ scripts/production/asset_budget.py check，m2-technical-v1；25初版门发现op
 
 源sidecar实际按锁定Three187 GLTFLoader生成运行权重摘要并保raw SHA，主工作区重复生成输出一致。只为登记的原男onePiece声明Body依赖，旧衣服不自动获得该能力；越过needsUpdate的原地数组改写不支持。当前全套预载使未选onePiece的fit缺失也会阻止男性准备；失败保原已验，按实际选择加载留CUSTOM-P05。
 
-## 下一主工作包：CUSTOM-E04 衣层覆盖与恢复
+## 最近完成：CUSTOM-E04 衣层覆盖与恢复
 
-真实源样件已合7a17b10：原男top393a＋outer0631的56个背面三角，角点/中点内侧和开放边界余量有CPU证据，尚不等于动画覆盖通过。首次跨检出生成因Windows换行使hash不一致，失败保evidence/m2-garment-coverage-source-rerun-v1。asset_budget已知sol/high在独立worktree修精确LF输出并接garment-coverage、m1-equipment事务；不改动作或Body，不扩大mask。root接确切提交、实际外搭/卸下/基础模式恢复与受影响动作，之后继续CUSTOM-P05按需加载。
+当前4207为d714aae9f601/source b89d9ab0088f396e0f67c3b24c979c159c96d697，独立检出experiments/m2-garment-coverage-fixed-d71/prototype/dist。观看4174/evidence/m2-garment-coverage-room-d71-v1/，含房间/背面1×完整链、男女切换恢复及旧8e2房间参考。原男top393a＋outer0631配对56face遮挡，卸外搭/基础模式恢复原6012索引及SHA，原Body不改。root全时段2fps两片与关键大图抽审未见新大片露面；椅背部分挡坐姿背面，不代替全表面碰撞或连续人类验收。完整top访问器仅供依赖方使用，座位仍按Body接触。原源生成首次Windows换行失败保留，后续显式UTF8 LF已跨主目录复跑一致。
+
+## 当前主工作包：CUSTOM-P05 实际选中服装按需加载
+
+whole_look_prepare已知sol/high从b89d9ab独立实现：初始只实际outfit角色资源，outer/skirt/onePiece首次选择再prepare；延迟mask/裙solver，动态surface/meshRoles，controller/recipe/body switch沿async prepare提交和取消清理。root负责实际网络、旧请求/坏资源保原、首次切换及动作。d714浏览器基线已记录默认男实际请求全部6件装备4843460bytes（已选3件共3739572bytes）；只是装备GLB字节，不含全部人体/动作/贴图或实测内存，evidence/m2-selected-equipment-baseline-d71-v1。先当前资源范围和实例销毁，不为此改步态或建通用LRU；缓存回收限制如实记录。asset_budget已知sol/high独立补衣层源进现有生产索引，不改runtime。禁止重开女裙与30秒舞。
 
 ## 文档和派工恢复
 
