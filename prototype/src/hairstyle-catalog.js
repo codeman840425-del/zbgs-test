@@ -1,6 +1,18 @@
 // Exact body + resource + fit admissions; no motion-controller branches.
 export const HAIRSTYLES = [
   {
+    id:'female-ponytail-v1', label:'长束发 · 动态制作候选',
+    manifestUrl:'/assets/m2-long-hair-v1/manifest.json',
+    manifestSha256:'b20b2f956aff08331f185466af02143f95f893305e484747e6166b8d8bd8c101',
+    assetSha256:'010a615ed5650e106bacd2c1da576a7c42db2a22047c4011596fb43b648cb015',
+    sourceMaterial:'F00_000_HairBack_00_HAIR',
+    compatibleBodies:['027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95'],
+    sourceBodySha256:'027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95',
+    legacyImplicitFit:false,
+    fit:{id:'female-ponytail-v1-original-female-fit-v1',version:1,url:'/assets/m2-long-hair-v1/fit.json',
+      sha256:'3199e1059971ef8a47d574571a9e18cdf940412ca7ab61574f2027d207a0a37e'},
+  },
+  {
     "id": "female-bob-v1",
     "label": "齐颈侧后短发",
     "manifestUrl": "/assets/m2-hairstyle-v1/manifest.json",

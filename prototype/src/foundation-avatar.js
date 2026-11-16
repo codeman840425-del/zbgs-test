@@ -297,16 +297,18 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     setDynamics: (value) => {
       dynamics = Boolean(value);
       vrm.springBoneManager?.reset();
+      appearance.resetDynamics();
     },
     setExpression: name => livePresentation.setExpression(name),
     update: (dt, state = {}) => {
       livePresentation.preUpdate(dt, state);
       vrm.update(dynamics ? dt : 0);
       if (!dynamics) vrm.springBoneManager?.reset();
+      appearance.updateDynamics(dt,dynamics);
       root.updateMatrixWorld(true);
       livePresentation.postUpdate();
     },
-    resetSecondary: () => vrm.springBoneManager?.reset(),
+    resetSecondary: () => {vrm.springBoneManager?.reset();appearance.resetDynamics();},
     updateGarment: (_sit, dt, colliders) => {
       lastGarmentColliders = colliders || [];
       // fitSeatHands is the last motion operation; only arm bones changed

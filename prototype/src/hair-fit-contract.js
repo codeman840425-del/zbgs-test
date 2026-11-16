@@ -1,4 +1,5 @@
 import { HAIRSTYLES } from './hairstyle-catalog.js';
+import { validateHairSpringConfig } from './hair-spring.js';
 
 export function hairEntry(body, style) {
   const entries = HAIRSTYLES.filter(e => e.id === style && e.compatibleBodies.includes(body));
@@ -28,14 +29,17 @@ export function validateHairSelection(body, style, options = {}) {
 }
 export function validateHairFitData(fit, entry, body, manifest) {
   const a = fit?.attachment;
+  const rigid=fit?.schema==='character-hair-fit-v1'&&fit.physics==='rigid'&&manifest.physics==='rigid';
+  const spring=fit?.schema==='character-hair-fit-v2'&&fit.physics==='vrm-spring'&&manifest.physics==='vrm-spring'&&manifest.skinned===true;
   const vector = (x,n) => Array.isArray(x) && x.length === n && x.every(Number.isFinite);
-  if (fit?.schema !== 'character-hair-fit-v1' || fit.id !== entry.fit.id || fit.version !== entry.fit.version ||
+  if ((!rigid&&!spring) || fit.id !== entry.fit.id || fit.version !== entry.fit.version ||
       fit.styleId !== entry.id || fit.targetBodySha256 !== body || fit.sourceBodySha256 !== entry.sourceBodySha256 ||
       fit.assetSha256 !== entry.assetSha256 || fit.sourceMaterial !== entry.sourceMaterial || fit.sourceMaterial !== manifest.sourceMaterial ||
-      fit.physics !== 'rigid' || a?.bone !== 'head' || a.space !== 'raw-head-bind-local' ||
+      a?.bone !== 'head' || a.space !== 'raw-head-bind-local' ||
       !vector(a.position,3) || !vector(a.quaternion,4) || !vector(a.scale,3) || a.scale.some(x=>x<=0) ||
       Math.abs(Math.hypot(...a.quaternion)-1)>1e-6 || fit.hideOriginal?.hideWholeBody !== false ||
       !Array.isArray(fit.hideOriginal?.materialNames) || fit.hideOriginal.materialNames.length !== 1 ||
       fit.hideOriginal.materialNames[0] !== entry.sourceMaterial) throw Error('发型适配数据与当前人物不一致');
+  if(spring)validateHairSpringConfig(fit.dynamics);
   return a;
 }

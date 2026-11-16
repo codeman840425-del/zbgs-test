@@ -4,6 +4,7 @@ import { createFacialPalette, EYE_COLORS, LIP_COLORS } from './facial-palette.js
 import { HAIRSTYLES } from './hairstyle-catalog.js';
 import { NO_HAIR_BODIES } from './no-hair-bodies.js';
 import { hairFitIdentity, validateHairSelection, validateHairFitData } from './hair-fit-contract.js';
+import { createHairSpring, validateHairSkin } from './hair-spring.js';
 
 export const HAIR_COLORS = { original: null, black: '#343139', brown: '#805039', blonde: '#dab77a' };
 // Presets inspected under the actual room's warm key light and ACES exposure.
@@ -45,7 +46,11 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
   function applyHairVisibility() {
     const effectiveStyle = bodyMode === 'base' ? 'none' : hairStyle;
     hairMeshes.forEach(({ mesh, visible }) => { mesh.visible = effectiveStyle === 'original' && visible; });
-    for (const [id, value] of replacements) value.scene.visible = effectiveStyle === id;
+    for (const [id, value] of replacements) {
+      const visible=effectiveStyle===id;
+      if(visible&&!value.scene.visible)value.dynamics?.reset();
+      value.scene.visible=visible;
+    }
   }
   function setBodyMode(mode) {
     if (disposed) return { applied: false, reason: '人物已卸载' };
@@ -103,7 +108,10 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
   }
   function releaseReplacement(value) {
     if (!value) return;
+    value.dynamics?.dispose();
     value.scene.removeFromParent();
+    const skeletons=new Set();value.scene.traverse(mesh=>{if(mesh.isSkinnedMesh)skeletons.add(mesh.skeleton);});
+    skeletons.forEach(skeleton=>skeleton.dispose());
     value.scene.traverse(mesh => { if (mesh.isMesh) { mesh.geometry.dispose(); materialsOf(mesh).forEach(m => m.dispose()); } });
   }
   const digest = async bytes => [...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(v=>v.toString(16).padStart(2,'0')).join('');
@@ -117,16 +125,16 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
   async function loadReplacement(entry) {
     const manifest = await pinnedJson(entry.manifestUrl,entry.manifestSha256);
     if (manifest.schema !== 'character-hairstyle-v1' || manifest.id !== entry.id ||
-        manifest.mount !== 'head' || manifest.headLocal !== true || manifest.physics !== 'rigid' ||
+        manifest.mount !== 'head' || manifest.headLocal !== true || !['rigid','vrm-spring'].includes(manifest.physics) ||
         manifest.sha256 !== entry.assetSha256 || manifest.sourceMaterial !== entry.sourceMaterial ||
         !manifest.compatibleBodies.includes(avatarSha256))
       throw new Error('发型与当前身体未通过兼容检查');
-    let attachment = null, rawBone = null;
+    let attachment = null, rawBone = null, fit = null;
     if (entry.fit) {
       if (!manifest.fit || Object.keys(entry.fit).some(k=>manifest.fit[k]!==entry.fit[k])) throw Error('发型清单适配版本不一致');
-      const fit = await pinnedJson(entry.fit.url,entry.fit.sha256);
+      fit = await pinnedJson(entry.fit.url,entry.fit.sha256);
       attachment = validateHairFitData(fit,entry,avatarSha256,manifest); rawBone = fit.rawBone;
-    } else if (manifest.fit || !entry.legacyImplicitFit) throw Error('发型缺少已登记适配');
+    } else if (manifest.fit || !entry.legacyImplicitFit || manifest.physics!=='rigid') throw Error('发型缺少已登记适配');
     const head = vrm.humanoid.getRawBoneNode('head');
     if (!head || (rawBone && head.name !== rawBone)) throw Error('人物头部挂点缺失或与适配不一致');
     const asset = await fetch(manifest.url);
@@ -139,35 +147,37 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
     if (!source.length || !hairMeshes.length || mixedHairMesh || hairMeshes.some(({mesh})=>materialsOf(mesh).some(m=>!isSourceMaterial(m)))) throw new Error('原发型材质/独立网格缺失或隐藏范围不匹配');
     const gltf = await new GLTFLoader().parseAsync(bytes, manifest.url.slice(0, manifest.url.lastIndexOf('/') + 1));
     const meshes = []; gltf.scene.traverse(node=>{if(node.isMesh)meshes.push(node);});
-    if (meshes.length !== 1 || meshes[0].isSkinnedMesh || Object.keys(meshes[0].geometry.morphAttributes).length ||
-        !gltf.scene.position.equals(new THREE.Vector3()) || !gltf.scene.quaternion.equals(new THREE.Quaternion()) || !gltf.scene.scale.equals(new THREE.Vector3(1,1,1))) {
-      const textures = new Set();
-      gltf.scene.traverse(mesh=>{if(mesh.isMesh){mesh.geometry.dispose();for(const m of materialsOf(mesh)){for(const value of Object.values(m))if(value?.isTexture)textures.add(value);m.dispose();}}});
-      textures.forEach(t=>t.dispose());
-      throw Error('发型必须为已登记的单网格刚性头部附件');
+    const materialBase=new Map(), importedMaterials=new Set(meshes.flatMap(materialsOf));
+    const importedTextures=new Set();
+    for(const m of importedMaterials)for(const value of Object.values(m))if(value?.isTexture)importedTextures.add(value);
+    const releaseImported=()=>{importedMaterials.forEach(m=>m.dispose());importedTextures.forEach(t=>t.dispose());};
+    try {
+      if(manifest.physics==='vrm-spring')validateHairSkin(gltf.scene,meshes);
+      else if(meshes.length!==1||meshes[0].isSkinnedMesh)throw Error('刚性发型应为单个独立网格');
+      if(meshes.some(m=>Object.keys(m.geometry.morphAttributes).length)||gltf.animations.length||
+        !gltf.scene.position.equals(new THREE.Vector3()) || !gltf.scene.quaternion.equals(new THREE.Quaternion()) || !gltf.scene.scale.equals(new THREE.Vector3(1,1,1)))throw Error('发型包含未登记的变形或场景变换');
+      if (attachment) {
+        gltf.scene.position.fromArray(attachment.position); gltf.scene.quaternion.fromArray(attachment.quaternion); gltf.scene.scale.fromArray(attachment.scale);
+        gltf.scene.updateMatrix();
+      }
+      for(const mesh of meshes){
+        // Track each clone before the next one is attempted. A later outline
+        // clone can fail before any of these materials are assigned to mesh.
+        const cloned=source.map(m=>{const c=m.clone();materialBase.set(c,originals.get(m));return c;});
+        mesh.material=cloned.length===1?cloned[0]:cloned;
+        mesh.geometry.clearGroups();
+        cloned.forEach((m,i)=>mesh.geometry.addGroup(0,mesh.geometry.index?.count??mesh.geometry.attributes.position.count,i));
+        mesh.castShadow=true;mesh.frustumCulled=false;mesh.userData.assetRole='hair';
+      }
+    } catch(error) {
+      new Set(meshes.map(m=>m.geometry)).forEach(g=>g.dispose());
+      new Set(meshes.filter(m=>m.isSkinnedMesh).map(m=>m.skeleton)).forEach(s=>s.dispose());
+      materialBase.forEach((_,m)=>m.dispose());releaseImported();throw error;
     }
-    if (attachment) {
-      gltf.scene.position.fromArray(attachment.position); gltf.scene.quaternion.fromArray(attachment.quaternion); gltf.scene.scale.fromArray(attachment.scale);
-      gltf.scene.updateMatrix();
-    }
-    const materialBase = new Map(), oldMaterials = new Set();
-    gltf.scene.traverse(mesh => {
-      if (!mesh.isMesh) return;
-      materialsOf(mesh).forEach(m => oldMaterials.add(m));
-      // This export has one surface. Reuse the original MToon surface and its
-      // outline draw group; do not substitute a different lighting model.
-      const cloned = source.map(m => { const c = m.clone(); materialBase.set(c, originals.get(m)); return c; });
-      mesh.material = cloned.length === 1 ? cloned[0] : cloned;
-      mesh.geometry.clearGroups();
-      cloned.forEach((m, i) => mesh.geometry.addGroup(0, mesh.geometry.index?.count ?? mesh.geometry.attributes.position.count, i));
-      mesh.castShadow = true; mesh.frustumCulled = false;
-      mesh.userData.assetRole = 'hair';
-    });
-    const textures = new Set();
-    for (const m of oldMaterials) { for (const value of Object.values(m)) if (value?.isTexture) textures.add(value); m.dispose(); }
-    textures.forEach(t => t.dispose());
-    return { scene: gltf.scene, materialBase, sha256: sha, hairFit: hairFitIdentity(entry) };
+    releaseImported();
+    return {scene:gltf.scene,materialBase,sha256:sha,hairFit:hairFitIdentity(entry),springConfig:fit?.dynamics??null};
   }
+
   async function prepareUpdate(input = {}, {trackIntent=false}={}) {
     if (disposed) return { applied: false, reason: '人物已卸载' };
     const desiredStyle = input.reset ? 'original' : input.hairStyle ?? hairStyle;
@@ -197,8 +207,14 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
       if (!['original','none'].includes(desiredStyle)&&!replacements.has(desiredStyle)) {
         if (!replacementPromises.has(desiredStyle)) replacementPromises.set(desiredStyle, loadReplacement(admittedStyles.find(entry => entry.id === desiredStyle)).then(value => {
           if (disposed) { releaseReplacement(value); return null; }
-          replacements.set(desiredStyle, value); value.scene.visible = false;
-          vrm.humanoid.getRawBoneNode('head').add(value.scene);
+          try {
+            value.scene.visible = false;vrm.humanoid.getRawBoneNode('head').add(value.scene);
+            if(disposed){releaseReplacement(value);return null;}
+            if(value.springConfig)value.dynamics=createHairSpring({vrm,scene:value.scene,config:value.springConfig});
+            value.dynamics?.reset();
+            if(disposed){releaseReplacement(value);return null;}
+            replacements.set(desiredStyle,value);
+          }catch(error){releaseReplacement(value);throw error;}
           return value;
         }).finally(() => { replacementPromises.delete(desiredStyle); }));
         if(trackIntent)pendingStyleRequest=styleRequest;
@@ -252,13 +268,16 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
   }
   return {
     set, prepareUpdate, setBodyMode,
+    updateDynamics:(dt,enabled=true)=>{if(replacement?.scene.visible)replacement.dynamics?.update(dt,enabled);},
+    resetDynamics:()=>{for(const value of replacements.values())value.dynamics?.reset();},
     getState: () => ({ hairStyle, hairColor, skinTone, loading:loading||pendingStyleRequest!==0, error, bodyMode, revision,
       effectiveHairStyle: bodyMode === 'base' ? 'none' : hairStyle,
       noHairAdmission: canHideHair ? { ...noHairAdmission } : null, ...facialPalette.getState(),
       availableStyles: ['original', ...(canHideHair ? ['none'] : []), ...admittedStyles.map(entry => entry.id)],
       styleOptions: [{id:'original',label:'原发型'}, ...(canHideHair ? [{id:'none',label:'无发（保留眉睫毛）'}] : []), ...admittedStyles.map(({id,label}) => ({id,label}))],
       skinMaterialCount: skin.size, hairMaterialCount: hair.size, neutralTextureCount: grayTextures.size,
-      hairFit: replacement ? { ...replacement.hairFit } : null, replacementSHA256: replacement?.sha256 ?? null }),
+      hairFit: replacement ? { ...replacement.hairFit } : null, replacementSHA256: replacement?.sha256 ?? null,
+      hairDynamics:replacement?.dynamics?.getState()??null }),
     dispose() {
       if(disposed)return;
       disposed = true; generation++;revision++;loading=false;pendingStyleRequest=0;

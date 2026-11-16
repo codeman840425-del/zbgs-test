@@ -1,0 +1,68 @@
+{
+  "schema": "character-hair-fit-v2",
+  "id": "independent-spring-bad-bind-fit",
+  "version": 2,
+  "styleId": "independent-spring-bad-bind",
+  "targetBodySha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+  "sourceBodySha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+  "assetSha256": "ad79d19d1780485b283adb1c436cd27da9dcc33e112f434e901006f42647af57",
+  "sourceMaterial": "F00_000_HairBack_00_HAIR",
+  "rawBone": "IndependentRawHead",
+  "physics": "vrm-spring",
+  "attachment": {
+    "bone": "head",
+    "space": "raw-head-bind-local",
+    "position": [
+      0,
+      0,
+      0
+    ],
+    "quaternion": [
+      0,
+      0,
+      0,
+      1
+    ],
+    "scale": [
+      1,
+      1,
+      1
+    ]
+  },
+  "hideOriginal": {
+    "hideWholeBody": false,
+    "materialNames": [
+      "F00_000_HairBack_00_HAIR"
+    ]
+  },
+  "dynamics": {
+    "schema": "hair-spring-v1",
+    "joints": [
+      {
+        "bone": "SpringRoot",
+        "child": "SpringTip",
+        "hitRadius": 0.005,
+        "stiffness": 1,
+        "gravityPower": 0.15,
+        "gravityDir": [
+          0,
+          -1,
+          0
+        ],
+        "dragForce": 0.4
+      }
+    ],
+    "colliders": [
+      {
+        "bone": "head",
+        "shape": "sphere",
+        "offset": [
+          0,
+          0.35,
+          0
+        ],
+        "radius": 0.05
+      }
+    ]
+  }
+}

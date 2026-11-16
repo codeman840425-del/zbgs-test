@@ -1,0 +1,12 @@
+{
+  "schema": "hair-spring-independent-fixture-correction-v1",
+  "initialReport": "report.json",
+  "correctedOriginalSnapshotReport": "corrected-collider-probe-v2/report.json",
+  "runtimeFixRetest": "root-fix-retest-v3/report.json",
+  "correction": "Initial collider counting checked an isVRMSpringBoneCollider marker that this official class does not expose. The probe now uses instanceof VRMSpringBoneCollider. The original disposal-during-add failure leaves one proxy, as the corrected original-snapshot report records.",
+  "additionalRetestChecks": "Track original borrowed texture identity/disposal during normal release and partial-clone failure cleanup. Save the exact executed independent probe beside the final report.",
+  "sourceEditsByIndependentReviewer": false,
+  "actualPonytailSourceUsed": false,
+  "browserStarted": false,
+  "GPUUsed": false
+}
