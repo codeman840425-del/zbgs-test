@@ -1,0 +1,24 @@
+{
+  "status": "fixed-byte-identical-noop-and-bounded-recovery",
+  "publisherSha256": "03bae543af93edd228a794a15536607be867725bcd1f6b9b6affc7abe71b7916",
+  "rootOriginalFailureSHA256": "fb2939228437533c4f831a358ad66ed52894569afe9ca347e502acb2e7524571",
+  "fullIntegrationCases": 12,
+  "fullIntegrationPassed": true,
+  "swapChecks": 8,
+  "changes": [
+    "Verified identical payloads/catalog return before creating stage or renaming any directory.",
+    "Changed publications attempt each move once. Initial denial leaves live output intact; failed install attempts one restore.",
+    "Failed restoration retains previous/stage and RECOVERY.json. A final guard preserves the previous directory after unexpected interruptions."
+  ],
+  "proof": [
+    "Native Windows staged-catalog read handle reproduces WinError5 at the same installation rename. Old bytes are restored and the staged directory is removed after release.",
+    "Byte-identical publication succeeds while the current catalog is held with a deny-delete handle, with unchanged mtimes and no stage.",
+    "Precise install/restore/interruption injections preserve backup or restore the old version. The old baseline deletes its backup when install and restore both fail.",
+    "All 12 full-source cases pass. Actual 8/4 valid outputs remain byte-identical and all 10 rejection cases leave public bytes unchanged."
+  ],
+  "limits": [
+    "The original directory-handle calibration did not prevent a rename on this host, and its failed assertion is retained. The corrected native test locks the catalog file.",
+    "Rename failure/interruption injections are labeled separately from real Windows file-lock behavior. No root public writes or browser/GPU.",
+    "A restoration blocked by the OS cannot promise the live path is restored. The preserved old directory and receipt provide explicit recovery data without retry loops."
+  ]
+}

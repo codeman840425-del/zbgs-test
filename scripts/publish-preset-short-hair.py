@@ -145,29 +145,66 @@ def validate_contact(contact, result, reference):
 
 def publish(prefix, pending, catalog):
     output = ROOT/'prototype/public/assets'/prefix
-    # Cached, verified payloads avoid reading mutable source files after preflight.
-    with tempfile.TemporaryDirectory(prefix='publish-hair-', dir=ROOT, ignore_cleanup_errors=True) as temporary:
-        stage, previous = Path(temporary)/'next', Path(temporary)/'previous'
+    # Preserve the original Windows write_text serialization byte-for-byte.
+    data = (json.dumps(catalog, ensure_ascii=False, indent=2)+'\n').replace('\n', os.linesep).encode('utf8')
+    expected = {Path('catalog.json'): data}
+    for relative, payloads in pending:
+        expected.update({Path(relative)/name: value for name, value in payloads.items()})
+    try:
+        unchanged = output.is_dir() and all((output/name).is_file() and (output/name).read_bytes() == value for name, value in expected.items())
+    except OSError as error:
+        raise RuntimeError('Cannot verify existing publication; its files remain untouched') from error
+    if unchanged:
+        return digest(data)
+
+    # Cleanup is explicit because an unsuccessful rollback must retain the
+    # only surviving previous directory, outside any automatic temp cleanup.
+    temporary = Path(tempfile.mkdtemp(prefix='publish-hair-', dir=ROOT))
+    stage, previous = temporary/'next', temporary/'previous'
+    preserve_recovery = False
+    installed = False
+    receipt = {'output': str(output), 'previous': str(previous), 'stage': str(stage)}
+    try:
+        try:
+            if output.exists():
+                shutil.copytree(output, stage)
+            else:
+                stage.mkdir()
+            for name, value in expected.items():
+                path = stage/name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(value)
+            (temporary/'RECOVERY.json').write_bytes((json.dumps(receipt, indent=2)+'\n').encode('utf8'))
+        except OSError as error:
+            raise RuntimeError('Publication preparation failed; previous output remains untouched') from error
         if output.exists():
-            shutil.copytree(output, stage)
-        else:
-            stage.mkdir()
-        for relative, payloads in pending:
-            folder = stage/relative
-            folder.mkdir(parents=True, exist_ok=True)
-            for name, data in payloads.items():
-                (folder/name).write_bytes(data)
-        # Preserve the original Windows write_text serialization byte-for-byte.
-        data = (json.dumps(catalog, ensure_ascii=False, indent=2)+'\n').replace('\n', os.linesep).encode('utf8')
-        (stage/'catalog.json').write_bytes(data)
-        if output.exists():
-            output.rename(previous)
+            try:
+                output.rename(previous)
+            except OSError as error:
+                raise RuntimeError('Cannot move existing publication; previous output remains untouched') from error
         try:
             stage.rename(output)
-        except Exception:
+            installed = True
+        except OSError as install_error:
             if previous.exists():
-                previous.rename(output)
-            raise
+                try:
+                    previous.rename(output)
+                except OSError as restore_error:
+                    preserve_recovery = True
+                    receipt = {'output': str(output), 'previous': str(previous), 'stage': str(stage),
+                               'installError': str(install_error), 'restoreError': str(restore_error)}
+                    try:
+                        (temporary/'RECOVERY.json').write_bytes((json.dumps(receipt, ensure_ascii=False, indent=2)+'\n').encode('utf8'))
+                    except OSError:
+                        pass
+                    raise RuntimeError('Publication and restoration failed; previous files are preserved at '+str(previous)) from restore_error
+                raise RuntimeError('Publication installation failed; previous output was restored') from install_error
+            raise RuntimeError('Publication installation failed; no previous output existed') from install_error
+    finally:
+        if previous.exists() and not installed:
+            preserve_recovery = True
+        if not preserve_recovery:
+            shutil.rmtree(temporary, ignore_errors=True)
     return digest(data)
 
 

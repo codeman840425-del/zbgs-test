@@ -1,0 +1,63 @@
+{
+  "publisherSha256": "03bae543af93edd228a794a15536607be867725bcd1f6b9b6affc7abe71b7916",
+  "baselinePublisherSha256": "8b3310b1a0fc3c876b9b9401c3be6fc5849861966165556b7d44719c182bf059",
+  "results": [
+    {
+      "name": "byte-identical publish succeeds under a real catalog-file deny-delete lock without stage or mtime changes",
+      "passed": true,
+      "lockCalibrationError": "[WinError 5] 拒绝访问。: 'F:\\\\gamemake-preset-short-hair-fits-v1\\\\evidence\\\\m2-preset-hair-publisher-swap-v3\\\\scratch\\\\swap-av62d5ad\\\\idempotent-with-real-lock\\\\prototype\\\\public\\\\assets\\\\m2-preset-short-hair-fits-v1' -> 'F:\\\\gamemake-preset-short-hair-fits-v1\\\\evidence\\\\m2-preset-hair-publisher-swap-v3\\\\scratch\\\\swap-av62d5ad\\\\idempotent-with-real-lock\\\\calibration'"
+    },
+    {
+      "name": "changed publication refuses real directory lock and preserves old files",
+      "passed": true,
+      "error": "Cannot move existing publication; previous output remains untouched"
+    },
+    {
+      "name": "changed unlocked publication completes or reports the actual OS failure without corrupting old files",
+      "passed": true,
+      "outcome": "published"
+    },
+    {
+      "name": "real staged catalog lock reproduces WinError5 at installation and restores previous output",
+      "passed": true,
+      "winerror": 5,
+      "error": "Publication installation failed; previous output was restored",
+      "fixture": "Controlled file-handle timing only; Path.rename still executes the real Windows operation."
+    },
+    {
+      "name": "install-failure-restored",
+      "passed": true,
+      "error": "RuntimeError: Publication installation failed; previous output was restored",
+      "previousBytesRestored": true,
+      "fixture": "Stage-install rename denial only, all other file operations real."
+    },
+    {
+      "name": "restore-failure-preserves-backup",
+      "passed": true,
+      "error": "RuntimeError: Publication and restoration failed; previous files are preserved at F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-swap-v3\\scratch\\swap-av62d5ad\\restore-failure-preserves-backup\\publish-hair-jtk_knd4\\previous",
+      "previousBytesPreserved": true,
+      "recoveryReceipt": "scratch\\swap-av62d5ad\\restore-failure-preserves-backup\\publish-hair-jtk_knd4\\RECOVERY.json",
+      "fixture": "Precise rename denial/interruption injection, all other file operations real."
+    },
+    {
+      "name": "interrupt-preserves-backup",
+      "passed": true,
+      "error": "KeyboardInterrupt: injected interruption after previous directory moved",
+      "previousBytesPreserved": true,
+      "recoveryReceipt": "scratch\\swap-av62d5ad\\interrupt-preserves-backup\\publish-hair-513hbdpg\\RECOVERY.json",
+      "fixture": "Precise rename denial/interruption injection, all other file operations real."
+    },
+    {
+      "name": "baseline-restore-failure",
+      "finding": "previous output and its backup both removed by automatic cleanup",
+      "passed": true,
+      "error": "PermissionError: injected previous restoration denial",
+      "fixture": "Two precise rename denials, all other file operations real."
+    }
+  ],
+  "limits": [
+    "Real source payloads and a real Windows deny-delete catalog-file handle are used for idempotence and lock checks.",
+    "Install/restore failure and interruption cases explicitly inject those failures at Path.rename. Remaining I/O and byte comparisons are real.",
+    "The initial directory-handle calibration did not prevent rename and is retained as a fixture failure. Catalog-file locking does reproduce native WinError5. All output operations are confined to private scratch roots. Real root public and GPU/browser are untouched."
+  ]
+}
