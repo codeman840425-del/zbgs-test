@@ -84,6 +84,6 @@
 
 ## 0fb固定交付及后续
 
-公开smoke实际改嘴、房间移动和男女两原片1×播放≥2秒均通过，evidence/current-workbench-0fb420e5b124。新检出122文件逐字相同，rebuild-face-compact-0fb-v2；首次重建脚本用path checkout提前填.gitattributes产生partial index，失败保留，改为git show精确字节落盘后原sparse流程成功，未动产品。源码422a独立分支已远端核，main集成026ab20运行目录全同；本次文档/视频远端最终回执待本轮核实后补。
+公开smoke实际改嘴、房间移动和男女两原片1×播放≥2秒均通过，evidence/current-workbench-0fb420e5b124。新检出122文件逐字相同，rebuild-face-compact-0fb-v2；首次重建脚本用path checkout提前填.gitattributes产生partial index，失败保留，改为git show精确字节落盘后原sparse流程成功，未动产品。源码422a独立分支已远端核，main集成026ab20运行目录全同；本次源/文档/录像/证据已随903e304推送并核远端；370份选定Git证据与本机字节相同。回执delivery/workbench-backup-0fb.json另提交，dist由新检出122文件重建。
 
 face-render-compaction-gpu-v1记录真实容量、有限成本和男女正常1×；face-compact-bridge-review记录24同姿/像素差、v5十门和context恢复。最终懒求球保留原首次姿态/时机；不是提前rest pose球、不是每帧新解算。未修改颜色/动画/装备及source pins，不称普通机达标或用户观感通过。
