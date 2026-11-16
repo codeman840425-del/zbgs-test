@@ -1,0 +1,12 @@
+{
+  "stage": "First candidate report serialization",
+  "error": "TypeError: Object of type int64 is not JSON serializable",
+  "cause": "eligibleGroups retained NumPy integer values after the constrained fit finished",
+  "correction": "Convert the report-only group IDs to Python int. Geometry algorithm, source parameters and attempt count are unchanged.",
+  "firstFemaleGeometrySha256": "78cc2670b4ba7b81d3ec598b57abae8dd965f98ab08cf3034e3be7094cbedd46",
+  "firstGeneratorSha256": "78fdb3725658fe8200fb4fea39b23176a53fa5c784915ae72f6ca29285943e3d",
+  "sameFemaleGeometryAfterReportCorrection": true,
+  "reportLineEndings": "Generated JSON now uses explicit UTF8 LF after staging exposed Windows CRLF normalization. This report-only correction leaves both GLB hashes unchanged.",
+  "repeatCleanupCorrection": "Initial temporary repeat-directory cleanup ran before both bodies were removed and raised WinError145. Cleanup now removes the empty directory after both body receipts. Candidate geometry is unchanged.",
+  "geometryAttempt": 1
+}

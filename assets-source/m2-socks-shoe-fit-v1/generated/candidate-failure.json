@@ -1,0 +1,21 @@
+{
+  "schema": "m2-socks-shoe-fit-attempt-receipt-v1",
+  "geometricCandidateCount": 1,
+  "status": "failed-source-acceptance",
+  "parameterSweep": false,
+  "femaleAssetSha256": "78cc2670b4ba7b81d3ec598b57abae8dd965f98ab08cf3034e3be7094cbedd46",
+  "maleAssetSha256": "ffdb3b8ca2868b39ff1fa4d4cc6b0891ead76ad436c8ddb723c898db03b87f27",
+  "selfChecks": {
+    "total": 55,
+    "passed": 49,
+    "failed": 6
+  },
+  "failures": [
+    "Four dense rest checks miss the requested0.5mm normal clearance. Female minimum is approximately0.480mm. Male minimum is approximately0.0199mm.",
+    "Two male ankle-X-negative checks have one nonpositive sampled corresponding-pair gap per foot, approximately-0.361mm."
+  ],
+  "sourceDiagnosis": "The coarse sample constraints omit narrow dense-grid boundary contacts. Shoe/sock source weight differences remain and change the posed relative gap.",
+  "stopReason": "The single-candidate attempt budget is consumed. No source-fit parameters or geometry were adjusted after these failures.",
+  "rootIntegration": "Not performed. New assets and entry metadata retained for review.",
+  "nextMethodEvidence": "If a later attempt is authorized, its constraint construction needs contact boundary extrema and prescribed-pose support rather than a different global padding value."
+}

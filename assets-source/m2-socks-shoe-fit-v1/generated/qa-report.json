@@ -1,0 +1,843 @@
+{
+  "schema": "m2-socks-shoe-fit-candidate-self-qa-v1",
+  "status": "failed-source-acceptance",
+  "qaSourceSha256": "4e13cfacf1318431fb2d35518e985934b110236d6b70c7beed09eed2011e8d18",
+  "generatorSha256": "8bfd11df1e862e042591a09066c9b6fac2231797449ce1bdd2b907f8defe1e80",
+  "checks": [
+    {
+      "name": "female vertex count and topology retained",
+      "passed": true
+    },
+    {
+      "name": "female bounded local lateral displacement",
+      "passed": true
+    },
+    {
+      "name": "female protected sole/contact vertices unchanged",
+      "passed": true
+    },
+    {
+      "name": "female both feet changed without whole-shoe expansion",
+      "passed": true,
+      "details": {
+        "changedVertices": 44,
+        "totalVertices": 570,
+        "maximumDisplacementM": 0.0006578788161277771
+      }
+    },
+    {
+      "name": "female UV JOINTS and WEIGHTS unchanged",
+      "passed": true,
+      "details": {
+        "JOINTS_0": true,
+        "TEXCOORD_0": true,
+        "WEIGHTS_0": true
+      }
+    },
+    {
+      "name": "female skin IBM bone nodes materials images metadata retained",
+      "passed": true
+    },
+    {
+      "name": "female exact IBM accessor retained",
+      "passed": true
+    },
+    {
+      "name": "female transported normals finite and normalized",
+      "passed": true
+    },
+    {
+      "name": "female embedded image bytes exact",
+      "passed": true
+    },
+    {
+      "name": "female left dense rest target0.5mm",
+      "passed": false,
+      "details": {
+        "minimumSignedNormalGapM": 0.0004795432169753405,
+        "belowTargetSamples": 2,
+        "samples": 2382,
+        "missedPoints": [
+          {
+            "sockPointM": [
+              -0.07380873990143975,
+              0.034565496717928926,
+              0.03075000000000001
+            ],
+            "shoeTriangle": 66,
+            "sockTriangle": 389,
+            "gapM": 0.000493955642378779
+          },
+          {
+            "sockPointM": [
+              -0.07387037773162432,
+              0.034815496717928926,
+              0.03075000000000001
+            ],
+            "shoeTriangle": 66,
+            "sockTriangle": 176,
+            "gapM": 0.0004795432169753405
+          }
+        ]
+      }
+    },
+    {
+      "name": "female left dense measured rest patch has positive gap",
+      "passed": true
+    },
+    {
+      "name": "female left ankle-X-positive measured pair gap finite and positive",
+      "passed": true,
+      "details": {
+        "pose": "ankle-X-positive",
+        "angleRadians": 0.35,
+        "minimumSignedNormalGapM": 0.0004856269214784564,
+        "nonPositiveSamples": 0,
+        "finite": true
+      }
+    },
+    {
+      "name": "female left ankle-X-negative measured pair gap finite and positive",
+      "passed": true,
+      "details": {
+        "pose": "ankle-X-negative",
+        "angleRadians": -0.35,
+        "minimumSignedNormalGapM": 0.0004612892570065,
+        "nonPositiveSamples": 0,
+        "finite": true
+      }
+    },
+    {
+      "name": "female left ankle-Z-outward measured pair gap finite and positive",
+      "passed": true,
+      "details": {
+        "pose": "ankle-Z-outward",
+        "angleRadians": 0.18,
+        "minimumSignedNormalGapM": 0.0005214435677400597,
+        "nonPositiveSamples": 0,
+        "finite": true
+      }
+    },
+    {
+      "name": "female left ankle-Z-inward measured pair gap finite and positive",
+      "passed": true,
+      "details": {
+        "pose": "ankle-Z-inward",
+        "angleRadians": -0.18,
+        "minimumSignedNormalGapM": 0.00042530760414791105,
+        "nonPositiveSamples": 0,
+        "finite": true
+      }
+    },
+    {
+      "name": "female left toes-X-negative measured pair gap finite and positive",
+      "passed": true,
+      "details": {
+        "pose": "toes-X-negative",
+        "angleRadians": -0.4,
+        "minimumSignedNormalGapM": 0.00047954182151142,
+        "nonPositiveSamples": 0,
+        "finite": true
+      }
+    },
+    {
+      "name": "female right dense rest target0.5mm",
+      "passed": false,
+      "details": {
+        "minimumSignedNormalGapM": 0.0004795071849438089,
+        "belowTargetSamples": 2,
+        "samples": 2382,
+        "missedPoints": [
+          {
+            "sockPointM": [
+              0.07431832740075597,
+              0.034565496717928926,
+              0.03075000000000001
+            ],
+            "shoeTriangle": 316,
+            "sockTriangle": 1517,
+            "gapM": 0.0004938770502816752
+          },
+          {
+            "sockPointM": [
+              0.07437992177029584,
+              0.034815496717928926,
+              0.03075000000000001
+            ],
+            "shoeTriangle": 316,
+            "sockTriangle": 1304,
+            "gapM": 0.0004795071849438089
+          }
+        ]
+      }
+    },
+    {
+      "name": "female right dense measured rest patch has positive gap",
+      "passed": true
+    },
+    {
+      "name": "female right ankle-X-positive measured pair gap finite and positive",
+      "passed": true,
+      "details": {
+        "pose": "ankle-X-positive",
+        "angleRadians": 0.35,
+        "minimumSignedNormalGapM": 0.0004855917654999456,
+        "nonPositiveSamples": 0,
+        "finite": true
+      }
+    },
+    {
+      "name": "female right ankle-X-negative measured pair gap finite and positive",
+      "passed": true,
+      "details": {
+        "pose": "ankle-X-negative",
+        "angleRadians": -0.35,
+        "minimumSignedNormalGapM": 0.0004612505935642545,
+        "nonPositiveSamples": 0,
+        "finite": true
+      }
+    },
+    {
+      "name": "female right ankle-Z-outward measured pair gap finite and positive",
+      "passed": true,
+      "details": {
+        "pose": "ankle-Z-outward",
+        "angleRadians": 0.18,
+        "minimumSignedNormalGapM": 0.0005214150902901545,
+        "nonPositiveSamples": 0,
+        "finite": true
+      }
+    },
+    {
+      "name": "female right ankle-Z-inward measured pair gap finite and positive",
+      "passed": true,
+      "details": {
+        "pose": "ankle-Z-inward",
+        "angleRadians": -0.18,
+        "minimumSignedNormalGapM": 0.00042526333506242827,
+        "nonPositiveSamples": 0,
+        "finite": true
+      }
+    },
+    {
+      "name": "female right toes-X-negative measured pair gap finite and positive",
+      "passed": true,
+      "details": {
+        "pose": "toes-X-negative",
+        "angleRadians": -0.4,
+        "minimumSignedNormalGapM": 0.00047950578119907914,
+        "nonPositiveSamples": 0,
+        "finite": true
+      }
+    },
+    {
+      "name": "female same parameters reproduce exact candidate asset",
+      "passed": true
+    },
+    {
+      "name": "female repeat exact female-plain-crew-socks-shoe-fit-v1.glb",
+      "passed": true
+    },
+    {
+      "name": "female repeat exact female-entry.json",
+      "passed": true
+    },
+    {
+      "name": "female repeat exact female-fit.json",
+      "passed": true
+    },
+    {
+      "name": "male vertex count and topology retained",
+      "passed": true
+    },
+    {
+      "name": "male bounded local lateral displacement",
+      "passed": true
+    },
+    {
+      "name": "male protected sole/contact vertices unchanged",
+      "passed": true
+    },
+    {
+      "name": "male both feet changed without whole-shoe expansion",
+      "passed": true,
+      "details": {
+        "changedVertices": 44,
+        "totalVertices": 566,
+        "maximumDisplacementM": 0.0013586655259132385
+      }
+    },
+    {
+      "name": "male UV JOINTS and WEIGHTS unchanged",
+      "passed": true,
+      "details": {
+        "JOINTS_0": true,
+        "TEXCOORD_0": true,
+        "WEIGHTS_0": true
+      }
+    },
+    {
+      "name": "male skin IBM bone nodes materials images metadata retained",
+      "passed": true
+    },
+    {
+      "name": "male exact IBM accessor retained",
+      "passed": true
+    },
+    {
+      "name": "male transported normals finite and normalized",
+      "passed": true
+    },
+    {
+      "name": "male embedded image bytes exact",
+      "passed": true
+    },
+    {
+      "name": "male left dense rest target0.5mm",
+      "passed": false,
+      "details": {
+        "minimumSignedNormalGapM": 1.987046191751147e-05,
+        "belowTargetSamples": 2,
+        "samples": 5500,
+        "missedPoints": [
+          {
+            "sockPointM": [
+              -0.0812635301004771,
+              0.04149472827231514,
+              0.03025000000000001
+            ],
+            "shoeTriangle": 63,
+            "sockTriangle": 176,
+            "gapM": 0.0004873115756963091
+          },
+          {
+            "sockPointM": [
+              -0.07320750336124557,
+              0.08424472827231518,
+              0.045000000000000026
+            ],
+            "shoeTriangle": 117,
+            "sockTriangle": 378,
+            "gapM": 1.987046191751147e-05
+          }
+        ]
+      }
+    },
+    {
+      "name": "male left dense measured rest patch has positive gap",
+      "passed": true
+    },
+    {
+      "name": "male left ankle-X-positive measured pair gap finite and positive",
+      "passed": true,
+      "details": {
+        "pose": "ankle-X-positive",
+        "angleRadians": 0.35,
+        "minimumSignedNormalGapM": 0.000531754138380469,
+        "nonPositiveSamples": 0,
+        "finite": true
+      }
+    },
+    {
+      "name": "male left ankle-X-negative measured pair gap finite and positive",
+      "passed": false,
+      "details": {
+        "pose": "ankle-X-negative",
+        "angleRadians": -0.35,
+        "minimumSignedNormalGapM": -0.00036098333696535064,
+        "nonPositiveSamples": 1,
+        "finite": true
+      }
+    },
+    {
+      "name": "male left ankle-Z-outward measured pair gap finite and positive",
+      "passed": true,
+      "details": {
+        "pose": "ankle-Z-outward",
+        "angleRadians": 0.18,
+        "minimumSignedNormalGapM": 0.00024924242883658055,
+        "nonPositiveSamples": 0,
+        "finite": true
+      }
+    },
+    {
+      "name": "male left ankle-Z-inward measured pair gap finite and positive",
+      "passed": true,
+      "details": {
+        "pose": "ankle-Z-inward",
+        "angleRadians": -0.18,
+        "minimumSignedNormalGapM": 0.00018813743615531047,
+        "nonPositiveSamples": 0,
+        "finite": true
+      }
+    },
+    {
+      "name": "male left toes-X-negative measured pair gap finite and positive",
+      "passed": true,
+      "details": {
+        "pose": "toes-X-negative",
+        "angleRadians": -0.4,
+        "minimumSignedNormalGapM": 1.9872015271144316e-05,
+        "nonPositiveSamples": 0,
+        "finite": true
+      }
+    },
+    {
+      "name": "male right dense rest target0.5mm",
+      "passed": false,
+      "details": {
+        "minimumSignedNormalGapM": 1.9848171112441165e-05,
+        "belowTargetSamples": 2,
+        "samples": 5501,
+        "missedPoints": [
+          {
+            "sockPointM": [
+              0.0822791262924485,
+              0.04149472827231514,
+              0.03025000000000001
+            ],
+            "shoeTriangle": 315,
+            "sockTriangle": 1304,
+            "gapM": 0.0004873104248230056
+          },
+          {
+            "sockPointM": [
+              0.07422331300297992,
+              0.08424472827231518,
+              0.045000000000000026
+            ],
+            "shoeTriangle": 369,
+            "sockTriangle": 1506,
+            "gapM": 1.9848171112441165e-05
+          }
+        ]
+      }
+    },
+    {
+      "name": "male right dense measured rest patch has positive gap",
+      "passed": true
+    },
+    {
+      "name": "male right ankle-X-positive measured pair gap finite and positive",
+      "passed": true,
+      "details": {
+        "pose": "ankle-X-positive",
+        "angleRadians": 0.35,
+        "minimumSignedNormalGapM": 0.0005317534111779354,
+        "nonPositiveSamples": 0,
+        "finite": true
+      }
+    },
+    {
+      "name": "male right ankle-X-negative measured pair gap finite and positive",
+      "passed": false,
+      "details": {
+        "pose": "ankle-X-negative",
+        "angleRadians": -0.35,
+        "minimumSignedNormalGapM": -0.0003609938569441366,
+        "nonPositiveSamples": 1,
+        "finite": true
+      }
+    },
+    {
+      "name": "male right ankle-Z-outward measured pair gap finite and positive",
+      "passed": true,
+      "details": {
+        "pose": "ankle-Z-outward",
+        "angleRadians": 0.18,
+        "minimumSignedNormalGapM": 0.00024922004612856676,
+        "nonPositiveSamples": 0,
+        "finite": true
+      }
+    },
+    {
+      "name": "male right ankle-Z-inward measured pair gap finite and positive",
+      "passed": true,
+      "details": {
+        "pose": "ankle-Z-inward",
+        "angleRadians": -0.18,
+        "minimumSignedNormalGapM": 0.00018816257109077197,
+        "nonPositiveSamples": 0,
+        "finite": true
+      }
+    },
+    {
+      "name": "male right toes-X-negative measured pair gap finite and positive",
+      "passed": true,
+      "details": {
+        "pose": "toes-X-negative",
+        "angleRadians": -0.4,
+        "minimumSignedNormalGapM": 1.9847915575115345e-05,
+        "nonPositiveSamples": 0,
+        "finite": true
+      }
+    },
+    {
+      "name": "male same parameters reproduce exact candidate asset",
+      "passed": true
+    },
+    {
+      "name": "male repeat exact male-plain-crew-socks-shoe-fit-v1.glb",
+      "passed": true
+    },
+    {
+      "name": "male repeat exact male-entry.json",
+      "passed": true
+    },
+    {
+      "name": "male repeat exact male-fit.json",
+      "passed": true
+    },
+    {
+      "name": "pinned original source files unchanged",
+      "passed": true
+    }
+  ],
+  "failures": [
+    {
+      "name": "female left dense rest target0.5mm",
+      "passed": false,
+      "details": {
+        "minimumSignedNormalGapM": 0.0004795432169753405,
+        "belowTargetSamples": 2,
+        "samples": 2382,
+        "missedPoints": [
+          {
+            "sockPointM": [
+              -0.07380873990143975,
+              0.034565496717928926,
+              0.03075000000000001
+            ],
+            "shoeTriangle": 66,
+            "sockTriangle": 389,
+            "gapM": 0.000493955642378779
+          },
+          {
+            "sockPointM": [
+              -0.07387037773162432,
+              0.034815496717928926,
+              0.03075000000000001
+            ],
+            "shoeTriangle": 66,
+            "sockTriangle": 176,
+            "gapM": 0.0004795432169753405
+          }
+        ]
+      }
+    },
+    {
+      "name": "female right dense rest target0.5mm",
+      "passed": false,
+      "details": {
+        "minimumSignedNormalGapM": 0.0004795071849438089,
+        "belowTargetSamples": 2,
+        "samples": 2382,
+        "missedPoints": [
+          {
+            "sockPointM": [
+              0.07431832740075597,
+              0.034565496717928926,
+              0.03075000000000001
+            ],
+            "shoeTriangle": 316,
+            "sockTriangle": 1517,
+            "gapM": 0.0004938770502816752
+          },
+          {
+            "sockPointM": [
+              0.07437992177029584,
+              0.034815496717928926,
+              0.03075000000000001
+            ],
+            "shoeTriangle": 316,
+            "sockTriangle": 1304,
+            "gapM": 0.0004795071849438089
+          }
+        ]
+      }
+    },
+    {
+      "name": "male left dense rest target0.5mm",
+      "passed": false,
+      "details": {
+        "minimumSignedNormalGapM": 1.987046191751147e-05,
+        "belowTargetSamples": 2,
+        "samples": 5500,
+        "missedPoints": [
+          {
+            "sockPointM": [
+              -0.0812635301004771,
+              0.04149472827231514,
+              0.03025000000000001
+            ],
+            "shoeTriangle": 63,
+            "sockTriangle": 176,
+            "gapM": 0.0004873115756963091
+          },
+          {
+            "sockPointM": [
+              -0.07320750336124557,
+              0.08424472827231518,
+              0.045000000000000026
+            ],
+            "shoeTriangle": 117,
+            "sockTriangle": 378,
+            "gapM": 1.987046191751147e-05
+          }
+        ]
+      }
+    },
+    {
+      "name": "male left ankle-X-negative measured pair gap finite and positive",
+      "passed": false,
+      "details": {
+        "pose": "ankle-X-negative",
+        "angleRadians": -0.35,
+        "minimumSignedNormalGapM": -0.00036098333696535064,
+        "nonPositiveSamples": 1,
+        "finite": true
+      }
+    },
+    {
+      "name": "male right dense rest target0.5mm",
+      "passed": false,
+      "details": {
+        "minimumSignedNormalGapM": 1.9848171112441165e-05,
+        "belowTargetSamples": 2,
+        "samples": 5501,
+        "missedPoints": [
+          {
+            "sockPointM": [
+              0.0822791262924485,
+              0.04149472827231514,
+              0.03025000000000001
+            ],
+            "shoeTriangle": 315,
+            "sockTriangle": 1304,
+            "gapM": 0.0004873104248230056
+          },
+          {
+            "sockPointM": [
+              0.07422331300297992,
+              0.08424472827231518,
+              0.045000000000000026
+            ],
+            "shoeTriangle": 369,
+            "sockTriangle": 1506,
+            "gapM": 1.9848171112441165e-05
+          }
+        ]
+      }
+    },
+    {
+      "name": "male right ankle-X-negative measured pair gap finite and positive",
+      "passed": false,
+      "details": {
+        "pose": "ankle-X-negative",
+        "angleRadians": -0.35,
+        "minimumSignedNormalGapM": -0.0003609938569441366,
+        "nonPositiveSamples": 1,
+        "finite": true
+      }
+    }
+  ],
+  "bodies": [
+    {
+      "body": "female",
+      "candidateSha256": "78cc2670b4ba7b81d3ec598b57abae8dd965f98ab08cf3034e3be7094cbedd46",
+      "sides": [
+        {
+          "side": "left",
+          "restMinimumGapM": 0.0004795432169753405,
+          "poses": [
+            {
+              "pose": "ankle-X-positive",
+              "angleRadians": 0.35,
+              "minimumSignedNormalGapM": 0.0004856269214784564,
+              "nonPositiveSamples": 0,
+              "finite": true
+            },
+            {
+              "pose": "ankle-X-negative",
+              "angleRadians": -0.35,
+              "minimumSignedNormalGapM": 0.0004612892570065,
+              "nonPositiveSamples": 0,
+              "finite": true
+            },
+            {
+              "pose": "ankle-Z-outward",
+              "angleRadians": 0.18,
+              "minimumSignedNormalGapM": 0.0005214435677400597,
+              "nonPositiveSamples": 0,
+              "finite": true
+            },
+            {
+              "pose": "ankle-Z-inward",
+              "angleRadians": -0.18,
+              "minimumSignedNormalGapM": 0.00042530760414791105,
+              "nonPositiveSamples": 0,
+              "finite": true
+            },
+            {
+              "pose": "toes-X-negative",
+              "angleRadians": -0.4,
+              "minimumSignedNormalGapM": 0.00047954182151142,
+              "nonPositiveSamples": 0,
+              "finite": true
+            }
+          ]
+        },
+        {
+          "side": "right",
+          "restMinimumGapM": 0.0004795071849438089,
+          "poses": [
+            {
+              "pose": "ankle-X-positive",
+              "angleRadians": 0.35,
+              "minimumSignedNormalGapM": 0.0004855917654999456,
+              "nonPositiveSamples": 0,
+              "finite": true
+            },
+            {
+              "pose": "ankle-X-negative",
+              "angleRadians": -0.35,
+              "minimumSignedNormalGapM": 0.0004612505935642545,
+              "nonPositiveSamples": 0,
+              "finite": true
+            },
+            {
+              "pose": "ankle-Z-outward",
+              "angleRadians": 0.18,
+              "minimumSignedNormalGapM": 0.0005214150902901545,
+              "nonPositiveSamples": 0,
+              "finite": true
+            },
+            {
+              "pose": "ankle-Z-inward",
+              "angleRadians": -0.18,
+              "minimumSignedNormalGapM": 0.00042526333506242827,
+              "nonPositiveSamples": 0,
+              "finite": true
+            },
+            {
+              "pose": "toes-X-negative",
+              "angleRadians": -0.4,
+              "minimumSignedNormalGapM": 0.00047950578119907914,
+              "nonPositiveSamples": 0,
+              "finite": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "body": "male",
+      "candidateSha256": "ffdb3b8ca2868b39ff1fa4d4cc6b0891ead76ad436c8ddb723c898db03b87f27",
+      "sides": [
+        {
+          "side": "left",
+          "restMinimumGapM": 1.987046191751147e-05,
+          "poses": [
+            {
+              "pose": "ankle-X-positive",
+              "angleRadians": 0.35,
+              "minimumSignedNormalGapM": 0.000531754138380469,
+              "nonPositiveSamples": 0,
+              "finite": true
+            },
+            {
+              "pose": "ankle-X-negative",
+              "angleRadians": -0.35,
+              "minimumSignedNormalGapM": -0.00036098333696535064,
+              "nonPositiveSamples": 1,
+              "finite": true
+            },
+            {
+              "pose": "ankle-Z-outward",
+              "angleRadians": 0.18,
+              "minimumSignedNormalGapM": 0.00024924242883658055,
+              "nonPositiveSamples": 0,
+              "finite": true
+            },
+            {
+              "pose": "ankle-Z-inward",
+              "angleRadians": -0.18,
+              "minimumSignedNormalGapM": 0.00018813743615531047,
+              "nonPositiveSamples": 0,
+              "finite": true
+            },
+            {
+              "pose": "toes-X-negative",
+              "angleRadians": -0.4,
+              "minimumSignedNormalGapM": 1.9872015271144316e-05,
+              "nonPositiveSamples": 0,
+              "finite": true
+            }
+          ]
+        },
+        {
+          "side": "right",
+          "restMinimumGapM": 1.9848171112441165e-05,
+          "poses": [
+            {
+              "pose": "ankle-X-positive",
+              "angleRadians": 0.35,
+              "minimumSignedNormalGapM": 0.0005317534111779354,
+              "nonPositiveSamples": 0,
+              "finite": true
+            },
+            {
+              "pose": "ankle-X-negative",
+              "angleRadians": -0.35,
+              "minimumSignedNormalGapM": -0.0003609938569441366,
+              "nonPositiveSamples": 1,
+              "finite": true
+            },
+            {
+              "pose": "ankle-Z-outward",
+              "angleRadians": 0.18,
+              "minimumSignedNormalGapM": 0.00024922004612856676,
+              "nonPositiveSamples": 0,
+              "finite": true
+            },
+            {
+              "pose": "ankle-Z-inward",
+              "angleRadians": -0.18,
+              "minimumSignedNormalGapM": 0.00018816257109077197,
+              "nonPositiveSamples": 0,
+              "finite": true
+            },
+            {
+              "pose": "toes-X-negative",
+              "angleRadians": -0.4,
+              "minimumSignedNormalGapM": 1.9847915575115345e-05,
+              "nonPositiveSamples": 0,
+              "finite": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "sourceHashesBefore": {
+    "prototype/public/assets/m1/m1-uniform-shoes.glb": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf",
+    "assets-source/m2-socks-layer-v1/generated/female-plain-crew-socks-v1.glb": "369d0b66dcc65f65a9bfd7cdcf16aa650d671207f679aec7b637cbac7d076ac4",
+    "prototype/public/assets/foundation/base-female-roundtrip.vrm": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+    "prototype/public/assets/m1b/m1b-uniform-shoes.glb": "3e855c7f39a183ab44b8aef3ac92898f6ebc36a7cbc0e6ccfdd485b85607fe2f",
+    "assets-source/m2-socks-layer-v1/generated/male-plain-crew-socks-v1.glb": "072863568fba26e08f489f4a983f55b61889ee57c14257847e857ce0e24d9549",
+    "prototype/public/assets/foundation/base-male-roundtrip.vrm": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff"
+  },
+  "sourceHashesAfter": {
+    "prototype/public/assets/m1/m1-uniform-shoes.glb": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf",
+    "assets-source/m2-socks-layer-v1/generated/female-plain-crew-socks-v1.glb": "369d0b66dcc65f65a9bfd7cdcf16aa650d671207f679aec7b637cbac7d076ac4",
+    "prototype/public/assets/foundation/base-female-roundtrip.vrm": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+    "prototype/public/assets/m1b/m1b-uniform-shoes.glb": "3e855c7f39a183ab44b8aef3ac92898f6ebc36a7cbc0e6ccfdd485b85607fe2f",
+    "assets-source/m2-socks-layer-v1/generated/male-plain-crew-socks-v1.glb": "072863568fba26e08f489f4a983f55b61889ee57c14257847e857ce0e24d9549",
+    "prototype/public/assets/foundation/base-male-roundtrip.vrm": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff"
+  },
+  "limits": [
+    "Candidate authored and checked by the same agent. Independent root review and actual game acceptance remain pending.",
+    "Dense0.25mm source sampling and transported corresponding rest surface pairs only. Not exhaustive collision or a screenshot pose reconstruction.",
+    "No GPU or browser used. No original shoe, sock, Body, public runtime or historical outfit changed."
+  ]
+}
