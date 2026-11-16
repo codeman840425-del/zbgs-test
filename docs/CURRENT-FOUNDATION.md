@@ -4,7 +4,7 @@
 
 ## 当前工作包（恢复先看）
 
-公开4196已更新785be36def90/source23c1140a01d26b6f1c10ac4f8064f366add3ba17，准确入口delivery/appearance-workbench.json；60a回滚delivery/history/appearance-workbench-60a.json。当前公开控件实际点击检查m2-workbench-4196-live-785-v1通过，v8精确耳帽/表面/已有外观整套恢复已完成4真实会话，165文件独立重建一致；录像由工作台检查区进入m2-accessory-record-review-v1。独立14项foundation复核通过，实际端点路径修复有29d/785同路径全身房间录像。长发坐入上甩仍失败；普通机未测；v8尚无麦克风/眼镜或稳定主播记录。最后已独立核实远端27492b9502e248bba5d2feebce109a60c8239857，后续增量正在备份，不沿用旧回执。
+公开4196已更新785be36def90/source23c1140a01d26b6f1c10ac4f8064f366add3ba17，准确入口delivery/appearance-workbench.json；60a回滚delivery/history/appearance-workbench-60a.json。当前公开控件实际点击检查m2-workbench-4196-live-785-v1通过，v8精确耳帽/表面/已有外观整套恢复已完成4真实会话，165文件独立重建一致；录像由工作台检查区进入m2-accessory-record-review-v1。独立14项foundation复核通过，实际端点路径修复有29d/785同路径全身房间录像。长发坐入上甩仍失败；普通机未测；v8尚无麦克风/眼镜或稳定主播记录。本次源码/录像/发布已远备9d555f54ff754d25573dea4b3ed976c49dc3428a并ls-remote核实；回执m2-workbench-4196-live-785-v1/remote-backup.json。
 
 下一主包：asset_budget（已知sol/high）基于真实碰撞诊断只制作一个显式raw-head模拟参考候选，保历史fit/default及碰撞/重力参数。root已派有界CPU/配置工作，浏览器由root独占；不扫描参数。真实521帧碰撞：身体9378查询无负gap；首次椅背修正晚于最高上甩570.3ms，不能将碰撞当成该上甩根因。两次全图CPU重放未吻合实际尾点保失败，不能借其数值宣称修复。
 
