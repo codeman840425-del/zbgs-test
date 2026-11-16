@@ -1,0 +1,16 @@
+八预设房间脚本静态审阅
+
+审查对象 scripts/qa-representative-batch-room.cjs，原稿110行，结合当前main/appearance-recipe/character-appearance/workbench实际接口。只读审阅，未运行浏览器/GPU，未改脚本。
+
+调用接口无阻塞
+L32–38、80–86的walk/sit/stand/dance为当前main.js startBehavior接受的真实kind，walk使用payload.x/z，stand为合法起身请求，dance-technical-once-v1为已登记一次性技术动作。不要改成未支持的walkTo。任务等待真实completed终态有效。
+L78–79的__debug.setBodyMode同步调用合法，基础模式未准入会throw并令case失败。该链会自动切dynamics，返回dressed后恢复动力学。L43 verifyCandidate确实核固定runtime/served build及主角色实际资源SHA。
+
+需保留的具体覆盖限制
+1. L56–59，当前index的eyeColor/lipColor均为original。实际facial-palette.js只有非original眼唇或非空surface才调用prepare读取palette，因此本动作链即便新palette资源404或坏字节也可能通过。若声明本轮覆盖新palette运行，应显式应用green眼/rose唇，检查实际提交与资源身份，并将该有色状态保存恢复。root已说明另有b92冷加载证据，本轮以动作为主；该另案未在本次静态审查重新执行。
+2. L88–91，导出后立即导入完全相同的当前外观，验证了同态幂等，不能证明同会话恢复。建议导出后确实改变hairColor或eye/lip之一，断言新值/导出与原记录不同，再导入并比较原配方。L93–96是真实页面reload后导入，可保留，但它不能替代明确改变后的同会话恢复。root已决定由热切换脚本补此项。
+3. L60–66只尝试女性long-ponytail-headref-v3、男性sidepart，未覆盖female-bob。目标style缺失时写hairLimit，L98/107仍允许case/整批技术通过。建议按预设列requiredStyles，必需发型缺失即组合检查失败，并至少核replacementSHA256及hairFit精确身份；动作流程通过可另记。root已确认v3长马尾目录必选、bob放热切换补，若实际出现hairLimit则按组合未通过处理。
+
+配方错误路径与范围
+L89/94检查返回applied且L90/95逐文本比较再次导出，接口用法正确；本脚本未注入错误配方/资源失败，所以不应将其标为这些错误路径已经重新验收。L36等待terminal state正确，另可在L35后立即断言admission为accepted以免拒绝任务state=null时只得到45秒超时，但当前正常请求不存在kind误用。
+root已开始固定v3的8条原速动作，不因上述已知覆盖边界打断。此报告针对已运行原稿，后续热切换补充保独立脚本、构建和证据身份。动作技术完成不等于全部造型、palette、恢复或观感通过。
