@@ -3,6 +3,7 @@ import { createGarmentMaterialRecipes } from "./material-recipes.js";
 import { resolveEquipmentSet, commitLoadedEquipmentSet, prepareLoadedEquipmentSet } from "./equipment-set.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { shapeFitDescriptor } from './shape-fit-registry.js';
+import { layerFitRequirement, validateLayerFit, assertLayerFitSet } from './garment-layer-fit.js';
 
 /** Load independent garment GLBs onto a compatible existing raw skeleton.
  * No motion/controller dependency, no mutation of the avatar's meshes/materials.
@@ -124,6 +125,11 @@ export async function createEquipment({
     // Identity and bind checks are both required. A matching filename is not a fit.
     if (!avatarSha256 || avatarSha256 !== entry.compatibleAvatarSha256)
       throw new Error(`Garment ${entry.id} is not approved for this avatar identity`);
+    const layerFit=layerFitRequirement(entry);
+    if(layerFit){
+      const fit=await fitJson(entry,new URL(layerFit.url,manifestBase),layerFit.sha256);
+      validateLayerFit(entry,fit,avatarSha256,manifest.items);
+    }
     const shapeDependency=await prepareShapeDependency(entry);
     const mapping = new Map();
     for (const binding of entry.bindings) {
@@ -304,6 +310,7 @@ export async function createEquipment({
       return { ...item, applied: true };
     },
     unequip(slot = "bottoms-overlay") {
+      assertLayerFitSet([...loaded.values()].filter(item=>item.container.visible&&item.entry.slot!==slot).map(item=>item.entry));
       setRevision++;
       slotRequests.set(slot, (slotRequests.get(slot) || 0) + 1);
       for (const item of loaded.values()) if (item.entry.slot === slot) item.container.visible = false;

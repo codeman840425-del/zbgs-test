@@ -57,6 +57,10 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     debugBody = false,
     disposed = false;
   const item = (role) => adapter.get(IDS[role]);
+  // Slot semantics belong to the manifest. Alternate tops share the same
+  // controller, body and pose, without replacing the frozen original look.
+  const selectedTopRole = () => lowerBodyRole === 'onePiece' ? 'onePiece' :
+    outfitSelection(config, outfit).roles.find(role => item(role)?.entry.slot === 'top');
   let coverage, garmentCoverage, garmentCoveragePending, skirtCorrective;
   let revision=0,intentRevision=0;
   const pendingUpdates=new Set();
@@ -156,8 +160,15 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     try{update.commit();}finally{update.dispose();}
   }
   try {
-    coverage = await createBodyCoverageSet({ body, avatarSha256,
-      bindings: config.bodyCoverage ? [{entry:item("top").entry, descriptor:config.bodyCoverage}] : [] });
+    const coverageBindings = [
+      ...(config.bodyCoverage ? [{entry:item("top").entry, descriptor:config.bodyCoverage}] : []),
+      ...(config.additionalBodyCoverage ?? []).map(({role,descriptor}) => {
+        if (!Object.hasOwn(IDS, role)) throw Error(`Unknown coverage equipment role: ${role}`);
+        // Metadata only; an unselected garment remains unloaded.
+        return {entry:adapter.describe(IDS[role]), descriptor};
+      }),
+    ];
+    coverage = await createBodyCoverageSet({ body, avatarSha256, bindings:coverageBindings });
     apply();
     // These are exact duplicated clothing surfaces, not body coverage removal.
     sourceClothes.forEach(({ mesh }) => (mesh.visible = false));
@@ -207,7 +218,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
         body,
         face,
         hair,
-        get top() { return item(lowerBodyRole === 'onePiece' ? 'onePiece' : 'top')?.meshes || []; },
+        get top() { return item(selectedTopRole())?.meshes || []; },
         get outer() { return IDS.outer ? item("outer")?.meshes || [] : []; },
         shoes: item("shoes").meshes,
         get pants() { return item(['shorts','onePiece'].includes(lowerBodyRole) ? lowerBodyRole : 'pants')?.meshes || []; },

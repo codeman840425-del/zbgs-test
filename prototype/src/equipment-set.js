@@ -1,3 +1,4 @@
+import { assertLayerFitSet } from './garment-layer-fit.js';
 // Resolve a final set before changing visibility. This validates composition,
 // not garment fit: the loader still verifies bytes, skin and inverse binds.
 const slots = new Set(["top", "bottom", "shoes", "onePiece", "outerwear", "bottoms-overlay", "socks"]);
@@ -43,6 +44,7 @@ export function resolveEquipmentSet(entries, ids, avatarSha256) {
     }
     return entry;
   });
+  assertLayerFitSet(selected);
   const outer = selected.find(entry => entry.slot === "outerwear");
   if (outer) {
     // A declared exact inner pairing is required; sharing a skeleton is not
