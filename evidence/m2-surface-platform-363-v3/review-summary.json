@@ -1,0 +1,89 @@
+{
+  "build": "36365874e557",
+  "sourceCommit": "fc8c91d4231cd8579548a33b72bad625dd14c189",
+  "sourceCommitProvenance": "Exact fixed-source work order",
+  "sourceDigest": "36365874e5572e19c6c0950cd59395ebf610c32af845c56389fd97972b46a06d",
+  "technicalStatus": "passed",
+  "visualReview": "pending",
+  "ordinaryPcTested": false,
+  "sourceFiles": [
+    {
+      "path": "evidence/m2-surface-platform-363-v3/report.json",
+      "bytes": 198889,
+      "sha256": "059ac5d8482779ef00ad2739dfe833c51d12ec503c8cbc5f8731feb4be097724"
+    },
+    {
+      "path": "evidence/m2-surface-platform-363-v3/executed-script.cjs",
+      "bytes": 8817,
+      "sha256": "ec134ff761a733df8a427135e28329d1921b4c73a590bc8f6ee134041583f7c8"
+    },
+    {
+      "path": "evidence/m2-surface-platform-363-v3/normal1x.webm",
+      "bytes": 1266413,
+      "sha256": "4b686086b4a3defdfe13ac569e13a50dcf08efe4cd32ac5e0c3d63f6a83165ee"
+    },
+    {
+      "path": "evidence/m2-surface-platform-363-v3/female.png",
+      "bytes": 265226,
+      "sha256": "6b0e7196c03f44e3fe91cce7e18224b986fba8dd1f8b3b348593d512feb8a546"
+    },
+    {
+      "path": "evidence/m2-surface-platform-363-v3/male.png",
+      "bytes": 282908,
+      "sha256": "3bba14d39ae67c7f2871cf429f11779acc6f7d22c0f9e271b67990ae3905dda7"
+    },
+    {
+      "path": "evidence/m2-surface-platform-363-v3/female-ui-click.png",
+      "bytes": 265077,
+      "sha256": "20956cc715817b21b696302da7a39eb8fade75c53064405602a53e4adbe73d41"
+    },
+    {
+      "path": "evidence/m2-surface-platform-363-v3/delayed-hair-synchronized.png",
+      "bytes": 262797,
+      "sha256": "3e3088f42cbcf83d1afcd95925c4e3299c75c3ef5bed2ea782655aa80dd5b800"
+    }
+  ],
+  "checks": [
+    {
+      "name": "registered v7 queried/admitted without I/O; unknown layer/field rejected; default v6 preserved",
+      "passed": true
+    },
+    {
+      "name": "direct actor and color commands synchronize real UI; male v7 remains admitted",
+      "passed": true
+    },
+    {
+      "name": "incompatible body preserves actor and UI; peer command cannot overwrite primary controls",
+      "passed": true
+    },
+    {
+      "name": "real UI color and gender controls still work after agent requests",
+      "passed": true
+    },
+    {
+      "name": "delayed independent hairstyle intent synchronizes actual UI despite cancelled result",
+      "passed": true
+    },
+    {
+      "name": "derived body has no falsely inherited choices; unmatched lip fit rejected; explicit original palette permits swap and UI sync",
+      "passed": true
+    }
+  ],
+  "delayedHairCase": {
+    "olderResult": {
+      "applied": false,
+      "cancelled": true
+    },
+    "actualHairStyle": "female-bob-v1",
+    "actualHairColor": "black",
+    "uiHairStyle": "female-bob-v1",
+    "uiHairStyleEvidence": "executed-script.cjs line55 asserts the actual DOM select inputValue",
+    "uiHairColor": "black"
+  },
+  "limits": [
+    "Actual fixed browser API query/admission/preparation and existing workbench sync. No new UI or visual acceptance.",
+    "One deliberately delayed female-bob-v1 manifest request superseded by a newer black color command. No claim that all asynchronous races are covered.",
+    "Prior fe834ac7f5f0 film and failure records retain their original identity.",
+    "No new recording, image editing or visual pass judgment during packaging."
+  ]
+}
