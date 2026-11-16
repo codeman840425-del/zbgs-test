@@ -5,8 +5,9 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const assert = require('node:assert/strict');
 const {verifyCandidate} = require('./qa-m1-common.cjs');
+const {batchCoverage} = require('./qa-representative-batch-room.cjs');
 const PLAN = {
-  scope: ['One document, UI sex/body switches through all eight exact presets',
+  scope: ['One document, UI sex/body switches through all published exact presets (eight v1 or six v2)',
     'Female bob and head-reference ponytail, male sidepart must really select',
     'Green iris and rose lips, actual target palette identity and network receipts',
     'Saved draft and downloaded recipe restore after different appearance mutations',
@@ -15,6 +16,19 @@ const PLAN = {
     'Technical assertions and screenshots require separate continuous visual review',
     'UI serializes body changes while busy. Concurrency probe uses its shared controller command entry.'],
 };
+function configureBatch(index) {
+  const coverage = batchCoverage(index);
+  const assetRoot = coverage.completeBatch ? '/assets/m2-representative-batch-v1' : '/assets/m2-representative-batch-v2';
+  for (const spec of index.presets) {
+    assert.equal(spec.profile.url, `${assetRoot}/${spec.id}/avatar.vrm`, 'Avatar URL must belong to the exact declared batch and preset');
+  }
+  const raceIds = coverage.completeBatch
+    ? ['female-round-full', 'male-long-lean', 'female-soft-wide']
+    : ['female-round-full-v2', 'male-wide-muscular-v2', 'female-soft-wide-v2'];
+  const race = raceIds.map(id => index.presets.find(spec => spec.id === id));
+  assert(race.every(Boolean), 'Three explicit published race presets required');
+  return {coverage, indexUrl: `${assetRoot}/runtime-index.json`, race};
+}
 if (process.argv.includes('--plan')) {
   console.log(JSON.stringify(PLAN, null, 2));
   process.exit(0);
@@ -136,10 +150,9 @@ const pendingResponses = new Set(), jsonResponses = [];
 
 async function main() {
   const indexBytes = await fs.readFile(indexPath), index = JSON.parse(indexBytes);
-  assert.equal(index.schema, 'representative-runtime-index-v1');
-  assert.equal(index.presets.length, 8);
-  assert.equal(new Set(index.presets.map(p => p.id)).size, 8);
-  for (const sex of ['female', 'male']) assert.equal(index.presets.filter(p => p.sex === sex).length, 4);
+  const {coverage, indexUrl, race} = configureBatch(index);
+  result.batchCoverage = coverage;
+  result.runtimeIndexUrl = indexUrl;
   await fs.mkdir(out, {recursive: false});
   await fs.copyFile(__filename, path.join(out, 'executed-script.cjs'));
   await fs.writeFile(path.join(out, 'executed-runtime-index.json'), indexBytes);
@@ -167,7 +180,7 @@ async function main() {
     });
     const initial = new URL(url); initial.searchParams.set('workbench', 'appearance'); initial.searchParams.set('body', index.presets[0].id);
     await page.goto(initial.href); await ready();
-    const servedIndex = await getJSON('/assets/m2-representative-batch-v1/runtime-index.json');
+    const servedIndex = await getJSON(indexUrl);
     assert.equal(servedIndex.sha256, hash(indexBytes), 'Served runtime index differs from explicit input');
     result.runtimeIndexSha256 = servedIndex.sha256;
     const palette = await getJSON(index.palette.url);
@@ -247,17 +260,16 @@ async function main() {
       }
       await save();
     }
-    const race = ['female-round-full', 'male-long-lean', 'female-soft-wide'].map(id => index.presets.find(p => p.id === id));
-    assert.equal(race.length, 3);
-    assert(race.every(Boolean), 'Three explicit race presets required');
-    result.race = {ids: race.map(p => p.id), entry: 'shared __debug.command bodySelect; UI busy guard stays intact', status: 'running'};
+    result.race = {ids: race.map(p => p.id), cases: race.map(p => ({id: p.id, url: p.profile.url, sha256: p.profile.sha256})), entry: 'shared __debug.command bodySelect; UI busy guard stays intact', status: 'running'};
     const held = new Map(); let releaseAll = false;
     const routeHandler = async route => {
       const spec = race.find(s => new URL(s.profile.url, url).href === route.request().url());
       if (!spec || releaseAll) return route.continue();
       held.set(spec.id, route);
     };
-    await page.route('**/assets/m2-representative-batch-v1/*/avatar.vrm', routeHandler);
+    const raceUrls = new Set(race.map(spec => new URL(spec.profile.url, url).href));
+    const raceRoute = resourceUrl => raceUrls.has(resourceUrl.href);
+    await page.route(raceRoute, routeHandler);
     try {
       await page.evaluate(ids => {
         window.__hotPhase = 'three-overlapping-loads';
@@ -276,7 +288,7 @@ async function main() {
       for (const prior of race.slice(0, -1).reverse()) { await held.get(prior.id).continue(); held.delete(prior.id); }
       // Identity verification fetches the winner again; stop intercepting before it.
       releaseAll = true;
-      await page.unroute('**/assets/m2-representative-batch-v1/*/avatar.vrm', routeHandler);
+      await page.unroute(raceRoute, routeHandler);
       result.race.requests = await page.evaluate(() => __hotRaceDone);
       assert.equal(result.race.requests[2].outcome.applied, true);
       for (const prior of result.race.requests.slice(0, -1)) assert.equal(prior.outcome.cancelled, true);
@@ -290,7 +302,7 @@ async function main() {
     } finally {
       releaseAll = true;
       for (const route of held.values()) await route.continue().catch(() => {});
-      await page.unroute('**/assets/m2-representative-batch-v1/*/avatar.vrm', routeHandler);
+      await page.unroute(raceRoute, routeHandler);
     }
     assert.equal(result.navigationRequests.length, 1, 'Unexpected navigation/reload during same-page batch');
     assert.deepEqual(result.errors, []);
