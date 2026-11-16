@@ -1,13 +1,15 @@
 # 当前角色工程：恢复入口
 
-> 当前增量：4196固定版 **460b72813f68**（源6e4801f），只修换体准备中的图形上下文失效：保留原人物、明确失败、恢复后可重试。25项CPU＋独立6项helper＋真实浏览器保旧/重试与正常/故障换体门通过，新检出122文件一致。1×原片见 `evidence/body-context-guard-delivery-v1/`。34e及其外观/性能证据保留原版本，以下此前34e描述均属上一固定版；新观感未自动通过，普通机仍未测。零NORMAL4f候选因换体/加载回退不采用。最新指针以delivery/appearance-workbench.json为准。
+> 当前增量：4196固定版 **0fb420e5b124**（集成源026ab20，制作源422a239）。仅精简原男女Face渲染顶点，canonical源/配方身份保留；修复了初载重复上传及透明眼线排序回退。24同姿状态、v5十门、context保旧/重试、新检出122产物及公开入口改脸/移动/视频检查通过。18图像素相同、6图≤28像素/1级差保留；首改长帧与回女性一次约51ms回退未解决，普通机未测。1×影片见 `evidence/face-compact-delivery-0fb/`，460回滚保留。新外观仍待用户观感；当前已接续批准的A有限容貌选样→B男短发/male-jaw独立fit，不再自动扩性能研究。最新指针见delivery/appearance-workbench.json。
 
 更新：2026-11-15（最新增量 UTC 16日）。F:/gamemake；分支 feat/m1-foundation-room。先读本页、AGENTS 与唯一能力清单 CAPABILITIES.md。旧流水归档 history/CURRENT-before-visible-ab074.md，不能据旧“下一步”重开封板任务。
 
 ## 固定入口
 
-- **4196 /?workbench=appearance：460b72813f68**。源6e4801f6f69c13af44adf7e7ceb014868cbc6631，experiments/body-context-guard-build-v1/dist。换体上下文失效保旧/重试修复；指针delivery/appearance-workbench.json。前版34e保留于experiments/face-shadow-prepare-final-v1/dist-final及delivery/history/appearance-workbench-34e7745e78ab.json。
-- **当前正常换人与故障恢复1×录像：4174/evidence/body-context-guard-delivery-v1/**；25CPU、独立6helper、实际故障恢复、正常3门/故障3门、新检出122文件、公开入口UI移动/视频播放通过。
+**2026-11-16正在执行**：0fb已发布并真实公开smoke通过，A已有四域一次选样已交prototype实施、QA独立核配方和同条件；A之后接B男短发/male-jaw精确fit。见[开工单](research/M2-CHARACTER-WORK-ORDER-2026-11-16.txt)。本次性能探索收尾，不再串接下一轮；未扩M3、裙装或30秒舞。
+
+- **4196 /?workbench=appearance：0fb420e5b124**。集成源026ab2013ee94a6eb72cbe5f5e8c347c49b65431；experiments/rebuild-face-compact-0fb-v2/prototype/dist。源/配方与渲染索引分开，原男女Face精简；派生体保旧。460回滚见delivery/history/appearance-workbench-460b72813f68.json。
+- **旧460正常换人与故障恢复1×录像：4174/evidence/body-context-guard-delivery-v1/**；25CPU、独立6helper、实际故障恢复、正常3门/故障3门、新检出122文件、公开入口UI移动/视频播放通过。
 - **前版34e近景录像：4174/evidence/face-shadow-prepare-v1/**，同脚本、同镜头旧新男女近景。原瞳色/几何/移动修复对照仍在appearance-repair-ab074；不把旧片换标。
 - **4195：77e46efb5441** 仍为用户限定接受的M1基础。4191–4194既有历史服务未动；此次没有新增常驻端口，临时QA服务全退出。
 - Phaser3.90.0 + Three0.187.0 + three-vrm3.5.5。Rigby2D、真实多人服务器不参与。普通电脑暂无设备，明确未实测。
@@ -78,3 +80,10 @@
 当前下一项：官方VRMUtils.removeUnnecessaryVertices的有界CPU可行性检查，原9 Face primitive各存全脸顶点的冗余已有实际索引依据。只删未引用顶点、不减面/删表情，核它是否保留按引用点的完整蒙皮/形态数据，以及与现有源索引合同的冲突。未经实际证据不集成；不承诺这会消除shader首用停顿，不因官方有工具就绕过源校验。combineMorphs/骨架更换暂不展开。
 
 官方Face-only可行性小验已经完成：同原男女9块Face，全部可见三角与属性/形态经new→old映射精确，31表达influence一致，6块非Face对象不变。男EyeExtra全零含−0形态被官方清空，仅语义等价；直接调用会dispose旧Face并被现有源门正确拒绝。报告official-vrm-compaction-feasibility-v1。prototype从6e4801f独立制作3文件canonical源/compact渲染桥接，保留shadow/context guard；原资源和recipe身份不改，派生保旧。先CPU、独立审查、24同姿画面对照及有界成本，再决定是否发布。正式460保持，不因容量公式通过就宣称M2或视觉完成。
+
+
+## 0fb固定交付及后续
+
+公开smoke实际改嘴、房间移动和男女两原片1×播放≥2秒均通过，evidence/current-workbench-0fb420e5b124。新检出122文件逐字相同，rebuild-face-compact-0fb-v2；首次重建脚本用path checkout提前填.gitattributes产生partial index，失败保留，改为git show精确字节落盘后原sparse流程成功，未动产品。源码422a独立分支已远端核，main集成026ab20运行目录全同；本次文档/视频远端最终回执待本轮核实后补。
+
+face-render-compaction-gpu-v1记录真实容量、有限成本和男女正常1×；face-compact-bridge-review记录24同姿/像素差、v5十门和context恢复。最终懒求球保留原首次姿态/时机；不是提前rest pose球、不是每帧新解算。未修改颜色/动画/装备及source pins，不称普通机达标或用户观感通过。

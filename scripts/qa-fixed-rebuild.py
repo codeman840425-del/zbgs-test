@@ -22,11 +22,17 @@ try:
  referenceInfo=json.loads((baseline/'build-info.json').read_text(encoding='utf-8'));report['referenceBuild']=referenceInfo
  report['environment']={'python':platform.python_version(),'platform':platform.platform(),'node':run('node-version',[shutil.which('node'),'--version'],repo),'npm':run('npm-version',[shutil.which('npm.cmd') or shutil.which('npm'),'--version'],repo)}
  run('worktree-add',['git','worktree','add','--detach','--no-checkout',str(work),report['commit']],repo)
+ # On Windows core.autocrlf, populate exact attributes before sparse checkout
+ # materializes pinned JSON. A clean index alone cannot prove runtime bytes.
+ # Write the exact blob without creating a partial index (path checkout on an
+ # empty no-checkout worktree stages every other path as deleted).
+ run('read-attributes',['git','show',report['commit']+':.gitattributes'],work)
+ shutil.copyfile(out/'read-attributes.stdout.log',work/'.gitattributes')
  run('sparse-checkout',['git','sparse-checkout','set','--cone','prototype'],work)
  run('checkout',['git','checkout','--detach',report['commit']],work)
  report['actualCommit']=run('actual-commit',['git','rev-parse','HEAD'],work)
  assert report['actualCommit']==report['commit']
- clean=run('initial-status',['git','status','--porcelain','--untracked-files=all'],work);assert not clean,clean
+ clean=run('initial-status',['git','status','--porcelain','--untracked-files=all'],work);assert not clean,'Initial checkout is not clean; see initial-status.stdout.log'
  project=work/'prototype';assert not (project/'node_modules').exists();assert not(project/'dist').exists()
  report['lockSHA256']=sha((project/'package-lock.json').read_bytes());report['buildIdScriptSHA256']=sha((project/'scripts/build-id.mjs').read_bytes());report['inputFiles']={n:{'bytes':(project/n).stat().st_size,'sha256':sha((project/n).read_bytes())}for n in referenceInfo['inputs']}
  run('npm-ci',[shutil.which('npm.cmd') or shutil.which('npm'),'ci'],project)

@@ -1,0 +1,12 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>0fb · 面部渲染对照</title><style>body{margin:0;background:#141a24;color:#e8eef8;font:17px/1.65 system-ui,sans-serif}main{max-width:1500px;margin:auto;padding:24px}a{color:#93ceff}video{display:block;width:100%;max-height:86vh;background:#000}section{margin:28px 0}small{color:#bbc7d8}table{border-collapse:collapse}td,th{padding:8px 18px;border:1px solid #435066;text-align:left}.note{padding:16px;background:#253247;border-radius:8px}code{overflow-wrap:anywhere}</style><main>
+<h1>面部渲染精简 · 0fb420e5b124</h1>
+<p><a href="http://127.0.0.1:4196/?workbench=appearance">打开当前外观工作台</a> · <a href="../face-compact-bridge-review/index-0fb.html">查看同镜头固定姿势前后对照</a></p>
+<p class="note">本次保留原人物、五官参数、动作和颜色，减少面部渲染数据。下面是新版完整录制原片（含加载与设置），均以1倍速播放；旧新对照另见固定姿势页。不是新脸型或整套M2验收。新瞳色、容貌和画风仍待用户判断。</p>
+<section><h2>女性 · 讲话、眨眼、微笑与视线</h2><video controls preload="metadata" playsinline src="../face-render-compaction-gpu-v1/live-0fb/female-live-1x.webm"></video></section>
+<section><h2>男性 · 讲话、眨眼、微笑与视线</h2><video controls preload="metadata" playsinline src="../face-render-compaction-gpu-v1/live-0fb/male-live-1x.webm"></video></section>
+<h2>本次检查的范围</h2><p>24组相同姿态、骨骼、镜头、灯光和表达检查通过。18组画面逐像素一致；6组最多28个像素相差1级色值，仍如实保留。明确的男性眼线排序变化已经修复。配方10项、图形上下文失效后保旧和重试，以及新检出122份构建文件逐字一致。</p>
+<table><tr><th>测量项目</th><th>原460</th><th>当前0fb</th></tr><tr><td>女性首次面部形态纹理上传</td><td>16,571,520 B</td><td>1,841,280 B</td></tr><tr><td>女切男最大帧间隔</td><td>364.0 ms</td><td>273.1 ms</td></tr><tr><td>男回女请求至首绘结束</td><td>571.5 ms</td><td>622.8 ms</td></tr></table>
+<p>开发机Chrome157／1600×1000的单次短测，非普通电脑实测；rAF不是屏幕呈现耗时。首改和换人的长帧仍存在，返回女性本次更慢。容量减少不是所有操作更流畅，也不是总显存测量。</p>
+<p>制作源 <code>422a23911784c0b7448841eb97839973901b0be5</code>；集成源 <code>026ab2013ee94a6eb72cbe5f5e8c347c49b65431</code>，完整prototype内容相同，独立重建为同一build。保留原460回滚和失败试验，封板裙与30秒舞未改。</p>
+<p><a href="../face-render-compaction-gpu-v1/RESULT.md">成本与原片记录</a> · <a href="../face-compact-bridge-review/RESULT.md">独立审查</a> · <a href="../rebuild-face-compact-0fb-v2/report.json">全新检出重建记录</a></p>
+<small>工程观看采用完整原片的低频连续抽帧和关键姿势检查，不替代用户完整观感验收。</small></main></html>
