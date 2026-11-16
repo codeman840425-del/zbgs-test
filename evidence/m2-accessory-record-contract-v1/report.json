@@ -1,0 +1,149 @@
+{
+  "status": "passed",
+  "moduleSHA256": "6df67fe53aff932960fcf7d1c04a947b84abb70af3af49b3ce8907a8edb0a7f0",
+  "checks": [
+    {
+      "name": "manifest constants and actual resource/fit/dependency bytes agree",
+      "passed": true
+    },
+    {
+      "name": "original female/male none and left/right/pair ears use exact per-body fit",
+      "passed": true
+    },
+    {
+      "name": "original female hat requires exact ponytail and neutral geometry",
+      "passed": true
+    },
+    {
+      "name": "unknown/missing fields, unsupported selections and resource versions reject",
+      "passed": true
+    },
+    {
+      "name": "query and validation are network-free, return independent metadata and preserve inputs",
+      "passed": true
+    },
+    {
+      "name": "capture uses actual selection identities and refuses pending or mismatched states",
+      "passed": true
+    }
+  ],
+  "rejections": [
+    "male hat rejected",
+    "derived hat rejected",
+    "derived ears rejected",
+    "incompatible hat hair hairStyle",
+    "incompatible hat hair replacementSHA256",
+    "incompatible hat hair hairFit",
+    "incompatible hat hair hairFit",
+    "incompatible hat hair hairManifestSha256",
+    "hat nonneutral mouthWidth",
+    "hat nonneutral browSample",
+    "hat nonneutral noseSample",
+    "hat nonneutral eyeSample",
+    "hat missing neutral geometry fields",
+    "male cannot reuse female hat record",
+    "derived cannot reuse female hat record",
+    "missing ears",
+    "missing ears.selection",
+    "missing ears.resource",
+    "missing hat",
+    "missing hat.selection",
+    "missing hat.resource",
+    "unknown top field",
+    "unsupported hat selection",
+    "missing ears.resource.styleId",
+    "missing ears.resource.version",
+    "missing ears.resource.manifestUrl",
+    "missing ears.resource.manifestSha256",
+    "missing ears.resource.assetSha256",
+    "missing ears.resource.fitId",
+    "missing ears.resource.fitSha256",
+    "bad ears version",
+    "bad ears fit SHA",
+    "unknown ears resource field",
+    "missing hat.resource.styleId",
+    "missing hat.resource.version",
+    "missing hat.resource.manifestUrl",
+    "missing hat.resource.manifestSha256",
+    "missing hat.resource.assetSha256",
+    "missing hat.resource.fitId",
+    "missing hat.resource.fitSha256",
+    "bad hat version",
+    "bad hat fit SHA",
+    "unknown hat resource field",
+    "none carrying resource",
+    "capture loading",
+    "capture prepared",
+    "capture mismatched fit"
+  ],
+  "findings": [],
+  "resources": [
+    {
+      "path": "prototype/public/assets/m2-paired-ear-accessory-v1/manifest.json",
+      "bytes": 1529,
+      "sha256": "8d7ac33b9078f11a66f3ee1a0c53fd66df87a6569c16e8e55625de6bb09a6909"
+    },
+    {
+      "path": "prototype/public/assets/m2-paired-ear-accessory-v1/stud.glb",
+      "bytes": 6440,
+      "sha256": "e07f8b1078ba125e186dae5627352ade4bcb3f0ef649645b5168ece82a81b146"
+    },
+    {
+      "path": "prototype/public/assets/m2-paired-ear-accessory-v1/female-fit.json",
+      "bytes": 5711,
+      "sha256": "22c157adcd53f80e2f1d95e16c48c9a27fd2283a6d2e6b2cd71349fde18f0174"
+    },
+    {
+      "path": "prototype/public/assets/m2-paired-ear-accessory-v1/male-fit.json",
+      "bytes": 5737,
+      "sha256": "92bb47d13238fbec1677b359e9260473b63685234af9f27c8e844575399f7596"
+    },
+    {
+      "path": "prototype/public/assets/m2-hat-hair-v1/manifest.json",
+      "bytes": 545,
+      "sha256": "c62f1ecbc4b16f5e36a2b691f494e887d4367cbf662ade436d8659924fd182cc"
+    },
+    {
+      "path": "prototype/public/assets/m2-hat-hair-v1/baseball-cap.glb",
+      "bytes": 109240,
+      "sha256": "21e1a23238b046106d2822f5821384502c6ec39c755cd78e6f17b1f1c4241bb7"
+    },
+    {
+      "path": "prototype/public/assets/m2-hat-hair-v1/fit.json",
+      "bytes": 1308,
+      "sha256": "86ea630c9a06f7cdddfb10eb5998eb6b5934010f56750d292a1c97e8d298d769"
+    },
+    {
+      "path": "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/female-ponytail.glb",
+      "bytes": 744864,
+      "sha256": "1b785f9d54107818cee39eda2de7263ad0720ce90968fbaa7cc32c2465e3c385"
+    },
+    {
+      "path": "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/manifest.json",
+      "bytes": 912,
+      "sha256": "28337f44c1d297f2657b8ca32466e0c3b9e0cfceb17c39bda019fc19bfb48b9d"
+    },
+    {
+      "path": "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/fit.json",
+      "bytes": 3516,
+      "sha256": "5e6d7499852ffc6198e6c7190a50cf5b55abd51f535c038044201b1cd9ada04f"
+    },
+    {
+      "path": "prototype/public/assets/m2-long-hair-rootjoin-v2/female-ponytail.glb",
+      "bytes": 744864,
+      "sha256": "1b785f9d54107818cee39eda2de7263ad0720ce90968fbaa7cc32c2465e3c385"
+    },
+    {
+      "path": "prototype/public/assets/m2-long-hair-rootjoin-v2/fit.json",
+      "bytes": 3516,
+      "sha256": "5e6d7499852ffc6198e6c7190a50cf5b55abd51f535c038044201b1cd9ada04f"
+    }
+  ],
+  "scope": "Direct actual accessory-recipe and hair catalog Node modules. Input record/actor-state fixtures exercise pure contracts only. No transaction, resource loading, browser, rendering or runtime acceptance.",
+  "GPUUsed": false,
+  "browserStarted": false,
+  "transactionsTested": false,
+  "runtimeAccepted": false,
+  "sourceStableDuringRun": true,
+  "networkCalls": 0
+}
