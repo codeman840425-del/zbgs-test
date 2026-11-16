@@ -1,0 +1,146 @@
+{
+  "status": "passed",
+  "baseline": "af47b6a7ff37d542bfb1b55247a923d7f98cf4a9",
+  "threeVersion": "187",
+  "referenceSourceSha256": "3564c88d7bd326d2d903fd7c3a5d40d6f29394d333926bb0c531273daca05a66",
+  "inputs": [
+    {
+      "path": "prototype/src/company/room.js",
+      "sha256": "062f9fda49a0da9ea2daa891e723aa2e0afa98d53f175d938a5ba967e28fd640"
+    },
+    {
+      "path": "prototype/src/company/resources.json",
+      "sha256": "9a55c30df1c4492e1e470b6b1e5e988b4f67024ac9979c85bfc4050437b7f22e"
+    },
+    {
+      "path": "prototype/src/company/layouts.json",
+      "sha256": "b40a462e77cbe454c1435f16c5cfd1e05ec5a8072de86bc23f56a5148c279eb6"
+    }
+  ],
+  "checks": [
+    {
+      "name": "Legacy room matches every original mesh including geometry buffers, material, world matrix and shadow flags",
+      "passed": true,
+      "details": {
+        "meshCount": 69,
+        "tolerance": 1e-11
+      }
+    },
+    {
+      "name": "Legacy floor and wall references identify the original click and inspection geometry",
+      "passed": true
+    },
+    {
+      "name": "Legacy retains all four original padded obstacles before main refresh",
+      "passed": true,
+      "details": {
+        "initialZ": 0.89,
+        "runtimeZFormula": "1.05 - primaryMotion.seatBack"
+      }
+    },
+    {
+      "name": "room-a changes only chair placement and retains original local chair geometry",
+      "passed": true
+    },
+    {
+      "name": "room-a local targets and chair mesh world positions follow its transform",
+      "passed": true,
+      "details": {
+        "approach": [
+          2.65,
+          0,
+          1.3119363603524574
+        ],
+        "chairBack": [
+          2.65,
+          0.7,
+          0.6356601197384992
+        ]
+      }
+    },
+    {
+      "name": "room-a obstacle can be updated in place by main refreshChair",
+      "passed": true,
+      "details": {
+        "obstacle": {
+          "name": "chair",
+          "x": 2.65,
+          "z": 0.8556601197384992,
+          "hw": 0.37500000596046446,
+          "hd": 0.35
+        }
+      }
+    },
+    {
+      "name": "room-b changes only chair placement and retains original local chair geometry",
+      "passed": true
+    },
+    {
+      "name": "room-b local targets and chair mesh world positions follow its transform",
+      "passed": true,
+      "details": {
+        "approach": [
+          1.5437237593860416,
+          0,
+          1.013136775838049e-16
+        ],
+        "chairBack": [
+          2.22,
+          0.7,
+          -4.884981308350689e-17
+        ]
+      }
+    },
+    {
+      "name": "room-b obstacle can be updated in place by main refreshChair",
+      "passed": true,
+      "details": {
+        "obstacle": {
+          "name": "chair",
+          "x": 2,
+          "z": 0,
+          "hw": 0.35,
+          "hd": 0.37500000596046457
+        }
+      }
+    },
+    {
+      "name": "Unknown layout is rejected before world mutation",
+      "passed": true
+    },
+    {
+      "name": "Basic bad data rejects missing resource before world mutation",
+      "passed": true
+    },
+    {
+      "name": "Basic bad data rejects wrong resource version before world mutation",
+      "passed": true
+    },
+    {
+      "name": "Basic bad data rejects nonfinite position before world mutation",
+      "passed": true
+    },
+    {
+      "name": "Basic bad data rejects nonfinite yaw before world mutation",
+      "passed": true
+    },
+    {
+      "name": "Basic bad data rejects unsupported geometry before world mutation",
+      "passed": true
+    },
+    {
+      "name": "Basic bad data rejects nonfinite roughness before world mutation",
+      "passed": true
+    },
+    {
+      "name": "Basic bad data rejects nonfinite obstacle before world mutation",
+      "passed": true
+    }
+  ],
+  "failures": [],
+  "limitations": [
+    "CPU Three.js only. Canvas stub records draw calls and texture metadata without rasterizing text.",
+    "No browser, GPU, actual male/female interaction, performance or human visual acceptance is established.",
+    "Opening legacy position 0.89 is kept distinct from body-dependent startup calibration."
+  ]
+}
