@@ -71,14 +71,18 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
   }
   let disposed = false, revision = 0, selection = 'none', desired = 'none';
   let status = 'ready', error = null, active = null, template = null, loading = null;
+  const candidates = new Set(), releasedGroups = new WeakSet();
   const cleanupErrors = [];
   const release = object => { try { object.dispose(); } catch (failure) { cleanupErrors.push(String(failure.message ?? failure)); } };
   function releaseInstances(group) {
-    if (!group) return;
-    group.removeFromParent();
+    if (!group || releasedGroups.has(group)) return;
+    releasedGroups.add(group);
+    const materials = new Set();
     group.traverse(node => {
-      if (node.isMesh) for (const material of Array.isArray(node.material) ? node.material : [node.material]) release(material);
+      if (node.isMesh) for (const material of Array.isArray(node.material) ? node.material : [node.material]) materials.add(material);
     });
+    try { group.removeFromParent(); } catch (failure) { cleanupErrors.push(String(failure.message ?? failure)); }
+    for (const material of materials) release(material);
   }
   function releaseSource(scene) {
     const geometries = new Set(), materials = new Set();
@@ -113,7 +117,7 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
       try {
         const meshes = [];
         gltf.scene.traverse(node => { if (node.isMesh) meshes.push(node); });
-        require(meshes.length === 1 && !meshes[0].isSkinnedMesh && !meshes[0].geometry.morphAttributes.position,
+        require(meshes.length === 1 && !meshes[0].isSkinnedMesh && !Array.isArray(meshes[0].material) && !meshes[0].geometry.morphAttributes.position,
           'Rigid accessory requires one rigid source mesh');
         if (disposed || desired === 'none') { releaseSource(gltf.scene); return null; }
         template = { scene: gltf.scene, mesh: meshes[0] };
@@ -135,9 +139,13 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
       require(['none', 'left', 'right', 'pair'].includes(value), 'Unsupported rigid accessory selection');
       require(!disposed, 'Rigid accessory layer is disposed');
       const ticket = ++revision;
+      const current = () => !disposed && ticket === revision;
       desired = value; error = null;
       if (value === 'none') {
-        releaseInstances(active); active = null; selection = 'none'; status = 'ready';
+        const previous = active;
+        active = null; selection = 'none'; status = 'ready';
+        releaseInstances(previous);
+        if (!current()) return { applied: false, reason: 'cancelled' };
         return { applied: true, state: getState() };
       }
       status = 'loading';
@@ -150,34 +158,46 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
         if (!source && !disposed && ticket === revision) source = await loadTemplate();
         if (disposed || ticket !== revision || !source) return { applied: false, reason: 'cancelled' };
         prepared = new THREE.Group(); prepared.name = `RigidAccessory:${manifest.pairId}`;
+        prepared.visible = false; candidates.add(prepared);
         for (const instance of manifest.instances.filter(instance => value === 'pair' || value === instance.side)) {
+          if (!current()) return { applied: false, reason: 'cancelled' };
           const mount = fit.mounts.find(mount => mount.instanceId === instance.id);
           const mesh = source.mesh.clone(false);
-          mesh.material = Array.isArray(source.mesh.material) ? source.mesh.material.map(material => material.clone()) : source.mesh.material.clone();
+          if (!current()) return { applied: false, reason: 'cancelled' };
+          const material = source.mesh.material.clone();
+          if (!current()) { release(material); return { applied: false, reason: 'cancelled' }; }
+          mesh.material = material;
           mesh.name = instance.id;
           mesh.position.fromArray(mount.position); mesh.quaternion.fromArray(mount.quaternion); mesh.scale.fromArray(mount.scale);
           mesh.userData = { rigidAccessoryId: instance.id, side: instance.side, socket: instance.socket, styleId: manifest.styleId };
           prepared.add(mesh);
         }
+        if (!current()) return { applied: false, reason: 'cancelled' };
         head.add(prepared);
+        if (!current()) return { applied: false, reason: 'cancelled' };
         const previous = active;
+        candidates.delete(prepared); prepared.visible = true;
         active = prepared; prepared = null; selection = value; status = 'ready';
         releaseInstances(previous);
+        if (!current()) return { applied: false, reason: 'cancelled' };
         return { applied: true, state: getState() };
       } catch (failure) {
-        releaseInstances(prepared);
         if (disposed || ticket !== revision) return { applied: false, reason: 'cancelled' };
         status = 'error'; error = String(failure.message ?? failure);
         throw failure;
+      } finally {
+        if (prepared) { candidates.delete(prepared); releaseInstances(prepared); }
       }
     },
     getState,
     dispose() {
       if (disposed) return;
       disposed = true; revision++; desired = 'none'; selection = 'none'; status = 'disposed';
-      releaseInstances(active); active = null;
-      if (template) releaseSource(template.scene);
-      template = null;
+      const previous = active, source = template, preparing = [...candidates];
+      active = null; template = null; candidates.clear();
+      releaseInstances(previous);
+      for (const group of preparing) releaseInstances(group);
+      if (source) releaseSource(source.scene);
     },
   };
 }

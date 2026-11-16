@@ -124,6 +124,69 @@ try {
   first.dispose(); assert.equal(meshes(b).length, 2); second.dispose();
   checks.push('two actors allocate independent geometry and mutable materials; first dispose preserves second');
 
+  controls = {};
+  {
+    const a = actor('male'), layer = create(a);
+    await layer.setSelection('pair');
+    const pair = meshes(a), counts = [0, 0], nested = [];
+    pair.forEach((mesh, i) => mesh.material.addEventListener('dispose', () => {
+      counts[i]++; nested.push(layer.setSelection('none'));
+    }));
+    assert.equal((await layer.setSelection('none')).applied, false);
+    await Promise.all(nested);
+    assert.deepEqual(counts, [1, 1]); assert.equal(meshes(a).length, 0);
+    assert.equal(layer.getState().selection, 'none'); layer.dispose();
+    checks.push('continuous material dispose listeners reenter none without recursion or duplicate release');
+  }
+  {
+    const a = actor('male'), layer = create(a);
+    let materialReleases = 0;
+    const before = geometryReleases;
+    const onAdd = event => {
+      if (!event.child.name.startsWith('RigidAccessory:')) return;
+      event.child.traverse(mesh => { if (mesh.isMesh) mesh.material.addEventListener('dispose', () => materialReleases++); });
+      layer.dispose();
+    };
+    a.head.addEventListener('childadded', onAdd);
+    assert.deepEqual(await layer.setSelection('pair'), { applied: false, reason: 'cancelled' });
+    a.head.removeEventListener('childadded', onAdd);
+    assert.equal(meshes(a).length, 0); assert.equal(layer.getState().status, 'disposed');
+    assert.equal(materialReleases, 2); assert.equal(geometryReleases-before, 1);
+    checks.push('dispose during actual head childadded removes candidate and releases its two materials and geometry once');
+  }
+  {
+    const a = actor('male'), layer = create(a);
+    await layer.setSelection('left');
+    const prototype = meshes(a)[0].material.constructor.prototype, originalClone = prototype.clone;
+    let cloneReleases = 0;
+    prototype.clone = function () {
+      const material = originalClone.call(this);
+      material.addEventListener('dispose', () => cloneReleases++);
+      layer.dispose(); return material;
+    };
+    try { assert.deepEqual(await layer.setSelection('pair'), { applied: false, reason: 'cancelled' }); }
+    finally { prototype.clone = originalClone; }
+    assert.equal(cloneReleases, 1); assert.equal(meshes(a).length, 0);
+    assert.equal(layer.getState().status, 'disposed');
+    checks.push('dispose during actual material clone releases returned local clone without attaching or committing it');
+  }
+  {
+    const a = actor('male'), layer = create(a);
+    await layer.setSelection('left');
+    let newer, triggered = false;
+    const onAdd = event => {
+      if (!event.child.name.startsWith('RigidAccessory:') || triggered) return;
+      triggered = true; newer = layer.setSelection('right');
+    };
+    a.head.addEventListener('childadded', onAdd);
+    assert.deepEqual(await layer.setSelection('pair'), { applied: false, reason: 'cancelled' });
+    assert.equal((await newer).applied, true);
+    a.head.removeEventListener('childadded', onAdd);
+    assert.equal(layer.getState().selection, 'right'); assert.equal(meshes(a).length, 1);
+    assert.equal(meshes(a)[0].userData.side, 'right'); layer.dispose();
+    checks.push('newer right intent during head childadded cancels candidate and preserves only the newer commit');
+  }
+
   for (const mode of ['badAsset', 'badFit', 'unsupportedBody']) {
     controls = { [mode]: true };
     const a = actor('male');
