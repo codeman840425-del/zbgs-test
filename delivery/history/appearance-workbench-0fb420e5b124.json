@@ -1,0 +1,33 @@
+{
+  "schema": "zbgs-appearance-workbench-v1",
+  "build": "0fb420e5b124",
+  "sourceDigest": "0fb420e5b124a6c6ad0945637168e0b827093aed101db9f514921c1808975cdd",
+  "sourceCommit": "026ab2013ee94a6eb72cbe5f5e8c347c49b65431",
+  "directory": "experiments/rebuild-face-compact-0fb-v2/prototype/dist",
+  "port": 4196,
+  "entry": "/?workbench=appearance",
+  "status": "limited-technical-checks-passed-visual-review-pending",
+  "retainedM1": {
+    "port": 4195,
+    "build": "77e46efb5441"
+  },
+  "limits": [
+    "Original F/M Face rendering only. Canonical source and recipe indices/pins are retained; compact render indices differ. Derived bodies keep the original path.",
+    "24 matched-state pairs passed: 18 pixel-exact, 6 with at most 28 pixels/1 channel level difference retained. No structural regression found in sampled engineering review; not human visual acceptance.",
+    "v5 ten actual UI/recipe checks and context loss preserve/retry passed. Fresh checkout reproduces all 122 output files byte-for-byte.",
+    "Morph texture capacity/upload reduced; first editing stalls remain. One development-machine sample regressed male-to-female request-to-render by51.3ms and maximum rAF by24.1ms. No ordinary-PC test or overall performance pass.",
+    "New iris, facial endpoints and art style await user visual judgment; accepted layout retained. Frozen skirt and30-second dance unchanged.",
+    "Normal1x clips retain their exact build; engineering sampled-frame review is not full human continuous acceptance. No new appearance expansion is included in this build."
+  ],
+  "evidence": "/evidence/face-compact-delivery-0fb/",
+  "previousWorkbench": {
+    "build": "460b72813f68",
+    "directory": "experiments/body-context-guard-build-v1/dist",
+    "sourceCommit": "6e4801f6f69c13af44adf7e7ceb014868cbc6631"
+  },
+  "layoutReview": {
+    "status": "accepted-by-user",
+    "evidence": "evidence/workbench-layout-user-review-bcade.json",
+    "scope": "Independent female/male buttons, appearance/actions/inspection areas, persistent camera/pause/stop controls"
+  }
+}

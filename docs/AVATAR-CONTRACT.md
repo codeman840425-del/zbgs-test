@@ -4,9 +4,9 @@
 
 外观工作台是独立候选，见delivery/appearance-workbench.json；4195仍为M1对照。工作台男女按钮切换受检基模；未保存时继承兼容颜色并显式回退不兼容装备，有已保存草稿时恢复该基模最终选择。每基模本机草稿不等于两位主播身份。真实主播身份仍按下列分层。旧QA-only avatar-record合同的baked-resource/空parameters证据不能替代新工作台的实际保存检查。
 
-当前工作台配方`workbench-appearance-recipe-v5`与规则`workbench-appearance-rules-v5`保存精确基模ID/hash、嘴宽值与recipeSHA、眉/鼻/眼样件ID与各自recipeSHA、发型资源SHA/颜色、装备entry/GLB/绑定及规则版本。表达/口型/视线不混入永久容貌。存储槽`zbgs:appearance-draft:v1:<bodyType>`后缀仅地址。读取旧v1时眉鼻眼为none，旧v2保眉且鼻眼none，旧v3保眉鼻且眼none，旧v4保留原四域数值及身份；下一次保存写v5，不自动放大原参数。旧schema混带其尚不存在的域、较大新端点或错误recipe身份均拒绝。当前接受的旧palette版本显式迁移至v3并提示“旧配方已使用新版瞳色渲染，颜色选择保持不变”，不承诺旧染色像素外观保持。未知palette版本拒绝。加载失败按现有事务保先前外观；新请求通过每域revision保留最新意图，跨异步操作不是全局原子事务。精确读写条件以`appearance-recipe.js`、`facial-palette-contract.js`为准，旧文件与新记录的验证证据分别保留，不换标签。
+当前固定版fe5（集成源937df9f）的工作台配方`workbench-appearance-recipe-v6`与规则`workbench-appearance-rules-v6`保存精确基模ID/hash、嘴宽值与recipeSHA、眉/鼻/眼样件ID与各自recipeSHA、发型资源SHA/颜色、装备entry/GLB/绑定及规则版本。表达/口型/视线不混入永久容貌。存储槽`zbgs:appearance-draft:v1:<bodyType>`后缀仅地址。读取旧v1时眉鼻眼为none，旧v2保眉且鼻眼none，旧v3保眉鼻且眼none，旧v4保留原四域数值及身份；旧v5保留其有限较大端点；下一次保存写v6，不自动放大原参数。旧schema混带其尚不存在的域、较大新端点或错误recipe身份均拒绝。当前接受的旧palette版本显式迁移至v3并提示“旧配方已使用新版瞳色渲染，颜色选择保持不变”，不承诺旧染色像素外观保持。未知palette版本拒绝。加载失败按现有事务保先前外观；新请求通过每域revision保留最新意图，跨异步操作不是全局原子事务。精确读写条件以`appearance-recipe.js`、`facial-palette-contract.js`为准，旧文件与新记录的验证证据分别保留，不换标签。
 
-有限几何编辑以不可变原底和完整参数向量求值，保留原mesh/骨架/表情绑定，每实例独占可变几何；变形身份另记baseSHA+recipeSHA+参数，不修改原文件SHA冒充新源。单项复位保其他域，全零恢复原几何引用。准入以`facial-geometry-profiles.js`和`facial-geometry-contract.js`的精确身体SHA、样件ID及recipeSHA为准：原男女保留嘴宽[-4%,+4%]旧连续范围，并新增独立±12%端点，±4%至±12%之间未验区间不开放；眉保留1mm端点并新增高度/两侧外移各3mm，鼻保留0.5mm并新增前移2mm，眼裂宽保留+1%并新增+5%。较大端点必须用v5及各自新身份，不能修改旧配方SHA使旧样件冒充新制作。男下颌派生仍只嘴宽0/+4%，不能取中间值或继承其余三域；女下颌/腰胯派生未准入这些参数。上述是已制作与运行准入范围，不等于全部视觉或源精度检查通过；男嘴−12%旧作者导出NORMAL门失败保留；新明确量化的生产参考已过原门，未改旧文件/运行配方身份。新外观待验及准确范围见CAPABILITIES。不宣称完整连续五官支持。无发基底已核真实头皮，头围/眼睑/牙齿/眼球等仍逐种参数准入；改变嘴位置/头围/眼距应另验持麦、发型和眼镜。
+有限几何编辑以不可变原底和完整参数向量求值，保留原mesh/骨架/表情绑定，每实例独占可变几何；变形身份另记baseSHA+recipeSHA+参数，不修改原文件SHA冒充新源。单项复位保其他域，全零恢复原几何引用。准入以`facial-geometry-profiles.js`和`facial-geometry-contract.js`的精确身体SHA、样件ID及recipeSHA为准：原男女保留嘴宽[-4%,+4%]旧连续范围，并新增独立±12%端点，±4%至±12%之间未验区间不开放；眉保留1mm端点并新增高度/两侧外移各3mm，鼻保留0.5mm并新增前移2mm，眼裂宽保留+1%并新增+5%。较大端点必须用v5或v6及各自新身份，不能修改旧配方SHA使旧样件冒充新制作。男下颌派生仍只嘴宽0/+4%，不能取中间值或继承其余三域；女下颌/腰胯派生未准入这些参数。上述是已制作与运行准入范围，不等于全部视觉或源精度检查通过；男嘴−12%旧作者导出NORMAL门失败保留；新明确量化的生产参考已过原门，未改旧文件/运行配方身份。新外观待验及准确范围见CAPABILITIES。不宣称完整连续五官支持。无发基底已核真实头皮，头围/眼睑/牙齿/眼球等仍逐种参数准入；改变嘴位置/头围/眼距应另验持麦、发型和眼镜。
 
 0fb原男女Face有单独渲染精简层：完整canonical源几何供原索引/hash/配方求值，渲染几何按确切new→old映射保留被引用顶点。渲染索引与源索引不同，重置恢复该人物最初render geometry引用，卸载时恢复canonical供既有释放流程。原SkinnedMesh首次求包围球使用当时骨姿与canonical几何，保留透明排序语义。派生体未启用此层；资源/配方schema与准入不因精简改变。
 
@@ -29,6 +29,13 @@
 
 身体、脸、行为风格可独立管理；年龄数值不直接驱动网格变形。资产ID不复用旧含义，升级采用新版本/显式迁移；缺失版本用同body已验证默认造型回退并记录原因，不能静默换成其他身体或变脸。M1B先本地保存关闭页面重开，M3检查生成集的一致恢复。当前房间还不是主播经营存档系统。
 
+### 发型独立适配身份（fe5）
+
+同款styleId按精确身体SHA选唯一适配。`hairAssetSha256`标模型，`hairFit`另标适配，不能因为共用GLB就互换适配。原发/无发两字段均为null；原男女已发布短发保留`legacy-head-local-v1`及原manifestSHA；male-jaw的同款短发使用`explicit-fit-v1`及id/version/sha256。原男源GLB和作者身体标记不改。
+
+加载先核manifest、fit、GLB的实际字节，再核目标身体、原身体、raw-head-bind-local挂点、变换及独立原发隐藏范围。v6缺适配身份或错误身份拒绝；旧v1–v5仅支持历史原男女隐式适配，不能把jaw记录降为旧格式借相同GLB准入。旧文件带新hairFit字段同样拒绝。配方回退保原实际fit，较新颜色/操作不被旧异步任务覆盖；仍不是所有域的全局原子事务。此项不修改动作控制器，也不代表任意头围或动态长发兼容。
+
+
 ## 装备规范（男女共同约定）
 
 槽位：top/bottom/onePiece/outerwear/footwear/hair/accessory。onePiece占用top+bottom；outerwear只在对应兼容组合声明时叠穿；同槽冲突按明确替换规则，不能仅追加mesh。身体覆盖区是可恢复集合，每次由最终装备重新求并集，基础人体诊断必须保留完整身体。M1A实际只启用top、bottom、footwear，不把约定等同完整叠穿实现。
@@ -43,7 +50,7 @@
 
 目前主/对照角色均使用同一CharacterStudio行为实现、各自motion闭包与livePresentation。foundationProfile每次structuredClone，基模/装备/握姿仍严格按SHA匹配；页面控件绑定在main，不由loadFoundationAvatar初始化UI。loadComparison待动作加载、motion.update(0)和附加骨重置完成后才把root加入场景，取消/失败释放未挂入场景的资源。
 
-男女及男男引用/骨架/表情/装备/销毁隔离已有固定构建证据，0df453曾另验延迟加载、取消、503和重试；具体范围见CAPABILITIES，不代表体型操作或任意共享资源已验。当前裤裙预加载、切换同步；麦克风/眼镜的异步请求按slot版本拒绝过期结果。旧本地QA角色记录绑定完整presentationBuild，关页恢复和错误拒绝证据不等同跨版本迁移。工作台另有上述v5制作配方、本机草稿及真实JSON文件导入/导出：保存最终外观与装备精确版本，但不包含经营身份、动作、镜头或模型本体。它不是正式游戏存档UI，也不能与旧QA记录混用。
+男女及男男引用/骨架/表情/装备/销毁隔离已有固定构建证据，0df453曾另验延迟加载、取消、503和重试；具体范围见CAPABILITIES，不代表体型操作或任意共享资源已验。当前裤裙预加载、切换同步；麦克风/眼镜的异步请求按slot版本拒绝过期结果。旧本地QA角色记录绑定完整presentationBuild，关页恢复和错误拒绝证据不等同跨版本迁移。工作台另有上述v6制作配方、本机草稿及真实JSON文件导入/导出：保存最终外观与装备精确版本，但不包含经营身份、动作、镜头或模型本体。它不是正式游戏存档UI，也不能与旧QA记录混用。
 
 ## 面部能力分类
 
