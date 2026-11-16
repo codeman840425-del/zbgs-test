@@ -40,13 +40,28 @@ A嘴−12% + `aperture-width105-v2`；眉鼻none。B嘴+12% + `height3-spacing3-
 
 ## 复跑
 
-从项目根使用已安装依赖：
+在包含本包 `scripts/` 的检出根目录执行，不依赖任何 `experiments/` 临时目录。先从精确运行时提交独立检出并构建：
 
 ```powershell
-node scripts/run-fixed-check.cjs experiments/face-render-compaction-build-422a/dist experiments/m2-character-presets-a-v1/scripts/m2-character-presets-a-v1/capture.cjs <new-output>
-node scripts/run-fixed-check.cjs experiments/face-render-compaction-build-422a/dist experiments/m2-character-presets-a-v1/scripts/m2-character-presets-a-v1/live.cjs <new-live-output> <static-output>
-python experiments/m2-character-presets-a-v1/scripts/m2-character-presets-a-v1/package.py <evidence-root>
-python experiments/m2-character-presets-a-v1/scripts/m2-character-presets-a-v1/inspect-live.py <evidence-root>
+git worktree add --detach --no-checkout <runtime-checkout> 026ab2013ee94a6eb72cbe5f5e8c347c49b65431
+git -C <runtime-checkout> checkout 026ab2013ee94a6eb72cbe5f5e8c347c49b65431 -- .gitattributes
+git -C <runtime-checkout> sparse-checkout set prototype
+git -C <runtime-checkout> read-tree --reset -u HEAD
+npm --prefix <runtime-checkout>/prototype ci
+npm --prefix <runtime-checkout>/prototype run build -- --outDir <absolute-fixed-dist>
 ```
 
-脚本用项目固定Playwright1.58.2，OS随机临时端口，结束关闭browser/server。selection.json先记录，再一次执行选择；不能以重跑脚本扫描新参数。
+确认 `<fixed-dist>/build-info.json` 为 `0fb420e5b124`，完整 digest 为 `0fb420e5b124a6c6ad0945637168e0b827093aed101db9f514921c1808975cdd`。`.gitattributes` 必须先落盘，不能用工作树 clean 代替输入字节核验。当前脚本默认从其所在仓库 `prototype/node_modules` 取依赖；可以在此检出执行 `npm --prefix prototype ci`，或显式设置 `GAMEMAKE_ROOT` 指向上面已安装依赖的 `<runtime-checkout>`。该 override 仅选依赖根，不更换传入的固定产物或配方。
+
+```powershell
+node scripts/run-fixed-check.cjs <fixed-dist> scripts/m2-character-presets-a-v1/capture.cjs <new-output>
+node scripts/run-fixed-check.cjs <fixed-dist> scripts/m2-character-presets-a-v1/live.cjs <new-live-output> <static-output>
+python scripts/m2-character-presets-a-v1/package.py <evidence-root>
+python scripts/m2-character-presets-a-v1/inspect-live.py <evidence-root>
+node scripts/m2-character-presets-a-v1/check-gallery.cjs <evidence-root>
+python scripts/m2-character-presets-a-v1/verify.py .
+```
+
+`package.py` 与 `inspect-live.py` 的 `<evidence-root>` 使用本包已记录的 `static-2/room-36/live-3` 组织；`capture.cjs` 可用第四参数指定静态结果目录，仅补真实room36视图。新的证据输出须用新目录，不能覆盖冻结报告。Python工具依赖Pillow与imageio-ffmpeg；浏览器工具依赖锁定Playwright1.58.2及本机Chrome。使用OS随机临时端口，结束关闭browser/server。selection.json先记录，再一次执行选择；不能以复跑脚本扫描新参数。
+
+可恢复性小修只修改当前脚本默认路径和本说明；历史 `executed-script.cjs` 快照、配方、图片及影片不改。`portability-check.json` 记录无浏览器的语法/路径检查。

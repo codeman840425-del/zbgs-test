@@ -1,6 +1,6 @@
 // Bounded A sample production using the fixed shared workbench, no product edits.
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict'),crypto=require('node:crypto');
-const root=process.env.GAMEMAKE_ROOT||'F:/gamemake';
+const root=process.env.GAMEMAKE_ROOT||path.resolve(__dirname,'../..');
 const {chromium}=require(path.join(root,'prototype/node_modules/playwright'));
 const spec=require('./selection.json'),[base,destination,roomReference]=process.argv.slice(2),out=path.resolve(destination);
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
