@@ -1,5 +1,9 @@
 # 角色资源与行为约定（暂定）
 
+2026-11-16范围更新：完整M2授权见research/M2-FULL-USER-GOAL-2026-11-16.txt。当前v6实际语义与下文旧证据保持；稳定角色ID、确定性多记录/批处理及游戏消费现在是M2必交接口，尚未实现部分不得称已完成，也不能以“留M3”省略。随机抽取仍后置。完整能力只见CAP末节，技术选择按FOUNDATION-MILESTONES的P0–P6依赖执行。
+
+新增装备候选约定（公开fe5尚无）：equipment-set校验整个最终集合，onePiece占top+bottom，outerwear需声明layerWith精确条目；未声明层间适配拒绝。先完成所需加载，再切可见性，较新意图废旧异步请求。覆盖mask须绑精确body/item/拓扑，多个已验mask取并集而非按穿脱顺序改全局隐藏；准备失败保原，卸除只恢复不再被其他装备覆盖的区域。当前只有合成mask机制/原男女衣物回归证据，真实连体与叠穿样件未通过；衣层遮挡、扩展槽位与新集合保存仍需接续，不冒称完整框架。
+
 当前能力和验收状态统一见 [CAPABILITIES.md](CAPABILITIES.md)。当前观看主入口为4196外观工作台，精确构建和回滚只查 delivery/appearance-workbench.json；4195保留已获限定接受的M1基础77e46efb5441，指针为 delivery/candidate.json。4174提供证据。以下包含现行实现与未来接口约定；注明未实现的条款不得冒充运行能力。旧构建测试仍只证明各自范围。
 
 外观工作台是独立候选，见delivery/appearance-workbench.json；4195仍为M1对照。工作台男女按钮切换受检基模；未保存时继承兼容颜色并显式回退不兼容装备，有已保存草稿时恢复该基模最终选择。每基模本机草稿不等于两位主播身份。真实主播身份仍按下列分层。旧QA-only avatar-record合同的baked-resource/空parameters证据不能替代新工作台的实际保存检查。

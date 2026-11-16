@@ -1,51 +1,32 @@
 # 当前角色工程：恢复入口
 
-2026-11-16。F:/gamemake，分支feat/m1-foundation-room。先读本页、AGENTS.md、CAPABILITIES.md；历史流水保存在history/CURRENT-FOUNDATION-before-m2-hair-fit-2026-11-16.md，不将旧“下一步”当新任务。
+2026-11-16，F:/gamemake，feat/m1-foundation-room。先读AGENTS、CAPABILITIES（唯一状态清单）、FOUNDATION-MILESTONES。旧恢复页已归档history/CURRENT-FOUNDATION-before-full-m2-2026-11-16.md。
 
-## 当前固定入口
+## 最新授权
 
-- 公开工作台：**http://127.0.0.1:4196/?workbench=appearance**，已更新fe5c528d9437，集成源937df9f，精确目录/版本只查delivery/appearance-workbench.json。旧0fb及460回滚已保留。
-- M1用户限定接受版4195 / 77e46efb5441不动；4174提供证据。此次不增常驻端口。
-- 当前B固定版 **fe5c528d9437**：制作源5dfffaee86bbc82a18e24088ecf45a8b9bbc7f74，主线集成937df9ffb6ec044f7bc2f498581b2ef11a344b22。prototype/逐字相同。新检出目录experiments/rebuild-male-jaw-hair-fe5/prototype/dist，126产物与制作构建逐字相同，工作树clean。已发布，公开实际改脸/房间移动/男jaw换发/v6下载/两片播放通过，见evidence/current-workbench-fe5c528d9437-v2。首个smoke误点工作台隐藏的旧近景按钮，失败原报告保留；改用现有放大脸部按钮后通过，未改产品。
+用户完整长目标原文research/M2-FULL-USER-GOAL-2026-11-16.txt，SHA256 7465fc179ef93759e5ea20e86af97680f12b275c4d0cd76232fcc0ae6f8ccd58。明确扩大M2，取代有限A/B/仅目录/只平底/不做长发等旧排除。目标为agent可持续自定义生产，不是当前人物远景辨识度或逐件审美选型。全部功能映射在CAP末节，缺失仍M2；最终用户验收前不宣布完成。
 
-## 当前授权与边界
+M3随机抽取/规模化内容未开工，但稳定角色ID、确定性多记录/批处理、游戏消费/关闭恢复已纳入M2。Phaser+Three+VRM保留，女裙与30秒舞封板，普通电脑暂缺实测设备。不得把这些边界变成停止其他工作的理由。
 
-- 最新工作方式已写AGENTS：平台以agent为主要使用者，人类简单预览验收；优先既有脚本/配方/导出验证入口，不扩人工编辑前端或另造通用编排框架。A/B已交付成果保留。
+## 固定入口与已完成成果
 
-- A/B限定技术工作已完成。用户最新明确当前目标是技术路线与agent制作基础；接续补现有生产命令索引遗漏的男性脸部派生、male-jaw嘴配方、男jaw短发fit流程及实际结构检查。不新增算子/模型/菜单，不扩完整编辑器、参数库、衣库、M3或服务器，不续性能探索。
-- 女性裙装和30秒Rokoko舞已按用户要求封存，禁止再优化。M1限定片段与工作台分区已有用户接受，不重开验收或替新模型背书。
-- Phaser3.90.0 + Three0.187.0 + three-vrm3.5.5，Rigby2D不参与。普通电脑暂缺设备，保留未测，不阻断独立工作。
-- 用户不负责修模、绑定、动画或代码。样件具体画风/用途和游戏镜头辨识度后置到内容制作，不作为基础技术工作等待项；运行破损、错误适配等技术缺陷仍需验证。
+- 4196外观工作台仍fe5c528d9437/source937df9f；准确目录/回滚查delivery/appearance-workbench.json。未被本轮装备候选替换。
+- 4195/77e46是M1用户限定接受基础；4174证据。A组合与B男jaw独立短发fit技术成果保留，无需重做。v6/历史配方语义不变。
+- A证据/evidence/m2-character-presets-a-v1；B/evidence/m2-male-jaw-hair-runtime-v1。5d与937df prototype相同；126产物新检出逐字一致；9a9bce源/证据备份及51f回执远端已核。具体参数/兼容限度只见CAP，原始源缺失不是原工程恢复。
 
-## A：完成并备份
+## 当前正在实施
 
-观看 **http://127.0.0.1:4174/evidence/m2-character-presets-a-v1/**。固定运行0fb/source026，原男女各基准+两个已有四域组合；6实际v5文件、36同条件视图、6约17.44秒1×原片。近景嘴/眉变化可辨，真实房间镜头不足以区分不同人物；不是完整脸型库、年龄库或六名主播。无新算子，没有继续扫描幅度。
+1. 原生产索引已增到8流程：male-jaw-source/mouth/hair-fit接入。e42源集成cacbc0d；独立QA发现hair check间接写范围漏报，修复9283集成6432d8a。8回读、原负例/13新负例/2写范围负例通过，不执行导出。见evidence/production-m2-source-index-root-v1及independent-review-v1。索引只是入口，不是M2完成。
+2. 最终装备集合已在b819接入现有加载器和M1套装，0506393补旧equip与新equipSet竞态。real male loader、失败/取消/释放CPU通过。b819独立构建02a14a4b2a07，evidence/m2-equipment-set-room-02a-v1真实房间裤裙/长短裤/基础模式与1倍速移动检查通过，但这是旧候选，不包含后加coverage和竞态修复，不重标。
+3. 多mask覆盖集合及prepare/commit已在共享源完成待集成，root/coverage_cleanup（明确gpt-6.1-sol/high）修首次工厂失败清理和后续失败保原。6组定向CPU及原加载门通过，evidence/equipment-coverage-cleanup-v2。v1夹具失败保留。接下来固定提交/独立构建，补房间覆盖/换装受影响回归，不重开M1动作调参。
+4. 男性真实蒙皮短外搭样件由旧在途prototype独立制作，experiments/m2-layered-outer-v1。初次沿原上衣分裂render法线推壳确证自身/肩腋穿插，源和静图失败保留，未接入/未通过。替代方向是独立低密躯干裁片与肩带、合几何缝后重算法线，不能继续扫外推偏移。待完成归档取准确提交；后续派工须显式模型/深度。
 
-素材/脚本分支3ac0d4d及可恢复路径修正4910185，主线83702d1/3b32ba2。d558248远端精确核，288保留文件Git字节相同；delivery/character-presets-a-backup.json回执随e7b1c69已推送核实。用户观感未代写。复跑使用scripts/m2-character-presets-a-v1，不依赖临时工作树。
+## 派工纪律与桌面钩子
 
-## B：实际已完成与剩余工作
+用户要求每次派工指定适合难度的模型和思考深度，已写AGENTS；后续spawn必须显式model/reasoning_effort/fork_turns=none和DISPATCH_CONFIG难度理由。旧在途不伪造历史配置，followup无改配置能力，未知配置不得假称已匹配。不能把GPT桌面内Codex与CLI混为一谈。
 
-- 源包4d81f8（主线2f4505d）已完成独立male-sidepart-jaw-fit-v1。只改下颌98点的派生体头顶/耳侧/后脑及Head/Neck绑定未变，支持复用原fb5fd短发GLB；作者原body标记不改。31保留文件/12输入已核；独立源分支远端精确核4d81。
-- 原几何生成器实际重做得同字节。两次Blender导出位置/UV/有向三角一致，NORMAL最大差5.9439e-4保留；生产仍用原GLB，不称所有属性等同。源assets-source/m2-male-jaw-hair-fit-v1，脚本同名scripts目录。
-- 产品只改4文件：hairstyle-catalog、hair-fit-contract、character-appearance、appearance-recipe。按精确body+manifest+GLB+fit加载，实际消费raw-head-local/TRS/隐藏范围。v6保存独立hairFit，旧v1–v5只保历史隐式原男女适配；同GLB不意味着同fit。无动作控制器改动。
-- CPU-3 39项；独立源码审查；固定浏览器11项通过。后者含18同姿图、真实v6下载/干净context文件恢复、错误fit/body/伪旧jaw拒绝保原、原男女真实v5文件、双实例换发/颜色隔离。证据evidence/m2-jaw-hair-browser-fe5c528d9437与m2-hair-fit-independent-review。
-- 正侧背静态工程审看未见新增大块头皮穿出、悬根或耳部消失；尖发束/后颈边缘保留，不称零接触或用户接受。
-- 原男/jaw两条约29.5秒正常1×已录，build fe5，表情转头→走跑→坐起，visible/focused、挂点稳定。制作agent与root均已审看两片完整时间段的8张2fps sheets及关键原图；未见新增明显脱根/遮眼，非人类连续观感。页面/录像提交155e4c3（主线535a249），独立分支远端已核；主线源/证据已随9a9bce1推送并精确核实。不要重录已成功门，除非发现新失败。
+scripts/agent-policy为用户要求的PreToolUse入口校验。用户安装并截图开启；初次本桌面真实probe却未拦截，只回HOOK_DID_NOT_BLOCK无文件操作。已发现初版Windows启动引号错误并修复，修正版在两种Windows外壳实跑deny、8反例通过，已装入用户.codex/hooks.json，需桌面重新信任后实际补测。未宣称工具强制已生效。audit只记调用ID/工具/模型/深度/判定，不记任务正文。CLI features/版本只说明CLI，不能代表当前桌面。官方特殊路径可能跳过hook；不得绕信任或修改宿主二进制。
 
-## 已保留限制
+## 恢复与资源
 
-具体造型审美/角色用途及房间辨识性留到游戏内容制作，不作为本阶段阻塞，也不将用户此次范围纠正记为对每段样片的视觉接受。面部修改的首用长帧仍在，0fb容量改善不等于所有操作更快。普通电脑、长期资源成本未测。刚性短发不等于动态长发/帽发/任意头围兼容；男jaw仍只准入嘴宽0/+4%，不继承原男四域。
-
-源/渲染索引在0fb桥接中分离，canonical供原hash/recipe，紧凑geometry仅渲染。派生体仍旧路径。c371重复上传/d718透明眼排序失败、量化NORMAL旧失败和所有历史录屏保留原身份，见归档，不重标。
-
-## 接续与完成边界
-
-本次有限A/B技术工作已完成，未宣称整个M2或画风通过。大图/正常片入口：4174/evidence/m2-male-jaw-hair-runtime-v1/；A仍为4174/evidence/m2-character-presets-a-v1/。先前“等待整体脸轮廓或发型优先选择”的前提已被用户纠正，撤销该等待项，不再依赖异步问题答复。当前主线是既有技术流程可被agent可靠发现、调用、核版本及复现，不另做脸型辨识度样件。普通PC缺设备与观感待验只限制相应结论，不撤销现有通过。
-
-本次主线源/源资产/脚本/证据已随9a9bce148cb886a732713249f597e1944e9b5319推送并核远端相同；349保留文件与Git逐字相同。回执delivery/male-jaw-hair-backup-fe5.json另行提交。源分支4d81与制作/证据分支155e也已ls-remote精确核实。若有新用户反馈，先按当前固定fe5复现，不回退旧构建或重开封板裙舞。
-
-单GPU/录屏/重Blender/编码任务串行。当前所有QA/录制临时服务已关闭，4196仅替换原服务，未增常驻端口。恢复时先核最新消息与指针，不重复生产。长目标工具残留blocked且无恢复操作不是停工依据，不创建替代目标或误标完成。
-
-当前实际任务：scripts/production现有5条validate已于当前源重跑通过，原回执evidence/production-m2-entry-baseline。prototype独立补3条已存在M2源流程；root统一合同与回归，随后QA独立核实。不改变4196或固定fe5录屏身份。
-
-索引只是M2的一项。已核m1-equipment为固定套装、body-coverage为精确上衣单项覆盖，尚无完整装备集合/连体互斥/外层覆盖恢复机制。接续最小实现见阶段计划末节，真实能力只更新CAP的EQUIP-02/DATA-02/PIPE-03。随机生成问题仅作能力审计，M3未授权且未开始；不提前实施四记录生成试验。
+一次只占用一个GPU/录屏/重Blender/编码窗口。prototype刚完成静图并释放；root可安排浏览器。临时4207提供b819固定检查候选，公开4196不变；不需要时关闭自己创建的4207进程，勿杀用户其他服务。源/脚本/证据待当前集成提交与远端核实，不把历史backup冒充最新。最新工作包P0–P6见阶段计划；勿恢复旧等待审美、有限M2结束或先做M3建议。
