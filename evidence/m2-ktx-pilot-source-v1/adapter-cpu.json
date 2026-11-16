@@ -1,0 +1,64 @@
+{
+  "schema": "m2-ktx-pilot-adapter-cpu-v1",
+  "threeRevision": "187",
+  "realBrowserOrDecoderExecuted": false,
+  "scope": "Real Three Texture/CompressedTexture/LoadingManager with stubbed fetch and KTX decode",
+  "results": [
+    {
+      "name": "prepare keeps exact original map/shade until explicit apply",
+      "passed": true
+    },
+    {
+      "name": "bad KTX SHA refuses parse and preserves original maps",
+      "passed": true
+    },
+    {
+      "name": "one decoded sample failure cleans successful peer without map mutation",
+      "passed": true
+    },
+    {
+      "name": "bad decoder SHA prevents every KTX parse",
+      "passed": true
+    },
+    {
+      "name": "dimension mismatch refuses all replacement",
+      "passed": true
+    },
+    {
+      "name": "dispose during deferred KTX fetch rejects late prepare and apply",
+      "passed": true
+    },
+    {
+      "name": "tinted hair refuses full KTX and bodyOnly preserves the hair map",
+      "passed": true
+    },
+    {
+      "name": "Canvas callback gets exact PNG and a failed callback leaves explicit PNG fallback",
+      "passed": true
+    },
+    {
+      "name": "Canvas callback throw records failure and keeps maps restored",
+      "passed": true
+    },
+    {
+      "name": "separate avatar materials remain independent",
+      "passed": true
+    },
+    {
+      "name": "shared material second ownership is rejected",
+      "passed": true
+    },
+    {
+      "name": "wrong body SHA refuses construction",
+      "passed": true
+    },
+    {
+      "name": "dispose restores experiment-owned maps and preserves external Canvas maps",
+      "passed": true
+    },
+    {
+      "name": "unprepared apply refuses and repeated dispose is safe",
+      "passed": true
+    }
+  ]
+}
