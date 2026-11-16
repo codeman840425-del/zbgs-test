@@ -21,6 +21,27 @@ const [url,build,outDir]=process.argv.slice(2),out=path.resolve(outDir);
     assert.equal(row.outfit.index,outfit);assert.equal(row.debug.bodyComplete,true);
     const visible=Object.entries(row.outfit.equipment.items).filter(([,v])=>v.visible).map(([k])=>k).sort();
     assert.deepEqual(visible,['top','shoes',outfit===1?'skirt':outfit===2?'shorts':'pants'].sort());
+    if(body==='female'&&sequence===0){
+     const failure=await p.evaluate(()=>{
+      const d=__debug,a=d.avatar();d.setBodyMode('base');
+      const uuid=a.getAssetProfile().meshRoles.body[0];let bodyMesh;
+      a.vrm.scene.traverse(mesh=>{if(mesh.uuid===uuid)bodyMesh=mesh;});
+      if(!bodyMesh)throw Error('Missing real body mesh');
+      const geometry=bodyMesh.geometry,material=bodyMesh.material,clone=geometry.clone,own=Object.hasOwn(geometry,'clone');
+      let error=null;geometry.clone=()=>{throw Error('QA actual coverage clone failure');};
+      try{d.setBodyMode('dressed');}catch(e){error=String(e);}
+      finally{if(own)geometry.clone=clone;else delete geometry.clone;}
+      const kept={error,geometrySame:bodyMesh.geometry===geometry,materialSame:bodyMesh.material===material,
+       appearanceMode:a.appearance.getState().bodyMode,inspectionMode:d.snapshot().inspection.bodyMode,equipment:a.getOutfitInfo().equipment};
+      d.setBodyMode('dressed');return {...kept,retry:a.getOutfitInfo().equipment};
+     });
+     assert.match(failure.error,/actual coverage clone failure/);
+     assert.equal(failure.geometrySame,true);assert.equal(failure.materialSame,true);
+     assert.equal(failure.appearanceMode,'base');assert.equal(failure.inspectionMode,'base');
+     assert.equal(failure.equipment.debugBody,true);assert.equal(failure.equipment.bodyCoverage.active,false);
+     assert.equal(failure.retry.debugBody,false);assert.equal(failure.retry.bodyCoverage.active,true);
+     report.rows.push({body,coverageFailurePreserved:failure});
+    }
     const state=await p.evaluate(async()=>{
      const d=__debug,a=d.avatar(),recipe=await d.exportAppearanceRecipe();
      d.setBodyMode('base');const full=a.getOutfitInfo().equipment;

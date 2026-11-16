@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { VRMLoaderPlugin, VRMUtils } from "@pixiv/three-vrm";
 import { createM1Equipment } from "./m1-equipment.js";
+import { outfitSelection } from "./outfit-selection.js";
 import { foundationProfile } from "./foundation-profiles.js";
 import { createLivePresentation } from "./live-presentation.js";
 import { createCharacterAppearance } from "./character-appearance.js";
@@ -82,6 +83,7 @@ export function createFaceGeometryWarmup(renderer,scene) {
 
 export async function loadFoundationAvatar({ scene, renderer, bodyType = "female", attachToScene = true }) {
   const config = foundationProfile(bodyType), url = config.url;
+  for (const look of config.outfits) outfitSelection(config, look.index);
   const response = await fetch(url);
   if (!response.ok) throw new Error(`Foundation HTTP ${response.status}`);
   const buffer = await response.arrayBuffer();
@@ -129,6 +131,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     size = new THREE.Vector2();
   let debugBody = false,
     outfit = 0,
+    lowerBodyRole = outfitSelection(config, 0).bottomRole,
     dynamics = true;
   let equipment, livePresentation, appearance, facialGeometry, faceRenderCompaction;
   const faceWarmup=createFaceGeometryWarmup(renderer,scene);
@@ -207,7 +210,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
       seatHeight: 0.47,
       seatHandRadii: equipment.getInfo().skirtDynamics?.thighRadii,
       seatHandSurfaces: (refresh = true) => {
-        if (debugBody || outfit !== 1) return [];
+        if (debugBody || lowerBodyRole !== 'skirt') return [];
         // fitSeatHands runs after current normalized pelvis/legs are solved.
         // Copy them to raw bones before sampling this frame's garment surface.
         if (refresh) {
@@ -234,12 +237,22 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     get: () => (debugBody ? 0 : (config.outfitSeatLayerThickness?.[outfit] ?? config.seatLayerThickness)),
   });
   function setDebugBody(value) {
+    const priorAppearanceMode = appearance.getState().bodyMode;
     const appearanceResult = appearance.setBodyMode(value ? 'base' : 'dressed');
     if (!appearanceResult.applied) throw new Error(appearanceResult.reason);
+    try {
+      equipment.setDebugBody(Boolean(value));
+    } catch (error) {
+      // Coverage preparation can fail before committing its body/garments.
+      // Restore the synchronous hair visibility change as well; actor state
+      // and diagnostic materials have not yet been changed.
+      const restored = appearance.setBodyMode(priorAppearanceMode);
+      if (!restored.applied) throw new Error(`Body mode failed: ${error.message}; appearance restore failed: ${restored.reason}`);
+      throw error;
+    }
     debugBody = Boolean(value);
     for (const [mesh, mat] of sourceMaterials)
       mesh.material = debugBody ? bodyMaterials.get(mesh) : mat;
-    equipment.setDebugBody(debugBody);
   }
   setDebugBody(false);
   // Do not render/upload canonical Face geometry while equipment is still loading.
@@ -254,15 +267,15 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     facialGeometry,
     getAssetProfile: () => profile,
     getEquipmentRecipe: (index) => {
-      const role=config.outfits.find(o=>o.index===index)?.role;
-      if(!role)throw Error('Unknown outfit');
-      return Object.fromEntries(['top','shoes',role].map(key=>[key,structuredClone(surfaces.equipment.get(config.ids[key]).entry)]));
+      const {roles}=outfitSelection(config,index);
+      return Object.fromEntries(roles.map(key=>[key,structuredClone(surfaces.equipment.get(config.ids[key]).entry)]));
     },
     setMaterialRecipe: (id, recipeId) => equipment.setMaterialRecipe(id, recipeId),
     getMaterialRecipeState: (id) => equipment.getMaterialRecipeState(id),
     setOutfit: (n) => {
       equipment.setOutfit(n);
       outfit = equipment.getInfo().outfit;
+      lowerBodyRole = outfitSelection(config, outfit).bottomRole;
     },
     setDebugBody,
     setDynamics: (value) => {

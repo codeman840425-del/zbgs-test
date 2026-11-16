@@ -1,5 +1,6 @@
 // Actual coverage and M1 factory functions with synthetic body/adapter fixtures.
 import assert from 'node:assert/strict';
+import {outfitSelection} from '../prototype/src/outfit-selection.js';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
@@ -58,12 +59,12 @@ try{
    state.applied++;if(state.failAdapter)throw Error('injected adapter validation failure');
    return commitLoadedEquipmentSet(loaded,catalog,selected,'body');
   },dispose(){state.adapterDisposed++}};
-  const config={sha256:'body',ids,bodyCoverage:f.binding.descriptor,outfits:[{index:0},{index:1},{index:2}]};
+  const config={sha256:'body',ids,bodyCoverage:f.binding.descriptor,outfits:[{index:0,role:'pants'},{index:1,role:'skirt'},{index:2,role:'shorts'}]};
   const makeCoverage=async args=>{const c=await createBodyCoverageSet(args);return{...c,prepareEquipmentSet(selected){
    if(state.failPrepare)throw Error('injected coverage preparation failure');return c.prepareEquipmentSet(selected);
   }}};
-  const factory=new Function('createEquipment','createM1Skirt','selectSkirtFit','foundationProfile','createBodyCoverageSet',fnSource+';return createM1Equipment;')(
-   async()=>adapter,()=>({dispose(){state.skirtDisposed++},getInfo(){return null}}),()=>({}),()=>config,makeCoverage);
+  const factory=new Function('createEquipment','createM1Skirt','selectSkirtFit','foundationProfile','createBodyCoverageSet','outfitSelection',fnSource+';return createM1Equipment;')(
+   async()=>adapter,()=>({dispose(){state.skirtDisposed++},getInfo(){return null}}),()=>({}),()=>config,makeCoverage,outfitSelection);
   return{...f,cloth,scene,state,factory,visible:()=>[...loaded].filter(([,item])=>item.container.visible).map(([id])=>id).sort()};
  }
  const x=factoryFixture();globalThis.fetch=async()=>new Response(x.bytes);const clone=x.g.clone;

@@ -121,6 +121,11 @@ export function foundationProfile(bodyType = "female") {
     { index: 0, role: "pants", label: result.pantsLabel },
     ...(result.ids.skirt ? [{ index: 1, role: "skirt", label: "独立裙装" }] : []),
     ...(result.ids.shorts ? [{ index: 2, role: "shorts", label: result.shortsLabel || "独立短裤" }] : []),
+    ...(result.extraOutfits ?? []),
   ];
+  if (result.outfits.some(item => !Number.isSafeInteger(item.index) || item.index < 0 || typeof item.role !== 'string') ||
+      new Set(result.outfits.map(item => item.index)).size !== result.outfits.length ||
+      new Set(result.outfits.map(item => item.role)).size !== result.outfits.length)
+    throw Error(`Invalid or duplicate outfit identity for ${bodyType}`);
   return result;
 }

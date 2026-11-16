@@ -3,6 +3,7 @@ import { createM1Skirt } from "./m1-skirt.js";
 import { selectSkirtFit } from "./skirt-fit.js";
 import { foundationProfile } from "./foundation-profiles.js";
 import { createBodyCoverageSet } from "./body-coverage.js";
+import { outfitSelection } from "./outfit-selection.js";
 
 export const M1_AVATAR_SHA256 =
   "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95";
@@ -10,6 +11,8 @@ export const M1_AVATAR_SHA256 =
  * source geometry remains available for diagnostics and contact calibration. */
 export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female" }) {
   const config = foundationProfile(bodyType), IDS = config.ids;
+  // Reject malformed authored looks before allocating any runtime resources.
+  for (const look of config.outfits) outfitSelection(config, look.index);
   if (avatarSha256 !== config.sha256)
     throw new Error(
       "Equipment requires its exact body roundtrip identity",
@@ -49,6 +52,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     throw new Error("M1 expected separate body/clothing primitives");
   }
   let outfit = 0,
+    lowerBodyRole = outfitSelection(config, 0).bottomRole,
     debugBody = false,
     disposed = false;
   const item = (role) => adapter.get(IDS[role]);
@@ -57,13 +61,14 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     if (disposed) return;
     // All assets are already loaded. Visibility changes are synchronous and
     // cannot arrive later over a newer user request.
-    const bottomRole = nextOutfit === 1 ? "skirt" : nextOutfit === 2 ? "shorts" : "pants";
-    const selected = nextDebugBody ? [IDS.shoes] : [IDS.top, IDS.shoes, IDS[bottomRole]];
+    const look = outfitSelection(config, nextOutfit);
+    const selected = nextDebugBody ? [IDS.shoes] : look.ids;
     const update = coverage?.prepareEquipmentSet(selected);
     try {
       adapter.applyLoadedSet(selected);
       update?.commit();
       outfit = nextOutfit;
+      lowerBodyRole = look.bottomRole;
       debugBody = nextDebugBody;
     } finally {
       update?.dispose();
@@ -88,8 +93,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
   }
   return {
     setOutfit(value) {
-      const selection = config.outfits.find((o) => o.index === Number(value));
-      if (!selection) throw new Error("This body has no matching outfit fit: " + value);
+      const { selection } = outfitSelection(config, value);
       apply(selection.index, debugBody);
     },
     setMaterialRecipe(id, recipeId) { return adapter.setMaterialRecipe(id, recipeId); },
@@ -98,7 +102,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
       apply(outfit, Boolean(value));
     },
     update(dt, colliders = []) {
-      if (!debugBody && outfit === 1) skirtCorrective?.update(dt, colliders);
+      if (!debugBody && lowerBodyRole === 'skirt') skirtCorrective?.update(dt, colliders);
     },
     getInfo() {
       return {
@@ -125,7 +129,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
         hair,
         top: item("top").meshes,
         shoes: item("shoes").meshes,
-        get pants() { return item(outfit === 2 ? "shorts" : "pants").meshes; },
+        get pants() { return item(lowerBodyRole === 'shorts' ? 'shorts' : 'pants').meshes; },
         allPants: [...item("pants").meshes, ...(IDS.shorts ? item("shorts").meshes : [])],
         shorts: IDS.shorts ? item("shorts").meshes : [],
         skirt: skirtCorrective ? [skirtCorrective.mesh] : [],
