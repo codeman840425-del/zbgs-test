@@ -1,0 +1,45 @@
+import { HAIRSTYLES } from './hairstyle-catalog.js';
+import { validateHairSpringConfig } from './hair-spring.js';
+
+export function hairEntry(body, style) {
+  const entries = HAIRSTYLES.filter(e => e.id === style && e.compatibleBodies.includes(body));
+  if (entries.length !== 1) throw Object.assign(Error('该发型尚未适配当前人物'),{field:'appearance.hairStyle',code:'unsupported-resource'});
+  return entries[0];
+}
+export function hairFitIdentity(entry) {
+  if (!entry) return null;
+  return entry.legacyImplicitFit
+    ? {kind:'legacy-head-local-v1',manifestSha256:entry.manifestSha256}
+    : {kind:'explicit-fit-v1',id:entry.fit.id,version:entry.fit.version,sha256:entry.fit.sha256};
+}
+export function sameHairFit(actual, expected) {
+  if (actual === null || expected === null) return actual === expected;
+  if (!actual || !expected || typeof expected !== 'object' || Array.isArray(expected)) return false;
+  const keys = Object.keys(actual);
+  return Object.keys(expected).length === keys.length && keys.every(k => Object.hasOwn(expected,k) && actual[k] === expected[k]);
+}
+// Omitted expectations are normal UI selection; explicit null is a strict identity.
+export function validateHairSelection(body, style, options = {}) {
+  const entry = ['original','none'].includes(style) ? null : hairEntry(body,style);
+  if (options.legacy && entry && !entry.legacyImplicitFit) throw Object.assign(Error('旧版配方未记录此人物的发型适配版本'),{field:'hairFit',code:'incompatible-version'});
+  const identity = hairFitIdentity(entry);
+  if (Object.hasOwn(options,'expectedHairFit') && !sameHairFit(identity,options.expectedHairFit)) throw Object.assign(Error('发型适配版本不一致，当前外观未改变'),{field:'hairFit',code:'resource-identity-mismatch'});
+  if (Object.hasOwn(options,'expectedHairAssetSha256') && options.expectedHairAssetSha256 !== (entry?.assetSha256 ?? null)) throw Object.assign(Error('发型素材版本不一致，当前外观未改变'),{field:'hairAssetSha256',code:'resource-identity-mismatch'});
+  return entry;
+}
+export function validateHairFitData(fit, entry, body, manifest) {
+  const a = fit?.attachment;
+  const rigid=fit?.schema==='character-hair-fit-v1'&&fit.physics==='rigid'&&manifest.physics==='rigid';
+  const spring=fit?.schema==='character-hair-fit-v2'&&fit.physics==='vrm-spring'&&manifest.physics==='vrm-spring'&&manifest.skinned===true;
+  const vector = (x,n) => Array.isArray(x) && x.length === n && x.every(Number.isFinite);
+  if ((!rigid&&!spring) || fit.id !== entry.fit.id || fit.version !== entry.fit.version ||
+      fit.styleId !== entry.id || fit.targetBodySha256 !== body || fit.sourceBodySha256 !== entry.sourceBodySha256 ||
+      fit.assetSha256 !== entry.assetSha256 || fit.sourceMaterial !== entry.sourceMaterial || fit.sourceMaterial !== manifest.sourceMaterial ||
+      a?.bone !== 'head' || a.space !== 'raw-head-bind-local' ||
+      !vector(a.position,3) || !vector(a.quaternion,4) || !vector(a.scale,3) || a.scale.some(x=>x<=0) ||
+      Math.abs(Math.hypot(...a.quaternion)-1)>1e-6 || fit.hideOriginal?.hideWholeBody !== false ||
+      !Array.isArray(fit.hideOriginal?.materialNames) || fit.hideOriginal.materialNames.length !== 1 ||
+      fit.hideOriginal.materialNames[0] !== entry.sourceMaterial) throw Error('发型适配数据与当前人物不一致');
+  if(spring)validateHairSpringConfig(fit.dynamics);
+  return a;
+}

@@ -194,3 +194,14 @@ source11033125c07c64690da2a87ede250d57f63f318b/build8b37d9f853e2，fixed-v3与�
 新独立已复现缺陷：平移期间发束持续后拉近水平、入座上甩，旧508同样存在；hair_segment_review明确sol/high正在用真实GLB/官方solver比对world与角色局部center，不扫参数、不改冻结资产。其前项几何独审57e213已集成5640c38：单盒定长有界成立，多盒顺序反例及.05–.08mm expanded数学残差保留，不作为新的泛化求解工程。
 
 帽源作者四提交已集成为49bfee9/f2b9d09/419460c/f7e0174；只原女+rootjoin-v2、后开口帽、完整head/hair保留，首次失败及55→65mm实际改源/重导已归档。http_transport_review(sol/high)在隔离树复用rigid-accessory-layer加载/清理扩单件hat，root负责appearance提交前hair依赖守卫及实际入口/运行；socks_evidence_package(sol/medium)独立做第17workflow和精确3文件publisher，不改冻结27文件源库存。帽候选未运行不称通过；不展开衣库/公司/M3。
+
+
+## 最新衔接：统一生产方向、长发参考系和帽发实际接入
+
+用户问马尾对统一素材导入的价值，已说明它验证真实蒙皮/附加动态、精确适配身份、加载/染色/卸下/暂停/恢复，单一样件不证明统一导入完成。副总工同步的统一制作规范和有限男女身材规格库方向已并入FOUNDATION；数量未定，不代用户批准，保真实几何/表情/装备机制，不重开公司工作。
+
+长发source3934f9e/build e9bd472be0f8使用官方center=vrm.scene；实际核心及裤裙/移动旋转椅接触片已完成，观看m2-long-hair-review-e9b-v1/before-after.html。独立CPU确认原world积分在匀速平移时持续后拉，center消除该项；明确不模拟人物根移动的惯性。root已逐张看核心5页及contacts前3页：走动持续水平后拉改善，但核心21.5s/contacts8s入座明显上甩仍存在，不称动态视觉通过。asset_budget已知sol/high独立诊断此项，禁止扫参或继续造型精修。
+
+帽固定sourceb3d6bb3/build6e053cd1e905，experiments/m2-hat-room-fixed-v1/prototype/dist；m2-hat-hair-room-6e0-v1真实原女+rootjoin-v2完成戴帽/换色/耳饰眼镜/表达/走跑转坐起/基础隐藏恢复/暂停/快速请求/双实例/卸下/缺资源保旧及显式side-record冷回读。帽不在v7原子记录内，不能称整套持久化已完成；五官几何只验neutral，表达保留。共用附件加载器1–8网格/1–8无贴图PBR边界，1/3网格结构夹具证明同合同加载（并非新增美术或任意第三方输入）。第二fresh检出重建已完成，具体一致性查报告；正常1×包装中，视觉仍待核。
+
+生产第17入口hat-hair-source已集成并主线结构回读；冻27源库存及3发布SHA一致，保一次真实帽檐修改/失败源。独立http_transport_review已知sol/high审root写的帽/发/五官守卫与整套事务；提交前同步validateCommit避免在异步准备期间装备帽后半套提交。公开4196仍fe5，不替换未验候选。最新远端核实仍d0c83f9，后续代码与实际证据将在本衔接备份。
