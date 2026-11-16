@@ -6,7 +6,10 @@ const profiles = {
   '027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95': { prefix:'F00_000_00_', count:2055, targets:56 },
   '62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff': { prefix:'M00_000_00_', count:2056, targets:54 },
 };
-const parts=['FaceMouth_00_FACE','EyeWhite_00_EYE','FaceEyeline_00_FACE','FaceEyelash_00_FACE','FaceBrow_00_FACE','Face_00_SKIN'];
+// Actual admitted mouth +/-4% and +/-12% activeRecords: female [0,7], male
+// [1,5]. Full index evidence is in qa-face-normal-active-records. Other edit
+// domains retain their original first-use layouts and are not pre-reserved.
+const parts=['FaceMouth_00_FACE','Face_00_SKIN'];
 const reserved=new WeakMap();
 export const reservedNormalCacheKey = geometry => reserved.get(geometry);
 

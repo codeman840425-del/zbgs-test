@@ -21,7 +21,7 @@ try{
   const bytes=fs.readFileSync(path.join(root,`prototype/public/assets/foundation/base-${sex}-roundtrip.vrm`));
   const ga=await load(bytes),gb=await load(bytes),a=ga.userData.vrm,b=gb.userData.vrm;VRMUtils.rotateVRM0(a);VRMUtils.rotateVRM0(b);
   const am=faceMeshes(a),bm=faceMeshes(b);assert.equal(am.length,9);assert.equal(bm.length,9);
-  const receipt=reserveFaceNormalLayout(b,sha(bytes));assert.equal(receipt.geometryCount,6);assert.equal(reserveFaceNormalLayout(b,sha(bytes)).alreadyPrepared,true);
+  const receipt=reserveFaceNormalLayout(b,sha(bytes));assert.equal(receipt.geometryCount,2);assert.equal(reserveFaceNormalLayout(b,sha(bytes)).alreadyPrepared,true);
   for(let i=0;i<am.length;i++){
    assert.deepEqual(am[i].geometry.groups,bm[i].geometry.groups);
    assert.deepEqual(am[i].morphTargetDictionary,bm[i].morphTargetDictionary);
@@ -50,7 +50,7 @@ try{
   const textureCosts=[2048,4096,8192,16384].map(max=>{
    const packed=stride=>{const width=Math.min(n*stride,max),height=Math.ceil(n*stride/max);return {width,height,bytes:width*height*4*t*4};};
    const old=packed(1),next=packed(2),extra=next.bytes-old.bytes;
-   return {maxTextureSize:max,originalPerGeometry:old,reservedPerGeometry:next,additionalCPUBackingAndGPUBytesEach:extra,additionalSixGeometryBytes:6*extra,additionalAllNineBytes:9*extra};
+   return {maxTextureSize:max,originalPerGeometry:old,reservedPerGeometry:next,additionalCPUBackingAndGPUBytesEach:extra,additionalTwoGeometryBytes:2*extra,additionalRejectedSixGeometryBytes:6*extra,additionalAllNineBytes:9*extra,originalNineSourceTextureBytes:9*old.bytes,twoReservedNineSourceTextureBytes:7*old.bytes+2*next.bytes,rejectedSixReservedNineSourceTextureBytes:3*old.bytes+6*next.bytes,mouthTwoCloneTextureBytes:2*next.bytes};
   });
   report.bodies.push({sex,avatarSha256:sha(bytes),meshCount:bm.length,uniqueGeometryCount:geometries.size,reservedGeometryCount:reserved.length,normalZeroBuffers:buffers.size,normalZeroCPUBytes:[...buffers].reduce((s,b)=>s+b.byteLength,0),normalAttributes:reserved[0].morphAttributes.normal.length,groups:bm.map(m=>m.geometry.groups),expressionCases:cases,textureCosts});
   VRMUtils.deepDispose(a.scene);VRMUtils.deepDispose(b.scene);
