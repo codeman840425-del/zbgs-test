@@ -157,3 +157,5 @@ source a40403857df58e2b2cff345bd6d2da34b6711111，build a367ba9dd96d，experimen
 表面源57076e9/build aed6ec9ff061已在原男女完成雀斑/腮红叠层、与肤唇瞳色共存、表达/站坐讲话/走坐起、失败保原/v6卸下/v7关闭恢复和双实例实际技术检查；source34e4a5a/build ea92829d31c0补换人保层及派生拒绝保旧。9张完整时段2fps图及原尺寸图片已由root抽审，正常1×保留4174/evidence/m2-surface-review-aed-v1/，不替人类宣布观感通过。新派生fit与其他表面类别未实现。生产第15项及14拒绝用例已回读。旧工作台group/下拉对agent命令不同步已记缺陷；公开端口未替换。当前正补agent查询/静态准入对v7的支持，避免新配方运行可用但平台接口仍旧。
 
 独立下一主包CUSTOM-H02：一具原女性上的真实蒙皮长束发与附加骨动态制作/接入，原短发刚性实现不能冒充；asset_budget sol/high在隔离树制作可编辑源与精确head局部fit，root接现有VRM运行链。最小验收：源修改/重复导出、实际多骨权重、站走转坐起/暂停恢复、染色与换发卸下、双实例/失败保旧和同版本1×；一保守源参数集，出现同因两轮无进展重新定位，不扫参。不是扩衣库、M3或公司平台。
+
+表面主包4ae8afdf35dab71e9d19556fdeb5d3232a0ad18a已push并ls-remote核实，回执m2-surface-review-aed-v1/remote-backup.json。后续平台补齐固定source45e37ab/build fe834ac7f5f0，m2-surface-platform-fe8-v2实际原男女v7查询/静态准入/真实加载、agent命令后界面同步、真实按钮、peer不串UI均通过；156文件独立重建一致。v1失败为QA仍携带rose唇色却期待未有lip-fit的派生换人成功；保留报告，v2先验证拒绝保旧再显式恢复原唇瞳后成功。观看同目录index。具体并行发型/颜色返回cancelled但独立style intent可能稍后生效的UI边界正审查，不继承到所有并发操作。长束发源与运行接入仍进行；单独官方spring CPU验证已有，真实源尚未加载，不算动态长发通过。

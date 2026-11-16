@@ -222,6 +222,33 @@
       "configuration": "Reuse known explicit sol/medium unchanged",
       "reason": "Observed agent body/color commands change actual avatar but leave workbench selection stale; bounded event synchronization on committed changes",
       "work": "main.js command/body-commit notification and appearance-workbench.js listener only; scoped non-GPU checks; root runs fixed browser later"
+    },
+    {
+      "task": "http_transport_review",
+      "difficulty": "complex",
+      "model": "gpt-6.1-sol",
+      "reasoning_effort": "high",
+      "configuration": "Reuse known explicit sol/high unchanged",
+      "reason": "Independent check of new skinned-hair manager integration must detect bind, update order, cancellation/disposal and staged-load leaks before real sample use",
+      "work": "Read root uncommitted hair-spring/character-appearance/hair-fit-contract/foundation-avatar; independent CPU fixture/probes evidence only, no edits to shared runtime/GPU"
+    },
+    {
+      "task": "socks_evidence_package",
+      "difficulty": "standard",
+      "model": "gpt-6.1-sol",
+      "reasoning_effort": "medium",
+      "configuration": "Reuse known explicit sol/medium unchanged",
+      "reason": "Existing fixed-build and viewer patterns can verify new candidate/UI changes without altering runtime or repeated browser recording",
+      "work": "Package fe834ac7f5f0 platform recording (v1 failed, v2 passed) with exact labels; independent locked rebuild using qa-fixed-rebuild; no shared runtime or GPU"
+    },
+    {
+      "task": "socks_evidence_package",
+      "difficulty": "standard",
+      "model": "gpt-6.1-sol",
+      "reasoning_effort": "medium",
+      "configuration": "Reuse known explicit sol/medium unchanged",
+      "reason": "Source review identified a specific independent style intent which can apply after cancelled result; verify current UI notification does not miss actual late style",
+      "work": "Bounded analysis/CPU reproduction of delayed hair style plus later color command; own QA evidence only unless confirmed fix agreed; no GPU"
     }
   ],
   "evidence": "Explicit actual collaboration.spawn_agent arguments in this desktop conversation; tool returned both task names.",
