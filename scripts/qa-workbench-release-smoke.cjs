@@ -1,9 +1,10 @@
 const {chromium}=require('../prototype/node_modules/playwright');
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
-const [build,evidencePath,outPath]=process.argv.slice(2);assert(/^[a-f0-9]{12}$/.test(build));assert(/^\/evidence\/[a-z0-9-]+\/$/.test(evidencePath));assert(outPath);const out=path.resolve(outPath);
+const [build,evidencePath,outPath]=process.argv.slice(2);
+const videoCountArg=process.argv.find(v=>v.startsWith('--video-count='));const videoCount=videoCountArg?Number(videoCountArg.split('=')[1]):2;assert(Number.isInteger(videoCount)&&videoCount>=1&&videoCount<=8);assert(/^[a-f0-9]{12}$/.test(build));assert(/^\/evidence\/[a-z0-9-]+\/$/.test(evidencePath));assert(outPath);const out=path.resolve(outPath);
 (async()=>{
  await fs.mkdir(out,{recursive:false});await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
- const r={build,errors:[],videos:[],scope:'Published header/runtime, actual face edit and room movement, two evidence videos playing >=2s. Not full visual or performance acceptance.'};
+ const r={build,errors:[],videos:[],scope:'Published header/runtime, actual face edit and room movement, explicit-count evidence videos playing >=2s. Not full visual or performance acceptance.'};
  const browser=await chromium.launch({channel:'chrome',headless:true});
  try{
   const p=await browser.newPage({viewport:{width:1600,height:1000}});p.on('pageerror',e=>r.errors.push(String(e)));
@@ -30,8 +31,9 @@ const [build,evidencePath,outPath]=process.argv.slice(2);assert(/^[a-f0-9]{12}$/
    await p.locator('[data-inspect-framing=face]').click();await p.waitForTimeout(650);await p.screenshot({path:path.join(out,'male-jaw-short-hair.png')});
    r.scope+=' Optional male-jaw actual UI short-hair selection and downloaded v6 fit identity checked.';
   }
-  const response2=await p.goto('http://127.0.0.1:4174'+evidencePath);assert.equal(response2.status(),200);assert.equal(await p.locator('video').count(),2);
-  for(let i=0;i<2;i++){
+  const response2=await p.goto('http://127.0.0.1:4174'+evidencePath);assert.equal(response2.status(),200);assert.equal(await p.locator('video').count(),videoCount);
+  for(let i=0;i<videoCount;i++){
+   if(await p.locator('#preset').count()){await p.locator('#preset').selectOption({index:i});}
    const v=p.locator('video').nth(i);await v.scrollIntoViewIfNeeded();
    await v.evaluate(async v=>{v.muted=true;v.playbackRate=1;await v.play();});
    await p.waitForFunction(i=>{const v=document.querySelectorAll('video')[i];return v.currentTime>=2&&!v.error;},i,{timeout:15000});

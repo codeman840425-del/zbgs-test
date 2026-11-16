@@ -4,20 +4,19 @@
 
 ## 当前工作包（恢复先看）
 
-公开4196仍为1067d6618775/source1447d99，准确入口delivery/appearance-workbench.json，未用失败卷发或新体覆盖。最新远备已核07299e9fd686012eca19a5ecdb83471b48d69df7（下述六候选资源/源码与独立源审查）；后续运行证据另备。
+公开4196已切换 source e69205d85568cbc547a9d2a41ac200ca0cac1f50 / build ed2153a2d822。固定目录 experiments/m2-representative-six-hair-fixed-v1/prototype/dist，精确入口 delivery/appearance-workbench.json，上一1067指针 delivery/history/appearance-workbench-1067.json。公开烟测已通过 evidence/m2-workbench-public-ed2-v1；第二独立检出重建363文件字节一致。最新已核远备4becd55ac98475c7a5a0e8f506dfa0ae0459063d；本轮之后提交/证据尚待备份，不混称。
 
-最新固定诊断候选source07299e9f/build68a82cfef469，dist experiments/m2-representative-six-fixed-v1/prototype/dist。六个v2（3女3男）冷加载、精确身份、绿色瞳及原眨眼依赖通过；六套完整1×已录制结束，evidence/m2-representative-six-room-68a-v1，观看包evidence/m2-representative-six-review-68a-v1。此片只保原发型，不冒作新fit运行。root已检查三女全部24张2fps全时段表及4张原尺寸图，female-visual-review.json：下颌尖角、丰满/宽女腹部小绿点（固定同姿切层已确认裤层来源，几何/覆盖根因尚未确认；evidence/m2-representative-vest-specks-68a-v1），侧视接近椅子被桌/显示器遮挡；补侧/正坐起不替代缺失接近画面。无正常速度人类通过结论。三男独立抽审26张2fps表+12原图已完成，male-visual-review.json；六体观看包已合并这些观测。不要重录已有六片。原8v1的profile/配方仍能读回；新6独立身份，不改旧资源。两lean无资源，绝不称8套成功。
+当前主包仍为8代表预设共同生产。v2仅6个源通过（3女3男），两lean失败未发布；六脸参数意图仍有8.668–31.058mm半宽投影损失，不称8个完成。原v1保留，失败卷发未入catalog。先调研再试已有工具，不继续原方法扫参。研究见 research/REPRESENTATIVE-SHAPE-PIPELINE-OPTIONS-2026-11-16.md：女lean下颏过渡压缩、男lean唇保护区横向反向；共同固定凹曲线过窄。asset_budget 已知sol/high在独立树做Blender cage/Surface Deform一次受限预检及条件批次，先核identity/morph/clothes binding，失败停批。保原8请求/拒绝门，CPU2线程无GPU，不修改public/runtime。
 
-v2共同源几何ddde66f已合9f169b1；后续依赖锁58ec已合4d8cf31f，未改generated。原8数值不变，新-v2身份；6完整输出、两lean明确FAILED（女det .10226、男-1.60981），不再对该共同结构试制扫参。6脸曲线目标半宽投影差8.668–31.058mm，仅部分实现。独立audit已合8b7d840f，11707/11713，6个体全过、2个体各两失败+两同性完整性失败；104输入匹配ddde，默认v1仍15030/15030。scripts/publish-representative-batch.py 的 reviewed_subset 窄门独立18/18含反例验证，只收全部实际源检查过的6项，共用global检查不允许借失败项藏错误；失败体无资源。新六运行边界仍待验证。
+六体带真实新发型的固定ed2运行完成：evidence/m2-representative-six-hair-room-ed2-v1六段完整1×；m2-representative-six-hair-hot-ed2-v1实际六同页切换/短发马尾/恢复/迟到取消通过；review观看包m2-representative-six-hair-review-ed2-v1。root完成24女全时段2fps表+3原图，男性独审24张2fps表+12原图已完成（http_transport_review已知sol/high），同样保头顶平边/下颌折角/下摆鼓胀限制。下颌折角、椅背马尾硬弯、两女前腹裤层绿点保未过；侧面接近椅子被家具遮挡、基础模式仅静态、普通电脑未测，不能扩称完整验收。所有影片保原ed2身份，原68a六片不重复录制。
 
-既有8v1固定source1518ad1/build374aad1390d9：8整套1×、同页切换/配色/恢复/迟到取消、独立重建完成，视觉上衣下摆鼓胀/下颊回折/马尾椅背硬弯仍未过。观看evidence/m2-representative-review-374-v1，已含4女/4男抽审，抽样不代替正常速度人工验收。两款粗绳状卷发已FAILED-STYLE封存且不在public/catalog，不再调或扩派生。CPU平色诊断造成黑眼圈/面片，造型粗绳问题则真实存在。
+新发型源be595ac4与独立publisher1c93279f已合；实际public/catalog在e69205d8。新门21个v2正反例及12个v1回归，女57/男55单端点；马尾每体2处约.212mm新接触在保守alpha0 footprint，只是有条件源候选。原侧头保护变化失败和混合表情范围保留。首发WinError5原输入一次重试成功，具体锁因不明；输出/合同与初次失败见evidence/m2-preset-hair-v2-root-publication-v1。
 
-新发型源4e695121已合be595ac4，仅新增两v2源/脚本包，无public变更。源作者QA由root再运行通过：6短fit女57/男55端点严格及inclusive零新增接触；3女马尾各2处约.212mm新接触，保守两V纹理footprint为alpha0，状态仅source-contact-candidate。原绝对保护门对侧头变化失败仍保留，不声称头部完全不变或混合/连续表情通过。原马尾椅背硬弯限制保留。batch_v2_readback已知sol/high在隔离树独审新canonical specs/实际目标几何及发布门；等待结果再发布/导入目录并做受影响发型动作回归，不改女裙/30秒舞。
+裤层绿点已同姿切层确认来源，非几何根因确认。batch_v2_readback已知sol/high独立离线读两体source/triangle/alpha/coverage；需要浏览器时交root单窗口跑，不自行开GPU。没有遮盖或修改产品衣物。
 
-用户新增要求先调研后实现。现有动作链已核缺通用胸腹/头部/双臂避碰，记录evidence/dance-contact-adaptation-feasibility-2026-11-16.json。asset_budget已知sol/high做公开实现/许可/输入/时序/VRM接入调研，产物docs/research/MOTION-CONTACT-ADAPTATION-OPTIONS-2026-11-16.md；未安装或实现求解器，不重开封存舞。独立主包继续。
-发型发布器身份/证据门以及Windows重复目录发布与恢复保护已合d86254e3；root完整12/12独立复测通过evidence/m2-preset-hair-publisher-root-recheck-v2。失败v1 WinError5保留；相同字节直接返回，安装/恢复双失败保留previous和RECOVERY，不自动删唯一旧副本。此发布器目前只收v1 canonical spec，新fit输出后须独立新spec pin/身份和证据规则，不能改名复用旧白名单。
+动作自适应调研已保存 research/MOTION-CONTACT-ADAPTATION-OPTIONS-2026-11-16.md，Mink优先离线小试仍未实施；R2ET依赖/输入和CAMR未核代码边界保留。当前没有通用全身舞蹈避碰，不改封存30秒舞。用户要求研究先行已入AGENTS。
 
-公司C3仅本地接缝回执docs/CHARACTER-COMPANY-C3-SEAM-2026-11-16.md，未联调，不合并副总工旧人物文件；其dirty/untracked文件保留。原女裙与30秒舞不重开，普通机未测继续保留。
+恢复下一步：男女画面审查已合并并重打包；提交本轮研究、固定运行证据/资源指针/CAP并核远备；接收cage预检与裤层几何结果，依据真实结果继续共同链路。公司副总工dirty/untracked文件不动。GPU/录屏窗口空闲（ed2录制与公开烟测均已结束），不能重启已完成六片。
 
 ## 最新用户补充：分区与代表性生产验收
 
