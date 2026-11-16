@@ -1,0 +1,934 @@
+{
+  "schema": "company-save",
+  "version": 1,
+  "document": {
+    "schema": "company-layout",
+    "version": 1,
+    "id": "two-floor-company",
+    "name": "两层不同布局",
+    "revision": 5,
+    "scale": "building",
+    "catalog": {
+      "id": "company-facilities",
+      "version": 1
+    },
+    "nodes": [
+      {
+        "id": "two-floor-company/floor-1",
+        "kind": "floor",
+        "parentId": "two-floor-company",
+        "name": "一层",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        },
+        "connections": [
+          {
+            "id": "two-floor-company/floor-1/portal-corridor-1",
+            "from": {
+              "regionId": "two-floor-company/floor-1/corridor-1",
+              "edge": "east",
+              "offset": 0,
+              "width": 1.4
+            },
+            "to": {
+              "regionId": "two-floor-company/floor-1/corridor-2",
+              "edge": "west",
+              "offset": 0,
+              "width": 1.4
+            }
+          },
+          {
+            "id": "two-floor-company/floor-1/portal-room-1",
+            "from": {
+              "regionId": "two-floor-company/floor-1/room-1",
+              "edge": "south",
+              "offset": 0,
+              "width": 1.4
+            },
+            "to": {
+              "regionId": "two-floor-company/floor-1/corridor-1",
+              "edge": "north",
+              "offset": 0,
+              "width": 1.4
+            }
+          },
+          {
+            "id": "two-floor-company/floor-1/portal-room-2",
+            "from": {
+              "regionId": "two-floor-company/floor-1/room-2",
+              "edge": "south",
+              "offset": 0,
+              "width": 1.4
+            },
+            "to": {
+              "regionId": "two-floor-company/floor-1/corridor-2",
+              "edge": "north",
+              "offset": 0,
+              "width": 1.4
+            }
+          }
+        ]
+      },
+      {
+        "id": "two-floor-company/floor-1/corridor-1",
+        "kind": "area",
+        "parentId": "two-floor-company/floor-1",
+        "name": "公共通道",
+        "bounds": {
+          "width": 9.2,
+          "depth": 3
+        },
+        "transform": {
+          "position": [
+            -4.6,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "two-floor-company/floor-1/corridor-2",
+        "kind": "area",
+        "parentId": "two-floor-company/floor-1",
+        "name": "公共通道",
+        "bounds": {
+          "width": 9.2,
+          "depth": 3
+        },
+        "transform": {
+          "position": [
+            4.6,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "two-floor-company/floor-1/room-1",
+        "kind": "room",
+        "parentId": "two-floor-company/floor-1",
+        "name": "直播间",
+        "purpose": "streaming",
+        "bounds": {
+          "width": 9,
+          "depth": 7
+        },
+        "transform": {
+          "position": [
+            -4.6,
+            0,
+            -5
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "two-floor-company/floor-1/room-2",
+        "kind": "room",
+        "parentId": "two-floor-company/floor-1",
+        "name": "休息室",
+        "purpose": "rest",
+        "bounds": {
+          "width": 9,
+          "depth": 7
+        },
+        "transform": {
+          "position": [
+            4.6,
+            0,
+            -5
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "two-floor-company/floor-2",
+        "kind": "floor",
+        "parentId": "two-floor-company",
+        "name": "二层",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        },
+        "connections": [
+          {
+            "id": "two-floor-company/floor-2/portal-corridor-1",
+            "from": {
+              "regionId": "two-floor-company/floor-2/corridor-1",
+              "edge": "east",
+              "offset": 0,
+              "width": 1.4
+            },
+            "to": {
+              "regionId": "two-floor-company/floor-2/corridor-2",
+              "edge": "west",
+              "offset": 0,
+              "width": 1.4
+            }
+          },
+          {
+            "id": "two-floor-company/floor-2/portal-room-1",
+            "from": {
+              "regionId": "two-floor-company/floor-2/room-1",
+              "edge": "south",
+              "offset": 0,
+              "width": 1.4
+            },
+            "to": {
+              "regionId": "two-floor-company/floor-2/corridor-1",
+              "edge": "north",
+              "offset": 0,
+              "width": 1.4
+            }
+          },
+          {
+            "id": "two-floor-company/floor-2/portal-room-2",
+            "from": {
+              "regionId": "two-floor-company/floor-2/room-2",
+              "edge": "south",
+              "offset": 0,
+              "width": 1.4
+            },
+            "to": {
+              "regionId": "two-floor-company/floor-2/corridor-2",
+              "edge": "north",
+              "offset": 0,
+              "width": 1.4
+            }
+          }
+        ]
+      },
+      {
+        "id": "two-floor-company/floor-2/corridor-1",
+        "kind": "area",
+        "parentId": "two-floor-company/floor-2",
+        "name": "公共通道",
+        "bounds": {
+          "width": 9.2,
+          "depth": 3
+        },
+        "transform": {
+          "position": [
+            -4.6,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "two-floor-company/floor-2/corridor-2",
+        "kind": "area",
+        "parentId": "two-floor-company/floor-2",
+        "name": "公共通道",
+        "bounds": {
+          "width": 9.2,
+          "depth": 3
+        },
+        "transform": {
+          "position": [
+            4.6,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "two-floor-company/floor-2/room-1",
+        "kind": "room",
+        "parentId": "two-floor-company/floor-2",
+        "name": "休息室",
+        "purpose": "rest",
+        "bounds": {
+          "width": 9,
+          "depth": 7
+        },
+        "transform": {
+          "position": [
+            -4.6,
+            0,
+            -5
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "two-floor-company/floor-2/room-2",
+        "kind": "room",
+        "parentId": "two-floor-company/floor-2",
+        "name": "直播间",
+        "purpose": "streaming",
+        "bounds": {
+          "width": 9,
+          "depth": 7
+        },
+        "transform": {
+          "position": [
+            4.6,
+            0,
+            -5
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "two-floor-company/floor-1/room-1/station-1",
+        "kind": "workstation",
+        "parentId": "two-floor-company/floor-1/room-1",
+        "name": "two-floor-company/floor-1/room-1/station-1",
+        "transform": {
+          "position": [
+            -1.5,
+            0,
+            0
+          ],
+          "yaw": 0
+        },
+        "template": {
+          "id": "stream-station",
+          "version": 2
+        }
+      },
+      {
+        "id": "two-floor-company/floor-1/room-1/station-1/desk",
+        "kind": "facility",
+        "stationId": "two-floor-company/floor-1/room-1/station-1",
+        "partKey": "desk",
+        "parentId": "two-floor-company/floor-1/room-1/station-1",
+        "resource": {
+          "id": "desk",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            -1.1
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "two-floor-company/floor-1/room-1/station-1/monitor",
+        "kind": "facility",
+        "stationId": "two-floor-company/floor-1/room-1/station-1",
+        "partKey": "monitor",
+        "parentId": "two-floor-company/floor-1/room-1/station-1/desk",
+        "resource": {
+          "id": "monitor",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0.84,
+            -0.25
+          ],
+          "yaw": 0
+        },
+        "state": {
+          "on": false
+        }
+      },
+      {
+        "id": "two-floor-company/floor-1/room-1/station-1/keyboard",
+        "kind": "facility",
+        "stationId": "two-floor-company/floor-1/room-1/station-1",
+        "partKey": "keyboard",
+        "parentId": "two-floor-company/floor-1/room-1/station-1/desk",
+        "resource": {
+          "id": "keyboard",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0.84,
+            0.21
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "two-floor-company/floor-1/room-1/station-1/microphone",
+        "kind": "facility",
+        "stationId": "two-floor-company/floor-1/room-1/station-1",
+        "partKey": "microphone",
+        "parentId": "two-floor-company/floor-1/room-1/station-1/desk",
+        "resource": {
+          "id": "desk-microphone",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.8,
+            0.84,
+            0.18
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "two-floor-company/floor-1/room-1/station-1/chair",
+        "kind": "facility",
+        "stationId": "two-floor-company/floor-1/room-1/station-1",
+        "partKey": "chair",
+        "parentId": "two-floor-company/floor-1/room-1/station-1",
+        "resource": {
+          "id": "chair",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0.55
+          ],
+          "yaw": 3.141592653589793
+        },
+        "state": {}
+      },
+      {
+        "id": "two-floor-company/floor-1/room-1/station-1/fill-light",
+        "kind": "facility",
+        "stationId": "two-floor-company/floor-1/room-1/station-1",
+        "partKey": "fill-light",
+        "parentId": "two-floor-company/floor-1/room-1/station-1",
+        "resource": {
+          "id": "fill-light",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.75,
+            0,
+            -0.15
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "two-floor-company/floor-1/room-1/station-2",
+        "kind": "workstation",
+        "parentId": "two-floor-company/floor-1/room-1",
+        "name": "two-floor-company/floor-1/room-1/station-2",
+        "transform": {
+          "position": [
+            1.5,
+            0,
+            0
+          ],
+          "yaw": 0
+        },
+        "template": {
+          "id": "stream-station",
+          "version": 1
+        }
+      },
+      {
+        "id": "two-floor-company/floor-1/room-1/station-2/desk",
+        "kind": "facility",
+        "stationId": "two-floor-company/floor-1/room-1/station-2",
+        "partKey": "desk",
+        "parentId": "two-floor-company/floor-1/room-1/station-2",
+        "resource": {
+          "id": "desk",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            -0.9
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "two-floor-company/floor-1/room-1/station-2/monitor",
+        "kind": "facility",
+        "stationId": "two-floor-company/floor-1/room-1/station-2",
+        "partKey": "monitor",
+        "parentId": "two-floor-company/floor-1/room-1/station-2/desk",
+        "resource": {
+          "id": "monitor",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0.84,
+            -0.25
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "two-floor-company/floor-1/room-1/station-2/keyboard",
+        "kind": "facility",
+        "stationId": "two-floor-company/floor-1/room-1/station-2",
+        "partKey": "keyboard",
+        "parentId": "two-floor-company/floor-1/room-1/station-2/desk",
+        "resource": {
+          "id": "keyboard",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0.84,
+            0.21
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "two-floor-company/floor-1/room-1/station-2/microphone",
+        "kind": "facility",
+        "stationId": "two-floor-company/floor-1/room-1/station-2",
+        "partKey": "microphone",
+        "parentId": "two-floor-company/floor-1/room-1/station-2/desk",
+        "resource": {
+          "id": "desk-microphone",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.8,
+            0.84,
+            0.18
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "two-floor-company/floor-1/room-1/station-2/chair",
+        "kind": "facility",
+        "stationId": "two-floor-company/floor-1/room-1/station-2",
+        "partKey": "chair",
+        "parentId": "two-floor-company/floor-1/room-1/station-2",
+        "resource": {
+          "id": "chair",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0.55
+          ],
+          "yaw": 3.141592653589793
+        },
+        "state": {}
+      },
+      {
+        "id": "two-floor-company/floor-1/room-1/station-2/fill-light",
+        "kind": "facility",
+        "stationId": "two-floor-company/floor-1/room-1/station-2",
+        "partKey": "fill-light",
+        "parentId": "two-floor-company/floor-1/room-1/station-2",
+        "resource": {
+          "id": "fill-light",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.75,
+            0,
+            -0.15
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "two-floor-company/floor-1/room-2/sofa",
+        "kind": "facility",
+        "parentId": "two-floor-company/floor-1/room-2",
+        "resource": {
+          "id": "lounge-sofa",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "two-floor-company/floor-2/room-1/sofa",
+        "kind": "facility",
+        "parentId": "two-floor-company/floor-2/room-1",
+        "resource": {
+          "id": "timber-sofa",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "two-floor-company/floor-2/room-2/station-1",
+        "kind": "workstation",
+        "parentId": "two-floor-company/floor-2/room-2",
+        "name": "two-floor-company/floor-2/room-2/station-1",
+        "transform": {
+          "position": [
+            -1.5,
+            0,
+            0
+          ],
+          "yaw": 0
+        },
+        "template": {
+          "id": "stream-station",
+          "version": 1
+        }
+      },
+      {
+        "id": "two-floor-company/floor-2/room-2/station-1/desk",
+        "kind": "facility",
+        "stationId": "two-floor-company/floor-2/room-2/station-1",
+        "partKey": "desk",
+        "parentId": "two-floor-company/floor-2/room-2/station-1",
+        "resource": {
+          "id": "desk",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            -0.9
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "two-floor-company/floor-2/room-2/station-1/monitor",
+        "kind": "facility",
+        "stationId": "two-floor-company/floor-2/room-2/station-1",
+        "partKey": "monitor",
+        "parentId": "two-floor-company/floor-2/room-2/station-1/desk",
+        "resource": {
+          "id": "monitor",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0.84,
+            -0.25
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "two-floor-company/floor-2/room-2/station-1/keyboard",
+        "kind": "facility",
+        "stationId": "two-floor-company/floor-2/room-2/station-1",
+        "partKey": "keyboard",
+        "parentId": "two-floor-company/floor-2/room-2/station-1/desk",
+        "resource": {
+          "id": "keyboard",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0.84,
+            0.21
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "two-floor-company/floor-2/room-2/station-1/microphone",
+        "kind": "facility",
+        "stationId": "two-floor-company/floor-2/room-2/station-1",
+        "partKey": "microphone",
+        "parentId": "two-floor-company/floor-2/room-2/station-1/desk",
+        "resource": {
+          "id": "desk-microphone",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.8,
+            0.84,
+            0.18
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "two-floor-company/floor-2/room-2/station-1/chair",
+        "kind": "facility",
+        "stationId": "two-floor-company/floor-2/room-2/station-1",
+        "partKey": "chair",
+        "parentId": "two-floor-company/floor-2/room-2/station-1",
+        "resource": {
+          "id": "chair",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0.55
+          ],
+          "yaw": 3.141592653589793
+        },
+        "state": {}
+      },
+      {
+        "id": "two-floor-company/floor-2/room-2/station-1/fill-light",
+        "kind": "facility",
+        "stationId": "two-floor-company/floor-2/room-2/station-1",
+        "partKey": "fill-light",
+        "parentId": "two-floor-company/floor-2/room-2/station-1",
+        "resource": {
+          "id": "fill-light",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.75,
+            0,
+            -0.15
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "two-floor-company/floor-2/room-2/station-2",
+        "kind": "workstation",
+        "parentId": "two-floor-company/floor-2/room-2",
+        "name": "two-floor-company/floor-2/room-2/station-2",
+        "transform": {
+          "position": [
+            1.6,
+            0,
+            -0.3
+          ],
+          "yaw": 1.5707963267948966
+        },
+        "template": {
+          "id": "stream-station",
+          "version": 1
+        }
+      },
+      {
+        "id": "two-floor-company/floor-2/room-2/station-2/desk",
+        "kind": "facility",
+        "stationId": "two-floor-company/floor-2/room-2/station-2",
+        "partKey": "desk",
+        "parentId": "two-floor-company/floor-2/room-2/station-2",
+        "resource": {
+          "id": "desk",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            -0.9
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "two-floor-company/floor-2/room-2/station-2/monitor",
+        "kind": "facility",
+        "stationId": "two-floor-company/floor-2/room-2/station-2",
+        "partKey": "monitor",
+        "parentId": "two-floor-company/floor-2/room-2/station-2/desk",
+        "resource": {
+          "id": "monitor",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0.84,
+            -0.25
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "two-floor-company/floor-2/room-2/station-2/keyboard",
+        "kind": "facility",
+        "stationId": "two-floor-company/floor-2/room-2/station-2",
+        "partKey": "keyboard",
+        "parentId": "two-floor-company/floor-2/room-2/station-2/desk",
+        "resource": {
+          "id": "keyboard",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0.84,
+            0.21
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "two-floor-company/floor-2/room-2/station-2/microphone",
+        "kind": "facility",
+        "stationId": "two-floor-company/floor-2/room-2/station-2",
+        "partKey": "microphone",
+        "parentId": "two-floor-company/floor-2/room-2/station-2/desk",
+        "resource": {
+          "id": "desk-microphone",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.8,
+            0.84,
+            0.18
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "two-floor-company/floor-2/room-2/station-2/chair",
+        "kind": "facility",
+        "stationId": "two-floor-company/floor-2/room-2/station-2",
+        "partKey": "chair",
+        "parentId": "two-floor-company/floor-2/room-2/station-2",
+        "resource": {
+          "id": "chair",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0.55
+          ],
+          "yaw": 3.141592653589793
+        },
+        "state": {}
+      },
+      {
+        "id": "two-floor-company/floor-2/room-2/station-2/fill-light",
+        "kind": "facility",
+        "stationId": "two-floor-company/floor-2/room-2/station-2",
+        "partKey": "fill-light",
+        "parentId": "two-floor-company/floor-2/room-2/station-2",
+        "resource": {
+          "id": "fill-light",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.75,
+            0,
+            -0.15
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      }
+    ]
+  },
+  "dependencies": {
+    "resources": [
+      {
+        "id": "chair",
+        "version": 1,
+        "sha256": "85593a00831a465019d57cf167cb7728bea6eb8b4df921f637f6720247d48c07"
+      },
+      {
+        "id": "desk-microphone",
+        "version": 1,
+        "sha256": "c519d0db034673cdc1d02de653ee8a5e6540d9aee355b7668a62629d2d27e853"
+      },
+      {
+        "id": "desk",
+        "version": 1,
+        "sha256": "938b3904b32bb89d6fe18518b50619adeb93fe0b1e9408a4b1e3d400735163d8"
+      },
+      {
+        "id": "fill-light",
+        "version": 1,
+        "sha256": "52a149c6017acf6ca35b5987c651870c353bc036f299e1fdbc1e037955d3bd4b"
+      },
+      {
+        "id": "keyboard",
+        "version": 1,
+        "sha256": "52423572c215536ef73c6daf96157912893f661000b9ca741dc35051a4b7d9d9"
+      },
+      {
+        "id": "lounge-sofa",
+        "version": 1,
+        "sha256": "5b3f849b65c64498d407f4023fd18044fdb73518248f1adc2e24cacd803f5e0c"
+      },
+      {
+        "id": "monitor",
+        "version": 1,
+        "sha256": "cc761bf4e4fc786e1cccdfef1af1f4ec01a4f0049a3b142733091c0bf66f4fd0"
+      },
+      {
+        "id": "timber-sofa",
+        "version": 1,
+        "sha256": "0ee36d20bf3335bf8e5fb88e5841fcf5aa903f3faf8c76736ec741eba54e0cd7"
+      }
+    ],
+    "templates": [
+      {
+        "id": "stream-station",
+        "version": 1,
+        "sha256": "47dc0c9ae9e042c8e36a728022536ad2abbded2c7afebf314e8cf8105a74bdbc"
+      },
+      {
+        "id": "stream-station",
+        "version": 2,
+        "sha256": "801a00aa3bc03d42f0b5f7ea32f6e31bae39fda49a15c5845e16bec9f9e6e0b3"
+      }
+    ]
+  }
+}
