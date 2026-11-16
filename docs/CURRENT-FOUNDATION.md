@@ -51,4 +51,4 @@ scripts/production/asset_budget.py check，m2-technical-v1；25初版门发现op
 
 当前宿主是GPT桌面内Codex，不是Codex CLI。每次spawn显式model/reasoning_effort/fork_turns=none和DISPATCH_CONFIG；记录evidence/subagent-explicit-dispatch-2026-11-16.json。实际provider配置工具未另暴露；用户最新明确已给Hook信任，但asset_budget真实spawn后仍无安装audit.jsonl，桌面hook拦截继续未验证，不因UI开关/CLI/本地脚本推定。旧未知配置不复用为已知；本轮whole_look_prepare已知请求sol/high。
 
-一次一个GPU/录屏/重Blender/编码任务。4295已关闭；4207/4208是root临时固定候选。只关闭自己创建的服务。最新I01源码/固定证据提交e1c85f3a8daa671f88cc95982dfc162705a9df6a已推送并用ls-remote核实；回执evidence/m2-candidate-admission-browser-086-v1/remote-backup.json。L02的78f823e远备亦保留；新onePiece增量尚未完成，不继承此结论。
+一次一个GPU/录屏/重Blender/编码任务。4295已关闭；4207/4208是root临时固定候选。只关闭自己创建的服务。最新连体源/运行/三片及预算审查提交aebea01a830e79abaad65f8c6894191cb90ef08b已推送并用ls-remote核实；回执evidence/m2-onepiece-room-ae3-v1/remote-backup.json。I01的e1c85f3与L02的78f823e远备亦保留；后续生产索引/形体依赖增量不继承此结论。

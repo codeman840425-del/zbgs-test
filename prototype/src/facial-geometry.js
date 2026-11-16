@@ -601,7 +601,9 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender, renderC
       eyeRecipeId: eyePrepared?.entry.id || null, eyeRecipeSha256: eyePrepared?.entry.sha256 || null,
       recipeId: currentMouth?.entry.id || prepared?.entry.id || null, recipeSha256: currentMouth?.entry.sha256 || prepared?.entry.sha256 || null, baseAvatarSha256: avatarSha256, facialGeometryLoading: loading,
       facialGeometryError: error, facialGeometryAvailable: available, facialGeometryCloneCount: owned.size,
-      geometryIdentity: { baseAvatarSha256: avatarSha256, recipeSha256: currentMouth?.entry.sha256 || prepared?.entry.sha256 || null, mouthWidth, browSample, browRecipeSha256: browPrepared?.entry.sha256 || null, noseSample, noseRecipeSha256:nosePrepared?.entry.sha256||null, eyeSample, eyeRecipeSha256:eyePrepared?.entry.sha256||null } }),
+      // Prepared source caches are not active shape edits. A restored face has
+      // the same identity as a fresh original, including after other edits.
+      geometryIdentity: { baseAvatarSha256: avatarSha256, recipeSha256: mouthWidth ? currentMouth?.entry.sha256 || prepared?.entry.sha256 || null : null, mouthWidth, browSample, browRecipeSha256: browPrepared?.entry.sha256 || null, noseSample, noseRecipeSha256:nosePrepared?.entry.sha256||null, eyeSample, eyeRecipeSha256:eyePrepared?.entry.sha256||null } }),
     dispose() { disposed = true; generation++;for(const update of pendingUpdates)update.dispose(); loading = false; wanted = 0; wantedBrow = 'none'; wantedNose = 'none'; wantedEye = 'none'; restore(); },
   };
 }
