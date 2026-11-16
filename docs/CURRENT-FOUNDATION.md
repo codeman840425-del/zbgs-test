@@ -40,7 +40,7 @@
 
 ## 可恢复与备份
 
-- 原a7备份见delivery/workbench-backup-a7efd.json；当前源导出修复已随e9bbc67远端核实。34e当前交付与证据备份回执在本轮最终推送后写delivery/workbench-backup-34e.json，不给旧备份换标。
+- 原a7备份见delivery/workbench-backup-a7efd.json；当前源导出修复已随e9bbc67远端核实。34e源/录像/证据已随297fd17远端核实，191份选定Git文件与本机字节相同；回执delivery/workbench-backup-34e.json，回执自身另提交推送，不给旧备份换标。
 - ab074由精确源独立sparse检出npm ci/build；第二新检出122产物逐字节相同、工作树干净：evidence/rebuild-visible-ab074/report.json。
 - 运行重建：新检出prototype执行 npm ci、npm run build；产物放新固定目录，核build-info后按指针运行 python scripts/serve-appearance-workbench.py。不要覆盖bcade/v22。
 - 新资源验证：node scripts/install-face-visible-workbench.mjs --verify；node scripts/install-facial-palette-v3.mjs --verify。
@@ -55,7 +55,9 @@
 
 1. 首次改脸：shadow部分开销已有因果对照与实际预备修复，34e当前仍约91ms长帧；主要剩余主色程序首用已记录，旧主色first-use搬时方案无整体收益，不重复。继续工作必须依据可验证假设，不能靠无穷延时或删阴影伪造通过。
 2. 男嘴−12%源NORMAL：生产导出规范化与独立参考合同已实际实现，55形态保护域/法线与原底重生成通过；男±12%新合同过原门，旧负reference仍保失败。见 evidence/mouth-quantization-reference-v1/RESULT.md。未改公开配方/保存/几何，未声称新recipe准入；独立审查与Git真实字节24项核验通过；当前完成归档备份。
-3. 4196已更新34e固定候选，正常速度片/配方门/恢复门/重建/公开入口均实际检查；当前继续交付备份，用户瞳色与幅度问题已集中发出待答。只暂停依赖观感的分支，不重开裙舞或扩大M3。
+3. 4196已更新34e固定候选，正常速度片/配方门/恢复门/重建/公开入口均实际检查；当前交付备份已核实，用户瞳色与幅度问题已集中发出待答。只暂停依赖观感的分支，不重开裙舞或扩大M3。
+
+4. 接续独立技术小验：pose_extraction在experiments隔离检出从0137源评估“加载时零NORMAL morph布局”，不叠shadow准备，不改当前34e。原男女6个受影响Face几何预计每体各新增约10MiB CPU纹理backing及同量级GPU纹理；须初始化前准备，不能在已建纹理后原地加stride。先做数学/源合同与完整输出对照，未GPU实测、不宣称优于当前。不重做已完成的导出精度包。
 
 长目标工具目前仍返回blocked，现有工具不提供恢复状态操作；这是工具状态限制，不是停止本轮执行的理由。不创建替代目标，不将目标误标完成。继续按当前用户授权实施。
 
