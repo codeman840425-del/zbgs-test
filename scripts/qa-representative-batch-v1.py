@@ -244,9 +244,15 @@ class Audit:
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root', type=Path, default=Path(__file__).resolve().parents[1])
-    parser.add_argument('--manifest', default='assets-source/m2-representative-batch-v1/generated/manifest.json')
-    parser.add_argument('--out', type=Path, default=Path(__file__).resolve().parents[1] / 'evidence/m2-representative-batch-audit-v1')
+    parser.add_argument('--revision', type=int, choices=(1, 2), default=1)
+    parser.add_argument('--manifest')
+    parser.add_argument('--out', type=Path)
+    parser.add_argument('--producer-commit', help='Exact committed producer identity, required for revision 2')
     args = parser.parse_args()
+    package = 'assets-source/m2-representative-batch-v' + str(args.revision)
+    args.manifest = args.manifest or package + '/generated/manifest.json'
+    args.out = args.out or Path(__file__).resolve().parents[1] / ('evidence/m2-representative-batch-audit-v' + str(args.revision))
+    expected = EXPECTED if args.revision == 1 else {key + '-v2': sex for key, sex in EXPECTED.items()}
     args.out.mkdir(parents=True, exist_ok=True)
     audit = Audit(args.root)
     started = time.perf_counter()
@@ -259,15 +265,17 @@ def main():
         audit.check('manifest-readable', False, str(error))
         manifest = {}
     try:
-        audit.check('manifest-schema', manifest.get('schema') == 'character-representative-batch-v1' and manifest.get('version') == 1)
+        audit.check('manifest-schema', manifest.get('schema') == 'character-representative-batch-v1' and manifest.get('version') == args.revision)
         audit.check('runtime-acceptance-not-inferred', manifest.get('runtimeAccepted') is False)
         raw_entries = manifest.get('variants', [])
         valid_entries = isinstance(raw_entries, list) and all(isinstance(e, dict) and isinstance(e.get('id'), str) for e in raw_entries)
         audit.check('variant-records-well-formed', valid_entries)
         try:
-            for producer_file in ['scripts/m2-representative-batch-v1/build.py', 'scripts/m2-representative-batch-v1/deform.py', 'assets-source/m2-representative-batch-v1/output-contract.json']:
+            producer_files = ['scripts/m2-representative-batch-v' + str(args.revision) + '/build.py', 'scripts/m2-representative-batch-v' + str(args.revision) + '/deform.py']
+            producer_files.append(package + '/output-contract.json')
+            for producer_file in producer_files:
                 audit.read(producer_file)
-            source_spec = json.loads(audit.read('assets-source/m2-representative-batch-v1/spec.json'))
+            source_spec = json.loads(audit.read(package + '/spec.json'))
             for sex, source_config in source_spec['sources'].items():
                 audit.check('spec-original-body-' + sex, source_config['body']['sha256'] == BODY_SHA[sex])
                 audit.ref(source_config['body'])
@@ -278,8 +286,8 @@ def main():
             audit.check('source-spec-inputs', False, str(error))
         entries = [e for e in raw_entries if isinstance(e, dict) and isinstance(e.get('id'), str)] if isinstance(raw_entries, list) else []
         ids = [entry.get('id') for entry in entries]
-        audit.check('exact-eight-ids-once', len(ids) == 8 and set(ids) == set(EXPECTED))
-        for identifier, sex in EXPECTED.items():
+        audit.check('exact-eight-ids-once', len(ids) == 8 and set(ids) == set(expected))
+        for identifier, sex in expected.items():
             start = len(audit.checks)
             entry = next((entry for entry in entries if entry.get('id') == identifier), None)
             result = {'id': identifier, 'sex': sex}
@@ -290,6 +298,10 @@ def main():
                 spec_variant = next(v for v in source_spec['variants'] if v['id'] == identifier)
                 audit.check('exact-spec-parameters-' + identifier, entry.get('parameters') == spec_variant['parameters'] and spec_variant['sex'] == sex)
                 audit.check('source-status-' + identifier, entry.get('status') == 'source-passed', entry.get('error'))
+                if args.revision == 2 and entry.get('status') == 'failed':
+                    result['producerFailure'] = json.loads(audit.read(package + '/generated/' + identifier + '/FAILED.json'))
+                    audit.check('failed-record-identity-' + identifier, result['producerFailure'] == entry)
+                    raise ValueError(entry.get('error', 'Producer failed without output'))
                 audit.check('original-input-identity-' + identifier, entry['sourceBody']['sha256'] == BODY_SHA[sex])
                 audit.ref(entry['sourceBody'])
                 audit.check('output-byte-count-declared-' + identifier, isinstance(entry['avatar'].get('bytes'), int) and entry['avatar']['bytes'] > 0)
@@ -311,7 +323,7 @@ def main():
                 audit.check('repeat-avatar-identity-' + identifier, repeated.get('avatarSha256') == entry['avatar']['sha256'])
                 audit.check('repeat-equipment-identities-' + identifier, repeated.get('equipment') == {i['slot']: i['sha256'] for i in items})
                 audit.check('repeat-all-assets-byte-identical-' + identifier, repeated.get('allAssetBytesIdentical') is True)
-                audit.check('fit-schema-' + identifier, fit.get('schema') == 'character-batch-fit-v1' and fit.get('version') == 1)
+                audit.check('fit-schema-' + identifier, fit.get('schema') == 'character-batch-fit-v1' and fit.get('version') == args.revision)
                 audit.check('fit-body-identities-' + identifier, fit.get('sourceBodySha256') == BODY_SHA[sex] and fit.get('avatarSha256') == entry['avatar']['sha256'])
                 audit.check('fit-parameters-' + identifier, fit.get('parameters') == entry.get('parameters'))
                 audit.check('fit-equipment-identities-' + identifier, {i['id']: i['sha256'] for i in fit.get('equipment', [])} == {i['id']: i['sha256'] for i in items})
@@ -329,17 +341,23 @@ def main():
                 for file in variant_files:
                     if Path(file['path']).suffix in ['.vrm', '.glb']:
                         images.extend(audit.image_payloads(file))
+                if args.revision == 2:
+                    from qa_representative_batch_v2 import verify_variant
+                    result['v2Mechanisms'] = verify_variant(audit, entry, old, new, equipment, fit, profile, result['producerReport'], source_spec)
             except Exception as error:
                 result['error'] = str(error)
                 audit.check('readback-' + identifier, False, str(error))
             result['checks'] = audit.checks[start:]
             result['passed'] = all(c['passed'] for c in result['checks'])
             variants.append(result)
+            if args.revision == 2:
+                print(json.dumps({'id': identifier, 'passed': result['passed'], 'checks': len(result['checks'])}), flush=True)
         for sex in BODY_SHA:
             hashes = [v['geometry']['positionContentSha256'] for v in variants if v['sex'] == sex and 'geometry' in v]
             audit.check('four-distinct-position-contents-' + sex, len(hashes) == 4 and len(set(hashes)) == 4)
         batch = manifest.get('batch', {})
-        audit.check('cost-ledger-present', all(k in batch for k in ['initialRuns', 'commonCorrections', 'singleCaseEdits', 'totalSeconds', 'totalOutputBytes', 'textureLedger']))
+        correction_key = 'commonCorrections' if args.revision == 1 else 'commonStructuralCorrections'
+        audit.check('cost-ledger-present', all(k in batch for k in ['initialRuns', correction_key, 'singleCaseEdits', 'totalSeconds', 'totalOutputBytes', 'textureLedger']))
         audit.check('cost-output-byte-total', batch.get('totalOutputBytes') == sum(v.get('outputBytes', 0) for v in variants))
         texture_ledger = batch.get('textureLedger', {})
         image_key = lambda image: (image['resource'], image['sha256'], image['bytes'], image['mimeType'])
@@ -348,30 +366,43 @@ def main():
         audit.check('texture-ledger-total', texture_ledger.get('totalEmbeddedImageBytes') == sum(i['bytes'] for i in images))
         audit.check('texture-ledger-unique', texture_ledger.get('uniqueEncodedImageBytes') == sum(unique_images.values()) and texture_ledger.get('uniqueImagePayloads') == len(unique_images))
         timing = batch.get('timing', [])
-        audit.check('cost-timing-presets', {t['id'] for t in timing} == set(EXPECTED) and len(timing) == 8)
+        timing_expected = set(expected) if args.revision == 1 else {e['id'] for e in entries if e.get('status') == 'source-passed'}
+        audit.check('cost-timing-presets', {t['id'] for t in timing} == timing_expected and len(timing) == len(timing_expected))
         for v in variants:
+            if args.revision == 2 and v['id'] not in timing_expected:
+                continue
             t = next((t for t in timing if t['id'] == v['id']), {})
             audit.check('cost-timing-' + v['id'], t.get('outputBytes') == v.get('outputBytes') and t.get('exportSeconds', -1) >= 0 and t.get('repeatExportSeconds', -1) >= 0)
-        if batch.get('commonCorrections', 0) > 0:
+        if args.revision == 1 and batch.get('commonCorrections', 0) > 0:
             try:
                 prior = json.loads(audit.read('assets-source/m2-representative-batch-v1/attempt-1/manifest.json'))
                 correction = json.loads(audit.read('assets-source/m2-representative-batch-v1/common-correction.json'))
                 history = {'priorAttemptVariants': [{'id': v['id'], 'status': v['status'], 'error': v.get('error')} for v in prior['variants']], 'commonCorrection': correction}
                 audit.check('parameters-unchanged-after-common-correction', {v['id']: v['parameters'] for v in prior['variants']} == {v['id']: v['parameters'] for v in entries})
-                audit.check('prior-attempt-preserves-eight-ids', {v['id'] for v in prior['variants']} == set(EXPECTED) and len(prior['variants']) == 8)
+                audit.check('prior-attempt-preserves-eight-ids', {v['id'] for v in prior['variants']} == set(expected) and len(prior['variants']) == 8)
             except Exception as error:
                 audit.check('correction-evidence-readable', False, str(error))
+        if args.revision == 2:
+            from qa_representative_batch_v2 import verify_batch
+            history = verify_batch(audit, manifest, source_spec, args.producer_commit)
         ledger = batch
     except Exception as error:
         audit.check('manifest-readable', False, str(error))
         ledger = None
     for file in list(audit.files.values()):
         audit.check('stable-input-' + file['path'], digest(audit.resolve(file['path']).read_bytes()) == file['sha256'])
+    environment = {'python': platform.python_version(), 'numpy': np.__version__}
+    if args.revision == 2:
+        import scipy
+        environment['scipy'] = scipy.__version__
+    variant_check_ids = {id(c) for variant in variants for c in variant['checks']}
     report = {'status': 'body-garment-cpu-readback-passed-appearance-runtime-pending' if all(c['passed'] for c in audit.checks) else 'cpu-readback-incomplete-or-failed',
-        'root': str(audit.root), 'manifest': args.manifest, 'expected': EXPECTED, 'checks': audit.checks, 'variants': variants,
+        'root': str(audit.root), 'manifest': args.manifest, 'revision': args.revision, 'producerCommit': args.producer_commit, 'expected': expected, 'checks': audit.checks, 'variants': variants,
+        'globalChecks': [c for c in audit.checks if id(c) not in variant_check_ids],
+        'supplementalVerifierSha256': digest(Path(__file__).with_name('qa_representative_batch_v2.py').read_bytes()) if args.revision == 2 else None,
         'producerCostLedger': ledger, 'producerAttemptHistory': history, 'files': list(audit.files.values()),
         'verifierSha256': digest(Path(__file__).read_bytes()),
-        'environment': {'python': platform.python_version(), 'numpy': np.__version__}, 'auditSeconds': time.perf_counter() - started,
+        'environment': environment, 'auditSeconds': time.perf_counter() - started,
         'limits': ['No exports, GPU, browser or runtime admission. This verifier reads body/garment outputs, and does not establish a qualified hairstyle for the eight complete looks.', 'Source geometry and bind checks do not establish naturalness, garment contact, dynamic hair compatibility or target-PC performance.']}
     (args.out / 'report.json').write_text(json.dumps(report, ensure_ascii=False, separators=(',', ':')) + '\n', encoding='utf-8')
     print(json.dumps({'status': report['status'], 'passedChecks': sum(c['passed'] for c in audit.checks), 'checks': len(audit.checks), 'presets': [{'id': v['id'], 'passed': v['passed'], 'error': v.get('error')} for v in variants]}, ensure_ascii=False))

@@ -1,0 +1,138 @@
+{
+  "status": "passed",
+  "publisherPath": "F:\\gamemake\\scripts\\publish-representative-batch.py",
+  "publisherSha256": "9e3dceb590fadbb471dd51262e7d289d1ecde7e8b14f96a378397bd29737c1d3",
+  "auditSha256": "425fa7aaf72487fa931ff16c4d956c3bb635b19529443652cc28621ecc28a879",
+  "probes": [
+    {
+      "name": "real-six-complete",
+      "expectedAccepted": true,
+      "accepted": true,
+      "passed": true,
+      "detail": {
+        "selected": 6,
+        "unpublished": 2
+      }
+    },
+    {
+      "name": "empty-selected-checks",
+      "expectedAccepted": false,
+      "accepted": false,
+      "passed": true,
+      "detail": "Selected source has incomplete or failed independent checks: female-round-full-v2"
+    },
+    {
+      "name": "missing-audit-preset",
+      "expectedAccepted": false,
+      "accepted": false,
+      "passed": true,
+      "detail": "Audit must include each declared preset exactly once"
+    },
+    {
+      "name": "extra-global-failure",
+      "expectedAccepted": false,
+      "accepted": false,
+      "passed": true,
+      "detail": "Global audit ledger does not match its declared scope"
+    },
+    {
+      "name": "failed-claims-avatar",
+      "expectedAccepted": false,
+      "accepted": false,
+      "passed": true,
+      "detail": "Failed source must not claim an admitted resource"
+    },
+    {
+      "name": "failed-claims-equipmentManifest",
+      "expectedAccepted": false,
+      "accepted": false,
+      "passed": true,
+      "detail": "Failed source must not claim an admitted resource"
+    },
+    {
+      "name": "failed-claims-fit",
+      "expectedAccepted": false,
+      "accepted": false,
+      "passed": true,
+      "detail": "Failed source must not claim an admitted resource"
+    },
+    {
+      "name": "failed-claims-report",
+      "expectedAccepted": false,
+      "accepted": false,
+      "passed": true,
+      "detail": "Failed source must not claim an admitted resource"
+    },
+    {
+      "name": "failed-claims-profile",
+      "expectedAccepted": false,
+      "accepted": false,
+      "passed": true,
+      "detail": "Failed source must not claim an admitted resource"
+    },
+    {
+      "name": "selected-passed-flag-false",
+      "expectedAccepted": false,
+      "accepted": false,
+      "passed": true,
+      "detail": "Selected source has incomplete or failed independent checks: female-round-full-v2"
+    },
+    {
+      "name": "extra-global-failure-placed-in-failed-preset",
+      "expectedAccepted": false,
+      "accepted": false,
+      "passed": true,
+      "detail": "Failed preset audit scope includes unexpected checks"
+    },
+    {
+      "name": "selected-resource-missing-from-audit-files",
+      "expectedAccepted": false,
+      "accepted": false,
+      "passed": true,
+      "detail": "Selected resource missing from exact audit: assets-source/m2-representative-batch-v2/generated/female-round-full-v2/female-round-full-v2-top.glb"
+    },
+    {
+      "name": "selected-check-failed",
+      "expectedAccepted": false,
+      "accepted": false,
+      "passed": true,
+      "detail": "Selected source has incomplete or failed independent checks: female-round-full-v2"
+    },
+    {
+      "name": "duplicate-audited-file",
+      "expectedAccepted": false,
+      "accepted": false,
+      "passed": true,
+      "detail": "Duplicate independently audited file"
+    },
+    {
+      "name": "missing-selected-profile-reference",
+      "expectedAccepted": false,
+      "accepted": false,
+      "passed": true,
+      "detail": "'profile'"
+    },
+    {
+      "name": "declared-global-ledger-empty",
+      "expectedAccepted": false,
+      "accepted": false,
+      "passed": true,
+      "detail": "Global audit ledger does not match its declared scope"
+    },
+    {
+      "name": "selected-reference-byte-count-mismatch",
+      "expectedAccepted": false,
+      "accepted": false,
+      "passed": true,
+      "detail": "Selected resource missing from exact audit: assets-source/m2-representative-batch-v2/generated/female-round-full-v2/avatar.vrm"
+    },
+    {
+      "name": "simulated-actual-selected-file-sha-mismatch",
+      "expectedAccepted": false,
+      "accepted": false,
+      "passed": true,
+      "detail": "Selected audited resource changed: assets-source/m2-representative-batch-v2/generated/female-round-full-v2/female-round-full-v2-top.glb"
+    }
+  ],
+  "scope": "Only calls reviewed_subset on deep-copied metadata. No main(), export, browser, contact generation or publication."
+}

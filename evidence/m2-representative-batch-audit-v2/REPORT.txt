@@ -1,0 +1,56 @@
+八预设 v2 独立 CPU 读回
+
+整批状态保持 cpu-readback-incomplete-or-failed。11713项中11707项通过，六套各自完整CPU检查通过，两套瘦长体保留真实制作失败。104个实际输入在结束时逐SHA稳定，并逐文件匹配producer几何提交ddde66f2b069466148bd600548bc08d87e0bf0c2。独立工作树以5b080ea合入该源提交，最后的审计提交只含脚本和本证据。
+
+六套可供root接续诊断运行，仍是partial-constrained-face-projection。全部8组原参数数值保持，约束投影并未完整实现脸型请求。六套请求半宽到约束曲线的最大差异如下，单位毫米。变形点以唯一POSITION访问器、1e-7米阈值计算。
+
+ID | 本体完整CPU检查 | 变形点 | 脸请求投影最大半宽差mm
+female-round-full-v2 | 1933/1933 | 4074 | 24.952294
+female-long-slender-v2 | 源失败，3/5审计记录通过 | 无产物 | 不作准入
+female-square-athletic-v2 | 1933/1933 | 4074 | 16.129824
+female-soft-wide-v2 | 1933/1933 | 4072 | 27.163936
+male-wide-muscular-v2 | 1887/1887 | 3612 | 24.441310
+male-long-lean-v2 | 源失败，3/5审计记录通过 | 无产物 | 不作准入
+male-round-stocky-v2 | 1887/1887 | 3610 | 31.057963
+male-angular-athletic-v2 | 1887/1887 | 3612 | 8.668477
+
+整批6个失败检查中，4个是两套lean各自source-status/readback失败，另外两个是全局four-distinct-position-contents-female与four-distinct-position-contents-male。后两项准确表示每性别缺少一套输出。243个globalChecks中只有这两个失败。其余全局manifest身份、八组原参数、成本账、输入来源和逐文件commit/结束SHA均通过。
+
+female-long-slender-v2保留制作端determinant 0.10226158162487889、原Body vertex702。male-long-lean-v2保留-1.6098117175793485、原Face SKIN vertex913。独立确认两条FAILED位置精确来自原始源顶点，并实际由相应Body或Face SKIN索引引用。两目录均只有FAILED.json，未生成可准入资源。本次未重新求解失败曲线或执行导出，失败det数值引自固定制作端报告。
+
+独立几何范围
+保留原节点、全部IBM、humanoid、表情绑定、拓扑/索引、UV、JOINTS/WEIGHTS、材质和内嵌图片。六套都实际改变区域几何，具有整体统一缩放无法解释的残差。原cap保持，Head/Neck加权Body仍有变化，不能据cap一致继承整头适配。
+
+v2专项不调用producer field/export函数。按记录的B样条曲线和原始骨/口部边界独立重建凸组合躯干、四肢及下脸场，对实际所有使用顶点核位置、逆转置法线、固定protected身份和morph F(P+D)-F(P)及法线端点。实际base和morph端点有限差分Jacobian均继续检查>.12，未降低门限。
+
+衣物由独立最近原Body三角搜索及barycentric权重重算。三件独立装备和原avatar内CLOTH都回读真实位移。对实际输出Body donor位移核米制offset，独立装备最大误差1.115060e-7米，符合Float32输出舍入范围。按高精度独立field计算donor Jacobian再核衣物法线，最大向量误差5.030695e-8。top与bottom具有真实位移，鞋可合法保留零位移。
+
+脸曲线分别记录原源、原参数请求、实际约束曲线的101值，独立重建连续三次样条，在全部knot处核非负一阶导和非正二阶导及眼边界value/slope。另从实际导出三角截取101层几何轮廓，取其变形后下巴最小值到原eye boundary，六套半宽步进均为正。曲线约束、实际网格轮廓与原请求实现分别留值。该证据不判断观感自然。
+
+保留生产历史
+初始SLSQP五组linesearch失败在numerical-preflight.json，首轮三男输出/五失败、producer快照及history逐字节回读。首轮与当前八组参数一致，修正前后Source.bind与Mapper.field的AST相同。重复生成仅独立回读制作端repeatExport的真实当前SHA，没有再次启动导出。六套输出合计130148794字节，内嵌编码图像重复总计99954168字节、唯一26923646字节/42个payload，与成本账一致。制作端34.401秒只覆盖最终脚本及重复输出。
+
+回归与审计自检
+默认revision1仍实际15030/15030通过，82输入SHA清单及完整checks与旧审计逐项相同。focused-results.json的6项通过，包括三角内部/边/顶点对应、逆转置正交和原法线长度，以及对真实top内存中加1毫米后拒绝位移/offset的反例。源文件和候选字节未改。
+
+初始独立读回将parameterRealization错误地只查询build-report顶层，造成六个夹具失败。初轮完整保在initial-readback。已改核实际manifest/fit的parameterRealization和report.faceCurve.intentStatus。初次focused夹具错误地按标量读取column indices的错误保留focused-fixture-error.txt，修正为flatten后再取点。
+
+root子集门独立复核
+root原始published脚本的reviewed_subset接受真实六套并保留两失败。初始反例发现FAILED冒fit/report、把额外global false混入FAILED checks、漏selected资源audit.files三处边界，记录保publisher-subset-probes-initial.json及原函数snapshot。root修正后18项全部符合预期，包括上述三类、空/缺失/失败checks、五类FAILED输出引用、重复文件、缺profile、空global ledger、引用bytes失配和内存模拟实际资源SHA失配。测试仅调用准入函数，未调用发布main或生成contact。
+
+身份与局限
+manifest SHA256 de63a8d05a03b5af67cd20a9f36ecf4c0edad60cc9e7e1fc160fca382b7a32c5
+report SHA256 425fa7aaf72487fa931ff16c4d956c3bb635b19529443652cc28621ecc28a879
+主核验脚本 SHA256 c3bd3f4b9b809a60356a0bef641a4420532a812e6f1ced3e2d2f09d2645bf235
+v2专项脚本 SHA256 05e48bb5ac1b1a7e907931a470b8d1b4600159e572d2d83df4401481745b09e7
+环境 {"python": "3.13.11", "numpy": "2.4.2", "scipy": "1.18.1"}
+
+几何固定源为ddde66f。后续58ec3a14仅工具依赖记录更新未纳本次104输入清单，本报告未据此继承跨环境确定性。
+本任务未运行GPU、浏览器、Blender或导出，未改producer、runtime/public或发布器。顶点和截面检查未建立连续空间任意点可行性、三角自交/完整衣体碰撞、完整动作接触、发型动态、表情自然度或普通机性能。root仍负责公开候选、浏览器、依赖重算与用户路径验收。
+
+复现
+python -B scripts/qa-representative-batch-v1.py --revision 2 --producer-commit ddde66f2b069466148bd600548bc08d87e0bf0c2 --out evidence/m2-representative-batch-audit-v2
+预期退出1，六套passed和两套failed。
+python -B evidence/m2-representative-batch-audit-v2/focused_cpu.py
+python -B evidence/m2-representative-batch-audit-v2/publisher_subset_cpu.py --publisher F:/gamemake/scripts/publish-representative-batch.py
+默认revision1复现见v1-regression/stdout.txt。
