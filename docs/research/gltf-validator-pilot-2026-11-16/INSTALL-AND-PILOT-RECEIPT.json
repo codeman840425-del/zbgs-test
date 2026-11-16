@@ -1,0 +1,197 @@
+{
+  "date": "2026-11-16",
+  "node": "v24.13.0",
+  "npm": "11.6.2",
+  "package": {
+    "version": "2.0.0-dev.3.10",
+    "resolved": "https://registry.npmjs.org/gltf-validator/-/gltf-validator-2.0.0-dev.3.10.tgz",
+    "integrity": "sha512-odJ4k0tRkGXiDGn78yDBg+fBbAIvBnXxh3RwAta0emSxGtyagFE8B4xELB1oYe3S5RD8Ci3uZAsZaascH2LAEQ==",
+    "license": "Apache-2.0"
+  },
+  "installCommand": "npm install --ignore-scripts --no-audit --no-fund",
+  "scope": "advisor isolated tool directory only",
+  "projectDependenciesModified": false,
+  "globalInstall": false,
+  "spectorInstalled": false,
+  "officialDocs": "https://github.com/KhronosGroup/glTF-Validator/blob/main/node/README.md",
+  "files": {
+    "package.json": "7db8437aab2ec20f5d71bddba82de05e2b2d53df28f392df6eb3ff527595c40c",
+    "package-lock.json": "6df9fdede3f8a89a0916183034dea74c70d2cab6748898b9bdfe00913e9109de",
+    "check.cjs": "8a87a15633f88b62cbb2de1f1f75d8cc354a219393f0878e844de3740b678cfc",
+    "pilot.cjs": "d42359e70dfb766a50e0aae1a8dc5a798949b54ae30754f545cc32ade7b4d988",
+    "README.txt": "1c976b5b101b4ff3e3a11cfdce82d0cadd7601fc3f13ed755f9f48573bf9e8a5"
+  },
+  "pilot": {
+    "date": "2026-11-16",
+    "fixedBuild": "ae36ee9f440f",
+    "sourceCommit": "b8c20d3b9d53938be88f6285b3042942816b716c",
+    "samples": [
+      {
+        "label": "male-body",
+        "asset": "F:\\gamemake\\experiments\\m2-onepiece-fixed-contact\\prototype\\dist\\assets\\foundation\\base-male-roundtrip.vrm",
+        "sha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+        "bytes": 17902644,
+        "validatorVersion": "2.0.0-dev.3.10",
+        "cached": true,
+        "validationMs": 99.8,
+        "reportFile": "C:\\Users\\Administrator\\Documents\\Codex\\2026-11-14\\gamemake-advisor\\tools\\gltf-validator\\reports\\45aab332a09e0abb67f44dfe81d57ad0d269da62531c934b1a19c09fae922bfa.json",
+        "errors": 0,
+        "warnings": 16,
+        "infos": 59,
+        "truncated": false,
+        "unsupportedExtensions": [
+          "VRM"
+        ],
+        "codes": {
+          "INVALID_EXTENSION_NAME_FORMAT": 1,
+          "UNSUPPORTED_EXTENSION": 1,
+          "BUFFER_VIEW_TARGET_MISSING": 79,
+          "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE": 15,
+          "UNUSED_OBJECT": 58
+        },
+        "examples": [
+          {
+            "code": "INVALID_EXTENSION_NAME_FORMAT",
+            "message": "Extension name has invalid format.",
+            "severity": 1,
+            "pointer": "/extensionsUsed/1"
+          },
+          {
+            "code": "UNSUPPORTED_EXTENSION",
+            "message": "Cannot validate an extension as it is not supported by the validator: 'VRM'.",
+            "severity": 2,
+            "pointer": "/extensionsUsed/1"
+          },
+          {
+            "code": "BUFFER_VIEW_TARGET_MISSING",
+            "message": "bufferView.target should be set for vertex or index data.",
+            "severity": 3,
+            "pointer": "/meshes/0/primitives/0/attributes/JOINTS_0"
+          },
+          {
+            "code": "BUFFER_VIEW_TARGET_MISSING",
+            "message": "bufferView.target should be set for vertex or index data.",
+            "severity": 3,
+            "pointer": "/meshes/0/primitives/0/attributes/NORMAL"
+          },
+          {
+            "code": "BUFFER_VIEW_TARGET_MISSING",
+            "message": "bufferView.target should be set for vertex or index data.",
+            "severity": 3,
+            "pointer": "/meshes/0/primitives/0/attributes/POSITION"
+          }
+        ],
+        "status": "no-core-format-errors",
+        "scope": "glTF core and supported extensions only; not VRM/fit/animation/visual or performance acceptance"
+      },
+      {
+        "label": "female-body",
+        "asset": "F:\\gamemake\\experiments\\m2-onepiece-fixed-contact\\prototype\\dist\\assets\\foundation\\base-female-roundtrip.vrm",
+        "sha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+        "bytes": 16311576,
+        "validatorVersion": "2.0.0-dev.3.10",
+        "cached": false,
+        "validationMs": 103.59,
+        "reportFile": "C:\\Users\\Administrator\\Documents\\Codex\\2026-11-14\\gamemake-advisor\\tools\\gltf-validator\\reports\\6f1220a67b8b69f90b65aed1f0fef6c18f7a7607c8b34666704e91f6c0d97963.json",
+        "errors": 0,
+        "warnings": 16,
+        "infos": 61,
+        "truncated": false,
+        "unsupportedExtensions": [
+          "VRM"
+        ],
+        "codes": {
+          "INVALID_EXTENSION_NAME_FORMAT": 1,
+          "UNSUPPORTED_EXTENSION": 1,
+          "BUFFER_VIEW_TARGET_MISSING": 81,
+          "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE": 15,
+          "UNUSED_OBJECT": 60
+        },
+        "examples": [
+          {
+            "code": "INVALID_EXTENSION_NAME_FORMAT",
+            "message": "Extension name has invalid format.",
+            "severity": 1,
+            "pointer": "/extensionsUsed/1"
+          },
+          {
+            "code": "UNSUPPORTED_EXTENSION",
+            "message": "Cannot validate an extension as it is not supported by the validator: 'VRM'.",
+            "severity": 2,
+            "pointer": "/extensionsUsed/1"
+          },
+          {
+            "code": "BUFFER_VIEW_TARGET_MISSING",
+            "message": "bufferView.target should be set for vertex or index data.",
+            "severity": 3,
+            "pointer": "/meshes/0/primitives/0/attributes/JOINTS_0"
+          },
+          {
+            "code": "BUFFER_VIEW_TARGET_MISSING",
+            "message": "bufferView.target should be set for vertex or index data.",
+            "severity": 3,
+            "pointer": "/meshes/0/primitives/0/attributes/NORMAL"
+          },
+          {
+            "code": "BUFFER_VIEW_TARGET_MISSING",
+            "message": "bufferView.target should be set for vertex or index data.",
+            "severity": 3,
+            "pointer": "/meshes/0/primitives/0/attributes/POSITION"
+          }
+        ],
+        "status": "no-core-format-errors",
+        "scope": "glTF core and supported extensions only; not VRM/fit/animation/visual or performance acceptance"
+      },
+      {
+        "label": "onepiece",
+        "asset": "F:\\gamemake\\experiments\\m2-onepiece-fixed-contact\\prototype\\dist\\assets\\m2-onepiece-v1\\author-export.glb",
+        "sha256": "e0cac5041a50bc07dde65c75414f98bab1501125939302eec0b9e1a5de826c7b",
+        "bytes": 157980,
+        "validatorVersion": "2.0.0-dev.3.10",
+        "cached": false,
+        "validationMs": 8.25,
+        "reportFile": "C:\\Users\\Administrator\\Documents\\Codex\\2026-11-14\\gamemake-advisor\\tools\\gltf-validator\\reports\\0be6155ff5e3a7afdf86926628994c4389c121b4b8eb76d7a2d5a7ca19a280ec.json",
+        "errors": 0,
+        "warnings": 1,
+        "infos": 1,
+        "truncated": false,
+        "unsupportedExtensions": [],
+        "codes": {
+          "UNUSED_OBJECT": 1,
+          "NODE_SKINNED_MESH_NON_ROOT": 1
+        },
+        "examples": [
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/0/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "NODE_SKINNED_MESH_NON_ROOT",
+            "message": "Node with a skinned mesh is not root. Parent transforms will not affect a skinned mesh.",
+            "severity": 1,
+            "pointer": "/nodes/16"
+          }
+        ],
+        "status": "no-core-format-errors",
+        "scope": "glTF core and supported extensions only; not VRM/fit/animation/visual or performance acceptance"
+      }
+    ],
+    "negative": {
+      "detected": true,
+      "errors": 1,
+      "validationMs": 4.95,
+      "corruptedModelWritten": false,
+      "reportFile": "C:\\Users\\Administrator\\Documents\\Codex\\2026-11-14\\gamemake-advisor\\tools\\gltf-validator\\pilot-2026-11-16\\negative-in-memory.json"
+    },
+    "cache": {
+      "reused": true,
+      "reportUnchanged": true,
+      "key": "asset SHA256 + validator version + policy"
+    },
+    "projectFilesWritten": false,
+    "browserOrGpuUsed": false,
+    "limits": "Small CPU-only format pilot. No VRM extension, visual, fit, motion or target-device acceptance; no measured end-to-end productivity gain."
+  }
+}

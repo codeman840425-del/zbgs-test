@@ -40,6 +40,14 @@ const [base,build,folder]=process.argv.slice(2),out=path.resolve(folder),baselin
   for(const bodyType of ['female','male']){const result=await page.evaluate(bodyType=>__debug.command({type:'bodySelect',bodyType}),bodyType);assert.equal(result.applied,true);}
   await page.evaluate(()=>{__debug.view('inspect-full-front');__debug.setOutfit(5);});await page.waitForTimeout(1000);
   assert.equal(await page.evaluate(()=>__debug.snapshot().outfit),5);report.checks.push('normal body replacement recovers exact registered fit');
+  if(!baseline){
+   await page.evaluate(()=>{__debug.view('inspect-full-side');__debug.action('sit');});
+   await page.waitForFunction(()=>__debug.snapshot().motion.sitProgress>.999,null,{timeout:30000});
+   await page.evaluate(()=>__debug.setOutfit(0));await page.waitForTimeout(300);
+   await page.evaluate(()=>__debug.setOutfit(5));await page.waitForTimeout(700);
+   assert.equal(await page.evaluate(()=>__debug.snapshot().outfit),5);
+   report.checks.push('seated bone pose is not confused with rest-shape mutation; uniform/onePiece switch succeeds');
+  }
   report.status=baseline?'confirmed-gap':'passed';await page.screenshot({path:path.join(out,'restored.png')});
  }catch(e){report.status='failed';report.error=String(e);process.exitCode=1;}
  finally{const video=page.video();await context.close();await video.saveAs(path.join(out,'normal1x.webm'));await browser.close();await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));}

@@ -45,3 +45,5 @@ if (result.accepted) await __debug.importAppearanceRecipe(JSON.stringify(record)
 连体服入口为 `male-onepiece-source`。只读回读核 61 文件源清单、原男来源、实际作者 GLB 的 16 骨绑定、7 mm 初版到 9 mm 编辑源、generated/repeat 四次实际回开导出和安装 entry。运行 `fitResource` 同时核 source 与 public fit 的真实字节，不能把 pattern GLB 或未改源版本替代实际作者导出。
 
 `show`/`dry-run` 明示 build、author、audit、finalize 和 install 的写范围。build 的原男 exporter 依赖会确保既有 m1b 目录存在，输出实物仍只写独立目录。安装器还可能写 `equipment.install.tmp` 后替换原清单。固定 finalize 读取 generated/repeat 并重写包清单，不会推广 workflow-rebuild；这些步骤只声明，不由索引执行。已有 44 对身体交叉、368 对自交及近面采样深度保留为静态诊断，查询通过不代表动作、坐姿或视觉验收。
+
+可选格式诊断：顾问已独立安装官方 gltf-validator 2.0.0-dev.3.10。三个现有准确SHA报告归档于 docs/research/gltf-validator-pilot-2026-11-16；不重跑pilot，不追求零warning。仅新导出字节或实际格式疑点时使用该目录README记录的check.cjs入口。它不验证VRM扩展/fit/动作，不替代本索引与asset_budget，也不是构建所需外部依赖。
