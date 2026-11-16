@@ -1,0 +1,32 @@
+v2 六体发型发布准入独立检查
+
+新增显式--revision 2，默认v1保留。只认两包canonical generated/manifest.json，拒绝历史归档、错误/重复/缺失目标和未完成的新批。short spec pin为3509644d3ec6dacd889ad4355f4b7edcf9ea4272843d5640c75dbad620af5cb4，pony为acee8258c9aad43de9db0b122c1c6c7f772354bae8bec781a795836b09ba63a4。
+
+源固定4e695121b4ab5103ef73193385a2d8fa1261a227，本树ecabf82b31b0e3661e76fc107bbf5d3042c85e0d是其在a3d2f503上的cherry副本。84个输入在结束时逐SHA稳定。新源及共同输入匹配4e695121，7个公开人体runtime-index/VRM另列匹配ecabf82b，制作提交本身没有这7个公开输入。
+
+实际CLI仅在私有完整根执行，6短发与3马尾成功。重复发布byte和mtime均相同。21项正负例全部符合预期，所有拒绝输入均保持原私有public逐字节不变。short catalog SHA为3fcc8e05909c359258d54ce67c71751534449ee805ceb056de49921d76092823，pony为8a4ae29b35d2446a0fa67f545fd0b5da9ee14aeb7a16dd9f6441a8cd9ca93f12。
+
+从实际GLB核nodes/IBM、材质/纹理/图像、索引/UV/skin及原cap/眼/嘴的端点位置和法线。逐primitive核实际pose集合、targetPositionSHA、changedTriangles和侧头逐点位移。女56morph+neutral=57，男54+neutral=55。源旧字段actualTargetAll55FaceEndpoints仍存在，准入另按真实56/54和57/55核数，没有按名字推定女性完整。
+
+fitEvidence链式绑定evidence/geometry/contact及马尾proxy的精确url/SHA。六短发的strict+inclusive新增union为零，只有完整几何记录和全部新增为零时可有空contact.records。三女马尾各有2个Body-neutral新增pair，其余所有57端点几何记录保留。contact只记录真实发生新增的material+pose，没有伪造57组接触。
+
+每个新增pair要求非空测量、严格正且有限的深度、两V非零footprint、alpha=0及真实PNG SHA。进一步调用canonical spec锁定的既有纯measure_pair，用实际原/目标三角、hair UV和内嵌PNG重新计算全部测量字段。三女均重现约.212342mm正深度和两V各18texels/alpha0。伪造仍为正的深度或仍非零的footprint数量也会拒绝。未调用builder/export入口。
+
+马尾保原raw-head spring及引用字段，报告head-local代理经实际IBM转换为各骨局部collider后与fit逐项核对，并检查target SHA和静止margin记录。没有沿用旧绝对头表面不变声明。
+
+v1十二项真实合法/坏输入CLI回归通过，原8短发和4马尾合法输出目录字节不变。publish()函数源码与基线a3d2f503逐段相同，保留既有Windows幂等及恢复备份实现，本次未重跑故障注入。
+
+保留两次审计失配。首轮将Float32端点先相加，和源证据提升Float64再求和的定义不同，失败保v2-initial-results.json/v2-initial.stdout。已按原证据定义修正，没有降低门限。proxy交叉检查初稿直接比较head-local trace与chest bone-local collider，失败保proxy-frame-fixture-results.json/proxy-frame-fixture.stdout，随后按实际IBM转换。该中间报告也保留了将7个公开输入错归源提交时的身份分类失败，最终已明确分列源/集成提交。
+
+只改publisher和隔离测试/证据。未改builder/source指标、runtime或主public，未运行GPU/浏览器/Blender。本门独立核实际端点数组、声明覆盖和具体新增接触测量，没有重算全体零新增碰撞对；完整strict/inclusive遍历由固定生产证据及root重跑QA支撑。连续blend、组合表情、动作pose、发型动态、普通机及视觉验收仍待游戏验证。
+
+publisher SHA256 ffe3ace5cd7271071eec4f19d5cf022eeca5c2e02f3f1d35144cec2aa26626ef
+
+root集成后实际发布命令
+python -B scripts/publish-preset-short-hair.py --revision 2 --kind short --manifest assets-source/m2-preset-short-hair-fits-v2/generated/manifest.json
+python -B scripts/publish-preset-short-hair.py --revision 2 --kind ponytail --manifest assets-source/m2-preset-ponytail-fits-v2/generated/manifest.json
+
+隔离测试复现
+python -B evidence/m2-preset-hair-publisher-v2/v2_probe.py --producer-commit 4e695121b4ab5103ef73193385a2d8fa1261a227
+
+私有v1测试树保留于本工作树experiments/preset-hair-v2-publisher-v1-scratch，未纳提交。
