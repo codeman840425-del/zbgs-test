@@ -1,0 +1,213 @@
+{
+  "checks": [
+    {
+      "name": "actual female VRM plus actual v2 hair and two-mesh hat load through shared layer with per-actor material isolation",
+      "passed": true,
+      "meshes": 2,
+      "vertices": 2238,
+      "triangles": 4472,
+      "assetSha256": "21e1a23238b046106d2822f5821384502c6ec39c755cd78e6f17b1f1c4241bb7"
+    },
+    {
+      "name": "base hides only hat and restores selection; source body hair bone TRS and buffers unchanged; state copies cannot rewrite dependency",
+      "passed": true
+    },
+    {
+      "name": "actual material clone failure preserves current visible hat",
+      "passed": true
+    },
+    {
+      "name": "second source mesh clone failure releases partially prepared shared material exactly once and preserves old hat",
+      "passed": true
+    },
+    {
+      "name": "repeated equip none and double dispose release each source geometry/material once and preserve peer instance",
+      "passed": true
+    },
+    {
+      "name": "wrong-style rejected before hat asset preparation",
+      "passed": true
+    },
+    {
+      "name": "wrong-asset rejected before hat asset preparation",
+      "passed": true
+    },
+    {
+      "name": "wrong-fit rejected before hat asset preparation",
+      "passed": true
+    },
+    {
+      "name": "wrong body exact SHA rejected without attachment",
+      "passed": true
+    },
+    {
+      "name": "manifest-hash mismatch rejects and preserves none",
+      "passed": true
+    },
+    {
+      "name": "fit-hash mismatch rejects and preserves none",
+      "passed": true
+    },
+    {
+      "name": "asset-hash mismatch rejects and preserves none",
+      "passed": true
+    },
+    {
+      "name": "hair-manifest-hash mismatch rejects and preserves none",
+      "passed": true
+    },
+    {
+      "name": "none during delayed real asset load cannot revive stale hat",
+      "passed": true
+    },
+    {
+      "name": "dispose during delayed real asset load cannot revive stale hat",
+      "passed": true
+    },
+    {
+      "name": "late503 during delayed real asset load cannot revive stale hat",
+      "passed": true
+    },
+    {
+      "name": "newer-single during delayed real asset load cannot revive stale hat",
+      "passed": true
+    },
+    {
+      "name": "changed-hair during delayed real asset load cannot revive stale hat",
+      "passed": true
+    },
+    {
+      "name": "hair change during actual head attachment fails final commit guard and cleans candidate",
+      "passed": true
+    },
+    {
+      "name": "dispose during head childadded releases shared candidate material and both source geometries exactly once",
+      "passed": true
+    },
+    {
+      "name": "current dependency callback exception propagates and preserves already equipped hat",
+      "passed": true
+    },
+    {
+      "name": "external-buffer source dependency/transform rejected by actual contract",
+      "passed": true
+    },
+    {
+      "name": "skin source dependency/transform rejected by actual contract",
+      "passed": true
+    },
+    {
+      "name": "animation source dependency/transform rejected by actual contract",
+      "passed": true
+    },
+    {
+      "name": "texture source dependency/transform rejected by actual contract",
+      "passed": true
+    },
+    {
+      "name": "node-transform source dependency/transform rejected by actual contract",
+      "passed": true
+    },
+    {
+      "name": "extension source dependency/transform rejected by actual contract",
+      "passed": true
+    },
+    {
+      "name": "third-mesh source dependency/transform rejected by actual contract",
+      "passed": true
+    },
+    {
+      "name": "unknown nested fit coverage and external fit URL reject",
+      "passed": true
+    },
+    {
+      "name": "every parsed actual hat source releases its two geometries and single shared material exactly once across all cases",
+      "passed": true,
+      "parsedSources": 9
+    }
+  ],
+  "failure": null,
+  "sourceSha256": {
+    "prototype/src/rigid-accessory-layer.js": "a10a20c0d37aa57c594db47377a495fac873845bee239c97d0fa88db9769a0ba",
+    "prototype/src/hat-accessory-contract.js": "e0752931fd89f6078266ab95dc15ca6d03a37f234601f5cb44a2422851188118"
+  },
+  "source": {
+    "authorCommit": "ed19dcfd8816ab74633a543d5a08b11cbd10efed",
+    "manifestSha256": "c62f1ecbc4b16f5e36a2b691f494e887d4367cbf662ade436d8659924fd182cc",
+    "fitSha256": "86ea630c9a06f7cdddfb10eb5998eb6b5934010f56750d292a1c97e8d298d769",
+    "assetSha256": "21e1a23238b046106d2822f5821384502c6ec39c755cd78e6f17b1f1c4241bb7"
+  },
+  "requests": [
+    "/assets/m2-long-hair-rootjoin-v2/manifest.json",
+    "/assets/m2-long-hair-rootjoin-v2/fit.json",
+    "/assets/m2-long-hair-rootjoin-v2/female-ponytail.glb",
+    "/assets/m2-long-hair-rootjoin-v2/manifest.json",
+    "/assets/m2-long-hair-rootjoin-v2/fit.json",
+    "/assets/m2-long-hair-rootjoin-v2/female-ponytail.glb",
+    "/assets/m2-hat-hair-v1/manifest.json",
+    "/assets/m2-hat-hair-v1/fit.json",
+    "/assets/m2-long-hair-rootjoin-v2/manifest.json",
+    "/assets/m2-hat-hair-v1/baseball-cap.glb",
+    "/assets/m2-hat-hair-v1/manifest.json",
+    "/assets/m2-hat-hair-v1/fit.json",
+    "/assets/m2-long-hair-rootjoin-v2/manifest.json",
+    "/assets/m2-hat-hair-v1/baseball-cap.glb",
+    "/assets/m2-hat-hair-v1/manifest.json",
+    "/assets/m2-hat-hair-v1/fit.json",
+    "/assets/m2-long-hair-rootjoin-v2/manifest.json",
+    "/assets/m2-hat-hair-v1/manifest.json",
+    "/assets/m2-hat-hair-v1/fit.json",
+    "/assets/m2-long-hair-rootjoin-v2/manifest.json",
+    "/assets/m2-hat-hair-v1/manifest.json",
+    "/assets/m2-hat-hair-v1/fit.json",
+    "/assets/m2-long-hair-rootjoin-v2/manifest.json",
+    "/assets/m2-hat-hair-v1/manifest.json",
+    "/assets/m2-hat-hair-v1/fit.json",
+    "/assets/m2-hat-hair-v1/manifest.json",
+    "/assets/m2-hat-hair-v1/manifest.json",
+    "/assets/m2-hat-hair-v1/fit.json",
+    "/assets/m2-hat-hair-v1/manifest.json",
+    "/assets/m2-hat-hair-v1/fit.json",
+    "/assets/m2-long-hair-rootjoin-v2/manifest.json",
+    "/assets/m2-hat-hair-v1/baseball-cap.glb",
+    "/assets/m2-hat-hair-v1/manifest.json",
+    "/assets/m2-hat-hair-v1/fit.json",
+    "/assets/m2-long-hair-rootjoin-v2/manifest.json",
+    "/assets/m2-hat-hair-v1/manifest.json",
+    "/assets/m2-hat-hair-v1/fit.json",
+    "/assets/m2-long-hair-rootjoin-v2/manifest.json",
+    "/assets/m2-hat-hair-v1/baseball-cap.glb",
+    "/assets/m2-hat-hair-v1/manifest.json",
+    "/assets/m2-hat-hair-v1/fit.json",
+    "/assets/m2-long-hair-rootjoin-v2/manifest.json",
+    "/assets/m2-hat-hair-v1/baseball-cap.glb",
+    "/assets/m2-hat-hair-v1/manifest.json",
+    "/assets/m2-hat-hair-v1/fit.json",
+    "/assets/m2-long-hair-rootjoin-v2/manifest.json",
+    "/assets/m2-hat-hair-v1/baseball-cap.glb",
+    "/assets/m2-hat-hair-v1/manifest.json",
+    "/assets/m2-hat-hair-v1/fit.json",
+    "/assets/m2-long-hair-rootjoin-v2/manifest.json",
+    "/assets/m2-hat-hair-v1/baseball-cap.glb",
+    "/assets/m2-hat-hair-v1/manifest.json",
+    "/assets/m2-hat-hair-v1/fit.json",
+    "/assets/m2-long-hair-rootjoin-v2/manifest.json",
+    "/assets/m2-hat-hair-v1/baseball-cap.glb",
+    "/assets/m2-hat-hair-v1/manifest.json",
+    "/assets/m2-hat-hair-v1/fit.json",
+    "/assets/m2-long-hair-rootjoin-v2/manifest.json",
+    "/assets/m2-hat-hair-v1/baseball-cap.glb",
+    "/assets/m2-hat-hair-v1/manifest.json",
+    "/assets/m2-hat-hair-v1/fit.json",
+    "/assets/m2-long-hair-rootjoin-v2/manifest.json",
+    "/assets/m2-hat-hair-v1/baseball-cap.glb",
+    "/assets/m2-hat-hair-v1/manifest.json",
+    "/assets/m2-hat-hair-v1/fit.json",
+    "/assets/m2-long-hair-rootjoin-v2/manifest.json",
+    "/assets/m2-hat-hair-v1/baseball-cap.glb"
+  ],
+  "limits": [
+    "Controlled in-memory fetch responses serve exact source bytes without starting a service. Actual GLTFLoader, original female VRM and actual v2 ponytail appearance are used in first two actors. Remaining async cases use raw-head CPU fixtures.",
+    "VRM textures use1x1 CPU placeholders. No browser/GPU, visual cap fit, dynamic hair contact, appearance outer transaction integration or save/reload acceptance. Root owns those integration paths."
+  ]
+}

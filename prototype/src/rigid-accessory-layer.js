@@ -1,14 +1,18 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import {validateHatManifest,validateHatFit,validateHatHairCatalog,validateHatHairManifest,assertHatHairSelection,validateHatSourceDocument} from './hat-accessory-contract.js';
 
 const hash = async bytes => [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))]
   .map(value => value.toString(16).padStart(2, '0')).join('');
 const require = (condition, message) => { if (!condition) throw Error(message); };
 const vector = (values, size) => Array.isArray(values) && values.length === size && values.every(Number.isFinite);
 
-/** Current paired, rigid, raw-head-local style. Source ear/body geometry is never changed. */
+/** Per-actor rigid raw-head attachments. Default paired-ear behavior is retained. */
 export function createRigidAccessoryLayer({ vrm, avatarSha256,
-  manifestUrl = '/assets/m2-paired-ear-accessory-v1/manifest.json' }) {
+  kind = 'paired-ear', manifestUrl = kind==='hat' ? '/assets/m2-hat-hair-v1/manifest.json' : '/assets/m2-paired-ear-accessory-v1/manifest.json',
+  manifestSha256, getHairState }) {
+  require(kind==='paired-ear'||kind==='hat','Unsupported rigid accessory contract');
+  require(manifestSha256===undefined || (typeof manifestSha256==='string' && /^[a-f0-9]{64}$/.test(manifestSha256)),'Invalid rigid accessory manifest SHA');
   const head = vrm?.humanoid?.getRawBoneNode('head');
   const base = new URL(manifestUrl, globalThis.location?.href ?? 'http://localhost/');
   const resource = file => {
@@ -20,7 +24,8 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
     require(response.ok, `Rigid accessory HTTP ${response.status}: ${url}`);
     return response.arrayBuffer();
   }
-  let manifest = null, fit = null, styleLoading = null;
+  let manifest = null, fit = null, styleLoading = null, hatHairEntry = null;
+  let bodyMode = 'dressed';
   async function loadStyle() {
     if (fit) return true;
     if (styleLoading) return styleLoading;
@@ -29,7 +34,21 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
       require(typeof avatarSha256 === 'string' && /^[a-f0-9]{64}$/.test(avatarSha256), 'Rigid accessory requires an exact body SHA');
       const manifestBytes = await bytes(base);
       if (disposed || desired === 'none') return null;
+      if(manifestSha256!==undefined)require(await hash(manifestBytes)===manifestSha256,'Rigid accessory manifest integrity mismatch');
       const manifest = JSON.parse(new TextDecoder().decode(manifestBytes));
+      if(kind==='hat') {
+        const normalized = validateHatManifest(manifest,base);
+        const fitBytes = await bytes(resource(normalized.fit.file));
+        if(disposed || desired==='none')return null;
+        require(await hash(fitBytes)===normalized.fit.sha256,'Hat fit integrity mismatch');
+        const fit = validateHatFit(JSON.parse(new TextDecoder().decode(fitBytes)),normalized,avatarSha256,head);
+        const entry = validateHatHairCatalog(fit,avatarSha256);
+        const hairManifestBytes = await bytes(new URL(entry.manifestUrl,base));
+        if(disposed || desired==='none')return null;
+        require(await hash(hairManifestBytes)===entry.manifestSha256,'Hat hair manifest integrity mismatch');
+        validateHatHairManifest(JSON.parse(new TextDecoder().decode(hairManifestBytes)),fit,entry,avatarSha256);
+        return {manifest:normalized,fit,hairEntry:entry};
+      }
       require(manifest.schema === 'zbgs-paired-rigid-accessory-style-v1' && manifest.version === 1 &&
         typeof manifest.styleId === 'string' && manifest.styleId && typeof manifest.pairId === 'string' && manifest.pairId &&
         manifest.physics === 'rigid-head-attachment' && manifest.asset?.units === 'metres' &&
@@ -64,7 +83,7 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
       return { manifest, fit };
     })().then(prepared => {
       if (!prepared) return false;
-      manifest = prepared.manifest; fit = prepared.fit;
+      manifest = prepared.manifest; fit = prepared.fit; hatHairEntry = prepared.hairEntry ?? null;
       return true;
     });
     try { return await styleLoading; } finally { styleLoading = null; }
@@ -109,7 +128,8 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
       const jsonLength = view.getUint32(12, true);
       require(20 + jsonLength <= buffer.byteLength, 'Truncated rigid accessory JSON');
       const doc = JSON.parse(new TextDecoder().decode(new Uint8Array(buffer, 20, jsonLength)));
-      require(!doc.images?.length && !doc.textures?.length && !doc.skins?.length && !doc.animations?.length &&
+      if(kind==='hat')validateHatSourceDocument(doc);
+      else require(!doc.images?.length && !doc.textures?.length && !doc.skins?.length && !doc.animations?.length &&
         doc.buffers?.every(buffer => !buffer.uri) && doc.nodes?.length === 1 && doc.nodes[0].mesh === 0 &&
         !['matrix', 'translation', 'rotation', 'scale', 'extensions'].some(key => Object.hasOwn(doc.nodes[0], key)),
       'Unsupported rigid accessory dependencies or source transform');
@@ -117,26 +137,41 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
       try {
         const meshes = [];
         gltf.scene.traverse(node => { if (node.isMesh) meshes.push(node); });
-        require(meshes.length === 1 && !meshes[0].isSkinnedMesh && !Array.isArray(meshes[0].material) && !meshes[0].geometry.morphAttributes.position,
-          'Rigid accessory requires one rigid source mesh');
+        require(meshes.length===(kind==='hat'?2:1) && meshes.every(mesh=>!mesh.isSkinnedMesh &&
+          !Array.isArray(mesh.material) && !Object.keys(mesh.geometry.morphAttributes).length),
+          'Rigid accessory source mesh contract mismatch');
+        if(kind==='hat') {
+          require(meshes[0].material===meshes[1].material,'Hat meshes must share one source material');
+          for(const mesh of meshes) {
+            require(mesh.position.equals(new THREE.Vector3()) && mesh.quaternion.equals(new THREE.Quaternion()) &&
+              mesh.scale.equals(new THREE.Vector3(1,1,1)) && Object.values(mesh.material).every(v=>!v?.isTexture),
+              'Unsupported hat source transform or texture');
+            for(const attribute of Object.values(mesh.geometry.attributes))require(attribute.array.every(Number.isFinite),'Nonfinite hat source attributes');
+          }
+        }
         if (disposed || desired === 'none') { releaseSource(gltf.scene); return null; }
-        template = { scene: gltf.scene, mesh: meshes[0] };
+        template = { scene: gltf.scene, meshes, geometryCount:new Set(meshes.map(mesh=>mesh.geometry)).size };
         return template;
       } catch (failure) { releaseSource(gltf.scene); throw failure; }
     })();
     try { return await loading; } finally { loading = null; }
   }
+  function assertCurrentHatHair() {
+    if(kind!=='hat')return;
+    require(typeof getHairState==='function','Hat requires a synchronous current hair state provider');
+    assertHatHairSelection(getHairState(),fit,hatHairEntry);
+  }
   function getState() {
-    return { schema: 'zbgs-rigid-accessory-layer-state-v1', styleId: manifest?.styleId ?? null, pairId: manifest?.pairId ?? null,
+    return { schema: 'zbgs-rigid-accessory-layer-state-v1', kind, bodyMode, effectiveSelection:bodyMode==='base'?'none':selection, styleId: manifest?.styleId ?? null, pairId: manifest?.pairId ?? null,
       fitId: fit?.fitId ?? null, avatarSha256, assetSha256: manifest?.asset.sha256 ?? null, selection,
       requested: status === 'loading' ? desired : null, status, error, disposed,
       instances: selection === 'none' ? [] : manifest.instances.filter(instance => selection === 'pair' || selection === instance.side)
         .map(instance => ({ id: instance.id, side: instance.side, socket: instance.socket })),
-      cachedGeometries: template ? 1 : 0, cleanupErrors: [...cleanupErrors] };
+      cachedGeometries: template?.geometryCount ?? 0, hairDependency:fit?.hairDependency ? {...fit.hairDependency} : null, manifestSha256:manifestSha256 ?? null, cleanupErrors: [...cleanupErrors] };
   }
   return {
     async setSelection(value) {
-      require(['none', 'left', 'right', 'pair'].includes(value), 'Unsupported rigid accessory selection');
+      require((kind==='hat'?['none','single']:['none','left','right','pair']).includes(value), 'Unsupported rigid accessory selection');
       require(!disposed, 'Rigid accessory layer is disposed');
       const ticket = ++revision;
       const current = () => !disposed && ticket === revision;
@@ -154,29 +189,40 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
         let ready = await loadStyle();
         if (!ready && !disposed && ticket === revision) ready = await loadStyle();
         if (disposed || ticket !== revision || !ready) return { applied: false, reason: 'cancelled' };
+        assertCurrentHatHair();
         let source = await loadTemplate();
         if (!source && !disposed && ticket === revision) source = await loadTemplate();
         if (disposed || ticket !== revision || !source) return { applied: false, reason: 'cancelled' };
-        prepared = new THREE.Group(); prepared.name = `RigidAccessory:${manifest.pairId}`;
+        assertCurrentHatHair();
+        prepared = new THREE.Group(); prepared.name = `RigidAccessory:${manifest.pairId ?? manifest.styleId}`;
         prepared.visible = false; candidates.add(prepared);
         for (const instance of manifest.instances.filter(instance => value === 'pair' || value === instance.side)) {
           if (!current()) return { applied: false, reason: 'cancelled' };
           const mount = fit.mounts.find(mount => mount.instanceId === instance.id);
-          const mesh = source.mesh.clone(false);
-          if (!current()) return { applied: false, reason: 'cancelled' };
-          const material = source.mesh.material.clone();
-          if (!current()) { release(material); return { applied: false, reason: 'cancelled' }; }
-          mesh.material = material;
-          mesh.name = instance.id;
-          mesh.position.fromArray(mount.position); mesh.quaternion.fromArray(mount.quaternion); mesh.scale.fromArray(mount.scale);
-          mesh.userData = { rigidAccessoryId: instance.id, side: instance.side, socket: instance.socket, styleId: manifest.styleId };
-          prepared.add(mesh);
+          const clonedMaterials = new Map();
+          for(const original of source.meshes) {
+            const mesh = original.clone(false);
+            if (!current()) return { applied: false, reason: 'cancelled' };
+            let material = clonedMaterials.get(original.material);
+            if(!material) {
+              material = original.material.clone();
+              if (!current()) { release(material); return { applied: false, reason: 'cancelled' }; }
+              clonedMaterials.set(original.material,material);
+            }
+            mesh.material = material;
+            mesh.name = source.meshes.length===1 ? instance.id : `${instance.id}:${original.name}`;
+            mesh.position.fromArray(mount.position); mesh.quaternion.fromArray(mount.quaternion); mesh.scale.fromArray(mount.scale);
+            mesh.userData = { rigidAccessoryId: instance.id, side: instance.side, socket: instance.socket, styleId: manifest.styleId };
+            prepared.add(mesh);
+          }
         }
         if (!current()) return { applied: false, reason: 'cancelled' };
         head.add(prepared);
         if (!current()) return { applied: false, reason: 'cancelled' };
+        assertCurrentHatHair();
+        if (!current()) return { applied: false, reason: 'cancelled' };
         const previous = active;
-        candidates.delete(prepared); prepared.visible = true;
+        candidates.delete(prepared); prepared.visible = bodyMode!=='base';
         active = prepared; prepared = null; selection = value; status = 'ready';
         releaseInstances(previous);
         if (!current()) return { applied: false, reason: 'cancelled' };
@@ -190,6 +236,15 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
       }
     },
     getState,
+    assertHairSelection(descriptor) {
+      if(kind==='hat' && selection!=='none' && !disposed)assertHatHairSelection(descriptor,fit,hatHairEntry);
+    },
+    setBodyMode(mode) {
+      require(mode==='base'||mode==='dressed','Unsupported rigid accessory body mode');
+      if(disposed)return {applied:false,reason:'disposed'};
+      bodyMode=mode;if(active)active.visible=mode!=='base';
+      return {applied:true};
+    },
     dispose() {
       if (disposed) return;
       disposed = true; revision++; desired = 'none'; selection = 'none'; status = 'disposed';

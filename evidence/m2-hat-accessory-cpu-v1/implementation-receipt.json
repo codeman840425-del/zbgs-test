@@ -1,0 +1,79 @@
+{
+  "schema": "hat-accessory-runtime-receipt-v1",
+  "baseCommit": "11033125c07c64690da2a87ede250d57f63f318b",
+  "authorCommit": "ed19dcfd8816ab74633a543d5a08b11cbd10efed",
+  "branch": "codex/hat-accessory-runtime-v1",
+  "worktree": "F:/gamemake-hat-runtime-v1",
+  "status": "Bounded layer CPU/build passed; root main-path integration and browser acceptance pending",
+  "sourceInputs": [
+    {
+      "file": "baseball-cap.glb",
+      "sha256": "21e1a23238b046106d2822f5821384502c6ec39c755cd78e6f17b1f1c4241bb7",
+      "bytes": 109240,
+      "matchesAuthorCommit": true
+    },
+    {
+      "file": "fit.json",
+      "sha256": "86ea630c9a06f7cdddfb10eb5998eb6b5934010f56750d292a1c97e8d298d769",
+      "bytes": 1308,
+      "matchesAuthorCommit": true
+    },
+    {
+      "file": "manifest.json",
+      "sha256": "c62f1ecbc4b16f5e36a2b691f494e887d4367cbf662ade436d8659924fd182cc",
+      "bytes": 545,
+      "matchesAuthorCommit": true
+    }
+  ],
+  "runtimeSourceSha256": {
+    "prototype/src/rigid-accessory-layer.js": "a10a20c0d37aa57c594db47377a495fac873845bee239c97d0fa88db9769a0ba",
+    "prototype/src/hat-accessory-contract.js": "e0752931fd89f6078266ab95dc15ca6d03a37f234601f5cb44a2422851188118"
+  },
+  "api": {
+    "constructor": "createRigidAccessoryLayer({vrm, avatarSha256, kind:'hat', manifestUrl, manifestSha256, getHairState:()=>appearance.getState()})",
+    "selection": [
+      "none",
+      "single"
+    ],
+    "assertHairSelection": "Synchronous, returns without restricting hair when no hat is equipped. Equipped mismatched descriptor throws Error with code hat-hair-incompatible and field hairStyle.",
+    "descriptor": "{hairStyle,replacementSHA256,hairFit:{kind,id,version,sha256}}. Optional hairManifestSha256, when present, must match.",
+    "catalogAndManifest": "Hat loading validates exact current hairEntry catalog asset/manifest/fit pins, then fetches the pinned catalog hair manifest once to verify manifest version and fit reference. No extra descriptor fields required.",
+    "getHairState": "Synchronous callback checked after style metadata load, after asset preparation and again after head.add before commit. Callback exceptions propagate, retain old active selection and release staged clones.",
+    "setBodyMode": "base hides active hat, dressed restores it. Logical selection and cached resources persist.",
+    "getState": "Retains original schema and selection/status/error fields, adds kind/bodyMode/effectiveSelection/hairDependency/pinned manifestSha256. Returned hairDependency is copied."
+  },
+  "implementation": [
+    "Default paired-ear manifest contract and none/left/right/pair selections retain normal paths. Shared template/clone/dispose code supports two hat source meshes under one single selection.",
+    "Hat shell/brim share one cloned mutable material inside an actor. Separate layers/actors own separate source geometry and cloned materials.",
+    "Hat source permits two identity mesh nodes with one untextured PBR material. External buffers/textures, skins, animation, source transforms, morphs and extensions are rejected before real loader parsing.",
+    "Hat and fit resources stay inside manifest directory. Optional caller manifest SHA, mandatory fit/asset pins and exact body/hair dependency guard are enforced.",
+    "Coverage none preserves complete existing hair and head geometry. No texture rewrite, hair hiding, hair dynamics or controller changes."
+  ],
+  "checks": {
+    "hat": {
+      "count": 31,
+      "report": "hat-report-final.json",
+      "command": "node evidence/m2-hat-accessory-cpu-v1/probe-hat.mjs root-hat-report.json"
+    },
+    "legacyEar": {
+      "count": 16,
+      "report": "ear-regression-report.json",
+      "command": "node evidence/m2-hat-accessory-cpu-v1/probe-ear-regression.mjs > evidence/m2-hat-accessory-cpu-v1/root-ear-report.json",
+      "scope": "Existing actual-source runtime checks reused; unrelated publisher section excluded."
+    }
+  },
+  "build": {
+    "command": "npm run build",
+    "cwd": "prototype",
+    "passed": true,
+    "id": "540525572aa2",
+    "warning": "Existing Vite large-chunk warning"
+  },
+  "testFixtureCorrection": "Initial CPU run produced Node image-load warnings for the actual hair GLB. Registering its CPU texture placeholder in the test loader removed them. Runtime source was unchanged. Earlier successful report is preserved as hat-report-v1.json.",
+  "limits": [
+    "First two hat actors use actual original female VRM, actual rootjoin-v2 hairstyle through createCharacterAppearance, actual hat GLB and actual layer. Later cancellation/negative cases use raw-head fixtures. Network is a controlled in-memory file map and no service/browser/GPU was started.",
+    "Texture decode uses1x1 CPU placeholders. No visual cap fit, moving-hair contact, GPU rendering or ordinary-machine performance conclusion.",
+    "Only rigid-accessory-layer.js and new hat-accessory-contract.js runtime files changed. Root owns foundation/main/appearance/recipe/face-neutral guards, save/reload and fixed browser evidence.",
+    "Current source supports only its exact original female and exact rootjoin-v2 hair dependency. Derived bodies or other hairstyles have no fit admission."
+  ]
+}
