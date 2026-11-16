@@ -4,10 +4,11 @@ const path = require('node:path');
 const assert = require('node:assert/strict');
 const { chromium } = require(path.join(process.cwd(), 'prototype/node_modules/playwright'));
 const { verifyCandidate } = require(path.join(process.cwd(), 'scripts/qa-m1-common.cjs'));
-const [url, build, destination, indexFile] = process.argv.slice(2);
+const [url, build, destination, indexFile, mode = 'idle'] = process.argv.slice(2);
 
 (async () => {
   assert(url && /^[a-f0-9]{12}$/.test(build) && destination && indexFile);
+  assert(['idle', 'run-body'].includes(mode), 'Unknown pose diagnostic mode');
   const out = path.resolve(destination);
   await fs.mkdir(out, {recursive: false});
   const index = JSON.parse(await fs.readFile(indexFile, 'utf8'));
@@ -15,7 +16,7 @@ const [url, build, destination, indexFile] = process.argv.slice(2);
     ...['female-round-full-v2', 'female-soft-wide-v2'].map(id => index.presets.find(p => p.id === id))];
   assert(cases.every(Boolean));
   await fs.copyFile(__filename, path.join(out, 'executed-script.cjs'));
-  const report = {build, status: 'incomplete', scope: 'Read-only actual posed triangles, material/texture and skin state. No layer hiding or correction.', cases: []};
+  const report = {build, mode, status: 'incomplete', scope: 'Read-only actual posed triangles, material/texture and skin state. No layer hiding or correction.', cases: []};
   const browser = await chromium.launch({channel: 'chrome', headless: true});
   try {
     for (const spec of cases) {
@@ -27,9 +28,16 @@ const [url, build, destination, indexFile] = process.argv.slice(2);
       await page.goto(url + '?workbench=appearance&body=' + spec.id);
       await page.waitForFunction(() => window.__debug?.ready && document.querySelector('#appearance-form')?.getAttribute('aria-busy') === 'false', null, {timeout: 60000});
       row.identity = await verifyCandidate(page, {build, assetId: spec.profile.id, sha256: spec.profile.sha256});
+      if (mode === 'run-body') {
+        await page.evaluate(() => {__debug.reset(); __debug.setPlaybackRate(1); __debug.setPaused(false); __debug.camera('inspect-half-front'); __debug.setSpeed(1.05); __debug.request({requestId:'pose-approach',kind:'walk',payload:{x:-1.4,z:-.6}});});
+        await page.waitForFunction(() => ['completed','failed','cancelled'].includes(__debug.tasks().get('pose-approach')?.state),null,{timeout:45000});
+        assert.equal(await page.evaluate(() => __debug.tasks().get('pose-approach').state),'completed');
+        await page.evaluate(() => {__debug.setSpeed(2.2); __debug.request({requestId:'pose-run',kind:'walk',payload:{x:1.2,z:1.6}});});
+        await page.waitForTimeout(1400);
+      }
       await page.evaluate(() => {__debug.setPaused(true); __debug.camera('inspect-half-front');});
       await page.waitForTimeout(150);
-      const dump = await page.evaluate(async () => {
+      const dump = await page.evaluate(async mode => {
         const d = window.__debug, actor = d.avatar(), camera = d.cameraObject();
         const hash = async bytes => [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))].map(v => v.toString(16).padStart(2, '0')).join('');
         const values = attribute => Array.from({length: attribute.count}, (_, i) => Array.from({length: attribute.itemSize}, (_, j) => attribute.getComponent(i, j)));
@@ -56,7 +64,7 @@ const [url, build, destination, indexFile] = process.argv.slice(2);
         };
         actor.root.updateMatrixWorld(true);
         const meshes = [];
-        for (const role of ['top', 'pants']) {
+        for (const role of (mode === 'run-body' ? ['body', 'top', 'pants'] : ['top', 'pants'])) {
           for (const uuid of actor.profile.meshRoles[role] || []) {
             const mesh = actor.root.getObjectByProperty('uuid', uuid);
             if (!mesh) throw Error('Missing mesh role ' + role);
@@ -77,11 +85,11 @@ const [url, build, destination, indexFile] = process.argv.slice(2);
               morphInfluences: mesh.morphTargetInfluences, materials: await Promise.all((Array.isArray(mesh.material) ? mesh.material : [mesh.material]).map(materials))});
           }
         }
-        return {schema: 'vest-posed-readback-v1', bodyType: actor.profile.bodyType, bodySha256: actor.profile.sha256,
+        return {schema: 'vest-posed-readback-v1', mode, snapshot:d.snapshot(), bodyType: actor.profile.bodyType, bodySha256: actor.profile.sha256,
           rootMatrixWorld: actor.root.matrixWorld.toArray(), camera: {position: camera.position.toArray(), matrixWorldInverse: camera.matrixWorldInverse.toArray(), projectionMatrix: camera.projectionMatrix.toArray()},
-          equipment: actor.equipment?.getInfo?.() || null, meshes,
+          equipment: actor.getOutfitInfo?.() || null, meshes,
           limits: ['Actual paused pose after ready. Pose phases are recorded, not forced equal. Original raw-bone palettes permit an explicitly virtual common-pose comparison offline. CPU getVertexPosition includes live skin and morph state.']};
-      });
+      }, mode);
       assert(dump.meshes.some(m => m.role === 'pants' && m.ancestors.every(n => n.visible)));
       const filename = spec.id + '.json';
       await fs.writeFile(path.join(out, filename), JSON.stringify(dump));

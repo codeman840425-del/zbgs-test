@@ -4,7 +4,7 @@
 
 ## 当前工作包（恢复先看）
 
-公开4196已切换 source e69205d85568cbc547a9d2a41ac200ca0cac1f50 / build ed2153a2d822。固定目录 experiments/m2-representative-six-hair-fixed-v1/prototype/dist，精确入口 delivery/appearance-workbench.json，上一1067指针 delivery/history/appearance-workbench-1067.json。公开烟测已通过 evidence/m2-workbench-public-ed2-v1；第二独立检出重建363文件字节一致。最新已核远备ab629c518381ede78a623e6a8addf66b398d0850，包含本轮ed2资源/录像/观看包/研究与交付指针；后续试验另备。
+公开4196已切换 source e69205d85568cbc547a9d2a41ac200ca0cac1f50 / build ed2153a2d822。固定目录 experiments/m2-representative-six-hair-fixed-v1/prototype/dist，精确入口 delivery/appearance-workbench.json，上一1067指针 delivery/history/appearance-workbench-1067.json。公开烟测已通过 evidence/m2-workbench-public-ed2-v1；第二独立检出重建363文件字节一致。最新已核远备8bd6525d10a9be49868cc782558f09d05a7f78ef，包含本轮ed2资源/录像/观看包/研究与交付指针；后续试验另备。
 
 当前主包仍为8代表预设共同生产。v2仅6个源通过（3女3男），两lean失败未发布；六脸参数意图仍有8.668–31.058mm半宽投影损失，不称8个完成。原v1保留，失败卷发未入catalog。先调研再试已有工具，不继续原方法扫参。研究见 research/REPRESENTATIVE-SHAPE-PIPELINE-OPTIONS-2026-11-16.md：女lean下颏过渡压缩、男lean唇保护区横向反向；共同固定凹曲线过窄。整身cage试验已封存并合至427baa51：前置绑定通过，但8项均因整圈肩臂控制传播到指端而不可准入，最大458.311mm，非单位错误；32资源重复字节一致，未发布。源与命令assets-source/m2-representative-cage-trial-v1/README.md，独审evidence/m2-representative-cage-preflight-audit-v1。后续有新根因依据的窄包：asset_budget已知sol/high在隔离树做head-only cage，精确保留v2身体段/taper/hand_limit，先数值等价和局部边界/表达门，通过后一次原8请求批次。不得把脸参数设0冒充关闭旧凹曲线投影；不调低门、不扫参、不改public/runtime。
 
@@ -12,7 +12,7 @@
 
 新发型源be595ac4与独立publisher1c93279f已合；实际public/catalog在e69205d8。新门21个v2正反例及12个v1回归，女57/男55单端点；马尾每体2处约.212mm新接触在保守alpha0 footprint，只是有条件源候选。原侧头保护变化失败和混合表情范围保留。首发WinError5原输入一次重试成功，具体锁因不明；输出/合同与初次失败见evidence/m2-preset-hair-v2-root-publication-v1。
 
-裤层绿点已回读游戏实际pose/triangles/material，evidence/m2-representative-vest-posed-ed2-v1：上衣完整且alpha全255；代理已将主要绿像素对应到裤面在top之前（round70/71、soft34/34，原女也有8/8），一个边缘像素未解释。固定诊断已合b218cbf1：原裤tri419在上衣前0.415mm，round1.187mm、soft0.747mm；固定world-offset不保证衣物层次。batch_v2_readback在隔离源包m2-vest-layer-fit-v1做共同top外层余量，保绑定/权重/UV及旧源，不改控制器或遮盖。root正在用qa-vest-layer-chain.cjs录原女+两派生的同路径房间/近腰1×前对照；v1夹具误将领口primitive当必有腰面而失败，已保留，v2按空间选择记录排除面。
+裤层绿点已回读游戏实际pose/triangles/material，evidence/m2-representative-vest-posed-ed2-v1：上衣完整且alpha全255；代理已将主要绿像素对应到裤面在top之前（round70/71、soft34/34，原女也有8/8），一个边缘像素未解释。固定诊断已合b218cbf1：原裤tri419在上衣前0.415mm，round1.187mm、soft0.747mm；固定world-offset不保证衣物层次。batch_v2_readback在隔离源包m2-vest-layer-fit-v1做共同top外层余量，保绑定/权重/UV及旧源，不改控制器或遮盖。root已完成qa-vest-layer-chain.cjs三体×房间/近腰六段1×前对照m2-vest-layer-before-ed2-v2（v1夹具误将领口当腰面失败已保）。两派生跑步/起身肤色露面另由实际body/top射线确认，m2-vest-running-body-attribution-v1：全部观察像素在原女coverage三角范围，派生coverage=null；需要重新量派生安全覆盖，不直接继承旧SHA或掩盖裸露边界。
 
 动作自适应调研已保存 research/MOTION-CONTACT-ADAPTATION-OPTIONS-2026-11-16.md，Mink优先离线小试仍未实施；R2ET依赖/输入和CAMR未核代码边界保留。当前没有通用全身舞蹈避碰，不改封存30秒舞。用户要求研究先行已入AGENTS。
 

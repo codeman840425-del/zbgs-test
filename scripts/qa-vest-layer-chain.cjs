@@ -122,7 +122,13 @@ async function main() {
               geometrySamples:cost.length,samplingP95:cost[Math.floor(cost.length*.95)],samplingMax:cost.at(-1)};
           }
         }catch(e){row.sampleError=String(e);row.status='failed';}
-        const video=page.video();await context.close();await video.saveAs(path.join(folder,'normal1x.webm'));await video.delete();
+        const video=page.video();
+        try {
+          await context.close();await video.saveAs(path.join(folder,'normal1x.webm'));await video.delete();
+          const film=await fs.readFile(path.join(folder,'normal1x.webm'));
+          if(!film.length)throw Error('Empty recording');
+          row.video={file:'normal1x.webm',bytes:film.length,sha256:createHash('sha256').update(film).digest('hex')};
+        } catch(e) {row.videoError=String(e.stack||e);row.status='failed';}
         await fs.writeFile(path.join(folder,'report.json'),JSON.stringify(row,null,2));
         await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));
         console.log(JSON.stringify({id:spec.id,view,status:row.status,error:row.error,timing:row.timing}));
