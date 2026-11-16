@@ -1,5 +1,7 @@
+import presetShortHair from '../public/assets/m2-preset-short-hair-fits-v1/catalog.json' with {type:'json'};
 // Exact body + resource + fit admissions; no motion-controller branches.
 export const HAIRSTYLES = [
+  ...presetShortHair,
 {
   "id": "female-ponytail-headref-v3",
   "label": "长束发 · 头部参考对照候选",

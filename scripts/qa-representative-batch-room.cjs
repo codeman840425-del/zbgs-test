@@ -41,6 +41,8 @@ async function main(){
    await p.waitForFunction(()=>window.__debug?.ready,null,{timeout:60000});await ready();
    r.identity=await verifyCandidate(p,{build,assetId:spec.profile.id,sha256:spec.profile.sha256});
    assert.equal(await p.locator('#appearance-body').inputValue(),spec.id);
+   r.eyeBlinkCompatibility=await p.evaluate(()=>__debug.avatar().livePresentation.getState().eyeBlinkCompatibility);
+   assert(r.eyeBlinkCompatibility.available,JSON.stringify(r.eyeBlinkCompatibility));
    await p.evaluate(()=>{
     __debug.setPlaybackRate(1);__debug.setPaused(false);window.__batchRows=[];window.__batchFrameTimes=[];window.__batchPhase='idle';let last=null,lastSample=-Infinity;
     function sample(now){if(last!==null)__batchFrameTimes.push({ms:now,dt:now-last,phase:__batchPhase});last=now;
@@ -61,8 +63,9 @@ async function main(){
    for(const expression of ['neutral','happy','aa']){
     await mark('face-'+expression);await p.evaluate(name=>__debug.command({type:'expression',name}),expression);await shot('face-'+expression);
    }
-   await p.evaluate(()=>{__debug.command({type:'expression',name:'neutral'});__debug.command({type:'speaking',value:true});});
-   await p.waitForTimeout(4500);await shot('face-speaking');await p.evaluate(()=>__debug.command({type:'speaking',value:false}));
+   await mark('face-smile-speaking-blink');
+   await p.evaluate(()=>{__debug.command({type:'expression',name:'happy'});__debug.command({type:'speaking',value:true});});
+   await p.waitForTimeout(4500);await shot('face-speaking');await p.evaluate(()=>{__debug.command({type:'speaking',value:false});__debug.command({type:'expression',name:'neutral'});});
    // A base-mode image checks exposed geometry separately; it is not a nude substitute rig.
    await mark('base');await p.evaluate(()=>{__debug.camera('inspect-full-front');__debug.setBodyMode('base');});await shot('base');
    await p.evaluate(()=>__debug.setBodyMode('dressed'));
