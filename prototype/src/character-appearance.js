@@ -218,6 +218,7 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
     // recipe never lends its staged hair selection to a newer color request.
     const applyStyleIntent=()=>{
       if(!trackIntent||!changeStyle||disposed||styleRequest!==generation)return;
+      assertAccessoryTransactionCommit(accessoryTransaction,vrm);
       assertHairChange(desiredStyle,accessoryTransaction);
       hairStyle=desiredStyle;replacement=replacements.get(desiredStyle)||null;
       applyColors();applyHairVisibility();
