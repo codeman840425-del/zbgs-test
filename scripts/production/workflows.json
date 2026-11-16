@@ -981,6 +981,177 @@
         "Export commands are documentation only. Use a separate checkout and an absent output folder; inspect writes before manual use. Frozen outputs and historical receipts are retained.",
         "Missing Blender/addon/Python packages block regeneration, not stored-byte identity validation. Runtime/visual acceptance stays in docs/CAPABILITIES.md and matching fixed evidence."
       ]
+    },
+    {
+      "id": "male-outer-panels-source",
+      "title": "Male layered vest actual editable-source export",
+      "kind": "source-package",
+      "sources": [
+        "assets-source/m2-outer-panels-v2/spec.json",
+        "assets-source/m2-outer-panels-v2/provenance.json",
+        "assets-source/m2-outer-panels-v2/generated/editable.blend",
+        "assets-source/m2-outer-panels-v2/generated/author-equipment.json",
+        "assets-source/m2-outer-panels-v2/generated/fit.json",
+        "prototype/public/assets/foundation/base-male-roundtrip.vrm",
+        "prototype/public/assets/m1b/m1b-uniform-top.glb"
+      ],
+      "inputs": [
+        "assets-source/m2-outer-panels-v2/spec.json",
+        "assets-source/m2-outer-panels-v2/provenance.json",
+        "assets-source/m2-outer-panels-v2/generated/editable.blend",
+        "assets-source/m2-outer-panels-v2/generated/author-equipment.json",
+        "assets-source/m2-outer-panels-v2/generated/fit.json",
+        "prototype/public/assets/foundation/base-male-roundtrip.vrm",
+        "prototype/public/assets/m1b/m1b-uniform-top.glb"
+      ],
+      "identity": {
+        "package": "outer-panels",
+        "manifest": "assets-source/m2-outer-panels-v2/manifest.json",
+        "manifestSha256": "9d1aa98b8c1cbd1c0a920c29f9ca45ea6ebbf833a824c0ad475578246c302ef0"
+      },
+      "requirements": [
+        "experiments/tools/blender-4.5.9-windows-x64/blender.exe",
+        "assets-source/m2-outer-panels-v2/requirements.txt",
+        "scripts/m2-outer-panels-v2/build.py",
+        "scripts/m2-outer-panels-v2/save-editable.py",
+        "scripts/m2-outer-panels-v2/audit-source.py"
+      ],
+      "outputs": [
+        "assets-source/m2-outer-panels-v2/workflow-rebuild/",
+        "assets-source/m2-outer-panels-v2/generated/author-equipment.json",
+        "assets-source/m2-outer-panels-v2/generated/fit.json",
+        "prototype/public/assets/m2-outer-panels-v2/author-export.glb",
+        "prototype/public/assets/m1b/equipment.json"
+      ],
+      "stages": {
+        "source": [
+          {
+            "argv": [
+              "python",
+              "scripts/production/flow.py",
+              "show",
+              "male-outer-panels-source"
+            ],
+            "writes": [],
+            "note": "Declarations only. Inputs are exact original male body/top, source spec, editable blend, provenance and author-equipment/fit. Python numpy and Blender 4.5.9 are regeneration prerequisites, not readback dependencies."
+          }
+        ],
+        "export": [
+          {
+            "argv": [
+              "python",
+              "scripts/m2-outer-panels-v2/build.py",
+              "--out",
+              "workflow-rebuild"
+            ],
+            "writes": [
+              "assets-source/m2-outer-panels-v2/workflow-rebuild/"
+            ],
+            "note": "First generate independent panels. Requires numpy and retained m1b/export-equipment.py; refuses an existing output directory."
+          },
+          {
+            "argv": [
+              "experiments/tools/blender-4.5.9-windows-x64/blender.exe",
+              "--background",
+              "--factory-startup",
+              "--disable-autoexec",
+              "--threads",
+              "2",
+              "--python-exit-code",
+              "1",
+              "--python",
+              "scripts/m2-outer-panels-v2/save-editable.py",
+              "--",
+              "--out",
+              "workflow-rebuild"
+            ],
+            "writes": [
+              "assets-source/m2-outer-panels-v2/workflow-rebuild/"
+            ],
+            "note": "After build. Blender 4.5.9 imports pattern, saves editable.blend, reopens and exports twice. Refuses existing editable.blend."
+          },
+          {
+            "argv": [
+              "python",
+              "scripts/m2-outer-panels-v2/install-runtime.py"
+            ],
+            "writes": [
+              "prototype/public/assets/m2-outer-panels-v2/author-export.glb",
+              "prototype/public/assets/m1b/equipment.json"
+            ],
+            "note": "WRITER using fixed generated author-equipment and author-export, never workflow-rebuild. Refuses differing existing runtime entry/asset. Does not alter existing legacy items. Manual isolated use only."
+          }
+        ],
+        "check": [
+          {
+            "argv": [
+              "experiments/tools/blender-4.5.9-windows-x64/blender.exe",
+              "--background",
+              "--factory-startup",
+              "--disable-autoexec",
+              "--threads",
+              "2",
+              "--python-exit-code",
+              "1",
+              "--python",
+              "scripts/m2-outer-panels-v2/audit-source.py",
+              "--",
+              "--out",
+              "workflow-rebuild"
+            ],
+            "writes": [
+              "assets-source/m2-outer-panels-v2/workflow-rebuild/source-audit.json"
+            ],
+            "note": "After save-editable. Static source BVH check on independent output, not game animation or visual fit."
+          },
+          {
+            "argv": [
+              "python",
+              "scripts/m2-outer-panels-v2/verify.py",
+              "--require-static"
+            ],
+            "writes": [],
+            "note": "Read-only retained generated/rebuild pins, generator/body/top and binding/static receipt. Does not validate workflow-rebuild."
+          },
+          {
+            "argv": [
+              "python",
+              "scripts/m2-outer-panels-v2/finalize.py"
+            ],
+            "writes": [
+              "assets-source/m2-outer-panels-v2/generated/author-equipment.json",
+              "assets-source/m2-outer-panels-v2/generated/fit.json",
+              "assets-source/m2-outer-panels-v2/generated/binding-check.json",
+              "assets-source/m2-outer-panels-v2/generated/source-correspondence.json",
+              "assets-source/m2-outer-panels-v2/manifest.json"
+            ],
+            "note": "HISTORICAL FIXED SOURCE WRITER. Requires numpy and both generated/rebuild. Recomputes source correspondence/topology and replaces exact manifest/receipts. Not a check of workflow-rebuild. Do not run on frozen package."
+          }
+        ],
+        "readback": [
+          {
+            "argv": [
+              "python",
+              "scripts/production/flow.py",
+              "validate",
+              "male-outer-panels-source"
+            ],
+            "writes": [],
+            "note": "Read exact package-relative inventory, spec/generator, source binds and fit restrictions, repeated editable exports and current runtime identity only. No exporter or browser."
+          }
+        ]
+      },
+      "limits": [
+        "Actual author-export SHA 0631cf9d1ec297e8504d5ed73f5e1325d3154be9de09906bb6e7131488e89330 is runtime source. Pattern ef9171d06988941332b53c6d0636513aa6e1f9a4fbdae92b3696cb6b966c836b is distinct.",
+        "Exact original male body, m1b-uniform-top layer and original pants/shorts only. Skinning only, empty coverage, no arbitrary morph/cloth dynamics.",
+        "Source manifest inventory paths are relative to assets-source/m2-outer-panels-v2, unlike legacy package paths.",
+        "Stored static-source pending labels remain historical. Game action/state evidence is version-specific and continuous visual fit remains pending. Readback does not admit visual fit."
+      ],
+      "recovery": [
+        "Missing source, wrong SHA, body, inverse bind or fit restriction rejects readback. Restore the named exact committed input before retrying. Never update the manifest to bless unexpected bytes.",
+        "Run displayed write steps manually in isolated checkout only. Keep failed output and log. Select a new absent --out folder for build/save/audit retries and preserve archived generated/rebuild/failed candidates.",
+        "Custom rebuild is independent evidence. finalize/install-runtime use only fixed generated source, so new candidates require explicit reviewed version/fit admission before installation. Missing tools affect regeneration only."
+      ]
     }
   ]
 }
