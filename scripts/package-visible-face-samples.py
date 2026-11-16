@@ -1,8 +1,9 @@
-import json,subprocess,tempfile
+import json,subprocess,tempfile,argparse
 from pathlib import Path
 from PIL import Image,ImageDraw
 import imageio_ffmpeg
-p=Path('evidence/visible-face-trial-205b-v1');out=p/'live-review';out.mkdir(exist_ok=False)
+ap=argparse.ArgumentParser();ap.add_argument('--out',required=True);args=ap.parse_args()
+p=Path(args.out);out=p/'live-review';out.mkdir(exist_ok=False)
 r=json.loads((p/'report.json').read_text(encoding='utf-8'));records=[]
 for m in r['movies']:
  with tempfile.TemporaryDirectory() as tmp:

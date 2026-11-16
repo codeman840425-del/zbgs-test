@@ -184,3 +184,11 @@ docs/history/FOUNDATION-MILESTONES-before-current-consolidation-bcade.md -text
 
 # Frozen runtime bundles include upstream GLSL whitespace; keep measured bytes.
 evidence/body-source-cost-bcade-v1/bundles/** -text -whitespace
+
+# Exact authored source/fixture bytes are pinned in the visible-face receipts.
+# Retain their recorded terminal blank line; still check spaces/tabs at line ends.
+scripts/mouth-visible-v2/build.py whitespace=-blank-at-eof,cr-at-eol
+scripts/face-visible-fixture.mjs whitespace=-blank-at-eof,cr-at-eol
+evidence/face-visible-runtime-v1/frozen-source/scripts/face-visible-fixture.mjs whitespace=-blank-at-eof,cr-at-eol
+docs/history/CURRENT-before-visible-ab074.md -text
+delivery/history/appearance-workbench-bcade40d24f1.json -text

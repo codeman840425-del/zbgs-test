@@ -1,0 +1,9 @@
+# Published ab074 smoke
+
+Requested scope completed: HTTP X-ZBGS-Candidate, fetched build-info and runtime JS identity all equal ab0743684fe6. Actual 4196 UI selected green iris and mouth +12%; actual room-entry button and ground click moved the root more than 0.1 m. The screenshot was opened and shows the target marker, walking character and selected +12% control.
+
+The actual 4174 evidence page loaded its default image and all 12 combinations of female/male × iris/geometry/side × old/new. Every image completed with positive natural dimensions; zero page errors and zero HTTP >=400 responses. The default screenshot was personally opened and shows readable body/topic/version controls and the image. This is availability/UI smoke, not another visual approval of every color/shape.
+
+Preserved QA failure: the original script additionally required zero requestfailed events and marked report.json passed=false after completing all requested checks. Chrome recorded net::ERR_ABORTED for the two video preload=metadata requests. These were not HTTP404 or failed images. A separate exact-URL Range probe returned HTTP206, video/webm, expected 1024-byte ranges and WebM EBML headers for both videos. Full playback was outside this smoke. The raw report and executed script are unchanged. A corrected script separately classifies only these exact media ERR_ABORTED requests while retaining all other failures; it is archived as corrected-script-not-rerun.cjs and has not been used to relabel/re-execute this run.
+
+Conclusion: requested public identity, real UI movement and evidence-image availability are verified; the original broader all-request assertion remains a preserved test failure. All test Chrome instances closed; existing public servers were not stopped. No product change or repeated full regression.

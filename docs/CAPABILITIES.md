@@ -4,16 +4,16 @@
 
 ## 当前交付与阶段边界
 
-- **4196 /?workbench=appearance：bcade40d24f1**，源c2224049a983b5e1af9e713e6938294bc0478e10，`experiments/m2-appearance-workbench-v22/dist`。唯一交付指针为 `delivery/appearance-workbench.json`，备份回执 `delivery/workbench-backup-bcade.json`。a0dd/v21直接回滚，1fff及更旧固定目录保留。公开smoke：`evidence/current-workbench-bcade40d24f1/report.json`。
+- **4196 /?workbench=appearance：ab0743684fe6**，源2084c43，experiments/m2-appearance-workbench-v23/dist。唯一指针 delivery/appearance-workbench.json；bcade/v22直接回滚。观看 evidence/appearance-repair-ab074；备份见 delivery/workbench-backup-ab074.json。
 - **4195：77e46efb5441** 保留M1基础。用户对原女裙/原男短裤所录完整1×链接受“可以作为下一阶段基础”，明确排除已登记裙瑕疵；仅这些影片范围，不外推新外貌、最终画风、普通电脑或所有组合。回执 `evidence/m1-close-77e46-user-review.json`。
 - **裙装与该30秒舞已封板。** 038裙实现随77保留，已知硬折/局部接触/成本缺口不是继续精修的授权；30秒Rokoko路线获认可，唯一适配尝试后封存，不再追加调参。依据 `evidence/m1-stage-close-user-direction-2026-11-15.json`、`evidence/rokoko-30s-advisor-v1/USER-REVIEW.json`。旧失败仍失败，不因封板变成全部通过，也不因旧失败重新派活。
-- 有限M2技术闭环已完成：男女独立入口/三分区、已有有限几何与配色、本地v4配方文件/草稿、男性jaw单嘴参数复用。原男女嘴宽±4%与眉/鼻/眼各一个端点；男jaw只嘴宽0/+4%，女jaw/waist未获四域准入。工作台分区已获用户接受（evidence/workbench-layout-user-review-bcade.json）；新外观/画风观感仍待用户，不扩完整编辑器、体型衣库、M3或服务器。
+- 有限外观闭环及本轮反馈修复：男女独立三分区已获用户接受；原男女新几何嘴±12%/眉3mm/鼻2mm/眼5%、虹膜v3、本地v5配方已接入。旧范围/身份保留；男jaw仍只0/+4%，女jaw/waist无四域准入。新外观待用户观看，不扩完整M2/M3。
 - bcade只新增换体提交前compileAsync准备及等待后最新状态采纳：22项CPU、4组浏览器事务、旧新正常1×与公开smoke通过；三轮真实compile后取消逐cacheKey/usedTimes回初值另有限定通过。见 `evidence/body-switch-compile-v1`、`evidence/body-switch-compile-browser-bcade-v1`、`evidence/body-switch-compile-lifetime-bcade-v1/RESULT.md`。**不把77整链、aa短后台或a0dd243秒会话重标为bcade全路径/长期通过。**
 - 开发机首次长帧仍在：a0dd改脸103–109ms；bcade换体同法A-B-A约322ms，均非普通电脑验收。用户明确“暂时没有，保留实测缺口继续”，见 `evidence/ordinary-pc-deferred-2026-11-15.json`。01a主色首用方案未改善整体出帧已撤回，不能重当未试建议。
 
 ## 当前优先修复
 
-用户已接受工作台分区，但明确拒绝当前瞳色，要求更明显的面部几何幅度，并报告移动失效。记录见evidence/appearance-feedback-2026-11-15/feedback.json。优先复现并修复移动；并行修订虹膜遮罩/混色与重新制作有限几何端点，不能只扩大UI值或继承旧视觉结论。旧构建的技术检查保留，当前外观验收未通过。
+用户否决旧瞳色、要求更大面部幅度及报告移动失效，本轮ab074已完成有界修复：移动10门、v5/虹膜10门、男女正常1×与同镜头图，见evidence/appearance-repair-ab074。移动根因为近景地板射线未命中且无反馈，以及暂停/停止提示失效；已修入口与反馈。新外观仍待人工验收。男嘴−12%源NORMAL1.105666e-5超原1e-5门保留未过；详face-visible-runtime-v1，未放宽阈值。
 
 ## 状态口径与适用范围
 
@@ -34,7 +34,7 @@ F=完整Base_Female原基模，M=同系列Base_Male原基模，P=独立裤，S=�
 | POSE-02 动作中断/取消/同动作重复 | 单角色command/状态机 | 是 | 旧坐入25%/65%改走等检查；77 tasks/tasks-mm各19项含取消/超时/重复终态通过：evidence/m1-close-reliability-77e46efb5441 | 已验证可用：所测命令取消/重复生命周期 | 不穷举所有行为通道或未来任务；视觉按实际录像范围 | M1限定可靠性 |
 | SPACE-01 地面路径/家具阻挡 | 房间与椅局部盒 | 是 | 修复旋转椅角线段漏检，代表路径及椅变换 | 已验证可用：已测静态平地/代表家具路径 | 不含斜坡、楼梯、动态推椅、所有家具形状或舞蹈活动区 | P1 M1A/B |
 | SPACE-02 舞蹈活动空间、位移舞路径 | 两舞空间半径/根策略配置 | 是 | 房间家具/边界圆与盒准入，局部髋平移保留 | 已实现但未通过 | 不含动态角色避让、空间位移导航舞或任意文件舞库 | P2 M1C |
-| SPACE-03 UI输入与房间点击隔离 | 现有页面/Phaser输入 | 是 | 1a附件503→提示滚动→重试→地面点击19项及112状态采样；894两尺寸布局、aa复位镜头、bcade同文档/三分区smoke：evidence/accessory-ui-room-isolation-1a0d06fc8ffe、evidence/current-workbench-bcade40d24f1/report.json | 已验证可用：所列UI/房间输入隔离路径 | 旧未知来源录像不改标已修；未覆盖所有UI/移动端。bcade换体状态门见REL-03 | 有限M2工作台 |
+| SPACE-03 UI输入与房间点击隔离 | Phaser点击及工作台反馈 | 是 | ab074真实10门：近景误点→房间地面、UI隔离、男女路线、暂停恢复/停止、坐起/舞蹈中断、招手拒绝；workbench-movement-final-ab074与同脚本旧新1× | 已验证可用：所测移动操作/反馈；连续自然度不新授予 | 近景不是通用导航；需房间地面。未覆盖手机/所有目的地 | 有限工作台反馈修复 |
 | SPACE-04 本地座位预约和占用 | seat-lease.js | 共用单椅任务 | 77男+女/男+男同椅竞争/坐稳保有/起身离位/取消及释放，evidence/m1-close-reliability-77e46efb5441 | 已验证可用：所测单椅与双实例 | sit完成不释放座位；无服务器仲裁、动态家具或人群避让 | M1限定基础 |
 
 ## 直播、面部与舞蹈
@@ -60,7 +60,7 @@ F=完整Base_Female原基模，M=同系列Base_Male原基模，P=独立裤，S=�
 | BODY-01 完整女性与练功诊断 | 原VRM、重建blend、再导出、皮肤面存在 | 是 | 原女性roundtrip/同房间B/P/S；77原女裙所录整链用户接受；无发20b五体15角技术回读保原版 | 已验证可用：77展示基础；新外观/最终画风待用户 | 非原.vroid恢复；无连续Body身材morph；不外推新外貌或全部装备动作组合 | M1基础封板；有限M2外观 |
 | BODY-02 真实男性 | Base_Male独立身体、源blend、独立上衣裤鞋 | 是 | 真实男接入与独立装备；77任务/男男隔离和原男短裤完整链接受，旧数值保原版本 | 已验证可用：77展示基础；最终画风待用户 | 足底/体型/装备按所测范围，不继承任意派生或普通电脑性能 | M1B基础封板 |
 | BODY-03 年龄感/身高/胖瘦/比例 | 男女Body无现成体型morph | 否 | 无 | 未实现 | 拟议成年青年/成熟、少量局部变化；范围待可视样件，不承诺全年龄连续变化 | P3 M2受限；完整后续 |
-| FACE-01 长期脸型五官/肤色编辑 | 原男女嘴宽±4%、单眉位组合、鼻尖+0.5mm、眼裂宽+1%；女jaw/waist、男jaw源；配色与遮罩 | 共用工作台页内基模/参数/配色；原男女四域，男jaw25ac8a仅嘴宽0/+4%；女jaw/waist几何参数拒绝 | 00fd/844各源端点与定向运行；aa男jaw源→配方→6组回读/正常1×与文件往返；894布局/文件、a0dd19组、bcade公开smoke。见evidence/m2-male-jaw-mouth-browser-aa6fc6159e2d、evidence/face-selective-browser-a0dd7fb7bf4a、evidence/current-workbench-bcade40d24f1/report.json | 已验证可用：限定制作/编辑技术路径；工作台分区获用户接受；新外观/画风观感待用户 | 配色/表情不等于几何捏脸；眉鼻眼仅各一个端点，男jaw不支持2%/负嘴宽及其他域；嘴高/连续眉鼻眼/完整自由编辑未实现 | 有限M2闭环，不扩参数库 |
+| FACE-01 长期脸型五官/肤色编辑 | 原男女新嘴±12%/眉3mm/鼻2mm/眼5%，旧样件与派生保留；虹膜v3 | 原男女共用求值、不可变源、法线并集；男jaw仍仅0/+4 | ab074男女4域正常1×、正侧/闭眼/口型/注视；旧11源/17合同；workbench-v5-final-ab074；visible-face-final-ab074 | 已实现但未通过新观感；限定技术与文件回读过；布局已接受 | 男嘴−12% Blender NORMAL一门1.105666e-5>1e-5未过；较大幅度是离散，不是全区间。派生无新增准入，普通机未测 | 本次用户反馈有界修复，不扩参数库 |
 | RISK-01 真实女性脸部几何派生 | 既有女jaw源及精确body/装备fit | 离散样件已接；四域几何参数未准入 | 77原样件真实裤走跑→裤坐起→专属裙坐起/行走/技术舞→回裤，7完成/2取消；25门及QA子标签失败交叉核实，evidence/m1-variants-current-77e46efb5441 | 已验证可用：该离散样件所测技术链；样件观感未继承原男女接受 | 未新制；精细接触/完整表情未扩大，mic/glasses/新发/原男女配方不能默认继承 | 既有风险样件保留，不批量扩展 |
 | RISK-02 真实女性局部体型派生 | 既有腰+3.99%/臀+3.62%源及专属装备 | 离散样件已接；几何参数未准入 | 77该样件7完成/2取消/26门，裤裙完整技术链与正常1×在evidence/m1-variants-current-77e46efb5441 | 已验证可用：该样件所测技术链；新体型观感待用户 | 不是整体缩放；不能继承原female身份或所有服装接触通过；男体型样件未制作 | 既有风险样件保留 |
 | RISK-03 男性独立下颌几何派生 | 25ac8a真实98点≤2.306mm；editable源/54形态、Body及绑定不变 | 既有3016样件；现仅新增单嘴原位/+4%配方 | evidence/m2-male-face-room-v1、evidence/m2-male-face-motion-v1；aa单嘴6组/正常短裤讲话走停与新context文件回读，evidence/m2-male-jaw-mouth-browser-aa6fc6159e2d | 已验证可用：所列离散制作/参数复用技术路径；用户脸型观感未验 | 不继承原男77观感；眉鼻眼/连续或负嘴宽拒绝，未配mic/glasses/新发/专属动作及材料recipe不自动准入 | 有限M2已完成一个复用证明 |
@@ -80,7 +80,7 @@ F=完整Base_Female原基模，M=同系列Base_Male原基模，P=独立裤，S=�
 | ID / 能力 | 素材/配置 | 接入 | 实际证据及构建 | 当前状态 / 范围 | 限制 | 阶段 / 优先级边界 |
 |---|---|---|---|---|---|---|
 | DATA-01 身份/身体/容貌/造型/行为分层 | AVATAR-CONTRACT、strict record validator及v4外观制作配方 | QA身份合同与工作台本地外观文件/草稿；非账号业务存档 | 77男女QA记录v2关闭页恢复2例/26拒绝；894/aa外观v4干净context真实读文件与下载一致 | 已验证可用：所测本地合同和制作配方路径；永久业务身份未实现 | 按基模草稿/配方不是多个主播档案；room-primary非业务永久ID，无账户/云同步。两类schema证据不可混为通用迁移 | M1合同；有限M2文件闭环 |
-| DATA-02 最终外观/装备fit版本/回退迁移 | 精确base/资源/fit/几何recipe身份与v4外观文件 | 本机每基模草稿、下载配方/读取配方及旧v1–3缺失域none迁移 | evidence/appearance-recipe-runtime-89480cf8f66c两合法文件干净context往返、坏资源保原/较新请求不被覆盖；aa男女代表与jaw文件再次回读。77记录v2恢复保原版本 | 已验证可用：同基模精确版本的本地制作文件/草稿技术路径 | 先选对应基模；不含模型本体/动作/镜头/账号。不支持任意资源迁移/云存档；男jaw仅合法单嘴端点，其他派生不自动获得原男女配方 | 有限M2文件移交 |
+| DATA-02 最终外观/装备fit版本/回退迁移 | 精确base/资源/recipe身份、v5配方 | 本地草稿/下载/读取；旧v1–4值与几何SHA保留，旧色彩显式迁移v3 | ab074男女旧2.5%/新端点实际文件往返、坏SHA保原；workbench-v5-final-ab074 | 已验证可用：所测本地精确身份恢复与迁移 | 不是账号/云存档，不支持任意跨基模资源迁移；需选对应基模 | 有限制作移交 |
 | DATA-03 受规则随机生成/权重/失败回退 | 无已验资源组合库 | 否 | 无 | 未实现 | 从合格部件组合，不临时造未经验证新网格 | P3 M3小组，后扩量 |
 | DATA-04 展示衍生版本关联 | AVATAR-CONTRACT的actorId/appearanceRevision/资源版本和失效约定 | 接口登记 | 无头像/招聘/详情缓存产品闭环 | 待验证：仅接口约定 | 外观制作配方不替代业务身份；头像/招聘/详情生成与缓存UI后置 | 后续产品需求，不自动启动 |
 | REL-01 快切/暂停恢复/窗口变化 | 当前单时钟/装扮状态及真实后台检查脚本 | 是 | aa真实visible→hidden→visible三例各约1.51秒；a0dd243秒6轮/54项会话与有限资源趋势；bcade同文档换体/相机/暂停最新状态采纳，另三轮正常男女往返保持状态与资源引用。见evidence/background-aa6fc6159e2d-v1、evidence/workbench-session-a0dd-v1、evidence/body-switch-compile-browser-bcade-v1 | 部分已验证：所列构建短后台/会话/切换路径 | 77未建立真实返回visible的失败仍保留；aa不重标bcade后台通过，243秒只属a0dd；原生最小化、长挂起/长期运行及普通机未验；bcade新增真实UI换体后台两例23项，位置/暂停/时钟/旧任务/UI保持，见evidence/body-switch-background-ui-bcade-v1/RESULT.md；不是全动作后台验收 | 当前有限可靠性；不自动扩大测试矩阵 |
@@ -90,7 +90,7 @@ F=完整Base_Female原基模，M=同系列Base_Male原基模，P=独立裤，S=�
 | CTRL-02 请求完整生命周期 | behavior-tasks稳定requestId | accepted与最终完成/取消/失败分开 | 77男+女/男+男各19项真实坐起/取消/超时/重复请求终态，evidence/m1-close-reliability-77e46efb5441 | 已验证可用：所测本地任务路径 | 旧175卸麦招手早报ready失败及后续修复保原证据；未接经营结算/服务器，暂停不推进仿真超时 | M1限定基础 |
 | GAME-01 经营结算与表现分离 | 旧发布规则作为对照 | 新源码未恢复完整经营 | 无真实服务 | 未实现 | 动画暂停/掉帧/未加载不能决定收益PK；联网后续独立，不冒充已联网 | 后续经营/服务里程碑 |
 | PIPE-01 可恢复源码/锁文件/固定构建 | 源码、锁文件、源blend/脚本/许可及固定报告 | 是 | 77源e94ac1c新检出65产物一致；bcade源c222404两独立检出98产物一致，evidence/rebuild-bcade-c222404；delivery/workbench-backup-bcade.json记录远端与归档字节 | 已验证可用：所列精确提交/Windows固定工具重建与备份 | 不是原工程恢复/跨系统保证，也非全部资产生成器重跑；私有真人/FBX仍仅本机。5d构建后漂移失败保原记录 | 当前固定交付/回滚 |
-| PIPE-02 新服装生产闭环 | 女性新及膝裤、男性独立裤、派生专属裤源 | 是 | 男性/派生真实制作重导出、独立身份与游戏坐姿检查 | 已验证可用：所列制作/重导出/有限接入路径；版型自然度仍按具体证据 | 女裙按用户封板，源失败试验不重启；7a86覆盖/男短裤等保原构建范围，不宣称任意体型共用或所有动作合格 | 封板M1素材；新资产按后续明确需求 |
+| PIPE-02 固定构建、重新检出和备份 | 锁文件/精确源/新源包/构建ID | 是 | ab074源2084c43独立检出，第二新检出122文件逐字节同；四源包221必要文件隔离Git导出核验；evidence/rebuild-visible-ab074、face-visible-retained-verification-v2 | 已验证可用：此构建与保留源包；远端状态见delivery/workbench-backup-ab074.json | raw/fresh重复产物可重建不全部备份；不含供应商私有源/普通机；不是全工具跨OS复现 | 当前固定交付/回滚 |
 | PIPE-03 改源→导出→回读→动作检查 | 女jaw/waist、男jaw及男jaw单嘴参数；原男女嘴眉鼻眼源/recipe/固定导出 | 是 | 男性jaw98点/54表达与重复导出；男jaw+嘴宽+4%40文件、fresh原底和28点法线重叠重算、源/运行CPU及aa回读/新context配方。源assets-source/m2-male-jaw-mouth-v1，证据m2-male-jaw-mouth-runtime-v1、evidence/m2-male-jaw-mouth-browser-aa6fc6159e2d | 已验证可用：所列有限源→身份配方→游戏回读闭环；用户新外观观感待验 | 不是复制原recipe换SHA；只有男jaw单嘴复用证明，不外推女jaw/waist参数、其他五官或通用自动适配 | 有限M2闭环，不扩样件库 |
 | PERF-01 普通电脑运行预算 | i5-1135G7/IrisXe/16GB/1440×900/60fps参考 | 只有开发机；用户明确暂缺普通电脑 | 77九场景30秒：裙坐CPU P95 9.2ms、双裙裤11.5ms、双裤单帧37.6ms；a0dd改脸maxrAF103–109ms；bcade换体A-B-A maxrAF旧813/837→322ms、首draw约323ms，仍停顿。见m1-fixed-perf-77e46efb5441、evidence/face-snapshot-comparison-v1、evidence/body-switch-a0dd-diagnostic-v1/COMPARISON.md | 已实现但未通过：仅开发机有限成本改善，普通PC无实测 | 用户明确暂无普通电脑，保缺口继续；不同录像/无录像、构建/场景数值不混比。01a主色首用未改善整段出帧已撤回，不再当未试方案；不重开封板裙优化 | 保留设备/首次长帧边界，按真实反馈决策；body-source-cost-bcade-v1采样未证明源缓存收益，暂不加缓存 |
 | PERF-02 按需加载/缓存与资源释放 | 实例资源所有权、选择性primitive准备、事务内属性快照与shader warm引用 | 部分 | 1fff两轮有限资源稳定；a0dd243秒会话；bcade三轮真实compile后取消，program22→28→22、usedTimes106→133→106，逐cacheKey恢复，geometry/texture89/44不变。另三轮成功往返，同体每个cacheKey/usedTimes均与上轮一致，男84G/41T/23program、女84/40/24。见evidence/body-switch-compile-lifetime-bcade-v1/RESULT.md及evidence/body-switch-success-lifetime-bcade-v1/RESULT.md | 部分已验证：有限准备复用/取消与成功切换资源归还 | 初始女22与返回女24区别单列，三轮不是长期循环；计数不是VRAM，不能据此认定泄漏或承诺无漏。没有完整素材库懒加载/容量策略 | 有限M2资源管理，不做无依据大优化 |
