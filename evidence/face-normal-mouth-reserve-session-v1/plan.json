@@ -1,0 +1,59 @@
+{
+  "status": "prepared-not-run",
+  "script": "scripts\\qa-face-mouth-reserve-session-cost.cjs",
+  "scriptSha256": "e2aac12fcdda04180838503f2953c3aec010bfb94ed1924725af5994c8594c05",
+  "baseline": {
+    "source": "6e4801f",
+    "build": "460b72813f68",
+    "dist": "experiments/body-context-guard-build-v1/dist"
+  },
+  "candidate": {
+    "source": "6497e29767668d6483c8e6eaff9f917c84e1d527",
+    "parent": "13526ff9800f52a3096d2fb8dc0c2345be8a9d86",
+    "build": null,
+    "differenceWarning": "0137/4f-derived candidate has no shadow preparation or new context guard; this is not a final integrated sole-hunk A/B"
+  },
+  "sequence": [
+    "female ready",
+    "real UI mouth -0.12",
+    "real UI mouth reset 0",
+    "real UI male select",
+    "real UI male mouth -0.12",
+    "real UI female select"
+  ],
+  "conditions": {
+    "nativeHeadfulFocus": true,
+    "sameDocument": true,
+    "paused": true,
+    "outfit": 0,
+    "viewport": [
+      1600,
+      1000
+    ],
+    "video": false,
+    "profiler": false,
+    "driverCacheCleared": false
+  },
+  "observations": [
+    "initial navigation/ready rAF/render/longtask/GL (renderer exposed hook limit)",
+    "per-edit actual set and UI time/rAF/render/GL/uploads",
+    "per-switch actor commit observation interval and first render; full frames and longtasks",
+    "geometry/texture/programs/usedTimes before-after",
+    "actual morph layout CPU backing/GPU-base estimate (not memory measurement)"
+  ],
+  "stateChecks": [
+    "same document",
+    "native visible/focus",
+    "pause/simulation clock/position/outfit",
+    "camera selected mode only (world framing may follow different height)",
+    "correction/body-mode/dynamics/flags",
+    "default appearance colors"
+  ],
+  "limitations": [
+    "single pair; uncontrolled driver cache",
+    "rAF not actual presentation",
+    "source baselines differ as declared",
+    "paused stationary comparison, not animation cost",
+    "snapshot visible geometry estimates omit any retired/cached original geometries; report original+clone estimate separately"
+  ]
+}

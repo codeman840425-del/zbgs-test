@@ -109,6 +109,8 @@ PERF-01/02：零NORMAL布局4f候选不采用；首改改善但换男长帧327.6
 
 REL-03：34e原男女实际UI改嘴各一次，在真实WebGL上下文失效后保旧、清理、退出加载；restore后同值重试及reset共6阶段通过。证据face-context-recovery-34e-v1；检查截图有角色，不作完整视觉验收。扩展触发不等于驱动崩溃，不覆盖其他故障；换体等待的独立460修复见顶部与body-context-guard-delivery-v1。
 
+两块局部替代81ce同样不采用（只评估一次）：首嘴女103→36ms/男79→30ms，但换男328→437ms且加载/额外容量仍退化；眼/四域额外拆分normalSet的问题独立记录。证据face-normal-mouth-reserve-v1、face-normal-mouth-reserve-session-v1。PERF-01未因此通过；不再调此预留方向，官方删未引用顶点的小验尚未接入，也不等于性能已改善。
+
 ## 本轮接续：源导出精度修复
 
 男性嘴−12%的旧 Blender final 对照仍失败，原报告不改。新生产导出增加明确的 Float32 Basis/relative morph 量化步骤，并从实际序列化位置重算法线；独立55形态检查、原底重新生成和当前实际算子回读已完成。新的版本化参考合同 `assets-source/mouth-quantization-reference-v1/reference-manifest.json` 下，男−12% NORMAL差1.78e−15、男+12%旧参考8.46e−6，均过原1e−5门；旧负参考仍复现1.105666e−5。详 `evidence/mouth-quantization-reference-v1/RESULT.md`。
