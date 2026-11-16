@@ -1,0 +1,262 @@
+{
+  "schema": "head-diagnostic-cpu-qa-v1",
+  "checks": [
+    {
+      "id": "only-reviewed-prerequisite-is-diagnostic",
+      "passed": true
+    },
+    {
+      "id": "additional-failed-gate-rejected",
+      "passed": true
+    },
+    {
+      "id": "real-frozen-pair-still-fails-strict",
+      "passed": true,
+      "record": {
+        "pair": [
+          47,
+          1007
+        ],
+        "sourceStrict": false,
+        "targetStrict": true,
+        "newStrict": true,
+        "sourceInclusive": true,
+        "targetInclusive": true,
+        "classification": "strict-boundary-crossing-unresolved",
+        "sourceSegmentM": 2.2720848876416398e-11,
+        "targetSegmentM": 1.8193026337428122e-09,
+        "sourceDistanceM": 0.0,
+        "targetDistanceM": 0.0,
+        "targetPerVertexPerAxisFloat32UlpM": [
+          [
+            2.3283064365386963e-10,
+            1.1920928955078125e-07,
+            7.450580596923828e-09
+          ],
+          [
+            2.3283064365386963e-10,
+            1.1920928955078125e-07,
+            7.450580596923828e-09
+          ],
+          [
+            2.3283064365386963e-10,
+            1.1920928955078125e-07,
+            7.450580596923828e-09
+          ],
+          [
+            4.656612873077393e-10,
+            1.1920928955078125e-07,
+            7.450580596923828e-09
+          ],
+          [
+            2.3283064365386963e-10,
+            1.1920928955078125e-07,
+            7.450580596923828e-09
+          ],
+          [
+            2.3283064365386963e-10,
+            1.1920928955078125e-07,
+            7.450580596923828e-09
+          ]
+        ],
+        "targetPerVertexHalfUlpBoxRadiiM": [
+          5.972106009721756e-08,
+          5.972106009721756e-08,
+          5.972106009721756e-08,
+          5.972140049192533e-08,
+          5.972106009721756e-08,
+          5.972106009721756e-08
+        ],
+        "modifierRelativeErrorBoundM": null,
+        "precisionClassification": "unknown-conservative-error-budget; scale observations do not establish safety",
+        "legacyGateStillFails": true,
+        "productionAdmitted": false,
+        "sourceTrianglePointsM": [
+          [
+            [
+              0.0005088484613224864,
+              1.5331393480300903,
+              -0.1001448929309845
+            ],
+            [
+              -0.005984543822705746,
+              1.5373252630233765,
+              -0.09781793504953384
+            ],
+            [
+              0.0005088469479233027,
+              1.5371869802474976,
+              -0.0998334139585495
+            ]
+          ],
+          [
+            [
+              0.004386228043586016,
+              1.5370979309082031,
+              -0.10363996773958206
+            ],
+            [
+              0.000508847355376929,
+              1.5354881286621094,
+              -0.09927881509065628
+            ],
+            [
+              0.0005088481702841818,
+              1.5371259450912476,
+              -0.10389827191829681
+            ]
+          ]
+        ],
+        "targetTrianglePointsM": [
+          [
+            [
+              0.0035088402219116688,
+              1.5331393480300903,
+              -0.1001448929309845
+            ],
+            [
+              -0.0029845505487173796,
+              1.5373252630233765,
+              -0.09781793504953384
+            ],
+            [
+              0.003508838824927807,
+              1.5371869802474976,
+              -0.0998334139585495
+            ]
+          ],
+          [
+            [
+              0.007386218756437302,
+              1.5370979309082031,
+              -0.10363996773958206
+            ],
+            [
+              0.0035088371951133013,
+              1.5354881286621094,
+              -0.09927881509065628
+            ],
+            [
+              0.003508839989081025,
+              1.5371259450912476,
+              -0.10389827191829681
+            ]
+          ]
+        ],
+        "sourceExactInclusive": [
+          {
+            "direction": "mouth-to-skin",
+            "edge": 2,
+            "pointM": [
+              0.0005088474946819071,
+              1.535724657704974,
+              -0.09994594461806816
+            ],
+            "barycentric": [
+              5.5754827538461974e-09,
+              0.8555826899690285,
+              0.14441730445548875
+            ],
+            "t": 0.3612785114800825,
+            "absoluteDeterminantM3": 7.447674361397852e-08,
+            "distanceToNearestTargetTriangleEdgeM": 2.1620845479718206e-11,
+            "oldStrictBarycentricEpsilonPhysicalScalesM": [
+              3.8778427688262967e-10,
+              4.890823446105018e-10,
+              3.1396747353757913e-10
+            ]
+          },
+          {
+            "direction": "skin-to-mouth",
+            "edge": 1,
+            "pointM": [
+              0.000508847473063641,
+              1.5357246577023251,
+              -0.09994594461159734
+            ],
+            "barycentric": [
+              0.3612785122481891,
+              3.3292724764850034e-09,
+              0.6387214844225385
+            ],
+            "t": 0.14441730831843252,
+            "absoluteDeterminantM3": 1.247250870919314e-07,
+            "distanceToNearestTargetTriangleEdgeM": 2.261941976375028e-11,
+            "oldStrictBarycentricEpsilonPhysicalScalesM": [
+              4.055841770088988e-10,
+              6.794102892903355e-10,
+              3.4183950201247933e-10
+            ]
+          }
+        ],
+        "targetExactInclusive": [
+          {
+            "direction": "mouth-to-skin",
+            "edge": 2,
+            "pointM": [
+              0.0035088393296280477,
+              1.5357246577322539,
+              -0.09994594461596887
+            ],
+            "barycentric": [
+              4.464401028692628e-07,
+              0.8555826657718377,
+              0.14441688778805944
+            ],
+            "t": 0.36127850474031636,
+            "absoluteDeterminantM3": 7.447672442319993e-08,
+            "distanceToNearestTargetTriangleEdgeM": 1.7312240765152627e-09,
+            "oldStrictBarycentricEpsilonPhysicalScalesM": [
+              3.877841765084981e-10,
+              4.890823568938754e-10,
+              3.1396736326494736e-10
+            ]
+          },
+          {
+            "direction": "skin-to-mouth",
+            "edge": 1,
+            "pointM": [
+              0.003508837598610289,
+              1.5357246575201726,
+              -0.09994594409783651
+            ],
+            "barycentric": [
+              0.3612785662441574,
+              2.6658155628770313e-07,
+              0.6387211671742864
+            ],
+            "t": 0.14441719710171674,
+            "absoluteDeterminantM3": 1.247250446575356e-07,
+            "distanceToNearestTargetTriangleEdgeM": 1.811182168979214e-09,
+            "oldStrictBarycentricEpsilonPhysicalScalesM": [
+              4.055841773400164e-10,
+              6.794101565768224e-10,
+              3.418394868401778e-10
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "quarantine-False",
+      "passed": true
+    },
+    {
+      "id": "quarantine-True",
+      "passed": true
+    },
+    {
+      "id": "normal-batch-original-failure-still-rejected",
+      "passed": true
+    },
+    {
+      "id": "old-failure-files-unchanged",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "blenderStarted": false,
+  "batchStarted": false,
+  "productionAdmitted": false,
+  "runtimeAccepted": false
+}

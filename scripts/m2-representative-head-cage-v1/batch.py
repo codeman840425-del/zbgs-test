@@ -48,7 +48,7 @@ def surface_widths(P, F, levels):
     return result
 
 
-def run_source(sex, source, requests, spec, out):
+def run_source(sex, source, requests, spec, out, diagnostic_only=False, contact_observer=None):
     bpy.ops.object.select_all(action='SELECT')
     bpy.ops.object.delete(use_global=False)
     g = GLB((ROOT / source['body']['path']).read_bytes())
@@ -67,9 +67,16 @@ def run_source(sex, source, requests, spec, out):
     manifests = json.loads((ROOT / source['equipmentManifest']).read_bytes())
     source_widths = (head.landmark_source[1::2, 0] - head.landmark_source[::2, 0]) / 2
     rows = []
+    def contact_result(request, target, P, Q, pairs, baseline):
+        result = {'target': target, 'sourcePairs': len(baseline), 'targetPairs': len(pairs), 'addedStrictPairs': sorted(pairs - baseline)}
+        if contact_observer is not None:
+            result['sourceStrictPairs'] = sorted(baseline)
+            result['targetStrictPairs'] = sorted(pairs)
+            result['pairPrecisionObservations'] = contact_observer(request, target, P, Q, head.mouth_faces, head.skin_faces, baseline, pairs)
+        return result
     for request in requests:
         started = time.monotonic()
-        identifier = request['basePresetId'] + '-head-cage-v1'
+        identifier = request['basePresetId'] + ('-head-cage-diagnostic-v1' if diagnostic_only else '-head-cage-v1')
         folder = out / identifier
         folder.mkdir()
         fit = head.fit(request['parameters'])
@@ -91,7 +98,7 @@ def run_source(sex, source, requests, spec, out):
             ends, end_normals = [], []
             if accessor == head.face_accessor:
                 pairs = contacts(Q, head.mouth_faces, head.skin_faces)
-                mouth_checks.append({'target': -1, 'sourcePairs': len(source_contact[0]), 'targetPairs': len(pairs), 'addedStrictPairs': sorted(pairs - source_contact[0])})
+                mouth_checks.append(contact_result(request, -1, P, Q, pairs, source_contact[0]))
             distal = max(distal, float(np.linalg.norm(Q[extremities[accessor]] - P[extremities[accessor]], axis=1).max(initial=0)))
             for p in ps:
                 name = g.doc['materials'][p['material']]['name']
@@ -111,7 +118,7 @@ def run_source(sex, source, requests, spec, out):
                 end_normals.append(EN)
                 if accessor == head.face_accessor:
                     pairs = contacts(E, head.mouth_faces, head.skin_faces)
-                    mouth_checks.append({'target': i, 'sourcePairs': len(source_contact[i + 1]), 'targetPairs': len(pairs), 'addedStrictPairs': sorted(pairs - source_contact[i + 1])})
+                    mouth_checks.append(contact_result(request, i, P + D, E, pairs, source_contact[i + 1]))
             results[accessor] = {'positions': Q, 'normals': QN, 'endpoints': ends, 'endpointNormals': end_normals}
             traces.append({'accessor': accessor, 'maximumDisplacementM': float(np.linalg.norm(Q - P, axis=1).max()),
                            'endpoints': len(ends), 'maximumEndpointBakeFloat32ErrorM': float(max([np.linalg.norm(Q.astype(np.float32) + (E - Q).astype(np.float32) - E, axis=1).max() for E in ends], default=0))})
@@ -164,7 +171,12 @@ def run_source(sex, source, requests, spec, out):
             'mouthSkinExpressionChecks': mouth_checks, 'runtimeAccepted': False,
             'knownLimits': ['Original v2 vest overlap unresolved. No layered clearance or pose acceptance.', 'Separate expression endpoints only. No continuous combined-expression guarantee.'],
             'seconds': time.monotonic() - started, 'resourceBytes': sum(map(len, files.values()))}
-        files['equipment.json'] = io.encoded({'schema': 'zbgs-equipment-v1', 'items': entries})
+        if diagnostic_only:
+            from diagnostic import quarantine
+            name, references = quarantine(report, entries)
+            files[name] = io.encoded(references)
+        else:
+            files['equipment.json'] = io.encoded({'schema': 'zbgs-equipment-v1', 'items': entries})
         files['report.json'] = io.encoded(report)
         for name, data in files.items():
             (folder / name).write_bytes(data)
