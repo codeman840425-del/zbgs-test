@@ -168,3 +168,6 @@ source fc8c91d4231cd8579548a33b72bad625dd14c189 / build 36365874e557，固定exp
 并行asset_budget已知sol/high制作一次真实焊接rootjoin-v2（新路径/新身份，保旧源），http_transport_review已知sol/high为官方spring接可选房间OBB代理，root集成、固定构建及实际画面验证。只修本包，不改封板裙/舞/公司平台。生产第16项30f2374合入；还需服装/短舞与移动旋转椅回归。首帧rAF -2.3ms是夹具两个时钟基准差，下一采样跳过首个区间，不改原始记录，不将帧间隔当solver成本。
 
 表面层后续并发修复：363实际浏览器m2-surface-platform-363-v3已通过延迟发型/新颜色及当前UI同步；此前fe8影视身份保留。远备最新核实仍4ae8afdf35dab71e9d19556fdeb5d3232a0ad18a，后续尚待推送核实。公开4196仍未替换。公司由副总工独立推进，本主线聚焦完整M2角色平台。
+
+
+363旧版追加受影响回归：m2-long-hair-contacts-363-v3已实际走完裤装坐起、未改裙装走跑/technical-once舞、移动旋转椅坐起及离椅释放。每200ms实际蒙皮顶点对OBB采样：原椅裤装最大81点/34.89mm，移动椅裙装79点/33.01mm；确认旧长发房间碰撞缺失，不把流程completed写成视觉通过。appearance.updateDynamics单独计时p95约0.1ms（计时量化），不包含裙/render；开发机录制带诊断，不代表普通电脑。v1测试期望SHA漏1字符被身份门正确拒绝，v2默认舞蹈在位置不足时正确失败；v3明确既有technical-once与安全区域，不修改产品行为。当前新候选还待源rootjoin及环境代理集成。远端已核到cc4b368784108eb4b4993e8bfb605f8b1534ff0d，后续补片待备份。
