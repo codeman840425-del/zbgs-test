@@ -1,6 +1,6 @@
 // Each actual downloaded v5 recipe is loaded through the file UI in a clean context.
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict'),crypto=require('node:crypto');
-const{chromium}=require(path.join(process.env.GAMEMAKE_ROOT||'F:/gamemake','prototype/node_modules/playwright'));
+const{chromium}=require(path.join(process.env.GAMEMAKE_ROOT||path.resolve(__dirname,'../..'),'prototype/node_modules/playwright'));
 const spec=require('./selection.json'),[base,destination,staticPath]=process.argv.slice(2),out=path.resolve(destination);
 const R={build:spec.build,status:'running',errors:[],cases:[],scope:'Six unchanged recipes. Normal1x neutral/blink, mouthA, happy+speech, gaze and existing wave. No performance claims or new operator. Full videos include setup; traces identify actual live interval.'};
 const ready=p=>p.waitForFunction(()=>__debug?.ready&&!document.querySelector('#appearance-fields').disabled,null,{timeout:60000});
