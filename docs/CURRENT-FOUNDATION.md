@@ -87,3 +87,10 @@
 公开smoke实际改嘴、房间移动和男女两原片1×播放≥2秒均通过，evidence/current-workbench-0fb420e5b124。新检出122文件逐字相同，rebuild-face-compact-0fb-v2；首次重建脚本用path checkout提前填.gitattributes产生partial index，失败保留，改为git show精确字节落盘后原sparse流程成功，未动产品。源码422a独立分支已远端核，main集成026ab20运行目录全同；本次源/文档/录像/证据已随903e304推送并核远端；370份选定Git证据与本机字节相同。回执delivery/workbench-backup-0fb.json另提交，dist由新检出122文件重建。
 
 face-render-compaction-gpu-v1记录真实容量、有限成本和男女正常1×；face-compact-bridge-review记录24同姿/像素差、v5十门和context恢复。最终懒求球保留原首次姿态/时机；不是提前rest pose球、不是每帧新解算。未修改颜色/动画/装备及source pins，不称普通机达标或用户观感通过。
+
+
+## 有限M2 A交付、B接续（2026-11-16）
+
+A已封存一次选样，公开观看4174/evidence/m2-character-presets-a-v1/，build仍0fb/source026；A制作包源3ac0d4d，路径可恢复修正4910185，main合入83702d1/3b32ba2。6 v5/36同条件图/6约17.44秒1×、独立审查及公开六片播放已过；近景局部可辨，room不足、非新脸型，用户观感未代写。复跑使用持久scripts/m2-character-presets-a-v1/并按说明构建固定026，不依赖临时实验脚本。
+
+B已开工：pose_extraction负责新male-sidepart-jaw-fit-v1源/导出包，prototype负责真实fit加载与v6持久化/旧v1–v5兼容，QA独立审准入/回归。源来自026的隔离分支；不改运动控制器/封板裙舞，不批量扩充。共享GLB不能替代独立fit身份，必须实际消费并拒绝错误fit。只读依据evidence/m2-male-jaw-hair-preflight/。产品准入、固定B版和动作/换装/双实例检查尚未完成，不能先写通过。

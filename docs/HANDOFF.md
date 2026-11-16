@@ -17,3 +17,10 @@
 - 普通电脑浏览器优先、手机后置；高配开发机不能代表目标设备。通用基础结论须M1A/B/C最小样件均通过，视觉仍由用户判断。
 
 历史交接存档在history/，只作历史证据。
+
+
+## 有限M2 A交付、B接续（2026-11-16）
+
+A已封存一次选样，公开观看4174/evidence/m2-character-presets-a-v1/，build仍0fb/source026；A制作包源3ac0d4d，路径可恢复修正4910185，main合入83702d1/3b32ba2。6 v5/36同条件图/6约17.44秒1×、独立审查及公开六片播放已过；近景局部可辨，room不足、非新脸型，用户观感未代写。复跑使用持久scripts/m2-character-presets-a-v1/并按说明构建固定026，不依赖临时实验脚本。
+
+B已开工：pose_extraction负责新male-sidepart-jaw-fit-v1源/导出包，prototype负责真实fit加载与v6持久化/旧v1–v5兼容，QA独立审准入/回归。源来自026的隔离分支；不改运动控制器/封板裙舞，不批量扩充。共享GLB不能替代独立fit身份，必须实际消费并拒绝错误fit。只读依据evidence/m2-male-jaw-hair-preflight/。产品准入、固定B版和动作/换装/双实例检查尚未完成，不能先写通过。
