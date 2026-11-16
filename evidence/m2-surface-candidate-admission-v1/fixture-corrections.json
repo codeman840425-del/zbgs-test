@@ -1,0 +1,20 @@
+{
+  "schema": "candidate-fixture-corrections-v1",
+  "baseCommit": "10f5d5539907aa5c28ee6940161fcbde19cd4890",
+  "originalFixtureSha256": "5216cd005516fa46fd1ab9a67b3618023b601676aea3b03935bf0ecc530b650e",
+  "afterMetadataFixFixtureSha256": "2a8b4da765fb05786b080a8f47738cb16b8fac436c66d3a9bbebf437683d69d3",
+  "currentFixtureSha256": "8ffbbfd6ea97812873643316bd03d91359cb76ae3d529e295a44c8391c93708b",
+  "failures": [
+    {
+      "path": "legacy-before-fixture-fix/failure.json",
+      "cause": "Fixture attempted adapter.get(...).entry for unselected lazy outfits. Actual actor uses describe metadata.",
+      "correction": "Use the real adapter.describe API."
+    },
+    {
+      "path": "legacy-regression/failure.json",
+      "cause": "Fixture treated current asynchronous equipment.prepareOutfit as synchronous.",
+      "correction": "Await prepareOutfit before constructing the controller wrapper."
+    }
+  ],
+  "scope": "Candidate CPU fixture only. Runtime foundation/equipment code unchanged."
+}

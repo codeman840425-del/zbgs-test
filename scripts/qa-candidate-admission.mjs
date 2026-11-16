@@ -40,8 +40,8 @@ async function fixture(body){
   const equipment=await createM1Equipment({vrm,avatarSha256:config.sha256,bodyType:body}),adapter=equipment.getAssetProfile().equipment;
   const actor={config,profile:{bodyType:body,sha256:config.sha256},
     appearance:createCharacterAppearance({vrm,avatarSha256:config.sha256}),facialGeometry:createFacialGeometry({vrm,avatarSha256:config.sha256}),
-    getEquipmentRecipe:index=>Object.fromEntries(outfitSelection(config,index).roles.map(role=>[role,structuredClone(adapter.get(config.ids[role]).entry)]))};
-  const controller={actor,outfit:0,outfitRevision:0,prepareOutfit(value){const update=equipment.prepareOutfit(value),revision=this.outfitRevision;return{
+    getEquipmentRecipe:index=>Object.fromEntries(outfitSelection(config,index).roles.map(role=>[role,adapter.describe(config.ids[role])]))};
+  const controller={actor,outfit:0,outfitRevision:0,async prepareOutfit(value){const update=await equipment.prepareOutfit(value),revision=this.outfitRevision;return{
     isCurrent:()=>this.outfitRevision===revision&&update.isCurrent(),commit:()=>{update.commit();this.outfit=value;this.outfitRevision++;},dispose:()=>update.dispose()};}};
   const f={controller,actor,equipment,vrm};fixtures.push(f);return f;
 }
