@@ -1,0 +1,26 @@
+{
+  "sourceSha256": "3890c26fd14776fc7b5b5ea1b0967ba33311776dc4e4728cb2cbe3885b96865c",
+  "checks": [
+    {
+      "name": "already equipped rejects incompatible selection before intent or visibility changes",
+      "passed": true
+    },
+    {
+      "name": "equipment appearing after prepare prevents staged whole appearance commit",
+      "passed": true
+    },
+    {
+      "name": "late independent style intent cannot break newly equipped dependency",
+      "passed": true
+    },
+    {
+      "name": "unloaded equipment permits change and restoration; compatible tint still applies",
+      "passed": true
+    },
+    {
+      "name": "dependency gates remain per instance",
+      "passed": true
+    }
+  ],
+  "scope": "Actual appearance module with a minimal Three mesh and synchronous equipment admission callback. Covers preparation/commit/late intent races; does not establish real hat GLTF fit or browser visuals."
+}

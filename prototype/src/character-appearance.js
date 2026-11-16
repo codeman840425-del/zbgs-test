@@ -13,7 +13,7 @@ const materialsOf = mesh => Array.isArray(mesh.material) ? mesh.material : [mesh
 
 /** Per-instance appearance only. No skeleton, geometry, motion or skin weights
  * are changed by tinting. Replacements require an exact body admission. */
-export function createCharacterAppearance({ vrm, avatarSha256 }) {
+export function createCharacterAppearance({ vrm, avatarSha256, validateHairChange }) {
   const facialPalette = createFacialPalette({vrm, avatarSha256});
   const admittedStyles = HAIRSTYLES.filter(entry => entry.compatibleBodies.includes(avatarSha256));
   const skin = new Set(), hair = new Set(), hairMeshes = [];
@@ -188,6 +188,13 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
     return {scene:gltf.scene,materialBase,sha256:sha,hairFit:hairFitIdentity(entry),springConfig:fit?.dynamics??null};
   }
 
+  // Equipped headwear can depend on exact hair geometry. Recheck immediately
+  // before either commit path: a hat may have equipped while decoding waited.
+  function assertHairChange(style) {
+    const entry = validateHairSelection(avatarSha256, style);
+    validateHairChange?.({ hairStyle: style, replacementSHA256: entry?.assetSha256 ?? null,
+      hairFit: entry ? hairFitIdentity(entry) : null });
+  }
   async function prepareUpdate(input = {}, {trackIntent=false}={}) {
     if (disposed) return { applied: false, reason: '人物已卸载' };
     const desiredStyle = input.reset ? 'original' : input.hairStyle ?? hairStyle;
@@ -198,7 +205,7 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
       return {applied:false,reason:'未知瞳色或唇色'};
     if (desiredStyle !== 'original' && !(desiredStyle === 'none' && canHideHair) && !admittedStyles.some(entry => entry.id === desiredStyle))
       return { applied: false, reason: '该发型尚未适配当前身体；请使用可选款式' };
-    try { validateHairSelection(avatarSha256,desiredStyle,input); }
+    try { validateHairSelection(avatarSha256,desiredStyle,input); assertHairChange(desiredStyle); }
     catch(e) { return {applied:false,reason:e.message}; }
     const requestRevision = ++revision;
     const changeStyle=!trackIntent||input.reset||input.hairStyle!==undefined;
@@ -208,6 +215,7 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
     // recipe never lends its staged hair selection to a newer color request.
     const applyStyleIntent=()=>{
       if(!trackIntent||!changeStyle||disposed||styleRequest!==generation)return;
+      assertHairChange(desiredStyle);
       hairStyle=desiredStyle;replacement=replacements.get(desiredStyle)||null;
       applyColors();applyHairVisibility();
     };
@@ -247,6 +255,7 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
         applyStyleIntent,
         commit(){
           if(!update.isCurrent())throw Error('外观准备已过期');
+          if(changeStyle)assertHairChange(desiredStyle);
           paletteUpdate.commit();
           if(changeStyle){hairStyle=desiredStyle;replacement=replacements.get(desiredStyle)||null;}
           hairColor=desiredColor;skinTone=desiredSkin;applyColors();applyHairVisibility();
