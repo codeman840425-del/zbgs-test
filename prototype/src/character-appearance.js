@@ -4,7 +4,7 @@ import { createFacialPalette, EYE_COLORS, LIP_COLORS } from './facial-palette.js
 import { HAIRSTYLES } from './hairstyle-catalog.js';
 import { NO_HAIR_BODIES } from './no-hair-bodies.js';
 import { hairFitIdentity, validateHairSelection, validateHairFitData } from './hair-fit-contract.js';
-import { createHairSpring, validateHairSkin } from './hair-spring.js';
+import { createHairSpring, validateHairSkin, validateHairEnvironmentColliders } from './hair-spring.js';
 
 export const HAIR_COLORS = { original: null, black: '#343139', brown: '#805039', blonde: '#dab77a' };
 // Presets inspected under the actual room's warm key light and ACES exposure.
@@ -39,7 +39,17 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
   let replacement = null, generation = 0, revision = 0, disposed = false, loading = false, error = null;
   const replacements = new Map(), replacementPromises = new Map();
   const pendingUpdates = new Set();
-  let pendingStyleRequest=0;
+  let pendingStyleRequest=0, environmentColliders=[];
+  function setEnvironmentColliders(proxies) {
+    if(disposed)return;
+    if(!Array.isArray(proxies))throw Error('环境碰撞列表无效');
+    const same=proxies.length===environmentColliders.length && environmentColliders.every((proxy,i)=>proxy===proxies[i]);
+    if(!same)environmentColliders=validateHairEnvironmentColliders(proxies).slice();
+    for(const value of replacements.values()){
+      if(disposed)break;
+      value.dynamics?.setEnvironmentColliders(environmentColliders);
+    }
+  }
 
   // Mode changes visibility, never the user's selected style. Loading a cached
   // replacement while in base mode must not make it visible.
@@ -210,7 +220,7 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
           try {
             value.scene.visible = false;vrm.humanoid.getRawBoneNode('head').add(value.scene);
             if(disposed){releaseReplacement(value);return null;}
-            if(value.springConfig)value.dynamics=createHairSpring({vrm,scene:value.scene,config:value.springConfig});
+            if(value.springConfig)value.dynamics=createHairSpring({vrm,scene:value.scene,config:value.springConfig,environmentColliders});
             value.dynamics?.reset();
             if(disposed){releaseReplacement(value);return null;}
             replacements.set(desiredStyle,value);
@@ -267,7 +277,7 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
     finally{update.dispose();}
   }
   return {
-    set, prepareUpdate, setBodyMode,
+    set, prepareUpdate, setBodyMode, setEnvironmentColliders,
     updateDynamics:(dt,enabled=true)=>{if(replacement?.scene.visible)replacement.dynamics?.update(dt,enabled);},
     resetDynamics:()=>{for(const value of replacements.values())value.dynamics?.reset();},
     getState: () => ({ hairStyle, hairColor, skinTone, loading:loading||pendingStyleRequest!==0, error, bodyMode, revision,
@@ -280,7 +290,7 @@ export function createCharacterAppearance({ vrm, avatarSha256 }) {
       hairDynamics:replacement?.dynamics?.getState()??null }),
     dispose() {
       if(disposed)return;
-      disposed = true; generation++;revision++;loading=false;pendingStyleRequest=0;
+      disposed = true; generation++;revision++;loading=false;pendingStyleRequest=0;environmentColliders=[];
       for(const update of pendingUpdates)update.dispose();
       facialPalette.dispose();
       replacements.forEach(releaseReplacement); replacements.clear(); replacement = null;

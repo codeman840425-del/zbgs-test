@@ -311,6 +311,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     resetSecondary: () => {vrm.springBoneManager?.reset();appearance.resetDynamics();},
     updateGarment: (_sit, dt, colliders) => {
       lastGarmentColliders = colliders || [];
+      appearance.setEnvironmentColliders(lastGarmentColliders);
       // fitSeatHands is the last motion operation; only arm bones changed
       // after its same-frame skirt evaluation. Do not run the identical
       // stateless skirt constraint pass again in this same simulation step.

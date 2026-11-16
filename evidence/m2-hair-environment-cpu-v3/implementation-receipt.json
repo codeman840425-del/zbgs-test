@@ -1,0 +1,48 @@
+{
+  "schema": "hair-environment-collider-implementation-v1",
+  "baseCommit": "7164ec5eed01e4dcc0b205ff19d6c8c00d5163bf",
+  "branch": "codex/hair-environment-colliders-v1",
+  "worktree": "F:/gamemake-hair-environment-v1",
+  "status": "CPU passed; GPU acceptance pending root",
+  "changes": [
+    "Optional borrowed room proxies adapted as official VRMSpringBoneCollider objects in isolated hair manager.",
+    "World hit radius conservatively converted to scalar local box margin using maximum inverse-linear row norm.",
+    "Same membership preserves objects, solver state and update/reset counts. Replacement uses public deleteJoint/addJoint dependency invalidation.",
+    "Top-root changes refresh cached dependency ordering for detached actor attachment without reset or extra solver update.",
+    "Appearance stores current environment for new and hidden caches. Foundation forwards before garment early return.",
+    "colliderCount retains body count; bodyColliderCount and environmentColliderCount are separate."
+  ],
+  "checks": {
+    "environment": "evidence/m2-hair-environment-cpu-v3/report.json",
+    "actualGLTFAndLifecycle": "evidence/m2-hair-environment-appearance-v1/run-v3/report.json",
+    "originalSolverRegression": "evidence/m2-hair-environment-original-regression-v2/report.json",
+    "counts": [
+      9,
+      22,
+      5
+    ]
+  },
+  "preservedFailures": [
+    "evidence/m2-hair-environment-cpu-v1-fixture-tolerance-failure/report.json failed overly tight 1e-10 expected float32 BoxGeometry face tolerance. Corrected assertion to 1e-8 without runtime change.",
+    "One npm build command ran at repository root and failed ENOENT package.json. Correct prototype build rerun separately."
+  ],
+  "limits": [
+    "CPU fixtures use actual Three187, GLTFLoader, appearance modules, official three-vrm 3.5.5 and exact chairCollider extracted from current main. They do not render the actual long-hair mesh.",
+    "Conservative expanded oriented-box point-sphere proxy only. Fixed bone length restoration leaves 0.000042011m fixture penetration after first step. No triangle or continuous collision guarantee.",
+    "No GPU/browser or ordinary-computer performance conclusion. Root owns same-camera real long-hair and furniture recheck.",
+    "Shared main/controller/cloth/source/catalog/public/docs unchanged. Source connector is a separate author task."
+  ],
+  "sourceSha256": {
+    "prototype/src/hair-spring.js": "8f4712f563ef377ff2b82a99a45e81241662e205adcbf45d8c5155707f32c366",
+    "prototype/src/character-appearance.js": "65693cb585179c6331870de2a7d15f22f97e3c760c8a24ee9c418119590ca7b8",
+    "prototype/src/foundation-avatar.js": "0888c2789b42d9f16883989ecfa502a617c8f735bf23ab79ee32a2943a0bb5fc",
+    "scripts/qa-hair-environment.mjs": "ad0651141efea53c2d41823fc0880b2834d18a7627be41a6d8e9d2213891d2a4"
+  },
+  "build": {
+    "command": "npm run build",
+    "cwd": "F:/gamemake-hair-environment-v1/prototype",
+    "status": "passed",
+    "buildId": "869e5df24d2f",
+    "warning": "Vite existing large chunks warning"
+  }
+}
