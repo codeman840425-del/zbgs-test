@@ -10,7 +10,7 @@
 4. 角色端仍是单测试椅模型。`F:/gamemake/prototype/src/main.js:251-263` 的 `seatTargets` 从全局 `chair` 和 `motion` 计算目标，`main.js:918-920` 的 `reserveSeat` 固定 `seatId: "room-chair-1"`，`main.js:972` 与 `:986` 只检查这把全局椅的 `parent`。`setChairTransform` 还在 `main.js:270` 固定用该 seat ID 查询占用。真实公司使用点如 `station-1/chair#seat` 没有进入角色预留、接近、坐下或离开路径。
 5. `seat-lease.js` 本身只要求任意非空字符串 seat ID，因此身份层可以承载公司使用点。复现已用 `room-chair-1` 和 `company/floor-1/room-1/station-1/chair#seat` 各自成功预留。缺口在角色控制器传入设施使用点和接触资源，而不是租约模块的字符串校验。
 
-完整 CPU 复现脚本见 `reproduce.mjs`。脚本固定读取 `F:/gamemake-company-c2-fixed` 的公司 `aff9dd8b3eeca02ecbb3e110f0b572a294a3e193` 检出，并用 `F:/gamemake` 的角色提交 `23c1140a01d26b6f1c10ac4f8064f366add3ba17` 读取角色源码。输出目录必须预先不存在，例如 `node evidence/company-c3-contact-audit-v1/reproduce.mjs evidence/company-c3-contact-audit-v1/reproduction-fixed-run-02`。原先的 `reproduction.json` 保留不改。该历史文件没有记录当时实际输入文件 SHA，不能据此追溯原运行字节身份。固定复现输出及源码 SHA 见 `reproduction-fixed-run-02/reproduction.json`。
+完整 CPU 复现脚本见 `reproduce.mjs`。脚本固定读取 `F:/gamemake-company-c2-fixed` 的公司 `aff9dd8b3eeca02ecbb3e110f0b572a294a3e193` 检出，并用 `F:/gamemake` 的角色提交 `23c1140a01d26b6f1c10ac4f8064f366add3ba17` 读取角色源码。命令为 `node evidence/company-c3-contact-audit-v1/reproduce.mjs NEW_OUTPUT_DIR`，将最后参数换为尚不存在的输出目录。原先的 `reproduction.json` 保留不改。该历史文件没有记录当时实际输入文件 SHA，不能据此追溯原运行字节身份。固定复现输出及源码 SHA 见 `reproduction-fixed-run-03/reproduction.json`。
 
 ## 接口归属
 
