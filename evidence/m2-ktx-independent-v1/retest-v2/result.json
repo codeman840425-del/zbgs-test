@@ -1,0 +1,372 @@
+{
+  "schema": "independent-ktx-pilot-v1",
+  "time": "2026-11-16T15:16:39.921Z",
+  "sourceSha256": {
+    "scripts/m2-ktx-pilot-v1/runtime-adapter.mjs": "597655758550862e64ccd310084d1befd1d78d995d97ff56926649d912b42f8e",
+    "scripts/qa-ktx-room.cjs": "bccc58fb5affba48038fa33be4a52f2c078e2880cbf57299cb782ee2cd60f9a6",
+    "prototype/src/character-appearance.js": "7670de0ad70d795c28311c68f9c1edef819e163fa7cec6d0bb432b6666c58765"
+  },
+  "finalSha256": {
+    "scripts/m2-ktx-pilot-v1/runtime-adapter.mjs": "597655758550862e64ccd310084d1befd1d78d995d97ff56926649d912b42f8e",
+    "scripts/qa-ktx-room.cjs": "bccc58fb5affba48038fa33be4a52f2c078e2880cbf57299cb782ee2cd60f9a6",
+    "prototype/src/character-appearance.js": "7670de0ad70d795c28311c68f9c1edef819e163fa7cec6d0bb432b6666c58765"
+  },
+  "checks": [
+    {
+      "name": "actual appearance source equals fixed801 source",
+      "ok": true,
+      "fixedSha256": "7670de0ad70d795c28311c68f9c1edef819e163fa7cec6d0bb432b6666c58765"
+    },
+    {
+      "name": "decoder bytes basis_transcoder.js",
+      "ok": true
+    },
+    {
+      "name": "decoder bytes basis_transcoder.wasm",
+      "ok": true
+    },
+    {
+      "name": "KTX2Loader pinned bytes",
+      "ok": true
+    },
+    {
+      "name": "male-body-color exact source/encoded identities",
+      "ok": true
+    },
+    {
+      "name": "male-hair-alpha-canvas exact source/encoded identities",
+      "ok": true
+    },
+    {
+      "name": "female-body-color exact source/encoded identities",
+      "ok": true
+    },
+    {
+      "name": "female-hair-alpha-canvas exact source/encoded identities",
+      "ok": true
+    },
+    {
+      "name": "male executed adapter historical snapshot linkage",
+      "ok": true
+    },
+    {
+      "name": "male executed harness/source linkage",
+      "ok": true
+    },
+    {
+      "name": "male exact fixed runtime",
+      "ok": true
+    },
+    {
+      "name": "male recorded pinned decoder basis_transcoder.js",
+      "ok": true
+    },
+    {
+      "name": "male recorded pinned decoder basis_transcoder.wasm",
+      "ok": true
+    },
+    {
+      "name": "male recorded pinned sample male-body-color",
+      "ok": true
+    },
+    {
+      "name": "male recorded pinned sample male-hair-alpha-canvas",
+      "ok": true
+    },
+    {
+      "name": "male recorded pinned KTX2Loader",
+      "ok": true
+    },
+    {
+      "name": "male original target textures have no mip chain",
+      "ok": true
+    },
+    {
+      "name": "male observed compressed format and mip payload",
+      "ok": true
+    },
+    {
+      "name": "female executed adapter historical snapshot linkage",
+      "ok": true
+    },
+    {
+      "name": "female executed harness/source linkage",
+      "ok": true
+    },
+    {
+      "name": "female exact fixed runtime",
+      "ok": true
+    },
+    {
+      "name": "female recorded pinned decoder basis_transcoder.js",
+      "ok": true
+    },
+    {
+      "name": "female recorded pinned decoder basis_transcoder.wasm",
+      "ok": true
+    },
+    {
+      "name": "female recorded pinned sample female-body-color",
+      "ok": true
+    },
+    {
+      "name": "female recorded pinned sample female-hair-alpha-canvas",
+      "ok": true
+    },
+    {
+      "name": "female recorded pinned KTX2Loader",
+      "ok": true
+    },
+    {
+      "name": "female original target textures have no mip chain",
+      "ok": true
+    },
+    {
+      "name": "female observed compressed format and mip payload",
+      "ok": true
+    },
+    {
+      "name": "actual appearance module produces prior tinted Canvas selection",
+      "ok": true
+    },
+    {
+      "name": "rejected appearance change preserves prior Canvas bindings",
+      "ok": true,
+      "result": {
+        "applied": false,
+        "reason": "未知颜色预设",
+        "pilotFallback": "original-png-or-existing-canvas",
+        "pilotMaterialModes": [
+          {
+            "name": "M00_001_01_Body_00_SKIN",
+            "mapMode": "png"
+          },
+          {
+            "name": "M00_000_HairBack_00_HAIR",
+            "mapMode": "canvas"
+          }
+        ]
+      },
+      "stateBefore": {
+        "hairColor": "brown",
+        "skinTone": "warm",
+        "revision": 1
+      },
+      "stateAfter": {
+        "hairColor": "brown",
+        "skinTone": "warm",
+        "revision": 1
+      },
+      "mapMatchesPreviousCanvas": true,
+      "mapIsOriginalPng": false
+    },
+    {
+      "name": "late rejected actual appearance result is cancelled after newer success",
+      "ok": true,
+      "newer": {
+        "applied": true,
+        "pilotFallback": "original-png-or-existing-canvas",
+        "pilotMaterialModes": [
+          {
+            "name": "M00_001_01_Body_00_SKIN",
+            "mapMode": "png"
+          },
+          {
+            "name": "M00_000_HairBack_00_HAIR",
+            "mapMode": "canvas"
+          }
+        ]
+      },
+      "late": {
+        "applied": false,
+        "cancelled": true,
+        "reason": "Pilot changed during appearance operation"
+      }
+    },
+    {
+      "name": "late exception preserves newer Canvas color/state and diagnostic result",
+      "ok": true,
+      "hairColor": "black",
+      "lastFailureBefore": null,
+      "lastFailureAfter": null
+    },
+    {
+      "name": "reviewed sources unchanged during CPU probe",
+      "ok": true
+    }
+  ],
+  "failures": [],
+  "browserEvidence": [
+    {
+      "body": "male",
+      "reportSha256": "6468440f66b860768942dc3d78ebccbad03f239cc842e40ef17af81d36d028ad",
+      "adapterSha256": "6546e87e02406e1624eccd9312b9ea1d23d34a3fca02eeb54b70937f45286276",
+      "status": "runtime-checks-passed-visual-pending",
+      "errors": [],
+      "images": [
+        {
+          "sampleId": "male-body-color",
+          "width": 2048,
+          "height": 2048,
+          "format": 36492,
+          "mipLevels": 12,
+          "transcodedMipDataBytes": 5592432
+        },
+        {
+          "sampleId": "male-hair-alpha-canvas",
+          "width": 1024,
+          "height": 1024,
+          "format": 36492,
+          "mipLevels": 11,
+          "transcodedMipDataBytes": 1398128
+        }
+      ],
+      "estimatedRgba8BaseLevelBytes": 20971520,
+      "observedTranscodedMipPayloadBytes": 6990560,
+      "uploadDataReductionEstimate": 0.6666641235351562,
+      "textureCounts": [
+        {
+          "label": "png-paused-face",
+          "textures": 40
+        },
+        {
+          "label": "ktx-paused-face",
+          "textures": 42
+        },
+        {
+          "label": "ktx-inactive-png-released",
+          "textures": 40
+        },
+        {
+          "label": "png-paused-body",
+          "textures": 42
+        },
+        {
+          "label": "ktx-paused-body",
+          "textures": 42
+        },
+        {
+          "label": "ktx-before-motion-released",
+          "textures": 40
+        },
+        {
+          "label": "ktx-speaking",
+          "textures": 40
+        },
+        {
+          "label": "png-canvas-tinted",
+          "textures": 45
+        },
+        {
+          "label": "canvas-inactive-ktx-released",
+          "textures": 43
+        },
+        {
+          "label": "ktx-body-canvas-hair",
+          "textures": 44
+        },
+        {
+          "label": "restored-original-ktx",
+          "textures": 46
+        },
+        {
+          "label": "restored-ktx-inactive-released",
+          "textures": 44
+        },
+        {
+          "label": "disposed-restored-png",
+          "textures": 44
+        }
+      ],
+      "limitation": "Texture counts are Three renderer allocations. Payload/RGBA estimates do not measure physical GPU VRAM. Original PNG VRM and added KTX files are both downloaded."
+    },
+    {
+      "body": "female",
+      "reportSha256": "77ec916aafdeac385e5d41ac4acbff574d405014e7a57892e2b0aebcb4155be6",
+      "adapterSha256": "6546e87e02406e1624eccd9312b9ea1d23d34a3fca02eeb54b70937f45286276",
+      "status": "runtime-checks-passed-visual-pending",
+      "errors": [],
+      "images": [
+        {
+          "sampleId": "female-body-color",
+          "width": 2048,
+          "height": 2048,
+          "format": 36492,
+          "mipLevels": 12,
+          "transcodedMipDataBytes": 5592432
+        },
+        {
+          "sampleId": "female-hair-alpha-canvas",
+          "width": 1024,
+          "height": 1024,
+          "format": 36492,
+          "mipLevels": 11,
+          "transcodedMipDataBytes": 1398128
+        }
+      ],
+      "estimatedRgba8BaseLevelBytes": 20971520,
+      "observedTranscodedMipPayloadBytes": 6990560,
+      "uploadDataReductionEstimate": 0.6666641235351562,
+      "textureCounts": [
+        {
+          "label": "png-paused-face",
+          "textures": 40
+        },
+        {
+          "label": "ktx-paused-face",
+          "textures": 42
+        },
+        {
+          "label": "ktx-inactive-png-released",
+          "textures": 40
+        },
+        {
+          "label": "png-paused-body",
+          "textures": 42
+        },
+        {
+          "label": "ktx-paused-body",
+          "textures": 42
+        },
+        {
+          "label": "ktx-before-motion-released",
+          "textures": 40
+        },
+        {
+          "label": "ktx-speaking",
+          "textures": 40
+        },
+        {
+          "label": "png-canvas-tinted",
+          "textures": 45
+        },
+        {
+          "label": "canvas-inactive-ktx-released",
+          "textures": 43
+        },
+        {
+          "label": "ktx-body-canvas-hair",
+          "textures": 44
+        },
+        {
+          "label": "restored-original-ktx",
+          "textures": 45
+        },
+        {
+          "label": "restored-ktx-inactive-released",
+          "textures": 44
+        },
+        {
+          "label": "disposed-restored-png",
+          "textures": 44
+        }
+      ],
+      "limitation": "Texture counts are Three renderer allocations. Payload/RGBA estimates do not measure physical GPU VRAM. Original PNG VRM and added KTX files are both downloaded."
+    }
+  ],
+  "limits": [
+    "No new browser/GPU or decoder execution. Browser measurements were audited from separately hashed executed evidence.",
+    "Canvas probe uses real unchanged character-appearance logic and real Three materials/textures with a CPU canvas API shim. It tests object bindings and state only, not pixels.",
+    "Reference scanner and reupload implementation inspected against Three187 WebGLTextures source. Full external detached-scene reference discovery is outside the adapter declared scan scope."
+  ]
+}

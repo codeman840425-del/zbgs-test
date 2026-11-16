@@ -1,0 +1,55 @@
+{
+  "schema": "independent-ktx-reference-probe-v1",
+  "sourceSha256": "597655758550862e64ccd310084d1befd1d78d995d97ff56926649d912b42f8e",
+  "finalSha256": "597655758550862e64ccd310084d1befd1d78d995d97ff56926649d912b42f8e",
+  "checks": [
+    {
+      "name": "prepare succeeds with verified actual input bytes",
+      "ok": true
+    },
+    {
+      "name": "ancestor-scene direct and shared-Source aliases protect every original",
+      "ok": true
+    },
+    {
+      "name": "nested cyclic shader uniform references protect every original Source",
+      "ok": true
+    },
+    {
+      "name": "unreferenced original map/shade objects dispose once",
+      "ok": true,
+      "oldDisposeCounts": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "PNG restore retains exact objects/images and increments upload versions",
+      "ok": true
+    },
+    {
+      "name": "unused compressed variants dispose once while mip arrays remain",
+      "ok": true
+    },
+    {
+      "name": "KTX reapply retains exact objects/mip arrays and increments upload versions",
+      "ok": true
+    },
+    {
+      "name": "adapter disposal restores PNG and releases reactivated variants once",
+      "ok": true
+    },
+    {
+      "name": "source remained unchanged",
+      "ok": true
+    }
+  ],
+  "failures": [],
+  "limits": [
+    "Real Three187 Texture/CompressedTexture/Source/ShaderMaterial objects and adapter reference scan used.",
+    "Actual encoded and decoder bytes hash-verified, with a decoder stand-in constructing inert mip data. No actual decode, GPU upload or pixel rendering asserted.",
+    "Version increments verify Three reupload preconditions, not completed GPU uploads. Browser evidence separately records renderer texture count changes."
+  ]
+}

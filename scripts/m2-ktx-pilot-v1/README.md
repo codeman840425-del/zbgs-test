@@ -24,7 +24,7 @@ pilot.dispose();
 
 prepare 先读取并SHA核对实际JS/WASM字节，再经Blob交给KTX2Loader，避免重复网络下载。转码前同样SHA核对KTX字节。snapshot 记录源URL的实际fetch、字节/摘要/时长、加载器实际消费的已核Blob、转码时长和所得纹理格式/mip数据。transcodedMipDataBytes 是CPU转码数据长度，GPU实际驻留仍待验证。原PNG对象保留供Canvas读取。
 
-prepare 在全部样件完成前不修改map，失败清理已完成样件。map/shade原先共享同Texture时，压缩视图也共享同一实例Texture。restorePng 恢复捕获的原对象。applyOriginalKtx 默认读取appearance.getState，只有原发型和原发色才可切全部图，bodyOnly只切身体。withCanvasAppearance先归还原PNG，再执行既有appearance操作，失败时报告PNG/已有Canvas回退，实际材质状态以snapshot为准。
+prepare 在全部样件完成前不修改map，失败清理已完成样件。map/shade原先共享同Texture时，压缩视图也共享同一实例Texture。restorePng 恢复捕获的原对象。applyOriginalKtx 默认读取appearance.getState，只有原发型和原发色才可切全部图，bodyOnly只切身体。withCanvasAppearance仅将本实验拥有的KTX引用交还原PNG，再执行既有appearance操作；已经生成的Canvas保持。被拒绝的下一次请求不重置原Canvas，迟到失败不覆盖新状态。实际材质状态以snapshot为准。
 
 同一场景实例只能持有一个adapter。换人前先dispose并等待在途prepare完成，再释放avatar。dispose只恢复实验自己持有的压缩引用，已有Canvas引用交还现有appearance管理，避免销毁外部纹理。若需再次测试同一实例，应先恢复原色并还原PNG，再创建新adapter。
 
@@ -45,3 +45,5 @@ pilot.snapshot();
 ```
 
 CPU入口为 `node scripts/m2-ktx-pilot-v1/check-adapter.mjs`。原14项结果保留在 evidence/m2-ktx-pilot-source-v1/adapter-cpu.json。新增10项释放检查和原14项一起运行，当前24项结果写入 adapter-gpu-release-cpu.json。它使用真实Three187 Texture/CompressedTexture/LoadingManager及模拟fetch/转码，核当前引用保护、外部材质与uniforms保护、Source别名、阴影材质/环境、CPU图像/mip与对象恢复、重复调用、dispose监听重绑定及扫描失败保留。报告保留实际返回的部分释放/失败记录。该检查没有执行真实浏览器、WASM转码、GPU或视觉验收。
+
+实际浏览器v3与原失败/修复见 evidence/m2-ktx-room-comparison-v3 和 evidence/m2-ktx-independent-v1。正常动作片与暂停静态对照分开标记；不声称全库压缩、净下载降低或普通机通过。

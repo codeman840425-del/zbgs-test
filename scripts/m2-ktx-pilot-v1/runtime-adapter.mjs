@@ -346,7 +346,22 @@ export function createKtxPilotAdapter({
   async function withCanvasAppearance(operation) {
     if (typeof operation !== 'function') throw Error('Expected an existing appearance operation');
     if (disposed) return { applied: false, reason: 'Pilot disposed' };
-    restorePng(); canvasFallbackCount++;
+    // Remove only this experiment's compressed bindings. An earlier successful
+    // appearance operation may already own Canvas maps; resetting those to the
+    // original PNG before a rejected request would desynchronise visible color
+    // from the unchanged appearance state. The appearance module owns its own
+    // transactional changes; never roll its newer bindings back here.
+    for (const record of records) {
+      let changed = false;
+      if (mode(record, 'map') === 'ktx') {
+        record.material.map = reactivate(record.original.map); changed = true;
+      }
+      if (mode(record, 'shade') === 'ktx') {
+        record.material.shadeMultiplyTexture = reactivate(record.original.shade); changed = true;
+      }
+      if (changed) record.material.needsUpdate = true;
+    }
+    revision++; event('canvas-fallback'); canvasFallbackCount++;
     const generation = revision;
     try {
       const result = await operation();
@@ -355,6 +370,7 @@ export function createKtxPilotAdapter({
       return { ...result, pilotFallback: 'original-png-or-existing-canvas',
         pilotMaterialModes: records.map(record => ({ name: record.material.name, mapMode: mode(record, 'map') })) };
     } catch (error) {
+      if (disposed || revision !== generation) return { applied: false, cancelled: true, reason: 'Pilot changed during appearance operation' };
       lastFailure = errorText(error);
       event('canvas-appearance-failed', { reason: lastFailure });
       return { applied: false, reason: lastFailure, pilotFallback: 'original-png-or-existing-canvas' };
