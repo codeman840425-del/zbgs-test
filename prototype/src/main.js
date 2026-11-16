@@ -668,17 +668,30 @@ function lineClear(a, b) {
 function pathTo(start, x, z) {
   x = clamp(x, -4, 4);
   z = clamp(z, -3, 3);
-  if (blocked(x, z)) return [];
+  if (blocked(x, z) || blocked(start[0], start[1])) return [];
   if (lineClear(start, [x, z])) return [[x, z]];
   const step = 0.2,
     key = (a, b) => `${a},${b}`,
     cell = (n) => Math.round(n / step),
     a = [cell(start[0]), cell(start[1])],
-    b = [cell(x), cell(z)],
-    open = [a],
-    seen = new Set([key(...a)]),
+    b = [x / step, z / step],
+    open = [],
+    seen = new Set(),
     previous = new Map();
-  let found = false;
+  // Connect the actual start to nearby grid nodes through checked segments.
+  // Rounding alone can place it inside furniture or across a thin obstacle.
+  for (let dx = -1; dx <= 1; dx++) {
+    for (let dz = -1; dz <= 1; dz++) {
+      const node = [a[0] + dx, a[1] + dz];
+      if (!blocked(node[0] * step, node[1] * step) &&
+          lineClear(start, [node[0] * step, node[1] * step])) {
+        open.push(node);
+        seen.add(key(...node));
+        previous.set(key(...node), null);
+      }
+    }
+  }
+  let found = null;
   while (open.length) {
     open.sort(
       (u, v) =>
@@ -686,8 +699,8 @@ function pathTo(start, x, z) {
         Math.hypot(v[0] - b[0], v[1] - b[1]),
     );
     const q = open.shift();
-    if (q[0] === b[0] && q[1] === b[1]) {
-      found = true;
+    if (lineClear([q[0] * step, q[1] * step], [x, z])) {
+      found = q;
       break;
     }
     for (const [dx, dz] of [
@@ -715,8 +728,8 @@ function pathTo(start, x, z) {
   }
   if (!found) return [];
   let p = [[x, z]],
-    q = b;
-  while (key(...q) !== key(...a)) {
+    q = found;
+  while (q) {
     p.push([q[0] * step, q[1] * step]);
     q = previous.get(key(...q));
   }
@@ -1207,8 +1220,7 @@ class CharacterScene extends Phaser.Scene {
     this.turnRemaining = 0;
     if (name === "sit") {
       const p = seatTargets(this.rig).approach;
-      this.go(p[0], p[2], "sit");
-      return;
+      return this.go(p[0], p[2], "sit");
     }
     if (name === "turn") {
       this.setMode("turn");
@@ -1241,6 +1253,11 @@ class CharacterScene extends Phaser.Scene {
     }
     const p = pathTo([this.actor.root.position.x, this.actor.root.position.z], x, z);
     if (!p.length) {
+      if (after === "sit") {
+        this.releaseSeatRequest("seat-path-unreachable");
+        const task = this.behaviorTasks.get(this.executingRequest);
+        if (task?.kind === "sit") this.behaviorTasks.fail(task.requestId, "seat-path-unreachable");
+      }
       if (!this.isPeer) document.querySelector("#scene-state").textContent =
         "这里有家具，请选择地面空位";
       return false;
