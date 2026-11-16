@@ -96,3 +96,12 @@ scripts/production/asset_budget.py check，m2-technical-v1；25初版门发现op
 最小实际样件为一款小耳饰的左右装备，原男女各自实际耳部/头骨局部fit；同款资源与不同fit分离，不靠整体缩放或改骨骼名冒充。先制作/检查源GLB+独立左右挂点配置，随后共用运行模块接入，验证单侧/双侧/卸下恢复、和眼镜共存及双实例隔离。缺口在当前mic/glasses专用两槽外的语义挂点、侧别/成对管理；不改麦克风已验姿态、不制作衣库。先使用当前完整原男女，派生脸型仅明确未验。连续两轮同根因无新证据即重定位。asset_budget已知sol/high受派在隔离树生成源与fit，root负责运行集成/正常动作与近景证据；本包不做压缩。
 
 P03导出器与固定包实际录像/失败记录已随f223e3c216e9b858385feb05494a1b23eb8b808b远备并ls-remote核实，回执evidence/m2-runtime-transfer-801-v1/remote-backup.json。新增附件源制作在隔离树进行，尚未接入不称通过。
+
+
+## HTTP有界试验完成；并行推进附件与KTX
+
+顾问原会话转达用户已授权按HTTP→少量KTX2→按瓶颈再决定网格的有界验证，上一阶段只调研等待已解除。未采购/未改旧VRM，冻结裙与30秒舞不动。scripts/runtime-transfer-http使用Node24.13.0内置gzip6/br5，原801男女P03包不改。所有浏览器decoded SHA一致；男/女各18次冷暖样本，原/HTTP-Brotli同镜头短1×与原尺寸近景：4174/evidence/m2-http-transport-801-v1/。冷请求正文男46.60→26.15MB、女43.47→22.81MB；本机ready代理中位数无稳定改善，纹理对象43/40不变，不称GPU/普通机性能通过。应用no-store使暖请求仍大，未顺便改运行缓存。女默认造型应用不等于首次裙装。
+
+独立CPU/HTTP初轮两失败：未声明文件可代替manifest；导出失败占最终输出。一次修复0efd508后418检查通过，原失败和源码快照保留。男性初轮镜头face无效，v2用inspect-face-front并保原fixture-correction。男女四影片完整时段2fps抽审、近景已看，不代替人类连续观感验收。原runtime801不因传输层换标签，临时QA服务已关。
+
+并行分工：asset_budget已提交耳钉source(主仓85f161c/e217f91，root复跑8检查)，继续新rigid-accessory-layer/publish/CPU，root尚待集成；ktx_texture_sample已导出原男女各Body2048+Hair1024四图，KTX4.4.2固定UASTC配置，source commit a621cab，body文件变小、hair反增；继续实验adapter与明确PNG染色回退，未替换固定资源或宣称GPU/视觉通过。http_transport_review独立审查结束，后续可分派准确SHA审查。模型/effort均显式sol/high按各任务难度记录；已将主动拆分并行规则加入AGENTS。继续CUSTOM-A01和KTX小验证，不停工、不展开M3。
