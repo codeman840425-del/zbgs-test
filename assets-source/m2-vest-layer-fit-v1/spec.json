@@ -1,0 +1,154 @@
+{
+  "schema": "vest-layer-fit-source-v1",
+  "version": 1,
+  "sourceReferenceCommit": "b218cbf1",
+  "publicPrefix": "/assets/m2-vest-layer-fit-v1/",
+  "templateTop": {
+    "path": "prototype/public/assets/m1/m1-uniform-top.glb",
+    "sha256": "27bcfe020828ad2603f618fabf7f21cf1b09f66035c8ecd740e78cfc3650b9d6",
+    "bytes": 2696548
+  },
+  "templateMaterial": "F00_001_01_Tops_01_CLOTH",
+  "selection": {
+    "coreTriangles": [
+      894,
+      901,
+      903,
+      904
+    ],
+    "seedVertices": [
+      616,
+      630,
+      631,
+      632,
+      636,
+      637
+    ],
+    "featherRings": 1,
+    "weights": "smoothstep(1 - graphDistance/2) at graph distances 0,1,>=2; position aliases share displacement"
+  },
+  "rule": {
+    "sourceDirection": [
+      0,
+      0,
+      -1
+    ],
+    "clearanceTargetM": 0.0005,
+    "exportReserveM": 2e-06,
+    "displacementCapM": 0.004,
+    "solveToleranceM": 1e-07,
+    "maxIterations": 32,
+    "scope": "Core top triangles outside front waist of exact pants; original shared source topology drives selection; no case-name branches"
+  },
+  "shapeThresholds": {
+    "minimumAreaRatio": 0.5,
+    "minimumEdgeRatio": 0.85,
+    "maximumEdgeRatio": 1.15,
+    "maximumDihedralChangeDegrees": 20
+  },
+  "referencePose": {
+    "path": "assets-source/m2-vest-layer-fit-v1/inputs/female.json",
+    "sha256": "049ed30e972c1a7f5e384c3615c0e0352046bdd137e2b216d2702df98f4ab756",
+    "bytes": 593878
+  },
+  "poseReceipt": {
+    "path": "assets-source/m2-vest-layer-fit-v1/inputs/pose-receipt.json",
+    "sha256": "8eb911cea69585c203426ac3c415bdf243afbb526a96a11e0acf3d7cad4a5835",
+    "bytes": 198779
+  },
+  "cases": [
+    {
+      "id": "female",
+      "body": {
+        "path": "prototype/public/assets/foundation/base-female-roundtrip.vrm",
+        "sha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+        "bytes": 16311576
+      },
+      "top": {
+        "path": "prototype/public/assets/m1/m1-uniform-top.glb",
+        "sha256": "27bcfe020828ad2603f618fabf7f21cf1b09f66035c8ecd740e78cfc3650b9d6",
+        "bytes": 2696548
+      },
+      "bottom": {
+        "path": "prototype/public/assets/m1/m1-training-pants.glb",
+        "sha256": "9e41d6df66a0917c2a4c09741c9f963fd05a347335854999d720d96ccee7aa92",
+        "bytes": 63520
+      },
+      "equipmentManifest": {
+        "path": "prototype/public/assets/m1/equipment.json",
+        "sha256": "6b2e784326566008668978932be6d6def603bd2c09f4e6732200a4195b905bea",
+        "bytes": 48520
+      },
+      "posed": {
+        "path": "assets-source/m2-vest-layer-fit-v1/inputs/female.json",
+        "sha256": "049ed30e972c1a7f5e384c3615c0e0352046bdd137e2b216d2702df98f4ab756",
+        "bytes": 593878
+      },
+      "upstreamPosePath": "evidence/m2-representative-vest-posed-ed2-v1/female.json"
+    },
+    {
+      "id": "female-round-full-v2",
+      "body": {
+        "path": "assets-source/m2-representative-batch-v2/generated/female-round-full-v2/avatar.vrm",
+        "sha256": "e95e822b6300a426103d88e8b47abac3b721e66751d065a017f99a7712ab6ba4",
+        "bytes": 17429236
+      },
+      "top": {
+        "path": "assets-source/m2-representative-batch-v2/generated/female-round-full-v2/female-round-full-v2-top.glb",
+        "sha256": "3d0ce805635972aa61242fde0b76943d2c844a226337c54333bcb50deef44872",
+        "bytes": 2737012
+      },
+      "bottom": {
+        "path": "assets-source/m2-representative-batch-v2/generated/female-round-full-v2/female-round-full-v2-bottom.glb",
+        "sha256": "4d2c9f8affaaaff38e228899657556e9c8c78a32813fefc4937544c978a49a39",
+        "bytes": 83996
+      },
+      "equipmentManifest": {
+        "path": "assets-source/m2-representative-batch-v2/generated/female-round-full-v2/equipment.json",
+        "sha256": "f624e0690ca74d717bcce95ef4e86b9dcc3a6cbf20a7c953a96b03e446c930c5",
+        "bytes": 25968
+      },
+      "posed": {
+        "path": "assets-source/m2-vest-layer-fit-v1/inputs/female-round-full-v2.json",
+        "sha256": "42f0a6da643cadf7414a7872d3c9206fb04f993bcb2dd35a27e4118f6678ae48",
+        "bytes": 593931
+      },
+      "upstreamPosePath": "evidence/m2-representative-vest-posed-ed2-v1/female-round-full-v2.json"
+    },
+    {
+      "id": "female-soft-wide-v2",
+      "body": {
+        "path": "assets-source/m2-representative-batch-v2/generated/female-soft-wide-v2/avatar.vrm",
+        "sha256": "01111c1d62bef8cd3f914190d9daf68c3dff9d49b9c2b5e743a8a53933755f61",
+        "bytes": 17429236
+      },
+      "top": {
+        "path": "assets-source/m2-representative-batch-v2/generated/female-soft-wide-v2/female-soft-wide-v2-top.glb",
+        "sha256": "d52224089e4f3894ed3a83a52f7dc970378a0fae1e7735c73ea8511bde88bc78",
+        "bytes": 2737012
+      },
+      "bottom": {
+        "path": "assets-source/m2-representative-batch-v2/generated/female-soft-wide-v2/female-soft-wide-v2-bottom.glb",
+        "sha256": "b675be0aff208b36a9e29745d83f0a57194e5c098454544e2f09ed8556167cea",
+        "bytes": 83996
+      },
+      "equipmentManifest": {
+        "path": "assets-source/m2-representative-batch-v2/generated/female-soft-wide-v2/equipment.json",
+        "sha256": "b983ea06b6be556598c5977eb0f118923f8f1a88de9db17bb4bec6fe325a77f1",
+        "bytes": 25959
+      },
+      "posed": {
+        "path": "assets-source/m2-vest-layer-fit-v1/inputs/female-soft-wide-v2.json",
+        "sha256": "f035d715e4db10024945a5db7ab714834947e1267f22b4e247d5ba182a786a24",
+        "bytes": 594049
+      },
+      "upstreamPosePath": "evidence/m2-representative-vest-posed-ed2-v1/female-soft-wide-v2.json"
+    }
+  ],
+  "budget": {
+    "plannedSourceBatch": 1,
+    "runtimeEvidenceCorrectionsRemaining": 1,
+    "parameterSweep": false
+  },
+  "runtimeAccepted": false
+}
