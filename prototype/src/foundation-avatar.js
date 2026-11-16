@@ -6,6 +6,7 @@ import { foundationProfile } from "./foundation-profiles.js";
 import { createLivePresentation } from "./live-presentation.js";
 import { createCharacterAppearance } from "./character-appearance.js";
 import { createFacialGeometry } from "./facial-geometry.js";
+import { reserveFaceNormalLayout } from "./face-normal-reservation.js";
 import { validateForearmProfile } from "./forearm-envelope-projection.js";
 import { validateJointHandProfile } from "./joint-hand-workspace.mjs";
 
@@ -102,6 +103,8 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
   const gltf = await loader.parseAsync(buffer, "/assets/foundation/");
   const vrm = gltf.userData.vrm;
   VRMUtils.rotateVRM0(vrm);
+  try { reserveFaceNormalLayout(vrm, sha256); }
+  catch(error) { VRMUtils.deepDispose(vrm.scene); throw error; }
   const root = new THREE.Group();
   root.name = "M1CompleteFoundation";
   root.add(vrm.scene);

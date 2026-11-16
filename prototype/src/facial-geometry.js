@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import {FACIAL_GEOMETRY_PROFILES} from './facial-geometry-profiles.js';
 import {VISIBLE_FACE_SOURCES, mouthValueSupported} from './facial-geometry-contract.js';
+import {reservedNormalCacheKey} from './face-normal-reservation.js';
 
 const BROW_BASE_URL = '/assets/face-brow-parameters-v1/';
 const BROW_SAMPLE = 'height1-spacing1-v1';
@@ -487,7 +488,7 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender }) {
         const geometry = record.geometry.clone(); next.set(record.geometry, geometry);
         geometry.setAttribute('position',positionAttribute);
         geometry.morphAttributes.position=morphAttributes;
-        const normalKey=record.geometry.morphAttributes.normal ? record.geometry : record.geometry.getAttribute('normal');
+        const normalKey=reservedNormalCacheKey(record.geometry) || (record.geometry.morphAttributes.normal ? record.geometry : record.geometry.getAttribute('normal'));
         let normalSet=normalSets.get(normalKey);
         if(!normalSet && recomputeNormals){
           const n=packed(record.geometry.getAttribute('normal'));
