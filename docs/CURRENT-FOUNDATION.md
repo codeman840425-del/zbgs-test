@@ -39,7 +39,7 @@ Phaser+Three+VRM保留；女性封板裙和30秒舞不再精修。普通电脑�
 
 ## 并行完成：CUSTOM-P04 单资产预算
 
-scripts/production/asset_budget.py check，m2-technical-v1；25初版门发现optional EXT_mesh_gpu_instancing可少算10000倍，已在ffdb967最小拒绝实际node未计量扩展，28门与独立实际Three纯CPU复现检查通过。7原代表资产结果保持；原男女RGBA8+mip估算约128/133MiB超过暂定body96MiB，麦克风9primitive超过附件8，原素材未改。连体2356v/4724t/1材质/157980bytes在garment预算内。此为静态估算与暂定技术门，非实测显存或普通机表现。整套/额外材质纹理/按需加载仍待后续，不能称P04完成。
+scripts/production/asset_budget.py check，m2-technical-v1；25初版门发现optional EXT_mesh_gpu_instancing可少算10000倍，已在ffdb967最小拒绝实际node未计量扩展，28门与独立实际Three纯CPU复现检查通过。7原代表资产结果保持；原男女RGBA8+mip估算约128/133MiB超过暂定body96MiB，麦克风9primitive超过附件8，原素材未改。连体2356v/4724t/1材质/157980bytes在garment预算内。此为静态估算与暂定技术门，非实测显存或普通机表现。现整套原男女四代表累计与实际短裤材质配方校验已合入82ddb50，15 CPU通过，见evidence/m2-selected-look-budget-v1及CAP；当前recipe共享原map、无附加纹理。非所有机制预算覆盖，不能称P04完成。
 
 ## 最近完成：CUSTOM-FIT01 实际形体与依赖
 
@@ -59,7 +59,7 @@ scripts/production/asset_budget.py check，m2-technical-v1；25初版门发现op
 
 修复实际发现：未加载装备配方身份查询、迟到旧覆盖清理恢复新top索引、基础模式材质改名导致找不到Body；均保留失败。真实coverage模块回归纠正了独立审查dispose计数假通过，不能继承旧mock结论。801事务v1误把基础模式下缓存选择当立即适配失败，夹具已改为恢复穿衣时验证，保留fixture-correction；v2同运行版通过。
 
-四次真实第二女性创建/基础模式/销毁后均回86几何41纹理23程序，主实例不受影响；对象数非实测显存或长期泄漏。已访问服装仍缓存至actor销毁，无通用淘汰。下一工作包：审查现有整套造型静态预算成果（只测量，不实施压缩），同时等顾问同类游戏压缩调研；之后按CAP接续P1缺口。普通机未测，不停止独立工作。
+四次真实第二女性创建/基础模式/销毁后均回86几何41纹理23程序，主实例不受影响；对象数非实测显存或长期泄漏。已访问服装仍缓存至actor销毁，无通用淘汰。整套静态预算审查已完成，未实施压缩。下一主工作包CUSTOM-P03：当前精确角色/造型运行依赖可移交清单，脱离制作目录验证；先支持当前代表，缺资源明确失败。普通机未测，不停止独立工作。
 
 ## 文档和派工恢复
 
@@ -74,3 +74,13 @@ scripts/production/asset_budget.py check，m2-technical-v1；25初版门发现op
 ## 当前插入：游戏发布资源压缩调研
 
 用户明确要求先让现有顾问调研类似技术游戏的实际压缩方式，不能自行选格式或压旧模型。已通过原生桌面工具向“核对项目交接与未通过项”发送有界调研（显式gpt-6.1-sol/high；请求记录docs/research/RESOURCE-COMPRESSION-ADVISOR-REQUEST-2026-11-16.txt）。期待报告在顾问既有目录RESOURCE-COMPRESSION-GAME-PRACTICES-2026-11-16.html。只读调研，不改工程、不采购、不录屏、不重导出；root待报告核实后归档并决定试验，当前P05验证继续。按需加载、HTTP传输压缩与贴图/模型运行格式压缩分别记录，尚无后两项已验流程。
+
+## 顾问压缩报告已完成（尚未实施压缩）
+
+已全文读取并原字节归档research/RESOURCE-COMPRESSION-GAME-PRACTICES-2026-11-16.html和SOURCES.json；回执evidence/resource-compression-advisor-2026-11-16/receipt.json核23个顾问源码快照SHA。研究Webaverse/Hubs/MML/Hyperfy，证据边界和许可保留；不是同栈商业经营游戏通用模板，也无线上压缩率实测。关键本地复核：染色Canvas读图路径；Three187加载器支持但尚未注入解码器。采纳分层发布/输入输出独立身份与失败回退；建议试验顺序HTTP→少量纹理→视测量决定网格，不直接跑全VRM optimize。先不选编码格式/不压旧模型，继续P03依赖移交，这也是后续发布派生基础。
+
+801按需加载源和实际录屏已于256e7042b26a1c6ee82ee9551d0e1a1faf2616df推送并ls-remote一致，回执m2-lazy-outfit-room-801-v1/remote-backup.json。报告归档与整套预算的后续提交须另核远备。
+
+## 当前主包：CUSTOM-P03 完整运行依赖移交
+
+缺口：现清单含本机制作/验收路径，尚无可独立消费的当前造型依赖闭包。最小输入用原男短裤外搭含现材质配方及一份原女性当前造型，复用现资源/运行接口。产物须有相对运行路径、精确SHA/大小、来源及配置依赖，不靠网络抓到什么就称全部；移交清单需与实际冷加载核对。禁止压缩/改模型/新增UI或另造角色控制器。先依赖收集与严格失败检查，再固定构建/干净目录实际加载。两轮同因无新证据即重定位。现公开4196和801候选均保留回滚。
