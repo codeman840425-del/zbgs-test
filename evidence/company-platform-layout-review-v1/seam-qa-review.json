@@ -1,0 +1,58 @@
+{
+  "status": "reviewed-with-two-qa-findings",
+  "baseline": "af47b6a7ff37d542bfb1b55247a923d7f98cf4a9",
+  "configuration": {
+    "reuse": "Known explicit prior session configuration retained",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "high",
+    "difficulty": "complex",
+    "reason": "Independent audit of the shared main seam and real-controller QA conditions to distinguish product defects from fixture errors and avoid false acceptance",
+    "actualProviderConfiguration": "not independently verified",
+    "desktopHookInterception": "not independently verified"
+  },
+  "inputs": [
+    {
+      "path": "prototype/src/main.js",
+      "sha256": "2db35d3293c44d01a763203c50421eaa4ea2466fa069d20c6078b9aad43212ac"
+    },
+    {
+      "path": "scripts/company-platform/qa-room.cjs",
+      "sha256": "9a1f86215772cc1e9a686b9a6c29ecd85e12c8d366e4637a80db1201797ab05e"
+    },
+    {
+      "path": "scripts/company-platform/serve.cjs",
+      "sha256": "cccefeaf64a46be7e98227f01a5e908bf5d71b4e01a67eaacc025827db042a4a"
+    },
+    {
+      "path": "scripts/qa-m1-common.cjs",
+      "sha256": "a5e540ddd9e732e46be50c41d5b4e4a7935a44678c1d7c548a6bcfad14dd9fc0"
+    }
+  ],
+  "method": "Read-only source review. No browser, GPU, service, product edit, QA edit or Git commit.",
+  "findings": [
+    {
+      "id": "QA-TERMINAL",
+      "path": "scripts/company-platform/qa-room.cjs",
+      "line": 124,
+      "severity": "must-correct-acceptance-condition",
+      "detail": "Lifecycle actual exit releases accepts completed/failed/cancelled through done(). Require the primary-stand task to be completed as well as lease released. Normal1x runTask already enforces completed."
+    },
+    {
+      "id": "QA-CONTACT-SCOPE",
+      "path": "scripts/company-platform/qa-room.cjs",
+      "line": 92,
+      "severity": "evidence-wording-or-measurement",
+      "detail": "sitProgress=1 and pelvis local X/Z only establish stable seated state and planar footprint coverage. No local Y, seat surface or actual contact patch is checked. Keep any numerical claim to that scope, or provide suitable independent height/contact evidence if claiming physical seat contact."
+    }
+  ],
+  "acceptedReview": [
+    "Main diff preserves actor controller, navigation execution, task state and seat-lease code. Existing floor/wall/chair references are retained.",
+    "Legacy-calibrated alone applies 1.05-seatBack startup Z. Layout-owned retains configured chair transform; refreshChair still refreshes mesh-oriented contact and mutable navigation obstacle.",
+    "Build identity checks runtime and served digest plus declared/live primary profile and fetched exact avatar SHA for each body.",
+    "Four normal1x runs use ordinary frame updates, playback rate 1 and real terminal-state waits. Deterministic simulate stepping is separated into the non-recorded lifecycle context.",
+    "Ground click projects a known floor point and waits for actual actor arrival after the click.",
+    "Lifecycle drives actual primary and independently loaded peer through the shared simulation step; cancellation releases the reserved seat synchronously under current task event and lease semantics.",
+    "Main busy-chair rejection is checked for thrown error plus unchanged complete layout snapshot."
+  ],
+  "cpuFinalInputs": "Existing report.json input SHAs match final room.js/resources.json/layouts.json at review time."
+}

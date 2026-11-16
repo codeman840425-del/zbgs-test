@@ -50,11 +50,17 @@ async function mark(page,label){await page.evaluate(label=>{
     context=await browser.newContext({viewport:{width:1440,height:900}});const page=await context.newPage();
     page.on('pageerror',e=>report.errors.push(String(e)));
     await open(page,old.url,body);await identity(page,body,'4fdc1b3e1667');const original=await state(page);
+    const referenceTask=await page.evaluate(()=>{
+      const d=__debug,c=d.game.scene.getScene('CharacterStudio');d.setPaused(true);
+      d.request({requestId:'reference-seat',kind:'sit'});
+      for(let i=0;i<4200&&!['completed','failed','cancelled'].includes(d.tasks().get('reference-seat')?.state);i++)c.simulate(1/120);
+      return d.tasks().get('reference-seat');
+    });assert.equal(referenceTask.state,'completed');const originalSeated=await state(page);
     await open(page,current.url,body);await identity(page,body);const extracted=await state(page);
     assert.deepEqual(extracted.chair,original.chair,'Legacy opening chair/targets must match original fixed build');
     close(extracted.seatHeight,original.seatHeight,'legacy seat height');
     close(extracted.seatBack,original.seatBack,'legacy seatBack');
-    report.calibration.push({body,original,extracted});await context.close();context=null;
+    report.calibration.push({body,original,originalSeated,extracted});await context.close();context=null;
   }
   for(const layout of ['room-a','room-b'])for(const body of Object.keys(bodies)){
     const name=`${layout}-${body}`,dir=path.join(out,name);await fs.mkdir(dir);
@@ -90,6 +96,9 @@ async function mark(page,label){await page.evaluate(label=>{
     await mark(page,`${name} · 接近、转向、坐下 · 1×`);row.tasks.push(await runTask(page,name+'-sit','sit'));
     await page.waitForTimeout(650);row.seated=await state(page);assert.equal(row.seated.lease?.state,'occupied');
     assert.equal(row.seated.sitProgress,1);assert(Math.abs(row.seated.hipLocal[0])<.2&&Math.abs(row.seated.hipLocal[2])<.35,'Pelvis should be over the actual seat footprint');
+    row.seatReference=report.calibration.find(c=>c.body===body).originalSeated;
+    assert(Math.abs(row.seated.hipLocal[1]-row.seatReference.hipLocal[1])<.015,'Relative pelvis height must retain the original calibrated seat pose');
+    row.contactScope='Actual pelvis position relative to seat and original calibrated pose; not full body-surface collision clearance. Inspect normal-speed video for actual contact.';
     await page.screenshot({path:path.join(dir,'seated.png')});
     row.busy=await page.evaluate(()=>{const before=__debug.companyLayout();let error=null;try{__debug.setChairTransform({x:0,z:0});}catch(e){error=e.message;}return{before,after:__debug.companyLayout(),error};});
     assert(row.busy.error);assert.deepEqual(row.busy.after,row.busy.before,'Busy transform rejection keeps layout');
@@ -121,7 +130,7 @@ async function mark(page,label){await page.evaluate(label=>{
     d.request({requestId:'cancel-approach',kind:'sit'});check('approach reserves',lease()?.state==='reserved');d.tasks().cancel('cancel-approach','qa-cancel');check('cancel approach releases',!lease());
     d.request({requestId:'primary-sit',kind:'sit'});check('primary sits',until(()=>done(d.tasks(),'primary-sit'))&&d.tasks().get('primary-sit').state==='completed');
     peer.request({requestId:'compete',kind:'sit'});check('same seat conflict rejected',peer.tasks.get('compete')?.reason==='seat-unavailable'&&lease()?.ownerId===c.actorId);
-    d.request({requestId:'primary-stand',kind:'stand'});check('stand retains exit lease',lease()?.state==='exiting');check('actual exit releases',until(()=>done(d.tasks(),'primary-stand')&&!lease()));
+    d.request({requestId:'primary-stand',kind:'stand'});check('stand retains exit lease',lease()?.state==='exiting');check('actual exit releases',until(()=>done(d.tasks(),'primary-stand')&&!lease())&&d.tasks().get('primary-stand')?.state==='completed');
     peer.request({requestId:'peer-sit',kind:'sit'});check('female peer uses rotated chair',until(()=>done(peer.tasks,'peer-sit'))&&peer.tasks.get('peer-sit').state==='completed');
     d.removeComparison();check('seated owner removal releases',!lease());
     return{checks,history:d.seatLeases.history(),mode:'actual rig/controller, paused deterministic 120Hz; no visual or performance claim'};
