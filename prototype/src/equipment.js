@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { createGarmentMaterialRecipes } from "./material-recipes.js";
 import { resolveEquipmentSet, commitLoadedEquipmentSet, prepareLoadedEquipmentSet } from "./equipment-set.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { shapeFitDescriptor } from './shape-fit-registry.js';
 
 /** Load independent garment GLBs onto a compatible existing raw skeleton.
  * No motion/controller dependency, no mutation of the avatar's meshes/materials.
@@ -40,6 +41,67 @@ export async function createEquipment({
   let setRevision = 0;
   const sha256 = async (buffer) => [...new Uint8Array(await crypto.subtle.digest("SHA-256", buffer))]
     .map((n) => n.toString(16).padStart(2, "0")).join("");
+  const packed = attribute => {
+    if (!attribute || attribute.normalized) throw Error('Body shape attribute format is incompatible');
+    const Type = attribute.isInterleavedBufferAttribute ? attribute.data.array.constructor : attribute.array.constructor;
+    const values = new Type(attribute.count * attribute.itemSize);
+    for (let i=0;i<attribute.count;i++) for(let c=0;c<attribute.itemSize;c++) values[i*attribute.itemSize+c]=attribute.getComponent(i,c);
+    return values;
+  };
+  const digestAttribute = async attribute => {
+    const values=packed(attribute), bytes=values.buffer.slice(values.byteOffset,values.byteOffset+values.byteLength);
+    return {sha256:await sha256(bytes),componentType:values instanceof Float32Array?5126:values instanceof Uint32Array?5125:values instanceof Uint16Array?5123:values instanceof Uint8Array?5121:null,type:attribute.itemSize===1?'SCALAR':attribute.itemSize===2?'VEC2':attribute.itemSize===3?'VEC3':'VEC4',count:attribute.count,itemSize:attribute.itemSize};
+  };
+  const fitJson = async (entry, url, expectedSha) => {
+    const response=await fetch(url,{cache:'no-store'});if(!response.ok)throw Error(`Garment ${entry.id} fit resource HTTP ${response.status}`);
+    const bytes=await response.arrayBuffer();if(await sha256(bytes)!==expectedSha)throw Error(`Garment ${entry.id} fit resource integrity mismatch`);
+    let value;try{value=JSON.parse(new TextDecoder().decode(bytes));}catch{throw Error(`Garment ${entry.id} fit resource is not valid JSON`);}
+    return value;
+  };
+  const shapeDependencies = new Map();
+  function bodySurfaceMeshes(materialName) {
+    const result=[];vrm.scene.traverse(mesh=>{
+      if(!mesh.isMesh)return;
+      const materials=Array.isArray(mesh.material)?mesh.material:[mesh.material];
+      if(materials.some(material=>material?.name?.replace(/ \(Outline\)$/,'')===materialName))result.push(mesh);
+    });return result;
+  }
+  async function prepareShapeDependency(entry) {
+    const descriptor=shapeFitDescriptor(entry,avatarSha256);if(!descriptor){if(entry.fitResource)throw Error(`Garment ${entry.id} declares an unsupported shape fit dependency`);return null;}
+    if(!entry.fitResource?.url||!entry.fitResource.url.startsWith('/assets/')||!/^[a-f0-9]{64}$/.test(entry.fitResource.sha256))throw Error(`Garment ${entry.id} is missing a pinned local fit resource`);
+    const fitUrl=new URL(entry.fitResource.url,manifestBase);
+    const fit=await fitJson(entry,fitUrl,entry.fitResource.sha256);
+    if(fit.schema!=='m2-onepiece-fit-v1'||fit.id!==entry.fitId||fit.styleId!==entry.styleId||fit.targetBodySha256!==avatarSha256||fit.assetSha256!==entry.sha256||fit.slot!==entry.slot)
+      throw Error(`Garment ${entry.id} fit resource identity is incompatible`);
+    const shapeResponse=await fetch(new URL(descriptor.url,manifestBase),{cache:'no-store'});if(!shapeResponse.ok)throw Error(`Garment ${entry.id} shape fit HTTP ${shapeResponse.status}`);
+    const shapeBytes=await shapeResponse.arrayBuffer();if(await sha256(shapeBytes)!==descriptor.sha256)throw Error(`Garment ${entry.id} shape fit integrity mismatch`);
+    let shape;try{shape=JSON.parse(new TextDecoder().decode(shapeBytes));}catch{throw Error(`Garment ${entry.id} shape fit is not valid JSON`);}
+    if(shape.schema!=='m2-shape-fit-v1'||shape.dependency!=='body-surface'||shape.baseAvatarSha256!==avatarSha256||shape.garmentId!==entry.id||shape.garmentSha256!==entry.sha256||!Array.isArray(shape.surfaces)||!shape.surfaces.length)
+      throw Error(`Garment ${entry.id} shape fit identity is incompatible`);
+    const snapshots=[];
+    for(const row of shape.surfaces){
+      const meshes=bodySurfaceMeshes(row.materialName);if(meshes.length!==1)throw Error(`Body surface ${row.materialName} is ambiguous or missing`);
+      const mesh=meshes[0],matrix=mesh.matrix.elements;
+      if(row.nodeMatrix?.some((value,index)=>Math.abs(value-matrix[index])>1e-6))throw Error(`Body surface transform differs for ${entry.id}`);
+      mesh.updateMatrix();
+      const geometry=mesh.geometry,attrs={position:geometry.getAttribute('position'),index:geometry.index,skinIndex:geometry.getAttribute('skinIndex'),skinWeight:geometry.getAttribute('skinWeight')};
+      const refs={geometry,index:attrs.index,position:attrs.position,skinIndex:attrs.skinIndex,skinWeight:attrs.skinWeight};
+      const versions=Object.fromEntries(Object.entries(attrs).map(([key,attribute])=>[key,{attribute:attribute?.version??0,data:attribute?.isInterleavedBufferAttribute?(attribute.data.version??0):null}]));
+      const expected=row.geometry;
+      const actual={};for(const key of Object.keys(expected))actual[key]=await digestAttribute(attrs[key]);
+      for(const key of Object.keys(expected)){const e=expected[key],a=actual[key];if(!a||e.sha256!==a.sha256||e.count!==a.count||e.itemSize!==a.itemSize||e.componentType!==a.componentType)throw Error(`Body surface ${row.materialName} ${key} differs; refit is required (${e.sha256}/${a?.sha256})`);}
+      if(mesh.geometry!==refs.geometry)throw Error(`Body surface geometry replaced while preparing shape fit`);
+      for(const key of Object.keys(attrs)){const attribute=attrs[key],version=versions[key],current=key==='index'?mesh.geometry.index:mesh.geometry.getAttribute(key);if(current!==refs[key]||(attribute?.version??0)!==version.attribute||(attribute?.isInterleavedBufferAttribute&&attribute.data.version!==version.data))throw Error(`Body surface ${row.materialName} ${key} changed while preparing shape fit`);}
+      snapshots.push({mesh,row,attributes:attrs,refs,versions});
+    }
+    return {entry,fit,shape,snapshots,assertCurrentSync:()=>{
+      for(const {mesh,row,attributes,refs,versions} of snapshots){mesh.updateMatrix();if(row.nodeMatrix?.some((value,index)=>Math.abs(value-mesh.matrix.elements[index])>1e-6))throw Error(`Body surface transform changed for ${entry.id}; refit is required`);if(mesh.geometry!==refs.geometry)throw Error(`Body surface geometry replaced for ${entry.id}; refit is required`);for(const key of Object.keys(row.geometry)){const current=key==='index'?mesh.geometry.index:mesh.geometry.getAttribute(key);if(current!==refs[key])throw Error(`Body surface ${row.materialName} ${key} replaced; refit is required`);const version=versions[key];if((attributes[key]?.version??0)!==version.attribute||(attributes[key]?.isInterleavedBufferAttribute&&attributes[key].data.version!==version.data))throw Error(`Body surface ${row.materialName} ${key} changed; refit is required`);}}return true;
+    },assertCurrent:async()=>{
+      for(const {mesh,row} of snapshots){if(row.nodeMatrix?.some((value,index)=>Math.abs(value-mesh.matrix.elements[index])>1e-6))throw Error(`Body surface transform changed for ${entry.id}; refit is required`);for(const key of Object.keys(row.geometry)){const actual=await digestAttribute(key==='index'?mesh.geometry.index:mesh.geometry.getAttribute(key));if(actual.sha256!==row.geometry[key].sha256)throw Error(`Body surface ${row.materialName} ${key} changed; refit is required`);}}
+      return true;
+    }};
+  }
+  const assertShapeDependencies = async ids => {for(const id of ids){const dependency=shapeDependencies.get(id);if(dependency)await dependency.assertCurrent();}};
   function getEntry(id) {
     const entry = entries.get(id);
     if (!entry) throw new Error(`Unknown equipment ${id}`);
@@ -57,6 +119,7 @@ export async function createEquipment({
     // Identity and bind checks are both required. A matching filename is not a fit.
     if (!avatarSha256 || avatarSha256 !== entry.compatibleAvatarSha256)
       throw new Error(`Garment ${entry.id} is not approved for this avatar identity`);
+    const shapeDependency=await prepareShapeDependency(entry);
     const mapping = new Map();
     for (const binding of entry.bindings) {
       let bone = rawByName.get(binding.targetRawBone);
@@ -135,6 +198,7 @@ export async function createEquipment({
         multiBoneVerticesAcrossPrimitives: multiBoneVertices, maxWeightSumError,
         joints: mapping.size, independentArmatureAttached: false } };
     result.materialRecipes = createGarmentMaterialRecipes({entry,meshes,avatarSha256,manifestBase,threeRevision:THREE.REVISION});
+    if(shapeDependency)shapeDependencies.set(entry.id,shapeDependency);
     loaded.set(entry.id, result);
     return result;
     } catch (error) {
@@ -162,6 +226,7 @@ export async function createEquipment({
   }
   function applyLoadedSet(ids) {
     if (disposed) throw Error("Equipment adapter is disposed");
+    for(const id of ids){const dependency=shapeDependencies.get(id);if(dependency)dependency.assertCurrentSync();}
     const result = commitLoadedEquipmentSet(loaded, manifest.items, ids, avatarSha256);
     setRevision++;
     invalidateSlotRequests();
@@ -180,6 +245,7 @@ export async function createEquipment({
         isCurrent:()=>live&&!disposed&&ticket===setRevision,
         commit(){
           if(!update.isCurrent())throw Error("Equipment preparation is no longer current");
+          for(const id of ids){const dependency=shapeDependencies.get(id);if(dependency)dependency.assertCurrentSync();}
           live=false;return apply();
         },
         dispose(){live=false;},
@@ -196,6 +262,9 @@ export async function createEquipment({
       await Promise.all(selected.map(entry => load(entry.id)));
       if (disposed) throw Error("Equipment adapter is disposed");
       if (ticket !== setRevision) return { applied: false, reason: "superseded" };
+      await assertShapeDependencies(selected.map(entry => entry.id));
+      if(disposed) throw Error("Equipment adapter is disposed");
+      if(ticket !== setRevision) return { applied: false, reason: "superseded" };
       return { applied: true, items: applyLoadedSet(selected.map(entry => entry.id)) };
     },
     async equip(id) {
@@ -210,6 +279,11 @@ export async function createEquipment({
       const ids = [...loaded.values()]
         .filter(other => other.container.visible && other.entry.slot !== entry.slot)
         .map(other => other.id);
+      if(disposed) throw new Error("Equipment adapter is disposed");
+      if(slotRequests.get(entry.slot) !== request) return { ...item, applied: false };
+      await assertShapeDependencies([...ids,id]);
+      if(disposed) throw new Error("Equipment adapter is disposed");
+      if(slotRequests.get(entry.slot) !== request) return { ...item, applied: false };
       commitLoadedEquipmentSet(loaded, manifest.items, [...ids, id], avatarSha256);
       return { ...item, applied: true };
     },
@@ -234,6 +308,7 @@ export async function createEquipment({
       if (disposed) return;
       disposed = true;
       loaded.forEach(destroy); loaded.clear();
+      shapeDependencies.clear();
     },
   };
 }

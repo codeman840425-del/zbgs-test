@@ -9,7 +9,7 @@ def validate_onepiece(v, ident, require, GLB):
     base = 'assets-source/m2-onepiece-v1/'
     package = json.loads(v.pin(ident['manifest'], ident['manifestSha256']))
     rows = package['files']
-    require(len(rows) == 61 and len({row['path'] for row in rows}) == len(rows), 'Onepiece inventory empty/duplicate/incomplete')
+    require(len(rows) == 62 and len({row['path'] for row in rows}) == len(rows), 'Onepiece inventory empty/duplicate/incomplete')
     for row in rows:
         path = PurePosixPath(row['path'])
         require(not path.is_absolute() and '..' not in path.parts, 'Unsafe onepiece package path')
@@ -74,6 +74,15 @@ def validate_onepiece(v, ident, require, GLB):
     require(runtime == dict(entry, url='/assets/m2-onepiece-v1/author-export.glb', fitResource=expected_fit), 'Onepiece runtime/source entry mismatch')
     v.pin(v.url(runtime['url']), entry['sha256'], entry['bytes'])
     require(v.pin(v.url(expected_fit['url']), expected_fit['sha256']) == fit_bytes, 'Onepiece runtime fit bytes differ')
+    shape = v.json(base+'generated/shape-fit.json')
+    require(shape['schema'] == 'm2-shape-fit-v1' and shape['dependency'] == 'body-surface' and
+            shape['garmentId'] == entry['id'] and shape['garmentSha256'] == entry['sha256'] and shape['baseAvatarSha256'] == spec['bodySha256'],
+            'Onepiece shape dependency identity mismatch')
+    require(shape['runtimeDigestSource'] == 'scripts/m2-onepiece-v1/runtime-shape-digest.mjs' and
+            shape['runtimeDigest']['loader'] == 'GLTFLoader.parseAsync + SkinnedMesh.normalizeSkinWeights',
+            'Onepiece runtime shape digest source mismatch')
+    shape_bytes = v.pin(base+'generated/shape-fit.json', next(row['sha256'] for row in rows if row['path']=='generated/shape-fit.json'))
+    v.pin(v.url('/assets/m2-onepiece-v1/shape-fit.json'), hashlib.sha256(shape_bytes).hexdigest(), len(shape_bytes))
     return {'id': spec['id'], 'inventoryFiles': len(rows), 'binding': binding, 'authorExportSha256': entry['sha256'],
             'patternSha256': report['assetSha256'], 'initialExportSha256': initial['authorExportSha256'], 'fourEditedExportsMatch': True,
             'runtimeExportAndFitMatchSource': True, 'storedStaticContacts': fit['staticContacts'],
