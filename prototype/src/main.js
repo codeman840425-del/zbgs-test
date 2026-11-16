@@ -28,6 +28,7 @@ camera.position.set(2.6, 2.2, 4.9);
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
 renderer.shadowMap.enabled = true;
+renderer.localClippingEnabled = true;
 renderer.shadowMap.type = THREE.PCFShadowMap;
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -92,17 +93,22 @@ for (let z = -3.4; z < 3.5; z += 0.32) {
   const line = cube(9, 0.001, 0.006, 0, 0.002, z, "#c4b99f");
   line.castShadow = false;
 }
-cube(9, 3.5, 0.12, 0, 1.75, -3.5, "#eceddf");
-cube(0.12, 3.5, 7, -4.5, 1.75, 0, "#e0e8d9");
-cube(9, 0.09, 0.06, 0, 0.06, -3.4, "#c6cdbd");
-cube(0.06, 0.09, 7, -4.4, 0.06, 0, "#c6cdbd");
+const backWall = new THREE.Group();
+const leftWall = new THREE.Group();
+backWall.name = "InspectionBackWall";
+leftWall.name = "InspectionLeftWall";
+world.add(backWall, leftWall);
+cube(9, 3.5, 0.12, 0, 1.75, -3.5, "#eceddf", backWall);
+cube(0.12, 3.5, 7, -4.5, 1.75, 0, "#e0e8d9", leftWall);
+cube(9, 0.09, 0.06, 0, 0.06, -3.4, "#c6cdbd", backWall);
+cube(0.06, 0.09, 7, -4.4, 0.06, 0, "#c6cdbd", leftWall);
 // Soft window, framed prints and a compact streaming desk.
-cube(2.3, 1.65, 0.08, -2.7, 2.1, -3.4, "#b8c8b4");
-cube(2.1, 1.45, 0.03, -2.7, 2.1, -3.345, "#e9f6ef");
-cube(0.055, 1.45, 0.04, -2.7, 2.1, -3.3, "#becdbb");
-cube(2.1, 0.05, 0.04, -2.7, 2.1, -3.3, "#becdbb");
+cube(2.3, 1.65, 0.08, -2.7, 2.1, -3.4, "#b8c8b4", backWall);
+cube(2.1, 1.45, 0.03, -2.7, 2.1, -3.345, "#e9f6ef", backWall);
+cube(0.055, 1.45, 0.04, -2.7, 2.1, -3.3, "#becdbb", backWall);
+cube(2.1, 0.05, 0.04, -2.7, 2.1, -3.3, "#becdbb", backWall);
 for (let x of [-3.95, -1.45]) {
-  const curtain = cube(0.32, 2.0, 0.12, x, 1.9, -3.15, "#c0d2bd");
+  const curtain = cube(0.32, 2.0, 0.12, x, 1.9, -3.15, "#c0d2bd", backWall);
   curtain.castShadow = false;
 }
 const poster = new THREE.Mesh(
@@ -110,7 +116,7 @@ const poster = new THREE.Mesh(
   new THREE.MeshBasicMaterial({ map: labelTexture("青禾直播间") }),
 );
 poster.position.set(0.35, 2.2, -3.42);
-world.add(poster);
+backWall.add(poster);
 cube(2.0, 0.1, 1.0, 1.15, 0.79, -1.95, "#d7b994");
 for (let x of [0.3, 2])
   for (let z of [-2.35, -1.55]) cube(0.065, 0.74, 0.065, x, 0.37, z, "#a7b3a6");
@@ -409,6 +415,21 @@ function syncViewButtons() {
       ),
     );
 }
+// A section through the camera-side architecture keeps orbiting inspection
+// views usable outside the room. Local clipping leaves wall shadow casting
+// intact (clipShadows=false) and never changes furniture or character meshes.
+const wallSectionPlanes = [new THREE.Plane(new THREE.Vector3(0, 1, 0), -10)];
+function updateInspectionWallSection() {
+  const fixed = fixedViews.has(cameraMode);
+  for (const [wall, outside] of [
+    [backWall, camera.position.z <= -3.3],
+    [leftWall, camera.position.x <= -4.3],
+  ]) {
+    wall.traverse(node => {
+      if (node.material) node.material.clippingPlanes = fixed && outside ? wallSectionPlanes : null;
+    });
+  }
+}
 function updateFixedCamera() {
   if (!avatar || !fixedViews.has(cameraMode)) return;
   if (cameraMode.startsWith('inspect-')) {
@@ -424,6 +445,7 @@ function updateFixedCamera() {
     offset.applyAxisAngle(v3(0, 1, 0), avatar.root.rotation.y);
     camera.position.copy(target).add(offset);
     controls?.target.copy(target); camera.lookAt(target); camera.updateMatrixWorld(true);
+    updateInspectionWallSection();
     return;
   }
   const offset =
@@ -438,6 +460,7 @@ function updateFixedCamera() {
   camera.lookAt(target);
   controls?.target.copy(target);
   camera.updateMatrixWorld(true);
+  updateInspectionWallSection();
 }
 function createDebugHelpers() {
   for (const child of [...helperGroup.children]) {
@@ -1314,6 +1337,7 @@ class CharacterScene extends Phaser.Scene {
   cameraPreset(name, immediate = false) {
     if (this.isPeer) return;
     cameraMode = name;
+    updateInspectionWallSection();
     cameraTween = null;
     if (controls) controls.enabled = !fixedViews.has(name);
     syncViewButtons();
