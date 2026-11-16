@@ -16,7 +16,20 @@ export function createFaceRenderCompaction({vrm, avatarSha256}) {
   parent?.traverse(mesh=>{if(mesh.isMesh)children.push(mesh);});
   if(meshes.length!==9||meshes.some(mesh=>mesh.parent!==parent)||children.length!==meshes.length||children.some(mesh=>!meshes.includes(mesh)))
     throw Error('Face render compaction source scope mismatch');
-  const bySource=new Map(),byMesh=new Map();let disposed=false;
+  const bySource=new Map(),byMesh=new Map(),sphereRestorers=[];let disposed=false;
+  function preserveCanonicalSphere(mesh,sourceGeometry) {
+    if(!mesh.isSkinnedMesh||mesh.boundingSphere!==null)return;
+    const original=mesh.computeBoundingSphere,descriptor=Object.getOwnPropertyDescriptor(mesh,'computeBoundingSphere');
+    const restore=()=>{if(mesh.computeBoundingSphere===compute){if(descriptor)Object.defineProperty(mesh,'computeBoundingSphere',descriptor);else delete mesh.computeBoundingSphere;}};
+    function compute(...args){
+      const renderGeometry=mesh.geometry;
+      try{mesh.geometry=sourceGeometry;return original.apply(mesh,args);}
+      finally{mesh.geometry=renderGeometry;restore();}
+    }
+    // Keep Three's first-use pose/timing, but use the original all-vertex set
+    // for the object sphere that controls transparent sorting. No async work.
+    mesh.computeBoundingSphere=compute;sphereRestorers.push(restore);
+  }
 
   // Public utility owns/disposes only this working geometry, never canonical.
   function compactWorking(working, expectedMap) {
@@ -47,8 +60,8 @@ export function createFaceRenderCompaction({vrm, avatarSha256}) {
       record.meshes.push(mesh);byMesh.set(mesh,record);
     }
     // Atomic initial assignment; skeleton, materials and expression mesh references stay put.
-    for(const [mesh,record]of byMesh)mesh.geometry=record.renderGeometry;
-  }catch(error){for(const record of bySource.values())record.renderGeometry.dispose();throw error;}
+    for(const [mesh,record]of byMesh){preserveCanonicalSphere(mesh,record.sourceGeometry);mesh.geometry=record.renderGeometry;}
+  }catch(error){for(const restore of sphereRestorers)restore();for(const [mesh,record]of byMesh)if(mesh.geometry===record.renderGeometry)mesh.geometry=record.sourceGeometry;for(const record of bySource.values())record.renderGeometry.dispose();throw error;}
   return {
     sourceFor(mesh){return byMesh.get(mesh)||null;},
     compactEdited(sourceGeometry,working){
@@ -60,6 +73,7 @@ export function createFaceRenderCompaction({vrm, avatarSha256}) {
     getState(){return{enabled:true,records:[...bySource.values()].map(r=>({sourceVertices:r.sourceGeometry.attributes.position.count,renderVertices:r.renderGeometry.attributes.position.count,newToOld:[...r.newToOld]}))};},
     dispose(){
       if(disposed)return;disposed=true;
+      for(const restore of sphereRestorers)restore();sphereRestorers.length=0;
       // FacialGeometry disposes its edited geometries first. Restoring source
       // here lets the existing actor deepDispose own canonical exactly as before.
       for(const [mesh,record]of byMesh)mesh.geometry=record.sourceGeometry;
