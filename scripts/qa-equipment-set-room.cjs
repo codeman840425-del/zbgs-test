@@ -14,6 +14,7 @@ const [url,build,outDir]=process.argv.slice(2),out=path.resolve(outDir);
   for(const body of ['female','male']){
    if(body==='male'){await p.locator('[data-appearance-group=male]').click();await p.waitForFunction(()=>__debug.avatar().profile.bodyType==='male'&&!document.querySelector('#appearance-fields').disabled);}
    await p.evaluate(()=>{__debug.reset();__debug.camera('room');__debug.setPlaybackRate(1);__debug.setPaused(false);});
+   let sequence=0;
    for(const outfit of body==='female'?[0,1,0]:[0,2,0]){
     await p.evaluate(n=>__debug.setOutfit(n),outfit);await p.waitForTimeout(150);
     const row=await p.evaluate(()=>{const a=__debug.avatar();return {body:a.profile.bodyType,outfit:a.getOutfitInfo(),debug:a.getDebugState()};});
@@ -24,12 +25,21 @@ const [url,build,outDir]=process.argv.slice(2),out=path.resolve(outDir);
      const d=__debug,a=d.avatar(),recipe=await d.exportAppearanceRecipe();
      d.setBodyMode('base');const full=a.getOutfitInfo().equipment;
      d.setBodyMode('dressed');const dressed=a.getOutfitInfo().equipment;
-     return {full,dressed,recipe};
+     const parsed=JSON.parse(recipe);
+     d.setOutfit(parsed.equipment.index===0?(a.profile.bodyType==='female'?1:2):0);
+     const restore=await d.importAppearanceRecipe(recipe);
+     const restored=JSON.parse(d.exportAppearanceRecipe());
+     const invalid=structuredClone(parsed);invalid.equipment.resources=[];
+     let rejection=null;try{await d.importAppearanceRecipe(JSON.stringify(invalid));}catch(e){rejection=String(e);}
+     return {full,dressed,recipe:parsed,restore,restored,rejection,afterRejected:JSON.parse(d.exportAppearanceRecipe())};
     });
     assert.deepEqual(Object.entries(state.full.items).filter(([,v])=>v.visible).map(([k])=>k),['shoes']);
     if(state.full.bodyCoverage){assert.equal(state.full.bodyCoverage.active,false);assert.equal(state.full.bodyCoverage.renderFaces,state.full.bodyCoverage.fullFaces);assert.equal(state.dressed.bodyCoverage.active,true);}
-    report.rows.push({...row,coverage:state.full.bodyCoverage,recipeSchema:state.recipe.schema});
-    await p.screenshot({path:path.join(out,`${body}-${outfit}.png`)});
+    assert.equal(state.restore.applied,true);assert.deepEqual(state.restored,state.recipe);
+    assert.ok(state.rejection);assert.deepEqual(state.afterRejected,state.recipe);
+    report.rows.push({...row,coverage:state.full.bodyCoverage,recipeSchema:state.recipe.schema,restore:state.restore,rejection:state.rejection});
+    await fs.writeFile(path.join(out,`${body}-${sequence}-recipe.json`),JSON.stringify(state.recipe,null,2));
+    await p.screenshot({path:path.join(out,`${body}-${sequence++}-outfit-${outfit}.png`)});
    }
    await p.evaluate(()=>{__debug.setSpeed(1.05);__debug.walkTo(1.4,-.4);});
    await p.waitForTimeout(6500);
