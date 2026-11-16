@@ -1,0 +1,45 @@
+正常墙体与两层混合住宅：固定交付
+日期：2026-11-16
+
+范围：2.8m正常墙体、按镜头遮挡切换及挂墙物同步、两层不同住宅布置、真实GLB组合编辑/替换、完整保存恢复和独立移交。不是C1–C3全部完成，也不包含新增整面饰材或真实角色验收。
+
+固定源码：db699c65b19d2f87e17aa941fbafa207963979b1
+构建：ccf1db0cd736
+独立检出：F:/gamemake-company-walls-fixed-v1
+可独立运行与编辑的交付目录：F:/gamemake-company-walls-delivery-ccf
+当前观看入口：http://127.0.0.1:64956/ （选择“混合素材公司 · 两层”；临时服务可按下述命令重建启动）
+样件：prototype/src/company/examples/c2-mixed-company.json
+编辑操作：prototype/src/company/examples/c2-mixed-company-edit.ops.json
+固定构建与录像均来自上述独立检出；交付包内data/save.json使用固定浏览器检查后的完整修改结果。
+
+实际验证：
+- company-mixed-walls-fixed-ccf-v1/report.json：10项实际浏览器通过。正常高墙/剖切/正反镜头只改观看，不改文档、导航、使用点和存档；关灯不占光预算；整体与局部变换、四款沙发、模板v2、两层进程关闭恢复、继续编辑、缺资源/坏哈希/坏父节点保旧、短时资源往返。
+- company-walls-handoff-ccf-v2/report.json：5项通过。345个交付文件摘要、独立编辑入口拒绝断连、整公司导入、包外资源不依赖原制作树、全部楼层关闭恢复。
+- company-walls-handoff-ccf-v2/rebuild.json：交付source目录npm ci及独立重建，119个运行文件与固定viewer字节完全一致。
+- company-mixed-walls-recording-ccf-v1/recording.json：同源同构建正常1×流程；视频mixed-company-normal1x.webm，1440×1000、25fps，媒体时长32.96秒。已看全流程间隔抽帧contact-sheet.png及完整墙/编辑后原图；抽样不等于连续人类观看验收。
+- 独立只读审查company_wall_release_review（请求配置gpt-6.1-sol/high，复杂范围/依赖审查）复核59485148..db699c65，未发现冻结阻断。请求配置不宣称已独立核实provider实际配置或桌面hook拦截。
+
+保留的失败与限制：
+- company-walls-handoff-ccf-v1：负例清空通道但保留门框，先命中invalid-portal-fit，未到预期disconnected-regions。v2只修测试输入，移除依赖这些通道的门框以隔离断连规则；运行源码/构建未变。qa-handoff报告保存实际harnessSha256。
+- dev-v1/v2旧失败及旧候选保留各自身份，不改成当前构建通过。
+- 软件渲染记录不是GPU性能或普通电脑达标；资源计数是短时检查，不是长期稳定性结论。
+- 地板/墙板当前仍是局部样片，真实整面饰材是下一主包。新v3其他分类、16房产品布局、C3角色实际使用和最终用户观感验收未因本包通过而完成。
+
+重复构建（在F:/gamemake-company-walls-fixed-v1/prototype）：
+npm ci --no-audit --no-fund
+node scripts/build-company-id.mjs
+npx vite build --config vite.company.config.js
+
+固定预览（在F:/gamemake-company-walls-fixed-v1）：
+node scripts/company-platform/serve-company.cjs prototype/dist-company ccf1db0cd736
+
+重复实际浏览器检查（输出目录必须新建）：
+node scripts/company-platform/qa-mixed-company.cjs prototype/dist-company ccf1db0cd736 prototype/src/company/examples/c2-mixed-company.json prototype/src/company/examples/c2-mixed-company-edit.ops.json NEW_EVIDENCE_DIRECTORY --software
+
+独立交付使用（在F:/gamemake-company-walls-delivery-ccf）：
+node serve.mjs
+node edit.mjs validate data/save.json
+node edit.mjs apply data/save.json OPS.json NEW_RESULT_DIRECTORY
+详细修改源、完整依赖及重建方法见交付目录README.md与transfer-manifest.json。
+
+下一主包：按完整v3目标推进连续墙地饰材；本包封存，不追加其他分类或角色动作。阶段性接口增量集中交总工，普通制作独立推进。

@@ -1,0 +1,74 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "name": "full mode keeps every wall complete",
+      "passed": true
+    },
+    {
+      "name": "four camera directions selectively hide only crossed walls",
+      "passed": true
+    },
+    {
+      "name": "full restores all walls and does not alter logical document",
+      "passed": true
+    },
+    {
+      "name": "camera and wall mode survive a committed document candidate",
+      "passed": true
+    },
+    {
+      "name": "dispose releases CPU scene tree",
+      "passed": true
+    },
+    {
+      "name": "shared wall sides hide as one display group",
+      "passed": true
+    },
+    {
+      "name": "floor targets cover both rooms while preserving non-crossed rear walls",
+      "passed": true
+    },
+    {
+      "name": "wall-mounted display follows exact wall segment visibility and restores complete asset",
+      "passed": true,
+      "result": {
+        "mountedId": "wall-art",
+        "wall": "company-demo/room-1/wall-north-0"
+      }
+    }
+  ],
+  "limits": [
+    "CPU Three and pure geometry checks only. No WebGL visual acceptance, ordinary-PC performance result, or character occlusion claim."
+  ],
+  "sources": {
+    "prototype/src/company/render.js": "09e9d7a1b108521d3139b0e132b1a102258f94ee579c634e2f9189fa1aae09f9",
+    "prototype/src/company/wall-visibility.js": "bab2cfcd2874000de27785d4d3fc2f84728524ddf3a094cf4ac0b3dde9086798"
+  },
+  "api": {
+    "setWallView": {
+      "input": {
+        "mode": "cutaway|full",
+        "cameraPosition": "[x,y,z]"
+      },
+      "returns": "wallPresentation()"
+    },
+    "wallPresentation": {
+      "fields": [
+        "mode",
+        "effectiveMode",
+        "cameraPosition",
+        "targets",
+        "walls[]"
+      ],
+      "wallEntry": [
+        "id",
+        "region",
+        "edge",
+        "height",
+        "visible",
+        "mounted[]"
+      ]
+    }
+  }
+}

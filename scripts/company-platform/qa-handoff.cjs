@@ -2,7 +2,7 @@ const {chromium}=require('../../prototype/node_modules/playwright');
 const {spawn,execFileSync}=require('node:child_process');
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict'),{createHash}=require('node:crypto');
 const [packageArg,outArg]=process.argv.slice(2),root=path.resolve(packageArg),out=path.resolve(outArg);
-const report={package:root,status:'running',checks:[],limits:['No character or ordinary-PC acceptance. Dependency installation may use local npm cache and network; not an offline install proof.']};let server,context,url;
+const report={package:root,status:'running',harnessSha256:createHash('sha256').update(require('node:fs').readFileSync(__filename)).digest('hex'),checks:[],limits:['No character or ordinary-PC acceptance. Dependency installation may use local npm cache and network; not an offline install proof.']};let server,context,url;
 async function check(name,fn){const result=await fn();report.checks.push({name,passed:true,result});}
 async function open(){context=await chromium.launchPersistentContext(path.join(out,'profile'),{headless:true,viewport:{width:1440,height:1000},args:process.argv.includes('--software')?['--use-angle=swiftshader','--enable-unsafe-swiftshader']:[]});const page=await context.newPage();await page.goto(url);await page.waitForFunction(()=>window.company?.ready&&company.buildInfo);return page;}
 (async()=>{
@@ -11,10 +11,13 @@ async function open(){context=await chromium.launchPersistentContext(path.join(o
  await check('Every delivered file still matches its complete package manifest',async()=>{for(const file of manifest.files){const bytes=await fs.readFile(path.join(root,file.path));assert.equal(bytes.length,file.bytes);assert.equal(createHash('sha256').update(bytes).digest('hex'),file.sha256);}return{files:manifest.files.length};});
  await check('Standalone data editor rejects disconnected rooms and produces a complete editable save',async()=>{
   const layout=JSON.parse(await fs.readFile(path.join(root,'data/layout.json'),'utf8')),bad=structuredClone(layout);bad.nodes.find(n=>n.kind==='floor').connections=[];
+  const catalog=JSON.parse(await fs.readFile(path.join(root,'data/library-catalog.json'),'utf8'));
+  // Removing every portal also invalidates attached doorframes. Remove those
+  // decorations from this negative input to isolate the disconnected-space rule.
+  bad.nodes=bad.nodes.filter(n=>catalog.resources.find(r=>r.id===n.resource?.id&&r.version===n.resource?.version)?.mount!=='portal');
   await fs.writeFile(path.join(out,'disconnected.json'),JSON.stringify(bad));let failure;
   try{execFileSync(process.execPath,[path.join(root,'edit.mjs'),'validate',path.join(out,'disconnected.json')],{cwd:root,encoding:'utf8',stdio:'pipe'});}catch(e){failure=JSON.parse(e.stderr).code;}
   assert.equal(failure,'disconnected-regions');
-  const catalog=JSON.parse(await fs.readFile(path.join(root,'data/library-catalog.json'),'utf8'));
   const screen=layout.nodes.find(n=>catalog.resources.find(r=>r.id===n.resource?.id&&r.version===n.resource?.version)?.mountRole==='monitor');assert(screen,'Delivered company needs a real monitor');
   const resource=catalog.resources.find(r=>r.id===screen.resource.id&&r.version===screen.resource.version),on=!(screen.state?.on??resource.stateDefaults.on);
   await fs.writeFile(path.join(out,'operations.json'),JSON.stringify([{type:'set-state',id:screen.id,state:{on}}]));

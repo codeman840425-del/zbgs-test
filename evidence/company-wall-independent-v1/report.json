@@ -1,0 +1,113 @@
+{
+  "status": "passed",
+  "configuration": {
+    "difficulty": "complex",
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "reason": "CPU review of wall visibility, presentation transactions, shared-wall grouping and contact isolation.",
+    "configurationEvidence": "Parent-confirmed existing configuration. Hook interception was not independently verified."
+  },
+  "sourceHashes": {
+    "prototype/src/company/wall-visibility.js": "bab2cfcd2874000de27785d4d3fc2f84728524ddf3a094cf4ac0b3dde9086798",
+    "prototype/src/company/render.js": "09e9d7a1b108521d3139b0e132b1a102258f94ee579c634e2f9189fa1aae09f9",
+    "prototype/src/company/contact-resources.js": "cf889f247df20712989dc1bc41f7a6edc4d27ca2dc5cfb68a162561b6f45b6c6",
+    "prototype/src/company/document.js": "15fecd1dcc632f2421d958a5060335b4c23624ec23d0bc4bd30d40b888975bd8"
+  },
+  "checks": [
+    {
+      "name": "Normal high walls and shared wall duplicate faces remain physical and grouped",
+      "status": "passed",
+      "observed": {
+        "walls": 10,
+        "sharedFaces": 6,
+        "sharedMounted": 2,
+        "height": [
+          2.8
+        ]
+      }
+    },
+    {
+      "name": "Full wall view keeps document, navigation and use points unchanged",
+      "status": "passed",
+      "observed": {
+        "mode": "full",
+        "effectiveMode": "full",
+        "visible": 10
+      }
+    },
+    {
+      "name": "Cutaway hides only the camera-occluding wall groups and preserves full wall height",
+      "status": "passed",
+      "observed": {
+        "hidden": [
+          "wall-probe/room-1/wall-south-0",
+          "wall-probe/room-1/wall-east-0",
+          "wall-probe/room-1/wall-east-1",
+          "wall-probe/room-2/wall-south-0",
+          "wall-probe/room-2/wall-west-0",
+          "wall-probe/room-2/wall-west-1"
+        ],
+        "visibleCount": 4,
+        "effectiveMode": "cutaway",
+        "wallHeights": [
+          2.8
+        ]
+      }
+    },
+    {
+      "name": "Reject nonfinite wall-view camera",
+      "status": "rejected",
+      "code": "invalid-wall-camera",
+      "message": "invalid-wall-camera at cameraPosition: Wall view camera position requires three finite numbers"
+    },
+    {
+      "name": "Cutaway with no camera falls back to full presentation without document mutation",
+      "status": "passed",
+      "observed": {
+        "effectiveMode": "full",
+        "targets": 0
+      }
+    },
+    {
+      "name": "Contact handle survives wall-view changes and unrelated candidate commit",
+      "status": "passed",
+      "observed": {
+        "contactUsePoint": "wall-probe/chair#seat",
+        "seat": "chair-seat",
+        "back": "chair-back",
+        "wallMode": "cutaway",
+        "revision": 1
+      }
+    },
+    {
+      "name": "Reject restore while contact resources are retained",
+      "status": "rejected",
+      "code": "facility-busy",
+      "message": "facility-busy at wall-probe/chair#seat: Leave occupied facilities before replacing the full company document"
+    },
+    {
+      "name": "Restore with an invalid old roomId falls back to floor view",
+      "status": "passed",
+      "observed": {
+        "view": {
+          "mode": "floor",
+          "roomId": null,
+          "floorId": "wall-probe/floor-1"
+        },
+        "documentId": "wall-probe"
+      }
+    }
+  ],
+  "findings": [
+    "Wall cutaway is presentation-only. setWallView changes wall visibility and mounted visual visibility while document, derived navigation obstacles, use-point descriptions and wall height remain unchanged.",
+    "Duplicate wall faces near a shared room boundary are grouped by floor, axis, normal gap <= 0.21m and overlapping interval. Mounted wall resources inherit the same wall group, so hiding one shared plane hides both duplicate faces and their bound wall items.",
+    "prepareChange builds a candidate with the current wall view. commit rechecks the authoring transaction and install carries the latest wall view forward, so a wall-view change between prepare and commit does not reset the cutaway.",
+    "Contact resources are retained independently. An active contact blocks full document restore, while unrelated candidate commits and wall-view changes leave the retained seat/back handle valid.",
+    "restore checks whether the prior roomId still belongs to the restored floor. If the room disappeared, it falls back to floor mode and clears roomId while retaining the valid floorId."
+  ],
+  "limitations": [
+    "This is a CPU/module check. It does not claim browser rendering, GPU performance or visual acceptance.",
+    "The shared-wall test uses procedural wall decor to avoid loading external GLB assets. Asset-library import and contact GLB paths remain separate tests.",
+    "The implementation intentionally blocks restore while any contact handle is retained. This is resource protection, not automatic reattachment to a new room."
+  ]
+}
