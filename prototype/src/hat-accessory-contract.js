@@ -70,19 +70,29 @@ export function validateHatSourceDocument(doc) {
   require(!doc.images?.length && !doc.textures?.length && !doc.skins?.length && !doc.animations?.length && !doc.cameras?.length &&
     !doc.extensions && !doc.extensionsUsed?.length && !doc.extensionsRequired?.length &&
     doc.buffers?.length===1 && !doc.buffers[0].uri && doc.scene===0 && doc.scenes?.length===1 &&
-    doc.nodes?.length===2 && doc.meshes?.length===2 && doc.materials?.length===1,'Unsupported hat dependencies or source structure');
-  require(doc.scenes[0].nodes?.length===2 && new Set(doc.scenes[0].nodes).size===2 &&
-    doc.scenes[0].nodes.every(i=>i===0||i===1) && doc.nodes.every((node,i)=>keys(node,['name','mesh']) && node.mesh===i),
-  'Hat source must contain two identity mesh nodes');
+    Array.isArray(doc.nodes) && doc.nodes.length>=1 && doc.nodes.length<=8 &&
+    Array.isArray(doc.meshes) && doc.meshes.length>=1 && doc.meshes.length<=8 &&
+    Array.isArray(doc.materials) && doc.materials.length>=1 && doc.materials.length<=8,
+  'Unsupported hat dependencies or source structure');
+  const roots=doc.scenes[0].nodes;
+  require(Array.isArray(roots) && roots.length===doc.nodes.length && new Set(roots).size===roots.length &&
+    roots.every(i=>Number.isSafeInteger(i) && i>=0 && i<doc.nodes.length) &&
+    doc.nodes.every(node=>keys(node,['name','mesh']) && Number.isSafeInteger(node.mesh) &&
+      node.mesh>=0 && node.mesh<doc.meshes.length) && new Set(doc.nodes.map(node=>node.mesh)).size===doc.meshes.length,
+  'Hat source requires flat identity mesh nodes referencing every declared mesh');
   require(doc.meshes.every(mesh=>!mesh.weights && mesh.primitives?.length===1 && mesh.primitives.every(p=>
-    keys(p,['attributes','indices','material','mode']) && (p.mode===undefined||p.mode===4) && p.material===0 &&
+    keys(p,['attributes','indices','material','mode']) && (p.mode===undefined||p.mode===4) &&
+    Number.isSafeInteger(p.material) && p.material>=0 && p.material<doc.materials.length &&
     keys(p.attributes,['POSITION','NORMAL']) && Number.isSafeInteger(p.attributes.POSITION) &&
     Number.isSafeInteger(p.attributes.NORMAL) && Number.isSafeInteger(p.indices))), 'Unsupported hat primitive');
-  const material=doc.materials[0],pbr=material.pbrMetallicRoughness;
-  require(keys(material,['name','pbrMetallicRoughness','doubleSided','alphaMode']) &&
-    keys(pbr,['baseColorFactor','metallicFactor','roughnessFactor']) && vector(pbr.baseColorFactor,4) &&
-    pbr.baseColorFactor.every(v=>v>=0&&v<=1) && Number.isFinite(pbr.metallicFactor) &&
-    pbr.metallicFactor>=0 && pbr.metallicFactor<=1 && Number.isFinite(pbr.roughnessFactor) &&
-    pbr.roughnessFactor>=0 && pbr.roughnessFactor<=1 && doc.accessors?.every(a=>!a.extensions) &&
-    doc.bufferViews?.every(v=>!v.extensions && v.buffer===0),'Hat requires one untextured PBR material');
+  for(const material of doc.materials) {
+    const pbr=material.pbrMetallicRoughness;
+    require(keys(material,['name','pbrMetallicRoughness','doubleSided','alphaMode']) &&
+      keys(pbr,['baseColorFactor','metallicFactor','roughnessFactor']) && vector(pbr.baseColorFactor,4) &&
+      pbr.baseColorFactor.every(v=>v>=0&&v<=1) && Number.isFinite(pbr.metallicFactor) &&
+      pbr.metallicFactor>=0 && pbr.metallicFactor<=1 && Number.isFinite(pbr.roughnessFactor) &&
+      pbr.roughnessFactor>=0 && pbr.roughnessFactor<=1,'Hat requires untextured PBR materials');
+  }
+  require(doc.accessors?.every(a=>!a.extensions) && doc.bufferViews?.every(v=>!v.extensions && v.buffer===0),
+    'Unsupported hat geometry extension');
 }

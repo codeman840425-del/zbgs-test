@@ -137,11 +137,11 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
       try {
         const meshes = [];
         gltf.scene.traverse(node => { if (node.isMesh) meshes.push(node); });
-        require(meshes.length===(kind==='hat'?2:1) && meshes.every(mesh=>!mesh.isSkinnedMesh &&
+        const supportedCount=kind==='hat' ? meshes.length>=1 && meshes.length<=8 : meshes.length===1;
+        require(supportedCount && meshes.every(mesh=>!mesh.isSkinnedMesh &&
           !Array.isArray(mesh.material) && !Object.keys(mesh.geometry.morphAttributes).length),
           'Rigid accessory source mesh contract mismatch');
         if(kind==='hat') {
-          require(meshes[0].material===meshes[1].material,'Hat meshes must share one source material');
           for(const mesh of meshes) {
             require(mesh.position.equals(new THREE.Vector3()) && mesh.quaternion.equals(new THREE.Quaternion()) &&
               mesh.scale.equals(new THREE.Vector3(1,1,1)) && Object.values(mesh.material).every(v=>!v?.isTexture),

@@ -26,8 +26,8 @@
     }
   ],
   "runtimeSourceSha256": {
-    "prototype/src/rigid-accessory-layer.js": "a10a20c0d37aa57c594db47377a495fac873845bee239c97d0fa88db9769a0ba",
-    "prototype/src/hat-accessory-contract.js": "e0752931fd89f6078266ab95dc15ca6d03a37f234601f5cb44a2422851188118"
+    "prototype/src/rigid-accessory-layer.js": "0ea2e2222216c85ff48933bce977d667c13ac204c7c42921b248ad5411a5997f",
+    "prototype/src/hat-accessory-contract.js": "03c9a0a54e45fa757dbd379fd536ac62a30702c832a9cb25712548ed3de50393"
   },
   "api": {
     "constructor": "createRigidAccessoryLayer({vrm, avatarSha256, kind:'hat', manifestUrl, manifestSha256, getHairState:()=>appearance.getState()})",
@@ -43,21 +43,21 @@
     "getState": "Retains original schema and selection/status/error fields, adds kind/bodyMode/effectiveSelection/hairDependency/pinned manifestSha256. Returned hairDependency is copied."
   },
   "implementation": [
-    "Default paired-ear manifest contract and none/left/right/pair selections retain normal paths. Shared template/clone/dispose code supports two hat source meshes under one single selection.",
-    "Hat shell/brim share one cloned mutable material inside an actor. Separate layers/actors own separate source geometry and cloned materials.",
-    "Hat source permits two identity mesh nodes with one untextured PBR material. External buffers/textures, skins, animation, source transforms, morphs and extensions are rejected before real loader parsing.",
+    "Default paired-ear manifest contract and none/left/right/pair selections retain normal paths. Shared template/clone/dispose code supports the declared bounded hat source mesh set under one single selection.",
+    "Source meshes sharing a material share its cloned mutable material inside one actor. Separate layers/actors own separate source geometry and cloned materials.",
+    "Hat GLB scene declarations permit1–8 flat identity rigid mesh nodes and1–8 source mesh declarations, each with one triangle primitive and a legal material index, plus1–8 untextured PBR materials. External buffers/textures, skins, animation, source transforms, morphs and extensions are rejected before real loader parsing.",
     "Hat and fit resources stay inside manifest directory. Optional caller manifest SHA, mandatory fit/asset pins and exact body/hair dependency guard are enforced.",
     "Coverage none preserves complete existing hair and head geometry. No texture rewrite, hair hiding, hair dynamics or controller changes."
   ],
   "checks": {
     "hat": {
-      "count": 31,
-      "report": "hat-report-final.json",
+      "count": 35,
+      "report": "hat-report-structure-v1.json",
       "command": "node evidence/m2-hat-accessory-cpu-v1/probe-hat.mjs root-hat-report.json"
     },
     "legacyEar": {
       "count": 16,
-      "report": "ear-regression-report.json",
+      "report": "ear-regression-structure-report.json",
       "command": "node evidence/m2-hat-accessory-cpu-v1/probe-ear-regression.mjs > evidence/m2-hat-accessory-cpu-v1/root-ear-report.json",
       "scope": "Existing actual-source runtime checks reused; unrelated publisher section excluded."
     }
@@ -66,7 +66,7 @@
     "command": "npm run build",
     "cwd": "prototype",
     "passed": true,
-    "id": "540525572aa2",
+    "id": "63235926a82c",
     "warning": "Existing Vite large-chunk warning"
   },
   "testFixtureCorrection": "Initial CPU run produced Node image-load warnings for the actual hair GLB. Registering its CPU texture placeholder in the test loader removed them. Runtime source was unchanged. Earlier successful report is preserved as hat-report-v1.json.",
@@ -75,5 +75,29 @@
     "Texture decode uses1x1 CPU placeholders. No visual cap fit, moving-hair contact, GPU rendering or ordinary-machine performance conclusion.",
     "Only rigid-accessory-layer.js and new hat-accessory-contract.js runtime files changed. Root owns foundation/main/appearance/recipe/face-neutral guards, save/reload and fixed browser evidence.",
     "Current source supports only its exact original female and exact rootjoin-v2 hair dependency. Derived bodies or other hairstyles have no fit admission."
-  ]
+  ],
+  "structureFixtures": {
+    "scope": "Only declared structure-count CPU fixtures derived from the exact original source binary. They are not new hat art, published fits or character controller changes.",
+    "observations": [
+      {
+        "meshNodes": 1,
+        "sourceMeshDeclarations": 1,
+        "sourceMaterials": 1,
+        "sourceGeometries": 1,
+        "assetSha256": "d69731073cb6f45ea73078c92ce07f89fa5b445f6a75adcfb8dad5b0bdf90785",
+        "fixture": "Count/identity structure fixture reuses actual source geometry bytes; no new hat art or controller branch"
+      },
+      {
+        "meshNodes": 3,
+        "sourceMeshDeclarations": 3,
+        "sourceMaterials": 2,
+        "sourceGeometries": 2,
+        "assetSha256": "e436796d4012fb7f64d79962e572cd79a73d74abc2aeace9441ad37a74366511",
+        "fixture": "Count/identity structure fixture reuses actual source geometry bytes; no new hat art or controller branch"
+      }
+    ],
+    "bounds": "1–8 identity root mesh nodes, all declared source meshes referenced, one primitive per mesh,1–8 bare PBR materials with legal primitive indices. No texture/skin/animation/unknown transforms or complex subtree support.",
+    "result": "One-mesh and three-mesh fixtures both load under unchanged character-hat-v1/character-hat-fit-v1 contracts. The three-mesh fixture shares geometry and material objects, and all actual resources release once.",
+    "legacy": "Paired-ear contract continues to require exactly one source mesh."
+  }
 }
