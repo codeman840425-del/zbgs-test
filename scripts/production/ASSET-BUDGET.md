@@ -26,3 +26,16 @@ python scripts/production/qa-asset-budget.py
 这项检查覆盖单个 GLB/VRM 及其直接图像依赖。运行时 materialRecipes 的替换或额外纹理、整套造型累计、动作流、实例缓存/释放及帧耗时仍待运行链验证。其结构检查也不代替完整 glTF/VRM 标准验证器。当前没有普通电脑设备数据，开发机 4090 未参与本 CPU 检查，不能推导普通机性能通过。
 
 代表样件与固定来源 SHA 见 `evidence/m2-asset-budget-v1/representatives.jsonl`，每行资产路径可代入首条 check 命令重跑。详细每图、skin 与 texture 结果由命令输出，不在能力清单复制第二套状态。
+
+## 选中造型聚合切片
+
+`selected_look_budget.py measure` 只读取明确列出的 look 输入。当前代表输入见 `scripts/production/selected-look-representatives.json`，包含女性默认穿着、男性默认穿着、男性短裤＋外搭及男性 onePiece。每个 look 逐项声明 body、装备角色、当前资源路径与 SHA、manifest/fit/shape 依赖和 material recipe 版本。命令不会从目录扫描或从旧 manifest 猜测未列出的资源。
+
+```powershell
+python scripts/production/selected_look_budget.py measure scripts/production/selected-look-representatives.json --look-id male-shorts-outer-recipe-v1 --budget-version m2-technical-v1
+python scripts/production/qa-selected-look-budget.py
+```
+
+聚合结果按每个 GLB/VRM 文件和显式 recipe texture 对象累加文件字节、网格、骨骼、材质、texture object、编码图片字节和 RGBA8+mip 估算。相同图片 SHA 的跨文件重复只额外给出 informational 去重值，不从 texture object 或显存估算中扣除。material recipe 没有明确 `textureFiles` 时计为零个额外 texture，不能据此推断渲染器没有运行时克隆或替换分配。依赖 JSON 的字节另列为 `dependencyBytes`，不混入 GLB 几何字节。
+
+聚合状态为 `legacy-observation` 时，至少一个选中资产超过现有单资产预算。`measured-unadmitted-temporary-limit` 表示数据已测但聚合临时上限没有普通目标机校准，不能作为准入或性能结论。当前聚合临时值只用于报告，不能覆盖 body/garment 的既有 legacy 状态。浏览器纹理缓存、sampler、材质 clone、共享关系、GPU 显存和帧时延仍未测。
