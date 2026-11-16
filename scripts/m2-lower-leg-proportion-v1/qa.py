@@ -83,8 +83,8 @@ def main():
         old = build.load(build.local(build.ROOT, ref['source']['path'])); new = build.load(out/entry['url'])
         old_world, new_world = build.positions(old.doc), build.positions(new.doc)
         neutral = neutral_error(new)
-        if entry['slot'] == 'bottom':
-            require(old.path.read_bytes() == new.path.read_bytes(), 'Shorts should remain exact geometry and binds')
+        if entry['slot'] in ['bottom', 'top']:
+            require(old.path.read_bytes() == new.path.read_bytes(), 'Upper gear/shorts should retain exact geometry and binds')
         else:
             for old_p, new_p in zip(old.doc['meshes'][0]['primitives'], new.doc['meshes'][0]['primitives']):
                 attrs = old_p['attributes']; p = old.acc(attrs['POSITION']); q = new.acc(new_p['attributes']['POSITION'])

@@ -183,7 +183,7 @@ def main():
         entry.update(id=identifier, styleId=entry.get('styleId', ref['id']), fitId=identifier+'-fit-v1', compatibleAvatarSha256=new_body,
                      url=filename, sha256=sha(raw), bytes=len(raw))
         entry.update(sourceSpec='assets-source/m2-lower-leg-proportion-v1/spec.json',
-                     method='Exact source rest-proportion derivative; six-bone shoes translated and rebound; shorts reused only after actual geometry/bind invariants',
+                     method='Exact source rest-proportion derivative; equipment requalification follows actual geometry and raw bind checks recorded in the source reports',
                      limits=['Exact male-lower-leg-plus20-v1 source fit only', 'Source/rest checks only; runtime movement and visual acceptance pending'])
         for binding in entry['bindings']: binding['inverseBindMatrix'] = new_binds[binding['targetRawBone']].tolist()
         entries.append(entry)
@@ -191,11 +191,14 @@ def main():
                              'geometryAndGLBUnchanged': raw == path.read_bytes(), 'omittedOriginalMaterialRecipes': omitted_recipes,
                              'trace': garment_trace})
     write(out/'equipment.json', {'schema': 'zbgs-equipment-v1', 'items': entries})
+    from upper_fit import generate
+    forearm_ref = generate(spec, source, avatar_doc, entries, out)
     write(out/'fit.json', {'schema': 'zbgs-lower-leg-proportion-fit-v1', 'id': spec['id']+'-source-fit', 'version': 1,
           'sourceBodySha256': spec['sourceBody']['sha256'], 'avatarSha256': new_body, 'deltaM': .02,
           'equipment': [{'id': e['id'], 'styleId': e['styleId'], 'fitId': e['fitId'], 'sha256': e['sha256']} for e in entries],
           'reference': spec['reference'], 'originalBodyPreserved': True, 'runtimeAccepted': False,
-          'notInherited': ['female bases', 'socks', 'onePiece', 'other independent clothing', 'original material recipe fit identities']})
+          'forearmCollision': forearm_ref,
+          'notInherited': ['female bases', 'socks', 'onePiece', 'unlisted independent clothing', 'original material recipe fit identities']})
     leg_report = [{'side': l['side'], 'kneeM': l['knee'].tolist(), 'ankleBeforeM': l['ankle'].tolist(),
                    'ankleAfterM': (l['ankle']+l['delta']).tolist(), 'lengthBeforeM': float(l['length']),
                    'lengthAfterM': float(l['length']+.02), 'footDisplacementM': l['delta'].tolist()} for l in legs]
