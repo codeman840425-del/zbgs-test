@@ -1,6 +1,6 @@
 # 外观与动作工作台（受限样件）
 
-当前公开4196：ab0743684fe6，源码2084c43，固定目录experiments/m2-appearance-workbench-v23/dist；bcade/v22直接回滚。移动入口/反馈已修；虹膜v3及较大幅度样件的实际效果见evidence/appearance-repair-ab074。新颜色/几何观感待用户确认，普通机未实测。
+当前公开4196：a7efd61c61c8，源码0137d7e，固定目录experiments/m2-appearance-workbench-v24/dist；ab074/v23与bcade/v22保留回滚。本次仅减少法线计算，输出与ab074逐字节一致；当前正常速度表情原片见evidence/face-normal-neighborhood-v1。前次移动入口/反馈、虹膜v3及较大幅度样件的对照仍见evidence/appearance-repair-ab074。新颜色/几何观感待用户确认；首次渲染停顿仍在，普通机未实测。
 
 当前固定入口由 `delivery/appearance-workbench.json` 指定，本机端口4196，入口 `/?workbench=appearance`。旧M1接受基础4195保留。能力状态只见CAPABILITIES；不能把此工作台称为完整捏人或正式主播存档系统。
 

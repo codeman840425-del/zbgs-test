@@ -1,15 +1,21 @@
 # 当前角色工程：恢复入口
 
-更新：2026-11-15（本轮回执 UTC 跨至16日）。F:/gamemake；分支 feat/m1-foundation-room。先读本页、AGENTS 与唯一能力清单 CAPABILITIES.md。旧流水归档 history/CURRENT-before-visible-ab074.md，不能据旧“下一步”重开封板任务。
+更新：2026-11-15（最新增量 UTC 16日）。F:/gamemake；分支 feat/m1-foundation-room。先读本页、AGENTS 与唯一能力清单 CAPABILITIES.md。旧流水归档 history/CURRENT-before-visible-ab074.md，不能据旧“下一步”重开封板任务。
 
 ## 固定入口
 
-- **4196 /?workbench=appearance：ab0743684fe6**。源2084c43f8bab28befa8192a2f734abf3faaf8df8，experiments/m2-appearance-workbench-v23/dist。指针 delivery/appearance-workbench.json；bcade/v22直接回滚，已归档旧指针 delivery/history/appearance-workbench-bcade40d24f1.json。
-- **观看页：4174/evidence/appearance-repair-ab074/**。含移动旧新1×、虹膜前后、男女较大几何同镜头及放大细节、正常速度讲话。
+- **4196 /?workbench=appearance：a7efd61c61c8**。源0137d7e94be80bff15ae391f54e3c31a259babeb，experiments/m2-appearance-workbench-v24/dist。只增加法线邻域计算优化，27真实样件全部输出与ab074逐字节一致。指针 delivery/appearance-workbench.json；ab074/v23及bcade/v22可回滚，历史指针在delivery/history/。
+- **当前录像：4174/evidence/face-normal-neighborhood-v1/**，新男女1×操作/讲话/眨眼/视线。前次外观与移动修复对照仍为4174/evidence/appearance-repair-ab074/，不将旧片换标新版。
 - **4195：77e46efb5441** 仍为用户限定接受的M1基础。4191–4194既有历史服务未动；此次没有新增常驻端口，临时QA服务全退出。
 - Phaser3.90.0 + Three0.187.0 + three-vrm3.5.5。Rigby2D、真实多人服务器不参与。普通电脑暂无设备，明确未实测。
 
-## 本轮已完成
+## 最新成本增量
+
+- a7efd与ab074实际UI无录像短测：重复改嘴请求女25.2→22.0ms、男26.1→20.8ms；首绘最大帧仍约109ms，女加眼最大帧48.6→54.5ms波动保留，不宣称所有操作变快或首次停顿解决。RTX4090/Chrome157/1600×1000，无头rAF不是屏幕FPS。证据visible-face-ui-cost-{ab074,a7efd}。
+- 法线只计算全部affected点的完整邻面，原累加顺序和精度不改。27例真实全buffer/17合同/独立960函数组/实际10配方门过；表情原片已录，root看完六张末13秒2fps抽帧图，非人类连续验收。详face-normal-neighborhood-v1/RESULT.md。
+- 新检出122文件一致，rebuild-face-neighborhood-a7efd。公开入口smoke及最后备份见current-workbench-a7efd61c61c8和delivery/workbench-backup-a7efd.json。
+
+## 前次反馈修复（ab074，证据保留原版本）
 
 1. 复现移动“无响应”：面部近景85%高度的实际点击射线落在房间地板之外，没有walk请求也没有提示；并非所有近景点击都失败，更不是角色位置不更新。房间镜头实际点击可移动。证据 workbench-movement-bcade-diagnosis-v1、workbench-movement-bcade-ray-v1。
 2. 顶部“房间移动”及动作页入口；镜头/URL/提示同步。地面误点、拒绝、暂停中选目标、继续、停止、招手中路线拒绝都有反馈；跑步按钮明确只选速度。没有更换路径或动作控制器。最终10项真实浏览器门、旧新同脚本1×及全时段2fps抽审：workbench-movement-final-ab074、workbench-movement-after-ab074。
@@ -29,7 +35,7 @@
 
 ## 可恢复与备份
 
-- 源2084c43已push并ls-remote核实。证据/文档后续提交及最后远端核实回执见 delivery/workbench-backup-ab074.json，不能只凭push口述。
+- ab074完整备份已核实至ef8c43b。最新a7efd源0137d7e及证据远端回执见delivery/workbench-backup-a7efd.json；两个回执分开，不给旧备份换标签。
 - ab074由精确源独立sparse检出npm ci/build；第二新检出122产物逐字节相同、工作树干净：evidence/rebuild-visible-ab074/report.json。
 - 运行重建：新检出prototype执行 npm ci、npm run build；产物放新固定目录，核build-info后按指针运行 python scripts/serve-appearance-workbench.py。不要覆盖bcade/v22。
 - 新资源验证：node scripts/install-face-visible-workbench.mjs --verify；node scripts/install-facial-palette-v3.mjs --verify。
@@ -38,4 +44,4 @@
 
 ## 接续
 
-先读用户对ab074实际观看反馈。移动本轮20浏览器门相关范围已完成；新瞳色与几何样件待观感，独立技术工作已收尾。若还有操作问题，按当前固定版本实际复现；若调整幅度/造型，保留源与版本后做有界样件，不回头重做已过盘点或无限扩参数。普通机缺口按用户决定保留。
+先读用户对外观实际观看反馈。当前a7efd保留ab074相同形状/颜色，只省局部法线CPU，不要求用户重新批准既有布局或封板动作。移动本轮20浏览器门相关范围已完成；新瞳色与几何样件待观感，独立技术工作已收尾。若还有操作问题，按当前固定版本实际复现；若调整幅度/造型，保留源与版本后做有界样件，不回头重做已过盘点或无限扩参数。普通机缺口按用户决定保留。

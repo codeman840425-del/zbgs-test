@@ -4,7 +4,7 @@
 
 ## 当前交付与阶段边界
 
-- **4196 /?workbench=appearance：ab0743684fe6**，源2084c43，experiments/m2-appearance-workbench-v23/dist。唯一指针 delivery/appearance-workbench.json；bcade/v22直接回滚。观看 evidence/appearance-repair-ab074；备份见 delivery/workbench-backup-ab074.json。
+- **4196 /?workbench=appearance：a7efd61c61c8**，源0137d7e，experiments/m2-appearance-workbench-v24/dist。唯一指针 delivery/appearance-workbench.json；ab074/v23和bcade/v22保留回滚。当前正常1×见evidence/face-normal-neighborhood-v1；原外观/移动反馈对照仍在appearance-repair-ab074。备份见delivery/workbench-backup-a7efd.json。
 - **4195：77e46efb5441** 保留M1基础。用户对原女裙/原男短裤所录完整1×链接受“可以作为下一阶段基础”，明确排除已登记裙瑕疵；仅这些影片范围，不外推新外貌、最终画风、普通电脑或所有组合。回执 `evidence/m1-close-77e46-user-review.json`。
 - **裙装与该30秒舞已封板。** 038裙实现随77保留，已知硬折/局部接触/成本缺口不是继续精修的授权；30秒Rokoko路线获认可，唯一适配尝试后封存，不再追加调参。依据 `evidence/m1-stage-close-user-direction-2026-11-15.json`、`evidence/rokoko-30s-advisor-v1/USER-REVIEW.json`。旧失败仍失败，不因封板变成全部通过，也不因旧失败重新派活。
 - 有限外观闭环及本轮反馈修复：男女独立三分区已获用户接受；原男女新几何嘴±12%/眉3mm/鼻2mm/眼5%、虹膜v3、本地v5配方已接入。旧范围/身份保留；男jaw仍只0/+4%，女jaw/waist无四域准入。新外观待用户观看，不扩完整M2/M3。
@@ -14,6 +14,8 @@
 ## 当前优先修复
 
 用户否决旧瞳色、要求更大面部幅度及报告移动失效，本轮ab074已完成有界修复：移动10门、v5/虹膜10门、男女正常1×与同镜头图，见evidence/appearance-repair-ab074。移动根因为近景地板射线未命中且无反馈，以及暂停/停止提示失效；已修入口与反馈。新外观仍待人工验收。男嘴−12%源NORMAL1.105666e-5超原1e-5门保留未过；详face-visible-runtime-v1，未放宽阈值。
+
+a7efd只减少法线求值邻面：27真实样件输出字节同、17合同、独立960函数组及10实际浏览器配方门过；当前表情1×另录并2fps抽审。未改变外观资产及男嘴源NORMAL失败，未将旧整链重新标为本版通过。重复改嘴短测女25.2→22.0ms/男26.1→20.8ms；首绘仍约109ms，女加眼峰值波动保留。详face-normal-neighborhood-v1，不外推整体卡顿解决或普通机。
 
 ## 状态口径与适用范围
 
@@ -90,9 +92,9 @@ F=完整Base_Female原基模，M=同系列Base_Male原基模，P=独立裤，S=�
 | CTRL-02 请求完整生命周期 | behavior-tasks稳定requestId | accepted与最终完成/取消/失败分开 | 77男+女/男+男各19项真实坐起/取消/超时/重复请求终态，evidence/m1-close-reliability-77e46efb5441 | 已验证可用：所测本地任务路径 | 旧175卸麦招手早报ready失败及后续修复保原证据；未接经营结算/服务器，暂停不推进仿真超时 | M1限定基础 |
 | GAME-01 经营结算与表现分离 | 旧发布规则作为对照 | 新源码未恢复完整经营 | 无真实服务 | 未实现 | 动画暂停/掉帧/未加载不能决定收益PK；联网后续独立，不冒充已联网 | 后续经营/服务里程碑 |
 | PIPE-01 可恢复源码/锁文件/固定构建 | 源码、锁文件、源blend/脚本/许可及固定报告 | 是 | 77源e94ac1c新检出65产物一致；bcade源c222404两独立检出98产物一致，evidence/rebuild-bcade-c222404；delivery/workbench-backup-bcade.json记录远端与归档字节 | 已验证可用：所列精确提交/Windows固定工具重建与备份 | 不是原工程恢复/跨系统保证，也非全部资产生成器重跑；私有真人/FBX仍仅本机。5d构建后漂移失败保原记录 | 当前固定交付/回滚 |
-| PIPE-02 固定构建、重新检出和备份 | 锁文件/精确源/新源包/构建ID | 是 | ab074源2084c43独立检出，第二新检出122文件逐字节同；四源包221必要文件隔离Git导出核验；evidence/rebuild-visible-ab074、face-visible-retained-verification-v2 | 已验证可用：此构建与保留源包；远端状态见delivery/workbench-backup-ab074.json | raw/fresh重复产物可重建不全部备份；不含供应商私有源/普通机；不是全工具跨OS复现 | 当前固定交付/回滚 |
+| PIPE-02 固定构建、重新检出和备份 | 锁文件/精确源/新源包/构建ID | 是 | a7efd源0137d7e两个独立检出122文件一致，rebuild-face-neighborhood-a7efd；原ab074四源包221必要文件核验保留原证据，源未修改 | 已验证可用：此构建与原保留源包；远端状态见delivery/workbench-backup-a7efd.json | raw/fresh重复产物可重建不全部备份；不含供应商私有源/普通机；不是全工具跨OS复现 | 当前固定交付/回滚 |
 | PIPE-03 改源→导出→回读→动作检查 | 女jaw/waist、男jaw及男jaw单嘴参数；原男女嘴眉鼻眼源/recipe/固定导出 | 是 | 男性jaw98点/54表达与重复导出；男jaw+嘴宽+4%40文件、fresh原底和28点法线重叠重算、源/运行CPU及aa回读/新context配方。源assets-source/m2-male-jaw-mouth-v1，证据m2-male-jaw-mouth-runtime-v1、evidence/m2-male-jaw-mouth-browser-aa6fc6159e2d | 已验证可用：所列有限源→身份配方→游戏回读闭环；用户新外观观感待验 | 不是复制原recipe换SHA；只有男jaw单嘴复用证明，不外推女jaw/waist参数、其他五官或通用自动适配 | 有限M2闭环，不扩样件库 |
-| PERF-01 普通电脑运行预算 | i5-1135G7/IrisXe/16GB/1440×900/60fps参考 | 只有开发机；用户明确暂缺普通电脑 | 77九场景30秒：裙坐CPU P95 9.2ms、双裙裤11.5ms、双裤单帧37.6ms；a0dd改脸maxrAF103–109ms；bcade换体A-B-A maxrAF旧813/837→322ms、首draw约323ms，仍停顿。见m1-fixed-perf-77e46efb5441、evidence/face-snapshot-comparison-v1、evidence/body-switch-a0dd-diagnostic-v1/COMPARISON.md | 已实现但未通过：仅开发机有限成本改善，普通PC无实测 | 用户明确暂无普通电脑，保缺口继续；不同录像/无录像、构建/场景数值不混比。01a主色首用未改善整段出帧已撤回，不再当未试方案；不重开封板裙优化 | 保留设备/首次长帧边界，按真实反馈决策；body-source-cost-bcade-v1采样未证明源缓存收益，暂不加缓存 |
+| PERF-01 普通电脑运行预算 | i5-1135G7/IrisXe/16GB/1440×900/60fps参考 | 只有开发机；用户明确暂缺普通电脑 | 77九场景30秒：裙坐CPU P95 9.2ms、双裙裤11.5ms、双裤单帧37.6ms；a0dd改脸maxrAF103–109ms；bcade换体A-B-A maxrAF旧813/837→322ms、首draw约323ms，仍停顿。见m1-fixed-perf-77e46efb5441、evidence/face-snapshot-comparison-v1、evidence/body-switch-a0dd-diagnostic-v1/COMPARISON.md | 已实现但未通过：仅开发机有限成本改善，普通PC无实测 | 用户明确暂无普通电脑，保缺口继续；不同录像/无录像、构建/场景数值不混比。01a主色首用未改善整段出帧已撤回，不再当未试方案；不重开封板裙优化 | 保留设备/首次长帧边界，最新a7efd无录像UI测量见face-normal-neighborhood-v1：原男女重复改嘴请求约省3–5ms，首绘仍约109ms，非持续游戏/普通机通过；body-source-cost-bcade-v1采样未证明源缓存收益，暂不加缓存 |
 | PERF-02 按需加载/缓存与资源释放 | 实例资源所有权、选择性primitive准备、事务内属性快照与shader warm引用 | 部分 | 1fff两轮有限资源稳定；a0dd243秒会话；bcade三轮真实compile后取消，program22→28→22、usedTimes106→133→106，逐cacheKey恢复，geometry/texture89/44不变。另三轮成功往返，同体每个cacheKey/usedTimes均与上轮一致，男84G/41T/23program、女84/40/24。见evidence/body-switch-compile-lifetime-bcade-v1/RESULT.md及evidence/body-switch-success-lifetime-bcade-v1/RESULT.md | 部分已验证：有限准备复用/取消与成功切换资源归还 | 初始女22与返回女24区别单列，三轮不是长期循环；计数不是VRAM，不能据此认定泄漏或承诺无漏。没有完整素材库懒加载/容量策略 | 有限M2资源管理，不做无依据大优化 |
 
 ## 产品未决与明确不支持

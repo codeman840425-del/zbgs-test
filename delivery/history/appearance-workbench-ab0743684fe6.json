@@ -1,0 +1,33 @@
+{
+  "schema": "zbgs-appearance-workbench-v1",
+  "build": "ab0743684fe6",
+  "sourceDigest": "ab0743684fe6a147edf6c25e3a497d867c7eb81acff9c5268f221954164283fb",
+  "sourceCommit": "2084c43f8bab28befa8192a2f734abf3faaf8df8",
+  "directory": "experiments/m2-appearance-workbench-v23/dist",
+  "port": 4196,
+  "entry": "/?workbench=appearance",
+  "status": "technical-checks-passed-user-visual-review-pending",
+  "retainedM1": {
+    "port": 4195,
+    "build": "77e46efb5441"
+  },
+  "limits": [
+    "Layout accepted; new iris and larger facial geometry remain user visual review pending.",
+    "Original female/male discrete mouth +/-12%, brow +3/+3mm, nose +2mm, eye aperture +5%; old small-range recipes preserve values and identity. Male jaw remains only mouth 0/+4%.",
+    "V5 local recipes; explicit legacy palette migration, not accounts or cloud saves.",
+    "Male mouth -12% Blender export NORMAL comparison 1.105666e-5 exceeds existing 1e-5 gate. Kept failed; independent parsed recipe calculation matches runtime. See face-visible-runtime-v1.",
+    "No ordinary-PC hardware test. Historical developer-PC first-edit/switch stalls remain limitations, not retested performance acceptance.",
+    "Frozen skirt and 30-second dance unchanged. Engineering sampled frames are not user continuous visual approval."
+  ],
+  "evidence": "/evidence/appearance-repair-ab074/",
+  "previousWorkbench": {
+    "build": "bcade40d24f1",
+    "directory": "experiments/m2-appearance-workbench-v22/dist",
+    "sourceCommit": "c2224049a983b5e1af9e713e6938294bc0478e10"
+  },
+  "layoutReview": {
+    "status": "accepted-by-user",
+    "evidence": "evidence/workbench-layout-user-review-bcade.json",
+    "scope": "Independent female/male buttons, appearance/actions/inspection areas, persistent camera/pause/stop controls"
+  }
+}
