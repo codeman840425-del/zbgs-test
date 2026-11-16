@@ -1,0 +1,424 @@
+{
+  "schema": "company-save",
+  "version": 1,
+  "document": {
+    "schema": "company-layout",
+    "version": 1,
+    "id": "company-demo",
+    "name": "双工位与休息区",
+    "revision": 7,
+    "scale": "single-room",
+    "catalog": {
+      "id": "company-facilities",
+      "version": 1
+    },
+    "nodes": [
+      {
+        "id": "company-demo/floor-1",
+        "kind": "floor",
+        "parentId": "company-demo",
+        "name": "一层",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "company-demo/room-1",
+        "kind": "room",
+        "parentId": "company-demo/floor-1",
+        "name": "直播间",
+        "purpose": "streaming",
+        "bounds": {
+          "width": 9,
+          "depth": 7
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "station-1",
+        "kind": "workstation",
+        "parentId": "company-demo/room-1",
+        "name": "station-1",
+        "transform": {
+          "position": [
+            -1.5,
+            0,
+            0
+          ],
+          "yaw": 0
+        },
+        "template": {
+          "id": "stream-station",
+          "version": 1
+        }
+      },
+      {
+        "id": "station-1/desk",
+        "kind": "facility",
+        "stationId": "station-1",
+        "partKey": "desk",
+        "parentId": "station-1",
+        "resource": {
+          "id": "desk",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            -0.9
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "station-1/monitor",
+        "kind": "facility",
+        "stationId": "station-1",
+        "partKey": "monitor",
+        "parentId": "station-1/desk",
+        "resource": {
+          "id": "monitor",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0.84,
+            -0.25
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "station-1/keyboard",
+        "kind": "facility",
+        "stationId": "station-1",
+        "partKey": "keyboard",
+        "parentId": "station-1/desk",
+        "resource": {
+          "id": "keyboard",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0.84,
+            0.21
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "station-1/microphone",
+        "kind": "facility",
+        "stationId": "station-1",
+        "partKey": "microphone",
+        "parentId": "station-1/desk",
+        "resource": {
+          "id": "desk-microphone",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.8,
+            0.84,
+            0.18
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "station-1/chair",
+        "kind": "facility",
+        "stationId": "station-1",
+        "partKey": "chair",
+        "parentId": "station-1",
+        "resource": {
+          "id": "chair",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0.55
+          ],
+          "yaw": 3.141592653589793
+        },
+        "state": {}
+      },
+      {
+        "id": "station-1/fill-light",
+        "kind": "facility",
+        "stationId": "station-1",
+        "partKey": "fill-light",
+        "parentId": "station-1",
+        "resource": {
+          "id": "fill-light",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.75,
+            0,
+            -0.15
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "lounge/sofa",
+        "kind": "facility",
+        "parentId": "company-demo/room-1",
+        "resource": {
+          "id": "lounge-sofa",
+          "version": 2
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            2.3
+          ],
+          "yaw": 3.141592653589793
+        },
+        "state": {},
+        "appearance": {
+          "materials": {
+            "fabric": {
+              "color": "#345c83",
+              "roughness": 0.9
+            }
+          }
+        }
+      },
+      {
+        "id": "lounge/plant",
+        "kind": "facility",
+        "parentId": "company-demo/room-1",
+        "resource": {
+          "id": "plant",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -3.7,
+            0,
+            -2.7
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "station-copy",
+        "kind": "workstation",
+        "parentId": "company-demo/room-1",
+        "name": "station-copy",
+        "transform": {
+          "position": [
+            1.6,
+            0,
+            -0.3
+          ],
+          "yaw": 1.5707963267948966
+        },
+        "template": {
+          "id": "stream-station",
+          "version": 1
+        }
+      },
+      {
+        "id": "station-copy/desk",
+        "kind": "facility",
+        "stationId": "station-copy",
+        "partKey": "desk",
+        "parentId": "station-copy",
+        "resource": {
+          "id": "desk",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            -1.1
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "station-copy/monitor",
+        "kind": "facility",
+        "stationId": "station-copy",
+        "partKey": "monitor",
+        "parentId": "station-copy/desk",
+        "resource": {
+          "id": "monitor",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0.84,
+            -0.25
+          ],
+          "yaw": 0
+        },
+        "state": {
+          "on": false
+        }
+      },
+      {
+        "id": "station-copy/keyboard",
+        "kind": "facility",
+        "stationId": "station-copy",
+        "partKey": "keyboard",
+        "parentId": "station-copy/desk",
+        "resource": {
+          "id": "keyboard",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0.84,
+            0.21
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "station-copy/microphone",
+        "kind": "facility",
+        "stationId": "station-copy",
+        "partKey": "microphone",
+        "parentId": "station-copy/desk",
+        "resource": {
+          "id": "desk-microphone",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.8,
+            0.84,
+            0.18
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "station-copy/chair",
+        "kind": "facility",
+        "stationId": "station-copy",
+        "partKey": "chair",
+        "parentId": "station-copy",
+        "resource": {
+          "id": "chair",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0.55
+          ],
+          "yaw": 3.141592653589793
+        },
+        "state": {}
+      },
+      {
+        "id": "station-copy/fill-light",
+        "kind": "facility",
+        "stationId": "station-copy",
+        "partKey": "fill-light",
+        "parentId": "station-copy",
+        "resource": {
+          "id": "fill-light",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.75,
+            0,
+            -0.15
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      }
+    ]
+  },
+  "dependencies": {
+    "resources": [
+      {
+        "id": "chair",
+        "version": 1,
+        "sha256": "85593a00831a465019d57cf167cb7728bea6eb8b4df921f637f6720247d48c07"
+      },
+      {
+        "id": "desk-microphone",
+        "version": 1,
+        "sha256": "c519d0db034673cdc1d02de653ee8a5e6540d9aee355b7668a62629d2d27e853"
+      },
+      {
+        "id": "desk",
+        "version": 1,
+        "sha256": "938b3904b32bb89d6fe18518b50619adeb93fe0b1e9408a4b1e3d400735163d8"
+      },
+      {
+        "id": "fill-light",
+        "version": 1,
+        "sha256": "52a149c6017acf6ca35b5987c651870c353bc036f299e1fdbc1e037955d3bd4b"
+      },
+      {
+        "id": "keyboard",
+        "version": 1,
+        "sha256": "52423572c215536ef73c6daf96157912893f661000b9ca741dc35051a4b7d9d9"
+      },
+      {
+        "id": "lounge-sofa",
+        "version": 2,
+        "sha256": "74263f483160dae65598c1a293fc926911b005b9e0725a079f2417240e7441f6"
+      },
+      {
+        "id": "monitor",
+        "version": 1,
+        "sha256": "cc761bf4e4fc786e1cccdfef1af1f4ec01a4f0049a3b142733091c0bf66f4fd0"
+      },
+      {
+        "id": "plant",
+        "version": 1,
+        "sha256": "f0877f5dc9065d5d67ad4728c356625d4d30412044badefd4846e794b0b96765"
+      }
+    ],
+    "templates": [
+      {
+        "id": "stream-station",
+        "version": 1,
+        "sha256": "47dc0c9ae9e042c8e36a728022536ad2abbded2c7afebf314e8cf8105a74bdbc"
+      }
+    ]
+  }
+}

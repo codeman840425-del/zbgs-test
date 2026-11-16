@@ -1,0 +1,17 @@
+<!doctype html><html lang="zh-CN"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>公司场景创作 · C1 制作预览</title>
+<style>body{margin:0;background:#f2f5ef;color:#263f37;font-family:"Segoe UI","Microsoft YaHei",sans-serif}main{max-width:1200px;margin:auto;padding:32px 24px}h1{font-size:30px;margin:10px 0}p{line-height:1.8}small{color:#53695e}video{display:block;width:100%;background:#e7ede3;border-radius:12px;margin:24px 0}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}figure{margin:0;background:white;border-radius:10px;overflow:hidden}img{width:100%;display:block}figcaption{padding:12px;font-size:14px}details{margin-top:24px;padding:20px;background:white;border-radius:10px}summary{cursor:pointer}pre{overflow:auto;font-size:12px;line-height:1.8}a{color:#285a48}@media(max-width:700px){.grid{grid-template-columns:1fr}main{padding:20px 14px}h1{font-size:24px}}</style>
+<main><small>COMPANY STUDIO · 制作与预览候选</small><h1>组件组合成不同的公司场景</h1>
+<p>这次新增的是实际创作能力：接入新模型，替换外观，独立修改面料，复制整套工位，调整整体和部件位置，并保存后继续修改。</p>
+<p>下方是同一个固定版本的正常速度演示。当前展示场景与设施生产；真实角色的活动和设施使用留到 C3 统一接入验证。</p>
+<video controls preload="metadata" poster="01-room.png" src="company-authoring-normal1x.webm"></video>
+<div class="grid"><figure><img src="02-model.png" alt="导入的新沙发模型"><figcaption>替换模型，保留设施身份和两处使用点</figcaption></figure><figure><img src="03-material.png" alt="独立修改沙发面料"><figcaption>修改面料颜色，保留底座和结构</figcaption></figure><figure><img src="08-restored.png" alt="恢复已保存的新布局"><figcaption>复制、转向和局部布置后的完整恢复</figcaption></figure></div>
+<p><small>源码 5a9760353480c120082b25d597c634e8794b91e1 · 构建 d9f9101a9c54。工程检查与关键画面已核；用户观感尚待观看。开发机数据不代表普通电脑性能。</small></p>
+<details><summary>复现命令与工程记录</summary><p>固定检出已经位于 F:/gamemake-company-c1-fixed-0ce817e，实际 HEAD 为上方 5a97603。运行服务使用系统分配的临时端口，退出即关闭。</p><pre>cd F:/gamemake-company-c1-fixed-0ce817e/prototype
+node scripts/build-company-id.mjs
+npx vite build --config vite.company.config.js
+cd ..
+node scripts/company-platform/serve-company.cjs prototype/dist-company d9f9101a9c54
+
+# 在新的输出目录重复实际浏览器检查
+node scripts/company-platform/qa-preview.cjs prototype/dist-company d9f9101a9c54 output/playwright/c1-recheck-NEW</pre>
+<p><a href="delivery.json">固定源码与重建清单</a> · <a href="browser-report.json">实际浏览器检查</a> · <a href="recording.json">演示步骤与版本</a> · <a href="saved-company.json">可继续编辑的方案</a></p></details></main></html>
