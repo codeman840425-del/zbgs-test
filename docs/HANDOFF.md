@@ -2,6 +2,8 @@
 
 **最新状态：4196为a7efd61c61c8，源0137d7e。沿ab074反馈修复，只省法线邻域计算，27样件输出字节同；17合同/10浏览器门、新表情原片、122产物新检出一致。重复改嘴短测约省3–5ms，首绘约109ms停顿仍在。外观待用户，源NORMAL一门失败/普通机缺口保留。CURRENT为准确入口及备份来源，裙舞不重开。**
 
+**持续实施已恢复：上一轮以局部待验推断整项受阻的结论撤销。当前先处理改脸首绘长帧与男性缩嘴源NORMAL差异；等待观感不阻断独立工作。详CURRENT接续。**
+
 先读 [CURRENT-FOUNDATION.md](CURRENT-FOUNDATION.md)、唯一能力状态 [CAPABILITIES.md](CAPABILITIES.md) 及 [阶段计划](FOUNDATION-MILESTONES.md)。历史报告用于证据，不作为新的任务或通过结论。
 
 - 项目在F:/gamemake，分支feat/m1-foundation-room；原工程永久遗失，baseline为静态发布对照，prototype为可维护新建工程。

@@ -11,7 +11,7 @@
 
 ## 最新成本增量
 
-- a7efd与ab074实际UI无录像短测：重复改嘴请求女25.2→22.0ms、男26.1→20.8ms；首绘最大帧仍约109ms，女加眼最大帧48.6→54.5ms波动保留，不宣称所有操作变快或首次停顿解决。RTX4090/Chrome157/1600×1000，无头rAF不是屏幕FPS。证据visible-face-ui-cost-{ab074,a7efd}。
+- a7efd与ab074实际UI无头Chrome无录像短测：重复改嘴请求女25.2→22.0ms、男26.1→20.8ms；首绘最大帧仍约109ms，女加眼最大帧48.6→54.5ms波动保留，不宣称所有操作变快或首次停顿解决。RTX4090/HeadlessChrome157/1600×1000；脚本名visible不代表有窗口，以上rAF不是实际屏幕呈现或屏幕FPS。证据visible-face-ui-cost-{ab074,a7efd}。
 - 法线只计算全部affected点的完整邻面，原累加顺序和精度不改。27例真实全buffer/17合同/独立960函数组/实际10配方门过；表情原片已录，root看完六张末13秒2fps抽帧图，非人类连续验收。详face-normal-neighborhood-v1/RESULT.md。
 - 新检出122文件一致，rebuild-face-neighborhood-a7efd。公开入口smoke及最后备份见current-workbench-a7efd61c61c8和delivery/workbench-backup-a7efd.json。
 
@@ -42,10 +42,18 @@
 - 可编辑源保留包：python scripts/mouth-visible-v2/verify-retained.py；三个face-*-visible-v2/manifest.py --verify。实际隔离Git导出221必要文件、缺90可重建输出仍过四包。嘴原full-local manifest保持，精简检出不可用旧full-local冒充通过。
 - ignored原始供应商视频/FBX、fresh/raw/repeat重复二进制和dist不承诺远程备份；canonical editable/final、资源recipe、脚本和重建记录已纳入。不得删canonical源。
 
-## 接续
+## 接续：已恢复实施
 
-先读用户对外观实际观看反馈。当前a7efd保留ab074相同形状/颜色，只省局部法线CPU，不要求用户重新批准既有布局或封板动作。移动本轮20浏览器门相关范围已完成；新瞳色与几何样件待观感，独立技术工作已收尾。若还有操作问题，按当前固定版本实际复现；若调整幅度/造型，保留源与版本后做有界样件，不回头重做已过盘点或无限扩参数。普通机缺口按用户决定保留。
+用户指出此前停工没有依据。上一轮将有界审查结束误判为全部技术工作受阻；此判断撤销，历史 evidence/goal-scope-audit-a7efd/ 保留为当时快照，不是停工依据。人工观感待验、普通电脑缺设备仅限制各自结论，不阻断独立修复。
 
-## 有界目标核对（不新增验收结论）
+当前实际工作：
 
-六个原工作包与最新用户封板/接受回执已做独立证据核对：evidence/goal-scope-audit-a7efd/independent/RESULT.md。当前未发现可立即新增实施的产品遗漏；这不表示首绘停顿、源NORMAL失败或人工/设备缺口已解决。AVATAR-CONTRACT的v4/旧幅度文字、CAP DATA-01和README的旧4192主入口已按真实代码/当前固定指针纠正；现行数据仍由CAP与delivery负责，审查报告只是本轮快照。新外观反馈到达后按当前固定样件复现，不重开裙舞、不盲扫参数或自动扩M3。
+1. 首次改脸约109ms长帧：用固定a7efd首次嘴+12%对照正常阴影与仅诊断冻结shadow pass；保留主色shader条件、完整rAF及GL调用数据。旧主色first-use方案已撤回，不重复。诊断关闭阴影不是产品方案。
+2. 男嘴−12%源NORMAL超门：核查可重复的源/运行数值表示一致性；不放宽1e-5门、不用逐顶点补丁或换SHA冒充兼容。先隔离验证，不改公开资源。
+3. 只有证据支持的候选才进入源码修复、受影响回归、独立固定构建与备份；4196仍是a7efd，裙装与30秒舞不重开。
+
+长目标工具目前仍返回blocked，现有工具不提供恢复状态操作；这是工具状态限制，不是停止本轮执行的理由。不创建替代目标，不将目标误标完成。继续按当前用户授权实施。
+
+## 上轮有界目标核对的适用范围
+
+六个原工作包的证据核对保存在 evidence/goal-scope-audit-a7efd/independent/RESULT.md。它不表示首绘停顿、源NORMAL失败或人工/设备缺口已解决，也不能推出没有可继续的技术工作。AVATAR-CONTRACT现行v5、CAP DATA-01和README4196主入口的纠正继续有效；现行状态由CAP与delivery维护。
