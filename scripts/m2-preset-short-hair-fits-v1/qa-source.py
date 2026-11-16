@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 import struct
 import subprocess
+import tempfile
 import sys
 import numpy as np
 from PIL import Image
@@ -29,7 +30,8 @@ def main():
         assert status=='source-contact-candidate'
         assert all((BASE/'conditional'/identifier/name).read_bytes()==data for name,data in payloads.items())
     checks.append({'name':'Both complete conditional fit/contact payloads repeat byte-for-byte','passed':True})
-    fixtures = BASE/'qa';fixtures.mkdir(exist_ok=True)
+    fixture_root = BASE/'qa';fixture_root.mkdir(exist_ok=True)
+    fixtures = Path(tempfile.mkdtemp(prefix='run-',dir=fixture_root))
     source = spec['families']['male']
     def run(identifier,sex,digest,output):
         manifest = fixtures/(identifier+'-input.json')
