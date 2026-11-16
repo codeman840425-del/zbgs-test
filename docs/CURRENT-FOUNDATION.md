@@ -17,15 +17,19 @@ Phaser+Three+VRM保留；女性封板裙和30秒舞不再精修。普通电脑�
 - 失败未删除：m2-layered-outer-v1原表面偏移失败；m2-outer-panels-v2/failed-free-panel-grid肩带/板片失败；m2-outer-runtime-room-3c7-v1检查镜头墙挡。8e只对检查镜头建筑物做截面，角色/家具/镜头尺度未变。
 - 旧84b完整男女动作链及9bf覆盖失败保原、旧单件equip组合校验证据保留，不给它们换8e标签；外搭不等于连体装或衣层覆盖通过。
 
-## 主工作包：P1 / CUSTOM-L02 整套造型prepare/commit
+## 最近完成：P1 / CUSTOM-L02 整套造型prepare/commit
 
-真实缺口：appearance-recipe按脸几何→发型颜色→装备逐域提交，失败后异步回退，准备中可能显示半套新外观。输入用已有男女v6配方/脸/发/服装；不新增美术样件、不改动作。
+实际基线8e在头发/瞳色遮罩延迟失败期间显示半套外观；已修为各域先准备，再同步提交，旧资源在完整提交后清理。de79真实男女资源失败保原及6类竞争检查通过，独立审查的3项异步/清理缺陷已修复。
 
-固定8e实际基线已复现：evidence/m2-whole-look-baseline-8e2-v1，头发GLB延迟700ms再503期间口宽/眉/鼻及3个网格position哈希已变而发/衣仍旧，失败后才恢复。scripts/qa-whole-look-visible-atomicity.cjs可同输入跑修后检查。
+当前固定4208为003fedb60bb2/source1fa59bdce0b418d4f424eb70cdaceb4126d7a8dd；experiments/m2-whole-look-fixed-003/prototype/dist。127文件独立构建一致。003仅在de79上补旧换人迟到503仍返回cancelled；10项真实浏览器回归、行走中应用后讲话/坐起与换人取消均通过。正常1×观看：4174/evidence/m2-whole-look-matrix-003-v1/，7片保各自构建，delivery.json记范围。root已看003全时段2fps抽帧；初始半身镜头不验足底，抽样不等于连续自然度或用户验收。公开4196未替换。
 
-实现分支codex/whole-look-prepare，独立worktree F:/gamemake-whole-look-prepare。显式sol/high，复杂异步事务；CPU实现进行中，浏览器/GPU由主负责人统一分配。最小门：延迟准备始终保旧完整外观；成功统一提交；资源失败/过期/取消/较新单域请求不混合旧新，释放正确；旧v1–v6语义及有限配方恢复不变。commit前完成所有可失败分配/校验。禁止暂停渲染或隐藏人物规避。
+保留失败：首次对比了旧5733 dist导致重建不匹配，后续de79/003正确独立重建通过；首次de79旧回归的取消失败缺细日志，原因未确认；旧v1眼色夹具与v3运行不符已修夹具；独立晚到503复现及修正有准确证据。不将这些失败删除或换版本标签。
 
-尝试预算：定位与实现各一轮；同因两轮无新证据或改善停止扫参、重新定位。完成固定验证后继续P1机器准入/实际形体fit等缺口；连体、衣层遮挡、按需加载未完成，不能宣称P1或M2通过。
+## 接续主工作包：P1 / CUSTOM-I01 完整候选准入
+
+缺口：当前validateAppearanceRecipe分域静态检查与实际准备校验分离，尚无可查询的完整候选入口；实际几何/fit依赖也未齐。先核现有合同来源及真实错误输入，再沿共享运行路径补最小可执行查询与拒绝，不另造通用平台。输入复用已有男女v6配方和实际资源；最小门为有效候选可加载/恢复、错误身份或不兼容组合给具体原因且保原，查询范围不捏造未实现参数。只补受影响回归。
+
+只读审查由既有m2_v2_scope_audit（已记录sol/high）推进，root负责确定实现和固定GPU验证。同因两轮无新证据或改善则重定位。实际形体fit、连体、衣层遮挡、按需加载等仍未完成，不宣称P1或M2通过。
 
 ## 文档和派工恢复
 
@@ -33,4 +37,4 @@ Phaser+Three+VRM保留；女性封板裙和30秒舞不再精修。普通电脑�
 
 当前宿主是GPT桌面内Codex，不是Codex CLI。每次spawn显式model/reasoning_effort/fork_turns=none和DISPATCH_CONFIG；记录evidence/subagent-explicit-dispatch-2026-11-16.json。实际provider配置工具未另暴露，桌面hook拦截未验证；UI开关/CLI/本地脚本不能代替。旧未知配置不复用为已知；本轮whole_look_prepare已知请求sol/high。
 
-一次一个GPU/录屏/重Blender/编码任务。4295已关闭；4207是root临时固定候选。只关闭自己创建的服务。外搭与v2归档提交bff48b7a35ba6b23f3dd43fb21d5232aa81de39f已推送并通过ls-remote核对同SHA。后续主包仍在独立实现，不声称未推送提交已备份。
+一次一个GPU/录屏/重Blender/编码任务。4295已关闭；4207/4208是root临时固定候选。只关闭自己创建的服务。最后已核远端365e6f8913825905263db245b459e4e27df4ac48；本次L02增量正在归档和推送，未核实前不声明已远备。

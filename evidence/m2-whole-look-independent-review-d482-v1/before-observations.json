@@ -1,0 +1,52 @@
+{
+  "candidateIdentity": "Mutable precommit implementation snapshots inspected during review. Source SHA was not captured for these exploratory reproductions. These failures are not labeled as d482fa67.",
+  "observations": [
+    {
+      "name": "cross-domain revision adoption between prepare continuations",
+      "scope": "Actual applyAppearanceRecipe function body with validator and CPU domain fixtures. No real model resources in this coordinator reproduction.",
+      "trigger": "Resolve geometry preparation Promise in setImmediate, then queueMicrotask a newer single-color revision before outer continuation starts appearance preparation.",
+      "observed": {
+        "result": {
+          "applied": true
+        },
+        "geometry": "whole-face",
+        "color": "whole-color",
+        "expectedColor": "newer-single-color"
+      }
+    },
+    {
+      "name": "old geometry dispose event interrupts visible commit",
+      "scope": "Actual pinned male VRM and createFacialGeometry/createCharacterAppearance/applyAppearanceRecipe. CPU texture decoder and outfit fixture. No GPU.",
+      "trigger": "Commit mouth +0.04. Add one-shot throwing dispose listener to current actor-owned face geometry. Apply whole recipe mouth -0.04.",
+      "observed": {
+        "error": "恢复配方失败，先前外观已保留：actual old geometry dispose listener failure",
+        "visibleGeometryPreserved": false,
+        "stateMouth": 0.04,
+        "requestedMouth": -0.04
+      }
+    },
+    {
+      "name": "standalone hair intent lost to newer independent color",
+      "scope": "Actual pinned male VRM and replacement hair GLB, CPU texture decoder. No GPU.",
+      "trigger": "Hold replacement manifest fetch for set({hairStyle:male-sidepart-v1}); await newer set({hairColor:black}); release fetch.",
+      "observed": {
+        "styleResult": {
+          "applied": false,
+          "cancelled": true
+        },
+        "color": {
+          "applied": true
+        },
+        "state": {
+          "hairStyle": "original",
+          "hairColor": "black"
+        },
+        "expected": {
+          "hairStyle": "male-sidepart-v1",
+          "hairColor": "black"
+        }
+      },
+      "existingRegression": "scripts/qa-m2-appearance-workbench.cjs:69"
+    }
+  ]
+}

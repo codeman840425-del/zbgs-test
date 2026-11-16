@@ -1,0 +1,110 @@
+{
+  "build": "8e2926da4939",
+  "base": "http://127.0.0.1:4207/",
+  "started": "2026-11-16T11:21:16.924Z",
+  "checks": [
+    {
+      "name": "failed body load retains visible actor, mixer and camera",
+      "passed": true,
+      "result": {
+        "result": {
+          "applied": false,
+          "reason": "Foundation HTTP 503"
+        },
+        "state": {
+          "sameActor": true,
+          "sameMotion": true,
+          "visible": true,
+          "camera": {
+            "mode": "inspect-face-front",
+            "position": [
+              -0.5037205733211405,
+              1.4295106697805111,
+              1.9472855072119217
+            ],
+            "target": [
+              -0.5037205733211405,
+              1.4295106697805111,
+              1.1672855072119217
+            ]
+          },
+          "loading": false
+        }
+      }
+    },
+    {
+      "name": "latest body selection cancels older detached load",
+      "passed": true,
+      "result": {
+        "a": {
+          "applied": false,
+          "cancelled": true
+        },
+        "b": {
+          "applied": true,
+          "bodyType": "female"
+        },
+        "body": "female",
+        "same": true
+      }
+    },
+    {
+      "name": "skirt to male fallback updates actual and pressed outfit",
+      "passed": true,
+      "result": {
+        "result": {
+          "applied": true,
+          "bodyType": "male",
+          "notice": "原服装没有此身体版型，已切到裤装"
+        },
+        "actual": {
+          "outfit": 0,
+          "buttons": [
+            {
+              "id": "0",
+              "pressed": "true",
+              "hidden": false
+            },
+            {
+              "id": "1",
+              "pressed": "false",
+              "hidden": true
+            },
+            {
+              "id": "2",
+              "pressed": "false",
+              "hidden": false
+            },
+            {
+              "id": "3",
+              "pressed": "false",
+              "hidden": false
+            },
+            {
+              "id": "4",
+              "pressed": "false",
+              "hidden": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "male palette preserves every outside-mask and alpha byte, reset restores references",
+      "passed": false,
+      "error": "Error: page.evaluate: Error: {\"part\":\"iris\",\"protectedChanges\":23911,\"alphaChanges\":0,\"changedInside\":77865}\n    at eval (eval at evaluate (:290:30), <anonymous>:14:371)\n    at async <anonymous>:316:30"
+    }
+  ],
+  "errors": [],
+  "environment": {
+    "browser": "157.0.8103.51",
+    "viewport": [
+      1366,
+      768
+    ],
+    "kind": "development machine headless browser; not ordinary-PC acceptance"
+  },
+  "status": "failed",
+  "fatal": "Error: page.evaluate: Error: {\"part\":\"iris\",\"protectedChanges\":23911,\"alphaChanges\":0,\"changedInside\":77865}\n    at eval (eval at evaluate (:290:30), <anonymous>:14:371)\n    at async <anonymous>:316:30",
+  "finished": "2026-11-16T11:21:21.692Z"
+}

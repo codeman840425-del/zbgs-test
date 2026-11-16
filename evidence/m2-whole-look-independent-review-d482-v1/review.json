@@ -1,0 +1,32 @@
+{
+  "reviewedCommit": "d482fa67fafa63a7da22139900cab8c01352e0e0",
+  "sourceHashesMatchCommittedSummary": {
+    "prototype/src/appearance-recipe.js": true,
+    "prototype/src/body-coverage.js": true,
+    "prototype/src/character-appearance.js": true,
+    "prototype/src/equipment-set.js": true,
+    "prototype/src/equipment.js": true,
+    "prototype/src/facial-geometry.js": true,
+    "prototype/src/facial-palette.js": true,
+    "prototype/src/foundation-avatar.js": true,
+    "prototype/src/m1-equipment.js": true,
+    "prototype/src/main.js": true,
+    "scripts/face-eye-sample-v1/recipe-file-check.mjs": true,
+    "scripts/m2-male-jaw-hair-runtime-v1/check.mjs": true,
+    "scripts/qa-equipment-coverage-review.mjs": true,
+    "scripts/qa-whole-look-transaction.mjs": true
+  },
+  "command": "node scripts/qa-whole-look-transaction.mjs <independent-new-output-directory>",
+  "independentlyReexecutedCases": 18,
+  "fixedFindings": [
+    "cross-domain revision adoption",
+    "commit cleanup event failure",
+    "standalone pending style/color intent regression"
+  ],
+  "limits": [
+    "Same-base v1-v6 coordinator scope. Actual full-resource CPU transaction cases use the male asset.",
+    "Image decoding/canvas and controller UI include fixtures.",
+    "No browser/GPU/visual acceptance established by this review.",
+    "Unsupported injected synchronous commit failure reports failure and is not claimed to preserve all domains."
+  ]
+}

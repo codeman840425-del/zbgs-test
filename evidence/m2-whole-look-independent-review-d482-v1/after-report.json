@@ -1,0 +1,78 @@
+{
+  "expectBug": false,
+  "checks": [
+    {
+      "name": "actual delayed hair preparation retains complete prior look",
+      "passed": true
+    },
+    {
+      "name": "standalone pending hair and newer color retain both intents",
+      "passed": true
+    },
+    {
+      "name": "prepared palette color cannot rewrite an already visible cached texture",
+      "passed": true
+    },
+    {
+      "name": "uncommitted whole palette intent cannot leak into newer hair-only selection",
+      "passed": true
+    },
+    {
+      "name": "hair actual preparation failure preserves old look and releases staged face",
+      "passed": true
+    },
+    {
+      "name": "palette actual preparation failure preserves old look and releases staged face",
+      "passed": true
+    },
+    {
+      "name": "equipment preparation failure cannot expose staged face or hair",
+      "passed": true
+    },
+    {
+      "name": "newer color cancels old whole request without overwriting its choice",
+      "passed": true
+    },
+    {
+      "name": "newer geometry cancels old whole request without overwriting its choice",
+      "passed": true
+    },
+    {
+      "name": "newer outfit cancels old whole request without overwriting its choice",
+      "passed": true
+    },
+    {
+      "name": "newer recipe cancels old whole request without overwriting its choice",
+      "passed": true
+    },
+    {
+      "name": "newer actor cancels old whole request without overwriting its choice",
+      "passed": true
+    },
+    {
+      "name": "newer dispose cancels old whole request without overwriting its choice",
+      "passed": true
+    },
+    {
+      "name": "prepared face owns clones until commit or explicit cancellation",
+      "passed": true
+    },
+    {
+      "name": "caller mutation cannot change in-flight recipe",
+      "passed": true
+    },
+    {
+      "name": "button refresh failure reports committed result",
+      "passed": true
+    },
+    {
+      "name": "new color between prepare continuations cannot be adopted as old request revision",
+      "passed": true
+    },
+    {
+      "name": "old geometry dispose event runs after complete commit and cleanup failure is reported",
+      "passed": true
+    }
+  ],
+  "scope": "CPU actual geometry/hair/equipment resources; image decoder returns null textures; no rendering or GPU evidence"
+}

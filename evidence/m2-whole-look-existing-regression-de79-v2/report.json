@@ -1,0 +1,418 @@
+{
+  "build": "de79d2b4cfed",
+  "base": "http://127.0.0.1:4208/",
+  "started": "2026-11-16T11:22:04.722Z",
+  "checks": [
+    {
+      "name": "failed body load retains visible actor, mixer and camera",
+      "passed": true,
+      "result": {
+        "result": {
+          "applied": false,
+          "reason": "Foundation HTTP 503"
+        },
+        "state": {
+          "sameActor": true,
+          "sameMotion": true,
+          "visible": true,
+          "camera": {
+            "mode": "inspect-face-front",
+            "position": [
+              -0.503665041741584,
+              1.429515875603217,
+              1.9470429351489429
+            ],
+            "target": [
+              -0.503665041741584,
+              1.429515875603217,
+              1.1670429351489429
+            ]
+          },
+          "loading": false
+        }
+      }
+    },
+    {
+      "name": "latest body selection cancels older detached load",
+      "passed": true,
+      "result": {
+        "a": {
+          "applied": false,
+          "cancelled": true
+        },
+        "b": {
+          "applied": true,
+          "bodyType": "female"
+        },
+        "body": "female",
+        "same": true
+      }
+    },
+    {
+      "name": "skirt to male fallback updates actual and pressed outfit",
+      "passed": true,
+      "result": {
+        "result": {
+          "applied": true,
+          "bodyType": "male",
+          "notice": "原服装没有此身体版型，已切到裤装"
+        },
+        "actual": {
+          "outfit": 0,
+          "buttons": [
+            {
+              "id": "0",
+              "pressed": "true",
+              "hidden": false
+            },
+            {
+              "id": "1",
+              "pressed": "false",
+              "hidden": true
+            },
+            {
+              "id": "2",
+              "pressed": "false",
+              "hidden": false
+            },
+            {
+              "id": "3",
+              "pressed": "false",
+              "hidden": false
+            },
+            {
+              "id": "4",
+              "pressed": "false",
+              "hidden": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "male palette preserves every outside-mask and alpha byte, reset restores references",
+      "passed": true,
+      "result": {
+        "summary": [
+          {
+            "part": "iris",
+            "protectedChanges": 0,
+            "alphaChanges": 0,
+            "changedInside": 101776,
+            "ownSource": true
+          },
+          {
+            "part": "lips",
+            "protectedChanges": 0,
+            "alphaChanges": 0,
+            "changedInside": 2779,
+            "ownSource": true
+          },
+          {
+            "part": "lips",
+            "protectedChanges": 0,
+            "alphaChanges": 0,
+            "changedInside": 2779,
+            "ownSource": true
+          }
+        ],
+        "restored": true
+      }
+    },
+    {
+      "name": "female palette preserves every outside-mask and alpha byte, reset restores references",
+      "passed": true,
+      "result": {
+        "summary": [
+          {
+            "part": "iris",
+            "protectedChanges": 0,
+            "alphaChanges": 0,
+            "changedInside": 89102,
+            "ownSource": true
+          },
+          {
+            "part": "lips",
+            "protectedChanges": 0,
+            "alphaChanges": 0,
+            "changedInside": 1376,
+            "ownSource": true
+          },
+          {
+            "part": "lips",
+            "protectedChanges": 0,
+            "alphaChanges": 0,
+            "changedInside": 1376,
+            "ownSource": true
+          }
+        ],
+        "restored": true
+      }
+    },
+    {
+      "name": "palette load failure preserves old colors and retries",
+      "passed": true,
+      "result": {
+        "fail": {
+          "applied": false,
+          "reason": "配色遮罩加载失败 (503)"
+        },
+        "retry": {
+          "applied": true
+        }
+      }
+    },
+    {
+      "name": "two real instances keep independent hair, facial texture and palette state",
+      "passed": true,
+      "result": {
+        "before": {
+          "hairStyle": "original",
+          "hairColor": "original",
+          "skinTone": "original",
+          "loading": false,
+          "error": null,
+          "bodyMode": "dressed",
+          "revision": 0,
+          "effectiveHairStyle": "original",
+          "noHairAdmission": {
+            "id": "male",
+            "sha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+            "sourceSkinEvidence": "male",
+            "status": "source-static-reviewed; runtime-pending",
+            "evidence": "evidence/workbench-face-source-audit-v1/RESULT.md"
+          },
+          "eyeColor": "original",
+          "lipColor": "original",
+          "facialPaletteLoading": false,
+          "facialPaletteError": null,
+          "facialTextureCount": 0,
+          "facialMaskIdentity": null,
+          "availableStyles": [
+            "original",
+            "none",
+            "male-sidepart-v1"
+          ],
+          "styleOptions": [
+            {
+              "id": "original",
+              "label": "原发型"
+            },
+            {
+              "id": "none",
+              "label": "无发（保留眉睫毛）"
+            },
+            {
+              "id": "male-sidepart-v1",
+              "label": "偏侧蓬松短发"
+            }
+          ],
+          "skinMaterialCount": 4,
+          "hairMaterialCount": 2,
+          "neutralTextureCount": 0,
+          "hairFit": null,
+          "replacementSHA256": null
+        },
+        "after": {
+          "hairStyle": "original",
+          "hairColor": "original",
+          "skinTone": "original",
+          "loading": false,
+          "error": null,
+          "bodyMode": "dressed",
+          "revision": 0,
+          "effectiveHairStyle": "original",
+          "noHairAdmission": {
+            "id": "male",
+            "sha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+            "sourceSkinEvidence": "male",
+            "status": "source-static-reviewed; runtime-pending",
+            "evidence": "evidence/workbench-face-source-audit-v1/RESULT.md"
+          },
+          "eyeColor": "original",
+          "lipColor": "original",
+          "facialPaletteLoading": false,
+          "facialPaletteError": null,
+          "facialTextureCount": 0,
+          "facialMaskIdentity": null,
+          "availableStyles": [
+            "original",
+            "none",
+            "male-sidepart-v1"
+          ],
+          "styleOptions": [
+            {
+              "id": "original",
+              "label": "原发型"
+            },
+            {
+              "id": "none",
+              "label": "无发（保留眉睫毛）"
+            },
+            {
+              "id": "male-sidepart-v1",
+              "label": "偏侧蓬松短发"
+            }
+          ],
+          "skinMaterialCount": 4,
+          "hairMaterialCount": 2,
+          "neutralTextureCount": 0,
+          "hairFit": null,
+          "replacementSHA256": null
+        },
+        "sharedMaterials": 0,
+        "primary": {
+          "hairStyle": "male-sidepart-v1",
+          "hairColor": "black",
+          "skinTone": "original",
+          "loading": false,
+          "error": null,
+          "bodyMode": "dressed",
+          "revision": 4,
+          "effectiveHairStyle": "male-sidepart-v1",
+          "noHairAdmission": {
+            "id": "male",
+            "sha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+            "sourceSkinEvidence": "male",
+            "status": "source-static-reviewed; runtime-pending",
+            "evidence": "evidence/workbench-face-source-audit-v1/RESULT.md"
+          },
+          "eyeColor": "green",
+          "lipColor": "coral",
+          "facialPaletteLoading": false,
+          "facialPaletteError": null,
+          "facialTextureCount": 6,
+          "facialMaskIdentity": {
+            "iris": "faae0b399cde78de5de5f2404f8ed60b7c89033cf20fca1c87b2c9b53b3907dd",
+            "lips": "81af01dba7e260c5ae3ab59887fbebddffaf654e3602735a709afc3dc52444fb"
+          },
+          "availableStyles": [
+            "original",
+            "none",
+            "male-sidepart-v1"
+          ],
+          "styleOptions": [
+            {
+              "id": "original",
+              "label": "原发型"
+            },
+            {
+              "id": "none",
+              "label": "无发（保留眉睫毛）"
+            },
+            {
+              "id": "male-sidepart-v1",
+              "label": "偏侧蓬松短发"
+            }
+          ],
+          "skinMaterialCount": 4,
+          "hairMaterialCount": 2,
+          "neutralTextureCount": 4,
+          "hairFit": {
+            "kind": "legacy-head-local-v1",
+            "manifestSha256": "d7bcf95056cb58650887bc941df384c7f6342042743b310e417fdc7a0a941b73"
+          },
+          "replacementSHA256": "fb5fd49352b7bab0e6d2c0ec3f6e565f0004062e4a8975f1afcd93fb24dd48fd"
+        }
+      }
+    },
+    {
+      "name": "switch while sitting ends old task and releases seat safely",
+      "passed": true,
+      "result": {
+        "result": {
+          "applied": true,
+          "bodyType": "female",
+          "notice": "原发型未适配此身体，已使用该人物原发型；更换身体后回到椅前站位，请重新入座以验证接触"
+        },
+        "mode": "idle",
+        "position": [
+          2.65,
+          0,
+          1.2881239836487242
+        ]
+      }
+    },
+    {
+      "name": "rapid appearance requests keep latest intent without new actor",
+      "passed": true,
+      "result": {
+        "r": [
+          {
+            "applied": false,
+            "cancelled": true
+          },
+          {
+            "applied": false,
+            "cancelled": true
+          },
+          {
+            "applied": true
+          }
+        ],
+        "state": {
+          "hairStyle": "original",
+          "hairColor": "brown",
+          "skinTone": "original",
+          "loading": false,
+          "error": null,
+          "bodyMode": "dressed",
+          "revision": 4,
+          "effectiveHairStyle": "original",
+          "noHairAdmission": {
+            "id": "female",
+            "sha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+            "sourceSkinEvidence": "female",
+            "status": "source-static-reviewed; runtime-pending",
+            "evidence": "evidence/workbench-face-source-audit-v1/RESULT.md"
+          },
+          "eyeColor": "green",
+          "lipColor": "rose",
+          "facialPaletteLoading": false,
+          "facialPaletteError": null,
+          "facialTextureCount": 6,
+          "facialMaskIdentity": {
+            "iris": "d6178bb05f53d5dde9186614c2f4019a535cfb15ceec40a1e8ad46343e2eebfe",
+            "lips": "b7f1de3847c7bd89b8c50c14f192c77236fd91031b76783583a51a73a91492ed"
+          },
+          "availableStyles": [
+            "original",
+            "none",
+            "female-bob-v1"
+          ],
+          "styleOptions": [
+            {
+              "id": "original",
+              "label": "原发型"
+            },
+            {
+              "id": "none",
+              "label": "无发（保留眉睫毛）"
+            },
+            {
+              "id": "female-bob-v1",
+              "label": "齐颈侧后短发"
+            }
+          ],
+          "skinMaterialCount": 4,
+          "hairMaterialCount": 2,
+          "neutralTextureCount": 4,
+          "hairFit": null,
+          "replacementSHA256": null
+        },
+        "same": true
+      }
+    }
+  ],
+  "errors": [],
+  "environment": {
+    "browser": "157.0.8103.51",
+    "viewport": [
+      1366,
+      768
+    ],
+    "kind": "development machine headless browser; not ordinary-PC acceptance"
+  },
+  "status": "passed",
+  "finished": "2026-11-16T11:22:19.616Z"
+}

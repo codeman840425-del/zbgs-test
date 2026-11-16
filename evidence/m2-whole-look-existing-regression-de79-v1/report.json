@@ -1,0 +1,53 @@
+{
+  "build": "de79d2b4cfed",
+  "base": "http://127.0.0.1:4208/",
+  "started": "2026-11-16T11:20:49.337Z",
+  "checks": [
+    {
+      "name": "failed body load retains visible actor, mixer and camera",
+      "passed": true,
+      "result": {
+        "result": {
+          "applied": false,
+          "reason": "Foundation HTTP 503"
+        },
+        "state": {
+          "sameActor": true,
+          "sameMotion": true,
+          "visible": true,
+          "camera": {
+            "mode": "inspect-face-front",
+            "position": [
+              -0.5036713283558004,
+              1.4295152954124755,
+              1.947070396204363
+            ],
+            "target": [
+              -0.5036713283558004,
+              1.4295152954124755,
+              1.167070396204363
+            ]
+          },
+          "loading": false
+        }
+      }
+    },
+    {
+      "name": "latest body selection cancels older detached load",
+      "passed": false,
+      "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(result.a.cancelled&&result.b.applied&&result.same)\n"
+    }
+  ],
+  "errors": [],
+  "environment": {
+    "browser": "157.0.8103.51",
+    "viewport": [
+      1366,
+      768
+    ],
+    "kind": "development machine headless browser; not ordinary-PC acceptance"
+  },
+  "status": "failed",
+  "fatal": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(result.a.cancelled&&result.b.applied&&result.same)\n",
+  "finished": "2026-11-16T11:20:52.663Z"
+}

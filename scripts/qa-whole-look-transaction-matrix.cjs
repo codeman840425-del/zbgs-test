@@ -5,6 +5,9 @@ const {verifyCandidate}=require('./qa-m1-common.cjs');
 const [base,build,folder]=process.argv.slice(2),out=path.resolve(folder);
 const waitMs=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const identity={build,assetId:'beta-base-male-m1b',sha256:'62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff'};
+const allCases=['success','newer-color','newer-outfit','newer-whole-look','newer-style-and-color','body-replaced'];
+const cases=process.argv.find(arg=>arg.startsWith('--cases='))?.slice(8).split(',')??allCases;
+assert(cases.length&&cases.every(name=>allCases.includes(name)));
 (async()=>{
  await fs.mkdir(out,{recursive:false});await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
  const targetText=await fs.readFile(path.join(__dirname,'../evidence/m2-whole-look-baseline-8e2-v1/target-v6.json'),'utf8'),target=JSON.parse(targetText);
@@ -12,7 +15,7 @@ const identity={build,assetId:'beta-base-male-m1b',sha256:'62b44b0372570a821695d
  const second=structuredClone(target);second.appearance.hairColor='black';second.equipment=pants.equipment;
  const browser=await chromium.launch({channel:'chrome',headless:true});
  const report={build,environment:{browser:browser.version(),viewport:[1440,900],device:'Development Windows host; not target ordinary-PC acceptance'},cases:[]};
- try{for(const name of ['success','newer-color','newer-outfit','newer-whole-look','newer-style-and-color','body-replaced']){
+ try{for(const name of cases){
   const dir=path.join(out,name);await fs.mkdir(dir);
   const c=await browser.newContext({viewport:{width:1440,height:900},recordVideo:{dir,size:{width:1440,height:900}}}),p=await c.newPage();
   const r={name,errors:[]};report.cases.push(r);let release;p.on('pageerror',e=>r.errors.push(String(e)));
