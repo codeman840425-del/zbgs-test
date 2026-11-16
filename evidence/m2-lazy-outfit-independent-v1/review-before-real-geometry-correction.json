@@ -1,0 +1,17 @@
+{
+  "reviewedCommit": "5023f5e12084eec810f2c3dc5c9fadf6cf718c55",
+  "checks": [
+    "Exact commit QA lazy-outfit 6 CPU cases passed, including synchronous stale prepared invalidation.",
+    "Outer coverage overlap fixture passed: newer owner remains active while older cancelled owner disposes its staged resources.",
+    "Dispose during delayed outfit selection and onePiece load do not late-attach."
+  ],
+  "evidence": [
+    "/F:/gamemake/evidence/m2-lazy-outfit-independent-v1/race-baseline-output.json",
+    "/F:/gamemake/evidence/m2-lazy-outfit-independent-v1/outer-overlap-output.json",
+    "/F:/gamemake/evidence/m2-lazy-outfit-independent-v1/outer-overlap-probe.mjs"
+  ],
+  "limits": [
+    "CPU fixtures only, no browser/GPU/action acceptance.",
+    "Static skirt/meshRoles ownership checks are limited to fixture lifecycle; root owns runtime visual validation."
+  ]
+}

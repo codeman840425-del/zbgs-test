@@ -1,0 +1,21 @@
+{
+  "reviewedCommit": "5023f5e12084eec810f2c3dc5c9fadf6cf718c55",
+  "checks": [
+    "Exact commit QA lazy-outfit 6 CPU cases passed, including synchronous stale prepared invalidation.",
+    "INVALID COVERAGE CLAIM: prior overlap fixture checked outfit state only, not actual top geometry.",
+    "Dispose during delayed outfit selection and onePiece load do not late-attach."
+  ],
+  "evidence": [
+    "/F:/gamemake/evidence/m2-lazy-outfit-independent-v1/race-baseline-output.json",
+    "/F:/gamemake/evidence/m2-lazy-outfit-independent-v1/outer-overlap-output.json",
+    "/F:/gamemake/evidence/m2-lazy-outfit-independent-v1/outer-overlap-probe.mjs"
+  ],
+  "limits": [
+    "CPU fixtures only, no browser/GPU/action acceptance.",
+    "Static skirt/meshRoles ownership checks are limited to fixture lifecycle; root owns runtime visual validation."
+  ],
+  "correctionBy": "root integration review",
+  "correction": "Outer owner passing conclusion withdrawn: mock commit was empty and dispose only counted calls, omitting actual mesh.geometry restoration. Real module reproduces stale cleanup overwriting newer coverage. Original fixture output preserved.",
+  "actualCounterexample": "../m2-lazy-coverage-ownership-v1/baseline.json",
+  "repairEvidence": "../m2-lazy-coverage-ownership-v1/fixed.json"
+}

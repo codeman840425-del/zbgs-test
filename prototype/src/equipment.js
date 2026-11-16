@@ -23,8 +23,12 @@ export async function createEquipment({
   const manifestBase = new URL(manifestUrl, window.location.href);
   const entries = new Map(manifest.items.map((item) => [item.id, item]));
   if (entries.size !== manifest.items.length) throw new Error("Duplicate equipment IDs");
-  const rawByName = new Map(), bindByBone = new Map();
+  const rawByName = new Map(), bindByBone = new Map(), sourceSurfaceNames = new Map();
   vrm.scene.traverse((node) => {
+    if(node.isMesh){
+      const materials=Array.isArray(node.material)?node.material:[node.material];
+      sourceSurfaceNames.set(node,new Set(materials.map(material=>material?.name?.replace(/ \(Outline\)$/,''))));
+    }
     if (node.isBone) {
       if (rawByName.has(node.name) && rawByName.get(node.name) !== node)
         throw new Error(`Ambiguous raw bone ${node.name}`);
@@ -62,8 +66,9 @@ export async function createEquipment({
   function bodySurfaceMeshes(materialName) {
     const result=[];vrm.scene.traverse(mesh=>{
       if(!mesh.isMesh)return;
-      const materials=Array.isArray(mesh.material)?mesh.material:[mesh.material];
-      if(materials.some(material=>material?.name?.replace(/ \(Outline\)$/,'')===materialName))result.push(mesh);
+      // Diagnostic body rendering swaps materials. Fit still binds the
+      // original mesh identity and its current geometry, not a display color.
+      if(sourceSurfaceNames.get(mesh)?.has(materialName))result.push(mesh);
     });return result;
   }
   async function prepareShapeDependency(entry) {

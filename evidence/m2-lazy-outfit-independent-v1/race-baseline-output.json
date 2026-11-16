@@ -1,0 +1,80 @@
+{
+  "passed": true,
+  "results": [
+    {
+      "case": "male default loads only selected outfit roles",
+      "passed": true
+    },
+    {
+      "case": "first onePiece selection loads and commits asynchronously",
+      "passed": true
+    },
+    {
+      "case": "sync newer setOutfit during delayed prepare exposes stale onePiece on exact bee commit",
+      "passed": false,
+      "staleResult": {
+        "committed": true
+      },
+      "info": {
+        "outfit": 5,
+        "selection": {
+          "index": 5,
+          "role": "onePiece",
+          "bottomRole": "onePiece",
+          "equipmentRoles": [
+            "shoes",
+            "onePiece"
+          ],
+          "label": "短袖连体练功服",
+          "description": "技术候选：检查连体换装与接触"
+        },
+        "debugBody": false,
+        "avatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+        "independentEquipment": true,
+        "sourceBodyUnchanged": true,
+        "bodyCoverage": null,
+        "garmentCoverage": null,
+        "skirtDynamics": null,
+        "items": {
+          "top": {
+            "id": "m1b-uniform-top",
+            "visible": false
+          },
+          "shoes": {
+            "id": "m1b-uniform-shoes",
+            "visible": true
+          },
+          "pants": {
+            "id": "m1b-uniform-pants",
+            "visible": false
+          },
+          "shorts": {
+            "id": "m1b-uniform-shorts-v1",
+            "loaded": false
+          },
+          "outer": {
+            "id": "m2-male-open-vest-panels-v2",
+            "loaded": false
+          },
+          "onePiece": {
+            "id": "m2-male-training-onepiece-v1",
+            "visible": true
+          }
+        }
+      },
+      "visible": [
+        "m2-male-training-onepiece-v1",
+        "m1b-uniform-shoes"
+      ]
+    },
+    {
+      "case": "dispose during delayed selection releases pending actor resources",
+      "passed": true
+    },
+    {
+      "case": "female skirt solver is created only on first skirt selection",
+      "passed": true
+    }
+  ],
+  "scope": "CPU selected-outfit preparation fixtures; no browser/GPU/action acceptance"
+}

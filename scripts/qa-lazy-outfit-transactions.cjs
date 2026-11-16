@@ -81,10 +81,20 @@ const [base,build,folder]=process.argv.slice(2),out=path.resolve(folder);
   // A delayed garment must also be harmless after the owning actor is gone.
   assert.equal((await page.evaluate(()=>__debug.command({type:'bodySelect',bodyType:'male'}))).applied,true);
   await page.evaluate(()=>__debug.setBodyMode('base'));
-  assert.equal((await outfit(5))?.applied,true);
+  report.baseModeSelection=await outfit(5);
+  assert.equal(report.baseModeSelection?.applied,true,JSON.stringify(report.baseModeSelection));
   await page.evaluate(()=>__debug.setBodyMode('dressed'));
   assert.equal(await page.evaluate(()=>__debug.avatar().getOutfitInfo().equipment.items.onePiece.visible),true);
   report.checks.push('selecting an unvisited outfit in base mode prepares it for atomic dressed-mode restore');
+  await outfit(0);
+  await page.evaluate(()=>{
+   __debug.setBodyMode('base');const a=__debug.avatar(),m=a.root.getObjectByProperty('uuid',a.getAssetProfile().meshRoles.body[0]);
+   const p=m.geometry.attributes.position;p.setX(0,p.getX(0)+.001);p.needsUpdate=true;
+  });
+  report.shapeRejection=await outfit(5);assert.equal(report.shapeRejection?.applied,false);
+  assert.match(report.shapeRejection.reason,/refit|changed|differs/);
+  report.checks.push('diagnostic display does not bypass the actual geometry-version fit guard');
+  await page.evaluate(()=>__debug.setBodyMode('dressed'));
   // Replace once more so the following lifetime test owns a real first load.
   for(const bodyType of ['female','male'])assert.equal((await page.evaluate(bodyType=>__debug.command({type:'bodySelect',bodyType}),bodyType)).applied,true);
   const startedDisposed=new Promise(r=>started=r),disposedGate=new Promise(r=>release=r);releasePending=release;
@@ -102,7 +112,7 @@ const [base,build,folder]=process.argv.slice(2),out=path.resolve(folder);
   await page.evaluate(()=>{delete window.__qaOldActor;delete window.__qaDisposedOutfit;});
   report.checks.push('actor replacement during first garment load disposes old ownership; late result leaves current actor and recipe unchanged');
   assert.equal(report.errors.length,0);report.status='passed';await page.screenshot({path:path.join(out,'restored.png')});
- }catch(error){report.status='failed';report.error=String(error);process.exitCode=1;await page.screenshot({path:path.join(out,'failure.png')}).catch(()=>{});}
+ }catch(error){report.status='failed';report.error=String(error);report.stack=error.stack;process.exitCode=1;await page.screenshot({path:path.join(out,'failure.png')}).catch(()=>{});}
  finally{releasePending?.();const video=page.video();await context.close();await video.saveAs(path.join(out,'normal1x.webm'));await browser.close();await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));}
  console.log(JSON.stringify({out,status:report.status,checks:report.checks,error:report.error}));
 })().catch(error=>{console.error(error);process.exitCode=1;});
