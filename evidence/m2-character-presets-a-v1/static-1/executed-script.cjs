@@ -1,0 +1,42 @@
+// Bounded A sample production using the fixed shared workbench, no product edits.
+const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict'),crypto=require('node:crypto');
+const root=process.env.GAMEMAKE_ROOT||'F:/gamemake';
+const {chromium}=require(path.join(root,'prototype/node_modules/playwright'));
+const spec=require('./selection.json'),[base,destination]=process.argv.slice(2),out=path.resolve(destination);
+const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
+const ids={female:'027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95',male:'62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff'};
+const R={spec,status:'running',cases:[],errors:[],scope:'Actual UI v5 downloads and fresh-context file reads; frozen neutral same-pose geometry views. No performance or live claims.'};
+const ready=p=>p.waitForFunction(()=>window.__debug?.ready&&!document.querySelector('#appearance-fields').disabled&&!document.querySelector('#appearance-identity-fields').disabled,null,{timeout:60000});
+async function choose(p,id,value){await p.locator(id).selectOption(String(value));await ready(p);assert.equal(await p.locator('#appearance-status').getAttribute('data-error'),'false')}
+async function open(browser,sex){const c=await browser.newContext({viewport:{width:1800,height:1120},acceptDownloads:true});const p=await c.newPage();p.on('pageerror',e=>R.errors.push(String(e)));await p.goto(base+'?workbench=appearance&body='+sex);await ready(p);assert.equal(await p.evaluate(()=>__debug.buildInfo.shortId),spec.build);assert.equal(await p.evaluate(()=>__debug.avatar().profile.sha256),ids[sex]);return{c,p}}
+async function exportFile(p,file){const pending=p.waitForEvent('download');await p.locator('#appearance-download').click();const d=await pending;await d.saveAs(file);return JSON.parse(await fs.readFile(file,'utf8'))}
+async function importFile(p,file){const pending=p.waitForEvent('filechooser');await p.locator('#appearance-read').click();await(await pending).setFiles(file);await ready(p);assert.equal(await p.locator('#appearance-status').getAttribute('data-error'),'false')}
+async function geometryPanel(p){const panel=p.locator('#appearance-geometry');if(!await panel.evaluate(x=>x.open))await panel.locator('summary').click()}
+(async()=>{await fs.mkdir(path.dirname(out),{recursive:true});await fs.mkdir(out);await fs.mkdir(path.join(out,'recipes'));await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));await fs.copyFile(path.join(__dirname,'selection.json'),path.join(out,'selection.json'));let browser;try{
+ browser=await chromium.launch({channel:'chrome',headless:true});
+ for(const sex of spec.bodies){let pose=null;const controls=new Map();
+  for(const item of spec.samples){const name=sex+'-'+item.id,file=path.join(out,'recipes',name+'.v5.json');let {c,p}=await open(browser,sex);
+   await p.evaluate(()=>{__debug.setPaused(true);__debug.setOutfit(0)});
+   for(const[id,value]of [['#appearance-hair-style','original'],['#appearance-hair-color','black'],['#appearance-skin-tone','original'],['#appearance-eye-color','brown'],['#appearance-lip-color','original']])await choose(p,id,value);
+   await geometryPanel(p);for(const[id,value]of [['#mouth-width-sample',item.mouthWidth],['#brow-sample',item.browSample],['#nose-sample',item.noseSample],['#eye-sample',item.eyeSample]])await choose(p,id,value);
+   const record=await exportFile(p,file);assert.equal(record.schema,'workbench-appearance-recipe-v5');assert.equal(record.base.sha256,ids[sex]);for(const k of ['mouthWidth','browSample','noseSample','eyeSample'])assert.equal(record.geometry[k],item[k]);
+   await c.close();({c,p}=await open(browser,sex));assert.equal(await p.evaluate(()=>Object.keys(localStorage).length),0);const before=await p.evaluate(()=>JSON.parse(__debug.exportAppearanceRecipe()));await importFile(p,file);const restored=await p.evaluate(()=>JSON.parse(__debug.exportAppearanceRecipe()));assert.deepEqual(restored,record);
+   await p.evaluate(()=>{const d=__debug;d.reset();d.setDynamics(false);d.setPaused(true);d.command({type:'speaking',value:false});d.command({type:'expression',name:'neutral'});d.command({type:'gaze',target:null})});
+   if(!pose)pose=await p.evaluate(()=>{const a=__debug.avatar(),nodes=[];a.vrm.scene.traverse(n=>nodes.push({name:n.name,p:n.position.toArray(),q:n.quaternion.toArray(),s:n.scale.toArray()}));return{nodes,root:{p:a.root.position.toArray(),q:a.root.quaternion.toArray(),s:a.root.scale.toArray()}}});
+   const row={id:name,recipe:'recipes/'+name+'.v5.json',recipeSha256:sha(await fs.readFile(file)),record,cleanContextInitial:before,cleanContextRoundtrip:true,shots:[]};
+   for(const hair of ['none','original']){
+    await choose(p,'#appearance-hair-style',hair);
+    for(const direction of hair==='none'?['front','side','diagonal']:['front','side','room']){
+     const result=await p.evaluate(({pose,direction})=>{const d=__debug,a=d.avatar(),em=a.vrm.expressionManager,nodes=[];a.vrm.scene.traverse(n=>nodes.push(n));if(nodes.length!==pose.nodes.length)throw Error('pose topology mismatch');
+      a.root.position.fromArray(pose.root.p);a.root.quaternion.fromArray(pose.root.q);a.root.scale.fromArray(pose.root.s);nodes.forEach((n,i)=>{const s=pose.nodes[i];if(n.name!==s.name)throw Error('pose node mismatch');n.position.fromArray(s.p);n.quaternion.fromArray(s.q);n.scale.fromArray(s.s)});
+      for(const e of em.expressions)em.setValue(e.expressionName,0);a.livePresentation.refreshEyeBlinkCompatibility();a.root.updateMatrixWorld(true);a.vrm.scene.traverse(m=>{if(m.isSkinnedMesh)m.skeleton.update()});
+      const cam=d.cameraObject(),old={p:cam.position.clone(),q:cam.quaternion.clone(),fov:cam.fov};if(direction==='room'){cam.fov=45;cam.position.set(5.8,4.5,7.8);cam.lookAt(0,.65,0)}else{cam.fov=30;const target=a.vrm.humanoid.getRawBoneNode('head').getWorldPosition(cam.position.clone());target.y+=.035;const angle=direction==='side'?Math.PI/2:direction==='diagonal'?Math.PI/4:0;const offset=cam.position.clone().set(0,0,.78).applyAxisAngle(cam.position.clone().set(0,1,0),a.root.rotation.y+angle);cam.position.copy(target).add(offset);cam.lookAt(target)}cam.updateProjectionMatrix();cam.updateMatrixWorld(true);d.renderer.render(d.scene,cam);
+      const bones=[],lights=[];a.vrm.scene.traverse(n=>{if(n.isBone)bones.push([n.name,n.matrixWorld.toArray()])});d.scene.traverse(n=>{if(n.isLight)lights.push({name:n.name,intensity:n.intensity,color:n.color.toArray(),matrix:n.matrixWorld.toArray()})});const r={sim:d.snapshot().simulationTime,png:d.renderer.domElement.toDataURL(),bones,lights,camera:{world:cam.matrixWorld.toArray(),projection:cam.projectionMatrix.toArray()},appearance:a.appearance.getState(),geometry:a.facialGeometry.getState(),weights:Object.fromEntries(em.expressions.map(e=>[e.expressionName,em.getValue(e.expressionName)]))};cam.position.copy(old.p);cam.quaternion.copy(old.q);cam.fov=old.fov;cam.updateProjectionMatrix();cam.updateMatrixWorld(true);return r;
+     },{pose,direction});const shot=name+'-'+hair+'-'+direction;await fs.writeFile(path.join(out,shot+'.png'),Buffer.from(result.png.split(',')[1],'base64'));delete result.png;
+     const key=hair+'-'+direction,lock=JSON.parse(JSON.stringify({sim:result.sim,bones:result.bones,lights:result.lights,camera:result.camera,weights:result.weights}));if(controls.has(key))assert.deepEqual(lock,controls.get(key),'locked pose/light/camera/expression '+shot);else controls.set(key,lock);
+     for(const k of ['hairColor','skinTone','eyeColor','lipColor'])assert.equal(result.appearance[k],spec.controls[k]);await fs.writeFile(path.join(out,shot+'.json'),JSON.stringify(result));row.shots.push(shot+'.png');
+    }
+   }R.cases.push(row);await fs.writeFile(path.join(out,'report.json'),JSON.stringify(R,null,2));await c.close();console.log('DONE',name);
+  }await fs.writeFile(path.join(out,sex+'-pose.json'),JSON.stringify(pose));
+ }assert.equal(R.errors.length,0);R.status='captured-visual-selection-review-required';
+}catch(e){R.status='failed-preserved';R.error=String(e);console.error(e);process.exitCode=1}finally{if(browser)await browser.close();await fs.writeFile(path.join(out,'report.json'),JSON.stringify(R,null,2));console.log(R.status)}})();

@@ -1,0 +1,15 @@
+{
+  "schema": "bounded-character-selection-a-v1",
+  "source": "026ab20",
+  "build": "0fb420e5b124",
+  "selectionCount": 1,
+  "controls": {"hairStyle":"original","hairColor":"black","skinTone":"original","eyeColor":"brown","lipColor":"original","outfit":0},
+  "bodies": ["female","male"],
+  "samples": [
+    {"id":"baseline","label":"原始几何","mouthWidth":0,"browSample":"none","noseSample":"none","eyeSample":"none","reason":"同色基准，保原几何；不计作新增人物。"},
+    {"id":"a","label":"窄嘴与较宽眼裂","mouthWidth":-0.12,"browSample":"none","noseSample":"none","eyeSample":"aperture-width105-v2","reason":"以已验证端点观察眼口横向比例差异，不改变颌面、眼距或年龄。"},
+    {"id":"b","label":"宽嘴与眉鼻组合","mouthWidth":0.12,"browSample":"height3-spacing3-v2","noseSample":"tip-forward2-v2","eyeSample":"none","reason":"以口宽、眉位和鼻尖突出形成与A不同的局部对照；特别检查眉浮起和表情过强。"}
+  ],
+  "staticViews": ["none-front","none-side","none-diagonal","original-front","original-side","original-room"],
+  "limits": ["One selection only; no amplitude sweep", "Identical choices across samples; original skin textures differ between sexes", "Neutral frozen pose for geometry comparison; normal live runs separate", "No new face operator, body, hair, animation or controller", "Not an age/face-outline library or six new finished hosts", "Original assets and public entry remain unchanged"]
+}
