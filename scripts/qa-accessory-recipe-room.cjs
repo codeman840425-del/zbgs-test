@@ -2,7 +2,7 @@ const {chromium}=require('../prototype/node_modules/playwright');
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
 const {verifyCandidate}=require('./qa-m1-common.cjs');
 const [url,build,destination]=process.argv.slice(2),out=path.resolve(destination);
-const r={build,status:'running',checks:[],errors:[],scope:'Original female hat/ears/surface and original male ears; v8 whole-look restore, known ponytail sitting defect retained. Not target-PC or visual acceptance.'};
+const r={build,status:'running',checks:[],errors:[],sessions:[],scope:'Original female hat/ears/surface and original male ears; v8 whole-look restore, known ponytail sitting defect retained. Not target-PC or visual acceptance.'};
 (async()=>{
  await fs.mkdir(out,{recursive:false});await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
  const browser=await chromium.launch({channel:'chrome',headless:true});
@@ -11,7 +11,8 @@ const r={build,status:'running',checks:[],errors:[],scope:'Original female hat/e
   const page=await context.newPage();page.on('pageerror',e=>r.errors.push(name+':'+e));
   await page.goto(url+'?body='+body+'&workbench=appearance');await page.waitForFunction(()=>window.__debug?.ready,null,{timeout:60000});
   await page.waitForFunction(()=>document.querySelector('#appearance-form')?.getAttribute('aria-busy')!=='true');
-  await verifyCandidate(page,{build,assetId:body==='female'?'beta-base-female-m1':'beta-base-male-m1b',sha256:body==='female'?'027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95':'62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff'});
+  const identity=await verifyCandidate(page,{build,assetId:body==='female'?'beta-base-female-m1':'beta-base-male-m1b',sha256:body==='female'?'027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95':'62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff'});
+  r.sessions.push({name,identity});
   return{context,page,close:async()=>{const v=page.video();await context.close();await v.saveAs(path.join(out,name+'.webm'));await v.delete();}};
  };
  const record=p=>p.evaluate(()=>JSON.parse(__debug.exportAppearanceRecipe()));
@@ -24,6 +25,7 @@ const r={build,status:'running',checks:[],errors:[],scope:'Original female hat/e
   baseline=await record(p);assert.equal(baseline.schema,'workbench-appearance-recipe-v8');
   await select(p,'#appearance-hair-style','female-ponytail-v1');await select(p,'#appearance-hair-color','brown');
   await select(p,'#appearance-hat','single');await select(p,'#appearance-ears','pair');await select(p,'#appearance-surface-freckles','0.5');
+  const blockedFace=await p.evaluate(()=>__debug.command({type:'faceGeometry',mouthWidth:.04}));assert.equal(blockedFace.applied,false);
   target=await record(p);assert.equal(target.accessories.hat.selection,'single');assert.equal(target.accessories.ears.selection,'pair');assert(target.surface.layers.length);
   await p.locator('#appearance-save').click();storage=await active.context.storageState();
   assert((await apply(p,baseline)).applied);assert.deepEqual(await record(p),baseline);assert.equal(await p.locator('#appearance-hat').inputValue(),'none');
