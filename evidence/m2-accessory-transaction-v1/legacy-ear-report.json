@@ -1,0 +1,44 @@
+{
+  "schema": "zbgs-paired-ear-runtime-qa-v1",
+  "passed": true,
+  "checks": [
+    "female actual fit/GLTF left/pair/right/none, independent materials, clone failure preserves old, repeated toggles and exact dispose",
+    "male actual fit/GLTF left/pair/right/none, independent materials, clone failure preserves old, repeated toggles and exact dispose",
+    "two actors allocate independent geometry and mutable materials; first dispose preserves second",
+    "continuous material dispose listeners reenter none without recursion or duplicate release",
+    "dispose during actual head childadded removes candidate and releases its two materials and geometry once",
+    "dispose during actual material clone releases returned local clone without attaching or committing it",
+    "newer right intent during head childadded cancels candidate and preserves only the newer commit",
+    "badAsset explicitly rejected without changing ears or installing accessory",
+    "badFit explicitly rejected without changing ears or installing accessory",
+    "unsupportedBody explicitly rejected without changing ears or installing accessory",
+    "synchronous empty layer and none make zero network requests for unlisted body and missing accessory manifest",
+    "none supersedes delayed actual asset parse/load and releases exact source geometry without late installation",
+    "dispose supersedes delayed actual asset parse/load and releases exact source geometry without late installation",
+    "late503 supersedes delayed actual asset parse/load and releases exact source geometry without late installation",
+    "newerSide supersedes delayed actual asset parse/load and releases exact source geometry without late installation",
+    "restartDuringCleanup supersedes delayed actual asset parse/load and releases exact source geometry without late installation"
+  ],
+  "observations": [
+    {
+      "bodyType": "female",
+      "assetSha256": "e07f8b1078ba125e186dae5627352ade4bcb3f0ef649645b5168ece82a81b146",
+      "fitSha256": "22c157adcd53f80e2f1d95e16c48c9a27fd2283a6d2e6b2cd71349fde18f0174",
+      "sourceEarGeometryUnchanged": true,
+      "geometryDisposed": 1,
+      "materialDisposed": 2
+    },
+    {
+      "bodyType": "male",
+      "assetSha256": "e07f8b1078ba125e186dae5627352ade4bcb3f0ef649645b5168ece82a81b146",
+      "fitSha256": "92bb47d13238fbec1677b359e9260473b63685234af9f27c8e844575399f7596",
+      "sourceEarGeometryUnchanged": true,
+      "geometryDisposed": 1,
+      "materialDisposed": 2
+    }
+  ],
+  "runtimeSourceSha256": "cd89002bcbed08c69e467068dbee9bbffc6ec59f55865f8ab272ecd99912102b",
+  "GPUUsed": false,
+  "browserStarted": false,
+  "visualAcceptance": false
+}
