@@ -1076,10 +1076,16 @@ class CharacterScene extends Phaser.Scene {
         this.actor.setExpression(cmd.name);
         return {applied:true};
       case "accessory":
-        if (cmd.kind === "hat") return this.actor.headwear?.setSelection(cmd.value)
-          ?? {applied:false,reason:'当前人物没有帽子适配入口'};
-        if (cmd.kind === "ears") return this.actor.rigidAccessories?.setSelection(cmd.value)
-          ?? {applied:false,reason:'当前人物没有成对耳饰适配入口'};
+        if (cmd.kind === "hat" || cmd.kind === "ears") {
+          const actor=this.actor;
+          const layer=cmd.kind==='hat'?actor.headwear:actor.rigidAccessories;
+          const result=layer?.setSelection(cmd.value) ?? {applied:false,reason:'当前人物没有此附件的适配入口'};
+          const settled=outcome=>{
+            if(!this.isPeer && this===controller && this.actor===actor)notifyAppearanceStateChanged(actor);
+            return outcome;
+          };
+          return typeof result?.then==='function'?result.then(settled,error=>{settled();throw error;}):settled(result);
+        }
         // Admission must read the controller's current intent, not last frame's
         // live-layer snapshot (dance and equip may arrive in the same tick).
         if (cmd.kind === "mic" && cmd.value && (this.mode === "dance" ||
