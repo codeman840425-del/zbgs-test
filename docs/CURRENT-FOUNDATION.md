@@ -18,8 +18,9 @@ M3随机抽取/规模化内容未开工，但稳定角色ID、确定性多记录
 
 1. 原生产索引已增到8流程：male-jaw-source/mouth/hair-fit接入。e42源集成cacbc0d；独立QA发现hair check间接写范围漏报，修复9283集成6432d8a。8回读、原负例/13新负例/2写范围负例通过，不执行导出。见evidence/production-m2-source-index-root-v1及independent-review-v1。索引只是入口，不是M2完成。
 2. 最终装备集合已在b819接入现有加载器和M1套装，0506393补旧equip与新equipSet竞态。real male loader、失败/取消/释放CPU通过。b819独立构建02a14a4b2a07，evidence/m2-equipment-set-room-02a-v1真实房间裤裙/长短裤/基础模式与1倍速移动检查通过，但这是旧候选，不包含后加coverage和竞态修复，不重标。
-3. 多mask覆盖集合及prepare/commit已在共享源完成待集成，root/coverage_cleanup（明确gpt-6.1-sol/high）修首次工厂失败清理和后续失败保原。6组定向CPU及原加载门通过，evidence/equipment-coverage-cleanup-v2。v1夹具失败保留。接下来固定提交/独立构建，补房间覆盖/换装受影响回归，不重开M1动作调参。
-4. 男性真实蒙皮短外搭样件由旧在途prototype独立制作，experiments/m2-layered-outer-v1。初次沿原上衣分裂render法线推壳确证自身/肩腋穿插，源和静图失败保留，未接入/未通过。替代方向是独立低密躯干裁片与肩带、合几何缝后重算法线，不能继续扫外推偏移。待完成归档取准确提交；后续派工须显式模型/深度。
+3. 多mask覆盖集合及prepare/commit已提交1f5172f并核实远端。43b91f8补实际v6导入/坏资源保原测试；独立构建84b0c3f350cb在临时4207。原男女六次换装、基础覆盖恢复、配方往返通过；4轮第二女角色create/render/dispose回86几何41纹理；男女完整1倍速动作链各25状态门通过，42.54/40.89秒、固定镜头无变化。evidence/m2-equipment-coverage-{fixed-build,room-84b-v1,lifecycle-84b-v1,chain-84b-v1}。连续视觉仍待独立观看；真实仍仅女top mask，多mask叠衣只有合成测试。6组失败清理CPU证据继续有效，不重调M1动作。
+4. 男性外搭第一结构e6faee0已集成39d620d，源与静图失败归档。新显式派工outer_panels（gpt-6.1-sol/high，复杂几何/蒙皮）在experiments/m2-outer-panels-v2，独立裁片第一版静态无交叉且可重复导出，但root看三图发现肩带悬浮、袖窿阶梯与硬板轮廓；已要求保留并按实际肩/躯干截面修正。尚未游戏接入，不把零交叉当服装通过。未动封板裙舞。
+5. 新显式派工single_equipment_contract（gpt-6.1-sol/high，复杂异步选择边界）在experiments独立目录核查旧equip入口绕过最终集合规则；已复现并修复，待取得准确提交集成。真实男GLB+合成slot别名只证明规则；不冒称连体/外搭fit。其变更尚未包含在84b录像中，后续按影响补测。
 
 ## 派工纪律与桌面钩子
 
@@ -29,4 +30,4 @@ scripts/agent-policy为用户要求的PreToolUse入口校验。用户安装并�
 
 ## 恢复与资源
 
-一次只占用一个GPU/录屏/重Blender/编码窗口。prototype刚完成静图并释放；root可安排浏览器。临时4207提供b819固定检查候选，公开4196不变；不需要时关闭自己创建的4207进程，勿杀用户其他服务。源/脚本/证据待当前集成提交与远端核实，不把历史backup冒充最新。最新工作包P0–P6见阶段计划；勿恢复旧等待审美、有限M2结束或先做M3建议。
+一次只占用一个GPU/录屏/重Blender/编码窗口。目前outer_panels获源修正窗口，root浏览器已退出。临时4207提供84b固定检查候选，公开4196不变；只关闭自己创建的临时服务，勿杀用户其他服务。最新工作包P0–P6见阶段计划；勿恢复旧等待审美、有限M2结束或先做M3建议。

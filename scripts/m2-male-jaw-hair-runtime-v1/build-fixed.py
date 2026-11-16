@@ -2,7 +2,7 @@ from pathlib import Path
 import subprocess,hashlib,json,shutil,time,argparse
 p=argparse.ArgumentParser();p.add_argument('--repo',default=str(Path(__file__).resolve().parents[2]));p.add_argument('--commit',default='5dfffaee86bbc82a18e24088ecf45a8b9bbc7f74');p.add_argument('--worktree',required=True);p.add_argument('--out',required=True);a=p.parse_args()
 repo=Path(a.repo).resolve();work=Path(a.worktree).resolve();out=Path(a.out).resolve();assert not work.exists();out.parent.mkdir(parents=True,exist_ok=True);out.mkdir()
-commit=a.commit;report={'commit':commit,'worktree':str(work),'steps':[]}
+commit=subprocess.check_output(['git','rev-parse',a.commit+'^{commit}'],cwd=repo,text=True).strip();report={'requestedCommit':a.commit,'commit':commit,'worktree':str(work),'steps':[]}
 def run(name,args,cwd):
  t=time.perf_counter();r=subprocess.run(args,cwd=cwd,capture_output=True);(out/(name+'.stdout.log')).write_bytes(r.stdout);(out/(name+'.stderr.log')).write_bytes(r.stderr);report['steps'].append({'name':name,'args':args,'exitCode':r.returncode,'seconds':time.perf_counter()-t});assert r.returncode==0,r.stderr.decode(errors='replace');return r.stdout
 try:

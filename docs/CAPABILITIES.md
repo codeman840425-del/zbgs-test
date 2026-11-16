@@ -4,7 +4,9 @@
 
 > 当前增量：4196固定版 **fe5c528d9437**（集成源937df9f，制作源5dfffae）。既有男性短发已通过独立fit接入male-jaw，v6保存实际适配身份，旧v1–v5保历史语义；39 CPU、11实际浏览器门、两条约30秒1×与126文件新检出重建完成。公开移动/换发/v6下载/两片播放已核。技术检查与抽帧审看不等于用户画风验收。A选样已交付但房间辨识度不足；普通电脑未测、首用长帧和封板裙舞限制保留。精确指针delivery/appearance-workbench.json，旧0fb可回滚。
 
-更新：2026-11-15。本文件只保留当前限定状态；逐轮推进、旧公开指针和失败试验流水的原字节归档在 [历史清单](history/CAPABILITIES-before-current-consolidation-bcade.md)。历史中的“当前/下一步”不是新任务，原证据状态不改标。
+更新：2026-11-16。本文件保留各项实际验证范围；逐轮推进、旧公开指针和失败试验流水的原字节归档在 [历史清单](history/CAPABILITIES-before-current-consolidation-bcade.md)。历史中的“当前/下一步”不是新任务，原证据状态不改标。
+
+装备候选增量：源码43b91f807d6ea345f4376682528e920c987b0be9，独立构建84b0c3f350cb，公开4196仍fe5。原男女现有裤裙/长短裤切换、基础身体恢复、真实v6导入往返及错误资源保原通过；四轮第二女性创建/覆盖切换/销毁，86几何、41纹理回到暖机基线（仅短测资源数量）。同版男女正常1×完整动作链状态门通过，录像在evidence/m2-equipment-coverage-chain-84b-v1；视觉结论仍单列，不继承旧版用户验收。多mask并集仍只有合成精确拓扑测试，真实外搭/连体尚未通过。男性外搭第一结构39d620d保留可编辑源和明确穿插失败，新裁片结构另行制作；不能称叠穿已完成。相关证据：evidence/m2-equipment-coverage-fixed-build、m2-equipment-coverage-room-84b-v1、m2-equipment-coverage-lifecycle-84b-v1、m2-layered-outer-v1。
 
 ## 当前交付与阶段边界
 
@@ -13,7 +15,7 @@
 - **4196 /?workbench=appearance：fe5c528d9437**，源937df9f，experiments/rebuild-male-jaw-hair-fe5/prototype/dist。B同版1×见evidence/m2-male-jaw-hair-runtime-v1；delivery/history/appearance-workbench-0fb420e5b124.json保回滚。旧版本证据不改标；当前备份以delivery回执为准。
 - **4195：77e46efb5441** 保留M1基础。用户对原女裙/原男短裤所录完整1×链接受“可以作为下一阶段基础”，明确排除已登记裙瑕疵；仅这些影片范围，不外推新外貌、最终画风、普通电脑或所有组合。回执 `evidence/m1-close-77e46-user-review.json`。
 - **裙装与该30秒舞已封板。** 038裙实现随77保留，已知硬折/局部接触/成本缺口不是继续精修的授权；30秒Rokoko路线获认可，唯一适配尝试后封存，不再追加调参。依据 `evidence/m1-stage-close-user-direction-2026-11-15.json`、`evidence/rokoko-30s-advisor-v1/USER-REVIEW.json`。旧失败仍失败，不因封板变成全部通过，也不因旧失败重新派活。
-- 有限外观闭环及本轮反馈修复：男女独立三分区已获用户接受；原男女新几何嘴±12%/眉3mm/鼻2mm/眼5%、虹膜v3、本地v5配方已接入。旧范围/身份保留；男jaw仍只0/+4%，女jaw/waist无四域准入。新外观待用户观看，不扩完整M2/M3。
+- 有限外观闭环及本轮反馈修复：男女独立三分区已获用户接受；原男女新几何嘴±12%/眉3mm/鼻2mm/眼5%、虹膜v3、本地v5配方已接入。旧范围/身份保留；男jaw仍只0/+4%，女jaw/waist无四域准入。具体技术范围保留，整体M2继续按最新长目标推进；不启动M3。
 - bcade只新增换体提交前compileAsync准备及等待后最新状态采纳：22项CPU、4组浏览器事务、旧新正常1×与公开smoke通过；三轮真实compile后取消逐cacheKey/usedTimes回初值另有限定通过。见 `evidence/body-switch-compile-v1`、`evidence/body-switch-compile-browser-bcade-v1`、`evidence/body-switch-compile-lifetime-bcade-v1/RESULT.md`。**不把77整链、aa短后台或a0dd243秒会话重标为bcade全路径/长期通过。**
 - 开发机首次长帧仍在：a0dd改脸103–109ms；bcade换体同法A-B-A约322ms，均非普通电脑验收。用户明确“暂时没有，保留实测缺口继续”，见 `evidence/ordinary-pc-deferred-2026-11-15.json`。01a主色首用方案未改善整体出帧已撤回，不能重当未试建议。
 
@@ -215,9 +217,9 @@ HAIR-01/PIPE-03的B已完成本次限定闭环：male-jaw头顶/耳侧/后脑与
 | CUSTOM-M04 腮红/修容/面部与身体图案 | 未实现 | 部位参数/层级遮罩/替换卸下恢复 | P3 |
 | CUSTOM-M05 美甲几何/颜色/图案 | 未实现 | 指甲几何随手指/握持；左右与多指规则 | P2/P3/P4 |
 | CUSTOM-E01 上装/裤裙/鞋基础 | 精确原男女独立衣物已接入，EQUIP-01；旧女裙封板 | 不继承新的体型、长裙、宽松衣和鞋跟范围 | P1/P4 |
-| CUSTOM-E02 连体装/外套 | 集合冲突代码已实现但未通过完整机制验收；男性外搭新源制作中 | onePiece占top+bottom；outer显式layerWith；须真实服装，不以逻辑fixture替代 | P0/P1/P4 |
+| CUSTOM-E02 连体装/外套 | 集合冲突代码已实现但未通过完整机制验收；男性外搭第一结构静态穿插失败封存，新裁片结构制作中 | onePiece占top+bottom；outer显式layerWith；须真实服装，不以逻辑fixture替代 | P0/P1/P4 |
 | CUSTOM-E03 贴身层/袜 | 未实现独立接入 | 对应覆盖、蒙皮/材质/与鞋裤配对，不靠人体染色冒充全部结构 | P1/P4 |
-| CUSTOM-E04 占用冲突/声明叠穿/身体衣层覆盖及恢复 | equipment-set候选已接，真实原男加载器/竞态门通过；多mask新代码CPU通过，浏览器待测 | 旧新请求竞态0506393、coverage清理候选有失败/修复证据；衣层覆盖尚缺，连体/外搭资产未通过 | P0/P1 |
+| CUSTOM-E04 占用冲突/声明叠穿/身体衣层覆盖及恢复 | equipment-set候选已接，真实原男加载器/竞态门通过；多mask代码CPU通过，84b原男女覆盖恢复/配方往返/四轮双实例回收浏览器通过 | 旧新请求竞态0506393、coverage清理1f5172f有失败/修复证据；实际只消费原女top mask，衣层覆盖尚缺，连体/外搭资产未通过 | P0/P1 |
 | CUSTOM-E05 styleId、多体型fit、版型权重/动态配置 | 短发同style独立fit已验；衣服同款多体fit机制仍部分 | 同骨架不等于正确skin；禁止整体缩放/改SHA绕校验 | P1/P2/P4 |
 | CUSTOM-E06 材质与分区配色 | 男短裤既有材质recipe有；通用衣物分区制作/组合未齐 | style/材料/配色身份分开；不再改原控制器 | P3/P4 |
 | CUSTOM-E07 长裙/宽松外套/披肩形变动态 | 冻结短裙成果保留；新结构未实现 | 新技术样件、声明参数/动作范围、性能与暂停恢复；禁止回头精修旧裙 | P4 |
