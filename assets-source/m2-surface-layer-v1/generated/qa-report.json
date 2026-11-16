@@ -1,0 +1,115 @@
+{
+  "passed": true,
+  "repeatPngAndManifestBytesExact": true,
+  "bodies": [
+    {
+      "bodyType": "female",
+      "sourcePixelSha256": "fc2a6cb2754424dbe5e1e2803dc530d90214832fcb088bfb785f0982dd148a52",
+      "layers": [
+        {
+          "layer": "freckles",
+          "nonzeroAlphaPixels": 1854,
+          "regionPixels": 19380,
+          "protectedChangedPixels": 0
+        },
+        {
+          "layer": "blush",
+          "nonzeroAlphaPixels": 14346,
+          "regionPixels": 17090,
+          "protectedChangedPixels": 0
+        }
+      ],
+      "overlapPixels": 1354,
+      "stackPixelSha256": "93864c862f8f4591ff4888f3f986943617ba32a77e165885cdf2448e8f34b95b",
+      "reverseOrderPixelSha256": "5fc99e3d1addacef21a668ed9fcc5578f4804937ef330b83173c6867bfcbb8cc",
+      "sourceAlphaUnchanged": true,
+      "unloadReturnsExactSourcePixels": true
+    },
+    {
+      "bodyType": "male",
+      "sourcePixelSha256": "37ae1f123579481ce91065aa1c9d9115273df74388b10f4534b44ea23e0eba99",
+      "layers": [
+        {
+          "layer": "freckles",
+          "nonzeroAlphaPixels": 1770,
+          "regionPixels": 20510,
+          "protectedChangedPixels": 0
+        },
+        {
+          "layer": "blush",
+          "nonzeroAlphaPixels": 14316,
+          "regionPixels": 17358,
+          "protectedChangedPixels": 0
+        }
+      ],
+      "overlapPixels": 1258,
+      "stackPixelSha256": "f0784f6941b06c1a9c8c7b8c5d3efa60a6645d31fb919f1c276432f8b6a83833",
+      "reverseOrderPixelSha256": "9d2da2d9f0e1e8eec5aa8d345b770cff7d2426f45780ca953275ba67d30ea91b",
+      "sourceAlphaUnchanged": true,
+      "unloadReturnsExactSourcePixels": true
+    }
+  ],
+  "actualParameterExportEdits": [
+    {
+      "body": "female",
+      "layer": "freckles",
+      "parameter": "opacity",
+      "value": 0.34500000000000003,
+      "variantPngSha256": "c61c9eab8024bfe6e31a3fd51cef4aa84ec1bb548a29918ed42011383f5a4d8b",
+      "otherLayerExact": true
+    },
+    {
+      "body": "male",
+      "layer": "freckles",
+      "parameter": "opacity",
+      "value": 0.34500000000000003,
+      "variantPngSha256": "8ccd875d1b3a41267b8d663b65ad40c7b0d3245f832982ea0c3567ee5c89e6d2",
+      "otherLayerExact": true
+    },
+    {
+      "body": "female",
+      "layer": "blush",
+      "parameter": "opacity",
+      "value": 0.165,
+      "variantPngSha256": "9afd1443408c0511a949d0a1817707ea937b6244d4708245009784be69e10e86",
+      "otherLayerExact": true
+    },
+    {
+      "body": "male",
+      "layer": "blush",
+      "parameter": "opacity",
+      "value": 0.165,
+      "variantPngSha256": "9245d9535fc8213614cf2e8f83e404f829d1e515d543044631cbedecfc5d41b4",
+      "otherLayerExact": true
+    }
+  ],
+  "sideProof": [
+    {
+      "body": "female",
+      "geometryAliasPixels": 0,
+      "leftOnlyAlphaOnRight": 0
+    },
+    {
+      "body": "male",
+      "geometryAliasPixels": 0,
+      "leftOnlyAlphaOnRight": 0
+    }
+  ],
+  "rejectedInputs": [
+    "opacity -0.1",
+    "opacity 1.1",
+    "opacity nan",
+    "opacity True",
+    "wrong body identity",
+    "unknown layer parameter"
+  ],
+  "missingInputExitCode": 2,
+  "invalidOpacityInputExitCode": 2,
+  "failedInputWrites": 0,
+  "GPUUsed": false,
+  "runtimeAccepted": false,
+  "limits": [
+    "Rest geometry to UV mask only. Skin layers follow existing Face UVs through expressions without a new deformation proof.",
+    "CPU source-over RGBA8 proof only. Browser decoded pixels, shader/map/shade binding and actual expression/skin tone remain for runtime admission."
+  ]
+}
