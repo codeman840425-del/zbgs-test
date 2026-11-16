@@ -1,0 +1,268 @@
+{
+  "pass": true,
+  "scope": "CPU production appearance/recipe and actual pinned data; GLTF parser uses real arrays but no image decode/GPU; geometry/equipment transaction stub explicit",
+  "sourceSha256": {
+    "character-appearance.js": "cf35ba7238c18678276794d4a784d242c276b66f06f4357825fdfb79bae8836a",
+    "hairstyle-catalog.js": "e171f82929fc208b42cf5b0f6de86ef2a7b3378d33d4e8fd6278704a035e3eb7",
+    "hair-fit-contract.js": "96431e2b82e19cae4dd6e6fb565eb4b6f3b9047c933370598362234fb29924b5",
+    "appearance-recipe.js": "0227bb728e5990702d2dee398d7f2d4cd1e3dbb055abaee0dce52dc94960e2e7"
+  },
+  "tests": [
+    {
+      "name": "exact source public pins and shared GLB independent fit",
+      "pass": true
+    },
+    {
+      "name": "actual jaw loader data and exact hide/TRS; fresh state fit",
+      "pass": true
+    },
+    {
+      "name": "direct expected fit wrong-version rejects before revision/color/cache",
+      "pass": true
+    },
+    {
+      "name": "direct expected fit wrong-id rejects before revision/color/cache",
+      "pass": true
+    },
+    {
+      "name": "direct expected fit wrong-sha rejects before revision/color/cache",
+      "pass": true
+    },
+    {
+      "name": "direct expected fit extra-field rejects before revision/color/cache",
+      "pass": true
+    },
+    {
+      "name": "direct expected fit missing-field rejects before revision/color/cache",
+      "pass": true
+    },
+    {
+      "name": "direct expected fit null rejects before revision/color/cache",
+      "pass": true
+    },
+    {
+      "name": "builtins reject asset or fit and unknown body/style",
+      "pass": true
+    },
+    {
+      "name": "manifest fetched corrupt bytes keep prior style/color and retry",
+      "pass": true
+    },
+    {
+      "name": "fit fetched corrupt bytes keep prior style/color and retry",
+      "pass": true
+    },
+    {
+      "name": "asset fetched corrupt bytes keep prior style/color and retry",
+      "pass": true
+    },
+    {
+      "name": "fit content rejects targetBodySha256",
+      "pass": true
+    },
+    {
+      "name": "fit content rejects sourceBodySha256",
+      "pass": true
+    },
+    {
+      "name": "fit content rejects assetSha256",
+      "pass": true
+    },
+    {
+      "name": "fit content rejects styleId",
+      "pass": true
+    },
+    {
+      "name": "fit content rejects version",
+      "pass": true
+    },
+    {
+      "name": "fit content rejects sourceMaterial",
+      "pass": true
+    },
+    {
+      "name": "fit content rejects physics",
+      "pass": true
+    },
+    {
+      "name": "fit content rejects bone",
+      "pass": true
+    },
+    {
+      "name": "fit content rejects space",
+      "pass": true
+    },
+    {
+      "name": "fit content rejects position",
+      "pass": true
+    },
+    {
+      "name": "fit content rejects quaternion",
+      "pass": true
+    },
+    {
+      "name": "fit content rejects scale",
+      "pass": true
+    },
+    {
+      "name": "fit content rejects hideOriginal",
+      "pass": true
+    },
+    {
+      "name": "two bodies/instances same GLB separate clone/material/fit",
+      "pass": true
+    },
+    {
+      "name": "pending shared load reset then black; cache stays hidden; exactly once disposal",
+      "pass": true
+    },
+    {
+      "name": "pending dispose releases without attachment",
+      "pass": true
+    },
+    {
+      "name": "newer independent color survives older style color request",
+      "pass": true
+    },
+    {
+      "name": "v6 actual fit export fresh-instance import no localstorage",
+      "pass": true
+    },
+    {
+      "name": "all v1-v5 legacy read unchanged original attachment 027bed",
+      "pass": true
+    },
+    {
+      "name": "all v1-v5 legacy read unchanged original attachment 62b44b",
+      "pass": true
+    },
+    {
+      "name": "v1-v5 jaw replacement cannot borrow same asset without fit",
+      "pass": true
+    },
+    {
+      "name": "v6 missing/extra fit and old schema smuggling reject before changes",
+      "pass": true
+    },
+    {
+      "name": "recipe fetched failure rolls back actual fit and outfit",
+      "pass": true
+    },
+    {
+      "name": "recipe concurrent newer color does not roll back user change",
+      "pass": true
+    },
+    {
+      "name": "file async read cancellation preserves newer choice",
+      "pass": true
+    }
+  ],
+  "identities": [
+    {
+      "entry": {
+        "id": "female-bob-v1",
+        "label": "齐颈侧后短发",
+        "manifestUrl": "/assets/m2-hairstyle-v1/manifest.json",
+        "manifestSha256": "98bc1b0874658a22f696834eb622e03aff92f499d41943d285c825a4fe7ee908",
+        "assetSha256": "3dcf01957d8ab72dfc128c6950f0e9600c2c7b801ea774a612058dc4b5d68110",
+        "sourceMaterial": "F00_000_HairBack_00_HAIR",
+        "compatibleBodies": [
+          "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95"
+        ],
+        "legacyImplicitFit": true
+      },
+      "fit": null
+    },
+    {
+      "entry": {
+        "id": "male-sidepart-v1",
+        "label": "偏侧蓬松短发",
+        "manifestUrl": "/assets/m2-male-hairstyle-v1/manifest.json",
+        "manifestSha256": "d7bcf95056cb58650887bc941df384c7f6342042743b310e417fdc7a0a941b73",
+        "assetSha256": "fb5fd49352b7bab0e6d2c0ec3f6e565f0004062e4a8975f1afcd93fb24dd48fd",
+        "sourceMaterial": "M00_000_HairBack_00_HAIR",
+        "compatibleBodies": [
+          "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff"
+        ],
+        "legacyImplicitFit": true
+      },
+      "fit": null
+    },
+    {
+      "entry": {
+        "id": "male-sidepart-v1",
+        "label": "偏侧蓬松短发",
+        "manifestUrl": "/assets/m2-male-jaw-hair-fit-v1/manifest.json",
+        "manifestSha256": "1db5dd6a73d662f0b1e90eb508d1226c626405045cbf02caa7e3a21d373036e9",
+        "assetSha256": "fb5fd49352b7bab0e6d2c0ec3f6e565f0004062e4a8975f1afcd93fb24dd48fd",
+        "sourceMaterial": "M00_000_HairBack_00_HAIR",
+        "compatibleBodies": [
+          "25ac8a8174110d7b0a6bb290ac8cab66ad6939ea522f80cdef62571d2ab24153"
+        ],
+        "legacyImplicitFit": false,
+        "fit": {
+          "id": "male-sidepart-jaw-fit-v1",
+          "version": 1,
+          "url": "/assets/m2-male-jaw-hair-fit-v1/fit.json",
+          "sha256": "004f7b3bdb0b72d85849b13a05c9b4448a060a7a0d2660ebdeb25bd9f5311ad4"
+        },
+        "sourceBodySha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff"
+      },
+      "fit": {
+        "schema": "character-hair-fit-v1",
+        "id": "male-sidepart-jaw-fit-v1",
+        "version": 1,
+        "styleId": "male-sidepart-v1",
+        "targetBodySha256": "25ac8a8174110d7b0a6bb290ac8cab66ad6939ea522f80cdef62571d2ab24153",
+        "sourceBodySha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+        "assetSha256": "fb5fd49352b7bab0e6d2c0ec3f6e565f0004062e4a8975f1afcd93fb24dd48fd",
+        "attachment": {
+          "bone": "head",
+          "space": "raw-head-bind-local",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "quaternion": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "sourceMaterial": "M00_000_HairBack_00_HAIR",
+        "physics": "rigid",
+        "geometryReuse": true,
+        "rawBone": "J_Bip_C_Head",
+        "hideOriginal": {
+          "sourceMesh": 0,
+          "primitive": 5,
+          "materialNames": [
+            "M00_000_HairBack_00_HAIR"
+          ],
+          "hideWholeBody": false
+        },
+        "provenance": {
+          "sourcePackage": "assets-source/m2-male-hairstyle-v1",
+          "originalFitSha256": "9ebd91eb74aa13a4fae6678a86b5489c776b0eaded2e635493f5058906c04220",
+          "sourcePinsSha256": "cb098238f0848a17bee003d68035bff3db066536c4884093253c199480dbc2a1"
+        },
+        "evidence": "evidence/m2-male-jaw-hair-fit-v1/geometry-report.json",
+        "limits": [
+          "Static geometry/source validation only; runtime and visual checks are separate.",
+          "Original Face 75 strict intersection pairs retained; not an alpha-aware zero-contact claim.",
+          "No dynamics; same original-author GLB bytes and extras retained."
+        ]
+      }
+    }
+  ],
+  "parseCount": 22,
+  "disposedGeometry": 22,
+  "fetchCount": 71
+}
