@@ -18,3 +18,5 @@ python -B scripts/m2-medium-curly-hair-v1/fit.py --target PATH --target-sha SHA2
 源投影为CPU三角画家法与平色，眼睫图中的暗块来自原透明纹理几何的平色替代。它用于检查几何轮廓，实际头发材质效果需游戏查看。静止交叉为严格非共面诊断，零计数不代替动作/视觉验收。`runtime-cpu-qa.json` 使用真实GLTFLoader、原VRM和适配校验，纹理解码是1×1 CPU占位。
 
 共同模板成本修正保留每束37个源中心线采样值，仅将表面环数36改14。最终3666顶点/7128三角满足现hair成本门，高采样8594/16984拒绝结果保留。采样顶点到邻64三角表面的最大上估可达12.17mm，游戏轮廓未验收。两者技术计数都不能改变造型失败状态。
+
+完整包字节重复未通过。人工压紧curves.json数据后保留CRLF，writer输出LF，因此默认重建已有budget目录会拒绝差异。fresh --out目录的GLB/fit/manifest完全一致，曲线数值一致；换行差异和失败断言保留于repeat-readback.json。本失败包未继续修复序列化问题。
