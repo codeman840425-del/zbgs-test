@@ -6,6 +6,8 @@
 
 ## 当前交付与阶段边界
 
+2026-11-16有限M2新增授权已接收，尚未交付：FACE-01/PIPE-03先用原男女已有四域各基准+最多两组合做一次可辨性对照；HAIR-01随后做既有男短发→male-jaw独立精确fit、再导出及真实回读。当前有界性能候选收尾后开始，不扩参数/发型库。范围及止损见[开工单](research/M2-CHARACTER-WORK-ORDER-2026-11-16.txt)；现有原男女四域/男jaw单嘴不重复计新成果，派生短发在实际通过前仍未准入。
+
 - **4196 /?workbench=appearance：460b72813f68**，源6e4801f，experiments/body-context-guard-build-v1/dist。唯一指针delivery/appearance-workbench.json；34e及历史版保留回滚。当前换体1×见evidence/body-context-guard-delivery-v1；原34e近景/ab074反馈对照保持各自构建。当前备份以delivery回执为准。
 - **4195：77e46efb5441** 保留M1基础。用户对原女裙/原男短裤所录完整1×链接受“可以作为下一阶段基础”，明确排除已登记裙瑕疵；仅这些影片范围，不外推新外貌、最终画风、普通电脑或所有组合。回执 `evidence/m1-close-77e46-user-review.json`。
 - **裙装与该30秒舞已封板。** 038裙实现随77保留，已知硬折/局部接触/成本缺口不是继续精修的授权；30秒Rokoko路线获认可，唯一适配尝试后封存，不再追加调参。依据 `evidence/m1-stage-close-user-direction-2026-11-15.json`、`evidence/rokoko-30s-advisor-v1/USER-REVIEW.json`。旧失败仍失败，不因封板变成全部通过，也不因旧失败重新派活。
