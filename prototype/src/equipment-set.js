@@ -1,6 +1,28 @@
 // Resolve a final set before changing visibility. This validates composition,
 // not garment fit: the loader still verifies bytes, skin and inverse binds.
-const slots = new Set(["top", "bottom", "shoes", "onePiece", "outerwear", "bottoms-overlay"]);
+const slots = new Set(["top", "bottom", "shoes", "onePiece", "outerwear", "bottoms-overlay", "socks"]);
+
+function socksPairing(entry) {
+  const pairing = entry.pairedWith;
+  if (!pairing || typeof pairing !== 'object' || Array.isArray(pairing) ||
+      Object.keys(pairing).length !== 2 || !Object.hasOwn(pairing, 'shoes') || !Object.hasOwn(pairing, 'lower'))
+    throw Error(`Socks ${entry.id} require pairedWith shoes and lower lists`);
+  for (const role of ['shoes', 'lower']) {
+    const pairs = pairing[role];
+    if (!Array.isArray(pairs) || role === 'shoes' && !pairs.length)
+      throw Error(`Invalid socks ${role} pairing list: ${entry.id}`);
+    const ids = new Set();
+    for (const pair of pairs) {
+      if (!pair || typeof pair !== 'object' || Array.isArray(pair) ||
+          Object.keys(pair).length !== 2 || !Object.hasOwn(pair, 'id') || !Object.hasOwn(pair, 'sha256') ||
+          typeof pair.id !== 'string' || !pair.id || typeof pair.sha256 !== 'string' || !/^[a-f0-9]{64}$/.test(pair.sha256))
+        throw Error(`Invalid socks ${role} pair: ${entry.id}`);
+      if (ids.has(pair.id)) throw Error(`Duplicate socks ${role} pair: ${entry.id} / ${pair.id}`);
+      ids.add(pair.id);
+    }
+  }
+  return pairing;
+}
 
 export function resolveEquipmentSet(entries, ids, avatarSha256) {
   if (!Array.isArray(ids) || new Set(ids).size !== ids.length)
@@ -35,6 +57,17 @@ export function resolveEquipmentSet(entries, ids, avatarSha256) {
         if (!outer.allowedBottoms.includes(lower.id))
           throw Error(`Unvalidated lower-layer fit: ${outer.id} / ${lower.id}`);
       }
+    }
+  }
+  const socks = selected.find(entry => entry.slot === 'socks');
+  if (socks) {
+    const pairing = socksPairing(socks);
+    const shoes = selected.find(entry => entry.slot === 'shoes');
+    if (!shoes) throw Error(`Socks ${socks.id} require paired shoes`);
+    for (const item of selected.filter(entry => ['shoes', 'bottom', 'bottoms-overlay', 'onePiece'].includes(entry.slot))) {
+      const pairs = item.slot === 'shoes' ? pairing.shoes : pairing.lower;
+      if (!pairs.some(pair => pair.id === item.id && pair.sha256 === item.sha256))
+        throw Error(`Unvalidated socks pairing: ${socks.id} / ${item.id}`);
     }
   }
   return selected;
