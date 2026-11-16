@@ -1,0 +1,240 @@
+{
+  "status": "changes-required",
+  "generatedAt": "2026-11-16T17:32:11.185Z",
+  "runtime": "v24.13.0",
+  "requestedDispatch": {
+    "difficulty": "complex",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "high"
+  },
+  "verifiedRuntimeModelAndEffort": false,
+  "verifiedHostHookInterception": false,
+  "method": "Real company modules with independent synchronous in-memory storage adapters. Native WebCrypto digest output is delayed in the two explicit concurrency scenarios.",
+  "inputHashes": {
+    "prototype/src/company/persistence.js": "3bc663edcd469b91e0c594e2253c74c1ec9f05db9421589d004a3a87fddef0c4",
+    "prototype/src/company/document.js": "34dd3186c1d7b2bd2c49e0a85b8807173d7c5537f8962904a462a9a3285e53ab",
+    "prototype/src/company/facility-catalog.json": "1bb239e08fa8bb466eaa048a69ec15b23be1d033a7db44604b639f91e8d283ad",
+    "prototype/src/company/templates.json": "c5d7e3c573df6b8f88c54c553f02dba3db96ae76c9c2bb8e677e2a67cb0dfa53",
+    "prototype/src/company/examples/c1-two-stations.json": "989bf2c7f4421180dba45c917c110b8cac2114537d1a0f9920dab1f7b7dbee53",
+    "scripts/company-platform/qa-persistence.mjs": "4badc0b106b4ccdede88f2b1a6c3f3439a9b52971f571ed6517b8e9578090e87"
+  },
+  "inputHashesUnchangedAtEnd": true,
+  "checks": [
+    {
+      "name": "two-station graph, nested parents, independent device states and world transforms round-trip",
+      "status": "passed",
+      "observed": {
+        "nodeCount": 16,
+        "pins": {
+          "resources": [
+            {
+              "id": "chair",
+              "version": 1,
+              "sha256": "8c8d0f51069f95a34ae92d72a2a9b47da8799cea7e233921ca42efe1368dd462"
+            },
+            {
+              "id": "desk-microphone",
+              "version": 1,
+              "sha256": "6fcebce2098fe412db97d1c21fbcaa85c71928da3bed7ed8255fd5a01e860561"
+            },
+            {
+              "id": "desk",
+              "version": 1,
+              "sha256": "ca0e4f276740afe493c184a0b4e968d4f3850b2bed70594d9f7bbfbcc5482fe2"
+            },
+            {
+              "id": "fill-light",
+              "version": 1,
+              "sha256": "30bf5657b035232a79cd7174bb6d6160172357befc287daec6045d20d8b74050"
+            },
+            {
+              "id": "keyboard",
+              "version": 1,
+              "sha256": "20ec03758f1a9476459757054012e24570c3db23bad19d9c052ceebecba6c51f"
+            },
+            {
+              "id": "monitor",
+              "version": 1,
+              "sha256": "eb9082faf5c13146107aff9e20c18c627d9bf02fd4ac83b22b16f2a13c8be872"
+            }
+          ],
+          "templates": [
+            {
+              "id": "stream-station",
+              "version": 1,
+              "sha256": "47dc0c9ae9e042c8e36a728022536ad2abbded2c7afebf314e8cf8105a74bdbc"
+            }
+          ]
+        },
+        "writes": [
+          {
+            "id": "company-demo",
+            "revision": 1,
+            "name": "双工位公司"
+          }
+        ]
+      }
+    },
+    {
+      "name": "same-version changed resource/template and invalid inputs preserve previous bytes",
+      "status": "passed",
+      "observed": [
+        {
+          "kind": "resource",
+          "failure": "dependency-content-mismatch"
+        },
+        {
+          "kind": "template",
+          "failure": "dependency-content-mismatch"
+        },
+        {
+          "kind": "missing-parent",
+          "failure": "missing-parent"
+        },
+        {
+          "kind": "invalid-state",
+          "failure": "invalid-device-state"
+        },
+        {
+          "kind": "bad-json",
+          "failure": "invalid-save-json"
+        }
+      ]
+    },
+    {
+      "name": "revision guard rejects an old delayed save after a newer save",
+      "status": "passed",
+      "observed": {
+        "result": "revision-conflict",
+        "writes": [
+          {
+            "id": "company-demo",
+            "revision": 2,
+            "name": "newer-save"
+          }
+        ]
+      }
+    },
+    {
+      "name": "controlled delayed import versus a later guarded save",
+      "status": "defect-reproduced",
+      "observed": {
+        "expectedRevision": 2,
+        "finalRevision": 1,
+        "writes": [
+          {
+            "id": "company-demo",
+            "revision": 2,
+            "name": "later-save-must-survive"
+          },
+          {
+            "id": "company-demo",
+            "revision": 1,
+            "name": "双工位公司"
+          }
+        ]
+      }
+    },
+    {
+      "name": "controlled delayed save versus a later import at the same revision",
+      "status": "defect-reproduced",
+      "observed": {
+        "revision": 1,
+        "expectedName": "later-import-must-survive",
+        "finalName": "双工位公司",
+        "writes": [
+          {
+            "id": "company-demo",
+            "revision": 1,
+            "name": "later-import-must-survive"
+          },
+          {
+            "id": "company-demo",
+            "revision": 1,
+            "name": "双工位公司"
+          }
+        ]
+      }
+    },
+    {
+      "name": "unsupported inherited scale names cannot replace valid bytes",
+      "status": "defect-reproduced",
+      "observed": [
+        {
+          "inputScale": "toString",
+          "errorCode": null,
+          "storedScale": "toString"
+        },
+        {
+          "inputScale": "constructor",
+          "errorCode": null,
+          "storedScale": "constructor"
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "id": "P1-delayed-import-overwrites-later-save",
+      "kind": "actual-reproduction",
+      "expectedRevision": 2,
+      "finalRevision": 1,
+      "writes": [
+        {
+          "id": "company-demo",
+          "revision": 2,
+          "name": "later-save-must-survive"
+        },
+        {
+          "id": "company-demo",
+          "revision": 1,
+          "name": "双工位公司"
+        }
+      ],
+      "detail": "An earlier import completes dependency hashing after the later guarded save and replaces its valid newer bytes. import has no commit guard or operation generation."
+    },
+    {
+      "id": "P1-revision-only-guard-misses-import",
+      "kind": "actual-reproduction",
+      "revision": 1,
+      "expectedName": "later-import-must-survive",
+      "finalName": "双工位公司",
+      "writes": [
+        {
+          "id": "company-demo",
+          "revision": 1,
+          "name": "later-import-must-survive"
+        },
+        {
+          "id": "company-demo",
+          "revision": 1,
+          "name": "双工位公司"
+        }
+      ],
+      "detail": "Both valid documents carry revision 1. A revision-only isCurrent callback remains true and the earlier save overwrites a later completed import."
+    },
+    {
+      "id": "P2-inherited-capacity-keys-accepted",
+      "kind": "actual-reproduction",
+      "observations": [
+        {
+          "inputScale": "toString",
+          "errorCode": null,
+          "storedScale": "toString"
+        },
+        {
+          "inputScale": "constructor",
+          "errorCode": null,
+          "storedScale": "constructor"
+        }
+      ],
+      "detail": "capacities[document.scale] accepts Object prototype properties. The unsupported tier imports successfully and replaces the original bytes; its maximum capacity is a Function instead of a tier descriptor."
+    }
+  ],
+  "limits": [
+    "No browser or GPU was started. Browser close/reopen and actor runtime restore remain unverified.",
+    "Only the CPU QA called persistence in prototype at initial search. Browser reachability of races depends on final caller serialization and guards.",
+    "Storage exception atomicity relies on the adapter. localStorage browser behavior was not exercised.",
+    "No actor task, lease or occupancy API was called. Occupancy reconstruction belongs to the shared actor runtime."
+  ]
+}

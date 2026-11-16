@@ -15,7 +15,11 @@ const capacities = {
   'leased-floor': { floors: 1, rooms: 10, stations: 20 },
   'building': { floors: 5, rooms: 50, stations: 100 },
 };
-const parents = { floor: ['company'], room: ['floor'], area: ['floor'], workstation: ['room'], facility: ['room', 'area', 'floor', 'workstation', 'facility'] };
+const parents = {
+  floor: ['company'], room: ['floor'], area: ['floor'], workstation: ['room'],
+  assembly: ['room', 'area', 'floor', 'assembly'],
+  facility: ['room', 'area', 'floor', 'workstation', 'assembly', 'facility'],
+};
 export const identityTransform = () => ({ position: [0, 0, 0], yaw: 0 });
 
 function checkId(id, path) {
@@ -42,6 +46,28 @@ function localPoint(world, point) {
   const x = point[0] - world.position[0], z = point[2] - world.position[2];
   return [Math.cos(world.yaw) * x - Math.sin(world.yaw) * z, point[1] - world.position[1], Math.sin(world.yaw) * x + Math.cos(world.yaw) * z];
 }
+function relativeTransform(parent, world) {
+  return { position: localPoint(parent, world.position), yaw: world.yaw - parent.yaw };
+}
+function validateAppearance(appearance, resource, path) {
+  if (!appearance || typeof appearance !== 'object' || Array.isArray(appearance) ||
+      Object.keys(appearance).some(field => field !== 'materials'))
+    fail('invalid-appearance', path, 'Only a materials map is supported');
+  const slots = resource.materialSlots;
+  if (!slots || typeof slots !== 'object' || Array.isArray(slots) || !Object.keys(slots).length)
+    fail('unsupported-appearance', path, 'This resource declares no editable material slots');
+  const materials = appearance.materials;
+  if (!materials || typeof materials !== 'object' || Array.isArray(materials))
+    fail('invalid-appearance', path, 'Expected materials keyed by declared slot ID');
+  for (const [slot, values] of Object.entries(materials)) {
+    if (!Object.hasOwn(slots, slot)) fail('unknown-material-slot', `${path}.materials.${slot}`, 'Choose a declared resource material slot');
+    if (!values || typeof values !== 'object' || Array.isArray(values) ||
+        Object.keys(values).some(field => !['color', 'roughness'].includes(field)) ||
+        (Object.hasOwn(values, 'color') && (typeof values.color !== 'string' || !/^#[0-9a-fA-F]{6}$/.test(values.color))) ||
+        (Object.hasOwn(values, 'roughness') && (!Number.isFinite(values.roughness) || values.roughness < 0 || values.roughness > 1)))
+      fail('invalid-appearance', `${path}.materials.${slot}`, 'Supported fields are #RRGGBB color and finite roughness from 0 to 1');
+  }
+}
 export function catalogMaps(catalog, templates) {
   const resources = new Map(), combinations = new Map();
   for (const [list, map, path] of [[catalog?.resources, resources, 'catalog.resources'], [templates?.templates, combinations, 'templates.templates']]) {
@@ -58,7 +84,7 @@ export function deriveCompany(document, catalog, templates) {
   if (document?.schema !== 'company-layout' || document.version !== 1) fail('unsupported-schema', 'document', 'Expected company-layout version 1');
   checkId(document.id, 'document.id');
   if (!Number.isSafeInteger(document.revision) || document.revision < 0) fail('invalid-revision', 'document.revision', 'Expected nonnegative safe integer');
-  const capacity = capacities[document.scale];
+  const capacity = Object.hasOwn(capacities, document.scale) && capacities[document.scale];
   if (!capacity) fail('unsupported-scale', 'document.scale', String(document.scale));
   if (document.catalog?.id !== catalog.id || document.catalog?.version !== catalog.version)
     fail('catalog-version-mismatch', 'document.catalog', 'Load the pinned resource catalog');
@@ -68,7 +94,7 @@ export function deriveCompany(document, catalog, templates) {
   for (const node of document.nodes) {
     checkId(node.id, 'nodes.id');
     if (nodes.has(node.id) || node.id === document.id) fail('duplicate-instance', node.id, 'Instance identity must be globally unique');
-    if (!parents[node.kind]) fail('unsupported-kind', node.id, String(node.kind));
+    if (!Object.hasOwn(parents,node.kind)) fail('unsupported-kind', node.id, String(node.kind));
     transform(node.transform, `${node.id}.transform`, ['floor', 'room', 'area', 'workstation'].includes(node.kind));
     if (node.name !== undefined && typeof node.name !== 'string') fail('invalid-name', node.id, 'Name must be text');
     nodes.set(node.id, node);
@@ -94,8 +120,9 @@ export function deriveCompany(document, catalog, templates) {
     fail('scale-capacity', 'document.scale', 'Floor, business-room or station count exceeds selected tier', { floors: floors.length, rooms: rooms.length, stations: stations.length, capacity });
   for (const room of document.nodes.filter(n => ['room', 'area'].includes(n.kind))) {
     const b = room.bounds;
-    if (!b || !Number.isFinite(b.width) || !Number.isFinite(b.depth) || b.width < 1 || b.depth < 1 || b.width > 100 || b.depth > 100)
-      fail('invalid-bounds', room.id, 'Expected finite rectangular width/depth between 1 and 100 metres; runtime support is checked separately');
+    if (!b || (b.shape !== undefined && b.shape !== 'rectangle') ||
+        !Number.isFinite(b.width) || !Number.isFinite(b.depth) || b.width < 3 || b.depth < 3 || b.width > 20 || b.depth > 20)
+      fail('invalid-bounds', room.id, 'Only rectangular width/depth from 3 to 20 metres are supported; this static range does not verify character reachability');
     if (room.kind === 'room') {
       if (!['streaming', 'work', 'rest', 'training'].includes(room.purpose)) fail('invalid-room-purpose', room.id, String(room.purpose));
       const installed = stations.filter(n => n.parentId === room.id).length;
@@ -128,8 +155,12 @@ export function deriveCompany(document, catalog, templates) {
   for (const node of document.nodes.filter(n => n.kind === 'facility')) {
     const resource = resources.get(key(node.resource));
     if (!resource) fail('missing-resource-version', node.id, key(node.resource));
+    if (node.appearance !== undefined) validateAppearance(node.appearance, resource, `${node.id}.appearance`);
     if (node.stationId && !stations.some(n => n.id === node.stationId)) fail('missing-station', node.id, node.stationId);
     const world = worlds.get(node.id), state = { ...resource.stateDefaults, ...node.state };
+    if (resource.footprint?.blocking && !['desk-surface','wall'].includes(resource.mount) &&
+        Math.abs(world.position[1] - worlds.get(floorIds.get(node.id)).position[1]) > 1e-8)
+      fail('unsupported-height', node.id, 'This ground facility must stay on its floor; use a declared mounting adapter for elevated placement');
     if (resource.mount === 'desk-surface') {
       const parent = nodes.get(node.parentId), surface = resources.get(key(parent?.resource))?.surface;
       if (!surface) fail('missing-mount-surface', node.id, 'This device requires a parent desk surface');
@@ -195,6 +226,81 @@ function expandStation(document, op, combinations) {
   for (const part of template.parts) document.nodes.push({ id: `${op.id}/${part.key}`, kind: 'facility', stationId: op.id, partKey: part.key,
     parentId: part.parentKey ? `${op.id}/${part.parentKey}` : op.id, resource: copy(part.resource), transform: copy(part.transform), state: copy(part.state || {}) });
 }
+function copySubtree(document, node, op, related) {
+  checkId(op.newId, 'operation.newId');
+  const allocated = new Set([document.id, ...document.nodes.map(n => n.id)]);
+  if (allocated.has(op.newId)) fail('duplicate-instance', op.newId, 'Copy destination already exists');
+  const sources = document.nodes.filter(n => related.has(n.id));
+  const remap = new Map([[node.id, op.newId]]);
+  allocated.add(op.newId);
+  let serial = 0;
+  for (const source of sources.filter(n => n.id !== node.id)) {
+    let target = source.stationId === node.id && source.partKey ? `${op.newId}/${source.partKey}` : null;
+    if (!target || allocated.has(target)) {
+      do { target = `${op.newId}/extra-${++serial}`; } while (allocated.has(target));
+    }
+    allocated.add(target); remap.set(source.id, target);
+  }
+  for (const source of sources) {
+    const clone = copy(source);
+    clone.id = remap.get(source.id);
+    clone.parentId = remap.get(source.parentId) || source.parentId;
+    if (clone.stationId) clone.stationId = remap.get(clone.stationId) || clone.stationId;
+    if (source.id === node.id) {
+      clone.transform = copy(op.transform || source.transform);
+      clone.name = op.name || op.newId;
+    }
+    document.nodes.push(clone);
+  }
+}
+function unpack(document, node, derived) {
+  const parentWorld = derived.worlds.get(node.parentId);
+  const related = descendants(document.nodes, node.id);
+  for (const member of document.nodes) {
+    if (member.parentId === node.id) {
+      member.parentId = node.parentId;
+      member.transform = relativeTransform(parentWorld, derived.worlds.get(member.id));
+    }
+    if (node.kind === 'workstation' && related.has(member.id)) {
+      delete member.stationId;
+      delete member.partKey;
+    }
+  }
+  document.nodes = document.nodes.filter(n => n.id !== node.id);
+}
+function groupFacilities(document, op, derived, affected) {
+  checkId(op.id, 'operation.id');
+  if (op.id === document.id || derived.nodes.has(op.id)) fail('duplicate-instance', op.id, 'Group identity already exists');
+  if (op.parentId === op.id) fail('parent-cycle', op.id, 'A group cannot parent itself');
+  const parent = derived.nodes.get(op.parentId);
+  if (!parent) fail('missing-parent', op.id, String(op.parentId));
+  if (!parents.assembly.includes(parent.kind)) fail('invalid-parent', op.id, 'Groups belong to a floor, room, area or another group');
+  if (!Array.isArray(op.memberIds) || !op.memberIds.length || new Set(op.memberIds).size !== op.memberIds.length)
+    fail('invalid-group-selection', op.id, 'Select distinct component roots');
+  const members = op.memberIds.map(id => {
+    const member = derived.nodes.get(id);
+    if (!member) fail('missing-instance', op.id, String(id));
+    if (!['facility', 'assembly'].includes(member.kind)) fail('invalid-group-member', id, 'Only facilities and authoring groups can be grouped');
+    const related = descendants(document.nodes, id);
+    if (op.memberIds.some(other => other !== id && related.has(other)))
+      fail('invalid-group-selection', id, 'A selection cannot include both an ancestor and its descendant');
+    if (related.has(parent.id)) fail('parent-cycle', id, 'The group parent cannot be inside a selected component');
+    if (document.nodes.some(n => related.has(n.id) && n.stationId))
+      fail('required-template-part', id, 'Unpack the workstation before regrouping its template members');
+    if (derived.floorIds.get(id) !== derived.floorIds.get(parent.id)) fail('cross-floor-group', id, 'Group members must remain on their current floor');
+    if (derived.roomIds.get(id) !== derived.roomIds.get(parent.id)) fail('cross-room-group', id, 'Group members must remain in their current room or public area');
+    for (const descendant of related) affected.add(descendant);
+    return member;
+  });
+  const group = { id: op.id, kind: 'assembly', parentId: parent.id, name: op.name || op.id, transform: copy(op.transform || identityTransform()) };
+  transform(group.transform, `${group.id}.transform`);
+  const world = composeTransform(derived.worlds.get(parent.id), group.transform);
+  for (const member of members) {
+    member.parentId = group.id;
+    member.transform = relativeTransform(world, derived.worlds.get(member.id));
+  }
+  document.nodes.push(group);
+}
 
 // Transaction prepares a complete independent candidate. Caller commits only after
 // resource loading and character-platform reachability checks also succeed.
@@ -205,7 +311,18 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
   const { resources, combinations } = catalogMaps(catalog, templates), affected = new Set();
   for (const op of operations) {
     if (op.type === 'add-workstation') { expandStation(next, op, combinations); continue; }
-    if (op.type === 'add-facility') { next.nodes.push({ id: op.id, kind: 'facility', parentId: op.parentId, resource: copy(op.resource), transform: copy(op.transform || identityTransform()), state: copy(op.state || {}) }); continue; }
+    if (op.type === 'add-room' || op.type === 'add-area') {
+      const node = { id: op.id, kind: op.type === 'add-room' ? 'room' : 'area', parentId: op.parentId,
+        name: op.name ?? op.id, bounds: copy(op.bounds), transform: copy(op.transform || identityTransform()) };
+      if (node.kind === 'room') node.purpose = op.purpose ?? 'streaming';
+      next.nodes.push(node); continue;
+    }
+    if (op.type === 'add-facility') {
+      const node = { id: op.id, kind: 'facility', parentId: op.parentId, resource: copy(op.resource), transform: copy(op.transform || identityTransform()), state: copy(op.state || {}) };
+      if (op.appearance !== undefined) node.appearance = copy(op.appearance);
+      next.nodes.push(node); continue;
+    }
+    if (op.type === 'group-facilities') { groupFacilities(next, op, deriveCompany(next, catalog, templates), affected); continue; }
     const node = next.nodes.find(n => n.id === op.id);
     if (!node) fail('missing-instance', op.id, 'Operation target does not exist');
     if (op.type === 'set-state') {
@@ -213,9 +330,26 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
       node.state = { ...node.state, ...copy(op.state) }; continue;
     }
     const related = descendants(next.nodes, node.id);
-    if (op.type !== 'copy-workstation') for (const id of related) affected.add(id);
+    if (!['copy-workstation', 'copy-group'].includes(op.type)) for (const id of related) affected.add(id);
     if (op.type === 'move') node.transform = copy(op.transform);
-    else if (op.type === 'remove') {
+    else if (op.type === 'set-room') {
+      if (!['room', 'area'].includes(node.kind)) fail('invalid-operation', node.id, 'Room fields belong to a room or public area');
+      const fields = Object.keys(op).filter(field => !['type', 'id'].includes(field));
+      if (!fields.length || fields.some(field => !['name', 'purpose', 'bounds'].includes(field)) ||
+          (node.kind === 'area' && fields.includes('purpose')))
+        fail('invalid-room-change', node.id, 'Only name, room purpose and rectangular bounds can be edited here');
+      for (const field of fields) node[field] = copy(op[field]);
+    } else if (op.type === 'set-appearance') {
+      if (node.kind !== 'facility') fail('invalid-operation', node.id, 'Material appearance belongs to a facility');
+      if (op.appearance === undefined) fail('invalid-appearance', node.id, 'Provide an appearance replacement or {} to clear it');
+      if (op.appearance && typeof op.appearance === 'object' && !Array.isArray(op.appearance) && !Object.keys(op.appearance).length)
+        delete node.appearance;
+      else node.appearance = copy(op.appearance);
+    } else if (op.type === 'unpack-workstation' || op.type === 'unpack-group') {
+      const expectedKind = op.type === 'unpack-workstation' ? 'workstation' : 'assembly';
+      if (node.kind !== expectedKind) fail('invalid-operation', node.id, `Unpack expects ${expectedKind}`);
+      unpack(next, node, deriveCompany(next, catalog, templates));
+    } else if (op.type === 'remove') {
       if (node.stationId) fail('required-template-part', node.id, 'Replace a required part or remove the whole workstation');
       next.nodes = next.nodes.filter(n => !related.has(n.id));
     } else if (op.type === 'replace-resource') {
@@ -227,23 +361,10 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
           original.category !== replacement.category || JSON.stringify((original.usePoints || []).map(p => [p.id,p.seatHeight])) !== JSON.stringify((replacement.usePoints || []).map(p => [p.id,p.seatHeight])))
         fail('incompatible-replacement', node.id, 'Replacement changes the facility usage contract');
       node.resource = copy(op.resource); node.state = { ...copy(replacement.stateDefaults), ...node.state };
-    } else if (op.type === 'copy-workstation') {
-      if (node.kind !== 'workstation') fail('invalid-operation', node.id, 'Copy expects a workstation');
-      checkId(op.newId, 'operation.newId');
-      if (next.nodes.some(n => n.id === op.newId)) fail('duplicate-instance', op.newId, 'Copy destination already exists');
-      const remap = new Map([[node.id, op.newId]]), allocated = new Set(next.nodes.map(n => n.id)); allocated.add(op.newId);
-      let serial = 0;
-      for (const source of next.nodes.filter(n => related.has(n.id) && n.id !== node.id)) {
-        let target = source.stationId === node.id && source.partKey ? `${op.newId}/${source.partKey}` : null;
-        if (!target || allocated.has(target)) { do { target = `${op.newId}/extra-${++serial}`; } while (allocated.has(target)); }
-        allocated.add(target); remap.set(source.id, target);
-      }
-      for (const source of next.nodes.filter(n => related.has(n.id))) {
-        const clone = copy(source); clone.id = remap.get(source.id); clone.parentId = remap.get(source.parentId) || source.parentId;
-        if (clone.stationId) clone.stationId = op.newId;
-        if (source.id === node.id) { clone.transform = copy(op.transform || source.transform); clone.name = op.name || op.newId; }
-        next.nodes.push(clone);
-      }
+    } else if (op.type === 'copy-workstation' || op.type === 'copy-group') {
+      const expectedKind = op.type === 'copy-workstation' ? 'workstation' : 'assembly';
+      if (node.kind !== expectedKind) fail('invalid-operation', node.id, `Copy expects ${expectedKind}`);
+      copySubtree(next, node, op, related);
     } else fail('unknown-operation', 'operations', String(op.type));
   }
   for (const point of before.usePoints) if (affected.has(point.facilityId) && isUsePointBusy(point.id))

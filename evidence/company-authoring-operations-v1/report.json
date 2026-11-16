@@ -1,0 +1,111 @@
+{
+  "status": "cpu-authoring-passed",
+  "generatedAt": "2026-11-16T17:58:20.952Z",
+  "inputHashes": {
+    "prototype/src/company/document.js": "5e71bd6cab203b2375d1bdc246794e36620980b3158e3e1286610a2d9d9ad69b",
+    "prototype/src/company/facility-catalog.json": "1bb239e08fa8bb466eaa048a69ec15b23be1d033a7db44604b639f91e8d283ad",
+    "prototype/src/company/templates.json": "c5d7e3c573df6b8f88c54c553f02dba3db96ae76c9c2bb8e677e2a67cb0dfa53",
+    "scripts/company-platform/qa-authoring-operations.mjs": "4546689c9215d165eb50460340d4ebc4b47c60d35071419cd64c0cac0f5379c0"
+  },
+  "checks": [
+    {
+      "name": "unpack workstation preserves stable facilities, nested devices and world transforms under rotated parents",
+      "status": "passed",
+      "observed": {
+        "preservedFacilityIds": [
+          "station/desk",
+          "station/monitor",
+          "station/keyboard",
+          "station/microphone",
+          "station/chair",
+          "station/fill-light"
+        ],
+        "usePoints": [
+          "station/chair#seat"
+        ]
+      }
+    },
+    {
+      "name": "group and unpack preserve worlds, resource refs, local appearance and device dependencies",
+      "status": "passed",
+      "observed": {
+        "groupKind": "assembly",
+        "installedStations": 0
+      }
+    },
+    {
+      "name": "copy group preserves independent device/state/material overrides and avoids preexisting descendant IDs",
+      "status": "passed",
+      "observed": {
+        "newFacilityIds": [
+          "furniture-copy/extra-2",
+          "furniture-copy/extra-3",
+          "furniture-copy/extra-4",
+          "furniture-copy/extra-5",
+          "furniture-copy/extra-6",
+          "furniture-copy/extra-7"
+        ],
+        "cloneDeskId": "furniture-copy/extra-2"
+      }
+    },
+    {
+      "name": "nested groups can be copied and unpacked while preserving all existing component worlds",
+      "status": "passed",
+      "observed": {
+        "assembliesAfterCopy": 4
+      }
+    },
+    {
+      "name": "template theft, cross-room/floor grouping and group self-cycles reject atomically",
+      "status": "passed",
+      "observed": {
+        "inputUnchanged": true
+      }
+    },
+    {
+      "name": "busy original use points reject unpack, regroup, group movement, room edits and material edits",
+      "status": "passed",
+      "observed": {
+        "busyPoint": "station/chair#seat"
+      }
+    },
+    {
+      "name": "room and public area operations enforce rectangular 3..20m range and distinct capacity semantics",
+      "status": "passed",
+      "observed": {
+        "rentalBusinessRooms": 3,
+        "publicAreas": 1,
+        "dimensionsMetres": [
+          3,
+          20
+        ],
+        "characterReachability": "unverified"
+      }
+    },
+    {
+      "name": "appearance replacements use declared slots and reject unsupported fields, colors and values",
+      "status": "passed",
+      "observed": {
+        "slotDeclarationFixture": {
+          "desk": {
+            "top": [
+              "desktop"
+            ]
+          },
+          "chair": {
+            "fabric": [
+              "chair-seat",
+              "chair-back"
+            ]
+          }
+        },
+        "rendererSlotResolution": "owned by root, not exercised"
+      }
+    }
+  ],
+  "limits": [
+    "CPU document operations only. No browser, GPU, navigation or character-use validation.",
+    "Appearance uses declared slot fixtures against existing resources. Root owns real render slot and material resolution.",
+    "The additional floor is only a cross-floor rejection fixture. No C2 connection algorithm is implemented."
+  ]
+}

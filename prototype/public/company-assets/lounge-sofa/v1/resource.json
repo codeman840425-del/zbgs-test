@@ -1,0 +1,128 @@
+{
+  "id": "lounge-sofa",
+  "version": 1,
+  "category": "multi-use",
+  "mountRole": "sofa",
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Ground centre. Use-point positions are ground projections of seat centres.",
+    "scale": "Identity only"
+  },
+  "provenance": {
+    "license": "Project-authored geometry and solid-color materials. No external art assets.",
+    "tools": [
+      "Three.js 187",
+      "RoundedBoxGeometry",
+      "GLTFExporter",
+      "GLTFLoader independent readback"
+    ],
+    "sourceParameters": "assets-source/company-sofa-v1/baseline.json",
+    "sourceParametersSha256": "ea9583eebcc2f9bae216fd6fc36c1d63877691468d444691e0eddbf7560f2248",
+    "generator": "scripts/company-platform/build-sofa.mjs",
+    "generatorSha256": "5c45ec02cb7568ce5930f38bf976633c9e3804debb3d2edc7141bafb24a9cb4f",
+    "method": "New parametric mesh construction. Each input independently builds and exports geometry."
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/lounge-sofa/v1/model.glb",
+    "sha256": "a457c8e142f5745bb66140f0c15c1748cdcda63f536af5f119a16f7ee633116c",
+    "bytes": 631292
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      1.100000023841858,
+      0.5199999809265137
+    ],
+    "blocking": true
+  },
+  "materialSlots": {
+    "fabric": [
+      "seat-left",
+      "seat-right",
+      "back-left",
+      "back-right",
+      "arm-left",
+      "arm-right"
+    ],
+    "frame": [
+      "base",
+      "leg-left-front",
+      "leg-left-rear",
+      "leg-right-front",
+      "leg-right-rear"
+    ]
+  },
+  "usePoints": [
+    {
+      "id": "left",
+      "position": [
+        -0.48,
+        0,
+        0.04
+      ],
+      "yaw": 0,
+      "seatHeight": 0.47,
+      "capacity": 1,
+      "clearance": {
+        "width": 0.92,
+        "depth": 1.11
+      },
+      "limitations": [
+        "Metres. Fixed 0.47m seat height. Static data preview only. Actual character usage awaits C3.",
+        "Clearance width is centred on use-point X. Depth extends forward from use-point Z through the exit point.",
+        "Declared allocation only. Character body clearance, reach, contact and approach/exit motion remain unverified."
+      ],
+      "seatNodeId": "seat-left",
+      "backNodeId": "back-left",
+      "approach": [
+        -0.48,
+        0,
+        1.02
+      ],
+      "exit": [
+        -0.48,
+        0,
+        1.15
+      ]
+    },
+    {
+      "id": "right",
+      "position": [
+        0.48,
+        0,
+        0.04
+      ],
+      "yaw": 0,
+      "seatHeight": 0.47,
+      "capacity": 1,
+      "clearance": {
+        "width": 0.92,
+        "depth": 1.11
+      },
+      "limitations": [
+        "Metres. Fixed 0.47m seat height. Static data preview only. Actual character usage awaits C3.",
+        "Clearance width is centred on use-point X. Depth extends forward from use-point Z through the exit point.",
+        "Declared allocation only. Character body clearance, reach, contact and approach/exit motion remain unverified."
+      ],
+      "seatNodeId": "seat-right",
+      "backNodeId": "back-right",
+      "approach": [
+        0.48,
+        0,
+        1.02
+      ],
+      "exit": [
+        0.48,
+        0,
+        1.15
+      ]
+    }
+  ],
+  "stateDefaults": {}
+}

@@ -48,7 +48,7 @@ function structureMesh(width,height,depth,color) {
 }
 
 // Presentation/provider only: no actor creation, movement, task or lease implementation.
-export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog,templates=defaultTemplates,visibleFloorId,maxRealtimeLights=2}={}) {
+export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog,templates=defaultTemplates,visibleFloorId,maxRealtimeLights=2,assetLibrary}={}) {
   if(!world?.isObject3D)throw new TypeError('Company scene requires a Three world');
   let current,disposed=false,generation=0;
   const prepared=new Map();
@@ -81,7 +81,24 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
         }
       }
       for(const entry of derived.facilities.filter(f=>f.floorId===floorId)) {
-        const root=group(entry.id),parts=new Map();root.add(buildResource(entry.resource.node,parts,entry.state));
+        const root=group(entry.id);let parts;
+        if(entry.resource.asset) {
+          if(!assetLibrary)throw new CompanyError('asset-library-required',entry.id,'Preload this GLB resource before preparing its scene');
+          const instance=assetLibrary.instantiate(entry.resource);parts=instance.nodes;root.add(instance.root);
+          instance.root.traverse(object=>{if(object.isMesh){object.castShadow=true;object.receiveShadow=true;}});
+        } else {parts=new Map();root.add(buildResource(entry.resource.node,parts,entry.state));}
+        for(const [slot,values]of Object.entries(entry.node.appearance?.materials||{})) {
+          const targets=entry.resource.materialSlots?.[slot];
+          if(!Array.isArray(targets)||!targets.length)throw new CompanyError('unknown-material-slot',`${entry.id}.${slot}`,'This appearance slot is not declared by the resource');
+          for(const name of targets) {
+            const mesh=parts.get(name);
+            if(!mesh?.isMesh||!mesh.material)throw new CompanyError('missing-material-target',`${entry.id}.${slot}`,`No mesh material at ${name}`);
+            for(const material of [mesh.material].flat()) {
+              if(values.color!==undefined)material.color.set(values.color);
+              if(values.roughness!==undefined)material.roughness=values.roughness;
+            }
+          }
+        }
         const facility={...entry,root,parts};facilities.set(entry.id,facility);
         if(entry.resource.light) {
           const def=entry.resource.light;
@@ -91,10 +108,30 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
         }
       }
       root.updateMatrixWorld(true);
+      for(const facility of facilities.values()) {
+        const room=derived.nodes.get(facility.roomId);
+        if(room) {
+          const localBounds=new THREE.Box3().setFromObject(facility.root).applyMatrix4(groups.get(room.id).matrixWorld.clone().invert());
+          if(localBounds.min.x < -room.bounds.width/2-.001 || localBounds.max.x > room.bounds.width/2+.001 ||
+             localBounds.min.z < -room.bounds.depth/2-.001 || localBounds.max.z > room.bounds.depth/2+.001)
+            throw new CompanyError('visual-outside-room',facility.id,'Actual model extends outside the containing room');
+        }
+        if(facility.resource.mount==='desk-surface') {
+          const parent=facilities.get(facility.node.parentId),surface=parent?.resource.surface;
+          if(surface) {
+            const localBounds=new THREE.Box3().setFromObject(facility.root).applyMatrix4(parent.root.matrixWorld.clone().invert());
+            if(localBounds.min.x < -surface.halfSize[0]-.01 || localBounds.max.x > surface.halfSize[0]+.01 ||
+               localBounds.min.z < -surface.halfSize[1]-.01 || localBounds.max.z > surface.halfSize[1]+.01)
+              throw new CompanyError('visual-surface-overhang',facility.id,'The complete device model exceeds its declared desk support surface');
+          }
+        }
+      }
       for(const point of derived.usePoints.filter(p=>p.floorId===floorId)) {
         const facility=facilities.get(point.facilityId),chairSeat=facility.parts.get(point.seatNodeId),chairBack=facility.parts.get(point.backNodeId);
         if(!chairSeat?.isMesh || !chairBack?.isMesh)throw new CompanyError('missing-contact-mesh',point.id,'Seat and back must resolve to actual resource meshes');
-        points.set(point.id,{...point,chair:facility.root,chairSeat,chairBack,footprint:facility.resource.footprint});
+        let chair=facility.root;
+        if(point.position||point.yaw) {chair=new THREE.Group();chair.name=`UsePoint:${point.id}`;chair.position.fromArray(point.position||[0,0,0]);chair.rotation.y=point.yaw||0;facility.root.add(chair);}
+        points.set(point.id,{...point,chair,chairSeat,chairBack,footprint:facility.resource.footprint});
       }
       lights.sort((a,b)=>a.id.localeCompare(b.id));
       for(let i=0;i<lights.length;i++)lights[i].light.intensity=i<maxRealtimeLights?lights[i].desired:0;
@@ -109,11 +146,20 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
       const effectiveNode=facility=>({...facility.node,state:facility.state});
       if(!nextFacility.resource.usePoints?.length||!oldFacility||JSON.stringify(effectiveNode(oldFacility))!==JSON.stringify(effectiveNode(nextFacility)))continue;
       const placeholder=nextFacility.root,oldRoot=oldFacility.root,parent=placeholder.parent;
+      // The contact-bearing resource is unchanged, but attached facility
+      // instances may have been added, removed or edited. Reconcile those
+      // branches separately instead of silently retaining the entire old tree.
+      const nextChildren=candidate.document.nodes.filter(n=>n.parentId===id).map(n=>candidate.groups.get(n.id)).filter(Boolean);
+      for(const child of nextChildren)child.removeFromParent();
+      for(const node of current.document.nodes.filter(n=>n.parentId===id)) {
+        const child=current.groups.get(node.id);if(child?.parent===oldRoot)current.root.add(child);
+      }
       oldRoot.removeFromParent();oldRoot.position.copy(placeholder.position);oldRoot.quaternion.copy(placeholder.quaternion);
       disposeTree(placeholder);parent.add(oldRoot);
+      for(const child of nextChildren)oldRoot.add(child);
       nextFacility.root=oldRoot;nextFacility.parts=oldFacility.parts;candidate.groups.set(id,oldRoot);
       for(const point of candidate.points.values())if(point.facilityId===id) {
-        point.chair=oldRoot;point.chairSeat=oldFacility.parts.get(point.seatNodeId);point.chairBack=oldFacility.parts.get(point.backNodeId);
+        point.chair=current.points.get(point.id)?.chair||oldRoot;point.chairSeat=oldFacility.parts.get(point.seatNodeId);point.chairBack=oldFacility.parts.get(point.backNodeId);
       }
     }
     world.add(candidate.root);candidate.root.updateMatrixWorld(true);
@@ -136,7 +182,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
     resolveUsePoint(id){live();return current.points.get(id)||null;},
     listUsePoints(){live();return [...current.points.values()];},
     navigation,
-    snapshot(){return {document:clone(current.document),visibleFloorId:current.floorId,points:[...current.points.values()].map(p=>({id:p.id,facilityId:p.facilityId,position:p.chair.getWorldPosition(new THREE.Vector3()).toArray(),yaw:p.world.yaw})),lights:current.lights.map(l=>({id:l.id,intensity:l.light.intensity,castsShadow:l.light.castShadow})),navigation:navigation().obstacles.map(({object,...o})=>o)};},
+    snapshot(){return {document:clone(current.document),visibleFloorId:current.floorId,points:[...current.points.values()].map(p=>({id:p.id,facilityId:p.facilityId,position:p.chair.getWorldPosition(new THREE.Vector3()).toArray(),yaw:p.world.yaw+(p.yaw||0)})),lights:current.lights.map(l=>({id:l.id,intensity:l.light.intensity,castsShadow:l.light.castShadow})),navigation:navigation().obstacles.map(({object,...o})=>o)};},
     prepareChange(operations,guards={}) {
       live();const result=prepareCompanyChange(current.document,operations,{catalog,templates,...guards});
       const candidate=build(result.document,current.floorId);candidate.operations=clone(operations);candidate.previousRevision=current.document.revision;candidate.generation=generation;
@@ -153,7 +199,8 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
     save(){live();return serializeCompany(current.document,catalog,templates);},
     restore(text,{isUsePointBusy=()=>false}={}) {
       live();for(const point of current.points.values())if(isUsePointBusy(point.id))throw new CompanyError('facility-busy',point.id,'Leave occupied facilities before replacing the full company document');
-      const next=restoreCompany(text,catalog,templates);install(build(next,current.floorId));return this.snapshot();
+      const next=restoreCompany(text,catalog,templates),floorId=next.nodes.some(n=>n.id===current.floorId&&n.kind==='floor')?current.floorId:undefined;
+      install(build(next,floorId));return this.snapshot();
     },
     dispose(){if(disposed)return;disposed=true;for(const candidate of prepared.values())disposeTree(candidate.root);prepared.clear();disposeTree(current.root);},
   };

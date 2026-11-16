@@ -1,0 +1,174 @@
+{
+  "schema": "company-layout",
+  "version": 1,
+  "id": "company-demo",
+  "name": "双工位公司",
+  "revision": 3,
+  "scale": "single-room",
+  "catalog": {
+    "id": "company-facilities",
+    "version": 1
+  },
+  "nodes": [
+    {
+      "id": "company-demo/floor-1",
+      "kind": "floor",
+      "parentId": "company-demo",
+      "name": "一层",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "company-demo/room-1",
+      "kind": "room",
+      "parentId": "company-demo/floor-1",
+      "name": "直播间",
+      "purpose": "streaming",
+      "bounds": {
+        "width": 20,
+        "depth": 20
+      },
+      "transform": {
+        "position": [
+          2,
+          0,
+          1
+        ],
+        "yaw": 1.5707963267948966
+      }
+    },
+    {
+      "id": "station/desk",
+      "kind": "facility",
+      "parentId": "furniture",
+      "resource": {
+        "id": "desk",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.5000000000000004,
+          0,
+          6.4
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "station/monitor",
+      "kind": "facility",
+      "parentId": "station/desk",
+      "resource": {
+        "id": "monitor",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          -0.25
+        ],
+        "yaw": 0
+      },
+      "state": {
+        "on": false
+      }
+    },
+    {
+      "id": "station/keyboard",
+      "kind": "facility",
+      "parentId": "station/desk",
+      "resource": {
+        "id": "keyboard",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          0.21
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "station/microphone",
+      "kind": "facility",
+      "parentId": "station/desk",
+      "resource": {
+        "id": "desk-microphone",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.8,
+          0.84,
+          0.18
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "station/chair",
+      "kind": "facility",
+      "parentId": "furniture",
+      "resource": {
+        "id": "chair",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.5,
+          0,
+          4.95
+        ],
+        "yaw": 6.283185307179586
+      },
+      "state": {}
+    },
+    {
+      "id": "station/fill-light",
+      "kind": "facility",
+      "parentId": "furniture",
+      "resource": {
+        "id": "fill-light",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0.24999999999999978,
+          0,
+          5.65
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {
+        "on": false,
+        "intensity": 2
+      }
+    },
+    {
+      "id": "furniture",
+      "kind": "assembly",
+      "parentId": "company-demo/room-1",
+      "name": "furniture",
+      "transform": {
+        "position": [
+          1.5,
+          0,
+          -0.5
+        ],
+        "yaw": -1.5707963267948966
+      }
+    }
+  ]
+}

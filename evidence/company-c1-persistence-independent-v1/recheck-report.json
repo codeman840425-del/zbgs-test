@@ -1,0 +1,172 @@
+{
+  "status": "targeted-cpu-recheck-passed",
+  "generatedAt": "2026-11-16T17:41:49.477Z",
+  "runtime": "v24.13.0",
+  "inputHashes": {
+    "prototype/src/company/persistence.js": "ce81dfba9e3bedec435b10173cf8989db4ee5006b0810cc4d74a25f1963c998c",
+    "prototype/src/company/document.js": "2952e891199787c7de6793451e447c97b19f3959e95427c1f7f56647b683b380",
+    "prototype/src/company/facility-catalog.json": "1bb239e08fa8bb466eaa048a69ec15b23be1d033a7db44604b639f91e8d283ad",
+    "prototype/src/company/templates.json": "c5d7e3c573df6b8f88c54c553f02dba3db96ae76c9c2bb8e677e2a67cb0dfa53",
+    "prototype/src/company/examples/c1-two-stations.json": "989bf2c7f4421180dba45c917c110b8cac2114537d1a0f9920dab1f7b7dbee53"
+  },
+  "inputHashesUnchangedAtEnd": true,
+  "checks": [
+    {
+      "name": "normal save, import, same-revision replacement and independent reopened read",
+      "status": "passed",
+      "observed": [
+        {
+          "id": "company-demo",
+          "revision": 1,
+          "name": "双工位公司"
+        },
+        {
+          "id": "company-demo",
+          "revision": 1,
+          "name": "valid-same-revision-import"
+        }
+      ]
+    },
+    {
+      "name": "latest same-company intent wins all save/import pairs across two store instances",
+      "status": "passed",
+      "observed": [
+        {
+          "olderType": "import",
+          "newerType": "save",
+          "sameRevision": 1,
+          "olderResult": "revision-conflict",
+          "writes": [
+            {
+              "id": "company-demo",
+              "revision": 1,
+              "name": "later-save"
+            }
+          ]
+        },
+        {
+          "olderType": "save",
+          "newerType": "import",
+          "sameRevision": 1,
+          "olderResult": "revision-conflict",
+          "writes": [
+            {
+              "id": "company-demo",
+              "revision": 1,
+              "name": "later-import"
+            }
+          ]
+        },
+        {
+          "olderType": "save",
+          "newerType": "save",
+          "sameRevision": 1,
+          "olderResult": "revision-conflict",
+          "writes": [
+            {
+              "id": "company-demo",
+              "revision": 1,
+              "name": "later-save"
+            }
+          ]
+        },
+        {
+          "olderType": "import",
+          "newerType": "import",
+          "sameRevision": 1,
+          "olderResult": "revision-conflict",
+          "writes": [
+            {
+              "id": "company-demo",
+              "revision": 1,
+              "name": "later-import"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "later operation for a different company does not supersede pending save",
+      "status": "passed",
+      "observed": [
+        {
+          "id": "company-independent",
+          "revision": 1,
+          "name": "双工位公司"
+        },
+        {
+          "id": "company-demo",
+          "revision": 1,
+          "name": "双工位公司"
+        }
+      ]
+    },
+    {
+      "name": "inherited scale and kind names are rejected without storage mutation",
+      "status": "passed",
+      "observed": [
+        {
+          "field": "scale",
+          "value": "toString",
+          "code": "unsupported-scale"
+        },
+        {
+          "field": "scale",
+          "value": "constructor",
+          "code": "unsupported-scale"
+        },
+        {
+          "field": "scale",
+          "value": "__proto__",
+          "code": "unsupported-scale"
+        },
+        {
+          "field": "kind",
+          "value": "toString",
+          "code": "unsupported-kind"
+        },
+        {
+          "field": "kind",
+          "value": "constructor",
+          "code": "unsupported-kind"
+        },
+        {
+          "field": "kind",
+          "value": "__proto__",
+          "code": "unsupported-kind"
+        }
+      ]
+    },
+    {
+      "name": "identity failure, malformed JSON and changed dependency preserve previous bytes",
+      "status": "passed",
+      "observed": [
+        {
+          "name": "identity",
+          "code": "save-identity-mismatch"
+        },
+        {
+          "name": "json",
+          "code": "invalid-save-json"
+        },
+        {
+          "name": "content",
+          "code": "dependency-content-mismatch"
+        }
+      ]
+    }
+  ],
+  "previousFailureReport": "initial-failure-report.json",
+  "requestedDispatch": {
+    "difficulty": "complex",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "high"
+  },
+  "verifiedRuntimeModelAndEffort": false,
+  "verifiedHostHookInterception": false,
+  "limits": [
+    "CPU only. Browser close/reopen and actual caller sequencing remain unverified.",
+    "Shared adapter object and module instance were tested. Cross-tab simultaneous authoring is outside the declared implementation scope.",
+    "Native SHA256 results were deterministically delayed in concurrency checks."
+  ]
+}

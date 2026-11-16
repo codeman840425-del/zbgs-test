@@ -5,14 +5,14 @@ const path = require('node:path');
 const types = {'.html':'text/html; charset=utf-8','.js':'text/javascript',
   '.css':'text/css','.json':'application/json','.wasm':'application/wasm',
   '.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.webp':'image/webp'};
-async function serve(directory, expectedBuild) {
+async function serve(directory, expectedBuild, {manifest='build-info.json',entry='index.html'}={}) {
   const root = path.resolve(directory);
-  const info = JSON.parse(await fs.readFile(path.join(root,'build-info.json'),'utf8'));
+  const info = JSON.parse(await fs.readFile(path.join(root,manifest),'utf8'));
   if (info.shortId !== expectedBuild) throw Error(`Build mismatch: ${info.shortId} != ${expectedBuild}`);
   const server = http.createServer(async (req,res) => {
     try {
       const name = decodeURIComponent(new URL(req.url,'http://localhost').pathname);
-      const target = path.resolve(root,'.'+(name==='/'?'/index.html':name));
+      const target = path.resolve(root,'.'+(name==='/'?'/'+entry:name));
       if (!target.startsWith(root+path.sep)) {res.writeHead(403).end();return;}
       const bytes = await fs.readFile(target);
       res.writeHead(200,{'Content-Type':types[path.extname(target)]||'application/octet-stream',

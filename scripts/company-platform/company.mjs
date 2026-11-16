@@ -1,12 +1,14 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import catalog from '../../prototype/src/company/facility-catalog.json' with {type:'json'};
+import catalog from '../../prototype/src/company/library-catalog.json' with {type:'json'};
 import templates from '../../prototype/src/company/templates.json' with {type:'json'};
 import {createCompany, prepareCompanyChange, deriveCompany, restoreCompany, serializeCompany} from '../../prototype/src/company/document.js';
+import {inspectCompanyPlacement} from '../../prototype/src/company/placement.js';
 
 const [command, input, operations, output] = process.argv.slice(2);
 const read = async file => restoreCompany(await fs.readFile(file,'utf8'),catalog,templates);
 async function write(file, document) {
+  inspectCompanyPlacement(document,catalog,templates);
   const bytes=serializeCompany(document,catalog,templates);
   await fs.mkdir(path.dirname(path.resolve(file)),{recursive:true});
   const handle=await fs.open(file,'wx');
@@ -19,7 +21,8 @@ try {
     await write(input,document);console.log(JSON.stringify({ok:true,output:input,revision:document.revision}));
   } else if (command==='validate' && input) {
     const document=await read(input), derived=deriveCompany(document,catalog,templates);
-    console.log(JSON.stringify({ok:true,id:document.id,revision:document.revision,capacity:derived.capacity,usePointIds:derived.usePoints.map(p=>p.id),scope:'Structural, identity, footprint and resource-reference checks. Character reachability and actual resource loading are runtime checks.'},null,2));
+    const placement=inspectCompanyPlacement(document,catalog,templates);
+    console.log(JSON.stringify({ok:true,id:document.id,revision:document.revision,capacity:derived.capacity,usePointIds:derived.usePoints.map(p=>p.id),placement,scope:'Static authoring and conservative room passage checks only. Real character navigation, contact and use remain C3 validation.'},null,2));
   } else if (command==='apply' && input && operations && output) {
     const previous=await read(input), ops=JSON.parse(await fs.readFile(operations,'utf8'));
     const next=prepareCompanyChange(previous,ops,{catalog,templates}).document;

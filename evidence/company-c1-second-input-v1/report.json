@@ -1,0 +1,241 @@
+{
+  "status": "passed",
+  "scope": "Actual CLI apply and Three provider CPU validation",
+  "dispatch": {
+    "difficulty": "standard",
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "medium",
+    "reason": "Second input production and coordinate verification through existing data interfaces.",
+    "configurationEvidence": "Parent-confirmed existing configuration. Hook interception not independently verified."
+  },
+  "cliResult": {
+    "ok": true,
+    "output": "temporary alternate.json, byte-compared to published example",
+    "previousRevision": 1,
+    "revision": 2
+  },
+  "inputSha256": "989bf2c7f4421180dba45c917c110b8cac2114537d1a0f9920dab1f7b7dbee53",
+  "outputSha256": "fb145dfab2ca291f2c4b81c78bc34ba3cf48aeb2f6f538243dbeea0f29c6d8f3",
+  "checks": [
+    {
+      "name": "Real CLI apply produces the second deterministic two-station input",
+      "passed": true
+    },
+    {
+      "name": "All desk devices retain desk-local transforms through station rotation and desk translation",
+      "passed": true
+    },
+    {
+      "name": "First station transforms and independent screen/light states survive",
+      "passed": true
+    },
+    {
+      "name": "Use-points and navigation obstacles resolve the same actual transformed furniture",
+      "passed": true
+    }
+  ],
+  "equipmentPositions": [
+    {
+      "id": "station-2/monitor",
+      "before": [
+        1.5,
+        0.84,
+        -1.15
+      ],
+      "stationOnly": [
+        0.45000000000000007,
+        0.84,
+        0.19999999999999976
+      ],
+      "after": [
+        0.25,
+        0.84,
+        0.1999999999999997
+      ]
+    },
+    {
+      "id": "station-2/keyboard",
+      "before": [
+        1.5,
+        0.84,
+        -0.6900000000000001
+      ],
+      "stationOnly": [
+        0.91,
+        0.84,
+        0.19999999999999987
+      ],
+      "after": [
+        0.71,
+        0.84,
+        0.19999999999999982
+      ]
+    },
+    {
+      "id": "station-2/microphone",
+      "before": [
+        0.7,
+        0.84,
+        -0.72
+      ],
+      "stationOnly": [
+        0.8799999999999999,
+        0.84,
+        0.9999999999999999
+      ],
+      "after": [
+        0.6799999999999998,
+        0.84,
+        0.9999999999999998
+      ]
+    }
+  ],
+  "usePoints": [
+    {
+      "id": "station-1/chair#seat",
+      "facilityId": "station-1/chair",
+      "position": [
+        -1.5,
+        0,
+        0.55
+      ],
+      "yaw": 3.141592653589793
+    },
+    {
+      "id": "station-2/chair#seat",
+      "facilityId": "station-2/chair",
+      "position": [
+        2.1500000000000004,
+        0,
+        0.20000000000000012
+      ],
+      "yaw": 4.71238898038469
+    }
+  ],
+  "obstacles": [
+    {
+      "name": "station-1/desk",
+      "instanceId": "station-1/desk",
+      "kind": "facility",
+      "x": -1.5,
+      "z": -0.8999999999999999,
+      "hw": 1.22,
+      "hd": 0.72,
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          1,
+          0.5
+        ],
+        "blocking": true
+      }
+    },
+    {
+      "name": "station-1/chair",
+      "instanceId": "station-1/chair",
+      "kind": "seat",
+      "x": -1.5,
+      "z": 0.55,
+      "hw": 0.3749999999999999,
+      "hd": 0.355,
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.275,
+          0.255
+        ],
+        "blocking": true
+      }
+    },
+    {
+      "name": "station-1/fill-light",
+      "instanceId": "station-1/fill-light",
+      "kind": "facility",
+      "x": -2.25,
+      "z": -0.14999999999999997,
+      "hw": 0.44000000000000017,
+      "hd": 0.42000000000000004,
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.22,
+          0.2
+        ],
+        "blocking": true
+      }
+    },
+    {
+      "name": "station-2/desk",
+      "instanceId": "station-2/desk",
+      "kind": "facility",
+      "x": 0.5,
+      "z": 0.19999999999999996,
+      "hw": 0.72,
+      "hd": 1.22,
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          1,
+          0.5
+        ],
+        "blocking": true
+      }
+    },
+    {
+      "name": "station-2/chair",
+      "instanceId": "station-2/chair",
+      "kind": "seat",
+      "x": 2.1500000000000004,
+      "z": 0.20000000000000007,
+      "hw": 0.35499999999999987,
+      "hd": 0.3750000000000001,
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.275,
+          0.255
+        ],
+        "blocking": true
+      }
+    },
+    {
+      "name": "station-2/fill-light",
+      "instanceId": "station-2/fill-light",
+      "kind": "facility",
+      "x": 1.4500000000000002,
+      "z": 0.95,
+      "hw": 0.41999999999999993,
+      "hd": 0.43999999999999995,
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.22,
+          0.2
+        ],
+        "blocking": true
+      }
+    }
+  ],
+  "limitations": [
+    "CPU provider evidence only. No browser, GPU, character navigation, seat contact, reach or microphone use acceptance.",
+    "Footprint validation covers the declared resource footprints. Actor clearance still requires runtime acceptance."
+  ]
+}

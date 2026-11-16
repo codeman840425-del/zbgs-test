@@ -1,0 +1,187 @@
+{
+  "status": "passed",
+  "configuration": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "difficulty": "complex",
+    "reuseKnownConfiguration": true,
+    "reason": "Asynchronous byte verification, loader ownership and isolated instance resources",
+    "actualProviderConfiguration": "not independently verified",
+    "desktopHookInterception": "not independently verified"
+  },
+  "threeRevision": "187",
+  "moduleSha256": "fd3266811fb52ba0b36ceca98ba491170b07ff9066a0e45a568a3dc971bff03a",
+  "checks": [
+    {
+      "name": "Actual GLTFLoader parses embedded geometry and two required mesh contacts",
+      "passed": true,
+      "details": {
+        "threeRevision": "187"
+      }
+    },
+    {
+      "name": "Wrong byte length rejects before parser",
+      "passed": true,
+      "details": {
+        "code": "asset-byte-length-mismatch",
+        "fetchCalls": 1
+      }
+    },
+    {
+      "name": "Wrong digest rejects actual same-length bytes",
+      "passed": true,
+      "details": {
+        "code": "asset-digest-mismatch",
+        "fetchCalls": 1
+      }
+    },
+    {
+      "name": "External buffer URI rejects before loader fetch",
+      "passed": true,
+      "details": {
+        "code": "external-asset-uri",
+        "fetchCalls": 1
+      }
+    },
+    {
+      "name": "External image URI rejects before loader fetch",
+      "passed": true,
+      "details": {
+        "code": "external-asset-uri",
+        "fetchCalls": 1
+      }
+    },
+    {
+      "name": "Animation, skin, compression and nonfinite node matrix are rejected",
+      "passed": true,
+      "details": {
+        "cases": 4
+      }
+    },
+    {
+      "name": "Missing required mesh and duplicate raw target names reject and release parsed assets",
+      "passed": true
+    },
+    {
+      "name": "Empty default scene is rejected",
+      "passed": true,
+      "details": {
+        "code": "empty-asset",
+        "fetchCalls": 1
+      }
+    },
+    {
+      "name": "Concurrent preload uses one fetch and instances own independent geometry and materials",
+      "passed": true,
+      "details": {
+        "fetchCalls": 1,
+        "otherInstanceDisposeEvents": 0
+      }
+    },
+    {
+      "name": "Failed fetch may retry and cache separates content identities",
+      "passed": true,
+      "details": {
+        "fetchCalls": 3
+      }
+    },
+    {
+      "name": "Malformed external input returns CompanyError and procedural resources are skipped",
+      "passed": true
+    },
+    {
+      "name": "Dispose during a fetch rejects late bytes and does not resurrect cache",
+      "passed": true
+    },
+    {
+      "name": "Actual GLTFLoader embedded texture objects and sources are isolated per instance",
+      "passed": true,
+      "details": {
+        "otherTextureDisposeEvents": 0,
+        "imageDecode": "CPU image API shim returning read-only 1x1 bitmap metadata. PNG raster pixels are not decoded."
+      }
+    },
+    {
+      "name": "Dispose while GLTFLoader awaits embedded image cleans its late parsed objects",
+      "passed": true,
+      "details": {
+        "disposed": {
+          "geometry": 1,
+          "material": 1,
+          "texture": 1
+        }
+      }
+    },
+    {
+      "name": "GLTFLoader partial parse failure cleans fulfilled cached geometry and materials",
+      "passed": true,
+      "details": {
+        "disposed": {
+          "geometry": 1,
+          "material": 2,
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "Actual lounge-sofa v1 and v2 load pinned GLB bytes and resolve four contact meshes independently",
+      "passed": true,
+      "details": {
+        "fetchCalls": 2,
+        "resources": [
+          {
+            "version": 1,
+            "sha256": "a457c8e142f5745bb66140f0c15c1748cdcda63f536af5f119a16f7ee633116c",
+            "bytes": 631292,
+            "contactNames": [
+              "seat-left",
+              "back-left",
+              "seat-right",
+              "back-right"
+            ],
+            "bounds": {
+              "min": [
+                -1.100000023841858,
+                -1.4901161138336505e-9,
+                -0.5199999809265137
+              ],
+              "max": [
+                1.100000023841858,
+                1.0300000023841858,
+                0.5199999809265137
+              ]
+            }
+          },
+          {
+            "version": 2,
+            "sha256": "909662780545112153e591cffbe2463a0e2c3ad1727edd3f84b1a58c4e653c84",
+            "bytes": 631248,
+            "contactNames": [
+              "seat-left",
+              "back-left",
+              "seat-right",
+              "back-right"
+            ],
+            "bounds": {
+              "min": [
+                -1.1599999994039536,
+                -1.4901161138336505e-9,
+                -0.5199999809265137
+              ],
+              "max": [
+                1.1599999994039536,
+                1.1300000143051148,
+                0.5199999809265137
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "limits": [
+    "Real GLTFLoader and Three CPU geometry/material/texture objects. Embedded image test uses an explicitly recorded CPU image API shim without raster pixel decoding.",
+    "Texture and TextureSource state are cloned. Decoded browser image content remains shared read-only; typed pixel arrays are copied.",
+    "No renderer, browser/GPU, art production or real sofa/character acceptance claim."
+  ]
+}

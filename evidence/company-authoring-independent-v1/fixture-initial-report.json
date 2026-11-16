@@ -1,0 +1,108 @@
+{
+  "configuration": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "reuseKnownConfiguration": true,
+    "difficulty": "complex",
+    "reason": "Independent integration audit of asynchronous scene transactions, actual material/contact references and failure preservation",
+    "actualProviderConfiguration": "not independently verified",
+    "desktopHookInterception": "not independently verified"
+  },
+  "threeRevision": "187",
+  "inputs": [
+    {
+      "path": "prototype/src/company/authoring.js",
+      "sha256": "7f2852b8939503bea8b12952c9a30767f174f16802bb4116a7a979f23252bedf"
+    },
+    {
+      "path": "prototype/src/company/render.js",
+      "sha256": "d0ff802855d2229610cde52e535d3fe602d84017082446a3c6d3c48df6573eef"
+    },
+    {
+      "path": "prototype/src/company/document.js",
+      "sha256": "d2019429d7e13250d8bbec823c1aa8e7f5c4aa7680c2a1651b1227909792254d"
+    },
+    {
+      "path": "prototype/src/company/facility-catalog.json",
+      "sha256": "1bb239e08fa8bb466eaa048a69ec15b23be1d033a7db44604b639f91e8d283ad"
+    },
+    {
+      "path": "prototype/src/company/templates.json",
+      "sha256": "c5d7e3c573df6b8f88c54c553f02dba3db96ae76c9c2bb8e677e2a67cb0dfa53"
+    },
+    {
+      "path": "prototype/src/company/persistence.js",
+      "sha256": "ce81dfba9e3bedec435b10173cf8989db4ee5006b0810cc4d74a25f1963c998c"
+    },
+    {
+      "path": "prototype/src/company/placement.js",
+      "sha256": "45fa2a850ac950c02216d8cce17fd0f4e9c7647eb6411e2ae5da55f676645378"
+    }
+  ],
+  "checks": [
+    {
+      "name": "Delayed load cannot roll back a later edit",
+      "status": "unexpected-error",
+      "code": "missing-use-space",
+      "error": "CompanyError: missing-use-space at station/chair#seat: Requires finite position, approach, exit vectors and explicit capacity:1\n    at fail (file:///F:/gamemake-company-platform-c1/prototype/src/company/placement.js:6:56)\n    at inspectCompanyPlacement (file:///F:/gamemake-company-platform-c1/prototype/src/company/placement.js:118:9)\n    at preload (file:///F:/gamemake-company-platform-c1/prototype/src/company/authoring.js:12:5)\n    at createCompanyAuthoring (file:///F:/gamemake-company-platform-c1/prototype/src/company/authoring.js:16:9)\n    at file:///F:/gamemake-company-platform-c1/evidence/company-authoring-independent-v1/review.mjs:36:22\n    at check (file:///F:/gamemake-company-platform-c1/evidence/company-authoring-independent-v1/review.mjs:22:62)\n    at file:///F:/gamemake-company-platform-c1/evidence/company-authoring-independent-v1/review.mjs:33:9"
+    },
+    {
+      "name": "Delayed edit cannot roll back a later load",
+      "status": "unexpected-error",
+      "code": "missing-use-space",
+      "error": "CompanyError: missing-use-space at station/chair#seat: Requires finite position, approach, exit vectors and explicit capacity:1\n    at fail (file:///F:/gamemake-company-platform-c1/prototype/src/company/placement.js:6:56)\n    at inspectCompanyPlacement (file:///F:/gamemake-company-platform-c1/prototype/src/company/placement.js:118:9)\n    at preload (file:///F:/gamemake-company-platform-c1/prototype/src/company/authoring.js:12:5)\n    at createCompanyAuthoring (file:///F:/gamemake-company-platform-c1/prototype/src/company/authoring.js:16:9)\n    at file:///F:/gamemake-company-platform-c1/evidence/company-authoring-independent-v1/review.mjs:36:22\n    at check (file:///F:/gamemake-company-platform-c1/evidence/company-authoring-independent-v1/review.mjs:22:62)\n    at file:///F:/gamemake-company-platform-c1/evidence/company-authoring-independent-v1/review.mjs:33:9"
+    },
+    {
+      "name": "Dispose during an actual delayed GLB preload prevents late scene publication",
+      "status": "unexpected-error",
+      "code": "missing-use-space",
+      "error": "CompanyError: missing-use-space at station/chair#seat: Requires finite position, approach, exit vectors and explicit capacity:1\n    at fail (file:///F:/gamemake-company-platform-c1/prototype/src/company/placement.js:6:56)\n    at inspectCompanyPlacement (file:///F:/gamemake-company-platform-c1/prototype/src/company/placement.js:118:9)\n    at preload (file:///F:/gamemake-company-platform-c1/prototype/src/company/authoring.js:12:5)\n    at createCompanyAuthoring (file:///F:/gamemake-company-platform-c1/prototype/src/company/authoring.js:16:9)\n    at file:///F:/gamemake-company-platform-c1/evidence/company-authoring-independent-v1/review.mjs:50:22\n    at check (file:///F:/gamemake-company-platform-c1/evidence/company-authoring-independent-v1/review.mjs:22:62)\n    at file:///F:/gamemake-company-platform-c1/evidence/company-authoring-independent-v1/review.mjs:48:7"
+    },
+    {
+      "name": "Actual room overflow rejects legal footprint metadata without publishing or leaking",
+      "status": "unexpected-error",
+      "code": "ERR_ASSERTION",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n11 !== 0\n\n    at file:///F:/gamemake-company-platform-c1/evidence/company-authoring-independent-v1/review.mjs:60:470\n    at async check (file:///F:/gamemake-company-platform-c1/evidence/company-authoring-independent-v1/review.mjs:22:56)\n    at async file:///F:/gamemake-company-platform-c1/evidence/company-authoring-independent-v1/review.mjs:57:3"
+    },
+    {
+      "name": "Actual desktop overhang rejects legal mount origin without publishing or leaking",
+      "status": "unexpected-error",
+      "error": "TypeError: Cannot read properties of undefined (reading 'parameters')\n    at file:///F:/gamemake-company-platform-c1/evidence/company-authoring-independent-v1/review.mjs:56:118\n    at file:///F:/gamemake-company-platform-c1/evidence/company-authoring-independent-v1/review.mjs:58:132\n    at check (file:///F:/gamemake-company-platform-c1/evidence/company-authoring-independent-v1/review.mjs:22:62)\n    at file:///F:/gamemake-company-platform-c1/evidence/company-authoring-independent-v1/review.mjs:57:9"
+    },
+    {
+      "name": "Real sofa fabric overrides only its six declared meshes and preserves five frame meshes",
+      "status": "passed",
+      "fabricMeshes": 6,
+      "frameMeshes": 5,
+      "independentPoints": [
+        "sofa#left",
+        "sofa#right"
+      ]
+    },
+    {
+      "name": "Bad actual material target rejects before publication and releases candidate resources",
+      "status": "unexpected-error",
+      "code": "ERR_ASSERTION",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n11 !== 0\n\n    at file:///F:/gamemake-company-platform-c1/evidence/company-authoring-independent-v1/review.mjs:82:455\n    at async check (file:///F:/gamemake-company-platform-c1/evidence/company-authoring-independent-v1/review.mjs:22:56)\n    at async file:///F:/gamemake-company-platform-c1/evidence/company-authoring-independent-v1/review.mjs:79:1"
+    },
+    {
+      "name": "Adding a legal child under a preserved seat facility keeps document and actual visual tree aligned",
+      "status": "defect-reproduced",
+      "documentHasChild": true,
+      "visualHasChild": false,
+      "expected": "New legal child must remain present after contact-root preservation"
+    },
+    {
+      "name": "Unpack/group/copy preserve independent world transforms and actual local appearance intent",
+      "status": "passed",
+      "preservedFacilities": 6,
+      "copiedFacilities": 6,
+      "scope": "Targeted world and dependency checks, not replay of all historical document QA"
+    }
+  ],
+  "limits": [
+    "Real Three CPU objects and actual sofa GLB as a dependency. asset-library implementation is not the subject of this independent audit.",
+    "Busy callbacks and held contact references are fixtures. No real actor occupancy, browser, GPU, physical contact or C3 integration claim.",
+    "Program mesh enlargement and nonblocking badge are explicit synthetic negative/reference fixtures."
+  ]
+}
