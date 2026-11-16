@@ -1,3 +1,4 @@
+import {createAccessoryTransactionContext} from './accessory-transaction-context.js';
 import {ACCESSORY_SCHEMA,ACCESSORY_RULES,captureAccessories,validateAccessories,assertAccessoryHair,assertAccessoryGeometry} from './accessory-recipe.js';
 import {validateHairSelection} from './hair-fit-contract.js';
 import {HAIR_COLORS,SKIN_TONES} from './character-appearance.js';
@@ -97,6 +98,7 @@ export async function applyAppearanceRecipe(controller,record){
  const accessoryDomains=[actor.rigidAccessories,actor.headwear].filter(Boolean);
  const accessoryRevisions=new Map(accessoryDomains.map(domain=>[domain,domain.getState().revision]));
  const updates=[],cleanupErrors=[];
+ const attachmentTransaction=accessoryVersion?createAccessoryTransactionContext(actor,record.accessories):null;
  let commitStarted=false;
  const superseded=()=>controller.actor!==actor||
   actor.facialGeometry.getState().revision!==geometryRevision||
@@ -116,7 +118,7 @@ export async function applyAppearanceRecipe(controller,record){
   return true;
  };
  try{
-  const options=accessoryVersion?{accessories:record.accessories}:undefined;
+  const options=attachmentTransaction?{accessoryTransaction:attachmentTransaction.token}:undefined;
   if(!await prepare(actor.facialGeometry,{mouthWidth:record.geometry.mouthWidth,expectedRecipeSha256:record.geometry.recipeSha256,
    browSample:record.geometry.browSample??'none',expectedBrowRecipeSha256:record.geometry.browRecipeSha256,
    noseSample:record.geometry.noseSample??'none',expectedNoseRecipeSha256:record.geometry.noseRecipeSha256,
@@ -136,6 +138,7 @@ export async function applyAppearanceRecipe(controller,record){
   // Equipment may have changed while resources were preparing. Recheck all
   // synchronous dependency guards before any domain becomes visible.
   for(const update of updates)update.validateCommit?.();
+  attachmentTransaction?.beginCommit();
   commitStarted=true;
   for(const update of updates)update.commit();
  }catch(error){
@@ -143,6 +146,7 @@ export async function applyAppearanceRecipe(controller,record){
   if(superseded())return{applied:false,cancelled:true};
   throw Error(`恢复配方失败，先前外观已保留：${error.message}`);
  }finally{
+  attachmentTransaction?.close();
   for(const update of updates)try{update.dispose();}catch(error){cleanupErrors.push(error.message);}
   if(cleanupErrors.length&&!commitStarted)throw Error(`先前外观已保留，准备资源清理失败：${cleanupErrors.join('；')}`);
  }

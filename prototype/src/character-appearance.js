@@ -1,3 +1,4 @@
+import {readAccessoryTransactionContext,assertAccessoryTransactionCommit} from './accessory-transaction-context.js';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { createFacialPalette, EYE_COLORS, LIP_COLORS } from './facial-palette.js';
@@ -190,13 +191,14 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
 
   // Equipped headwear can depend on exact hair geometry. Recheck immediately
   // before either commit path: a hat may have equipped while decoding waited.
-  function assertHairChange(style, accessoryContext) {
+  function assertHairChange(style, accessoryTransaction) {
+    const accessoryContext=accessoryTransaction===undefined?undefined:readAccessoryTransactionContext(accessoryTransaction,avatarSha256);
     const entry = validateHairSelection(avatarSha256, style);
     validateHairChange?.({ hairStyle: style, replacementSHA256: entry?.assetSha256 ?? null,
       hairFit: entry ? hairFitIdentity(entry) : null }, accessoryContext);
   }
-  async function prepareUpdate(input = {}, {trackIntent=false,accessories}={}) {
-    const accessoryContext=accessories===undefined?undefined:structuredClone(accessories);
+  async function prepareUpdate(input = {}, {trackIntent=false,accessoryTransaction,accessories}={}) {
+    if(accessories!==undefined)return{applied:false,reason:'附件组合必须通过整套配方提交'};
     if (disposed) return { applied: false, reason: '人物已卸载' };
     const desiredStyle = input.reset ? 'original' : input.hairStyle ?? hairStyle;
     const desiredColor = input.reset ? 'original' : input.hairColor ?? hairColor;
@@ -206,7 +208,7 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
       return {applied:false,reason:'未知瞳色或唇色'};
     if (desiredStyle !== 'original' && !(desiredStyle === 'none' && canHideHair) && !admittedStyles.some(entry => entry.id === desiredStyle))
       return { applied: false, reason: '该发型尚未适配当前身体；请使用可选款式' };
-    try { validateHairSelection(avatarSha256,desiredStyle,input); assertHairChange(desiredStyle,accessoryContext); }
+    try { validateHairSelection(avatarSha256,desiredStyle,input); assertHairChange(desiredStyle,accessoryTransaction); }
     catch(e) { return {applied:false,reason:e.message}; }
     const requestRevision = ++revision;
     const changeStyle=!trackIntent||input.reset||input.hairStyle!==undefined;
@@ -216,7 +218,7 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
     // recipe never lends its staged hair selection to a newer color request.
     const applyStyleIntent=()=>{
       if(!trackIntent||!changeStyle||disposed||styleRequest!==generation)return;
-      assertHairChange(desiredStyle,accessoryContext);
+      assertHairChange(desiredStyle,accessoryTransaction);
       hairStyle=desiredStyle;replacement=replacements.get(desiredStyle)||null;
       applyColors();applyHairVisibility();
     };
@@ -256,9 +258,10 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
         applyStyleIntent,
           validateCommit(){
           if(!update.isCurrent())throw Error('外观准备已过期');
-          if(changeStyle)assertHairChange(desiredStyle,accessoryContext);
+          if(changeStyle)assertHairChange(desiredStyle,accessoryTransaction);
           },
           commit(){
+            assertAccessoryTransactionCommit(accessoryTransaction);
             update.validateCommit();
           paletteUpdate.commit();
           if(changeStyle){hairStyle=desiredStyle;replacement=replacements.get(desiredStyle)||null;}
