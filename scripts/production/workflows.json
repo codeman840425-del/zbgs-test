@@ -1438,6 +1438,135 @@
         "Run producer and installer only in an isolated checkout. Preserve failed output and rerun CPU checks after restoring the exact source identity.",
         "Readback does not execute build/install/Node checks and does not promote visual or action acceptance."
       ]
+    },
+    {
+      "id": "paired-ear-accessory-source",
+      "title": "Original female/male parameterized rigid paired ear accessory",
+      "kind": "source-package",
+      "sources": [
+        "assets-source/m2-paired-ear-accessory-v1/spec.json",
+        "assets-source/m2-paired-ear-accessory-v1/provenance.json",
+        "assets-source/m2-paired-ear-accessory-v1/LICENSE.md",
+        "scripts/m2-paired-ear-accessory-v1/build.py",
+        "scripts/m2-paired-ear-accessory-v1/qa.py",
+        "scripts/m2-paired-ear-accessory-v1/requirements.txt"
+      ],
+      "inputs": [
+        "assets-source/m2-paired-ear-accessory-v1/spec.json",
+        "prototype/public/assets/foundation/base-female-roundtrip.vrm",
+        "prototype/public/assets/foundation/base-male-roundtrip.vrm"
+      ],
+      "identity": {
+        "package": "paired-ear",
+        "manifest": "assets-source/m2-paired-ear-accessory-v1/generated/package-files.json",
+        "manifestSha256": "525dc9063f37810acbdf49580052a01f159b1afee58816a2811966e742a372c9"
+      },
+      "requirements": [
+        "scripts/m2-paired-ear-accessory-v1/build.py",
+        "scripts/m2-paired-ear-accessory-v1/qa.py",
+        "scripts/m2-paired-ear-accessory-v1/publish.py",
+        "scripts/m2-paired-ear-accessory-v1/qa-runtime.mjs",
+        "scripts/m2-paired-ear-accessory-v1/requirements.txt",
+        "prototype/package-lock.json",
+        "prototype/src/rigid-accessory-layer.js"
+      ],
+      "outputs": [
+        "assets-source/m2-paired-ear-accessory-v1/generated/",
+        "prototype/public/assets/m2-paired-ear-accessory-v1/"
+      ],
+      "agentInput": {
+        "spec": "assets-source/m2-paired-ear-accessory-v1/spec.json",
+        "supportedBases": [
+          "original female",
+          "original male"
+        ],
+        "sourceLicense": "CC0-1.0 for new procedural geometry and fit data; original avatar licenses remain applicable",
+        "generationDependencies": "Python 3.13.11 / numpy==2.4.2 retained build identity; source readback uses Python standard library only",
+        "runtimeCPUDependencies": "Node and prototype locked three/esbuild, installed from prototype/package-lock.json"
+      },
+      "stages": {
+        "source": [
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/production/flow.py",
+              "show",
+              "paired-ear-accessory-source"
+            ],
+            "writes": [],
+            "note": "Read agent input/output and full command/write declarations."
+          }
+        ],
+        "export": [
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/m2-paired-ear-accessory-v1/build.py"
+            ],
+            "writes": [
+              "assets-source/m2-paired-ear-accessory-v1/generated/"
+            ],
+            "note": "CPU parameter producer. Rewrites stud/repeat/variant GLBs, variant spec, two fits/pair fixtures, manifest and build report. Use isolated checkout. No CLI output override."
+          },
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/m2-paired-ear-accessory-v1/publish.py"
+            ],
+            "writes": [
+              "prototype/public/assets/m2-paired-ear-accessory-v1/"
+            ],
+            "note": "Run qa.py first. Verifies inventory and exact source QA, preflights all four outputs, refuses differing existing files. Creates missing resources through per-file .tmp and manifest last. Repeat identical publish leaves bytes unchanged."
+          }
+        ],
+        "check": [
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/m2-paired-ear-accessory-v1/qa.py"
+            ],
+            "writes": [
+              "assets-source/m2-paired-ear-accessory-v1/generated/"
+            ],
+            "note": "Transitive build.main reruns production, then writes qa-report and package-files inventory. numpy required. Samples rest ear clearance and parameter/repeat bytes. No runtime acceptance."
+          },
+          {
+            "argv": [
+              "node",
+              "scripts/m2-paired-ear-accessory-v1/qa-runtime.mjs"
+            ],
+            "writes": ["scripts/m2-paired-ear-accessory-v1/__pycache__/"],
+            "note": "Actual GLTFLoader/Three CPU lifecycle tests and publisher temporary-directory tests. Uses OS temporary directory for successful/failed publish cases and cleans it. Python publisher import may cache bytecode in the declared source script __pycache__. No browser or GPU."
+          }
+        ],
+        "readback": [
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/production/flow.py",
+              "validate",
+              "paired-ear-accessory-source"
+            ],
+            "writes": [],
+            "note": "Read-only frozen inventory, exact bases/fit/semantic sides, stored CPU witness and actual parameter/repeat radius. If public directory exists, verify all four exact published bytes."
+          }
+        ]
+      },
+      "limits": [
+        "Only one rigid compact stud and original female/male fits. Derived faces, long/drop earrings, movement/hair/glasses visual compatibility remain pending.",
+        "Source manifest/build/fit/QA runtimeAccepted remains false. Optional published-byte identity is distinct from runtime or visual acceptance.",
+        "qa.py rebuilds generated before checking it and recreates inventory. This writer is declared explicitly. The index never executes displayed commands."
+      ],
+      "recovery": [
+        "Preserve failed source/publish outputs. Restore exact pinned source/base bytes and rerun targeted readback before remaking a candidate in an isolated checkout.",
+        "Changed spec/build requires build then qa then reviewed source inventory/version before publish. Do not relabel old hashes or automatically overwrite differing public files.",
+        "Publisher preflights conflicts and writes manifest last. Interrupted absent-file publication may be retried with identical source. Any differing file fails before publication writes."
+      ]
     }
   ]
 }

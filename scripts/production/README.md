@@ -49,3 +49,9 @@ if (result.accepted) await __debug.importAppearanceRecipe(JSON.stringify(record)
 `show`/`dry-run` 明示 build、author、audit、finalize 和 install 的写范围。build 的原男 exporter 依赖会确保既有 m1b 目录存在，输出实物仍只写独立目录。安装器还可能写 `equipment.install.tmp` 后替换原清单。固定 finalize 读取 generated/repeat 并重写包清单，不会推广 workflow-rebuild；这些步骤只声明，不由索引执行。已有 44 对身体交叉、368 对自交及近面采样深度保留为静态诊断，查询通过不代表动作、坐姿或视觉验收。
 
 可选格式诊断：顾问已独立安装官方 gltf-validator 2.0.0-dev.3.10。三个现有准确SHA报告归档于 docs/research/gltf-validator-pilot-2026-11-16；不重跑pilot，不追求零warning。仅新导出字节或实际格式疑点时使用该目录README记录的check.cjs入口。它不验证VRM扩展/fit/动作，不替代本索引与asset_budget，也不是构建所需外部依赖。
+
+成对耳饰生产入口为 `paired-ear-accessory-source`。输入是参数 spec 与精确原男女 VRM，产物为共用 stud GLB、独立左右语义挂点及男女 fit、重复导出和实际半径变体。只读查询使用 `python -B scripts/production/flow.py show paired-ear-accessory-source`，核验使用同入口 `validate`。原过程源与新几何许可为 CC0-1.0，原 VRM 来源许可继续适用。
+
+登记顺序为隔离检出的 build、qa、publish。qa 会再次调用 build 并重写整个 generated、qa-report 和 package-files，publish 核完整清单后只发布 manifest、stud 和两个 fit，逐文件临时写入且最后发布 manifest。同源重复 publish 不改已有相同文件，任一已有文件不同则预检拒绝。源制作需要锁定 numpy 2.4.2，实际报告 Python 3.13.11。CPU runtime 检查另需 prototype 锁文件安装的 Three/esbuild，其 OS 临时发布目录和清理行为已在命令备注说明。
+
+索引核 18 文件源清单、两基模 SHA、fit 身份与侧别、pair fixture、实际参数变体半径及已保存 CPU 表面采样报告。public 目录存在时核全部四文件精确字节，缺少目录时报告 `publishedBytesMatchSource=false`。`runtimeAccepted=false` 保留源记录，运行与观感需对应固定版本证据。定向无写入回归为 `python -B scripts/production/qa-paired-ear-package.py`，覆盖重复查询/回读一致、坏导出、错误 fit 身份、重复侧别、许可与 QA 误报。

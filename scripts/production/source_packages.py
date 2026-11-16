@@ -10,6 +10,9 @@ def validate_package(v, ident, require, GLB):
     if kind == 'onepiece':
         from onepiece_package import validate_onepiece
         return validate_onepiece(v, ident, require, GLB)
+    if kind == 'paired-ear':
+        from paired_ear_package import validate_paired_ear
+        return validate_paired_ear(v, ident, require, GLB)
     if kind == 'garment-coverage':
         from garment_coverage_package import validate_garment_coverage
         return validate_garment_coverage(v, ident, require, GLB)
