@@ -4,6 +4,9 @@ import json
 
 def validate_package(v, ident, require, GLB):
     kind = ident['package']
+    if kind == 'hat-hair':
+        from hat_package import validate_hat
+        return validate_hat(v, ident, require, GLB)
     if kind == 'long-hair':
         from long_hair_package import validate_long_hair
         return validate_long_hair(v, ident, require, GLB)

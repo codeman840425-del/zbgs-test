@@ -13,7 +13,7 @@ python scripts/production/qa-flow.py
 python scripts/production/qa-source-packages.py
 ```
 
-十六条入口共用既有命令索引；已有 `male-jaw-source`、`male-jaw-mouth`、`male-jaw-hair-fit`。没有运行命令的子命令、shell、自动导出或浏览器。`show`/`dry-run` 只输出参数和写入范围；`validate` 只读现有文件。工具或依赖缺失与源文件缺失分开报告。
+十七条入口共用既有命令索引；已有 `male-jaw-source`、`male-jaw-mouth`、`male-jaw-hair-fit`。没有运行命令的子命令、shell、自动导出或浏览器。`show`/`dry-run` 只输出参数和写入范围；`validate` 只读现有文件。工具或依赖缺失与源文件缺失分开报告。
 
 新增三包清单 SHA 固定在 workflows.json。男下颌包核文件及原始基模、独立重建/重复导出的身份；嘴包核 files/dependencies、精确 jaw 基模与仅 0/+4% 配方及最终 NORMAL 产物；头发包使用 evidence 下的包清单，并核同 GLB 的独立 fit ID/version/body、挂点及 public 三文件。头发目录的 manifest.json 是运行时描述，不能当文件清单。
 
@@ -83,3 +83,10 @@ writer顺序为build、Node qa-runtime、Python qa；最终qa只在内存计划/
 同一 `long-hair-source` 入口同时登记 `rootjoin-v2`，原26项清单保持原SHA。修订版独立固定16项清单，另固定后加入的 `publish-rootjoin-v2.py` SHA及其精确 manifest guard。只读核对原版来源、609顶点/1162三角、原骨骼与inverse bind、完整原physics/attachment合同、新asset/fit/manifest SHA、静态/CPU/输出QA及独立public三文件。`attempt-1/2`保留在修订清单供追溯，不能替代发布根目录的已登记实物。返回资料保持 `runtimeAccepted=false` 与观感未建立。
 
 修订制作入口是 `python -B scripts/m2-long-hair-v1/rootjoin-v2.py`，有界重建可追加 `--out assets-source/m2-long-hair-v1/revisions/rootjoin-v2/exports/<新目录>`。源几何失败仍可能在固定revision目录写 `attempt-3`，同字节不重写、冲突拒绝。接着在精确修订源检出使用 `node scripts/m2-long-hair-v1/qa-rootjoin-v2.mjs`，它先调用Python producer重复检查，再写CPU报告并递归枚举revision，故写范围包含整个revision，额外exports不能混入冻结16项清单。日常只读核验使用 `flow.py validate long-hair-source`，不要在共存修订的共享树运行原递归 `qa.py`。`publish-rootjoin-v2.py`复用原原子发布器，默认发布至独立 `/assets/m2-long-hair-rootjoin-v2`，完整检查与三个精确实物不变。`python -B scripts/production/qa-long-hair-revision.py`只执行本入口回读、少量内存阴性及临时镜像发布/重复/冲突/失败QA拒绝，证据写 `evidence/m2-long-hair-revision-production-v2`，不重制资产或运行历史全套QA。
+
+
+帽子与发型共存入口为 `hat-hair-source`。只读核冻结27文件清单、原女性身体、精确rootjoin-v2发型manifest/fit/实物、2238顶点/4472三角的实际双刚性网格、source-author静态/真实loader CPU报告和已保存帽檐+10mm编辑证据。首次失败和帽檐变体都保留来源身份，发布只取generated三件ready实物。fit中的repo路径只用于来源追溯，运行资源使用manifest的绝对 `/assets/` URL，原头皮和完整头发保持来源合同。
+
+制作顺序与完整写范围见 `flow.py show hat-hair-source`。build、qa-runtime与递归qa仅登记供精确源隔离检出重做，不在冻结主源上重跑扩清单。本次顶层 `scripts/publish-hat-hair-v1.py` 放在递归枚举范围外，并独立固定SHA。发布前核整个清单、QApassed、三个ready SHA和实际依赖，再在目标同级 `.hat-stage-*` 暂存并整目录rename。默认仅发布 `prototype/public/assets/m2-hat-hair-v1/{baseball-cap.glb,fit.json,manifest.json}`，相同完整发布不改字节或mtime，不同或部分已有目录拒绝。源文件缺失、坏身份或QA失败均在目标写入前拒绝。
+
+限定复核命令为 `python -B scripts/production/flow.py validate hat-hair-source` 和 `python -B scripts/production/qa-hat-package.py`，实际发布入口为 `python -B scripts/publish-hat-hair-v1.py`。focused QA仅使用临时镜像测试发布/重复/冲突/坏源，语义字段阴性采用明确的内存注入，报告写 `evidence/m2-hat-production-v1`。源27项清单原样保留，静态及CPU结果继续 `runtimeAccepted=false`，不代表浏览器、长发动态、表情视线、椅子接触或观感验收。

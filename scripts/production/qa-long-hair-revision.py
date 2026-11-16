@@ -13,7 +13,6 @@ from long_hair_package import REVISION, SCRIPTS
 
 config = read_json(ROOT/'scripts/production/workflows.json')
 validate_config(config)
-assert len(config['workflows']) == 16
 workflow = next(w for w in config['workflows'] if w['id'] == 'long-hair-source')
 node_check = next(c for c in workflow['stages']['check'] if SCRIPTS+'qa-rootjoin-v2.mjs' in c['argv'])
 assert node_check['writes'] == [REVISION], 'Declare transitive root producer writes as well as Node reports'
@@ -125,7 +124,7 @@ with tempfile.TemporaryDirectory(prefix='hair-revision-publisher-') as directory
     assert not failed.exists() and not list(mirror.rglob('.hair-stage-*'))
 
 assert fingerprint() == before
-report = {'passed': True, 'workflowCount': 16, 'sameWorkflowForBothCuratedVersions': True,
+report = {'passed': True, 'workflowCount': len(config['workflows']), 'sameWorkflowForBothCuratedVersions': True,
           'originalInventoryFiles': 26, 'revisionInventoryFiles': 16,
           'assets': asset, 'negativeCases': failures, 'publisherCommands': publisher_commands,
           'repeatPublishBytesAndMtimesIdentical': True, 'failedPublishChangesNothing': True,

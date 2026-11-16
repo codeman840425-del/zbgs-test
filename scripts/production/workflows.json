@@ -2216,6 +2216,170 @@
         "Publish the validated generated base only. Different existing release needs a new explicit output/version. Whole-directory rename supports an identical repeat with no rewriting.",
         "For rootjoin-v2, preserve both frozen inventories. Never run original recursive qa.py in the shared revision tree. Remake and refresh revision QA/inventory only in its exact fixed source checkout, then review explicit new identities before publish."
       ]
+    },
+    {
+      "id": "hat-hair-source",
+      "title": "Original female baseball cap with exact rootjoin-v2 ponytail dependency",
+      "kind": "source-package",
+      "sources": [
+        "assets-source/m2-hat-hair-v1/spec.json",
+        "assets-source/m2-hat-hair-v1/README.md",
+        "scripts/m2-hat-hair-v1/build.py",
+        "scripts/m2-hat-hair-v1/qa-runtime.mjs",
+        "scripts/m2-hat-hair-v1/qa.py",
+        "scripts/publish-hat-hair-v1.py"
+      ],
+      "inputs": [
+        "assets-source/m2-hat-hair-v1/spec.json",
+        "assets-source/m2-hat-hair-v1/brim-length-edit.json",
+        "prototype/public/assets/foundation/base-female-roundtrip.vrm",
+        "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/female-ponytail.glb",
+        "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/fit.json",
+        "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/manifest.json"
+      ],
+      "identity": {
+        "package": "hat-hair",
+        "manifest": "assets-source/m2-hat-hair-v1/package-files.json",
+        "manifestSha256": "e3a51e2129d504096acad859c7519e8ee9898c37980ab7f09162be1eeb0199d7",
+        "publisherSha256": "e74650a0cfc30d5f44e801f032644e2ff16cd54aae48642c8f1e8d64f9fbf29c"
+      },
+      "requirements": [
+        "scripts/m2-hat-hair-v1/build.py",
+        "scripts/m2-hat-hair-v1/qa-runtime.mjs",
+        "scripts/m2-hat-hair-v1/qa.py",
+        "prototype/package-lock.json"
+      ],
+      "outputs": [
+        "assets-source/m2-hat-hair-v1/generated/",
+        "assets-source/m2-hat-hair-v1/exports/",
+        "prototype/public/assets/m2-hat-hair-v1/"
+      ],
+      "agentInput": {
+        "spec": "assets-source/m2-hat-hair-v1/spec.json",
+        "sourceEdit": "assets-source/m2-hat-hair-v1/brim-length-edit.json",
+        "supportedBases": [
+          "exact original female 027bed60 only"
+        ],
+        "supportedHair": "female-ponytail-v1 manifest/fit version2 exact rootjoin-v2 bytes",
+        "supportedBrimLengthM": [
+          0.055,
+          0.065
+        ],
+        "generationDependencies": "Python3.13 with numpy/Pillow via existing GLB reader and socks geometry helper. CPU loader uses prototype locked Three187 and three-vrm3.5.5. Readback/publisher use standard library.",
+        "sourcePathScope": "Dependency repo paths preserve provenance; runtime resources use manifest absolute /assets URLs."
+      },
+      "stages": {
+        "source": [
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/production/flow.py",
+              "show",
+              "hat-hair-source"
+            ],
+            "writes": []
+          }
+        ],
+        "export": [
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/m2-hat-hair-v1/build.py"
+            ],
+            "writes": [
+              "assets-source/m2-hat-hair-v1/generated/",
+              "assets-source/m2-hat-hair-v1/failure-1/"
+            ],
+            "note": "Author source spec is editable. Run only in isolated fixed source checkout. Compute/repeat plans before writing, same bytes keep mtimes, conflicts reject. Geometry failure can retain failure-1 only when absent. Body and exact hair inputs remain read-only."
+          },
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/m2-hat-hair-v1/build.py",
+              "--spec",
+              "assets-source/m2-hat-hair-v1/brim-length-edit.json",
+              "--out",
+              "assets-source/m2-hat-hair-v1/exports/brim-length-edit"
+            ],
+            "writes": [
+              "assets-source/m2-hat-hair-v1/exports/brim-length-edit/",
+              "assets-source/m2-hat-hair-v1/failure-1/"
+            ],
+            "note": "Single declared source-edit witness only; does not replace curated base publication. Same fixed source and output identities required."
+          },
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/publish-hat-hair-v1.py"
+            ],
+            "writes": [
+              "prototype/public/assets/m2-hat-hair-v1/",
+              "prototype/public/assets/.hat-stage-*/"
+            ],
+            "note": "Top-level publisher kept outside frozen scripts/m2-hat-hair-v1. Checks exact27 inventory, three ready SHA/bytes, QA flags, exact original body/hair dependencies and source fit before any destination write. Only three ready files; sibling staging then directory rename. Identical complete release keeps bytes/mtime, differing/partial release refuses. --output changes destination/staging parent."
+          }
+        ],
+        "check": [
+          {
+            "argv": [
+              "node",
+              "scripts/m2-hat-hair-v1/qa-runtime.mjs"
+            ],
+            "writes": [
+              "assets-source/m2-hat-hair-v1/runtime-cpu-qa.json"
+            ],
+            "note": "Actual original raw-head attachment and 0.2rad yaw/load/unload CPU proof with 1x1 VRM/hair texture fixture. --modules-root selects locked modules. No rendering or spring-dynamics acceptance."
+          },
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/m2-hat-hair-v1/qa.py"
+            ],
+            "writes": [
+              "assets-source/m2-hat-hair-v1/"
+            ],
+            "note": "Writer repeats only declared brim edit, creates/removes temporary mirrors under exports, then writes qa-source and recursively enumerates source plus scripts/m2-hat-hair-v1 into package-files. Do not run on frozen shared source; only exact isolated author checkout to intentionally refresh a reviewed version. New publisher/index scripts stay outside those enumerated directories."
+          },
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/production/qa-hat-package.py"
+            ],
+            "writes": [
+              "evidence/m2-hat-production-v1/"
+            ],
+            "note": "Focused both source/public identity checks and real publisher tests in OS temporary mirror; source/public unchanged, report only. No producer or recursive source QA."
+          }
+        ],
+        "readback": [
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/production/flow.py",
+              "validate",
+              "hat-hair-source"
+            ],
+            "writes": []
+          }
+        ]
+      },
+      "limits": [
+        "Original female plus exact rootjoin-v2 ponytail only. Source inventory remains27; publisher separately pinned.",
+        "Source-author static/loader CPU evidence retains runtimeAccepted=false. No visual, dynamic hair/hat, clothing/furniture or target-PC acceptance.",
+        "First failure and single brim edit remain source witnesses, excluded from curated runtime publication. Source dependency paths are provenance."
+      ],
+      "recovery": [
+        "Keep failures and restore exact source bytes on hash mismatch. Never change a manifest hash to bless an unreviewed export.",
+        "Rebuild or refresh source QA only in its isolated exact author checkout. Extra files under source or scripts/m2-hat-hair-v1 would expand recursive inventory; keep frozen27 unchanged here.",
+        "Publish only exact three ready files after full validation. For a different existing release use a separate reviewed version/output. Same-source repeat is idempotent, source/public lookup errors write nothing."
+      ]
     }
   ]
 }
