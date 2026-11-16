@@ -1,4 +1,7 @@
 import {captureAppearanceRecipe,applyAppearanceRecipe,appearanceDraftKey,exportAppearanceRecipe,readAppearanceRecipeFile} from './appearance-recipe.js';
+import {queryAppearanceCandidates} from './appearance-candidates.js';
+import earManifest from '../public/assets/m2-paired-ear-accessory-v1/manifest.json' with {type:'json'};
+import hatFit from '../public/assets/m2-hat-hair-v1/fit.json' with {type:'json'};
 // DOM binding only: appearance ownership and camera framing stay in the controller.
 export function bindAppearanceWorkbench({ controller }) {
   const url = new URL(window.location.href);
@@ -43,6 +46,24 @@ export function bindAppearanceWorkbench({ controller }) {
   const nose=geometryPanel.querySelector('#nose-sample');
   const mouth=geometryPanel.querySelector('#mouth-width'),faceNote=geometryPanel.querySelector('#face-geometry-note'),brow=geometryPanel.querySelector('#brow-sample');
   const mouthSample=document.createElement('select');mouthSample.id='mouth-width-sample';mouthSample.setAttribute('aria-label','嘴宽离散样件');mouthSample.innerHTML='<option value="0">原位</option><option value="0.04">嘴宽 +4%</option>';mouthSample.hidden=true;mouth.parentElement.prepend(mouthSample);
+  const samplesPanel=document.createElement('details');samplesPanel.id='appearance-validation-samples';samplesPanel.open=true;
+  samplesPanel.innerHTML=`<summary>验证样件</summary>
+    <p class="appearance-hint">技术候选。长发起身时发梢可能上甩，可在“检查”查看原速证据。</p>
+    <div class="appearance-pair">
+      <div><label for="appearance-surface-freckles">雀斑</label><select id="appearance-surface-freckles" aria-describedby="appearance-surface-note appearance-samples-status"></select></div>
+      <div><label for="appearance-surface-blush">腮红</label><select id="appearance-surface-blush" aria-describedby="appearance-surface-note appearance-samples-status"></select></div>
+    </div><p id="appearance-surface-note" class="appearance-hint"></p>
+    <div class="appearance-pair">
+      <div><label for="appearance-ears">耳饰</label><select id="appearance-ears" aria-describedby="appearance-ears-note appearance-samples-status"><option value="none">不装备</option><option value="left">仅左耳</option><option value="right">仅右耳</option><option value="pair">左右成对</option></select></div>
+      <div><label for="appearance-hat">帽子</label><select id="appearance-hat" aria-describedby="appearance-hat-note appearance-samples-status"><option value="none">不装备</option><option value="single">帽子样件</option></select></div>
+    </div><p id="appearance-ears-note" class="appearance-hint"></p><p id="appearance-hat-note" class="appearance-hint"></p>
+    <p class="appearance-hint">耳饰与帽子仅临时预览，草稿与配方文件不保存。</p>
+    <p id="appearance-samples-status" class="appearance-hint" role="status" aria-live="polite"></p>`;
+  fields.append(samplesPanel);
+  const freckles=samplesPanel.querySelector('#appearance-surface-freckles'),blush=samplesPanel.querySelector('#appearance-surface-blush');
+  const ears=samplesPanel.querySelector('#appearance-ears'),hat=samplesPanel.querySelector('#appearance-hat');
+  const surfaceNote=samplesPanel.querySelector('#appearance-surface-note'),earsNote=samplesPanel.querySelector('#appearance-ears-note'),hatNote=samplesPanel.querySelector('#appearance-hat-note');
+  const samplesStatus=samplesPanel.querySelector('#appearance-samples-status');
   const draftPanel=document.createElement('div');draftPanel.className='appearance-pair';
   draftPanel.innerHTML='<button type="button" id="appearance-save">保存此基模草稿</button><button type="button" id="appearance-restore">恢复已保存草稿</button>';
   fields.append(draftPanel);
@@ -54,6 +75,7 @@ export function bindAppearanceWorkbench({ controller }) {
 
   const listeners = [];
   let disposed = false, busy = false;
+  let sampleOperation=0,pendingSampleActor=null,sampleActor=null,candidateActor=null,candidateQuery=null;
   let roomView = url.searchParams.get('view') === 'room';
   let [framing, direction] = (url.searchParams.get('view') || 'inspect-face-front').replace(/^inspect-/, '').split('-');
   if (!['face', 'half', 'full'].includes(framing)) framing = 'face';
@@ -67,6 +89,7 @@ export function bindAppearanceWorkbench({ controller }) {
     form.setAttribute('aria-busy', String(value));
     identityFields.setAttribute('aria-busy', String(value));
     for(const button of document.querySelectorAll('[data-outfit]'))button.disabled=value;
+    syncSamples();
   };
 
   // Move the original nodes after main has bound them; never clone controls or
@@ -155,10 +178,24 @@ export function bindAppearanceWorkbench({ controller }) {
   move('.sequence-progress', inspectionPage);
   move('#sequence-label', inspectionPage);
   move('.debug-controls', inspectionPage);
-  move('details:not(#appearance-geometry)', inspectionPage);
+  move('details:not(#appearance-geometry):not(#appearance-validation-samples)', inspectionPage);
+  const previewInfo=document.createElement('section');previewInfo.id='workbench-preview-info';
+  previewInfo.innerHTML='<h3>当前预览</h3><p id="workbench-preview-build" class="appearance-hint"></p><p class="appearance-hint">技术候选，长发起身时发梢可能上甩；帽发与椅子接触请结合原速证据查看。</p><p><a id="workbench-hair-evidence" target="_blank" rel="noopener noreferrer">长发前后对照</a> · <a id="workbench-hat-evidence" target="_blank" rel="noopener noreferrer">帽发与动作证据</a></p>';
+  for(const [id,path] of [['workbench-hair-evidence','/evidence/m2-long-hair-review-e9b-v1/before-after.html'],['workbench-hat-evidence','/evidence/m2-hat-hair-review-6e0-v1/']]){
+    const evidence=new URL(window.location.href);evidence.port='4174';evidence.pathname=path;evidence.search='';evidence.hash='';
+    previewInfo.querySelector('#'+id).href=evidence.href;
+  }
+  inspectionPage.prepend(previewInfo);
+  function syncPreviewBuild(){
+    const info=window.__debug?.buildInfo;
+    previewInfo.querySelector('#workbench-preview-build').textContent=info?.shortId
+      ?`${info.development?'开发预览':'固定预览'} · 构建 ${info.shortId}`:'正在读取当前预览构建身份…';
+  }
+  syncPreviewBuild();
   navigation.hidden = false; pages.hidden = false;
   const tabs = [...navigation.querySelectorAll('[data-workbench-tab]')];
   function selectTab(name, focus = false) {
+    if(name==='inspection')syncPreviewBuild();
     for (const tab of tabs) {
       const selected = tab.dataset.workbenchTab === name;
       tab.setAttribute('aria-selected', String(selected)); tab.tabIndex = selected ? 0 : -1;
@@ -181,6 +218,65 @@ export function bindAppearanceWorkbench({ controller }) {
   // also checks event.target against its canvas; keep that boundary intact.
   for (const surface of [toolbar, aside]) {
     for (const type of ['pointerdown', 'pointerup', 'click']) on(surface, type, event => event.stopPropagation());
+  }
+  function sampleMessage(text,error=false){
+    samplesStatus.textContent=text;samplesStatus.dataset.error=String(error);
+    samplesStatus.setAttribute('role',error?'alert':'status');
+  }
+  function syncSamples(actual=state(),geometry=actor().facialGeometry?.getState()){
+    const current=actor();
+    if(sampleActor!==current){sampleActor=current;sampleMessage('');}
+    if(candidateActor!==current){
+      candidateActor=current;
+      try{candidateQuery=queryAppearanceCandidates(controller);}catch(error){candidateQuery={surface:{supported:false,reason:'当前人物的样件信息未读取完成'}};}
+    }
+    const surface=candidateQuery?.surface,earState=current.rigidAccessories?.getState(),hatState=current.headwear?.getState();
+    const loading=busy||actual.loading||actual.facialPaletteLoading||geometry?.loading||earState?.status==='loading'||hatState?.status==='loading';
+    for(const [select,id] of [[freckles,'freckles'],[blush,'blush']]){
+      const choice=surface?.choices?.find(layer=>layer.id===id),selected=actual.surfaceLayers?.find(layer=>layer.id===id);
+      const options=[{value:'none',label:'不启用'}];
+      if(choice){
+        const [min,max]=choice.opacity.range;
+        const values=[.5,choice.opacity.default,max,...(selected?[selected.opacity]:[])];
+        for(const value of [...new Set(values)].filter(v=>Number.isFinite(v)&&v>=min&&v<=max).sort((a,b)=>a-b))options.push({value:String(value),label:`${Math.round(value*100)}%`});
+      }
+      select.replaceChildren(...options.map(({value,label})=>{const option=document.createElement('option');option.value=value;option.textContent=label;return option;}));
+      select.value=selected?String(selected.opacity):'none';select.disabled=loading||!surface?.supported||!choice;
+    }
+    surfaceNote.textContent=surface?.supported?'雀斑与腮红可独立选择或叠加。':surface?.reason||'此基模尚未适配雀斑与腮红。';
+    const earSupported=earManifest.fits.filter(fit=>fit.baseAvatarSha256===current.profile.sha256).length===1;
+    ears.value=earState?.selection??'none';ears.disabled=loading||!earState||(!earSupported&&ears.value==='none');
+    earsNote.textContent=earSupported?'耳饰可分别装备左右两侧。':'此基模尚无耳饰适配。';
+    const dependency=hatFit.hairDependency,bodySupported=current.profile.sha256===hatFit.targetBodySha256;
+    const hairMatches=actual.hairStyle===dependency.styleId&&actual.replacementSHA256===dependency.sha256&&
+      actual.hairFit?.sha256===dependency.fitSha256&&actual.hairFit?.version===dependency.fitVersion;
+    const neutral=geometry?.mouthWidth===0&&['browSample','noseSample','eyeSample'].every(key=>geometry?.[key]==='none');
+    hat.value=hatState?.selection??'none';hat.disabled=loading||!hatState;
+    hat.querySelector('option[value="single"]').disabled=!bodySupported||!hairMatches||!neutral;
+    hatNote.textContent=!bodySupported?'帽子样件仅适配女性原版。':!hairMatches
+      ?'请先在上方“发型”选择长束发样件，再装备帽子。':!neutral
+      ?'请先手动恢复嘴宽、眉、鼻、眼到原位，再装备帽子。':hatState?.bodyMode==='base'&&hatState.selection==='single'
+      ?'基础模式中帽子暂隐藏，返回穿衣模式后恢复。':'当前帽子与长束发配对，保留完整头发。';
+    syncPreviewBuild();
+  }
+  async function applySample(command,success){
+    if(busy||disposed)return;
+    const owner=actor(),ticket=++sampleOperation;pendingSampleActor=owner;
+    setBusy(true);sampleMessage('正在更新验证样件…');
+    try{
+      const result=await controller.command(command);
+      if(disposed||ticket!==sampleOperation||actor()!==owner)return;
+      if(result?.cancelled){sync();sampleMessage('已保留较新的选择。');return;}
+      if(!result?.applied)throw Error(result?.reason||result?.error||'样件更新未完成');
+      sync();sampleMessage(success);
+    }catch(error){
+      if(disposed||ticket!==sampleOperation||actor()!==owner)return;
+      sync();
+      const text=String(error.message||error);
+      sampleMessage(/[\u3400-\u9fff]/.test(text)?text:'资源加载或适配核对未完成，请重试。',true);
+    }finally{
+      if(!disposed&&ticket===sampleOperation&&actor()===owner){pendingSampleActor=null;setBusy(false);}
+    }
   }
   function sync() {
     const actual = state();
@@ -246,9 +342,11 @@ export function bindAppearanceWorkbench({ controller }) {
     faceNote.textContent=!geometry?.available?'此基模尚无面部几何配方。':extended
       ?'大幅对照：嘴宽 ±12%、眉位 3 mm、鼻尖 2 mm、眼裂宽 +5%。旧小幅样件保留；新幅度是离散样件，不代表任意组合已验收。'
       :discrete?'此下颌样件嘴宽仅原位 / +4%；眉、鼻、眼几何尚未适配。':'真实嘴宽几何 ±4%；眉、鼻、眼按已制作样件选择。';
+    syncSamples(actual,geometry);
   }
   const appearanceChanged = event => {
     if (disposed || event?.actor !== actor()) return;
+    if(pendingSampleActor&&pendingSampleActor!==actor()){sampleOperation++;pendingSampleActor=null;setBusy(false);}
     try { sync(); }
     catch (error) { message(`人物已更新，工作台同步未完成：${error.message || error}`, true); }
   };
@@ -294,6 +392,14 @@ export function bindAppearanceWorkbench({ controller }) {
       reflectCamera(name);
     } catch (error) { message(`镜头切换失败：${error.message || error}`, true); }
   }
+  for(const [select,id] of [[freckles,'freckles'],[blush,'blush']])on(select,'change',()=>{
+    if(select.disabled)return;
+    const layers=(state().surfaceLayers??[]).filter(layer=>layer.id!==id);
+    if(select.value!=='none')layers.push({id,opacity:Number(select.value)});
+    void applySample({type:'appearance',surfaceLayers:layers},'皮肤表面样件已更新。');
+  });
+  on(ears,'change',()=>{if(!ears.disabled)void applySample({type:'accessory',kind:'ears',value:ears.value},'耳饰已更新。');});
+  on(hat,'change',()=>{if(!hat.disabled)void applySample({type:'accessory',kind:'hat',value:hat.value},'帽子已更新。');});
   on(form, 'submit', event => event.preventDefault());
   async function changeMouth(value){
     if(busy||disposed)return;
@@ -436,5 +542,5 @@ export function bindAppearanceWorkbench({ controller }) {
     camera();
     void restoreDraft(true);
   } catch (error) { message(`外观暂不可用：${error.message || error}`, true); }
-  return () => { disposed = true; for (const remove of listeners) remove(); };
+  return () => { disposed = true; sampleOperation++;pendingSampleActor=null; for (const remove of listeners) remove(); };
 }
