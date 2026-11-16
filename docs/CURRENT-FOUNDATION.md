@@ -10,7 +10,7 @@ Phaser+Three+VRM保留；女性封板裙和30秒舞不再精修。普通电脑�
 
 ## 入口与最近固定交付
 
-- 公开4196 `/?workbench=appearance` 仍fe5c528d9437/source937df9f；准确路径/回滚见delivery/appearance-workbench.json。
+- 统一4196 `/?workbench=appearance` 当前60a395622d91/sourcec4fb1c8；新增验证样件控件已实际点击通过。准确路径见delivery/appearance-workbench.json，旧fe5回滚delivery/history/appearance-workbench-fe5.json。
 - 4195/77e46保留M1；4174提供evidence。未把新外搭直接推为公开通过版。
 - 历史8e2926da4939/source a74090f1ed704a6c5b2eea3122b3e6fe5f44cd93保留experiments/m2-outer-camera-verified/prototype/dist，127文件重建一致；已退出4207服务。当前4207见下方ae36；历史录像和源码身份未改。
 - 本包观看：4174/evidence/m2-outer-runtime-room-8e2-v1/，4条完整1×影片。实际author-export SHA0631cf9d…、配置长裤/短裤、旧84b配方恢复、新配方恢复、基础模式和男女切换清理通过。工程全时段2fps抽审只说明抽样，连续观感待验；没有普通电脑性能结论。源与生产命令assets-source/m2-outer-panels-v2及scripts/m2-outer-panels-v2，实际资源已进入production第9流程。
@@ -205,3 +205,15 @@ source11033125c07c64690da2a87ede250d57f63f318b/build8b37d9f853e2，fixed-v3与�
 帽固定sourceb3d6bb3/build6e053cd1e905，experiments/m2-hat-room-fixed-v1/prototype/dist；m2-hat-hair-room-6e0-v1真实原女+rootjoin-v2完成戴帽/换色/耳饰眼镜/表达/走跑转坐起/基础隐藏恢复/暂停/快速请求/双实例/卸下/缺资源保旧及显式side-record冷回读。帽不在v7原子记录内，不能称整套持久化已完成；五官几何只验neutral，表达保留。共用附件加载器1–8网格/1–8无贴图PBR边界，1/3网格结构夹具证明同合同加载（并非新增美术或任意第三方输入）。第二fresh检出重建已完成，具体一致性查报告；正常1×包装中，视觉仍待核。
 
 生产第17入口hat-hair-source已集成并主线结构回读；冻27源库存及3发布SHA一致，保一次真实帽檐修改/失败源。独立http_transport_review已知sol/high审root写的帽/发/五官守卫与整套事务；提交前同步validateCommit避免在异步准备期间装备帽后半套提交。公开4196仍fe5，不替换未验候选。最新远端核实仍d0c83f9，后续代码与实际证据将在本衔接备份。
+
+
+4196统一预览插入：用户明确以后角色工作台固定4196，新增验证功能均累积到原外观/动作/检查区域，不再另开常驻端口。http_transport_review已知sol/high正补surface/耳饰/帽的实际控件与证据入口，root写真实点击检查并负责固定构建替换；旧fe5回滚指针已保存delivery/history/appearance-workbench-fe5.json。公开切换完成前仍是fe5，不提前声称已更新。
+
+e9b核心5页/contacts9页、6e0帽4页完整时段2fps图已逐张检查并保存root-image-review.json；这是工程抽审，不替代正常1×用户验收。6e0第二检出165文件逐字节一致。新增UI不会给6e0录像换标签，另录受影响按钮链。帽冷恢复测试文件名appearance-v7.json为早期夹具命名，实际内容是v6（未选表面层）；以JSON schema为准，帽独立side-record不计入原配方原子恢复。source/素材/e9b与6e0录屏和本轮规范已随d3be2298d146d8d4dd699fe500c12f5e39cca8e8推送，ls-remote一致；回执m2-hat-hair-review-6e0-v1/remote-backup.json。
+
+
+## 4196已更新：最新工作台60a
+
+用户统一入口要求已落实：sourcec4fb1c80874830fe2ba7f020588bf3a93edfbc26/build60a395622d91，experiments/m2-workbench-current-fixed-v2/prototype/dist，第二独立检出重建165文件一致。实际4196的m2-workbench-4196-live-60a-v1验证按钮选择马尾/帽、换色、拒绝不兼容发型保原、雀斑+腮红、耳饰、Agent命令同步、检查链接、卸帽、男女切换与男袜服装、UI不触发移动；有正常速度操作录像。临时62489检查同构建先通过，不新增常驻端口。公开4196现已更新，先前“仍fe5”句仅历史。基础服务访问根路径也进入工作台。
+
+外观区向下滚动到默认展开的验证样件；帽需女性原版+长束+neutral五官，不静默重置。检查区显示实际构建ID、既有e9b长发/6e0帽动作录像链接，保各自原构建，不冒充新60a录像。长发坐入上甩、帽/耳不在草稿原子持久化、普通机未测均显式保留。下一步继续完成已派独立入座动态诊断与当前M2生产/保存缺口，不停在预览UI。

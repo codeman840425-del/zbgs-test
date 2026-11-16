@@ -1,0 +1,61 @@
+const {chromium}=require('../prototype/node_modules/playwright');
+const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
+const {verifyCandidate}=require('./qa-m1-common.cjs');
+const [url,build,destination]=process.argv.slice(2),out=path.resolve(destination);
+(async()=>{
+ await fs.mkdir(out,{recursive:false});await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
+ const browser=await chromium.launch({channel:'chrome',headless:true});
+ const ctx=await browser.newContext({viewport:{width:1440,height:900},recordVideo:{dir:out,size:{width:1440,height:900}}});
+ const p=await ctx.newPage(),r={build,status:'running',checks:[],errors:[],scope:'Actual workbench control paths; no full motion/visual or ordinary-PC approval.'};
+ p.on('pageerror',e=>r.errors.push(String(e)));
+ const ready=()=>p.waitForFunction(()=>document.querySelector('#appearance-form')?.getAttribute('aria-busy')!=='true');
+ const shot=name=>p.screenshot({path:path.join(out,name+'.png')});
+ try{
+  await p.goto(url+'?body=female&workbench=appearance&view=inspect-half-side');await p.waitForFunction(()=>window.__debug?.ready,null,{timeout:60000});await ready();
+  r.identity=await verifyCandidate(p,{build,assetId:'beta-base-female-m1',sha256:'027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95'});
+  assert(await p.locator('#appearance-validation-samples').getAttribute('open')!==null);
+  assert(await p.locator('#appearance-hat option[value="single"]').isDisabled());
+  await p.selectOption('#appearance-hair-style','female-ponytail-v1');await ready();
+  await p.waitForFunction(()=>!document.querySelector('#appearance-hat option[value="single"]').disabled);
+  await p.selectOption('#appearance-hat','single');await ready();
+  await p.waitForFunction(()=>__debug.avatar().headwear.getState().selection==='single');
+  await p.selectOption('#appearance-hair-color','brown');await ready();
+  await shot('female-hat');
+  await p.selectOption('#appearance-hair-style','original');await ready();
+  assert.equal(await p.locator('#appearance-hair-style').inputValue(),'female-ponytail-v1');
+  assert.equal(await p.evaluate(()=>__debug.avatar().headwear.getState().selection),'single');
+  r.checks.push({name:'visible hat prerequisites, real user selection, incompatible hair preserves current selection',passed:true});
+  await p.selectOption('#appearance-surface-freckles','1');await ready();
+  await p.selectOption('#appearance-surface-blush','0.5');await ready();
+  await p.selectOption('#appearance-ears','pair');await ready();
+  const a=await p.evaluate(()=>__debug.avatar().appearance.getState());
+  assert(a.surfaceLayers.some(x=>x.id==='freckles'&&x.opacity===1));assert(a.surfaceLayers.some(x=>x.id==='blush'&&x.opacity===.5));
+  assert.equal(await p.evaluate(()=>__debug.avatar().rigidAccessories.getState().selection),'pair');
+  await p.evaluate(()=>__debug.command({type:'accessory',kind:'ears',value:'right'}));
+  assert.equal(await p.locator('#appearance-ears').inputValue(),'right','Agent commands must update the same controls');
+  await p.locator('[data-workbench-tab="inspection"]').click();await p.waitForTimeout(300);
+  assert((await p.locator('#workbench-preview-build').textContent()).includes(build));
+  r.links=await p.locator('#workbench-hair-evidence,#workbench-hat-evidence').evaluateAll(nodes=>nodes.map(n=>({href:n.href,text:n.textContent})));
+  for(const link of r.links){const res=await p.request.get(link.href);assert(res.ok(),link.href);}
+  await shot('inspection-evidence');
+  await p.locator('[data-workbench-tab="appearance"]').click();
+  await p.selectOption('#appearance-hat','none');await ready();
+  await p.selectOption('#appearance-hair-style','original');await ready();
+  assert.equal(await p.evaluate(()=>__debug.avatar().headwear.getState().selection),'none');
+  r.checks.push({name:'surface layers and paired ears accessible; inspection links identify actual build; unload restores editing',passed:true});
+  await p.locator('[data-appearance-group="male"]').click();await ready();
+  await p.waitForFunction(()=>__debug.avatar().profile.bodyType==='male');
+  assert(await p.locator('#appearance-hat option[value="single"]').isDisabled());
+  assert.equal(await p.locator('#appearance-hat').inputValue(),'none');
+  await p.selectOption('#appearance-ears','left');await ready();
+  await p.locator('[data-outfit="6"]').click();
+  await p.waitForFunction(()=>__debug.avatar().getOutfitInfo().index===6);
+  await shot('male-socks-controls');
+  assert.equal(await p.evaluate(()=>__debug.avatar().rigidAccessories.getState().selection),'left');
+  const s=await p.evaluate(()=>__debug.snapshot());assert(!s.target&&!s.pending,'UI input must not command room movement');
+  r.checks.push({name:'male switch clears hat UI, restricts unavailable sample, existing socks outfit and ears remain usable; UI does not move actor',passed:true});
+  assert.deepEqual(r.errors,[]);r.status='technical-checks-passed-visual-pending';
+ }catch(e){r.status='failed-or-incomplete';r.error=String(e.stack??e);process.exitCode=1;}
+ finally{const video=p.video();await ctx.close();await video.saveAs(path.join(out,'normal1x.webm'));await video.delete();await browser.close();await fs.writeFile(path.join(out,'report.json'),JSON.stringify(r,null,2));}
+ console.log(JSON.stringify({out,status:r.status,error:r.error}));
+})();
