@@ -37,4 +37,4 @@ Phaser+Three+VRM保留；女性封板裙和30秒舞不再精修。普通电脑�
 
 当前宿主是GPT桌面内Codex，不是Codex CLI。每次spawn显式model/reasoning_effort/fork_turns=none和DISPATCH_CONFIG；记录evidence/subagent-explicit-dispatch-2026-11-16.json。实际provider配置工具未另暴露，桌面hook拦截未验证；UI开关/CLI/本地脚本不能代替。旧未知配置不复用为已知；本轮whole_look_prepare已知请求sol/high。
 
-一次一个GPU/录屏/重Blender/编码任务。4295已关闭；4207/4208是root临时固定候选。只关闭自己创建的服务。最后已核远端365e6f8913825905263db245b459e4e27df4ac48；本次L02增量正在归档和推送，未核实前不声明已远备。
+一次一个GPU/录屏/重Blender/编码任务。4295已关闭；4207/4208是root临时固定候选。只关闭自己创建的服务。L02源码/固定证据提交78f823e0d7e9dc486965fcb590a0c83422857a44已推送并用ls-remote核实；回执evidence/m2-whole-look-matrix-003-v1/remote-backup.json。后续未推增量不继承此结论。
