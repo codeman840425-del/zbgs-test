@@ -4,6 +4,9 @@ import json
 
 def validate_package(v, ident, require, GLB):
     kind = ident['package']
+    if kind == 'surface-layer':
+        from surface_package import validate_surface
+        return validate_surface(v, ident, require, GLB)
     if kind == 'lower-leg':
         from lower_leg_package import validate_lower_leg
         return validate_lower_leg(v, ident, require, GLB)

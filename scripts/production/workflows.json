@@ -1844,6 +1844,157 @@
         "Rebuild only in an isolated checkout with the same fixed source and supported +20 mm spec. Rerun upper QA, CPU VRM loader QA, then repeat/source QA and readback before publish.",
         "If publish is interrupted, retry with identical source after validation. On differing existing output stop that publication and inspect identities. Do not fall back silently to the original body or old fit."
       ]
+    },
+    {
+      "id": "surface-layer-source",
+      "title": "Original female/male independent freckles and blush color layers",
+      "kind": "source-package",
+      "sources": [
+        "assets-source/m2-surface-layer-v1/spec.json",
+        "assets-source/m2-surface-layer-v1/provenance.json",
+        "scripts/m2-surface-layer-v1/build.py",
+        "scripts/m2-surface-layer-v1/qa.py",
+        "scripts/m2-surface-layer-v1/qa-output.py",
+        "scripts/m2-surface-layer-v1/publish.py",
+        "scripts/m2-surface-layer-v1/requirements.txt"
+      ],
+      "inputs": [
+        "assets-source/m2-surface-layer-v1/spec.json",
+        "prototype/public/assets/foundation/base-female-roundtrip.vrm",
+        "prototype/public/assets/foundation/base-male-roundtrip.vrm"
+      ],
+      "identity": {
+        "package": "surface-layer",
+        "manifest": "assets-source/m2-surface-layer-v1/generated/package-files.json",
+        "manifestSha256": "129829295b34054381fabd77b44556271777f0b79f4933d3d72b09f3235d2a34"
+      },
+      "requirements": [
+        "scripts/m2-surface-layer-v1/requirements.txt"
+      ],
+      "outputs": [
+        "assets-source/m2-surface-layer-v1/generated/",
+        "assets-source/m2-surface-layer-v1/exports/",
+        "prototype/public/assets/m2-surface-layer-v1/"
+      ],
+      "agentInput": {
+        "spec": "assets-source/m2-surface-layer-v1/spec.json",
+        "supportedBases": [
+          "exact original female",
+          "exact original male"
+        ],
+        "generationDependencies": "Python 3.13, numpy==2.4.2, Pillow==12.1.0 for build/source QA. Index readback and retained publisher use Python standard library only.",
+        "reviewRole": "Source author validation; independent runtime/visual acceptance stays with fixed game evidence."
+      },
+      "stages": {
+        "source": [
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/production/flow.py",
+              "show",
+              "surface-layer-source"
+            ],
+            "writes": []
+          }
+        ],
+        "export": [
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/m2-surface-layer-v1/build.py"
+            ],
+            "writes": [
+              "assets-source/m2-surface-layer-v1/generated/"
+            ],
+            "note": "Full plan is computed before writes. Identical files preserve bytes/mtime; differing default output requires a fresh --out under this package exports/."
+          },
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/m2-surface-layer-v1/build.py",
+              "--out",
+              "assets-source/m2-surface-layer-v1/exports/rebuild-v1"
+            ],
+            "writes": [
+              "assets-source/m2-surface-layer-v1/exports/rebuild-v1/"
+            ],
+            "note": "Example bounded independent regeneration. Select a new exports child name for changed source parameters. Original source/public files remain protected inputs."
+          },
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/m2-surface-layer-v1/publish.py"
+            ],
+            "writes": [
+              "prototype/public/assets/m2-surface-layer-v1/",
+              "prototype/public/assets/.surface-stage-*/"
+            ],
+            "note": "Root retained publisher verifies all 24 inventory files and passed source QA before output writes. Publish the complete 11-file payload by sibling temporary-directory rename. The .surface-stage-* declaration denotes the temporary directory prefix. Exact existing release is idempotent; different/partial existing releases require a new --output/version. --output overrides are explicit operator-selected destinations with staging under that destination parent."
+          }
+        ],
+        "check": [
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/m2-surface-layer-v1/qa-output.py"
+            ],
+            "writes": [
+              "assets-source/m2-surface-layer-v1/generated/output-qa.json",
+              "assets-source/m2-surface-layer-v1/exports/"
+            ],
+            "note": "Runs actual build CLI in a temporary exports child, then removes that child. Stores output guard proof only. Tests valid one-sided export, exact repeat and full-plan conflict refusal."
+          },
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/m2-surface-layer-v1/qa.py"
+            ],
+            "writes": [
+              "assets-source/m2-surface-layer-v1/generated/",
+              "assets-source/m2-surface-layer-v1/tmp*.json"
+            ],
+            "note": "CPU planning/repeat/pixel checks, two independent opacity edits and left-only export. Temporary invalid-input spec uses the declared tmp*.json prefix and is removed. Writes qa-report and refreshed package-files; captures publisher too. Run last before index identity refresh."
+          },
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/production/qa-surface-package.py"
+            ],
+            "writes": [],
+            "note": "Source-author focused readback and negative tests. Executes only retained publisher in an OS temporary mirror, removed afterwards. No main repository/source/public writes or GPU."
+          }
+        ],
+        "readback": [
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/production/flow.py",
+              "validate",
+              "surface-layer-source"
+            ],
+            "writes": []
+          }
+        ]
+      },
+      "limits": [
+        "Two flat color layers for exact original faces only. Geometry/UV-derived protection and stored CPU proofs remain source facts.",
+        "Readback checks encoded source texture SHA and stored decoded-pixel SHA proof. It does not re-decode source pixels or render expressions/skin tones.",
+        "Source runtimeAccepted=false is retained. This author check is not independent review or a new visual acceptance."
+      ],
+      "recovery": [
+        "Preserve rejected outputs. Restore exact source bytes for a hash failure, then rerun readback. Do not change inventory to bless corrupted source.",
+        "For reviewed parameter changes, run build --spec <new relative spec> --out assets-source/m2-surface-layer-v1/exports/<new-name>. Existing different outputs are refused. Review new outputs and refresh identity explicitly before promotion.",
+        "Run qa-output then full qa to capture current source checks and inventory, including publisher. A changed inventory SHA requires explicit workflows.json review.",
+        "Publish only a validated source snapshot. Different existing release requires a separate output/version; default public is preserved."
+      ]
     }
   ]
 }

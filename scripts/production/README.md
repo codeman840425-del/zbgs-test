@@ -13,7 +13,7 @@ python scripts/production/qa-flow.py
 python scripts/production/qa-source-packages.py
 ```
 
-十四条入口共用既有命令索引；已有 `male-jaw-source`、`male-jaw-mouth`、`male-jaw-hair-fit`。没有运行命令的子命令、shell、自动导出或浏览器。`show`/`dry-run` 只输出参数和写入范围；`validate` 只读现有文件。工具或依赖缺失与源文件缺失分开报告。
+十五条入口共用既有命令索引；已有 `male-jaw-source`、`male-jaw-mouth`、`male-jaw-hair-fit`。没有运行命令的子命令、shell、自动导出或浏览器。`show`/`dry-run` 只输出参数和写入范围；`validate` 只读现有文件。工具或依赖缺失与源文件缺失分开报告。
 
 新增三包清单 SHA 固定在 workflows.json。男下颌包核文件及原始基模、独立重建/重复导出的身份；嘴包核 files/dependencies、精确 jaw 基模与仅 0/+4% 配方及最终 NORMAL 产物；头发包使用 evidence 下的包清单，并核同 GLB 的独立 fit ID/version/body、挂点及 public 三文件。头发目录的 manifest.json 是运行时描述，不能当文件清单。
 
@@ -65,3 +65,11 @@ if (result.accepted) await __debug.importAppearanceRecipe(JSON.stringify(record)
 小腿比例入口为 `lower-leg-proportion-source`。只读回读固定24文件清单，另钉住后来加入的 publisher SHA，不改写源清单。核原男性 Body、可编辑检查点、派生 Body 和双侧固定 +20 mm、三件装备的实际绑定与独立 fit。鞋重新变形并重绑脚部，上衣和短裤保留原 GLB 字节，使用派生 Body 专属 fit，旧材质配方未继承。前臂 profile 保留原测量数据，核原 profile SHA、上身原始骨骼/几何/权重/绑定等价证据及派生 profile 身份，发布七文件逐一核实源字节与实际绝对 URL。
 
 隔离检出重做顺序为 `build.py`、`qa-upper-fit.py`、`node qa-vrm.mjs`、`qa.py`、索引 `validate lower-leg-proportion-source`，再 `publish.py`。前三个 Python 制作/检查脚本使用 `python -B scripts/m2-lower-leg-proportion-v1/<脚本>`，Node 同目录入口使用锁定 prototype 依赖。`qa.py` 会重跑 build，并刷新生成物、QA 和清单，须在上身与 loader QA 后运行。publisher 在任何目标写入前逐项核源清单 SHA/字节与三份 QA passed，再预检身体/装备/profile 身份及全部已有输出字节。索引另固定清单版本。它仅向独立发布目录写七文件及临时文件，逐文件原子发布，相同源可恢复中断。失败保留错误与原身份，不冒用旧 Body/旧 fit。`python -B scripts/production/qa-lower-leg-package.py` 做只读回读、内存阴性注入和 OS 临时镜像内的重复发布及源清单/失败 QA 拒绝验证，运行、足底接触、坐姿和观感验收均待对应固定游戏证据。
+
+色层入口为 `surface-layer-source`。只读validate核固定24文件源清单（既有23项加root publisher）、原男女VRM/实际Face_SKIN几何与UV、map/shade源图片编码SHA及已保存RGBA像素SHA证明、两层独立参数/保护区/输出冲突CPU证据，最后比对公开目录完整11文件。公开文件集合含manifest、4张overlay、4张region mask及2张protected mask。源标记runtimeAccepted=false保持，本次为作者自查，独立游戏观感依据仍取对应固定版本证据。
+
+制作依赖Python3.13、numpy2.4.2、Pillow12.1.0；索引和publisher只用标准库。默认build只接受缺失或同字节输出，改源时用 `--spec <新源参数相对路径> --out assets-source/m2-surface-layer-v1/exports/<新目录>`。复核新产物身份后再显式推广，不能改旧清单来掩盖源篡改。完整qa会重写报告和源清单并自动纳入publisher，所以清单SHA变更必须显式更新索引。qa-output先行，完整qa后行。
+
+索引列出默认及独立out写范围，qa的临时无效参数输入用源包tmp*.json前缀，publisher用目标父目录.surface-stage-*暂存后整目录rename。writes中的星号声明临时名称前缀，只读索引不展开或执行它们。publisher先核源清单和passed QA，再构造11文件payload；已有完整同字节版本幂等，不同或不完整版本需新输出/版本。`--output`显式另选目录时，staging随目标父目录移动。
+
+`python -B scripts/production/qa-surface-package.py` 做作者定向自查，首次/重复发布与源篡改、失败QA、目标冲突拒绝只在OS临时镜像中调用原publisher，不重建PNG、启动浏览器或使用GPU。

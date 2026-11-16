@@ -1,0 +1,44 @@
+{
+  "baseCommit": "c953746d61fc1b9661d95a8aa83889ff253d8ec9",
+  "reviewRole": "Source author implementation/readback verification; not independent review",
+  "sourceInventorySha256": "129829295b34054381fabd77b44556271777f0b79f4933d3d72b09f3235d2a34",
+  "sourceManifestSha256": "8d1e4b394c82d2521bc2c1ed6739423dfbed7e9f7a27c0113b03867d18608ea5",
+  "focusedQA": {
+    "passed": true,
+    "reviewRole": "Source author validation, not independent review",
+    "inventoryFiles": 24,
+    "exactPublicFiles": 11,
+    "repeatReadbackIdentical": true,
+    "firstAndRepeatPublishIdentical": true,
+    "negativeCases": [
+      "failed source QA",
+      "missing output protection proof",
+      "source acceptance promoted",
+      "wrong body identity",
+      "wrong decoded source pixels",
+      "wrong shade image reference",
+      "protected pixels changed",
+      "corrupt assets-source/m2-surface-layer-v1/generated/female-freckles.png",
+      "corrupt scripts/m2-surface-layer-v1/publish.py",
+      "corrupt prototype/public/assets/m2-surface-layer-v1/manifest.json",
+      "duplicate inventory fixture",
+      "publisher different release writes nothing",
+      "publisher tampered source writes nothing",
+      "publisher failed QA writes nothing"
+    ],
+    "repositorySourceAndPublicBytesUnchanged": true,
+    "publisherExecutedOnlyInTemporaryMirror": true,
+    "producerExecuted": false,
+    "GPUUsed": false,
+    "runtimeAccepted": false
+  },
+  "otherChecks": {
+    "qa-flow.py": 0,
+    "qa-source-packages.py": 0,
+    "qa-source-write-scope.py": 0
+  },
+  "initialBroadHarnessFailure": "Generic source-package corrupt-export fixture searched only VRM/GLB and raised StopIteration for the new PNG-only package. Added its actual female freckles PNG case and reran successfully. Original source/public bytes were preserved.",
+  "sourceOrRuntimeModified": false,
+  "GPUUsed": false,
+  "runtimeAccepted": false
+}

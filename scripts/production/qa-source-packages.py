@@ -7,9 +7,9 @@ from flow import ROOT, Validator, local, read_json, validate_config
 config = read_json(ROOT/'scripts/production/workflows.json')
 validate_config(config)
 workflows = {w['id']: w for w in config['workflows']}
-assert len(workflows) == 14
+assert len(workflows) == 15
 new = [w for w in workflows.values() if w['kind'] == 'source-package']
-assert len(new) == 9
+assert len(new) == 10
 relative_packages = {'outer-panels': 'assets-source/m2-outer-panels-v2/', 'onepiece': 'assets-source/m2-onepiece-v1/',
                      'garment-coverage': 'assets-source/m2-garment-coverage-v1/'}
 paths = set()
@@ -66,11 +66,14 @@ for w in new:
     rejects(w['id']+' missing editable source', lambda: Validator().validate(bad), bad['sources'][-1])
     package = read_json(ROOT/w['identity']['manifest'])
     rows = package.get('files', package.get('retainedFiles'))
-    row = (next(r for r in rows if r['path'] == 'generated/author-export.glb')
-           if w['identity']['package'] in {'outer-panels', 'onepiece'}
-           else next(r for r in rows if r['path'].endswith(('.vrm', '.glb')))
-           if w['identity']['package'] not in {'garment-coverage'}
-           else next(r for r in rows if r['path'] == 'coverage-mask.json'))
+    if w['identity']['package'] == 'surface-layer':
+        row = next(r for r in rows if r['path'].endswith('female-freckles.png'))
+    else:
+        row = (next(r for r in rows if r['path'] == 'generated/author-export.glb')
+               if w['identity']['package'] in {'outer-panels', 'onepiece'}
+               else next(r for r in rows if r['path'].endswith(('.vrm', '.glb')))
+               if w['identity']['package'] not in {'garment-coverage'}
+               else next(r for r in rows if r['path'] == 'coverage-mask.json'))
     prefix = relative_packages.get(w['identity']['package'], '')
     stored_path = prefix+row['path']
     v = Validator(); p = local(ROOT,stored_path); data = bytearray(p.read_bytes()); data[-1] ^= 1
