@@ -67,7 +67,10 @@ async function shot(name){await page.evaluate(async()=>{company.renderer.render(
   });assert.equal(result.logicalFloors,5);assert(result.displayedFacilities<result.logicalFacilities);assert(result.lights.filter(l=>l.intensity>0).length<=2);await shot('08-fifth-floor');return result;
  });
  await check('Explicit 100-station configuration renders only one 20-station floor under the same light cap',async()=>{
-  const maximum=JSON.parse(await fs.readFile(path.join(__dirname,'../../evidence/company-space-v1/maximum.layout.json'),'utf8'));
+  const {createScaledCompany}=await import('../../prototype/src/company/space.js');
+  const input=JSON.parse(await fs.readFile(path.join(__dirname,'space-inputs/maximum.json'),'utf8'));
+  const readJson=async name=>JSON.parse(await fs.readFile(path.join(__dirname,'../../prototype/src/company',name),'utf8'));
+  const maximum=createScaledCompany(input,await readJson('library-catalog.json'),await readJson('templates-extended.json'));
   await page.evaluate(document=>company.load(document),maximum);
   const result=await page.evaluate(async()=>{
    const floor=company.session.document.nodes.find(n=>n.kind==='floor');await company.showSpace('floor',floor.id);
