@@ -10,7 +10,8 @@ import os
 import tempfile
 
 ROOT=Path(__file__).resolve().parents[2]
-EVIDENCE=Path(__file__).resolve().parent
+EVIDENCE=Path(sys.argv[3]).resolve() if len(sys.argv)>3 else Path(__file__).resolve().parent
+EVIDENCE.mkdir(parents=True,exist_ok=True)
 SOURCE=Path(sys.argv[1] if len(sys.argv)>1 else 'F:/gamemake').resolve()
 REVISION=sys.argv[2] if len(sys.argv)>2 else '1518ad14a9964cd83c51b5c14c7937aaa667eae4'
 SNAPSHOT=(ROOT/'scripts/publish-preset-short-hair.py').read_bytes()

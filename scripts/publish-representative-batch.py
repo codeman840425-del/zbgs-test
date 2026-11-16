@@ -45,11 +45,22 @@ LABELS = {
 }
 
 def main():
+    global PREFIX, PUBLIC, SOURCE
     parser = argparse.ArgumentParser()
+    parser.add_argument('--revision', type=int, choices=[1, 2], default=1)
     parser.add_argument('--manifest', required=True, type=Path)
     parser.add_argument('--audit', required=True, type=Path)
     args = parser.parse_args()
+    PREFIX = f'm2-representative-batch-v{args.revision}'
+    PUBLIC, SOURCE = ROOT / 'prototype/public/assets' / PREFIX, ROOT / 'assets-source' / PREFIX
+    labels = {key + ('-v2' if args.revision == 2 else ''): value for key, value in LABELS.items()}
     manifest, audit = read(args.manifest), read(args.audit)
+    if args.manifest.resolve() != (SOURCE / 'generated/manifest.json').resolve():
+        raise ValueError('Manifest path must match the explicitly requested revision')
+    if manifest.get('schema') != 'character-representative-batch-v1' or manifest.get('version') != args.revision:
+        raise ValueError('Manifest revision mismatch')
+    if not audit.get('checks') or any(c.get('passed') is not True for c in audit['checks']):
+        raise ValueError('Independent checks missing or failed')
     if audit['status'] != 'body-garment-cpu-readback-passed-appearance-runtime-pending':
         raise ValueError('Independent body readback has not passed')
     audited_manifest = next((entry for entry in audit['files'] if entry['path'] == audit['manifest']), None)
@@ -59,7 +70,7 @@ def main():
         # The integrated copy must still be the exact bytes independently read.
         if sha(ROOT / entry['path']) != entry['sha256']:
             raise ValueError('Audited input changed during integration: ' + entry['path'])
-    if len(manifest['variants']) != 8 or {v['id'] for v in manifest['variants']} != set(LABELS):
+    if len(manifest['variants']) != 8 or {v['id'] for v in manifest['variants']} != set(labels):
         raise ValueError('Expected the whole agreed eight-preset batch')
     palette_source = ROOT / 'prototype/public/assets/appearance-color-v3/runtime-manifest.json'
     if sha(palette_source) != '2eff13c1d3837c4f8f76b7d97007b219059c212c1031d77e27a2f824715af321':
@@ -82,6 +93,12 @@ def main():
         profile = read(folder / 'profile.json')
         if profile['sha256'] != entry['avatar']['sha256'] or sha(folder / 'avatar.vrm') != profile['sha256']:
             raise ValueError('Profile body identity mismatch: ' + identifier)
+        if args.revision == 2:
+            base = entry.get('basePresetId')
+            if base not in LABELS or identifier != base + '-v2' or profile.get('bodyType') != identifier:
+                raise ValueError('Derived identity does not preserve its base preset: ' + identifier)
+            if profile.get('url') != f'/assets/{PREFIX}/{identifier}/avatar.vrm':
+                raise ValueError('Derived profile URL is outside its revision')
         equipment = read(folder / 'equipment.json')
         for filename in ['avatar.vrm', 'equipment.json', 'fit.json'] + [x['url'] for x in equipment['items']]:
             source = (folder / filename).resolve()
@@ -113,7 +130,7 @@ def main():
         profile['handSurfaceContact'] = {'url': f'/assets/{PREFIX}/{identifier}/hand-profile.json',
                                          'sha256': sha(target / 'hand-profile.json')}
         profile['referenceBody'] = sex
-        profile['label'] = LABELS[identifier]
+        profile['label'] = labels[identifier]
         profile['pantsLabel'] = '派生适配及膝裤' if sex == 'female' else '派生适配露膝短裤'
         profile['workbenchGroup'] = sex
         profile['batchId'] = PREFIX
@@ -133,7 +150,7 @@ def main():
         variant = copy.deepcopy(next(v for v in palette['variants'] if v['avatarSha256'] == entry['sourceBody']['sha256']))
         variant.update(avatarSha256=profile['sha256'], bodyType=identifier)
         derived_palette['variants'].append(variant)
-        index['presets'].append({'id': identifier, 'sex': sex, 'label': LABELS[identifier], 'profile': profile,
+        index['presets'].append({'id': identifier, 'sex': sex, 'label': labels[identifier], 'profile': profile,
                                  'appearance': {'hairStyle': 'original', 'hairColor': 'brown' if sex=='female' else 'black',
                                                 'skinTone':'original','eyeColor':'original','lipColor':'original'}})
         index['noHair'].append({'id':identifier,'sha256':profile['sha256'],'sourceSkinEvidence':sex,
@@ -141,7 +158,7 @@ def main():
                                'evidence':args.audit.relative_to(ROOT).as_posix() if args.audit.is_absolute() else args.audit.as_posix()})
     write(PUBLIC / 'palette-manifest.json', derived_palette)
     index['palette']={'url':f'/assets/{PREFIX}/palette-manifest.json','sha256':sha(PUBLIC/'palette-manifest.json'),
-                      'version':'appearance-color-v3-batch1:'+sha(PUBLIC/'palette-manifest.json'),
+                      'version':f'appearance-color-v3-batch{args.revision}:'+sha(PUBLIC/'palette-manifest.json'),
                       'bodySha256s':[x['profile']['sha256'] for x in index['presets']]}
     write(PUBLIC / 'runtime-index.json', index)
     write(SOURCE / 'runtime-contact' / 'publish-receipt.json', {

@@ -1,0 +1,29 @@
+{
+  "status": "targeted-checks-passed-v2-source-not-yet-admitted",
+  "checks": [
+    {
+      "name": "v1 manifest cannot publish into explicit revision2 namespace",
+      "exitCode": 1,
+      "expectedReason": "Manifest path must match the explicitly requested revision"
+    },
+    {
+      "name": "real v1 blink source-lanes rerun retains exact published byte identity",
+      "report": "v1-eye-final-recheck.json"
+    }
+  ],
+  "existingOutputs": [
+    {
+      "path": "prototype/public/assets/m2-representative-batch-v1/runtime-index.json",
+      "unchanged": true,
+      "sha256": "212b7542e319a69a511a5549b42631ccb22f7382059c501a48ab0fc250a7b0c6"
+    },
+    {
+      "path": "prototype/public/assets/m2-representative-batch-v1/eye-blink-profiles.json",
+      "unchanged": true,
+      "sha256": "28abcb44890cb9e0708c8d8b6dd59a3884a1af96b2c49925fae19a8b91063c3d"
+    }
+  ],
+  "limits": [
+    "No v2 resource is published by these checks. They do not prove v2 geometry, clothing or expression compatibility."
+  ]
+}
