@@ -57,8 +57,10 @@ const r={build,status:'running',checks:[],errors:[],sessions:[],scope:'Original 
   let release,arrived;const held=new Promise(resolve=>arrived=resolve);const gate=new Promise(resolve=>release=resolve);
   await p.route(hatRoute,async route=>{arrived();await gate;await route.continue();});
   const pending=apply(p,target);await Promise.race([held,new Promise((_,reject)=>setTimeout(()=>reject(Error('Hat request not reached')),15000))]);
-  assert.deepEqual(await visible(p),initial,'No partially visible look while hat is preparing');
-  await p.evaluate(()=>__debug.command({type:'accessory',kind:'ears',value:'left'}));release();
+  try{
+   assert.deepEqual(await visible(p),initial,'No partially visible look while hat is preparing');
+   await p.evaluate(()=>__debug.command({type:'accessory',kind:'ears',value:'left'}));
+  }finally{release();}
   const cancelled=await pending;assert(cancelled.cancelled);assert.equal((await visible(p)).ears,'left');assert.equal((await visible(p)).hair,initial.hair);assert.equal((await visible(p)).hat,'none');
   await p.unroute(hatRoute);assert((await apply(p,target)).applied);assert.deepEqual(await record(p),target);
   r.checks.push({name:'cold missing hat preserves full look; delayed final resource shows no half-look; newer ear request cancels whole restore; retry exact',passed:true,failed,cancelled});await active.close();active=null;
