@@ -1940,9 +1940,11 @@ function bindFoundationControls(a) {
   if (!a.config) return;
   syncFoundationControls(a);
   const row = document.createElement("div"); row.className = "debug-row foundation-actions";
+  const layoutId = new URLSearchParams(location.search).get("companyLayout");
+  const layoutQuery = ["room-a", "room-b"].includes(layoutId) ? `&companyLayout=${layoutId}` : "";
   for (const [bodyType, label] of [["female", "女性候选"], ["male", "男性候选"]]) {
     const link = document.createElement("a");
-    link.href = `?body=${bodyType}`; link.textContent = label; row.append(link);
+    link.href = `?body=${bodyType}${layoutQuery}`; link.textContent = label; row.append(link);
   }
   for (const [id, label] of [["neutral", "自然眨眼"], ["happy", "微笑"], ["aa", "口型 A"]]) {
     const button = document.createElement("button"); button.textContent = label;
