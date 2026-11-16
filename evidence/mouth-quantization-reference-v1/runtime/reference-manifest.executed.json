@@ -1,0 +1,59 @@
+{
+  "schema": "facial-operator-source-references-v1",
+  "id": "male-mouth-visible-v2-quantized-reference-v1",
+  "purpose": "Production export reference correction; does not install a new runtime recipe or rewrite old evidence",
+  "base": {
+    "path": "prototype/public/assets/foundation/base-male-roundtrip.vrm",
+    "sha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff"
+  },
+  "operator": {
+    "id": "male-mouth-visible-v2",
+    "path": "assets-source/mouth-visible-v2/male-mouth-width.recipe.json",
+    "publicPath": "prototype/public/assets/mouth-visible-v2/male-mouth-width.recipe.json",
+    "sha256": "1b3e019f92c799bc2486b4608584e347aa5c8fe1bfda8170a2d3e54e16f0009c",
+    "parameter": "mouthWidth",
+    "supportedValues": [-0.12, 0, 0.12],
+    "noRuntimeIdentityMigration": true
+  },
+  "positionToleranceM": 0.0000003,
+  "normalTolerance": 0.00001,
+  "endpoints": [
+    {
+      "name": "male-minus12-canonical-reference",
+      "parameter": -0.12,
+      "path": "assets-source/mouth-quantization-v1/candidate/avatar.vrm",
+      "sha256": "68a1050af661809282ad736add798f72187f69f40347abc3a3ac7dbe61a8de7a",
+      "process": "gltf-affine-quantization-v1: pinned editable author source -> raw addon export -> canonical Float32 Basis/relative POSITION -> independent absolute-shape NORMAL",
+      "authorRawSha256": "1b7579a040b85576b4b888a983741bc1ad7494b25d5dac18d65697084e5f337e",
+      "productionManifest": "assets-source/mouth-quantization-v1/manifest.json",
+      "productionManifestSha256": "9d328ec2571cf4f67771773a08d1193dfc5e95cf3ac4cbb4544feac32da95456",
+      "expectedNormalPassed": true
+    },
+    {
+      "name": "male-plus12-original-reference",
+      "parameter": 0.12,
+      "path": "assets-source/mouth-visible-v2/generated/male-mouth-width-112-v2/avatar.vrm",
+      "sha256": "cb0a208eabef4ae0dc3d7605b10ae516a72023a8227481fb3d5b125614a9f7f2",
+      "process": "Original mouth-visible-v2 Blender absolute-shape author export plus NORMAL finalizer; no new quantization applied",
+      "authorRawSha256": "5ec92bdbdcfe670bd1f033562bb90c2ed8dc71161685676a1b64d2134db44341",
+      "expectedNormalPassed": true
+    }
+  ],
+  "historicalRegression": [
+    {
+      "name": "male-minus12-frozen-original-failure",
+      "parameter": -0.12,
+      "path": "assets-source/mouth-visible-v2/generated/male-mouth-width-88-v2/avatar.vrm",
+      "sha256": "a33071019db4c84616dcaacbc178004183a55b66b534543b5b7a45709597071a",
+      "process": "Original Blender final; retained expected NORMAL mismatch, never relabeled passed",
+      "expectedNormalPassed": false,
+      "expectedFailureWitness": {"shape": 2, "vertex": 314, "component": 1}
+    }
+  ],
+  "limits": [
+    "Only source precision reference contract; no browser, GPU or new visual acceptance",
+    "Current runtime recipe SHA and saved appearance records are unchanged",
+    "New male-mouth-canonical-v1 recipe exists only as an isolated source candidate; not admitted by this reference manifest",
+    "Positive endpoint is the original author export, not falsely described as canonicalized"
+  ]
+}

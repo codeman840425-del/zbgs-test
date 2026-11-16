@@ -97,6 +97,12 @@ F=完整Base_Female原基模，M=同系列Base_Male原基模，P=独立裤，S=�
 | PERF-01 普通电脑运行预算 | i5-1135G7/IrisXe/16GB/1440×900/60fps参考 | 只有开发机；用户明确暂缺普通电脑 | 77九场景30秒：裙坐CPU P95 9.2ms、双裙裤11.5ms、双裤单帧37.6ms；a0dd改脸maxrAF103–109ms；bcade换体A-B-A maxrAF旧813/837→322ms、首draw约323ms，仍停顿。见m1-fixed-perf-77e46efb5441、evidence/face-snapshot-comparison-v1、evidence/body-switch-a0dd-diagnostic-v1/COMPARISON.md | 已实现但未通过：仅开发机有限成本改善，普通PC无实测 | 用户明确暂无普通电脑，保缺口继续；不同录像/无录像、构建/场景数值不混比。01a主色首用未改善整段出帧已撤回，不再当未试方案；不重开封板裙优化 | 保留设备/首次长帧边界，最新a7efd无头Chrome无录像UI测量见face-normal-neighborhood-v1（脚本名visible不等于有窗口，rAF非屏幕呈现）：原男女重复改嘴请求约省3–5ms，首绘仍约109ms，非持续游戏/普通机通过；body-source-cost-bcade-v1采样未证明源缓存收益，暂不加缓存 |
 | PERF-02 按需加载/缓存与资源释放 | 实例资源所有权、选择性primitive准备、事务内属性快照与shader warm引用 | 部分 | 1fff两轮有限资源稳定；a0dd243秒会话；bcade三轮真实compile后取消，program22→28→22、usedTimes106→133→106，逐cacheKey恢复，geometry/texture89/44不变。另三轮成功往返，同体每个cacheKey/usedTimes均与上轮一致，男84G/41T/23program、女84/40/24。见evidence/body-switch-compile-lifetime-bcade-v1/RESULT.md及evidence/body-switch-success-lifetime-bcade-v1/RESULT.md | 部分已验证：有限准备复用/取消与成功切换资源归还 | 初始女22与返回女24区别单列，三轮不是长期循环；计数不是VRAM，不能据此认定泄漏或承诺无漏。没有完整素材库懒加载/容量策略 | 有限M2资源管理，不做无依据大优化 |
 
+## 本轮接续：源导出精度修复
+
+男性嘴−12%的旧 Blender final 对照仍失败，原报告不改。新生产导出增加明确的 Float32 Basis/relative morph 量化步骤，并从实际序列化位置重算法线；独立55形态检查、原底重新生成和当前实际算子回读已完成。新的版本化参考合同 `assets-source/mouth-quantization-reference-v1/reference-manifest.json` 下，男−12% NORMAL差1.78e−15、男+12%旧参考8.46e−6，均过原1e−5门；旧负参考仍复现1.105666e−5。详 `evidence/mouth-quantization-reference-v1/RESULT.md`。
+
+该结果适用于 FACE-01/PIPE-03 的男性两个嘴宽端点生产参考，不是新的浏览器或视觉通过。游戏配方、保存身份、实际几何算法完全未改；独立新recipe仍未准入。原始作者源到新交付模型的位置差最大3.03nm，保护区/绑定保持，阈值未放宽。当前首绘性能修复继续独立进行。
+
 ## 产品未决与明确不支持
 
 现有男女独立入口、外观/动作/检查分区及常驻镜头/暂停/停止已获用户接受，见evidence/workbench-layout-user-review-bcade.json；男女代表发型/脸型/比例/材质画风及更大外貌差异仍待用户观看选择；已有微端点不是显著自由捏脸。正式直播特写是否必需、房间预计同屏数量未定，当前只验单人/双实例，不从线上玩家数推导同屏规模。这些产品选择不使已接受的77展示基础回到“整片待验”。

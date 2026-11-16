@@ -1,0 +1,73 @@
+{
+  "referenceManifestPath": "assets-source/mouth-quantization-reference-v1/reference-manifest.json",
+  "referenceManifestSha256": "76cedf6a3113dfcd0b7236f4268ea6bfc0821fce92a72e8bf5b8eeafea3ff1dd",
+  "moduleSha256": "047e03373fb8792517fb92604232dc451748e89def701dd3bfbf6c978a903f73",
+  "positionTolerance": 3e-7,
+  "normalTolerance": 0.00001,
+  "comparison": "Active primitive complete buffers; inactive original actual referenced indices; independent source endpoints, all absolute shapes.",
+  "results": [
+    {
+      "name": "male-minus12-frozen-original-failure",
+      "parameter": -0.12,
+      "process": "Original Blender final; retained expected NORMAL mismatch, never relabeled passed",
+      "expectedNormalPassed": false,
+      "actualOperatorSha256": "1b3e019f92c799bc2486b4608584e347aa5c8fe1bfda8170a2d3e54e16f0009c",
+      "sourceSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+      "endpointSha256": "a33071019db4c84616dcaacbc178004183a55b66b534543b5b7a45709597071a",
+      "active": 2,
+      "skipped": 7,
+      "maxPosition": 3.026798367500305e-9,
+      "normalPassed": false,
+      "witness": {
+        "material": "M00_000_00_FaceMouth_00_FACE",
+        "shape": 2,
+        "vertex": 314,
+        "component": 1
+      },
+      "maxNormal": 0.000011056661605834961,
+      "normalReference": "source final NORMAL on every absolute expression"
+    },
+    {
+      "name": "male-minus12-canonical-reference",
+      "parameter": -0.12,
+      "process": "gltf-affine-quantization-v1: pinned editable author source -> raw addon export -> canonical Float32 Basis/relative POSITION -> independent absolute-shape NORMAL",
+      "expectedNormalPassed": true,
+      "actualOperatorSha256": "1b3e019f92c799bc2486b4608584e347aa5c8fe1bfda8170a2d3e54e16f0009c",
+      "sourceSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+      "endpointSha256": "68a1050af661809282ad736add798f72187f69f40347abc3a3ac7dbe61a8de7a",
+      "active": 2,
+      "skipped": 7,
+      "maxPosition": 0,
+      "normalPassed": true,
+      "witness": {
+        "material": "M00_000_00_FaceMouth_00_FACE",
+        "shape": 0,
+        "vertex": 295,
+        "component": 2
+      },
+      "maxNormal": 1.7763568394002505e-15,
+      "normalReference": "source final NORMAL on every absolute expression"
+    },
+    {
+      "name": "male-plus12-original-reference",
+      "parameter": 0.12,
+      "process": "Original mouth-visible-v2 Blender absolute-shape author export plus NORMAL finalizer; no new quantization applied",
+      "expectedNormalPassed": true,
+      "actualOperatorSha256": "1b3e019f92c799bc2486b4608584e347aa5c8fe1bfda8170a2d3e54e16f0009c",
+      "sourceSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+      "endpointSha256": "cb0a208eabef4ae0dc3d7605b10ae516a72023a8227481fb3d5b125614a9f7f2",
+      "active": 2,
+      "skipped": 7,
+      "maxPosition": 7.450580596923828e-9,
+      "normalPassed": true,
+      "witness": {
+        "material": "M00_000_00_FaceMouth_00_FACE",
+        "shape": 2,
+        "vertex": 314,
+        "component": 1
+      },
+      "maxNormal": 0.000008463859558105469,
+      "normalReference": "source final NORMAL on every absolute expression"
+    }
+  ]
+}
