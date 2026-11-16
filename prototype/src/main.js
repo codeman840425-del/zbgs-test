@@ -2137,7 +2137,9 @@ async function switchFoundationBody(bodyType) {
     const colors = avatar.appearance.getState();
     const hairStyle = nextAvatar.appearance.getState().availableStyles.includes(colors.hairStyle) ? colors.hairStyle : 'original';
     if (hairStyle !== colors.hairStyle) notices.push('原发型未适配此身体，已使用该人物原发型');
-    const applied = await nextAvatar.appearance.set({hairStyle,hairColor:colors.hairColor,skinTone:colors.skinTone,eyeColor:colors.eyeColor,lipColor:colors.lipColor});
+    // Keep declared face layers across compatible bodies. Unsupported exact
+    // fits fail during detached preparation and retain the whole old actor.
+    const applied = await nextAvatar.appearance.set({hairStyle,hairColor:colors.hairColor,skinTone:colors.skinTone,eyeColor:colors.eyeColor,lipColor:colors.lipColor,surfaceLayers:colors.surfaceLayers??[]});
     if (!applied.applied) throw new Error(applied.reason || '外观配置加载失败');
     if (request !== bodySelectionGeneration) return {applied:false,cancelled:true};
     const initialRole = avatar.config.outfits.find(entry => entry.index === controller.outfit)?.role;

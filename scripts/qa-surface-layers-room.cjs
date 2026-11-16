@@ -30,11 +30,22 @@ const read=p=>p.evaluate(()=>__surfaceProbe.snapshot());
    assert.equal(JSON.parse(oldRecipe).schema,'workbench-appearance-recipe-v6');
    await p.evaluate(()=>{__debug.camera('inspect-face-front');__debug.setPlaybackRate(1);});await p.waitForTimeout(500);await shot('original');
    assert((await set({lipColor:'rose',skinTone:'warm'})).applied);const rose=await read(p);
+   await p.evaluate(()=>{__surfaceProbe.rose=__surfaceProbe.read(__surfaceProbe.material.map);});
    assert((await set({surfaceLayers:[layers[0]]})).applied);await p.waitForTimeout(350);await shot('freckles');const freckles=await read(p);
    assert.notEqual(freckles.map,rose.map);assert.equal(freckles.source,original.source);
    assert((await set({surfaceLayers:layers})).applied);await p.waitForTimeout(350);await shot('layered');const both=await read(p);
    assert.notEqual(both.map,freckles.map);assert.equal(both.source,original.source);
    assert.deepEqual(both.state.surfaceLayers,layers);
+   row.pixelProtection=await p.evaluate(async()=>{
+    const root='/assets/m2-surface-layer-v1/',manifest=await(await fetch(root+'manifest.json')).json();
+    const variant=manifest.variants.find(v=>v.avatarSha256===__debug.avatar().getAssetProfile().sha256);
+    async function decode(file){const b=await createImageBitmap(await(await fetch(root+file)).blob());try{const c=document.createElement('canvas');c.width=b.width;c.height=b.height;const x=c.getContext('2d');x.drawImage(b,0,0);return x.getImageData(0,0,c.width,c.height).data;}finally{b.close();}}
+    const protectedPixels=await decode(variant.protectedMask.url),overlays=await Promise.all(variant.layers.map(x=>decode(x.url)));
+    const before=__surfaceProbe.rose,after=__surfaceProbe.read(__surfaceProbe.material.map);let changed=0,protectedChanged=0,outsideChanged=0,alphaChanged=0;
+    for(let i=0;i<after.length;i+=4){const difference=[0,1,2].some(c=>after[i+c]!==before[i+c]);if(difference){changed++;if(protectedPixels[i])protectedChanged++;if(!overlays.some(o=>o[i+3]))outsideChanged++;}if(after[i+3]!==before[i+3])alphaChanged++;}
+    return{changed,protectedChanged,outsideChanged,alphaChanged,scope:'Actual browser face RGB compared with same rose lip base; masks loaded from exact admitted package'};
+   });
+   assert(row.pixelProtection.changed>0);assert.equal(row.pixelProtection.protectedChanged,0);assert.equal(row.pixelProtection.outsideChanged,0);assert.equal(row.pixelProtection.alphaChanged,0);
    row.checks.push({name:'actual distinct layers compose without modifying original texture',passed:true,original,rose,freckles,both});
    assert((await set({lipColor:'coral',eyeColor:'green',skinTone:'deep'})).applied);
    const tinted=await read(p);assert.deepEqual(tinted.state.surfaceLayers,layers);assert.notEqual(tinted.map,both.map);assert.equal(tinted.source,original.source);await shot('layered-colors');
