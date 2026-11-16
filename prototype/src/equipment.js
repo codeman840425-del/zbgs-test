@@ -14,6 +14,7 @@ export async function createEquipment({
   parent = vrm.scene,
   manifestUrl = "/assets/garments/equipment.json",
   avatarSha256,
+  additionalManifests = [],
 }) {
   if (!vrm?.humanoid || !parent) throw new TypeError("A loaded VRM is required");
   const response = await fetch(manifestUrl, { cache: "no-store" });
@@ -21,6 +22,20 @@ export async function createEquipment({
   const manifest = await response.json();
   if (manifest.schema !== "zbgs-equipment-v1" || !Array.isArray(manifest.items))
     throw new Error("Unsupported equipment manifest");
+  // Additive catalogs keep the original manifest URL and every legacy entry
+  // byte-for-byte equivalent for saved recipe validation. Extensions are pinned.
+  if(!Array.isArray(additionalManifests))throw Error('Invalid additional equipment manifests');
+  for(const descriptor of additionalManifests){
+    if(typeof descriptor?.url!=='string'||!descriptor.url.startsWith('/assets/')||!/^[a-f0-9]{64}$/.test(descriptor.sha256))throw Error('Invalid additional equipment manifest identity');
+    const extraResponse=await fetch(descriptor.url,{cache:'no-store'});
+    if(!extraResponse.ok)throw Error(`Equipment extension HTTP ${extraResponse.status}`);
+    const bytes=await extraResponse.arrayBuffer();
+    const digest=[...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(n=>n.toString(16).padStart(2,'0')).join('');
+    if(digest!==descriptor.sha256)throw Error('Equipment extension integrity mismatch');
+    const extra=JSON.parse(new TextDecoder().decode(bytes));
+    if(extra.schema!=='zbgs-equipment-v1'||!Array.isArray(extra.items)||extra.items.some(item=>item.compatibleAvatarSha256!==avatarSha256||!item.url?.startsWith('/assets/')))throw Error('Invalid equipment extension body or absolute resource URL');
+    manifest.items.push(...extra.items);
+  }
   const manifestBase = new URL(manifestUrl, window.location.href);
   const entries = new Map(manifest.items.map((item) => [item.id, item]));
   if (entries.size !== manifest.items.length) throw new Error("Duplicate equipment IDs");
@@ -204,6 +219,9 @@ export async function createEquipment({
     // Loading prepares a resource; only an explicit selection makes it visible.
     container.visible = false;
     parent.add(container);
+    // Three dispatches childadded synchronously; a scene owner may dispose
+    // the actor in that callback before this resource enters the loaded map.
+    if (disposed) throw new Error("Equipment disposed while attaching");
     const result = { id: entry.id, entry, container, meshes, skeletons: new Set(skeletons.values()),
       stats: { primitives: meshes.length, verticesAcrossPrimitives: vertices,
         multiBoneVerticesAcrossPrimitives: multiBoneVertices, maxWeightSumError,

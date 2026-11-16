@@ -1,4 +1,5 @@
 import {REPRESENTATIVE_PROFILES} from './representative-batch.js';
+import layerOutfits from '../public/assets/m2-vest-layer-fit-v1/profiles.json' with {type:'json'};
 
 // Body type is an asset/fit identity, not the streamer's gender or personality.
 // Differences stay here; both candidates use the same movement controller.
@@ -155,6 +156,16 @@ export function foundationProfile(bodyType = "female") {
   const profile = FOUNDATION_PROFILES[bodyType];
   if (!profile) throw new Error(`Unknown foundation body type: ${bodyType}`);
   const result = structuredClone(profile);
+  if(layerOutfits.schema!=='vest-layer-outfits-v1')throw Error('Unknown layer outfit registry');
+  const layer=layerOutfits.profiles[bodyType];
+  if(layer){
+    if(layer.bodySha256!==result.sha256||layer.bottomId!==result.ids.pants||layer.sourceManifestUrl!==result.manifestUrl||result.ids.fitTop)
+      throw Error('Layer outfit requires its exact body, original catalog and lower garment');
+    result.ids.fitTop=layer.topId;
+    result.additionalEquipmentManifests=[...(result.additionalEquipmentManifests??[]),layer.manifest];
+    result.additionalBodyCoverage=[...(result.additionalBodyCoverage??[]),{role:'fitTop',descriptor:layer.bodyCoverage}];
+    result.extraOutfits=[...(result.extraOutfits??[]),layer.outfit];
+  }
   result.outfits = [
     { index: 0, role: "pants", label: result.pantsLabel },
     ...(result.ids.skirt ? [{ index: 1, role: "skirt", label: "独立裙装" }] : []),

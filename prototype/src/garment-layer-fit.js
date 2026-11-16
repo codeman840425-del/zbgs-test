@@ -4,7 +4,7 @@ const hash = value => typeof value === 'string' && /^[a-f0-9]{64}$/.test(value);
 export function layerFitRequirement(entry) {
   const descriptor = entry.layerFitResource;
   if (descriptor === undefined) return null;
-  if (entry.slot !== 'top' || descriptor.schema !== 'vest-layer-fit-v1' ||
+  if (!descriptor || typeof descriptor !== 'object' || entry.slot !== 'top' || descriptor.schema !== 'vest-layer-fit-v1' ||
       typeof descriptor.url !== 'string' || !descriptor.url.startsWith('/assets/') ||
       !hash(descriptor.sha256) || !entry.fitId ||
       typeof descriptor.bottom?.id !== 'string' || !descriptor.bottom.id ||

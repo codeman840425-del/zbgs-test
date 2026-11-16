@@ -8,7 +8,7 @@ const {chromium} = require('../prototype/node_modules/playwright');
 const {verifyCandidate} = require('./qa-m1-common.cjs');
 
 async function main() {
-  const [url, build, destination, indexPath] = process.argv.slice(2);
+  const [url, build, destination, indexPath, outfitRole='pants'] = process.argv.slice(2);
   assert(url && /^[a-f0-9]{12}$/.test(build) && destination && indexPath);
   const out = path.resolve(destination), bytes = await fs.readFile(indexPath);
   const index = JSON.parse(bytes);
@@ -19,7 +19,7 @@ async function main() {
   await fs.copyFile(__filename, path.join(out,'executed-script.cjs'));
   await fs.writeFile(path.join(out,'executed-runtime-index.json'), bytes);
   const report = {schema:'vest-layer-chain-v1', build, status:'running', cases:[],
-    runtimeIndexSha256:createHash('sha256').update(bytes).digest('hex'),
+    outfitRole, runtimeIndexSha256('sha256').update(bytes).digest('hex'),
     limits:[
       '1x wall-clock playback; technical task completion is not visual acceptance.',
       'Front inspection camera follows the same product camera policy in both candidates; room view supplies wider context.',
@@ -52,6 +52,13 @@ async function main() {
         row.identity = await verifyCandidate(page,{build,assetId:spec.profile.id,sha256:spec.profile.sha256});
         // Reset before every case, not while walking. No modified clock or bone pose.
         await page.evaluate(view => {__debug.reset(); __debug.setPlaybackRate(1); __debug.setPaused(false); __debug.camera(view);},view);
+        row.outfit = await page.evaluate(async role => {
+          const actor=__debug.avatar(), look=actor.config.outfits.find(item=>item.role===role);
+          if(!look)throw Error('Missing configured look '+role);
+          const result=await __debug.setOutfit(look.index);
+          if(!result?.applied)throw Error('Outfit selection failed: '+JSON.stringify(result));
+          return actor.getOutfitInfo();
+        },outfitRole);
         await page.waitForTimeout(750);
         row.environment = await page.evaluate(() => {
           const gl = __debug.renderer.getContext(), ext = gl.getExtension('WEBGL_debug_renderer_info');

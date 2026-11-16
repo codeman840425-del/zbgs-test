@@ -22,6 +22,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     vrm,
     avatarSha256,
     manifestUrl: config.manifestUrl,
+    additionalManifests: config.additionalEquipmentManifests,
   });
   try {
     const initial = outfitSelection(config, 0);

@@ -282,3 +282,5 @@ ed2完整1×、各自裤装和真实新发型的走跑转坐起/短技术舞/表
 2026-11-16 共同整身cage试验已封存（源包m2-representative-cage-trial-v1，集成427baa51）：真实Blender4.5.9基础绑定/identity/端点/Surface Deform门已跑，8项实际生成但全部failed-production-admission。整圈肩臂宽度传播到手/指表面112–458mm，原骨架保留；不能用det正常或绑定未变抵销严重脱骨。32资源重复字节一致及三个拒绝反例只说明生产记录/入口，不说明资产可用。衣物Jacobian仍未测；无游戏准入/视觉通过。下一窄试验保v2已证身体段，仅替换失败head场，先等价/局部边界及表达门，不继续整身模板扫参；结果未出。主要绿点根因诊断已固定b218cbf1：完整不透明上衣前方出现裤面，原源即有干涉且派生加重，固定world-offset并未保证衣物层间次序。证据m2-representative-vest-source-diagnosis-v1及m2-representative-vest-posed-ed2-v1。共同top层间fit在制作、实际连续前对照在录制，不能称已修。
 
 2026-11-16 腰部连续前对照已完成：m2-vest-layer-before-ed2-v2，原女+round/soft各房间/近腰六段1×、100ms实际局部蒙皮采样。源top-pants层间fit尚未进游戏。两派生跑步/起身的白/肤色露面另由m2-vest-running-body-ed2-v1实际body/top投影确认：round272/272、soft278/278候选像素Body在top之前，最大沿射线4.94/5.32mm。对应三角都在原女覆盖区域内，但派生未安装自身coverage，不能直接继承原mask身份；下一步重算并验证派生安全覆盖与基础模式恢复。上述为指定视角/姿态的归因，不是全表面最大穿透或动作通过。
+
+2026-11-16 腰部共同适配候选：三套新top的52面×全裤三角9静态状态经独审（最小保守间距0.502mm），原女裤ID误写已修正并保原失败。三套源安全coverage重新生成252/257/247面，原完整Body不变。附加装备目录保旧manifest/entry/配方，通过新pants-layer-fit选衣；source/CPU依赖及恢复检查通过，当前准备固定构建，未替换4196，连续动作和外露边界仍待验。head-only源已封存原strict预检失败，独审判口内纳米pair数值边界不确定；诊断准备不代表生产准入或八体通过。
