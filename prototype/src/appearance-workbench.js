@@ -31,7 +31,7 @@ export function bindAppearanceWorkbench({ controller }) {
       { id: 'm2-male-lower-leg-v1', label: '小腿比例样件' },
     ],
   };
-  for(const preset of REPRESENTATIVE_PRESETS)bodyGroups[preset.sex].push({id:preset.id,label:preset.label+' · 批次候选'});
+  for(const preset of REPRESENTATIVE_PRESETS)bodyGroups[preset.sex].push({id:preset.id,label:preset.previewLabel});
   const groupFor = bodyType => Object.keys(bodyGroups).find(group => bodyGroups[group].some(item => item.id === bodyType));
   const style = panel.querySelector('#appearance-hair-style');
   const hair = panel.querySelector('#appearance-hair-color');
@@ -189,7 +189,7 @@ export function bindAppearanceWorkbench({ controller }) {
   move('.debug-controls', inspectionPage);
   move('details:not(#appearance-geometry):not(#appearance-validation-samples)', inspectionPage);
   const previewInfo=document.createElement('section');previewInfo.id='workbench-preview-info';
-  previewInfo.innerHTML='<h3>当前预览</h3><p id="workbench-preview-build" class="appearance-hint"></p><p class="appearance-hint">技术候选，长发坐下时发梢仍可能明显上甩；帽发与椅子接触请结合原速证据查看。</p><p><a id="workbench-hair-evidence" target="_blank" rel="noopener noreferrer">长发前后对照</a> · <a id="workbench-hat-evidence" target="_blank" rel="noopener noreferrer">帽发与动作证据</a> · <a id="workbench-accessory-record-evidence" target="_blank" rel="noopener noreferrer">整套造型保存与恢复</a> · <a id="workbench-batch-evidence" target="_blank" rel="noopener noreferrer">8预设初版对照（374，含未通过项）</a></p>';
+  previewInfo.innerHTML='<h3>当前预览</h3><p id="workbench-preview-build" class="appearance-hint"></p><p class="appearance-hint">当前修订只产出 6 套诊断候选；两套纤瘦请求变形失败，未加载。脸型目标仅部分实现。初版仍可对照，动作、衣物和发型分别验收。</p><p><a id="workbench-hair-evidence" target="_blank" rel="noopener noreferrer">长发前后对照</a> · <a id="workbench-hat-evidence" target="_blank" rel="noopener noreferrer">帽发与动作证据</a> · <a id="workbench-accessory-record-evidence" target="_blank" rel="noopener noreferrer">整套造型保存与恢复</a> · <a id="workbench-batch-evidence" target="_blank" rel="noopener noreferrer">8预设初版对照（374，含未通过项）</a></p>';
   for(const [id,path] of [['workbench-hair-evidence','/evidence/m2-long-hair-review-e9b-v1/before-after.html'],['workbench-hat-evidence','/evidence/m2-hat-hair-review-6e0-v1/'],['workbench-accessory-record-evidence','/evidence/m2-accessory-record-review-v1/'],['workbench-batch-evidence','/evidence/m2-representative-review-374-v1/']]){
     const evidence=new URL(window.location.href);evidence.port='4174';evidence.pathname=path;evidence.search='';evidence.hash='';
     previewInfo.querySelector('#'+id).href=evidence.href;

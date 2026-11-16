@@ -4,6 +4,7 @@ Run after the source producer commit has been integrated. Original palettes and
 original assets stay immutable. New body identities get a separate palette package.
 """
 import argparse
+from collections import Counter
 import copy
 import hashlib
 import importlib.util
@@ -44,10 +45,80 @@ LABELS = {
     'male-round-stocky': '圆脸 · 壮实', 'male-angular-athletic': '棱角脸 · 运动体格',
 }
 
+def reviewed_subset(manifest, audit):
+    """Admit only fully audited source outputs; an incomplete batch stays incomplete."""
+    expected = {key + '-v2' for key in LABELS}
+    entries = manifest.get('variants', [])
+    variants = audit.get('variants', [])
+    if len(entries) != 8 or {v.get('id') for v in entries} != expected:
+        raise ValueError('Partial preview still requires all eight declared source outcomes')
+    if len(variants) != 8 or {v.get('id') for v in variants} != expected:
+        raise ValueError('Audit must include each declared preset exactly once')
+    audit_rows = {v['id']: v for v in variants}
+    files = {v['path']: v for v in audit.get('files', [])}
+    if len(files) != len(audit.get('files', [])):
+        raise ValueError('Duplicate independently audited file')
+    def require_audited(ref):
+        path = (ROOT / ref['path']).resolve()
+        if not path.is_relative_to(ROOT.resolve()):
+            raise ValueError('Audited reference escapes project')
+        relative = path.relative_to(ROOT.resolve()).as_posix()
+        record = files.get(relative)
+        if not record or record['sha256'] != ref['sha256'] or record['bytes'] != ref['bytes']:
+            raise ValueError('Selected resource missing from exact audit: ' + relative)
+        if path.stat().st_size != record['bytes'] or sha(path) != record['sha256']:
+            raise ValueError('Selected audited resource changed: ' + relative)
+        return path
+    selected = [v for v in entries if v.get('status') == 'source-passed']
+    failed = [v for v in entries if v.get('status') == 'failed']
+    if len(selected) != 6 or {v['id'] for v in failed} != {'female-long-slender-v2', 'male-long-lean-v2'}:
+        raise ValueError('This reviewed partial package must contain six outputs and the two recorded lean failures')
+    for entry in selected:
+        row = audit_rows[entry['id']]
+        if row.get('passed') is not True or not row.get('checks') or any(c.get('passed') is not True for c in row['checks']):
+            raise ValueError('Selected source has incomplete or failed independent checks: ' + entry['id'])
+        for field in ['avatar', 'equipmentManifest', 'fit', 'profile', 'report']:
+            require_audited(entry[field])
+        equipment = read(ROOT / entry['equipmentManifest']['path'])
+        if len(equipment['items']) != 3 or {i['slot'] for i in equipment['items']} != {'top','bottom','shoes'}:
+            raise ValueError('Selected equipment is incomplete')
+        directory = Path(entry['equipmentManifest']['path']).parent
+        for item in equipment['items']:
+            require_audited({'path': (directory / item['url']).as_posix(), 'sha256': item['sha256'], 'bytes': item['bytes']})
+    # Remove the exact per-preset records from the complete check ledger. Global
+    # failures may ONLY describe missing outputs from explicitly FAILED sources.
+    key = lambda c: json.dumps(c, sort_keys=True, separators=(',', ':'))
+    remaining = Counter(key(c) for c in audit.get('checks', []))
+    for row in variants:
+        if not row.get('checks'):
+            raise ValueError('Empty per-preset audit')
+        for check in row['checks']:
+            token = key(check)
+            if remaining[token] <= 0:
+                raise ValueError('Per-preset checks do not belong to the complete audit')
+            remaining[token] -= 1
+    global_checks = [json.loads(token) for token, count in remaining.items() for _ in range(count)]
+    if Counter(key(c) for c in audit.get('globalChecks', [])) != Counter(key(c) for c in global_checks):
+        raise ValueError('Global audit ledger does not match its declared scope')
+    allowed_missing = {'four-distinct-position-contents-' + v['sex'] for v in failed}
+    if not global_checks or any(c.get('passed') is not True and c.get('name') not in allowed_missing for c in global_checks):
+        raise ValueError('Shared audit failed beyond explicitly missing source outputs')
+    for entry in failed:
+        if audit_rows[entry['id']].get('passed') is not False or any(field in entry for field in ['avatar', 'equipmentManifest', 'profile', 'fit', 'report']):
+            raise ValueError('Failed source must not claim an admitted resource')
+        expected_checks = {'sex-' + entry['id']: True, 'exact-spec-parameters-' + entry['id']: True,
+                           'source-status-' + entry['id']: False, 'failed-record-identity-' + entry['id']: True,
+                           'readback-' + entry['id']: False}
+        actual_checks = audit_rows[entry['id']]['checks']
+        if len(actual_checks) != len(expected_checks) or {c['name']:c['passed'] for c in actual_checks} != expected_checks:
+            raise ValueError('Failed preset audit scope includes unexpected checks')
+    return selected, [{'id': v['id'], 'reason': v.get('error'), 'status': 'not-published-source-failed'} for v in failed]
+
 def main():
     global PREFIX, PUBLIC, SOURCE
     parser = argparse.ArgumentParser()
     parser.add_argument('--revision', type=int, choices=[1, 2], default=1)
+    parser.add_argument('--reviewed-subset', action='store_true', help='Revision 2 only: publish independently passed entries, retaining failed batch outcomes')
     parser.add_argument('--manifest', required=True, type=Path)
     parser.add_argument('--audit', required=True, type=Path)
     args = parser.parse_args()
@@ -59,10 +130,16 @@ def main():
         raise ValueError('Manifest path must match the explicitly requested revision')
     if manifest.get('schema') != 'character-representative-batch-v1' or manifest.get('version') != args.revision:
         raise ValueError('Manifest revision mismatch')
-    if not audit.get('checks') or any(c.get('passed') is not True for c in audit['checks']):
-        raise ValueError('Independent checks missing or failed')
-    if audit['status'] != 'body-garment-cpu-readback-passed-appearance-runtime-pending':
-        raise ValueError('Independent body readback has not passed')
+    if args.reviewed_subset:
+        if args.revision != 2 or audit.get('status') != 'cpu-readback-incomplete-or-failed':
+            raise ValueError('Reviewed subset requires explicit revision 2 and a truthful incomplete audit')
+        publish_entries, unpublished = reviewed_subset(manifest, audit)
+    else:
+        if not audit.get('checks') or any(c.get('passed') is not True for c in audit['checks']):
+            raise ValueError('Independent checks missing or failed')
+        if audit['status'] != 'body-garment-cpu-readback-passed-appearance-runtime-pending':
+            raise ValueError('Independent body readback has not passed')
+        publish_entries, unpublished = manifest['variants'], []
     audited_manifest = next((entry for entry in audit['files'] if entry['path'] == audit['manifest']), None)
     if audited_manifest is None or args.manifest.resolve() != (ROOT / audit['manifest']).resolve() or sha(args.manifest) != audited_manifest['sha256']:
         raise ValueError('Requested manifest is not the exact independently audited manifest')
@@ -86,7 +163,10 @@ def main():
                         'No claim of arbitrary shape, hair, skirt or accessory compatibility.']}
     spec = importlib.util.spec_from_file_location('batch_glb_reader', ROOT / 'scripts/m2-male-face-v1/glb.py')
     module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
-    for entry in manifest['variants']:
+    if args.reviewed_subset:
+        index.update(declaredBatchSize=8, completeBatch=False, unpublished=unpublished)
+        index['limits'].append('Only six independently checked source candidates; face requests partially projected by 8.668–31.058 mm half-width. Not full requested appearance or whole-batch acceptance.')
+    for entry in publish_entries:
         identifier, sex = entry['id'], entry['sex']
         folder = ROOT / Path(entry['avatar']['path']).parent
         target = PUBLIC / identifier

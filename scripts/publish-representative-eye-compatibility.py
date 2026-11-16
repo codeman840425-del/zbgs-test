@@ -13,6 +13,7 @@ from glb import GLB
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--revision', type=int, choices=[1,2], default=1)
+parser.add_argument('--reviewed-subset', action='store_true')
 parser.add_argument('--report', type=Path, help='New evidence destination; historical reports are not overwritten')
 args=parser.parse_args()
 prefix=f'm2-representative-batch-v{args.revision}'
@@ -20,9 +21,19 @@ manifest_path=ROOT/'assets-source'/prefix/'generated/manifest.json'
 manifest=json.loads(manifest_path.read_bytes())
 assert manifest['schema']=='character-representative-batch-v1' and manifest['version']==args.revision
 assert len(manifest['variants'])==8 and len({v['id'] for v in manifest['variants']})==8
-assert all(v.get('status')=='source-passed' for v in manifest['variants'])
+variants=manifest['variants']
+unpublished=[]
+if args.reviewed_subset:
+    assert args.revision==2
+    index=json.loads((ROOT/'prototype/public/assets'/prefix/'runtime-index.json').read_bytes())
+    assert index['sourceManifestSha256']==sha(manifest_path) and index.get('completeBatch') is False
+    variants=[v for v in variants if v.get('status')=='source-passed']
+    assert len(variants)==6 and {v['id']:v['avatar']['sha256'] for v in variants}=={v['id']:v['profile']['sha256'] for v in index['presets']}
+    unpublished=index['unpublished']
+else:
+    assert all(v.get('status')=='source-passed' for v in variants)
 rows=[];profiles=[]
-for variant in manifest['variants']:
+for variant in variants:
     original_path=ROOT/variant['sourceBody']['path'];derived_path=ROOT/variant['avatar']['path']
     assert sha(original_path)==variant['sourceBody']['sha256'] and sha(derived_path)==variant['avatar']['sha256']
     a,b=GLB(original_path),GLB(derived_path);checks=[]
