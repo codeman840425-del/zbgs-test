@@ -1,0 +1,165 @@
+{
+  "passed": true,
+  "workflowCount": 16,
+  "sameWorkflowForBothCuratedVersions": true,
+  "originalInventoryFiles": 26,
+  "revisionInventoryFiles": 16,
+  "assets": {
+    "id": "female-ponytail-v1",
+    "inventoryFiles": 26,
+    "publishedFiles": 3,
+    "assetSha256": "010a615ed5650e106bacd2c1da576a7c42db2a22047c4011596fb43b648cb015",
+    "revisions": [
+      {
+        "revision": "rootjoin-v2",
+        "version": 2,
+        "inventoryFiles": 16,
+        "assetSha256": "1b785f9d54107818cee39eda2de7263ad0720ce90968fbaa7cc32c2465e3c385",
+        "fitSha256": "5e6d7499852ffc6198e6c7190a50cf5b55abd51f535c038044201b1cd9ada04f",
+        "manifestSha256": "28337f44c1d297f2657b8ca32466e0c3b9e0cfceb17c39bda019fc19bfb48b9d",
+        "failedAttemptAssetsAdmitted": false,
+        "publishedBytesMatchSource": true,
+        "runtimeAccepted": false,
+        "visualAcceptance": "not-established",
+        "scope": "Curated revision identity, actual binds/weights and stored static/CPU evidence only."
+      }
+    ],
+    "auxiliaryJoints": 8,
+    "springJoints": 6,
+    "retainedFailedExportsAdmitted": false,
+    "publishedBytesMatchSource": true,
+    "runtimeAccepted": false,
+    "scope": "Source-author frozen identity/readback and stored CPU evidence. No independent game dynamics or visual acceptance."
+  },
+  "negativeCases": [
+    "revision wrong target body",
+    "revision failed source QA",
+    "revision source visual promotion refused",
+    "attempt-1 cannot replace curated asset",
+    "attempt-2 cannot replace curated asset",
+    "Different existing release",
+    "Refusing unreviewed root-join manifest identity",
+    "Source validation did not pass"
+  ],
+  "publisherCommands": [
+    {
+      "argv": [
+        "python",
+        "-B",
+        "scripts/m2-long-hair-v1/publish-rootjoin-v2.py",
+        "--output",
+        "<temporary-release>"
+      ],
+      "exitCode": 0,
+      "expectedError": null
+    },
+    {
+      "argv": [
+        "python",
+        "-B",
+        "scripts/m2-long-hair-v1/publish-rootjoin-v2.py",
+        "--output",
+        "<temporary-release>"
+      ],
+      "exitCode": 0,
+      "expectedError": null
+    },
+    {
+      "argv": [
+        "python",
+        "-B",
+        "scripts/m2-long-hair-v1/publish-rootjoin-v2.py",
+        "--output",
+        "<temporary-release>"
+      ],
+      "exitCode": 1,
+      "expectedError": "Different existing release"
+    },
+    {
+      "argv": [
+        "python",
+        "-B",
+        "scripts/m2-long-hair-v1/publish-rootjoin-v2.py",
+        "--output",
+        "<temporary-release>"
+      ],
+      "exitCode": 1,
+      "expectedError": "Refusing unreviewed root-join manifest identity"
+    },
+    {
+      "argv": [
+        "python",
+        "-B",
+        "scripts/m2-long-hair-v1/publish-rootjoin-v2.py",
+        "--output",
+        "<temporary-release>"
+      ],
+      "exitCode": 1,
+      "expectedError": "Source validation did not pass"
+    }
+  ],
+  "repeatPublishBytesAndMtimesIdentical": true,
+  "failedPublishChangesNothing": true,
+  "sourceAndPublicBytesUnchanged": true,
+  "sourceFileSHA256": {
+    "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/README.md": "aef6223b8fb13b70b53c7dacb1de68ea379e405053c2bafef499cbb986dc7e2f",
+    "assets-source/m2-long-hair-v1/failed-source-v1/build-report.json": "f7d07196eafad26b5786d5f524b247a8671b69938dc7256c51df720bd72413f3",
+    "assets-source/m2-long-hair-v1/failed-source-v1/parameter-variant/female-ponytail.glb": "732a13e758abfaa0548cd535735df9ed2df1645b22ba694b07163c71663f112f",
+    "assets-source/m2-long-hair-v1/generated/parameter-variant/spec.json": "f64209fc2930a217dbb58d70fedd2ef1d8665a0e1fe62aef7a3dfdb22eb5564e",
+    "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/attempt-1/failure.json": "9d78478df5a5a0289987f54980a0a0b619dcf0cdbedd2909d9ac6fe590218f3b",
+    "scripts/m2-long-hair-v1/rootjoin-v2.py": "fe2938bd0f90beb600322d14973edc6d973a4543c9b0783c2bac1b6cb97fede7",
+    "prototype/public/assets/m2-long-hair-v1/fit.json": "3199e1059971ef8a47d574571a9e18cdf940412ca7ab61574f2027d207a0a37e",
+    "assets-source/m2-long-hair-v1/generated/female-ponytail.glb": "010a615ed5650e106bacd2c1da576a7c42db2a22047c4011596fb43b648cb015",
+    "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/qa-output.json": "e6462640fa142860ffa8fbf39334d802a6c4053ea5ec8833269eb32e57ca6adc",
+    "scripts/m2-socks-layer-v1/qa.py": "709eaf6fc8e32ce2379a51b5ae61d395f61687dc191298cfbf6737c22d64cdf9",
+    "scripts/m2-long-hair-v1/qa-runtime.mjs": "606cee99078877ded1dc6a396f2fe2bb90d7e487041e8b53aefe76a78ac1c748",
+    "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/runtime-cpu-qa.json": "d60aba240add7323247c2590f4eda692646046ce59d21e174aa61d81af896edd",
+    "prototype/public/assets/m2-long-hair-v1/female-ponytail.glb": "010a615ed5650e106bacd2c1da576a7c42db2a22047c4011596fb43b648cb015",
+    "assets-source/m2-long-hair-v1/initial-clearance-failure.json": "34f0055b9540de18072a0f1e95eae5dc41aa1dee2a1aa94ac386dfa6ac92d100",
+    "assets-source/m2-long-hair-v1/failed-source-v1/female-ponytail.glb": "94c6afd1369abb44e184ac51fdceeb5285d112686ddf1f8c2d3d6393dff9f64d",
+    "scripts/m2-long-hair-v1/publish.py": "4b77ee9c022404a2b7b6eb0fa9b8f96c9e045fb31fa92e5274c2757a95a9acec",
+    "prototype/public/assets/m2-long-hair-rootjoin-v2/fit.json": "5e6d7499852ffc6198e6c7190a50cf5b55abd51f535c038044201b1cd9ada04f",
+    "assets-source/m2-long-hair-v1/.gitattributes": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da",
+    "assets-source/m2-long-hair-v1/generated/qa-report.json": "93245692c559a9056fc60ced830745d3bfe2289038dba6632cd7c8330f0cfec3",
+    "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/correction-evidence.json": "932624fccb0c21d1d457e8846c2dc3ec270564003bd264abf91525e69d580eb8",
+    "scripts/m2-long-hair-v1/requirements.txt": "74c9bfae19a2fb6b98aa4da2562397bfb540a729890800dadd853b06594e92a4",
+    "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/package-files.json": "493a3ec6f47de118da17ed90d7643849cbcd6b5f6a130299f00b3132a2fa3f40",
+    "assets-source/m2-long-hair-v1/generated/parameter-variant/fit.json": "3186046c6868b3d3a497cd1bcce36d0cdafb4289d64c77cbc8bbfce928ac4c64",
+    "prototype/public/assets/m2-long-hair-v1/manifest.json": "b20b2f956aff08331f185466af02143f95f893305e484747e6166b8d8bd8c101",
+    "scripts/m2-long-hair-v1/.gitattributes": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da",
+    "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/attempt-2/female-ponytail.glb": "f4c415120a50b6431bec78687ccd1cb1d4992d7c349a889cc55873ed9d6df299",
+    "prototype/public/assets/m2-long-hair-rootjoin-v2/manifest.json": "28337f44c1d297f2657b8ca32466e0c3b9e0cfceb17c39bda019fc19bfb48b9d",
+    "assets-source/m2-long-hair-v1/generated/build-report.json": "49b156100091df347695eea3b1cec2469365e7c76812debf60ecefac43032dbb",
+    "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/attempt-1/female-ponytail.glb": "260ba381d62d805e50e4c18d3a8baa43c70c19e5a64bb919055341d263359b88",
+    "assets-source/m2-long-hair-v1/generated/manifest.json": "b20b2f956aff08331f185466af02143f95f893305e484747e6166b8d8bd8c101",
+    "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/spec.json": "3229e4b789f0f0a94ca6c939dd5cb1d9a89fc8b28f238eff8fc6c30a66b1c5da",
+    "assets-source/m2-long-hair-v1/generated/runtime-cpu-qa.json": "2bf66a786859259eb47bd13929fd43972db8cb3f605dde0be63547c1904ee8a9",
+    "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/attempt-2/failure.json": "02e5894fd2431f679e6168064707cdecd63cd49521d9c1e9ab1bf0cda7c7e968",
+    "scripts/m2-long-hair-v1/qa.py": "7e64470ee8c91fe72ac75af6938bce6ed3ec301154634933d6c1c71a5e1b5458",
+    "assets-source/m2-long-hair-v1/generated/parameter-variant/female-ponytail.glb": "c350dc35b0ce4694581dacaa093e50c981e2736b326a10215b0b4310a5253eff",
+    "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/qa-report.json": "942cf6b75165b0274756430075e3ab32b4982a782a364308985fe6979603d701",
+    "assets-source/m2-long-hair-v1/generated/parameter-variant/manifest.json": "bb149f8ea94f394f4ecdb8b3ce04f408d8d845b5ef6f08685e6b9d1750672f22",
+    "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/manifest.json": "28337f44c1d297f2657b8ca32466e0c3b9e0cfceb17c39bda019fc19bfb48b9d",
+    "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/female-ponytail.glb": "1b785f9d54107818cee39eda2de7263ad0720ce90968fbaa7cc32c2465e3c385",
+    "assets-source/m2-long-hair-v1/README.md": "c0e1df9016e7d2f7510d574f0a1d2415f8b9db904d85dde5cfa3d547b3caf4ca",
+    "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/build-report.json": "51ad6902933a8f2155231cb576ce18a19fd97a97a81102f454b1996689133b4c",
+    "assets-source/m2-long-hair-v1/generated/package-files.json": "5e3bea68d4a8dfc15764587b8bba1ba943fef13d3a0d7b8659fd9648a46a0c7d",
+    "prototype/public/assets/foundation/base-female-roundtrip.vrm": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+    "scripts/m2-long-hair-v1/qa-rootjoin-v2.mjs": "17bc4ac6bd5b08ca198464aeb585911a160f53d0687cbff880f415917f6923fd",
+    "assets-source/m2-long-hair-v1/spec.json": "17cfa369e32a5f7967bb662ebdaf18c9040ec28b4e133e319d50ed4cb6110e40",
+    "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/fit.json": "5e6d7499852ffc6198e6c7190a50cf5b55abd51f535c038044201b1cd9ada04f",
+    "scripts/m2-long-hair-v1/publish-rootjoin-v2.py": "514b8a2ea75af44e75724a5234a188a652f2303872fd5d1d5f9d32e18444d101",
+    "prototype/public/assets/m2-long-hair-rootjoin-v2/female-ponytail.glb": "1b785f9d54107818cee39eda2de7263ad0720ce90968fbaa7cc32c2465e3c385",
+    "assets-source/m2-long-hair-v1/provenance.json": "a0164a23ae5a8765fc47fe0d23c789a5289ca0cd564d18c099face32f7cb8d81",
+    "assets-source/m2-long-hair-v1/failed-source-v1/fit.json": "6b277b763ff082329d2ed1d907d596684819cf3d2dbcab915c9a7a2bf99aca93",
+    "scripts/m2-long-hair-v1/build.py": "225e3e1c1ad5582ceb92b43f6aeaaba57e64a9aa2775bc4be2241614e08b2b6b",
+    "assets-source/m2-long-hair-v1/generated/fit.json": "3199e1059971ef8a47d574571a9e18cdf940412ca7ab61574f2027d207a0a37e",
+    "assets-source/m2-long-hair-v1/source-correction.json": "afb6122ec8289cdd2a5f273633b6ca867bb0b76a2ba81a65a6c7b0da306fb38d"
+  },
+  "GPUUsed": false,
+  "producerExecuted": false,
+  "publisherTemporaryMirrorOnly": true,
+  "historicalRecursiveQAExecuted": false,
+  "runtimeAccepted": false,
+  "visualAccepted": false
+}

@@ -1998,7 +1998,7 @@
     },
     {
       "id": "long-hair-source",
-      "title": "Original female multi-bone ponytail source and official spring API CPU proof",
+      "title": "Original female ponytail v1 and curated rootjoin-v2 with frozen source/CPU identities",
       "kind": "source-package",
       "sources": [
         "assets-source/m2-long-hair-v1/spec.json",
@@ -2008,17 +2008,32 @@
         "scripts/m2-long-hair-v1/qa.py",
         "scripts/m2-long-hair-v1/qa-runtime.mjs",
         "scripts/m2-long-hair-v1/publish.py",
-        "scripts/m2-long-hair-v1/requirements.txt"
+        "scripts/m2-long-hair-v1/requirements.txt",
+        "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/spec.json",
+        "scripts/m2-long-hair-v1/rootjoin-v2.py",
+        "scripts/m2-long-hair-v1/qa-rootjoin-v2.mjs",
+        "scripts/m2-long-hair-v1/publish-rootjoin-v2.py"
       ],
       "inputs": [
         "assets-source/m2-long-hair-v1/spec.json",
         "prototype/public/assets/foundation/base-female-roundtrip.vrm",
-        "scripts/m2-socks-layer-v1/qa.py"
+        "scripts/m2-socks-layer-v1/qa.py",
+        "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/spec.json",
+        "assets-source/m2-long-hair-v1/generated/package-files.json"
       ],
       "identity": {
         "package": "long-hair",
         "manifest": "assets-source/m2-long-hair-v1/generated/package-files.json",
-        "manifestSha256": "5e3bea68d4a8dfc15764587b8bba1ba943fef13d3a0d7b8659fd9648a46a0c7d"
+        "manifestSha256": "5e3bea68d4a8dfc15764587b8bba1ba943fef13d3a0d7b8659fd9648a46a0c7d",
+        "revisions": [
+          {
+            "id": "rootjoin-v2",
+            "manifest": "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/package-files.json",
+            "manifestSha256": "493a3ec6f47de118da17ed90d7643849cbcd6b5f6a130299f00b3132a2fa3f40",
+            "releaseManifestSha256": "28337f44c1d297f2657b8ca32466e0c3b9e0cfceb17c39bda019fc19bfb48b9d",
+            "publisherSha256": "514b8a2ea75af44e75724a5234a188a652f2303872fd5d1d5f9d32e18444d101"
+          }
+        ]
       },
       "requirements": [
         "scripts/m2-long-hair-v1/requirements.txt",
@@ -2027,7 +2042,9 @@
       "outputs": [
         "assets-source/m2-long-hair-v1/generated/",
         "assets-source/m2-long-hair-v1/exports/",
-        "prototype/public/assets/m2-long-hair-v1/"
+        "prototype/public/assets/m2-long-hair-v1/",
+        "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/",
+        "prototype/public/assets/m2-long-hair-rootjoin-v2/"
       ],
       "agentInput": {
         "spec": "assets-source/m2-long-hair-v1/spec.json",
@@ -2039,7 +2056,11 @@
           0.43
         ],
         "generationDependencies": "Python 3.13 with numpy==2.4.2 and Pillow==12.1.0; CPU loader/API smoke uses locked Three187 and @pixiv/three-vrm-springbone3.5.5. Standard-library readback/publisher.",
-        "reviewRole": "Source author validation; no independent dynamic or visual acceptance."
+        "reviewRole": "Source author validation; no independent dynamic or visual acceptance.",
+        "curatedRevisions": [
+          "v1 generated fixed26inventory",
+          "rootjoin-v2 fixed16inventory; publisher separately pinned"
+        ]
       },
       "stages": {
         "source": [
@@ -2090,6 +2111,29 @@
               "prototype/public/assets/.hair-stage-*/"
             ],
             "note": "Retained root publisher verifies stored source inventory and passed source/API QA, pins GLB/fit, and publishes exactly the three curated generated base resources. Failed-source and parameter-variant exports are excluded. Uses sibling .hair-stage-* then whole-directory rename. Different or partial existing release refuses writes; identical complete release preserves bytes/mtime. An explicit --output override stages under that destination parent."
+          },
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/m2-long-hair-v1/rootjoin-v2.py"
+            ],
+            "writes": [
+              "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/"
+            ],
+            "note": "Explicit version2 producer. Computes and repeats plan before output; identical bytes preserve mtimes, conflicting bytes refuse. On geometry rejection may create revisions/rootjoin-v2/attempt-3 failure files even when --out selects a bounded exports child. Original v1 inventory and assets frozen."
+          },
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/m2-long-hair-v1/publish-rootjoin-v2.py"
+            ],
+            "writes": [
+              "prototype/public/assets/m2-long-hair-rootjoin-v2/",
+              "prototype/public/assets/.hair-stage-*/"
+            ],
+            "note": "Exact reviewed revision manifest guard, then frozen v1 atomic publisher with revision SOURCE. Checks revision inventory/QA and publishes only three root-level GLB/fit/manifest files. attempt-1/2 are preserved evidence, excluded. --output override changes destination and sibling staging parent; identical release preserves bytes/mtime, different/partial releases refuse."
           }
         ],
         "check": [
@@ -2124,6 +2168,25 @@
             ],
             "writes": [],
             "note": "Source-author frozen readback and publisher first/repeat/refusal checks. Publisher executes only in full OS temporary mirrors removed afterward. No source/runtime/public mutation or GPU."
+          },
+          {
+            "argv": [
+              "node",
+              "scripts/m2-long-hair-v1/qa-rootjoin-v2.mjs"
+            ],
+            "writes": [
+              "assets-source/m2-long-hair-v1/revisions/rootjoin-v2/"
+            ],
+            "note": "Transitive Python rootjoin-v2 producer repeat can write revision output/failure evidence before actual CPU GLTFLoader skin/bind QA, runtime-cpu-qa.json and recursive package-files inventory. Placeholder texture decode only. Run writer only in fixed curated checkout without extra exports, so frozen16inventory remains unchanged in daily readback. --modules-root selects locked existing installation."
+          },
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/production/qa-long-hair-revision.py"
+            ],
+            "writes": [],
+            "note": "Bounded read-only both-version identity checks; revision publisher first/repeat/conflict/failed-QA checks in OS temporary mirror only. No producer, historical recursive source QA, GPU or browser."
           }
         ],
         "readback": [
@@ -2142,13 +2205,16 @@
       "limits": [
         "Exact original female head-local auxiliary skeleton with eight skin joints and six official spring joints only. No arbitrary hairstyle or body fits.",
         "Initial rear-head tie failure and one corrected source remain distinct. Retained failed exports and changed-length source witness do not enter curated runtime publication.",
-        "Stored static and API smoke facts retain runtimeAccepted=false. Runtime dynamic/contact/visual acceptance belongs to matching game evidence."
+        "Stored static and API smoke facts retain runtimeAccepted=false. Runtime dynamic/contact/visual acceptance belongs to matching game evidence.",
+        "Both curated versions remain source/runtimeAccepted=false; rootjoin-v2 source readback grants no revised-hair visual/contact acceptance.",
+        "rootjoin-v2 attempt-1/2 and unregistered exports cannot replace the curated revision manifest/asset identity."
       ],
       "recovery": [
         "Restore exact fixed source bytes on a hash failure. Preserve failed outputs and prior inventory versions in Git; do not alter a hash to bless corruption.",
         "For a source rebuild use a fixed source checkout, build into a fresh bounded exports child, review output identities, then explicitly promote and rerun CPU QA before refreshing the source inventory.",
         "Source qa enumerates package files, including publisher. Avoid rewriting frozen v1 inventory from a tree containing newer revisions. Read-only validate checks the curated fixed 26-item source version.",
-        "Publish the validated generated base only. Different existing release needs a new explicit output/version. Whole-directory rename supports an identical repeat with no rewriting."
+        "Publish the validated generated base only. Different existing release needs a new explicit output/version. Whole-directory rename supports an identical repeat with no rewriting.",
+        "For rootjoin-v2, preserve both frozen inventories. Never run original recursive qa.py in the shared revision tree. Remake and refresh revision QA/inventory only in its exact fixed source checkout, then review explicit new identities before publish."
       ]
     }
   ]
