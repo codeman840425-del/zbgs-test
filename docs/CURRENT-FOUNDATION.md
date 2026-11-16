@@ -2,6 +2,12 @@
 
 2026-11-16，F:/gamemake，feat/m1-foundation-room。先读AGENTS和本页，再读主包相关CAP/规格/证据；不重读历史全文，不另建状态台账。
 
+## 当前工作包（恢复先看）
+
+公开4196保持60a395622d91；提交148265693cca1e4819f4e3cdaed2e833fc249583已远端核实，回执m2-workbench-4196-live-60a-v1/remote-backup.json。新增功能统一此入口。正在补v8耳饰/帽子整套造型保存与原子恢复，source4fac249/build29d729e435f2已固定但完整运行未通过（m2-accessory-record-room-29d-v1/v2：椅前路径网格取整导致任务挂起，asset_budget已知sol/high正在最小修复）；独立真实foundation审查还复现单域附件上下文绕过，root已用294e87b事务token修复待独立复核，旧v6/v7保原语义；root负责配方/接入/浏览器，http_transport_review已知sol/high实现附件prepare/commit，socks_evidence_package已知sol/medium核纯资源记录身份。
+
+长发坐入原因诊断：root实际e9b逐碰撞521帧采集完成，见m2-hair-seat-collision-e9b-v1，观察器全部恢复；身体9378次查询无负gap，上甩在首次椅背修正之前。仅因果诊断，不作性能或视觉通过。asset_budget已知sol/high继续同轨迹官方solver复算，尚未改物理参数。公司副总工文件保留不提交。
+
 ## 当前授权与边界
 
 完整功能/验收：research/M2-COMPLETE-CUSTOMIZATION-LONG-GOAL-v2-2026-11-16.txt，SHA256 `309ae27289e81689d26a08f2704e887a9a882befad860e534f0779445efedc23`。已按用户新短版执行指令核全文：CAP唯一事实，FOUNDATION-MILESTONES只安排P0–P6顺序/退出条件。一次一个主工作包，按机制选最少样件，子包完成继续。两轮同因无改善先重定位。所有必需能力完成后提交用户确认，确认前不进入M3。

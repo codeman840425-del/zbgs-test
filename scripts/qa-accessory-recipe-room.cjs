@@ -10,7 +10,7 @@ const r={build,status:'running',checks:[],errors:[],sessions:[],scope:'Original 
   const context=await browser.newContext({viewport:{width:1440,height:900},recordVideo:{dir:out,size:{width:1440,height:900}},...(storageState?{storageState}:{})});
   const page=await context.newPage();page.on('pageerror',e=>r.errors.push(name+':'+e));
   await page.goto(url+'?body='+body+'&workbench=appearance');await page.waitForFunction(()=>window.__debug?.ready,null,{timeout:60000});
-  await page.waitForFunction(()=>document.querySelector('#appearance-form')?.getAttribute('aria-busy')!=='true');
+  await page.waitForFunction(()=>document.querySelector('#appearance-form')&&document.querySelector('#appearance-form').getAttribute('aria-busy')!=='true');
   const identity=await verifyCandidate(page,{build,assetId:body==='female'?'beta-base-female-m1':'beta-base-male-m1b',sha256:body==='female'?'027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95':'62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff'});
   r.sessions.push({name,identity});
   return{context,page,close:async()=>{const v=page.video();await context.close();await v.saveAs(path.join(out,name+'.webm'));await v.delete();}};
@@ -34,7 +34,7 @@ const r={build,status:'running',checks:[],errors:[],sessions:[],scope:'Original 
   await p.evaluate(()=>__debug.camera('inspect-half-side'));await p.waitForTimeout(800);await p.screenshot({path:path.join(out,'female-restored.png')});
   await p.evaluate(()=>{__debug.setSpeed(1.05);__debug.walkTo(-1.4,-.6);});
   await p.waitForFunction(()=>{const s=__debug.snapshot();return s.mode==='idle'&&!s.target&&!s.pending;},null,{timeout:35000});
-  await p.evaluate(()=>__debug.action('sit'));await p.waitForFunction(()=>__debug.snapshot().motion.sitProgress>.999,null,{timeout:35000});await p.waitForTimeout(500);
+  r.sitRequest=await p.evaluate(()=>__debug.action('sit'));await p.waitForFunction(()=>__debug.snapshot().motion.sitProgress>.999,null,{timeout:35000});await p.waitForTimeout(500);
   await p.evaluate(()=>__debug.action('stand'));await p.waitForFunction(()=>{const s=__debug.snapshot();return s.mode==='idle'&&!s.target&&!s.pending;},null,{timeout:35000});
   assert.deepEqual(await record(p),target);
   const legacy=structuredClone(target);delete legacy.accessories;legacy.schema='workbench-appearance-recipe-v7';legacy.rulesVersion='workbench-appearance-rules-v7';
@@ -68,7 +68,7 @@ const r={build,status:'running',checks:[],errors:[],sessions:[],scope:'Original 
   await p.screenshot({path:path.join(out,'male-restored.png')});await fs.writeFile(path.join(out,'male-v8.json'),JSON.stringify(male,null,2)+'\n');
   r.checks.push({name:'original male right-ear v8 restore and female peer equipment isolation',passed:true});
   assert.deepEqual(r.errors,[]);r.status='technical-checks-passed-visual-pending';
- }catch(e){r.status='failed-or-incomplete';r.error=String(e.stack??e);process.exitCode=1;}
+ }catch(e){r.status='failed-or-incomplete';r.error=String(e.stack??e);if(active){try{r.failureSnapshot=await active.page.evaluate(()=>__debug.snapshot());await active.page.screenshot({path:path.join(out,'failure.png')});}catch{}}process.exitCode=1;}
  finally{if(active)await active.close();await browser.close();await fs.writeFile(path.join(out,'report.json'),JSON.stringify(r,null,2)+'\n');}
  console.log(JSON.stringify({status:r.status,error:r.error}));
 })();
