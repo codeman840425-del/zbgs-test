@@ -1,0 +1,198 @@
+# Normalize text in the repository; use LF in working copies.
+* text=auto eol=lf
+
+# Brow source receipts and installers verify the exact authored bytes.
+assets-source/face-brow-parameters-v1/** -text
+scripts/face-brow-parameters-v1/** -text
+assets-source/face-nose-parameters-v1/** -text
+scripts/face-nose-parameters-v1/** -text
+
+# Windows command scripts require CRLF.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Keep binary assets unchanged.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.7z binary
+*.mp3 binary
+*.wav binary
+*.ogg binary
+*.mp4 binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.fbx binary
+*.blend binary
+*.glb binary
+*.psd binary
+*.vrm binary
+*.webm binary
+# Preserve the downloaded comparison baseline byte-for-byte.
+baseline/** -text
+# Captured evidence hashes describe exact bytes, including recorder line endings.
+evidence/** -text
+# Full numerical frame traces stay readable/replayable, but omit enormous
+# raw-line diffs; review the compact causal receipts and reproduction scripts.
+evidence/female-acceleration-controller-law.json -diff
+evidence/female-acceleration-narrow.json -diff
+# Preserve the frozen candidate's Windows-authored input bytes for build-ID
+# reproducibility. These remain readable text; only newline conversion is off.
+prototype/src/equipment.js -text
+prototype/public/assets/garments/equipment.json -text
+
+# Candidate provenance manifest pins these exact source/evidence bytes.
+assets-source/foundation-male/** -text
+assets-source/foundation-male/publisher-page.html -diff
+# Runtime identity hashes exact input bytes. Preserve authored input line endings
+# across Windows checkouts; this does not change resource IDs or compatibility.
+prototype/src/** -text
+prototype/public/assets/** -text
+prototype/index.html -text
+# External research is an immutable UTF-8 snapshot, archived byte-for-byte.
+docs/research/*.html -text
+
+# Exact authored CRLF is retained above; CR is an end-of-line marker, not a
+# trailing space. Continue checking actual spaces/tabs and extra blank EOF.
+prototype/src/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+prototype/public/assets/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+evidence/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+prototype/*.html whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+# Source diagnostic receipts include exact-byte hashes of these generated inputs.
+assets-source/forearm-collision-v1/** -text
+assets-source/m1/offline-corrective/** -text
+assets-source/forearm-collision-v1/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/m1/offline-corrective/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+*.f32 binary
+*.npz binary
+
+# Reviewable forearm source bundle pins exact profile and evidence bytes.
+assets-source/forearm-collision-v2/** -text
+assets-source/forearm-collision-v2/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+
+# Archived raw diff includes original CRLF/context whitespace; retain its evidence hash.
+assets-source/forearm-collision-v2/patch/c9-source-preserving-review.patch -whitespace
+
+# Reproducible candidate bundles pin the exact input/script/recipe bytes.
+assets-source/m1/seated-front-v1/** -text
+assets-source/m1/shape-guide-review-v1/** -text
+assets-source/m1-variants/forearm-collision-v2/** -text
+assets-source/m1b/shorts/material-trial-v4/** -text
+assets-source/m1b/shorts/material-recipe-candidate-v1/** -text
+assets-source/m1b/shorts/texture-trial-v2/** -text
+assets-source/m1b/shorts/texture-trial-v3/** -text
+assets-source/hand-contact-v1/** -text
+assets-source/m1c-audio-qa/** -text
+scripts/** -text
+scripts/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+*.gz binary
+
+# Hash-pinned Windows text keeps its CRLF bytes without treating CR as whitespace.
+assets-source/m1/seated-front-v1/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/m1/shape-guide-review-v1/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/m1-variants/forearm-collision-v2/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/m1b/shorts/material-trial-v4/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/m1b/shorts/material-recipe-candidate-v1/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/m1b/shorts/texture-trial-v2/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/m1b/shorts/texture-trial-v3/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/hand-contact-v1/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/m1c-audio-qa/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/**/integration.patch -whitespace
+assets-source/**/proposed-config.patch -whitespace
+
+# Additional frozen geometry/profile experiments retain hashed source bytes.
+assets-source/hand-joint-contact-v1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/m1/front-box-pleat-v1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/m1/cloth-admission-v1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/hand-contact-v1/patch/** -whitespace
+assets-source/bodydebug-outline-v1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/video-motion-v1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/video-motion-v2/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/run-intent-v1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/reversal-arc-v1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+experiments/m1-native-hem-shell-review/** -text
+assets-source/video-target-adaptation-v1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/video-dance-v1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/curvature-turn-v1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/curvature-turn-v1/portable.patch -whitespace
+assets-source/skirt-support-continuity-v1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/video-dance-target-v1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/video-dance-target-v2/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/video-dance-twist-study-v1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/video-dance-contact-study-v1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/opaque-alpha-contact-v1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/skirt-skinned-anchors-v1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/skirt-anchor-palette-rejected-v1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/skirt-open-waist-runtime-v1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/torso-coverage-risk-v1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/torso-coverage-runtime-v1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+prototype/public/assets/body-coverage-risk-v1/** -text
+evidence/hand-scope-c182f9e4368f/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/hand-contact-release-v1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/video-dance-ground-decomposition-v1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/video-dance-support-v3/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/video-dance-event-feasibility-v1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/video-dance-forefoot-v4/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+scripts/video-motion/check-dance-support-v3.mjs -text whitespace=cr-at-eol
+scripts/video-motion/report-dance-support-v3.py -text whitespace=cr-at-eol
+scripts/video-motion/check-dance-forefoot-v4.mjs -text whitespace=cr-at-eol
+assets-source/video-dance-hard-support-v5/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/research/ADVISOR-MOCAP-ALTERNATIVES-2026-11-15.txt -text whitespace=-blank-at-eof,cr-at-eol
+evidence/dance-video-pose-v1/submit-input-v1/*.txt -text whitespace=-blank-at-eol,cr-at-eol
+
+# Fixed vendor adapter receipts hash authored bytes, including line endings.
+assets-source/rokoko-target-adapter-v1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets-source/m2-male-face-v1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+# Raw patches are immutable evidence, not newly authored source whitespace.
+evidence/contact-query-bounds-study-v1/*.patch -whitespace
+evidence/contact-query-bounds-study-v1/candidate/portable.patch -whitespace
+evidence/contact-query-shortcircuit-study-v1/candidate/portable.patch -whitespace
+evidence/hand-release-038341558517/perf-cause/detail-sampling-qa.patch -whitespace
+evidence/rokoko-pilot-preflight-v1/entrypoint.patch -whitespace
+evidence/hand-release-038341558517/perf-cause/detail/report.json -diff
+
+assets-source/face-eye-parameters-v1/** -text
+scripts/face-eye-parameters-v1/** -text
+
+assets-source/face-eye-sample-v1/** -text
+scripts/face-eye-sample-v1/** -text
+
+# Preserve the reproducible derived-body source bundle and its pinned scripts.
+assets-source/m2-male-jaw-mouth-v1/** -text
+scripts/m2-male-jaw-mouth-v1/** -text whitespace=-blank-at-eof,cr-at-eol
+evidence/workbench-build-drift-5d-aa-v1/one-line.diff -text -whitespace
+
+# Exact helper snapshots retain their recorded end-of-file whitespace.
+evidence/facial-primitive-scope-v1/warm-*/actual-helper.js -whitespace
+# Large retained telemetry has a compressed twin and a concise human summary.
+evidence/background-aa6fc6159e2d-v1/report.json -diff
+evidence/face-selective-browser-1fff20c54b2b/*-live-trace.json -diff
+
+# Rejected first-use experiment retains exact helper snapshots for replay.
+evidence/face-program-firstuse-v1/**/actual-helper.js -whitespace
+
+# Exact pre-consolidation recovery documents retain their original bytes.
+docs/history/CAPABILITIES-before-current-consolidation-bcade.md -text
+docs/history/FOUNDATION-MILESTONES-before-current-consolidation-bcade.md -text
+
+# Frozen runtime bundles include upstream GLSL whitespace; keep measured bytes.
+evidence/body-source-cost-bcade-v1/bundles/** -text -whitespace
+
+# Exact authored source/fixture bytes are pinned in the visible-face receipts.
+# Retain their recorded terminal blank line; still check spaces/tabs at line ends.
+scripts/mouth-visible-v2/build.py whitespace=-blank-at-eof,cr-at-eol
+scripts/face-visible-fixture.mjs whitespace=-blank-at-eof,cr-at-eol
+evidence/face-visible-runtime-v1/frozen-source/scripts/face-visible-fixture.mjs whitespace=-blank-at-eof,cr-at-eol
+docs/history/CURRENT-before-visible-ab074.md -text
+delivery/history/appearance-workbench-bcade40d24f1.json -text
+delivery/history/appearance-workbench-ab0743684fe6.json -text
+
+# Preserve the received classification reports and review as exact UTF-8 artifacts.
+docs/research/*2026-11-16.txt -text

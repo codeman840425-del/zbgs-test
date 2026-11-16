@@ -27,3 +27,36 @@ node scripts/m2-male-jaw-hair-runtime-v1/check.mjs <new-evidence-directory>
 ```
 
 The output directory must not already exist. Runtime product files and the executed script are captured with exact SHA. GPU/files/normal-speed observations remain separate and pending; these CPU results are not visual acceptance.
+
+
+## Fixed build and actual browser result
+
+Runtime commit `5dfffaee86bbc82a18e24088ecf45a8b9bbc7f74`, build `fe5c528d9437` (full `fe5c528d9437c59b6ba73beade52e0c8502a309133b08517229ffeb4f9efa71e`). Fresh sparse checkout writes root attributes before materializing prototype; every build input matched its Git blob byte for byte, followed by locked npm ci/build and clean status. See `build-5dfffae/report.json` and exact executed script/logs. Parent independently reproduced all 126 outputs from integrated source `937df9f`.
+
+Independent QA's actual 11 browser checks pass: same-pose original male/jaw none/original/sidepart front/side/back, true UI v6 download and fresh-context file chooser restore, four bad files preserving prior state, cached bad-fit refusal, actual two-actor isolation, and existing real female/male v5 files. `browser-review/` contains exact copies of the original PNGs/downloads and report; provenance is in `browser-review-origin.json`. Independent source review is copied under `independent-review/`. The recipe uses the shared actor/equipment/animation implementation. It is an appearance file, not an actor ID or account save. There is no new business-state or library framework.
+
+## Complete normal-speed clips and observation
+
+`live-1/male-live-1x.webm`: 29.5754 s active interval, simulation/wall 0.9999797129.
+`live-1/m2-male-jaw-v1-live-1x.webm`: 29.5329 s active interval, simulation/wall 0.9999830697.
+
+Both clips include initial page/recipe setup before the measured active interval. The original male briefly displays its original blue hair during setup; the actual comparison is black on both bodies. Both are the same canonical `male-sidepart-v1` GLB, with distinct historical versus explicit fit identities. Traces assert visible + focused, unpaused 1x, original document/actor, unchanged final appearance recipe, head-local attachment matrix and parent/visibility throughout. Neutral blink, aa=.65, happy speech and gaze precede actual walk/run/sit/stand tasks. Peak speed exceeds 1.85 m/s; sit reaches 1; all four real tasks complete. No simulation stepping or playback acceleration was used. Browser/server closed after the two clips; no repeated recording or product repair was necessary.
+
+The implementation agent viewed both full-interval 2fps contact sheets plus original close views: no new obvious root detachment, floating attachment or eye coverage; ears and back/neck silhouette remain coherent in this limited sample. This is sampled engineering review, not a claim of every-frame collision freedom or blanket style approval. Existing source internal intersections are retained in source evidence. Short rigid hair has no secondary hair physics. Original clothing/motion is not re-certified by this task. Render images, strict identity/function tests and visual judgement remain distinct.
+
+`index.html` provides two body buttons, front/side/back controls, click-to-enlarge originals and two full-width videos with native controls/fullscreen, no autoplay/loop. Downloads reproduce actual v6 bytes even when opened as a local file. `gallery-check.json` covers all 18 images, keyboard Escape/focus restoration, exact downloaded bytes, and pause-on-body-switch. No new game UI framework was added.
+
+## Reproduction
+
+From a repository checkout containing the committed scripts and source, install locked `prototype` dependencies for CPU/browser tools. No temporary folder is a required input.
+
+```
+python scripts/m2-male-jaw-hair-runtime-v1/build-fixed.py --commit 5dfffaee86bbc82a18e24088ecf45a8b9bbc7f74 --worktree <new-checkout> --out <new-build-report>
+node scripts/m2-male-jaw-hair-runtime-v1/check.mjs <new-cpu-report>
+node scripts/run-fixed-check.cjs <fixed-dist> scripts/m2-male-jaw-hair-runtime-v1/live.cjs fe5c528d9437 <new-live-output> evidence/m2-male-jaw-hair-runtime-v1/live-input
+python scripts/m2-male-jaw-hair-runtime-v1/inspect-live.py <evidence-root-with-live-1>
+python scripts/m2-male-jaw-hair-runtime-v1/gallery.py <evidence-root> <independent-browser-evidence>
+node scripts/m2-male-jaw-hair-runtime-v1/check-gallery.cjs <evidence-root>
+```
+
+The live script's optional recipe directory contains `male.v6.json` and `m2-male-jaw-v1.v6.json`; this package retains those exact QA downloads. `GAMEMAKE_ROOT` can explicitly select an installed dependency root; the default is the script's project root. Native browser focus/visibility and time remain measured, not inferred from a filename. Generated full video duplicates under Playwright's raw filenames are not added twice; `raw-video-duplicates.json` maps each byte-identical raw copy to its retained canonical video. CPU/live/build outputs refuse overwrite. The gallery generator is a reproducible view over retained artifacts and can replace its generated HTML without modifying those artifacts.
