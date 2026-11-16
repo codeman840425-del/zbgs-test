@@ -13,7 +13,7 @@ python scripts/production/qa-flow.py
 python scripts/production/qa-source-packages.py
 ```
 
-十条入口共用既有命令索引；已有 `male-jaw-source`、`male-jaw-mouth`、`male-jaw-hair-fit`。没有运行命令的子命令、shell、自动导出或浏览器。`show`/`dry-run` 只输出参数和写入范围；`validate` 只读现有文件。工具或依赖缺失与源文件缺失分开报告。
+十一条入口共用既有命令索引；已有 `male-jaw-source`、`male-jaw-mouth`、`male-jaw-hair-fit`。没有运行命令的子命令、shell、自动导出或浏览器。`show`/`dry-run` 只输出参数和写入范围；`validate` 只读现有文件。工具或依赖缺失与源文件缺失分开报告。
 
 新增三包清单 SHA 固定在 workflows.json。男下颌包核文件及原始基模、独立重建/重复导出的身份；嘴包核 files/dependencies、精确 jaw 基模与仅 0/+4% 配方及最终 NORMAL 产物；头发包使用 evidence 下的包清单，并核同 GLB 的独立 fit ID/version/body、挂点及 public 三文件。头发目录的 manifest.json 是运行时描述，不能当文件清单。
 
@@ -43,6 +43,8 @@ if (result.accepted) await __debug.importAppearanceRecipe(JSON.stringify(record)
 实际查询输出、错误输入与运行结果见evidence/m2-candidate-admission-browser-086-v1及m2-static-admission-baseline-1fa-v1。复现检查：`node scripts/qa-candidate-admission-browser.cjs <固定URL> <准确build> <新证据目录>`，需已构建的Node/Playwright依赖和Chrome；失败保留原目录，不覆盖历史。它是真实浏览器检查，需独占当前GPU验证窗口。
 
 连体服入口为 `male-onepiece-source`。只读回读核 61 文件源清单、原男来源、实际作者 GLB 的 16 骨绑定、7 mm 初版到 9 mm 编辑源、generated/repeat 四次实际回开导出和安装 entry。运行 `fitResource` 同时核 source 与 public fit 的真实字节，不能把 pattern GLB 或未改源版本替代实际作者导出。
+
+衣层覆盖入口为 `male-garment-coverage-source`。只读回读核 coverage package 清单、原男身体、原男 top primitive 0、真实 outer author-export、56 个 top face identity、source/public descriptor SHA、外搭 runtime SHA 以及已保存的 CPU 几何和生命周期证据。`build.py` 只重算已固定参数的 CPU mask，`install-runtime.py` 只复制已核 SHA 的 descriptor。原始 body/top/outer/equipment GLB 是保护输入，readback 不运行 producer、Node、Blender、GPU 或浏览器。
 
 `show`/`dry-run` 明示 build、author、audit、finalize 和 install 的写范围。build 的原男 exporter 依赖会确保既有 m1b 目录存在，输出实物仍只写独立目录。安装器还可能写 `equipment.install.tmp` 后替换原清单。固定 finalize 读取 generated/repeat 并重写包清单，不会推广 workflow-rebuild；这些步骤只声明，不由索引执行。已有 44 对身体交叉、368 对自交及近面采样深度保留为静态诊断，查询通过不代表动作、坐姿或视觉验收。
 

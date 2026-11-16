@@ -1341,6 +1341,103 @@
         "Run displayed writers only in an isolated checkout with a new absent output directory. Preserve failed outputs and choose another directory after repair. No displayed command is executed by this index.",
         "Independent workflow-rebuild does not replace fixed generated/repeat or become installed automatically. Finalize/install use frozen paths and need an explicitly reviewed new candidate for changes. Missing tools affect regeneration only."
       ]
+    },
+    {
+      "id": "male-garment-coverage-source",
+      "title": "Male layered garment inner-top coverage mask",
+      "kind": "source-package",
+      "sources": [
+        "assets-source/m2-garment-coverage-v1/spec.json",
+        "assets-source/m2-garment-coverage-v1/coverage-mask.json",
+        "assets-source/m2-garment-coverage-v1/report.json",
+        "assets-source/m2-garment-coverage-v1/qa-report.json",
+        "assets-source/m2-garment-coverage-v1/runtime-qa.json",
+        "prototype/public/assets/foundation/base-male-roundtrip.vrm",
+        "prototype/public/assets/m1b/m1b-uniform-top.glb",
+        "prototype/public/assets/m2-outer-panels-v2/author-export.glb",
+        "prototype/public/assets/m2-garment-coverage-v1/coverage-mask.json",
+        "prototype/public/assets/m1b/equipment.json"
+      ],
+      "inputs": [
+        "assets-source/m2-garment-coverage-v1/spec.json",
+        "assets-source/m2-garment-coverage-v1/coverage-mask.json",
+        "assets-source/m2-outer-panels-v2/generated/construction.json",
+        "prototype/public/assets/foundation/base-male-roundtrip.vrm",
+        "prototype/public/assets/m1b/m1b-uniform-top.glb",
+        "prototype/public/assets/m2-outer-panels-v2/author-export.glb"
+      ],
+      "identity": {
+        "package": "garment-coverage",
+        "manifest": "assets-source/m2-garment-coverage-v1/manifest.json",
+        "manifestSha256": "3d15644a6c46be1679a831fc7ae43959e675cd10a090b7aae1c39fd75a304a1c"
+      },
+      "requirements": [
+        "scripts/m2-garment-coverage-v1/build.py",
+        "scripts/m2-garment-coverage-v1/qa.py",
+        "scripts/m2-garment-coverage-v1/install-runtime.py",
+        "scripts/m2-garment-coverage-v1/qa-runtime.mjs",
+        "prototype/src/garment-coverage.js",
+        "prototype/src/foundation-profiles.js",
+        "prototype/src/m1-equipment.js"
+      ],
+      "outputs": [
+        "assets-source/m2-garment-coverage-v1/coverage-mask.json",
+        "assets-source/m2-garment-coverage-v1/report.json",
+        "assets-source/m2-garment-coverage-v1/qa-report.json",
+        "assets-source/m2-garment-coverage-v1/runtime-qa.json",
+        "prototype/public/assets/m2-garment-coverage-v1/coverage-mask.json"
+      ],
+      "stages": {
+        "source": [
+          {
+            "argv": ["python", "scripts/production/flow.py", "show", "male-garment-coverage-source"],
+            "writes": [],
+            "note": "Declarations only. Existing mask producer inputs and exact source/public identities are read back without geometry regeneration."
+          }
+        ],
+        "export": [
+          {
+            "argv": ["python", "scripts/m2-garment-coverage-v1/build.py"],
+            "writes": ["assets-source/m2-garment-coverage-v1/coverage-mask.json", "assets-source/m2-garment-coverage-v1/report.json"],
+            "note": "CPU source producer. Recomputes the bounded 56-face rest-pose mask from the pinned top and outer GLBs. No Blender, GPU, runtime GLB, or original art writes."
+          },
+          {
+            "argv": ["python", "scripts/m2-garment-coverage-v1/install-runtime.py"],
+            "writes": ["prototype/public/assets/m2-garment-coverage-v1/coverage-mask.json"],
+            "note": "Copies the exact source descriptor after SHA verification. It does not modify the original top, outer, body, or equipment GLBs."
+          }
+        ],
+        "check": [
+          {
+            "argv": ["python", "scripts/m2-garment-coverage-v1/qa.py"],
+            "writes": ["assets-source/m2-garment-coverage-v1/qa-report.json"],
+            "note": "CPU geometry and deterministic source-byte checks. No exporter, GPU, browser, or visual acceptance."
+          },
+          {
+            "argv": ["node", "scripts/m2-garment-coverage-v1/qa-runtime.mjs"],
+            "writes": [],
+            "note": "Synthetic CPU lifecycle check for exact descriptor validation, groups, instance isolation, complete-top accessor, and restoration. Runtime visual/action acceptance remains separate."
+          }
+        ],
+        "readback": [
+          {
+            "argv": ["python", "scripts/production/flow.py", "validate", "male-garment-coverage-source"],
+            "writes": [],
+            "note": "Read-only package inventory, top index face identities, source/public mask SHA, outer runtime SHA, geometry witnesses, and stored CPU QA. No producer or browser execution."
+          }
+        ]
+      },
+      "limits": [
+        "Exact original male body/top and exact m2 outer author export only. The mask hides 56 original top primitive faces when both top and outer are selected.",
+        "The 6mm corner distance, 2.14044mm inner-side witness, and 5.05929mm open-boundary margin are rest-pose CPU geometry evidence. They do not establish continuous action or visual acceptance.",
+        "Original body/top/outer/equipment GLBs and frozen runtime entries are protected inputs. Runtime descriptor copy is the only installed output.",
+        "No arbitrary garment format, body morph adaptation, cloth dynamics, GPU performance, or batch production is implied."
+      ],
+      "recovery": [
+        "Restore the named source/public descriptor and exact top/outer/body bytes on mismatch. Never rewrite the mask or manifest to bless changed inputs.",
+        "Run producer and installer only in an isolated checkout. Preserve failed output and rerun CPU checks after restoring the exact source identity.",
+        "Readback does not execute build/install/Node checks and does not promote visual or action acceptance."
+      ]
     }
   ]
 }

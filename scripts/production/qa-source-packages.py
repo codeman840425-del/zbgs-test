@@ -7,10 +7,11 @@ from flow import ROOT, Validator, local, read_json, validate_config
 config = read_json(ROOT/'scripts/production/workflows.json')
 validate_config(config)
 workflows = {w['id']: w for w in config['workflows']}
-assert len(workflows) == 10
+assert len(workflows) == 11
 new = [w for w in workflows.values() if w['kind'] == 'source-package']
-assert len(new) == 5
-relative_packages = {'outer-panels': 'assets-source/m2-outer-panels-v2/', 'onepiece': 'assets-source/m2-onepiece-v1/'}
+assert len(new) == 6
+relative_packages = {'outer-panels': 'assets-source/m2-outer-panels-v2/', 'onepiece': 'assets-source/m2-onepiece-v1/',
+                     'garment-coverage': 'assets-source/m2-garment-coverage-v1/'}
 paths = set()
 for w in workflows.values():
     paths.update(w['sources'])
@@ -25,7 +26,10 @@ paths.update(['scripts/m2-outer-panels-v2/build.py',
               'prototype/public/assets/m2-outer-panels-v2/author-export.glb',
               'scripts/m2-onepiece-v1/build.py', 'scripts/install-onepiece-runtime.py',
               'prototype/public/assets/m2-onepiece-v1/author-export.glb',
-              'prototype/public/assets/m2-onepiece-v1/fit.json'])
+              'prototype/public/assets/m2-onepiece-v1/fit.json',
+              'scripts/m2-garment-coverage-v1/build.py',
+              'scripts/m2-garment-coverage-v1/install-runtime.py',
+              'prototype/public/assets/m2-garment-coverage-v1/coverage-mask.json'])
 fingerprint = lambda: {p: hashlib.sha256(local(ROOT,p).read_bytes()).hexdigest() for p in sorted(paths)}
 before = fingerprint()
 results = [Validator().validate(w) for w in workflows.values()]
@@ -63,8 +67,10 @@ for w in new:
     package = read_json(ROOT/w['identity']['manifest'])
     rows = package.get('files', package.get('retainedFiles'))
     row = (next(r for r in rows if r['path'] == 'generated/author-export.glb')
-           if w['identity']['package'] in relative_packages
-           else next(r for r in rows if r['path'].endswith(('.vrm', '.glb'))))
+           if w['identity']['package'] in {'outer-panels', 'onepiece'}
+           else next(r for r in rows if r['path'].endswith(('.vrm', '.glb')))
+           if w['identity']['package'] not in {'garment-coverage'}
+           else next(r for r in rows if r['path'] == 'coverage-mask.json'))
     prefix = relative_packages.get(w['identity']['package'], '')
     stored_path = prefix+row['path']
     v = Validator(); p = local(ROOT,stored_path); data = bytearray(p.read_bytes()); data[-1] ^= 1
@@ -127,6 +133,17 @@ p = 'prototype/public/assets/m2-onepiece-v1/fit.json'
 v = Validator(); data = bytearray(local(ROOT,p).read_bytes()); data[-1] ^= 1
 v.cache[local(ROOT,p)] = (bytes(data),hashlib.sha256(data).hexdigest())
 rejects('onepiece corrupt runtime fit bytes', lambda:v.validate(onepiece), p)
+coverage = workflows['male-garment-coverage-source']
+b = 'assets-source/m2-garment-coverage-v1/'
+p = b+'spec.json'
+rejects('coverage wrong source identity', lambda: JSONFault(p,lambda j:j.update(outerSha256='0'*64)).validate(coverage), 'SHA mismatch')
+p = b+'coverage-mask.json'
+rejects('coverage wrong selected face identity', lambda: JSONFault(p,lambda j:j.update(selectedFaceIds=[0])).validate(coverage), 'Garment coverage')
+rejects('coverage loses inner-side witness', lambda: JSONFault(p,lambda j:j['observations'].update(innerSidePassed=False)).validate(coverage), 'Garment coverage geometry witness')
+p = 'prototype/public/assets/m2-garment-coverage-v1/coverage-mask.json'
+v = Validator(); data = bytearray(local(ROOT,p).read_bytes()); data[-1] ^= 1
+v.cache[local(ROOT,p)] = (bytes(data),hashlib.sha256(data).hexdigest())
+rejects('coverage corrupt public descriptor', lambda:v.validate(coverage), p)
 assert fingerprint() == before, 'Source/output changed during read-only checks'
 print(json.dumps({'passed': True, 'workflowCount': len(results),
                   'workflowResults': results, 'negativeCases': failures,
