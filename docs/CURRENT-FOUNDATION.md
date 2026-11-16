@@ -76,3 +76,5 @@
 两块预留的唯一局部替代也不采用：22次activeRecords支持仅预留嘴/皮肤，源6497e297/build81ce，27输出/31表达/10身份门通过；实际460→81ce嘴首改女103→36ms/男79→30ms，但换男328→437ms、初始峰904→1086ms，纹理基础存储额外约3.4–3.5MiB/CPU和GPU各一份。还发现混合眼/四域把原法线共享拆成两套，额外约1.4MB，不能把数值等价当资源同样好。详face-normal-mouth-reserve-v1及face-normal-mouth-reserve-session-v1。无追加扫描，停止预留布局方向；460保持。
 
 当前下一项：官方VRMUtils.removeUnnecessaryVertices的有界CPU可行性检查，原9 Face primitive各存全脸顶点的冗余已有实际索引依据。只删未引用顶点、不减面/删表情，核它是否保留按引用点的完整蒙皮/形态数据，以及与现有源索引合同的冲突。未经实际证据不集成；不承诺这会消除shader首用停顿，不因官方有工具就绕过源校验。combineMorphs/骨架更换暂不展开。
+
+官方Face-only可行性小验已经完成：同原男女9块Face，全部可见三角与属性/形态经new→old映射精确，31表达influence一致，6块非Face对象不变。男EyeExtra全零含−0形态被官方清空，仅语义等价；直接调用会dispose旧Face并被现有源门正确拒绝。报告official-vrm-compaction-feasibility-v1。prototype从6e4801f独立制作3文件canonical源/compact渲染桥接，保留shadow/context guard；原资源和recipe身份不改，派生保旧。先CPU、独立审查、24同姿画面对照及有界成本，再决定是否发布。正式460保持，不因容量公式通过就宣称M2或视觉完成。
