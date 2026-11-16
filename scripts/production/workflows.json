@@ -1567,6 +1567,133 @@
         "Changed spec/build requires build then qa then reviewed source inventory/version before publish. Do not relabel old hashes or automatically overwrite differing public files.",
         "Publisher preflights conflicts and writes manifest last. Interrupted absent-file publication may be retried with identical source. Any differing file fails before publication writes."
       ]
+    },
+    {
+      "id": "socks-layer-source",
+      "title": "Original female/male thin skinned crew socks",
+      "kind": "source-package",
+      "sources": [
+        "assets-source/m2-socks-layer-v1/spec.json",
+        "assets-source/m2-socks-layer-v1/provenance.json",
+        "scripts/m2-socks-layer-v1/build.py",
+        "scripts/m2-socks-layer-v1/qa.py",
+        "scripts/m2-socks-layer-v1/publish.py"
+      ],
+      "inputs": [
+        "assets-source/m2-socks-layer-v1/spec.json",
+        "prototype/public/assets/foundation/base-female-roundtrip.vrm",
+        "prototype/public/assets/foundation/base-male-roundtrip.vrm",
+        "prototype/public/assets/m1/equipment.json",
+        "prototype/public/assets/m1b/equipment.json"
+      ],
+      "identity": {
+        "package": "socks",
+        "manifest": "assets-source/m2-socks-layer-v1/generated/package-files.json",
+        "manifestSha256": "401db1cfe5adcaf70e77cdb681df54f3a8ddddcf59e86f91d792c952e4635168"
+      },
+      "requirements": [
+        "scripts/m2-socks-layer-v1/build.py",
+        "scripts/m2-socks-layer-v1/qa.py",
+        "scripts/m2-socks-layer-v1/publish.py",
+        "scripts/m2-socks-layer-v1/requirements.txt"
+      ],
+      "outputs": [
+        "assets-source/m2-socks-layer-v1/generated/",
+        "prototype/public/assets/m2-socks-layer-v1/",
+        "prototype/public/assets/m1/equipment.json",
+        "prototype/public/assets/m1b/equipment.json"
+      ],
+      "agentInput": {
+        "spec": "assets-source/m2-socks-layer-v1/spec.json",
+        "supportedBases": [
+          "original female",
+          "original male"
+        ],
+        "generationDependencies": "Python 3.13; numpy==2.4.2; Pillow==12.1.0. Readback and publish use standard library only."
+      },
+      "stages": {
+        "source": [
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/production/flow.py",
+              "show",
+              "socks-layer-source"
+            ],
+            "writes": []
+          }
+        ],
+        "export": [
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/m2-socks-layer-v1/build.py"
+            ],
+            "writes": [
+              "assets-source/m2-socks-layer-v1/generated/"
+            ],
+            "note": "CPU source producer in isolated checkout. Preserves original Body and equipment bytes."
+          },
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/m2-socks-layer-v1/publish.py"
+            ],
+            "writes": [
+              "prototype/public/assets/m2-socks-layer-v1/",
+              "prototype/public/assets/m1/equipment.json",
+              "prototype/public/assets/m1b/equipment.json"
+            ],
+            "note": "Preflight exact source inventory and all dependency SHA. Publish GLBs first, source descriptor and original manifests last. Append only exact socks entry to each original manifest, preserve all old items/order/URLs and metadata. Same ID must deep-equal. Per-file atomic replacement, repeat identical bytes. Original GLBs and frozen assets are protected inputs."
+          }
+        ],
+        "check": [
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/m2-socks-layer-v1/qa.py"
+            ],
+            "writes": [
+              "assets-source/m2-socks-layer-v1/generated/"
+            ],
+            "note": "Transitive CPU rebuild rewrites generated exports and evidence/inventory. No runtime acceptance. Includes publisher in the explicitly refreshed 25-file inventory without changing geometry hashes."
+          },
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/production/qa-socks-package.py"
+            ],
+            "writes": [],
+            "note": "Read-only real package checks plus publish tests inside an OS temporary mirrored input tree, removed afterwards. No repository writes, GPU or browser."
+          }
+        ],
+        "readback": [
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/production/flow.py",
+              "validate",
+              "socks-layer-source"
+            ],
+            "writes": []
+          }
+        ]
+      },
+      "limits": [
+        "Exact original male/female bodies only. Source/runtimeAccepted remains false. Original female long-sock Body paint remains.",
+        "Stored rest contact diagnostics retain shoe and male long-pants crossings. No movement or visual acceptance.",
+        "Publish is atomic per file. Both original manifests are changed last after full preflight; interrupted runs may be safely retried with exact source. No multi-file transaction claim."
+      ],
+      "recovery": [
+        "Retain failure. Restore exact source bytes for a SHA failure. Rebuild and QA only in an isolated checkout.",
+        "For differing existing output, compare identities before explicitly restoring it. Never overwrite an unrelated entry. Do not change original profiles URLs."
+      ]
     }
   ]
 }

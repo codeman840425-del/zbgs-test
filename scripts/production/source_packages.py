@@ -4,6 +4,9 @@ import json
 
 def validate_package(v, ident, require, GLB):
     kind = ident['package']
+    if kind == 'socks':
+        from socks_package import validate_socks
+        return validate_socks(v, ident, require, GLB)
     if kind == 'outer-panels':
         from outer_package import validate_outer
         return validate_outer(v, ident, require, GLB)

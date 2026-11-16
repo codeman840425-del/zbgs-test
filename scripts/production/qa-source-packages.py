@@ -7,9 +7,9 @@ from flow import ROOT, Validator, local, read_json, validate_config
 config = read_json(ROOT/'scripts/production/workflows.json')
 validate_config(config)
 workflows = {w['id']: w for w in config['workflows']}
-assert len(workflows) == 12
+assert len(workflows) == 13
 new = [w for w in workflows.values() if w['kind'] == 'source-package']
-assert len(new) == 7
+assert len(new) == 8
 relative_packages = {'outer-panels': 'assets-source/m2-outer-panels-v2/', 'onepiece': 'assets-source/m2-onepiece-v1/',
                      'garment-coverage': 'assets-source/m2-garment-coverage-v1/'}
 paths = set()
