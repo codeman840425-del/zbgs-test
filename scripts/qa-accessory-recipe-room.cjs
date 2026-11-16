@@ -34,7 +34,9 @@ const r={build,status:'running',checks:[],errors:[],sessions:[],scope:'Original 
   await p.evaluate(()=>__debug.camera('inspect-half-side'));await p.waitForTimeout(800);await p.screenshot({path:path.join(out,'female-restored.png')});
   await p.evaluate(()=>{__debug.setSpeed(1.05);__debug.walkTo(-1.4,-.6);});
   await p.waitForFunction(()=>{const s=__debug.snapshot();return s.mode==='idle'&&!s.target&&!s.pending;},null,{timeout:35000});
-  r.sitRequest=await p.evaluate(()=>__debug.action('sit'));await p.waitForFunction(()=>__debug.snapshot().motion.sitProgress>.999,null,{timeout:35000});await p.waitForTimeout(500);
+  r.sitRequest=await p.evaluate(()=>__debug.action('sit'));
+  await p.waitForFunction(id=>['completed','failed','cancelled'].includes(__debug.tasks().get(id)?.state),r.sitRequest.task.requestId,{timeout:35000});
+  r.sitResult=await p.evaluate(id=>__debug.tasks().get(id),r.sitRequest.task.requestId);assert.equal(r.sitResult.state,'completed',r.sitResult.reason);await p.waitForTimeout(500);
   await p.evaluate(()=>__debug.action('stand'));await p.waitForFunction(()=>{const s=__debug.snapshot();return s.mode==='idle'&&!s.target&&!s.pending;},null,{timeout:35000});
   assert.deepEqual(await record(p),target);
   const legacy=structuredClone(target);delete legacy.accessories;legacy.schema='workbench-appearance-recipe-v7';legacy.rulesVersion='workbench-appearance-rules-v7';

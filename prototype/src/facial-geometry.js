@@ -518,7 +518,7 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender, renderC
       selection=resolveFacialGeometrySelection(avatarSha256,{mouthWidth:value,browSample:brow,noseSample:nose,eyeSample:eye,
         recipeSha256:input.expectedRecipeSha256,browRecipeSha256:input.expectedBrowRecipeSha256,
         noseRecipeSha256:input.expectedNoseRecipeSha256,eyeRecipeSha256:input.expectedEyeRecipeSha256});
-      validateGeometryChange?.({mouthWidth:value,browSample:brow,noseSample:nose,eyeSample:eye},accessoryTransaction===undefined?undefined:readAccessoryTransactionContext(accessoryTransaction,avatarSha256));
+      validateGeometryChange?.({mouthWidth:value,browSample:brow,noseSample:nose,eyeSample:eye},accessoryTransaction===undefined?undefined:readAccessoryTransactionContext(accessoryTransaction,avatarSha256,vrm));
     }catch(error){return{applied:false,reason:error.message,field:error.field,code:error.code};}
     if(trackIntent){wanted = value; wantedBrow = brow; wantedNose = nose; wantedEye = eye;}
     const request = ++generation; error = null;
@@ -557,10 +557,10 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender, renderC
         isCurrent:()=>live&&!disposed&&request===generation,
         validateCommit(){
           if(!update.isCurrent())throw Error('五官准备已过期');
-          validateGeometryChange?.({mouthWidth:value,browSample:brow,noseSample:nose,eyeSample:eye},accessoryTransaction===undefined?undefined:readAccessoryTransactionContext(accessoryTransaction,avatarSha256));
+          validateGeometryChange?.({mouthWidth:value,browSample:brow,noseSample:nose,eyeSample:eye},accessoryTransaction===undefined?undefined:readAccessoryTransactionContext(accessoryTransaction,avatarSha256,vrm));
         },
         commit(){
-          assertAccessoryTransactionCommit(accessoryTransaction);
+          assertAccessoryTransactionCommit(accessoryTransaction,vrm);
           update.validateCommit();
           // Only prepared geometry pointers and final selection change here.
           if(nextOwned){

@@ -192,7 +192,7 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
   // Equipped headwear can depend on exact hair geometry. Recheck immediately
   // before either commit path: a hat may have equipped while decoding waited.
   function assertHairChange(style, accessoryTransaction) {
-    const accessoryContext=accessoryTransaction===undefined?undefined:readAccessoryTransactionContext(accessoryTransaction,avatarSha256);
+    const accessoryContext=accessoryTransaction===undefined?undefined:readAccessoryTransactionContext(accessoryTransaction,avatarSha256,vrm);
     const entry = validateHairSelection(avatarSha256, style);
     validateHairChange?.({ hairStyle: style, replacementSHA256: entry?.assetSha256 ?? null,
       hairFit: entry ? hairFitIdentity(entry) : null }, accessoryContext);
@@ -261,7 +261,7 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
           if(changeStyle)assertHairChange(desiredStyle,accessoryTransaction);
           },
           commit(){
-            assertAccessoryTransactionCommit(accessoryTransaction);
+            assertAccessoryTransactionCommit(accessoryTransaction,vrm);
             update.validateCommit();
           paletteUpdate.commit();
           if(changeStyle){hairStyle=desiredStyle;replacement=replacements.get(desiredStyle)||null;}
