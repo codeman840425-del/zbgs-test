@@ -71,7 +71,7 @@ def main():
     rows = [('original', cap[faces])]
     checks = []
     for preset in spec['presets']:
-        folder = BASE/'corrected'/preset['id']
+        folder = BASE/'budget'/preset['id']
         asset = GLB((folder/'hair.glb').read_bytes())
         p = asset.doc['meshes'][0]['primitives'][0]
         positions = np.array(asset.accessor(p['attributes']['POSITION']))

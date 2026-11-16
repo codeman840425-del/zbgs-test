@@ -76,7 +76,7 @@ def main():
         target = GLB(data); skin, dependencies = validate_target(original,target,spec,inverse,head)
         files, summaries = {}, []
         for preset in spec['presets']:
-            folder = BASE/'corrected'/preset['id']
+            folder = BASE/'budget'/preset['id']
             manifest = json.loads((folder/'manifest.json').read_bytes()); fit = json.loads((folder/'fit.json').read_bytes())
             hair = GLB((folder/'hair.glb').read_bytes()); primitive = hair.doc['meshes'][0]['primitives'][0]
             positions = np.array(hair.accessor(primitive['attributes']['POSITION']))

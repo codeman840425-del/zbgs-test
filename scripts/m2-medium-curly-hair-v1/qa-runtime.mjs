@@ -25,7 +25,7 @@ const head=vrm.humanoid.getRawBoneNode('head');const checks=[],assets=[];
 const sourceMaterials=[];vrm.scene.traverse(n=>{for(const m of (Array.isArray(n.material)?n.material:[n.material]))if(m?.name===spec.sourceMaterial&&!sourceMaterials.includes(m))sourceMaterials.push(m);});assert(sourceMaterials.length);
 const originalColor=sourceMaterials[0].color.toArray();
 for(const preset of spec.presets){
- const folder=path.join(base,'corrected',preset.id);const manifest=await json(path.join(folder,'manifest.json')),fitBytes=await read(path.join(folder,'fit.json')),fit=JSON.parse(fitBytes),bytes=await read(path.join(folder,'hair.glb'));
+ const folder=path.join(base,'budget',preset.id);const manifest=await json(path.join(folder,'manifest.json')),fitBytes=await read(path.join(folder,'fit.json')),fit=JSON.parse(fitBytes),bytes=await read(path.join(folder,'hair.glb'));
  assert.equal(sha(bytes),manifest.sha256);assert.equal(sha(fitBytes),manifest.fit.sha256);
  const entry={id:manifest.id,sourceBodySha256:fit.sourceBodySha256,assetSha256:manifest.sha256,sourceMaterial:manifest.sourceMaterial,fit:manifest.fit};
  validateHairFitData(fit,entry,sha(body),manifest);
@@ -33,7 +33,7 @@ for(const preset of spec.presets){
  assert.throws(()=>validateHairFitData(fit,{...entry,fit:{...entry.fit,version:2}},sha(body),manifest));
  const a=await parse(bytes),b=await parse(bytes),meshes=[];a.scene.traverse(n=>{if(n.isMesh)meshes.push(n);});
  assert.equal(meshes.length,1);assert(!meshes[0].isSkinnedMesh);assert.equal(a.animations.length,0);
- assert.equal(meshes[0].geometry.attributes.position.count,8594);
+ assert.equal(meshes[0].geometry.attributes.position.count,3666);
  head.add(a.scene);head.rotation.x=.25;head.rotation.y=-.4;vrm.scene.updateMatrixWorld(true);
  const geometry=meshes[0].geometry;const point=new THREE.Vector3();
  for(let i=0;i<geometry.attributes.position.count;i++){point.fromBufferAttribute(geometry.attributes.position,i).applyMatrix4(meshes[0].matrixWorld);assert(point.toArray().every(Number.isFinite));}

@@ -62,6 +62,7 @@ def normals(points, faces):
 def curls(spec, preset, cap, source_uv, head_skin):
     points, uv, faces, curves = [], [], [], []
     axial, radial = spec['axialDivisions'], spec['radialDivisions']
+    source_axial = spec.get('sourceAxialDivisions', axial)
     for layer, count in [('side', spec['sideClumps']), ('crown', spec['crownClumps'])]:
         for index in range(count):
             theta = np.deg2rad(-spec['sideArcDegrees']+2*spec['sideArcDegrees']*index/(count-1)) if layer == 'side' else 2*np.pi*index/count
@@ -80,8 +81,8 @@ def curls(spec, preset, cap, source_uv, head_skin):
             if front:
                 end[2] = -.115
             centers = []
-            for row in range(axial+1):
-                t = row/axial
+            for row in range(source_axial+1):
+                t = row/source_axial
                 blend = t*t*(3-2*t)
                 center = root*(1-blend)+end*blend
                 center[1] += .019*np.sin(np.pi*t) if layer == 'crown' else 0
@@ -102,9 +103,13 @@ def curls(spec, preset, cap, source_uv, head_skin):
                 centers.append(center)
             centers = np.array(centers)
             curves.append({'layer': layer, 'sourceRootVertexInCap': root_index, 'centerline': centers.tolist()})
+            source_centers = centers
+            samples = np.linspace(0, source_axial, axial+1)
+            centers = np.column_stack([np.interp(samples, np.arange(source_axial+1), source_centers[:, axis]) for axis in range(3)])
             start = len(points)
             for row, center in enumerate(centers):
-                tangent = centers[min(axial, row+1)]-centers[max(0, row-1)]
+                sample = int(round(samples[row]))
+                tangent = source_centers[min(source_axial, sample+1)]-source_centers[max(0, sample-1)]
                 tangent /= np.linalg.norm(tangent)
                 axis_u = np.cross(tangent, [0, 1, 0])
                 if np.linalg.norm(axis_u) < 1e-6:
@@ -201,7 +206,7 @@ def build(spec):
                     'headLocal': True, 'sourceMaterial': spec['sourceMaterial'], 'url': url+'/hair.glb', 'sha256': sha(asset), 'bytes': len(asset),
                     'compatibleBodies': [spec['source']['sha256']], 'physics': 'rigid', 'status': 'source-candidate-not-product-accepted',
                     'fit': {'id': fit['id'], 'version': 1, 'url': url+'/fit.json', 'sha256': sha(encoded(fit))}}
-        files.update({identifier+'/hair.glb': asset, identifier+'/fit.json': encoded(fit), identifier+'/manifest.json': encoded(manifest), identifier+'/curves.json': encoded(curves)})
+        files.update({identifier+'/hair.glb': asset, identifier+'/fit.json': encoded(fit), identifier+'/manifest.json': encoded(manifest), identifier+'/curves.json': (json.dumps(curves,ensure_ascii=False,separators=(',',':'))+'\n').encode()})
         summaries.append({'id': identifier, 'assetSha256': sha(asset), 'fitSha256': sha(encoded(fit)), 'manifestSha256': sha(encoded(manifest)),
                           'vertices': len(points), 'triangles': len(faces), 'retainedCapVertices': len(cap), 'addedClumps': len(curves),
                           'boundsHeadLocalM': [points.min(0).tolist(), points.max(0).tolist()], 'capPositionsExact': True, 'capUVExact': True,
@@ -216,7 +221,7 @@ def main():
     files, summaries = build(spec)
     repeat, _ = build(spec)
     require(files == repeat, 'Nondeterministic source generation')
-    out = local(ROOT, args.out) if args.out else BASE/'corrected'
+    out = local(ROOT, args.out) if args.out else BASE/'budget'
     require(out.is_relative_to(BASE) and out != BASE, 'Output must be a new subdirectory inside source package')
     for name, data in files.items():
         require(not (out/name).exists() or (out/name).read_bytes() == data, 'Conflicting output: '+name)
@@ -226,7 +231,7 @@ def main():
             target.write_bytes(data)
     report = {'schema': 'medium-curly-source-build-v1', 'source': spec['source'], 'presets': summaries, 'deterministicBytes': True,
               'wallClockSeconds': time.perf_counter()-started, 'generationAttempt': 2, 'diagnosedCorrections': 1,
-              'manualMeshEdits': 0, 'runtimeAccepted': False, 'limits': spec['limits']}
+              'manualMeshEdits': 0, 'commonSamplingCostCorrection': 1, 'runtimeAccepted': False, 'limits': spec['limits']}
     (out/'build-report.json').write_bytes(encoded(report))
     print(json.dumps(report, ensure_ascii=False))
 
