@@ -1,0 +1,207 @@
+{
+  "passed": true,
+  "expectBug": false,
+  "sourceSha256": "4caf8a753d8c557ce30c298e4bf20139f6f66f430e66d6acee1ac284aadaf2bf",
+  "qaSourceSha256": "0af9207a5bd6f9e79e91126d4269864ed4af6a8a97e1cb01af07e8e080ba56b5",
+  "bodySha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+  "assets": [
+    {
+      "id": "m1b-uniform-top",
+      "url": "/assets/m1b/m1b-uniform-top.glb",
+      "sha256": "393a2a97e9a933c4f8170720cf1d5792a18f282166abf7e5ffbba0d0de1fc32c",
+      "bytes": 2762452
+    },
+    {
+      "id": "m1b-uniform-pants",
+      "url": "/assets/m1b/m1b-uniform-pants.glb",
+      "sha256": "e4e213c9eed7912ff7fa75b81c957b7e944036ffb81cdcbd63813c11bd7e168c",
+      "bytes": 819744
+    },
+    {
+      "id": "m1b-uniform-shoes",
+      "url": "/assets/m1b/m1b-uniform-shoes.glb",
+      "sha256": "3e855c7f39a183ab44b8aef3ac92898f6ebc36a7cbc0e6ccfdd485b85607fe2f",
+      "bytes": 157376
+    },
+    {
+      "id": "m1b-uniform-shorts-v1",
+      "url": "/assets/m1b/m1b-uniform-shorts-v1.glb",
+      "sha256": "c8a1afd0742cbb99302abc107673744751a8cfd77c6c89df039b068054a947d0",
+      "bytes": 795852
+    },
+    {
+      "id": "m2-male-open-vest-panels-v2",
+      "url": "/assets/m2-outer-panels-v2/author-export.glb",
+      "sha256": "0631cf9d1ec297e8504d5ed73f5e1325d3154be9de09906bb6e7131488e89330",
+      "bytes": 150056
+    },
+    {
+      "id": "m2-male-training-onepiece-v1",
+      "url": "/assets/m2-onepiece-v1/author-export.glb",
+      "sha256": "e0cac5041a50bc07dde65c75414f98bab1501125939302eec0b9e1a5de826c7b",
+      "bytes": 157980
+    }
+  ],
+  "fixtureAliases": [
+    {
+      "id": "fixture-one-piece",
+      "slot": "onePiece",
+      "url": "/assets/m1b/m1b-uniform-top.glb"
+    },
+    {
+      "id": "fixture-outer",
+      "slot": "outerwear",
+      "url": "/assets/m1b/m1b-uniform-shorts-v1.glb",
+      "layerWith": [
+        "m1b-uniform-top"
+      ]
+    },
+    {
+      "id": "fixture-other-top",
+      "slot": "top",
+      "url": "/assets/m1b/m1b-uniform-top.glb"
+    }
+  ],
+  "observations": [
+    {
+      "case": "single selection composition m1b-uniform-top -> fixture-one-piece",
+      "error": "Equipment conflict in top: m1b-uniform-top / fixture-one-piece",
+      "visible": [
+        "m1b-uniform-top"
+      ],
+      "illegalCombinationApplied": false
+    },
+    {
+      "case": "single selection composition m1b-uniform-pants -> fixture-one-piece",
+      "error": "Equipment conflict in bottom: m1b-uniform-pants / fixture-one-piece",
+      "visible": [
+        "m1b-uniform-pants"
+      ],
+      "illegalCombinationApplied": false
+    },
+    {
+      "case": "single selection composition fixture-one-piece -> m1b-uniform-top",
+      "error": "Equipment conflict in top: fixture-one-piece / m1b-uniform-top",
+      "visible": [
+        "fixture-one-piece"
+      ],
+      "illegalCombinationApplied": false
+    },
+    {
+      "case": "single selection composition fixture-one-piece -> m1b-uniform-pants",
+      "error": "Equipment conflict in bottom: fixture-one-piece / m1b-uniform-pants",
+      "visible": [
+        "fixture-one-piece"
+      ],
+      "illegalCombinationApplied": false
+    },
+    {
+      "case": "single selection composition fixture-other-top -> fixture-outer",
+      "error": "Unvalidated equipment layering: fixture-outer / fixture-other-top",
+      "visible": [
+        "fixture-other-top"
+      ],
+      "illegalCombinationApplied": false
+    },
+    {
+      "case": "single selection composition fixture-outer -> fixture-other-top",
+      "error": "Unvalidated equipment layering: fixture-outer / fixture-other-top",
+      "visible": [
+        "fixture-outer"
+      ],
+      "illegalCombinationApplied": false
+    },
+    {
+      "case": "single selection composition fixture-one-piece -> fixture-outer",
+      "error": "Unvalidated equipment layering: fixture-outer / fixture-one-piece",
+      "visible": [
+        "fixture-one-piece"
+      ],
+      "illegalCombinationApplied": false
+    },
+    {
+      "case": "single selection composition fixture-outer -> fixture-one-piece",
+      "error": "Unvalidated equipment layering: fixture-outer / fixture-one-piece",
+      "visible": [
+        "fixture-outer"
+      ],
+      "illegalCombinationApplied": false
+    },
+    {
+      "case": "single selection composition m1b-uniform-top+fixture-outer -> fixture-other-top",
+      "error": "Unvalidated equipment layering: fixture-outer / fixture-other-top",
+      "visible": [
+        "fixture-outer",
+        "m1b-uniform-top"
+      ],
+      "illegalCombinationApplied": false
+    },
+    {
+      "case": "outer completes after the visible top was replaced",
+      "error": "Unvalidated equipment layering: fixture-outer / fixture-other-top",
+      "visible": [
+        "fixture-other-top"
+      ],
+      "illegalCombinationApplied": false
+    },
+    {
+      "case": "onePiece completes after a distinct bottom request committed",
+      "error": "Equipment conflict in bottom: m1b-uniform-pants / fixture-one-piece",
+      "visible": [
+        "m1b-uniform-pants",
+        "m1b-uniform-shoes"
+      ],
+      "illegalCombinationApplied": false
+    },
+    {
+      "case": "rejected newer single intent supersedes a pending final set",
+      "error": "Equipment conflict in top: m1b-uniform-top / fixture-one-piece",
+      "visible": [
+        "m1b-uniform-shoes",
+        "m1b-uniform-top"
+      ],
+      "illegalCombinationApplied": false
+    },
+    {
+      "case": "rejected loaded candidate can be retried after removing conflict",
+      "error": "Equipment conflict in top: m1b-uniform-top / fixture-one-piece",
+      "visible": [
+        "m1b-uniform-top"
+      ],
+      "illegalCombinationApplied": false
+    },
+    {
+      "case": "retry of prepared onePiece after conflict removed",
+      "visible": [
+        "fixture-one-piece"
+      ]
+    },
+    {
+      "case": "outer validates latest allowed inner after initially incompatible inner",
+      "visible": [
+        "fixture-outer",
+        "m1b-uniform-top"
+      ]
+    },
+    {
+      "case": "onePiece validates latest visible set after top removed",
+      "visible": [
+        "fixture-one-piece",
+        "m1b-uniform-shoes"
+      ]
+    },
+    {
+      "case": "older same-slot request cannot revive",
+      "visible": [
+        "fixture-other-top",
+        "m1b-uniform-shoes"
+      ]
+    },
+    {
+      "case": "disposed single selection cannot attach or revive",
+      "visible": []
+    }
+  ],
+  "browserStarted": false,
+  "scope": "Actual male GLB loader, identity, bytes, skin and bind validation. Test-only slot aliases and texture decoding. No physical onePiece/outerwear, layering, animation or rendered-fit acceptance."
+}

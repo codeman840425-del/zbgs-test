@@ -33,6 +33,7 @@ delivery = {
         'Only the registered onePiece has the new surface dependency. Legacy garments retain their prior checks.',
         'Equipment still eagerly preloads; missing unselected onePiece fit can block male preparation, preserving the old actor.',
         'CPU, browser checks and engineer image sampling do not constitute human visual acceptance or ordinary-PC performance.',
+        'Chair approach is partly occluded by furniture in the inspection camera; this clip does not certify the walking path visually.',
     ],
 }
 (shape_dir / 'delivery.json').write_text(json.dumps(delivery, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
@@ -44,7 +45,7 @@ page = f'''<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="v
 <p>改嘴形与复位、连体服切换、重新加载恢复，以及坐稳后换装。录像按正常时间播放，包含资源加载等待；这不是新增步态演示。</p>
 <video controls preload="metadata" src="normal1x.webm"></video>
 <p>身体测试点变化后，旧适配会拒绝；测试点已还原，并通过正常男女切换重新载入。该负例不代表新增体型参数已获准使用。</p>
-<p>缺失适配资源会使新人物准备失败，原人物与造型保留。目前装备仍预载，后续将单独改为按实际选择加载。</p>
+<p>缺失适配资源会使新人物准备失败，原人物与造型保留。目前装备仍预载，后续将单独改为按实际选择加载。接近椅子途中有家具遮挡，本片不作为行走视觉验收；坐稳后换装可见。</p>
 <p><a href="{html.escape(a.candidate_url, quote=True)}">打开固定候选</a> · <a href="delivery.json">版本与限制</a> · <a href="report.json">运行记录</a> · <a href="../{html.escape(missing_dir.name)}/report.json">缺失资源检查</a></p>
 <ul>{checks}</ul><p>未扩大到其他身体或任意服装；普通电脑性能未测，工程检查不代替人工观感验收。</p></html>'''
 (shape_dir / 'index.html').write_text(page, encoding='utf-8')

@@ -1,0 +1,44 @@
+{
+  "reviewedBaselineCommit": "f9ccb027874568bedabdc80261d95e82fd5d8845",
+  "reviewedFixedCommit": "f56d9be",
+  "decision": "Fixed implementation passes bounded shape-fit and single-slot race checks.",
+  "evidence": {
+    "officialShapeFitSuite": "official-qa-report.json",
+    "independentProbe": "probe.mjs",
+    "baselineRace": "single-slot-race-output.json",
+    "fixedRace": "single-slot-race-fixed-output.json"
+  },
+  "findings": [
+    {
+      "case": "single-slot equip while onePiece dependency hash awaited",
+      "baselinePassed": false,
+      "baselineVisibleIds": [
+        "m1b-uniform-shoes",
+        "m2-male-training-onepiece-v1"
+      ],
+      "expectedVisibleIds": [
+        "m1b-uniform-shoes"
+      ],
+      "fixedPassed": true,
+      "fixedVisibleIds": [
+        "m1b-uniform-shoes"
+      ],
+      "cause": "equip captured visible ids before awaited shape dependency validation, then committed stale ids",
+      "fix": "re-read current visible ids after await and synchronously revalidate all final dependencies before commit"
+    }
+  ],
+  "verified": [
+    "actual onePiece author GLB loads and shape sidecar validates",
+    "Body POSITION mutation during awaited shape sidecar rejects before attach",
+    "face-only geometry change reuses onePiece fit",
+    "bad fit bytes reject before attach",
+    "dispose during fit preparation prevents late attach",
+    "actual GLB weight normalization and fit/shape/author SHA identities match",
+    "attr references, attribute version/data.version and post-await checks present in fixed equipment.js"
+  ],
+  "limits": [
+    "CPU Three loader only, no browser/GPU/animation proof.",
+    "No complete glTF audit.",
+    "Static dependency checks cover canonical Body attributes and transform."
+  ]
+}

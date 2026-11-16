@@ -21,7 +21,7 @@ Phaser+Three+VRM保留；女性封板裙和30秒舞不再精修。普通电脑�
 
 实际基线8e在头发/瞳色遮罩延迟失败期间显示半套外观；已修为各域先准备，再同步提交，旧资源在完整提交后清理。de79真实男女资源失败保原及6类竞争检查通过，独立审查的3项异步/清理缺陷已修复。
 
-当前固定4208为003fedb60bb2/source1fa59bdce0b418d4f424eb70cdaceb4126d7a8dd；experiments/m2-whole-look-fixed-003/prototype/dist。127文件独立构建一致。003仅在de79上补旧换人迟到503仍返回cancelled；10项真实浏览器回归、行走中应用后讲话/坐起与换人取消均通过。正常1×观看：4174/evidence/m2-whole-look-matrix-003-v1/，7片保各自构建，delivery.json记范围。root已看003全时段2fps抽帧；初始半身镜头不验足底，抽样不等于连续自然度或用户验收。公开4196未替换。
+历史固定003fedb60bb2/source1fa59bdce0b418d4f424eb70cdaceb4126d7a8dd；experiments/m2-whole-look-fixed-003/prototype/dist。127文件独立构建一致。003仅在de79上补旧换人迟到503仍返回cancelled；10项真实浏览器回归、行走中应用后讲话/坐起与换人取消均通过。正常1×观看：4174/evidence/m2-whole-look-matrix-003-v1/，7片保各自构建，delivery.json记范围。root已看003全时段2fps抽帧；初始半身镜头不验足底，抽样不等于连续自然度或用户验收。公开4196未替换。
 
 保留失败：首次对比了旧5733 dist导致重建不匹配，后续de79/003正确独立重建通过；首次de79旧回归的取消失败缺细日志，原因未确认；旧v1眼色夹具与v3运行不符已修夹具；独立晚到503复现及修正有准确证据。不将这些失败删除或换版本标签。
 
@@ -41,9 +41,15 @@ Phaser+Three+VRM保留；女性封板裙和30秒舞不再精修。普通电脑�
 
 scripts/production/asset_budget.py check，m2-technical-v1；25初版门发现optional EXT_mesh_gpu_instancing可少算10000倍，已在ffdb967最小拒绝实际node未计量扩展，28门与独立实际Three纯CPU复现检查通过。7原代表资产结果保持；原男女RGBA8+mip估算约128/133MiB超过暂定body96MiB，麦克风9primitive超过附件8，原素材未改。连体2356v/4724t/1材质/157980bytes在garment预算内。此为静态估算与暂定技术门，非实测显存或普通机表现。整套/额外材质纹理/按需加载仍待后续，不能称P04完成。
 
-## 下一主工作包：CUSTOM-FIT01 实际形体与依赖
+## 最近完成：CUSTOM-FIT01 实际形体与依赖
 
-连体源入口收尾后，利用已有派生身体/五官修改与装备，补实际形体身份和受影响fit依赖，避免只认基模SHA却忽略已修改的几何。独立审确认mouth .12→reset实际顶点还原而geometryIdentity残留旧配方，fb2a407已修零值canonical，实际VRM CPU复核保Body/head/hair/equipment不变。真实ae36浏览器还复现fitResource未被fetch：把连体fit路由503仍成功加载male；evidence/m2-fit-resource-baseline-ae3-v1。whole_look_prepare已知sol/high独立补精确fit文件验证和onePiece实际Body几何依赖sidecar；不改冻结源/旧v6语义/动作控制器，root负责坏资源保旧与修改Body拒绝/改脸复用的固定验证。当前全套衣物预载意味着未选onePiece的fit缺失也会阻止新男性加载；本包核失败保原，不固化为最终产品规则。后续CUSTOM-P05按实际选中装备按需加载处理，不在FIT01重构。衣层覆盖、按需加载等仍留P1，M2未完成。
+当前4208固定9a03cf3a05c4/source f56d9be338aec070ced8bffd0368fe71ef29d4ea，experiments/m2-shape-fit-fixed-9a0/prototype/dist。独立重建一致；观看4174/evidence/m2-shape-dependency-browser-9a0-v1/。真实fit缺失保留旧人物、Body点变化拒绝旧适配、嘴形/复位不误伤服装、坐稳换装均通过。root全时段2fps抽帧，坐稳/换装可见；接近椅子中有家具遮挡，不把本片当行走视觉通过。独立CPU还复现f9单equip hash等待期间卸衣后旧ids复活衣物，f56在最后同步重读/复核后通过。基线与修复证据保evidence/m2-shape-fit-independent-v1，旧ea2372与484证据保各自原身份。
+
+源sidecar实际按锁定Three187 GLTFLoader生成运行权重摘要并保raw SHA，主工作区重复生成输出一致。只为登记的原男onePiece声明Body依赖，旧衣服不自动获得该能力；越过needsUpdate的原地数组改写不支持。当前全套预载使未选onePiece的fit缺失也会阻止男性准备；失败保原已验，按实际选择加载留CUSTOM-P05。
+
+## 下一主工作包：CUSTOM-E04 衣层覆盖与恢复
+
+真实源样件已合7a17b10：原男top393a＋outer0631的56个背面三角，角点/中点内侧和开放边界余量有CPU证据，尚不等于动画覆盖通过。首次跨检出生成因Windows换行使hash不一致，失败保evidence/m2-garment-coverage-source-rerun-v1。asset_budget已知sol/high在独立worktree修精确LF输出并接garment-coverage、m1-equipment事务；不改动作或Body，不扩大mask。root接确切提交、实际外搭/卸下/基础模式恢复与受影响动作，之后继续CUSTOM-P05按需加载。
 
 ## 文档和派工恢复
 
