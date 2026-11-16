@@ -1,0 +1,112 @@
+{
+  "schema": "independent-sock-shoe-contact-conclusion-v1",
+  "sourceAuditScriptSha256": "19760f3cbbaf89effb807d3c30fcb6ed0649cdb67159dc1ed31c00d1bd0c1fcb",
+  "numericReportSha256": "85e1357e88bb8a728146f1096ee10b3352d48ef018408359754d0bfcd1451523",
+  "browserEvidenceBuild": "4fdc1b3e1667",
+  "toggleReportSha256": "9b139421ead7c02ef99df3001d55c852598926dd41211b4deb5eff5aa3867eb9",
+  "reviewedPairedEvidence": [
+    {
+      "body": "female",
+      "pose": "standing",
+      "on": {
+        "path": "evidence\\m2-socks-shoe-toggle-v1\\female\\standing-socks-on.png",
+        "sha256": "df9623c6f9c794adc7bdcabee0582a87fa6b1bf634734f18809dc41fbec7f375"
+      },
+      "off": {
+        "path": "evidence\\m2-socks-shoe-toggle-v1\\female\\standing-socks-off.png",
+        "sha256": "bdf6fc7199d2961b287fba565ac994123b7e2e82e6245d02c910e3eed714b47a"
+      }
+    },
+    {
+      "body": "female",
+      "pose": "seated",
+      "on": {
+        "path": "evidence\\m2-socks-shoe-toggle-v1\\female\\seated-socks-on.png",
+        "sha256": "d8f035735ede166aaeff194c72335fed5abbc7745726cc2635aa7f74e624790e"
+      },
+      "off": {
+        "path": "evidence\\m2-socks-shoe-toggle-v1\\female\\seated-socks-off.png",
+        "sha256": "1993c966ff5e731f148ddf6ce90f6bb3d7f56b42292876fb6ffda099f6012437"
+      }
+    },
+    {
+      "body": "male",
+      "pose": "standing",
+      "on": {
+        "path": "evidence\\m2-socks-shoe-toggle-v1\\male\\standing-socks-on.png",
+        "sha256": "a585b49208aa2d8313cb9384345a73a838c0822d6fa0c9dcbdcd28325807e027"
+      },
+      "off": {
+        "path": "evidence\\m2-socks-shoe-toggle-v1\\male\\standing-socks-off.png",
+        "sha256": "633479045d92222a8bef5826d923997671f4d9821ecf63c766e81328b14bf6f2"
+      }
+    },
+    {
+      "body": "male",
+      "pose": "seated",
+      "on": {
+        "path": "evidence\\m2-socks-shoe-toggle-v1\\male\\seated-socks-on.png",
+        "sha256": "2a65c7301f4194ab77e3a354f74e878bbc7d658eb0d231e1881b39d9e4e62007"
+      },
+      "off": {
+        "path": "evidence\\m2-socks-shoe-toggle-v1\\male\\seated-socks-off.png",
+        "sha256": "71798664e420286c3bfe6951ee74a6002d74fb3a9e124068cc8b54da806419f8"
+      }
+    }
+  ],
+  "finding": "The pale heel pixels originate from the new sock surface crossing the shoe upper. CPU source-rest projection independently reproduces the male triangular patch at the same heel region. Original shoe UV samples are dark and the embedded shoe images have alpha255 throughout.",
+  "causalDetails": [
+    "The sock adds an outward offset and thickness to the original foot surface. At the measured heel sample the original Body remains behind the shoe while the added sock surface lies in front.",
+    "Source shoe and sock use the same lower-leg/foot raw bones but carry slightly different interpolated weight fields. This changes their local relative surface positions under ankle rotation. The earlier exact loader audit establishes matching raw bone identity and inverse binds.",
+    "The observed geometric patch already exists at source rest. A wrong runtime bone mapping is not required to explain it. This review adds no full-motion guarantee."
+  ],
+  "measurements": [
+    {
+      "body": "female",
+      "outwardXExcessMm": 0.09165983442895043,
+      "sampledProjectedAreaMm2": 0.625,
+      "bodyToShoeDistanceUpperBoundAtMeasuredRayMm": 0.7686034433213168,
+      "shoeFootWeight": 0.9209847104521932,
+      "sockFootWeight": 0.9295728694393954,
+      "maxPrescribedPosePairVectorChangeMm": 0.20460750437821498,
+      "shoeTriangle": 66,
+      "sockTriangle": 176
+    },
+    {
+      "body": "male",
+      "outwardXExcessMm": 0.6743613361482048,
+      "sampledProjectedAreaMm2": 43.5,
+      "bodyToShoeDistanceUpperBoundAtMeasuredRayMm": 0.1929590079787491,
+      "shoeFootWeight": 0.9205403650240193,
+      "sockFootWeight": 0.9358296032819176,
+      "maxPrescribedPosePairVectorChangeMm": 0.42507813706263453,
+      "shoeTriangle": 63,
+      "sockTriangle": 176
+    }
+  ],
+  "preferredSingleCandidatePlan": {
+    "choice": "One explicit source shoe-fit derivative for each exact sock/base pairing, with a localized heel-upper clearance correction.",
+    "inputs": "Pinned original shoe, original Body, current sock GLB and six raw bind matrices. Preserve original assets as rollback inputs.",
+    "construction": "Locate the measured left heel patch and independently measure its right counterpart. Expand only corresponding shoe-upper vertices and an adjacent smooth transition ring. Use the current sock envelope plus 0.5mm rest clearance as a deterministic target. Keep sole, collar outline, UVs, texture/material, raw joint IDs and inverse binds fixed. Preserve the existing skin field initially and inspect its differential transport explicitly.",
+    "attemptBudget": "One generated candidate. Based on the measured left patch, male lateral correction is about1.17mm and female about0.59mm. These are pointwise estimates, not a general solved displacement field. Cap local displacement at1.5mm and stop/reposition the method if the target cannot be met.",
+    "identity": "New derivative shoe ID/SHA and exact socks pairedWith relationship. Keep the original shoe selection available for the historical outfits.",
+    "minimumAcceptance": "CPU verifies all changes remain in the declared heel patch, skin/IBMs/UVs remain intact and both-side gap at the measured patch is positive for rest plus the prescribed ankle poses. Root then compares same frozen standing/seated socks-on/off views and full-speed actual walk/run/sit/rise. Preserve failed frames and source contact numbers."
+  },
+  "ifOriginalShoeShapeAndBodyMustStayFixed": {
+    "continuousShellFeasibility": "At the male measured ray the Body-to-shoe gap is at most0.193mm, below the requested0.5mm shell thickness. A continuous0.5mm sock outside the intact Body cannot fit at that point without geometric overlap. The female0.769mm ray gap is an upper bound and does not establish a full normal-clearance solution.",
+    "minimalVisualAlternative": "Use an exact-shoe-pair sock coverage export or draw-index mask for the fully shoe-enclosed heel/foot patch, retaining the full closed sock source. Retain visible collar/ankle geometry and verify the mask boundary remains shoe-covered in the same actual motions. This resolves pale covered fragments while retaining the known hidden spatial overlap as a documented limit.",
+    "requiredSemanticRecord": "The paired combination gains a coverage adaptation. An independently visible full sock still consumes the complete source mesh. Do not report the coverage result as a new physically separated continuous shell fit.",
+    "inwardSockOnlyFitLimit": "Pushing both sock surfaces inside the fixed shoe can preserve a closed shell but introduces overlap with the intact Body at the constrained male heel. This would need an explicit limit and would not meet a no-overlap shell requirement."
+  },
+  "scopeLimits": [
+    "No pose copied from screenshots. Rest source projection is not a pixel-identical reconstruction of the animated browser view.",
+    "Total sock-in-front overlap includes the natural open collar and far inner shoe side and is not a penetration severity measurement. Additive exposure separately requires the intact Body to remain behind the shoe.",
+    "The 0.25mm grid samples depth ordering, not continuous penetration volume/depth or full-triangle contact.",
+    "Actual screenshot color depends on lighting, MToon and antialiasing. Software projection uses source texture RGB without shading.",
+    "Both outward and inward sock shell surfaces are rendered for source comparison. Backface/material effects and original shoe silhouettes may differ.",
+    "All new analysis used CPU source data only. The browser on/off experiment was performed by root and reviewed here through its exact images, script and report.",
+    "Only the viewed raw left outer heel is quantitatively sampled. The source correction must independently check the other side.",
+    "Prescribed poses transport a fixed barycentric point pair. They do not reproduce the captured seated pose or search every posed contact.",
+    "No asset, runtime or source generator was changed. No GPU, encoding sweep or generic collision system was used."
+  ]
+}

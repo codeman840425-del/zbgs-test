@@ -1,0 +1,60 @@
+{
+  "purpose": "Regression of measured source-origin floor defect; 3 mm engineering band, not visual acceptance",
+  "oldFailureRetained": true,
+  "cases": [
+    {
+      "body": "male",
+      "before": {
+        "build": "778f5eaf98d2",
+        "sitSamples": 32,
+        "minimumShoeVertexY": -0.0005839516924470515,
+        "maximumShoeVertexY": 0.0004947281595697817,
+        "within3mmFloorBand": true
+      },
+      "after": {
+        "build": "a367ba9dd96d",
+        "sitSamples": 33,
+        "minimumShoeVertexY": -0.0005839516922997273,
+        "maximumShoeVertexY": 0.0004947288500669442,
+        "within3mmFloorBand": true
+      },
+      "seatedContact": {
+        "seatTopY": 0.47000000014901155,
+        "soleMinimumY": -0.000583951690617776,
+        "garmentGapMin": 0.0010036317107079418,
+        "selectedBottomVertices": 514,
+        "scope": "Actual posed vertices inside current seat rectangle; not triangle intersection or continuous collision proof"
+      }
+    },
+    {
+      "body": "m2-male-lower-leg-v1",
+      "before": {
+        "build": "778f5eaf98d2",
+        "sitSamples": 33,
+        "minimumShoeVertexY": -0.020627781054434722,
+        "maximumShoeVertexY": -0.01944977480203189,
+        "within3mmFloorBand": false
+      },
+      "after": {
+        "build": "a367ba9dd96d",
+        "sitSamples": 33,
+        "minimumShoeVertexY": -0.0011964937027348008,
+        "maximumShoeVertexY": 1.2013853592507395e-09,
+        "within3mmFloorBand": true
+      },
+      "seatedContact": {
+        "seatTopY": 0.47000000014901155,
+        "soleMinimumY": -0.0011964937012194053,
+        "garmentGapMin": 0.0013255259461097402,
+        "selectedBottomVertices": 514,
+        "scope": "Actual posed vertices inside current seat rectangle; not triangle intersection or continuous collision proof"
+      }
+    }
+  ],
+  "passed": true,
+  "limitations": [
+    "Selected posed vertices, not all triangle intersections",
+    "Continuous short-dance foot contact not certified; sampled new dance minimum -16.4 mm vs original -11.3 mm in non-phase-aligned runs",
+    "Ordinary computer untested"
+  ]
+}

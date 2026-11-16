@@ -14,6 +14,7 @@ const cases=[{body:'male',id:'beta-base-male-m1b',sha:'62b44b0372570a821695d236c
   try{
    await p.goto(url+'?body='+c.body+'&workbench=appearance');await p.waitForFunction(()=>__debug?.ready,null,{timeout:60000});
    row.identity=await verifyCandidate(p,{build,sha256:c.sha,assetId:c.id});
+   row.floorAlignment=await p.evaluate(()=>__debug.avatar().profile.floorAlignment??null);
    assert.equal((await p.evaluate(n=>__debug.setOutfit(n),c.outfit)).applied,true);
    const idle=()=>p.waitForFunction(()=>{const s=__debug.snapshot();return s.mode==='idle'&&!s.pending&&!s.target;},null,{timeout:45000});
    const shot=async name=>{await p.screenshot({path:path.join(dir,name+'.png')});row.stages.push({name,snapshot:await p.evaluate(()=>{const s=__debug.snapshot(),m=s.motion;return{mode:s.mode,chair:s.chair,position:s.position,bodyMode:__debug.avatar().appearance.getState().bodyMode,boneLengths:m.boneLengths,stride:m.stride,jogStride:m.jogStride,seatHeight:m.seatHeight,seatPelvisClearance:m.seatPelvisClearance,sourceGroundLift:m.sourceGroundLift,hipWorld:m.hipWorld,feet:m.feet};})});};
@@ -30,6 +31,23 @@ const cases=[{body:'male',id:'beta-base-male-m1b',sha:'62b44b0372570a821695d236c
    await p.evaluate(()=>{__debug.setSpeed(2.2);__debug.walkTo(1.3,1.7);});await p.waitForTimeout(700);await p.evaluate(()=>__debug.walkTo(-1.3,1.8));await idle();
    await p.evaluate(()=>__debug.action('sit'));await p.waitForFunction(()=>__debug.snapshot().motion.sitProgress>.999,null,{timeout:45000});
    await p.evaluate(()=>__debug.camera('inspect-full-side'));await p.waitForTimeout(500);await shot('seated');
+   row.seatedContact=await p.evaluate(()=>{
+    const a=__debug.avatar(),chair=__debug.scene.getObjectByName('RepresentativeChair'),seat=chair.children[0];seat.geometry.computeBoundingBox();
+    const top=seat.localToWorld(new seat.position.constructor(0,seat.geometry.boundingBox.max.y,0)).y;
+    const selected=Object.values(a.getEquipmentRecipe(__debug.snapshot().outfit));
+    const bottoms=new Set(selected.filter(e=>e.slot==='bottom').map(e=>e.id));
+    const sole=[],bottom=[];
+    a.vrm.scene.traverse(n=>{if(!n.isSkinnedMesh||!n.parent?.visible)return;const id=n.parent.userData.equipmentId;if(!id)return;
+     for(let i=0;i<n.geometry.attributes.position.count;i++){const v=n.position.clone();n.getVertexPosition(i,v);n.localToWorld(v);
+      if(id.includes('shoes'))sole.push(v.y);
+      if(bottoms.has(id)){const q=chair.worldToLocal(v.clone());if(Math.abs(q.x)<.275&&Math.abs(q.z)<.25)bottom.push(v.y-top);}
+     }
+    });return{seatTopY:top,soleMinimumY:Math.min(...sole),garmentGapMin:bottom.length?Math.min(...bottom):null,selectedBottomVertices:bottom.length,scope:'Actual posed vertices inside current seat rectangle; not triangle intersection or continuous collision proof'};
+   });
+   // This detects the observed -20 mm source-origin regression. It is an
+   // engineering tolerance for this fixed seat, not a claim of visual contact.
+   assert(row.seatedContact.soleMinimumY >= -.003 && row.seatedContact.soleMinimumY <= .003,
+    'Seated footwear outside measured floor band');
    await p.evaluate(()=>{__debug.command({type:'speaking',value:true});__debug.command({type:'expression',name:'happy'});__debug.command({type:'gaze',target:__debug.cameraObject().position.toArray()});});await p.waitForTimeout(1500);
    await p.evaluate(()=>{__debug.command({type:'speaking',value:false});__debug.command({type:'expression',name:'neutral'});__debug.action('stand');});await idle();await shot('risen');
    await p.evaluate(()=>{__debug.camera('room');__debug.walkTo(-1,1.8);});await idle();
