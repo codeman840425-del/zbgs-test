@@ -1,0 +1,61 @@
+{
+  "candidateRoot": "F:\\gamemake-hat-hair",
+  "sourceSha256": {
+    "prototype/src/hair-spring.js": "9d145d284afda2ed5b33352535018cfe0d79a75ef278ea5b7c795c50711e6cdf",
+    "prototype/src/hair-fit-contract.js": "47aa8cf8e23b4cf8b96a1ef6621cfb360998478a35dc2ccbb147b2b3a49caa5c",
+    "assets-source/m2-long-hair-v1/revisions/raw-head-reference-v3/fit.json": "03f5a0595ff95002f55487ad3db15aac8e93068aa7a4fe41e73d1138cc8a7afe",
+    "assets-source/m2-long-hair-v1/revisions/raw-head-reference-v3/manifest.json": "376db50c730eab95767a7cfacefad740a56e31ca59949bbb0a7dceb055f633de",
+    "assets-source/m2-long-hair-v1/revisions/raw-head-reference-v3/source-spec.json": "50f280639e05b9aed7a661c59ef1d1a3158f97084860f4d1678cbe0ab4818f93",
+    "scripts/m2-long-hair-v1/raw-head-reference-v3.py": "28b05de36480bad0fe63cd8bedd3944e6dd029f8023c81d1556ae666e6edc52f"
+  },
+  "checks": [
+    {
+      "name": "candidate changes only fit identity and declared reference while retaining forces colliders attachment hide and acceptance",
+      "passed": true
+    },
+    {
+      "name": "manifest retains exact original GLB path bytes SHA and all nonidentity fields",
+      "passed": true
+    },
+    {
+      "name": "actual validator accepts new exact fit and identifies version separately from original",
+      "passed": true
+    },
+    {
+      "name": "actual validators reject wrong body old style and unsupported reference",
+      "passed": true
+    },
+    {
+      "name": "actual VRM humanoid then isolated manager update is finite and does not rewrite raw head chest local TRS",
+      "passed": true,
+      "maxRawLocalChange": 0,
+      "maxHeadWorldError": 0,
+      "frames": 12
+    },
+    {
+      "name": "actual isolated update adds no original manager update or dependency cycle",
+      "passed": true,
+      "originalUpdates": 12,
+      "circularWarnings": []
+    },
+    {
+      "name": "actual new reference has six joints and unchanged three body colliders",
+      "passed": true
+    },
+    {
+      "name": "disposing actual candidate removes body proxies and preserves original root centers",
+      "passed": true
+    },
+    {
+      "name": "missing raw head fails before creating any collider",
+      "passed": true,
+      "missingError": "发型动态适配：缺少raw head动态参考节点"
+    }
+  ],
+  "fatal": null,
+  "limits": [
+    "Real original female VRM + exact rootjoin-v2 skinned GLB, actual validation and installed solver. CPU 1x1 texture decode placeholders only.",
+    "Twelve simple normalized-head/root-motion steps test ordering, finiteness, ownership and manager count. They do not reconstruct e9b trajectory, measure naturalness, or test room contacts.",
+    "Root catalog publication and browser same-camera comparison remain root-owned. No runtime/source files changed and no GPU/browser started."
+  ]
+}

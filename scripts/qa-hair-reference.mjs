@@ -6,7 +6,8 @@ import {fileURLToPath, pathToFileURL} from 'node:url';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const out = path.join(root, 'evidence/m2-hair-head-reference-v1');
+const outputArg=process.argv.indexOf('--out');
+const out = outputArg<0?path.join(root, 'evidence/m2-hair-head-reference-v1'):path.resolve(process.argv[outputArg+1]);
 const base = path.join(root, 'assets-source/m2-long-hair-v1/revisions/raw-head-reference-v3');
 const flag = process.argv.indexOf('--modules-root');
 const modules = flag < 0 ? path.join(root, 'prototype/node_modules') : path.resolve(process.argv[flag+1]);
@@ -39,9 +40,13 @@ assert.equal(manifest.sha256,oldManifest.sha256); assert.equal(manifest.url,oldM
 const entry = {id:manifest.id,fit:manifest.fit,sourceBodySha256:fit.sourceBodySha256,assetSha256:manifest.sha256,sourceMaterial:manifest.sourceMaterial};
 validateHairFitData(fit,entry,fit.targetBodySha256,manifest);
 assert.throws(()=>validateHairFitData(fit,{...entry,fit:oldManifest.fit},fit.targetBodySha256,manifest));
-assert.throws(()=>validateHairSelection(fit.targetBodySha256,manifest.id));
+if(process.argv.includes('--admitted')){
+ const selected=validateHairSelection(fit.targetBodySha256,manifest.id);
+ assert.deepEqual(selected.fit,manifest.fit);
+ assert.throws(()=>validateHairSelection(fit.targetBodySha256,manifest.id,{expectedHairFit:{kind:'explicit-fit-v1',id:oldFit.id,version:oldFit.version,sha256:sha(oldFitBytes)}}));
+}else assert.throws(()=>validateHairSelection(fit.targetBodySha256,manifest.id));
 for (const value of [null,undefined,'head','world',0,{}]) assert.throws(()=>validateHairSpringConfig({...fit.dynamics,simulationReference:value}));
-checks.push('new exact fit validates; old fit identity and current default catalog reject it; unsupported reference values reject');
+checks.push('new exact fit validates; old fit identity rejects; catalog state matches explicit test mode; unsupported reference values reject');
 globalThis.self = {URL:globalThis.URL};
 const bodyBytes = await fs.readFile(path.join(root,'prototype/public/assets/foundation/base-female-roundtrip.vrm'));
 const hairBytes = await fs.readFile(path.join(oldBase,'female-ponytail.glb'));

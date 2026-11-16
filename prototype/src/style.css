@@ -723,9 +723,9 @@ body.appearance-workbench header .header-note { display: none; }
 body.appearance-workbench header h1 { font-size: 21px; margin: 0; letter-spacing: 0; white-space: nowrap; }
 body.appearance-workbench header #appearance-identity-fields {
   margin-left: auto;
-  width: min(590px, 52vw);
+  width: min(340px, 38vw);
   display: grid;
-  grid-template-columns: minmax(220px, 1.2fr) minmax(160px, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
   column-gap: 12px;
 }
@@ -764,5 +764,9 @@ body.appearance-workbench footer { margin-top: 12px; }
 @media (max-width: 800px) {
   body.appearance-workbench #app { padding: 12px; }
   body.appearance-workbench header h1 { font-size: 19px; }
-  body.appearance-workbench header #appearance-identity-fields { grid-template-columns: minmax(180px, 1.2fr) minmax(110px, 1fr); gap: 8px; }
+  body.appearance-workbench header #appearance-identity-fields { grid-template-columns: minmax(0, 1fr); gap: 8px; }
 }
+
+body.appearance-workbench #appearance-shape-samples { margin: 0 0 12px; }
+body.appearance-workbench #appearance-shape-samples label { display:block; font-weight:600; margin-bottom:6px; }
+body.appearance-workbench #appearance-hair-style option:disabled { color:#68756e; }

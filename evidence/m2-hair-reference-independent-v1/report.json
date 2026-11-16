@@ -1,0 +1,70 @@
+{
+  "status": "bounded-independent-cpu-review-passed",
+  "configuration": "Known explicitly requested gpt-6.1-sol/high reused. Hook interception not independently verified.",
+  "checks": {
+    "installedSolver": [
+      6,
+      6
+    ],
+    "actualCandidate": [
+      9,
+      9
+    ]
+  },
+  "blockingFindings": [],
+  "semantics": [
+    "Installed 3.5.5 stores current/previous tails in center-local coordinates, extrapolates there, then applies current center.matrixWorld before world-space forces and collision.",
+    "Raw-head center transports tail history with head translation and rotation. It excludes that rigid head transport from the direct Verlet-history impulse and can reduce desired head-driven sway. World gravity, stiffness and collision remain active.",
+    "Center is not an explicit joint dependency. This raw head is an ancestor of every mounted hair joint, so official parent/collider ancestry updates it before evaluation. Fixtures and actual VRM steps observed no stale head matrix or cycle warning.",
+    "Official center setter adds userData.inverseCacheProxy and wraps matrixWorld.elements. deleteJoint retains it. Candidate preserves that existing lifecycle. Per-joint center=null cleanup would invalidate a cache shared by other joints/managers. Actual isolated update preserves raw head/chest local TRS."
+  ],
+  "resourceReview": [
+    "New female-ponytail-headref-v3 fit version3 declares raw-head and runtimeAccepted false. Full JSON comparison preserves other fit fields except id/styleId/version. Manifest changes only id/version/label/fit.",
+    "Manifest retains rootjoin-v2 GLB path and SHA 1b785f9d54107818cee39eda2de7263ad0720ce90968fbaa7cc32c2465e3c385. Spec pins source fit/manifest/asset/inventory.",
+    "Actual validator accepts new exact entry and rejects wrong body, old style and unsupported reference. Fit identity differs from v2. Published catalog and recipe integration require root exact-version checks.",
+    "Read-only producer inspection found pinned input/inventory validation, deterministic computation, conflicting-file checks before writes and output confinement to candidate directory. No export was produced by this review."
+  ],
+  "causalBoundary": [
+    "Existing analysis records 9378 body queries with zero negative gap and first room correction 570.3ms after upward peak. This motivates examining history-frame behavior for that capture.",
+    "Both previous full-hierarchy replay failures remain retained. These independent fixtures supply no admitted reconstruction or prediction of the captured trajectory."
+  ],
+  "limits": [
+    "No GPU/browser/naturalness acceptance. Actual original female VRM and skinned GLB use 1x1 texture decode placeholders. Seated/walk/run/reset and continuous mesh/chair contact require root fixed-build comparison.",
+    "Six small official-solver checks verify semantics. Nine candidate checks cover identity, actual validator rejection, finite update ordering and cleanup in twelve artificial pose steps.",
+    "Initial launch lacked author-tree package resolution, retained in setup-module-resolution-failure.stdout. A scoped resolver now uses root installed dependencies without author-tree changes.",
+    "Only evidence/m2-hair-reference-independent-v1 was written. No git writes, runtime/source/candidate edits or heavy exports.",
+    "An initial exploratory VRM probe used repository base-female.vrm (1995f174...) instead of the fit target. It is retained under exploratory-nontarget-body.*. The admitted candidate probe explicitly asserts roundtrip VRM SHA 027bed60..., applies the normal VRM0 rotation/update, and passes the same nine checks."
+  ],
+  "solverSourceSha256": {
+    "prototype/node_modules/@pixiv/three-vrm-springbone/lib/three-vrm-springbone.module.js": "bfbde90b326aa80575e5001edf52c4500d80596032d213fb0fc93e72a7b47f66",
+    "prototype/node_modules/@pixiv/three-vrm-springbone/package.json": "c118f6f983b48724334bd758fdcba21f96fe286a70120e59a3ea80c547fefe4e",
+    "prototype/src/hair-spring.js": "5d5b1438f44bfa8211ebfd2fccecc212df6e91386ed6d3f719d09b9f22ce100f",
+    "prototype/src/hair-fit-contract.js": "47aa8cf8e23b4cf8b96a1ef6621cfb360998478a35dc2ccbb147b2b3a49caa5c",
+    "prototype/src/character-appearance.js": "361f19509cad7cf7f9951a0b0030fbeb793f235b0c13fff37cc61a93ff6f887c",
+    "prototype/src/foundation-avatar.js": "b3634ccbe0c8cba31634e3357ddc4d31281d08c85ffdf101bdd1c398febeba83",
+    "prototype/src/hairstyle-catalog.js": "5676f464cf74487fffd759145960f563c88803c27de058a8d4c400e384376f35",
+    "prototype/public/assets/m2-long-hair-rootjoin-v2/fit.json": "5e6d7499852ffc6198e6c7190a50cf5b55abd51f535c038044201b1cd9ada04f",
+    "prototype/public/assets/m2-long-hair-rootjoin-v2/manifest.json": "28337f44c1d297f2657b8ca32466e0c3b9e0cfceb17c39bda019fc19bfb48b9d",
+    "prototype/public/assets/m2-long-hair-rootjoin-v2/female-ponytail.glb": "1b785f9d54107818cee39eda2de7263ad0720ce90968fbaa7cc32c2465e3c385",
+    "evidence/m2-hair-seat-feasibility-v2/result.json": "048d02db0b7e9a99c5f34c10518723d6f5b3c1f728f3efc0ee4e930f09e41197"
+  },
+  "candidateSourceSha256": {
+    "prototype/public/assets/foundation/base-female-roundtrip.vrm": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+    "prototype/src/hair-spring.js": "9d145d284afda2ed5b33352535018cfe0d79a75ef278ea5b7c795c50711e6cdf",
+    "prototype/src/hair-fit-contract.js": "47aa8cf8e23b4cf8b96a1ef6621cfb360998478a35dc2ccbb147b2b3a49caa5c",
+    "assets-source/m2-long-hair-v1/revisions/raw-head-reference-v3/fit.json": "03f5a0595ff95002f55487ad3db15aac8e93068aa7a4fe41e73d1138cc8a7afe",
+    "assets-source/m2-long-hair-v1/revisions/raw-head-reference-v3/manifest.json": "376db50c730eab95767a7cfacefad740a56e31ca59949bbb0a7dceb055f633de",
+    "assets-source/m2-long-hair-v1/revisions/raw-head-reference-v3/source-spec.json": "50f280639e05b9aed7a661c59ef1d1a3158f97084860f4d1678cbe0ab4818f93",
+    "scripts/m2-long-hair-v1/raw-head-reference-v3.py": "28b05de36480bad0fe63cd8bedd3944e6dd029f8023c81d1556ae666e6edc52f"
+  },
+  "reviewedAuthorCommit": "1978cdafc0d9ff2f75002acd7d7c4f5b5d1114b2",
+  "commitBlobIdentityMatchesTestedFiles": {
+    "prototype/public/assets/foundation/base-female-roundtrip.vrm": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+    "prototype/src/hair-spring.js": "9d145d284afda2ed5b33352535018cfe0d79a75ef278ea5b7c795c50711e6cdf",
+    "prototype/src/hair-fit-contract.js": "47aa8cf8e23b4cf8b96a1ef6621cfb360998478a35dc2ccbb147b2b3a49caa5c",
+    "assets-source/m2-long-hair-v1/revisions/raw-head-reference-v3/fit.json": "03f5a0595ff95002f55487ad3db15aac8e93068aa7a4fe41e73d1138cc8a7afe",
+    "assets-source/m2-long-hair-v1/revisions/raw-head-reference-v3/manifest.json": "376db50c730eab95767a7cfacefad740a56e31ca59949bbb0a7dceb055f633de",
+    "assets-source/m2-long-hair-v1/revisions/raw-head-reference-v3/source-spec.json": "50f280639e05b9aed7a661c59ef1d1a3158f97084860f4d1678cbe0ab4818f93",
+    "scripts/m2-long-hair-v1/raw-head-reference-v3.py": "28b05de36480bad0fe63cd8bedd3944e6dd029f8023c81d1556ae666e6edc52f"
+  }
+}

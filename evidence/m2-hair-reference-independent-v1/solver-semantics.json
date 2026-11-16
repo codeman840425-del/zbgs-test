@@ -1,0 +1,66 @@
+{
+  "scope": "installed official solver semantics only",
+  "checks": [
+    {
+      "name": "official head center carries history through head translation and rotation",
+      "passed": true,
+      "rawHeadLocalDisplacementM": 2.220446049250313e-16,
+      "avatarSceneLocalDisplacementM": 0.5833165867434844
+    },
+    {
+      "name": "official manager refreshes stale raw-head world matrix through actual parent ancestry",
+      "passed": true,
+      "matrixError": 0,
+      "chain": [
+        "Hair0",
+        "HairAttachment",
+        "RawHead",
+        "Chest",
+        "Avatar"
+      ],
+      "centerExplicitlyInDependencies": false
+    },
+    {
+      "name": "gravity stays world-down under a rotated head center",
+      "passed": true,
+      "worldDisplacement": [
+        -0.00013885996040008397,
+        -0.016664352333993326,
+        0
+      ]
+    },
+    {
+      "name": "removing one manager joint leaves another manager using the same head center functional",
+      "passed": true,
+      "headLocalErrorM": 0,
+      "inverseProxyRetainedAfterDelete": true
+    },
+    {
+      "name": "separate actor heads own separate inverse caches",
+      "passed": true
+    },
+    {
+      "name": "official center does not change raw-head local TRS but retains inverse-cache instrumentation",
+      "passed": true,
+      "cacheRemains": true
+    }
+  ],
+  "sourceSha256": {
+    "prototype/node_modules/@pixiv/three-vrm-springbone/lib/three-vrm-springbone.module.js": "bfbde90b326aa80575e5001edf52c4500d80596032d213fb0fc93e72a7b47f66",
+    "prototype/node_modules/@pixiv/three-vrm-springbone/package.json": "c118f6f983b48724334bd758fdcba21f96fe286a70120e59a3ea80c547fefe4e",
+    "prototype/src/hair-spring.js": "5d5b1438f44bfa8211ebfd2fccecc212df6e91386ed6d3f719d09b9f22ce100f",
+    "prototype/src/hair-fit-contract.js": "47aa8cf8e23b4cf8b96a1ef6621cfb360998478a35dc2ccbb147b2b3a49caa5c",
+    "prototype/src/character-appearance.js": "361f19509cad7cf7f9951a0b0030fbeb793f235b0c13fff37cc61a93ff6f887c",
+    "prototype/src/foundation-avatar.js": "b3634ccbe0c8cba31634e3357ddc4d31281d08c85ffdf101bdd1c398febeba83",
+    "prototype/src/hairstyle-catalog.js": "5676f464cf74487fffd759145960f563c88803c27de058a8d4c400e384376f35",
+    "prototype/public/assets/m2-long-hair-rootjoin-v2/fit.json": "5e6d7499852ffc6198e6c7190a50cf5b55abd51f535c038044201b1cd9ada04f",
+    "prototype/public/assets/m2-long-hair-rootjoin-v2/manifest.json": "28337f44c1d297f2657b8ca32466e0c3b9e0cfceb17c39bda019fc19bfb48b9d",
+    "prototype/public/assets/m2-long-hair-rootjoin-v2/female-ponytail.glb": "1b785f9d54107818cee39eda2de7263ad0720ce90968fbaa7cc32c2465e3c385",
+    "evidence/m2-hair-seat-feasibility-v2/result.json": "048d02db0b7e9a99c5f34c10518723d6f5b3c1f728f3efc0ee4e930f09e41197"
+  },
+  "limits": [
+    "Object3D/Bone fixtures use the installed official manager and joint. They do not replay actual captured avatar motion or establish visible naturalness.",
+    "No original avatar animation, hair mesh, chair collision or browser is exercised in these semantics checks. Candidate identity and loading are reviewed separately.",
+    "Center setter instruments its matrixWorld.elements through a shared inverseCacheProxy. deleteJoint does not release that instrumentation. No per-joint center=null cleanup is attempted because it would remove a shared cache still used by another joint."
+  ]
+}

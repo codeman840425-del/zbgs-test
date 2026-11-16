@@ -1,5 +1,7 @@
 import {captureAppearanceRecipe,applyAppearanceRecipe,appearanceDraftKey,exportAppearanceRecipe,readAppearanceRecipeFile} from './appearance-recipe.js';
 import {queryAppearanceCandidates} from './appearance-candidates.js';
+import {HAIRSTYLES} from './hairstyle-catalog.js';
+import {FOUNDATION_PROFILES} from './foundation-profiles.js';
 import earManifest from '../public/assets/m2-paired-ear-accessory-v1/manifest.json' with {type:'json'};
 import hatFit from '../public/assets/m2-hat-hair-v1/fit.json' with {type:'json'};
 // DOM binding only: appearance ownership and camera framing stay in the controller.
@@ -18,12 +20,12 @@ export function bindAppearanceWorkbench({ controller }) {
   const groupButtons = [...identityFields.querySelectorAll('[data-appearance-group]')];
   const bodyGroups = {
     female: [
-      { id: 'female', label: '原版' },
+      { id: 'female', label: '原始脸型与身形' },
       { id: 'm1a-jaw-v1', label: '下颌变化' },
       { id: 'm1a-waisthip-v1', label: '腰胯变化' },
     ],
     male: [
-      { id: 'male', label: '原版' },
+      { id: 'male', label: '原始脸型与身形' },
       { id: 'm2-male-jaw-v1', label: '下颌变化' },
       { id: 'm2-male-lower-leg-v1', label: '小腿比例样件' },
     ],
@@ -38,9 +40,14 @@ export function bindAppearanceWorkbench({ controller }) {
   const note = panel.querySelector('#appearance-style-note');
   const geometryPanel=document.createElement('details');
   geometryPanel.id='appearance-geometry';
-  geometryPanel.innerHTML='<summary>面部几何 · 有限样件</summary><p class="appearance-hint" id="face-geometry-note">读取当前基模可用的几何样件…</p><label for="mouth-width">嘴宽变化（%）</label><div class="appearance-pair"><input id="mouth-width" type="number" min="-4" max="4" step="0.1" value="0"><button type="button" id="mouth-width-reset">只恢复嘴宽</button></div><label for="brow-sample">眉部位置对照</label><select id="brow-sample"><option value="none">原位</option><option value="height1-spacing1-v1">上移 1 mm · 两侧各外移 1 mm</option></select><p class="appearance-hint">眉位按已制作的组合样件选择，正侧面均可比较。</p>';
+  geometryPanel.innerHTML='<summary>五官局部调整</summary><p class="appearance-hint" id="face-geometry-note">读取当前基模可用的几何样件…</p><label for="mouth-width">嘴宽变化（%）</label><div class="appearance-pair"><input id="mouth-width" type="number" min="-4" max="4" step="0.1" value="0"><button type="button" id="mouth-width-reset">只恢复嘴宽</button></div><label for="brow-sample">眉部位置对照</label><select id="brow-sample"><option value="none">原位</option><option value="height1-spacing1-v1">上移 1 mm · 两侧各外移 1 mm</option></select><p class="appearance-hint">眉位按已制作的组合样件选择，正侧面均可比较。</p>';
   geometryPanel.insertAdjacentHTML('beforeend','<label for="nose-sample">鼻尖位置对照</label><select id="nose-sample"><option value="none">原位</option><option value="tip-forward05-v1">鼻尖向前 0.5 mm</option></select><p class="appearance-hint">鼻尖使用已制作端点，切到侧面可比较轮廓。</p>');
-  fields.prepend(geometryPanel);
+  const shapePanel=document.createElement('section');shapePanel.id='appearance-shape-samples';
+  const shapeLabel=identityFields.querySelector('label[for="appearance-body"]'),shapeNote=identityFields.querySelector('#appearance-body-note');
+  shapeLabel.textContent='脸型与身形样件';
+  shapeNote.textContent='选择已制作的脸型或身形对照；当前样件分别验证，不能叠加为任意组合。';
+  shapePanel.append(shapeLabel,body,shapeNote);
+  fields.prepend(shapePanel,geometryPanel);
   geometryPanel.insertAdjacentHTML('beforeend','<label for="eye-sample">眼裂宽度对照</label><select id="eye-sample"><option value="none">原位</option><option value="aperture-width101-v1">眼裂宽 +1%</option></select><p class="appearance-hint">眼裂宽度使用已制作端点，需结合眨眼和视线检查。</p>');
   const eyeGeometry=geometryPanel.querySelector('#eye-sample');
   const nose=geometryPanel.querySelector('#nose-sample');
@@ -295,8 +302,12 @@ export function bindAppearanceWorkbench({ controller }) {
     const styles = (actual.availableStyles || ['original']).map(v => typeof v === 'string' ? v : v.id);
     const options = (actual.styleOptions || styles.map(id => ({ id, label: id === 'original' ? '原发型' : '可用发型' })))
       .filter(option => styles.includes(option.id));
+    // Keep real family samples discoverable, but never grant compatibility in UI.
+    const unavailable=[...new Map(HAIRSTYLES.filter(entry=>entry.compatibleBodies.includes(FOUNDATION_PROFILES[group].sha256)&&!styles.includes(entry.id)).map(entry=>[entry.id,entry])).values()];
     style.replaceChildren(...options.map(({ id, label }) => {
       const option = document.createElement('option'); option.value = id; option.textContent = label; return option;
+    }),...unavailable.map(({id,label})=>{
+      const option=document.createElement('option');option.value=id;option.textContent=label+' · 当前样件待适配';option.disabled=true;return option;
     }));
     style.value = actual.hairStyle;
     hair.value = actual.hairColor;
@@ -309,7 +320,7 @@ export function bindAppearanceWorkbench({ controller }) {
       eye.disabled ? '此人物瞳色暂不可用。' : '瞳色调整虹膜，保留瞳孔与高光。',
       lip.disabled ? '此人物唇色暂不可用。' : '唇色可独立选择。',
     ].join('');
-    note.textContent = actual.bodyMode==='base' ? '基础人体当前无发；返回穿衣模式后恢复所选发型。' : '这里只列出此人物可用的发型，无发保留眉毛与睫毛。';
+    note.textContent = actual.bodyMode==='base' ? '基础人体当前无发；返回穿衣模式后恢复所选发型。' : unavailable.length ? '标注“待适配”的发型已有素材，但尚未验证当前脸型或身体；可用项可直接选择。' : '当前列出的发型可用于此样件；无发保留眉毛与睫毛。';
     const geometry=actor().facialGeometry?.getState();
     mouth.disabled=!geometry?.available;mouth.value=String(Math.round((geometry?.mouthWidth||0)*1000)/10);
     const discrete=Array.isArray(geometry?.mouthSupportedValues);
