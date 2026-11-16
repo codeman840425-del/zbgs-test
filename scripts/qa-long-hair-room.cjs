@@ -46,6 +46,12 @@ const hairAssetPath=process.env.HAIR_ASSET_PATH||'/assets/m2-long-hair-v1/female
   const rapid=await p.evaluate(async()=>{const a=__debug.command({type:'appearance',hairStyle:'female-ponytail-v1'});const b=__debug.command({type:'appearance',hairStyle:'original'});return{a:await a,b:await b};});assert(rapid.b.applied);assert.equal((await state()).effectiveHairStyle,'original');
   assert((await set({hairStyle:'female-ponytail-v1'})).applied);
   recipe=await p.evaluate(()=>__debug.exportAppearanceRecipe());await fs.writeFile(path.join(out,'recipe-v7.json'),recipe);
+  if(expectedHairSHA!=='010a615ed5650e106bacd2c1da576a7c42db2a22047c4011596fb43b648cb015'){
+   const oldRecipe=await fs.readFile(path.join(__dirname,'../evidence/m2-long-hair-room-363-v1/recipe-v7.json'),'utf8');
+   const oldResult=await p.evaluate(async text=>{try{return await __debug.importAppearanceRecipe(text);}catch(e){return{applied:false,reason:String(e),field:e.field,code:e.code};}},oldRecipe);
+   assert.equal(oldResult.applied,false);assert.equal(await p.evaluate(()=>__debug.exportAppearanceRecipe()),recipe);
+   r.checks.push({name:'superseded experimental hair identity rejected without silently migrating saved geometry',passed:true,oldResult,limit:'Old experimental recipe remains reproducible on fixed build363; no implicit migration or current-build compatibility claim.'});
+  }
   await p.evaluate(()=>__debug.setPaused(true));const primary=await state();
   const peer=await p.evaluate(async()=>{await __debug.loadComparison('female');const peer=__debug.comparison();peer.controller.paused=true;
     const applied=await peer.command({type:'appearance',hairStyle:'female-ponytail-v1',hairColor:'blonde'}),state=peer.avatar.appearance.getState();

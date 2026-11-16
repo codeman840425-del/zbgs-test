@@ -2,15 +2,15 @@
 export const HAIRSTYLES = [
   {
     id:'female-ponytail-v1', label:'长束发 · 动态制作候选',
-    manifestUrl:'/assets/m2-long-hair-v1/manifest.json',
-    manifestSha256:'b20b2f956aff08331f185466af02143f95f893305e484747e6166b8d8bd8c101',
-    assetSha256:'010a615ed5650e106bacd2c1da576a7c42db2a22047c4011596fb43b648cb015',
+    manifestUrl:'/assets/m2-long-hair-rootjoin-v2/manifest.json',
+    manifestSha256:'28337f44c1d297f2657b8ca32466e0c3b9e0cfceb17c39bda019fc19bfb48b9d',
+    assetSha256:'1b785f9d54107818cee39eda2de7263ad0720ce90968fbaa7cc32c2465e3c385',
     sourceMaterial:'F00_000_HairBack_00_HAIR',
     compatibleBodies:['027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95'],
     sourceBodySha256:'027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95',
     legacyImplicitFit:false,
-    fit:{id:'female-ponytail-v1-original-female-fit-v1',version:1,url:'/assets/m2-long-hair-v1/fit.json',
-      sha256:'3199e1059971ef8a47d574571a9e18cdf940412ca7ab61574f2027d207a0a37e'},
+    fit:{id:'female-ponytail-v1-rootjoin-fit-v2',version:2,url:'/assets/m2-long-hair-rootjoin-v2/fit.json',
+      sha256:'5e6d7499852ffc6198e6c7190a50cf5b55abd51f535c038044201b1cd9ada04f'},
   },
   {
     "id": "female-bob-v1",

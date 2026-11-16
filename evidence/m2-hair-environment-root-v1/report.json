@@ -1,0 +1,71 @@
+{
+  "status": "passed",
+  "sourceSha256": {
+    "prototype/src/hair-spring.js": "8f4712f563ef377ff2b82a99a45e81241662e205adcbf45d8c5155707f32c366",
+    "prototype/src/character-appearance.js": "65693cb585179c6331870de2a7d15f22f97e3c760c8a24ee9c418119590ca7b8",
+    "prototype/src/foundation-avatar.js": "0888c2789b42d9f16883989ecfa502a617c8f735bf23ab79ee32a2943a0bb5fc",
+    "prototype/src/main.js": "28772ed3346db044c1733d4ab507b2fbdca413e7a391ef3730b9aab9d1448642",
+    "prototype/package-lock.json": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7"
+  },
+  "finalSha256": {
+    "prototype/src/hair-spring.js": "8f4712f563ef377ff2b82a99a45e81241662e205adcbf45d8c5155707f32c366",
+    "prototype/src/character-appearance.js": "65693cb585179c6331870de2a7d15f22f97e3c760c8a24ee9c418119590ca7b8",
+    "prototype/src/foundation-avatar.js": "0888c2789b42d9f16883989ecfa502a617c8f735bf23ab79ee32a2943a0bb5fc",
+    "prototype/src/main.js": "28772ed3346db044c1733d4ab507b2fbdca413e7a391ef3730b9aab9d1448642",
+    "prototype/package-lock.json": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7"
+  },
+  "checks": [
+    {
+      "name": "real official collider adapts actual main chairCollider projection",
+      "passed": true,
+      "distanceM": -0.014999999329447747
+    },
+    {
+      "name": "official solver responds finitely and preserves fixed bone length",
+      "passed": true,
+      "before": [
+        0,
+        -0.2,
+        0
+      ],
+      "after": [
+        0,
+        -0.19943986202756134,
+        -0.014957988983392857
+      ],
+      "residualPointDepthM": 0.00004201101660714253
+    },
+    {
+      "name": "moving rotated scaled box reuses same collider and current owner matrices",
+      "passed": true,
+      "worldCorrectionM": 0.03749999899417163,
+      "conservativeLocalMarginM": 0.02
+    },
+    {
+      "name": "invalid proxies stale inverses and invalid samples reject explicitly",
+      "passed": true
+    },
+    {
+      "name": "replace clear in-place list change and dispose preserve body proxies",
+      "passed": true
+    },
+    {
+      "name": "attachment failure retains previous environment and removes partial new proxies",
+      "passed": true
+    },
+    {
+      "name": "reentrant disposal during environment attachment leaves no owned colliders",
+      "passed": true
+    },
+    {
+      "name": "staged reset then room attachment refreshes official collider dependency matrices",
+      "passed": true
+    },
+    {
+      "name": "foundation passes room colliders before garment precomputed early return",
+      "passed": true
+    }
+  ],
+  "fatal": null,
+  "scope": "Real Three187 and official three-vrm3.5.5 solver with short bone fixture and actual extracted main chairCollider function. Conservative expanded oriented-box point-sphere proxy. No triangle or continuous collision guarantee, actual long-hair/browser/GPU or performance acceptance."
+}
