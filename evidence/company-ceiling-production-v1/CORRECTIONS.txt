@@ -1,0 +1,14 @@
+本轮修正说明
+
+1. TypedArray GLB 字节打包
+root 实读发现初版 aligned(buffer) 使用 Buffer.from(typedArray)，会把 Float32Array/Uint16Array 按元素转换为错误长度的字节，导致 GLB accessors 与 bufferViews 不匹配。本包未保存该错误产物的旧哈希，也不以旧产物作为证据。修正为按 ArrayBufferView 的 buffer、byteOffset、byteLength 复制原始 IEEE 浮点/整数 bytes，随后重新导出四款 GLB。production-report.json 记录了实际访问器长度、类型、数量和法线解析结果。
+
+2. 交织纹理周期边界
+
+root 实读发现初版 woven 使用 floor(period/3)，周期线程不按周期整除。现改为 period/4。四款纹理重新生成，并在 production-report.json 中记录 x/y 周期边界比较。
+
+3. 证据性质
+
+source-modification/ 中的每款 original.json 是正式源文件的原始字节副本。modified.json 是仅用于回归的临时参数修改文件。modified-texture.png、modified-model.glb 及 repeat-* 均从磁盘读回的 modified.json 导出，未注册为正式资源，也未改写正式源或正式输出。
+
+导入无写副作用证据使用被监视源目录、正式输出目录和生成器文件的逐文件 SHA-256 聚合快照，不使用文件数量相等推断字节未变。

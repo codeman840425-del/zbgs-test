@@ -1,0 +1,38 @@
+顶面饰材与观看：固定交付（2026-11-16）
+
+源码：eb4d70a238a9bf5fe46ad4b38be773237c152f56
+构建：5bbf1c1b83f0
+独立检出：F:/gamemake-company-ceiling-fixed-v1
+独立交付：F:/gamemake-company-ceiling-delivery-5bb
+观看：http://127.0.0.1:59586/，选择“顶面与墙地 · 民房”或“顶面与墙地 · 两层住宅”，点击“顶面近景”。
+
+新增四款实际顶面纹理：方格、点孔纹、交织纤维、线性纹。全部沿既有连续饰面合同，按米制重复与四分之一转铺设；不修改旧72个资源定义。点孔纹和线性纹是平面材质，不冒称真实穿孔或几何格栅。顶面显示在2.8m墙高上方，房内向上观看可见；俯视或大楼观看隐藏，不改配置、设施、使用点和碰撞。公共区域已加入饰面选择，避免误改其他房间。
+
+证据（均在公司工作树evidence）：
+- company-ceiling-fixed-5bb-v1/report.json：六组实际浏览器检查通过。旧3d7墙地存档导入、四款逐款真实加载/关闭浏览器重开、旋转与物理尺度、俯视隐藏、两层输入/资源释放、实际503及不兼容资源保旧、公共区只改当前选中区域。
+- company-ceiling-handoff-5bb-v1/report.json：五组独立包编辑、加载、保存和关闭恢复检查通过。
+- company-ceiling-rebuild-5bb-v1/report.json：447个清单文件摘要一致；独立source安装锁文件重建，与viewer全部155文件逐字节一致，无排除项。
+- company-ceiling-independent-v1：独立CPU核-Y内侧面、米制UV、旋转房间内外可见性、资源字节，以及旧72资源定义保持。
+- company-ceiling-recording-5bb-v1/ceiling-finishes-normal1x.webm：31.8秒、1440×1000、25fps、正常1×；已检查全时段间隔抽帧及原尺寸墙顶交界/第二输入截图，不代替连续人类观看验收。recording.json的29.956秒是脚本步骤耗时，媒体实际时长以media-inspection.json为准。
+- company-ceiling-production-v1/source-modification：四份参数真实修改后重新导出、PNG解码/GLB字节及确定性检查。修改候选不全部冒称运行登记；正式方格重复尺度修正后的资源已进入本构建。
+
+保留修正：生产期间修正Float32Array错误字节编码、交织纹周期；CORRECTIONS.txt记录根因，未保留的初版字节不编造哈希。dev-v1功能通过但镜头仅见纹理，dev-v2补墙顶交界，固定5bb再验证。旧证据不换构建标签。
+
+重复构建（固定检出prototype目录）：
+npm ci --no-audit --no-fund
+node scripts/build-company-id.mjs
+npx vite build --config vite.company.config.js
+
+运行/验证（固定检出根目录，证据输出使用新目录）：
+node scripts/company-platform/serve-company.cjs prototype/dist-company 5bbf1c1b83f0
+node scripts/company-platform/qa-ceiling-finishes.cjs prototype/dist-company 5bbf1c1b83f0 NEW_EVIDENCE_DIR
+node scripts/company-platform/record-ceiling-finishes.cjs prototype/dist-company 5bbf1c1b83f0 NEW_RECORDING_DIR
+node scripts/company-platform/build-ceiling-finishes.mjs --check
+node scripts/company-platform/build-surface-finishes.mjs --check
+node scripts/company-platform/build-library.mjs --check
+node scripts/company-platform/build-surface-examples.mjs --check
+
+独立包入口：node serve.mjs；node edit.mjs validate data/save.json。包内source保留生产源、生成器、布局配方、锁文件与公司运行代码；npm安装可用网络/缓存，非离线安装证明。
+
+限制：本包仅平面顶饰材机制与四款样件，不代表所有建筑细分各四款；几何吊顶、顶挂设施、收边仍后续处理。软件渲染不证明普通电脑性能；未进行真实角色C3集成或用户最终验收。角色M2和共享文件未改。
+下一包：柜架与多层承载，沿父子变换和既有保存/替换机制扩充明确支持面及拒绝规则，继续已授权C1–C3。

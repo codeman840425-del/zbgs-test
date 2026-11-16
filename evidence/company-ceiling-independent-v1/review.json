@@ -1,0 +1,45 @@
+{
+  "status": "independent-cpu-review",
+  "checks": [
+    {
+      "id": "underside-face-and-uv",
+      "result": "observed",
+      "evidence": "evidence/company-ceiling-independent-v1/cpu-rotated-ceiling.json",
+      "details": "Synthetic BoxGeometry ceiling uses face 3 with normals [0,-1,0]. Meter UV spans x 0..4 and z 0..6. quarterTurns=3 and tileMeters [.5,2] produce repeat [2,.5] and rotation 3PI/2."
+    },
+    {
+      "id": "rotated-room-visibility",
+      "result": "observed",
+      "evidence": "evidence/company-ceiling-independent-v1/cpu-rotated-ceiling.json",
+      "details": "With room yaw PI/2, room view and camera [10,1.1,20] visibility is true. Camera [10,1.1,30] outside the local bounds is false."
+    },
+    {
+      "id": "asset-catalog-bytes",
+      "result": "observed",
+      "evidence": "evidence/company-ceiling-independent-v1/asset-catalog-crosscheck.json",
+      "details": "All four current ceiling catalog hashes and byte lengths match their GLB files."
+    },
+    {
+      "id": "recipe-old-layout",
+      "result": "observed",
+      "details": "applySurfaceRecipe on an old layout leaves the input object unchanged and accepts a ceiling:null recipe without adding a finish."
+    },
+    {
+      "id": "area-ui",
+      "result": "observed",
+      "details": "Current preview.js includes room and area in the surface selector and currentFinishRoom accepts both. This addresses public-area editing."
+    }
+  ],
+  "limits": [
+    "No browser/GPU run in this subtask. Actual decoded PNG/runtime restart/failure evidence remains external.",
+    "CPU fixture uses a synthetic assetLibrary and does not claim visual acceptance."
+  ],
+  "sourceHashes": {
+    "prototype/src/company/document.js": "1c0d434536cf1e0cf3ef7725d10af0ead2b553fff596c903968d2875a68875dc",
+    "prototype/src/company/render.js": "26c481c4012337996125f71d7183dde38e18fea90ba654c35ac45597bf203106",
+    "prototype/src/company/surface-finish-render.js": "8aa62b0ec2206918246da04c6d2e8ac7ccbb7572c5174677f22df0dfc841df85",
+    "prototype/src/company/preview.js": "dddd141bd340ca1184927c9d1f0dcb834c193f2a6b8d924598b6aad9f3e4b617",
+    "scripts/company-platform/apply-surface-recipe.mjs": "4fb89aef1fc7bdbc18980e607627da2ade88cb8c90bb350329b497ef7141c3d1",
+    "docs/COMPANY-CEILING-FINISH-CONTRACT-v1.txt": "91b9e9e9e2903848e9b4e26a8e08c6cdb80d914babe6d37c3e4a8a27c0ca1025"
+  }
+}
