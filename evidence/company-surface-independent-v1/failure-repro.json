@@ -1,0 +1,25 @@
+{
+  "sha256": "c8cbe363e59704f5d4a54942e8e2d2d78961860cf6106eda3de1937bf9210e81",
+  "bytes": 880,
+  "error": {
+    "code": "missing-contact-mesh",
+    "message": "missing-contact-mesh at resources.failure-repro.MissingSeat: Contact name must uniquely resolve to an actual mesh"
+  },
+  "baselineDisposeCounts": {
+    "material": 1,
+    "geometry": 1,
+    "texture": 0
+  },
+  "disposeCounts": {
+    "material": 2,
+    "geometry": 1,
+    "texture": 0
+  },
+  "duplicateDispose": {
+    "material": 0,
+    "geometry": 0,
+    "texture": 0
+  },
+  "expectation": "COLOR_0 triggers GLTFLoader assignFinalMaterial clone. Parser cache retains source material while pack scene uses cloned material. Both must be disposed on post-parse validation failure.",
+  "source": "prototype/src/company/asset-library.js"
+}

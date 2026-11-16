@@ -1,0 +1,72 @@
+{
+  "status": "passed",
+  "verification": "company-surface-handoff-rebuild",
+  "deliveryRoot": "F:/gamemake-company-surfaces-delivery-3d7",
+  "fixedSource": "725e4bf0",
+  "fixedBuild": "3d7adc60d3b8",
+  "sourceDigest": "3d7adc60d3b85a02cefaaf2df9900fbde95af3ade259e2a5b56892129954a94e",
+  "generated": {
+    "npmCi": {
+      "command": "npm ci --no-audit --no-fund",
+      "cwd": "source/prototype",
+      "status": "passed",
+      "note": "node_modules generated under delivery source/prototype"
+    },
+    "companyId": {
+      "command": "node scripts/build-company-id.mjs",
+      "cwd": "source/prototype",
+      "status": "passed",
+      "output": "3d7adc60d3b8"
+    },
+    "viteBuild": {
+      "command": "npx vite build --config vite.company.config.js",
+      "cwd": "source/prototype",
+      "status": "passed",
+      "outputDir": "source/prototype/dist-company",
+      "files": 142
+    }
+  },
+  "transferManifest": {
+    "path": "transfer-manifest.json",
+    "entries": 759,
+    "sha256Mismatches": 0,
+    "byteLengthMismatches": 0,
+    "missing": 0,
+    "status": "passed"
+  },
+  "runtimeByteComparison": {
+    "generatedDir": "source/prototype/dist-company",
+    "fixedViewerDir": "viewer",
+    "generatedFileCount": 142,
+    "fixedViewerRuntimeFileCount": 142,
+    "differenceCount": 0,
+    "byteIdentical": true,
+    "status": "passed",
+    "excluded": ["viewer/company-build-info.json"]
+  },
+  "sourceChecks": [
+    {
+      "command": "node scripts/company-platform/build-surface-finishes.mjs --check",
+      "cwd": "source",
+      "status": "passed",
+      "resources": 8
+    },
+    {
+      "command": "node scripts/company-platform/build-library.mjs --check",
+      "cwd": "source",
+      "status": "passed",
+      "resources": 72,
+      "output": "prototype/src/company/library-catalog.json"
+    },
+    {
+      "command": "node scripts/company-platform/build-surface-examples.mjs --check",
+      "cwd": "source",
+      "status": "passed",
+      "inputs": 2
+    }
+  ],
+  "limitations": [
+    "No browser or GPU validation was run in this bounded rebuild check.",
+    "The separate browser handoff evidence is maintained by the root agent."
+  ]
+}

@@ -1,0 +1,41 @@
+连续墙地饰面机制与八款样件：固定交付（2026-11-16）
+
+源码：725e4bf0c3906af763f3f3415501118e958a4328
+构建：3d7adc60d3b8
+独立检出：F:/gamemake-company-surfaces-fixed-v1
+独立交付：F:/gamemake-company-surfaces-delivery-3d7
+观看：http://127.0.0.1:58797/，选择“墙地饰面 · 两层住宅”或“墙地饰面 · 民房”。旧墙体ccf入口保留作回滚。
+
+本包实际新增：整面墙纸/地板直接使用结构网格，按米制重复和方向铺装；门口分段共用原点；四款墙面与四款地面；房间独立替换及全楼层资源绑定/保存；坏资源保原。外观替换不改设施身份、家具变换、导航和使用点，不引入角色控制器或新的占用系统。
+条纹、叶形、菱格、弧扇为四套实际图案；地面是错缝木板、交错鱼骨、棋盘、水磨石。这里只证明八款连续饰面样件，不意味着木地板/瓷砖等所有后续细分已各有四款，也不表示C1–C3完成。
+两份饰面输入复用同一入口，分别应用于两层住宅和民房；两层住宅移除旧局部饰面展示板，以免盖住新整面铺装。原混合住宅样板保留。
+
+证据：
+- company-surface-fixed-3d7-v1/report.json：六组实际浏览器检查。四墙四地各实际加载、替换和关闭浏览器进程重开；门洞1.4米UV间距、米制缩放/旋转与房间独立；真实座位接触handle保留；不兼容/坏尺寸/缺版本/坏hash/实际PNG解码失败保文档、显示与存档；完整多层资源pins与反复切层释放；两份输入实际观看及恢复。
+- company-surface-recording-3d7-v1：同源构建正常1×录像，surface-finishes-normal1x.webm，1440×1000/25fps/51.12秒。已核看全时段间隔抽帧与实际房间/两层/民房原尺寸图；这不是连续人类观看验收。
+- company-surface-handoff-browser-3d7-v1/report.json：五组独立包浏览器与编辑入口检查通过。
+- company-surface-handoff-3d7-v1/root-full-bytecheck.json：412个清单文件逐个摘要一致；独立source安装锁文件并重建后，与viewer全部143个文件逐字节相同，无排除项。代理rebuild.json的759/142计数错误保留，最终计数以root全量核验为准。
+- company-surface-production-v1/current-production.json与root-verification：真实8份源修改→PNG/GLB导出与确定性复跑；条纹32→64的修改源已作为正式资源进入本固定构建，四墙实际浏览器验证包含它。其余7份修改候选只计源到导出，不能冒称各自已游戏运行。
+- company-surface-independent-v1/root-baseline.json、root-fixed.json：真实GLTFLoader后置拒绝时，原版只释放场景克隆材质，漏掉parser缓存源材质；最小修复后两份均释放，geometry一次，重复dispose零。非GPU显存测量。
+
+失败与边界：初版PNG头、来源字段、参数未生效、非连续图案与伪鱼骨已发现并修正；failed-initial/superseded-agent-correction保留，不用其旧自检报告代表新资源。dev-v1选错无门的south墙，门洞检查未成立；dev-v2对实际east门洞核验通过，最终3d7再次通过。开发9a证据仍属原版本，不改标签。
+软件渲染仅用于功能与观看记录，不声明普通电脑达标。连续顶面/收边、更多安装与承载、状态部件及v3其他生产分支继续后续包；真实角色由总工C3集中接入，未因本包完成而通过。
+
+重复构建（固定检出prototype目录）：
+npm ci --no-audit --no-fund
+node scripts/build-company-id.mjs
+npx vite build --config vite.company.config.js
+
+运行（固定检出根目录）：
+node scripts/company-platform/serve-company.cjs prototype/dist-company 3d7adc60d3b8
+node scripts/company-platform/qa-surface-finishes.cjs prototype/dist-company 3d7adc60d3b8 NEW_EVIDENCE_DIR
+node scripts/company-platform/record-surface-finishes.cjs prototype/dist-company 3d7adc60d3b8 NEW_RECORDING_DIR
+
+独立包：node serve.mjs；node edit.mjs validate data/save.json。包内source包含全部公司代码、可编辑饰面参数、生产说明、锁文件与配方。
+生产（source根目录）：
+node scripts/company-platform/build-surface-finishes.mjs --check
+node scripts/company-platform/build-library.mjs --check
+node scripts/company-platform/build-surface-examples.mjs --check
+node scripts/company-platform/apply-surface-recipe.mjs INPUT_LAYOUT RECIPE NEW_OUTPUT
+
+下一步：按v3完整用途核定有限的具名生产分支及固定规格，沿现有机制推进顶面/收边与依附承载缺口。当前包封存，不追加这些条件；不中断既定长目标，不改总工角色M2标准。
