@@ -20,7 +20,17 @@ function packed(attribute) {
     for (let c = 0; c < attribute.itemSize; c++) result[i * attribute.itemSize + c] = attribute.getComponent(i, c);
   return result;
 }
-function normals(position, indices, precise = false) {
+function normalNeighborhood(indices, vertices) {
+  // Keep original triangle order and every face incident to an output vertex.
+  // Filtering only triangles with moved vertices would omit unchanged faces
+  // which still contribute to the normals at the boundary of the edit.
+  const selected=[];
+  for(let i=0;i<indices.length;i+=3)
+    if(vertices.has(indices[i])||vertices.has(indices[i+1])||vertices.has(indices[i+2]))
+      selected.push(indices[i],indices[i+1],indices[i+2]);
+  return selected;
+}
+function normals(position, indices, precise = false, vertices) {
   const result = precise ? new Float64Array(position.length) : new Float32Array(position.length);
   for (let i = 0; i < indices.length; i += 3) {
     const a = indices[i] * 3, b = indices[i + 1] * 3, c = indices[i + 2] * 3;
@@ -29,7 +39,8 @@ function normals(position, indices, precise = false) {
     const nx = uy * vz - uz * vy, ny = uz * vx - ux * vz, nz = ux * vy - uy * vx;
     for (const v of [a, b, c]) { result[v] += nx; result[v + 1] += ny; result[v + 2] += nz; }
   }
-  for (let i = 0; i < result.length; i += 3) {
+  for (const vertex of vertices) {
+    const i=vertex*3;
     const length = Math.hypot(result[i], result[i + 1], result[i + 2]);
     if (length > 1e-20) { result[i] /= length; result[i + 1] /= length; result[i + 2] /= length; }
   }
@@ -450,12 +461,13 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender }) {
       for (const values of morphs) values[i*3] *= xScale[i];
     }
     const preciseNormals=eye !== 'none'||(value!==0&&mouthData.preciseNormals)||(nose!=='none'&&nosePrepared.preciseNormals);
-    const baseNormals = recomputeNormals ? normals(position, fullIndices, preciseNormals) : null;
+    const normalIndices = recomputeNormals ? normalNeighborhood(fullIndices, affected) : null;
+    const baseNormals = recomputeNormals ? normals(position, normalIndices, preciseNormals, affected) : null;
     const targetNormals = recomputeNormals ? morphs.map(values => {
       // Eye and jaw-mouth sources evaluate shape triangles on Float64 absolute
       // shapes; rounding base+delta to Float32 first changes their normals.
       const absolute = preciseNormals ? Float64Array.from(position,(v,i)=>v+values[i]) : position.map((v,i)=>v+values[i]);
-      return normals(absolute, fullIndices, preciseNormals);
+      return normals(absolute, normalIndices, preciseNormals, affected);
     }) : null;
     if (brow !== 'none') {
       const {heightVectors,spacingVectors,browVertices} = browPrepared.recipe;
