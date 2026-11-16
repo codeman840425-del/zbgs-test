@@ -12,7 +12,10 @@ export const FOUNDATION_PROFILES = {
     source: "Base_Female / reconstructed Blender source",
     label: "M1A 女性候选",
     pantsLabel: "独立及膝裤",
-    ids: { top: "m1-uniform-top", shoes: "m1-uniform-shoes", skirt: "m1-uniform-skirt-open-waist-v1", pants: "m1-training-pants" },
+    ids: { top: "m1-uniform-top", shoes: "m1-uniform-shoes", skirt: "m1-uniform-skirt-open-waist-v1", pants: "m1-training-pants", socks: "female-plain-crew-socks-v1" },
+    extraOutfits: [
+      { index: 3, role: 'pants-socks', bottomRole: 'pants', equipmentRoles: ['top','shoes','pants','socks'], label: '及膝裤＋独立薄袜', description: '技术候选：原身体长袜贴图仍保留，检查独立袜层与鞋口' },
+    ],
     // Measured only for the female generated 6 mm training-pants shell.
     seatLayerThickness: 0.006 / 0.61,
   },
@@ -27,17 +30,19 @@ export const FOUNDATION_PROFILES = {
     label: "M1B 男性候选",
     pantsLabel: "独立长裤",
     shortsLabel: "独立露膝短裤",
-    ids: { top: "m1b-uniform-top", shoes: "m1b-uniform-shoes", pants: "m1b-uniform-pants", shorts: "m1b-uniform-shorts-v1", outer: "m2-male-open-vest-panels-v2", onePiece: "m2-male-training-onepiece-v1" },
+    ids: { top: "m1b-uniform-top", shoes: "m1b-uniform-shoes", pants: "m1b-uniform-pants", shorts: "m1b-uniform-shorts-v1", outer: "m2-male-open-vest-panels-v2", onePiece: "m2-male-training-onepiece-v1", socks: "male-plain-crew-socks-v1" },
     extraOutfits: [
       { index: 3, role: 'outer-pants', bottomRole: 'pants', equipmentRoles: ['top','shoes','pants','outer'], label: '开襟马甲＋长裤', description: '候选：观察叠穿与动作' },
       { index: 4, role: 'outer-shorts', bottomRole: 'shorts', equipmentRoles: ['top','shoes','shorts','outer'], label: '开襟马甲＋短裤', description: '候选：观察叠穿与动作' },
       { index: 5, role: 'onePiece', bottomRole: 'onePiece', equipmentRoles: ['shoes','onePiece'], label: '短袖连体练功服', description: '技术候选：检查连体换装与接触' },
+      { index: 6, role: 'shorts-socks', bottomRole: 'shorts', equipmentRoles: ['top','shoes','shorts','socks'], label: '露膝短裤＋独立薄袜', description: '技术候选：检查袜口与鞋口' },
+      { index: 7, role: 'pants-socks', bottomRole: 'pants', equipmentRoles: ['top','shoes','pants','socks'], label: '长裤＋独立薄袜', description: '技术候选：检查裤口与袜层覆盖' },
     ],
     // Candidate initial value only: actual upper surface/weights retained within
     // 1.195e-7; shorts still require their own posed seat/contact acceptance.
     // onePiece 80e actual posed surface: zero extra lift leaves 4.41mm clearance;
     // +10mm lift widens it to 11.84mm. Do not inherit trouser compensation.
-    outfitSeatLayerThickness: { 2: 0.0036, 5: 0 },
+    outfitSeatLayerThickness: { 2: 0.0036, 5: 0, 6: 0.0036, 7: 0.0036 },
     outfitFitStatus: { 2: "candidate: retained seat geometry; shorts runtime validation pending", 5: "80e actual seated garment gap 4.41mm at zero lift; continuous runtime review pending" },
     // Original male trouser surface: no female-shell offset inherited.
     // Measured male seat surface response: +10 mm pelvis -> +8.289 mm trouser underside.
