@@ -1,5 +1,7 @@
 # 制作流程只读索引
 
+单资产成本准入与超限退出状态见 [ASSET-BUDGET.md](ASSET-BUDGET.md)，入口为 `asset_budget.py check`，预算固定为 `m2-technical-v1`。
+
 从仓库根目录运行：
 
 ```powershell
