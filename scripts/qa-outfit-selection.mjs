@@ -34,4 +34,10 @@ for(const change of [{equipmentRoles:['shorts','missing']},{equipmentRoles:['sho
   assert.throws(()=>outfitSelection({...config,outfits:[{...config.outfits[0],...change}]},3));
 }
 assert.throws(()=>outfitSelection({...config,ids:{...config.ids,outer:'top'}},3),/Duplicate/);
-console.log(JSON.stringify({passed:true,legacyLooks,scope:'Exact legacy role order/IDs preserved; synthetic configured outer+shorts composes through common set resolver. No new garment fit proof.'}));
+const suitConfig={ids:{onePiece:'suit',shoes:'shoes'},outfits:[{index:5,role:'onePiece',bottomRole:'onePiece',equipmentRoles:['shoes','onePiece']}]};
+const suitSelection=outfitSelection(suitConfig,5);
+const suitCatalog=[{id:'suit',slot:'onePiece',compatibleAvatarSha256:'body'},{id:'shoes',slot:'shoes',compatibleAvatarSha256:'body'},
+ {id:'top',slot:'top',compatibleAvatarSha256:'body'},{id:'shorts',slot:'bottom',compatibleAvatarSha256:'body'}];
+assert.deepEqual(resolveEquipmentSet(suitCatalog,suitSelection.ids,'body').map(item=>item.id),['shoes','suit']);
+for(const conflicting of ['top','shorts'])assert.throws(()=>resolveEquipmentSet(suitCatalog,[...suitSelection.ids,conflicting],'body'),/conflict/);
+console.log(JSON.stringify({passed:true,legacyLooks,scope:'Legacy role order/IDs preserved; configured outer and onePiece resolve through shared occupancy rules; onePiece rejects separate top or bottom. No garment fit proof.'}));

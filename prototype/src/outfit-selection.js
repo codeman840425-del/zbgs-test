@@ -13,9 +13,9 @@ export function outfitSelection(config, value) {
   });
   if (new Set(ids).size !== ids.length) throw Error('Duplicate configured outfit equipment');
   const bottomRole = selection.bottomRole ?? selection.role;
-  // One-piece contact surfaces need their own actual asset validation before
-  // entering this room facade; the low-level equipment resolver supports them.
-  if (!['pants', 'shorts', 'skirt'].includes(bottomRole) || !roles.includes(bottomRole))
+  // The lower-body contact role names an actual selected garment. A one-piece
+  // is one skinned resource occupying both top and bottom in the set resolver.
+  if (!['pants', 'shorts', 'skirt', 'onePiece'].includes(bottomRole) || !roles.includes(bottomRole))
     throw Error('Configured outfit must identify its actual lower-body garment');
   return { selection, roles: [...roles], ids, bottomRole };
 }

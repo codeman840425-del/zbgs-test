@@ -180,6 +180,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     "shoes",
     "pants",
     "skirt",
+    "onePiece",
   ]) {
     const label = role === "shoes" ? "footwear" : role;
     meshRoles[label] = ((role === "pants" ? surfaces.allPants : surfaces[role]) ?? []).map((mesh) => {
