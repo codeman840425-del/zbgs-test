@@ -81,6 +81,16 @@ scripts/production/asset_budget.py check，m2-technical-v1；25初版门发现op
 
 801按需加载源和实际录屏已于256e7042b26a1c6ee82ee9551d0e1a1faf2616df推送并ls-remote一致，回执m2-lazy-outfit-room-801-v1/remote-backup.json。报告归档与整套预算已随bcc9b2217123e1d06439404d2af9e4afcc909a60推送并ls-remote核实，回执resource-compression-advisor-2026-11-16/remote-backup.json。
 
-## 当前主包：CUSTOM-P03 完整运行依赖移交
+## 最近完成：CUSTOM-P03 指定造型运行依赖移交
 
-缺口：现清单含本机制作/验收路径，尚无可独立消费的当前造型依赖闭包。最小输入用原男短裤外搭含现材质配方及一份原女性当前造型，复用现资源/运行接口。产物须有相对运行路径、精确SHA/大小、来源及配置依赖，不靠网络抓到什么就称全部；移交清单需与实际冷加载核对。禁止压缩/改模型/新增UI或另造角色控制器。先依赖收集与严格失败检查，再固定构建/干净目录实际加载。两轮同因无新证据即重定位。现公开4196和801候选均保留回滚。
+导出器f3fd75b/scripts/runtime-package，固定801源码58bc107；只支持原男outfit4+cloth recipe与原女outfit0默认。14 CPU在主仓复跑通过，原始CPU报告evidence/runtime-package-cpu-root-v1.json。28/26个文件相对路径/SHA/来源，sourceDigest与6项固定bundle校验、缺资源/删依赖/改JS拒绝、重复导出一致，不修改模型/动作字节。
+
+观看4174/evidence/m2-runtime-transfer-801-v1/。root在独立目录和临时HTTP源实际冷读、v6+独立材质恢复、走跑坐起/离椅短舞、关闭context再次恢复；每项实际请求属于包且SHA吻合，男性未导出onePiece明确失败保当前。两条1×录像各55帧2fps抽审未见新大片断面；不替代人工连续验收。男性初轮QA椅旁跳舞却只等completed而超时，v2实测failed/insufficient-dance-space、离椅后完成；失败和夹具修正保留。
+
+录制包manifest 8dafa759(男)/cfa0c138(女)；最终fff64819/d327b2cb仅增加unsupportedNavigation元数据，所有运行资源/配方字节相同，metadata-delta.json明确而不换录像标签。主仓已从集成脚本重复生成、导出至experiments/m2-runtime-transfer-801/{male,female}-final-package，保源dist及原录制包。实际测试临时服务均关闭，常驻仍4195/4196/4174/4207/4208，没有新增持久端口。
+
+边界：保既有room HTML/DOM；未导出目录项只元数据，历史foundation/本机baseline导航不在移交范围且运行不依赖。当前不是独立游戏API或全外观移交。P03后续随P5角色记录消费闭环继续。下一主工作包应按P1剩余真实机制推进：CUSTOM-A01语义挂点/成对装备及附件状态规则，复用现麦克风/眼镜经验，最少实际左右附件样件，不重做人物控制器。压缩报告已归档，尚未实施或选格式。
+
+## 下一主包已启动：CUSTOM-A01 成对刚性附件
+
+最小实际样件为一款小耳饰的左右装备，原男女各自实际耳部/头骨局部fit；同款资源与不同fit分离，不靠整体缩放或改骨骼名冒充。先制作/检查源GLB+独立左右挂点配置，随后共用运行模块接入，验证单侧/双侧/卸下恢复、和眼镜共存及双实例隔离。缺口在当前mic/glasses专用两槽外的语义挂点、侧别/成对管理；不改麦克风已验姿态、不制作衣库。先使用当前完整原男女，派生脸型仅明确未验。连续两轮同根因无新证据即重定位。asset_budget已知sol/high受派在隔离树生成源与fit，root负责运行集成/正常动作与近景证据；本包不做压缩。
