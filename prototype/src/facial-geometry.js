@@ -49,7 +49,7 @@ function normals(position, indices, precise = false, vertices) {
 
 /** Source-authored mouth-width recipe. Each value derives from immutable
  * originals. Existing VRM expressions, bones and material references are kept. */
-export function createFacialGeometry({ vrm, avatarSha256, prepareRender }) {
+export function createFacialGeometry({ vrm, avatarSha256, prepareRender, renderCompaction }) {
   let prepared = null, preparation = null, disposed = false, generation = 0;
   const admission=FACIAL_GEOMETRY_PROFILES[avatarSha256];
   const mouthAdmission=admission?.mouth;
@@ -167,7 +167,9 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender }) {
           }
         });
         if (!meshes.length) throw Error('五官源部件缺失：' + identity.materialName);
-        const geometries = new Set(meshes.map(mesh => mesh.geometry));
+        const sourceFor = mesh => renderCompaction?.sourceFor(mesh);
+        for(const mesh of meshes){const record=sourceFor(mesh);if(record&&mesh.geometry!==record.renderGeometry)throw Error('五官绘制网格被其他操作替换');}
+        const geometries = new Set(meshes.map(mesh => sourceFor(mesh)?.sourceGeometry || mesh.geometry));
         for (const geometry of geometries) {
           if (!geometry.morphTargetsRelative || geometry.getAttribute('position')?.count !== recipe.positionCount ||
               geometry.getAttribute('position')?.itemSize !== 3 || geometry.getAttribute('normal')?.itemSize !== 3 ||
@@ -190,7 +192,9 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender }) {
             if(recipe.sourceMorphPositionSha256?.length!==morphs.length)throw Error('派生嘴宽表情身份缺失');
             for(let i=0;i<morphs.length;i++)if(await snapshotDigest(morphs[i])!==recipe.sourceMorphPositionSha256[i])throw Error('派生嘴宽表情身份不匹配');
           }
-          records.push({ geometry, meshes: meshes.filter(mesh => mesh.geometry === geometry), identity, position, index, morphs });
+          const matching=meshes.filter(mesh => (sourceFor(mesh)?.sourceGeometry || mesh.geometry) === geometry);
+          const renderGeometry=sourceFor(matching[0])?.renderGeometry || geometry;
+          records.push({ geometry, sourceGeometry:geometry, renderGeometry, meshes:matching, identity, position, index, morphs });
         }
       }
       const originals = new Set(records.map(r => r.geometry));
@@ -417,7 +421,7 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender }) {
 
   function restore() {
     for (const record of prepared?.records || []) for (const mesh of record.meshes)
-      if (mesh.geometry === owned.get(record.geometry)) mesh.geometry = record.geometry;
+      if (mesh.geometry === owned.get(record.geometry)) mesh.geometry = record.renderGeometry;
     for (const geometry of owned.values()) geometry.dispose();
     owned.clear(); mouthWidth = 0; browSample = 'none'; noseSample = 'none'; eyeSample = 'none';
   }
@@ -445,7 +449,7 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender }) {
     const activeRecords = records.filter(record=>record.index.some(i=>touched.has(i)));
     const recomputeNormals = affected.size > 0;
     for (const record of records) for (const mesh of record.meshes)
-      if (mesh.geometry !== record.geometry && mesh.geometry !== owned.get(record.geometry)) throw Error('五官网格被其他操作替换');
+      if (mesh.geometry !== record.renderGeometry && mesh.geometry !== owned.get(record.geometry)) throw Error('五官网格被其他操作替换');
     const position = first.position.slice(), morphs = first.morphs.map(values => values.slice());
     for (let i = 0; i < recipe.positionCount; i++) {
       const scale = 1 + value * recipe.weights[i];
@@ -502,13 +506,14 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender }) {
         if(normalSet){geometry.setAttribute('normal',normalSet.base);geometry.morphAttributes.normal=normalSet.targets;}
         if(!bounds){geometry.computeBoundingBox();geometry.computeBoundingSphere();bounds={box:geometry.boundingBox,sphere:geometry.boundingSphere};}
         else{geometry.boundingBox=bounds.box.clone();geometry.boundingSphere=bounds.sphere.clone();}
+        if(renderCompaction){next.delete(record.geometry);next.set(record.geometry,renderCompaction.compactEdited(record.geometry,geometry));}
       }
       if(prepareRender && activeRecords.length)await prepareRender(activeRecords.flatMap(record=>record.meshes.map(mesh=>({mesh,geometry:next.get(record.geometry)}))));
       if(disposed||request!==generation){for(const geometry of next.values())geometry.dispose();return false;}
     } catch (e) { for (const geometry of next.values()) geometry.dispose(); throw e; }
     // No await and no change to meshes/morphTargetInfluences: VRM expression
     // bindings continue to target the same actor and the same morph indices.
-    for (const record of records) for (const mesh of record.meshes) mesh.geometry = next.get(record.geometry) || record.geometry;
+    for (const record of records) for (const mesh of record.meshes) mesh.geometry = next.get(record.geometry) || record.renderGeometry;
     for (const geometry of owned.values()) geometry.dispose();
     owned = next; mouthWidth = value;browSample = brow;noseSample = nose;eyeSample = eye;return true;
   }

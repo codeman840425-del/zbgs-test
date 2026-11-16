@@ -5,6 +5,7 @@ import { createM1Equipment } from "./m1-equipment.js";
 import { foundationProfile } from "./foundation-profiles.js";
 import { createLivePresentation } from "./live-presentation.js";
 import { createCharacterAppearance } from "./character-appearance.js";
+import { createFaceRenderCompaction } from "./face-render-compaction.js";
 import { createFacialGeometry } from "./facial-geometry.js";
 import { prepareFaceShadowPrograms, waitFaceShadowJob } from "./face-shadow-preparation.js";
 import { validateForearmProfile } from "./forearm-envelope-projection.js";
@@ -130,7 +131,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
   let debugBody = false,
     outfit = 0,
     dynamics = true;
-  let equipment, livePresentation, appearance, facialGeometry;
+  let equipment, livePresentation, appearance, facialGeometry, faceRenderCompaction;
   const faceWarmup=createFaceGeometryWarmup(renderer,scene);
   const releaseFaceWarmup=()=>faceWarmup.dispose();
   try {
@@ -164,8 +165,10 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
   equipment = await createM1Equipment({ vrm, avatarSha256: sha256, bodyType });
   const surfaces = equipment.getAssetProfile();
   appearance = createCharacterAppearance({ vrm, avatarSha256: sha256 });
-  facialGeometry = createFacialGeometry({ vrm, avatarSha256: sha256,prepareRender:parts=>faceWarmup.prepare(parts) });
   livePresentation = createLivePresentation({vrm, root, bodyType: config.referenceBody || bodyType, avatarSha256: sha256});
+  // Live expression admission and attachment calibration inspect canonical indices first.
+  faceRenderCompaction=createFaceRenderCompaction({vrm,avatarSha256:sha256});
+  facialGeometry = createFacialGeometry({ vrm, avatarSha256: sha256,renderCompaction:faceRenderCompaction,prepareRender:parts=>faceWarmup.prepare(parts) });
   const meshRoles = {};
   for (const role of [
     "body",
@@ -298,6 +301,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     dispose: () => {
       releaseFaceWarmup();
       facialGeometry.dispose();
+      faceRenderCompaction?.dispose();
       appearance.dispose();
       livePresentation.dispose();
       equipment.dispose();
@@ -318,6 +322,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
   } catch (error) {
     releaseFaceWarmup();
     facialGeometry?.dispose();
+    faceRenderCompaction?.dispose();
     appearance?.dispose();
     // The factory has not returned an avatar yet; callers cannot dispose it.
     // Release partially built equipment and the VRM here, including failures
