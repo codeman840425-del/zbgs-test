@@ -12,7 +12,8 @@ import {foundationProfile} from '../prototype/src/foundation-profiles.js';
 import {HAIRSTYLES} from '../prototype/src/hairstyle-catalog.js';
 
 const root=path.resolve(import.meta.dirname,'..');
-const out=path.resolve(process.argv[2]||path.join(root,'evidence/m2-delayed-hair-ui-review-v1'));
+const out=path.resolve(process.argv[2]||path.join(root,'evidence/m2-delayed-hair-ui-review-v2'));
+const expectStale=process.argv.includes('--expect-stale');
 await fs.mkdir(out,{recursive:true});
 const main=await fs.readFile(path.join(root,'prototype/src/main.js'),'utf8');
 const appearanceBytes=await fs.readFile(path.join(root,'prototype/src/character-appearance.js'));
@@ -73,8 +74,9 @@ try{
   const afterHair={actual:f.read(),ui:f.getUI(),notificationCount:f.history.length};
   assert.equal(older.applied,false);assert.equal(older.cancelled,true);
   assert.equal(afterHair.actual.hairStyle,entry.id);assert.equal(afterHair.actual.hairColor,'black');
-  assert.equal(afterHair.ui.hairStyle,'original');assert.equal(afterHair.notificationCount,afterColor.notificationCount);
-  report.confirmedRace={afterNewerColor:afterColor,olderHairResult:older,afterOlderHair:afterHair,notifications:f.history};
+  assert.equal(afterHair.ui.hairStyle,expectStale?'original':entry.id);
+  assert.equal(afterHair.notificationCount,afterColor.notificationCount+(expectStale?0:1));
+  report.delayedHairCase={afterNewerColor:afterColor,olderHairResult:older,afterOlderHair:afterHair,notifications:f.history};
 
   const control=await fixture(),controlGate=hold(entry.manifestUrl);
   const discarded=control.subject.command({type:'appearance',hairStyle:entry.id});await controlGate.started;
@@ -83,7 +85,7 @@ try{
   assert.equal(discardedResult.cancelled,true);assert.equal(control.read().hairStyle,'original');
   assert.equal(control.getUI().hairStyle,'original');
   report.control={newerExplicitHairIntentWins:true,result:discardedResult,actual:control.read(),ui:control.getUI()};
-  report.status='confirmed-ui-stale-after-valid-independent-hair-intent';
+  report.status=expectStale?'confirmed-ui-stale-after-valid-independent-hair-intent':'passed-current-state-refresh-after-cancelled-hair-result';
 }catch(error){report.status='reproduction-failed';report.error=error.stack;throw error;}
 finally{
   for(const f of fixtures)f.appearance.dispose();
@@ -91,4 +93,4 @@ finally{
   await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2)+'\n');
   await fs.copyFile(new URL(import.meta.url),path.join(out,'executed-script.mjs'));
 }
-console.log(JSON.stringify({out,status:report.status,confirmedRace:report.confirmedRace},null,2));
+console.log(JSON.stringify({out,status:report.status,delayedHairCase:report.delayedHairCase},null,2));

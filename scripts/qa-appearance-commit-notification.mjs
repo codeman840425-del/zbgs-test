@@ -40,16 +40,19 @@ await check('async appearance and geometry success notify only after completion'
     pending.resolve(result);assert.equal(await operation,result);assert.equal(f.received.length,1);
   }
 });
-await check('failed/cancelled/rejected results preserve outcome and emit nothing',async()=>{
+await check('failed/cancelled/rejected results preserve outcome and refresh actual current actor',async()=>{
   for(const result of [{applied:false,reason:'failure'},{applied:false,cancelled:true},{applied:true,cancelled:true}]){
     const f=fixture(()=>Promise.resolve(result));assert.equal(await f.subject.command({type:'appearance'}),result);
-    assert.equal(f.received.length,0);
+    assert.equal(f.received.length,1);assert.equal(f.received[0].actor,f.actor);
   }
   const error=Error('resource failure'),f=fixture(()=>Promise.reject(error));
-  await assert.rejects(f.subject.command({type:'appearance'}),value=>value===error);assert.equal(f.received.length,0);
+  await assert.rejects(f.subject.command({type:'appearance'}),value=>value===error);assert.equal(f.received.length,1);
 });
-await check('superseded revision, replaced actor/controller and peer do not notify primary',async()=>{
-  for(const supersede of [f=>f.bump(),f=>{f.subject.actor={};},()=>context.primary({actor:{}})]){
+await check('newer revision refreshes current state while replaced actor/controller and peer never notify',async()=>{
+  const older=deferred(),current=fixture(()=>older.promise),operation=current.subject.command({type:'appearance'});
+  current.bump();older.resolve({applied:false,cancelled:true});await operation;
+  assert.equal(current.received.length,1);assert.equal(current.received[0].actor.appearance.getState().revision,2);
+  for(const supersede of [f=>{f.subject.actor={};},()=>context.primary({actor:{}})]){
     const pending=deferred(),f=fixture(()=>pending.promise),operation=f.subject.command({type:'appearance'});
     supersede(f);pending.resolve({applied:true});await operation;assert.equal(f.received.length,0);
   }
@@ -57,10 +60,14 @@ await check('superseded revision, replaced actor/controller and peer do not noti
   assert.equal(f.subject.command({type:'appearance'}),pending.promise);
   pending.resolve({applied:true});await pending.promise;assert.equal(f.received.length,0);
 });
-await check('observer exceptions cannot turn committed commands into failure',async()=>{
+await check('observer exceptions preserve committed results and original domain rejections',async()=>{
   const result={applied:true},f=fixture(()=>Promise.resolve(result));
   f.events.on('appearance-state-changed',()=>{throw Error('UI unavailable');});
   assert.equal(await f.subject.command({type:'appearance'}),result);assert.equal(warnings.length,1);
+  const error=Error('original domain failure'),failed=fixture(()=>Promise.reject(error));
+  failed.events.on('appearance-state-changed',()=>{throw Error('UI still unavailable');});
+  await assert.rejects(failed.subject.command({type:'appearance'}),value=>value===error);
+  assert.equal(warnings.length,2);
 });
 const listenerCode=workbench.slice(workbench.indexOf('  const appearanceChanged ='),workbench.indexOf('  async function apply(patch)'));
 assert(listenerCode.includes("events.off('appearance-state-changed'"));

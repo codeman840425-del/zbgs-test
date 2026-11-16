@@ -1054,13 +1054,17 @@ class CharacterScene extends Phaser.Scene {
         const result = domain?.set(cmd) ?? {applied:false,reason:cmd.type === 'appearance'
           ? '当前人物不支持外观编辑' : '当前人物尚无几何参数适配'};
         if (this.isPeer || this !== controller) return result;
-        const revision = domain?.getState().revision;
-        const committed = outcome => {
-          if (outcome?.applied && !outcome.cancelled && this === controller && this.actor === actor && domain?.getState().revision === revision)
+        // Independent hair intent can settle after a newer colour request and
+        // return cancelled while still updating this actor's actual hairstyle.
+        const settled = outcome => {
+          if (this === controller && this.actor === actor)
             notifyAppearanceStateChanged(actor);
           return outcome;
         };
-        return typeof result?.then === 'function' ? result.then(committed) : committed(result);
+        return typeof result?.then === 'function' ? result.then(settled, error => {
+          settled();
+          throw error;
+        }) : settled(result);
       }
       case "speaking":
         this.actor.livePresentation?.setSpeaking(cmd.value);
