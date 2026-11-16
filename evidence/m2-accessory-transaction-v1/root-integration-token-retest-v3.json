@@ -1,0 +1,104 @@
+{
+  "reviewedRootCommits": [
+    "b8918fe64adc1cc3be2d17e714194d1d19169a13",
+    "9f0fa6d832d0a57675a3348e558974ce2fd6aa2f",
+    "294e87b9e54f65770ab8f4f45ce93e830498d219",
+    "86c354c70a50d5fc44c9eed989d8bb7515621cc7",
+    "77334967d7130a7fd9cf1bfd259308e782042b25"
+  ],
+  "sourceSha256": {
+    "prototype/src/accessory-transaction-context.js": "a9ea9e0cf06dce811c65a381ecdbd7354560e83dff29d43708439f7ec8f1135f",
+    "prototype/src/accessory-recipe.js": "6df67fe53aff932960fcf7d1c04a947b84abb70af3af49b3ce8907a8edb0a7f0",
+    "prototype/src/appearance-recipe.js": "645258597003d8a9950ae03ea846803b364448fcd0352b47cab49961055105ee",
+    "prototype/src/character-appearance.js": "361f19509cad7cf7f9951a0b0030fbeb793f235b0c13fff37cc61a93ff6f887c",
+    "prototype/src/facial-geometry.js": "b4b6aa8061b6492cb9ce8659c7e08e09ea3faba5aeecedeb87e5b7f4323ed0ae",
+    "prototype/src/foundation-avatar.js": "b3634ccbe0c8cba31634e3357ddc4d31281d08c85ffdf101bdd1c398febeba83",
+    "prototype/src/rigid-accessory-layer.js": "cd89002bcbed08c69e467068dbee9bbffc6ec59f55865f8ab272ecd99912102b"
+  },
+  "checks": [
+    {
+      "name": "actual foundation v8 original hair/none to exact long hair/hat/pair and back roundtrips",
+      "passed": true,
+      "notifications": 2
+    },
+    {
+      "name": "actual missing final hat resource retains all previous appearance geometry outfit and accessories",
+      "passed": true,
+      "error": "恢复配方失败，先前外观已保留：Rigid accessory HTTP 503: http://fixture.invalid/assets/m2-hat-hair-v1/baseball-cap.glb"
+    },
+    {
+      "name": "actual delayed hat plus newer ear edit cancels full recipe and preserves newer visible ear",
+      "passed": true,
+      "result": {
+        "applied": false,
+        "cancelled": true
+      }
+    },
+    {
+      "name": "legacy recipe changes compatible appearance while leaving both accessory domains and revisions untouched",
+      "passed": true
+    },
+    {
+      "name": "neutral face reset and normal expression remain allowed with current hat",
+      "passed": true
+    },
+    {
+      "name": "appearance rejects plain final accessories and forged token without visible writes",
+      "passed": true,
+      "oldReason": "附件组合必须通过整套配方提交",
+      "forgedReason": "无效或已关闭的整套附件事务"
+    },
+    {
+      "name": "geometry rejects plain final accessories and forged token without visible writes",
+      "passed": true,
+      "oldReason": "附件组合必须通过整套配方提交",
+      "forgedReason": "无效或已关闭的整套附件事务"
+    },
+    {
+      "name": "appearance preparing token permits preflight but refuses direct commit",
+      "passed": true,
+      "error": "附件依赖修改必须由整套造型同步提交"
+    },
+    {
+      "name": "geometry preparing token permits preflight but refuses direct commit",
+      "passed": true,
+      "error": "附件依赖修改必须由整套造型同步提交"
+    },
+    {
+      "name": "preparing token cannot change live hair through alternate applyStyleIntent path",
+      "passed": true,
+      "actualHair": "female-ponytail-v1",
+      "actualHat": "single",
+      "error": "附件依赖修改必须由整套造型同步提交",
+      "call": "prepareUpdate({hairStyle:original},{trackIntent:true,accessoryTransaction:context.token}); update.applyStyleIntent() without beginCommit"
+    },
+    {
+      "name": "closed token rejects reuse and already prepared preflight and commit",
+      "passed": true,
+      "validateError": "无效或已关闭的整套附件事务",
+      "commitError": "附件依赖修改必须由整套造型同步提交"
+    },
+    {
+      "name": "same-body different actual VRM refuses foreign token for hair and face",
+      "passed": true,
+      "hairReason": "无效或已关闭的整套附件事务",
+      "faceReason": "无效或已关闭的整套附件事务",
+      "sameBody": true,
+      "differentVRM": true
+    },
+    {
+      "name": "actual staged nonneutral face refuses final commit after concurrent hat equip",
+      "passed": true
+    },
+    {
+      "name": "actual peer actor accessory state remains independent",
+      "passed": true
+    }
+  ],
+  "findings": [],
+  "fatal": null,
+  "limits": [
+    "Actual loadFoundationAvatar, real original female VRMs and all published GLTF/fit resources. Renderer compileAsync and texture decode are CPU placeholders, with shadow rendering disabled.",
+    "Controller fixture only delegates real actor.prepareOutfit and tracks controller outfit revisions/events. No browser/GPU, surface pixel rendering or motion/visual acceptance."
+  ]
+}
