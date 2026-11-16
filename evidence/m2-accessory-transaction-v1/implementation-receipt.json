@@ -1,0 +1,50 @@
+{
+  "schema": "rigid-accessory-transaction-v1",
+  "baseCommit": "c1b9774",
+  "runtimeSourceSha256": "cd89002bcbed08c69e467068dbee9bbffc6ec59f55865f8ab272ecd99912102b",
+  "status": "CPU and build passed; recipe integration and browser acceptance owned by root",
+  "api": {
+    "prepareUpdate": "await layer.prepareUpdate(selection,{hairState}={}) -> prepared update or {applied:false,cancelled:true,reason:cancelled}. Fresh requests increment the actual layer revision and dispose older uncommitted candidates.",
+    "prepared": "{revision,isCurrent(),validateCommit(),commit(),dispose()}",
+    "revision": "getState().revision exposes the same revision ticket. status prepared and requested show a staged intent while selection and visible equipment remain unchanged.",
+    "hairState": "Optional structuredClone of a final hair descriptor object. Booleans/functions/skip options reject. Hat prepare and validateCommit use the same exact original assertHatHairSelection with this snapshot. Without it, current getHairState is checked.",
+    "commit": "Synchronous, no network or loader work. Revalidates freshness and actual current getHairState before and after head attachment. Old group is hidden and retained for cleanup. It rejects and releases the new candidate if actual hair/face does not match.",
+    "dispose": "Before commit releases only the new hidden candidate. After commit releases only the previous group. Idempotent and safe after a newer commit or owner disposal. Template source remains the actor-owned bounded cache until layer disposal.",
+    "setSelection": "Retains existing result/error semantics and synchronous none removal/cancellation. Internally uses the same transaction kernel then disposes old resources.",
+    "ownerDispose": "Invalidates revision, disposes pending/committed cleanup records, current group and cached source exactly once."
+  },
+  "checks": {
+    "transaction": {
+      "passed": 11,
+      "report": "transaction-report-v1.json",
+      "command": "node evidence/m2-accessory-transaction-v1/probe.mjs root-transaction.json"
+    },
+    "legacyEar": {
+      "passed": 16,
+      "report": "legacy-ear-report.json",
+      "command": "node evidence/m2-accessory-transaction-v1/legacy-ear.mjs > evidence/m2-accessory-transaction-v1/root-ear.json"
+    },
+    "legacyHat": {
+      "passed": 35,
+      "report": "legacy-hat-report.json",
+      "command": "node evidence/m2-accessory-transaction-v1/legacy-hat.mjs root-hat.json"
+    }
+  },
+  "build": {
+    "passed": true,
+    "id": "069aa5f83b3e",
+    "command": "npm run build",
+    "cwd": "prototype",
+    "warning": "Existing Vite large-chunk warning"
+  },
+  "sourceAssets": {
+    "ears": "e07f8b1078ba125e186dae5627352ade4bcb3f0ef649645b5168ece82a81b146",
+    "hat": "21e1a23238b046106d2822f5821384502c6ec39c755cd78e6f17b1f1c4241bb7",
+    "hair": "1b785f9d54107818cee39eda2de7263ad0720ce90968fbaa7cc32c2465e3c385"
+  },
+  "limits": [
+    "Lifecycle tests use actual published ear/hat GLTFLoader resources and CPU raw-head fixtures. Final-hair test uses actual original female VRM and actual character appearance loading the exact v2 long-hair resource.",
+    "Texture decode uses1x1 CPU data. No GPU/browser, controller, recipe, workbench, source art or document changes.",
+    "Final neutral face and final hat-none dependency context preflight belongs root recipe integration. This module still checks actual getHairState during hat commit; snapshot preparation cannot bypass the final current-state guard."
+  ]
+}

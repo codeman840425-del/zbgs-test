@@ -91,6 +91,7 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
   let disposed = false, revision = 0, selection = 'none', desired = 'none';
   let status = 'ready', error = null, active = null, template = null, loading = null;
   const candidates = new Set(), releasedGroups = new WeakSet();
+  const pendingUpdates = new Set(), committedUpdates = new Set();
   const cleanupErrors = [];
   const release = object => { try { object.dispose(); } catch (failure) { cleanupErrors.push(String(failure.message ?? failure)); } };
   function releaseInstances(group) {
@@ -164,77 +165,138 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
   function getState() {
     return { schema: 'zbgs-rigid-accessory-layer-state-v1', kind, bodyMode, effectiveSelection:bodyMode==='base'?'none':selection, styleId: manifest?.styleId ?? null, pairId: manifest?.pairId ?? null,
       fitId: fit?.fitId ?? null, avatarSha256, assetSha256: manifest?.asset.sha256 ?? null, selection,
-      requested: status === 'loading' ? desired : null, status, error, disposed,
+      requested: status === 'loading' || status === 'prepared' ? desired : null, status, error, disposed, revision,
       instances: selection === 'none' ? [] : manifest.instances.filter(instance => selection === 'pair' || selection === instance.side)
         .map(instance => ({ id: instance.id, side: instance.side, socket: instance.socket })),
       cachedGeometries: template?.geometryCount ?? 0, hairDependency:fit?.hairDependency ? {...fit.hairDependency} : null, manifestSha256:manifestSha256 ?? null, cleanupErrors: [...cleanupErrors] };
   }
-  return {
-    async setSelection(value) {
-      require((kind==='hat'?['none','single']:['none','left','right','pair']).includes(value), 'Unsupported rigid accessory selection');
-      require(!disposed, 'Rigid accessory layer is disposed');
-      const ticket = ++revision;
-      const current = () => !disposed && ticket === revision;
-      desired = value; error = null;
-      if (value === 'none') {
-        const previous = active;
-        active = null; selection = 'none'; status = 'ready';
-        releaseInstances(previous);
-        if (!current()) return { applied: false, reason: 'cancelled' };
-        return { applied: true, state: getState() };
-      }
-      status = 'loading';
-      let prepared = null;
+  const cancelled = () => ({applied:false,cancelled:true,reason:'cancelled'});
+  function markFailure(failure,ticket) {
+    if(!disposed && ticket===revision){status='error';error=String(failure.message??failure);}
+  }
+  function assertTargetHair(value,hairState) {
+    if(kind!=='hat' || value==='none')return;
+    if(hairState===undefined)assertCurrentHatHair();
+    else assertHatHairSelection(hairState,fit,hatHairEntry);
+  }
+  function preparedUpdate(value,ticket,candidate,hairState) {
+    let live=true,committed=false,cleaned=false,previous=null;
+    const current=()=>live && !disposed && ticket===revision;
+    const update={
+      revision:ticket,
+      isCurrent:current,
+      validateCommit(){
+        require(current(),'Rigid accessory preparation expired');
+        assertTargetHair(value,hairState);
+      },
+      commit(){
+        try {
+          update.validateCommit();
+          // Final-combination preflight can use a descriptor snapshot. The
+          // synchronous commit always checks the actual current hair and face.
+          if(value!=='none')assertCurrentHatHair();
+          if(candidate)head.add(candidate);
+          require(current(),'Rigid accessory preparation expired');
+          if(value!=='none')assertCurrentHatHair();
+          require(current(),'Rigid accessory preparation expired');
+          previous=active;
+          if(previous)previous.visible=false;
+          active=candidate;selection=value;desired=value;status='ready';
+          if(candidate){candidates.delete(candidate);candidate.visible=bodyMode!=='base';}
+          live=false;committed=true;pendingUpdates.delete(update);committedUpdates.add(update);
+          return {applied:true,state:getState()};
+        }catch(failure){markFailure(failure,ticket);update.dispose();throw failure;}
+      },
+      dispose(){
+        if(cleaned)return;
+        cleaned=true;live=false;pendingUpdates.delete(update);committedUpdates.delete(update);
+        if(committed)releaseInstances(previous);
+        else {
+          candidates.delete(candidate);releaseInstances(candidate);
+          if(!disposed && ticket===revision){desired=selection;if(status!=='error')status='ready';}
+        }
+      },
+    };
+    pendingUpdates.add(update);status='prepared';
+    return update;
+  }
+  function beginUpdate(value,options={}) {
+    require((kind==='hat'?['none','single']:['none','left','right','pair']).includes(value),'Unsupported rigid accessory selection');
+    require(!disposed,'Rigid accessory layer is disposed');
+    require(options && typeof options==='object' && !Array.isArray(options) &&
+      Object.keys(options).every(key=>key==='hairState'),'Unsupported rigid accessory preparation options');
+    let hairState;
+    if(Object.hasOwn(options,'hairState')){
+      require(options.hairState && typeof options.hairState==='object' && !Array.isArray(options.hairState),
+        'Final hair state must be a data snapshot');
+      hairState=structuredClone(options.hairState);
+    }
+    const ticket=++revision,current=()=>!disposed && ticket===revision;
+    desired=value;error=null;status='loading';
+    // Superseding a ready preparation releases only its hidden candidate.
+    // Successfully committed updates retain their old resources until dispose.
+    for(const update of [...pendingUpdates])update.dispose();
+    if(!current())return cancelled();
+    if(value==='none')return preparedUpdate(value,ticket,null,hairState);
+    return (async()=>{
+      let candidate=null;
       try {
-        let ready = await loadStyle();
-        if (!ready && !disposed && ticket === revision) ready = await loadStyle();
-        if (disposed || ticket !== revision || !ready) return { applied: false, reason: 'cancelled' };
-        assertCurrentHatHair();
-        let source = await loadTemplate();
-        if (!source && !disposed && ticket === revision) source = await loadTemplate();
-        if (disposed || ticket !== revision || !source) return { applied: false, reason: 'cancelled' };
-        assertCurrentHatHair();
-        prepared = new THREE.Group(); prepared.name = `RigidAccessory:${manifest.pairId ?? manifest.styleId}`;
-        prepared.visible = false; candidates.add(prepared);
-        for (const instance of manifest.instances.filter(instance => value === 'pair' || value === instance.side)) {
-          if (!current()) return { applied: false, reason: 'cancelled' };
-          const mount = fit.mounts.find(mount => mount.instanceId === instance.id);
-          const clonedMaterials = new Map();
-          for(const original of source.meshes) {
-            const mesh = original.clone(false);
-            if (!current()) return { applied: false, reason: 'cancelled' };
-            let material = clonedMaterials.get(original.material);
-            if(!material) {
-              material = original.material.clone();
-              if (!current()) { release(material); return { applied: false, reason: 'cancelled' }; }
+        let ready=await loadStyle();
+        if(!ready && current())ready=await loadStyle();
+        if(!current() || !ready)return cancelled();
+        assertTargetHair(value,hairState);
+        let source=await loadTemplate();
+        if(!source && current())source=await loadTemplate();
+        if(!current() || !source)return cancelled();
+        assertTargetHair(value,hairState);
+        candidate=new THREE.Group();candidate.name=`RigidAccessory:${manifest.pairId??manifest.styleId}`;
+        candidate.visible=false;candidates.add(candidate);
+        for(const instance of manifest.instances.filter(instance=>value==='pair'||value===instance.side)){
+          if(!current())return cancelled();
+          const mount=fit.mounts.find(mount=>mount.instanceId===instance.id),clonedMaterials=new Map();
+          for(const original of source.meshes){
+            const mesh=original.clone(false);
+            if(!current())return cancelled();
+            let material=clonedMaterials.get(original.material);
+            if(!material){
+              material=original.material.clone();
+              if(!current()){release(material);return cancelled();}
               clonedMaterials.set(original.material,material);
             }
-            mesh.material = material;
-            mesh.name = source.meshes.length===1 ? instance.id : `${instance.id}:${original.name}`;
-            mesh.position.fromArray(mount.position); mesh.quaternion.fromArray(mount.quaternion); mesh.scale.fromArray(mount.scale);
-            mesh.userData = { rigidAccessoryId: instance.id, side: instance.side, socket: instance.socket, styleId: manifest.styleId };
-            prepared.add(mesh);
+            mesh.material=material;
+            mesh.name=source.meshes.length===1?instance.id:`${instance.id}:${original.name}`;
+            mesh.position.fromArray(mount.position);mesh.quaternion.fromArray(mount.quaternion);mesh.scale.fromArray(mount.scale);
+            mesh.userData={rigidAccessoryId:instance.id,side:instance.side,socket:instance.socket,styleId:manifest.styleId};
+            candidate.add(mesh);
           }
         }
-        if (!current()) return { applied: false, reason: 'cancelled' };
-        head.add(prepared);
-        if (!current()) return { applied: false, reason: 'cancelled' };
-        assertCurrentHatHair();
-        if (!current()) return { applied: false, reason: 'cancelled' };
-        const previous = active;
-        candidates.delete(prepared); prepared.visible = bodyMode!=='base';
-        active = prepared; prepared = null; selection = value; status = 'ready';
-        releaseInstances(previous);
-        if (!current()) return { applied: false, reason: 'cancelled' };
-        return { applied: true, state: getState() };
-      } catch (failure) {
-        if (disposed || ticket !== revision) return { applied: false, reason: 'cancelled' };
-        status = 'error'; error = String(failure.message ?? failure);
-        throw failure;
-      } finally {
-        if (prepared) { candidates.delete(prepared); releaseInstances(prepared); }
-      }
-    },
+        if(!current())return cancelled();
+        const update=preparedUpdate(value,ticket,candidate,hairState);candidate=null;
+        return update;
+      }catch(failure){
+        if(!current())return cancelled();
+        markFailure(failure,ticket);throw failure;
+      }finally{if(candidate){candidates.delete(candidate);releaseInstances(candidate);}}
+    })();
+  }
+  async function setSelection(value) {
+    const job=beginUpdate(value),ticket=revision;
+    let update,result;
+    try {
+      // Preserve the existing synchronous removal/cancellation path for none.
+      update=value==='none'?job:await job;
+      if(!update.commit)return {applied:false,reason:'cancelled'};
+      result=update.commit();
+    }catch(failure){
+      if(disposed || ticket!==revision)return {applied:false,reason:'cancelled'};
+      markFailure(failure,ticket);throw failure;
+    }finally{update?.dispose?.();}
+    if(disposed || ticket!==revision)return {applied:false,reason:'cancelled'};
+    return {...result,state:getState()};
+  }
+  return {
+    setSelection,
+    async prepareUpdate(value,options){return beginUpdate(value,options);},
     getState,
     assertHairSelection(descriptor) {
       if(kind==='hat' && selection!=='none' && !disposed)assertHatHairSelection(descriptor,fit,hatHairEntry);
@@ -250,6 +312,7 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
       disposed = true; revision++; desired = 'none'; selection = 'none'; status = 'disposed';
       const previous = active, source = template, preparing = [...candidates];
       active = null; template = null; candidates.clear();
+      for(const update of [...pendingUpdates,...committedUpdates])update.dispose();
       releaseInstances(previous);
       for (const group of preparing) releaseInstances(group);
       if (source) releaseSource(source.scene);
