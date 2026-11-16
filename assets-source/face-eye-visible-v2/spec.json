@@ -1,0 +1,47 @@
+{
+  "schema": "face-eye-fixed-source-sample-v1",
+  "sampleId": "aperture-width105-v2",
+  "parameter": "eyeApertureWidthFactor",
+  "endpoint": 1.05,
+  "default": 1.0,
+  "rangeStatus": "Only original and fixed 1.05 endpoint; no continuous or signed range admission.",
+  "readOnlyStudyPath": "assets-source/face-eye-parameters-v1/measurements.json",
+  "readOnlyStudySha256": "62f5bc9c1f41df136f6d10593f9dd505a22f36cbd5896a12d536120af39e4022",
+  "selectionSha256": "cb9b9494c20f57fbf554a79258f4c6c4d437d5fa15bbe1a30575c34f3e23edf4",
+  "toolchain": {
+    "blender": "4.5.9",
+    "vrmAddon": [
+      4,
+      10,
+      5
+    ]
+  },
+  "selectionRule": "Per-side original aperture midpoint fixed. Head skin ring+8mm graph fade and complete same-side White/Eyeline/Eyelash use fixed affine X coefficients. No nearest-point root binding. Iris/Highlight/Extra/Brow and other sources preserved.",
+  "normalPipeline": "Raw native exports retained; final independently recalculates each absolute shape on complete Face adjacency and replaces only affected triangle vertex normals; other original authored normals preserved.",
+  "bodies": {
+    "female": {
+      "sourceBlend": "assets-source/foundation/base-female-editable.blend",
+      "sourceBlendSha256": "bcfd5d2c99d7f9e53ca0a6b4fb7f42f1ce740a87b86777c276c1fa1094f520c7",
+      "sourceVRM": "prototype/public/assets/foundation/base-female-roundtrip.vrm",
+      "sourceVRMSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+      "skinMaterial": "F00_000_00_Face_00_SKIN",
+      "mouthMaterial": "F00_000_00_FaceMouth_00_FACE",
+      "expectedShapeKeys": 57,
+      "expectedPositionCount": 2055,
+      "expectedSelectedVertices": 632,
+      "expectedBasisActuallyChangedVertices": 632
+    },
+    "male": {
+      "sourceBlend": "assets-source/foundation-male/base-male-candidate-editable.blend",
+      "sourceBlendSha256": "c076d81ce83baad19c356053d9dba5af47ec8f88476d9153e8e0922ae7662751",
+      "sourceVRM": "prototype/public/assets/foundation/base-male-roundtrip.vrm",
+      "sourceVRMSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+      "skinMaterial": "M00_000_00_Face_00_SKIN",
+      "mouthMaterial": "M00_000_00_FaceMouth_00_FACE",
+      "expectedShapeKeys": 55,
+      "expectedPositionCount": 2056,
+      "expectedSelectedVertices": 630,
+      "expectedBasisActuallyChangedVertices": 630
+    }
+  }
+}

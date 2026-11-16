@@ -1,0 +1,45 @@
+{
+  "schema": "face-nose-source-endpoint-v2",
+  "sampleId": "tip-forward2-v2",
+  "parameter": "noseTipProtrusionM",
+  "endpoint": 0.002,
+  "rangeStatus": "Only zero and fixed +2mm endpoint; no signed/continuous range admission.",
+  "geodesicRadiusM": 0.008,
+  "plateauRadiusM": 0.002,
+  "measurementSha256": "24cc599689e50c4dbf2fe91237f599f6999f4ea8e493e13000f7cd8af2b7b9c4",
+  "toolchain": {
+    "blender": "4.5.9",
+    "vrmAddon": [
+      4,
+      10,
+      5
+    ]
+  },
+  "normalPipeline": "Retain native addon raw exports. Deterministic post-export independent Basis/absolute-shape normals on full Face adjacency; replace only nose-affected triangle vertex neighborhood; preserve source normals elsewhere; emit relative NORMAL targets.",
+  "bodies": {
+    "female": {
+      "sourceBlend": "assets-source/foundation/base-female-editable.blend",
+      "sourceBlendSha256": "bcfd5d2c99d7f9e53ca0a6b4fb7f42f1ce740a87b86777c276c1fa1094f520c7",
+      "sourceVRM": "prototype/public/assets/foundation/base-female-roundtrip.vrm",
+      "sourceVRMSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+      "skinMaterial": "F00_000_00_Face_00_SKIN",
+      "mouthMaterial": "F00_000_00_FaceMouth_00_FACE",
+      "expectedShapeKeys": 57,
+      "expectedMovedVertices": 9,
+      "sourceMapRecipe": "assets-source/face-parameters-v1/female-mouth-width.recipe.json",
+      "sourceMapRecipeSha256": "7818eb8e1f1c2ac194d3dd5950dc9de1f875fcad137546bfd5ae69c520ea06c1"
+    },
+    "male": {
+      "sourceBlend": "assets-source/foundation-male/base-male-candidate-editable.blend",
+      "sourceBlendSha256": "c076d81ce83baad19c356053d9dba5af47ec8f88476d9153e8e0922ae7662751",
+      "sourceVRM": "prototype/public/assets/foundation/base-male-roundtrip.vrm",
+      "sourceVRMSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+      "skinMaterial": "M00_000_00_Face_00_SKIN",
+      "mouthMaterial": "M00_000_00_FaceMouth_00_FACE",
+      "expectedShapeKeys": 55,
+      "expectedMovedVertices": 7,
+      "sourceMapRecipe": "assets-source/face-parameters-v1/male-mouth-width.recipe.json",
+      "sourceMapRecipeSha256": "a9acdcd5866786b031c4e3ec16fde91f77d97fbda08636f061dc742499c6ed6e"
+    }
+  }
+}

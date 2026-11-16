@@ -1,0 +1,41 @@
+{
+  "schema": "mouth-visible-source-v2",
+  "parameter": "mouthWidth",
+  "factors": [
+    0.88,
+    1.12
+  ],
+  "transitionGeodesicM": 0.024,
+  "sourceSpace": "Blender original Face mesh local, X lateral / Y forward / Z up, metres",
+  "mapping": "Basis-fixed per-vertex affine X scaling; all absolute shape keys transformed, deltaNew=A_i*deltaOld",
+  "toolchain": {
+    "blender": "4.5.9",
+    "vrmAddon": [
+      4,
+      10,
+      5
+    ]
+  },
+  "bodies": {
+    "female": {
+      "sourceBlend": "assets-source/foundation/base-female-editable.blend",
+      "sourceBlendSha256": "bcfd5d2c99d7f9e53ca0a6b4fb7f42f1ce740a87b86777c276c1fa1094f520c7",
+      "sourceVRM": "prototype/public/assets/foundation/base-female-roundtrip.vrm",
+      "sourceVRMSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+      "skinMaterial": "F00_000_00_Face_00_SKIN",
+      "mouthMaterial": "F00_000_00_FaceMouth_00_FACE",
+      "expectedShapeKeys": 57
+    },
+    "male": {
+      "sourceBlend": "assets-source/foundation-male/base-male-candidate-editable.blend",
+      "sourceBlendSha256": "c076d81ce83baad19c356053d9dba5af47ec8f88476d9153e8e0922ae7662751",
+      "sourceVRM": "prototype/public/assets/foundation/base-male-roundtrip.vrm",
+      "sourceVRMSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+      "skinMaterial": "M00_000_00_Face_00_SKIN",
+      "mouthMaterial": "M00_000_00_FaceMouth_00_FACE",
+      "expectedShapeKeys": 55
+    }
+  },
+  "operatorRationale": "One fixed 24 mm skin geodesic transition: 3x existing 8 mm for 3x amplitude. Non-seam-connected oral components protected in all shapes; cavity wall linked to rim. No parameter scan.",
+  "runtimeAdmitted": false
+}

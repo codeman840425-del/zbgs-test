@@ -34,10 +34,10 @@ export function bindAppearanceWorkbench({ controller }) {
   const note = panel.querySelector('#appearance-style-note');
   const geometryPanel=document.createElement('details');
   geometryPanel.id='appearance-geometry';
-  geometryPanel.innerHTML='<summary>面部几何 · 有限样件</summary><p class="appearance-hint" id="face-geometry-note">嘴宽 ±4%；其他五官参数仍在制作。</p><label for="mouth-width">嘴宽变化（%）</label><div class="appearance-pair"><input id="mouth-width" type="number" min="-4" max="4" step="0.1" value="0"><button type="button" id="mouth-width-reset">只恢复嘴宽</button></div><label for="brow-sample">眉部位置对照</label><select id="brow-sample"><option value="none">原位</option><option value="height1-spacing1-v1">上移 1 mm · 两侧各外移 1 mm</option></select><p class="appearance-hint">眉部目前只有这一个组合样件，不代表连续调整范围已通过。</p>';
-  geometryPanel.insertAdjacentHTML('beforeend','<label for="nose-sample">鼻尖位置对照</label><select id="nose-sample"><option value="none">原位</option><option value="tip-forward05-v1">鼻尖向前 0.5 mm</option></select><p class="appearance-hint">鼻部仅此端点，未开放连续范围。</p>');
+  geometryPanel.innerHTML='<summary>面部几何 · 有限样件</summary><p class="appearance-hint" id="face-geometry-note">读取当前基模可用的几何样件…</p><label for="mouth-width">嘴宽变化（%）</label><div class="appearance-pair"><input id="mouth-width" type="number" min="-4" max="4" step="0.1" value="0"><button type="button" id="mouth-width-reset">只恢复嘴宽</button></div><label for="brow-sample">眉部位置对照</label><select id="brow-sample"><option value="none">原位</option><option value="height1-spacing1-v1">上移 1 mm · 两侧各外移 1 mm</option></select><p class="appearance-hint">眉位按已制作的组合样件选择，正侧面均可比较。</p>';
+  geometryPanel.insertAdjacentHTML('beforeend','<label for="nose-sample">鼻尖位置对照</label><select id="nose-sample"><option value="none">原位</option><option value="tip-forward05-v1">鼻尖向前 0.5 mm</option></select><p class="appearance-hint">鼻尖使用已制作端点，切到侧面可比较轮廓。</p>');
   fields.prepend(geometryPanel);
-  geometryPanel.insertAdjacentHTML('beforeend','<label for="eye-sample">眼裂宽度对照</label><select id="eye-sample"><option value="none">原位</option><option value="aperture-width101-v1">眼裂宽 +1%</option></select><p class="appearance-hint">眼部仅此端点，未开放连续范围。</p>');
+  geometryPanel.insertAdjacentHTML('beforeend','<label for="eye-sample">眼裂宽度对照</label><select id="eye-sample"><option value="none">原位</option><option value="aperture-width101-v1">眼裂宽 +1%</option></select><p class="appearance-hint">眼裂宽度使用已制作端点，需结合眨眼和视线检查。</p>');
   const eyeGeometry=geometryPanel.querySelector('#eye-sample');
   const nose=geometryPanel.querySelector('#nose-sample');
   const mouth=geometryPanel.querySelector('#mouth-width'),faceNote=geometryPanel.querySelector('#face-geometry-note'),brow=geometryPanel.querySelector('#brow-sample');
@@ -84,6 +84,8 @@ export function bindAppearanceWorkbench({ controller }) {
   const preview = document.createElement('div'); preview.className = 'workbench-preview';
   viewport.before(preview); preview.append(toolbar, viewport);
   const roomButton = viewport.querySelector('[data-camera="room"]');
+  roomButton.textContent = '房间移动';
+  roomButton.title = '切到房间全景，点击地面选择移动目的地';
   toolbar.append(roomButton);
   viewport.querySelector('.camera-tools').hidden = true;
   const move = (selector, destination) => {
@@ -101,11 +103,38 @@ export function bindAppearanceWorkbench({ controller }) {
   const idleButton = actionButtons.querySelector('[data-action="idle"]');
   const transport = navigation.querySelector('#workbench-transport');
   transport.append(aside.querySelector('#pause'), idleButton);
+  const hasMovement=()=>!!(controller.target||controller.pending?.type==='walk'||
+    controller.sequence.slice(Math.max(0,controller.sequenceIndex)).some(step=>step.type==='walk'));
+  on(idleButton,'click',()=>message(controller.paused
+    ? '停止请求已提交；当前暂停，点击“继续”完成动作过渡。'
+    : '停止请求已提交，人物正在恢复站立。'));
   const actionsTitle = move('#actions-title', actionsPage);
   actionsTitle.textContent = '基础移动';
+  const movementEntry = document.createElement('button');
+  movementEntry.id = 'workbench-room-move'; movementEntry.type = 'button';
+  movementEntry.textContent = '在房间中选择移动目的地';
+  on(movementEntry,'click',()=>roomButton.click()); actionsPage.append(movementEntry);
+  const movementNote = document.createElement('p'); movementNote.className='appearance-hint';
+  movementNote.textContent='先选速度，再点击房间地面或下方路线开始移动。暂停时点击“继续”播放。';
+  actionsPage.append(movementNote);
   actionsPage.append(actionButtons);
   move('.control', actionsPage);
   move('.routes', actionsPage);
+  for(const button of aside.querySelectorAll('[data-speed]')) {
+    if(Number(button.dataset.speed)>=1.85)button.textContent='跑步速度';
+    on(button,'click',()=>message(hasMovement()?'已调整移动速度。':'速度已选择；请点“房间移动”选择目的地，或启动下方路线。'));
+  }
+  const movementFeedback=event=>message(event.text,event.error);
+  controller.game.events.on('movement-feedback',movementFeedback);
+  listeners.push(()=>controller.game.events.off('movement-feedback',movementFeedback));
+  const pauseFeedback=paused=>{
+    const hasDestination=hasMovement();
+    message(paused
+      ? hasDestination?'已暂停，目的地保留；点击“继续”恢复移动。':'已暂停；点击“继续”恢复播放。'
+      : hasDestination?'已继续，正在前往所选目的地。':'已继续播放。');
+  };
+  controller.game.events.on('pause-state-changed',pauseFeedback);
+  listeners.push(()=>controller.game.events.off('pause-state-changed',pauseFeedback));
   move('.playback', actionsPage); // Retains the original reset button.
   const resetPosition=document.querySelector('#reset');resetPosition.textContent='重置位置与动作';
   // main bound onclick before this workbench is mounted; preserve its reset.
@@ -182,12 +211,36 @@ export function bindAppearanceWorkbench({ controller }) {
     note.textContent = actual.bodyMode==='base' ? '基础人体当前无发；返回穿衣模式后恢复所选发型。' : '这里只列出此人物可用的发型，无发保留眉毛与睫毛。';
     const geometry=actor().facialGeometry?.getState();
     mouth.disabled=!geometry?.available;mouth.value=String(Math.round((geometry?.mouthWidth||0)*1000)/10);
-    const discrete=Array.isArray(geometry?.mouthSupportedValues);mouth.hidden=discrete;mouthSample.hidden=!discrete;mouthSample.disabled=!geometry?.available;if(discrete)mouthSample.replaceChildren(...geometry.mouthSupportedValues.map(value=>{const option=document.createElement('option');option.value=String(value);option.textContent=value===0?'原位':`嘴宽 ${value>0?'+':''}${value*100}%`;return option;}));mouthSample.value=String(geometry?.mouthWidth||0);geometryPanel.querySelector('label[for="mouth-width"],label[for="mouth-width-sample"]').htmlFor=discrete?'mouth-width-sample':'mouth-width';
+    const discrete=Array.isArray(geometry?.mouthSupportedValues);
+    const extended=!!geometry?.mouthEndpointValues?.length;
+    const useSamples=discrete||extended;
+    mouth.hidden=useSamples;mouthSample.hidden=!useSamples;mouthSample.disabled=!geometry?.available;
+    if(useSamples){
+      const values=discrete?[...geometry.mouthSupportedValues]:[-.04,0,.04,...geometry.mouthEndpointValues];
+      if(!values.includes(geometry.mouthWidth))values.push(geometry.mouthWidth);
+      mouthSample.replaceChildren(...[...new Set(values)].sort((a,b)=>a-b).map(value=>{
+        const option=document.createElement('option');option.value=String(value);
+        option.textContent=value===0?'原位':`嘴宽 ${value>0?'+':''}${Math.round(value*1000)/10}%`;
+        return option;
+      }));
+    }
+    mouthSample.value=String(geometry?.mouthWidth||0);
+    geometryPanel.querySelector('label[for="mouth-width"],label[for="mouth-width-sample"]').htmlFor=useSamples?'mouth-width-sample':'mouth-width';
     geometryPanel.querySelector('#mouth-width-reset').disabled=!geometry?.available;
-    brow.disabled=!geometry?.browAvailable;brow.value=geometry?.browSample||'none';
-    nose.disabled=!geometry?.noseAvailable;nose.value=geometry?.noseSample||'none';
-    eyeGeometry.disabled=!geometry?.eyeAvailable;eyeGeometry.value=geometry?.eyeSample||'none';
-    faceNote.textContent=geometry?.available?(discrete?'此下颌样件嘴宽仅原位 / +4%；眉、鼻、眼几何尚未适配。':'真实嘴宽几何 ±4%；眉、鼻、眼各一个离散样件。'):'此基模尚无面部几何配方。';
+    const labels={
+      none:'原位','height1-spacing1-v1':'上移 1 mm · 两侧各外移 1 mm',
+      'height3-spacing3-v2':'上移 3 mm · 两侧各外移 3 mm',
+      'tip-forward05-v1':'鼻尖向前 0.5 mm','tip-forward2-v2':'鼻尖向前 2 mm',
+      'aperture-width101-v1':'眼裂宽 +1%','aperture-width105-v2':'眼裂宽 +5%',
+    };
+    for(const [select,key] of [[brow,'brow'],[nose,'nose'],[eyeGeometry,'eye']]){
+      const ids=geometry?.[key+'Samples']||[...select.options].map(o=>o.value);
+      select.replaceChildren(...ids.map(id=>{const option=document.createElement('option');option.value=id;option.textContent=labels[id]||id;return option;}));
+      select.disabled=!geometry?.[key+'Available'];select.value=geometry?.[key+'Sample']||'none';
+    }
+    faceNote.textContent=!geometry?.available?'此基模尚无面部几何配方。':extended
+      ?'大幅对照：嘴宽 ±12%、眉位 3 mm、鼻尖 2 mm、眼裂宽 +5%。旧小幅样件保留；新幅度是离散样件，不代表任意组合已验收。'
+      :discrete?'此下颌样件嘴宽仅原位 / +4%；眉、鼻、眼几何尚未适配。':'真实嘴宽几何 ±4%；眉、鼻、眼按已制作样件选择。';
   }
   async function apply(patch) {
     if (busy || disposed) return;
@@ -208,15 +261,25 @@ export function bindAppearanceWorkbench({ controller }) {
       if (!disposed) setBusy(false);
     }
   }
+  function reflectCamera(name) {
+      if(name!=='room'&&!name.startsWith('inspect-'))return;
+      roomView=name==='room';
+      if(!roomView)[,framing,direction]=name.split('-');
+      for (const button of toolbar.querySelectorAll('[data-inspect-framing]')) button.setAttribute('aria-pressed', String(!roomView && button.dataset.inspectFraming === framing));
+      for (const button of toolbar.querySelectorAll('[data-inspect-direction]')) button.setAttribute('aria-pressed', String(!roomView && button.dataset.inspectDirection === direction));
+      roomButton.setAttribute('aria-pressed', String(roomView));
+      const hint=viewport.querySelector('.scene-bottom > span:last-child');
+      if(hint)hint.textContent=roomView?'点击地面移动 · 拖动观察 · 滚轮缩放':'外观审查镜头 · 点击“房间移动”选择目的地';
+      const next = new URL(window.location.href); next.searchParams.set('view', name);
+      window.history.replaceState(window.history.state, '', next);
+  }
+  controller.game.events.on('camera-changed',reflectCamera);
+  listeners.push(()=>controller.game.events.off('camera-changed',reflectCamera));
   function camera() {
     const name = roomView ? 'room' : `inspect-${framing}-${direction}`;
     try {
       controller.cameraPreset(name);
-      for (const button of toolbar.querySelectorAll('[data-inspect-framing]')) button.setAttribute('aria-pressed', String(!roomView && button.dataset.inspectFraming === framing));
-      for (const button of toolbar.querySelectorAll('[data-inspect-direction]')) button.setAttribute('aria-pressed', String(!roomView && button.dataset.inspectDirection === direction));
-      roomButton.setAttribute('aria-pressed', String(roomView));
-      const next = new URL(window.location.href); next.searchParams.set('view', name);
-      window.history.replaceState(window.history.state, '', next);
+      reflectCamera(name);
     } catch (error) { message(`镜头切换失败：${error.message || error}`, true); }
   }
   on(form, 'submit', event => event.preventDefault());
@@ -342,10 +405,8 @@ export function bindAppearanceWorkbench({ controller }) {
   for (const button of toolbar.querySelectorAll('[data-inspect-direction]')) on(button, 'click', () => { roomView = false; direction = button.dataset.inspectDirection; camera(); });
   // main's original room handler already applies the camera; only sync UI here.
   on(roomButton, 'click', () => {
-    roomView = true;
-    for (const button of toolbar.querySelectorAll('[aria-pressed]')) button.setAttribute('aria-pressed', String(button === roomButton));
-    const next = new URL(window.location.href); next.searchParams.set('view', 'room');
-    window.history.replaceState(window.history.state, '', next);
+    reflectCamera('room');
+    message(controller.paused?'请选择地面目的地；当前暂停，点击“继续”后移动。':'请点击房间内的地面空位，人物会走向该处。');
   });
   // Reuse the existing selector and its existing event handler, never duplicate it.
   const danceSelect = document.querySelector('select[aria-label="舞蹈样件"]');

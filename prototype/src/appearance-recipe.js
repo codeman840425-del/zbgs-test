@@ -1,12 +1,13 @@
 import {HAIR_COLORS,SKIN_TONES} from './character-appearance.js';
 import {EYE_COLORS,LIP_COLORS} from './facial-palette.js';
+import {FACIAL_PALETTE_VERSION as PALETTE,LEGACY_FACIAL_PALETTE_VERSION as LEGACY_PALETTE} from './facial-palette-contract.js';
+import {mouthValueSupported,faceSampleSupported} from './facial-geometry-contract.js';
 
-const SCHEMA='workbench-appearance-recipe-v4';
-const RULES='workbench-appearance-rules-v4';
+const SCHEMA='workbench-appearance-recipe-v5';
+const RULES='workbench-appearance-rules-v5';
 const BROW_SAMPLE='height1-spacing1-v1';
 const NOSE_SAMPLE='tip-forward05-v1';
 const EYE_SAMPLE='aperture-width101-v1';
-const PALETTE='appearance-color-v1:4c3b817065283d2256990ddeeb17ef0772ced1c1e299cff5e9d0ce1a3c23042c';
 const fields=['hairStyle','hairColor','skinTone','eyeColor','lipColor'];
 export const appearanceDraftKey=bodyType=>'zbgs:appearance-draft:v1:'+bodyType;
 export function captureAppearanceRecipe(controller){
@@ -29,7 +30,9 @@ export function validateAppearanceRecipe(controller,record){
  const legacy=record?.schema==='workbench-appearance-recipe-v1'&&record.rulesVersion==='workbench-appearance-rules-v1';
  const legacyBrow=record?.schema==='workbench-appearance-recipe-v2'&&record.rulesVersion==='workbench-appearance-rules-v2';
  const legacyNose=record?.schema==='workbench-appearance-recipe-v3'&&record.rulesVersion==='workbench-appearance-rules-v3';
- if((!legacy&&!legacyBrow&&!legacyNose&&(record?.schema!==SCHEMA||record.rulesVersion!==RULES))||record.paletteVersion!==PALETTE)
+ const legacyEye=record?.schema==='workbench-appearance-recipe-v4'&&record.rulesVersion==='workbench-appearance-rules-v4';
+ const oldGeometry=legacy||legacyBrow||legacyNose||legacyEye;
+ if((!oldGeometry&&(record?.schema!==SCHEMA||record.rulesVersion!==RULES))||![PALETTE,LEGACY_PALETTE].includes(record.paletteVersion))
   throw Error('外观配方版本不兼容，已保留当前外观');
  if(legacy&&(record.geometry?.browSample!==undefined||record.geometry?.browRecipeSha256!==undefined))throw Error('旧版配方不能携带新版眉部数据');
  if((legacy||legacyBrow)&&(record.geometry?.noseSample!==undefined||record.geometry?.noseRecipeSha256!==undefined))throw Error('旧版配方不能携带新版鼻部数据');
@@ -41,19 +44,18 @@ export function validateAppearanceRecipe(controller,record){
   if(!Object.hasOwn(choices,record.appearance[key]))throw Error('未知配色：'+key);
  const v=record.geometry?.mouthWidth;
  const mouthCapability=a.facialGeometry.getState();
- if(Array.isArray(mouthCapability.mouthSupportedValues)&&!mouthCapability.mouthSupportedValues.includes(v))throw Error('此身体嘴宽仅支持已制作的离散样件');
- if(!Number.isFinite(v)||v<-.04||v>.04)throw Error('嘴宽参数不在已制作范围内');
+ if(!mouthValueSupported(mouthCapability,v)||(oldGeometry&&(v<-.04||v>.04)))throw Error('嘴宽参数不在该版本已制作范围内');
  if(v&&(!a.facialGeometry.getState().available||!/^[a-f0-9]{64}$/.test(record.geometry.recipeSha256||'')))throw Error('此身体尚无对应嘴宽几何配方');
  const brow=legacy?'none':record.geometry.browSample;
- if(!['none',BROW_SAMPLE].includes(brow))throw Error('眉部样件不在已制作范围内');
+ if(!faceSampleSupported(mouthCapability,'brow',brow)||(oldGeometry&&!['none',BROW_SAMPLE].includes(brow)))throw Error('眉部样件不在已制作范围内');
  if(brow!=='none'&&(!a.facialGeometry.getState().browAvailable||!/^[a-f0-9]{64}$/.test(record.geometry.browRecipeSha256||'')))throw Error('此身体尚无对应眉部几何配方');
  if(!legacy&&brow==='none'&&record.geometry.browRecipeSha256!==null)throw Error('原位眉部不能携带派生配方身份');
  const nose=legacy||legacyBrow?'none':record.geometry.noseSample;
- if(!['none',NOSE_SAMPLE].includes(nose))throw Error('鼻部样件不在已制作范围内');
+ if(!faceSampleSupported(mouthCapability,'nose',nose)||(oldGeometry&&!['none',NOSE_SAMPLE].includes(nose)))throw Error('鼻部样件不在已制作范围内');
  if(nose!=='none'&&(!a.facialGeometry.getState().noseAvailable||!/^[a-f0-9]{64}$/.test(record.geometry.noseRecipeSha256||'')))throw Error('此身体尚无对应鼻部几何配方');
  if(!legacy&&!legacyBrow&&nose==='none'&&record.geometry.noseRecipeSha256!==null)throw Error('原位鼻部不能携带派生配方身份');
  const eye=legacy||legacyBrow||legacyNose?'none':record.geometry.eyeSample;
- if(!['none',EYE_SAMPLE].includes(eye))throw Error('眼部样件不在已制作范围内');
+ if(!faceSampleSupported(mouthCapability,'eye',eye)||(oldGeometry&&!['none',EYE_SAMPLE].includes(eye)))throw Error('眼部样件不在已制作范围内');
  if(eye!=='none'&&(!a.facialGeometry.getState().eyeAvailable||!/^[a-f0-9]{64}$/.test(record.geometry.eyeRecipeSha256||'')))throw Error('此身体尚无对应眼部几何配方');
  if(!legacy&&!legacyBrow&&!legacyNose&&eye==='none'&&record.geometry.eyeRecipeSha256!==null)throw Error('原位眼部不能携带派生配方身份');
  if(!a.config.outfits.some(o=>o.index===record.equipment?.index&&o.role===record.equipment.role)||record.equipment.manifestUrl!==a.config.manifestUrl)
@@ -70,6 +72,7 @@ export async function applyAppearanceRecipe(controller,record){
  // arrive while geometry is loading, before this restore starts its own color.
  let ownGeometryRevision=actor.facialGeometry.getState().revision,ownAppearanceRevision=actor.appearance.getState().revision;
  const initialOutfitRevision=controller.outfitRevision||0;
+ const paletteNotice=record.paletteVersion===LEGACY_PALETTE?'旧配方已使用新版瞳色渲染，颜色选择保持不变':'';
  let outfitCommitted=false,ownOutfitRevision=initialOutfitRevision;
  const superseded=()=>controller.actor!==actor||
   (ownGeometryRevision!==null&&actor.facialGeometry.getState().revision!==ownGeometryRevision)||
@@ -89,10 +92,10 @@ export async function applyAppearanceRecipe(controller,record){
   if(appearance.cancelled||superseded())return{applied:false,cancelled:true};
   if(!appearance.applied)throw Error(appearance.reason||'外观配方未应用');
   if(record.hairAssetSha256&&actor.appearance.getState().replacementSHA256!==record.hairAssetSha256)throw Error('发型资源版本已变化');
-  if((controller.outfitRevision||0)!==initialOutfitRevision)return{applied:true,notice:'较新的服装选择已保留'};
+  if((controller.outfitRevision||0)!==initialOutfitRevision)return{applied:true,notice:[paletteNotice,'较新的服装选择已保留'].filter(Boolean).join('；')};
   try{outfitCommitted=true;controller.command({type:'outfit',value:record.equipment.index});}
   finally{ownOutfitRevision=controller.outfitRevision||0;}
-  return{applied:true};
+  return paletteNotice?{applied:true,notice:paletteNotice}:{applied:true};
  }catch(error){
   if(superseded())return{applied:false,cancelled:true};
   const rollbackAppearance=actor.appearance.set(before.appearance),rollbackGeometry=actor.facialGeometry.set({mouthWidth:before.geometry.mouthWidth,expectedRecipeSha256:before.geometry.recipeSha256,

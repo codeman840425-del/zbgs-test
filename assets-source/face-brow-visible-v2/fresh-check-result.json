@@ -1,0 +1,131 @@
+{
+  "scope": "Fresh Blender process loaded pinned original female/male sources; rebuilt only existing +3mm/+3mm endpoints with 2 CPU threads. Export byte identity checked independently.",
+  "passed": true,
+  "blenderExitCode": 0,
+  "bodies": [
+    {
+      "sex": "female",
+      "fromOriginalBlend": "assets-source/foundation/base-female-editable.blend",
+      "candidate": {
+        "browHeightM": 0.003,
+        "browHalfSpacingM": 0.003
+      },
+      "sourceFilesStillPinned": true,
+      "buildReportInvariantFieldsEqual": [
+        "source",
+        "candidate",
+        "avatarSha256",
+        "repeatExportSha256",
+        "mappingSha256",
+        "generatorSha256",
+        "specSha256",
+        "toolchain",
+        "invariants",
+        "skeletonRestHash",
+        "bodyPositionsHash",
+        "browSourceVertices",
+        "sourceVertexCount",
+        "centerX",
+        "shapeChecks"
+      ],
+      "files": [
+        {
+          "file": "avatar.vrm",
+          "generatedBytes": 16311596,
+          "freshBytes": 16311596,
+          "generatedSHA256": "0b60e25016ac030ae4259b82a31da58a9f7d5b99dc41152b8aba12df2ecf2620",
+          "freshSHA256": "0b60e25016ac030ae4259b82a31da58a9f7d5b99dc41152b8aba12df2ecf2620",
+          "byteEqual": true
+        },
+        {
+          "file": "repeat-export.vrm",
+          "generatedBytes": 16311596,
+          "freshBytes": 16311596,
+          "generatedSHA256": "0b60e25016ac030ae4259b82a31da58a9f7d5b99dc41152b8aba12df2ecf2620",
+          "freshSHA256": "0b60e25016ac030ae4259b82a31da58a9f7d5b99dc41152b8aba12df2ecf2620",
+          "byteEqual": true
+        },
+        {
+          "file": "mapping.json.gz",
+          "generatedBytes": 55410,
+          "freshBytes": 55410,
+          "generatedSHA256": "953bb9424d1b3abdf6d51448b56aaf3dfec47d77d38d9be15e21abb8d719b126",
+          "freshSHA256": "953bb9424d1b3abdf6d51448b56aaf3dfec47d77d38d9be15e21abb8d719b126",
+          "byteEqual": true
+        },
+        {
+          "file": "editable.blend",
+          "generatedBytes": 14131984,
+          "freshBytes": 14131458,
+          "generatedSHA256": "d36c597f7f6053ffb42f94dc60b051a161efcc3bfda38af40354cfdbae3fbf12",
+          "freshSHA256": "36e4b4d4b7122571021084d9f22b35709099228ca412125a9469f993389eb949",
+          "byteEqual": false
+        }
+      ]
+    },
+    {
+      "sex": "male",
+      "fromOriginalBlend": "assets-source/foundation-male/base-male-candidate-editable.blend",
+      "candidate": {
+        "browHeightM": 0.003,
+        "browHalfSpacingM": 0.003
+      },
+      "sourceFilesStillPinned": true,
+      "buildReportInvariantFieldsEqual": [
+        "source",
+        "candidate",
+        "avatarSha256",
+        "repeatExportSha256",
+        "mappingSha256",
+        "generatorSha256",
+        "specSha256",
+        "toolchain",
+        "invariants",
+        "skeletonRestHash",
+        "bodyPositionsHash",
+        "browSourceVertices",
+        "sourceVertexCount",
+        "centerX",
+        "shapeChecks"
+      ],
+      "files": [
+        {
+          "file": "avatar.vrm",
+          "generatedBytes": 17902664,
+          "freshBytes": 17902664,
+          "generatedSHA256": "c71dce5c1143a968d0da896296d4c90010ab4067bc83b0a637066c7b3765d1c4",
+          "freshSHA256": "c71dce5c1143a968d0da896296d4c90010ab4067bc83b0a637066c7b3765d1c4",
+          "byteEqual": true
+        },
+        {
+          "file": "repeat-export.vrm",
+          "generatedBytes": 17902664,
+          "freshBytes": 17902664,
+          "generatedSHA256": "c71dce5c1143a968d0da896296d4c90010ab4067bc83b0a637066c7b3765d1c4",
+          "freshSHA256": "c71dce5c1143a968d0da896296d4c90010ab4067bc83b0a637066c7b3765d1c4",
+          "byteEqual": true
+        },
+        {
+          "file": "mapping.json.gz",
+          "generatedBytes": 55686,
+          "freshBytes": 55686,
+          "generatedSHA256": "81e8632aa770335eb0306815aca2fe8d2c7299e2c28c5fb81389cb3898c24c5b",
+          "freshSHA256": "81e8632aa770335eb0306815aca2fe8d2c7299e2c28c5fb81389cb3898c24c5b",
+          "byteEqual": true
+        },
+        {
+          "file": "editable.blend",
+          "generatedBytes": 15790809,
+          "freshBytes": 15795656,
+          "generatedSHA256": "c05f0d7fcbb14067896cd1d7154db9b9e74ac98ec6afa4283de41cc981ca5fd1",
+          "freshSHA256": "52869fa320ac114e914e4693dcc3f4c8e97f2a0e6c72d1f5f8117531703cbb51",
+          "byteEqual": false
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "This proves source regeneration/export reproducibility, not game appearance or parameter-range safety.",
+    "Editable blend byte equality is recorded separately; native container identity is not inferred from VRM identity."
+  ]
+}

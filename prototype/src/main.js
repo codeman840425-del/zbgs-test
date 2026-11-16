@@ -802,7 +802,16 @@ class CharacterScene extends Phaser.Scene {
         camera,
       );
       const hit = ray.intersectObject(floor)[0];
-      if (hit) this.command({ type: "walk", x: hit.point.x, z: hit.point.z });
+      if (!hit) {
+        this.game.events.emit('movement-feedback', {error:true,text:'未点到房间地面。请点“房间移动”，再选择地面空位。'});
+        return;
+      }
+      const result = this.command({ type: "walk", x: hit.point.x, z: hit.point.z });
+      const rejected = result?.admission === 'rejected' || result?.task?.state === 'failed';
+      this.game.events.emit('movement-feedback', {error:rejected,text:rejected
+        ? '该位置无法到达，请选择另一处地面空位。'
+        : this.paused ? '目的地已选，当前暂停；点击“继续”开始移动。'
+        : this.mode === 'stand' ? '目的地已选，人物会起身后移动。' : '正在前往所选地面位置。'});
     });
     const onSpace = (e) => {
       if (
@@ -962,8 +971,11 @@ class CharacterScene extends Phaser.Scene {
   }
   command(cmd) {
     if (cmd.type === 'bodySelect') return this.isPeer ? {applied:false,reason:'请通过独立实例入口选择对照人物'} : switchFoundationBody(cmd.bodyType);
-    if (["route","sequence"].includes(cmd.type) && ["loading","playing","fading"].includes(this.actor?.livePresentation?.getState().greeting?.status))
-      return {applied:false,reason:"请等待招手结束后开始路线或自动序列。"};
+    if (["route","sequence"].includes(cmd.type) && ["loading","playing","fading"].includes(this.actor?.livePresentation?.getState().greeting?.status)) {
+      const reason="请等待招手结束后开始路线或自动序列。";
+      if (!this.isPeer) this.game.events.emit('movement-feedback',{error:true,text:reason});
+      return {applied:false,reason};
+    }
     if (["route", "sequence", "reset"].includes(cmd.type))
       for (const task of [this.behaviorTasks.active(), ...this.behaviorTasks.pending()].filter(Boolean)) this.behaviorTasks.cancel(task.requestId, "superseded-by-" + cmd.type);
     if (["action", "walk"].includes(cmd.type)) {
@@ -1025,6 +1037,9 @@ class CharacterScene extends Phaser.Scene {
         break;
       case "route":
         this.route(cmd.name);
+        if (!this.isPeer) this.game.events.emit('movement-feedback',{error:false,text:this.paused
+          ? '路线已选，当前暂停；点击“继续”开始移动。'
+          : '路线已启动，可点击地面更换目的地。'});
         break;
       case "sequence":
         this.runSequence();
@@ -1227,6 +1242,7 @@ class CharacterScene extends Phaser.Scene {
     document
       .querySelector("#pause")
       .setAttribute("aria-pressed", String(this.paused));
+    this.game.events.emit('pause-state-changed', this.paused);
   }
   setPlaybackRate(value) {
     const rate = Number(value);
@@ -1300,6 +1316,7 @@ class CharacterScene extends Phaser.Scene {
     cameraTween = null;
     if (controls) controls.enabled = !fixedViews.has(name);
     syncViewButtons();
+    this.game.events.emit('camera-changed', name);
     if (fixedViews.has(name)) {
       updateFixedCamera();
       return;

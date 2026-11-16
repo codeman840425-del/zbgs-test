@@ -1,0 +1,4 @@
+export const FACIAL_PALETTE_MANIFEST_URL='/assets/appearance-color-v3/runtime-manifest.json';
+export const FACIAL_PALETTE_MANIFEST_SHA256='2eff13c1d3837c4f8f76b7d97007b219059c212c1031d77e27a2f824715af321';
+export const FACIAL_PALETTE_VERSION='appearance-color-v3:'+FACIAL_PALETTE_MANIFEST_SHA256;
+export const LEGACY_FACIAL_PALETTE_VERSION='appearance-color-v1:4c3b817065283d2256990ddeeb17ef0772ced1c1e299cff5e9d0ce1a3c23042c';

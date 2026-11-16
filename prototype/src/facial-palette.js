@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import {FACIAL_PALETTE_MANIFEST_URL,FACIAL_PALETTE_MANIFEST_SHA256} from './facial-palette-contract.js';
+const IRIS_COLOR_OPERATION = 'neutral-iris-multiply-v3';
 
 export const EYE_COLORS = { original: null, brown: '#916138', blue: '#507fa9', green: '#5e8b60', violet: '#8b63a6' };
 export const LIP_COLORS = { original: null, rose: '#bf7482', coral: '#cc8773', mauve: '#a66b87' };
@@ -15,15 +17,18 @@ export function createFacialPalette({ vrm, avatarSha256 }) {
     if (parts) return parts;
     if (preparation) return preparation;
     preparation = (async () => {
-      const response = await fetch('/assets/appearance-color-v1/runtime-manifest.json');
+      const response = await fetch(FACIAL_PALETTE_MANIFEST_URL);
       if (!response.ok) throw new Error(`五官配色清单加载失败 (${response.status})`);
-      const manifest = await response.json();
+      const manifestBytes = await response.arrayBuffer();
+      if (await digest(manifestBytes) !== FACIAL_PALETTE_MANIFEST_SHA256) throw new Error('五官配色清单版本不匹配');
+      const manifest = JSON.parse(new TextDecoder().decode(manifestBytes));
       if (manifest.schema !== 'character-facial-palette-v1') throw new Error('未知五官配色格式');
       const variant = manifest.variants.find(v => v.avatarSha256 === avatarSha256);
       if (!variant) throw new Error('当前身体尚无五官配色适配');
       const result = {};
       for (const name of ['iris', 'lips']) {
         const descriptor = variant.parts[name];
+        if (name === 'iris' && descriptor.colorOperation !== IRIS_COLOR_OPERATION) throw new Error('虹膜配色算法版本不兼容');
         if (descriptor.maskChannel !== 'r' || descriptor.imageYEqualsUVv !== true || descriptor.preserveAlpha !== true)
           throw new Error('配色遮罩坐标不兼容');
         const materials = new Set();
@@ -50,7 +55,21 @@ export function createFacialPalette({ vrm, avatarSha256 }) {
             throw new Error('配色原图坐标/尺寸不匹配：' + name);
           return { material: m, map: m.map, shadeMap: m.shadeMultiplyTexture };
         });
-        result[name] = { records, width, height, indices, weights, variants: new Map(), last: 'original', descriptor };
+        let neutral = null;
+        if (name === 'iris') {
+          if (descriptor.neutralChannel !== 'r' || descriptor.neutralMultiplierReference !== 192 ||
+              JSON.stringify(descriptor.neutralMapSize) !== JSON.stringify(descriptor.mapSize)) throw new Error('虹膜明暗底图格式不兼容');
+          const response = await fetch(descriptor.neutralMapUrl);
+          if (!response.ok) throw new Error(`虹膜明暗底图加载失败 (${response.status})`);
+          const bytes = await response.arrayBuffer();
+          if (await digest(bytes) !== descriptor.neutralMapSha256) throw new Error('虹膜明暗底图身份不一致');
+          const bitmap = await createImageBitmap(new Blob([bytes], {type:'image/png'}));
+          if (bitmap.width !== width || bitmap.height !== height) { bitmap.close(); throw new Error('虹膜明暗底图尺寸不匹配'); }
+          context.clearRect(0,0,width,height);context.drawImage(bitmap,0,0);bitmap.close();
+          const pixels=context.getImageData(0,0,width,height).data;
+          neutral=Uint8Array.from(indices,i=>pixels[i]);
+        }
+        result[name] = { records, width, height, indices, weights, neutral, variants: new Map(), last: 'original', descriptor };
       }
       if (disposed) throw new Error('人物已卸载');
       parts = result; return parts;
@@ -74,7 +93,8 @@ export function createFacialPalette({ vrm, avatarSha256 }) {
       const { original, pixels } = item;
       for (let j = 0; j < part.indices.length; j++) {
         const i = part.indices[j], weight = part.weights[j];
-        const value = Math.max(original[i], original[i + 1], original[i + 2]) / 255;
+        const value = part.neutral ? part.neutral[j] / part.descriptor.neutralMultiplierReference
+          : Math.max(original[i], original[i + 1], original[i + 2]) / 255;
         for (let channel = 0; channel < 3; channel++)
           pixels.data[i + channel] = Math.round(original[i + channel] * (1 - weight) + rgb[channel] * value * weight);
         // Alpha, protected pixels, pupil, eye white, highlights and mouth cavity
