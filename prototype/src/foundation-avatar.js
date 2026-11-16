@@ -56,6 +56,7 @@ export function createFaceGeometryWarmup(renderer,scene) {
           await prepareFaceShadowPrograms(renderer,scene,fresh,signal,(entry,material)=>entry.materials.push(material));
           if(disposed||signal.aborted)throw Error('人物已卸载');
         }).then(()=>{
+          if(disposed||signal.aborted||fresh.some(entry=>entries.get(entry.signature)!==entry))throw Error('阴影预备已失效');
           for(const entry of fresh){
             entry.settled=true;
             if(disposed||!current(entry)){forget(entry);continue;}
