@@ -1,30 +1,29 @@
 {
   "schema": "zbgs-appearance-workbench-v1",
-  "build": "a7efd61c61c8",
-  "sourceDigest": "a7efd61c61c8386b8c0188136b6607276e2ae569cfa9af84fc8cd9d6dc8310e8",
-  "sourceCommit": "0137d7e94be80bff15ae391f54e3c31a259babeb",
-  "directory": "experiments/m2-appearance-workbench-v24/dist",
+  "build": "34e7745e78ab",
+  "sourceDigest": "34e7745e78ab29462e37ecdc1d872d2ab8fcf8fd1b9d74a77376fac83060c2a5",
+  "sourceCommit": "9248dfe7842197894bb1160edd311173158c415b",
+  "directory": "experiments/face-shadow-prepare-final-v1/dist-final",
   "port": 4196,
   "entry": "/?workbench=appearance",
-  "status": "technical-checks-passed-user-visual-review-pending",
+  "status": "limited-technical-checks-passed-visual-review-pending",
   "retainedM1": {
     "port": 4195,
     "build": "77e46efb5441"
   },
   "limits": [
-    "Layout accepted; new iris and larger facial geometry remain user visual review pending.",
-    "Original female/male discrete mouth +/-12%, brow +3/+3mm, nose +2mm, eye aperture +5%; old small-range recipes preserve values and identity. Male jaw remains only mouth 0/+4%.",
-    "V5 local recipes; explicit legacy palette migration, not accounts or cloud saves.",
-    "Male mouth -12% Blender export NORMAL comparison 1.105666e-5 exceeds existing 1e-5 gate. Kept failed; independent parsed recipe calculation matches runtime. See face-visible-runtime-v1.",
-    "No ordinary-PC hardware test. Historical developer-PC first-edit/switch stalls remain limitations, not retested performance acceptance.",
-    "Frozen skirt and 30-second dance unchanged. Engineering sampled frames are not user continuous visual approval.",
-    "Bounded neighborhood normal optimization: 27 real-source cases byte identical; developer-PC repeated edit reduced ~3-5ms, first draw still ~109ms. Not overall stutter or ordinary-PC acceptance."
+    "Existing layout accepted; new iris, larger facial geometry and candidate art style remain human visual review pending.",
+    "Shadow preparation partially reduces observed first-edit rAF peak; final developer-PC headed automated Chrome samples ~91ms and requests223-235ms. Earlier baseline127-134ms. Total edit wait is longer, input benefit is not stable. Not stutter solved or ordinary-PC acceptance.",
+    "Final native visible/background tests4 and UI recipe/palette tests10 passed only within recorded scope. CPU microtask context invalidation regression fixed; not a claim all context failures are supported.",
+    "Geometry, animation, palette and saved v5 recipe identity unchanged. Male -12% old Blender final NORMAL failure retained; new explicitly quantized production reference passes without changing old files. See mouth-quantization-reference-v1.",
+    "New source recipe male-mouth-canonical-v1 is not publicly admitted. No ordinary-PC hardware test.",
+    "Frozen skirt and30-second dance unchanged. Engineering sampled frame review is not human continuous visual approval."
   ],
-  "evidence": "/evidence/face-normal-neighborhood-v1/",
+  "evidence": "/evidence/face-shadow-prepare-v1/",
   "previousWorkbench": {
-    "build": "ab0743684fe6",
-    "directory": "experiments/m2-appearance-workbench-v23/dist",
-    "sourceCommit": "2084c43f8bab28befa8192a2f734abf3faaf8df8"
+    "build": "a7efd61c61c8",
+    "directory": "experiments/m2-appearance-workbench-v24/dist",
+    "sourceCommit": "0137d7e94be80bff15ae391f54e3c31a259babeb"
   },
   "layoutReview": {
     "status": "accepted-by-user",

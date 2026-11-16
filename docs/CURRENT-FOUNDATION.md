@@ -4,12 +4,17 @@
 
 ## 固定入口
 
-- **4196 /?workbench=appearance：a7efd61c61c8**。源0137d7e94be80bff15ae391f54e3c31a259babeb，experiments/m2-appearance-workbench-v24/dist。只增加法线邻域计算优化，27真实样件全部输出与ab074逐字节一致。指针 delivery/appearance-workbench.json；ab074/v23及bcade/v22可回滚，历史指针在delivery/history/。
-- **当前录像：4174/evidence/face-normal-neighborhood-v1/**，新男女1×操作/讲话/眨眼/视线。前次外观与移动修复对照仍为4174/evidence/appearance-repair-ab074/，不将旧片换标新版。
+- **4196 /?workbench=appearance：34e7745e78ab**。源9248dfe7842197894bb1160edd311173158c415b，experiments/face-shadow-prepare-final-v1/dist-final。提前准备实际阴影程序；保留阴影与角色几何。指针 delivery/appearance-workbench.json，前版a7efd历史指针已保存，不覆盖旧产物。
+- **当前正常速度录像：4174/evidence/face-shadow-prepare-v1/**，同脚本、同镜头旧新男女近景。原瞳色/几何/移动修复对照仍在appearance-repair-ab074；不把旧片换标。
 - **4195：77e46efb5441** 仍为用户限定接受的M1基础。4191–4194既有历史服务未动；此次没有新增常驻端口，临时QA服务全退出。
 - Phaser3.90.0 + Three0.187.0 + three-vrm3.5.5。Rigby2D、真实多人服务器不参与。普通电脑暂无设备，明确未实测。
 
 ## 最新成本增量
+
+- 34e最终当前版：有窗口自动化Chrome/RTX4090/1600×1000，无录像短测原男女首改最大rAF91.0/90.9ms、请求235.4/222.7ms。前序bb6试验与a7两种顺序均降低帧峰，但请求变长且输入改善不稳定；不宣称已流畅。自动化focus配置不等于原生屏幕呈现，普通机未测。
+- 当前实际原生焦点/后台4门、UI配方/颜色10门通过；13项受控CPU生命周期含清理反例修复。新检出122文件一致，公开header/runtime/UI移动及两段录像实际播放已核。当前证据face-shadow-prepare-v1、rebuild-face-shadow-34e、current-workbench-34e7745e78ab。
+- 男嘴源导出规范化已完成：新参考原门通过，旧失败保留；参考合同和生产源包不改当前配方/保存身份。详mouth-quantization-reference-v1。
+- 以下a7成本属于前版，保留历史范围：
 
 - a7efd与ab074实际UI无头Chrome无录像短测：重复改嘴请求女25.2→22.0ms、男26.1→20.8ms；首绘最大帧仍约109ms，女加眼最大帧48.6→54.5ms波动保留，不宣称所有操作变快或首次停顿解决。RTX4090/HeadlessChrome157/1600×1000；脚本名visible不代表有窗口，以上rAF不是实际屏幕呈现或屏幕FPS。证据visible-face-ui-cost-{ab074,a7efd}。
 - 法线只计算全部affected点的完整邻面，原累加顺序和精度不改。27例真实全buffer/17合同/独立960函数组/实际10配方门过；表情原片已录，root看完六张末13秒2fps抽帧图，非人类连续验收。详face-normal-neighborhood-v1/RESULT.md。
@@ -35,7 +40,7 @@
 
 ## 可恢复与备份
 
-- ab074完整备份已核实至ef8c43b。最新a7efd源0137d7e及证据远端回执见delivery/workbench-backup-a7efd.json；两个回执分开，不给旧备份换标签。
+- 原a7备份见delivery/workbench-backup-a7efd.json；当前源导出修复已随e9bbc67远端核实。34e当前交付与证据备份回执在本轮最终推送后写delivery/workbench-backup-34e.json，不给旧备份换标。
 - ab074由精确源独立sparse检出npm ci/build；第二新检出122产物逐字节相同、工作树干净：evidence/rebuild-visible-ab074/report.json。
 - 运行重建：新检出prototype执行 npm ci、npm run build；产物放新固定目录，核build-info后按指针运行 python scripts/serve-appearance-workbench.py。不要覆盖bcade/v22。
 - 新资源验证：node scripts/install-face-visible-workbench.mjs --verify；node scripts/install-facial-palette-v3.mjs --verify。
@@ -48,9 +53,9 @@
 
 当前实际工作：
 
-1. 首次改脸约109ms长帧：用固定a7efd首次嘴+12%对照正常阴影与仅诊断冻结shadow pass；保留主色shader条件、完整rAF及GL调用数据。旧主色first-use方案已撤回，不重复。诊断关闭阴影不是产品方案。
-2. 男嘴−12%源NORMAL：生产导出规范化与独立参考合同已实际实现，55形态保护域/法线与原底重生成通过；男±12%新合同过原门，旧负reference仍保失败。见 evidence/mouth-quantization-reference-v1/RESULT.md。未改公开配方/保存/几何，未声称新recipe准入；归档与独立审查后继续首绘修复。
-3. 只有证据支持的候选才进入源码修复、受影响回归、独立固定构建与备份；4196仍是a7efd，裙装与30秒舞不重开。
+1. 首次改脸：shadow部分开销已有因果对照与实际预备修复，34e当前仍约91ms长帧；主要剩余主色程序首用已记录，旧主色first-use搬时方案无整体收益，不重复。继续工作必须依据可验证假设，不能靠无穷延时或删阴影伪造通过。
+2. 男嘴−12%源NORMAL：生产导出规范化与独立参考合同已实际实现，55形态保护域/法线与原底重生成通过；男±12%新合同过原门，旧负reference仍保失败。见 evidence/mouth-quantization-reference-v1/RESULT.md。未改公开配方/保存/几何，未声称新recipe准入；独立审查与Git真实字节24项核验通过；当前完成归档备份。
+3. 4196已更新34e固定候选，正常速度片/配方门/恢复门/重建/公开入口均实际检查；当前继续交付备份，用户瞳色与幅度问题已集中发出待答。只暂停依赖观感的分支，不重开裙舞或扩大M3。
 
 长目标工具目前仍返回blocked，现有工具不提供恢复状态操作；这是工具状态限制，不是停止本轮执行的理由。不创建替代目标，不将目标误标完成。继续按当前用户授权实施。
 

@@ -4,7 +4,7 @@
 
 ## 当前交付与阶段边界
 
-- **4196 /?workbench=appearance：a7efd61c61c8**，源0137d7e，experiments/m2-appearance-workbench-v24/dist。唯一指针 delivery/appearance-workbench.json；ab074/v23和bcade/v22保留回滚。当前正常1×见evidence/face-normal-neighborhood-v1；原外观/移动反馈对照仍在appearance-repair-ab074。备份见delivery/workbench-backup-a7efd.json。
+- **4196 /?workbench=appearance：34e7745e78ab**，源9248dfe，experiments/face-shadow-prepare-final-v1/dist-final。唯一指针delivery/appearance-workbench.json；a7efd及历史版保留回滚。当前1×同镜头见evidence/face-shadow-prepare-v1；原反馈修复对照仍在appearance-repair-ab074。当前备份以delivery回执为准。
 - **4195：77e46efb5441** 保留M1基础。用户对原女裙/原男短裤所录完整1×链接受“可以作为下一阶段基础”，明确排除已登记裙瑕疵；仅这些影片范围，不外推新外貌、最终画风、普通电脑或所有组合。回执 `evidence/m1-close-77e46-user-review.json`。
 - **裙装与该30秒舞已封板。** 038裙实现随77保留，已知硬折/局部接触/成本缺口不是继续精修的授权；30秒Rokoko路线获认可，唯一适配尝试后封存，不再追加调参。依据 `evidence/m1-stage-close-user-direction-2026-11-15.json`、`evidence/rokoko-30s-advisor-v1/USER-REVIEW.json`。旧失败仍失败，不因封板变成全部通过，也不因旧失败重新派活。
 - 有限外观闭环及本轮反馈修复：男女独立三分区已获用户接受；原男女新几何嘴±12%/眉3mm/鼻2mm/眼5%、虹膜v3、本地v5配方已接入。旧范围/身份保留；男jaw仍只0/+4%，女jaw/waist无四域准入。新外观待用户观看，不扩完整M2/M3。
@@ -96,6 +96,10 @@ F=完整Base_Female原基模，M=同系列Base_Male原基模，P=独立裤，S=�
 | PIPE-03 改源→导出→回读→动作检查 | 女jaw/waist、男jaw及男jaw单嘴参数；原男女嘴眉鼻眼源/recipe/固定导出 | 是 | 男性jaw98点/54表达与重复导出；男jaw+嘴宽+4%40文件、fresh原底和28点法线重叠重算、源/运行CPU及aa回读/新context配方。源assets-source/m2-male-jaw-mouth-v1，证据m2-male-jaw-mouth-runtime-v1、evidence/m2-male-jaw-mouth-browser-aa6fc6159e2d | 已验证可用：所列有限源→身份配方→游戏回读闭环；用户新外观观感待验 | 不是复制原recipe换SHA；只有男jaw单嘴复用证明，不外推女jaw/waist参数、其他五官或通用自动适配 | 有限M2闭环，不扩样件库 |
 | PERF-01 普通电脑运行预算 | i5-1135G7/IrisXe/16GB/1440×900/60fps参考 | 只有开发机；用户明确暂缺普通电脑 | 77九场景30秒：裙坐CPU P95 9.2ms、双裙裤11.5ms、双裤单帧37.6ms；a0dd改脸maxrAF103–109ms；bcade换体A-B-A maxrAF旧813/837→322ms、首draw约323ms，仍停顿。见m1-fixed-perf-77e46efb5441、evidence/face-snapshot-comparison-v1、evidence/body-switch-a0dd-diagnostic-v1/COMPARISON.md | 已实现但未通过：仅开发机有限成本改善，普通PC无实测 | 用户明确暂无普通电脑，保缺口继续；不同录像/无录像、构建/场景数值不混比。01a主色首用未改善整段出帧已撤回，不再当未试方案；不重开封板裙优化 | 保留设备/首次长帧边界，最新a7efd无头Chrome无录像UI测量见face-normal-neighborhood-v1（脚本名visible不等于有窗口，rAF非屏幕呈现）：原男女重复改嘴请求约省3–5ms，首绘仍约109ms，非持续游戏/普通机通过；body-source-cost-bcade-v1采样未证明源缓存收益，暂不加缓存 |
 | PERF-02 按需加载/缓存与资源释放 | 实例资源所有权、选择性primitive准备、事务内属性快照与shader warm引用 | 部分 | 1fff两轮有限资源稳定；a0dd243秒会话；bcade三轮真实compile后取消，program22→28→22、usedTimes106→133→106，逐cacheKey恢复，geometry/texture89/44不变。另三轮成功往返，同体每个cacheKey/usedTimes均与上轮一致，男84G/41T/23program、女84/40/24。见evidence/body-switch-compile-lifetime-bcade-v1/RESULT.md及evidence/body-switch-success-lifetime-bcade-v1/RESULT.md | 部分已验证：有限准备复用/取消与成功切换资源归还 | 初始女22与返回女24区别单列，三轮不是长期循环；计数不是VRAM，不能据此认定泄漏或承诺无漏。没有完整素材库懒加载/容量策略 | 有限M2资源管理，不做无依据大优化 |
+
+## 本轮接续：首绘与可靠性
+
+34e当前版在保留阴影的前提下提前准备实际depth程序。最终原男女开发机有窗口自动化Chrome短测最大rAF约91ms，请求223–235ms；前序两序对照峰值减少但请求更长，稀疏输入收益不稳定。PERF-01仍未完全通过。当前13项受控CPU生命周期、4项实际原生焦点/后台/换体、10项UI配方/色彩、122文件新检出重建及公开入口smoke通过，适用REL-01/03和PIPE-02的这些有限路径；不外推其他组合。当前原片已录，工程审查为末13秒2fps六图及关键静止姿势，不代替用户连续观感。源/证据见face-shadow-prepare-v1及rebuild-face-shadow-34e。
 
 ## 本轮接续：源导出精度修复
 
