@@ -75,6 +75,7 @@ export function createKtxPilotAdapter({
   for (const record of records) materialOwners.set(record.material, owner);
   const requests = [], events = [], preparedTextures = new Set(), variants = new Map();
   const decoderBlobs = new Map();
+  const releasedGpuTextures = new Set();
   let loader = null, loaderInitialized = false, pending = null, prepared = false, disposed = false, revision = 0;
   let lastFailure = null, canvasFallbackCount = 0;
 
@@ -115,6 +116,107 @@ export function createKtxPilotAdapter({
     if (texture === original) return 'png';
     if (texture && preparedTextures.has(texture)) return 'ktx';
     return typeof texture?.image?.getContext === 'function' ? 'canvas' : 'external';
+  }
+
+  function reactivate(texture) {
+    if (texture && releasedGpuTextures.delete(texture)) texture.needsUpdate = true;
+    return texture;
+  }
+
+  function liveTextureReferences() {
+    const references = new Map(), visitedMaterials = new Set(), visitedUniforms = new Set();
+    function add(texture, path) {
+      if (!references.has(texture)) references.set(texture, []);
+      references.get(texture).push(path);
+    }
+    function inspectUniform(value, path) {
+      if (!value || typeof value !== 'object') return;
+      if (value.isTexture) { add(value, path); return; }
+      if (visitedUniforms.has(value) || ArrayBuffer.isView(value) || value instanceof ArrayBuffer) return;
+      visitedUniforms.add(value);
+      for (const [name, child] of Object.entries(value)) inspectUniform(child, path + '.' + name);
+    }
+    function inspectMaterial(material, path) {
+      if (!material || visitedMaterials.has(material)) return;
+      visitedMaterials.add(material);
+      for (const [name, value] of Object.entries(material)) {
+        if (value?.isTexture) add(value, path + '.' + name);
+      }
+      inspectUniform(material.uniforms, path + '.uniforms');
+    }
+    let root = vrm.scene;
+    const parents = new Set([root]);
+    while (root.parent) {
+      root = root.parent;
+      if (parents.has(root)) throw Error('Cyclic parent graph prevents safe texture scan');
+      parents.add(root);
+    }
+    root.traverse(node => {
+      const path = node.name || node.uuid;
+      const materials = Array.isArray(node.material) ? node.material : [node.material];
+      materials.forEach((material, index) => inspectMaterial(material, path + '.material.' + index));
+      for (const name of ['customDepthMaterial', 'customDistanceMaterial', 'overrideMaterial'])
+        inspectMaterial(node[name], path + '.' + name);
+      for (const name of ['background', 'environment']) {
+        if (node[name]?.isTexture) add(node[name], path + '.' + name);
+      }
+    });
+    return references;
+  }
+
+  function releaseInactiveGpu() {
+    const candidates = new Map();
+    for (const record of records) {
+      candidates.set(record.original.map, 'original-png');
+      if (record.original.shade) candidates.set(record.original.shade, 'original-png');
+    }
+    for (const texture of preparedTextures) candidates.set(texture, 'ktx');
+    const report = {
+      applied: false, scanScope: 'Current VRM and its attached ancestor scene',
+      candidates: [...candidates].map(([texture, kind]) => ({ uuid: texture.uuid, kind })),
+      retained: [], released: [], failures: [],
+      materialModes: records.map(record => ({ name: record.material.name,
+        mapMode: mode(record, 'map'), shadeMode: mode(record, 'shade') })),
+      measurementLimit: 'Released means Texture.dispose was requested. CPU image/mip data is retained. Actual GPU allocations require browser verification.',
+    };
+    if (disposed || !prepared || pending) {
+      report.reason = disposed ? 'Pilot disposed' : pending ? 'Pilot preparation is in progress' : 'Pilot is not prepared';
+      event('release-inactive-gpu', report);
+      return report;
+    }
+    for (const [texture, kind] of candidates) {
+      const entry = { uuid: texture.uuid, kind };
+      try {
+        // Scan immediately before each disposal. A prior dispose listener may
+        // have rebound another candidate during this synchronous operation.
+        const references = liveTextureReferences();
+        const direct = references.get(texture);
+        if (direct) {
+          releasedGpuTextures.delete(texture);
+          report.retained.push({ ...entry, reason: 'Referenced by a current material or scene', references: direct });
+          continue;
+        }
+        const aliases = [...references].filter(([live]) => texture.source && live.source === texture.source);
+        if (aliases.length) {
+          report.retained.push({ ...entry, reason: 'A current texture shares this Source',
+            aliases: aliases.map(([live, paths]) => ({ uuid: live.uuid, references: paths })) });
+          continue;
+        }
+        if (releasedGpuTextures.has(texture)) {
+          report.retained.push({ ...entry, reason: 'Already released since last observed activation' });
+          continue;
+        }
+        releasedGpuTextures.add(texture);
+        texture.dispose();
+        report.released.push({ ...entry, reason: 'No current material, uniform or scene reference',
+          cpuImageRetained: Boolean(texture.image), cpuMipDataRetained: Boolean(texture.mipmaps?.length) });
+      } catch (error) {
+        report.failures.push({ ...entry, reason: errorText(error) });
+      }
+    }
+    report.applied = report.failures.length === 0;
+    event('release-inactive-gpu', report);
+    return report;
   }
 
   function snapshot() {
@@ -222,8 +324,8 @@ export function createKtxPilotAdapter({
       return { applied: false, reason: 'Original hair style and color are required for the hair KTX view' };
     for (const record of records) {
       if (bodyOnly && record.sample.imageIndex === 9) continue;
-      record.material.map = variants.get(record.original.map);
-      if (record.original.shade) record.material.shadeMultiplyTexture = variants.get(record.original.shade);
+      record.material.map = reactivate(variants.get(record.original.map));
+      if (record.original.shade) record.material.shadeMultiplyTexture = reactivate(variants.get(record.original.shade));
       record.material.needsUpdate = true;
     }
     revision++; event('apply-ktx', { bodyOnly });
@@ -233,8 +335,8 @@ export function createKtxPilotAdapter({
   function restorePng() {
     if (disposed) return { applied: false, reason: 'Pilot disposed' };
     for (const record of records) {
-      record.material.map = record.original.map;
-      if ('shadeMultiplyTexture' in record.material) record.material.shadeMultiplyTexture = record.original.shade;
+      record.material.map = reactivate(record.original.map);
+      if ('shadeMultiplyTexture' in record.material) record.material.shadeMultiplyTexture = reactivate(record.original.shade);
       record.material.needsUpdate = true;
     }
     revision++; event('restore-png');
@@ -263,16 +365,17 @@ export function createKtxPilotAdapter({
     if (disposed) return;
     // Remove every experiment-owned reference before releasing compressed textures.
     for (const record of records) {
-      if (mode(record, 'map') === 'ktx') record.material.map = record.original.map;
-      if (mode(record, 'shade') === 'ktx') record.material.shadeMultiplyTexture = record.original.shade;
+      if (mode(record, 'map') === 'ktx') record.material.map = reactivate(record.original.map);
+      if (mode(record, 'shade') === 'ktx') record.material.shadeMultiplyTexture = reactivate(record.original.shade);
       record.material.needsUpdate = true;
       if (materialOwners.get(record.material) === owner) materialOwners.delete(record.material);
     }
     disposed = true; prepared = false; revision++;
-    preparedTextures.forEach(texture => texture.dispose());
+    preparedTextures.forEach(texture => { if (!releasedGpuTextures.has(texture)) texture.dispose(); });
     preparedTextures.clear(); variants.clear();
+    releasedGpuTextures.clear();
     event('dispose');
   }
 
-  return { prepare, applyOriginalKtx, restorePng, withCanvasAppearance, dispose, snapshot };
+  return { prepare, applyOriginalKtx, restorePng, withCanvasAppearance, releaseInactiveGpu, dispose, snapshot };
 }

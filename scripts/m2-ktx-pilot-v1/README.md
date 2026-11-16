@@ -28,4 +28,20 @@ prepare 在全部样件完成前不修改map，失败清理已完成样件。map
 
 同一场景实例只能持有一个adapter。换人前先dispose并等待在途prepare完成，再释放avatar。dispose只恢复实验自己持有的压缩引用，已有Canvas引用交还现有appearance管理，避免销毁外部纹理。若需再次测试同一实例，应先恢复原色并还原PNG，再创建新adapter。
 
-CPU入口为 `node scripts/m2-ktx-pilot-v1/check-adapter.mjs`。14项检查使用真实Three187纹理和LoadingManager，以及模拟fetch/转码。覆盖完整prepare后显式切换、共享引用/采样器保持、SHA/解码/尺寸失败保原、销毁取消、染色拒绝与Body单切、Canvas失败回退、实例隔离和重复销毁。结果位于 evidence/m2-ktx-pilot-source-v1/adapter-cpu.json。该检查没有执行真实浏览器、WASM转码、GPU或视觉验收。
+releaseInactiveGpu 是单独调用的实验入口。它只候选本adapter持有的原PNG和prepared KTX。每次dispose前重新遍历VRM及其当前附着父场景，核查所有材质直接Texture字段、嵌套uniforms、customDepth/customDistance/override材质以及背景和环境。活动Texture共享同一Source时也保留。候选、未释放理由、发现的引用、释放请求及扫描失败进入返回值和snapshot.events。retained表示此次未请求dispose，其reason会区分活动引用和此前已释放。
+
+确认闲置后只调用Texture.dispose，保留普通PNG image及KTX mip CPU数据。它不会关闭ImageBitmap或释放外部纹理。后续restorePng/applyOriginalKtx复用原Texture对象，标记needsUpdate以便再次上传。同一段闲置期重复调用会跳过已请求释放的纹理。该扫描覆盖当前附着场景，其他独立场景和自定义渲染回调中的隐藏引用不在本实验可核范围内。释放记录表示dispose请求，实际GPU资源变化须看浏览器新证据。
+
+以下可选序列用于总工的新浏览器检查。现有浏览器报告保留原始适配器身份。纹理源和编码配置不变。
+
+```js
+pilot.applyOriginalKtx();
+pilot.releaseInactiveGpu();
+await pilot.withCanvasAppearance(() => __debug.avatar().appearance.set({hairColor: 'blonde'}));
+pilot.releaseInactiveGpu();
+await pilot.withCanvasAppearance(() => __debug.avatar().appearance.set({hairColor: 'original'}));
+pilot.applyOriginalKtx();
+pilot.snapshot();
+```
+
+CPU入口为 `node scripts/m2-ktx-pilot-v1/check-adapter.mjs`。原14项结果保留在 evidence/m2-ktx-pilot-source-v1/adapter-cpu.json。新增10项释放检查和原14项一起运行，当前24项结果写入 adapter-gpu-release-cpu.json。它使用真实Three187 Texture/CompressedTexture/LoadingManager及模拟fetch/转码，核当前引用保护、外部材质与uniforms保护、Source别名、阴影材质/环境、CPU图像/mip与对象恢复、重复调用、dispose监听重绑定及扫描失败保留。报告保留实际返回的部分释放/失败记录。该检查没有执行真实浏览器、WASM转码、GPU或视觉验收。

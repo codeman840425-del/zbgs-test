@@ -1,0 +1,378 @@
+{
+  "schema": "m2-ktx-pilot-adapter-gpu-release-cpu-v1",
+  "threeRevision": "187",
+  "realBrowserOrDecoderExecuted": false,
+  "scope": "Real Three Texture/CompressedTexture/LoadingManager with stubbed fetch and KTX decode",
+  "results": [
+    {
+      "name": "prepare keeps exact original map/shade until explicit apply",
+      "passed": true
+    },
+    {
+      "name": "bad KTX SHA refuses parse and preserves original maps",
+      "passed": true
+    },
+    {
+      "name": "one decoded sample failure cleans successful peer without map mutation",
+      "passed": true
+    },
+    {
+      "name": "bad decoder SHA prevents every KTX parse",
+      "passed": true
+    },
+    {
+      "name": "dimension mismatch refuses all replacement",
+      "passed": true
+    },
+    {
+      "name": "dispose during deferred KTX fetch rejects late prepare and apply",
+      "passed": true
+    },
+    {
+      "name": "tinted hair refuses full KTX and bodyOnly preserves the hair map",
+      "passed": true
+    },
+    {
+      "name": "Canvas callback gets exact PNG and a failed callback leaves explicit PNG fallback",
+      "passed": true
+    },
+    {
+      "name": "Canvas callback throw records failure and keeps maps restored",
+      "passed": true
+    },
+    {
+      "name": "separate avatar materials remain independent",
+      "passed": true
+    },
+    {
+      "name": "shared material second ownership is rejected",
+      "passed": true
+    },
+    {
+      "name": "wrong body SHA refuses construction",
+      "passed": true
+    },
+    {
+      "name": "dispose restores experiment-owned maps and preserves external Canvas maps",
+      "passed": true
+    },
+    {
+      "name": "unprepared apply refuses and repeated dispose is safe",
+      "passed": true
+    },
+    {
+      "name": "GPU release preserves every current PNG reference and ignores external textures",
+      "passed": true,
+      "observation": {
+        "applied": true,
+        "scanScope": "Current VRM and its attached ancestor scene",
+        "candidates": [
+          {
+            "uuid": "76120683-f344-4aeb-ae1a-0c3fe06420a4",
+            "kind": "original-png"
+          },
+          {
+            "uuid": "cf1b495e-d09b-4055-96bd-a6c03a8d4808",
+            "kind": "original-png"
+          },
+          {
+            "uuid": "fa4e766a-5576-4fad-9540-7fcd779a395b",
+            "kind": "ktx"
+          },
+          {
+            "uuid": "2df97e18-e9cf-4bc6-8464-e19cdfb4de2a",
+            "kind": "ktx"
+          }
+        ],
+        "retained": [
+          {
+            "uuid": "76120683-f344-4aeb-ae1a-0c3fe06420a4",
+            "kind": "original-png",
+            "reason": "Referenced by a current material or scene",
+            "references": [
+              "43445f8d-13b6-4d6f-af0b-b35aab2b4fe3.material.0.map",
+              "43445f8d-13b6-4d6f-af0b-b35aab2b4fe3.material.0.shadeMultiplyTexture"
+            ]
+          },
+          {
+            "uuid": "cf1b495e-d09b-4055-96bd-a6c03a8d4808",
+            "kind": "original-png",
+            "reason": "Referenced by a current material or scene",
+            "references": [
+              "828ce5d7-6a77-4492-9348-134cd6eadeb5.material.0.map",
+              "828ce5d7-6a77-4492-9348-134cd6eadeb5.material.0.shadeMultiplyTexture"
+            ]
+          }
+        ],
+        "released": [
+          {
+            "uuid": "fa4e766a-5576-4fad-9540-7fcd779a395b",
+            "kind": "ktx",
+            "reason": "No current material, uniform or scene reference",
+            "cpuImageRetained": true,
+            "cpuMipDataRetained": true
+          },
+          {
+            "uuid": "2df97e18-e9cf-4bc6-8464-e19cdfb4de2a",
+            "kind": "ktx",
+            "reason": "No current material, uniform or scene reference",
+            "cpuImageRetained": true,
+            "cpuMipDataRetained": true
+          }
+        ],
+        "failures": [],
+        "materialModes": [
+          {
+            "name": "M00_001_01_Body_00_SKIN",
+            "mapMode": "png",
+            "shadeMode": "png"
+          },
+          {
+            "name": "M00_000_HairBack_00_HAIR",
+            "mapMode": "png",
+            "shadeMode": "png"
+          }
+        ],
+        "measurementLimit": "Released means Texture.dispose was requested. CPU image/mip data is retained. Actual GPU allocations require browser verification."
+      }
+    },
+    {
+      "name": "GPU release deduplicates unused PNG and retains exact image data for restore",
+      "passed": true,
+      "observation": {
+        "first": {
+          "applied": true,
+          "scanScope": "Current VRM and its attached ancestor scene",
+          "candidates": [
+            {
+              "uuid": "745b2dc5-3fb1-41e9-a20d-699d85007b36",
+              "kind": "original-png"
+            },
+            {
+              "uuid": "b8ad1a34-aa67-4ac0-a72e-cce0788ff19c",
+              "kind": "original-png"
+            },
+            {
+              "uuid": "5c217e19-cb35-4176-8fd6-a1678a44d354",
+              "kind": "ktx"
+            },
+            {
+              "uuid": "870ecacd-3da9-4e7f-b76e-4ba9e540d9a4",
+              "kind": "ktx"
+            }
+          ],
+          "retained": [
+            {
+              "uuid": "5c217e19-cb35-4176-8fd6-a1678a44d354",
+              "kind": "ktx",
+              "reason": "Referenced by a current material or scene",
+              "references": [
+                "47aa996c-7639-4002-8d91-4bc9d5eb0421.material.0.map",
+                "47aa996c-7639-4002-8d91-4bc9d5eb0421.material.0.shadeMultiplyTexture"
+              ]
+            },
+            {
+              "uuid": "870ecacd-3da9-4e7f-b76e-4ba9e540d9a4",
+              "kind": "ktx",
+              "reason": "Referenced by a current material or scene",
+              "references": [
+                "25a2113e-f5f4-4969-8ea0-6430d46fc7b3.material.0.map",
+                "25a2113e-f5f4-4969-8ea0-6430d46fc7b3.material.0.shadeMultiplyTexture"
+              ]
+            }
+          ],
+          "released": [
+            {
+              "uuid": "745b2dc5-3fb1-41e9-a20d-699d85007b36",
+              "kind": "original-png",
+              "reason": "No current material, uniform or scene reference",
+              "cpuImageRetained": true,
+              "cpuMipDataRetained": false
+            },
+            {
+              "uuid": "b8ad1a34-aa67-4ac0-a72e-cce0788ff19c",
+              "kind": "original-png",
+              "reason": "No current material, uniform or scene reference",
+              "cpuImageRetained": true,
+              "cpuMipDataRetained": false
+            }
+          ],
+          "failures": [],
+          "materialModes": [
+            {
+              "name": "M00_001_01_Body_00_SKIN",
+              "mapMode": "ktx",
+              "shadeMode": "ktx"
+            },
+            {
+              "name": "M00_000_HairBack_00_HAIR",
+              "mapMode": "ktx",
+              "shadeMode": "ktx"
+            }
+          ],
+          "measurementLimit": "Released means Texture.dispose was requested. CPU image/mip data is retained. Actual GPU allocations require browser verification."
+        },
+        "repeated": {
+          "applied": true,
+          "scanScope": "Current VRM and its attached ancestor scene",
+          "candidates": [
+            {
+              "uuid": "745b2dc5-3fb1-41e9-a20d-699d85007b36",
+              "kind": "original-png"
+            },
+            {
+              "uuid": "b8ad1a34-aa67-4ac0-a72e-cce0788ff19c",
+              "kind": "original-png"
+            },
+            {
+              "uuid": "5c217e19-cb35-4176-8fd6-a1678a44d354",
+              "kind": "ktx"
+            },
+            {
+              "uuid": "870ecacd-3da9-4e7f-b76e-4ba9e540d9a4",
+              "kind": "ktx"
+            }
+          ],
+          "retained": [
+            {
+              "uuid": "745b2dc5-3fb1-41e9-a20d-699d85007b36",
+              "kind": "original-png",
+              "reason": "Already released since last observed activation"
+            },
+            {
+              "uuid": "b8ad1a34-aa67-4ac0-a72e-cce0788ff19c",
+              "kind": "original-png",
+              "reason": "Already released since last observed activation"
+            },
+            {
+              "uuid": "5c217e19-cb35-4176-8fd6-a1678a44d354",
+              "kind": "ktx",
+              "reason": "Referenced by a current material or scene",
+              "references": [
+                "47aa996c-7639-4002-8d91-4bc9d5eb0421.material.0.map",
+                "47aa996c-7639-4002-8d91-4bc9d5eb0421.material.0.shadeMultiplyTexture"
+              ]
+            },
+            {
+              "uuid": "870ecacd-3da9-4e7f-b76e-4ba9e540d9a4",
+              "kind": "ktx",
+              "reason": "Referenced by a current material or scene",
+              "references": [
+                "25a2113e-f5f4-4969-8ea0-6430d46fc7b3.material.0.map",
+                "25a2113e-f5f4-4969-8ea0-6430d46fc7b3.material.0.shadeMultiplyTexture"
+              ]
+            }
+          ],
+          "released": [],
+          "failures": [],
+          "materialModes": [
+            {
+              "name": "M00_001_01_Body_00_SKIN",
+              "mapMode": "ktx",
+              "shadeMode": "ktx"
+            },
+            {
+              "name": "M00_000_HairBack_00_HAIR",
+              "mapMode": "ktx",
+              "shadeMode": "ktx"
+            }
+          ],
+          "measurementLimit": "Released means Texture.dispose was requested. CPU image/mip data is retained. Actual GPU allocations require browser verification."
+        },
+        "originalDisposeEventsAfterReactivation": 4,
+        "imageCloseCalls": 0
+      }
+    },
+    {
+      "name": "GPU release preserves inactive KTX mip data and reactivates its exact objects",
+      "passed": true
+    },
+    {
+      "name": "GPU release protects original PNG used by another attached material",
+      "passed": true
+    },
+    {
+      "name": "GPU release protects nested uniform arrays and cyclic structs",
+      "passed": true
+    },
+    {
+      "name": "GPU release protects custom shadow materials and environment references",
+      "passed": true
+    },
+    {
+      "name": "GPU release protects an active Texture alias sharing the original Source",
+      "passed": true
+    },
+    {
+      "name": "GPU release rechecks references after a dispose listener rebinds another candidate",
+      "passed": true
+    },
+    {
+      "name": "GPU reference scan failure records the reason and releases nothing",
+      "passed": true,
+      "observation": {
+        "applied": false,
+        "scanScope": "Current VRM and its attached ancestor scene",
+        "candidates": [
+          {
+            "uuid": "f108f2ef-7fdf-4ec5-9ae3-61e75b21658c",
+            "kind": "original-png"
+          },
+          {
+            "uuid": "33fb6643-9f02-4709-bc78-321493d2d554",
+            "kind": "original-png"
+          },
+          {
+            "uuid": "58019ebd-7f8a-46d0-97d8-e761a42fd063",
+            "kind": "ktx"
+          },
+          {
+            "uuid": "45ceb7e6-af18-413f-8918-5e9c3924b6be",
+            "kind": "ktx"
+          }
+        ],
+        "retained": [],
+        "released": [],
+        "failures": [
+          {
+            "uuid": "f108f2ef-7fdf-4ec5-9ae3-61e75b21658c",
+            "kind": "original-png",
+            "reason": "forced uniform scan failure"
+          },
+          {
+            "uuid": "33fb6643-9f02-4709-bc78-321493d2d554",
+            "kind": "original-png",
+            "reason": "forced uniform scan failure"
+          },
+          {
+            "uuid": "58019ebd-7f8a-46d0-97d8-e761a42fd063",
+            "kind": "ktx",
+            "reason": "forced uniform scan failure"
+          },
+          {
+            "uuid": "45ceb7e6-af18-413f-8918-5e9c3924b6be",
+            "kind": "ktx",
+            "reason": "forced uniform scan failure"
+          }
+        ],
+        "materialModes": [
+          {
+            "name": "M00_001_01_Body_00_SKIN",
+            "mapMode": "ktx",
+            "shadeMode": "ktx"
+          },
+          {
+            "name": "M00_000_HairBack_00_HAIR",
+            "mapMode": "ktx",
+            "shadeMode": "ktx"
+          }
+        ],
+        "measurementLimit": "Released means Texture.dispose was requested. CPU image/mip data is retained. Actual GPU allocations require browser verification."
+      }
+    },
+    {
+      "name": "GPU release refuses unprepared or disposed adapters",
+      "passed": true
+    }
+  ]
+}

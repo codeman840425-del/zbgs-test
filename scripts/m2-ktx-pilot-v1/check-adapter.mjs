@@ -7,7 +7,7 @@ const manifest = JSON.parse(await readFile(new URL('../../assets-source/m2-ktx-p
 const sha = async bytes => Buffer.from(await crypto.subtle.digest('SHA-256', bytes)).toString('hex');
 const results = [];
 async function test(name, operation) {
-  await operation(); results.push({ name, passed: true });
+  const observation = await operation(); results.push({ name, passed: true, observation });
 }
 
 async function fixture({ failedImage, badSha, failedDecoder, delayed, wrongDimensions } = {}) {
@@ -158,7 +158,123 @@ await test('unprepared apply refuses and repeated dispose is safe', async () => 
   f.adapter.dispose(); f.adapter.dispose(); assert.equal((await f.adapter.prepare()).prepared, false);
 });
 
-const report = { schema: 'm2-ktx-pilot-adapter-cpu-v1', threeRevision: THREE.REVISION,
+await test('GPU release preserves every current PNG reference and ignores external textures', async () => {
+  const f = await fixture(); await f.adapter.prepare();
+  let originalDisposals = 0, externalDisposals = 0;
+  f.originals.forEach(({ texture }) => texture.addEventListener('dispose', () => originalDisposals++));
+  const external = new THREE.Texture();
+  external.addEventListener('dispose', () => externalDisposals++);
+  f.originals[0].material.lightMap = external;
+  const report = f.adapter.releaseInactiveGpu();
+  assert.equal(originalDisposals, 0); assert.equal(externalDisposals, 0);
+  assert.equal(report.released.length, 2); assert.ok(report.released.every(value => value.kind === 'ktx'));
+  assert.ok(report.retained.filter(value => value.kind === 'original-png').every(value => value.references.length));
+  f.adapter.dispose();
+  return report;
+});
+await test('GPU release deduplicates unused PNG and retains exact image data for restore', async () => {
+  const f = await fixture(); await f.adapter.prepare(); f.adapter.applyOriginalKtx();
+  const images = f.originals.map(({ texture }) => texture.image);
+  let disposals = 0, closes = 0;
+  f.originals.forEach(({ texture }) => {
+    texture.image.close = () => closes++;
+    texture.addEventListener('dispose', () => disposals++);
+  });
+  const first = f.adapter.releaseInactiveGpu(), second = f.adapter.releaseInactiveGpu();
+  assert.equal(first.released.length, 2); assert.equal(second.released.length, 0);
+  assert.equal(disposals, 2); assert.equal(closes, 0);
+  assert.ok(second.retained.some(value => value.reason.includes('Already released')));
+  const versions = f.originals.map(({ texture }) => texture.version);
+  f.adapter.restorePng();
+  f.originals.forEach(({ material, texture }, index) => {
+    assert.equal(material.map, texture); assert.equal(texture.image, images[index]);
+    assert.ok(texture.version > versions[index]);
+  });
+  f.adapter.applyOriginalKtx(); f.adapter.releaseInactiveGpu();
+  assert.equal(disposals, 4); assert.equal(closes, 0); f.adapter.dispose();
+  return { first, repeated: second, originalDisposeEventsAfterReactivation: disposals, imageCloseCalls: closes };
+});
+await test('GPU release preserves inactive KTX mip data and reactivates its exact objects', async () => {
+  const f = await fixture(); await f.adapter.prepare(); f.adapter.applyOriginalKtx();
+  const compressed = f.originals.map(({ material }) => material.map);
+  const mipData = compressed.map(texture => texture.mipmaps[0].data);
+  let disposals = 0;
+  compressed.forEach(texture => texture.addEventListener('dispose', () => disposals++));
+  await f.adapter.withCanvasAppearance(async () => ({ applied: true }));
+  assert.equal(f.adapter.releaseInactiveGpu().released.filter(value => value.kind === 'ktx').length, 2);
+  assert.equal(f.adapter.releaseInactiveGpu().released.length, 0); assert.equal(disposals, 2);
+  const versions = compressed.map(texture => texture.version);
+  f.adapter.applyOriginalKtx();
+  f.originals.forEach(({ material }, index) => {
+    assert.equal(material.map, compressed[index]); assert.equal(material.map.mipmaps[0].data, mipData[index]);
+    assert.ok(material.map.version > versions[index]);
+  });
+  f.adapter.dispose();
+});
+await test('GPU release protects original PNG used by another attached material', async () => {
+  const f = await fixture(); await f.adapter.prepare(); f.adapter.applyOriginalKtx();
+  const world = new THREE.Scene(); world.add(f.options.vrm.scene);
+  const external = new THREE.MeshBasicMaterial({ map: f.originals[0].texture });
+  world.add(new THREE.Mesh(new THREE.BufferGeometry(), external));
+  const report = f.adapter.releaseInactiveGpu();
+  assert.ok(report.retained.some(value => value.uuid === f.originals[0].texture.uuid && value.references.length));
+  assert.equal(report.released.filter(value => value.kind === 'original-png').length, 1);
+  f.adapter.dispose();
+});
+await test('GPU release protects nested uniform arrays and cyclic structs', async () => {
+  const f = await fixture(); await f.adapter.prepare(); f.adapter.applyOriginalKtx();
+  const struct = { samplers: [f.originals[0].texture] }; struct.self = struct;
+  const shader = new THREE.ShaderMaterial({ uniforms: { nested: { value: struct } } });
+  f.options.vrm.scene.add(new THREE.Mesh(new THREE.BufferGeometry(), shader));
+  const report = f.adapter.releaseInactiveGpu();
+  assert.ok(report.retained.some(value => value.uuid === f.originals[0].texture.uuid &&
+    value.references.some(path => path.includes('.uniforms.nested.value.samplers.0'))));
+  f.adapter.dispose();
+});
+await test('GPU release protects custom shadow materials and environment references', async () => {
+  const f = await fixture(); await f.adapter.prepare(); f.adapter.applyOriginalKtx();
+  const world = new THREE.Scene(); world.add(f.options.vrm.scene); world.environment = f.originals[0].texture;
+  f.options.vrm.scene.children[0].customDepthMaterial = new THREE.MeshDepthMaterial({ map: f.originals[1].texture });
+  const report = f.adapter.releaseInactiveGpu();
+  assert.equal(report.released.length, 0);
+  assert.ok(report.retained.some(value => value.references?.some(path => path.includes('.customDepthMaterial'))));
+  f.adapter.dispose();
+});
+await test('GPU release protects an active Texture alias sharing the original Source', async () => {
+  const f = await fixture(); await f.adapter.prepare(); f.adapter.applyOriginalKtx();
+  const alias = f.originals[0].texture.clone();
+  f.originals[1].material.lightMap = alias;
+  const report = f.adapter.releaseInactiveGpu();
+  const retained = report.retained.find(value => value.uuid === f.originals[0].texture.uuid);
+  assert.match(retained.reason, /shares this Source/); assert.equal(retained.aliases[0].uuid, alias.uuid);
+  f.adapter.dispose();
+});
+await test('GPU release rechecks references after a dispose listener rebinds another candidate', async () => {
+  const f = await fixture(); await f.adapter.prepare(); f.adapter.applyOriginalKtx();
+  f.originals[0].texture.addEventListener('dispose', () => { f.originals[0].material.lightMap = f.originals[1].texture; });
+  const report = f.adapter.releaseInactiveGpu();
+  assert.equal(report.released.filter(value => value.kind === 'original-png').length, 1);
+  assert.ok(report.retained.some(value => value.uuid === f.originals[1].texture.uuid && value.references.length));
+  f.adapter.dispose();
+});
+await test('GPU reference scan failure records the reason and releases nothing', async () => {
+  const f = await fixture(); await f.adapter.prepare(); f.adapter.applyOriginalKtx();
+  const uniforms = {};
+  Object.defineProperty(uniforms, 'broken', { enumerable: true, get() { throw Error('forced uniform scan failure'); } });
+  f.originals[0].material.uniforms = uniforms;
+  const report = f.adapter.releaseInactiveGpu();
+  assert.equal(report.applied, false); assert.equal(report.released.length, 0);
+  assert.ok(report.failures.every(value => value.reason.includes('forced uniform scan failure')));
+  f.adapter.dispose();
+  return report;
+});
+await test('GPU release refuses unprepared or disposed adapters', async () => {
+  const f = await fixture(); assert.equal(f.adapter.releaseInactiveGpu().applied, false);
+  f.adapter.dispose(); const report = f.adapter.releaseInactiveGpu();
+  assert.equal(report.applied, false); assert.equal(report.released.length, 0);
+});
+
+const report = { schema: 'm2-ktx-pilot-adapter-gpu-release-cpu-v1', threeRevision: THREE.REVISION,
   realBrowserOrDecoderExecuted: false, scope: 'Real Three Texture/CompressedTexture/LoadingManager with stubbed fetch and KTX decode', results };
-await writeFile(new URL('../../evidence/m2-ktx-pilot-source-v1/adapter-cpu.json', import.meta.url), JSON.stringify(report, null, 2) + '\n');
+await writeFile(new URL('../../evidence/m2-ktx-pilot-source-v1/adapter-gpu-release-cpu.json', import.meta.url), JSON.stringify(report, null, 2) + '\n');
 console.log(`${results.length} adapter CPU checks passed`);
