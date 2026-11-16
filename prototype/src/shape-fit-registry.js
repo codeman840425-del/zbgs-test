@@ -17,12 +17,3 @@ export function shapeFitDescriptor(entry, avatarSha256) {
     throw Error(`Garment ${entry.id} shape dependency identity differs from the loaded body/resource`);
   return descriptor;
 }
-
-
-
-
-
-
-
-
-
