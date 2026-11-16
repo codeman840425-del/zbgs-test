@@ -128,7 +128,7 @@ for name,baseline,fail_restore,interrupt in [
     ('interrupt-preserves-backup',False,False,True),
     ('baseline-restore-failure',True,True,False),
 ]:
-    current = module(SOURCE/'scripts/publish-preset-short-hair.py','baseline_publisher') if baseline else publisher
+    current = module(OUT/'publisher-before-swap.py','baseline_publisher') if baseline else publisher
     root,output,pending=setup(name,current);before=snapshot(output)
     def injected_rename(path,target):
         if path.name=='next' and path.parent.name.startswith('publish-hair-'):
@@ -160,7 +160,7 @@ for name,baseline,fail_restore,interrupt in [
         results.append({'name':name,'passed':True,'error':message,'previousBytesRestored':True,'fixture':'Stage-install rename denial only, all other file operations real.'})
 
 report={'publisherSha256':sha((ROOT/'scripts/publish-preset-short-hair.py').read_bytes()),
-        'baselinePublisherSha256':sha((SOURCE/'scripts/publish-preset-short-hair.py').read_bytes()),'results':results,
+        'baselinePublisherSha256':sha((OUT/'publisher-before-swap.py').read_bytes()),'results':results,
         'limits':['Real source payloads and a real Windows deny-delete catalog-file handle are used for idempotence and lock checks.',
                   'Install/restore failure and interruption cases explicitly inject those failures at Path.rename. Remaining I/O and byte comparisons are real.',
                   'The initial directory-handle calibration did not prevent rename and is retained as a fixture failure. Catalog-file locking does reproduce native WinError5. All output operations are confined to private scratch roots. Real root public and GPU/browser are untouched.']}
