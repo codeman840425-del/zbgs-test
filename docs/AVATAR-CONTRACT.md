@@ -4,6 +4,8 @@
 
 新增装备候选约定（公开fe5尚无）：equipment-set校验整个最终集合，onePiece占top+bottom，outerwear需声明layerWith精确条目；未声明层间适配拒绝。先完成所需加载，再切可见性，较新意图废旧异步请求。覆盖mask须绑精确body/item/拓扑，多个已验mask取并集而非按穿脱顺序改全局隐藏；准备失败保原，卸除只恢复不再被其他装备覆盖的区域。当前只有合成mask机制/原男女衣物回归证据，真实连体与叠穿样件未通过；衣层遮挡、扩展槽位与新集合保存仍需接续，不冒称完整框架。
 
+8385候选沿既有outfit选择加入配置组合：extraOutfits的index/role在基模内唯一，equipmentRoles明确组合各角色键，bottomRole指定实际裤/短裤/裙表面。旧10套装的键顺序、ID与v6资源语义不变。新资源只追加精确条目，不换旧manifest URL或修改旧条目含义来绕保存校验。房间层尚未接入真实连体接触，因此拒绝其作为bottomRole；底层onePiece规则测试不等于房间已适配。新组合仍须真实源和受影响运行检查后登记，不因配置存在便准入。基础模式切换时装备覆盖、头发可见性、身体材质及actor/main状态需一起成功或保原；接触读取完整身体，不能从隐藏后的渲染面推定实体缺失。
+
 当前能力和验收状态统一见 [CAPABILITIES.md](CAPABILITIES.md)。当前观看主入口为4196外观工作台，精确构建和回滚只查 delivery/appearance-workbench.json；4195保留已获限定接受的M1基础77e46efb5441，指针为 delivery/candidate.json。4174提供证据。以下包含现行实现与未来接口约定；注明未实现的条款不得冒充运行能力。旧构建测试仍只证明各自范围。
 
 外观工作台是独立候选，见delivery/appearance-workbench.json；4195仍为M1对照。工作台男女按钮切换受检基模；未保存时继承兼容颜色并显式回退不兼容装备，有已保存草稿时恢复该基模最终选择。每基模本机草稿不等于两位主播身份。真实主播身份仍按下列分层。旧QA-only avatar-record合同的baked-resource/空parameters证据不能替代新工作台的实际保存检查。

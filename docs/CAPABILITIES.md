@@ -8,6 +8,8 @@
 
 装备候选增量：源码43b91f807d6ea345f4376682528e920c987b0be9，独立构建84b0c3f350cb，公开4196仍fe5。原男女现有裤裙/长短裤切换、基础身体恢复、真实v6导入往返及错误资源保原通过；四轮第二女性创建/覆盖切换/销毁，86几何、41纹理回到暖机基线（仅短测资源数量）。同版男女正常1×完整动作链状态门通过，录像在evidence/m2-equipment-coverage-chain-84b-v1；视觉结论仍单列，不继承旧版用户验收。多mask并集仍只有合成精确拓扑测试，真实外搭/连体尚未通过。男性外搭第一结构39d620d保留可编辑源和明确穿插失败，新裁片结构另行制作；不能称叠穿已完成。相关证据：evidence/m2-equipment-coverage-fixed-build、m2-equipment-coverage-room-84b-v1、m2-equipment-coverage-lifecycle-84b-v1、m2-layered-outer-v1。
 
+后续候选9bfd1b1c77db/source8385be7：旧equip单件接口已补最终组合校验（5b13b6e）；配置组合及实际下装接触选择加入，旧10造型/v6身份保持。真实浏览器注入覆盖clone失败后，appearance/身体材质/装备/inspection一起保原，合法重试恢复；原男女六次装扮选择和v6导入往返通过。独立CPU保留先失败后修复证据configured-looks-actor-readonly-review-v1，浏览器在m2-configured-looks-room-9bf-v1。新增extraOutfits目前只有合成组合测试，真实外搭尚待接入；不能据此将连体/叠穿整个机制标通过。
+
 ## 当前交付与阶段边界
 
 2026-11-16有限M2 A、B的本次技术制作/回读范围已完成。A：原男女各基准及两套已有四域组合，6真实v5、36图、6条1×；近景局部可辨，房间辨识度不足。B：既有男短发对male-jaw的独立fit，源复做、真实加载、v6文件回读与正常片均完成。观看evidence/m2-character-presets-a-v1及evidence/m2-male-jaw-hair-runtime-v1。不称完整M2、脸型库或所有体型兼容。用户明确本阶段验证技术路线；具体造型和游戏镜头辨识度后置，撤销此前等待差异方向选择。当前补既有agent生产索引的M2流程遗漏，不扩参数库或M3。

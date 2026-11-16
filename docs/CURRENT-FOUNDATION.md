@@ -20,7 +20,7 @@ M3随机抽取/规模化内容未开工，但稳定角色ID、确定性多记录
 2. 最终装备集合已在b819接入现有加载器和M1套装，0506393补旧equip与新equipSet竞态。real male loader、失败/取消/释放CPU通过。b819独立构建02a14a4b2a07，evidence/m2-equipment-set-room-02a-v1真实房间裤裙/长短裤/基础模式与1倍速移动检查通过，但这是旧候选，不包含后加coverage和竞态修复，不重标。
 3. 多mask覆盖集合及prepare/commit已提交1f5172f并核实远端。43b91f8补实际v6导入/坏资源保原测试；独立构建84b0c3f350cb在临时4207。原男女六次换装、基础覆盖恢复、配方往返通过；4轮第二女角色create/render/dispose回86几何41纹理；男女完整1倍速动作链各25状态门通过，42.54/40.89秒、固定镜头无变化。evidence/m2-equipment-coverage-{fixed-build,room-84b-v1,lifecycle-84b-v1,chain-84b-v1}。连续视觉仍待独立观看；真实仍仅女top mask，多mask叠衣只有合成测试。6组失败清理CPU证据继续有效，不重调M1动作。
 4. 男性外搭第一结构e6faee0已集成39d620d，源与静图失败归档。新显式派工outer_panels（gpt-6.1-sol/high，复杂几何/蒙皮）在experiments/m2-outer-panels-v2，独立裁片第一版静态无交叉且可重复导出，但root看三图发现肩带悬浮、袖窿阶梯与硬板轮廓；已要求保留并按实际肩/躯干截面修正。尚未游戏接入，不把零交叉当服装通过。未动封板裙舞。
-5. 新显式派工single_equipment_contract（gpt-6.1-sol/high，复杂异步选择边界）在experiments独立目录核查旧equip入口绕过最终集合规则；已复现并修复，待取得准确提交集成。真实男GLB+合成slot别名只证明规则；不冒称连体/外搭fit。其变更尚未包含在84b录像中，后续按影响补测。
+5. single_equipment_contract（显式gpt-6.1-sol/high）6962修复旧equip绕过最终集合，已集成5b13b6e；13非法组合均拒绝保原，18观察及原竞态/释放门通过。8385be7增加配置组合（旧10 looks/v6资源顺序不变）、按实际下装选择接触面，并修actor基础模式失败导致外观/材质提前改变。独立只读审查55623集成34c5af2保留实际clone失败前后证据。独立构建9bfd1b1c77db在4207，真实浏览器clone失败保原/重试、男女6次换装/v6往返/坏资源保原和1×短走通过，evidence/m2-configured-looks-{fixed-build,room-9bf-v1}；完整动作录像仍84b，不重标。新外搭实物尚未接入；onePiece房间接触仍未支持。
 
 ## 派工纪律与桌面钩子
 
@@ -30,4 +30,4 @@ scripts/agent-policy为用户要求的PreToolUse入口校验。用户安装并�
 
 ## 恢复与资源
 
-一次只占用一个GPU/录屏/重Blender/编码窗口。目前outer_panels获源修正窗口，root浏览器已退出。临时4207提供84b固定检查候选，公开4196不变；只关闭自己创建的临时服务，勿杀用户其他服务。最新工作包P0–P6见阶段计划；勿恢复旧等待审美、有限M2结束或先做M3建议。
+一次只占用一个GPU/录屏/重Blender/编码窗口。outer_panels已产最新贴肩截面源/静图，root已看正侧图；准备归档，游戏接入待精确提交和author-export准入。root浏览器短测已结束。临时4207提供9bf固定检查候选，公开4196不变；只关闭自己创建的临时服务，勿杀用户其他服务。最新工作包P0–P6见阶段计划；勿恢复旧等待审美、有限M2结束或先做M3建议。
