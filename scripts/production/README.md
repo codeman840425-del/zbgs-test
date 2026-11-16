@@ -13,7 +13,7 @@ python scripts/production/qa-flow.py
 python scripts/production/qa-source-packages.py
 ```
 
-十五条入口共用既有命令索引；已有 `male-jaw-source`、`male-jaw-mouth`、`male-jaw-hair-fit`。没有运行命令的子命令、shell、自动导出或浏览器。`show`/`dry-run` 只输出参数和写入范围；`validate` 只读现有文件。工具或依赖缺失与源文件缺失分开报告。
+十六条入口共用既有命令索引；已有 `male-jaw-source`、`male-jaw-mouth`、`male-jaw-hair-fit`。没有运行命令的子命令、shell、自动导出或浏览器。`show`/`dry-run` 只输出参数和写入范围；`validate` 只读现有文件。工具或依赖缺失与源文件缺失分开报告。
 
 新增三包清单 SHA 固定在 workflows.json。男下颌包核文件及原始基模、独立重建/重复导出的身份；嘴包核 files/dependencies、精确 jaw 基模与仅 0/+4% 配方及最终 NORMAL 产物；头发包使用 evidence 下的包清单，并核同 GLB 的独立 fit ID/version/body、挂点及 public 三文件。头发目录的 manifest.json 是运行时描述，不能当文件清单。
 
@@ -73,3 +73,9 @@ if (result.accepted) await __debug.importAppearanceRecipe(JSON.stringify(record)
 索引列出默认及独立out写范围，qa的临时无效参数输入用源包tmp*.json前缀，publisher用目标父目录.surface-stage-*暂存后整目录rename。writes中的星号声明临时名称前缀，只读索引不展开或执行它们。publisher先核源清单和passed QA，再构造11文件payload；已有完整同字节版本幂等，不同或不完整版本需新输出/版本。`--output`显式另选目录时，staging随目标父目录移动。
 
 `python -B scripts/production/qa-surface-package.py` 做作者定向自查，首次/重复发布与源篡改、失败QA、目标冲突拒绝只在OS临时镜像中调用原publisher，不重建PNG、启动浏览器或使用GPU。
+
+长发入口为 `long-hair-source`。固定26项清单沿原25项只加入root publisher，旧清单身份保留Git历史。只读validate核原女Body与真实raw-head inverse bind、既有三角诊断helper SHA、691v/1322t/8骨及实际混权、官方3.5.5 API smoke、静态近接触、一次改长导出和原失败实物。运行发布固定为generated下GLB/fit/manifest三文件，逐字节比对当前public。额外exports、原失败或changed-length实物不能自动成为运行候选。
+
+制作依赖Python3.13/numpy2.4.2/Pillow12.1.0；实际CPU loader使用prototype锁定Three187及springbone3.5.5，索引和publisher只用标准库。独立重建用源build的有界 `--out assets-source/m2-long-hair-v1/exports/<新目录>`，同字节不重写、不同字节拒绝。后续revision共存时在固定原提交的隔离检出重跑v1写入QA，保原26项清单，日常使用只读validate。
+
+writer顺序为build、Node qa-runtime、Python qa；最终qa只在内存计划/重复生成并写QA及package-files，枚举会纳入publisher。first failure文件仅缺失时创建，写范围已声明。publisher完整核源清单和两份passed QA，再核asset/fit身份，以同级.hair-stage-*暂存后整目录rename发布三文件。同字节release幂等，不同或不完整release须另选输出/版本。`qa-long-hair-package.py` 在完整OS临时镜像内验证首次/重复发布和失败QA、损坏fit/GLB及冲突目标零写入，原source/runtime/public不变。该检查由源作者完成，动态和观感依据对应固定游戏证据。

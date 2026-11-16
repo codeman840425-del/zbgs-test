@@ -4,6 +4,9 @@ import json
 
 def validate_package(v, ident, require, GLB):
     kind = ident['package']
+    if kind == 'long-hair':
+        from long_hair_package import validate_long_hair
+        return validate_long_hair(v, ident, require, GLB)
     if kind == 'surface-layer':
         from surface_package import validate_surface
         return validate_surface(v, ident, require, GLB)

@@ -1995,6 +1995,161 @@
         "Run qa-output then full qa to capture current source checks and inventory, including publisher. A changed inventory SHA requires explicit workflows.json review.",
         "Publish only a validated source snapshot. Different existing release requires a separate output/version; default public is preserved."
       ]
+    },
+    {
+      "id": "long-hair-source",
+      "title": "Original female multi-bone ponytail source and official spring API CPU proof",
+      "kind": "source-package",
+      "sources": [
+        "assets-source/m2-long-hair-v1/spec.json",
+        "assets-source/m2-long-hair-v1/provenance.json",
+        "assets-source/m2-long-hair-v1/source-correction.json",
+        "scripts/m2-long-hair-v1/build.py",
+        "scripts/m2-long-hair-v1/qa.py",
+        "scripts/m2-long-hair-v1/qa-runtime.mjs",
+        "scripts/m2-long-hair-v1/publish.py",
+        "scripts/m2-long-hair-v1/requirements.txt"
+      ],
+      "inputs": [
+        "assets-source/m2-long-hair-v1/spec.json",
+        "prototype/public/assets/foundation/base-female-roundtrip.vrm",
+        "scripts/m2-socks-layer-v1/qa.py"
+      ],
+      "identity": {
+        "package": "long-hair",
+        "manifest": "assets-source/m2-long-hair-v1/generated/package-files.json",
+        "manifestSha256": "5e3bea68d4a8dfc15764587b8bba1ba943fef13d3a0d7b8659fd9648a46a0c7d"
+      },
+      "requirements": [
+        "scripts/m2-long-hair-v1/requirements.txt",
+        "prototype/package-lock.json"
+      ],
+      "outputs": [
+        "assets-source/m2-long-hair-v1/generated/",
+        "assets-source/m2-long-hair-v1/exports/",
+        "prototype/public/assets/m2-long-hair-v1/"
+      ],
+      "agentInput": {
+        "spec": "assets-source/m2-long-hair-v1/spec.json",
+        "supportedBases": [
+          "exact original female 027bed60 only"
+        ],
+        "supportedVerticalDropsM": [
+          0.39,
+          0.43
+        ],
+        "generationDependencies": "Python 3.13 with numpy==2.4.2 and Pillow==12.1.0; CPU loader/API smoke uses locked Three187 and @pixiv/three-vrm-springbone3.5.5. Standard-library readback/publisher.",
+        "reviewRole": "Source author validation; no independent dynamic or visual acceptance."
+      },
+      "stages": {
+        "source": [
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/production/flow.py",
+              "show",
+              "long-hair-source"
+            ],
+            "writes": []
+          }
+        ],
+        "export": [
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/m2-long-hair-v1/build.py"
+            ],
+            "writes": [
+              "assets-source/m2-long-hair-v1/generated/"
+            ],
+            "note": "Fixed source base plus one changed-length export. Compute all bytes before writing, identical files preserved, differing files refused. Source body and originals remain immutable."
+          },
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/m2-long-hair-v1/build.py",
+              "--out",
+              "assets-source/m2-long-hair-v1/exports/rebuild-v1"
+            ],
+            "writes": [
+              "assets-source/m2-long-hair-v1/exports/rebuild-v1/"
+            ],
+            "note": "Explicit separate regeneration under source exports. Choose another child when bytes differ. Review identities before promotion."
+          },
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/m2-long-hair-v1/publish.py"
+            ],
+            "writes": [
+              "prototype/public/assets/m2-long-hair-v1/",
+              "prototype/public/assets/.hair-stage-*/"
+            ],
+            "note": "Retained root publisher verifies stored source inventory and passed source/API QA, pins GLB/fit, and publishes exactly the three curated generated base resources. Failed-source and parameter-variant exports are excluded. Uses sibling .hair-stage-* then whole-directory rename. Different or partial existing release refuses writes; identical complete release preserves bytes/mtime. An explicit --output override stages under that destination parent."
+          }
+        ],
+        "check": [
+          {
+            "argv": [
+              "node",
+              "scripts/m2-long-hair-v1/qa-runtime.mjs"
+            ],
+            "writes": [
+              "assets-source/m2-long-hair-v1/generated/runtime-cpu-qa.json"
+            ],
+            "note": "Actual GLTFLoader skinning and official spring3.5.5 constructor/init/one update/reset/delete CPU smoke. Placeholder textures, no GPU or game movement acceptance. Optional --modules-root selects existing locked installation."
+          },
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/m2-long-hair-v1/qa.py"
+            ],
+            "writes": [
+              "assets-source/m2-long-hair-v1/generated/qa-report.json",
+              "assets-source/m2-long-hair-v1/generated/package-files.json",
+              "assets-source/m2-long-hair-v1/initial-clearance-failure.json"
+            ],
+            "note": "Plans/repeats both exports in memory, checks weights/material/rest clearance, writes QA and enumerates package inventory. A first clearance failure writes the failure evidence only if absent. Run this writer only in a fixed source checkout when later revisions coexist, so v1 inventory remains frozen."
+          },
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/production/qa-long-hair-package.py"
+            ],
+            "writes": [],
+            "note": "Source-author frozen readback and publisher first/repeat/refusal checks. Publisher executes only in full OS temporary mirrors removed afterward. No source/runtime/public mutation or GPU."
+          }
+        ],
+        "readback": [
+          {
+            "argv": [
+              "python",
+              "-B",
+              "scripts/production/flow.py",
+              "validate",
+              "long-hair-source"
+            ],
+            "writes": []
+          }
+        ]
+      },
+      "limits": [
+        "Exact original female head-local auxiliary skeleton with eight skin joints and six official spring joints only. No arbitrary hairstyle or body fits.",
+        "Initial rear-head tie failure and one corrected source remain distinct. Retained failed exports and changed-length source witness do not enter curated runtime publication.",
+        "Stored static and API smoke facts retain runtimeAccepted=false. Runtime dynamic/contact/visual acceptance belongs to matching game evidence."
+      ],
+      "recovery": [
+        "Restore exact fixed source bytes on a hash failure. Preserve failed outputs and prior inventory versions in Git; do not alter a hash to bless corruption.",
+        "For a source rebuild use a fixed source checkout, build into a fresh bounded exports child, review output identities, then explicitly promote and rerun CPU QA before refreshing the source inventory.",
+        "Source qa enumerates package files, including publisher. Avoid rewriting frozen v1 inventory from a tree containing newer revisions. Read-only validate checks the curated fixed 26-item source version.",
+        "Publish the validated generated base only. Different existing release needs a new explicit output/version. Whole-directory rename supports an identical repeat with no rewriting."
+      ]
     }
   ]
 }
