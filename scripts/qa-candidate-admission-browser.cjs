@@ -30,10 +30,17 @@ const identities={male:{assetId:'beta-base-male-m1b',sha256:'62b44b0372570a82169
     const before=await state();
     const admission=await p.evaluate(()=>__debug.admitAppearanceCandidate(__debug.queryAppearanceCandidates().defaultRecipe));
     assert.equal(admission.accepted,true,JSON.stringify(admission));assert.equal(admission.stage,'static');
+    const isolated=await p.evaluate(()=>{const first=__debug.queryAppearanceCandidates(),expected=first.defaultRecipe.appearance.hairColor;first.defaultRecipe.appearance.hairColor='invalid-client-edit';return __debug.queryAppearanceCandidates().defaultRecipe.appearance.hairColor===expected;});
+    assert(isolated,'Editing a query result changed runtime defaults');
     assert.deepEqual(await state(),before);assert.equal(await p.evaluate(()=>__debug.exportAppearanceRecipe()),original);
     return{admission,defaultMatchesInitial:JSON.stringify(JSON.parse(original))===JSON.stringify(catalog.defaultRecipe)};
    });
    if(body==='male'){
+    await check('unimplemented requested parameter is rejected instead of silently dropped',async()=>{
+     const record=JSON.parse(original);record.geometry.headWidth=1.1;
+     const before=await state(),result=await p.evaluate(record=>__debug.admitAppearanceCandidate(record),record);
+     assert.equal(result.accepted,false);assert(result.issues.some(i=>i.field&&i.code&&i.reason));assert.deepEqual(await state(),before);return result;
+    });
     for(const domain of ['mouth','brow']){
      const input=JSON.parse(await fs.readFile(path.join(__dirname,`../evidence/m2-static-admission-baseline-1fa-v1/${domain}-wrong-source-v6.json`),'utf8'));
      await check(domain+' wrong-source rejected before fetch and without state writes',async()=>{
@@ -78,7 +85,6 @@ const identities={male:{assetId:'beta-base-male-m1b',sha256:'62b44b0372570a82169
    const input=JSON.parse(await fs.readFile(path.join(__dirname,'../evidence/m2-static-admission-baseline-1fa-v1/brow-correct-source-v6.json'),'utf8'));
    const before=await p.evaluate(()=>__debug.exportAppearanceRecipe());
    const admission=await p.evaluate(input=>__debug.admitAppearanceCandidate(input),input);assert.equal(admission.accepted,true);
-   const pattern='**/face-brow-visible-v2/male-brow-height-spacing.recipe.json';
    let hits=0;await p.route('**/face-brow-visible-v2/*.recipe.json',route=>{hits++;return route.fulfill({status:200,body:'{}',contentType:'application/json'});});
    const applied=await p.evaluate(async input=>{try{return await __debug.importAppearanceRecipe(JSON.stringify(input));}catch(e){return{error:String(e)};}},input);
    assert.equal(hits,1);assert(applied.error||applied.applied===false);assert.equal(await p.evaluate(()=>__debug.exportAppearanceRecipe()),before);
