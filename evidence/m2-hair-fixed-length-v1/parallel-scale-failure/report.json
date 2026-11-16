@@ -1,0 +1,25 @@
+{
+  "sourceSha256": "b460b067ff8ee5fc24e2884ad73ad158459d5f760c6fe22ac4992fc8db2e85dc",
+  "checks": [
+    {
+      "name": "actual captured outside endpoints and intersecting middle correct on fixed length sphere",
+      "passed": true,
+      "correctionM": 0.0493303705088249,
+      "boneLengthM": 0.0650099885779328,
+      "postNormalizationShiftM": 0
+    },
+    {
+      "name": "inside endpoint and parallel-normal degeneracy choose a finite sphere-plane circle point",
+      "passed": true
+    }
+  ],
+  "failure": {
+    "message": "The expression evaluated to a falsy value:\n\n  assert(!interiorSegment(p,pivot,solved.normalized,.01))\n",
+    "stack": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(!interiorSegment(p,pivot,solved.normalized,.01))\n\n    at file:///F:/gamemake-hair-fixed-length-v1/evidence/m2-hair-fixed-length-v1/probe-constraints.mjs:57:72\n    at test (file:///F:/gamemake-hair-fixed-length-v1/evidence/m2-hair-fixed-length-v1/probe-constraints.mjs:39:58)\n    at file:///F:/gamemake-hair-fixed-length-v1/evidence/m2-hair-fixed-length-v1/probe-constraints.mjs:54:2"
+  },
+  "limits": [
+    "Real official manager/joints with CPU fixtures. Segment clearance comparisons allow1e-10 local floating tolerance.",
+    "A common outer face is a conservative separating constraint. It can redirect the strand more than a tangent corner solution.",
+    "Contained fixed-length spheres and inside pivots expose unresolved diagnostics. No body/triangle/continuous collision or browser acceptance."
+  ]
+}

@@ -1,0 +1,268 @@
+{
+  "schema": "independent-hair-spring-cpu-v1",
+  "probeSourceSha256": "5188d1f129f9863f6534360ae964967e310c913ba8e79efc184b17982d1bae91",
+  "sourceSha256": {
+    "prototype/src/hair-spring.js": "4ecdcd367fdacb4a9498cca6b7f59af28027f3fc8d0a5200285a75c5c123a1ef",
+    "prototype/src/character-appearance.js": "65693cb585179c6331870de2a7d15f22f97e3c760c8a24ee9c418119590ca7b8",
+    "prototype/src/hair-fit-contract.js": "47aa8cf8e23b4cf8b96a1ef6621cfb360998478a35dc2ccbb147b2b3a49caa5c",
+    "prototype/src/foundation-avatar.js": "0888c2789b42d9f16883989ecfa502a617c8f735bf23ab79ee32a2943a0bb5fc",
+    "scripts/qa-hair-spring.mjs": "717d33a50ebeddc0252e5507084c3e1eb45eb53baab59c82b24809e0408b0916"
+  },
+  "finalSha256": {
+    "prototype/src/hair-spring.js": "4ecdcd367fdacb4a9498cca6b7f59af28027f3fc8d0a5200285a75c5c123a1ef",
+    "prototype/src/character-appearance.js": "65693cb585179c6331870de2a7d15f22f97e3c760c8a24ee9c418119590ca7b8",
+    "prototype/src/hair-fit-contract.js": "47aa8cf8e23b4cf8b96a1ef6621cfb360998478a35dc2ccbb147b2b3a49caa5c",
+    "prototype/src/foundation-avatar.js": "0888c2789b42d9f16883989ecfa502a617c8f735bf23ab79ee32a2943a0bb5fc",
+    "scripts/qa-hair-spring.mjs": "717d33a50ebeddc0252e5507084c3e1eb45eb53baab59c82b24809e0408b0916"
+  },
+  "checks": [
+    {
+      "name": "actual GLTF rest fixture has compatible inverse bind",
+      "passed": true,
+      "deviationM": 1.4901160305669237e-9
+    },
+    {
+      "name": "actual appearance drives official solver once per visible update",
+      "passed": true
+    },
+    {
+      "name": "base mode hides and freezes replacement manager",
+      "passed": true
+    },
+    {
+      "name": "showing cached spring resets its local pose",
+      "passed": true
+    },
+    {
+      "name": "spring did not write raw body head rotation",
+      "passed": true,
+      "before": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "after": [
+        0,
+        0,
+        0.19866933079506122,
+        0.9800665778412416
+      ]
+    },
+    {
+      "name": "ordinary dispose releases parsed scene skeleton and colliders",
+      "passed": true,
+      "counts": {
+        "geometry": 1,
+        "material": 1,
+        "skeleton": 1
+      }
+    },
+    {
+      "name": "ordinary replacement disposal preserves original borrowed texture",
+      "passed": true
+    },
+    {
+      "name": "actual delayed GLTF manager inherits current room environment",
+      "passed": true
+    },
+    {
+      "name": "appearance environment set does not advance or reset official solver",
+      "passed": true
+    },
+    {
+      "name": "hidden cached manager clears its owned environment proxy",
+      "passed": true
+    },
+    {
+      "name": "hidden cached manager accepts new environment without becoming visible",
+      "passed": true
+    },
+    {
+      "name": "appearance disposal cleans hidden cache room proxies without removing room mesh",
+      "passed": true
+    },
+    {
+      "name": "real loader disposal during room collider attachment releases late manager and parsed asset",
+      "passed": true,
+      "result": {
+        "applied": false,
+        "cancelled": true
+      },
+      "counts": {
+        "geometry": 1,
+        "material": 1,
+        "skeleton": 1
+      }
+    },
+    {
+      "name": "finite but incompatible inverse bind must reject before visible commit",
+      "passed": true,
+      "result": {
+        "applied": false,
+        "reason": "发型动态适配：静止绑定不匹配 IndependentSpringMesh/SpringTip[1]，误差 0.2"
+      },
+      "validatorRejected": true,
+      "restVertexDeviationM": 0.09999999999999998,
+      "state": {
+        "hairStyle": "original",
+        "hairColor": "original",
+        "skinTone": "original",
+        "loading": false,
+        "error": "发型动态适配：静止绑定不匹配 IndependentSpringMesh/SpringTip[1]，误差 0.2",
+        "bodyMode": "dressed",
+        "revision": 1,
+        "effectiveHairStyle": "original",
+        "noHairAdmission": {
+          "id": "female",
+          "sha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+          "sourceSkinEvidence": "female",
+          "status": "source-static-reviewed; runtime-pending",
+          "evidence": "evidence/workbench-face-source-audit-v1/RESULT.md"
+        },
+        "eyeColor": "original",
+        "lipColor": "original",
+        "surfaceLayers": [],
+        "surfaceManifestSha256": null,
+        "surfaceTextureCount": 0,
+        "facialPaletteLoading": false,
+        "facialPaletteError": null,
+        "facialTextureCount": 0,
+        "facialMaskIdentity": null,
+        "availableStyles": [
+          "original",
+          "none",
+          "female-ponytail-v1",
+          "female-bob-v1",
+          "independent-spring-good",
+          "independent-spring-environment-inheritance",
+          "independent-spring-environment-dispose-during-load",
+          "independent-spring-bad-bind"
+        ],
+        "styleOptions": [
+          {
+            "id": "original",
+            "label": "原发型"
+          },
+          {
+            "id": "none",
+            "label": "无发（保留眉睫毛）"
+          },
+          {
+            "id": "female-ponytail-v1",
+            "label": "长束发 · 动态制作候选"
+          },
+          {
+            "id": "female-bob-v1",
+            "label": "齐颈侧后短发"
+          },
+          {
+            "id": "independent-spring-good",
+            "label": "independent-spring-good"
+          },
+          {
+            "id": "independent-spring-environment-inheritance",
+            "label": "independent-spring-environment-inheritance"
+          },
+          {
+            "id": "independent-spring-environment-dispose-during-load",
+            "label": "independent-spring-environment-dispose-during-load"
+          },
+          {
+            "id": "independent-spring-bad-bind",
+            "label": "independent-spring-bad-bind"
+          }
+        ],
+        "skinMaterialCount": 0,
+        "hairMaterialCount": 1,
+        "neutralTextureCount": 0,
+        "hairFit": null,
+        "replacementSHA256": null,
+        "hairDynamics": null
+      }
+    },
+    {
+      "name": "material clone rejection preserves old visible hair",
+      "passed": true,
+      "result": {
+        "applied": false,
+        "reason": "Independent outline clone failure"
+      }
+    },
+    {
+      "name": "material clone rejection releases parsed geometry material skeleton and partial clone",
+      "passed": true,
+      "counts": {
+        "geometry": 1,
+        "material": 1,
+        "skeleton": 1
+      },
+      "partialCloneDisposals": 1
+    },
+    {
+      "name": "clone failure cleanup preserves original borrowed texture",
+      "passed": true
+    },
+    {
+      "name": "dispose during head childadded prevents late cache/proxy installation",
+      "passed": true,
+      "result": {
+        "applied": false,
+        "cancelled": true
+      },
+      "attachedReplacement": false,
+      "colliderCount": 0,
+      "counts": {
+        "geometry": 1,
+        "material": 1,
+        "skeleton": 1
+      }
+    },
+    {
+      "name": "ordinary newer selection cancels deferred load and keeps it hidden",
+      "passed": true,
+      "result": {
+        "applied": false,
+        "cancelled": true
+      }
+    },
+    {
+      "name": "cancelled hidden cache releases on owner disposal",
+      "passed": true,
+      "counts": {
+        "geometry": 1,
+        "material": 1,
+        "skeleton": 1
+      }
+    },
+    {
+      "name": "replacement initialization/reset leaves original manager joint pose intact",
+      "passed": true
+    },
+    {
+      "name": "reviewed sources stable through probe",
+      "passed": true,
+      "sourceSha256": {
+        "prototype/src/hair-spring.js": "4ecdcd367fdacb4a9498cca6b7f59af28027f3fc8d0a5200285a75c5c123a1ef",
+        "prototype/src/character-appearance.js": "65693cb585179c6331870de2a7d15f22f97e3c760c8a24ee9c418119590ca7b8",
+        "prototype/src/hair-fit-contract.js": "47aa8cf8e23b4cf8b96a1ef6621cfb360998478a35dc2ccbb147b2b3a49caa5c",
+        "prototype/src/foundation-avatar.js": "0888c2789b42d9f16883989ecfa502a617c8f735bf23ab79ee32a2943a0bb5fc",
+        "scripts/qa-hair-spring.mjs": "717d33a50ebeddc0252e5507084c3e1eb45eb53baab59c82b24809e0408b0916"
+      },
+      "finalSha256": {
+        "prototype/src/hair-spring.js": "4ecdcd367fdacb4a9498cca6b7f59af28027f3fc8d0a5200285a75c5c123a1ef",
+        "prototype/src/character-appearance.js": "65693cb585179c6331870de2a7d15f22f97e3c760c8a24ee9c418119590ca7b8",
+        "prototype/src/hair-fit-contract.js": "47aa8cf8e23b4cf8b96a1ef6621cfb360998478a35dc2ccbb147b2b3a49caa5c",
+        "prototype/src/foundation-avatar.js": "0888c2789b42d9f16883989ecfa502a617c8f735bf23ab79ee32a2943a0bb5fc",
+        "scripts/qa-hair-spring.mjs": "717d33a50ebeddc0252e5507084c3e1eb45eb53baab59c82b24809e0408b0916"
+      }
+    }
+  ],
+  "failures": [],
+  "fatal": null,
+  "limits": [
+    "Real Three187 GLTFLoader, appearance/fit modules and official three-vrm3.5.5 solver. The GLB is a small authored CPU fixture, not the forthcoming actual ponytail source.",
+    "The hairstyle catalog is extended only in this test process memory and restored. HTTP resources are pinned generated fixture bytes.",
+    "No browser, GPU, actual long-hair visual/triangle collision or performance acceptance. Environment checks use the actual main chairCollider function and GLTF fixture. Foundation update ordering was reviewed statically, not executed through a renderer."
+  ]
+}

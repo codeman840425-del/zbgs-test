@@ -1,0 +1,189 @@
+{
+  "schema": "hair-fixed-length-segment-candidate-v1",
+  "baseCommit": "5ba8df87ab13c4ae7760c6b19e5b9d6ebd79ab8c",
+  "sourceSha256": "4ecdcd367fdacb4a9498cca6b7f59af28027f3fc8d0a5200285a75c5c123a1ef",
+  "assetSha256": "1b785f9d54107818cee39eda2de7263ad0720ce90968fbaa7cc32c2465e3c385",
+  "baselineHairSpringSha256": "8f4712f563ef377ff2b82a99a45e81241662e205adcbf45d8c5155707f32c366",
+  "sourceCaptureReportSha256": "953e9d30189ebed1c7d8558abe1b702f577ba6e37139bcf45fe388b54ae973f1",
+  "build": {
+    "status": "passed",
+    "id": "8b37d9f853e2",
+    "cwd": "prototype",
+    "command": "npm run build",
+    "warning": "Existing Vite large-chunk warning"
+  },
+  "status": "CPU-verified bounded candidate; real browser acceptance pending root",
+  "rootCause": "Actual Pony5-Pony6 segment crosses chair-back top between two outside endpoints; old endpoint-only projector skips the last endpoint. Upper joint also has projection plus fixed-length normalization residual.",
+  "construction": [
+    "Per-joint official environment collider shapes detect the whole current bone segment against the existing radius-expanded oriented box.",
+    "Choose the nearest fixed-length sphere/outer-plane circle point among box faces for which the pivot is already outside. This gives a common separating half-space for the segment before official bone evaluation.",
+    "Official manager/joints still evaluate once. No extra physics integration, radius inflation, source/body/pose/controller/cloth changes.",
+    "Logical environmentColliderCount remains2 for actual chair, while environmentColliderObjectCount is12 for six joints. Body/colliderCount remain3.",
+    "Inside pivots or unreachable fixed-length sphere/face intersections expose unresolvedCollisions/lastOutcome and finite output."
+  ],
+  "checks": {
+    "constraints": {
+      "count": 9,
+      "report": "constraint-report-final.json"
+    },
+    "actualGLTFLifecycle": {
+      "count": 22,
+      "report": "lifecycle/run-v2/report.json"
+    },
+    "originalSolverRegression": {
+      "count": 5,
+      "report": "original-solver-regression-v2/report.json"
+    },
+    "actualCapturedPoseReplay": {
+      "samples": 3,
+      "report": "replay-report-final.json"
+    }
+  },
+  "actualReplayMeasurements": [
+    {
+      "sample": 0,
+      "baseline": {
+        "replayVertexErrorM": 0,
+        "before": {
+          "box": "chairBack",
+          "inside": 30,
+          "maxDepthLocalM": 0.015405111548190575
+        },
+        "afterOneOfficialStep": {
+          "box": "chairBack",
+          "inside": 27,
+          "maxDepthLocalM": 0.015071376896673927
+        },
+        "after120FrozenHeadSteps": {
+          "box": "chairBack",
+          "inside": 34,
+          "maxDepthLocalM": 0.01586804272719533
+        }
+      },
+      "candidate": {
+        "replayVertexErrorM": 0,
+        "before": {
+          "box": "chairBack",
+          "inside": 30,
+          "maxDepthLocalM": 0.015405111548190575
+        },
+        "afterOneOfficialStep": {
+          "box": "chairBack",
+          "inside": 3,
+          "maxDepthLocalM": 0.000617224071724265
+        },
+        "after120FrozenHeadSteps": {
+          "box": "chairBack",
+          "inside": 3,
+          "maxDepthLocalM": 0.000608316231181294
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "baseline": {
+        "replayVertexErrorM": 0,
+        "before": {
+          "box": "chairBack",
+          "inside": 36,
+          "maxDepthLocalM": 0.02098214779796892
+        },
+        "afterOneOfficialStep": {
+          "box": "chairBack",
+          "inside": 35,
+          "maxDepthLocalM": 0.020263701800558698
+        },
+        "after120FrozenHeadSteps": {
+          "box": "chairBack",
+          "inside": 39,
+          "maxDepthLocalM": 0.016576254592434947
+        }
+      },
+      "candidate": {
+        "replayVertexErrorM": 0,
+        "before": {
+          "box": "chairBack",
+          "inside": 36,
+          "maxDepthLocalM": 0.02098214779796892
+        },
+        "afterOneOfficialStep": {
+          "box": "chairBack",
+          "inside": 6,
+          "maxDepthLocalM": 0.0007697452526830295
+        },
+        "after120FrozenHeadSteps": {
+          "box": "chairBack",
+          "inside": 6,
+          "maxDepthLocalM": 0.0006655126769276043
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "baseline": {
+        "replayVertexErrorM": 0,
+        "before": {
+          "box": "chairBack",
+          "inside": 35,
+          "maxDepthLocalM": 0.02020929144795991
+        },
+        "afterOneOfficialStep": {
+          "box": "chairBack",
+          "inside": 34,
+          "maxDepthLocalM": 0.019509483892469204
+        },
+        "after120FrozenHeadSteps": {
+          "box": "chairBack",
+          "inside": 37,
+          "maxDepthLocalM": 0.015757514714620724
+        }
+      },
+      "candidate": {
+        "replayVertexErrorM": 0,
+        "before": {
+          "box": "chairBack",
+          "inside": 35,
+          "maxDepthLocalM": 0.02020929144795991
+        },
+        "afterOneOfficialStep": {
+          "box": "chairBack",
+          "inside": 6,
+          "maxDepthLocalM": 0.0007677994899679685
+        },
+        "after120FrozenHeadSteps": {
+          "box": "chairBack",
+          "inside": 6,
+          "maxDepthLocalM": 0.0006690848281368789
+        }
+      }
+    }
+  ],
+  "independentReviewBoundaries": [
+    "hair_segment_review independently found a supported two-disjoint-box ordering counterexample. The second sequential collision can reenter the first. Current lastOutcome/unresolvedCollisions describe each collider calculation and cannot certify final multi-box convergence. Independent evidence belongs to evidence/m2-hair-segment-independent-v1.",
+    "The actual captured chair fixtures have no seat segment contacts, so that two-box counterexample is not the measured seat/back cause here.",
+    "Independent review measured about.056/.075/.067mm expanded-back endpoint residual from official bone evaluation. This is recorded as numerical diagnostic, not an extra repair gate."
+  ],
+  "limits": [
+    "Actual all609 skinned vertices reconstruct with zero error in each captured508 pose. Subsequent CPU steps freeze the captured head, preserve all joint settings and omit body proxy frames that were not captured. They are an environment-isolation fixture, not full gameplay replay.",
+    "Remaining sampled actual-mesh depths are about.6-.8mm in CPU fixtures. Root must inspect actual1x same-chair and moved-chair camera/actions after fixed candidate build. No GPU/browser/performance acceptance from this work.",
+    "Common face separation is conservative and may redirect the strand farther than a tangent corner solution. Mesh triangles, deformation thickness, continuous collision and simultaneous multi-OBB constraint solving remain outside this bounded method."
+  ],
+  "preservedFailures": [
+    {
+      "path": "parallel-scale-failure/",
+      "cause": "Near-parallel rotated/nonuniform fixture exposed subtractive tangent cancellation.",
+      "fix": "Cross-product tangent plus relative-length near-parallel branch. No collision-margin or spring-parameter change."
+    },
+    {
+      "path": "matrix-update-fixture-failure/",
+      "cause": "Test changed an Object3D manual matrix without marking matrixWorldNeedsUpdate under Three187, so the expected stale-inverse rejection never saw a changed world matrix.",
+      "fix": "Corrected the fixture matrix update flag. Runtime stale-inverse guard remains."
+    }
+  ],
+  "rootCpuCommands": [
+    "node evidence/m2-hair-fixed-length-v1/probe-constraints.mjs root-constraints.json",
+    "node evidence/m2-hair-fixed-length-v1/probe-replay.mjs root-replay.json",
+    "node evidence/m2-hair-fixed-length-v1/probe-lifecycle.mjs root-run-v1",
+    "node scripts/qa-hair-spring.mjs evidence/m2-hair-fixed-length-v1/root-original-regression-v1"
+  ]
+}
