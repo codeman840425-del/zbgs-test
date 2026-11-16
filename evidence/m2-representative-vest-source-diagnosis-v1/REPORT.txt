@@ -1,0 +1,42 @@
+上衣绿点源与实际姿态诊断
+
+两套v2的主要绿点由裤腰位于上衣前方造成。该局部同时有完整、不透明、深度测试开启的上衣表面。root的68a同姿隐藏层实验已确定颜色来自裤层，本报告另用ed2153a2d822的实际posed网格、相机与截图像素确认位置关系。两个build身份分别保留。
+
+证据身份
+源基准为88ad482ebdb23e74dc9f4c5d971a556d60f1936d。本工作树从自有提交合入该root，原有审计和publisher成果保留。report.json列23个实际输入的完整SHA/bytes，末尾复验稳定。posed数据由root执行本包read-representative-vest-pose.cjs，保在F:/gamemake/evidence/m2-representative-vest-posed-ed2-v1。作者本任务未运行browser/GPU。
+
+实际画面与射线
+在裤腰投影范围内用一项明确的teal RGB规则定位候选像素，然后在每个像素中心按实际相机分别求最近裤面/上衣面。此规则承接root已证的裤层来源，未扩成一般像素分类器。
+原female有8个候选，8/8裤面在前，世界射线间距0.023148–0.265135mm。
+female-round-full-v2有71个候选，70/71裤面在前，间距0.031030–1.226883mm。
+female-soft-wide-v2有34个候选，34/34裤面在前，间距0.045444–0.734095mm。
+所有像素RGB、裤/上衣triangle ordinal、三角源indices、UV、两表面世界位置及NDC深度均在report.json逐条保存。
+round剩余像素[482,454]的RGB为[48,73,89]，中心射线的top894实际比pants419靠前9.186926µm。该1像素保留未解释，未追加诊断或将抗锯齿设为已证原因。
+
+完整覆盖与材质
+三套live上衣均6198索引/2066三角，裤4632索引/1544三角，canonical Uint32索引SHA与源精确相同；top drawRange为全量，网格及祖先均visible。原女与两v2的top材质为MeshBasicMaterial、DoubleSide、opacity1、transparent=false、alphaTest=.5、depthTest/depthWrite=true。源为MASK(.5)。实际2048²map alpha范围[255,255]，解码alpha SHA cd3517473707d59c3d915b52a3e16213cadce80d9ffb2b4371958fb7acb51a08，与源图一致。裤是双面、无纹理、不透明MeshStandardMaterial，baseColor为[.038,.105,.135]。
+源UV、JOINTS/WEIGHTS、索引与材质/内嵌图像均保留，top和pants实际IBM均与相应avatar匹配。这里已有上衣三角及不透明像素覆盖，不需要借隐藏层或coverage修改解释主要绿点。
+
+绑定态与原版对照
+同样限定的上腰前部候选三角得到原版35个相交pair，round35个，soft34个，所有交线端点位置与indices保留。这一总数不作为观感通过门。
+从负Z向完整上衣发平行射线，裤三角centroid穿出采样原版4个，最大0.437632mm；round8个，最大1.187417mm；soft7个，最大0.746510mm。该数是沿Z的centroid采样间距，未宣称整个面的最大欧氏穿透。
+代表pants419由顶点[244,238,242]构成，原源centroid为[.0212405222,1.0307421684,-.1190635165]m，前方对应top894[632,616,631]。原版已穿出0.415207mm；同一个裤三角在round变为1.187417mm、soft变为0.746510mm。此为原有小干涉经v2适配加重的实际例子。
+
+虚拟同姿控制
+三次root加载的真实pause phase不同，没有宣称为同一骨姿。另把每套已核源属性，用原female实际记录的skin weights、raw-bone palette、bind及world矩阵计算虚拟同姿。原版复现其真实world vertices的最大误差5.087681e-16m。该同姿原版没有穿出centroid采样，round仍有5个/最大0.626786mm，soft2个/最大0.135935mm。此为离线虚拟控制，没有冒充另一帧实际渲染或动作验收。
+
+位移来源
+独立从原Body最近三角与barycentric重算相关源顶点的donor对应。世界offset向量误差最大约1.05e-8m，符合Float32舍入。固定向量确实被保留，同时对应Body三角法线转动后，其法线方向投影发生变化。round相关top/pants donor法线最大分别转动7.701/8.841度，offset法向投影变化最大.045906/.212407mm；soft为1.029/1.633度和.003488/.036163mm。这个机制保留每件衣物相对Body的原向量，并不施加两件衣物之间的外内层次约束。
+相关裤点原Body距离约4.862–6.000mm。上衣与裤的蒙皮分布合法但不完全一致。例如原419 centroid的Spine/Chest约.5294/.3715，对应top894点约.5394/.3483，完整骨权重见report。没有证据要求改骨映射，动作中的间距仍须测量。
+
+下一有界修复建议
+优先对上衣外层建立裤腰的局部层间余量。裤层已有贴体余量，内推裤面会同时消耗它。以原m1-uniform-top.glb为只读基线，新建共同修正配方/版本，先定位top894、901、903、904以及源顶点[616,630,631,632,636,637]，其bounds为x[-.037978,.037468]、y[1.018193,1.049010]、z[-.122337,-.115427]m，并向一圈邻接顶点平滑过渡。
+把该局部修正放进离线共同fit生产步骤，在Body位移传递后增加top外层相对pants内层的明确约束，记录共同输入、源顶点、位移上界、实际余量与失败结果。新增的层间fit位移应独立记账并显式升级服装/fit身份，保留当前v2原世界offset语义作对照。首轮保UV/拓扑/绑定/权重，避免逐体控制器补丁。由这两套已证pair及原版palette控制求局部最小可行位移，额外余量作为显式参数记录，具体值由动作样本验证。
+走跑、走跑切换、转向与坐下/坐稳/起身应在同一固定源码和资源候选上真实完整1×运行。导出这些阶段的实际top/pants posed顶点，检查已证腰前pair和邻域的穿出时段、深度与屏幕可见性，并看正面/斜侧持续画面。躯干扭转与折腰须覆盖，家具遮挡段另用可见镜头补证。静止共同姿态仅承担可重复归因控制，最终仍沿用户当前轻微穿模尺度做实际动作与观感验收。
+本任务未改任何资产、控制器、coverage或材质，修复尚未实施。余下1像素封存，未扩大到其他body、裙、30秒舞或通用碰撞引擎。
+
+复现
+python -B scripts/diagnose-representative-vest-source.py --posed F:/gamemake/evidence/m2-representative-vest-posed-ed2-v1
+省略--posed只读源绑定态。report.json的pose receipt保实际build和资源身份，外部posed输入由root持有，文件SHA已固定。
+node scripts/read-representative-vest-pose.cjs URL BUILD12 NEW_OUT prototype/public/assets/m2-representative-batch-v2/runtime-index.json
+该命令由root在其browser/GPU窗口执行，本包没有自行运行它。
