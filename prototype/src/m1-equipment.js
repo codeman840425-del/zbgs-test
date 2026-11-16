@@ -24,8 +24,8 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     manifestUrl: config.manifestUrl,
   });
   try {
-    await Promise.all(Object.values(IDS).map((id) => adapter.load(id)));
-    if (IDS.skirt) selectSkirtFit(adapter.get(IDS.skirt).entry, avatarSha256);
+    const initial = outfitSelection(config, 0);
+    await Promise.all(initial.ids.map((id) => adapter.load(id)));
   } catch (error) {
     adapter.dispose();
     throw error;
@@ -58,52 +58,47 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     disposed = false;
   const item = (role) => adapter.get(IDS[role]);
   let coverage, garmentCoverage, skirtCorrective;
-  let revision=0;
+  let revision=0,intentRevision=0;
   const pendingUpdates=new Set();
-  function prepareOutfit(nextOutfit = outfit, nextDebugBody = debugBody) {
-    if (disposed) throw Error('Equipment is disposed');
-    // All assets are already loaded. Visibility changes are synchronous and
-    // cannot arrive later over a newer user request.
-    const look = outfitSelection(config, nextOutfit);
-    const selected = nextDebugBody ? [IDS.shoes] : look.ids;
+  function buildPreparedOutfit(nextOutfit,nextDebugBody,nextCoverage=coverage,nextGarmentCoverage=garmentCoverage,nextSkirtCorrective=skirtCorrective){
+    if(disposed)throw Error('Equipment is disposed');
+    const look=outfitSelection(config,nextOutfit),selected=nextDebugBody?[IDS.shoes]:look.ids;
     let update,garmentUpdate,equipmentUpdate;
-    try {
-      update=coverage?.prepareEquipmentSet(selected);
-      garmentUpdate=garmentCoverage?.prepareEquipmentSet(selected);
-      equipmentUpdate=adapter.prepareLoadedSet(selected);
-    }
+    try{update=nextCoverage?.prepareEquipmentSet(selected);garmentUpdate=nextGarmentCoverage?.prepareEquipmentSet(selected);equipmentUpdate=adapter.prepareLoadedSet(selected);}
     catch(error){update?.dispose();garmentUpdate?.dispose();throw error;}
-    const ticket=++revision;let live=true,cleaned=false;
+    const ticket=++revision;let live=true,cleaned=false,committed=false;
     const prepared={
       isCurrent:()=>live&&!disposed&&ticket===revision&&equipmentUpdate.isCurrent()&&(!update||update.isCurrent())&&(!garmentUpdate||garmentUpdate.isCurrent()),
-      commit(){
-        if(!prepared.isCurrent())throw Error('Outfit preparation is no longer current');
-        equipmentUpdate.commit();update?.commit();garmentUpdate?.commit();
-        outfit=nextOutfit;lowerBodyRole=look.bottomRole;debugBody=nextDebugBody;
-        live=false;pendingUpdates.delete(prepared);
-      },
-      dispose(){
-        if(cleaned)return;cleaned=true;live=false;pendingUpdates.delete(prepared);
-        try{equipmentUpdate.dispose();}finally{try{update?.dispose();}finally{garmentUpdate?.dispose();}}
-      },
-    };
-    pendingUpdates.add(prepared);return prepared;
+      commit(){if(!prepared.isCurrent())throw Error('Outfit preparation is no longer current');equipmentUpdate.commit();update?.commit();garmentUpdate?.commit();outfit=nextOutfit;lowerBodyRole=look.bottomRole;debugBody=nextDebugBody;if(nextGarmentCoverage&&nextGarmentCoverage!==garmentCoverage)garmentCoverage=nextGarmentCoverage;if(nextSkirtCorrective&&nextSkirtCorrective!==skirtCorrective)skirtCorrective=nextSkirtCorrective;committed=true;live=false;pendingUpdates.delete(prepared);},
+      dispose(){if(cleaned)return;cleaned=true;live=false;pendingUpdates.delete(prepared);try{equipmentUpdate.dispose();}finally{try{update?.dispose();}finally{garmentUpdate?.dispose();}}if(!committed){if(nextGarmentCoverage&&nextGarmentCoverage!==garmentCoverage)nextGarmentCoverage.dispose();if(nextSkirtCorrective&&nextSkirtCorrective!==skirtCorrective)nextSkirtCorrective.dispose();}},
+    };pendingUpdates.add(prepared);return prepared;
+  }
+  async function prepareOutfit(nextOutfit=outfit,nextDebugBody=debugBody){
+    if(disposed)throw Error('Equipment is disposed');
+    const request=++intentRevision;
+    const look=outfitSelection(config,nextOutfit),selected=nextDebugBody?[IDS.shoes]:look.ids;
+    const missing=selected.filter(id=>!adapter.get(id));if(missing.length)await Promise.all(missing.map(id=>adapter.load(id)));if(disposed)throw Error('Equipment is disposed');if(request!==intentRevision)throw Error('Outfit preparation cancelled by a newer selection');
+    let nextGarmentCoverage=garmentCoverage,nextSkirtCorrective=skirtCorrective;
+    if(config.garmentCoverage&&selected.includes(IDS.outer)&&!nextGarmentCoverage)nextGarmentCoverage=await createGarmentCoverage({inner:adapter.get(IDS.top),outer:adapter.get(IDS.outer),descriptor:config.garmentCoverage,avatarSha256});
+    if(IDS.skirt&&look.bottomRole==='skirt'&&!nextSkirtCorrective)nextSkirtCorrective=createM1Skirt({vrm,source:adapter.get(IDS.skirt).meshes[0],body,fit:selectSkirtFit(adapter.get(IDS.skirt).entry,avatarSha256)});
+    if(disposed||request!==intentRevision){if(nextGarmentCoverage&&nextGarmentCoverage!==garmentCoverage)nextGarmentCoverage.dispose();if(nextSkirtCorrective&&nextSkirtCorrective!==skirtCorrective)nextSkirtCorrective.dispose();throw Error(disposed?'Equipment is disposed':'Outfit preparation cancelled by a newer selection');}
+    return buildPreparedOutfit(nextOutfit,nextDebugBody,coverage,nextGarmentCoverage,nextSkirtCorrective);
+  }
+  function prepareOutfitSync(nextOutfit=outfit,nextDebugBody=debugBody){
+    const look=outfitSelection(config,nextOutfit),selected=nextDebugBody?[IDS.shoes]:look.ids;
+    if(selected.some(id=>!adapter.get(id)))throw Error('Outfit resources are not loaded; await prepareOutfit');
+    if(config.garmentCoverage&&selected.includes(IDS.outer)&&!garmentCoverage)throw Error('Outfit coverage is not prepared; await prepareOutfit');
+    if(IDS.skirt&&look.bottomRole==='skirt'&&!skirtCorrective)throw Error('Skirt solver is not prepared; await prepareOutfit');
+    return buildPreparedOutfit(nextOutfit,nextDebugBody);
   }
   function apply(nextOutfit = outfit, nextDebugBody = debugBody) {
     if(disposed)return;
-    const update=prepareOutfit(nextOutfit,nextDebugBody);
+    const update=prepareOutfitSync(nextOutfit,nextDebugBody);
     try{update.commit();}finally{update.dispose();}
   }
   try {
     coverage = await createBodyCoverageSet({ body, avatarSha256,
       bindings: config.bodyCoverage ? [{entry:item("top").entry, descriptor:config.bodyCoverage}] : [] });
-    garmentCoverage = config.garmentCoverage ? await createGarmentCoverage({
-      inner: item("top"), outer: item("outer"), descriptor: config.garmentCoverage, avatarSha256,
-    }) : null;
-    skirtCorrective = IDS.skirt ? createM1Skirt({
-      vrm, source: item("skirt").meshes[0], body,
-      fit: selectSkirtFit(item("skirt").entry, avatarSha256),
-    }) : null;
     apply();
     // These are exact duplicated clothing surfaces, not body coverage removal.
     sourceClothes.forEach(({ mesh }) => (mesh.visible = false));
@@ -143,7 +138,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
         items: Object.fromEntries(
           Object.entries(IDS).map(([role, id]) => [
             role,
-            { id, visible: item(role).container.visible, ...item(role).stats },
+            item(role) ? { id, visible: item(role).container.visible, ...item(role).stats } : { id, loaded: false },
           ]),
         ),
       };
@@ -153,17 +148,17 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
         body,
         face,
         hair,
-        get top() { return item(lowerBodyRole === 'onePiece' ? 'onePiece' : 'top').meshes; },
-        outer: IDS.outer ? item("outer").meshes : [],
+        get top() { return item(lowerBodyRole === 'onePiece' ? 'onePiece' : 'top')?.meshes || []; },
+        get outer() { return IDS.outer ? item("outer")?.meshes || [] : []; },
         shoes: item("shoes").meshes,
-        get pants() { return item(['shorts','onePiece'].includes(lowerBodyRole) ? lowerBodyRole : 'pants').meshes; },
-        allPants: [...item("pants").meshes, ...(IDS.shorts ? item("shorts").meshes : []), ...(IDS.onePiece ? item('onePiece').meshes : [])],
-        onePiece: IDS.onePiece ? item('onePiece').meshes : [],
-        shorts: IDS.shorts ? item("shorts").meshes : [],
+        get pants() { return item(['shorts','onePiece'].includes(lowerBodyRole) ? lowerBodyRole : 'pants')?.meshes || []; },
+        get allPants() { return [...(item("pants")?.meshes || []), ...(IDS.shorts ? item("shorts")?.meshes || [] : []), ...(IDS.onePiece ? item('onePiece')?.meshes || [] : [])]; },
+        get onePiece() { return IDS.onePiece ? item('onePiece')?.meshes || [] : []; },
+        get shorts() { return IDS.shorts ? item("shorts")?.meshes || [] : []; },
         skirt: skirtCorrective ? [skirtCorrective.mesh] : [],
-        sourceSkirt: IDS.skirt ? item("skirt").meshes : [],
+        get sourceSkirt() { return IDS.skirt ? item("skirt")?.meshes || [] : []; },
         sourceClothes: sourceClothes.map((x) => x.mesh),
-        skirtBones: (IDS.skirt ? item("skirt").meshes[0].skeleton.bones : []).filter((b) =>
+        skirtBones: (IDS.skirt && item("skirt") ? item("skirt").meshes[0].skeleton.bones : []).filter((b) =>
           /Skirt/.test(b.name),
         ),
         bindCoordinates:
@@ -173,7 +168,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     },
     dispose() {
       if (disposed) return;
-      disposed = true;
+      disposed = true;intentRevision++;
       for(const update of pendingUpdates)update.dispose();
       skirtCorrective?.dispose();
       garmentCoverage?.dispose();

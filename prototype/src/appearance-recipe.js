@@ -91,7 +91,7 @@ export async function applyAppearanceRecipe(controller,record){
    eyeSample:record.geometry.eyeSample??'none',expectedEyeRecipeSha256:record.geometry.eyeRecipeSha256}))return{applied:false,cancelled:true};
   if(!await prepare(actor.appearance,{...record.appearance,expectedHairAssetSha256:record.hairAssetSha256,
    ...(Object.hasOwn(record,'hairFit')?{expectedHairFit:record.hairFit}:{})}))return{applied:false,cancelled:true};
-  const outfit=controller.prepareOutfit(record.equipment.index);updates.push(outfit);
+  const outfit=await controller.prepareOutfit(record.equipment.index);updates.push(outfit);
   // Every domain checks freshness before the first visible write. Commits only
   // switch prepared resources and state synchronously, with no resource I/O.
   if(superseded()||updates.some(update=>!update.isCurrent()))return{applied:false,cancelled:true};

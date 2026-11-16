@@ -1058,8 +1058,7 @@ class CharacterScene extends Phaser.Scene {
           return {applied:false,reason:"持麦舞蹈尚未制作；请等待舞蹈退出后装备。"};
         return this.actor.livePresentation?.setAccessory(cmd.kind,cmd.value);
       case "outfit":
-        this.setOutfit(cmd.value);
-        break;
+        return this.prepareOutfit(cmd.value).then(update=>{try{update.commit();this.refreshOutfitSelection();return{applied:true};}finally{update.dispose();}}).catch(error=>({applied:false,cancelled:/cancelled by a newer/.test(String(error.message||error)),reason:error.message||String(error)}));
       case "route":
         this.route(cmd.name);
         if (!this.isPeer) this.game.events.emit('movement-feedback',{error:false,text:this.paused
@@ -1249,9 +1248,9 @@ class CharacterScene extends Phaser.Scene {
     this.outfit = selection;
     this.refreshOutfitSelection();
   }
-  prepareOutfit(n) {
+  async prepareOutfit(n) {
     const selection=Number(n),actor=this.actor,revision=this.outfitRevision||0;
-    const update=actor.prepareOutfit(selection);
+    const update=await actor.prepareOutfit(selection);
     return{
       isCurrent:()=>this.actor===actor&&(this.outfitRevision||0)===revision&&update.isCurrent(),
       commit:()=>{update.commit();this.outfit=selection;this.outfitRevision=revision+1;},
@@ -2108,7 +2107,9 @@ async function switchFoundationBody(bodyType) {
     if (!applied.applied) throw new Error(applied.reason || '外观配置加载失败');
     if (request !== bodySelectionGeneration) return {applied:false,cancelled:true};
     const initialRole = avatar.config.outfits.find(entry => entry.index === controller.outfit)?.role;
-    nextAvatar.setOutfit(nextAvatar.config.outfits.find(entry => entry.role === initialRole)?.index ?? 0);
+    const initialOutfit=nextAvatar.config.outfits.find(entry => entry.role === initialRole)?.index ?? 0;
+    const initialOutfitUpdate=await nextAvatar.prepareOutfit(initialOutfit);
+    try{initialOutfitUpdate.commit();}finally{initialOutfitUpdate.dispose();}
     nextAvatar.setDebugBody(inspection.bodyMode === 'base'); nextAvatar.setDynamics(inspection.dynamics);
     nextMotion = createMotion(nextAvatar.vrm,nextAvatar.root,clips,nextAvatar.profile.motion);
     // Prepare this detached actor's real materials against the room lights.

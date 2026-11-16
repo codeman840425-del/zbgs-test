@@ -183,10 +183,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     "onePiece",
   ]) {
     const label = role === "shoes" ? "footwear" : role;
-    meshRoles[label] = ((role === "pants" ? surfaces.allPants : surfaces[role]) ?? []).map((mesh) => {
-      mesh.userData.assetRole = label;
-      return mesh.uuid;
-    });
+    Object.defineProperty(meshRoles,label,{enumerable:true,get(){return (((role === "pants" ? surfaces.allPants : surfaces[role]) ?? []).map((mesh) => {mesh.userData.assetRole=label;return mesh.uuid;}));}});
   }
   let lastGarmentColliders = [],
     garmentPreparedForHands = false;
@@ -269,7 +266,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     getAssetProfile: () => profile,
     getEquipmentRecipe: (index) => {
       const {roles}=outfitSelection(config,index);
-      return Object.fromEntries(roles.map(key=>[key,structuredClone(surfaces.equipment.get(config.ids[key]).entry)]));
+      return Object.fromEntries(roles.map(key=>{const loaded=surfaces.equipment.get(config.ids[key]);if(!loaded)throw Error(`Outfit ${index} resource ${key} is not loaded; await prepareOutfit`);return[key,structuredClone(loaded.entry)];}));
     },
     setMaterialRecipe: (id, recipeId) => equipment.setMaterialRecipe(id, recipeId),
     getMaterialRecipeState: (id) => equipment.getMaterialRecipeState(id),
@@ -278,9 +275,9 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
       outfit = equipment.getInfo().outfit;
       lowerBodyRole = outfitSelection(config, outfit).bottomRole;
     },
-    prepareOutfit: (n) => {
+    prepareOutfit: async (n) => {
       const {bottomRole}=outfitSelection(config,n);
-      const update=equipment.prepareOutfit(n);
+      const update=await equipment.prepareOutfit(n);
       return{
         isCurrent:()=>update.isCurrent(),
         commit:()=>{
