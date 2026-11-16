@@ -1,0 +1,20 @@
+{
+  "name": "conditional-count-mismatch",
+  "kind": "short",
+  "expectedAccepted": false,
+  "actualAccepted": false,
+  "passed": true,
+  "publicOutputBytesUnchanged": true,
+  "exitCode": 1,
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-swap-v3\\full-suite\\scratch\\retest-v2-ercfhlsr\\conditional-count-mismatch\\scripts\\publish-preset-short-hair.py\", line 300, in <module>\n    main()\n    ~~~~^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-swap-v3\\full-suite\\scratch\\retest-v2-ercfhlsr\\conditional-count-mismatch\\scripts\\publish-preset-short-hair.py\", line 280, in main\n    validate_contact(json.loads(payloads['contact-report.json']), result, reference)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-swap-v3\\full-suite\\scratch\\retest-v2-ercfhlsr\\conditional-count-mismatch\\scripts\\publish-preset-short-hair.py\", line 131, in validate_contact\n    require(type(summary['introducedPairs']) is int and summary['introducedPairs'] == len(measurements), 'Contact measurement count differs')\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\gamemake-preset-short-hair-fits-v1\\evidence\\m2-preset-hair-publisher-swap-v3\\full-suite\\scratch\\retest-v2-ercfhlsr\\conditional-count-mismatch\\scripts\\publish-preset-short-hair.py\", line 25, in require\n    raise ValueError(message)\nValueError: Contact measurement count differs\n",
+  "changes": {
+    "malformedConditionalField": "counts",
+    "allDeclaredFileHashesConsistent": true
+  },
+  "publishedEntries": 8,
+  "catalogStyleIds": [
+    "female-bob-v1",
+    "male-sidepart-v1"
+  ]
+}
