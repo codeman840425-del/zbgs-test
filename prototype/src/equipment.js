@@ -190,8 +190,12 @@ export async function createEquipment({
       const item = await load(id);
       if (disposed) throw new Error("Equipment adapter is disposed");
       if (slotRequests.get(entry.slot) !== request) return { ...item, applied: false };
-      for (const other of loaded.values()) if (other.entry.slot === item.entry.slot) other.container.visible = false;
-      item.container.visible = true;
+      // Other slots may have changed while loading. Validate the current final
+      // selection before changing visibility, keeping independent slot tickets.
+      const ids = [...loaded.values()]
+        .filter(other => other.container.visible && other.entry.slot !== entry.slot)
+        .map(other => other.id);
+      commitLoadedEquipmentSet(loaded, manifest.items, [...ids, id], avatarSha256);
       return { ...item, applied: true };
     },
     unequip(slot = "bottoms-overlay") {

@@ -1,0 +1,53 @@
+{
+  "baseCommit": "43b91f807d6ea345f4376682528e920c987b0be9",
+  "branch": "codex/m2-single-equip-contract",
+  "rootCause": "Legacy equip changed only same-slot visibility after loading and skipped final-set onePiece claims and exact outerwear.layerWith validation.",
+  "change": "After loading and stale/disposed guards, compose currently visible IDs excluding the replaced slot and commit through commitLoadedEquipmentSet. Keep independent slot request tickets and existing final-set intent supersession.",
+  "baseline": {
+    "sourceSha256": "3733813545e28920cee6c0127b54ad595677b95aaf4d1cb97c60014ed7e76b6e",
+    "qaSourceSha256": "0af9207a5bd6f9e79e91126d4269864ed4af6a8a97e1cb01af07e8e080ba56b5",
+    "reproducedIllegalCombinations": 13
+  },
+  "fixed": {
+    "sourceSha256": "2b3de7e844fb37fb8fd4ae42cefde647483b0856404b614ba33f7986c53ca485",
+    "qaSourceSha256": "0af9207a5bd6f9e79e91126d4269864ed4af6a8a97e1cb01af07e8e080ba56b5",
+    "rejectedIllegalCombinations": 13,
+    "observations": 18
+  },
+  "validation": [
+    {
+      "script": "scripts/qa-equipment-single-contract.mjs",
+      "passed": true,
+      "evidence": "fixed/report.json"
+    },
+    {
+      "script": "scripts/qa-equipment-set.mjs",
+      "passed": true,
+      "evidence": "set-loader/report.json"
+    },
+    {
+      "script": "scripts/qa-equipment-set-race.mjs",
+      "passed": true,
+      "evidence": "set-race/report.json"
+    },
+    {
+      "script": "scripts/qa-equipment-set-lifecycle-review.mjs",
+      "passed": true,
+      "evidence": "lifecycle-review/report.json"
+    }
+  ],
+  "invocationFailures": [
+    {
+      "scripts": [
+        "qa-equipment-set.mjs",
+        "qa-equipment-set-race.mjs",
+        "qa-equipment-set-lifecycle-review.mjs"
+      ],
+      "error": "ERR_INVALID_FILE_URL_PATH",
+      "cause": "First invocations used relative evidence paths but existing scripts build file URLs requiring absolute paths on Windows.",
+      "recovered": "Repeated with absolute output paths and all exited 0."
+    }
+  ],
+  "reproduction": "Run new QA with --expect-bug against equipment.js from baseCommit. The final identical QA script was run on baseline and fixed source. Baseline source was restored after reproduction.",
+  "limits": "Exact existing male bytes, avatar identity, skin and rest binds are exercised by the actual loader. onePiece and outerwear aliases only alter test manifest slot metadata, and texture decoding is a CPU fixture. Physical garment layering/fit, GPU, browser rendering and animation acceptance remain untested by this task."
+}
