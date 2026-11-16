@@ -28,7 +28,7 @@
 - 产品只改4文件：hairstyle-catalog、hair-fit-contract、character-appearance、appearance-recipe。按精确body+manifest+GLB+fit加载，实际消费raw-head-local/TRS/隐藏范围。v6保存独立hairFit，旧v1–v5只保历史隐式原男女适配；同GLB不意味着同fit。无动作控制器改动。
 - CPU-3 39项；独立源码审查；固定浏览器11项通过。后者含18同姿图、真实v6下载/干净context文件恢复、错误fit/body/伪旧jaw拒绝保原、原男女真实v5文件、双实例换发/颜色隔离。证据evidence/m2-jaw-hair-browser-fe5c528d9437与m2-hair-fit-independent-review。
 - 正侧背静态工程审看未见新增大块头皮穿出、悬根或耳部消失；尖发束/后颈边缘保留，不称零接触或用户接受。
-- 原男/jaw两条约29.5秒正常1×已录，build fe5，表情转头→走跑→坐起，visible/focused、挂点稳定。制作agent与root均已审看两片完整时间段的8张2fps sheets及关键原图；未见新增明显脱根/遮眼，非人类连续观感。页面/录像提交155e4c3（主线535a249），独立分支远端已核；主线最终证据备份收尾中。不要重录已成功门，除非发现新失败。
+- 原男/jaw两条约29.5秒正常1×已录，build fe5，表情转头→走跑→坐起，visible/focused、挂点稳定。制作agent与root均已审看两片完整时间段的8张2fps sheets及关键原图；未见新增明显脱根/遮眼，非人类连续观感。页面/录像提交155e4c3（主线535a249），独立分支远端已核；主线源/证据已随9a9bce1推送并精确核实。不要重录已成功门，除非发现新失败。
 
 ## 已保留限制
 
@@ -40,6 +40,6 @@
 
 本次有限A/B技术工作已完成，未宣称整个M2或画风通过。大图/正常片入口：4174/evidence/m2-male-jaw-hair-runtime-v1/；A仍为4174/evidence/m2-character-presets-a-v1/。下一代表差异方向已询问用户：建议整体脸部轮廓，对比发型造型优先；没有答复不扩新算子或批量资产。普通PC缺设备与观感待验只限制相应结论，不撤销现有通过。
 
-当前仅剩主线本次源/源资产/脚本/证据的最终推送核实及回执；结束后以delivery/male-jaw-hair-backup-fe5.json为准。若有新用户反馈，先按当前固定fe5复现，不回退旧构建或重开封板裙舞。
+本次主线源/源资产/脚本/证据已随9a9bce148cb886a732713249f597e1944e9b5319推送并核远端相同；349保留文件与Git逐字相同。回执delivery/male-jaw-hair-backup-fe5.json另行提交。源分支4d81与制作/证据分支155e也已ls-remote精确核实。若有新用户反馈，先按当前固定fe5复现，不回退旧构建或重开封板裙舞。
 
 单GPU/录屏/重Blender/编码任务串行。当前所有QA/录制临时服务已关闭，4196仅替换原服务，未增常驻端口。恢复时先核最新消息与指针，不重复生产。长目标工具残留blocked且无恢复操作不是停工依据，不创建替代目标或误标完成。
