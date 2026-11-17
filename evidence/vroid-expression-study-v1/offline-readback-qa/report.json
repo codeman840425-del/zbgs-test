@@ -1,0 +1,47 @@
+{
+  "schema": "vroid-expression-readback-offline-qa-v1",
+  "status": "passed",
+  "editorLaunches": 0,
+  "nativeCalls": 0,
+  "checks": [
+    {
+      "case": "dense",
+      "passed": true,
+      "logicalMorphSha256": "2f815f1300ca0ff81666fb1e9155c4a269795ae96ff280dc1386a41fae0d0bf9"
+    },
+    {
+      "case": "interleaved",
+      "passed": true,
+      "logicalMorphSha256": "2f815f1300ca0ff81666fb1e9155c4a269795ae96ff280dc1386a41fae0d0bf9"
+    },
+    {
+      "case": "sparse",
+      "passed": true,
+      "logicalMorphSha256": "2f815f1300ca0ff81666fb1e9155c4a269795ae96ff280dc1386a41fae0d0bf9"
+    },
+    {
+      "case": "actual-morph-payload-change-detected",
+      "passed": true
+    },
+    {
+      "case": "invalid-view-bounds",
+      "passed": true,
+      "rejection": "Accessor outside buffer view"
+    },
+    {
+      "case": "invalid-target-index",
+      "passed": true,
+      "rejection": "Invalid VRM1 morph target index"
+    },
+    {
+      "case": "unsupported-component-type",
+      "passed": true,
+      "rejection": "This readback supports Float32 VEC3 morph data only"
+    }
+  ],
+  "limits": [
+    "Synthetic container and morph readback only",
+    "Canonical expression payload includes original binding IDs, so reorder can differ",
+    "No claim of native parameter persistence or visual correctness"
+  ]
+}

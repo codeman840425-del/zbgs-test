@@ -1,0 +1,64 @@
+{
+  "schema": "native-vroid-equipment-mtoon-independent-review-v1",
+  "status": "no-remaining-blocker-in-bounded-cpu-scope",
+  "sources": [
+    {
+      "path": "prototype/src/equipment-material-loader.js",
+      "sha256": "343405e061dcbe9fe954508f4adc6bd114214fac1d2c4bd0290b0febcf0629d7"
+    },
+    {
+      "path": "prototype/src/equipment.js",
+      "sha256": "f2c732e489d2b1706c40de9df4f18c3a2c20497ff081c9ffbd3515f7227f2732"
+    },
+    {
+      "path": "prototype/src/m1-equipment.js",
+      "sha256": "00549d85801dbb160df05c029156349e7a4999af31d0fdcc7d105e9b90900d95"
+    },
+    {
+      "path": "prototype/src/foundation-avatar.js",
+      "sha256": "d7d77305ad6fdff53342ffea1a2531670fca7591874d341c9181bb86845a8a18"
+    },
+    {
+      "path": "prototype/src/motion.js",
+      "sha256": "22cf4adaa1b5cb0839150c1e6ce00cd33b895c28f737b6b60343081ee34308fb"
+    },
+    {
+      "path": "prototype/src/material-recipes.js",
+      "sha256": "be6ab537823b6c74ca68bef889cfe2e887bf19eeceed4ea49243ac16902ab1cd"
+    },
+    {
+      "path": "prototype/src/cloth-material.js",
+      "sha256": "4539ac3f83bc5fb1fa9aa91dbfb7323a8f2e7084a5f762d9713d0ae36bcfb565"
+    },
+    {
+      "path": "prototype/node_modules/@pixiv/three-vrm/lib/three-vrm.module.js",
+      "sha256": "bfc0f3bd49ee5b706b3055d366759e881f20dee32be344c4c8f586600f223434"
+    }
+  ],
+  "probe": {
+    "path": "scripts/qa-equipment-mtoon.mjs",
+    "sha256": "4f15cecdfc383985ac831ce7da7398294b5d3a2d2ed217727daa7878073ac3bb"
+  },
+  "resolvedFindings": [
+    {
+      "id": "stateless-seat-prepass-zero-delta",
+      "evidence": "timing-evidence-clarification.json",
+      "verification": "Source reviewed: materials now advance independently exactly once in foundation update with dynamics ? dt : 0. No material call remains in stateless m1 update."
+    },
+    {
+      "id": "mtoon-uniform-texture-disposal",
+      "before": "cpu-v2-texture-before/report.json",
+      "beforeResult": "8/9, shared uniform Texture disposal events 0 expected 1",
+      "after": "cpu-v3-texture-after/report.json",
+      "afterResult": "12/12, shared map/shade/outline Texture exactly once; uniform Texture array distinct Texture exactly once"
+    }
+  ],
+  "limits": [
+    "In-memory valid skinned GLB and CPU Texture; no image decoding, WebGL rendering or actual native garment visual acceptance",
+    "Full foundation avatar motion timing is code reviewed, not CPU executed",
+    "MToon cloth-normal-v4 material recipe is unsupported and correctly rejects while preserving original; unlit recipe switch/restore verified",
+    "No performance claim or whole-runtime regression claim"
+  ],
+  "productionFilesEdited": false,
+  "browserGpuCalls": 0
+}

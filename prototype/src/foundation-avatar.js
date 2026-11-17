@@ -320,6 +320,9 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     update: (dt, state = {}) => {
       livePresentation.preUpdate(dt, state);
       vrm.update(dynamics ? dt : 0);
+      // Equipment owns separate MToon instances. Advance with the same clock
+      // as native VRM materials, outside stateless garment/contact refreshes.
+      equipment.updateMaterials(dynamics ? dt : 0);
       if (!dynamics) vrm.springBoneManager?.reset();
       appearance.updateDynamics(dt,dynamics);
       root.updateMatrixWorld(true);

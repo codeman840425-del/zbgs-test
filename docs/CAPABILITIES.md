@@ -362,3 +362,7 @@ head-only一次诊断原8请求已完成，8/8 diagnostic-failed，正式生产�
 制作接口主组合候选为2.16 + Bridge0.15，原研究中的“未下载/未运行”保为当时只读快照，最新实测看以上证据。原生自制素材许可与VRM下游meta限制分别核验，未正式分发。当前M2未完成，冻结女裙/30秒舞和普通机实测缺口不改变。
 
 补测：evidence/vroid-bridge-study-v1/parameter-reopen-result.json 已核2.16同源菜单重开，FaceShape23项与Waist2项全等，源SHA未变；不是进程冷启动。客户端嵌套ok:false/非法回包/超时证据留存已修，12项离线测试及真实status回归通过。
+
+原生表情补测（froz6469 / Studio2.16）：14表达真实枚举；Joy眉毛expressions/Joy/0/3从100改65，保存并退出独立进程再冷开仍65。两VRM仅preset/happy引用的真实morph数据变化，其他表达、face/body参数、许可未改。同83de房间近景happy1/.65眉部上提减小可见，neutral/aa像素相同、blink仅13px一级差；中性→happy→中性1×片已保。证据assets-source/vroid-expression-study-v1、evidence/vroid-expression-study-v1/runtime-close-v1。限一个女性候选/一个表情，非任意表达制作/八预设/factory全通过。其save_custom_items已核源码原生part+ZIP/registry回读，但未实际保存复用；其他重复入口不另开全工具验证。
+
+原生独立衣装接缝：78912自身上衣/短裤/鞋实际拆出，保原蒙皮/IBM/MToon/贴图；assets-source/native-vroid-equipment-v1可确定性重建。CPU三姿态最大18.74nm差已归因于Three共享权重重复归一化，原1nm实验门失败保留，不作视觉否决或视觉通过。公共MToon装备loader/单次材质时钟/uniform贴图释放已补，独审12项CPU过，真实衣物浏览器仍待测；不称factory/八体完成。旧unlit材质配方继续有效，MToon暂不支持旧MeshBasic专用改材质配方且会拒绝保原。男性原生基础源已2.16另存/VRM导出，尚未新男性游戏验证。

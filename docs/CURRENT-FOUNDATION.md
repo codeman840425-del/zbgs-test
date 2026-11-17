@@ -16,7 +16,7 @@
 - evidence/native-vroid-room-78912-v1：同固定房间、真实VRM1 loader/共用motion/自身normalized骨架，站立+行走，blink/happy/aa/oh近景已实际运行。是test overlay，借旧实例根轨迹；未完整接factory/独立衣物/coverage/外观记录/碰撞。正常速度录像已存，不当8预设或完整角色通过。
 - 默认导出VRM下游metadata为onlyAuthor/personalNonProfit/noRedistribution/modification prohibited。自制默认素材的原始许可和给下游的VRM授权分开核；不据默认值说pixiv统一禁商用，也不静默改meta冒称完成授权。
 - 旧brainrom2.14源/原生参数读回仍保 assets-source/vroid-mcp-study-v1 与 evidence/vroid-mcp-study-v1。2026-11-17先另存男性源，再退出、官方卸载成功；17890/17891关闭，7811仍ready。旧安装包/插件/临时2.14副本递归清理被自动策略拒绝，残留仍在，见 evidence/vroid-214-retirement-v1。不要再启动2.14或称完全清理。
-- froz3ncore/VRoid-Character-MCP固定6469bd3a6d00fe5fac508d992f63b5a1a783d80e：确有原生表情定义编辑、模板叠加/局部妆容独有价值。优先只测一个表情定义保存重开/导出，不重复主Bridge功能；本机裸2.16二进制双SHA通过allowlist。assets-source/vroid-expression-study-v1正在准备，未实际运行。不要把静态审查当接通。
+- froz3ncore/VRoid-Character-MCP固定6469bd3a6d00fe5fac508d992f63b5a1a783d80e：确有原生表情定义编辑、模板叠加/局部妆容独有价值。优先只测一个表情定义保存重开/导出，不重复主Bridge功能；本机裸2.16二进制双SHA通过allowlist。assets-source/vroid-expression-study-v1已真实完成Joy眉毛100→65、保存/冷开与双VRM导出，仅happy的实际morph数据变化；同房间近景与正常速表情过渡见其runtime-close-v1。其余157工具不推定通过。customitem原生保存已源码核查、未实测。
 
 ## 自适应关节与其他学习成果
 
@@ -26,7 +26,7 @@
 
 ## 接续工作顺序
 
-1. 完成froz原生表情窄试验：独立lab与保存源、精确allowlist、改一个表达→另存→冷开→原生导出与映射回读。有价值再纳入制作入口；失败保原因，不绕版本门。不要碰正在运行的Bridge实例，不占用户鼠标键盘。
+1. froz单表达窄试验已完成封包。继续原生候选自身独立衣物提取与公共MToon装备加载接缝；用原内嵌/拆出衣物同姿态数值及实际画面对照，避免降级材质。未接完整factory前不更新正式菜单。
 2. Bridge原生矩阵优先复用已证女性源，已补2.16女性25参数保存重开全等（parameter-reopen-result.json），继续男性源、必要模板/发束/表面接口；一次只操作一个编辑器，操作失败核真实嵌套结果。docs/research/VROID-BRIDGE-PLATFORM-FIT-2026-11-17.md区分工具与实测。
 3. 新原生候选完整factory接缝，先核独立装备/coverage/接触/外观记录，不复制旧基模SHA、蒙皮或补偿。最小样件通过后再8预设；不把overlay推到普通菜单冒充完成。
 4. 自适应路线下一步才是受限短动作的限位/代理与真实蒙皮接触，禁止改封存30秒舞。不要同时开启新自造外观算法。
@@ -37,4 +37,4 @@
 
 主窗口单GPU/导出互斥；最新房间录制已结束并释放。桌面操作仅缺接口兜底，操作后立即turn_ended释放。当前后台MCP不需要控制鼠标键盘。
 
-最近已核远端329e1856bdb4e2284035da1fa76f6514b8a4a24d。其后本轮原生源、导出、Mink与房间证据正封包，未核push前不宣称备份完成。只stage明确owned路径；manifest精确字节用局部.gitattributes，ignore日志需显式-force并核index。公司副总工dirty/untracked绝不顺带提交；公司系统不在本轮角色职责内。
+最近已核远端49a2ddc4184e50712d90061449bed06f73d6fc91，含原生Bridge源/导出、Mink、房间证据及2.14卸载；froz表达及独立衣物接缝为其后增量，未核push前不宣称备份完成。只stage明确owned路径；manifest精确字节用局部.gitattributes，ignore日志需显式-force并核index。公司副总工dirty/untracked绝不顺带提交；公司系统不在本轮角色职责内。

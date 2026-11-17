@@ -1,0 +1,9 @@
+{
+  "schema": "native-equipment-readback-attempt-v1",
+  "status": "failed-runtime-weight-equality",
+  "command": "node assets-source/native-vroid-equipment-v1/verify.mjs",
+  "exitCode": 1,
+  "error": "deepStrictEqual skinWeight Float32Array(36632) failed; representative standalone .4014509618282318 versus embedded .4014509916305542",
+  "causeUnderInvestigation": "GLTFLoader normalizeSkinWeights once per primitive on shared accessor; original Body five primitives versus standalone one",
+  "recovery": "Retain failure; verify one/five normalization using installed Three implementation and record actual coordinate error without changing original 1e-9 m tolerance. No weights or exported assets modified."
+}

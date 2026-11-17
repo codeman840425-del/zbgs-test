@@ -1,0 +1,9 @@
+{
+  "schema": "native-equipment-readback-attempt-v1",
+  "status": "failed-test-assumption-before-skin-comparison",
+  "command": "node assets-source/native-vroid-equipment-v1/verify.mjs",
+  "exitCode": 1,
+  "error": "AssertionError: assert(officialDesc.every(x=>x.isMToonMaterial)) at verify.mjs:42:49",
+  "cause": "CPU reader treated mesh.material as one material. Installed official MToon loader represents outline as [surface, outline] on the same mesh with two geometry groups.",
+  "recovery": "Only reader iterates real material array and asserts matching groups. No geometry export, source, plugin, or runtime changed; extraction not repeated."
+}

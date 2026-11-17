@@ -127,3 +127,21 @@ froz3ncore代码为MIT，LICENSING逐项说明原Karylcode来源、历史重实�
 - 成本预算为一个物理安装副本、Python/Frida/MCP及Node依赖，一个源角色、一个参数、一轮保存冷开和两个导出，执行窗口上限20分钟。磁盘与下载量先按实际安装目录及依赖计划核算，本次未下载，不能给实测成本。需要负责人分配一个独立编辑器/GPU窗口，当前并行只读无需占用。
 
 若精确build门不匹配、首次native接入失败或表达域缺失，保留失败并搁置froz内核，继续已可用Bridge。妆容mask/冷开脚本仍可保为后续制作参考。同槽模板与Dress-up列为后续有具体衣物输入时再测，当前不因它们开新衣库或重做角色控制器。
+
+### 追补，完整原生部件保存
+
+`save_custom_items(expected_model, types)` 提供 Bridge0.15 当前工具集缺少的独立衣物生产接缝。`types` 来自 `list_parts().savable_types`，底层先枚举当前活动的完整 transferable groups，再用原生 `CustomizableTransferableGroupTypes` 过滤。`None` 保存全部允许保存的当前部件，指定类型时重复、未知或一类对应多个部件均拒绝。因此它能保存原生允许的完整 part，包含由该原生 group 管理的制作结果，具体哪些服装组允许保存须读取实际源；它没有承诺将任意多个槽合成一个全套资产。[工具合同](https://github.com/froz3ncore/VRoid-Character-MCP/blob/6469bd3a6d00fe5fac508d992f63b5a1a783d80e/vroid_mcp/tools_ordinary.py)
+
+`saveCustomItem()` 真正调用 `CustomItemSaveUtil.SaveCustomItem(registry, context, metadata, partId, false, ...)`，并捕获原生缩略图。`false` 请求新建，已有自定义件不会被覆盖。它没有在Python中自行拼一个`.vroidcustomitem`冒充原生文件。[原生调用与活动组枚举](https://github.com/froz3ncore/VRoid-Character-MCP/blob/6469bd3a6d00fe5fac508d992f63b5a1a783d80e/agent/ordinary_extensions.js)
+
+真实写入位置取自原生 registry 的 `_basePath`，Python核每个新增文件处于该目录内。在owned模式还要求该目录位于独立 `lab/profile` 内，attached模式则会写正在附着编辑器的真实profile，因而不能将attached调用当作无副作用预检。本轮没有调用该工具，尚无实测具体子目录。保存后它等待新增、同group type、已进入原生文件registry的文件，读取ZIP并核CRC，核 `v1customitem/meta.json` 的 root group ID/type 与原生registry一致，返回实际path/size/SHA。`registered` 表示文件registry收录，额外的 `asset_storage_registered` 可能不可得，两者不能混称。多件顺序保存失败会保留已写文件并进入uncertain，冷开及换另一人物使用仍需独立验证。这项能力值得后续单件衣物生产试验，本次单表达试验不追加调用。[保存、路径边界及ZIP读回](https://github.com/froz3ncore/VRoid-Character-MCP/blob/6469bd3a6d00fe5fac508d992f63b5a1a783d80e/vroid_mcp/runtime_ordinary.py)
+
+### 追补，导出权限字段与当前准备状态
+
+公开 `export_vrm` 只开放title、author、model_version及减面/纹理等设置，没有开放 `avatarPermission`、`commercialUsage`、`modification`、`redistribution` 参数。底层从源模型的 `Vrm1Export` 读取 AvatarPermission、CommercialUsage、Redistribution、Modification 及暴力/性/政治/仇恨/署名字段，再传给原生导出。表情试验只读回baseline/candidate的metadata并核相关字段一致，不借修改表情改变下游许可。官方自制默认素材的使用条款与具体VRM给下游的限制应分别核。[公开导出参数](https://github.com/froz3ncore/VRoid-Character-MCP/blob/6469bd3a6d00fe5fac508d992f63b5a1a783d80e/vroid_mcp/tools_ordinary.py) [原生metadata读取](https://github.com/froz3ncore/VRoid-Character-MCP/blob/6469bd3a6d00fe5fac508d992f63b5a1a783d80e/agent/ordinary_extensions.js)
+
+截至准备封包，本机裸2.16双SHA与原作者allowlist相符。独立物理lab与锁定依赖已建立，离线实际SDK枚举157 schemas，7项合成GLB表达数据读回QA通过。负责人随后执行的 `native-inventory-v1` 已记录表达及完整分页参数初读成功，尚不能从该初读报告推断定义写入、冷开或导出成功。准确状态和文件身份见 `assets-source/vroid-expression-study-v1` 与 `evidence/vroid-expression-study-v1`，执行过程继续由负责人统一窗口控制。
+
+负责人随后在统一窗口完成 `native-single-expression-v1`。实际选择 `Joy/expressions/Joy/0/3` 的女性眉毛“欣喜”，100改65，另存并冷开仍为65。baseline VRM SHA `48b08e0548a4ce58298fa1f2cc18b02c79d65b7cb4b0f4a199dffc5019689c8d`，candidate VRM SHA `b839ed1429213a6e4bc1d4db450b358cc2c03effb2da3e5ca405c554f10b113b`，只有 `preset/happy` 的表达组合payload变化。另存`.vroid` SHA `04cbad7ca92e251e61f62b71c933600215df809b5b187f2f5dccb36237a48e2e`，原311a源不变，四项下游许可字段一致。已据实际文件重新核SHA、冷开数值及表达数据。这证明该版本的这一个定义具有保存/冷开/原生导出通道，游戏视觉与动态过渡另行核验。
+
+本lab进程已由负责人确认退出，lab目录仍保留，尚未对本froz新lab发起删除。此前被工具策略拒绝的递归删除仅涉及三个旧2.14/brainrom工具目录。表情试验完成后不自动扩展衣物、妆容、全表达或批处理。精确依赖、调用、可复现入口及受限生命周期随本包README和准备清单保存。

@@ -1,0 +1,279 @@
+{
+  "schema": "native-single-expression-close-review-closure-v1",
+  "status": "same-camera-observation-complete-visual-acceptance-pending",
+  "build": "83decd027116",
+  "cases": [
+    {
+      "id": "baseline",
+      "path": "evidence/vroid-expression-study-v1/native-single-expression-v1/expression-study-baseline.vrm",
+      "sha256": "48b08e0548a4ce58298fa1f2cc18b02c79d65b7cb4b0f4a199dffc5019689c8d",
+      "bytes": 15143100,
+      "camera": {
+        "position": [
+          -0.4999999998423493,
+          1.4312679586349226,
+          1.7052889655268961
+        ],
+        "target": [
+          -0.4999999998423493,
+          1.4212679586349226,
+          1.125288965526896
+        ],
+        "fov": 36,
+        "aspect": 1.2776412776412776
+      },
+      "expressionChecks": [
+        {
+          "id": "neutral",
+          "name": "happy",
+          "weight": 0,
+          "result": {
+            "name": "happy",
+            "supported": true,
+            "actualValue": 0
+          }
+        },
+        {
+          "id": "happy-1",
+          "name": "happy",
+          "weight": 1,
+          "result": {
+            "name": "happy",
+            "supported": true,
+            "actualValue": 1
+          }
+        },
+        {
+          "id": "happy-065",
+          "name": "happy",
+          "weight": 0.65,
+          "result": {
+            "name": "happy",
+            "supported": true,
+            "actualValue": 0.65
+          }
+        },
+        {
+          "id": "blink",
+          "name": "blink",
+          "weight": 1,
+          "result": {
+            "name": "blink",
+            "supported": true,
+            "actualValue": 1
+          }
+        },
+        {
+          "id": "aa",
+          "name": "aa",
+          "weight": 1,
+          "result": {
+            "name": "aa",
+            "supported": true,
+            "actualValue": 1
+          }
+        }
+      ],
+      "transitionDurationSeconds": 3.507,
+      "transitionFrameCount": 578,
+      "finalRequestedWeight": 0,
+      "errors": []
+    },
+    {
+      "id": "candidate",
+      "path": "evidence/vroid-expression-study-v1/native-single-expression-v1/expression-study-candidate.vrm",
+      "sha256": "b839ed1429213a6e4bc1d4db450b358cc2c03effb2da3e5ca405c554f10b113b",
+      "bytes": 15143100,
+      "camera": {
+        "position": [
+          -0.4999999998423493,
+          1.4312679586349226,
+          1.7052889655268961
+        ],
+        "target": [
+          -0.4999999998423493,
+          1.4212679586349226,
+          1.125288965526896
+        ],
+        "fov": 36,
+        "aspect": 1.2776412776412776
+      },
+      "expressionChecks": [
+        {
+          "id": "neutral",
+          "name": "happy",
+          "weight": 0,
+          "result": {
+            "name": "happy",
+            "supported": true,
+            "actualValue": 0
+          }
+        },
+        {
+          "id": "happy-1",
+          "name": "happy",
+          "weight": 1,
+          "result": {
+            "name": "happy",
+            "supported": true,
+            "actualValue": 1
+          }
+        },
+        {
+          "id": "happy-065",
+          "name": "happy",
+          "weight": 0.65,
+          "result": {
+            "name": "happy",
+            "supported": true,
+            "actualValue": 0.65
+          }
+        },
+        {
+          "id": "blink",
+          "name": "blink",
+          "weight": 1,
+          "result": {
+            "name": "blink",
+            "supported": true,
+            "actualValue": 1
+          }
+        },
+        {
+          "id": "aa",
+          "name": "aa",
+          "weight": 1,
+          "result": {
+            "name": "aa",
+            "supported": true,
+            "actualValue": 1
+          }
+        }
+      ],
+      "transitionDurationSeconds": 3.505899999976158,
+      "transitionFrameCount": 578,
+      "finalRequestedWeight": 0,
+      "errors": []
+    }
+  ],
+  "sameCamera": true,
+  "reviewedCanvasImages": [
+    "baseline/neutral.png",
+    "baseline/happy-1.png",
+    "baseline/happy-065.png",
+    "baseline/blink.png",
+    "baseline/aa.png",
+    "candidate/neutral.png",
+    "candidate/happy-1.png",
+    "candidate/happy-065.png",
+    "candidate/blink.png",
+    "candidate/aa.png"
+  ],
+  "reviewedReturnScreens": [
+    "baseline/neutral-return-screen.png",
+    "candidate/neutral-return-screen.png"
+  ],
+  "reviewedSheets": [
+    "brow-comparison.png",
+    "baseline-transition-sheet.png",
+    "candidate-transition-sheet.png"
+  ],
+  "pixelReadback": {
+    "neutral": {
+      "maximumChannelDifference": 0,
+      "differenceGreaterThan": {
+        "0": {
+          "changedPixels": 0,
+          "bboxXYXY": null
+        },
+        "2": {
+          "changedPixels": 0,
+          "bboxXYXY": null
+        }
+      }
+    },
+    "happy-1": {
+      "maximumChannelDifference": 162,
+      "differenceGreaterThan": {
+        "0": {
+          "changedPixels": 1052,
+          "bboxXYXY": [
+            1,
+            235,
+            908,
+            462
+          ]
+        },
+        "2": {
+          "changedPixels": 1020,
+          "bboxXYXY": [
+            389,
+            235,
+            644,
+            253
+          ]
+        }
+      }
+    },
+    "happy-065": {
+      "maximumChannelDifference": 161,
+      "differenceGreaterThan": {
+        "0": {
+          "changedPixels": 817,
+          "bboxXYXY": [
+            1,
+            241,
+            908,
+            462
+          ]
+        },
+        "2": {
+          "changedPixels": 749,
+          "bboxXYXY": [
+            389,
+            241,
+            644,
+            258
+          ]
+        }
+      }
+    },
+    "blink": {
+      "maximumChannelDifference": 1,
+      "differenceGreaterThan": {
+        "0": {
+          "changedPixels": 13,
+          "bboxXYXY": [
+            1,
+            318,
+            908,
+            673
+          ]
+        },
+        "2": {
+          "changedPixels": 0,
+          "bboxXYXY": null
+        }
+      }
+    },
+    "aa": {
+      "maximumChannelDifference": 0,
+      "differenceGreaterThan": {
+        "0": {
+          "changedPixels": 0,
+          "bboxXYXY": null
+        },
+        "2": {
+          "changedPixels": 0,
+          "bboxXYXY": null
+        }
+      }
+    }
+  },
+  "scope": "Paused shared initial pose, direct official expressionManager, test-only overlay",
+  "runtimeOrPublicModified": false,
+  "metaChanged": false,
+  "browserClosed": true,
+  "gpuWindowReleased": true,
+  "visualAccepted": false
+}

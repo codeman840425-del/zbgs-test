@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { createGarmentMaterialRecipes } from "./material-recipes.js";
 import { resolveEquipmentSet, commitLoadedEquipmentSet, prepareLoadedEquipmentSet } from "./equipment-set.js";
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { createEquipmentLoader, updateEquipmentMaterials, collectEquipmentTextures } from './equipment-material-loader.js';
 import { shapeFitDescriptor } from './shape-fit-registry.js';
 import { layerFitRequirement, validateLayerFit, assertLayerFitSet } from './garment-layer-fit.js';
 
@@ -55,7 +55,7 @@ export async function createEquipment({
         if (!bindByBone.has(bone)) bindByBone.set(bone, node.skeleton.boneInverses[index]);
       });
   });
-  const loader = new GLTFLoader(), loaded = new Map(), pending = new Map(), slotRequests = new Map();
+  const loader = createEquipmentLoader(), loaded = new Map(), pending = new Map(), slotRequests = new Map();
   const materialRequests = new Map();
   let disposed = false;
   let setRevision = 0;
@@ -243,7 +243,7 @@ export async function createEquipment({
       geometries.add(mesh.geometry);
       for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) {
         materials.add(material);
-        for (const value of Object.values(material)) if (value?.isTexture) textures.add(value);
+        collectEquipmentTextures(material, textures);
       }
     }
     geometries.forEach((g) => g.dispose()); materials.forEach((m) => m.dispose());
@@ -262,6 +262,9 @@ export async function createEquipment({
     return result;
   }
   return {
+    update(deltaSeconds) {
+      if (!disposed) updateEquipmentMaterials(loaded.values(), deltaSeconds);
+    },
     list: () => manifest.items.map(({ id, name, slot, limits }) => ({ id, name, slot, limits })),
     // The manifest is available before a garment is loaded. Static admission
     // and saved-recipe identity checks must not allocate all catalog meshes.

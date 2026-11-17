@@ -195,6 +195,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     update(dt, colliders = []) {
       if (!debugBody && lowerBodyRole === 'skirt') skirtCorrective?.update(dt, colliders);
     },
+    updateMaterials(dt) { adapter.update(dt); },
     getInfo() {
       return {
         outfit,

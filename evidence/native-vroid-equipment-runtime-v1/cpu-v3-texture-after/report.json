@@ -1,0 +1,102 @@
+{
+  "schema": "equipment-mtoon-independent-cpu-v1",
+  "status": "bounded-cpu-checks-passed",
+  "sources": [
+    {
+      "path": "prototype/src/equipment-material-loader.js",
+      "sha256": "343405e061dcbe9fe954508f4adc6bd114214fac1d2c4bd0290b0febcf0629d7"
+    },
+    {
+      "path": "prototype/src/equipment.js",
+      "sha256": "f2c732e489d2b1706c40de9df4f18c3a2c20497ff081c9ffbd3515f7227f2732"
+    },
+    {
+      "path": "prototype/src/m1-equipment.js",
+      "sha256": "00549d85801dbb160df05c029156349e7a4999af31d0fdcc7d105e9b90900d95"
+    },
+    {
+      "path": "prototype/src/foundation-avatar.js",
+      "sha256": "d7d77305ad6fdff53342ffea1a2531670fca7591874d341c9181bb86845a8a18"
+    },
+    {
+      "path": "prototype/src/motion.js",
+      "sha256": "22cf4adaa1b5cb0839150c1e6ce00cd33b895c28f737b6b60343081ee34308fb"
+    },
+    {
+      "path": "prototype/src/material-recipes.js",
+      "sha256": "be6ab537823b6c74ca68bef889cfe2e887bf19eeceed4ea49243ac16902ab1cd"
+    },
+    {
+      "path": "prototype/src/cloth-material.js",
+      "sha256": "4539ac3f83bc5fb1fa9aa91dbfb7323a8f2e7084a5f762d9713d0ae36bcfb565"
+    },
+    {
+      "path": "prototype/node_modules/@pixiv/three-vrm/lib/three-vrm.module.js",
+      "sha256": "bfc0f3bd49ee5b706b3055d366759e881f20dee32be344c4c8f586600f223434"
+    }
+  ],
+  "checks": [
+    {
+      "name": "actual-loader-plain-unlit-mtoon-plus-outline",
+      "passed": true
+    },
+    {
+      "name": "actual-surface-outline-dedup-hidden-and-resume",
+      "passed": true
+    },
+    {
+      "name": "invalid-delta-rejected",
+      "passed": true
+    },
+    {
+      "name": "unlit-actual-material-recipe-switch-and-restore",
+      "passed": true
+    },
+    {
+      "name": "mtoon-actual-material-recipe-reject-and-preserve",
+      "passed": true
+    },
+    {
+      "name": "actual-vrm-update-does-not-own-attached-garment-materials",
+      "passed": true
+    },
+    {
+      "name": "actual-adapter-hide-show-preserves-and-resumes-phase",
+      "passed": true
+    },
+    {
+      "name": "zero-delta-stateless-prepass-has-no-phase-progress",
+      "passed": true
+    },
+    {
+      "name": "two-real-adapters-independent-material-phase",
+      "passed": true
+    },
+    {
+      "name": "actual-adapter-exact-once-surface-outline-geometry-disposal-and-no-postdispose-update",
+      "passed": true
+    },
+    {
+      "name": "shared-mtoon-uniform-texture-disposed-once",
+      "passed": true,
+      "actualDisposeEvents": 1,
+      "expectedDisposeEvents": 1,
+      "textureLayout": {
+        "ownMap": false,
+        "topLevelContainsTexture": false,
+        "uniformContainsTexture": true
+      }
+    },
+    {
+      "name": "uniform-texture-array-alias-disposed-once",
+      "passed": true,
+      "actualDisposeEvents": 1,
+      "expectedDisposeEvents": 1
+    }
+  ],
+  "limits": [
+    "In-memory valid skinned GLB, no texture images, no renderer/GPU",
+    "Actual cloth material recipes reject MToon by their existing MeshBasicMaterial contract",
+    "Full avatar motion and foundation timing are source-reviewed, not executed here"
+  ]
+}
