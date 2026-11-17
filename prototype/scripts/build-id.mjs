@@ -22,6 +22,7 @@ const inputs = [
   "public/native-production.html",
   "index.html",
   "foundation.html",
+  "record-consumer.html",
   "vite.config.js",
   "package.json",
   "package-lock.json",

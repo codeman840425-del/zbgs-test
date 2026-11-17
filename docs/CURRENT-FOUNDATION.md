@@ -3,7 +3,7 @@
 ## 固定入口与备份
 - F:/gamemake / feat/m1-foundation-room。4196 build 7a03f033973d，source eb40ba45a3ecee4359f2ef77a53ef5c2d41d8b8c，独立目录 experiments/m2-character-material-release-v1/prototype/dist。delivery/appearance-workbench.json 为指针；回退64c在delivery/history/appearance-workbench-64c973eb5a11.json。
 - 4174历史证据；4195封存M1。不要新建常驻端口。公开新录像在4196/native-production.html#character-records。
-- 当前增量远端核验待本次提交推送后补。历史已核远端2db609087176f96854b983bd5581a6ce40adeda2。公司副总工dirty文件不stage，禁止git add -A。
+- 上个发布增量已核本地与origin同为d6376b068539e579e6329d309d509e52b0f8d33f（本轮git ls-remote实查）。公司副总工dirty文件不stage，禁止git add -A。
 
 ## 刚完成的限定成果
 - D01/L02记录新增equipmentMaterials，完整已穿衣物原材质/配方身份、异步prepare与同步commit/逆序rollback，保旧clone至整套成功。明确错误与新操作抢占，不用当前值相同推断没新意图。
