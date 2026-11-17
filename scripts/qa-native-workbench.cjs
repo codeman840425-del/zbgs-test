@@ -39,6 +39,14 @@ if(!directory||!output)throw Error('Pass fixed dist and new evidence directory')
   report.checks.push('actual outfit buttons and base/dressed restore custom top and coverage');
   await page.locator('[data-appearance-group="male"]').click();
   await page.waitForFunction(()=>__debug.avatar().profile.bodyType==='male',null,{timeout:60000});
+  await page.locator('[data-workbench-tab="appearance"]').click();
+  await page.locator('#appearance-body').selectOption('native-male-7586-v1');
+  await page.waitForFunction(()=>__debug.avatar()?.profile.bodyType==='native-male-7586-v1'&&!document.querySelector('#appearance-body').disabled,null,{timeout:60000});
+  assert.equal(await page.evaluate(()=>__debug.avatar().profile.sha256),'7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81');
+  for(const id of ['appearance-hair-color','appearance-skin-tone','appearance-eye-color','appearance-lip-color'])assert(await page.locator('#'+id).isDisabled(),id);
+  await page.evaluate(()=>{__debug.setPaused(true);__debug.camera('inspect-full-front');});
+  await page.screenshot({path:path.join(out,'native-male-workbench.png')});
+  report.checks.push('native male candidate has its own source and unvalidated palette stays disabled');
   await page.locator('[data-appearance-group="female"]').click();
   await page.waitForFunction(()=>__debug.avatar().profile.bodyType==='female',null,{timeout:60000});
   assert.equal(navigations,0);assert.equal(await page.evaluate(()=>window.workbenchDocumentIdentity),documentIdentity);report.checks.push('male and female group switch remains in page');

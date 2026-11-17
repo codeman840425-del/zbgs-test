@@ -2210,6 +2210,17 @@
       "reason": "Stage exact male79 source/equipment/coverage and data-only profile without inherited female fits",
       "actualRuntimeConfiguration": "Not independently exposed",
       "hookInterception": "Not verified"
+    },
+    {
+      "task": "face_target_feasibility",
+      "difficulty": "standard",
+      "model": "gpt-6-astra",
+      "reasoning_effort": "high",
+      "configuration": "followup reuse of known explicit requested configuration",
+      "work": "native-body-texture-ids-snapshot-fix-v1",
+      "reason": "Small confirmed array-alias state defect in the same owned file; retain known configuration to avoid context redispatch",
+      "actualRuntimeConfiguration": "Not independently exposed",
+      "hookInterception": "Not verified"
     }
   ],
   "dispatchRecoveryLesson": "A message to a completed agent does not start a new task. Inspect status and use followup_task; asset task was actually restarted and acknowledged before rendering."

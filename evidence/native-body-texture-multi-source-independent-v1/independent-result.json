@@ -1,0 +1,62 @@
+{
+  "schema": "native-body-texture-multi-source-independent-v1",
+  "status": "no-new-multi-source-blocker;pre-existing-input-aliasing-reproduced",
+  "checks": [
+    "Exactly two deeply frozen admission rows match actual pinned source/PNG resources",
+    "female: two same-source owners sharing borrowed base textures keep independent masks/bitmaps; disposal once",
+    "female: staging failure restores ownership for a successful retry without publishing maps",
+    "male: two same-source owners sharing borrowed base textures keep independent masks/bitmaps; disposal once",
+    "male: staging failure restores ownership for a successful retry without publishing maps"
+  ],
+  "findings": [
+    {
+      "kind": "pre-existing-api-input-aliasing",
+      "source": "female",
+      "observed": {
+        "schema": "native-body-texture-coverage-v1",
+        "avatarSha256": "843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef",
+        "covered": true,
+        "activeIds": [
+          "unadmitted-after-prepare"
+        ],
+        "maskedPngSha256": "dc375769e28d015bc70c3cef6be1dec3794b5b2430a9bf173d60584105f68a8c",
+        "ownedTextures": 2,
+        "materialCount": 2,
+        "pendingUpdates": 0,
+        "disposed": false,
+        "cleanupErrors": [],
+        "scope": "Pinned native Body RGBA states; geometry/contact surfaces unchanged"
+      },
+      "trigger": "Mutate the caller-owned ids array after prepareEquipmentSet and before commit",
+      "impact": "getInfo.activeIds reports an unvalidated ID although the mask reflects the originally validated top selection",
+      "integrationBoundary": "Factory creates and retains its own selected array; this review has not found a normal UI path that mutates it",
+      "minimalSuggestion": "Snapshot ids before validation and retain that snapshot for activeIds at commit"
+    },
+    {
+      "kind": "pre-existing-api-input-aliasing",
+      "source": "male",
+      "observed": {
+        "schema": "native-body-texture-coverage-v1",
+        "avatarSha256": "7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81",
+        "covered": true,
+        "activeIds": [
+          "unadmitted-after-prepare"
+        ],
+        "maskedPngSha256": "15ab2ecee54e10bfdb84a38be10e41fa7c7658e9a9f77b8293c2fd27569d7136",
+        "ownedTextures": 2,
+        "materialCount": 2,
+        "pendingUpdates": 0,
+        "disposed": false,
+        "cleanupErrors": [],
+        "scope": "Pinned native Body RGBA states; geometry/contact surfaces unchanged"
+      },
+      "trigger": "Mutate the caller-owned ids array after prepareEquipmentSet and before commit",
+      "impact": "getInfo.activeIds reports an unvalidated ID although the mask reflects the originally validated top selection",
+      "integrationBoundary": "Factory creates and retains its own selected array; this review has not found a normal UI path that mutates it",
+      "minimalSuggestion": "Snapshot ids before validation and retain that snapshot for activeIds at commit"
+    }
+  ],
+  "implementationSHA": "c29a14ba222c6acde1fc9dccc60a7bc0d970f6a8c5eba4f2aa97c8ac6b5aabed",
+  "admissionsSHA": "f97da8419cb8b98c027108291d3ff8f9362242c2273c8b183b1085dbbe9f7d37",
+  "scope": "Actual source VRM JSON, base PNG and mask SHA, real Three/MToon materials. CPU fetch and bitmap decoding substitutes. No WebGL/GPU/fit/visual claim."
+}

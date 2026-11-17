@@ -1,0 +1,44 @@
+  function prepareEquipmentSet(ids) {
+    assertLiveState();
+    check(Array.isArray(ids) && new Set(ids).size === ids.length, 'duplicate/invalid equipment set');
+    const slots = new Set();
+    const selected = ids.map(id => {
+      const rule = catalog.get(id);
+      check(rule && !slots.has(rule.slot), 'unknown equipment or conflicting slot');
+      slots.add(rule.slot); return rule;
+    });
+    const nextCovered = selected.some(rule => rule.covered);
+    stageMaterials(nextCovered);
+    const ticket = ++revision;
+    let live = true;
+    const update = {
+      isCurrent: () => live && !disposed && ticket === revision && records.every(record =>
+        owners.get(record.material) === token && record.material.map === expectedMap(record) &&
+        record.material.shadeMultiplyTexture === expectedMap(record, 'shadeMap') &&
+        record.material.alphaTest === manifest.alphaTest && record.material.transparent === false),
+      commit() {
+        check(update.isCurrent(), 'prepared update superseded or disposed');
+        assertLiveState();
+        const previous = records.map(record => [record.material.map, record.material.shadeMultiplyTexture]);
+        try {
+          for (const record of records) {
+            const next = nextCovered ? textures.get(record.map) : record.map;
+            record.material.map = next; record.material.shadeMultiplyTexture = nextCovered ? textures.get(record.shadeMap) : record.shadeMap;
+            record.material.needsUpdate = true; record.material.update(0);
+          }
+        } catch (error) {
+          // Unexpected material updater failure is local-atomic too. The factory
+          // still prevalidates all participants before its shared commit.
+          records.forEach((record, i) => {
+            record.material.map = previous[i][0]; record.material.shadeMultiplyTexture = previous[i][1];
+            record.material.needsUpdate = true;
+            try { record.material.update(0); } catch (restoreError) { cleanupErrors.push(String(restoreError)); }
+          });
+          live = false; pending.delete(update); throw error;
+        }
+        covered = nextCovered; activeIds = [...ids]; live = false; pending.delete(update);
+      },
+      dispose() { live = false; pending.delete(update); },
+    };
+    pending.add(update); return update;
+  }
