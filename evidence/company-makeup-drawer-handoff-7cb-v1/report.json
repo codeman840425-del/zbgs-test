@@ -1,0 +1,61 @@
+{
+  "status": "passed",
+  "package": "F:\\gamemake-company-drawer-delivery-7cb",
+  "checks": [
+    {
+      "name": "All standalone manifest bytes match before editing",
+      "passed": true,
+      "result": {
+        "files": 878
+      }
+    },
+    {
+      "name": "Standalone edit changes one storage and its opening state; unpaired movement is rejected without a partial output",
+      "passed": true,
+      "result": {
+        "rejection": "unpaired-vanity-seat",
+        "edited": {
+          "ok": true,
+          "id": "makeup-drawer-alternate",
+          "revision": 3,
+          "floors": [
+            "makeup-drawer-alternate/floor-1"
+          ],
+          "output": "F:\\gamemake-company-platform-c1\\evidence\\company-makeup-drawer-handoff-7cb-v1\\edited"
+        }
+      }
+    },
+    {
+      "name": "Imported independent two-room scene loads actual models, preserves child state and requests only package resources",
+      "passed": true,
+      "result": {
+        "actual": {
+          "tableMesh": true,
+          "storagePresent": true
+        },
+        "modelRequests": [
+          "http://127.0.0.1:53846/company-assets/vanity-table-v1/plain/v1/model.glb",
+          "http://127.0.0.1:53846/company-assets/supported-clock-v1/digital-flat/v1/model.glb",
+          "http://127.0.0.1:53846/company-assets/support-collection-v1/ornaments/stacked-stones/v1/model.glb",
+          "http://127.0.0.1:53846/company-assets/support-collection-v1/ornaments/arched-sculpture/v1/model.glb",
+          "http://127.0.0.1:53846/company-assets/vanity-table-v1/drawer-style/v1/model.glb",
+          "http://127.0.0.1:53846/company-assets/makeup-drawer-v1/host/v1/model.glb",
+          "http://127.0.0.1:53846/company-assets/makeup-drawer-v1/case/v1/model.glb",
+          "http://127.0.0.1:53846/company-assets/makeup-storage-v1/content-compact/v1/model.glb",
+          "http://127.0.0.1:53846/company-assets/makeup-drawer-v1/divided/v1/model.glb"
+        ]
+      }
+    },
+    {
+      "name": "Complete edited company survives a separate browser process and both room views",
+      "passed": true,
+      "result": {
+        "rooms": 2
+      }
+    }
+  ],
+  "limits": [
+    "SwiftShader independent package use; no C3 or ordinary-device claim"
+  ],
+  "build": "7cbbe588eef1"
+}

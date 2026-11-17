@@ -1,0 +1,10 @@
+const {chromium}=require('../../prototype/node_modules/playwright');
+const {serve}=require('../../scripts/company-platform/serve.cjs');
+const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
+(async()=>{let server,browser;const report={status:'running',samples:[]};try{
+server=await serve(path.resolve('prototype/dist-company'),'7cbbe588eef1',{manifest:'company-build-info.json',entry:'company.html'});
+browser=await chromium.launch({headless:true,args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']});const page=await browser.newPage();await page.goto(server.url);await page.waitForFunction(()=>window.company?.ready);await page.evaluate(()=>company.pausePreview());
+for(const seconds of [33330,33331,33330]){await page.evaluate(seconds=>company.setPreviewClock(seconds),seconds);await page.evaluate(()=>company.showAppearanceSample('makeup-storage-drawer',0));await page.evaluate(()=>company.drawHostFrame());report.samples.push(await page.evaluate(seconds=>{let visibleClockSegments=0;company.session.scene.root.traverse(n=>{if(n.isMesh&&n.visible&&n.name.includes('digit'))visibleClockSegments++;});return{seconds,memory:{...company.renderer.info.memory},visibleClockSegments};},seconds));}
+report.fixedTime=[];await page.evaluate(()=>company.setPreviewClock(33330));for(let i=0;i<8;i++){await page.evaluate(i=>company.showAppearanceSample('makeup-storage-drawer',i%4),i);await page.evaluate(()=>company.drawHostFrame());report.fixedTime.push(await page.evaluate(()=>({...company.renderer.info.memory})));}
+for(let i=0;i<4;i++)assert.deepEqual(report.fixedTime[i],report.fixedTime[i+4]);assert.deepEqual(report.samples[0].memory,report.samples[2].memory);report.status='passed';
+}catch(e){report.status='failed';report.error=e.stack;process.exitCode=1;}finally{await browser?.close();await server?.close();await fs.writeFile(path.join(__dirname,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));}})();

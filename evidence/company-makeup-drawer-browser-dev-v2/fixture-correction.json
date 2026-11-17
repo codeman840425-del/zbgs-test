@@ -1,0 +1,5 @@
+{
+  "kind": "test assumption correction",
+  "reason": "Existing copySubtree allocates opaque extra-N child IDs; hierarchy is represented by parentId. The test incorrectly expected path-shaped child IDs. Runtime is unchanged.",
+  "replacement": "Locate copied nodes by pinned resource identity, require both to exist, check actual two-level parent relation and no reused original instance IDs."
+}

@@ -1,0 +1,332 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "name": "Four distinct compatible insert GLBs fit both actual sample inputs",
+      "passed": true,
+      "result": [
+        {
+          "resource": {
+            "id": "makeup-drawer-tray",
+            "version": 1
+          },
+          "sha256": "0932413ce40e4e66808d979913c12a3c5c6197821a14232a1229f4b6d3bf4fa7"
+        },
+        {
+          "resource": {
+            "id": "makeup-drawer-divided",
+            "version": 1
+          },
+          "sha256": "0b6cb2fd7b74229c6b53f783922d532cb8936da27c727e1ae2eb203a606423a4"
+        },
+        {
+          "resource": {
+            "id": "makeup-drawer-brush-cup",
+            "version": 1
+          },
+          "sha256": "a9c7aa70781faf30859c084ba7f82b24b3c85079c0434742cb37f4379458561b"
+        },
+        {
+          "resource": {
+            "id": "makeup-drawer-case",
+            "version": 1
+          },
+          "sha256": "220370305d15d68a19191c5ae194919a7c3ec6d46fc9da3cac79ffa2a87c8c83"
+        }
+      ]
+    },
+    {
+      "name": "Replacing inserts retains real host, compact, saved rest transforms and open state",
+      "passed": true,
+      "result": [
+        {
+          "resource": {
+            "id": "makeup-drawer-tray",
+            "version": 1
+          },
+          "compactWorld": [
+            0,
+            0.465,
+            -1.3437499999999998
+          ]
+        },
+        {
+          "resource": {
+            "id": "makeup-drawer-divided",
+            "version": 1
+          },
+          "compactWorld": [
+            0,
+            0.465,
+            -1.3437499999999998
+          ]
+        },
+        {
+          "resource": {
+            "id": "makeup-drawer-brush-cup",
+            "version": 1
+          },
+          "compactWorld": [
+            0,
+            0.465,
+            -1.3437499999999998
+          ]
+        },
+        {
+          "resource": {
+            "id": "makeup-drawer-case",
+            "version": 1
+          },
+          "compactWorld": [
+            0,
+            0.465,
+            -1.3437499999999998
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Actual drawer, inserted storage and nested compact translate together; cabinet-top clock stays still",
+      "passed": true,
+      "result": [
+        {
+          "value": 0,
+          "drawer": [
+            0,
+            0,
+            0
+          ],
+          "insert": [
+            0,
+            0.455,
+            -1.61875
+          ],
+          "compact": [
+            0,
+            0.465,
+            -1.6637499999999998
+          ]
+        },
+        {
+          "value": 0.37,
+          "drawer": [
+            0,
+            0,
+            0.1184
+          ],
+          "insert": [
+            0,
+            0.455,
+            -1.5003499999999999
+          ],
+          "compact": [
+            0,
+            0.465,
+            -1.5453499999999998
+          ]
+        },
+        {
+          "value": 0.5,
+          "drawer": [
+            0,
+            0,
+            0.16
+          ],
+          "insert": [
+            0,
+            0.455,
+            -1.45875
+          ],
+          "compact": [
+            0,
+            0.465,
+            -1.50375
+          ]
+        },
+        {
+          "value": 1,
+          "drawer": [
+            0,
+            0,
+            0.32
+          ],
+          "insert": [
+            0,
+            0.455,
+            -1.2987499999999998
+          ],
+          "compact": [
+            0,
+            0.465,
+            -1.3437499999999998
+          ]
+        },
+        {
+          "value": 0,
+          "drawer": [
+            0,
+            0,
+            0
+          ],
+          "insert": [
+            0,
+            0.455,
+            -1.61875
+          ],
+          "compact": [
+            0,
+            0.465,
+            -1.6637499999999998
+          ]
+        },
+        {
+          "value": 1,
+          "drawer": [
+            0,
+            0,
+            0.32
+          ],
+          "insert": [
+            0,
+            0.455,
+            -1.2987499999999998
+          ],
+          "compact": [
+            0,
+            0.465,
+            -1.3437499999999998
+          ]
+        },
+        {
+          "value": 0,
+          "drawer": [
+            0,
+            0,
+            0
+          ],
+          "insert": [
+            0,
+            0.455,
+            -1.61875
+          ],
+          "compact": [
+            0,
+            0.465,
+            -1.6637499999999998
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Standalone cabinet can turn independently while its real nested content remains consistent",
+      "passed": true,
+      "result": {
+        "closed": [
+          1.48625,
+          0.465,
+          0.4
+        ],
+        "opened": [
+          1.8062500000000001,
+          0.465,
+          0.4000000000000001
+        ]
+      }
+    },
+    {
+      "name": "Invalid rest height, insert fit, state and missing appearance preserve old scene and saved document",
+      "passed": true,
+      "result": [
+        {
+          "code": "invalid-support-fit",
+          "path": "makeup-drawer/primary/insert"
+        },
+        {
+          "code": "invalid-support-fit",
+          "path": "makeup-drawer/primary/insert"
+        },
+        {
+          "code": "invalid-support-fit",
+          "path": "makeup-drawer/primary/insert/content"
+        },
+        {
+          "code": "invalid-device-state",
+          "path": "makeup-drawer/primary.state.openFraction"
+        },
+        {
+          "code": "invalid-device-state",
+          "path": "makeup-drawer/primary.state.openFraction"
+        },
+        {
+          "code": "incompatible-replacement",
+          "path": "makeup-drawer/primary/insert.resource.category"
+        },
+        {
+          "code": "missing-resource-version",
+          "path": "makeup-drawer/primary/insert"
+        }
+      ]
+    },
+    {
+      "name": "Two same-name rooms retain independent host state and nested contents across restoration",
+      "passed": true,
+      "result": {
+        "primary": {
+          "id": "makeup-drawer/primary",
+          "kind": "facility",
+          "parentId": "makeup-drawer-alternate/room-1",
+          "resource": {
+            "id": "makeup-drawer-host",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0,
+              0,
+              -1.65
+            ],
+            "yaw": 0
+          },
+          "state": {
+            "openFraction": 0.83
+          }
+        },
+        "secondary": {
+          "id": "makeup-drawer/secondary",
+          "kind": "facility",
+          "parentId": "makeup-drawer-alternate/room-2",
+          "resource": {
+            "id": "makeup-drawer-host",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0.65,
+              0,
+              -2
+            ],
+            "yaw": 1.5707963267948966
+          },
+          "state": {
+            "openFraction": 0.25
+          }
+        },
+        "contents": [
+          [
+            0,
+            0.465,
+            -1.3981499999999998
+          ],
+          [
+            7.7162500000000005,
+            0.465,
+            -2
+          ]
+        ]
+      }
+    }
+  ],
+  "limits": [
+    "Actual GLB loading and common scene graph on CPU. Browser rendering, process restart and character C3 are separate evidence."
+  ]
+}

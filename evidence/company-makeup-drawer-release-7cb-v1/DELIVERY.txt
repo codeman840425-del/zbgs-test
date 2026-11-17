@@ -1,0 +1,33 @@
+化妆抽屉内置收纳固定交付
+
+源码 7f2a826f0619279a40ae19a6399dfb02fc4aaaf9；构建 7cbbe588eef1。
+固定源 F:/gamemake-company-drawer-fixed-v1；独立包 F:/gamemake-company-drawer-delivery-7cb。
+公司唯一公开入口 http://127.0.0.1:60880/?sample=makeup-storage-drawer&look=0 。同一构建仍可查看台面收纳与历史样件；旧固定目录和录像保原身份。
+正常1×录像 evidence/company-makeup-drawer-recording-7cb-v1/makeup-drawer-normal1x.webm，68.52秒、1440×1000、25fps，源码/工具/影片摘要见identity.json。
+
+本包新增一个真实落地化妆侧柜和四款可替换内部收纳：托盘、分格、刷具杯、开放化妆箱。实际抽屉行程32cm；侧柜→收纳件→小圆盒为独立保存的两级依附，柜顶钟保持静止。变换从rest重算，转向、复制和关闭恢复不累加位移。换收纳外观保实例、内容与开度；整个抽屉运动参与阻挡、墙内侧和原化妆台前部留空检查。
+
+生产复用已验台面收纳的上部实结构，删除旧下部机构并烘焙Y减.09；杯体保持真实约15cm/12cm高度。侧柜复用原地柜活动抽屉，离线Y减.35，重新制作有真实接缝与承载的低柜壳。没有把台上carrier改名冒充柜内安装，也没有缩小正常杯高来塞进浅抽屉。
+生产规格中原pending父映射vanity-table.drawer显式改为makeup-drawer-host.drawer：独立侧柜、台和椅属于同一房间，配方显式计算同事务布置，台体功能合同不改。四款与真实抽屉安装要求保留。首批托盘rimHeight .145→.148的可编辑源、导出前后GLB和最终实际入口保留，其余四产物不受该参数改变。目录140→145，140个原描述逐项深比较不变。
+
+实检：115项实际几何检查、14组数据/事务检查、41组受影响旧机制回归；6组实际GLB场景检查、6组固定浏览器检查、4组独立包使用检查。两种布局、90°父朝向、两级内容、非端点开度、四款独立浏览器关闭恢复、复制后的真实parentId和新身份、缺资源保原均有证据。878个移交清单文件完整，独立重建304个运行文件逐字节一致；从独立包重新导出/校验素材和样例同样通过。
+
+失败保留：新隔板与后板重合面改成真实端面接缝；新门Float32精确预筛误拒改用既定微米容差，未改小数去凑合。界面补齐缺失的第二布局选项并抬高检查镜头。复制测试曾错误假定子ID保路径，改查实际parentId；资源释放测试固定宿主时间后比较，实际探针证明数字钟可见段数变化导致上传几何数变化，不是泄漏修复。原失败代码、报告和截图均留在对应evidence目录。
+
+复现（固定源根目录）：
+node scripts/company-platform/build-makeup-drawer.mjs --check
+node scripts/company-platform/build-library.mjs --check
+node scripts/company-platform/build-makeup-drawer-examples.mjs --check
+固定源/prototype：npm ci --no-audit --no-fund
+node scripts/build-company-id.mjs
+node node_modules/vite/bin/vite.js build --config vite.company.config.js
+主公司树：
+node scripts/company-platform/qa-makeup-drawer-preview.cjs F:/gamemake-company-drawer-fixed-v1/prototype/dist-company 7cbbe588eef1 新证据目录
+node scripts/company-platform/qa-makeup-drawer-handoff.cjs F:/gamemake-company-drawer-delivery-7cb 新证据目录
+node scripts/company-platform/record-makeup-drawer-preview.cjs F:/gamemake-company-drawer-fixed-v1/prototype/dist-company 7cbbe588eef1 新证据目录
+python evidence/company-makeup-drawer-release-7cb-v1/verify-rebuild.py F:/gamemake-company-drawer-delivery-7cb
+短时QA服务在finally关闭；公开预览按COMPANY-PREVIEW-OPERATIONS固定60880替换，不另开常驻端口。
+
+已抽看实际影片覆盖全时段的12帧及两张原尺寸关键帧，也查看浏览器杯、箱和第二房间；没有用静态截图冒充实际录像。工程抽样不等于人类连续最终观看验收。使用SwiftShader，不声称普通电脑性能、真实显存、机械承重或角色拿取/化妆动作。C3仍由总工在既有角色链集中集成；未宣布C1–C3或部门完成。
+
+用户建议的免费素材复用已沿既有外观生产标准执行：实际取得Kenney Furniture Kit2.0原包并核包内CC0、单位/分件和抽屉腔体；其7cm净高不满足本包正常杯高，保研究候选身份，未计入这五件游戏资源。Poly Haven和Quaternius按官方具体包许可核查，不一概推定同一许可。下一有界预检核墙挂化妆镜的真实已有覆盖及复用缺口，不中断角色M2。
