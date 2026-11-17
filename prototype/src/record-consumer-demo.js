@@ -61,13 +61,13 @@ let inputFailure=null;
 if(!productionMode){
  try{
  const externalPath=parameters.get('records');
- if(parameters.has('records')&&externalPath!=='/records/manifest.json')throw Error('Unsupported record manifest path');
- const manifestResponse=await fetch(externalPath??'/assets/record-consumer-v1/manifest.json');
+ if(parameters.has('records')&&(parameters.getAll('records').length!==1||externalPath!=='/records/manifest.json'))throw Error('Unsupported record manifest path');
+ const manifestResponse=await fetch(externalPath??'/assets/record-consumer-v1/manifest.json',{redirect:'error'});
  if(!manifestResponse.ok)throw Error('Manifest HTTP '+manifestResponse.status);
  const manifest=await manifestResponse.json();
  const entries=externalPath?validateCharacterRecordInput(manifest,externalPath):manifest.entries;
  records=await Promise.all(entries.map(async entry=>{
-   const response=await fetch(entry.url);if(!response.ok)throw Error('Record HTTP '+response.status);
+   const response=await fetch(entry.url,{redirect:'error'});if(!response.ok)throw Error('Record HTTP '+response.status);
    const bytes=await response.text();if(new TextEncoder().encode(bytes).length>512*1024)throw Error('Record exceeds 512 KiB');
    const record=JSON.parse(bytes);if(record.identity?.id!==entry.id||record.integrity?.recordSha256!==entry.recordSha256)throw Error('Record manifest identity mismatch');return record;
  }));

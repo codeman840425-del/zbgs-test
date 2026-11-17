@@ -9,7 +9,7 @@ export function validateCharacterRecordInput(manifest, manifestPath) {
   const ids = new Set();
   for (const entry of manifest.entries) {
     if (!isSafeCharacterRecordId(entry?.id) || entry.id === 'manifest' || ids.has(entry.id) ||
-        entry.url !== '/records/' + entry.id + '.json' || !/^[a-f0-9]{64}$/.test(entry.recordSha256))
+        entry.url !== '/records/' + entry.id + '.json' || typeof entry.recordSha256 !== 'string' || !/^[a-f0-9]{64}$/.test(entry.recordSha256))
       throw Error('Invalid or duplicate record input entry');
     ids.add(entry.id);
   }
