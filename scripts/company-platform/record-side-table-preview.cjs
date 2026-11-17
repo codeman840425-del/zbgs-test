@@ -18,12 +18,17 @@ let server,browser,context,video;
     company.view('top');const nodes=company.session.document.nodes.filter(n=>company.catalog.resources.find(r=>r.id===n.resource?.id)?.mountRole==='side-table');
     const groups=nodes.map(n=>company.session.scene.root.getObjectByName(n.id)),top=groups[0].getObjectByName('side-table-top');top.geometry.computeBoundingBox();
     const box=top.geometry.boundingBox.clone().makeEmpty();for(const group of groups)box.expandByObject(group);
-    const target=box.getCenter(company.camera.position.clone());
-    // Both explicit sample inputs share the room origin. Keep the review camera
-    // inside its south wall; a fitted wide pair otherwise moves behind the wall.
-    if(groups.length>1)company.camera.position.set(0,2.4,2.35);
-    else company.camera.position.copy(target).add(company.camera.position.clone().set(.6,1.1,1.7));
-    company.camera.lookAt(target);company.camera.updateMatrixWorld();company.drawHostFrame();
+    const target=box.getCenter(company.camera.position.clone()),size=box.getSize(company.camera.position.clone());
+    // Fit the full bounding sphere, including the nearer table's perspective
+    // enlargement. A high downward direction clears the cutaway room wall.
+    const halfFov=Math.min(company.camera.fov*Math.PI/360,Math.atan(Math.tan(company.camera.fov*Math.PI/360)*company.camera.aspect));
+    const distance=size.length()*.5/Math.sin(halfFov)*1.1;
+    company.camera.position.copy(target).addScaledVector(company.camera.position.clone().set(.15,1,.55).normalize(),distance);
+    company.camera.lookAt(target);company.camera.updateMatrixWorld();
+    for(const x of [box.min.x,box.max.x])for(const y of [box.min.y,box.max.y])for(const z of [box.min.z,box.max.z]){
+      const p=target.clone().set(x,y,z).project(company.camera);if(Math.abs(p.x)>.98||Math.abs(p.y)>.98)throw Error('Review camera clips the real table group');
+    }
+    company.drawHostFrame();
   });}
   const names=['圆几：圆台面与柱架底座','方几：柜体与固定门把手','套几：两张独立落地的高低桌','低茶几：长方台面与四腿系杆'];
   for(let i=0;i<4;i++){await page.evaluate(i=>company.showAppearanceSample('side-table',i),i);await step('look-'+(i+1),names[i]+'。台面花瓶保持原位置。');}
