@@ -1,0 +1,57 @@
+{
+  "status": "passed",
+  "package": "F:\\gamemake-company-vanity-delivery-b36-v2",
+  "checks": [
+    {
+      "name": "All standalone manifest bytes match before editing",
+      "passed": true,
+      "result": {
+        "files": 784
+      }
+    },
+    {
+      "name": "Standalone edit changes one table and one state; unpaired movement is rejected without a partial output",
+      "passed": true,
+      "result": {
+        "rejection": "unpaired-vanity-seat",
+        "edited": {
+          "ok": true,
+          "id": "vanity-alternate",
+          "revision": 2,
+          "floors": [
+            "vanity-alternate/floor-1"
+          ],
+          "output": "F:\\gamemake-company-platform-c1\\evidence\\company-vanity-handoff-b36-v2\\edited"
+        }
+      }
+    },
+    {
+      "name": "Imported independent two-room scene loads actual models, preserves child state and requests only package resources",
+      "passed": true,
+      "result": {
+        "actual": {
+          "tableMesh": true,
+          "clockPresent": true
+        },
+        "modelRequests": [
+          "http://127.0.0.1:59528/company-assets/vanity-table-v1/mobile/v1/model.glb",
+          "http://127.0.0.1:59528/company-assets/supported-clock-v1/digital-flat/v1/model.glb",
+          "http://127.0.0.1:59528/company-assets/support-collection-v1/ornaments/stacked-stones/v1/model.glb",
+          "http://127.0.0.1:59528/company-assets/support-collection-v1/ornaments/arched-sculpture/v1/model.glb",
+          "http://127.0.0.1:59528/company-assets/vanity-table-v1/drawer-style/v1/model.glb"
+        ]
+      }
+    },
+    {
+      "name": "Complete edited company survives a separate browser process and both room views",
+      "passed": true,
+      "result": {
+        "rooms": 2
+      }
+    }
+  ],
+  "limits": [
+    "SwiftShader independent package use; no C3 or ordinary-device claim"
+  ],
+  "build": "b36043e46212"
+}

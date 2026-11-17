@@ -1,0 +1,26 @@
+化妆台承载与留空固定交付（2026-11-17）
+
+运行源码602ee7d7c6204dbc95ab1a7073fe02c6a86cf86d；构建b36043e46212。
+固定检出F:/gamemake-company-vanity-fixed-v1；最终独立包F:/gamemake-company-vanity-delivery-b36-v2。
+公开入口沿同一端口更新：http://127.0.0.1:60880/?sample=vanity-table&look=0。
+录像evidence/company-vanity-recording-b36-v1/vanity-preview-normal1x.webm，48.72秒、1440×1000、25fps、正常1×、SwiftShader。
+
+四款为单台、固定闭合侧柜式、真实L形转角、静态轮架式。统一1.1×.78×.5m安装包络，共用实际台面承载与台下膝部/台前留空。可编辑参数腿宽实际变化后重导出，其他三GLB不变；四款原模型在当前几何门下通过。侧柜不冒认抽屉开合，脚轮不冒认物理移动。
+
+旧chair几何背板在-Z，因此配椅相对台面转π。为避免旧前向接近点落桌下，新增独立vanity-chair-side-entry功能适配身份，复用旧椅显示与接触节点，局部左右接近/离开；不改旧chair语义、不计新外观。台与椅显式同事务转向，桌面子物随父台变换。真实男女接近/坐起与身体适配仍归C3，静态接近点通过不等于人物使用通过。
+
+实测73几何检查、原support11回归、独审数据16与实际几何5通过；CPU实际场景5组、固定浏览器5组、独立移交4组通过。四款分别进程关闭重开，双同名房间的台、钟状态和朝向隔离，候选资源503与非法摆放均保旧。数量是检查项/组数，不是独立机制数。旧126条资源定义全部不变，新增4模型和1功能适配资源。
+
+最终包784清单文件SHA相符；独立npm ci/Vite重建273运行文件完整字节一致，无排除。包内build-vanity-table --check、build-library --check、build-vanity-examples --check通过，不依赖原evidence或制作目录。首包遗漏参数pin绑定的预检文档，生产--check真实失败，原包和失败保留；修正packager白名单后创建-v2全量复验，不就地给旧包改标签。仅包装工具变更，运行源码及录像身份不变。
+
+保留缺陷证据：前区侵墙9cm、椅子挂台下暗随动、收底锥板误当均匀板、转角填缺自选整板规则，均按同反例修复并独审复核。浏览器QA的buildInfo等待竞态和转向后沿旧位置造坏例分别修正夹具；未降低真实准入。
+
+已查看覆盖全时段的17个录像抽帧、侧柜/轮架完整画面、转向及独立包双房原尺寸图。重开有短暂加载空画面，后续正确恢复。当前是制作机制样件，不宣称完整室内美术、角色使用、物理抗倾倒、普通机性能或最终人类观感通过。成本计数与限制见cost.json。
+
+复现（固定检出prototype）：npm ci --no-audit --no-fund；node scripts/build-company-id.mjs；npx vite build --config vite.company.config.js。
+固定检出根：node scripts/company-platform/build-vanity-table.mjs --check；node scripts/company-platform/build-library.mjs --check；node scripts/company-platform/build-vanity-examples.mjs --check。
+实际浏览器：node scripts/company-platform/qa-vanity-preview.cjs prototype/dist-company b36043e46212 NEW_EVIDENCE_DIR。
+当前分支工具：node scripts/company-platform/record-vanity-preview.cjs F:/gamemake-company-vanity-fixed-v1/prototype/dist-company b36043e46212 NEW_RECORDING_DIR。工具SHA另记recording.json，读取固定源提交并要求固定树干净。
+独立包：node serve.mjs；node edit.mjs validate data/save.json；node edit.mjs apply INPUT_SAVE OPS_JSON NEW_RESULT_DIRECTORY。临时预览用完关闭，公开公司入口仍只保留60880。
+
+CAP-INCREMENT.json交总工按边界合并；未改其角色/CAP/CURRENT。下一主包台面化妆镜先核真实支承、受限反射和局部补光，其预检正在进行。C1–C3未完成，后续必需分支、C2与C3仍按完整长目标推进。

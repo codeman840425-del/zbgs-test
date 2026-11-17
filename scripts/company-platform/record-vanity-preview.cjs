@@ -1,0 +1,22 @@
+const {chromium}=require('../../prototype/node_modules/playwright');
+const {serve}=require('./serve.cjs');
+const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict'),{execFileSync}=require('node:child_process'),{createHash}=require('node:crypto');
+const [dist,build,outArg]=process.argv.slice(2),out=path.resolve(outArg),sourceCommit=execFileSync('git',['rev-parse','HEAD'],{cwd:path.resolve(dist),encoding:'utf8'}).trim();
+assert.equal(execFileSync('git',['status','--porcelain','--untracked-files=no'],{cwd:path.resolve(dist),encoding:'utf8'}).trim(),'');
+const report={sourceCommit,build,playbackSpeed:1,steps:[],limits:['SwiftShader; not ordinary-PC performance or character C3','Drawer-style facade and mobile caster appearance are static']};
+let server,browser,context,video;
+(async()=>{
+ await fs.mkdir(out);report.recordingTool={path:'scripts/company-platform/record-vanity-preview.cjs',sha256:createHash('sha256').update(await fs.readFile(__filename)).digest('hex')};
+ server=await serve(dist,build,{manifest:'company-build-info.json',entry:'company.html'});
+ browser=await chromium.launch({headless:true,args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']});context=await browser.newContext({viewport:{width:1440,height:1000},recordVideo:{dir:path.join(out,'raw-video'),size:{width:1440,height:1000}}});
+ const page=await context.newPage();video=page.video();await page.goto(server.url);await page.waitForFunction(()=>window.company?.ready&&company.buildInfo);assert.equal(await page.evaluate(()=>company.buildInfo.shortId),build);const start=Date.now();
+ async function step(name,text,ms=2600){await page.evaluate(text=>{company.setPreviewClock(33330);document.getElementById('status').textContent=text;company.drawHostFrame();},text);await page.waitForTimeout(ms);assert.equal(await page.evaluate(()=>company.renderer.getContext().isContextLost()),false);await page.screenshot({path:path.join(out,name+'.png')});report.steps.push({name,text,seconds:(Date.now()-start)/1000});}
+ for(let index=0;index<4;index++) {await page.evaluate(index=>company.showAppearanceSample('vanity-table',index),index);await step('table-'+(index+1),['单台：桌面承载，台下与椅旁留空。','侧柜式：固定闭合外观，本款未提供抽拉。','转角式：保留真实凹缺，沿同一承载规格换款。','轮架式：静态脚轮外观，沿配置重新布置。'][index]);}
+ await page.evaluate(()=>company.apply([{type:'set-state',id:'vanity/primary/clock',state:{on:false}}]));await step('clock-off','关闭台面钟；设备状态与台体外观分开保存。');
+ await page.evaluate(()=>company.apply([{type:'set-state',id:'vanity/primary/clock',state:{on:true,brightness:.35,timeOffsetSeconds:4500}},{type:'replace-resource',id:'vanity/primary',resource:{id:'vanity-table-plain',version:1}}]));await step('changed-with-state','再次换台体：钟表状态、摆件与座椅身份保留。');
+ await page.evaluate(()=>company.apply([{type:'move',id:'vanity/primary',transform:{position:[.5,0,-1.3],yaw:Math.PI/2}},{type:'move',id:'vanity/primary/seat',transform:{position:[1.05,0,-1.32],yaw:Math.PI*1.5}}]));await page.evaluate(()=>company.showAppearanceSample('vanity-table',0));await step('turned','同一事务转向台体和独立座椅，桌上物件随台面移动。');
+ await page.evaluate(()=>company.save());const saved=await page.evaluate(()=>company.session.document);await fs.writeFile(path.join(out,'vanity.company.json'),await page.evaluate(()=>company.export()));
+ await page.reload();await page.waitForFunction(()=>window.company?.ready&&company.buildInfo);assert.deepEqual(await page.evaluate(()=>company.session.document),saved);await page.evaluate(()=>company.showAppearanceSample('vanity-table',0));await step('restored','重开恢复转向布置、台体和非默认钟表状态。');
+ await page.evaluate(()=>company.load(company.layouts.vanityAlternate));await page.evaluate(()=>company.showSpace('floor',company.session.document.nodes[0].id));await step('two-rooms','第二布局：同名两房、不同台体方向，各自保持身份与钟表状态。',3500);
+ report.cost=await page.evaluate(()=>({cache:company.assetLibrary.snapshot(),memory:{...company.renderer.info.memory},render:{...company.renderer.info.render}}));report.status='recorded';report.scriptSeconds=(Date.now()-start)/1000;
+})().catch(e=>{report.status='failed';report.error=e.stack;process.exitCode=1;}).finally(async()=>{if(context)await context.close();if(video){await video.saveAs(path.join(out,'vanity-preview-normal1x.webm'));await video.delete();}if(browser)await browser.close();if(server)await server.close();await fs.writeFile(path.join(out,'recording.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({status:report.status,error:report.error,out}));});

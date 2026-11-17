@@ -1,0 +1,184 @@
+{
+  "schema": "company-save",
+  "version": 1,
+  "document": {
+    "schema": "company-layout",
+    "version": 1,
+    "id": "appearance-vanity-table",
+    "name": "化妆台 · 承载与留空",
+    "revision": 8,
+    "scale": "single-room",
+    "catalog": {
+      "id": "company-facilities",
+      "version": 1
+    },
+    "nodes": [
+      {
+        "id": "appearance-vanity-table/floor-1",
+        "kind": "floor",
+        "parentId": "appearance-vanity-table",
+        "name": "一层",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "appearance-vanity-table/room-1",
+        "kind": "room",
+        "parentId": "appearance-vanity-table/floor-1",
+        "name": "化妆准备间",
+        "purpose": "work",
+        "bounds": {
+          "width": 7,
+          "depth": 5.25
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "vanity/primary",
+        "kind": "facility",
+        "parentId": "appearance-vanity-table/room-1",
+        "resource": {
+          "id": "vanity-table-plain",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0.5,
+            0,
+            -1.3
+          ],
+          "yaw": 1.5707963267948966
+        },
+        "state": {}
+      },
+      {
+        "id": "vanity/primary/seat",
+        "kind": "facility",
+        "parentId": "appearance-vanity-table/room-1",
+        "resource": {
+          "id": "vanity-chair-side-entry",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            1.05,
+            0,
+            -1.32
+          ],
+          "yaw": 4.71238898038469
+        },
+        "state": {}
+      },
+      {
+        "id": "vanity/primary/clock",
+        "kind": "facility",
+        "parentId": "vanity/primary",
+        "resource": {
+          "id": "digital-clock-shelf-flat",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0.02,
+            0.78,
+            -0.15
+          ],
+          "yaw": 0
+        },
+        "state": {
+          "timeOffsetSeconds": 4500,
+          "on": true,
+          "brightness": 0.35
+        },
+        "attachment": {
+          "surfaceId": "top"
+        }
+      },
+      {
+        "id": "vanity/primary/ornament-0",
+        "kind": "facility",
+        "parentId": "vanity/primary",
+        "resource": {
+          "id": "tabletop-ornament-stacked-stones",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.2,
+            0.78,
+            0.08
+          ],
+          "yaw": 0
+        },
+        "state": {},
+        "attachment": {
+          "surfaceId": "top"
+        }
+      },
+      {
+        "id": "vanity/primary/ornament-1",
+        "kind": "facility",
+        "parentId": "vanity/primary",
+        "resource": {
+          "id": "tabletop-ornament-arched-sculpture",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0.22,
+            0.78,
+            0.08
+          ],
+          "yaw": 0
+        },
+        "state": {},
+        "attachment": {
+          "surfaceId": "top"
+        }
+      }
+    ]
+  },
+  "dependencies": {
+    "resources": [
+      {
+        "id": "digital-clock-shelf-flat",
+        "version": 1,
+        "sha256": "4c61d89614af79929774384dcc042f7b689c88924c8f8d5bac6b15e4276f27c1"
+      },
+      {
+        "id": "tabletop-ornament-arched-sculpture",
+        "version": 1,
+        "sha256": "879063369b7eea5590ec76d589e9f959d1f159a22cfbafc52defbdf942462a3c"
+      },
+      {
+        "id": "tabletop-ornament-stacked-stones",
+        "version": 1,
+        "sha256": "66afcce4e9c07cd1458a77a799420b5c81c77ca5c7b61e4bffbbcda7359c1b87"
+      },
+      {
+        "id": "vanity-chair-side-entry",
+        "version": 1,
+        "sha256": "30f57f91ab32e5be0f613df41553a2761381cec691e0fa754120a3bf5f9b472b"
+      },
+      {
+        "id": "vanity-table-plain",
+        "version": 1,
+        "sha256": "a7ba7ced790b50fdfdfe40e7ed234ee74c0b04b271259f3a0b6bb82274629241"
+      }
+    ],
+    "templates": []
+  }
+}

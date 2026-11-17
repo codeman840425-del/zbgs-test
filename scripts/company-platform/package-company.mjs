@@ -33,6 +33,7 @@ const extraFiles=[
   'docs/COMPANY-FLOOR-MIRROR-CONTRACT-v1.txt',
   'docs/COMPANY-MIRROR-HOST-QUALITY-v1.txt',
   'docs/COMPANY-VANITY-TABLE-CONTRACT-v1.txt',
+  'docs/research/COMPANY-VANITY-TABLE-PREFLIGHT-2026-11-16.txt',
   'docs/COMPANY-PREVIEW-OPERATIONS.txt',
   'scripts/company-platform/build-vanity-examples.mjs',
   'docs/research/COMPANY-FLOOR-MIRROR-PREFLIGHT-2026-11-16.txt',
