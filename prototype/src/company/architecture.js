@@ -5,10 +5,17 @@ import {inspectCompanyConnections} from './space.js';
 // Physical boundaries are data. Cutaway heights and visibility never alter them.
 export function describeArchitecture(document,catalog,templates) {
   const derived=deriveCompany(document,catalog,templates);
-  const topology=inspectCompanyConnections(document,catalog,templates),walls=[];
+  const topology=inspectCompanyConnections(document,catalog,templates),walls=[],headers=[];
   for(const floor of topology.floors)for(const regionId of floor.regionIds) {
     const region=derived.nodes.get(regionId),world=derived.worlds.get(regionId);
-    const portals=floor.connections.flatMap(connection=>[connection.from,connection.to]).filter(p=>p.regionId===regionId);
+    const entrances=(floor.exteriorEntrances||[]).filter(e=>e.regionId===regionId);
+    const portals=[...floor.connections.flatMap(connection=>[connection.from,connection.to]),...entrances].filter(p=>p.regionId===regionId);
+    for(const entry of entrances){
+      const horizontal=['north','south'].includes(entry.edge),sign=['north','west'].includes(entry.edge)?-1:1;
+      const position=horizontal?[entry.offset,(2.8+entry.height)/2,sign*(region.bounds.depth/2-.05)]:[sign*(region.bounds.width/2-.05),(2.8+entry.height)/2,entry.offset];
+      const size=horizontal?[entry.width,2.8-entry.height,.1]:[.1,2.8-entry.height,entry.width],center=pointInTransform(world,position),rotated=Math.abs(Math.sin(world.yaw))>.5;
+      headers.push({id:`${entry.id}/header`,floorId:floor.floorId,regionId,edge:entry.edge,position,size,center,halfSize:rotated?[size[2]/2,size[0]/2]:[size[0]/2,size[2]/2],openingId:entry.id});
+    }
     for(const edge of ['north','south','west','east']) {
       const horizontal=edge==='north'||edge==='south',span=horizontal?region.bounds.width:region.bounds.depth;
       const intervals=portals.filter(p=>p.edge===edge).map(p=>[p.offset-p.width/2,p.offset+p.width/2]).sort((a,b)=>a[0]-b[0]);
@@ -25,10 +32,10 @@ export function describeArchitecture(document,catalog,templates) {
       }
     }
   }
-  const physicalWalls=walls.flatMap(wall=>{
+  const physicalWalls=[...walls,...headers].flatMap(wall=>{
     const axis=['north','south'].includes(wall.edge)?0:2;
     const openings=[...derived.windowOpenings.values()].flatMap(o=>o.regions).filter(o=>o.regionId===wall.regionId&&o.edge===wall.edge&&Math.abs(o.offset-wall.position[axis])<(wall.size[axis]+o.width)/2-1e-6);
     return cutWallForWindows(wall,openings,derived.worlds.get(wall.regionId));
   });
-  return {topology,walls:physicalWalls,navigationWalls:walls,visibilityWalls:walls};
+  return {topology,walls:physicalWalls,navigationWalls:walls,visibilityWalls:[...walls,...headers]};
 }

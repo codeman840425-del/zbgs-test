@@ -1,3 +1,4 @@
+import {deriveExteriorEntrances,floorPortalSides} from './exterior-entrance-data.js';
 import {validateWindowResource,deriveWindowOpenings} from './window-data.js';
 import {deriveCableConnections} from './cable-data.js';
 import {companyScaleProfile,validateScaleProfile} from './scale-profile.js';
@@ -173,6 +174,8 @@ export function deriveCompany(document, catalog, templates) {
     if (!Object.hasOwn(parents,node.kind)) fail('unsupported-kind', node.id, String(node.kind));
     if (node.finishes !== undefined && !['room', 'area'].includes(node.kind))
       fail('invalid-surface-owner', `${node.id}.finishes`, 'Only a room or area may own surface finishes');
+    if (node.exteriorEntrances !== undefined && node.kind !== 'floor')
+      fail('invalid-exterior-entrance-owner', `${node.id}.exteriorEntrances`, 'Only a floor may own exterior entrance records');
     transform(node.transform, `${node.id}.transform`, ['floor', 'room', 'area', 'workstation'].includes(node.kind));
     if (node.name !== undefined && typeof node.name !== 'string') fail('invalid-name', node.id, 'Name must be text');
     nodes.set(node.id, node);
@@ -209,6 +212,7 @@ export function deriveCompany(document, catalog, templates) {
       if (installed > 2 || (room.purpose !== 'streaming' && installed)) fail('room-capacity', room.id, 'At most two streaming stations in a streaming room');
     }
   }
+  const exteriorEntrances=deriveExteriorEntrances({document,nodes,worlds,floorIds},fail);
   const surfaceFinishes = [];
   for (const region of document.nodes.filter(n => ['room', 'area'].includes(n.kind))) {
     if (region.finishes === undefined) continue;
@@ -244,7 +248,7 @@ export function deriveCompany(document, catalog, templates) {
     }
     if (members.length !== template.parts.length) fail('unknown-template-part', station.id, 'Every template part must have exactly one instance');
   }
-  const facilities = [], usePoints = [], obstacles = [];
+  const facilities = [], usePoints = [], obstacles = [], portalMounts=new Set();
   for (const node of document.nodes.filter(n => n.kind === 'facility')) {
     const resource = resources.get(key(node.resource));
     if (!resource) fail('missing-resource-version', node.id, key(node.resource));
@@ -280,10 +284,17 @@ export function deriveCompany(document, catalog, templates) {
         const along=horizontal?x:z,normal=horizontal?z:x,low=spec.origin==='center'?y-spec.height/2:y;
         if(Math.abs(normal-plane)>.001||Math.abs(along)+spec.width/2>span/2-.001||low<-.001||low+spec.height>2.8+.001)
           fail('invalid-wall-fit',node.id,'Display back plane, height and width must fit its wall interior face');
-        const floor=nodes.get(floorIds.get(node.id)),portals=(floor.connections||[]).flatMap(c=>[c.from,c.to]).filter(p=>p.regionId===region.id&&p.edge===edge);
+        const floor=nodes.get(floorIds.get(node.id)),portals=floorPortalSides(floor).filter(p=>p.regionId===region.id&&p.edge===edge);
         if(resource.mount==='portal') {
-          if(Math.abs(y)>.001||!portals.some(p=>Math.abs(p.offset-along)<.001&&Math.abs(p.width-spec.apertureWidth)<.001))
-            fail('invalid-portal-fit',node.id,'Door frame must match an existing portal position and unchanged clear width');
+          const portal=portals.find(p=>Math.abs(p.offset-along)<.001&&Math.abs(p.width-spec.apertureWidth)<.001&&(p.height===undefined||Math.abs(p.height-spec.apertureHeight)<.001));
+          if(Math.abs(y)>.001||!portal)fail('invalid-portal-fit',node.id,'Door frame must match an existing portal position and clear size');
+          if(portals.some(p=>p!==portal&&Math.abs(p.offset-along)<(p.width+spec.width)/2-.001))
+            fail('portal-frame-overlap',node.id,'The frame must not intrude into another doorway');
+          if(resource.mountRole==='door-frame'){
+            const binding=`${region.id}:${edge}:${portal.offset}`;
+            if(portal.height!==undefined&&portalMounts.has(binding))fail('duplicate-door-frame',node.id,'One frame per side of a real doorway');
+            portalMounts.add(binding);
+          }
         } else if(portals.some(p=>Math.abs(p.offset-along)<(p.width+spec.width)/2-.001))
           fail('wall-display-over-portal',node.id,'Wall display cannot cover a real portal');
       }
@@ -328,7 +339,7 @@ export function deriveCompany(document, catalog, templates) {
   validateInformationAttachments(nodes, resources, fail);
   const vanityClearances=validateVanityPlacement({nodes,worlds,floorIds,roomIds,facilities,obstacles},fail);
   return { nodes, worlds, localTransforms, floorIds, roomIds, facilities, usePoints, obstacles, surfaceFinishes,
-    vanityClearances,cableConnections,windowOpenings,
+    vanityClearances,cableConnections,windowOpenings,exteriorEntrances,
     capacity: { maximum: capacity, installedStations: stations.length, businessRooms: rooms.length, floors: floors.length } };
 }
 
@@ -482,6 +493,10 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
     const related = descendants(next.nodes, node.id);
     if (!['copy-workstation', 'copy-group','copy-facility'].includes(op.type)) for (const id of related) affected.add(id);
     if (op.type === 'move') node.transform = copy(op.transform);
+    else if(op.type==='set-exterior-entrances'){
+      if(node.kind!=='floor'||!Array.isArray(op.entrances))fail('invalid-exterior-entrances',op.id,'Exterior entrances belong to an existing floor');
+      node.exteriorEntrances=copy(op.entrances);
+    }
     else if (op.type === 'attach-surface') {
       if (node.kind !== 'facility' || resources.get(key(node.resource))?.mount !== 'support-surface')
         fail('invalid-support-attachment', node.id, 'Only support-surface props can be reattached');
@@ -529,6 +544,17 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
   for (const point of before.usePoints) if (affected.has(point.facilityId) && isUsePointBusy(point.id))
     fail('facility-busy', point.facilityId, 'Reserved, occupied or exiting use point prevents this change', { usePointId: point.id });
   next.revision++; const derived = deriveCompany(next, catalog, templates);
+  // Legacy interior duplicate frames remain loadable/removable, but edits cannot create new overlapping pairs.
+  const framePairs=facilities=>{
+    const frames=facilities.filter(f=>f.resource.mountRole==='door-frame'),pairs=new Set();
+    for(let i=0;i<frames.length;i++)for(let j=i+1;j<frames.length;j++){
+      const a=frames[i].node,b=frames[j].node;
+      if(a.parentId===b.parentId&&Math.abs(Math.sin((a.transform.yaw-b.transform.yaw)/2))<1e-6&&a.transform.position.every((v,k)=>Math.abs(v-b.transform.position[k])<.001))pairs.add(JSON.stringify([a.id,b.id].sort()));
+    }
+    return pairs;
+  };
+  const oldFramePairs=framePairs(before.facilities);
+  for(const pair of framePairs(derived.facilities))if(!oldFramePairs.has(pair))fail('duplicate-door-frame',JSON.parse(pair)[0],'One frame per side of a real doorway');
   for(const current of derived.facilities.filter(f=>f.resource.movingParts&&f.resource.movingProfile!==MAKEUP_STORAGE_PROFILE)) {
     const previous=before.facilities.find(f=>f.id===current.id);
     if(!previous?.resource.movingParts||current.resource.movingParts.every(p=>previous.state[p.stateField]===current.state[p.stateField]))continue;

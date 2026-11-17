@@ -184,7 +184,7 @@ function validateInput(input) {
   const ids = new Set();
   for (const [index, floor] of input.floors.entries()) {
     if (!floor || typeof floor !== 'object' || Array.isArray(floor)) fail('invalid-space-input', `input.floors[${index}]`, 'Floor must be an object');
-    knownFields(floor,['id','name','rooms'],`input.floors[${index}]`);
+    knownFields(floor,['id','name','rooms','exteriorEntrances'],`input.floors[${index}]`);
     checkId(floor.id, `input.floors[${index}].id`); text(floor.name, `input.floors[${index}].name`);
     if (ids.has(floor.id)) fail('duplicate-id', `input.floors[${index}].id`, 'Floor IDs must be globally unique'); ids.add(floor.id);
     if (floor.rooms !== undefined && !Array.isArray(floor.rooms)) fail('invalid-space-input', `input.floors[${index}].rooms`, 'Rooms must be an array when provided');
@@ -216,6 +216,13 @@ export function createCompanyScaleV2(input, catalog, templates) {
     document.nodes.push(floor);
     const areas = ['leased-floor', 'building'].includes(input.scale) ? addPublicAreas(document, floor) : null;
     const rooms = addFullFloorRooms(document, floor, floorInput.rooms ?? [], input.scale);
+    if(floorInput.exteriorEntrances!==undefined){
+      if(!Array.isArray(floorInput.exteriorEntrances))fail('invalid-exterior-entrances',floor.id,'Expected an explicit entrance array');
+      floor.exteriorEntrances=floorInput.exteriorEntrances.map((e,index)=>{
+        const path=`${floor.id}.exteriorEntrances[${index}]`;knownFields(e,['id','regionId','edge','offset','width','height'],path);checkId(e.id,`${path}.id`);checkId(e.regionId,`${path}.regionId`);
+        return {...e,id:`${floor.id}/${e.id}`,regionId:`${floor.id}/${e.regionId}`};
+      });
+    }else if(input.scale==='small-home')floor.exteriorEntrances=[{id:`${rooms[0].id}/exterior-entry`,regionId:rooms[0].id,edge:'south',offset:-1.2,width:1.4,height:2.2}];
     for (const [index, room] of rooms.entries()) {
       const roomInput = (floorInput.rooms ?? [])[index] ?? {};
       operations.push(...stationOperations(room, { ...roomInput, purpose: room.purpose }, input.scale));

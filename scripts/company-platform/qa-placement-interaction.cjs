@@ -48,7 +48,7 @@ await check('Wall and support placement use their actual plane and retain locked
  return results;
 });
 await check('Missing portal stays unavailable; required workstation parts cannot be deleted',async()=>{
- await click('mode-room');await choose('layout','smallHome');await click('tool-add');await choose('add-branch','door-frame');assert(await page.locator('#add-place').isDisabled());assert((await page.locator('#add-note').textContent()).includes('真实门洞'));
+ await click('mode-room');await choose('layout','smallHome');await page.evaluate(async()=>{const old=structuredClone(company.layouts.smallHome);old.nodes.filter(n=>n.kind==='floor').forEach(n=>delete n.exteriorEntrances);await company.load(old);});await idle();await click('tool-add');await choose('add-branch','door-frame');assert(await page.locator('#add-place').isDisabled());assert((await page.locator('#add-note').textContent()).includes('真实门洞'));
  await click('tool-selection');const child=(await doc()).nodes.find(n=>n.stationId);assert(child);await choose('edit-instance',child.id);await page.locator('#placement-tools>summary').click();assert(await page.locator('#edit-remove').isDisabled());return{protected:child.id};
 });
 await check('Drag-add and whole workstation move retain stable children and rejected points',async()=>{

@@ -16,7 +16,7 @@ const check = process.argv.includes('--check');
 const presets={smallHome:'small-home.json',studio:'studio.json',base:'single-room.json',alternate:'single-alternate.json',rental:'rental-home.json',flat:'leased-floor.json',twoFloors:'two-floors.json',building:'five-floors-16.json'};
 const inputNames=[...Object.values(presets),'six-floors-16.json'];
 const previewDocuments={};
-const outputRoot = new URL('../../evidence/company-scale-v2-generation-v1/', import.meta.url);
+const outputRoot = new URL('../../evidence/company-scale-v2-entrance-generation-v1/', import.meta.url);
 
 async function readInput(name) {
   return JSON.parse(await fs.readFile(new URL(`./space-v2-inputs/${name}`, import.meta.url), 'utf8'));

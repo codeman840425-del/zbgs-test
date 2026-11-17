@@ -97,7 +97,7 @@ export function inspectCompanyConnections(document,catalog,templates){
     const reached=new Set([regions[0].id]),queue=[regions[0].id];
     for(let index=0;index<queue.length;index++)for(const id of adjacent.get(queue[index]))if(!reached.has(id)){reached.add(id);queue.push(id);}
     if(reached.size!==regions.length)fail('disconnected-regions',floor.id,'Every room and corridor cell on this floor must share one connected portal graph');
-    floors.push({floorId:floor.id,regionIds:regions.map(region=>region.id),businessRooms:rooms.length,connections:geometry});
+    floors.push({floorId:floor.id,regionIds:regions.map(region=>region.id),businessRooms:rooms.length,connections:geometry,exteriorEntrances:[...derived.exteriorEntrances.values()].filter(e=>e.floorId===floor.id)});
   }
   return {scope:'C2 same-floor rectangular portal geometry only',interiorInset:.35,capacity:derived.capacity,floors,
     limits:['Floors are viewing layers at Y=0. No stairs, lifts or cross-floor connections.',

@@ -360,7 +360,18 @@ async function start(){
     snapshot:()=>session.snapshot(),save:saveCurrent,restore:async()=>{const r=await session.restore();savedDocuments.set(session.document.id,JSON.stringify(session.document));await defaultSpace();return r;},export:()=>session.export()};
   facilityEditor=createFacilityEditor({session,catalog,templates,world,camera,orbit,assetLibrary,getCanvas:()=>renderer.domElement,perform,refresh:sync,isBusy:()=>busy,showSpace,defaultSpace,layouts,showSample:showAppearanceSample});
   window.company.editor=facilityEditor;
-  element('edit-focus').onclick=()=>{const object=facilityEditor.focus();if(!object)return;const box=new THREE.Box3().setFromObject(object),center=box.getCenter(new THREE.Vector3());orbit.minDistance=.25;orbit.target.copy(center);camera.position.copy(center).addScaledVector(new THREE.Vector3(.6,.7,1).normalize().applyQuaternion(object.getWorldQuaternion(new THREE.Quaternion())),Math.max(.5,box.getSize(new THREE.Vector3()).length()*1.6));orbit.update();updateWallView();};
+  element('edit-focus').onclick=()=>{
+    const object=facilityEditor.focus();if(!object)return;
+    const box=new THREE.Box3().setFromObject(object),center=box.getCenter(new THREE.Vector3());
+    const node=session.document.nodes.find(n=>n.id===object.name),resource=catalog.resources.find(r=>r.id===node?.resource?.id&&r.version===node.resource.version);
+    let direction=new THREE.Vector3(.6,.7,1),distance=Math.max(.5,box.getSize(new THREE.Vector3()).length()*1.6);
+    if(resource?.mount==='portal'){
+      // View the opening from its room-facing normal, rather than through a corner wall.
+      direction.set(0,.1,1);
+      distance=Math.max(resource.mounting.height,resource.mounting.width/camera.aspect)/(2*Math.tan(THREE.MathUtils.degToRad(camera.fov)/2))*1.1;
+    }
+    orbit.minDistance=.25;orbit.target.copy(center);camera.position.copy(center).addScaledVector(direction.normalize().applyQuaternion(object.getWorldQuaternion(new THREE.Quaternion())),distance);orbit.update();updateWallView();
+  };
   game=new Phaser.Game({type:Phaser.CANVAS,parent:'phaser-stage',width:1,height:1,transparent:true,audio:{noAudio:true},fps:{target:30},scene:CompanyPreview});
   resize();new ResizeObserver(resize).observe(stage);sync();await defaultSpace();status(restoreError?`已保留默认方案，存档未载入：${restoreError.message}`:restored?'已恢复上次保存的方案。':'方案已加载。',Boolean(restoreError));
   fillOptions('sample-branch',appearanceBranches.filter(([branch])=>appearanceCandidates(catalog,branch).length).map(([id,name])=>({id,name})),'desk');fillSampleLooks();

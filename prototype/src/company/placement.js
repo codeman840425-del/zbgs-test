@@ -149,6 +149,7 @@ function inspectDerivedPlacement(document,catalog,templates,derived) {
       }
     }
   }
+  for(const floor of connections.floors)for(const portal of floor.exteriorEntrances||[])portalSides.get(portal.regionId).push({connectionId:portal.id,side:'exterior',portal});
   const checkedPortals = [];
   for (const point of derived.usePoints) {
     if (!point.roomId) fail('missing-use-room', point.id, 'Use-space inspection requires a room or area ancestor');

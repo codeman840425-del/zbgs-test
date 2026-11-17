@@ -391,7 +391,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
     });
     for(const wall of current.architecture.navigationWalls.filter(w=>w.floorId===floorId))obstacles.push({name:wall.id,instanceId:wall.id,kind:'wall',x:wall.center[0],z:wall.center[2],hw:wall.halfSize[0],hd:wall.halfSize[1],object:null});
     const rooms=current.document.nodes.filter(n=>['room','area'].includes(n.kind)&&current.derived.floorIds.get(n.id)===floorId);
-    return {floorId,floors:floorId===current.floorId?current.floors:[],obstacles,connections:clone(current.architecture.topology.floors.find(f=>f.floorId===floorId).connections),regions:rooms.map(room=>({id:room.id,transform:clone(current.derived.worlds.get(room.id)),bounds:clone(room.bounds),inset:.45}))};
+    return {floorId,floors:floorId===current.floorId?current.floors:[],obstacles,connections:clone(current.architecture.topology.floors.find(f=>f.floorId===floorId).connections),exteriorEntrances:clone(current.architecture.topology.floors.find(f=>f.floorId===floorId).exteriorEntrances||[]),regions:rooms.map(room=>({id:room.id,transform:clone(current.derived.worlds.get(room.id)),bounds:clone(room.bounds),inset:.45}))};
   }
   return {
     get root(){return current.root;},get floor(){return current.floors[0];},get walls(){return [...current.walls];},

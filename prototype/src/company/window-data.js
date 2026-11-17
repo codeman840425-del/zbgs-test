@@ -1,3 +1,4 @@
+import {floorPortalSides} from './exterior-entrance-data.js';
 // Window installation and state are scene data. A raised sill is not a portal.
 export const WINDOW_SYSTEM=Object.freeze({id:'horizontal-window-v1',version:1,apertureWidth:1.44,apertureHeight:1.04,sashTravel:.72,minimumSill:.6});
 export const WINDOW_MOUNT=Object.freeze({id:'window-opening-mount-v1',width:1.6,height:1.2,depth:.12,origin:'center'});
@@ -41,7 +42,7 @@ export function deriveWindowOpenings({nodes,worlds,floorIds,facilities},fail){
         if(bottom<WINDOW_SYSTEM.minimumSill-EPS||bottom+WINDOW_SYSTEM.apertureHeight>2.8-.05+EPS)
           fail('invalid-window-sill',f.id,'Keep the fixed aperture above the raised sill and below the wall head');
         const side={id:f.id,regionId:region.id,edge:candidateEdge,offset,bottom,width:WINDOW_SYSTEM.apertureWidth,height:WINDOW_SYSTEM.apertureHeight};
-        const floor=nodes.get(f.floorId),portals=(floor.connections||[]).flatMap(c=>[c.from,c.to]).filter(p=>p.regionId===region.id&&p.edge===candidateEdge);
+        const floor=nodes.get(f.floorId),portals=floorPortalSides(floor).filter(p=>p.regionId===region.id&&p.edge===candidateEdge);
         if(portals.some(p=>Math.abs(p.offset-offset)<(p.width+WINDOW_MOUNT.width)/2-EPS))
           fail('window-over-portal',f.id,'A window cannot replace an existing door or connection');
         sides.push(side);

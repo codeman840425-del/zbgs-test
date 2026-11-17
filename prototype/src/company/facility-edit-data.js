@@ -1,3 +1,4 @@
+import {floorPortalSides} from './exterior-entrance-data.js';
 import {CompanyError, deriveCompany} from './document.js';
 import {deriveCableConnections} from './cable-data.js';
 
@@ -49,7 +50,7 @@ function wallPosition(region, edge, m, along = 0) {
 }
 
 function portalEntries(floor, regionId, edge) {
-  return (floor.connections || []).flatMap(connection => [connection.from, connection.to])
+  return floorPortalSides(floor)
     .filter(portal => portal?.regionId === regionId && portal.edge === edge);
 }
 
@@ -135,7 +136,7 @@ function portalTargets(region, floor, resource) {
   if (!m || m.origin !== 'bottom' || !Number.isFinite(m.apertureWidth)) return [];
   const result = [];
   for (const edge of ['north', 'west', 'south', 'east']) for (const entry of portalEntries(floor, region.id, edge)) {
-    if (Math.abs(entry.width - m.apertureWidth) > EPS) continue;
+    if (Math.abs(entry.width - m.apertureWidth) > EPS || entry.height!==undefined&&Math.abs(entry.height-m.apertureHeight)>EPS) continue;
     const {position, yaw} = wallPosition(region, edge, m, entry.offset);
     const directionLabel = {north: '北侧', west: '西侧', south: '南侧', east: '东侧'}[edge];
     result.push(target(`${region.id}:portal:${entry.id || edge}:${edge}:${entry.offset}`, region.id, `${region.name || region.id} · ${directionLabel}门洞`, position, yaw, 'portal', {
