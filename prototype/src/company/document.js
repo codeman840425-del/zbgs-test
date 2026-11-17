@@ -1,4 +1,5 @@
 import {deriveCableConnections} from './cable-data.js';
+import {companyScaleProfile,validateScaleProfile} from './scale-profile.js';
 // Company authoring data. Actor tasks and seat leases remain in the character platform.
 import {validateCeilingAttachments} from './ceiling-acoustic-data.js';
 import {compareFacilityFunction} from './appearance-contract.js';
@@ -157,7 +158,7 @@ export function deriveCompany(document, catalog, templates) {
   if (document?.schema !== 'company-layout' || document.version !== 1) fail('unsupported-schema', 'document', 'Expected company-layout version 1');
   checkId(document.id, 'document.id');
   if (!Number.isSafeInteger(document.revision) || document.revision < 0) fail('invalid-revision', 'document.revision', 'Expected nonnegative safe integer');
-  const capacity = Object.hasOwn(capacities, document.scale) && capacities[document.scale];
+  const capacity = companyScaleProfile(document,fail)?.capacity || (Object.hasOwn(capacities, document.scale) && capacities[document.scale]);
   if (!capacity) fail('unsupported-scale', 'document.scale', String(document.scale));
   if (document.catalog?.id !== catalog.id || document.catalog?.version !== catalog.version)
     fail('catalog-version-mismatch', 'document.catalog', 'Load the pinned resource catalog');
@@ -315,6 +316,7 @@ export function deriveCompany(document, catalog, templates) {
     if (a.floorId === b.floorId && a.min[0] < b.max[0] - 1e-8 && a.max[0] > b.min[0] + 1e-8 && a.min[1] < b.max[1] - 1e-8 && a.max[1] > b.min[1] + 1e-8)
       fail('overlapping-facilities', a.id, `Blocking footprint overlaps ${b.id}`, { otherId: b.id });
   }
+  validateScaleProfile(document,{floors,rooms,stations,floorIds,roomIds},fail);
   const cableConnections=deriveCableConnections({nodes,facilities},fail);
   validateCeilingAttachments({nodes,facilities},fail);
   validateSupportAttachments(nodes, resources, fail);

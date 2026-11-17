@@ -6,6 +6,8 @@ import {fileURLToPath,pathToFileURL} from 'node:url';
 const defaultSource=fileURLToPath(new URL('../../',import.meta.url));
 const fixedInputs=['company.html','vite.company.config.js','scripts/build-company-id.mjs','package.json','package-lock.json'];
 const extraFiles=[
+  'docs/COMPANY-SPACE-PROFILE-v2.txt',
+  'scripts/company-platform/build-scale-v2-examples.mjs',
   'docs/COMPANY-CABLE-CONTRACT-v1.txt',
   'docs/COMPANY-PREVIEW-EDITOR-v1.txt',
   'scripts/company-platform/build-cable-devices.mjs',
@@ -194,7 +196,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   add('data/library-catalog.json',catalogBytes,'complete-catalog');
   add('data/templates.json',templateBytes,'complete-templates');
   const supplemental=new Set(extraFiles);
-  for(const folder of ['scripts/company-platform/batch-inputs','scripts/company-platform/space-inputs','scripts/company-platform/surface-inputs'])for(const name of await list(source,folder)){
+  for(const folder of ['scripts/company-platform/batch-inputs','scripts/company-platform/space-inputs','scripts/company-platform/space-v2-inputs','scripts/company-platform/surface-inputs'])for(const name of await list(source,folder)){
     if(!name.endsWith('.json'))fail('unsupported-production-input',name,'Production input folders must contain JSON only');supplemental.add(name);
   }
   const assetDependencies=[],provenance=[];

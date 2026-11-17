@@ -1,7 +1,9 @@
 import {CompanyError,createCompany,deriveCompany,prepareCompanyChange,identityTransform,pointInTransform} from './document.js';
+import {companyScaleProfile} from './scale-profile.js';
 
 // C2 grammar is deliberately rectangular and finite. Floors are viewing layers
-// at Y=0, with 1..10 business rooms each. Connections join exact boundary
+// at Y=0. Legacy records admit 1..10 rooms; explicit profiles set new counts.
+// Connections join exact boundary
 // intervals on the same floor. Character navigation and vertical travel are not
 // implemented here. See the explicit JSON inputs for partial and maximum fitout.
 const limits={
@@ -50,11 +52,12 @@ const closePoint=(a,b)=>a.every((value,index)=>Math.abs(value-b[index])<epsilon)
 
 export function inspectCompanyConnections(document,catalog,templates){
   const derived=deriveCompany(document,catalog,templates),floors=[];
+  const roomLimit=companyScaleProfile(document,fail)?.roomsPerFloor||10;
   const identities=new Set([document.id,...derived.nodes.keys()]);
   for(const floor of document.nodes.filter(node=>node.kind==='floor')){
     const regions=document.nodes.filter(node=>['room','area'].includes(node.kind)&&derived.floorIds.get(node.id)===floor.id);
     const rooms=regions.filter(node=>node.kind==='room');
-    if(!rooms.length||rooms.length>10)fail('floor-room-capacity',floor.id,'Each floor requires 1..10 business rooms');
+    if(!rooms.length||rooms.length>roomLimit)fail('floor-room-capacity',floor.id,`Each floor requires 1..${roomLimit} business rooms for its pinned profile`);
     for(const region of regions)if(region.parentId!==floor.id)
       fail('invalid-region-parent',region.id,'C2 rectangular regions must belong directly to their floor');
     const bounds=regions.map(region=>{
