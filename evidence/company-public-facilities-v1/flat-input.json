@@ -1,0 +1,1306 @@
+{
+  "schema": "company-layout",
+  "version": 1,
+  "id": "company-space-v2-flat",
+  "name": "整层 · 16间与公共空间",
+  "revision": 1,
+  "scale": "leased-floor",
+  "catalog": {
+    "id": "company-facilities",
+    "version": 1
+  },
+  "nodes": [
+    {
+      "id": "company-space-v2-flat/ground",
+      "kind": "floor",
+      "parentId": "company-space-v2-flat",
+      "name": "一层",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "connections": [
+        {
+          "id": "company-space-v2-flat/ground/portal-corridor-lobby",
+          "from": {
+            "regionId": "company-space-v2-flat/ground/corridor-1",
+            "edge": "west",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "company-space-v2-flat/ground/lobby",
+            "edge": "east",
+            "offset": 0,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "company-space-v2-flat/ground/portal-corridor-1-2",
+          "from": {
+            "regionId": "company-space-v2-flat/ground/corridor-1",
+            "edge": "east",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "company-space-v2-flat/ground/corridor-2",
+            "edge": "west",
+            "offset": 0,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "company-space-v2-flat/ground/portal-corridor-2-3",
+          "from": {
+            "regionId": "company-space-v2-flat/ground/corridor-2",
+            "edge": "east",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "company-space-v2-flat/ground/corridor-3",
+            "edge": "west",
+            "offset": 0,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "company-space-v2-flat/ground/portal-lobby-lift",
+          "from": {
+            "regionId": "company-space-v2-flat/ground/lobby",
+            "edge": "north",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "company-space-v2-flat/ground/lift-access",
+            "edge": "south",
+            "offset": 0,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "company-space-v2-flat/ground/portal-lobby-stair",
+          "from": {
+            "regionId": "company-space-v2-flat/ground/lobby",
+            "edge": "south",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "company-space-v2-flat/ground/stair-access",
+            "edge": "north",
+            "offset": 0,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "company-space-v2-flat/ground/portal-stair-restroom",
+          "from": {
+            "regionId": "company-space-v2-flat/ground/stair-access",
+            "edge": "south",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "company-space-v2-flat/ground/restroom-access",
+            "edge": "north",
+            "offset": 0,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "company-space-v2-flat/ground/portal-alpha-stream",
+          "from": {
+            "regionId": "company-space-v2-flat/ground/alpha-stream",
+            "edge": "south",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "company-space-v2-flat/ground/corridor-1",
+            "edge": "north",
+            "offset": -5,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "company-space-v2-flat/ground/portal-alpha-work",
+          "from": {
+            "regionId": "company-space-v2-flat/ground/alpha-work",
+            "edge": "south",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "company-space-v2-flat/ground/corridor-1",
+            "edge": "north",
+            "offset": 1,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "company-space-v2-flat/ground/portal-alpha-rest",
+          "from": {
+            "regionId": "company-space-v2-flat/ground/alpha-rest",
+            "edge": "south",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "company-space-v2-flat/ground/corridor-1",
+            "edge": "north",
+            "offset": 7,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "company-space-v2-flat/ground/portal-room-4",
+          "from": {
+            "regionId": "company-space-v2-flat/ground/room-4",
+            "edge": "south",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "company-space-v2-flat/ground/corridor-2",
+            "edge": "north",
+            "offset": -3,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "company-space-v2-flat/ground/portal-room-5",
+          "from": {
+            "regionId": "company-space-v2-flat/ground/room-5",
+            "edge": "south",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "company-space-v2-flat/ground/corridor-2",
+            "edge": "north",
+            "offset": 3,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "company-space-v2-flat/ground/portal-room-6",
+          "from": {
+            "regionId": "company-space-v2-flat/ground/room-6",
+            "edge": "south",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "company-space-v2-flat/ground/corridor-3",
+            "edge": "north",
+            "offset": -7,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "company-space-v2-flat/ground/portal-room-7",
+          "from": {
+            "regionId": "company-space-v2-flat/ground/room-7",
+            "edge": "south",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "company-space-v2-flat/ground/corridor-3",
+            "edge": "north",
+            "offset": -1,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "company-space-v2-flat/ground/portal-room-8",
+          "from": {
+            "regionId": "company-space-v2-flat/ground/room-8",
+            "edge": "south",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "company-space-v2-flat/ground/corridor-3",
+            "edge": "north",
+            "offset": 5,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "company-space-v2-flat/ground/portal-room-9",
+          "from": {
+            "regionId": "company-space-v2-flat/ground/room-9",
+            "edge": "north",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "company-space-v2-flat/ground/corridor-1",
+            "edge": "south",
+            "offset": -5,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "company-space-v2-flat/ground/portal-room-10",
+          "from": {
+            "regionId": "company-space-v2-flat/ground/room-10",
+            "edge": "north",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "company-space-v2-flat/ground/corridor-1",
+            "edge": "south",
+            "offset": 1,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "company-space-v2-flat/ground/portal-room-11",
+          "from": {
+            "regionId": "company-space-v2-flat/ground/room-11",
+            "edge": "north",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "company-space-v2-flat/ground/corridor-1",
+            "edge": "south",
+            "offset": 7,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "company-space-v2-flat/ground/portal-room-12",
+          "from": {
+            "regionId": "company-space-v2-flat/ground/room-12",
+            "edge": "north",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "company-space-v2-flat/ground/corridor-2",
+            "edge": "south",
+            "offset": -3,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "company-space-v2-flat/ground/portal-room-13",
+          "from": {
+            "regionId": "company-space-v2-flat/ground/room-13",
+            "edge": "north",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "company-space-v2-flat/ground/corridor-2",
+            "edge": "south",
+            "offset": 3,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "company-space-v2-flat/ground/portal-room-14",
+          "from": {
+            "regionId": "company-space-v2-flat/ground/room-14",
+            "edge": "north",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "company-space-v2-flat/ground/corridor-3",
+            "edge": "south",
+            "offset": -7,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "company-space-v2-flat/ground/portal-room-15",
+          "from": {
+            "regionId": "company-space-v2-flat/ground/room-15",
+            "edge": "north",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "company-space-v2-flat/ground/corridor-3",
+            "edge": "south",
+            "offset": -1,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "company-space-v2-flat/ground/portal-room-16",
+          "from": {
+            "regionId": "company-space-v2-flat/ground/room-16",
+            "edge": "north",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "company-space-v2-flat/ground/corridor-3",
+            "edge": "south",
+            "offset": 5,
+            "width": 1.4
+          }
+        }
+      ]
+    },
+    {
+      "id": "company-space-v2-flat/ground/corridor-1",
+      "kind": "area",
+      "parentId": "company-space-v2-flat/ground",
+      "name": "中央通道1",
+      "bounds": {
+        "width": 16,
+        "depth": 3
+      },
+      "transform": {
+        "position": [
+          -16,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "publicRole": "corridor",
+      "entry": {
+        "position": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "company-space-v2-flat/ground/corridor-2",
+      "kind": "area",
+      "parentId": "company-space-v2-flat/ground",
+      "name": "中央通道2",
+      "bounds": {
+        "width": 16,
+        "depth": 3
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "publicRole": "corridor",
+      "entry": {
+        "position": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "company-space-v2-flat/ground/corridor-3",
+      "kind": "area",
+      "parentId": "company-space-v2-flat/ground",
+      "name": "中央通道3",
+      "bounds": {
+        "width": 16,
+        "depth": 3
+      },
+      "transform": {
+        "position": [
+          16,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "publicRole": "corridor",
+      "entry": {
+        "position": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "company-space-v2-flat/ground/lobby",
+      "kind": "area",
+      "parentId": "company-space-v2-flat/ground",
+      "name": "公共入口厅",
+      "bounds": {
+        "width": 6,
+        "depth": 3
+      },
+      "transform": {
+        "position": [
+          -27,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "publicRole": "lobby",
+      "entry": {
+        "position": [
+          -2.4,
+          0,
+          -0.9
+        ]
+      }
+    },
+    {
+      "id": "company-space-v2-flat/ground/lift-access",
+      "kind": "area",
+      "parentId": "company-space-v2-flat/ground",
+      "name": "电梯预留",
+      "bounds": {
+        "width": 6,
+        "depth": 3
+      },
+      "transform": {
+        "position": [
+          -27,
+          0,
+          -3
+        ],
+        "yaw": 0
+      },
+      "publicRole": "lift-access",
+      "entry": {
+        "position": [
+          -2.4,
+          0,
+          -0.9
+        ]
+      }
+    },
+    {
+      "id": "company-space-v2-flat/ground/stair-access",
+      "kind": "area",
+      "parentId": "company-space-v2-flat/ground",
+      "name": "楼梯预留",
+      "bounds": {
+        "width": 6,
+        "depth": 3
+      },
+      "transform": {
+        "position": [
+          -27,
+          0,
+          3
+        ],
+        "yaw": 0
+      },
+      "publicRole": "stair-access",
+      "entry": {
+        "position": [
+          -2.4,
+          0,
+          0.9
+        ]
+      }
+    },
+    {
+      "id": "company-space-v2-flat/ground/restroom-access",
+      "kind": "area",
+      "parentId": "company-space-v2-flat/ground",
+      "name": "卫生服务预留",
+      "bounds": {
+        "width": 6,
+        "depth": 3
+      },
+      "transform": {
+        "position": [
+          -27,
+          0,
+          6
+        ],
+        "yaw": 0
+      },
+      "publicRole": "restroom-access",
+      "entry": {
+        "position": [
+          -2.4,
+          0,
+          0.9
+        ]
+      }
+    },
+    {
+      "id": "company-space-v2-flat/ground/alpha-stream",
+      "kind": "room",
+      "parentId": "company-space-v2-flat/ground",
+      "name": "直播间",
+      "bounds": {
+        "width": 6,
+        "depth": 6
+      },
+      "transform": {
+        "position": [
+          -21,
+          0,
+          -4.5
+        ],
+        "yaw": 0
+      },
+      "purpose": "streaming"
+    },
+    {
+      "id": "company-space-v2-flat/ground/alpha-work",
+      "kind": "room",
+      "parentId": "company-space-v2-flat/ground",
+      "name": "工作间",
+      "bounds": {
+        "width": 6,
+        "depth": 6
+      },
+      "transform": {
+        "position": [
+          -15,
+          0,
+          -4.5
+        ],
+        "yaw": 0
+      },
+      "purpose": "work"
+    },
+    {
+      "id": "company-space-v2-flat/ground/alpha-rest",
+      "kind": "room",
+      "parentId": "company-space-v2-flat/ground",
+      "name": "休息间",
+      "bounds": {
+        "width": 6,
+        "depth": 6
+      },
+      "transform": {
+        "position": [
+          -9,
+          0,
+          -4.5
+        ],
+        "yaw": 0
+      },
+      "purpose": "rest"
+    },
+    {
+      "id": "company-space-v2-flat/ground/room-4",
+      "kind": "room",
+      "parentId": "company-space-v2-flat/ground",
+      "name": "经营房4",
+      "bounds": {
+        "width": 6,
+        "depth": 6
+      },
+      "transform": {
+        "position": [
+          -3,
+          0,
+          -4.5
+        ],
+        "yaw": 0
+      },
+      "purpose": "training"
+    },
+    {
+      "id": "company-space-v2-flat/ground/room-5",
+      "kind": "room",
+      "parentId": "company-space-v2-flat/ground",
+      "name": "经营房5",
+      "bounds": {
+        "width": 6,
+        "depth": 6
+      },
+      "transform": {
+        "position": [
+          3,
+          0,
+          -4.5
+        ],
+        "yaw": 0
+      },
+      "purpose": "streaming"
+    },
+    {
+      "id": "company-space-v2-flat/ground/room-6",
+      "kind": "room",
+      "parentId": "company-space-v2-flat/ground",
+      "name": "经营房6",
+      "bounds": {
+        "width": 6,
+        "depth": 6
+      },
+      "transform": {
+        "position": [
+          9,
+          0,
+          -4.5
+        ],
+        "yaw": 0
+      },
+      "purpose": "work"
+    },
+    {
+      "id": "company-space-v2-flat/ground/room-7",
+      "kind": "room",
+      "parentId": "company-space-v2-flat/ground",
+      "name": "经营房7",
+      "bounds": {
+        "width": 6,
+        "depth": 6
+      },
+      "transform": {
+        "position": [
+          15,
+          0,
+          -4.5
+        ],
+        "yaw": 0
+      },
+      "purpose": "rest"
+    },
+    {
+      "id": "company-space-v2-flat/ground/room-8",
+      "kind": "room",
+      "parentId": "company-space-v2-flat/ground",
+      "name": "经营房8",
+      "bounds": {
+        "width": 6,
+        "depth": 6
+      },
+      "transform": {
+        "position": [
+          21,
+          0,
+          -4.5
+        ],
+        "yaw": 0
+      },
+      "purpose": "training"
+    },
+    {
+      "id": "company-space-v2-flat/ground/room-9",
+      "kind": "room",
+      "parentId": "company-space-v2-flat/ground",
+      "name": "经营房9",
+      "bounds": {
+        "width": 6,
+        "depth": 6
+      },
+      "transform": {
+        "position": [
+          -21,
+          0,
+          4.5
+        ],
+        "yaw": 0
+      },
+      "purpose": "streaming"
+    },
+    {
+      "id": "company-space-v2-flat/ground/room-10",
+      "kind": "room",
+      "parentId": "company-space-v2-flat/ground",
+      "name": "经营房10",
+      "bounds": {
+        "width": 6,
+        "depth": 6
+      },
+      "transform": {
+        "position": [
+          -15,
+          0,
+          4.5
+        ],
+        "yaw": 0
+      },
+      "purpose": "work"
+    },
+    {
+      "id": "company-space-v2-flat/ground/room-11",
+      "kind": "room",
+      "parentId": "company-space-v2-flat/ground",
+      "name": "经营房11",
+      "bounds": {
+        "width": 6,
+        "depth": 6
+      },
+      "transform": {
+        "position": [
+          -9,
+          0,
+          4.5
+        ],
+        "yaw": 0
+      },
+      "purpose": "rest"
+    },
+    {
+      "id": "company-space-v2-flat/ground/room-12",
+      "kind": "room",
+      "parentId": "company-space-v2-flat/ground",
+      "name": "经营房12",
+      "bounds": {
+        "width": 6,
+        "depth": 6
+      },
+      "transform": {
+        "position": [
+          -3,
+          0,
+          4.5
+        ],
+        "yaw": 0
+      },
+      "purpose": "training"
+    },
+    {
+      "id": "company-space-v2-flat/ground/room-13",
+      "kind": "room",
+      "parentId": "company-space-v2-flat/ground",
+      "name": "经营房13",
+      "bounds": {
+        "width": 6,
+        "depth": 6
+      },
+      "transform": {
+        "position": [
+          3,
+          0,
+          4.5
+        ],
+        "yaw": 0
+      },
+      "purpose": "streaming"
+    },
+    {
+      "id": "company-space-v2-flat/ground/room-14",
+      "kind": "room",
+      "parentId": "company-space-v2-flat/ground",
+      "name": "经营房14",
+      "bounds": {
+        "width": 6,
+        "depth": 6
+      },
+      "transform": {
+        "position": [
+          9,
+          0,
+          4.5
+        ],
+        "yaw": 0
+      },
+      "purpose": "work"
+    },
+    {
+      "id": "company-space-v2-flat/ground/room-15",
+      "kind": "room",
+      "parentId": "company-space-v2-flat/ground",
+      "name": "经营房15",
+      "bounds": {
+        "width": 6,
+        "depth": 6
+      },
+      "transform": {
+        "position": [
+          15,
+          0,
+          4.5
+        ],
+        "yaw": 0
+      },
+      "purpose": "rest"
+    },
+    {
+      "id": "company-space-v2-flat/ground/room-16",
+      "kind": "room",
+      "parentId": "company-space-v2-flat/ground",
+      "name": "经营房16",
+      "bounds": {
+        "width": 6,
+        "depth": 6
+      },
+      "transform": {
+        "position": [
+          21,
+          0,
+          4.5
+        ],
+        "yaw": 0
+      },
+      "purpose": "training"
+    },
+    {
+      "id": "company-space-v2-flat/ground/alpha-stream/station-1",
+      "kind": "workstation",
+      "parentId": "company-space-v2-flat/ground/alpha-stream",
+      "name": "company-space-v2-flat/ground/alpha-stream/station-1",
+      "transform": {
+        "position": [
+          -1.3,
+          0,
+          -0.5
+        ],
+        "yaw": 0
+      },
+      "template": {
+        "id": "stream-station",
+        "version": 1
+      }
+    },
+    {
+      "id": "company-space-v2-flat/ground/alpha-stream/station-1/desk",
+      "kind": "facility",
+      "stationId": "company-space-v2-flat/ground/alpha-stream/station-1",
+      "partKey": "desk",
+      "parentId": "company-space-v2-flat/ground/alpha-stream/station-1",
+      "resource": {
+        "id": "desk",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -0.9
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "company-space-v2-flat/ground/alpha-stream/station-1/monitor",
+      "kind": "facility",
+      "stationId": "company-space-v2-flat/ground/alpha-stream/station-1",
+      "partKey": "monitor",
+      "parentId": "company-space-v2-flat/ground/alpha-stream/station-1/desk",
+      "resource": {
+        "id": "monitor",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          -0.25
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "company-space-v2-flat/ground/alpha-stream/station-1/keyboard",
+      "kind": "facility",
+      "stationId": "company-space-v2-flat/ground/alpha-stream/station-1",
+      "partKey": "keyboard",
+      "parentId": "company-space-v2-flat/ground/alpha-stream/station-1/desk",
+      "resource": {
+        "id": "keyboard",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          0.21
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "company-space-v2-flat/ground/alpha-stream/station-1/microphone",
+      "kind": "facility",
+      "stationId": "company-space-v2-flat/ground/alpha-stream/station-1",
+      "partKey": "microphone",
+      "parentId": "company-space-v2-flat/ground/alpha-stream/station-1/desk",
+      "resource": {
+        "id": "desk-microphone",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.8,
+          0.84,
+          0.18
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "company-space-v2-flat/ground/alpha-stream/station-1/chair",
+      "kind": "facility",
+      "stationId": "company-space-v2-flat/ground/alpha-stream/station-1",
+      "partKey": "chair",
+      "parentId": "company-space-v2-flat/ground/alpha-stream/station-1",
+      "resource": {
+        "id": "chair",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0.55
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "company-space-v2-flat/ground/alpha-stream/station-1/fill-light",
+      "kind": "facility",
+      "stationId": "company-space-v2-flat/ground/alpha-stream/station-1",
+      "partKey": "fill-light",
+      "parentId": "company-space-v2-flat/ground/alpha-stream/station-1",
+      "resource": {
+        "id": "fill-light",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.75,
+          0,
+          -0.15
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "company-space-v2-flat/ground/alpha-stream/station-2",
+      "kind": "workstation",
+      "parentId": "company-space-v2-flat/ground/alpha-stream",
+      "name": "company-space-v2-flat/ground/alpha-stream/station-2",
+      "transform": {
+        "position": [
+          1.3,
+          0,
+          -0.5
+        ],
+        "yaw": 0
+      },
+      "template": {
+        "id": "stream-station",
+        "version": 1
+      }
+    },
+    {
+      "id": "company-space-v2-flat/ground/alpha-stream/station-2/desk",
+      "kind": "facility",
+      "stationId": "company-space-v2-flat/ground/alpha-stream/station-2",
+      "partKey": "desk",
+      "parentId": "company-space-v2-flat/ground/alpha-stream/station-2",
+      "resource": {
+        "id": "desk",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -0.9
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "company-space-v2-flat/ground/alpha-stream/station-2/monitor",
+      "kind": "facility",
+      "stationId": "company-space-v2-flat/ground/alpha-stream/station-2",
+      "partKey": "monitor",
+      "parentId": "company-space-v2-flat/ground/alpha-stream/station-2/desk",
+      "resource": {
+        "id": "monitor",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          -0.25
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "company-space-v2-flat/ground/alpha-stream/station-2/keyboard",
+      "kind": "facility",
+      "stationId": "company-space-v2-flat/ground/alpha-stream/station-2",
+      "partKey": "keyboard",
+      "parentId": "company-space-v2-flat/ground/alpha-stream/station-2/desk",
+      "resource": {
+        "id": "keyboard",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          0.21
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "company-space-v2-flat/ground/alpha-stream/station-2/microphone",
+      "kind": "facility",
+      "stationId": "company-space-v2-flat/ground/alpha-stream/station-2",
+      "partKey": "microphone",
+      "parentId": "company-space-v2-flat/ground/alpha-stream/station-2/desk",
+      "resource": {
+        "id": "desk-microphone",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.8,
+          0.84,
+          0.18
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "company-space-v2-flat/ground/alpha-stream/station-2/chair",
+      "kind": "facility",
+      "stationId": "company-space-v2-flat/ground/alpha-stream/station-2",
+      "partKey": "chair",
+      "parentId": "company-space-v2-flat/ground/alpha-stream/station-2",
+      "resource": {
+        "id": "chair",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0.55
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "company-space-v2-flat/ground/alpha-stream/station-2/fill-light",
+      "kind": "facility",
+      "stationId": "company-space-v2-flat/ground/alpha-stream/station-2",
+      "partKey": "fill-light",
+      "parentId": "company-space-v2-flat/ground/alpha-stream/station-2",
+      "resource": {
+        "id": "fill-light",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.75,
+          0,
+          -0.15
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "company-space-v2-flat/ground/alpha-work/desk",
+      "kind": "facility",
+      "parentId": "company-space-v2-flat/ground/alpha-work",
+      "resource": {
+        "id": "desk",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -0.8
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "company-space-v2-flat/ground/alpha-work/chair",
+      "kind": "facility",
+      "parentId": "company-space-v2-flat/ground/alpha-work",
+      "resource": {
+        "id": "chair",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0.65
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "company-space-v2-flat/ground/alpha-rest/sofa",
+      "kind": "facility",
+      "parentId": "company-space-v2-flat/ground/alpha-rest",
+      "resource": {
+        "id": "lounge-sofa",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0.55
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "company-space-v2-flat/ground/lobby/sofa",
+      "kind": "facility",
+      "parentId": "company-space-v2-flat/ground/lobby",
+      "resource": {
+        "id": "lounge-sofa",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "company-space-v2-flat/ground/lobby/plant",
+      "kind": "facility",
+      "parentId": "company-space-v2-flat/ground/lobby",
+      "resource": {
+        "id": "plant",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -2,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "company-space-v2-flat/ground/corridor-1/service-sign",
+      "kind": "facility",
+      "parentId": "company-space-v2-flat/ground/corridor-1",
+      "resource": {
+        "id": "information-board-floor-live",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -0.9
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "company-space-v2-flat/ground/lift-access/service-sign",
+      "kind": "facility",
+      "parentId": "company-space-v2-flat/ground/lift-access",
+      "resource": {
+        "id": "information-board-floor-notice",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1.6,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "company-space-v2-flat/ground/stair-access/service-sign",
+      "kind": "facility",
+      "parentId": "company-space-v2-flat/ground/stair-access",
+      "resource": {
+        "id": "information-board-floor-doorplate",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1.6,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "company-space-v2-flat/ground/restroom-access/service-sign",
+      "kind": "facility",
+      "parentId": "company-space-v2-flat/ground/restroom-access",
+      "resource": {
+        "id": "information-board-floor-whiteboard",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1.6,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "company-space-v2-flat/ground/lobby/service-sign",
+      "kind": "facility",
+      "parentId": "company-space-v2-flat/ground/lobby",
+      "resource": {
+        "id": "information-board-floor-live",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          2,
+          0,
+          -0.8
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    }
+  ],
+  "spaceProfile": {
+    "id": "company-space-v2",
+    "version": 1
+  }
+}
