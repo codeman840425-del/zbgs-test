@@ -1,0 +1,11 @@
+--- original-Head.__init__
++++ skin-domain-Head.__init__
+@@ -14,7 +14,7 @@
+     all_endpoints = []
+     for _, primitives, points, _ in self.records:
+         ends = [points] + [points + np.asarray(g.accessor(t['POSITION'])) for t in primitives[0].get('targets', [])]
+-        all_endpoints.extend(ends)
++        all_endpoints.extend(self.domain_endpoints(primitives, ends))
+         for p in primitives:
+             name = g.doc['materials'][p['material']]['name']
+             chosen = eyes if any((t in name for t in ['_EYE', 'Eyeline', 'Eyelash'])) else hair if 'HAIR' in name else None
