@@ -427,3 +427,12 @@ head-only一次诊断原8请求已完成，8/8 diagnostic-failed，正式生产�
 2026-11-17 原生腰部factory增量（CUSTOM-B07/E05/P01限定）：source3baf747c/build987294fd778d固定4196。native-waist-{baseline-room,factory-room,expression-room}-v1为原843ac/新cf1574同条件独立录制；新体35.6秒1×走停坐起离椅短舞、12秒表达、三衣/基础静止覆盖、冷页恢复通过技术检查。native-waist-factory-independent-v1四准入/三覆盖组及8文件身份过；native-waist-workbench-987-v1实际UI/14媒体过；HTTP7运行资源见native-waist-release-987-v1。仅一个真实腰形端点/自身fit，原生头发落座外扬、细接触/基础全链/普通机/连续人工自然度未过；不等于完整独立体型轴。
 
 2026-11-17 用户实报后复现的新源平台接入缺口：native-capability-gap-987-v1实际点击原female及native女843ac/脸cc0843/腰cf1574/男7586。原female麦克风眼镜加载成功；四个native均握姿manifest缺entry和镜腿registry缺entry，未实现适配而非操作失败。normalized30秒舞variants仅旧男女，native菜单只有UAL参考/7.2秒技术舞；通用走坐起不代表全部动作兼容。当前新源功能不能继承历史通过；这些缺口仍M2，优先补共用生产适配。错误提示“眼镜不受影响”误导另登记；冻结舞源与旧裙不重开。新源肤发唇色/表面/附件/几何支持以query真实结果为准，不以完整人体导入宣称平台全功能。
+
+
+2026-11-17 原生旧功能接入增量（LIVE/PROP/DANCE，非M2全完成）：眼镜source82df/buildb552四源真实按钮、快速装卸、暂停恢复、近景1×与完整房间链；mirror/temple数据沿原共用helper，耳冠有限交叉女≤0.678mm/男≤0.183mm及女刘海局部镜腿露点保留，不称zero-contact。evidence/native-glasses-workbench-b552-v1、native-glasses-{female,male,face,waist}-room-v1及独审。
+
+原生握麦sourcee799/builda378：修正生产脚本VRM1 canonical thumb被VRM0 alias覆盖，四源15指骨normalized/raw实际loader回读；female face/waist手部731点/权重/18影响骨bind/rest等价后复用握姿，口部各自测量。a378四源真实近景讲话/放低/举起、快速装卸、暂停及四房间持麦走停坐起通过技术门。男v1有6.202mm/13Thumb点合成圆柱接触缺陷；v2锁错非thumb及多轴丢失被root拒绝、未注册；v3真实逐轴warm start只修拇指，569非thumb无混权点保持、33混权点单列，0采样穿入不等于完整三角/自然度通过。sourced02d/buildc64男v3近景与持麦完整房间回归通过技术门，evidence/native-male-{live-workbench,mic-room}-c64-v3。旧控制器、旧握姿资源均保留，非为各角色复制控制器。
+
+原生30秒舞：留存授权FBX独立转四native目标generated-v2，未改封存旧舞或增加旧舞优化；新entry native-rokoko-5359146-30s-v2。a378同房间实际走到(-1.8,1.0)、受真实空间guard约束、真实按钮播放、全30秒1×及任务完成/idle四源通过（native-30s-workbench-a378-v1）。完整影片及10Hz短采样保留；四例采样帧p95约6.1–6.2ms仅开发机录制短测，非普通机实测。原生手臂/身体/衣物局部交叉、头发动态及脚底细节仍待人工视觉判断，不继承旧体接受。source motion元数据“FBX world metres”为旧描述残留，实际转换按manifest的source hips94与各target米制比例，非直接认为源单位就是米；不外推任意来源。
+
+a378→c64逐文件核查仅index说明、grip manifest及新男v3profile变化，其余源/三女性握姿/舞蹈数据字节相同（native-feature-release-v1）。目前这些是固定候选；公开入口以delivery指针为准。身体颜色、其他发型、耳帽/妆容、任意组合、基础全动作链及普通机缺口仍保留。live麦克风/眼镜还未纳入旧appearance recipe最终记录，不因按钮接通就宣称完整保存恢复；D01独立角色记录源实现和并发改进未集成游戏。

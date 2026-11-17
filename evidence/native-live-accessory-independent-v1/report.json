@@ -1,0 +1,336 @@
+{
+  "schema": "native-live-accessory-independent-review-v1",
+  "status": "cpu-candidate-with-male-thumb-contact-and-runtime-adapter-gap",
+  "scope": "Read-only independent audit of native-live-accessory-fit-v1 source candidates, VRM1 readback, normalized/raw hand conversion, female face/waist dependency reuse, male penetration localization, and presentation field wiring. No fit re-run, source/runtime modification, GPU, browser, or old frozen output.",
+  "sourcePins": {
+    "scripts/native-live-accessory-fit-v1/fit.py": "63fd32282d514c115fe198ff1a13402e89753e56785b65040523ebce1d7f4b87",
+    "scripts/native-live-accessory-fit-v1/verify-vrm.mjs": "b256e0bd0a7f317f219bb8bfad638d248f48bbd58c63a4582193d5e738e4966f",
+    "scripts/native-live-accessory-fit-v1/compare-hand-sources.py": "63b4af506701a5595f826a03898df7f71cc6bda42eb1653e7643fe53e1b118e5",
+    "scripts/native-live-accessory-fit-v1/package.py": "298aa797d6d8b59f11c3ec254aee83f037330668f16b702715609c907da0b32a",
+    "assets-source/native-live-accessory-fit-v1/female-grip.json": "9a4a06f68e8fc2c32744166b41d5f0133081c311d7c07582a6b4519e03c9ec49",
+    "assets-source/native-live-accessory-fit-v1/male-grip.json": "f624995abd6f1520580b205c031109d9760b729a3421188692ef3d6b469ee6f6",
+    "assets-source/native-live-accessory-fit-v1/hand-source-comparison.json": "5ac9af5d7dfecf9244b125421752c704ccd6855450fae1614b9f35e3de1c76d3",
+    "assets-source/native-live-accessory-fit-v1/vrm-readback.json": "0d4a5288e0b6b6d5c415151c57463969588f72118778c117ea88d36cd2e9f948",
+    "assets-source/native-live-accessory-fit-v1/runtime-candidate-index.json": "609a0b72d4defe0591eea0cd0ac33c4c1c66b6a92379d538fe766f41e9fcb9cf"
+  },
+  "readback": [
+    {
+      "body": "female",
+      "sourcePath": "assets-source/native-vroid-unmasked-base-v1/generated/female-native-unmasked-130-v1.vrm",
+      "gripSourceBody": "female",
+      "normalizedBonesApplied": 15,
+      "prePoseReferenceDifferenceMetres": 0.09679167549850538,
+      "maxRawHandLocalErrorMetres": 5.2506558448992994e-08,
+      "meanRawHandLocalErrorMetres": 1.2488748328204986e-08,
+      "passed": true,
+      "thumbNormalizedBones": [
+        "rightThumbMetacarpal",
+        "rightThumbProximal",
+        "rightThumbDistal"
+      ]
+    },
+    {
+      "body": "femaleFace",
+      "sourcePath": "assets-source/native-vroid-geometry-factory-input-v1/generated/female-geometry-face-unmasked.vrm",
+      "gripSourceBody": "female",
+      "normalizedBonesApplied": 15,
+      "prePoseReferenceDifferenceMetres": 0.09679167549850538,
+      "maxRawHandLocalErrorMetres": 5.2506558448992994e-08,
+      "meanRawHandLocalErrorMetres": 1.2488748328204986e-08,
+      "passed": true,
+      "thumbNormalizedBones": [
+        "rightThumbMetacarpal",
+        "rightThumbProximal",
+        "rightThumbDistal"
+      ]
+    },
+    {
+      "body": "femaleWaist",
+      "sourcePath": "assets-source/native-vroid-geometry-factory-input-v1/generated/female-geometry-waist-unmasked.vrm",
+      "gripSourceBody": "female",
+      "normalizedBonesApplied": 15,
+      "prePoseReferenceDifferenceMetres": 0.09679167549850538,
+      "maxRawHandLocalErrorMetres": 5.2506558448992994e-08,
+      "meanRawHandLocalErrorMetres": 1.2488748328204986e-08,
+      "passed": true,
+      "thumbNormalizedBones": [
+        "rightThumbMetacarpal",
+        "rightThumbProximal",
+        "rightThumbDistal"
+      ]
+    },
+    {
+      "body": "male",
+      "sourcePath": "assets-source/native-vroid-male-unmasked-base-v1/generated/male-native-unmasked-79-v1.vrm",
+      "gripSourceBody": "male",
+      "normalizedBonesApplied": 15,
+      "prePoseReferenceDifferenceMetres": 0.11002528829515083,
+      "maxRawHandLocalErrorMetres": 6.452506488847342e-08,
+      "meanRawHandLocalErrorMetres": 1.3678541842076973e-08,
+      "passed": true,
+      "thumbNormalizedBones": [
+        "rightThumbMetacarpal",
+        "rightThumbProximal",
+        "rightThumbDistal"
+      ]
+    }
+  ],
+  "handDependency": [
+    {
+      "id": "female843ac",
+      "handPositionSameAsFemale843ac": true,
+      "jointsSameAsFemale843ac": true,
+      "weightsSameAsFemale843ac": true,
+      "influenceInverseBindSameAsFemale843ac": true,
+      "influenceRestWorldSameAsFemale843ac": true,
+      "jointRestNodeIdsSameAsFemale843ac": true,
+      "selectedHandVertexCount": 731
+    },
+    {
+      "id": "femaleFace",
+      "handPositionSameAsFemale843ac": true,
+      "jointsSameAsFemale843ac": true,
+      "weightsSameAsFemale843ac": true,
+      "influenceInverseBindSameAsFemale843ac": true,
+      "influenceRestWorldSameAsFemale843ac": true,
+      "jointRestNodeIdsSameAsFemale843ac": true,
+      "selectedHandVertexCount": 731
+    },
+    {
+      "id": "femaleWaist",
+      "handPositionSameAsFemale843ac": true,
+      "jointsSameAsFemale843ac": true,
+      "weightsSameAsFemale843ac": true,
+      "influenceInverseBindSameAsFemale843ac": true,
+      "influenceRestWorldSameAsFemale843ac": true,
+      "jointRestNodeIdsSameAsFemale843ac": true,
+      "selectedHandVertexCount": 731
+    },
+    {
+      "id": "male7586",
+      "handPositionSameAsFemale843ac": false,
+      "jointsSameAsFemale843ac": false,
+      "weightsSameAsFemale843ac": true,
+      "influenceInverseBindSameAsFemale843ac": false,
+      "influenceRestWorldSameAsFemale843ac": false,
+      "jointRestNodeIdsSameAsFemale843ac": false,
+      "selectedHandVertexCount": 731
+    }
+  ],
+  "malePenetration": {
+    "maxPenetrationMm": 6.201588279523205,
+    "verticesInsideOver1mm": 13,
+    "groups": {
+      "palm": {
+        "maxPenetrationMm": 0.0,
+        "inside": 0,
+        "near": 0
+      },
+      "Index": {
+        "maxPenetrationMm": 0.0,
+        "inside": 0,
+        "near": 6
+      },
+      "Little": {
+        "maxPenetrationMm": 0.0,
+        "inside": 0,
+        "near": 11
+      },
+      "Ring": {
+        "maxPenetrationMm": 0.0,
+        "inside": 0,
+        "near": 13
+      },
+      "Middle": {
+        "maxPenetrationMm": 0.0,
+        "inside": 0,
+        "near": 11
+      },
+      "Thumb": {
+        "maxPenetrationMm": 6.201588279523205,
+        "inside": 13,
+        "near": 19
+      }
+    },
+    "localizedFamily": "Thumb",
+    "insideOver1mmVertexIds": [
+      4319,
+      4322,
+      4348,
+      4327,
+      4349,
+      4324,
+      4352,
+      4357,
+      4344,
+      4343,
+      4342,
+      4361,
+      4321
+    ],
+    "optimizerStatus": "`ftol` termination condition is satisfied.",
+    "evaluations": 278,
+    "loss": 544.4787237404507,
+    "metricMeaning": "Synthetic 13mm radial cylinder sampled on 731 selected hand skin vertices. This is not microphone triangle collision or visual acceptance."
+  },
+  "mouthAndMountWiring": {
+    "candidatePresentationWiring": [
+      {
+        "id": "female-843ac",
+        "targetBodySha256MatchesPresentation": true,
+        "mountEqualsGrip": true,
+        "mouthSourceEqualsTarget": true,
+        "micPole": [
+          4.649162388403738e-09,
+          0.14799999818205833,
+          -3.874301990336448e-09
+        ],
+        "mountQuaternionNorm": 1.0
+      },
+      {
+        "id": "female-face-cc0843",
+        "targetBodySha256MatchesPresentation": true,
+        "mountEqualsGrip": true,
+        "mouthSourceEqualsTarget": true,
+        "micPole": [
+          4.649162388403738e-09,
+          0.14799999818205833,
+          -3.874301990336448e-09
+        ],
+        "mountQuaternionNorm": 1.0
+      },
+      {
+        "id": "female-waist-cf1574",
+        "targetBodySha256MatchesPresentation": true,
+        "mountEqualsGrip": true,
+        "mouthSourceEqualsTarget": true,
+        "micPole": [
+          4.649162388403738e-09,
+          0.14799999818205833,
+          -3.874301990336448e-09
+        ],
+        "mountQuaternionNorm": 1.0
+      },
+      {
+        "id": "male-7586",
+        "targetBodySha256MatchesPresentation": true,
+        "mountEqualsGrip": true,
+        "mouthSourceEqualsTarget": true,
+        "micPole": [
+          4.649162388403738e-09,
+          0.14799999818205833,
+          -3.874301990336448e-09
+        ],
+        "mountQuaternionNorm": 1.0
+      }
+    ],
+    "missingDirectRuntimeFields": [
+      {
+        "id": "female-843ac",
+        "presentationFieldsAbsentFromNativeCandidate": [
+          "capsuleLocal",
+          "speakingTipOffset",
+          "carryWristChestOffset",
+          "transitionRate"
+        ]
+      },
+      {
+        "id": "female-face-cc0843",
+        "presentationFieldsAbsentFromNativeCandidate": [
+          "capsuleLocal",
+          "speakingTipOffset",
+          "carryWristChestOffset",
+          "transitionRate"
+        ]
+      },
+      {
+        "id": "female-waist-cf1574",
+        "presentationFieldsAbsentFromNativeCandidate": [
+          "capsuleLocal",
+          "speakingTipOffset",
+          "carryWristChestOffset",
+          "transitionRate"
+        ]
+      },
+      {
+        "id": "male-7586",
+        "presentationFieldsAbsentFromNativeCandidate": [
+          "capsuleLocal",
+          "speakingTipOffset",
+          "carryWristChestOffset",
+          "transitionRate"
+        ]
+      }
+    ],
+    "nativeMouthAxis": {
+      "femaleAdjacentNormal": [
+        3.7894765527486873e-06,
+        -0.4967174342446261,
+        -0.8679123172896415
+      ],
+      "maleAdjacentNormal": [
+        -7.001529590226456e-06,
+        -0.46786057713636153,
+        0.8838022857588733
+      ],
+      "femaleMouthRawHeadLocal": [
+        2.6157606051125043e-06,
+        -0.0005837714187284931,
+        0.09605047155296037
+      ],
+      "maleMouthRawHeadLocal": [
+        -2.7708357309873596e-06,
+        -0.01022866860677428,
+        0.08841032302878936
+      ],
+      "femaleMouthNormalDot": 0.8875289570081554,
+      "maleMouthNormalDot": 0.9317166225515807
+    },
+    "sourceMicrophonePole": [
+      4.649162388403738e-09,
+      0.14799999818205833,
+      -3.874301990336448e-09
+    ],
+    "sourceMicrophoneAxis": [
+      0,
+      1,
+      0
+    ]
+  },
+  "findings": [
+    {
+      "priority": "P1-candidate",
+      "id": "male-thumb-cylinder-penetration",
+      "detail": "The male grip candidate retains 6.2016 mm maximum synthetic-cylinder penetration and 13 vertices deeper than 1 mm. All 13 are Thumb family vertices, IDs 4319, 4322, 4348, 4327, 4349, 4324, 4352, 4357, 4344, 4343, 4342, 4361, 4321. Index/Middle/Ring/Little/palm groups have zero >1 mm penetration.",
+      "risk": "A CPU candidate can place the male thumb through the intended microphone grip volume. This needs normal-speed hand/microphone browser review before acceptance. Do not tune or relabel this candidate from this audit.",
+      "evidence": "malePenetration"
+    },
+    {
+      "priority": "P2",
+      "id": "stale-optimizer-limit-text",
+      "detail": "Current male-grip.json reports SciPy `ftol` termination after 278 evaluations with loss 544.48. The packaged evidence limit says the male optimizer ended at max function evaluations, which does not match the pinned artifact.",
+      "risk": "The evidence package misstates the failure mode and should be corrected when the candidate is next regenerated or packaged.",
+      "evidence": "malePenetration.optimizerStatus/evaluations"
+    },
+    {
+      "priority": "P2",
+      "id": "native-presentation-adapter-gap",
+      "detail": "All four native presentation files internally bind target SHA, grip mount, mouth source SHA, and microphone grille pole. Their mouth anchors use native raw-head coordinates and the measured native adjacent-face normals. The native presentation schema has no direct capsuleLocal, speakingTipOffset, carryWristChestOffset, or transitionRate fields consumed by prototype/src/microphone-pose.js and live-presentation.js.",
+      "risk": "Direct registration into the existing runtime interface would either fail schema checks or omit talking/carry offsets. An explicit adapter and browser proof are required.",
+      "evidence": "mouthAndMountWiring"
+    },
+    {
+      "priority": "P3",
+      "id": "female-hand-reuse-confirmed",
+      "detail": "female-face and female-waist match female-843ac hand POSITION, JOINTS, WEIGHTS, relevant hand influence inverse-bind/rest matrices, node semantics, and selected 731-vertex count. Their mouth anchors are still source-specific records.",
+      "risk": "No dependency mismatch found in this bounded comparison.",
+      "evidence": "handDependency"
+    }
+  ],
+  "limits": [
+    "VRM readback is CPU GLTFLoader/VRMLoaderPlugin with materials stripped, not renderer/runtime behavior.",
+    "The 6.2016 mm metric is a sampled synthetic cylinder penetration, not continuous triangle collision or a visual judgment.",
+    "No browser, GPU, runtime registration, or ordinary-device performance test was run.",
+    "The native candidate remains source/runtime-candidate only and was not promoted to old M1C runtime assets."
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "schema": "native-live-accessory-fit-v3",
+  "status": "cpu-source-candidate-only",
+  "v1Preserved": {
+    "maleGripSha256": "f624995abd6f1520580b205c031109d9760b729a3421188692ef3d6b469ee6f6",
+    "report": "evidence/native-live-accessory-fit-v1/report.json"
+  },
+  "v2Preserved": {
+    "maleGripSha256": "869e8c97ecd9f731c9ec40fa513fd33c6e6524857d114c023fea8fcaf7d68d33",
+    "report": "evidence/native-live-accessory-fit-v2/report.json"
+  },
+  "v3": {
+    "maleGripSha256": "e5ec286a759fb1089ce3a9280a544509ef7ff9896fd5b44e0147744ccfa035c3",
+    "metrics": {
+      "handVertices": 731,
+      "maxPenetrationMm": 0.0,
+      "verticesInsideOver1mm": 0,
+      "nearSurface2mm": 45,
+      "groups": {
+        "palm": {
+          "maxPenetrationMm": 0.0,
+          "inside": 0,
+          "near": 0
+        },
+        "Thumb": {
+          "maxPenetrationMm": 0.0,
+          "inside": 0,
+          "near": 4
+        },
+        "Index": {
+          "maxPenetrationMm": 0.0,
+          "inside": 0,
+          "near": 6
+        },
+        "Middle": {
+          "maxPenetrationMm": 0.0,
+          "inside": 0,
+          "near": 11
+        },
+        "Ring": {
+          "maxPenetrationMm": 0.0,
+          "inside": 0,
+          "near": 13
+        },
+        "Little": {
+          "maxPenetrationMm": 0.0,
+          "inside": 0,
+          "near": 11
+        }
+      }
+    },
+    "status": "`gtol` termination condition is satisfied.",
+    "runtimeApplied": false,
+    "vrmLoaderReadback": {
+      "schema": "native-live-accessory-vrm-readback-v3",
+      "cases": [
+        {
+          "body": "male",
+          "sourcePath": "assets-source/native-vroid-male-unmasked-base-v1/generated/male-native-unmasked-79-v1.vrm",
+          "gripSourceBody": "male",
+          "sourceSha256": "7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81",
+          "loaderBodyMaterial": "",
+          "vertexCount": 731,
+          "normalizedBonesApplied": [
+            "rightThumbMetacarpal",
+            "rightThumbProximal",
+            "rightThumbDistal",
+            "rightIndexProximal",
+            "rightIndexIntermediate",
+            "rightIndexDistal",
+            "rightMiddleProximal",
+            "rightMiddleIntermediate",
+            "rightMiddleDistal",
+            "rightRingProximal",
+            "rightRingIntermediate",
+            "rightRingDistal",
+            "rightLittleProximal",
+            "rightLittleIntermediate",
+            "rightLittleDistal"
+          ],
+          "prePoseReferenceDifferenceMetres": 0.11002528829509872,
+          "maxErrorVertexId": 4764,
+          "maxRawHandLocalErrorMetres": 5.834404815122948e-08,
+          "meanRawHandLocalErrorMetres": 1.3909452602648683e-08,
+          "tipErrorsMetres": {
+            "Index": 4.7377887340731784e-08,
+            "Middle": 5.834404815122948e-08,
+            "Ring": 5.3153987231585816e-08,
+            "Little": 5.445984830152319e-08,
+            "Thumb": 5.418828957171467e-08
+          },
+          "handLocalDistanceToFitCentroidMetres": 1.0167809852536187e-05,
+          "passed": true,
+          "limits": [
+            "CPU GLTFLoader/VRMLoaderPlugin readback with materials stripped in memory.",
+            "No renderer, runtime controller, microphone mesh, or visual grip validation."
+          ]
+        }
+      ],
+      "passed": true,
+      "sourcePins": {
+        "script": "fdb543d04e744146e528eee36142ac452e7cb3537be6dbf5c2d11679b039c481",
+        "threeRevision": "187",
+        "bodySources": {
+          "male": "7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81"
+        }
+      }
+    },
+    "preservationAssertions": {
+      "schema": "native-live-accessory-v3-preservation-check-v1",
+      "nonThumbNormalizedQuaternionMaxAbsError": 4.810596365700803e-13,
+      "unmixedNonThumbVertexCount": 569,
+      "unmixedNonThumbSkinPointMaxErrorMetres": 7.94080472953461e-14,
+      "mixedNonThumbVertexCount": 33,
+      "passed": true,
+      "limits": [
+        "Mixed non-thumb vertices with thumb weights are intentionally reported separately because a thumb-only pose can move them."
+      ]
+    },
+    "profileSha256": "4bc14126a9280f0f6cdaeaf724b5e3bdd5f58410d61b660fd905d265c30b1acf"
+  },
+  "sourcePins": {
+    "fitScript": "20a5518bf83f65d0891f1e3484a67153735ffd467d0af6e6b0fbb422e104d0dd",
+    "verifyScript": "fdb543d04e744146e528eee36142ac452e7cb3537be6dbf5c2d11679b039c481",
+    "assertScript": "3c5877f95c777c9e3618f7f124530f6d75abf1d11434b7786a8c9914c71eda91",
+    "packageScript": "bf0374062b036f0c49e63102779092f2959fb03b716da9da5def4d79897c5f29",
+    "maleGrip": "e5ec286a759fb1089ce3a9280a544509ef7ff9896fd5b44e0147744ccfa035c3",
+    "maleSkinReference": "5f39f834361b7eda62b938b5b03d2970360d09bb35aa6b99fcd8841bacadd88e",
+    "vrmReadback": "3025edc5f683552e3547db8661236261b2aecbe31e55d9863aec2800694b088a",
+    "preservation": "7b2deed459d5d2004c5b31860bd158b575f93e364ef05b49736f38f33256cc9c"
+  },
+  "limits": [
+    "No browser/GPU visual grip acceptance, runtime registration, or controller change.",
+    "33 non-thumb vertices carry nonzero thumb weights and move with the corrected thumb pose; they are reported rather than hidden.",
+    "This is one per-control warm-start/lock method, not a parameter sweep."
+  ]
+}
