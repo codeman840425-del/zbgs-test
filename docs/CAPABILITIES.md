@@ -340,3 +340,5 @@ head-only一次诊断原8请求已完成，8/8 diagnostic-failed，正式生产�
 造型目标审查m2-preset-shape-target-audit-v1确认旧jaw/cheek叠加最窄宽比.669216与14mm拉长是实现自拟，非用户造型要求；口底至颏proxy+43.14%。停止围绕旧目标继续精修。m2-refined-axial-evaluation-v1三例数值机制封存，m2-refined-contact-readback-v1只prepare/QA，真实CGAL候选调用0，未导出/通过。
 
 新m2-source-proportioned-face-v1为独立实验身份，male源62b→候选5120bd32：保持YZ和原口颏32.455mm，局部下脸X收窄，无旧jaw/cheek叠加。实际导出15消费者/54targets及属性读回，原55单独+10混合strict无新增pair（原模型已有交叉保留，不称零接触）；候选未经正式工厂/独立装备/动作验收。root实际同镜头静态查看原/拒绝/新正脸、新侧脸及blink/oh，尖锥纵向拉长已撤销，仍为原V形下颌与克制差异，不代表完整瘦体或八体达到。证据m2-source-proportioned-face-review-v2；v1微小相机不一致记录保留。原生编辑器核查未发现可用本机原工程或已验证批处理接口，不以此切换基模；安装器未安装、未执行，下载残片不纳入备份。
+
+2026-11-17 最新用户要求先学习成熟方法：m2-semantic-female-face-v1与m2-continuous-garment-fit-v1已中断，两个agent确认目录/新求值/导出均无，root查无相关worker。三份官方/原作者生产研究完成（NATIVE-ANIME-AUTHORING-WORKFLOW、MATURE-GARMENT-AUTHORING-WORKFLOW、MATURE-CHARACTER-PRODUCTION-CODE，均docs/research/*2026-11-17.md）。确认成熟形态/衣物链依赖预制形态、版型、分组与修正输入；不是现有VRM已拥有这些能力。尚未实际运行原作者样例，亦未批准换基模/引擎。root正在准备官方Studio2.16.0学习工具，下载不等于安装或流程通过。

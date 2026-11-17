@@ -4,9 +4,9 @@ const fs=require('node:fs/promises'),path=require('node:path'),crypto=require('n
 const assert=require('node:assert/strict');
 const {chromium}=require('../prototype/node_modules/playwright');
 const esbuild=require('../prototype/node_modules/esbuild');
-const [outPath]=process.argv.slice(2);if(!outPath)throw Error('new output path required');
+const [outPath,manifestPath]=process.argv.slice(2);if(!outPath)throw Error('new output path required');
 const root=path.resolve(__dirname,'..');
-const input=[
+const defaultInput=[
  ['source','prototype/public/assets/foundation/base-male-roundtrip.vrm'],
  ['rejected','prototype/public/assets/m2-axial-head-runtime-v1/avatar.vrm'],
  ['candidate','assets-source/m2-source-proportioned-face-v1/generated/male-source-proportioned-narrow-preview-v1/male-source-proportioned-narrow-preview-v1.vrm']
@@ -26,12 +26,18 @@ export async function install(pose){
  window.__faceReview={vrm,group,sha};return {sha,expressions:vrm.expressionManager.expressions.map(e=>e.expressionName)};
 }`;
 (async()=>{
+ const request=manifestPath?JSON.parse(await fs.readFile(path.resolve(manifestPath),'utf8')):{};
+ const input=request.inputs??defaultInput;const body=request.body??'male';
+ assert.ok(['female','male'].includes(body));assert.ok(input.length>=2);
+ assert.equal(new Set(input.map(r=>r[0])).size,input.length);
+ for(const [id,rel] of input){assert.match(id,/^[a-z0-9-]+$/);assert.ok(typeof rel==='string'&&rel.length);}
  const out=path.resolve(outPath);await fs.mkdir(out,{recursive:false});
+ if(manifestPath)await fs.copyFile(path.resolve(manifestPath),path.join(out,'request.json'));
  await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
  await fs.writeFile(path.join(out,'loader-source.js'),loaderSource);
  const loader=await esbuild.build({stdin:{contents:loaderSource,resolveDir:path.join(root,'prototype'),sourcefile:'face-review-loader.js'},bundle:true,write:false,format:'esm',platform:'browser'});
  const loaderBytes=loader.outputFiles[0].contents;
- const report={build:'83decd027116',scope:'Raw VRM test overlay in fixed game world; same lights/camera/pose. Not avatar-factory admission, outfit fit, full motion or production acceptance.',loaderSha256:crypto.createHash('sha256').update(loaderBytes).digest('hex'),cases:[],errors:[]};
+ const report={build:request.build??'83decd027116',body,scope:'Raw VRM test overlay in fixed game world; same lights/camera/pose. Not avatar-factory admission, outfit fit, full motion or production acceptance.',loaderSha256:crypto.createHash('sha256').update(loaderBytes).digest('hex'),cases:[],errors:[]};
  const b=await chromium.launch({channel:'chrome',headless:true});let pose;const referenceCameras={};let referenceTransform;
  async function capture(p,row,key){
   const result=await p.evaluate(({reference,transform})=>{
@@ -49,10 +55,11 @@ export async function install(pose){
  try{
   for(const [id,rel] of input){
    const bytes=await fs.readFile(path.join(root,rel));const sha=crypto.createHash('sha256').update(bytes).digest('hex');
+   if(request.expectedSha256)assert.equal(sha,request.expectedSha256[id]);
    const p=await b.newPage({viewport:{width:1440,height:1000}});p.on('pageerror',e=>report.errors.push(String(e)));
    await p.route('**/__face_review__/loader.mjs',r=>r.fulfill({contentType:'text/javascript',body:Buffer.from(loaderBytes)}));
    await p.route('**/__face_review__/model.vrm',r=>r.fulfill({contentType:'model/gltf-binary',body:bytes}));
-   await p.goto('http://127.0.0.1:4196/?workbench=appearance&body=male');
+   await p.goto('http://127.0.0.1:4196/?workbench=appearance&body='+body);
    await p.waitForFunction(()=>window.__debug?.ready&&!document.querySelector('#appearance-fields').disabled,null,{timeout:60000});
    assert.equal(await p.evaluate(()=>__debug.buildInfo.shortId),report.build);
    await p.evaluate(()=>__debug.setPaused(true));
