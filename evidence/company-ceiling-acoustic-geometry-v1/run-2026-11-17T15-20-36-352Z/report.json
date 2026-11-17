@@ -1,0 +1,1353 @@
+{
+  "status": "passed",
+  "generatedAt": "2026-11-17T15:20:36.350Z",
+  "checks": [
+    {
+      "name": "ceiling-acoustic-cloud readback passes actual closed boxes, four pads, rods and connectivity",
+      "passed": true
+    },
+    {
+      "name": "ceiling-acoustic-linear readback passes actual closed boxes, four pads, rods and connectivity",
+      "passed": true
+    },
+    {
+      "name": "ceiling-acoustic-felt readback passes actual closed boxes, four pads, rods and connectivity",
+      "passed": true
+    },
+    {
+      "name": "ceiling-acoustic-timber-grid readback passes actual closed boxes, four pads, rods and connectivity",
+      "passed": true
+    },
+    {
+      "name": "Missing suspension rod is rejected",
+      "passed": true,
+      "rejection": {
+        "code": "ceiling-acoustic-rods",
+        "path": "scene",
+        "details": {
+          "found": 3
+        }
+      }
+    },
+    {
+      "name": "Suspended panel with a real gap is rejected",
+      "passed": true,
+      "rejection": {
+        "code": "ceiling-acoustic-detached-component",
+        "path": "scene",
+        "details": {
+          "detached": [
+            "cloud-panel"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Practically zero thickness sheet is rejected",
+      "passed": true,
+      "rejection": {
+        "code": "ceiling-acoustic-nonpositive-volume",
+        "path": "cloud-panel",
+        "details": {
+          "size": [
+            1.100000023841858,
+            0.00005999999865891059,
+            0.3400000035762787
+          ],
+          "volume": 0.000022440000220840844
+        }
+      }
+    },
+    {
+      "name": "Slanted pseudo-box is rejected",
+      "passed": true,
+      "rejection": {
+        "code": "ceiling-acoustic-box",
+        "path": "cloud-panel"
+      }
+    },
+    {
+      "name": "Oversized envelope is rejected",
+      "passed": true,
+      "rejection": {
+        "code": "ceiling-acoustic-envelope",
+        "path": "cloud-panel",
+        "details": {
+          "min": [
+            -0.35000001192092894,
+            -0.29999999932944776,
+            -0.17000000178813934
+          ],
+          "max": [
+            0.7500000119209289,
+            -0.24000000067055227,
+            0.17000000178813934
+          ]
+        }
+      }
+    },
+    {
+      "name": "Duplicate pad coordinate is rejected",
+      "passed": true,
+      "rejection": {
+        "code": "ceiling-acoustic-pad-location",
+        "path": "ceiling-pad-right-front",
+        "details": {
+          "min": [
+            -0.445000000372529,
+            -0.019999999776482584,
+            0.09499999962747097
+          ],
+          "max": [
+            -0.39499999962747095,
+            -2.2351741811588166e-10,
+            0.14500000037252903
+          ],
+          "expected": [
+            0.42,
+            0.12
+          ]
+        }
+      }
+    },
+    {
+      "name": "Hidden component is rejected",
+      "passed": true,
+      "rejection": {
+        "code": "ceiling-acoustic-visibility",
+        "path": "cloud-panel"
+      }
+    }
+  ],
+  "realAssets": [
+    {
+      "id": "ceiling-acoustic-cloud",
+      "sha256": "d2ede90c9ddae7abda14ac1f6d9ea86d65476aa04578af0a944d7308f7adf95c",
+      "bytes": 17224,
+      "report": {
+        "checked": true,
+        "ceilingMounted": true,
+        "id": "ceiling-acoustic-cloud",
+        "meshCount": 9,
+        "triangleCount": 108,
+        "materialCount": 2,
+        "pads": [
+          "ceiling-pad-left-front",
+          "ceiling-pad-right-front",
+          "ceiling-pad-left-back",
+          "ceiling-pad-right-back"
+        ],
+        "rods": [
+          "ceiling-rod-left-front",
+          "ceiling-rod-right-front",
+          "ceiling-rod-left-back",
+          "ceiling-rod-right-back"
+        ],
+        "connections": [
+          {
+            "a": "ceiling-pad-left-front",
+            "b": "ceiling-rod-left-front",
+            "kind": "face",
+            "measure": 0.0006250000186264516
+          },
+          {
+            "a": "ceiling-pad-right-front",
+            "b": "ceiling-rod-right-front",
+            "kind": "face",
+            "measure": 0.0006250000186264516
+          },
+          {
+            "a": "ceiling-pad-left-back",
+            "b": "ceiling-rod-left-back",
+            "kind": "face",
+            "measure": 0.0006250000186264516
+          },
+          {
+            "a": "ceiling-pad-right-back",
+            "b": "ceiling-rod-right-back",
+            "kind": "face",
+            "measure": 0.0006250000186264516
+          },
+          {
+            "a": "cloud-panel",
+            "b": "ceiling-rod-left-front",
+            "kind": "face",
+            "measure": 0.0006250000186264516
+          },
+          {
+            "a": "cloud-panel",
+            "b": "ceiling-rod-right-front",
+            "kind": "face",
+            "measure": 0.0006250000186264516
+          },
+          {
+            "a": "cloud-panel",
+            "b": "ceiling-rod-left-back",
+            "kind": "face",
+            "measure": 0.0006250000186264516
+          },
+          {
+            "a": "cloud-panel",
+            "b": "ceiling-rod-right-back",
+            "kind": "face",
+            "measure": 0.0006250000186264516
+          }
+        ],
+        "components": [
+          {
+            "name": "ceiling-pad-left-front",
+            "min": [
+              -0.445000000372529,
+              -0.019999999776482584,
+              0.09499999962747097
+            ],
+            "max": [
+              -0.39499999962747095,
+              -2.2351741811588166e-10,
+              0.14500000037252903
+            ],
+            "volume": 0.000050000000372529016
+          },
+          {
+            "name": "ceiling-pad-right-front",
+            "min": [
+              0.39499999962747095,
+              -0.019999999776482584,
+              0.09499999962747097
+            ],
+            "max": [
+              0.445000000372529,
+              -2.2351741811588166e-10,
+              0.14500000037252903
+            ],
+            "volume": 0.000050000000372529016
+          },
+          {
+            "name": "ceiling-pad-left-back",
+            "min": [
+              -0.445000000372529,
+              -0.019999999776482584,
+              -0.14500000037252903
+            ],
+            "max": [
+              -0.39499999962747095,
+              -2.2351741811588166e-10,
+              -0.09499999962747097
+            ],
+            "volume": 0.000050000000372529016
+          },
+          {
+            "name": "ceiling-pad-right-back",
+            "min": [
+              0.39499999962747095,
+              -0.019999999776482584,
+              -0.14500000037252903
+            ],
+            "max": [
+              0.445000000372529,
+              -2.2351741811588166e-10,
+              -0.09499999962747097
+            ],
+            "volume": 0.000050000000372529016
+          },
+          {
+            "name": "cloud-panel",
+            "min": [
+              -0.550000011920929,
+              -0.29999999932944776,
+              -0.17000000178813934
+            ],
+            "max": [
+              0.550000011920929,
+              -0.24000000067055227,
+              0.17000000178813934
+            ],
+            "volume": 0.022440000220835192
+          },
+          {
+            "name": "ceiling-rod-left-front",
+            "min": [
+              -0.4325000001862645,
+              -0.23999999940395356,
+              0.10749999981373548
+            ],
+            "max": [
+              -0.40749999981373547,
+              -0.020000000596046452,
+              0.1325000001862645
+            ],
+            "volume": 0.00013750000335276125
+          },
+          {
+            "name": "ceiling-rod-right-front",
+            "min": [
+              0.40749999981373547,
+              -0.23999999940395356,
+              0.10749999981373548
+            ],
+            "max": [
+              0.4325000001862645,
+              -0.020000000596046452,
+              0.1325000001862645
+            ],
+            "volume": 0.00013750000335276125
+          },
+          {
+            "name": "ceiling-rod-left-back",
+            "min": [
+              -0.4325000001862645,
+              -0.23999999940395356,
+              -0.1325000001862645
+            ],
+            "max": [
+              -0.40749999981373547,
+              -0.020000000596046452,
+              -0.10749999981373548
+            ],
+            "volume": 0.00013750000335276125
+          },
+          {
+            "name": "ceiling-rod-right-back",
+            "min": [
+              0.40749999981373547,
+              -0.23999999940395356,
+              -0.1325000001862645
+            ],
+            "max": [
+              0.4325000001862645,
+              -0.020000000596046452,
+              -0.10749999981373548
+            ],
+            "volume": 0.00013750000335276125
+          }
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "areaSquareMetres": 1e-8,
+          "volumeCubicMetres": 1e-9
+        },
+        "limitation": "CPU admission proves actual imported axis-aligned closed box solids, four ceiling pads, positive thickness rods, envelope and geometric connectivity. It does not prove anchor strength, acoustics, browser performance or visual acceptance."
+      }
+    },
+    {
+      "id": "ceiling-acoustic-linear",
+      "sha256": "27333d5840499c51c3b815a1030832a5218f99c80727910c2533e5c819dddd08",
+      "bytes": 19044,
+      "report": {
+        "checked": true,
+        "ceilingMounted": true,
+        "id": "ceiling-acoustic-linear",
+        "meshCount": 10,
+        "triangleCount": 120,
+        "materialCount": 2,
+        "pads": [
+          "ceiling-pad-left-front",
+          "ceiling-pad-right-front",
+          "ceiling-pad-left-back",
+          "ceiling-pad-right-back"
+        ],
+        "rods": [
+          "ceiling-rod-left-front",
+          "ceiling-rod-right-front",
+          "ceiling-rod-left-back",
+          "ceiling-rod-right-back"
+        ],
+        "connections": [
+          {
+            "a": "ceiling-pad-left-front",
+            "b": "ceiling-rod-left-front",
+            "kind": "face",
+            "measure": 0.0006250000186264516
+          },
+          {
+            "a": "ceiling-pad-right-front",
+            "b": "ceiling-rod-right-front",
+            "kind": "face",
+            "measure": 0.0006250000186264516
+          },
+          {
+            "a": "ceiling-pad-left-back",
+            "b": "ceiling-rod-left-back",
+            "kind": "face",
+            "measure": 0.0006250000186264516
+          },
+          {
+            "a": "ceiling-pad-right-back",
+            "b": "ceiling-rod-right-back",
+            "kind": "face",
+            "measure": 0.0006250000186264516
+          },
+          {
+            "a": "linear-bar-1",
+            "b": "ceiling-rod-left-back",
+            "kind": "face",
+            "measure": 0.0006250000186264516
+          },
+          {
+            "a": "linear-bar-1",
+            "b": "ceiling-rod-right-back",
+            "kind": "face",
+            "measure": 0.0006250000186264516
+          },
+          {
+            "a": "linear-bar-2",
+            "b": "ceiling-rod-left-front",
+            "kind": "face",
+            "measure": 0.0006250000186264516
+          },
+          {
+            "a": "linear-bar-2",
+            "b": "ceiling-rod-right-front",
+            "kind": "face",
+            "measure": 0.0006250000186264516
+          }
+        ],
+        "components": [
+          {
+            "name": "ceiling-pad-left-front",
+            "min": [
+              -0.445000000372529,
+              -0.019999999776482584,
+              0.09499999962747097
+            ],
+            "max": [
+              -0.39499999962747095,
+              -2.2351741811588166e-10,
+              0.14500000037252903
+            ],
+            "volume": 0.000050000000372529016
+          },
+          {
+            "name": "ceiling-pad-right-front",
+            "min": [
+              0.39499999962747095,
+              -0.019999999776482584,
+              0.09499999962747097
+            ],
+            "max": [
+              0.445000000372529,
+              -2.2351741811588166e-10,
+              0.14500000037252903
+            ],
+            "volume": 0.000050000000372529016
+          },
+          {
+            "name": "ceiling-pad-left-back",
+            "min": [
+              -0.445000000372529,
+              -0.019999999776482584,
+              -0.14500000037252903
+            ],
+            "max": [
+              -0.39499999962747095,
+              -2.2351741811588166e-10,
+              -0.09499999962747097
+            ],
+            "volume": 0.000050000000372529016
+          },
+          {
+            "name": "ceiling-pad-right-back",
+            "min": [
+              0.39499999962747095,
+              -0.019999999776482584,
+              -0.14500000037252903
+            ],
+            "max": [
+              0.445000000372529,
+              -2.2351741811588166e-10,
+              -0.09499999962747097
+            ],
+            "volume": 0.000050000000372529016
+          },
+          {
+            "name": "linear-bar-1",
+            "min": [
+              -0.47999998927116394,
+              -0.29999999932944776,
+              -0.16500000178813934
+            ],
+            "max": [
+              0.47999998927116394,
+              -0.24000000067055227,
+              -0.07499999821186065
+            ],
+            "volume": 0.005183999974250787
+          },
+          {
+            "name": "linear-bar-2",
+            "min": [
+              -0.47999998927116394,
+              -0.29999999932944776,
+              0.07499999821186065
+            ],
+            "max": [
+              0.47999998927116394,
+              -0.24000000067055227,
+              0.16500000178813934
+            ],
+            "volume": 0.005183999974250788
+          },
+          {
+            "name": "ceiling-rod-left-front",
+            "min": [
+              -0.4325000001862645,
+              -0.23999999940395356,
+              0.10749999981373548
+            ],
+            "max": [
+              -0.40749999981373547,
+              -0.020000000596046452,
+              0.1325000001862645
+            ],
+            "volume": 0.00013750000335276125
+          },
+          {
+            "name": "ceiling-rod-right-front",
+            "min": [
+              0.40749999981373547,
+              -0.23999999940395356,
+              0.10749999981373548
+            ],
+            "max": [
+              0.4325000001862645,
+              -0.020000000596046452,
+              0.1325000001862645
+            ],
+            "volume": 0.00013750000335276125
+          },
+          {
+            "name": "ceiling-rod-left-back",
+            "min": [
+              -0.4325000001862645,
+              -0.23999999940395356,
+              -0.1325000001862645
+            ],
+            "max": [
+              -0.40749999981373547,
+              -0.020000000596046452,
+              -0.10749999981373548
+            ],
+            "volume": 0.00013750000335276125
+          },
+          {
+            "name": "ceiling-rod-right-back",
+            "min": [
+              0.40749999981373547,
+              -0.23999999940395356,
+              -0.1325000001862645
+            ],
+            "max": [
+              0.4325000001862645,
+              -0.020000000596046452,
+              -0.10749999981373548
+            ],
+            "volume": 0.00013750000335276125
+          }
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "areaSquareMetres": 1e-8,
+          "volumeCubicMetres": 1e-9
+        },
+        "limitation": "CPU admission proves actual imported axis-aligned closed box solids, four ceiling pads, positive thickness rods, envelope and geometric connectivity. It does not prove anchor strength, acoustics, browser performance or visual acceptance."
+      }
+    },
+    {
+      "id": "ceiling-acoustic-felt",
+      "sha256": "dce69a6d6671f77d485a3f810c23543d7d8d5edfa36dc6ec317499e7b1ff7ecd",
+      "bytes": 28080,
+      "report": {
+        "checked": true,
+        "ceilingMounted": true,
+        "id": "ceiling-acoustic-felt",
+        "meshCount": 15,
+        "triangleCount": 180,
+        "materialCount": 2,
+        "pads": [
+          "ceiling-pad-left-front",
+          "ceiling-pad-right-front",
+          "ceiling-pad-left-back",
+          "ceiling-pad-right-back"
+        ],
+        "rods": [
+          "ceiling-rod-left-front",
+          "ceiling-rod-right-front",
+          "ceiling-rod-left-back",
+          "ceiling-rod-right-back"
+        ],
+        "connections": [
+          {
+            "a": "ceiling-pad-left-front",
+            "b": "ceiling-rod-left-front",
+            "kind": "face",
+            "measure": 0.0006250000186264516
+          },
+          {
+            "a": "ceiling-pad-right-front",
+            "b": "ceiling-rod-right-front",
+            "kind": "face",
+            "measure": 0.0006250000186264516
+          },
+          {
+            "a": "ceiling-pad-left-back",
+            "b": "ceiling-rod-left-back",
+            "kind": "face",
+            "measure": 0.0006250000186264516
+          },
+          {
+            "a": "ceiling-pad-right-back",
+            "b": "ceiling-rod-right-back",
+            "kind": "face",
+            "measure": 0.0006250000186264516
+          },
+          {
+            "a": "felt-top-rail",
+            "b": "felt-fin-1",
+            "kind": "volume",
+            "measure": 0.00041250000739470084
+          },
+          {
+            "a": "felt-top-rail",
+            "b": "felt-fin-2",
+            "kind": "volume",
+            "measure": 0.00041250000739470084
+          },
+          {
+            "a": "felt-top-rail",
+            "b": "felt-fin-3",
+            "kind": "volume",
+            "measure": 0.00041250000739470084
+          },
+          {
+            "a": "felt-top-rail",
+            "b": "felt-fin-4",
+            "kind": "volume",
+            "measure": 0.00041250000739470084
+          },
+          {
+            "a": "felt-top-rail",
+            "b": "felt-fin-5",
+            "kind": "volume",
+            "measure": 0.00041250000739470084
+          },
+          {
+            "a": "felt-top-rail",
+            "b": "felt-fin-6",
+            "kind": "volume",
+            "measure": 0.00041250000739470084
+          },
+          {
+            "a": "felt-top-rail",
+            "b": "ceiling-rod-left-front",
+            "kind": "face",
+            "measure": 0.00043750001117587106
+          },
+          {
+            "a": "felt-top-rail",
+            "b": "ceiling-rod-right-front",
+            "kind": "face",
+            "measure": 0.00043750001117587106
+          },
+          {
+            "a": "felt-top-rail",
+            "b": "ceiling-rod-left-back",
+            "kind": "face",
+            "measure": 0.00043750001117587106
+          },
+          {
+            "a": "felt-top-rail",
+            "b": "ceiling-rod-right-back",
+            "kind": "face",
+            "measure": 0.00043750001117587106
+          }
+        ],
+        "components": [
+          {
+            "name": "ceiling-pad-left-front",
+            "min": [
+              -0.445000000372529,
+              -0.019999999776482584,
+              0.09499999962747097
+            ],
+            "max": [
+              -0.39499999962747095,
+              -2.2351741811588166e-10,
+              0.14500000037252903
+            ],
+            "volume": 0.000050000000372529016
+          },
+          {
+            "name": "ceiling-pad-right-front",
+            "min": [
+              0.39499999962747095,
+              -0.019999999776482584,
+              0.09499999962747097
+            ],
+            "max": [
+              0.445000000372529,
+              -2.2351741811588166e-10,
+              0.14500000037252903
+            ],
+            "volume": 0.000050000000372529016
+          },
+          {
+            "name": "ceiling-pad-left-back",
+            "min": [
+              -0.445000000372529,
+              -0.019999999776482584,
+              -0.14500000037252903
+            ],
+            "max": [
+              -0.39499999962747095,
+              -2.2351741811588166e-10,
+              -0.09499999962747097
+            ],
+            "volume": 0.000050000000372529016
+          },
+          {
+            "name": "ceiling-pad-right-back",
+            "min": [
+              0.39499999962747095,
+              -0.019999999776482584,
+              -0.14500000037252903
+            ],
+            "max": [
+              0.445000000372529,
+              -2.2351741811588166e-10,
+              -0.09499999962747097
+            ],
+            "volume": 0.000050000000372529016
+          },
+          {
+            "name": "felt-top-rail",
+            "min": [
+              -0.5,
+              -0.10500000018626451,
+              -0.125
+            ],
+            "max": [
+              0.5,
+              -0.07999999981373548,
+              0.125
+            ],
+            "volume": 0.006250000093132259
+          },
+          {
+            "name": "felt-fin-1",
+            "min": [
+              -0.2875000014901161,
+              -0.29999999940395355,
+              -0.10999999940395355
+            ],
+            "max": [
+              -0.21249999850988388,
+              -0.08000000059604645,
+              0.10999999940395355
+            ],
+            "volume": 0.0036300001049041734
+          },
+          {
+            "name": "felt-fin-2",
+            "min": [
+              -0.1875000014901161,
+              -0.29999999940395355,
+              -0.10999999940395355
+            ],
+            "max": [
+              -0.11249999850988388,
+              -0.08000000059604645,
+              0.10999999940395355
+            ],
+            "volume": 0.003630000104904173
+          },
+          {
+            "name": "felt-fin-3",
+            "min": [
+              -0.08750000149011611,
+              -0.29999999940395355,
+              -0.10999999940395355
+            ],
+            "max": [
+              -0.01249999850988387,
+              -0.08000000059604645,
+              0.10999999940395355
+            ],
+            "volume": 0.003630000104904173
+          },
+          {
+            "name": "felt-fin-4",
+            "min": [
+              0.012499998509883925,
+              -0.29999999940395355,
+              -0.10999999940395355
+            ],
+            "max": [
+              0.08750000149011616,
+              -0.08000000059604645,
+              0.10999999940395355
+            ],
+            "volume": 0.003630000104904173
+          },
+          {
+            "name": "felt-fin-5",
+            "min": [
+              0.1124999985098839,
+              -0.29999999940395355,
+              -0.10999999940395355
+            ],
+            "max": [
+              0.18750000149011614,
+              -0.08000000059604645,
+              0.10999999940395355
+            ],
+            "volume": 0.0036300001049041734
+          },
+          {
+            "name": "felt-fin-6",
+            "min": [
+              0.21249999850988388,
+              -0.29999999940395355,
+              -0.10999999940395355
+            ],
+            "max": [
+              0.2875000014901161,
+              -0.08000000059604645,
+              0.10999999940395355
+            ],
+            "volume": 0.0036300001049041734
+          },
+          {
+            "name": "ceiling-rod-left-front",
+            "min": [
+              -0.4325000001862645,
+              -0.07999999932944775,
+              0.10749999981373548
+            ],
+            "max": [
+              -0.40749999981373547,
+              -0.020000000670552256,
+              0.1325000001862645
+            ],
+            "volume": 0.00003750000027939675
+          },
+          {
+            "name": "ceiling-rod-right-front",
+            "min": [
+              0.40749999981373547,
+              -0.07999999932944775,
+              0.10749999981373548
+            ],
+            "max": [
+              0.4325000001862645,
+              -0.020000000670552256,
+              0.1325000001862645
+            ],
+            "volume": 0.00003750000027939675
+          },
+          {
+            "name": "ceiling-rod-left-back",
+            "min": [
+              -0.4325000001862645,
+              -0.07999999932944775,
+              -0.1325000001862645
+            ],
+            "max": [
+              -0.40749999981373547,
+              -0.020000000670552256,
+              -0.10749999981373548
+            ],
+            "volume": 0.00003750000027939675
+          },
+          {
+            "name": "ceiling-rod-right-back",
+            "min": [
+              0.40749999981373547,
+              -0.07999999932944775,
+              -0.1325000001862645
+            ],
+            "max": [
+              0.4325000001862645,
+              -0.020000000670552256,
+              -0.10749999981373548
+            ],
+            "volume": 0.00003750000027939675
+          }
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "areaSquareMetres": 1e-8,
+          "volumeCubicMetres": 1e-9
+        },
+        "limitation": "CPU admission proves actual imported axis-aligned closed box solids, four ceiling pads, positive thickness rods, envelope and geometric connectivity. It does not prove anchor strength, acoustics, browser performance or visual acceptance."
+      }
+    },
+    {
+      "id": "ceiling-acoustic-timber-grid",
+      "sha256": "2190dfe7a2ee2431fda6121f1f3e88b3e36f34fb07be58630ac3e22e800b98fb",
+      "bytes": 33628,
+      "report": {
+        "checked": true,
+        "ceilingMounted": true,
+        "id": "ceiling-acoustic-timber-grid",
+        "meshCount": 18,
+        "triangleCount": 216,
+        "materialCount": 2,
+        "pads": [
+          "ceiling-pad-left-front",
+          "ceiling-pad-right-front",
+          "ceiling-pad-left-back",
+          "ceiling-pad-right-back"
+        ],
+        "rods": [
+          "ceiling-rod-left-front",
+          "ceiling-rod-right-front",
+          "ceiling-rod-left-back",
+          "ceiling-rod-right-back"
+        ],
+        "connections": [
+          {
+            "a": "ceiling-pad-left-front",
+            "b": "ceiling-rod-left-front",
+            "kind": "face",
+            "measure": 0.0006250000186264516
+          },
+          {
+            "a": "ceiling-pad-right-front",
+            "b": "ceiling-rod-right-front",
+            "kind": "face",
+            "measure": 0.0006250000186264516
+          },
+          {
+            "a": "ceiling-pad-left-back",
+            "b": "ceiling-rod-left-back",
+            "kind": "face",
+            "measure": 0.0006250000186264516
+          },
+          {
+            "a": "ceiling-pad-right-back",
+            "b": "ceiling-rod-right-back",
+            "kind": "face",
+            "measure": 0.0006250000186264516
+          },
+          {
+            "a": "timber-backing",
+            "b": "timber-top-rail",
+            "kind": "face",
+            "measure": 0.028799998712539687
+          },
+          {
+            "a": "timber-top-rail",
+            "b": "timber-vertical-1",
+            "kind": "face",
+            "measure": 0.0013999999746680258
+          },
+          {
+            "a": "timber-top-rail",
+            "b": "timber-vertical-2",
+            "kind": "face",
+            "measure": 0.0013999999746680258
+          },
+          {
+            "a": "timber-top-rail",
+            "b": "timber-vertical-3",
+            "kind": "face",
+            "measure": 0.0013999999746680258
+          },
+          {
+            "a": "timber-top-rail",
+            "b": "timber-vertical-4",
+            "kind": "face",
+            "measure": 0.0013999999746680258
+          },
+          {
+            "a": "timber-top-rail",
+            "b": "timber-vertical-5",
+            "kind": "face",
+            "measure": 0.0013999999746680258
+          },
+          {
+            "a": "timber-top-rail",
+            "b": "ceiling-rod-left-front",
+            "kind": "volume",
+            "measure": 0.000018750000069849185
+          },
+          {
+            "a": "timber-top-rail",
+            "b": "ceiling-rod-right-front",
+            "kind": "volume",
+            "measure": 0.000018750000069849185
+          },
+          {
+            "a": "timber-top-rail",
+            "b": "ceiling-rod-left-back",
+            "kind": "volume",
+            "measure": 0.000018750000069849185
+          },
+          {
+            "a": "timber-top-rail",
+            "b": "ceiling-rod-right-back",
+            "kind": "volume",
+            "measure": 0.000018750000069849185
+          },
+          {
+            "a": "timber-vertical-1",
+            "b": "timber-horizontal-1",
+            "kind": "volume",
+            "measure": 0.000041999998301267636
+          },
+          {
+            "a": "timber-vertical-1",
+            "b": "timber-horizontal-2",
+            "kind": "volume",
+            "measure": 0.000041999998301267636
+          },
+          {
+            "a": "timber-vertical-1",
+            "b": "timber-horizontal-3",
+            "kind": "volume",
+            "measure": 0.000041999998301267636
+          },
+          {
+            "a": "timber-vertical-2",
+            "b": "timber-horizontal-1",
+            "kind": "volume",
+            "measure": 0.000041999998301267636
+          },
+          {
+            "a": "timber-vertical-2",
+            "b": "timber-horizontal-2",
+            "kind": "volume",
+            "measure": 0.000041999998301267636
+          },
+          {
+            "a": "timber-vertical-2",
+            "b": "timber-horizontal-3",
+            "kind": "volume",
+            "measure": 0.000041999998301267636
+          },
+          {
+            "a": "timber-vertical-3",
+            "b": "timber-horizontal-1",
+            "kind": "volume",
+            "measure": 0.000041999998301267636
+          },
+          {
+            "a": "timber-vertical-3",
+            "b": "timber-horizontal-2",
+            "kind": "volume",
+            "measure": 0.000041999998301267636
+          },
+          {
+            "a": "timber-vertical-3",
+            "b": "timber-horizontal-3",
+            "kind": "volume",
+            "measure": 0.000041999998301267636
+          },
+          {
+            "a": "timber-vertical-4",
+            "b": "timber-horizontal-1",
+            "kind": "volume",
+            "measure": 0.000041999998301267636
+          },
+          {
+            "a": "timber-vertical-4",
+            "b": "timber-horizontal-2",
+            "kind": "volume",
+            "measure": 0.000041999998301267636
+          },
+          {
+            "a": "timber-vertical-4",
+            "b": "timber-horizontal-3",
+            "kind": "volume",
+            "measure": 0.000041999998301267636
+          },
+          {
+            "a": "timber-vertical-5",
+            "b": "timber-horizontal-1",
+            "kind": "volume",
+            "measure": 0.000041999998301267636
+          },
+          {
+            "a": "timber-vertical-5",
+            "b": "timber-horizontal-2",
+            "kind": "volume",
+            "measure": 0.000041999998301267636
+          },
+          {
+            "a": "timber-vertical-5",
+            "b": "timber-horizontal-3",
+            "kind": "volume",
+            "measure": 0.000041999998301267636
+          }
+        ],
+        "components": [
+          {
+            "name": "ceiling-pad-left-front",
+            "min": [
+              -0.445000000372529,
+              -0.019999999776482584,
+              0.09499999962747097
+            ],
+            "max": [
+              -0.39499999962747095,
+              -2.2351741811588166e-10,
+              0.14500000037252903
+            ],
+            "volume": 0.000050000000372529016
+          },
+          {
+            "name": "ceiling-pad-right-front",
+            "min": [
+              0.39499999962747095,
+              -0.019999999776482584,
+              0.09499999962747097
+            ],
+            "max": [
+              0.445000000372529,
+              -2.2351741811588166e-10,
+              0.14500000037252903
+            ],
+            "volume": 0.000050000000372529016
+          },
+          {
+            "name": "ceiling-pad-left-back",
+            "min": [
+              -0.445000000372529,
+              -0.019999999776482584,
+              -0.14500000037252903
+            ],
+            "max": [
+              -0.39499999962747095,
+              -2.2351741811588166e-10,
+              -0.09499999962747097
+            ],
+            "volume": 0.000050000000372529016
+          },
+          {
+            "name": "ceiling-pad-right-back",
+            "min": [
+              0.39499999962747095,
+              -0.019999999776482584,
+              -0.14500000037252903
+            ],
+            "max": [
+              0.445000000372529,
+              -2.2351741811588166e-10,
+              -0.09499999962747097
+            ],
+            "volume": 0.000050000000372529016
+          },
+          {
+            "name": "timber-backing",
+            "min": [
+              -0.47999998927116394,
+              -0.299999997317791,
+              -0.09499999966472387
+            ],
+            "max": [
+              0.47999998927116394,
+              -0.06000000268220901,
+              -0.06500000033527613
+            ],
+            "volume": 0.0069119995365142925
+          },
+          {
+            "name": "timber-top-rail",
+            "min": [
+              -0.5,
+              -0.05999999966472387,
+              -0.15000000596046448
+            ],
+            "max": [
+              0.5,
+              -0.030000000335276125,
+              0.15000000596046448
+            ],
+            "volume": 0.009000000156462185
+          },
+          {
+            "name": "timber-vertical-1",
+            "min": [
+              -0.39999999955296517,
+              -0.299999997317791,
+              0.0024999999254941944
+            ],
+            "max": [
+              -0.36000000044703484,
+              -0.06000000268220901,
+              0.03750000007450581
+            ],
+            "volume": 0.00033599998641014125
+          },
+          {
+            "name": "timber-vertical-2",
+            "min": [
+              -0.20999999955296517,
+              -0.299999997317791,
+              0.0024999999254941944
+            ],
+            "max": [
+              -0.17000000044703484,
+              -0.06000000268220901,
+              0.03750000007450581
+            ],
+            "volume": 0.00033599998641014114
+          },
+          {
+            "name": "timber-vertical-3",
+            "min": [
+              -0.019999999552965164,
+              -0.299999997317791,
+              0.0024999999254941944
+            ],
+            "max": [
+              0.019999999552965164,
+              -0.06000000268220901,
+              0.03750000007450581
+            ],
+            "volume": 0.00033599998641014114
+          },
+          {
+            "name": "timber-vertical-4",
+            "min": [
+              0.17000000044703484,
+              -0.299999997317791,
+              0.0024999999254941944
+            ],
+            "max": [
+              0.20999999955296517,
+              -0.06000000268220901,
+              0.03750000007450581
+            ],
+            "volume": 0.00033599998641014114
+          },
+          {
+            "name": "timber-vertical-5",
+            "min": [
+              0.36000000044703484,
+              -0.299999997317791,
+              0.0024999999254941944
+            ],
+            "max": [
+              0.39999999955296517,
+              -0.06000000268220901,
+              0.03750000007450581
+            ],
+            "volume": 0.00033599998641014125
+          },
+          {
+            "name": "timber-horizontal-1",
+            "min": [
+              -0.47999998927116394,
+              -0.2849999996647239,
+              0.0024999999254941944
+            ],
+            "max": [
+              0.47999998927116394,
+              -0.25500000033527614,
+              0.03750000007450581
+            ],
+            "volume": 0.0010079999592304235
+          },
+          {
+            "name": "timber-horizontal-2",
+            "min": [
+              -0.47999998927116394,
+              -0.19499999966472387,
+              0.0024999999254941944
+            ],
+            "max": [
+              0.47999998927116394,
+              -0.16500000033527612,
+              0.03750000007450581
+            ],
+            "volume": 0.0010079999592304237
+          },
+          {
+            "name": "timber-horizontal-3",
+            "min": [
+              -0.47999998927116394,
+              -0.10499999966472387,
+              0.0024999999254941944
+            ],
+            "max": [
+              0.47999998927116394,
+              -0.07500000033527612,
+              0.03750000007450581
+            ],
+            "volume": 0.0010079999592304235
+          },
+          {
+            "name": "ceiling-rod-left-front",
+            "min": [
+              -0.4325000001862645,
+              -0.059999999552965165,
+              0.10749999981373548
+            ],
+            "max": [
+              -0.40749999981373547,
+              -0.020000000447034837,
+              0.1325000001862645
+            ],
+            "volume": 0.000025000000186264498
+          },
+          {
+            "name": "ceiling-rod-right-front",
+            "min": [
+              0.40749999981373547,
+              -0.059999999552965165,
+              0.10749999981373548
+            ],
+            "max": [
+              0.4325000001862645,
+              -0.020000000447034837,
+              0.1325000001862645
+            ],
+            "volume": 0.000025000000186264498
+          },
+          {
+            "name": "ceiling-rod-left-back",
+            "min": [
+              -0.4325000001862645,
+              -0.059999999552965165,
+              -0.1325000001862645
+            ],
+            "max": [
+              -0.40749999981373547,
+              -0.020000000447034837,
+              -0.10749999981373548
+            ],
+            "volume": 0.000025000000186264505
+          },
+          {
+            "name": "ceiling-rod-right-back",
+            "min": [
+              0.40749999981373547,
+              -0.059999999552965165,
+              -0.1325000001862645
+            ],
+            "max": [
+              0.4325000001862645,
+              -0.020000000447034837,
+              -0.10749999981373548
+            ],
+            "volume": 0.000025000000186264505
+          }
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "areaSquareMetres": 1e-8,
+          "volumeCubicMetres": 1e-9
+        },
+        "limitation": "CPU admission proves actual imported axis-aligned closed box solids, four ceiling pads, positive thickness rods, envelope and geometric connectivity. It does not prove anchor strength, acoustics, browser performance or visual acceptance."
+      }
+    }
+  ],
+  "sourceHashes": {
+    "geometry": "1cbaac216db00c3c5a5fc8f04dace4c456195cfe2fc0b6aaa24836ccc5e226c1",
+    "test": "cffd65c4c238f1f06267d6b1ef08325eb255f139a0ac751cf6bbace27bc09a8d"
+  },
+  "limits": [
+    "CPU validation reads actual imported GLB triangles and controlled mutations. It proves finite static axis-aligned box solids, top pads, positive rods, envelope and geometric connectivity. It does not prove anchor strength, acoustics, browser performance, room collision or human visual acceptance."
+  ]
+}

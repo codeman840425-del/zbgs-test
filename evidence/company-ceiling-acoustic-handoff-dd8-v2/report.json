@@ -1,0 +1,85 @@
+{
+  "package": "F:\\gamemake-company-ceiling-acoustic-delivery-dd8",
+  "status": "passed",
+  "checks": [
+    {
+      "name": "All independent package files match their transfer manifest",
+      "passed": true,
+      "result": {
+        "files": 1043
+      }
+    },
+    {
+      "name": "Independent edit rejects a non-ceiling height without producing a partial result",
+      "passed": true,
+      "result": {
+        "rejection": "invalid-ceiling-fit"
+      }
+    },
+    {
+      "name": "Independent viewer loads the edited package and exposes the moved model at the real 2.5–2.8m envelope",
+      "passed": true,
+      "result": {
+        "edited": {
+          "ok": true,
+          "id": "ceiling-acoustic-demo",
+          "revision": 2,
+          "floors": [
+            "ceiling-acoustic-demo/floor-1"
+          ],
+          "output": "F:\\gamemake-company-platform-c1\\evidence\\company-ceiling-acoustic-handoff-dd8-v2\\edited"
+        },
+        "requests": [
+          "http://127.0.0.1:53955/company-assets/ceiling-acoustic-v1/ceiling-acoustic-felt/v1/model.glb",
+          "http://127.0.0.1:53955/company-assets/side-table-v1/square/v1/model.glb"
+        ],
+        "bounds": {
+          "min": [
+            0.954999999627471,
+            2.5000000005960463,
+            -1.1
+          ],
+          "max": [
+            1.2450000003725292,
+            2.7999999997764826,
+            -0.09999999999999998
+          ]
+        }
+      }
+    },
+    {
+      "name": "Room and ceiling views toggle the actual top installation without changing the document",
+      "passed": true,
+      "result": {
+        "ceilingVisible": true,
+        "topVisible": false,
+        "documentUnchanged": true
+      }
+    },
+    {
+      "name": "Closing and reopening the independent browser restores the saved edit and allows ceiling viewing again",
+      "passed": true,
+      "result": {
+        "nodes": 4,
+        "resource": {
+          "id": "ceiling-acoustic-felt",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            1.1,
+            2.8,
+            -0.6
+          ],
+          "yaw": 1.5707963267948966
+        }
+      }
+    }
+  ],
+  "limits": [
+    "Software rendering; not ordinary-PC, character or offline npm-install proof"
+  ],
+  "harnessSha256": "45e4bdbe13badecc228869f70c9e2c6c4a8a5ddf6b76df2518cce049231dd4ce",
+  "build": "dd8e60c29b36",
+  "pageErrors": []
+}

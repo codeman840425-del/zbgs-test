@@ -1,0 +1,36 @@
+顶部吸声构件包：固定交付
+
+源码 25d0a337a59b67055f876a373ca91381ea625d1d；构建 dd8e60c29b36。
+固定树 F:/gamemake-company-ceiling-acoustic-fixed-v1
+独立包 F:/gamemake-company-ceiling-acoustic-delivery-dd8
+预览 http://127.0.0.1:60880/?sample=ceiling-acoustic-baffle&look=0
+第二输入 http://127.0.0.1:60880/?layout=ceilingAcousticAlternate
+录像 F:/gamemake-company-platform-c1/evidence/company-ceiling-acoustic-recording-dd8-v1/ceiling-acoustic-preview-normal1x.webm
+36.8秒、1440×1000、25fps、正常1倍速；实际编码SHA见identity.json。
+
+四款项目参数化新制：整片云板、横向条板、立式毡片、木格栅。米制top原点，四真实挂垫/悬杆，1.2×.4平面、.3m整体下垂，安装于2.8m天花，保留2.5m净高。不是下载厂家模型，不作声学/结构承重认证。沿统一来源、固定功能、显示替换与保存机制；底下边几可保留地面使用空间。云板源宽1.10→1.16实际重导进入当前游戏；同一最终生产脚本下另外三款字节保持。
+
+数据7组、真实GLB13项、浏览器6组、独立交付5组通过。四款逐个关闭浏览器重开；两输入、旋转/复制、实际旧无mounting模型碰撞、隐藏楼层/大楼概览编辑、HTTP503失败保旧、顶面和挂件同步观看及资源释放均有证据。原161资源完整定义不变，新目录165资源。新增四GLB共97976字节，不加贴图或实时灯。实际几何为受限轴对齐闭合实体门，不宣称任意外部模型自动适配。
+
+固定检出和独立交付分别npm ci/构建，350个运行文件与实测版本一致；交付manifest1043文件已核。独立包edit.mjs修改、真实加载、保存和浏览器关闭恢复通过。
+
+重建（固定树prototype或独立包source/prototype）：
+  npm ci --no-audit --no-fund
+  node scripts/build-company-id.mjs
+  node node_modules/vite/bin/vite.js build --config vite.company.config.js
+生产检查（固定树或交付source根）：
+  node scripts/company-platform/build-ceiling-acoustic.mjs --check
+  node scripts/company-platform/build-library.mjs --check
+  node scripts/company-platform/build-ceiling-acoustic-examples.mjs --check
+验证（制作树根；每次提供全新输出目录）：
+  node scripts/company-platform/qa-ceiling-acoustic-preview.cjs F:/gamemake-company-ceiling-acoustic-fixed-v1/prototype/dist-company dd8e60c29b36 evidence/ceiling-recheck-new
+  node scripts/company-platform/qa-ceiling-acoustic-handoff.cjs F:/gamemake-company-ceiling-acoustic-delivery-dd8 evidence/ceiling-handoff-new
+  node scripts/company-platform/record-ceiling-acoustic-preview.cjs F:/gamemake-company-ceiling-acoustic-fixed-v1/prototype/dist-company dd8e60c29b36 evidence/ceiling-record-new
+handoff验收脚本使用最终证据提交里的版本；源25d中的最初脚本错误地直接读存档封套nodes，首次失败保留，随后仅修验收脚本，不改运行版。录像沿窗口约定运行。
+源参数修改需在可写副本；去掉producer --check重导，再登记库、构建。--check比较实际模型和描述字节，未知/非法源字段在写任何文件前拒绝。完整复现见独立包README.md。
+
+保留失败：最初数据测试误给floor设Y=3.2（现有楼层机制按身份隔离且各层局部Y0），修测试输入；原producer缺磁盘比较/字段校验/整批先验，已保留旧脚本修正；木格栅共面交叉与原复制镜头裁切，保留前后资源/截图。旧几何门反例和旧报告不改标签。当前材质仍为功能样件，极近处局部阴影锯齿不等同品牌美术验收。
+
+限制：SwiftShader不代表普通电脑性能；C3角色活动与最终用户观看未验。全部C1–C3尚未完成，不把本分支四款作为全目录完成。仅接续公司平台独立机制，不改总工角色、main.js、CAP/CURRENT。CAP-INCREMENT.json供集中合并。
+60880为唯一公司公开预览，更新前核原49fa3b455973固定树监听身份；旧壁架固定目录保留回滚。临时录制/独立包服务均关闭。
+下一主包优先核线缆端点与组合移动的缺口，先读现有端点/设备输入与一手资料，再定有界合同；其余确认分类、成套布局/批量及C3范围继续保留。

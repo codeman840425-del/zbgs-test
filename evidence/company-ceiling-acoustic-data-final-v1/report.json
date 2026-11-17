@@ -1,0 +1,135 @@
+{
+  "status": "passed",
+  "synthetic": false,
+  "checks": [
+    {
+      "name": "Four fixed resources and new identity/version share the same function",
+      "passed": true,
+      "result": {
+        "resources": [
+          {
+            "id": "ceiling-acoustic-cloud",
+            "version": 1
+          },
+          {
+            "id": "ceiling-acoustic-linear",
+            "version": 1
+          },
+          {
+            "id": "ceiling-acoustic-felt",
+            "version": 1
+          },
+          {
+            "id": "ceiling-acoustic-timber-grid",
+            "version": 1
+          }
+        ],
+        "synthetic": false
+      }
+    },
+    {
+      "name": "Two layout inputs and quarter turns preserve 2.5m clearance without ground blocking",
+      "passed": true,
+      "result": [
+        {
+          "id": "ceiling-acoustic-demo",
+          "world": {
+            "position": [
+              0,
+              2.8,
+              0
+            ],
+            "yaw": 0
+          },
+          "clearance": 2.5
+        },
+        {
+          "id": "ceiling-acoustic-alternate",
+          "world": {
+            "position": [
+              1.1,
+              2.8,
+              -0.6
+            ],
+            "yaw": 1.5707963267948966
+          },
+          "clearance": 2.5
+        }
+      ]
+    },
+    {
+      "name": "Move rotate copy replace and complete save restore preserve local edits",
+      "passed": true,
+      "result": {
+        "nodes": 5,
+        "replacements": 4
+      }
+    },
+    {
+      "name": "Floating origin wrong parent crossing wall and intersecting mounts fail without mutating old input",
+      "passed": true,
+      "result": {
+        "errors": [
+          "invalid-ceiling-fit",
+          "invalid-ceiling-fit",
+          "invalid-ceiling-fit",
+          "ceiling-envelope-overlap"
+        ],
+        "additional": [
+          "invalid-ceiling-parent",
+          "ceiling-envelope-overlap"
+        ]
+      }
+    },
+    {
+      "name": "Two floors with identical local positions retain distinct ownership and save identity",
+      "passed": true,
+      "result": {
+        "floorIds": [
+          "ceiling-acoustic-demo/floor-1",
+          "ceiling-acoustic-demo/floor-1-second"
+        ],
+        "nodes": 8
+      }
+    },
+    {
+      "name": "Saved resource versions bind the full ceiling contract and fail on descriptor tampering",
+      "passed": true,
+      "result": {
+        "rejected": "dependency-content-mismatch"
+      }
+    },
+    {
+      "name": "Registered model bytes match descriptors and previous resources remain byte-identical",
+      "passed": true,
+      "result": {
+        "unchanged": 161,
+        "actual": [
+          {
+            "id": "ceiling-acoustic-cloud",
+            "sha256": "11fa9957af67470dbf4cca9476d514ce0b1600b91c42ee4b2d1898a6b907d73a",
+            "bytes": 17224
+          },
+          {
+            "id": "ceiling-acoustic-linear",
+            "sha256": "27333d5840499c51c3b815a1030832a5218f99c80727910c2533e5c819dddd08",
+            "bytes": 19044
+          },
+          {
+            "id": "ceiling-acoustic-felt",
+            "sha256": "dce69a6d6671f77d485a3f810c23543d7d8d5edfa36dc6ec317499e7b1ff7ecd",
+            "bytes": 28080
+          },
+          {
+            "id": "ceiling-acoustic-timber-grid",
+            "sha256": "ae2f4495d55eddbd5e04efb3014472ad925c7c2f43f90646b5663f88e87ab318",
+            "bytes": 33628
+          }
+        ]
+      }
+    }
+  ],
+  "limits": [
+    "CPU data checks only; runtime, actual geometry, C3 and human acceptance are separate."
+  ]
+}

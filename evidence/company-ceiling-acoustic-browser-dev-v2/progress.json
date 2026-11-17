@@ -1,0 +1,1930 @@
+{
+  "build": "e576e5599cf8",
+  "status": "running",
+  "checks": [
+    {
+      "name": "Four actual appearances connect at 2.8m, leave 2.5m clear and survive separate browser restarts",
+      "passed": true,
+      "result": [
+        {
+          "document": {
+            "schema": "company-layout",
+            "version": 1,
+            "id": "ceiling-acoustic-demo",
+            "name": "顶部吸声 · 四款结构",
+            "revision": 1,
+            "scale": "single-room",
+            "catalog": {
+              "id": "company-facilities",
+              "version": 1
+            },
+            "nodes": [
+              {
+                "id": "ceiling-acoustic-demo/floor-1",
+                "kind": "floor",
+                "parentId": "ceiling-acoustic-demo",
+                "name": "一层",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "ceiling-acoustic-demo/room-1",
+                "kind": "room",
+                "parentId": "ceiling-acoustic-demo/floor-1",
+                "name": "直播间",
+                "purpose": "streaming",
+                "bounds": {
+                  "width": 6,
+                  "depth": 4
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "ceiling-acoustic/primary",
+                "kind": "facility",
+                "parentId": "ceiling-acoustic-demo/room-1",
+                "resource": {
+                  "id": "ceiling-acoustic-cloud",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    2.8,
+                    0
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              },
+              {
+                "id": "ceiling-acoustic/table",
+                "kind": "facility",
+                "parentId": "ceiling-acoustic-demo/room-1",
+                "resource": {
+                  "id": "side-table-square",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              }
+            ]
+          },
+          "entries": [
+            {
+              "node": {
+                "id": "ceiling-acoustic/primary",
+                "kind": "facility",
+                "parentId": "ceiling-acoustic-demo/room-1",
+                "resource": {
+                  "id": "ceiling-acoustic-cloud",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    2.8,
+                    0
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              },
+              "asset": {
+                "format": "glb",
+                "url": "/company-assets/ceiling-acoustic-v1/ceiling-acoustic-cloud/v1/model.glb",
+                "sha256": "11fa9957af67470dbf4cca9476d514ce0b1600b91c42ee4b2d1898a6b907d73a",
+                "bytes": 17224
+              },
+              "visible": true,
+              "meshes": 9,
+              "low": 2.500000000670552,
+              "high": 2.7999999997764826
+            }
+          ],
+          "ceilings": [
+            {
+              "id": "Ceiling:ceiling-acoustic-demo/room-1",
+              "visible": true
+            }
+          ],
+          "navigation": [
+            {
+              "name": "ceiling-acoustic/table",
+              "instanceId": "ceiling-acoustic/table",
+              "kind": "facility",
+              "x": 0,
+              "z": 0,
+              "hw": 0.62,
+              "hd": 0.495,
+              "footprint": {
+                "center": [
+                  0,
+                  0
+                ],
+                "halfSize": [
+                  0.4,
+                  0.275
+                ],
+                "blocking": true
+              }
+            },
+            {
+              "name": "ceiling-acoustic-demo/room-1/wall-north-0",
+              "instanceId": "ceiling-acoustic-demo/room-1/wall-north-0",
+              "kind": "wall",
+              "x": 0,
+              "z": -1.95,
+              "hw": 3,
+              "hd": 0.05
+            },
+            {
+              "name": "ceiling-acoustic-demo/room-1/wall-south-0",
+              "instanceId": "ceiling-acoustic-demo/room-1/wall-south-0",
+              "kind": "wall",
+              "x": 0,
+              "z": 1.95,
+              "hw": 3,
+              "hd": 0.05
+            },
+            {
+              "name": "ceiling-acoustic-demo/room-1/wall-west-0",
+              "instanceId": "ceiling-acoustic-demo/room-1/wall-west-0",
+              "kind": "wall",
+              "x": -2.95,
+              "z": 0,
+              "hw": 0.05,
+              "hd": 2
+            },
+            {
+              "name": "ceiling-acoustic-demo/room-1/wall-east-0",
+              "instanceId": "ceiling-acoustic-demo/room-1/wall-east-0",
+              "kind": "wall",
+              "x": 2.95,
+              "z": 0,
+              "hw": 0.05,
+              "hd": 2
+            }
+          ],
+          "memory": {
+            "geometries": 19,
+            "textures": 3
+          },
+          "cache": {
+            "cachedAssets": 2,
+            "loadedAssets": 2
+          }
+        },
+        {
+          "document": {
+            "schema": "company-layout",
+            "version": 1,
+            "id": "ceiling-acoustic-demo",
+            "name": "顶部吸声 · 四款结构",
+            "revision": 2,
+            "scale": "single-room",
+            "catalog": {
+              "id": "company-facilities",
+              "version": 1
+            },
+            "nodes": [
+              {
+                "id": "ceiling-acoustic-demo/floor-1",
+                "kind": "floor",
+                "parentId": "ceiling-acoustic-demo",
+                "name": "一层",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "ceiling-acoustic-demo/room-1",
+                "kind": "room",
+                "parentId": "ceiling-acoustic-demo/floor-1",
+                "name": "直播间",
+                "purpose": "streaming",
+                "bounds": {
+                  "width": 6,
+                  "depth": 4
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "ceiling-acoustic/primary",
+                "kind": "facility",
+                "parentId": "ceiling-acoustic-demo/room-1",
+                "resource": {
+                  "id": "ceiling-acoustic-linear",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    2.8,
+                    0
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              },
+              {
+                "id": "ceiling-acoustic/table",
+                "kind": "facility",
+                "parentId": "ceiling-acoustic-demo/room-1",
+                "resource": {
+                  "id": "side-table-square",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              }
+            ]
+          },
+          "entries": [
+            {
+              "node": {
+                "id": "ceiling-acoustic/primary",
+                "kind": "facility",
+                "parentId": "ceiling-acoustic-demo/room-1",
+                "resource": {
+                  "id": "ceiling-acoustic-linear",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    2.8,
+                    0
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              },
+              "asset": {
+                "format": "glb",
+                "url": "/company-assets/ceiling-acoustic-v1/ceiling-acoustic-linear/v1/model.glb",
+                "sha256": "27333d5840499c51c3b815a1030832a5218f99c80727910c2533e5c819dddd08",
+                "bytes": 19044
+              },
+              "visible": true,
+              "meshes": 10,
+              "low": 2.500000000670552,
+              "high": 2.7999999997764826
+            }
+          ],
+          "ceilings": [
+            {
+              "id": "Ceiling:ceiling-acoustic-demo/room-1",
+              "visible": true
+            }
+          ],
+          "navigation": [
+            {
+              "name": "ceiling-acoustic/table",
+              "instanceId": "ceiling-acoustic/table",
+              "kind": "facility",
+              "x": 0,
+              "z": 0,
+              "hw": 0.62,
+              "hd": 0.495,
+              "footprint": {
+                "center": [
+                  0,
+                  0
+                ],
+                "halfSize": [
+                  0.4,
+                  0.275
+                ],
+                "blocking": true
+              }
+            },
+            {
+              "name": "ceiling-acoustic-demo/room-1/wall-north-0",
+              "instanceId": "ceiling-acoustic-demo/room-1/wall-north-0",
+              "kind": "wall",
+              "x": 0,
+              "z": -1.95,
+              "hw": 3,
+              "hd": 0.05
+            },
+            {
+              "name": "ceiling-acoustic-demo/room-1/wall-south-0",
+              "instanceId": "ceiling-acoustic-demo/room-1/wall-south-0",
+              "kind": "wall",
+              "x": 0,
+              "z": 1.95,
+              "hw": 3,
+              "hd": 0.05
+            },
+            {
+              "name": "ceiling-acoustic-demo/room-1/wall-west-0",
+              "instanceId": "ceiling-acoustic-demo/room-1/wall-west-0",
+              "kind": "wall",
+              "x": -2.95,
+              "z": 0,
+              "hw": 0.05,
+              "hd": 2
+            },
+            {
+              "name": "ceiling-acoustic-demo/room-1/wall-east-0",
+              "instanceId": "ceiling-acoustic-demo/room-1/wall-east-0",
+              "kind": "wall",
+              "x": 2.95,
+              "z": 0,
+              "hw": 0.05,
+              "hd": 2
+            }
+          ],
+          "memory": {
+            "geometries": 20,
+            "textures": 3
+          },
+          "cache": {
+            "cachedAssets": 2,
+            "loadedAssets": 2
+          }
+        },
+        {
+          "document": {
+            "schema": "company-layout",
+            "version": 1,
+            "id": "ceiling-acoustic-demo",
+            "name": "顶部吸声 · 四款结构",
+            "revision": 3,
+            "scale": "single-room",
+            "catalog": {
+              "id": "company-facilities",
+              "version": 1
+            },
+            "nodes": [
+              {
+                "id": "ceiling-acoustic-demo/floor-1",
+                "kind": "floor",
+                "parentId": "ceiling-acoustic-demo",
+                "name": "一层",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "ceiling-acoustic-demo/room-1",
+                "kind": "room",
+                "parentId": "ceiling-acoustic-demo/floor-1",
+                "name": "直播间",
+                "purpose": "streaming",
+                "bounds": {
+                  "width": 6,
+                  "depth": 4
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "ceiling-acoustic/primary",
+                "kind": "facility",
+                "parentId": "ceiling-acoustic-demo/room-1",
+                "resource": {
+                  "id": "ceiling-acoustic-felt",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    2.8,
+                    0
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              },
+              {
+                "id": "ceiling-acoustic/table",
+                "kind": "facility",
+                "parentId": "ceiling-acoustic-demo/room-1",
+                "resource": {
+                  "id": "side-table-square",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              }
+            ]
+          },
+          "entries": [
+            {
+              "node": {
+                "id": "ceiling-acoustic/primary",
+                "kind": "facility",
+                "parentId": "ceiling-acoustic-demo/room-1",
+                "resource": {
+                  "id": "ceiling-acoustic-felt",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    2.8,
+                    0
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              },
+              "asset": {
+                "format": "glb",
+                "url": "/company-assets/ceiling-acoustic-v1/ceiling-acoustic-felt/v1/model.glb",
+                "sha256": "dce69a6d6671f77d485a3f810c23543d7d8d5edfa36dc6ec317499e7b1ff7ecd",
+                "bytes": 28080
+              },
+              "visible": true,
+              "meshes": 15,
+              "low": 2.5000000005960463,
+              "high": 2.7999999997764826
+            }
+          ],
+          "ceilings": [
+            {
+              "id": "Ceiling:ceiling-acoustic-demo/room-1",
+              "visible": true
+            }
+          ],
+          "navigation": [
+            {
+              "name": "ceiling-acoustic/table",
+              "instanceId": "ceiling-acoustic/table",
+              "kind": "facility",
+              "x": 0,
+              "z": 0,
+              "hw": 0.62,
+              "hd": 0.495,
+              "footprint": {
+                "center": [
+                  0,
+                  0
+                ],
+                "halfSize": [
+                  0.4,
+                  0.275
+                ],
+                "blocking": true
+              }
+            },
+            {
+              "name": "ceiling-acoustic-demo/room-1/wall-north-0",
+              "instanceId": "ceiling-acoustic-demo/room-1/wall-north-0",
+              "kind": "wall",
+              "x": 0,
+              "z": -1.95,
+              "hw": 3,
+              "hd": 0.05
+            },
+            {
+              "name": "ceiling-acoustic-demo/room-1/wall-south-0",
+              "instanceId": "ceiling-acoustic-demo/room-1/wall-south-0",
+              "kind": "wall",
+              "x": 0,
+              "z": 1.95,
+              "hw": 3,
+              "hd": 0.05
+            },
+            {
+              "name": "ceiling-acoustic-demo/room-1/wall-west-0",
+              "instanceId": "ceiling-acoustic-demo/room-1/wall-west-0",
+              "kind": "wall",
+              "x": -2.95,
+              "z": 0,
+              "hw": 0.05,
+              "hd": 2
+            },
+            {
+              "name": "ceiling-acoustic-demo/room-1/wall-east-0",
+              "instanceId": "ceiling-acoustic-demo/room-1/wall-east-0",
+              "kind": "wall",
+              "x": 2.95,
+              "z": 0,
+              "hw": 0.05,
+              "hd": 2
+            }
+          ],
+          "memory": {
+            "geometries": 25,
+            "textures": 3
+          },
+          "cache": {
+            "cachedAssets": 2,
+            "loadedAssets": 2
+          }
+        },
+        {
+          "document": {
+            "schema": "company-layout",
+            "version": 1,
+            "id": "ceiling-acoustic-demo",
+            "name": "顶部吸声 · 四款结构",
+            "revision": 4,
+            "scale": "single-room",
+            "catalog": {
+              "id": "company-facilities",
+              "version": 1
+            },
+            "nodes": [
+              {
+                "id": "ceiling-acoustic-demo/floor-1",
+                "kind": "floor",
+                "parentId": "ceiling-acoustic-demo",
+                "name": "一层",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "ceiling-acoustic-demo/room-1",
+                "kind": "room",
+                "parentId": "ceiling-acoustic-demo/floor-1",
+                "name": "直播间",
+                "purpose": "streaming",
+                "bounds": {
+                  "width": 6,
+                  "depth": 4
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "ceiling-acoustic/primary",
+                "kind": "facility",
+                "parentId": "ceiling-acoustic-demo/room-1",
+                "resource": {
+                  "id": "ceiling-acoustic-timber-grid",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    2.8,
+                    0
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              },
+              {
+                "id": "ceiling-acoustic/table",
+                "kind": "facility",
+                "parentId": "ceiling-acoustic-demo/room-1",
+                "resource": {
+                  "id": "side-table-square",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              }
+            ]
+          },
+          "entries": [
+            {
+              "node": {
+                "id": "ceiling-acoustic/primary",
+                "kind": "facility",
+                "parentId": "ceiling-acoustic-demo/room-1",
+                "resource": {
+                  "id": "ceiling-acoustic-timber-grid",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    2.8,
+                    0
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              },
+              "asset": {
+                "format": "glb",
+                "url": "/company-assets/ceiling-acoustic-v1/ceiling-acoustic-timber-grid/v1/model.glb",
+                "sha256": "ae2f4495d55eddbd5e04efb3014472ad925c7c2f43f90646b5663f88e87ab318",
+                "bytes": 33628
+              },
+              "visible": true,
+              "meshes": 18,
+              "low": 2.5000000026822087,
+              "high": 2.7999999997764826
+            }
+          ],
+          "ceilings": [
+            {
+              "id": "Ceiling:ceiling-acoustic-demo/room-1",
+              "visible": true
+            }
+          ],
+          "navigation": [
+            {
+              "name": "ceiling-acoustic/table",
+              "instanceId": "ceiling-acoustic/table",
+              "kind": "facility",
+              "x": 0,
+              "z": 0,
+              "hw": 0.62,
+              "hd": 0.495,
+              "footprint": {
+                "center": [
+                  0,
+                  0
+                ],
+                "halfSize": [
+                  0.4,
+                  0.275
+                ],
+                "blocking": true
+              }
+            },
+            {
+              "name": "ceiling-acoustic-demo/room-1/wall-north-0",
+              "instanceId": "ceiling-acoustic-demo/room-1/wall-north-0",
+              "kind": "wall",
+              "x": 0,
+              "z": -1.95,
+              "hw": 3,
+              "hd": 0.05
+            },
+            {
+              "name": "ceiling-acoustic-demo/room-1/wall-south-0",
+              "instanceId": "ceiling-acoustic-demo/room-1/wall-south-0",
+              "kind": "wall",
+              "x": 0,
+              "z": 1.95,
+              "hw": 3,
+              "hd": 0.05
+            },
+            {
+              "name": "ceiling-acoustic-demo/room-1/wall-west-0",
+              "instanceId": "ceiling-acoustic-demo/room-1/wall-west-0",
+              "kind": "wall",
+              "x": -2.95,
+              "z": 0,
+              "hw": 0.05,
+              "hd": 2
+            },
+            {
+              "name": "ceiling-acoustic-demo/room-1/wall-east-0",
+              "instanceId": "ceiling-acoustic-demo/room-1/wall-east-0",
+              "kind": "wall",
+              "x": 2.95,
+              "z": 0,
+              "hw": 0.05,
+              "hd": 2
+            }
+          ],
+          "memory": {
+            "geometries": 28,
+            "textures": 3
+          },
+          "cache": {
+            "cachedAssets": 2,
+            "loadedAssets": 2
+          }
+        }
+      ]
+    },
+    {
+      "name": "Top cutaway and room focus hide complete attachments without altering logical state or saved bytes",
+      "passed": true,
+      "result": {
+        "before": {
+          "document": {
+            "schema": "company-layout",
+            "version": 1,
+            "id": "ceiling-acoustic-demo",
+            "name": "顶部吸声 · 四款结构",
+            "revision": 5,
+            "scale": "single-room",
+            "catalog": {
+              "id": "company-facilities",
+              "version": 1
+            },
+            "nodes": [
+              {
+                "id": "ceiling-acoustic-demo/floor-1",
+                "kind": "floor",
+                "parentId": "ceiling-acoustic-demo",
+                "name": "一层",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "ceiling-acoustic-demo/room-1",
+                "kind": "room",
+                "parentId": "ceiling-acoustic-demo/floor-1",
+                "name": "直播间",
+                "purpose": "streaming",
+                "bounds": {
+                  "width": 6,
+                  "depth": 4
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "ceiling-acoustic/primary",
+                "kind": "facility",
+                "parentId": "ceiling-acoustic-demo/room-1",
+                "resource": {
+                  "id": "ceiling-acoustic-cloud",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    2.8,
+                    0
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              },
+              {
+                "id": "ceiling-acoustic/table",
+                "kind": "facility",
+                "parentId": "ceiling-acoustic-demo/room-1",
+                "resource": {
+                  "id": "side-table-square",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              }
+            ]
+          },
+          "entries": [
+            {
+              "node": {
+                "id": "ceiling-acoustic/primary",
+                "kind": "facility",
+                "parentId": "ceiling-acoustic-demo/room-1",
+                "resource": {
+                  "id": "ceiling-acoustic-cloud",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    2.8,
+                    0
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              },
+              "asset": {
+                "format": "glb",
+                "url": "/company-assets/ceiling-acoustic-v1/ceiling-acoustic-cloud/v1/model.glb",
+                "sha256": "11fa9957af67470dbf4cca9476d514ce0b1600b91c42ee4b2d1898a6b907d73a",
+                "bytes": 17224
+              },
+              "visible": true,
+              "meshes": 9,
+              "low": 2.500000000670552,
+              "high": 2.7999999997764826
+            }
+          ],
+          "ceilings": [
+            {
+              "id": "Ceiling:ceiling-acoustic-demo/room-1",
+              "visible": true
+            }
+          ],
+          "navigation": [
+            {
+              "name": "ceiling-acoustic/table",
+              "instanceId": "ceiling-acoustic/table",
+              "kind": "facility",
+              "x": 0,
+              "z": 0,
+              "hw": 0.62,
+              "hd": 0.495,
+              "footprint": {
+                "center": [
+                  0,
+                  0
+                ],
+                "halfSize": [
+                  0.4,
+                  0.275
+                ],
+                "blocking": true
+              }
+            },
+            {
+              "name": "ceiling-acoustic-demo/room-1/wall-north-0",
+              "instanceId": "ceiling-acoustic-demo/room-1/wall-north-0",
+              "kind": "wall",
+              "x": 0,
+              "z": -1.95,
+              "hw": 3,
+              "hd": 0.05
+            },
+            {
+              "name": "ceiling-acoustic-demo/room-1/wall-south-0",
+              "instanceId": "ceiling-acoustic-demo/room-1/wall-south-0",
+              "kind": "wall",
+              "x": 0,
+              "z": 1.95,
+              "hw": 3,
+              "hd": 0.05
+            },
+            {
+              "name": "ceiling-acoustic-demo/room-1/wall-west-0",
+              "instanceId": "ceiling-acoustic-demo/room-1/wall-west-0",
+              "kind": "wall",
+              "x": -2.95,
+              "z": 0,
+              "hw": 0.05,
+              "hd": 2
+            },
+            {
+              "name": "ceiling-acoustic-demo/room-1/wall-east-0",
+              "instanceId": "ceiling-acoustic-demo/room-1/wall-east-0",
+              "kind": "wall",
+              "x": 2.95,
+              "z": 0,
+              "hw": 0.05,
+              "hd": 2
+            }
+          ],
+          "memory": {
+            "geometries": 19,
+            "textures": 3
+          },
+          "cache": {
+            "cachedAssets": 2,
+            "loadedAssets": 2
+          }
+        },
+        "hidden": {
+          "document": {
+            "schema": "company-layout",
+            "version": 1,
+            "id": "ceiling-acoustic-demo",
+            "name": "顶部吸声 · 四款结构",
+            "revision": 5,
+            "scale": "single-room",
+            "catalog": {
+              "id": "company-facilities",
+              "version": 1
+            },
+            "nodes": [
+              {
+                "id": "ceiling-acoustic-demo/floor-1",
+                "kind": "floor",
+                "parentId": "ceiling-acoustic-demo",
+                "name": "一层",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "ceiling-acoustic-demo/room-1",
+                "kind": "room",
+                "parentId": "ceiling-acoustic-demo/floor-1",
+                "name": "直播间",
+                "purpose": "streaming",
+                "bounds": {
+                  "width": 6,
+                  "depth": 4
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "ceiling-acoustic/primary",
+                "kind": "facility",
+                "parentId": "ceiling-acoustic-demo/room-1",
+                "resource": {
+                  "id": "ceiling-acoustic-cloud",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    2.8,
+                    0
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              },
+              {
+                "id": "ceiling-acoustic/table",
+                "kind": "facility",
+                "parentId": "ceiling-acoustic-demo/room-1",
+                "resource": {
+                  "id": "side-table-square",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              }
+            ]
+          },
+          "entries": [
+            {
+              "node": {
+                "id": "ceiling-acoustic/primary",
+                "kind": "facility",
+                "parentId": "ceiling-acoustic-demo/room-1",
+                "resource": {
+                  "id": "ceiling-acoustic-cloud",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    2.8,
+                    0
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              },
+              "asset": {
+                "format": "glb",
+                "url": "/company-assets/ceiling-acoustic-v1/ceiling-acoustic-cloud/v1/model.glb",
+                "sha256": "11fa9957af67470dbf4cca9476d514ce0b1600b91c42ee4b2d1898a6b907d73a",
+                "bytes": 17224
+              },
+              "visible": false,
+              "meshes": 9,
+              "low": 2.500000000670552,
+              "high": 2.7999999997764826
+            }
+          ],
+          "ceilings": [
+            {
+              "id": "Ceiling:ceiling-acoustic-demo/room-1",
+              "visible": false
+            }
+          ],
+          "navigation": [
+            {
+              "name": "ceiling-acoustic/table",
+              "instanceId": "ceiling-acoustic/table",
+              "kind": "facility",
+              "x": 0,
+              "z": 0,
+              "hw": 0.62,
+              "hd": 0.495,
+              "footprint": {
+                "center": [
+                  0,
+                  0
+                ],
+                "halfSize": [
+                  0.4,
+                  0.275
+                ],
+                "blocking": true
+              }
+            },
+            {
+              "name": "ceiling-acoustic-demo/room-1/wall-north-0",
+              "instanceId": "ceiling-acoustic-demo/room-1/wall-north-0",
+              "kind": "wall",
+              "x": 0,
+              "z": -1.95,
+              "hw": 3,
+              "hd": 0.05
+            },
+            {
+              "name": "ceiling-acoustic-demo/room-1/wall-south-0",
+              "instanceId": "ceiling-acoustic-demo/room-1/wall-south-0",
+              "kind": "wall",
+              "x": 0,
+              "z": 1.95,
+              "hw": 3,
+              "hd": 0.05
+            },
+            {
+              "name": "ceiling-acoustic-demo/room-1/wall-west-0",
+              "instanceId": "ceiling-acoustic-demo/room-1/wall-west-0",
+              "kind": "wall",
+              "x": -2.95,
+              "z": 0,
+              "hw": 0.05,
+              "hd": 2
+            },
+            {
+              "name": "ceiling-acoustic-demo/room-1/wall-east-0",
+              "instanceId": "ceiling-acoustic-demo/room-1/wall-east-0",
+              "kind": "wall",
+              "x": 2.95,
+              "z": 0,
+              "hw": 0.05,
+              "hd": 2
+            }
+          ],
+          "memory": {
+            "geometries": 19,
+            "textures": 3
+          },
+          "cache": {
+            "cachedAssets": 2,
+            "loadedAssets": 2
+          }
+        },
+        "after": {
+          "document": {
+            "schema": "company-layout",
+            "version": 1,
+            "id": "ceiling-acoustic-demo",
+            "name": "顶部吸声 · 四款结构",
+            "revision": 5,
+            "scale": "single-room",
+            "catalog": {
+              "id": "company-facilities",
+              "version": 1
+            },
+            "nodes": [
+              {
+                "id": "ceiling-acoustic-demo/floor-1",
+                "kind": "floor",
+                "parentId": "ceiling-acoustic-demo",
+                "name": "一层",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "ceiling-acoustic-demo/room-1",
+                "kind": "room",
+                "parentId": "ceiling-acoustic-demo/floor-1",
+                "name": "直播间",
+                "purpose": "streaming",
+                "bounds": {
+                  "width": 6,
+                  "depth": 4
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "ceiling-acoustic/primary",
+                "kind": "facility",
+                "parentId": "ceiling-acoustic-demo/room-1",
+                "resource": {
+                  "id": "ceiling-acoustic-cloud",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    2.8,
+                    0
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              },
+              {
+                "id": "ceiling-acoustic/table",
+                "kind": "facility",
+                "parentId": "ceiling-acoustic-demo/room-1",
+                "resource": {
+                  "id": "side-table-square",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              }
+            ]
+          },
+          "entries": [
+            {
+              "node": {
+                "id": "ceiling-acoustic/primary",
+                "kind": "facility",
+                "parentId": "ceiling-acoustic-demo/room-1",
+                "resource": {
+                  "id": "ceiling-acoustic-cloud",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    2.8,
+                    0
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              },
+              "asset": {
+                "format": "glb",
+                "url": "/company-assets/ceiling-acoustic-v1/ceiling-acoustic-cloud/v1/model.glb",
+                "sha256": "11fa9957af67470dbf4cca9476d514ce0b1600b91c42ee4b2d1898a6b907d73a",
+                "bytes": 17224
+              },
+              "visible": true,
+              "meshes": 9,
+              "low": 2.500000000670552,
+              "high": 2.7999999997764826
+            }
+          ],
+          "ceilings": [
+            {
+              "id": "Ceiling:ceiling-acoustic-demo/room-1",
+              "visible": true
+            }
+          ],
+          "navigation": [
+            {
+              "name": "ceiling-acoustic/table",
+              "instanceId": "ceiling-acoustic/table",
+              "kind": "facility",
+              "x": 0,
+              "z": 0,
+              "hw": 0.62,
+              "hd": 0.495,
+              "footprint": {
+                "center": [
+                  0,
+                  0
+                ],
+                "halfSize": [
+                  0.4,
+                  0.275
+                ],
+                "blocking": true
+              }
+            },
+            {
+              "name": "ceiling-acoustic-demo/room-1/wall-north-0",
+              "instanceId": "ceiling-acoustic-demo/room-1/wall-north-0",
+              "kind": "wall",
+              "x": 0,
+              "z": -1.95,
+              "hw": 3,
+              "hd": 0.05
+            },
+            {
+              "name": "ceiling-acoustic-demo/room-1/wall-south-0",
+              "instanceId": "ceiling-acoustic-demo/room-1/wall-south-0",
+              "kind": "wall",
+              "x": 0,
+              "z": 1.95,
+              "hw": 3,
+              "hd": 0.05
+            },
+            {
+              "name": "ceiling-acoustic-demo/room-1/wall-west-0",
+              "instanceId": "ceiling-acoustic-demo/room-1/wall-west-0",
+              "kind": "wall",
+              "x": -2.95,
+              "z": 0,
+              "hw": 0.05,
+              "hd": 2
+            },
+            {
+              "name": "ceiling-acoustic-demo/room-1/wall-east-0",
+              "instanceId": "ceiling-acoustic-demo/room-1/wall-east-0",
+              "kind": "wall",
+              "x": 2.95,
+              "z": 0,
+              "hw": 0.05,
+              "hd": 2
+            }
+          ],
+          "memory": {
+            "geometries": 19,
+            "textures": 3
+          },
+          "cache": {
+            "cachedAssets": 2,
+            "loadedAssets": 2
+          }
+        }
+      }
+    },
+    {
+      "name": "Move rotate copy and appearance swaps retain edited identities and support a low table underneath",
+      "passed": true,
+      "result": {
+        "document": {
+          "schema": "company-layout",
+          "version": 1,
+          "id": "ceiling-acoustic-demo",
+          "name": "顶部吸声 · 四款结构",
+          "revision": 7,
+          "scale": "single-room",
+          "catalog": {
+            "id": "company-facilities",
+            "version": 1
+          },
+          "nodes": [
+            {
+              "id": "ceiling-acoustic-demo/floor-1",
+              "kind": "floor",
+              "parentId": "ceiling-acoustic-demo",
+              "name": "一层",
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            {
+              "id": "ceiling-acoustic-demo/room-1",
+              "kind": "room",
+              "parentId": "ceiling-acoustic-demo/floor-1",
+              "name": "直播间",
+              "purpose": "streaming",
+              "bounds": {
+                "width": 6,
+                "depth": 4
+              },
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            {
+              "id": "ceiling-acoustic/primary",
+              "kind": "facility",
+              "parentId": "ceiling-acoustic-demo/room-1",
+              "resource": {
+                "id": "ceiling-acoustic-timber-grid",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  -1,
+                  2.8,
+                  0
+                ],
+                "yaw": 1.5707963267948966
+              },
+              "state": {}
+            },
+            {
+              "id": "ceiling-acoustic/table",
+              "kind": "facility",
+              "parentId": "ceiling-acoustic-demo/room-1",
+              "resource": {
+                "id": "side-table-square",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              },
+              "state": {}
+            },
+            {
+              "id": "ceiling-copy",
+              "kind": "facility",
+              "parentId": "ceiling-acoustic-demo/room-1",
+              "resource": {
+                "id": "ceiling-acoustic-cloud",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  1,
+                  2.8,
+                  0
+                ],
+                "yaw": 1.5707963267948966
+              },
+              "state": {},
+              "name": "ceiling-copy"
+            }
+          ]
+        },
+        "entries": [
+          {
+            "node": {
+              "id": "ceiling-acoustic/primary",
+              "kind": "facility",
+              "parentId": "ceiling-acoustic-demo/room-1",
+              "resource": {
+                "id": "ceiling-acoustic-timber-grid",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  -1,
+                  2.8,
+                  0
+                ],
+                "yaw": 1.5707963267948966
+              },
+              "state": {}
+            },
+            "asset": {
+              "format": "glb",
+              "url": "/company-assets/ceiling-acoustic-v1/ceiling-acoustic-timber-grid/v1/model.glb",
+              "sha256": "ae2f4495d55eddbd5e04efb3014472ad925c7c2f43f90646b5663f88e87ab318",
+              "bytes": 33628
+            },
+            "visible": true,
+            "meshes": 18,
+            "low": 2.5000000026822087,
+            "high": 2.7999999997764826
+          },
+          {
+            "node": {
+              "id": "ceiling-copy",
+              "kind": "facility",
+              "parentId": "ceiling-acoustic-demo/room-1",
+              "resource": {
+                "id": "ceiling-acoustic-cloud",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  1,
+                  2.8,
+                  0
+                ],
+                "yaw": 1.5707963267948966
+              },
+              "state": {},
+              "name": "ceiling-copy"
+            },
+            "asset": {
+              "format": "glb",
+              "url": "/company-assets/ceiling-acoustic-v1/ceiling-acoustic-cloud/v1/model.glb",
+              "sha256": "11fa9957af67470dbf4cca9476d514ce0b1600b91c42ee4b2d1898a6b907d73a",
+              "bytes": 17224
+            },
+            "visible": true,
+            "meshes": 9,
+            "low": 2.500000000670552,
+            "high": 2.7999999997764826
+          }
+        ],
+        "ceilings": [
+          {
+            "id": "Ceiling:ceiling-acoustic-demo/room-1",
+            "visible": true
+          }
+        ],
+        "navigation": [
+          {
+            "name": "ceiling-acoustic/table",
+            "instanceId": "ceiling-acoustic/table",
+            "kind": "facility",
+            "x": 0,
+            "z": 0,
+            "hw": 0.62,
+            "hd": 0.495,
+            "footprint": {
+              "center": [
+                0,
+                0
+              ],
+              "halfSize": [
+                0.4,
+                0.275
+              ],
+              "blocking": true
+            }
+          },
+          {
+            "name": "ceiling-acoustic-demo/room-1/wall-north-0",
+            "instanceId": "ceiling-acoustic-demo/room-1/wall-north-0",
+            "kind": "wall",
+            "x": 0,
+            "z": -1.95,
+            "hw": 3,
+            "hd": 0.05
+          },
+          {
+            "name": "ceiling-acoustic-demo/room-1/wall-south-0",
+            "instanceId": "ceiling-acoustic-demo/room-1/wall-south-0",
+            "kind": "wall",
+            "x": 0,
+            "z": 1.95,
+            "hw": 3,
+            "hd": 0.05
+          },
+          {
+            "name": "ceiling-acoustic-demo/room-1/wall-west-0",
+            "instanceId": "ceiling-acoustic-demo/room-1/wall-west-0",
+            "kind": "wall",
+            "x": -2.95,
+            "z": 0,
+            "hw": 0.05,
+            "hd": 2
+          },
+          {
+            "name": "ceiling-acoustic-demo/room-1/wall-east-0",
+            "instanceId": "ceiling-acoustic-demo/room-1/wall-east-0",
+            "kind": "wall",
+            "x": 2.95,
+            "z": 0,
+            "hw": 0.05,
+            "hd": 2
+          }
+        ],
+        "memory": {
+          "geometries": 37,
+          "textures": 3
+        },
+        "cache": {
+          "cachedAssets": 3,
+          "loadedAssets": 3
+        }
+      }
+    },
+    {
+      "name": "Bad height wall crossing overlap and real HTTP503 preserve the current scene and save",
+      "passed": true,
+      "result": [
+        {
+          "code": "invalid-ceiling-fit",
+          "documentPreserved": true,
+          "savePreserved": true,
+          "rootPreserved": true
+        },
+        {
+          "code": "invalid-ceiling-fit",
+          "documentPreserved": true,
+          "savePreserved": true,
+          "rootPreserved": true
+        },
+        {
+          "code": "ceiling-envelope-overlap",
+          "documentPreserved": true,
+          "savePreserved": true,
+          "rootPreserved": true
+        },
+        {
+          "code": "asset-fetch-failed",
+          "documentPreserved": true,
+          "savePreserved": true,
+          "rootPreserved": true
+        }
+      ]
+    },
+    {
+      "name": "Actual legacy GLB without mounting is rejected when intersecting the ceiling, including a hidden floor and building overview",
+      "passed": true,
+      "result": {
+        "visible": {
+          "code": "ceiling-visual-overlap",
+          "documentPreserved": true,
+          "savePreserved": true,
+          "rootPreserved": true
+        },
+        "hidden": {
+          "code": "ceiling-visual-overlap",
+          "documentPreserved": true,
+          "savePreserved": true,
+          "rootPreserved": true,
+          "view": {
+            "mode": "building",
+            "roomId": null,
+            "floorId": "ceiling-acoustic-demo/floor-1"
+          },
+          "cache": {
+            "cachedAssets": 0,
+            "loadedAssets": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "Second input preserves placement during repeated replacement and resource release",
+      "passed": true,
+      "result": {
+        "cycles": [
+          {
+            "index": 0,
+            "memory": {
+              "geometries": 19,
+              "textures": 3
+            },
+            "cache": {
+              "cachedAssets": 2,
+              "loadedAssets": 2
+            }
+          },
+          {
+            "index": 1,
+            "memory": {
+              "geometries": 20,
+              "textures": 3
+            },
+            "cache": {
+              "cachedAssets": 2,
+              "loadedAssets": 2
+            }
+          },
+          {
+            "index": 2,
+            "memory": {
+              "geometries": 25,
+              "textures": 3
+            },
+            "cache": {
+              "cachedAssets": 2,
+              "loadedAssets": 2
+            }
+          },
+          {
+            "index": 3,
+            "memory": {
+              "geometries": 28,
+              "textures": 3
+            },
+            "cache": {
+              "cachedAssets": 2,
+              "loadedAssets": 2
+            }
+          },
+          {
+            "index": 0,
+            "memory": {
+              "geometries": 19,
+              "textures": 3
+            },
+            "cache": {
+              "cachedAssets": 2,
+              "loadedAssets": 2
+            }
+          },
+          {
+            "index": 1,
+            "memory": {
+              "geometries": 20,
+              "textures": 3
+            },
+            "cache": {
+              "cachedAssets": 2,
+              "loadedAssets": 2
+            }
+          },
+          {
+            "index": 2,
+            "memory": {
+              "geometries": 25,
+              "textures": 3
+            },
+            "cache": {
+              "cachedAssets": 2,
+              "loadedAssets": 2
+            }
+          },
+          {
+            "index": 3,
+            "memory": {
+              "geometries": 28,
+              "textures": 3
+            },
+            "cache": {
+              "cachedAssets": 2,
+              "loadedAssets": 2
+            }
+          }
+        ],
+        "restored": {
+          "document": {
+            "schema": "company-layout",
+            "version": 1,
+            "id": "ceiling-acoustic-alternate",
+            "name": "顶部吸声 · 转向布置",
+            "revision": 9,
+            "scale": "single-room",
+            "catalog": {
+              "id": "company-facilities",
+              "version": 1
+            },
+            "nodes": [
+              {
+                "id": "ceiling-acoustic-alternate/floor-1",
+                "kind": "floor",
+                "parentId": "ceiling-acoustic-alternate",
+                "name": "一层",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "ceiling-acoustic-alternate/room-1",
+                "kind": "room",
+                "parentId": "ceiling-acoustic-alternate/floor-1",
+                "name": "直播间",
+                "purpose": "streaming",
+                "bounds": {
+                  "width": 6,
+                  "depth": 4
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "ceiling-acoustic/primary",
+                "kind": "facility",
+                "parentId": "ceiling-acoustic-alternate/room-1",
+                "resource": {
+                  "id": "ceiling-acoustic-timber-grid",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    1.1,
+                    2.8,
+                    -0.6
+                  ],
+                  "yaw": 1.5707963267948966
+                },
+                "state": {}
+              },
+              {
+                "id": "ceiling-acoustic/table",
+                "kind": "facility",
+                "parentId": "ceiling-acoustic-alternate/room-1",
+                "resource": {
+                  "id": "side-table-square",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    1.1,
+                    0,
+                    -0.6
+                  ],
+                  "yaw": 1.5707963267948966
+                },
+                "state": {}
+              }
+            ]
+          },
+          "entries": [
+            {
+              "node": {
+                "id": "ceiling-acoustic/primary",
+                "kind": "facility",
+                "parentId": "ceiling-acoustic-alternate/room-1",
+                "resource": {
+                  "id": "ceiling-acoustic-timber-grid",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    1.1,
+                    2.8,
+                    -0.6
+                  ],
+                  "yaw": 1.5707963267948966
+                },
+                "state": {}
+              },
+              "asset": {
+                "format": "glb",
+                "url": "/company-assets/ceiling-acoustic-v1/ceiling-acoustic-timber-grid/v1/model.glb",
+                "sha256": "ae2f4495d55eddbd5e04efb3014472ad925c7c2f43f90646b5663f88e87ab318",
+                "bytes": 33628
+              },
+              "visible": true,
+              "meshes": 18,
+              "low": 2.5000000026822087,
+              "high": 2.7999999997764826
+            }
+          ],
+          "ceilings": [
+            {
+              "id": "Ceiling:ceiling-acoustic-alternate/room-1",
+              "visible": true
+            }
+          ],
+          "navigation": [
+            {
+              "name": "ceiling-acoustic/table",
+              "instanceId": "ceiling-acoustic/table",
+              "kind": "facility",
+              "x": 1.1,
+              "z": -0.6,
+              "hw": 0.495,
+              "hd": 0.62,
+              "footprint": {
+                "center": [
+                  0,
+                  0
+                ],
+                "halfSize": [
+                  0.4,
+                  0.275
+                ],
+                "blocking": true
+              }
+            },
+            {
+              "name": "ceiling-acoustic-alternate/room-1/wall-north-0",
+              "instanceId": "ceiling-acoustic-alternate/room-1/wall-north-0",
+              "kind": "wall",
+              "x": 0,
+              "z": -1.95,
+              "hw": 3,
+              "hd": 0.05
+            },
+            {
+              "name": "ceiling-acoustic-alternate/room-1/wall-south-0",
+              "instanceId": "ceiling-acoustic-alternate/room-1/wall-south-0",
+              "kind": "wall",
+              "x": 0,
+              "z": 1.95,
+              "hw": 3,
+              "hd": 0.05
+            },
+            {
+              "name": "ceiling-acoustic-alternate/room-1/wall-west-0",
+              "instanceId": "ceiling-acoustic-alternate/room-1/wall-west-0",
+              "kind": "wall",
+              "x": -2.95,
+              "z": 0,
+              "hw": 0.05,
+              "hd": 2
+            },
+            {
+              "name": "ceiling-acoustic-alternate/room-1/wall-east-0",
+              "instanceId": "ceiling-acoustic-alternate/room-1/wall-east-0",
+              "kind": "wall",
+              "x": 2.95,
+              "z": 0,
+              "hw": 0.05,
+              "hd": 2
+            }
+          ],
+          "memory": {
+            "geometries": 28,
+            "textures": 3
+          },
+          "cache": {
+            "cachedAssets": 2,
+            "loadedAssets": 2
+          }
+        }
+      }
+    }
+  ],
+  "limits": [
+    "SwiftShader functional browser evidence, not ordinary-PC performance or C3/human acceptance."
+  ],
+  "harnessSha256": "ed0fdd94f78d07d8befc80939b655d7e5dec434492be26d62f017f298eac2a59"
+}

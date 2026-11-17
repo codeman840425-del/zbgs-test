@@ -1,0 +1,96 @@
+{
+  "status": "passed",
+  "generatedAt": "2026-11-17T15:26:37.065775+00:00",
+  "sourceSha256": "0a40e735a9a58b7811675f761b7ea30fb052d7c3b533e7df3ae58629931f8cf7",
+  "generatorSha256": "97f5f92e8ef9c330e2a5b58e8a7379cdd950a2535f05e26cc5d3136fe7d20725",
+  "sourceModification": {
+    "field": "cloud.width",
+    "from": 1.1,
+    "to": 1.16,
+    "finalRegisteredAndRuntimeUsed": true
+  },
+  "timberCorrection": "Horizontal slats offset through their joint instead of coplanar front faces; old model and image preserved separately. Baseline/final comparison here both use corrected producer.",
+  "assets": [
+    {
+      "id": "ceiling-acoustic-cloud",
+      "baseline": "d2ede90c9ddae7abda14ac1f6d9ea86d65476aa04578af0a944d7308f7adf95c",
+      "final": "11fa9957af67470dbf4cca9476d514ce0b1600b91c42ee4b2d1898a6b907d73a",
+      "bytes": 17224
+    },
+    {
+      "id": "ceiling-acoustic-linear",
+      "baseline": "27333d5840499c51c3b815a1030832a5218f99c80727910c2533e5c819dddd08",
+      "final": "27333d5840499c51c3b815a1030832a5218f99c80727910c2533e5c819dddd08",
+      "bytes": 19044
+    },
+    {
+      "id": "ceiling-acoustic-felt",
+      "baseline": "dce69a6d6671f77d485a3f810c23543d7d8d5edfa36dc6ec317499e7b1ff7ecd",
+      "final": "dce69a6d6671f77d485a3f810c23543d7d8d5edfa36dc6ec317499e7b1ff7ecd",
+      "bytes": 28080
+    },
+    {
+      "id": "ceiling-acoustic-timber-grid",
+      "baseline": "ae2f4495d55eddbd5e04efb3014472ad925c7c2f43f90646b5663f88e87ab318",
+      "final": "ae2f4495d55eddbd5e04efb3014472ad925c7c2f43f90646b5663f88e87ab318",
+      "bytes": 33628
+    }
+  ],
+  "checks": [
+    "disk bytes and descriptors checked",
+    "baseline input source override reproduces only cloud change",
+    "corrupted output rejected without write",
+    "late design invalid rejected before changing any existing outputs",
+    "unconsumed field rejected",
+    "source restored byte-identically"
+  ],
+  "runs": [
+    {
+      "args": [
+        "--check"
+      ],
+      "exitCode": 0,
+      "stdout": "{\n  \"checked\": true,\n  \"wrote\": false,\n  \"output\": \"prototype/public/company-assets/ceiling-acoustic-v1\",\n  \"ids\": [\n    \"ceiling-acoustic-cloud\",\n    \"ceiling-acoustic-linear\",\n    \"ceiling-acoustic-felt\",\n    \"ceiling-acoustic-timber-grid\"\n  ],\n  \"assets\": [\n    {\n      \"id\": \"ceiling-acoustic-cloud\",\n      \"bytes\": 17224,\n      \"sha256\": \"11fa9957af67470dbf4cca9476d514ce0b1600b91c42ee4b2d1898a6b907d73a\"\n    },\n    {\n      \"id\": \"ceiling-acoustic-linear\",\n      \"bytes\": 19044,\n      \"sha256\": \"27333d5840499c51c3b815a1030832a5218f99c80727910c2533e5c819dddd08\"\n    },\n    {\n      \"id\": \"ceiling-acoustic-felt\",\n      \"bytes\": 28080,\n      \"sha256\": \"dce69a6d6671f77d485a3f810c23543d7d8d5edfa36dc6ec317499e7b1ff7ecd\"\n    },\n    {\n      \"id\": \"ceiling-acoustic-timber-grid\",\n      \"bytes\": 33628,\n      \"sha256\": \"ae2f4495d55eddbd5e04efb3014472ad925c7c2f43f90646b5663f88e87ab318\"\n    }\n  ]\n}\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--output=evidence/company-ceiling-acoustic-production-final-v1/baseline-cloud-1.10",
+        "--cloud-width=1.1"
+      ],
+      "exitCode": 0,
+      "stdout": "{\n  \"checked\": true,\n  \"wrote\": true,\n  \"output\": \"evidence/company-ceiling-acoustic-production-final-v1/baseline-cloud-1.10\",\n  \"ids\": [\n    \"ceiling-acoustic-cloud\",\n    \"ceiling-acoustic-linear\",\n    \"ceiling-acoustic-felt\",\n    \"ceiling-acoustic-timber-grid\"\n  ],\n  \"assets\": [\n    {\n      \"id\": \"ceiling-acoustic-cloud\",\n      \"bytes\": 17224,\n      \"sha256\": \"d2ede90c9ddae7abda14ac1f6d9ea86d65476aa04578af0a944d7308f7adf95c\"\n    },\n    {\n      \"id\": \"ceiling-acoustic-linear\",\n      \"bytes\": 19044,\n      \"sha256\": \"27333d5840499c51c3b815a1030832a5218f99c80727910c2533e5c819dddd08\"\n    },\n    {\n      \"id\": \"ceiling-acoustic-felt\",\n      \"bytes\": 28080,\n      \"sha256\": \"dce69a6d6671f77d485a3f810c23543d7d8d5edfa36dc6ec317499e7b1ff7ecd\"\n    },\n    {\n      \"id\": \"ceiling-acoustic-timber-grid\",\n      \"bytes\": 33628,\n      \"sha256\": \"ae2f4495d55eddbd5e04efb3014472ad925c7c2f43f90646b5663f88e87ab318\"\n    }\n  ]\n}\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--check",
+        "--output=evidence/company-ceiling-acoustic-production-final-v1/baseline-cloud-1.10",
+        "--cloud-width=1.1"
+      ],
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "AssertionError [ERR_ASSERTION]: Stale production output: ceiling-acoustic-cloud/v1/model.glb\n    at main (file:///F:/gamemake-company-platform-c1/scripts/company-platform/build-ceiling-acoustic.mjs:108:83) \n"
+    },
+    {
+      "args": [],
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "AssertionError [ERR_ASSERTION]: ceiling-acoustic-felt.finCount outside supported range\n    at file:///F:/gamemake-company-platform-c1/scripts/company-platform/build-ceiling-acoustic.mjs:41:80\n    at Array.forEach (<anonymous>)\n    at validateSource (file:///F:/gamemake-company-platform-c1/scripts/company-platform/build-ceiling-acoustic.mjs:38:18)\n    at main (file:///F:/gamemake-company-platform-c1/scripts/company-platform/build-ceiling-acoustic.mjs:93:3) \n"
+    },
+    {
+      "args": [],
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    'barDepth',\n    'barThickness',\n    'barWidth',\n+   'ignoredGap'\n  ]\n\n    at file:///F:/gamemake-company-platform-c1/scripts/company-platform/build-ceiling-acoustic.mjs:40:12\n    at Array.forEach (<anonymous>)\n    at validateSource (file:///F:/gamemake-company-platform-c1/scripts/company-platform/build-ceiling-acoustic.mjs:38:18)\n    at main (file:///F:/gamemake-company-platform-c1/scripts/company-platform/build-ceiling-acoustic.mjs:93:3) \n"
+    },
+    {
+      "args": [
+        "--check"
+      ],
+      "exitCode": 0,
+      "stdout": "{\n  \"checked\": true,\n  \"wrote\": false,\n  \"output\": \"prototype/public/company-assets/ceiling-acoustic-v1\",\n  \"ids\": [\n    \"ceiling-acoustic-cloud\",\n    \"ceiling-acoustic-linear\",\n    \"ceiling-acoustic-felt\",\n    \"ceiling-acoustic-timber-grid\"\n  ],\n  \"assets\": [\n    {\n      \"id\": \"ceiling-acoustic-cloud\",\n      \"bytes\": 17224,\n      \"sha256\": \"11fa9957af67470dbf4cca9476d514ce0b1600b91c42ee4b2d1898a6b907d73a\"\n    },\n    {\n      \"id\": \"ceiling-acoustic-linear\",\n      \"bytes\": 19044,\n      \"sha256\": \"27333d5840499c51c3b815a1030832a5218f99c80727910c2533e5c819dddd08\"\n    },\n    {\n      \"id\": \"ceiling-acoustic-felt\",\n      \"bytes\": 28080,\n      \"sha256\": \"dce69a6d6671f77d485a3f810c23543d7d8d5edfa36dc6ec317499e7b1ff7ecd\"\n    },\n    {\n      \"id\": \"ceiling-acoustic-timber-grid\",\n      \"bytes\": 33628,\n      \"sha256\": \"ae2f4495d55eddbd5e04efb3014472ad925c7c2f43f90646b5663f88e87ab318\"\n    }\n  ]\n}\n",
+      "stderr": ""
+    }
+  ]
+}

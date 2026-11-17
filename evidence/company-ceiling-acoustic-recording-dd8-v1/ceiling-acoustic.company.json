@@ -1,0 +1,121 @@
+{
+  "schema": "company-save",
+  "version": 1,
+  "document": {
+    "schema": "company-layout",
+    "version": 1,
+    "id": "ceiling-acoustic-demo",
+    "name": "顶部吸声 · 四款结构",
+    "revision": 5,
+    "scale": "single-room",
+    "catalog": {
+      "id": "company-facilities",
+      "version": 1
+    },
+    "nodes": [
+      {
+        "id": "ceiling-acoustic-demo/floor-1",
+        "kind": "floor",
+        "parentId": "ceiling-acoustic-demo",
+        "name": "一层",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "ceiling-acoustic-demo/room-1",
+        "kind": "room",
+        "parentId": "ceiling-acoustic-demo/floor-1",
+        "name": "直播间",
+        "purpose": "streaming",
+        "bounds": {
+          "width": 6,
+          "depth": 4
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "ceiling-acoustic/primary",
+        "kind": "facility",
+        "parentId": "ceiling-acoustic-demo/room-1",
+        "resource": {
+          "id": "ceiling-acoustic-timber-grid",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -1,
+            2.8,
+            0
+          ],
+          "yaw": 1.5707963267948966
+        },
+        "state": {}
+      },
+      {
+        "id": "ceiling-acoustic/table",
+        "kind": "facility",
+        "parentId": "ceiling-acoustic-demo/room-1",
+        "resource": {
+          "id": "side-table-square",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "ceiling-copy",
+        "kind": "facility",
+        "parentId": "ceiling-acoustic-demo/room-1",
+        "resource": {
+          "id": "ceiling-acoustic-timber-grid",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            1,
+            2.8,
+            0
+          ],
+          "yaw": 1.5707963267948966
+        },
+        "state": {},
+        "name": "ceiling-copy"
+      }
+    ]
+  },
+  "dependencies": {
+    "resources": [
+      {
+        "id": "ceiling-acoustic-timber-grid",
+        "version": 1,
+        "sha256": "5e65f609a2acb02955c543a19a74de693ac66dd25556c4c0f4da6c2d88bf4531"
+      },
+      {
+        "id": "side-table-square",
+        "version": 1,
+        "sha256": "ae098ca3daec62cd24aaa8c5dc082470f2d58f59884f543cc4150df4c4a789d1"
+      }
+    ],
+    "templates": []
+  }
+}

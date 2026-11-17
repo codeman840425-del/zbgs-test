@@ -25,7 +25,7 @@ function parseEditError(error){
 }
 
 async function main(){
-  await fs.mkdir(out);createdOut=true;
+  await fs.mkdir(out);createdOut=true;report.harnessSha256=createHash('sha256').update(await fs.readFile(__filename)).digest('hex');
   const manifest=await readJson(path.join(root,'transfer-manifest.json'));report.build=manifest.buildId;
   await check('All independent package files match their transfer manifest',async()=>{
     for(const file of manifest.files){
@@ -54,7 +54,7 @@ async function main(){
   ]));
   const editedResult=JSON.parse(run(['apply',path.join(root,'data/save.json'),operations,editedDir]));
   const editedSave=path.join(editedDir,'save.json'),editedEnvelope=await readJson(editedSave),edited=editedEnvelope.document;
-  const original=await readJson(path.join(root,'data/save.json'));
+  const original=(await readJson(path.join(root,'data/save.json'))).document;
   const editedPrimary=edited.nodes.find(node=>node.id==='ceiling-acoustic/primary'),originalTable=original.nodes.find(node=>node.id==='ceiling-acoustic/table');
   assert.deepEqual(editedPrimary.transform,{position:[1.1,2.8,-.6],yaw:Math.PI/2});
   assert.deepEqual(editedPrimary.resource,{id:'ceiling-acoustic-felt',version:1});
@@ -100,6 +100,7 @@ async function main(){
     await page.evaluate(async({floor,room})=>{await company.showSpace('room',floor,room);company.view('ceiling');},{floor,room});
     const visible=await page.evaluate(id=>Boolean(company.session.scene.root.getObjectByName(id)?.visible),'ceiling-acoustic/primary');
     assert.equal(visible,true);
+    await page.screenshot({path:path.join(out,'independent-ceiling-acoustic.png')});
     const before=await page.evaluate(()=>JSON.stringify(company.session.document));
     await page.evaluate(()=>company.view('top'));
     const hidden=await page.evaluate(id=>Boolean(company.session.scene.root.getObjectByName(id)?.visible),'ceiling-acoustic/primary');

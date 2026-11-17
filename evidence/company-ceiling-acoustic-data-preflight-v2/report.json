@@ -1,0 +1,106 @@
+{
+  "status": "passed",
+  "synthetic": true,
+  "checks": [
+    {
+      "name": "Four fixed resources and new identity/version share the same function",
+      "passed": true,
+      "result": {
+        "resources": [
+          {
+            "id": "ceiling-acoustic-cloud",
+            "version": 1
+          },
+          {
+            "id": "ceiling-acoustic-linear",
+            "version": 1
+          },
+          {
+            "id": "ceiling-acoustic-felt",
+            "version": 1
+          },
+          {
+            "id": "ceiling-acoustic-timber-grid",
+            "version": 1
+          }
+        ],
+        "synthetic": true
+      }
+    },
+    {
+      "name": "Two layout inputs and quarter turns preserve 2.5m clearance without ground blocking",
+      "passed": true,
+      "result": [
+        {
+          "id": "ceiling-acoustic-demo",
+          "world": {
+            "position": [
+              0,
+              2.8,
+              0
+            ],
+            "yaw": 0
+          },
+          "clearance": 2.5
+        },
+        {
+          "id": "ceiling-acoustic-alternate",
+          "world": {
+            "position": [
+              1.1,
+              2.8,
+              -0.6
+            ],
+            "yaw": 1.5707963267948966
+          },
+          "clearance": 2.5
+        }
+      ]
+    },
+    {
+      "name": "Move rotate copy replace and complete save restore preserve local edits",
+      "passed": true,
+      "result": {
+        "nodes": 5,
+        "replacements": 4
+      }
+    },
+    {
+      "name": "Floating origin wrong parent crossing wall and intersecting mounts fail without mutating old input",
+      "passed": true,
+      "result": {
+        "errors": [
+          "invalid-ceiling-fit",
+          "invalid-ceiling-fit",
+          "invalid-ceiling-fit",
+          "ceiling-envelope-overlap"
+        ],
+        "additional": [
+          "invalid-ceiling-parent",
+          "ceiling-envelope-overlap"
+        ]
+      }
+    },
+    {
+      "name": "Two floors with identical local positions retain distinct ownership and save identity",
+      "passed": true,
+      "result": {
+        "floorIds": [
+          "ceiling-acoustic-demo/floor-1",
+          "ceiling-acoustic-demo/floor-1-second"
+        ],
+        "nodes": 8
+      }
+    },
+    {
+      "name": "Registered model bytes match descriptors and previous resources remain byte-identical",
+      "passed": true,
+      "result": {
+        "skipped": "Synthetic data preflight is not production/GLB evidence"
+      }
+    }
+  ],
+  "limits": [
+    "CPU data checks only; runtime, actual geometry, C3 and human acceptance are separate."
+  ]
+}
