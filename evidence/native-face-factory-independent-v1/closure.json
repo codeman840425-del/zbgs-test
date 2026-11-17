@@ -1,0 +1,68 @@
+{
+  "schema": "native-face-factory-independent-closure-v1",
+  "status": "no-new-blocker-in-source-and-CPU-factory-scope",
+  "artifacts": {
+    "source-result.json": "6752b01e727cef0f91a13048218e16aeff7d946b8c554440eca1b4aab425e2bd",
+    "floor-result.json": "bf3cb50a7373601b569366d89666c30aa68e2febede5991b85a6ceef14a37a47",
+    "coverage-v1/result.json": "f13b2c68036b34fa9a0efba3898d30500c62fd962c33067556e05ec3d203dc29",
+    "admission-v1/result.json": "8c0e31049b51996d1f4e367e44718eeae8442c254500c846bf291d0b5cc5c97a",
+    "stage-result.json": "1ce6596ce9b907ed7bf5ae4fb293932c3e89250614bb89c67960c21617152e85",
+    "staging-regression.json": "4a379883ce1a3c2d6e155ffb1b43e44401fba09c0c77208a6ed7277db06fe1d6",
+    "REVIEW.md": "86d388bc70a0405ad4ae2aeb219fd44bbf0ef01885be1cbb89e433bb6d018d8d"
+  },
+  "finalRuntimePins": {
+    "scripts/stage-native-face-factory.py": "722ab7a180e5d1ecebd3e9165143cc5c5b6f3a1bed22eda8a6bca8c026abd992",
+    "prototype/src/foundation-profiles.js": "9d9e15b46317c70864099ba8e36649b0ffb60806c546ead4e50991a532a2b77b",
+    "prototype/src/body-texture-coverage-admissions.js": "988087eeba547f8f86bc89898c7eea21534724f5115d31cdf3dc67a1a6b3fc20",
+    "prototype/src/appearance-color-policy.js": "4989ad9386f556450c36cf1083001f3e8f5b40d19705aafcb87f4a1818a2078d",
+    "prototype/src/body-texture-coverage.js": "b102d83ccc32c8e9c8ec9a269cb7c51120518287215066bfba50d2f0b52a1de1",
+    "prototype/src/appearance-candidates.js": "bc42aaaea1be1afe0eb32dd845085640253a68b924798350dc1c824007d01694",
+    "prototype/src/appearance-recipe.js": "caaf89ce5e1ea5f70dc19fa9decb678d01a6c3d8a65d4e0c29669a7ba3d34ae6",
+    "prototype/src/character-appearance.js": "beb5975b7ff1017d2216e51a819fc07281df47409e2f396bbcc89a80bd0972bd",
+    "prototype/src/facial-palette.js": "253d5b1f0bdbff59eea7cb4c6275a946d94ef25edada84f8552bb381146c6350"
+  },
+  "newlineOnlyChanges": [],
+  "sourcePackages": [
+    {
+      "path": "assets-source/native-vroid-face-factory-equipment-v1/package-files.json",
+      "sha256": "aa319d3426105b4c66c18cb42dc9ae4dfb2434b54ddf8978e1bfb5067ef7a80a",
+      "checkedFiles": 14
+    },
+    {
+      "path": "assets-source/native-vroid-face-body-texture-fit-v1/package-files.json",
+      "sha256": "c21a6c4936128ecf8910ba522a293a6980061f4580a93c4d97667186220f678b",
+      "checkedFiles": 12
+    }
+  ],
+  "finalReadOnlyChecks": [
+    {
+      "command": [
+        "python",
+        "-B",
+        "assets-source/native-vroid-face-body-texture-fit-v1/build.py",
+        "--check"
+      ],
+      "scriptSha256": "f548745975ebfcc5845372a2e52b9da2a93dc3bff08d95ba636ed24e19f0f88e",
+      "exitCode": 0,
+      "stdout": "{\"status\": \"check\", \"avatar\": \"cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce\", \"mask\": \"dc375769e28d015bc70c3cef6be1dec3794b5b2430a9bf173d60584105f68a8c\", \"sourceFloorYRaw\": -7.442453409112204e-08, \"runtimeRestFloorY\": -8.449510756150829e-07}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python",
+        "-B",
+        "scripts/stage-native-face-factory.py",
+        "--check"
+      ],
+      "scriptSha256": "722ab7a180e5d1ecebd3e9165143cc5c5b6f3a1bed22eda8a6bca8c026abd992",
+      "exitCode": 0,
+      "stdout": "{\"passed\": true, \"files\": 8, \"sourceBytesPreserved\": true, \"manifestSha256\": \"95c1523a074ea9fdc0fc08ea12b2ba46f99ec0523c3d7ad7810da2fea0b3f629\", \"checkedOnly\": true}\n",
+      "stderr": ""
+    }
+  ],
+  "stageManifestSHA": "95c1523a074ea9fdc0fc08ea12b2ba46f99ec0523c3d7ad7810da2fea0b3f629",
+  "gpuAccepted": false,
+  "motionContactAccepted": false,
+  "productionFilesModified": false,
+  "requestedConfiguration": "gpt-6-astra/high; actual provider/hook not independently verified"
+}

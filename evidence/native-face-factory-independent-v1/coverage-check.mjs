@@ -1,0 +1,31 @@
+import fs from 'node:fs/promises';import path from 'node:path';import assert from 'node:assert/strict';import {createHash}from'node:crypto';
+import * as T from '../../prototype/node_modules/three/build/three.module.js';import {MToonMaterial}from'../../prototype/node_modules/@pixiv/three-vrm-materials-mtoon/lib/three-vrm-materials-mtoon.module.js';
+import {foundationProfile}from'../../prototype/src/foundation-profiles.js';import {createBodyTextureCoverage}from'../../prototype/src/body-texture-coverage.js';
+const out=process.argv[2];assert(out);await fs.mkdir(out);const publicRoot=path.resolve('prototype/public'),sha=b=>createHash('sha256').update(b).digest('hex');
+const c=foundationProfile('native-female-face-v1'),bytes=await fs.readFile(path.join(publicRoot,c.url));assert.equal(sha(bytes),c.sha256);
+const j=JSON.parse(bytes.subarray(20,20+bytes.readUInt32LE(12))),bin=bytes.subarray(28+bytes.readUInt32LE(12)),material=j.materials.find(m=>m.name.includes('_Body_')&&m.name.includes('_SKIN'));
+const descriptor=c.bodyTextureCoverage,mb=await fs.readFile(path.join(publicRoot,descriptor.url));assert.equal(sha(mb),descriptor.sha256);const manifest=JSON.parse(mb),entries=JSON.parse(await fs.readFile(path.join(publicRoot,c.manifestUrl))).items;
+const pngURL=new URL(manifest.covered.url,new URL(descriptor.url,'http://localhost/')).pathname,png=await fs.readFile(path.join(publicRoot,pngURL));assert.equal(sha(png),manifest.covered.sha256);
+const ti=material.pbrMetallicRoughness.baseColorTexture.index;assert.equal(material.extensions.VRMC_materials_mtoon.shadeMultiplyTexture.index,ti);const tex=j.textures[ti],view=j.bufferViews[j.images[tex.source].bufferView],base=bin.subarray(view.byteOffset,view.byteOffset+view.byteLength);assert.equal(sha(base),manifest.basePngSha256);
+const sampler=j.samplers[tex.sampler];assert.equal(sampler.magFilter,9729);assert.equal(sampler.minFilter,9729);assert.equal(material.alphaMode,'MASK');
+const oldFetch=globalThis.fetch,oldBitmap=globalThis.createImageBitmap;let bad=false,closes=0;
+globalThis.fetch=async input=>{const url=new URL(input,'http://localhost/').pathname;const data=await fs.readFile(path.join(publicRoot,url));return new Response(bad&&url===pngURL?Buffer.from('corrupt'):data);};
+globalThis.createImageBitmap=async blob=>{assert.equal(sha(Buffer.from(await blob.arrayBuffer())),manifest.covered.sha256);let closed=false;return{width:2048,height:2048,close(){assert(!closed);closed=true;closes++;}};};
+function fixture(){const map=new T.Texture({width:2048,height:2048});Object.assign(map,{flipY:false,colorSpace:T.SRGBColorSpace,wrapS:T.RepeatWrapping,wrapT:T.RepeatWrapping,minFilter:T.LinearFilter,magFilter:T.LinearFilter,generateMipmaps:false});const shade=map.clone(),m=new MToonMaterial({map,shadeMultiplyTexture:shade,alphaTest:.5,transparent:false});m.name=material.name;m.color.fromArray(material.pbrMetallicRoughness.baseColorFactor);m.shadeColorFactor.fromArray(material.extensions.VRMC_materials_mtoon.shadeColorFactor);m.update(0);return{map,shade,m,body:[new T.Mesh(new T.BufferGeometry(),m)]};}
+const create=(f,override={})=>createBodyTextureCoverage({body:f.body,avatarSha256:c.sha256,entries,descriptor,...override});const owners=[],checks=[];
+try{const f=fixture(),g=fixture(),a=await create(f),b=await create(g);owners.push(a,b);const col=f.m.color.clone(),sh=f.m.shadeColorFactor.clone();
+ const top=entries.find(e=>e.slot==='top').id,bottom=entries.find(e=>e.slot==='bottom').id,shoe=entries.find(e=>e.slot==='shoes').id;
+ const p=a.prepareEquipmentSet([top,bottom,shoe]);assert.equal(f.m.map,f.map);p.commit();assert(a.getInfo().covered);assert.notEqual(f.m.map,f.map);assert.equal(g.m.map,g.map);assert(f.m.color.equals(col));assert(f.m.shadeColorFactor.equals(sh));
+ a.prepareEquipmentSet([bottom,shoe]).commit();assert(!a.getInfo().covered);assert.equal(f.m.map,f.map);assert.equal(f.m.shadeMultiplyTexture,f.shade);
+ checks.push('actual staged top toggles native mask; shorts+shoes restores full base; colors preserved and second actor unchanged');
+ const prior=a.prepareEquipmentSet([top]);assert.throws(()=>a.prepareEquipmentSet(['unknown']),/unknown/);assert(prior.isCurrent());prior.commit();const saved=f.m.map;
+ const reset=a.prepareEquipmentSet([]),update=f.m.update;let once=true;f.m.update=function(dt){if(once){once=false;throw Error('injected update');}return update.call(this,dt);};assert.throws(()=>reset.commit(),/injected/);f.m.update=update;assert.equal(f.m.map,saved);assert(a.getInfo().covered);
+ checks.push('unknown equipment retains valid prepared; actual update failure preserves previous covered material/state');
+ const x=fixture();bad=true;await assert.rejects(create(x),/identity mismatch/);bad=false;assert.equal(x.m.map,x.map);const retry=await create(x);owners.push(retry);
+ await assert.rejects(create(f,{avatarSha256:'843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef'}),/unadmitted/);
+ await assert.rejects(create(x,{entries:entries.map(e=>({...e,compatibleAvatarSha256:'0'.repeat(64)}))}),/incompatible/);
+ b.prepareEquipmentSet([top]).commit();const other=g.m.map;a.dispose();assert.equal(f.m.map,f.map);assert.equal(g.m.map,other);assert(b.getInfo().covered);
+ checks.push('bad PNG and wrong avatar/entry refuse without publication; cleanup permits retry; actor disposal isolated');
+ for(const owner of owners)owner.dispose();assert.equal(closes,3);
+ await fs.writeFile(path.join(out,'result.json'),JSON.stringify({passed:true,checks,profile:c,manifestSHA:sha(mb),pngSHA:sha(png),equipmentSHA:sha(await fs.readFile(path.join(publicRoot,c.manifestUrl))),closes,scope:'Actual staged bytes and MToon CPU fixture, no WebGL or geometry motion/contact'},null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({passed:true,checks:checks.length}));
+}catch(e){await fs.writeFile(path.join(out,'failure.json'),JSON.stringify({checks,error:e.stack},null,2)+'\n',{flag:'wx'});throw e;}finally{owners.forEach(x=>x.dispose());globalThis.fetch=oldFetch;globalThis.createImageBitmap=oldBitmap;}

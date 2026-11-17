@@ -420,3 +420,6 @@ head-only一次诊断原8请求已完成，8/8 diagnostic-failed，正式生产�
 原生眉色固定发布（2026-11-17）：3ead0c0e/buildcd3c55ef101b已发布4196。native-eyebrow-room-v1实际棕眉、错资源保旧、快速切换、与绿眼/独立长发组合v9冷页恢复、真实旧v8配方恢复眉original通过；原生完整源/独立眉眼区域280×110像素全等；12秒1×讲话/眨眼/微笑/视线已录，全片2fps辅助检查未见丢眉或旧发色覆盖。workbench-cd3-v1旧配色/男女/装备与9媒体实际解码通过；仅男7586眉棕/眼绿、开发机，人工自然度/普通机未通过。独审公共core5组、caller8反例保故障/夹具失败；发色制作失败仍封存未准入。M2未完成。
 
 真实原生脸/腰几何生产增量：native-vroid-geometry-production-v1同源三份实际VRM对照已独审。Face实际引用点变化为Face_SKIN737/Mouth976/HairBack38，其他共享accessor消费者不冒称均变；Waist影响Body/Tops/Bottoms、18服装辅助骨、3IBM accessor与12spring hitRadius，非humanoid骨修改。原报告错误exact字段已纠正并保旧。三个各自完整Body PNG派生已独审；仅Face cc0843三衣独立提取及三姿CPU读回完成，目标coverage/游戏表情接触/冷恢复未通过。Waist不继承旧fit，不扩大菜单。
+
+
+2026-11-17 原生真实改脸factory增量：source1ffe0b54/buildf583cfa84f04现固定4196。native-face-geometry-room-v1改前/后同镜头各12秒1×讲话/眨眼/微笑/视线；native-face-factory-room-v1新cc0843独立三衣、基础/穿衣覆盖恢复、关页配方恢复、约35.68秒走停坐起离椅短舞；native-face-workbench-f583-v1热切/原色准入/旧男女及12媒体通过。native-face-factory-independent-v1三衣实际indices/binds、原mask复用、loader脚底、3覆盖+4准入+3stage组过；原shorts规则与换行身份失败保留。Face源737/976/38实际点变化依据原独审，不能用旧843ac结果代替本次运行。root完整2fps辅助帧查未见新增裂面；保21秒左右落座头发外扬、静止front停于blink相位、基础模式非全动作链、细节接触与普通机未验。原色/原发/原三衣限定，不支持其他fit或完整参数组合，非人工自然度或完整M2通过。现接已有Waist真实体型源的共用制作与适配，不重开冻结项。

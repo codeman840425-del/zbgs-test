@@ -11,7 +11,7 @@ try:
  run('sparse',['git','sparse-checkout','set','--cone','prototype'],work);run('checkout',['git','checkout','--detach',commit],work)
  p=work/'prototype';inputs=[]
  for d in ['src','scripts','public/assets']:inputs.extend(f.relative_to(p).as_posix() for f in (p/d).rglob('*') if f.is_file())
- inputs+=['public/favicon.svg','index.html','foundation.html','vite.config.js','package.json','package-lock.json'];inputs.sort();rows=[]
+ inputs+=['public/favicon.svg','public/native-production.html','index.html','foundation.html','vite.config.js','package.json','package-lock.json'];inputs.sort();rows=[]
  for name in inputs:
   b=(p/name).read_bytes();g=subprocess.check_output(['git','show',commit+':prototype/'+name],cwd=work);assert b==g,name;rows.append({'path':name,'bytes':len(b),'sha256':hashlib.sha256(b).hexdigest(),'gitBlobEqual':True})
  report['inputs']=rows

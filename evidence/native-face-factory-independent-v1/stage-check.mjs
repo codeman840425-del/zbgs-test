@@ -1,0 +1,16 @@
+import fs from 'node:fs/promises';import path from 'node:path';import assert from 'node:assert/strict';import {createHash}from'node:crypto';
+import {foundationProfile}from'../../prototype/src/foundation-profiles.js';import {BODY_TEXTURE_COVERAGE_ADMISSIONS}from'../../prototype/src/body-texture-coverage-admissions.js';
+const out=process.argv[2];assert(out);const p=foundationProfile('native-female-face-v1'),pub=path.resolve('prototype/public'),h=b=>createHash('sha256').update(b).digest('hex');const records=[];
+async function read(url){const b=await fs.readFile(path.join(pub,url));records.push({url,sha256:h(b),bytes:b.length});return b;}
+assert.equal(p.sha256,'cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce');assert.equal(h(await read(p.url)),p.sha256);
+const measuredFloor=JSON.parse(await fs.readFile('evidence/native-face-factory-independent-v1/floor-result.json')).rows[0].minWorldY;assert(Math.abs(p.sourceFloorY-measuredFloor)<1e-12,'profile floor must match official runtime rest readback, not raw POSITION minimum');
+assert.equal(p.baseBodyDisplay,'source-with-hair');assert.deepEqual(Object.keys(p.ids).sort(),['shoes','shorts','top']);assert.equal(p.outfits.length,1);
+for(const k of ['bodyCoverage','garmentCoverage','additionalBodyCoverage','handSurfaceContact','forearmCollision','additionalEquipmentManifests'])assert(!p[k],k);
+const entries=JSON.parse(await read(p.manifestUrl)).items,source=JSON.parse(await fs.readFile('assets-source/native-vroid-face-factory-equipment-v1/equipment.json')).items;assert.equal(entries.length,3);
+for(const entry of entries){const original=source.find(e=>e.id===entry.id);assert(original);assert.deepEqual({...entry,url:original.url},original);assert.equal(entry.compatibleAvatarSha256,p.sha256);const url=new URL(entry.url,new URL(p.manifestUrl,'http://localhost/')).pathname;assert.equal(h(await read(url)),entry.sha256);}
+const c=p.bodyTextureCoverage,cb=await read(c.url);assert.equal(h(cb),c.sha256);assert.equal(c.sha256,'9fed8d43beef7149650d84dd6455bfae0a83029bb4a82899118ac93abd56d6a5');assert.equal(h(await fs.readFile('assets-source/native-vroid-face-body-texture-fit-v1/manifest.json')),c.sha256);
+const manifest=JSON.parse(cb);assert.equal(manifest.avatarSha256,p.sha256);const admission=BODY_TEXTURE_COVERAGE_ADMISSIONS.find(a=>a.avatarSha256===p.sha256&&a.manifestSha256===c.sha256);assert(admission);
+for(const rule of manifest.equipment){const entry=entries.find(e=>e.id===rule.id);assert(entry);assert.equal(rule.slot,entry.slot);assert.equal(rule.sha256,entry.sha256);assert.equal(rule.covered,rule.slot==='top');assert.equal(rule.required,true);}
+assert.equal(h(await read(new URL(manifest.covered.url,new URL(c.url,'http://localhost/')).pathname)),admission.maskedPngSha256);
+const pins={};for(const file of ['scripts/stage-native-face-factory.py','prototype/src/foundation-profiles.js','prototype/src/body-texture-coverage-admissions.js','prototype/src/appearance-color-policy.js','prototype/src/body-texture-coverage.js'])pins[file]=h(await fs.readFile(file));
+await fs.writeFile(out,JSON.stringify({passed:true,profile:p,resources:records,pins,scope:'Read actual staged files/identities and relative URLs. No staging execution or GPU.'},null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({passed:true,resources:records.length}));
