@@ -1,0 +1,16 @@
+公司场景成本与资源释放测量包｜2026-11-17
+
+目的：为 C2-E 留下一个可重复、有限范围的场景显示成本基线。输入使用已验的两层混合公司布局，不新增美术，也不测角色活动。
+
+测量路径：大楼外观 → 第一层总览 → 第二层总览 → 第一层房间聚焦 → 返回大楼外观，再重复四轮楼层往返。大楼外观不加载室内详细设施；选择楼层只加载当前楼层的真实墙体和设施；房间聚焦沿同一楼层继续显示并改变观看细节；返回大楼外观释放详细场景资源。
+
+每个状态记录：公司视图、当前楼层、asset-library cachedAssets/loadedAssets、Three renderer.info memory（geometries/textures）、render calls/triangles/points/lines、program 数量、可见设施数、实时灯数量、像素比和 WebGL 渲染器名称。重复轮次忽略递增 frame 计数，比较其余分配和显示指标是否回到首轮基线。
+
+当前固定样本的观察规则：实时灯数不超过平台启用预算 2；大楼外观的 loadedAssets 和详细设施数为 0；切回大楼外观后 geometries 为 0 且 loadedAssets/详细设施数为 0；四轮往返的缓存、几何、渲染对象、灯和设施计数保持一致。
+
+证据边界：指标来自固定版本的 Headless Chromium SwiftShader，反映当前代表场景的资源管理和渲染提交计数，不等于 GPU 显存、帧率、长时间稳定性或普通电脑达标。没有目标设备时不推导普通电脑结论。该包不验证真实角色、占用、导航执行、门扇跨门或经营业务。
+
+可重复命令：
+`node scripts/company-platform/qa-company-performance.cjs prototype/dist-company BUILD_ID prototype/src/company/examples/c2-mixed-company.json OUT_DIR`
+
+后续：若代表布局或灯光策略改变，按同一命令重测并保留旧证据；需要普通电脑门槛时另用目标设备建立独立测试，不把本报告升级为目标设备验收。

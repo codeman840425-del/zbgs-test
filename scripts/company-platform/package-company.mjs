@@ -16,6 +16,8 @@ const extraFiles=[
   'scripts/company-platform/test-exterior-entrance-integration.mjs',
   'scripts/company-platform/test-door-frame-geometry.mjs',
   'scripts/company-platform/qa-exterior-entrance.cjs',
+  'docs/research/COMPANY-SCENE-PERFORMANCE-CONTRACT-v1.txt',
+  'scripts/company-platform/qa-company-performance.cjs',
   'docs/research/COMPANY-PLACEMENT-INTERACTION-v1.txt',
   'docs/research/COMPANY-WINDOW-CONTRACT-v1.txt',
   'docs/research/COMPANY-WINDOW-COVER-CONTRACT-v1.txt',
