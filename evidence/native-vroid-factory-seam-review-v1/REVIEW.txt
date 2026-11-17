@@ -1,0 +1,15 @@
+843ac原生女性factory接缝只读短审
+
+实际843ac VRM经官方loader、1px CPU贴图占位，能构造appearance、neutral facialGeometry、live、空ear/hat。原生happy/blink可推进。没有伪造profile或SHA来完成这些调用，也没有执行完整factory/GPU。
+
+旧base把脱衣、无发和灰Body材质绑在一起。843缺无发准入时先拒绝，不能借此检查恢复PNG。root后续新增的明确source-with-hair策略已定点CPU核实，保留3个原HAIR mesh和original有效发型，仍无no-hair准入，显式none仍拒。factory当前源码也保原Body MToon。后续应把这种源皮肤检查与旧无发灰模诊断分别说明，base仍保同一双鞋。
+
+旧palette合同对未知SHA默认返回旧v3清单，但延迟加载使original默认不阻塞；green/surface实际请求因无body variant拒绝。geometry默认中性/reset正常，非零mouth/sample未准入，Face compaction在此SHA返回null。旧EyeJoy负补偿未注册，不能沿用旧fixed通过结论。耳/帽none正常，left/single与mic精确fit拒绝，默认眼镜也无fit。glassesFit=legacy诊断绕行不是准入证据。
+
+skinTone warm实际无需bodyfit即可applied=true，hair tint同属材质名通用通道。这是程序可调用，未证明新源颜色外观。新profile不应把这些或全量eye/lip选项展示成已适配能力。
+
+最小真实入口是固定候选 /?body=native-female-843ac-v1，核id native-vroid-unmasked-female-130-v1 与843ac SHA。当前appearance-workbench分组不含该ID，会显式报“当前人物不在此工作台的已有样件中”，所以首轮不加workbench=appearance。确需新候选工作台时须显式注册该候选分组，不用假female身份。
+
+按新profile默认index0 shorts的真实三件衣物进入createM1Equipment，核original/source CLOTH隐藏；base/dressed来回确认原发、源MToon、完整/遮蔽Body PNG及三件装备正确恢复，再用共用时钟跑真实走/坐/起、原生表情和保存重开。旧裙、旧接触profile、旧seat补偿、旧饰品fit不能按性别名称继承。
+
+完整factory/coverage实际加载、图像、动作、配方恢复、普通机性能均非本次CPU结论。被审root集成在过程中有更新，review.json保存末次源码SHA，首轮默认策略与后续明确策略的bundle分别保留，不混成一个冻结版本。

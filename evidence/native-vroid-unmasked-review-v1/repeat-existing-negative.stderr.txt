@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "F:\gamemake\assets-source\native-vroid-unmasked-base-v1\build.py", line 137, in <module>
+    if __name__=='__main__':cli()
+                            ~~~^^
+  File "F:\gamemake\assets-source\native-vroid-unmasked-base-v1\build.py", line 127, in cli
+    main(output,[args.editable_source.resolve(),args.editable_donor.resolve()],OUT if args.check else output)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\gamemake\assets-source\native-vroid-unmasked-base-v1\build.py", line 58, in main
+    generated=output_root/'generated';generated.mkdir(exist_ok=False)
+                                      ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\pathlib\_local.py", line 722, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileExistsError: [WinError 183] 当文件已存在时，无法创建该文件。: 'F:\\gamemake\\assets-source\\native-vroid-unmasked-base-v1\\generated'

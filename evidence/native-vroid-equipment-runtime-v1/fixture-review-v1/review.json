@@ -1,0 +1,63 @@
+{
+  "schema": "native-equipment-render-fixture-independent-review-v1",
+  "status": "no-new-launch-blocker-in-reviewed-v4",
+  "reviewedCommit": "eae6c66414cf741bec09629e2143915601bcb3d1",
+  "reviewedBuild": "d0f9ab216e05",
+  "files": [
+    {
+      "path": "evidence/native-vroid-equipment-runtime-v1/room-compare-v4/capture.cjs",
+      "sha256": "5a064f040e6f77a8c8627c7e94aec69b73b845e11e0bd96fd0d42907e259e0c3",
+      "bytes": 15106
+    },
+    {
+      "path": "evidence/native-vroid-equipment-runtime-v1/room-compare-v4/overlay-source.js",
+      "sha256": "b0c0ea803fa4ddc7379ce4272eed258ac9dda85dcca4b2031bd669467f68be3b",
+      "bytes": 8800
+    },
+    {
+      "path": "evidence/native-vroid-equipment-runtime-v1/room-compare-v4/request.json",
+      "sha256": "dba0128329fc81879a0a14bde934ea15613c42d26512e34122768a972238af85",
+      "bytes": 4207
+    },
+    {
+      "path": "evidence/native-vroid-equipment-runtime-v1/room-compare-v4/cpu-preflight.json",
+      "sha256": "7a35f7d08c6ca4b7527ad32cb41e58c001dc88a168eef175ab451bed0c31287e",
+      "bytes": 1645
+    }
+  ],
+  "checks": [
+    "First RAF creates own epoch and applies dt0, then strictly increasing finite milliseconds convert to seconds",
+    "Exact clock source shared by CPU and browser init-script and hashed in request",
+    "raw/applied per-frame and accumulated elapsed enable capped-time-loss readback",
+    "CSS MIME set; producer actual fetch receipt pinned; browser stylesheet+canvas gates are present but not run here",
+    "Same-pose pair toggles only source/equipment visibility between renders, no intermediate motion step",
+    "Source VRM.update owns original loaded materials only; adapter.update owns independently parsed materials, no duplicate update",
+    "Actual referenced garment vertices compare in world coordinates after raw skeleton update; v4 refuses any nonfinite point/distance",
+    "Fixed overlay bundle/capture/source/preflight and15 fixed runtime inputs/5 resource pins independently checked"
+  ],
+  "resolvedNewObservation": {
+    "finiteAggregation": "Actual Three CPU counterexample demonstrated old NaN silently reported zero; v4 explicitly rejects nonfinite before aggregation",
+    "counterexample": "finite-counterexample.json"
+  },
+  "knownPriorFailures": [
+    "v1 bone naming production bug fixed by eae",
+    "v2 call-shape error retained",
+    "v3 first RAF negative dt and CSS failure retained; original exact negative dt unavailable"
+  ],
+  "remainingInterpretationLimits": [
+    "Playwright normal1x.webm includes loading/paused static diagnostics/instant fixed steps as well as two actual RAF clips; only reported clips may be called normal-speed motion after raw/applied clock review",
+    "50ms dt cap can slow simulation during stalls, ratio must be reported from actual clockFrames",
+    "In-place treadmill and test overlay, not navigation/full factory/profile admission",
+    "No actual v4 run or visual acceptance performed by reviewer"
+  ],
+  "producerCpuReceipt": {
+    "actualEquipmentUpdateCalls": 300,
+    "reviewerDidNotRepeatProducerSmoke": true
+  },
+  "reviewerActions": {
+    "browserLaunches": 0,
+    "editorLaunches": 0,
+    "gpuOrEncodingCalls": 0,
+    "producerEdits": false
+  }
+}

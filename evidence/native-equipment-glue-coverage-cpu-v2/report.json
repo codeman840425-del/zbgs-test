@@ -1,0 +1,23 @@
+{
+  "scope": "Actual functions; synthetic SkinnedMesh and adapter using real equipment-set commit. CPU errors injected; no browser/GPU claim.",
+  "sourceSHA": {
+    "m1": "392cac3030300e8dd7f6b9b872abf453b5c337de73557f7d97363fdc8fd67ece",
+    "coverage": "f0a6801743a12ef13ca5a018bf99e607cfcb91c12188feada6d6b05c4f2f63f4"
+  },
+  "checks": [
+    "Concurrent new-set preparation has one owner; idempotent dispose restores full body",
+    "Clone failure, abandoned preparation and stale commit preserve state; valid retry works",
+    "Controller dispose releases uncommitted clone once, rejects late commit and releases owner",
+    "First apply failure cleans adapter/corrective/coverage, keeps original clothes and allows reacquisition",
+    "Later outfit preparation and real debug clone failure preserve outfit/debug, clothes and body together",
+    "Adapter validation failure releases prepared clone; retry succeeds; final dispose is idempotent and restores originals"
+  ],
+  "passed": true,
+  "factoryFailure": {
+    "adapterDisposed": 1,
+    "skirtDisposed": 0,
+    "sourceClothesVisible": true,
+    "appliedSetCalls": 0,
+    "ownerReacquired": true
+  }
+}

@@ -1,0 +1,47 @@
+const fs=require('node:fs/promises'),path=require('node:path'),crypto=require('node:crypto'),assert=require('node:assert/strict'),http=require('node:http');
+const root=path.resolve(__dirname,'../../..'),fixed=path.join(root,'experiments/native-mtoon-fixed-v1'),dist=path.join(fixed,'prototype/dist');
+const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
+const {verifyCandidate}=require(path.join(root,'scripts/qa-m1-common.cjs'));
+(async()=>{
+ const spec=JSON.parse(await fs.readFile(path.join(__dirname,'request.json'))),bundle=await fs.readFile(path.join(__dirname,'overlay.mjs'));assert.equal(hash(bundle),spec.bundleSha256);
+ const out=path.join(__dirname,'causal-initial-update-v1');await fs.mkdir(out,{recursive:false});
+ const resources=new Map();for(const p of spec.inputs){const b=await fs.readFile(path.join(root,p.path));assert.equal(hash(b),p.sha256);resources.set(path.basename(p.path),b);}
+ const server=http.createServer(async(req,res)=>{try{const u=new URL(req.url,'http://localhost');const file=path.resolve(dist,'.'+(u.pathname==='/'?'/index.html':decodeURIComponent(u.pathname)));assert.ok(file.startsWith(dist+path.sep));const b=await fs.readFile(file);const type={'.css':'text/css','.js':'text/javascript','.html':'text/html','.json':'application/json','.png':'image/png','.jpg':'image/jpeg','.svg':'image/svg+xml','.webp':'image/webp','.woff2':'font/woff2'}[path.extname(file)]??'application/octet-stream';res.writeHead(200,{'Content-Type':type,'Cache-Control':'no-store'});res.end(b);}catch{res.writeHead(404).end();}});
+ await new Promise(r=>server.listen(0,'127.0.0.1',r));const url='http://127.0.0.1:'+server.address().port;
+ const {chromium}=require(path.join(fixed,'prototype/node_modules/playwright'));const browser=await chromium.launch({channel:'chrome',headless:true}),context=await browser.newContext({viewport:{width:1440,height:1000}}),page=await context.newPage();
+ const report={schema:'native-equipment-initial-update-causal-observation-v1',status:'running',commit:spec.commit,build:spec.build,specSha256:hash(await fs.readFile(path.join(__dirname,'request.json'))),scriptSha256:hash(await fs.readFile(__filename)),errors:[],stages:[],limits:['Single official material.update(0) initialization switch; outline remains visible','World geometry, source materials and outline width unchanged','GPU program/uniform readback observes actual draw; no glTexImage readback API']};page.on('pageerror',e=>report.errors.push(String(e)));
+ try{
+  await page.route('**/__native_equipment_qa__/*',route=>{const n=path.basename(new URL(route.request().url()).pathname);const b=n==='overlay.mjs'?bundle:n==='model.vrm'?resources.get('female-native-round-waist-216.vrm'):resources.get(n);if(!b)throw Error('Unknown resource '+n);return route.fulfill({contentType:n.endsWith('.mjs')?'text/javascript':n.endsWith('.json')?'application/json':'model/gltf-binary',body:b});});
+  await page.goto(url+'/?workbench=appearance&body=female');await page.waitForFunction(()=>__debug?.ready&&__debug.renderer.domElement.clientHeight>500,null,{timeout:60000});
+  report.room=await verifyCandidate(page,{build:spec.build,body:'female',assetId:'beta-base-female-m1',sha256:'027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95'});
+  await page.evaluate(()=>{__debug.setPaused(true);__debug.setPlaybackRate(1);});
+  await page.evaluate(async input=>(await import('/__native_equipment_qa__/overlay.mjs')).install(input),{avatarSha256:spec.inputs[0].sha256,entries:spec.entries,sourceFloorY:spec.sourceFloorY,build:spec.build});
+  report.drawSetup=await page.evaluate(()=>{
+   const d=__debug,root=d.scene.getObjectByName('NativeEquipmentComparison'),renderer=d.renderer,gl=renderer.getContext(),meshes=[],ids=new Map();let serial=0;
+   const id=o=>o?(ids.has(o)?ids.get(o):(ids.set(o,++serial),serial)):null;
+   function independent(mesh){for(let p=mesh;p;p=p.parent)if(p.name.startsWith('Equipment:'))return true;return false;}
+   root.traverse(m=>{if(m.isSkinnedMesh&&(Array.isArray(m.material)?m.material:[m.material]).some(x=>/_CLOTH/.test(x.name)))meshes.push(m);});
+   const state={armed:false,draws:[],programs:{},meshes};
+   function texture(t){if(!t)return null;return {uuid:t.uuid,width:t.image?.width,height:t.image?.height,format:t.format,type:t.type,colorSpace:t.colorSpace,flipY:t.flipY,premultiplyAlpha:t.premultiplyAlpha,gpuTexture:id(renderer.properties.get(t).__webglTexture),imageType:t.image?.constructor?.name};}
+   const restore=[];
+   for(const mesh of meshes){const old=mesh.onAfterRender;restore.push(()=>mesh.onAfterRender=old);mesh.onAfterRender=function(...args){old.apply(this,args);if(!state.armed)return;const material=args[4],group=args[5],program=gl.getParameter(gl.CURRENT_PROGRAM),programId=id(program),properties=renderer.properties.get(material);
+     if(!state.programs[programId])state.programs[programId]={id:programId,cacheKey:properties.currentProgram?.cacheKey,shaders:gl.getAttachedShaders(program).map(s=>({type:gl.getShaderParameter(s,gl.SHADER_TYPE),source:gl.getShaderSource(s)}))};
+     const samplers={};for(const name of ['boneTexture','map','shadeMultiplyTexture','normalMap','matcapTexture']){const location=gl.getUniformLocation(program,name);if(location===null)continue;const unit=gl.getUniform(program,location),active=gl.getParameter(gl.ACTIVE_TEXTURE);gl.activeTexture(gl.TEXTURE0+unit);const bound=gl.getParameter(gl.TEXTURE_BINDING_2D);gl.activeTexture(active);samplers[name]={unit,boundGPUTexture:id(bound),expectedTexture:name==='boneTexture'?texture(mesh.skeleton.boneTexture):texture(material[name])};}
+     const serialize=v=>v?.isTexture?texture(v):v?.toArray?v.toArray():Array.isArray(v)?v.map(serialize):typeof v==='object'&&v!==null?String(v):v;
+     state.draws.push({mesh:mesh.name,independent:independent(mesh),material:material.name,isOutline:material.isOutline,programId,group,samplers,alphaTestProperty:material.alphaTest,alphaTestGPU:gl.getUniform(program,gl.getUniformLocation(program,'alphaTest')),opacityGPU:gl.getUniform(program,gl.getUniformLocation(program,'opacity')),mapUvTransformGPU:Array.from(gl.getUniform(program,gl.getUniformLocation(program,'mapUvTransform'))??[]),uniforms:Object.fromEntries(Object.entries(material.uniforms??{}).map(([k,v])=>[k,serialize(v.value)])),normalMatrix:mesh.normalMatrix.toArray(),matrixWorld:mesh.matrixWorld.toArray(),boneMatrices:Array.from(mesh.skeleton.boneMatrices),skeleton:mesh.skeleton.uuid});
+   };}
+   state.capture=()=>{state.draws=[];state.armed=true;__nativeEquipmentQA.draw();state.armed=false;return {draws:state.draws,programs:state.programs};};
+   state.restore=()=>{restore.forEach(f=>f());delete window.__outlineCausal;};window.__outlineCausal=state;
+   return {meshes:meshes.map(m=>({name:m.name,independent:independent(m),groups:m.geometry.groups,materials:(Array.isArray(m.material)?m.material:[m.material]).map(x=>({name:x.name,isOutline:x.isOutline,visible:x.visible,outlineWidthFactor:x.outlineWidthFactor,alphaTestProperty:x.alphaTest,alphaTestUniform:x.uniforms?.alphaTest?.value,opacityProperty:x.opacity,opacityUniform:x.uniforms?.opacity?.value}))}))};
+  });
+  for(const stage of ['embedded','independent','independent-after-official-update0']){
+   const data=await page.evaluate(stage=>{const q=__nativeEquipmentQA;q.camera('front');q.setMode(stage==='embedded'?'embedded':'independent');if(stage==='independent-after-official-update0'){const materials=new Set();for(const m of __outlineCausal.meshes)if(m.parent?.name.startsWith('Equipment:'))for(const material of Array.isArray(m.material)?m.material:[m.material])if(material.isMToonMaterial)materials.add(material);for(const material of materials)material.update(0);}
+    const actual=__outlineCausal.capture();return {stage,...actual,png:q.png(),observation:q.observe()};},stage);
+   await fs.writeFile(path.join(out,stage+'.png'),Buffer.from(data.png.split(',')[1],'base64'));delete data.png;report.stages.push(data);
+  }
+  report.decodedMapPixels=await page.evaluate(async()=>{const records=[];for(const mesh of __outlineCausal.meshes){const material=(Array.isArray(mesh.material)?mesh.material:[mesh.material]).find(m=>!m.isOutline);if(!material?.map?.image)continue;const image=material.map.image,c=document.createElement('canvas');c.width=image.width;c.height=image.height;const ctx=c.getContext('2d',{willReadFrequently:true});ctx.drawImage(image,0,0);const pixels=ctx.getImageData(0,0,c.width,c.height).data;const sha=[...new Uint8Array(await crypto.subtle.digest('SHA-256',pixels))].map(x=>x.toString(16).padStart(2,'0')).join('');let zeros=0;for(let i=3;i<pixels.length;i+=4)if(pixels[i]===0)zeros++;records.push({mesh:mesh.name,material:material.name,mapUUID:material.map.uuid,size:[c.width,c.height],decodedCanvasRGBA_SHA256:sha,alphaZeroPixels:zeros});}return records;});
+  assert.deepEqual(report.errors,[]);report.status='captured-awaiting-causal-visual-readback';
+ }catch(e){report.status='failed-or-incomplete';report.error=String(e.stack??e);process.exitCode=1;}
+ finally{try{await page.evaluate(()=>{__outlineCausal?.restore();__nativeEquipmentQA?.dispose();});}catch{}await context.close();await browser.close();await new Promise(r=>server.close(r));report.browserClosed=true;report.serverClosed=true;await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2)+'\n');}
+ console.log(JSON.stringify({status:report.status,error:report.error,draws:report.stages.map(s=>({stage:s.stage,count:s.draws.length}))}));
+})().catch(e=>{console.error(e);process.exitCode=1;});

@@ -1,0 +1,66 @@
+{
+  "schema": "native-unmasked-review-and-bounded-fix-v1",
+  "status": "no-remaining-cpu-identity-blocker-runtime-pending",
+  "preFix": {
+    "script": {
+      "path": "evidence/native-vroid-unmasked-review-v1/pre-fix-source/build.py",
+      "bytes": 9304,
+      "sha256": "27d0c16144ef5001270813dee34699e5d3d5dec52fecce73dd7dc3685caf3bc0"
+    },
+    "readback": {
+      "path": "evidence/native-vroid-unmasked-review-v1/pre-fix-source/readback.json",
+      "bytes": 3980,
+      "sha256": "e0f3d0ea281ad656ec7330aa3d0cbbf8c53753a6009cda22c17adc67081a500e"
+    },
+    "packageManifest": {
+      "path": "evidence/native-vroid-unmasked-review-v1/pre-fix-source/package-files.json",
+      "bytes": 1435,
+      "sha256": "1866626bf8ae1233f61a3fb577a59cd828a0db8f0b9cdb2dd8cb7d8b12bb0bf3"
+    },
+    "finding": "Editable source expected SHA values not enforced"
+  },
+  "independentBinaryAudit": {
+    "path": "evidence/native-vroid-unmasked-review-v1/binary-audit.json",
+    "bytes": 22166,
+    "sha256": "d9d840a5f5e328932f6e6b36ea396b6db698873ffd98572eee4bbb7b33c4114e"
+  },
+  "fixedProducer": {
+    "path": "assets-source/native-vroid-unmasked-base-v1/build.py",
+    "bytes": 11709,
+    "sha256": "2f82abc59ecabde3b9dad941559c8d19aa510e7cb21aafa0de0e54e97b7a1c6d"
+  },
+  "actualRebuildCheck": {
+    "path": "evidence/native-vroid-unmasked-review-v1/fixed-recheck-v2/check.json",
+    "bytes": 969,
+    "sha256": "9b14008252bcf5bfa4cb374e0426e886c7ae3c9b145c14fac5b59631f311f031"
+  },
+  "wrongSourceNegative": {
+    "path": "evidence/native-vroid-unmasked-review-v1/wrong-source-negative.json",
+    "bytes": 831,
+    "sha256": "8d909392357a734a72698534d952d1472d36ab3a44c3a2fd13090f833c2f2b57"
+  },
+  "existingOutputNegative": {
+    "path": "evidence/native-vroid-unmasked-review-v1/repeat-existing-negative.json",
+    "bytes": 184,
+    "sha256": "fdca0c2d39c44e8d7062eca7376452fc91a5128b0436395d58912a4b9a652ecd"
+  },
+  "finalPackageManifest": {
+    "path": "assets-source/native-vroid-unmasked-base-v1/package-files.json",
+    "bytes": 1563,
+    "sha256": "8322e293cf7f0316f7f3993c198090ff7c1085819b554db3c7bdf5b532963ebe"
+  },
+  "finalReadback": {
+    "path": "assets-source/native-vroid-unmasked-base-v1/readback.json",
+    "bytes": 4216,
+    "sha256": "88e2b597e48bb242b1e4830d4890db5169fc2b5b5b13c54f21c7da76f20c402b"
+  },
+  "candidateSha256": "843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef",
+  "resourceBytesChangedByFix": false,
+  "reviewerAlsoImplementedAuthorizedProducerFix": true,
+  "nativeGpuCalls": 0,
+  "limits": [
+    "No editable merged .vroid",
+    "No native re-export from saved source during this CPU audit",
+    "No game/wardrobe/coverage/animation acceptance"
+  ]
+}

@@ -381,3 +381,4 @@ head-only一次诊断原8请求已完成，8/8 diagnostic-failed，正式生产�
 - 完整皮肤：原生仅卸Tops使Body PNG 608383 alpha像素恢复，RGB全等；同时移除20个skin辅助骨。843acca派生仅换用该原生完整PNG，保原130joint、所有几何/权重/表情/辅助动态。来源、双.vroid和生成脚本在assets-source/native-vroid-unmasked-base-v1；它是离线组合产物，没有合并后的单一.vroid。源身份、重复构建独审通过；真实factory基础模式、装备覆盖、动作接触仍待验证。
 - 4196当前页面source8d718/buildc3e35248dc55；检查区衣装录像86d4、表情录像83de分别标明身份，页面升级不替旧证据换标签。新原生候选尚未放普通人物菜单。
 - 制作独立性：运行时不需要VRoid；MCP原生制作仍依赖Studio2.16。可编辑源、标准VRM/GLB、装备规则和处理脚本由项目保管，逐项减少制作依赖。导出VRM不等于保留完整原生捏人参数。官方对基于其素材对外提供角色生成/输出应用另设许可条件，内部制作与公开制作工具须分开核查：https://vroid.com/en/studio/guidelines 。不据开源MCP扩大原素材授权。
+- 原生factory首次实际接入：9ddf5794/148d21ba74e5，新843ac用同一loadFoundationAvatar/controller，穿衣→真实皮肤基础→恢复及13秒正常速路径录制已运行，无浏览器错误；见evidence/native-factory-room-148d-v1。基础保原MToon/头发，不继承旧无发准入；当前仅技术短测与截图/联系表检查，不宣称完整动作/坐起/保存恢复/新配色通过。原c3e工作台未替换。

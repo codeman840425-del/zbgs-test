@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "F:\gamemake\assets-source\native-vroid-unmasked-base-v1\build.py", line 137, in <module>
+    if __name__=='__main__':cli()
+                            ~~~^^
+  File "F:\gamemake\assets-source\native-vroid-unmasked-base-v1\build.py", line 127, in cli
+    main(output,[args.editable_source.resolve(),args.editable_donor.resolve()],OUT if args.check else output)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\gamemake\assets-source\native-vroid-unmasked-base-v1\build.py", line 56, in main
+    assert sha(path.read_bytes())==pin,'Input identity differs: '+str(path)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Input identity differs: F:\gamemake\evidence\native-vroid-unmasked-review-v1\wrong-editable-source.vroid
