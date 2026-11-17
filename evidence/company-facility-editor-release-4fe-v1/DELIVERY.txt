@@ -1,0 +1,28 @@
+公司布置与设施样件 UI 包
+固定源码 b1b8b324f5bc30030e3385a76b1a3aeaa19a3fa9
+固定构建 4fef171a1c48
+
+观看 http://127.0.0.1:60880/?layout=smallHome 。若已打开旧页请刷新。当前仍仅用公司原 60880；角色 4196 未动。
+
+公司布置：按房间选空间；点选物品，原位换外观、点击移动、90度旋转；展开添加设施按分类/造型及承载位放入当前房间。精确坐标折叠提供。墙面/层板按真实安装规格；不允许的操作保旧。
+设施样件：独立显示分类与测试布局，切换往返保当前会话未保存草稿，不覆盖正在编辑的公司。真正关闭后以显式保存的数据恢复。
+镜头位于画面旁，保存/恢复/文件位于页首，状态操作只随所选设施显示。
+
+复现（在 F:/gamemake-company-editor-fixed-v1/prototype）：
+npm ci --no-audit --no-fund
+node scripts/build-company-id.mjs
+npx vite build --config vite.company.config.js
+
+验证（在公司工作树；使用当前证据版脚本）：
+node scripts/company-platform/test-facility-edit-data.mjs
+node scripts/company-platform/qa-facility-editor.cjs F:/gamemake-company-editor-fixed-v1/prototype/dist-company NEW_EVIDENCE_DIR
+node scripts/company-platform/qa-facility-editor-handoff.cjs F:/gamemake-company-editor-delivery-4fe NEW_HANDOFF_DIR
+
+最小实际证据：固定浏览器7组通过，覆盖四款沙发在当前房间原位换、移动/转向、非法位置保场景及存档、新增边几、真实点击选择和移动、房间/样件及不同布局草稿往返、整个浏览器关闭重开。多安装目标另10个正向/5个负向及序列ID检查。
+独立包1045个manifest文件SHA核对；独立npm ci及重建350个运行文件全部逐字节一致。包内实际导入交付存档、换款/旋转/保存、关闭重开通过。
+正常1×录像40.44秒、1440×1000、25fps。已看原尺寸界面和独立运行图、实际解码12帧全时段联系图；不等于用户观感验收。
+
+保留失败：dev-v1是测试夹具变量遮蔽（误对比floor transform），脚本修正后过；固定adf-v1发现切文档时旧房间选项进入新文档引起target报错，b1b8b324以新文档真实region解析修正，失败录像/截图不换身份。
+
+回滚：原 ceiling-acoustic 固定目录和 dd8e60c29b36 仍保留；只在确认当前服务归本会话后切回，不关他人端口。
+未完成：C1全部分类/每分支四款、C2成套批量与C3角色集成仍沿完整长目标，不以UI包代替。线缆候选源/4款外观/端点适配已保留为未接入成果，不进入本固定构建。顶部样件不继续扩量打磨。用户最新优先级以常用镜头可见、可直接布置的成果为准。

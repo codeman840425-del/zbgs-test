@@ -1,0 +1,1817 @@
+{
+  "checks": [
+    {
+      "name": "Room layouts and sample scenes have separate entry points and visible contextual controls",
+      "passed": true,
+      "result": [
+        "民房 · 一套工位",
+        "单间屋 · 工位与休息区",
+        "单间屋 · 并排布局",
+        "单间屋 · 转向布局",
+        "整套出租屋 · 三房与客厅",
+        "平层 · 部分配置",
+        "两层不同布局",
+        "顶面与墙地 · 民房",
+        "顶面与墙地 · 两层住宅",
+        "墙地饰面 · 两层住宅",
+        "墙地饰面 · 民房",
+        "混合素材公司 · 两层",
+        "大楼 · 部分配置",
+        "自定义方案"
+      ]
+    },
+    {
+      "name": "Selecting a real room object swaps four actual looks in place, keeping identity and camera",
+      "passed": true,
+      "result": [
+        {
+          "id": "lounge/sofa",
+          "kind": "facility",
+          "parentId": "small-home-company/room-1",
+          "resource": {
+            "id": "lounge-sofa",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              1.1,
+              0,
+              -1
+            ],
+            "yaw": 0
+          },
+          "state": {}
+        },
+        {
+          "id": "lounge/sofa",
+          "kind": "facility",
+          "parentId": "small-home-company/room-1",
+          "resource": {
+            "id": "timber-sofa",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              1.1,
+              0,
+              -1
+            ],
+            "yaw": 0
+          },
+          "state": {}
+        },
+        {
+          "id": "lounge/sofa",
+          "kind": "facility",
+          "parentId": "small-home-company/room-1",
+          "resource": {
+            "id": "sofa-modular",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              1.1,
+              0,
+              -1
+            ],
+            "yaw": 0
+          },
+          "state": {}
+        },
+        {
+          "id": "lounge/sofa",
+          "kind": "facility",
+          "parentId": "small-home-company/room-1",
+          "resource": {
+            "id": "sofa-arch",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              1.1,
+              0,
+              -1
+            ],
+            "yaw": 0
+          },
+          "state": {}
+        }
+      ]
+    },
+    {
+      "name": "Rotate and move the selected object through actual UI; invalid placement preserves scene and save",
+      "passed": true,
+      "result": {
+        "before": {
+          "schema": "company-layout",
+          "version": 1,
+          "id": "small-home-company",
+          "name": "民房 · 单人起步",
+          "revision": 5,
+          "scale": "small-home",
+          "catalog": {
+            "id": "company-facilities",
+            "version": 1
+          },
+          "nodes": [
+            {
+              "id": "small-home-company/floor-1",
+              "kind": "floor",
+              "parentId": "small-home-company",
+              "name": "一层",
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              },
+              "connections": []
+            },
+            {
+              "id": "small-home-company/room-1",
+              "kind": "room",
+              "parentId": "small-home-company/floor-1",
+              "name": "直播与休息单间",
+              "bounds": {
+                "width": 6,
+                "depth": 5.25
+              },
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              },
+              "purpose": "streaming",
+              "entry": {
+                "position": [
+                  0,
+                  0,
+                  2
+                ]
+              }
+            },
+            {
+              "id": "station-1",
+              "kind": "workstation",
+              "parentId": "small-home-company/room-1",
+              "name": "station-1",
+              "transform": {
+                "position": [
+                  -1.5,
+                  0,
+                  -0.45
+                ],
+                "yaw": 0
+              },
+              "template": {
+                "id": "stream-station",
+                "version": 1
+              }
+            },
+            {
+              "id": "station-1/desk",
+              "kind": "facility",
+              "stationId": "station-1",
+              "partKey": "desk",
+              "parentId": "station-1",
+              "resource": {
+                "id": "desk",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  -0.9
+                ],
+                "yaw": 0
+              },
+              "state": {}
+            },
+            {
+              "id": "station-1/monitor",
+              "kind": "facility",
+              "stationId": "station-1",
+              "partKey": "monitor",
+              "parentId": "station-1/desk",
+              "resource": {
+                "id": "monitor",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0,
+                  0.84,
+                  -0.25
+                ],
+                "yaw": 0
+              },
+              "state": {}
+            },
+            {
+              "id": "station-1/keyboard",
+              "kind": "facility",
+              "stationId": "station-1",
+              "partKey": "keyboard",
+              "parentId": "station-1/desk",
+              "resource": {
+                "id": "keyboard",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0,
+                  0.84,
+                  0.21
+                ],
+                "yaw": 0
+              },
+              "state": {}
+            },
+            {
+              "id": "station-1/microphone",
+              "kind": "facility",
+              "stationId": "station-1",
+              "partKey": "microphone",
+              "parentId": "station-1/desk",
+              "resource": {
+                "id": "desk-microphone",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  -0.8,
+                  0.84,
+                  0.18
+                ],
+                "yaw": 0
+              },
+              "state": {}
+            },
+            {
+              "id": "station-1/chair",
+              "kind": "facility",
+              "stationId": "station-1",
+              "partKey": "chair",
+              "parentId": "station-1",
+              "resource": {
+                "id": "chair",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0.55
+                ],
+                "yaw": 3.141592653589793
+              },
+              "state": {}
+            },
+            {
+              "id": "station-1/fill-light",
+              "kind": "facility",
+              "stationId": "station-1",
+              "partKey": "fill-light",
+              "parentId": "station-1",
+              "resource": {
+                "id": "fill-light",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  -0.75,
+                  0,
+                  -0.15
+                ],
+                "yaw": 0
+              },
+              "state": {}
+            },
+            {
+              "id": "lounge/sofa",
+              "kind": "facility",
+              "parentId": "small-home-company/room-1",
+              "resource": {
+                "id": "sofa-arch",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  1.1,
+                  0,
+                  -1
+                ],
+                "yaw": 0
+              },
+              "state": {}
+            },
+            {
+              "id": "home/plant",
+              "kind": "facility",
+              "parentId": "small-home-company/room-1",
+              "resource": {
+                "id": "plant",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  2.5,
+                  0,
+                  1.85
+                ],
+                "yaw": 0
+              },
+              "state": {}
+            }
+          ]
+        },
+        "after": {
+          "schema": "company-layout",
+          "version": 1,
+          "id": "small-home-company",
+          "name": "民房 · 单人起步",
+          "revision": 7,
+          "scale": "small-home",
+          "catalog": {
+            "id": "company-facilities",
+            "version": 1
+          },
+          "nodes": [
+            {
+              "id": "small-home-company/floor-1",
+              "kind": "floor",
+              "parentId": "small-home-company",
+              "name": "一层",
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              },
+              "connections": []
+            },
+            {
+              "id": "small-home-company/room-1",
+              "kind": "room",
+              "parentId": "small-home-company/floor-1",
+              "name": "直播与休息单间",
+              "bounds": {
+                "width": 6,
+                "depth": 5.25
+              },
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              },
+              "purpose": "streaming",
+              "entry": {
+                "position": [
+                  0,
+                  0,
+                  2
+                ]
+              }
+            },
+            {
+              "id": "station-1",
+              "kind": "workstation",
+              "parentId": "small-home-company/room-1",
+              "name": "station-1",
+              "transform": {
+                "position": [
+                  -1.5,
+                  0,
+                  -0.45
+                ],
+                "yaw": 0
+              },
+              "template": {
+                "id": "stream-station",
+                "version": 1
+              }
+            },
+            {
+              "id": "station-1/desk",
+              "kind": "facility",
+              "stationId": "station-1",
+              "partKey": "desk",
+              "parentId": "station-1",
+              "resource": {
+                "id": "desk",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  -0.9
+                ],
+                "yaw": 0
+              },
+              "state": {}
+            },
+            {
+              "id": "station-1/monitor",
+              "kind": "facility",
+              "stationId": "station-1",
+              "partKey": "monitor",
+              "parentId": "station-1/desk",
+              "resource": {
+                "id": "monitor",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0,
+                  0.84,
+                  -0.25
+                ],
+                "yaw": 0
+              },
+              "state": {}
+            },
+            {
+              "id": "station-1/keyboard",
+              "kind": "facility",
+              "stationId": "station-1",
+              "partKey": "keyboard",
+              "parentId": "station-1/desk",
+              "resource": {
+                "id": "keyboard",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0,
+                  0.84,
+                  0.21
+                ],
+                "yaw": 0
+              },
+              "state": {}
+            },
+            {
+              "id": "station-1/microphone",
+              "kind": "facility",
+              "stationId": "station-1",
+              "partKey": "microphone",
+              "parentId": "station-1/desk",
+              "resource": {
+                "id": "desk-microphone",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  -0.8,
+                  0.84,
+                  0.18
+                ],
+                "yaw": 0
+              },
+              "state": {}
+            },
+            {
+              "id": "station-1/chair",
+              "kind": "facility",
+              "stationId": "station-1",
+              "partKey": "chair",
+              "parentId": "station-1",
+              "resource": {
+                "id": "chair",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0.55
+                ],
+                "yaw": 3.141592653589793
+              },
+              "state": {}
+            },
+            {
+              "id": "station-1/fill-light",
+              "kind": "facility",
+              "stationId": "station-1",
+              "partKey": "fill-light",
+              "parentId": "station-1",
+              "resource": {
+                "id": "fill-light",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  -0.75,
+                  0,
+                  -0.15
+                ],
+                "yaw": 0
+              },
+              "state": {}
+            },
+            {
+              "id": "lounge/sofa",
+              "kind": "facility",
+              "parentId": "small-home-company/room-1",
+              "resource": {
+                "id": "sofa-arch",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  1.5,
+                  0,
+                  -1
+                ],
+                "yaw": 1.5707963267948966
+              },
+              "state": {}
+            },
+            {
+              "id": "home/plant",
+              "kind": "facility",
+              "parentId": "small-home-company/room-1",
+              "resource": {
+                "id": "plant",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  2.5,
+                  0,
+                  1.85
+                ],
+                "yaw": 0
+              },
+              "state": {}
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "New facility is added to current company, can be moved and rotated; sample visits preserve unsaved edits",
+      "passed": true,
+      "result": {
+        "id": "small-home-company/room-1/side-table-round",
+        "document": {
+          "schema": "company-layout",
+          "version": 1,
+          "id": "small-home-company",
+          "name": "民房 · 单人起步",
+          "revision": 10,
+          "scale": "small-home",
+          "catalog": {
+            "id": "company-facilities",
+            "version": 1
+          },
+          "nodes": [
+            {
+              "id": "small-home-company/floor-1",
+              "kind": "floor",
+              "parentId": "small-home-company",
+              "name": "一层",
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              },
+              "connections": []
+            },
+            {
+              "id": "small-home-company/room-1",
+              "kind": "room",
+              "parentId": "small-home-company/floor-1",
+              "name": "直播与休息单间",
+              "bounds": {
+                "width": 6,
+                "depth": 5.25
+              },
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              },
+              "purpose": "streaming",
+              "entry": {
+                "position": [
+                  0,
+                  0,
+                  2
+                ]
+              }
+            },
+            {
+              "id": "station-1",
+              "kind": "workstation",
+              "parentId": "small-home-company/room-1",
+              "name": "station-1",
+              "transform": {
+                "position": [
+                  -1.5,
+                  0,
+                  -0.45
+                ],
+                "yaw": 0
+              },
+              "template": {
+                "id": "stream-station",
+                "version": 1
+              }
+            },
+            {
+              "id": "station-1/desk",
+              "kind": "facility",
+              "stationId": "station-1",
+              "partKey": "desk",
+              "parentId": "station-1",
+              "resource": {
+                "id": "desk",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  -0.9
+                ],
+                "yaw": 0
+              },
+              "state": {}
+            },
+            {
+              "id": "station-1/monitor",
+              "kind": "facility",
+              "stationId": "station-1",
+              "partKey": "monitor",
+              "parentId": "station-1/desk",
+              "resource": {
+                "id": "monitor",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0,
+                  0.84,
+                  -0.25
+                ],
+                "yaw": 0
+              },
+              "state": {}
+            },
+            {
+              "id": "station-1/keyboard",
+              "kind": "facility",
+              "stationId": "station-1",
+              "partKey": "keyboard",
+              "parentId": "station-1/desk",
+              "resource": {
+                "id": "keyboard",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0,
+                  0.84,
+                  0.21
+                ],
+                "yaw": 0
+              },
+              "state": {}
+            },
+            {
+              "id": "station-1/microphone",
+              "kind": "facility",
+              "stationId": "station-1",
+              "partKey": "microphone",
+              "parentId": "station-1/desk",
+              "resource": {
+                "id": "desk-microphone",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  -0.8,
+                  0.84,
+                  0.18
+                ],
+                "yaw": 0
+              },
+              "state": {}
+            },
+            {
+              "id": "station-1/chair",
+              "kind": "facility",
+              "stationId": "station-1",
+              "partKey": "chair",
+              "parentId": "station-1",
+              "resource": {
+                "id": "chair",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0.55
+                ],
+                "yaw": 3.141592653589793
+              },
+              "state": {}
+            },
+            {
+              "id": "station-1/fill-light",
+              "kind": "facility",
+              "stationId": "station-1",
+              "partKey": "fill-light",
+              "parentId": "station-1",
+              "resource": {
+                "id": "fill-light",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  -0.75,
+                  0,
+                  -0.15
+                ],
+                "yaw": 0
+              },
+              "state": {}
+            },
+            {
+              "id": "lounge/sofa",
+              "kind": "facility",
+              "parentId": "small-home-company/room-1",
+              "resource": {
+                "id": "sofa-arch",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  1.5,
+                  0,
+                  -1
+                ],
+                "yaw": 1.5707963267948966
+              },
+              "state": {}
+            },
+            {
+              "id": "home/plant",
+              "kind": "facility",
+              "parentId": "small-home-company/room-1",
+              "resource": {
+                "id": "plant",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  2.5,
+                  0,
+                  1.85
+                ],
+                "yaw": 0
+              },
+              "state": {}
+            },
+            {
+              "id": "small-home-company/room-1/side-table-round",
+              "kind": "facility",
+              "parentId": "small-home-company/room-1",
+              "resource": {
+                "id": "side-table-round",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0.6,
+                  0,
+                  1.4
+                ],
+                "yaw": 1.5707963267948966
+              },
+              "state": {}
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Click selection and click-to-move operate on real scene objects; different room layouts retain drafts",
+      "passed": true,
+      "result": {
+        "schema": "company-layout",
+        "version": 1,
+        "id": "small-home-company",
+        "name": "民房 · 单人起步",
+        "revision": 11,
+        "scale": "small-home",
+        "catalog": {
+          "id": "company-facilities",
+          "version": 1
+        },
+        "nodes": [
+          {
+            "id": "small-home-company/floor-1",
+            "kind": "floor",
+            "parentId": "small-home-company",
+            "name": "一层",
+            "transform": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "yaw": 0
+            },
+            "connections": []
+          },
+          {
+            "id": "small-home-company/room-1",
+            "kind": "room",
+            "parentId": "small-home-company/floor-1",
+            "name": "直播与休息单间",
+            "bounds": {
+              "width": 6,
+              "depth": 5.25
+            },
+            "transform": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "yaw": 0
+            },
+            "purpose": "streaming",
+            "entry": {
+              "position": [
+                0,
+                0,
+                2
+              ]
+            }
+          },
+          {
+            "id": "station-1",
+            "kind": "workstation",
+            "parentId": "small-home-company/room-1",
+            "name": "station-1",
+            "transform": {
+              "position": [
+                -1.5,
+                0,
+                -0.45
+              ],
+              "yaw": 0
+            },
+            "template": {
+              "id": "stream-station",
+              "version": 1
+            }
+          },
+          {
+            "id": "station-1/desk",
+            "kind": "facility",
+            "stationId": "station-1",
+            "partKey": "desk",
+            "parentId": "station-1",
+            "resource": {
+              "id": "desk",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                0,
+                0,
+                -0.9
+              ],
+              "yaw": 0
+            },
+            "state": {}
+          },
+          {
+            "id": "station-1/monitor",
+            "kind": "facility",
+            "stationId": "station-1",
+            "partKey": "monitor",
+            "parentId": "station-1/desk",
+            "resource": {
+              "id": "monitor",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                0,
+                0.84,
+                -0.25
+              ],
+              "yaw": 0
+            },
+            "state": {}
+          },
+          {
+            "id": "station-1/keyboard",
+            "kind": "facility",
+            "stationId": "station-1",
+            "partKey": "keyboard",
+            "parentId": "station-1/desk",
+            "resource": {
+              "id": "keyboard",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                0,
+                0.84,
+                0.21
+              ],
+              "yaw": 0
+            },
+            "state": {}
+          },
+          {
+            "id": "station-1/microphone",
+            "kind": "facility",
+            "stationId": "station-1",
+            "partKey": "microphone",
+            "parentId": "station-1/desk",
+            "resource": {
+              "id": "desk-microphone",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                -0.8,
+                0.84,
+                0.18
+              ],
+              "yaw": 0
+            },
+            "state": {}
+          },
+          {
+            "id": "station-1/chair",
+            "kind": "facility",
+            "stationId": "station-1",
+            "partKey": "chair",
+            "parentId": "station-1",
+            "resource": {
+              "id": "chair",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                0,
+                0,
+                0.55
+              ],
+              "yaw": 3.141592653589793
+            },
+            "state": {}
+          },
+          {
+            "id": "station-1/fill-light",
+            "kind": "facility",
+            "stationId": "station-1",
+            "partKey": "fill-light",
+            "parentId": "station-1",
+            "resource": {
+              "id": "fill-light",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                -0.75,
+                0,
+                -0.15
+              ],
+              "yaw": 0
+            },
+            "state": {}
+          },
+          {
+            "id": "lounge/sofa",
+            "kind": "facility",
+            "parentId": "small-home-company/room-1",
+            "resource": {
+              "id": "sofa-arch",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                1.5,
+                0,
+                -1
+              ],
+              "yaw": 1.5707963267948966
+            },
+            "state": {}
+          },
+          {
+            "id": "home/plant",
+            "kind": "facility",
+            "parentId": "small-home-company/room-1",
+            "resource": {
+              "id": "plant",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                2.5,
+                0,
+                1.85
+              ],
+              "yaw": 0
+            },
+            "state": {}
+          },
+          {
+            "id": "small-home-company/room-1/side-table-round",
+            "kind": "facility",
+            "parentId": "small-home-company/room-1",
+            "resource": {
+              "id": "side-table-round",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                0.8,
+                0,
+                1.2
+              ],
+              "yaw": 1.5707963267948966
+            },
+            "state": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "Saved room survives closing the whole browser and restores the selected placement data",
+      "passed": true,
+      "result": {
+        "schema": "company-layout",
+        "version": 1,
+        "id": "small-home-company",
+        "name": "民房 · 单人起步",
+        "revision": 11,
+        "scale": "small-home",
+        "catalog": {
+          "id": "company-facilities",
+          "version": 1
+        },
+        "nodes": [
+          {
+            "id": "small-home-company/floor-1",
+            "kind": "floor",
+            "parentId": "small-home-company",
+            "name": "一层",
+            "transform": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "yaw": 0
+            },
+            "connections": []
+          },
+          {
+            "id": "small-home-company/room-1",
+            "kind": "room",
+            "parentId": "small-home-company/floor-1",
+            "name": "直播与休息单间",
+            "bounds": {
+              "width": 6,
+              "depth": 5.25
+            },
+            "transform": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "yaw": 0
+            },
+            "purpose": "streaming",
+            "entry": {
+              "position": [
+                0,
+                0,
+                2
+              ]
+            }
+          },
+          {
+            "id": "station-1",
+            "kind": "workstation",
+            "parentId": "small-home-company/room-1",
+            "name": "station-1",
+            "transform": {
+              "position": [
+                -1.5,
+                0,
+                -0.45
+              ],
+              "yaw": 0
+            },
+            "template": {
+              "id": "stream-station",
+              "version": 1
+            }
+          },
+          {
+            "id": "station-1/desk",
+            "kind": "facility",
+            "stationId": "station-1",
+            "partKey": "desk",
+            "parentId": "station-1",
+            "resource": {
+              "id": "desk",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                0,
+                0,
+                -0.9
+              ],
+              "yaw": 0
+            },
+            "state": {}
+          },
+          {
+            "id": "station-1/monitor",
+            "kind": "facility",
+            "stationId": "station-1",
+            "partKey": "monitor",
+            "parentId": "station-1/desk",
+            "resource": {
+              "id": "monitor",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                0,
+                0.84,
+                -0.25
+              ],
+              "yaw": 0
+            },
+            "state": {}
+          },
+          {
+            "id": "station-1/keyboard",
+            "kind": "facility",
+            "stationId": "station-1",
+            "partKey": "keyboard",
+            "parentId": "station-1/desk",
+            "resource": {
+              "id": "keyboard",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                0,
+                0.84,
+                0.21
+              ],
+              "yaw": 0
+            },
+            "state": {}
+          },
+          {
+            "id": "station-1/microphone",
+            "kind": "facility",
+            "stationId": "station-1",
+            "partKey": "microphone",
+            "parentId": "station-1/desk",
+            "resource": {
+              "id": "desk-microphone",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                -0.8,
+                0.84,
+                0.18
+              ],
+              "yaw": 0
+            },
+            "state": {}
+          },
+          {
+            "id": "station-1/chair",
+            "kind": "facility",
+            "stationId": "station-1",
+            "partKey": "chair",
+            "parentId": "station-1",
+            "resource": {
+              "id": "chair",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                0,
+                0,
+                0.55
+              ],
+              "yaw": 3.141592653589793
+            },
+            "state": {}
+          },
+          {
+            "id": "station-1/fill-light",
+            "kind": "facility",
+            "stationId": "station-1",
+            "partKey": "fill-light",
+            "parentId": "station-1",
+            "resource": {
+              "id": "fill-light",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                -0.75,
+                0,
+                -0.15
+              ],
+              "yaw": 0
+            },
+            "state": {}
+          },
+          {
+            "id": "lounge/sofa",
+            "kind": "facility",
+            "parentId": "small-home-company/room-1",
+            "resource": {
+              "id": "sofa-arch",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                1.5,
+                0,
+                -1
+              ],
+              "yaw": 1.5707963267948966
+            },
+            "state": {}
+          },
+          {
+            "id": "home/plant",
+            "kind": "facility",
+            "parentId": "small-home-company/room-1",
+            "resource": {
+              "id": "plant",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                2.5,
+                0,
+                1.85
+              ],
+              "yaw": 0
+            },
+            "state": {}
+          },
+          {
+            "id": "small-home-company/room-1/side-table-round",
+            "kind": "facility",
+            "parentId": "small-home-company/room-1",
+            "resource": {
+              "id": "side-table-round",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                0.8,
+                0,
+                1.2
+              ],
+              "yaw": 1.5707963267948966
+            },
+            "state": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "Small viewport keeps navigation, placement and save controls accessible",
+      "passed": true,
+      "result": {
+        "width": 760
+      }
+    }
+  ],
+  "limitations": [
+    "Browser software rendering; no ordinary-PC performance or character C3 claim."
+  ],
+  "build": {
+    "shortId": "4fef171a1c48",
+    "sourceDigest": "4fef171a1c481285914eb516959f5a96cd137111ed1b0673f70c6f501f6aac95",
+    "inputs": [
+      "company.html",
+      "package-lock.json",
+      "package.json",
+      "public/company-assets/architecture-collection/door-frame-crown/v1/model.glb",
+      "public/company-assets/architecture-collection/door-frame-crown/v1/resource.json",
+      "public/company-assets/architecture-collection/door-frame-inset/v1/model.glb",
+      "public/company-assets/architecture-collection/door-frame-inset/v1/resource.json",
+      "public/company-assets/architecture-collection/door-frame-plain/v1/model.glb",
+      "public/company-assets/architecture-collection/door-frame-plain/v1/resource.json",
+      "public/company-assets/architecture-collection/door-frame-stepped/v1/model.glb",
+      "public/company-assets/architecture-collection/door-frame-stepped/v1/resource.json",
+      "public/company-assets/architecture-collection/floor-panel-grid/v1/model.glb",
+      "public/company-assets/architecture-collection/floor-panel-grid/v1/resource.json",
+      "public/company-assets/architecture-collection/floor-panel-herringbone/v1/model.glb",
+      "public/company-assets/architecture-collection/floor-panel-herringbone/v1/resource.json",
+      "public/company-assets/architecture-collection/floor-panel-plank/v1/model.glb",
+      "public/company-assets/architecture-collection/floor-panel-plank/v1/resource.json",
+      "public/company-assets/architecture-collection/floor-panel-tile/v1/model.glb",
+      "public/company-assets/architecture-collection/floor-panel-tile/v1/resource.json",
+      "public/company-assets/architecture-collection/rug-border/v1/model.glb",
+      "public/company-assets/architecture-collection/rug-border/v1/resource.json",
+      "public/company-assets/architecture-collection/rug-inset/v1/model.glb",
+      "public/company-assets/architecture-collection/rug-inset/v1/resource.json",
+      "public/company-assets/architecture-collection/rug-medallion/v1/model.glb",
+      "public/company-assets/architecture-collection/rug-medallion/v1/resource.json",
+      "public/company-assets/architecture-collection/rug-stripe/v1/model.glb",
+      "public/company-assets/architecture-collection/rug-stripe/v1/resource.json",
+      "public/company-assets/architecture-collection/wall-panel-brick/v1/model.glb",
+      "public/company-assets/architecture-collection/wall-panel-brick/v1/resource.json",
+      "public/company-assets/architecture-collection/wall-panel-panel/v1/model.glb",
+      "public/company-assets/architecture-collection/wall-panel-panel/v1/resource.json",
+      "public/company-assets/architecture-collection/wall-panel-ribbed/v1/model.glb",
+      "public/company-assets/architecture-collection/wall-panel-ribbed/v1/resource.json",
+      "public/company-assets/architecture-collection/wall-panel-slat/v1/model.glb",
+      "public/company-assets/architecture-collection/wall-panel-slat/v1/resource.json",
+      "public/company-assets/architecture-collection/window-panel-cross/v1/model.glb",
+      "public/company-assets/architecture-collection/window-panel-cross/v1/resource.json",
+      "public/company-assets/architecture-collection/window-panel-lattice/v1/model.glb",
+      "public/company-assets/architecture-collection/window-panel-lattice/v1/resource.json",
+      "public/company-assets/architecture-collection/window-panel-round/v1/model.glb",
+      "public/company-assets/architecture-collection/window-panel-round/v1/resource.json",
+      "public/company-assets/architecture-collection/window-panel-slat/v1/model.glb",
+      "public/company-assets/architecture-collection/window-panel-slat/v1/resource.json",
+      "public/company-assets/ceiling-acoustic-v1/ceiling-acoustic-cloud/v1/model.glb",
+      "public/company-assets/ceiling-acoustic-v1/ceiling-acoustic-cloud/v1/resource.json",
+      "public/company-assets/ceiling-acoustic-v1/ceiling-acoustic-felt/v1/model.glb",
+      "public/company-assets/ceiling-acoustic-v1/ceiling-acoustic-felt/v1/resource.json",
+      "public/company-assets/ceiling-acoustic-v1/ceiling-acoustic-linear/v1/model.glb",
+      "public/company-assets/ceiling-acoustic-v1/ceiling-acoustic-linear/v1/resource.json",
+      "public/company-assets/ceiling-acoustic-v1/ceiling-acoustic-timber-grid/v1/model.glb",
+      "public/company-assets/ceiling-acoustic-v1/ceiling-acoustic-timber-grid/v1/resource.json",
+      "public/company-assets/ceiling-acoustic-v1/collection.json",
+      "public/company-assets/ceiling-acoustic-v1/resources.json",
+      "public/company-assets/ceiling-finishes-v1/ceiling-linear/v1/model.glb",
+      "public/company-assets/ceiling-finishes-v1/ceiling-linear/v1/resource.json",
+      "public/company-assets/ceiling-finishes-v1/ceiling-linear/v1/texture.png",
+      "public/company-assets/ceiling-finishes-v1/ceiling-panel-grid/v1/model.glb",
+      "public/company-assets/ceiling-finishes-v1/ceiling-panel-grid/v1/resource.json",
+      "public/company-assets/ceiling-finishes-v1/ceiling-panel-grid/v1/texture.png",
+      "public/company-assets/ceiling-finishes-v1/ceiling-perforated/v1/model.glb",
+      "public/company-assets/ceiling-finishes-v1/ceiling-perforated/v1/resource.json",
+      "public/company-assets/ceiling-finishes-v1/ceiling-perforated/v1/texture.png",
+      "public/company-assets/ceiling-finishes-v1/ceiling-woven/v1/model.glb",
+      "public/company-assets/ceiling-finishes-v1/ceiling-woven/v1/resource.json",
+      "public/company-assets/ceiling-finishes-v1/ceiling-woven/v1/texture.png",
+      "public/company-assets/clock-v1/analog-octagon/v1/model.glb",
+      "public/company-assets/clock-v1/analog-octagon/v1/resource.json",
+      "public/company-assets/clock-v1/analog-round/v1/model.glb",
+      "public/company-assets/clock-v1/analog-round/v1/resource.json",
+      "public/company-assets/clock-v1/analog-spoke/v1/model.glb",
+      "public/company-assets/clock-v1/analog-spoke/v1/resource.json",
+      "public/company-assets/clock-v1/analog-square/v1/model.glb",
+      "public/company-assets/clock-v1/analog-square/v1/resource.json",
+      "public/company-assets/clock-v1/collection.json",
+      "public/company-assets/clock-v1/digital-flat/v1/model.glb",
+      "public/company-assets/clock-v1/digital-flat/v1/resource.json",
+      "public/company-assets/clock-v1/digital-layered/v1/model.glb",
+      "public/company-assets/clock-v1/digital-layered/v1/resource.json",
+      "public/company-assets/clock-v1/digital-recessed/v1/model.glb",
+      "public/company-assets/clock-v1/digital-recessed/v1/resource.json",
+      "public/company-assets/clock-v1/digital-side-bracket/v1/model.glb",
+      "public/company-assets/clock-v1/digital-side-bracket/v1/resource.json",
+      "public/company-assets/device-collection/fill-light-column/v1/model.glb",
+      "public/company-assets/device-collection/fill-light-column/v1/resource.json",
+      "public/company-assets/device-collection/fill-light-orbit/v1/model.glb",
+      "public/company-assets/device-collection/fill-light-orbit/v1/resource.json",
+      "public/company-assets/device-collection/fill-light-panel/v1/model.glb",
+      "public/company-assets/device-collection/fill-light-panel/v1/resource.json",
+      "public/company-assets/device-collection/fill-light-wing/v1/model.glb",
+      "public/company-assets/device-collection/fill-light-wing/v1/resource.json",
+      "public/company-assets/device-collection/monitor-aurora/v1/model.glb",
+      "public/company-assets/device-collection/monitor-aurora/v1/resource.json",
+      "public/company-assets/device-collection/monitor-pillar/v1/model.glb",
+      "public/company-assets/device-collection/monitor-pillar/v1/resource.json",
+      "public/company-assets/device-collection/monitor-ribbon/v1/model.glb",
+      "public/company-assets/device-collection/monitor-ribbon/v1/resource.json",
+      "public/company-assets/device-collection/monitor-slate/v1/model.glb",
+      "public/company-assets/device-collection/monitor-slate/v1/resource.json",
+      "public/company-assets/floor-information-v1/collection.json",
+      "public/company-assets/floor-information-v1/doorplate/v1/model.glb",
+      "public/company-assets/floor-information-v1/doorplate/v1/resource.json",
+      "public/company-assets/floor-information-v1/live/v1/model.glb",
+      "public/company-assets/floor-information-v1/live/v1/resource.json",
+      "public/company-assets/floor-information-v1/notice/v1/model.glb",
+      "public/company-assets/floor-information-v1/notice/v1/resource.json",
+      "public/company-assets/floor-information-v1/whiteboard/v1/model.glb",
+      "public/company-assets/floor-information-v1/whiteboard/v1/resource.json",
+      "public/company-assets/floor-mirror-v1/arch/v1/model.glb",
+      "public/company-assets/floor-mirror-v1/arch/v1/resource.json",
+      "public/company-assets/floor-mirror-v1/collection.json",
+      "public/company-assets/floor-mirror-v1/full/v1/model.glb",
+      "public/company-assets/floor-mirror-v1/full/v1/resource.json",
+      "public/company-assets/floor-mirror-v1/grid/v1/model.glb",
+      "public/company-assets/floor-mirror-v1/grid/v1/resource.json",
+      "public/company-assets/floor-mirror-v1/round/v1/model.glb",
+      "public/company-assets/floor-mirror-v1/round/v1/resource.json",
+      "public/company-assets/hinged-cabinet-v1/collection.json",
+      "public/company-assets/hinged-cabinet-v1/curved-detail/v1/model.glb",
+      "public/company-assets/hinged-cabinet-v1/curved-detail/v1/resource.json",
+      "public/company-assets/hinged-cabinet-v1/flat-panel/v1/model.glb",
+      "public/company-assets/hinged-cabinet-v1/flat-panel/v1/resource.json",
+      "public/company-assets/hinged-cabinet-v1/frame-panel/v1/model.glb",
+      "public/company-assets/hinged-cabinet-v1/frame-panel/v1/resource.json",
+      "public/company-assets/hinged-cabinet-v1/slatted/v1/model.glb",
+      "public/company-assets/hinged-cabinet-v1/slatted/v1/resource.json",
+      "public/company-assets/information-v1/boards/doorplate/v1/model.glb",
+      "public/company-assets/information-v1/boards/doorplate/v1/resource.json",
+      "public/company-assets/information-v1/boards/live/v1/model.glb",
+      "public/company-assets/information-v1/boards/live/v1/resource.json",
+      "public/company-assets/information-v1/boards/notice/v1/model.glb",
+      "public/company-assets/information-v1/boards/notice/v1/resource.json",
+      "public/company-assets/information-v1/boards/whiteboard/v1/model.glb",
+      "public/company-assets/information-v1/boards/whiteboard/v1/resource.json",
+      "public/company-assets/information-v1/collection.json",
+      "public/company-assets/information-v1/content/company-live-cn/v1/model.glb",
+      "public/company-assets/information-v1/content/company-live-cn/v1/resource.json",
+      "public/company-assets/information-v1/content/company-news-cn/v1/model.glb",
+      "public/company-assets/information-v1/content/company-news-cn/v1/resource.json",
+      "public/company-assets/lounge-sofa/v1/model.glb",
+      "public/company-assets/lounge-sofa/v1/resource.json",
+      "public/company-assets/lounge-sofa/v2/model.glb",
+      "public/company-assets/lounge-sofa/v2/resource.json",
+      "public/company-assets/makeup-drawer-v1/brush-cup/v1/model.glb",
+      "public/company-assets/makeup-drawer-v1/brush-cup/v1/resource.json",
+      "public/company-assets/makeup-drawer-v1/case/v1/model.glb",
+      "public/company-assets/makeup-drawer-v1/case/v1/resource.json",
+      "public/company-assets/makeup-drawer-v1/collection.json",
+      "public/company-assets/makeup-drawer-v1/divided/v1/model.glb",
+      "public/company-assets/makeup-drawer-v1/divided/v1/resource.json",
+      "public/company-assets/makeup-drawer-v1/host/v1/model.glb",
+      "public/company-assets/makeup-drawer-v1/host/v1/resource.json",
+      "public/company-assets/makeup-drawer-v1/tray/v1/model.glb",
+      "public/company-assets/makeup-drawer-v1/tray/v1/resource.json",
+      "public/company-assets/makeup-mirror-v1/arch/v1/model.glb",
+      "public/company-assets/makeup-mirror-v1/arch/v1/resource.json",
+      "public/company-assets/makeup-mirror-v1/collection.json",
+      "public/company-assets/makeup-mirror-v1/lit-frame/v1/model.glb",
+      "public/company-assets/makeup-mirror-v1/lit-frame/v1/resource.json",
+      "public/company-assets/makeup-mirror-v1/round/v1/model.glb",
+      "public/company-assets/makeup-mirror-v1/round/v1/resource.json",
+      "public/company-assets/makeup-mirror-v1/tri-fold/v1/model.glb",
+      "public/company-assets/makeup-mirror-v1/tri-fold/v1/resource.json",
+      "public/company-assets/makeup-storage-v1/brush-cup/v1/model.glb",
+      "public/company-assets/makeup-storage-v1/brush-cup/v1/resource.json",
+      "public/company-assets/makeup-storage-v1/case/v1/model.glb",
+      "public/company-assets/makeup-storage-v1/case/v1/resource.json",
+      "public/company-assets/makeup-storage-v1/collection.json",
+      "public/company-assets/makeup-storage-v1/content-compact/v1/model.glb",
+      "public/company-assets/makeup-storage-v1/content-compact/v1/resource.json",
+      "public/company-assets/makeup-storage-v1/divided/v1/model.glb",
+      "public/company-assets/makeup-storage-v1/divided/v1/resource.json",
+      "public/company-assets/makeup-storage-v1/tray/v1/model.glb",
+      "public/company-assets/makeup-storage-v1/tray/v1/resource.json",
+      "public/company-assets/makeup-wall-mirror-v1/arch/v1/model.glb",
+      "public/company-assets/makeup-wall-mirror-v1/arch/v1/resource.json",
+      "public/company-assets/makeup-wall-mirror-v1/collection.json",
+      "public/company-assets/makeup-wall-mirror-v1/lit-frame/v1/model.glb",
+      "public/company-assets/makeup-wall-mirror-v1/lit-frame/v1/resource.json",
+      "public/company-assets/makeup-wall-mirror-v1/round/v1/model.glb",
+      "public/company-assets/makeup-wall-mirror-v1/round/v1/resource.json",
+      "public/company-assets/makeup-wall-mirror-v1/tri-fold/v1/model.glb",
+      "public/company-assets/makeup-wall-mirror-v1/tri-fold/v1/resource.json",
+      "public/company-assets/mirror-v1/arch/v1/model.glb",
+      "public/company-assets/mirror-v1/arch/v1/resource.json",
+      "public/company-assets/mirror-v1/collection.json",
+      "public/company-assets/mirror-v1/full/v1/model.glb",
+      "public/company-assets/mirror-v1/full/v1/resource.json",
+      "public/company-assets/mirror-v1/grid/v1/model.glb",
+      "public/company-assets/mirror-v1/grid/v1/resource.json",
+      "public/company-assets/mirror-v1/round/v1/model.glb",
+      "public/company-assets/mirror-v1/round/v1/resource.json",
+      "public/company-assets/seat-collection/chair-cantilever/v1/model.glb",
+      "public/company-assets/seat-collection/chair-cantilever/v1/resource.json",
+      "public/company-assets/seat-collection/chair-crossbeam/v1/model.glb",
+      "public/company-assets/seat-collection/chair-crossbeam/v1/resource.json",
+      "public/company-assets/seat-collection/chair-ladder/v1/model.glb",
+      "public/company-assets/seat-collection/chair-ladder/v1/resource.json",
+      "public/company-assets/seat-collection/chair-pedestal/v1/model.glb",
+      "public/company-assets/seat-collection/chair-pedestal/v1/resource.json",
+      "public/company-assets/seat-collection/collection.json",
+      "public/company-assets/seat-collection/sofa-arch/v1/model.glb",
+      "public/company-assets/seat-collection/sofa-arch/v1/resource.json",
+      "public/company-assets/seat-collection/sofa-modular/v1/model.glb",
+      "public/company-assets/seat-collection/sofa-modular/v1/resource.json",
+      "public/company-assets/side-table-life-items-v1/bottle/v1/model.glb",
+      "public/company-assets/side-table-life-items-v1/bottle/v1/resource.json",
+      "public/company-assets/side-table-life-items-v1/collection.json",
+      "public/company-assets/side-table-life-items-v1/cup/v1/model.glb",
+      "public/company-assets/side-table-life-items-v1/cup/v1/resource.json",
+      "public/company-assets/side-table-life-items-v1/pen-notebook/v1/model.glb",
+      "public/company-assets/side-table-life-items-v1/pen-notebook/v1/resource.json",
+      "public/company-assets/side-table-life-items-v1/tissue/v1/model.glb",
+      "public/company-assets/side-table-life-items-v1/tissue/v1/resource.json",
+      "public/company-assets/side-table-v1/collection.json",
+      "public/company-assets/side-table-v1/low/v1/model.glb",
+      "public/company-assets/side-table-v1/low/v1/resource.json",
+      "public/company-assets/side-table-v1/nested/v1/model.glb",
+      "public/company-assets/side-table-v1/nested/v1/resource.json",
+      "public/company-assets/side-table-v1/round/v1/model.glb",
+      "public/company-assets/side-table-v1/round/v1/resource.json",
+      "public/company-assets/side-table-v1/square/v1/model.glb",
+      "public/company-assets/side-table-v1/square/v1/resource.json",
+      "public/company-assets/sliding-drawer-v1/collection.json",
+      "public/company-assets/sliding-drawer-v1/curved-detail/v1/model.glb",
+      "public/company-assets/sliding-drawer-v1/curved-detail/v1/resource.json",
+      "public/company-assets/sliding-drawer-v1/flat-panel/v1/model.glb",
+      "public/company-assets/sliding-drawer-v1/flat-panel/v1/resource.json",
+      "public/company-assets/sliding-drawer-v1/frame-panel/v1/model.glb",
+      "public/company-assets/sliding-drawer-v1/frame-panel/v1/resource.json",
+      "public/company-assets/sliding-drawer-v1/slatted/v1/model.glb",
+      "public/company-assets/sliding-drawer-v1/slatted/v1/resource.json",
+      "public/company-assets/static-collection/desk-cabinet/v1/model.glb",
+      "public/company-assets/static-collection/desk-cabinet/v1/resource.json",
+      "public/company-assets/static-collection/desk-frame/v1/model.glb",
+      "public/company-assets/static-collection/desk-frame/v1/resource.json",
+      "public/company-assets/static-collection/desk-microphone-ball/v1/model.glb",
+      "public/company-assets/static-collection/desk-microphone-ball/v1/resource.json",
+      "public/company-assets/static-collection/desk-microphone-broadcast/v1/model.glb",
+      "public/company-assets/static-collection/desk-microphone-broadcast/v1/resource.json",
+      "public/company-assets/static-collection/desk-microphone-capsule/v1/model.glb",
+      "public/company-assets/static-collection/desk-microphone-capsule/v1/resource.json",
+      "public/company-assets/static-collection/desk-microphone-ribbon/v1/model.glb",
+      "public/company-assets/static-collection/desk-microphone-ribbon/v1/resource.json",
+      "public/company-assets/static-collection/desk-pedestal/v1/model.glb",
+      "public/company-assets/static-collection/desk-pedestal/v1/resource.json",
+      "public/company-assets/static-collection/desk-trestle/v1/model.glb",
+      "public/company-assets/static-collection/desk-trestle/v1/resource.json",
+      "public/company-assets/static-collection/keyboard-compact/v1/model.glb",
+      "public/company-assets/static-collection/keyboard-compact/v1/resource.json",
+      "public/company-assets/static-collection/keyboard-console/v1/model.glb",
+      "public/company-assets/static-collection/keyboard-console/v1/resource.json",
+      "public/company-assets/static-collection/keyboard-retro/v1/model.glb",
+      "public/company-assets/static-collection/keyboard-retro/v1/resource.json",
+      "public/company-assets/static-collection/keyboard-split/v1/model.glb",
+      "public/company-assets/static-collection/keyboard-split/v1/resource.json",
+      "public/company-assets/static-collection/plant-bonsai/v1/model.glb",
+      "public/company-assets/static-collection/plant-bonsai/v1/resource.json",
+      "public/company-assets/static-collection/plant-broadleaf/v1/model.glb",
+      "public/company-assets/static-collection/plant-broadleaf/v1/resource.json",
+      "public/company-assets/static-collection/plant-cactus/v1/model.glb",
+      "public/company-assets/static-collection/plant-cactus/v1/resource.json",
+      "public/company-assets/static-collection/plant-palm/v1/model.glb",
+      "public/company-assets/static-collection/plant-palm/v1/resource.json",
+      "public/company-assets/static-collection/wall-art-relief/v1/model.glb",
+      "public/company-assets/static-collection/wall-art-relief/v1/resource.json",
+      "public/company-assets/static-collection/wall-art-sunburst/v1/model.glb",
+      "public/company-assets/static-collection/wall-art-sunburst/v1/resource.json",
+      "public/company-assets/static-collection/wall-art-triptych/v1/model.glb",
+      "public/company-assets/static-collection/wall-art-triptych/v1/resource.json",
+      "public/company-assets/static-collection/wall-art-woven/v1/model.glb",
+      "public/company-assets/static-collection/wall-art-woven/v1/resource.json",
+      "public/company-assets/support-collection-v1/collection.json",
+      "public/company-assets/support-collection-v1/ornaments/arched-sculpture/v1/model.glb",
+      "public/company-assets/support-collection-v1/ornaments/arched-sculpture/v1/resource.json",
+      "public/company-assets/support-collection-v1/ornaments/geometric-sculpture/v1/model.glb",
+      "public/company-assets/support-collection-v1/ornaments/geometric-sculpture/v1/resource.json",
+      "public/company-assets/support-collection-v1/ornaments/stacked-stones/v1/model.glb",
+      "public/company-assets/support-collection-v1/ornaments/stacked-stones/v1/resource.json",
+      "public/company-assets/support-collection-v1/ornaments/vase/v1/model.glb",
+      "public/company-assets/support-collection-v1/ornaments/vase/v1/resource.json",
+      "public/company-assets/support-collection-v1/shelves/arched-sides/v1/model.glb",
+      "public/company-assets/support-collection-v1/shelves/arched-sides/v1/resource.json",
+      "public/company-assets/support-collection-v1/shelves/crossback/v1/model.glb",
+      "public/company-assets/support-collection-v1/shelves/crossback/v1/resource.json",
+      "public/company-assets/support-collection-v1/shelves/frame-posts/v1/model.glb",
+      "public/company-assets/support-collection-v1/shelves/frame-posts/v1/resource.json",
+      "public/company-assets/support-collection-v1/shelves/sideboards/v1/model.glb",
+      "public/company-assets/support-collection-v1/shelves/sideboards/v1/resource.json",
+      "public/company-assets/supported-clock-v1/analog-octagon/v1/model.glb",
+      "public/company-assets/supported-clock-v1/analog-octagon/v1/resource.json",
+      "public/company-assets/supported-clock-v1/analog-round/v1/model.glb",
+      "public/company-assets/supported-clock-v1/analog-round/v1/resource.json",
+      "public/company-assets/supported-clock-v1/analog-spoke/v1/model.glb",
+      "public/company-assets/supported-clock-v1/analog-spoke/v1/resource.json",
+      "public/company-assets/supported-clock-v1/analog-square/v1/model.glb",
+      "public/company-assets/supported-clock-v1/analog-square/v1/resource.json",
+      "public/company-assets/supported-clock-v1/collection.json",
+      "public/company-assets/supported-clock-v1/digital-flat/v1/model.glb",
+      "public/company-assets/supported-clock-v1/digital-flat/v1/resource.json",
+      "public/company-assets/supported-clock-v1/digital-layered/v1/model.glb",
+      "public/company-assets/supported-clock-v1/digital-layered/v1/resource.json",
+      "public/company-assets/supported-clock-v1/digital-recessed/v1/model.glb",
+      "public/company-assets/supported-clock-v1/digital-recessed/v1/resource.json",
+      "public/company-assets/supported-clock-v1/digital-side-bracket/v1/model.glb",
+      "public/company-assets/supported-clock-v1/digital-side-bracket/v1/resource.json",
+      "public/company-assets/surface-finishes-v1/floor-checker-tile/v1/model.glb",
+      "public/company-assets/surface-finishes-v1/floor-checker-tile/v1/resource.json",
+      "public/company-assets/surface-finishes-v1/floor-checker-tile/v1/texture.png",
+      "public/company-assets/surface-finishes-v1/floor-herringbone/v1/model.glb",
+      "public/company-assets/surface-finishes-v1/floor-herringbone/v1/resource.json",
+      "public/company-assets/surface-finishes-v1/floor-herringbone/v1/texture.png",
+      "public/company-assets/surface-finishes-v1/floor-offset-plank/v1/model.glb",
+      "public/company-assets/surface-finishes-v1/floor-offset-plank/v1/resource.json",
+      "public/company-assets/surface-finishes-v1/floor-offset-plank/v1/texture.png",
+      "public/company-assets/surface-finishes-v1/floor-terrazzo/v1/model.glb",
+      "public/company-assets/surface-finishes-v1/floor-terrazzo/v1/resource.json",
+      "public/company-assets/surface-finishes-v1/floor-terrazzo/v1/texture.png",
+      "public/company-assets/surface-finishes-v1/wall-arc-fan/v1/model.glb",
+      "public/company-assets/surface-finishes-v1/wall-arc-fan/v1/resource.json",
+      "public/company-assets/surface-finishes-v1/wall-arc-fan/v1/texture.png",
+      "public/company-assets/surface-finishes-v1/wall-diamond-grid/v1/model.glb",
+      "public/company-assets/surface-finishes-v1/wall-diamond-grid/v1/resource.json",
+      "public/company-assets/surface-finishes-v1/wall-diamond-grid/v1/texture.png",
+      "public/company-assets/surface-finishes-v1/wall-fine-stripes/v1/model.glb",
+      "public/company-assets/surface-finishes-v1/wall-fine-stripes/v1/resource.json",
+      "public/company-assets/surface-finishes-v1/wall-fine-stripes/v1/texture.png",
+      "public/company-assets/surface-finishes-v1/wall-leaf-damask/v1/model.glb",
+      "public/company-assets/surface-finishes-v1/wall-leaf-damask/v1/resource.json",
+      "public/company-assets/surface-finishes-v1/wall-leaf-damask/v1/texture.png",
+      "public/company-assets/timber-sofa/v1/model.glb",
+      "public/company-assets/timber-sofa/v1/resource.json",
+      "public/company-assets/vanity-table-v1/collection.json",
+      "public/company-assets/vanity-table-v1/corner/v1/model.glb",
+      "public/company-assets/vanity-table-v1/corner/v1/resource.json",
+      "public/company-assets/vanity-table-v1/drawer-style/v1/model.glb",
+      "public/company-assets/vanity-table-v1/drawer-style/v1/resource.json",
+      "public/company-assets/vanity-table-v1/mobile/v1/model.glb",
+      "public/company-assets/vanity-table-v1/mobile/v1/resource.json",
+      "public/company-assets/vanity-table-v1/plain/v1/model.glb",
+      "public/company-assets/vanity-table-v1/plain/v1/resource.json",
+      "public/company-assets/wall-shelf-v1/back-panel/v1/model.glb",
+      "public/company-assets/wall-shelf-v1/back-panel/v1/resource.json",
+      "public/company-assets/wall-shelf-v1/cantilever/v1/model.glb",
+      "public/company-assets/wall-shelf-v1/cantilever/v1/resource.json",
+      "public/company-assets/wall-shelf-v1/collection.json",
+      "public/company-assets/wall-shelf-v1/frame/v1/model.glb",
+      "public/company-assets/wall-shelf-v1/frame/v1/resource.json",
+      "public/company-assets/wall-shelf-v1/side-bracket/v1/model.glb",
+      "public/company-assets/wall-shelf-v1/side-bracket/v1/resource.json",
+      "scripts/build-company-id.mjs",
+      "src/company/README.md",
+      "src/company/appearance-contract.js",
+      "src/company/appearance-samples.js",
+      "src/company/architecture.js",
+      "src/company/asset-library.js",
+      "src/company/authoring.js",
+      "src/company/building-view.css",
+      "src/company/building-view.js",
+      "src/company/ceiling-acoustic-data.js",
+      "src/company/ceiling-acoustic-geometry.js",
+      "src/company/ceiling-acoustic-samples.js",
+      "src/company/ceiling-placement.js",
+      "src/company/clock-display.js",
+      "src/company/clock-geometry.js",
+      "src/company/clock-samples.js",
+      "src/company/contact-resources.js",
+      "src/company/document.js",
+      "src/company/examples/c1-ceiling-acoustic-alternate.json",
+      "src/company/examples/c1-ceiling-acoustic-display.json",
+      "src/company/examples/c1-ceiling-home.json",
+      "src/company/examples/c1-clock-alternate.json",
+      "src/company/examples/c1-clock-display.json",
+      "src/company/examples/c1-floor-information-alternate.json",
+      "src/company/examples/c1-floor-information-display.json",
+      "src/company/examples/c1-floor-mirror-alternate.json",
+      "src/company/examples/c1-floor-mirror-display.json",
+      "src/company/examples/c1-hinged-alternate.json",
+      "src/company/examples/c1-hinged-display.json",
+      "src/company/examples/c1-information-alternate.json",
+      "src/company/examples/c1-information-display.json",
+      "src/company/examples/c1-makeup-drawer-alternate.json",
+      "src/company/examples/c1-makeup-drawer-display.json",
+      "src/company/examples/c1-makeup-mirror-alternate.json",
+      "src/company/examples/c1-makeup-mirror-display.json",
+      "src/company/examples/c1-makeup-storage-alternate.json",
+      "src/company/examples/c1-makeup-storage-display.json",
+      "src/company/examples/c1-makeup-wall-mirror-alternate.json",
+      "src/company/examples/c1-makeup-wall-mirror-display.json",
+      "src/company/examples/c1-mirror-alternate.json",
+      "src/company/examples/c1-mirror-display.json",
+      "src/company/examples/c1-side-table-alternate.json",
+      "src/company/examples/c1-side-table-display.json",
+      "src/company/examples/c1-side-table-life-items-alternate.json",
+      "src/company/examples/c1-side-table-life-items-display.json",
+      "src/company/examples/c1-sliding-alternate.json",
+      "src/company/examples/c1-sliding-display.json",
+      "src/company/examples/c1-studio.json",
+      "src/company/examples/c1-support-alternate.json",
+      "src/company/examples/c1-support-display.json",
+      "src/company/examples/c1-supported-clock-alternate.json",
+      "src/company/examples/c1-supported-clock-display.json",
+      "src/company/examples/c1-surface-home.json",
+      "src/company/examples/c1-two-stations-alternate.json",
+      "src/company/examples/c1-two-stations-alternate.ops.json",
+      "src/company/examples/c1-two-stations.json",
+      "src/company/examples/c1-vanity-alternate.json",
+      "src/company/examples/c1-vanity-display.json",
+      "src/company/examples/c1-wall-shelf-alternate.json",
+      "src/company/examples/c1-wall-shelf-display.json",
+      "src/company/examples/c2-ceiling-company.json",
+      "src/company/examples/c2-mixed-company-edit.ops.json",
+      "src/company/examples/c2-mixed-company.json",
+      "src/company/examples/c2-rental-home.json",
+      "src/company/examples/c2-small-home.json",
+      "src/company/examples/c2-surface-company.json",
+      "src/company/facility-catalog.json",
+      "src/company/facility-edit-data.js",
+      "src/company/facility-editor.js",
+      "src/company/floor-information-samples.js",
+      "src/company/floor-mirror-samples.js",
+      "src/company/hinged-samples.js",
+      "src/company/image-ownership.js",
+      "src/company/information-display.js",
+      "src/company/information-geometry.js",
+      "src/company/information-samples.js",
+      "src/company/layouts.json",
+      "src/company/library-catalog.json",
+      "src/company/makeup-drawer-data.js",
+      "src/company/makeup-drawer-geometry.js",
+      "src/company/makeup-drawer-samples.js",
+      "src/company/makeup-mirror-data.js",
+      "src/company/makeup-mirror-geometry.js",
+      "src/company/makeup-mirror-samples.js",
+      "src/company/makeup-storage-data.js",
+      "src/company/makeup-storage-geometry.js",
+      "src/company/makeup-storage-samples.js",
+      "src/company/makeup-wall-mirror-data.js",
+      "src/company/makeup-wall-mirror-geometry.js",
+      "src/company/makeup-wall-mirror-samples.js",
+      "src/company/mirror-data.js",
+      "src/company/mirror-geometry.js",
+      "src/company/mirror-render.js",
+      "src/company/mirror-samples.js",
+      "src/company/moving-part-geometry.js",
+      "src/company/moving-parts.js",
+      "src/company/persistence.js",
+      "src/company/placement.js",
+      "src/company/preview.css",
+      "src/company/preview.js",
+      "src/company/render.js",
+      "src/company/resources.json",
+      "src/company/room.js",
+      "src/company/scale-examples.js",
+      "src/company/side-table-data.js",
+      "src/company/side-table-geometry.js",
+      "src/company/side-table-life-items-data.js",
+      "src/company/side-table-life-items-geometry.js",
+      "src/company/side-table-life-items-samples.js",
+      "src/company/side-table-samples.js",
+      "src/company/sliding-part-geometry.js",
+      "src/company/sliding-samples.js",
+      "src/company/space.js",
+      "src/company/support-data.js",
+      "src/company/support-geometry.js",
+      "src/company/support-samples.js",
+      "src/company/supported-clock-samples.js",
+      "src/company/surface-finish-render.js",
+      "src/company/templates-extended.json",
+      "src/company/templates.json",
+      "src/company/upgrade.js",
+      "src/company/use-point-data.js",
+      "src/company/vanity-data.js",
+      "src/company/vanity-geometry.js",
+      "src/company/vanity-samples.js",
+      "src/company/wall-shelf-data.js",
+      "src/company/wall-shelf-geometry.js",
+      "src/company/wall-shelf-samples.js",
+      "src/company/wall-visibility.js",
+      "vite.company.config.js"
+    ]
+  }
+}

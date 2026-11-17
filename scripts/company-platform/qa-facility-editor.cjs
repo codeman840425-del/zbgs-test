@@ -50,7 +50,7 @@ async function check(name,fn){const result=await fn();report.checks.push({name,p
    await choose('layout','studio');assert.notEqual((await doc()).id,draft.id);await choose('layout','smallHome');assert.deepEqual(await doc(),draft);return draft;
  });
  await check('Saved room survives closing the whole browser and restores the selected placement data',async()=>{
-   await click('save');const before=await doc();await context.close();context=null;await open();assert.deepEqual(await doc(),before);assert.equal(await page.locator('#mode-room').getAttribute('aria-pressed'),'true');await shot('07-browser-reopened');return before;
+   await click('save');const before=await doc();await fs.writeFile(path.join(out,'company-layout.company.json'),await page.evaluate(()=>company.export()));await context.close();context=null;await open();assert.deepEqual(await doc(),before);assert.equal(await page.locator('#mode-room').getAttribute('aria-pressed'),'true');await shot('07-browser-reopened');return before;
  });
  await check('Small viewport keeps navigation, placement and save controls accessible',async()=>{
    await page.setViewportSize({width:760,height:900});await shot('08-small-viewport');assert(await page.locator('#save').isVisible());assert(await page.locator('#mode-room').isVisible());assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));return{width:760};
