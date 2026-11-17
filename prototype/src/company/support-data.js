@@ -1,12 +1,14 @@
 // Horizontal rectangular support contracts. No physics, actors or occupancy state.
 import {partOffset} from './moving-parts.js';
 import {MAKEUP_STORAGE_PROFILE,validateMakeupStorageResource} from './makeup-storage-data.js';
+import {validateSideTableResource} from './side-table-data.js';
 const object = value => value && typeof value === 'object' && !Array.isArray(value);
 const pair = value => Array.isArray(value) && value.length === 2 && value.every(Number.isFinite);
 const ID = /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/;
 const EPS = 1e-6;
 
 export function validateSupportResource(resource, fail, path = resource.id) {
+  validateSideTableResource(resource,fail,path);
   validateMakeupStorageResource(resource,fail,path);
   if (resource.supportSurfaces === undefined) {
     if (resource.supportNodes !== undefined) fail('invalid-support-contract', path, 'Support mesh bindings require supportSurfaces');

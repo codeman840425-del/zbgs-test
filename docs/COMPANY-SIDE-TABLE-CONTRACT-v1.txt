@@ -1,0 +1,35 @@
+外部素材边几固定制作与承载合同 v1
+2026-11-17；基线 a3136794。依据 research/COMPANY-SIDE-TABLE-EXTERNAL-PREFLIGHT-2026-11-17.txt 的实际原GLB/DAE、许可、三角及候选适配检查。本合同是制作与准入要求，不是完成声明。
+
+一、固定功能及现有链复用
+首批side-table-{round,square,nested,low}@1，四款分别为圆几、方几、套几、低茶几。profile名side-table-v1用于本合同及独立几何报告，以mountRole/productionBranch=side-table识别；资源不增加movingProfile、动态状态或新安装系统。同功能新ID与正整数版本可复用，首批ID只作登记和已知身份保护，不作永久白名单。
+category=decor，mount=floor-surface，mounting={origin:'bottom',width:.8,height:.5,depth:.55}；米制、+Y上、+Z前、底部中心、实例scale恒等。footprint={center:[0,0],halfSize:[.4,.275],blocking:true}；usePoints=[]，stateDefaults={}。不声明stateSchema/stateSemantics、movingParts/supportMotion、灯/显示/反射或角色交互。
+设施直接parent为room/area，地面Y=0；沿既有完整安装包络、实际墙内.1m、同层阻挡重叠与静态连通准入。四款只使用以下同一个支持面和网格绑定。
+supportSurfaces=[{id:'top',center:[0,0],topY:.5,halfSize:[.15,.11],clearanceHeight:.35}]；supportNodes={top:'side-table-top'}。
+子物沿既有support-surface/attachment={surfaceId:'top'}、底部等高、完整旋转包络/净空及同父三维重叠检查。支持面、安装盒及阻挡已参与现有功能签名，普通换款保父子ID、资源版本、attachment和局部transform。copy-facility、保存pin、prepare/commit与失败保原沿原链，不为外部素材另建导入/状态/子树系统。
+
+二、真实外部来源与适配边界
+采用已下载Kenney Furniture Kit 2.0原ZIP，SHA256 e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0。原作者/分发者Kenney，原包License.txt为CC0，官方页https://kenney.nl/assets/furniture-kit。本包不重下、不采购新素材，原ZIP/License及相关原GLB/DAE作为可读输入保留。
+正式资源provenance及完整交付列原包/条目SHA、原作者/许可、原GLB/DAE、实际节点/三角区域、原matrixWorld烘焙、底部基点重定位、各向尺寸适配、退化面清理与新增台板/接触封口配方。源保可编辑DAE与可读参数recipe，不能只交改名GLB，不能把尺寸适配解释成原作者单位错误。
+原模型是不透明纯色木材及方柜金属把手，本包保其原材质语义，不引入贴图或玻璃。tableCoffeeGlass原玻璃是4片零厚半透明三角，保持未采用研究候选，不改木色冒充另款。tableCross与sideTable的原拓扑/层面问题也保研究身份。
+
+三、四款实际结构
+圆几使用tableRound原柱、撑与底座。原顶是六边形，本轮按明确原区域加工为48段真实圆台板，半径.26、顶Y=.5，台板下沿约.4296843。保原下部结构和闭合支承，切分/封闭真实连接截面；不能把六边形改标签计圆几。新台板与支承须有正面积接触，所有外壳闭合，不能遗留开放截口。
+方几使用cabinetBed柜型外观，保实际侧/背/底、独立门及金属把手形态，尺寸适配后底0顶.5，范围X±.25/Z±.225。门固定，不提供开门状态或铰接能力。
+套几使用tableCoffeeSquare的两个真实实例，保各自台板、四腿及系杆。主桌.48×.50×.44m，centerX=-.05；小桌.30×.34×.26m，centerX=.24；两桌都落地0，形成静态错叠。主台下沿约.39130435、小台顶.34，间距约.05130435。仅主桌声明top，小桌不增加第二支持面，不宣称抽拉、滑轨或自由嵌套。
+低茶几使用tableCoffee长方原型，尺寸.75×.50×.45m，保实际四腿、长方台板及长系杆，不能将其和方几归一成相同盒体。
+四款完整包络均在X±.4、Y[0,.5]、Z±.275。实际mesh及资产祖先变换恒等，原matrixWorld须准确烘焙一次；原候选tableCross含.42缩放、柜门有局部位移等事实保来源记录。退化面按准确原区域清理，不把零面积三角当封闭/接触证据。
+
+四、承载和独立实际几何门
+既有generic support门不放宽，side-table-top在Y=.5必须为两个真实上向共面三角、四个矩形角，完整覆盖共同.30×.22m patch。圆台板采用无重叠分区，patch为独立两三角，余顶为外轮廓减去矩形孔的真实剖分；删除被替代原面，禁止叠放共面贴片。
+新独立side-table几何门进一步验证分区合并后的闭合完整台板、真实厚度、正面积台板/支承接触、原源保留结构、各桌独立地面连接、完整包络、承载净空、无浮片/悬空附块、无重复同向外表面及严重穿插。套几按两个真实子桌分别核落地与主桌top关系。节点名、AABB或面积总和不能代替真实结构验证。
+每件目标≤2500三角、≤32mesh、≤4材质；正式实际GLTFLoader读回计量，数量不替代结构检查。CPU合同或合成夹具不计为外部原网格制作通过。
+
+五、源修改、版本与保存
+参数第二输入为nested.smallOffsetX .23→.24m，最终锁.24，保before源/GLB/实际读回。修改只影响套几，其他三GLB字节保持；两次同输入导出字节一致。import无写入，--check不依赖evidence。原始输入、recipe、导出器/loader/锁文件、来源许可及全部依赖SHA固定，Three r187工具沿MIT。
+四款的固定功能相等，实际装饰/门把手/支承形状差异属于外观适配。同功能新ID/版本合法，功能变更必须被兼容比较拒绝。全部子物沿独立ID、资源引用、直接parent、attachment及rest局部transform保存，边几不存开合状态。未知功能字段、伪动态字段、坏支持面/绑定、非法父或安装、过高/越界/重叠子物、缺资源/错误版本及迟到候选失败均保旧场景、文档和已存字节。
+
+六、输入与最小出口
+输入A为7×5.25m的side-table-demo/room-1，桌[0,0,-.5]/yaw0；复用已有tabletop-ornament-vase独立子物，attachment.top，local[0,.5,0]。输入B为独立side-table-alternate/room-1，桌[1,0,.3]/yawPI/2，子物local保持；观察world随父移动/转向。side-table-life-items的四日用品仍是独立后续分支，本包不冒认其生产完成。
+最小出口含四个真实衍生GLB和侧录、原GLB/DAE+许可+可读recipe、源参数真实修改、generic support与独立实体几何门、正式登记/同一观看入口、四款逐个独立关闭恢复、两输入、父移转与复制、坏例失败保原、确切源码独立重建与正常1×录像。网络实际加载SHA和运行资源provenance须核同一外部衍生资产，才能称已使用Kenney素材。
+一次实现加一轮有真实根因的修正；同因两轮无新证据或改善则保失败并重定位，不扫更多外部包、不放宽承载、不以六边源冒圆几。普通电脑性能、C3角色使用和用户观感分别按实际证据记录。

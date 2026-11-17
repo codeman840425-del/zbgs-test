@@ -1,0 +1,86 @@
+{
+  "schema": "company-layout",
+  "version": 1,
+  "id": "side-table-alternate",
+  "name": "边几 · 转向布置",
+  "revision": 1,
+  "scale": "single-room",
+  "catalog": {
+    "id": "company-facilities",
+    "version": 1
+  },
+  "nodes": [
+    {
+      "id": "side-table-alternate/floor-1",
+      "kind": "floor",
+      "parentId": "side-table-alternate",
+      "name": "一层",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "side-table-alternate/room-1",
+      "kind": "room",
+      "parentId": "side-table-alternate/floor-1",
+      "name": "直播间",
+      "purpose": "streaming",
+      "bounds": {
+        "width": 7,
+        "depth": 5.25
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "side-table/primary",
+      "kind": "facility",
+      "parentId": "side-table-alternate/room-1",
+      "resource": {
+        "id": "side-table-round",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1,
+          0,
+          0.3
+        ],
+        "yaw": 1.5707963267948966
+      },
+      "state": {}
+    },
+    {
+      "id": "side-table/primary/ornament",
+      "kind": "facility",
+      "parentId": "side-table/primary",
+      "resource": {
+        "id": "tabletop-ornament-vase",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.5,
+          0
+        ],
+        "yaw": 0
+      },
+      "state": {},
+      "attachment": {
+        "surfaceId": "top"
+      }
+    }
+  ]
+}

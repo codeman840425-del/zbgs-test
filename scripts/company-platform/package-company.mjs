@@ -6,6 +6,9 @@ import {fileURLToPath,pathToFileURL} from 'node:url';
 const defaultSource=fileURLToPath(new URL('../../',import.meta.url));
 const fixedInputs=['company.html','vite.company.config.js','scripts/build-company-id.mjs','package.json','package-lock.json'];
 const extraFiles=[
+  'scripts/company-platform/build-side-table-examples.mjs',
+  'docs/COMPANY-SIDE-TABLE-CONTRACT-v1.txt',
+  'docs/research/COMPANY-SIDE-TABLE-EXTERNAL-PREFLIGHT-2026-11-17.txt',
   'scripts/company-platform/company.mjs','scripts/company-platform/batch.mjs',
   'scripts/company-platform/build-facility-catalog.mjs','scripts/company-platform/build-library.mjs',
   'scripts/company-platform/library-inputs.json','scripts/company-platform/build-sofa.mjs',

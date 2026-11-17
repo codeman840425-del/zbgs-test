@@ -1,0 +1,258 @@
+{
+  "id": "company-side-table-v1",
+  "version": 1,
+  "license": "Kenney Furniture Kit 2.0 original models and solid-color materials are CC0. Author/distributor Kenney (https://kenney.nl/assets/furniture-kit). Project-authored finite adaptation recipe and circular tabletop. Three.js r187 is MIT licensed. Original package License.txt is preserved.",
+  "common": {
+    "coordinates": {
+      "units": "metres",
+      "up": "+Y",
+      "forward": "+Z",
+      "origin": "Bottom centre",
+      "scale": "Identity only"
+    },
+    "mounting": {
+      "origin": "bottom",
+      "width": 0.8,
+      "height": 0.5,
+      "depth": 0.55
+    },
+    "footprint": {
+      "center": [
+        0,
+        0
+      ],
+      "halfSize": [
+        0.4,
+        0.275
+      ],
+      "blocking": true
+    },
+    "supportSurfaces": [
+      {
+        "id": "top",
+        "center": [
+          0,
+          0
+        ],
+        "topY": 0.5,
+        "halfSize": [
+          0.15,
+          0.11
+        ],
+        "clearanceHeight": 0.35
+      }
+    ],
+    "promptStandard": "Purpose: four side-table appearances with one fixed side-table-v1 floor/support function. Reuse and adapt the pinned Kenney Furniture Kit 2.0 original GLB/DAE inputs, preserve the original opaque wood/metal material and actual support structure, bake original world transforms once and normalize the bottom-centred dimensions in metres, +Y up and +Z front. Round retains the original pedestal/braces/base and replaces the six-sided slab with an actual 48-segment .26m-radius closed circular slab. Cabinet is fixed, nested is two independent grounded tables, and low is the original elongated four-leg tie-frame table. Keep a real .30 x .22m top patch at Y=.5 with non-overlapping surrounding top geometry, no floating decal. Validate the actual imported GLB through the fixed data, generic support and independent solid/source geometry gates. Budget 2500 triangles/32 meshes/four materials. Record source, license, all recipe changes, deterministic exports and failures."
+  },
+  "originalPackage": {
+    "author": "Kenney",
+    "name": "Furniture Kit",
+    "version": "2.0",
+    "url": "https://kenney.nl/assets/furniture-kit",
+    "archive": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+    "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+    "license": "CC0",
+    "licensePath": "assets-source/company-side-table-v1/original/License.txt"
+  },
+  "round": {
+    "segments": 48,
+    "radius": 0.26,
+    "uniformXZ": 0.65
+  },
+  "nested": {
+    "smallOffsetX": 0.24
+  },
+  "cleanup": {
+    "zeroAreaThreshold": 1e-12,
+    "positionWeldMetres": 1e-7
+  },
+  "designs": [
+    {
+      "id": "round",
+      "source": "tableRound",
+      "label": "圆几 · 原柱架圆台板",
+      "size": [
+        null,
+        0.5,
+        null
+      ],
+      "centerX": 0,
+      "prompt": "Retain the original real pedestal/braces/base; replace only the measured six-sided tabletop region with a 48-sided circular slab and close the actual support cut. Radius .26m, top .5m, slab bottom from the original measured underside.",
+      "sourceRegions": {
+        "sourceNodes": [
+          "tableRound(Clone)"
+        ],
+        "retained": "Original positive-area source faces below measured tabletop underside, clipped at that plane. Original hexagonal slab and complete old underside are removed. Boundary loops at the actual cut are closed with upward triangles.",
+        "new": "48-sided circular slab at source-derived underside and top .5, with non-overlapping annular top plus rectangular two-triangle patch."
+      }
+    },
+    {
+      "id": "square",
+      "source": "cabinetBed",
+      "label": "方几 · 固定门柜体",
+      "size": [
+        0.5,
+        0.5,
+        0.45
+      ],
+      "centerX": 0,
+      "prompt": "Preserve the original cabinet body, separate fixed door and metal handle. Bake all original parent and door transforms. No hinge state.",
+      "sourceRegions": {
+        "sourceNodes": [
+          "cabinetBed(Clone)",
+          "Mesh_door",
+          "Mesh_door_1"
+        ],
+        "retained": "All positive-area body, fixed door and handle faces. Original world matrices baked once; body top pair is split into side-table-top with no duplicate."
+      }
+    },
+    {
+      "id": "nested",
+      "source": "tableCoffeeSquare",
+      "label": "套几 · 双桌错叠",
+      "size": [
+        0.48,
+        0.5,
+        0.44
+      ],
+      "centerX": -0.05,
+      "smallSize": [
+        0.3,
+        0.34,
+        0.26
+      ],
+      "prompt": "Two real complete original square tables at different heights, with independent ground contact. Main table center -.05, small center from nested.smallOffsetX; retain each top/four legs/tie frame. Static arrangement.",
+      "sourceRegions": {
+        "sourceNodes": [
+          "tableCoffeeSquare(Clone)"
+        ],
+        "retained": "Two complete positive-area copies, each independently bottom-centred and scaled. Only main top pair moves to side-table-top. Small table is a static complete grounded instance."
+      }
+    },
+    {
+      "id": "low",
+      "source": "tableCoffee",
+      "label": "低茶几 · 长方四腿系杆",
+      "size": [
+        0.75,
+        0.5,
+        0.45
+      ],
+      "centerX": 0,
+      "prompt": "Preserve the original elongated rectangular slab, four legs and long lower tie frame; adapt the actual dimensions without replacing its structure with the cabinet or nested form.",
+      "sourceRegions": {
+        "sourceNodes": [
+          "tableCoffee(Clone)"
+        ],
+        "retained": "All positive-area elongated table source faces, original top pair split into side-table-top with no duplicate."
+      }
+    }
+  ],
+  "sourceModification": {
+    "parameter": "nested.smallOffsetX",
+    "before": 0.23,
+    "after": 0.24
+  },
+  "dependencyPins": {
+    "functionalContract": {
+      "path": "docs/COMPANY-SIDE-TABLE-CONTRACT-v1.txt",
+      "sha256": "e1c56b23e52f837866598a4a280da1db3f7c60bb3f4e169b8acddda4d2d99e3d"
+    },
+    "preflight": {
+      "path": "docs/research/COMPANY-SIDE-TABLE-EXTERNAL-PREFLIGHT-2026-11-17.txt",
+      "sha256": "c671157c1b631936d785829793913c752eca527e28b03aeb4a7827f2a04927b2"
+    },
+    "productionStandard": {
+      "path": "docs/COMPANY-APPEARANCE-PRODUCTION-STANDARD.md",
+      "sha256": "25d12677aa7b13eb5a6ff5b10324cb86bde17eaec16923279af8d6ad9e54836a"
+    },
+    "lockfile": {
+      "path": "prototype/package-lock.json",
+      "sha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7"
+    },
+    "threePackage": {
+      "path": "prototype/node_modules/three/package.json",
+      "sha256": "87f2c99a8718e5fdd6f5e51427fde52c6075f2f698ddf8f7b4e162882df93940"
+    },
+    "threeModule": {
+      "path": "prototype/node_modules/three/build/three.module.js",
+      "sha256": "104f56145899722094556490d787aae0617cc2fc3382f31df02d724ea1aee341"
+    },
+    "threeCore": {
+      "path": "prototype/node_modules/three/build/three.core.js",
+      "sha256": "613e370f76638fdef83926642bf256dc9615684922de1ce1f63a8583e5d78578"
+    },
+    "gltfExporter": {
+      "path": "prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+      "sha256": "569793baeba62baeb4ab0b3619b6b1495b45d4b2ba9690430497adb58307bdf2"
+    },
+    "gltfLoader": {
+      "path": "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+      "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1"
+    },
+    "bufferGeometryUtils": {
+      "path": "prototype/node_modules/three/examples/jsm/utils/BufferGeometryUtils.js",
+      "sha256": "7bda2a8ba836b2bcf67cb938d4b9e1bb5d1b1bc616817103ed858c0b58296ce7"
+    },
+    "skeletonUtils": {
+      "path": "prototype/node_modules/three/examples/jsm/utils/SkeletonUtils.js",
+      "sha256": "b1632a703206c3d830de9fcbe515696770d04b71a15ee6b50afa6d2c3298c86f"
+    },
+    "threeLicense": {
+      "path": "prototype/node_modules/three/LICENSE",
+      "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+    },
+    "supportVerifier": {
+      "path": "prototype/src/company/support-geometry.js",
+      "sha256": "132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68"
+    },
+    "original-cabinetBed.dae": {
+      "path": "assets-source/company-side-table-v1/original/cabinetBed.dae",
+      "sha256": "eb5b3cac2b4c171bf33914cc3cbc338c2dc5b976142afeeb98b34a9b52133353"
+    },
+    "original-cabinetBed.glb": {
+      "path": "assets-source/company-side-table-v1/original/cabinetBed.glb",
+      "sha256": "b651fafb9e2c8e4adcb8cad3d10dc94404b46fe039b26e66b2c9020df4e5301d"
+    },
+    "original-furniture-kit-2.0.zip": {
+      "path": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+      "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0"
+    },
+    "original-License.txt": {
+      "path": "assets-source/company-side-table-v1/original/License.txt",
+      "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+    },
+    "original-tableCoffee.dae": {
+      "path": "assets-source/company-side-table-v1/original/tableCoffee.dae",
+      "sha256": "a0cc2836f56e5794ec281e880897754068c855f5c92df9a207131a108bab488f"
+    },
+    "original-tableCoffee.glb": {
+      "path": "assets-source/company-side-table-v1/original/tableCoffee.glb",
+      "sha256": "e38bea760fbd514efbb75528d09b4752c91af44677bbb97e6d4386c263525179"
+    },
+    "original-tableCoffeeSquare.dae": {
+      "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.dae",
+      "sha256": "8fbb3776ad9678b09327eb4042782756f51fd429810f87cc58779f5af20b29cf"
+    },
+    "original-tableCoffeeSquare.glb": {
+      "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.glb",
+      "sha256": "bcc81d8919a3af9141c9c93b4520106dd0a90a7144346cd87928014018aac816"
+    },
+    "original-tableRound.dae": {
+      "path": "assets-source/company-side-table-v1/original/tableRound.dae",
+      "sha256": "37f7e6505f6c87a6305a027baee08c79e78656e5288045a1dfeee6342324e6f6"
+    },
+    "original-tableRound.glb": {
+      "path": "assets-source/company-side-table-v1/original/tableRound.glb",
+      "sha256": "f8daea9124a542a00b7bdacfddac82dc468573d43e44d7b54dd6316e9695754b"
+    },
+    "dataVerifier": {
+      "path": "prototype/src/company/side-table-data.js",
+      "sha256": "930f40499f249edeb56321cb6c1cf22e7115c66a475a37785880b554054bb85c"
+    },
+    "geometryVerifier": {
+      "path": "prototype/src/company/side-table-geometry.js",
+      "sha256": "9fda63f8aaed708d8cf233bb7ce040ce1697da082ef32811c92c265c4a0c28f7"
+    }
+  }
+}

@@ -1,0 +1,88 @@
+边几外部素材接入：真实来源与有界制作预检
+2026-11-17
+
+核读树 F:/gamemake-company-platform-c1，HEAD 49e7b4174b99835e7684505c2b1078ee54378e07。本次只读取既有工程、原始包、原GLB/DAE和来源证据，进行候选坐标与三角形计算。没有制作适配GLB、改assets-source/public/runtime或运行浏览器。当前墙挂化妆镜交付由总工收尾。
+
+一、实际缺口与分支原文
+
+branches.json共107分支、106 confirmed。side-table为confirmed，原文四款是“圆几、方几、套几、低茶几”。派工摘要的“框架几、低柜几”已由总工纠正，制作仍保四个原始要求。固定用途“边几/茶几、桌面承载”，floor-surface、room.floor、static，pending尺寸.65×.50×.50m。机制是落地、承载、clearance、保存恢复及子物父变换。
+
+当前company-facilities@1有149项。实际id/role/productionBranch没有side-table资源。现有desk、vanity-table和storage-shelf具有各自规格，不能因都有水平面就计本分支四款。CAPABILITIES/CAPABILITY-AUDIT的相关范围及原公司交接记录未见此分支完成证据，结论继续以实际catalog和原运行报告交叉核对。旧support固定4b3ceab3e56f的5组和独立包4组验证四架/四装饰小物、真实层板、父变换/复制、兼容替换、保存和恢复，覆盖可复用机制。它们没有接入本次Kenney边几。
+
+side-table-life-items是另一confirmed分支，四款“杯子、水瓶、纸巾盒、笔筒与笔记本”，pending包络.18×.25×.18m，原安装标签side-table-surface，parent side-table。它保持待完成身份，本包提供真实top接口和已有装饰小物见证，不把生产四款日用品塞进本包。
+
+v3第C1-A/7要求家具承载真实可用，C1-B要求依附、父变换与非法承载拒绝，C1-C要求四款和真实源修改→导出→登记→游戏→保存关闭恢复。因此目前只下载或测量不能称已经使用外部素材。本预检提出能进入该完整链的实际源组合，完成仍待后续实现与运行。
+
+二、来源、许可和可编辑输入
+
+复用此前取得的Kenney Furniture Kit 2.0原ZIP，不重下。原包SHA256 e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0，路径evidence/company-makeup-drawer-source-research-v1/kenney-furniture-kit-original.zip。原License.txt明确CC0，创建/分发者Kenney，Creation date 20-10-2018 16:21，允许个人、教育和商业使用，署名非强制。正式包仍保作者、官方URL、原许可证和原包/条目SHA，衍生修改另记。
+
+官方页 https://kenney.nl/assets/furniture-kit 的既有原始HTML注明140×及CC0。本次web open返回restricted URL，已在official-source-check.json保留，不冒称本次在线重新取得。许可依据来自实际原包License.txt和已存官方HTML。未购买、未重新下载、未上传。Poly Haven/Quaternius未在本次成为模型输入。
+
+研究目录已有tableCoffee/tableCoffeeSquare/tableCoffeeGlass/sideTable的GLB+DAE。此次再从同一原ZIP提取tableRound/tableCross/cabinetBed的原GLB+DAE和有限原缩略图，原字节不改。每个条目SHA和路径见candidate-extraction.json、additional-original-extraction.json。只将原始输入复制到research证据目录。
+
+DAE均声明meter=1、Y_UP，含实际顶点/三角形与材质绑定，能作为可编辑网格源。它们没有本项目制作参数，后续以可读适配recipe记录来源条目、节点/三角区域选择、基点、轴向、尺寸、有限顶板适配和真实参数编辑。GLB作为确定的直接导入输入，原DAE作为作者网格输入保留。不是只交付一个改名后的GLB。
+
+tableRound/tableCross/tableCoffee/Square都将几何合在一个材质mesh中，不自带“台板、腿”独立语义节点。cabinetBed有独立door父子节点及木门/金属把手的材质mesh。tableCross原GLB节点scale=.42，DAE也含该缩放，必须先烘焙一次原matrixWorld再适配，不能忽略或重复乘.42。cabinetBed的door还要烘焙自身局部位移。其他候选整体基点偏角落，tableRound底部甚至Y=-.26999998，不能把文件原点当落地中心。
+
+本批原GLB没有images/textures/external URI/animation。木材是纯色，实际线性RGB约[.8962264,.6015712,.3931559]、roughness1、metalness0、不透明。cabinetBed的metal把手同为不透明，保原材质与造型。没有贴图补齐或新玻璃渲染依赖。
+
+三、实际源量测和取舍
+
+所有数值按GLTFLoader实际matrixWorld及渲染索引读取，逐primitive只计实际引用顶点。原初筛report对共享BufferAttribute的每个材质都报全物件AABB，会把sideTable的两三角白材质、tableCoffeeGlass的glass错报为全家具范围。本次actual-rendered-triangle-inspection.json保每mesh的真实引用三角与水平面。
+
+1. tableRound，6444bytes、80tri、1不透明木材mesh。整体约.69282031×.36673396×.80000001m，范围X[0,.69282031]、Y[-.26999998,.09673398]、Z[-.80000001,0]。顶面实际4tri、6个角点，面积.41569220m²。它是六边台面、柱/撑与底座，文件名不能直接证明圆形。底面2tri面积.04840000m²，有真实落地底座。原网格存在2个零/近零面积tri。
+
+决定以它做圆几的外部原型，保原实际柱、撑和底座，有限改造台板为48段真实圆形。圆片半径.26m来自原半径.40×XZ比例.65，台板Y范围由原实底.0451606与顶.09673398变换得到约[.4296843,.5]，厚约.0703157m。保原下部尺寸/结构，按实台板下沿切分并封闭真实连接截面，形成与新台板正面积贴合的闭合支承，不能留下开放截口。此轮廓加工尚未实施，最终需实际读回证明。六边源本身不计圆几交付。
+
+2. cabinetBed，7496bytes、72tri、3材质mesh（木柜体、木门、金属把手），原实际约.26599998×.23320001×.21500001m。顶2tri面积.05719000m²，底2tri面积.05043000m²。原有限1e-6m坐标合并边检查为0边界/0非二邻边、0零面积。选为方几，保真实柜型侧/背/底与独立门把手形态，整体门固定，不新增开门状态。是本分支静态方几外观，未来柜门机制仍按独立分支管理。
+
+3. tableCoffeeSquare，8276bytes、124tri、1木材mesh，实际.40000001×.23000000×.40000001m。顶2tri、四腿及下部系杆，源底接触8tri面积.00640000m²。选两个真实不同高度/尺寸实例组成固定错叠套几，分别保留各自台板、四腿和系杆。不是把单桌改标签。原有6个零面积tri，生产中按准确原区域清理并核外壳，不能用其零面积面冒闭合证明。
+
+4. tableCoffee，8256bytes、124tri，实际.66099609×.23000000×.40000001m。顶2tri面积.26439845m²、四腿/长系杆，底接触面积约.00640000m²。选为低茶几，保长方比例和四腿系杆，适配到.75×.50×.45m。原8个零面积tri需同源清理。该款与方几的柜体、圆几柱架、套几双桌在实际结构上不同，不能把Coffee与CoffeeSquare分别归一为同尺寸四腿方盒后当两款。
+
+未选tableCross为本轮方几。它是178tri交叉腿桌，实际matrixWorld约.85212004×.34741333×.44737332m，2tri顶面真实可用，但发现10个零/近零面积tri及8条非二邻边计数，清理量高于cabinetBed。其形态可保后续候选，不能宣称原源已经闭合。sideTable是118tri窄边桌、.53447546×.38440755×.21999999m，两三角白面在Y=.35440755而整体顶Y=.38440755，存在夹层/凹面结构，且2零面积tri/4非二邻边计数。此轮无需硬拉深度或处理该结构。
+
+tableCoffeeGlass为140tri，其中glass仅4tri（相反朝向各2tri），全部Y=.23000000，厚度0、opacity=.5。金属框136tri。若使用它，需要另补实际厚玻璃、透明排序/材质运行与承载的独立实检。本轮明确选择不透明四来源形态，不把glass改成木色就计另一造型。透明玻璃机制仍保在长目标，未被删除。
+
+以上边检查只是诊断，不替代最终实体连通与接触检查。相关错误、原源及计数均保留，不把generic support原源可过等同全壳已验。
+
+四、确定的共同候选规格
+
+建议 side-table@1 固定mountRole/productionBranch side-table、category decor、mount floor-surface、mounting={origin:'bottom',width:.8,height:.5,depth:.55}。坐标米制、+Y上、+Z前、底部中心、单位scale；usePoints=[]、stateDefaults={}，static。blocking footprint={center:[0,0],halfSize:[.4,.275],blocking:true}。父是room/area，沿现有地面边界准入，不能parent到座椅或另一个独立家具。
+
+将pending宽.65改.80、深.50改.55，依据是保留真实长茶几比例、两桌真实错叠和圆桌直径，而非将四家具挤成同形。最大模型范围分别为圆几X±.26/Z±.26、柜型方几X±.25/Z±.225、套几X[-.29,.39]/Z±.22、低茶几X±.375/Z±.225；均在固定盒内。原tableRound六边台面变换范围X±.2251666/Z±.26，改圆后X扩至±.26，底座仍保原源。
+
+四款支持面共同且仅一个top，center=[0,0]、topY=.5、halfSize=[.15,.11]、clearanceHeight=.35。实际可用矩形为.30×.22m，当前.16×.12×.20m装饰物和未来pending .18×.18×.25m日用品各能完整落下。各面实际三角裁剪的原源候选覆盖.066m²，与矩形面积一致。新圆台板半径.26m，对最远角sqrt(.15²+.11²)=.18601m还有余量。套几只声明主桌top，低桌不额外开放第二接口，保持四款兼容。
+
+具体尺寸适配以已烘焙原world顶点为起点。圆几XZ统一乘.65、Y乘1.3633861421并减原底；方几cabinetBed乘[1.8796993744,2.1440822074,2.0930231303]，改完底0顶.5，保持柜体/门把手；低茶几乘[1.1346511824,2.1739130040,1.1249999623]。这些是有记录的尺寸适配，原DAE单位仍为米，不冒称“原包单位错误”。
+
+套几主桌由Square适配为.48×.50×.44m，centerX=-.05；小桌.30×.34×.26m，centerX=.24。两桌都实际着地0，主桌top范围X[-.29,.19]覆盖完整共同patch，小桌范围X[.09,.39]。主台底约.39130435，小台顶.34，静态垂直间距.05130435m。对实际原三角候选变换做15376对边穿面检查和双向三角重心包含检查，smallX=.23和.24两输入均无非共面穿面/重心内含。它是静态候选证据，未做连续抽拉，不能宣称滑轨、自由嵌套或任意手部操作。
+
+五、最小工程接入和真实承载门
+
+已有support-data支持非空supportSurfaces和唯一supportNodes，attach-surface/add-facility要求直接设施父、attachment仅surfaceId、子物底等于topY、完整旋转包络/净空及同父不重叠。document/appearance-contract已把mounting、blocking footprint与supportSurfaces纳入功能相等，换外观只改可变网格映射，保父子ID和变换。copy-facility会复制子树，子物不需新增随动算法。floor-surface已要求room/area、Y=0并以完整包络留墙内.1m。无需新增安装体系或通用外部导入平台。
+
+需要正视support-geometry当前限制。verifyTop严格只接受选定support mesh在topY处的两个上向三角、四矩形角。原Round顶有4tri，已实际拒invalid-support-topology，不能通过给六边顶AABB贴top标签来绕过。
+
+最小源适配办法是对真实台面上表面进行无重叠分区。将共同矩形patch作为side-table-top节点的2个真实三角，台板余部在同一水平面做“外轮廓减矩形孔”的实际三角剖分，原面被替换，禁止在未切原面上叠放一张共面贴片。圆台板其余厚侧/底与原柱架构成有实体支承的组合，partition合并后应等于完整闭合台板边界。方/套/低原顶本身2tri，可将实际整板顶拆到绑定mesh或保整mesh映射，仍核真实矩形覆盖。generic support门可沿用，不新增任意曲面物理或新schema。制作门额外核原源保留部位、台板厚度/接触、各桌独立地面连接、三角面积覆盖和重复面/浮片，避免合法2tri贴片掩盖悬空实体。
+
+预计修改仅为有限builder/参数/来源资源、catalog与branch登记、现有preview样例和必要的有限side-table实际几何准入。既有document/renderer的静态承载无需预设重写。普通同功能新ID/version不应修改通用算法。若实测揭露已有链的具体缺口，再以原失败修接缝，不能预先扩展通用框架。
+
+六、制作输入、第二输入、出口和预算
+
+实施输入固定为上述原ZIP条目、License、原GLB/DAE SHA、新side-table合同、四designId和明确recipe。目标拟定side-table-round/square/nested/low@1，四资源共享固定功能。提示词沿统一模板填写每个来源、规格和真实改造，注明圆台板适配、柜门静态、套几固定错叠及玻璃未采用。源保留原条目和可读recipe，工具用锁定Three r187 GLTFLoader/Exporter及现有脚本入口，import无写入、--check不读evidence、不依赖专业工具UI。
+
+真实参数第二输入选nested.smallOffsetX .23→.24m，只有套几实际几何改变，其余三GLB字节不变。两个候选已有同样原三角静态fit检查。最终源锁.24，保before参数/GLB/actual readback；重复导出逐字节一致。它属于生产输入，不新增运行时滑动状态。
+
+现源总tri为Round80、Cabinet72、Square双桌248、Coffee124。圆台板重剖及support分区会增加三角，建议统一上限≤2500tri/32mesh/4材质，实际读回记录最终预算。保原不透明纯色，不引入贴图下载、解码器、透明排序或新的运行特效。CPU制作先做方几原源重定位/导出和圆几最小台板/支承分区，通过真实geometry与generic support再完成套几/低茶几。外部来源许可清楚，主要省掉柜体、门/把手、原四腿系杆和柱架从零制作，新增成本集中于实际单位/基点烘焙、圆台板、源退化面清理和固定接触验证。它不是零适配成本。
+
+后续游戏输入A以createCompany生成7×5.25m的side-table-demo/room-1，桌[0,0,-.5]/yaw0，已有tabletop-ornament-vase为直接child，attachment.top，local[0,.5,0]。输入B独立side-table-alternate/room-1，桌[1,0,.3]/yawPI/2，child local与原值对应，核变换后world。这里只核固定地面内边界候选，未新建运行样例。后续四款逐款同入口替换并独立关闭恢复，父移动旋转/复制保持子物、原ID/版本/attachment；复制子ID与保存相互隔离。其余生活小物分支后续用同top接口，不在本包添加四小物身份。
+
+最小实际出口必须包括四真实衍生GLB和资源侧录、可编辑原输入+recipe及参数实改、实际GLTFLoader/source/generic-support门、正式catalog与同一观看入口、四款独立关闭恢复、两布局输入、父移动旋转与复制、子物接触/越界/超高/错父/重叠/坏资源保原、固定源码独立重建及正常1×录像。外部来源明确出现在正式运行资源provenance和完整交付包，并由网络请求/实际加载SHA核对，才可称使用了Kenney素材。
+
+预算一次有界实现加一轮有真实失败依据的修正。原候选、退化/玻璃/支持门失败及之后失败均保留。若圆台板分区或原退化面修理两轮同因无新证据/改善，保失败并重新定位具体源区域，不能将六边源改标签算圆几、放宽真实承载门或扫更多外部包。普通电脑性能、角色C3使用和用户视觉验收各自留真实证据，不阻塞独立CPU制作，也不冒称已完成。
+
+七、证据位置
+
+本次evidence/company-side-table-source-research-v1包含原文件及原缩略图、两份原提取manifest、editable-dae-structure.json、actual-rendered-triangle-inspection.json、original-topology-and-support-gate.json、candidate-fixed-spec-calculations.json、nested-static-fit-calculation.json、coverage-and-existing-entrypoints.json、official-source-check.json和source-pins.json。所有“candidate”计算均为真实原三角的只读数值推导，新四款源/模型/运行验证尚未实施。

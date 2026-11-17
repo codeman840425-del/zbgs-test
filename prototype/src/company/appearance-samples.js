@@ -13,7 +13,9 @@ import {createMakeupStorageSample} from './makeup-storage-samples.js';
 import {createMakeupDrawerSample} from './makeup-drawer-samples.js';
 import {createMakeupWallMirrorSample} from './makeup-wall-mirror-samples.js';
 import {createVanitySample} from './vanity-samples.js';
+import {createSideTableSample} from './side-table-samples.js';
 export const appearanceBranches=[
+ ['side-table','边几与茶几'],
  ['makeup-mirror-wall','挂墙化妆镜'],
  ['makeup-storage-drawer','抽屉内化妆收纳'],
  ['makeup-storage','化妆台面收纳'],
@@ -43,6 +45,7 @@ export function appearanceCandidates(catalog,branch) {
  return selected.filter(Boolean).map(r=>({...r,displayName:r.displayName||names[r.id]||r.id}));
 }
 export function createAppearanceSample(branch,index,catalog,templates) {
+ if(branch==='side-table')return createSideTableSample(catalog,templates,{index});
  if(branch==='makeup-mirror-wall')return createMakeupWallMirrorSample(catalog,templates,{index});
  if(branch==='makeup-storage-drawer')return createMakeupDrawerSample(catalog,templates,{index});
  if(branch==='makeup-storage')return createMakeupStorageSample(catalog,templates,{index});
