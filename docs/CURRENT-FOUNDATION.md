@@ -32,3 +32,5 @@
 当前主卡点已从“每件模型手工接线”收敛为：不同几何/表情/发型/衣物仍需要按差分触发对应 fit 和覆盖复核；原生身体目前仅登记原色，眼睛/表情兼容尚未扩展到新 SHA；新增配方链已自动化，但生产结果必须经过共用运行链和记录恢复才可入库。4196 固定工作台仍保持 build1084ddeae27a，本候选尚未替换固定入口。
 
 2026-11-17 4196 fixed入口更新：`delivery/appearance-workbench.json` 当前指向技术候选 build `bda6fd250bb8`、source `1b643d7e53491296fc75c721dd1224d9b3a2d233`，目录 `experiments/native-parameter-runtime-final/prototype/dist`；旧1084指针已归档为 `delivery/history/appearance-workbench-1084ddeae27a-before-native-batch.json`。4196 当前服务进程已核实监听；该入口是待人工观看的技术候选，不代表 M2 或视觉验收完成。
+
+2026-11-17 CUSTOM-P01 批量记录接缝：新增 `scripts/production/native_record_batch.py`，从已登记角色目录读取身体、配方版本和精确道具 fit，自动生成稳定角色记录请求；未知握麦/眼镜 fit 按项省略并记录原因，不继承旧体配置。两项真实请求经 `character-production-cli.cjs` 创建后，构建 `bda6fd250bb8` 的双实例消费者完成 1× 记录回读、表情/讲话隔离、8 秒录像及浏览器关闭重开恢复。证据 `evidence/m2-native-record-plan-v4`。这解决了参数批产后最后一段手写记录接线，但仍只覆盖已登记的两份 FaceContour 女性候选。
