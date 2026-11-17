@@ -1,0 +1,106 @@
+{
+  "schema": "native-vroid-color-production-preflight-v1",
+  "status": "read-only-complete-no-color-edit-trial",
+  "reviewDate": "2026-11-17",
+  "inventory": "source-inventory.json",
+  "inventoryImageConsumersMeaning": "The per-material imageConsumers field lists baseColorTexture consumers only; textureSlots records all inspected material texture routes.",
+  "tools": {
+    "studioVersion": "2.16.0",
+    "bridgeVersion": "0.15.0",
+    "bridgeCommit": "c7367a548626cbe69e26b533e48fc9ddaf85851e",
+    "frozCommit": "6469bd3a6d00fe5fac508d992f63b5a1a783d80e",
+    "toolLicense": "MIT for both inspected plugin sources; this does not license pixiv model assets"
+  },
+  "evidenceLevels": {
+    "proved": [
+      "Actual female843ac and male7586 source material/image/UV/index/morph inventory was read in this package",
+      "Existing native save/cold-open/export and HairSet001 source-production evidence is retained in referenced packages",
+      "Existing male FaceSkin/BodySkin/Iris/Mouth color query receipts contain actual RGBA keys",
+      "Existing froz Joy eyebrow expression definition edit is geometric expression evidence only"
+    ],
+    "callableNotTriedForTheseColorChanges": ["hair color", "brow color", "skin calibration", "left/right iris color", "outer lip overlay color"],
+    "missing": [
+      "Color edit plus save/cold-open/export comparison for either native source",
+      "Actual pupil-region preservation mask and changed-color close-view",
+      "Dedicated current Lip group/material and tested Lip color binding",
+      "New native color resource admission and game recipe recovery evidence",
+      "A single merged editable vroid corresponding to either offline unmasked derivative"
+    ]
+  },
+  "productionEntrances": [
+    {
+      "role": "hair",
+      "status": "callable-not-color-tried",
+      "api": "vroid_list_hair_materials; vroid_set_hair_color(material,key,r,g,b,a)",
+      "nativeCommands": {"base:<colorId>": "SetBaseColorCommand", "Color/ShadeColor/OutlineColor": "SetMaterialColorCommand"},
+      "sourceObservation": "Female has two HAIR materials, male has one. Material bindings must be rediscovered after a preset change.",
+      "exportMechanism": "Official main calibration is baked to the main texture. Highlight/outline calibration and shader shade retain shader roles. Exact changed resources require export comparison.",
+      "readbackLimit": "Bridge base-color getter deliberately returns null. Existing Main/Highlight texture-layer query has a retained partial error. Neither null equality nor partial metadata is cold-open proof.",
+      "preserve": ["all source hair material users", "main texture pattern", "highlight/emissive image and factor", "normal texture", "shade", "outline", "alpha", "spring/skin identities"]
+    },
+    {
+      "role": "brow",
+      "status": "author-key-documented-not-current-color-tried",
+      "api": "Fresh Eyebrow group and vroid_set_color; documented key Level1Eyebrow_OverlayColor",
+      "sourceObservation": "Separate FaceBrow material and PNG in both avatars. Actual current brow color key was not queried by this task.",
+      "exportMechanism": "Native face-part calibration bakes the image; material shader controls are separate.",
+      "preserve": ["authored brow alpha footprint", "expression morph movement", "independent hair/brow choice"]
+    },
+    {
+      "role": "skin",
+      "status": "actual-query-callable-not-color-tried",
+      "api": "Fresh linked skin bindings then vroid_set_color; MainColor/ShadowColor/HighlightColor",
+      "sourceObservation": "Existing male FaceSkin and BodySkin each expose seven color keys. Official default skin linkage also includes eyelid and nose. Froz color_state exposes shared/alias bindings and rejects overlapping writes.",
+      "exportMechanism": "Official native gradient-map calibration bakes light/mid/dark into skin images. Shade/emission/outline material factors are separate.",
+      "unmaskedDerivativeConstraint": "Both targets are original-VRM plus native full-Body-PNG derivatives. A skin change requires corresponding clothed and tops-removed native sources under the same settings, then actual RGB/UV/geometry correspondence before regenerating the derivative. Old full PNG cannot silently replace newly calibrated RGB.",
+      "preserve": ["skin shading design", "linked eyelid/nose/face/body consistency", "normal maps", "Body coverage alpha contract", "unselected makeup layers"]
+    },
+    {
+      "role": "iris",
+      "status": "actual-query-callable-not-color-tried",
+      "api": "Fresh Iris group; vroid_set_color with Level3Iris_LeftOverlayColor and Level3Iris_RightOverlayColor",
+      "sourceObservation": "Both actual avatars have independent Iris, EyeWhite and EyeHighlight material/image consumers; Iris main and shade use the same source image.",
+      "exportMechanism": "Native overlay calibration bakes the iris image while retaining its authored pattern. Pure black/white preservation is documented, but actual pupil pixels need anatomical and rendered checks.",
+      "preserve": ["pupil pattern and contrast", "EyeWhite and EyeHighlight images/materials", "UVs", "eye bones", "all expression endpoints", "alpha"]
+    },
+    {
+      "role": "outerLip",
+      "status": "missing-current-dedicated-binding",
+      "api": "Discover/apply one legal free Lip item and query its exact overlay/layer binding in a later native sample",
+      "sourceObservation": "Neither export has a dedicated Lip material. Existing native Mouth query addresses mouth interior. Existing free Lip catalog entries prove availability only.",
+      "exportMechanism": "An authored Lip layer can be composited into Face skin at native export; a separate exported material is not required.",
+      "preserve": ["teeth and mouth interior", "lip alpha boundary", "facial shading", "mouth expression closure"],
+      "forbiddenSubstitution": "Whole Mouth material tint is not outer-lip color proof"
+    }
+  ],
+  "sourceRoles": {
+    "sourceTextures": "Exact encoded and RGBA/RGB pixel SHA, dimensions, samplers, transforms and consumers are in source-inventory.json",
+    "morphs": "Each avatar has 14 VRM expressions, no materialColorBinds. Morph channels move surfaces and do not expose source color-production controls.",
+    "runtime": "Current exact native source policy supports original colors only. Existing max-channel neutralTexture plus material tint is not native calibration evidence. No runtime admission was changed."
+  },
+  "nextMinimumSample": {
+    "id": "native-male-paired-iris-one-color-pilot",
+    "status": "plan-only-not-executed",
+    "editableSource": {"path": "assets-source/vroid-bridge-study-v1/generated/male-native-base-216.vroid", "sha256": "c936b24182e8bb9951f94fd0aec91db1995eb73938ff496a0614fccadd3e0e6a"},
+    "targetRGBA": null,
+    "targetPolicy": "One explicit moderate color chosen for the sample before writing. No hue or strength sweep.",
+    "steps": [
+      "Verify ready, known file and clean state; save an entry snapshot and new source copy",
+      "Fresh-query Iris groups, exact left/right color keys and all original bindings",
+      "Set only both iris overlay keys once, retaining original shade/highlight/material values",
+      "Save, cold-open and compare actual RGBA readback; export baseline/candidate VRM1 with matched no-reduction settings",
+      "Compare actual Iris encoded/pixel change, all non-target images/material fields, geometry/UV/skin/IBM/morphs and eye bones; require source/donor Body unchanged before full-PNG reuse",
+      "Restore entering snapshot; record new exact source and output identities",
+      "Later root runs common-loader close-view neutral/blink/look checks, pupil/highlight inspection and recipe restore before any new source admission"
+    ],
+    "stopConditions": ["Unknown or dirty entering state", "Unexplained linked/non-target changes", "Missing or ambiguous keys", "Native save/readback/export failure", "Pupil/highlight loss or incompatible Body donor"],
+    "automaticPassInheritance": false
+  },
+  "licenseBoundary": {
+    "nativeMetaPreserved": true,
+    "actualBoth": {"authors": ["gamemake technical study"], "avatarPermission": "onlyAuthor", "commercialUsage": "personalNonProfit", "allowRedistribution": false, "modification": "prohibited"},
+    "assetTerms": "Built-in pixiv assets are not CC0. Guideline use permissions, special-item terms and application/output licensing must be reviewed separately from these actual export meta fields.",
+    "licenseOrMetaEdited": false
+  },
+  "scope": {"nativeCalls": 0, "studioOperations": 0, "gpuOperations": 0, "newArtAssets": 0, "runtimeChanges": 0, "gitCommits": 0, "authorReviewNotIndependentAudit": true}
+}
