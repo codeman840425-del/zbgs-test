@@ -1,0 +1,137 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "name": "four static variants and a new identity/version share the original support function",
+      "status": "passed",
+      "detail": {
+        "profile": "side-table-v1",
+        "firstBatch": [
+          {
+            "id": "side-table-round",
+            "version": 1
+          },
+          {
+            "id": "side-table-square",
+            "version": 1
+          },
+          {
+            "id": "side-table-nested",
+            "version": 1
+          },
+          {
+            "id": "side-table-low",
+            "version": 1
+          }
+        ],
+        "future": {
+          "id": "side-table-future-style",
+          "version": 2
+        },
+        "dynamicFieldsAdded": false
+      }
+    },
+    {
+      "name": "unknown fields, altered support mappings and unnecessary dynamic mechanisms reject",
+      "status": "passed",
+      "detail": {
+        "rejectedDefinitions": 25
+      }
+    },
+    {
+      "name": "every parent quarter turn and child yaw agree between static derived and rendered transforms",
+      "status": "passed",
+      "detail": {
+        "parentQuarterTurns": 4,
+        "childYaw": 1.5707963267948966,
+        "restPosition": [
+          0.03,
+          0.5,
+          -0.02
+        ]
+      }
+    },
+    {
+      "name": "four appearances and explicit resource version preserve child identity through serialize and pinned recovery",
+      "status": "passed",
+      "detail": {
+        "appearances": 4,
+        "futureVersion": 2,
+        "childId": "vase"
+      }
+    },
+    {
+      "name": "copy-facility creates independent table/child IDs while preserving attachment, resource and local coordinates",
+      "status": "passed",
+      "detail": {
+        "tableCopy": "table-copy",
+        "childCopy": "table-copy/extra-1",
+        "sourceChildUnchanged": true
+      }
+    },
+    {
+      "name": "surface position/height/rotation, overlap, state, missing resource and duplicate copy failures preserve live and stored document bytes",
+      "status": "passed",
+      "detail": {
+        "cases": 11,
+        "codes": [
+          "invalid-support-fit",
+          "invalid-support-fit",
+          "invalid-support-fit",
+          "missing-support-surface",
+          "overlapping-supported-props",
+          "overlapping-facilities",
+          "unsupported-height",
+          "invalid-floor-fit",
+          "invalid-device-state",
+          "missing-resource-version",
+          "duplicate-instance"
+        ]
+      }
+    },
+    {
+      "name": "wrong structural parent and overheight supported item reject through unchanged generic admission",
+      "status": "passed",
+      "detail": {
+        "parentMustBeDirectRoomOrArea": true,
+        "clearanceHeight": 0.35,
+        "attemptedHeight": 0.36
+      }
+    },
+    {
+      "name": "instance construction failure and stale prepare/commit candidates retain the previous live scene",
+      "status": "passed",
+      "detail": {
+        "instanceFailurePreservedRoot": true,
+        "staleCandidateRejected": true
+      }
+    },
+    {
+      "name": "dependency pins reject changed definitions while a complete same-input restore preserves the static subtree",
+      "status": "passed",
+      "detail": {
+        "dependencyMismatchRejected": true,
+        "staticState": {}
+      }
+    },
+    {
+      "name": "async preload and late failures preserve the newer external-resource identity, scene and persisted save",
+      "status": "passed",
+      "detail": {
+        "initialFailurePreservedSave": true,
+        "lateFailurePreservedNewerIdentity": "side-table-low"
+      }
+    }
+  ],
+  "sourceHashes": {
+    "docs/COMPANY-SIDE-TABLE-CONTRACT-v1.txt": "e1c56b23e52f837866598a4a280da1db3f7c60bb3f4e169b8acddda4d2d99e3d",
+    "prototype/src/company/side-table-data.js": "930f40499f249edeb56321cb6c1cf22e7115c66a475a37785880b554054bb85c",
+    "prototype/src/company/support-data.js": "eaec0993bb64b23d6aeafa93d1b779f21897f4287a679bd10d2ebdf8521f61f1",
+    "scripts/company-platform/test-side-table-data.mjs": "71482378d6957506f26b083ef02bcb63cc3f9a51a53eb3581e8a1e95f7f8c364"
+  },
+  "limits": [
+    "Synthetic table meshes exercise existing data, scene, subtree and transaction/persistence paths. They do not verify Kenney source preservation, circular adaptation, nested-table contact or actual production GLB geometry.",
+    "The existing registered vase resource descriptor is reused, with a synthetic scene instance here. Source/real GLB readback and external-license/provenance delivery require separate production evidence.",
+    "No browser, GPU, process restart, ordinary-computer performance or character-use acceptance was exercised."
+  ]
+}

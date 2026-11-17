@@ -1,0 +1,37 @@
+墙装多层壁架：固定交付
+
+源码：c0a573e2f9a45b06caee6442f9de3f82cca85093
+构建：49fa3b455973
+固定源码：F:/gamemake-company-wall-shelf-fixed-v1
+独立交付：F:/gamemake-company-wall-shelf-delivery-49f
+预览：http://127.0.0.1:60880/?sample=wall-shelf&look=0
+第二布局：http://127.0.0.1:60880/?layout=wallShelfAlternate
+录像：F:/gamemake-company-platform-c1/evidence/company-wall-shelf-recording-49f-v1/wall-shelf-preview-normal1x.webm
+46.68秒、1440×1000、25fps、正常1×；源码、构建和视频SHA见identity.json。
+
+四款为侧托、悬挑、框式、背板，真实支撑结构不同。壁架由项目参数化新制，复用原有层板生产技术；Kenney落地书架只作调研候选，没有悬空冒充壁架。杯瓶纸巾盒与笔筒笔记本复用上一包真实素材。三层共用墙装、层板、净空和子物合同，换架不改摆件身份及局部调整。
+新GLB总117604字节，204/216/168/156三角，不增壁架贴图或实时灯。资源157→161，旧157条完整定义保持。侧托厚度.04→.05实际修改重导，其余三款GLB不变。生产和运行均执行实际凸体/接触/精确板面门，支持有限四种生产结构，不宣称任意外部模型自动适配。
+
+数据6组、旧承载10组、实际GLB14项、真实浏览器5组、独立交付4组通过。四款分别关浏览器重开；真实北/东墙安装、移转复制、子物多层、局部修改、纯观看隐藏、非法输入/真实HTTP503保原、两轮资源释放检查通过。墙隐藏不改变navigation、文档与存档。完整证据索引见identity.json。
+固定检出与独立包均各自npm ci/生产检查/构建，340个运行文件与浏览器实测版本一致；交付1012文件清单核验与独立修改加载保存重开通过。
+
+重建（固定目录或交付source的prototype）：
+  npm ci --no-audit --no-fund
+  node scripts/build-company-id.mjs
+  node node_modules/vite/bin/vite.js build --config vite.company.config.js
+生产及配置检查（固定目录或交付source根）：
+  node scripts/company-platform/build-wall-shelf.mjs --check
+  node scripts/company-platform/build-library.mjs --check
+  node scripts/company-platform/build-wall-shelf-examples.mjs --check
+实际修改生产参数应使用可写副本；去掉producer --check重新生成，不改固定交付。
+运行检查（制作树根，输出目录必须全新）：
+  node scripts/company-platform/qa-wall-shelf-preview.cjs F:/gamemake-company-wall-shelf-fixed-v1/prototype/dist-company 49fa3b455973 evidence/wall-shelf-recheck-new
+  node scripts/company-platform/qa-wall-shelf-handoff.cjs F:/gamemake-company-wall-shelf-delivery-49f evidence/wall-shelf-handoff-new
+正常录像（先遵守运行窗口）：
+  node scripts/company-platform/record-wall-shelf-preview.cjs F:/gamemake-company-wall-shelf-fixed-v1/prototype/dist-company 49fa3b455973 evidence/wall-shelf-recording-new
+独立修改入口见交付README.md及edit.mjs。
+
+保留失败：背板托条原10mm间隙（旧源/GLB/脚本/描述已留）；早期几何门的包围盒假接触/法向/板厚不足通过代码审查修正并加实际坏例；生产索引统计曾错用position数量，已按真实index修正且GLB字节不变。旧报告保原身份。assembly风险初审经CPU复现更正：此挂墙资源当前直接拒绝assembly父，不是已发现离墙绕过。正式源码git diff --check有两个新增JS末尾空行提示，属已知格式提示，未更改固定依赖字节消除它们。
+限制：只支持静态凸体组合和保守二维阻挡，未做锚固承重/架下通行/角色拿取。SwiftShader不代表普通电脑性能；C3与人类最终验收仍待集中进行。实际录像抽查12均匀编码帧，不冒称连续人工验收。
+仅更新原60880；上一包F:/gamemake-company-life-items-fixed-v1/build5d260122791d保留回滚。短录像及临时服务已结束。不改总工角色/CAP/CURRENT，提交CAP-INCREMENT供阶段合并。
+下一机制候选：顶装吸声构件，先核顶部安装/观看和实际素材，复用已证生产链；不因此阻塞本包交付，不缩减C1–C3其余范围。

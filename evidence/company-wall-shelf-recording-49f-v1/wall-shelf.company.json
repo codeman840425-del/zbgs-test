@@ -1,0 +1,286 @@
+{
+  "schema": "company-save",
+  "version": 1,
+  "document": {
+    "schema": "company-layout",
+    "version": 1,
+    "id": "wall-shelf-demo",
+    "name": "墙装壁架 · 四款与多层承载",
+    "revision": 5,
+    "scale": "single-room",
+    "catalog": {
+      "id": "company-facilities",
+      "version": 1
+    },
+    "nodes": [
+      {
+        "id": "wall-shelf-demo/floor-1",
+        "kind": "floor",
+        "parentId": "wall-shelf-demo",
+        "name": "一层",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "wall-shelf-demo/room-1",
+        "kind": "room",
+        "parentId": "wall-shelf-demo/floor-1",
+        "name": "直播间",
+        "purpose": "streaming",
+        "bounds": {
+          "width": 7,
+          "depth": 5.25
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "wall-shelf/primary",
+        "kind": "facility",
+        "parentId": "wall-shelf-demo/room-1",
+        "resource": {
+          "id": "wall-shelf-back-panel",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            3.4,
+            0.35,
+            0.4
+          ],
+          "yaw": 4.71238898038469
+        },
+        "state": {}
+      },
+      {
+        "id": "wall-shelf/cup",
+        "kind": "facility",
+        "parentId": "wall-shelf/primary",
+        "resource": {
+          "id": "side-table-life-cup",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.18,
+            0.35,
+            0.19
+          ],
+          "yaw": 0
+        },
+        "state": {},
+        "attachment": {
+          "surfaceId": "lower"
+        }
+      },
+      {
+        "id": "wall-shelf/bottle",
+        "kind": "facility",
+        "parentId": "wall-shelf/primary",
+        "resource": {
+          "id": "side-table-life-bottle",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0.18,
+            0.35,
+            0.19
+          ],
+          "yaw": 0
+        },
+        "state": {},
+        "attachment": {
+          "surfaceId": "lower"
+        }
+      },
+      {
+        "id": "wall-shelf/tissue",
+        "kind": "facility",
+        "parentId": "wall-shelf/primary",
+        "resource": {
+          "id": "side-table-life-tissue",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0.1,
+            0.95,
+            0.19
+          ],
+          "yaw": 1.5707963267948966
+        },
+        "state": {},
+        "attachment": {
+          "surfaceId": "middle"
+        }
+      },
+      {
+        "id": "wall-shelf/pen-notebook",
+        "kind": "facility",
+        "parentId": "wall-shelf/primary",
+        "resource": {
+          "id": "side-table-life-pen-notebook",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            1.55,
+            0.19
+          ],
+          "yaw": 0
+        },
+        "state": {},
+        "attachment": {
+          "surfaceId": "top"
+        }
+      },
+      {
+        "id": "wall-shelf/copy",
+        "kind": "facility",
+        "parentId": "wall-shelf-demo/room-1",
+        "resource": {
+          "id": "wall-shelf-back-panel",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            3.4,
+            0.35,
+            -1.4
+          ],
+          "yaw": 4.71238898038469
+        },
+        "state": {},
+        "name": "wall-shelf/copy"
+      },
+      {
+        "id": "wall-shelf/copy/extra-1",
+        "kind": "facility",
+        "parentId": "wall-shelf/copy",
+        "resource": {
+          "id": "side-table-life-cup",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.18,
+            0.35,
+            0.19
+          ],
+          "yaw": 0
+        },
+        "state": {},
+        "attachment": {
+          "surfaceId": "lower"
+        }
+      },
+      {
+        "id": "wall-shelf/copy/extra-2",
+        "kind": "facility",
+        "parentId": "wall-shelf/copy",
+        "resource": {
+          "id": "side-table-life-bottle",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0.18,
+            0.35,
+            0.19
+          ],
+          "yaw": 0
+        },
+        "state": {},
+        "attachment": {
+          "surfaceId": "lower"
+        }
+      },
+      {
+        "id": "wall-shelf/copy/extra-3",
+        "kind": "facility",
+        "parentId": "wall-shelf/copy",
+        "resource": {
+          "id": "side-table-life-tissue",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0.1,
+            0.95,
+            0.19
+          ],
+          "yaw": 1.5707963267948966
+        },
+        "state": {},
+        "attachment": {
+          "surfaceId": "middle"
+        }
+      },
+      {
+        "id": "wall-shelf/copy/extra-4",
+        "kind": "facility",
+        "parentId": "wall-shelf/copy",
+        "resource": {
+          "id": "side-table-life-pen-notebook",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            1.55,
+            0.19
+          ],
+          "yaw": 0
+        },
+        "state": {},
+        "attachment": {
+          "surfaceId": "top"
+        }
+      }
+    ]
+  },
+  "dependencies": {
+    "resources": [
+      {
+        "id": "side-table-life-bottle",
+        "version": 1,
+        "sha256": "b9059d605f790f7c8ef62c4df965b20e111cbd88a56362a4d2b4e34a0ace8cae"
+      },
+      {
+        "id": "side-table-life-cup",
+        "version": 1,
+        "sha256": "0d2273a7a5179493a77f8c157c69f9c10d62d94fe37f2fd201241443a66be853"
+      },
+      {
+        "id": "side-table-life-pen-notebook",
+        "version": 1,
+        "sha256": "4e1c38ff63e4a99ff9838a7ba7b2b13b6b8fe94dd81c9cd4dfe5752bbe7f9677"
+      },
+      {
+        "id": "side-table-life-tissue",
+        "version": 1,
+        "sha256": "ea217ee588e83819582d34f9338cfb42570d6d7208a4c4c3c533d81311b60361"
+      },
+      {
+        "id": "wall-shelf-back-panel",
+        "version": 1,
+        "sha256": "9cb89148530493eec0518c36b28ad533df20e7c2c396aad45948a409dfd0936c"
+      }
+    ],
+    "templates": []
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "status": "passed",
+  "mode": "synthetic-metadata",
+  "checks": [
+    {
+      "name": "Four resources share one function, support ordering is irrelevant, new identity/version accepted",
+      "status": "passed",
+      "result": {
+        "resources": [
+          {
+            "id": "wall-shelf-side-bracket",
+            "version": 1
+          },
+          {
+            "id": "wall-shelf-cantilever",
+            "version": 1
+          },
+          {
+            "id": "wall-shelf-frame",
+            "version": 1
+          },
+          {
+            "id": "wall-shelf-back-panel",
+            "version": 1
+          }
+        ],
+        "future": {
+          "id": "future-wall-shelf",
+          "version": 2
+        },
+        "synthetic": true
+      }
+    },
+    {
+      "name": "Incorrect wall/support/state contracts cannot enter as compatible appearances",
+      "status": "passed",
+      "result": {
+        "rejected": 17
+      }
+    },
+    {
+      "name": "Two orientations use the same three support planes and correct world transforms",
+      "status": "passed",
+      "result": [
+        {
+          "id": "wall-shelf-demo",
+          "cup": [
+            -0.98,
+            0.7,
+            -2.335
+          ],
+          "top": [
+            -0.8,
+            1.9,
+            -2.335
+          ]
+        },
+        {
+          "id": "wall-shelf-alternate",
+          "cup": [
+            3.21,
+            0.7,
+            0.22
+          ],
+          "top": [
+            3.21,
+            1.9,
+            0.39999999999999997
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Wall relocation, group copy and appearance change retain child edits, identity and support layer",
+      "status": "passed",
+      "result": {
+        "appearances": 4,
+        "copiedChildren": [
+          "shelf-copy/extra-1",
+          "shelf-copy/extra-2",
+          "shelf-copy/extra-3",
+          "shelf-copy/extra-4"
+        ],
+        "savedAllNodes": 12
+      }
+    },
+    {
+      "name": "Bad installation and child edits reject without mutating the original document",
+      "status": "passed",
+      "result": {
+        "rejected": 9,
+        "codes": [
+          "invalid-wall-fit",
+          "invalid-wall-fit",
+          "invalid-wall-fit",
+          "invalid-support-fit",
+          "invalid-support-fit",
+          "overlapping-supported-props",
+          "missing-support-surface",
+          "overlapping-facilities",
+          "invalid-device-state"
+        ]
+      }
+    },
+    {
+      "name": "Actual resource SHA and legacy complete definitions remain consistent",
+      "status": "passed",
+      "result": {
+        "skipped": "Synthetic metadata only; production SHA and legacy snapshot checked after registration"
+      }
+    }
+  ],
+  "limits": [
+    "No actual GLB loading, renderer, pixels or browser restart in this CPU data test. Those require independent geometry and runtime evidence.",
+    "No C3 characters, physics or ordinary-PC performance claim."
+  ]
+}
