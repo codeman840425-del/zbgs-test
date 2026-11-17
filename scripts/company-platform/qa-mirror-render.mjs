@@ -35,10 +35,13 @@ function fakeRenderer() {
   let viewport = target.viewport.clone(), scissor = target.scissor.clone(), scissorTest = target.scissorTest;
   const canvasScissor = new THREE.Vector4(3,4,20,21);
   let requestedScissorTest = false;
-  const context = {SCISSOR_BOX:0x0c10, SCISSOR_TEST:0x0c11, isContextLost:() => false,
+  const context = {SCISSOR_BOX:0x0c10, SCISSOR_TEST:0x0c11, FRAMEBUFFER:0x8d40, FRAMEBUFFER_COMPLETE:0x8cd5, SAMPLES:0x80a9, isContextLost:() => false,
+    checkFramebufferStatus(framebuffer) { assert.equal(framebuffer,this.FRAMEBUFFER);return this.FRAMEBUFFER_COMPLETE; },
+    getError:() => 0,
     getParameter(parameter) {
       if (parameter === this.SCISSOR_BOX) return Int32Array.from(scissor.toArray());
       if (parameter === this.SCISSOR_TEST) return scissorTest;
+      if (parameter === this.SAMPLES) return target?.samples || 0;
       throw new Error(`Unsupported substitute GL parameter ${parameter}`);
     }};
   const materialPrograms = new Map();

@@ -1,0 +1,56 @@
+镜面宿主画质实现定点独审
+2026-11-17。本轮只读 mirror-render.js、render.js、authoring.js、preview.js、新增宿主合同及已有CPU/浏览器报告，仅写本目录说明与独立CPU反例。未运行GPU、未重复全测试、未改生产源码。
+
+当前结论（已修订复核）
+
+宿主profile兼容与恢复接缝符合设计。下述P2已修复并由同一CPU反例复核，实际画质DOM也已补齐，当前定点范围无剩余阻断。新默认和资源默认区分明确，未发现资源或存档迁移需求。原失败记录和原审查说明保留，下文末尾记录新结果。
+
+已核实现
+
+1. createMirrorBinding第四参数默认single-512-v1，固定表将三个profile映射为512/0、1024/0、1024/4。validateMirrorRenderProfile核primitive string和Object.hasOwn，未知名称、数组和boxed String不会借属性强转绕过。Reflector仍在activate才按解析配置构造，没有对live target调用setSize。
+2. 原resource.mirrorSurface.profile仍必须为single-512-v1。新profile只沿authoring→scene→binding传递，未写入document、设施state、资源签名或存档。snapshot提供独立renderProfile与尺寸/采样。旧无参数调用继续512/0。
+3. 能力选择同时核HalfFloat扩展、texture/renderbuffer共同尺寸、global maxSamples，以及RGBA16F和DEPTH_COMPONENT24的采样列表明确含4。采样不足选1024/0，尺寸不足1024但至少512选512/0，低于512/HalfFloat不可用/context lost明确拒绝。RGBA16F与深度名单分别核，未仅按全局maxSamples推定支持。
+4. binding setter只允许inactive且未dispose的owner。scene先验证profile和全部current owner未活动，再统一设置current，并更新future build闭包。profile真正变化时generation++，旧prepared handle在commit前报revision-conflict；相同profile不推进generation。旧候选保留原discard归属，不在恢复setter里抢先dispose正在install失败清理的candidate。
+5. preview在authoring建立前选择profile。recoverRenderer先deactivate当前owner、重建renderer和重读能力，再setMirrorRenderProfile，不会仅更新显示变量却遗留旧future选项。原正常frame/30Hz、单controller、墙地混合预算和候选预热归属继续共用。
+
+已有独立CPU报告after-correction为38项passed，原wall23项和floor26项回归均passed。该报告源码中mirror-render SHA256为ba261bbf65e95b42c05d93807786167a9aa2b85086de7e564fbaf08334322816，render.js为9bcb0cdd40cf62f9168b172dda6c99935db817e375d43c6caa61339e2899f5c，authoring.js为338435eaf24fa44b53654f5102491927d2e93fa3ccf27421d61f652f38c99ffd。早前非法类型/prepared失败记录保留在before-correction，没有给旧失败改标签。
+
+P2原始发现——实际FBO/GL错误未在提交前拒绝
+
+当前runtime reflect捕获shader诊断、JS render/compile异常和context lost，但不调用checkFramebufferStatus或getError。新pixels QA在实际目标绑定时检查FRAMEBUFFER_COMPLETE及GL.SAMPLES，是正确的测试增强，但发生于候选提交之后，不能代替runtime preflight拒绝。
+
+独立反例 implementation-probe.mjs 使用实际锁定Reflector及有限renderer替身。其checkFramebufferStatus明确返回FRAMEBUFFER_INCOMPLETE_ATTACHMENT（36054），renderer.render正常return并置INVALID_FRAMEBUFFER_OPERATION（1286），context没有lost，shader检查正常。preflight仍返回updated=true/fresh=true，owner保持活动，statusQueries=0、errorQueries=0。implementation-probe-report.json保留该结果与源码SHA，未创建实际GPU或改资源。
+
+WebGL错误不必成为JS异常，因此能力列表支持且调用正常返回不能证明目标分配完整。该例不证明现有诊断设备发生过FBO失败，它证明当前运行入口会把该真实错误语义当作成功，违背候选失败保旧边界。
+
+最小修复为在既有显式reflection renderer.render wrapper内、目标已经绑定时检查实际FRAMEBUFFER_COMPLETE，并在受控提交前阶段核GL错误/需要时实际samples。不要检查已恢复的canvas FBO来代替镜面目标。对已知目标无效返回具体mirror-target错误，保证finally、候选deactivate/discard及旧root保持；未知oldRender内部异常仍要求renderer重建。无需新world、第三目标、额外主pass或改资源默认。
+
+原画质信息交付待补
+
+当前actual profile可以从window.company.mirrorRenderProfile与owner.snapshot查询，但preview的sync仅切换mirror-limit.hidden，DOM文案没有显示当前1024/4或降级档。原要求是信息展示实际profile，建议在既有mirror-limit中补已选档/分辨率/MSAA，并在renderer恢复重选后更新。无需新设置面板。资源默认single512仍由合同说明，与当前宿主实际档分别陈述即可。
+
+范围与后续复核
+
+浏览器company-mirror-quality-browser-dev-v1已有1024/4下原floor9组passed。实际FBO/SAMPLES采集是后续QA改动，当前本审查未把尚未记录的结果声称为完成。根代理继续固定版本、八镜实际运行、视觉近景和交付准备。
+
+本轮没有新增普通机性能结论，目标对象数量不代表显存。profile提高后成本记录应沿新1024/4实际目标，原阴影精度仍可能产生锯齿，不能因反射轮廓改善就称阴影已修复。未知renderer内部异常仍未获得私有栈恢复能力。
+
+原审查要求P2修正及DOM信息补齐后只复核同反例与针对性记录，不必重做全部生产和几何测试。以下为该次复核，原反例及既有报告保持原身份。
+
+修订复核结果
+
+新mirror-render.js SHA256为80e84755559235415cd954d320727fff3b06fb4faa256a0d66acc9661a3b3a6e，preview.js为affafae4793b147bc4a8081e33aab1bc90dc7a8df6338900fc7af420978856ee，render.js为73ce019532889f72badd2b9155df04c7176ef4cdd873d578523e0e8426c0e344。
+
+反射入口先检查context lost及pending GL error。保存的官方Reflector已绑定实际目标后，现有renderer.render wrapper在调用oldRender前读取实际FBO status、GL.SAMPLES和glError。任一不符报mirror-target-failed，此时尚未标记enteredRenderer，因而不会把未进入Three内部render的失败伪装成私有栈已损坏。
+
+正常oldRender返回后再次核GL error，已知目标失败保留其具体错误，外层finally恢复原renderer方法、debug设置、target/face/mip、viewport/scissor和可见性，controller的catch释放失败候选。普通未知oldRender内部抛错仍按enteredRenderer返回mirror-renderer-reset-required，不新增私有栈恢复承诺。
+
+本审查再次运行同一个implementation-probe.mjs，输出改为implementation-probe-recheck-report.json。为匹配新增查询，有限替身仅补SAMPLES枚举并从当前target返回真实请求数4，同时记录renderCalls；原“不完整FBO，render若调用则正常return并置GLerror”的错误条件未改。
+
+新结果为mirror-target-failed，错误具体包含status36054、samples4、GLerror0。statusQueries=1，errorQueries=2，renderCalls=0，owner active=false/fresh=false，created=1/disposed=1/live=0。旧implementation-probe-report.json仍保留原updated/fresh=true且查询次数0的假通过。P2关闭。
+
+preview新增updateMirrorQualityLabel，从scene.mirrorRenderProfile getter获取当前档，对应基础、清晰、清晰（抗锯齿），更新既有mirror-limit文本。renderer恢复重选后主动刷新，主绘制后仅在文案不同才写DOM，支持受控scene setter切档。没有新建设置面板或改变资源默认。原信息待补点关闭。
+
+本次只重跑同反例并只读核错误边界，没有重复其他agent负责的多条件CPU回归或GPU验证。固定浏览器的实际FBO、样本数、图像和释放仍以主包新证据为准。
+
+本次沿已记录gpt-6.1-sol/high请求配置，实际provider配置与宿主Hook拦截未独立核实。

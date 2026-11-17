@@ -1,17 +1,18 @@
 const {chromium}=require('../../prototype/node_modules/playwright');
 const {serve}=require('./serve.cjs');
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
-const [dist,build,outArg]=process.argv.slice(2),out=path.resolve(outArg);
-const report={build,status:'running',checks:[],limits:['SwiftShader; not ordinary-PC performance, role C3 or human acceptance']};
+const [dist,build,outArg,expectedProfile='single-512-v1']=process.argv.slice(2),out=path.resolve(outArg);
+const expectedTargets={'single-512-v1':[512,0],'detail-1024-v1':[1024,0],'detail-1024-msaa4-v1':[1024,4]};assert(Object.hasOwn(expectedTargets,expectedProfile));
+const report={build,expectedProfile,status:'running',checks:[],limits:['SwiftShader; not ordinary-PC performance, role C3 or human acceptance']};
 let server,context,page;const errors=[];
 async function open(){context=await chromium.launchPersistentContext(path.join(out,'profile'),{headless:true,viewport:{width:1440,height:1000},args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']});page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));await page.goto(server.url);await page.waitForFunction(()=>window.company?.ready&&company.buildInfo);assert.equal(await page.evaluate(()=>company.buildInfo.shortId),build);}
 async function check(name,fn){const result=await fn();report.checks.push({name,passed:true,result});console.log(name);}
 async function fresh(){await page.waitForFunction(()=>company.session.scene.mirrorBindings().some(b=>b.fresh));}
-async function aim(alternate=false){await page.evaluate(alternate=>{company.camera.position.set(...(alternate?[-.4,1.4,0]:[1.2,1.4,.5]));company.camera.lookAt(...(alternate?[-3.374,1.4,0]:[1.2,1.4,-2.499]));company.camera.updateMatrixWorld();company.session.scene.setWallView({mode:'full'});},alternate);await fresh();}
+async function aim(alternate=false){const previous=await page.evaluate(alternate=>{const previous=company.mirrorController.snapshot().reflectionPasses;company.camera.position.set(...(alternate?[-.4,1.4,0]:[1.2,1.4,.5]));company.camera.lookAt(...(alternate?[-3.374,1.4,0]:[1.2,1.4,-2.499]));company.camera.updateMatrixWorld();company.session.scene.setWallView({mode:'full'});return previous;},alternate);await page.waitForTimeout(40);await page.evaluate(()=>company.drawHostFrame());await page.waitForFunction(previous=>company.mirrorController.snapshot().reflectionPasses>previous,previous);await fresh();}
 async function pixels(){return page.evaluate(()=>{
  const b=company.session.scene.mirrorBindings().find(b=>b.reflector),target=b?.reflector.getRenderTarget();if(!target)throw Error('No reflection target');
  const data=new Uint16Array(target.width*target.height*4);company.renderer.readRenderTargetPixels(target,0,0,target.width,target.height,data);
- let hash=0,nonzero=0;for(const x of data){hash=(Math.imul(hash,31)+x)>>>0;if(x)nonzero++;}
+ let hash=0,nonzero=0;for(let i=0;i<data.length;i++){if(i%4===3)continue;const x=data[i];hash=(Math.imul(hash,31)+x)>>>0;if(x)nonzero++;}
  return {hash,nonzero,target:{width:target.width,height:target.height,samples:target.samples,type:target.texture.type},binding:b.snapshot(),stats:company.mirrorController.snapshot()};
 });}
 (async()=>{
@@ -20,7 +21,7 @@ async function pixels(){return page.evaluate(()=>{
   const result=[];
   for(let index=0;index<4;index++){
    await page.evaluate(index=>company.showAppearanceSample('mirror',index),index);await aim();await page.waitForTimeout(100);
-   const before=await pixels();assert(before.nonzero>1000);assert.equal(before.target.width,512);assert.equal(before.target.samples,0);
+   const before=await pixels();assert(before.nonzero>1000);assert.equal(before.target.width,expectedTargets[expectedProfile][0]);assert.equal(before.target.height,expectedTargets[expectedProfile][0]);assert.equal(before.target.samples,expectedTargets[expectedProfile][1]);
    await page.screenshot({path:path.join(out,`mirror-${index+1}.png`)});await page.evaluate(()=>company.save());const doc=await page.evaluate(()=>company.session.document);
    await context.close();context=null;await open();assert.deepEqual(await page.evaluate(()=>company.session.document),doc);await aim();await fresh();
    result.push({index,resource:doc.nodes.find(n=>n.id==='mirror/primary').resource,...before});

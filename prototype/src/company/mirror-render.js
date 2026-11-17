@@ -3,15 +3,44 @@ import {Reflector} from 'three/addons/objects/Reflector.js';
 
 const noop = () => {};
 const FRAME_INTERVAL_MS = 1000 / 30;
+const RENDER_PROFILES = Object.freeze({
+  'single-512-v1': Object.freeze({size:512,samples:0}),
+  'detail-1024-v1': Object.freeze({size:1024,samples:0}),
+  'detail-1024-msaa4-v1': Object.freeze({size:1024,samples:4}),
+});
 const targetStatistics = {created:0, disposed:0, live:0, peak:0};
 const failure = (code, path, message, cause) => Object.assign(new Error(message, cause ? {cause} : undefined), {code, path});
 
 /** Counts target objects and dispose events, not allocated GPU bytes. */
 export function mirrorResourceSnapshot() { return {...targetStatistics}; }
 
+export function validateMirrorRenderProfile(profile) {
+  if(typeof profile!=='string'||!Object.hasOwn(RENDER_PROFILES,profile))
+    throw failure('invalid-mirror-render-profile','mirror','Use a supported explicit host reflection quality profile');
+  return profile;
+}
+
+/** Explicit host display policy; legacy callers keep the original resource default. */
+export function selectMirrorRenderProfile(renderer) {
+  const gl=renderer.getContext();
+  if(gl.isContextLost())throw failure('mirror-context-lost','mirror','The host WebGL context is lost');
+  const renderable=renderer.extensions.has('EXT_color_buffer_float')||renderer.extensions.has('EXT_color_buffer_half_float');
+  const textureLimit=renderer.capabilities.maxTextureSize,bufferLimit=gl.getParameter(gl.MAX_RENDERBUFFER_SIZE);
+  const limit=Math.min(textureLimit,bufferLimit);
+  if(!renderable||!Number.isFinite(limit)||limit<512)
+    throw failure('mirror-device-limit','mirror','The host must support renderable HalfFloat color and a 512-square color/depth target');
+  if(limit<1024)return 'single-512-v1';
+  const color=gl.getInternalformatParameter(gl.RENDERBUFFER,gl.RGBA16F,gl.SAMPLES);
+  const depth=gl.getInternalformatParameter(gl.RENDERBUFFER,gl.DEPTH_COMPONENT24,gl.SAMPLES);
+  return renderer.capabilities.maxSamples>=4&&Array.from(color||[]).includes(4)&&Array.from(depth||[]).includes(4)
+    ?'detail-1024-msaa4-v1':'detail-1024-v1';
+}
+
 /** Owns only the dynamic replacement. The imported mesh stays owned by the scene. */
-export function createMirrorBinding(resource, parts, id = resource?.id) {
+export function createMirrorBinding(resource, parts, id = resource?.id, renderProfile = 'single-512-v1') {
   if (!resource?.mirrorSurface && !resource?.mirrorNodes) return null;
+  validateMirrorRenderProfile(renderProfile);
+  let quality=RENDER_PROFILES[renderProfile];
   const surface = parts?.get(resource.mirrorNodes?.face);
   const position = Array.isArray(resource.mirrorSurface?.position) ? [...resource.mirrorSurface.position] : undefined;
   const expectedPosition=resource.mountRole==='floor-mirror'?[0,.92,.026]:[0,0,.026];
@@ -33,6 +62,12 @@ export function createMirrorBinding(resource, parts, id = resource?.id) {
     get disposed() { return disposed; },
     get fresh() { return fresh; },
     get active() { return reflector !== null; },
+    setRenderProfile(profile) {
+      if(disposed)throw failure('mirror-binding-disposed',id,'This mirror instance was disposed');
+      if(reflector)throw failure('mirror-quality-active',id,'Deactivate the target before changing host quality');
+      validateMirrorRenderProfile(profile);
+      renderProfile=profile;quality=RENDER_PROFILES[profile];
+    },
     activate() {
       if (disposed) throw failure('mirror-binding-disposed', id, 'This mirror instance was disposed');
       if (reflector) return reflector;
@@ -40,7 +75,7 @@ export function createMirrorBinding(resource, parts, id = resource?.id) {
       let constructed = null;
       try {
         geometry.translate(-position[0], -position[1], -position[2]);
-        reflector = new Reflector(geometry, {textureWidth:512, textureHeight:512, multisample:0, clipBias:.003});
+        reflector = new Reflector(geometry, {textureWidth:quality.size, textureHeight:quality.size, multisample:quality.samples, clipBias:.003});
         constructed = reflector;
         reflector.name = `Reflection:${id}`;
         reflector.position.fromArray(position);
@@ -95,7 +130,7 @@ export function createMirrorBinding(resource, parts, id = resource?.id) {
     },
     snapshot() {
       return {id, ownerId:id, active:reflector !== null, fresh, disposed, ...statistics,
-        live:reflector ? 1 : 0, width:512, height:512, type:THREE.HalfFloatType, samples:0};
+        live:reflector ? 1 : 0, renderProfile, width:quality.size, height:quality.size, type:THREE.HalfFloatType, samples:quality.samples};
     },
   };
   return binding;
@@ -152,7 +187,9 @@ export function createMirrorController() {
   const statistics = {reflectionPasses:0, preflightPasses:0, shaderChecks:0, failures:0, skipped:0};
 
   function reflect(binding, bindings, renderer, world, camera, preflight) {
-    if (renderer.getContext().isContextLost()) throw failure('mirror-context-lost', binding.id, 'The host WebGL context is lost');
+    const context=renderer.getContext();
+    if (context.isContextLost()) throw failure('mirror-context-lost', binding.id, 'The host WebGL context is lost');
+    if(context.getError()!==0)throw failure('mirror-host-gl-error',binding.id,'The host has a pending WebGL error before the reflection pass');
     const saved = captureRenderer(renderer), visibility = new Map();
     const oldRender = renderer.render, oldShaderError = renderer.debug.onShaderError;
     const oldCheckShaderErrors = renderer.debug.checkShaderErrors;
@@ -186,12 +223,19 @@ export function createMirrorController() {
       }
       for (const object of visibility.keys()) if (object !== binding.reflector) object.visible = false;
       renderer.render = function (...args) {
+        const status=context.checkFramebufferStatus(context.FRAMEBUFFER),samples=context.getParameter(context.SAMPLES),glError=context.getError();
+        if(status!==context.FRAMEBUFFER_COMPLETE||samples!==reflector.getRenderTarget().samples||glError!==0)
+          throw failure('mirror-target-failed',binding.id,`Reflection framebuffer is invalid (status ${status}, samples ${samples}, GL error ${glError})`);
         enteredRenderer = true;
         if (preflight) statistics.preflightPasses++;
         else statistics.reflectionPasses++;
         const info=renderer.info, before=info?{calls:info.render.calls,triangles:info.render.triangles}:null;
         const started=performance.now();let completed=false;
-        try {const result=oldRender.apply(this,args);completed=true;return result;}
+        try {
+          const result=oldRender.apply(this,args),glError=context.getError();
+          if(glError!==0)throw failure('mirror-target-failed',binding.id,`Reflection drawing returned WebGL error ${glError}`);
+          completed=true;return result;
+        }
         finally {
           if(info)statistics.lastReflection={preflight,completed,cpuSubmissionMs:performance.now()-started,
             calls:info.render.calls-(info.autoReset?0:before.calls),triangles:info.render.triangles-(info.autoReset?0:before.triangles)};
@@ -203,7 +247,7 @@ export function createMirrorController() {
       if (!enteredRenderer) throw failure('mirror-no-fresh-pass', binding.id, 'The mirror did not produce its required fresh prepass');
     } catch (cause) {
       statistics.failures++;
-      if (['mirror-shader-failed','mirror-context-lost','mirror-no-fresh-pass','mirror-host-compile-required','mirror-shader-program-missing'].includes(cause.code)) throw cause;
+      if (['mirror-shader-failed','mirror-context-lost','mirror-no-fresh-pass','mirror-host-compile-required','mirror-shader-program-missing','mirror-target-failed'].includes(cause.code)) throw cause;
       const requiresReset = enteredRenderer || enteredCompile;
       throw failure(requiresReset ? 'mirror-renderer-reset-required' : 'mirror-reflection-failed', binding.id,
         requiresReset ? 'Reflection rendering or shader preparation threw. End this frame and rebuild the host renderer before drawing again.' : 'The reflection prepass failed before entering renderer.render', cause);

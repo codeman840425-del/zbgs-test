@@ -31,6 +31,7 @@ const extraFiles=[
   'scripts/company-platform/build-mirror-examples.mjs',
   'scripts/company-platform/build-floor-mirror-examples.mjs',
   'docs/COMPANY-FLOOR-MIRROR-CONTRACT-v1.txt',
+  'docs/COMPANY-MIRROR-HOST-QUALITY-v1.txt',
   'docs/research/COMPANY-FLOOR-MIRROR-PREFLIGHT-2026-11-16.txt',
   'docs/COMPANY-MIRROR-CONTRACT-v1.txt',
   'docs/research/COMPANY-MIRROR-REFLECTION-RESEARCH-2026-11-16.txt',

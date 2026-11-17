@@ -28,7 +28,7 @@ import {createInformationSample} from './information-samples.js';
 import {createFloorInformationSample} from './floor-information-samples.js';
 import {createMirrorSample} from './mirror-samples.js';
 import {createFloorMirrorSample} from './floor-mirror-samples.js';
-import {createMirrorController} from './mirror-render.js';
+import {createMirrorController,selectMirrorRenderProfile} from './mirror-render.js';
 import {validatePresentationInputs} from './clock-display.js';
 import './preview.css';
 
@@ -43,7 +43,14 @@ function configureRenderer(canvas,context) {
   return next;
 }
 renderer=configureRenderer();stage.append(renderer.domElement);
+let mirrorRenderProfile=selectMirrorRenderProfile(renderer);
 const mirrorController=createMirrorController();
+function updateMirrorQualityLabel() {
+  const profile=session?.scene.mirrorRenderProfile||mirrorRenderProfile;
+  const quality=profile==='detail-1024-msaa4-v1'?'清晰（抗锯齿）':profile==='detail-1024-v1'?'清晰':'基础';
+  const text=`镜面画质：${quality}。当前画面最多一面实时镜；其他镜面暂不显示反射。镜中使用当前墙体剖切结果。`;
+  if(element('mirror-limit').textContent!==text)element('mirror-limit').textContent=text;
+}
 let hostFrame=0,rendererRestarts=0,lastRenderError=null;
 function recoverRenderer(error) {
   lastRenderError={code:error.code||'render-failed',message:error.message};
@@ -51,6 +58,9 @@ function recoverRenderer(error) {
   const canvas=renderer.domElement,context=renderer.getContext();
   if(context.isContextLost()) {status('显示设备暂不可用，布局和存档已保留；等待浏览器恢复。',true);return;}
   renderer.dispose();renderer=configureRenderer(canvas,context);renderer.resetState();
+  mirrorRenderProfile=selectMirrorRenderProfile(renderer);
+  session?.scene.setMirrorRenderProfile(mirrorRenderProfile);
+  updateMirrorQualityLabel();
   renderer.setSize(stage.clientWidth,stage.clientHeight);rendererRestarts++;
   status('显示暂时中断，已重建渲染器；布局和存档未改变。',true);
 }
@@ -64,7 +74,7 @@ function drawHostFrame(timeMs=performance.now()) {
   camera.updateMatrixWorld();world.updateMatrixWorld(true);
   try {
     mirrorController.update(session.scene.mirrorBindings(),renderer,world,camera,{frameId:++hostFrame,timeMs});
-    renderer.render(world,camera);updateRegionLabels();
+    renderer.render(world,camera);updateRegionLabels();updateMirrorQualityLabel();
   } catch(error) {recoverRenderer(error);}
 }
 world.add(new THREE.HemisphereLight(0xe9f4ff,0xa5aa94,2));
@@ -274,11 +284,11 @@ async function perform(label,action){
 function resize(){const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();updateRegionLabels();}
 class CompanyPreview extends Phaser.Scene {update(time){if(session)session.scene.setPresentationInputs({clockSeconds:previewClockOverride??(32400+time/1000)});drawHostFrame(performance.now());}}
 async function start(){
-  session=await createCompanyAuthoring(world,smallHome,{catalog,templates,storage:localStorage,assetLibrary,mirrorPreflight});
+  session=await createCompanyAuthoring(world,smallHome,{catalog,templates,storage:localStorage,assetLibrary,mirrorPreflight,mirrorRenderProfile});
   let restored=false,restoreError;
   try{await session.restore(localStorage.getItem('company-preview:last-company')||session.document.id);restored=true;}catch(error){if(error.code!=='save-not-found')restoreError=error;}
   async function saveCurrent(){const result=await session.save();localStorage.setItem('company-preview:last-company',session.document.id);return result;}
-  window.company={ready:true,catalog,templates,session,assetLibrary,get renderer(){return renderer;},world,camera,mirrorController,drawHostFrame,renderStatus:()=>({hostFrame,rendererRestarts,lastRenderError}),setPreviewClock,pausePreview:()=>game?.loop.sleep(),view:setView,showSpace,layouts,showAppearanceSample,appearanceBranches,appearanceCandidates:branch=>appearanceCandidates(catalog,branch),
+  window.company={ready:true,catalog,templates,session,assetLibrary,get renderer(){return renderer;},get mirrorRenderProfile(){return session?.scene.mirrorRenderProfile||mirrorRenderProfile;},world,camera,mirrorController,drawHostFrame,renderStatus:()=>({hostFrame,rendererRestarts,lastRenderError}),setPreviewClock,pausePreview:()=>game?.loop.sleep(),view:setView,showSpace,layouts,showAppearanceSample,appearanceBranches,appearanceCandidates:branch=>appearanceCandidates(catalog,branch),
     async apply(ops){const r=await session.apply(ops);sync();return r;},
     async load(doc){const r=await session.load(doc);await defaultSpace();return r;},
     snapshot:()=>session.snapshot(),save:saveCurrent,restore:async()=>{const r=await session.restore();await defaultSpace();return r;},export:()=>session.export()};

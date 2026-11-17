@@ -55,10 +55,14 @@ function rendererSubstitute() {
   const programs = new Map();
   const context = {
     SCISSOR_BOX:0x0c10, SCISSOR_TEST:0x0c11,
+    FRAMEBUFFER:0x8d40, FRAMEBUFFER_COMPLETE:0x8cd5, SAMPLES:0x80a9,
+    checkFramebufferStatus(framebuffer) { assert.equal(framebuffer,this.FRAMEBUFFER);return this.FRAMEBUFFER_COMPLETE; },
+    getError:() => 0,
     isContextLost:() => false,
     getParameter(parameter) {
       if (parameter === this.SCISSOR_BOX) return Int32Array.from(scissor.toArray());
       if (parameter === this.SCISSOR_TEST) return scissorTest;
+      if (parameter === this.SAMPLES) return target?.samples || 0;
       throw new Error(`Unsupported CPU GL parameter ${parameter}`);
     },
   };

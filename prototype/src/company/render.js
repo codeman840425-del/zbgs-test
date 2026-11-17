@@ -10,7 +10,7 @@ import {applySurfaceFinish,describeSurfaceMeshes} from './surface-finish-render.
 import {partAngle,partOffset} from './moving-parts.js';
 import {bindClockDisplay,validatePresentationInputs} from './clock-display.js';
 import {applyInformationDisplay} from './information-display.js';
-import {createMirrorBinding} from './mirror-render.js';
+import {createMirrorBinding,validateMirrorRenderProfile} from './mirror-render.js';
 import {inspectCompanyMotionSweep} from './placement.js';
 
 const geometryTypes={BoxGeometry:THREE.BoxGeometry,CylinderGeometry:THREE.CylinderGeometry,PlaneGeometry:THREE.PlaneGeometry,CapsuleGeometry:THREE.CapsuleGeometry,SphereGeometry:THREE.SphereGeometry};
@@ -62,7 +62,8 @@ function structureMesh(width,height,depth,color) {
 }
 
 // Presentation/provider only: no actor creation, movement, task or lease implementation.
-export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog,templates=defaultTemplates,visibleFloorId,maxRealtimeLights=2,assetLibrary,mirrorPreflight}={}) {
+export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog,templates=defaultTemplates,visibleFloorId,maxRealtimeLights=2,assetLibrary,mirrorPreflight,mirrorRenderProfile='single-512-v1'}={}) {
+  validateMirrorRenderProfile(mirrorRenderProfile);
   if(!world?.isObject3D)throw new TypeError('Company scene requires a Three world');
   let current,disposed=false,generation=0,presentationInputs={clockSeconds:0};
   const prepared=new Map();
@@ -150,7 +151,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
           }
         }
         const facility={...entry,root,parts,visual};
-        facility.mirror=createMirrorBinding(entry.resource,parts,entry.id);
+        facility.mirror=createMirrorBinding(entry.resource,parts,entry.id,mirrorRenderProfile);
         if(facility.mirror)visual.userData.companyMirrorBinding=facility.mirror;
         applyInformationDisplay(entry.resource,parts,entry.state);
         facility.clock=bindClockDisplay(entry.resource,parts,entry.state);
@@ -349,6 +350,16 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
     },
     navigation,
     mirrorBindings(){live();return [...current.facilities.values()].map(f=>f.mirror).filter(Boolean);},
+    get mirrorRenderProfile(){live();return mirrorRenderProfile;},
+    setMirrorRenderProfile(profile) {
+      live();validateMirrorRenderProfile(profile);
+      const bindings=this.mirrorBindings();
+      if(bindings.some(binding=>binding.active))throw new CompanyError('mirror-quality-active','mirror','Deactivate all targets before changing host quality');
+      for(const binding of bindings)binding.setRenderProfile(profile);
+      if(profile!==mirrorRenderProfile)generation++;
+      mirrorRenderProfile=profile;
+      return profile;
+    },
     setPresentationInputs(inputs) {
       live();const next=validatePresentationInputs(inputs);
       for(const facility of current.facilities.values())facility.clock?.apply(next);

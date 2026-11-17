@@ -1,0 +1,23 @@
+镜面宿主画质覆盖：有界修正包（2026-11-17）
+
+触发：用户指出落地镜中的像素块和线条。基线源码83579bbf/build7f650e194d2f把反射固定为512²、HalfFloat、MSAA0，主画面抗锯齿不覆盖离屏反射。evidence/company-mirror-image-quality-v1提供同镜头512/0、1024/0、512/4、1024/4和去阴影诊断；1024/4改善真实物体轮廓，现有阴影精度造成的边缘粗糙仍须区分。
+
+本包只修宿主反射画质，保留原固定发布、资源ID/version/GLB/参数/保存字节和功能签名。不重新解释原single-512-v1默认：旧宿主无新参数仍512²/MSAA0。新公司预览显式传入独立的mirrorRenderProfile，这是显示策略，不是设施状态或资源升级。新宿主合同可覆盖原默认，其实际参数必须可查，不将高画质结果贴到旧预算上。
+
+允许三个宿主配置：single-512-v1为512²/MSAA0；detail-1024-v1为1024²/MSAA0；detail-1024-msaa4-v1为1024²/MSAA4。目标仍HalfFloat、MSAA不随DPR无上限增大。所有模式墙地共享最多一活动镜、≤30Hz、每宿主帧最多一反射。候选预热旧+候选目标峰值2仍保留，但每目标内存和填充成本提高，不能以目标数量不变宣称成本不变。镜片与反射平面不变，不修改几何/阻挡/使用数据。
+
+新预览通过真实WebGL能力选择：检查HalfFloat可渲染扩展、MAX_TEXTURE_SIZE与MAX_RENDERBUFFER_SIZE共同尺寸上限；1024模式的4采样同时要求全局maxSamples>=4、RGBA16F和默认DEPTH_COMPONENT24内部格式都支持4。只有采样不足时降至1024/0；尺寸不足1024但至少512时回512/0。HalfFloat不可渲染或尺寸不足512则明确拒绝，不谎称低档可用。声明支持不等于分配永不失败，现有实际preflight/异常保旧链仍执行。
+
+实际preflight在Reflector绑定目标后、进入renderer.render之前检查当前FRAMEBUFFER_COMPLETE、真实SAMPLES以及分配阶段GL错误；正常绘制返回后再检查GL错误，未成功不得标记fresh或提交候选。入口已有GL错误单独报宿主问题，不归咎新镜子。已明确的目标失败释放候选并保旧；renderer内部未知抛错仍要求宿主重建。QA也读取真实FBO和RGB，不能只相信目标对象的声明参数。
+
+原目标不做运行中setSize：其dispose事件与资源生命周期计数绑定，不能把GPU缓存重建误记成owner销毁。新profile只在目标inactive时变更；scene先核所有当前owner不活动，再同步设置当前owner和未来build的host选项。renderer恢复沿先deactivate→重建→重新读取能力→更新scene host profile→重新创建当前目标。资源不被就地覆盖，失败仍保公司文档/存档。
+
+profile真正改变时推进内部scene generation，使先前prepared候选提交时发生revision-conflict；这些候选仍由既有discard/dispose归属清理，不在setter内重入销毁正在安装的候选。公司文档revision和保存内容不因纯观看质量变化而改写。既有镜面提示显示当前基础/清晰/抗锯齿档，恢复重新选择后同步。
+
+本包不顺带提高全场景阴影、添加摄影界面或自适应每帧缩放。不为每面镜各开预算。整层/单间暂沿同一个上限明确的宿主策略；未来若分视图调整，也必须在目标交接时按此生命周期边界执行。
+
+最小验收：原默认及三种能力分支/非法能力拒绝；真实Three target尺寸、samples与准确创建释放；active改档拒绝、inactive改档当前/未来一致；四墙镜和四落地镜逐款实际WebGL运行与保存恢复；近景同镜头前后图、实际RGB；原候选坏shader/嵌套renderer恢复、混合单目标、切层与释放；完整独立包重建及固定版本正常速度录像。实际硬件/SwiftShader与普通电脑结论分别记录。
+
+输入为已验八镜、当前锁定Three0.187 Reflector及既有宿主链；产物为可选显示配置、能力选择与恢复接缝、有限QA和固定交付。一次有依据实现加一轮实际失败修正；两轮同因无新证据时重新定位，不扫参或降低断言。化妆台预检已完成，此修正收尾后继续该独立主包。
+
+一手依据为锁定本地three/examples/jsm/objects/Reflector.js（textureWidth/Height、multisample、HalfFloat render target）及three/src/renderers/webgl/{WebGLTextures,WebGLCapabilities}.js（实际颜色/深度格式与采样处理）。MIT许可沿现有包保留。
