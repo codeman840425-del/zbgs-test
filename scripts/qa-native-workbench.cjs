@@ -94,14 +94,12 @@ if(!directory||!output)throw Error('Pass fixed dist and new evidence directory')
   assert.equal(legacyColors.changed.applied,true);assert.equal(legacyColors.restored.applied,true);
   assert.deepEqual(legacyColors.colors,['brown','warm','green','rose']);assert(Object.values(legacyColors.choices).every(n=>n>1));report.legacyColors=legacyColors;
   await page.goto(url+'/native-production.html');
-  assert.equal(await page.locator('a[href*="body=native-female-843ac-v1"]').count(),4);
-  assert.equal(await page.locator('a[href*="body=native-female-face-v1"]').count(),1);
-  assert.equal(await page.locator('a[href*="body=native-female-waist-v1"]').count(),1);
-  assert.equal(await page.locator('a[href*="body=native-male-7586-v1"]').count(),2);
-  assert.equal(await page.locator('[data-native-chain]').count(),14);
+  for(const body of ['native-female-843ac-v1','native-female-face-v1','native-female-waist-v1','native-male-7586-v1'])assert((await page.locator('a[href*="body='+body+'"]').count())>0);
+  assert.equal(await page.locator('#native-features [data-native-chain]').count(),8);
+  const movieCount=await page.locator('[data-native-chain]').count();assert(movieCount>=22);
   assert((await page.locator('[data-factory-video]').getAttribute('src')).includes('7871-v2'));
   report.media=[];
-  for(let i=0;i<14;i++){
+  for(let i=0;i<movieCount;i++){
    const result=await page.locator('[data-native-chain]').nth(i).evaluate(async video=>{
     video.muted=true;await video.play();await new Promise(r=>setTimeout(r,400));video.pause();
     return{src:video.src,time:video.currentTime,duration:video.duration,rate:video.playbackRate,width:video.videoWidth};

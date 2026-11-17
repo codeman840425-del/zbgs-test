@@ -1359,6 +1359,18 @@
       "reason": "New target rig conversion without modifying frozen dance",
       "actualRuntimeConfiguration": "Not independently exposed",
       "hookInterception": "Not verified"
+    },
+    {
+      "task": "live_prop_transaction",
+      "work": "m2-live-prop-transaction-v1",
+      "difficulty": "complex",
+      "model": "gpt-6.1-sol",
+      "reasoning_effort": "xhigh",
+      "fork_turns": "none",
+      "reason": "Atomic asynchronous prop loading, stale-task disposal and live pose rollback require careful state and ownership reasoning.",
+      "actualRuntimeConfiguration": "Not independently exposed",
+      "hookInterception": "Not verified",
+      "recordTiming": "Recorded at context recovery from prior explicit spawn receipt"
     }
   ],
   "evidence": "Explicit actual collaboration.spawn_agent arguments in this desktop conversation; tool returned both task names.",

@@ -436,3 +436,6 @@ head-only一次诊断原8请求已完成，8/8 diagnostic-failed，正式生产�
 原生30秒舞：留存授权FBX独立转四native目标generated-v2，未改封存旧舞或增加旧舞优化；新entry native-rokoko-5359146-30s-v2。a378同房间实际走到(-1.8,1.0)、受真实空间guard约束、真实按钮播放、全30秒1×及任务完成/idle四源通过（native-30s-workbench-a378-v1）。完整影片及10Hz短采样保留；四例采样帧p95约6.1–6.2ms仅开发机录制短测，非普通机实测。原生手臂/身体/衣物局部交叉、头发动态及脚底细节仍待人工视觉判断，不继承旧体接受。source motion元数据“FBX world metres”为旧描述残留，实际转换按manifest的source hips94与各target米制比例，非直接认为源单位就是米；不外推任意来源。
 
 a378→c64逐文件核查仅index说明、grip manifest及新男v3profile变化，其余源/三女性握姿/舞蹈数据字节相同（native-feature-release-v1）。目前这些是固定候选；公开入口以delivery指针为准。身体颜色、其他发型、耳帽/妆容、任意组合、基础全动作链及普通机缺口仍保留。live麦克风/眼镜还未纳入旧appearance recipe最终记录，不因按钮接通就宣称完整保存恢复；D01独立角色记录源实现和并发改进未集成游戏。
+
+
+原生旧功能候选发布：4196固定07bab15f3382/source06c416b3。native-feature-release-ui-07b-v1真实UI与22媒体播放通过，native-feature-live-07b-v1原female+四native均实际mic/glasses on、loaded且无case错误；不是全部新体功能通过。07b仅观看HTML改变，实录runtime/resources与c64相同（native-feature-release-v1/final-build-reuse.json）。原色/其他附件限制、局部接触和人工自然度待验保留。下一共同缺口仍是整套记录包含live道具、实际资源身份及失败保旧恢复，源模块不等于已集成。
