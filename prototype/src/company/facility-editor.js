@@ -19,7 +19,10 @@ export function createFacilityEditor({session,catalog,templates,world,camera,get
   const outline=new THREE.Box3Helper(new THREE.Box3(),0xd58b28);outline.material.depthTest=false;outline.renderOrder=100;outline.visible=false;world.add(outline);
   const resource=n=>catalog.resources.find(r=>n?.resource?.id===r.id&&n.resource.version===r.version);
   const node=()=>session.document.nodes.find(n=>n.id===selected);
-  const region=()=>el('room').value||session.scene.view.roomId||session.document.nodes.find(n=>['room','area'].includes(n.kind))?.id;
+  const region=()=>{
+    const regions=session.document.nodes.filter(n=>['room','area'].includes(n.kind));
+    return regions.find(n=>n.id===el('room').value)?.id||regions.find(n=>n.id===session.scene.view.roomId)?.id||regions[0]?.id;
+  };
   const message=(text,error=false)=>{el('edit-message').textContent=text;el('edit-message').dataset.error=String(error);};
   const remember=()=>documents.set(session.document.id,structuredClone(session.document));
   const execute=(label,fn)=>perform(label,async()=>{try{remember();await fn();message('已更新当前布置。保存后可关闭并继续。');}catch(e){message(explain(e),true);throw e;}});
