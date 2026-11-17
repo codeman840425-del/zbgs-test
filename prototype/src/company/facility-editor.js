@@ -139,7 +139,7 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
       el('edit-rotate').disabled=el('edit-yaw').disabled;el('edit-position').disabled=isBusy()||constraints.lockedAxes.length===4;
       el('edit-move').disabled=isBusy()||constraints.lockedAxes.length===4||view.mode==='building';
       el('edit-rule').textContent=constraints.note;
-      const installable=r&&['wall','wall-opening','portal','portal-door','support-surface'].includes(r.mount);
+      const installable=r&&['wall','wall-opening','portal','portal-door','window-cover','support-surface'].includes(r.mount);
       const targets=installable?listPlacementTargets(doc,catalog,r,derived.roomIds.get(n.id),{templates}):[];
       el('edit-installation').hidden=!installable;
       options(el('edit-target'),targets.map(t=>({value:t.id,label:t.label})),el('edit-target').value);
@@ -233,7 +233,7 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
     const n=node(),r=resource(n),t=listPlacementTargets(session.document,catalog,r,region(),{templates}).find(t=>t.id===el('edit-target').value);
     if(!t)throw new CompanyError('missing-placement-target',n.id,'Select an installation target');
     const transform={position:t.position,yaw:t.yaw};
-    return session.apply([r.mount==='support-surface'?{type:'attach-surface',id:n.id,parentId:t.parentId,surfaceId:t.attachment.surfaceId,transform}:{type:'move',id:n.id,transform}]);
+    return session.apply([r.mount==='support-surface'?{type:'attach-surface',id:n.id,parentId:t.parentId,surfaceId:t.attachment.surfaceId,transform}:r.mount==='window-cover'?{type:'attach-window-cover',id:n.id,windowId:t.parentId}: {type:'move',id:n.id,transform}]);
   });
   const order=['desk','chair','sofa','side-table','monitor','fill-light','keyboard','desk-microphone','plant','rug','wall-art'];
   options(el('add-branch'),appearanceBranches.filter(([b])=>b!=='stream-station'&&appearanceCandidates(catalog,b).length).sort(([a],[b])=>(order.includes(a)?order.indexOf(a):100)-(order.includes(b)?order.indexOf(b):100)).map(([value,label])=>({value,label})),'desk');

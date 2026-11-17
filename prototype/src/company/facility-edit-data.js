@@ -173,6 +173,16 @@ function informationTargets(region, derived, resource) {
   return result;
 }
 
+function windowCoverTargets(region, derived, resource) {
+  if (resource.mount !== 'window-cover') return [];
+  const occupied=new Set(derived.facilities.filter(entry => entry.resource.mount==='window-cover'&&entry.node.attachment?.windowId).map(entry=>entry.node.attachment.windowId));
+  return derived.facilities.filter(entry => entry.roomId === region.id && entry.resource.windowSystem && !occupied.has(entry.id)).map(window => target(
+    `${window.id}:window-cover`, window.id, `${window.node.name || window.id} · 窗内覆盖`, [0, 0, .13], 0, 'window-cover', {
+      attachment: {windowId: window.id}, lockedAxes: ['x', 'y', 'z', 'yaw'],
+      note: '覆盖件绑定真实窗体，位置和朝向随窗体固定；开合状态单独保存。'
+    }));
+}
+
 function floorTarget(region, resource) {
   const m = mounting(resource);
   if (!m || m.origin !== 'bottom') return null;
@@ -235,6 +245,7 @@ export function listPlacementTargets(document, catalog, resource, regionId, opti
     for (const parent of derived.facilities.filter(entry => entry.roomId === region.id && Array.isArray(entry.resource.supportSurfaces)))
       for (const surface of parent.resource.supportSurfaces) { const value = targetForSupport(parent.node, parent.resource, selected, surface); if (value) result.push(value); }
   } else if (selected.mount === 'information-surface') result.push(...informationTargets(region, derived, selected));
+  else if (selected.mount === 'window-cover') result.push(...windowCoverTargets(region, derived, selected));
   else { const value = groundTarget(region, selected); if (value) result.push(value); }
   return result;
 }
@@ -277,6 +288,7 @@ export function getFacilityEditConstraints(node, resource) {
   }
   if (mount === 'portal') return {lockedAxes: ['x', 'y', 'z', 'yaw'], note: '门洞位置和朝向固定，只能更换真实门洞目标'};
   if (mount === 'portal-door') return {lockedAxes: ['x', 'y', 'z', 'yaw'], note: '外部门扇绑定真实外部门洞，位置和朝向固定；开合状态单独保存'};
+  if (mount === 'window-cover') return {lockedAxes: ['x', 'y', 'z', 'yaw'], note: '窗体覆盖绑定真实窗户，位置和朝向固定；开合状态单独保存'};
   if (mount === 'information-surface') return {lockedAxes: ['x', 'y', 'z', 'yaw'], note: '信息内容固定在宿主槽位，移动或转向请操作宿主'};
   if (mount === 'ceiling') return {lockedAxes: ['y'], note: '顶面 Y 固定在 2.8m'};
   if (mount === 'support-surface') return {lockedAxes: ['y'], note: '承载面 Y 固定，X/Z 与朝向须满足完整包络'};

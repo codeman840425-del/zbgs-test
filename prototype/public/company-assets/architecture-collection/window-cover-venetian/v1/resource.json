@@ -1,0 +1,97 @@
+{
+  "id": "window-cover-venetian",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "window-cover",
+  "mount": "window-cover",
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Child of real window; inner glass plane z=0; +Z inward"
+  },
+  "mounting": {
+    "width": 1.6,
+    "height": 1.2,
+    "depth": 0.08,
+    "origin": "center"
+  },
+  "windowCoverSystem": "window-cover-v1",
+  "usePoints": [],
+  "stateDefaults": {
+    "openFraction": 0
+  },
+  "stateSchema": {
+    "openFraction": {
+      "type": "number",
+      "min": 0,
+      "max": 1
+    }
+  },
+  "stateSemantics": {
+    "openFraction": "window-cover-opening-fraction"
+  },
+  "windowCoverParts": {
+    "mode": "slat-retract",
+    "parts": [
+      {
+        "id": "slats",
+        "stateField": "openFraction",
+        "kind": "scale",
+        "axis": "y",
+        "range": [
+          0,
+          1
+        ],
+        "nodes": [
+          "cover-slat-0",
+          "cover-slat-1",
+          "cover-slat-2",
+          "cover-slat-3",
+          "cover-slat-4",
+          "cover-slat-5",
+          "cover-slat-6",
+          "cover-slat-7"
+        ]
+      }
+    ]
+  },
+  "displayName": "横向百叶",
+  "productionBranch": "window-cover",
+  "designId": "window-cover-venetian",
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/architecture-collection/window-cover-venetian/v1/model.glb",
+    "sha256": "d48ec2a0bf1edb6f7e767aa92c5dd06be1ffb1df053fd7e5806514517f5812f0",
+    "bytes": 22412
+  },
+  "materialSlots": {
+    "construction": [
+      "cover-head",
+      "cover-slat-0",
+      "cover-slat-1",
+      "cover-slat-2",
+      "cover-slat-3",
+      "cover-slat-4",
+      "cover-slat-5",
+      "cover-slat-6",
+      "cover-slat-7",
+      "cover-left-guide",
+      "cover-right-guide"
+    ]
+  },
+  "provenance": {
+    "license": "Project-authored construction geometry and solid materials. No external assets.",
+    "sourceParameters": "assets-source/company-architecture-collection/designs.mjs",
+    "sourceParametersSha256": "f69438dbb8734a246f00c0faa91f552773f3beef86b30a438b3cfd47a37c5a43",
+    "generator": "scripts/company-platform/build-architecture-collection.mjs",
+    "generatorSha256": "33ee84e5f5a04fb8561224b40af1f2c542ac24634a06d78d4e6bc625985bd1de",
+    "tools": [
+      "Three.js 187",
+      "GLTFExporter",
+      "GLTFLoader"
+    ],
+    "classification": "independent-construction",
+    "reference": "window-cover-standard@1"
+  }
+}

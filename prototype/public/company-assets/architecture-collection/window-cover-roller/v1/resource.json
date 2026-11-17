@@ -1,0 +1,82 @@
+{
+  "id": "window-cover-roller",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "window-cover",
+  "mount": "window-cover",
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Child of real window; inner glass plane z=0; +Z inward"
+  },
+  "mounting": {
+    "width": 1.6,
+    "height": 1.2,
+    "depth": 0.08,
+    "origin": "center"
+  },
+  "windowCoverSystem": "window-cover-v1",
+  "usePoints": [],
+  "stateDefaults": {
+    "openFraction": 0
+  },
+  "stateSchema": {
+    "openFraction": {
+      "type": "number",
+      "min": 0,
+      "max": 1
+    }
+  },
+  "stateSemantics": {
+    "openFraction": "window-cover-opening-fraction"
+  },
+  "windowCoverParts": {
+    "mode": "roll-up",
+    "parts": [
+      {
+        "id": "panel",
+        "stateField": "openFraction",
+        "kind": "scale",
+        "axis": "y",
+        "range": [
+          0,
+          1
+        ],
+        "nodes": [
+          "cover-panel"
+        ]
+      }
+    ]
+  },
+  "displayName": "卷帘",
+  "productionBranch": "window-cover",
+  "designId": "window-cover-roller",
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/architecture-collection/window-cover-roller/v1/model.glb",
+    "sha256": "daf6c6a97ac9119edce576c8ec2de9b0116766273a0da055209252b9d40d3f54",
+    "bytes": 6132
+  },
+  "materialSlots": {
+    "construction": [
+      "cover-panel",
+      "cover-roller",
+      "cover-chain"
+    ]
+  },
+  "provenance": {
+    "license": "Project-authored construction geometry and solid materials. No external assets.",
+    "sourceParameters": "assets-source/company-architecture-collection/designs.mjs",
+    "sourceParametersSha256": "f69438dbb8734a246f00c0faa91f552773f3beef86b30a438b3cfd47a37c5a43",
+    "generator": "scripts/company-platform/build-architecture-collection.mjs",
+    "generatorSha256": "33ee84e5f5a04fb8561224b40af1f2c542ac24634a06d78d4e6bc625985bd1de",
+    "tools": [
+      "Three.js 187",
+      "GLTFExporter",
+      "GLTFLoader"
+    ],
+    "classification": "independent-construction",
+    "reference": "window-cover-standard@1"
+  }
+}

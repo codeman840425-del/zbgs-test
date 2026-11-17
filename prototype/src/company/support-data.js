@@ -12,7 +12,7 @@ const ID = /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/;
 const EPS = 1e-6;
 
 export function validateSupportResource(resource, fail, path = resource.id) {
-  if(resource.mount!=null&&!['desk-surface','floor-surface','wall','wall-opening','portal','portal-door','support-surface','information-surface','ceiling','parent-device-endpoints'].includes(resource.mount))
+  if(resource.mount!=null&&!['desk-surface','floor-surface','wall','wall-opening','portal','portal-door','support-surface','information-surface','ceiling','parent-device-endpoints','window-cover'].includes(resource.mount))
     fail('unsupported-mount',path,'The mounting adapter is not supported');
   validateCableResource(resource,fail,path);
   validateCeilingAcousticResource(resource,fail,path);
@@ -71,6 +71,7 @@ export function validateSupportAttachments(nodes, resources, fail) {
   const attached = [];
   for (const node of nodes.values()) {
     const resource = resources.get(`${node.resource?.id}@${node.resource?.version}`);
+    if (node.attachment !== undefined && resource?.mount === 'window-cover') continue;
     if (node.attachment !== undefined && (node.kind !== 'facility' || resource?.mount !== 'support-surface'))
       fail('invalid-support-attachment', node.id, 'Only support-surface facilities may declare an attachment');
     if (resource?.mount !== 'support-surface') continue;

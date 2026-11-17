@@ -14,6 +14,7 @@ import {validateInformationResource,validateInformationAttachments} from './info
 import {validateMirrorResource} from './mirror-data.js';
 import {validateMakeupMirrorAttachments} from './makeup-mirror-data.js';
 import {validateVanityResource,validateVanityPlacement} from './vanity-data.js';
+import {validateWindowCoverResource,validateWindowCoverAttachments,WINDOW_COVER_SYSTEM} from './window-cover-data.js';
 export class CompanyError extends Error {
   constructor(code, path, message, details = {}) {
     super(`${code} at ${path}: ${message}`);
@@ -166,7 +167,7 @@ export function deriveCompany(document, catalog, templates) {
     fail('catalog-version-mismatch', 'document.catalog', 'Load the pinned resource catalog');
   if (!Array.isArray(document.nodes)) fail('invalid-nodes', 'document.nodes', 'Expected an array');
   const { resources, combinations } = catalogMaps(catalog, templates);
-  for (const resource of resources.values()) { validateSupportResource(resource, fail); validateMovingResource(resource, fail); validateClockResource(resource, fail); validateInformationResource(resource, fail); validateMirrorResource(resource, fail); validateVanityResource(resource, fail); validateWindowResource(resource,fail); }
+  for (const resource of resources.values()) { validateSupportResource(resource, fail); validateMovingResource(resource, fail); validateClockResource(resource, fail); validateInformationResource(resource, fail); validateMirrorResource(resource, fail); validateVanityResource(resource, fail); validateWindowResource(resource,fail); validateWindowCoverResource(resource,fail); }
   const nodes = new Map(), worlds = new Map(), localTransforms = new Map(), floorIds = new Map(), roomIds = new Map();
   for (const node of document.nodes) {
     checkId(node.id, 'nodes.id');
@@ -267,6 +268,10 @@ export function deriveCompany(document, catalog, templates) {
           Math.abs(node.transform.position[0]) > surface.halfSize[0] || Math.abs(node.transform.position[2]) > surface.halfSize[1])
         fail('invalid-surface-fit', node.id, 'Device mount origin must be on the declared parent surface');
     }
+    if(resource.mount==='window-cover'){
+      if(node.parentId===undefined||!node.attachment||node.attachment.windowId!==node.parentId)
+        fail('invalid-window-cover-attachment',node.id,'Window cover must declare attachment.windowId equal to its parent window');
+    }
     if (['wall','wall-opening','portal','portal-door','floor-surface'].includes(resource.mount)) {
       const region=nodes.get(node.parentId),spec=resource.mounting;
       if(!['room','area'].includes(region?.kind)||!spec||
@@ -340,6 +345,7 @@ export function deriveCompany(document, catalog, templates) {
   }
   validateScaleProfile(document,{floors,rooms,stations,floorIds,roomIds},fail);
   const windowOpenings=deriveWindowOpenings({nodes,worlds,floorIds,facilities},fail);
+  validateWindowCoverAttachments(nodes,facilities,fail);
   const cableConnections=deriveCableConnections({nodes,facilities},fail);
   validateCeilingAttachments({nodes,facilities},fail);
   validateSupportAttachments(nodes, resources, fail);
@@ -506,6 +512,12 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
     else if(op.type==='set-exterior-entrances'){
       if(node.kind!=='floor'||!Array.isArray(op.entrances))fail('invalid-exterior-entrances',op.id,'Exterior entrances belong to an existing floor');
       node.exteriorEntrances=copy(op.entrances);
+    }
+    else if(op.type==='attach-window-cover'){
+      if(node.kind!=='facility'||resources.get(key(node.resource))?.mount!=='window-cover')fail('invalid-window-cover-attachment',node.id,'Only a window-cover facility can be rebound to a window');
+      const target=next.nodes.find(candidate=>candidate.id===op.windowId),targetResource=target&&resources.get(key(target.resource));
+      if(!target||target.kind!=='facility'||!targetResource?.windowSystem)fail('invalid-window-cover-attachment',op.windowId,'Target must be a real window facility');
+      node.parentId=op.windowId;node.attachment={windowId:op.windowId};node.transform={position:[0,0,.13],yaw:0};
     }
     else if (op.type === 'attach-surface') {
       if (node.kind !== 'facility' || resources.get(key(node.resource))?.mount !== 'support-surface')

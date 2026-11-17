@@ -42,6 +42,15 @@ const refs = new Map([
     productionProfile: {id: 'window-panel-wall-mount-v2', backPlaneZ: 0, localZRange: [0, .1], localZOffset: .05, visualOnly: true},
     usePoints: [], stateDefaults: {}
   }],
+  ['window-cover', {
+    id: 'window-cover-standard', version: 1, category: 'dynamic', mountRole: 'window-cover', mount: 'window-cover',
+    coordinates: {units: 'metres', up: '+Y', forward: '+Z', origin: 'Child of real window; inner glass plane z=0; +Z inward'},
+    mounting: {width: 1.6, height: 1.2, depth: .08, origin: 'center'},
+    windowCoverSystem: 'window-cover-v1', usePoints: [], stateDefaults: {openFraction: 0},
+    stateSchema: {openFraction: {type: 'number', min: 0, max: 1}},
+    stateSemantics: {openFraction: 'window-cover-opening-fraction'},
+    windowCoverParts: {mode: 'display-state', parts: []}
+  }],
   ['rug', {
     id: 'rug-standard', version: 1, category: 'decor', mountRole: 'rug', mount: 'floor-surface',
     coordinates: {units: 'metres', up: '+Y', forward: '+Z', origin: 'Bottom centre of floor-surface decor'},
@@ -98,6 +107,11 @@ function assertEnvelope(branch, bounds) {
     assert(bounds.min.x >= -.45 - tolerance && bounds.max.x <= .45 + tolerance);
     assert(bounds.min.y >= -.4 - tolerance && bounds.max.y <= .4 + tolerance);
     assert(bounds.min.z >= -tolerance && bounds.max.z <= .1 + tolerance);
+  }
+  if (branch === 'window-cover') {
+    assert(bounds.min.x >= -.8 - tolerance && bounds.max.x <= .8 + tolerance);
+    assert(bounds.min.y >= -.6 - tolerance && bounds.max.y <= .6 + tolerance);
+    assert(bounds.min.z >= -.001 && bounds.max.z <= .08 + tolerance);
   }
   if (branch === 'rug') {
     assert(bounds.min.x >= -.8 - tolerance && bounds.max.x <= .8 + tolerance);
@@ -173,6 +187,17 @@ for (const design of designs) {
       reference: `${reference.id}@${reference.version}`
     }
   });
+  if (design.branch === 'window-cover') {
+    const moving = design.id.endsWith('-curtain') || design.id.endsWith('-sheer')
+      ? {mode: design.id.endsWith('-curtain') ? 'pair-slide' : 'sheer-slide', parts: [
+        {id: 'left', stateField: 'openFraction', kind: 'scale', axis: 'x', range: [0, 1], nodes: ['cover-left']},
+        {id: 'right', stateField: 'openFraction', kind: 'scale', axis: 'x', range: [0, 1], nodes: ['cover-right']},
+      ]}
+      : design.id.endsWith('-roller')
+        ? {mode: 'roll-up', parts: [{id: 'panel', stateField: 'openFraction', kind: 'scale', axis: 'y', range: [0, 1], nodes: ['cover-panel']}]}
+        : {mode: 'slat-retract', parts: [{id: 'slats', stateField: 'openFraction', kind: 'scale', axis: 'y', range: [0, 1], nodes: design.parts.filter(p => p.name.startsWith('cover-slat-')).map(p => p.name)}]};
+    resource.windowCoverParts = moving;
+  }
   assert(compareFacilityFunction(reference, resource).compatible);
   const dir = `prototype/public/company-assets/architecture-collection/${design.id}/v1`;
   await fs.mkdir(new URL(`${dir}/`, root), {recursive: true});
@@ -195,7 +220,7 @@ for (const design of designs) {
     backplaneZ: design.branch === 'window-panel' ? 0 : null,
     repeatByteIdentical: true,
     functionCompatible: true,
-    prompt: `为公司场景制作 ${design.label}。固定功能规格为 ${JSON.stringify(reference)}。保留固定单位、基点、挂载和包络，以独立构造几何形成真实结构差异。门框只制作显示框体，窗板只制作显示面板，不添加开合机制。`
+    prompt: `为公司场景制作 ${design.label}。固定功能规格为 ${JSON.stringify(reference)}。保留固定单位、基点、挂载和包络，以独立构造几何形成真实结构差异。窗体覆盖必须声明实际 openFraction 显示部件，不能只改色或复制模型。`
   });
   release(loaded);
 }

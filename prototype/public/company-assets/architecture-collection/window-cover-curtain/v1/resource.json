@@ -1,0 +1,95 @@
+{
+  "id": "window-cover-curtain",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "window-cover",
+  "mount": "window-cover",
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Child of real window; inner glass plane z=0; +Z inward"
+  },
+  "mounting": {
+    "width": 1.6,
+    "height": 1.2,
+    "depth": 0.08,
+    "origin": "center"
+  },
+  "windowCoverSystem": "window-cover-v1",
+  "usePoints": [],
+  "stateDefaults": {
+    "openFraction": 0
+  },
+  "stateSchema": {
+    "openFraction": {
+      "type": "number",
+      "min": 0,
+      "max": 1
+    }
+  },
+  "stateSemantics": {
+    "openFraction": "window-cover-opening-fraction"
+  },
+  "windowCoverParts": {
+    "mode": "pair-slide",
+    "parts": [
+      {
+        "id": "left",
+        "stateField": "openFraction",
+        "kind": "scale",
+        "axis": "x",
+        "range": [
+          0,
+          1
+        ],
+        "nodes": [
+          "cover-left"
+        ]
+      },
+      {
+        "id": "right",
+        "stateField": "openFraction",
+        "kind": "scale",
+        "axis": "x",
+        "range": [
+          0,
+          1
+        ],
+        "nodes": [
+          "cover-right"
+        ]
+      }
+    ]
+  },
+  "displayName": "对开布帘",
+  "productionBranch": "window-cover",
+  "designId": "window-cover-curtain",
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/architecture-collection/window-cover-curtain/v1/model.glb",
+    "sha256": "f0d140858a96dc1c11c8d6ac251f9b4b4287b3474cb0cefcd57e7750b9d1d431",
+    "bytes": 6092
+  },
+  "materialSlots": {
+    "construction": [
+      "cover-left",
+      "cover-right",
+      "cover-rail"
+    ]
+  },
+  "provenance": {
+    "license": "Project-authored construction geometry and solid materials. No external assets.",
+    "sourceParameters": "assets-source/company-architecture-collection/designs.mjs",
+    "sourceParametersSha256": "f69438dbb8734a246f00c0faa91f552773f3beef86b30a438b3cfd47a37c5a43",
+    "generator": "scripts/company-platform/build-architecture-collection.mjs",
+    "generatorSha256": "33ee84e5f5a04fb8561224b40af1f2c542ac24634a06d78d4e6bc625985bd1de",
+    "tools": [
+      "Three.js 187",
+      "GLTFExporter",
+      "GLTFLoader"
+    ],
+    "classification": "independent-construction",
+    "reference": "window-cover-standard@1"
+  }
+}

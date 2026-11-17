@@ -65,6 +65,34 @@ for(const style of ['cross','lattice','slat','round']){
   if(style==='round'){box(m,'backing',[.82,.72,.035],[0,0,.018],'light');cyl(m,'round-pane',.30,.30,.035,[0,0,.02],'glass',[Math.PI/2,0,0]);for(let i=0;i<8;i++){const a=i*Math.PI/4;box(m,`round-ray-${i}`,[.02,.34,.04],[Math.sin(a)*.14,Math.cos(a)*.14,.02],'accent',[0,0,-a]);}}
 }
 
+// Window-covering resources use the same 1.6x1.2 opening as the real window,
+// but sit on its inner side (z=0..0.08 in the child window frame).
+function coverPart(m,name,size,p,mat='base',r,scale){part(m,name,'BoxGeometry',size,p,mat,r,scale);}
+for(const style of ['curtain','roller','venetian','sheer']){
+  const m=model('window-cover',style,{curtain:'对开布帘',roller:'卷帘',venetian:'横向百叶',sheer:'纱帘'}[style]);
+  if(style==='curtain'){
+    coverPart(m,'cover-left',[.74,1.12,.06],[-.40,.0,.04],'accent');
+    coverPart(m,'cover-right',[.74,1.12,.06],[.40,.0,.04],'light');
+    coverPart(m,'cover-rail',[1.5,.06,.06],[0,.55,.04],'dark');
+  }
+  if(style==='roller'){
+    coverPart(m,'cover-panel',[1.42,1.10,.055],[0,-.02,.04],'accent');
+    coverPart(m,'cover-roller',[1.48,.07,.07],[0,.56,.04],'dark');
+    coverPart(m,'cover-chain',[.025,.28,.025],[.69,.36,.04],'dark');
+  }
+  if(style==='venetian'){
+    coverPart(m,'cover-head',[1.46,.08,.06],[0,.53,.04],'dark');
+    for(let i=0;i<8;i++)coverPart(m,`cover-slat-${i}`,[1.38,.065,.035],[0,.43-i*.12,.04],i%2?'light':'accent',[0,0,.02]);
+    coverPart(m,'cover-left-guide',[.025,1.02,.025],[-.69,-.02,.04],'dark');
+    coverPart(m,'cover-right-guide',[.025,1.02,.025],[.69,-.02,.04],'dark');
+  }
+  if(style==='sheer'){
+    coverPart(m,'cover-left',[.72,1.10,.045],[-.40,-.01,.04],'light');
+    coverPart(m,'cover-right',[.72,1.10,.045],[.40,-.01,.04],'base');
+    coverPart(m,'cover-rail',[1.5,.045,.05],[0,.55,.04],'dark');
+  }
+}
+
 for(const style of ['border','inset','stripe','medallion']){
   const m=model('rug',style,{border:'边框地毯',inset:'嵌套方毯',stripe:'条纹地毯',medallion:'中心纹章地毯'}[style]);
   box(m,'rug-base',[1.6,.006,1.1],[0,.003,0],'base');

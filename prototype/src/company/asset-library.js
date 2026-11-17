@@ -3,6 +3,7 @@ import {validateCablePortGeometry} from './cable-port-geometry.js';
 import * as THREE from 'three';
 import {validateWindowGeometry} from './window-geometry.js';
 import {validateWindowResource} from './window-data.js';
+import {validateWindowCoverResource,validateWindowCoverGeometry} from './window-cover-data.js';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {CompanyError} from './document.js';
 import {validateSupportResource} from './support-data.js';
@@ -41,6 +42,7 @@ function describe(resource) {
       !Number.isSafeInteger(resource.version) || resource.version < 1)
     throw error('invalid-asset-resource', path, 'Expected stable resource id and positive version');
   validateWindowResource(resource,(code,location,message)=>{throw error(code,location,message);});
+  validateWindowCoverResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
   validateSupportResource(resource, (code, location, message) => { throw error(code, location, message); }, path);
   validateMovingResource(resource, (code, location, message) => { throw error(code, location, message); }, path);
   validateClockResource(resource, (code, location, message) => { throw error(code, location, message); }, path);
@@ -173,6 +175,7 @@ async function releaseFailedParser(parser, json, pack) {
 function validateResource(pack, description) {
   pack.scene.updateMatrixWorld(true);
   validateWindowGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);});
+  validateWindowCoverGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);});
   validateCableRouteGeometry(pack.scene, description.resource, (code,path,message)=>{throw error(code,path,message);});
   if(description.resource.cablePorts)validateCablePortGeometry(pack.scene, description.resource, (code,path,message)=>{throw error(code,path,message);});
   validateClockGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
@@ -208,7 +211,7 @@ function validateResource(pack, description) {
       throw error('asset-footprint-mismatch', `${description.path}.footprint`, 'Declared blocking footprint must enclose the default scene XZ bounds within 1mm');
   }
   if(description.mounting) {
-    const s=description.mounting,b=new THREE.Box3().setFromObject(pack.scene),wall=['wall','wall-opening','portal','portal-door','information-surface'].includes(description.mount);
+    const s=description.mounting,b=new THREE.Box3().setFromObject(pack.scene),wall=['wall','wall-opening','portal','portal-door','information-surface','window-cover'].includes(description.mount);
     const lo=description.mount==='ceiling'&&s.origin==='top'?-s.height:wall&&s.origin==='center'?-s.height/2:0;
     if(![s.width,s.height,s.depth].every(v=>Number.isFinite(v)&&v>0)||
       b.min.x < -s.width/2-.001||b.max.x > s.width/2+.001||b.min.y<lo-.001||b.max.y>lo+s.height+.001||

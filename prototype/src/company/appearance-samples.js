@@ -21,6 +21,7 @@ import {createWallShelfSample} from './wall-shelf-samples.js';
 import {createCableSample} from './cable-samples.js';
 export const appearanceBranches=[
  ['window-opening-and-glass','窗体与真实洞口'],
+ ['window-cover','窗体覆盖（帘/卷帘/百叶）'],
  ['exterior-door-leaf','外部门扇'],
  ['cable-route','设备连接线'],
  ['ceiling-acoustic-baffle','顶部吸声构件'],
@@ -48,6 +49,7 @@ export const appearanceBranches=[
 const names={'chair-cantilever':'悬臂滑橇椅','chair-pedestal':'中心底盘椅','chair-ladder':'梯架靠背椅','chair-crossbeam':'交叉梁椅',
  'lounge-sofa':'软包双人沙发','timber-sofa':'开放木框双人沙发','sofa-modular':'模块软包双人沙发','sofa-arch':'拱架双人沙发',
  'exterior-door-leaf-plain':'平板外部门扇','exterior-door-leaf-glass-panel':'玻璃外部门扇','exterior-door-leaf-slatted':'格栅外部门扇','exterior-door-leaf-solid-panel':'实芯面板外部门扇',
+ 'window-cover-curtain':'对开布帘','window-cover-roller':'卷帘','window-cover-venetian':'横向百叶','window-cover-sheer':'纱帘',
  'monitor-aurora':'圆角环框屏幕','monitor-ribbon':'双柱宽框屏幕','monitor-pillar':'立柱支撑屏幕','monitor-slate':'V形支架屏幕',
  'fill-light-orbit':'圆筒柔光系统','fill-light-wing':'双翼反光系统','fill-light-column':'立柱柔光系统','fill-light-panel':'悬臂面板补光'};
 // Catalog history stays available to saved documents; new authoring choices use one latest version per resource ID.
@@ -63,6 +65,18 @@ export function appearanceCandidates(catalog,branch) {
 }
 export function createAppearanceSample(branch,index,catalog,templates,options={}) {
  if(branch==='window-opening-and-glass')return createWindowSample(catalog,templates,{index,alternate:Boolean(options.alternate)});
+ if(branch==='window-cover'){
+   const sample=createWindowSample(catalog,templates,{index:0,alternate:Boolean(options.alternate)});
+   const oldId=sample.document.id,newId=`window-cover-${options.alternate?'alternate':'company'}`;
+   const text=JSON.stringify(sample.document).replaceAll(oldId,newId);sample.document=JSON.parse(text);sample.document.id=newId;
+   sample.target=sample.target.replace(oldId,newId);
+   const selected=appearanceCandidates(catalog,branch)[index];
+   if(!selected)throw Error(`No appearance ${branch}[${index}]`);
+   const windowId=sample.target;
+   sample.document.nodes.push({id:`${windowId}/cover`,kind:'facility',parentId:windowId,attachment:{windowId},resource:{id:selected.id,version:selected.version},transform:{position:[0,0,.13],yaw:0},state:{openFraction:index===1 ? .5 : index===2 ? 1 : 0}});
+   sample.target=`${windowId}/cover`;sample.branch=branch;sample.index=index;sample.resource={id:selected.id,version:selected.version};
+   return sample;
+ }
  if(branch==='cable-route')return createCableSample(catalog,templates,{index,alternate:Boolean(options.alternate)});
  if(branch==='ceiling-acoustic-baffle')return createCeilingAcousticSample(catalog,templates,{index,alternate:Boolean(options.alternate)});
  if(branch==='wall-shelf')return createWallShelfSample(catalog,templates,{index,alternate:Boolean(options.alternate)});

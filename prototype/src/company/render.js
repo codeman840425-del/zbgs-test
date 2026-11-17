@@ -2,6 +2,7 @@ import {adaptCableGeometry,validateCableVisualPlacement} from './cable-render.js
 import {validateCeilingVisualPlacement,ceilingVisibleForRegion} from './ceiling-placement.js';
 import * as THREE from 'three';
 import {applyWindowState,validateWindowVisualPlacement} from './window-geometry.js';
+import {applyWindowCoverState} from './window-cover-data.js';
 import defaultCatalog from './facility-catalog.json' with {type:'json'};
 import defaultTemplates from './templates.json' with {type:'json'};
 import {CompanyError,deriveCompany,prepareCompanyChange,serializeCompany,restoreCompany} from './document.js';
@@ -80,6 +81,7 @@ export function validateCeilingDocumentAssets(derived,assetLibrary){
       if(f.resource.asset&&!assetLibrary)throw new CompanyError('asset-library-required',f.id,'Ceiling clearance requires actual geometry, including facilities on hidden floors');
       const visual=f.resource.asset?assetLibrary.instantiate(f.resource).root:buildResource(f.resource.node,new Map(),f.state);
       root.add(visual);applyWindowState(visual,f.resource,f.state);
+      applyWindowCoverState(visual,f.resource,f.state);
       if(derived.cableConnections.has(f.id))adaptCableGeometry(visual,derived.cableConnections.get(f.id));
       root.position.fromArray(f.world.position);root.rotation.y=f.world.yaw;root.updateMatrixWorld(true);
       temporary.get(f.id).visual=visual;
@@ -176,6 +178,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
           }});
         } else {parts=new Map();visual=buildResource(entry.resource.node,parts,entry.state);root.add(visual);}
         applyWindowState(visual,entry.resource,entry.state);
+        applyWindowCoverState(visual,entry.resource,entry.state);
         if(derived.cableConnections.has(entry.id))adaptCableGeometry(visual,derived.cableConnections.get(entry.id));
         for(const part of entry.resource.movingParts||[]) {
           const pivot=parts.get(entry.resource.partNodes[part.id]);
