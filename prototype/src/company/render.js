@@ -7,6 +7,8 @@ import {describeCompanyUsePoint} from './use-point-data.js';
 import {createContactResourceStore} from './contact-resources.js';
 import {WALL_HEIGHT,WALL_CENTER_Y,evaluateWallVisibility,groupWallSegments,wallEdge} from './wall-visibility.js';
 import {applySurfaceFinish,describeSurfaceMeshes} from './surface-finish-render.js';
+import {partAngle} from './moving-parts.js';
+import {inspectCompanyMotionSweep} from './placement.js';
 
 const geometryTypes={BoxGeometry:THREE.BoxGeometry,CylinderGeometry:THREE.CylinderGeometry,PlaneGeometry:THREE.PlaneGeometry,CapsuleGeometry:THREE.CapsuleGeometry,SphereGeometry:THREE.SphereGeometry};
 const clone=value=>structuredClone(value);
@@ -104,6 +106,11 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
           const instance=assetLibrary.instantiate(entry.resource);parts=instance.nodes;visual=instance.root;root.add(instance.root);
           instance.root.traverse(object=>{if(object.isMesh){object.castShadow=true;object.receiveShadow=true;}});
         } else {parts=new Map();visual=buildResource(entry.resource.node,parts,entry.state);root.add(visual);}
+        for(const part of entry.resource.movingParts||[]) {
+          const pivot=parts.get(entry.resource.partNodes[part.id]);
+          if(!pivot)throw new CompanyError('missing-moving-part',entry.id,'Moving part must resolve to its imported pivot');
+          pivot.rotation.y=partAngle(part,entry.state);
+        }
         for(const [slot,values]of Object.entries(entry.node.appearance?.materials||{})) {
           const targets=entry.resource.materialSlots?.[slot];
           if(!Array.isArray(targets)||!targets.length)throw new CompanyError('unknown-material-slot',`${entry.id}.${slot}`,'This appearance slot is not declared by the resource');
@@ -351,6 +358,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
     },
     prepareChange(operations,guards={}) {
       live();const result=prepareCompanyChange(current.document,operations,{catalog,templates,...guards,isUsePointBusy:guardedBusy(guards)});
+      inspectCompanyMotionSweep(current.document,result.document,catalog,templates);
       const candidate=build(result.document,current.floorId,current.view,current.wallView);candidate.operations=clone(operations);candidate.previousRevision=current.document.revision;candidate.generation=generation;
       const handle=Object.freeze({get document(){return clone(candidate.document);},previousRevision:candidate.previousRevision});prepared.set(handle,candidate);return handle;
     },

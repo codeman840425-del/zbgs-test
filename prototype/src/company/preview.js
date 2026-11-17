@@ -20,6 +20,7 @@ import {deriveCompany} from './document.js';
 import {createBuildingView} from './building-view.js';
 import {appearanceBranches,appearanceCandidates,createAppearanceSample} from './appearance-samples.js';
 import {createSupportSample} from './support-samples.js';
+import {createHingedSample} from './hinged-samples.js';
 import './preview.css';
 
 const element=id=>document.getElementById(id),stage=element('stage');
@@ -33,7 +34,7 @@ const sun=new THREE.DirectionalLight(0xfff0d6,2.3);sun.position.set(-3,8,5);sun.
 Object.assign(sun.shadow.camera,{left:-8,right:8,top:8,bottom:-8});sun.shadow.normalBias=.015;world.add(sun);
 const camera=new THREE.PerspectiveCamera(38,1,.05,300),orbit=new OrbitControls(camera,renderer.domElement);
 orbit.enableDamping=false;orbit.maxPolarAngle=Math.PI*.48;orbit.minDistance=2;orbit.maxDistance=160;
-const layouts={base,alternate,studio,...createScaleExamples(catalog,templates),smallHome,rental:rentalHome,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome,ceilings:ceilingCompany,ceilingHome,
+const layouts={hinged:createHingedSample(catalog,templates).document,hingedAlternate:createHingedSample(catalog,templates,{alternate:true}).document,base,alternate,studio,...createScaleExamples(catalog,templates),smallHome,rental:rentalHome,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome,ceilings:ceilingCompany,ceilingHome,
   supports:createSupportSample(catalog,templates).document,supportAlternate:createSupportSample(catalog,templates,{alternate:true}).document},assetLibrary=createCompanyAssetLibrary();let session,activeView='room',busy=false,game;
 let regionLabels=[];
 let buildingPresentation='exterior';
@@ -71,13 +72,13 @@ function setView(name){
     return;
   }
   let closeObject;
-  if(name==='station'||name==='sofa') {
-    const id=name==='station'?element('station').value:sofaNode()?.id,object=session.scene.root.getObjectByName(id||'');
+  if(['station','sofa','cabinet'].includes(name)) {
+    const id=name==='station'?element('station').value:name==='cabinet'?element('cabinet').value:sofaNode()?.id,object=session.scene.root.getObjectByName(id||'');
     if(object){target=object.getWorldPosition(new THREE.Vector3());target.y=.65;box=new THREE.Box3().setFromObject(object);closeObject=object;}
   }
   orbit.target.copy(target);
   const offset=name==='top'?new THREE.Vector3(.001,1,.001).normalize():new THREE.Vector3(.65,.8,1).normalize();
-  if(name==='sofa'&&closeObject)offset.applyQuaternion(closeObject.getWorldQuaternion(new THREE.Quaternion()));
+  if(['sofa','cabinet'].includes(name)&&closeObject)offset.applyQuaternion(closeObject.getWorldQuaternion(new THREE.Quaternion()));
   const right=new THREE.Vector3().crossVectors(new THREE.Vector3(0,1,0),offset).normalize(),up=new THREE.Vector3().crossVectors(offset,right).normalize();
   const tangent=Math.tan(THREE.MathUtils.degToRad(camera.fov/2));let distance=3;
   for(const x of [box.min.x,box.max.x])for(const y of [box.min.y,box.max.y])for(const z of [box.min.z,box.max.z]) {
@@ -179,6 +180,9 @@ function sync(){
   element('building-view').disabled=busy||doc.scale!=='building';
   const building=view.mode==='building';element('building-stage').hidden=!building;stage.hidden=building;
   element('wall-view').disabled=busy||building;element('wall-view').value=wallMode;updateWallView();
+  const hinged=facilities.filter(n=>derived.floorIds.get(n.id)===view.floorId&&catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.mountRole==='hinged-cabinet');
+  fillOptions('cabinet',hinged,element('cabinet').value);element('cabinet').disabled=busy||!hinged.length;
+  for(const button of document.querySelectorAll('[data-opening]'))button.disabled=busy||!hinged.length||view.mode==='building';
   syncFinishes();
   if(building)buildingView.render(doc,{presentation:buildingPresentation});
   element('camera-hint').textContent=building?'先进入侧剖面，再选择楼层。':view.mode==='room'?'单间可拖动旋转，滚轮缩放。':'当前为固定角度总览，点击房间进入三维查看。';
@@ -243,6 +247,7 @@ async function start(){
     const id=`${element('station').value}/${part}`,node=session.document.nodes.find(n=>n.id===id),resource=catalog.resources.find(r=>r.id===node.resource.id&&r.version===node.resource.version);
     return session.apply([{type:'set-state',id,state:{on:!(node.state.on??resource.stateDefaults.on)}}]);
   });
+  document.querySelectorAll('[data-opening]').forEach(button=>button.onclick=()=>perform('正在检查柜门开合空间…',async()=>{await session.apply([{type:'set-state',id:element('cabinet').value,state:{openFraction:Number(button.dataset.opening)}}]);setView('cabinet');}));
   element('save').onclick=()=>perform('正在保存…',saveCurrent);
   element('restore').onclick=()=>perform('正在恢复…',()=>window.company.restore());
   element('upgrade').onclick=()=>perform('正在升级工位模板…',()=>session.upgrade(element('station').value,{id:'stream-station',version:2}));

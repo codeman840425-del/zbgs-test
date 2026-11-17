@@ -1,6 +1,7 @@
 // Company authoring data. Actor tasks and seat leases remain in the character platform.
 import {compareFacilityFunction} from './appearance-contract.js';
 import {validateSupportResource, validateSupportAttachments} from './support-data.js';
+import {validateMovingResource, validateFacilityState, movingFootprint} from './moving-parts.js';
 export class CompanyError extends Error {
   constructor(code, path, message, details = {}) {
     super(`${code} at ${path}: ${message}`);
@@ -153,7 +154,7 @@ export function deriveCompany(document, catalog, templates) {
     fail('catalog-version-mismatch', 'document.catalog', 'Load the pinned resource catalog');
   if (!Array.isArray(document.nodes)) fail('invalid-nodes', 'document.nodes', 'Expected an array');
   const { resources, combinations } = catalogMaps(catalog, templates);
-  for (const resource of resources.values()) validateSupportResource(resource, fail);
+  for (const resource of resources.values()) { validateSupportResource(resource, fail); validateMovingResource(resource, fail); }
   const nodes = new Map(), worlds = new Map(), floorIds = new Map(), roomIds = new Map();
   for (const node of document.nodes) {
     checkId(node.id, 'nodes.id');
@@ -274,16 +275,11 @@ export function deriveCompany(document, catalog, templates) {
           fail('wall-display-over-portal',node.id,'Wall display cannot cover a real portal');
       }
     }
-    for (const [field, value] of Object.entries(node.state || {})) {
-      const expected = resource.stateDefaults?.[field];
-      if (expected === undefined || typeof value !== typeof expected ||
-          (typeof value === 'number' && (!Number.isFinite(value) || value < 0 || value > 100)))
-        fail('invalid-device-state', `${node.id}.state.${field}`, 'State must match declared resource fields and supported numeric bounds');
-    }
+    validateFacilityState(resource, node.state || {}, fail, `${node.id}.state`);
     const entry = { id: node.id, node, resource, world, state, floorId: floorIds.get(node.id), roomId: roomIds.get(node.id) };
     if (!entry.floorId) fail('missing-floor', node.id, 'Facility must belong to one floor');
     facilities.push(entry);
-    const fp = resource.footprint;
+    const fp = movingFootprint(resource, state);
     if (fp?.blocking) {
       const corners = [-1, 1].flatMap(x => [-1, 1].map(z => pointInTransform(world, [fp.center[0] + x * fp.halfSize[0], 0, fp.center[1] + z * fp.halfSize[1]])));
       const min = [Math.min(...corners.map(p => p[0])), Math.min(...corners.map(p => p[2]))];
@@ -450,6 +446,8 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
     }
     if (op.type === 'set-state') {
       if (node.kind !== 'facility') fail('invalid-operation', node.id, 'State belongs to a facility');
+      if(resources.get(key(node.resource))?.movingParts)for(const id of descendants(next.nodes,node.id))affected.add(id);
+      validateFacilityState(resources.get(key(node.resource)),op.state,fail,`${node.id}.state`);
       node.state = { ...node.state, ...copy(op.state) }; continue;
     }
     const related = descendants(next.nodes, node.id);
@@ -502,6 +500,18 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
   for (const point of before.usePoints) if (affected.has(point.facilityId) && isUsePointBusy(point.id))
     fail('facility-busy', point.facilityId, 'Reserved, occupied or exiting use point prevents this change', { usePointId: point.id });
   next.revision++; const derived = deriveCompany(next, catalog, templates);
+  for(const current of derived.facilities.filter(f=>f.resource.movingParts)) {
+    const previous=before.facilities.find(f=>f.id===current.id);
+    if(!previous?.resource.movingParts||current.resource.movingParts.every(p=>previous.state[p.stateField]===current.state[p.stateField]))continue;
+    const fp=movingFootprint(current.resource,previous.state,current.state);
+    const corners=[-1,1].flatMap(x=>[-1,1].map(z=>pointInTransform(current.world,[fp.center[0]+x*fp.halfSize[0],0,fp.center[1]+z*fp.halfSize[1]])));
+    const min=[Math.min(...corners.map(p=>p[0])),Math.min(...corners.map(p=>p[2]))],max=[Math.max(...corners.map(p=>p[0])),Math.max(...corners.map(p=>p[2]))];
+    for(const other of derived.obstacles)if(other.id!==current.id&&other.floorId===current.floorId&&min.every((n,i)=>n<other.max[i]-1e-8&&max[i]>other.min[i]+1e-8))
+      fail('blocked-moving-part',current.id,`Movement sweep overlaps ${other.id}`,{otherId:other.id});
+    const room=derived.nodes.get(current.roomId);
+    if(room)for(const corner of corners){const p=localPoint(derived.worlds.get(room.id),corner);if(Math.abs(p[0])>room.bounds.width/2-.1+1e-8||Math.abs(p[2])>room.bounds.depth/2-.1+1e-8)
+      fail('blocked-moving-part',current.id,'Movement sweep reaches the room wall');}
+  }
   return { document: next, derived, previousRevision: document.revision };
 }
 

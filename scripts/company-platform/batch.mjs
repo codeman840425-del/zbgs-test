@@ -6,13 +6,14 @@ import catalog from '../../prototype/src/company/library-catalog.json' with {typ
 import templates from '../../prototype/src/company/templates-extended.json' with {type:'json'};
 import {CompanyError,deriveCompany,prepareCompanyChange} from '../../prototype/src/company/document.js';
 import {createScaledCompany,inspectCompanyConnections} from '../../prototype/src/company/space.js';
-import {inspectCompanyPlacement} from '../../prototype/src/company/placement.js';
+import {inspectCompanyPlacement,inspectCompanyMotionSweep} from '../../prototype/src/company/placement.js';
 import {encodeCompanySave} from '../../prototype/src/company/persistence.js';
 
 const workspace=new URL('../../',import.meta.url);
 const sourceFiles=[
   'scripts/company-platform/batch.mjs','prototype/src/company/space.js',
   'prototype/src/company/document.js','prototype/src/company/placement.js',
+  'prototype/src/company/moving-parts.js','prototype/src/company/support-data.js',
   'prototype/src/company/appearance-contract.js',
   'prototype/src/company/persistence.js','prototype/src/company/library-catalog.json',
   'prototype/src/company/templates-extended.json',
@@ -81,7 +82,7 @@ async function prepare(item,sourceHashes){
   if(item.operations!==undefined&&!Array.isArray(item.operations))
     fail('invalid-batch-operations',`${item.key}.operations`,'Optional operations must be an array');
   let document=item.document?structuredClone(item.document):createScaledCompany(item.input,catalog,templates);
-  if(item.operations?.length)document=prepareCompanyChange(document,item.operations,{catalog,templates}).document;
+  if(item.operations?.length){const previous=document;document=prepareCompanyChange(document,item.operations,{catalog,templates}).document;inspectCompanyMotionSweep(previous,document,catalog,templates);}
   const connections=inspectCompanyConnections(document,catalog,templates);
   const placement=inspectCompanyPlacement(document,catalog,templates);
   const assetDependencies=[];

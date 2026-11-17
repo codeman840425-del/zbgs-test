@@ -1,0 +1,82 @@
+// State-driven facility transforms only. Host owns time, actors and tasks.
+const object = v => v && typeof v === 'object' && !Array.isArray(v);
+const vector = (v, n) => Array.isArray(v) && v.length === n && v.every(Number.isFinite);
+const idPattern = /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/;
+
+export function validateFacilityState(resource, patch, fail, path) {
+  if (!object(patch)) fail('invalid-device-state', path, 'State must be an object');
+  const defaults=resource.stateDefaults || {}, schema=resource.stateSchema;
+  if(schema !== undefined) {
+    if(!object(schema)||Object.keys(schema).length!==Object.keys(defaults).length||Object.keys(defaults).some(k=>!Object.hasOwn(schema,k)))
+      fail('invalid-state-schema',path,'State schema must define every default field exactly once');
+    for(const [field,spec]of Object.entries(schema)) {
+      if(!object(spec)||Object.keys(spec).some(k=>!['type','min','max'].includes(k))||spec.type!=='number'||
+          !Number.isFinite(spec.min)||!Number.isFinite(spec.max)||spec.min>spec.max||
+          !Number.isFinite(defaults[field])||defaults[field]<spec.min||defaults[field]>spec.max)
+        fail('invalid-state-schema',`${path}.${field}`,'Numeric schema requires finite limits and a valid default');
+    }
+  }
+  for(const [field,value]of Object.entries(patch)) {
+    const expected=defaults[field],spec=schema?.[field];
+    if(expected===undefined||typeof value!==typeof expected||
+        (typeof value==='number'&&(!Number.isFinite(value)||value<(spec?.min??0)||value>(spec?.max??100))))
+      fail('invalid-device-state',`${path}.${field}`,'Value must match the declared field type and range');
+  }
+}
+
+export function validateMovingResource(resource, fail, path=resource.id) {
+  if(resource.stateSchema!==undefined)validateFacilityState(resource,{},fail,path);
+  if(resource.movingParts===undefined) {
+    if(resource.partNodes!==undefined||resource.partPanels!==undefined)
+      fail('invalid-moving-parts',path,'Moving mesh mappings require a functional movingParts contract');
+    return;
+  }
+  const parts=resource.movingParts;
+  if(!Array.isArray(parts)||parts.length!==1||!resource.footprint?.blocking||!vector(resource.footprint.center,2)||
+      !vector(resource.footprint.halfSize,2)||resource.footprint.halfSize.some(n=>n<=0)||resource.mount||
+      !object(resource.partNodes)||!object(resource.partPanels))
+    fail('invalid-moving-parts',path,'This contract supports grounded blocking furniture with explicit parts and mesh mappings');
+  const ids=new Set();
+  for(const p of parts) {
+    if(!object(p)||Object.keys(p).some(k=>!['id','stateField','kind','axis','pivot','rotationRange','bounds'].includes(k))||
+        typeof p.id!=='string'||!idPattern.test(p.id)||ids.has(p.id)||p.kind!=='hinge'||p.axis!=='y'||!vector(p.pivot,3)||
+        !vector(p.rotationRange,2)||p.rotationRange[0]!==0||p.rotationRange[1]!==-Math.PI/2||
+        resource.stateSemantics?.[p.stateField]!=='hinged-door-opening-fraction'||
+        !object(p.bounds)||Object.keys(p.bounds).some(k=>!['min','max'].includes(k))||!vector(p.bounds.min,3)||!vector(p.bounds.max,3)||
+        p.bounds.min.some((n,i)=>n>=p.bounds.max[i])||resource.stateSchema?.[p.stateField]?.type!=='number'||
+        resource.stateSchema[p.stateField].min!==0||resource.stateSchema[p.stateField].max!==1)
+      fail('invalid-moving-parts',path,'Hinge requires unique ID, +Y pivot, bounded quarter-turn range, envelope and 0..1 state field');
+    ids.add(p.id);
+  }
+  for(const field of ['partNodes','partPanels']) {
+    const mapping=resource[field],names=Object.values(mapping);
+    if(Object.keys(mapping).length!==ids.size||Object.keys(mapping).some(id=>!ids.has(id))||names.some(n=>typeof n!=='string'||!n)||new Set(names).size!==ids.size)
+      fail('invalid-moving-parts',`${path}.${field}`,'Map each part to a distinct named pivot or panel');
+  }
+}
+
+export function partAngle(part,state) {
+  return part.rotationRange[0]+(part.rotationRange[1]-part.rotationRange[0])*state[part.stateField];
+}
+
+// Union of body and moving projection. Range includes analytic extrema; not
+// a few pose samples. The conservative rectangle is also the navigation input.
+export function movingFootprint(resource,state,endState=null) {
+  const fp=resource.footprint;
+  if(!resource.movingParts?.length)return fp;
+  const min=fp.center.map((n,i)=>n-fp.halfSize[i]),max=fp.center.map((n,i)=>n+fp.halfSize[i]);
+  for(const p of resource.movingParts) {
+    const a=partAngle(p,state),b=endState?partAngle(p,endState):a,lo=Math.min(a,b),hi=Math.max(a,b);
+    for(const x of [p.bounds.min[0],p.bounds.max[0]])for(const z of [p.bounds.min[2],p.bounds.max[2]]) {
+      const angles=[lo,hi];
+      for(const basis of [Math.atan2(z,x),Math.atan2(-x,z)])for(let k=-2;k<=2;k++) {
+        const t=basis+k*Math.PI;if(t>lo&&t<hi)angles.push(t);
+      }
+      for(const t of angles) {
+        const point=[p.pivot[0]+Math.cos(t)*x+Math.sin(t)*z,p.pivot[2]-Math.sin(t)*x+Math.cos(t)*z];
+        for(let i=0;i<2;i++){min[i]=Math.min(min[i],point[i]);max[i]=Math.max(max[i],point[i]);}
+      }
+    }
+  }
+  return{blocking:true,center:min.map((n,i)=>(n+max[i])/2),halfSize:min.map((n,i)=>(max[i]-n)/2)};
+}

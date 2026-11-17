@@ -1,0 +1,19 @@
+柜门铰接状态：有界主包 v1（2026-11-16）
+
+输入基线300e9dff/build4b3ceab3e56f，现有支持面、父子、外观替换、保存和事务复用。缺口是字段级状态范围及实际开合构件；只改变材质不能证明柜门状态。
+一手依据：Three Object3D的局部position/rotation与子树矩阵；Box3真实几何包络；官方animation/keyframes例展示物件变换驱动显示。沿锁定Three0.187实际源码实现，不引入另一时钟、物理引擎或GLB动画系统。链接：https://threejs.org/docs/pages/Object3D.html；https://threejs.org/docs/pages/Box3.html；https://threejs.org/examples/webgl_animation_keyframes.html。
+
+产物：四款同规格单扇铰接落地柜（平板、框板、条纹面、曲边装饰）。这是hinged-cabinet生产分支的单扇固定规格，原草稿双门槽位需按本实际合同改为单扇，抽屉sliding独立后续，不用两种机构混算四款。
+整体安装包络width.9/height1.2/depth.55，底部居中；body有效外宽.9、深.45（z±.225），门与把手闭合后也在整体包络内。blocking footprint center[0,0],halfSize[.45,.275]；category dynamic，mountRole hinged-cabinet，mount未设；usePoints[]；stateDefaults:{openFraction:0}；stateSchema:{openFraction:{type:'number',min:0,max:1}}；stateSemantics:{openFraction:'hinged-door-opening-fraction'}。原无schema资源的旧boolean/0–100规则保留，不能静默改变旧状态语义。
+顶板实际BoxGeometry(.9,.035,.45)，顶高1.2；supportSurfaces:[{id:'top',center:[0,0],topY:1.2,halfSize:[.4,.18],clearanceHeight:.4}]；supportNodes:{top:'cabinet-top'}。供现有小物复用，门在顶面以下运动。柜体/脚/背板与门有实际连接，内部可见空间不能被实心方块冒充。
+
+movingParts仅一个功能部件：
+[{id:'door',stateField:'openFraction',kind:'hinge',axis:'y',pivot:[-.42,0,.245],rotationRange:[0,-1.5707963267948966],bounds:{min:[0,.1,-.02],max:[.84,1.12,.03]}}]
+bounds是铰轴局部坐标的完整门/把手功能包络。partNodes:{door:'cabinet-door-pivot'}、partPanels:{door:'cabinet-door-leaf'}为外观绑定，不计功能身份。GLB的pivot组位于资源坐标的恒等父组下（允许导出器增加恒等包装组），position必须等于pivot，rotation0、scale1；该组内部全部门叶/把手装饰在bounds内，门叶覆盖所需板面，不能只有元数据/缺门网格。其他静态构件与顶板不在该组里。门叶可用x[0,.84],y[.1,1.12],z[-.02,.015]的实体薄板，装饰/把手不超过z.03。partPanels映射的实体门板必须位于pivot子树内，实际完整矩形前面覆盖x[0,.84]/y[.1,1.12]；矩形前面需能从真实三角形核查，不只验包围盒。实际枢轴在柜左前方，角度负转使门向+Z打开。
+
+数据/显示：state字段按schema有限数值验证；未知字段、NaN、越界拒绝。兼容替换保留状态且比较movingParts和stateSchema/semantics，允许partNodes网格名不同。资源静态GLB导入仍禁角色蒙皮/动画；显示端只消费已确认的openFraction设定pivot局部旋转。状态是可被业务/agent驱动的姿态输入，本包无独立运行时钟、自动开关任务、角色开门动作或隐式动画进度。
+阻挡：body基础footprint与按同一state变换后的door bounds合并为当前保守XZ包络。数据、显示、导航输出共用该状态及父世界变换；不得只转模型却不更新阻挡。门的实际顶点须包含在包络中。该简单AABB会保守占用转角空隙，不声称精确凹多边形碰撞；特殊紧贴摆放可被拒绝。
+从旧状态到新状态检查整个旋转区间的扫过包络（用端点及三角函数极值，不靠少数采样猜测）；碰到其他设施、区域墙界或阻断既有使用空间则拒绝并保旧。纯观看隐藏不修改开合状态或阻挡。状态变更沿prepare/commit及既有busy检查；角色真实占用/跨路影响最终C3集中核对，不复制角色逻辑。
+
+验收：四款实际造型逐款0/.5/1姿态与替换/关闭恢复；父旋转及第二布局；顶面小物不被门带走；显示顶点在同源状态阻挡内；关门与开门阻挡变化，邻物/扫过路径/墙界冲突保旧；无效状态/坏几何映射/真实资源失败保旧；旧支持面及旧存档受影响检查；固定版本、正常1×录像与独立生产/编辑重建。
+一次有依据实现+一轮证据修正，同因两轮无改善则重定位；不加抽屉、真实门窗、经营和角色动作条件，不无限打磨样件。几何与状态生产按统一提示模板+可编辑参数，实际修改后重导出并进入运行，四款不能只改颜色。总工共享文件不动。

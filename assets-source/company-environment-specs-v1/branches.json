@@ -3125,8 +3125,8 @@
             "dimensionsMeters": {
               "width": 0.9,
               "height": 1.2,
-              "depth": 0.45,
-              "verification": "pending"
+              "depth": 0.55,
+              "contract": "docs/COMPANY-HINGED-CABINET-CONTRACT-v1.txt"
             },
             "parent": "room.floor",
             "state": {
@@ -3135,8 +3135,7 @@
                 "min": 0,
                 "max": 1
               },
-              "mechanism": "hinge",
-              "verification": "pending-production-contract"
+              "mechanism": "hinge"
             }
           },
           "mechanismDependencies": [
@@ -3147,12 +3146,33 @@
             "save-restore"
           ],
           "minimumCompatibleAppearances": [
-            "平板双门柜",
-            "框板双门柜",
-            "百叶造型双门柜",
-            "曲边双门柜"
+            "平板单门柜",
+            "框板单门柜",
+            "栅面单门柜",
+            "曲边单门柜"
           ],
-          "reusableResources": [],
+          "reusableResources": [
+            {
+              "id": "hinged-cabinet-flat-panel",
+              "version": 1,
+              "reuseKind": "same-fixed-spec"
+            },
+            {
+              "id": "hinged-cabinet-frame-panel",
+              "version": 1,
+              "reuseKind": "same-fixed-spec"
+            },
+            {
+              "id": "hinged-cabinet-slatted",
+              "version": 1,
+              "reuseKind": "same-fixed-spec"
+            },
+            {
+              "id": "hinged-cabinet-curved-detail",
+              "version": 1,
+              "reuseKind": "same-fixed-spec"
+            }
+          ],
           "requiredIndependentMechanisms": [
             "柜门铰接与开放净空",
             "柜顶承载",

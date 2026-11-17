@@ -1,0 +1,123 @@
+{
+  "id": "hinged-cabinet-frame-panel",
+  "displayName": "框板柜门",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "hinged-cabinet",
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Ground centre",
+    "scale": "Identity only"
+  },
+  "provenance": {
+    "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+    "prompt": "Purpose: authored company decor for a static ground cabinet with one state-driven hinged door. Specification: overall installation envelope 0.90m wide x 1.20m high x 0.55m deep, body outer depth 0.45m, top board 0.90m x 0.45m x 0.035m with top at 1.20m. Units are metres, up is +Y, forward is +Z, and the bottom-centred origin is the installation base. Installation and load bearing: ground-blocking dynamic facility with one bottom-centred hinged leaf and one top support surface. Keep the door, handle and trim inside its pivot bounds when closed and leave the top clearance prism empty. Budget: deterministic CPU-only primitive geometry and binary GLB export with no external art. State: openFraction only, no animation clip, pickup or automatic clock. Source/export: project-authored Three.js 0.187.0 parameters, GLTFExporter and GLTFLoader readback. Design difference: Project-authored single-door cabinet with a full solid leaf and raised rectangular frame rails over its face. Contract: one door uses pivot [-0.42,0,0.245], local bounds x[0,0.84], y[0.1,1.12], z[-0.02,0.03], and rotates from 0 to -PI/2 around Y.",
+    "tools": [
+      "Three.js 187",
+      "Object3D pivot group",
+      "Box3 readback",
+      "GLTFExporter",
+      "GLTFLoader readback"
+    ],
+    "sourceParameters": "assets-source/company-hinged-cabinet-v1/parameters.json",
+    "sourceParametersSha256": "dcafe4b956da7d1922a0450c63346dc97270fd394127d0cc99c5565255eb579f",
+    "sourceDesign": "frame-panel",
+    "functionalContractSource": "docs/COMPANY-HINGED-CABINET-CONTRACT-v1.txt",
+    "functionalContractSourceSha256": "a6f630e5d232f69f33553737e6a912a4999d50b64d2a712ababb96297221ea32",
+    "generator": "scripts/company-platform/build-hinged-cabinet.mjs",
+    "generatorSha256": "a4c22e5d25dac46c8f65f5f9081d583924804d59981c7dbaaa4546baf6a34d0c",
+    "method": "Project-authored single-door cabinet with a full solid leaf and raised rectangular frame rails over its face."
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/hinged-cabinet-v1/frame-panel/v1/model.glb",
+    "sha256": "9bcf56b80c18456aa151a4446df6e400f00856acfa65b2bc543a6f6a1e817fb1",
+    "bytes": 31204
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.45,
+      0.275
+    ],
+    "blocking": true
+  },
+  "mounting": {
+    "origin": "bottom",
+    "width": 0.9,
+    "height": 1.2,
+    "depth": 0.55
+  },
+  "supportSurfaces": [
+    {
+      "id": "top",
+      "center": [
+        0,
+        0
+      ],
+      "topY": 1.2,
+      "halfSize": [
+        0.4,
+        0.18
+      ],
+      "clearanceHeight": 0.4
+    }
+  ],
+  "supportNodes": {
+    "top": "cabinet-top"
+  },
+  "usePoints": [],
+  "stateDefaults": {
+    "openFraction": 0
+  },
+  "stateSchema": {
+    "openFraction": {
+      "type": "number",
+      "min": 0,
+      "max": 1
+    }
+  },
+  "stateSemantics": {
+    "openFraction": "hinged-door-opening-fraction"
+  },
+  "movingParts": [
+    {
+      "id": "door",
+      "stateField": "openFraction",
+      "kind": "hinge",
+      "axis": "y",
+      "pivot": [
+        -0.42,
+        0,
+        0.245
+      ],
+      "rotationRange": [
+        0,
+        -1.5707963267948966
+      ],
+      "bounds": {
+        "min": [
+          0,
+          0.1,
+          -0.02
+        ],
+        "max": [
+          0.84,
+          1.12,
+          0.03
+        ]
+      }
+    }
+  ],
+  "partNodes": {
+    "door": "cabinet-door-pivot"
+  },
+  "partPanels": {
+    "door": "cabinet-door-leaf"
+  }
+}

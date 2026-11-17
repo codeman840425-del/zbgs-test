@@ -18,6 +18,8 @@ const extraFiles=[
   'docs/COMPANY-CEILING-FINISH-CONTRACT-v1.txt',
   'docs/COMPANY-SUPPORT-SURFACE-CONTRACT-v1.txt',
   'scripts/company-platform/build-support-examples.mjs',
+  'scripts/company-platform/build-hinged-examples.mjs',
+  'docs/COMPANY-HINGED-CABINET-CONTRACT-v1.txt',
   'assets-source/company-surface-finishes-v1/PRODUCTION.txt',
   'scripts/company-platform/build-appearance-batch.mjs',
   'docs/COMPANY-APPEARANCE-PRODUCTION-STANDARD.md',

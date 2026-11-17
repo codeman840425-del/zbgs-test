@@ -1,0 +1,46 @@
+{
+  "id": "company-hinged-cabinet-v1",
+  "version": 1,
+  "common": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "promptStandard": "Purpose: authored company decor for a static ground cabinet with one state-driven hinged door. Specification: overall installation envelope 0.90m wide x 1.20m high x 0.55m deep, body outer depth 0.45m, top board 0.90m x 0.45m x 0.035m with top at 1.20m. Units are metres, up is +Y, forward is +Z, and the bottom-centred origin is the installation base. Installation and load bearing: ground-blocking dynamic facility with one bottom-centred hinged leaf and one top support surface. Keep the door, handle and trim inside its pivot bounds when closed and leave the top clearance prism empty. Budget: deterministic CPU-only primitive geometry and binary GLB export with no external art. State: openFraction only, no animation clip, pickup or automatic clock. Source/export: project-authored Three.js 0.187.0 parameters, GLTFExporter and GLTFLoader readback.",
+    "envelope": { "width": 0.9, "height": 1.2, "depth": 0.55 },
+    "body": { "width": 0.9, "depth": 0.45 },
+    "footprint": { "center": [0, 0], "halfSize": [0.45, 0.275] },
+    "top": { "width": 0.9, "depth": 0.45, "thickness": 0.035, "topY": 1.2 },
+    "supportSurface": { "id": "top", "center": [0, 0], "topY": 1.2, "halfSize": [0.4, 0.18], "clearanceHeight": 0.4 },
+    "door": { "pivot": [-0.42, 0, 0.245], "bounds": { "min": [0, 0.1, -0.02], "max": [0.84, 1.12, 0.03] }, "rotationRange": [0, -1.5707963267948966] }
+  },
+  "designs": [
+    {
+      "id": "flat-panel",
+      "label": "平板柜门",
+      "prompt": "Project-authored single-door cabinet with a continuous flat leaf and a slim cylindrical pull.",
+      "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+      "differences": { "handleWidth": 0.1, "handleRadius": 0.012 }
+    },
+    {
+      "id": "frame-panel",
+      "label": "框板柜门",
+      "prompt": "Project-authored single-door cabinet with a full solid leaf and raised rectangular frame rails over its face.",
+      "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+      "differences": { "railWidth": 0.05, "railDepth": 0.018 }
+    },
+    {
+      "id": "slatted",
+      "label": "条纹面柜门",
+      "prompt": "Project-authored single-door cabinet with a full leaf and seven narrow vertical face slats.",
+      "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+      "differences": { "slatCount": 7, "slatWidth": 0.035, "slatGap": 0.06 }
+    },
+    {
+      "id": "curved-detail",
+      "label": "曲边装饰柜门",
+      "prompt": "Project-authored single-door cabinet with a full leaf and a curved raised arch trim on the front face.",
+      "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+      "differences": { "curveRadius": 0.012, "curveInset": 0.1 }
+    }
+  ]
+}

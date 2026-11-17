@@ -18,6 +18,7 @@ export function describeFacilityFunction(resource) {
   const footprint = resource.footprint?.blocking ? normalized(resource.footprint) : null;
   const surface = resource.surface ? normalized(resource.surface) : null;
   const supportSurfaces = resource.supportSurfaces ? normalized([...resource.supportSurfaces].sort((a,b) => a.id.localeCompare(b.id))) : null;
+  const movingParts = resource.movingParts ? normalized([...resource.movingParts].sort((a,b) => a.id.localeCompare(b.id))) : null;
   const mount = resource.mount ?? null;
   const capacity = normalized(resource.capacity ?? null), clearance = normalized(resource.clearance ?? null);
   const decorative = resource.category === 'decor' && !usePoints.length && !footprint && !surface && !supportSurfaces && !mount && !Object.keys(stateFields).length && capacity === null && clearance === null;
@@ -25,7 +26,7 @@ export function describeFacilityFunction(resource) {
     category: resource.category ?? null,
     mountRole: decorative ? null : resource.mountRole || resource.id,
     coordinates: {units: resource.coordinates?.units ?? 'metres', up: resource.coordinates?.up ?? '+Y', forward: resource.coordinates?.forward ?? '+Z'},
-    mount, mounting:normalized(resource.mounting??null), surface, supportSurfaces, footprint, usePoints,
+    mount, mounting:normalized(resource.mounting??null), surface, supportSurfaces, movingParts, footprint, usePoints,
     capacity, clearance,
     state: {fields: stateFields, schema: normalized(resource.stateSchema ?? null), semantics: normalized(resource.stateSemantics ?? null)},
   };

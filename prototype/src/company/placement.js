@@ -1,5 +1,29 @@
 import { CompanyError, deriveCompany, pointInTransform } from './document.js';
 import { inspectCompanyConnections } from './space.js';
+import {movingFootprint} from './moving-parts.js';
+
+export function inspectCompanyMotionSweep(previous, candidate, catalog, templates) {
+  const before=deriveCompany(previous,catalog,templates),after=deriveCompany(candidate,catalog,templates);
+  const swept=new Map();
+  for(const f of after.facilities.filter(f=>f.resource.movingParts)) {
+    const old=before.facilities.find(p=>p.id===f.id);
+    if(!old?.resource.movingParts||f.resource.movingParts.every(p=>old.state[p.stateField]===f.state[p.stateField]))continue;
+    // Each scene instance can be at a different pose. A private validation-only
+    // resource copy prevents one instance's sweep from changing another one.
+    swept.set(f.id,movingFootprint(f.resource,old.state,f.state));
+  }
+  if(!swept.size)return null;
+  const document=structuredClone(candidate),validationCatalog=structuredClone(catalog);
+  for(const [id,footprint]of swept) {
+    const node=document.nodes.find(n=>n.id===id),source=validationCatalog.resources.find(r=>r.id===node.resource.id&&r.version===node.resource.version);
+    const resource=structuredClone(source);resource.id=`motion-sweep:${id}`;while(validationCatalog.resources.some(r=>r.id===resource.id&&r.version===resource.version))resource.id+=':validation';resource.footprint=footprint;
+    delete resource.movingParts;delete resource.partNodes;delete resource.partPanels;
+    validationCatalog.resources.push(resource);node.resource={id:resource.id,version:resource.version};
+    // Moving furniture is standalone in this first motion contract.
+    if(node.stationId)throw new CompanyError('unsupported-moving-template',id,'Moving template parts require a separately verified template contract');
+  }
+  return inspectCompanyPlacement(document,validationCatalog,templates);
+}
 
 const RADIUS = 0.25;
 const GRID = 0.2;

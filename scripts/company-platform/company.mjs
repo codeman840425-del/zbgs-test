@@ -3,7 +3,7 @@ import path from 'node:path';
 import catalog from '../../prototype/src/company/library-catalog.json' with {type:'json'};
 import templates from '../../prototype/src/company/templates-extended.json' with {type:'json'};
 import {createCompany, prepareCompanyChange, deriveCompany, restoreCompany, serializeCompany} from '../../prototype/src/company/document.js';
-import {inspectCompanyPlacement} from '../../prototype/src/company/placement.js';
+import {inspectCompanyPlacement,inspectCompanyMotionSweep} from '../../prototype/src/company/placement.js';
 
 const [command, input, operations, output] = process.argv.slice(2);
 const read = async file => restoreCompany(await fs.readFile(file,'utf8'),catalog,templates);
@@ -26,6 +26,7 @@ try {
   } else if (command==='apply' && input && operations && output) {
     const previous=await read(input), ops=JSON.parse(await fs.readFile(operations,'utf8'));
     const next=prepareCompanyChange(previous,ops,{catalog,templates}).document;
+    inspectCompanyMotionSweep(previous,next,catalog,templates);
     await write(output,next);console.log(JSON.stringify({ok:true,output,previousRevision:previous.revision,revision:next.revision}));
   } else {
     console.log('node scripts/company-platform/company.mjs create NEW_LAYOUT.json\nnode scripts/company-platform/company.mjs validate LAYOUT.json\nnode scripts/company-platform/company.mjs apply LAYOUT.json OPS.json NEW_LAYOUT.json\nOutputs must be new paths; existing valid layouts are never overwritten.');
