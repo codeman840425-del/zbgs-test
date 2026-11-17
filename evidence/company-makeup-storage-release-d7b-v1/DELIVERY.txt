@@ -1,0 +1,31 @@
+化妆台面收纳固定交付
+
+源码 1f1ac096ae7474e4b1f50d7438346d38637f2429；构建 d7bec86e5f1e。
+固定源 F:/gamemake-company-storage-fixed-v1；完整独立包 F:/gamemake-company-storage-delivery-d7b。
+观看入口 http://127.0.0.1:60880/?sample=makeup-storage&look=0 。公司只保留60880一个常驻入口，旧版本按需在同端口回放。
+正常1×录像 evidence/company-makeup-storage-recording-d7b-v1/makeup-storage-normal1x.webm，92.24秒、1440×1000、25fps；来源身份和摘要见 identity.json。
+
+四款真实造型：托盘、分格收纳、刷具杯、固定开放化妆箱。共同9cm浅抽屉、两块真实支持面；独立小圆盒分别放在抽屉和顶部。抽屉内容随动，顶部内容静止，所有保存坐标仍为rest，重开不会累加位移。换款保留内容、身份、依附和开度。copy-facility复用原子事务复制子树，支持显式目标父设施；台体与配对椅仍须合法布置。
+当前目录140项；基线135项原资源定义逐项完全保留。台面收纳保持非地面阻挡，完整运动包络由父台预留；旧落地抽屉/铰接和台镜合同保持原语义。
+
+真实生产闭环：parameters.json 的托盘 rimHeight 从.140改为.145米，重新导出登记并实际加载最终游戏预览、替换、保存和关闭恢复。修改前源/GLB和当前身份分别保留在 published-parameter-cycle；其他三款及小圆盒模型不随该参数改变。源码修改、严格几何门及参数/工具摘要均可复现。
+已定位并修复杯底、箱提手的同向重复表面，保留原GLB和碎斑截图；几何门新增对应拒绝。固定装饰和活动结构分别检查支承连接，不能借关闭抽屉撑住静态物件。
+
+复现命令（固定源根目录）：
+node scripts/company-platform/build-makeup-storage.mjs --check
+node scripts/company-platform/build-library.mjs --check
+node scripts/company-platform/build-makeup-storage-examples.mjs --check
+固定源/prototype：
+npm ci --no-audit --no-fund
+node scripts/build-company-id.mjs
+node node_modules/vite/bin/vite.js build --config vite.company.config.js
+验收主树：
+node scripts/company-platform/qa-makeup-storage-preview.cjs F:/gamemake-company-storage-fixed-v1/prototype/dist-company d7bec86e5f1e 新证据目录
+node scripts/company-platform/qa-makeup-storage-handoff.cjs F:/gamemake-company-storage-delivery-d7b 新证据目录
+临时服务由检查脚本finally关闭。公开入口使用serve-company.cjs替换原公司服务，不能另开常驻端口。
+
+证据：最终实际几何195项、动态承载/事务16组合成检查、实际模型场景6组、固定浏览器6组、独立包编辑/拒绝/导入/关闭恢复4组。独立包846清单文件、293运行文件重建全部一致，未排除文件。另用确认不存在的新npm缓存目录重新安装并构建，293运行文件再次完全一致；使用了网络，不宣称离线npm安装。见rebuild.json、empty-cache-install.json和对应browser/handoff报告。正常速度影片已抽查覆盖全时段13帧及原尺寸关键帧；抽样不等于人类连续最终观看验收。
+
+范围限制：本包是台面载体，makeup-storage-drawer的真实父抽屉安装与四款仍待后续包。没有角色化妆/拿取动作，没有机械承重或抗倾倒证明。使用SwiftShader，显存/帧率/普通电脑达标未测；现有实时灯与镜面预算不因收纳增加。C3由总工在既有角色链集中接入，最终用户观看尚待验。
+
+用户提供的免费素材来源已核官方页并补入 COMPANY-APPEARANCE-PRODUCTION-STANDARD.md。后续优先检查已验资产、Kenney、Poly Haven和按具体包核许可的Quaternius，适用则改造组合；本包已有工作不重启。CAP-INCREMENT.json仅供总工合并唯一能力清单，不是另建完成台账。C1–C3继续，下一预检为真实抽屉安装规格及现有素材复用。

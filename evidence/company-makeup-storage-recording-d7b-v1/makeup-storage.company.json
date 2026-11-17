@@ -1,0 +1,258 @@
+{
+  "schema": "company-save",
+  "version": 1,
+  "document": {
+    "schema": "company-layout",
+    "version": 1,
+    "id": "appearance-makeup-storage",
+    "name": "化妆收纳 · 开合与内部小物",
+    "revision": 11,
+    "scale": "single-room",
+    "catalog": {
+      "id": "company-facilities",
+      "version": 1
+    },
+    "nodes": [
+      {
+        "id": "appearance-makeup-storage/floor-1",
+        "kind": "floor",
+        "parentId": "appearance-makeup-storage",
+        "name": "一层",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "appearance-makeup-storage/room-1",
+        "kind": "room",
+        "parentId": "appearance-makeup-storage/floor-1",
+        "name": "化妆准备间",
+        "purpose": "work",
+        "bounds": {
+          "width": 7,
+          "depth": 5.25
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "vanity/primary",
+        "kind": "facility",
+        "parentId": "appearance-makeup-storage/room-1",
+        "resource": {
+          "id": "vanity-table-plain",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -1,
+            0,
+            -1.3
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "vanity/primary/seat",
+        "kind": "facility",
+        "parentId": "appearance-makeup-storage/room-1",
+        "resource": {
+          "id": "vanity-chair-side-entry",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.98,
+            0,
+            -0.75
+          ],
+          "yaw": 3.141592653589793
+        },
+        "state": {}
+      },
+      {
+        "id": "vanity/primary/ornament-0",
+        "kind": "facility",
+        "parentId": "vanity/primary",
+        "resource": {
+          "id": "tabletop-ornament-stacked-stones",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.295,
+            0.78,
+            0.08
+          ],
+          "yaw": 0
+        },
+        "state": {},
+        "attachment": {
+          "surfaceId": "top"
+        }
+      },
+      {
+        "id": "vanity/primary/ornament-1",
+        "kind": "facility",
+        "parentId": "vanity/primary",
+        "resource": {
+          "id": "tabletop-ornament-arched-sculpture",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0.335,
+            0.78,
+            0.08
+          ],
+          "yaw": 0
+        },
+        "state": {},
+        "attachment": {
+          "surfaceId": "top"
+        }
+      },
+      {
+        "id": "vanity/primary/mirror",
+        "kind": "facility",
+        "parentId": "vanity/primary",
+        "resource": {
+          "id": "makeup-mirror-round",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0.02,
+            0.78,
+            -0.135
+          ],
+          "yaw": 0
+        },
+        "state": {
+          "on": true,
+          "intensity": 7
+        },
+        "attachment": {
+          "surfaceId": "top"
+        }
+      },
+      {
+        "id": "vanity/primary/storage",
+        "kind": "facility",
+        "parentId": "vanity/primary",
+        "resource": {
+          "id": "makeup-storage-tray",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0.02,
+            0.78,
+            0.075
+          ],
+          "yaw": 0
+        },
+        "state": {
+          "openFraction": 0.83
+        },
+        "attachment": {
+          "surfaceId": "top"
+        }
+      },
+      {
+        "id": "vanity/primary/storage/content",
+        "kind": "facility",
+        "parentId": "vanity/primary/storage",
+        "resource": {
+          "id": "makeup-storage-content-compact",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0.022,
+            -0.005
+          ],
+          "yaw": 0
+        },
+        "state": {},
+        "attachment": {
+          "surfaceId": "drawer"
+        }
+      },
+      {
+        "id": "vanity/primary/storage/top-content",
+        "kind": "facility",
+        "parentId": "vanity/primary/storage",
+        "resource": {
+          "id": "makeup-storage-content-compact",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0.1,
+            -0.045
+          ],
+          "yaw": 0
+        },
+        "state": {},
+        "attachment": {
+          "surfaceId": "top"
+        }
+      }
+    ]
+  },
+  "dependencies": {
+    "resources": [
+      {
+        "id": "makeup-mirror-round",
+        "version": 1,
+        "sha256": "6d433850aec263d314eebf5d727e26010d1f3dd0a688764d15db65f41bbbe298"
+      },
+      {
+        "id": "makeup-storage-content-compact",
+        "version": 1,
+        "sha256": "0824d77012af09d76d57dbcbd07b1c290eab92d5b8de979366225d21a140deeb"
+      },
+      {
+        "id": "makeup-storage-tray",
+        "version": 1,
+        "sha256": "0c6e3031af8f905dd9c6404a53bae60648f541d7746012e889e07554d14fb9f7"
+      },
+      {
+        "id": "tabletop-ornament-arched-sculpture",
+        "version": 1,
+        "sha256": "879063369b7eea5590ec76d589e9f959d1f159a22cfbafc52defbdf942462a3c"
+      },
+      {
+        "id": "tabletop-ornament-stacked-stones",
+        "version": 1,
+        "sha256": "66afcce4e9c07cd1458a77a799420b5c81c77ca5c7b61e4bffbbcda7359c1b87"
+      },
+      {
+        "id": "vanity-chair-side-entry",
+        "version": 1,
+        "sha256": "30f57f91ab32e5be0f613df41553a2761381cec691e0fa754120a3bf5f9b472b"
+      },
+      {
+        "id": "vanity-table-plain",
+        "version": 1,
+        "sha256": "a7ba7ced790b50fdfdfe40e7ed234ee74c0b04b271259f3a0b6bb82274629241"
+      }
+    ],
+    "templates": []
+  }
+}
