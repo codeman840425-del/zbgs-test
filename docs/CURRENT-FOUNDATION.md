@@ -41,11 +41,13 @@ m2-axial-head-readback-v1已完成prepare+13项合成QA，新spec pin后核对�
 
 ## 备份与协作
 
-最新已核远端726fae4b24bb1625da9d12d22834fc88e4e2db8a，含真实strict/导出及独审、混合与round失败诊断、四装备实际适配和此前所有原始结果。回执assets-source/m2-axial-head-export-v1/remote-backup.json。runtime发布器和当前增强QA尚在进行，未包含在该备份。
+最新已核远端703cd73992c0aa84ed6fdb902138eac4657c5bfe，含真实strict/导出及独审、混合与round失败诊断、四装备实际适配和此前所有原始结果。回执assets-source/m2-axial-head-export-v1/remote-backup.json。runtime发布、原新正常速度影片与补录QA均已备份；新的body-compose及细分前置尚待本轮提交。
 
 当前接续：头部runtime和实际房间小包已交付（evidence/m2-axial-head-room-v1）。原/新十组真实manager边界、各34.7秒主片和42.05秒无暂停纯canvas补录：五元音/三blink、两裤走坐起、实际装备/forearm身份、非默认配色短裤关闭恢复、坏SHA保旧均技术通过；尖长颏形与已知oh口内pair、人工连续观感未过。455构建输入与源码一致，公开男女热切到新候选/链接烟测过。临时4197已关闭。能力范围与限制只查CAP及本包REVIEW，不能借此称八体完成。
 
-下一主包已启动：asset_budget准备m2-axial-body-compose-v1，F(P)=G(P)+B(P)、JF=JG+JB-I，以同一不可变原源完整male-lean九身体+四头部参数一次数值验证，先spec核接缝后跑，不导出；fixed-neck最终位移与相对请求body基准的头部增量分开测。只读证据m2-eight-preset-composition-seam-v1确认两旧lean失败点均在旧face支持，八B分量原preflight已过；不重做B/不调用旧face_curve。另一独立任务face_target_feasibility在m2-face-subdivision-preflight-v1实测原男Face一级libigl细分的权重/UV/54morph/接缝可消费性，不跑G或导出；研究依据m2-shape-expression-next-seam-v1。两任务保原门与失败，禁止加密/扫参，root负责最终组合/运行。
+当前主包仍原8预设共同生产，最新进展：m2-axial-body-compose-v1实际identity+完整male-lean一次数值求值完成，JF/101/Float32门通过，原9身体实际最大28.693mm。新完整请求保护参考经m2-body-head-fixed-reference-audit-v1明确：head相对P+B保原neck/frame点与2µm，最终F-P实报身体B；眼绝对源固定。首准备差分误判保留/已因果修正。root逐58文件核；http正在m2-axial-body-compose-audit-v1独立读回。asset_budget正准备m2-axial-body-readback-v1，实际确认Face输入与head-only是否相同再决定复用原55/10精确检测，known oh不消失，Body尚未覆盖不称全身避碰。没有完整body VRM或衣物donor fit/游戏结果。
+
+成熟libigl细分前置两包已完成且保阻断：Face一级可消费但41跨accessor边不齐；全Body一级闭合41边但482点>4骨权且最大LBS差2.644mm，含G作用区，不截权或导出。全部原始数组/negative/索引已保存，root逐20/24文件核。face_target_feasibility正在m2-boundary-refinement-method-review-v1只研究官方Blender局部共形切边，已存数组表明必需41边全1骨、涉及39Body_SKIN面，可避免无关全身新点，但尚未新拓扑实测。不扫参/不加密多级；Face新增内部边contact仍须原parent语义读回。
 
 当前代理已知requested配置：asset_budget=gpt-6.1-sol/high，装备已完成；face_target_feasibility=gpt-6-astra/high，export/混合独审收尾；http_transport_review=gpt-6.1-sol/high，既有房间候选注册。每次派工记录evidence/subagent-explicit-dispatch-2026-11-16.json；followup不改配置。真实provider与桌面hook拦截未独立暴露，不声称验证。
 

@@ -324,3 +324,7 @@ head-only一次诊断原8请求已完成，8/8 diagnostic-failed，正式生产�
 2026-11-16 轴向男头部首轮真实房间回读（source726fae4b/build14f73cbe1e26；evidence/m2-axial-head-room-v1）：原男与新lean各10暂停表达边界真实manager/四角色补偿lane/保护角色断言通过；各约34.7秒正常时钟含11.2秒微笑讲话（实际各3次眨眼与五元音）、侧面、长裤走→坐→起→再走，任务终态与主VRM实际SHA核对通过。此首轮仅默认配方reload，不能证明非默认草稿恢复；短裤切换和非默认恢复补录中。近景新下巴明显偏尖，happy/blink/oh口内新增pair原缺陷保留；程序检查与整段人工视觉验收分开。当前4196未替换，首轮全片含开头暂停诊断和结尾reload，正常片段由trace明确标识。高配开发机短测rAF p95约6.2ms、新候选max12.1ms/原男48.5ms，非普通电脑通过、非完整GPU耗时。
 
 2026-11-16 上述回读已补齐非默认恢复/装备验证并发布：原/新各42.05秒纯canvas 1×含两裤走坐起/切换，真实visible装备容器和四GLB/forearm精确身份通过；棕发暖肤短裤保存→关闭→新页完整恢复、坏topSHA拒绝保旧通过。证据m2-axial-head-room-v1/supplement-01。4196固定14f73cbe1e26、source726fae4b，原f82可回滚；公开男女热切→新候选无刷新、录像HTTP通过。仅诊断候选：尖长颏形、已知混合口内接触与整段人工观感仍未通过；没有扩大为完整瘦体或八预设。
+
+2026-11-16 原男完整lean十三参数同源合成首次数值求值完成（assets-source/m2-axial-body-compose-v1）：F=G+B、JF=JG+JB-I，共120935端点、实际身体最大28.693mm；JFmin.486337、101误差.825000mm、所选distal0、Float32位置.118263µm/N7.542e-8、新退化/非正法线dot0。新组合schema按原neck/frame点的头部增量保2µm，同时实报身体贡献；neck最终173.986µm来自原B而head增量0，旧head-only合同不改。4.40s/采样树RSS168345600B仅离线工具；首准备割线/解析导数误判及修正依据保留。root逐58文件核，独审/新身份后验进行中，未导出/装备fit/游戏通过；原oh混合缺陷继续保留。
+
+2026-11-16 成熟细分工具的实际前置有界失败：m2-face-subdivision-preflight-v1实测官方libigl一级Face2056→7251、54共同targets及1骨权可消费，但20条Face–Body共同边在G区，单独细分Face未闭合。m2-source-subdivision-seam-v1同时细分Body闭合41边无T节点，却产生482点>4骨影响（不截断），显式源骨姿最大LBS差2.644mm，123 overflow边确在G区；不导出或运行G。parent strict负例证实子片边界可漏计，已保合成父语义检查而非替代完整检测器。两包分别1.69s/126MB、4.76s/166MB；root逐20/24文件核。当前仅研究官方局部接缝边细分，尚无新拓扑候选通过。
