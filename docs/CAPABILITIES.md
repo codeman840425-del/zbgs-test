@@ -497,6 +497,12 @@ native_dependency_delta.py共用实际GLB差分核引用顶点、morph、骨/res
 
 2026-11-17 表情适配器收敛：此前 v9 的结构核查按旧参考体硬编码 9 primitive/56 morph，拒绝了新体 8/57；该拒绝作为旧核查失败保留。随后将 `prototype/public/assets/native-eye-blink-admission-v1/profiles.json` 与 `eye-blink-compatibility.js` 改为按精确 profile 读取目标数量、角色集合和 bare-Fcl 命名。`node scripts/test-native-eye-admission.mjs` 已通过旧 female 9/56、两新体 8/57、happy×blink 和双实例 owner 隔离。范围仅 CPU 结构/表达式回归，不代表 GPU 或人工视觉通过。
 
+2026-11-17 批产准入接缝修复：`native_batch_gate.py` 现在按真实 spec 文件闭包核对 body、装备、coverage manifest 与资源 SHA，资源包车道不再因代码常量永久停留在 prepared；adapter 报告按 schema/显式 checks 声明能力，未知报告不会误清任务，任务保留 provenance 引用。v4 闸门实测两份女性 FaceContour 候选的九车道中资源包和 coverage 已 verified，表情与握麦已 resolved；仍各有 dynamicMotion、headAttachments、runtimeRecordAndBudget、surfaceAndTexture 四项待逐身体证据。该修复证明批产判断入口可重复，不代表两项已进入公共可用库，也不代表男性、任意服装或普通电脑通过。证据 `evidence/m2-native-production-gate-v4/report.json`、`evidence/m2-batch-gate-review-v1/REPORT.md`。
+
 批产闸门 v2：`evidence/m2-native-production-gate-v2/report.json` 接入上述 adapter 回归后，两项的 facialExpressions 任务已消除，剩余每项五类适配任务（动态、握麦、头部附件、运行时预算、表面/纹理）。记录和关闭恢复仍有证据，但 `acceptedForRuntime` 仍为空，原因是 body package/coverage 以及剩余适配尚未形成完整准入。
 
 批产闸门 v3：`evidence/m2-native-production-gate-v3/report.json` 再接入两体精确握麦登记回执后，握麦任务也已消除；当前每项剩余四类共同卡点：发丝/头部附件动态、当前新体运行时预算、表面/纹理准入及其人工视觉验收。该拆分避免把已经通过的表情和持麦适配重复精修。
+
+2026-11-17 批产卡点从“模型精修”收敛为可复用适配闸门：`scripts/production/qa_native_batch_adaptation.py` 对两份 FaceContour 产物确认 nodes/skins/humanoid/expressions/VRMC_springBone 结构逐字段一致，27 springs/28 colliders 可复用；Body 2048² RGB/UV/材质合同和 608383 个覆盖 alpha 差异已核。HairBack 几何仍变化，因此 dynamicMotion 与头部挂点只标为需逐身体运行复核。
+
+新增 `native_batch_gate.py` 的诊断输入会附带源侧适配审查和 runtime/head 预算审查，但不会把候选证据误标为通过。`evidence/m2-native-production-gate-v5/report.json` 当前两项仍各剩 `dynamicMotion`、`headAttachments`、`runtimeRecordAndBudget`、`surfaceAndTexture`；两体预算均为 `over-budget`，普通电脑未测，`acceptedForRuntime=[]`。这证明批量链路的共性制作、导入、登记和记录生成已经可复用，当前卡点是每个身体的受影响 fit 证据与素材预算策略，不是继续修改单个脸型。

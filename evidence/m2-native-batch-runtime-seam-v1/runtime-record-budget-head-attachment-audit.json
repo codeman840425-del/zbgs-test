@@ -1,0 +1,32 @@
+{
+  "schema": "native-batch-runtime-budget-head-attachment-audit-v1",
+  "status": "candidate-with-budget-failures",
+  "records": [
+    {"path":"output/native-parameter-records-v1/contour-roundness-a.json","sha256":"a26f994bf408fbf96514195ad9d7a2a14540c4f5b5db485abce1ceb1188661dd","bodySha256":"825a82c944636971304ce50b7526b1410ea6f1c6b58bd36f166515295696a547"},
+    {"path":"output/native-parameter-records-v1/contour-cheek-b.json","sha256":"1686c20b0fdd11d0dd507b7e55433d0faa44b425c4da08cb1af47b21d6d27c36","bodySha256":"9592933507b3290100d82ac315e5ddac7b6e284f372a1368de9f424643846ddb"}
+  ],
+  "budget": {
+    "command":"python -B scripts/production/record_budget.py measure evidence/m2-native-batch-runtime-seam-v1/native-records-budget-input.json --source-root . --budget-version m2-technical-v1",
+    "reportPath":"evidence/m2-native-batch-runtime-seam-v1/native-records-budget.json",
+    "reportSha256":"d9c331d1164f3872d0444a22d8a2c63b56de95241874ad4d4d42c3dae1df9b6b",
+    "budgetFileSha256":"b5f792da80d061aa8dfac1045e2f69e699207dd5d4a05b5ea9959ef532dc9d63",
+    "status":"over-budget",
+    "selectedLookPerBody":{"fileBytes":20330749,"rgba8MipBytes":211466920,"textureObjects":40},
+    "sharedExcesses":[
+      "body model exceeds uniquePositionVertices, primitiveVertices, triangles, nodeTriangles, jointSlots, maxJointsPerSkin, rgba8MipBytes, springJoints and colliders limits",
+      "each garment model exceeds jointSlots and maxJointsPerSkin limits",
+      "studio-microphone-v1 exceeds primitive limit"
+    ],
+    "ordinaryPCPerformance":"unmeasured",
+    "unsupportedActions":["rokoko-5359146-30s-v1","rokoko-5359146-30s-arm-local-v1","native-rokoko-5359146-30s-v2"]
+  },
+  "headAttachments": {
+    "status":"exact-resource-contracts-present-visual-contact-pending",
+    "glasses":{"bodySha256":["825a82c944636971304ce50b7526b1410ea6f1c6b58bd36f166515295696a547","9592933507b3290100d82ac315e5ddac7b6e284f372a1368de9f424643846ddb"],"fitStatus":"fitted-candidate","verified":false,"fitRuntime":"glasses-temple-fit.js exact body/accessory/profile SHA and source mesh checks"},
+    "microphone":{"mouthAnchors":"measured separately per final body with 32-point FaceMouth seam and AA displacement","handDependencies":"1,093 referenced hand triangles and POSITION/JOINTS/WEIGHTS/IBM/rest comparison equal to reference","fitStatus":"cpu-candidate-only"},
+    "hair":"embedded source hair only. No external hairstyle fit is selected",
+    "requiredPerBodyEvidence":["browser 1x glasses stand/sit contact and head/hair clearance","browser 1x microphone grip, mouth direction, speaking and sit contact","record close/reopen identity and exact fit SHA readback"],
+    "automaticContractCoverage":["body and accessory SHA binding","grip and temple profile byte SHA/length","mouth anchor source SHA","record resourceIdentities and fit metadata"]
+  },
+  "limitations":["Budget is read-only static estimation and is over budget for both records","No ordinary-PC performance claim","No visual contact or browser evidence in this report","No controller, 4196, action, clothing or model edits"]
+}

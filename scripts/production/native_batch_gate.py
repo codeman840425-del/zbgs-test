@@ -42,6 +42,14 @@ CHECK_TO_ADAPTER = {
     "runtimeRecordAndBudget": "rerun-runtime-record-and-budget-check",
 }
 
+# A report can only clear the task it explicitly covers.  The current shared
+# adapter report predates the optional ``checks`` field, so its schema remains
+# a compatibility alias for the expression check.  Unknown report schemas are
+# rejected instead of being allowed to clear an unrelated task.
+ADAPTER_SCHEMA_CHECKS = {
+    "native-eye-blink-adapter-regression-v1": ("facialExpressions",),
+}
+
 
 class GateError(ValueError):
     pass
@@ -76,6 +84,49 @@ def status_of(value: Any) -> str:
     return "missing"
 
 
+def verify_package_inventory(spec: dict[str, Any], root: Path, body_sha: str) -> None:
+    """Verify the staged package and coverage manifest before marking lanes verified."""
+    files = spec.get("files")
+    require(isinstance(files, dict), "Missing package file inventory")
+    resolved: dict[str, Path] = {}
+    for name, ref in files.items():
+        require(isinstance(name, str) and isinstance(ref, list) and len(ref) == 2,
+                "Invalid package file inventory")
+        path = (root / str(ref[0])).resolve()
+        require(path.is_file() and path.is_relative_to(root), f"Missing package file: {name}")
+        require(SHA.fullmatch(str(ref[1])) and digest(path.read_bytes()) == ref[1],
+                f"Package file pin differs: {name}")
+        resolved[name] = path
+    for required in ("body.vrm", "equipment.json", "manifest.json", "native-tops-body.png"):
+        require(required in resolved, f"Package inventory missing {required}")
+
+    manifest = read_json(resolved["manifest.json"])
+    require(manifest.get("schema") == "native-body-texture-coverage-v1", "Unsupported coverage manifest")
+    require(manifest.get("avatarSha256") == body_sha, "Coverage avatar pin differs")
+    covered = manifest.get("covered")
+    require(isinstance(covered, dict) and isinstance(covered.get("url"), str), "Missing coverage asset")
+    covered_path = resolved.get(covered["url"])
+    require(covered_path is not None and digest(covered_path.read_bytes()) == covered.get("sha256"),
+            "Coverage asset pin differs")
+
+    equipment = read_json(resolved["equipment.json"])
+    require(equipment.get("schema") == "zbgs-equipment-v1", "Unsupported equipment manifest")
+    equipment_rows = equipment.get("items")
+    coverage_rows = manifest.get("equipment")
+    require(isinstance(equipment_rows, list) and isinstance(coverage_rows, list), "Missing equipment rows")
+    require({row.get("id") for row in equipment_rows} == {row.get("id") for row in coverage_rows},
+            "Equipment and coverage rows differ")
+    for row in coverage_rows:
+        require(row.get("compatibleAvatarSha256") == body_sha and isinstance(row.get("id"), str),
+                "Equipment avatar pin differs")
+        matching = next((item for item in equipment_rows if item.get("id") == row["id"]), None)
+        require(isinstance(matching, dict) and matching.get("compatibleAvatarSha256") == body_sha,
+                "Equipment binding pin differs")
+        url = matching.get("url")
+        require(isinstance(url, str) and url in resolved and digest(resolved[url].read_bytes()) == matching.get("sha256"),
+                "Equipment asset pin differs")
+
+
 def package_item(batch: dict[str, Any], item: dict[str, Any], root: Path,
                  runtime_by_body: dict[str, dict[str, Any]] | None = None,
                  adapter_by_body: dict[str, dict[str, Any]] | None = None) -> dict[str, Any]:
@@ -101,6 +152,9 @@ def package_item(batch: dict[str, Any], item: dict[str, Any], root: Path,
     body = folder / spec["bodyFile"]
     require(body.is_file(), "Missing body package")
     require(digest(body.read_bytes()) == spec.get("bodySha256") == provenance.get("bodySha256"), "Body pin differs")
+    verify_package_inventory(spec, root, spec["bodySha256"])
+
+    provenance_pin = pin(folder / "provenance.json")
 
     follow_up = provenance.get("followUp", {})
     adapters: list[dict[str, Any]] = []
@@ -112,15 +166,20 @@ def package_item(batch: dict[str, Any], item: dict[str, Any], root: Path,
         else:
             reasons = follow_up.get(check_name, {}).get("reasons", []) if isinstance(follow_up.get(check_name), dict) else []
             adapters.append({"check": check_name, "task": CHECK_TO_ADAPTER[check_name], "status": state,
-                             "reasons": list(reasons)})
+                             "reasons": list(reasons),
+                             "evidence": {"report": provenance_pin, "role": "dependency-follow-up"}})
     adapter_evidence = (adapter_by_body or {}).get(spec.get("bodySha256"))
+    resolved_checks: dict[str, dict[str, Any]] = {}
     if adapter_evidence:
-        adapters = [row for row in adapters if row["check"] != "facialExpressions"]
+        for check_name in adapter_evidence.get("checks", ()):
+            if check_name in CHECK_TO_ADAPTER and any(row["check"] == check_name for row in adapters):
+                resolved_checks[check_name] = {"status": "passed", "evidence": adapter_evidence}
+        adapters = [row for row in adapters if row["check"] not in resolved_checks]
 
     lanes = {lane: "unverified" for lane in REQUIRED_LANES}
     # These are package facts only. Runtime admission is deliberately separate.
     lanes.update(authoring="verified", coldReadback="verified", export="verified",
-                 dependencyDelta="verified", bodyPackage="prepared", coverage="prepared")
+                 dependencyDelta="verified", bodyPackage="verified", coverage="verified")
     runtime_evidence = (runtime_by_body or {}).get(spec.get("bodyType"))
     if runtime_evidence:
         lanes.update(runtimeCatalog="verified", record="verified", restore="verified")
@@ -134,7 +193,8 @@ def package_item(batch: dict[str, Any], item: dict[str, Any], root: Path,
         "visual acceptance is not granted by a source screenshot or CPU check",
     ]
     if adapters:
-        blockers.append("changed dependencies require exact adapter checks before fit reuse")
+        pending_checks = ", ".join(task["check"] for task in adapters)
+        blockers.append(f"pending adapter checks require exact evidence before fit reuse: {pending_checks}")
     return {
         "id": item_id,
         "package": package,
@@ -146,6 +206,7 @@ def package_item(batch: dict[str, Any], item: dict[str, Any], root: Path,
         "reusableChecks": reusable,
         "adapterTasks": adapters,
         "adapterEvidence": adapter_evidence,
+        "resolvedChecks": resolved_checks,
         "runtimeEvidence": runtime_evidence,
         "blockers": blockers,
         "source": {
@@ -181,13 +242,75 @@ def adapter_index(path: Path, root: Path = ROOT) -> dict[str, dict[str, Any]]:
     require(path.is_file() and path.is_relative_to(root), "Adapter report must be inside repository")
     report = read_json(path)
     require(report.get("status") == "passed", "Adapter report is not a pass")
+    checks = report.get("checks")
+    if checks is None:
+        checks = ADAPTER_SCHEMA_CHECKS.get(report.get("schema"), ())
+    require(isinstance(checks, (list, tuple)) and checks and
+            all(isinstance(check, str) and check in CHECK_TO_ADAPTER for check in checks),
+            "Adapter report must declare supported checks")
+    checks = tuple(dict.fromkeys(checks))
     result = {}
     for item in report.get("native", []):
         body_sha = item.get("sourceSha256")
         if isinstance(body_sha, str) and SHA.fullmatch(body_sha):
             result[body_sha] = {"report": pin(path), "bodyType": item.get("bodyType"),
                                 "targetCount": item.get("targetCount"), "targetedMeshes": item.get("targetedMeshes"),
-                                "protectedMeshes": item.get("protectedMeshes"), "scope": report.get("scope")}
+                                "protectedMeshes": item.get("protectedMeshes"), "scope": report.get("scope"),
+                                "checks": list(checks)}
+    return result
+
+
+def candidate_adaptation_index(path: Path, root: Path = ROOT) -> dict[str, dict[str, Any]]:
+    """Attach non-clearing source audits to a batch row.
+
+    These reports describe reusable structure and the exact checks still needed.
+    They are deliberately diagnostic evidence: only an adapter report with a
+    passed status may clear a gate task.
+    """
+    path = path.resolve()
+    require(path.is_file() and path.is_relative_to(root), "Adaptation report must be inside repository")
+    report = read_json(path)
+    require(report.get("schema") == "native-batch-adaptation-admission-v1",
+            "Unsupported adaptation report")
+    result = {}
+    for item in report.get("candidates", []):
+        body = item.get("body", {})
+        body_sha = body.get("sha256")
+        require(isinstance(body_sha, str) and SHA.fullmatch(body_sha),
+                "Adaptation report body identity is incomplete")
+        result[body_sha] = {
+            "report": pin(path),
+            "bodySha256": body_sha,
+            "candidateId": item.get("id"),
+            "dynamicMotion": item.get("dynamicMotion"),
+            "surfaceAndTexture": item.get("surfaceAndTexture"),
+            "scope": "source-side structure and texture contract; no runtime or visual admission",
+        }
+    require(result, "Adaptation report has no candidates")
+    return result
+
+
+def runtime_head_audit_index(path: Path, root: Path = ROOT) -> dict[str, dict[str, Any]]:
+    """Attach budget and head-fit audit evidence without clearing a task."""
+    path = path.resolve()
+    require(path.is_file() and path.is_relative_to(root), "Runtime audit must be inside repository")
+    report = read_json(path)
+    require(report.get("schema") == "native-batch-runtime-budget-head-attachment-audit-v1",
+            "Unsupported runtime/head audit")
+    result = {}
+    for row in report.get("records", []):
+        body_sha = row.get("bodySha256")
+        require(isinstance(body_sha, str) and SHA.fullmatch(body_sha),
+                "Runtime audit body identity is incomplete")
+        result[body_sha] = {
+            "report": pin(path),
+            "recordPath": row.get("path"),
+            "bodySha256": body_sha,
+            "budget": report.get("budget"),
+            "headAttachments": report.get("headAttachments"),
+            "scope": "runtime record/budget and head attachment audit; no visual or ordinary-PC pass",
+        }
+    require(result, "Runtime/head audit has no records")
     return result
 
 
@@ -207,7 +330,9 @@ def accessory_index(path: Path, root: Path = ROOT) -> dict[str, dict[str, Any]]:
 def evaluate(batch_path: Path, root: Path = ROOT,
              runtime_report: Path | None = None,
              adapter_report: Path | None = None,
-             microphone_report: Path | None = None) -> dict[str, Any]:
+             microphone_report: Path | None = None,
+             adaptation_report: Path | None = None,
+             runtime_head_audit: Path | None = None) -> dict[str, Any]:
     root = root.resolve()
     batch_path = batch_path.resolve()
     require(batch_path.is_file() and batch_path.is_relative_to(root), "Batch must be inside repository")
@@ -218,11 +343,29 @@ def evaluate(batch_path: Path, root: Path = ROOT,
     runtime_by_body = runtime_index(runtime_report, root) if runtime_report else {}
     adapter_by_body = adapter_index(adapter_report, root) if adapter_report else {}
     microphone_by_body = accessory_index(microphone_report, root) if microphone_report else {}
+    adaptation_by_body = candidate_adaptation_index(adaptation_report, root) if adaptation_report else {}
+    audit_by_body = runtime_head_audit_index(runtime_head_audit, root) if runtime_head_audit else {}
     rows = [package_item(batch, item, root, runtime_by_body, adapter_by_body) for item in items]
+    for row in rows:
+        body_sha = row.get("bodySha256")
+        if body_sha in adaptation_by_body:
+            row["candidateAdaptationEvidence"] = adaptation_by_body[body_sha]
+        if body_sha in audit_by_body:
+            row["runtimeHeadAuditEvidence"] = audit_by_body[body_sha]
     for row in rows:
         if row["bodyType"] in microphone_by_body:
             row["accessoryEvidence"] = {"microphone": microphone_by_body[row["bodyType"]]}
+            if any(task["check"] == "handAndMicrophone" for task in row["adapterTasks"]):
+                row["resolvedChecks"]["handAndMicrophone"] = {
+                    "status": "passed",
+                    "evidence": microphone_by_body[row["bodyType"]],
+                }
             row["adapterTasks"] = [task for task in row["adapterTasks"] if task["check"] != "handAndMicrophone"]
+            row["blockers"] = [blocker for blocker in row["blockers"]
+                                if not blocker.startswith("pending adapter checks require exact evidence")]
+            if row["adapterTasks"]:
+                pending_checks = ", ".join(task["check"] for task in row["adapterTasks"])
+                row["blockers"].append(f"pending adapter checks require exact evidence before fit reuse: {pending_checks}")
     ids = [row["id"] for row in rows]
     require(len(ids) == len(set(ids)), "Duplicate batch item")
     return {
@@ -252,10 +395,13 @@ def main() -> int:
     parser.add_argument("--runtime-report", type=Path)
     parser.add_argument("--adapter-report", type=Path)
     parser.add_argument("--microphone-report", type=Path)
+    parser.add_argument("--adaptation-report", type=Path)
+    parser.add_argument("--runtime-head-audit", type=Path)
     args = parser.parse_args()
     try:
         report = evaluate(args.batch, runtime_report=args.runtime_report, adapter_report=args.adapter_report,
-                          microphone_report=args.microphone_report)
+                          microphone_report=args.microphone_report, adaptation_report=args.adaptation_report,
+                          runtime_head_audit=args.runtime_head_audit)
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
         print(json.dumps(report, ensure_ascii=False))
