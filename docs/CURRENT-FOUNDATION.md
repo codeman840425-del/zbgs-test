@@ -1,30 +1,20 @@
 # 当前角色基础工程恢复点
 
-## 版本与备份
-- F:/gamemake，feat/m1-foundation-room。4196固定build64c973eb5a11，source 2c0f14282c5cccfe2c20a3bae61080cf20324053；以delivery/appearance-workbench.json为准。
-- 固定目录experiments/m2-character-record-ui-release-v1/prototype/dist。01a回滚指针delivery/history/appearance-workbench-01a020d4e10d.json；4174历史证据，4195封存M1。不要新建常驻端口。
-- 远端已核实34c876e18183cc5d813ee185b2037f3d7192084f，包含2c0源码、64c固定发布及f3d录像/检查；本恢复文字更新另随提交保存。公司副总工dirty文件不stage，禁止git add -A。
+## 固定入口与备份
+- F:/gamemake / feat/m1-foundation-room。4196 build 7a03f033973d，source eb40ba45a3ecee4359f2ef77a53ef5c2d41d8b8c，独立目录 experiments/m2-character-material-release-v1/prototype/dist。delivery/appearance-workbench.json 为指针；回退64c在delivery/history/appearance-workbench-64c973eb5a11.json。
+- 4174历史证据；4195封存M1。不要新建常驻端口。公开新录像在4196/native-production.html#character-records。
+- 当前增量远端核验待本次提交推送后补。历史已核远端2db609087176f96854b983bd5581a6ce40adeda2。公司副总工dirty文件不stage，禁止git add -A。
 
-## 刚发布的限定成果
-- 原生女843ac、改脸cc0843、改腰cf1574、男7586已补接麦克风/眼镜与原生目标30秒舞。mic VRM1 canonical thumb被VRM0 alias覆盖已修；男性v3仅改thumb。眼镜耳冠女≤0.678mm/男≤0.183mm局部交叉和刘海镜腿露点保留。旧封存30秒舞未修改。
-- 01a D01完整记录包含独立identity/revision、appearanceRecipe、liveAccessories及实际引用身份。两源女脸/男实际磁盘保存、关页重开、同体恢复、503失败保旧、错误fit拒绝、最终commit故障逆序恢复及重试通过：evidence/m2-character-runtime-fixed-v1。正常速度9秒前/侧讲话片与全时段2fps诊断帧保留，未替代人类观感验收。
-- m2-record-props-regression-v1四原生体实际按钮装卸、讲话/携带、暂停恢复通过技术回归；m2-character-record-ui-v2切体/准入与24影片播放通过；m2-record-release-live-v1实际4196原female+四native无pageerror、mic/glasses实际on。
-- 两份确切提交独立检出build-v2逐文件一致。build-v1共享HTML CRLF与git LF不同的失败保留。UI-v1错误要求新9秒回读片>10秒，v2只修两新片时长门，原动作片门保持。
-- 上个01a公开API需先选同一身体；旧配方保持不含live道具的原语义。01a不证明跨体；最新跨体结论见下，全部依赖包仍未完成。
+## 刚完成的限定成果
+- D01/L02记录新增equipmentMaterials，完整已穿衣物原材质/配方身份、异步prepare与同步commit/逆序rollback，保旧clone至整套成功。明确错误与新操作抢占，不用当前值相同推断没新意图。
+- m2-character-material-fixed-v1：九项真实恢复/失败/连续操作/跨体取消、1×走路坐起。m2-material-record-ui-fixed-v1：实际保存/读取/跨体/坏索引/双标签页。实际4196与新录像检查见m2-material-release-live-v1。m2-material-fixed-build-v1从确切提交独立检出npm ci/build通过、git干净。
+- 旧native无材质变体记录明确返回materialMigration；旧短裤缺材质信息拒绝猜测。旧appearance配方不改语义。底层peer仍同体，主工作台自动选体；业务/动作时间不入角色最终记录。
+- P03 scripts/runtime-package/record-cli.mjs 及record-resources是新完整记录适配器；旧801不改pin。reviewed JSON钉source eb40/build7a03与编译产物。三个最终包在experiments/m2-record-transfer-v2：male-material/native-female/native-male；重建命令见README。evidence/m2-record-transfer-v2各inventory、CPU报告及浏览器原片。23/27/27实际HTTP文件SHA对账，冷启动/关闭恢复/走路坐起通过；不是性能/全部造型视觉接受。
+- m2-record-package-review-v1独立审查修了记录美化超512KiB、build-info过迟验证、bundle源归属错误。m2-record-transfer-v1保留早期blob/CDP缓存与-0测试错误；不覆盖失败记录或给旧录像换标签。
+- 本轮子任务material_record_transaction(gpt-6.1-sol/xhigh)、record_dependency_audit(gpt-6.2-sol/high)、material_record_review(gpt-6.2-astra/high)均已返回；root集成并实际验证。配置为请求参数，实际provider/hook拦截仍未证实。
 
-## 刚完成增量与下一工作
-- 4196最新64c973eb5a11/source2c0f14282c5cccfe2c20a3bae61080cf20324053，experiments/m2-character-record-ui-release-v1/prototype/dist。回退01a指针delivery/history/appearance-workbench-01a020d4e10d.json。此处覆盖上方早期01a版本描述。
-- 跨体与UI源0cb65205测试/录像build f3d；发布64c仅改HTML说明，两固定目录运行源码/资源完全一致，构建都独立检出验证。正常12秒片放在native-production.html#character-records，保原f3d身份。
-- m2-character-cross-body-fixed-v1十项实际跨体/失败保旧/取消通过；m2-character-record-ui-flow-fixed-v1实际保存/下载/读取/同ID跨体/坏索引/双标签页防覆盖通过；m2-autobody-workbench-ui-v1有25媒体解码与既有UI回归。
-- root已集成record_body_restore_review(sol/high)与record_workbench_controls(sol/high)成果，已结束；实际provider/hook未证实。新身份不与body绑定，旧记录更新只对新实际造型准入；历史record先核envelope不拿旧fit套新体。
-- UI记录存在localStorage，Web Locks+raw比较保护，不是服务器。低版本JSON拒绝静默覆盖；旧appearance配方语义不改。底层peer同体恢复限制仍保留。
-- 下一工作包：D01/P03完整角色资源依赖移交（复用scripts/runtime-package既有清单/打包器），随后D03最小确定性记录消费；不把当前引用SHA列表当完整传递依赖闭包。其他M2必需能力仍查CAP。
-- 本次发布记录已核实远端34c876e1，无未备份角色代码/资源。公司dirty文件不stage。
-
-## 有效边界
-- CAPABILITIES唯一能力事实；M2完整v2范围不缩减，M3未授权。素材与参数其余缺口仍按清单推进。
-- 原生其他配色/发型/耳帽/妆容/参数仍按真实准入，不能声称全部旧功能恢复。头发落座外扬、白上衣与肤色层次、所有速度组合及普通机未测保留。
-- 女裙与旧30秒舞封板不重开；单GPU/录像串行，不接管用户桌面。普通机无设备，开发机不冒认目标实测。
-- 最新用户追问“为什么新皮肤接入不完整”：完整VRoid含新身体/rig而非仅贴图，但未完成共用适配是工程缺口，不把工作推给用户、不为每体复制控制器。同体配色复用，几何修改仅重验受影响fit，新基模必须实际完成接入检查。
-
-- m2-autobody-release-live-v1已实核4196 build64c：原female及四native的麦克风/眼镜实际加载，pageerror为空。顾问云端交接回执已补到docs/HANDOFF.md；未向其他聊天发送消息、未打整树包、未改变仓库权限。
+## 下一主包与边界
+- 下一工作包D03最小确定性角色记录游戏消费：少量男女/同体不同ID与装备、部分失败独立重试、取消、双实例、关闭恢复；复用record与现有loader，P03仍有room DOM依赖不能冒称已实现。其余M2必需项仅查CAP，完整v2不缩范围、不进入M3。
+- 原生额外发型/配色/耳帽/妆容等按精确准入；包collector的CPU路径覆盖不等于这些组合实际运行已验。已有裙和30秒舞封板，不继续精修。普通电脑无设备缺口保留；开发机9950X3D/4090/Chrome157，不能代替普通机。
+- 只用脚本/后台浏览器；单GPU录像/重导出串行。不占用户桌面。
+- 顾问云端两条接缝回执写入HANDOFF，未向其他聊天发消息，不接管公司平台、不合并其main、不新建服务器。自由图片只算参考；可用贴图须UV/区域/色彩通道/源许可/处理与回读证据，不一律要求通过VRoid。

@@ -1,0 +1,139 @@
+{
+  "status": "technical-pass-visual-review-pending",
+  "browser": "157.0.8103.51",
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "cases": [
+    {
+      "name": "complete material record disk close/reopen",
+      "passed": true
+    },
+    {
+      "name": "late failure restores live material clones; explicit original and retry",
+      "passed": true
+    },
+    {
+      "name": "cold missing material keeps previous whole look",
+      "passed": true
+    },
+    {
+      "name": "newer material intent cancels pending whole-look restore",
+      "passed": true
+    },
+    {
+      "name": "wrong pinned material and ambiguous legacy record refused",
+      "passed": true
+    },
+    {
+      "name": "unambiguous legacy native record loads through shared cross-body path",
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "scope": "Development machine. Material identity, whole-look restore, cancellation and normal-speed continuity. Not new body/cloth fit or ordinary-PC acceptance.",
+  "build": "c6bb3d9b574f",
+  "actions": [
+    {
+      "requestId": "material-walk",
+      "ownerId": "room-primary",
+      "kind": "walk",
+      "payload": {
+        "x": -0.5,
+        "z": 1.8
+      },
+      "admission": "accepted",
+      "state": "completed",
+      "requestedAt": 1.0069999999999995,
+      "startedAt": 1.0069999999999995,
+      "endedAt": 2.651499999999992,
+      "deadline": 61.007,
+      "reason": null,
+      "result": {
+        "mode": "idle",
+        "position": [
+          -0.5,
+          0,
+          1.7831518257401437
+        ],
+        "seatToken": null
+      }
+    },
+    {
+      "requestId": "material-sit",
+      "ownerId": "room-primary",
+      "kind": "sit",
+      "payload": {},
+      "admission": "accepted",
+      "state": "completed",
+      "requestedAt": 2.651499999999992,
+      "startedAt": 2.651499999999992,
+      "endedAt": 9.573399999976212,
+      "deadline": 62.65149999999999,
+      "reason": null,
+      "result": {
+        "mode": "sit",
+        "position": [
+          2.649699485957965,
+          0,
+          1.3119813149125124
+        ],
+        "seatToken": "seat-lease:1"
+      }
+    },
+    {
+      "requestId": "material-stand",
+      "ownerId": "room-primary",
+      "kind": "stand",
+      "payload": {},
+      "admission": "accepted",
+      "state": "completed",
+      "requestedAt": 10.610500000000082,
+      "startedAt": 10.610500000000082,
+      "endedAt": 11.605800000071632,
+      "deadline": 70.61050000000009,
+      "reason": null,
+      "result": {
+        "mode": "idle",
+        "position": [
+          2.649699485957965,
+          0,
+          1.3119813149125124
+        ],
+        "seatToken": "seat-lease:1"
+      }
+    }
+  ],
+  "lateFailure": {
+    "error": "造型提交失败，先前外观已恢复：injected-final-domain-after-material",
+    "previousReferencesPreserved": true,
+    "previousDisposed": 0
+  },
+  "missing": {
+    "error": "恢复配方失败，先前外观已保留：Material recipe HTTP 503"
+  },
+  "cancelled": {
+    "applied": false,
+    "cancelled": true
+  },
+  "wrong": {
+    "error": "服装材质配方或身体适配身份不匹配：m1b-uniform-shorts-v1"
+  },
+  "legacyAmbiguous": {
+    "error": "旧角色记录未保存服装材质，无法确定原造型；请用旧版还原并确认材质后重新保存角色记录"
+  },
+  "nativeLegacy": {
+    "applied": true,
+    "bodyType": "native-male-7586-v1",
+    "materialMigration": "legacy-record-with-no-material-variants",
+    "notice": "",
+    "identity": {
+      "id": "native-male-7586-v1-record-a",
+      "name": "验证主播A",
+      "gender": "male"
+    },
+    "revision": 1,
+    "recordSha256": "4b4929c39f49cb45be0ab4cc1d825433b53442b24d19e9f59552212d274b075d"
+  }
+}

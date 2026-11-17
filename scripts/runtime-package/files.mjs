@@ -45,8 +45,10 @@ export async function writeFresh(file, bytes) {
 }
 
 export async function copyDeclaredFiles({inventory, dist, out}) {
-  if (inventory?.schema !== 'runtime-package-inventory-v1' || !Array.isArray(inventory.files) || !inventory.files.length)
-    fail('unsupported-inventory', 'Expected runtime-package-inventory-v1');
+  const recordPackage=inventory?.schema==='character-record-package-inventory-v1';
+  if ((!recordPackage&&inventory?.schema !== 'runtime-package-inventory-v1') || !Array.isArray(inventory.files) || !inventory.files.length)
+    fail('unsupported-inventory', 'Expected a reviewed runtime or character-record inventory');
+  const generatedPaths=recordPackage?['character-record.json']:['selected-appearance.recipe.json','material-selections.json'];
   const paths = new Set();
   for (const row of inventory.files) {
     if (typeof row.path !== 'string' || runtimePath('/' + row.path) !== row.path || paths.has(row.path) ||
@@ -54,10 +56,10 @@ export async function copyDeclaredFiles({inventory, dist, out}) {
       fail('invalid-inventory', `Invalid or duplicate file declaration ${row.path}`);
     paths.add(row.path);
     if (row.generated !== undefined && typeof row.generated !== 'string') fail('invalid-inventory', 'Generated files must be UTF-8 text');
-    if (row.generated !== undefined && !['selected-appearance.recipe.json','material-selections.json'].includes(row.path))
+    if (row.generated !== undefined && !generatedPaths.includes(row.path))
       fail('invalid-inventory', `Unsupported generated substitution ${row.path}`);
   }
-  for (const required of ['index.html','build-info.json','selected-appearance.recipe.json','material-selections.json'])
+  for (const required of ['index.html','build-info.json',...generatedPaths])
     if (!paths.has(required)) fail('invalid-inventory', `Missing required declaration ${required}`);
   if (paths.has('runtime-package.json')) fail('invalid-inventory', 'Package manifest path is reserved');
   const destination = path.resolve(out);

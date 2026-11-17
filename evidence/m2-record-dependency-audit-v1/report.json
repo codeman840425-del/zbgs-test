@@ -1,0 +1,732 @@
+{
+  "schema": "m2-record-dependency-audit-v1",
+  "status": "static-source-and-fixed-bytes-reviewed",
+  "source": {
+    "commit": "2c0f14282c5cccfe2c20a3bae61080cf20324053",
+    "buildId": "64c973eb5a11",
+    "fixedDirectory": "experiments/m2-character-record-ui-release-v1/prototype/dist",
+    "readNote": "对照 git 固定源码。工作树当时仅 material-recipes.js 相对该版本存在角色源码差异，材质实现取自 git show 2c0f1428。",
+    "previousAdapter": "scripts/runtime-package/inventory.mjs:8，foundation-selected-801-v1，固定 58bc10748cc9fa618f8ecf58b54abbb7de12ffb8 / 801c7a9c9026。"
+  },
+  "restoreEntry": {
+    "source": [
+      "prototype/src/main.js:2223",
+      "prototype/src/main.js:2254",
+      "prototype/src/main.js:2277",
+      "prototype/src/character-runtime-record.js:8",
+      "prototype/src/character-runtime-record.js:53",
+      "prototype/src/appearance-recipe.js:100"
+    ],
+    "findings": [
+      "主工作台先验角色信封，跨体时在场景外依次加载目标身体和动作、以 outfit 0 暂存角色为起点恢复整条记录，验证成功才换场景角色。同体直接走 restoreRuntimeCharacterRecord。",
+      "resourceIdentities 从 appearanceRecipe/liveAccessories 对象中逐项提取键名以 sha256 结尾的值。它证明记录已知身份。编译读入的资料、动态 manifest、基础起始装备、动作和部分颜色资源需要按加载器另行求闭包。",
+      "旧版外观配方 v1–v9 的准入见 validateAppearanceRecipe。所选 outfit 等级按配置和装备目录解出，实时道具只在完整记录恢复时执行。稳定角色 ID 与身体分开。"
+    ]
+  },
+  "domains": {
+    "room": {
+      "source": [
+        "prototype/index.html:4",
+        "prototype/src/assets.js:7",
+        "prototype/src/main.js:2079",
+        "prototype/src/main.js:2396",
+        "prototype/src/appearance-workbench.js:733",
+        "prototype/src/appearance-workbench.js:818"
+      ],
+      "load": "固定 index.html、入口和静态 import/preload 的 JS、CSS、favicon 与 /build-info.json。在 a fresh origin 用 /?body=<bodyType>&workbench=appearance 启动；缺少 body 默认加载旧女，自动草稿会追加选择。",
+      "provenance": [
+        "docs/ASSETS.md（锁定 Three/Phaser/three-vrm 依赖许可）",
+        "prototype/package-lock.json"
+      ],
+      "scope": "多体包按声明的启动身体及所有准许恢复身体求并集。只声明单体时锁定 entry query。独立 foundation.html、native-production.html、4174 链接及演示影片需要自己的导航范围。"
+    },
+    "bodyProfile": {
+      "source": [
+        "prototype/src/foundation-profiles.js:7",
+        "prototype/src/foundation-profiles.js:176",
+        "prototype/src/foundation-profiles.js:207",
+        "prototype/src/foundation-profiles.js:224",
+        "prototype/src/foundation-avatar.js:86",
+        "prototype/src/foundation-avatar.js:182"
+      ],
+      "load": "急加载 config.url 的精确 VRM 与存在的 forearmCollision、handSurfaceContact JSON。选本体 SHA，不能按身份性别或 referenceBody 借用其他体。原发、原纹理、表达式/骨架数据从 GLB2 内部读取。代表体 runtime-index、layer profiles、blink profiles 等静态 JSON import 由 Vite 产物携带。",
+      "parseBase": "身体 parseAsync 的外部资源基准固定 /assets/foundation/，与深目录原生 VRM 文件所在目录可以不同。样件扫描均为内嵌。新外链要显式处理加载基准并限制同源。",
+      "provenance": [
+        "docs/ASSETS.md",
+        "docs/research/NATIVE-VROID-FACTORY-SEAM-2026-11-17.md",
+        "VRM extensions.VRMC_vrm.meta 或 extensions.VRM.meta",
+        "各装备 manifest 的 sourceLicense"
+      ]
+    },
+    "equipment": {
+      "source": [
+        "prototype/src/outfit-selection.js:3",
+        "prototype/src/m1-equipment.js:14",
+        "prototype/src/m1-equipment.js:32",
+        "prototype/src/m1-equipment.js:163",
+        "prototype/src/equipment.js:24",
+        "prototype/src/equipment.js:43",
+        "prototype/src/equipment.js:96",
+        "prototype/src/equipment.js:145",
+        "prototype/src/shape-fit-registry.js:4",
+        "prototype/src/garment-layer-fit.js:15",
+        "prototype/src/skirt-fit.js:1"
+      ],
+      "load": "急加载 config.manifestUrl 与每个 additionalEquipmentManifests。验证扩展 SHA、绝对装备 URL 和 compatibleAvatarSha256。装备数据为 outfit 0 与目标 outfit 的 ID 并集，扩展 ID 与主目录合并。各模型按主 manifest 的 URL 基准解析，校验长度、哈希、身体和 fitId，保留装备条目内嵌 skinFit/绑定。目录可保留其他元数据。",
+      "transitive": "对被选中的层叠装备读取 layerFitResource 并校验下装 ID/SHA/长度和实际 pairing。SHAPE_FIT_REGISTRY 内的男连体服另读 entry.fitResource 和精确 shape-fit JSON。原封板裙的修正 profile 来自打包的静态导入。",
+      "provenance": [
+        "各装备条目 sourceLicense/sourceSpec",
+        "docs/ASSETS.md",
+        "assets-source/m1b/shorts/spec.json",
+        "assets-source/m2-outer-panels-v2/spec.json",
+        "assets-source/native-vroid-face-factory-equipment-v1/manifest.json",
+        "assets-source/native-vroid-male-equipment-v1/README.md"
+      ]
+    },
+    "coverage": {
+      "source": [
+        "prototype/src/m1-equipment.js:163",
+        "prototype/src/m1-equipment.js:195",
+        "prototype/src/body-coverage.js:77",
+        "prototype/src/body-texture-coverage.js:12",
+        "prototype/src/body-texture-coverage.js:106",
+        "prototype/src/body-texture-coverage-admissions.js",
+        "prototype/src/garment-coverage.js:17"
+      ],
+      "load": "config.bodyCoverage 与全部 config.additionalBodyCoverage 对应掩码在初始化急加载，包括没选其装备的条目。选到含 config.ids.outer 的 outfit 再取 garmentCoverage。原生 bodyTextureCoverage 急加载 exact manifest 和同源 covered.url PNG，完整装备目录供规则查验，原始 Body PNG 从 VRM 内嵌图读。",
+      "provenance": [
+        "原生 coverage manifest 的 source/sourceMaskLineage",
+        "assets-source/native-vroid-face-body-texture-fit-v1/manifest.json",
+        "assets-source/native-vroid-male-body-texture-fit-v1/generated/manifest.json",
+        "coverage JSON 的身体和装备结构身份"
+      ]
+    },
+    "motion": {
+      "source": [
+        "prototype/src/main.js:2257",
+        "prototype/src/main.js:2401",
+        "prototype/src/motion-source.js:51",
+        "prototype/src/greeting-layer.js:6",
+        "prototype/src/greeting-layer.js:66"
+      ],
+      "load": "动作集急加载 /assets/motion/UAL1_Standard.glb、/assets/motion/m1c/jog-ordinary-derived-v1.profile.json 和 jog GLB、/assets/motion/m1c/dance-imports.json，再取该 catalog 中全部通用舞蹈及每项 normalized 精确身体 SHA variant。没有匹配的容许项可标不可用，已匹配的任一舞蹈缺文件会阻塞启动。Greeting 运行时按命令懒读硬编码 GLB，gesture-import.json 是来源说明。",
+      "parseBase": "通用动作 GLB 按各自 URL 或源码规定的 /assets/motion/m1c/ 解析。Normalized JSON 里 pose/track 数据内嵌，source 说明和摘要按来源记录。",
+      "provenance": [
+        "docs/motion-source.md",
+        "prototype/licenses/quaternius-CC0.txt",
+        "dance-imports.json 的 license/origin/licenseBoundary",
+        "greeting/gesture-import.json"
+      ],
+      "boundary": "UAL 为 CC0。冻结 Rokoko 和原生目标是现有导出，许可边界沿各条记录。当前包移交不能延伸原始视频/FBX或新的商用/API 权利。"
+    },
+    "hair": {
+      "source": [
+        "prototype/src/hairstyle-catalog.js:1",
+        "prototype/src/hair-fit-contract.js:5",
+        "prototype/src/hair-fit-contract.js:21",
+        "prototype/src/character-appearance.js:136",
+        "prototype/src/character-appearance.js:260",
+        "prototype/src/native-hair-attachment.js"
+      ],
+      "load": "original 或准入的 none 复用原模或隐藏，无新增文件。替换发按身体和款式精确选择，读取 manifest、声明的 fit JSON、manifest.url 对应 GLB。legacyImplicitFit 且刚性允许缺外部 fit。Spring、原生模拟和 collider 从 fit/GLB 读。旧发色/肤色乘色根据代码预设作用于已载材质。",
+      "provenance": [
+        "各头发 manifest 的 sourceMaterial/sourceBodySha256/sourceLicense",
+        "assets-source/native-vroid-hair-equipment-v1/README.md",
+        "docs/ASSETS.md"
+      ]
+    },
+    "palettes": {
+      "source": [
+        "prototype/src/appearance-color-policy.js:4",
+        "prototype/src/facial-palette-contract.js:9",
+        "prototype/src/facial-palette.js:17",
+        "prototype/src/facial-palette.js:31",
+        "prototype/src/facial-palette.js:153",
+        "prototype/src/native-palette-catalog.js:1",
+        "prototype/src/native-palette-part.js:52",
+        "prototype/src/native-palette-part.js:79",
+        "prototype/src/native-palette-part.js:127"
+      ],
+      "legacy": "原始/代表体任一 eyeColor 或 lipColor 非 original，或 surface 非空，会读 facialPaletteContract(bodySHA) 的 manifest。读取该 variant 的 iris 与 lips 两份 mask，以及 iris neutralMap。旧 paletteVersion 的历史颜色语义由当前准入决定实际 manifest。",
+      "native": "仅原生男7586登记独立 iris green 与 eyebrow brown。每一选中部件各读自己的 manifest + source PNG + 选色 PNG。两部件 original 都不请求其包。女改脸仅保原色，不能按 v3 paletteVersion 字符串补发历史 masks。",
+      "provenance": [
+        "docs/ASSETS.md",
+        "assets-source/native-vroid-iris-study-v1/README.md",
+        "assets-source/native-vroid-hair-color-study-v1/README.md",
+        "本体 VRM 许可及 palette manifest sourceManifestSha256"
+      ]
+    },
+    "surface": {
+      "source": [
+        "prototype/src/appearance-candidates.js:12",
+        "prototype/src/surface-layer-catalog.js:1",
+        "prototype/src/surface-layers.js:22",
+        "prototype/src/surface-layers.js:53",
+        "prototype/src/facial-palette.js:153"
+      ],
+      "load": "非空层结果读取 /assets/m2-surface-layer-v1/manifest.json，读取本体 variant.layers 中全部 PNG，哪怕只选一层。另需该身体 facial palette 准备链。sourceTextureSha256/sourcePixelSha256 对照原有材质引用点，不另读作者输入。",
+      "provenance": [
+        "prototype/public/assets/m2-surface-layer-v1/manifest.json 的 license、各层 sourceParameters、原材质许可"
+      ]
+    },
+    "geometry": {
+      "source": [
+        "prototype/src/facial-geometry-profiles.js:1",
+        "prototype/src/facial-geometry-contract.js:1",
+        "prototype/src/facial-geometry-selection.js:37",
+        "prototype/src/facial-geometry.js:79",
+        "prototype/src/facial-geometry.js:104",
+        "prototype/src/facial-geometry.js:215",
+        "prototype/src/facial-geometry.js:275",
+        "prototype/src/facial-geometry.js:340",
+        "prototype/src/facial-geometry.js:527"
+      ],
+      "load": "当嘴宽非0或任一样件非 none 时，总先读取该身体基础 mouth 的 recipe-manifest.json 与精确身体条目 JSON，即便记录中 mouth recipeSha256 是 null。可见极限嘴宽再加 visible manifest/recipe。眉、鼻、眼各加所选目录下的 recipe-manifest.json 和精确身体 JSON。用 resolveFacialGeometrySelection 查询选择，并从 profile 的 mouth.baseURL 补隐式基础链。",
+      "nativeFace": "改脸 cc0843 是另一 VRM 身体，默认 geometry 值意味着没有额外 runtime geometry 资源。离线几何生产与 runtime 变形是两个机制。",
+      "provenance": [
+        "assets-source/native-vroid-geometry-production-v1/manifest.json",
+        "相应 recipe 的 baseAvatarSha256、几何源校验字段和项目来源说明",
+        "基模许可"
+      ]
+    },
+    "rigidEarsHat": {
+      "source": [
+        "prototype/src/accessory-recipe.js:1",
+        "prototype/src/accessory-recipe.js:18",
+        "prototype/src/accessory-recipe.js:47",
+        "prototype/src/rigid-accessory-layer.js:17",
+        "prototype/src/rigid-accessory-layer.js:35",
+        "prototype/src/rigid-accessory-layer.js:118",
+        "prototype/src/rigid-accessory-layer.js:248",
+        "prototype/src/hat-accessory-contract.js"
+      ],
+      "load": "装备耳饰时读取 /assets/m2-paired-ear-accessory-v1/manifest.json、精准身体 fit 和共享 asset.file 的 GLB，left/right/pair 同资源。帽读取 /assets/m2-hat-hair-v1/manifest.json、帽 fit 和 GLB，另校验 fit 指定的已登记 hair manifest，完整外观准备负责实际发型 fit/GLB。帽仅接受其指定身体/发型/原始几何。none 直接准备移除，无运行时下载。Bundled 目录可供静态选项准入。",
+      "provenance": [
+        "assets-source/m2-paired-ear-accessory-v1/LICENSE.md",
+        "assets-source/m2-hat-hair-v1/README.md",
+        "帽发 dependency 的源人体与头发许可"
+      ]
+    },
+    "micGlasses": {
+      "source": [
+        "prototype/src/live-accessory-record.js:1",
+        "prototype/src/live-accessory-record.js:23",
+        "prototype/src/live-presentation.js:90",
+        "prototype/src/live-presentation.js:96",
+        "prototype/src/live-presentation.js:196",
+        "prototype/src/live-presentation.js:210",
+        "prototype/src/glasses-temple-fit.js:15",
+        "prototype/src/microphone-presentation-fits.js"
+      ],
+      "load": "只有 enabled=true 才走资源准备。任一道具需 /assets/m1c/accessories.json 与自己的 GLB。mic 还需 /assets/m1c/grips/manifest.json 和 compatibleAvatarSha256 对应 grip JSON。glasses 另从 bundle 内 glasses-temple-fit-manifest.json 选择精确 body SHA/眼镜 SHA 的镜腿 fit JSON。mic presentation fits 与记录中的常量配置精确匹配，通过固定 JS 交付。完整记录排除无 fit SHA 的 legacy 眼镜。",
+      "provenance": [
+        "prototype/public/assets/m1c/accessories.json 的 CC0/sourceBlend",
+        "docs/M1C-SOURCE-GRIP.md",
+        "握麦与镜腿 fit JSON 的身体/道具来源身份"
+      ]
+    },
+    "material": {
+      "source": [
+        "prototype/src/appearance-recipe.js:22",
+        "prototype/src/foundation-avatar.js:298",
+        "prototype/src/m1-equipment.js:224",
+        "prototype/src/equipment.js:357",
+        "prototype/src/material-recipes.js:26",
+        "prototype/src/cloth-material.js",
+        "scripts/qa-runtime-package.cjs:63"
+      ],
+      "load": "旧男 outfit 4 + m1b-uniform-shorts-v1 + m1b-shorts-cloth-v4-review1 由显式材料选择触发，按装备 manifest 的 materialRecipes 读 JSON。检查 fitId、身体/短裤 SHA、renderer 中 Shader 实现 SHA/Three rev 187、材质名。已核 JSON 无附加纹理 URL，复用 GLB 图。",
+      "gap": "character-record-v1 收进 v6/v8/v9 appearance 时不读取当前材质 recipe 状态。即使同一装备目录条目提到该材质，也无法推出选中。保留旧 801 material-selections sidecar 的显式语义并声明适用路径。若要自动恢复此状态须定义独立版本化域/移交合约，不能在旧配方里默默加字段。",
+      "provenance": [
+        "prototype/public/assets/m1b/equipment.json 的 Short sourceLicense/sourceSpec/materialRecipes",
+        "prototype/public/assets/material-recipes/m1b-shorts-cloth-v4-review1.json",
+        "assets-source/m1b/shorts/spec.json"
+      ]
+    }
+  },
+  "recommendedAlgorithm": [
+    "在旧 adapter 之外新增当前版本的固定身份。验证 dist build-info、固定 source commit 输入、入口/static imports/stylesheet 产物 SHA；源码公有文件与 dist 逐字节对照，canonical path 及 SHA/bytes 去重。可沿用 scripts/runtime-package/files.mjs 的根目录、来源与原子复制逻辑。",
+    "读取 character-record-v1，复用信封完整性与已有准入模块。由记录声明的 bodyType+SHA 确定精确 profile，再用主/扩展装备清单合成 actor metadata。必要时归一旧版 geometry 默认值，保留原始配方字节/哈希与其版本。",
+    "追踪本报告的从入口、身体、装备和动作加载，到有值 appearance/live 的文件边。对声明的每个起始身体及记录做并集，记录每条边的父路径、原因、加载时机、受影响样件与来源。manifest 公开且无单独 pinned SHA 时，用固定 build/source 校验其原始字节。",
+    "按实际 GLTFLoader 基准展开 GLB2 的 images/buffers 外链，保留原 URL。拒绝越界、重复身份冲突、未知扩展/外部解码器未覆盖、缺少恰当 runtime 来源的远端资源。嵌入 data URI/BufferView 与生成来源记录只注记。交付路径解析、GLB 内部格式与 SHA/大小都分开验证。",
+    "完整记录、打包器 manifest 和许可来源各有身份。输出声明支持的入口/body/outfit/外观/实时道具/动作。仅声明可复现的选中组合与必需起始控制，不把 bundle 内的所有选项认作已交付。配方资源恢复复用生产入口。",
+    "网络捕获用于与静态闭包对账。在干净目录及新浏览器 origin 走实际入口、关页重开、完整记录出现及正常速动作；非声明路径、缺文件、错字节分别验证失败和保留上一个角色。"
+  ],
+  "pending": [
+    "审核结论是源码及目录字节证据。仍需新版包器、纯 CPU 闭包/坏输入/导出测试，以及从真正只含清单文件的目录完成浏览器/GPU冷启动、关页恢复和动作验证。",
+    "固定完整记录女/男均是原色原发，两道具开启。另用原生男同一记录的新显式样件覆盖独立长发、绿眼、棕眉，再选择旧男 outfit 4 单独材料方式作回归。耳帽/皮肤层/五官附表建议至少一条获准组合覆盖其隐式依赖。",
+    "历史 801 仅承诺原始女0与男4且与其固定源码配对。当前构建的 material 配方 API 暴露于既有 adapter/debug 路径，需决定移交是否承诺自动消费此独立状态。",
+    "源许可已记录。固定原生两 VRM 和其装备条目使用 onlyAuthor/personalNonProfit、allowRedistribution=false、modification=prohibited、creditNotation=required。范围是作者内部技术核验，外部移交的权利链审批尚缺。旧男沿 Beta 第三方导出来源和记录的边界。",
+    "记录恢复未来若新增媒体/导航支持，单独列清单。当前浏览器网络请求、视觉观感、普通机性能不在这次静态核对证据内。"
+  ],
+  "checkedFiles": {
+    "verification": "各选列 runtime public 文件在工作区与 64c 固定目录 SHA256 相同。存在源码或 manifest pin 的文件逐项对 pin。GLB2 的 JSON chunk 所列 images/buffers 外链均为空。固定 room 产物直接按现有 dist 取 SHA256。",
+    "room": [
+      {
+        "url": "/index.html",
+        "bytes": 15638,
+        "sha256": "1fa62af0f7c7008ade3a9a84ea86be1be3095b1ba9713bb1b4fe9a0be8b1be2a"
+      },
+      {
+        "url": "/build-info.json",
+        "bytes": 36525,
+        "sha256": "3991e5af93c91f970b0cec419c1ebd503c39c9215c9a72ef29b5abb23775d177"
+      },
+      {
+        "url": "/favicon.svg",
+        "bytes": 285,
+        "sha256": "7975190264ff2f4d9ed1f1be18970d8e3047dba42b09be35b77c818a36ddb523"
+      },
+      {
+        "url": "/assets/main-DI_T1MGl.js",
+        "bytes": 1720740,
+        "sha256": "364d3a57c24c7bc940b43e2e1e709ec44072076f643c478104bac1a15ba97909"
+      },
+      {
+        "url": "/assets/motion-source-DRjZkkmI.js",
+        "bytes": 972456,
+        "sha256": "ef2b8d3ca989af3a8afc18b12a568c66b4f8764440d002c1fded109af3382415"
+      },
+      {
+        "url": "/assets/main-qxl44P51.css",
+        "bytes": 18242,
+        "sha256": "8e56fc8c349f40aab36a2f6b42a1085463cb9ab57fc927888a97cbbd479411bc"
+      }
+    ],
+    "sharedMotion": [
+      {
+        "url": "/assets/motion/UAL1_Standard.glb",
+        "reason": "shared startup motion",
+        "sha256": "69591853d817488edaa8fd9bf8fc1d821eaeaf789f8627b3cd23b41c4ed67997",
+        "bytes": 7618436,
+        "externalUris": []
+      },
+      {
+        "url": "/assets/motion/m1c/jog-ordinary-derived-v1.profile.json",
+        "reason": "shared startup jog metadata",
+        "sha256": "2df4d6b86227b6bce60a5ea7ba97a982d974448044a46b903e413bd243e75ec0",
+        "bytes": 1503
+      },
+      {
+        "url": "/assets/motion/m1c/jog-ordinary-derived-v1.glb",
+        "reason": "shared startup jog model",
+        "sha256": "6ec251d7611f22c6bf918d3401fcf438a8f2bc7b72f2826047dea8beef15c9e5",
+        "bytes": 965540,
+        "externalUris": []
+      },
+      {
+        "url": "/assets/motion/m1c/dance-imports.json",
+        "reason": "shared startup dance catalog",
+        "sha256": "600f7ab75fce550f71d9be5f9240e83f6b58945d67804555feddfe1acf2d67da",
+        "bytes": 9195
+      }
+    ],
+    "greeting": [
+      {
+        "url": "/assets/motion/m1c/greeting/gesture-import.json",
+        "reason": "greeting provenance only",
+        "sha256": "b4f918f9ea8e260f95179e3eab9178a41c9b0266685835860c7284329a8adfb4",
+        "bytes": 2025
+      },
+      {
+        "url": "/assets/motion/m1c/greeting/greeting-wave-left-v1.glb",
+        "reason": "greeting lazy",
+        "sha256": "eec4ef8ab2fb073f7674cc6e839cbad7aea6931e4b19e8e70c0ee46c5fda2d06",
+        "bytes": 1566668,
+        "externalUris": []
+      }
+    ],
+    "sharedLiveAccessories": [
+      {
+        "url": "/assets/m1c/accessories.json",
+        "reason": "mic and glasses catalog",
+        "sha256": "d8380d1a105bff48e1cf8ed9ec92efaac54318e767a6df5836d587152e11c2b1",
+        "bytes": 2824
+      },
+      {
+        "url": "/assets/m1c/grips/manifest.json",
+        "reason": "mic grip catalog",
+        "sha256": "6ae8393ca5e36c3dd356878042ad7890ebb7d13004515a36f25398d767a5a7a2",
+        "bytes": 2863
+      },
+      {
+        "url": "/assets/m1c/studio-microphone-v1.glb",
+        "reason": "studio-microphone-v1",
+        "sha256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c",
+        "bytes": 106372,
+        "externalUris": []
+      },
+      {
+        "url": "/assets/m1c/studio-glasses-v1.glb",
+        "reason": "studio-glasses-v1",
+        "sha256": "c8098a499434c384850a73e6c207fb6c5e85620e9012c4426cd989952e5bec52",
+        "bytes": 54484,
+        "externalUris": []
+      }
+    ],
+    "fixtures": {
+      "native-female-face-v1": {
+        "input": "evidence/m2-character-runtime-fixed-v1/native-female-face-v1-record.json",
+        "schema": "workbench-appearance-recipe-v8",
+        "look": "outfit 0，原发原色，原始运行时面部参数，耳帽 none，mic/glasses on。",
+        "files": [
+          {
+            "url": "/assets/native-face-factory-v2/generated/female-geometry-face-unmasked.vrm",
+            "reason": "body",
+            "sha256": "cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce",
+            "bytes": 17127172,
+            "externalUris": [],
+            "meta": {
+              "name": "Native female face derived correct",
+              "version": "geometry-production-v1-face-correct",
+              "authors": [
+                "gamemake technical study"
+              ],
+              "thumbnailImage": 21,
+              "licenseUrl": "https://vrm.dev/licenses/1.0/",
+              "avatarPermission": "onlyAuthor",
+              "allowExcessivelyViolentUsage": false,
+              "allowExcessivelySexualUsage": false,
+              "commercialUsage": "personalNonProfit",
+              "allowPoliticalOrReligiousUsage": false,
+              "allowAntisocialOrHateUsage": false,
+              "creditNotation": "required",
+              "allowRedistribution": false,
+              "modification": "prohibited"
+            }
+          },
+          {
+            "url": "/assets/native-face-factory-v2/equipment.json",
+            "reason": "equipment catalog",
+            "sha256": "fad086771438070cb504c676d57d8679fc0a4237249e21b875f308a198911a8d",
+            "bytes": 252736
+          },
+          {
+            "url": "/assets/native-face-factory-v2/native-vroid-face-geometry-top-v1.glb",
+            "reason": "equipment native-vroid-face-geometry-top-v1",
+            "sha256": "12bb9600c329b191862f04c13883f518b3b9538ebcafe7392ec58df909d54042",
+            "bytes": 778120,
+            "externalUris": []
+          },
+          {
+            "url": "/assets/native-face-factory-v2/native-vroid-face-geometry-shorts-v1.glb",
+            "reason": "equipment native-vroid-face-geometry-shorts-v1",
+            "sha256": "b8725064bf99bc9ae45d6af5200e81baba9a95d1497e57149cd47e7481103f4d",
+            "bytes": 721904,
+            "externalUris": []
+          },
+          {
+            "url": "/assets/native-face-factory-v2/native-vroid-face-geometry-shoes-v1.glb",
+            "reason": "equipment native-vroid-face-geometry-shoes-v1",
+            "sha256": "b92422c1ba7c018b04f80195d248f1ad46306a7fe7839ce2b44a9a1fbf26f3bc",
+            "bytes": 682856,
+            "externalUris": []
+          },
+          {
+            "url": "/assets/native-face-factory-v2/manifest.json",
+            "reason": "bodyTextureCoverage",
+            "sha256": "9fed8d43beef7149650d84dd6455bfae0a83029bb4a82899118ac93abd56d6a5",
+            "bytes": 2006
+          },
+          {
+            "url": "/assets/native-face-factory-v2/native-tops-body.png",
+            "reason": "native coverage PNG",
+            "sha256": "dc375769e28d015bc70c3cef6be1dec3794b5b2430a9bf173d60584105f68a8c",
+            "bytes": 859933
+          },
+          {
+            "url": "/assets/native-live-accessory-fit-v1/female-face-cc0843.json",
+            "reason": "mic grip JSON",
+            "sha256": "786b54bb0a9e9b91435cb2ac822fdf4c862a3de4538bd19684a54196b0ead7ea",
+            "bytes": 4063
+          },
+          {
+            "url": "/assets/native-glasses-fit-v1/native-female-face-v1.json",
+            "reason": "glasses fit JSON",
+            "sha256": "75d44cd87e753d5948d1e468aac1095c82931118cc07adcc0e52a3e7a9f65283",
+            "bytes": 7952
+          },
+          {
+            "url": "/assets/motion/m1c/dance-source-reference.glb",
+            "reason": "eager dance ual1-dance-reference",
+            "sha256": "b864ec5f440929133787791884e645a0bc73c323d107c9a9ef9937b4f1ca9744",
+            "bytes": 739436,
+            "externalUris": []
+          },
+          {
+            "url": "/assets/motion/m1c/dance-technical-v1.glb",
+            "reason": "eager dance dance-technical-once-v1",
+            "sha256": "2d785287de3c0187c76ed90ae6e0b76fed3008cb1a7a2ac75065720d3885304e",
+            "bytes": 2984076,
+            "externalUris": []
+          },
+          {
+            "url": "/assets/motion/m1c/native-rokoko-target-v2/native-female-face-v1.motion.json",
+            "reason": "eager dance native-rokoko-5359146-30s-v2",
+            "sha256": "c9742cc27094aebef5597848d5ccf7bf5bda6d50198db30abe4ba695da0fb200",
+            "bytes": 4533916
+          }
+        ]
+      },
+      "native-male-7586-v1": {
+        "input": "evidence/m2-character-runtime-fixed-v1/native-male-7586-v1-record.json",
+        "schema": "workbench-appearance-recipe-v9",
+        "look": "outfit 0，原发原色，耳帽 none，mic/glasses on。",
+        "files": [
+          {
+            "url": "/assets/native-male-factory-v1/native-vroid-male-unmasked-base-v1/generated/male-native-unmasked-79-v1.vrm",
+            "reason": "body",
+            "sha256": "7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81",
+            "bytes": 14194256,
+            "externalUris": [],
+            "meta": {
+              "name": "Native male production study",
+              "version": "study-v1",
+              "authors": [
+                "gamemake technical study"
+              ],
+              "thumbnailImage": 18,
+              "licenseUrl": "https://vrm.dev/licenses/1.0/",
+              "avatarPermission": "onlyAuthor",
+              "allowExcessivelyViolentUsage": false,
+              "allowExcessivelySexualUsage": false,
+              "commercialUsage": "personalNonProfit",
+              "allowPoliticalOrReligiousUsage": false,
+              "allowAntisocialOrHateUsage": false,
+              "creditNotation": "required",
+              "allowRedistribution": false,
+              "modification": "prohibited"
+            }
+          },
+          {
+            "url": "/assets/native-male-factory-v1/native-vroid-male-equipment-v1/generated/equipment.json",
+            "reason": "equipment catalog",
+            "sha256": "e412188206670c9bf84b7f2019aab8a60778a2d0f6ac29df9d92091fd18d80a8",
+            "bytes": 152515
+          },
+          {
+            "url": "/assets/native-male-factory-v1/native-vroid-male-equipment-v1/generated/native-unmasked-7586-top-v1.glb",
+            "reason": "equipment native-unmasked-7586-top-v1",
+            "sha256": "9276dd1dd88f1ac8ebdab228441eeaf50a3148d8a448d43dcb5c1a369385f4ae",
+            "bytes": 763240,
+            "externalUris": []
+          },
+          {
+            "url": "/assets/native-male-factory-v1/native-vroid-male-equipment-v1/generated/native-unmasked-7586-shorts-v1.glb",
+            "reason": "equipment native-unmasked-7586-shorts-v1",
+            "sha256": "1766826c44a0a8530caee223f29559c4ef5e462e372907db2e1b353a35252e71",
+            "bytes": 942240,
+            "externalUris": []
+          },
+          {
+            "url": "/assets/native-male-factory-v1/native-vroid-male-equipment-v1/generated/native-unmasked-7586-shoes-v1.glb",
+            "reason": "equipment native-unmasked-7586-shoes-v1",
+            "sha256": "e10770630ad50646c995b0b125af1ac3187649d60107b691f20a6e9dc92cca5f",
+            "bytes": 667976,
+            "externalUris": []
+          },
+          {
+            "url": "/assets/native-male-factory-v1/native-vroid-male-body-texture-fit-v1/generated/manifest.json",
+            "reason": "bodyTextureCoverage",
+            "sha256": "c432a7cdd1f6f5e5af4bf07b79465b902f26c09b00f39254f206c2df24617143",
+            "bytes": 1676
+          },
+          {
+            "url": "/assets/native-male-factory-v1/native-vroid-male-body-texture-fit-v1/generated/native-tops-body.png",
+            "reason": "native coverage PNG",
+            "sha256": "15ab2ecee54e10bfdb84a38be10e41fa7c7658e9a9f77b8293c2fd27569d7136",
+            "bytes": 859870
+          },
+          {
+            "url": "/assets/native-live-accessory-fit-v3/male-7586.json",
+            "reason": "mic grip JSON",
+            "sha256": "be8297dbe2f249541b4515ab25b7b0c9bdc1ae9309a34351514e701136273526",
+            "bytes": 4102
+          },
+          {
+            "url": "/assets/native-glasses-fit-v1/native-male-7586-v1.json",
+            "reason": "glasses fit JSON",
+            "sha256": "dad171703432b2916fe96f5644a6fda82c17c18215e72eb58ab00b7ce5b975b9",
+            "bytes": 7942
+          },
+          {
+            "url": "/assets/motion/m1c/dance-source-reference.glb",
+            "reason": "eager dance ual1-dance-reference",
+            "sha256": "b864ec5f440929133787791884e645a0bc73c323d107c9a9ef9937b4f1ca9744",
+            "bytes": 739436,
+            "externalUris": []
+          },
+          {
+            "url": "/assets/motion/m1c/dance-technical-v1.glb",
+            "reason": "eager dance dance-technical-once-v1",
+            "sha256": "2d785287de3c0187c76ed90ae6e0b76fed3008cb1a7a2ac75065720d3885304e",
+            "bytes": 2984076,
+            "externalUris": []
+          },
+          {
+            "url": "/assets/motion/m1c/native-rokoko-target-v2/native-male-7586-v1.motion.json",
+            "reason": "eager dance native-rokoko-5359146-30s-v2",
+            "sha256": "870db931721d91f5b3ab200162ef03810960e6fbe28db2f62a1942f27a1f05c0",
+            "bytes": 4533751
+          }
+        ],
+        "optionalExplicitLook": [
+          {
+            "url": "/assets/native-iris-palette-v1/manifest.json",
+            "reason": "native iris manifest",
+            "sha256": "909f1c8699d2dd0338854090dc4f534273e33a78d1c00c3f470eb2ff826d8b7a",
+            "bytes": 998
+          },
+          {
+            "url": "/assets/native-iris-palette-v1/source-iris.png",
+            "reason": "native iris source PNG",
+            "sha256": "9bdd32f2f6032e78dff1918bfc8e1cc9e631f9813de4c6c821d14e54bea3f510",
+            "bytes": 103091
+          },
+          {
+            "url": "/assets/native-iris-palette-v1/iris-green.png",
+            "reason": "native iris color PNG",
+            "sha256": "9ae7830f3840c8bcc17047fe974eabf9090140c84b275a182ef75b6192076c2d",
+            "bytes": 102611
+          },
+          {
+            "url": "/assets/native-eyebrow-palette-v1/manifest.json",
+            "reason": "native brow manifest",
+            "sha256": "acd3ec4703cac152890dda313f9b535d3efc5da3770fb4be28a4338e418e223a",
+            "bytes": 1086
+          },
+          {
+            "url": "/assets/native-eyebrow-palette-v1/source-brow.png",
+            "reason": "native brow source PNG",
+            "sha256": "651a9bfb2eafc3c111ab511ce92e534cf2d807897214a06ea5fc6c4b4fb156c4",
+            "bytes": 20438
+          },
+          {
+            "url": "/assets/native-eyebrow-palette-v1/brow-brown.png",
+            "reason": "native brow color PNG",
+            "sha256": "73b4aea1a0c64921fc177eecd87e5d4ebb994f13508c064ef9b1f8c82b96dedb",
+            "bytes": 18767
+          },
+          {
+            "url": "/assets/native-hairset001-v1/manifest.json",
+            "reason": "native replacement hair manifest",
+            "sha256": "7e74eebe4d634eae8b2455715899d53e4ba25a677fc0f3de8841a1a4c5766046",
+            "bytes": 1673
+          },
+          {
+            "url": "/assets/native-hairset001-v1/fit.json",
+            "reason": "native replacement hair fit",
+            "sha256": "c4b5f72aca522712256578cc30928ee80453945728e84e50411bed9954b0fb79",
+            "bytes": 27918
+          },
+          {
+            "url": "/assets/native-hairset001-v1/hair.glb",
+            "reason": "native replacement hair model",
+            "sha256": "cfa965e68d4f11ca1a93096edb43f5b7657862f10c40b9d88f5b0fd404ae5a02",
+            "bytes": 1587516,
+            "externalUris": []
+          }
+        ]
+      },
+      "male": {
+        "input": "scripts/runtime-package/fixtures/male-outer-shorts.json",
+        "schema": "runtime-selected-look-v1",
+        "look": "旧男 outfit 4，outfit 0 的长裤仍急加载，独立短裤材质 v4 是显式 sidecar。",
+        "files": [
+          {
+            "url": "/assets/foundation/base-male-roundtrip.vrm",
+            "reason": "body",
+            "sha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+            "bytes": 17902644,
+            "externalUris": []
+          },
+          {
+            "url": "/assets/m1b/equipment.json",
+            "reason": "equipment catalog",
+            "sha256": "baacba8b947cbbc4d4cb5658177e8449a95ff93b80555eedb62f2e0e576b70d2",
+            "bytes": 49832
+          },
+          {
+            "url": "/assets/m1b/m1b-uniform-top.glb",
+            "reason": "equipment m1b-uniform-top",
+            "sha256": "393a2a97e9a933c4f8170720cf1d5792a18f282166abf7e5ffbba0d0de1fc32c",
+            "bytes": 2762452,
+            "externalUris": []
+          },
+          {
+            "url": "/assets/m1b/m1b-uniform-shoes.glb",
+            "reason": "equipment m1b-uniform-shoes",
+            "sha256": "3e855c7f39a183ab44b8aef3ac92898f6ebc36a7cbc0e6ccfdd485b85607fe2f",
+            "bytes": 157376,
+            "externalUris": []
+          },
+          {
+            "url": "/assets/m1b/m1b-uniform-pants.glb",
+            "reason": "equipment m1b-uniform-pants",
+            "sha256": "e4e213c9eed7912ff7fa75b81c957b7e944036ffb81cdcbd63813c11bd7e168c",
+            "bytes": 819744,
+            "externalUris": []
+          },
+          {
+            "url": "/assets/m1b/m1b-uniform-shorts-v1.glb",
+            "reason": "equipment m1b-uniform-shorts-v1",
+            "sha256": "c8a1afd0742cbb99302abc107673744751a8cfd77c6c89df039b068054a947d0",
+            "bytes": 795852,
+            "externalUris": []
+          },
+          {
+            "url": "/assets/m2-outer-panels-v2/author-export.glb",
+            "reason": "equipment m2-male-open-vest-panels-v2",
+            "sha256": "0631cf9d1ec297e8504d5ed73f5e1325d3154be9de09906bb6e7131488e89330",
+            "bytes": 150056,
+            "externalUris": []
+          },
+          {
+            "url": "/assets/forearm-collision-v2/male.json",
+            "reason": "forearmCollision",
+            "sha256": "f6ec1714c80e492bc129078e179d12c48a4f7e072e5d0249d52b4943b75fbf15",
+            "bytes": 25016
+          },
+          {
+            "url": "/assets/m2-garment-coverage-v1/coverage-mask.json",
+            "reason": "garmentCoverage",
+            "sha256": "9da63589879a129aacddded37d9dfcc60d7f32364a394c316737c9999f65bfc6",
+            "bytes": 6048
+          },
+          {
+            "url": "/assets/motion/m1c/dance-source-reference.glb",
+            "reason": "eager dance ual1-dance-reference",
+            "sha256": "b864ec5f440929133787791884e645a0bc73c323d107c9a9ef9937b4f1ca9744",
+            "bytes": 739436,
+            "externalUris": []
+          },
+          {
+            "url": "/assets/motion/m1c/dance-technical-v1.glb",
+            "reason": "eager dance dance-technical-once-v1",
+            "sha256": "2d785287de3c0187c76ed90ae6e0b76fed3008cb1a7a2ac75065720d3885304e",
+            "bytes": 2984076,
+            "externalUris": []
+          },
+          {
+            "url": "/assets/motion/m1c/frozen-rokoko-30s-v1/rokoko-5359146-male-v1.motion.json",
+            "reason": "eager dance rokoko-5359146-30s-v1",
+            "sha256": "1510d4470965b6ce651c08a7bfb830abbdf34794f06175d50b9a822b34a371bf",
+            "bytes": 4543583
+          },
+          {
+            "url": "/assets/motion/m1c/frozen-rokoko-30s-v1/rokoko-5359146-male-arm-local-v1.motion.json",
+            "reason": "eager dance rokoko-5359146-30s-arm-local-v1",
+            "sha256": "5fe55028a0c48e76ec6a506475656f9486512c86c1fdd4b1bea0226300c50702",
+            "bytes": 4543566
+          },
+          {
+            "url": "/assets/material-recipes/m1b-shorts-cloth-v4-review1.json",
+            "reason": "separate selected material",
+            "sha256": "6307ada57e83d74a34305708e747f452c9bde9f4b18dc4caea150f83d9d32824",
+            "bytes": 1286
+          }
+        ]
+      }
+    }
+  }
+}

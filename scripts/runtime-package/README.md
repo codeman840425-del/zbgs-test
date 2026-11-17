@@ -53,3 +53,22 @@ The original equipment/dance catalogs retain metadata for unexported choices. `c
 The existing fixed room HTML and its DOM remain necessary. `unsupportedNavigation` explicitly records its historical foundation-preview and author-machine baseline navigation links. They remain unchanged HTML metadata, and the exported assets, records and command chain do not consume either address. The historical link is not a portable runtime dependency. This package does not establish DOM-independent game consumption or complete CUSTOM-P03.
 
 CPU checks cover actual file identities, deterministic repeated export, modified/missing dependencies, edited inventory deletion/substitution, external/path escape refusal and output conflict. Browser network closure, clean-directory loading/reopening, motion/visual acceptance and target-device performance require root's separate fixed-runtime validation. No browser, GPU, Blender, model re-export or compression runs here.
+
+
+## Complete character record adapter
+
+`record-cli.mjs` is separate from the historical 801 adapter. Its reviewed runtime/source identity and bundle hashes are in `record-runtime-reviewed.json`; pass the matching exact source checkout as `--source-root`. It verifies build metadata before source import, reproduces the source digest, validates the record envelope and registered fit, then collects startup and selected-look dependencies from the real loader contracts.
+
+```powershell
+node scripts/runtime-package/record-cli.mjs inventory --record CHARACTER_RECORD.json --dist FIXED_DIST --source-root EXACT_CHECKOUT --out FRESH_INVENTORY.json
+node scripts/runtime-package/record-cli.mjs export --inventory FRESH_INVENTORY.json --dist FIXED_DIST --source-root EXACT_CHECKOUT --out FRESH_PACKAGE
+node scripts/run-fixed-check.cjs FRESH_PACKAGE scripts/qa-character-record-package.cjs FRESH_EVIDENCE
+```
+
+The new inventory schema is `character-record-package-inventory-v1`. The generated `character-record.json` preserves identity, final appearance, live props and garment material selection. It is compact JSON, checked against the actual runtime 512 KiB input limit. The manifest is regenerated before export; deleted or substituted declarations, edited build/assets, existing outputs and unsafe paths fail without replacing prior output. Shared copier handling for the historical schema is unchanged.
+
+Serve the fresh package at an origin root and open the manifest's `runtime.entryUrl`. Use the existing workbench complete-record file reader, or await the existing shared `__debug.restoreCharacterRecord(await fetch('/character-record.json').then(r=>r.json()))` production path. No asset generation, desktop authoring software or original repository HTTP server is required for that selected runtime. The unchanged room HTML/DOM is still required; this is not yet the independent deterministic game consumer of D03.
+
+Only selected and necessary startup assets are included. Catalog metadata for unexported choices and historical evidence/navigation links remain; these links are not portable package capabilities. Manifests retain their original asset provenance and license boundaries. An internal-use author sample does not acquire public redistribution rights by being exported.
+
+The asset collector has source-based checks for body, default/selected outfits, coverage, motion, face/hair/colors/layers/ear/hat and live props. CPU path/byte coverage does not certify every combination visually. Actual package browser coverage and remaining limits belong in CAPABILITIES and the fixed report. HTTP verification uses unchanged buffered responses to avoid Chrome inspector-body eviction; it is not a performance test. Runtime-created blob image responses are counted separately from local HTTP dependencies.
