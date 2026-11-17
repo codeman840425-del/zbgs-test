@@ -1,0 +1,82 @@
+{
+  "id": "analog-clock-shelf-square",
+  "displayName": "方框台面钟",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "analog-clock-shelf",
+  "productionBranch": "analog-clock-shelf",
+  "mount": "support-surface",
+  "mounting": {
+    "origin": "bottom",
+    "width": 0.35,
+    "height": 0.35,
+    "depth": 0.08
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Bottom centre",
+    "scale": "Identity only"
+  },
+  "provenance": {
+    "license": "Project-authored geometry reusing the pinned company clock source. No external art assets.",
+    "prompt": "Purpose: authored support-surface tabletop and shelf clocks that reuse the verified host-driven analog or digital display geometry. Specification: preserve the wall clock display envelope and fixed display nodes while adding a bottom-centred support base, analog 0.35m x 0.35m x 0.08m or digital 0.50m x 0.18m x 0.06m. Units are metres, up is +Y, forward is +Z, and the installation origin is the bottom centre. Installation and load bearing: support-surface prop with mounting origin bottom, no scaling and no use points. Budget: reuse the pinned clock geometry with a real base, no textures, no animation, no external art, and the prior clock mesh/material/byte limits. State: host-driven time and existing clock settings, no new timer. Source/export: project-authored supported-clock parameters plus the pinned clock source/generator, GLTFExporter and GLTFLoader readback. Design difference: Project-authored supported square analog clock with a centered solid base and squared front trim.",
+    "tools": [
+      "Three.js 187",
+      "Pinned build-clocks.mjs display factory",
+      "BoxGeometry support base",
+      "GLTFExporter",
+      "GLTFLoader readback"
+    ],
+    "sourceParameters": "assets-source/company-supported-clock-v1/parameters.json",
+    "sourceParametersSha256": "ab18f149e3ee6f975914039a59d712ec4ea914e90410d5268b2dd682a3df4b54",
+    "sourceDesign": "square",
+    "baseClockSource": "assets-source/company-clock-v1/parameters.json",
+    "baseClockSourceSha256": "944c9868bd5d38f791a5261a54fdb85f1ada443243bff21ff6844adbfed631d0",
+    "baseClockGenerator": "scripts/company-platform/build-clocks.mjs",
+    "baseClockGeneratorSha256": "ce6c96f45465acff3bf2d0157e3037aba8d5b6c79122f25fc17e27e4866d39ba",
+    "functionalContractSource": "docs/COMPANY-SUPPORTED-CLOCK-CONTRACT-v1.txt",
+    "functionalContractSourceSha256": "12223cebf10049582be7e5f84ebc8ea8efa6d3bd52abda640171e4525a1e50d1",
+    "generator": "scripts/company-platform/build-supported-clocks.mjs",
+    "generatorSha256": "2d23442f9f99c5d17d8554c04dfafb8d6c70ad6995139664a1beb38570c86768",
+    "method": "Project-authored supported square analog clock with a centered solid base and squared front trim."
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/supported-clock-v1/analog-square/v1/model.glb",
+    "sha256": "0148de61df4e4e6eb52edf0b21ba33ad1ebde3ef9b4183c4d0b3b7d7347c076c",
+    "bytes": 27300
+  },
+  "clockDisplay": {
+    "kind": "analog",
+    "format": "12h",
+    "seconds": true,
+    "frame": [
+      0,
+      0.175,
+      -0.04
+    ]
+  },
+  "clockNodes": {
+    "hour": "clock-hour-pivot",
+    "minute": "clock-minute-pivot",
+    "second": "clock-second-pivot",
+    "frame": "clock-display-frame",
+    "base": "clock-base"
+  },
+  "stateDefaults": {
+    "timeOffsetSeconds": 0
+  },
+  "stateSchema": {
+    "timeOffsetSeconds": {
+      "type": "number",
+      "min": -86400,
+      "max": 86400
+    }
+  },
+  "stateSemantics": {
+    "timeOffsetSeconds": "host-clock-offset-seconds"
+  },
+  "usePoints": []
+}

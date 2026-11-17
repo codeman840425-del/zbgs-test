@@ -1,0 +1,320 @@
+{
+  "status": "passed",
+  "generatedAt": "2026-11-17T01:22:18.069Z",
+  "configuration": {
+    "difficulty": "complex",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "high",
+    "actualProviderConfiguration": "not independently verified",
+    "hostHookInterception": "not independently verified"
+  },
+  "api": "validateClockGeometry(scene, resource, fail, path) support-surface branch",
+  "checks": [
+    {
+      "name": "supported analog frame and solid base pass",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "kind": "analog",
+        "pivots": [
+          "clock-hour-pivot",
+          "clock-minute-pivot",
+          "clock-second-pivot"
+        ],
+        "pointerLengths": [
+          0.085,
+          0.12,
+          0.14
+        ],
+        "frame": "clock-display-frame",
+        "base": {
+          "base": "clock-base",
+          "dimensions": [
+            0.22,
+            0.01,
+            0.08
+          ]
+        }
+      }
+    },
+    {
+      "name": "supported digital frame and solid base pass",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "kind": "digital",
+        "digits": 6,
+        "segments": 42,
+        "colons": 4,
+        "frame": "clock-display-frame",
+        "base": {
+          "base": "clock-base",
+          "dimensions": [
+            0.38,
+            0.01,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "name": "analog frame translation mismatch is rejected",
+      "passed": true,
+      "observed": {
+        "code": "clock-frame-transform",
+        "path": "supported-analog.clockNodes.frame",
+        "message": "Clock frame must match the declared resource-root translation with zero pose and unit scale"
+      }
+    },
+    {
+      "name": "analog missing body connection is rejected",
+      "passed": true,
+      "observed": {
+        "code": "clock-base-connection",
+        "path": "supported-analog.clockNodes.base",
+        "message": "Supported clock base must have an actual solid connection to the display body"
+      }
+    },
+    {
+      "name": "analog thin base is rejected",
+      "passed": true,
+      "observed": {
+        "code": "clock-base-geometry",
+        "path": "supported-analog.clockNodes.base",
+        "message": "Supported clock base must match its complete centered solid rectangle"
+      }
+    },
+    {
+      "name": "analog display outside frame is rejected",
+      "passed": true,
+      "observed": {
+        "code": "clock-pointer-geometry",
+        "path": "supported-analog.clockNodes",
+        "message": "Analog pivot must contain a visible solid pointer mesh"
+      }
+    },
+    {
+      "name": "digital frame translation mismatch is rejected",
+      "passed": true,
+      "observed": {
+        "code": "clock-frame-transform",
+        "path": "supported-digital.clockNodes.frame",
+        "message": "Clock frame must match the declared resource-root translation with zero pose and unit scale"
+      }
+    },
+    {
+      "name": "digital missing body connection is rejected",
+      "passed": true,
+      "observed": {
+        "code": "clock-base-connection",
+        "path": "supported-digital.clockNodes.base",
+        "message": "Supported clock base must have an actual solid connection to the display body"
+      }
+    },
+    {
+      "name": "digital thin base is rejected",
+      "passed": true,
+      "observed": {
+        "code": "clock-base-geometry",
+        "path": "supported-digital.clockNodes.base",
+        "message": "Supported clock base must match its complete centered solid rectangle"
+      }
+    },
+    {
+      "name": "digital segment outside frame is rejected",
+      "passed": true,
+      "observed": {
+        "code": "clock-display-node",
+        "path": "supported-digital.clockNodes.digits[0][0]",
+        "message": "Clock mapping must uniquely resolve to the requested actual node"
+      }
+    }
+  ],
+  "realAssets": [
+    {
+      "id": "analog-octagon",
+      "result": {
+        "checked": true,
+        "kind": "analog",
+        "pivots": [
+          "clock-hour-pivot",
+          "clock-minute-pivot",
+          "clock-second-pivot"
+        ],
+        "pointerLengths": [
+          0.085,
+          0.12,
+          0.14
+        ],
+        "frame": "clock-display-frame",
+        "base": {
+          "base": "clock-base",
+          "dimensions": [
+            0.22,
+            0.01,
+            0.08
+          ]
+        }
+      }
+    },
+    {
+      "id": "analog-round",
+      "result": {
+        "checked": true,
+        "kind": "analog",
+        "pivots": [
+          "clock-hour-pivot",
+          "clock-minute-pivot",
+          "clock-second-pivot"
+        ],
+        "pointerLengths": [
+          0.085,
+          0.12,
+          0.14
+        ],
+        "frame": "clock-display-frame",
+        "base": {
+          "base": "clock-base",
+          "dimensions": [
+            0.22,
+            0.01,
+            0.08
+          ]
+        }
+      }
+    },
+    {
+      "id": "analog-spoke",
+      "result": {
+        "checked": true,
+        "kind": "analog",
+        "pivots": [
+          "clock-hour-pivot",
+          "clock-minute-pivot",
+          "clock-second-pivot"
+        ],
+        "pointerLengths": [
+          0.085,
+          0.12,
+          0.14
+        ],
+        "frame": "clock-display-frame",
+        "base": {
+          "base": "clock-base",
+          "dimensions": [
+            0.22,
+            0.01,
+            0.08
+          ]
+        }
+      }
+    },
+    {
+      "id": "analog-square",
+      "result": {
+        "checked": true,
+        "kind": "analog",
+        "pivots": [
+          "clock-hour-pivot",
+          "clock-minute-pivot",
+          "clock-second-pivot"
+        ],
+        "pointerLengths": [
+          0.085,
+          0.12,
+          0.14
+        ],
+        "frame": "clock-display-frame",
+        "base": {
+          "base": "clock-base",
+          "dimensions": [
+            0.22,
+            0.01,
+            0.08
+          ]
+        }
+      }
+    },
+    {
+      "id": "digital-flat",
+      "result": {
+        "checked": true,
+        "kind": "digital",
+        "digits": 6,
+        "segments": 42,
+        "colons": 4,
+        "frame": "clock-display-frame",
+        "base": {
+          "base": "clock-base",
+          "dimensions": [
+            0.38,
+            0.01,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "digital-layered",
+      "result": {
+        "checked": true,
+        "kind": "digital",
+        "digits": 6,
+        "segments": 42,
+        "colons": 4,
+        "frame": "clock-display-frame",
+        "base": {
+          "base": "clock-base",
+          "dimensions": [
+            0.38,
+            0.01,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "digital-recessed",
+      "result": {
+        "checked": true,
+        "kind": "digital",
+        "digits": 6,
+        "segments": 42,
+        "colons": 4,
+        "frame": "clock-display-frame",
+        "base": {
+          "base": "clock-base",
+          "dimensions": [
+            0.38,
+            0.01,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "digital-side-bracket",
+      "result": {
+        "checked": true,
+        "kind": "digital",
+        "digits": 6,
+        "segments": 42,
+        "colons": 4,
+        "frame": "clock-display-frame",
+        "base": {
+          "base": "clock-base",
+          "dimensions": [
+            0.38,
+            0.01,
+            0.06
+          ]
+        }
+      }
+    }
+  ],
+  "limits": [
+    "CPU-only synthetic Three scenes and optional GLTFLoader readback. No browser, GPU, clock runtime or support placement transaction.",
+    "Wall clock validation remains in the prior clock geometry report. This package checks support frame transforms, solid bases and frame-to-base mesh contact.",
+    "Support-surface attachment fit and support-geometry ground/contact checks remain owned by the existing support validators."
+  ]
+}

@@ -1443,15 +1443,33 @@
             "层板安装"
           ],
           "fixedFunctionAndInstall": {
-            "mount": "shelf-surface",
+            "mount": "support-surface",
             "dimensionsMeters": {
               "width": 0.35,
               "height": 0.35,
               "depth": 0.08,
-              "verification": "pending"
+              "contract": "docs/COMPANY-SUPPORTED-CLOCK-CONTRACT-v1.txt"
             },
             "parent": "room.shelf",
-            "state": "time-driven"
+            "state": {
+              "clockDisplay": {
+                "kind": "analog",
+                "format": "12h",
+                "seconds": true,
+                "frame": [
+                  0,
+                  0.175,
+                  -0.04
+                ]
+              },
+              "fields": {
+                "timeOffsetSeconds": {
+                  "type": "number",
+                  "min": -86400,
+                  "max": 86400
+                }
+              }
+            }
           },
           "mechanismDependencies": [
             "wall-shelf-mount",
@@ -1460,12 +1478,33 @@
             "save-restore"
           ],
           "minimumCompatibleAppearances": [
-            "圆形挂钟",
-            "方形挂钟",
-            "台式指针钟",
-            "工业风指针钟"
+            "圆框台面钟",
+            "方框台面钟",
+            "八角台面钟",
+            "辐条台面钟"
           ],
-          "reusableResources": [],
+          "reusableResources": [
+            {
+              "id": "analog-clock-shelf-round",
+              "version": 1,
+              "reuseKind": "same-fixed-spec"
+            },
+            {
+              "id": "analog-clock-shelf-square",
+              "version": 1,
+              "reuseKind": "same-fixed-spec"
+            },
+            {
+              "id": "analog-clock-shelf-octagon",
+              "version": 1,
+              "reuseKind": "same-fixed-spec"
+            },
+            {
+              "id": "analog-clock-shelf-spoke",
+              "version": 1,
+              "reuseKind": "same-fixed-spec"
+            }
+          ],
           "requiredIndependentMechanisms": [
             "宿主时间输入",
             "指针驱动",
@@ -1482,15 +1521,41 @@
             "层板安装"
           ],
           "fixedFunctionAndInstall": {
-            "mount": "shelf-surface",
+            "mount": "support-surface",
             "dimensionsMeters": {
               "width": 0.5,
               "height": 0.18,
               "depth": 0.06,
-              "verification": "pending"
+              "contract": "docs/COMPANY-SUPPORTED-CLOCK-CONTRACT-v1.txt"
             },
             "parent": "room.shelf",
-            "state": "time-driven"
+            "state": {
+              "clockDisplay": {
+                "kind": "digital",
+                "format": "24h",
+                "seconds": true,
+                "frame": [
+                  0,
+                  0.09,
+                  -0.03
+                ]
+              },
+              "fields": {
+                "timeOffsetSeconds": {
+                  "type": "number",
+                  "min": -86400,
+                  "max": 86400
+                },
+                "on": {
+                  "type": "boolean"
+                },
+                "brightness": {
+                  "type": "number",
+                  "min": 0,
+                  "max": 1
+                }
+              }
+            }
           },
           "mechanismDependencies": [
             "wall-shelf-mount",
@@ -1499,12 +1564,33 @@
             "save-restore"
           ],
           "minimumCompatibleAppearances": [
-            "LED数字",
-            "翻页数字",
-            "分段数字",
-            "日期时间组合"
+            "平框台面数字钟",
+            "分层台面数字钟",
+            "双侧支架台面数字钟",
+            "凹槽台面数字钟"
           ],
-          "reusableResources": [],
+          "reusableResources": [
+            {
+              "id": "digital-clock-shelf-flat",
+              "version": 1,
+              "reuseKind": "same-fixed-spec"
+            },
+            {
+              "id": "digital-clock-shelf-layered",
+              "version": 1,
+              "reuseKind": "same-fixed-spec"
+            },
+            {
+              "id": "digital-clock-shelf-side-bracket",
+              "version": 1,
+              "reuseKind": "same-fixed-spec"
+            },
+            {
+              "id": "digital-clock-shelf-recessed",
+              "version": 1,
+              "reuseKind": "same-fixed-spec"
+            }
+          ],
           "requiredIndependentMechanisms": [
             "宿主时间输入",
             "数字显示字段",

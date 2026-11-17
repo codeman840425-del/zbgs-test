@@ -1,0 +1,33 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "name": "Eight supported appearances share branch function but cannot replace wall clocks or arbitrary frames",
+      "passed": true
+    },
+    {
+      "name": "Real clock bottom contacts follow parent translation/yaw and host updates never rotate base or display frame",
+      "passed": true
+    },
+    {
+      "name": "Each actual clock appearance preserves state and exact local mounting through restore",
+      "passed": true
+    },
+    {
+      "name": "Parent appearance replacement and assembly copy preserve children with independent identities/settings",
+      "passed": true,
+      "result": {
+        "copiedClock": "copy/extra-3",
+        "copiedParent": "copy/extra-1"
+      }
+    },
+    {
+      "name": "Whole-prop overhang and wrong height fail without changing saved state or current geometry",
+      "passed": true
+    }
+  ],
+  "limits": [
+    "CPU actual GLB checks only; browser restart and final fixed media separately required.",
+    "No stability, mass, physics or role acceptance."
+  ]
+}

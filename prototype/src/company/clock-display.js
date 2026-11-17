@@ -9,17 +9,19 @@ export function validateClockResource(resource, fail, path = resource.id) {
     return;
   }
   const display = resource.clockDisplay, mapping = resource.clockNodes, digital = display?.kind === 'digital';
+  const supported = resource.mount === 'support-surface', frame = digital ? [0,.09,-.03] : [0,.175,-.04];
   const fields = digital ? ['timeOffsetSeconds', 'on', 'brightness'] : ['timeOffsetSeconds'];
   const size = digital ? [.5, .18, .06] : [.35, .35, .08];
   const mounting = resource.mounting;
-  if (!keys(display, ['kind', 'format', 'seconds']) || !['analog', 'digital'].includes(display.kind) ||
+  if (!keys(display, supported ? ['kind', 'format', 'seconds', 'frame'] : ['kind', 'format', 'seconds']) || !['analog', 'digital'].includes(display.kind) ||
       display.format !== (digital ? '24h' : '12h') || display.seconds !== true || !resource.asset ||
-      resource.mount !== 'wall' || !mounting || mounting.origin !== 'center' ||
+      (!supported && resource.mount !== 'wall') || !mounting || mounting.origin !== (supported ? 'bottom' : 'center') ||
+      (supported && (!Array.isArray(display.frame) || display.frame.length !== 3 || frame.some((value,i) => display.frame[i] !== value))) ||
       ['width', 'height', 'depth'].some((field, i) => mounting[field] !== size[i]) ||
       resource.movingParts || resource.light || resource.display || resource.usePoints?.length ||
       resource.footprint?.blocking || !keys(resource.stateDefaults, fields) || !keys(resource.stateSchema, fields) ||
       !keys(resource.stateSemantics, fields))
-    fail('invalid-clock-contract', path, 'Expected the fixed wall clock display, mounting and state fields');
+    fail('invalid-clock-contract', path, 'Expected the fixed clock display, mounting and state fields');
   const offset = resource.stateSchema.timeOffsetSeconds;
   if (!keys(offset, ['type', 'min', 'max']) || offset.type !== 'number' || offset.min !== -86400 || offset.max !== 86400 ||
       resource.stateDefaults.timeOffsetSeconds !== 0 || resource.stateSemantics.timeOffsetSeconds !== 'host-clock-offset-seconds')
@@ -31,14 +33,15 @@ export function validateClockResource(resource, fail, path = resource.id) {
         !keys(brightness, ['type', 'min', 'max']) || brightness.type !== 'number' || brightness.min !== 0 || brightness.max !== 1 ||
         resource.stateDefaults.on !== true || resource.stateDefaults.brightness !== 1 ||
         resource.stateSemantics.on !== 'clock-display-powered' || resource.stateSemantics.brightness !== 'clock-display-brightness' ||
-        !keys(mapping, ['digits', 'colons']) || !Array.isArray(mapping.digits) || mapping.digits.length !== 6 ||
+        !keys(mapping, supported ? ['digits', 'colons', 'frame', 'base'] : ['digits', 'colons']) || !Array.isArray(mapping.digits) || mapping.digits.length !== 6 ||
         mapping.digits.some(digit => !Array.isArray(digit) || digit.length !== 7) || !Array.isArray(mapping.colons) || mapping.colons.length !== 4)
       fail('invalid-clock-contract', path, 'Expected six seven-segment digits, four dots and powered brightness');
     names = [...mapping.digits.flat(), ...mapping.colons];
   } else {
-    if (!keys(mapping, ['hour', 'minute', 'second'])) fail('invalid-clock-contract', path, 'Expected three named hand pivots');
+    if (!keys(mapping, supported ? ['hour', 'minute', 'second', 'frame', 'base'] : ['hour', 'minute', 'second'])) fail('invalid-clock-contract', path, 'Expected three named hand pivots');
     names = [mapping.hour, mapping.minute, mapping.second];
   }
+  if (supported) names.push(mapping.frame, mapping.base);
   if (names.some(value => !name(value)) || new Set(names).size !== names.length)
     fail('invalid-clock-contract', path, 'Display mappings must name distinct actual nodes');
 }
@@ -67,7 +70,7 @@ export function bindClockDisplay(resource, nodes, state) {
     return node;
   };
   if (resource.clockDisplay.kind === 'analog') {
-    const hands = Object.fromEntries(Object.entries(resource.clockNodes).map(([part, name]) => [part, get(name)]));
+    const hands = Object.fromEntries(['hour','minute','second'].map(part => [part, get(resource.clockNodes[part])]));
     return {apply(input) {
       const reading = clockReading(input.clockSeconds, state.timeOffsetSeconds);
       for (const [part, node] of Object.entries(hands)) node.rotation.z = reading.angles[part];

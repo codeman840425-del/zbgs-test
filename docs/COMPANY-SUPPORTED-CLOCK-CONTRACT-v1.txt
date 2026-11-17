@@ -1,0 +1,21 @@
+公司台面/层板钟表合同 v1
+
+主包缺口：analog-clock-shelf、digital-clock-shelf 两个已确认分支尚无四款真实资源及承载运行证据。
+输入：已固定挂墙钟表生产参数/函数、既有support-surface承载合同、宿主clockSeconds和设备设置。
+产物：各四款带实际底座的台面钟、可重复源/导出/登记、两种层架布局、父子变换与独立恢复证据、固定交付和正常速度录像。
+最小验收：每款实际替换与关闭重开；父层架移动/转向/复制/同规格替换后，时钟基底、时间和各实例设置正确；承载越界/错误高度/净空不足与坏显示框拒绝并保旧；同显示函数消费宿主时间，不另造时钟或角色系统。
+预算：一次初始实现，一次按真实失败证据修正；同因两轮无改善先重新定位。维持上一包静态mesh/面数/材质/字节预算；不声称普通电脑达标。
+
+沿docs/COMPANY-CLOCK-CONTRACT-v1.txt复用指针、七段数字、时间输入和状态语义。挂墙八款定义及语义保持不变。本补充只扩展有明确规格的承载安装。
+mount:'support-surface'，mounting.origin:'bottom'。基点为底面中心、米制、+Y向上、+Z朝前；包络analog .35×.35×.08，digital .5×.18×.06（宽×高×深），x/z居中，y从0起。不缩放挂墙钟，而把同规格显示部件放入固定局部显示框。
+clockDisplay保留kind/format/seconds，新增frame:[0,.175,-.04]（analog）或[0,.09,-.03]（digital），frame是固定功能合同的一部分。
+clockNodes新增frame:'clock-display-frame'、base:'clock-base'，其余指针/数字段映射沿上一包。frame为唯一组，其相对资源根位置恰等于clockDisplay.frame，旋转0、缩放1；所有显示节点须属于这个组，内部沿已验证的原局部坐标，不允许另有偏移/缩放祖先。
+base为资源根下的真实实体底座。analog底座宽.22、深.08、高.01，中心[0,.005,0]；digital宽.38、深.06、高.01，中心同前。底面y=0，完整实体矩形，不能用单点/空组/薄片代替。底座须与表体底部接触或有明确实体接连；不模拟重心、质量或翻倒。
+显示框不承载独立任务或身份；父设施/attachment仍沿现有公司文档关系。附着attachment.surfaceId选择实际支持面，位置y等于其topY；完整包络及旋转后宽深符合面内范围和净空。柜/层架位置改变须同步实际钟体；看不见的楼层仍保存完整父子/状态。
+时间设置和数字开关亮度沿上一包保存；宿主时间不写布局。原wall和本support-surface安装规格不兼容，不能作为普通换外观跨安装替换；同一台面分支四款兼容。
+
+生产：复用build-clocks.mjs已有参数化造型函数，在新生产入口构建显示组与实体底座；新参数声明并校验基础参数/生成器版本摘要。来源、重复导出和真实参数修订沿现有机制。不得复制模型改ID冒充安装适配，也不改已交付挂墙源。四款同分支之间仍有真实不同框体。
+可在已有多层开放架与柜顶等明确supportSurfaces使用；旧desk-surface设备合同不静默等价为support-surface，本包不为普通桌子补一套新承载逻辑。
+几何验证：完整底部/包络、实际base实体、与表体接连、固定显示框和内部映射；原指针/数字几何检查在显示框坐标系内复用，保证全模型父变换可重建；错误frame/base/指针/数字段应给具体原因。
+
+依据：已交付clock source93e13399/build5c1451b072ae；support-data.js与support-geometry.js的固定支持面规则；Three Object3D文档 https://threejs.org/docs/pages/Object3D.html ，并核锁定Three187的Object3D本地position/matrixWorld父子变换。使用已有Group层次和实例材质隔离，无新增物理/时间系统。

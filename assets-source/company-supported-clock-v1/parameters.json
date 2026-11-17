@@ -1,0 +1,30 @@
+{
+  "id": "company-supported-clock-v1",
+  "version": 1,
+  "baseClockSource": "assets-source/company-clock-v1/parameters.json",
+  "baseClockGenerator": "scripts/company-platform/build-clocks.mjs",
+  "baseClockSourceSha256": "944c9868bd5d38f791a5261a54fdb85f1ada443243bff21ff6844adbfed631d0",
+  "baseClockGeneratorSha256": "ce6c96f45465acff3bf2d0157e3037aba8d5b6c79122f25fc17e27e4866d39ba",
+  "common": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "supportMount": "support-surface",
+    "analogEnvelope": { "width": 0.35, "height": 0.35, "depth": 0.08 },
+    "digitalEnvelope": { "width": 0.5, "height": 0.18, "depth": 0.06 },
+    "promptStandard": "Purpose: authored support-surface tabletop and shelf clocks that reuse the verified host-driven analog or digital display geometry. Specification: preserve the wall clock display envelope and fixed display nodes while adding a bottom-centred support base, analog 0.35m x 0.35m x 0.08m or digital 0.50m x 0.18m x 0.06m. Units are metres, up is +Y, forward is +Z, and the installation origin is the bottom centre. Installation and load bearing: support-surface prop with mounting origin bottom, no scaling and no use points. Budget: reuse the pinned clock geometry with a real base, no textures, no animation, no external art, and the prior clock mesh/material/byte limits. State: host-driven time and existing clock settings, no new timer. Source/export: project-authored supported-clock parameters plus the pinned clock source/generator, GLTFExporter and GLTFLoader readback.",
+    "base": { "analogWidth": 0.22, "analogDepth": 0.08, "digitalWidth": 0.38, "digitalDepth": 0.06, "height": 0.01 }
+  },
+  "analog": [
+    { "id": "round", "label": "圆框台面钟", "sourceDesign": "round", "prompt": "Project-authored supported round analog clock with a centered solid base and a low front trim lip.", "license": "Project-authored geometry reusing the pinned company clock source. No external art assets.", "differences": { "trimHeight": 0.004 } },
+    { "id": "square", "label": "方框台面钟", "sourceDesign": "square", "prompt": "Project-authored supported square analog clock with a centered solid base and squared front trim.", "license": "Project-authored geometry reusing the pinned company clock source. No external art assets.", "differences": { "trimHeight": 0.004 } },
+    { "id": "octagon", "label": "八角台面钟", "sourceDesign": "octagon", "prompt": "Project-authored supported octagonal analog clock with a centered solid base and front trim.", "license": "Project-authored geometry reusing the pinned company clock source. No external art assets.", "differences": { "trimHeight": 0.004 } },
+    { "id": "spoke", "label": "辐条台面钟", "sourceDesign": "spoke", "prompt": "Project-authored supported radial analog clock with a centered solid base and front trim.", "license": "Project-authored geometry reusing the pinned company clock source. No external art assets.", "differences": { "trimHeight": 0.004 } }
+  ],
+  "digital": [
+    { "id": "flat", "label": "平框台面数字钟", "sourceDesign": "flat", "prompt": "Project-authored supported flat digital clock with a centered solid base and front trim.", "license": "Project-authored geometry reusing the pinned company clock source. No external art assets.", "differences": { "trimHeight": 0.004 } },
+    { "id": "layered", "label": "分层台面数字钟", "sourceDesign": "layered", "prompt": "Project-authored supported layered digital clock with a centered solid base and front trim.", "license": "Project-authored geometry reusing the pinned company clock source. No external art assets.", "differences": { "trimHeight": 0.004 } },
+    { "id": "side-bracket", "label": "双侧支架台面数字钟", "sourceDesign": "side-bracket", "prompt": "Project-authored supported side-bracket digital clock with a centered solid base and front trim.", "license": "Project-authored geometry reusing the pinned company clock source. No external art assets.", "differences": { "trimHeight": 0.004 } },
+    { "id": "recessed", "label": "凹槽台面数字钟", "sourceDesign": "recessed", "prompt": "Project-authored supported recessed digital clock with a centered solid base and front trim.", "license": "Project-authored geometry reusing the pinned company clock source. No external art assets.", "differences": { "trimHeight": 0.004 } }
+  ]
+}

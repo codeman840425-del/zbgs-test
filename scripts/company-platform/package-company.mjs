@@ -24,6 +24,8 @@ const extraFiles=[
   'scripts/company-platform/build-sliding-examples.mjs',
   'scripts/company-platform/build-clock-examples.mjs',
   'docs/COMPANY-CLOCK-CONTRACT-v1.txt',
+  'docs/COMPANY-SUPPORTED-CLOCK-CONTRACT-v1.txt',
+  'scripts/company-platform/build-supported-clock-examples.mjs',
   'assets-source/company-surface-finishes-v1/PRODUCTION.txt',
   'scripts/company-platform/build-appearance-batch.mjs',
   'docs/COMPANY-APPEARANCE-PRODUCTION-STANDARD.md',

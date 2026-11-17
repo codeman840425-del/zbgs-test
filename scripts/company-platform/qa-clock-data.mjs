@@ -7,7 +7,7 @@ import {createCompanyScene} from '../../prototype/src/company/render.js';
 import {createCompanyAssetLibrary} from '../../prototype/src/company/asset-library.js';
 import {compareFacilityFunction} from '../../prototype/src/company/appearance-contract.js';
 const root=new URL('../../',import.meta.url),catalog=JSON.parse(await fs.readFile(new URL('prototype/src/company/library-catalog.json',root))),templates={templates:[]};
-const resources=catalog.resources.filter(r=>r.clockDisplay),checks=[];
+const resources=catalog.resources.filter(r=>r.clockDisplay&&r.mount==='wall'),checks=[];
 const fail=(code,path,message)=>{throw Object.assign(Error(message),{code,path});};
 async function check(name,fn){const result=await fn();checks.push({name,passed:true,result});}
 const library=createCompanyAssetLibrary({fetchImpl:async url=>{const bytes=await fs.readFile(new URL('prototype/public'+url,root));return {ok:true,arrayBuffer:async()=>bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength)};}});

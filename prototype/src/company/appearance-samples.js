@@ -3,7 +3,9 @@ import {createSupportSample} from './support-samples.js';
 import {createHingedSample} from './hinged-samples.js';
 import {createSlidingSample} from './sliding-samples.js';
 import {createClockSample} from './clock-samples.js';
+import {createSupportedClockSample} from './supported-clock-samples.js';
 export const appearanceBranches=[
+ ['analog-clock-shelf','台面指针钟'],['digital-clock-shelf','台面数字钟'],
  ['analog-clock','挂墙指针钟'],['digital-clock','挂墙数字钟'],
  ['hinged-cabinet','单扇开合柜'],
  ['sliding-drawer-cabinet','单抽屉收纳柜'],
@@ -23,6 +25,7 @@ export function appearanceCandidates(catalog,branch) {
  return selected.filter(Boolean).map(r=>({...r,displayName:r.displayName||names[r.id]||r.id}));
 }
 export function createAppearanceSample(branch,index,catalog,templates) {
+ if(['analog-clock-shelf','digital-clock-shelf'].includes(branch))return createSupportedClockSample(catalog,templates,{branch,index});
  if(['analog-clock','digital-clock'].includes(branch))return createClockSample(catalog,templates,{branch,index});
  if(branch==='hinged-cabinet')return createHingedSample(catalog,templates,{index});
  if(branch==='sliding-drawer-cabinet')return createSlidingSample(catalog,templates,{index});

@@ -1,0 +1,266 @@
+{
+  "schema": "company-layout",
+  "version": 1,
+  "id": "appearance-analog-clock-shelf",
+  "name": "台面钟 · 陈列与工位",
+  "revision": 2,
+  "scale": "single-room",
+  "catalog": {
+    "id": "company-facilities",
+    "version": 1
+  },
+  "nodes": [
+    {
+      "id": "appearance-analog-clock-shelf/floor-1",
+      "kind": "floor",
+      "parentId": "appearance-analog-clock-shelf",
+      "name": "一层",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "appearance-analog-clock-shelf/room-1",
+      "kind": "room",
+      "parentId": "appearance-analog-clock-shelf/floor-1",
+      "name": "直播间",
+      "purpose": "streaming",
+      "bounds": {
+        "width": 7,
+        "depth": 5.25
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "entry": {
+        "position": [
+          2.4,
+          0,
+          1.9
+        ]
+      }
+    },
+    {
+      "id": "supported-clock/station",
+      "kind": "workstation",
+      "parentId": "appearance-analog-clock-shelf/room-1",
+      "name": "supported-clock/station",
+      "transform": {
+        "position": [
+          -1.4,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "template": {
+        "id": "stream-station",
+        "version": 1
+      }
+    },
+    {
+      "id": "supported-clock/station/desk",
+      "kind": "facility",
+      "stationId": "supported-clock/station",
+      "partKey": "desk",
+      "parentId": "supported-clock/station",
+      "resource": {
+        "id": "desk",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -0.9
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "supported-clock/station/monitor",
+      "kind": "facility",
+      "stationId": "supported-clock/station",
+      "partKey": "monitor",
+      "parentId": "supported-clock/station/desk",
+      "resource": {
+        "id": "monitor",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          -0.25
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "supported-clock/station/keyboard",
+      "kind": "facility",
+      "stationId": "supported-clock/station",
+      "partKey": "keyboard",
+      "parentId": "supported-clock/station/desk",
+      "resource": {
+        "id": "keyboard",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          0.21
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "supported-clock/station/microphone",
+      "kind": "facility",
+      "stationId": "supported-clock/station",
+      "partKey": "microphone",
+      "parentId": "supported-clock/station/desk",
+      "resource": {
+        "id": "desk-microphone",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.8,
+          0.84,
+          0.18
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "supported-clock/station/chair",
+      "kind": "facility",
+      "stationId": "supported-clock/station",
+      "partKey": "chair",
+      "parentId": "supported-clock/station",
+      "resource": {
+        "id": "chair",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0.55
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "supported-clock/station/fill-light",
+      "kind": "facility",
+      "stationId": "supported-clock/station",
+      "partKey": "fill-light",
+      "parentId": "supported-clock/station",
+      "resource": {
+        "id": "fill-light",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.75,
+          0,
+          -0.15
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "supported-clock/shelf",
+      "kind": "facility",
+      "parentId": "supported-clock/display",
+      "resource": {
+        "id": "support-shelf-frame-posts",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1.35,
+          0,
+          -1.7
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "supported-clock/primary",
+      "kind": "facility",
+      "parentId": "supported-clock/shelf",
+      "resource": {
+        "id": "analog-clock-shelf-round",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          1.05,
+          0
+        ],
+        "yaw": 0
+      },
+      "state": {},
+      "attachment": {
+        "surfaceId": "middle"
+      }
+    },
+    {
+      "id": "supported-clock/secondary",
+      "kind": "facility",
+      "parentId": "supported-clock/shelf",
+      "resource": {
+        "id": "digital-clock-shelf-flat",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          1.8,
+          0
+        ],
+        "yaw": 0
+      },
+      "state": {},
+      "attachment": {
+        "surfaceId": "top"
+      }
+    },
+    {
+      "id": "supported-clock/display",
+      "kind": "assembly",
+      "parentId": "appearance-analog-clock-shelf/room-1",
+      "name": "supported-clock/display",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    }
+  ]
+}

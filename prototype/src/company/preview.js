@@ -23,6 +23,7 @@ import {createSupportSample} from './support-samples.js';
 import {createHingedSample} from './hinged-samples.js';
 import {createSlidingSample} from './sliding-samples.js';
 import {createClockSample} from './clock-samples.js';
+import {createSupportedClockSample} from './supported-clock-samples.js';
 import {validatePresentationInputs} from './clock-display.js';
 import './preview.css';
 
@@ -37,7 +38,7 @@ const sun=new THREE.DirectionalLight(0xfff0d6,2.3);sun.position.set(-3,8,5);sun.
 Object.assign(sun.shadow.camera,{left:-8,right:8,top:8,bottom:-8});sun.shadow.normalBias=.015;world.add(sun);
 const camera=new THREE.PerspectiveCamera(38,1,.05,300),orbit=new OrbitControls(camera,renderer.domElement);
 orbit.enableDamping=false;orbit.maxPolarAngle=Math.PI*.48;orbit.minDistance=2;orbit.maxDistance=160;
-const layouts={clocks:createClockSample(catalog,templates).document,clockAlternate:createClockSample(catalog,templates,{alternate:true}).document,sliding:createSlidingSample(catalog,templates).document,slidingAlternate:createSlidingSample(catalog,templates,{alternate:true}).document,hinged:createHingedSample(catalog,templates).document,hingedAlternate:createHingedSample(catalog,templates,{alternate:true}).document,base,alternate,studio,...createScaleExamples(catalog,templates),smallHome,rental:rentalHome,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome,ceilings:ceilingCompany,ceilingHome,
+const layouts={supportedClocks:createSupportedClockSample(catalog,templates).document,supportedClockAlternate:createSupportedClockSample(catalog,templates,{alternate:true}).document,clocks:createClockSample(catalog,templates).document,clockAlternate:createClockSample(catalog,templates,{alternate:true}).document,sliding:createSlidingSample(catalog,templates).document,slidingAlternate:createSlidingSample(catalog,templates,{alternate:true}).document,hinged:createHingedSample(catalog,templates).document,hingedAlternate:createHingedSample(catalog,templates,{alternate:true}).document,base,alternate,studio,...createScaleExamples(catalog,templates),smallHome,rental:rentalHome,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome,ceilings:ceilingCompany,ceilingHome,
   supports:createSupportSample(catalog,templates).document,supportAlternate:createSupportSample(catalog,templates,{alternate:true}).document},assetLibrary=createCompanyAssetLibrary();let session,activeView='room',busy=false,game;
 let regionLabels=[],previewClockOverride=null;
 function setPreviewClock(seconds){if(seconds!==null)validatePresentationInputs({clockSeconds:seconds});previewClockOverride=seconds;if(seconds!==null)session.scene.setPresentationInputs({clockSeconds:seconds});return seconds;}
@@ -144,7 +145,7 @@ async function showAppearanceSample(branch,index){
   element('sample-branch').value=branch;fillSampleLooks();element('sample-look').value=String(index);
   const object=session.scene.root.getObjectByName(sample.target),box=new THREE.Box3().setFromObject(object);
   const target=box.getCenter(new THREE.Vector3()),size=box.getSize(new THREE.Vector3());
-  orbit.minDistance=['analog-clock','digital-clock'].includes(branch)?.6:2;
+  orbit.minDistance=['analog-clock','digital-clock','analog-clock-shelf','digital-clock-shelf'].includes(branch)?.6:2;
   const offset=['floor-panel','rug'].includes(branch)?new THREE.Vector3(.15,1,.35):new THREE.Vector3(.5,.45,1);
   offset.normalize().applyQuaternion(object.getWorldQuaternion(new THREE.Quaternion()));
   const distance=Math.max(size.y,size.x/camera.aspect,size.z)*1.9+.35;
