@@ -15,31 +15,36 @@ FILES={
  'native-tops-body.png':('assets-source/native-vroid-face-body-texture-fit-v1/native-tops-body.png','dc375769e28d015bc70c3cef6be1dec3794b5b2430a9bf173d60584105f68a8c'),
 }
 sha=lambda b:hashlib.sha256(b).hexdigest()
-def plan(source_root=ROOT):
+def plan(source_root=ROOT,spec=None):
+ spec=spec or {}
+ sources=spec.get('files',FILES);body_sha=spec.get('bodySha256',BODY_SHA)
+ url_root=spec.get('urlRoot','/assets/native-face-factory-v2/')
+ if not url_root.startswith('/assets/') or not url_root.endswith('/'):raise ValueError('Invalid factory URL root')
  resources={}
- for target,(source,expected) in FILES.items():
+ for target,(source,expected) in sources.items():
+  if Path(target).is_absolute() or '..' in Path(target).parts or Path(source).is_absolute() or '..' in Path(source).parts:raise ValueError('Resource path must stay inside package')
   data=(source_root/source).read_bytes()
   if sha(data)!=expected:raise ValueError('Source identity mismatch: '+source)
   resources[target]=data
  eq=json.loads(resources['equipment.json']);cov=json.loads(resources['manifest.json'])
  if eq['schema']!='zbgs-equipment-v1' or len(eq['items'])!=3:raise ValueError('Expected exact three-piece equipment set')
  entries={e['id']:e for e in eq['items']}
- if len(entries)!=3 or cov['schema']!='native-body-texture-coverage-v1' or cov['avatarSha256']!=BODY_SHA:raise ValueError('Invalid source/coverage identity')
+ if len(entries)!=3 or cov['schema']!='native-body-texture-coverage-v1' or cov['avatarSha256']!=body_sha:raise ValueError('Invalid source/coverage identity')
  if set(entries)!={e['id'] for e in cov['equipment']} or len(cov['equipment'])!=3:raise ValueError('Coverage set mismatch')
  for rule in cov['equipment']:
   e=entries[rule['id']];url=e['url']
   if url not in resources or not url.endswith('.glb'):raise ValueError('URL outside pinned plan: '+url)
-  if e['compatibleAvatarSha256']!=BODY_SHA or rule['compatibleAvatarSha256']!=BODY_SHA:raise ValueError('Wrong body identity: '+e['id'])
+  if e['compatibleAvatarSha256']!=body_sha or rule['compatibleAvatarSha256']!=body_sha:raise ValueError('Wrong body identity: '+e['id'])
   if e['sha256']!=sha(resources[url]) or e['bytes']!=len(resources[url]):raise ValueError('Resource differs: '+e['id'])
   if rule['sha256']!=e['sha256'] or rule['slot']!=e['slot'] or rule['covered']!=(e['slot']=='top'):raise ValueError('Invalid coverage: '+e['id'])
  mask=cov['covered']['url']
  if mask not in resources or sha(resources[mask])!=cov['covered']['sha256']:raise ValueError('Missing/incorrect mask')
- manifest=dict(schema='native-face-factory-staging-v2',bodyType='native-female-face-v1',avatarSha256=BODY_SHA,status='pinned-production-input-not-visual-acceptance',sources=[dict(source=FILES[n][0],url='/assets/native-face-factory-v2/'+n,sha256=sha(b),bytes=len(b)) for n,b in resources.items()],sourceBytesPreserved=True,license='Original metadata preserved; internal technical candidate; source package retains authoring provenance')
+ manifest=dict(schema=spec.get('schema','native-face-factory-staging-v2'),bodyType=spec.get('bodyType','native-female-face-v1'),avatarSha256=body_sha,status='pinned-production-input-not-visual-acceptance',sources=[dict(source=sources[n][0],url=url_root+n,sha256=sha(b),bytes=len(b)) for n,b in resources.items()],sourceBytesPreserved=True,license='Original metadata preserved; internal technical candidate; source package retains authoring provenance')
  resources['staging-manifest.json']=(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n').encode()
  return resources
 
-def stage(destination=DEST,source_root=ROOT,check=False):
- resources=plan(source_root)
+def stage(destination=DEST,source_root=ROOT,check=False,spec=None):
+ resources=plan(source_root,spec)
  for n,b in resources.items():
   target=destination/n
   if target.exists() and (not target.is_file() or target.read_bytes()!=b):raise ValueError('Refusing different staged output: '+str(target))

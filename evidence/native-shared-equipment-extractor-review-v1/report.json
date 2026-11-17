@@ -1,0 +1,37 @@
+{
+  "schema": "native-shared-equipment-extractor-review-v1",
+  "extractorSha256": "be4d70bbcccaac237980e7e36bcda4e8a74c4d1c72624f4ce0ba5bb656b12e27",
+  "checks": [
+    {
+      "package": "assets-source/native-vroid-face-factory-equipment-v1",
+      "output": "{'native-vroid-face-geometry-top-v1.glb': {'bytes': 778120, 'sha256': '12bb9600c329b191862f04c13883f518b3b9538ebcafe7392ec58df909d54042'}, 'native-vroid-face-geometry-shorts-v1.glb': {'bytes': 721904, 'sha256': 'b8725064bf99bc9ae45d6af5200e81baba9a95d1497e57149cd47e7481103f4d'}, 'native-vroid-face-geometry-shoes-v1.glb': {'bytes': 682856, 'sha256': 'b92422c1ba7c018b04f80195d248f1ad46306a7fe7839ce2b44a9a1fbf26f3bc'}, 'equipment.json': {'bytes': 252736, 'sha256': 'fad086771438070cb504c676d57d8679fc0a4237249e21b875f308a198911a8d'}, 'extraction.json': {'bytes': 4604, 'sha256': '05a50cfadbbeb770ae3ed7423bdc00107fec2090b29e8277f3a1d38156f70685'}}"
+    },
+    {
+      "package": "assets-source/native-vroid-waist-factory-equipment-v1",
+      "output": "{'native-vroid-waist-geometry-top-v1.glb': {'bytes': 778128, 'sha256': 'c0c6ef880c572446df6b6b3a30460f86fa9e9cad2f519eb9b42aea2013c677f6'}, 'native-vroid-waist-geometry-shorts-v1.glb': {'bytes': 721916, 'sha256': '1cd9a14ddd7f833679da0ccb54b1a2327c38a2a3e08c57ade80a15f74021e75c'}, 'native-vroid-waist-geometry-shoes-v1.glb': {'bytes': 682864, 'sha256': '33a97b9b7ad594c86cbaed56e83c0b9dfabfaa10b68d8d3c44ef78d9e01a8356'}, 'equipment.json': {'bytes': 252767, 'sha256': '59992ef62df1363660870e73ffc6769d8ffabfb94e0391139eff8a0188d42bce'}, 'extraction.json': {'bytes': 4594, 'sha256': '757a382696e3223a0b502d6ac27691edcce29dc21dad539c3e0601a958bf0d80'}}"
+    }
+  ],
+  "faceByteIdentity": "Face --check outputs match all current face GLB/equipment/extraction SHA and existing staged files byte-for-byte",
+  "waistIdentity": "Waist --check outputs match current waist GLB/equipment/extraction SHA and own source cf1574",
+  "confirmedRisks": [
+    {
+      "severity": "material",
+      "issue": "Extractor hardcodes source Body node 131, mesh 1, primitive IDs 3/1/2 and skin 1 instead of reading spec parameters. It is reused for this exact VRoid topology, but is not generally parameterized across a changed source topology.",
+      "scope": "Current Face/Waist exact source only, no byte mismatch."
+    },
+    {
+      "severity": "bounded",
+      "issue": "write_outputs checks each existing output and writes files one by one. A late conflict can leave a partial output directory. Existing --check detects drift, but first-run atomic staging is not provided by this shared function.",
+      "scope": "Current existing output checks passed; no overwrite occurred."
+    },
+    {
+      "severity": "positive",
+      "issue": "Output copies original accessors, IBM, normals/UV/weights, MToon graph and source metadata. No JOINTS rewrite or renormalization."
+    }
+  ],
+  "limits": [
+    "No GPU/Studio/browser",
+    "No garment fit/contact acceptance",
+    "Internal-study-only source license retained; no runtime admission"
+  ]
+}

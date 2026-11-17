@@ -238,3 +238,21 @@ FOUNDATION_PROFILES['native-female-face-v1'] = {
   seatLayerThickness:0,
   fitStatus:'CPU source/body mask and equipment identity only; runtime, expression, contact and visual validation pending',
 };
+
+FOUNDATION_PROFILES['native-female-waist-v1'] = {
+  id:'native-vroid-waist-geometry-unmasked-v1',
+  label:'原生女性 · 腰部局部改形',
+  source:'VRoid authored WaistScaleMag derivative; its own body, garment auxiliary bones and bind matrices',
+  url:'/assets/native-waist-factory-v1/generated/female-geometry-waist-unmasked.vrm',
+  sha256:'cf1574b243b3eb1d5803928598f62809c30938bde67154d3956d346f39fa1ed5',
+  manifestUrl:'/assets/native-waist-factory-v1/equipment.json',
+  sourceFloorY:-8.449510756150829e-7,
+  sourceRawFloorY:-7.442453409112204e-8,
+  baseBodyDisplay:'source-with-hair',
+  previewAppearanceSupport:appearanceColorSupport('cf1574b243b3eb1d5803928598f62809c30938bde67154d3956d346f39fa1ed5'),
+  bodyTextureCoverage:{url:'/assets/native-waist-factory-v1/manifest.json',sha256:'46a868ddc366a4f64de1154cbea3f70478b3f8406ceddb5a79d2b174ef373d5e'},
+  ids:{top:'native-vroid-waist-geometry-top-v1',shorts:'native-vroid-waist-geometry-shorts-v1',shoes:'native-vroid-waist-geometry-shoes-v1'},
+  defaultOutfit:{index:0,role:'shorts',bottomRole:'shorts',label:'腰部改形适配 · 原生上衣／短裤／鞋',equipmentRoles:['top','shorts','shoes']},
+  seatLayerThickness:0,
+  fitStatus:'Same-source Waist fit, body mask and runtime rest floor measured; gameplay contact and visuals pending',
+};

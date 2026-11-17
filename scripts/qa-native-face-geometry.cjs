@@ -1,19 +1,21 @@
 // Fixed game build. Both subjects use the shared room actor, clock and expressions.
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
 const {chromium}=require('../prototype/node_modules/playwright');
-const [directory,output]=process.argv.slice(2);
+const [directory,output,variant='face']=process.argv.slice(2);
 if(!directory||!output)throw Error('Pass fixed dist and a fresh evidence directory');
 const subjects=[
  {id:'native-female-843ac-v1',name:'before',sha:'843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef'},
  {id:'native-female-face-v1',name:'after',sha:'cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce'},
 ];
+assert(['face','waist'].includes(variant));
+if(variant==='waist')subjects[1]={id:'native-female-waist-v1',name:'after',sha:'cf1574b243b3eb1d5803928598f62809c30938bde67154d3956d346f39fa1ed5'};
 // The original full-skin source is geometry-equivalent to the authored baseline;
 // the paired source comparison is sealed in native-geometry-production-independent-v1.
 (async()=>{
  const root=path.resolve(directory),out=path.resolve(output);await fs.mkdir(out,{recursive:false});
  await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
  const build=JSON.parse(await fs.readFile(path.join(root,'build-info.json'),'utf8'));
- const report={build,status:'incomplete',errors:[],subjects:[],checks:[],scope:'Actual shared room face/body source variant. Paired same-camera normal-speed expression check, not full face editor or general compatibility acceptance.'};
+ const report={build,variant,status:'incomplete',errors:[],subjects:[],checks:[],scope:'Actual shared room source variant. Paired same-camera normal-speed expression check, not complete geometry editing or general compatibility acceptance.'};
  let server,browser,page;
  try{
   server=require('node:http').createServer(async(req,res)=>{try{
@@ -62,7 +64,7 @@ const subjects=[
     const invalid=await page.evaluate(async()=>__debug.avatar().appearance.set({eyeColor:'green'}));assert.equal(invalid.applied,false);
     assert.equal(await page.evaluate(()=>__debug.exportAppearanceRecipe()),before);
     await page.locator('#appearance-body').selectOption(subjects[0].id);await page.waitForFunction(()=>__debug.avatar().profile.bodyType==='native-female-843ac-v1',null,{timeout:60000});
-    await page.locator('#appearance-body').selectOption(subject.id);await page.waitForFunction(()=>__debug.avatar().profile.bodyType==='native-female-face-v1',null,{timeout:60000});
+    await page.locator('#appearance-body').selectOption(subject.id);await page.waitForFunction(id=>__debug.avatar().profile.bodyType===id,subject.id,{timeout:60000});
     assert.equal(navigations,0);report.checks.push('New face is selectable in existing Appearance without page navigation; unsupported green iris rejects without replacing appearance');
     assert.deepEqual(JSON.parse(await page.evaluate(()=>__debug.exportAppearanceRecipe())),JSON.parse(before));
     entry.recipe=JSON.parse(before);await fs.writeFile(path.join(out,'face-recipe.json'),before);

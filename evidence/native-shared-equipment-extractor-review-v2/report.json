@@ -1,0 +1,14 @@
+{
+  "schema": "native-shared-equipment-extractor-review-v2",
+  "extractorSha256": "c0df8e28d4c2d7f2347da997927041d5d7ed9a0c9a09dfb52ffe1505e762973b",
+  "faceCheck": "passed, five output hashes byte-identical to existing Face package",
+  "waistCheck": "passed, five output hashes byte-identical to existing Waist package",
+  "stageCheck": "passed, 8 outputs sourceBytesPreserved, staging manifest SHA 95c1523a074ea9fdc0fc08ea12b2ba46f99ec0523c3d7ad7810da2fea0b3f629",
+  "wrongSpec": "rejected sourceNodeName mismatch before output",
+  "atomicity": "preflight checks every planned output, then writes each missing file through temp + hardlink. Existing conflicts reject before writes. Directory-level failure recovery remains caller responsibility, but no late per-file identity check can create a partial first write after another conflict.",
+  "limitations": [
+    "No GPU/Studio/browser",
+    "No garment fit/contact/runtime admission",
+    "Source license remains internal-study-only"
+  ]
+}
