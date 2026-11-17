@@ -1,0 +1,164 @@
+{
+  "status": "source-adaptation-readback-passed",
+  "designId": "keyboard-compact-usb",
+  "originalResource": "keyboard-compact@1",
+  "source": {
+    "assetPath": "prototype/public/company-assets/static-collection/keyboard-compact/v1/model.glb",
+    "assetSha256": "fa4a2fad14c073994d7252ca74b6a24f64c39836582ea54bdd7afd278f2db240",
+    "editableSource": "assets-source/company-static-collection/designs.mjs",
+    "generator": "scripts/company-platform/build-static-collection.mjs"
+  },
+  "adaptation": {
+    "port": {
+      "id": "usb",
+      "connector": "usb-c-visual-v1",
+      "position": [
+        0.15,
+        0.014,
+        -0.086
+      ],
+      "direction": [
+        0,
+        0,
+        -1
+      ],
+      "backing": "body0",
+      "backingSurface": {
+        "plane": "z",
+        "value": -0.08
+      },
+      "opening": {
+        "width": 0.018,
+        "height": 0.008
+      },
+      "frame": {
+        "outerWidth": 0.026,
+        "outerHeight": 0.014,
+        "depth": 0.006,
+        "barHeight": 0.003
+      },
+      "plug": {
+        "width": 0.016,
+        "height": 0.006,
+        "insertion": 0.003
+      }
+    },
+    "resource": [
+      {
+        "id": "usb",
+        "connector": "usb-c-visual-v1",
+        "position": [
+          0.15,
+          0.014,
+          -0.086
+        ],
+        "direction": [
+          0,
+          0,
+          -1
+        ]
+      }
+    ],
+    "cablePortNodes": {
+      "usb": {
+        "frame": [
+          "keyboard-compact-usb-cable-port-usb-left",
+          "keyboard-compact-usb-cable-port-usb-right",
+          "keyboard-compact-usb-cable-port-usb-top",
+          "keyboard-compact-usb-cable-port-usb-bottom"
+        ],
+        "backing": "body0"
+      }
+    }
+  },
+  "asset": {
+    "id": "keyboard-compact-usb",
+    "version": 1,
+    "originalResource": "keyboard-compact@1",
+    "assetSha256": "a94759bb9e70e76c0a1ad3e477f4ed0396702a2ace309b309fb8583b438c30e9",
+    "bytes": 79360,
+    "meshes": 39,
+    "triangles": 468,
+    "bounds": {
+      "min": [
+        -0.27000001072883606,
+        -1.862645142292063e-10,
+        -0.08600000002607702
+      ],
+      "max": [
+        0.27000001072883606,
+        0.037000000052154064,
+        0.07999999821186066
+      ]
+    },
+    "port": {
+      "id": "usb",
+      "position": [
+        0.15,
+        0.014,
+        -0.086
+      ],
+      "direction": [
+        0,
+        0,
+        -1
+      ],
+      "backing": "body0"
+    },
+    "portCheck": {
+      "checked": true,
+      "ports": [
+        {
+          "id": "usb",
+          "frame": [
+            "keyboard-compact-usb-cable-port-usb-left",
+            "keyboard-compact-usb-cable-port-usb-right",
+            "keyboard-compact-usb-cable-port-usb-top",
+            "keyboard-compact-usb-cable-port-usb-bottom"
+          ],
+          "backing": "body0",
+          "position": [
+            0.15,
+            0.014,
+            -0.086
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ],
+          "backingDepth": 0.006500001788139337
+        }
+      ],
+      "realMeshMappings": true,
+      "cpuOnly": true
+    },
+    "failureSamples": [
+      {
+        "id": "missing-frame-edge",
+        "expectedCode": "cable-port-mesh",
+        "actualCode": "cable-port-mesh",
+        "passed": true
+      },
+      {
+        "id": "floating-frame",
+        "expectedCode": "cable-port-frame-contact",
+        "actualCode": "cable-port-frame-contact",
+        "passed": true
+      },
+      {
+        "id": "sealed-opening",
+        "expectedCode": "cable-port-blocked",
+        "actualCode": "cable-port-blocked",
+        "passed": true
+      }
+    ],
+    "repeatedExportByteIdentical": true,
+    "sourceAssetSha256": "fa4a2fad14c073994d7252ca74b6a24f64c39836582ea54bdd7afd278f2db240",
+    "cpuOnly": true
+  },
+  "limitations": [
+    "Visual connector geometry only. No USB electronics, power or communication simulation.",
+    "CPU GLB readback and ray checks only. Browser integration remains a separate task."
+  ]
+}

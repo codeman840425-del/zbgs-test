@@ -1,0 +1,70 @@
+{
+  "status": "passed-scoped-audit",
+  "scope": "Read-only cloud handoff audit. No CAP/CURRENT changes, no full repository package, no contacts.",
+  "sourceBuildRemote": {
+    "sourceCommit": "b1b8b324f5bc30030e3385a76b1a3aeaa19a3fa9",
+    "fixedAcceptanceCommit": "9e265fffca0b190e1c8e95bc5561621682374ea1",
+    "build": "4fef171a1c48",
+    "sourceDigest": "4fef171a1c481285914eb516959f5a96cd137111ed1b0673f70c6f501f6aac95",
+    "remote": "https://github.com/codeman840425-del/zbgs-test.git",
+    "remoteRef": "origin/codex/company-platform-c1",
+    "entry": "http://127.0.0.1:60880/?layout=smallHome",
+    "package": "F:/gamemake-company-editor-delivery-4fe",
+    "evidence": "evidence/company-facility-editor-release-4fe-v1/DELIVERY.txt"
+  },
+  "branchInventory": {
+    "groups": 12,
+    "namedBranches": 107,
+    "uniqueNamedBranches": 107,
+    "catalogResources": 165,
+    "catalogProductionBranches": 27,
+    "generatedResourcesOnProductionBranches": 108,
+    "branchesWithReusableRefs": 30,
+    "reusableRefs": 100,
+    "reusableRefsExactCatalog": 100,
+    "branchesWithoutReusableRefs": 77,
+    "interpretation": "Counts prove registration/mapping only. They do not prove every named branch or every catalog resource was individually runtime-produced and accepted."
+  },
+  "evidenceBoundary": {
+    "fixedEditor": "evidence/company-facility-editor-release-4fe-v1/DELIVERY.txt and evidence/company-facility-editor-handoff-4fe-v1/report.json",
+    "editorChecks": "7 browser groups, 10 installation positives, 5 negatives, manifest SHA and 350 runtime-byte rebuild checks are recorded for the fixed editor handoff.",
+    "cable": "Cable candidate source/port work is retained but explicitly excluded from fixed build and catalog integration.",
+    "c3": "docs/COMPANY-C3-INTEGRATION-HANDOFF-2026-11-16.md keeps CharacterScene, main.js, navigation, tasks, seat-lease and final character integration with the chief."
+  },
+  "minimumCommands": [
+    "node serve.mjs",
+    "node edit.mjs validate data/save.json",
+    "node edit.mjs apply data/save.json OPS.json NEW_RESULT_DIRECTORY",
+    "cd source/prototype && npm ci && node scripts/build-company-id.mjs && npx vite build --config vite.company.config.js",
+    "node scripts/company-platform/build-home-examples.mjs",
+    "node scripts/company-platform/build-mixed-company.mjs --check"
+  ],
+  "packageStats": {
+    "manifestFiles": 1045,
+    "manifestBytes": 52952786,
+    "manifestMiB": 50.5,
+    "fixedViewerFiles": 350,
+    "fixedViewerBytes": 12137334,
+    "fixedViewerMiB": 11.58,
+    "editableProductionSourceFiles": 204,
+    "editableProductionSourceBytes": 28832895,
+    "editableProductionSourceMiB": 27.5,
+    "fixedBuildSourceFiles": 479,
+    "fixedBuildSourceBytes": 11148931,
+    "fixedBuildSourceMiB": 10.63,
+    "catalogBytes": 771751,
+    "excluded": "node_modules and generated dist are excluded. The package itself retains source, viewer and manifest only by scope."
+  },
+  "cloudLimits": {
+    "codeInference": "Node/Vite/JSON authoring and CPU validation are ordinary script paths and can be attempted on Linux.",
+    "untested": "Fresh offline npm ci, Linux browser, Linux GLTF/Three runtime, ordinary-PC performance, GPU memory, Windows GPU recording, VRM/character usage and final visual acceptance.",
+    "windowsGpu": "Existing browser/recording evidence is Windows/Chromium developer-machine evidence. RTX/GPU results do not establish cloud or ordinary-PC performance.",
+    "packageLimit": "README explicitly says node_modules is absent and clean offline installation is untested."
+  },
+  "licenses": {
+    "currentInputs": "Catalog provenance is predominantly project-authored. Kenney Furniture Kit 2.0 and Kenney Food Kit 2.0 imports are recorded as CC0 with License.txt retained.",
+    "researchOnly": "PolyHaven and Quaternius are research references, not current package inputs.",
+    "runtime": "Pinned Three.js license and lockfile are retained for rebuilds."
+  },
+  "boundedCloudWork": "Cloud team can independently adapt existing project/Kenney-backed company facilities and named catalog gaps through source parameters, generator, resource manifest, CPU GLB readback and bounded evidence. Keep work in company facility scope with exact IDs and failure evidence. Do not transfer character ownership, CAP/CURRENT ownership, M3 generation, random libraries or server work."
+}

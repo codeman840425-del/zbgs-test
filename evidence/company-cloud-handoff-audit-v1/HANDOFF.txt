@@ -1,0 +1,14 @@
+# 云团队移交核对
+
+- 固定源为 `b1b8b324f5bc30030e3385a76b1a3aeaa19a3fa9`，固定验收记录提交为 `9e265fffca0b190e1c8e95bc5561621682374ea1`，viewer 构建 `4fef171a1c48`，源码摘要 `4fef171a1c481285914eb516959f5a96cd137111ed1b0673f70c6f501f6aac95`。远端是 `origin/codex/company-platform-c1`。入口为 `http://127.0.0.1:60880/?layout=smallHome`。
+- 独立包是 `F:/gamemake-company-editor-delivery-4fe`。manifest 有 1045 文件、约 50.50 MiB。固定 viewer 350 文件、11.58 MiB。可编辑生产源 204 文件、27.50 MiB。固定构建源 479 文件、10.63 MiB。统计排除了 node_modules 与生成 dist。
+- 环境字典含 12 组、107 个唯一具名分支。library catalog 有 165 个资源，其中 27 个 productionBranch 共 108 个登记资源。30 个分支声明 100 个 reusable refs，100 个均能精确映射 catalog。77 个分支没有 reusable ref。资源登记和数量不等于每款独立实测通过。
+- 当前固定编辑器证据覆盖房间内换款、移动、旋转、非法操作保旧、保存关闭重开、独立包导入，以及 10 个安装正例和 5 个负例。线缆候选源与端点适配仍明确排除在固定构建和 catalog 集成之外。
+- 最小入口是 `node serve.mjs`，校验为 `node edit.mjs validate data/save.json`，编辑为 `node edit.mjs apply data/save.json OPS.json NEW_RESULT_DIRECTORY`。源重建使用 `cd source/prototype`、`npm ci`、`node scripts/build-company-id.mjs`、`npx vite build --config vite.company.config.js`。
+- Linux 云环境可先执行 Node/Vite、数据校验、资源登记、CPU GLB 回读和确定性脚本。干净离线 npm ci、Linux 浏览器、Linux Three/GLTF runtime、GPU 性能、普通电脑性能和真实人物使用均未测。Windows/Chromium 与 GPU 录像证据不能外推到云 Linux 或普通电脑。
+- 当前输入以项目自制资源为主。Kenney Furniture Kit 2.0 与 Food Kit 2.0 记录为 CC0，原包 License.txt 保留。PolyHaven 与 Quaternius 只属于调研材料，不是本包输入。Three.js 许可证和锁文件随源保留。
+- C3 仍由总工持有 CharacterScene、main.js、导航、任务、seat-lease、角色接缝和 CAP/CURRENT。云团队适合做有界的现成设施适配、具名 catalog 缺项、生成器、resource manifest、CPU 回读和证据。本地角色/公司实现所有权不转移，M3不因移交自动开工。顾问后续通知：用户另已授权云端对接玩法与服务端规划/未来构建；这由顾问协调，不属于副总工此包扩项。
+
+限制与原始证据见 `report.json`、`evidence/company-facility-editor-release-4fe-v1/DELIVERY.txt`、`evidence/company-facility-editor-handoff-4fe-v1/report.json`、`docs/COMPANY-C3-INTEGRATION-HANDOFF-2026-11-16.md` 和独立包 `README.md`。
+
+后续回执：顾问报告云端已自测b1b8/4fef的Debian构建及SwiftShader，但本会话未接收原日志且未独立复验，不把其自报写成已通过本地验收。公司本地后续固定8035/buildb579ea426d63的界面修正与设备连接见 evidence/company-cable-release-b57-v1；云端不必为此次小增量重做原接收检查。

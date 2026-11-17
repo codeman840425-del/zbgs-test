@@ -1,0 +1,3710 @@
+{
+  "build": "a6a9ab67b62f",
+  "status": "passed",
+  "checks": [
+    {
+      "name": "Four in-place cable appearances, real port endpoints, disconnect/reconnect and browser restart for each",
+      "passed": true,
+      "result": [
+        {
+          "connected": {
+            "document": {
+              "schema": "company-layout",
+              "version": 1,
+              "id": "cable-demo",
+              "name": "设备连接 · 四款外观",
+              "revision": 2,
+              "scale": "single-room",
+              "catalog": {
+                "id": "company-facilities",
+                "version": 1
+              },
+              "nodes": [
+                {
+                  "id": "cable-demo/floor-1",
+                  "kind": "floor",
+                  "parentId": "cable-demo",
+                  "name": "一层",
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "cable-demo/room-1",
+                  "kind": "room",
+                  "parentId": "cable-demo/floor-1",
+                  "name": "直播间",
+                  "purpose": "streaming",
+                  "bounds": {
+                    "width": 6,
+                    "depth": 4
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "cable/desk",
+                  "kind": "facility",
+                  "parentId": "cable-demo/room-1",
+                  "resource": {
+                    "id": "desk-trestle",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/monitor",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "monitor-aurora-usb",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0.84,
+                      -0.25
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/keyboard",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "keyboard-compact-usb",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0.84,
+                      0.21
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/primary",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "cable-route-single-sleeve",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {
+                    "connected": true
+                  },
+                  "cableLink": {
+                    "a": {
+                      "deviceId": "cable/keyboard",
+                      "portId": "usb"
+                    },
+                    "b": {
+                      "deviceId": "cable/monitor",
+                      "portId": "usb"
+                    }
+                  }
+                }
+              ]
+            },
+            "entries": [
+              {
+                "node": {
+                  "id": "cable/primary",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "cable-route-single-sleeve",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {
+                    "connected": true
+                  },
+                  "cableLink": {
+                    "a": {
+                      "deviceId": "cable/keyboard",
+                      "portId": "usb"
+                    },
+                    "b": {
+                      "deviceId": "cable/monitor",
+                      "portId": "usb"
+                    }
+                  }
+                },
+                "route": {
+                  "id": "cable/primary",
+                  "parentId": "cable/desk",
+                  "a": [
+                    0.15,
+                    0.854,
+                    0.124
+                  ],
+                  "b": [
+                    0.15,
+                    0.854,
+                    -0.07400000000000001
+                  ],
+                  "end": [
+                    0.15,
+                    0.854,
+                    -0.07400000000000001
+                  ],
+                  "direction": [
+                    0,
+                    0,
+                    -1
+                  ],
+                  "span": 0.198,
+                  "length": 0.198,
+                  "connected": true
+                },
+                "centers": {
+                  "A": [
+                    0.15000000596046448,
+                    0.8540000021457672,
+                    0.1080000139772892
+                  ],
+                  "B": [
+                    0.15000000596046448,
+                    0.8540000021457672,
+                    -0.05800001509487629
+                  ]
+                },
+                "expected": {
+                  "A": [
+                    0.15,
+                    0.854,
+                    0.108
+                  ],
+                  "B": [
+                    0.15,
+                    0.854,
+                    -0.05800000000000001
+                  ]
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/cable-route-v1/single-sleeve/v1/model.glb",
+                  "sha256": "d4e9db50fd5ce9596f71abec6e5ade45408323ae3827fcba0b0ff6b9cc832393",
+                  "bytes": 13976
+                }
+              }
+            ],
+            "cache": {
+              "cachedAssets": 4,
+              "loadedAssets": 4
+            },
+            "memory": {
+              "geometries": 68,
+              "textures": 3
+            },
+            "view": {
+              "mode": "room",
+              "roomId": "cable-demo/room-1",
+              "floorId": "cable-demo/floor-1"
+            }
+          },
+          "disconnected": {
+            "document": {
+              "schema": "company-layout",
+              "version": 1,
+              "id": "cable-demo",
+              "name": "设备连接 · 四款外观",
+              "revision": 3,
+              "scale": "single-room",
+              "catalog": {
+                "id": "company-facilities",
+                "version": 1
+              },
+              "nodes": [
+                {
+                  "id": "cable-demo/floor-1",
+                  "kind": "floor",
+                  "parentId": "cable-demo",
+                  "name": "一层",
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "cable-demo/room-1",
+                  "kind": "room",
+                  "parentId": "cable-demo/floor-1",
+                  "name": "直播间",
+                  "purpose": "streaming",
+                  "bounds": {
+                    "width": 6,
+                    "depth": 4
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "cable/desk",
+                  "kind": "facility",
+                  "parentId": "cable-demo/room-1",
+                  "resource": {
+                    "id": "desk-trestle",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/monitor",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "monitor-aurora-usb",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0.84,
+                      -0.25
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/keyboard",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "keyboard-compact-usb",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0.84,
+                      0.21
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/primary",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "cable-route-single-sleeve",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {
+                    "connected": false
+                  },
+                  "cableLink": {
+                    "a": {
+                      "deviceId": "cable/keyboard",
+                      "portId": "usb"
+                    },
+                    "b": {
+                      "deviceId": "cable/monitor",
+                      "portId": "usb"
+                    }
+                  }
+                }
+              ]
+            },
+            "entries": [
+              {
+                "node": {
+                  "id": "cable/primary",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "cable-route-single-sleeve",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {
+                    "connected": false
+                  },
+                  "cableLink": {
+                    "a": {
+                      "deviceId": "cable/keyboard",
+                      "portId": "usb"
+                    },
+                    "b": {
+                      "deviceId": "cable/monitor",
+                      "portId": "usb"
+                    }
+                  }
+                },
+                "route": {
+                  "id": "cable/primary",
+                  "parentId": "cable/desk",
+                  "a": [
+                    0.15,
+                    0.854,
+                    0.124
+                  ],
+                  "b": [
+                    0.15,
+                    0.854,
+                    -0.07400000000000001
+                  ],
+                  "end": [
+                    0.15,
+                    0.854,
+                    -0.049000000000000016
+                  ],
+                  "direction": [
+                    0,
+                    0,
+                    -1
+                  ],
+                  "span": 0.198,
+                  "length": 0.17300000000000001,
+                  "connected": false
+                },
+                "centers": {
+                  "A": [
+                    0.15000000596046448,
+                    0.8540000021457672,
+                    0.1080000139772892
+                  ],
+                  "B": [
+                    0.15000000596046448,
+                    0.8540000021457672,
+                    -0.03300001518800855
+                  ]
+                },
+                "expected": {
+                  "A": [
+                    0.15,
+                    0.854,
+                    0.108
+                  ],
+                  "B": [
+                    0.15,
+                    0.854,
+                    -0.033000000000000015
+                  ]
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/cable-route-v1/single-sleeve/v1/model.glb",
+                  "sha256": "d4e9db50fd5ce9596f71abec6e5ade45408323ae3827fcba0b0ff6b9cc832393",
+                  "bytes": 13976
+                }
+              }
+            ],
+            "cache": {
+              "cachedAssets": 4,
+              "loadedAssets": 4
+            },
+            "memory": {
+              "geometries": 67,
+              "textures": 3
+            },
+            "view": {
+              "mode": "room",
+              "roomId": "cable-demo/room-1",
+              "floorId": "cable-demo/floor-1"
+            }
+          },
+          "restored": {
+            "document": {
+              "schema": "company-layout",
+              "version": 1,
+              "id": "cable-demo",
+              "name": "设备连接 · 四款外观",
+              "revision": 3,
+              "scale": "single-room",
+              "catalog": {
+                "id": "company-facilities",
+                "version": 1
+              },
+              "nodes": [
+                {
+                  "id": "cable-demo/floor-1",
+                  "kind": "floor",
+                  "parentId": "cable-demo",
+                  "name": "一层",
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "cable-demo/room-1",
+                  "kind": "room",
+                  "parentId": "cable-demo/floor-1",
+                  "name": "直播间",
+                  "purpose": "streaming",
+                  "bounds": {
+                    "width": 6,
+                    "depth": 4
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "cable/desk",
+                  "kind": "facility",
+                  "parentId": "cable-demo/room-1",
+                  "resource": {
+                    "id": "desk-trestle",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/monitor",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "monitor-aurora-usb",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0.84,
+                      -0.25
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/keyboard",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "keyboard-compact-usb",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0.84,
+                      0.21
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/primary",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "cable-route-single-sleeve",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {
+                    "connected": false
+                  },
+                  "cableLink": {
+                    "a": {
+                      "deviceId": "cable/keyboard",
+                      "portId": "usb"
+                    },
+                    "b": {
+                      "deviceId": "cable/monitor",
+                      "portId": "usb"
+                    }
+                  }
+                }
+              ]
+            },
+            "entries": [
+              {
+                "node": {
+                  "id": "cable/primary",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "cable-route-single-sleeve",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {
+                    "connected": false
+                  },
+                  "cableLink": {
+                    "a": {
+                      "deviceId": "cable/keyboard",
+                      "portId": "usb"
+                    },
+                    "b": {
+                      "deviceId": "cable/monitor",
+                      "portId": "usb"
+                    }
+                  }
+                },
+                "route": {
+                  "id": "cable/primary",
+                  "parentId": "cable/desk",
+                  "a": [
+                    0.15,
+                    0.854,
+                    0.124
+                  ],
+                  "b": [
+                    0.15,
+                    0.854,
+                    -0.07400000000000001
+                  ],
+                  "end": [
+                    0.15,
+                    0.854,
+                    -0.049000000000000016
+                  ],
+                  "direction": [
+                    0,
+                    0,
+                    -1
+                  ],
+                  "span": 0.198,
+                  "length": 0.17300000000000001,
+                  "connected": false
+                },
+                "centers": {
+                  "A": [
+                    0.15000000596046448,
+                    0.8540000021457672,
+                    0.1080000139772892
+                  ],
+                  "B": [
+                    0.15000000596046448,
+                    0.8540000021457672,
+                    -0.03300001518800855
+                  ]
+                },
+                "expected": {
+                  "A": [
+                    0.15,
+                    0.854,
+                    0.108
+                  ],
+                  "B": [
+                    0.15,
+                    0.854,
+                    -0.033000000000000015
+                  ]
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/cable-route-v1/single-sleeve/v1/model.glb",
+                  "sha256": "d4e9db50fd5ce9596f71abec6e5ade45408323ae3827fcba0b0ff6b9cc832393",
+                  "bytes": 13976
+                }
+              }
+            ],
+            "cache": {
+              "cachedAssets": 4,
+              "loadedAssets": 4
+            },
+            "memory": {
+              "geometries": 65,
+              "textures": 3
+            },
+            "view": {
+              "mode": "room",
+              "roomId": "cable-demo/room-1",
+              "floorId": "cable-demo/floor-1"
+            }
+          }
+        },
+        {
+          "connected": {
+            "document": {
+              "schema": "company-layout",
+              "version": 1,
+              "id": "cable-demo",
+              "name": "设备连接 · 四款外观",
+              "revision": 5,
+              "scale": "single-room",
+              "catalog": {
+                "id": "company-facilities",
+                "version": 1
+              },
+              "nodes": [
+                {
+                  "id": "cable-demo/floor-1",
+                  "kind": "floor",
+                  "parentId": "cable-demo",
+                  "name": "一层",
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "cable-demo/room-1",
+                  "kind": "room",
+                  "parentId": "cable-demo/floor-1",
+                  "name": "直播间",
+                  "purpose": "streaming",
+                  "bounds": {
+                    "width": 6,
+                    "depth": 4
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "cable/desk",
+                  "kind": "facility",
+                  "parentId": "cable-demo/room-1",
+                  "resource": {
+                    "id": "desk-trestle",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/monitor",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "monitor-aurora-usb",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0.84,
+                      -0.25
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/keyboard",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "keyboard-compact-usb",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0.84,
+                      0.21
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/primary",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "cable-route-dual-sleeve",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {
+                    "connected": true
+                  },
+                  "cableLink": {
+                    "a": {
+                      "deviceId": "cable/keyboard",
+                      "portId": "usb"
+                    },
+                    "b": {
+                      "deviceId": "cable/monitor",
+                      "portId": "usb"
+                    }
+                  }
+                }
+              ]
+            },
+            "entries": [
+              {
+                "node": {
+                  "id": "cable/primary",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "cable-route-dual-sleeve",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {
+                    "connected": true
+                  },
+                  "cableLink": {
+                    "a": {
+                      "deviceId": "cable/keyboard",
+                      "portId": "usb"
+                    },
+                    "b": {
+                      "deviceId": "cable/monitor",
+                      "portId": "usb"
+                    }
+                  }
+                },
+                "route": {
+                  "id": "cable/primary",
+                  "parentId": "cable/desk",
+                  "a": [
+                    0.15,
+                    0.854,
+                    0.124
+                  ],
+                  "b": [
+                    0.15,
+                    0.854,
+                    -0.07400000000000001
+                  ],
+                  "end": [
+                    0.15,
+                    0.854,
+                    -0.07400000000000001
+                  ],
+                  "direction": [
+                    0,
+                    0,
+                    -1
+                  ],
+                  "span": 0.198,
+                  "length": 0.198,
+                  "connected": true
+                },
+                "centers": {
+                  "A": [
+                    0.15000000596046448,
+                    0.8540000021457672,
+                    0.1080000139772892
+                  ],
+                  "B": [
+                    0.15000000596046448,
+                    0.8540000021457672,
+                    -0.05800001509487629
+                  ]
+                },
+                "expected": {
+                  "A": [
+                    0.15,
+                    0.854,
+                    0.108
+                  ],
+                  "B": [
+                    0.15,
+                    0.854,
+                    -0.05800000000000001
+                  ]
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/cable-route-v1/dual-sleeve/v1/model.glb",
+                  "sha256": "f89484ab21b030a131a35076b05c0107260d5d760cab27dda766527117ad6a5a",
+                  "bytes": 17500
+                }
+              }
+            ],
+            "cache": {
+              "cachedAssets": 4,
+              "loadedAssets": 4
+            },
+            "memory": {
+              "geometries": 68,
+              "textures": 3
+            },
+            "view": {
+              "mode": "room",
+              "roomId": "cable-demo/room-1",
+              "floorId": "cable-demo/floor-1"
+            }
+          },
+          "disconnected": {
+            "document": {
+              "schema": "company-layout",
+              "version": 1,
+              "id": "cable-demo",
+              "name": "设备连接 · 四款外观",
+              "revision": 6,
+              "scale": "single-room",
+              "catalog": {
+                "id": "company-facilities",
+                "version": 1
+              },
+              "nodes": [
+                {
+                  "id": "cable-demo/floor-1",
+                  "kind": "floor",
+                  "parentId": "cable-demo",
+                  "name": "一层",
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "cable-demo/room-1",
+                  "kind": "room",
+                  "parentId": "cable-demo/floor-1",
+                  "name": "直播间",
+                  "purpose": "streaming",
+                  "bounds": {
+                    "width": 6,
+                    "depth": 4
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "cable/desk",
+                  "kind": "facility",
+                  "parentId": "cable-demo/room-1",
+                  "resource": {
+                    "id": "desk-trestle",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/monitor",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "monitor-aurora-usb",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0.84,
+                      -0.25
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/keyboard",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "keyboard-compact-usb",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0.84,
+                      0.21
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/primary",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "cable-route-dual-sleeve",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {
+                    "connected": false
+                  },
+                  "cableLink": {
+                    "a": {
+                      "deviceId": "cable/keyboard",
+                      "portId": "usb"
+                    },
+                    "b": {
+                      "deviceId": "cable/monitor",
+                      "portId": "usb"
+                    }
+                  }
+                }
+              ]
+            },
+            "entries": [
+              {
+                "node": {
+                  "id": "cable/primary",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "cable-route-dual-sleeve",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {
+                    "connected": false
+                  },
+                  "cableLink": {
+                    "a": {
+                      "deviceId": "cable/keyboard",
+                      "portId": "usb"
+                    },
+                    "b": {
+                      "deviceId": "cable/monitor",
+                      "portId": "usb"
+                    }
+                  }
+                },
+                "route": {
+                  "id": "cable/primary",
+                  "parentId": "cable/desk",
+                  "a": [
+                    0.15,
+                    0.854,
+                    0.124
+                  ],
+                  "b": [
+                    0.15,
+                    0.854,
+                    -0.07400000000000001
+                  ],
+                  "end": [
+                    0.15,
+                    0.854,
+                    -0.049000000000000016
+                  ],
+                  "direction": [
+                    0,
+                    0,
+                    -1
+                  ],
+                  "span": 0.198,
+                  "length": 0.17300000000000001,
+                  "connected": false
+                },
+                "centers": {
+                  "A": [
+                    0.15000000596046448,
+                    0.8540000021457672,
+                    0.1080000139772892
+                  ],
+                  "B": [
+                    0.15000000596046448,
+                    0.8540000021457672,
+                    -0.03300001518800855
+                  ]
+                },
+                "expected": {
+                  "A": [
+                    0.15,
+                    0.854,
+                    0.108
+                  ],
+                  "B": [
+                    0.15,
+                    0.854,
+                    -0.033000000000000015
+                  ]
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/cable-route-v1/dual-sleeve/v1/model.glb",
+                  "sha256": "f89484ab21b030a131a35076b05c0107260d5d760cab27dda766527117ad6a5a",
+                  "bytes": 17500
+                }
+              }
+            ],
+            "cache": {
+              "cachedAssets": 4,
+              "loadedAssets": 4
+            },
+            "memory": {
+              "geometries": 68,
+              "textures": 3
+            },
+            "view": {
+              "mode": "room",
+              "roomId": "cable-demo/room-1",
+              "floorId": "cable-demo/floor-1"
+            }
+          },
+          "restored": {
+            "document": {
+              "schema": "company-layout",
+              "version": 1,
+              "id": "cable-demo",
+              "name": "设备连接 · 四款外观",
+              "revision": 6,
+              "scale": "single-room",
+              "catalog": {
+                "id": "company-facilities",
+                "version": 1
+              },
+              "nodes": [
+                {
+                  "id": "cable-demo/floor-1",
+                  "kind": "floor",
+                  "parentId": "cable-demo",
+                  "name": "一层",
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "cable-demo/room-1",
+                  "kind": "room",
+                  "parentId": "cable-demo/floor-1",
+                  "name": "直播间",
+                  "purpose": "streaming",
+                  "bounds": {
+                    "width": 6,
+                    "depth": 4
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "cable/desk",
+                  "kind": "facility",
+                  "parentId": "cable-demo/room-1",
+                  "resource": {
+                    "id": "desk-trestle",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/monitor",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "monitor-aurora-usb",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0.84,
+                      -0.25
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/keyboard",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "keyboard-compact-usb",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0.84,
+                      0.21
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/primary",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "cable-route-dual-sleeve",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {
+                    "connected": false
+                  },
+                  "cableLink": {
+                    "a": {
+                      "deviceId": "cable/keyboard",
+                      "portId": "usb"
+                    },
+                    "b": {
+                      "deviceId": "cable/monitor",
+                      "portId": "usb"
+                    }
+                  }
+                }
+              ]
+            },
+            "entries": [
+              {
+                "node": {
+                  "id": "cable/primary",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "cable-route-dual-sleeve",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {
+                    "connected": false
+                  },
+                  "cableLink": {
+                    "a": {
+                      "deviceId": "cable/keyboard",
+                      "portId": "usb"
+                    },
+                    "b": {
+                      "deviceId": "cable/monitor",
+                      "portId": "usb"
+                    }
+                  }
+                },
+                "route": {
+                  "id": "cable/primary",
+                  "parentId": "cable/desk",
+                  "a": [
+                    0.15,
+                    0.854,
+                    0.124
+                  ],
+                  "b": [
+                    0.15,
+                    0.854,
+                    -0.07400000000000001
+                  ],
+                  "end": [
+                    0.15,
+                    0.854,
+                    -0.049000000000000016
+                  ],
+                  "direction": [
+                    0,
+                    0,
+                    -1
+                  ],
+                  "span": 0.198,
+                  "length": 0.17300000000000001,
+                  "connected": false
+                },
+                "centers": {
+                  "A": [
+                    0.15000000596046448,
+                    0.8540000021457672,
+                    0.1080000139772892
+                  ],
+                  "B": [
+                    0.15000000596046448,
+                    0.8540000021457672,
+                    -0.03300001518800855
+                  ]
+                },
+                "expected": {
+                  "A": [
+                    0.15,
+                    0.854,
+                    0.108
+                  ],
+                  "B": [
+                    0.15,
+                    0.854,
+                    -0.033000000000000015
+                  ]
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/cable-route-v1/dual-sleeve/v1/model.glb",
+                  "sha256": "f89484ab21b030a131a35076b05c0107260d5d760cab27dda766527117ad6a5a",
+                  "bytes": 17500
+                }
+              }
+            ],
+            "cache": {
+              "cachedAssets": 4,
+              "loadedAssets": 4
+            },
+            "memory": {
+              "geometries": 66,
+              "textures": 3
+            },
+            "view": {
+              "mode": "room",
+              "roomId": "cable-demo/room-1",
+              "floorId": "cable-demo/floor-1"
+            }
+          }
+        },
+        {
+          "connected": {
+            "document": {
+              "schema": "company-layout",
+              "version": 1,
+              "id": "cable-demo",
+              "name": "设备连接 · 四款外观",
+              "revision": 8,
+              "scale": "single-room",
+              "catalog": {
+                "id": "company-facilities",
+                "version": 1
+              },
+              "nodes": [
+                {
+                  "id": "cable-demo/floor-1",
+                  "kind": "floor",
+                  "parentId": "cable-demo",
+                  "name": "一层",
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "cable-demo/room-1",
+                  "kind": "room",
+                  "parentId": "cable-demo/floor-1",
+                  "name": "直播间",
+                  "purpose": "streaming",
+                  "bounds": {
+                    "width": 6,
+                    "depth": 4
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "cable/desk",
+                  "kind": "facility",
+                  "parentId": "cable-demo/room-1",
+                  "resource": {
+                    "id": "desk-trestle",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/monitor",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "monitor-aurora-usb",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0.84,
+                      -0.25
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/keyboard",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "keyboard-compact-usb",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0.84,
+                      0.21
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/primary",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "cable-route-braided-loop",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {
+                    "connected": true
+                  },
+                  "cableLink": {
+                    "a": {
+                      "deviceId": "cable/keyboard",
+                      "portId": "usb"
+                    },
+                    "b": {
+                      "deviceId": "cable/monitor",
+                      "portId": "usb"
+                    }
+                  }
+                }
+              ]
+            },
+            "entries": [
+              {
+                "node": {
+                  "id": "cable/primary",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "cable-route-braided-loop",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {
+                    "connected": true
+                  },
+                  "cableLink": {
+                    "a": {
+                      "deviceId": "cable/keyboard",
+                      "portId": "usb"
+                    },
+                    "b": {
+                      "deviceId": "cable/monitor",
+                      "portId": "usb"
+                    }
+                  }
+                },
+                "route": {
+                  "id": "cable/primary",
+                  "parentId": "cable/desk",
+                  "a": [
+                    0.15,
+                    0.854,
+                    0.124
+                  ],
+                  "b": [
+                    0.15,
+                    0.854,
+                    -0.07400000000000001
+                  ],
+                  "end": [
+                    0.15,
+                    0.854,
+                    -0.07400000000000001
+                  ],
+                  "direction": [
+                    0,
+                    0,
+                    -1
+                  ],
+                  "span": 0.198,
+                  "length": 0.198,
+                  "connected": true
+                },
+                "centers": {
+                  "A": [
+                    0.15000000596046448,
+                    0.8540000021457672,
+                    0.1080000139772892
+                  ],
+                  "B": [
+                    0.15000000596046448,
+                    0.8540000021457672,
+                    -0.05800001509487629
+                  ]
+                },
+                "expected": {
+                  "A": [
+                    0.15,
+                    0.854,
+                    0.108
+                  ],
+                  "B": [
+                    0.15,
+                    0.854,
+                    -0.05800000000000001
+                  ]
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/cable-route-v1/braided-loop/v1/model.glb",
+                  "sha256": "7da2bb701cefe4e1816dae7717a442214f447e8dca5023685c892a3f1f0e75c4",
+                  "bytes": 17948
+                }
+              }
+            ],
+            "cache": {
+              "cachedAssets": 4,
+              "loadedAssets": 4
+            },
+            "memory": {
+              "geometries": 68,
+              "textures": 3
+            },
+            "view": {
+              "mode": "room",
+              "roomId": "cable-demo/room-1",
+              "floorId": "cable-demo/floor-1"
+            }
+          },
+          "disconnected": {
+            "document": {
+              "schema": "company-layout",
+              "version": 1,
+              "id": "cable-demo",
+              "name": "设备连接 · 四款外观",
+              "revision": 9,
+              "scale": "single-room",
+              "catalog": {
+                "id": "company-facilities",
+                "version": 1
+              },
+              "nodes": [
+                {
+                  "id": "cable-demo/floor-1",
+                  "kind": "floor",
+                  "parentId": "cable-demo",
+                  "name": "一层",
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "cable-demo/room-1",
+                  "kind": "room",
+                  "parentId": "cable-demo/floor-1",
+                  "name": "直播间",
+                  "purpose": "streaming",
+                  "bounds": {
+                    "width": 6,
+                    "depth": 4
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "cable/desk",
+                  "kind": "facility",
+                  "parentId": "cable-demo/room-1",
+                  "resource": {
+                    "id": "desk-trestle",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/monitor",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "monitor-aurora-usb",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0.84,
+                      -0.25
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/keyboard",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "keyboard-compact-usb",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0.84,
+                      0.21
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/primary",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "cable-route-braided-loop",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {
+                    "connected": false
+                  },
+                  "cableLink": {
+                    "a": {
+                      "deviceId": "cable/keyboard",
+                      "portId": "usb"
+                    },
+                    "b": {
+                      "deviceId": "cable/monitor",
+                      "portId": "usb"
+                    }
+                  }
+                }
+              ]
+            },
+            "entries": [
+              {
+                "node": {
+                  "id": "cable/primary",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "cable-route-braided-loop",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {
+                    "connected": false
+                  },
+                  "cableLink": {
+                    "a": {
+                      "deviceId": "cable/keyboard",
+                      "portId": "usb"
+                    },
+                    "b": {
+                      "deviceId": "cable/monitor",
+                      "portId": "usb"
+                    }
+                  }
+                },
+                "route": {
+                  "id": "cable/primary",
+                  "parentId": "cable/desk",
+                  "a": [
+                    0.15,
+                    0.854,
+                    0.124
+                  ],
+                  "b": [
+                    0.15,
+                    0.854,
+                    -0.07400000000000001
+                  ],
+                  "end": [
+                    0.15,
+                    0.854,
+                    -0.049000000000000016
+                  ],
+                  "direction": [
+                    0,
+                    0,
+                    -1
+                  ],
+                  "span": 0.198,
+                  "length": 0.17300000000000001,
+                  "connected": false
+                },
+                "centers": {
+                  "A": [
+                    0.15000000596046448,
+                    0.8540000021457672,
+                    0.1080000139772892
+                  ],
+                  "B": [
+                    0.15000000596046448,
+                    0.8540000021457672,
+                    -0.03300001518800855
+                  ]
+                },
+                "expected": {
+                  "A": [
+                    0.15,
+                    0.854,
+                    0.108
+                  ],
+                  "B": [
+                    0.15,
+                    0.854,
+                    -0.033000000000000015
+                  ]
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/cable-route-v1/braided-loop/v1/model.glb",
+                  "sha256": "7da2bb701cefe4e1816dae7717a442214f447e8dca5023685c892a3f1f0e75c4",
+                  "bytes": 17948
+                }
+              }
+            ],
+            "cache": {
+              "cachedAssets": 4,
+              "loadedAssets": 4
+            },
+            "memory": {
+              "geometries": 68,
+              "textures": 3
+            },
+            "view": {
+              "mode": "room",
+              "roomId": "cable-demo/room-1",
+              "floorId": "cable-demo/floor-1"
+            }
+          },
+          "restored": {
+            "document": {
+              "schema": "company-layout",
+              "version": 1,
+              "id": "cable-demo",
+              "name": "设备连接 · 四款外观",
+              "revision": 9,
+              "scale": "single-room",
+              "catalog": {
+                "id": "company-facilities",
+                "version": 1
+              },
+              "nodes": [
+                {
+                  "id": "cable-demo/floor-1",
+                  "kind": "floor",
+                  "parentId": "cable-demo",
+                  "name": "一层",
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "cable-demo/room-1",
+                  "kind": "room",
+                  "parentId": "cable-demo/floor-1",
+                  "name": "直播间",
+                  "purpose": "streaming",
+                  "bounds": {
+                    "width": 6,
+                    "depth": 4
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "cable/desk",
+                  "kind": "facility",
+                  "parentId": "cable-demo/room-1",
+                  "resource": {
+                    "id": "desk-trestle",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/monitor",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "monitor-aurora-usb",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0.84,
+                      -0.25
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/keyboard",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "keyboard-compact-usb",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0.84,
+                      0.21
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/primary",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "cable-route-braided-loop",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {
+                    "connected": false
+                  },
+                  "cableLink": {
+                    "a": {
+                      "deviceId": "cable/keyboard",
+                      "portId": "usb"
+                    },
+                    "b": {
+                      "deviceId": "cable/monitor",
+                      "portId": "usb"
+                    }
+                  }
+                }
+              ]
+            },
+            "entries": [
+              {
+                "node": {
+                  "id": "cable/primary",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "cable-route-braided-loop",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {
+                    "connected": false
+                  },
+                  "cableLink": {
+                    "a": {
+                      "deviceId": "cable/keyboard",
+                      "portId": "usb"
+                    },
+                    "b": {
+                      "deviceId": "cable/monitor",
+                      "portId": "usb"
+                    }
+                  }
+                },
+                "route": {
+                  "id": "cable/primary",
+                  "parentId": "cable/desk",
+                  "a": [
+                    0.15,
+                    0.854,
+                    0.124
+                  ],
+                  "b": [
+                    0.15,
+                    0.854,
+                    -0.07400000000000001
+                  ],
+                  "end": [
+                    0.15,
+                    0.854,
+                    -0.049000000000000016
+                  ],
+                  "direction": [
+                    0,
+                    0,
+                    -1
+                  ],
+                  "span": 0.198,
+                  "length": 0.17300000000000001,
+                  "connected": false
+                },
+                "centers": {
+                  "A": [
+                    0.15000000596046448,
+                    0.8540000021457672,
+                    0.1080000139772892
+                  ],
+                  "B": [
+                    0.15000000596046448,
+                    0.8540000021457672,
+                    -0.03300001518800855
+                  ]
+                },
+                "expected": {
+                  "A": [
+                    0.15,
+                    0.854,
+                    0.108
+                  ],
+                  "B": [
+                    0.15,
+                    0.854,
+                    -0.033000000000000015
+                  ]
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/cable-route-v1/braided-loop/v1/model.glb",
+                  "sha256": "7da2bb701cefe4e1816dae7717a442214f447e8dca5023685c892a3f1f0e75c4",
+                  "bytes": 17948
+                }
+              }
+            ],
+            "cache": {
+              "cachedAssets": 4,
+              "loadedAssets": 4
+            },
+            "memory": {
+              "geometries": 66,
+              "textures": 3
+            },
+            "view": {
+              "mode": "room",
+              "roomId": "cable-demo/room-1",
+              "floorId": "cable-demo/floor-1"
+            }
+          }
+        },
+        {
+          "connected": {
+            "document": {
+              "schema": "company-layout",
+              "version": 1,
+              "id": "cable-demo",
+              "name": "设备连接 · 四款外观",
+              "revision": 11,
+              "scale": "single-room",
+              "catalog": {
+                "id": "company-facilities",
+                "version": 1
+              },
+              "nodes": [
+                {
+                  "id": "cable-demo/floor-1",
+                  "kind": "floor",
+                  "parentId": "cable-demo",
+                  "name": "一层",
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "cable-demo/room-1",
+                  "kind": "room",
+                  "parentId": "cable-demo/floor-1",
+                  "name": "直播间",
+                  "purpose": "streaming",
+                  "bounds": {
+                    "width": 6,
+                    "depth": 4
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "cable/desk",
+                  "kind": "facility",
+                  "parentId": "cable-demo/room-1",
+                  "resource": {
+                    "id": "desk-trestle",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/monitor",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "monitor-aurora-usb",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0.84,
+                      -0.25
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/keyboard",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "keyboard-compact-usb",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0.84,
+                      0.21
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/primary",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "cable-route-flat-ribbon",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {
+                    "connected": true
+                  },
+                  "cableLink": {
+                    "a": {
+                      "deviceId": "cable/keyboard",
+                      "portId": "usb"
+                    },
+                    "b": {
+                      "deviceId": "cable/monitor",
+                      "portId": "usb"
+                    }
+                  }
+                }
+              ]
+            },
+            "entries": [
+              {
+                "node": {
+                  "id": "cable/primary",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "cable-route-flat-ribbon",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {
+                    "connected": true
+                  },
+                  "cableLink": {
+                    "a": {
+                      "deviceId": "cable/keyboard",
+                      "portId": "usb"
+                    },
+                    "b": {
+                      "deviceId": "cable/monitor",
+                      "portId": "usb"
+                    }
+                  }
+                },
+                "route": {
+                  "id": "cable/primary",
+                  "parentId": "cable/desk",
+                  "a": [
+                    0.15,
+                    0.854,
+                    0.124
+                  ],
+                  "b": [
+                    0.15,
+                    0.854,
+                    -0.07400000000000001
+                  ],
+                  "end": [
+                    0.15,
+                    0.854,
+                    -0.07400000000000001
+                  ],
+                  "direction": [
+                    0,
+                    0,
+                    -1
+                  ],
+                  "span": 0.198,
+                  "length": 0.198,
+                  "connected": true
+                },
+                "centers": {
+                  "A": [
+                    0.15000000596046448,
+                    0.8540000021457672,
+                    0.1080000139772892
+                  ],
+                  "B": [
+                    0.15000000596046448,
+                    0.8540000021457672,
+                    -0.05800001509487629
+                  ]
+                },
+                "expected": {
+                  "A": [
+                    0.15,
+                    0.854,
+                    0.108
+                  ],
+                  "B": [
+                    0.15,
+                    0.854,
+                    -0.05800000000000001
+                  ]
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/cable-route-v1/flat-ribbon/v1/model.glb",
+                  "sha256": "bd38f8b6a3ba84850dda8ba97910520b4098ae1b300ba4edfd68ace8e95906a3",
+                  "bytes": 20952
+                }
+              }
+            ],
+            "cache": {
+              "cachedAssets": 4,
+              "loadedAssets": 4
+            },
+            "memory": {
+              "geometries": 71,
+              "textures": 3
+            },
+            "view": {
+              "mode": "room",
+              "roomId": "cable-demo/room-1",
+              "floorId": "cable-demo/floor-1"
+            }
+          },
+          "disconnected": {
+            "document": {
+              "schema": "company-layout",
+              "version": 1,
+              "id": "cable-demo",
+              "name": "设备连接 · 四款外观",
+              "revision": 12,
+              "scale": "single-room",
+              "catalog": {
+                "id": "company-facilities",
+                "version": 1
+              },
+              "nodes": [
+                {
+                  "id": "cable-demo/floor-1",
+                  "kind": "floor",
+                  "parentId": "cable-demo",
+                  "name": "一层",
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "cable-demo/room-1",
+                  "kind": "room",
+                  "parentId": "cable-demo/floor-1",
+                  "name": "直播间",
+                  "purpose": "streaming",
+                  "bounds": {
+                    "width": 6,
+                    "depth": 4
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "cable/desk",
+                  "kind": "facility",
+                  "parentId": "cable-demo/room-1",
+                  "resource": {
+                    "id": "desk-trestle",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/monitor",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "monitor-aurora-usb",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0.84,
+                      -0.25
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/keyboard",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "keyboard-compact-usb",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0.84,
+                      0.21
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/primary",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "cable-route-flat-ribbon",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {
+                    "connected": false
+                  },
+                  "cableLink": {
+                    "a": {
+                      "deviceId": "cable/keyboard",
+                      "portId": "usb"
+                    },
+                    "b": {
+                      "deviceId": "cable/monitor",
+                      "portId": "usb"
+                    }
+                  }
+                }
+              ]
+            },
+            "entries": [
+              {
+                "node": {
+                  "id": "cable/primary",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "cable-route-flat-ribbon",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {
+                    "connected": false
+                  },
+                  "cableLink": {
+                    "a": {
+                      "deviceId": "cable/keyboard",
+                      "portId": "usb"
+                    },
+                    "b": {
+                      "deviceId": "cable/monitor",
+                      "portId": "usb"
+                    }
+                  }
+                },
+                "route": {
+                  "id": "cable/primary",
+                  "parentId": "cable/desk",
+                  "a": [
+                    0.15,
+                    0.854,
+                    0.124
+                  ],
+                  "b": [
+                    0.15,
+                    0.854,
+                    -0.07400000000000001
+                  ],
+                  "end": [
+                    0.15,
+                    0.854,
+                    -0.049000000000000016
+                  ],
+                  "direction": [
+                    0,
+                    0,
+                    -1
+                  ],
+                  "span": 0.198,
+                  "length": 0.17300000000000001,
+                  "connected": false
+                },
+                "centers": {
+                  "A": [
+                    0.15000000596046448,
+                    0.8540000021457672,
+                    0.1080000139772892
+                  ],
+                  "B": [
+                    0.15000000596046448,
+                    0.8540000021457672,
+                    -0.03300001518800855
+                  ]
+                },
+                "expected": {
+                  "A": [
+                    0.15,
+                    0.854,
+                    0.108
+                  ],
+                  "B": [
+                    0.15,
+                    0.854,
+                    -0.033000000000000015
+                  ]
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/cable-route-v1/flat-ribbon/v1/model.glb",
+                  "sha256": "bd38f8b6a3ba84850dda8ba97910520b4098ae1b300ba4edfd68ace8e95906a3",
+                  "bytes": 20952
+                }
+              }
+            ],
+            "cache": {
+              "cachedAssets": 4,
+              "loadedAssets": 4
+            },
+            "memory": {
+              "geometries": 71,
+              "textures": 3
+            },
+            "view": {
+              "mode": "room",
+              "roomId": "cable-demo/room-1",
+              "floorId": "cable-demo/floor-1"
+            }
+          },
+          "restored": {
+            "document": {
+              "schema": "company-layout",
+              "version": 1,
+              "id": "cable-demo",
+              "name": "设备连接 · 四款外观",
+              "revision": 12,
+              "scale": "single-room",
+              "catalog": {
+                "id": "company-facilities",
+                "version": 1
+              },
+              "nodes": [
+                {
+                  "id": "cable-demo/floor-1",
+                  "kind": "floor",
+                  "parentId": "cable-demo",
+                  "name": "一层",
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "cable-demo/room-1",
+                  "kind": "room",
+                  "parentId": "cable-demo/floor-1",
+                  "name": "直播间",
+                  "purpose": "streaming",
+                  "bounds": {
+                    "width": 6,
+                    "depth": 4
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "cable/desk",
+                  "kind": "facility",
+                  "parentId": "cable-demo/room-1",
+                  "resource": {
+                    "id": "desk-trestle",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/monitor",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "monitor-aurora-usb",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0.84,
+                      -0.25
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/keyboard",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "keyboard-compact-usb",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0.84,
+                      0.21
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {}
+                },
+                {
+                  "id": "cable/primary",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "cable-route-flat-ribbon",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {
+                    "connected": false
+                  },
+                  "cableLink": {
+                    "a": {
+                      "deviceId": "cable/keyboard",
+                      "portId": "usb"
+                    },
+                    "b": {
+                      "deviceId": "cable/monitor",
+                      "portId": "usb"
+                    }
+                  }
+                }
+              ]
+            },
+            "entries": [
+              {
+                "node": {
+                  "id": "cable/primary",
+                  "kind": "facility",
+                  "parentId": "cable/desk",
+                  "resource": {
+                    "id": "cable-route-flat-ribbon",
+                    "version": 1
+                  },
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  },
+                  "state": {
+                    "connected": false
+                  },
+                  "cableLink": {
+                    "a": {
+                      "deviceId": "cable/keyboard",
+                      "portId": "usb"
+                    },
+                    "b": {
+                      "deviceId": "cable/monitor",
+                      "portId": "usb"
+                    }
+                  }
+                },
+                "route": {
+                  "id": "cable/primary",
+                  "parentId": "cable/desk",
+                  "a": [
+                    0.15,
+                    0.854,
+                    0.124
+                  ],
+                  "b": [
+                    0.15,
+                    0.854,
+                    -0.07400000000000001
+                  ],
+                  "end": [
+                    0.15,
+                    0.854,
+                    -0.049000000000000016
+                  ],
+                  "direction": [
+                    0,
+                    0,
+                    -1
+                  ],
+                  "span": 0.198,
+                  "length": 0.17300000000000001,
+                  "connected": false
+                },
+                "centers": {
+                  "A": [
+                    0.15000000596046448,
+                    0.8540000021457672,
+                    0.1080000139772892
+                  ],
+                  "B": [
+                    0.15000000596046448,
+                    0.8540000021457672,
+                    -0.03300001518800855
+                  ]
+                },
+                "expected": {
+                  "A": [
+                    0.15,
+                    0.854,
+                    0.108
+                  ],
+                  "B": [
+                    0.15,
+                    0.854,
+                    -0.033000000000000015
+                  ]
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/cable-route-v1/flat-ribbon/v1/model.glb",
+                  "sha256": "bd38f8b6a3ba84850dda8ba97910520b4098ae1b300ba4edfd68ace8e95906a3",
+                  "bytes": 20952
+                }
+              }
+            ],
+            "cache": {
+              "cachedAssets": 4,
+              "loadedAssets": 4
+            },
+            "memory": {
+              "geometries": 69,
+              "textures": 3
+            },
+            "view": {
+              "mode": "room",
+              "roomId": "cable-demo/room-1",
+              "floorId": "cable-demo/floor-1"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Whole desk move, rotation and copy remap real device references; second span and repeated swaps release resources",
+      "passed": true,
+      "result": {
+        "state": {
+          "document": {
+            "schema": "company-layout",
+            "version": 1,
+            "id": "cable-alternate",
+            "name": "设备连接 · 转向与不同间距",
+            "revision": 10,
+            "scale": "single-room",
+            "catalog": {
+              "id": "company-facilities",
+              "version": 1
+            },
+            "nodes": [
+              {
+                "id": "cable-alternate/floor-1",
+                "kind": "floor",
+                "parentId": "cable-alternate",
+                "name": "一层",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "cable-alternate/room-1",
+                "kind": "room",
+                "parentId": "cable-alternate/floor-1",
+                "name": "直播间",
+                "purpose": "streaming",
+                "bounds": {
+                  "width": 6,
+                  "depth": 4
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "cable/desk",
+                "kind": "facility",
+                "parentId": "cable-alternate/room-1",
+                "resource": {
+                  "id": "desk-trestle",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0.5,
+                    0,
+                    0
+                  ],
+                  "yaw": 1.5707963267948966
+                },
+                "state": {}
+              },
+              {
+                "id": "cable/monitor",
+                "kind": "facility",
+                "parentId": "cable/desk",
+                "resource": {
+                  "id": "monitor-aurora-usb",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0.84,
+                    -0.25
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              },
+              {
+                "id": "cable/keyboard",
+                "kind": "facility",
+                "parentId": "cable/desk",
+                "resource": {
+                  "id": "keyboard-compact-usb",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0.84,
+                    0.31
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              },
+              {
+                "id": "cable/primary",
+                "kind": "facility",
+                "parentId": "cable/desk",
+                "resource": {
+                  "id": "cable-route-flat-ribbon",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                },
+                "state": {
+                  "connected": true
+                },
+                "cableLink": {
+                  "a": {
+                    "deviceId": "cable/keyboard",
+                    "portId": "usb"
+                  },
+                  "b": {
+                    "deviceId": "cable/monitor",
+                    "portId": "usb"
+                  }
+                }
+              }
+            ]
+          },
+          "entries": [
+            {
+              "node": {
+                "id": "cable/primary",
+                "kind": "facility",
+                "parentId": "cable/desk",
+                "resource": {
+                  "id": "cable-route-flat-ribbon",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                },
+                "state": {
+                  "connected": true
+                },
+                "cableLink": {
+                  "a": {
+                    "deviceId": "cable/keyboard",
+                    "portId": "usb"
+                  },
+                  "b": {
+                    "deviceId": "cable/monitor",
+                    "portId": "usb"
+                  }
+                }
+              },
+              "route": {
+                "id": "cable/primary",
+                "parentId": "cable/desk",
+                "a": [
+                  0.15,
+                  0.854,
+                  0.224
+                ],
+                "b": [
+                  0.15,
+                  0.854,
+                  -0.07400000000000001
+                ],
+                "end": [
+                  0.15,
+                  0.854,
+                  -0.07400000000000004
+                ],
+                "direction": [
+                  0,
+                  0,
+                  -1
+                ],
+                "span": 0.29800000000000004,
+                "length": 0.29800000000000004,
+                "connected": true
+              },
+              "centers": {
+                "A": [
+                  0.7080000191926956,
+                  0.8540000021457672,
+                  -0.15000000596046445
+                ],
+                "B": [
+                  0.4419999849051237,
+                  0.8540000021457672,
+                  -0.15000000596046448
+                ]
+              },
+              "expected": {
+                "A": [
+                  0.7080000000000001,
+                  0.854,
+                  -0.14999999999999994
+                ],
+                "B": [
+                  0.442,
+                  0.854,
+                  -0.15
+                ]
+              },
+              "asset": {
+                "format": "glb",
+                "url": "/company-assets/cable-route-v1/flat-ribbon/v1/model.glb",
+                "sha256": "bd38f8b6a3ba84850dda8ba97910520b4098ae1b300ba4edfd68ace8e95906a3",
+                "bytes": 20952
+              }
+            }
+          ],
+          "cache": {
+            "cachedAssets": 4,
+            "loadedAssets": 4
+          },
+          "memory": {
+            "geometries": 72,
+            "textures": 3
+          },
+          "view": {
+            "mode": "room",
+            "roomId": "cable-alternate/room-1",
+            "floorId": "cable-alternate/floor-1"
+          }
+        },
+        "cycles": [
+          {
+            "id": 0,
+            "cache": {
+              "cachedAssets": 4,
+              "loadedAssets": 4
+            },
+            "memory": {
+              "geometries": 68,
+              "textures": 3
+            }
+          },
+          {
+            "id": 1,
+            "cache": {
+              "cachedAssets": 4,
+              "loadedAssets": 4
+            },
+            "memory": {
+              "geometries": 69,
+              "textures": 3
+            }
+          },
+          {
+            "id": 2,
+            "cache": {
+              "cachedAssets": 4,
+              "loadedAssets": 4
+            },
+            "memory": {
+              "geometries": 69,
+              "textures": 3
+            }
+          },
+          {
+            "id": 3,
+            "cache": {
+              "cachedAssets": 4,
+              "loadedAssets": 4
+            },
+            "memory": {
+              "geometries": 72,
+              "textures": 3
+            }
+          },
+          {
+            "id": 0,
+            "cache": {
+              "cachedAssets": 4,
+              "loadedAssets": 4
+            },
+            "memory": {
+              "geometries": 68,
+              "textures": 3
+            }
+          },
+          {
+            "id": 1,
+            "cache": {
+              "cachedAssets": 4,
+              "loadedAssets": 4
+            },
+            "memory": {
+              "geometries": 69,
+              "textures": 3
+            }
+          },
+          {
+            "id": 2,
+            "cache": {
+              "cachedAssets": 4,
+              "loadedAssets": 4
+            },
+            "memory": {
+              "geometries": 69,
+              "textures": 3
+            }
+          },
+          {
+            "id": 3,
+            "cache": {
+              "cachedAssets": 4,
+              "loadedAssets": 4
+            },
+            "memory": {
+              "geometries": 72,
+              "textures": 3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Invalid port movement, endpoint deletion, partial copy, duplicate reservation and HTTP failure keep live scene and saved bytes",
+      "passed": true,
+      "result": [
+        {
+          "code": "unsupported-cable-route",
+          "documentPreserved": true,
+          "savePreserved": true,
+          "rootPreserved": true
+        },
+        {
+          "code": "missing-cable-endpoint",
+          "documentPreserved": true,
+          "savePreserved": true,
+          "rootPreserved": true
+        },
+        {
+          "code": "partial-cable-copy",
+          "documentPreserved": true,
+          "savePreserved": true,
+          "rootPreserved": true
+        },
+        {
+          "code": "cable-port-in-use",
+          "documentPreserved": true,
+          "savePreserved": true,
+          "rootPreserved": true
+        },
+        {
+          "code": "asset-fetch-failed",
+          "documentPreserved": true,
+          "savePreserved": true,
+          "rootPreserved": true
+        }
+      ]
+    },
+    {
+      "name": "Company editor adds a cable to an available endpoint pair without replacing the room",
+      "passed": true,
+      "result": {
+        "document": {
+          "schema": "company-layout",
+          "version": 1,
+          "id": "cable-demo",
+          "name": "设备连接 · 四款外观",
+          "revision": 2,
+          "scale": "single-room",
+          "catalog": {
+            "id": "company-facilities",
+            "version": 1
+          },
+          "nodes": [
+            {
+              "id": "cable-demo/floor-1",
+              "kind": "floor",
+              "parentId": "cable-demo",
+              "name": "一层",
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            {
+              "id": "cable-demo/room-1",
+              "kind": "room",
+              "parentId": "cable-demo/floor-1",
+              "name": "直播间",
+              "purpose": "streaming",
+              "bounds": {
+                "width": 6,
+                "depth": 4
+              },
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            {
+              "id": "cable/desk",
+              "kind": "facility",
+              "parentId": "cable-demo/room-1",
+              "resource": {
+                "id": "desk-trestle",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              },
+              "state": {}
+            },
+            {
+              "id": "cable/monitor",
+              "kind": "facility",
+              "parentId": "cable/desk",
+              "resource": {
+                "id": "monitor-aurora-usb",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0,
+                  0.84,
+                  -0.25
+                ],
+                "yaw": 0
+              },
+              "state": {}
+            },
+            {
+              "id": "cable/keyboard",
+              "kind": "facility",
+              "parentId": "cable/desk",
+              "resource": {
+                "id": "keyboard-compact-usb",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0,
+                  0.84,
+                  0.21
+                ],
+                "yaw": 0
+              },
+              "state": {}
+            },
+            {
+              "id": "cable-demo/room-1/cable-route-flat-ribbon",
+              "kind": "facility",
+              "parentId": "cable/desk",
+              "resource": {
+                "id": "cable-route-flat-ribbon",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              },
+              "state": {},
+              "cableLink": {
+                "a": {
+                  "deviceId": "cable/monitor",
+                  "portId": "usb"
+                },
+                "b": {
+                  "deviceId": "cable/keyboard",
+                  "portId": "usb"
+                }
+              }
+            }
+          ]
+        },
+        "entries": [
+          {
+            "node": {
+              "id": "cable-demo/room-1/cable-route-flat-ribbon",
+              "kind": "facility",
+              "parentId": "cable/desk",
+              "resource": {
+                "id": "cable-route-flat-ribbon",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              },
+              "state": {},
+              "cableLink": {
+                "a": {
+                  "deviceId": "cable/monitor",
+                  "portId": "usb"
+                },
+                "b": {
+                  "deviceId": "cable/keyboard",
+                  "portId": "usb"
+                }
+              }
+            },
+            "route": {
+              "id": "cable-demo/room-1/cable-route-flat-ribbon",
+              "parentId": "cable/desk",
+              "a": [
+                0.15,
+                0.854,
+                -0.07400000000000001
+              ],
+              "b": [
+                0.15,
+                0.854,
+                0.124
+              ],
+              "end": [
+                0.15,
+                0.854,
+                0.124
+              ],
+              "direction": [
+                0,
+                0,
+                1
+              ],
+              "span": 0.198,
+              "length": 0.198,
+              "connected": true
+            },
+            "centers": {
+              "A": [
+                0.15000000596046448,
+                0.8540000021457672,
+                -0.05800001509487629
+              ],
+              "B": [
+                0.15000000596046448,
+                0.8540000021457672,
+                0.1080000139772892
+              ]
+            },
+            "expected": {
+              "A": [
+                0.15,
+                0.854,
+                -0.05800000000000001
+              ],
+              "B": [
+                0.15,
+                0.854,
+                0.108
+              ]
+            },
+            "asset": {
+              "format": "glb",
+              "url": "/company-assets/cable-route-v1/flat-ribbon/v1/model.glb",
+              "sha256": "bd38f8b6a3ba84850dda8ba97910520b4098ae1b300ba4edfd68ace8e95906a3",
+              "bytes": 20952
+            }
+          }
+        ],
+        "cache": {
+          "cachedAssets": 4,
+          "loadedAssets": 4
+        },
+        "memory": {
+          "geometries": 70,
+          "textures": 3
+        },
+        "view": {
+          "mode": "room",
+          "roomId": "cable-demo/room-1",
+          "floorId": "cable-demo/floor-1"
+        }
+      }
+    },
+    {
+      "name": "Actual obstructing geometry rejects edits on a hidden floor in building overview",
+      "passed": true,
+      "result": {
+        "code": "cable-route-obstructed",
+        "documentPreserved": true,
+        "savePreserved": true,
+        "rootPreserved": true,
+        "cache": {
+          "cachedAssets": 0,
+          "loadedAssets": 0
+        }
+      }
+    }
+  ],
+  "limits": [
+    "Software Chromium functional evidence; no ordinary-PC performance, arbitrary cable routing, electrical simulation or C3 claims."
+  ],
+  "harnessSha256": "c9c0d0ddda3f4b458e7cc036e6f66ff602eda233a0fc5a2cf7bf967800d44c7e",
+  "downloads": [
+    {
+      "url": "/company-assets/cable-route-v1/single-sleeve/v1/model.glb",
+      "sha256": "d4e9db50fd5ce9596f71abec6e5ade45408323ae3827fcba0b0ff6b9cc832393",
+      "bytes": 13976
+    },
+    {
+      "url": "/company-assets/cable-devices-v1/monitor-aurora-usb/v1/model.glb",
+      "sha256": "c24f67e5ae303ef37f4729a9caf241a06b184eea20c57b83706a603e2b06b7ce",
+      "bytes": 116588
+    },
+    {
+      "url": "/company-assets/cable-devices-v1/keyboard-compact-usb/v1/model.glb",
+      "sha256": "a94759bb9e70e76c0a1ad3e477f4ed0396702a2ace309b309fb8583b438c30e9",
+      "bytes": 79360
+    },
+    {
+      "url": "/company-assets/cable-devices-v1/monitor-aurora-usb/v1/model.glb",
+      "sha256": "c24f67e5ae303ef37f4729a9caf241a06b184eea20c57b83706a603e2b06b7ce",
+      "bytes": 116588
+    },
+    {
+      "url": "/company-assets/cable-devices-v1/keyboard-compact-usb/v1/model.glb",
+      "sha256": "a94759bb9e70e76c0a1ad3e477f4ed0396702a2ace309b309fb8583b438c30e9",
+      "bytes": 79360
+    },
+    {
+      "url": "/company-assets/cable-route-v1/single-sleeve/v1/model.glb",
+      "sha256": "d4e9db50fd5ce9596f71abec6e5ade45408323ae3827fcba0b0ff6b9cc832393",
+      "bytes": 13976
+    },
+    {
+      "url": "/company-assets/cable-route-v1/dual-sleeve/v1/model.glb",
+      "sha256": "f89484ab21b030a131a35076b05c0107260d5d760cab27dda766527117ad6a5a",
+      "bytes": 17500
+    },
+    {
+      "url": "/company-assets/cable-devices-v1/monitor-aurora-usb/v1/model.glb",
+      "sha256": "c24f67e5ae303ef37f4729a9caf241a06b184eea20c57b83706a603e2b06b7ce",
+      "bytes": 116588
+    },
+    {
+      "url": "/company-assets/cable-devices-v1/keyboard-compact-usb/v1/model.glb",
+      "sha256": "a94759bb9e70e76c0a1ad3e477f4ed0396702a2ace309b309fb8583b438c30e9",
+      "bytes": 79360
+    },
+    {
+      "url": "/company-assets/cable-route-v1/dual-sleeve/v1/model.glb",
+      "sha256": "f89484ab21b030a131a35076b05c0107260d5d760cab27dda766527117ad6a5a",
+      "bytes": 17500
+    },
+    {
+      "url": "/company-assets/cable-route-v1/braided-loop/v1/model.glb",
+      "sha256": "7da2bb701cefe4e1816dae7717a442214f447e8dca5023685c892a3f1f0e75c4",
+      "bytes": 17948
+    },
+    {
+      "url": "/company-assets/cable-devices-v1/monitor-aurora-usb/v1/model.glb",
+      "sha256": "c24f67e5ae303ef37f4729a9caf241a06b184eea20c57b83706a603e2b06b7ce",
+      "bytes": 116588
+    },
+    {
+      "url": "/company-assets/cable-route-v1/braided-loop/v1/model.glb",
+      "sha256": "7da2bb701cefe4e1816dae7717a442214f447e8dca5023685c892a3f1f0e75c4",
+      "bytes": 17948
+    },
+    {
+      "url": "/company-assets/cable-devices-v1/keyboard-compact-usb/v1/model.glb",
+      "sha256": "a94759bb9e70e76c0a1ad3e477f4ed0396702a2ace309b309fb8583b438c30e9",
+      "bytes": 79360
+    },
+    {
+      "url": "/company-assets/cable-route-v1/flat-ribbon/v1/model.glb",
+      "sha256": "bd38f8b6a3ba84850dda8ba97910520b4098ae1b300ba4edfd68ace8e95906a3",
+      "bytes": 20952
+    },
+    {
+      "url": "/company-assets/cable-devices-v1/monitor-aurora-usb/v1/model.glb",
+      "sha256": "c24f67e5ae303ef37f4729a9caf241a06b184eea20c57b83706a603e2b06b7ce",
+      "bytes": 116588
+    },
+    {
+      "url": "/company-assets/cable-route-v1/flat-ribbon/v1/model.glb",
+      "sha256": "bd38f8b6a3ba84850dda8ba97910520b4098ae1b300ba4edfd68ace8e95906a3",
+      "bytes": 20952
+    },
+    {
+      "url": "/company-assets/cable-devices-v1/keyboard-compact-usb/v1/model.glb",
+      "sha256": "a94759bb9e70e76c0a1ad3e477f4ed0396702a2ace309b309fb8583b438c30e9",
+      "bytes": 79360
+    },
+    {
+      "url": "/company-assets/cable-route-v1/single-sleeve/v1/model.glb",
+      "sha256": "d4e9db50fd5ce9596f71abec6e5ade45408323ae3827fcba0b0ff6b9cc832393",
+      "bytes": 13976
+    },
+    {
+      "url": "/company-assets/cable-route-v1/dual-sleeve/v1/model.glb",
+      "sha256": "f89484ab21b030a131a35076b05c0107260d5d760cab27dda766527117ad6a5a",
+      "bytes": 17500
+    },
+    {
+      "url": "/company-assets/cable-route-v1/braided-loop/v1/model.glb",
+      "sha256": "7da2bb701cefe4e1816dae7717a442214f447e8dca5023685c892a3f1f0e75c4",
+      "bytes": 17948
+    },
+    {
+      "url": "/company-assets/cable-route-v1/flat-ribbon/v1/model.glb",
+      "sha256": "bd38f8b6a3ba84850dda8ba97910520b4098ae1b300ba4edfd68ace8e95906a3",
+      "bytes": 20952
+    },
+    {
+      "url": "/company-assets/cable-route-v1/single-sleeve/v1/model.glb",
+      "sha256": "d4e9db50fd5ce9596f71abec6e5ade45408323ae3827fcba0b0ff6b9cc832393",
+      "bytes": 13976
+    },
+    {
+      "url": "/company-assets/cable-route-v1/dual-sleeve/v1/model.glb",
+      "sha256": "f89484ab21b030a131a35076b05c0107260d5d760cab27dda766527117ad6a5a",
+      "bytes": 17500
+    },
+    {
+      "url": "/company-assets/cable-route-v1/braided-loop/v1/model.glb",
+      "sha256": "7da2bb701cefe4e1816dae7717a442214f447e8dca5023685c892a3f1f0e75c4",
+      "bytes": 17948
+    },
+    {
+      "url": "/company-assets/cable-route-v1/flat-ribbon/v1/model.glb",
+      "sha256": "bd38f8b6a3ba84850dda8ba97910520b4098ae1b300ba4edfd68ace8e95906a3",
+      "bytes": 20952
+    },
+    {
+      "url": "/company-assets/cable-devices-v1/monitor-aurora-usb/v1/model.glb",
+      "sha256": "c24f67e5ae303ef37f4729a9caf241a06b184eea20c57b83706a603e2b06b7ce",
+      "bytes": 116588
+    },
+    {
+      "url": "/company-assets/cable-route-v1/flat-ribbon/v1/model.glb",
+      "sha256": "bd38f8b6a3ba84850dda8ba97910520b4098ae1b300ba4edfd68ace8e95906a3",
+      "bytes": 20952
+    },
+    {
+      "url": "/company-assets/cable-devices-v1/keyboard-compact-usb/v1/model.glb",
+      "sha256": "a94759bb9e70e76c0a1ad3e477f4ed0396702a2ace309b309fb8583b438c30e9",
+      "bytes": 79360
+    },
+    {
+      "url": "/company-assets/cable-devices-v1/monitor-aurora-usb/v1/model.glb",
+      "sha256": "c24f67e5ae303ef37f4729a9caf241a06b184eea20c57b83706a603e2b06b7ce",
+      "bytes": 116588
+    },
+    {
+      "url": "/company-assets/cable-devices-v1/keyboard-compact-usb/v1/model.glb",
+      "sha256": "a94759bb9e70e76c0a1ad3e477f4ed0396702a2ace309b309fb8583b438c30e9",
+      "bytes": 79360
+    },
+    {
+      "url": "/company-assets/cable-route-v1/flat-ribbon/v1/model.glb",
+      "sha256": "bd38f8b6a3ba84850dda8ba97910520b4098ae1b300ba4edfd68ace8e95906a3",
+      "bytes": 20952
+    },
+    {
+      "url": "/company-assets/cable-route-v1/single-sleeve/v1/model.glb",
+      "sha256": "d4e9db50fd5ce9596f71abec6e5ade45408323ae3827fcba0b0ff6b9cc832393",
+      "bytes": 13976
+    },
+    {
+      "url": "/company-assets/cable-devices-v1/monitor-aurora-usb/v1/model.glb",
+      "sha256": "c24f67e5ae303ef37f4729a9caf241a06b184eea20c57b83706a603e2b06b7ce",
+      "bytes": 116588
+    },
+    {
+      "url": "/company-assets/cable-route-v1/single-sleeve/v1/model.glb",
+      "sha256": "d4e9db50fd5ce9596f71abec6e5ade45408323ae3827fcba0b0ff6b9cc832393",
+      "bytes": 13976
+    },
+    {
+      "url": "/company-assets/cable-devices-v1/keyboard-compact-usb/v1/model.glb",
+      "sha256": "a94759bb9e70e76c0a1ad3e477f4ed0396702a2ace309b309fb8583b438c30e9",
+      "bytes": 79360
+    },
+    {
+      "url": "/company-assets/cable-devices-v1/keyboard-compact-usb/v1/model.glb",
+      "sha256": "a94759bb9e70e76c0a1ad3e477f4ed0396702a2ace309b309fb8583b438c30e9",
+      "bytes": 79360
+    },
+    {
+      "url": "/company-assets/cable-devices-v1/monitor-aurora-usb/v1/model.glb",
+      "sha256": "c24f67e5ae303ef37f4729a9caf241a06b184eea20c57b83706a603e2b06b7ce",
+      "bytes": 116588
+    },
+    {
+      "url": "/company-assets/cable-route-v1/single-sleeve/v1/model.glb",
+      "sha256": "d4e9db50fd5ce9596f71abec6e5ade45408323ae3827fcba0b0ff6b9cc832393",
+      "bytes": 13976
+    },
+    {
+      "url": "/company-assets/cable-devices-v1/keyboard-compact-usb/v1/model.glb",
+      "sha256": "a94759bb9e70e76c0a1ad3e477f4ed0396702a2ace309b309fb8583b438c30e9",
+      "bytes": 79360
+    },
+    {
+      "url": "/company-assets/cable-devices-v1/keyboard-compact-usb/v1/model.glb",
+      "sha256": "a94759bb9e70e76c0a1ad3e477f4ed0396702a2ace309b309fb8583b438c30e9",
+      "bytes": 79360
+    },
+    {
+      "url": "/company-assets/cable-devices-v1/monitor-aurora-usb/v1/model.glb",
+      "sha256": "c24f67e5ae303ef37f4729a9caf241a06b184eea20c57b83706a603e2b06b7ce",
+      "bytes": 116588
+    },
+    {
+      "url": "/company-assets/cable-route-v1/single-sleeve/v1/model.glb",
+      "sha256": "d4e9db50fd5ce9596f71abec6e5ade45408323ae3827fcba0b0ff6b9cc832393",
+      "bytes": 13976
+    },
+    {
+      "url": "/company-assets/cable-route-v1/flat-ribbon/v1/model.glb",
+      "sha256": "bd38f8b6a3ba84850dda8ba97910520b4098ae1b300ba4edfd68ace8e95906a3",
+      "bytes": 20952
+    }
+  ]
+}

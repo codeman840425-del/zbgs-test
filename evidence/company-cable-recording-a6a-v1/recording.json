@@ -1,0 +1,52 @@
+{
+  "sourceCommit": "be642f9c1d161c7829080997e8a18f61744a8595",
+  "build": "a6a9ab67b62f",
+  "playbackSpeed": 1,
+  "steps": [
+    {
+      "name": "01-device-desk",
+      "seconds": 7.561
+    },
+    {
+      "name": "02-connected",
+      "seconds": 14.598
+    },
+    {
+      "name": "03-look-2",
+      "seconds": 26.125
+    },
+    {
+      "name": "03-look-3",
+      "seconds": 37.361
+    },
+    {
+      "name": "03-look-4",
+      "seconds": 44.492
+    },
+    {
+      "name": "04-disconnected",
+      "seconds": 50.083
+    },
+    {
+      "name": "05-reconnected",
+      "seconds": 55.124
+    },
+    {
+      "name": "06-whole-desk-rotated",
+      "seconds": 62.875
+    },
+    {
+      "name": "07-second-span",
+      "seconds": 67.804
+    },
+    {
+      "name": "08-saved-disconnected",
+      "seconds": 73.612
+    }
+  ],
+  "limits": [
+    "Software Chromium functional recording; not ordinary-PC performance or C3/human acceptance."
+  ],
+  "status": "failed",
+  "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n... Skipped lines\n\n  {\n    catalog: {\n      id: 'company-facilities',\n      version: 1\n    },\n+   id: 'cable-demo',\n+   name: '设备连接 · 四款外观',\n-   id: 'cable-alternate',\n-   name: '设备连接 · 转向与不同间距',\n    nodes: [\n      {\n+       id: 'cable-demo/floor-1',\n-       id: 'cable-alternate/floor-1',\n        kind: 'floor',\n        name: '一层',\n+       parentId: 'cable-demo',\n-       parentId: 'cable-alternate',\n        transform: {\n          position: [\n            0,\n            0,\n            0\n...\n        },\n+       id: 'cable-demo/room-1',\n-       id: 'cable-alternate/room-1',\n        kind: 'room',\n        name: '直播间',\n+       parentId: 'cable-demo/floor-1',\n-       parentId: 'cable-alternate/floor-1',\n        purpose: 'streaming',\n        transform: {\n          position: [\n            0,\n            0,\n...\n        kind: 'facility',\n+       parentId: 'cable-demo/room-1',\n-       parentId: 'cable-alternate/room-1',\n        resource: {\n          id: 'desk-trestle',\n          version: 1\n        },\n        state: {},\n        transform: {\n          position: [\n-           0.5,\n            0,\n            0,\n+           0\n          ],\n+         yaw: 0\n-         yaw: 1.5707963267948966\n        }\n      },\n      {\n        id: 'cable/monitor',\n        kind: 'facility',\n...\n            0.84,\n+           0.21\n-           0.31\n          ],\n          yaw: 0\n        }\n      },\n      {\n...\n        },\n+       state: {},\n-       state: {\n-         connected: false\n-       },\n        transform: {\n          position: [\n            0,\n            0,\n            0\n...\n    ],\n+   revision: 1,\n-   revision: 2,\n    scale: 'single-room',\n    schema: 'company-layout',\n    version: 1\n  }\n\n    at F:\\gamemake-company-platform-c1\\scripts\\company-platform\\record-cable.cjs:18:103"
+}

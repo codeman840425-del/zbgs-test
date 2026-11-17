@@ -1,0 +1,482 @@
+{
+  "status": "passed",
+  "profile": "company-cable-route-v1",
+  "sourceHashes": {
+    "assets-source/company-cable-route-v1/parameters.json": "a8e2a0f51fa6ab733300d05f75bf418c495ec1cc72c05812738f3810b1ec1649",
+    "scripts/company-platform/build-cable-route.mjs": "5e61d8f006ad8b44c04a2d066a9ab9c6b89f5a497b79effa0103d2652c803cc5",
+    "prototype/src/company/cable-route-geometry.js": "dd10a794f053ac305b5efa219194f07da67e38e0b6e1b3f5dd07df0204ca4929",
+    "scripts/company-platform/test-cable-route-geometry.mjs": "2c988210c52ba74b40937d6f89f5d0ab04d99c18dde657726c844838d9c186f7"
+  },
+  "checks": [
+    {
+      "id": "single-sleeve",
+      "sha256": "d4e9db50fd5ce9596f71abec6e5ade45408323ae3827fcba0b0ff6b9cc832393",
+      "bytes": 13976,
+      "actual": {
+        "checked": true,
+        "profile": "company-cable-route-v1",
+        "meshCount": 7,
+        "routeMeshCount": 7,
+        "triangles": 224,
+        "bounds": {
+          "min": [
+            -0.703000009059906,
+            -0.004999999888241291,
+            -0.008999999612569809
+          ],
+          "max": [
+            0.703000009059906,
+            0.013000000268220901,
+            0.008999999612569809
+          ]
+        },
+        "size": [
+          1.406000018119812,
+          0.018000000156462193,
+          0.017999999225139618
+        ],
+        "endpointContacts": {
+          "A": [
+            -0.7,
+            0,
+            0
+          ],
+          "B": [
+            0.7,
+            0,
+            0
+          ]
+        },
+        "connected": true,
+        "opaqueStandardMaterials": true
+      }
+    },
+    {
+      "id": "dual-sleeve",
+      "sha256": "f89484ab21b030a131a35076b05c0107260d5d760cab27dda766527117ad6a5a",
+      "bytes": 17500,
+      "actual": {
+        "checked": true,
+        "profile": "company-cable-route-v1",
+        "meshCount": 8,
+        "routeMeshCount": 8,
+        "triangles": 296,
+        "bounds": {
+          "min": [
+            -0.703000009059906,
+            -0.004999999888241291,
+            -0.014000000432133675
+          ],
+          "max": [
+            0.703000009059906,
+            0.013000000268220901,
+            0.014000000432133675
+          ]
+        },
+        "size": [
+          1.406000018119812,
+          0.018000000156462193,
+          0.02800000086426735
+        ],
+        "endpointContacts": {
+          "A": [
+            -0.7,
+            0,
+            0
+          ],
+          "B": [
+            0.7,
+            0,
+            0
+          ]
+        },
+        "connected": true,
+        "opaqueStandardMaterials": true
+      }
+    },
+    {
+      "id": "braided-loop",
+      "sha256": "7da2bb701cefe4e1816dae7717a442214f447e8dca5023685c892a3f1f0e75c4",
+      "bytes": 17948,
+      "actual": {
+        "checked": true,
+        "profile": "company-cable-route-v1",
+        "meshCount": 8,
+        "routeMeshCount": 8,
+        "triangles": 400,
+        "bounds": {
+          "min": [
+            -0.703000009059906,
+            -0.004999999888241291,
+            -0.008999999612569809
+          ],
+          "max": [
+            0.703000009059906,
+            0.011800000444054604,
+            0.008999999612569809
+          ]
+        },
+        "size": [
+          1.406000018119812,
+          0.016800000332295895,
+          0.017999999225139618
+        ],
+        "endpointContacts": {
+          "A": [
+            -0.7,
+            0,
+            0
+          ],
+          "B": [
+            0.7,
+            0,
+            0
+          ]
+        },
+        "connected": true,
+        "opaqueStandardMaterials": true
+      }
+    },
+    {
+      "id": "flat-ribbon",
+      "sha256": "bd38f8b6a3ba84850dda8ba97910520b4098ae1b300ba4edfd68ace8e95906a3",
+      "bytes": 20952,
+      "actual": {
+        "checked": true,
+        "profile": "company-cable-route-v1",
+        "meshCount": 11,
+        "routeMeshCount": 11,
+        "triangles": 132,
+        "bounds": {
+          "min": [
+            -0.703000009059906,
+            -0.004999999888241291,
+            -0.008999999612569809
+          ],
+          "max": [
+            0.703000009059906,
+            0.0104994997382164,
+            0.008999999612569809
+          ]
+        },
+        "size": [
+          1.406000018119812,
+          0.015499499626457691,
+          0.017999999225139618
+        ],
+        "endpointContacts": {
+          "A": [
+            -0.7,
+            0,
+            0
+          ],
+          "B": [
+            0.7,
+            0,
+            0
+          ]
+        },
+        "connected": true,
+        "opaqueStandardMaterials": true
+      }
+    },
+    {
+      "id": "broken-end",
+      "model": "evidence/company-cable-route-production-v1/broken-end.glb",
+      "sha256": "a70476744602868f4e82172c8543b98a539e670eda1f68a85db52129291cd64f",
+      "bytes": 14136,
+      "rejected": true,
+      "error": {
+        "code": "cable-continuity",
+        "path": "cable-route-single-sleeve.geometry.routeNodes",
+        "message": "Every route segment must touch the endpoint-connected component",
+        "details": {
+          "disconnected": [
+            "endpoint-B",
+            "plug-B-head",
+            "single-sleeve-link-B"
+          ]
+        }
+      }
+    },
+    {
+      "id": "thin-sheet",
+      "model": "evidence/company-cable-route-production-v1/thin-sheet.glb",
+      "sha256": "9e7fe27ce7d01298d0a4989004ed1323b7fb33b1e795e4e8f7ae3191e607495b",
+      "bytes": 13860,
+      "rejected": true,
+      "error": {
+        "code": "cable-solid-volume",
+        "path": "cable-route-single-sleeve.mesh.endpoint-A",
+        "message": "Cable mesh must enclose a positive solid volume"
+      }
+    },
+    {
+      "id": "outside-envelope",
+      "model": "evidence/company-cable-route-production-v1/outside-envelope.glb",
+      "sha256": "b17b38a6f489822394d8d1ea0ddfdbaeae551ec0dbf3ed483dd2075e739838b7",
+      "bytes": 14132,
+      "rejected": true,
+      "error": {
+        "code": "cable-envelope",
+        "path": "cable-route-single-sleeve.geometry.envelope",
+        "message": "Cable route exceeds its fixed envelope",
+        "details": {
+          "bounds": {
+            "min": [
+              -0.703000009059906,
+              -0.004999999888241291,
+              -0.008999999612569809
+            ],
+            "max": [
+              0.703000009059906,
+              0.05299999937415123,
+              0.008999999612569809
+            ]
+          },
+          "envelope": {
+            "width": 1.6,
+            "height": 0.03,
+            "depth": 0.03
+          }
+        }
+      }
+    },
+    {
+      "id": "duplicate-endpoint-floating",
+      "model": "evidence/company-cable-route-production-v1/duplicate-endpoint-floating.glb",
+      "sha256": "c7d35c31d0c82fb8746793bce5a2749a83e2fad95212ad0c7c2c31fe06408495",
+      "bytes": 14268,
+      "rejected": true,
+      "error": {
+        "code": "cable-endpoint-uniqueness",
+        "path": "cable-route-single-sleeve.geometry.endpointNodes",
+        "message": "Exactly one endpoint A and one endpoint B are required",
+        "details": {
+          "endpointMeshes": [
+            "endpoint-A",
+            "endpoint-B",
+            "endpoint-A_1"
+          ]
+        }
+      }
+    },
+    {
+      "id": "floating-segment",
+      "model": "evidence/company-cable-route-production-v1/floating-segment.glb",
+      "sha256": "84aa6369690fbd6548acd6e66b814c41d2a233d8b7e19d6982dc5d51f15abf14",
+      "bytes": 18168,
+      "rejected": true,
+      "error": {
+        "code": "cable-envelope",
+        "path": "cable-route-braided-loop.geometry.envelope",
+        "message": "Cable route exceeds its fixed envelope",
+        "details": {
+          "bounds": {
+            "min": [
+              -0.703000009059906,
+              -0.004999999888241291,
+              -0.008999999612569809
+            ],
+            "max": [
+              0.703000009059906,
+              0.011800000444054604,
+              0.033799999952316286
+            ]
+          },
+          "envelope": {
+            "width": 1.6,
+            "height": 0.03,
+            "depth": 0.03
+          }
+        }
+      }
+    },
+    {
+      "id": "independent-parameter-regeneration",
+      "passed": true,
+      "assets": [
+        {
+          "id": "single-sleeve",
+          "beforeSha256": "d4e9db50fd5ce9596f71abec6e5ade45408323ae3827fcba0b0ff6b9cc832393",
+          "afterSha256": "3f97be1901ea8c4e3fb7ba4ba435b4b9567c24cc919f4cb39f37465ec1919844",
+          "changed": true,
+          "actual": {
+            "checked": true,
+            "profile": "company-cable-route-v1",
+            "meshCount": 7,
+            "routeMeshCount": 7,
+            "triangles": 224,
+            "bounds": {
+              "min": [
+                -0.703000009059906,
+                -0.004999999888241291,
+                -0.008999999612569809
+              ],
+              "max": [
+                0.703000009059906,
+                0.012500000186264515,
+                0.008999999612569809
+              ]
+            },
+            "size": [
+              1.406000018119812,
+              0.017500000074505806,
+              0.017999999225139618
+            ],
+            "endpointContacts": {
+              "A": [
+                -0.7,
+                0,
+                0
+              ],
+              "B": [
+                0.7,
+                0,
+                0
+              ]
+            },
+            "connected": true,
+            "opaqueStandardMaterials": true
+          }
+        },
+        {
+          "id": "dual-sleeve",
+          "beforeSha256": "f89484ab21b030a131a35076b05c0107260d5d760cab27dda766527117ad6a5a",
+          "afterSha256": "f89484ab21b030a131a35076b05c0107260d5d760cab27dda766527117ad6a5a",
+          "changed": false,
+          "actual": {
+            "checked": true,
+            "profile": "company-cable-route-v1",
+            "meshCount": 8,
+            "routeMeshCount": 8,
+            "triangles": 296,
+            "bounds": {
+              "min": [
+                -0.703000009059906,
+                -0.004999999888241291,
+                -0.014000000432133675
+              ],
+              "max": [
+                0.703000009059906,
+                0.013000000268220901,
+                0.014000000432133675
+              ]
+            },
+            "size": [
+              1.406000018119812,
+              0.018000000156462193,
+              0.02800000086426735
+            ],
+            "endpointContacts": {
+              "A": [
+                -0.7,
+                0,
+                0
+              ],
+              "B": [
+                0.7,
+                0,
+                0
+              ]
+            },
+            "connected": true,
+            "opaqueStandardMaterials": true
+          }
+        },
+        {
+          "id": "braided-loop",
+          "beforeSha256": "7da2bb701cefe4e1816dae7717a442214f447e8dca5023685c892a3f1f0e75c4",
+          "afterSha256": "7da2bb701cefe4e1816dae7717a442214f447e8dca5023685c892a3f1f0e75c4",
+          "changed": false,
+          "actual": {
+            "checked": true,
+            "profile": "company-cable-route-v1",
+            "meshCount": 8,
+            "routeMeshCount": 8,
+            "triangles": 400,
+            "bounds": {
+              "min": [
+                -0.703000009059906,
+                -0.004999999888241291,
+                -0.008999999612569809
+              ],
+              "max": [
+                0.703000009059906,
+                0.011800000444054604,
+                0.008999999612569809
+              ]
+            },
+            "size": [
+              1.406000018119812,
+              0.016800000332295895,
+              0.017999999225139618
+            ],
+            "endpointContacts": {
+              "A": [
+                -0.7,
+                0,
+                0
+              ],
+              "B": [
+                0.7,
+                0,
+                0
+              ]
+            },
+            "connected": true,
+            "opaqueStandardMaterials": true
+          }
+        },
+        {
+          "id": "flat-ribbon",
+          "beforeSha256": "bd38f8b6a3ba84850dda8ba97910520b4098ae1b300ba4edfd68ace8e95906a3",
+          "afterSha256": "bd38f8b6a3ba84850dda8ba97910520b4098ae1b300ba4edfd68ace8e95906a3",
+          "changed": false,
+          "actual": {
+            "checked": true,
+            "profile": "company-cable-route-v1",
+            "meshCount": 11,
+            "routeMeshCount": 11,
+            "triangles": 132,
+            "bounds": {
+              "min": [
+                -0.703000009059906,
+                -0.004999999888241291,
+                -0.008999999612569809
+              ],
+              "max": [
+                0.703000009059906,
+                0.0104994997382164,
+                0.008999999612569809
+              ]
+            },
+            "size": [
+              1.406000018119812,
+              0.015499499626457691,
+              0.017999999225139618
+            ],
+            "endpointContacts": {
+              "A": [
+                -0.7,
+                0,
+                0
+              ],
+              "B": [
+                0.7,
+                0,
+                0
+              ]
+            },
+            "connected": true,
+            "opaqueStandardMaterials": true
+          }
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Production-source static route samples use fixed local endpoints. Actual device route, variable distance and parent transformation require shared runtime integration evidence.",
+    "No flexible physics, cable tension, electrical simulation or ordinary-computer performance acceptance."
+  ]
+}

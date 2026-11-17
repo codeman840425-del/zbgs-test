@@ -1,0 +1,100 @@
+{
+  "id": "company-cable-route-v1",
+  "version": 1,
+  "branchId": "cable-route",
+  "contract": {
+    "branchId": "cable-route",
+    "mount": "parent-device-endpoints",
+    "parent": "desk.parent",
+    "state": "connected-disconnected",
+    "envelope": {
+      "width": 1.6,
+      "height": 0.03,
+      "depth": 0.03
+    },
+    "endpointA": [
+      -0.7,
+      0,
+      0
+    ],
+    "endpointB": [
+      0.7,
+      0,
+      0
+    ],
+    "thickness": 0.006,
+    "maxMeshes": 60,
+    "maxTriangles": 2000,
+    "maxMaterials": 4
+  },
+  "resourceIds": [
+    "cable-route-single-sleeve",
+    "cable-route-dual-sleeve",
+    "cable-route-braided-loop",
+    "cable-route-flat-ribbon"
+  ],
+  "resources": [
+    {
+      "id": "cable-route-single-sleeve",
+      "version": 1,
+      "url": "/company-assets/cable-route-v1/single-sleeve/v1/model.glb",
+      "resourcePath": "prototype/public/company-assets/cable-route-v1/single-sleeve/v1/resource.json",
+      "modelPath": "prototype/public/company-assets/cable-route-v1/single-sleeve/v1/model.glb",
+      "sha256": "d4e9db50fd5ce9596f71abec6e5ade45408323ae3827fcba0b0ff6b9cc832393"
+    },
+    {
+      "id": "cable-route-dual-sleeve",
+      "version": 1,
+      "url": "/company-assets/cable-route-v1/dual-sleeve/v1/model.glb",
+      "resourcePath": "prototype/public/company-assets/cable-route-v1/dual-sleeve/v1/resource.json",
+      "modelPath": "prototype/public/company-assets/cable-route-v1/dual-sleeve/v1/model.glb",
+      "sha256": "f89484ab21b030a131a35076b05c0107260d5d760cab27dda766527117ad6a5a"
+    },
+    {
+      "id": "cable-route-braided-loop",
+      "version": 1,
+      "url": "/company-assets/cable-route-v1/braided-loop/v1/model.glb",
+      "resourcePath": "prototype/public/company-assets/cable-route-v1/braided-loop/v1/resource.json",
+      "modelPath": "prototype/public/company-assets/cable-route-v1/braided-loop/v1/model.glb",
+      "sha256": "7da2bb701cefe4e1816dae7717a442214f447e8dca5023685c892a3f1f0e75c4"
+    },
+    {
+      "id": "cable-route-flat-ribbon",
+      "version": 1,
+      "url": "/company-assets/cable-route-v1/flat-ribbon/v1/model.glb",
+      "resourcePath": "prototype/public/company-assets/cable-route-v1/flat-ribbon/v1/resource.json",
+      "modelPath": "prototype/public/company-assets/cable-route-v1/flat-ribbon/v1/model.glb",
+      "sha256": "bd38f8b6a3ba84850dda8ba97910520b4098ae1b300ba4edfd68ace8e95906a3"
+    }
+  ],
+  "assets": [
+    {
+      "id": "single-sleeve",
+      "bytes": 13976,
+      "sha256": "d4e9db50fd5ce9596f71abec6e5ade45408323ae3827fcba0b0ff6b9cc832393",
+      "widthOverride": 0.01
+    },
+    {
+      "id": "dual-sleeve",
+      "bytes": 17500,
+      "sha256": "f89484ab21b030a131a35076b05c0107260d5d760cab27dda766527117ad6a5a",
+      "widthOverride": null
+    },
+    {
+      "id": "braided-loop",
+      "bytes": 17948,
+      "sha256": "7da2bb701cefe4e1816dae7717a442214f447e8dca5023685c892a3f1f0e75c4",
+      "widthOverride": null
+    },
+    {
+      "id": "flat-ribbon",
+      "bytes": 20952,
+      "sha256": "bd38f8b6a3ba84850dda8ba97910520b4098ae1b300ba4edfd68ace8e95906a3",
+      "widthOverride": null
+    }
+  ],
+  "sourceParameters": "assets-source/company-cable-route-v1/parameters.json",
+  "sourceParametersSha256": "a8e2a0f51fa6ab733300d05f75bf418c495ec1cc72c05812738f3810b1ec1649",
+  "generator": "scripts/company-platform/build-cable-route.mjs",
+  "generatorSha256": "5e61d8f006ad8b44c04a2d066a9ab9c6b89f5a497b79effa0103d2652c803cc5"
+}

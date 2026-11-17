@@ -1,0 +1,164 @@
+{
+  "status": "source-adaptation-readback-passed",
+  "designId": "monitor-aurora-usb",
+  "originalResource": "monitor-aurora@1",
+  "source": {
+    "assetPath": "prototype/public/company-assets/device-collection/monitor-aurora/v1/model.glb",
+    "assetSha256": "37433fac48f4d4fc7eebf81690b32c0d0e972b5d68bb85f9ed3889e8d8adc6b3",
+    "editableSource": "assets-source/company-device-collection/monitor-aurora/parameters.json",
+    "generator": "scripts/company-platform/build-device-collection.mjs"
+  },
+  "adaptation": {
+    "port": {
+      "id": "usb",
+      "connector": "usb-c-visual-v1",
+      "position": [
+        0.15,
+        0.014,
+        0.176
+      ],
+      "direction": [
+        0,
+        0,
+        1
+      ],
+      "backing": "crescent-foot",
+      "backingSurface": {
+        "plane": "z",
+        "value": 0.17
+      },
+      "opening": {
+        "width": 0.018,
+        "height": 0.008
+      },
+      "frame": {
+        "outerWidth": 0.026,
+        "outerHeight": 0.014,
+        "depth": 0.006,
+        "barHeight": 0.003
+      },
+      "plug": {
+        "width": 0.016,
+        "height": 0.006,
+        "insertion": 0.003
+      }
+    },
+    "resource": [
+      {
+        "id": "usb",
+        "connector": "usb-c-visual-v1",
+        "position": [
+          0.15,
+          0.014,
+          0.176
+        ],
+        "direction": [
+          0,
+          0,
+          1
+        ]
+      }
+    ],
+    "cablePortNodes": {
+      "usb": {
+        "frame": [
+          "monitor-aurora-usb-cable-port-usb-left",
+          "monitor-aurora-usb-cable-port-usb-right",
+          "monitor-aurora-usb-cable-port-usb-top",
+          "monitor-aurora-usb-cable-port-usb-bottom"
+        ],
+        "backing": "crescent-foot"
+      }
+    }
+  },
+  "asset": {
+    "id": "monitor-aurora-usb",
+    "version": 1,
+    "originalResource": "monitor-aurora@1",
+    "assetSha256": "c24f67e5ae303ef37f4729a9caf241a06b184eea20c57b83706a603e2b06b7ce",
+    "bytes": 116588,
+    "meshes": 9,
+    "triangles": 1172,
+    "bounds": {
+      "min": [
+        -0.4300000071525574,
+        -4.321336743301485e-10,
+        -0.06999999731779098
+      ],
+      "max": [
+        0.4300000071525574,
+        0.6600000107288361,
+        0.17600000002607702
+      ]
+    },
+    "port": {
+      "id": "usb",
+      "position": [
+        0.15,
+        0.014,
+        0.176
+      ],
+      "direction": [
+        0,
+        0,
+        1
+      ],
+      "backing": "crescent-foot"
+    },
+    "portCheck": {
+      "checked": true,
+      "ports": [
+        {
+          "id": "usb",
+          "frame": [
+            "monitor-aurora-usb-cable-port-usb-left",
+            "monitor-aurora-usb-cable-port-usb-right",
+            "monitor-aurora-usb-cable-port-usb-top",
+            "monitor-aurora-usb-cable-port-usb-bottom"
+          ],
+          "backing": "crescent-foot",
+          "position": [
+            0.15,
+            0.014,
+            0.176
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "backingDepth": 0.006500002682209016
+        }
+      ],
+      "realMeshMappings": true,
+      "cpuOnly": true
+    },
+    "failureSamples": [
+      {
+        "id": "missing-frame-edge",
+        "expectedCode": "cable-port-mesh",
+        "actualCode": "cable-port-mesh",
+        "passed": true
+      },
+      {
+        "id": "floating-frame",
+        "expectedCode": "cable-port-frame-contact",
+        "actualCode": "cable-port-frame-contact",
+        "passed": true
+      },
+      {
+        "id": "sealed-opening",
+        "expectedCode": "cable-port-blocked",
+        "actualCode": "cable-port-blocked",
+        "passed": true
+      }
+    ],
+    "repeatedExportByteIdentical": true,
+    "sourceAssetSha256": "37433fac48f4d4fc7eebf81690b32c0d0e972b5d68bb85f9ed3889e8d8adc6b3",
+    "cpuOnly": true
+  },
+  "limitations": [
+    "Visual connector geometry only. No USB electronics, power or communication simulation.",
+    "CPU GLB readback and ray checks only. Browser integration remains a separate task."
+  ]
+}

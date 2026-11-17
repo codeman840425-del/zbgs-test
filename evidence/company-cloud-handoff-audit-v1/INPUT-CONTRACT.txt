@@ -1,0 +1,40 @@
+# 云端首批素材输入合同（现有事实核对）
+
+## 先做什么
+
+- 首批只做一个可平铺饰面或一个静态挂画，先完成源记录、GLB/纹理回读、resource 登记和 CPU 合同核验，再决定是否批量。
+- 当前游戏实际消费的是 pinned catalog resource 和静态 GLB。数量、目录分支或参考图本身都不构成运行接入。
+
+## 参考图
+
+- 当前代码没有 reference-image 资源 schema，也没有把 PNG/JPEG 参考图自动导入游戏的入口。它们只能作为人工审阅材料。
+- 参考图如随云端任务传递，外部清单至少应保留稳定 ID、原始 URL 或文件来源、许可、格式、像素宽高、色彩/透明度说明、字节数和 SHA256。以上是移交可追溯字段，不是已接入的游戏输入合同。
+- 不把参考图改名为 GLB、纹理或 catalog resource。没有生成器、resource.json、嵌入图像和实际回读，就不能声称已进入游戏。
+
+## 可平铺饰面（实际已接入）
+
+- 资源必须是 `kind: surface-finish`、`mountRole: surface-finish`，坐标为 metres、`+Y` up、`+Z` forward。
+- `asset` 必须声明 `format: glb`、URL、正整数 bytes 和 64 位 SHA256。GLB 内的 BIN 与图像必须使用 bufferView，禁止外部 URI。
+- `finish` 必须声明一个允许面（floor、wall 或 ceiling）、`materialNode: finish-surface` 和两个 0.1–4m 的 `tileMeters`。`materialSlots.finish` 必须只指向实际 `finish-surface` 网格，`stateDefaults` 为空，不能有 blocking footprint 或 usePoints。
+- 运行时把房间米制坐标写入该网格的主 UV，按 `tileMeters` 重复纹理。当前 surface renderer 只接受 primary UV channel，UV 必须有限，嵌入图像必须可解码且有正尺寸。
+- 现有墙/地面/顶面 finish 资源及其生成器、GLB、resource.json、源参数 SHA 和许可记录是已接入样例。新素材必须沿同一来源→生成→GLB Loader 回读→resource pin 流程。
+
+## 固定 UV 贴图和挂画
+
+- 静态挂画、墙板、地毯等设施使用普通 facility resource。必须保留 `id/version`、`coordinates`、`mount/mounting`、`asset.format/url/bytes/sha256`、材质槽和 provenance 的源/生成器/许可字段。
+- asset-library 要求静态 GLB，不含 skin/animation，不含外部 URI 或未配置的压缩扩展。使用纹理的网格必须有匹配 UV，UV 和节点变换必须有限，图像必须实际解码。
+- 固定 UV、图像色彩空间、通道选择和分辨率上限不是当前通用字段门。不要把未写入代码的色彩或尺寸建议当成已验证限制。以实际 GLB、resource.json、源 hash 和 loader 回读为准。
+- 当前四款 `wall-art-*` 是已登记、可挂墙运行的 project-authored GLB 样例。它们不是外部参考图自动转换的结果。云端可先做同合同的静态挂画适配，保留旧资源和明确新 ID/version。
+
+## 空间、设施和角色接缝
+
+- 布局是 `company-layout` v1。文档保存 company id、revision、scale、catalog pin 和节点数组。节点以稳定 id、kind、parentId、局部 position/yaw 表达，yaw 只接受 90° 倍数。
+- `deriveCompany` 与 `prepareCompanyChange/commit` 负责父子关系、墙/门洞/地面/桌面/承载面/信息槽/顶面包络、状态和失败保旧。保存使用 `company-save` v1 并 pin 实际 resource/template 内容摘要。
+- Company provider 提供环境设施、use point、导航和保存恢复。角色、CharacterScene、任务、导航执行、seat-lease、占用和 main.js 共享接缝仍由总工负责。company save 不重建角色任务或旧占用锁。
+- 云端任务应提交设施源、生成器、resource manifest、失败样例和精确输入 hash。先以一个资源的小包在 Debian 13、约 2.5GB 可用 RAM、无独显环境执行 CPU 核验，再扩大范围。没有 Linux/普通机/GPU 实测时必须标为未测。
+
+## 现有接入与限制
+
+- 已有接入：surface-finish 的 GLB/嵌入纹理/米制平铺、静态墙面挂画和多类设施的资源 pin、挂接和保存恢复。
+- 仅参考：外部参考图片、研究中的来源网页和未登记的颜色/UV建议。它们不会自动变成游戏资源。
+- 许可沿资源 provenance 和原始 License.txt 记录。当前 package 以项目自制资源为主，Kenney 输入已有 CC0记录。不要把未纳入 package 的研究来源写成当前输入。

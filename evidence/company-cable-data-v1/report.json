@@ -1,0 +1,82 @@
+{
+  "status": "passed",
+  "profile": "company-cable-data-v1",
+  "checks": [
+    {
+      "name": "单套线缆 contract",
+      "passed": true,
+      "id": "cable-route-single-sleeve"
+    },
+    {
+      "name": "双套线缆 contract",
+      "passed": true,
+      "id": "cable-route-dual-sleeve"
+    },
+    {
+      "name": "编织环线 contract",
+      "passed": true,
+      "id": "cable-route-braided-loop"
+    },
+    {
+      "name": "扁平带线 contract",
+      "passed": true,
+      "id": "cable-route-flat-ribbon"
+    },
+    {
+      "name": "Connected cable resolves two compatible facing ports",
+      "passed": true,
+      "span": 0.23800000000000004
+    },
+    {
+      "name": "Disconnected B keeps the reserved endpoint and shortens the visual route",
+      "passed": true,
+      "length": 0.21300000000000005
+    },
+    {
+      "name": "Missing endpoint",
+      "code": "missing-cable-endpoint"
+    },
+    {
+      "name": "Port conflict",
+      "code": "cable-port-in-use"
+    },
+    {
+      "name": "Wrong endpoint orientation",
+      "code": "unsupported-cable-route"
+    },
+    {
+      "name": "Span below runtime minimum",
+      "code": "unsupported-cable-route"
+    },
+    {
+      "name": "Endpoint outside desk corridor",
+      "code": "cable-outside-desk"
+    },
+    {
+      "name": "Moving parent desk is rejected",
+      "code": "invalid-cable-parent"
+    },
+    {
+      "name": "Quarter-turned desk port pair derives a valid same-axis route",
+      "passed": true,
+      "span": 0.23800000000000004
+    },
+    {
+      "name": "Whole-desk translation/rotation leaves parent-local cable span stable",
+      "passed": true,
+      "span": 0.23800000000000004
+    },
+    {
+      "name": "Copied desk devices with remapped endpoint IDs derive an independent cable",
+      "passed": true
+    },
+    {
+      "name": "Copy with unremapped endpoint IDs is rejected and original link stays intact",
+      "passed": true,
+      "code": "cable-port-in-use"
+    }
+  ],
+  "limits": [
+    "CPU contract only. No server leases, electrical semantics, flexible physics, browser runtime or arbitrary curved routes."
+  ]
+}

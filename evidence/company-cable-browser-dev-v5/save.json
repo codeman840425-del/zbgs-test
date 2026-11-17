@@ -1,0 +1,160 @@
+{
+  "schema": "company-save",
+  "version": 1,
+  "document": {
+    "schema": "company-layout",
+    "version": 1,
+    "id": "cable-alternate",
+    "name": "设备连接 · 转向与不同间距",
+    "revision": 2,
+    "scale": "single-room",
+    "catalog": {
+      "id": "company-facilities",
+      "version": 1
+    },
+    "nodes": [
+      {
+        "id": "cable-alternate/floor-1",
+        "kind": "floor",
+        "parentId": "cable-alternate",
+        "name": "一层",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "cable-alternate/room-1",
+        "kind": "room",
+        "parentId": "cable-alternate/floor-1",
+        "name": "直播间",
+        "purpose": "streaming",
+        "bounds": {
+          "width": 6,
+          "depth": 4
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "cable/desk",
+        "kind": "facility",
+        "parentId": "cable-alternate/room-1",
+        "resource": {
+          "id": "desk-trestle",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0.5,
+            0,
+            0
+          ],
+          "yaw": 1.5707963267948966
+        },
+        "state": {}
+      },
+      {
+        "id": "cable/monitor",
+        "kind": "facility",
+        "parentId": "cable/desk",
+        "resource": {
+          "id": "monitor-aurora-usb",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0.84,
+            -0.25
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "cable/keyboard",
+        "kind": "facility",
+        "parentId": "cable/desk",
+        "resource": {
+          "id": "keyboard-compact-usb",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0.84,
+            0.31
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "cable/primary",
+        "kind": "facility",
+        "parentId": "cable/desk",
+        "resource": {
+          "id": "cable-route-flat-ribbon",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        },
+        "state": {
+          "connected": true
+        },
+        "cableLink": {
+          "a": {
+            "deviceId": "cable/keyboard",
+            "portId": "usb"
+          },
+          "b": {
+            "deviceId": "cable/monitor",
+            "portId": "usb"
+          }
+        }
+      }
+    ]
+  },
+  "dependencies": {
+    "resources": [
+      {
+        "id": "cable-route-flat-ribbon",
+        "version": 1,
+        "sha256": "735a3f38c5cff09ec8bd36433831838636cb5a42f37ba21a2c958218a90fba38"
+      },
+      {
+        "id": "desk-trestle",
+        "version": 1,
+        "sha256": "2e81f459c830d4618f5388fe7beea8fe752111f68d78e3aad9bfa4f277cd4d2b"
+      },
+      {
+        "id": "keyboard-compact-usb",
+        "version": 1,
+        "sha256": "789e694c5ee60e4df955a0d289f841379b956311ec84a2dfbd8cf0575d624982"
+      },
+      {
+        "id": "monitor-aurora-usb",
+        "version": 1,
+        "sha256": "9a7f2f12eb1a9a86a752acd515f6d824e3f7098848e0d4fef210241380b180c0"
+      }
+    ],
+    "templates": []
+  }
+}

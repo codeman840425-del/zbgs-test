@@ -1,0 +1,132 @@
+{
+  "id": "cable-route-dual-sleeve",
+  "displayName": "双套线缆",
+  "version": 1,
+  "category": "decor",
+  "mount": "parent-device-endpoints",
+  "mountRole": "cable-route",
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Endpoint A",
+    "scale": "Identity only"
+  },
+  "productionBranch": "cable-route",
+  "provenance": {
+    "license": "Project-authored procedural geometry, unrestricted project use",
+    "prompt": "Project-authored opaque standard-material cable-link source for two collinear desk device ports. The production sample uses local endpoint faces A[-0.7,0,0] and B[0.7,0,0], a 1.4m endpoint span inside a 1.6m x 0.03m x 0.03m source envelope. The runtime link adapts only the central body to a same-height span of 0.14m..0.70m while fixed plug segments remain unchanged. Use solid positive-thickness geometry with a continuous connected path and a restrained mid-span slack loop. Keep the source static with no flexible physics, textures, light animation, or external art assets. Export identity-scale GLB in metres, Y up, +Z forward. Design direction: Two parallel round sleeves joined by endpoint combs, with offset slack arcs.",
+    "tools": [
+      "Three.js 187",
+      "BoxGeometry",
+      "Capped polyline tube",
+      "GLTFExporter",
+      "GLTFLoader readback"
+    ],
+    "sourceParameters": "assets-source/company-cable-route-v1/parameters.json",
+    "sourceParametersSha256": "a8e2a0f51fa6ab733300d05f75bf418c495ec1cc72c05812738f3810b1ec1649",
+    "sourceDesign": "dual-sleeve",
+    "functionalContractSource": "assets-source/company-environment-specs-v1/branches.json#cable-route",
+    "functionalContractSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "generator": "scripts/company-platform/build-cable-route.mjs",
+    "generatorSha256": "5e61d8f006ad8b44c04a2d066a9ab9c6b89f5a497b79effa0103d2652c803cc5",
+    "method": "paired round sleeves"
+  },
+  "geometry": {
+    "profile": "company-cable-route-v1",
+    "envelope": {
+      "width": 1.6,
+      "height": 0.03,
+      "depth": 0.03
+    },
+    "endpointA": [
+      -0.7,
+      0,
+      0
+    ],
+    "endpointB": [
+      0.7,
+      0,
+      0
+    ],
+    "thickness": 0.006,
+    "fixedSegmentBounds": {
+      "A": [
+        -0.703,
+        -0.665
+      ],
+      "B": [
+        0.665,
+        0.703
+      ]
+    },
+    "endpointNodes": {
+      "A": "endpoint-A",
+      "B": "endpoint-B"
+    },
+    "routeNodes": [
+      "endpoint-A",
+      "endpoint-B",
+      "plug-A-head",
+      "plug-B-head",
+      "dual-comb-A",
+      "dual-comb-B",
+      "dual-sleeve-lower",
+      "dual-sleeve-upper"
+    ],
+    "maxMeshes": 60,
+    "maxTriangles": 2000,
+    "maxMaterials": 4,
+    "sourceEnvelope": {
+      "y": [
+        -0.006,
+        0.014
+      ],
+      "z": [
+        -0.014,
+        0.014
+      ]
+    }
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/cable-route-v1/dual-sleeve/v1/model.glb",
+    "sha256": "f89484ab21b030a131a35076b05c0107260d5d760cab27dda766527117ad6a5a",
+    "bytes": 17500
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.703,
+      0.015
+    ],
+    "blocking": false
+  },
+  "usePoints": [],
+  "stateDefaults": {
+    "connected": true
+  },
+  "stateSchema": {
+    "connected": {
+      "type": "boolean"
+    }
+  },
+  "cableConnection": {
+    "profile": "desk-collinear-v1",
+    "connector": "usb-c-visual-v1",
+    "spanRange": [
+      0.14,
+      0.7
+    ],
+    "unplugDistance": 0.025
+  },
+  "stateSemantics": {
+    "connected": "both-device-ports-connected-or-B-unplugged"
+  },
+  "checks": {
+    "physics": "static-restricted-line-only"
+  }
+}

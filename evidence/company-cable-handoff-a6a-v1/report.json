@@ -1,0 +1,150 @@
+{
+  "checks": [
+    {
+      "name": "all packaged manifest files",
+      "count": 1084
+    },
+    {
+      "name": "independent rebuild runtime bytes",
+      "files": 363
+    },
+    {
+      "name": "real packaged import, cable replace/disconnect, whole-desk rotation, save and browser restart",
+      "target": "cable/primary",
+      "document": {
+        "catalog": {
+          "id": "company-facilities",
+          "version": 1
+        },
+        "id": "cable-alternate",
+        "name": "设备连接 · 转向与不同间距",
+        "nodes": [
+          {
+            "id": "cable-alternate/floor-1",
+            "kind": "floor",
+            "name": "一层",
+            "parentId": "cable-alternate",
+            "transform": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "yaw": 0
+            }
+          },
+          {
+            "bounds": {
+              "depth": 4,
+              "width": 6
+            },
+            "id": "cable-alternate/room-1",
+            "kind": "room",
+            "name": "直播间",
+            "parentId": "cable-alternate/floor-1",
+            "purpose": "streaming",
+            "transform": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "yaw": 0
+            }
+          },
+          {
+            "id": "cable/desk",
+            "kind": "facility",
+            "parentId": "cable-alternate/room-1",
+            "resource": {
+              "id": "desk-trestle",
+              "version": 1
+            },
+            "state": {},
+            "transform": {
+              "position": [
+                0.5,
+                0,
+                0
+              ],
+              "yaw": 3.141592653589793
+            }
+          },
+          {
+            "id": "cable/monitor",
+            "kind": "facility",
+            "parentId": "cable/desk",
+            "resource": {
+              "id": "monitor-aurora-usb",
+              "version": 1
+            },
+            "state": {},
+            "transform": {
+              "position": [
+                0,
+                0.84,
+                -0.25
+              ],
+              "yaw": 0
+            }
+          },
+          {
+            "id": "cable/keyboard",
+            "kind": "facility",
+            "parentId": "cable/desk",
+            "resource": {
+              "id": "keyboard-compact-usb",
+              "version": 1
+            },
+            "state": {},
+            "transform": {
+              "position": [
+                0,
+                0.84,
+                0.31
+              ],
+              "yaw": 0
+            }
+          },
+          {
+            "cableLink": {
+              "a": {
+                "deviceId": "cable/keyboard",
+                "portId": "usb"
+              },
+              "b": {
+                "deviceId": "cable/monitor",
+                "portId": "usb"
+              }
+            },
+            "id": "cable/primary",
+            "kind": "facility",
+            "parentId": "cable/desk",
+            "resource": {
+              "id": "cable-route-dual-sleeve",
+              "version": 1
+            },
+            "state": {
+              "connected": false
+            },
+            "transform": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "yaw": 0
+            }
+          }
+        ],
+        "revision": 5,
+        "scale": "single-room",
+        "schema": "company-layout",
+        "version": 1
+      }
+    }
+  ],
+  "package": "F:\\gamemake-company-cable-delivery-a6a",
+  "build": "a6a9ab67b62f",
+  "status": "passed"
+}

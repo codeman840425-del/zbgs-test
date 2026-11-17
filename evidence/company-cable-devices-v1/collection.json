@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "company-cable-devices-v1",
+  "generator": "scripts/company-platform/build-cable-devices.mjs",
+  "generatorSha256": "964ca580f850359229312fbc103c941e37d7177a7d345d08bcf28b38e60843de",
+  "sourceParameters": "assets-source/company-cable-devices-v1/parameters.json",
+  "sourceParametersSha256": "1e98855bf0904b396b9a192aa4324c0a95c9394ed48ce6667d24cfa2b9f5b6ae",
+  "resources": [
+    {
+      "id": "monitor-aurora-usb",
+      "version": 1,
+      "resourcePath": "prototype/public/company-assets/cable-devices-v1/monitor-aurora-usb/v1/resource.json",
+      "modelPath": "prototype/public/company-assets/cable-devices-v1/monitor-aurora-usb/v1/model.glb",
+      "sourcePath": "assets-source/company-cable-devices-v1/parameters.json",
+      "evidencePath": "evidence/company-cable-devices-v1/monitor-aurora-usb/report.json",
+      "sha256": "c24f67e5ae303ef37f4729a9caf241a06b184eea20c57b83706a603e2b06b7ce"
+    },
+    {
+      "id": "keyboard-compact-usb",
+      "version": 1,
+      "resourcePath": "prototype/public/company-assets/cable-devices-v1/keyboard-compact-usb/v1/resource.json",
+      "modelPath": "prototype/public/company-assets/cable-devices-v1/keyboard-compact-usb/v1/model.glb",
+      "sourcePath": "assets-source/company-cable-devices-v1/parameters.json",
+      "evidencePath": "evidence/company-cable-devices-v1/keyboard-compact-usb/report.json",
+      "sha256": "a94759bb9e70e76c0a1ad3e477f4ed0396702a2ace309b309fb8583b438c30e9"
+    }
+  ],
+  "verification": {
+    "cpuOnly": true,
+    "gltfLoaderReadback": true,
+    "repeatedExportByteIdentical": true,
+    "cablePortGeometry": "real-mesh-frame-and-backing-ray-check"
+  },
+  "limitations": [
+    "Visual connector geometry only. No USB electronics, power or communication simulation.",
+    "CPU GLB readback and ray checks only. Browser integration remains a separate task."
+  ]
+}

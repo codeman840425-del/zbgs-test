@@ -1,0 +1,18 @@
+公司界面与设备连接包
+固定源码 8035a3a5e554e2e0d7561c963a619fa6cb47a5e3
+固定构建 b579ea426d63
+预览 http://127.0.0.1:60880/?layout=smallHome ，仅使用公司原端口。设施样件中选择“设备连接线”查看新机制。
+
+界面：公司布置/设施样件分开；选中物品才显示适用的换款、移动、旋转和状态；保存/恢复/文件在页首、镜头在画面旁。补正整桌转向后的近看方向和导入样件栏目。原七组真实 UI 回归通过，固定截图在 company-facility-editor-browser-b57-v1。
+设备连接：复用项目桌/屏幕/键盘，接口适配独立资源ID，四款线缆真实模型。支持同桌同高相对共线 0.14–0.70m；中段适配长度，两端形状不拉伸；B端可断开25mm并重连。四款逐款关闭恢复、两种间距、整桌转向复制ID隔离、错误/资源503保场景及保存、隐藏层实际阻挡检查均过。公司布置可在合法空闲接口对上直接添加。
+
+复现：
+在 F:/gamemake-company-cable-fixed-v1/prototype 执行 npm ci --no-audit --no-fund；node scripts/build-company-id.mjs；npx vite build --config vite.company.config.js。
+在公司工作树根执行 node scripts/company-platform/qa-cable-preview.cjs F:/gamemake-company-cable-fixed-v1/prototype/dist-company b579ea426d63 NEW_EVIDENCE_DIRECTORY。
+制作使用 docs/COMPANY-CABLE-CONTRACT-v1.txt 中3条生成/登记命令；CPU测试 test-cable-data.mjs、test-cable-render.mjs、test-cable-route-geometry.mjs。
+独立包 F:/gamemake-company-cable-delivery-b57：1084文件hash核验，独立npm ci重建363运行文件逐字节一致，真实导入/换线/断开/整桌旋转/保存关闭重开通过。node serve.mjs 观看；node edit.mjs validate data/save.json；node edit.mjs apply data/save.json OPS.json NEW_DIRECTORY。
+录像 evidence/company-cable-recording-b57-v1/cable-normal1x.webm，1440×1000、25fps、76.4秒、正常1×；已检查实际解码12帧接触表与独立包截图。
+
+保留失败：开发b26对所有资产误用端口校验而加载失败，已限定带接口资源；7fe的初版断言误把延长插头中心当接口面，已按实际源几何校正。a6a录像初版重开时带指定布局query导致验证错误，已用普通入口；a6a独立截图暴露近看没有随物品朝向且导入样件栏目不匹配，8035修正，b57原UI回归和受影响链重验。旧失败身份不改标签。
+边界：四款短线不代表桌下线篮/理线槽已做；不做电路/任意软线物理。原位换皮只对相同功能/安装合同成立。C1全部分类、成套内容及C3最终角色联调仍未完成；普通电脑性能未测。
+下一项继续从常用镜头可见的设施/成套空间复用缺口选有界包，优先已有许可素材；不再打磨这组线缆细节。云端样图接入等待顾问提供具体小包，不作为当前交付阻塞。
