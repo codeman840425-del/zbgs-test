@@ -5,6 +5,10 @@ import { createEquipmentLoader, updateEquipmentMaterials, collectEquipmentTextur
 import { shapeFitDescriptor } from './shape-fit-registry.js';
 import { layerFitRequirement, validateLayerFit, assertLayerFitSet } from './garment-layer-fit.js';
 
+// GLTFLoader sanitizes node names and retains the exact glTF name in userData.
+const boneNames = bone => [...new Set([bone.name, bone.userData?.name]
+  .filter(name => typeof name === 'string' && name.length > 0))];
+
 /** Load independent garment GLBs onto a compatible existing raw skeleton.
  * No motion/controller dependency, no mutation of the avatar's meshes/materials.
  * The manifest owns bone mapping, slot and rest-bind compatibility constraints.
@@ -46,9 +50,11 @@ export async function createEquipment({
       sourceSurfaceNames.set(node,new Set(materials.map(material=>material?.name?.replace(/ \(Outline\)$/,''))));
     }
     if (node.isBone) {
-      if (rawByName.has(node.name) && rawByName.get(node.name) !== node)
-        throw new Error(`Ambiguous raw bone ${node.name}`);
-      rawByName.set(node.name, node);
+      for (const name of boneNames(node)) {
+        if (rawByName.has(name) && rawByName.get(name) !== node)
+          throw new Error(`Ambiguous raw bone ${name}`);
+        rawByName.set(name, node);
+      }
     }
     if (node.isSkinnedMesh)
       node.skeleton.bones.forEach((bone, index) => {
@@ -156,6 +162,7 @@ export async function createEquipment({
       if (!inverse || binding.inverseBindMatrix.length !== 16 ||
           inverse.elements.some((n, i) => Math.abs(n - binding.inverseBindMatrix[i]) > 1e-5))
         throw new Error(`Rest bind differs for ${binding.targetRawBone}; refit/export is required`);
+      if (mapping.has(binding.sourceBone)) throw new Error(`Duplicate garment bone binding ${binding.sourceBone}`);
       mapping.set(binding.sourceBone, { bone, inverse });
     }
     const url = new URL(entry.url, manifestBase);
@@ -196,9 +203,10 @@ export async function createEquipment({
       let skeleton = skeletons.get(mesh.skeleton);
       if (!skeleton) {
         const bones = mesh.skeleton.bones.map((bone) => {
-          const binding = mapping.get(bone.name);
-          if (!binding) throw new Error(`Unmapped garment bone ${bone.name}`);
-          return binding.bone;
+          const names = boneNames(bone).filter(name => mapping.has(name));
+          if (!names.length) throw new Error(`Unmapped garment bone ${bone.name}`);
+          if (names.length !== 1) throw new Error(`Ambiguous garment bone ${bone.name}`);
+          return mapping.get(names[0]).bone;
         });
         skeleton = new THREE.Skeleton(bones, mesh.skeleton.boneInverses.map((m) => m.clone()));
         skeletons.set(mesh.skeleton, skeleton);

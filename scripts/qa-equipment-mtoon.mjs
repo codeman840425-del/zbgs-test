@@ -20,7 +20,7 @@ const snapshots = await Promise.all(paths.map(async path => ({ path, sha256: has
 await writeFile(resolve(out, 'tested-sources.json'), JSON.stringify(snapshots, null, 2));
 const checks = [];
 const near = (value, expected) => assert.ok(Math.abs(value - expected) < 1e-10, `${value} != ${expected}`);
-function fixture(kind) {
+function fixture(kind, boneName = 'Head') {
   const chunks = [], views = [], accessors = [];
   let length = 0;
   function attribute(array, type, componentType) {
@@ -59,7 +59,7 @@ function fixture(kind) {
     bufferViews: views, accessors, extensionsUsed, materials: [material],
     meshes: [{ primitives: [{ attributes, indices, material: 0 }] }],
     skins: [{ joints: [0], inverseBindMatrices }],
-    nodes: [{ name: 'Head' }, { name: 'Garment', mesh: 0, skin: 0 }],
+    nodes: [{ name: boneName }, { name: 'Garment', mesh: 0, skin: 0 }],
     scenes: [{ nodes: [0, 1] }], scene: 0 };
   let json = Buffer.from(JSON.stringify(document));
   json = Buffer.concat([json, Buffer.alloc((-json.length) & 3, 32)]);
@@ -190,6 +190,58 @@ try {
     actualDisposeEvents: textureDisposals, expectedDisposeEvents: 1, textureLayout });
   checks.push({ name: 'uniform-texture-array-alias-disposed-once', passed: arrayTextureDisposals === 1,
     actualDisposeEvents: arrayTextureDisposals, expectedDisposeEvents: 1 });
+
+  // Reproduce the actual native garment's whitespace joint name through the
+  // official loader on both the avatar and the independent garment.
+  const nativeBoneName = 'J_Sec_R_TopsUpperLegBack_end 1_01';
+  const namedBytes = fixture('mtoon', nativeBoneName);
+  const namedGLTF = await createEquipmentLoader().parseAsync(namedBytes.buffer.slice(namedBytes.byteOffset, namedBytes.byteOffset + namedBytes.byteLength), '');
+  let namedMesh; namedGLTF.scene.traverse(node => { if (node.isSkinnedMesh) namedMesh = node; });
+  const namedBone = namedMesh.skeleton.bones[0];
+  assert.equal(namedBone.userData.name, nativeBoneName);
+  assert.equal(namedBone.name, 'J_Sec_R_TopsUpperLegBack_end_1_01');
+  resources.set('https://fixture.test/named.glb', namedBytes);
+  const namedEntry = { id: 'named', slot: 'top', url: '/named.glb', bytes: namedBytes.length,
+    sha256: hash(namedBytes), compatibleAvatarSha256: bodySHA,
+    bindings: [{ sourceBone: nativeBoneName, targetRawBone: nativeBoneName, inverseBindMatrix: new THREE.Matrix4().elements }] };
+  items.push(namedEntry);
+  const namedVRM = { scene: namedGLTF.scene, humanoid: { getRawBoneNode: () => null } };
+  const namedAdapter = await createEquipment({ vrm: namedVRM, avatarSha256: bodySHA, manifestUrl: '/manifest.json' });
+  try {
+    const namedGarment = await namedAdapter.load('named');
+    assert.equal(namedGarment.meshes[0].skeleton.bones[0], namedBone);
+    assert.equal(namedBone.name, 'J_Sec_R_TopsUpperLegBack_end_1_01');
+    checks.push({ name: 'actual-loader-original-node-alias-on-source-and-target', passed: true,
+      originalName: nativeBoneName, loadedName: namedBone.name, humanoidFallbackUsed: false });
+  } finally { namedAdapter.dispose(); }
+  const conflict = new THREE.Bone(); conflict.name = nativeBoneName;
+  namedGLTF.scene.add(conflict);
+  await assert.rejects(createEquipment({ vrm: namedVRM, avatarSha256: bodySHA, manifestUrl: '/manifest.json' }), /Ambiguous raw bone/);
+  conflict.removeFromParent();
+  checks.push({ name: 'original-alias-colliding-with-another-runtime-bone-rejected', passed: true });
+  conflict.name = 'Unrelated'; conflict.userData.name = nativeBoneName; namedGLTF.scene.add(conflict);
+  await assert.rejects(createEquipment({ vrm: namedVRM, avatarSha256: bodySHA, manifestUrl: '/manifest.json' }), /Ambiguous raw bone/);
+  conflict.removeFromParent();
+  checks.push({ name: 'two-original-node-aliases-rejected', passed: true });
+
+  // Both original and sanitized source labels in a manifest cannot choose
+  // between different bindings, even when each target is independently valid.
+  items.push({ ...namedEntry, id: 'ambiguous-source', bindings: [
+    { ...namedEntry.bindings[0], targetRawBone: 'Head' },
+    { sourceBone: namedBone.name, targetRawBone: 'Other', inverseBindMatrix: new THREE.Matrix4().elements },
+  ] });
+  const otherBone = new THREE.Bone(); otherBone.name = 'Other'; scene.add(otherBone);
+  const otherMesh = new THREE.SkinnedMesh(loaded.plain.geometry.clone(), new THREE.MeshStandardMaterial());
+  otherMesh.bind(new THREE.Skeleton([otherBone], [new THREE.Matrix4()])); scene.add(otherMesh);
+  const ambiguousAdapter = await createEquipment({ vrm, avatarSha256: bodySHA, manifestUrl: '/manifest.json' });
+  try { await assert.rejects(ambiguousAdapter.load('ambiguous-source'), /Ambiguous garment bone/); }
+  finally { ambiguousAdapter.dispose(); otherMesh.removeFromParent(); otherMesh.geometry.dispose(); otherMesh.material.dispose(); otherBone.removeFromParent(); }
+  checks.push({ name: 'multiple-matching-source-binding-aliases-rejected', passed: true });
+  items.push({ ...namedEntry, id: 'duplicate-source', bindings: [namedEntry.bindings[0], namedEntry.bindings[0]] });
+  const duplicateAdapter = await createEquipment({ vrm: namedVRM, avatarSha256: bodySHA, manifestUrl: '/manifest.json' });
+  try { await assert.rejects(duplicateAdapter.load('duplicate-source'), /Duplicate garment bone binding/); }
+  finally { duplicateAdapter.dispose(); }
+  checks.push({ name: 'duplicate-source-binding-rejected-before-load', passed: true });
   const failures = checks.filter(check => !check.passed);
   await writeFile(resolve(out, 'report.json'), JSON.stringify({ schema: 'equipment-mtoon-independent-cpu-v1',
     status: failures.length ? 'failed-bounded-resource-check' : 'bounded-cpu-checks-passed', sources: snapshots, checks,
