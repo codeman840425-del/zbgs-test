@@ -170,7 +170,9 @@ export function parseAppearanceRecipeText(text){
 export function exportAppearanceRecipe(controller){
  const record=captureAppearanceRecipe(controller);
  validateAppearanceRecipe(controller,record);
- const text=JSON.stringify(record,null,2)+'\n';
+ // Transport keeps the full binding identities, without pretty-print padding.
+ // Native 130-joint equipment otherwise exceeds the unchanged 256 KiB limit.
+ const text=JSON.stringify(record)+'\n';
  parseAppearanceRecipeText(text);
  return text;
 }

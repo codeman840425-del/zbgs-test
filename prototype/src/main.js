@@ -2097,11 +2097,14 @@ function syncFoundationControls(a) {
   }
   document.querySelectorAll("[data-outfit]").forEach(button =>
     button.setAttribute("aria-pressed", String(Number(button.dataset.outfit) === controller.outfit)));
-  document.querySelector('[data-outfit="0"] b').textContent = a.config.pantsLabel;
-  document.querySelector('[data-outfit="1"]').hidden = !a.config.ids.skirt;
-  const oldTrial = document.querySelector('[data-outfit="2"]');
-  oldTrial.hidden = !a.config.ids.shorts;
-  if (a.config.ids.shorts) oldTrial.querySelector("b").textContent = a.config.shortsLabel;
+  // Controls follow complete configured looks, not the presence of individual
+  // garment IDs (a shorts-only body has no separate pants or second shorts look).
+  for(const index of [0,1,2]){
+    const button=document.querySelector(`[data-outfit="${index}"]`);
+    const look=a.config.outfits.find(item=>item.index===index);
+    button.hidden=!look;
+    if(look)button.querySelector('b').textContent=look.label;
+  }
   document.querySelector("#foundation-legend").textContent = `${a.config.label}：同一房间与控制器，当前基模独立验证。`;
 }
 function bindFoundationControls(a) {
