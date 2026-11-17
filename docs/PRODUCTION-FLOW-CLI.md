@@ -86,3 +86,14 @@ node scripts/character-record-transport.mjs export --root RECORD_STORE --id STAB
 输出必须是新文件且位于 evidence 目录之外；必要浏览器关闭和证据写入结束后原子发布。文件传输层复用 CAS、锁和完整性检查，但单独 import/export 返回 resourceValidation=pending，不冒充运行验证。候选动画仍须房间完整动作检查。
 
 任意1–4份已通过实际生产回读的记录可组成 JSON 数组，经 `game-record-cli.mjs inventory/export --records RECORDS.json` 输出独立包；两步使用同一数组与仓库审定运行时。入口 `record-consumer.html?records=/records/manifest.json`，最多同时两人，新增记录不改通用控制器或重新编译。没有随机生成或自动开放不兼容资源。
+
+## 参数批产接缝：离线包准备
+
+```powershell
+python -B scripts/production/native_import.py --batch scripts/production/native-import/batch.json --output output/native-import-candidate
+python -B scripts/production/test_native_import.py
+```
+
+新入口读取版本化JSON，不按face/waist分支执行；现有两个spec消费已审核的源体、三件衣物和覆盖数据。每条核实际人体SHA、资源引用、raw骨/逆绑定和文件集合，整包准备后发布到output，失败单列且退出非零；成功兄弟保留，完整相同包重试复用，不覆盖不同版本。旧stage入口保留输出语义并共用这些spec。仅在output候选区工作，不直接更新固定工作台。
+
+这不是原生参数制作器，也不自动重绑、生产颜色/服装或修改foundation注册。源/新参数→导出、受影响适配→共同登记仍是当前主包缺口；新产物需真实验证后再进入D02。不同身体SHA不允许仅改标签沿用旧装备。导入结果明确runtimeAdmission=pending；暂不支持任意装备组合，当前合同为top/bottom/shoes三件。

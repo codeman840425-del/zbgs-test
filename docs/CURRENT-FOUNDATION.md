@@ -15,7 +15,9 @@
 ## 当前下一主包与边界
 - P04限定包已完成：record_budget.py复用collector/既有预算，source55d363精确原生男/女/旧材质男，6CPU和独审通过；v1漏计失败保留，v2补外置马尾6骨3碰撞体，旧非原发色明确unsupported。报告m2-record-budget-v2，不冒称全造型预算准入；3样件均有单件超限。
 - m2-record-budget-runtime-v1：1084四组(原生男/女/旧男/双例)各12秒讲话，无录屏，开发机Chrome157/4090，角色纹理增量51/47/36/98，销毁回ground1；frame p95约6.2ms，全部帧数组保留。静态图片48/40/28与renderer不同口径（bone/morph等明确未计），非GPU字节/普通机/长期泄漏通过。
-- 下一主包：优先复用原生工具已有合法唇妆样件，补CUSTOM-M03原生外唇独立装卸/恢复。native_next_mechanism新明确astra/high只读核查正在完成，初步确认原生男c936b源有usable/free Lip模板；未调用编辑器、未接运行时。需先读其evidence/m2-next-native-mechanism-audit-v1/report.md，再单一原生生产窗口→源重开/导出→精确贴图保护/共用事务/表情与记录回读。其余M2机制保留，不随机M3，不重复face/waist/已绿瞳棕眉长发。
+- 最新用户纠偏：暂停单件唇妆/模型精修，主包转CUSTOM-P01参数批产接缝。已确认原生MCP支持参数、D02支持已登记角色记录；卡在样件固定制作脚本→几何/装备/覆盖/挂点适配→编译进JS的登记。evidence/m2-next-native-mechanism-audit-v1/PIPELINE-GAPS.md分纹理、脸、躯干与拓扑依赖，不把两次换色当形体批产。旧女裙/30秒舞不动。
+- 已实施第一段：scripts/production/native_import.py读取两个JSON spec，复用旧stager与raw bind检查，实际body SHA/三槽/coverage引用/文件闭包/整体目录发布、失败兄弟隔离及精确重试；7回归通过，旧两个8文件包字节保持，evidence/m2-native-import-batch-v1实际两包prepared→reused。此为已生产包离线准备，不是新参数导出/自动fit/运行时准入完成；4196不变。
+- 正在接续：native_next_mechanism既有明确gpt-6.2-astra/high会话在scripts/production/native_authoring独立实现同模板配置驱动bone/color制作与冷开导出（尚未实跑）；先用同一FaceContour机制两组参数验证第二份只改数据。root负责现场状态、单窗口原生调用、实际导出后依赖重算/共用入库与游戏记录恢复。不要以已有脸/腰不同机制旧包冒称新批次通过。
 - 用户问两皮肤为何丢功能：实际输入整个人物VRM；遗漏精确握姿/镜腿是我们接入交付缺口，不能作为合理免责。四native已补接，当前UI回归确认，其他功能仍按query实际登记，不继承旧体通过。
 - 女裙和原30秒舞封板；普通电脑没有设备继续标未测，开发9950X3D/4090/Chrome不代表普通机。此轮未新造形体/压缩/公司/服务器。
 - 后台脚本与Playwright；GPU录制一次一个。可继续复用的已知子agent：game_record_package(sol/high)、material_record_review(astra/high)、deterministic_record_batch(astra/high)。实际provider与hook interception未证明，不声称已强制拦截。

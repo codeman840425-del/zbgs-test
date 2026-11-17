@@ -1,0 +1,46 @@
+{
+  "scope": "offline pinned existing face/waist packages; no new authoring or runtime admission",
+  "runs": [
+    {
+      "argv": [
+        "python",
+        "-B",
+        "scripts/production/native_import.py",
+        "--batch",
+        "scripts/production/native-import/batch.json",
+        "--output",
+        "output/native-import-evidence-v1"
+      ],
+      "exitCode": 0,
+      "states": [
+        "prepared",
+        "prepared"
+      ]
+    },
+    {
+      "argv": [
+        "python",
+        "-B",
+        "scripts/production/native_import.py",
+        "--batch",
+        "scripts/production/native-import/batch.json",
+        "--output",
+        "output/native-import-evidence-v1"
+      ],
+      "exitCode": 0,
+      "states": [
+        "reused-identical",
+        "reused-identical"
+      ]
+    }
+  ],
+  "regressionCommand": "python -B scripts/production/test_native_import.py",
+  "regressionResult": "7 passed; verified in this session",
+  "live4196": "1084ddeae27a unchanged",
+  "remaining": [
+    "new parameter native batch",
+    "fit invalidation and regeneration",
+    "shared runtime catalog registration",
+    "new-parameter game record consumption and restoration"
+  ]
+}

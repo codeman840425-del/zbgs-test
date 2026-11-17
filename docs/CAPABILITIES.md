@@ -472,3 +472,7 @@ m2-production-rebuild-v2为新干净检出npm ci/build字节一致。m2-producti
 2026-11-17 P04完整记录预算增量：scripts/production/record_budget.py沿精确检出与record collector核1–4完整记录，分最终已穿/启动驻留/完整传输闭包，覆盖身体、衣物、替换头发、耳帽、live道具、原生覆盖/颜色PNG和既有布料材质。6 CPU与独立原色/染发/马尾反例通过。v1漏掉neutralTexture和外置hair dynamics已留证；v2对未建立成本模型的非原色染发明确unsupported/2，马尾计6关节3碰撞体，native embedded不重复加，textureEstimateScope排除骨/morph渲染器分配。原生男/女/旧材质男图片RGBA8估计229642920/211466920/168821416 bytes，图片对象48/40/28；三者都有单资产超限，整套暂定上限未超不算准入。报告evidence/m2-record-budget-v2，未实现颜色/动态/新格式模型仍P04缺口，不默默继承。
 
 m2-record-budget-runtime-v1实际1084/Chrome157/RTX4090/1440×1000 headless：3单例及原生男女双例各12秒idle/talking；加载约1484/726/1022/1572ms仅本机本轮，帧p95约6.2ms、max6.3/6.4/24.3/18.2ms，原始间隔/更新CPU/提交renderCPU数组保留。角色纹理数扣基线51/47/36/98，分别销毁后textures/geometries均回基线1。源图片静态估计不等于骨骼/morph等实际分配；GPU字节和普通机仍未测，也不代表持续房间裙装/长时内存验证。此包只补真实记录量化，不放宽预算、不新压缩/减面、不宣布P04或M2全完成。
+
+2026-11-17 CUSTOM-P01参数批产接缝核查：原生API支持参数设定/保存导出，D02已验证登记资产组合与角色记录；尚未形成两组新参数自动完成制作、受影响fit重建、运行时登记、游戏恢复的闭环。现native_cycle、unmask和palette脚本有样件固定常量，foundation-profiles及配套目录仍编译注册，不能把D02角色组合当成美术生产完成。详细定位evidence/m2-next-native-mechanism-audit-v1/PIPELINE-GAPS.md。
+
+同日离线导入增量（非新人物通过）：scripts/production/native_import.py使用同一入口与JSON spec真实准备旧脸/腰两个包，二次重试复用，7项回归（错体/缺体/路径/未引用文件/绑定损坏/失败隔离/保旧）通过。body文件实际SHA连到适配身份，核base/shade嵌图引用及raw IBM；每件整体目录发布，历史stage命令输出八文件字节保持。evidence/m2-native-import-batch-v1。权重数值、覆盖像素效果、全动作、来源新制作、自动fit和运行时登记均不由此离线检查宣布通过；4196 build1084未变。下一同模板新参数生产验证进行中。

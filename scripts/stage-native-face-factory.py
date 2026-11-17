@@ -3,20 +3,12 @@ from pathlib import Path
 import argparse, hashlib, json, os, tempfile
 ROOT=Path(__file__).resolve().parents[1]
 DEST=ROOT/'prototype/public/assets/native-face-factory-v2'
-BODY_SHA='cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce'
-PREFIX='assets-source/native-vroid-face-factory-equipment-v1/'
-FILES={
- 'generated/female-geometry-face-unmasked.vrm':('assets-source/native-vroid-geometry-factory-input-v1/generated/female-geometry-face-unmasked.vrm',BODY_SHA),
- 'equipment.json':(PREFIX+'equipment.json','fad086771438070cb504c676d57d8679fc0a4237249e21b875f308a198911a8d'),
- 'native-vroid-face-geometry-top-v1.glb':(PREFIX+'native-vroid-face-geometry-top-v1.glb','12bb9600c329b191862f04c13883f518b3b9538ebcafe7392ec58df909d54042'),
- 'native-vroid-face-geometry-shorts-v1.glb':(PREFIX+'native-vroid-face-geometry-shorts-v1.glb','b8725064bf99bc9ae45d6af5200e81baba9a95d1497e57149cd47e7481103f4d'),
- 'native-vroid-face-geometry-shoes-v1.glb':(PREFIX+'native-vroid-face-geometry-shoes-v1.glb','b92422c1ba7c018b04f80195d248f1ad46306a7fe7839ce2b44a9a1fbf26f3bc'),
- 'manifest.json':('assets-source/native-vroid-face-body-texture-fit-v1/manifest.json','9fed8d43beef7149650d84dd6455bfae0a83029bb4a82899118ac93abd56d6a5'),
- 'native-tops-body.png':('assets-source/native-vroid-face-body-texture-fit-v1/native-tops-body.png','dc375769e28d015bc70c3cef6be1dec3794b5b2430a9bf173d60584105f68a8c'),
-}
+DEFAULT_SPEC=json.loads((ROOT/'scripts/production/native-import/face.json').read_text(encoding='utf-8'))
+BODY_SHA=DEFAULT_SPEC['bodySha256']
+FILES=DEFAULT_SPEC['files']
 sha=lambda b:hashlib.sha256(b).hexdigest()
 def plan(source_root=ROOT,spec=None):
- spec=spec or {}
+ spec=DEFAULT_SPEC if spec is None else spec
  sources=spec.get('files',FILES);body_sha=spec.get('bodySha256',BODY_SHA)
  url_root=spec.get('urlRoot','/assets/native-face-factory-v2/')
  if not url_root.startswith('/assets/') or not url_root.endswith('/'):raise ValueError('Invalid factory URL root')
