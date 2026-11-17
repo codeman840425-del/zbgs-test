@@ -3,7 +3,7 @@
 ## 版本与备份
 - F:/gamemake，feat/m1-foundation-room。4196固定build64c973eb5a11，source 2c0f14282c5cccfe2c20a3bae61080cf20324053；以delivery/appearance-workbench.json为准。
 - 固定目录experiments/m2-character-record-ui-release-v1/prototype/dist。01a回滚指针delivery/history/appearance-workbench-01a020d4e10d.json；4174历史证据，4195封存M1。不要新建常驻端口。
-- 远端已核实a393bbcadb2a18a5d2b4818101ff2506062e5e42，包含f072完整源、01a发布及录像/检查。其后的在制修改尚未备份。公司副总工dirty文件不stage，禁止git add -A。
+- 远端已核实34c876e18183cc5d813ee185b2037f3d7192084f，包含2c0源码、64c固定发布及f3d录像/检查；本恢复文字更新另随提交保存。公司副总工dirty文件不stage，禁止git add -A。
 
 ## 刚发布的限定成果
 - 原生女843ac、改脸cc0843、改腰cf1574、男7586已补接麦克风/眼镜与原生目标30秒舞。mic VRM1 canonical thumb被VRM0 alias覆盖已修；男性v3仅改thumb。眼镜耳冠女≤0.678mm/男≤0.183mm局部交叉和刘海镜腿露点保留。旧封存30秒舞未修改。
@@ -19,7 +19,7 @@
 - root已集成record_body_restore_review(sol/high)与record_workbench_controls(sol/high)成果，已结束；实际provider/hook未证实。新身份不与body绑定，旧记录更新只对新实际造型准入；历史record先核envelope不拿旧fit套新体。
 - UI记录存在localStorage，Web Locks+raw比较保护，不是服务器。低版本JSON拒绝静默覆盖；旧appearance配方语义不改。底层peer同体恢复限制仍保留。
 - 下一工作包：D01/P03完整角色资源依赖移交（复用scripts/runtime-package既有清单/打包器），随后D03最小确定性记录消费；不把当前引用SHA列表当完整传递依赖闭包。其他M2必需能力仍查CAP。
-- 备份正在核实本次发布记录，未核之前仅a393远端确定。公司dirty文件不stage。
+- 本次发布记录已核实远端34c876e1，无未备份角色代码/资源。公司dirty文件不stage。
 
 ## 有效边界
 - CAPABILITIES唯一能力事实；M2完整v2范围不缩减，M3未授权。素材与参数其余缺口仍按清单推进。
