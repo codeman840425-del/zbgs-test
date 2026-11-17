@@ -1,0 +1,27 @@
+镜面清晰度修正固定交付（2026-11-17）
+
+源码 be2273cb849b107907e0c8841a7c9371f3d8e4a7；构建 028e9e44db24。
+固定检出 F:/gamemake-company-mirror-quality-fixed-v1
+独立包 F:/gamemake-company-mirror-quality-delivery-028
+预览 http://127.0.0.1:60880/?sample=floor-mirror&look=1
+正常速度对比 evidence/company-mirror-quality-recording-028-v1/mirror-quality-normal1x.webm
+
+用户指出镜中马赛克/台阶状线条。原512²/MSAA0反射在近看时不足，主画面抗锯齿不覆盖镜面。真实同镜头诊断区分分辨率、采样和阴影：新公司预览显式选择1024²/MSAA4；实际能力不足时依合同退至1024/0或512/0。旧宿主默认、资源及保存身份不改。原镜面、落地镜固定发布保留。
+
+实际反射目标在绘制前核FBO完整、采样数和GL错误，绘制后再次核错误；失败不提交。profile改变使旧prepared候选失效，纯显示策略不改公司存档。墙地镜仍共用最多一活动反射、每主帧至多一次、最多30Hz；高画质提高目标内存和填充成本，不能用对象数量相同声称成本相同。
+
+质量CPU38、目标失败CPU9、原墙镜23/落地镜26回归通过；固定浏览器落地9组/墙镜8组、独立包4组通过。实际FBO为1024²/4samples。独立npm ci/Vite重建264运行文件全部字节相同；754包清单文件SHA核实，无排除。计数是测试项/组数，不是独立机制数量。
+
+36.32秒1440×1000/25fps正常1×录像，SwiftShader。已查看四张原尺寸同镜头前后截图及全时段13个录像抽帧；花盆与绿植轮廓明显改善，阴影边缘粗糙仍存在。未宣称普通电脑达标、真实角色受光或最终人类观感通过。实际成本样本和限制见cost.json。
+
+保留原CPU失败及独审反例：非法profile类型、旧prepared候选、未完整FBO被标fresh。修复后的相同反例明确拒绝；不是降低验收。资源模型本包未重制。
+
+复现：在固定检出prototype运行npm ci --no-audit --no-fund、node scripts/build-company-id.mjs、npx vite build --config vite.company.config.js。
+固定检出根：
+node scripts/company-platform/qa-floor-mirror-preview.cjs prototype/dist-company 028e9e44db24 NEW_EVIDENCE_DIR
+node scripts/company-platform/qa-mirror-preview.cjs prototype/dist-company 028e9e44db24 NEW_WALL_DIR detail-1024-msaa4-v1
+node scripts/company-platform/record-mirror-quality.cjs prototype/dist-company 028e9e44db24 NEW_RECORDING_DIR
+node scripts/company-platform/serve-company.cjs prototype/dist-company 028e9e44db24
+独立包：node serve.mjs；node edit.mjs validate data/save.json。
+
+CAP-INCREMENT.json交总工按边界合并，未改共享CAP/CURRENT或角色系统。C1–C3目标未完成；修正收尾后接续已预检化妆台承载与四款台体，不展开无关阴影精修。
