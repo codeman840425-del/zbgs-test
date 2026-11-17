@@ -4,7 +4,7 @@
 
 ## 最新固定交付
 
-- 工作台固定http://127.0.0.1:4196/?workbench=appearance，source b27eb47bf57df0058d210318e521e7751fde60e3，build193bbbf64323，experiments/native-pair-fixed-v1/prototype/dist。delivery/appearance-workbench.json；上版f2df保delivery/history/appearance-workbench-f2df648c612b.json，c3e及更早树同样保留。4174历史媒体，4195封M1，不新增常驻端口。
+- 工作台固定http://127.0.0.1:4196/?workbench=appearance，source ca6d1360（确切SHA见delivery指针），build5db2cd1ed50d，experiments/native-color-fixed-v1/prototype/dist。delivery/appearance-workbench.json；上版193b保delivery/history/appearance-workbench-193bbbf64323.json；f2df保delivery/history/appearance-workbench-f2df648c612b.json，c3e及更早树同样保留。4174历史媒体，4195封M1，不新增常驻端口。
 - 外观菜单男女各有“原生可编辑候选 · 接入验证”：female843ac/native-female-843ac-v1、male7586/native-male-7586-v1。仅自己的原发原色/独立三衣，女有改袖Top。未验发肤眼唇配色UI禁用。旧男女样件保留，15失败批次只在检查区，不称八预设完成。
 - 固定构建npm ci/build过。native-workbench-193b-v1真实菜单旧女→新女→旧男→新男→旧女，无新document加载；基础/穿回/衣装、禁用提示和证据入口过。4196 HTTP身份回读在native-workbench-release-193b-v1。
 - native-{female,male}-room-193b-v1分别真实factory（非overlay）穿衣/基础保鞋原发/穿回、配方同页和关闭后恢复、走停/接近椅子/坐起/离开家具后短舞/idle，1×原片各约35秒。女配方136993B，男81119B。root看静态与男性全片71个0.5s帧；正常速度人工自然度、近景接触仍未验。女落座长发外扬保问题，基础不是裸足验收。不要据这两段说新源全部动作/表情/装备/双实例隔离通过。
@@ -36,12 +36,12 @@
 ## 恢复、并行与备份
 
 - 当前已核远端21741e203b9251be138b097e9c021cf0e98ca5c3，包含b27/193b男女源/独立装备/公共覆盖与实际房间、UI证据；ls-remote与本地一致。核验回执随后记录于native-workbench-release-193b-v1/remote-backup.json。
-- 已知requested配置：face_target_feasibility=gpt-6-astra/high；asset_budget/http_transport_review=gpt-6.1-sol/high；派工JSON保难度理由，provider/hook实际拦截未独立暴露。已交生产包保留；face_target_feasibility已封native-pair-isolation-193b-v1并释放GPU。asset_budget完成原生appearance只读核查，正在独占MCP导出一个作者免费HairSet001；http_transport_review正在修复颜色query/recipe/实际变更入口一致性，root同步整理可观看证据。未动4196固定树。
+- 已知requested配置：face_target_feasibility=gpt-6-astra/high；asset_budget/http_transport_review=gpt-6.1-sol/high；派工JSON保难度理由，provider/hook实际拦截未独立暴露。已交生产包保留；face_target_feasibility已封native-pair-isolation-193b-v1并释放GPU。asset_budget已完成原生appearance只读核查和一个作者免费HairSet001保存冷开/导出/CPU读回，已恢复进入文件并释放窗口；http_transport_review已修复颜色query/recipe/实际变更入口一致性，face独审8+4检查无新增阻断；root固定构建实际浏览器检查已过。4196以新固定树5db发布，旧193b树完整保留。
 - 桌面未接管；MCP导出窗口已释放。2.14卸载成功且17890/17891关闭，3旧目录清理被自动策略拒绝约2.09GB残留，保evidence/vroid-214-retirement-v1，不绕过或称全清。
 - 公司副总工边几e1b独立交付已收，角色本轮不stage公司dirty，不改公司职责；C3/普通机未验。普通电脑目前无设备，不用4090或限速代替通过。
 
 ## 当前在制增量
 
-- 原生颜色准入缺口已确认：UI禁用不代表query/调用会拒绝。最小共同source策略实施中，不放开未验配色；旧已验行为保留。
-- 原生发型制作下一包native-vroid-hairset-study-v1，仅一免费作者预设、保存冷开/导出/非目标核对，未通过前不继承旧fit。准备与源码核查在assets-source/native-vroid-appearance-producer-v1（包含一次texture layer不可编辑partial失败）。
-- native-production页面补193b男女1倍速与隔离失败片，仍在共享源码，尚未发布；4196仍193b。
+- 原生颜色准入缺口已确认：UI禁用不代表query/调用会拒绝。最小共同source策略已实现，5db真实浏览器验证两新源query/直接set/导入拒绝且原色恢复成功；旧女四配色与reset实际解码/WebGL入口过。不放开未验配色。
+- 原生发型native-vroid-hairset-study-v1已封，root109文件SHA核过；VRMdab42367、.vroidfd027844，5组38束，新增59skin骨/12spring，原12非发面和57morph语义等价。尚未游戏/动态/性能验收，下一工作包为同房间原/新真实观察和独立发型接缝验证，不继承旧fit；现loader的单sourceMaterial+克隆源材质合同不能直接承接新2材质/138骨发型。准备与源码核查在assets-source/native-vroid-appearance-producer-v1（包含一次texture layer不可编辑partial失败）。
+- native-production页面补193b男女1倍速与隔离失败片，已随5db发布；三段媒体解码与1倍速实际播放检查通过。当前源码5db只修准入与展示，不将193b动作证据改为5db。

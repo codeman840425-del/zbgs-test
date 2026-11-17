@@ -394,3 +394,7 @@ head-only一次诊断原8请求已完成，8/8 diagnostic-failed，正式生产�
 2026-11-17原生双候选最新接入：b27eb47b/build193bbbf64323已分别真正factory加载女843ac与男7586，自身独立三衣/原色原发、基础保鞋/穿回、完整配方冷页恢复、代表路径坐起及离开家具后源短舞实际1×录制。女另含改袖Top，男未新增第二套Top。男性81119B配方恢复全等；覆盖按两源独立准入表，CPU双实例共享base纹理的mask所有权/失效prepared/误源拒绝通过，输入ID数组别名已snapshot修复。真实新男女双实例GPU隔离尚未做；身体细节/表情组合/配色/其余发型/裸足/全部动作速度/普通机不继承通过。UI两原生候选均可选择，无文档刷新；4196当前193b。证据native-{male,female}-room-193b-v1及native-workbench-193b-v1。八代表/M2未完成。
 
 2026-11-17原生双实例增量（193b固定版）：native-pair-isolation-193b-v1实际女843ac+男7586两轮报告均保failed，末段追加dance未进入预期状态，未宣称整套通过。第二轮57个双实例采样实际骨/材质/几何/纹理/morph对象交集0；双向基础模式、表情和动作不串，同椅A坐稳/B拒绝；销毁B未释放A资源，A继续起身、行走、停止。首轮纹理枚举空测已明确作废，第二轮74/70实际纹理重核。该证据只证明所列隔离与任务范围，不扩展为细节接触/自然度/普通电脑通过。原始录像和未知尾段dance原因保留。
+
+2026-11-17原生颜色准入修复：ca6d1360/build5db2cd1ed50d已发布4196。原生两源UI/query/recipe/实际set&prepare共用精确source策略，只允许original；8组CPU、独立4反例及真实浏览器两源拒绝保原/原色配方恢复通过，旧女性四配色实际加载/恢复通过。未知SHA沿旧兼容行为不证明任意新源配色支持。证据native-color-admission-v1、native-color-admission-independent-v1、native-workbench-5db-v1。native-production补193b男女及失败边界录像，保各自录制身份；新发型/配色制作尚未游戏准入。
+
+2026-11-17作者原生发型样件：native-vroid-hairset-study-v1已对固定男性c936b应用唯一免费HairSet001，保存/重开/VRM1导出warnings空并恢复编辑器进入状态。真实5组38束、VRMdab42367新增59skin发骨/12spring，原12非发primitive和57morph语义数据等价；root逐核109文件SHA。两次纹理层not-editable查询失败保留。尚未游戏显示/动态/性能/独立装备验证，不能记为新发型可用；源素材许可不扩大。下一步先复用共用loader作同房间真实观察，独立发型仍需多材质/原生骨链适配，不能塞入旧刚性单材质合同。

@@ -1,0 +1,57 @@
+{
+  "request": {
+    "method": "tools/call",
+    "params": {
+      "name": "vroid_list_hair_groups",
+      "arguments": {}
+    }
+  },
+  "responses": [
+    {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": {
+        "protocolVersion": "2025-06-18",
+        "capabilities": {
+          "tools": {},
+          "prompts": {},
+          "resources": {}
+        },
+        "serverInfo": {
+          "name": "vroid-studio",
+          "version": "0.15.0"
+        },
+        "instructions": "VRoid Studio MCP. Tool names and arguments are English. Call vroid_help('overview') before a complex task; vroid_help supports lang=en|fr|ja|zh-CN. VRoid Studio must be running with the bridge loaded. Only one model can be open at a time. Call vroid_status first. Save before vroid_main_menu, vroid_open or vroid_create. For visual work, use vroid_screenshot. For preset discovery, use vroid_preset_cache_search before applying presets. For sequences, use vroid_batch (up to 200 sequential operations, no automatic rollback). Do not assume that one preset replaces only one slot: whole outfits can replace several slots; verify with vroid_list_groups. Thumbnail generation strips all clothes, underwear and hair except the tested item. An English Agent Reference is exposed as MCP resources: vroid://agent/reference (full), plus vroid://agent/start, face, hairstyle, body, outfit, accessories, look, physical, presets, tools, workflows and troubleshooting. Read only the section needed; tools/list stays the authoritative schema list. MCP prompts: start (open a working session), character (build a character from a description), export_vrm (full/balanced/light VRM export), help. Reply in the user's language; never overwrite the user's .vroid file or discard changes without asking."
+      }
+    },
+    {
+      "jsonrpc": "2.0",
+      "id": 2,
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "[\n {\n  \"kind\": \"brush\",\n  \"transferable\": \"fbeb50609261f0658450b3d4dff808fbb306b48c.transferable\",\n  \"group\": \"2ba383bd-03f7-4891-9858-d0ee1348b3bd\",\n  \"name\": \"{ \\\"localizationKey\\\": \\\"Model.HairEditor.BrushHairGroupIndexed:1\\\", \\\"fallbackString\\\": \\\"Brush Hair Group 1\\\" }\",\n  \"strands\": 11,\n  \"meanStrandLength\": 0.20157185,\n  \"strandIds\": [\n   \"5e9da101-1d1f-42fd-9920-0cf5c996bb4e\",\n   \"6f960d19-e66b-410c-aa04-0d035f0a9dd5\",\n   \"24ef6598-303e-4bb5-9124-b18b8ebe96c1\",\n   \"d3f2247f-e109-4722-9949-108269cdc669\",\n   \"1e134050-1614-40f2-b5d4-f00334075d7a\",\n   \"2cfb9dd2-9ff1-49df-a40c-c73b73f686bf\",\n   \"ea21642e-e5e3-41ca-b51d-7587e1998cd2\",\n   \"fa18e7fd-6b88-4b6a-9104-fe7e6f4f5d86\",\n   \"d7699cdd-589f-4d36-88dc-3e877cd73efd\",\n   \"d6921d35-889d-4ae9-840b-af040cb88c0a\",\n   \"9848bd2b924e45a6a82d5900e7579b76\"\n  ]\n },\n {\n  \"kind\": \"brush\",\n  \"transferable\": \"387e9fccf6efbf34b89ef23be684ac60ae9f4968.transferable\",\n  \"group\": \"229badce-a1f3-4f11-b512-2a30b3fc1a1e\",\n  \"name\": \"{ \\\"localizationKey\\\": \\\"Model.HairEditor.BrushHairGroupIndexed:1\\\", \\\"fallbackString\\\": \\\"Brush Hair Group 1\\\" }\",\n  \"strands\": 14,\n  \"meanStrandLength\": 0.69607055,\n  \"strandIds\": [\n   \"fc071065-8967-49d7-b711-1f4e13b0e8f6\",\n   \"dafae7fc-d424-4265-b43d-fe52ee6db1ca\",\n   \"cdf3bb26-9f56-4d09-9fc2-416cb238f32b\",\n   \"e311190d-eaa1-40a1-8162-49add921937f\",\n   \"ffe6d1cb-11ca-47d5-9b09-2c8f58c3b6cc\",\n   \"85e8d1ec-60b3-45cc-b8ce-ecdb633ed005\",\n   \"c44046a3-084d-4fd0-98cc-6b44ebc2d25b\",\n   \"b24f1ee7-d204-439e-a048-ee335e56084a\",\n   \"12feeade-e099-405d-a0c3-33a77231b52f\",\n   \"8d2a161d-13d8-41c7-a01c-84c704034fc0\",\n   \"f2670c55-d67d-40cf-a886-9d21ae0d56e3\",\n   \"9cb6417c-5e55-4799-aef4-c29af4dd5171\",\n   \"80fd153e-e8b5-465b-ae2f-640c20e26ebd\",\n   \"884247ed-ec9d-409e-9919-3d2271da7b60\"\n  ]\n },\n {\n  \"kind\": \"brush\",\n  \"transferable\": \"387e9fccf6efbf34b89ef23be684ac60ae9f4968.transferable\",\n  \"group\": \"59c043b6-2183-455b-a272-ef79a3d10839\",\n  \"name\": \"{ \\\"localizationKey\\\": \\\"Model.HairEditor.BrushHairGroupIndexed:2\\\", \\\"fallbackString\\\": \\\"Brush Hair Group 2\\\" }\",\n  \"strands\": 6,\n  \"meanStrandLength\": 0.6179585,\n  \"strandIds\": [\n   \"5e6c728d992a405ba854f66390097595\",\n   \"6c0af308b78649fb82eb39f3e4cef3f3\",\n   \"56c68199b1de49d7a857d6624a5124c8\",\n   \"ff48256203c24cf7aecad3a5298a3815\",\n   \"1085762502c34063a48a6ac27ccef983\",\n   \"f0b77372c69e4cd4b1c68273aa46b1e0\"\n  ]\n },\n {\n  \"kind\": \"brush\",\n  \"transferable\": \"387e9fccf6efbf34b89ef23be684ac60ae9f4968.transferable\",\n  \"group\": \"1f017637-ea47-41a4-8438-650198c0d2c2\",\n  \"name\": \"{ \\\"localizationKey\\\": \\\"Model.HairEditor.BrushHairGroupIndexed:3\\\", \\\"fallbackString\\\": \\\"Brush Hair Group 3\\\" }\",\n  \"strands\": 2,\n  \"meanStrandLength\": 0.65163314,\n  \"strandIds\": [\n   \"bc9b88ee-5918-4430-b5c3-92a95ec28f7f\",\n   \"fb0a60944e224f639206cf2ff051f66e\"\n  ]\n },\n {\n  \"kind\": \"brush\",\n  \"transferable\": \"387e9fccf6efbf34b89ef23be684ac60ae9f4968.transferable\",\n  \"group\": \"5b4f32b8-d9dd-4da6-9482-8a8f0bbc83e3\",\n  \"name\": \"{ \\\"localizationKey\\\": \\\"Model.HairEditor.BrushHairGroupIndexed:4\\\", \\\"fallbackString\\\": \\\"Brush Hair Group 4\\\" }\",\n  \"strands\": 5,\n  \"meanStrandLength\": 0.7095965,\n  \"strandIds\": [\n   \"49ace638-85f6-4765-9b37-f57bea0f5b1e\",\n   \"09e85ea4-8896-448c-b54d-932f37354099\",\n   \"b9cfdf91-c4ff-4e5e-ad08-a3c53a001923\",\n   \"c13c4e54-8dcd-4ad9-a9d3-bb7a977ba87e\",\n   \"22569bce-84ab-41b7-a286-2465ceef1e09\"\n  ]\n }\n]"
+          }
+        ],
+        "isError": false
+      }
+    }
+  ],
+  "wallSeconds": 0.19674990000203252,
+  "exitCode": 0,
+  "stderr": "",
+  "images": [],
+  "ok": true,
+  "failures": [],
+  "rawStdout": {
+    "path": "10-hair-groups-after.json.stdout.bin",
+    "bytes": 5308,
+    "sha256": "d6f72dfb51377a4249ad9f6d23a83b9b89475ef53d440e54ee5699632949488e"
+  },
+  "rawStderr": {
+    "path": "10-hair-groups-after.json.stderr.bin",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}
