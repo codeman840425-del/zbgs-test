@@ -1,0 +1,20 @@
+--- frozen-evaluate
++++ semantic-evaluate
+@@ -7,7 +7,7 @@
+     folder = out / ('identity' if kind == 'identity' else request['id'])
+     folder.mkdir()
+     iterations = 1 if kind == 'identity' else 20
+-    report = {'schema': 'native-head-slim-result-v1', 'kind': kind, 'request': request, 'status': 'precompute-running', 'iterations': iterations, 'softP': 100000.0, 'uniqueSoftControls': len(b), 'freeNodes': len(nodes) - len(b), 'duplicateTargets': duplicates, 'controlRoles': roles, 'characterExported': False, 'runtimeAccepted': False, 'knownPending': ['Original-triangle strict contacts and expression relation gates', 'Normals, actual VRM export, skin/IBM/UV/image identity, clothing and game/visual acceptance']}
++    report = {'schema': 'semantic-head-attachment-slim-result-v1', 'kind': kind, 'request': request, 'status': 'precompute-running', 'iterations': iterations, 'softP': 100000.0, 'uniqueSoftControls': len(b), 'freeNodes': len(nodes) - len(b), 'duplicateTargets': duplicates, 'controlRoles': roles, 'characterExported': False, 'runtimeAccepted': False, 'knownPending': ['Original-triangle strict contacts and expression relation gates', 'Normals, actual VRM export, skin/IBM/UV/image identity, clothing and game/visual acceptance']}
+     save(folder / 'report.json', report)
+     try:
+         initial, _, _ = tetra_metrics(nodes, nodes, tets, b, bc, spec['softP'])
+@@ -37,7 +37,7 @@
+         frame_error = float(np.linalg.norm(positions[domain['frameNodes']] - nodes[domain['frameNodes']], axis=1).max())
+         errors = np.linalg.norm(mapped - domain['sourceEndpointsM'], axis=1)
+         endpoint_reports = [{'mesh': row['mesh'], 'primitive': row['primitive'], 'endpoint': row['endpoint'], 'role': row['role'], 'sourceCount': row['count'], 'maximumDisplacementM': float(errors[row['offset']:row['offset'] + row['count']].max())} for row in records]
+-        protected_endpoint_error = max((row['maximumDisplacementM'] for row in endpoint_reports if row['role'] in ['feature-preservation', 'neck-preservation']))
++        protected_endpoint_error = max((row['maximumDisplacementM'] for row in endpoint_reports if row['role'] in ['fixed-eye', 'fixed-neck']))
+         report.update(actual=actual, finite=finite, maximumProtectedNodeDisplacementM=protected_error, maximumAllNodeDisplacementM=float(np.linalg.norm(positions - nodes, axis=1).max()), maximumFrameDisplacementM=frame_error, maximumProtectedEndpointDisplacementM=protected_endpoint_error, endpointReadbacks=endpoint_reports, float32MorphBakeReadback=baking)
+         np.savez_compressed(folder / 'mapped-endpoints.npz', mappedEndpointsM=mapped, float32BakeRoundTripM=decoded, tetraJacobians=J, tetraDeterminants=determinants)
+         failures = []

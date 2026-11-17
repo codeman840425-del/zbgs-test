@@ -18,7 +18,7 @@
 
 当前接续：官方libigl2.6.3独立venv的单tet smoke通过；不改全局Python。source/evidence在m2-slim-tool-smoke-v1，原始所有许可证/二进制SHA固定。identity误差0、1mm五步残差1.668nm；仅全4点软约束API证明，完整solver峰RSS未测。target-contract包完成两源/八请求/808正式截面，root实际build.py --check通过。几何审查明确23原顶点软guide回插原202点误差最高0.942mm，不是实际截面通过。
 
-一次male体积域前置已实际完成：scripts与assets-source/m2-head-volume-domain-v1，5742节点/37114tet，113713选中base/表达occurrences，控制缺失0、zero tet0、越界0，identity1.164e-15m/affine1.111e-15m；1.64秒、进程树采样RSS152326144字节。只数学接口；cond最大4.386e9/minvolume4.815e-17存在薄单元风险。域独审27项通过。一次原生SLIM已运行：identity全nodes0误差；lean+round各20步均failed，min det .004335/.001966、保护偏移.411/2.210mm、正式半宽误差13.943/15.780mm，lean缺7切面。总15.57秒/树采样934MB。原报告np.bool_异常exit2，raw齐全；唯一recover_readback.py从raw恢复两份报告，无重求解且原SHA全同。独立根因已固定evidence/m2-head-volume-slim-diagnosis-v1：坏tet非最薄，固定HairBack+含Joy的Eyeline/EyeExtra与guide目标在同一tet冲突，保持保护平面需偏离guide6.77–9.29mm；不证明真实截面无解。新包m2-head-attachment-slim-v1由asset_budget(sol/high)准备：同域同solver，仅将line/lash/EyeExtra/HairBack按软附着依赖分类；Iris/Highlight/White/neck/frame仍保2um，真实101/det/表达接触不放宽。先CPU分类与目标冲突读回，root核后一次identity+两样；当前未solve新语义包。只新工具/产物，不改4196，不生成八体或重开旧cage。当前八预设仍未完成。
+一次male体积域前置已实际完成：scripts与assets-source/m2-head-volume-domain-v1，5742节点/37114tet，113713选中base/表达occurrences，控制缺失0、zero tet0、越界0，identity1.164e-15m/affine1.111e-15m；1.64秒、进程树采样RSS152326144字节。只数学接口；cond最大4.386e9/minvolume4.815e-17存在薄单元风险。域独审27项通过。一次原生SLIM已运行：identity全nodes0误差；lean+round各20步均failed，min det .004335/.001966、保护偏移.411/2.210mm、正式半宽误差13.943/15.780mm，lean缺7切面。总15.57秒/树采样934MB。原报告np.bool_异常exit2，raw齐全；唯一recover_readback.py从raw恢复两份报告，无重求解且原SHA全同。独立根因已固定evidence/m2-head-volume-slim-diagnosis-v1：坏tet非最薄，固定HairBack+含Joy的Eyeline/EyeExtra与guide目标在同一tet冲突，保持保护平面需偏离guide6.77–9.29mm；不证明真实截面无解。新包m2-head-attachment-slim-v1已唯一执行并封存33文件：1343固定/3104随动、1374控制/4368free，分类独审30项通过。identity全nodes0；lean/round各20步一次，min det .223621/.206280、fixed端点24.058nm/397.729nm及Float32拟烘焙通过；101正式半宽最大误差9.379861/2.638866mm，缺段0，两项failed-not-admissible。16.577s/树采样RSS1007165440B，exit0，无重试。root核33文件SHA/字节数一致。后验入口m2-head-attachment-readback-v1准备完成，8项合成QA由root独立临时目录复跑一致，未读失败候选数组/未跑真实55帧后验，无VRM导出。root初算23guide已命中约82nm/1.54um，尚待只读极值见证复核落盘；不能以guide命中替代截面通过。下一项由astra/high定位真实极值三角、原23guide及z筛选关系；sol/high查成熟可执行轮廓约束，不先新造算法、不扫参。4196保持f82，八预设未完成。
 
 动作自适应已完成方法调研research/MOTION-CONTACT-ADAPTATION-OPTIONS-2026-11-16.md（R2ET/Mink/CAMR源码/许可/限制）。Mink只是离线小试优先候选，未安装求解器/未完成VRM往返/无通用避碰通过；不插入本八体包准入，不重开封存舞。新机制必须先核可复用官方/原作者实现及实际输入输出再小试。
 
@@ -32,8 +32,8 @@ Phaser+Three+VRM保留；女性封板裙和30秒舞不再精修。普通电脑�
 
 ## 恢复与协作边界
 
-- 当前有界代理：face_target_feasibility=gpt-6-astra/high，在做实际SLIM失败只读根因；asset_budget=gpt-6.1-sol/high，工具、唯一两项运行的报告恢复已完成；http_transport_review的目标合同已集成。requested配置明确，真实provider与桌面hook拦截未独立核验；新spawn成功不等于gate已证。
-- 角色侧单GPU/录像/编码/重导出窗口目前空闲，source修域probe与f82公开按钮检查均结束。已收到公司副总工多层承载4b3/source300e9及柜门940/source84ef交接，尚未核整合、不改CAP为角色已验。公司副总工已通知74.48秒柜门录像结束并释放窗口；该包仍为其声明，未核角色集成。角色侧本包仅CPU/隔离工具，无GPU或录制作业。
-- 下一项：审新软附着语义包的控制索引/目标冲突preflight，再按新明确合同一次identity+两样；不扫旧cage/SLIM软权重或迭代。原raw两项各一次预算已用完；只可只读诊断。固定4196=f82保持。最新已核远备85b06fca2ede1ed6b6667b31f39b8b6dc1b65284，含目标合同/官方工具smoke/男性域前置与f82；之后域独审、SLIM两项实际失败及恢复待本次备份。M2未完，不进入M3。
+- 当前有界代理：face_target_feasibility=gpt-6-astra/high，m2-head-attachment-silhouette-diagnosis-v1只读极值见证；asset_budget=gpt-6.1-sol/high，m2-head-silhouette-method-review-v1成熟接口核查；http_transport_review=gpt-6.1-sol/high后验准备已完成。requested配置明确，真实provider与桌面hook拦截未独立核验。
+- 角色侧GPU/录像/重导出窗口空闲，本包仅CPU。公司钟表source93e13399/build5c1451b072ae正常速度61.60秒录制已结束并释放窗口；其scene.setPresentationInputs({clockSeconds})及独立交付F:/gamemake-company-clock-delivery-5c1属公司侧声明，尚未核角色集成，不改本角色CAP为已通过。
+- 下一项：精确定位guide准确但真实截面失败的几何原因，研究可复用共同目标表达，再决定最小一次试验；本两项预算已用完，不能重跑。没有数值准入就不跑后验/不导出。最新已核远备f9615a3f52b0e483e264efc2ff8a7903d27ecb05；新附件语义及后验准备待备。公司dirty/untracked不动，M2未完成，不进入M3。
 - 固定交付按exact commit独立检出；录像与构建身份保持，旧failed不改标。只stage明确路径，不git add -A。公司平台副总工独立交付，未核的CAP-INCREMENT不当本角色集成通过。
 - docs/HANDOFF.md为恢复规则；完整范围见现行v2，生产索引scripts/production/和assets-source保输入/工具/许可/失败，不以目录存在当通过。
