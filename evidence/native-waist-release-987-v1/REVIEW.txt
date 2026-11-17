@@ -1,0 +1,11 @@
+原生腰部派生 / fixed 987294fd778d / source 3baf747cdb95cd2898503fda2bf5322b7e42963b
+
+实际变化：已生产WaistScaleMag .40→.58源cf1574；独立身体、三衣、附加骨/逆绑定与覆盖依赖进入共用factory。共享提取入口替代Face/Waist重复脚本；原Face资源保持字节一致，Waist元数据修正，单件差异通过spec，不修改动作控制器。
+检查：4颜色/配方、3覆盖事务与8stage文件身份CPU独审；确切提交独立检出构建。实际固定房间原843ac/新cf1574各约35.6秒1×走停、接近、坐稳、起身、离椅、短技术舞、恢复站立；基础模式静止覆盖与冷页配方恢复。前后各12秒表情/眨眼/口型/视线。真实工作台按钮、男女/源变体切换、错误颜色保原、14媒体解码通过。实际HTTP核7运行资源。
+画面：root检查新候选全部2fps动作辅助页及表情页/近景，前后椅边和动作后半段对照保留。未见新增大片裂面；约21秒落座头发外扬仍存在，前后都有。白上衣/皮肤层次弱，静止front截图停在blink相位；基础模式不是全动作链。辅助抽帧不等于人工1×自然度通过。开发机Chrome157/1440×1000/9950X3D/RTX4090；普通机未测。
+限定：原发原色原三衣；仅该Waist端点，不继承所有外观/动作/附件。用户指出新人物原有功能不可用，实际987按钮复现见native-capability-gap-987-v1：四个native源均缺握麦/镜腿精确fit，normalized30秒舞缺对应target，原female可用。讲话/视线独立检查，不冒充持麦/完整平台通过。误导错误文案待修。
+入口：http://127.0.0.1:4196/?workbench=appearance&body=native-female-waist-v1
+对照：http://127.0.0.1:4196/native-production.html#native-waist-geometry
+重建：python scripts/m2-male-jaw-hair-runtime-v1/build-fixed.py --commit 3baf747cdb95cd2898503fda2bf5322b7e42963b --worktree experiments/native-waist-rebuild-new --out evidence/native-waist-rebuild-new
+启动：python scripts/serve-appearance-workbench.py （现delivery指针）；上一固定f583指针保在delivery/history。构建前需git已检出源码和依赖锁；源/数据重制用scripts/stage-native-waist-factory.py及对应assets-source build.py，历史源输入不依赖临时桌面文件。
+下一主包：新native人体已有功能兼容，先麦克风/眼镜/已有30秒源重定向，源冻结不修改。独立稳定记录模块并行，但不会据此忽略接入缺口。完整M2继续，M3未开始。

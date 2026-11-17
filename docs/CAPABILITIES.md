@@ -423,3 +423,7 @@ head-only一次诊断原8请求已完成，8/8 diagnostic-failed，正式生产�
 
 
 2026-11-17 原生真实改脸factory增量：source1ffe0b54/buildf583cfa84f04现固定4196。native-face-geometry-room-v1改前/后同镜头各12秒1×讲话/眨眼/微笑/视线；native-face-factory-room-v1新cc0843独立三衣、基础/穿衣覆盖恢复、关页配方恢复、约35.68秒走停坐起离椅短舞；native-face-workbench-f583-v1热切/原色准入/旧男女及12媒体通过。native-face-factory-independent-v1三衣实际indices/binds、原mask复用、loader脚底、3覆盖+4准入+3stage组过；原shorts规则与换行身份失败保留。Face源737/976/38实际点变化依据原独审，不能用旧843ac结果代替本次运行。root完整2fps辅助帧查未见新增裂面；保21秒左右落座头发外扬、静止front停于blink相位、基础模式非全动作链、细节接触与普通机未验。原色/原发/原三衣限定，不支持其他fit或完整参数组合，非人工自然度或完整M2通过。现接已有Waist真实体型源的共用制作与适配，不重开冻结项。
+
+2026-11-17 原生腰部factory增量（CUSTOM-B07/E05/P01限定）：source3baf747c/build987294fd778d固定4196。native-waist-{baseline-room,factory-room,expression-room}-v1为原843ac/新cf1574同条件独立录制；新体35.6秒1×走停坐起离椅短舞、12秒表达、三衣/基础静止覆盖、冷页恢复通过技术检查。native-waist-factory-independent-v1四准入/三覆盖组及8文件身份过；native-waist-workbench-987-v1实际UI/14媒体过；HTTP7运行资源见native-waist-release-987-v1。仅一个真实腰形端点/自身fit，原生头发落座外扬、细接触/基础全链/普通机/连续人工自然度未过；不等于完整独立体型轴。
+
+2026-11-17 用户实报后复现的新源平台接入缺口：native-capability-gap-987-v1实际点击原female及native女843ac/脸cc0843/腰cf1574/男7586。原female麦克风眼镜加载成功；四个native均握姿manifest缺entry和镜腿registry缺entry，未实现适配而非操作失败。normalized30秒舞variants仅旧男女，native菜单只有UAL参考/7.2秒技术舞；通用走坐起不代表全部动作兼容。当前新源功能不能继承历史通过；这些缺口仍M2，优先补共用生产适配。错误提示“眼镜不受影响”误导另登记；冻结舞源与旧裙不重开。新源肤发唇色/表面/附件/几何支持以query真实结果为准，不以完整人体导入宣称平台全功能。
