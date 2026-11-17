@@ -1,0 +1,42 @@
+--- a/prototype/src/representative-batch.js
++++ b/prototype/src/representative-batch.js
+@@ -1,6 +1,7 @@
+ // Generated asset registrations; no character-specific movement implementation.
+ import batch from '../public/assets/m2-representative-batch-v1/runtime-index.json' with {type:'json'};
+ import revised from '../public/assets/m2-representative-batch-v2/runtime-index.json' with {type:'json'};
++import axial from '../public/assets/m2-axial-head-runtime-v1/runtime-index.json' with {type:'json'};
+ 
+ if(batch.schema!=='representative-runtime-index-v1' || batch.presets.length!==8 ||
+    new Set(batch.presets.map(p=>p.id)).size!==8 ||
+@@ -16,12 +17,14 @@
+    new Set(revised.presets.map(p=>p.id)).size!==6||revised.presets.some(p=>!expected.has(p.id))||
+    revised.unpublished.length!==2||new Set(revised.unpublished.map(p=>p.id)).size!==2||
+    revised.unpublished.some(p=>!rejected.has(p.id)))throw Error('修订候选与未产出记录不一致');
++if(axial.schema!=='axial-head-runtime-index-v1'||axial.presets.length!==1||axial.presets[0].id!=='male-long-lean-axial-head-v1'||axial.presets[0].profile.sha256!==axial.targetBodySha256||axial.completeBatch!==false)throw Error('头部候选清单身份不一致');
+ export const REPRESENTATIVE_PRESETS=[
++  ...axial.presets.map(p=>({...p,previewLabel:p.label+' · 待验'})),
+   ...revised.presets.map(p=>({...p,previewLabel:p.label+' · 修订待验'})),
+   ...batch.presets.map(p=>({...p,previewLabel:p.label+' · 初版对照（有缺陷）'})),
+ ];
+ export const REPRESENTATIVE_PROFILES=Object.fromEntries(REPRESENTATIVE_PRESETS.map(p=>[p.id,p.profile]));
+ export const REPRESENTATIVE_NO_HAIR=[...batch.noHair,...revised.noHair];
+ export const REPRESENTATIVE_PALETTE=batch.palette;
+-export const REPRESENTATIVE_PALETTES=[batch.palette,revised.palette];
++export const REPRESENTATIVE_PALETTES=[batch.palette,revised.palette,axial.palette];
+ export const REPRESENTATIVE_UNPUBLISHED=revised.unpublished;
+--- a/prototype/src/eye-blink-compatibility.js
++++ b/prototype/src/eye-blink-compatibility.js
+@@ -1,3 +1,4 @@
++import axialBlink from '../public/assets/m2-axial-head-runtime-v1/eye-blink-profiles.json' with {type:'json'};
+ import revisedBlink from '../public/assets/m2-representative-batch-v2/eye-blink-profiles.json' with {type:'json'};
+ import batchBlink from '../public/assets/m2-representative-batch-v1/eye-blink-profiles.json' with {type:'json'};
+ import {VRMExpression, VRMExpressionMorphTargetBind} from '@pixiv/three-vrm';
+@@ -6,7 +7,7 @@
+ // Exact source families only. Derived identities are separately CPU-audited;
+ // this is not admission by prefix, sex label, or a changed geometry SHA.
+ const PROFILES = new Map([
+-  ...[...batchBlink.profiles,...revisedBlink.profiles].map(p=>[p.sha256,{prefix:p.prefix,targets:p.targets}]),
++  ...[...batchBlink.profiles,...revisedBlink.profiles,...axialBlink.profiles].map(p=>[p.sha256,{prefix:p.prefix,targets:p.targets}]),
+   ['027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95', {prefix:'F00_000_00_', targets:56}],
+   ['62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff', {prefix:'M00_000_00_', targets:54}],
+   ['3c11caaed49f6db514acb7678551352afdf1c2893ef92ca93b959a8d09691011', {prefix:'F00_000_00_', targets:56}],

@@ -1,3 +1,4 @@
+import axialBlink from '../public/assets/m2-axial-head-runtime-v1/eye-blink-profiles.json' with {type:'json'};
 import revisedBlink from '../public/assets/m2-representative-batch-v2/eye-blink-profiles.json' with {type:'json'};
 import batchBlink from '../public/assets/m2-representative-batch-v1/eye-blink-profiles.json' with {type:'json'};
 import {VRMExpression, VRMExpressionMorphTargetBind} from '@pixiv/three-vrm';
@@ -6,7 +7,7 @@ const NAME = 'workbenchJoyBlinkCompensationV1';
 // Exact source families only. Derived identities are separately CPU-audited;
 // this is not admission by prefix, sex label, or a changed geometry SHA.
 const PROFILES = new Map([
-  ...[...batchBlink.profiles,...revisedBlink.profiles].map(p=>[p.sha256,{prefix:p.prefix,targets:p.targets}]),
+  ...[...batchBlink.profiles,...revisedBlink.profiles,...axialBlink.profiles].map(p=>[p.sha256,{prefix:p.prefix,targets:p.targets}]),
   ['027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95', {prefix:'F00_000_00_', targets:56}],
   ['62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff', {prefix:'M00_000_00_', targets:54}],
   ['3c11caaed49f6db514acb7678551352afdf1c2893ef92ca93b959a8d09691011', {prefix:'F00_000_00_', targets:56}],

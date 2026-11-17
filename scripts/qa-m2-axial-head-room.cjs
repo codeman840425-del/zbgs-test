@@ -42,6 +42,43 @@ const ready = p => p.waitForFunction(() => window.__debug?.ready && !document.qu
         await p.locator('[data-inspect-direction=front]').click();
         await p.locator('[data-workbench-tab=actions]').click();
         await p.locator('[data-expression=neutral]').click();
+        // Paused boundary samples are diagnostic only; normal-speed tracing
+        // starts afterwards. Render immediately with the real manager/factory.
+        await p.evaluate(()=>__debug.setPaused(true));
+        const boundaries=[{id:'neutral',h:0,b:0},{id:'happy',h:.65,b:0},{id:'blink',h:0,b:1},
+          {id:'happy-halfblink',h:.65,b:.5},{id:'happy-blink',h:.65,b:1},
+          ...['aa','ih','ou','ee','oh'].map(v=>({id:'happy-blink-'+v,h:.65,b:1,v}))];
+        r.boundaries=[];
+        for(const def of boundaries){
+          const states=[];
+          for(const mode of def.h&&def.b?['legacy','fixed']:['fixed']){
+            const value=await p.evaluate(({def,mode})=>{
+              const d=__debug,a=d.avatar(),em=a.vrm.expressionManager;
+              for(const e of em.expressions)em.setValue(e.expressionName,0);
+              em.setValue('happy',def.h);em.setValue('blink',def.b);if(def.v)em.setValue(def.v,.66);
+              a.livePresentation.setEyeBlinkCompatibility(mode);a.livePresentation.refreshEyeBlinkCompatibility();
+              a.root.updateMatrixWorld(true);d.renderer.render(d.scene,d.cameraObject());
+              const influences=[];a.vrm.scene.traverse(m=>{if(m.isMesh&&m.morphTargetInfluences){
+                const material=(Array.isArray(m.material)?m.material[0]:m.material)?.name?.replace(/ \(Outline\)$/,'');
+                influences.push({material,values:m.morphTargetInfluences.slice()});}});
+              return {mode,compat:a.livePresentation.getState().eyeBlinkCompatibility,influences,
+                png:d.renderer.domElement.toDataURL('image/png')};
+            },{def,mode});
+            await fs.writeFile(path.join(dir,'boundary-'+def.id+'-'+mode+'.png'),Buffer.from(value.png.split(',')[1],'base64'));
+            delete value.png;assert(value.compat.available);assert.equal(value.compat.mode,mode);states.push(value);
+          }
+          const fixed=states.at(-1);assert.equal(fixed.compat.coefficient,def.h*def.b);
+          if(states.length===2){const roles=new Set(fixed.compat.targetedMeshes.map(x=>x.materialRole)),index=fixed.compat.eyeTargetIndex;
+            assert.equal(states[0].influences.length,fixed.influences.length);
+            for(let i=0;i<fixed.influences.length;i++){
+              const old=states[0].influences[i],now=fixed.influences[i];assert.equal(old.material,now.material);
+              const target=roles.has(now.material.replace(/^M00_000_00_/,''));
+              for(let j=0;j<now.values.length;j++)assert(Math.abs(now.values[j]-old.values[j]+(target&&j===index?def.h*def.b:0))<1e-10);
+            }
+          }
+          r.boundaries.push({definition:def,states});
+        }
+        await p.evaluate(()=>{const a=__debug.avatar(),em=a.vrm.expressionManager;for(const e of em.expressions)em.setValue(e.expressionName,0);a.livePresentation.setEyeBlinkCompatibility('fixed');a.livePresentation.refreshEyeBlinkCompatibility();});
         await p.evaluate(() => {
           __debug.setPlaybackRate(1);__debug.setPaused(false);
           const q=window.__axialRoom={run:true,phase:'neutral',rows:[],last:null};

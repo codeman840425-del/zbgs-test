@@ -41,12 +41,12 @@ m2-axial-head-readback-v1已完成prepare+13项合成QA，新spec pin后核对�
 
 ## 备份与协作
 
-最新已核远端4a5e7901d5392d5fe80fd5d0971c263561f0f04b，含完整源求值/raw/独审以及此前89a官方研究、函数系数和导出接缝审查；回执assets-source/m2-axial-head-evaluation-v1/remote-backup.json。真实strict与export尚在进行，未包含在该备份；此前band失败及独审已随c7ffecd2备份。
+最新已核远端a5815585928edc47baf8af9ea6e110873ea12e12，含真实strict/导出及独审、混合与round失败诊断、四装备实际适配和此前所有原始结果。回执assets-source/m2-axial-head-export-v1/remote-backup.json。runtime发布器和当前增强QA尚在进行，未包含在该备份。
 
-当前接续：m2-axial-head-equipment-v1四原男装备真实适配已完成，top/tie392点改变，裤/短裤/鞋全G/Jidentity；forearm按新源重算。http正准备m2-axial-head-runtime-v1生成发布器与独立配置，暂未写public/src或替换4196。root准备了qa-m2-axial-head-room.cjs但未运行；待资产/独审固定后从exact commit构建，用同房间front/side近景、1×混合讲话、走停/坐起和保存恢复检查候选，不借旧运行结果。
+当前接续：m2-axial-head-equipment-v1四原男装备真实适配已完成，top/tie392点改变，裤/短裤/鞋全G/Jidentity；forearm按新源重算。m2-axial-head-runtime-v1发布器已完成并集成13资源与两注册文件；v2以a581源快照保证集成后重复生成，11项CPU QA过，资源与首轮字节一致。root补检查区入口，增强qa-m2-axial-head-room.cjs尚未运行，4196未替换；待资产/独审固定后从exact commit构建，用同房间front/side近景、1×混合讲话、走停/坐起和保存恢复检查候选，不借旧运行结果。
 
 当前代理已知requested配置：asset_budget=gpt-6.1-sol/high，装备已完成；face_target_feasibility=gpt-6-astra/high，export/混合独审收尾；http_transport_review=gpt-6.1-sol/high，既有房间候选注册。每次派工记录evidence/subagent-explicit-dispatch-2026-11-16.json；followup不改配置。真实provider与桌面hook拦截未独立暴露，不声称验证。
 
-角色侧本包CPU，GPU/录屏/重导出窗口当前空闲。公司副总工最新台面钟source18880ef/build2dd87df94b61、72.60秒录像已通知结束释放；仅公司侧交付声明，未核角色集成。公司dirty/untracked不动、不stage，不git add -A。
+角色侧本包CPU，GPU/录屏/重导出窗口当前空闲。root已从a581建立experiments/m2-axial-head-fixed-v1稀疏独立检出并npm ci；尚未build，之后须checkout确切集成提交再构建，不能使用dirty源。公司副总工最新台面钟source18880ef/build2dd87df94b61、72.60秒录像已通知结束释放；仅公司侧交付声明，未核角色集成。公司dirty/untracked不动、不stage，不git add -A。
 
-固定交付只能从exact commit独立检出构建，录像与构建同身份；不从并发dirty源码发布。保持prototype/src原字节和失败记录。阶段汇报不停止长目标；只在真实费用/授权/产品选择或无法自行解决阻碍时问用户。全部M2必需机制须有证据后交用户确认，再由用户决定M3。
+固定交付只能从exact commit独立检出构建，录像与构建同身份；不从并发dirty源码发布。保持动作控制器与既有失败记录；本包仅增加资源注册和工作台候选说明。阶段汇报不停止长目标；只在真实费用/授权/产品选择或无法自行解决阻碍时问用户。全部M2必需机制须有证据后交用户确认，再由用户决定M3。
