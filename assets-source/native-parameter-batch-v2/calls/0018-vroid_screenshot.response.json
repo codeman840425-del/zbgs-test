@@ -1,0 +1,64 @@
+{
+  "request": {
+    "method": "tools/call",
+    "params": {
+      "name": "vroid_screenshot",
+      "arguments": {
+        "width": 960,
+        "height": 1280
+      }
+    }
+  },
+  "responses": [
+    {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": {
+        "protocolVersion": "2025-06-18",
+        "capabilities": {
+          "tools": {},
+          "prompts": {},
+          "resources": {}
+        },
+        "serverInfo": {
+          "name": "vroid-studio",
+          "version": "0.15.0"
+        },
+        "instructions": "VRoid Studio MCP. Tool names and arguments are English. Call vroid_help('overview') before a complex task; vroid_help supports lang=en|fr|ja|zh-CN. VRoid Studio must be running with the bridge loaded. Only one model can be open at a time. Call vroid_status first. Save before vroid_main_menu, vroid_open or vroid_create. For visual work, use vroid_screenshot. For preset discovery, use vroid_preset_cache_search before applying presets. For sequences, use vroid_batch (up to 200 sequential operations, no automatic rollback). Do not assume that one preset replaces only one slot: whole outfits can replace several slots; verify with vroid_list_groups. Thumbnail generation strips all clothes, underwear and hair except the tested item. An English Agent Reference is exposed as MCP resources: vroid://agent/reference (full), plus vroid://agent/start, face, hairstyle, body, outfit, accessories, look, physical, presets, tools, workflows and troubleshooting. Read only the section needed; tools/list stays the authoritative schema list. MCP prompts: start (open a working session), character (build a character from a description), export_vrm (full/balanced/light VRM export), help. Reply in the user's language; never overwrite the user's .vroid file or discard changes without asking."
+      }
+    },
+    {
+      "jsonrpc": "2.0",
+      "id": 2,
+      "result": {
+        "content": [
+          {
+            "type": "image",
+            "mimeType": "image/png",
+            "savedImage": "0018-vroid_screenshot.response.image-2-0.png",
+            "sha256": "7cd256ef37cbd05d2750de88f687b555489892cdacf2a868046b7f3437a7cdeb"
+          }
+        ],
+        "isError": false
+      }
+    }
+  ],
+  "wallSeconds": 0.24526090000290424,
+  "exitCode": 0,
+  "stderr": "",
+  "images": [
+    "F:\\gamemake\\assets-source\\native-parameter-batch-v2\\calls\\0018-vroid_screenshot.response.image-2-0.png"
+  ],
+  "ok": true,
+  "failures": [],
+  "rawStdout": {
+    "path": "0018-vroid_screenshot.response.json.stdout.bin",
+    "bytes": 200146,
+    "sha256": "ce09673958a886afd8e10c14872d5ba38017ee35f5f28ff7e8f239c3eb4f60b9"
+  },
+  "rawStderr": {
+    "path": "0018-vroid_screenshot.response.json.stderr.bin",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

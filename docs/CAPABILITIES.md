@@ -476,3 +476,7 @@ m2-record-budget-runtime-v1实际1084/Chrome157/RTX4090/1440×1000 headless：3�
 2026-11-17 CUSTOM-P01参数批产接缝核查：原生API支持参数设定/保存导出，D02已验证登记资产组合与角色记录；尚未形成两组新参数自动完成制作、受影响fit重建、运行时登记、游戏恢复的闭环。现native_cycle、unmask和palette脚本有样件固定常量，foundation-profiles及配套目录仍编译注册，不能把D02角色组合当成美术生产完成。详细定位evidence/m2-next-native-mechanism-audit-v1/PIPELINE-GAPS.md。
 
 同日离线导入增量（非新人物通过）：scripts/production/native_import.py使用同一入口与JSON spec真实准备旧脸/腰两个包，二次重试复用，7项回归（错体/缺体/路径/未引用文件/绑定损坏/失败隔离/保旧）通过。body文件实际SHA连到适配身份，核base/shade嵌图引用及raw IBM；每件整体目录发布，历史stage命令输出八文件字节保持。evidence/m2-native-import-batch-v1。权重数值、覆盖像素效果、全动作、来源新制作、自动fit和运行时登记均不由此离线检查宣布通过；4196 build1084未变。下一同模板新参数生产验证进行中。
+
+2026-11-17 CUSTOM-P01原生参数批产制作增量：scripts/production/native_authoring/runner.py接受同模板身份、语义groupType/key、已观察离散值及显式导出设置，重新查组、私有源副本、设值、保护同组另外21参数、另存冷开、官方截图及先准备导出屏再导出。两新FaceContour配置（.78/.30及.60/.48）已同入口真实成功，第二份不改程序；第一份重新执行VRM字节一致，保存的.vroid容器SHA不同，未声称其字节可重建。12离线检查；v1提示文字解析误判/导出迟开失败保留，经官方options接口恢复原菜单，未操作桌面。evidence/m2-native-parameter-batch-v2、assets-source/native-parameter-batch-v2及native-parameter-replay-v1保存源/回执/导出/来源。
+
+native_dependency_delta.py共用实际GLB差分核引用顶点、morph、骨/rest/IBM、材质/图和动态；异/歧义布局拒绝，不用新hash直接继承旧fit。7回归包含morph-only body/hair复验漏项修复，历史4报告复验集合一致，新两几何输出实际比较完成。范围仅原生制作与离线依赖判断；新输出尚未自动提取适配/注册到游戏或通过动作/记录恢复。4196仍1084，不让源截图替代游戏验收，整体P01及M2未完成。

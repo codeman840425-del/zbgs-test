@@ -1,0 +1,70 @@
+{
+  "schema": "native-parameter-batch-validation-v1",
+  "passedScope": "native two-recipe authoring, cold reopen and exact VRM replay for one recipe",
+  "sourceTemplate": {
+    "path": "assets-source/vroid-bridge-study-v1/generated/female-native-round-waist-216.vroid",
+    "sha256": "311a1bd0c9137a0c5783f9ff818b686ce61f132cd0f88eb63caf408a8a73b4de",
+    "version": "native-female-216-v1"
+  },
+  "items": [
+    {
+      "id": "contour-roundness-a",
+      "vrmSha256": "a5aa0d4ffff9137f787d17565d738ece580bba085cac1fee2aa88b8e4dcc7cf2",
+      "coldValues": {
+        "Level2FaceContour_ChinRoundness": 0.78,
+        "Level2FaceContour_ChinFullCheeked": 0.3
+      },
+      "protectedGroupParameters": {
+        "TransferableGroupType.N00.Level1.FaceShape": 21
+      },
+      "gameAdmission": "pending"
+    },
+    {
+      "id": "contour-cheek-b",
+      "vrmSha256": "2f6082fd631043a6fe71acb96ea342560c97004871425bce58eb15ff0457ddb8",
+      "coldValues": {
+        "Level2FaceContour_ChinRoundness": 0.6,
+        "Level2FaceContour_ChinFullCheeked": 0.48
+      },
+      "protectedGroupParameters": {
+        "TransferableGroupType.N00.Level1.FaceShape": 21
+      },
+      "gameAdmission": "pending"
+    }
+  ],
+  "replay": {
+    "id": "contour-roundness-a",
+    "vrmByteExact": true,
+    "vrmSha256": "a5aa0d4ffff9137f787d17565d738ece580bba085cac1fee2aa88b8e4dcc7cf2",
+    "sourceVroidByteExact": false,
+    "sourceVroidNote": "Saved editor container differs; cold-read parameters and exported VRM are equal. Do not promise .vroid byte determinism."
+  },
+  "entryRestored": true,
+  "timings": [
+    {
+      "directory": "assets-source/native-parameter-batch-v2",
+      "mcpCallSecondsSum": 83.89116160024423,
+      "exports": [
+        26.635962100001052,
+        26.072078299941495
+      ],
+      "timingScope": "Sum of recorded MCP calls, not whole production or game integration time"
+    },
+    {
+      "directory": "assets-source/native-parameter-replay-v1",
+      "mcpCallSecondsSum": 41.15449129987974,
+      "exports": [
+        26.683756100013852
+      ],
+      "timingScope": "Sum of recorded MCP calls, not whole production or game integration time"
+    }
+  ],
+  "initialFailure": "assets-source/native-parameter-batch-v1/result.json",
+  "recoveryEvidence": "evidence/m2-native-authoring-recovery-v1/diagnosis.json",
+  "fixedWorkbenchUnchanged": "1084ddeae27a on 4196",
+  "remaining": [
+    "complete-body and equipment extraction from new exports",
+    "dependency-directed fits and common catalog registration",
+    "new records in shared game path, motion and save/restore"
+  ]
+}

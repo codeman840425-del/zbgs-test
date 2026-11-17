@@ -97,3 +97,13 @@ python -B scripts/production/test_native_import.py
 新入口读取版本化JSON，不按face/waist分支执行；现有两个spec消费已审核的源体、三件衣物和覆盖数据。每条核实际人体SHA、资源引用、raw骨/逆绑定和文件集合，整包准备后发布到output，失败单列且退出非零；成功兄弟保留，完整相同包重试复用，不覆盖不同版本。旧stage入口保留输出语义并共用这些spec。仅在output候选区工作，不直接更新固定工作台。
 
 这不是原生参数制作器，也不自动重绑、生产颜色/服装或修改foundation注册。源/新参数→导出、受影响适配→共同登记仍是当前主包缺口；新产物需真实验证后再进入D02。不同身体SHA不允许仅改标签沿用旧装备。导入结果明确runtimeAdmission=pending；暂不支持任意装备组合，当前合同为top/bottom/shoes三件。
+
+## 同模板原生参数批次（当前仅已观察值）
+
+```powershell
+python -B scripts/production/native_authoring/runner.py --execute-native --batch scripts/production/native_authoring/facecontour-pair.json --output assets-source/NEW_BATCH_DIRECTORY
+```
+
+必须新输出目录；VRoid MCP 0.15.0已运行且入口为干净已保存文档或主菜单。runner不启动/关闭应用、不占桌面，发现未知状态拒绝恢复。具体说明和测试在scripts/production/native_authoring/README.md。两份配方共用一份模板与参数定义，不是每人一个生成脚本。需新增参数机制或合法范围时以真实工具数据补模板声明，不能直接放开任意浮点值。
+
+真实v2已完成两参数配方，另复跑一项VRM字节一致；原生保存容器并非字节相同。输出中的result/manifest保留实际身份，原始失败目录不会覆盖。接着用scripts/production/native_dependency_delta.py显式baseline/candidate路径及SHA生成变化清单；它不签发装备fit、许可或游戏准入。完整身体和装备适配/运行时登记仍需下一段执行，不能将这些源VRM直接当正式人物库。
