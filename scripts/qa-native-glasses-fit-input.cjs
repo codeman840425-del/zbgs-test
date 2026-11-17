@@ -6,12 +6,12 @@ const base=process.argv[2],build=process.env.QA_M1_BUILD;if(!base||!/^[a-f0-9]{1
 (async()=>{
  const out=path.resolve(process.env.QA_M1_RUN_ROOT||`output/playwright/m1/${build}/acc01-${Date.now()}`);await fs.mkdir(out,{recursive:true});
  try{await fs.access(path.join(out,'report.json'));throw Error('Refuse overwrite');}catch(e){if(e.code!=='ENOENT')throw e;}
- const browser=await chromium.launch({channel:'chrome',headless:true}),report={build,scope:'Native unfitted source glasses: geometry acquisition for fitting, not capability pass; explicit legacy diagnostic cannot be published as success',cases:[],errors:[]};
+ const browser=await chromium.launch({channel:'chrome',headless:true}),report={build,scope:'Native unfitted source glasses: geometry acquisition for fitting, not capability pass; explicit legacy diagnostic cannot be published as success',cases:[],errors:[],consoleErrors:[]};
  const requested=process.argv[3]?JSON.parse(await fs.readFile(process.argv[3],'utf8')):[['native-female-843ac-v1','native-vroid-unmasked-female-130-v1','843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef'],['native-female-face-v1','native-vroid-face-geometry-unmasked-v1','cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce'],['native-female-waist-v1','native-vroid-waist-geometry-unmasked-v1','cf1574b243b3eb1d5803928598f62809c30938bde67154d3956d346f39fa1ed5'],['native-male-7586-v1','native-vroid-unmasked-male-79-v1','7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81']];
  if(!Array.isArray(requested)||!requested.length||requested.some(r=>r.length!==3||!r.every(x=>typeof x==='string')||!/^[a-z0-9-]+$/.test(r[0])||!/^[a-f0-9]{64}$/.test(r[2])))throw Error('Invalid exact body capture cases');
  try{for(const [body,assetId,sha256]of requested){
-  const page=await browser.newPage({viewport:{width:1440,height:1000}});page.on('pageerror',e=>report.errors.push(String(e)));
-  await page.goto(base+'?workbench=appearance&glassesFit=legacy&body='+body);await page.waitForFunction(()=>window.__debug?.ready,null,{timeout:60000});const identity=await verifyCandidate(page,{build,assetId,sha256});
+  const page=await browser.newPage({viewport:{width:1440,height:1000}});page.on('pageerror',e=>report.errors.push(String(e)));page.on('console',m=>{if(m.type()==='error')report.consoleErrors.push(m.text());});
+  await page.goto(base+'?workbench=appearance&glassesFit=legacy&body='+body);await page.waitForFunction(()=>window.__debug?.ready||document.body.innerText.includes('角色加载失败'),null,{timeout:60000});const identity=await verifyCandidate(page,{build,assetId,sha256});
   await page.evaluate(async body=>{const d=__debug,a=d.avatar(),c=d.game.scene.getScene('CharacterStudio');d.reset();d.setPaused(true);d.setDynamics(true);d.setOutfit(body==='male'?2:0);d.setHelpers(false);d.setBodyMode('dressed');c.cameraPreset('room',true);const seat=d.snapshot().chair;a.root.position.set(...seat.approach);a.root.rotation.y=c.yaw=seat.yaw;d.motion().reset();a.update(0);a.root.updateMatrixWorld(true);await a.livePresentation.setAccessory('glasses',true);a.livePresentation.setSpeaking(true);for(let i=0;i<180;i++)c.simulate(1/120);},body);
   for(const pose of ['stand','sit']){
    const capture=await page.evaluate(pose=>{const d=__debug,a=d.avatar(),c=d.game.scene.getScene('CharacterStudio'),V=a.root.position.constructor;if(pose==='sit'){c.action('sit');for(let i=0;i<1200;i++){c.simulate(1/120);if(d.motion().getMetrics().sitProgress===1)break;}for(let i=0;i<90;i++)c.simulate(1/120);}a.root.updateMatrixWorld(true);const head=a.vrm.humanoid.getRawBoneNode('head'),h=head.getWorldPosition(new V()),object=d.scene.getObjectByName('LiveAccessory:glasses');
@@ -21,6 +21,6 @@ const base=process.argv[2],build=process.env.QA_M1_BUILD;if(!base||!/^[a-f0-9]{1
    for(const [name,data]of Object.entries(capture.images))await fs.writeFile(path.join(out,`${body}-${pose}-${name}.png`),Buffer.from(data,'base64'));delete capture.images;await fs.writeFile(path.join(out,`${body}-${pose}.json.gz`),zlib.gzipSync(JSON.stringify(capture),{level:1}));report.cases.push({body,pose,identity,finalIdentity:await verifyCandidate(page,{build,assetId,sha256}),meshes:capture.meshes.map(m=>({name:m.name,role:m.role,triangles:m.triangles.length})),live:capture.live});
   }await page.close();
  }
- }finally{await browser.close();await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));}
+ }catch(error){report.failure=String(error.stack||error);throw error;}finally{await browser.close();await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));}
  if(report.errors.length)throw Error(report.errors.join('\n'));console.log(out);
 })().catch(e=>{console.error(e);process.exitCode=1});

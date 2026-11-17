@@ -1,7 +1,8 @@
+import nativeProductionAdmissions from './native-body-texture-coverage-admissions.json' with {type:'json'};
 // Measured native two-state pixel contracts. A profile still pins its descriptor;
 // adding a source requires its own source/pixel/equipment evidence and this data
 // admission, never a new controller or an arbitrary image supplied at runtime.
-export const BODY_TEXTURE_COVERAGE_ADMISSIONS = Object.freeze([
+const legacyAdmissions = [
   Object.freeze({
     avatarSha256:'cf1574b243b3eb1d5803928598f62809c30938bde67154d3956d346f39fa1ed5',
     manifestSha256:'46a868ddc366a4f64de1154cbea3f70478b3f8406ceddb5a79d2b174ef373d5e',
@@ -30,4 +31,11 @@ export const BODY_TEXTURE_COVERAGE_ADMISSIONS = Object.freeze([
     maskedPngSha256:'15ab2ecee54e10bfdb84a38be10e41fa7c7658e9a9f77b8293c2fd27569d7136',
     evidence:'assets-source/native-vroid-male-body-texture-fit-v1/generated/manifest.json',
   }),
-]);
+];
+
+const seenBodies = new Set(legacyAdmissions.map(row => row.avatarSha256));
+for (const row of nativeProductionAdmissions) {
+  if (['avatarSha256','manifestSha256','basePngSha256','maskedPngSha256'].some(key => !/^[a-f0-9]{64}$/.test(row[key])) || seenBodies.has(row.avatarSha256)) throw Error('Invalid or conflicting native coverage admission');
+  seenBodies.add(row.avatarSha256);
+}
+export const BODY_TEXTURE_COVERAGE_ADMISSIONS = Object.freeze([...legacyAdmissions, ...nativeProductionAdmissions.map(row => Object.freeze(row))]);
