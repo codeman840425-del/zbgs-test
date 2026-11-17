@@ -1,0 +1,176 @@
+{
+  "status": "passed",
+  "generatedAt": "2026-11-17T00:35:29.514Z",
+  "configuration": {
+    "difficulty": "complex",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "high",
+    "actualProviderConfiguration": "not independently verified",
+    "hostHookInterception": "not independently verified"
+  },
+  "api": "validateSlidingPartGeometry(scene, resource, fail)",
+  "checks": [
+    {
+      "name": "valid tray with nested identity wrapper and transformed scene root",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "parts": [
+          {
+            "id": "drawer",
+            "group": "cabinet-drawer-slide",
+            "panel": "drawer-front",
+            "tray": {
+              "bottom": "drawer-bottom",
+              "left": "drawer-left",
+              "right": "drawer-right",
+              "back": "drawer-back"
+            },
+            "cavity": {
+              "min": [
+                -0.355,
+                0.805,
+                -0.165
+              ],
+              "max": [
+                0.355,
+                1.055,
+                0.2275
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "resource without a slide part is ignored",
+      "passed": true,
+      "observed": {
+        "checked": false,
+        "parts": []
+      }
+    },
+    {
+      "name": "missing sliding group is rejected",
+      "passed": true,
+      "observed": {
+        "code": "missing-sliding-part-node",
+        "path": "resource.partNodes",
+        "message": "Sliding group name must uniquely resolve to a non-mesh node"
+      }
+    },
+    {
+      "name": "duplicate sliding groups are rejected",
+      "passed": true,
+      "observed": {
+        "code": "missing-sliding-part-node",
+        "path": "resource.partNodes",
+        "message": "Sliding group name must uniquely resolve to a non-mesh node"
+      }
+    },
+    {
+      "name": "missing bottom mesh is rejected",
+      "passed": true,
+      "observed": {
+        "code": "missing-sliding-part-mesh",
+        "path": "resource.partPanels",
+        "message": "Each mapped tray component must uniquely resolve to one mesh"
+      }
+    },
+    {
+      "name": "nonidentity wrapper is rejected",
+      "passed": true,
+      "observed": {
+        "code": "sliding-part-parent-transform",
+        "path": "resource.partNodes.parent",
+        "message": "Active group parent wrappers must have identity transforms"
+      }
+    },
+    {
+      "name": "wrong closed group pose is rejected",
+      "passed": true,
+      "observed": {
+        "code": "invalid-sliding-part-pivot",
+        "path": "resource.movingParts[0].pivot",
+        "message": "Sliding group position must equal the declared closed pivot"
+      }
+    },
+    {
+      "name": "front panel outside its envelope is rejected",
+      "passed": true,
+      "observed": {
+        "code": "sliding-part-bounds",
+        "path": "resource.movingParts[0].bounds",
+        "message": "Every active tray mesh must stay inside the declared pivot-local bounds"
+      }
+    },
+    {
+      "name": "shared-edge front rectangle is rejected",
+      "passed": true,
+      "observed": {
+        "code": "sliding-part-surface",
+        "path": "resource.partPanels",
+        "message": "Required surface triangles must share the rectangle diagonal, not an edge"
+      }
+    },
+    {
+      "name": "solid tray filler intruding into the cavity is rejected",
+      "passed": true,
+      "observed": {
+        "code": "sliding-part-cavity-occupied",
+        "path": "resource.partTrays",
+        "message": "Active tray geometry intrudes into the declared interior clearance"
+      }
+    },
+    {
+      "name": "detached tray wall is rejected",
+      "passed": true,
+      "observed": {
+        "code": "sliding-part-wall-geometry",
+        "path": "resource.partTrays.left",
+        "message": "Tray wall must match its fixed solid placement envelope"
+      }
+    },
+    {
+      "name": "false frame tray wall is rejected",
+      "passed": true,
+      "observed": {
+        "code": "sliding-part-surface",
+        "path": "resource.partTrays.left",
+        "message": "Required surface must use all four declared rectangle corners"
+      }
+    },
+    {
+      "name": "static solid cabinet filler is rejected",
+      "passed": true,
+      "observed": {
+        "code": "sliding-static-cavity-occupied",
+        "path": "resource",
+        "message": "Static geometry intrudes into the receiving cavity"
+      }
+    },
+    {
+      "name": "active handle beyond declared bounds is rejected",
+      "passed": true,
+      "observed": {
+        "code": "sliding-part-bounds",
+        "path": "resource.movingParts[0].bounds",
+        "message": "Every active tray mesh must stay inside the declared pivot-local bounds"
+      }
+    },
+    {
+      "name": "thin front plane is rejected",
+      "passed": true,
+      "observed": {
+        "code": "sliding-part-thickness",
+        "path": "resource.partPanels",
+        "message": "Drawer front must have actual thickness of at least 0.01m"
+      }
+    }
+  ],
+  "limits": [
+    "CPU-only synthetic Three scenes. No browser, GPU, GLB decode, state transaction or animation clock.",
+    "The bounded contract validates one rectangular sliding tray with five mapped components and conservative cavity checks.",
+    "This does not prove runtime translation, swept blocking, persistence or visual acceptance."
+  ]
+}

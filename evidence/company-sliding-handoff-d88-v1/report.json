@@ -1,0 +1,51 @@
+{
+  "package": "F:\\gamemake-company-sliding-delivery-d88",
+  "status": "passed",
+  "checks": [
+    {
+      "name": "All standalone package files match their manifest",
+      "passed": true,
+      "result": {
+        "files": 546
+      }
+    },
+    {
+      "name": "Standalone edit rejects invalid state and opens a cabinet using pinned dependencies",
+      "passed": true,
+      "result": {
+        "rejection": "invalid-device-state",
+        "edited": {
+          "ok": true,
+          "id": "appearance-sliding-drawer-cabinet",
+          "revision": 2,
+          "floors": [
+            "appearance-sliding-drawer-cabinet/floor-1"
+          ],
+          "output": "F:\\gamemake-company-platform-c1\\evidence\\company-sliding-handoff-d88-v1\\edited"
+        }
+      }
+    },
+    {
+      "name": "Independent viewer loads edited sliding geometry and saves without source-tree asset requests",
+      "passed": true,
+      "result": {
+        "requests": [
+          "http://127.0.0.1:62596/company-assets/sliding-drawer-v1/flat-panel/v1/model.glb",
+          "http://127.0.0.1:62596/company-assets/support-collection-v1/ornaments/vase/v1/model.glb"
+        ]
+      }
+    },
+    {
+      "name": "Separate browser restart restores exact attachment IDs and transforms",
+      "passed": true,
+      "result": {
+        "nodes": 11,
+        "attachments": 1
+      }
+    }
+  ],
+  "limits": [
+    "Software rendering; not ordinary-PC, character or offline npm-install proof"
+  ],
+  "build": "d8838b280361"
+}

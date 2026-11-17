@@ -1,0 +1,38 @@
+四款单抽屉柜：固定交付（2026-11-16）
+
+源码：cf86d9036e6b855deebef389e2d3ef446694f4fe
+构建：d8838b280361
+独立检出：F:/gamemake-company-sliding-fixed-v1
+独立包：F:/gamemake-company-sliding-delivery-d88
+观看：http://127.0.0.1:51410/?sample=sliding-drawer-cabinet&look=0
+外观分类“单抽屉收纳柜”四款；设施状态区提供收回、半拉、全拉与柜体近景。布局选择抽屉柜陈列/转向两个输入。
+
+本包：同一固定功能下四款真实外观，openFraction0/.5/1驱动0/.16/.32米实际位移。中空托盘有前板、底、左右侧与后板；内面完整矩形和实际厚度、部件接触、内净空、静态柜体与完整行程分别检查。显示与阻挡共用状态和父变换。打开和收回都检查整个区间，不能仅因目标端放得下就放行。柜顶小物不随抽屉滑动；换外观保留身份/状态，支持第二布局及关闭重开。旧88资源定义不变，新目录92版本。角色平台未改。
+
+证据：
+- company-sliding-production-v1：统一生产prompt、可编辑参数、重复导出/真实GLB回读。正式flat-panel把手宽.10，初始.08源/GLB保留；实际模型和资源登记沿同一入口。
+- company-sliding-part-geometry-v1：15组CPU几何检查；缺/重复/错误组、错父姿态、缺底、假前板/空框侧壁、脱离壁板、实心侵腔、静态侵入、超界与薄片均有拒绝。侧后实体内面不是只验AABB，静态接收腔还核每个活动mesh的完整行程。
+- company-sliding-data-dev-v1：6组数据检查，覆盖非法轴/行程/语义/映射、三状态和父旋转、兼容性/恢复、关闭扫掠及同事务换皮、新使用空间/墙界拒绝、多实例隔离。
+- company-sliding-fixed-d88-v1：5组固定浏览器检查。4款×3状态真实位移/顶点在未膨胀功能包络内；各状态另开进程恢复，柜顶物世界矩阵不变；半开换皮、转向第二布局；无效状态/真实坏门板/HTTP503/阻挡失败保旧；显示资源释放。
+- company-sliding-hinged-browser-regression-v1与company-sliding-hinge-regression-dev-v1：旧铰接柜受影响的实际转向开合/保存/坏模型失败和8组数据合同回归，保留开发906原身份，未冒充d88固定结果。
+- company-sliding-handoff-d88-v1：4组独立包检查；清单、CLI非法状态拒绝不留失败输出、合法半拉编辑、包内实际加载与进程关闭恢复。
+- company-sliding-rebuild-d88-v1：546文件清单无差异，独立source重新npm ci/build后与viewer全部190文件逐字节一致，无排除项；独立包内生产/登记/两布局--check通过，无evidence依赖。
+- company-sliding-recording-d88-v1/sliding-preview-normal1x.webm：实际50.76秒/1440×1000/25fps/正常1×；root已看覆盖全时段的抽帧表及全尺寸托盘图。脚本耗时不是媒体时长。普通电脑性能未测。
+
+已处理：集合文件后缀regexp在登记前纠正并实际读回每个resource.json；几何校验补齐侧后实体面、静态柜体接收腔与逐构件扫掠。纯换行/EOF规范化后固定构建变为d88，开发906证据保原身份。正常接触边界允许；保守AABB不是精确凹面物理。
+
+复现（固定检出prototype目录）：
+npm ci --no-audit --no-fund
+node scripts/build-company-id.mjs
+npx vite build --config vite.company.config.js
+
+固定检出根目录：
+node scripts/company-platform/serve-company.cjs prototype/dist-company d8838b280361
+node scripts/company-platform/qa-sliding-preview.cjs prototype/dist-company d8838b280361 NEW_EVIDENCE_DIR
+node scripts/company-platform/record-sliding-preview.cjs prototype/dist-company d8838b280361 NEW_RECORDING_DIR
+node scripts/company-platform/build-sliding-drawer.mjs --check
+node scripts/company-platform/build-library.mjs --check
+node scripts/company-platform/build-sliding-examples.mjs --check
+
+独立包：node serve.mjs；node edit.mjs validate data/save.json；node edit.mjs apply INPUT_SAVE OPS_JSON NEW_RESULT_DIRECTORY。source保留参数、合同、工具、依赖和锁文件；npm安装允许网络/本机缓存，不冒称离线安装。
+限制：单抽屉+固定直线行程，不含多抽屉互锁、抽屉内取放、物理、自动动画时钟或角色拉动动作。角色C3、普通电脑性能及用户最终观看未验，不宣称平台完成。下一主包是宿主时间输入驱动的指针/数字钟，继续复用显示、换外观与恢复机制。

@@ -1,0 +1,810 @@
+{
+  "status": "passed",
+  "scope": "Four single-tray sliding drawer cabinets with authored cavity, tray parts, static runners and top support readback",
+  "dispatch": {
+    "difficulty": "complex",
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "reason": "Four real hollow trays with contact parts and deterministic translation readback.",
+    "configurationEvidence": "Parent-confirmed explicit configuration. Host hook interception unverified."
+  },
+  "commands": [
+    "node scripts/company-platform/build-sliding-drawer.mjs",
+    "node scripts/company-platform/build-sliding-drawer.mjs --check"
+  ],
+  "sourceParameters": "assets-source/company-sliding-drawer-v1/parameters.json",
+  "sourceParametersSha256": "ede484c7dd93a9169f16b918566129deb06eaa9123794f051b3efc78a5858cb7",
+  "functionalContractSource": "docs/COMPANY-SLIDING-DRAWER-CONTRACT-v1.txt",
+  "functionalContractSourceSha256": "3c9ebe413900f7e9d37b48df21af8df3773774fd078280e8f8fc5a95566c7f2d",
+  "generator": "scripts/company-platform/build-sliding-drawer.mjs",
+  "generatorSha256": "539d463d3047843fa2befb2c2246bbb66337185d8bb862871c1ccde40df063a4",
+  "items": [
+    {
+      "id": "flat-panel",
+      "sha256": "467df33d81f0c132cfc8cd1c5c54cb1d267e0bb90b06f33a35cd22a366dd02e5",
+      "bytes": 28276,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "bounds": {
+          "min": [
+            -0.44999999932944773,
+            -1.490116086078075e-10,
+            -0.2250000000745058
+          ],
+          "max": [
+            0.44999999932944773,
+            1.200000000074506,
+            0.2750000003799796
+          ]
+        },
+        "topNode": "cabinet-top",
+        "pivot": "cabinet-drawer-slide",
+        "panel": {
+          "mesh": "drawer-front",
+          "frontTriangles": 2,
+          "frontZ": 0.2625
+        },
+        "tray": {
+          "drawer-bottom": {
+            "min": [
+              -0.3799999952316284,
+              0.7799999998137355,
+              -0.18999999463558198
+            ],
+            "max": [
+              0.3799999952316284,
+              0.8050000001862645,
+              0.22749999463558196
+            ]
+          },
+          "drawer-left": {
+            "min": [
+              -0.3800000001862645,
+              0.805,
+              -0.18999999463558198
+            ],
+            "max": [
+              -0.3549999998137355,
+              1.0550000000000002,
+              0.22749999463558196
+            ]
+          },
+          "drawer-right": {
+            "min": [
+              0.3549999998137355,
+              0.805,
+              -0.18999999463558198
+            ],
+            "max": [
+              0.3800000001862645,
+              1.0550000000000002,
+              0.22749999463558196
+            ]
+          },
+          "drawer-back": {
+            "min": [
+              -0.35499998927116394,
+              0.805,
+              -0.1900000001862645
+            ],
+            "max": [
+              0.35499998927116394,
+              1.0550000000000002,
+              -0.16499999981373548
+            ]
+          }
+        },
+        "cavity": {
+          "backNode": "cabinet-inner-back",
+          "openFront": true
+        },
+        "staticClearance": [
+          {
+            "openFraction": 0,
+            "checkedMeshes": 54
+          },
+          {
+            "openFraction": 0.5,
+            "checkedMeshes": 54
+          },
+          {
+            "openFraction": 1,
+            "checkedMeshes": 54
+          }
+        ],
+        "poses": [
+          {
+            "openFraction": 0,
+            "translationZ": 0,
+            "bounds": {
+              "min": [
+                -0.41999998688697815,
+                0.7799999982118606,
+                -0.1900000001862645
+              ],
+              "max": [
+                0.41999998688697815,
+                1.1200000017881393,
+                0.2750000003799796
+              ]
+            }
+          },
+          {
+            "openFraction": 0.5,
+            "translationZ": 0.16,
+            "bounds": {
+              "min": [
+                -0.41999998688697815,
+                0.7799999982118606,
+                -0.030000000186264503
+              ],
+              "max": [
+                0.41999998688697815,
+                1.1200000017881393,
+                0.43500000037997966
+              ]
+            }
+          },
+          {
+            "openFraction": 1,
+            "translationZ": 0.32,
+            "bounds": {
+              "min": [
+                -0.41999998688697815,
+                0.7799999982118606,
+                0.1299999998137355
+              ],
+              "max": [
+                0.41999998688697815,
+                1.1200000017881393,
+                0.5950000003799796
+              ]
+            }
+          }
+        ],
+        "meshCount": 15,
+        "identityScale": true,
+        "externalUris": 0
+      }
+    },
+    {
+      "id": "frame-panel",
+      "sha256": "c96630646e1513f22d2f94cdde5b675f8c2816718c68dfdb8d8e361b7c9e0717",
+      "bytes": 35572,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "bounds": {
+          "min": [
+            -0.44999999932944773,
+            -1.490116086078075e-10,
+            -0.2250000000745058
+          ],
+          "max": [
+            0.44999999932944773,
+            1.200000000074506,
+            0.2750000003799796
+          ]
+        },
+        "topNode": "cabinet-top",
+        "pivot": "cabinet-drawer-slide",
+        "panel": {
+          "mesh": "drawer-front",
+          "frontTriangles": 2,
+          "frontZ": 0.2625
+        },
+        "tray": {
+          "drawer-bottom": {
+            "min": [
+              -0.3799999952316284,
+              0.7799999998137355,
+              -0.18999999463558198
+            ],
+            "max": [
+              0.3799999952316284,
+              0.8050000001862645,
+              0.22749999463558196
+            ]
+          },
+          "drawer-left": {
+            "min": [
+              -0.3800000001862645,
+              0.805,
+              -0.18999999463558198
+            ],
+            "max": [
+              -0.3549999998137355,
+              1.0550000000000002,
+              0.22749999463558196
+            ]
+          },
+          "drawer-right": {
+            "min": [
+              0.3549999998137355,
+              0.805,
+              -0.18999999463558198
+            ],
+            "max": [
+              0.3800000001862645,
+              1.0550000000000002,
+              0.22749999463558196
+            ]
+          },
+          "drawer-back": {
+            "min": [
+              -0.35499998927116394,
+              0.805,
+              -0.1900000001862645
+            ],
+            "max": [
+              0.35499998927116394,
+              1.0550000000000002,
+              -0.16499999981373548
+            ]
+          }
+        },
+        "cavity": {
+          "backNode": "cabinet-inner-back",
+          "openFront": true
+        },
+        "staticClearance": [
+          {
+            "openFraction": 0,
+            "checkedMeshes": 90
+          },
+          {
+            "openFraction": 0.5,
+            "checkedMeshes": 90
+          },
+          {
+            "openFraction": 1,
+            "checkedMeshes": 90
+          }
+        ],
+        "poses": [
+          {
+            "openFraction": 0,
+            "translationZ": 0,
+            "bounds": {
+              "min": [
+                -0.42000000037252905,
+                0.7799999982118606,
+                -0.1900000001862645
+              ],
+              "max": [
+                0.42000000037252905,
+                1.1200000017881393,
+                0.2750000003799796
+              ]
+            }
+          },
+          {
+            "openFraction": 0.5,
+            "translationZ": 0.16,
+            "bounds": {
+              "min": [
+                -0.42000000037252905,
+                0.7799999982118606,
+                -0.030000000186264503
+              ],
+              "max": [
+                0.42000000037252905,
+                1.1200000017881393,
+                0.43500000037997966
+              ]
+            }
+          },
+          {
+            "openFraction": 1,
+            "translationZ": 0.32,
+            "bounds": {
+              "min": [
+                -0.42000000037252905,
+                0.7799999982118606,
+                0.1299999998137355
+              ],
+              "max": [
+                0.42000000037252905,
+                1.1200000017881393,
+                0.5950000003799796
+              ]
+            }
+          }
+        ],
+        "meshCount": 19,
+        "identityScale": true,
+        "externalUris": 0
+      }
+    },
+    {
+      "id": "slatted",
+      "sha256": "b7005a9f27738bc7d7e51cf17a07cede6dddf0affe54c5467c99eb71232f5cfa",
+      "bytes": 41076,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "bounds": {
+          "min": [
+            -0.44999999932944773,
+            -1.490116086078075e-10,
+            -0.2250000000745058
+          ],
+          "max": [
+            0.44999999932944773,
+            1.200000000074506,
+            0.2750000003799796
+          ]
+        },
+        "topNode": "cabinet-top",
+        "pivot": "cabinet-drawer-slide",
+        "panel": {
+          "mesh": "drawer-front",
+          "frontTriangles": 2,
+          "frontZ": 0.2625
+        },
+        "tray": {
+          "drawer-bottom": {
+            "min": [
+              -0.3799999952316284,
+              0.7799999998137355,
+              -0.18999999463558198
+            ],
+            "max": [
+              0.3799999952316284,
+              0.8050000001862645,
+              0.22749999463558196
+            ]
+          },
+          "drawer-left": {
+            "min": [
+              -0.3800000001862645,
+              0.805,
+              -0.18999999463558198
+            ],
+            "max": [
+              -0.3549999998137355,
+              1.0550000000000002,
+              0.22749999463558196
+            ]
+          },
+          "drawer-right": {
+            "min": [
+              0.3549999998137355,
+              0.805,
+              -0.18999999463558198
+            ],
+            "max": [
+              0.3800000001862645,
+              1.0550000000000002,
+              0.22749999463558196
+            ]
+          },
+          "drawer-back": {
+            "min": [
+              -0.35499998927116394,
+              0.805,
+              -0.1900000001862645
+            ],
+            "max": [
+              0.35499998927116394,
+              1.0550000000000002,
+              -0.16499999981373548
+            ]
+          }
+        },
+        "cavity": {
+          "backNode": "cabinet-inner-back",
+          "openFront": true
+        },
+        "staticClearance": [
+          {
+            "openFraction": 0,
+            "checkedMeshes": 117
+          },
+          {
+            "openFraction": 0.5,
+            "checkedMeshes": 117
+          },
+          {
+            "openFraction": 1,
+            "checkedMeshes": 117
+          }
+        ],
+        "poses": [
+          {
+            "openFraction": 0,
+            "translationZ": 0,
+            "bounds": {
+              "min": [
+                -0.41999998688697815,
+                0.7799999982118606,
+                -0.1900000001862645
+              ],
+              "max": [
+                0.41999998688697815,
+                1.1200000017881393,
+                0.2750000003799796
+              ]
+            }
+          },
+          {
+            "openFraction": 0.5,
+            "translationZ": 0.16,
+            "bounds": {
+              "min": [
+                -0.41999998688697815,
+                0.7799999982118606,
+                -0.030000000186264503
+              ],
+              "max": [
+                0.41999998688697815,
+                1.1200000017881393,
+                0.43500000037997966
+              ]
+            }
+          },
+          {
+            "openFraction": 1,
+            "translationZ": 0.32,
+            "bounds": {
+              "min": [
+                -0.41999998688697815,
+                0.7799999982118606,
+                0.1299999998137355
+              ],
+              "max": [
+                0.41999998688697815,
+                1.1200000017881393,
+                0.5950000003799796
+              ]
+            }
+          }
+        ],
+        "meshCount": 22,
+        "identityScale": true,
+        "externalUris": 0
+      }
+    },
+    {
+      "id": "curved-detail",
+      "sha256": "20f664f9c1987f2470789159262d2fd64da646edb99f23d1b6beba0eb3ba02ca",
+      "bytes": 38744,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "bounds": {
+          "min": [
+            -0.44999999932944773,
+            -1.490116086078075e-10,
+            -0.2250000000745058
+          ],
+          "max": [
+            0.44999999932944773,
+            1.200000000074506,
+            0.2750000003799796
+          ]
+        },
+        "topNode": "cabinet-top",
+        "pivot": "cabinet-drawer-slide",
+        "panel": {
+          "mesh": "drawer-front",
+          "frontTriangles": 2,
+          "frontZ": 0.2625
+        },
+        "tray": {
+          "drawer-bottom": {
+            "min": [
+              -0.3799999952316284,
+              0.7799999998137355,
+              -0.18999999463558198
+            ],
+            "max": [
+              0.3799999952316284,
+              0.8050000001862645,
+              0.22749999463558196
+            ]
+          },
+          "drawer-left": {
+            "min": [
+              -0.3800000001862645,
+              0.805,
+              -0.18999999463558198
+            ],
+            "max": [
+              -0.3549999998137355,
+              1.0550000000000002,
+              0.22749999463558196
+            ]
+          },
+          "drawer-right": {
+            "min": [
+              0.3549999998137355,
+              0.805,
+              -0.18999999463558198
+            ],
+            "max": [
+              0.3800000001862645,
+              1.0550000000000002,
+              0.22749999463558196
+            ]
+          },
+          "drawer-back": {
+            "min": [
+              -0.35499998927116394,
+              0.805,
+              -0.1900000001862645
+            ],
+            "max": [
+              0.35499998927116394,
+              1.0550000000000002,
+              -0.16499999981373548
+            ]
+          }
+        },
+        "cavity": {
+          "backNode": "cabinet-inner-back",
+          "openFront": true
+        },
+        "staticClearance": [
+          {
+            "openFraction": 0,
+            "checkedMeshes": 63
+          },
+          {
+            "openFraction": 0.5,
+            "checkedMeshes": 63
+          },
+          {
+            "openFraction": 1,
+            "checkedMeshes": 63
+          }
+        ],
+        "poses": [
+          {
+            "openFraction": 0,
+            "translationZ": 0,
+            "bounds": {
+              "min": [
+                -0.41999998688697815,
+                0.7799999982118606,
+                -0.1900000001862645
+              ],
+              "max": [
+                0.41999998688697815,
+                1.1200000017881393,
+                0.2750000003799796
+              ]
+            }
+          },
+          {
+            "openFraction": 0.5,
+            "translationZ": 0.16,
+            "bounds": {
+              "min": [
+                -0.41999998688697815,
+                0.7799999982118606,
+                -0.030000000186264503
+              ],
+              "max": [
+                0.41999998688697815,
+                1.1200000017881393,
+                0.43500000037997966
+              ]
+            }
+          },
+          {
+            "openFraction": 1,
+            "translationZ": 0.32,
+            "bounds": {
+              "min": [
+                -0.41999998688697815,
+                0.7799999982118606,
+                0.1299999998137355
+              ],
+              "max": [
+                0.41999998688697815,
+                1.1200000017881393,
+                0.5950000003799796
+              ]
+            }
+          }
+        ],
+        "meshCount": 16,
+        "identityScale": true,
+        "externalUris": 0
+      }
+    }
+  ],
+  "sourceModificationEvidence": {
+    "design": "flat-panel",
+    "formalHandleWidth": 0.1,
+    "initialHandleWidth": 0.08,
+    "parametersPath": "evidence/company-sliding-production-v1/variant-flat-panel.parameters.json",
+    "parametersSha256": "6d9ca0b3190f6dadb4863f9d787a72e81762c030f6d48ab4f0e0e24c14f7b365",
+    "outputPath": "evidence/company-sliding-production-v1/variant-flat-panel.glb",
+    "sha256": "6fab90e9f1d6c5c27b2c714f743f6e2a96e810069dc54584f43dd653ed73a76d",
+    "bytes": 28276,
+    "repeatedExportByteIdentical": true,
+    "actual": {
+      "bounds": {
+        "min": [
+          -0.44999999932944773,
+          -1.490116086078075e-10,
+          -0.2250000000745058
+        ],
+        "max": [
+          0.44999999932944773,
+          1.200000000074506,
+          0.2750000003799796
+        ]
+      },
+      "topNode": "cabinet-top",
+      "pivot": "cabinet-drawer-slide",
+      "panel": {
+        "mesh": "drawer-front",
+        "frontTriangles": 2,
+        "frontZ": 0.2625
+      },
+      "tray": {
+        "drawer-bottom": {
+          "min": [
+            -0.3799999952316284,
+            0.7799999998137355,
+            -0.18999999463558198
+          ],
+          "max": [
+            0.3799999952316284,
+            0.8050000001862645,
+            0.22749999463558196
+          ]
+        },
+        "drawer-left": {
+          "min": [
+            -0.3800000001862645,
+            0.805,
+            -0.18999999463558198
+          ],
+          "max": [
+            -0.3549999998137355,
+            1.0550000000000002,
+            0.22749999463558196
+          ]
+        },
+        "drawer-right": {
+          "min": [
+            0.3549999998137355,
+            0.805,
+            -0.18999999463558198
+          ],
+          "max": [
+            0.3800000001862645,
+            1.0550000000000002,
+            0.22749999463558196
+          ]
+        },
+        "drawer-back": {
+          "min": [
+            -0.35499998927116394,
+            0.805,
+            -0.1900000001862645
+          ],
+          "max": [
+            0.35499998927116394,
+            1.0550000000000002,
+            -0.16499999981373548
+          ]
+        }
+      },
+      "cavity": {
+        "backNode": "cabinet-inner-back",
+        "openFront": true
+      },
+      "staticClearance": [
+        {
+          "openFraction": 0,
+          "checkedMeshes": 54
+        },
+        {
+          "openFraction": 0.5,
+          "checkedMeshes": 54
+        },
+        {
+          "openFraction": 1,
+          "checkedMeshes": 54
+        }
+      ],
+      "poses": [
+        {
+          "openFraction": 0,
+          "translationZ": 0,
+          "bounds": {
+            "min": [
+              -0.41999998688697815,
+              0.7799999982118606,
+              -0.1900000001862645
+            ],
+            "max": [
+              0.41999998688697815,
+              1.1200000017881393,
+              0.2750000003799796
+            ]
+          }
+        },
+        {
+          "openFraction": 0.5,
+          "translationZ": 0.16,
+          "bounds": {
+            "min": [
+              -0.41999998688697815,
+              0.7799999982118606,
+              -0.030000000186264503
+            ],
+            "max": [
+              0.41999998688697815,
+              1.1200000017881393,
+              0.43500000037997966
+            ]
+          }
+        },
+        {
+          "openFraction": 1,
+          "translationZ": 0.32,
+          "bounds": {
+            "min": [
+              -0.41999998688697815,
+              0.7799999982118606,
+              0.1299999998137355
+            ],
+            "max": [
+              0.41999998688697815,
+              1.1200000017881393,
+              0.5950000003799796
+            ]
+          }
+        }
+      ],
+      "meshCount": 15,
+      "identityScale": true,
+      "externalUris": 0
+    }
+  },
+  "initialCandidateEvidence": {
+    "parametersPath": "evidence/company-sliding-production-v1/initial-flat-panel.parameters.json",
+    "parametersSha256": "6d9ca0b3190f6dadb4863f9d787a72e81762c030f6d48ab4f0e0e24c14f7b365",
+    "outputPath": "evidence/company-sliding-production-v1/initial-flat-panel.glb",
+    "sha256": "6fab90e9f1d6c5c27b2c714f743f6e2a96e810069dc54584f43dd653ed73a76d",
+    "bytes": 28276
+  },
+  "contract": {
+    "envelope": [
+      0.9,
+      1.2,
+      0.55
+    ],
+    "body": [
+      0.9,
+      0.45
+    ],
+    "drawerBounds": {
+      "min": [
+        -0.42,
+        0.78,
+        -0.205
+      ],
+      "max": [
+        0.42,
+        1.12,
+        0.275
+      ]
+    },
+    "translationRange": [
+      0,
+      0.32
+    ],
+    "support": {
+      "topY": 1.2,
+      "halfSize": [
+        0.4,
+        0.18
+      ],
+      "clearanceHeight": 0.4
+    }
+  }
+}
