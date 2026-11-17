@@ -152,6 +152,24 @@ FOUNDATION_PROFILES['m2-male-lower-leg-v1'] = {
 
 Object.assign(FOUNDATION_PROFILES,REPRESENTATIVE_PROFILES);
 
+// Explicit technical candidate. Not listed by the normal appearance menu.
+// Own source geometry/skin/binds; no old-body accessory or contact fits inherited.
+FOUNDATION_PROFILES['native-female-843ac-v1'] = {
+  id:'native-vroid-unmasked-female-130-v1',
+  label:'原生女性 · 完整皮肤接入验证',
+  source:'VRoid 2.16 editable sources + pinned native Body PNG combination',
+  url:'/assets/native-factory-v1/native-vroid-unmasked-base-v1/generated/female-native-unmasked-130-v1.vrm',
+  sha256:'843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef',
+  manifestUrl:'/assets/native-factory-v1/native-vroid-factory-fit-v1/equipment.json',
+  sourceFloorY:-8.449510756143027e-7,
+  baseBodyDisplay:'source-with-hair',
+  bodyTextureCoverage:{url:'/assets/native-factory-v1/native-vroid-body-texture-fit-v1/manifest.json',sha256:'003e98086ed67b6fcd5c57e0b3b13e9c4a4beff412b3b74683e7cefc049c8fb2'},
+  ids:{top:'native-unmasked-843ac-top-v1',shorts:'native-unmasked-843ac-shorts-v1',shoes:'native-unmasked-843ac-shoes-v1'},
+  defaultOutfit:{index:0,role:'shorts',bottomRole:'shorts',label:'原生上衣／短裤／鞋',equipmentRoles:['top','shorts','shoes']},
+  seatLayerThickness:0,
+  fitStatus:'Technical candidate; own runtime/contact validation pending; no accessory, recolor or geometry-edit admission inherited',
+};
+
 export function foundationProfile(bodyType = "female") {
   const profile = FOUNDATION_PROFILES[bodyType];
   if (!profile) throw new Error(`Unknown foundation body type: ${bodyType}`);
@@ -166,10 +184,12 @@ export function foundationProfile(bodyType = "female") {
     result.additionalBodyCoverage=[...(result.additionalBodyCoverage??[]),{role:'fitTop',descriptor:layer.bodyCoverage}];
     result.extraOutfits=[...(result.extraOutfits??[]),layer.outfit];
   }
+  const initialLook = result.defaultOutfit ?? { index: 0, role: "pants", label: result.pantsLabel };
+  if (initialLook.index !== 0) throw Error(`Initial outfit must use index 0 for ${bodyType}`);
   result.outfits = [
-    { index: 0, role: "pants", label: result.pantsLabel },
-    ...(result.ids.skirt ? [{ index: 1, role: "skirt", label: "独立裙装" }] : []),
-    ...(result.ids.shorts ? [{ index: 2, role: "shorts", label: result.shortsLabel || "独立短裤" }] : []),
+    initialLook,
+    ...(result.ids.skirt && initialLook.role !== 'skirt' ? [{ index: 1, role: "skirt", label: "独立裙装" }] : []),
+    ...(result.ids.shorts && initialLook.role !== 'shorts' ? [{ index: 2, role: "shorts", label: result.shortsLabel || "独立短裤" }] : []),
     ...(result.extraOutfits ?? []),
   ];
   if (result.outfits.some(item => !Number.isSafeInteger(item.index) || item.index < 0 || typeof item.role !== 'string') ||

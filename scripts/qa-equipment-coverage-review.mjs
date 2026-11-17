@@ -74,7 +74,8 @@ try{
  const x=factoryFixture();globalThis.fetch=async()=>new Response(x.bytes);const clone=x.g.clone;
  x.g.clone=()=>{throw Error('injected clone failure')};
  await assert.rejects(x.factory({vrm:{scene:x.scene},avatarSha256:'body'}),/injected clone failure/);
- assert.equal(x.state.adapterDisposed,1);assert.equal(x.state.skirtDisposed,1);assert.equal(x.state.applied,0);assert.equal(x.cloth.visible,true);assert.equal(x.mesh.geometry,x.g);
+ // The selected pants outfit never prepares a skirt solver (lazy loading).
+ assert.equal(x.state.adapterDisposed,1);assert.equal(x.state.skirtDisposed,0);assert.equal(x.state.applied,0);assert.equal(x.cloth.visible,true);assert.equal(x.mesh.geometry,x.g);
  x.g.clone=clone;const retry=await create(x);controllers.add(retry);retry.dispose();
  report.factoryFailure={adapterDisposed:x.state.adapterDisposed,skirtDisposed:x.state.skirtDisposed,sourceClothesVisible:x.cloth.visible,appliedSetCalls:x.state.applied,ownerReacquired:true};
  report.checks.push('First apply failure cleans adapter/corrective/coverage, keeps original clothes and allows reacquisition');
@@ -92,7 +93,7 @@ try{
  x.state.failAdapter=true;assert.throws(()=>equipment.setDebugBody(false),/injected adapter/);
  assert.equal(released,1);assert.deepEqual(x.visible(),['shoes']);assert.equal(x.mesh.geometry,x.g);assert.equal(equipment.getInfo().debugBody,true);
  x.state.failAdapter=false;equipment.setDebugBody(false);assert.equal(equipment.getInfo().debugBody,false);assert.deepEqual(x.visible(),['shoes','shorts','top']);
- equipment.dispose();equipment.dispose();assert.equal(released,2);assert.equal(x.state.adapterDisposed,2);assert.equal(x.state.skirtDisposed,2);assert.equal(x.cloth.visible,true);assert.equal(x.mesh.geometry,x.g);
+ equipment.dispose();equipment.dispose();assert.equal(released,2);assert.equal(x.state.adapterDisposed,2);assert.equal(x.state.skirtDisposed,0);assert.equal(x.cloth.visible,true);assert.equal(x.mesh.geometry,x.g);
  const finalOwner=await create(x);controllers.add(finalOwner);finalOwner.dispose();
  report.checks.push('Adapter validation failure releases prepared clone; retry succeeds; final dispose is idempotent and restores originals');
  report.passed=true;

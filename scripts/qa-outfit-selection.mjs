@@ -20,6 +20,20 @@ for(const body of Object.keys(FOUNDATION_PROFILES)) {
   assert.throws(()=>outfitSelection(profile,99),/no matching/);
   assert.throws(()=>outfitSelection(profile,'unknown'),/no matching/);
 }
+// A native body with shorts must not invent a pants item or expose duplicate
+// shorts looks. Exercise the same profile factory used by runtime actors.
+const shortBody='qa-native-short-default';
+FOUNDATION_PROFILES[shortBody]={id:shortBody,ids:{top:'native-top',shorts:'native-shorts',shoes:'native-shoes'},
+  defaultOutfit:{index:0,role:'shorts',bottomRole:'shorts',equipmentRoles:['top','shorts','shoes']}};
+try {
+  const native=foundationProfile(shortBody);
+  assert.equal(native.outfits.length,1);
+  assert.deepEqual(outfitSelection(native,0).ids,['native-top','native-shorts','native-shoes']);
+  native.outfits[0].equipmentRoles.pop();
+  assert.equal(foundationProfile(shortBody).outfits[0].equipmentRoles.length,3);
+  FOUNDATION_PROFILES[shortBody].defaultOutfit.index=2;
+  assert.throws(()=>foundationProfile(shortBody),/index 0/);
+} finally {delete FOUNDATION_PROFILES[shortBody];}
 const config={ids:{top:'top',shoes:'shoes',shorts:'shorts',outer:'outer'},outfits:[
   {index:3,role:'layered-shorts',bottomRole:'shorts',equipmentRoles:['top','shoes','shorts','outer']},
 ]};

@@ -14,7 +14,7 @@ const materialsOf = mesh => Array.isArray(mesh.material) ? mesh.material : [mesh
 
 /** Per-instance appearance only. No skeleton, geometry, motion or skin weights
  * are changed by tinting. Replacements require an exact body admission. */
-export function createCharacterAppearance({ vrm, avatarSha256, validateHairChange }) {
+export function createCharacterAppearance({ vrm, avatarSha256, validateHairChange, preserveHairInBaseMode = false }) {
   const facialPalette = createFacialPalette({vrm, avatarSha256});
   const admittedStyles = HAIRSTYLES.filter(entry => entry.compatibleBodies.includes(avatarSha256));
   const skin = new Set(), hair = new Set(), hairMeshes = [];
@@ -55,7 +55,7 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
   // Mode changes visibility, never the user's selected style. Loading a cached
   // replacement while in base mode must not make it visible.
   function applyHairVisibility() {
-    const effectiveStyle = bodyMode === 'base' ? 'none' : hairStyle;
+    const effectiveStyle = bodyMode === 'base' && !preserveHairInBaseMode ? 'none' : hairStyle;
     hairMeshes.forEach(({ mesh, visible }) => { mesh.visible = effectiveStyle === 'original' && visible; });
     for (const [id, value] of replacements) {
       const visible=effectiveStyle===id;
@@ -66,7 +66,7 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
   function setBodyMode(mode) {
     if (disposed) return { applied: false, reason: '人物已卸载' };
     if (mode !== 'base' && mode !== 'dressed') return { applied: false, reason: '未知人体模式' };
-    if (mode === 'base' && !canHideHair) return { applied: false, reason: '当前身体无发基础尚未准入或缺少独立头发网格' };
+    if (mode === 'base' && !preserveHairInBaseMode && !canHideHair) return { applied: false, reason: '当前身体无发基础尚未准入或缺少独立头发网格' };
     if(bodyMode!==mode)revision++;
     bodyMode = mode; applyHairVisibility();
     return { applied: true };
@@ -298,7 +298,7 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
     updateDynamics:(dt,enabled=true)=>{if(replacement?.scene.visible)replacement.dynamics?.update(dt,enabled);},
     resetDynamics:()=>{for(const value of replacements.values())value.dynamics?.reset();},
     getState: () => ({ hairStyle, hairColor, skinTone, loading:loading||pendingStyleRequest!==0, error, bodyMode, revision,
-      effectiveHairStyle: bodyMode === 'base' ? 'none' : hairStyle,
+      effectiveHairStyle: bodyMode === 'base' && !preserveHairInBaseMode ? 'none' : hairStyle,
       noHairAdmission: canHideHair ? { ...noHairAdmission } : null, ...facialPalette.getState(),
       availableStyles: ['original', ...(canHideHair ? ['none'] : []), ...admittedStyles.map(entry => entry.id)],
       styleOptions: [{id:'original',label:'原发型'}, ...(canHideHair ? [{id:'none',label:'无发（保留眉睫毛）'}] : []), ...admittedStyles.map(({id,label}) => ({id,label}))],

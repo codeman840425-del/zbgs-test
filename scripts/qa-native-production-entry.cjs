@@ -3,7 +3,7 @@ const { chromium } = require('../prototype/node_modules/playwright');
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const assert = require('node:assert/strict');
-const [base, build, destination] = process.argv.slice(2);
+let [base, build, destination] = process.argv.slice(2);
 assert(base && /^[a-f0-9]{12}$/.test(build) && destination);
 const out = path.resolve(destination);
 (async () => {
@@ -11,8 +11,26 @@ const out = path.resolve(destination);
   await fs.copyFile(__filename, path.join(out,'executed-script.cjs'));
   const result = {build, base, status:'incomplete', errors:[], poses:[], videos:[],
     scope:'Actual fixed workbench link, male/female hot switching, face edit, movement and production media. Development browser only; no full new-body/factory or performance acceptance.'};
-  const browser = await chromium.launch({channel:'chrome', headless:true});
+  let browser, server;
   try {
+    if(base.startsWith('fixed:')) {
+      const folder=path.resolve(base.slice(6));
+      const identity=JSON.parse(await fs.readFile(path.join(folder,'build-info.json'),'utf8'));
+      assert.equal(identity.shortId,build);
+      const types={'.html':'text/html','.css':'text/css','.js':'text/javascript','.json':'application/json','.png':'image/png','.jpg':'image/jpeg','.svg':'image/svg+xml','.webp':'image/webp','.vrm':'model/gltf-binary','.glb':'model/gltf-binary'};
+      server=require('node:http').createServer(async(req,res)=>{
+        try {
+          const name=decodeURIComponent(new URL(req.url,'http://localhost').pathname);
+          const file=path.resolve(folder,'.'+(name==='/'?'/index.html':name));
+          if(!file.startsWith(folder+path.sep)){res.writeHead(403).end();return;}
+          const bytes=await fs.readFile(file);
+          res.writeHead(200,{'Content-Type':types[path.extname(file)]??'application/octet-stream','Cache-Control':'no-store'});res.end(bytes);
+        } catch {res.writeHead(404).end();}
+      });
+      await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
+      base='http://127.0.0.1:'+server.address().port;result.base=base;result.fixedDirectory=folder;
+    }
+    browser=await chromium.launch({channel:'chrome', headless:true});
     result.browser = browser.version();
     const context = await browser.newContext({viewport:{width:1440,height:1000}});
     const page = await context.newPage();
@@ -66,5 +84,5 @@ const out = path.resolve(destination);
     assert.deepEqual(result.errors,[]);
     result.status='passed-bounded-entry-check';
   } catch(error) { result.status='failed';result.failure=String(error);process.exitCode=1;console.error(error); }
-  finally {await browser.close();await fs.writeFile(path.join(out,'report.json'),JSON.stringify(result,null,2)+'\n');console.log(result.status);}
+  finally {await browser?.close();if(server){await new Promise(resolve=>server.close(resolve));result.temporaryServerClosed=true;}await fs.writeFile(path.join(out,'report.json'),JSON.stringify(result,null,2)+'\n');console.log(result.status);}
 })();

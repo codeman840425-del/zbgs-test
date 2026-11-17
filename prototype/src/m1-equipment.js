@@ -4,6 +4,7 @@ import { selectSkirtFit } from "./skirt-fit.js";
 import { foundationProfile } from "./foundation-profiles.js";
 import { createBodyCoverageSet } from "./body-coverage.js";
 import { createGarmentCoverage } from "./garment-coverage.js";
+import { createBodyTextureCoverage } from "./body-texture-coverage.js";
 import { outfitSelection } from "./outfit-selection.js";
 
 export const M1_AVATAR_SHA256 =
@@ -12,6 +13,10 @@ export const M1_AVATAR_SHA256 =
  * source geometry remains available for diagnostics and contact calibration. */
 export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female" }) {
   const config = foundationProfile(bodyType), IDS = config.ids;
+  // This measured native mask owner replaces index coverage for this candidate.
+  // Combining independently committed coverage systems needs its own contract.
+  if(config.bodyTextureCoverage && (config.bodyCoverage || config.additionalBodyCoverage?.length || config.garmentCoverage))
+    throw Error('Native texture coverage cannot be combined with unverified geometry coverage');
   // Reject malformed authored looks before allocating any runtime resources.
   for (const look of config.outfits) outfitSelection(config, look.index);
   if (avatarSha256 !== config.sha256)
@@ -62,20 +67,32 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
   // controller, body and pose, without replacing the frozen original look.
   const selectedTopRole = () => lowerBodyRole === 'onePiece' ? 'onePiece' :
     outfitSelection(config, outfit).roles.find(role => item(role)?.entry.slot === 'top');
-  let coverage, garmentCoverage, garmentCoveragePending, skirtCorrective;
+  let coverage, textureCoverage, garmentCoverage, garmentCoveragePending, skirtCorrective;
   let revision=0,intentRevision=0;
   const pendingUpdates=new Set();
   function buildPreparedOutfit(nextOutfit,nextDebugBody,expectedIntent=intentRevision){
     if(disposed)throw Error('Equipment is disposed');
     const look=outfitSelection(config,nextOutfit),selected=nextDebugBody?[IDS.shoes]:look.ids;
-    let update,garmentUpdate,equipmentUpdate;
-    try{update=coverage?.prepareEquipmentSet(selected);garmentUpdate=garmentCoverage?.prepareEquipmentSet(selected);equipmentUpdate=adapter.prepareLoadedSet(selected);}
-    catch(error){update?.dispose();garmentUpdate?.dispose();throw error;}
+    let update,textureUpdate,garmentUpdate,equipmentUpdate;
+    try{update=coverage?.prepareEquipmentSet(selected);garmentUpdate=garmentCoverage?.prepareEquipmentSet(selected);textureUpdate=textureCoverage?.prepareEquipmentSet(selected);equipmentUpdate=adapter.prepareLoadedSet(selected);}
+    catch(error){update?.dispose();textureUpdate?.dispose();garmentUpdate?.dispose();throw error;}
     const ticket=++revision;let live=true,cleaned=false;
     const prepared={
-      isCurrent:()=>live&&!disposed&&ticket===revision&&expectedIntent===intentRevision&&equipmentUpdate.isCurrent()&&(!update||update.isCurrent())&&(!garmentUpdate||garmentUpdate.isCurrent()),
-      commit(){if(!prepared.isCurrent())throw Error('Outfit preparation is no longer current');equipmentUpdate.commit();update?.commit();garmentUpdate?.commit();outfit=nextOutfit;lowerBodyRole=look.bottomRole;debugBody=nextDebugBody;live=false;pendingUpdates.delete(prepared);},
-      dispose(){if(cleaned)return;cleaned=true;live=false;pendingUpdates.delete(prepared);try{equipmentUpdate.dispose();}finally{try{update?.dispose();}finally{garmentUpdate?.dispose();}}},
+      isCurrent:()=>live&&!disposed&&ticket===revision&&expectedIntent===intentRevision&&equipmentUpdate.isCurrent()&&(!update||update.isCurrent())&&(!textureUpdate||textureUpdate.isCurrent())&&(!garmentUpdate||garmentUpdate.isCurrent()),
+      commit(){
+        if(!prepared.isCurrent())throw Error('Outfit preparation is no longer current');
+        const previousTextureIds=textureCoverage?.getInfo().activeIds;
+        textureUpdate?.commit();
+        try{equipmentUpdate.commit();update?.commit();garmentUpdate?.commit();}
+        catch(error){
+          // Native texture publication may succeed before an equipment shape
+          // dependency rejects commit. Restore its last committed mask state.
+          if(textureCoverage){const restore=textureCoverage.prepareEquipmentSet(previousTextureIds);try{restore.commit();}finally{restore.dispose();}}
+          throw error;
+        }
+        outfit=nextOutfit;lowerBodyRole=look.bottomRole;debugBody=nextDebugBody;live=false;pendingUpdates.delete(prepared);
+      },
+      dispose(){if(cleaned)return;cleaned=true;live=false;pendingUpdates.delete(prepared);try{equipmentUpdate.dispose();}finally{try{update?.dispose();}finally{try{textureUpdate?.dispose();}finally{garmentUpdate?.dispose();}}}},
     };pendingUpdates.add(prepared);return prepared;
   }
   function createSkirtAtRest(args) {
@@ -170,6 +187,9 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
       }),
     ];
     coverage = await createBodyCoverageSet({ body, avatarSha256, bindings:coverageBindings });
+    if(config.bodyTextureCoverage)textureCoverage=await createBodyTextureCoverage({
+      body,avatarSha256,entries:Object.values(IDS).map(id=>adapter.describe(id)),descriptor:config.bodyTextureCoverage,
+    });
     apply();
     // These are exact duplicated clothing surfaces, not body coverage removal.
     sourceClothes.forEach(({ mesh }) => (mesh.visible = false));
@@ -177,6 +197,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     skirtCorrective?.dispose();
     garmentCoverage?.dispose();
     coverage?.dispose();
+    textureCoverage?.dispose();
     sourceClothes.forEach(({ mesh, visible }) => (mesh.visible = visible));
     adapter.dispose();
     throw error;
@@ -205,6 +226,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
         independentEquipment: true,
         sourceBodyUnchanged: true,
         bodyCoverage: coverage?.getInfo() ?? null,
+        bodyTextureCoverage: textureCoverage?.getInfo() ?? null,
         garmentCoverage: garmentCoverage?.getInfo() ?? null,
         skirtDynamics: skirtCorrective?.getInfo() ?? null,
         items: Object.fromEntries(
@@ -243,6 +265,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
       skirtCorrective?.dispose();
       garmentCoverage?.dispose();
       coverage?.dispose();
+      textureCoverage?.dispose();
       adapter.dispose();
       sourceClothes.forEach(({ mesh, visible }) => (mesh.visible = visible));
     },

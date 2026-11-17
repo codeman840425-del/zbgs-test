@@ -4,7 +4,7 @@
 
 ## 固定演示与保留项
 
-- 工作台固定 http://127.0.0.1:4196/?workbench=appearance ，source eae6c66414cf741bec09629e2143915601bcb3d1，build d0f9ab216e05，experiments/native-mtoon-fixed-v1/prototype/dist，delivery/appearance-workbench.json。4174历史证据，4195 M1。新增检查区原生制作近景/1×录像入口；未将原生候选放入正式人物菜单。83de旧树与history指针保留。
+- 工作台固定 http://127.0.0.1:4196/?workbench=appearance ，source 8d718127c827296f11aa254cd409a9ffd473975d，build c3e35248dc55，experiments/native-material-init-fixed-v1/prototype/dist，delivery/appearance-workbench.json。4174历史证据，4195 M1。检查区原生制作近景/1×录像入口；衣装录像86d4、表情83de保原身份；新原生候选尚非普通菜单。d0/83de旧树与history指针保留。
 - 普通菜单男女各3有限样件；15失败预设仅诊断区，分区不等于模型已修好。既有失败和来源证据不改标签。
 - 主交付仍4女+4男代表预设及可持续生产流程。女性裙装及30秒舞封存，不追加精修。普通电脑尚缺设备，用户允许保留缺口继续。
 - m2-semantic-female-face-v1、m2-continuous-garment-fit-v1自造形变试验已暂停，不据历史派工恢复。当前先学习原生成熟制作流程；原运行时保留。
@@ -26,7 +26,7 @@
 
 ## 接续工作顺序
 
-1. froz单表达窄试验已完成封包。继续原生候选自身独立衣物提取与公共MToon装备加载接缝；用原内嵌/拆出衣物同姿态数值及实际画面对照，避免降级材质。未接完整factory前不更新正式菜单。
+1. 原生独立衣物与MToon接缝已实测：别名映射和首次update(0)修复，v5无黑壳，原/独立各4cycles纯1×。新customitem改袖已在78912同房间原→新→原及4cycles实测；不要重做。继续843ac完整基体的真正factory接缝，不把overlay/CPU通过当完整角色。
 2. Bridge原生矩阵优先复用已证女性源，已补2.16女性25参数保存重开全等（parameter-reopen-result.json），继续男性源、必要模板/发束/表面接口；一次只操作一个编辑器，操作失败核真实嵌套结果。docs/research/VROID-BRIDGE-PLATFORM-FIT-2026-11-17.md区分工具与实测。
 3. 新原生候选完整factory接缝，先核独立装备/coverage/接触/外观记录，不复制旧基模SHA、蒙皮或补偿。最小样件通过后再8预设；不把overlay推到普通菜单冒充完成。
 4. 自适应路线下一步才是受限短动作的限位/代理与真实蒙皮接触，禁止改封存30秒舞。不要同时开启新自造外观算法。
@@ -37,6 +37,8 @@
 
 主窗口单GPU/导出互斥；最新房间录制已结束并释放。桌面操作仅缺接口兜底，操作后立即turn_ended释放。当前后台MCP不需要控制鼠标键盘。
 
-最近已核远端4cf6a23842cffc9be2017aa8bfc013a0081eae7f，含原生Bridge、froz单表达、独立衣物及MToon公共接缝、Mink与2.14卸载。其后增量未核push前不宣称备份完成。只stage明确owned路径；manifest精确字节用局部.gitattributes，ignore日志需显式-force并核index。公司副总工dirty/untracked绝不顺带提交；公司系统不在本轮角色职责内。
+最近已核远端484ad44ba8cd45bbcc4982aad1d3cfc7aa56a8d6；此后9b9/fb572/8d718及新factory增量尚待统一核备份，未核push前不宣称完成。只stage明确owned路径；manifest精确字节保留，ignore日志显式-force并核index。公司副总工dirty/untracked绝不顺带提交；公司系统不在本轮角色职责内。
 
-当前在途：4196新增原生表情对照入口已真实浏览器检查并发布，eae/d0固定树不可继续改。独立衣装eae/d0实际4周期录制完成但出现严重黑色描边外壳（位置差纳米级不等于材质通过），asset继续CPU因果定位；失败v1-v4保留。customitem单Top66→56保存/重用/冷开导出已过且提交8831af5e，尚非正式factory。原生只卸Tops试验已恢复Body胸部alpha，20衣物aux骨随之消失，face封读回，装备附骨接缝未做。http制作一件改袖Top的精确适配前置，不继承原78912身份。
+当前在途：完整843acca派生保130joint，只用原生卸Tops后完整Body PNG；原几何/权重/表达未动，双.vroid+离线生成脚本保留，无合并后的单一原生源。unmasked-base独审/重复构建通过；factory-fit原三衣新身份CPU核过。root正在接foundationProfile默认shorts、可恢复textureCoverage及保原材质/原发基础模式；face负责coverage模块/事务独审；http只读factory准入缺口；asset制作新袖Top在843ac上的实际重新适配。当前新增代码未固定发布，4196仍c3e。冻结裙/30秒舞不动，8预设仍未完成。
+
+用户关于独立制作端的旁问：已解释运行时无需VRoid，MCP制作仍调用原生引擎；平台管理标准资源和可替换离线producer，逐项验证自身修改能力，不现在重写编辑器。官方guidelines的公开角色生成/输出工具许可与内部制作用途分开核。公司副总工挂墙镜69c阶段交付仅作收悉，不引入角色M2范围。

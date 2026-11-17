@@ -1,0 +1,80 @@
+{
+  "schema": "native-custom-top-actual-adapter-cpu-v1",
+  "status": "loaded-on-original78912-technical-candidate-only",
+  "sourcePaths": {
+    "target": "assets-source/vroid-bridge-study-v1/generated/female-native-round-waist-216.vrm",
+    "reference": "evidence/vroid-customitem-study-v1/native-single-top-v1/customitem-study-direct.vrm"
+  },
+  "garmentSha256": "75c113d68a7eab1e9f09178b4ddf5c03a9f9d237e0a66d79b0984f45bd5538b7",
+  "compatibleAvatarSha256": "78912a7a48e114107ccf16ecd7896edff2fe2664bbc25fb4f8a807fca68c01b3",
+  "equipmentCommit": {
+    "applied": true,
+    "items": [
+      {
+        "id": "native-vroid-78912-sleeve56-top-v1",
+        "sha256": "75c113d68a7eab1e9f09178b4ddf5c03a9f9d237e0a66d79b0984f45bd5538b7",
+        "slot": "top"
+      }
+    ]
+  },
+  "materials": [
+    {
+      "type": "ShaderMaterial",
+      "isMToonMaterial": true,
+      "isOutline": false
+    },
+    {
+      "type": "ShaderMaterial",
+      "isMToonMaterial": true,
+      "isOutline": true
+    }
+  ],
+  "poses": [
+    {
+      "pose": "rest",
+      "drawnVertices": 700,
+      "maximumWorldDifferenceM": 1.3822037208144912e-8,
+      "sourceAndTargetCoordinateSha256": "26c25fdb110b3ea0310c56a03b1a22a3adf6b4c9aae6a43b627c9101d7248554",
+      "finite": true
+    },
+    {
+      "pose": "raw-arm-bend",
+      "drawnVertices": 700,
+      "maximumWorldDifferenceM": 1.3822037208144912e-8,
+      "sourceAndTargetCoordinateSha256": "9cf676df8b917bf9b208785d5df288c79ba8acb146a1cd34aeff2585d5801a03",
+      "finite": true
+    },
+    {
+      "pose": "raw-thigh-bend",
+      "drawnVertices": 700,
+      "maximumWorldDifferenceM": 1.5367957340557963e-8,
+      "sourceAndTargetCoordinateSha256": "b6f2dd1e5c0c504ea786eb7899bb2930012631be706e161b9ed9b47a109c9a3c",
+      "finite": true
+    }
+  ],
+  "uvAnimationOffsetBefore": [
+    0,
+    0
+  ],
+  "uvAnimationOffsetAfter": [
+    0,
+    0
+  ],
+  "sourceWeightNormalizationNote": "Original multi-primitive VRM may normalize shared weights repeatedly; standalone loader normalizes once. Actual errors reported without replacing source weights.",
+  "disposedIdempotently": true,
+  "runtimePins": [
+    {
+      "path": "prototype/src/equipment.js",
+      "sha256": "ad11991411d12416f96378dec9f22f0cda82cbf422ddd9ab0d5dfa16477c08ea"
+    },
+    {
+      "path": "prototype/src/equipment-material-loader.js",
+      "sha256": "343405e061dcbe9fe954508f4adc6bd114214fac1d2c4bd0290b0febcf0629d7"
+    }
+  ],
+  "limits": [
+    "Actual GLTFLoader/VRMLoaderPlugin/createEquipment; texture images are1px CPU placeholders, original encoded images independently source-hashed",
+    "Raw bone rest/arm/thigh fixtures only, no normalized animation, body dynamics, renderer or GPU",
+    "No original top visibility switch, body coverage or room/factory admission tested"
+  ]
+}

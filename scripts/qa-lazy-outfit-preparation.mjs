@@ -13,6 +13,7 @@ function createEquipment(){
 const deps={
  './equipment.js':{createEquipment},'./foundation-profiles.js':{foundationProfile},'./outfit-selection.js':{outfitSelection:(config,value)=>{const selection=config.outfits.find(x=>x.index===Number(value));if(!selection)throw Error('no matching outfit');const roles=selection.equipmentRoles??['top','shoes',selection.role];return{selection,roles,ids:roles.map(role=>config.ids[role]),bottomRole:selection.bottomRole??selection.role};}},
  './body-coverage.js':{createBodyCoverageSet:async()=>null},
+ './body-texture-coverage.js':{createBodyTextureCoverage:async()=>{throw Error('Legacy profiles must not enable native texture coverage');}},
  './garment-coverage.js':{createGarmentCoverage:async()=>{coverageCalls.push('create');return{prepareEquipmentSet:()=>({isCurrent:()=>true,commit(){},dispose(){}}),dispose(){coverageCalls.push('dispose')}}; }},
  './m1-skirt.js':{createM1Skirt:()=>{skirtCalls.push('create');return{mesh:{name:'skirt'},update(){},getInfo(){return{}},dispose(){skirtCalls.push('dispose')}};}},
  './skirt-fit.js':{selectSkirtFit:()=>({})},

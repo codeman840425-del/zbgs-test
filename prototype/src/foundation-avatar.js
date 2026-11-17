@@ -85,6 +85,8 @@ export function createFaceGeometryWarmup(renderer,scene) {
 
 export async function loadFoundationAvatar({ scene, renderer, bodyType = "female", attachToScene = true }) {
   const config = foundationProfile(bodyType), url = config.url;
+  const sourceBodyDisplay = config.baseBodyDisplay === 'source-with-hair';
+  if(config.baseBodyDisplay && !sourceBodyDisplay)throw Error('Unknown base-body display policy');
   for (const look of config.outfits) outfitSelection(config, look.index);
   const response = await fetch(url);
   if (!response.ok) throw new Error(`Foundation HTTP ${response.status}`);
@@ -179,7 +181,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
   });
   equipment = await createM1Equipment({ vrm, avatarSha256: sha256, bodyType });
   const surfaces = equipment.getAssetProfile();
-  appearance = createCharacterAppearance({ vrm, avatarSha256: sha256,
+  appearance = createCharacterAppearance({ vrm, avatarSha256: sha256, preserveHairInBaseMode: sourceBodyDisplay,
     validateHairChange:(selection,accessories)=>accessories===undefined?headwear?.assertHairSelection(selection):assertAccessoryHair(sha256,accessories,selection) });
   livePresentation = createLivePresentation({vrm, root, bodyType: config.referenceBody || bodyType, avatarSha256: sha256});
   rigidAccessories = createRigidAccessoryLayer({vrm, avatarSha256:sha256,manifestSha256:EAR_MANIFEST_SHA});
@@ -213,6 +215,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     url,
     sha256,
     bodyComplete: true,
+    baseBodyDisplay: sourceBodyDisplay ? 'source-materials-and-hair' : 'gray-diagnostic-without-hair',
     floorAlignment: { sourceFloorY, modelOffsetY: -sourceFloorY, basis: 'configured source footwear rest plane; scene ground remains owned by actor root' },
     meshRoles,
     footwear: { kind: "shoes", meshes: surfaces.shoes.map((m) => m.name) },
@@ -272,7 +275,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     debugBody = Boolean(value);
     headwear.setBodyMode(debugBody ? 'base' : 'dressed');
     for (const [mesh, mat] of sourceMaterials)
-      mesh.material = debugBody ? bodyMaterials.get(mesh) : mat;
+      mesh.material = debugBody && !sourceBodyDisplay ? bodyMaterials.get(mesh) : mat;
   }
   setDebugBody(false);
   // Do not render/upload canonical Face geometry while equipment is still loading.

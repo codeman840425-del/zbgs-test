@@ -354,7 +354,7 @@ head-only一次诊断原8请求已完成，8/8 diagnostic-failed，正式生产�
 | --- | --- | --- |
 | VRoid 2.16 + Bridge 原生保存/VRM导出 | 已验证可用：assets-source/vroid-bridge-study-v1；请求/导出回执、源及VRM SHA，warnings空 | 一个女性原生技术源，非59工具全部通过，非八预设完成 |
 | 新原生角色房间回读 | 部分实测：evidence/native-vroid-room-78912-v1，固定83de房间、78912 VRM1、自身骨架与motion，站立/走路/4表达近景 | test overlay借旧根轨迹；完整factory、装备、覆盖、外观存档和接触未接入；普通机未测 |
-| froz3ncore表情定义制作 | 限定实测：固定6469，单个Joy眉毛定义100→65、保存冷开、VRM导出及同房间近景通过，详见下方补测 | 仅该表达；其余工具不继承通过。customitem已只读枚举，保存复用待实际完成 |
+| froz3ncore表情及单衣制作 | 限定实测：固定6469，Joy眉毛100→65和上衣袖长66→56均保存/冷开/导出；单衣customitem在新进程重用后VRM字节相同 | 只限实际表达和衣物；新袖Top在78912实际切换和4周期行走已测，843ac完整factory仍待接入 |
 | 旧2.14退役 | 官方卸载通过、旧端口关闭、2.16仍ready；evidence/vroid-214-retirement-v1 | 有效源与证据保留；残留目录递归删除被执行策略拒绝，尚未清完 |
 | Mink作者碰撞IK前置 | 已验证作者CPU例子与独立碰撞测试；evidence/mink-author-study-v1 | 机器人/合成例子，不是人体舞蹈避碰 |
 | 原男性VRM坐标往返 | 已验证rest/zero/单骨30°，69 raw节点重载回读；assets-source/vrm-mink-roundtrip-v1 | 12骨固定根，无碰撞体/限位/solve，不推定自适应动作通过 |
@@ -372,3 +372,12 @@ head-only一次诊断原8请求已完成，8/8 diagnostic-failed，正式生产�
 原生customitem已实测（froz6469 / 2.16）：唯一Tops/SleeveLong66→56，原生保存c8d507…，在新进程原source上应用、保存冷开，direct/reused VRM整文件同SHA6a32481e…。Body真实5103引用点与底裤/鞋/头发/脸属性不变，仅Top226点POSITION最大6.545mm改变，权重/130joint排序/IBM不变。导出实际delete_transparent=true、50799三角，不当78912完整基体或游戏换装通过。源与复建见assets-source/vroid-customitem-study-v1，37文件root逐SHA核。
 
 原生独立衣物实际画面（eae6c664/d0f9ab216e05，room-compare-v4）：原/独立各5.5025s、4cycles，applied与wall时间一致。8组同pose原/独立CPU位置误差≤30.25nm，但独立装配出现严重黑色外壳/描边；视觉未通过，不能把MToon材料存在/geometry一致当成功。前v1为原名映射缺陷、v2/v3为测试夹具接线/时钟/CSS失败，均保留。原生制作近景入口已放4196检查区，旧人脸/移动/男女切换及媒体实际用户路径通过；新原生角色仍非正式factory。
+
+### 最新接缝结果（2026-11-17，以上失败保留原版本）
+
+- 已定位并修复两个公共接缝：eae6保存raw骨名和GLTFLoader清理名的精确别名、拒绝歧义；fb572在装备发布前对MToon调用官方update(0)，使暂停首帧alphaTest从未同步的0变为实际0.5。黑壳与描边关闭无关，因果shader/uniform对照保在room-compare-v4下，不以改材质掩盖。
+- 原三衣实测：evidence/native-vroid-equipment-runtime-v1/room-compare-v5，fb572/86d4da9716a7，原/独立各4周期纯1×录像；站姿像素exact、12行走图每图0–7像素差。范围仅原78912自身三衣等价，不等于完整factory/任意服装通过。
+- 新袖Top实测：evidence/native-vroid-custom-top-room-v1，8d718/c3e35248dc55，真正equipSet原→新→原，暂停首帧透明正确、旧装备无残留，4周期5.5025s正常速片。状态恢复exact，恢复图1–5像素一级差；末屏badge文字滞后已记录，恢复展示使用original-restored三图。无男性/跨体型通过结论。
+- 完整皮肤：原生仅卸Tops使Body PNG 608383 alpha像素恢复，RGB全等；同时移除20个skin辅助骨。843acca派生仅换用该原生完整PNG，保原130joint、所有几何/权重/表情/辅助动态。来源、双.vroid和生成脚本在assets-source/native-vroid-unmasked-base-v1；它是离线组合产物，没有合并后的单一.vroid。源身份、重复构建独审通过；真实factory基础模式、装备覆盖、动作接触仍待验证。
+- 4196当前页面source8d718/buildc3e35248dc55；检查区衣装录像86d4、表情录像83de分别标明身份，页面升级不替旧证据换标签。新原生候选尚未放普通人物菜单。
+- 制作独立性：运行时不需要VRoid；MCP原生制作仍依赖Studio2.16。可编辑源、标准VRM/GLB、装备规则和处理脚本由项目保管，逐项减少制作依赖。导出VRM不等于保留完整原生捏人参数。官方对基于其素材对外提供角色生成/输出应用另设许可条件，内部制作与公开制作工具须分开核查：https://vroid.com/en/studio/guidelines 。不据开源MCP扩大原素材授权。

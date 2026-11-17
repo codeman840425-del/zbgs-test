@@ -1,0 +1,27 @@
+{
+  "schema": "native-body-texture-coverage-cpu-check-v1",
+  "passed": 12,
+  "tests": [
+    "unconfigured is null; wrong avatar and old catalog rejected",
+    "constructor and prepare are non-mutating; shared reference and tint retained; first paused commit updates official uniforms",
+    "KHR-style distinct map/shade wrappers preserve actual alias graph and sampler",
+    "skin tone changing after preparation is never overwritten",
+    "two instances have separate texture ownership; disposing A preserves B",
+    "newest preparation wins; obsolete/disposed commits rejected without changes",
+    "unknown id, duplicate id, absent optional top and two tops fail closed",
+    "HTTP, SHA, decode and size failures do not change materials or retain ownership",
+    "duplicate owner and outside Body texture edits invalidate a pending transaction",
+    "dispose invalidates all prepared state; owned bitmap released once",
+    "unexpected live material-update error restores all previous map references",
+    "invalid source sampler/alpha is rejected rather than silently repaired"
+  ],
+  "implementationSha256": "be5310d7fffd80c41cf30f72d4786720a0ff406b81f3c5b83fde3469f99a6d18",
+  "manifestSha256": "003e98086ed67b6fcd5c57e0b3b13e9c4a4beff412b3b74683e7cefc049c8fb2",
+  "realLibraries": {
+    "three": "187",
+    "mtoon": "3.5.5"
+  },
+  "decodeCalls": 17,
+  "bitmapCloses": 16,
+  "scope": "Actual Three/MToon objects and official update(0), real PNG bytes SHA/IHDR, mocked fetch/bitmap decode only. No WebGL/shadow/pixel-render test. Optional sleeve entry is a unit fixture, not garment fit admission."
+}
