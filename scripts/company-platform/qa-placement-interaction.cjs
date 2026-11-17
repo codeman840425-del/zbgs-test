@@ -53,6 +53,7 @@ await check('Missing portal stays unavailable; required workstation parts cannot
 });
 await check('Drag-add and whole workstation move retain stable children and rejected points',async()=>{
  await choose('layout','studio');await click('tool-add');await choose('add-branch','plant');await click('add-place');await page.waitForFunction(()=>company.editor.placement.snapshot()?.complete,{},{timeout:120000});
+ await choose('add-look',await page.locator('#add-look').inputValue());assert.equal(await snap(),null);await click('add-place');await page.waitForFunction(()=>company.editor.placement.snapshot()?.complete,{},{timeout:120000});
  const before=await doc(),s=await snap(),green=s.cells.find(c=>c.valid&&c.position[0]<-1&&c.position[2]>1),p=await screen(green.position);assert(green);await drag({x:p.x+5,y:p.y+5},p);
  let after=await doc();const added=after.nodes.find(n=>!before.nodes.some(b=>b.id===n.id));assert(added);assert.deepEqual(added.transform.position,green.position);
  await click('tool-selection');const station=after.nodes.find(n=>n.kind==='workstation');await choose('edit-instance',station.id);await page.locator('#placement-tools>summary').click();const children=after.nodes.filter(n=>n.stationId===station.id);await arm();

@@ -229,7 +229,7 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
   });
   const order=['desk','chair','sofa','side-table','monitor','fill-light','keyboard','desk-microphone','plant','rug','wall-art'];
   options(el('add-branch'),appearanceBranches.filter(([b])=>b!=='stream-station'&&appearanceCandidates(catalog,b).length).sort(([a],[b])=>(order.includes(a)?order.indexOf(a):100)-(order.includes(b)?order.indexOf(b):100)).map(([value,label])=>({value,label})),'desk');
-  el('add-branch').onchange=refreshAddLooks;el('add-look').onchange=refreshTargets;el('add-target').onchange=refreshTargets;
+  el('add-branch').onchange=()=>{cancel();refreshAddLooks();};el('add-look').onchange=el('add-target').onchange=()=>{cancel();refreshTargets();};
   el('add-place').onclick=()=>arm({kind:'add'});el('add-center').onclick=()=>execute('正在添加设施…',()=>add());
   el('sample-scenarios').onclick=()=>{el('sample-scenarios').setAttribute('aria-expanded',String(el('sample-scenarios').getAttribute('aria-expanded')!=='true'));sync();};
   for(const key of ['selection','add','finish'])el(`tool-${key}`).onclick=()=>{tool=key;cancel();sync();};
