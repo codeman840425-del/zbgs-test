@@ -35,7 +35,7 @@
 
 ## 恢复、并行与备份
 
-- 当前已核远端c84cea282a674f872bfe3d5e80873e5d4f914aaf（含原生女固定版、男CPU来源/三衣、失败与实录）。新b27/193b和本段证据正做最后备份，须再次ls-remote再写成功。
+- 当前已核远端21741e203b9251be138b097e9c021cf0e98ca5c3，包含b27/193b男女源/独立装备/公共覆盖与实际房间、UI证据；ls-remote与本地一致。核验回执随后记录于native-workbench-release-193b-v1/remote-backup.json。
 - 已知requested配置：face_target_feasibility=gpt-6-astra/high；asset_budget/http_transport_review=gpt-6.1-sol/high；派工JSON保难度理由，provider/hook实际拦截未独立暴露。当前三者有界包已交，不假称仍在跑。
 - 桌面未接管；MCP导出窗口已释放。2.14卸载成功且17890/17891关闭，3旧目录清理被自动策略拒绝约2.09GB残留，保evidence/vroid-214-retirement-v1，不绕过或称全清。
 - 公司副总工边几e1b独立交付已收，角色本轮不stage公司dirty，不改公司职责；C3/普通机未验。普通电脑目前无设备，不用4090或限速代替通过。
