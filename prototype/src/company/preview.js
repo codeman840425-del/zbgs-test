@@ -1,3 +1,4 @@
+import {createFacilityEditor} from './facility-editor.js';
 import * as THREE from 'three';
 import Phaser from 'phaser';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
@@ -16,7 +17,7 @@ import mixedCompany from './examples/c2-mixed-company.json' with {type:'json'};
 import {createCompanyAuthoring} from './authoring.js';
 import {createCompanyAssetLibrary} from './asset-library.js';
 import {createScaleExamples} from './scale-examples.js';
-import {deriveCompany} from './document.js';
+import {deriveCompany,prepareCompanyChange} from './document.js';
 import {createBuildingView} from './building-view.js';
 import {appearanceBranches,appearanceCandidates,createAppearanceSample} from './appearance-samples.js';
 import {createSupportSample} from './support-samples.js';
@@ -93,7 +94,7 @@ const camera=new THREE.PerspectiveCamera(38,1,.05,300),orbit=new OrbitControls(c
 orbit.enableDamping=false;orbit.maxPolarAngle=Math.PI*.48;orbit.minDistance=2;orbit.maxDistance=160;
 const layouts={ceilingAcoustic:createCeilingAcousticSample(catalog,templates).document,ceilingAcousticAlternate:createCeilingAcousticSample(catalog,templates,{alternate:true}).document,wallShelves:createWallShelfSample(catalog,templates).document,wallShelfAlternate:createWallShelfSample(catalog,templates,{alternate:true}).document,sideTableLifeItems:createSideTableLifeItemsSample(catalog,templates).document,sideTableLifeItemsAlternate:createSideTableLifeItemsSample(catalog,templates,{alternate:true}).document,sideTables:createSideTableSample(catalog,templates).document,sideTableAlternate:createSideTableSample(catalog,templates,{alternate:true}).document,makeupWallMirrors:createMakeupWallMirrorSample(catalog,templates).document,makeupWallMirrorAlternate:createMakeupWallMirrorSample(catalog,templates,{alternate:true}).document,makeupDrawer:createMakeupDrawerSample(catalog,templates).document,makeupDrawerAlternate:createMakeupDrawerSample(catalog,templates,{alternate:true}).document,makeupStorage:createMakeupStorageSample(catalog,templates).document,makeupStorageAlternate:createMakeupStorageSample(catalog,templates,{alternate:true}).document,makeupMirrors:createMakeupMirrorSample(catalog,templates).document,makeupMirrorAlternate:createMakeupMirrorSample(catalog,templates,{alternate:true}).document,vanities:createVanitySample(catalog,templates).document,vanityAlternate:createVanitySample(catalog,templates,{alternate:true}).document,floorMirrors:createFloorMirrorSample(catalog,templates).document,floorMirrorAlternate:createFloorMirrorSample(catalog,templates,{alternate:true}).document,mirrors:createMirrorSample(catalog,templates).document,mirrorAlternate:createMirrorSample(catalog,templates,{alternate:true}).document,floorInformation:createFloorInformationSample(catalog,templates).document,floorInformationAlternate:createFloorInformationSample(catalog,templates,{alternate:true}).document,information:createInformationSample(catalog,templates).document,informationAlternate:createInformationSample(catalog,templates,{alternate:true}).document,supportedClocks:createSupportedClockSample(catalog,templates).document,supportedClockAlternate:createSupportedClockSample(catalog,templates,{alternate:true}).document,clocks:createClockSample(catalog,templates).document,clockAlternate:createClockSample(catalog,templates,{alternate:true}).document,sliding:createSlidingSample(catalog,templates).document,slidingAlternate:createSlidingSample(catalog,templates,{alternate:true}).document,hinged:createHingedSample(catalog,templates).document,hingedAlternate:createHingedSample(catalog,templates,{alternate:true}).document,base,alternate,studio,...createScaleExamples(catalog,templates),smallHome,rental:rentalHome,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome,ceilings:ceilingCompany,ceilingHome,
   supports:createSupportSample(catalog,templates).document,supportAlternate:createSupportSample(catalog,templates,{alternate:true}).document},assetLibrary=createCompanyAssetLibrary();let session,activeView='room',busy=false,game;
-let regionLabels=[],previewClockOverride=null;
+let regionLabels=[],previewClockOverride=null,facilityEditor;
 function setPreviewClock(seconds){if(seconds!==null)validatePresentationInputs({clockSeconds:seconds});previewClockOverride=seconds;if(seconds!==null)session.scene.setPresentationInputs({clockSeconds:seconds});return seconds;}
 let buildingPresentation='exterior';
 let wallMode='cutaway';
@@ -208,11 +209,15 @@ async function changeFinish(type){
     finish:resource?{...room.finishes?.[surface],resource:{id:resource.id,version:resource.version}}:null})));
 }
 async function showAppearanceSample(branch,index){
+  facilityEditor?.beforeSample();
   const sample=createAppearanceSample(branch,index,catalog,templates,{alternate:(branch==='ceiling-acoustic-baffle'&&session?.document?.id==='ceiling-acoustic-alternate')||(branch==='side-table-life-items'&&session?.document?.id==='side-table-life-items-alternate')||(branch==='wall-shelf'&&session?.document?.id==='wall-shelf-alternate')});
-  if(session.document.id===sample.document.id){
+  const savedSample=facilityEditor?.getDraft(sample.document.id),sameSample=session.document.id===sample.document.id;
+  if(sameSample||savedSample){
     const replacements=sample.document.nodes.filter(n=>n.resource&&(!['ceiling-acoustic-baffle','wall-shelf','side-table-life-items','side-table','makeup-mirror','makeup-mirror-wall','makeup-storage','makeup-storage-drawer'].includes(branch)||catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.mountRole===branch)&&(!['information-board','information-board-floor'].includes(branch)||catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.informationSurface)).map(n=>({type:'replace-resource',id:n.id,resource:n.resource}));
-    await session.apply(replacements);
+    if(sameSample)await session.apply(replacements);
+    else await session.load(prepareCompanyChange(savedSample,replacements,{catalog,templates}).document);
   }else await session.load(sample.document);
+  facilityEditor?.sampleLoaded(sample);
   await showSpace('room',sample.document.nodes[0].id,sample.document.nodes[1].id);
   element('sample-branch').value=branch;fillSampleLooks();element('sample-look').value=String(index);
   const object=session.scene.root.getObjectByName(sample.target),box=new THREE.Box3().setFromObject(object);
@@ -313,15 +318,15 @@ function sync(){
     } else {const frame=derived.worlds.get(node.id);position=new THREE.Vector3(...frame.position);position.y+=.6;}
     regionLabels.push({label,position});
   }
-  updateRegionLabels();
+  updateRegionLabels();facilityEditor?.sync();
 }
 async function perform(label,action){
-  if(busy)return;busy=true;document.querySelectorAll('button,select').forEach(e=>e.disabled=true);status(label);
+  if(busy)return;busy=true;document.querySelectorAll('button,select,input').forEach(e=>e.disabled=true);status(label);
   try{await action();status('方案已更新，可以继续查看或保存。');}catch(error){
     const messages={'overlapping-facilities':'设施位置重叠','visual-outside-room':'模型超出房间边界','visual-surface-overhang':'设备超出桌面承载范围','asset-fetch-failed':'缺少所需模型文件','asset-texture-load-failed':'模型贴图损坏或无法加载','save-not-found':'尚未保存过这个方案','save-write-failed':'浏览器存储空间不足或不可写','dependency-content-mismatch':'存档需要的素材版本与当前素材不一致'};
     status(`${messages[error.code]||'素材或布局不符合当前支持规则'}。当前有效方案已保留。`,true);console.error(error);
   }
-  finally{busy=false;document.querySelectorAll('button,select').forEach(e=>e.disabled=false);sync();}
+  finally{busy=false;document.querySelectorAll('button,select,input').forEach(e=>e.disabled=false);sync();}
 }
 function resize(){const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();updateRegionLabels();}
 class CompanyPreview extends Phaser.Scene {update(time){if(session)session.scene.setPresentationInputs({clockSeconds:previewClockOverride??(32400+time/1000)});drawHostFrame(performance.now());}}
@@ -334,6 +339,9 @@ async function start(){
     async apply(ops){const r=await session.apply(ops);sync();return r;},
     async load(doc){const r=await session.load(doc);await defaultSpace();return r;},
     snapshot:()=>session.snapshot(),save:saveCurrent,restore:async()=>{const r=await session.restore();await defaultSpace();return r;},export:()=>session.export()};
+  facilityEditor=createFacilityEditor({session,catalog,templates,world,camera,getCanvas:()=>renderer.domElement,perform,refresh:sync,isBusy:()=>busy,showSpace,defaultSpace,layouts,showSample:showAppearanceSample});
+  window.company.editor=facilityEditor;
+  element('edit-focus').onclick=()=>{const object=facilityEditor.focus();if(!object)return;const box=new THREE.Box3().setFromObject(object),center=box.getCenter(new THREE.Vector3());orbit.minDistance=.25;orbit.target.copy(center);camera.position.copy(center).addScaledVector(new THREE.Vector3(.6,.7,1).normalize(),Math.max(.5,box.getSize(new THREE.Vector3()).length()*1.6));orbit.update();updateWallView();};
   game=new Phaser.Game({type:Phaser.CANVAS,parent:'phaser-stage',width:1,height:1,transparent:true,audio:{noAudio:true},fps:{target:30},scene:CompanyPreview});
   resize();new ResizeObserver(resize).observe(stage);sync();await defaultSpace();status(restoreError?`已保留默认方案，存档未载入：${restoreError.message}`:restored?'已恢复上次保存的方案。':'方案已加载。',Boolean(restoreError));
   fillOptions('sample-branch',appearanceBranches.filter(([branch])=>appearanceCandidates(catalog,branch).length).map(([id,name])=>({id,name})),'desk');fillSampleLooks();
@@ -345,7 +353,7 @@ async function start(){
     if(!finish)throw Error('Choose a floor finish first');
     return session.apply([{type:'set-surface-finish',id:room.id,surface:'floor',finish:{...finish,quarterTurns:((finish.quarterTurns||0)+1)%4}}]);
   });
-  element('layout').onchange=()=>perform('正在加载方案…',()=>window.company.load(layouts[element('layout').value]));
+  element('layout').onchange=()=>perform('正在加载方案…',()=>facilityEditor.openLayout(element('layout').value));
   element('floor').onchange=()=>perform('正在查看楼层…',()=>showSpace('floor'));
   element('room').onchange=()=>perform('正在查看房间…',()=>showSpace('room'));
   element('floor-view').onclick=()=>perform('正在查看整层…',()=>showSpace('floor'));
@@ -388,6 +396,7 @@ async function start(){
   renderer.domElement.addEventListener('pointerdown',event=>{down=[event.clientX,event.clientY];});
   renderer.domElement.addEventListener('pointerup',event=>{
     if(busy||!down||Math.hypot(event.clientX-down[0],event.clientY-down[1])>5)return;
+    if(facilityEditor?.pointer(event))return;
     const rect=renderer.domElement.getBoundingClientRect();pointer.set((event.clientX-rect.left)/rect.width*2-1,-(event.clientY-rect.top)/rect.height*2+1);raycaster.setFromCamera(pointer,camera);
     const hit=raycaster.intersectObject(session.scene.root,true).find(hit=>hit.object.userData.floorId);
     if(hit){const {floorId,roomId}=hit.object.userData;perform('正在查看空间…',()=>showSpace(session.scene.view.mode==='building'?'floor':'room',floorId,roomId));}
@@ -395,7 +404,8 @@ async function start(){
   fetch('/company-build-info.json').then(r=>r.ok?r.json():null).then(info=>{if(info){element('build-label').textContent=`构建 ${info.shortId}`;window.company.buildInfo=info;}}).catch(()=>{});
   const query=new URLSearchParams(location.search),requested=query.get('sample');
   if(requested&&appearanceBranches.some(([branch])=>branch===requested))await showAppearanceSample(requested,Number(query.get('look')||0));
-  else if(Object.hasOwn(layouts,query.get('layout')))await window.company.load(layouts[query.get('layout')]);
+  else if(Object.hasOwn(layouts,query.get('layout'))){await window.company.load(layouts[query.get('layout')]);if(!['smallHome','studio','base','alternate','rental','flat','twoFloors','building','mixed','surfaces','surfaceHome','ceilings','ceilingHome'].includes(query.get('layout')))facilityEditor.sampleLoaded({target:''});}
+  facilityEditor.sync();
 }
 start().catch(error=>{status(`场景加载失败：${error.message}`,true);console.error(error);});
-addEventListener('pagehide',()=>{game?.destroy(true);session?.dispose();assetLibrary.dispose();orbit.dispose();buildingView.dispose();renderer.dispose();},{once:true});
+addEventListener('pagehide',()=>{facilityEditor?.dispose();game?.destroy(true);session?.dispose();assetLibrary.dispose();orbit.dispose();buildingView.dispose();renderer.dispose();},{once:true});
