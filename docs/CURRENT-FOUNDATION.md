@@ -6,7 +6,7 @@
 
 M2完整范围以research/M2-COMPLETE-CUSTOMIZATION-LONG-GOAL-v2-2026-11-16.txt为准（SHA309ae27289e81689d26a08f2704e887a9a882befad860e534f0779445efedc23）。当前主包仍是4女+4男代表预设共同生产：旧v2仅六个源成功，两lean失败；六体头部请求也未充分达到。不能称八体完成或M2结束。M3未授权开工。
 
-4196固定工作台：http://127.0.0.1:4196/?workbench=appearance 。source71081be29b5fee7dc5e6d6fbcc17b9b4c65d4b9d / buildf82a7fc6de61，目录experiments/m2-vest-layer-fixed-v1/prototype/dist，指针delivery/appearance-workbench.json；旧ed2指针在delivery/history。4174历史录像，4195保M1。新头部数值试验均未进入4196。
+4196固定工作台：http://127.0.0.1:4196/?workbench=appearance 。source726fae4b24bb1625da9d12d22834fc88e4e2db8a / build14f73cbe1e26，目录experiments/m2-axial-head-fixed-v1/prototype/dist，指针delivery/appearance-workbench.json；f82回滚指针在delivery/history/appearance-workbench-f82.json。4174录像，4195保M1。新男lean仅头部诊断候选已入外观菜单，不是完整八体通过。
 
 f82已独立重建376文件一致，公开编辑/移动/12影片烟测已验。腰部修订只适用原女、round-full-v2、soft-wide-v2；三体×房间/近腰六对完整1×在4174/evidence/m2-vest-layer-review-f82-v1/。原上衣形态、脸型及马尾椅背问题保留；数值/采样审查不替代连续人工观感。女裙和认可的30秒舞封存，不再修。
 
@@ -41,12 +41,14 @@ m2-axial-head-readback-v1已完成prepare+13项合成QA，新spec pin后核对�
 
 ## 备份与协作
 
-最新已核远端a5815585928edc47baf8af9ea6e110873ea12e12，含真实strict/导出及独审、混合与round失败诊断、四装备实际适配和此前所有原始结果。回执assets-source/m2-axial-head-export-v1/remote-backup.json。runtime发布器和当前增强QA尚在进行，未包含在该备份。
+最新已核远端726fae4b24bb1625da9d12d22834fc88e4e2db8a，含真实strict/导出及独审、混合与round失败诊断、四装备实际适配和此前所有原始结果。回执assets-source/m2-axial-head-export-v1/remote-backup.json。runtime发布器和当前增强QA尚在进行，未包含在该备份。
 
-当前接续：m2-axial-head-equipment-v1四原男装备真实适配已完成，top/tie392点改变，裤/短裤/鞋全G/Jidentity；forearm按新源重算。m2-axial-head-runtime-v1发布器已完成并集成13资源与两注册文件；v2以a581源快照保证集成后重复生成，11项CPU QA过，资源与首轮字节一致。root补检查区入口，增强qa-m2-axial-head-room.cjs尚未运行，4196未替换；待资产/独审固定后从exact commit构建，用同房间front/side近景、1×混合讲话、走停/坐起和保存恢复检查候选，不借旧运行结果。
+当前接续：头部runtime和实际房间小包已交付（evidence/m2-axial-head-room-v1）。原/新十组真实manager边界、各34.7秒主片和42.05秒无暂停纯canvas补录：五元音/三blink、两裤走坐起、实际装备/forearm身份、非默认配色短裤关闭恢复、坏SHA保旧均技术通过；尖长颏形与已知oh口内pair、人工连续观感未过。455构建输入与源码一致，公开男女热切到新候选/链接烟测过。临时4197已关闭。能力范围与限制只查CAP及本包REVIEW，不能借此称八体完成。
+
+下一主包已启动：asset_budget准备m2-axial-body-compose-v1，F(P)=G(P)+B(P)、JF=JG+JB-I，以同一不可变原源完整male-lean九身体+四头部参数一次数值验证，先spec核接缝后跑，不导出；fixed-neck最终位移与相对请求body基准的头部增量分开测。只读证据m2-eight-preset-composition-seam-v1确认两旧lean失败点均在旧face支持，八B分量原preflight已过；不重做B/不调用旧face_curve。另一独立任务face_target_feasibility在m2-face-subdivision-preflight-v1实测原男Face一级libigl细分的权重/UV/54morph/接缝可消费性，不跑G或导出；研究依据m2-shape-expression-next-seam-v1。两任务保原门与失败，禁止加密/扫参，root负责最终组合/运行。
 
 当前代理已知requested配置：asset_budget=gpt-6.1-sol/high，装备已完成；face_target_feasibility=gpt-6-astra/high，export/混合独审收尾；http_transport_review=gpt-6.1-sol/high，既有房间候选注册。每次派工记录evidence/subagent-explicit-dispatch-2026-11-16.json；followup不改配置。真实provider与桌面hook拦截未独立暴露，不声称验证。
 
-角色侧本包CPU，GPU/录屏/重导出窗口当前空闲。root已从a581建立experiments/m2-axial-head-fixed-v1稀疏独立检出并npm ci；尚未build，之后须checkout确切集成提交再构建，不能使用dirty源。公司副总工最新台面钟source18880ef/build2dd87df94b61、72.60秒录像已通知结束释放；仅公司侧交付声明，未核角色集成。公司dirty/untracked不动、不stage，不git add -A。
+当前角色录像已结束，GPU/录屏/重导出窗口空闲。fixed-v1确切726fae4b已构建/验证，不能在该目录切新源码重建而破坏已发布固定版。公司副总工最新台面钟source18880ef/build2dd87df94b61、72.60秒录像已通知结束释放；仅公司侧交付声明，未核角色集成。公司dirty/untracked不动、不stage，不git add -A。
 
 固定交付只能从exact commit独立检出构建，录像与构建同身份；不从并发dirty源码发布。保持动作控制器与既有失败记录；本包仅增加资源注册和工作台候选说明。阶段汇报不停止长目标；只在真实费用/授权/产品选择或无法自行解决阻碍时问用户。全部M2必需机制须有证据后交用户确认，再由用户决定M3。
