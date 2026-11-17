@@ -23,7 +23,7 @@ f82已独立重建376文件一致，公开编辑/移动/12影片烟测已验。�
 
 函数独审m2-axial-shape-function-audit-v1已无阻断：原c→精确有理局部求值→Lagrange→独立Bernstein逐项一致，7反例/预算拒绝过。result SHAcd953c45352fa3e79652a53f791125fc1e8e71f6134959f72e43d94c6afe507d。证明仅针对各段存储系数实多项式；接缝有舍入级差，严格全局C1/注入和浮点全域执行界未证，不能夸大。此时还不是完整模型或实际101网格通过。
 
-当前已授权执行中的下一项：m2-axial-head-evaluation-v1。直接读取已封PPoly系数，不重造曲线；identity+两原男头部请求各一次完整源求值，600s/3GiB/2threads，无扫参。函数独审通过的执行条件已满足，producer准备核pin后直接跑，不等用户或再问root。全部9911实际引用base顶点必须覆盖：Body accessor7为7855base且无morph，Face accessor21为2056base+54真实targets，总120935 unique endpoints；不能虚构9911×55。Body在55面部状态复用base。
+完整源求值m2-axial-head-evaluation-v1现已完成并由独审确认无阻断：identity全源0；lean/round完整101误差.825000032/.941696881mm（无缺片），实际Jmin .486337477/.976210642，fixed全0，Float32误差.118263/.106781µm。501三角诊断无新增退化/非正参考法向点积，不等于无碰撞。3.147秒/采样树RSS143654912B，首监控启动缺psutil失败保留、实际求值仅一次。独审result SHA58321fc546b32fa56868ce9ab531e38465c7d343151e8c2e671c3e3517f1659b，root核30包文件一致。仅数值候选，非人物通过。以下为执行约定：直接读取已封PPoly系数，不重造曲线；identity+两原男头部请求各一次完整源求值，600s/3GiB/2threads，无扫参。函数独审通过的执行条件已满足，producer准备核pin后直接跑，不等用户或再问root。全部9911实际引用base顶点必须覆盖：Body accessor7为7855base且无morph，Face accessor21为2056base+54真实targets，总120935 unique endpoints；不能虚构9911×55。Body在55面部状态复用base。
 
 完整源清单evidence/m2-axial-export-seam-review-v1/source-index-inventory.json SHA51f938f9c604e01020db9d95a7b987bd336741c5172ffa610059345cb35532b9，含全部primitive/material/隐藏源衣鞋及原属性/target身份。Body/Face mesh nodes67/68均scene根identity，共用原rest米制；无共享target冲突、无未引用buffer点。旧113713 tet records只覆盖Body7的633点，不能当新G全源覆盖。
 
@@ -31,7 +31,7 @@ evaluation将保存完整source/mapped/Float32 base+delta、新G实际J、原fix
 
 ## 并行接缝与尚未完成项
 
-m2-axial-head-readback-v1正在prepare+合成QA：显式新schema/spec/曲线/独审身份，复用原contacts/segment_hits和55原strict baseline；拒旧SLIM身份、缺点、虚构Body targets及失败候选。未获数值候选时不实际求交。
+m2-axial-head-readback-v1已完成prepare+13项合成QA，新spec pin后核对再执行。root已授权在独审/QA/pin齐后直接单次运行两例各55原strict，未将执行授权当作结果。其合同为：显式新schema/spec/曲线/独审身份，复用原contacts/segment_hits和55原strict baseline；拒旧SLIM身份、缺点、虚构Body targets及失败候选。未获数值候选时不实际求交；现已获两例数值候选，等待真实strict结果。m2-axial-head-export-v1由asset准备有界接缝，不改原bake/normal_map字节；strict未过不得实际导出。
 
 导出接缝审查m2-axial-export-seam-review-v1已完成，只读报告及inventory。应复用已有bake/normal_map，处理旧generator、zip截短和就地缓存风险，不造第二套导出器。几何法线必须为新表面退化/方向检查计算；着色法线须保作者风格，不能简单面积平均覆盖（原N与面积N最大差84°/113°）。可按实际J逆转置传输原作者N，endpoint N再减base；需identity方向/实际光照与glTF morph语义验收。原54面部targets只有POSITION，无NORMAL，不能错误保留旧几何法线或宣称shader自动完成。
 
@@ -41,9 +41,9 @@ m2-axial-head-readback-v1正在prepare+合成QA：显式新schema/spec/曲线/�
 
 ## 备份与协作
 
-最新已核远端c7ffecd243a9f68bb54de02944ef6887a95f72c6，含band唯一失败和独审及此前f82/诊断/研究；回执assets-source/m2-head-surface-band-slim-v1/remote-backup.json。新轴向研究/函数/独审与evaluation/readback尚待下一备份，不冒认远端覆盖。
+最新已核远端89a118364493b80db100eb1b1d99839cce0c951a，含轴向官方研究、函数系数/独审和完整源/导出接缝审查；回执assets-source/m2-axial-shape-function-v1/remote-backup.json。evaluation/readback仍在制作，未包含在该备份；此前band失败及独审已随c7ffecd2备份。
 
-当前代理已知requested配置：asset_budget=gpt-6.1-sol/high，完整源evaluation；face_target_feasibility=gpt-6-astra/high，独立evaluation审查；http_transport_review=gpt-6.1-sol/high，新G后验准备。每次派工记录evidence/subagent-explicit-dispatch-2026-11-16.json；followup不改配置。真实provider与桌面hook拦截未独立暴露，不声称验证。
+当前代理已知requested配置：asset_budget=gpt-6.1-sol/high，导出接缝准备；face_target_feasibility=gpt-6-astra/high，evaluation独审已完成；http_transport_review=gpt-6.1-sol/high，新G真实55状态后验。每次派工记录evidence/subagent-explicit-dispatch-2026-11-16.json；followup不改配置。真实provider与桌面hook拦截未独立暴露，不声称验证。
 
 角色侧本包CPU，GPU/录屏/重导出窗口当前空闲。公司副总工最新台面钟source18880ef/build2dd87df94b61、72.60秒录像已通知结束释放；仅公司侧交付声明，未核角色集成。公司dirty/untracked不动、不stage，不git add -A。
 
