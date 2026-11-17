@@ -9,7 +9,21 @@
 <main>
 <a href="/?workbench=appearance">← 返回角色工作台</a>
 <h1>原生角色制作对照</h1>
-<p>在游戏房间里查看制作结果。新的女性候选已接入共用人物流程、独立换装和外观保存恢复；每组历史录像保留原构建身份。</p>
+<p>在游戏房间里查看制作结果。男女原生候选已接入共用人物流程、独立换装和外观保存恢复；每组录像保留录制时的构建身份。</p>
+<section>
+<h2>男女原生候选 · 当前制作流程回读</h2>
+<p>两段均为同一房间的正常速度录像，包括换装恢复、行走、坐起和离开家具后的短舞。可以全屏观看；新基模的细节接触和动作自然度仍待验收。</p>
+<div class="pair">
+<figure><figcaption><a href="/?workbench=appearance&amp;body=native-female-843ac-v1&amp;view=inspect-full-front">查看女性候选</a></figcaption><video controls playsinline preload="none" data-native-chain="native-female-room-193b-v1/native-factory-chain-1x.webm" aria-label="原生女性房间动作链一倍速"></video></figure>
+<figure><figcaption><a href="/?workbench=appearance&amp;body=native-male-7586-v1&amp;view=inspect-full-front">查看男性候选</a></figcaption><video controls playsinline preload="none" data-native-chain="native-male-room-193b-v1/native-factory-chain-1x.webm" aria-label="原生男性房间动作链一倍速"></video></figure>
+</div>
+<p class="note">两段录像构建均为193bbbf64323；女性843ac、男性7586。它们是技术候选，尚不代表八个外观预设、其他发型配色或普通电脑性能通过。基础模式保留鞋，不能当作裸足验证。</p>
+<details><summary>双角色同时运行：已证范围与失败记录</summary>
+<p>本段检查两人分别换装、改变表情和行动，以及争用同一把椅子。观察到状态隔离与座位互斥；销毁男性后女性仍可起身行走。末尾追加舞蹈未进入预期状态，整套脚本保留失败，不标为完整通过。</p>
+<video controls playsinline preload="none" data-native-chain="native-pair-isolation-193b-v1/rerun-v2/failure-partial-1x.webm" aria-label="原生双角色隔离检查录像，末段舞蹈检查失败"></video>
+<p class="note">同为193bbbf64323构建，1倍速。该片用于状态检查，不代替面部近景、完整服装接触和性能验收。</p>
+</details>
+</section>
 <section>
 <h2>完整皮肤与独立换装 · 新女性候选</h2>
 <p><a href="/?workbench=appearance&amp;body=native-female-843ac-v1&amp;view=inspect-full-front">打开原生候选，查看人物与两套上衣</a></p>
@@ -55,7 +69,7 @@
 <section>
 <h2>验证范围</h2>
 <p>VRoid Studio 2.16 原生源 → MCP 修改并保存 → 重新启动工具回读 → 原生 VRM 导出 → Three.js／VRM 同房间显示。</p>
-<p class="tag">已实测一个女性候选的独立衣装接缝和一个表情定义。完整人物工厂、八个代表预设和普通电脑性能仍未通过。</p>
+<p class="tag">已实测男女候选的代表人物流程、女性独立衣装接缝和一个表情定义。八个代表预设、完整外观修改与普通电脑性能仍未通过。</p>
 <p class="note">房间录像构建：83decd027116。原／新 VRM：48b08e05／b839ed14。单表达制作源与证据：4cf6a238。当前页面不是这两段历史录像的新构建身份。</p>
 <a id="report" target="_blank" rel="noopener noreferrer">查看完整验证记录</a>
 <p id="media-error" role="status" hidden>对照媒体加载失败。请保留本页，由技术负责人检查本地证据服务。</p>
@@ -64,6 +78,8 @@
 <script>
 const base=new URL('/evidence/vroid-expression-study-v1/',location.href);base.port='4174';
 const url=path=>new URL(path,base).href;
+const chainBase=new URL('/evidence/',location.href);chainBase.port='4174';
+document.querySelectorAll('[data-native-chain]').forEach(video=>{video.src=new URL(video.dataset.nativeChain,chainBase).href;video.addEventListener('play',()=>{video.playbackRate=1;});});
 const equipmentBase=new URL('/evidence/native-vroid-equipment-runtime-v1/room-compare-v5/run-1/',location.href);equipmentBase.port='4174';
 const factoryVideo=new URL('/evidence/native-factory-room-7871-v2/native-factory-chain-1x.webm',location.href);factoryVideo.port='4174';
 const factoryPlayer=document.querySelector('[data-factory-video]');factoryPlayer.src=factoryVideo.href;factoryPlayer.addEventListener('play',()=>{factoryPlayer.playbackRate=1;});

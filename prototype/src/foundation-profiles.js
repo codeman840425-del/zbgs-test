@@ -1,4 +1,5 @@
 import {REPRESENTATIVE_PROFILES} from './representative-batch.js';
+import {appearanceColorSupport} from './appearance-color-policy.js';
 import layerOutfits from '../public/assets/m2-vest-layer-fit-v1/profiles.json' with {type:'json'};
 
 // Body type is an asset/fit identity, not the streamer's gender or personality.
@@ -164,7 +165,7 @@ FOUNDATION_PROFILES['native-female-843ac-v1'] = {
   additionalEquipmentManifests:[{url:'/assets/native-factory-v1/sleeve56-runtime-equipment.json',sha256:'5e2612e32e7891ef6353aa80112c5e3200a0e10e08049e8e32652d4734e919b9'}],
   sourceFloorY:-8.449510756143027e-7,
   baseBodyDisplay:'source-with-hair',
-  previewAppearanceSupport:{hairColor:false,skinTone:false,eyeColor:false,lipColor:false},
+  previewAppearanceSupport:appearanceColorSupport('843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef'),
   bodyTextureCoverage:{url:'/assets/native-factory-v1/native-vroid-body-texture-fit-v1/manifest.json',sha256:'003e98086ed67b6fcd5c57e0b3b13e9c4a4beff412b3b74683e7cefc049c8fb2'},
   ids:{top:'native-unmasked-843ac-top-v1',shorts:'native-unmasked-843ac-shorts-v1',shoes:'native-unmasked-843ac-shoes-v1',alternateTop:'native-unmasked-843ac-sleeve56-top-v1'},
   defaultOutfit:{index:0,role:'shorts',bottomRole:'shorts',label:'原生上衣／短裤／鞋',equipmentRoles:['top','shorts','shoes']},
@@ -212,7 +213,7 @@ FOUNDATION_PROFILES['native-male-7586-v1'] = {
   manifestUrl:'/assets/native-male-factory-v1/native-vroid-male-equipment-v1/generated/equipment.json',
   sourceFloorY:-1.1503509525979781e-6,
   baseBodyDisplay:'source-with-hair',
-  previewAppearanceSupport:{hairColor:false,skinTone:false,eyeColor:false,lipColor:false},
+  previewAppearanceSupport:appearanceColorSupport('7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81'),
   bodyTextureCoverage:{url:'/assets/native-male-factory-v1/native-vroid-male-body-texture-fit-v1/generated/manifest.json',sha256:'c432a7cdd1f6f5e5af4bf07b79465b902f26c09b00f39254f206c2df24617143'},
   ids:{top:'native-unmasked-7586-top-v1',shorts:'native-unmasked-7586-shorts-v1',shoes:'native-unmasked-7586-shoes-v1'},
   defaultOutfit:{index:0,role:'shorts',bottomRole:'shorts',label:'原生上衣／短裤／鞋',equipmentRoles:['top','shorts','shoes']},

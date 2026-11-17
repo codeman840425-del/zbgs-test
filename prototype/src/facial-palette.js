@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import {facialPaletteContract} from './facial-palette-contract.js';
 import {createSurfaceLayers} from './surface-layers.js';
 import {validateSurfaceSelection} from './surface-layer-compositor.js';
+import {assertAppearanceColorSelection} from './appearance-color-policy.js';
 const IRIS_COLOR_OPERATION = 'neutral-iris-multiply-v3';
 
 export const EYE_COLORS = { original: null, brown: '#916138', blue: '#507fa9', green: '#5e8b60', violet: '#8b63a6' };
@@ -139,6 +140,8 @@ export function createFacialPalette({ vrm, avatarSha256 }) {
     try{nextSurface=validateSurfaceSelection(input.reset?[]:input.surfaceLayers??(trackIntent?wantedSurface:surfaceLayers));}
     catch(e){return{applied:false,reason:e.message};}
     if (!(nextEye in EYE_COLORS) || !(nextLip in LIP_COLORS)) return { applied: false, reason: '未知瞳色或唇色' };
+    try { assertAppearanceColorSelection(avatarSha256,{eyeColor:nextEye,lipColor:nextLip}); }
+    catch(e) { return {applied:false,reason:e.message}; }
     if(trackIntent){wantedEye = nextEye; wantedLip = nextLip; wantedSurface=nextSurface;}
     const request = ++generation; error = null;
     let surfaceUpdate=null;

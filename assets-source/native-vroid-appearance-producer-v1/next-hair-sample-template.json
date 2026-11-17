@@ -1,0 +1,183 @@
+{
+  "schema": "native-appearance-bounded-recipe-template-v1",
+  "id": "native-hairset-001-study-v1",
+  "version": 1,
+  "status": "prepared-not-executed",
+  "source": {
+    "path": "assets-source/vroid-bridge-study-v1/generated/male-native-base-216.vroid",
+    "sha256": "c936b24182e8bb9951f94fd0aec91db1995eb73938ff496a0614fccadd3e0e6a"
+  },
+  "nativeVersions": {
+    "studio": "2.16.0",
+    "bridge": "0.15.0",
+    "bridgeCommit": "c7367a548626cbe69e26b533e48fc9ddaf85851e"
+  },
+  "operations": [
+    {
+      "tool": "vroid_status",
+      "arguments": {},
+      "assertions": [
+        "ready=true",
+        "dirty=false",
+        "known currentFile; otherwise stop without opening/saving"
+      ]
+    },
+    {
+      "tool": "vroid_save",
+      "arguments": {
+        "path": "${newEntryCheckpoint.vroid}"
+      },
+      "condition": "future authorized native window only; exclusive new path"
+    },
+    {
+      "tool": "vroid_main_menu",
+      "arguments": {}
+    },
+    {
+      "tool": "vroid_open",
+      "arguments": {
+        "path": "${root}/assets-source/vroid-bridge-study-v1/generated/male-native-base-216.vroid"
+      }
+    },
+    {
+      "tool": "vroid_save",
+      "arguments": {
+        "path": "${newWorkingCopy.vroid}"
+      }
+    },
+    {
+      "tool": "vroid_list_presets",
+      "arguments": {
+        "filter": "HairSet/N00/001",
+        "include_locked": false,
+        "limit": 4
+      },
+      "assertions": [
+        "same selected id/resource usable=true price=0"
+      ]
+    },
+    {
+      "tool": "vroid_list_groups",
+      "arguments": {},
+      "capture": "beforeGroups"
+    },
+    {
+      "tool": "vroid_apply_preset",
+      "arguments": {
+        "id": "a051cb96c59e4dce033c3223d63829b7642efabf.transferablegroup",
+        "preserve_material": false
+      }
+    },
+    {
+      "tool": "vroid_list_groups",
+      "arguments": {},
+      "assertions": [
+        "all non-hair source group IDs/resources unchanged; whole hairstyle may replace multiple hair slots"
+      ]
+    },
+    {
+      "tool": "vroid_list_hair_groups",
+      "arguments": {},
+      "capture": "actual nonempty group kind/strand IDs; empty is explicit limitation"
+    },
+    {
+      "tool": "vroid_list_hair_materials",
+      "arguments": {},
+      "capture": "actual material/Color/base keys and texture layer errors without suppressing failed call"
+    },
+    {
+      "tool": "vroid_save",
+      "arguments": {
+        "path": "${newCandidate.vroid}"
+      }
+    },
+    {
+      "tool": "vroid_main_menu",
+      "arguments": {}
+    },
+    {
+      "tool": "vroid_open",
+      "arguments": {
+        "path": "${newCandidate.vroid}"
+      }
+    },
+    {
+      "tool": "vroid_list_groups",
+      "arguments": {},
+      "assertions": [
+        "same saved hair membership and non-hair groups"
+      ]
+    },
+    {
+      "tool": "vroid_list_hair_groups",
+      "arguments": {},
+      "assertions": [
+        "same group/strand count and parameters"
+      ]
+    },
+    {
+      "tool": "vroid_export_vrm",
+      "arguments": {
+        "path": "${newCandidate.vrm}",
+        "version": "1",
+        "delete_transparent": false,
+        "hair_smoothness": 0,
+        "hair": 0,
+        "face": 0,
+        "body": 0,
+        "outfit": 0,
+        "material_mode": 0,
+        "texture_mode": 0,
+        "hair_bones": 0,
+        "leave": true
+      },
+      "assertions": [
+        "warnings=[] or explicit failure retained",
+        "preserve license fields; author/title/version only explicitly sourced"
+      ]
+    },
+    {
+      "tool": "vroid_main_menu",
+      "arguments": {}
+    },
+    {
+      "tool": "vroid_open",
+      "arguments": {
+        "path": "${newEntryCheckpoint.vroid}"
+      }
+    },
+    {
+      "tool": "vroid_status",
+      "arguments": {},
+      "assertions": [
+        "ready=true dirty=false checkpoint restored"
+      ]
+    }
+  ],
+  "selectedFreePreset": {
+    "id": "a051cb96c59e4dce033c3223d63829b7642efabf.transferablegroup",
+    "resource": "pixiv/VRoid/HairSet/N00/001/TransferableGroupType.N00.Level0.HairSet.transferablegroup",
+    "category": "VRoid/HairSet",
+    "usable": true,
+    "price": 0,
+    "isSet": false,
+    "active": false
+  },
+  "stopConditions": [
+    "No unknown/dirty editor state discarded",
+    "No paid/locked or changed source/preset",
+    "No silent unrelated group change",
+    "No source file overwritten",
+    "No retry/sweep on repeated mechanism failure"
+  ],
+  "offlineAcceptance": [
+    "New VRM exact SHA/meta/native saved source pins",
+    "Real hair primitive/index/weights/IBM/spring/material/texture readback",
+    "Original Body/Face/clothing attributes and expressions compared; changes reported",
+    "New equipment fits must be recomputed by exact target identity, never copied from7586",
+    "Same-room head/side/eyes and actual motion review pending"
+  ],
+  "placeholdersResolved": false,
+  "executionAuthorizedByThisTemplate": false,
+  "artisticAcceptance": false
+}

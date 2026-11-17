@@ -7,6 +7,7 @@ import {facialPaletteContract,compatiblePaletteVersions,LEGACY_FACIAL_PALETTE_VE
 import {resolveFacialGeometrySelection,appearanceAdmissionError} from './facial-geometry-selection.js';
 import {SURFACE_LAYER_PACKAGE} from './surface-layer-catalog.js';
 import {validateSurfaceSelection} from './surface-layer-compositor.js';
+import {assertAppearanceColorSelection} from './appearance-color-policy.js';
 
 export const SCHEMA='workbench-appearance-recipe-v6';
 export const RULES='workbench-appearance-rules-v6';
@@ -69,6 +70,7 @@ export function validateAppearanceRecipe(controller,record){
  if(!a.appearance.getState().availableStyles.includes(record.appearance?.hairStyle))throw appearanceAdmissionError('appearance.hairStyle','unsupported-resource','配方发型未适配当前身体');
  for(const [key,choices] of [['hairColor',HAIR_COLORS],['skinTone',SKIN_TONES],['eyeColor',EYE_COLORS],['lipColor',LIP_COLORS]])
   if(!Object.hasOwn(choices,record.appearance[key]))throw appearanceAdmissionError('appearance.'+key,'unsupported-value','未知配色：'+key);
+ assertAppearanceColorSelection(a.profile.sha256,record.appearance);
  resolveFacialGeometrySelection(a.profile.sha256,{
   mouthWidth:record.geometry?.mouthWidth,recipeSha256:record.geometry?.recipeSha256,
   browSample:legacy?'none':record.geometry?.browSample,browRecipeSha256:legacy?null:record.geometry?.browRecipeSha256,

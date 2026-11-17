@@ -6,6 +6,7 @@ import { HAIRSTYLES } from './hairstyle-catalog.js';
 import { NO_HAIR_BODIES } from './no-hair-bodies.js';
 import { hairFitIdentity, validateHairSelection, validateHairFitData } from './hair-fit-contract.js';
 import { createHairSpring, validateHairSkin, validateHairEnvironmentColliders } from './hair-spring.js';
+import { assertAppearanceColorSelection } from './appearance-color-policy.js';
 
 export const HAIR_COLORS = { original: null, black: '#343139', brown: '#805039', blonde: '#dab77a' };
 // Presets inspected under the actual room's warm key light and ACES exposure.
@@ -206,6 +207,8 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
     if (!(desiredColor in HAIR_COLORS) || !(desiredSkin in SKIN_TONES)) return { applied: false, reason: '未知颜色预设' };
     if ((input.eyeColor !== undefined && !(input.eyeColor in EYE_COLORS)) || (input.lipColor !== undefined && !(input.lipColor in LIP_COLORS)))
       return {applied:false,reason:'未知瞳色或唇色'};
+    try { assertAppearanceColorSelection(avatarSha256,input.reset ? {} : {...input,hairColor:desiredColor,skinTone:desiredSkin}); }
+    catch(e) { return {applied:false,reason:e.message}; }
     if (desiredStyle !== 'original' && !(desiredStyle === 'none' && canHideHair) && !admittedStyles.some(entry => entry.id === desiredStyle))
       return { applied: false, reason: '该发型尚未适配当前身体；请使用可选款式' };
     try { validateHairSelection(avatarSha256,desiredStyle,input); assertHairChange(desiredStyle,accessoryTransaction); }

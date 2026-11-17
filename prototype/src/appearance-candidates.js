@@ -10,6 +10,7 @@ import {resolveEquipmentSet} from './equipment-set.js';
 import {queryFacialGeometry,appearanceAdmissionError} from './facial-geometry-selection.js';
 import {SURFACE_LAYER_PACKAGE} from './surface-layer-catalog.js';
 import surfaceManifest from '../public/assets/m2-surface-layer-v1/manifest.json' with {type:'json'};
+import {appearanceColorSupport} from './appearance-color-policy.js';
 
 const preparationChecks=['resource bytes and digest','source geometry and expressions','skin weights and rest binds','actual head attachment and registered fit'];
 const surfacePreparationChecks=['surface manifest and overlay bytes and digests','surface source pixels, material and UV identity','surface dimensions and actual texture composition'];
@@ -52,8 +53,10 @@ export function queryAppearanceCandidates(controller){
     return{index:look.index,role:look.role,bottomRole,manifestUrl:actor.config.manifestUrl,resources};
   });
   const appearance={hairStyle:{default:'original',choices:styles}};
+  const colorSupport=appearanceColorSupport(base.sha256);
   for(const [field,presets] of Object.entries({hairColor:HAIR_COLORS,skinTone:SKIN_TONES,eyeColor:EYE_COLORS,lipColor:LIP_COLORS}))
-    appearance[field]={default:'original',unit:'preset',choices:Object.entries(presets).map(([value,color])=>({value,color}))};
+    appearance[field]={default:'original',unit:'preset',choices:Object.entries(presets)
+      .filter(([value])=>value==='original'||colorSupport[field]).map(([value,color])=>({value,color}))};
   const defaultRecipe={schema:SCHEMA,rulesVersion:RULES,paletteVersion:facialPaletteContract(base.sha256).version,base,
     appearance:Object.fromEntries(Object.keys(appearance).map(field=>[field,appearance[field].default])),
     hairAssetSha256:null,hairFit:null,geometry:{mouthWidth:0,recipeSha256:null,browSample:'none',browRecipeSha256:null,

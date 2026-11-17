@@ -1,0 +1,61 @@
+{
+  "request": {
+    "method": "tools/call",
+    "params": {
+      "name": "vroid_list_presets",
+      "arguments": {
+        "filter": "HairSet",
+        "include_locked": false,
+        "limit": 4
+      }
+    }
+  },
+  "responses": [
+    {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": {
+        "protocolVersion": "2025-06-18",
+        "capabilities": {
+          "tools": {},
+          "prompts": {},
+          "resources": {}
+        },
+        "serverInfo": {
+          "name": "vroid-studio",
+          "version": "0.15.0"
+        },
+        "instructions": "VRoid Studio MCP. Tool names and arguments are English. Call vroid_help('overview') before a complex task; vroid_help supports lang=en|fr|ja|zh-CN. VRoid Studio must be running with the bridge loaded. Only one model can be open at a time. Call vroid_status first. Save before vroid_main_menu, vroid_open or vroid_create. For visual work, use vroid_screenshot. For preset discovery, use vroid_preset_cache_search before applying presets. For sequences, use vroid_batch (up to 200 sequential operations, no automatic rollback). Do not assume that one preset replaces only one slot: whole outfits can replace several slots; verify with vroid_list_groups. Thumbnail generation strips all clothes, underwear and hair except the tested item. An English Agent Reference is exposed as MCP resources: vroid://agent/reference (full), plus vroid://agent/start, face, hairstyle, body, outfit, accessories, look, physical, presets, tools, workflows and troubleshooting. Read only the section needed; tools/list stays the authoritative schema list. MCP prompts: start (open a working session), character (build a character from a description), export_vrm (full/balanced/light VRM export), help. Reply in the user's language; never overwrite the user's .vroid file or discard changes without asking."
+      }
+    },
+    {
+      "jsonrpc": "2.0",
+      "id": 2,
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n \"total\": 37,\n \"categories\": [\n  \"Attachment/BaseballCap\",\n  \"Attachment/CatEar\",\n  \"Attachment/CatTail\",\n  \"Attachment/FoxTail\",\n  \"Attachment/GlassesHi\",\n  \"Attachment/GlassesLow\",\n  \"Attachment/RabbitEar\",\n  \"Attachment/RabbitTail\",\n  \"Attachment/SilkHat\",\n  \"Attachment/StrawHat\",\n  \"Attachment/WitchHat\",\n  \"Attachment/WorkCap\",\n  \"Clothing/AccessoryArm\",\n  \"Clothing/AccessoryNeck\",\n  \"Clothing/Bottoms\",\n  \"Clothing/InnerBottom\",\n  \"Clothing/InnerTop\",\n  \"Clothing/Onepiece\",\n  \"Clothing/Shoes\",\n  \"Clothing/Socks\",\n  \"Clothing/Tops\",\n  \"Face/Ear\",\n  \"Face/Eyebrow\",\n  \"Face/EyeHighlight\",\n  \"Face/Eyelash\",\n  \"Face/Eyelid\",\n  \"Face/Eyeline\",\n  \"Face/EyeSurrounding\",\n  \"Face/EyeWhite\",\n  \"Face/FaceShape\",\n  \"Face/Iris\",\n  \"Face/Mouth\",\n  \"Face/Nose\",\n  \"Overlay/Cheek\",\n  \"Overlay/FacePaint\",\n  \"Overlay/Lip\",\n  \"Overlay/MouthLine\",\n  \"Overlay/NoseLighting\",\n  \"Skin/Body\",\n  \"Skin/Face\",\n  \"VRoid/Body\",\n  \"VRoid/ClothingSet\",\n  \"VRoid/EyeballSet\",\n  \"VRoid/EyeSet\",\n  \"VRoid/FaceSet\",\n  \"VRoid/FixedPreset\",\n  \"VRoid/Hair\",\n  \"VRoid/HairSet\"\n ],\n \"presets\": [\n  {\n   \"id\": \"a051cb96c59e4dce033c3223d63829b7642efabf.transferablegroup\",\n   \"resource\": \"pixiv/VRoid/HairSet/N00/001/TransferableGroupType.N00.Level0.HairSet.transferablegroup\",\n   \"category\": \"VRoid/HairSet\",\n   \"usable\": true,\n   \"price\": 0,\n   \"isSet\": false,\n   \"active\": false\n  },\n  {\n   \"id\": \"b9e5f56c55f256d55d11fcae0c9fe1d51f6f1ef4.transferablegroup\",\n   \"resource\": \"pixiv/VRoid/HairSet/N00/002/TransferableGroupType.N00.Level0.HairSet.transferablegroup\",\n   \"category\": \"VRoid/HairSet\",\n   \"usable\": true,\n   \"price\": 0,\n   \"isSet\": false,\n   \"active\": false\n  },\n  {\n   \"id\": \"7eba9b850e0fadd32b51396b9445ad87abc4f232.transferablegroup\",\n   \"resource\": \"pixiv/VRoid/HairSet/N00/003/TransferableGroupType.N00.Level0.HairSet.transferablegroup\",\n   \"category\": \"VRoid/HairSet\",\n   \"usable\": true,\n   \"price\": 0,\n   \"isSet\": false,\n   \"active\": false\n  },\n  {\n   \"id\": \"8f10a7e423b54ab5c01fa1e6d0f6482aa0639401.transferablegroup\",\n   \"resource\": \"pixiv/VRoid/HairSet/N00/004/TransferableGroupType.N00.Level0.HairSet.transferablegroup\",\n   \"category\": \"VRoid/HairSet\",\n   \"usable\": true,\n   \"price\": 0,\n   \"isSet\": false,\n   \"active\": false\n  }\n ]\n}"
+          }
+        ],
+        "isError": false
+      }
+    }
+  ],
+  "wallSeconds": 0.1511780999135226,
+  "exitCode": 0,
+  "stderr": "",
+  "images": [],
+  "ok": true,
+  "failures": [],
+  "rawStdout": {
+    "path": "14-free-hairset-catalog.json.stdout.bin",
+    "bytes": 4108,
+    "sha256": "f7ae02027767f46bbe6ad88f79c4cdde6f1b9908f610cdd9e194cd18e6dd954e"
+  },
+  "rawStderr": {
+    "path": "14-free-hairset-catalog.json.stderr.bin",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

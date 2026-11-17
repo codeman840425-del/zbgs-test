@@ -28,7 +28,7 @@
 
 ## 接续主包
 
-1. 新男女factory基础入口已可用，继续补本次新源自己的近景表情/实际接触和双实例GPU隔离，保既定轻微穿插尺度，不重开封女裙与原30秒舞。
+1. 新男女factory基础入口已可用，双实例GPU代表隔离已观察到（native-pair-isolation-193b-v1；末段dance断言失败，两次raw报告保failed，不重录掩盖），继续补本次新源自己的近景表情/实际接触，保既定轻微穿插尺度，不重开封女裙与原30秒舞。
 2. 以已验原生可编辑源继续真实面部/体型/发型/配色制作样件和衣物适配，优先解决共用接口，不恢复自拟截面批量怪预设。完整八代表及M2 v2其它必需项仍欠，不缩范围、不直接开M3。
 3. 自适应关节：Mink原作者例与VRM69raw/54normalized CPU FK回读过；还没有人体限位/碰撞代理/短舞优化通过，不改封30秒舞。
 4. 原生编辑工具是可替换离线producer，游戏运行不需要Studio。关闭工具后自主修改能力逐项验证，VRM不等于完整捏人参数。官方guidelines的生成输出应用许可与个人自用例外分开核，不为旁问重写编辑器。
@@ -36,6 +36,12 @@
 ## 恢复、并行与备份
 
 - 当前已核远端21741e203b9251be138b097e9c021cf0e98ca5c3，包含b27/193b男女源/独立装备/公共覆盖与实际房间、UI证据；ls-remote与本地一致。核验回执随后记录于native-workbench-release-193b-v1/remote-backup.json。
-- 已知requested配置：face_target_feasibility=gpt-6-astra/high；asset_budget/http_transport_review=gpt-6.1-sol/high；派工JSON保难度理由，provider/hook实际拦截未独立暴露。当前三者有界包已交，不假称仍在跑。
+- 已知requested配置：face_target_feasibility=gpt-6-astra/high；asset_budget/http_transport_review=gpt-6.1-sol/high；派工JSON保难度理由，provider/hook实际拦截未独立暴露。已交生产包保留；face_target_feasibility已封native-pair-isolation-193b-v1并释放GPU。asset_budget完成原生appearance只读核查，正在独占MCP导出一个作者免费HairSet001；http_transport_review正在修复颜色query/recipe/实际变更入口一致性，root同步整理可观看证据。未动4196固定树。
 - 桌面未接管；MCP导出窗口已释放。2.14卸载成功且17890/17891关闭，3旧目录清理被自动策略拒绝约2.09GB残留，保evidence/vroid-214-retirement-v1，不绕过或称全清。
 - 公司副总工边几e1b独立交付已收，角色本轮不stage公司dirty，不改公司职责；C3/普通机未验。普通电脑目前无设备，不用4090或限速代替通过。
+
+## 当前在制增量
+
+- 原生颜色准入缺口已确认：UI禁用不代表query/调用会拒绝。最小共同source策略实施中，不放开未验配色；旧已验行为保留。
+- 原生发型制作下一包native-vroid-hairset-study-v1，仅一免费作者预设、保存冷开/导出/非目标核对，未通过前不继承旧fit。准备与源码核查在assets-source/native-vroid-appearance-producer-v1（包含一次texture layer不可编辑partial失败）。
+- native-production页面补193b男女1倍速与隔离失败片，仍在共享源码，尚未发布；4196仍193b。
