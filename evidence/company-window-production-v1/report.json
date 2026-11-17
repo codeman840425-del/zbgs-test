@@ -1,0 +1,65 @@
+{
+  "status": "passed",
+  "profile": "company-window-opening-v1",
+  "contract": {
+    "envelope": [
+      1.6,
+      1.2,
+      0.12
+    ],
+    "aperture": [
+      1.44,
+      1.04
+    ],
+    "sashTravel": 0.72,
+    "glass": "alpha-blend transparent standard material",
+    "parts": {
+      "sash": "sash",
+      "fixedGlass": "fixedGlass",
+      "movingGlass": "movingGlass"
+    }
+  },
+  "assets": [
+    {
+      "id": "square-basic",
+      "resourceId": "window-opening-square-basic",
+      "sha256": "90685a5850fa069a41bb825eac17bce3abb705f7b647df3957b7e857a6c299cd",
+      "bytes": 30468,
+      "frameStyle": "plain"
+    },
+    {
+      "id": "square-detailed",
+      "resourceId": "window-opening-square-detailed",
+      "sha256": "80f1f33d15059dfa97e9ac1e615b534452d552a4bd088b9d05e93477845b452e",
+      "bytes": 39224,
+      "frameStyle": "grid"
+    },
+    {
+      "id": "wide-square",
+      "resourceId": "window-opening-wide-square",
+      "sha256": "173a2d0005a1ea873068dd756806dfdae5d1f07dce4e61f8e3333773bca06cf6",
+      "bytes": 34340,
+      "frameStyle": "wide"
+    },
+    {
+      "id": "round-detailed",
+      "resourceId": "window-opening-round-detailed",
+      "sha256": "b90a52f6a195fb6ff0aa103b27b24443bf6a8b019e2bb1cd5567f1f9ea672e3a",
+      "bytes": 56236,
+      "frameStyle": "rounded"
+    }
+  ],
+  "checks": [
+    "all four resources have distinct source frame candidates",
+    "root validateWindowGeometry passed for all four GLBs at closed and open sash states",
+    "all envelopes read 1.6m x 1.2m x 0.12m",
+    "fixed and moving glass are transparent with opacity between 0 and 1",
+    "movingGlass is a sash child and fixedGlass is outside sash",
+    "sash baseline is [-0.36,0,0.085]",
+    "build --check passed without writing"
+  ],
+  "limits": [
+    "No catalog, runtime, UI, browser or visual acceptance claim",
+    "Filtered perimeter geometry from the official source frame candidate is combined with project-authored sash bars and alpha glass panes. Fixed-window installation still requires root runtime integration."
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "schema": "company-window-contract-independent-check",
+  "version": 1,
+  "status": "failed-assets",
+  "geometryChecks": [
+    {
+      "design": "square-basic",
+      "passed": false,
+      "code": "window-open-aperture-blocked",
+      "path": "window-opening-square-basic",
+      "message": "The open left sash must leave a real clear aperture"
+    },
+    {
+      "design": "square-detailed",
+      "passed": false,
+      "code": "invalid-window-envelope",
+      "path": "window-opening-square-detailed",
+      "message": "The actual frame must match the 1.6 x 1.2 x 0.12 installation"
+    },
+    {
+      "design": "wide-square",
+      "passed": false,
+      "code": "invalid-window-envelope",
+      "path": "window-opening-wide-square",
+      "message": "The actual frame must match the 1.6 x 1.2 x 0.12 installation"
+    },
+    {
+      "design": "round-detailed",
+      "passed": false,
+      "code": "window-open-aperture-blocked",
+      "path": "window-opening-round-detailed",
+      "message": "The open left sash must leave a real clear aperture"
+    }
+  ],
+  "sampleFloorTransform": {
+    "sourceContainsYLift": false,
+    "finding": "window-samples.js uses floorTransform.position.y = level * 3.4; document floor transforms are grounded at Y=0 and deriveCompany rejects elevated floor origins."
+  },
+  "productionReportClaim": [
+    "all four resources have distinct source frame candidates",
+    "all envelopes read 1.6m x 1.2m x 0.12m",
+    "fixed and moving glass are transparent with opacity between 0 and 1",
+    "movingGlass is a sash child and fixedGlass is outside sash",
+    "sash baseline is [-0.36,0,0.085]",
+    "all model/resource files are generated deterministically by the permitted script"
+  ],
+  "scope": "CPU GLTFLoader and source contract inspection only. No browser, GPU, service or runtime hook.",
+  "nextNegativeCases": [
+    "Two room sides of one shared wall produce one facility-derived opening identity and reject a duplicate opposite-side facility.",
+    "Quarter-turn wall openings preserve canonical physical wall and reject portal overlap after rotation.",
+    "Wall finish and wall display overlap reject before candidate publish while navigation keeps the original wall blocker.",
+    "Hidden-floor window fetch or geometry failure preserves the current scene, document, view, cache and saved bytes."
+  ]
+}

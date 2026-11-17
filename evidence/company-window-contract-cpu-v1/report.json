@@ -1,0 +1,54 @@
+{
+  "status": "passed",
+  "scope": "Synthetic CPU window data contract and architecture integration checks",
+  "checks": [
+    {
+      "name": "derive four cardinal window sides",
+      "status": "passed"
+    },
+    {
+      "name": "derive shared wall creates two sides",
+      "status": "passed"
+    },
+    {
+      "name": "derive rotated floor remains valid",
+      "status": "passed"
+    },
+    {
+      "name": "reject invalid orientation and sill",
+      "status": "passed"
+    },
+    {
+      "name": "reject seam and portal conflicts",
+      "status": "passed"
+    },
+    {
+      "name": "wall display over window is rejected",
+      "status": "passed"
+    },
+    {
+      "name": "replace preserves window identity state and transform",
+      "status": "passed"
+    },
+    {
+      "name": "appearance function rejects windowSystem change",
+      "status": "passed"
+    },
+    {
+      "name": "remove restores physical walls while navigation walls remain",
+      "status": "passed"
+    },
+    {
+      "name": "architecture wall slice area is conserved per side",
+      "status": "passed"
+    }
+  ],
+  "syntheticContract": true,
+  "limitations": [
+    "The four window resources are synthetic contract-only entries with no GLB asset or visual readback. This report does not claim real window material production.",
+    "Navigation preserves the original wall graph. Physical wall slicing is checked through describeArchitecture and does not establish actor navigation around windows."
+  ],
+  "commands": [
+    "node scripts/company-platform/test-window-contract.mjs"
+  ]
+}

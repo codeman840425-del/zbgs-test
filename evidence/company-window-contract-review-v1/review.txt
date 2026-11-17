@@ -1,0 +1,15 @@
+窗户合同最终独立审查，2026-11-17
+
+实际 GLTFLoader + validateWindowGeometry CPU 检查显示四款资源当前 0/4 通过。square-basic 与 round-detailed 在 openFraction=1 的左侧通道被 window-open-aperture-blocked 拒绝。射线命中的是 source-frame-detail，说明源框适配网格仍有实心面穿过 aperture，视觉透明玻璃之外的真实洞口没有成立。
+
+square-detailed 被 invalid-window-envelope 拒绝，resource checks 实际 Z size 为 0.128000006m，超过固定 .12m。wide-square 被同一门拒绝，实际 X size 为 3.20000005m、Z size 为 0.132000000m，宽度是合同的两倍。两者不能用 resource.json 元数据改名通过，需要裁源框或重做生成参数并重新导出 GLB。
+
+evidence/company-window-production-v1/report.json 的 checks 只记录生成器摘要，声称四款 envelope 读取为固定尺寸，但没有调用实际 runtime geometry validator。该报告不能作为四款真实兼容证据，应保留为生产元数据并在修复后补真实 CPU 结果。
+
+window-data.js 的共享墙派生、portal 冲突、重复窗口和 windowSystem 合同已接入 document derive。appearance-contract.js 现在纳入 windowSystem。architecture/render 分开 physical slices、visibility walls 和 navigation walls，window state 通过 applyWindowState 驱动 sash，地面导航保留原墙阻挡。上述代码接缝仍需要真实共享墙、旋转和失败事务检查。
+
+window-samples.js 还有独立结构问题。二层 floorTransform 使用 position.y=level*3.4，而 document.js 的 floor/room grounded transform 合同要求 Y=0。窗口资源注册后，二层样件会在 deriveCompany 处触发 unsupported-height。应保持现有 Y=0 viewing layers 或先定义新的垂直层合同。
+
+隐藏层路径已把 wall-opening 资源加入 authoring/ceiling preflight。建议在资源修复后验证隐藏层 GLB 失败保留当前 scene、document、view、cache 和 save bytes，并验证 stale hidden-floor load 的清理。最小负例还包括共享墙两侧重复 facility、四向旋转后 portal overlap、墙饰覆盖洞口、删除/复制/替换失败保旧。
+
+本审查只写 evidence 目录，没有改生产代码、catalog、资源、服务或 GPU。runtime/hook 拦截未独立验证。

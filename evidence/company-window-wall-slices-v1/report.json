@@ -1,0 +1,29 @@
+{
+  "status": "passed",
+  "scope": "CPU rectangular wall slicing around non-overlapping window/door openings",
+  "checks": {
+    "horizontalSlices": 21,
+    "verticalSlices": 4,
+    "horizontalArea": 22.2,
+    "expectedHorizontalArea": 22.2,
+    "verticalArea": 16.659999999999997,
+    "expectedVerticalArea": 16.659999999999997,
+    "noHoleLegacyIdentity": true,
+    "inputImmutable": true,
+    "fourWayWorldTransform": "north/south/west/east edge cuts with quarter-turn world transforms",
+    "architectureSource": "describeArchitecture(makeRentalHome()) emitted real portal-separated wall segments for all four edges",
+    "wallHalfSizeContract": "2D [xHalf,zHalf]",
+    "openingOffsetFrame": "room-edge coordinate translated against each segment position"
+  },
+  "rejectionCodes": [
+    "opening-outside-wall",
+    "overlapping-openings",
+    "invalid-opening",
+    "opening-wall-mismatch",
+    "invalid-world-transform"
+  ],
+  "limitations": [
+    "Static rectangular geometry only. Navigation keeps the original wall description and is not changed by this pure cutter.",
+    "Opening portals and cross-wall conflicts are validated upstream."
+  ]
+}

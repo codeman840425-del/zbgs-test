@@ -1,0 +1,335 @@
+{
+  "schema": "company-window-geometry-negative",
+  "version": 1,
+  "status": "passed",
+  "source": [
+    {
+      "design": "square-basic",
+      "glbSha256": "90685a5850fa069a41bb825eac17bce3abb705f7b647df3957b7e857a6c299cd",
+      "resourceSha256": "e2095df49b86f85efb634e9a12482683c0ca6624e49497176f036fb21fae7e44"
+    },
+    {
+      "design": "square-detailed",
+      "glbSha256": "80f1f33d15059dfa97e9ac1e615b534452d552a4bd088b9d05e93477845b452e",
+      "resourceSha256": "42a6e51aadfa3052301c4e8940f1554076b0b5845e85f9cbe5164fb012882df6"
+    },
+    {
+      "design": "wide-square",
+      "glbSha256": "173a2d0005a1ea873068dd756806dfdae5d1f07dce4e61f8e3333773bca06cf6",
+      "resourceSha256": "cb45398aacf11582a75d0e54d82b5d8ed3879c32a26ee0859d63f870d0f9c0d5"
+    },
+    {
+      "design": "round-detailed",
+      "glbSha256": "b90a52f6a195fb6ff0aa103b27b24443bf6a8b019e2bb1cd5567f1f9ea672e3a",
+      "resourceSha256": "b816863db7f6f9eb7faf8cbe1999c8aeb457c838a0733f137bb422dd6dc7343c"
+    }
+  ],
+  "checks": [
+    {
+      "name": "square-basic: source-frame-detail has indexed geometry",
+      "passed": true,
+      "observed": {
+        "triangles": 6
+      }
+    },
+    {
+      "name": "square-basic: final geometry accepts",
+      "passed": true
+    },
+    {
+      "name": "square-basic: opaque glass rejected",
+      "passed": true,
+      "code": "invalid-window-glass",
+      "path": "window-opening-square-basic",
+      "expectedCodes": [
+        "invalid-window-glass"
+      ]
+    },
+    {
+      "name": "square-basic: missing named pane rejected",
+      "passed": true,
+      "code": "missing-window-part",
+      "path": "window-opening-square-basic",
+      "expectedCodes": [
+        "missing-window-part"
+      ]
+    },
+    {
+      "name": "square-basic: moving glass outside sash rejected",
+      "passed": true,
+      "code": "invalid-window-hierarchy",
+      "path": "window-opening-square-basic",
+      "expectedCodes": [
+        "invalid-window-hierarchy"
+      ]
+    },
+    {
+      "name": "square-basic: wrong sash baseline rejected",
+      "passed": true,
+      "code": "invalid-window-sash-origin",
+      "path": "window-opening-square-basic",
+      "expectedCodes": [
+        "invalid-window-sash-origin"
+      ]
+    },
+    {
+      "name": "square-basic: sealed left aperture rejected",
+      "passed": true,
+      "code": "window-open-aperture-blocked",
+      "path": "window-opening-square-basic",
+      "expectedCodes": [
+        "window-open-aperture-blocked",
+        "window-closed-gap"
+      ]
+    },
+    {
+      "name": "square-basic: closed glazing gap rejected",
+      "passed": true,
+      "code": "window-closed-gap",
+      "path": "window-opening-square-basic",
+      "expectedCodes": [
+        "missing-window-glazing",
+        "window-closed-gap"
+      ]
+    },
+    {
+      "name": "square-basic: sash track intersection rejected",
+      "passed": true,
+      "code": "window-track-intersection",
+      "path": "window-opening-square-basic",
+      "expectedCodes": [
+        "window-track-intersection"
+      ]
+    },
+    {
+      "name": "square-detailed: source-frame-detail has indexed geometry",
+      "passed": true,
+      "observed": {
+        "triangles": 6
+      }
+    },
+    {
+      "name": "square-detailed: final geometry accepts",
+      "passed": true
+    },
+    {
+      "name": "square-detailed: opaque glass rejected",
+      "passed": true,
+      "code": "invalid-window-glass",
+      "path": "window-opening-square-detailed",
+      "expectedCodes": [
+        "invalid-window-glass"
+      ]
+    },
+    {
+      "name": "square-detailed: missing named pane rejected",
+      "passed": true,
+      "code": "missing-window-part",
+      "path": "window-opening-square-detailed",
+      "expectedCodes": [
+        "missing-window-part"
+      ]
+    },
+    {
+      "name": "square-detailed: moving glass outside sash rejected",
+      "passed": true,
+      "code": "invalid-window-hierarchy",
+      "path": "window-opening-square-detailed",
+      "expectedCodes": [
+        "invalid-window-hierarchy"
+      ]
+    },
+    {
+      "name": "square-detailed: wrong sash baseline rejected",
+      "passed": true,
+      "code": "invalid-window-sash-origin",
+      "path": "window-opening-square-detailed",
+      "expectedCodes": [
+        "invalid-window-sash-origin"
+      ]
+    },
+    {
+      "name": "square-detailed: sealed left aperture rejected",
+      "passed": true,
+      "code": "window-open-aperture-blocked",
+      "path": "window-opening-square-detailed",
+      "expectedCodes": [
+        "window-open-aperture-blocked",
+        "window-closed-gap"
+      ]
+    },
+    {
+      "name": "square-detailed: closed glazing gap rejected",
+      "passed": true,
+      "code": "window-closed-gap",
+      "path": "window-opening-square-detailed",
+      "expectedCodes": [
+        "missing-window-glazing",
+        "window-closed-gap"
+      ]
+    },
+    {
+      "name": "square-detailed: sash track intersection rejected",
+      "passed": true,
+      "code": "window-track-intersection",
+      "path": "window-opening-square-detailed",
+      "expectedCodes": [
+        "window-track-intersection"
+      ]
+    },
+    {
+      "name": "wide-square: source-frame-detail has indexed geometry",
+      "passed": true,
+      "observed": {
+        "triangles": 6
+      }
+    },
+    {
+      "name": "wide-square: final geometry accepts",
+      "passed": true
+    },
+    {
+      "name": "wide-square: opaque glass rejected",
+      "passed": true,
+      "code": "invalid-window-glass",
+      "path": "window-opening-wide-square",
+      "expectedCodes": [
+        "invalid-window-glass"
+      ]
+    },
+    {
+      "name": "wide-square: missing named pane rejected",
+      "passed": true,
+      "code": "missing-window-part",
+      "path": "window-opening-wide-square",
+      "expectedCodes": [
+        "missing-window-part"
+      ]
+    },
+    {
+      "name": "wide-square: moving glass outside sash rejected",
+      "passed": true,
+      "code": "invalid-window-hierarchy",
+      "path": "window-opening-wide-square",
+      "expectedCodes": [
+        "invalid-window-hierarchy"
+      ]
+    },
+    {
+      "name": "wide-square: wrong sash baseline rejected",
+      "passed": true,
+      "code": "invalid-window-sash-origin",
+      "path": "window-opening-wide-square",
+      "expectedCodes": [
+        "invalid-window-sash-origin"
+      ]
+    },
+    {
+      "name": "wide-square: sealed left aperture rejected",
+      "passed": true,
+      "code": "window-open-aperture-blocked",
+      "path": "window-opening-wide-square",
+      "expectedCodes": [
+        "window-open-aperture-blocked",
+        "window-closed-gap"
+      ]
+    },
+    {
+      "name": "wide-square: closed glazing gap rejected",
+      "passed": true,
+      "code": "window-closed-gap",
+      "path": "window-opening-wide-square",
+      "expectedCodes": [
+        "missing-window-glazing",
+        "window-closed-gap"
+      ]
+    },
+    {
+      "name": "wide-square: sash track intersection rejected",
+      "passed": true,
+      "code": "window-track-intersection",
+      "path": "window-opening-wide-square",
+      "expectedCodes": [
+        "window-track-intersection"
+      ]
+    },
+    {
+      "name": "round-detailed: source-frame-detail has indexed geometry",
+      "passed": true,
+      "observed": {
+        "triangles": 6
+      }
+    },
+    {
+      "name": "round-detailed: final geometry accepts",
+      "passed": true
+    },
+    {
+      "name": "round-detailed: opaque glass rejected",
+      "passed": true,
+      "code": "invalid-window-glass",
+      "path": "window-opening-round-detailed",
+      "expectedCodes": [
+        "invalid-window-glass"
+      ]
+    },
+    {
+      "name": "round-detailed: missing named pane rejected",
+      "passed": true,
+      "code": "missing-window-part",
+      "path": "window-opening-round-detailed",
+      "expectedCodes": [
+        "missing-window-part"
+      ]
+    },
+    {
+      "name": "round-detailed: moving glass outside sash rejected",
+      "passed": true,
+      "code": "invalid-window-hierarchy",
+      "path": "window-opening-round-detailed",
+      "expectedCodes": [
+        "invalid-window-hierarchy"
+      ]
+    },
+    {
+      "name": "round-detailed: wrong sash baseline rejected",
+      "passed": true,
+      "code": "invalid-window-sash-origin",
+      "path": "window-opening-round-detailed",
+      "expectedCodes": [
+        "invalid-window-sash-origin"
+      ]
+    },
+    {
+      "name": "round-detailed: sealed left aperture rejected",
+      "passed": true,
+      "code": "window-open-aperture-blocked",
+      "path": "window-opening-round-detailed",
+      "expectedCodes": [
+        "window-open-aperture-blocked",
+        "window-closed-gap"
+      ]
+    },
+    {
+      "name": "round-detailed: closed glazing gap rejected",
+      "passed": true,
+      "code": "window-closed-gap",
+      "path": "window-opening-round-detailed",
+      "expectedCodes": [
+        "missing-window-glazing",
+        "window-closed-gap"
+      ]
+    },
+    {
+      "name": "round-detailed: sash track intersection rejected",
+      "passed": true,
+      "code": "window-track-intersection",
+      "path": "window-opening-round-detailed",
+      "expectedCodes": [
+        "window-track-intersection"
+      ]
+    }
+  ],
+  "runPolicy": "Run only after the asset producer announces final four GLBs. Preserve prior failed reports under their original evidence identity.",
+  "scope": "CPU GLTFLoader, actual indexed mesh and window geometry validator. No browser, GPU, service or runtime hook."
+}

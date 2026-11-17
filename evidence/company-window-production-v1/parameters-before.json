@@ -1,0 +1,27 @@
+{
+  "id": "company-window-opening-v1",
+  "version": 1,
+  "units": "metres",
+  "contract": {
+    "mount": "wall-opening",
+    "mountRole": "window-opening-and-glass",
+    "productionBranch": "window-opening-and-glass",
+    "envelope": { "width": 1.6, "height": 1.2, "depth": 0.12 },
+    "aperture": { "width": 1.44, "height": 1.04 },
+    "sashTravel": 0.72,
+    "minimumSill": 0.6,
+    "origin": "center",
+    "frontZ": 0.12,
+    "backZ": 0
+  },
+  "promptStandard": "Project-authored compatible window opening assembled from Kenney Building Kit source frame geometry. Keep the fixed 1.6m x 1.2m x 0.12m envelope, 1.44m x 1.04m aperture, two half-width sliding sashes, fixed right pane and left moving sash. Keep glass as alpha-blended opaque-standard materials with fixed and moving panes separated from frame geometry. Export identity-scale GLB in metres, Y up, +Z toward the room.",
+  "designs": [
+    { "id": "square-basic", "label": "方框简窗", "sourceFile": "wall-window-square.glb", "frameStyle": "plain", "innerBarWidth": 0.0, "accentDepth": 0.0 },
+    { "id": "square-detailed", "label": "方框细格窗", "sourceFile": "wall-window-square-detailed.glb", "frameStyle": "grid", "innerBarWidth": 0.085, "accentDepth": 0.008 },
+    { "id": "wide-square", "label": "宽幅方窗", "sourceFile": "wall-window-wide-square.glb", "frameStyle": "wide", "innerBarWidth": 0.035, "accentDepth": 0.012 },
+    { "id": "round-detailed", "label": "圆角内饰窗", "sourceFile": "wall-window-round-detailed.glb", "frameStyle": "rounded", "innerBarWidth": 0.045, "accentDepth": 0.016 }
+  ],
+  "sourceArchive": "original/kenney_building-kit-official.zip",
+  "sourceArchiveSha256": "2740ef5772fb5fb3d7aab881db22d129f6b68afe711b1a79e6d5e9e19cf3eec6",
+  "sourceLicense": "original/official-extracted/License.txt"
+}

@@ -1,0 +1,22 @@
+公司场景固定候选：锁镜头拖放与真实窗体
+源码 b4280f07e496c549885b52ee0b695ba7724abdf5；构建 6ef899b0c8a9。
+入口 http://127.0.0.1:60880/ 。浏览器刷新后核右下角构建。
+
+使用：选择物品 → 调整位置与摆放 → 拖放/移动。镜头锁定，绿格为可放基点，红格禁放，灰格检查中。左键拖放或点击落点；右键旋转/取消。普通查看时右键物品可移动、旋转、复制、选择整体和删除。Esc取消。切换待添加造型或安装面取消旧预览，避免放下旧物品。
+地面0.2米、墙面/承载面0.1米相对原坐标吸附；保留精确坐标入口。固定门框只安装到已有洞口，工位必要部件不允许单独删除。拖放模型是临时显示；提交仍复用完整布局/安装/通路/模型检查，失败保旧。
+
+设施样件选择“窗体与真实洞口”（window-opening-and-glass）可换四款、调整打开程度；组合场景含两层四方向和共享墙样板。同一实例派生真实洞口，窗台保持地面阻挡。使用Kenney官方Building Kit CC0源几何及项目滑扇/玻璃；原压缩包、原许可、四个源GLB、制作参数和生成器保留。
+
+验证：摆放7组；窗体及独立导入/重开8组；真实GLB/反例36项；墙体切片与合同10项另见测试输出。两层保存、隐藏层缺资源保旧、坏位置不覆盖、版本依赖检查均有证据。
+独立交付 F:/gamemake-company-placement-delivery-6ef：1137文件完整清单；source/prototype中npm ci后重建，372个运行文件与固定目录逐字节一致。实际导入data/save.json、保存、浏览器完整关闭重开通过。
+录像 placement-normal1x.webm 为238.36秒、25fps、正常1×，未调速。窗体正常录像在evidence/company-window-release-6ef/browser/normal-speed-video。软件渲染证明功能，不代表普通电脑性能。
+
+复现（项目工作树）：
+node scripts/company-platform/qa-placement-interaction.cjs F:/gamemake-company-placement-fixed-v2/prototype/dist-company NEW_OUTPUT
+node scripts/company-platform/qa-window-opening.cjs F:/gamemake-company-placement-fixed-v2/prototype/dist-company NEW_OUTPUT
+独立重建：cd F:/gamemake-company-placement-delivery-6ef/source/prototype；npm ci；node scripts/build-company-id.mjs；npx vite build --config vite.company.config.js。
+常驻预览仅60880：node scripts/company-platform/serve-company.cjs F:/gamemake-company-placement-fixed-v2/prototype/dist-company 6ef899b0c8a9。
+回滚到原界面71a668592df1时，在核实60880自身进程后改用F:/gamemake-company-ui-fixed-v2/prototype/dist-company；不操作角色4196。
+
+保留失败：旧窗体首轮几何0/4审查；早期固定窗框缝隙/轨道交叉已添加反例并修复；拖放dev3全局吸附造成组合无合法点，修为相对基点吸附；6ef/browser首次重开检查发生测试脚本提前访问未声明company的竞态，修正等待window.company后browser-final完整通过。失败不换标签。
+限制：当前民房仍缺真实外部入口，门框不能自动开洞；接续门洞包解决。此版本未做真实角色使用、未改变角色M2、不宣称全部C1-C3完成，最终集中接入和人类验收仍待后续。

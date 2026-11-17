@@ -2,7 +2,7 @@ const fs=require('node:fs/promises'),path=require('node:path'),assert=require('n
 const {chromium}=require('../../prototype/node_modules/playwright'),{serve}=require('./serve.cjs');
 const dist=path.resolve(process.argv[2]||'prototype/dist-company'),out=path.resolve(process.argv[3]||'output/playwright/company-placement-dev1');
 let server,context,page;const errors=[],report={checks:[],scope:'Real pointer UI paths, software rendering; no character or target-device performance claim.'};
-const idle=()=>page.waitForFunction(()=>company?.editor&&!document.querySelector('#mode-room').disabled);
+const idle=()=>page.waitForFunction(()=>window.company?.editor&&!document.querySelector('#mode-room').disabled);
 const doc=()=>page.evaluate(()=>company.session.document);
 const click=async id=>{await page.locator('#'+id).click();await idle();};
 const choose=async(id,value)=>{await page.locator('#'+id).selectOption(value);await idle();};
