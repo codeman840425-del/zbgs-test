@@ -1,0 +1,102 @@
+{
+  "schema": "surface-band-head-slim-closure-v1",
+  "status": "two-failed-not-admissible",
+  "methodSpecSha256": "baec3711f6ab9ad62db24ec50a3b13d6e0785efe5c65d5637362db9f1aa196a5",
+  "executionSpecSha256": "9605508cdad89a39e09ed64c094434b570d3b7b2111711758c3dd09147cd2019",
+  "identityAllNodesMaximumErrorM": 0.0,
+  "identityAllEndpointsMaximumErrorM": 1.1641716839774582e-15,
+  "processReceipt": {
+    "schema": "surface-band-head-slim-run-v1",
+    "exitCode": 0,
+    "stop": null,
+    "seconds": 23.320820599910803,
+    "peakSampledProcessTreeRssBytes": 1017147392,
+    "maximumSampledSingleProcessRssBytes": 1012879360,
+    "observedProcessCount": 2,
+    "executionSpecSha256": "9605508cdad89a39e09ed64c094434b570d3b7b2111711758c3dd09147cd2019",
+    "command": [
+      "F:\\gamemake\\experiments\\tools\\slim-core-2.6.3\\.venv\\Scripts\\python.exe",
+      "-B",
+      "F:\\gamemake\\scripts\\m2-head-surface-band-slim-v1\\solve.py",
+      "--out",
+      "F:\\gamemake\\assets-source\\m2-head-surface-band-slim-v1\\generated"
+    ],
+    "sampleIntervalSeconds": 0.05,
+    "samplingLimit": "Recursive live RSS sum, shared pages may repeat; instantaneous peaks can be missed."
+  },
+  "cases": [
+    {
+      "id": "male-long-lean-surface-band-slim-v1",
+      "sourceRequestId": "male-long-lean-v2",
+      "status": "failed-not-admissible",
+      "failures": [
+        "Actual tet J determinant is nonfinite or <= original 0.12 gate",
+        "Original 101 actual horizontal halfwidth target misses 2mm or has empty sections"
+      ],
+      "reportSha256": "4ed8f6c84fb6fd2bf3debafbe39104b76c66e8773712269a457e3bdba459a3a0",
+      "actualTetMinimumDeterminant": 0.005826535010391881,
+      "actualTetFailures": 7,
+      "maximumFixedEndpointDisplacementM": 3.905019729113458e-07,
+      "maximumFrameDisplacementM": 2.538699252203854e-08,
+      "maximumFloat32BakeErrorM": 1.1820709837924904e-07,
+      "maximumOriginal23ActualGuideResidualM": 0.0030495309528487395,
+      "maximumAllSoftControlResidualM": 0.0032202383551357227,
+      "maximumFloat32HorizontalHalfwidthErrorM": 0.003776645049639968,
+      "missingHorizontalSections": 3,
+      "initialEnergy": {
+        "source": "Independent readback of pinned core formula; SLIMData.energy is not exposed by wheel",
+        "symmetricDirichletIntegral": 0.14256743543028821,
+        "softPenalty": 3387.844464766343,
+        "normalizationVolumeM3": 0.023761239238381356,
+        "normalizedTotal": 142584.6100959744
+      },
+      "finalEnergy": {
+        "source": "Independent readback of pinned core formula; SLIMData.energy is not exposed by wheel",
+        "symmetricDirichletIntegral": 0.1491352093892694,
+        "softPenalty": 67.8913291596956,
+        "normalizationVolumeM3": 0.023761239238381356,
+        "normalizedTotal": 2863.506557317078
+      }
+    },
+    {
+      "id": "male-round-stocky-surface-band-slim-v1",
+      "sourceRequestId": "male-round-stocky-v2",
+      "status": "failed-not-admissible",
+      "failures": [
+        "Actual tet J determinant is nonfinite or <= original 0.12 gate",
+        "Protected/frame actual displacement >2um",
+        "Original 101 actual horizontal halfwidth target misses 2mm or has empty sections"
+      ],
+      "reportSha256": "816ed2d261c516cff969b629fd191fde2713976fd7ba807248697adbc9e48e22",
+      "actualTetMinimumDeterminant": 0.004797280602744068,
+      "actualTetFailures": 6,
+      "maximumFixedEndpointDisplacementM": 0.0001506136514778925,
+      "maximumFrameDisplacementM": 1.9849520979673705e-07,
+      "maximumFloat32BakeErrorM": 1.1775059986261247e-07,
+      "maximumOriginal23ActualGuideResidualM": 0.0026352736614373646,
+      "maximumAllSoftControlResidualM": 0.003086211882310408,
+      "maximumFloat32HorizontalHalfwidthErrorM": 0.004785467130491517,
+      "missingHorizontalSections": 0,
+      "initialEnergy": {
+        "source": "Independent readback of pinned core formula; SLIMData.energy is not exposed by wheel",
+        "symmetricDirichletIntegral": 0.14256743543028821,
+        "softPenalty": 6399.853720687082,
+        "normalizationVolumeM3": 0.023761239238381356,
+        "normalizedTotal": 269346.0649890956
+      },
+      "finalEnergy": {
+        "source": "Independent readback of pinned core formula; SLIMData.energy is not exposed by wheel",
+        "symmetricDirichletIntegral": 0.1629886302521797,
+        "softPenalty": 43.032182456748735,
+        "normalizationVolumeM3": 0.023761239238381356,
+        "normalizedTotal": 1817.8837666525435
+      }
+    }
+  ],
+  "allExecutionPinsUnchanged": true,
+  "executions": 1,
+  "solverRetry": false,
+  "strictExpressionPosteriorRun": false,
+  "characterExported": false,
+  "runtimeAccepted": false
+}
