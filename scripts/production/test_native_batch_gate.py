@@ -48,6 +48,16 @@ class NativeBatchGateTests(unittest.TestCase):
             self.assertNotIn('facialExpressions', {item['check'] for item in row['adapterTasks']})
             self.assertIn('handAndMicrophone', {item['check'] for item in row['adapterTasks']})
 
+    def test_registered_microphone_fit_removes_only_the_grip_task(self):
+        report = evaluate(
+            Path('assets-source/native-parameter-game-packages-v1/import-batch.json'),
+            microphone_report=Path('evidence/m2-native-batch-runtime-v1/microphone-registration.json'),
+        )
+        for row in report['items']:
+            self.assertEqual(row['accessoryEvidence']['microphone']['bodyType'], row['bodyType'])
+            self.assertNotIn('handAndMicrophone', {item['check'] for item in row['adapterTasks']})
+            self.assertIn('headAttachments', {item['check'] for item in row['adapterTasks']})
+
 
 if __name__ == '__main__':
     unittest.main()

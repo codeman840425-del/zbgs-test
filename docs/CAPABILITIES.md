@@ -498,3 +498,5 @@ native_dependency_delta.py共用实际GLB差分核引用顶点、morph、骨/res
 2026-11-17 表情适配器收敛：此前 v9 的结构核查按旧参考体硬编码 9 primitive/56 morph，拒绝了新体 8/57；该拒绝作为旧核查失败保留。随后将 `prototype/public/assets/native-eye-blink-admission-v1/profiles.json` 与 `eye-blink-compatibility.js` 改为按精确 profile 读取目标数量、角色集合和 bare-Fcl 命名。`node scripts/test-native-eye-admission.mjs` 已通过旧 female 9/56、两新体 8/57、happy×blink 和双实例 owner 隔离。范围仅 CPU 结构/表达式回归，不代表 GPU 或人工视觉通过。
 
 批产闸门 v2：`evidence/m2-native-production-gate-v2/report.json` 接入上述 adapter 回归后，两项的 facialExpressions 任务已消除，剩余每项五类适配任务（动态、握麦、头部附件、运行时预算、表面/纹理）。记录和关闭恢复仍有证据，但 `acceptedForRuntime` 仍为空，原因是 body package/coverage 以及剩余适配尚未形成完整准入。
+
+批产闸门 v3：`evidence/m2-native-production-gate-v3/report.json` 再接入两体精确握麦登记回执后，握麦任务也已消除；当前每项剩余四类共同卡点：发丝/头部附件动态、当前新体运行时预算、表面/纹理准入及其人工视觉验收。该拆分避免把已经通过的表情和持麦适配重复精修。

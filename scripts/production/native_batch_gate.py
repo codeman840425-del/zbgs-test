@@ -191,9 +191,23 @@ def adapter_index(path: Path, root: Path = ROOT) -> dict[str, dict[str, Any]]:
     return result
 
 
+def accessory_index(path: Path, root: Path = ROOT) -> dict[str, dict[str, Any]]:
+    """Index a source-candidate accessory registration by exact body type."""
+    path = path.resolve()
+    require(path.is_file() and path.is_relative_to(root), "Accessory report must be inside repository")
+    report = read_json(path)
+    require(report.get("status") == "source-candidate-registered", "Accessory report is not registered")
+    result = {}
+    for body_type in report.get("bodies", []):
+        if isinstance(body_type, str):
+            result[body_type] = {"report": pin(path), "bodyType": body_type, "scope": "registered-source-candidate"}
+    return result
+
+
 def evaluate(batch_path: Path, root: Path = ROOT,
              runtime_report: Path | None = None,
-             adapter_report: Path | None = None) -> dict[str, Any]:
+             adapter_report: Path | None = None,
+             microphone_report: Path | None = None) -> dict[str, Any]:
     root = root.resolve()
     batch_path = batch_path.resolve()
     require(batch_path.is_file() and batch_path.is_relative_to(root), "Batch must be inside repository")
@@ -203,7 +217,12 @@ def evaluate(batch_path: Path, root: Path = ROOT,
     require(isinstance(items, list) and items, "Batch is empty")
     runtime_by_body = runtime_index(runtime_report, root) if runtime_report else {}
     adapter_by_body = adapter_index(adapter_report, root) if adapter_report else {}
+    microphone_by_body = accessory_index(microphone_report, root) if microphone_report else {}
     rows = [package_item(batch, item, root, runtime_by_body, adapter_by_body) for item in items]
+    for row in rows:
+        if row["bodyType"] in microphone_by_body:
+            row["accessoryEvidence"] = {"microphone": microphone_by_body[row["bodyType"]]}
+            row["adapterTasks"] = [task for task in row["adapterTasks"] if task["check"] != "handAndMicrophone"]
     ids = [row["id"] for row in rows]
     require(len(ids) == len(set(ids)), "Duplicate batch item")
     return {
@@ -232,9 +251,11 @@ def main() -> int:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--runtime-report", type=Path)
     parser.add_argument("--adapter-report", type=Path)
+    parser.add_argument("--microphone-report", type=Path)
     args = parser.parse_args()
     try:
-        report = evaluate(args.batch, runtime_report=args.runtime_report, adapter_report=args.adapter_report)
+        report = evaluate(args.batch, runtime_report=args.runtime_report, adapter_report=args.adapter_report,
+                          microphone_report=args.microphone_report)
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
         print(json.dumps(report, ensure_ascii=False))

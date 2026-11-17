@@ -26,7 +26,7 @@
 
 ## 当前批次的真实状态
 
-`evidence/m2-native-production-gate-v1/report.json` 是两份女性 FaceContour 候选的实际闸门结果。两项已验证制作、冷开、导出、差分、资源包、catalog、记录和关闭恢复；每项仍有六类适配任务，因此 `acceptedForRuntime` 为空。这是设计结果：批处理可以并行，不能把未适配的候选混入公共资源库。
+`evidence/m2-native-production-gate-v3/report.json` 是两份女性 FaceContour 候选的实际闸门结果。两项已验证制作、冷开、导出、差分、资源包、catalog、表情 adapter、握麦登记、记录和关闭恢复；每项仍有四类适配任务，因此 `acceptedForRuntime` 为空。这是设计结果：批处理可以并行，不能把未适配的候选混入公共资源库。
 
 最新眨眼核查还发现新导出结构只有 8 个面部 primitive/57 morph，而旧 adapter 要求 9 个 primitive/56 morph，并依赖 `EyeExtra_01_EYE`。这属于共同适配器版本契约缺口，必须修 adapter 或明确回退，不能继续精修脸型来绕过。
 
