@@ -40,6 +40,11 @@ export function createFacilityEditor({session,catalog,templates,world,camera,get
     const target=targets.find(t=>t.id===el('add-target').value);
     el('add-note').textContent=target?.note||(!targets.length?'当前空间没有合适的安装位置或承载物。请先添加对应的桌、柜架或信息板。':'点击场景放置，也可使用所选位置的默认点。');
     el('add-place').disabled=el('add-center').disabled=isBusy()||!target||session.scene.view.mode==='building';
+    if(r?.mount==='parent-device-endpoints'){
+      el('add-place').disabled=true;
+      if(!target)el('add-note').textContent='需要同一桌面上两个相对、同高且未被连接线占用的接口。先布置带连接口的屏幕和键盘，再连接。';
+    }
+    el('add-center').textContent=r?.mount==='parent-device-endpoints'?'连接所选接口':'放到默认位置';
     return target;
   }
   function refreshAddLooks(){
@@ -100,7 +105,7 @@ export function createFacilityEditor({session,catalog,templates,world,camera,get
       el('edit-attach').disabled=isBusy()||!targets.length;
       el('edit-parent').disabled=!doc.nodes.some(p=>p.id===n.parentId&&['facility','workstation','assembly'].includes(p.kind));
       el('edit-remove').disabled=isBusy()||Boolean(n.stationId);
-      el('edit-copy').disabled=isBusy()||Boolean(n.stationId);stateControls(n,r);
+      el('edit-copy').disabled=isBusy()||Boolean(n.stationId)||r?.mount==='parent-device-endpoints';stateControls(n,r);
       const object=session.scene.root.getObjectByName(selected);
       if(object&&view.mode!=='building'){outline.box.setFromObject(object);outline.visible=!outline.box.isEmpty();}
     }

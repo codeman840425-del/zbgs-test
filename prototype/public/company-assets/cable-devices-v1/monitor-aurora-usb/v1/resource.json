@@ -1,0 +1,88 @@
+{
+  "id": "monitor-aurora-usb",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "monitor",
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Support plane at original desk top, centred on monitor stem. Screen faces +Z."
+  },
+  "stateDefaults": {
+    "on": true
+  },
+  "mount": "desk-surface",
+  "footprint": null,
+  "materialSlots": {
+    "screen-surface": [
+      "screen-surface"
+    ]
+  },
+  "display": {
+    "screen": {
+      "nodes": [
+        "screen-surface"
+      ],
+      "onColor": "#9fe8df",
+      "offColor": "#183638",
+      "emissive": "#7ee9dd",
+      "onIntensity": 1.6
+    }
+  },
+  "displayName": "带连接口屏幕",
+  "cablePorts": [
+    {
+      "id": "usb",
+      "connector": "usb-c-visual-v1",
+      "position": [
+        0.15,
+        0.014,
+        0.176
+      ],
+      "direction": [
+        0,
+        0,
+        1
+      ]
+    }
+  ],
+  "cablePortNodes": {
+    "usb": {
+      "frame": [
+        "monitor-aurora-usb-cable-port-usb-left",
+        "monitor-aurora-usb-cable-port-usb-right",
+        "monitor-aurora-usb-cable-port-usb-top",
+        "monitor-aurora-usb-cable-port-usb-bottom"
+      ],
+      "backing": "crescent-foot"
+    }
+  },
+  "provenance": {
+    "license": "Project-authored adapter geometry using the existing project-authored device GLB. No external art assets.",
+    "sourceParameters": "assets-source/company-cable-devices-v1/parameters.json",
+    "sourceParametersSha256": "1e98855bf0904b396b9a192aa4324c0a95c9394ed48ce6667d24cfa2b9f5b6ae",
+    "generator": "scripts/company-platform/build-cable-devices.mjs",
+    "generatorSha256": "964ca580f850359229312fbc103c941e37d7177a7d345d08bcf28b38e60843de",
+    "tools": [
+      "Three.js 187",
+      "GLTFLoader source readback",
+      "GLTFExporter",
+      "CPU cable-port ray checks"
+    ],
+    "originalResource": "monitor-aurora@1",
+    "originalCatalogResourceSha256": "1b6abbae356b10237241be1fd4f4adbf4c0483b0bc1c01e16159fe9b158e6a69",
+    "originalAssetSha256": "37433fac48f4d4fc7eebf81690b32c0d0e972b5d68bb85f9ed3889e8d8adc6b3",
+    "originalAssetBytes": 108012,
+    "originalAssetPath": "prototype/public/company-assets/device-collection/monitor-aurora/v1/model.glb",
+    "originalGenerator": "scripts/company-platform/build-device-collection.mjs",
+    "originalEditableSource": "assets-source/company-device-collection/monitor-aurora/parameters.json",
+    "adaptationRecipe": "Four independent opaque frame bars are seated from the original body surface to a 6mm outward face. The original body remains the cavity bottom. No electronics or communication simulation."
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/cable-devices-v1/monitor-aurora-usb/v1/model.glb",
+    "sha256": "c24f67e5ae303ef37f4729a9caf241a06b184eea20c57b83706a603e2b06b7ce",
+    "bytes": 116588
+  }
+}

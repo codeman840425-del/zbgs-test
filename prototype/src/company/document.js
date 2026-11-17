@@ -1,3 +1,4 @@
+import {deriveCableConnections} from './cable-data.js';
 // Company authoring data. Actor tasks and seat leases remain in the character platform.
 import {validateCeilingAttachments} from './ceiling-acoustic-data.js';
 import {compareFacilityFunction} from './appearance-contract.js';
@@ -314,6 +315,7 @@ export function deriveCompany(document, catalog, templates) {
     if (a.floorId === b.floorId && a.min[0] < b.max[0] - 1e-8 && a.max[0] > b.min[0] + 1e-8 && a.min[1] < b.max[1] - 1e-8 && a.max[1] > b.min[1] + 1e-8)
       fail('overlapping-facilities', a.id, `Blocking footprint overlaps ${b.id}`, { otherId: b.id });
   }
+  const cableConnections=deriveCableConnections({nodes,facilities},fail);
   validateCeilingAttachments({nodes,facilities},fail);
   validateSupportAttachments(nodes, resources, fail);
   validateMakeupMirrorAttachments(nodes, resources, fail);
@@ -322,7 +324,7 @@ export function deriveCompany(document, catalog, templates) {
   validateInformationAttachments(nodes, resources, fail);
   const vanityClearances=validateVanityPlacement({nodes,worlds,floorIds,roomIds,facilities,obstacles},fail);
   return { nodes, worlds, localTransforms, floorIds, roomIds, facilities, usePoints, obstacles, surfaceFinishes,
-    vanityClearances,
+    vanityClearances,cableConnections,
     capacity: { maximum: capacity, installedStations: stations.length, businessRooms: rooms.length, floors: floors.length } };
 }
 
@@ -366,6 +368,10 @@ function copySubtree(document, node, op, related) {
     clone.id = remap.get(source.id);
     clone.parentId = remap.get(source.parentId) || source.parentId;
     if (clone.stationId) clone.stationId = remap.get(clone.stationId) || clone.stationId;
+    if(clone.cableLink)for(const endpoint of Object.values(clone.cableLink)){
+      if(!remap.has(endpoint.deviceId))fail('partial-cable-copy',source.id,'Copy the common desk including both devices and cable');
+      endpoint.deviceId=remap.get(endpoint.deviceId);
+    }
     if (source.id === node.id) {
       if (op.type==='copy-facility'&&op.parentId!==undefined) clone.parentId=op.parentId;
       clone.transform = copy(op.transform || source.transform);
@@ -442,6 +448,7 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
       const node = { id: op.id, kind: 'facility', parentId: op.parentId, resource: copy(op.resource), transform: copy(op.transform || identityTransform()), state: copy(op.state || {}) };
       if (op.appearance !== undefined) node.appearance = copy(op.appearance);
       if (op.attachment !== undefined) node.attachment = copy(op.attachment);
+      if (op.cableLink !== undefined) node.cableLink = copy(op.cableLink);
       next.nodes.push(node); continue;
     }
     if (op.type === 'group-facilities') { groupFacilities(next, op, deriveCompany(next, catalog, templates), affected); continue; }

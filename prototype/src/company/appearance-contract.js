@@ -29,6 +29,8 @@ export function describeFacilityFunction(resource) {
     mount, mounting:normalized(resource.mounting??null), surface, supportSurfaces, movingParts, footprint, usePoints,
     ...(resource.supportMotion!==undefined?{supportMotion:normalized(resource.supportMotion)}:{}),
     ...(resource.movingProfile!==undefined?{movingProfile:resource.movingProfile}:{}),
+    ...(resource.cablePorts!==undefined?{cablePorts:normalized(resource.cablePorts)}:{}),
+    ...(resource.cableConnection!==undefined?{cableConnection:normalized(resource.cableConnection)}:{}),
     capacity, clearance, clockDisplay:normalized(resource.clockDisplay??null),
     mirrorSurface:normalized(resource.mirrorSurface??null),
     ...(['makeup-mirror','makeup-mirror-wall'].includes(resource.mountRole)?{light:normalized(resource.light??null)}:{}),

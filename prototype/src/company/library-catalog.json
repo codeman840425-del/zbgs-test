@@ -20566,6 +20566,740 @@
       }
     },
     {
+      "id": "cable-route-single-sleeve",
+      "displayName": "单套线缆",
+      "version": 1,
+      "category": "decor",
+      "mount": "parent-device-endpoints",
+      "mountRole": "cable-route",
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Endpoint A",
+        "scale": "Identity only"
+      },
+      "productionBranch": "cable-route",
+      "provenance": {
+        "license": "Project-authored procedural geometry, unrestricted project use",
+        "prompt": "Project-authored opaque standard-material cable-link source for two collinear desk device ports. The production sample uses local endpoint faces A[-0.7,0,0] and B[0.7,0,0], a 1.4m endpoint span inside a 1.6m x 0.03m x 0.03m source envelope. The runtime link adapts only the central body to a same-height span of 0.14m..0.70m while fixed plug segments remain unchanged. Use solid positive-thickness geometry with a continuous connected path and a restrained mid-span slack loop. Keep the source static with no flexible physics, textures, light animation, or external art assets. Export identity-scale GLB in metres, Y up, +Z forward. Design direction: Single continuous round sleeve with one shallow raised slack arc.",
+        "tools": [
+          "Three.js 187",
+          "BoxGeometry",
+          "Capped polyline tube",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-cable-route-v1/parameters.json",
+        "sourceParametersSha256": "a8e2a0f51fa6ab733300d05f75bf418c495ec1cc72c05812738f3810b1ec1649",
+        "sourceDesign": "single-sleeve",
+        "functionalContractSource": "assets-source/company-environment-specs-v1/branches.json",
+        "functionalContractBranch": "cable-route",
+        "functionalContractSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "generator": "scripts/company-platform/build-cable-route.mjs",
+        "generatorSha256": "26d50fd28a4775351af1dffe28018aebfcb6cca608a4564fea1621eb99a6002d",
+        "method": "single round sleeve"
+      },
+      "geometry": {
+        "profile": "company-cable-route-v1",
+        "envelope": {
+          "width": 1.6,
+          "height": 0.03,
+          "depth": 0.03
+        },
+        "endpointA": [
+          -0.7,
+          0,
+          0
+        ],
+        "endpointB": [
+          0.7,
+          0,
+          0
+        ],
+        "thickness": 0.006,
+        "fixedSegmentBounds": {
+          "A": [
+            -0.703,
+            -0.665
+          ],
+          "B": [
+            0.665,
+            0.703
+          ]
+        },
+        "endpointNodes": {
+          "A": "endpoint-A",
+          "B": "endpoint-B"
+        },
+        "routeNodes": [
+          "endpoint-A",
+          "endpoint-B",
+          "plug-A-head",
+          "plug-B-head",
+          "single-sleeve-link-A",
+          "single-sleeve-route",
+          "single-sleeve-link-B"
+        ],
+        "maxMeshes": 60,
+        "maxTriangles": 2000,
+        "maxMaterials": 4,
+        "sourceEnvelope": {
+          "y": [
+            -0.006,
+            0.014
+          ],
+          "z": [
+            -0.014,
+            0.014
+          ]
+        }
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/cable-route-v1/single-sleeve/v1/model.glb",
+        "sha256": "d4e9db50fd5ce9596f71abec6e5ade45408323ae3827fcba0b0ff6b9cc832393",
+        "bytes": 13976
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.703,
+          0.015
+        ],
+        "blocking": false
+      },
+      "usePoints": [],
+      "stateDefaults": {
+        "connected": true
+      },
+      "stateSchema": {
+        "connected": {
+          "type": "boolean"
+        }
+      },
+      "cableConnection": {
+        "profile": "desk-collinear-v1",
+        "connector": "usb-c-visual-v1",
+        "spanRange": [
+          0.14,
+          0.7
+        ],
+        "unplugDistance": 0.025
+      },
+      "stateSemantics": {
+        "connected": "both-device-ports-connected-or-B-unplugged"
+      },
+      "checks": {
+        "physics": "static-restricted-line-only"
+      }
+    },
+    {
+      "id": "cable-route-dual-sleeve",
+      "displayName": "双套线缆",
+      "version": 1,
+      "category": "decor",
+      "mount": "parent-device-endpoints",
+      "mountRole": "cable-route",
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Endpoint A",
+        "scale": "Identity only"
+      },
+      "productionBranch": "cable-route",
+      "provenance": {
+        "license": "Project-authored procedural geometry, unrestricted project use",
+        "prompt": "Project-authored opaque standard-material cable-link source for two collinear desk device ports. The production sample uses local endpoint faces A[-0.7,0,0] and B[0.7,0,0], a 1.4m endpoint span inside a 1.6m x 0.03m x 0.03m source envelope. The runtime link adapts only the central body to a same-height span of 0.14m..0.70m while fixed plug segments remain unchanged. Use solid positive-thickness geometry with a continuous connected path and a restrained mid-span slack loop. Keep the source static with no flexible physics, textures, light animation, or external art assets. Export identity-scale GLB in metres, Y up, +Z forward. Design direction: Two parallel round sleeves joined by endpoint combs, with offset slack arcs.",
+        "tools": [
+          "Three.js 187",
+          "BoxGeometry",
+          "Capped polyline tube",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-cable-route-v1/parameters.json",
+        "sourceParametersSha256": "a8e2a0f51fa6ab733300d05f75bf418c495ec1cc72c05812738f3810b1ec1649",
+        "sourceDesign": "dual-sleeve",
+        "functionalContractSource": "assets-source/company-environment-specs-v1/branches.json",
+        "functionalContractBranch": "cable-route",
+        "functionalContractSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "generator": "scripts/company-platform/build-cable-route.mjs",
+        "generatorSha256": "26d50fd28a4775351af1dffe28018aebfcb6cca608a4564fea1621eb99a6002d",
+        "method": "paired round sleeves"
+      },
+      "geometry": {
+        "profile": "company-cable-route-v1",
+        "envelope": {
+          "width": 1.6,
+          "height": 0.03,
+          "depth": 0.03
+        },
+        "endpointA": [
+          -0.7,
+          0,
+          0
+        ],
+        "endpointB": [
+          0.7,
+          0,
+          0
+        ],
+        "thickness": 0.006,
+        "fixedSegmentBounds": {
+          "A": [
+            -0.703,
+            -0.665
+          ],
+          "B": [
+            0.665,
+            0.703
+          ]
+        },
+        "endpointNodes": {
+          "A": "endpoint-A",
+          "B": "endpoint-B"
+        },
+        "routeNodes": [
+          "endpoint-A",
+          "endpoint-B",
+          "plug-A-head",
+          "plug-B-head",
+          "dual-comb-A",
+          "dual-comb-B",
+          "dual-sleeve-lower",
+          "dual-sleeve-upper"
+        ],
+        "maxMeshes": 60,
+        "maxTriangles": 2000,
+        "maxMaterials": 4,
+        "sourceEnvelope": {
+          "y": [
+            -0.006,
+            0.014
+          ],
+          "z": [
+            -0.014,
+            0.014
+          ]
+        }
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/cable-route-v1/dual-sleeve/v1/model.glb",
+        "sha256": "f89484ab21b030a131a35076b05c0107260d5d760cab27dda766527117ad6a5a",
+        "bytes": 17500
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.703,
+          0.015
+        ],
+        "blocking": false
+      },
+      "usePoints": [],
+      "stateDefaults": {
+        "connected": true
+      },
+      "stateSchema": {
+        "connected": {
+          "type": "boolean"
+        }
+      },
+      "cableConnection": {
+        "profile": "desk-collinear-v1",
+        "connector": "usb-c-visual-v1",
+        "spanRange": [
+          0.14,
+          0.7
+        ],
+        "unplugDistance": 0.025
+      },
+      "stateSemantics": {
+        "connected": "both-device-ports-connected-or-B-unplugged"
+      },
+      "checks": {
+        "physics": "static-restricted-line-only"
+      }
+    },
+    {
+      "id": "cable-route-braided-loop",
+      "displayName": "编织环线",
+      "version": 1,
+      "category": "decor",
+      "mount": "parent-device-endpoints",
+      "mountRole": "cable-route",
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Endpoint A",
+        "scale": "Identity only"
+      },
+      "productionBranch": "cable-route",
+      "provenance": {
+        "license": "Project-authored procedural geometry, unrestricted project use",
+        "prompt": "Project-authored opaque standard-material cable-link source for two collinear desk device ports. The production sample uses local endpoint faces A[-0.7,0,0] and B[0.7,0,0], a 1.4m endpoint span inside a 1.6m x 0.03m x 0.03m source envelope. The runtime link adapts only the central body to a same-height span of 0.14m..0.70m while fixed plug segments remain unchanged. Use solid positive-thickness geometry with a continuous connected path and a restrained mid-span slack loop. Keep the source static with no flexible physics, textures, light animation, or external art assets. Export identity-scale GLB in metres, Y up, +Z forward. Design direction: Eight alternating solid sleeve segments form a braided-looking restrained loop.",
+        "tools": [
+          "Three.js 187",
+          "BoxGeometry",
+          "Capped polyline tube",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-cable-route-v1/parameters.json",
+        "sourceParametersSha256": "a8e2a0f51fa6ab733300d05f75bf418c495ec1cc72c05812738f3810b1ec1649",
+        "sourceDesign": "braided-loop",
+        "functionalContractSource": "assets-source/company-environment-specs-v1/branches.json",
+        "functionalContractBranch": "cable-route",
+        "functionalContractSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "generator": "scripts/company-platform/build-cable-route.mjs",
+        "generatorSha256": "26d50fd28a4775351af1dffe28018aebfcb6cca608a4564fea1621eb99a6002d",
+        "method": "segmented braided loop"
+      },
+      "geometry": {
+        "profile": "company-cable-route-v1",
+        "envelope": {
+          "width": 1.6,
+          "height": 0.03,
+          "depth": 0.03
+        },
+        "endpointA": [
+          -0.7,
+          0,
+          0
+        ],
+        "endpointB": [
+          0.7,
+          0,
+          0
+        ],
+        "thickness": 0.006,
+        "fixedSegmentBounds": {
+          "A": [
+            -0.703,
+            -0.665
+          ],
+          "B": [
+            0.665,
+            0.703
+          ]
+        },
+        "endpointNodes": {
+          "A": "endpoint-A",
+          "B": "endpoint-B"
+        },
+        "routeNodes": [
+          "endpoint-A",
+          "endpoint-B",
+          "plug-A-head",
+          "plug-B-head",
+          "braided-link-A",
+          "braided-strand-A",
+          "braided-strand-B",
+          "braided-link-B"
+        ],
+        "maxMeshes": 60,
+        "maxTriangles": 2000,
+        "maxMaterials": 4,
+        "sourceEnvelope": {
+          "y": [
+            -0.006,
+            0.014
+          ],
+          "z": [
+            -0.014,
+            0.014
+          ]
+        }
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/cable-route-v1/braided-loop/v1/model.glb",
+        "sha256": "7da2bb701cefe4e1816dae7717a442214f447e8dca5023685c892a3f1f0e75c4",
+        "bytes": 17948
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.703,
+          0.015
+        ],
+        "blocking": false
+      },
+      "usePoints": [],
+      "stateDefaults": {
+        "connected": true
+      },
+      "stateSchema": {
+        "connected": {
+          "type": "boolean"
+        }
+      },
+      "cableConnection": {
+        "profile": "desk-collinear-v1",
+        "connector": "usb-c-visual-v1",
+        "spanRange": [
+          0.14,
+          0.7
+        ],
+        "unplugDistance": 0.025
+      },
+      "stateSemantics": {
+        "connected": "both-device-ports-connected-or-B-unplugged"
+      },
+      "checks": {
+        "physics": "static-restricted-line-only"
+      }
+    },
+    {
+      "id": "cable-route-flat-ribbon",
+      "displayName": "扁平带线",
+      "version": 1,
+      "category": "decor",
+      "mount": "parent-device-endpoints",
+      "mountRole": "cable-route",
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Endpoint A",
+        "scale": "Identity only"
+      },
+      "productionBranch": "cable-route",
+      "provenance": {
+        "license": "Project-authored procedural geometry, unrestricted project use",
+        "prompt": "Project-authored opaque standard-material cable-link source for two collinear desk device ports. The production sample uses local endpoint faces A[-0.7,0,0] and B[0.7,0,0], a 1.4m endpoint span inside a 1.6m x 0.03m x 0.03m source envelope. The runtime link adapts only the central body to a same-height span of 0.14m..0.70m while fixed plug segments remain unchanged. Use solid positive-thickness geometry with a continuous connected path and a restrained mid-span slack loop. Keep the source static with no flexible physics, textures, light animation, or external art assets. Export identity-scale GLB in metres, Y up, +Z forward. Design direction: Capped flat ribbon with longitudinal embossed stripes and a shallow slack bow.",
+        "tools": [
+          "Three.js 187",
+          "BoxGeometry",
+          "Capped polyline tube",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-cable-route-v1/parameters.json",
+        "sourceParametersSha256": "a8e2a0f51fa6ab733300d05f75bf418c495ec1cc72c05812738f3810b1ec1649",
+        "sourceDesign": "flat-ribbon",
+        "functionalContractSource": "assets-source/company-environment-specs-v1/branches.json",
+        "functionalContractBranch": "cable-route",
+        "functionalContractSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "generator": "scripts/company-platform/build-cable-route.mjs",
+        "generatorSha256": "26d50fd28a4775351af1dffe28018aebfcb6cca608a4564fea1621eb99a6002d",
+        "method": "flat striped ribbon"
+      },
+      "geometry": {
+        "profile": "company-cable-route-v1",
+        "envelope": {
+          "width": 1.6,
+          "height": 0.03,
+          "depth": 0.03
+        },
+        "endpointA": [
+          -0.7,
+          0,
+          0
+        ],
+        "endpointB": [
+          0.7,
+          0,
+          0
+        ],
+        "thickness": 0.006,
+        "fixedSegmentBounds": {
+          "A": [
+            -0.703,
+            -0.665
+          ],
+          "B": [
+            0.665,
+            0.703
+          ]
+        },
+        "endpointNodes": {
+          "A": "endpoint-A",
+          "B": "endpoint-B"
+        },
+        "routeNodes": [
+          "endpoint-A",
+          "endpoint-B",
+          "plug-A-head",
+          "plug-B-head",
+          "flat-ribbon-main",
+          "flat-ribbon-stripe-front",
+          "flat-ribbon-stripe-back",
+          "flat-ribbon-bow-A",
+          "flat-ribbon-bow-B",
+          "flat-ribbon-bow-C",
+          "flat-ribbon-bow-D"
+        ],
+        "maxMeshes": 60,
+        "maxTriangles": 2000,
+        "maxMaterials": 4,
+        "sourceEnvelope": {
+          "y": [
+            -0.006,
+            0.014
+          ],
+          "z": [
+            -0.014,
+            0.014
+          ]
+        }
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/cable-route-v1/flat-ribbon/v1/model.glb",
+        "sha256": "bd38f8b6a3ba84850dda8ba97910520b4098ae1b300ba4edfd68ace8e95906a3",
+        "bytes": 20952
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.703,
+          0.015
+        ],
+        "blocking": false
+      },
+      "usePoints": [],
+      "stateDefaults": {
+        "connected": true
+      },
+      "stateSchema": {
+        "connected": {
+          "type": "boolean"
+        }
+      },
+      "cableConnection": {
+        "profile": "desk-collinear-v1",
+        "connector": "usb-c-visual-v1",
+        "spanRange": [
+          0.14,
+          0.7
+        ],
+        "unplugDistance": 0.025
+      },
+      "stateSemantics": {
+        "connected": "both-device-ports-connected-or-B-unplugged"
+      },
+      "checks": {
+        "physics": "static-restricted-line-only"
+      }
+    },
+    {
+      "id": "monitor-aurora-usb",
+      "version": 1,
+      "category": "dynamic",
+      "mountRole": "monitor",
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Support plane at original desk top, centred on monitor stem. Screen faces +Z."
+      },
+      "stateDefaults": {
+        "on": true
+      },
+      "mount": "desk-surface",
+      "footprint": null,
+      "materialSlots": {
+        "screen-surface": [
+          "screen-surface"
+        ]
+      },
+      "display": {
+        "screen": {
+          "nodes": [
+            "screen-surface"
+          ],
+          "onColor": "#9fe8df",
+          "offColor": "#183638",
+          "emissive": "#7ee9dd",
+          "onIntensity": 1.6
+        }
+      },
+      "displayName": "带连接口屏幕",
+      "cablePorts": [
+        {
+          "id": "usb",
+          "connector": "usb-c-visual-v1",
+          "position": [
+            0.15,
+            0.014,
+            0.176
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ]
+        }
+      ],
+      "cablePortNodes": {
+        "usb": {
+          "frame": [
+            "monitor-aurora-usb-cable-port-usb-left",
+            "monitor-aurora-usb-cable-port-usb-right",
+            "monitor-aurora-usb-cable-port-usb-top",
+            "monitor-aurora-usb-cable-port-usb-bottom"
+          ],
+          "backing": "crescent-foot"
+        }
+      },
+      "provenance": {
+        "license": "Project-authored adapter geometry using the existing project-authored device GLB. No external art assets.",
+        "sourceParameters": "assets-source/company-cable-devices-v1/parameters.json",
+        "sourceParametersSha256": "1e98855bf0904b396b9a192aa4324c0a95c9394ed48ce6667d24cfa2b9f5b6ae",
+        "generator": "scripts/company-platform/build-cable-devices.mjs",
+        "generatorSha256": "964ca580f850359229312fbc103c941e37d7177a7d345d08bcf28b38e60843de",
+        "tools": [
+          "Three.js 187",
+          "GLTFLoader source readback",
+          "GLTFExporter",
+          "CPU cable-port ray checks"
+        ],
+        "originalResource": "monitor-aurora@1",
+        "originalCatalogResourceSha256": "1b6abbae356b10237241be1fd4f4adbf4c0483b0bc1c01e16159fe9b158e6a69",
+        "originalAssetSha256": "37433fac48f4d4fc7eebf81690b32c0d0e972b5d68bb85f9ed3889e8d8adc6b3",
+        "originalAssetBytes": 108012,
+        "originalAssetPath": "prototype/public/company-assets/device-collection/monitor-aurora/v1/model.glb",
+        "originalGenerator": "scripts/company-platform/build-device-collection.mjs",
+        "originalEditableSource": "assets-source/company-device-collection/monitor-aurora/parameters.json",
+        "adaptationRecipe": "Four independent opaque frame bars are seated from the original body surface to a 6mm outward face. The original body remains the cavity bottom. No electronics or communication simulation."
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/cable-devices-v1/monitor-aurora-usb/v1/model.glb",
+        "sha256": "c24f67e5ae303ef37f4729a9caf241a06b184eea20c57b83706a603e2b06b7ce",
+        "bytes": 116588
+      }
+    },
+    {
+      "id": "keyboard-compact-usb",
+      "version": 1,
+      "category": "decor",
+      "mountRole": "keyboard",
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Support plane at original desk top, centred in XZ."
+      },
+      "footprint": null,
+      "usePoints": [],
+      "stateDefaults": {},
+      "mount": "desk-surface",
+      "materialSlots": {
+        "finish": [
+          "body0",
+          "key0-0-0",
+          "key0-0-1",
+          "key0-0-2",
+          "key0-0-3",
+          "key0-0-4",
+          "key0-0-5",
+          "key0-0-6",
+          "key0-0-7",
+          "key0-0-8",
+          "key0-0-9",
+          "key0-0-10",
+          "key0-1-0",
+          "key0-1-1",
+          "key0-1-2",
+          "key0-1-3",
+          "key0-1-4",
+          "key0-1-5",
+          "key0-1-6",
+          "key0-1-7",
+          "key0-1-8",
+          "key0-1-9",
+          "key0-1-10",
+          "key0-2-0",
+          "key0-2-1",
+          "key0-2-2",
+          "key0-2-3",
+          "key0-2-4",
+          "key0-2-5",
+          "key0-2-6",
+          "key0-2-7",
+          "key0-2-8",
+          "key0-2-9",
+          "key0-2-10",
+          "spacebar"
+        ]
+      },
+      "displayName": "带连接口键盘",
+      "productionBranch": "keyboard",
+      "designId": "keyboard-compact",
+      "cablePorts": [
+        {
+          "id": "usb",
+          "connector": "usb-c-visual-v1",
+          "position": [
+            0.15,
+            0.014,
+            -0.086
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ]
+        }
+      ],
+      "cablePortNodes": {
+        "usb": {
+          "frame": [
+            "keyboard-compact-usb-cable-port-usb-left",
+            "keyboard-compact-usb-cable-port-usb-right",
+            "keyboard-compact-usb-cable-port-usb-top",
+            "keyboard-compact-usb-cable-port-usb-bottom"
+          ],
+          "backing": "body0"
+        }
+      },
+      "provenance": {
+        "license": "Project-authored adapter geometry using the existing project-authored device GLB. No external art assets.",
+        "sourceParameters": "assets-source/company-cable-devices-v1/parameters.json",
+        "sourceParametersSha256": "1e98855bf0904b396b9a192aa4324c0a95c9394ed48ce6667d24cfa2b9f5b6ae",
+        "generator": "scripts/company-platform/build-cable-devices.mjs",
+        "generatorSha256": "964ca580f850359229312fbc103c941e37d7177a7d345d08bcf28b38e60843de",
+        "tools": [
+          "Three.js 187",
+          "GLTFLoader source readback",
+          "GLTFExporter",
+          "CPU cable-port ray checks"
+        ],
+        "originalResource": "keyboard-compact@1",
+        "originalCatalogResourceSha256": "6964ecf305931f78e371dd7a5110990e39c1e932a229bb76f318ef620b9d3887",
+        "originalAssetSha256": "fa4a2fad14c073994d7252ca74b6a24f64c39836582ea54bdd7afd278f2db240",
+        "originalAssetBytes": 69744,
+        "originalAssetPath": "prototype/public/company-assets/static-collection/keyboard-compact/v1/model.glb",
+        "originalGenerator": "scripts/company-platform/build-static-collection.mjs",
+        "originalEditableSource": "assets-source/company-static-collection/designs.mjs",
+        "adaptationRecipe": "Four independent opaque frame bars are seated from the original body surface to a 6mm outward face. The original body remains the cavity bottom. No electronics or communication simulation."
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/cable-devices-v1/keyboard-compact-usb/v1/model.glb",
+        "sha256": "a94759bb9e70e76c0a1ad3e477f4ed0396702a2ace309b309fb8583b438c30e9",
+        "bytes": 79360
+      }
+    },
+    {
       "id": "vanity-chair-side-entry",
       "version": 1,
       "category": "seat",

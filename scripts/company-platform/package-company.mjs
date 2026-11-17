@@ -6,6 +6,10 @@ import {fileURLToPath,pathToFileURL} from 'node:url';
 const defaultSource=fileURLToPath(new URL('../../',import.meta.url));
 const fixedInputs=['company.html','vite.company.config.js','scripts/build-company-id.mjs','package.json','package-lock.json'];
 const extraFiles=[
+  'docs/COMPANY-CABLE-CONTRACT-v1.txt',
+  'docs/COMPANY-PREVIEW-EDITOR-v1.txt',
+  'scripts/company-platform/build-cable-devices.mjs',
+  'scripts/company-platform/build-cable-route.mjs',
   'scripts/company-platform/build-ceiling-acoustic-examples.mjs',
   'docs/COMPANY-CEILING-ACOUSTIC-CONTRACT-v1.txt',
   'docs/research/COMPANY-CEILING-ACOUSTIC-PREFLIGHT-2026-11-17.txt',

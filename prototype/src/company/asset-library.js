@@ -1,3 +1,5 @@
+import {validateCableRouteGeometry} from './cable-route-geometry.js';
+import {validateCablePortGeometry} from './cable-port-geometry.js';
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {CompanyError} from './document.js';
@@ -167,6 +169,8 @@ async function releaseFailedParser(parser, json, pack) {
 
 function validateResource(pack, description) {
   pack.scene.updateMatrixWorld(true);
+  validateCableRouteGeometry(pack.scene, description.resource, (code,path,message)=>{throw error(code,path,message);});
+  if(description.resource.cablePorts)validateCablePortGeometry(pack.scene, description.resource, (code,path,message)=>{throw error(code,path,message);});
   validateClockGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateInformationGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateMakeupMirrorGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });

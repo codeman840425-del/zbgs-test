@@ -1,0 +1,59 @@
+{
+  "id": "company-cable-route-v1",
+  "version": 1,
+  "units": "metres",
+  "contract": {
+    "branchId": "cable-route",
+    "mount": "parent-device-endpoints",
+    "parent": "desk.parent",
+    "state": "connected-disconnected",
+    "envelope": { "width": 1.6, "height": 0.03, "depth": 0.03 },
+    "endpointA": [-0.7, 0, 0],
+    "endpointB": [0.7, 0, 0],
+    "thickness": 0.006,
+    "maxMeshes": 60,
+    "maxTriangles": 2000,
+    "maxMaterials": 4
+  },
+  "promptStandard": "Project-authored opaque standard-material cable-link source for two collinear desk device ports. The production sample uses local endpoint faces A[-0.7,0,0] and B[0.7,0,0], a 1.4m endpoint span inside a 1.6m x 0.03m x 0.03m source envelope. The runtime link adapts only the central body to a same-height span of 0.14m..0.70m while fixed plug segments remain unchanged. Use solid positive-thickness geometry with a continuous connected path and a restrained mid-span slack loop. Keep the source static with no flexible physics, textures, light animation, or external art assets. Export identity-scale GLB in metres, Y up, +Z forward.",
+  "designs": [
+    {
+      "id": "single-sleeve",
+      "label": "单套线缆",
+      "prompt": "Single continuous round sleeve with one shallow raised slack arc.",
+      "license": "Project-authored procedural geometry, unrestricted project use",
+      "style": "single round sleeve",
+      "parameters": { "width": 0.010, "arcHeight": 0.008, "arcDepth": 0.004 }
+    },
+    {
+      "id": "dual-sleeve",
+      "label": "双套线缆",
+      "prompt": "Two parallel round sleeves joined by endpoint combs, with offset slack arcs.",
+      "license": "Project-authored procedural geometry, unrestricted project use",
+      "style": "paired round sleeves",
+      "parameters": { "radius": 0.004, "separation": 0.008, "arcHeight": 0.009, "arcDepth": 0.006 }
+    },
+    {
+      "id": "braided-loop",
+      "label": "编织环线",
+      "prompt": "Eight alternating solid sleeve segments form a braided-looking restrained loop.",
+      "license": "Project-authored procedural geometry, unrestricted project use",
+      "style": "segmented braided loop",
+      "parameters": { "segmentRadius": 0.0028, "loopHeight": 0.009, "loopDepth": 0.006, "segments": 8 }
+    },
+    {
+      "id": "flat-ribbon",
+      "label": "扁平带线",
+      "prompt": "Capped flat ribbon with longitudinal embossed stripes and a shallow slack bow.",
+      "license": "Project-authored procedural geometry, unrestricted project use",
+      "style": "flat striped ribbon",
+      "parameters": { "ribbonHeight": 0.006, "ribbonDepth": 0.012, "stripeWidth": 0.002, "bowHeight": 0.008 }
+    }
+  ],
+  "failureSamples": [
+    { "id": "broken-end", "mutation": "remove the final segment before endpoint B", "expectedCode": "cable-endpoint-contact" },
+    { "id": "thin-sheet", "mutation": "collapse every route mesh to zero thickness", "expectedCode": "cable-positive-thickness" },
+    { "id": "outside-envelope", "mutation": "translate one slack segment above the 0.03m envelope", "expectedCode": "cable-envelope" },
+    { "id": "duplicate-endpoint-floating", "mutation": "add a duplicate endpoint marker and isolate a segment", "expectedCode": "cable-endpoint-uniqueness" }
+  ]
+}

@@ -1,3 +1,4 @@
+import {adaptCableGeometry,validateCableVisualPlacement} from './cable-render.js';
 import {validateCeilingVisualPlacement,ceilingVisibleForRegion} from './ceiling-placement.js';
 import * as THREE from 'three';
 import defaultCatalog from './facility-catalog.json' with {type:'json'};
@@ -69,7 +70,7 @@ function effectivelyVisible(object) {
 // CPU preflight also covers hidden floors/building overview. Temporary instances
 // are never attached to the visible scene and own their cloned display resources.
 export function validateCeilingDocumentAssets(derived,assetLibrary){
-  const floors=new Set(derived.facilities.filter(f=>f.resource.mount==='ceiling').map(f=>f.floorId));
+  const floors=new Set(derived.facilities.filter(f=>['ceiling','parent-device-endpoints'].includes(f.resource.mount)).map(f=>f.floorId));
   if(!floors.size)return;
   const temporary=new Map();
   try {
@@ -77,9 +78,12 @@ export function validateCeilingDocumentAssets(derived,assetLibrary){
       const root=new THREE.Group();temporary.set(f.id,{...f,root});
       if(f.resource.asset&&!assetLibrary)throw new CompanyError('asset-library-required',f.id,'Ceiling clearance requires actual geometry, including facilities on hidden floors');
       const visual=f.resource.asset?assetLibrary.instantiate(f.resource).root:buildResource(f.resource.node,new Map(),f.state);
-      root.add(visual);root.position.fromArray(f.world.position);root.rotation.y=f.world.yaw;root.updateMatrixWorld(true);
+      root.add(visual);
+      if(derived.cableConnections.has(f.id))adaptCableGeometry(visual,derived.cableConnections.get(f.id));
+      root.position.fromArray(f.world.position);root.rotation.y=f.world.yaw;root.updateMatrixWorld(true);
       temporary.get(f.id).visual=visual;
     }
+    validateCableVisualPlacement(temporary,derived.cableConnections,(code,path,message)=>{throw new CompanyError(code,path,message);});
     validateCeilingVisualPlacement(temporary,(code,path,message)=>{throw new CompanyError(code,path,message);});
   }finally{for(const f of temporary.values())disposeTree(f.root);}
 }
@@ -145,6 +149,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
             object.customDistanceMaterial=new THREE.MeshDistanceMaterial();
           }});
         } else {parts=new Map();visual=buildResource(entry.resource.node,parts,entry.state);root.add(visual);}
+        if(derived.cableConnections.has(entry.id))adaptCableGeometry(visual,derived.cableConnections.get(entry.id));
         for(const part of entry.resource.movingParts||[]) {
           const pivot=parts.get(entry.resource.partNodes[part.id]);
           if(!pivot)throw new CompanyError('missing-moving-part',entry.id,'Moving part must resolve to its imported pivot');
@@ -235,6 +240,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
           }
         }
       }
+      validateCableVisualPlacement(facilities,derived.cableConnections,(code,path,message)=>{throw new CompanyError(code,path,message);});
       validateCeilingVisualPlacement(facilities,(code,path,message)=>{throw new CompanyError(code,path,message);});
       for(const point of derived.usePoints.filter(p=>p.floorId===floorId)) {
         const facility=facilities.get(point.facilityId),chairSeat=facility.parts.get(point.seatNodeId),chairBack=facility.parts.get(point.backNodeId);

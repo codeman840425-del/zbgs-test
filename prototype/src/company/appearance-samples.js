@@ -17,7 +17,9 @@ import {createSideTableSample} from './side-table-samples.js';
 import {createSideTableLifeItemsSample} from './side-table-life-items-samples.js';
 import {createCeilingAcousticSample} from './ceiling-acoustic-samples.js';
 import {createWallShelfSample} from './wall-shelf-samples.js';
+import {createCableSample} from './cable-samples.js';
 export const appearanceBranches=[
+ ['cable-route','设备连接线'],
  ['ceiling-acoustic-baffle','顶部吸声构件'],
  ['wall-shelf','墙装多层壁架'],
  ['side-table-life-items','边几日用品'],
@@ -51,6 +53,7 @@ export function appearanceCandidates(catalog,branch) {
  return selected.filter(Boolean).map(r=>({...r,displayName:r.displayName||names[r.id]||r.id}));
 }
 export function createAppearanceSample(branch,index,catalog,templates,options={}) {
+ if(branch==='cable-route')return createCableSample(catalog,templates,{index,alternate:Boolean(options.alternate)});
  if(branch==='ceiling-acoustic-baffle')return createCeilingAcousticSample(catalog,templates,{index,alternate:Boolean(options.alternate)});
  if(branch==='wall-shelf')return createWallShelfSample(catalog,templates,{index,alternate:Boolean(options.alternate)});
  if(branch==='side-table-life-items')return createSideTableLifeItemsSample(catalog,templates,{index,alternate:Boolean(options.alternate)});
