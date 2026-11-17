@@ -1,0 +1,12 @@
+{
+  "status": "test-fixture-failure",
+  "firstFailure": "../company-floor-mirror-fixed-7f6-v1/report.json",
+  "firstCause": "fresh was already true after preflight rendered with a previous camera; aim did not require a new reflection after camera change",
+  "firstRepair": "record reflectionPasses and require a later pass after changing camera",
+  "secondFailure": "step 7 intentionally paused the host loop, so the new wait at step 8 could not progress",
+  "secondRepair": "after a real 40ms interval, explicitly invoke the existing drawHostFrame, then still require a newer reflection pass and fresh binding",
+  "runtimeCodeChanged": false,
+  "assertionsWeakened": false,
+  "reconstructedPriorScript": "qa-sampling-pass-before-manual-draw.cjs",
+  "reconstruction": "Current file minus the single explicit wait-and-draw statement, which was added after this process loaded the script."
+}
