@@ -18,9 +18,12 @@ let server,browser,context,video;
     company.view('top');const nodes=company.session.document.nodes.filter(n=>company.catalog.resources.find(r=>r.id===n.resource?.id)?.mountRole==='side-table');
     const groups=nodes.map(n=>company.session.scene.root.getObjectByName(n.id)),top=groups[0].getObjectByName('side-table-top');top.geometry.computeBoundingBox();
     const box=top.geometry.boundingBox.clone().makeEmpty();for(const group of groups)box.expandByObject(group);
-    const target=box.getCenter(company.camera.position.clone()),size=box.getSize(company.camera.position.clone()),offset=company.camera.position.clone().set(.45,.8,1).normalize();
-    const distance=Math.max(size.x/company.camera.aspect,size.y,size.z)*1.7+1.1;
-    company.camera.position.copy(target).addScaledVector(offset,distance);company.camera.lookAt(target);company.camera.updateMatrixWorld();company.drawHostFrame();
+    const target=box.getCenter(company.camera.position.clone());
+    // Both explicit sample inputs share the room origin. Keep the review camera
+    // inside its south wall; a fitted wide pair otherwise moves behind the wall.
+    if(groups.length>1)company.camera.position.set(0,2.4,2.35);
+    else company.camera.position.copy(target).add(company.camera.position.clone().set(.6,1.1,1.7));
+    company.camera.lookAt(target);company.camera.updateMatrixWorld();company.drawHostFrame();
   });}
   const names=['圆几：圆台面与柱架底座','方几：柜体与固定门把手','套几：两张独立落地的高低桌','低茶几：长方台面与四腿系杆'];
   for(let i=0;i<4;i++){await page.evaluate(i=>company.showAppearanceSample('side-table',i),i);await step('look-'+(i+1),names[i]+'。台面花瓶保持原位置。');}
