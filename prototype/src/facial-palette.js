@@ -3,6 +3,8 @@ import {facialPaletteContract} from './facial-palette-contract.js';
 import {createSurfaceLayers} from './surface-layers.js';
 import {validateSurfaceSelection} from './surface-layer-compositor.js';
 import {assertAppearanceColorSelection} from './appearance-color-policy.js';
+import {nativePaletteContract} from './native-palette-catalog.js';
+import {createNativeFacialPalette} from './native-facial-palette.js';
 const IRIS_COLOR_OPERATION = 'neutral-iris-multiply-v3';
 
 export const EYE_COLORS = { original: null, brown: '#916138', blue: '#507fa9', green: '#5e8b60', violet: '#8b63a6' };
@@ -13,6 +15,8 @@ const digest = async bytes => [...new Uint8Array(await crypto.subtle.digest('SHA
 /** Masked, per-instance texture variants. Iris pupil and lip-exterior pixels
  * are authored protection regions, not a whole-material color multiplier. */
 export function createFacialPalette({ vrm, avatarSha256 }) {
+  const native=nativePaletteContract(avatarSha256);
+  if(native)return createNativeFacialPalette({vrm,avatarSha256,contract:native});
   const paletteContract=facialPaletteContract(avatarSha256);
   const surfaces=createSurfaceLayers({avatarSha256});
   let surfaceLayers=[],wantedSurface=[];

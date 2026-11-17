@@ -49,3 +49,5 @@
 - 当前独立发型接缝源码/CPU/独审已封：native-hair-attachment-runtime-v11、native-hair-v3-independent-v1，生产3文件a19e/fab97/b9af。原生2材质/59动态骨独立包已stage；正在从确切提交建native-hair-fixed-v1并做真实换发、原源同镜头、完整动作和关页恢复。未替4196，未声称视觉或家具接触通过。源23文件hash已核，所有失败保留；下一独立准备为原生配色生产入口只读核查，不抢Studio/GPU。
 
 - 最新独立发型已从1f6a3148构建416b做真实换发/冷恢复/房间与近景两段35秒1×动作、原源同镜头材质对照。c272仅补native-production观看入口，全部运行源码/资源/锁文件与416b逐字相同（source-comparison.json），保录像原身份不改标。原片、局限见native-hair-room-416b-v1/README.md。CPU不重做；下一主包为原生双虹膜绿单色制作：asset_budget已实际MCP保存冷开导出且恢复窗口，CPU差异与提取进行中，尚未runtime接入/放开颜色准入。
+
+当前接续（优先于上文历史过程）：iris原生制作/独立PNG staging/runtime/CPU独审已完成，root核7源码与manifest SHA一致；待exact-commit实际WebGL/冷恢复/12s表情录像，然后发布4196。hair cost已封跨批次开发机短测，普通机仍缺。已核远端b09e5f3be3f7cbd61ea9baf0021cd2a125e547f5，回执native-hair-release-c272-v1/remote-backup.json。下一独立制作原生男发色+眉色单样件，asset_budget复用sol/high后台MCP，不占GPU。

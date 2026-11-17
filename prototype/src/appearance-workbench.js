@@ -3,6 +3,9 @@ import {queryAppearanceCandidates} from './appearance-candidates.js';
 import {HAIRSTYLES} from './hairstyle-catalog.js';
 import {FOUNDATION_PROFILES} from './foundation-profiles.js';
 import {REPRESENTATIVE_PRESETS} from './representative-batch.js';
+import {appearanceColorPresets} from './appearance-color-policy.js';
+import {HAIR_COLORS,SKIN_TONES} from './character-appearance.js';
+import {EYE_COLORS,LIP_COLORS} from './facial-palette.js';
 import earManifest from '../public/assets/m2-paired-ear-accessory-v1/manifest.json' with {type:'json'};
 import hatFit from '../public/assets/m2-hat-hair-v1/fit.json' with {type:'json'};
 // DOM binding only: appearance ownership and camera framing stay in the controller.
@@ -41,6 +44,8 @@ export function bindAppearanceWorkbench({ controller }) {
   const skin = panel.querySelector('#appearance-skin-tone');
   const eye = panel.querySelector('#appearance-eye-color');
   const lip = panel.querySelector('#appearance-lip-color');
+  const colorFields=[[hair,'hairColor',HAIR_COLORS],[skin,'skinTone',SKIN_TONES],[eye,'eyeColor',EYE_COLORS],[lip,'lipColor',LIP_COLORS]];
+  const colorLabels={original:'原色',black:'黑色',brown:'棕色',blonde:'金色',warm:'暖色',deep:'深色',blue:'蓝色',green:'绿色',violet:'紫色',rose:'玫瑰色',coral:'珊瑚色',mauve:'豆沙色'};
   const colorNote = panel.querySelector('#appearance-face-color-note');
   const note = panel.querySelector('#appearance-style-note');
   const geometryPanel=document.createElement('details');
@@ -350,20 +355,20 @@ export function bindAppearanceWorkbench({ controller }) {
       const option=document.createElement('option');option.value=id;option.textContent=label+' · 当前样件待适配';option.disabled=true;return option;
     }));
     style.value = actual.hairStyle;
-    hair.value = actual.hairColor;
-    skin.value = actual.skinTone;
     const previewSupport=actor().config?.previewAppearanceSupport;
-    hair.disabled=previewSupport?.hairColor===false;
-    skin.disabled=previewSupport?.skinTone===false;
-    eye.disabled = previewSupport?.eyeColor===false || typeof actual.eyeColor !== 'string';
-    lip.disabled = previewSupport?.lipColor===false || typeof actual.lipColor !== 'string';
-    eye.value = actual.eyeColor || 'original';
-    lip.value = actual.lipColor || 'original';
+    for(const [select,field,presets] of colorFields){
+      const choices=appearanceColorPresets(actor().profile.sha256,field,presets);
+      select.replaceChildren(...Object.keys(choices).map(value=>{
+        const option=document.createElement('option');option.value=value;option.textContent=colorLabels[value]||value;return option;
+      }));
+      select.value=actual[field]||'original';
+      select.disabled=previewSupport?.[field]===false||Object.keys(choices).length<2||typeof actual[field]!=='string';
+    }
     colorNote.textContent = [
-      eye.disabled ? '此人物瞳色暂不可用。' : '瞳色调整虹膜，保留瞳孔与高光。',
+      eye.disabled ? '此人物瞳色暂不可用。' : previewSupport ? '原生虹膜配色样件；眼白与独立高光保留。' : '瞳色调整虹膜，保留瞳孔与高光。',
       lip.disabled ? '此人物唇色暂不可用。' : '唇色可独立选择。',
     ].join('');
-    note.textContent = actual.bodyMode==='base' ? (actual.effectiveHairStyle==='none'?'基础人体当前无发；返回穿衣模式后恢复所选发型。':'此候选的基础模式保留当前发型与皮肤材质，用于检查卸衣后的真实身体。') : previewSupport ? (options.some(option=>!['original','none'].includes(option.id))?'原生发型替换为技术验证候选；配色仍未适配。可切回原发型对照。':'原生接入候选：目前检查原外观与独立换装。发型替换及配色尚待此基模验证。') : unavailable.length ? '标注“待适配”的发型已有素材，但尚未验证当前脸型或身体；可用项可直接选择。' : '当前列出的发型可用于此样件；无发保留眉毛与睫毛。';
+    note.textContent = actual.bodyMode==='base' ? (actual.effectiveHairStyle==='none'?'基础人体当前无发；返回穿衣模式后恢复所选发型。':'此候选的基础模式保留当前发型与皮肤材质，用于检查卸衣后的真实身体。') : previewSupport ? (options.some(option=>!['original','none'].includes(option.id))?'原生发型为技术候选，可切回原发型对照；配色仅开放此人物已接入的选项。':'原生接入候选：目前检查原外观与独立换装。发型替换及配色尚待此基模验证。') : unavailable.length ? '标注“待适配”的发型已有素材，但尚未验证当前脸型或身体；可用项可直接选择。' : '当前列出的发型可用于此样件；无发保留眉毛与睫毛。';
     const geometry=actor().facialGeometry?.getState();
     mouth.disabled=!geometry?.available;mouth.value=String(Math.round((geometry?.mouthWidth||0)*1000)/10);
     const discrete=Array.isArray(geometry?.mouthSupportedValues);

@@ -1,0 +1,59 @@
+{
+  "request": {
+    "method": "tools/call",
+    "params": {
+      "name": "vroid_get_params",
+      "arguments": {
+        "group": "93fa56369c96fd5eb2a56810c5bd1537228ead1b.transferablegroup"
+      }
+    }
+  },
+  "responses": [
+    {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": {
+        "protocolVersion": "2025-06-18",
+        "capabilities": {
+          "tools": {},
+          "prompts": {},
+          "resources": {}
+        },
+        "serverInfo": {
+          "name": "vroid-studio",
+          "version": "0.15.0"
+        },
+        "instructions": "VRoid Studio MCP. Tool names and arguments are English. Call vroid_help('overview') before a complex task; vroid_help supports lang=en|fr|ja|zh-CN. VRoid Studio must be running with the bridge loaded. Only one model can be open at a time. Call vroid_status first. Save before vroid_main_menu, vroid_open or vroid_create. For visual work, use vroid_screenshot. For preset discovery, use vroid_preset_cache_search before applying presets. For sequences, use vroid_batch (up to 200 sequential operations, no automatic rollback). Do not assume that one preset replaces only one slot: whole outfits can replace several slots; verify with vroid_list_groups. Thumbnail generation strips all clothes, underwear and hair except the tested item. An English Agent Reference is exposed as MCP resources: vroid://agent/reference (full), plus vroid://agent/start, face, hairstyle, body, outfit, accessories, look, physical, presets, tools, workflows and troubleshooting. Read only the section needed; tools/list stays the authoritative schema list. MCP prompts: start (open a working session), character (build a character from a description), export_vrm (full/balanced/light VRM export), help. Reply in the user's language; never overwrite the user's .vroid file or discard changes without asking."
+      }
+    },
+    {
+      "jsonrpc": "2.0",
+      "id": 2,
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "[\n {\n  \"key\": \"Level3Iris_EyeIrisScaleXMag\",\n  \"paramKey\": \"Level3Iris_EyeIrisScaleXMag\",\n  \"kind\": \"bone\",\n  \"value\": 0\n },\n {\n  \"key\": \"Level3Iris_EyeIrisScaleXShrink\",\n  \"paramKey\": \"Level3Iris_EyeIrisScaleXShrink\",\n  \"kind\": \"bone\",\n  \"value\": 0\n },\n {\n  \"key\": \"Level3Iris_EyeIrisScaleYMag\",\n  \"paramKey\": \"Level3Iris_EyeIrisScaleYMag\",\n  \"kind\": \"bone\",\n  \"value\": 0\n },\n {\n  \"key\": \"Level3Iris_EyeIrisScaleYShrink\",\n  \"paramKey\": \"Level3Iris_EyeIrisScaleYShrink\",\n  \"kind\": \"bone\",\n  \"value\": 0\n },\n {\n  \"key\": \"Level3Iris_GazeUpward\",\n  \"paramKey\": \"Level3Iris_GazeUpward\",\n  \"kind\": \"bone\",\n  \"value\": 0\n },\n {\n  \"key\": \"Level3Iris_GazeDownward\",\n  \"paramKey\": \"Level3Iris_GazeDownward\",\n  \"kind\": \"bone\",\n  \"value\": 0\n },\n {\n  \"key\": \"Level3Iris_GazeInside\",\n  \"paramKey\": \"Level3Iris_GazeInside\",\n  \"kind\": \"bone\",\n  \"value\": 0\n },\n {\n  \"key\": \"Level3Iris_GazeOutside\",\n  \"paramKey\": \"Level3Iris_GazeOutside\",\n  \"kind\": \"bone\",\n  \"value\": 0\n },\n {\n  \"key\": \"Level3Iris_MaterialColor\",\n  \"paramKey\": \"Level3Iris_MaterialColor\",\n  \"kind\": \"color\",\n  \"value\": {\n   \"r\": 1,\n   \"g\": 1,\n   \"b\": 1,\n   \"a\": 1\n  }\n },\n {\n  \"key\": \"Level3Iris_MaterialShadeColor\",\n  \"paramKey\": \"Level3Iris_MaterialShadeColor\",\n  \"kind\": \"color\",\n  \"value\": {\n   \"r\": 1,\n   \"g\": 1,\n   \"b\": 1,\n   \"a\": 1\n  }\n },\n {\n  \"key\": \"Level3Iris_MaterialEmissionColor\",\n  \"paramKey\": \"Level3Iris_MaterialEmissionColor\",\n  \"kind\": \"color\",\n  \"value\": {\n   \"r\": 0,\n   \"g\": 0,\n   \"b\": 0,\n   \"a\": 1\n  }\n },\n {\n  \"key\": \"Level3Iris_MaterialOutlineColor\",\n  \"paramKey\": \"Level3Iris_MaterialOutlineColor\",\n  \"kind\": \"color\",\n  \"value\": {\n   \"r\": 0.27450982,\n   \"g\": 0.09019608,\n   \"b\": 0.1254902,\n   \"a\": 1\n  }\n },\n {\n  \"key\": \"Level3Iris_LeftOverlayColor\",\n  \"paramKey\": \"Level3Iris_LeftOverlayColor\",\n  \"kind\": \"color\",\n  \"value\": {\n   \"r\": 0.30980393,\n   \"g\": 0.47843137,\n   \"b\": 0.2901961,\n   \"a\": 1\n  }\n },\n {\n  \"key\": \"Level3Iris_RightOverlayColor\",\n  \"paramKey\": \"Level3Iris_RightOverlayColor\",\n  \"kind\": \"color\",\n  \"value\": {\n   \"r\": 0.30980393,\n   \"g\": 0.47843137,\n   \"b\": 0.2901961,\n   \"a\": 1\n  }\n }\n]"
+          }
+        ],
+        "isError": false
+      }
+    }
+  ],
+  "wallSeconds": 0.1711862999945879,
+  "exitCode": 0,
+  "stderr": "",
+  "images": [],
+  "ok": true,
+  "failures": [],
+  "rawStdout": {
+    "path": "09-iris-after.json.stdout.bin",
+    "bytes": 4041,
+    "sha256": "6babe7f5fccc3413972d36e2801904b9c47e353fe20ab421fe5cdd8871f613e9"
+  },
+  "rawStderr": {
+    "path": "09-iris-after.json.stderr.bin",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

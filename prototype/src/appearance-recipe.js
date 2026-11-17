@@ -3,7 +3,7 @@ import {ACCESSORY_SCHEMA,ACCESSORY_RULES,captureAccessories,validateAccessories,
 import {validateHairSelection} from './hair-fit-contract.js';
 import {HAIR_COLORS,SKIN_TONES} from './character-appearance.js';
 import {EYE_COLORS,LIP_COLORS} from './facial-palette.js';
-import {facialPaletteContract,compatiblePaletteVersions,LEGACY_FACIAL_PALETTE_VERSION as LEGACY_PALETTE} from './facial-palette-contract.js';
+import {facialPaletteContract,compatiblePaletteVersions,assertPaletteRecipeVersion,LEGACY_FACIAL_PALETTE_VERSION as LEGACY_PALETTE} from './facial-palette-contract.js';
 import {resolveFacialGeometrySelection,appearanceAdmissionError} from './facial-geometry-selection.js';
 import {SURFACE_LAYER_PACKAGE} from './surface-layer-catalog.js';
 import {validateSurfaceSelection} from './surface-layer-compositor.js';
@@ -71,6 +71,7 @@ export function validateAppearanceRecipe(controller,record){
  for(const [key,choices] of [['hairColor',HAIR_COLORS],['skinTone',SKIN_TONES],['eyeColor',EYE_COLORS],['lipColor',LIP_COLORS]])
   if(!Object.hasOwn(choices,record.appearance[key]))throw appearanceAdmissionError('appearance.'+key,'unsupported-value','未知配色：'+key);
  assertAppearanceColorSelection(a.profile.sha256,record.appearance);
+ assertPaletteRecipeVersion(a.profile.sha256,record.paletteVersion,record.appearance);
  resolveFacialGeometrySelection(a.profile.sha256,{
   mouthWidth:record.geometry?.mouthWidth,recipeSha256:record.geometry?.recipeSha256,
   browSample:legacy?'none':record.geometry?.browSample,browRecipeSha256:legacy?null:record.geometry?.browRecipeSha256,

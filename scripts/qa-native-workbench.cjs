@@ -16,7 +16,7 @@ if(!directory||!output)throw Error('Pass fixed dist and new evidence directory')
     return JSON.stringify({colors:[state.hairColor,state.skinTone,state.eyeColor,state.lipColor],revision:state.revision,materials});
    };
    const before=snapshot(),checks=[];
-   for(const [field,value] of Object.entries({hairColor:'brown',skinTone:'deep',eyeColor:'green',lipColor:'rose'})){
+   for(const [field,value] of Object.entries({hairColor:'brown',skinTone:'deep',eyeColor:actor.profile.bodyType==='native-male-7586-v1'?'blue':'green',lipColor:'rose'})){
     const record=structuredClone(query.defaultRecipe);record.appearance[field]=value;
     const admitted=__debug.admitAppearanceCandidate(record),direct=await domain.set({[field]:value});
     let importRejected=false;try{await __debug.importAppearanceRecipe(JSON.stringify(record));}catch{importRejected=true;}
@@ -25,7 +25,7 @@ if(!directory||!output)throw Error('Pass fixed dist and new evidence directory')
    const original=await __debug.importAppearanceRecipe(__debug.exportAppearanceRecipe());
    return{bodyType:actor.profile.bodyType,checks,original};
   });
-  for(const check of result.checks){assert.deepEqual(check.choices,['original']);assert.equal(check.admitted.accepted,false);assert.equal(check.direct.applied,false);assert.equal(check.importRejected,true);assert.equal(check.unchanged,true);}
+  for(const check of result.checks){assert.deepEqual(check.choices,result.bodyType==='native-male-7586-v1'&&check.field==='eyeColor'?['original','green']:['original']);assert.equal(check.admitted.accepted,false);assert.equal(check.direct.applied,false);assert.equal(check.importRejected,true);assert.equal(check.unchanged,true);}
   assert.equal(result.original.applied,true);(report.colorAdmission??=[]).push(result);
  }
  try{
@@ -66,7 +66,8 @@ if(!directory||!output)throw Error('Pass fixed dist and new evidence directory')
   await page.waitForFunction(()=>__debug.avatar()?.profile.bodyType==='native-male-7586-v1'&&!document.querySelector('#appearance-body').disabled,null,{timeout:60000});
   assert.equal(await page.evaluate(()=>__debug.avatar().profile.sha256),'7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81');
   await checkNativeColorAdmission();
-  for(const id of ['appearance-hair-color','appearance-skin-tone','appearance-eye-color','appearance-lip-color'])assert(await page.locator('#'+id).isDisabled(),id);
+  for(const id of ['appearance-hair-color','appearance-skin-tone','appearance-lip-color'])assert(await page.locator('#'+id).isDisabled(),id);
+  assert.equal(await page.locator('#appearance-eye-color').isDisabled(),false);
   await page.evaluate(()=>{__debug.setPaused(true);__debug.camera('inspect-full-front');});
   await page.screenshot({path:path.join(out,'native-male-workbench.png')});
   report.checks.push('native male candidate has its own source and unvalidated palette stays disabled');
@@ -75,7 +76,7 @@ if(!directory||!output)throw Error('Pass fixed dist and new evidence directory')
   assert.equal(navigations,0);assert.equal(await page.evaluate(()=>window.workbenchDocumentIdentity),documentIdentity);report.checks.push('male and female group switch remains in page');
   const legacyColors=await page.evaluate(async()=>{
    const q=__debug.queryAppearanceCandidates(),a=__debug.avatar().appearance;
-   const changed=await a.set({hairColor:'brown',skinTone:'warm',eyeColor:'green',lipColor:'rose'});
+   const changed=await a.set({hairColor:'brown',skinTone:'warm',eyeColor:actor.profile.bodyType==='native-male-7586-v1'?'blue':'green',lipColor:'rose'});
    const state=a.getState();const restored=await a.set({reset:true});
    return{choices:Object.fromEntries(['hairColor','skinTone','eyeColor','lipColor'].map(k=>[k,q.appearance[k].choices.length])),changed,colors:[state.hairColor,state.skinTone,state.eyeColor,state.lipColor],restored};
   });
@@ -84,10 +85,10 @@ if(!directory||!output)throw Error('Pass fixed dist and new evidence directory')
   await page.goto(url+'/native-production.html');
   assert.equal(await page.locator('a[href*="body=native-female-843ac-v1"]').count(),2);
   assert.equal(await page.locator('a[href*="body=native-male-7586-v1"]').count(),2);
-  assert.equal(await page.locator('[data-native-chain]').count(),7);
+  assert.equal(await page.locator('[data-native-chain]').count(),8);
   assert((await page.locator('[data-factory-video]').getAttribute('src')).includes('7871-v2'));
   report.media=[];
-  for(let i=0;i<7;i++){
+  for(let i=0;i<8;i++){
    const result=await page.locator('[data-native-chain]').nth(i).evaluate(async video=>{
     video.muted=true;await video.play();await new Promise(r=>setTimeout(r,400));video.pause();
     return{src:video.src,time:video.currentTime,duration:video.duration,rate:video.playbackRate,width:video.videoWidth};

@@ -1,0 +1,9 @@
+{
+  "checks": [
+    "Actual PNG prepared invisibly, synchronous map/shade swap, unchanged MToon/sampler/alpha, reset and stale commit",
+    "Two actors own different mutable textures/bitmaps; own resources dispose once and borrowed source is retained",
+    "Actual source pixels, UV sampler, material mapping and resource SHA reject before changes; failed fetch can retry",
+    "New original wins over delayed green; dispose during fetch cannot publish or resurrect textures"
+  ],
+  "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 'original'\n- 'green'\n\n    at file:///F:/gamemake/scripts/qa-native-iris-palette.mjs:138:75"
+}

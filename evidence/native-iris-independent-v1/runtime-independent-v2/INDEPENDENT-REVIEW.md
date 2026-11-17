@@ -1,0 +1,30 @@
+# 原生虹膜运行事务独审
+
+固定 CPU 事务检查通过。测试实际加载 7586 VRM 的 MToon 虹膜材质与 staging PNG，使用 Pillow/CPU bitmap fixture，未用 GPU/WebGL，因此不计视觉验收。
+
+- First prepare leaves source map/shade and display unchanged; commit swaps both map and shade.
+- A delayed green request is superseded by original; pending disposal cannot publish.
+- Two actors receive distinct cloned textures/bitmap sources; disposing one retains borrowed source and second actor.
+- Corrupt source PNG, sampler, material mapping and SHA fail before visible changes; retry succeeds.
+- Native 7586 accepts green only; female/blue/lip/skin/hair unsupported. Native and legacy old palette versions accept original recovery but old-version green is rejected.
+
+{
+  "runtimeSHA": {
+    "native-facial-palette.js": "69bdf51e307c268da1633461ce3a38e39a23c27289c6d6021e3af9e2028b1433",
+    "native-palette-catalog.js": "c99eb3a011aff92d836f5215c5decec3ba11ae9d283b241cd71f1f4d9423626c",
+    "facial-palette.js": "253d5b1f0bdbff59eea7cb4c6275a946d94ef25edada84f8552bb381146c6350",
+    "facial-palette-contract.js": "aaa02f60c6049169b5e1c41906bb88a76d1445c4face37b5258bb7a5a94ffaf0",
+    "appearance-color-policy.js": "3d0bcdf67f17c696eb893335450367d1d033b6c4fbdffdd28d153383e8285069",
+    "appearance-candidates.js": "de477320541b5cb0dee440c820f9513ae6dfa440c2917e1e4a838ff99599c4fc",
+    "appearance-recipe.js": "128c3306a96279ed88aef50a134fe703d1c0d2e4f1863f134d561eac5792bfe4"
+  },
+  "manifestSHA": "909f1c8699d2dd0338854090dc4f534273e33a78d1c00c3f470eb2ff826d8b7a",
+  "checks": [
+    "Actual PNG prepared invisibly, synchronous map/shade swap, unchanged MToon/sampler/alpha, reset and stale commit",
+    "Two actors own different mutable textures/bitmaps; own resources dispose once and borrowed source is retained",
+    "Actual source pixels, UV sampler, material mapping and resource SHA reject before changes; failed fetch can retry",
+    "New original wins over delayed green; dispose during fetch cannot publish or resurrect textures",
+    "Actual query/recipe/new version green applies and captures; both legacy original-only versions restore, old-version green rejects; other native colors stay closed"
+  ],
+  "limits": "Actual native GLB/material and PNG bytes decoded by Pillow. Canvas/bitmap CPU transport fixture, no real browser premultiply/color conversion/WebGL or visual proof. Native original image/dimensions/encoded target identity independently pinned."
+}

@@ -1,4 +1,5 @@
-// Exact native sources currently have original-color evidence only. Existing
+import {nativePaletteContract} from './native-palette-catalog.js';
+// Native sources expose only their separately registered baked colors. Existing
 // source families retain their prior color presets and resource preparation.
 const originalOnly = Object.freeze({hairColor:false,skinTone:false,eyeColor:false,lipColor:false});
 const sourcePolicies = Object.freeze({
@@ -8,14 +9,26 @@ const sourcePolicies = Object.freeze({
 const labels = {hairColor:'发色',skinTone:'肤色',eyeColor:'瞳色',lipColor:'唇色'};
 
 export function appearanceColorSupport(avatarSha256) {
-  return {hairColor:true,skinTone:true,eyeColor:true,lipColor:true,...sourcePolicies[avatarSha256]};
+  const support={hairColor:true,skinTone:true,eyeColor:true,lipColor:true,...sourcePolicies[avatarSha256]};
+  for(const [field,values] of Object.entries(nativePaletteContract(avatarSha256)?.colors??{}))
+    support[field]=Object.keys(values).some(value=>value!=='original');
+  return support;
+}
+
+export function appearanceColorPresets(avatarSha256,field,presets) {
+  const native=nativePaletteContract(avatarSha256)?.colors[field];
+  if(native)return {...native};
+  return appearanceColorSupport(avatarSha256)[field]?{...presets}:{original:null};
 }
 
 export function assertAppearanceColorSelection(avatarSha256, selection) {
   const support = appearanceColorSupport(avatarSha256);
+  const nativeColors=nativePaletteContract(avatarSha256)?.colors;
   for (const field of Object.keys(labels)) {
-    if (selection[field] == null || selection[field] === 'original' || support[field]) continue;
-    const error = new Error(`当前基模的${labels[field]}尚未适配，仅支持原色；当前外观未改变`);
+    if (selection[field] == null || selection[field] === 'original') continue;
+    if(nativeColors?.[field]?Object.hasOwn(nativeColors[field],selection[field]):support[field])continue;
+    const reason=nativeColors?.[field]?'仅支持已登记的原生配色':'仅支持原色';
+    const error = new Error(`当前基模的${labels[field]}尚未适配，${reason}；当前外观未改变`);
     error.field = `appearance.${field}`;
     error.code = 'unsupported-resource';
     throw error;
