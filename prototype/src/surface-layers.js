@@ -53,7 +53,7 @@ export function createSurfaceLayers({avatarSha256, packageIdentity=SURFACE_LAYER
     selection=validateSurfaceSelection(selection);
     if(expectedManifest!==undefined)check(expectedManifest===(selection.length?packageIdentity?.sha256:null),'Surface recipe manifest mismatch');
     check(!disposed,'Surface owner disposed');
-    const textures=new Set();let live=true;
+    const textures=new Set();const previousTextures=currentTextures;const previousSelection=structuredClone(current);let live=true,committed=false,rolledBack=false,cleaned=false;
     try{
       let result=assignments;
       if(selection.length){
@@ -82,8 +82,9 @@ export function createSurfaceLayers({avatarSha256, packageIdentity=SURFACE_LAYER
       }
       check(!disposed,'Surface owner disposed');
       return {assignments:result,
-        commit(){check(live&&!disposed,'Surface preparation expired');for(const t of currentTextures)t.dispose();currentTextures=textures;current=structuredClone(selection);live=false;},
-        dispose(){if(!live)return;live=false;for(const t of textures)t.dispose();},
+        commit(){check(live&&!disposed,'Surface preparation expired');currentTextures=textures;current=structuredClone(selection);live=false;committed=true;},
+        rollback(){if(!committed||disposed||rolledBack)return{applied:false};currentTextures=previousTextures;current=previousSelection;committed=false;rolledBack=true;return{applied:true};},
+        dispose(){if(cleaned)return;cleaned=true;live=false;let failure;for(const t of committed?previousTextures:textures)try{t.dispose();}catch(e){failure??=e;}if(failure)throw failure;},
       };
     }catch(error){for(const t of textures)t.dispose();throw error;}
   }

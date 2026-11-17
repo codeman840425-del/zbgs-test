@@ -281,7 +281,12 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
         for(const material of hair){const base=originals.get(material);neutralTexture(base.map);neutralTexture(base.shadeMap);}
         for(const value of replacements.values())for(const base of value.materialBase.values()){neutralTexture(base.map);neutralTexture(base.shadeMap);}
       }
-      let live=true;
+      const previous={hairStyle,hairColor,skinTone,replacement,materials:new Map()};
+      const remember=material=>{if(!previous.materials.has(material))previous.materials.set(material,{map:material.map,shadeMap:material.shadeMultiplyTexture,color:material.color?.clone(),shade:material.shadeColorFactor?.clone()});};
+      for(const material of [...originals.keys()])remember(material);
+      for(const value of replacements.values())for(const material of value.materialBase.keys())remember(material);
+      const restoreAppearance=()=>{for(const [material,state] of previous.materials){material.map=state.map;if('shadeMultiplyTexture' in material)material.shadeMultiplyTexture=state.shadeMap;if(state.color&&material.color)material.color.copy(state.color);if(state.shade&&material.shadeColorFactor)material.shadeColorFactor.copy(state.shade);material.needsUpdate=true;}hairStyle=previous.hairStyle;hairColor=previous.hairColor;skinTone=previous.skinTone;replacement=previous.replacement;applyHairVisibility();};
+      let live=true,committed=false,rolledBack=false,cleaned=false;
       const update={
         isCurrent:()=>live&&!disposed&&revision===requestRevision&&paletteUpdate.isCurrent()&&(!eyebrowUpdate||eyebrowUpdate.isCurrent()),
         applyStyleIntent,
@@ -293,15 +298,19 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
           commit(){
             assertAccessoryTransactionCommit(accessoryTransaction,vrm);
             update.validateCommit();
-          eyebrowUpdate?.commit();
-          try { paletteUpdate.commit(); }
-          catch(error) { eyebrowUpdate?.rollback?.(); throw error; }
-          if(changeStyle){hairStyle=desiredStyle;replacement=replacements.get(desiredStyle)||null;}
-          hairColor=desiredColor;skinTone=desiredSkin;applyColors();applyHairVisibility();
-          loading=false;live=false;pendingUpdates.delete(update);return{applied:true};
+          try {
+            eyebrowUpdate?.commit(); paletteUpdate.commit();
+            if(changeStyle){hairStyle=desiredStyle;replacement=replacements.get(desiredStyle)||null;}
+            hairColor=desiredColor;skinTone=desiredSkin;applyColors();applyHairVisibility();
+            loading=false;live=false;committed=true;pendingUpdates.delete(update);return{applied:true};
+          } catch(error) { eyebrowUpdate?.rollback?.(); paletteUpdate.rollback?.(); restoreAppearance(); throw error; }
+        },
+        rollback(){
+          if(!committed||disposed||rolledBack)return{applied:false};
+          eyebrowUpdate?.rollback?.();paletteUpdate.rollback?.();restoreAppearance();committed=false;rolledBack=true;pendingUpdates.delete(update);loading=false;return{applied:true};
         },
         dispose(){
-          if(!live)return;live=false;pendingUpdates.delete(update);paletteUpdate.dispose();eyebrowUpdate?.dispose();
+          if(cleaned)return;cleaned=true;live=false;pendingUpdates.delete(update);try{paletteUpdate.dispose();}finally{eyebrowUpdate?.dispose();}
           if(revision===requestRevision)loading=false;
         },
       };

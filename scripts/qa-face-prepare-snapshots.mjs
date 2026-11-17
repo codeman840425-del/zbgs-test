@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import * as THREE from '../prototype/node_modules/three/build/three.module.js';
 import { createFacialGeometry } from '../prototype/src/facial-geometry.js';
@@ -45,8 +46,13 @@ function fixture(source,geometries=null,shared=false){
 const {pathToFileURL}=await import('node:url');
 const evidence=path.join(root,'evidence/face-prepare-snapshots-v1'),oi=process.argv.indexOf('--out');if(oi<0)throw Error('--out NEW_DIR required');
 const out=path.resolve(root,process.argv[oi+1]);if(fs.existsSync(out))throw Error('Refuse overwrite');fs.mkdirSync(out,{recursive:true});
-const oldBytes=fs.readFileSync(path.join(evidence,'baseline-facial-geometry.js')),profileBytes=fs.readFileSync(path.join(evidence,'baseline-facial-geometry-profiles.js'));
-const baselineText=oldBytes.toString().replace("from 'three'",`from '${pathToFileURL(path.join(root,'prototype/node_modules/three/build/three.module.js')).href}'`).replace("from './facial-geometry-profiles.js'",`from 'data:text/javascript;base64,${profileBytes.toString('base64')}'`);
+const bi=process.argv.indexOf('--baseline-commit'),baselineCommit=bi<0?null:execFileSync('git',['rev-parse',process.argv[bi+1]+'^{commit}'],{cwd:root,encoding:'utf8'}).trim();
+const oldBytes=baselineCommit?execFileSync('git',['show',baselineCommit+':prototype/src/facial-geometry.js'],{cwd:root}):fs.readFileSync(path.join(evidence,'baseline-facial-geometry.js')),
+ profileBytes=fs.readFileSync(path.join(evidence,'baseline-facial-geometry-profiles.js'));
+const withThree=oldBytes.toString().replace("from 'three'",`from '${pathToFileURL(path.join(root,'prototype/node_modules/three/build/three.module.js')).href}'`);
+const baselineText=baselineCommit?withThree.replace(/from '(\.\/[^']+)'/g,(_,file)=>`from '${pathToFileURL(path.resolve(root,'prototype/src',file)).href}'`):
+ withThree.replace("from './facial-geometry-profiles.js'",`from 'data:text/javascript;base64,${profileBytes.toString('base64')}'`);
+fs.writeFileSync(path.join(out,'baseline-identity.json'),JSON.stringify({baselineCommit,sha256:sha(oldBytes)}));
 const {createFacialGeometry:baselineCreate}=await import('data:text/javascript;base64,'+Buffer.from(baselineText).toString('base64'));
 
 const EYE='aperture-width101-v1',BROW='height1-spacing1-v1',NOSE='tip-forward05-v1';

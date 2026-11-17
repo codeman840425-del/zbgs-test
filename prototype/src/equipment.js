@@ -284,13 +284,22 @@ export async function createEquipment({
       if(disposed)throw Error("Equipment adapter is disposed");
       const apply=prepareLoadedEquipmentSet(loaded,manifest.items,ids,avatarSha256);
       const ticket=++setRevision;invalidateSlotRequests();
-      let live=true;
+      const previousVisibility=new Map([...loaded].map(([id,item])=>[id,item.container.visible]));
+      let live=true,committed=false,rolledBack=false;
       const update={
         isCurrent:()=>live&&!disposed&&ticket===setRevision,
         commit(){
           if(!update.isCurrent())throw Error("Equipment preparation is no longer current");
           for(const id of ids){const dependency=shapeDependencies.get(id);if(dependency)dependency.assertCurrentSync();}
-          live=false;return apply();
+          try{const result=apply();committed=true;live=false;return result;}
+          catch(error){for(const [id,visible] of previousVisibility)loaded.get(id).container.visible=visible;throw error;}
+        },
+        rollback(){
+          if(!committed||rolledBack)return;
+          if(disposed)throw Error("Equipment adapter is disposed");
+          for(const [id,visible] of previousVisibility)loaded.get(id).container.visible=visible;
+          setRevision++;invalidateSlotRequests();
+          rolledBack=true;
         },
         dispose(){live=false;},
       };

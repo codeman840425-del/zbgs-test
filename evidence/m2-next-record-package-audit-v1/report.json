@@ -1,0 +1,113 @@
+{
+  "schema": "m2-next-record-package-audit-v1",
+  "recommendedPackage": "CUSTOM-D01/D02 stable native record transport",
+  "currentReusable": {
+    "capture": "prototype/src/appearance-recipe.js captureAppearanceRecipe returns base bodyType/SHA, appearance, geometry identities, hair asset/fit, equipment index/manifest/resources, optional surface/accessories",
+    "validate": "validateAppearanceRecipe checks body, palette/schema, geometry recipe identities, hair fit, exact equipment resources, accessories/surface",
+    "apply": "applyAppearanceRecipe snapshots record, prepares geometry/appearance/equipment/accessories and commits atomically with cancellation/supersession淇濇棫",
+    "fileTransport": "exportAppearanceRecipe compact JSON + 256KiB parser; read/import hooks existing"
+  },
+  "gaps": [
+    {
+      "id": "D01",
+      "confirmed": "No formal stable-role record envelope exists around recipe: identity, recordId/version, producer provenance, source package list, creation/update metadata and schema migration are absent from capture/export.",
+      "minimum": "Add a versioned local record wrapper around unchanged recipe payload, with stable recordId, body/source identity, final recipe SHA, resource list, provenance refs and schema version; atomic temp-write then replace, retain old on failure."
+    },
+    {
+      "id": "D02",
+      "confirmed": "Current recipe can create/apply one loaded actor but no agent-facing create/query/list/save/load/duplicate record API or clean-directory package manifest.",
+      "minimum": "Reuse validate/apply/export/import as the only execution path. Add record-file command/spec that validates exact candidate/base/profile before prepare, then calls existing atomic apply. Return structured rejection for missing resource, body mismatch, schema/version, cancel and stale request."
+    },
+    {
+      "id": "nativeBoundary",
+      "confirmed": "native female face/waist and male/female factory profiles are exact source-specific SHA identities. Native profile colors/hair/fits remain limited and must not inherit historical base capabilities.",
+      "minimum": "Record profile id+body SHA+manifest/coverage SHA and exact equipment resources. Keep producer .vroid/VRM provenance separate from runtime recipe."
+    }
+  ],
+  "verificationInputs": {
+    "nativeFemaleFace": {
+      "bodyType": "native-female-face-v1",
+      "bodySHA": "cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce",
+      "equipmentManifest": "/assets/native-face-factory-v2/equipment.json",
+      "coverageManifest": "9fed8d43beef7149650d84dd6455bfae0a83029bb4a82899118ac93abd56d6a5",
+      "recipe": "original face geometry, original hair/colors, outfit index0"
+    },
+    "nativeFemaleWaist": {
+      "bodyType": "native-female-waist-v1",
+      "bodySHA": "cf1574b243b3eb1d5803928598f62809c30938be67154d3956d346f39fa1ed5",
+      "equipmentManifest": "/assets/native-waist-factory-v1/equipment.json",
+      "recipe": "original hair/colors, exact new three-piece resources"
+    },
+    "existingNativeMale": {
+      "bodyType": "native-male-7586-v1",
+      "bodySHA": "7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81",
+      "recipe": "green iris + brown eyebrow v9 and original hair/body colors"
+    }
+  },
+  "testMatrix": [
+    "new record save/load same recipe bytes and SHA",
+    "duplicate same-body record leaves each actor isolated",
+    "female face/waist and male exact-body mismatch rejects before I/O",
+    "missing equipment/coverage rejects and leaves previous record/appearance",
+    "cancel during prepare leaves prior record",
+    "corrupt/unknown schema/unknown nested field rejects",
+    "close/reopen from clean directory reloads exact resource identities"
+  ],
+  "limits": [
+    "No new record schema implemented in this read-only audit",
+    "No browser/GPU/Studio",
+    "Existing v8/v9 recipe transaction is reused, not duplicated"
+  ],
+  "sourceEvidence": {
+    "files": [
+      {
+        "path": "prototype/src/appearance-recipe.js",
+        "functions": [
+          "captureAppearanceRecipe:21",
+          "validateAppearanceRecipe:41",
+          "applyAppearanceRecipe:99",
+          "exportAppearanceRecipe:186",
+          "readAppearanceRecipeFile:211"
+        ]
+      },
+      {
+        "path": "prototype/src/appearance-candidates.js",
+        "functions": [
+          "queryAppearanceCandidates:44",
+          "admitAppearanceCandidate:79"
+        ]
+      },
+      {
+        "path": "prototype/src/equipment-set.js",
+        "functions": [
+          "resolveEquipmentSet:28",
+          "prepareLoadedEquipmentSet:77"
+        ]
+      },
+      {
+        "path": "prototype/src/m1-equipment.js",
+        "functions": [
+          "createM1Equipment:14",
+          "prepareOutfit:150"
+        ]
+      },
+      {
+        "path": "prototype/src/foundation-profiles.js",
+        "functions": [
+          "foundationProfile:177"
+        ]
+      }
+    ],
+    "contractsRead": [
+      "workbench-appearance-recipe-v6/v7/v8/v9",
+      "equipment exact compatibleAvatarSha256 + manifest/resources",
+      "native body coverage manifests",
+      "native face/waist profile exact body SHA"
+    ]
+  },
+  "staticAdmissionFinding": {
+    "queryAppearanceCandidates": "Can run as CPU/static metadata with actor profile/config/appearance/getEquipmentRecipe. It calls resolveEquipmentSet and performs exact body/resource identity checks without GPU or resource I/O. It is suitable as a record preflight, not as actual VRM load proof.",
+    "admitAppearanceCandidate": "Static candidate validation calls validateAppearanceRecipe and equipment identity before prepare. It does not prove resource bytes or visual fit until apply/loader path.",
+    "crossBodyApply": "validateAppearanceRecipe rejects record.base bodyType/SHA mismatch before apply I/O. resolveEquipmentSet rejects each equipment compatibleAvatarSha256 mismatch. foundationProfile returns a structured profile by exact body key; it does not alias native face/waist to historical female."
+  }
+}

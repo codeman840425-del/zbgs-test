@@ -552,7 +552,16 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender, renderC
         return{applied:false,cancelled:true};
       }
       const nextOwned=reset?new Map():next,previousOwned=owned;
-      let live=true,committed=false,cleaned=false;
+      const previousState={mouthWidth,browSample,noseSample,eyeSample,currentMouth,browPrepared,nosePrepared,eyePrepared,wanted,wantedBrow,wantedNose,wantedEye};
+      let live=true,committed=false,rolledBack=false,cleaned=false;
+      const restoreGeometry=()=>{
+        for(const record of prepared?.records||[])for(const mesh of record.meshes)
+          mesh.geometry=previousOwned.get(record.geometry)||record.renderGeometry;
+        owned=previousOwned;
+        mouthWidth=previousState.mouthWidth;browSample=previousState.browSample;noseSample=previousState.noseSample;eyeSample=previousState.eyeSample;
+        currentMouth=previousState.currentMouth;browPrepared=previousState.browPrepared;nosePrepared=previousState.nosePrepared;eyePrepared=previousState.eyePrepared;
+        wanted=previousState.wanted;wantedBrow=previousState.wantedBrow;wantedNose=previousState.wantedNose;wantedEye=previousState.wantedEye;
+      };
       const update={
         isCurrent:()=>live&&!disposed&&request===generation,
         validateCommit(){
@@ -563,15 +572,18 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender, renderC
           assertAccessoryTransactionCommit(accessoryTransaction,vrm);
           update.validateCommit();
           // Only prepared geometry pointers and final selection change here.
-          if(nextOwned){
-            for(const record of prepared?.records||[])for(const mesh of record.meshes)mesh.geometry=nextOwned.get(record.geometry)||record.renderGeometry;
-            owned=nextOwned;
-          }
+          try { if(nextOwned){ for(const record of prepared?.records||[])for(const mesh of record.meshes)mesh.geometry=nextOwned.get(record.geometry)||record.renderGeometry; owned=nextOwned; } }
+          catch(error){ restoreGeometry(); throw error; }
           mouthWidth=value;browSample=brow;noseSample=nose;eyeSample=eye;
           wanted=value;wantedBrow=brow;wantedNose=nose;wantedEye=eye;
           currentMouth=selected.mouth;browPrepared=selected.brow;nosePrepared=selected.nose;eyePrepared=selected.eye;
           loading=false;live=false;committed=true;pendingUpdates.delete(update);
           return{applied:true};
+        },
+        rollback(){
+          if(!committed||disposed||rolledBack)return{applied:false};
+          restoreGeometry();
+          committed=false;rolledBack=true;pendingUpdates.delete(update);loading=false;return{applied:true};
         },
         dispose(){
           if(cleaned)return;cleaned=true;live=false;pendingUpdates.delete(update);

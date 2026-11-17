@@ -76,21 +76,34 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     let update,textureUpdate,garmentUpdate,equipmentUpdate;
     try{update=coverage?.prepareEquipmentSet(selected);garmentUpdate=garmentCoverage?.prepareEquipmentSet(selected);textureUpdate=textureCoverage?.prepareEquipmentSet(selected);equipmentUpdate=adapter.prepareLoadedSet(selected);}
     catch(error){update?.dispose();textureUpdate?.dispose();garmentUpdate?.dispose();throw error;}
-    const ticket=++revision;let live=true,cleaned=false;
+    const ticket=++revision;let live=true,cleaned=false,committed=false,rolledBack=false;
+    const previousState={outfit,lowerBodyRole,debugBody};
     const prepared={
       isCurrent:()=>live&&!disposed&&ticket===revision&&expectedIntent===intentRevision&&equipmentUpdate.isCurrent()&&(!update||update.isCurrent())&&(!textureUpdate||textureUpdate.isCurrent())&&(!garmentUpdate||garmentUpdate.isCurrent()),
       commit(){
         if(!prepared.isCurrent())throw Error('Outfit preparation is no longer current');
-        const previousTextureIds=textureCoverage?.getInfo().activeIds;
-        textureUpdate?.commit();
-        try{equipmentUpdate.commit();update?.commit();garmentUpdate?.commit();}
-        catch(error){
-          // Native texture publication may succeed before an equipment shape
-          // dependency rejects commit. Restore its last committed mask state.
-          if(textureCoverage){const restore=textureCoverage.prepareEquipmentSet(previousTextureIds);try{restore.commit();}finally{restore.dispose();}}
-          throw error;
+        const committedUpdates=[];
+        try{
+          for(const candidate of [textureUpdate,equipmentUpdate,update,garmentUpdate]){if(candidate)committedUpdates.push(candidate);candidate?.commit();}
         }
-        outfit=nextOutfit;lowerBodyRole=look.bottomRole;debugBody=nextDebugBody;live=false;pendingUpdates.delete(prepared);
+        catch(error){
+          const rollbackErrors=[];
+          for(const candidate of committedUpdates.reverse())try{candidate.rollback?.();}catch(rollbackError){rollbackErrors.push(rollbackError);}
+          if(rollbackErrors.length){
+            const failure=Error('Outfit commit failed and rollback was incomplete: '+rollbackErrors.map(item=>item.message).join('; '));
+            failure.cause=error;failure.rollbackErrors=rollbackErrors;prepared.commitError=failure;throw failure;
+          }
+          prepared.commitError=error;throw error;
+        }
+        outfit=nextOutfit;lowerBodyRole=look.bottomRole;debugBody=nextDebugBody;committed=true;live=false;pendingUpdates.delete(prepared);
+      },
+      rollback(){
+        if(!committed||rolledBack)return;
+        if(cleaned)throw Error('Outfit update already finalized');
+        const errors=[];
+        for(const candidate of [garmentUpdate,update,equipmentUpdate,textureUpdate])try{candidate?.rollback?.();}catch(error){errors.push(error);}
+        outfit=previousState.outfit;lowerBodyRole=previousState.lowerBodyRole;debugBody=previousState.debugBody;rolledBack=true;
+        if(errors.length)throw Error('Outfit rollback failed: '+errors.map(error=>error.message).join('; '));
       },
       dispose(){if(cleaned)return;cleaned=true;live=false;pendingUpdates.delete(prepared);try{equipmentUpdate.dispose();}finally{try{update?.dispose();}finally{try{textureUpdate?.dispose();}finally{garmentUpdate?.dispose();}}}},
     };pendingUpdates.add(prepared);return prepared;

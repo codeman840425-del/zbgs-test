@@ -10,6 +10,16 @@
 <a href="/?workbench=appearance">← 返回角色工作台</a>
 <h1>原生角色制作对照</h1>
 <p>在游戏房间里查看制作结果。男女原生候选已接入共用人物流程、独立换装和外观保存恢复；每组录像保留录制时的构建身份。</p>
+<section id="character-records">
+<h2>整套角色记录 · 关闭后恢复</h2>
+<p>女性改脸样件与男性原生候选：从保存的角色记录重新加载衣服、眼镜和麦克风，再以正常速度讲话。此处验证身份与造型恢复，未增加新的外观样式。</p>
+<div class="pair">
+<figure><figcaption>女性 · 完整记录恢复后 · 1×</figcaption><video controls playsinline preload="none" data-native-chain="m2-character-runtime-fixed-v1/native-female-face-v1-restored-1x.webm" aria-label="女性完整角色记录恢复后正常速度讲话"></video></figure>
+<figure><figcaption>男性 · 完整记录恢复后 · 1×</figcaption><video controls playsinline preload="none" data-native-chain="m2-character-runtime-fixed-v1/native-male-7586-v1-restored-1x.webm" aria-label="男性完整角色记录恢复后正常速度讲话"></video></figure>
+</div>
+<p class="note">录像构建及检查结果保存在本组验证记录中。当前只覆盖所列人物与装备；旧外观配方仍保留原语义，不含麦克风与眼镜。整套角色记录由制作流程保存，不包含正在播放的动作、镜头或经营数据。</p>
+<a data-character-record-report target="_blank" rel="noopener noreferrer">查看本组构建与验证记录</a>
+</section>
 <section id="native-features">
 <h2>原生人物 · 麦克风、眼镜与完整舞蹈</h2>
 <p>女性原生、改脸、改腰和男性原生候选已补接眼镜与握麦数据。仍使用同一套人物动作与道具控制，讲话时举麦，停止讲话后放低携带。</p>
@@ -164,6 +174,7 @@
 const base=new URL('/evidence/vroid-expression-study-v1/',location.href);base.port='4174';
 const url=path=>new URL(path,base).href;
 const chainBase=new URL('/evidence/',location.href);chainBase.port='4174';
+document.querySelector('[data-character-record-report]').href=new URL('m2-character-runtime-fixed-v1/report.json',chainBase).href;
 document.querySelectorAll('[data-native-chain]').forEach(video=>{video.src=new URL(video.dataset.nativeChain,chainBase).href;video.addEventListener('play',()=>{video.playbackRate=1;});});
 document.querySelectorAll('[data-hair-reference]').forEach(img=>{img.src=new URL('native-hair-reference-5db-v2/'+img.dataset.hairReference,chainBase).href;});
 document.querySelectorAll('[data-iris-image]').forEach(img=>{img.src=new URL('native-iris-room-v2/'+img.dataset.irisImage,chainBase).href;});

@@ -50,3 +50,14 @@ python scripts/production/qa-flow.py
 源或工具缺失时，入口指出具体文件；源hash不符时先区分合法未发布编辑与损坏，保留编辑，不自动覆盖。GLB hash、clip、骨或权重失败时保留候选目录和日志，不替换运行版本。批量脚本中途失败可能已经写出部分文件，应在隔离 worktree 中检查声明的 `writes` 范围，只回退本次生成文件，不删除原编辑源或用户修改。确认源/输出配对后，再跑对应阶段及只读回读，最后由负责人建立新固定构建和真实回读/视觉证据。
 
 CLI 不创建隔离工作区、不做发布、不更新能力状态；它把现有入口与危险边界统一展示，后续真正源修改→导出→重开→接入→完整动作验证仍需逐项执行。
+
+
+## 独立角色记录接缝（D01）
+
+在已加载的对应人物上，agent调用 `__debug.captureCharacterRecord({identity:{id,name,gender}})` 保存完整记录；同基模可以保存多个不同ID。`__debug.restoreCharacterRecord(record)` 走共用外观/服装/道具prepare与同步提交，不直接写骨骼。输入来自已保存JSON也可以使用字符串。更新使用 `captureCharacterRecord({previous,expectedRevision})`，保留身份并递增revision。当前恢复要求已选择相同bodyType与SHA；不支持记录自动跨身体替换，也不把它说成完整游戏加载闭环已完成。
+
+文件端 `scripts/character-record-store.mjs` 导出 `putCharacterRecord(absoluteRoot,record,{expectedRevision,validateResources})`、`readCharacterRecord`、`listCharacterRecords`；保留运行时导出的envelope而不重造时间戳。结构校验callback只返回pending，真实准入由游戏restore检查当前manifest及实际准备的资源/fit。CLI `list --root ABSOLUTE`、`validate --root ABSOLUTE --id ID`只做文件查询/结构hash校验，不声称已运行。磁盘同ID锁与CAS防覆盖；锁超时不自动夺锁，异常残锁由agent确认没有持有者后维护。
+
+记录额外保留liveAccessories（mic/glasses启用状态、资源SHA、身体适配SHA、握麦使用配置）与派生资源身份清单。修改或伪造fit内部版本即使重算record SHA，仍须通过实际资源准备的一致性比较。旧appearance配方保持原语义，不自动增加道具。早期未发布source-only character-record缺liveAccessories时runtime拒绝保旧，不默认清空装备。数据不含动作时间、讲话状态、摄像机、收益或账号。
+
+验证入口 `node scripts/run-fixed-check.cjs FIXED_DIST scripts/qa-character-runtime-record.cjs NEW_EVIDENCE_DIR`：两具原生体实际装备→独立记录/磁盘保存→关页回读→实际恢复→1倍速讲话、错误hash、错误fit、503、最后域提交异常与重试；旧控制器的回归见qa-whole-look-transaction.mjs。技术通过范围仅以CAPABILITIES和对应build报告为准。

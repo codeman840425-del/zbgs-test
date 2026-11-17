@@ -58,12 +58,12 @@ async function fixture(){
   const facialGeometry=createFacialGeometry({vrm,avatarSha256:cfg.sha256});
   const adapter=equipment.getAssetProfile().equipment;
   const actor={profile:{bodyType:'male',sha256:cfg.sha256},config:cfg,appearance,facialGeometry,
-    getEquipmentRecipe:index=>Object.fromEntries(outfitSelection(cfg,index).roles.map(role=>[role,structuredClone(adapter.get(cfg.ids[role]).entry)]))};
+    getEquipmentRecipe:index=>Object.fromEntries(outfitSelection(cfg,index).roles.map(role=>[role,adapter.describe(cfg.ids[role])]))};
   const controller={actor,outfit:0,outfitRevision:0,
-    command(cmd){equipment.setOutfit(cmd.value);this.outfit=cmd.value;this.outfitRevision++;},
-    prepareOutfit(value){const update=equipment.prepareOutfit(value),revision=this.outfitRevision;return{
+    async command(cmd){const update=await this.prepareOutfit(cmd.value);try{update.commit();}finally{update.dispose();}},
+    async prepareOutfit(value){const revision=this.outfitRevision,previous=this.outfit,update=await equipment.prepareOutfit(value);return{
       isCurrent:()=>this.outfitRevision===revision&&update.isCurrent(),
-      commit:()=>{update.commit();this.outfit=value;this.outfitRevision++;},dispose:()=>update.dispose()};}};
+      commit:()=>{update.commit();this.outfit=value;this.outfitRevision++;},rollback:()=>{update.rollback();this.outfit=previous;this.outfitRevision++;},dispose:()=>update.dispose()};}};
   const visibleState=()=>{
     const face=facialGeometry.getState(),color=appearance.getState(),positions=[];
     vrm.scene.traverse(mesh=>{if(mesh.isMesh&&/_Face_/.test(mesh.material?.name))positions.push(createHash('sha256').update(mesh.geometry.attributes.position.array).digest('hex'));});
@@ -168,13 +168,23 @@ try{
       assert.deepEqual(f.visibleState(),before);f.controller.prepareOutfit=prepare;
       assert((await applyAppearanceRecipe(f.controller,target(f))).applied);
     });
+    await check('failure after outfit commit restores changed face hair color outfit and source buffers',async()=>{
+      const f=await fixture(),before=f.snapshot(),prepare=f.controller.prepareOutfit.bind(f.controller);
+      f.controller.prepareOutfit=async value=>{const update=await prepare(value),commit=update.commit;
+        update.commit=()=>{commit();throw Error('injected after outfit commit');};return update;};
+      await assert.rejects(applyAppearanceRecipe(f.controller,target(f)),/先前外观已恢复/);
+      assert.deepEqual(f.snapshot(),before);
+      f.controller.prepareOutfit=prepare;
+      assert((await applyAppearanceRecipe(f.controller,target(f))).applied);
+      assert.equal(f.actor.facialGeometry.getState().mouthWidth,.04);
+    });
     for(const domain of ['color','geometry','outfit','recipe','actor','dispose'])await check('newer '+domain+' cancels old whole request without overwriting its choice',async()=>{
       const f=await fixture(),record=target(f),before=f.visibleState(),gate=hold(entry.manifestUrl);
       const pending=applyAppearanceRecipe(f.controller,record);await gate.started;
       assert.deepEqual(f.visibleState(),before);
       if(domain==='color')await f.actor.appearance.set({hairColor:'blonde'});
       if(domain==='geometry')await f.actor.facialGeometry.set({mouthWidth:-.04});
-      if(domain==='outfit')f.controller.command({type:'outfit',value:4});
+      if(domain==='outfit')await f.controller.command({type:'outfit',value:4});
       if(domain==='recipe'){
         const newer=structuredClone(record);newer.geometry.mouthWidth=-.04;
         newer.appearance.hairStyle='original';newer.hairAssetSha256=null;newer.hairFit=null;

@@ -1,0 +1,24 @@
+{
+  "schema": "m2-equipment-transaction-v1",
+  "scope": [
+    "prototype/src/m1-equipment.js",
+    "prototype/src/equipment.js",
+    "prototype/src/body-coverage.js",
+    "prototype/src/body-texture-coverage.js",
+    "prototype/src/garment-coverage.js"
+  ],
+  "contract": {
+    "prepareOutfit": "Stages equipment visibility, body geometry masks, native texture coverage and garment coverage without changing the committed outfit.",
+    "commit": "Commits domains in order and records each successful domain.",
+    "rollback": "Restores committed domains in reverse order and restores outfit/debug state.",
+    "dispose": "Releases superseded staged geometry after commit or candidate geometry after rollback."
+  },
+  "test": {
+    "file": "prototype/src/equipment.transaction.test.mjs",
+    "command": "node --test src/equipment.transaction.test.mjs",
+    "passed": 1,
+    "failed": 0,
+    "case": "body coverage remains reversible after injected later-domain failure"
+  },
+  "runtime_limit": "The focused test exercises the shared body-mask rollback owner. Browser/game integration and full multi-domain outfit smoke remain with the fixed candidate owner."
+}

@@ -158,8 +158,8 @@ export async function createBodyCoverageSet({ body, avatarSha256, bindings }) {
           geometry.addGroup(prefix[g.start/3],prefix[(g.start+g.count)/3]-prefix[g.start/3],g.materialIndex);
       }
     } catch (error) { for (const geometry of prepared.values()) geometry.dispose(); throw error; }
-    const previousOwned=owned;
-    let committed=false,cleaned=false;
+    const previousOwned=owned,previousActiveIds=activeIds.slice(),previousGeometry=new Map([...sources].map(([mesh])=>[mesh,mesh.geometry]));
+    let committed=false,rolledBack=false,cleaned=false;
     const update = {
       isCurrent:()=>pending.has(update)&&!disposed&&preparedRevision===revision,
       commit() {
@@ -173,9 +173,16 @@ export async function createBodyCoverageSet({ body, avatarSha256, bindings }) {
         activeIds = next;
         revision++;
       },
+      rollback() {
+        if (!committed || rolledBack) return;
+        if (cleaned) throw Error("Body coverage update already finalized");
+        for (const [mesh, geometry] of previousGeometry) mesh.geometry = geometry;
+        owned=previousOwned; activeIds=previousActiveIds; revision++;
+        rolledBack=true;
+      },
       dispose() {
         if(cleaned)return;cleaned=true;pending.delete(update);
-        const released=committed?(unchanged?null:previousOwned):prepared;
+        const released=committed?(rolledBack?prepared:(unchanged?null:previousOwned)):prepared;
         let failure;
         for(const geometry of released?.values()||[])try{geometry.dispose();}catch(error){failure??=error;}
         released?.clear();

@@ -11,6 +11,7 @@ import { createBehaviorTasks } from "./behavior-tasks.js";
 import { createSeatLeases } from "./seat-lease.js";
 import { bindAppearanceWorkbench } from "./appearance-workbench.js";
 import { exportAppearanceRecipe, importAppearanceRecipe } from "./appearance-recipe.js";
+import {captureRuntimeCharacterRecord,restoreRuntimeCharacterRecord} from './character-runtime-record.js';
 import {queryAppearanceCandidates,admitAppearanceCandidate} from './appearance-candidates.js';
 import "./style.css";
 
@@ -1329,10 +1330,12 @@ class CharacterScene extends Phaser.Scene {
   }
   async prepareOutfit(n) {
     const selection=Number(n),actor=this.actor,revision=this.outfitRevision||0;
+    const previousOutfit=this.outfit;
     const update=await actor.prepareOutfit(selection);
     return{
       isCurrent:()=>this.actor===actor&&(this.outfitRevision||0)===revision&&update.isCurrent(),
       commit:()=>{update.commit();this.outfit=selection;this.outfitRevision=revision+1;},
+      rollback:()=>{update.rollback();this.outfit=previousOutfit;this.outfitRevision=(this.outfitRevision||0)+1;},
       dispose:()=>update.dispose(),
     };
   }
@@ -1997,6 +2000,8 @@ window.__debug = {
   command: emit,
   exportAppearanceRecipe: () => exportAppearanceRecipe(controller),
   importAppearanceRecipe: text => importAppearanceRecipe(controller, text),
+  captureCharacterRecord: options => captureRuntimeCharacterRecord(controller,options),
+  restoreCharacterRecord: record => restoreRuntimeCharacterRecord(controller,record),
   queryAppearanceCandidates: () => queryAppearanceCandidates(controller),
   admitAppearanceCandidate: record => admitAppearanceCandidate(controller,record),
   snapshot,
@@ -2142,6 +2147,16 @@ function syncFoundationControls(a) {
 function bindFoundationControls(a) {
   if (!a.config) return;
   syncFoundationControls(a);
+  controller.game.events.on('appearance-state-changed',({actor}={})=>{
+    if(actor!==controller.actor)return;
+    for(const [kind,label] of [['mic','麦克风'],['glasses','眼镜']]){
+      const state=actor.livePresentation.getState().accessories[kind];
+      const button=document.querySelector(`[data-accessory-kind="${kind}"]`);
+      const status=document.querySelector(`[data-accessory-status="${kind}"]`);
+      if(button)button.textContent=(state.requested?'卸下':'装备')+label;
+      if(status)status.textContent=state.error??'';
+    }
+  });
   const row = document.createElement("div"); row.className = "debug-row foundation-actions";
   for (const [bodyType, label] of [["female", "女性候选"], ["male", "男性候选"]]) {
     const link = document.createElement("a");

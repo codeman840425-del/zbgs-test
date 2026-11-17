@@ -1,0 +1,173 @@
+{
+  "baselineSHA": "b4b6aa8061b6492cb9ce8659c7e08e09ea3faba5aeecedeb87e5b7f4323ed0ae",
+  "candidateSHA": "6b921a452ba81771ef5d7e81018abd764746861b2a002eb5b3c3c7f0b04d16e3",
+  "scope": "All attribute and every expression POSITION/NORMAL full buffers byte-equal, including inactive primitives; real F/M/jaw, shared and independent attribute fixtures. No GPU/heap/performance claims.",
+  "results": [
+    {
+      "sex": "female",
+      "shared": false,
+      "sourceSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+      "scenarios": 29,
+      "allSourceAndOutputBuffersByteIdentical": true
+    },
+    {
+      "sex": "female",
+      "shared": true,
+      "sourceSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+      "scenarios": 29,
+      "allSourceAndOutputBuffersByteIdentical": true
+    },
+    {
+      "sex": "male",
+      "shared": false,
+      "sourceSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+      "scenarios": 29,
+      "allSourceAndOutputBuffersByteIdentical": true
+    },
+    {
+      "sex": "male",
+      "shared": true,
+      "sourceSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+      "scenarios": 29,
+      "allSourceAndOutputBuffersByteIdentical": true
+    },
+    {
+      "sex": "jaw",
+      "shared": false,
+      "sourceSha256": "25ac8a8174110d7b0a6bb290ac8cab66ad6939ea522f80cdef62571d2ab24153",
+      "scenarios": 2,
+      "allSourceAndOutputBuffersByteIdentical": true
+    },
+    {
+      "sex": "jaw",
+      "shared": true,
+      "sourceSha256": "25ac8a8174110d7b0a6bb290ac8cab66ad6939ea522f80cdef62571d2ab24153",
+      "scenarios": 2,
+      "allSourceAndOutputBuffersByteIdentical": true
+    }
+  ],
+  "failures": [
+    {
+      "sex": "female",
+      "mode": "position",
+      "reason": "五官源属性身份不匹配：F00_000_00_EyeWhite_00_EYE",
+      "passed": true
+    },
+    {
+      "sex": "female",
+      "mode": "uv",
+      "reason": "五官源属性身份不匹配：F00_000_00_EyeWhite_00_EYE",
+      "passed": true
+    },
+    {
+      "sex": "female",
+      "mode": "index",
+      "reason": "五官源属性身份不匹配：F00_000_00_EyeWhite_00_EYE",
+      "passed": true
+    },
+    {
+      "sex": "female",
+      "mode": "morph",
+      "reason": "五官primitive表情缓冲不一致",
+      "passed": true
+    },
+    {
+      "sex": "female",
+      "mode": "morphNaN",
+      "reason": "口型数据非有限",
+      "passed": true
+    },
+    {
+      "sex": "female",
+      "mode": "expectedSHA",
+      "reason": "嘴宽配方登记身份不匹配",
+      "passed": true
+    },
+    {
+      "sex": "female",
+      "mode": "interleaved-offset",
+      "reason": "五官源属性身份不匹配：F00_000_00_EyeWhite_00_EYE",
+      "passed": true
+    },
+    {
+      "sex": "jaw",
+      "mode": "position",
+      "reason": "五官源属性身份不匹配：M00_000_00_FaceMouth_00_FACE",
+      "passed": true
+    },
+    {
+      "sex": "jaw",
+      "mode": "uv",
+      "reason": "五官源属性身份不匹配：M00_000_00_FaceMouth_00_FACE",
+      "passed": true
+    },
+    {
+      "sex": "jaw",
+      "mode": "index",
+      "reason": "五官源属性身份不匹配：M00_000_00_FaceMouth_00_FACE",
+      "passed": true
+    },
+    {
+      "sex": "jaw",
+      "mode": "morph",
+      "reason": "派生嘴宽表情身份不匹配",
+      "passed": true
+    },
+    {
+      "sex": "jaw",
+      "mode": "morphNaN",
+      "reason": "口型数据非有限",
+      "passed": true
+    },
+    {
+      "sex": "jaw",
+      "mode": "normal",
+      "reason": "派生嘴宽原法线身份不匹配",
+      "passed": true
+    },
+    {
+      "sex": "jaw",
+      "mode": "interleaved-offset",
+      "reason": "五官源属性身份不匹配：M00_000_00_FaceMouth_00_FACE",
+      "passed": true
+    }
+  ],
+  "lifecycle": [
+    {
+      "case": "failure-retry-fresh-transaction-rechecks-previously-valid-source",
+      "passed": true
+    },
+    {
+      "case": "reset-pending",
+      "passed": true
+    },
+    {
+      "case": "dispose-pending",
+      "passed": true
+    },
+    {
+      "case": "newer-brow",
+      "passed": true
+    },
+    {
+      "case": "prepare-failure",
+      "passed": true
+    }
+  ],
+  "reads": [
+    {
+      "shared": false,
+      "uniqueSourceAttributes": 531,
+      "firstActorReads": 3209109,
+      "secondActorReads": 3209109,
+      "noCrossActorCache": true
+    },
+    {
+      "shared": true,
+      "uniqueSourceAttributes": 67,
+      "firstActorReads": 364989,
+      "secondActorReads": 364989,
+      "noCrossActorCache": true
+    }
+  ]
+}

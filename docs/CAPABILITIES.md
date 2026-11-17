@@ -439,3 +439,6 @@ a378→c64逐文件核查仅index说明、grip manifest及新男v3profile变化�
 
 
 原生旧功能候选发布：4196固定07bab15f3382/source06c416b3。native-feature-release-ui-07b-v1真实UI与22媒体播放通过，native-feature-live-07b-v1原female+四native均实际mic/glasses on、loaded且无case错误；不是全部新体功能通过。07b仅观看HTML改变，实录runtime/resources与c64相同（native-feature-release-v1/final-build-reuse.json）。原色/其他附件限制、局部接触和人工自然度待验保留。下一共同缺口仍是整套记录包含live道具、实际资源身份及失败保旧恢复，源模块不等于已集成。
+
+
+D01整套角色记录候选在制：共用runtime新增独立identity/revision、完整appearanceRecipe+liveAccessories、实际资源引用清单、捕获/恢复与磁盘CAS回读。开发构建ddae9f3eaebd在m2-character-runtime-dev-v3两源（女改脸cc0843、男7586）实际关闭重开、持麦眼镜恢复、503/错误fit/最后域提交异常回滚/重试通过，1×9秒片保留；不是固定发布或全部身体通过。旧控制器m2-record-whole-look-cpu-v3 19组包括面部/发型/颜色/服装后域失败回滚；m2-record-face-current-regression-v1相对7d48源全属性/形态缓冲保持、14拒绝与5生命周期检查通过。旧baseline缺新fields导致的夹具失败和agent无效rollback v1–v3证据保留，不能算通过。原生旧功能公开07b不受此源码在制影响；固定构建验证后才更新入口。记录恢复暂要求已加载相同身体，旧配方不含live道具的语义不变；自动跨身体消费、完整传递依赖打包仍未完成。

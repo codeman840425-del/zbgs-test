@@ -1,5 +1,5 @@
 import {Matrix3,Vector3} from 'three';
-import registry from './glasses-temple-fit-manifest.json';
+import registry from './glasses-temple-fit-manifest.json' with {type:'json'};
 const hash=async bytes=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(x=>x.toString(16).padStart(2,'0')).join('');
 export function validateTempleProfile(p,bodySHA,accessorySHA){
  if(p?.schema!=='m1.glasses-temple-fit.1'||p.bodySHA256!==bodySHA||p.accessorySHA256!==accessorySHA||!Array.isArray(p.controls)||p.controls.length!==2)return false;

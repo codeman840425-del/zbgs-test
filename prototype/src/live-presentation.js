@@ -79,13 +79,14 @@ export function createLivePresentation({vrm,root,bodyType='female',avatarSha256=
  const eyeLocal=head.worldToLocal(eyeAnchor.clone());
  const fit={glassesForward,glassesUp:0,glassesScale:clamp(eyeSpacing/.064,.8,1.5),micScale:1,eyeFitMethod};
  const mount=new THREE.Group();mount.name='LivePresentation:'+bodyType;root.add(mount);
- const slots=Object.fromEntries(Object.keys(IDS).map(k=>[k,{version:0,requested:false,object:null,abort:null,error:null,status:'off',entry:null}]));
+  const slots=Object.fromEntries(Object.keys(IDS).map(k=>[k,{version:0,requested:false,object:null,abort:null,pending:null,error:null,status:'off',entry:null,identity:null}]));
  let manifestPromise=null,gripProfile=null,disposed=false,time=0,preset='neutral',speaking=false,gaze=null,currentAction='idle',holdWeight=0,talkHoldWeight=0,armMetrics=null;
  const oldLookAt=vrm.lookAt?{autoUpdate:vrm.lookAt.autoUpdate,target:vrm.lookAt.target}:null;
  if(vrm.lookAt){vrm.lookAt.autoUpdate=false;vrm.lookAt.target=null;}
  const facialKeys=['happy','aa','ih','ou','ee','oh','blink'];
  const eyeBlinkCompatibility=createEyeBlinkCompatibility({vrm,avatarSha256});
- function canPerform(action){return action==='dance'&&slots.mic.requested?{allowed:false,reason:'持麦舞蹈尚未制作；请先卸下麦克风。'}:{allowed:true};}
+  const micRequestedOrPreparing=()=>slots.mic.requested||Boolean(slots.mic.pending?.desired);
+  function canPerform(action){return action==='dance'&&micRequestedOrPreparing()?{allowed:false,reason:'持麦舞蹈尚未制作；请先卸下麦克风。'}:{allowed:true};}
  async function manifest(){
   if(!manifestPromise)manifestPromise=fetch('/assets/m1c/accessories.json',{cache:'no-store'}).then(async response=>{if(!response.ok)throw Error('Accessory manifest HTTP '+response.status);const data=await response.json();if(data.schema!=='zbgs-accessory-candidate-v1'||!Array.isArray(data.items))throw Error('Unsupported accessory manifest');return data;}).catch(e=>{manifestPromise=null;throw e;});
   return manifestPromise;
@@ -108,29 +109,142 @@ export function createLivePresentation({vrm,root,bodyType='female',avatarSha256=
   for(const values of [profile.micRawHandLocal.quaternion,...Object.values(profile.normalizedFingerRotations)])if(Math.abs(Math.hypot(...values)-1)>1e-4)throw Error('Grip quaternion is not normalized');
   return {...profile,sha256:hash};
  }
- async function setAccessory(kind,value){
-  if(disposed)throw Error('Live presentation disposed');const slot=slots[kind];if(!slot)throw Error('Unknown accessory '+kind);
-  const desired=Boolean(value);
-  if(kind==='mic'&&desired&&greeting.busy())return{applied:false,reason:'招手与持麦组合尚未验证，请等待招手结束。'};
-  if(kind==='mic'&&desired&&currentAction==='dance')return{applied:false,reason:'持麦舞蹈尚未制作；请先停止舞蹈。'};
-  if(desired&&slot.object&&slot.requested)return{applied:true,cached:true};
-  const version=++slot.version;slot.abort?.abort();slot.abort=null;slot.requested=desired;slot.error=null;
-  if(!desired){disposeObject(slot.object);slot.object=null;slot.entry=null;slot.status='off';return{applied:true};}
-  slot.status='loading';const controller=new AbortController();slot.abort=controller;let object;
-  try{
-   if(kind==='mic'){const profile=await loadGrip(controller.signal);if(disposed||version!==slot.version)return{applied:false,cancelled:true};gripProfile=profile;}
-   const data=await manifest();if(disposed||version!==slot.version)return{applied:false,cancelled:true};
-   const entry=data.items.find(x=>x.id===IDS[kind]);if(!entry||!Number.isInteger(entry.bytes)||!/^([a-f0-9]{64})$/.test(entry.sha256))throw Error('Invalid accessory identity');
-   if(kind==='mic'&&entry.sha256!==gripProfile.compatibleAccessorySha256)throw Error('Microphone version does not match fitted grip profile');
-   const response=await fetch(entry.url,{signal:controller.signal});if(!response.ok)throw Error('Accessory HTTP '+response.status);const bytes=await response.arrayBuffer();
-   const hash=[...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(x=>x.toString(16).padStart(2,'0')).join('');if(bytes.byteLength!==entry.bytes||hash!==entry.sha256)throw Error('Accessory integrity check failed: '+entry.id);
-   const gltf=await new GLTFLoader().parseAsync(bytes,new URL('.',new URL(entry.url,window.location.href)).href);object=gltf.scene;object.name='LiveAccessory:'+kind;
-   if(kind==='glasses'&&new URLSearchParams(location.search).get('glassesFit')!=='legacy'){object.userData.templeFit=await fitGlassesTemples(object,{bodySHA256:avatarSha256,accessorySHA256:hash,signal:controller.signal});}
-   if(disposed||version!==slot.version){disposeObject(object);return{applied:false,cancelled:true};}
-   object.traverse(o=>{if(o.isMesh){o.castShadow=true;o.frustumCulled=false;}});disposeObject(slot.object);slot.object=object;slot.entry=entry;mount.add(object);slot.status='on';postUpdate();return{applied:true,sha256:hash};
-  }catch(e){if(object&&object!==slot.object)disposeObject(object);if(disposed||version!==slot.version||e.name==='AbortError')return{applied:false,cancelled:true};slot.error=String(e.message||e);slot.status='error';slot.requested=false;throw e;}
-  finally{if(version===slot.version)slot.abort=null;}
- }
+  function slotSettledStatus(slot){return slot.object&&slot.requested?'on':'off';}
+  function accessoryRestriction(kind,desired){
+   if(kind!=='mic'||!desired)return null;
+   if(greeting.busy())return'招手与持麦组合尚未验证，请等待招手结束。';
+   if(currentAction==='dance')return'持麦舞蹈尚未制作；请先停止舞蹈。';
+   return null;
+  }
+  function assertAccessoryIdentity(candidate){
+   const identity=candidate.identity,entry=candidate.entry;
+   if(!identity||identity.bodySHA256!==avatarSha256||identity.accessorySHA256!==entry.sha256)
+    throw Error('Live accessory body/resource identity mismatch');
+   if(candidate.kind==='mic'){
+    const profile=candidate.profile;
+    if(!profile||profile.compatibleAvatarSha256!==avatarSha256||profile.compatibleAccessorySha256!==entry.sha256||
+      identity.fit?.id!==profile.id||identity.fit?.sha256!==profile.sha256||identity.fit?.fitVersion!==profile.fitVersion)
+      throw Error('Microphone grip identity mismatch');
+   }else if(candidate.kind==='glasses'){
+    const fit=identity.fit;
+    if(!fit||fit.bodySHA256!==avatarSha256||fit.accessorySHA256!==entry.sha256||!fit.id)
+      throw Error('Glasses fit identity mismatch');
+   }
+  }
+  /** Prepare one live prop without touching the currently committed prop or pose. */
+  async function prepareAccessory(kind,value){
+   if(disposed)throw Error('Live presentation disposed');
+   const slot=slots[kind];if(!slot)throw Error('Unknown accessory '+kind);
+   const desired=Boolean(value),restriction=accessoryRestriction(kind,desired);
+   if(restriction)return{applied:false,reason:restriction};
+   // A newer intent cancels only an older uncommitted preparation. Mounted
+   // objects stay untouched until the returned transaction commits.
+   slot.pending?.release?.();
+   const version=++slot.version,controller=new AbortController();
+   const candidate={kind,desired,version,controller,object:null,profile:null,entry:null,identity:null,cached:false,live:true,committed:false,finalized:false,commitError:null,finalize:()=>{},rollback:null};
+   slot.pending=candidate;slot.abort=controller;slot.error=null;slot.status='loading';
+   candidate.isCurrent=()=>candidate.live&&!disposed&&slot.version===version&&slot.pending===candidate;
+   candidate.ensureCurrent=()=>{if(!candidate.isCurrent())throw new DOMException('Stale live accessory preparation','AbortError');};
+   candidate.release=()=>{
+    if(candidate.committed){candidate.finalize();return;}
+    if(!candidate.live)return;
+    candidate.live=false;controller.abort();
+    if(slot.pending===candidate){slot.pending=null;if(slot.abort===controller)slot.abort=null;slot.status=slotSettledStatus(slot);}
+    if(candidate.object){disposeObject(candidate.object);candidate.object=null;}
+   };
+   candidate.rollback=()=>candidate.release();
+   candidate.validateCommit=()=>{
+    if(!candidate.isCurrent())throw Error('Live accessory preparation expired');
+    const recheck=accessoryRestriction(kind,desired);if(recheck)throw Error(recheck);
+    if(desired){assertAccessoryIdentity(candidate);if(!candidate.cached&&!candidate.object)throw Error('Live accessory resource missing');}
+    return true;
+   };
+   candidate.commit=()=>{
+    candidate.validateCommit();
+    const previous=slot.object,previousEntry=slot.entry,previousIdentity=slot.identity,previousRequested=slot.requested,
+      previousError=slot.error,previousGripProfile=gripProfile;
+    candidate.previousState={object:previous,entry:previousEntry,identity:previousIdentity,requested:previousRequested,error:previousError,gripProfile:previousGripProfile};
+    let installedObject=null;
+    try{
+     if(desired){
+      if(!candidate.cached)candidate.object.traverse(o=>{if(o.isMesh){o.castShadow=true;o.frustumCulled=false;}});
+      if(!candidate.cached){slot.object=candidate.object;candidate.object=null;installedObject=slot.object;mount.add(slot.object);}
+      slot.entry=candidate.entry;slot.identity=candidate.identity;slot.requested=true;slot.error=null;slot.status='on';
+      if(kind==='mic'&&!candidate.cached)gripProfile=candidate.profile;
+     }else{
+      slot.object=null;slot.entry=null;slot.identity=null;slot.requested=false;slot.error=null;slot.status='off';
+     }
+     postUpdate();
+    }
+    catch(error){
+     if(installedObject){installedObject.removeFromParent();disposeObject(installedObject);installedObject=null;}
+     else if(!candidate.cached&&candidate.object){disposeObject(candidate.object);candidate.object=null;}
+     slot.object=previous;slot.entry=previousEntry;slot.identity=previousIdentity;slot.requested=previousRequested;slot.status=slotSettledStatus(slot);slot.error=String(error.message||error)||previousError;gripProfile=previousGripProfile;
+     candidate.commitError=error;
+     candidate.live=false;slot.pending=null;if(slot.abort===controller)slot.abort=null;
+     throw error;
+    }
+    candidate.live=false;candidate.committed=true;slot.pending=null;if(slot.abort===controller)slot.abort=null;
+    candidate.rollback=()=>{
+     if(candidate.finalized)throw Error('Live accessory update already finalized');
+     if(!candidate.committed)return candidate.release();
+     if(!candidate.cached&&slot.object){const failed=slot.object;failed.removeFromParent();disposeObject(failed);}
+     slot.object=previous;slot.entry=previousEntry;slot.identity=previousIdentity;slot.requested=previousRequested;slot.error=previousError;slot.status=slotSettledStatus(slot);gripProfile=previousGripProfile;
+     candidate.committed=false;candidate.finalized=true;
+    };
+    // Keep the old resource until the caller releases the committed update.
+    // This gives a multi-domain coordinator a synchronous rollback window.
+    candidate.finalize=()=>{if(candidate.finalized)return;candidate.finalized=true;if(previous&&previous!==slot.object)disposeObject(previous);};
+    return{applied:true,...(desired?{sha256:candidate.identity.accessorySHA256,identity:structuredClone(candidate.identity),...(candidate.cached?{cached:true}:{})}:{})};
+   };
+   try{
+    if(desired&&slot.object&&slot.requested){
+     candidate.cached=true;candidate.entry=slot.entry;candidate.identity=slot.identity;candidate.profile=kind==='mic'?gripProfile:null;
+     candidate.validateCommit();return candidate;
+    }
+    if(!desired){
+     candidate.entry=slot.entry;
+     candidate.identity=slot.identity??{bodySHA256:avatarSha256,accessorySHA256:slot.entry?.sha256??null,fit:null};
+     return candidate;
+    }
+    if(kind==='mic'){candidate.profile=await loadGrip(controller.signal);candidate.ensureCurrent();}
+    const data=await manifest();candidate.ensureCurrent();
+    const entry=data.items.find(x=>x.id===IDS[kind]);
+    if(!entry||!Number.isInteger(entry.bytes)||!/^[a-f0-9]{64}$/.test(entry.sha256))throw Error('Invalid accessory identity');
+    candidate.entry=entry;
+    if(kind==='mic'&&entry.sha256!==candidate.profile.compatibleAccessorySha256)throw Error('Microphone version does not match fitted grip profile');
+    const response=await fetch(entry.url,{signal:controller.signal});if(!response.ok)throw Error('Accessory HTTP '+response.status);const bytes=await response.arrayBuffer();candidate.ensureCurrent();
+    const hash=[...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(x=>x.toString(16).padStart(2,'0')).join('');
+    if(bytes.byteLength!==entry.bytes||hash!==entry.sha256)throw Error('Accessory integrity check failed: '+entry.id);
+    const gltf=await new GLTFLoader().parseAsync(bytes,new URL('.',new URL(entry.url,window.location.href)).href);
+    // Assign before the freshness check so a parse that completes after an
+    // abort still enters the candidate cleanup path and cannot leak its scene.
+    candidate.object=gltf.scene;candidate.ensureCurrent();candidate.object.name='LiveAccessory:'+kind;
+    let fitIdentity=kind==='mic'?{id:candidate.profile.id,sha256:candidate.profile.sha256,fitVersion:candidate.profile.fitVersion,bodySHA256:avatarSha256,accessorySHA256:hash}:null;
+    if(kind==='glasses'&&new URLSearchParams(location.search).get('glassesFit')!=='legacy'){
+     fitIdentity=await fitGlassesTemples(candidate.object,{bodySHA256:avatarSha256,accessorySHA256:hash,signal:controller.signal});candidate.ensureCurrent();candidate.object.userData.templeFit=fitIdentity;
+    }else if(kind==='glasses'){
+     // Retain the historical diagnostic branch for source-measurement runs.
+     // Production character records require a fitted profile SHA and reject
+     // this explicit legacy identity during record admission.
+     fitIdentity={id:'legacy-glasses-fit-v1',sha256:null,bodySHA256:avatarSha256,accessorySHA256:hash,verified:false};
+     candidate.object.userData.templeFit=fitIdentity;
+    }
+    candidate.identity={bodySHA256:avatarSha256,accessorySHA256:hash,fit:fitIdentity};
+    candidate.ensureCurrent();
+    return candidate;
+   }catch(e){
+    if(candidate.object){disposeObject(candidate.object);candidate.object=null;}
+    if(disposed||!candidate.isCurrent()||e.name==='AbortError'){candidate.release();return{applied:false,cancelled:true};}
+    slot.pending=null;if(slot.abort===controller)slot.abort=null;slot.error=String(e.message||e);slot.status=slotSettledStatus(slot);candidate.live=false;throw e;
+   }
+  }
+  async function setAccessory(kind,value){
+   const update=await prepareAccessory(kind,value);if(!update?.commit)return update;
+   try{update.validateCommit();return update.commit();}
+   catch(e){const restriction=accessoryRestriction(kind,Boolean(value));if(update.commitError)throw update.commitError;if(restriction&&update.isCurrent())return{applied:false,reason:restriction};if(!update.isCurrent())return{applied:false,cancelled:true};throw e;}
+   finally{update.release();}
+  }
  function preUpdate(dt,{action='idle'}={}){
   if(disposed)return;if(!Number.isFinite(dt)||dt<0)throw RangeError('Live dt must be finite and nonnegative');time+=dt;currentAction=action;
   if(!['idle','sit'].includes(action))greeting.cancel({immediate:true});
@@ -193,8 +307,8 @@ export function createLivePresentation({vrm,root,bodyType='female',avatarSha256=
  }
  // Admission and execution share the same real hand-layer readiness. Removing
  // the prop is immediate, but its arm pose still needs to blend out.
- const canStartGreeting=()=>['idle','sit'].includes(currentAction)&&!slots.mic.requested&&holdWeight<=.001;
- return{preUpdate,postUpdate,setAccessory,canPerform,canStartGreeting,
+  const canStartGreeting=()=>['idle','sit'].includes(currentAction)&&!micRequestedOrPreparing()&&holdWeight<=.001;
+  return{preUpdate,postUpdate,setAccessory,prepareAccessory,canPerform,canStartGreeting,
   setEyeBlinkCompatibility:mode=>eyeBlinkCompatibility.setMode(mode),
   refreshEyeBlinkCompatibility(){eyeBlinkCompatibility.update();vrm.expressionManager?.update();return eyeBlinkCompatibility.getState();},
   playGreeting(options){if(!canStartGreeting())return Promise.resolve({started:false,error:'greeting-requires-settled-empty-hand-pose'});return greeting.start(options);},
@@ -203,7 +317,7 @@ export function createLivePresentation({vrm,root,bodyType='female',avatarSha256=
   setExpression(value){if(!['neutral','happy','aa'].includes(value))throw RangeError('Unknown expression');preset=value;},
   setSpeaking(value){speaking=Boolean(value);},
   setGaze(value){if(value==null){gaze=null;return;}const v=Array.isArray(value)?new V(...value):value.clone();if(![v.x,v.y,v.z].every(Number.isFinite))throw TypeError('Finite world gaze target required');gaze=v;},
-  getState(){return{eyeBlinkCompatibility:eyeBlinkCompatibility.getState(),greeting:greeting.getState(),bodyType,avatarSha256,preset,speaking,speakingMode:'procedural-vowel-demo-not-audio-lipsync',time,gaze:gaze?.toArray()??null,action:currentAction,actionSupport:canPerform(currentAction),arm:armMetrics,fit:{...fit,glassesTempleProfile:slots.glasses.object?.userData.templeFit??null,eyeSpacing,armLengths:armLengths.slice(),gripProfile:gripProfile?{id:gripProfile.id,sha256:gripProfile.sha256,compatibleAvatarSha256:gripProfile.compatibleAvatarSha256,compatibleAccessorySha256:gripProfile.compatibleAccessorySha256,fitVersion:gripProfile.fitVersion,method:gripProfile.method}:null,verified:false},accessories:Object.fromEntries(Object.entries(slots).map(([k,s])=>[k,{requested:s.requested,status:s.status,loaded:Boolean(s.object),error:s.error,sha256:s.entry?.sha256??null}]))};},
-  dispose(){if(disposed)return;disposed=true;eyeBlinkCompatibility.dispose();greeting.dispose();for(const s of Object.values(slots)){s.version++;s.abort?.abort();disposeObject(s.object);s.object=null;}for(const f of fingers)if(holdWeight>0&&f.authored)f.bone.quaternion.copy(f.authored);for(const k of facialKeys)vrm.expressionManager?.setValue(k,0);if(vrm.lookAt&&oldLookAt){vrm.lookAt.reset();vrm.lookAt.autoUpdate=oldLookAt.autoUpdate;vrm.lookAt.target=oldLookAt.target;}mount.removeFromParent();},
+   getState(){return{eyeBlinkCompatibility:eyeBlinkCompatibility.getState(),greeting:greeting.getState(),bodyType,avatarSha256,preset,speaking,speakingMode:'procedural-vowel-demo-not-audio-lipsync',time,gaze:gaze?.toArray()??null,action:currentAction,actionSupport:canPerform(currentAction),arm:armMetrics,fit:{...fit,glassesTempleProfile:slots.glasses.object?.userData.templeFit??null,eyeSpacing,armLengths:armLengths.slice(),gripProfile:gripProfile?{id:gripProfile.id,sha256:gripProfile.sha256,compatibleAvatarSha256:gripProfile.compatibleAvatarSha256,compatibleAccessorySha256:gripProfile.compatibleAccessorySha256,fitVersion:gripProfile.fitVersion,method:gripProfile.method}:null,verified:false},accessories:Object.fromEntries(Object.entries(slots).map(([k,s])=>[k,{version:s.version,requested:s.requested,status:s.status,loaded:Boolean(s.object),error:s.error,sha256:s.entry?.sha256??null,identity:s.identity?structuredClone(s.identity):null,pending:s.pending?{desired:s.pending.desired,version:s.pending.version,identity:s.pending.identity?structuredClone(s.pending.identity):null}:null}]))};},
+   dispose(){if(disposed)return;disposed=true;eyeBlinkCompatibility.dispose();greeting.dispose();for(const s of Object.values(slots)){s.version++;s.pending?.release?.();s.pending=null;s.abort?.abort();s.abort=null;disposeObject(s.object);s.object=null;}for(const f of fingers)if(holdWeight>0&&f.authored)f.bone.quaternion.copy(f.authored);for(const k of facialKeys)vrm.expressionManager?.setValue(k,0);if(vrm.lookAt&&oldLookAt){vrm.lookAt.reset();vrm.lookAt.autoUpdate=oldLookAt.autoUpdate;vrm.lookAt.target=oldLookAt.target;}mount.removeFromParent();},
  };
 }

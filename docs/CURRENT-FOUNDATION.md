@@ -2,7 +2,7 @@
 
 ## 版本与入口
 - 项目 F:/gamemake，分支 feat/m1-foundation-room。4196固定公开 build07bab15f3382/source06c416b3e0c99c00d328516c01d90045b4b07b7e；delivery/appearance-workbench.json为准。4174历史媒体，4195封存M1。
-- 本次 git ls-remote 已核远端等于06c416b3；当前发布指针及最终live检查随后提交备份。公司副总工dirty文件不stage。
+- 本次 git ls-remote 已核远端等于7d48ec89207d7efbe67c799a095d10f86cde025c；已包含07b发布指针及最终live检查。公司副总工dirty文件不stage。
 - 固定树 experiments/native-feature-release-fixed-v1/prototype/dist；前版987指针保留于delivery/history。观看 /?workbench=appearance 与 /native-production.html#native-features。
 
 ## 刚完成：原生候选旧功能接入
@@ -15,7 +15,7 @@
 
 ## 当前主工作包与并行
 - 接续M2 D01完整独立角色记录及保存恢复；旧appearance recipe不含live麦克风/眼镜，不能按先配方后道具的部分成功伪称整套原子恢复。
-- live_prop_transaction：显式requested gpt-6.1-sol/xhigh/fork none，complex，修改live-presentation.js及自身测试，实现prepare/validateCommit/commit/release，失败/过期保当前道具。agent仍在做；其dirty源码未进入07b固定发布。
+- live_prop_transaction：显式requested gpt-6.1-sol/xhigh/fork none，complex，修改live-presentation.js及自身测试，实现prepare/validateCommit/commit/release，失败/过期保当前道具。源码已完成；其源码未进入07b固定发布。
 - D01 character-record/store源实现及并发测试尚未集成。Windows锁已改fail-closed，不按mtime夺锁；等待超时store-busy。需要补整套实际资源身份和共用游戏准入/恢复，不能相信调用者随填resourceIdentities。
 - root整合并审实际用户路径；GPU/录屏串行，无桌面接管。agent实际provider与hook拦截未独立证实；记录evidence/subagent-explicit-dispatch-2026-11-16.json。
 
@@ -23,3 +23,8 @@
 - CAPABILITIES为唯一能力事实。完成单包不等于M2完成，依完整v2继续，M3未授权。
 - 原生其他配色/发型/附件/参数仍按query真实准入，不能声称新体全部旧功能恢复。头发落座外扬、白衬衫肤色层次、基础全链/所有速度组合与普通机未验保留。
 - 女裙与旧30秒舞封板不重开；普通电脑无设备，开发机不冒认目标实测。固定提交构建、保原失败证据、禁止git add -A，不stage公司资料。
+
+## 最新开发回读与固定候选准备
+- D01 root接入character-runtime-record/live-accessory-record，core独立记录和store put/CAS实际回读；旧appearance-recipe增live域与逆序rollback。root补齐异常清理，未接受agent曾删除断言的v1结论，失败证据保留。
+- ddae开发版m2-character-runtime-dev-v3男女两源均关闭恢复/完整道具身份/503保旧/错误fit实际拒绝/最后live commit故障整套恢复/重试过。m2-record-whole-look-cpu-v3 19组及face-current-regression全原属性回归过。接下来确切提交独立构建并重跑受影响浏览器路径，检查新增录像，再发布；4196仍07b。
+- 录制旧资源/新记录都不代表任意体型/外观/兼容通过。记录跨基模自动选择与完整依赖导出仍下一接缝，不标M2完成。

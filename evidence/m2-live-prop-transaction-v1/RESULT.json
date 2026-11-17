@@ -1,0 +1,37 @@
+{
+  "schema": "m2-live-prop-transaction-v1",
+  "source": "prototype/src/live-presentation.js",
+  "test": {
+    "file": "prototype/src/live-presentation.transaction.test.mjs",
+    "loader": "prototype/src/live-presentation.test-loader.mjs",
+    "command": "node --experimental-loader ./src/live-presentation.test-loader.mjs --test src/live-presentation.transaction.test.mjs",
+    "passed": 6,
+    "failed": 0,
+    "cases": [
+      "committed prop remains visible until synchronous removal commit",
+      "resource HTTP failure preserves the prior empty committed state and reports error",
+      "microphone candidate carries exact body/accessory/grip identities, rechecks dance admission and disposes on teardown",
+      "latest disable cancels a delayed load without changing the committed record",
+      "later commit failure rolls back its candidate and earlier committed candidate supports explicit rollback",
+      "one-time mount child-added failure restores the empty committed state"
+    ]
+  },
+  "contract": {
+    "prepare": "prepareAccessory(kind, value) loads and validates a private candidate",
+    "validateCommit": "rechecks freshness, current action restrictions and exact body/resource/fit identity",
+    "commit": "synchronous visible swap or removal with postUpdate rollback",
+    "release": "aborts and disposes only the uncommitted candidate"
+  },
+  "identity": [
+    "bodySHA256",
+    "accessorySHA256",
+    "mic grip profile id, sha256 and fitVersion",
+    "glasses temple fit id, sha256, bodySHA256 and accessorySHA256"
+  ],
+  "scope": [
+    "prototype/src/live-presentation.js",
+    "prototype/src/live-presentation.transaction.test.mjs",
+    "prototype/src/live-presentation.test-loader.mjs"
+  ],
+  "runtime_limit": "Tests use a mocked GLTF parser and fetch layer. Browser/game smoke validation remains with the fixed candidate owner."
+}

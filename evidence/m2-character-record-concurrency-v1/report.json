@@ -1,0 +1,47 @@
+{
+  "schema": "character-record-concurrency-test-v1",
+  "status": "passed",
+  "children": {
+    "create": [
+      {
+        "code": 0,
+        "stdout": "{\"ok\":true,\"mode\":\"create\",\"changed\":true,\"revision\":1}",
+        "stderr": ""
+      },
+      {
+        "code": 0,
+        "stdout": "{\"ok\":true,\"mode\":\"create\",\"changed\":false,\"revision\":1}",
+        "stderr": ""
+      }
+    ],
+    "update": [
+      {
+        "code": 0,
+        "stdout": "{\"ok\":true,\"mode\":\"update\",\"changed\":true,\"revision\":2}",
+        "stderr": ""
+      },
+      {
+        "code": 1,
+        "stdout": "",
+        "stderr": "{\"ok\":false,\"code\":\"revision-conflict\",\"message\":\"record revision does not match expectedRevision\"}"
+      }
+    ]
+  },
+  "cases": [
+    "create and validate callback",
+    "same base supports two stable ids",
+    "Windows ADS/device/trailing-character ids rejected",
+    "unsafe filenames omitted from list",
+    "callback required",
+    "update preserves identity and increments revision",
+    "CAS conflict rejected",
+    "repeat create preserves mtime",
+    "different duplicate rejected",
+    "atomic update and corrupted JSON rejection",
+    "CLI-style pending validation explicit",
+    "two child processes create one id without overwrite",
+    "two child processes update one revision with one CAS winner",
+    "stale lock reclaimed after lease timeout",
+    "failed update releases lock and preserves old record"
+  ]
+}

@@ -181,6 +181,7 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
   }
   function preparedUpdate(value,ticket,candidate,hairState) {
     let live=true,committed=false,cleaned=false,previous=null;
+    const previousSelection=selection,previousError=error;
     const current=()=>live && !disposed && ticket===revision;
     const update={
       revision:ticket,
@@ -206,6 +207,13 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
           live=false;committed=true;pendingUpdates.delete(update);committedUpdates.add(update);
           return {applied:true,state:getState()};
         }catch(failure){markFailure(failure,ticket);update.dispose();throw failure;}
+      },
+      rollback(){
+        if(!committed||cleaned)return;
+        if(candidate)candidate.visible=false;
+        active=previous;selection=previousSelection;desired=previousSelection;error=previousError;status='ready';
+        if(previous)previous.visible=bodyMode!=='base';
+        previous=null;committed=false;committedUpdates.delete(update);
       },
       dispose(){
         if(cleaned)return;

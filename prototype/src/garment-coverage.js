@@ -72,8 +72,8 @@ export async function createGarmentCoverage({ inner, outer, descriptor, avatarSh
       for (const group of original.groups)
         prepared.addGroup(prefix[group.start / 3], prefix[(group.start + group.count) / 3] - prefix[group.start / 3], group.materialIndex);
     }
-    const previous = owned;
-    let committed = false, cleaned = false;
+    const previous = owned, previousActive = active, previousGeometry = mesh.geometry;
+    let committed = false, rolledBack = false, cleaned = false;
     const update = {
       isCurrent: () => pending.has(update) && !disposed && preparedRevision === revision,
       commit() {
@@ -83,10 +83,16 @@ export async function createGarmentCoverage({ inner, outer, descriptor, avatarSh
         mesh.geometry = prepared ?? original;
         owned = prepared; active = nextActive; revision++;
       },
+      rollback() {
+        if (!committed || rolledBack) return;
+        if (cleaned) throw Error("Garment coverage update already finalized");
+        mesh.geometry = previousGeometry; owned = previous; active = previousActive; revision++;
+        rolledBack = true;
+      },
       dispose() {
         if (cleaned) return;
         cleaned = true; pending.delete(update);
-        const release = committed ? (unchanged ? null : previous) : prepared;
+        const release = committed ? (rolledBack ? (unchanged ? null : prepared) : (unchanged ? null : previous)) : prepared;
         release?.dispose();
       },
     };

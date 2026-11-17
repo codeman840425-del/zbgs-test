@@ -131,7 +131,9 @@ export async function createBodyTextureCoverage({body, avatarSha256, entries, de
     const nextCovered = selected.some(rule => rule.covered);
     stageMaterials(nextCovered);
     const ticket = ++revision;
-    let live = true;
+    let live = true, committed = false, rolledBack = false;
+    const previousCovered = covered, previousActiveIds = activeIds.slice();
+    let previousMaterials = null;
     const update = {
       isCurrent: () => live && !disposed && ticket === revision && records.every(record =>
         owners.get(record.material) === token && record.material.map === expectedMap(record) &&
@@ -141,6 +143,7 @@ export async function createBodyTextureCoverage({body, avatarSha256, entries, de
         check(update.isCurrent(), 'prepared update superseded or disposed');
         assertLiveState();
         const previous = records.map(record => [record.material.map, record.material.shadeMultiplyTexture]);
+        previousMaterials = previous;
         try {
           for (const record of records) {
             const next = nextCovered ? textures.get(record.map) : record.map;
@@ -157,7 +160,16 @@ export async function createBodyTextureCoverage({body, avatarSha256, entries, de
           });
           live = false; pending.delete(update); throw error;
         }
-        covered = nextCovered; activeIds = [...selectedIds]; live = false; pending.delete(update);
+        covered = nextCovered; activeIds = [...selectedIds]; committed = true; live = false; pending.delete(update);
+      },
+      rollback() {
+        if (!committed || rolledBack) return;
+        if (!previousMaterials) throw Error('Body texture update has no committed snapshot');
+        records.forEach((record, i) => {
+          record.material.map = previousMaterials[i][0]; record.material.shadeMultiplyTexture = previousMaterials[i][1];
+          record.material.needsUpdate = true; record.material.update(0);
+        });
+        covered = previousCovered; activeIds = previousActiveIds; revision++; rolledBack = true;
       },
       dispose() { live = false; pending.delete(update); },
     };

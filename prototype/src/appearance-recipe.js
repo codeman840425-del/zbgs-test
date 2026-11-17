@@ -9,6 +9,7 @@ import {SURFACE_LAYER_PACKAGE} from './surface-layer-catalog.js';
 import {validateSurfaceSelection} from './surface-layer-compositor.js';
 import {assertAppearanceColorSelection} from './appearance-color-policy.js';
 import {nativePaletteContract} from './native-palette-catalog.js';
+import {validateLiveAccessories,assertPreparedLiveAccessory} from './live-accessory-record.js';
 
 export const SCHEMA='workbench-appearance-recipe-v6';
 export const RULES='workbench-appearance-rules-v6';
@@ -96,26 +97,29 @@ export function validateAppearanceRecipe(controller,record){
  if(!['original','none'].includes(style)&&!/^[a-f0-9]{64}$/.test(record.hairAssetSha256||''))throw appearanceAdmissionError('hairAssetSha256','missing-identity','发型资源身份缺失');
  return true;
 }
-export async function applyAppearanceRecipe(controller,record){
+export async function applyAppearanceRecipe(controller,record,{liveAccessories}={}){
  validateAppearanceRecipe(controller,record);
  // Snapshot the requested values before awaiting resource I/O. The caller may
  // reuse its JSON object, but it cannot change an in-flight transaction.
  record=structuredClone(record);
  const actor=controller.actor;
+ if(liveAccessories!==undefined){liveAccessories=structuredClone(liveAccessories);validateLiveAccessories(actor,liveAccessories);}
+ const liveVersions=liveAccessories?Object.fromEntries(Object.entries(actor.livePresentation.getState().accessories).map(([k,s])=>[k,s.version])):null;
  let geometryRevision=actor.facialGeometry.getState().revision;
  let appearanceRevision=actor.appearance.getState().revision;
  const outfitRevision=controller.outfitRevision||0;
  const accessoryVersion=record.schema===ACCESSORY_SCHEMA||(record.schema===NATIVE_SCHEMA&&Object.hasOwn(record,'accessories'));
  const accessoryDomains=[actor.rigidAccessories,actor.headwear].filter(Boolean);
  const accessoryRevisions=new Map(accessoryDomains.map(domain=>[domain,domain.getState().revision]));
- const updates=[],cleanupErrors=[];
+ const updates=[],attemptedCommits=[],cleanupErrors=[];
  const attachmentTransaction=accessoryVersion?createAccessoryTransactionContext(actor,record.accessories):null;
  let commitStarted=false;
  const superseded=()=>controller.actor!==actor||
   actor.facialGeometry.getState().revision!==geometryRevision||
   actor.appearance.getState().revision!==appearanceRevision||
   (controller.outfitRevision||0)!==outfitRevision||
-  accessoryDomains.some(domain=>domain.getState().revision!==accessoryRevisions.get(domain));
+  accessoryDomains.some(domain=>domain.getState().revision!==accessoryRevisions.get(domain))||
+  (liveVersions&&Object.entries(actor.livePresentation.getState().accessories).some(([k,s])=>s.version!==liveVersions[k]));
  const prepare=async(domain,input,options)=>{
   if(superseded())return false;
   const job=domain.prepareUpdate(input,options);
@@ -143,6 +147,19 @@ export async function applyAppearanceRecipe(controller,record){
    if(!await prepare(actor.rigidAccessories,record.accessories.ears.selection))return{applied:false,cancelled:true};
    if(!await prepare(actor.headwear,record.accessories.hat.selection,{hairState:{hairStyle:record.appearance.hairStyle,replacementSHA256:record.hairAssetSha256,hairFit:record.hairFit}}))return{applied:false,cancelled:true};
   }
+  if(liveAccessories){
+   for(const kind of ['mic','glasses']){
+    if(superseded())return{applied:false,cancelled:true};
+    const job=actor.livePresentation.prepareAccessory(kind,liveAccessories.selections[kind].enabled);
+    liveVersions[kind]=actor.livePresentation.getState().accessories[kind].version;
+    const update=await job;
+    if(update.commit)updates.push({isCurrent:()=>update.isCurrent(),validateCommit:()=>update.validateCommit(),
+     commit:()=>update.commit(),rollback:()=>update.rollback(),dispose:()=>update.release()});
+    if(update.cancelled||superseded())return{applied:false,cancelled:true};
+    if(!update.commit)throw Error(update.reason||'道具准备失败');
+    assertPreparedLiveAccessory(kind,update,liveAccessories);
+   }
+  }
   // Every domain checks freshness before the first visible write. Commits only
   // switch prepared resources and state synchronously, with no resource I/O.
   if(superseded()||updates.some(update=>!update.isCurrent()))return{applied:false,cancelled:true};
@@ -151,9 +168,17 @@ export async function applyAppearanceRecipe(controller,record){
   for(const update of updates)update.validateCommit?.();
   attachmentTransaction?.beginCommit();
   commitStarted=true;
-  for(const update of updates)update.commit();
+  for(const update of updates){attemptedCommits.push(update);update.commit();}
  }catch(error){
-  if(commitStarted)throw Error(`造型同步提交失败：${error.message}`);
+  if(commitStarted){
+   const rollbackErrors=[];
+   for(const update of attemptedCommits.reverse()){
+    try{if(typeof update.rollback!=='function')throw Error('该造型域尚无回滚接口');update.rollback();}
+    catch(failure){rollbackErrors.push(failure.message);}
+   }
+   if(rollbackErrors.length)throw Error(`造型提交失败且回滚不完整：${error.message}；${rollbackErrors.join('；')}`);
+   throw Error(`造型提交失败，先前外观已恢复：${error.message}`);
+  }
   if(superseded())return{applied:false,cancelled:true};
   throw Error(`恢复配方失败，先前外观已保留：${error.message}`);
  }finally{

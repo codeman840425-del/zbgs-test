@@ -156,18 +156,28 @@ export function createFacialPalette({ vrm, avatarSha256 }) {
       const lips=preparePart('lips',nextLip,LIP_COLORS,Boolean(nextSurface.length||surfaceLayers.length));
       surfaceUpdate=await surfaces.prepare(lips,nextSurface,input.expectedSurfaceManifestSha256);
       if(disposed||request!==generation){surfaceUpdate.dispose();return{applied:false,cancelled:true};}
-      let live=true;
+      const previous={eyeColor,lipColor,surfaceLayers,records:new Map()};
+      for(const part of Object.values(parts||{}))for(const record of part.records)previous.records.set(record.material,{map:record.material.map,shadeMap:record.material.shadeMultiplyTexture});
+      let live=true,committed=false,rolledBack=false,cleaned=false;
+      const restoreMaterials=()=>{for(const [material,state] of previous.records){material.map=state.map;if('shadeMultiplyTexture' in material)material.shadeMultiplyTexture=state.shadeMap;material.needsUpdate=true;}};
       const update={
         isCurrent:()=>live&&!disposed&&request===generation,
         commit(){
           if(!update.isCurrent())throw Error('五官配色准备已过期');
-          applyPart('iris',nextEye,iris);applyPart('lips',nextLip,surfaceUpdate.assignments);
-          surfaceUpdate.commit();surfaceLayers=nextSurface;wantedSurface=nextSurface;
-          eyeColor=nextEye;lipColor=nextLip;wantedEye=nextEye;wantedLip=nextLip;loading=false;live=false;pendingUpdates.delete(update);
-          return{applied:true};
+          committed=true;
+          try{
+            applyPart('iris',nextEye,iris);applyPart('lips',nextLip,surfaceUpdate.assignments);
+            surfaceUpdate.commit();surfaceLayers=nextSurface;wantedSurface=nextSurface;
+            eyeColor=nextEye;lipColor=nextLip;wantedEye=nextEye;wantedLip=nextLip;loading=false;live=false;pendingUpdates.delete(update);
+            return{applied:true};
+          }catch(error){update.rollback();throw error;}
+        },
+        rollback(){
+          if(!committed||disposed||rolledBack)return{applied:false};
+          restoreMaterials();surfaceUpdate.rollback?.();eyeColor=previous.eyeColor;lipColor=previous.lipColor;surfaceLayers=previous.surfaceLayers;wantedEye=eyeColor;wantedLip=lipColor;wantedSurface=surfaceLayers;committed=false;rolledBack=true;loading=false;return{applied:true};
         },
         dispose(){
-          if(!live)return;live=false;pendingUpdates.delete(update);surfaceUpdate.dispose();
+          if(cleaned)return;cleaned=true;live=false;pendingUpdates.delete(update);surfaceUpdate.dispose();
           if(request===generation){loading=false;wantedEye=eyeColor;wantedLip=lipColor;wantedSurface=surfaceLayers;}
         },
       };

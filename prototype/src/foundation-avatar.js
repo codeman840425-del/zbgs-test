@@ -304,12 +304,14 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     },
     prepareOutfit: async (n) => {
       const {bottomRole}=outfitSelection(config,n);
+      const previousOutfit=outfit,previousRole=lowerBodyRole;
       const update=await equipment.prepareOutfit(n);
       return{
         isCurrent:()=>update.isCurrent(),
         commit:()=>{
           update.commit();outfit=n;lowerBodyRole=bottomRole;
         },
+        rollback:()=>{update.rollback();outfit=previousOutfit;lowerBodyRole=previousRole;},
         dispose:()=>update.dispose(),
       };
     },
