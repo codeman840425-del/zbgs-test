@@ -1,0 +1,35 @@
+台面/层板钟表八款固定交付（2026-11-16）
+源码：18880ef43ba4c3651f57b99a760fe565124a8951
+构建：2dd87df94b61
+固定检出：F:/gamemake-company-supported-clock-fixed-v1
+独立包：F:/gamemake-company-supported-clock-delivery-2dd
+预览：http://127.0.0.1:53088/?sample=analog-clock-shelf&look=0
+数字钟：?sample=digital-clock-shelf&look=0
+
+analog-clock-shelf、digital-clock-shelf各四款真实造型。新增8资源，旧100定义保持，目录108项不等于全部生产分支已完成。复用已交挂墙钟生产参数/函数和宿主clockSeconds，不另建时间系统。实际底座与固定显示框适配support-surface；不是缩放挂墙钟，不把旧desk-surface静默当支持面。父层架移动、旋转、换款和复制，子钟安装及独立设置保持。
+
+证据：
+company-supported-clock-production-v1：可编辑参数、基础源哈希绑定、实际8模型、重复导出与参数修改。
+company-supported-clock-geometry-v1-v2：11项合成检查及8真实GLB，实体底座六面/非退化接连三角/显示框/唯一映射。
+company-supported-clock-data-final-v1：5组CPU，真实父变换、状态/恢复、复制及非法承载；catalog-retention保存旧100资源未变。
+company-supported-clock-wall-data-v1、wall-regression-v1/v2：受影响挂墙合同回归；未覆盖旧历史报告。
+company-supported-clock-fixed-2dd-v1：4组固定浏览器，8款逐项独立进程恢复、父变换/替换/复制、非法安装/缺框/503保旧、第二输入/卸载。
+company-supported-clock-handoff-2dd-v1：4组独立包加载/编辑/恢复；rebuild.json核632清单文件、224运行文件无排除逐字节一致，独立source的producer/library/examples检查通过。
+company-supported-clock-recording-2dd-v1/supported-clock-preview-normal1x.webm：72.60秒、1440×1000、25fps、1×；root核全时段每4秒抽帧、八款总图和原尺寸跨日/安装图。开发2dd证据保dev标记，固定检查另存，不互改标签。
+
+失败保留：company-supported-clock-data-dev-v1的Euler负零/正零严格断言失败；改为角度容差后通过，未为此改运行实现。底座初检仅顶面/AABB不足，已改为六个真实实体面及非退化三角接连/显示节点全局唯一验证；历史挂墙报告仍原字节保留。
+
+复现：固定检出prototype目录
+npm ci --no-audit --no-fund
+node scripts/build-company-id.mjs
+npx vite build --config vite.company.config.js
+固定检出根目录
+node scripts/company-platform/serve-company.cjs prototype/dist-company 2dd87df94b61
+node scripts/company-platform/qa-supported-clock-preview.cjs prototype/dist-company 2dd87df94b61 NEW_EVIDENCE_DIR
+node scripts/company-platform/record-supported-clock-preview.cjs prototype/dist-company 2dd87df94b61 NEW_RECORDING_DIR
+node scripts/company-platform/build-supported-clocks.mjs --check
+node scripts/company-platform/build-library.mjs --check
+node scripts/company-platform/build-supported-clock-examples.mjs --check
+独立包：node serve.mjs；node edit.mjs validate data/save.json；node edit.mjs apply INPUT_SAVE OPS_JSON NEW_RESULT_DIRECTORY。
+
+限制：明确支持面的静态承载，不模拟质量/翻倒；软件渲染不证明普通电脑性能。未集成业务时钟/角色C3、未完成人类最终验收、不宣布C1-C3完成。下一有界机制为可更换图文信息显示，先研究现有接缝和官方方案。

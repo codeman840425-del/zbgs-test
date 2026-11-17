@@ -1,0 +1,73 @@
+{
+  "purpose": "Stage delta for chief CAP merge, not a parallel status registry",
+  "sourceCommit": "18880ef43ba4c3651f57b99a760fe565124a8951",
+  "build": "2dd87df94b61",
+  "entries": [
+    {
+      "branch": "analog-clock-shelf",
+      "actualAppearances": 4,
+      "resources": [
+        {
+          "id": "analog-clock-shelf-round",
+          "version": 1,
+          "sha256": "63a44e5107e1b31b42e0dc3130bc6fb99a74b677de0f6d0fcf1b15f8392dda0a"
+        },
+        {
+          "id": "analog-clock-shelf-square",
+          "version": 1,
+          "sha256": "0148de61df4e4e6eb52edf0b21ba33ad1ebde3ef9b4183c4d0b3b7d7347c076c"
+        },
+        {
+          "id": "analog-clock-shelf-octagon",
+          "version": 1,
+          "sha256": "e491766d024da40dd7b65adb831d5e52b86bbeb11d36431f4988d825ddcd33d6"
+        },
+        {
+          "id": "analog-clock-shelf-spoke",
+          "version": 1,
+          "sha256": "6d32d7d533d65742709ecfc9582291a2055d17e9c9dcbe4f0cb0aa3d01a5a472"
+        }
+      ]
+    },
+    {
+      "branch": "digital-clock-shelf",
+      "actualAppearances": 4,
+      "resources": [
+        {
+          "id": "digital-clock-shelf-flat",
+          "version": 1,
+          "sha256": "db1022fe6994d79786a51e1abe0837b0ef2282a11eb561dcea90cee68ecd39d8"
+        },
+        {
+          "id": "digital-clock-shelf-layered",
+          "version": 1,
+          "sha256": "1a4a304ab98e812ccea0f9f4ab59b4ecec21585076432c8ebaf4f707ddd84783"
+        },
+        {
+          "id": "digital-clock-shelf-side-bracket",
+          "version": 1,
+          "sha256": "358442295443f26ff13515d3e8dedecb742a801b9449a91cdc279f6786cd99b9"
+        },
+        {
+          "id": "digital-clock-shelf-recessed",
+          "version": 1,
+          "sha256": "dc284d87ae716243c87472c69a39bdbc4ee541e75fa3ebb144690d1b868048dc"
+        }
+      ]
+    }
+  ],
+  "verified": [
+    "Eight real supported clocks, actual rectangular solid base and display frame bindings",
+    "Actual base faces, finite nondegenerate body contact triangles and unique display mappings checked",
+    "Parent translation/yaw/compatible shelf replacement/copy preserve mount and independent settings",
+    "Eight appearances separately saved and restored after browser-process restart",
+    "Invalid height/fit/missing frame/HTTP503 preserve prior scene and save",
+    "632 manifest files checked; 224 runtime files rebuild exactly; three independent producer checks pass"
+  ],
+  "notClaimed": [
+    "No C1-C3 completion",
+    "No role/business-time integration, ordinary-PC performance or human final acceptance",
+    "Explicit support-surfaces only; no general rigid-body physics"
+  ],
+  "integrationBoundary": "Reuses scene.setPresentationInputs({clockSeconds}); chief owns role, task, lease, time and final C3."
+}
