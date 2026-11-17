@@ -11,7 +11,7 @@ import { createBehaviorTasks } from "./behavior-tasks.js";
 import { createSeatLeases } from "./seat-lease.js";
 import { bindAppearanceWorkbench } from "./appearance-workbench.js";
 import { exportAppearanceRecipe, importAppearanceRecipe } from "./appearance-recipe.js";
-import {captureRuntimeCharacterRecord,restoreRuntimeCharacterRecord,parseRuntimeCharacterRecord} from './character-runtime-record.js';
+import {captureRuntimeCharacterRecord,restoreRuntimeCharacterRecord,parseRuntimeCharacterRecord,characterLookRevision} from './character-runtime-record.js';
 import {validateCharacterRecord} from './character-record.js';
 import {queryAppearanceCandidates,admitAppearanceCandidate} from './appearance-candidates.js';
 import "./style.css";
@@ -2222,17 +2222,21 @@ async function restoreWorkbenchCharacterRecord(input) {
   if(!ready||!avatar?.config)return{applied:false,reason:'人物尚未准备好'};
   const request=++bodySelectionGeneration;
   const record=typeof input==='string'?parseRuntimeCharacterRecord(input):structuredClone(input);
+  const sourceActor=avatar;
+  const sourceTargetRecipe=record.appearanceRecipe?.base?.bodyType===avatar.profile.bodyType?record.appearanceRecipe:undefined;
+  const sourceRevision=characterLookRevision(controller,sourceTargetRecipe);
+  const sourceIsCurrent=()=>request===bodySelectionGeneration&&avatar===sourceActor&&characterLookRevision(controller,sourceTargetRecipe)===sourceRevision;
   try {
     // Validate the envelope before choosing a loader. This is not resource
     // validation: the detached actor must pass the normal production admission.
     await validateCharacterRecord(record,{validationCallback:()=>({status:'pending'})});
-    if(request!==bodySelectionGeneration)return{applied:false,cancelled:true};
+    if(!sourceIsCurrent())return{applied:false,cancelled:true};
     const bodyType=record.appearanceRecipe?.base?.bodyType;
     if(typeof bodyType!=='string')throw Error('角色记录缺少身体类型');
     if(avatar.profile.bodyType===bodyType){
       return await restoreRuntimeCharacterRecord(controller,record,{isCurrent:()=>request===bodySelectionGeneration});
     }
-    const result=await switchFoundationBody(bodyType,{record,request});
+    const result=await switchFoundationBody(bodyType,{record,request,isCurrent:sourceIsCurrent});
     return{...result,...(result.applied?{identity:structuredClone(record.identity),revision:record.revision,recordSha256:record.integrity.recordSha256}:{})};
   } finally {
     if(request===bodySelectionGeneration)bodySelection.loading=false;
@@ -2241,6 +2245,8 @@ async function restoreWorkbenchCharacterRecord(input) {
 async function switchFoundationBody(bodyType,options={}) {
   const request = options.request ?? ++bodySelectionGeneration;
   const record=options.record;
+  const current=()=>request===bodySelectionGeneration&&(options.isCurrent?.()??true);
+  let recordRestoreDetails={};
   if (!ready || !avatar?.config) return {applied:false,reason:'人物尚未准备好'};
   bodySelection.requested = bodyType; bodySelection.error = null;
   if (avatar.profile.bodyType === bodyType) { bodySelection.loading = false; return {applied:true,bodyType}; }
@@ -2252,10 +2258,10 @@ async function switchFoundationBody(bodyType,options={}) {
     renderContext.check();
     // Prepare completely off-scene; the current avatar remains usable on failure.
     nextAvatar = await loadFoundationAvatar({scene:world,renderer,bodyType,attachToScene:false});
-    if (request !== bodySelectionGeneration) return {applied:false,cancelled:true};
+    if (!current()) return {applied:false,cancelled:true};
     nextAvatar.root.position.copy(avatar.root.position);
     const clips = await loadRetargetedMotions(nextAvatar.vrm,{avatarSha256:nextAvatar.profile.sha256,targetFloorY:nextAvatar.root.getWorldPosition(new THREE.Vector3()).y});
-    if (request !== bodySelectionGeneration) return {applied:false,cancelled:true};
+    if (!current()) return {applied:false,cancelled:true};
     if(!record){
       const colors = avatar.appearance.getState();
       const hairStyle = nextAvatar.appearance.getState().availableStyles.includes(colors.hairStyle) ? colors.hairStyle : 'original';
@@ -2264,7 +2270,7 @@ async function switchFoundationBody(bodyType,options={}) {
       // fits fail during detached preparation and retain the whole old actor.
       const applied = await nextAvatar.appearance.set({hairStyle,hairColor:colors.hairColor,skinTone:colors.skinTone,eyeColor:colors.eyeColor,lipColor:colors.lipColor,eyebrowColor:colors.eyebrowColor??'original',surfaceLayers:colors.surfaceLayers??[]});
       if (!applied.applied) throw new Error(applied.reason || '外观配置加载失败');
-      if (request !== bodySelectionGeneration) return {applied:false,cancelled:true};
+      if (!current()) return {applied:false,cancelled:true};
       const initialRole = avatar.config.outfits.find(entry => entry.index === controller.outfit)?.role;
       const initialOutfit=nextAvatar.config.outfits.find(entry => entry.role === initialRole)?.index ?? 0;
       const initialOutfitUpdate=await nextAvatar.prepareOutfit(initialOutfit);
@@ -2274,15 +2280,16 @@ async function switchFoundationBody(bodyType,options={}) {
       // A missing prop or wrong fit must never replace the visible old actor.
       const staged={actor:nextAvatar,outfit:0,outfitRevision:0,isPeer:true,
         prepareOutfit:CharacterScene.prototype.prepareOutfit,refreshOutfitSelection(){}};
-      const restored=await restoreRuntimeCharacterRecord(staged,record,{isCurrent:()=>request===bodySelectionGeneration});
+      const restored=await restoreRuntimeCharacterRecord(staged,record,{isCurrent:current});
       if(!restored.applied)return restored;
+      if(restored.materialMigration)recordRestoreDetails.materialMigration=restored.materialMigration;
     }
     nextAvatar.setDebugBody(inspection.bodyMode === 'base'); nextAvatar.setDynamics(inspection.dynamics);
     nextMotion = createMotion(nextAvatar.vrm,nextAvatar.root,clips,nextAvatar.profile.motion);
     // Prepare this detached actor's real materials against the room lights.
     // Capture current controller/camera state only after this asynchronous wait.
     await renderContext.wait(() => renderer.compileAsync(nextAvatar.root,camera,world));
-    if (request !== bodySelectionGeneration) return {applied:false,cancelled:true};
+    if (!current()) return {applied:false,cancelled:true};
     const oldRole = avatar.config.outfits.find(entry => entry.index === controller.outfit)?.role;
     const outfit = record?record.appearanceRecipe.equipment.index:(nextAvatar.config.outfits.find(entry => entry.role === oldRole)?.index ?? 0);
     if(!record){
@@ -2290,7 +2297,7 @@ async function switchFoundationBody(bodyType,options={}) {
       const outfitUpdate = await nextAvatar.prepareOutfit(outfit);
       try { outfitUpdate.commit(); } finally { outfitUpdate.dispose(); }
     }
-    if(request!==bodySelectionGeneration)return{applied:false,cancelled:true};
+    if(!current())return{applied:false,cancelled:true};
     nextAvatar.setDebugBody(inspection.bodyMode === 'base'); nextAvatar.setDynamics(inspection.dynamics);
     nextMotion.setCorrections({...correctionLayers[inspection.corrections]});
     const oldAvatar = avatar, oldMotion = motion;
@@ -2312,7 +2319,7 @@ async function switchFoundationBody(bodyType,options={}) {
     const dance = nextMotion.getDances().find(entry => entry.id === saved.danceId) || nextMotion.getDances().find(entry => entry.id === 'rokoko-5359146-30s-v1') || nextMotion.getDances()[0];
     if (dance) nextMotion.setDance(dance.id);
     const oldTasks = [controller.behaviorTasks.active(),...controller.behaviorTasks.pending()].filter(Boolean);
-    if (request !== bodySelectionGeneration) return {applied:false,cancelled:true};
+    if (!current()) return {applied:false,cancelled:true};
 
     // Attach before transferring ownership: an attachment error still disposes
     // the prepared actor. This synchronous section cannot render a mixed frame.
@@ -2366,7 +2373,7 @@ async function switchFoundationBody(bodyType,options={}) {
     });
     finish('状态界面更新失败', () => refreshUI());
     notifyAppearanceStateChanged(avatar);
-    return {applied:true,bodyType,notice:notices.join('；')};
+    return {applied:true,bodyType,...recordRestoreDetails,notice:notices.join('；')};
   } catch (error) {
     if (committed) {
       notifyAppearanceStateChanged(avatar);
@@ -2374,7 +2381,7 @@ async function switchFoundationBody(bodyType,options={}) {
     }
     // A superseded load may fail after the newer choice already succeeded.
     // Its result belongs to the cancelled request, not to the current actor.
-    if (request !== bodySelectionGeneration) return {applied:false,cancelled:true};
+    if (!current()) return {applied:false,cancelled:true};
     if (request === bodySelectionGeneration) bodySelection.error = error.message;
     return {applied:false,reason:error.message};
   } finally {

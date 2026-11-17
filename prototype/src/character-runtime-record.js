@@ -2,10 +2,11 @@ import {canonicalJson,createCharacterRecord,updateCharacterRecord,validateCharac
 import {captureAppearanceRecipe,validateAppearanceRecipe,applyAppearanceRecipe} from './appearance-recipe.js';
 import {admitAppearanceCandidate} from './appearance-candidates.js';
 import {captureLiveAccessories,validateLiveAccessories} from './live-accessory-record.js';
+import {captureGarmentMaterials,resolveGarmentMaterials,garmentMaterialRevision} from './garment-material-record.js';
 
 // These records preserve a final look, not animation time, business progress,
 // speaking state or camera. Stable identity is independent of the body type.
-export function deriveCharacterResourceIdentities(appearanceRecipe,liveAccessories){
+export function deriveCharacterResourceIdentities(appearanceRecipe,liveAccessories,equipmentMaterials){
  const result=[];
  const visit=(value,path)=>{
   if(!value||typeof value!=='object')return;
@@ -15,7 +16,7 @@ export function deriveCharacterResourceIdentities(appearanceRecipe,liveAccessori
    else if(next&&typeof next==='object')visit(next,name);
   }
  };
- visit(appearanceRecipe,'appearance');visit(liveAccessories,'live');
+ visit(appearanceRecipe,'appearance');visit(liveAccessories,'live');visit(equipmentMaterials,'materials');
  return result.sort((a,b)=>a.id.localeCompare(b.id));
 }
 function validateLoadedRecord(controller,record){
@@ -23,20 +24,21 @@ function validateLoadedRecord(controller,record){
  if(!admission.accepted)throw Error('角色配方未准入：'+JSON.stringify(admission.issues??admission));
  validateAppearanceRecipe(controller,record.appearanceRecipe);
  validateLiveAccessories(controller.actor,record.liveAccessories);
- const actual=deriveCharacterResourceIdentities(record.appearanceRecipe,record.liveAccessories);
+ resolveGarmentMaterials(controller.actor,record.appearanceRecipe,record.equipmentMaterials);
+ const actual=deriveCharacterResourceIdentities(record.appearanceRecipe,record.liveAccessories,record.equipmentMaterials);
  if(canonicalJson(record.resourceIdentities)!==canonicalJson(actual))throw Error('角色资源清单与最终造型不一致');
  return{status:'pending',scope:'registered identities only; actual resource bytes and fit metadata checked during restore'};
 }
-function capture(controller){return{appearanceRecipe:captureAppearanceRecipe(controller),liveAccessories:captureLiveAccessories(controller.actor)};}
+function capture(controller){const appearanceRecipe=captureAppearanceRecipe(controller);return{appearanceRecipe,liveAccessories:captureLiveAccessories(controller.actor),equipmentMaterials:captureGarmentMaterials(controller.actor,appearanceRecipe)};}
 const restoreEpochs=new WeakMap();
-function revisionStamp(controller){
+export function characterLookRevision(controller,targetRecipe){
  const actor=controller.actor;
- return canonicalJson({geometry:actor.facialGeometry.getState().revision,appearance:actor.appearance.getState().revision,
+ return canonicalJson({materials:garmentMaterialRevision(actor,{equipment:{resources:actor.getEquipmentRecipe(controller.outfit)}},targetRecipe),geometry:actor.facialGeometry.getState().revision,appearance:actor.appearance.getState().revision,
   outfit:controller.outfitRevision??0,ears:actor.rigidAccessories?.getState().revision,hat:actor.headwear?.getState().revision,
   live:Object.fromEntries(Object.entries(actor.livePresentation.getState().accessories).map(([k,s])=>[k,s.version]))});
 }
 export async function captureRuntimeCharacterRecord(controller,{identity,previous,expectedRevision,producer='character-workbench',sourceRefs=[]}={}){
- const actor=controller.actor,stamp=revisionStamp(controller),look=capture(controller);
+ const actor=controller.actor,stamp=characterLookRevision(controller),look=capture(controller);
  const prior=previous?structuredClone(previous):null;
  // Updating one identity may deliberately change its body. The historical
  // envelope must remain valid, but its old fit cannot be tested against the
@@ -44,20 +46,21 @@ export async function captureRuntimeCharacterRecord(controller,{identity,previou
  const validateResources=record=>prior&&record.integrity.recordSha256===prior.integrity.recordSha256
   ?{status:'pending',scope:'historical envelope; new current resources validated separately'}
   :validateLoadedRecord(controller,record);
- const resourceIdentities=deriveCharacterResourceIdentities(look.appearanceRecipe,look.liveAccessories);
+ const resourceIdentities=deriveCharacterResourceIdentities(look.appearanceRecipe,look.liveAccessories,look.equipmentMaterials);
  const record=prior?await updateCharacterRecord(prior,{...look,resourceIdentities},{expectedRevision},{validateResources}):
   await createCharacterRecord({identity,...look,resourceIdentities,provenance:{producer,sourceRefs}},{validateResources});
- if(controller.actor!==actor||stamp!==revisionStamp(controller)||canonicalJson(look)!==canonicalJson(capture(controller)))throw Error('保存期间人物或造型已改变，请重试');
+ if(controller.actor!==actor||stamp!==characterLookRevision(controller)||canonicalJson(look)!==canonicalJson(capture(controller)))throw Error('保存期间人物或造型已改变，请重试');
  return record;
 }
 export async function restoreRuntimeCharacterRecord(controller,input,{isCurrent=()=>true}={}){
  const record=typeof input==='string'?parseRuntimeCharacterRecord(input):structuredClone(input),actor=controller.actor;
- const before=capture(controller),stamp=revisionStamp(controller),epoch=(restoreEpochs.get(controller)??0)+1;
+ const stamp=characterLookRevision(controller,record.appearanceRecipe),epoch=(restoreEpochs.get(controller)??0)+1;
  restoreEpochs.set(controller,epoch);
  await validateCharacterRecord(record,{validationCallback:value=>validateLoadedRecord(controller,value)});
- if(!isCurrent()||restoreEpochs.get(controller)!==epoch||controller.actor!==actor||stamp!==revisionStamp(controller)||canonicalJson(before)!==canonicalJson(capture(controller)))return{applied:false,cancelled:true};
- const result=await applyAppearanceRecipe(controller,record.appearanceRecipe,{liveAccessories:record.liveAccessories,isCurrent:()=>isCurrent()&&restoreEpochs.get(controller)===epoch});
- return{...result,...(result.applied?{identity:structuredClone(record.identity),revision:record.revision,recordSha256:record.integrity.recordSha256}:{})};
+ if(!isCurrent()||restoreEpochs.get(controller)!==epoch||controller.actor!==actor||stamp!==characterLookRevision(controller,record.appearanceRecipe))return{applied:false,cancelled:true};
+ const materials=resolveGarmentMaterials(actor,record.appearanceRecipe,record.equipmentMaterials);
+ const result=await applyAppearanceRecipe(controller,record.appearanceRecipe,{liveAccessories:record.liveAccessories,equipmentMaterials:materials.record,isCurrent:()=>isCurrent()&&restoreEpochs.get(controller)===epoch});
+ return{...result,...(materials.legacy&&result.applied?{materialMigration:'legacy-record-with-no-material-variants'}:{}),...(result.applied?{identity:structuredClone(record.identity),revision:record.revision,recordSha256:record.integrity.recordSha256}:{})};
 }
 export function parseRuntimeCharacterRecord(text){
  if(typeof text!=='string'||new TextEncoder().encode(text).byteLength>CHARACTER_RECORD_MAX_BYTES)throw Error('角色记录无效或超过512 KiB');

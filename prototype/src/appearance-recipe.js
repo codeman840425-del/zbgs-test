@@ -10,6 +10,7 @@ import {validateSurfaceSelection} from './surface-layer-compositor.js';
 import {assertAppearanceColorSelection} from './appearance-color-policy.js';
 import {nativePaletteContract} from './native-palette-catalog.js';
 import {validateLiveAccessories,assertPreparedLiveAccessory} from './live-accessory-record.js';
+import {validateGarmentMaterials,assertPreparedGarmentMaterial,garmentMaterialIntent} from './garment-material-record.js';
 
 export const SCHEMA='workbench-appearance-recipe-v6';
 export const RULES='workbench-appearance-rules-v6';
@@ -97,13 +98,17 @@ export function validateAppearanceRecipe(controller,record){
  if(!['original','none'].includes(style)&&!/^[a-f0-9]{64}$/.test(record.hairAssetSha256||''))throw appearanceAdmissionError('hairAssetSha256','missing-identity','发型资源身份缺失');
  return true;
 }
-export async function applyAppearanceRecipe(controller,record,{liveAccessories,isCurrent=()=>true}={}){
+export async function applyAppearanceRecipe(controller,record,{liveAccessories,equipmentMaterials,isCurrent=()=>true}={}){
  validateAppearanceRecipe(controller,record);
  // Snapshot the requested values before awaiting resource I/O. The caller may
  // reuse its JSON object, but it cannot change an in-flight transaction.
  record=structuredClone(record);
  const actor=controller.actor;
  if(liveAccessories!==undefined){liveAccessories=structuredClone(liveAccessories);validateLiveAccessories(actor,liveAccessories);}
+ if(equipmentMaterials!==undefined){equipmentMaterials=structuredClone(equipmentMaterials);validateGarmentMaterials(actor,record,equipmentMaterials);}
+ const materialIds=equipmentMaterials?[...new Set([...Object.values(actor.getEquipmentRecipe(controller.outfit)).map(entry=>entry.id),...equipmentMaterials.selections.map(row=>row.equipmentId)])]:[];
+ const materialVersions=new Map(materialIds.map(id=>[id,garmentMaterialIntent(actor,id)]));
+ const materialsChanged=(except=null)=>materialIds.some(id=>id!==except&&(garmentMaterialIntent(actor,id))!==materialVersions.get(id));
  const liveVersions=liveAccessories?Object.fromEntries(Object.entries(actor.livePresentation.getState().accessories).map(([k,s])=>[k,s.version])):null;
  let geometryRevision=actor.facialGeometry.getState().revision;
  let appearanceRevision=actor.appearance.getState().revision;
@@ -114,7 +119,7 @@ export async function applyAppearanceRecipe(controller,record,{liveAccessories,i
  const updates=[],attemptedCommits=[],cleanupErrors=[];
  const attachmentTransaction=accessoryVersion?createAccessoryTransactionContext(actor,record.accessories):null;
  let commitStarted=false;
- const superseded=()=>!isCurrent()||controller.actor!==actor||
+ const superseded=(materialExcept=null)=>!isCurrent()||controller.actor!==actor||materialsChanged(materialExcept)||
   actor.facialGeometry.getState().revision!==geometryRevision||
   actor.appearance.getState().revision!==appearanceRevision||
   (controller.outfitRevision||0)!==outfitRevision||
@@ -143,6 +148,24 @@ export async function applyAppearanceRecipe(controller,record,{liveAccessories,i
    expectedHairAssetSha256:record.hairAssetSha256,
    ...(Object.hasOwn(record,'hairFit')?{expectedHairFit:record.hairFit}:{})},options))return{applied:false,cancelled:true};
   const outfit=await controller.prepareOutfit(record.equipment.index);updates.push(outfit);
+  if(equipmentMaterials){
+   for(const row of equipmentMaterials.selections){
+    if(superseded())return{applied:false,cancelled:true};
+    let update;
+    try{update=await actor.prepareMaterialRecipe(row.equipmentId,row.selection?.recipeId??null);}
+    catch(error){
+     // A current failed preparation also advances this domain's intent. Do
+     // not report its own HTTP/identity failure as an unrelated cancellation.
+     materialVersions.set(row.equipmentId,garmentMaterialIntent(actor,row.equipmentId));
+     throw error;
+    }
+    if(update.commit)updates.push(update);
+    if(update.cancelled||!update.isCurrent?.()||superseded(row.equipmentId))return{applied:false,cancelled:true};
+    materialVersions.set(row.equipmentId,garmentMaterialIntent(actor,row.equipmentId));
+    if(!update.commit)throw Error(update.reason||'服装材质准备失败');
+    assertPreparedGarmentMaterial(update,row);
+   }
+  }
   if(accessoryVersion){
    if(!await prepare(actor.rigidAccessories,record.accessories.ears.selection))return{applied:false,cancelled:true};
    if(!await prepare(actor.headwear,record.accessories.hat.selection,{hairState:{hairStyle:record.appearance.hairStyle,replacementSHA256:record.hairAssetSha256,hairFit:record.hairFit}}))return{applied:false,cancelled:true};

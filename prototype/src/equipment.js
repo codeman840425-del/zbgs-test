@@ -258,6 +258,85 @@ export async function createEquipment({
     geometries.forEach((g) => g.dispose()); materials.forEach((m) => m.dispose());
     textures.forEach((t) => t.dispose()); new Set(item.skeletons.values()).forEach((s) => s.dispose());
   }
+  function cancelledMaterialTransaction(reason = 'superseded') {
+    return Object.freeze({
+      revision: null,
+      recipeId: null,
+      reason,
+      isCurrent: () => false,
+      validateCommit: () => { throw Error(`Material recipe preparation is ${reason}`); },
+      commit: () => { throw Error(`Material recipe preparation is ${reason}`); },
+      rollback: () => {},
+      dispose: () => {},
+      release: () => {},
+    });
+  }
+  function originalUnloadedMaterialTransaction(id, ticket) {
+    let released = false;
+    const current = () => !disposed && !released && materialRequests.get(id) === ticket && !loaded.has(id);
+    return {
+      id,
+      recipeId: 'original',
+      revision: ticket,
+      identity: null,
+      isCurrent: current,
+      validateCommit() {
+        if (!current()) throw Error('Material recipe preparation is no longer current');
+        return true;
+      },
+      commit() {
+        if (!current()) throw Error('Material recipe preparation is no longer current');
+        return { applied: true, state: null };
+      },
+      rollback() {},
+      release() { released = true; },
+      dispose() { released = true; },
+    };
+  }
+  async function prepareMaterialRecipe(id, recipeId) {
+    if (disposed) throw new Error("Equipment adapter is disposed");
+    getEntry(id);
+    const ticket = (materialRequests.get(id) || 0) + 1;
+    materialRequests.set(id, ticket);
+    if ((recipeId === null || recipeId === 'original') && !loaded.has(id)) return originalUnloadedMaterialTransaction(id, ticket);
+    let item;
+    try { item = await load(id); }
+    catch (error) {
+      if (disposed || materialRequests.get(id) !== ticket) return cancelledMaterialTransaction(disposed ? 'disposed' : 'superseded');
+      throw error;
+    }
+    if (disposed) throw new Error("Equipment adapter is disposed");
+    if (materialRequests.get(id) !== ticket) return cancelledMaterialTransaction();
+    let prepared;
+    try { prepared = await item.materialRecipes.prepareMaterialRecipe(recipeId); }
+    catch (error) {
+      if (disposed || materialRequests.get(id) !== ticket) return cancelledMaterialTransaction(disposed ? 'disposed' : 'superseded');
+      throw error;
+    }
+    if (disposed || loaded.get(id) !== item || materialRequests.get(id) !== ticket) {
+      prepared.dispose();
+      return cancelledMaterialTransaction(disposed ? 'disposed' : 'superseded');
+    }
+    const isCurrent = () => !disposed && loaded.get(id) === item && materialRequests.get(id) === ticket && prepared.isCurrent();
+    return {
+      id,
+      recipeId: prepared.recipeId,
+      revision: prepared.revision,
+      identity: prepared.identity,
+      isCurrent,
+      validateCommit() {
+        if (!isCurrent()) throw Error('Material recipe preparation is no longer current');
+        return prepared.validateCommit();
+      },
+      commit() {
+        if (!isCurrent()) throw Error('Material recipe preparation is no longer current');
+        return prepared.commit();
+      },
+      rollback() { return prepared.rollback(); },
+      release() { return prepared.release(); },
+      dispose() { return prepared.dispose(); },
+    };
+  }
   function invalidateSlotRequests() {
     for (const entry of manifest.items)
       slotRequests.set(entry.slot, (slotRequests.get(entry.slot) || 0) + 1);
@@ -352,23 +431,46 @@ export async function createEquipment({
       assertLayerFitSet([...loaded.values()].filter(item=>item.container.visible&&item.entry.slot!==slot).map(item=>item.entry));
       setRevision++;
       slotRequests.set(slot, (slotRequests.get(slot) || 0) + 1);
-      for (const item of loaded.values()) if (item.entry.slot === slot) item.container.visible = false;
+      for (const item of loaded.values()) if (item.entry.slot === slot) {
+        materialRequests.set(item.id, (materialRequests.get(item.id) || 0) + 1);
+        item.materialRecipes.cancelPending?.();
+        item.container.visible = false;
+      }
+    },
+    async prepareMaterialRecipe(id, recipeId) { return prepareMaterialRecipe(id, recipeId); },
+    getMaterialRecipeRevision(id) {
+      getEntry(id);
+      const state = loaded.get(id)?.materialRecipes.getState();
+      return Object.freeze({
+        request: materialRequests.get(id) || 0,
+        inner: state?.revision ?? 0,
+        pending: state?.pending?.revision ?? null,
+      });
     },
     async setMaterialRecipe(id, recipeId) {
-      if(disposed)throw new Error("Equipment adapter is disposed");
-      getEntry(id);
-      const ticket=(materialRequests.get(id)||0)+1;materialRequests.set(id,ticket);
-      if(recipeId===null&&!loaded.has(id))return {applied:true,state:null};
-      const item=await load(id);
-      if(disposed)throw new Error("Equipment adapter is disposed");
-      if(materialRequests.get(id)!==ticket)return {applied:false,reason:"superseded"};
-      return item.materialRecipes.select(recipeId);
+      if (recipeId === null && !loaded.has(id)) {
+        if (disposed) throw new Error("Equipment adapter is disposed");
+        getEntry(id);
+        materialRequests.set(id, (materialRequests.get(id) || 0) + 1);
+        return { applied: true, state: null };
+      }
+      const prepared = await prepareMaterialRecipe(id, recipeId);
+      if (!prepared.isCurrent()) return { applied: false, reason: prepared.reason || 'superseded' };
+      try {
+        const result = prepared.commit();
+        prepared.release();
+        return result;
+      } catch (error) {
+        prepared.dispose();
+        throw error;
+      }
     },
     getMaterialRecipeState(id) { return loaded.get(id)?.materialRecipes.getState() ?? null; },
     get(id) { return loaded.get(id) || null; },
     dispose() {
       if (disposed) return;
       disposed = true;
+      for (const id of materialRequests.keys()) materialRequests.set(id, materialRequests.get(id) + 1);
       loaded.forEach(destroy); loaded.clear();
       shapeDependencies.clear();
     },

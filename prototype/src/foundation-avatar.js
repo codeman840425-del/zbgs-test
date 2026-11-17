@@ -296,6 +296,8 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
       return Object.fromEntries(roles.map(key=>[key,surfaces.equipment.describe(config.ids[key])]));
     },
     setMaterialRecipe: (id, recipeId) => equipment.setMaterialRecipe(id, recipeId),
+    prepareMaterialRecipe: (id, recipeId) => equipment.prepareMaterialRecipe(id, recipeId),
+    getMaterialRecipeRevision: (id) => equipment.getMaterialRecipeRevision(id),
     getMaterialRecipeState: (id) => equipment.getMaterialRecipeState(id),
     setOutfit: (n) => {
       equipment.setOutfit(n);

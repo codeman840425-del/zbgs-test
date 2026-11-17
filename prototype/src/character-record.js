@@ -8,7 +8,7 @@ export const CHARACTER_RECORD_MAX_BYTES = 512 * 1024;
 export const CHARACTER_RECORD_ID_RE = /^[a-z0-9][a-z0-9._-]{1,95}$/;
 const WINDOWS_DEVICE_ID_RE = /^(?:con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\..*)?$/i;
 const SHA_RE = /^[a-f0-9]{64}$/;
-const ALLOWED_ROOT = ['schema', 'identity', 'revision', 'createdAt', 'updatedAt', 'appearanceRecipe', 'provenance', 'integrity', 'resourceIdentities', 'liveAccessories'];
+const ALLOWED_ROOT = ['schema', 'identity', 'revision', 'createdAt', 'updatedAt', 'appearanceRecipe', 'provenance', 'integrity', 'resourceIdentities', 'liveAccessories', 'equipmentMaterials'];
 
 function fail(code, message, field = undefined) {
   const error = new Error(message);
@@ -124,9 +124,9 @@ export async function validateCharacterRecord(record, { validationCallback } = {
   return { valid: true, resourceValidation: validation.status, recordSha256, recipeSha256 };
 }
 
-export async function createCharacterRecord({ identity, appearanceRecipe, provenance, resourceIdentities, liveAccessories, now = new Date().toISOString(), idFactory = () => globalThis.crypto?.randomUUID?.() ?? fail('crypto-unavailable', 'WebCrypto randomUUID is required') }, { validateResources } = {}) {
+export async function createCharacterRecord({ identity, appearanceRecipe, provenance, resourceIdentities, liveAccessories, equipmentMaterials, now = new Date().toISOString(), idFactory = () => globalThis.crypto?.randomUUID?.() ?? fail('crypto-unavailable', 'WebCrypto randomUUID is required') }, { validateResources } = {}) {
   const id = identity?.id ?? idFactory();
-  const record = { schema: CHARACTER_RECORD_SCHEMA, identity: { ...identity, id }, revision: 1, createdAt: now, updatedAt: now, appearanceRecipe: structuredClone(appearanceRecipe), provenance: structuredClone(provenance), integrity: { version: CHARACTER_RECORD_VERSION, recipeSha256: await sha256Hex(canonicalJson(appearanceRecipe)), recordSha256: '' }, ...(resourceIdentities === undefined ? {} : { resourceIdentities: structuredClone(resourceIdentities) }), ...(liveAccessories === undefined ? {} : {liveAccessories: structuredClone(liveAccessories)}) };
+  const record = { schema: CHARACTER_RECORD_SCHEMA, identity: { ...identity, id }, revision: 1, createdAt: now, updatedAt: now, appearanceRecipe: structuredClone(appearanceRecipe), provenance: structuredClone(provenance), integrity: { version: CHARACTER_RECORD_VERSION, recipeSha256: await sha256Hex(canonicalJson(appearanceRecipe)), recordSha256: '' }, ...(resourceIdentities === undefined ? {} : { resourceIdentities: structuredClone(resourceIdentities) }), ...(liveAccessories === undefined ? {} : {liveAccessories: structuredClone(liveAccessories)}), ...(equipmentMaterials === undefined ? {} : {equipmentMaterials: structuredClone(equipmentMaterials)}) };
   record.integrity.recordSha256 = await sha256Hex(hashPayload(record));
   await checkLimits(record);
   await validateCharacterRecord(record, { validationCallback: validateResources });

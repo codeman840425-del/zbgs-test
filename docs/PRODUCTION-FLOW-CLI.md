@@ -65,3 +65,5 @@ CLI 不创建隔离工作区、不做发布、不更新能力状态；它把现�
 工作台外观底部“完整角色记录”调用同一controller.captureCharacterRecord/restoreCharacterRecord接口。新建稳定身份后保存、选择恢复、JSON下载/读取；姓名绑定后保持原身份，外观跨体可显式更新同ID。旧草稿/配方入口不改语义。浏览器索引zbgs:character-records:v1使用Web Locks与已见raw比较，索引损坏/旧标签页覆盖/旧版本JSON拒绝保原；无Locks不静默无锁保存。该浏览器索引不是联网存档。独立磁盘store仍负责agent文件CAS。
 
 跨体回归：qa-character-cross-body.cjs；按钮/文件/双标签页/坏索引：qa-character-record-ui.cjs，均通过run-fixed-check.cjs运行在指定固定目录。runtime资源清单是引用身份列表，不宣称完整传递依赖包；源码fixture必须随检出提供。
+
+服装材质补充：新完整记录增加 `equipmentMaterials`（`garment-material-record-v1`），逐件保存已穿装备 ID、GLB SHA 及 active 配方身份；null 明确表示源材质。旧 appearance 配方语义不变。无材质变体的历史角色记录可确定迁移，返回 `materialMigration=legacy-record-with-no-material-variants`；有材质变体而未保存选择的旧记录拒绝猜测，agent在保留旧版中还原并确认后重新捕获，不伪造版本。材质准备不改可见mesh，整套同步提交后才释放旧材质，后域失败逆序回滚。`qa-character-material-record.cjs` 在固定build上检查真实材质加载、关页恢复、HTTP失败、最后域故障、同值重选与连续恢复；测试报告区分技术与视觉。
