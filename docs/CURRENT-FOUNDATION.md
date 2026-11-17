@@ -4,9 +4,9 @@
 
 ## 最新固定交付
 
-- 工作台固定http://127.0.0.1:4196/?workbench=appearance，source ca6d1360（确切SHA见delivery指针），build5db2cd1ed50d，experiments/native-color-fixed-v1/prototype/dist。delivery/appearance-workbench.json；上版193b保delivery/history/appearance-workbench-193bbbf64323.json；f2df保delivery/history/appearance-workbench-f2df648c612b.json，c3e及更早树同样保留。4174历史媒体，4195封M1，不新增常驻端口。
-- 外观菜单男女各有“原生可编辑候选 · 接入验证”：female843ac/native-female-843ac-v1、male7586/native-male-7586-v1。仅自己的原发原色/独立三衣，女有改袖Top。未验发肤眼唇配色UI禁用。旧男女样件保留，15失败批次只在检查区，不称八预设完成。
-- 固定构建npm ci/build过。native-workbench-193b-v1真实菜单旧女→新女→旧男→新男→旧女，无新document加载；基础/穿回/衣装、禁用提示和证据入口过。4196 HTTP身份回读在native-workbench-release-193b-v1。
+- 工作台固定http://127.0.0.1:4196/?workbench=appearance，source592ec663（确切SHA见delivery指针），buildc2721e32b6ed，experiments/native-hair-release-v1/prototype/dist。delivery/appearance-workbench.json；上版5db保delivery/history/appearance-workbench-5db2cd1ed50d.json；193b保delivery/history/appearance-workbench-193bbbf64323.json；f2df保delivery/history/appearance-workbench-f2df648c612b.json，c3e及更早树同样保留。4174历史媒体，4195封M1，不新增常驻端口。
+- 外观菜单男女各有“原生可编辑候选 · 接入验证”：female843ac/native-female-843ac-v1、male7586/native-male-7586-v1。各自独立三衣/原色，女有改袖Top；男新增独立HairSet001长直发（仅7586适配，原色，肩衣局部交叠/落座外扬保留，非最终画风）。未验发肤眼唇配色UI禁用。旧男女样件保留，15失败批次只在检查区，不称八预设完成。
+- 固定构建npm ci/build过。native-workbench-193b-v1真实菜单旧女→新女→旧男→新男→旧女，无新document加载；基础/穿回/衣装、禁用提示和证据入口过。最新c272实际UI/7段媒体检查native-hair-workbench-c272-v1通过，HTTP身份回读在native-hair-release-c272-v1。
 - native-{female,male}-room-193b-v1分别真实factory（非overlay）穿衣/基础保鞋原发/穿回、配方同页和关闭后恢复、走停/接近椅子/坐起/离开家具后短舞/idle，1×原片各约35秒。女配方136993B，男81119B。root看静态与男性全片71个0.5s帧；正常速度人工自然度、近景接触仍未验。女落座长发外扬保问题，基础不是裸足验收。不要据这两段说新源全部动作/表情/装备/双实例隔离通过。
 
 ## 已实际跑通的制作链
@@ -47,3 +47,5 @@
 - native-production页面补193b男女1倍速与隔离失败片，已随5db发布；三段媒体解码与1倍速实际播放检查通过。当前源码5db只修准入与展示，不将193b动作证据改为5db。
 
 - 当前独立发型接缝源码/CPU/独审已封：native-hair-attachment-runtime-v11、native-hair-v3-independent-v1，生产3文件a19e/fab97/b9af。原生2材质/59动态骨独立包已stage；正在从确切提交建native-hair-fixed-v1并做真实换发、原源同镜头、完整动作和关页恢复。未替4196，未声称视觉或家具接触通过。源23文件hash已核，所有失败保留；下一独立准备为原生配色生产入口只读核查，不抢Studio/GPU。
+
+- 最新独立发型已从1f6a3148构建416b做真实换发/冷恢复/房间与近景两段35秒1×动作、原源同镜头材质对照。c272仅补native-production观看入口，全部运行源码/资源/锁文件与416b逐字相同（source-comparison.json），保录像原身份不改标。原片、局限见native-hair-room-416b-v1/README.md。CPU不重做；下一主包为原生双虹膜绿单色制作：asset_budget已实际MCP保存冷开导出且恢复窗口，CPU差异与提取进行中，尚未runtime接入/放开颜色准入。
