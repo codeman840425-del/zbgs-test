@@ -1,0 +1,24 @@
+{
+  "id": "company-clock-v1",
+  "version": 1,
+  "common": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "promptStandard": "Purpose: authored wall-mounted company clocks with host-driven absolute time display. Specification: analog clocks use a 0.35m x 0.35m x 0.08m envelope, digital clocks use a 0.50m x 0.18m x 0.06m envelope. Units are metres, up is +Y, forward is +Z, wall contact is the centered origin, back is z=0 and front is +Z. Installation and load bearing: wall-mounted static decor with no use points and no scaling. Budget: deterministic CPU-only primitive geometry, no textures, no animation, no external art and at most 100 meshes, 15000 triangles, 8 materials and 1MiB per GLB. State: host clockSeconds plus saved display settings only, no internal clock or timer. Source/export: project-authored Three.js 0.187.0 parameters, GLTFExporter and GLTFLoader readback.",
+    "analog": { "width": 0.35, "height": 0.35, "depth": 0.08 },
+    "digital": { "width": 0.5, "height": 0.18, "depth": 0.06 }
+  },
+  "analog": [
+    { "id": "round", "label": "圆框指针钟", "prompt": "Project-authored round analog clock with a continuous circular rim and four raised cardinal markers.", "license": "Project-authored procedural geometry and solid-color materials. No external art assets.", "differences": { "rimRadius": 0.16, "rimTube": 0.014, "markerCount": 4 } },
+    { "id": "square", "label": "方框指针钟", "prompt": "Project-authored square analog clock with a deep square frame and inset face.", "license": "Project-authored procedural geometry and solid-color materials. No external art assets.", "differences": { "frameWidth": 0.35, "frameDepth": 0.018 } },
+    { "id": "octagon", "label": "八角指针钟", "prompt": "Project-authored octagonal analog clock with eight-sided bezel facets and a recessed face.", "license": "Project-authored procedural geometry and solid-color materials. No external art assets.", "differences": { "sides": 8, "bezelRadius": 0.17, "bezelDepth": 0.016 } },
+    { "id": "spoke", "label": "辐条指针钟", "prompt": "Project-authored analog clock with a radial spoke frame and four visible support spokes around the face.", "license": "Project-authored procedural geometry and solid-color materials. No external art assets.", "differences": { "spokes": 4, "spokeWidth": 0.012, "spokeLength": 0.15 } }
+  ],
+  "digital": [
+    { "id": "flat", "label": "平框数字钟", "prompt": "Project-authored flat digital clock with a continuous rectangular bezel around six seven-segment digits.", "license": "Project-authored procedural geometry and solid-color materials. No external art assets.", "differences": { "bezelDepth": 0.012, "bezelWidth": 0.5 } },
+    { "id": "layered", "label": "分层数字钟", "prompt": "Project-authored layered digital clock with a stepped outer frame and inset display plane.", "license": "Project-authored procedural geometry and solid-color materials. No external art assets.", "differences": { "outerDepth": 0.018, "innerDepth": 0.012 } },
+    { "id": "side-bracket", "label": "双侧支架数字钟", "prompt": "Project-authored digital clock with two visible side brackets and a framed six-digit display.", "license": "Project-authored procedural geometry and solid-color materials. No external art assets.", "differences": { "bracketWidth": 0.04, "bracketDepth": 0.02 } },
+    { "id": "recessed", "label": "凹槽数字钟", "prompt": "Project-authored recessed digital clock with a deep groove frame around the glowing segments.", "license": "Project-authored procedural geometry and solid-color materials. No external art assets.", "differences": { "grooveDepth": 0.02, "grooveWidth": 0.018 } }
+  ]
+}

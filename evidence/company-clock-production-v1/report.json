@@ -1,0 +1,289 @@
+{
+  "status": "passed",
+  "scope": "Eight wall clock geometry variants with shared display nodes and CPU GLB readback",
+  "dispatch": {
+    "difficulty": "complex",
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "reason": "Eight real clock frames with shared analog pivots and digital segment maps.",
+    "configurationEvidence": "Parent-confirmed explicit configuration. Host hook interception unverified."
+  },
+  "commands": [
+    "node scripts/company-platform/build-clocks.mjs",
+    "node scripts/company-platform/build-clocks.mjs --check"
+  ],
+  "sourceParameters": "assets-source/company-clock-v1/parameters.json",
+  "sourceParametersSha256": "944c9868bd5d38f791a5261a54fdb85f1ada443243bff21ff6844adbfed631d0",
+  "functionalContractSource": "docs/COMPANY-CLOCK-CONTRACT-v1.txt",
+  "functionalContractSourceSha256": "719c5c5a03aa348ce363869e464aab3fab3516aef34eb2194b695d74b1ea2771",
+  "generator": "scripts/company-platform/build-clocks.mjs",
+  "generatorSha256": "ce6c96f45465acff3bf2d0157e3037aba8d5b6c79122f25fc17e27e4866d39ba",
+  "items": [
+    {
+      "kind": "analog",
+      "id": "round",
+      "sha256": "6dd9c3b9fbae3ea16e07c9d2731e8082b923a833b07f0c9c0b27f5fa410c561a",
+      "bytes": 47532,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "bounds": {
+          "min": [
+            -0.17399999499320984,
+            -0.17399999499320984,
+            -5.215409701331275e-11
+          ],
+          "max": [
+            0.17399999499320984,
+            0.17399999499320984,
+            0.07700000005215406
+          ]
+        },
+        "budget": {
+          "meshes": 11,
+          "triangles": 310,
+          "materials": 3,
+          "bytes": 47532
+        },
+        "meshCount": 11,
+        "identityScale": true,
+        "externalUris": 0
+      }
+    },
+    {
+      "kind": "analog",
+      "id": "square",
+      "sha256": "6ca6d65fc79e7cbdd50fc52fd62e82d2a3a9462ce649b8e547ac6c3b29d90e86",
+      "bytes": 21288,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "bounds": {
+          "min": [
+            -0.17499999994039533,
+            -0.17499999994039533,
+            -5.2154064053566707e-11
+          ],
+          "max": [
+            0.17499999994039533,
+            0.17499999994039533,
+            0.07700000005215406
+          ]
+        },
+        "budget": {
+          "meshes": 10,
+          "triangles": 97,
+          "materials": 3,
+          "bytes": 21288
+        },
+        "meshCount": 10,
+        "identityScale": true,
+        "externalUris": 0
+      }
+    },
+    {
+      "kind": "analog",
+      "id": "octagon",
+      "sha256": "6f784a622efa846ee7421fecc88b5f774bacc1fe494046fdd2fbea8ea4ee70fa",
+      "bytes": 18904,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "bounds": {
+          "min": [
+            -0.17000000178813934,
+            -0.17000000178813934,
+            -5.215409701331275e-11
+          ],
+          "max": [
+            0.17000000178813934,
+            0.17000000178813934,
+            0.07700000005215406
+          ]
+        },
+        "budget": {
+          "meshes": 7,
+          "triangles": 100,
+          "materials": 3,
+          "bytes": 18904
+        },
+        "meshCount": 7,
+        "identityScale": true,
+        "externalUris": 0
+      }
+    },
+    {
+      "kind": "analog",
+      "id": "spoke",
+      "sha256": "c4b90e3d734ec5d0678ea14335a59c3b920e4b61e2d5776808f25f79d9133df8",
+      "bytes": 21348,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "bounds": {
+          "min": [
+            -0.15399999916553497,
+            -0.15399999916553497,
+            -5.2154064053566707e-11
+          ],
+          "max": [
+            0.15399999916553497,
+            0.15399999916553497,
+            0.07700000005215406
+          ]
+        },
+        "budget": {
+          "meshes": 10,
+          "triangles": 97,
+          "materials": 3,
+          "bytes": 21348
+        },
+        "meshCount": 10,
+        "identityScale": true,
+        "externalUris": 0
+      }
+    },
+    {
+      "kind": "digital",
+      "id": "flat",
+      "sha256": "e78a57a51554dadd158cc3a812863f21204921436037d97b132814566d84327f",
+      "bytes": 94356,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "bounds": {
+          "min": [
+            -0.25,
+            -0.08999999961256981,
+            -1.899898051382909e-10
+          ],
+          "max": [
+            0.25,
+            0.08999999961256981,
+            0.053000000026077035
+          ]
+        },
+        "budget": {
+          "meshes": 51,
+          "triangles": 408,
+          "materials": 3,
+          "bytes": 94356
+        },
+        "meshCount": 51,
+        "identityScale": true,
+        "externalUris": 0
+      }
+    },
+    {
+      "kind": "digital",
+      "id": "layered",
+      "sha256": "2fe78c40449ea15c233226e436bf65c80915f08a4927540551f2f8ce168429e6",
+      "bytes": 98028,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "bounds": {
+          "min": [
+            -0.25,
+            -0.08999999961256981,
+            -1.899898051382909e-10
+          ],
+          "max": [
+            0.25,
+            0.08999999961256981,
+            0.053000000026077035
+          ]
+        },
+        "budget": {
+          "meshes": 53,
+          "triangles": 424,
+          "materials": 3,
+          "bytes": 98028
+        },
+        "meshCount": 53,
+        "identityScale": true,
+        "externalUris": 0
+      }
+    },
+    {
+      "kind": "digital",
+      "id": "side-bracket",
+      "sha256": "55d31b644061366c78df7ff7cc473fc8d3de7617813a5375dd74f3a7d5a0fc16",
+      "bytes": 98040,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "bounds": {
+          "min": [
+            -0.25,
+            -0.08999999961256981,
+            -1.899898051382909e-10
+          ],
+          "max": [
+            0.25,
+            0.08999999961256981,
+            0.053000000026077035
+          ]
+        },
+        "budget": {
+          "meshes": 53,
+          "triangles": 424,
+          "materials": 3,
+          "bytes": 98040
+        },
+        "meshCount": 53,
+        "identityScale": true,
+        "externalUris": 0
+      }
+    },
+    {
+      "kind": "digital",
+      "id": "recessed",
+      "sha256": "3404feb820b080c02d51e1c2b2b57d7895476ca25f79466bd2ce8d911c50bb3d",
+      "bytes": 98028,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "bounds": {
+          "min": [
+            -0.25,
+            -0.08999999961256981,
+            -1.899898051382909e-10
+          ],
+          "max": [
+            0.25,
+            0.08999999961256981,
+            0.05499999977648258
+          ]
+        },
+        "budget": {
+          "meshes": 53,
+          "triangles": 424,
+          "materials": 3,
+          "bytes": 98028
+        },
+        "meshCount": 53,
+        "identityScale": true,
+        "externalUris": 0
+      }
+    }
+  ],
+  "sourceModificationEvidence": {
+    "design": "analog-round",
+    "formalRimTube": 0.014,
+    "initialRimTube": 0.012,
+    "parametersPath": "evidence/company-clock-production-v1/variant-analog-round.parameters.json",
+    "parametersSha256": "c5d21dd786efea661ad08a48d51c48789fefd391516b9fddfe6158345a61f2ba",
+    "outputPath": "evidence/company-clock-production-v1/variant-analog-round.glb",
+    "sha256": "cbad63d25f8379137c8584ff22f67203366907d450c9b0fbe020d292a69e5909",
+    "bytes": 47528,
+    "repeatedExportByteIdentical": true
+  },
+  "initialCandidateEvidence": {
+    "parametersPath": "evidence/company-clock-production-v1/initial-analog-round.parameters.json",
+    "parametersSha256": "c5d21dd786efea661ad08a48d51c48789fefd391516b9fddfe6158345a61f2ba",
+    "outputPath": "evidence/company-clock-production-v1/initial-analog-round.glb",
+    "sha256": "cbad63d25f8379137c8584ff22f67203366907d450c9b0fbe020d292a69e5909",
+    "bytes": 47528
+  },
+  "visualCorrectionEvidence": {
+    "initialBeforeVisual": "evidence/company-clock-production-v1/initial-before-visual",
+    "changes": [
+      "Round and octagonal faces now match their frame silhouettes and sit behind the hands.",
+      "Spokes now use four full radial directions.",
+      "Digital variants now include an opaque dark display back at wall plane z=0 behind the segments."
+    ]
+  }
+}

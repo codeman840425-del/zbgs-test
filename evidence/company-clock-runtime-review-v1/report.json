@@ -1,0 +1,52 @@
+{
+  "status": "passed",
+  "scope": "Company clock runtime review of explicit host input, prepare/commit replay, view/restore, persistence boundary, legacy state defaults and imported material isolation",
+  "configuration": {
+    "difficulty": "complex",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "high",
+    "actualProviderConfiguration": "not independently verified",
+    "hostHookInterception": "not independently verified"
+  },
+  "checks": [
+    {
+      "name": "invalid-host-input-preserves-display-and-input",
+      "result": "passed",
+      "details": "Infinity, extra fields, ±1e12 overflow and string input all raised invalid-presentation-input. Previous input and analog hand rotation remained unchanged."
+    },
+    {
+      "name": "host-input-does-not-churn-document",
+      "result": "passed",
+      "details": "setPresentationInputs changed imported display objects while revision and serialized document stayed unchanged. save() output contained no clockSeconds field."
+    },
+    {
+      "name": "prepared-layout-commits-with-latest-host-input",
+      "result": "passed",
+      "details": "A candidate prepared at 33330.5 was committed after input changed to 43215.25. The committed analog hand used 43215.25 and the presentation input remained latest."
+    },
+    {
+      "name": "view-and-restore-reapply-latest-input",
+      "result": "passed",
+      "details": "Room view and restore preserved logical document/view and current presentation input. Building view hid facility meshes and returning to a floor rebuilt clocks with the current host input."
+    },
+    {
+      "name": "legacy-omitted-clock-state",
+      "result": "passed",
+      "details": "Analog and digital clock documents with facility state omitted restored through derive/restore and received resource defaults."
+    },
+    {
+      "name": "imported-material-isolation",
+      "result": "passed",
+      "details": "All eight looks loaded and built through the actual asset library on CPU. Two same-resource digital instances received distinct cloned materials. Mutating one segment emissiveIntensity left the other at 1."
+    }
+  ],
+  "commands": [
+    "node --input-type=module < CPU runtime checks for clock-display/render",
+    "node --input-type=module < preload and build all eight clock looks with asset library"
+  ],
+  "limits": [
+    "No browser or GPU run was performed in this independent review. Parent reports browser coverage separately.",
+    "Geometry and material validator coverage belongs to the separate geometry/material review."
+  ],
+  "findings": []
+}

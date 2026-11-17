@@ -2,7 +2,9 @@ import {createCompany,prepareCompanyChange,identityTransform} from './document.j
 import {createSupportSample} from './support-samples.js';
 import {createHingedSample} from './hinged-samples.js';
 import {createSlidingSample} from './sliding-samples.js';
+import {createClockSample} from './clock-samples.js';
 export const appearanceBranches=[
+ ['analog-clock','挂墙指针钟'],['digital-clock','挂墙数字钟'],
  ['hinged-cabinet','单扇开合柜'],
  ['sliding-drawer-cabinet','单抽屉收纳柜'],
  ['storage-shelf','多层开放架'],['tabletop-ornament','台面陈列摆件'],
@@ -21,6 +23,7 @@ export function appearanceCandidates(catalog,branch) {
  return selected.filter(Boolean).map(r=>({...r,displayName:r.displayName||names[r.id]||r.id}));
 }
 export function createAppearanceSample(branch,index,catalog,templates) {
+ if(['analog-clock','digital-clock'].includes(branch))return createClockSample(catalog,templates,{branch,index});
  if(branch==='hinged-cabinet')return createHingedSample(catalog,templates,{index});
  if(branch==='sliding-drawer-cabinet')return createSlidingSample(catalog,templates,{index});
  if(['storage-shelf','tabletop-ornament'].includes(branch))return createSupportSample(catalog,templates,{branch,index});

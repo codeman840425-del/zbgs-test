@@ -1,0 +1,141 @@
+{
+  "id": "digital-clock-flat",
+  "displayName": "平框数字钟",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "digital-clock",
+  "productionBranch": "digital-clock",
+  "mount": "wall",
+  "mounting": {
+    "origin": "center",
+    "width": 0.5,
+    "height": 0.18,
+    "depth": 0.06
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Wall contact centre",
+    "scale": "Identity only"
+  },
+  "provenance": {
+    "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+    "prompt": "Purpose: authored wall-mounted company clocks with host-driven absolute time display. Specification: analog clocks use a 0.35m x 0.35m x 0.08m envelope, digital clocks use a 0.50m x 0.18m x 0.06m envelope. Units are metres, up is +Y, forward is +Z, wall contact is the centered origin, back is z=0 and front is +Z. Installation and load bearing: wall-mounted static decor with no use points and no scaling. Budget: deterministic CPU-only primitive geometry, no textures, no animation, no external art and at most 100 meshes, 15000 triangles, 8 materials and 1MiB per GLB. State: host clockSeconds plus saved display settings only, no internal clock or timer. Source/export: project-authored Three.js 0.187.0 parameters, GLTFExporter and GLTFLoader readback. Design difference: Project-authored flat digital clock with a continuous rectangular bezel around six seven-segment digits.",
+    "tools": [
+      "Three.js 187",
+      "BoxGeometry",
+      "GLTFExporter",
+      "GLTFLoader readback"
+    ],
+    "sourceParameters": "assets-source/company-clock-v1/parameters.json",
+    "sourceParametersSha256": "944c9868bd5d38f791a5261a54fdb85f1ada443243bff21ff6844adbfed631d0",
+    "sourceDesign": "flat",
+    "functionalContractSource": "docs/COMPANY-CLOCK-CONTRACT-v1.txt",
+    "functionalContractSourceSha256": "719c5c5a03aa348ce363869e464aab3fab3516aef34eb2194b695d74b1ea2771",
+    "generator": "scripts/company-platform/build-clocks.mjs",
+    "generatorSha256": "ce6c96f45465acff3bf2d0157e3037aba8d5b6c79122f25fc17e27e4866d39ba",
+    "method": "Project-authored flat digital clock with a continuous rectangular bezel around six seven-segment digits."
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/clock-v1/digital-flat/v1/model.glb",
+    "sha256": "e78a57a51554dadd158cc3a812863f21204921436037d97b132814566d84327f",
+    "bytes": 94356
+  },
+  "clockDisplay": {
+    "kind": "digital",
+    "format": "24h",
+    "seconds": true
+  },
+  "clockNodes": {
+    "digits": [
+      [
+        "clock-digit-1-a",
+        "clock-digit-1-b",
+        "clock-digit-1-c",
+        "clock-digit-1-d",
+        "clock-digit-1-e",
+        "clock-digit-1-f",
+        "clock-digit-1-g"
+      ],
+      [
+        "clock-digit-2-a",
+        "clock-digit-2-b",
+        "clock-digit-2-c",
+        "clock-digit-2-d",
+        "clock-digit-2-e",
+        "clock-digit-2-f",
+        "clock-digit-2-g"
+      ],
+      [
+        "clock-digit-3-a",
+        "clock-digit-3-b",
+        "clock-digit-3-c",
+        "clock-digit-3-d",
+        "clock-digit-3-e",
+        "clock-digit-3-f",
+        "clock-digit-3-g"
+      ],
+      [
+        "clock-digit-4-a",
+        "clock-digit-4-b",
+        "clock-digit-4-c",
+        "clock-digit-4-d",
+        "clock-digit-4-e",
+        "clock-digit-4-f",
+        "clock-digit-4-g"
+      ],
+      [
+        "clock-digit-5-a",
+        "clock-digit-5-b",
+        "clock-digit-5-c",
+        "clock-digit-5-d",
+        "clock-digit-5-e",
+        "clock-digit-5-f",
+        "clock-digit-5-g"
+      ],
+      [
+        "clock-digit-6-a",
+        "clock-digit-6-b",
+        "clock-digit-6-c",
+        "clock-digit-6-d",
+        "clock-digit-6-e",
+        "clock-digit-6-f",
+        "clock-digit-6-g"
+      ]
+    ],
+    "colons": [
+      "clock-colon-1",
+      "clock-colon-2",
+      "clock-colon-3",
+      "clock-colon-4"
+    ]
+  },
+  "stateDefaults": {
+    "timeOffsetSeconds": 0,
+    "on": true,
+    "brightness": 1
+  },
+  "stateSchema": {
+    "timeOffsetSeconds": {
+      "type": "number",
+      "min": -86400,
+      "max": 86400
+    },
+    "on": {
+      "type": "boolean"
+    },
+    "brightness": {
+      "type": "number",
+      "min": 0,
+      "max": 1
+    }
+  },
+  "stateSemantics": {
+    "timeOffsetSeconds": "host-clock-offset-seconds",
+    "on": "clock-display-powered",
+    "brightness": "clock-display-brightness"
+  },
+  "usePoints": []
+}

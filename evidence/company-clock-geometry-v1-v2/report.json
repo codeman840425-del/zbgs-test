@@ -1,0 +1,402 @@
+{
+  "status": "passed",
+  "generatedAt": "2026-11-17T00:59:37.401Z",
+  "configuration": {
+    "difficulty": "complex",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "high",
+    "actualProviderConfiguration": "not independently verified",
+    "hostHookInterception": "not independently verified"
+  },
+  "api": "validateClockGeometry(scene, resource, fail, path)",
+  "checks": [
+    {
+      "name": "analog pivots and +Y pointers pass",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "kind": "analog",
+        "pivots": [
+          "clock-hour-pivot",
+          "clock-minute-pivot",
+          "clock-second-pivot"
+        ],
+        "pointerLengths": [
+          0.085,
+          0.12,
+          0.14
+        ]
+      }
+    },
+    {
+      "name": "digital six-by-seven segments and colons pass",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "kind": "digital",
+        "digits": 6,
+        "segments": 42,
+        "colons": 4
+      }
+    },
+    {
+      "name": "non-clock resource is ignored",
+      "passed": true,
+      "observed": {
+        "checked": false,
+        "kind": null
+      }
+    },
+    {
+      "name": "missing analog pointer geometry is rejected",
+      "passed": true,
+      "observed": {
+        "code": "clock-pointer-geometry",
+        "path": "analog-clock.clockNodes",
+        "message": "Analog pivot must contain a visible solid pointer mesh"
+      }
+    },
+    {
+      "name": "duplicate analog pivot is rejected",
+      "passed": true,
+      "observed": {
+        "code": "clock-pivot-node",
+        "path": "analog-clock.clockNodes.hour",
+        "message": "Clock mapping must uniquely resolve to the requested actual node"
+      }
+    },
+    {
+      "name": "nonidentity analog parent is rejected",
+      "passed": true,
+      "observed": {
+        "code": "clock-parent-transform",
+        "path": "analog-clock.clockNodes",
+        "message": "Clock resource parent wrappers must have identity transforms"
+      }
+    },
+    {
+      "name": "horizontal analog pointer is rejected",
+      "passed": true,
+      "observed": {
+        "code": "clock-pointer-geometry",
+        "path": "analog-clock.clockNodes",
+        "message": "Analog pointer must extend along +Y to its declared length"
+      }
+    },
+    {
+      "name": "front frame occluding analog pointer is rejected",
+      "passed": true,
+      "observed": {
+        "code": "clock-display-occluded",
+        "path": "analog-clock.clockNodes",
+        "message": "Static frame geometry blocks a required front display position"
+      }
+    },
+    {
+      "name": "duplicate digital segment node is rejected",
+      "passed": true,
+      "observed": {
+        "code": "clock-display-node",
+        "path": "digital-clock.clockNodes.digits[0][0]",
+        "message": "Clock mapping must uniquely resolve to the requested actual node"
+      }
+    },
+    {
+      "name": "misplaced digital segment is rejected",
+      "passed": true,
+      "observed": {
+        "code": "clock-display-geometry",
+        "path": "digital-clock.clockNodes.digits[0][0]",
+        "message": "Digital segment has an invalid position or dimension"
+      }
+    },
+    {
+      "name": "left-right digital segment mapping is rejected",
+      "passed": true,
+      "observed": {
+        "code": "clock-display-geometry",
+        "path": "digital-clock.clockNodes.digits[0][1]",
+        "message": "Digital segment has an invalid position or dimension"
+      }
+    },
+    {
+      "name": "front frame occluding digital display is rejected",
+      "passed": true,
+      "observed": {
+        "code": "clock-display-occluded",
+        "path": "digital-clock.clockNodes",
+        "message": "Static frame geometry blocks a required front display position"
+      }
+    },
+    {
+      "name": "nonfinite digital geometry is rejected",
+      "passed": true,
+      "observed": {
+        "code": "clock-display-geometry",
+        "path": "digital-clock.clockNodes.digits[0][0]",
+        "message": "Digital segment must be a visible solid front mesh"
+      }
+    },
+    {
+      "name": "eight authored clock GLBs pass the real loader and geometry validator",
+      "passed": true,
+      "observed": [
+        {
+          "id": "analog-round",
+          "kind": "analog",
+          "checked": true,
+          "result": {
+            "checked": true,
+            "kind": "analog",
+            "pivots": [
+              "clock-hour-pivot",
+              "clock-minute-pivot",
+              "clock-second-pivot"
+            ],
+            "pointerLengths": [
+              0.085,
+              0.12,
+              0.14
+            ]
+          }
+        },
+        {
+          "id": "analog-square",
+          "kind": "analog",
+          "checked": true,
+          "result": {
+            "checked": true,
+            "kind": "analog",
+            "pivots": [
+              "clock-hour-pivot",
+              "clock-minute-pivot",
+              "clock-second-pivot"
+            ],
+            "pointerLengths": [
+              0.085,
+              0.12,
+              0.14
+            ]
+          }
+        },
+        {
+          "id": "analog-octagon",
+          "kind": "analog",
+          "checked": true,
+          "result": {
+            "checked": true,
+            "kind": "analog",
+            "pivots": [
+              "clock-hour-pivot",
+              "clock-minute-pivot",
+              "clock-second-pivot"
+            ],
+            "pointerLengths": [
+              0.085,
+              0.12,
+              0.14
+            ]
+          }
+        },
+        {
+          "id": "analog-spoke",
+          "kind": "analog",
+          "checked": true,
+          "result": {
+            "checked": true,
+            "kind": "analog",
+            "pivots": [
+              "clock-hour-pivot",
+              "clock-minute-pivot",
+              "clock-second-pivot"
+            ],
+            "pointerLengths": [
+              0.085,
+              0.12,
+              0.14
+            ]
+          }
+        },
+        {
+          "id": "digital-flat",
+          "kind": "digital",
+          "checked": true,
+          "result": {
+            "checked": true,
+            "kind": "digital",
+            "digits": 6,
+            "segments": 42,
+            "colons": 4
+          }
+        },
+        {
+          "id": "digital-layered",
+          "kind": "digital",
+          "checked": true,
+          "result": {
+            "checked": true,
+            "kind": "digital",
+            "digits": 6,
+            "segments": 42,
+            "colons": 4
+          }
+        },
+        {
+          "id": "digital-side-bracket",
+          "kind": "digital",
+          "checked": true,
+          "result": {
+            "checked": true,
+            "kind": "digital",
+            "digits": 6,
+            "segments": 42,
+            "colons": 4
+          }
+        },
+        {
+          "id": "digital-recessed",
+          "kind": "digital",
+          "checked": true,
+          "result": {
+            "checked": true,
+            "kind": "digital",
+            "digits": 6,
+            "segments": 42,
+            "colons": 4
+          }
+        }
+      ]
+    }
+  ],
+  "realAssets": [
+    {
+      "id": "analog-round",
+      "kind": "analog",
+      "checked": true,
+      "result": {
+        "checked": true,
+        "kind": "analog",
+        "pivots": [
+          "clock-hour-pivot",
+          "clock-minute-pivot",
+          "clock-second-pivot"
+        ],
+        "pointerLengths": [
+          0.085,
+          0.12,
+          0.14
+        ]
+      }
+    },
+    {
+      "id": "analog-square",
+      "kind": "analog",
+      "checked": true,
+      "result": {
+        "checked": true,
+        "kind": "analog",
+        "pivots": [
+          "clock-hour-pivot",
+          "clock-minute-pivot",
+          "clock-second-pivot"
+        ],
+        "pointerLengths": [
+          0.085,
+          0.12,
+          0.14
+        ]
+      }
+    },
+    {
+      "id": "analog-octagon",
+      "kind": "analog",
+      "checked": true,
+      "result": {
+        "checked": true,
+        "kind": "analog",
+        "pivots": [
+          "clock-hour-pivot",
+          "clock-minute-pivot",
+          "clock-second-pivot"
+        ],
+        "pointerLengths": [
+          0.085,
+          0.12,
+          0.14
+        ]
+      }
+    },
+    {
+      "id": "analog-spoke",
+      "kind": "analog",
+      "checked": true,
+      "result": {
+        "checked": true,
+        "kind": "analog",
+        "pivots": [
+          "clock-hour-pivot",
+          "clock-minute-pivot",
+          "clock-second-pivot"
+        ],
+        "pointerLengths": [
+          0.085,
+          0.12,
+          0.14
+        ]
+      }
+    },
+    {
+      "id": "digital-flat",
+      "kind": "digital",
+      "checked": true,
+      "result": {
+        "checked": true,
+        "kind": "digital",
+        "digits": 6,
+        "segments": 42,
+        "colons": 4
+      }
+    },
+    {
+      "id": "digital-layered",
+      "kind": "digital",
+      "checked": true,
+      "result": {
+        "checked": true,
+        "kind": "digital",
+        "digits": 6,
+        "segments": 42,
+        "colons": 4
+      }
+    },
+    {
+      "id": "digital-side-bracket",
+      "kind": "digital",
+      "checked": true,
+      "result": {
+        "checked": true,
+        "kind": "digital",
+        "digits": 6,
+        "segments": 42,
+        "colons": 4
+      }
+    },
+    {
+      "id": "digital-recessed",
+      "kind": "digital",
+      "checked": true,
+      "result": {
+        "checked": true,
+        "kind": "digital",
+        "digits": 6,
+        "segments": 42,
+        "colons": 4
+      }
+    }
+  ],
+  "limits": [
+    "CPU-only Three synthetic scenes and GLTFLoader readback. No browser, GPU, state runtime or host clock.",
+    "The validator checks static analog pointer and digital segment geometry, mapping identity and conservative front occlusion.",
+    "It does not prove host time input, display brightness/state transitions, persistence or visual acceptance."
+  ]
+}

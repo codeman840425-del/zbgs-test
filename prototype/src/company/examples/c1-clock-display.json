@@ -1,0 +1,221 @@
+{
+  "schema": "company-layout",
+  "version": 1,
+  "id": "appearance-analog-clock",
+  "name": "钟表 · 直播间",
+  "revision": 1,
+  "scale": "single-room",
+  "catalog": {
+    "id": "company-facilities",
+    "version": 1
+  },
+  "nodes": [
+    {
+      "id": "appearance-analog-clock/floor-1",
+      "kind": "floor",
+      "parentId": "appearance-analog-clock",
+      "name": "一层",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "appearance-analog-clock/room-1",
+      "kind": "room",
+      "parentId": "appearance-analog-clock/floor-1",
+      "name": "直播间",
+      "purpose": "streaming",
+      "bounds": {
+        "width": 7,
+        "depth": 5.25
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "clock/station",
+      "kind": "workstation",
+      "parentId": "appearance-analog-clock/room-1",
+      "name": "clock/station",
+      "transform": {
+        "position": [
+          -1.2,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "template": {
+        "id": "stream-station",
+        "version": 1
+      }
+    },
+    {
+      "id": "clock/station/desk",
+      "kind": "facility",
+      "stationId": "clock/station",
+      "partKey": "desk",
+      "parentId": "clock/station",
+      "resource": {
+        "id": "desk",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -0.9
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "clock/station/monitor",
+      "kind": "facility",
+      "stationId": "clock/station",
+      "partKey": "monitor",
+      "parentId": "clock/station/desk",
+      "resource": {
+        "id": "monitor",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          -0.25
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "clock/station/keyboard",
+      "kind": "facility",
+      "stationId": "clock/station",
+      "partKey": "keyboard",
+      "parentId": "clock/station/desk",
+      "resource": {
+        "id": "keyboard",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          0.21
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "clock/station/microphone",
+      "kind": "facility",
+      "stationId": "clock/station",
+      "partKey": "microphone",
+      "parentId": "clock/station/desk",
+      "resource": {
+        "id": "desk-microphone",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.8,
+          0.84,
+          0.18
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "clock/station/chair",
+      "kind": "facility",
+      "stationId": "clock/station",
+      "partKey": "chair",
+      "parentId": "clock/station",
+      "resource": {
+        "id": "chair",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0.55
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "clock/station/fill-light",
+      "kind": "facility",
+      "stationId": "clock/station",
+      "partKey": "fill-light",
+      "parentId": "clock/station",
+      "resource": {
+        "id": "fill-light",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.75,
+          0,
+          -0.15
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "clock/primary",
+      "kind": "facility",
+      "parentId": "appearance-analog-clock/room-1",
+      "resource": {
+        "id": "analog-clock-round",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0.7,
+          1.8,
+          -2.525
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "clock/secondary",
+      "kind": "facility",
+      "parentId": "appearance-analog-clock/room-1",
+      "resource": {
+        "id": "digital-clock-flat",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1.6,
+          1.8,
+          -2.525
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    }
+  ]
+}

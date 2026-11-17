@@ -6,6 +6,8 @@ import {validateSupportGeometry} from './support-geometry.js';
 import {validateMovingResource} from './moving-parts.js';
 import {validateMovingPartGeometry} from './moving-part-geometry.js';
 import {validateSlidingPartGeometry} from './sliding-part-geometry.js';
+import {validateClockResource} from './clock-display.js';
+import {validateClockGeometry} from './clock-geometry.js';
 
 const compressionExtensions = new Set([
   'KHR_draco_mesh_compression', 'EXT_meshopt_compression',
@@ -21,6 +23,7 @@ function describe(resource) {
     throw error('invalid-asset-resource', path, 'Expected stable resource id and positive version');
   validateSupportResource(resource, (code, location, message) => { throw error(code, location, message); }, path);
   validateMovingResource(resource, (code, location, message) => { throw error(code, location, message); }, path);
+  validateClockResource(resource, (code, location, message) => { throw error(code, location, message); }, path);
   const asset = resource.asset;
   if (!asset || asset.format !== 'glb' || typeof asset.url !== 'string' || !asset.url.trim() ||
       !/^[a-fA-F0-9]{64}$/.test(asset.sha256 || '') || !Number.isSafeInteger(asset.bytes) || asset.bytes < 20)
@@ -140,6 +143,7 @@ async function releaseFailedParser(parser, json, pack) {
 
 function validateResource(pack, description) {
   pack.scene.updateMatrixWorld(true);
+  validateClockGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateSupportGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   const movingGeometry=description.resource.movingParts?.[0]?.kind==='slide'?validateSlidingPartGeometry:validateMovingPartGeometry;
   movingGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });

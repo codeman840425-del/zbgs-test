@@ -1,0 +1,27 @@
+公司挂墙钟表合同 v1
+
+主包：补齐宿主时间驱动指针/数字显示；挂墙 analog-clock、digital-clock 各四款真实造型。
+输入：显式有限 clockSeconds（绝对值不超过 1e12），固定资源及设备设置。
+产物：可编辑参数与重复导出、八个 GLB/登记、两种布局、共用显示入口、固定运行/恢复/独立交付证据。
+最小验收：四款逐项替换及关闭恢复；已知时间/跨日/偏移；数字开关亮度及实例隔离；切层/换外观/恢复取最新时间；非法输入失败保旧；走时不修改布局或存档。
+尝试预算：一次初始实现，加一次有根因证据的修正；同因两轮无改善则重新定位，不扫参或降低验收。
+
+宿主拥有时间。scene.setPresentationInputs({clockSeconds}) 接受唯一时间字段，不累积时间、不读 Date.now、不启动计时器。初始无输入显示 00:00:00；调用先完整校验，失败保持原输入/画面。输入不写入公司文档、不增加修订号、不撤销已准备的布局操作。预览仅消费既有 Phaser Scene update 的时间输入，测试可显式冻结/跳转；不是经营时钟集成证明。
+有效日秒数 = 正模(clockSeconds + state.timeOffsetSeconds, 86400)。保存 timeOffsetSeconds（number，-86400..86400，默认0）；宿主时间不存入布局。
+
+挂墙通用：metres、+Y up、+Z front，墙接触中心为原点，背面z=0，正面+Z。mount:'wall'；mounting.origin:'center'；不缩放外观适配。wall mounted placement/cutaway 沿既有合同。
+analog-clock：mounting width .35 height .35 depth .08；clockDisplay={kind:'analog',format:'12h',seconds:true}。
+clockNodes={hour:'clock-hour-pivot',minute:'clock-minute-pivot',second:'clock-second-pivot'}。三个唯一组枢轴，其局部x/y=0，初始旋转0/缩放1，z依次 .045/.055/.065。各自有实际可见实心指针沿+Y；时针长 .085、分针长 .12、秒针长 .14；完整旋转不得越过包络。枢轴属于资源根坐标，不允许祖先缩放/旋转改变轴义。
+显示角度（绕局部Z负向）：hour=-2π*(日秒数%43200)/43200；minute=-2π*(日秒数%3600)/3600；second=-2π*(日秒数%60)/60。连续秒输入保留分数，不以跳格代替。
+digital-clock：mounting width .5 height .18 depth .06；clockDisplay={kind:'digital',format:'24h',seconds:true}。
+clockNodes={digits:[[a,b,c,d,e,f,g], ...共六位],colons:[四个实际点mesh名称]}，节点映射唯一。七段顺序a顶、b右上、c右下、d底、e左下、f左上、g中；HH:MM:SS。数字中心x=-.195,-.13,-.0325,.0325,.13,.195，y=0；段长约.035/厚约.007；数字总高约.10，显示在正面可见。冒号在x=-.08125,+.08125，y=±.02。不得用空节点或印字标签冒充实际段显示。
+digital额外保存 on:boolean 默认true、brightness:number 0..1默认1。开启段可见条件是on且brightness>0且对应段点亮；冒号随on/brightness。开启段材质颜色固定#75efbe、emissive同色、emissiveIntensity=brightness；off段不可见。不增加实时灯，不宣称照亮角色。段可以共享同一资源实例内的材质，但不得改变其他实例。
+两个分支 stateSemantics.timeOffsetSeconds='host-clock-offset-seconds'；digital额外on='clock-display-powered'、brightness='clock-display-brightness'。
+clockDisplay纳入固定功能签名；clockNodes属于显示绑定，不影响同规格换外观的兼容判断。不同机制不互换。
+
+四款须真实几何差异，例如圆框/方框/八角框/辐条框及数字平框/分层框/双侧支架框/凹槽框；颜色不是数量依据。保持共同安装、指针及数字显示规格。台面钟独立分支后续完成，机械翻页/日历不是七段数字显示已验能力。
+生产参数至少一次真实修改→重新导出→注册→加载→状态检查→关闭恢复；记录源/合同/GLB摘要与许可。沿既有source/package/library机制，不另造资产平台。
+预算：无纹理、无动画/骨骼、无外链；每件<=100 mesh、<=15000 triangles、<=8 materials、GLB<=1MiB。此为本包静态准入，不是普通电脑性能通过。
+验证真实节点/几何、旋转/数字位置及正面可见性；坏节点/坏字段/坏资源不替换有效场景。实际框体应避开指针/显示面。全墙隐藏只影响观看，不改挂墙归属或设备设置。
+
+依据：Phaser官方 https://docs.phaser.io/phaser/concepts/time 与锁定Phaser3.90 Clock源；Three官方 https://threejs.org/docs/pages/Object3D.html 与既有实例材质隔离。运行只消费显式输入，角色/业务时间归总工。

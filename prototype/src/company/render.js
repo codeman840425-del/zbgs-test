@@ -8,6 +8,7 @@ import {createContactResourceStore} from './contact-resources.js';
 import {WALL_HEIGHT,WALL_CENTER_Y,evaluateWallVisibility,groupWallSegments,wallEdge} from './wall-visibility.js';
 import {applySurfaceFinish,describeSurfaceMeshes} from './surface-finish-render.js';
 import {partAngle,partOffset} from './moving-parts.js';
+import {bindClockDisplay,validatePresentationInputs} from './clock-display.js';
 import {inspectCompanyMotionSweep} from './placement.js';
 
 const geometryTypes={BoxGeometry:THREE.BoxGeometry,CylinderGeometry:THREE.CylinderGeometry,PlaneGeometry:THREE.PlaneGeometry,CapsuleGeometry:THREE.CapsuleGeometry,SphereGeometry:THREE.SphereGeometry};
@@ -57,7 +58,7 @@ function structureMesh(width,height,depth,color) {
 // Presentation/provider only: no actor creation, movement, task or lease implementation.
 export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog,templates=defaultTemplates,visibleFloorId,maxRealtimeLights=2,assetLibrary}={}) {
   if(!world?.isObject3D)throw new TypeError('Company scene requires a Three world');
-  let current,disposed=false,generation=0;
+  let current,disposed=false,generation=0,presentationInputs={clockSeconds:0};
   const prepared=new Map();
   function build(document,floorId,view={mode:'floor',roomId:null},wallView={mode:'full',cameraPosition:null}) {
     const derived=deriveCompany(document,catalog,templates);
@@ -143,6 +144,8 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
           }
         }
         const facility={...entry,root,parts,visual};
+        facility.clock=bindClockDisplay(entry.resource,parts,entry.state);
+        facility.clock?.apply(presentationInputs);
         if(['wall','portal'].includes(entry.resource.mount)) {
           const edge=wallEdge(entry.node.transform.yaw);
           const along=['north','south'].includes(edge)?entry.node.transform.position[0]:entry.node.transform.position[2];
@@ -266,6 +269,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
       }
     }
     if(latestWallView)candidate.wallView=clone(latestWallView);
+    for(const facility of candidate.facilities.values())facility.clock?.apply(presentationInputs);
     world.add(candidate.root);candidate.root.updateMatrixWorld(true);
     if(current)disposeTree(current.root);current=candidate;generation++;applyPresentation();
   }
@@ -322,6 +326,12 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
       return current.derived.usePoints.filter(point=>floorId===undefined||point.floorId===floorId).map(point=>describeCompanyUsePoint(current.document,current.derived,point.id));
     },
     navigation,
+    setPresentationInputs(inputs) {
+      live();const next=validatePresentationInputs(inputs);
+      for(const facility of current.facilities.values())facility.clock?.apply(next);
+      presentationInputs=next;current.root.updateMatrixWorld(true);return {...next};
+    },
+    get presentationInputs(){live();return {...presentationInputs};},
     surfacePresentation(){live();return describeSurfaceMeshes([...current.floors,...current.walls,...current.ceilings]);},
     snapshot(){return {document:clone(current.document),view:this.view,wallView:clone(current.wallView),visibleFloorId:current.floorId,displayedFacilities:current.facilities.size,points:[...current.points.values()].map(p=>({id:p.id,facilityId:p.facilityId,position:p.chair.getWorldPosition(new THREE.Vector3()).toArray(),yaw:p.world.yaw+(p.yaw||0)})),lights:current.lights.map(l=>({id:l.id,intensity:l.light.intensity,castsShadow:l.light.castShadow})),navigation:navigation().obstacles.map(({object,...o})=>o)};},
     setView({mode='floor',floorId=current.floorId,roomId=null}={}) {

@@ -22,6 +22,8 @@ import {appearanceBranches,appearanceCandidates,createAppearanceSample} from './
 import {createSupportSample} from './support-samples.js';
 import {createHingedSample} from './hinged-samples.js';
 import {createSlidingSample} from './sliding-samples.js';
+import {createClockSample} from './clock-samples.js';
+import {validatePresentationInputs} from './clock-display.js';
 import './preview.css';
 
 const element=id=>document.getElementById(id),stage=element('stage');
@@ -35,9 +37,10 @@ const sun=new THREE.DirectionalLight(0xfff0d6,2.3);sun.position.set(-3,8,5);sun.
 Object.assign(sun.shadow.camera,{left:-8,right:8,top:8,bottom:-8});sun.shadow.normalBias=.015;world.add(sun);
 const camera=new THREE.PerspectiveCamera(38,1,.05,300),orbit=new OrbitControls(camera,renderer.domElement);
 orbit.enableDamping=false;orbit.maxPolarAngle=Math.PI*.48;orbit.minDistance=2;orbit.maxDistance=160;
-const layouts={sliding:createSlidingSample(catalog,templates).document,slidingAlternate:createSlidingSample(catalog,templates,{alternate:true}).document,hinged:createHingedSample(catalog,templates).document,hingedAlternate:createHingedSample(catalog,templates,{alternate:true}).document,base,alternate,studio,...createScaleExamples(catalog,templates),smallHome,rental:rentalHome,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome,ceilings:ceilingCompany,ceilingHome,
+const layouts={clocks:createClockSample(catalog,templates).document,clockAlternate:createClockSample(catalog,templates,{alternate:true}).document,sliding:createSlidingSample(catalog,templates).document,slidingAlternate:createSlidingSample(catalog,templates,{alternate:true}).document,hinged:createHingedSample(catalog,templates).document,hingedAlternate:createHingedSample(catalog,templates,{alternate:true}).document,base,alternate,studio,...createScaleExamples(catalog,templates),smallHome,rental:rentalHome,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome,ceilings:ceilingCompany,ceilingHome,
   supports:createSupportSample(catalog,templates).document,supportAlternate:createSupportSample(catalog,templates,{alternate:true}).document},assetLibrary=createCompanyAssetLibrary();let session,activeView='room',busy=false,game;
-let regionLabels=[];
+let regionLabels=[],previewClockOverride=null;
+function setPreviewClock(seconds){if(seconds!==null)validatePresentationInputs({clockSeconds:seconds});previewClockOverride=seconds;if(seconds!==null)session.scene.setPresentationInputs({clockSeconds:seconds});return seconds;}
 let buildingPresentation='exterior';
 let wallMode='cutaway';
 function updateWallView(){if(session)session.scene.setWallView({mode:wallMode,cameraPosition:camera.position.toArray()});}
@@ -62,6 +65,11 @@ function setView(name){
     }
     target=box.getCenter(new THREE.Vector3());
   }
+  if(name==='clock'&&view.mode==='room') {
+    const object=session.scene.root.getObjectByName(element('clock').value);
+    if(object){const center=new THREE.Box3().setFromObject(object).getCenter(new THREE.Vector3());orbit.minDistance=.6;orbit.target.copy(center);camera.position.copy(center).add(new THREE.Vector3(0,.03,.85).applyQuaternion(object.getWorldQuaternion(new THREE.Quaternion())));orbit.update();updateWallView();return;}
+  }
+  orbit.minDistance=2;
   if(name==='ceiling'&&view.mode==='room') {
     const room=derived.nodes.get(view.roomId),frame=derived.worlds.get(view.roomId);
     const origin=new THREE.Vector3(...frame.position),offset=new THREE.Vector3(-room.bounds.width*.3,1.1,room.bounds.depth*.35);
@@ -136,6 +144,7 @@ async function showAppearanceSample(branch,index){
   element('sample-branch').value=branch;fillSampleLooks();element('sample-look').value=String(index);
   const object=session.scene.root.getObjectByName(sample.target),box=new THREE.Box3().setFromObject(object);
   const target=box.getCenter(new THREE.Vector3()),size=box.getSize(new THREE.Vector3());
+  orbit.minDistance=['analog-clock','digital-clock'].includes(branch)?.6:2;
   const offset=['floor-panel','rug'].includes(branch)?new THREE.Vector3(.15,1,.35):new THREE.Vector3(.5,.45,1);
   offset.normalize().applyQuaternion(object.getWorldQuaternion(new THREE.Quaternion()));
   const distance=Math.max(size.y,size.x/camera.aspect,size.z)*1.9+.35;
@@ -185,6 +194,13 @@ function sync(){
   fillOptions('cabinet',hinged,element('cabinet').value);element('cabinet').disabled=busy||!hinged.length;
   const selectedCabinet=hinged.find(n=>n.id===element('cabinet').value),sliding=catalog.resources.find(r=>r.id===selectedCabinet?.resource.id&&r.version===selectedCabinet?.resource.version)?.mountRole==='sliding-drawer-cabinet';
   for(const button of document.querySelectorAll('[data-opening]')){button.disabled=busy||!hinged.length||view.mode==='building';button.textContent=(sliding?['收回','半拉','全拉']:['关门','半开','全开'])[Number(button.dataset.opening)*2];}
+  const clocks=facilities.filter(n=>derived.floorIds.get(n.id)===view.floorId&&catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.clockDisplay);
+  fillOptions('clock',clocks,element('clock').value);element('clock').disabled=busy||!clocks.length;
+  const selectedClock=clocks.find(n=>n.id===element('clock').value),clockResource=catalog.resources.find(r=>r.id===selectedClock?.resource.id&&r.version===selectedClock?.resource.version);
+  element('clock-power').disabled=busy||building||clockResource?.clockDisplay.kind!=='digital';
+  element('clock-power').textContent=(selectedClock?.state?.on??clockResource?.stateDefaults?.on)?'关闭数字显示':'开启数字显示';
+  element('clock-brightness').disabled=element('clock-power').disabled;element('clock-brightness').value=String(selectedClock?.state?.brightness??clockResource?.stateDefaults?.brightness??1);
+  element('clock-time').disabled=busy||!clocks.length;
   syncFinishes();
   if(building)buildingView.render(doc,{presentation:buildingPresentation});
   element('camera-hint').textContent=building?'先进入侧剖面，再选择楼层。':view.mode==='room'?'单间可拖动旋转，滚轮缩放。':'当前为固定角度总览，点击房间进入三维查看。';
@@ -210,13 +226,13 @@ async function perform(label,action){
   finally{busy=false;document.querySelectorAll('button,select').forEach(e=>e.disabled=false);sync();}
 }
 function resize(){const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();renderer.render(world,camera);updateRegionLabels();}
-class CompanyPreview extends Phaser.Scene {update(){if(!document.hidden&&session?.scene.view.mode!=='building'){renderer.render(world,camera);updateRegionLabels();}}}
+class CompanyPreview extends Phaser.Scene {update(time){if(session)session.scene.setPresentationInputs({clockSeconds:previewClockOverride??(32400+time/1000)});if(!document.hidden&&session?.scene.view.mode!=='building'){renderer.render(world,camera);updateRegionLabels();}}}
 async function start(){
   session=await createCompanyAuthoring(world,smallHome,{catalog,templates,storage:localStorage,assetLibrary});
   let restored=false,restoreError;
   try{await session.restore(localStorage.getItem('company-preview:last-company')||session.document.id);restored=true;}catch(error){if(error.code!=='save-not-found')restoreError=error;}
   async function saveCurrent(){const result=await session.save();localStorage.setItem('company-preview:last-company',session.document.id);return result;}
-  window.company={ready:true,catalog,templates,session,assetLibrary,renderer,world,camera,view:setView,showSpace,layouts,showAppearanceSample,appearanceBranches,appearanceCandidates:branch=>appearanceCandidates(catalog,branch),
+  window.company={ready:true,catalog,templates,session,assetLibrary,renderer,world,camera,setPreviewClock,view:setView,showSpace,layouts,showAppearanceSample,appearanceBranches,appearanceCandidates:branch=>appearanceCandidates(catalog,branch),
     async apply(ops){const r=await session.apply(ops);sync();return r;},
     async load(doc){const r=await session.load(doc);await defaultSpace();return r;},
     snapshot:()=>session.snapshot(),save:saveCurrent,restore:async()=>{const r=await session.restore();await defaultSpace();return r;},export:()=>session.export()};
@@ -238,6 +254,10 @@ async function start(){
   element('building-view').onclick=()=>perform('正在查看大楼…',()=>showSpace('building',element('floor').value,null,'section'));
   element('station').onchange=sync;
   element('cabinet').onchange=sync;
+  element('clock').onchange=sync;
+  element('clock-time').onchange=()=>setPreviewClock(element('clock-time').value==='live'?null:Number(element('clock-time').value));
+  element('clock-power').onclick=()=>perform('正在更新数字显示…',()=>{const node=session.document.nodes.find(n=>n.id===element('clock').value),resource=catalog.resources.find(r=>r.id===node.resource.id&&r.version===node.resource.version);return session.apply([{type:'set-state',id:node.id,state:{on:!(node.state.on??resource.stateDefaults.on)}}]);});
+  element('clock-brightness').onchange=()=>perform('正在更新显示亮度…',()=>session.apply([{type:'set-state',id:element('clock').value,state:{brightness:Number(element('clock-brightness').value)}}]));
   element('wall-view').onchange=()=>perform('正在调整墙体观看…',()=>{wallMode=element('wall-view').value;updateWallView();});
   element('sofa').onchange=()=>perform('正在替换沙发外观…',()=>{
     const resource=catalog.resources.find(r=>r.mountRole==='sofa'&&sofaChoice(r)===element('sofa').value);

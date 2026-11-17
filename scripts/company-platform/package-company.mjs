@@ -22,6 +22,8 @@ const extraFiles=[
   'docs/COMPANY-HINGED-CABINET-CONTRACT-v1.txt',
   'docs/COMPANY-SLIDING-DRAWER-CONTRACT-v1.txt',
   'scripts/company-platform/build-sliding-examples.mjs',
+  'scripts/company-platform/build-clock-examples.mjs',
+  'docs/COMPANY-CLOCK-CONTRACT-v1.txt',
   'assets-source/company-surface-finishes-v1/PRODUCTION.txt',
   'scripts/company-platform/build-appearance-batch.mjs',
   'docs/COMPANY-APPEARANCE-PRODUCTION-STANDARD.md',

@@ -1131,10 +1131,23 @@
               "width": 0.35,
               "height": 0.35,
               "depth": 0.08,
-              "verification": "pending"
+              "contract": "docs/COMPANY-CLOCK-CONTRACT-v1.txt"
             },
             "parent": "room.wall",
-            "state": "time-driven"
+            "state": {
+              "clockDisplay": {
+                "kind": "analog",
+                "format": "12h",
+                "seconds": true
+              },
+              "fields": {
+                "timeOffsetSeconds": {
+                  "type": "number",
+                  "min": -86400,
+                  "max": 86400
+                }
+              }
+            }
           },
           "mechanismDependencies": [
             "wall-shelf-mount",
@@ -1143,17 +1156,39 @@
             "save-restore"
           ],
           "minimumCompatibleAppearances": [
-            "圆形挂钟",
-            "方形挂钟",
-            "台式指针钟",
-            "工业风指针钟"
+            "圆框指针钟",
+            "方框指针钟",
+            "八角指针钟",
+            "辐条指针钟"
           ],
-          "reusableResources": [],
+          "reusableResources": [
+            {
+              "id": "analog-clock-round",
+              "version": 1,
+              "reuseKind": "same-fixed-spec"
+            },
+            {
+              "id": "analog-clock-square",
+              "version": 1,
+              "reuseKind": "same-fixed-spec"
+            },
+            {
+              "id": "analog-clock-octagon",
+              "version": 1,
+              "reuseKind": "same-fixed-spec"
+            },
+            {
+              "id": "analog-clock-spoke",
+              "version": 1,
+              "reuseKind": "same-fixed-spec"
+            }
+          ],
           "requiredIndependentMechanisms": [
             "宿主时间输入",
             "指针驱动",
             "安装面与朝向"
-          ]
+          ],
+          "productionSlotClarification": "Wall installation only. Shelf clocks remain separate confirmed branches. These digital looks use seven-segment HH:MM:SS, not mechanical flip or calendar mechanisms; earlier mixed names were production placeholders, not verified behavior."
         },
         {
           "id": "digital-clock",
@@ -1168,10 +1203,31 @@
               "width": 0.5,
               "height": 0.18,
               "depth": 0.06,
-              "verification": "pending"
+              "contract": "docs/COMPANY-CLOCK-CONTRACT-v1.txt"
             },
             "parent": "room.wall",
-            "state": "time-driven"
+            "state": {
+              "clockDisplay": {
+                "kind": "digital",
+                "format": "24h",
+                "seconds": true
+              },
+              "fields": {
+                "timeOffsetSeconds": {
+                  "type": "number",
+                  "min": -86400,
+                  "max": 86400
+                },
+                "on": {
+                  "type": "boolean"
+                },
+                "brightness": {
+                  "type": "number",
+                  "min": 0,
+                  "max": 1
+                }
+              }
+            }
           },
           "mechanismDependencies": [
             "wall-shelf-mount",
@@ -1180,17 +1236,39 @@
             "save-restore"
           ],
           "minimumCompatibleAppearances": [
-            "LED数字",
-            "翻页数字",
-            "分段数字",
-            "日期时间组合"
+            "平框数字钟",
+            "分层数字钟",
+            "双侧支架数字钟",
+            "凹槽数字钟"
           ],
-          "reusableResources": [],
+          "reusableResources": [
+            {
+              "id": "digital-clock-flat",
+              "version": 1,
+              "reuseKind": "same-fixed-spec"
+            },
+            {
+              "id": "digital-clock-layered",
+              "version": 1,
+              "reuseKind": "same-fixed-spec"
+            },
+            {
+              "id": "digital-clock-side-bracket",
+              "version": 1,
+              "reuseKind": "same-fixed-spec"
+            },
+            {
+              "id": "digital-clock-recessed",
+              "version": 1,
+              "reuseKind": "same-fixed-spec"
+            }
+          ],
           "requiredIndependentMechanisms": [
             "宿主时间输入",
             "数字显示字段",
             "开关/亮度"
-          ]
+          ],
+          "productionSlotClarification": "Wall installation only. Shelf clocks remain separate confirmed branches. These digital looks use seven-segment HH:MM:SS, not mechanical flip or calendar mechanisms; earlier mixed names were production placeholders, not verified behavior."
         },
         {
           "id": "information-board",

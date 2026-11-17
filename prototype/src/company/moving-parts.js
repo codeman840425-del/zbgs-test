@@ -10,10 +10,10 @@ export function validateFacilityState(resource, patch, fail, path) {
     if(!object(schema)||Object.keys(schema).length!==Object.keys(defaults).length||Object.keys(defaults).some(k=>!Object.hasOwn(schema,k)))
       fail('invalid-state-schema',path,'State schema must define every default field exactly once');
     for(const [field,spec]of Object.entries(schema)) {
-      if(!object(spec)||Object.keys(spec).some(k=>!['type','min','max'].includes(k))||spec.type!=='number'||
-          !Number.isFinite(spec.min)||!Number.isFinite(spec.max)||spec.min>spec.max||
-          !Number.isFinite(defaults[field])||defaults[field]<spec.min||defaults[field]>spec.max)
-        fail('invalid-state-schema',`${path}.${field}`,'Numeric schema requires finite limits and a valid default');
+      if(!object(spec)||(!((spec.type==='boolean'&&Object.keys(spec).length===1&&typeof defaults[field]==='boolean')||
+        (spec.type==='number'&&Object.keys(spec).every(k=>['type','min','max'].includes(k))&&Number.isFinite(spec.min)&&Number.isFinite(spec.max)&&spec.min<=spec.max&&
+          Number.isFinite(defaults[field])&&defaults[field]>=spec.min&&defaults[field]<=spec.max))))
+        fail('invalid-state-schema',`${path}.${field}`,'Schema requires a boolean or finite bounded number and a valid default');
     }
   }
   for(const [field,value]of Object.entries(patch)) {

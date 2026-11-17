@@ -1,0 +1,72 @@
+{
+  "id": "analog-clock-round",
+  "displayName": "圆框指针钟",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "analog-clock",
+  "productionBranch": "analog-clock",
+  "mount": "wall",
+  "mounting": {
+    "origin": "center",
+    "width": 0.35,
+    "height": 0.35,
+    "depth": 0.08
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Wall contact centre",
+    "scale": "Identity only"
+  },
+  "provenance": {
+    "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+    "prompt": "Purpose: authored wall-mounted company clocks with host-driven absolute time display. Specification: analog clocks use a 0.35m x 0.35m x 0.08m envelope, digital clocks use a 0.50m x 0.18m x 0.06m envelope. Units are metres, up is +Y, forward is +Z, wall contact is the centered origin, back is z=0 and front is +Z. Installation and load bearing: wall-mounted static decor with no use points and no scaling. Budget: deterministic CPU-only primitive geometry, no textures, no animation, no external art and at most 100 meshes, 15000 triangles, 8 materials and 1MiB per GLB. State: host clockSeconds plus saved display settings only, no internal clock or timer. Source/export: project-authored Three.js 0.187.0 parameters, GLTFExporter and GLTFLoader readback. Design difference: Project-authored round analog clock with a continuous circular rim and four raised cardinal markers.",
+    "tools": [
+      "Three.js 187",
+      "CylinderGeometry",
+      "TorusGeometry",
+      "BoxGeometry",
+      "GLTFExporter",
+      "GLTFLoader readback"
+    ],
+    "sourceParameters": "assets-source/company-clock-v1/parameters.json",
+    "sourceParametersSha256": "944c9868bd5d38f791a5261a54fdb85f1ada443243bff21ff6844adbfed631d0",
+    "sourceDesign": "round",
+    "functionalContractSource": "docs/COMPANY-CLOCK-CONTRACT-v1.txt",
+    "functionalContractSourceSha256": "719c5c5a03aa348ce363869e464aab3fab3516aef34eb2194b695d74b1ea2771",
+    "generator": "scripts/company-platform/build-clocks.mjs",
+    "generatorSha256": "ce6c96f45465acff3bf2d0157e3037aba8d5b6c79122f25fc17e27e4866d39ba",
+    "method": "Project-authored round analog clock with a continuous circular rim and four raised cardinal markers."
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/clock-v1/analog-round/v1/model.glb",
+    "sha256": "6dd9c3b9fbae3ea16e07c9d2731e8082b923a833b07f0c9c0b27f5fa410c561a",
+    "bytes": 47532
+  },
+  "clockDisplay": {
+    "kind": "analog",
+    "format": "12h",
+    "seconds": true
+  },
+  "clockNodes": {
+    "hour": "clock-hour-pivot",
+    "minute": "clock-minute-pivot",
+    "second": "clock-second-pivot"
+  },
+  "stateDefaults": {
+    "timeOffsetSeconds": 0
+  },
+  "stateSchema": {
+    "timeOffsetSeconds": {
+      "type": "number",
+      "min": -86400,
+      "max": 86400
+    }
+  },
+  "stateSemantics": {
+    "timeOffsetSeconds": "host-clock-offset-seconds"
+  },
+  "usePoints": []
+}
