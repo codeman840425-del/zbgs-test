@@ -35,7 +35,7 @@
 
 ## 恢复、并行与备份
 
-- 当前已核远端21741e203b9251be138b097e9c021cf0e98ca5c3，包含b27/193b男女源/独立装备/公共覆盖与实际房间、UI证据；ls-remote与本地一致。核验回执随后记录于native-workbench-release-193b-v1/remote-backup.json。
+- 当前已核远端f454594b9f9338961ca9311b67d9b21a50f974c0，包含5db源码/浏览器准入和媒体检查、193b双实例原报告/录像，以及HairSet001源/原生导出/读回；ls-remote与本地一致。核验回执随后记录于native-workbench-release-5db-v1/remote-backup.json。
 - 已知requested配置：face_target_feasibility=gpt-6-astra/high；asset_budget/http_transport_review=gpt-6.1-sol/high；派工JSON保难度理由，provider/hook实际拦截未独立暴露。已交生产包保留；face_target_feasibility已封native-pair-isolation-193b-v1并释放GPU。asset_budget已完成原生appearance只读核查和一个作者免费HairSet001保存冷开/导出/CPU读回，已恢复进入文件并释放窗口；http_transport_review已修复颜色query/recipe/实际变更入口一致性，face独审8+4检查无新增阻断；root固定构建实际浏览器检查已过。4196以新固定树5db发布，旧193b树完整保留。
 - 桌面未接管；MCP导出窗口已释放。2.14卸载成功且17890/17891关闭，3旧目录清理被自动策略拒绝约2.09GB残留，保evidence/vroid-214-retirement-v1，不绕过或称全清。
 - 公司副总工边几e1b独立交付已收，角色本轮不stage公司dirty，不改公司职责；C3/普通机未验。普通电脑目前无设备，不用4090或限速代替通过。
