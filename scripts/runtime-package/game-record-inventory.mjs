@@ -3,7 +3,7 @@ import {readFile} from 'node:fs/promises';
 import {createRequire} from 'node:module';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
-import {checkedBytes, copyDeclaredFiles, digest, fail, jsonBytes, localFile, runtimePath} from './files.mjs';
+import {GAME_RECORD_INPUT_MANIFEST, checkedBytes, copyDeclaredFiles, digest, fail, jsonBytes, localFile, runtimePath} from './files.mjs';
 import {collectRecordResources} from './record-resources.mjs';
 
 const ENTRY = 'record-consumer.html';
@@ -85,7 +85,11 @@ function moduleReferences(code, parseAst) {
   return references;
 }
 
-export async function createGameRecordInventory({dist, sourceRoot, reviewed}) {
+export async function createGameRecordInventory({dist, sourceRoot, reviewed, records:externalRecords}) {
+  const external = externalRecords !== undefined;
+  if (external && (!Array.isArray(externalRecords) || externalRecords.length < 1 || externalRecords.length > RECORD_COUNT))
+    fail('invalid-record-input', 'Expected an ordered array of one to four complete character records');
+  const externalTexts = external ? Array.from(externalRecords, record => JSON.stringify(record)) : null;
   validateReviewed(reviewed);
   const project = path.resolve(sourceRoot, 'prototype');
   const {build, buildBytes, publicFiles} = await verifyBuild(dist, project, reviewed);
@@ -148,38 +152,74 @@ export async function createGameRecordInventory({dist, sourceRoot, reviewed}) {
       Object.keys(reviewed.files).some(file => !scanned.has(file)))
     fail('unsupported-build', 'Reviewed compiled file pins must match the game entry dependency graph');
 
-  const {value:manifest} = await add('/' + MANIFEST, 'Ordered source character record manifest');
-  if (manifest?.schema !== 'record-consumer-samples-v1' || manifest.entries?.length !== RECORD_COUNT ||
-      !Array.isArray(manifest.entries))
-    fail('invalid-record-manifest', 'Expected the four ordered game records');
+  async function readSourceRecords() {
+    const {value:manifest} = await add('/' + MANIFEST, 'Ordered source character record manifest');
+    if (manifest?.schema !== 'record-consumer-samples-v1' || !Array.isArray(manifest.entries) ||
+        manifest.entries.length !== RECORD_COUNT)
+      fail('invalid-record-manifest', 'Expected the four ordered game records');
+    const paths = new Set([MANIFEST]);
+    const inputs = [];
+    for (const entry of manifest.entries) {
+      const relative = portablePath(runtimePath(entry?.url));
+      if (entry.url !== '/' + relative || !RECORD_PATH.test(relative) || paths.has(relative) ||
+          !publicFiles.has(relative) || !SHA256.test(entry.recordSha256) || typeof entry.label !== 'string' || !entry.label)
+        fail('invalid-record-manifest', 'Invalid source record declaration: ' + relative);
+      paths.add(relative);
+      const item = await add(entry.url, 'Fixed source character record');
+      inputs.push({entry, relative, text:item.bytes.toString('utf8')});
+    }
+    return inputs;
+  }
+
+  function addGenerated(relative, text, reason, provenance) {
+    if (files.has(relative) || publicFiles.has(relative))
+      fail('invalid-record-input', 'Generated record path conflicts with a source file: ' + relative);
+    const bytes = Buffer.from(text, 'utf8');
+    files.set(relative, {path:relative, sha256:digest(bytes), bytes:bytes.length, generated:text,
+      reasons:[reason], provenance});
+  }
+
+  const inputs = external ? externalTexts.map(text => ({text})) : await readSourceRecords();
   const records = [];
-  const recordFiles = new Set([MANIFEST]);
   const recordIds = new Set();
-  for (const entry of manifest.entries) {
-    const relative = portablePath(runtimePath(entry?.url));
-    if (entry.url !== '/' + relative || !RECORD_PATH.test(relative) || recordFiles.has(relative) ||
-        !publicFiles.has(relative) || !SHA256.test(entry.recordSha256) || typeof entry.label !== 'string' || !entry.label)
-      fail('invalid-record-manifest', 'Invalid source record declaration: ' + relative);
-    recordFiles.add(relative);
-    const item = await add(entry.url, 'Fixed source character record');
-    const record = runtime.parseRuntimeCharacterRecord(item.bytes.toString('utf8'));
+  for (const input of inputs) {
+    const {text} = input;
+    if (typeof text !== 'string') fail('invalid-record-input', 'Expected a complete JSON character record');
+    if (external && Buffer.byteLength(text, 'utf8') > envelope.CHARACTER_RECORD_MAX_BYTES)
+      fail('record-too-large', 'Compact character record exceeds 512 KiB');
+    const record = runtime.parseRuntimeCharacterRecord(text);
     await envelope.validateCharacterRecord(record, {validationCallback:() => ({status:'pending'})});
-    if (record.identity.id !== entry.id || record.integrity.recordSha256 !== entry.recordSha256 || recordIds.has(entry.id))
+    const {id, name} = record.identity;
+    const {recordSha256} = record.integrity;
+    const relative = external ? portablePath('records/' + id + '.json') : input.relative;
+    if (external && relative === GAME_RECORD_INPUT_MANIFEST)
+      fail('invalid-record-input', 'Character ID conflicts with the record manifest filename: ' + id);
+    if (external && recordIds.has(id)) fail('duplicate-identity', 'Duplicate stable character ID: ' + id);
+    const entry = external ? {id, label:name, recordSha256} : input.entry;
+    if (id !== entry.id || recordSha256 !== entry.recordSha256 || recordIds.has(id))
       fail('record-identity-mismatch', 'Record manifest identity differs: ' + relative);
-    recordIds.add(entry.id);
+    recordIds.add(id);
     const derived = runtime.deriveCharacterResourceIdentities(record.appearanceRecipe, record.liveAccessories, record.equipmentMaterials);
     if (envelope.canonicalJson(derived) !== envelope.canonicalJson(record.resourceIdentities))
       fail('record-identity-mismatch', 'Record resources differ from the saved look: ' + relative);
     const selected = await collectRecordResources({record, sourceRoot, add});
-    records.push({id:entry.id, label:entry.label, file:relative, revision:record.revision,
-      recordSha256:entry.recordSha256, ...selected});
+    if (external) addGenerated(relative, text, 'Validated input character record',
+      [{recordId:id, revision:record.revision, recordSha256}]);
+    records.push({id, label:entry.label, file:relative, revision:record.revision, recordSha256, ...selected});
   }
 
+  const recordManifest = external ? GAME_RECORD_INPUT_MANIFEST : MANIFEST;
+  if (external) {
+    const selection = {schema:'character-record-input-v1',
+      entries:records.map(({id, file, recordSha256}) => ({id, url:'/' + file, recordSha256}))};
+    addGenerated(recordManifest, JSON.stringify(selection), 'Ordered manifest for validated input character records',
+      records.map(({id, recordSha256}) => ({recordId:id, recordSha256})));
+  }
   return {
     schema:PACKAGE_SCHEMA,
     runtime:{sourceCommit:reviewed.sourceCommit, sourceDigest:reviewed.sourceDigest, buildId:build.shortId,
-      entry:ENTRY, entryUrl:'/' + ENTRY},
-    recordManifest:MANIFEST,
+      entry:ENTRY, entryUrl:external ? ENTRY + '?records=/' + recordManifest : '/' + ENTRY},
+    recordManifest,
     records,
     limitations:[
       'Collection covers the selected records, their eager startup resources and compatible motions.',
@@ -190,9 +230,11 @@ export async function createGameRecordInventory({dist, sourceRoot, reviewed}) {
   };
 }
 
-export async function exportGameRecordInventory({inventory, dist, sourceRoot, reviewed, out}) {
-  const expected = await createGameRecordInventory({dist, sourceRoot, reviewed});
+export async function exportGameRecordInventory({inventory, dist, sourceRoot, reviewed, records, out}) {
+  const expected = await createGameRecordInventory({dist, sourceRoot, reviewed, records});
   if (digest(jsonBytes(expected)) !== digest(jsonBytes(inventory)))
     fail('inventory-mismatch', 'Inventory differs from the reviewed game record dependency closure');
-  return copyDeclaredFiles({inventory:expected, dist, out});
+  const approvedGameRecords = new Map(expected.files.filter(row => row.generated !== undefined)
+    .map(row => [row.path, row.generated]));
+  return copyDeclaredFiles({inventory:expected, dist, out, approvedGameRecords});
 }

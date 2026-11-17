@@ -5,8 +5,8 @@ import {digest, fail, jsonBytes, writeFresh} from './files.mjs';
 import {createGameRecordInventory, exportGameRecordInventory} from './game-record-inventory.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
-const sharedOptions = ['--dist', '--source-root', '--reviewed', '--out'];
-const usage = 'Usage: game-record-cli.mjs inventory|export --dist FIXED_DIST --out NEW_PATH [--source-root EXACT_CHECKOUT] [--reviewed IDENTICAL_REVIEWED_COPY] [--inventory INPUT_JSON for export]';
+const sharedOptions = ['--dist', '--source-root', '--reviewed', '--out', '--records'];
+const usage = 'Usage: game-record-cli.mjs inventory|export --dist FIXED_DIST --out NEW_PATH [--source-root EXACT_CHECKOUT] [--reviewed IDENTICAL_REVIEWED_COPY] [--records RECORD_ARRAY_JSON] [--inventory INPUT_JSON for export]';
 const readJson = async file => JSON.parse(await readFile(path.resolve(file), 'utf8'));
 
 async function main() {
@@ -20,7 +20,9 @@ async function main() {
     options.set(option, value);
   }
   if (['--dist', '--out', ...(command === 'export' ? ['--inventory'] : [])].some(name => !options.has(name))) throw Error(usage);
-  const reviewedBytes = await readFile(new URL('./game-record-runtime-reviewed.json', import.meta.url));
+  const external = options.has('--records');
+  const pinName = external ? './game-record-production-runtime-reviewed.json' : './game-record-runtime-reviewed.json';
+  const reviewedBytes = await readFile(new URL(pinName, import.meta.url));
   if (options.has('--reviewed')) {
     const copy = await readFile(path.resolve(options.get('--reviewed')));
     if (!copy.equals(reviewedBytes)) fail('unsupported-build', 'Review metadata must match the repository-reviewed file exactly');
@@ -29,6 +31,7 @@ async function main() {
     dist:path.resolve(options.get('--dist')),
     sourceRoot:path.resolve(options.get('--source-root') ?? root),
     reviewed:JSON.parse(reviewedBytes),
+    records:external ? await readJson(options.get('--records')) : undefined,
   };
   const out = path.resolve(options.get('--out'));
   if (command === 'export') {

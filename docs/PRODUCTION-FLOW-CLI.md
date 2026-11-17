@@ -1,6 +1,6 @@
 # 轻量生产流程入口
 
-这是现有制作脚本的只读入口和结构回读工具，不是新的能力清单或资产管理平台。当前能力状态仍只看 `docs/CAPABILITIES.md`。本次没有重生成资产、打开 Blender、启动浏览器或修改产品控制器。
+当前能力状态只看 `docs/CAPABILITIES.md`。下面先说明旧 `flow.py` 的只读索引；文末的 `character-production-cli.cjs` 是实际执行制作/回读的独立入口，两者不能混为一谈。
 
 从仓库根目录执行，Python 标准库即可运行入口：
 
@@ -67,3 +67,22 @@ CLI 不创建隔离工作区、不做发布、不更新能力状态；它把现�
 跨体回归：qa-character-cross-body.cjs；按钮/文件/双标签页/坏索引：qa-character-record-ui.cjs，均通过run-fixed-check.cjs运行在指定固定目录。runtime资源清单是引用身份列表，不宣称完整传递依赖包；源码fixture必须随检出提供。
 
 服装材质补充：新完整记录增加 `equipmentMaterials`（`garment-material-record-v1`），逐件保存已穿装备 ID、GLB SHA 及 active 配方身份；null 明确表示源材质。旧 appearance 配方语义不变。无材质变体的历史角色记录可确定迁移，返回 `materialMigration=legacy-record-with-no-material-variants`；有材质变体而未保存选择的旧记录拒绝猜测，agent在保留旧版中还原并确认后重新捕获，不伪造版本。材质准备不改可见mesh，整套同步提交后才释放旧材质，后域失败逆序回滚。`qa-character-material-record.cjs` 在固定build上检查真实材质加载、关页恢复、HTTP失败、最后域故障、同值重选与连续恢复；测试报告区分技术与视觉。
+
+
+## 完整角色记录的实际制作入口（D02）
+
+固定构建上的后台浏览器复用游戏人物加载器、装备事务和最终记录准入。无需桌面或工作台草稿，也不根据名字跳过精确基模适配。
+
+```powershell
+node scripts/character-production-cli.cjs --dist FIXED_DIST --request REQUEST.json --out NEW_RESULT.json --evidence NEW_EVIDENCE_DIR
+node scripts/character-record-transport.mjs import --root RECORD_STORE --input NEW_RESULT.json
+node scripts/character-record-transport.mjs export --root RECORD_STORE --id STABLE_ID --out NEW_EXPORT.json
+```
+
+请求格式 `character-production-request-v1`。`query` 需要 bodyType；`create` 需要 bodyType 和显式 identity（id/name/gender）；`edit`/`validate` 需要完整原记录，禁止偷偷替换身份或身体。edits 是按序执行、最多32项的数组，支持 appearance、geometry、outfit、material、liveAccessory、accessory；具体枚举先 query。未知字段、未登记适配和版本错误明确失败，不自动夹取或冒用旧身份。
+
+编辑在独立候选上执行，成功保留身份与来源并增加修订；失败销毁候选，不改已显示人物与原文件。create/edit/validate 都真实加载资源，记录结果再经消费入口回读。query 是登记能力，不能代表每个组合已经视觉通过。旧 flow.py 的源模型制作、VRoid 导出仍是上游步骤，本入口只组合和调用已有合法资产/变形接口，不凭空生成新网格。
+
+输出必须是新文件且位于 evidence 目录之外；必要浏览器关闭和证据写入结束后原子发布。文件传输层复用 CAS、锁和完整性检查，但单独 import/export 返回 resourceValidation=pending，不冒充运行验证。候选动画仍须房间完整动作检查。
+
+任意1–4份已通过实际生产回读的记录可组成 JSON 数组，经 `game-record-cli.mjs inventory/export --records RECORDS.json` 输出独立包；两步使用同一数组与仓库审定运行时。入口 `record-consumer.html?records=/records/manifest.json`，最多同时两人，新增记录不改通用控制器或重新编译。没有随机生成或自动开放不兼容资源。

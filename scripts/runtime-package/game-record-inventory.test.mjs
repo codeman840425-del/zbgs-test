@@ -8,6 +8,7 @@ import {fileURLToPath} from 'node:url';
 import {copyDeclaredFiles, digest, jsonBytes, localFile, runtimePath} from './files.mjs';
 import {collectRecordResources} from './record-resources.mjs';
 import {createGameRecordInventory, exportGameRecordInventory} from './game-record-inventory.mjs';
+import {createCharacterRecord} from '../../prototype/src/character-record.js';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const temp = await mkdtemp(path.join(tmpdir(), 'gamemake-game-record-test-'));
@@ -23,7 +24,8 @@ const build = 'build-info.json';
 const sourceInputs = new Set([entry, 'package.json', 'package-lock.json']);
 const runtimeFiles = [entry, bundle, shared, lazy, build];
 const readJson = async file => JSON.parse(await readFile(file));
-let reviewed, orderedRecords;
+const inputManifest = 'records/manifest.json';
+let reviewed, orderedRecords, sampleRecords;
 
 async function listFiles(directory, prefix = '') {
   const files = [];
@@ -64,12 +66,13 @@ before(async () => {
   await writeFile(path.join(dist, 'index.html'), '<title>Unrelated workbench</title>');
   const publicRoot = path.join(root, 'prototype/public');
   orderedRecords = (await readJson(path.join(publicRoot, manifestPath))).entries;
+  sampleRecords = await Promise.all(orderedRecords.map(row => readJson(path.join(publicRoot, runtimePath(row.url)))));
   const assetPaths = new Set([manifestPath]);
-  for (const row of orderedRecords) {
+  for (const [index, row] of orderedRecords.entries()) {
     const relative = runtimePath(row.url);
     assetPaths.add(relative);
     await collectRecordResources({
-      record:await readJson(path.join(publicRoot, relative)), sourceRoot:root,
+      record:sampleRecords[index], sourceRoot:root,
       add:async (url, _reason, {parent}) => {
         const asset = runtimePath(url, parent);
         assetPaths.add(asset);
@@ -208,5 +211,80 @@ test('regenerates inventory, refuses generated substitutions and catches deleted
     await rejectsCode(() => lstat(out), 'ENOENT');
   } finally {
     await copyFile(path.join(project, 'public', body.path), bodyDestination);
+  }
+});
+
+test('exports one to four records in supplied order under generated sidecar paths', async () => {
+  const records = [sampleRecords[2], sampleRecords[0]];
+  const selected = {...options(), records};
+  const inventory = await createGameRecordInventory(selected);
+  assert.equal(inventory.runtime.entryUrl, entry + '?records=/' + inputManifest);
+  assert.equal(inventory.recordManifest, inputManifest);
+  assert(!inventory.files.some(row => row.path.startsWith('assets/record-consumer-v1/')));
+  assert.deepEqual(inventory.records.map(record => record.id), records.map(record => record.identity.id));
+  const out = path.join(temp, 'external-record-package');
+  await exportGameRecordInventory({...selected, inventory, out});
+  assert.deepEqual(await listFiles(out), ['runtime-package.json', ...inventory.files.map(row => row.path)].sort());
+  const expectedEntries = [];
+  for (const record of records) {
+    const relative = 'records/' + record.identity.id + '.json';
+    const bytes = await readFile(path.join(out, relative));
+    assert.equal(bytes.toString('utf8'), JSON.stringify(record));
+    assert(bytes.length <= 512 * 1024);
+    expectedEntries.push({id:record.identity.id, url:'/' + relative, recordSha256:record.integrity.recordSha256});
+  }
+  assert.deepEqual(await readJson(path.join(out, inputManifest)), {
+    schema:'character-record-input-v1', entries:expectedEntries,
+  });
+  assert.equal((await createGameRecordInventory({...options(), records:records.slice(0, 1)})).records.length, 1);
+  assert.equal((await createGameRecordInventory({...options(), records:sampleRecords})).records.length, 4);
+});
+
+test('validates external record envelope, resource identities and stable ID uniqueness', async () => {
+  for (const records of [null, [], [...sampleRecords, sampleRecords[0]]])
+    await rejectsCode(() => createGameRecordInventory({...options(), records}), 'invalid-record-input');
+  const record = sampleRecords[1];
+  await rejectsCode(() => createGameRecordInventory({...options(), records:[record, record]}), 'duplicate-identity');
+  const modified = structuredClone(record);
+  modified.identity.name += 'changed';
+  await rejectsCode(() => createGameRecordInventory({...options(), records:[modified]}), 'record-hash-mismatch');
+  modified.identity.id = '../escape';
+  await rejectsCode(() => createGameRecordInventory({...options(), records:[modified]}), 'invalid-identity-id');
+  modified.identity = record.identity;
+  modified.appearanceRecipe.description = 'x'.repeat(512 * 1024);
+  await rejectsCode(() => createGameRecordInventory({...options(), records:[modified]}), 'record-too-large');
+  const buildRecord = patch => createCharacterRecord({...record, ...patch}, {validateResources:() => ({status:'pending'})});
+  const forged = await buildRecord({resourceIdentities:[]});
+  await rejectsCode(() => createGameRecordInventory({...options(), records:[forged]}), 'record-identity-mismatch');
+  const reserved = await buildRecord({identity:{...record.identity, id:'manifest'}});
+  await rejectsCode(() => createGameRecordInventory({...options(), records:[reserved]}), 'invalid-record-input');
+});
+
+test('restages only validated sidecars from the original external record input', async () => {
+  const selected = {...options(), records:sampleRecords.slice(0, 1)};
+  const inventory = await createGameRecordInventory(selected);
+  const out = path.join(temp, 'rejected-external-export');
+  await rejectsCode(() => exportGameRecordInventory({...options(), inventory, out}), 'inventory-mismatch');
+  await rejectsCode(() => copyDeclaredFiles({inventory, dist, out}), 'invalid-inventory');
+  const originalGenerated = new Map(inventory.files.filter(row => row.generated !== undefined)
+    .map(row => [row.path, row.generated]));
+  const altered = structuredClone(inventory);
+  const row = altered.files.find(dependency => dependency.path === inputManifest);
+  row.generated = '{"schema":"replaced"}';
+  row.bytes = Buffer.byteLength(row.generated);
+  row.sha256 = digest(row.generated);
+  await rejectsCode(() => exportGameRecordInventory({...selected, inventory:altered, out}), 'inventory-mismatch');
+  await rejectsCode(() => copyDeclaredFiles({inventory:altered, dist, out, approvedGameRecords:originalGenerated}), 'invalid-inventory');
+  const substituted = structuredClone(inventory);
+  substituted.files.find(dependency => dependency.path === bundle).generated = 'replacement';
+  await rejectsCode(() => copyDeclaredFiles({inventory:substituted, dist, out, approvedGameRecords:originalGenerated}), 'invalid-inventory');
+  const body = inventory.files.find(dependency => dependency.path.endsWith('.vrm'));
+  const target = path.join(dist, body.path);
+  try {
+    await rm(target);
+    await rejectsCode(() => exportGameRecordInventory({...selected, inventory, out}), 'missing-dependency');
+    await rejectsCode(() => lstat(out), 'ENOENT');
+  } finally {
+    await copyFile(path.join(project, 'public', body.path), target);
   }
 });

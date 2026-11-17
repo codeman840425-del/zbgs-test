@@ -4,6 +4,8 @@ import path from 'node:path';
 
 export const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 export const jsonBytes = value => Buffer.from(JSON.stringify(value, null, 2) + '\n', 'utf8');
+export const GAME_RECORD_INPUT_MANIFEST = 'records/manifest.json';
+const GAME_RECORD_INPUT_PATH = /^records\/[a-z0-9][a-z0-9._-]{1,95}\.json$/;
 export function fail(code, message) { throw Object.assign(new Error(message), {code}); }
 
 // Runtime paths are URL paths relative to the HTTP origin. Author/provenance
@@ -55,14 +57,20 @@ export async function writeFresh(file, bytes) {
   }
 }
 
-export async function copyDeclaredFiles({inventory, dist, out}) {
+export async function copyDeclaredFiles({inventory, dist, out, approvedGameRecords = new Map()}) {
   const recordPackage=inventory?.schema==='character-record-package-inventory-v1';
   const gameRecordPackage=inventory?.schema==='game-character-record-package-v1';
   if ((!recordPackage&&!gameRecordPackage&&inventory?.schema !== 'runtime-package-inventory-v1') || !Array.isArray(inventory.files) || !inventory.files.length)
     fail('unsupported-inventory', 'Expected a reviewed runtime or character-record inventory');
-  const generatedPaths=gameRecordPackage?[]:recordPackage?['character-record.json']:['selected-appearance.recipe.json','material-selections.json'];
-  const required=gameRecordPackage?['record-consumer.html','build-info.json','assets/record-consumer-v1/manifest.json']
-    :['index.html','build-info.json',...generatedPaths];
+  const gameRecordInput = gameRecordPackage && inventory.recordManifest === GAME_RECORD_INPUT_MANIFEST;
+  const generatedPaths = gameRecordInput ? [...approvedGameRecords.keys()]
+    : gameRecordPackage ? [] : recordPackage ? ['character-record.json'] : ['selected-appearance.recipe.json','material-selections.json'];
+  if (gameRecordInput && (!approvedGameRecords.has(GAME_RECORD_INPUT_MANIFEST) ||
+      generatedPaths.length < 2 || generatedPaths.length > 5 || generatedPaths.some(file => !GAME_RECORD_INPUT_PATH.test(file))))
+    fail('invalid-inventory', 'Expected validated game record sidecars');
+  const required = gameRecordInput ? ['record-consumer.html', 'build-info.json', ...generatedPaths]
+    : gameRecordPackage ? ['record-consumer.html', 'build-info.json', 'assets/record-consumer-v1/manifest.json']
+    : ['index.html','build-info.json',...generatedPaths];
   const paths = new Set();
   for (const row of inventory.files) {
     if (typeof row.path !== 'string' || runtimePath('/' + row.path) !== row.path || paths.has(row.path) ||
@@ -72,6 +80,9 @@ export async function copyDeclaredFiles({inventory, dist, out}) {
     if (row.generated !== undefined && typeof row.generated !== 'string') fail('invalid-inventory', 'Generated files must be UTF-8 text');
     if (row.generated !== undefined && !generatedPaths.includes(row.path))
       fail('invalid-inventory', `Unsupported generated substitution ${row.path}`);
+    if (gameRecordInput && row.path.startsWith('records/') &&
+        (!approvedGameRecords.has(row.path) || row.generated !== approvedGameRecords.get(row.path)))
+      fail('invalid-inventory', `Unreviewed game record sidecar ${row.path}`);
   }
   for (const relative of required)
     if (!paths.has(relative)) fail('invalid-inventory', `Missing required declaration ${relative}`);

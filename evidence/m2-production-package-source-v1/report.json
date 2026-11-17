@@ -1,0 +1,30 @@
+{
+  "schema": "production-record-package-source-review-v1",
+  "status": "passed",
+  "scope": "导出程序、CPU用例、原固定包清单回归与新记录依赖的源码级核对。新固定构建和浏览器证据另记。",
+  "commands": [
+    "node --test scripts/runtime-package/game-record-inventory.test.mjs scripts/runtime-package/record-resources.test.mjs",
+    "node scripts/runtime-package/game-record-cli.mjs inventory --records RECORD_ARRAY_JSON --dist FIXED_DIST --source-root EXACT_CHECKOUT --out NEW_INVENTORY",
+    "node scripts/runtime-package/game-record-cli.mjs export --records RECORD_ARRAY_JSON --inventory NEW_INVENTORY --dist FIXED_DIST --source-root EXACT_CHECKOUT --out NEW_PACKAGE"
+  ],
+  "checks": [
+    "15项CPU测试通过，含外部记录一到四份、顺序、重复稳定ID、损坏的记录哈希、越界身份、512 KiB边界与派生资源身份。",
+    "生成的清单与记录仅写到 records/。manifest 为保留身份文件名。展页入口的 records 查询参数指向同源清单。",
+    "导出依赖原JSON数组重建清单。篡改的生成清单、替换编译文件和缺失实际身体资源均拒绝，失败不留下目标目录。",
+    "CLI 按是否显式提供 --records 读取各自的仓库审定表。--reviewed 的外部副本必须逐字节匹配对应审定表。",
+    "以原固定构建65814ccb92c2运行无 --records 的 CLI，得到与原D03证据逐字节一致的51项声明文件清单。用另一审定表替换被拒。",
+    "用真实待发布的旧基模资源库读取开发验证产生的原生男性修订2记录，收集32项声明文件，含精确绿色虹膜PNG与登记长发GLB。该检查只收集依赖。"
+  ],
+  "legacyRegression": {
+    "buildId": "65814ccb92c2",
+    "manifestSha256": "ed46df1d925e3b781e40538f84b079f06907a949ea450162e74ca993098607cd",
+    "records": 4,
+    "declaredFiles": 51
+  },
+  "sourceSha256": {
+    "scripts/runtime-package/files.mjs": "3decbe1b79f1e1f66aa38a52c2f39e3c12e9f130781c1ccf166f236d0debcf7e",
+    "scripts/runtime-package/game-record-cli.mjs": "18ceaa4b4f0b722785ec5f3d27a60e799d19afec0bb19cd1749ae4ba41b9ae6a",
+    "scripts/runtime-package/game-record-inventory.mjs": "61e08e39005c80d04a0cc9f4a69a252a7db00f0ad53ecd03399f835f4a593034",
+    "scripts/runtime-package/game-record-inventory.test.mjs": "a4bb13fdf01a00024f2bc92929f1874d53ea63d1f2a4f3b39867e3dd995d398f"
+  }
+}

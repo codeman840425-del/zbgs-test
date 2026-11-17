@@ -1,0 +1,50 @@
+{
+  "schema": "character-production-query-cpu-evidence-v1",
+  "status": "passed",
+  "scope": "源码合同、真实目录与文件身份。加载、实际适配、应用和保存由固定运行链另行验证。",
+  "api": {
+    "entry": "queryCharacterProduction(controller)",
+    "schema": "character-production-query-v1",
+    "scope": "registered-capabilities",
+    "input": "具有确切基模身份、候选状态和已配置装备目录的 controller",
+    "output": "可序列化的独立快照"
+  },
+  "nodeVersion": "24.13.0",
+  "command": "node --test prototype/src/character-production-query.test.mjs",
+  "coverage": {
+    "testsPassed": 5,
+    "foundationRegistrations": 25,
+    "configuredOutfits": 41,
+    "registeredMaterialRecipes": 1,
+    "exactLiveAccessoryBodiesChecked": [
+      "female",
+      "male",
+      "native-female-843ac-v1",
+      "native-female-face-v1",
+      "native-female-waist-v1",
+      "native-male-7586-v1"
+    ]
+  },
+  "checks": [
+    "结果与现有 queryAppearanceCandidates 的 JSON 合同一致。独立快照可变更而不影响角色状态、目录和后续查询。",
+    "以每个基模自己的发布装备目录核对套装和材质声明。旧男性短裤配方在套装 2、4、6 登记，原材质选择为 null。",
+    "六个精确支持基模的共享麦克风与眼镜 GLB、握姿及镜腿档案均与目录长度和 SHA-256 一致。核对档案的基模和道具来源签名及握麦姿势登记。",
+    "男性小腿改形的精确身份不继承旧男性道具或材质登记。原生男性服装保原材质选择。",
+    "缺失、未知或 SHA 不匹配的基模身份返回 unregistered-body。"
+  ],
+  "runtimeConstraints": {
+    "sourcePath": "prototype/src/live-presentation.js",
+    "blockedActions": "canPerform 在麦克风正装备或准备时阻止舞蹈。",
+    "blocksGreeting": "canStartGreeting 要求空手且持麦姿态已复位。",
+    "enableBlockedDuring": "accessoryRestriction 在舞蹈或招手期间拒绝装备麦克风。"
+  },
+  "sourceSha256": {
+    "prototype/src/character-production-query.js": "a5f2726d67db76dc272a085d5edca4eeb409596fa97da6adbd5cc86a285691b7",
+    "prototype/src/character-production-query.test.mjs": "535bd9f3df2d00f73ee17dea057b0180bc042e197ae1e8167d9b010908b4b4cd",
+    "prototype/src/live-presentation.js": "2820ab52cb95554534dbd5eaa5e485c8da63546d149b0fcc0a558750164a4ef5",
+    "prototype/public/assets/m1c/accessories.json": "d8380d1a105bff48e1cf8ed9ec92efaac54318e767a6df5836d587152e11c2b1",
+    "prototype/public/assets/m1c/grips/manifest.json": "6ae8393ca5e36c3dd356878042ad7890ebb7d13004515a36f25398d767a5a7a2",
+    "prototype/src/glasses-temple-fit-manifest.json": "2aff5304c5e2456a44252fde5b41abe6c1e887a5ab916845f826fbf18e75f2d3",
+    "prototype/src/microphone-presentation-fits.js": "1e8fd33fd66a9c8afa7dcca9ee466720121fe1d4ba46eaba217ca9d592f801ae"
+  }
+}
