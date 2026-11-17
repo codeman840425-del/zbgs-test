@@ -1,0 +1,515 @@
+{
+  "list_parameters": {
+    "name": "list_parameters",
+    "title": null,
+    "description": "List typed native controls with their values, units, ranges and options.\n\nHair needs a category and a node scope, accessories an instance scope, and\nexpressions may take an expression id as scope. Colors are RGBA in 0..1.\nClothing accepts a native category such as Tops, Bottoms, InnerTop or Shoes\nto filter shape sliders before pagination. Omit category to list the whole outfit.\nRead every next_offset page before concluding a control is missing. The\ngeneral domain covers outline, rim light, shading, gaze limits and spring\namplitude. Shape controls add semantic_key/group/bindings and a\ntranslation_key; `name` is an exact-key English correction while `label`\nstays native. Missing bindings are reported instead of guessed, and a\nsemantic key may repeat across controls and is never a write id. Colors add\nnative_value, mixed, color_bindings, shared_groups, alias_of and\naffected_parameter_ids; a mixed aggregate such as BothEyes has a null value,\nso use the separate side ids. Left and right follow the native UI controls,\nwhich can be the opposite of the raw binding key names.\n",
+    "inputSchema": {
+      "properties": {
+        "domain": {
+          "enum": [
+            "face",
+            "body",
+            "clothing",
+            "colors",
+            "expressions",
+            "general",
+            "hair",
+            "hair_bones",
+            "accessories",
+            "photo"
+          ],
+          "title": "Domain",
+          "type": "string"
+        },
+        "scope": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scope"
+        },
+        "category": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Category"
+        },
+        "offset": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Offset",
+          "type": "integer"
+        },
+        "limit": {
+          "default": 200,
+          "maximum": 500,
+          "minimum": 1,
+          "title": "Limit",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "domain"
+      ],
+      "title": "list_parametersArguments",
+      "type": "object"
+    },
+    "outputSchema": null,
+    "icons": null,
+    "annotations": {
+      "title": null,
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": null,
+      "openWorldHint": false
+    },
+    "meta": null,
+    "execution": null
+  },
+  "set_parameters": {
+    "name": "set_parameters",
+    "title": null,
+    "description": "Write 1-64 typed parameters taken from a fresh list_parameters result.\n\nEvery value is validated before anything is written, and native history can\nundo the batch. Value shapes: curve [x,y] control points, quaternion\n[x,y,z,w], vector [x,y,z], color [r,g,b,a]. Hair needs category and node\nscope, accessories an instance scope. A native error can leave a partial\nbatch, so inspect ok/applied/error. Changing a preset or the hair structure\nmeans relisting. Color batches reject overlapping targets (BothEyes together\nwith one eye, or a duplicated shared alias) while separate eyes may be set in\none call; writing BothEyes unifies them. Color results include settled\naffected_parameters and a per-write verification from each binding.\n",
+    "inputSchema": {
+      "$defs": {
+        "ParameterChange": {
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "value": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "number"
+                  },
+                  "type": "array"
+                },
+                {
+                  "items": {
+                    "items": {
+                      "type": "number"
+                    },
+                    "type": "array"
+                  },
+                  "type": "array"
+                }
+              ],
+              "title": "Value"
+            }
+          },
+          "required": [
+            "id",
+            "value"
+          ],
+          "title": "ParameterChange",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "expected_model": {
+          "title": "Expected Model",
+          "type": "string"
+        },
+        "domain": {
+          "enum": [
+            "face",
+            "body",
+            "clothing",
+            "colors",
+            "expressions",
+            "general",
+            "hair",
+            "hair_bones",
+            "accessories",
+            "photo"
+          ],
+          "title": "Domain",
+          "type": "string"
+        },
+        "changes": {
+          "items": {
+            "$ref": "#/$defs/ParameterChange"
+          },
+          "title": "Changes",
+          "type": "array"
+        },
+        "scope": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scope"
+        },
+        "category": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Category"
+        }
+      },
+      "required": [
+        "expected_model",
+        "domain",
+        "changes"
+      ],
+      "title": "set_parametersArguments",
+      "type": "object"
+    },
+    "outputSchema": null,
+    "icons": null,
+    "annotations": {
+      "title": null,
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "idempotentHint": null,
+      "openWorldHint": false
+    },
+    "meta": null,
+    "execution": null
+  },
+  "list_face_params": {
+    "name": "list_face_params",
+    "title": null,
+    "description": "List the UI face sliders with labels, ranges, current values, aliases and the model token.",
+    "inputSchema": {
+      "properties": {},
+      "title": "list_face_paramsArguments",
+      "type": "object"
+    },
+    "outputSchema": null,
+    "icons": null,
+    "annotations": {
+      "title": null,
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": null,
+      "openWorldHint": false
+    },
+    "meta": null,
+    "execution": null
+  },
+  "save_as": {
+    "name": "save_as",
+    "title": null,
+    "description": "Save a new .vroid copy; an existing file is never overwritten.\n\nIn an attached window this makes a copy and preserves the original\ncharacter file association and unsaved flag; it does not save in place.\nAttached windows accept absolute paths in existing directories; plain\nfilenames and copy sessions use lab saves/.\n",
+    "inputSchema": {
+      "properties": {
+        "expected_model": {
+          "title": "Expected Model",
+          "type": "string"
+        },
+        "filename": {
+          "title": "Filename",
+          "type": "string"
+        }
+      },
+      "required": [
+        "expected_model",
+        "filename"
+      ],
+      "title": "save_asArguments",
+      "type": "object"
+    },
+    "outputSchema": null,
+    "icons": null,
+    "annotations": {
+      "title": null,
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "idempotentHint": null,
+      "openWorldHint": false
+    },
+    "meta": null,
+    "execution": null
+  },
+  "list_parts": {
+    "name": "list_parts",
+    "title": null,
+    "description": "List active native model parts with resource IDs and custom/modified flags.\n\nIncludes registered closet custom_items and savable_types. Pass the fresh\nmodel_token; listed built-in or registered custom IDs work with replace_part.\n",
+    "inputSchema": {
+      "properties": {
+        "expected_model": {
+          "title": "Expected Model",
+          "type": "string"
+        }
+      },
+      "required": [
+        "expected_model"
+      ],
+      "title": "list_partsArguments",
+      "type": "object"
+    },
+    "outputSchema": null,
+    "icons": null,
+    "annotations": {
+      "title": null,
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": null,
+      "openWorldHint": false
+    },
+    "meta": null,
+    "execution": null
+  },
+  "save_custom_items": {
+    "name": "save_custom_items",
+    "title": null,
+    "description": "Save worn parts as new custom items in the current VRoid profile's closet.\n\ntypes selects unique names from list_parts savable_types; None saves all.\nVerifies new files, ZIP integrity, metadata and native closet registration.\nExisting items are never overwritten. Attached mode uses that real\nwindow's profile and preserves its character file association/dirty flag.\nPartial/uncertain saves are not rolled back; inspect files before retrying.\n",
+    "inputSchema": {
+      "properties": {
+        "expected_model": {
+          "title": "Expected Model",
+          "type": "string"
+        },
+        "types": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Types"
+        }
+      },
+      "required": [
+        "expected_model"
+      ],
+      "title": "save_custom_itemsArguments",
+      "type": "object"
+    },
+    "outputSchema": null,
+    "icons": null,
+    "annotations": {
+      "title": null,
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "idempotentHint": null,
+      "openWorldHint": false
+    },
+    "meta": null,
+    "execution": null
+  },
+  "export_vrm": {
+    "name": "export_vrm",
+    "title": null,
+    "description": "Export the ordinary edit model using its native VRM metadata and settings.\n\nversion 0 exports VRM 0.x, version 1 exports VRM 1.0. A new filename is\nwritten under lab/saves; existing files are refused. The model's native\nVRM title/name must be set in the model or supplied as title. Optional\ntitle/author override only the exported metadata; other permissions use\nthe model's own settings. model_version overrides only the exported version.\nOmitted options keep observed native settings. A supplied object overlays\nthose settings: delete_transparent, hair_cross_section, combine_hair are\nbooleans; hair_smoothness, hair, face, body, outfit, hair_bones are integer\nsliders 0..100; material_mode, texture_mode, atlas_resolution are native\nchoice indices from get_vrm_export_options. Returns requested/effective\nsettings and warnings if VRoid refuses a combination after one reapply.\nFresh screen rebuilds are required. leave=None preserves the pre-call\nscreen ownership; explicit True/False closes/keeps the export screen safely.\nUncertain export work retains native handles and forbids retry/navigation.\nContainer/reference checks do not establish visual or engine acceptance.\n",
+    "inputSchema": {
+      "properties": {
+        "expected_model": {
+          "title": "Expected Model",
+          "type": "string"
+        },
+        "filename": {
+          "title": "Filename",
+          "type": "string"
+        },
+        "version": {
+          "default": 1,
+          "enum": [
+            0,
+            1
+          ],
+          "title": "Version",
+          "type": "integer"
+        },
+        "title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Title"
+        },
+        "author": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Author"
+        },
+        "model_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Version"
+        },
+        "options": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Options"
+        },
+        "leave": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Leave"
+        }
+      },
+      "required": [
+        "expected_model",
+        "filename"
+      ],
+      "title": "export_vrmArguments",
+      "type": "object"
+    },
+    "outputSchema": null,
+    "icons": null,
+    "annotations": {
+      "title": null,
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "idempotentHint": null,
+      "openWorldHint": false
+    },
+    "meta": null,
+    "execution": null
+  },
+  "list_group_parameters": {
+    "name": "list_group_parameters",
+    "title": null,
+    "description": "List exact typed/raw/item bindings, native units and unsupported-write reasons.\n\nRelist after any preset/topology change. IDs bind model/group revisions;\nsemantic keys and translated labels are not write addresses. Audited\ngarment item blendshape paths use 0..100 native units. Other raw scalars\nrequire exact VM metadata for an editable control.\n",
+    "inputSchema": {
+      "properties": {
+        "expected_model": {
+          "title": "Expected Model",
+          "type": "string"
+        },
+        "group_id": {
+          "title": "Group Id",
+          "type": "string"
+        },
+        "kind": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Kind"
+        }
+      },
+      "required": [
+        "expected_model",
+        "group_id"
+      ],
+      "title": "list_group_parametersArguments",
+      "type": "object"
+    },
+    "outputSchema": null,
+    "icons": null,
+    "annotations": {
+      "title": null,
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": null,
+      "openWorldHint": false
+    },
+    "meta": null,
+    "execution": null
+  },
+  "apply_custom_item": {
+    "name": "apply_custom_item",
+    "title": null,
+    "description": "Apply a validated current-format file matching an already registered closet item.\n\nCopy paths stay in the lab input policy; attached paths may be absolute.\nA project copy needs exact byte/metadata identity with the registered file.\nNo registry entries or profile files are created. Native load/deserialization\nand identity checks precede selection. Native in-memory normalization\nmust preserve root/type/resource/revision; source bytes are never rewritten.\n",
+    "inputSchema": {
+      "properties": {
+        "expected_model": {
+          "title": "Expected Model",
+          "type": "string"
+        },
+        "filename": {
+          "title": "Filename",
+          "type": "string"
+        }
+      },
+      "required": [
+        "expected_model",
+        "filename"
+      ],
+      "title": "apply_custom_itemArguments",
+      "type": "object"
+    },
+    "outputSchema": null,
+    "icons": null,
+    "annotations": {
+      "title": null,
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "idempotentHint": null,
+      "openWorldHint": false
+    },
+    "meta": null,
+    "execution": null
+  }
+}
