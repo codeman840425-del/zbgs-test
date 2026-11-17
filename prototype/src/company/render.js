@@ -79,7 +79,8 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
       if(id===document.id)return root;
       if(groups.has(id))return groups.get(id);
       const node=derived.nodes.get(id),object=new THREE.Group();object.name=id;
-      object.position.fromArray(node.transform.position);object.rotation.y=node.transform.yaw;
+      const local=derived.localTransforms.get(id);
+      object.position.fromArray(local.position);object.rotation.y=local.yaw;
       groups.set(id,object);group(node.parentId).add(object);return object;
     }
     try {

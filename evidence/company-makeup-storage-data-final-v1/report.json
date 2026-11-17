@@ -1,0 +1,331 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "name": "Four genuinely different GLBs share function and fit both inputs",
+      "passed": true,
+      "result": [
+        {
+          "resource": {
+            "id": "makeup-storage-tray",
+            "version": 1
+          },
+          "sha256": "ec5976fe544e7f05a90cc6169e8f8d79186e141672f0b0b429ed82fa24d4c596"
+        },
+        {
+          "resource": {
+            "id": "makeup-storage-divided",
+            "version": 1
+          },
+          "sha256": "5e9111083579c3ecc704c4086ffedf2c1fa7d5b5dc21a91826e32cb316c48801"
+        },
+        {
+          "resource": {
+            "id": "makeup-storage-brush-cup",
+            "version": 1
+          },
+          "sha256": "a7c2d85fde07fd3b479aa43d355a4874da5b774fbecaf4752ee1e9717a8a0d5b"
+        },
+        {
+          "resource": {
+            "id": "makeup-storage-case",
+            "version": 1
+          },
+          "sha256": "aca71349acb08ea4e09c6f78bb2746456ac98b8c4e119ac784d6e8ef5955a4c1"
+        }
+      ]
+    },
+    {
+      "name": "Actual four-way replacement retains rest coordinates, contents, independent top and parent state",
+      "passed": true,
+      "result": [
+        {
+          "resource": {
+            "id": "makeup-storage-tray",
+            "version": 1
+          },
+          "content": [
+            -0.98,
+            0.802,
+            -1.1715
+          ],
+          "top": [
+            -0.98,
+            0.88,
+            -1.27
+          ]
+        },
+        {
+          "resource": {
+            "id": "makeup-storage-divided",
+            "version": 1
+          },
+          "content": [
+            -0.98,
+            0.802,
+            -1.1715
+          ],
+          "top": [
+            -0.98,
+            0.88,
+            -1.27
+          ]
+        },
+        {
+          "resource": {
+            "id": "makeup-storage-brush-cup",
+            "version": 1
+          },
+          "content": [
+            -0.98,
+            0.802,
+            -1.1715
+          ],
+          "top": [
+            -0.98,
+            0.88,
+            -1.27
+          ]
+        },
+        {
+          "resource": {
+            "id": "makeup-storage-case",
+            "version": 1
+          },
+          "content": [
+            -0.98,
+            0.802,
+            -1.1715
+          ],
+          "top": [
+            -0.98,
+            0.88,
+            -1.27
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Closed/partial/full and repeated travel moves actual drawer and independent contents without cumulative drift",
+      "passed": true,
+      "result": [
+        {
+          "value": 0,
+          "drawer": [
+            0,
+            0,
+            0
+          ],
+          "content": [
+            -0.98,
+            0.802,
+            -1.23
+          ]
+        },
+        {
+          "value": 0.37,
+          "drawer": [
+            0,
+            0,
+            0.033299999999999996
+          ],
+          "content": [
+            -0.98,
+            0.802,
+            -1.1967
+          ]
+        },
+        {
+          "value": 0.5,
+          "drawer": [
+            0,
+            0,
+            0.045
+          ],
+          "content": [
+            -0.98,
+            0.802,
+            -1.185
+          ]
+        },
+        {
+          "value": 1,
+          "drawer": [
+            0,
+            0,
+            0.09
+          ],
+          "content": [
+            -0.98,
+            0.802,
+            -1.1400000000000001
+          ]
+        },
+        {
+          "value": 0,
+          "drawer": [
+            0,
+            0,
+            0
+          ],
+          "content": [
+            -0.98,
+            0.802,
+            -1.23
+          ]
+        },
+        {
+          "value": 1,
+          "drawer": [
+            0,
+            0,
+            0.09
+          ],
+          "content": [
+            -0.98,
+            0.802,
+            -1.1400000000000001
+          ]
+        },
+        {
+          "value": 0,
+          "drawer": [
+            0,
+            0,
+            0
+          ],
+          "content": [
+            -0.98,
+            0.802,
+            -1.23
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Joint table/seat turn shares world transforms with moving child and preserves serialized rest state",
+      "passed": true,
+      "result": {
+        "closed": [
+          0.57,
+          0.802,
+          -1.32
+        ],
+        "opened": [
+          0.6599999999999999,
+          0.802,
+          -1.32
+        ]
+      }
+    },
+    {
+      "name": "Bad placement, content, state and incompatible replacements preserve actual old scene and saved document",
+      "passed": true,
+      "result": [
+        {
+          "code": "invalid-support-fit",
+          "path": "vanity/primary/storage"
+        },
+        {
+          "code": "invalid-support-fit",
+          "path": "vanity/primary/storage"
+        },
+        {
+          "code": "invalid-support-fit",
+          "path": "vanity/primary/storage/content"
+        },
+        {
+          "code": "invalid-support-fit",
+          "path": "vanity/primary/storage/content"
+        },
+        {
+          "code": "invalid-device-state",
+          "path": "vanity/primary/storage.state.openFraction"
+        },
+        {
+          "code": "invalid-device-state",
+          "path": "vanity/primary/storage.state.openFraction"
+        },
+        {
+          "code": "invalid-device-state",
+          "path": "vanity/primary/storage.state.open"
+        },
+        {
+          "code": "incompatible-replacement",
+          "path": "vanity/primary/storage.resource.footprint"
+        },
+        {
+          "code": "missing-resource-version",
+          "path": "vanity/primary/storage"
+        }
+      ]
+    },
+    {
+      "name": "Two real turned rooms keep separate contents and nondefault state across restoration",
+      "passed": true,
+      "result": {
+        "id": {
+          "id": "vanity/primary/storage",
+          "kind": "facility",
+          "parentId": "vanity/primary",
+          "resource": {
+            "id": "makeup-storage-brush-cup",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0.02,
+              0.78,
+              0.075
+            ],
+            "yaw": 0
+          },
+          "state": {
+            "openFraction": 0.83
+          },
+          "attachment": {
+            "surfaceId": "top"
+          }
+        },
+        "other": {
+          "id": "vanity/secondary/storage",
+          "kind": "facility",
+          "parentId": "vanity/secondary",
+          "resource": {
+            "id": "makeup-storage-case",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0.02,
+              0.78,
+              0.075
+            ],
+            "yaw": 0
+          },
+          "state": {
+            "openFraction": 0.25
+          },
+          "attachment": {
+            "surfaceId": "top"
+          }
+        },
+        "contents": [
+          [
+            -0.98,
+            0.802,
+            -1.1553
+          ],
+          [
+            8.0925,
+            0.802,
+            -1.02
+          ]
+        ]
+      }
+    }
+  ],
+  "limits": [
+    "Actual GLB loader and scene graph on CPU; mirror GPU preflight stubbed. Browser rendering, process restart and character use are separate evidence."
+  ]
+}

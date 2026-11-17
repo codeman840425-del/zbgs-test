@@ -1,0 +1,175 @@
+{
+  "id": "company-makeup-storage-v1",
+  "version": 1,
+  "license": "Project-authored original parametric geometry and solid-color materials. No external art or model input. Three.js 0.187.0 is MIT licensed, copyright 2010–2026 three.js authors. Preserve prototype/node_modules/three/LICENSE and prototype/package-lock.json for offline rebuilds.",
+  "common": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Bottom centre",
+    "envelope": {
+      "width": 0.45,
+      "height": 0.25,
+      "depth": 0.25
+    },
+    "movingParts": [
+      {
+        "id": "drawer",
+        "stateField": "openFraction",
+        "kind": "slide",
+        "axis": "z",
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "translationRange": [
+          0,
+          0.09
+        ],
+        "bounds": {
+          "min": [
+            -0.205,
+            0.016,
+            -0.115
+          ],
+          "max": [
+            0.205,
+            0.078,
+            0.035
+          ]
+        }
+      }
+    ],
+    "supportSurfaces": [
+      {
+        "id": "top",
+        "center": [
+          0,
+          -0.045
+        ],
+        "topY": 0.1,
+        "halfSize": [
+          0.115,
+          0.055
+        ],
+        "clearanceHeight": 0.14
+      },
+      {
+        "id": "drawer",
+        "center": [
+          0,
+          -0.005
+        ],
+        "topY": 0.022,
+        "halfSize": [
+          0.18,
+          0.02
+        ],
+        "clearanceHeight": 0.04
+      }
+    ],
+    "cupSegments": 32,
+    "contentSegments": 24,
+    "promptStandard": "Purpose: four original compatible tabletop makeup storage looks on the fixed vanity support surface. Model a real closed .45 x .25 x .25m full-motion envelope in metres, +Y up and +Z forward, bottom-centre origin. Share an actual rear-biased closed base, structural cheeks and roof, two solid rails and a real open-top thick tray moving 0..0.09m along +Z. The actual tray bottom, walls, handle, cavity, rail contact and unobstructed shared top/drawer support patches must pass independent loaded-triangle checks across the full state range. Build genuinely different shallow tray, divided storage, thick bottomed brush cups and open case with real side handle holes. All rest mesh vertices are baked into resource space under identity groups. Use opaque solid-color materials, no textures, animations or external models, and at most 2500 triangles, 32 meshes and four materials per resource. Preserve deterministic exporter/readback and source/dependency identities."
+  },
+  "designs": [
+    {
+      "id": "tray",
+      "label": "托盘式化妆收纳",
+      "color": "#a77f68",
+      "rimHeight": 0.14,
+      "prompt": "Low open rim around the shared top board, giving a single continuous shallow tray, with a real separate lower sliding tray and connected front pull.",
+      "limitations": [
+        "Low tray rim with a real common lower sliding tray. No removable-tray or hand pickup state."
+      ]
+    },
+    {
+      "id": "divided",
+      "label": "分格式化妆收纳",
+      "color": "#728c82",
+      "rimHeight": 0.19,
+      "prompt": "Tall open side banks with two longitudinal dividers and one left cross-divider creating at least two real usable left cells. A rear divider moves with the lower tray while its shared front contents patch stays empty.",
+      "limitations": [
+        "Fixed upper dividers and one actual moving rear divider. The common drawer-front content patch remains compatible."
+      ]
+    },
+    {
+      "id": "brush-cup",
+      "label": "刷具杯式化妆收纳",
+      "color": "#8b8099",
+      "cupHeights": [
+        0.25,
+        0.22
+      ],
+      "prompt": "Two real thick-walled open cups at X±.17,Z-.045. Each has a closed 6mm-thick floor, 35mm outer radius and 29mm inner radius. Left/right rims are at Y=.25/.22. Preserve shared open central top and the real lower sliding tray.",
+      "limitations": [
+        "Finite 32-segment cup contours with actual independent solid floors. Static upper cups, bounded lower slide."
+      ]
+    },
+    {
+      "id": "case",
+      "label": "开放化妆箱式收纳",
+      "color": "#647f96",
+      "rimHeight": 0.2,
+      "prompt": "Deep open rectangular upper box with thicker walls and two real open side handles, assembled from six closed metal handle bars reaching Y=.25. Preserve shared top clearance and the common working lower sliding tray.",
+      "limitations": [
+        "Fixed open upper case with real handle apertures. No lid hinge, locking or carrying simulation."
+      ]
+    }
+  ],
+  "content": {
+    "id": "makeup-storage-content-compact",
+    "envelope": {
+      "width": 0.024,
+      "height": 0.035,
+      "depth": 0.024
+    },
+    "prompt": "One original short cylindrical cosmetic compact witness, a closed 24-segment body and closed shallow cap, radius .012m, total height .035m. The independent resource is placed on the moving drawer support and saved with its own identity and rest transform.",
+    "limitations": [
+      "One limited independent compact witness for saved moving storage contents. No cosmetics inventory or character manipulation mechanism."
+    ]
+  },
+  "editableRanges": {
+    "designs[0].rimHeight": {
+      "min": 0.13,
+      "max": 0.15,
+      "units": "metres"
+    },
+    "effect": "Changes the actual four upper tray-wall heights while preserving the shared carrier, functional support surfaces and slide envelope. The other three models and independent content GLB remain byte identical."
+  },
+  "dependencyPins": {
+    "functionalContract": {
+      "path": "docs/COMPANY-MAKEUP-STORAGE-CONTRACT-v1.txt",
+      "sha256": "3fad69f0828e5a3584eac666ff1bc219c192ee9ab4ff8f36a1d27ae13f479e29"
+    },
+    "preflight": {
+      "path": "docs/research/COMPANY-MAKEUP-STORAGE-PREFLIGHT-2026-11-17.txt",
+      "sha256": "9cf63cdb231c5e8c5e00bf376e853770a017626c49042b0c7962d21c224ab5ac"
+    },
+    "lockfile": {
+      "path": "prototype/package-lock.json",
+      "sha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7"
+    },
+    "threePackage": {
+      "path": "prototype/node_modules/three/package.json",
+      "sha256": "87f2c99a8718e5fdd6f5e51427fde52c6075f2f698ddf8f7b4e162882df93940"
+    },
+    "threeModule": {
+      "path": "prototype/node_modules/three/build/three.module.js",
+      "sha256": "104f56145899722094556490d787aae0617cc2fc3382f31df02d724ea1aee341"
+    },
+    "gltfExporter": {
+      "path": "prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+      "sha256": "569793baeba62baeb4ab0b3619b6b1495b45d4b2ba9690430497adb58307bdf2"
+    },
+    "gltfLoader": {
+      "path": "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+      "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1"
+    },
+    "threeLicense": {
+      "path": "prototype/node_modules/three/LICENSE",
+      "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+    }
+  }
+}

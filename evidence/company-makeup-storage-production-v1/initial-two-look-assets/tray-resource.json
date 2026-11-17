@@ -1,0 +1,143 @@
+{
+  "id": "makeup-storage-tray",
+  "displayName": "托盘式化妆收纳",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "makeup-storage",
+  "productionBranch": "makeup-storage",
+  "mount": "support-surface",
+  "mounting": {
+    "origin": "bottom",
+    "width": 0.45,
+    "height": 0.25,
+    "depth": 0.25
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Bottom centre",
+    "scale": "Identity only"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.225,
+      0.125
+    ],
+    "blocking": false
+  },
+  "usePoints": [],
+  "movingProfile": "supported-slide-v1",
+  "movingParts": [
+    {
+      "id": "drawer",
+      "stateField": "openFraction",
+      "kind": "slide",
+      "axis": "z",
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "translationRange": [
+        0,
+        0.09
+      ],
+      "bounds": {
+        "min": [
+          -0.205,
+          0.016,
+          -0.115
+        ],
+        "max": [
+          0.205,
+          0.078,
+          0.035
+        ]
+      }
+    }
+  ],
+  "partNodes": {
+    "drawer": "storage-drawer-slide"
+  },
+  "partPanels": {
+    "drawer": "storage-drawer-front"
+  },
+  "partTrays": {
+    "drawer": {
+      "bottom": "storage-drawer-bottom",
+      "left": "storage-drawer-left",
+      "right": "storage-drawer-right",
+      "back": "storage-drawer-back"
+    }
+  },
+  "supportSurfaces": [
+    {
+      "id": "top",
+      "center": [
+        0,
+        -0.045
+      ],
+      "topY": 0.1,
+      "halfSize": [
+        0.115,
+        0.055
+      ],
+      "clearanceHeight": 0.14
+    },
+    {
+      "id": "drawer",
+      "center": [
+        0,
+        -0.005
+      ],
+      "topY": 0.022,
+      "halfSize": [
+        0.18,
+        0.02
+      ],
+      "clearanceHeight": 0.04
+    }
+  ],
+  "supportNodes": {
+    "top": "storage-roof",
+    "drawer": "storage-drawer-bottom"
+  },
+  "supportMotion": {
+    "drawer": "drawer"
+  },
+  "stateDefaults": {
+    "openFraction": 0
+  },
+  "stateSchema": {
+    "openFraction": {
+      "type": "number",
+      "min": 0,
+      "max": 1
+    }
+  },
+  "stateSemantics": {
+    "openFraction": "sliding-drawer-opening-fraction"
+  },
+  "provenance": {
+    "intermediate": true,
+    "geometryAcceptance": "pending",
+    "license": "Project-authored original parametric geometry and solid-color materials. No external art or model input. Three.js 0.187.0 is MIT licensed, copyright 2010–2026 three.js authors. Preserve prototype/node_modules/three/LICENSE and prototype/package-lock.json for offline rebuilds.",
+    "prompt": "Purpose: four original compatible tabletop makeup storage looks on the fixed vanity support surface. Model a real closed .45 x .25 x .25m full-motion envelope in metres, +Y up and +Z forward, bottom-centre origin. Share an actual rear-biased closed base, structural cheeks and roof, two solid rails and a real open-top thick tray moving 0..0.09m along +Z. The actual tray bottom, walls, handle, cavity, rail contact and unobstructed shared top/drawer support patches must pass independent loaded-triangle checks across the full state range. Build genuinely different shallow tray, divided storage, thick bottomed brush cups and open case with real side handle holes. All rest mesh vertices are baked into resource space under identity groups. Use opaque solid-color materials, no textures, animations or external models, and at most 2500 triangles, 32 meshes and four materials per resource. Preserve deterministic exporter/readback and source/dependency identities. Design: Low open rim around the shared top board, giving a single continuous shallow tray, with a real separate lower sliding tray and connected front pull.",
+    "sourceDesign": "tray",
+    "method": "Original closed solid carrier, real rails, thick sliding tray and distinct upper storage geometry. Rest vertices baked into resource space. Actual deterministic GLTFLoader readback and independent full-path geometry admission.",
+    "limitations": [
+      "Low tray rim with a real common lower sliding tray. No removable-tray or hand pickup state."
+    ]
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/makeup-storage-v1/tray/v1/model.glb",
+    "sha256": "001731e82f83bf053b7570cd7694269a97de1cab443c6c5a2542ced526b21968",
+    "bytes": 30728
+  }
+}

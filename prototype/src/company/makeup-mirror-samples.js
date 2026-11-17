@@ -2,11 +2,11 @@ import {prepareCompanyChange} from './document.js';
 import {createVanitySample} from './vanity-samples.js';
 
 // Reuse the real table/support/chair layout; mirror and clock cannot share the rear patch.
-export function createMakeupMirrorSample(catalog,templates,{index=0,alternate=false}={}) {
+export function createMakeupMirrorSample(catalog,templates,{index=0,alternate=false,id}={}) {
   const mirrors=catalog.resources.filter(r=>r.mountRole==='makeup-mirror');
   const selected=mirrors[index];
   if(!selected)throw Error(`Missing registered makeup mirror ${index}`);
-  const original=createVanitySample(catalog,templates,{index,alternate,id:alternate?'makeup-mirror-alternate':'appearance-makeup-mirror'});
+  const original=createVanitySample(catalog,templates,{index,alternate,id:id??(alternate?'makeup-mirror-alternate':'appearance-makeup-mirror')});
   let document=structuredClone(original.document);
   document.name=alternate?'化妆镜 · 两房转向与补光':'化妆镜 · 台面反射与补光';
   const ops=[];

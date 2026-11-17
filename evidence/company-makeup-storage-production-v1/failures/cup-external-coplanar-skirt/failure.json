@@ -1,0 +1,47 @@
+{
+  "status": "failed",
+  "reason": "Actual floor outer-cylinder triangles and wall outer-cylinder triangles occupy the same external surface over Y=.100..106, producing the observed alternating skirt pixels.",
+  "measurements": [
+    {
+      "side": "left",
+      "overlappingOutwardTrianglePairs": 96,
+      "externalCoplanarOverlapSquareMetres": 0.0013173497690798287
+    },
+    {
+      "side": "right",
+      "overlappingOutwardTrianglePairs": 96,
+      "externalCoplanarOverlapSquareMetres": 0.001317349769079828
+    }
+  ],
+  "fix": "Retain closed floor Y[.100,.106], start closed cup-wall ring atY=.106. Match full annulus butt-face contact while removing duplicate external faces.",
+  "pins": {
+    "brush-cup-model.glb": {
+      "originalPath": "prototype/public/company-assets/makeup-storage-v1/brush-cup/v1/model.glb",
+      "sha256": "a8d4becd18d2145951f3d19eaa93d246f52b2867e4ef20cd2bd9857105584ed4"
+    },
+    "brush-cup-resource.json": {
+      "originalPath": "prototype/public/company-assets/makeup-storage-v1/brush-cup/v1/resource.json",
+      "sha256": "ebe2f4ff8837820bc53599f73db8adfd27a214c91160d51bde790229b705ac98"
+    },
+    "parameters.json": {
+      "originalPath": "assets-source/company-makeup-storage-v1/parameters.json",
+      "sha256": "80b0331280ac855540b11956e917856e4273ae2d57ade36aad2544d31db620fb"
+    },
+    "build-makeup-storage.mjs": {
+      "originalPath": "scripts/company-platform/build-makeup-storage.mjs",
+      "sha256": "91ecc9995c5f89e06479c1b2ca037ea435b84a2242fb314caf3fa969be308db9"
+    },
+    "makeup-storage-geometry.js": {
+      "originalPath": "prototype/src/company/makeup-storage-geometry.js",
+      "sha256": "e11299c841d17fb673c18973c9af1594ae7973fac648112053f3686f4fd06c1a"
+    },
+    "production-report.json": {
+      "originalPath": "evidence/company-makeup-storage-production-v1/report.json",
+      "sha256": "361a54e910f1a9b11cc981fbff948edbb0830dec94e6924c7a5f00b44f5229b3"
+    },
+    "browser-storage-3.png": {
+      "originalPath": "evidence/company-makeup-storage-browser-dev-v1/storage-3.png",
+      "sha256": "62beb6a8c86bbdbaa0e8de5bde10072845d3c59b77842b15943cda8b7215bcda"
+    }
+  }
+}

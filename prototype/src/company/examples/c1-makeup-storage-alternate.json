@@ -1,0 +1,417 @@
+{
+  "schema": "company-layout",
+  "version": 1,
+  "id": "makeup-storage-alternate",
+  "name": "化妆收纳 · 两房转向与独立内容",
+  "revision": 3,
+  "scale": "rental-home",
+  "catalog": {
+    "id": "company-facilities",
+    "version": 1
+  },
+  "nodes": [
+    {
+      "id": "makeup-storage-alternate/floor-1",
+      "kind": "floor",
+      "parentId": "makeup-storage-alternate",
+      "name": "一层",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "connections": [
+        {
+          "id": "makeup-storage-alternate/door",
+          "from": {
+            "regionId": "makeup-storage-alternate/room-1",
+            "edge": "east",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "makeup-storage-alternate/room-2",
+            "edge": "west",
+            "offset": 0,
+            "width": 1.4
+          }
+        }
+      ]
+    },
+    {
+      "id": "makeup-storage-alternate/room-1",
+      "kind": "room",
+      "parentId": "makeup-storage-alternate/floor-1",
+      "name": "化妆准备间",
+      "purpose": "work",
+      "bounds": {
+        "width": 7,
+        "depth": 5.25
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "makeup-storage-alternate/room-2",
+      "kind": "room",
+      "parentId": "makeup-storage-alternate/floor-1",
+      "name": "化妆准备间",
+      "purpose": "work",
+      "bounds": {
+        "width": 7,
+        "depth": 5.25
+      },
+      "transform": {
+        "position": [
+          7,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "vanity/primary",
+      "kind": "facility",
+      "parentId": "makeup-storage-alternate/room-1",
+      "resource": {
+        "id": "vanity-table-plain",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -1,
+          0,
+          -1.3
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "vanity/primary/seat",
+      "kind": "facility",
+      "parentId": "makeup-storage-alternate/room-1",
+      "resource": {
+        "id": "vanity-chair-side-entry",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.98,
+          0,
+          -0.75
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "vanity/primary/ornament-0",
+      "kind": "facility",
+      "parentId": "vanity/primary",
+      "resource": {
+        "id": "tabletop-ornament-stacked-stones",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.295,
+          0.78,
+          0.08
+        ],
+        "yaw": 0
+      },
+      "state": {},
+      "attachment": {
+        "surfaceId": "top"
+      }
+    },
+    {
+      "id": "vanity/primary/ornament-1",
+      "kind": "facility",
+      "parentId": "vanity/primary",
+      "resource": {
+        "id": "tabletop-ornament-arched-sculpture",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0.335,
+          0.78,
+          0.08
+        ],
+        "yaw": 0
+      },
+      "state": {},
+      "attachment": {
+        "surfaceId": "top"
+      }
+    },
+    {
+      "id": "vanity/secondary",
+      "kind": "facility",
+      "parentId": "makeup-storage-alternate/room-2",
+      "resource": {
+        "id": "vanity-table-drawer-style",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1,
+          0,
+          -1
+        ],
+        "yaw": 1.5707963267948966
+      },
+      "state": {}
+    },
+    {
+      "id": "vanity/secondary/seat",
+      "kind": "facility",
+      "parentId": "makeup-storage-alternate/room-2",
+      "resource": {
+        "id": "vanity-chair-side-entry",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1.55,
+          0,
+          -1.02
+        ],
+        "yaw": 4.71238898038469
+      },
+      "state": {}
+    },
+    {
+      "id": "vanity/secondary/ornament-0",
+      "kind": "facility",
+      "parentId": "vanity/secondary",
+      "resource": {
+        "id": "tabletop-ornament-stacked-stones",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.295,
+          0.78,
+          0.08
+        ],
+        "yaw": 0
+      },
+      "state": {},
+      "attachment": {
+        "surfaceId": "top"
+      }
+    },
+    {
+      "id": "vanity/secondary/ornament-1",
+      "kind": "facility",
+      "parentId": "vanity/secondary",
+      "resource": {
+        "id": "tabletop-ornament-arched-sculpture",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0.335,
+          0.78,
+          0.08
+        ],
+        "yaw": 0
+      },
+      "state": {},
+      "attachment": {
+        "surfaceId": "top"
+      }
+    },
+    {
+      "id": "vanity/primary/mirror",
+      "kind": "facility",
+      "parentId": "vanity/primary",
+      "resource": {
+        "id": "makeup-mirror-round",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0.02,
+          0.78,
+          -0.135
+        ],
+        "yaw": 0
+      },
+      "state": {
+        "on": true,
+        "intensity": 7
+      },
+      "attachment": {
+        "surfaceId": "top"
+      }
+    },
+    {
+      "id": "vanity/secondary/mirror",
+      "kind": "facility",
+      "parentId": "vanity/secondary",
+      "resource": {
+        "id": "makeup-mirror-lit-frame",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0.02,
+          0.78,
+          -0.135
+        ],
+        "yaw": 0
+      },
+      "state": {
+        "on": false,
+        "intensity": 3
+      },
+      "attachment": {
+        "surfaceId": "top"
+      }
+    },
+    {
+      "id": "vanity/primary/storage",
+      "kind": "facility",
+      "parentId": "vanity/primary",
+      "resource": {
+        "id": "makeup-storage-tray",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0.02,
+          0.78,
+          0.075
+        ],
+        "yaw": 0
+      },
+      "state": {
+        "openFraction": 0.65
+      },
+      "attachment": {
+        "surfaceId": "top"
+      }
+    },
+    {
+      "id": "vanity/primary/storage/content",
+      "kind": "facility",
+      "parentId": "vanity/primary/storage",
+      "resource": {
+        "id": "makeup-storage-content-compact",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.022,
+          -0.005
+        ],
+        "yaw": 0
+      },
+      "state": {},
+      "attachment": {
+        "surfaceId": "drawer"
+      }
+    },
+    {
+      "id": "vanity/primary/storage/top-content",
+      "kind": "facility",
+      "parentId": "vanity/primary/storage",
+      "resource": {
+        "id": "makeup-storage-content-compact",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.1,
+          -0.045
+        ],
+        "yaw": 0
+      },
+      "state": {},
+      "attachment": {
+        "surfaceId": "top"
+      }
+    },
+    {
+      "id": "vanity/secondary/storage",
+      "kind": "facility",
+      "parentId": "vanity/secondary",
+      "resource": {
+        "id": "makeup-storage-divided",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0.02,
+          0.78,
+          0.075
+        ],
+        "yaw": 0
+      },
+      "state": {
+        "openFraction": 0.25
+      },
+      "attachment": {
+        "surfaceId": "top"
+      }
+    },
+    {
+      "id": "vanity/secondary/storage/content",
+      "kind": "facility",
+      "parentId": "vanity/secondary/storage",
+      "resource": {
+        "id": "makeup-storage-content-compact",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.022,
+          -0.005
+        ],
+        "yaw": 0
+      },
+      "state": {},
+      "attachment": {
+        "surfaceId": "drawer"
+      }
+    },
+    {
+      "id": "vanity/secondary/storage/top-content",
+      "kind": "facility",
+      "parentId": "vanity/secondary/storage",
+      "resource": {
+        "id": "makeup-storage-content-compact",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.1,
+          -0.045
+        ],
+        "yaw": 0
+      },
+      "state": {},
+      "attachment": {
+        "surfaceId": "top"
+      }
+    }
+  ]
+}

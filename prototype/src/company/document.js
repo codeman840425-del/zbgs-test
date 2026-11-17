@@ -1,6 +1,7 @@
 // Company authoring data. Actor tasks and seat leases remain in the character platform.
 import {compareFacilityFunction} from './appearance-contract.js';
-import {validateSupportResource, validateSupportAttachments} from './support-data.js';
+import {validateSupportResource, validateSupportAttachments,effectiveSupportTransform} from './support-data.js';
+import {MAKEUP_STORAGE_PROFILE,validateMakeupStorageAttachments} from './makeup-storage-data.js';
 import {validateMovingResource, validateFacilityState, movingFootprint} from './moving-parts.js';
 import {validateClockResource} from './clock-display.js';
 import {validateInformationResource,validateInformationAttachments} from './information-display.js';
@@ -160,7 +161,7 @@ export function deriveCompany(document, catalog, templates) {
   if (!Array.isArray(document.nodes)) fail('invalid-nodes', 'document.nodes', 'Expected an array');
   const { resources, combinations } = catalogMaps(catalog, templates);
   for (const resource of resources.values()) { validateSupportResource(resource, fail); validateMovingResource(resource, fail); validateClockResource(resource, fail); validateInformationResource(resource, fail); validateMirrorResource(resource, fail); validateVanityResource(resource, fail); }
-  const nodes = new Map(), worlds = new Map(), floorIds = new Map(), roomIds = new Map();
+  const nodes = new Map(), worlds = new Map(), localTransforms = new Map(), floorIds = new Map(), roomIds = new Map();
   for (const node of document.nodes) {
     checkId(node.id, 'nodes.id');
     if (nodes.has(node.id) || node.id === document.id) fail('duplicate-instance', node.id, 'Instance identity must be globally unique');
@@ -180,7 +181,9 @@ export function deriveCompany(document, catalog, templates) {
     if (!parent) fail('missing-parent', node.id, String(node.parentId));
     if (!parents[node.kind].includes(parent.kind)) fail('invalid-parent', node.id, `${node.kind} cannot belong to ${parent.kind}`);
     const p = parent.kind === 'company' ? identityTransform() : resolve(parent);
-    const world = composeTransform(p, node.transform); worlds.set(node.id, world);
+    const local=effectiveSupportTransform(node,parent,resources.get(key(parent.resource)));
+    localTransforms.set(node.id,local);
+    const world = composeTransform(p, local); worlds.set(node.id, world);
     floorIds.set(node.id, node.kind === 'floor' ? node.id : floorIds.get(parent.id));
     roomIds.set(node.id, ['room', 'area'].includes(node.kind) ? node.id : roomIds.get(parent.id));
     visiting.delete(node.id); return world;
@@ -311,9 +314,10 @@ export function deriveCompany(document, catalog, templates) {
   }
   validateSupportAttachments(nodes, resources, fail);
   validateMakeupMirrorAttachments(nodes, resources, fail);
+  validateMakeupStorageAttachments(nodes,resources,fail);
   validateInformationAttachments(nodes, resources, fail);
   const vanityClearances=validateVanityPlacement({nodes,worlds,floorIds,roomIds,facilities,obstacles},fail);
-  return { nodes, worlds, floorIds, roomIds, facilities, usePoints, obstacles, surfaceFinishes,
+  return { nodes, worlds, localTransforms, floorIds, roomIds, facilities, usePoints, obstacles, surfaceFinishes,
     vanityClearances,
     capacity: { maximum: capacity, installedStations: stations.length, businessRooms: rooms.length, floors: floors.length } };
 }
@@ -359,6 +363,7 @@ function copySubtree(document, node, op, related) {
     clone.parentId = remap.get(source.parentId) || source.parentId;
     if (clone.stationId) clone.stationId = remap.get(clone.stationId) || clone.stationId;
     if (source.id === node.id) {
+      if (op.type==='copy-facility'&&op.parentId!==undefined) clone.parentId=op.parentId;
       clone.transform = copy(op.transform || source.transform);
       clone.name = op.name || op.newId;
     }
@@ -460,7 +465,7 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
       node.state = { ...node.state, ...copy(op.state) }; continue;
     }
     const related = descendants(next.nodes, node.id);
-    if (!['copy-workstation', 'copy-group'].includes(op.type)) for (const id of related) affected.add(id);
+    if (!['copy-workstation', 'copy-group','copy-facility'].includes(op.type)) for (const id of related) affected.add(id);
     if (op.type === 'move') node.transform = copy(op.transform);
     else if (op.type === 'attach-surface') {
       if (node.kind !== 'facility' || resources.get(key(node.resource))?.mount !== 'support-surface')
@@ -500,8 +505,8 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
           'Appearance replacement must preserve every functional field', {differences: compatibility.differences});
       node.state = { ...copy(original.stateDefaults), ...node.state };
       node.resource = copy(op.resource);
-    } else if (op.type === 'copy-workstation' || op.type === 'copy-group') {
-      const expectedKind = op.type === 'copy-workstation' ? 'workstation' : 'assembly';
+    } else if (op.type === 'copy-workstation' || op.type === 'copy-group'||op.type==='copy-facility') {
+      const expectedKind = op.type === 'copy-workstation' ? 'workstation' : op.type==='copy-facility'?'facility':'assembly';
       if (node.kind !== expectedKind) fail('invalid-operation', node.id, `Copy expects ${expectedKind}`);
       copySubtree(next, node, op, related);
     } else fail('unknown-operation', 'operations', String(op.type));
@@ -509,7 +514,7 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
   for (const point of before.usePoints) if (affected.has(point.facilityId) && isUsePointBusy(point.id))
     fail('facility-busy', point.facilityId, 'Reserved, occupied or exiting use point prevents this change', { usePointId: point.id });
   next.revision++; const derived = deriveCompany(next, catalog, templates);
-  for(const current of derived.facilities.filter(f=>f.resource.movingParts)) {
+  for(const current of derived.facilities.filter(f=>f.resource.movingParts&&f.resource.movingProfile!==MAKEUP_STORAGE_PROFILE)) {
     const previous=before.facilities.find(f=>f.id===current.id);
     if(!previous?.resource.movingParts||current.resource.movingParts.every(p=>previous.state[p.stateField]===current.state[p.stateField]))continue;
     const fp=movingFootprint(current.resource,previous.state,current.state);

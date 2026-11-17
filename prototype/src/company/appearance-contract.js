@@ -27,6 +27,8 @@ export function describeFacilityFunction(resource) {
     mountRole: decorative ? null : resource.mountRole || resource.id,
     coordinates: {units: resource.coordinates?.units ?? 'metres', up: resource.coordinates?.up ?? '+Y', forward: resource.coordinates?.forward ?? '+Z'},
     mount, mounting:normalized(resource.mounting??null), surface, supportSurfaces, movingParts, footprint, usePoints,
+    ...(resource.supportMotion!==undefined?{supportMotion:normalized(resource.supportMotion)}:{}),
+    ...(resource.movingProfile!==undefined?{movingProfile:resource.movingProfile}:{}),
     capacity, clearance, clockDisplay:normalized(resource.clockDisplay??null),
     mirrorSurface:normalized(resource.mirrorSurface??null),
     ...(resource.mountRole==='makeup-mirror'?{light:normalized(resource.light??null)}:{}),

@@ -1,0 +1,161 @@
+化妆收纳有界工程预检
+2026-11-17
+
+本次核读身份为 F:/gamemake-company-platform-c1，HEAD 2f215eb0376165bb12da03b11f82b5673852bee3。输入沿已交付台镜固定源 b3a8e25d、build5b86b5eede89，以及当前承载、化妆台、抽屉和保存源码。本次只完成工程与一手来源核查、尺寸计算和下一包候选。模型、动态承载实现、实际几何、浏览器和恢复均待制作包实检。下文尺寸及字段是待锁定的工程方案。
+
+一、原始范围与主包建议
+
+已全文核读 COMPANY-PLATFORM-COMPLETE-LONG-GOAL-v3-2026-11-16.txt，尤其 C1-A 第7/11组、C1-B 承载/状态共用机制、C1-C 每个确认分支四款真实兼容外观、C2-D 完整保存和失败保旧，以及第九节角色动作与完整拿取放置的边界。
+
+branches.json 的实际 UTF-8 条目为以下两项。
+
+makeup-storage 是 confirmed，标签为“化妆品/工具收纳、静置收纳”。候选安装 vanity-surface，parent=vanity-table，尺寸 .45×.25×.25m，verification=pending，state=static-or-open。四款名称确为“托盘、分格收纳、刷具杯、化妆箱”。mechanismDependencies 包含 support-surface、drawer-state、parent-transform、save-restore，requiredIndependentMechanisms 包含“承载面/抽屉关系、开合状态驱动、父子变换”。这些开合要求继续进入实际出口。
+
+makeup-storage-drawer 同为 confirmed，安装 vanity-drawer，parent=vanity-table.drawer，候选尺寸同为 .45×.25×.25m，state=static-or-open。四款仍为“托盘、分格收纳、刷具杯、化妆箱”，并多出“抽屉安装”独立机制。它需要真实父抽屉、腔体和随父部件运动的子物恢复证据。
+
+建议下一主包完成 makeup-storage 的四种上部结构，共用真实浅抽屉承载器和相同动态支持面。托盘款保留浅开放盘，分格款具有真实分隔单元，刷具杯款具有有底厚壁杯，化妆箱款采用较深开放箱及侧部提手。四款均实际驱动共同抽屉，保留独立抽屉内容实例。固定功能通过共同承载器统一，造型通过上部结构与侧格组织区分。只完成静态开口资产时，记录为制作中间结果，makeup-storage 的开合出口仍待完成。
+
+二、已有工程与实际差异
+
+support-data.js 已支持 mount=support-surface、bottom 原点、设施直接 parent、attachment={surfaceId}、四分之一 yaw、整个安装包络/高度、同父子物三维重叠及显式 attach-surface。vanity-surface 可显式映射到该入口，并保留 mountRole/productionBranch=makeup-storage。父限制需核真实 mountRole=vanity-table 和 top 面。
+
+support-geometry.js 在实际 GLTFLoader 结果中查支持面，要求真实水平矩形顶面恰有两片向上三角、覆盖整个声明矩形，并检查其他网格对净空的侵入。它还检查资源最低点接触安装平面。目前的最低点检查只说明接触高度。新收纳仍须另核闭合底板正面积接触、厚度和各分量的真实支承网络。非凸杯壁/提手的整个 AABB 会高估占用，应在新几何门按实际三角/凸分解检查共同净空与内部格腔。
+
+moving-parts.js 当前只接受 grounded blocking 家具，要求 resource.mount 缺省，slide 固定 axis=z、translationRange=[0,.32]、一个有真实 bottom/left/right/back 的 tray。partOffset 已把有界状态映射到平移。render.js 按 partNodes 找实际 pivot 并改变 position.z。sliding-part-geometry.js 与现有生产器已查真实底/侧/背/前板、腔体和多个状态的实体位置，可复用其结构检查思路。
+
+现有滑动合同的 .32m 行程用于落地柜。本台面候选在镜前可用深度只有 .275m，完整 .25m 深物件沿 +Z 再移 .32m 会越界。需要明确的新 supported-slide profile，使用短行程和完整运动预留包络，保留旧落地抽屉资源的固定语义。
+
+当前 supportAttachments、document.js 的 worlds 递归及 render.js 的设施分组都消费静态 node.transform。把底板网格移走会让独立内容实例留在原处。movingFootprint 对有 movingParts 的资源会生成 blocking=true，状态扫掠沿地面代理处理。新的台面滑动 profile 必须明确走三维台上包络，保留非地面阻挡语义。
+
+appearance-contract.js 已将 supportSurfaces、movingParts、mount/mounting 和状态语义纳入功能比较。persistence.js 对实际使用资源/模板做 canonical SHA256，保存全部节点、attachment、资源版本、静态局部 transform 和状态。authoring.js 已有 preload/prepare/commit、迟到候选拒绝及失败保旧。新包沿这套事务与存储完成。
+
+三、现有台面、镜与摆件的精确布置
+
+四款 vanity-table 的 top 支持区均为 X[-.38,.42]、Z[-.22,.22]，topY=.78m，clearanceHeight=.65m。转角款真实主板 X[-.40,.55] 覆盖这块支持区，左前凹缺继续保留。
+
+已交付镜的配方为 [.02,.78,-.135]、yaw=0，完整安装盒为 X[-.33,.37]、Y[.78,1.38]、Z[-.215,-.055]。
+
+收纳建议仍使用 .45×.25×.25m 完整运动包络，安装 [.02,.78,.075]、yaw=0。父台局部盒为 X[-.205,.245]、Y[.78,1.03]、Z[-.05,.20]。镜与收纳有 .005m 深度间隙，收纳前沿到支持区前沿 .02m，上方余量 .40m。这里的 .25m 深包括闭合底座、抽屉从0到1的全行程和把手。制作读回仍须逐实体核准。
+
+原两个摆件中心为 [-.20,.78,.08]、[.22,.78,.08]，每个完整包络 .16×.20×.12m，均与候选收纳产生正体积重叠。建议在同一显式事务中将原摆件中心改为 [-.295,.78,.08]、[.335,.78,.08]。其 X 范围分别为[-.375,-.215]和[.255,.415]，与收纳左右各留 .01m，与支持区左右边各留 .005m。Z 均为[.02,.14]，仍与后部镜分离。保留原摆件ID、资源/状态及其top依附。
+
+第二输入沿现有两房样件，在另一房以独立table/storage/content ID布置，将父台和配对椅在同一事务旋转90°，子镜及子收纳相对父台 yaw=0。所有上述盒随父台共同变换。
+
+独立收纳 yaw=90° 后宽深互换，深度成为 .45m，超过支持区 .44m，应拒绝。原镜下方的数字钟在台镜配方中已移除，恢复旧含钟文档时继续走共同重叠检查。
+
+四、候选共同承载器与实际格腔
+
+下面尺寸以收纳资源底部中心为原点，米制/+Y/+Z，静态源顶点烘焙，唯一活动pivot由显式部件映射驱动。建议 category=dynamic、mount=support-surface、mountRole/productionBranch=makeup-storage、usePoints=[]，地面footprint不阻挡。完整安装包络 X±.225、Y[0,.25]、Z±.125。
+
+共同固定底板 X±.225、Y[0,.010]、Z[-.125,.035]，为实心闭合厚板，底面正面积接触化妆台。固定左右侧框各位于 |X|∈[.212,.225]、Y[.010,.090]、Z[-.125,.035]；后壁 Z[-.125,-.119]。上板 Y[.090,.100]，顶面供上部托盘/杯/开放箱使用。
+
+两条真实固定滑轨可采用 X[.1625,.1775]和[-.1775,-.1625]、Y[.010,.016]、Z[-.115,.030]。轨道连接底板，抽屉底板下表面 Y=.016 与轨面实际接触。行程末端抽屉底在 Z[-.025,.115]，仍与轨道在 Z[-.025,.030] 保有 .055m 长度接触，每条轨的候选接触面积 .015×.055=.000825m²。这只是候选静态支承几何，实际源读回核接触，物理强度与抗倾倒另需其自身证据。
+
+共同活动抽屉外宽 .410m，底板 X±.205、Y[.016,.022]、Z[-.115,.025]。两侧墙厚 .006m，后墙 Z[-.115,-.109]，前板 Z[.019,.025]，墙/前板最高 Y=.078。把手 Z[.025,.035]。闭合活动盒 X±.205、Y[.016,.078]、Z[-.115,.035]，openFraction∈[0,1]，真实 +Z 行程 .09m。全开前端含把手恰到 Z=.125；状态0、.5、1对应0、.045、.09m平移。抽屉可用内底为 X[-.199,.199]、Z[-.109,.019]、bottomY=.022，真实内深 .128m。
+
+固定roof底为 Y=.090，比活动墙顶 .078 高 .012m。固定后壁与活动后墙至少留 .004m。侧框与抽屉侧面候选间隙 .007m。所有生产误差门应按实际Float32源核验。包络边缘、滑轨与抽屉组成应保留明确的尺寸来源。
+
+共同支持面建议使用两个固定功能定义。
+
+top 为上部中央开放格，center=[0,-.045]、topY=.100、halfSize=[.115,.055]、clearanceHeight=.140。共同矩形为 .23×.11m，顶净空到 Y=.240。四款不同的边格、杯壁与提手布置在共同矩形之外，上板本身提供两片完整向上顶面三角。
+
+drawer 为随抽屉运动的内容面，center=[0,-.005]、topY=.022、halfSize=[.180,.020]、clearanceHeight=.040。该 .36×.04m 区域位于真实 .398×.128m 内底前部，四款均保持同一功能区。0状态时该支持面和内容在封闭腔体中，1状态时 Z[.065,.105]，整体位于固定roof前沿 .035 的+Z前方，可从上方访问。openFraction=.75时该区后沿已在 Z=.0425，仍有 .0075m候选间隙。访问声明可固定为 openFraction≥.75，并实检沿+Y移出的小物净空。
+
+完整 .128m 内深仍有后部保留在roof下，前部共同内容区承担可验证访问。后续声明全延伸或完整手部访问时需要新的证据。上部收纳格的空腔与下部活动格都须有真实有厚度底面、侧界与可访问开口。
+
+五、四种具名可兼容造型
+
+tray／托盘款采用共同carrier及低矮开放托盘，边缘高度约 .13–.14m、圆角外沿或端部凹口，中央大浅格连通，活动抽屉保持完整实底与前板。
+
+divided／分格收纳款保留共同top和drawer两块内容区，在其外侧及活动抽屉后部制作真实分隔板，形成不同宽度格位。至少有两个独立可用小格；格底和隔板与载体连接。外观区别体现在实格数量/边界和前板结构，实际滑动与其他款一致。
+
+brush-cup／刷具杯款在共同top矩形左右制作两个不同高度的厚壁开口杯。候选杯中心 X±.17、Z=-.045，外半径 .035m、内半径 .029m，采用有限圆弧分段；杯内底Y=.106，有6mm真实底厚，杯沿最高Y=.25。共同top右界 .115到杯体最近X=.135有 .02m间隙。内圆可容纳 .04×.04m横截面的小物，实际杯轮廓与装入/移出路径需按网格核查。刷具展示可作为静态内容，开合状态仍驱动下部真实抽屉。
+
+case／化妆箱款采用深开放箱、不同厚度的侧框及侧提手孔结构，上部围壁可到Y=.22–.24。提手布置在两侧，中央共同top上方保持开放。固定打开的箱口有真实腔底和壁厚，下部共同抽屉实际滑动。箱盖铰接与额外锁扣状态若要声明，需要另锁机制及实际证据。
+
+四款同功能支持面、短行程、状态和包络保持一致，普通换款保全部内容实例、attachment、静态局部transform及openFraction。四款的杯壁、格数、边缘和箱体结构各有真实几何差异。可复用共同carrier源和材质，模型数量按实际差异检查。
+
+六、独立内容与动态支持的最小增量
+
+建议新包制作一个原创小圆盒/短瓶见证资源，候选id=makeup-storage-content-witness、version=1、mountRole=makeup-storage-content-witness，安装包络 .024×.035×.024m、bottom原点、mount=support-surface、category=decor、usePoints=[]、stateDefaults={}。该受限适配只接受makeup-storage的drawer面，采用闭合底、短筒与盖形几何，保留源/导出/版本。其用途是证明独立保存的收纳内容实例。原 .20m高摆件继续在两侧，抽屉内容采用匹配实际腔高的小件。
+
+四款收纳中各保留独立节点 storage/{id}/content，以收纳设施为直接parent，attachment={surfaceId:'drawer'}，rest transform=[0,.022,-.005]。其闭合顶高 .057，低于roof .090及drawer净空上界 .062。全开后中心Z=.085，完整深度范围[.073,.097]，处于可访问区。该节点保自身ID/资源版本，内容随父抽屉移动 .09m，在换款、复制、两房、关闭恢复后仍保持对应归属。
+
+新增受限 supportMotion={drawer:'drawer'}，含义为 surfaceId→moving partId。supportSurfaces保留上述闭合参考坐标，supportNodes.drawer必须指向实际活动底板。支持映射参加功能兼容与资源版本pin。它只对锁定的新profile生效，需拒绝未知surface/part、环引用及一面映射多个部件。
+
+document递归worlds与render设施局部组共用同一有效局部变换计算。对attachment选中drawer面的子设施，在其保存rest position上加[0,0,partOffset(parentPart,parentState)]，再与父设施变换组合。每次从保存输入重算。保存字段继续是rest transform、attachment与父openFraction，状态来回或多次恢复不累加偏移。
+
+supportAttachments使用有效运动面与子物位置检查。所有子物的实际包络在整个行程内保持于对应格腔；同父不同运动面/其他子物的重叠按最终三维位置与扫掠检查。loader核原始GLB及活动底板，运行按状态重建。父台转向后，抽屉平移方向和内容worlds/显示一起转向。
+
+moving-parts的新profile允许非阻挡support-surface载体，锁定 .09m及共同固定部件合同。movingFootprint保留非地面阻挡；supported motion检查完整台上三维运动盒、格腔与同台兄弟盒。收纳自身固定底板始终负责父台接触，活动底板通过实轨连接。prepareCompanyChange的状态/忙碌/版本守卫和失败保旧继续使用同一入口。完整运动范围已经预留在安装盒内，普通开合不会临时侵入镜子或两侧摆件的盒。
+
+support-geometry对运动底板按闭合参考坐标核原始模型。新storage几何门负责有厚度格底、实际空腔、各状态访问、轨道接触及内容全程适配。需要按实际三角证明底面覆盖和结构连接，不能用整体AABB、材质透明度或名字替代。浏览器再核实际显示、状态及保存恢复。
+
+七、makeup-storage-drawer 后续的真实父条件
+
+当前vanity-table四款的抽屉式仍为静态已交付资源。其中央膝部净空到Y=.70，上板下表面Y=.745，只留下 .045m竖向空间。候选 .25m高drawer收纳在此无法闭合容纳。左侧静态窄柜宽约 .15m，候选 .45m宽同样无法放入。几何矛盾应进入后续父规格选型。
+
+下一个drawer-installed包需锁真实vanity drawer host的资源ID/版本、腔体、底板、状态行程与安装层级，先证明四种payload的实际包络在闭合/打开及扫掠内成立。若沿本包台上carrier复用真实drawer host，需在新合同和目录明确写出 vanity-table→tabletop-drawer-host→drawer contents 的依附映射。若要求台体内置抽屉，则先制作具有足够腔体并保持使用留空的新功能profile，登记显式新身份，旧台体资源维持其原语义。
+
+makeup-storage-drawer仍需其自己的四款托盘/分格收纳/刷具杯/化妆箱、真实抽屉依附、随动独立内容、状态及恢复验收。杯和箱的真实高度由实际父腔体决定，pending尺寸允许基于实体证据修订。确认安装与开合要求持续保留，本预检没有给该分支完成结论。
+
+八、一手形态与工具依据
+
+MUJI官方PP Makeup Box说明其盒/盘可以单独、并排和叠放，托盘可作为独立盖件。官方列出的 .15×.22m盒、.169m高盒与.02m高盘说明浅盘与深盒需要真实不同容积结构。这里只借鉴实底、开口及模块关系，项目源采用原创尺寸和结构。官方2018/2020目录还列出刷具/笔筒及分格盒。本次2020 PDF直接打开返回403，故可读取的官方商品页作为本次主要依据。
+https://www.muji.us/collections/bathroom-organizer/products/polypropylene-makeup-box-f5a7
+https://www.muji.com/sg/img/pdf/2018HB_May.pdf
+https://www.muji.com/sg/feature/catalog/PDF/2020HB_Makeup.pdf
+
+Joseph Joseph官方Viva刷具杯采用分隔和阶梯式高度，尺寸 W11.5×D11.5×H14.3cm。Viva收纳器将深/浅开放格与真实抽屉组合。该结构支持本包“不同上部格位+共同活动浅抽屉”的原创载体方案。它给出可参考的使用组织，项目候选尺寸和访问数值来自本地台面约束。
+https://www.josephjoseph.com/products/viva-makeup-brush-pot-shell
+https://www.josephjoseph.com/products/viva-cosmetic-organiser-with-drawer-shell
+
+Viva官方抽屉收纳套件区分可组合分格与父抽屉，标明自身高5cm且父抽屉最低高7cm。这为下一个drawer-installed包检查真实腔高、抽屉开口及可访问性提供直接依据。
+https://www.josephjoseph.com/products/viva-12-piece-makeup-drawer-organiser-set-shell
+
+Three.js Object3D提供局部/世界层级变换，GLTFExporter提供显式binary GLB输入输出。制作优先沿现有参数脚本和锁定0.187.0 exporter/loader。现有滑动柜源、台镜源和vanity凸实体/接触算法均在本仓库，可先复现实际小样再选择最小增量。MIT许可保留。商品网页/目录保其来源身份，模型与材质使用项目原创源，未下载外部模型或商品图。
+https://threejs.org/docs/pages/Object3D.html
+https://threejs.org/docs/pages/GLTFExporter.html
+https://github.com/mrdoob/three.js/blob/r187/LICENSE
+
+九、固定输入、产物与最小验收
+
+固定输入为当前四款台体与support top、四台镜共同完整包络、镜配方和原摆件ID、既有slide状态/part映射、保存事务和Three0.187.0。新合同锁共同完整运动安装盒、真实底座/轨道/抽屉格腔、两共同支持面、supportMotion和内容rest坐标语义。
+
+预期真实产物为原创参数与提示词、import无写入的确定性生产器、四GLB/资源及collection、一个独立短小内容GLB、实际loader几何门、动态承载/状态入口、两配置、旧存档/资源兼容、坏例和完整固定交付。每件目标仍沿≤2500三角、≤32mesh、≤4材质，源/合同/工具/几何门及产物SHA固定。修改一款实际允许参数后重导出，经新门回读；其余三款模型字节不变。--check不依赖evidence。
+
+最小真实样件先选托盘carrier与刷具杯carrier各一件，加同一独立短盒内容。实际回读底/轨/活动腔/杯及共同top，检状态0/.5/1和有效连续范围的扫掠、轨道保留支承、内容rest/随动及访问路径。两件验证共同机制后完成分格和开放箱结构。
+
+四款各自实际浏览器换款及关闭进程恢复。内容ID/资源/parent/attachment/rest transform/openFraction保持，状态使用至少一个非端点值；恢复后的显示和worlds一致。父台移转+配对椅同事务、整套复制、两房同名设施独立、显式attach与第二输入复用同入口。镜反射/局部灯继续按既有预算运行，收纳不新增实时灯/反射目标。
+
+坏例包含假薄底、断轨、悬空杯/提手、缺实际格底、假封口/底漏孔、共同净空被隔板侵占、内容过高/越格、drawer侧壁过厚导致实际容量不足、活动部件与固定后壁/roof穿插、全开失去轨道接触、非法parent/surface/part绑定、内容没有随动或累计漂移、90°子收纳、旧摆件未重排导致重叠、状态越界/NaN、功能变更伪装换款、坏模型/错版本和中途候选失败。每类以真实输入和错误保原文档、场景与已保存字节。
+
+统一固定源码独立检出构建及离线依赖重建，正常1×观看入口展示四款、开合、内部内容和已知限制。CPU/几何证据、浏览器显示、普通电脑性能、C3角色接近/拿取/化妆手部及人类观感各按实际证据记录。
+
+尝试预算为一次依据本预检的实现/小样，加一轮由具体失败支撑的修正。同根因两轮无新证据或改善则保留失败并重新定位。若本候选的实际杯体/格腔、短行程访问或保留支承不成立，先修订有来源的尺寸/结构及新合同身份，再制作复验。已确认的四款与开合/抽屉安装要求继续保留。
+
+本次产物为本预检及其核读文件身份。源码、模型和运行证据进入下一制作包的出口。
+
+十、核读文件SHA256
+
+docs/research/COMPANY-PLATFORM-COMPLETE-LONG-GOAL-v3-2026-11-16.txt 3c60b745d9979f76e4d07a6ba913d5093372ab9aca039cc1fc5ef3fb152fc071
+assets-source/company-environment-specs-v1/branches.json 2f029c7d8bea8e5d0f53d0141bc39bc0277af79a9dcc60ecce115d26ca8118eb
+docs/COMPANY-SUPPORT-SURFACE-CONTRACT-v1.txt 97cd43c11e3a37b0cd03f11ceae295d5f6e1539f540c888076a1fd85d8d26aca
+docs/COMPANY-VANITY-TABLE-CONTRACT-v1.txt 72baa52d7d3dbfc34ffed4150f6624d025df461439ea5a3f1482a8622ef3fa34
+docs/COMPANY-MAKEUP-MIRROR-CONTRACT-v1.txt bcca9be7b7d8d7f66a7ebfdeb6e786891ee80be3e42002b60572caecc17dacf7
+prototype/src/company/support-data.js 0bab087323796e5ccba452f5d0b0a45adc5db99190224c17e2dc4960b95aa67c
+prototype/src/company/support-geometry.js 132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68
+prototype/src/company/moving-parts.js 38a66b628e3793d43d6fe41d9d1cb45dc1339a4b5f97ac982c51149a2ab58fff
+prototype/src/company/sliding-part-geometry.js 230a021efb8f67644a5e3d2486c8c1e450ade0d6b8d01a7316cc7378fb2fac50
+prototype/src/company/document.js 7ed676a95011698b34b7704a9b7eaa44c19a39951bd64d83a131ef752ad41ba3
+prototype/src/company/render.js 307242589845a82f0fa9622ee4744acbc7fd4f8d831d65b14ce2415c4c438575
+prototype/src/company/appearance-contract.js 8c9147fab1fbf6c07e43894d6d75d1420036f5a70b227c51cfdc0c2825a13b95
+prototype/src/company/persistence.js 6bf3db3673cb1ab93aeb1d485aeee8e5997fc41d422dc77f7d0f87310f3c71b4
+prototype/src/company/authoring.js 338435eaf24fa44b53654f5102491927d2e93fa3ccf27421d61f652f38c99ffd
+prototype/src/company/asset-library.js ffe59c0a31afd3141d2311afa092fe58e7f9805a8121d4ff414270b752a4581b
+prototype/src/company/vanity-geometry.js 79fa7879b0c3c2436061e0665f52d626340b9d29344a89fd669648ef65c97c80
+prototype/src/company/makeup-mirror-samples.js 1544be4301281af1c0ab345a9dc5efce7a1addcece68465e9e7a350722305a4e
+prototype/src/company/vanity-samples.js 463dfc177ea414fc4ad75ae3b5ae0cd4a8c3fb85ba6c66fb509fda9821fc1630
+scripts/company-platform/build-sliding-drawer.mjs 539d463d3047843fa2befb2c2246bbb66337185d8bb862871c1ccde40df063a4
+scripts/company-platform/build-support-collection.mjs 4f95b1f2fb8128b8f8a56d789a92d6509d3c277c3e704f583ade2fe0d7d959fc
+prototype/node_modules/three/LICENSE 8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc

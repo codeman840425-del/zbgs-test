@@ -14,6 +14,7 @@ import {validateMirrorResource} from './mirror-data.js';
 import {validateVanityResource} from './vanity-data.js';
 import {validateVanityGeometry} from './vanity-geometry.js';
 import {validateMakeupMirrorGeometry} from './makeup-mirror-geometry.js';
+import {validateMakeupStorageGeometry} from './makeup-storage-geometry.js';
 import {validateMirrorGeometry} from './mirror-geometry.js';
 import {trackTexture,trackTextures} from './image-ownership.js';
 
@@ -163,11 +164,13 @@ function validateResource(pack, description) {
   validateClockGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateInformationGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateMakeupMirrorGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
+  validateMakeupStorageGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateMirrorGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateSupportGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateVanityGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   const movingGeometry=description.resource.movingParts?.[0]?.kind==='slide'?validateSlidingPartGeometry:validateMovingPartGeometry;
-  movingGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
+  if(description.resource.movingProfile!=='supported-slide-v1')
+    movingGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   for (const target of description.targets) {
     const definitions = (pack.json.nodes || []).filter(node => node.name === target);
     const matches = [];

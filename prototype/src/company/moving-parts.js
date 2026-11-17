@@ -1,4 +1,5 @@
 // State-driven facility transforms only. Host owns time, actors and tasks.
+import {MAKEUP_STORAGE_PROFILE,validateMakeupStorageResource} from './makeup-storage-data.js';
 const object = v => v && typeof v === 'object' && !Array.isArray(v);
 const vector = (v, n) => Array.isArray(v) && v.length === n && v.every(Number.isFinite);
 const idPattern = /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/;
@@ -25,6 +26,7 @@ export function validateFacilityState(resource, patch, fail, path) {
 }
 
 export function validateMovingResource(resource, fail, path=resource.id) {
+  validateMakeupStorageResource(resource,fail,path);
   if(resource.stateSchema!==undefined)validateFacilityState(resource,{},fail,path);
   if(resource.movingParts===undefined) {
     if(resource.partNodes!==undefined||resource.partPanels!==undefined||resource.partTrays!==undefined)
@@ -32,8 +34,9 @@ export function validateMovingResource(resource, fail, path=resource.id) {
     return;
   }
   const parts=resource.movingParts;
-  if(!Array.isArray(parts)||parts.length!==1||!resource.footprint?.blocking||!vector(resource.footprint.center,2)||
-      !vector(resource.footprint.halfSize,2)||resource.footprint.halfSize.some(n=>n<=0)||resource.mount||
+  const supported=resource.movingProfile===MAKEUP_STORAGE_PROFILE;
+  if(!Array.isArray(parts)||parts.length!==1||(!supported&&!resource.footprint?.blocking)||!vector(resource.footprint?.center,2)||
+      !vector(resource.footprint?.halfSize,2)||resource.footprint.halfSize.some(n=>n<=0)||(resource.mount&&!supported)||
       !object(resource.partNodes)||!object(resource.partPanels))
     fail('invalid-moving-parts',path,'This contract supports grounded blocking furniture with explicit parts and mesh mappings');
   const ids=new Set();
@@ -50,7 +53,7 @@ export function validateMovingResource(resource, fail, path=resource.id) {
         fail('invalid-moving-parts',path,'Hinge requires the fixed negative quarter-turn contract');
     } else {
       const tray=resource.partTrays?.[p.id];
-      if(p.axis!=='z'||!vector(p.translationRange,2)||p.translationRange[0]!==0||p.translationRange[1]!==.32||p.rotationRange!==undefined||
+      if(p.axis!=='z'||!vector(p.translationRange,2)||p.translationRange[0]!==0||p.translationRange[1]!== (supported ? .09 : .32)||p.rotationRange!==undefined||
           resource.stateSemantics?.[p.stateField]!=='sliding-drawer-opening-fraction'||!object(resource.partTrays)||
           Object.keys(resource.partTrays).length!==1||!object(tray)||Object.keys(tray).sort().join(',')!=='back,bottom,left,right'||
           Object.values(tray).some(n=>typeof n!=='string'||!n)||new Set(Object.values(tray)).size!==4)
@@ -77,7 +80,7 @@ export function partOffset(part,state) {
 // a few pose samples. The conservative rectangle is also the navigation input.
 export function movingFootprint(resource,state,endState=null) {
   const fp=resource.footprint;
-  if(!resource.movingParts?.length)return fp;
+  if(!resource.movingParts?.length||resource.movingProfile===MAKEUP_STORAGE_PROFILE)return fp;
   const min=fp.center.map((n,i)=>n-fp.halfSize[i]),max=fp.center.map((n,i)=>n+fp.halfSize[i]);
   for(const p of resource.movingParts) {
     if(p.kind==='slide') {

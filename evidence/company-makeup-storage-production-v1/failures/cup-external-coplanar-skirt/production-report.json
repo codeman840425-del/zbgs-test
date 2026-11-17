@@ -1,0 +1,1565 @@
+{
+  "status": "passed",
+  "scope": "CPU deterministic production and actual GLTFLoader / independent geometry admission for four supported makeup storage looks and one saved-content compact",
+  "provenance": {
+    "sourceParameters": "assets-source/company-makeup-storage-v1/parameters.json",
+    "sourceParametersSha256": "80b0331280ac855540b11956e917856e4273ae2d57ade36aad2544d31db620fb",
+    "functionalContractSource": "docs/COMPANY-MAKEUP-STORAGE-CONTRACT-v1.txt",
+    "functionalContractSourceSha256": "3fad69f0828e5a3584eac666ff1bc219c192ee9ab4ff8f36a1d27ae13f479e29",
+    "generator": "scripts/company-platform/build-makeup-storage.mjs",
+    "generatorSha256": "91ecc9995c5f89e06479c1b2ca037ea435b84a2242fb314caf3fa969be308db9",
+    "dependencies": {
+      "functionalContract": {
+        "path": "docs/COMPANY-MAKEUP-STORAGE-CONTRACT-v1.txt",
+        "sha256": "3fad69f0828e5a3584eac666ff1bc219c192ee9ab4ff8f36a1d27ae13f479e29"
+      },
+      "preflight": {
+        "path": "docs/research/COMPANY-MAKEUP-STORAGE-PREFLIGHT-2026-11-17.txt",
+        "sha256": "9cf63cdb231c5e8c5e00bf376e853770a017626c49042b0c7962d21c224ab5ac"
+      },
+      "lockfile": {
+        "path": "prototype/package-lock.json",
+        "sha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7"
+      },
+      "threePackage": {
+        "path": "prototype/node_modules/three/package.json",
+        "sha256": "87f2c99a8718e5fdd6f5e51427fde52c6075f2f698ddf8f7b4e162882df93940"
+      },
+      "threeModule": {
+        "path": "prototype/node_modules/three/build/three.module.js",
+        "sha256": "104f56145899722094556490d787aae0617cc2fc3382f31df02d724ea1aee341"
+      },
+      "gltfExporter": {
+        "path": "prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+        "sha256": "569793baeba62baeb4ab0b3619b6b1495b45d4b2ba9690430497adb58307bdf2"
+      },
+      "gltfLoader": {
+        "path": "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+        "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1"
+      },
+      "threeLicense": {
+        "path": "prototype/node_modules/three/LICENSE",
+        "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+      },
+      "geometryVerifier": {
+        "path": "prototype/src/company/makeup-storage-geometry.js",
+        "sha256": "c4b9f79fc9fb64961638636ed47d09d5f69eff89c6c3fd836013d26907910f01"
+      }
+    }
+  },
+  "geometryVerifier": {
+    "path": "prototype/src/company/makeup-storage-geometry.js",
+    "sha256": "c4b9f79fc9fb64961638636ed47d09d5f69eff89c6c3fd836013d26907910f01"
+  },
+  "commands": [
+    "node scripts/company-platform/build-makeup-storage.mjs",
+    "node scripts/company-platform/build-makeup-storage.mjs --check"
+  ],
+  "items": [
+    {
+      "id": "makeup-storage-tray",
+      "sha256": "001731e82f83bf053b7570cd7694269a97de1cab443c6c5a2542ced526b21968",
+      "bytes": 30728,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "geometry": {
+          "checked": true,
+          "sourceDesign": "tray",
+          "meshCount": 17,
+          "triangleCount": 204,
+          "materials": 3,
+          "movingComponents": [
+            "storage-drawer-bottom",
+            "storage-drawer-left",
+            "storage-drawer-right",
+            "storage-drawer-back",
+            "storage-drawer-front",
+            "storage-drawer-handle"
+          ],
+          "continuousSlide": {
+            "range": [
+              0,
+              0.09
+            ],
+            "method": "Complete convex SAT interval intersection for pure translation"
+          },
+          "support": [
+            {
+              "rail": "storage-runner-left",
+              "offset": 0,
+              "kind": "face",
+              "area": 0.002100000120326878
+            },
+            {
+              "rail": "storage-runner-left",
+              "offset": 0.09,
+              "kind": "face",
+              "area": 0.0008250000540167104
+            },
+            {
+              "rail": "storage-runner-right",
+              "offset": 0,
+              "kind": "face",
+              "area": 0.002100000120326878
+            },
+            {
+              "rail": "storage-runner-right",
+              "offset": 0.09,
+              "kind": "face",
+              "area": 0.0008250000540167103
+            }
+          ],
+          "connections": [
+            {
+              "a": "storage-drawer-bottom#0",
+              "b": "storage-drawer-left#1",
+              "kind": "face",
+              "area": 0.0008399996308982305
+            },
+            {
+              "a": "storage-drawer-bottom#0",
+              "b": "storage-drawer-right#2",
+              "kind": "face",
+              "area": 0.0008399996308982305
+            },
+            {
+              "a": "storage-drawer-bottom#0",
+              "b": "storage-drawer-back#3",
+              "kind": "face",
+              "area": 0.002388001885533342
+            },
+            {
+              "a": "storage-drawer-bottom#0",
+              "b": "storage-drawer-front#4",
+              "kind": "face",
+              "area": 0.002388000402867796
+            },
+            {
+              "a": "storage-drawer-bottom#0",
+              "b": "storage-runner-left#11",
+              "kind": "face",
+              "area": 0.002100000120326878
+            },
+            {
+              "a": "storage-drawer-bottom#0",
+              "b": "storage-runner-right#12",
+              "kind": "face",
+              "area": 0.002100000120326878
+            },
+            {
+              "a": "storage-drawer-left#1",
+              "b": "storage-drawer-back#3",
+              "kind": "face",
+              "area": 0.0003360002740621648
+            },
+            {
+              "a": "storage-drawer-left#1",
+              "b": "storage-drawer-front#4",
+              "kind": "face",
+              "area": 0.0003360000654459016
+            },
+            {
+              "a": "storage-drawer-right#2",
+              "b": "storage-drawer-back#3",
+              "kind": "face",
+              "area": 0.0003360002740621648
+            },
+            {
+              "a": "storage-drawer-right#2",
+              "b": "storage-drawer-front#4",
+              "kind": "face",
+              "area": 0.0003360000654459016
+            },
+            {
+              "a": "storage-drawer-front#4",
+              "b": "storage-drawer-handle#5",
+              "kind": "face",
+              "area": 0.0009799999040365215
+            },
+            {
+              "a": "storage-base#6",
+              "b": "storage-side-left#7",
+              "kind": "face",
+              "area": 0.0020799994488060465
+            },
+            {
+              "a": "storage-base#6",
+              "b": "storage-side-right#8",
+              "kind": "face",
+              "area": 0.0020799994488060465
+            },
+            {
+              "a": "storage-base#6",
+              "b": "storage-back#9",
+              "kind": "face",
+              "area": 0.002543998807430281
+            },
+            {
+              "a": "storage-base#6",
+              "b": "storage-runner-left#11",
+              "kind": "face",
+              "area": 0.0021750001076608905
+            },
+            {
+              "a": "storage-base#6",
+              "b": "storage-runner-right#12",
+              "kind": "face",
+              "area": 0.0021750001076608905
+            },
+            {
+              "a": "storage-side-left#7",
+              "b": "storage-back#9",
+              "kind": "face",
+              "area": 0.00047999980345367343
+            },
+            {
+              "a": "storage-side-left#7",
+              "b": "storage-roof#10",
+              "kind": "face",
+              "area": 0.002079999448806047
+            },
+            {
+              "a": "storage-side-right#8",
+              "b": "storage-back#9",
+              "kind": "face",
+              "area": 0.00047999980345367343
+            },
+            {
+              "a": "storage-side-right#8",
+              "b": "storage-roof#10",
+              "kind": "face",
+              "area": 0.002079999448806047
+            },
+            {
+              "a": "storage-back#9",
+              "b": "storage-roof#10",
+              "kind": "face",
+              "area": 0.002543998807430281
+            },
+            {
+              "a": "storage-roof#10",
+              "b": "storage-upper-left#13",
+              "kind": "face",
+              "area": 0.0012800002110004425
+            },
+            {
+              "a": "storage-roof#10",
+              "b": "storage-upper-right#14",
+              "kind": "face",
+              "area": 0.0012800002110004427
+            },
+            {
+              "a": "storage-roof#10",
+              "b": "storage-upper-back#15",
+              "kind": "face",
+              "area": 0.003472000452756863
+            },
+            {
+              "a": "storage-roof#10",
+              "b": "storage-upper-front#16",
+              "kind": "face",
+              "area": 0.0034719996443688915
+            },
+            {
+              "a": "storage-upper-left#13",
+              "b": "storage-upper-back#15",
+              "kind": "face",
+              "area": 0.00032000004529952886
+            },
+            {
+              "a": "storage-upper-left#13",
+              "b": "storage-upper-front#16",
+              "kind": "face",
+              "area": 0.0003199999707937246
+            },
+            {
+              "a": "storage-upper-right#14",
+              "b": "storage-upper-back#15",
+              "kind": "face",
+              "area": 0.00032000004529952886
+            },
+            {
+              "a": "storage-upper-right#14",
+              "b": "storage-upper-front#16",
+              "kind": "face",
+              "area": 0.00031999997079372444
+            }
+          ],
+          "groundArea": 0.07199999815970659,
+          "access": {
+            "minimumOpenFraction": 0.75,
+            "fullSupportPatch": true,
+            "compactEnvelope": [
+              0.024,
+              0.035,
+              0.024
+            ]
+          },
+          "tolerances": {
+            "positionMetres": 0.000001,
+            "coverageSquareMetres": 1e-8,
+            "contactSquareMetres": 1e-8
+          },
+          "limitation": "Static closed solids, convex or proven cup-ring decomposition, continuous pure-translation fit and access only. No hand interaction, mechanical strength or tipping stability claim."
+        },
+        "bounds": {
+          "min": [
+            -0.22499999403953552,
+            0,
+            -0.125
+          ],
+          "max": [
+            0.22499999403953552,
+            0.14000000059604645,
+            0.03500000014901161
+          ]
+        },
+        "meshCount": 17,
+        "triangleCount": 204,
+        "materialCount": 3,
+        "identityAllRestNodes": true,
+        "sourceVerticesAndTopologyMatch": true,
+        "geometrySha256": "ce0e38b7519fa5696406e7d56c585b013be880166eb1c34103663f38f3f9e143",
+        "externalUris": 0,
+        "textures": 0,
+        "animations": 0
+      }
+    },
+    {
+      "id": "makeup-storage-divided",
+      "sha256": "5e9111083579c3ecc704c4086ffedf2c1fa7d5b5dc21a91826e32cb316c48801",
+      "bytes": 37820,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "geometry": {
+          "checked": true,
+          "sourceDesign": "divided",
+          "meshCount": 21,
+          "triangleCount": 252,
+          "materials": 3,
+          "movingComponents": [
+            "storage-drawer-bottom",
+            "storage-drawer-left",
+            "storage-drawer-right",
+            "storage-drawer-back",
+            "storage-drawer-front",
+            "storage-drawer-handle",
+            "storage-drawer-divider"
+          ],
+          "continuousSlide": {
+            "range": [
+              0,
+              0.09
+            ],
+            "method": "Complete convex SAT interval intersection for pure translation"
+          },
+          "support": [
+            {
+              "rail": "storage-runner-left",
+              "offset": 0,
+              "kind": "face",
+              "area": 0.002100000120326878
+            },
+            {
+              "rail": "storage-runner-left",
+              "offset": 0.09,
+              "kind": "face",
+              "area": 0.0008250000540167104
+            },
+            {
+              "rail": "storage-runner-right",
+              "offset": 0,
+              "kind": "face",
+              "area": 0.002100000120326878
+            },
+            {
+              "rail": "storage-runner-right",
+              "offset": 0.09,
+              "kind": "face",
+              "area": 0.0008250000540167103
+            }
+          ],
+          "connections": [
+            {
+              "a": "storage-drawer-bottom#0",
+              "b": "storage-drawer-left#1",
+              "kind": "face",
+              "area": 0.0008399996308982305
+            },
+            {
+              "a": "storage-drawer-bottom#0",
+              "b": "storage-drawer-right#2",
+              "kind": "face",
+              "area": 0.0008399996308982305
+            },
+            {
+              "a": "storage-drawer-bottom#0",
+              "b": "storage-drawer-back#3",
+              "kind": "face",
+              "area": 0.002388001885533342
+            },
+            {
+              "a": "storage-drawer-bottom#0",
+              "b": "storage-drawer-front#4",
+              "kind": "face",
+              "area": 0.002388000402867796
+            },
+            {
+              "a": "storage-drawer-bottom#0",
+              "b": "storage-drawer-divider#6",
+              "kind": "face",
+              "area": 0.00046799999137222745
+            },
+            {
+              "a": "storage-drawer-bottom#0",
+              "b": "storage-runner-left#12",
+              "kind": "face",
+              "area": 0.002100000120326878
+            },
+            {
+              "a": "storage-drawer-bottom#0",
+              "b": "storage-runner-right#13",
+              "kind": "face",
+              "area": 0.002100000120326878
+            },
+            {
+              "a": "storage-drawer-left#1",
+              "b": "storage-drawer-back#3",
+              "kind": "face",
+              "area": 0.0003360002740621648
+            },
+            {
+              "a": "storage-drawer-left#1",
+              "b": "storage-drawer-front#4",
+              "kind": "face",
+              "area": 0.0003360000654459016
+            },
+            {
+              "a": "storage-drawer-right#2",
+              "b": "storage-drawer-back#3",
+              "kind": "face",
+              "area": 0.0003360002740621648
+            },
+            {
+              "a": "storage-drawer-right#2",
+              "b": "storage-drawer-front#4",
+              "kind": "face",
+              "area": 0.0003360000654459016
+            },
+            {
+              "a": "storage-drawer-back#3",
+              "b": "storage-drawer-divider#6",
+              "kind": "face",
+              "area": 0.000257999988652765
+            },
+            {
+              "a": "storage-drawer-front#4",
+              "b": "storage-drawer-handle#5",
+              "kind": "face",
+              "area": 0.0009799999040365215
+            },
+            {
+              "a": "storage-base#7",
+              "b": "storage-side-left#8",
+              "kind": "face",
+              "area": 0.0020799994488060465
+            },
+            {
+              "a": "storage-base#7",
+              "b": "storage-side-right#9",
+              "kind": "face",
+              "area": 0.0020799994488060465
+            },
+            {
+              "a": "storage-base#7",
+              "b": "storage-back#10",
+              "kind": "face",
+              "area": 0.002543998807430281
+            },
+            {
+              "a": "storage-base#7",
+              "b": "storage-runner-left#12",
+              "kind": "face",
+              "area": 0.0021750001076608905
+            },
+            {
+              "a": "storage-base#7",
+              "b": "storage-runner-right#13",
+              "kind": "face",
+              "area": 0.0021750001076608905
+            },
+            {
+              "a": "storage-side-left#8",
+              "b": "storage-back#10",
+              "kind": "face",
+              "area": 0.00047999980345367343
+            },
+            {
+              "a": "storage-side-left#8",
+              "b": "storage-roof#11",
+              "kind": "face",
+              "area": 0.002079999448806047
+            },
+            {
+              "a": "storage-side-right#9",
+              "b": "storage-back#10",
+              "kind": "face",
+              "area": 0.00047999980345367343
+            },
+            {
+              "a": "storage-side-right#9",
+              "b": "storage-roof#11",
+              "kind": "face",
+              "area": 0.002079999448806047
+            },
+            {
+              "a": "storage-back#10",
+              "b": "storage-roof#11",
+              "kind": "face",
+              "area": 0.002543998807430281
+            },
+            {
+              "a": "storage-roof#11",
+              "b": "storage-upper-left#14",
+              "kind": "face",
+              "area": 0.0012800002110004425
+            },
+            {
+              "a": "storage-roof#11",
+              "b": "storage-upper-right#15",
+              "kind": "face",
+              "area": 0.0012800002110004427
+            },
+            {
+              "a": "storage-roof#11",
+              "b": "storage-upper-back#16",
+              "kind": "face",
+              "area": 0.003472000452756863
+            },
+            {
+              "a": "storage-roof#11",
+              "b": "storage-upper-front#17",
+              "kind": "face",
+              "area": 0.0034719996443688915
+            },
+            {
+              "a": "storage-roof#11",
+              "b": "storage-divider-left#18",
+              "kind": "face",
+              "area": 0.000863999601513149
+            },
+            {
+              "a": "storage-roof#11",
+              "b": "storage-divider-right#19",
+              "kind": "face",
+              "area": 0.0008639996015131479
+            },
+            {
+              "a": "storage-roof#11",
+              "b": "storage-divider-cross-left#20",
+              "kind": "face",
+              "area": 0.0005220000705420953
+            },
+            {
+              "a": "storage-upper-left#14",
+              "b": "storage-upper-back#16",
+              "kind": "face",
+              "area": 0.0007200000870227763
+            },
+            {
+              "a": "storage-upper-left#14",
+              "b": "storage-upper-front#17",
+              "kind": "face",
+              "area": 0.0007199999193847201
+            },
+            {
+              "a": "storage-upper-left#14",
+              "b": "storage-divider-cross-left#20",
+              "kind": "face",
+              "area": 0.0005400000652670829
+            },
+            {
+              "a": "storage-upper-right#15",
+              "b": "storage-upper-back#16",
+              "kind": "face",
+              "area": 0.0007200000870227763
+            },
+            {
+              "a": "storage-upper-right#15",
+              "b": "storage-upper-front#17",
+              "kind": "face",
+              "area": 0.0007199999193847201
+            },
+            {
+              "a": "storage-upper-back#16",
+              "b": "storage-divider-left#18",
+              "kind": "face",
+              "area": 0.0005399997299909716
+            },
+            {
+              "a": "storage-upper-back#16",
+              "b": "storage-divider-right#19",
+              "kind": "face",
+              "area": 0.0005399997299909691
+            },
+            {
+              "a": "storage-upper-front#17",
+              "b": "storage-divider-left#18",
+              "kind": "face",
+              "area": 0.0005399997299909715
+            },
+            {
+              "a": "storage-upper-front#17",
+              "b": "storage-divider-right#19",
+              "kind": "face",
+              "area": 0.0005399997299909691
+            },
+            {
+              "a": "storage-divider-left#18",
+              "b": "storage-divider-cross-left#20",
+              "kind": "face",
+              "area": 0.0005400000652670822
+            }
+          ],
+          "groundArea": 0.07199999815970659,
+          "access": {
+            "minimumOpenFraction": 0.75,
+            "fullSupportPatch": true,
+            "compactEnvelope": [
+              0.024,
+              0.035,
+              0.024
+            ]
+          },
+          "tolerances": {
+            "positionMetres": 0.000001,
+            "coverageSquareMetres": 1e-8,
+            "contactSquareMetres": 1e-8
+          },
+          "limitation": "Static closed solids, convex or proven cup-ring decomposition, continuous pure-translation fit and access only. No hand interaction, mechanical strength or tipping stability claim."
+        },
+        "bounds": {
+          "min": [
+            -0.22499999403953552,
+            0,
+            -0.125
+          ],
+          "max": [
+            0.22499999403953552,
+            0.1899999976158142,
+            0.03500000014901161
+          ]
+        },
+        "meshCount": 21,
+        "triangleCount": 252,
+        "materialCount": 3,
+        "identityAllRestNodes": true,
+        "sourceVerticesAndTopologyMatch": true,
+        "geometrySha256": "613f8e4701e2cb896a3667e66c25423aa2e195416bfb3048b60819ead2430785",
+        "externalUris": 0,
+        "textures": 0,
+        "animations": 0
+      }
+    },
+    {
+      "id": "makeup-storage-brush-cup",
+      "sha256": "a8d4becd18d2145951f3d19eaa93d246f52b2867e4ef20cd2bd9857105584ed4",
+      "bytes": 81620,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "geometry": {
+          "checked": true,
+          "sourceDesign": "brush-cup",
+          "meshCount": 17,
+          "triangleCount": 924,
+          "materials": 3,
+          "movingComponents": [
+            "storage-drawer-bottom",
+            "storage-drawer-left",
+            "storage-drawer-right",
+            "storage-drawer-back",
+            "storage-drawer-front",
+            "storage-drawer-handle"
+          ],
+          "continuousSlide": {
+            "range": [
+              0,
+              0.09
+            ],
+            "method": "Complete convex SAT interval intersection for pure translation"
+          },
+          "support": [
+            {
+              "rail": "storage-runner-left",
+              "offset": 0,
+              "kind": "face",
+              "area": 0.002100000120326878
+            },
+            {
+              "rail": "storage-runner-left",
+              "offset": 0.09,
+              "kind": "face",
+              "area": 0.0008250000540167104
+            },
+            {
+              "rail": "storage-runner-right",
+              "offset": 0,
+              "kind": "face",
+              "area": 0.002100000120326878
+            },
+            {
+              "rail": "storage-runner-right",
+              "offset": 0.09,
+              "kind": "face",
+              "area": 0.0008250000540167103
+            }
+          ],
+          "connections": [
+            {
+              "a": "storage-drawer-bottom#0",
+              "b": "storage-drawer-left#1",
+              "kind": "face",
+              "area": 0.0008399996308982305
+            },
+            {
+              "a": "storage-drawer-bottom#0",
+              "b": "storage-drawer-right#2",
+              "kind": "face",
+              "area": 0.0008399996308982305
+            },
+            {
+              "a": "storage-drawer-bottom#0",
+              "b": "storage-drawer-back#3",
+              "kind": "face",
+              "area": 0.002388001885533342
+            },
+            {
+              "a": "storage-drawer-bottom#0",
+              "b": "storage-drawer-front#4",
+              "kind": "face",
+              "area": 0.002388000402867796
+            },
+            {
+              "a": "storage-drawer-bottom#0",
+              "b": "storage-runner-left#11",
+              "kind": "face",
+              "area": 0.002100000120326878
+            },
+            {
+              "a": "storage-drawer-bottom#0",
+              "b": "storage-runner-right#12",
+              "kind": "face",
+              "area": 0.002100000120326878
+            },
+            {
+              "a": "storage-drawer-left#1",
+              "b": "storage-drawer-back#3",
+              "kind": "face",
+              "area": 0.0003360002740621648
+            },
+            {
+              "a": "storage-drawer-left#1",
+              "b": "storage-drawer-front#4",
+              "kind": "face",
+              "area": 0.0003360000654459016
+            },
+            {
+              "a": "storage-drawer-right#2",
+              "b": "storage-drawer-back#3",
+              "kind": "face",
+              "area": 0.0003360002740621648
+            },
+            {
+              "a": "storage-drawer-right#2",
+              "b": "storage-drawer-front#4",
+              "kind": "face",
+              "area": 0.0003360000654459016
+            },
+            {
+              "a": "storage-drawer-front#4",
+              "b": "storage-drawer-handle#5",
+              "kind": "face",
+              "area": 0.0009799999040365215
+            },
+            {
+              "a": "storage-base#6",
+              "b": "storage-side-left#7",
+              "kind": "face",
+              "area": 0.0020799994488060465
+            },
+            {
+              "a": "storage-base#6",
+              "b": "storage-side-right#8",
+              "kind": "face",
+              "area": 0.0020799994488060465
+            },
+            {
+              "a": "storage-base#6",
+              "b": "storage-back#9",
+              "kind": "face",
+              "area": 0.002543998807430281
+            },
+            {
+              "a": "storage-base#6",
+              "b": "storage-runner-left#11",
+              "kind": "face",
+              "area": 0.0021750001076608905
+            },
+            {
+              "a": "storage-base#6",
+              "b": "storage-runner-right#12",
+              "kind": "face",
+              "area": 0.0021750001076608905
+            },
+            {
+              "a": "storage-side-left#7",
+              "b": "storage-back#9",
+              "kind": "face",
+              "area": 0.00047999980345367343
+            },
+            {
+              "a": "storage-side-left#7",
+              "b": "storage-roof#10",
+              "kind": "face",
+              "area": 0.002079999448806047
+            },
+            {
+              "a": "storage-side-right#8",
+              "b": "storage-back#9",
+              "kind": "face",
+              "area": 0.00047999980345367343
+            },
+            {
+              "a": "storage-side-right#8",
+              "b": "storage-roof#10",
+              "kind": "face",
+              "area": 0.002079999448806047
+            },
+            {
+              "a": "storage-back#9",
+              "b": "storage-roof#10",
+              "kind": "face",
+              "area": 0.002543998807430281
+            },
+            {
+              "a": "storage-roof#10",
+              "b": "storage-cup-left-bottom#13",
+              "kind": "face",
+              "area": 0.003823770340764074
+            },
+            {
+              "a": "storage-roof#10",
+              "b": "storage-cup-left-wall#14",
+              "kind": "face",
+              "area": 0.00002048452491038016
+            },
+            {
+              "a": "storage-roof#10",
+              "b": "storage-cup-right-bottom#15",
+              "kind": "face",
+              "area": 0.003823770340764073
+            },
+            {
+              "a": "storage-roof#10",
+              "b": "storage-cup-right-wall#16",
+              "kind": "face",
+              "area": 0.00002048446727043185
+            },
+            {
+              "a": "storage-cup-left-bottom#13",
+              "b": "storage-cup-left-wall#14",
+              "kind": "volume",
+              "volume": 1.2290709329753085e-7
+            },
+            {
+              "a": "storage-cup-right-bottom#15",
+              "b": "storage-cup-right-wall#16",
+              "kind": "volume",
+              "volume": 1.2290674745799904e-7
+            }
+          ],
+          "groundArea": 0.07199999815970659,
+          "access": {
+            "minimumOpenFraction": 0.75,
+            "fullSupportPatch": true,
+            "compactEnvelope": [
+              0.024,
+              0.035,
+              0.024
+            ]
+          },
+          "tolerances": {
+            "positionMetres": 0.000001,
+            "coverageSquareMetres": 1e-8,
+            "contactSquareMetres": 1e-8
+          },
+          "limitation": "Static closed solids, convex or proven cup-ring decomposition, continuous pure-translation fit and access only. No hand interaction, mechanical strength or tipping stability claim."
+        },
+        "bounds": {
+          "min": [
+            -0.22499999403953552,
+            0,
+            -0.125
+          ],
+          "max": [
+            0.22499999403953552,
+            0.25,
+            0.03500000014901161
+          ]
+        },
+        "meshCount": 17,
+        "triangleCount": 924,
+        "materialCount": 3,
+        "identityAllRestNodes": true,
+        "sourceVerticesAndTopologyMatch": true,
+        "geometrySha256": "0e54139b888ad1703ee43c0b29cd632ca03eff8cde57019b20ee728fac621a10",
+        "externalUris": 0,
+        "textures": 0,
+        "animations": 0
+      }
+    },
+    {
+      "id": "makeup-storage-case",
+      "sha256": "5a9a19e0807ad8f8c08b241c2655aa17f83b6dec8f95199d7cf5ffb5a655391f",
+      "bytes": 41304,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "geometry": {
+          "checked": true,
+          "sourceDesign": "case",
+          "meshCount": 23,
+          "triangleCount": 276,
+          "materials": 3,
+          "movingComponents": [
+            "storage-drawer-bottom",
+            "storage-drawer-left",
+            "storage-drawer-right",
+            "storage-drawer-back",
+            "storage-drawer-front",
+            "storage-drawer-handle"
+          ],
+          "continuousSlide": {
+            "range": [
+              0,
+              0.09
+            ],
+            "method": "Complete convex SAT interval intersection for pure translation"
+          },
+          "support": [
+            {
+              "rail": "storage-runner-left",
+              "offset": 0,
+              "kind": "face",
+              "area": 0.002100000120326878
+            },
+            {
+              "rail": "storage-runner-left",
+              "offset": 0.09,
+              "kind": "face",
+              "area": 0.0008250000540167104
+            },
+            {
+              "rail": "storage-runner-right",
+              "offset": 0,
+              "kind": "face",
+              "area": 0.002100000120326878
+            },
+            {
+              "rail": "storage-runner-right",
+              "offset": 0.09,
+              "kind": "face",
+              "area": 0.0008250000540167103
+            }
+          ],
+          "connections": [
+            {
+              "a": "storage-drawer-bottom#0",
+              "b": "storage-drawer-left#1",
+              "kind": "face",
+              "area": 0.0008399996308982305
+            },
+            {
+              "a": "storage-drawer-bottom#0",
+              "b": "storage-drawer-right#2",
+              "kind": "face",
+              "area": 0.0008399996308982305
+            },
+            {
+              "a": "storage-drawer-bottom#0",
+              "b": "storage-drawer-back#3",
+              "kind": "face",
+              "area": 0.002388001885533342
+            },
+            {
+              "a": "storage-drawer-bottom#0",
+              "b": "storage-drawer-front#4",
+              "kind": "face",
+              "area": 0.002388000402867796
+            },
+            {
+              "a": "storage-drawer-bottom#0",
+              "b": "storage-runner-left#11",
+              "kind": "face",
+              "area": 0.002100000120326878
+            },
+            {
+              "a": "storage-drawer-bottom#0",
+              "b": "storage-runner-right#12",
+              "kind": "face",
+              "area": 0.002100000120326878
+            },
+            {
+              "a": "storage-drawer-left#1",
+              "b": "storage-drawer-back#3",
+              "kind": "face",
+              "area": 0.0003360002740621648
+            },
+            {
+              "a": "storage-drawer-left#1",
+              "b": "storage-drawer-front#4",
+              "kind": "face",
+              "area": 0.0003360000654459016
+            },
+            {
+              "a": "storage-drawer-right#2",
+              "b": "storage-drawer-back#3",
+              "kind": "face",
+              "area": 0.0003360002740621648
+            },
+            {
+              "a": "storage-drawer-right#2",
+              "b": "storage-drawer-front#4",
+              "kind": "face",
+              "area": 0.0003360000654459016
+            },
+            {
+              "a": "storage-drawer-front#4",
+              "b": "storage-drawer-handle#5",
+              "kind": "face",
+              "area": 0.0009799999040365215
+            },
+            {
+              "a": "storage-base#6",
+              "b": "storage-side-left#7",
+              "kind": "face",
+              "area": 0.0020799994488060465
+            },
+            {
+              "a": "storage-base#6",
+              "b": "storage-side-right#8",
+              "kind": "face",
+              "area": 0.0020799994488060465
+            },
+            {
+              "a": "storage-base#6",
+              "b": "storage-back#9",
+              "kind": "face",
+              "area": 0.002543998807430281
+            },
+            {
+              "a": "storage-base#6",
+              "b": "storage-runner-left#11",
+              "kind": "face",
+              "area": 0.0021750001076608905
+            },
+            {
+              "a": "storage-base#6",
+              "b": "storage-runner-right#12",
+              "kind": "face",
+              "area": 0.0021750001076608905
+            },
+            {
+              "a": "storage-side-left#7",
+              "b": "storage-back#9",
+              "kind": "face",
+              "area": 0.00047999980345367343
+            },
+            {
+              "a": "storage-side-left#7",
+              "b": "storage-roof#10",
+              "kind": "face",
+              "area": 0.002079999448806047
+            },
+            {
+              "a": "storage-side-right#8",
+              "b": "storage-back#9",
+              "kind": "face",
+              "area": 0.00047999980345367343
+            },
+            {
+              "a": "storage-side-right#8",
+              "b": "storage-roof#10",
+              "kind": "face",
+              "area": 0.002079999448806047
+            },
+            {
+              "a": "storage-back#9",
+              "b": "storage-roof#10",
+              "kind": "face",
+              "area": 0.002543998807430281
+            },
+            {
+              "a": "storage-roof#10",
+              "b": "storage-upper-left#13",
+              "kind": "face",
+              "area": 0.0015999984756112084
+            },
+            {
+              "a": "storage-roof#10",
+              "b": "storage-upper-right#14",
+              "kind": "face",
+              "area": 0.0015999984756112084
+            },
+            {
+              "a": "storage-roof#10",
+              "b": "storage-upper-back#15",
+              "kind": "face",
+              "area": 0.004299999174475655
+            },
+            {
+              "a": "storage-roof#10",
+              "b": "storage-upper-front#16",
+              "kind": "face",
+              "area": 0.004299999975413082
+            },
+            {
+              "a": "storage-upper-left#13",
+              "b": "storage-upper-back#15",
+              "kind": "face",
+              "area": 0.0009999998062849014
+            },
+            {
+              "a": "storage-upper-left#13",
+              "b": "storage-upper-front#16",
+              "kind": "face",
+              "area": 0.000999999992549419
+            },
+            {
+              "a": "storage-upper-left#13",
+              "b": "storage-case-handle-left-rear#17",
+              "kind": "volume",
+              "volume": 0.000001199999696015615
+            },
+            {
+              "a": "storage-upper-left#13",
+              "b": "storage-case-handle-left-front#18",
+              "kind": "volume",
+              "volume": 0.0000011999996028833973
+            },
+            {
+              "a": "storage-upper-right#14",
+              "b": "storage-upper-back#15",
+              "kind": "face",
+              "area": 0.0009999998062849014
+            },
+            {
+              "a": "storage-upper-right#14",
+              "b": "storage-upper-front#16",
+              "kind": "face",
+              "area": 0.000999999992549419
+            },
+            {
+              "a": "storage-upper-right#14",
+              "b": "storage-case-handle-right-rear#20",
+              "kind": "volume",
+              "volume": 0.000001199999696015615
+            },
+            {
+              "a": "storage-upper-right#14",
+              "b": "storage-case-handle-right-front#21",
+              "kind": "volume",
+              "volume": 0.0000011999996028833973
+            },
+            {
+              "a": "storage-case-handle-left-rear#17",
+              "b": "storage-case-handle-left-grip#19",
+              "kind": "face",
+              "area": 0.00011999983072286115
+            },
+            {
+              "a": "storage-case-handle-left-front#18",
+              "b": "storage-case-handle-left-grip#19",
+              "kind": "face",
+              "area": 0.00011999983072286115
+            },
+            {
+              "a": "storage-case-handle-right-rear#20",
+              "b": "storage-case-handle-right-grip#22",
+              "kind": "face",
+              "area": 0.00011999983072286115
+            },
+            {
+              "a": "storage-case-handle-right-front#21",
+              "b": "storage-case-handle-right-grip#22",
+              "kind": "face",
+              "area": 0.00011999983072286115
+            }
+          ],
+          "groundArea": 0.07199999815970659,
+          "access": {
+            "minimumOpenFraction": 0.75,
+            "fullSupportPatch": true,
+            "compactEnvelope": [
+              0.024,
+              0.035,
+              0.024
+            ]
+          },
+          "tolerances": {
+            "positionMetres": 0.000001,
+            "coverageSquareMetres": 1e-8,
+            "contactSquareMetres": 1e-8
+          },
+          "limitation": "Static closed solids, convex or proven cup-ring decomposition, continuous pure-translation fit and access only. No hand interaction, mechanical strength or tipping stability claim."
+        },
+        "bounds": {
+          "min": [
+            -0.22499999403953552,
+            0,
+            -0.125
+          ],
+          "max": [
+            0.22499999403953552,
+            0.25,
+            0.03500000014901161
+          ]
+        },
+        "meshCount": 23,
+        "triangleCount": 276,
+        "materialCount": 3,
+        "identityAllRestNodes": true,
+        "sourceVerticesAndTopologyMatch": true,
+        "geometrySha256": "d7e13dea687e3e7efa98f8f123ab89f9ce062440657e0609cf42e2a9da46e6a6",
+        "externalUris": 0,
+        "textures": 0,
+        "animations": 0
+      }
+    },
+    {
+      "id": "makeup-storage-content-compact",
+      "sha256": "f054720429d803edf4815082919d057c6e55e8c3eb7849c6825b72ab07f0f9b2",
+      "bytes": 15808,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "geometry": {
+          "checked": true,
+          "sourceDesign": "compact",
+          "meshCount": 2,
+          "triangleCount": 192,
+          "connections": [
+            {
+              "a": "storage-content-body#0",
+              "b": "storage-content-cap#1",
+              "kind": "face",
+              "area": 0.0004472393075763449
+            }
+          ],
+          "limitation": "A closed compact witness only. No cosmetic interaction or arbitrary-content fit claim."
+        },
+        "bounds": {
+          "min": [
+            -0.012000000104308128,
+            0,
+            -0.012000000104308128
+          ],
+          "max": [
+            0.012000000104308128,
+            0.03500000014901161,
+            0.012000000104308128
+          ]
+        },
+        "meshCount": 2,
+        "triangleCount": 192,
+        "materialCount": 2,
+        "identityAllRestNodes": true,
+        "sourceVerticesAndTopologyMatch": true,
+        "geometrySha256": "b9d757bea1800243e02ac70b908536cd1ac7f9ad14af5b225428ce484f9e14ac",
+        "externalUris": 0,
+        "textures": 0,
+        "animations": 0
+      }
+    }
+  ],
+  "sourceModificationEvidence": {
+    "parameter": "designs[0].rimHeight",
+    "before": 0.14,
+    "after": 0.145,
+    "parameters": "evidence/company-makeup-storage-production-v1/variant-parameters.json",
+    "parametersSha256": "a37dcc75b4f4902c2bb10332299c588c70d96edf8c777f4d84143de552f6b398",
+    "output": "evidence/company-makeup-storage-production-v1/variant-tray.glb",
+    "beforeSha256": "001731e82f83bf053b7570cd7694269a97de1cab443c6c5a2542ced526b21968",
+    "afterSha256": "ec5976fe544e7f05a90cc6169e8f8d79186e141672f0b0b429ed82fa24d4c596",
+    "beforeGeometrySha256": "ce0e38b7519fa5696406e7d56c585b013be880166eb1c34103663f38f3f9e143",
+    "afterGeometrySha256": "0ca425e523ae92af4e8f67f5f46ee6fb3139901d587e706b7a6a51dda7081c3a",
+    "actual": {
+      "geometry": {
+        "checked": true,
+        "sourceDesign": "tray",
+        "meshCount": 17,
+        "triangleCount": 204,
+        "materials": 3,
+        "movingComponents": [
+          "storage-drawer-bottom",
+          "storage-drawer-left",
+          "storage-drawer-right",
+          "storage-drawer-back",
+          "storage-drawer-front",
+          "storage-drawer-handle"
+        ],
+        "continuousSlide": {
+          "range": [
+            0,
+            0.09
+          ],
+          "method": "Complete convex SAT interval intersection for pure translation"
+        },
+        "support": [
+          {
+            "rail": "storage-runner-left",
+            "offset": 0,
+            "kind": "face",
+            "area": 0.002100000120326878
+          },
+          {
+            "rail": "storage-runner-left",
+            "offset": 0.09,
+            "kind": "face",
+            "area": 0.0008250000540167104
+          },
+          {
+            "rail": "storage-runner-right",
+            "offset": 0,
+            "kind": "face",
+            "area": 0.002100000120326878
+          },
+          {
+            "rail": "storage-runner-right",
+            "offset": 0.09,
+            "kind": "face",
+            "area": 0.0008250000540167103
+          }
+        ],
+        "connections": [
+          {
+            "a": "storage-drawer-bottom#0",
+            "b": "storage-drawer-left#1",
+            "kind": "face",
+            "area": 0.0008399996308982305
+          },
+          {
+            "a": "storage-drawer-bottom#0",
+            "b": "storage-drawer-right#2",
+            "kind": "face",
+            "area": 0.0008399996308982305
+          },
+          {
+            "a": "storage-drawer-bottom#0",
+            "b": "storage-drawer-back#3",
+            "kind": "face",
+            "area": 0.002388001885533342
+          },
+          {
+            "a": "storage-drawer-bottom#0",
+            "b": "storage-drawer-front#4",
+            "kind": "face",
+            "area": 0.002388000402867796
+          },
+          {
+            "a": "storage-drawer-bottom#0",
+            "b": "storage-runner-left#11",
+            "kind": "face",
+            "area": 0.002100000120326878
+          },
+          {
+            "a": "storage-drawer-bottom#0",
+            "b": "storage-runner-right#12",
+            "kind": "face",
+            "area": 0.002100000120326878
+          },
+          {
+            "a": "storage-drawer-left#1",
+            "b": "storage-drawer-back#3",
+            "kind": "face",
+            "area": 0.0003360002740621648
+          },
+          {
+            "a": "storage-drawer-left#1",
+            "b": "storage-drawer-front#4",
+            "kind": "face",
+            "area": 0.0003360000654459016
+          },
+          {
+            "a": "storage-drawer-right#2",
+            "b": "storage-drawer-back#3",
+            "kind": "face",
+            "area": 0.0003360002740621648
+          },
+          {
+            "a": "storage-drawer-right#2",
+            "b": "storage-drawer-front#4",
+            "kind": "face",
+            "area": 0.0003360000654459016
+          },
+          {
+            "a": "storage-drawer-front#4",
+            "b": "storage-drawer-handle#5",
+            "kind": "face",
+            "area": 0.0009799999040365215
+          },
+          {
+            "a": "storage-base#6",
+            "b": "storage-side-left#7",
+            "kind": "face",
+            "area": 0.0020799994488060465
+          },
+          {
+            "a": "storage-base#6",
+            "b": "storage-side-right#8",
+            "kind": "face",
+            "area": 0.0020799994488060465
+          },
+          {
+            "a": "storage-base#6",
+            "b": "storage-back#9",
+            "kind": "face",
+            "area": 0.002543998807430281
+          },
+          {
+            "a": "storage-base#6",
+            "b": "storage-runner-left#11",
+            "kind": "face",
+            "area": 0.0021750001076608905
+          },
+          {
+            "a": "storage-base#6",
+            "b": "storage-runner-right#12",
+            "kind": "face",
+            "area": 0.0021750001076608905
+          },
+          {
+            "a": "storage-side-left#7",
+            "b": "storage-back#9",
+            "kind": "face",
+            "area": 0.00047999980345367343
+          },
+          {
+            "a": "storage-side-left#7",
+            "b": "storage-roof#10",
+            "kind": "face",
+            "area": 0.002079999448806047
+          },
+          {
+            "a": "storage-side-right#8",
+            "b": "storage-back#9",
+            "kind": "face",
+            "area": 0.00047999980345367343
+          },
+          {
+            "a": "storage-side-right#8",
+            "b": "storage-roof#10",
+            "kind": "face",
+            "area": 0.002079999448806047
+          },
+          {
+            "a": "storage-back#9",
+            "b": "storage-roof#10",
+            "kind": "face",
+            "area": 0.002543998807430281
+          },
+          {
+            "a": "storage-roof#10",
+            "b": "storage-upper-left#13",
+            "kind": "face",
+            "area": 0.0012800002110004425
+          },
+          {
+            "a": "storage-roof#10",
+            "b": "storage-upper-right#14",
+            "kind": "face",
+            "area": 0.0012800002110004427
+          },
+          {
+            "a": "storage-roof#10",
+            "b": "storage-upper-back#15",
+            "kind": "face",
+            "area": 0.0034720004527568626
+          },
+          {
+            "a": "storage-roof#10",
+            "b": "storage-upper-front#16",
+            "kind": "face",
+            "area": 0.0034719996443688915
+          },
+          {
+            "a": "storage-upper-left#13",
+            "b": "storage-upper-back#15",
+            "kind": "face",
+            "area": 0.0003600000137090609
+          },
+          {
+            "a": "storage-upper-left#13",
+            "b": "storage-upper-front#16",
+            "kind": "face",
+            "area": 0.0003599999298900397
+          },
+          {
+            "a": "storage-upper-right#14",
+            "b": "storage-upper-back#15",
+            "kind": "face",
+            "area": 0.0003600000137090608
+          },
+          {
+            "a": "storage-upper-right#14",
+            "b": "storage-upper-front#16",
+            "kind": "face",
+            "area": 0.0003599999298900397
+          }
+        ],
+        "groundArea": 0.07199999815970659,
+        "access": {
+          "minimumOpenFraction": 0.75,
+          "fullSupportPatch": true,
+          "compactEnvelope": [
+            0.024,
+            0.035,
+            0.024
+          ]
+        },
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "coverageSquareMetres": 1e-8,
+          "contactSquareMetres": 1e-8
+        },
+        "limitation": "Static closed solids, convex or proven cup-ring decomposition, continuous pure-translation fit and access only. No hand interaction, mechanical strength or tipping stability claim."
+      },
+      "bounds": {
+        "min": [
+          -0.22499999403953552,
+          0,
+          -0.125
+        ],
+        "max": [
+          0.22499999403953552,
+          0.14499999582767487,
+          0.03500000014901161
+        ]
+      },
+      "meshCount": 17,
+      "triangleCount": 204,
+      "materialCount": 3,
+      "identityAllRestNodes": true,
+      "sourceVerticesAndTopologyMatch": true,
+      "geometrySha256": "0ca425e523ae92af4e8f67f5f46ee6fb3139901d587e706b7a6a51dda7081c3a",
+      "externalUris": 0,
+      "textures": 0,
+      "animations": 0
+    },
+    "otherThreeModelsByteIdentical": true,
+    "independentContentByteIdentical": true
+  },
+  "limits": [
+    "CPU production and geometry only. Runtime state, dynamic independent contents, browser transactions/close/reopen, normal-speed recording, ordinary-device performance and user visual acceptance require their corresponding evidence.",
+    "The compact is one limited independent saved-content witness. Cosmetics inventory and character hand interaction have separate scope.",
+    "Fixed open upper case and cups. The common lower tray has a bounded .09m slide. Real drawer-installed makeup-storage-drawer acceptance needs its own parent cavity and four-look evidence."
+  ]
+}

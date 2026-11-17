@@ -1,11 +1,12 @@
 import { CompanyError, deriveCompany, pointInTransform } from './document.js';
 import { inspectCompanyConnections } from './space.js';
 import {movingFootprint} from './moving-parts.js';
+import {MAKEUP_STORAGE_PROFILE} from './makeup-storage-data.js';
 
 export function inspectCompanyMotionSweep(previous, candidate, catalog, templates) {
   const before=deriveCompany(previous,catalog,templates),after=deriveCompany(candidate,catalog,templates);
   const swept=new Map();
-  for(const f of after.facilities.filter(f=>f.resource.movingParts)) {
+  for(const f of after.facilities.filter(f=>f.resource.movingParts&&f.resource.movingProfile!==MAKEUP_STORAGE_PROFILE)) {
     const old=before.facilities.find(p=>p.id===f.id);
     if(!old?.resource.movingParts||f.resource.movingParts.every(p=>old.state[p.stateField]===f.state[p.stateField]))continue;
     // Each scene instance can be at a different pose. A private validation-only

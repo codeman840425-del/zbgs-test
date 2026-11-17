@@ -1,0 +1,42 @@
+{
+  "status": "failed",
+  "reason": "Four vertical case-handle legs share their outward X-plane surface with the case sidewalls acrossY .19..20. Same duplicate exterior geometry cause as cup skirt.",
+  "sourceDimensions": {
+    "sideWallY": [
+      0.1,
+      0.2
+    ],
+    "handleLegY": [
+      0.19,
+      0.25
+    ],
+    "legWidthZ": 0.012
+  },
+  "fix": "Start each handle leg at Y=.20 so it touches the closed wall top through a positive-area face, preserving grip and the real aperture.",
+  "pins": {
+    "case-model.glb": {
+      "originalPath": "prototype/public/company-assets/makeup-storage-v1/case/v1/model.glb",
+      "sha256": "5a9a19e0807ad8f8c08b241c2655aa17f83b6dec8f95199d7cf5ffb5a655391f"
+    },
+    "case-resource.json": {
+      "originalPath": "prototype/public/company-assets/makeup-storage-v1/case/v1/resource.json",
+      "sha256": "61f0bb5c0ab3daad24c66913896d050dc711dce879d4f0345d8adbbbd229001d"
+    },
+    "parameters.json": {
+      "originalPath": "assets-source/company-makeup-storage-v1/parameters.json",
+      "sha256": "80b0331280ac855540b11956e917856e4273ae2d57ade36aad2544d31db620fb"
+    },
+    "build-makeup-storage.mjs": {
+      "originalPath": "scripts/company-platform/build-makeup-storage.mjs",
+      "sha256": "91ecc9995c5f89e06479c1b2ca037ea435b84a2242fb314caf3fa969be308db9"
+    },
+    "makeup-storage-geometry.js": {
+      "originalPath": "prototype/src/company/makeup-storage-geometry.js",
+      "sha256": "50ce6c8f3876c73eaf08fa56645380e81c0d2ae059e770393fa5c454822231ea"
+    },
+    "browser-storage-4.png": {
+      "originalPath": "evidence/company-makeup-storage-browser-dev-v1/storage-4.png",
+      "sha256": "f6efcacb03a1e291a0919af497f81322ea0db4dbef93d35a62bb3b6888482d6d"
+    }
+  }
+}

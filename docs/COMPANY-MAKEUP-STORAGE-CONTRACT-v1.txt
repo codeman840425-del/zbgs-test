@@ -1,0 +1,35 @@
+化妆台面收纳：有界制作与运行合同 v1
+2026-11-17；基线 554787492a3aa807cd26c48663b6701aac829fca。
+
+本包落实 makeup-storage confirmed 分支，不能替代 makeup-storage-drawer 的真实父抽屉安装验收。工程/一手来源依据为 research/COMPANY-MAKEUP-STORAGE-PREFLIGHT-2026-11-17.txt；以下锁定本次实现输入，实际几何失败须保留并以明确修订纠正，不修改旧落地抽屉语义。
+
+一、统一功能
+四资源 makeup-storage-tray / makeup-storage-divided / makeup-storage-brush-cup / makeup-storage-case，version 1。托盘、分格收纳、刷具杯、化妆箱具有真实不同上部结构，共用下部真实活动浅抽屉。category dynamic；mount support-surface；mountRole 与 productionBranch makeup-storage；bottom 原点；米制、+Y、+Z；mounting {origin:'bottom',width:.45,height:.25,depth:.25}；footprint blocking false；usePoints []。仅允许直接依附 mountRole vanity-table 的 top 面。
+整个运动范围均在安装盒 X±.225、Y[0,.25]、Z±.125 内，父台始终预留此盒。资源不创建地面阻挡或角色动作。movingProfile='supported-slide-v1'。
+stateDefaults {openFraction:0}；stateSchema {openFraction:{type:'number',min:0,max:1}}；stateSemantics {openFraction:'sliding-drawer-opening-fraction'}。
+movingParts=[{id:'drawer',stateField:'openFraction',kind:'slide',axis:'z',pivot:[0,0,0],translationRange:[0,.09],bounds:{min:[-.205,.016,-.115],max:[.205,.078,.035]}}]。
+partNodes {drawer:'storage-drawer-slide'}；partPanels {drawer:'storage-drawer-front'}；partTrays {drawer:{bottom:'storage-drawer-bottom',left:'storage-drawer-left',right:'storage-drawer-right',back:'storage-drawer-back'}}。
+supportSurfaces=[{id:'top',center:[0,-.045],topY:.100,halfSize:[.115,.055],clearanceHeight:.140},{id:'drawer',center:[0,-.005],topY:.022,halfSize:[.180,.020],clearanceHeight:.040}]。
+supportNodes {top:'storage-roof',drawer:'storage-drawer-bottom'}；supportMotion {drawer:'drawer'}。映射属于功能合同，绑定实际活动组内底板；未知面/部件及其他机制不得偷用此字段。新增功能字段仅在存在时参加功能签名，避免给旧存档凭空改签名。
+
+二、实际结构
+固定底板 X±.225 Y[0,.010] Z[-.125,.035]；侧框 |X|[.212,.225] Y[.010,.090] Z[-.125,.035]；后壁 X[-.212,.212] Y[.010,.090] Z[-.125,-.119]；上板 X±.225 Y[.090,.100] Z[-.125,.035]。
+两实轨 X[.1625,.1775]及[-.1775,-.1625] Y[.010,.016] Z[-.115,.030]，接底板和抽屉底板。最大行程仍有 .055m 长接触；验证几何支承，不宣称物理强度/抗倾倒。
+活动底板 X±.205 Y[.016,.022] Z[-.115,.025]；左右壁 X[-.205,-.199]及[.199,.205] Y[.022,.078] Z[-.115,.025]；后壁 X[-.199,.199] Y[.022,.078] Z[-.115,-.109]；前板 X[-.199,.199] Y[.022,.078] Z[.019,.025]。把手从前板连接并保持 Z≤.035，不能侵入 drawer 支持区。
+各构件是有厚度的闭合真实网格，三角接触/腔体/支持面覆盖/滑动全程与固定结构的无穿插由读回检查证明。只看节点名或整体AABB不够。上部四种结构须有实际格底、开放口、连接和可访问空间；杯是厚壁有底开口杯，箱是固定开放箱及侧部提手，不宣称箱盖铰接。
+四款保共同top净空。额外格/杯/提手在共同矩形外；分格至少两个可用格；刷具杯候选中心 X±.17 Z-.045、外半径 .035、内半径 .029，底厚 .006、最高 .25；实际制造误差由Float32读取容差处理，不用宽容差接受破损。每件目标≤2500三角、≤32mesh、≤4材质。
+
+三、独立内容与状态
+一个原创见证资源 makeup-storage-content-compact@1：静态短圆盒，mount support-surface，mountRole makeup-storage-content，包络 .024×.035×.024m，bottom 原点，非阻挡、无usePoints、无状态；真实底及封闭几何，明确有限用途。它不冒充另一个已确认四款分支完成，也不声明化妆交互。
+独立节点直接parent为收纳，允许top或drawer这两个固定支持面；主见证 attachment {surfaceId:'drawer'}，保存rest transform position[0,.022,-.005]、yaw0。同资源第二实例可放top [0,.100,-.045]，证明其保持静止。有效显示/世界位置在rest坐标上增加父drawer部件偏移。derive与render共用计算，每次从rest重算；保存不能累计偏移。父状态0/.5/1分别移动0/.045/.09；父旋转后沿父+Z移动。top子物保持不动。
+合法内容必须满足固定支持净空及整个运动范围。drawer区在 openFraction≥.75 时有可验证上方访问；仅声明此小物及格位，不宣称完整手部拿取/全延伸抽屉。相同父不同面子物检查三维运动区间的相交；完整包络预留防止收纳扫入镜子或其他台面设施。
+所有新资源/schema/父约束在导入和文档入口拒绝非法输入。原状态事务、占用守卫、候选prepare/commit、迟到失败及保存完整依赖沿旧链，不新建状态机。失败保原场景、文档、存档字节。
+
+设施子树复制沿既有copySubtree实现，入口copy-facility要求id/newId，可选parentId和rest transform；默认保留直接父设施。设施及全部子物分配新ID，保资源引用、attachment、rest坐标及状态，再走完整层级、支承、预留盒和冲突准入。复制收纳到第二台化妆台时显式指定目标父台；复制台体时独立配对椅仍由同一事务显式处理，不隐式复制兄弟节点。非法目标父、复制重叠或准入失败保原。
+
+四、输入、生产和验收
+沿台镜布局：收纳 [.02,.78,.075]；原摆件显式同事务移至 [-.295,.78,.08]及[.335,.78,.08]；保ID和资源。镜保持 [.02,.78,-.135]。镜/收纳间隙 .005；摆件/收纳 .01。第二房采用独立身份与父台/椅旋转90°；子收纳独立90°超父台深度应拒绝。
+可编辑源参数和统一提示词→确定性GLB导出→版本与适配登记→真实loader几何检查→四款实际运行/开合/兼容替换→各款独立关闭恢复。改一款真实几何参数重导出，其余三款字节不变。生产import无写入；--check不依赖或写evidence。
+最小样件托盘与刷具杯+同一独立内容先走通；再完成其他两款。核0/.5/1及一个非端点状态、往返无漂移、父移动/旋转、复制、不同房身份、top静止/抽屉内容随动。坏几何、缺资源、错误版本、非法父/支持/映射、内容过高/越界、状态越界、功能变更伪装换款、全开失支承和中途加载失败保旧。旧落地滑动/铰接/台镜受影响范围回归。
+固定源码独立检出构建/完整依赖重建/正常1×录像，源与构建及证据身份一致。公开预览仅60880；临时QA服务finally关闭。普通电脑性能和真实角色使用未测不能宣称通过。
+尝试预算：一次实现和一轮证据驱动修正；连续两轮同因无新证据/改善则停止调参、保留失败并重新定位。台体内置抽屉及其四款分支另按真实父腔体安排，不将本包台面载体冒充其交付。

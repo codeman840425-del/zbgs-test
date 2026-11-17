@@ -1,0 +1,185 @@
+{
+  "id": "makeup-storage-tray",
+  "displayName": "托盘式化妆收纳",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "makeup-storage",
+  "productionBranch": "makeup-storage",
+  "mount": "support-surface",
+  "mounting": {
+    "origin": "bottom",
+    "width": 0.45,
+    "height": 0.25,
+    "depth": 0.25
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Bottom centre",
+    "scale": "Identity only"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.225,
+      0.125
+    ],
+    "blocking": false
+  },
+  "usePoints": [],
+  "movingProfile": "supported-slide-v1",
+  "movingParts": [
+    {
+      "id": "drawer",
+      "stateField": "openFraction",
+      "kind": "slide",
+      "axis": "z",
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "translationRange": [
+        0,
+        0.09
+      ],
+      "bounds": {
+        "min": [
+          -0.205,
+          0.016,
+          -0.115
+        ],
+        "max": [
+          0.205,
+          0.078,
+          0.035
+        ]
+      }
+    }
+  ],
+  "partNodes": {
+    "drawer": "storage-drawer-slide"
+  },
+  "partPanels": {
+    "drawer": "storage-drawer-front"
+  },
+  "partTrays": {
+    "drawer": {
+      "bottom": "storage-drawer-bottom",
+      "left": "storage-drawer-left",
+      "right": "storage-drawer-right",
+      "back": "storage-drawer-back"
+    }
+  },
+  "supportSurfaces": [
+    {
+      "id": "top",
+      "center": [
+        0,
+        -0.045
+      ],
+      "topY": 0.1,
+      "halfSize": [
+        0.115,
+        0.055
+      ],
+      "clearanceHeight": 0.14
+    },
+    {
+      "id": "drawer",
+      "center": [
+        0,
+        -0.005
+      ],
+      "topY": 0.022,
+      "halfSize": [
+        0.18,
+        0.02
+      ],
+      "clearanceHeight": 0.04
+    }
+  ],
+  "supportNodes": {
+    "top": "storage-roof",
+    "drawer": "storage-drawer-bottom"
+  },
+  "supportMotion": {
+    "drawer": "drawer"
+  },
+  "stateDefaults": {
+    "openFraction": 0
+  },
+  "stateSchema": {
+    "openFraction": {
+      "type": "number",
+      "min": 0,
+      "max": 1
+    }
+  },
+  "stateSemantics": {
+    "openFraction": "sliding-drawer-opening-fraction"
+  },
+  "provenance": {
+    "sourceParameters": "assets-source/company-makeup-storage-v1/parameters.json",
+    "sourceParametersSha256": "b276ab3367ae3231b80552a20f27712d8492fe14dad60b4bf8483fa99e332f4c",
+    "functionalContractSource": "docs/COMPANY-MAKEUP-STORAGE-CONTRACT-v1.txt",
+    "functionalContractSourceSha256": "1fa5ce60173a7e20a1516e1d8b640539c110c610856dbe335fc72b9e45711970",
+    "generator": "scripts/company-platform/build-makeup-storage.mjs",
+    "generatorSha256": "e0cdef4e398fb24099bec79ac1cac7a1cdba94b273878d4f3bf2cb66b15e2e5c",
+    "dependencies": {
+      "functionalContract": {
+        "path": "docs/COMPANY-MAKEUP-STORAGE-CONTRACT-v1.txt",
+        "sha256": "1fa5ce60173a7e20a1516e1d8b640539c110c610856dbe335fc72b9e45711970"
+      },
+      "preflight": {
+        "path": "docs/research/COMPANY-MAKEUP-STORAGE-PREFLIGHT-2026-11-17.txt",
+        "sha256": "9cf63cdb231c5e8c5e00bf376e853770a017626c49042b0c7962d21c224ab5ac"
+      },
+      "lockfile": {
+        "path": "prototype/package-lock.json",
+        "sha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7"
+      },
+      "threePackage": {
+        "path": "prototype/node_modules/three/package.json",
+        "sha256": "87f2c99a8718e5fdd6f5e51427fde52c6075f2f698ddf8f7b4e162882df93940"
+      },
+      "threeModule": {
+        "path": "prototype/node_modules/three/build/three.module.js",
+        "sha256": "104f56145899722094556490d787aae0617cc2fc3382f31df02d724ea1aee341"
+      },
+      "gltfExporter": {
+        "path": "prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+        "sha256": "569793baeba62baeb4ab0b3619b6b1495b45d4b2ba9690430497adb58307bdf2"
+      },
+      "gltfLoader": {
+        "path": "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+        "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1"
+      },
+      "threeLicense": {
+        "path": "prototype/node_modules/three/LICENSE",
+        "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+      },
+      "geometryVerifier": {
+        "path": "prototype/src/company/makeup-storage-geometry.js",
+        "sha256": "50ce6c8f3876c73eaf08fa56645380e81c0d2ae059e770393fa5c454822231ea"
+      }
+    },
+    "license": "Project-authored original parametric geometry and solid-color materials. No external art or model input. Three.js 0.187.0 is MIT licensed, copyright 2010–2026 three.js authors. Preserve prototype/node_modules/three/LICENSE and prototype/package-lock.json for offline rebuilds.",
+    "prompt": "Purpose: four original compatible tabletop makeup storage looks on the fixed vanity support surface. Model a real closed .45 x .25 x .25m full-motion envelope in metres, +Y up and +Z forward, bottom-centre origin. Share an actual rear-biased closed base, structural cheeks and roof, two solid rails and a real open-top thick tray moving 0..0.09m along +Z. The actual tray bottom, walls, handle, cavity, rail contact and unobstructed shared top/drawer support patches must pass independent loaded-triangle checks across the full state range. Build genuinely different shallow tray, divided storage, thick bottomed brush cups and open case with real side handle holes. All rest mesh vertices are baked into resource space under identity groups. Use opaque solid-color materials, no textures, animations or external models, and at most 2500 triangles, 32 meshes and four materials per resource. Preserve deterministic exporter/readback and source/dependency identities. Design: Low open rim around the shared top board, giving a single continuous shallow tray, with a real separate lower sliding tray and connected front pull.",
+    "sourceDesign": "tray",
+    "method": "Original closed solid carrier, real rails, thick sliding tray and distinct upper storage geometry. Rest vertices baked into resource space. Actual deterministic GLTFLoader readback and independent full-path geometry admission.",
+    "limitations": [
+      "Low tray rim with a real common lower sliding tray. No removable-tray or hand pickup state."
+    ]
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/makeup-storage-v1/tray/v1/model.glb",
+    "sha256": "001731e82f83bf053b7570cd7694269a97de1cab443c6c5a2542ced526b21968",
+    "bytes": 30728
+  }
+}

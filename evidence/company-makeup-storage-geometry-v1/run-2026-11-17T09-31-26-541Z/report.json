@@ -1,0 +1,3193 @@
+{
+  "status": "passed",
+  "checkedAt": "2026-11-17T09:31:26.893Z",
+  "checks": [
+    {
+      "name": "Legacy profiles keep their separate geometry path",
+      "passed": true
+    },
+    {
+      "name": "tray / actual GLB and existing generic support geometry both pass",
+      "passed": true
+    },
+    {
+      "name": "tray / same actual mechanism accepts explicit new identity/version",
+      "passed": true
+    },
+    {
+      "name": "makeup-storage-tray / missing real storage-base",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-tray.scene.storage-base",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-tray / missing real storage-side-left",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-tray.scene.storage-side-left",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-tray / missing real storage-side-right",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-tray.scene.storage-side-right",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-tray / missing real storage-back",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-tray.scene.storage-back",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-tray / missing real storage-roof",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-tray.scene.storage-roof",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-tray / missing real storage-runner-left",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-tray.scene.storage-runner-left",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-tray / missing real storage-runner-right",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-tray.scene.storage-runner-right",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-tray / missing real storage-drawer-bottom",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-tray.scene.storage-drawer-bottom",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-tray / missing real storage-drawer-left",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-tray.scene.storage-drawer-left",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-tray / missing real storage-drawer-right",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-tray.scene.storage-drawer-right",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-tray / missing real storage-drawer-back",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-tray.scene.storage-drawer-back",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-tray / missing real storage-drawer-front",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-tray.scene.storage-drawer-front",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-tray / missing real storage-drawer-handle",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-tray.scene.storage-drawer-handle",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-tray / moving bottom outside declared moving subtree",
+      "passed": true,
+      "rejection": {
+        "code": "storage-motion-mapping",
+        "path": "makeup-storage-tray.scene.storage-drawer-bottom",
+        "message": "Real drawer parts belong to the moving subtree and real carrier parts remain fixed"
+      }
+    },
+    {
+      "name": "makeup-storage-tray / fixed roof cannot ride on moving drawer",
+      "passed": true,
+      "rejection": {
+        "code": "storage-motion-mapping",
+        "path": "makeup-storage-tray.scene.storage-roof",
+        "message": "Real drawer parts belong to the moving subtree and real carrier parts remain fixed"
+      }
+    },
+    {
+      "name": "makeup-storage-tray / motion support mapping cannot refer to static roof",
+      "passed": true,
+      "rejection": {
+        "code": "storage-motion-mapping",
+        "path": "makeup-storage-tray.resource",
+        "message": "The actual moving group and support nodes must follow the fixed supported-slide map"
+      }
+    },
+    {
+      "name": "makeup-storage-tray / unbaked transform is rejected",
+      "passed": true,
+      "rejection": {
+        "code": "storage-transform",
+        "path": "makeup-storage-tray.scene.storage-runner-left",
+        "message": "All resource nodes require baked identity transforms and visible geometry"
+      }
+    },
+    {
+      "name": "makeup-storage-tray / opaque backing cannot be a hidden mesh",
+      "passed": true,
+      "rejection": {
+        "code": "storage-transform",
+        "path": "makeup-storage-tray.scene.storage-base",
+        "message": "All resource nodes require baked identity transforms and visible geometry"
+      }
+    },
+    {
+      "name": "makeup-storage-tray / transparent bottom cannot fake support",
+      "passed": true,
+      "rejection": {
+        "code": "storage-material",
+        "path": "makeup-storage-tray.scene.storage-drawer-bottom",
+        "message": "Storage solids require opaque visible materials"
+      }
+    },
+    {
+      "name": "makeup-storage-tray / flat real storage-base",
+      "passed": true,
+      "rejection": {
+        "code": "storage-degenerate-face",
+        "path": "makeup-storage-tray.scene.storage-base",
+        "message": "Each triangle must have three distinct vertices and real area"
+      }
+    },
+    {
+      "name": "makeup-storage-tray / flat real storage-roof",
+      "passed": true,
+      "rejection": {
+        "code": "storage-degenerate-face",
+        "path": "makeup-storage-tray.scene.storage-roof",
+        "message": "Each triangle must have three distinct vertices and real area"
+      }
+    },
+    {
+      "name": "makeup-storage-tray / flat real storage-drawer-bottom",
+      "passed": true,
+      "rejection": {
+        "code": "storage-degenerate-face",
+        "path": "makeup-storage-tray.scene.storage-drawer-bottom",
+        "message": "Each triangle must have three distinct vertices and real area"
+      }
+    },
+    {
+      "name": "makeup-storage-tray / flat real storage-runner-right",
+      "passed": true,
+      "rejection": {
+        "code": "storage-degenerate-face",
+        "path": "makeup-storage-tray.scene.storage-runner-right",
+        "message": "Each triangle must have three distinct vertices and real area"
+      }
+    },
+    {
+      "name": "makeup-storage-tray / open floor topology cannot fake drawer capacity",
+      "passed": true,
+      "rejection": {
+        "code": "storage-open-or-inconsistent",
+        "path": "makeup-storage-tray.scene.storage-drawer-bottom",
+        "message": "Every welded edge must have exactly two oppositely directed face uses"
+      }
+    },
+    {
+      "name": "makeup-storage-tray / tapered underside cannot fake uniform fixed floor",
+      "passed": true,
+      "rejection": {
+        "code": "storage-solid-box",
+        "path": "makeup-storage-tray.scene.storage-drawer-bottom",
+        "message": "The actual closed convex component must be the entire required rectangular solid"
+      }
+    },
+    {
+      "name": "makeup-storage-tray / shortened actual rail cannot lose full-open support",
+      "passed": true,
+      "rejection": {
+        "code": "storage-solid-box",
+        "path": "makeup-storage-tray.scene.storage-runner-left",
+        "message": "The actual closed convex component must be the entire required rectangular solid"
+      }
+    },
+    {
+      "name": "makeup-storage-tray / disconnected rail cannot be credited by name",
+      "passed": true,
+      "rejection": {
+        "code": "storage-solid-box",
+        "path": "makeup-storage-tray.scene.storage-runner-right",
+        "message": "The actual closed convex component must be the entire required rectangular solid"
+      }
+    },
+    {
+      "name": "makeup-storage-tray / front plate collision occurs only between end states",
+      "passed": true,
+      "rejection": {
+        "code": "storage-slide-collision",
+        "path": "makeup-storage-tray.scene.storage-drawer-front",
+        "message": "Actual moving solids intersect fixed geometry during the continuous slide",
+        "details": {
+          "fixed": "mid-stroke-fixed-obstacle",
+          "interval": {
+            "start": 0.33334443699386385,
+            "end": 0.5666555656552315
+          }
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-tray / fixed ornament cannot borrow contact from the closed moving front",
+      "passed": true,
+      "rejection": {
+        "code": "storage-detached-component",
+        "path": "makeup-storage-tray.resource",
+        "message": "Every real solid must join the base through positive face area or volume contact",
+        "details": {
+          "detached": [
+            "fixed-block-on-moving-front#17"
+          ]
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-tray / actual divider intrudes in moving support clearance",
+      "passed": true,
+      "rejection": {
+        "code": "storage-drawer-clearance",
+        "path": "makeup-storage-tray.scene.illegal-drawer-divider",
+        "message": "Actual closed geometry intrudes into required clearance or continuous motion",
+        "details": {
+          "interval": {
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-tray / upper common patch must remain genuinely open",
+      "passed": true,
+      "rejection": {
+        "code": "storage-top-clearance",
+        "path": "makeup-storage-tray.scene.top-blocker",
+        "message": "Actual closed geometry intrudes into required clearance or continuous motion",
+        "details": {
+          "interval": {
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-tray / access above three-quarter opening cannot be blocked",
+      "passed": true,
+      "rejection": {
+        "code": "storage-drawer-access",
+        "path": "makeup-storage-tray.scene.access-blocker",
+        "message": "Actual closed geometry intrudes into required clearance or continuous motion",
+        "details": {
+          "interval": {
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-tray / full slide envelope includes added moving detail",
+      "passed": true,
+      "rejection": {
+        "code": "storage-envelope",
+        "path": "makeup-storage-tray.scene.overtravel-detail",
+        "message": "Every real vertex must fit the entire installation envelope throughout the slide"
+      }
+    },
+    {
+      "name": "makeup-storage-tray / floating closed decoration cannot count as connected structure",
+      "passed": true,
+      "rejection": {
+        "code": "storage-detached-component",
+        "path": "makeup-storage-tray.resource",
+        "message": "Every real solid must join the base through positive face area or volume contact",
+        "details": {
+          "detached": [
+            "floating-closed-block#17"
+          ]
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-tray / disconnected shell hidden in otherwise grounded mesh",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-tray.scene.storage-base",
+        "message": "Each designated mesh must contain one actual connected closed shell",
+        "details": {
+          "components": 2
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-tray / out-of-envelope vertex cannot be masked by hierarchy",
+      "passed": true,
+      "rejection": {
+        "code": "storage-envelope",
+        "path": "makeup-storage-tray.scene.outside",
+        "message": "Every real vertex must fit the entire installation envelope throughout the slide"
+      }
+    },
+    {
+      "name": "makeup-storage-tray / unsupported form cannot be inferred from resource id",
+      "passed": true,
+      "rejection": {
+        "code": "storage-shape-profile",
+        "path": "makeup-storage-tray.resource",
+        "message": "Actual production provenance must select one of the four fixed upper mechanisms"
+      }
+    },
+    {
+      "name": "makeup-storage-tray / upper opening requires real left wall",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-tray.scene.storage-upper-left",
+        "message": "Each designated mesh must contain one actual connected closed shell",
+        "details": {
+          "components": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-tray / upper opening requires real right wall",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-tray.scene.storage-upper-right",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-tray / upper opening requires real front wall",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-tray.scene.storage-upper-front",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-tray / upper opening requires real back wall",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-tray.scene.storage-upper-back",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "divided / actual GLB and existing generic support geometry both pass",
+      "passed": true
+    },
+    {
+      "name": "divided / same actual mechanism accepts explicit new identity/version",
+      "passed": true
+    },
+    {
+      "name": "makeup-storage-divided / missing real storage-base",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-divided.scene.storage-base",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-divided / missing real storage-side-left",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-divided.scene.storage-side-left",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-divided / missing real storage-side-right",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-divided.scene.storage-side-right",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-divided / missing real storage-back",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-divided.scene.storage-back",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-divided / missing real storage-roof",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-divided.scene.storage-roof",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-divided / missing real storage-runner-left",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-divided.scene.storage-runner-left",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-divided / missing real storage-runner-right",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-divided.scene.storage-runner-right",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-divided / missing real storage-drawer-bottom",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-divided.scene.storage-drawer-bottom",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-divided / missing real storage-drawer-left",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-divided.scene.storage-drawer-left",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-divided / missing real storage-drawer-right",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-divided.scene.storage-drawer-right",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-divided / missing real storage-drawer-back",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-divided.scene.storage-drawer-back",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-divided / missing real storage-drawer-front",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-divided.scene.storage-drawer-front",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-divided / missing real storage-drawer-handle",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-divided.scene.storage-drawer-handle",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-divided / moving bottom outside declared moving subtree",
+      "passed": true,
+      "rejection": {
+        "code": "storage-motion-mapping",
+        "path": "makeup-storage-divided.scene.storage-drawer-bottom",
+        "message": "Real drawer parts belong to the moving subtree and real carrier parts remain fixed"
+      }
+    },
+    {
+      "name": "makeup-storage-divided / fixed roof cannot ride on moving drawer",
+      "passed": true,
+      "rejection": {
+        "code": "storage-motion-mapping",
+        "path": "makeup-storage-divided.scene.storage-roof",
+        "message": "Real drawer parts belong to the moving subtree and real carrier parts remain fixed"
+      }
+    },
+    {
+      "name": "makeup-storage-divided / motion support mapping cannot refer to static roof",
+      "passed": true,
+      "rejection": {
+        "code": "storage-motion-mapping",
+        "path": "makeup-storage-divided.resource",
+        "message": "The actual moving group and support nodes must follow the fixed supported-slide map"
+      }
+    },
+    {
+      "name": "makeup-storage-divided / unbaked transform is rejected",
+      "passed": true,
+      "rejection": {
+        "code": "storage-transform",
+        "path": "makeup-storage-divided.scene.storage-runner-left",
+        "message": "All resource nodes require baked identity transforms and visible geometry"
+      }
+    },
+    {
+      "name": "makeup-storage-divided / opaque backing cannot be a hidden mesh",
+      "passed": true,
+      "rejection": {
+        "code": "storage-transform",
+        "path": "makeup-storage-divided.scene.storage-base",
+        "message": "All resource nodes require baked identity transforms and visible geometry"
+      }
+    },
+    {
+      "name": "makeup-storage-divided / transparent bottom cannot fake support",
+      "passed": true,
+      "rejection": {
+        "code": "storage-material",
+        "path": "makeup-storage-divided.scene.storage-drawer-bottom",
+        "message": "Storage solids require opaque visible materials"
+      }
+    },
+    {
+      "name": "makeup-storage-divided / flat real storage-base",
+      "passed": true,
+      "rejection": {
+        "code": "storage-degenerate-face",
+        "path": "makeup-storage-divided.scene.storage-base",
+        "message": "Each triangle must have three distinct vertices and real area"
+      }
+    },
+    {
+      "name": "makeup-storage-divided / flat real storage-roof",
+      "passed": true,
+      "rejection": {
+        "code": "storage-degenerate-face",
+        "path": "makeup-storage-divided.scene.storage-roof",
+        "message": "Each triangle must have three distinct vertices and real area"
+      }
+    },
+    {
+      "name": "makeup-storage-divided / flat real storage-drawer-bottom",
+      "passed": true,
+      "rejection": {
+        "code": "storage-degenerate-face",
+        "path": "makeup-storage-divided.scene.storage-drawer-bottom",
+        "message": "Each triangle must have three distinct vertices and real area"
+      }
+    },
+    {
+      "name": "makeup-storage-divided / flat real storage-runner-right",
+      "passed": true,
+      "rejection": {
+        "code": "storage-degenerate-face",
+        "path": "makeup-storage-divided.scene.storage-runner-right",
+        "message": "Each triangle must have three distinct vertices and real area"
+      }
+    },
+    {
+      "name": "makeup-storage-divided / open floor topology cannot fake drawer capacity",
+      "passed": true,
+      "rejection": {
+        "code": "storage-open-or-inconsistent",
+        "path": "makeup-storage-divided.scene.storage-drawer-bottom",
+        "message": "Every welded edge must have exactly two oppositely directed face uses"
+      }
+    },
+    {
+      "name": "makeup-storage-divided / tapered underside cannot fake uniform fixed floor",
+      "passed": true,
+      "rejection": {
+        "code": "storage-solid-box",
+        "path": "makeup-storage-divided.scene.storage-drawer-bottom",
+        "message": "The actual closed convex component must be the entire required rectangular solid"
+      }
+    },
+    {
+      "name": "makeup-storage-divided / shortened actual rail cannot lose full-open support",
+      "passed": true,
+      "rejection": {
+        "code": "storage-solid-box",
+        "path": "makeup-storage-divided.scene.storage-runner-left",
+        "message": "The actual closed convex component must be the entire required rectangular solid"
+      }
+    },
+    {
+      "name": "makeup-storage-divided / disconnected rail cannot be credited by name",
+      "passed": true,
+      "rejection": {
+        "code": "storage-solid-box",
+        "path": "makeup-storage-divided.scene.storage-runner-right",
+        "message": "The actual closed convex component must be the entire required rectangular solid"
+      }
+    },
+    {
+      "name": "makeup-storage-divided / front plate collision occurs only between end states",
+      "passed": true,
+      "rejection": {
+        "code": "storage-slide-collision",
+        "path": "makeup-storage-divided.scene.storage-drawer-front",
+        "message": "Actual moving solids intersect fixed geometry during the continuous slide",
+        "details": {
+          "fixed": "mid-stroke-fixed-obstacle",
+          "interval": {
+            "start": 0.33334443699386385,
+            "end": 0.5666555656552315
+          }
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-divided / fixed ornament cannot borrow contact from the closed moving front",
+      "passed": true,
+      "rejection": {
+        "code": "storage-detached-component",
+        "path": "makeup-storage-divided.resource",
+        "message": "Every real solid must join the base through positive face area or volume contact",
+        "details": {
+          "detached": [
+            "fixed-block-on-moving-front#21"
+          ]
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-divided / actual divider intrudes in moving support clearance",
+      "passed": true,
+      "rejection": {
+        "code": "storage-drawer-clearance",
+        "path": "makeup-storage-divided.scene.illegal-drawer-divider",
+        "message": "Actual closed geometry intrudes into required clearance or continuous motion",
+        "details": {
+          "interval": {
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-divided / upper common patch must remain genuinely open",
+      "passed": true,
+      "rejection": {
+        "code": "storage-top-clearance",
+        "path": "makeup-storage-divided.scene.top-blocker",
+        "message": "Actual closed geometry intrudes into required clearance or continuous motion",
+        "details": {
+          "interval": {
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-divided / access above three-quarter opening cannot be blocked",
+      "passed": true,
+      "rejection": {
+        "code": "storage-drawer-access",
+        "path": "makeup-storage-divided.scene.access-blocker",
+        "message": "Actual closed geometry intrudes into required clearance or continuous motion",
+        "details": {
+          "interval": {
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-divided / full slide envelope includes added moving detail",
+      "passed": true,
+      "rejection": {
+        "code": "storage-envelope",
+        "path": "makeup-storage-divided.scene.overtravel-detail",
+        "message": "Every real vertex must fit the entire installation envelope throughout the slide"
+      }
+    },
+    {
+      "name": "makeup-storage-divided / floating closed decoration cannot count as connected structure",
+      "passed": true,
+      "rejection": {
+        "code": "storage-detached-component",
+        "path": "makeup-storage-divided.resource",
+        "message": "Every real solid must join the base through positive face area or volume contact",
+        "details": {
+          "detached": [
+            "floating-closed-block#21"
+          ]
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-divided / disconnected shell hidden in otherwise grounded mesh",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-divided.scene.storage-base",
+        "message": "Each designated mesh must contain one actual connected closed shell",
+        "details": {
+          "components": 2
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-divided / out-of-envelope vertex cannot be masked by hierarchy",
+      "passed": true,
+      "rejection": {
+        "code": "storage-envelope",
+        "path": "makeup-storage-divided.scene.outside",
+        "message": "Every real vertex must fit the entire installation envelope throughout the slide"
+      }
+    },
+    {
+      "name": "makeup-storage-divided / unsupported form cannot be inferred from resource id",
+      "passed": true,
+      "rejection": {
+        "code": "storage-shape-profile",
+        "path": "makeup-storage-divided.resource",
+        "message": "Actual production provenance must select one of the four fixed upper mechanisms"
+      }
+    },
+    {
+      "name": "makeup-storage-divided / upper opening requires real left wall",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-divided.scene.storage-upper-left",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-divided / upper opening requires real right wall",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-divided.scene.storage-upper-right",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-divided / upper opening requires real front wall",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-divided.scene.storage-upper-front",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-divided / upper opening requires real back wall",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-divided.scene.storage-upper-back",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-divided / division requires actual separating crosswall",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-divided.scene.storage-divider-cross-left",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-divided / side cell must retain its real accessible cavity",
+      "passed": true,
+      "rejection": {
+        "code": "storage-cell-cavity",
+        "path": "makeup-storage-divided.scene.cell-filler",
+        "message": "Actual closed geometry intrudes into required clearance or continuous motion",
+        "details": {
+          "interval": {
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "brush-cup / actual GLB and existing generic support geometry both pass",
+      "passed": true
+    },
+    {
+      "name": "brush-cup / same actual mechanism accepts explicit new identity/version",
+      "passed": true
+    },
+    {
+      "name": "makeup-storage-brush-cup / missing real storage-base",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-brush-cup.scene.storage-base",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / missing real storage-side-left",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-brush-cup.scene.storage-side-left",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / missing real storage-side-right",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-brush-cup.scene.storage-side-right",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / missing real storage-back",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-brush-cup.scene.storage-back",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / missing real storage-roof",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-brush-cup.scene.storage-roof",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / missing real storage-runner-left",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-brush-cup.scene.storage-runner-left",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / missing real storage-runner-right",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-brush-cup.scene.storage-runner-right",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / missing real storage-drawer-bottom",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-brush-cup.scene.storage-drawer-bottom",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / missing real storage-drawer-left",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-brush-cup.scene.storage-drawer-left",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / missing real storage-drawer-right",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-brush-cup.scene.storage-drawer-right",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / missing real storage-drawer-back",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-brush-cup.scene.storage-drawer-back",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / missing real storage-drawer-front",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-brush-cup.scene.storage-drawer-front",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / missing real storage-drawer-handle",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-brush-cup.scene.storage-drawer-handle",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / moving bottom outside declared moving subtree",
+      "passed": true,
+      "rejection": {
+        "code": "storage-motion-mapping",
+        "path": "makeup-storage-brush-cup.scene.storage-drawer-bottom",
+        "message": "Real drawer parts belong to the moving subtree and real carrier parts remain fixed"
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / fixed roof cannot ride on moving drawer",
+      "passed": true,
+      "rejection": {
+        "code": "storage-motion-mapping",
+        "path": "makeup-storage-brush-cup.scene.storage-roof",
+        "message": "Real drawer parts belong to the moving subtree and real carrier parts remain fixed"
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / motion support mapping cannot refer to static roof",
+      "passed": true,
+      "rejection": {
+        "code": "storage-motion-mapping",
+        "path": "makeup-storage-brush-cup.resource",
+        "message": "The actual moving group and support nodes must follow the fixed supported-slide map"
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / unbaked transform is rejected",
+      "passed": true,
+      "rejection": {
+        "code": "storage-transform",
+        "path": "makeup-storage-brush-cup.scene.storage-runner-left",
+        "message": "All resource nodes require baked identity transforms and visible geometry"
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / opaque backing cannot be a hidden mesh",
+      "passed": true,
+      "rejection": {
+        "code": "storage-transform",
+        "path": "makeup-storage-brush-cup.scene.storage-base",
+        "message": "All resource nodes require baked identity transforms and visible geometry"
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / transparent bottom cannot fake support",
+      "passed": true,
+      "rejection": {
+        "code": "storage-material",
+        "path": "makeup-storage-brush-cup.scene.storage-drawer-bottom",
+        "message": "Storage solids require opaque visible materials"
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / flat real storage-base",
+      "passed": true,
+      "rejection": {
+        "code": "storage-degenerate-face",
+        "path": "makeup-storage-brush-cup.scene.storage-base",
+        "message": "Each triangle must have three distinct vertices and real area"
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / flat real storage-roof",
+      "passed": true,
+      "rejection": {
+        "code": "storage-degenerate-face",
+        "path": "makeup-storage-brush-cup.scene.storage-roof",
+        "message": "Each triangle must have three distinct vertices and real area"
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / flat real storage-drawer-bottom",
+      "passed": true,
+      "rejection": {
+        "code": "storage-degenerate-face",
+        "path": "makeup-storage-brush-cup.scene.storage-drawer-bottom",
+        "message": "Each triangle must have three distinct vertices and real area"
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / flat real storage-runner-right",
+      "passed": true,
+      "rejection": {
+        "code": "storage-degenerate-face",
+        "path": "makeup-storage-brush-cup.scene.storage-runner-right",
+        "message": "Each triangle must have three distinct vertices and real area"
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / open floor topology cannot fake drawer capacity",
+      "passed": true,
+      "rejection": {
+        "code": "storage-open-or-inconsistent",
+        "path": "makeup-storage-brush-cup.scene.storage-drawer-bottom",
+        "message": "Every welded edge must have exactly two oppositely directed face uses"
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / tapered underside cannot fake uniform fixed floor",
+      "passed": true,
+      "rejection": {
+        "code": "storage-solid-box",
+        "path": "makeup-storage-brush-cup.scene.storage-drawer-bottom",
+        "message": "The actual closed convex component must be the entire required rectangular solid"
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / shortened actual rail cannot lose full-open support",
+      "passed": true,
+      "rejection": {
+        "code": "storage-solid-box",
+        "path": "makeup-storage-brush-cup.scene.storage-runner-left",
+        "message": "The actual closed convex component must be the entire required rectangular solid"
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / disconnected rail cannot be credited by name",
+      "passed": true,
+      "rejection": {
+        "code": "storage-solid-box",
+        "path": "makeup-storage-brush-cup.scene.storage-runner-right",
+        "message": "The actual closed convex component must be the entire required rectangular solid"
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / front plate collision occurs only between end states",
+      "passed": true,
+      "rejection": {
+        "code": "storage-slide-collision",
+        "path": "makeup-storage-brush-cup.scene.storage-drawer-front",
+        "message": "Actual moving solids intersect fixed geometry during the continuous slide",
+        "details": {
+          "fixed": "mid-stroke-fixed-obstacle",
+          "interval": {
+            "start": 0.33334443699386385,
+            "end": 0.5666555656552315
+          }
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / fixed ornament cannot borrow contact from the closed moving front",
+      "passed": true,
+      "rejection": {
+        "code": "storage-detached-component",
+        "path": "makeup-storage-brush-cup.resource",
+        "message": "Every real solid must join the base through positive face area or volume contact",
+        "details": {
+          "detached": [
+            "fixed-block-on-moving-front#17"
+          ]
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / actual divider intrudes in moving support clearance",
+      "passed": true,
+      "rejection": {
+        "code": "storage-drawer-clearance",
+        "path": "makeup-storage-brush-cup.scene.illegal-drawer-divider",
+        "message": "Actual closed geometry intrudes into required clearance or continuous motion",
+        "details": {
+          "interval": {
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / upper common patch must remain genuinely open",
+      "passed": true,
+      "rejection": {
+        "code": "storage-top-clearance",
+        "path": "makeup-storage-brush-cup.scene.top-blocker",
+        "message": "Actual closed geometry intrudes into required clearance or continuous motion",
+        "details": {
+          "interval": {
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / access above three-quarter opening cannot be blocked",
+      "passed": true,
+      "rejection": {
+        "code": "storage-drawer-access",
+        "path": "makeup-storage-brush-cup.scene.access-blocker",
+        "message": "Actual closed geometry intrudes into required clearance or continuous motion",
+        "details": {
+          "interval": {
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / full slide envelope includes added moving detail",
+      "passed": true,
+      "rejection": {
+        "code": "storage-envelope",
+        "path": "makeup-storage-brush-cup.scene.overtravel-detail",
+        "message": "Every real vertex must fit the entire installation envelope throughout the slide"
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / floating closed decoration cannot count as connected structure",
+      "passed": true,
+      "rejection": {
+        "code": "storage-detached-component",
+        "path": "makeup-storage-brush-cup.resource",
+        "message": "Every real solid must join the base through positive face area or volume contact",
+        "details": {
+          "detached": [
+            "floating-closed-block#17"
+          ]
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / disconnected shell hidden in otherwise grounded mesh",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-brush-cup.scene.storage-base",
+        "message": "Each designated mesh must contain one actual connected closed shell",
+        "details": {
+          "components": 2
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / out-of-envelope vertex cannot be masked by hierarchy",
+      "passed": true,
+      "rejection": {
+        "code": "storage-envelope",
+        "path": "makeup-storage-brush-cup.scene.outside",
+        "message": "Every real vertex must fit the entire installation envelope throughout the slide"
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / unsupported form cannot be inferred from resource id",
+      "passed": true,
+      "rejection": {
+        "code": "storage-shape-profile",
+        "path": "makeup-storage-brush-cup.resource",
+        "message": "Actual production provenance must select one of the four fixed upper mechanisms"
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / missing real cup left wall",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-brush-cup.scene.storage-cup-left-wall",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / missing real cup left bottom",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-brush-cup.scene.storage-cup-left-bottom",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / missing real cup right wall",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-brush-cup.scene.storage-cup-right-wall",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / missing real cup right bottom",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-brush-cup.scene.storage-cup-right-bottom",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / cup cannot substitute filled cylinder for open ring",
+      "passed": true,
+      "rejection": {
+        "code": "storage-extrusion",
+        "path": "makeup-storage-brush-cup.scene.storage-cup-left-wall",
+        "message": "Actual triangles must remain inside the required contours",
+        "details": {
+          "triangle": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / cup opening rejects actual cover plate",
+      "passed": true,
+      "rejection": {
+        "code": "storage-cup-cavity",
+        "path": "makeup-storage-brush-cup.scene.cup-cover",
+        "message": "Actual closed geometry intrudes into required clearance or continuous motion",
+        "details": {
+          "interval": {
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / cup cavity AABB cannot support a floating interior block",
+      "passed": true,
+      "rejection": {
+        "code": "storage-cup-cavity",
+        "path": "makeup-storage-brush-cup.scene.floating-in-cup",
+        "message": "Actual closed geometry intrudes into required clearance or continuous motion",
+        "details": {
+          "interval": {
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-brush-cup / floating complete cup cannot be repaired by relabeling",
+      "passed": true,
+      "rejection": {
+        "code": "storage-extrusion",
+        "path": "makeup-storage-brush-cup.scene.storage-cup-right-wall",
+        "message": "Every actual prism vertex must belong to its real upper or lower plane"
+      }
+    },
+    {
+      "name": "case / actual GLB and existing generic support geometry both pass",
+      "passed": true
+    },
+    {
+      "name": "case / same actual mechanism accepts explicit new identity/version",
+      "passed": true
+    },
+    {
+      "name": "makeup-storage-case / missing real storage-base",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-case.scene.storage-base",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-case / missing real storage-side-left",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-case.scene.storage-side-left",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-case / missing real storage-side-right",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-case.scene.storage-side-right",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-case / missing real storage-back",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-case.scene.storage-back",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-case / missing real storage-roof",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-case.scene.storage-roof",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-case / missing real storage-runner-left",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-case.scene.storage-runner-left",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-case / missing real storage-runner-right",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-case.scene.storage-runner-right",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-case / missing real storage-drawer-bottom",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-case.scene.storage-drawer-bottom",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-case / missing real storage-drawer-left",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-case.scene.storage-drawer-left",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-case / missing real storage-drawer-right",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-case.scene.storage-drawer-right",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-case / missing real storage-drawer-back",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-case.scene.storage-drawer-back",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-case / missing real storage-drawer-front",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-case.scene.storage-drawer-front",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-case / missing real storage-drawer-handle",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-case.scene.storage-drawer-handle",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-case / moving bottom outside declared moving subtree",
+      "passed": true,
+      "rejection": {
+        "code": "storage-motion-mapping",
+        "path": "makeup-storage-case.scene.storage-drawer-bottom",
+        "message": "Real drawer parts belong to the moving subtree and real carrier parts remain fixed"
+      }
+    },
+    {
+      "name": "makeup-storage-case / fixed roof cannot ride on moving drawer",
+      "passed": true,
+      "rejection": {
+        "code": "storage-motion-mapping",
+        "path": "makeup-storage-case.scene.storage-roof",
+        "message": "Real drawer parts belong to the moving subtree and real carrier parts remain fixed"
+      }
+    },
+    {
+      "name": "makeup-storage-case / motion support mapping cannot refer to static roof",
+      "passed": true,
+      "rejection": {
+        "code": "storage-motion-mapping",
+        "path": "makeup-storage-case.resource",
+        "message": "The actual moving group and support nodes must follow the fixed supported-slide map"
+      }
+    },
+    {
+      "name": "makeup-storage-case / unbaked transform is rejected",
+      "passed": true,
+      "rejection": {
+        "code": "storage-transform",
+        "path": "makeup-storage-case.scene.storage-runner-left",
+        "message": "All resource nodes require baked identity transforms and visible geometry"
+      }
+    },
+    {
+      "name": "makeup-storage-case / opaque backing cannot be a hidden mesh",
+      "passed": true,
+      "rejection": {
+        "code": "storage-transform",
+        "path": "makeup-storage-case.scene.storage-base",
+        "message": "All resource nodes require baked identity transforms and visible geometry"
+      }
+    },
+    {
+      "name": "makeup-storage-case / transparent bottom cannot fake support",
+      "passed": true,
+      "rejection": {
+        "code": "storage-material",
+        "path": "makeup-storage-case.scene.storage-drawer-bottom",
+        "message": "Storage solids require opaque visible materials"
+      }
+    },
+    {
+      "name": "makeup-storage-case / flat real storage-base",
+      "passed": true,
+      "rejection": {
+        "code": "storage-degenerate-face",
+        "path": "makeup-storage-case.scene.storage-base",
+        "message": "Each triangle must have three distinct vertices and real area"
+      }
+    },
+    {
+      "name": "makeup-storage-case / flat real storage-roof",
+      "passed": true,
+      "rejection": {
+        "code": "storage-degenerate-face",
+        "path": "makeup-storage-case.scene.storage-roof",
+        "message": "Each triangle must have three distinct vertices and real area"
+      }
+    },
+    {
+      "name": "makeup-storage-case / flat real storage-drawer-bottom",
+      "passed": true,
+      "rejection": {
+        "code": "storage-degenerate-face",
+        "path": "makeup-storage-case.scene.storage-drawer-bottom",
+        "message": "Each triangle must have three distinct vertices and real area"
+      }
+    },
+    {
+      "name": "makeup-storage-case / flat real storage-runner-right",
+      "passed": true,
+      "rejection": {
+        "code": "storage-degenerate-face",
+        "path": "makeup-storage-case.scene.storage-runner-right",
+        "message": "Each triangle must have three distinct vertices and real area"
+      }
+    },
+    {
+      "name": "makeup-storage-case / open floor topology cannot fake drawer capacity",
+      "passed": true,
+      "rejection": {
+        "code": "storage-open-or-inconsistent",
+        "path": "makeup-storage-case.scene.storage-drawer-bottom",
+        "message": "Every welded edge must have exactly two oppositely directed face uses"
+      }
+    },
+    {
+      "name": "makeup-storage-case / tapered underside cannot fake uniform fixed floor",
+      "passed": true,
+      "rejection": {
+        "code": "storage-solid-box",
+        "path": "makeup-storage-case.scene.storage-drawer-bottom",
+        "message": "The actual closed convex component must be the entire required rectangular solid"
+      }
+    },
+    {
+      "name": "makeup-storage-case / shortened actual rail cannot lose full-open support",
+      "passed": true,
+      "rejection": {
+        "code": "storage-solid-box",
+        "path": "makeup-storage-case.scene.storage-runner-left",
+        "message": "The actual closed convex component must be the entire required rectangular solid"
+      }
+    },
+    {
+      "name": "makeup-storage-case / disconnected rail cannot be credited by name",
+      "passed": true,
+      "rejection": {
+        "code": "storage-solid-box",
+        "path": "makeup-storage-case.scene.storage-runner-right",
+        "message": "The actual closed convex component must be the entire required rectangular solid"
+      }
+    },
+    {
+      "name": "makeup-storage-case / front plate collision occurs only between end states",
+      "passed": true,
+      "rejection": {
+        "code": "storage-slide-collision",
+        "path": "makeup-storage-case.scene.storage-drawer-front",
+        "message": "Actual moving solids intersect fixed geometry during the continuous slide",
+        "details": {
+          "fixed": "mid-stroke-fixed-obstacle",
+          "interval": {
+            "start": 0.33334443699386385,
+            "end": 0.5666555656552315
+          }
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-case / fixed ornament cannot borrow contact from the closed moving front",
+      "passed": true,
+      "rejection": {
+        "code": "storage-detached-component",
+        "path": "makeup-storage-case.resource",
+        "message": "Every real solid must join the base through positive face area or volume contact",
+        "details": {
+          "detached": [
+            "fixed-block-on-moving-front#23"
+          ]
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-case / actual divider intrudes in moving support clearance",
+      "passed": true,
+      "rejection": {
+        "code": "storage-drawer-clearance",
+        "path": "makeup-storage-case.scene.illegal-drawer-divider",
+        "message": "Actual closed geometry intrudes into required clearance or continuous motion",
+        "details": {
+          "interval": {
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-case / upper common patch must remain genuinely open",
+      "passed": true,
+      "rejection": {
+        "code": "storage-top-clearance",
+        "path": "makeup-storage-case.scene.top-blocker",
+        "message": "Actual closed geometry intrudes into required clearance or continuous motion",
+        "details": {
+          "interval": {
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-case / access above three-quarter opening cannot be blocked",
+      "passed": true,
+      "rejection": {
+        "code": "storage-drawer-access",
+        "path": "makeup-storage-case.scene.access-blocker",
+        "message": "Actual closed geometry intrudes into required clearance or continuous motion",
+        "details": {
+          "interval": {
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-case / full slide envelope includes added moving detail",
+      "passed": true,
+      "rejection": {
+        "code": "storage-envelope",
+        "path": "makeup-storage-case.scene.overtravel-detail",
+        "message": "Every real vertex must fit the entire installation envelope throughout the slide"
+      }
+    },
+    {
+      "name": "makeup-storage-case / floating closed decoration cannot count as connected structure",
+      "passed": true,
+      "rejection": {
+        "code": "storage-detached-component",
+        "path": "makeup-storage-case.resource",
+        "message": "Every real solid must join the base through positive face area or volume contact",
+        "details": {
+          "detached": [
+            "floating-closed-block#23"
+          ]
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-case / disconnected shell hidden in otherwise grounded mesh",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-case.scene.storage-base",
+        "message": "Each designated mesh must contain one actual connected closed shell",
+        "details": {
+          "components": 2
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-case / out-of-envelope vertex cannot be masked by hierarchy",
+      "passed": true,
+      "rejection": {
+        "code": "storage-envelope",
+        "path": "makeup-storage-case.scene.outside",
+        "message": "Every real vertex must fit the entire installation envelope throughout the slide"
+      }
+    },
+    {
+      "name": "makeup-storage-case / unsupported form cannot be inferred from resource id",
+      "passed": true,
+      "rejection": {
+        "code": "storage-shape-profile",
+        "path": "makeup-storage-case.resource",
+        "message": "Actual production provenance must select one of the four fixed upper mechanisms"
+      }
+    },
+    {
+      "name": "makeup-storage-case / upper opening requires real left wall",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-case.scene.storage-upper-left",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-case / upper opening requires real right wall",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-case.scene.storage-upper-right",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-case / upper opening requires real front wall",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-case.scene.storage-upper-front",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-case / upper opening requires real back wall",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-case.scene.storage-upper-back",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-case / side handle needs real connected grip",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-case.scene.storage-case-handle-left-grip",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-case / handle cannot fake a hole with filled solid",
+      "passed": true,
+      "rejection": {
+        "code": "storage-handle-aperture",
+        "path": "makeup-storage-case.scene.fake-handle-hole",
+        "message": "Actual closed geometry intrudes into required clearance or continuous motion",
+        "details": {
+          "interval": {
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "content-compact / actual GLB and existing generic support geometry both pass",
+      "passed": true
+    },
+    {
+      "name": "content-compact / same actual mechanism accepts explicit new identity/version",
+      "passed": true
+    },
+    {
+      "name": "makeup-storage-content-compact / missing storage-content-body",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-content-compact.scene.storage-content-body",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-content-compact / flat storage-content-body",
+      "passed": true,
+      "rejection": {
+        "code": "storage-degenerate-face",
+        "path": "makeup-storage-content-compact.scene.storage-content-body",
+        "message": "Each triangle must have three distinct vertices and real area"
+      }
+    },
+    {
+      "name": "makeup-storage-content-compact / missing storage-content-cap",
+      "passed": true,
+      "rejection": {
+        "code": "storage-node",
+        "path": "makeup-storage-content-compact.scene.storage-content-cap",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-storage-content-compact / flat storage-content-cap",
+      "passed": true,
+      "rejection": {
+        "code": "storage-degenerate-face",
+        "path": "makeup-storage-content-compact.scene.storage-content-cap",
+        "message": "Each triangle must have three distinct vertices and real area"
+      }
+    },
+    {
+      "name": "makeup-storage-content-compact / content cannot exceed actual envelope",
+      "passed": true,
+      "rejection": {
+        "code": "storage-extrusion",
+        "path": "makeup-storage-content-compact.scene.storage-content-cap",
+        "message": "Every real prism side must follow the full inner or outer contour"
+      }
+    },
+    {
+      "name": "makeup-storage-content-compact / closed compact bottom cannot lose a triangle",
+      "passed": true,
+      "rejection": {
+        "code": "storage-open-or-inconsistent",
+        "path": "makeup-storage-content-compact.scene.storage-content-body",
+        "message": "Every welded edge must have exactly two oppositely directed face uses"
+      }
+    }
+  ],
+  "realAssets": [
+    {
+      "design": "tray",
+      "sha256": "001731e82f83bf053b7570cd7694269a97de1cab443c6c5a2542ced526b21968",
+      "bytes": 30728,
+      "resourcePath": "prototype/public/company-assets/makeup-storage-v1/tray/v1/resource.json",
+      "actual": {
+        "checked": true,
+        "sourceDesign": "tray",
+        "meshCount": 17,
+        "triangleCount": 204,
+        "materials": 3,
+        "movingComponents": [
+          "storage-drawer-bottom",
+          "storage-drawer-left",
+          "storage-drawer-right",
+          "storage-drawer-back",
+          "storage-drawer-front",
+          "storage-drawer-handle"
+        ],
+        "continuousSlide": {
+          "range": [
+            0,
+            0.09
+          ],
+          "method": "Complete convex SAT interval intersection for pure translation"
+        },
+        "support": [
+          {
+            "rail": "storage-runner-left",
+            "offset": 0,
+            "kind": "face",
+            "area": 0.002100000120326878
+          },
+          {
+            "rail": "storage-runner-left",
+            "offset": 0.09,
+            "kind": "face",
+            "area": 0.0008250000540167104
+          },
+          {
+            "rail": "storage-runner-right",
+            "offset": 0,
+            "kind": "face",
+            "area": 0.002100000120326878
+          },
+          {
+            "rail": "storage-runner-right",
+            "offset": 0.09,
+            "kind": "face",
+            "area": 0.0008250000540167103
+          }
+        ],
+        "connections": [
+          {
+            "a": "storage-base#6",
+            "b": "storage-side-left#7",
+            "kind": "face",
+            "area": 0.0020799994488060465
+          },
+          {
+            "a": "storage-base#6",
+            "b": "storage-side-right#8",
+            "kind": "face",
+            "area": 0.0020799994488060465
+          },
+          {
+            "a": "storage-base#6",
+            "b": "storage-back#9",
+            "kind": "face",
+            "area": 0.002543998807430281
+          },
+          {
+            "a": "storage-base#6",
+            "b": "storage-runner-left#11",
+            "kind": "face",
+            "area": 0.0021750001076608905
+          },
+          {
+            "a": "storage-base#6",
+            "b": "storage-runner-right#12",
+            "kind": "face",
+            "area": 0.0021750001076608905
+          },
+          {
+            "a": "storage-side-left#7",
+            "b": "storage-back#9",
+            "kind": "face",
+            "area": 0.00047999980345367343
+          },
+          {
+            "a": "storage-side-left#7",
+            "b": "storage-roof#10",
+            "kind": "face",
+            "area": 0.002079999448806047
+          },
+          {
+            "a": "storage-side-right#8",
+            "b": "storage-back#9",
+            "kind": "face",
+            "area": 0.00047999980345367343
+          },
+          {
+            "a": "storage-side-right#8",
+            "b": "storage-roof#10",
+            "kind": "face",
+            "area": 0.002079999448806047
+          },
+          {
+            "a": "storage-back#9",
+            "b": "storage-roof#10",
+            "kind": "face",
+            "area": 0.002543998807430281
+          },
+          {
+            "a": "storage-roof#10",
+            "b": "storage-upper-left#13",
+            "kind": "face",
+            "area": 0.0012800002110004425
+          },
+          {
+            "a": "storage-roof#10",
+            "b": "storage-upper-right#14",
+            "kind": "face",
+            "area": 0.0012800002110004427
+          },
+          {
+            "a": "storage-roof#10",
+            "b": "storage-upper-back#15",
+            "kind": "face",
+            "area": 0.003472000452756863
+          },
+          {
+            "a": "storage-roof#10",
+            "b": "storage-upper-front#16",
+            "kind": "face",
+            "area": 0.0034719996443688915
+          },
+          {
+            "a": "storage-upper-left#13",
+            "b": "storage-upper-back#15",
+            "kind": "face",
+            "area": 0.00032000004529952886
+          },
+          {
+            "a": "storage-upper-left#13",
+            "b": "storage-upper-front#16",
+            "kind": "face",
+            "area": 0.0003199999707937246
+          },
+          {
+            "a": "storage-upper-right#14",
+            "b": "storage-upper-back#15",
+            "kind": "face",
+            "area": 0.00032000004529952886
+          },
+          {
+            "a": "storage-upper-right#14",
+            "b": "storage-upper-front#16",
+            "kind": "face",
+            "area": 0.00031999997079372444
+          },
+          {
+            "a": "storage-drawer-bottom#0",
+            "b": "storage-drawer-left#1",
+            "kind": "face",
+            "area": 0.0008399996308982305
+          },
+          {
+            "a": "storage-drawer-bottom#0",
+            "b": "storage-drawer-right#2",
+            "kind": "face",
+            "area": 0.0008399996308982305
+          },
+          {
+            "a": "storage-drawer-bottom#0",
+            "b": "storage-drawer-back#3",
+            "kind": "face",
+            "area": 0.002388001885533342
+          },
+          {
+            "a": "storage-drawer-bottom#0",
+            "b": "storage-drawer-front#4",
+            "kind": "face",
+            "area": 0.002388000402867796
+          },
+          {
+            "a": "storage-drawer-left#1",
+            "b": "storage-drawer-back#3",
+            "kind": "face",
+            "area": 0.0003360002740621648
+          },
+          {
+            "a": "storage-drawer-left#1",
+            "b": "storage-drawer-front#4",
+            "kind": "face",
+            "area": 0.0003360000654459016
+          },
+          {
+            "a": "storage-drawer-right#2",
+            "b": "storage-drawer-back#3",
+            "kind": "face",
+            "area": 0.0003360002740621648
+          },
+          {
+            "a": "storage-drawer-right#2",
+            "b": "storage-drawer-front#4",
+            "kind": "face",
+            "area": 0.0003360000654459016
+          },
+          {
+            "a": "storage-drawer-front#4",
+            "b": "storage-drawer-handle#5",
+            "kind": "face",
+            "area": 0.0009799999040365215
+          }
+        ],
+        "groundArea": 0.07199999815970659,
+        "access": {
+          "minimumOpenFraction": 0.75,
+          "fullSupportPatch": true,
+          "compactEnvelope": [
+            0.024,
+            0.035,
+            0.024
+          ]
+        },
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "coverageSquareMetres": 1e-8,
+          "contactSquareMetres": 1e-8
+        },
+        "limitation": "Static closed solids, convex or proven cup-ring decomposition, continuous pure-translation fit and access only. No hand interaction, mechanical strength or tipping stability claim."
+      },
+      "support": {
+        "checked": true,
+        "surfaces": [
+          {
+            "mesh": "storage-roof",
+            "triangles": 2,
+            "area": 0.07199999815970659,
+            "topY": 0.1
+          },
+          {
+            "mesh": "storage-drawer-bottom",
+            "triangles": 2,
+            "area": 0.05740000050738453,
+            "topY": 0.022
+          }
+        ],
+        "bottomY": 0
+      }
+    },
+    {
+      "design": "divided",
+      "sha256": "5e9111083579c3ecc704c4086ffedf2c1fa7d5b5dc21a91826e32cb316c48801",
+      "bytes": 37820,
+      "resourcePath": "prototype/public/company-assets/makeup-storage-v1/divided/v1/resource.json",
+      "actual": {
+        "checked": true,
+        "sourceDesign": "divided",
+        "meshCount": 21,
+        "triangleCount": 252,
+        "materials": 3,
+        "movingComponents": [
+          "storage-drawer-bottom",
+          "storage-drawer-left",
+          "storage-drawer-right",
+          "storage-drawer-back",
+          "storage-drawer-front",
+          "storage-drawer-handle",
+          "storage-drawer-divider"
+        ],
+        "continuousSlide": {
+          "range": [
+            0,
+            0.09
+          ],
+          "method": "Complete convex SAT interval intersection for pure translation"
+        },
+        "support": [
+          {
+            "rail": "storage-runner-left",
+            "offset": 0,
+            "kind": "face",
+            "area": 0.002100000120326878
+          },
+          {
+            "rail": "storage-runner-left",
+            "offset": 0.09,
+            "kind": "face",
+            "area": 0.0008250000540167104
+          },
+          {
+            "rail": "storage-runner-right",
+            "offset": 0,
+            "kind": "face",
+            "area": 0.002100000120326878
+          },
+          {
+            "rail": "storage-runner-right",
+            "offset": 0.09,
+            "kind": "face",
+            "area": 0.0008250000540167103
+          }
+        ],
+        "connections": [
+          {
+            "a": "storage-base#7",
+            "b": "storage-side-left#8",
+            "kind": "face",
+            "area": 0.0020799994488060465
+          },
+          {
+            "a": "storage-base#7",
+            "b": "storage-side-right#9",
+            "kind": "face",
+            "area": 0.0020799994488060465
+          },
+          {
+            "a": "storage-base#7",
+            "b": "storage-back#10",
+            "kind": "face",
+            "area": 0.002543998807430281
+          },
+          {
+            "a": "storage-base#7",
+            "b": "storage-runner-left#12",
+            "kind": "face",
+            "area": 0.0021750001076608905
+          },
+          {
+            "a": "storage-base#7",
+            "b": "storage-runner-right#13",
+            "kind": "face",
+            "area": 0.0021750001076608905
+          },
+          {
+            "a": "storage-side-left#8",
+            "b": "storage-back#10",
+            "kind": "face",
+            "area": 0.00047999980345367343
+          },
+          {
+            "a": "storage-side-left#8",
+            "b": "storage-roof#11",
+            "kind": "face",
+            "area": 0.002079999448806047
+          },
+          {
+            "a": "storage-side-right#9",
+            "b": "storage-back#10",
+            "kind": "face",
+            "area": 0.00047999980345367343
+          },
+          {
+            "a": "storage-side-right#9",
+            "b": "storage-roof#11",
+            "kind": "face",
+            "area": 0.002079999448806047
+          },
+          {
+            "a": "storage-back#10",
+            "b": "storage-roof#11",
+            "kind": "face",
+            "area": 0.002543998807430281
+          },
+          {
+            "a": "storage-roof#11",
+            "b": "storage-upper-left#14",
+            "kind": "face",
+            "area": 0.0012800002110004425
+          },
+          {
+            "a": "storage-roof#11",
+            "b": "storage-upper-right#15",
+            "kind": "face",
+            "area": 0.0012800002110004427
+          },
+          {
+            "a": "storage-roof#11",
+            "b": "storage-upper-back#16",
+            "kind": "face",
+            "area": 0.003472000452756863
+          },
+          {
+            "a": "storage-roof#11",
+            "b": "storage-upper-front#17",
+            "kind": "face",
+            "area": 0.0034719996443688915
+          },
+          {
+            "a": "storage-roof#11",
+            "b": "storage-divider-left#18",
+            "kind": "face",
+            "area": 0.000863999601513149
+          },
+          {
+            "a": "storage-roof#11",
+            "b": "storage-divider-right#19",
+            "kind": "face",
+            "area": 0.0008639996015131479
+          },
+          {
+            "a": "storage-roof#11",
+            "b": "storage-divider-cross-left#20",
+            "kind": "face",
+            "area": 0.0005220000705420953
+          },
+          {
+            "a": "storage-upper-left#14",
+            "b": "storage-upper-back#16",
+            "kind": "face",
+            "area": 0.0007200000870227763
+          },
+          {
+            "a": "storage-upper-left#14",
+            "b": "storage-upper-front#17",
+            "kind": "face",
+            "area": 0.0007199999193847201
+          },
+          {
+            "a": "storage-upper-left#14",
+            "b": "storage-divider-cross-left#20",
+            "kind": "face",
+            "area": 0.0005400000652670829
+          },
+          {
+            "a": "storage-upper-right#15",
+            "b": "storage-upper-back#16",
+            "kind": "face",
+            "area": 0.0007200000870227763
+          },
+          {
+            "a": "storage-upper-right#15",
+            "b": "storage-upper-front#17",
+            "kind": "face",
+            "area": 0.0007199999193847201
+          },
+          {
+            "a": "storage-upper-back#16",
+            "b": "storage-divider-left#18",
+            "kind": "face",
+            "area": 0.0005399997299909716
+          },
+          {
+            "a": "storage-upper-back#16",
+            "b": "storage-divider-right#19",
+            "kind": "face",
+            "area": 0.0005399997299909691
+          },
+          {
+            "a": "storage-upper-front#17",
+            "b": "storage-divider-left#18",
+            "kind": "face",
+            "area": 0.0005399997299909715
+          },
+          {
+            "a": "storage-upper-front#17",
+            "b": "storage-divider-right#19",
+            "kind": "face",
+            "area": 0.0005399997299909691
+          },
+          {
+            "a": "storage-divider-left#18",
+            "b": "storage-divider-cross-left#20",
+            "kind": "face",
+            "area": 0.0005400000652670822
+          },
+          {
+            "a": "storage-drawer-bottom#0",
+            "b": "storage-drawer-left#1",
+            "kind": "face",
+            "area": 0.0008399996308982305
+          },
+          {
+            "a": "storage-drawer-bottom#0",
+            "b": "storage-drawer-right#2",
+            "kind": "face",
+            "area": 0.0008399996308982305
+          },
+          {
+            "a": "storage-drawer-bottom#0",
+            "b": "storage-drawer-back#3",
+            "kind": "face",
+            "area": 0.002388001885533342
+          },
+          {
+            "a": "storage-drawer-bottom#0",
+            "b": "storage-drawer-front#4",
+            "kind": "face",
+            "area": 0.002388000402867796
+          },
+          {
+            "a": "storage-drawer-bottom#0",
+            "b": "storage-drawer-divider#6",
+            "kind": "face",
+            "area": 0.00046799999137222745
+          },
+          {
+            "a": "storage-drawer-left#1",
+            "b": "storage-drawer-back#3",
+            "kind": "face",
+            "area": 0.0003360002740621648
+          },
+          {
+            "a": "storage-drawer-left#1",
+            "b": "storage-drawer-front#4",
+            "kind": "face",
+            "area": 0.0003360000654459016
+          },
+          {
+            "a": "storage-drawer-right#2",
+            "b": "storage-drawer-back#3",
+            "kind": "face",
+            "area": 0.0003360002740621648
+          },
+          {
+            "a": "storage-drawer-right#2",
+            "b": "storage-drawer-front#4",
+            "kind": "face",
+            "area": 0.0003360000654459016
+          },
+          {
+            "a": "storage-drawer-back#3",
+            "b": "storage-drawer-divider#6",
+            "kind": "face",
+            "area": 0.000257999988652765
+          },
+          {
+            "a": "storage-drawer-front#4",
+            "b": "storage-drawer-handle#5",
+            "kind": "face",
+            "area": 0.0009799999040365215
+          }
+        ],
+        "groundArea": 0.07199999815970659,
+        "access": {
+          "minimumOpenFraction": 0.75,
+          "fullSupportPatch": true,
+          "compactEnvelope": [
+            0.024,
+            0.035,
+            0.024
+          ]
+        },
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "coverageSquareMetres": 1e-8,
+          "contactSquareMetres": 1e-8
+        },
+        "limitation": "Static closed solids, convex or proven cup-ring decomposition, continuous pure-translation fit and access only. No hand interaction, mechanical strength or tipping stability claim."
+      },
+      "support": {
+        "checked": true,
+        "surfaces": [
+          {
+            "mesh": "storage-roof",
+            "triangles": 2,
+            "area": 0.07199999815970659,
+            "topY": 0.1
+          },
+          {
+            "mesh": "storage-drawer-bottom",
+            "triangles": 2,
+            "area": 0.05740000050738453,
+            "topY": 0.022
+          }
+        ],
+        "bottomY": 0
+      }
+    },
+    {
+      "design": "brush-cup",
+      "sha256": "a8d4becd18d2145951f3d19eaa93d246f52b2867e4ef20cd2bd9857105584ed4",
+      "bytes": 81620,
+      "resourcePath": "prototype/public/company-assets/makeup-storage-v1/brush-cup/v1/resource.json",
+      "actual": {
+        "checked": true,
+        "sourceDesign": "brush-cup",
+        "meshCount": 17,
+        "triangleCount": 924,
+        "materials": 3,
+        "movingComponents": [
+          "storage-drawer-bottom",
+          "storage-drawer-left",
+          "storage-drawer-right",
+          "storage-drawer-back",
+          "storage-drawer-front",
+          "storage-drawer-handle"
+        ],
+        "continuousSlide": {
+          "range": [
+            0,
+            0.09
+          ],
+          "method": "Complete convex SAT interval intersection for pure translation"
+        },
+        "support": [
+          {
+            "rail": "storage-runner-left",
+            "offset": 0,
+            "kind": "face",
+            "area": 0.002100000120326878
+          },
+          {
+            "rail": "storage-runner-left",
+            "offset": 0.09,
+            "kind": "face",
+            "area": 0.0008250000540167104
+          },
+          {
+            "rail": "storage-runner-right",
+            "offset": 0,
+            "kind": "face",
+            "area": 0.002100000120326878
+          },
+          {
+            "rail": "storage-runner-right",
+            "offset": 0.09,
+            "kind": "face",
+            "area": 0.0008250000540167103
+          }
+        ],
+        "connections": [
+          {
+            "a": "storage-base#6",
+            "b": "storage-side-left#7",
+            "kind": "face",
+            "area": 0.0020799994488060465
+          },
+          {
+            "a": "storage-base#6",
+            "b": "storage-side-right#8",
+            "kind": "face",
+            "area": 0.0020799994488060465
+          },
+          {
+            "a": "storage-base#6",
+            "b": "storage-back#9",
+            "kind": "face",
+            "area": 0.002543998807430281
+          },
+          {
+            "a": "storage-base#6",
+            "b": "storage-runner-left#11",
+            "kind": "face",
+            "area": 0.0021750001076608905
+          },
+          {
+            "a": "storage-base#6",
+            "b": "storage-runner-right#12",
+            "kind": "face",
+            "area": 0.0021750001076608905
+          },
+          {
+            "a": "storage-side-left#7",
+            "b": "storage-back#9",
+            "kind": "face",
+            "area": 0.00047999980345367343
+          },
+          {
+            "a": "storage-side-left#7",
+            "b": "storage-roof#10",
+            "kind": "face",
+            "area": 0.002079999448806047
+          },
+          {
+            "a": "storage-side-right#8",
+            "b": "storage-back#9",
+            "kind": "face",
+            "area": 0.00047999980345367343
+          },
+          {
+            "a": "storage-side-right#8",
+            "b": "storage-roof#10",
+            "kind": "face",
+            "area": 0.002079999448806047
+          },
+          {
+            "a": "storage-back#9",
+            "b": "storage-roof#10",
+            "kind": "face",
+            "area": 0.002543998807430281
+          },
+          {
+            "a": "storage-roof#10",
+            "b": "storage-cup-left-bottom#13",
+            "kind": "face",
+            "area": 0.003823770340764074
+          },
+          {
+            "a": "storage-roof#10",
+            "b": "storage-cup-left-wall#14",
+            "kind": "face",
+            "area": 0.00002048452491038016
+          },
+          {
+            "a": "storage-roof#10",
+            "b": "storage-cup-right-bottom#15",
+            "kind": "face",
+            "area": 0.003823770340764073
+          },
+          {
+            "a": "storage-roof#10",
+            "b": "storage-cup-right-wall#16",
+            "kind": "face",
+            "area": 0.00002048446727043185
+          },
+          {
+            "a": "storage-cup-left-bottom#13",
+            "b": "storage-cup-left-wall#14",
+            "kind": "volume",
+            "volume": 1.2290709329753085e-7
+          },
+          {
+            "a": "storage-cup-right-bottom#15",
+            "b": "storage-cup-right-wall#16",
+            "kind": "volume",
+            "volume": 1.2290674745799904e-7
+          },
+          {
+            "a": "storage-drawer-bottom#0",
+            "b": "storage-drawer-left#1",
+            "kind": "face",
+            "area": 0.0008399996308982305
+          },
+          {
+            "a": "storage-drawer-bottom#0",
+            "b": "storage-drawer-right#2",
+            "kind": "face",
+            "area": 0.0008399996308982305
+          },
+          {
+            "a": "storage-drawer-bottom#0",
+            "b": "storage-drawer-back#3",
+            "kind": "face",
+            "area": 0.002388001885533342
+          },
+          {
+            "a": "storage-drawer-bottom#0",
+            "b": "storage-drawer-front#4",
+            "kind": "face",
+            "area": 0.002388000402867796
+          },
+          {
+            "a": "storage-drawer-left#1",
+            "b": "storage-drawer-back#3",
+            "kind": "face",
+            "area": 0.0003360002740621648
+          },
+          {
+            "a": "storage-drawer-left#1",
+            "b": "storage-drawer-front#4",
+            "kind": "face",
+            "area": 0.0003360000654459016
+          },
+          {
+            "a": "storage-drawer-right#2",
+            "b": "storage-drawer-back#3",
+            "kind": "face",
+            "area": 0.0003360002740621648
+          },
+          {
+            "a": "storage-drawer-right#2",
+            "b": "storage-drawer-front#4",
+            "kind": "face",
+            "area": 0.0003360000654459016
+          },
+          {
+            "a": "storage-drawer-front#4",
+            "b": "storage-drawer-handle#5",
+            "kind": "face",
+            "area": 0.0009799999040365215
+          }
+        ],
+        "groundArea": 0.07199999815970659,
+        "access": {
+          "minimumOpenFraction": 0.75,
+          "fullSupportPatch": true,
+          "compactEnvelope": [
+            0.024,
+            0.035,
+            0.024
+          ]
+        },
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "coverageSquareMetres": 1e-8,
+          "contactSquareMetres": 1e-8
+        },
+        "limitation": "Static closed solids, convex or proven cup-ring decomposition, continuous pure-translation fit and access only. No hand interaction, mechanical strength or tipping stability claim."
+      },
+      "support": {
+        "checked": true,
+        "surfaces": [
+          {
+            "mesh": "storage-roof",
+            "triangles": 2,
+            "area": 0.07199999815970659,
+            "topY": 0.1
+          },
+          {
+            "mesh": "storage-drawer-bottom",
+            "triangles": 2,
+            "area": 0.05740000050738453,
+            "topY": 0.022
+          }
+        ],
+        "bottomY": 0
+      }
+    },
+    {
+      "design": "case",
+      "sha256": "5a9a19e0807ad8f8c08b241c2655aa17f83b6dec8f95199d7cf5ffb5a655391f",
+      "bytes": 41304,
+      "resourcePath": "prototype/public/company-assets/makeup-storage-v1/case/v1/resource.json",
+      "actual": {
+        "checked": true,
+        "sourceDesign": "case",
+        "meshCount": 23,
+        "triangleCount": 276,
+        "materials": 3,
+        "movingComponents": [
+          "storage-drawer-bottom",
+          "storage-drawer-left",
+          "storage-drawer-right",
+          "storage-drawer-back",
+          "storage-drawer-front",
+          "storage-drawer-handle"
+        ],
+        "continuousSlide": {
+          "range": [
+            0,
+            0.09
+          ],
+          "method": "Complete convex SAT interval intersection for pure translation"
+        },
+        "support": [
+          {
+            "rail": "storage-runner-left",
+            "offset": 0,
+            "kind": "face",
+            "area": 0.002100000120326878
+          },
+          {
+            "rail": "storage-runner-left",
+            "offset": 0.09,
+            "kind": "face",
+            "area": 0.0008250000540167104
+          },
+          {
+            "rail": "storage-runner-right",
+            "offset": 0,
+            "kind": "face",
+            "area": 0.002100000120326878
+          },
+          {
+            "rail": "storage-runner-right",
+            "offset": 0.09,
+            "kind": "face",
+            "area": 0.0008250000540167103
+          }
+        ],
+        "connections": [
+          {
+            "a": "storage-base#6",
+            "b": "storage-side-left#7",
+            "kind": "face",
+            "area": 0.0020799994488060465
+          },
+          {
+            "a": "storage-base#6",
+            "b": "storage-side-right#8",
+            "kind": "face",
+            "area": 0.0020799994488060465
+          },
+          {
+            "a": "storage-base#6",
+            "b": "storage-back#9",
+            "kind": "face",
+            "area": 0.002543998807430281
+          },
+          {
+            "a": "storage-base#6",
+            "b": "storage-runner-left#11",
+            "kind": "face",
+            "area": 0.0021750001076608905
+          },
+          {
+            "a": "storage-base#6",
+            "b": "storage-runner-right#12",
+            "kind": "face",
+            "area": 0.0021750001076608905
+          },
+          {
+            "a": "storage-side-left#7",
+            "b": "storage-back#9",
+            "kind": "face",
+            "area": 0.00047999980345367343
+          },
+          {
+            "a": "storage-side-left#7",
+            "b": "storage-roof#10",
+            "kind": "face",
+            "area": 0.002079999448806047
+          },
+          {
+            "a": "storage-side-right#8",
+            "b": "storage-back#9",
+            "kind": "face",
+            "area": 0.00047999980345367343
+          },
+          {
+            "a": "storage-side-right#8",
+            "b": "storage-roof#10",
+            "kind": "face",
+            "area": 0.002079999448806047
+          },
+          {
+            "a": "storage-back#9",
+            "b": "storage-roof#10",
+            "kind": "face",
+            "area": 0.002543998807430281
+          },
+          {
+            "a": "storage-roof#10",
+            "b": "storage-upper-left#13",
+            "kind": "face",
+            "area": 0.0015999984756112084
+          },
+          {
+            "a": "storage-roof#10",
+            "b": "storage-upper-right#14",
+            "kind": "face",
+            "area": 0.0015999984756112084
+          },
+          {
+            "a": "storage-roof#10",
+            "b": "storage-upper-back#15",
+            "kind": "face",
+            "area": 0.004299999174475655
+          },
+          {
+            "a": "storage-roof#10",
+            "b": "storage-upper-front#16",
+            "kind": "face",
+            "area": 0.004299999975413082
+          },
+          {
+            "a": "storage-upper-left#13",
+            "b": "storage-upper-back#15",
+            "kind": "face",
+            "area": 0.0009999998062849014
+          },
+          {
+            "a": "storage-upper-left#13",
+            "b": "storage-upper-front#16",
+            "kind": "face",
+            "area": 0.000999999992549419
+          },
+          {
+            "a": "storage-upper-left#13",
+            "b": "storage-case-handle-left-rear#17",
+            "kind": "volume",
+            "volume": 0.000001199999696015615
+          },
+          {
+            "a": "storage-upper-left#13",
+            "b": "storage-case-handle-left-front#18",
+            "kind": "volume",
+            "volume": 0.0000011999996028833973
+          },
+          {
+            "a": "storage-upper-right#14",
+            "b": "storage-upper-back#15",
+            "kind": "face",
+            "area": 0.0009999998062849014
+          },
+          {
+            "a": "storage-upper-right#14",
+            "b": "storage-upper-front#16",
+            "kind": "face",
+            "area": 0.000999999992549419
+          },
+          {
+            "a": "storage-upper-right#14",
+            "b": "storage-case-handle-right-rear#20",
+            "kind": "volume",
+            "volume": 0.000001199999696015615
+          },
+          {
+            "a": "storage-upper-right#14",
+            "b": "storage-case-handle-right-front#21",
+            "kind": "volume",
+            "volume": 0.0000011999996028833973
+          },
+          {
+            "a": "storage-case-handle-left-rear#17",
+            "b": "storage-case-handle-left-grip#19",
+            "kind": "face",
+            "area": 0.00011999983072286115
+          },
+          {
+            "a": "storage-case-handle-left-front#18",
+            "b": "storage-case-handle-left-grip#19",
+            "kind": "face",
+            "area": 0.00011999983072286115
+          },
+          {
+            "a": "storage-case-handle-right-rear#20",
+            "b": "storage-case-handle-right-grip#22",
+            "kind": "face",
+            "area": 0.00011999983072286115
+          },
+          {
+            "a": "storage-case-handle-right-front#21",
+            "b": "storage-case-handle-right-grip#22",
+            "kind": "face",
+            "area": 0.00011999983072286115
+          },
+          {
+            "a": "storage-drawer-bottom#0",
+            "b": "storage-drawer-left#1",
+            "kind": "face",
+            "area": 0.0008399996308982305
+          },
+          {
+            "a": "storage-drawer-bottom#0",
+            "b": "storage-drawer-right#2",
+            "kind": "face",
+            "area": 0.0008399996308982305
+          },
+          {
+            "a": "storage-drawer-bottom#0",
+            "b": "storage-drawer-back#3",
+            "kind": "face",
+            "area": 0.002388001885533342
+          },
+          {
+            "a": "storage-drawer-bottom#0",
+            "b": "storage-drawer-front#4",
+            "kind": "face",
+            "area": 0.002388000402867796
+          },
+          {
+            "a": "storage-drawer-left#1",
+            "b": "storage-drawer-back#3",
+            "kind": "face",
+            "area": 0.0003360002740621648
+          },
+          {
+            "a": "storage-drawer-left#1",
+            "b": "storage-drawer-front#4",
+            "kind": "face",
+            "area": 0.0003360000654459016
+          },
+          {
+            "a": "storage-drawer-right#2",
+            "b": "storage-drawer-back#3",
+            "kind": "face",
+            "area": 0.0003360002740621648
+          },
+          {
+            "a": "storage-drawer-right#2",
+            "b": "storage-drawer-front#4",
+            "kind": "face",
+            "area": 0.0003360000654459016
+          },
+          {
+            "a": "storage-drawer-front#4",
+            "b": "storage-drawer-handle#5",
+            "kind": "face",
+            "area": 0.0009799999040365215
+          }
+        ],
+        "groundArea": 0.07199999815970659,
+        "access": {
+          "minimumOpenFraction": 0.75,
+          "fullSupportPatch": true,
+          "compactEnvelope": [
+            0.024,
+            0.035,
+            0.024
+          ]
+        },
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "coverageSquareMetres": 1e-8,
+          "contactSquareMetres": 1e-8
+        },
+        "limitation": "Static closed solids, convex or proven cup-ring decomposition, continuous pure-translation fit and access only. No hand interaction, mechanical strength or tipping stability claim."
+      },
+      "support": {
+        "checked": true,
+        "surfaces": [
+          {
+            "mesh": "storage-roof",
+            "triangles": 2,
+            "area": 0.07199999815970659,
+            "topY": 0.1
+          },
+          {
+            "mesh": "storage-drawer-bottom",
+            "triangles": 2,
+            "area": 0.05740000050738453,
+            "topY": 0.022
+          }
+        ],
+        "bottomY": 0
+      }
+    },
+    {
+      "design": "content-compact",
+      "sha256": "f054720429d803edf4815082919d057c6e55e8c3eb7849c6825b72ab07f0f9b2",
+      "bytes": 15808,
+      "resourcePath": "prototype/public/company-assets/makeup-storage-v1/content-compact/v1/resource.json",
+      "actual": {
+        "checked": true,
+        "sourceDesign": "compact",
+        "meshCount": 2,
+        "triangleCount": 192,
+        "connections": [
+          {
+            "a": "storage-content-body#0",
+            "b": "storage-content-cap#1",
+            "kind": "face",
+            "area": 0.0004472393075763449
+          }
+        ],
+        "limitation": "A closed compact witness only. No cosmetic interaction or arbitrary-content fit claim."
+      },
+      "support": {
+        "checked": false,
+        "surfaces": [],
+        "bottomY": 0
+      }
+    }
+  ],
+  "verifier": {
+    "path": "prototype/src/company/makeup-storage-geometry.js",
+    "sha256": "eaf23ad5629d9dc958862a27b4d4ad3502add5bada74f26540e7aa847a00134b"
+  },
+  "limits": [
+    "Actual imported GLB triangles, continuous pure-translation SAT, real support and open cavities only. Mechanical strength, tipping stability, browser rendering and character interaction require separate evidence."
+  ]
+}

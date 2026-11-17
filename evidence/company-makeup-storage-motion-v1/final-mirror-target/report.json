@@ -1,0 +1,114 @@
+{
+  "status": "passed",
+  "generatedAt": "2026-11-17T09:34:52.866Z",
+  "checks": [
+    {
+      "name": "candidate target gate / missing-fbo",
+      "status": "passed",
+      "detail": {
+        "error": "mirror-target-failed",
+        "oldTargetRetained": true,
+        "candidateDisposals": 1,
+        "drawCallsBeforeRejection": 0,
+        "glStatusQueriedAfterActualTargetBinding": true,
+        "documentAndSavedBytesUnchanged": true
+      }
+    },
+    {
+      "name": "candidate target gate / incomplete-fbo",
+      "status": "passed",
+      "detail": {
+        "error": "mirror-target-failed",
+        "oldTargetRetained": true,
+        "candidateDisposals": 1,
+        "drawCallsBeforeRejection": 0,
+        "glStatusQueriedAfterActualTargetBinding": true,
+        "documentAndSavedBytesUnchanged": true
+      }
+    },
+    {
+      "name": "candidate target gate / sample-mismatch",
+      "status": "passed",
+      "detail": {
+        "error": "mirror-target-failed",
+        "oldTargetRetained": true,
+        "candidateDisposals": 1,
+        "drawCallsBeforeRejection": 0,
+        "glStatusQueriedAfterActualTargetBinding": true,
+        "documentAndSavedBytesUnchanged": true
+      }
+    },
+    {
+      "name": "candidate target gate / allocation-error",
+      "status": "passed",
+      "detail": {
+        "error": "mirror-target-failed",
+        "oldTargetRetained": true,
+        "candidateDisposals": 1,
+        "drawCallsBeforeRejection": 0,
+        "glStatusQueriedAfterActualTargetBinding": true,
+        "documentAndSavedBytesUnchanged": true
+      }
+    },
+    {
+      "name": "candidate target gate / draw-error",
+      "status": "passed",
+      "detail": {
+        "error": "mirror-target-failed",
+        "oldTargetRetained": true,
+        "candidateDisposals": 1,
+        "drawCallsBeforeRejection": 1,
+        "glStatusQueriedAfterActualTargetBinding": true,
+        "documentAndSavedBytesUnchanged": true
+      }
+    },
+    {
+      "name": "candidate target gate / preexisting-host-error",
+      "status": "passed",
+      "detail": {
+        "error": "mirror-host-gl-error",
+        "oldTargetRetained": true,
+        "candidateDisposals": 1,
+        "drawCallsBeforeRejection": 0,
+        "glStatusQueriedAfterActualTargetBinding": false,
+        "documentAndSavedBytesUnchanged": true
+      }
+    },
+    {
+      "name": "candidate target gate / unknown-draw-throw",
+      "status": "passed",
+      "detail": {
+        "error": "mirror-renderer-reset-required",
+        "oldTargetRetained": true,
+        "candidateDisposals": 1,
+        "drawCallsBeforeRejection": 1,
+        "glStatusQueriedAfterActualTargetBinding": true,
+        "documentAndSavedBytesUnchanged": true
+      }
+    },
+    {
+      "name": "healthy matching MSAA target commits and releases its previous owner",
+      "status": "passed"
+    },
+    {
+      "name": "all reflection target objects disposed exactly once",
+      "status": "passed",
+      "resources": {
+        "created": 16,
+        "disposed": 16,
+        "live": 0,
+        "peak": 2
+      }
+    }
+  ],
+  "sourceHashes": {
+    "prototype/src/company/mirror-render.js": "60ad0e686ab96dc758c933b34714d83adf089cb4759383381b9ec484b2791619",
+    "prototype/src/company/render.js": "e4727bc27035bca3321b375c973cda2cc281256d5e9562b8633673f9ae4efaea",
+    "scripts/company-platform/qa-mirror-target.mjs": "922d34e2dbaff9c75e9c320138890ba8545d22c238ae8f54da4e4cba04ca9beb"
+  },
+  "limits": [
+    "Actual pinned Three Reflector, target objects, scene prepare/commit/discard and disposal events execute on CPU with renderer/GL substitutes and synthetic face geometry.",
+    "The substitute injects framebuffer status, actual sample count and WebGL error results. It does not establish real GPU allocation, multisampling or image quality.",
+    "Unknown renderer exceptions require host renderer reconstruction. Retaining old target objects and restoring public state does not prove recovery of Three private render stacks."
+  ]
+}
