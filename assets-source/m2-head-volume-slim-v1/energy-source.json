@@ -1,0 +1,17 @@
+{
+  "schema": "slim-energy-readback-source-v1",
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/libigl/libigl/f68f01c23ac82351e2543ce8c529b6d4c89fdf16/include/igl/slim.cpp",
+      "sha256": "a6c8a9352956d464253ee4664d6c3fa91f55f9c01238302c08fc3781dbf54401",
+      "bytes": 28416
+    },
+    {
+      "url": "https://raw.githubusercontent.com/libigl/libigl/f68f01c23ac82351e2543ce8c529b6d4c89fdf16/include/igl/mapping_energy_with_jacobians.cpp",
+      "sha256": "4539635ec5560daa7316aae92f31d9c843b43996901e1cf54c7df5ebeff223b0",
+      "bytes": 4215
+    }
+  ],
+  "formula": "(sum(reference tet volume * sum(sigma(J)^2+sigma(J)^-2)) + soft_p * sum(||positions[b]-bc||^2)) / sum(reference tet volume)",
+  "label": "Independent formula readback. Wheel does not expose SLIMData.energy."
+}

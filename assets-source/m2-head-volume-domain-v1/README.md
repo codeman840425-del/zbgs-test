@@ -10,3 +10,5 @@
 
 官方依据：https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.Delaunay.html
 SciPy BSD-3 / Qhull许可和依赖通知沿 evidence/m2-slim-tool-smoke-v1/wheel-notices 保存；不使用TetGen/CGAL。
+
+消费索引注意：`domain.npz.sourceOccurrenceToNode`是controls+base原拼接（6071项）的去重inverse，并非113713条端点映射。端点只使用`embedding.npz.simplexVertexIndices`与同文件`barycentric`，按`endpoint-records.json`分段还原；不得改配正向重排的tet顶点顺序。独审实测错序会造成106.65mm误差，当前保存正确。
