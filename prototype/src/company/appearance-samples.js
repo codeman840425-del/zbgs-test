@@ -10,8 +10,10 @@ import {createMirrorSample} from './mirror-samples.js';
 import {createFloorMirrorSample} from './floor-mirror-samples.js';
 import {createMakeupMirrorSample} from './makeup-mirror-samples.js';
 import {createMakeupStorageSample} from './makeup-storage-samples.js';
+import {createMakeupDrawerSample} from './makeup-drawer-samples.js';
 import {createVanitySample} from './vanity-samples.js';
 export const appearanceBranches=[
+ ['makeup-storage-drawer','抽屉内化妆收纳'],
  ['makeup-storage','化妆台面收纳'],
  ['makeup-mirror','台面化妆镜'],
  ['vanity-table','化妆台'],
@@ -39,6 +41,7 @@ export function appearanceCandidates(catalog,branch) {
  return selected.filter(Boolean).map(r=>({...r,displayName:r.displayName||names[r.id]||r.id}));
 }
 export function createAppearanceSample(branch,index,catalog,templates) {
+ if(branch==='makeup-storage-drawer')return createMakeupDrawerSample(catalog,templates,{index});
  if(branch==='makeup-storage')return createMakeupStorageSample(catalog,templates,{index});
  if(branch==='makeup-mirror')return createMakeupMirrorSample(catalog,templates,{index});
  if(branch==='vanity-table')return createVanitySample(catalog,templates,{index});

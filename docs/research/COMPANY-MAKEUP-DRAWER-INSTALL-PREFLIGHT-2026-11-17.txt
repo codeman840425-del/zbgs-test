@@ -1,0 +1,105 @@
+化妆抽屉安装：真实宿主与素材复用预检
+2026-11-17
+
+核读工作树 F:/gamemake-company-platform-c1，HEAD e067f7aa500ccc540c994780ebcad83fbd99883d。输入沿台面收纳固定源1f1ac096/build d7bec86e5f1e、已验化妆台/台镜/落地抽屉、当前共享动态承载与保存。预检证据位于 evidence/company-makeup-drawer-source-research-v1/。本文件记录实际原资产读取、一个外部原包检查和新候选计算，候选新宿主及四个安装产物需要后续真实制作、运行和恢复证据。
+
+一、原始要求及安装映射
+
+用户完整v3 C1-A第11组原文为“化妆/更衣与主题直播：化妆台镜/收纳、衣架/衣柜、商品展示、歌舞/访谈等配置所需的代表物件及留空关系”。第7组同时要求“抽屉与柜门部件”和真实承载。该用户原文没有限定必须在旧1.10m台体内开腔。
+
+现行branches.json的确认分支为 makeup-storage-drawer。固定技术候选写明 mount='vanity-drawer'、parent='vanity-table.drawer'、dimensionsMeters={width:.45,height:.25,depth:.25,verification:'pending'}、state='static-or-open'。四款名称为“托盘、分格收纳、刷具杯、化妆箱”。独立机制包含“承载面/抽屉关系、开合状态驱动、父子变换、抽屉安装”。该父映射需要在新合同中显式解释和修订，四款和实际抽屉安装继续作为出口。
+
+建议把该pending技术父映射锁为 makeup-drawer-host.drawer，mount用途映射到共用support-surface，保留mountRole/productionBranch=makeup-storage-drawer。专用落地化妆侧柜提供真实抽屉，四款是装在其内部底板上的独立收纳件，沿实际父openFraction运动。配置将侧柜与化妆台组成化妆区。新增组合配置/功能扩展记录专用宿主ID、安装子物和同事务布置，原台面、座位及台下留空合同继续作为输入。
+
+二、先核三个已有宿主
+
+已验 makeup-storage 的活动底板顶为Y=.022，roof下表面Y=.090，物理竖向净高 .068m，已交付drawer支持合同仅开放 .040m高净区。活动内底为X[-.199,.199]、Z[-.109,.019]，净宽 .398m、深 .128m。pending收纳 .45×.25×.25m在宽、高、深均超出这个格腔。正常约.15m高刷具杯无法在此闭合收纳。现有台上carrier的原身份、能力与失败证据保持各自版本。
+
+旧vanity-table中央膝部净空到Y=.70，上板下表面Y=.745，仅有 .045m中央竖向余量。旧抽屉式台体的左窄柜宽约 .15m，同样无法容纳pending .45m宽收纳。四款旧台仍沿原静态台体与座位合同使用。
+
+已验 sliding-drawer-flat-panel@1 提供真实独立活动组、厚底、前板、侧/背及.32m行程。原腔体X[-.355,.355]、Y[.805,1.055]、Z[-.165,.2275]，净尺寸 .71×.25×.3925m，足以容纳正常杯/箱。它的1.20m高度和顶Y1.20与现有.78m台面不同，建议以明确的新宿主身份做离线尺寸适配。
+
+实际原GLB还测得滑轨底Y=.7549999998、分隔板顶Y=.7499999993，两者有约.005m间隙。滑轨顶与活动底下表面均约.780，最大行程仍保留约.08499999m深度接触。新宿主应修出独立固定支承链。原落地抽屉的证据仍保其原覆盖范围。实际索引顶点、网格、资源SHA及数值在 existing-host-inspection.json 中。
+
+三、官方免费素材及一个原包实查
+
+按用户新要求，先核本项目已验源，再核Poly Haven、Kenney与Quaternius官方来源。三者在当前COMPANY-APPEARANCE-PRODUCTION-STANDARD.md中已登记，来源与许可证按包记录。
+
+Poly Haven官方Drawer Cabinet由Ulan Cabanilla制作，页标CC0，提供Blend/glTF/USD/FBX等，显示高1.9m、约26K三角。现成模型的家具用途和材质可供后续选型，本次目标沿≤2500三角、有限单抽屉与固定几何门，它需要另行成本/分件适配。此次只核官网型号和许可页，采用官方正常访问与下载入口。
+https://polyhaven.com/a/drawer_cabinet
+https://polyhaven.com/license
+
+Quaternius Ultimate House Interior官方旧包页列123模型、FBX/OBJ/Blend及CC0。官网QAL v1.0页面同时列2026-08-28更新，允许项目使用、修改和合作，限制独立素材再分发。此处保留该旧单包页与新官网许可各自身份，本次没有下载该包；后续选择时仍要核实际取得包内许可证。
+https://quaternius.com/packs/ultimatehomeinterior.html
+https://quaternius.com/license.html
+
+本次只下载一个官方免费原包 Kenney Furniture Kit。官方页标140项、CC0，通过页面“Continue without donating”的正常download-link处理取得ZIP。原包5,130,729bytes，SHA256 e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0。License.txt写Furniture Kit (2.0)、Created/distributed by Kenney、CC0，允许个人/教育/商业项目，署名可选。保留原ZIP、原License和取得记录。下载地址的短期签名查询未存入永久记录。
+https://kenney.nl/assets/furniture-kit
+
+包内实际包含140份各格式DAE、FBX、GLB、OBJ/MTL、STL，未附Blend或参数生产器。本次仅提取一个结构候选 kitchenCabinetDrawer 的GLB/DAE/FBX/OBJ/MTL，其他模型留在未改原包中。GLB原字节SHA256为6f784807e3cadb15b4d2d3db726d93357ea5e6c4f2b6e4c9c064048a2d1d9cfc。DAE明确unit meter=1、Y_UP，实际节点含cabinet、door及drawer，OBJ也分别列组。可编辑网格与部件结构可直接复用作后续样式输入。
+
+真实GLTFLoader读取该候选为174三角、3材质，drawer与door有独立Group且无动画。源整体尺寸约 .43×.45×.45m。按实际索引三角的底面及内向壁平面，抽屉内区约X[.04718612,.38281388]、Y[.29315579,.36315579]、Z[-.37965806,-.04034193]，内宽.33563、内高.070、内深.33932m。它的分件与前板/把手造型有复用价值；本包所需正常刷具杯/化妆箱要求重做腔高、支承、运动与适配，核心机制采用本项目已验抽屉源更直接。本候选保持研究身份，未计入游戏资源或四款数量。
+
+Kenney原包及许可证解决了来源问题，实际尺寸/分件检查决定复用程度。本包优先复用已验carrier上部和已验抽屉活动件，外部候选留作有确切原文件的样式输入。
+
+四、建议锁定的新宿主
+
+资源候选 makeup-drawer-host@1，mountRole=makeup-drawer-host，movingProfile='makeup-drawer-host-v1'。它是独立落地设施，采用旧落地柜一致的无mount规则，mounting={origin:'bottom',width:.9,height:.78,depth:.55}，footprint={center:[0,0],halfSize:[.45,.275],blocking:true}，米/+Y/+Z/identity，usePoints=[]。
+
+host是room/area的直接子设施，与化妆台和配对椅同级。document的通用facility父表允许facility，但floor-surface资源另要求直接room/area父；阻挡落地设施的最终Y还必须等于所属floor。应为新host增加明确的direct-room/area父约束，按独立落地与实际组合用途记录层级。
+
+新host只需要一个机制支撑资源，四款确认数量由内部payload承担。其固定外壳从原抽屉功能尺寸适配，活动flat-panel组六个真实网格从原GLB/源保留，离线烘焙原最终顶点Y-.35。闭合原点和实例scale保持恒等。stateDefaults={openFraction:0}、number[0,1]及sliding-drawer-opening-fraction语义复用，轴+Z、行程.32m。
+
+活动bounds为min[-.42,.43,-.205]、max[.42,.77,.275]，partNodes.drawer='cabinet-drawer-slide'，原drawer-front、drawer-bottom、drawer-left/right/back和handle保其实际映射。原front厚.035，降低后Y[.43,.77]；真实底板Y[.43,.455]；侧/背Y[.455,.705]。内部底板净宽.71、深.3925、高.25，满足正常收纳体积。
+
+固定顶板cabinet-top为X±.45、Y[.745,.78]、Z±.225。底板cabinet-bottom为X±.45、Y[0,.07]、Z±.225；两侧cabinet-side-left/right为X[-.45,-.39]/[.39,.45]、Y[.07,.745]、Z±.225；cabinet-inner-back为X±.39、Y[.07,.745]、Z[-.225,-.19]。
+
+cabinet-drawer-divider为X±.39、Y[.345,.405]、Z±.20。两runner为X[-.31,-.19]及[.19,.31]、Y[.405,.43]、Z[-.175,.215]。这样divider顶与轨底实际贴合，轨顶与活动底贴合。全开仍有约.085m轨道接触长度，每条候选面接触面积约.12×.085=.0102m²。固定背/侧从底板独立承载顶板和轨道，活动抽屉沿自身实底保持连接。重建时同时拒绝同向外表面正面积重合，保留相反朝向的实体端面贴合。
+
+top支持面center[0,0]、topY=.78、halfSize[.4,.18]、clearanceHeight=.4；drawer支持面center[0,.03125]、topY=.455、halfSize[.345,.18625]、clearanceHeight=.25。supportNodes指向实际cabinet-top与drawer-bottom，supportMotion={drawer:'drawer'}。
+
+五、四款内部收纳及真实内容
+
+四payload建议id为makeup-drawer-tray/divided/brush-cup/case@1，mountRole/productionBranch=makeup-storage-drawer，category=decor，mount=support-surface，mounting={origin:'bottom',width:.45,height:.18,depth:.25}，非阻挡、usePoints=[]、stateDefaults={}。它们直接以host为parent，attachment={surfaceId:'drawer'}。开合由真实host状态驱动。
+
+复用现有实际storage-roof与上部结构，剔除旧下部carrier、slide及其drawer-divider，保留原节点与材质结构；所有保留顶点统一Y-.09。独立底板最终Y[0,.01]，旧正确杯的底板Y[.01,.016]、杯壁Y[.016,.16/.13]；杯体约15/12cm高，内半径.029、外半径.035保持。开放箱侧墙顶.11、提手顶.16。托盘边与分格板仍是各自真实形态。
+
+新.18m高安装盒依据实际最大.16m上部加余量修订pending .25m高候选，深与宽保.25/.45m。正常杯和箱的形态保持在实际腔内。每个payload保共同内部top支持面center[0,-.045]、topY=.01、halfSize[.115,.055]、clearanceHeight=.14，supportNodes.top='storage-roof'，供独立小圆盒保存。
+
+建议payload rest位置[0,.455,.03125]、yaw0，其保守闭合盒Z[-.09375,.15625]，最大行程后Z[.22625,.47625]。固定roof前沿Z=.225，整件保守盒全开后有.00125m上方访问间隙。后续实际几何检查按真实payload开口与部件检访问；支持面本身比payload更大，不能把整个支持面都宣称全开露出。需要更大的访问余量时，在真实支持区内显式调整payload位置并记录配方。
+
+小圆盒复用现有makeup-storage-content-compact@1的实际资源及有限适配，保独立节点和资源身份。新数据合同明确允许它依附payload的内部top面；其rest位置[0,.01,-.045]，parent为payload。层级是host→drawer-installed payload→compact，祖先drawer偏移只合成一次。host顶面可复用已验桌面摆件证明静止。
+
+六、模块化化妆区的候选布置
+
+最终建议样件以台体相对坐标[1.00,0,-.35]、相同yaw布置独立host。它是配方中的位置，不写进host功能合同。host左边X=.55与旧台右边X=.55相接，顶高都为.78。新顶板与旧台顶板在Z[-.25,-.125]重叠.125m、Y厚度.035m，形成并排模块接缝。
+
+已读取四款现有vanity-top的实际索引三角，对其+X面投影裁到候选host顶板接缝。四款均有两片真实侧面三角，裁得接触面积约.004374996m²。浮点边界差约12nm，在既有几何容差内。此计算核实际旧台面与规定候选平面；新host仍需制作后核其实际面和接触。
+
+按原活动抽屉实际maxZ=.27500000038及.32m行程，新host相对台体全开前沿Z=.24500000038，到台前reserve起点.25仍有约.005m。侧柜左缘.55到膝部右界.37有.18m横向间隔。所有状态的柜体/阻挡、台体、配对椅和邻物仍须走共同准入。
+
+场景中table、host、seat均为room/area直接子设施。配方按composeTransform(tableTransform,{position:[1,0,-.35],yaw:0})计算host的房间transform，再保存各自最终值。联合移动/转向由同一事务显式提交三者，独立复制host只复制其payload和内容子树；原台体普通换款保原ID及共同座位/台面合同。组合的真实新部分是相接的落地模块与柜内抽屉安装。
+
+实际四台面读回及全开前沿计算位于modular-sidecar-placement-calculation.json。第一次输入可沿现有主台位置；第二输入在另一房转90°，必要时按完整运动footprint移位，留出墙内侧.10m。每次用最终物理投影核验，具体位置不成为资源身份。
+
+七、最小实现增量与验证出口
+
+新精确host/profile和四payload数据合同允许合法drawer安装与compact内部依附。supportMotion、effectiveSupportTransform、rest局部坐标、worlds/localTransforms、render及保存沿当前共享实现。额外适配应限定到新profile，旧ground drawer和supported-slide-v1语义各自读取。
+
+新的几何门读取host真实固定支承、活动腔体、轨接触及连续.32m扫掠，读取payload真实底板/壁厚/杯/格/提手与公共内容净空。针对内容、payload及host的三层依附检查全闭/半开/全开/一个非端点、往返无漂移、父旋转后正确方向、独立ID和top静止。实体外壳的同向重复面及旧5mm支承间隙保留反例。
+
+输入固定为旧source/GLB/参数/许可证SHA、当前三份相关合同、统一提示词模板和新host规格。来源筛选和离线平移按明确配方记录，旧文件作为只读依赖。新生产器import无写入，--check只比较正式产物且不依赖evidence，重复导出字节一致。托盘实际参数修改采用上部rimHeight .145→.148，Y-.09后分别为.055/.058，保修改前源及GLB，正式资源采用.148，其余三payload及host字节不变。
+
+预期产物为一个真实宿主、四个内部收纳GLB、原圆盒复用、可编辑适配源、资源/部件/依附映射、两配置、实际准入/坏例、浏览器四款安装/开合/换款及关闭进程恢复、独立重建和正常1×录像。每个新模型预算≤2500三角、≤32mesh、≤4材质，逐资源统计。
+
+非法父、把payload放到台面/host顶、错误支持面、缺部件、腔体被填实、子物过高/越界、旧source内容错pin、功能变更伪装换款、缩放实例、全开失支承、运动受阻和迟到候选均须拒绝并保旧场景/文档/存档字节。组件复制、更换父房、换款保非默认openFraction和不同内容ID后实际关闭恢复。原台体/台镜/台上收纳及旧抽屉受影响路径回归。
+
+尝试预算为一次依据原源的适配实现，加一轮由真实失败支撑的修正。同因两轮无新证据或改善则保失败、重新定位。普通电脑性能、角色手部/取放/身体使用及人类观感分别按实际证据记录。
+
+八、证据索引与身份
+
+kenney-furniture-kit-original.zip及License.txt保原下载字节；kenney-package-inspection.json保取得时间、原包SHA、格式/文件清单；candidate-extraction.json列一个候选的实际原文件与SHA；candidate-loader-inspection.json按实际索引三角记录部件和格腔；candidate-editable-source-inspection.json记录DAE米制/Y_UP、节点及OBJ组。
+
+existing-host-inspection.json保本项目三个实际资源读取及滑轨原间隙；modular-sidecar-placement-calculation.json保四台实际三角接缝计算。研究结果与候选参数可供下一制作包锁合同，不构成新宿主已游戏接入声明。
+
+核读文件SHA256记录于 evidence/company-makeup-drawer-source-research-v1/source-pins.json。

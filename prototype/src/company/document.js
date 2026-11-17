@@ -2,6 +2,7 @@
 import {compareFacilityFunction} from './appearance-contract.js';
 import {validateSupportResource, validateSupportAttachments,effectiveSupportTransform} from './support-data.js';
 import {MAKEUP_STORAGE_PROFILE,validateMakeupStorageAttachments} from './makeup-storage-data.js';
+import {validateMakeupDrawerAttachments} from './makeup-drawer-data.js';
 import {validateMovingResource, validateFacilityState, movingFootprint} from './moving-parts.js';
 import {validateClockResource} from './clock-display.js';
 import {validateInformationResource,validateInformationAttachments} from './information-display.js';
@@ -315,6 +316,7 @@ export function deriveCompany(document, catalog, templates) {
   validateSupportAttachments(nodes, resources, fail);
   validateMakeupMirrorAttachments(nodes, resources, fail);
   validateMakeupStorageAttachments(nodes,resources,fail);
+  validateMakeupDrawerAttachments(nodes,resources,fail);
   validateInformationAttachments(nodes, resources, fail);
   const vanityClearances=validateVanityPlacement({nodes,worlds,floorIds,roomIds,facilities,obstacles},fail);
   return { nodes, worlds, localTransforms, floorIds, roomIds, facilities, usePoints, obstacles, surfaceFinishes,

@@ -1,0 +1,380 @@
+{
+  "id": "company-makeup-drawer-v1",
+  "version": 1,
+  "license": "Project-authored adaptations of existing original project geometry, with original source/resource hashes and explicit transformations. Three.js 0.187.0 is MIT licensed, copyright 2010–2026 three.js authors. Preserve the pinned Three LICENSE and project lockfile for offline rebuilds.",
+  "common": {
+    "coordinates": {
+      "units": "metres",
+      "up": "+Y",
+      "forward": "+Z",
+      "origin": "Bottom centre",
+      "scale": "Identity only"
+    },
+    "promptStandard": "Purpose: a real floor-standing makeup drawer host and four compatible drawer-installed storage payloads using the established company support, state, transform and save chain. Reuse pinned existing project sources with explicit editable adaptation parameters and identity instance scale. The host uses the original true sliding tray at Y minus .35m and a newly dimensioned .90 x .78 x .55m closed grounded carrier with actual connected rails and cavity. The four payloads retain the proven upper geometry and storage-roof, omit lower mechanisms and bake Y minus .09m without scaling. Preserve all common support patches, actual thick bottoms, walls, cup openings and case handles. Export deterministic self-contained GLBs and inspect actual loaded vertices, topology, contact, full-path fit and access through the new independent geometry gate. Keep each resource within 2500 triangles, 32 meshes and four materials."
+  },
+  "host": {
+    "sourceResource": {
+      "id": "sliding-drawer-flat-panel",
+      "version": 1,
+      "assetSha256": "467df33d81f0c132cfc8cd1c5c54cb1d267e0bb90b06f33a35cd22a366dd02e5"
+    },
+    "envelope": {
+      "width": 0.9,
+      "height": 0.78,
+      "depth": 0.55
+    },
+    "movingTranslationY": -0.35,
+    "movingNames": [
+      "drawer-front",
+      "drawer-handle",
+      "drawer-bottom",
+      "drawer-left",
+      "drawer-right",
+      "drawer-back"
+    ],
+    "fixedBoxes": [
+      {
+        "name": "cabinet-top",
+        "min": [
+          -0.45,
+          0.745,
+          -0.225
+        ],
+        "max": [
+          0.45,
+          0.78,
+          0.225
+        ],
+        "material": "body"
+      },
+      {
+        "name": "cabinet-bottom",
+        "min": [
+          -0.45,
+          0,
+          -0.225
+        ],
+        "max": [
+          0.45,
+          0.07,
+          0.225
+        ],
+        "material": "body"
+      },
+      {
+        "name": "cabinet-side-left",
+        "min": [
+          -0.45,
+          0.07,
+          -0.225
+        ],
+        "max": [
+          -0.39,
+          0.745,
+          0.225
+        ],
+        "material": "body"
+      },
+      {
+        "name": "cabinet-side-right",
+        "min": [
+          0.39,
+          0.07,
+          -0.225
+        ],
+        "max": [
+          0.45,
+          0.745,
+          0.225
+        ],
+        "material": "body"
+      },
+      {
+        "name": "cabinet-inner-back",
+        "min": [
+          -0.39,
+          0.07,
+          -0.225
+        ],
+        "max": [
+          0.39,
+          0.745,
+          -0.19
+        ],
+        "material": "inner"
+      },
+      {
+        "name": "cabinet-drawer-divider",
+        "min": [
+          -0.39,
+          0.345,
+          -0.19
+        ],
+        "max": [
+          0.39,
+          0.405,
+          0.2
+        ],
+        "material": "body"
+      },
+      {
+        "name": "drawer-runner-left",
+        "min": [
+          -0.31,
+          0.405,
+          -0.175
+        ],
+        "max": [
+          -0.19,
+          0.43,
+          0.215
+        ],
+        "material": "metal"
+      },
+      {
+        "name": "drawer-runner-right",
+        "min": [
+          0.19,
+          0.405,
+          -0.175
+        ],
+        "max": [
+          0.31,
+          0.43,
+          0.215
+        ],
+        "material": "metal"
+      }
+    ],
+    "movingParts": [
+      {
+        "id": "drawer",
+        "stateField": "openFraction",
+        "kind": "slide",
+        "axis": "z",
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "translationRange": [
+          0,
+          0.32
+        ],
+        "bounds": {
+          "min": [
+            -0.42,
+            0.43,
+            -0.205
+          ],
+          "max": [
+            0.42,
+            0.77,
+            0.275
+          ]
+        }
+      }
+    ],
+    "supportSurfaces": [
+      {
+        "id": "top",
+        "center": [
+          0,
+          0
+        ],
+        "topY": 0.78,
+        "halfSize": [
+          0.4,
+          0.18
+        ],
+        "clearanceHeight": 0.4
+      },
+      {
+        "id": "drawer",
+        "center": [
+          0,
+          0.03125
+        ],
+        "topY": 0.455,
+        "halfSize": [
+          0.345,
+          0.18625
+        ],
+        "clearanceHeight": 0.25
+      }
+    ],
+    "prompt": "Independent grounded low cabinet with actual bottom/cheeks/back, aligned .78m top, complete original flat-panel moving tray, .32m travel and a raised bearing divider that closes the original 5mm rail gap. Keep static and moving support networks independently connected.",
+    "limitations": [
+      "One supporting host resource for the confirmed four payload looks. Static source-local contact and finite movement establish geometry, while mechanical strength and character use need separate evidence."
+    ]
+  },
+  "payload": {
+    "envelope": {
+      "width": 0.45,
+      "height": 0.18,
+      "depth": 0.25
+    },
+    "translationY": -0.09,
+    "retainedPrefixes": [
+      "storage-upper-",
+      "storage-divider-",
+      "storage-cup-",
+      "storage-case-handle-"
+    ],
+    "supportSurfaces": [
+      {
+        "id": "top",
+        "center": [
+          0,
+          -0.045
+        ],
+        "topY": 0.01,
+        "halfSize": [
+          0.115,
+          0.055
+        ],
+        "clearanceHeight": 0.14
+      }
+    ],
+    "selection": "Retain storage-roof and explicit upper prefixes from the pinned original generator; omit lower carrier, slide and storage-drawer-divider. Preserve authored geometry/materials and bake Y-.09, with values within1e-8m of zero canonicalized to zero."
+  },
+  "designs": [
+    {
+      "id": "tray",
+      "sourceDesign": "tray",
+      "sourceResource": {
+        "id": "makeup-storage-tray",
+        "version": 1
+      },
+      "label": "抽屉内托盘",
+      "rimHeight": 0.148,
+      "prompt": "Reuse the original shallow open tray with four real rim walls and the original thick roof as its independent bottom. Author the upper rimHeight as .148 before applying the fixed Y-.09 adaptation.",
+      "limitations": [
+        "Static independent tray payload carried by the real parent drawer. Original rim shape and bottom retained."
+      ]
+    },
+    {
+      "id": "divided",
+      "sourceDesign": "divided",
+      "sourceResource": {
+        "id": "makeup-storage-divided",
+        "version": 1
+      },
+      "label": "抽屉内分格收纳",
+      "prompt": "Reuse the proven upper outer walls, longitudinal dividers and left cross-divider around the shared contents patch. Retain real cell bottoms and at least two usable cells.",
+      "limitations": [
+        "Static upper dividers. The original lower moving divider belongs to the removed carrier."
+      ]
+    },
+    {
+      "id": "brush-cup",
+      "sourceDesign": "brush-cup",
+      "sourceResource": {
+        "id": "makeup-storage-brush-cup",
+        "version": 1
+      },
+      "label": "抽屉内刷具杯",
+      "prompt": "Reuse both proven thick bottomed open cups at their original radii and heights after rigid Y-.09 adaptation. Preserve the corrected annular end-face contact and the shared bottom board.",
+      "limitations": [
+        "Normal cup geometry retained at approximately15cm and12cm wall heights. No brush or hand interaction state."
+      ]
+    },
+    {
+      "id": "case",
+      "sourceDesign": "case",
+      "sourceResource": {
+        "id": "makeup-storage-case",
+        "version": 1
+      },
+      "label": "抽屉内开放化妆箱",
+      "prompt": "Reuse the original open case walls and six corrected side-handle bars with the real storage-roof bottom. Preserve the open apertures after rigid Y-.09 adaptation.",
+      "limitations": [
+        "Fixed open case and real handle apertures. No lid hinge or carrying simulation."
+      ]
+    }
+  ],
+  "sourceModification": {
+    "parameter": "designs[0].rimHeight",
+    "beforeRimHeight": 0.145,
+    "afterRimHeight": 0.148,
+    "effect": "Only the tray upper rim changes from.055m to.058m after adaptation. The host and other three payload GLBs remain byte identical."
+  },
+  "dependencyPins": {
+    "functionalContract": {
+      "path": "docs/COMPANY-MAKEUP-DRAWER-CONTRACT-v1.txt",
+      "sha256": "fd86017e39d50806eda2915ffeb4f25a3d035df2f561dfeda655355300e757ab"
+    },
+    "preflight": {
+      "path": "docs/research/COMPANY-MAKEUP-DRAWER-INSTALL-PREFLIGHT-2026-11-17.txt",
+      "sha256": "47e13ceb632f9e0bb9e643cda4959906e221a31b26398bf17551ebc3ff98b38e"
+    },
+    "lockfile": {
+      "path": "prototype/package-lock.json",
+      "sha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7"
+    },
+    "threePackage": {
+      "path": "prototype/node_modules/three/package.json",
+      "sha256": "87f2c99a8718e5fdd6f5e51427fde52c6075f2f698ddf8f7b4e162882df93940"
+    },
+    "threeModule": {
+      "path": "prototype/node_modules/three/build/three.module.js",
+      "sha256": "104f56145899722094556490d787aae0617cc2fc3382f31df02d724ea1aee341"
+    },
+    "gltfExporter": {
+      "path": "prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+      "sha256": "569793baeba62baeb4ab0b3619b6b1495b45d4b2ba9690430497adb58307bdf2"
+    },
+    "gltfLoader": {
+      "path": "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+      "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1"
+    },
+    "threeLicense": {
+      "path": "prototype/node_modules/three/LICENSE",
+      "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+    },
+    "sourceHostGlb": {
+      "path": "prototype/public/company-assets/sliding-drawer-v1/flat-panel/v1/model.glb",
+      "sha256": "467df33d81f0c132cfc8cd1c5c54cb1d267e0bb90b06f33a35cd22a366dd02e5"
+    },
+    "sourceHostParameters": {
+      "path": "assets-source/company-sliding-drawer-v1/parameters.json",
+      "sha256": "ede484c7dd93a9169f16b918566129deb06eaa9123794f051b3efc78a5858cb7"
+    },
+    "sourceHostGenerator": {
+      "path": "scripts/company-platform/build-sliding-drawer.mjs",
+      "sha256": "539d463d3047843fa2befb2c2246bbb66337185d8bb862871c1ccde40df063a4"
+    },
+    "sourceStorageParameters": {
+      "path": "assets-source/company-makeup-storage-v1/parameters.json",
+      "sha256": "048b1c75d8b80efc7f562b3b0a05b1185d95741ffc118fc3f766f7c84603cdf2"
+    },
+    "sourceStorageGenerator": {
+      "path": "scripts/company-platform/build-makeup-storage.mjs",
+      "sha256": "e0cdef4e398fb24099bec79ac1cac7a1cdba94b273878d4f3bf2cb66b15e2e5c"
+    },
+    "supportVerifier": {
+      "path": "prototype/src/company/support-geometry.js",
+      "sha256": "132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68"
+    },
+    "sourceStoragetrayGlb": {
+      "path": "prototype/public/company-assets/makeup-storage-v1/tray/v1/model.glb",
+      "sha256": "ec5976fe544e7f05a90cc6169e8f8d79186e141672f0b0b429ed82fa24d4c596"
+    },
+    "sourceStoragedividedGlb": {
+      "path": "prototype/public/company-assets/makeup-storage-v1/divided/v1/model.glb",
+      "sha256": "5e9111083579c3ecc704c4086ffedf2c1fa7d5b5dc21a91826e32cb316c48801"
+    },
+    "sourceStoragebrushcupGlb": {
+      "path": "prototype/public/company-assets/makeup-storage-v1/brush-cup/v1/model.glb",
+      "sha256": "a7c2d85fde07fd3b479aa43d355a4874da5b774fbecaf4752ee1e9717a8a0d5b"
+    },
+    "sourceStoragecaseGlb": {
+      "path": "prototype/public/company-assets/makeup-storage-v1/case/v1/model.glb",
+      "sha256": "aca71349acb08ea4e09c6f78bb2746456ac98b8c4e119ac784d6e8ef5955a4c1"
+    },
+    "geometryVerifier": {
+      "path": "prototype/src/company/makeup-drawer-geometry.js",
+      "sha256": "115d355b2475e86e06c9f075b724cf2490076b0e3855507cde7ed92ac5434a41"
+    }
+  }
+}

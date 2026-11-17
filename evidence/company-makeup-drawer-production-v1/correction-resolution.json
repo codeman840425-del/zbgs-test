@@ -1,0 +1,51 @@
+{
+  "status": "resolved",
+  "originalFailure": {
+    "path": "evidence/company-makeup-drawer-production-v1/failures/divider-back-duplicate-outer-face/",
+    "code": "makeup-drawer-duplicate-outer-face",
+    "cause": "Initial divider back edgeZ=-.20 overlapped the inner-back block ending atZ=-.19 and exposed duplicate same-direction faces."
+  },
+  "structuralCorrection": {
+    "parameter": "host.fixedBoxes[cabinet-drawer-divider].min[2]",
+    "before": -0.2,
+    "after": -0.19,
+    "correctedHostSha256": "6a8072cd54d1dad53c7fdd0d25796314dc50cae02fda82cd77658d2d94838e92"
+  },
+  "gatePrecisionCorrection": {
+    "originalReport": "evidence/company-makeup-drawer-production-v1/corrected-five-readback.json",
+    "observedOriginalMeshSeamMetres": 1.4901161193847656e-8,
+    "existingPositionToleranceMetres": 0.000001,
+    "fix": "New independent gate contact broad-phase uses the already-established position tolerance. Original moving source geometry remains at its actual baked coordinates."
+  },
+  "finalGeometryVerifier": {
+    "path": "prototype/src/company/makeup-drawer-geometry.js",
+    "sha256": "115d355b2475e86e06c9f075b724cf2490076b0e3855507cde7ed92ac5434a41"
+  },
+  "finalContract": {
+    "path": "docs/COMPANY-MAKEUP-DRAWER-CONTRACT-v1.txt",
+    "sha256": "fd86017e39d50806eda2915ffeb4f25a3d035df2f561dfeda655355300e757ab"
+  },
+  "finalItems": [
+    {
+      "id": "makeup-drawer-host",
+      "sha256": "6a8072cd54d1dad53c7fdd0d25796314dc50cae02fda82cd77658d2d94838e92"
+    },
+    {
+      "id": "makeup-drawer-tray",
+      "sha256": "0932413ce40e4e66808d979913c12a3c5c6197821a14232a1229f4b6d3bf4fa7"
+    },
+    {
+      "id": "makeup-drawer-divided",
+      "sha256": "0b6cb2fd7b74229c6b53f783922d532cb8936da27c727e1ae2eb203a606423a4"
+    },
+    {
+      "id": "makeup-drawer-brush-cup",
+      "sha256": "a9c7aa70781faf30859c084ba7f82b24b3c85079c0434742cb37f4379458561b"
+    },
+    {
+      "id": "makeup-drawer-case",
+      "sha256": "220370305d15d68a19191c5ae194919a7c3ec6d46fc9da3cac79ffa2a87c8c83"
+    }
+  ],
+  "scope": "CPU production and loaded geometry verified. Browser/GPU acceptance is owned by the integration task."
+}

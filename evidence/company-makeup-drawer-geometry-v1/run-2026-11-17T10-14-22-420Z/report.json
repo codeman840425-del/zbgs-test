@@ -1,0 +1,30 @@
+{
+  "status": "failed",
+  "checks": [
+    {
+      "name": "Legacy geometry keeps its original admission path",
+      "passed": true
+    }
+  ],
+  "realAssets": [],
+  "failure": {
+    "message": "Every real solid must join the base through positive face area or volume contact",
+    "code": "makeup-drawer-detached-component",
+    "path": "makeup-drawer-host.resource",
+    "details": {
+      "detached": [
+        "drawer-front#8",
+        "drawer-handle#9"
+      ]
+    },
+    "stack": "Error: Every real solid must join the base through positive face area or volume contact\n    at fail (file:///F:/gamemake-company-platform-c1/scripts/company-platform/verify-makeup-drawer-geometry.mjs:16:66)\n    at failure (file:///F:/gamemake-company-platform-c1/prototype/src/company/makeup-drawer-geometry.js:620:57)\n    at reject (file:///F:/gamemake-company-platform-c1/prototype/src/company/makeup-drawer-geometry.js:19:3)\n    at connectedNetwork (file:///F:/gamemake-company-platform-c1/prototype/src/company/makeup-drawer-geometry.js:477:24)\n    at validateHost (file:///F:/gamemake-company-platform-c1/prototype/src/company/makeup-drawer-geometry.js:605:67)\n    at validateMakeupDrawerGeometry (file:///F:/gamemake-company-platform-c1/prototype/src/company/makeup-drawer-geometry.js:625:17)\n    at invoke (file:///F:/gamemake-company-platform-c1/scripts/company-platform/verify-makeup-drawer-geometry.mjs:17:32)\n    at file:///F:/gamemake-company-platform-c1/scripts/company-platform/verify-makeup-drawer-geometry.mjs:67:18"
+  },
+  "sourceHashes": {
+    "prototype/src/company/makeup-drawer-geometry.js": "a8ac67e34a472fc245cca0d2be3495a4c84b2e5f625e692d39c6048a840b9fab",
+    "prototype/src/company/asset-library.js": "ec70003f87553a1195334ad4d20f39f2c563d7e1bbcf35c80d1ba095be20172b",
+    "scripts/company-platform/verify-makeup-drawer-geometry.mjs": "a200064000af79190948f6dd4539102bdd29577ffd9335aee323071265fa1b15"
+  },
+  "limits": [
+    "Actual imported closed-pose host and four payload GLBs. Exact finite solids, convex cup decomposition and complete pure-translation SAT prove geometry and reserved payload-envelope fit. No GPU, mechanical-strength, tipping-stability or character-use acceptance."
+  ]
+}

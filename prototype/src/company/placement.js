@@ -2,6 +2,7 @@ import { CompanyError, deriveCompany, pointInTransform } from './document.js';
 import { inspectCompanyConnections } from './space.js';
 import {movingFootprint} from './moving-parts.js';
 import {MAKEUP_STORAGE_PROFILE} from './makeup-storage-data.js';
+import {validateVanityPlacement} from './vanity-data.js';
 
 export function inspectCompanyMotionSweep(previous, candidate, catalog, templates) {
   const before=deriveCompany(previous,catalog,templates),after=deriveCompany(candidate,catalog,templates);
@@ -9,21 +10,33 @@ export function inspectCompanyMotionSweep(previous, candidate, catalog, template
   for(const f of after.facilities.filter(f=>f.resource.movingParts&&f.resource.movingProfile!==MAKEUP_STORAGE_PROFILE)) {
     const old=before.facilities.find(p=>p.id===f.id);
     if(!old?.resource.movingParts||f.resource.movingParts.every(p=>old.state[p.stateField]===f.state[p.stateField]))continue;
-    // Each scene instance can be at a different pose. A private validation-only
-    // resource copy prevents one instance's sweep from changing another one.
+    if(f.node.stationId)throw new CompanyError('unsupported-moving-template',f.id,'Moving template parts require a separately verified template contract');
     swept.set(f.id,movingFootprint(f.resource,old.state,f.state));
   }
   if(!swept.size)return null;
-  const document=structuredClone(candidate),validationCatalog=structuredClone(catalog);
-  for(const [id,footprint]of swept) {
-    const node=document.nodes.find(n=>n.id===id),source=validationCatalog.resources.find(r=>r.id===node.resource.id&&r.version===node.resource.version);
-    const resource=structuredClone(source);resource.id=`motion-sweep:${id}`;while(validationCatalog.resources.some(r=>r.id===resource.id&&r.version===resource.version))resource.id+=':validation';resource.footprint=footprint;
-    delete resource.movingParts;delete resource.partNodes;delete resource.partPanels;delete resource.partTrays;
-    validationCatalog.resources.push(resource);node.resource={id:resource.id,version:resource.version};
-    // Moving furniture is standalone in this first motion contract.
-    if(node.stationId)throw new CompanyError('unsupported-moving-template',id,'Moving template parts require a separately verified template contract');
+  // Override only private derived obstacles. Preserve authoritative resource
+  // contracts, states and support-driven child transforms during validation.
+  const obstacles=after.obstacles.map(obstacle=>{
+    const footprint=swept.get(obstacle.id);
+    if(!footprint)return obstacle;
+    const corners=[-1,1].flatMap(x=>[-1,1].map(z=>pointInTransform(obstacle.world,[footprint.center[0]+x*footprint.halfSize[0],0,footprint.center[1]+z*footprint.halfSize[1]])));
+    return {...obstacle,footprint,corners,min:[Math.min(...corners.map(p=>p[0])),Math.min(...corners.map(p=>p[2]))],max:[Math.max(...corners.map(p=>p[0])),Math.max(...corners.map(p=>p[2]))]};
+  });
+  const derived={...after,obstacles};
+  for(let i=0;i<obstacles.length;i++)for(let j=i+1;j<obstacles.length;j++){
+    const a=obstacles[i],b=obstacles[j];
+    if(a.floorId===b.floorId&&a.min.every((value,axis)=>value<b.max[axis]-EPSILON&&a.max[axis]>b.min[axis]+EPSILON))
+      fail('overlapping-facilities',a.id,`Movement reserves overlap ${b.id}`,{otherId:b.id});
   }
-  return inspectCompanyPlacement(document,validationCatalog,templates);
+  for(const obstacle of obstacles.filter(o=>swept.has(o.id))) {
+    const room=derived.nodes.get(derived.roomIds.get(obstacle.id));
+    if(room)for(const corner of obstacle.corners){const local=roomLocal(derived.worlds.get(room.id),corner);
+      if(Math.abs(local[0])>room.bounds.width/2-.1+EPSILON||Math.abs(local[2])>room.bounds.depth/2-.1+EPSILON)
+        fail('outside-room',obstacle.id,`Movement reserve lies outside ${room.id}`);
+    }
+  }
+  validateVanityPlacement(derived,fail);
+  return inspectDerivedPlacement(candidate,catalog,templates,derived);
 }
 
 const RADIUS = 0.25;
@@ -101,7 +114,10 @@ function gridFor(bounds, obstacles, start) {
 
 /** Static C1/C2 authoring admission only. Does not create occupancy or actor state. */
 export function inspectCompanyPlacement(document, catalog, templates) {
-  const derived = deriveCompany(document, catalog, templates);
+  return inspectDerivedPlacement(document,catalog,templates,deriveCompany(document,catalog,templates));
+}
+
+function inspectDerivedPlacement(document,catalog,templates,derived) {
   const warnings = [
     'C1/C2 static authoring reserve only. Radius 0.25m has no verified C3 character fit.',
     '0.20m four-neighbour grid and square obstacle expansion are conservative. Narrow or diagonal feasible paths may be rejected.',

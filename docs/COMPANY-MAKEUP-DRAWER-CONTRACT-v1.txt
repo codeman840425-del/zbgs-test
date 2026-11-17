@@ -1,0 +1,38 @@
+化妆抽屉安装：独立侧柜与载荷合同 v1
+2026-11-17；基线 e067f7aa。依据 research/COMPANY-MAKEUP-DRAWER-INSTALL-PREFLIGHT-2026-11-17.txt 与本轮明确批准的独立落地化妆侧柜。
+
+一、范围和身份
+本包落实 makeup-storage-drawer 分支的真实抽屉依附。使用独立落地侧柜，不修改已交付 vanity-table、旧落地滑柜、铰接柜或台面收纳资源。首批 host 为 makeup-drawer-host@1；四载荷为 makeup-drawer-tray/divided/brush-cup/case@1。同一功能规格的新外观ID和正整数版本可复用合同，首批ID用于登记及识别被篡改的已知身份，不作为永久资源白名单。
+米制、+Y向上、+Z为正前方，bottom原点，实例缩放恒等。沿既有状态、承载、保存与prepare/commit事务，不创建角色、占用、任务或时间系统。
+
+二、实际抽屉宿主
+mountRole=makeup-drawer-host；category=dynamic；不声明mount；movingProfile=makeup-drawer-host-v1；usePoints=[]。设施直接parent必须为room/area，地面原点。mounting={origin:'bottom',width:.9,height:.78,depth:.55}；footprint={center:[0,0],halfSize:[.45,.275],blocking:true}。安装包络为闭合参考尺寸；开启的实际阻挡与扫掠按部件计算，不能强制把打开抽屉压回闭合盒。
+stateDefaults={openFraction:0}；stateSchema={openFraction:{type:'number',min:0,max:1}}；stateSemantics={openFraction:'sliding-drawer-opening-fraction'}。
+movingParts=[{id:'drawer',stateField:'openFraction',kind:'slide',axis:'z',pivot:[0,0,0],translationRange:[0,.32],bounds:{min:[-.42,.43,-.205],max:[.42,.77,.275]}}]。
+partNodes={drawer:'cabinet-drawer-slide'}；partPanels={drawer:'drawer-front'}；partTrays={drawer:{bottom:'drawer-bottom',left:'drawer-left',right:'drawer-right',back:'drawer-back'}}。
+supportSurfaces=[{id:'top',center:[0,0],topY:.78,halfSize:[.4,.18],clearanceHeight:.4},{id:'drawer',center:[0,.03125],topY:.455,halfSize:[.345,.18625],clearanceHeight:.25}]。
+supportNodes={top:'cabinet-top',drawer:'drawer-bottom'}；supportMotion={drawer:'drawer'}。top保持静止，drawer面和其载荷由同一部件偏移驱动。
+宿主真实抽屉及其腔体以既有落地滑柜为来源参考，活动部件原Y减.35后得到本合同bounds；顶板和独立低侧柜支承按实际新源码制作。不得仅改资源字段或模型节点名宣称真抽屉通过。生产/读回须检查闭合有厚度底、侧、背、前板、全行程承载及空腔，顶支持面、固定结构和抽屉全程无严重穿插。几何门与运行数据准入分别记录。
+固定顶板X±.45、Y[.745,.78]、Z±.225；底板X±.45、Y[0,.07]、Z±.225。两侧板X[-.45,-.39]/[.39,.45]、Y[.07,.745]、Z±.225；内后板X±.39、Y[.07,.745]、Z[-.225,-.19]。抽屉下隔板X±.39、Y[.345,.405]、Z[-.19,.20]；两条实轨X[-.31,-.19]/[.19,.31]、Y[.405,.43]、Z[-.175,.215]。沿原名cabinet-top/bottom/side-left/side-right/inner-back、cabinet-drawer-divider、drawer-runner-left/right；不另加侵入腔体的后横条。活动六网格沿原flat-panel真抽屉保形并烘焙Y减.35，pivot保持恒等。
+
+三、四款静态载荷
+mountRole和productionBranch均为makeup-storage-drawer；category=decor；mount=support-surface；mounting={origin:'bottom',width:.45,height:.18,depth:.25}；footprint.blocking=false；usePoints=[]；stateDefaults={}；不声明自身状态schema/semantics、movingParts、movingProfile或supportMotion。必须直接依附合法host的drawer，attachment={surfaceId:'drawer'}。
+supportSurfaces=[{id:'top',center:[0,-.045],topY:.01,halfSize:[.115,.055],clearanceHeight:.14}]；supportNodes={top:'storage-roof'}。
+四款复用已交付台面收纳的上部原创形态。保留storage-roof为实底，删除下部浅抽屉机构，上部所有顶点Y减.09，保持真实厚度和形状，不缩放。刷具杯最高.16m。托盘、分格、刷具杯、开放箱的真实结构区别、格底、杯厚壁和开放口须经独立GLTFLoader读回门验证。载荷完整安装盒及其top小物净空在父drawer的整个移动范围中成立。
+默认载荷rest transform={position:[0,.455,.03125],yaw:0}。有限四分之一yaw沿已有整个旋转安装包络检查，只有实际能放入才接受。
+
+四、两级随动与保存
+复用原makeup-storage-content-compact资源定义，新增合法父为本payload的top面，rest position=[0,.01,-.045]。旧合法台面收纳的top/drawer依附继续有效。compact不能直接依附host或vanity来借用新例外。
+层级为host→payload→compact。payload有效局部位置由保存rest坐标加host抽屉partOffset；compact仍为payload的静态rest局部位置，通过祖先变换获得相同位移。host状态0/.5/1对应沿host局部+Z的0/.16/.32m，支持非端点状态。derive与render使用同一个effective local adapter，每次从rest计算，不累计偏移。保存资源引用、实例ID、parent、attachment、rest transform和host状态，不保存派生坐标或GPU对象。
+外观替换保host状态及所有子物身份/rest/attachment。copy-facility沿既有copySubtree分配全新子树ID，可保留原直接父或显式指定目标host；所有复制仍经过完整父约束、支承、运动、碰撞和原子事务检查。原有busy子树守卫不改语义。
+
+五、扫掠和失败保原
+host闭合阻挡与打开阻挡沿既有movingFootprint。状态变化必须检查整个连续区间、房间墙内侧、其他阻挡设施及既有静态导航/接近/退出留空。host同父不同承载面子物使用三维连续运动包络，同部件子物保持相对位置。payload及compact完整包络必须保留于父已声明腔体净空；实际网格适配另验。
+运动准入使用私有derived swept-obstacle输入，不伪造资源ID、不删除正常资源的movingParts/supportMotion、不丢失状态或子物，也不为正常导入开放绕过验证的flag。已交付滑柜和铰接的原范围、错误拒绝与保守留空准入继续有效。
+坏资源/版本/父/面/映射/状态、过大载荷、过高内容、移动阻挡、busy子树、缺实际pivot及迟到资源失败必须保原场景、文档、角色lease和已存字节。真实几何失败由独立门拒绝，数据测试不能冒充几何通过。
+
+六、生产与最小出口
+原作者参数→确定性Three r187 GLTFExporter→登记→真实GLTFLoader读回几何门→共享游戏消费。import无写入，--check不依赖evidence。MIT来源/原始可编辑源/锁文件/SHA保留。首批五件各目标≤2500三角、≤32mesh、≤4材质；超限保真实原因，不删必要结构冒认完整。
+先完成host+托盘/刷具杯，再完成另两款。两输入含独立host、不同房与yaw。核0/.5/1及非端点、四款逐个换款与独立关闭恢复、载荷和compact同向随动、top静止、同规格新ID/版本、复制和坏例保原。固定提交独立构建/完整依赖重建、正常1×观看及实际前部留空证据由总工集成。
+CPU合成夹具、真实几何门、浏览器显示、普通电脑性能与C3角色使用分别标注。无普通电脑或角色证据时不扩大结论。本包不声明人物伸手、拿取或化妆动作。
+尝试预算一次实现加一次根因修正；两轮同因且无新证据或改善时保留失败并重新定位，禁止扫参或降低验收。

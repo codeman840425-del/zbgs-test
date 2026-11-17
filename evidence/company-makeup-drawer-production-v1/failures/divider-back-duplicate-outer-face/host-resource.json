@@ -1,0 +1,146 @@
+{
+  "id": "makeup-drawer-host",
+  "displayName": "化妆抽屉侧柜",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "makeup-drawer-host",
+  "movingProfile": "makeup-drawer-host-v1",
+  "mounting": {
+    "origin": "bottom",
+    "width": 0.9,
+    "height": 0.78,
+    "depth": 0.55
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Bottom centre",
+    "scale": "Identity only"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.45,
+      0.275
+    ],
+    "blocking": true
+  },
+  "usePoints": [],
+  "stateDefaults": {
+    "openFraction": 0
+  },
+  "stateSchema": {
+    "openFraction": {
+      "type": "number",
+      "min": 0,
+      "max": 1
+    }
+  },
+  "stateSemantics": {
+    "openFraction": "sliding-drawer-opening-fraction"
+  },
+  "movingParts": [
+    {
+      "id": "drawer",
+      "stateField": "openFraction",
+      "kind": "slide",
+      "axis": "z",
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "translationRange": [
+        0,
+        0.32
+      ],
+      "bounds": {
+        "min": [
+          -0.42,
+          0.43,
+          -0.205
+        ],
+        "max": [
+          0.42,
+          0.77,
+          0.275
+        ]
+      }
+    }
+  ],
+  "partNodes": {
+    "drawer": "cabinet-drawer-slide"
+  },
+  "partPanels": {
+    "drawer": "drawer-front"
+  },
+  "partTrays": {
+    "drawer": {
+      "bottom": "drawer-bottom",
+      "left": "drawer-left",
+      "right": "drawer-right",
+      "back": "drawer-back"
+    }
+  },
+  "supportSurfaces": [
+    {
+      "id": "top",
+      "center": [
+        0,
+        0
+      ],
+      "topY": 0.78,
+      "halfSize": [
+        0.4,
+        0.18
+      ],
+      "clearanceHeight": 0.4
+    },
+    {
+      "id": "drawer",
+      "center": [
+        0,
+        0.03125
+      ],
+      "topY": 0.455,
+      "halfSize": [
+        0.345,
+        0.18625
+      ],
+      "clearanceHeight": 0.25
+    }
+  ],
+  "supportNodes": {
+    "top": "cabinet-top",
+    "drawer": "drawer-bottom"
+  },
+  "supportMotion": {
+    "drawer": "drawer"
+  },
+  "provenance": {
+    "intermediate": true,
+    "geometryAcceptance": "pending",
+    "license": "Project-authored adaptations of existing original project geometry, with original source/resource hashes and explicit transformations. Three.js 0.187.0 is MIT licensed, copyright 2010–2026 three.js authors. Preserve the pinned Three LICENSE and project lockfile for offline rebuilds.",
+    "sourceDesign": "host",
+    "sourceResource": {
+      "id": "sliding-drawer-flat-panel",
+      "version": 1,
+      "assetSha256": "467df33d81f0c132cfc8cd1c5c54cb1d267e0bb90b06f33a35cd22a366dd02e5"
+    },
+    "prompt": "Purpose: a real floor-standing makeup drawer host and four compatible drawer-installed storage payloads using the established company support, state, transform and save chain. Reuse pinned existing project sources with explicit editable adaptation parameters and identity instance scale. The host uses the original true sliding tray at Y minus .35m and a newly dimensioned .90 x .78 x .55m closed grounded carrier with actual connected rails and cavity. The four payloads retain the proven upper geometry and storage-roof, omit lower mechanisms and bake Y minus .09m without scaling. Preserve all common support patches, actual thick bottoms, walls, cup openings and case handles. Export deterministic self-contained GLBs and inspect actual loaded vertices, topology, contact, full-path fit and access through the new independent geometry gate. Keep each resource within 2500 triangles, 32 meshes and four materials. Independent grounded low cabinet with actual bottom/cheeks/back, aligned .78m top, complete original flat-panel moving tray, .32m travel and a raised bearing divider that closes the original 5mm rail gap. Keep static and moving support networks independently connected.",
+    "method": "Pinned original flat-panel GLB moving meshes baked in source space with Y -.35. A new low closed carrier uses fixed contract dimensions, direct bearing divider and independent grounded support network.",
+    "limitations": [
+      "One supporting host resource for the confirmed four payload looks. Static source-local contact and finite movement establish geometry, while mechanical strength and character use need separate evidence."
+    ]
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/makeup-drawer-v1/host/v1/model.glb",
+    "sha256": "4d6cc38098ef37271afa746130e13058299d05675040adc9ca0c7888b7ae379a",
+    "bytes": 25604
+  }
+}

@@ -1,0 +1,553 @@
+{
+  "status": "failed",
+  "checks": [
+    {
+      "name": "Legacy geometry keeps its original admission path",
+      "passed": true
+    },
+    {
+      "name": "host / actual GLB and existing support gate pass",
+      "passed": true
+    },
+    {
+      "name": "host / explicit same-function identity and version remain supported",
+      "passed": true
+    },
+    {
+      "name": "makeup-drawer-host / missing actual base",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-drawer-node",
+        "path": "makeup-drawer-host.scene.cabinet-bottom",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-drawer-host / base cannot be a flat plane",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-drawer-degenerate-face",
+        "path": "makeup-drawer-host.scene.cabinet-bottom",
+        "message": "Each triangle must have three distinct vertices and real area"
+      }
+    },
+    {
+      "name": "makeup-drawer-host / missing floor triangle",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-drawer-open-or-inconsistent",
+        "path": "makeup-drawer-host.scene.cabinet-bottom",
+        "message": "Every welded edge must have exactly two oppositely directed face uses"
+      }
+    },
+    {
+      "name": "makeup-drawer-host / unbaked node transform",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-drawer-transform",
+        "path": "makeup-drawer-host.scene.cabinet-bottom",
+        "message": "All resource nodes require baked identity transforms and visible geometry"
+      }
+    },
+    {
+      "name": "makeup-drawer-host / invisible base cannot support a real load",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-drawer-transform",
+        "path": "makeup-drawer-host.scene.cabinet-bottom",
+        "message": "All resource nodes require baked identity transforms and visible geometry"
+      }
+    },
+    {
+      "name": "makeup-drawer-host / transparent floor cannot fake a closed cavity",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-drawer-material",
+        "path": "makeup-drawer-host.scene.cabinet-bottom",
+        "message": "Storage solids require opaque visible materials"
+      }
+    },
+    {
+      "name": "makeup-drawer-host / missing cabinet-top",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-drawer-node",
+        "path": "makeup-drawer-host.scene.cabinet-top",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-drawer-host / missing cabinet-side-left",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-drawer-node",
+        "path": "makeup-drawer-host.scene.cabinet-side-left",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-drawer-host / missing cabinet-side-right",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-drawer-node",
+        "path": "makeup-drawer-host.scene.cabinet-side-right",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-drawer-host / missing cabinet-inner-back",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-drawer-node",
+        "path": "makeup-drawer-host.scene.cabinet-inner-back",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-drawer-host / missing cabinet-drawer-divider",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-drawer-node",
+        "path": "makeup-drawer-host.scene.cabinet-drawer-divider",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-drawer-host / missing drawer-runner-left",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-drawer-node",
+        "path": "makeup-drawer-host.scene.drawer-runner-left",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-drawer-host / missing drawer-runner-right",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-drawer-node",
+        "path": "makeup-drawer-host.scene.drawer-runner-right",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-drawer-host / missing drawer-front",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-drawer-node",
+        "path": "makeup-drawer-host.scene.drawer-front",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-drawer-host / missing drawer-bottom",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-drawer-node",
+        "path": "makeup-drawer-host.scene.drawer-bottom",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-drawer-host / missing drawer-left",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-drawer-node",
+        "path": "makeup-drawer-host.scene.drawer-left",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-drawer-host / missing drawer-right",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-drawer-node",
+        "path": "makeup-drawer-host.scene.drawer-right",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-drawer-host / missing drawer-back",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-drawer-node",
+        "path": "makeup-drawer-host.scene.drawer-back",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-drawer-host / missing drawer-handle",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-drawer-node",
+        "path": "makeup-drawer-host.scene.drawer-handle",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-drawer-host / missing actual slide group",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-drawer-node",
+        "path": "makeup-drawer-host.scene.cabinet-drawer-slide",
+        "message": "Every required actual node must have one unique name",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-drawer-host / drawer bottom must belong to actual slide subtree",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-drawer-motion-mapping",
+        "path": "makeup-drawer-host.scene.drawer-bottom",
+        "message": "Fixed cabinet parts and moving drawer parts must belong to their actual independent subtrees"
+      }
+    },
+    {
+      "name": "makeup-drawer-host / fixed roof cannot be moved as part of the drawer",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-drawer-motion-mapping",
+        "path": "makeup-drawer-host.scene.cabinet-top",
+        "message": "Fixed cabinet parts and moving drawer parts must belong to their actual independent subtrees"
+      }
+    },
+    {
+      "name": "makeup-drawer-host / moving support cannot be mapped to roof metadata",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-drawer-motion-mapping",
+        "path": "makeup-drawer-host.resource",
+        "message": "The real drawer group and its actual bottom support must use the fixed host mapping"
+      }
+    },
+    {
+      "name": "makeup-drawer-host / original five millimetre runner gap is rejected",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-drawer-solid-box",
+        "path": "makeup-drawer-host.scene.drawer-runner-left",
+        "message": "The actual closed convex component must be the entire required rectangular solid"
+      }
+    },
+    {
+      "name": "makeup-drawer-host / short rail cannot lose full-open contact",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-drawer-solid-box",
+        "path": "makeup-drawer-host.scene.drawer-runner-right",
+        "message": "The actual closed convex component must be the entire required rectangular solid"
+      }
+    },
+    {
+      "name": "makeup-drawer-host / wrong actual drawer floor elevation",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-drawer-duplicate-outer-face",
+        "path": "makeup-drawer-host.scene.drawer-bottom",
+        "message": "Two actual solids expose coplanar equally oriented faces over positive area",
+        "details": {
+          "other": "drawer-left",
+          "sharedArea": 0.0001237499122321295
+        }
+      }
+    },
+    {
+      "name": "makeup-drawer-host / front crossing obstacle exists only at intermediate stroke",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-drawer-slide-collision",
+        "path": "makeup-drawer-host.scene.drawer-front",
+        "message": "The actual drawer intersects fixed geometry during continuous translation",
+        "details": {
+          "fixed": "intermediate-only-blocker",
+          "interval": {
+            "start": 0.014065630215406334,
+            "end": 0.14218436047136793
+          }
+        }
+      }
+    }
+  ],
+  "realAssets": [
+    {
+      "design": "host",
+      "sha256": "6a8072cd54d1dad53c7fdd0d25796314dc50cae02fda82cd77658d2d94838e92",
+      "bytes": 25600,
+      "resourcePath": "prototype/public/company-assets/makeup-drawer-v1/host/v1/resource.json",
+      "actual": {
+        "checked": true,
+        "kind": "host",
+        "meshCount": 14,
+        "triangleCount": 168,
+        "materials": 4,
+        "movingComponents": [
+          "drawer-front",
+          "drawer-handle",
+          "drawer-bottom",
+          "drawer-left",
+          "drawer-right",
+          "drawer-back"
+        ],
+        "support": [
+          {
+            "rail": "drawer-runner-left",
+            "offset": 0,
+            "kind": "face",
+            "area": 0.046800001931190494
+          },
+          {
+            "rail": "drawer-runner-left",
+            "offset": 0.32,
+            "kind": "face",
+            "area": 0.010200000548362734
+          },
+          {
+            "rail": "drawer-runner-right",
+            "offset": 0,
+            "kind": "face",
+            "area": 0.046800001931190494
+          },
+          {
+            "rail": "drawer-runner-right",
+            "offset": 0.32,
+            "kind": "face",
+            "area": 0.010200000548362736
+          }
+        ],
+        "connections": [
+          {
+            "a": "cabinet-top#0",
+            "b": "cabinet-side-left#2",
+            "kind": "face",
+            "area": 0.02700000035762784
+          },
+          {
+            "a": "cabinet-top#0",
+            "b": "cabinet-side-right#3",
+            "kind": "face",
+            "area": 0.02700000035762784
+          },
+          {
+            "a": "cabinet-top#0",
+            "b": "cabinet-inner-back#4",
+            "kind": "face",
+            "area": 0.027299996209144695
+          },
+          {
+            "a": "cabinet-bottom#1",
+            "b": "cabinet-side-left#2",
+            "kind": "face",
+            "area": 0.02700000035762784
+          },
+          {
+            "a": "cabinet-bottom#1",
+            "b": "cabinet-side-right#3",
+            "kind": "face",
+            "area": 0.02700000035762784
+          },
+          {
+            "a": "cabinet-bottom#1",
+            "b": "cabinet-inner-back#4",
+            "kind": "face",
+            "area": 0.027299996209144695
+          },
+          {
+            "a": "cabinet-side-left#2",
+            "b": "cabinet-inner-back#4",
+            "kind": "face",
+            "area": 0.023624997742474063
+          },
+          {
+            "a": "cabinet-side-left#2",
+            "b": "cabinet-drawer-divider#5",
+            "kind": "face",
+            "area": 0.023400000965595247
+          },
+          {
+            "a": "cabinet-side-right#3",
+            "b": "cabinet-inner-back#4",
+            "kind": "face",
+            "area": 0.023624997742474063
+          },
+          {
+            "a": "cabinet-side-right#3",
+            "b": "cabinet-drawer-divider#5",
+            "kind": "face",
+            "area": 0.023400000965595247
+          },
+          {
+            "a": "cabinet-inner-back#4",
+            "b": "cabinet-drawer-divider#5",
+            "kind": "face",
+            "area": 0.04680000014305108
+          },
+          {
+            "a": "cabinet-drawer-divider#5",
+            "b": "drawer-runner-left#6",
+            "kind": "face",
+            "area": 0.04500000178813935
+          },
+          {
+            "a": "cabinet-drawer-divider#5",
+            "b": "drawer-runner-right#7",
+            "kind": "face",
+            "area": 0.04500000178813934
+          },
+          {
+            "a": "drawer-front#8",
+            "b": "drawer-handle#9",
+            "kind": "volume",
+            "volume": 0.000006299974964548534
+          },
+          {
+            "a": "drawer-front#8",
+            "b": "drawer-bottom#10",
+            "kind": "face",
+            "area": 0.019000026941299097
+          },
+          {
+            "a": "drawer-front#8",
+            "b": "drawer-left#11",
+            "kind": "face",
+            "area": 0.006249999254941407
+          },
+          {
+            "a": "drawer-front#8",
+            "b": "drawer-right#12",
+            "kind": "face",
+            "area": 0.006249999254941407
+          },
+          {
+            "a": "drawer-bottom#10",
+            "b": "drawer-left#11",
+            "kind": "face",
+            "area": 0.010437502220272954
+          },
+          {
+            "a": "drawer-bottom#10",
+            "b": "drawer-right#12",
+            "kind": "face",
+            "area": 0.010437502220272954
+          },
+          {
+            "a": "drawer-bottom#10",
+            "b": "drawer-back#13",
+            "kind": "face",
+            "area": 0.01774999311566372
+          },
+          {
+            "a": "drawer-left#11",
+            "b": "drawer-back#13",
+            "kind": "face",
+            "area": 0.006249995529652441
+          },
+          {
+            "a": "drawer-right#12",
+            "b": "drawer-back#13",
+            "kind": "face",
+            "area": 0.0062499955296524395
+          }
+        ],
+        "groundArea": 0.40499997854232817,
+        "continuousSlide": {
+          "range": [
+            0,
+            0.32
+          ],
+          "method": "Complete convex SAT time-interval intersection for pure translation"
+        },
+        "payloadEnvelope": {
+          "rest": [
+            0,
+            0.455,
+            0.03125
+          ],
+          "dimensions": [
+            0.45,
+            0.18,
+            0.25
+          ],
+          "fullOpenAccess": true,
+          "roofFrontGapMetres": 0.00125
+        },
+        "limitation": "Actual finite geometry, continuous translation and reserved payload-envelope access. No mechanical strength, tipping stability or character-use claim."
+      },
+      "support": {
+        "checked": true,
+        "surfaces": [
+          {
+            "mesh": "cabinet-top",
+            "triangles": 2,
+            "area": 0.40499997854232817,
+            "topY": 0.78
+          },
+          {
+            "mesh": "drawer-bottom",
+            "triangles": 2,
+            "area": 0.3172999878644944,
+            "topY": 0.455
+          }
+        ],
+        "bottomY": 0
+      }
+    }
+  ],
+  "failure": {
+    "message": "actual fixed blocker cannot fill receiving cavity expected makeup-drawer-drawer-cavity, got makeup-drawer-slide-collision: The actual drawer intersects fixed geometry during continuous translation",
+    "code": "ERR_ASSERTION",
+    "stack": "AssertionError [ERR_ASSERTION]: actual fixed blocker cannot fill receiving cavity expected makeup-drawer-drawer-cavity, got makeup-drawer-slide-collision: The actual drawer intersects fixed geometry during continuous translation\n    at mutate (file:///F:/gamemake-company-platform-c1/scripts/company-platform/verify-makeup-drawer-geometry.mjs:45:3)\n    at file:///F:/gamemake-company-platform-c1/scripts/company-platform/verify-makeup-drawer-geometry.mjs:101:7"
+  },
+  "sourceHashes": {
+    "prototype/src/company/makeup-drawer-geometry.js": "115d355b2475e86e06c9f075b724cf2490076b0e3855507cde7ed92ac5434a41",
+    "prototype/src/company/asset-library.js": "ec70003f87553a1195334ad4d20f39f2c563d7e1bbcf35c80d1ba095be20172b",
+    "scripts/company-platform/verify-makeup-drawer-geometry.mjs": "76a613d3b2abb01f5086a6f311d5909a2d8bdb1d79c8c181d15b676ee5e712a4"
+  },
+  "limits": [
+    "Actual imported closed-pose host and four payload GLBs. Exact finite solids, convex cup decomposition and complete pure-translation SAT prove geometry and reserved payload-envelope fit. No GPU, mechanical-strength, tipping-stability or character-use acceptance."
+  ]
+}

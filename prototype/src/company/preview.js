@@ -30,6 +30,7 @@ import {createMirrorSample} from './mirror-samples.js';
 import {createFloorMirrorSample} from './floor-mirror-samples.js';
 import {createMakeupMirrorSample} from './makeup-mirror-samples.js';
 import {createMakeupStorageSample} from './makeup-storage-samples.js';
+import {createMakeupDrawerSample} from './makeup-drawer-samples.js';
 import {createVanitySample} from './vanity-samples.js';
 import {createMirrorController,selectMirrorRenderProfile} from './mirror-render.js';
 import {validatePresentationInputs} from './clock-display.js';
@@ -85,7 +86,7 @@ const sun=new THREE.DirectionalLight(0xfff0d6,2.3);sun.position.set(-3,8,5);sun.
 Object.assign(sun.shadow.camera,{left:-8,right:8,top:8,bottom:-8});sun.shadow.normalBias=.015;world.add(sun);
 const camera=new THREE.PerspectiveCamera(38,1,.05,300),orbit=new OrbitControls(camera,renderer.domElement);
 orbit.enableDamping=false;orbit.maxPolarAngle=Math.PI*.48;orbit.minDistance=2;orbit.maxDistance=160;
-const layouts={makeupStorage:createMakeupStorageSample(catalog,templates).document,makeupStorageAlternate:createMakeupStorageSample(catalog,templates,{alternate:true}).document,makeupMirrors:createMakeupMirrorSample(catalog,templates).document,makeupMirrorAlternate:createMakeupMirrorSample(catalog,templates,{alternate:true}).document,vanities:createVanitySample(catalog,templates).document,vanityAlternate:createVanitySample(catalog,templates,{alternate:true}).document,floorMirrors:createFloorMirrorSample(catalog,templates).document,floorMirrorAlternate:createFloorMirrorSample(catalog,templates,{alternate:true}).document,mirrors:createMirrorSample(catalog,templates).document,mirrorAlternate:createMirrorSample(catalog,templates,{alternate:true}).document,floorInformation:createFloorInformationSample(catalog,templates).document,floorInformationAlternate:createFloorInformationSample(catalog,templates,{alternate:true}).document,information:createInformationSample(catalog,templates).document,informationAlternate:createInformationSample(catalog,templates,{alternate:true}).document,supportedClocks:createSupportedClockSample(catalog,templates).document,supportedClockAlternate:createSupportedClockSample(catalog,templates,{alternate:true}).document,clocks:createClockSample(catalog,templates).document,clockAlternate:createClockSample(catalog,templates,{alternate:true}).document,sliding:createSlidingSample(catalog,templates).document,slidingAlternate:createSlidingSample(catalog,templates,{alternate:true}).document,hinged:createHingedSample(catalog,templates).document,hingedAlternate:createHingedSample(catalog,templates,{alternate:true}).document,base,alternate,studio,...createScaleExamples(catalog,templates),smallHome,rental:rentalHome,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome,ceilings:ceilingCompany,ceilingHome,
+const layouts={makeupDrawer:createMakeupDrawerSample(catalog,templates).document,makeupDrawerAlternate:createMakeupDrawerSample(catalog,templates,{alternate:true}).document,makeupStorage:createMakeupStorageSample(catalog,templates).document,makeupStorageAlternate:createMakeupStorageSample(catalog,templates,{alternate:true}).document,makeupMirrors:createMakeupMirrorSample(catalog,templates).document,makeupMirrorAlternate:createMakeupMirrorSample(catalog,templates,{alternate:true}).document,vanities:createVanitySample(catalog,templates).document,vanityAlternate:createVanitySample(catalog,templates,{alternate:true}).document,floorMirrors:createFloorMirrorSample(catalog,templates).document,floorMirrorAlternate:createFloorMirrorSample(catalog,templates,{alternate:true}).document,mirrors:createMirrorSample(catalog,templates).document,mirrorAlternate:createMirrorSample(catalog,templates,{alternate:true}).document,floorInformation:createFloorInformationSample(catalog,templates).document,floorInformationAlternate:createFloorInformationSample(catalog,templates,{alternate:true}).document,information:createInformationSample(catalog,templates).document,informationAlternate:createInformationSample(catalog,templates,{alternate:true}).document,supportedClocks:createSupportedClockSample(catalog,templates).document,supportedClockAlternate:createSupportedClockSample(catalog,templates,{alternate:true}).document,clocks:createClockSample(catalog,templates).document,clockAlternate:createClockSample(catalog,templates,{alternate:true}).document,sliding:createSlidingSample(catalog,templates).document,slidingAlternate:createSlidingSample(catalog,templates,{alternate:true}).document,hinged:createHingedSample(catalog,templates).document,hingedAlternate:createHingedSample(catalog,templates,{alternate:true}).document,base,alternate,studio,...createScaleExamples(catalog,templates),smallHome,rental:rentalHome,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome,ceilings:ceilingCompany,ceilingHome,
   supports:createSupportSample(catalog,templates).document,supportAlternate:createSupportSample(catalog,templates,{alternate:true}).document},assetLibrary=createCompanyAssetLibrary();let session,activeView='room',busy=false,game;
 let regionLabels=[],previewClockOverride=null;
 function setPreviewClock(seconds){if(seconds!==null)validatePresentationInputs({clockSeconds:seconds});previewClockOverride=seconds;if(seconds!==null)session.scene.setPresentationInputs({clockSeconds:seconds});return seconds;}
@@ -124,9 +125,9 @@ function setView(name){
   if(name==='cabinet'&&view.mode==='room') {
     const id=element('cabinet').value,node=session.document.nodes.find(n=>n.id===id),resource=catalog.resources.find(r=>r.id===node?.resource?.id&&r.version===node?.resource?.version);
     const object=session.scene.root.getObjectByName(id);
-    if(object&&resource?.mountRole==='makeup-storage') {
+    if(object&&['makeup-storage','makeup-drawer-host'].includes(resource?.mountRole)) {
       const center=new THREE.Box3().setFromObject(object).getCenter(new THREE.Vector3());
-      orbit.minDistance=.25;orbit.target.copy(center);camera.position.copy(center).add(new THREE.Vector3(.25,.60,.65).applyQuaternion(object.getWorldQuaternion(new THREE.Quaternion())));
+      orbit.minDistance=.25;orbit.target.copy(center);camera.position.copy(center).add((resource.mountRole==='makeup-drawer-host'?new THREE.Vector3(.25,1.70,.75):new THREE.Vector3(.25,.60,.65)).applyQuaternion(object.getWorldQuaternion(new THREE.Quaternion())));
       orbit.update();updateWallView();document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.view===name)));return;
     }
   }
@@ -198,7 +199,7 @@ async function changeFinish(type){
 async function showAppearanceSample(branch,index){
   const sample=createAppearanceSample(branch,index,catalog,templates);
   if(session.document.id===sample.document.id){
-    const replacements=sample.document.nodes.filter(n=>n.resource&&(!['makeup-mirror','makeup-storage'].includes(branch)||catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.mountRole===branch)&&(!['information-board','information-board-floor'].includes(branch)||catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.informationSurface)).map(n=>({type:'replace-resource',id:n.id,resource:n.resource}));
+    const replacements=sample.document.nodes.filter(n=>n.resource&&(!['makeup-mirror','makeup-storage','makeup-storage-drawer'].includes(branch)||catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.mountRole===branch)&&(!['information-board','information-board-floor'].includes(branch)||catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.informationSurface)).map(n=>({type:'replace-resource',id:n.id,resource:n.resource}));
     await session.apply(replacements);
   }else await session.load(sample.document);
   await showSpace('room',sample.document.nodes[0].id,sample.document.nodes[1].id);
@@ -206,8 +207,8 @@ async function showAppearanceSample(branch,index){
   const object=session.scene.root.getObjectByName(sample.target),box=new THREE.Box3().setFromObject(object);
   if(branch==='vanity-table')box.expandByObject(session.scene.root.getObjectByName(sample.target+'/seat'));
   const target=box.getCenter(new THREE.Vector3()),size=box.getSize(new THREE.Vector3());
-  orbit.minDistance=branch==='makeup-storage'?.25:['analog-clock','digital-clock','analog-clock-shelf','digital-clock-shelf'].includes(branch)?.6:2;
-  const offset=branch==='vanity-table'?new THREE.Vector3(-.8,.6,1):['floor-panel','rug'].includes(branch)?new THREE.Vector3(.15,1,.35):new THREE.Vector3(.5,.45,1);
+  orbit.minDistance=['makeup-storage','makeup-storage-drawer'].includes(branch)?.25:['analog-clock','digital-clock','analog-clock-shelf','digital-clock-shelf'].includes(branch)?.6:2;
+  const offset=branch==='makeup-storage-drawer'?new THREE.Vector3(.25,1.7,.75):branch==='vanity-table'?new THREE.Vector3(-.8,.6,1):['floor-panel','rug'].includes(branch)?new THREE.Vector3(.15,1,.35):new THREE.Vector3(.5,.45,1);
   offset.normalize().applyQuaternion(object.getWorldQuaternion(new THREE.Quaternion()));
   const halfFov=Math.min(THREE.MathUtils.degToRad(camera.fov/2),Math.atan(Math.tan(THREE.MathUtils.degToRad(camera.fov/2))*camera.aspect));
   const distance=branch==='vanity-table'?box.getBoundingSphere(new THREE.Sphere()).radius/Math.sin(halfFov)*1.05:Math.max(size.y,size.x/camera.aspect,size.z)*1.9+.35;
@@ -263,7 +264,7 @@ function sync(){
   element('building-view').disabled=busy||doc.scale!=='building';
   const building=view.mode==='building';element('building-stage').hidden=!building;stage.hidden=building;
   element('wall-view').disabled=busy||building;element('wall-view').value=wallMode;updateWallView();
-  const hinged=facilities.filter(n=>derived.floorIds.get(n.id)===view.floorId&&['hinged-cabinet','sliding-drawer-cabinet','makeup-storage'].includes(catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.mountRole));
+  const hinged=facilities.filter(n=>derived.floorIds.get(n.id)===view.floorId&&['hinged-cabinet','sliding-drawer-cabinet','makeup-storage','makeup-drawer-host'].includes(catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.mountRole));
   fillOptions('cabinet',hinged,element('cabinet').value);element('cabinet').disabled=busy||!hinged.length;
   const selectedCabinet=hinged.find(n=>n.id===element('cabinet').value),sliding=catalog.resources.find(r=>r.id===selectedCabinet?.resource.id&&r.version===selectedCabinet?.resource.version)?.movingParts?.[0]?.kind==='slide';
   for(const button of document.querySelectorAll('[data-opening]')){button.setAttribute('aria-pressed',String(Number(button.dataset.opening)===(selectedCabinet?.state?.openFraction??0)));button.disabled=busy||!hinged.length||view.mode==='building';button.textContent=(sliding?['收回','半拉','全拉']:['关门','半开','全开'])[Number(button.dataset.opening)*2];}

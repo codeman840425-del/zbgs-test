@@ -1,0 +1,229 @@
+{
+  "status": "failed",
+  "results": [
+    {
+      "id": "host",
+      "status": "failed",
+      "code": "makeup-drawer-duplicate-outer-face",
+      "path": "makeup-drawer-host.scene.cabinet-inner-back",
+      "message": "makeup-drawer-duplicate-outer-face at makeup-drawer-host.scene.cabinet-inner-back: Two actual solids expose coplanar equally oriented faces over positive area",
+      "details": {
+        "other": "cabinet-drawer-divider",
+        "sharedArea": 0.000007500008232887157
+      },
+      "stack": "Error: makeup-drawer-duplicate-outer-face at makeup-drawer-host.scene.cabinet-inner-back: Two actual solids expose coplanar equally oriented faces over positive area\n    at failGeometry (file:///F:/gamemake-company-platform-c1/scripts/company-platform/build-makeup-drawer.mjs:156:23)\n    at failure (file:///F:/gamemake-company-platform-c1/prototype/src/company/makeup-drawer-geometry.js:620:57)\n    at reject (file:///F:/gamemake-company-platform-c1/prototype/src/company/makeup-drawer-geometry.js:19:3)\n    at rejectDuplicateOuterFaces (file:///F:/gamemake-company-platform-c1/prototype/src/company/makeup-drawer-geometry.js:461:11)\n    at validateMakeupDrawerGeometry (file:///F:/gamemake-company-platform-c1/prototype/src/company/makeup-drawer-geometry.js:624:3)\n    at readback (file:///F:/gamemake-company-platform-c1/scripts/company-platform/build-makeup-drawer.mjs:163:22)\n    at async file:///F:/gamemake-company-platform-c1/[eval1]:4:402"
+    },
+    {
+      "id": "tray",
+      "status": "passed",
+      "actual": {
+        "geometry": {
+          "checked": true,
+          "kind": "payload",
+          "sourceDesign": "tray",
+          "meshCount": 5,
+          "triangleCount": 60,
+          "materials": 2,
+          "connections": [
+            {
+              "a": "storage-roof#0",
+              "b": "storage-upper-left#1",
+              "kind": "face",
+              "area": 0.0012800002110004425
+            },
+            {
+              "a": "storage-roof#0",
+              "b": "storage-upper-right#2",
+              "kind": "face",
+              "area": 0.0012800002110004427
+            },
+            {
+              "a": "storage-roof#0",
+              "b": "storage-upper-back#3",
+              "kind": "face",
+              "area": 0.003472000452756863
+            },
+            {
+              "a": "storage-roof#0",
+              "b": "storage-upper-front#4",
+              "kind": "face",
+              "area": 0.0034719996443688915
+            },
+            {
+              "a": "storage-upper-left#1",
+              "b": "storage-upper-back#3",
+              "kind": "face",
+              "area": 0.0003840000662803656
+            },
+            {
+              "a": "storage-upper-left#1",
+              "b": "storage-upper-front#4",
+              "kind": "face",
+              "area": 0.0003839999768733976
+            },
+            {
+              "a": "storage-upper-right#2",
+              "b": "storage-upper-back#3",
+              "kind": "face",
+              "area": 0.0003840000662803656
+            },
+            {
+              "a": "storage-upper-right#2",
+              "b": "storage-upper-front#4",
+              "kind": "face",
+              "area": 0.0003839999768733976
+            }
+          ],
+          "groundArea": 0.07199999815970659,
+          "compact": {
+            "rest": [
+              0,
+              0.01,
+              -0.045
+            ],
+            "envelope": [
+              0.024,
+              0.035,
+              0.024
+            ]
+          },
+          "limitation": "The four finite actual storage forms and their compact witness fit. Cosmetic interaction and arbitrary payloads remain unverified."
+        },
+        "support": {
+          "checked": true,
+          "surfaces": [
+            {
+              "mesh": "storage-roof",
+              "triangles": 2,
+              "area": 0.07199999815970659,
+              "topY": 0.01
+            }
+          ],
+          "bottomY": 0
+        },
+        "bounds": {
+          "min": [
+            -0.22499999403953552,
+            0,
+            -0.125
+          ],
+          "max": [
+            0.22499999403953552,
+            0.058000002056360245,
+            0.03500000014901161
+          ]
+        },
+        "meshCount": 5,
+        "triangleCount": 60,
+        "materialCount": 2,
+        "meshes": [
+          "storage-roof",
+          "storage-upper-left",
+          "storage-upper-right",
+          "storage-upper-back",
+          "storage-upper-front"
+        ],
+        "identityAllRestNodes": true,
+        "sourceVerticesAndTopologyMatch": true,
+        "geometrySha256": "ad49790cb2a26deac580c67dc6dcec8482a05528e37ea4b6fa9398c673ea61c3",
+        "textures": 0,
+        "externalUris": 0,
+        "animations": 0
+      }
+    },
+    {
+      "id": "brush-cup",
+      "status": "passed",
+      "actual": {
+        "geometry": {
+          "checked": true,
+          "kind": "payload",
+          "sourceDesign": "brush-cup",
+          "meshCount": 5,
+          "triangleCount": 780,
+          "materials": 2,
+          "connections": [
+            {
+              "a": "storage-roof#0",
+              "b": "storage-cup-left-bottom#1",
+              "kind": "face",
+              "area": 0.003823770340764074
+            },
+            {
+              "a": "storage-roof#0",
+              "b": "storage-cup-right-bottom#3",
+              "kind": "face",
+              "area": 0.003823770340764073
+            },
+            {
+              "a": "storage-cup-left-bottom#1",
+              "b": "storage-cup-left-wall#2",
+              "kind": "face",
+              "area": 0.000020484524910380128
+            },
+            {
+              "a": "storage-cup-right-bottom#3",
+              "b": "storage-cup-right-wall#4",
+              "kind": "face",
+              "area": 0.000020484467270431928
+            }
+          ],
+          "groundArea": 0.07199999815970659,
+          "compact": {
+            "rest": [
+              0,
+              0.01,
+              -0.045
+            ],
+            "envelope": [
+              0.024,
+              0.035,
+              0.024
+            ]
+          },
+          "limitation": "The four finite actual storage forms and their compact witness fit. Cosmetic interaction and arbitrary payloads remain unverified."
+        },
+        "support": {
+          "checked": true,
+          "surfaces": [
+            {
+              "mesh": "storage-roof",
+              "triangles": 2,
+              "area": 0.07199999815970659,
+              "topY": 0.01
+            }
+          ],
+          "bottomY": 0
+        },
+        "bounds": {
+          "min": [
+            -0.22499999403953552,
+            0,
+            -0.125
+          ],
+          "max": [
+            0.22499999403953552,
+            0.1599999964237213,
+            0.03500000014901161
+          ]
+        },
+        "meshCount": 5,
+        "triangleCount": 780,
+        "materialCount": 2,
+        "meshes": [
+          "storage-roof",
+          "storage-cup-left-bottom",
+          "storage-cup-left-wall",
+          "storage-cup-right-bottom",
+          "storage-cup-right-wall"
+        ],
+        "identityAllRestNodes": true,
+        "sourceVerticesAndTopologyMatch": true,
+        "geometrySha256": "30cf08cd11cbb8d69b9f0462dbc718329aeb41f18f26aac636cb4fbd9094e8f0",
+        "textures": 0,
+        "externalUris": 0,
+        "animations": 0
+      }
+    }
+  ]
+}

@@ -774,15 +774,18 @@
             "抽屉安装"
           ],
           "fixedFunctionAndInstall": {
-            "mount": "vanity-drawer",
+            "mount": "support-surface",
             "dimensionsMeters": {
               "width": 0.45,
-              "height": 0.25,
+              "height": 0.18,
               "depth": 0.25,
-              "verification": "pending"
+              "verification": "fixed-contract-v1"
             },
-            "parent": "vanity-table.drawer",
-            "state": "static-or-open"
+            "parent": "makeup-drawer-host.drawer",
+            "state": "static",
+            "hostState": "openFraction 0..1 / +Z 0..0.32m",
+            "contract": "docs/COMPANY-MAKEUP-DRAWER-CONTRACT-v1.txt",
+            "mappingRevision": "Explicit independent grounded makeup side cabinet replaces pending vanity-table.drawer mapping; same confirmed installation/motion mechanisms and four appearance requirements."
           },
           "mechanismDependencies": [
             "support-surface",
@@ -796,7 +799,38 @@
             "刷具杯",
             "化妆箱"
           ],
-          "reusableResources": [],
+          "reusableResources": [
+            {
+              "id": "makeup-drawer-host",
+              "version": 1,
+              "reuseKind": "drawer-host"
+            },
+            {
+              "id": "makeup-drawer-tray",
+              "version": 1,
+              "reuseKind": "compatible-drawer-payload"
+            },
+            {
+              "id": "makeup-drawer-divided",
+              "version": 1,
+              "reuseKind": "compatible-drawer-payload"
+            },
+            {
+              "id": "makeup-drawer-brush-cup",
+              "version": 1,
+              "reuseKind": "compatible-drawer-payload"
+            },
+            {
+              "id": "makeup-drawer-case",
+              "version": 1,
+              "reuseKind": "compatible-drawer-payload"
+            },
+            {
+              "id": "makeup-storage-content-compact",
+              "version": 1,
+              "reuseKind": "independent-content"
+            }
+          ],
           "requiredIndependentMechanisms": [
             "承载面/抽屉关系",
             "开合状态驱动",

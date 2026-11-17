@@ -1,4 +1,5 @@
 // Fixed tabletop storage function. Loaded geometry is validated separately.
+import {isMakeupDrawerResource,validateMakeupDrawerResource,MAKEUP_DRAWER_PAYLOAD_ROLE} from './makeup-drawer-data.js';
 export const MAKEUP_STORAGE_PROFILE='supported-slide-v1';
 export const MAKEUP_STORAGE_IDS=['makeup-storage-tray','makeup-storage-divided','makeup-storage-brush-cup','makeup-storage-case'];
 export const MAKEUP_STORAGE_MOUNTING={origin:'bottom',width:.45,height:.25,depth:.25};
@@ -14,6 +15,9 @@ const equal=(a,b)=>JSON.stringify(normalized(a))===JSON.stringify(normalized(b))
 const unsupported=['light','display','clockDisplay','mirrorSurface','mirrorNodes','mirrorPanels','informationSurface','informationContent','surface'];
 
 export function validateMakeupStorageResource(resource,fail,path=resource.id) {
+  if (isMakeupDrawerResource(resource)&&!MAKEUP_STORAGE_IDS.includes(resource.id)&&resource.id!==MAKEUP_STORAGE_CONTENT_ID) {
+    validateMakeupDrawerResource(resource,fail,path); return;
+  }
   const carrier=resource.mountRole==='makeup-storage'||resource.productionBranch==='makeup-storage'||MAKEUP_STORAGE_IDS.includes(resource.id)||resource.movingProfile===MAKEUP_STORAGE_PROFILE;
   const content=resource.mountRole==='makeup-storage-content'||resource.id===MAKEUP_STORAGE_CONTENT_ID;
   if (!carrier&&!content) {
@@ -49,9 +53,10 @@ export function validateMakeupStorageAttachments(nodes,resources,fail) {
     if (!['makeup-storage','makeup-storage-content'].includes(resource?.mountRole)) continue;
     const parent=nodes.get(node.parentId),parentResource=resources.get(`${parent?.resource?.id}@${parent?.resource?.version}`);
     const storage=resource.mountRole==='makeup-storage';
-    const validParent=storage ? parentResource?.mountRole==='vanity-table' : parentResource?.mountRole==='makeup-storage'&&parentResource?.movingProfile===MAKEUP_STORAGE_PROFILE;
-    const validSurface=storage ? node.attachment?.surfaceId==='top' : ['top','drawer'].includes(node.attachment?.surfaceId);
+    const payload=parentResource?.mountRole===MAKEUP_DRAWER_PAYLOAD_ROLE;
+    const validParent=storage ? parentResource?.mountRole==='vanity-table' : payload||parentResource?.mountRole==='makeup-storage'&&parentResource?.movingProfile===MAKEUP_STORAGE_PROFILE;
+    const validSurface=storage||payload ? node.attachment?.surfaceId==='top' : ['top','drawer'].includes(node.attachment?.surfaceId);
     if (parent?.kind!=='facility'||!validParent||!validSurface)
-      fail('invalid-makeup-storage-parent',node.id,storage?'Storage requires a direct vanity-table top attachment':'The compact witness requires a direct storage top or drawer attachment');
+      fail('invalid-makeup-storage-parent',node.id,storage?'Storage requires a direct vanity-table top attachment':'The compact witness requires a storage top/drawer or a drawer-payload top attachment');
   }
 }

@@ -1,0 +1,200 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "name": "exact host and four payload functions admit independently of appearance ID and positive version",
+      "status": "passed",
+      "detail": {
+        "host": {
+          "id": "new-makeup-host-skin",
+          "version": 2
+        },
+        "payload": {
+          "id": "future-drawer-style",
+          "version": 2
+        }
+      }
+    },
+    {
+      "name": "two-level descendants move once through every quarter-turn host while top remains static",
+      "status": "passed",
+      "detail": {
+        "parentTurns": 4,
+        "fractions": [
+          0,
+          0.5,
+          1,
+          0.37,
+          0
+        ],
+        "contentOffsetAppliedOnce": true
+      }
+    },
+    {
+      "name": "strict profile survives motion admission without resource mutation or loss of moving child state",
+      "status": "passed",
+      "detail": {
+        "resourceId": "makeup-drawer-host",
+        "unchangedResourceAndDocument": true,
+        "descendants": [
+          "host",
+          "payload",
+          "content",
+          "top"
+        ],
+        "fraction": 0.19
+      }
+    },
+    {
+      "name": "all payload appearance replacements preserve IDs, attachments, rest and nondefault host state through recovery",
+      "status": "passed",
+      "detail": {
+        "payloadAppearances": 4,
+        "hostReplacement": {
+          "id": "new-makeup-host-skin",
+          "version": 2
+        },
+        "fraction": 0.63
+      }
+    },
+    {
+      "name": "copy host and copy payload to another room preserve rest, independent states and distinct child IDs",
+      "status": "passed",
+      "detail": {
+        "copiedPayload": "host-copy/extra-1",
+        "copiedContent": "host-copy/extra-2",
+        "secondRoom": "room-two"
+      }
+    },
+    {
+      "name": "closing sweep rejects other blockers and front use-space despite a valid closed endpoint",
+      "status": "passed",
+      "detail": {
+        "blockerRejected": true,
+        "endpointUseSpaceValid": true,
+        "sweptUseSpaceRejected": true
+      }
+    },
+    {
+      "name": "standalone sweep admission checks the real 0.10m wall inset on both front axes",
+      "status": "passed",
+      "detail": {
+        "insideRegionBoundsButInsideWallThickness": [
+          {
+            "yaw": 0,
+            "max": [
+              0.45,
+              3.995
+            ],
+            "wallInset": 0.1
+          },
+          {
+            "yaw": 1.5707963267948966,
+            "max": [
+              4.995,
+              0.45000000000000007
+            ],
+            "wallInset": 0.1
+          }
+        ]
+      }
+    },
+    {
+      "name": "ground/wall restrictions and illegal parent, support, fit or state preserve the live scene and save bytes",
+      "status": "passed",
+      "detail": {
+        "cases": 12,
+        "codes": [
+          "unsupported-height",
+          "overlapping-supported-props",
+          "overlapping-supported-props",
+          "invalid-support-fit",
+          "invalid-support-fit",
+          "overlapping-supported-props",
+          "invalid-device-state",
+          "invalid-device-state",
+          "invalid-device-state",
+          "invalid-device-state",
+          "invalid-device-state",
+          "invalid-device-state"
+        ]
+      }
+    },
+    {
+      "name": "parent adapters reject host assemblies and wrong support roles without relying on overlap errors",
+      "status": "passed",
+      "detail": {
+        "directAreaAllowed": true,
+        "assemblyHostRejected": true,
+        "wrongPayloadFaceRejected": true,
+        "directCompactRejected": true
+      }
+    },
+    {
+      "name": "bad profiles, known identity repurposing and changed functional mappings reject before model use",
+      "status": "passed",
+      "detail": {
+        "badHosts": 11,
+        "badPayloads": 5,
+        "oldIdentityRepurposingRejected": true
+      }
+    },
+    {
+      "name": "busy descendant guards stop parent opening and preserve the original use-point contract",
+      "status": "passed",
+      "detail": {
+        "guardedUsePoint": "logical-child#spot",
+        "hostUsePoints": []
+      }
+    },
+    {
+      "name": "rest snapshots and resource pins survive repeated opening and dependency mismatches reject",
+      "status": "passed",
+      "detail": {
+        "recoveryIterations": 30,
+        "payloadRest": [
+          0,
+          0.455,
+          0.03125
+        ],
+        "compactRest": [
+          0,
+          0.01,
+          -0.045
+        ]
+      }
+    },
+    {
+      "name": "missing actual pivot and superseded prepared candidates cannot replace the old scene",
+      "status": "passed",
+      "detail": {
+        "missingPivotRejected": true,
+        "staleCandidateRejected": true
+      }
+    },
+    {
+      "name": "async load failure and late failure preserve newer two-level scene and stored bytes",
+      "status": "passed",
+      "detail": {
+        "initialFailurePreservedSave": true,
+        "lateFailurePreservedNewerScene": true,
+        "fraction": 0.79
+      }
+    }
+  ],
+  "sourceHashes": {
+    "docs/COMPANY-MAKEUP-DRAWER-CONTRACT-v1.txt": "fd86017e39d50806eda2915ffeb4f25a3d035df2f561dfeda655355300e757ab",
+    "prototype/src/company/makeup-drawer-data.js": "bee877227b7ebd3b99d6436528cfc289c55a9bd3748889f387264d9a4592dec3",
+    "prototype/src/company/makeup-storage-data.js": "5b0652bcae1826e4dbe44b1a77fc60bef51dc30191be2c5a630990c00e9919bf",
+    "prototype/src/company/document.js": "45b3376bee07fca60f64ea6f157dffb8ca764cbaf58bd15116077207fc16380c",
+    "prototype/src/company/placement.js": "ff578b9ffbc6bbed95384394e89623e7916b7ba09c21dc77e6f322ec1b48a7b1",
+    "prototype/src/company/support-data.js": "c7f6a50e328f7b8fce996d24fc15232bdc6fbdbed61260fbe91633fb853883d6",
+    "prototype/src/company/moving-parts.js": "ff034ab3cd6fd345459282a3089623d5f2313fdabf1585eab91e774a99bcd776",
+    "scripts/company-platform/verify-makeup-drawer-data.mjs": "2ba87e809f096f83ed6fbb9c9347e6002aeee4ab6819812425d083d983afeb0c"
+  },
+  "limits": [
+    "Data/schema, conservative swept placement, scene graph and transaction/persistence checks use synthetic host and payload instances. Actual production GLB geometry, support/contact/cavity checks and GPU/browser rendering are separate evidence.",
+    "The original compact resource descriptor is reused unchanged. A synthetic logical use point tests the existing busy descendant guard only and does not establish an actor interaction.",
+    "No service, GPU, browser closed-process recovery, ordinary-computer performance or character action was exercised."
+  ]
+}
