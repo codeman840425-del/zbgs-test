@@ -48,3 +48,4 @@
 2026-11-17 批产卡点从“模型精修”收敛为可复用适配闸门：`scripts/production/qa_native_batch_adaptation.py` 对两份 FaceContour 产物确认 nodes/skins/humanoid/expressions/VRMC_springBone 结构逐字段一致，27 springs/28 colliders 可复用；Body 2048² RGB/UV/材质合同和 608383 个覆盖 alpha 差异已核。HairBack 几何仍变化，因此 dynamicMotion 与头部挂点只标为需逐身体运行复核。
 
 新增 `native_batch_gate.py` 的诊断输入会附带源侧适配审查和 runtime/head 预算审查，但不会把候选证据误标为通过。`evidence/m2-native-production-gate-v5/report.json` 当前两项仍各剩 `dynamicMotion`、`headAttachments`、`runtimeRecordAndBudget`、`surfaceAndTexture`；两体预算均为 `over-budget`，普通电脑未测，`acceptedForRuntime=[]`。这证明批量链路的共性制作、导入、登记和记录生成已经可复用，当前卡点是每个身体的受影响 fit 证据与素材预算策略，不是继续修改单个脸型。
+`native_record_batch.py --readiness-report` 已接入同一 production gate：正式模式只生成 `acceptedForRuntime` 的精确 bodyType 请求；当前 v5 两体均被明确拒绝并保留 `runtime admission pending`，诊断模式仍可生成技术候选请求。这样不会把可回读的技术样件误当成可发布游戏角色。

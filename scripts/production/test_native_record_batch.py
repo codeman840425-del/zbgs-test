@@ -59,6 +59,22 @@ class NativeRecordBatchTests(unittest.TestCase):
         self.assertEqual(bad_rows[0]['status'], 'rejected')
         self.assertIn('body bytes', bad_rows[0]['reason'])
 
+    def test_readiness_gate_blocks_technical_candidates_without_emitting_requests(self):
+        gate = ROOT / 'evidence/m2-native-production-gate-v5/report.json'
+        rows = plan(self.catalog, self.root, readiness_report=gate)
+        self.assertEqual([row['status'] for row in rows], ['rejected', 'rejected'])
+        self.assertTrue(all('runtime admission pending' in row['reason'] for row in rows))
+
+    def test_readiness_gate_accepts_only_exact_body_types(self):
+        gate = json.loads((ROOT / 'evidence/m2-native-production-gate-v5/report.json').read_bytes())
+        gate['acceptedForRuntime'] = [gate['items'][0]['id']]
+        with tempfile.TemporaryDirectory(dir=ROOT / 'output') as temp:
+            path = Path(temp) / 'gate.json'
+            path.write_text(json.dumps(gate), encoding='utf-8')
+            rows = plan(self.catalog, self.root, readiness_report=path)
+        self.assertEqual([row['status'] for row in rows], ['accepted', 'rejected'])
+        self.assertIn('native-contour-cheek-b-v1', rows[1]['reason'])
+
 
 if __name__ == '__main__':
     unittest.main()

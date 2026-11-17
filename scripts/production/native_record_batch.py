@@ -96,7 +96,28 @@ def identity_for(profile):
     return f'batch-{profile["id"]}-{version[:12]}'
 
 
-def plan(catalog, root=ROOT, grips=None, glasses=None, presentation=None):
+def admitted_body_types(path, root=ROOT):
+    """Return exact body types admitted by the shared production gate."""
+    path = Path(path).resolve()
+    check(path.is_file() and path.is_relative_to(root.resolve()),
+          'Readiness report must be inside the repository')
+    report = json.loads(path.read_bytes())
+    check(report.get('schema') == 'native-production-readiness-v1',
+          'Invalid production readiness report')
+    accepted = report.get('acceptedForRuntime')
+    check(isinstance(accepted, list) and all(isinstance(value, str) for value in accepted),
+          'Readiness report has no acceptedForRuntime list')
+    by_id = {row.get('id'): row for row in report.get('items', []) if isinstance(row, dict)}
+    result = set()
+    for item_id in accepted:
+        row = by_id.get(item_id)
+        check(isinstance(row, dict) and isinstance(row.get('bodyType'), str),
+              f'Readiness report has no body type for accepted item: {item_id}')
+        result.add(row['bodyType'])
+    return result
+
+
+def plan(catalog, root=ROOT, grips=None, glasses=None, presentation=None, readiness_report=None):
     check(catalog.get('schema') == 'native-production-catalog-v1', 'Invalid native production catalog')
     entries = catalog.get('entries')
     check(isinstance(entries, list) and entries, 'Catalog has no entries')
@@ -106,6 +127,7 @@ def plan(catalog, root=ROOT, grips=None, glasses=None, presentation=None):
     grips = grips if grips is not None else read_json(root, 'prototype/public/assets/m1c/grips/manifest.json')
     glasses = glasses if glasses is not None else read_json(root, 'prototype/src/glasses-temple-fit-manifest.json')
     presentation = presentation if presentation is not None else read_json(root, 'prototype/src/native-microphone-presentation-fits.json')
+    admitted = admitted_body_types(readiness_report, root) if readiness_report else None
     seen = set()
     results = []
     for entry in entries:
@@ -117,6 +139,8 @@ def plan(catalog, root=ROOT, grips=None, glasses=None, presentation=None):
             check(body_type not in seen, 'Duplicate bodyType')
             seen.add(body_type)
             check(entry.get('group') in {'female', 'male'}, 'Invalid body group')
+            if admitted is not None and body_type not in admitted:
+                raise ValueError('runtime admission pending for ' + body_type)
             check(profile.get('id') == body_type and profile.get('baseBodyDisplay') == 'source-with-hair', 'Catalog profile identity differs')
             check(SHA.fullmatch(profile.get('sha256', '')) and profile.get('url', '').endswith('.vrm'), 'Catalog body identity is incomplete')
             body = public_file(root, profile['url'])
@@ -155,10 +179,10 @@ def write_json(path, value):
         stream.write('\n')
 
 
-def run(catalog_path, output, root=ROOT, **registries):
+def run(catalog_path, output, root=ROOT, readiness_report=None, **registries):
     root, catalog_path, output = root.resolve(), catalog_path.resolve(), output.resolve()
     check(catalog_path.is_relative_to(root) and output.is_relative_to(root) and output != root, 'Paths must be inside repository')
-    results = plan(json.loads(catalog_path.read_bytes()), root, **registries)
+    results = plan(json.loads(catalog_path.read_bytes()), root, readiness_report=readiness_report, **registries)
     output.mkdir(parents=True, exist_ok=False)
     rows = []
     for item in results:
@@ -181,6 +205,8 @@ def main():
     parser.add_argument('--grips', type=Path)
     parser.add_argument('--glasses', type=Path)
     parser.add_argument('--presentation', type=Path)
+    parser.add_argument('--readiness-report', type=Path,
+                        help='Require the shared gate to admit each body before emitting a create request')
     args = parser.parse_args()
     try:
         registry = {}
@@ -188,7 +214,7 @@ def main():
             path = getattr(args, key)
             if path is not None:
                 registry[key] = json.loads(path.read_bytes())
-        print(json.dumps(run(args.catalog, args.output, **registry), ensure_ascii=False))
+        print(json.dumps(run(args.catalog, args.output, readiness_report=args.readiness_report, **registry), ensure_ascii=False))
         return 0
     except (OSError, ValueError, KeyError, TypeError) as error:
         print(error, file=sys.stderr)
