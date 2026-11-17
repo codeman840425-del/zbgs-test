@@ -565,4 +565,3 @@ export function validateMakeupMirrorGeometry(scene, resource, fail, path = resou
     tolerances: {positionMetres: POSITION_EPSILON, coverageSquareMetres: COVERAGE_EPSILON, contactSquareMetres: CONTACT_AREA_EPSILON, volumeCubicMetres: VOLUME_EPSILON},
     limitation: 'Static source-local geometry and support connectivity only. Browser reflection, light transport, visual suitability and physical tipping stability require separate validation.'};
 }
-

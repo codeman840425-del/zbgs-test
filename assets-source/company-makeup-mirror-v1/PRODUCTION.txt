@@ -1,0 +1,14 @@
+台面化妆镜生产输入 v1
+
+四款原创建模由 parameters.json 驱动，统一提示词、实际尺寸/安装、灯参数、固定反射平面、材料及允许变体均保留在输入中。功能合同见 docs/COMPANY-MAKEUP-MIRROR-CONTRACT-v1.txt。
+
+在项目根目录执行：
+node scripts/company-platform/build-makeup-mirror.mjs
+node scripts/company-platform/build-makeup-mirror.mjs --check
+node scripts/company-platform/build-library.mjs
+node scripts/company-platform/build-makeup-mirror-examples.mjs
+node scripts/company-platform/qa-makeup-mirror-data.mjs
+
+首款允许修改 frameWidth (.009..016m)，重新生成实际 GLB 并通过几何门；不得直接修改最终 GLB 来绕开源/版本。合同或验证器改变时先审查变化再更新 dependencyPins，生成并登记所有引用该身份的输出。--check 只比较当前输入与输出，不写文件，不依赖 evidence。
+
+几何及 CPU 检查不证明 GPU 反射、实际补光、关闭恢复或角色适配。浏览器证据和固定交付由主流程单独生成，普通电脑性能仍需目标设备验证。
