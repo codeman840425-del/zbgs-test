@@ -490,3 +490,7 @@ native_dependency_delta.py共用实际GLB差分核引用顶点、morph、骨/res
 固定观看入口已更新到 `bda6fd250bb8`（source `1b643d7e`）并保留 1084 回退指针；4196 的新候选包含两件 FaceContour 批产角色、共用服装/覆盖/握麦/眼镜登记及记录恢复链。当前仍标记为技术候选，人工自然度、普通电脑性能及未覆盖机制不继承通过。
 
 批量记录生产已补成数据驱动入口：`native_record_batch.py` 会根据精确 body/recipe/accessory fit 生成稳定 create 请求，实际两项记录已创建并完成双实例隔离与关闭恢复。失败项只影响自身，未知 fit 不猜测。能力仍限定于已登记两份女性 FaceContour 候选；男女、新参数范围、未登记服装/发型/表情和普通机性能不继承通过。
+
+2026-11-17 批产卡点闸门：scripts/production/native_batch_gate.py 将每项拆成 authoring、冷开、导出、差分、body package、coverage、runtime catalog、record、restore 九个生产车道，并输出 evidence/m2-native-production-gate-v1/report.json。当前两项的记录/关闭恢复车道有实际证据，但六类受影响适配仍须逐项处理；不得以“同模板”“同标签”或新 SHA 自动继承旧握姿、发型、表情、材质和动态配置。该工具是可重复的批产判断入口，不把未通过项塞进公共目录。
+
+2026-11-17 新参数表情结构准入失败：evidence/m2-native-eye-admission-v9/cpu.json 与 scripts/qa-native-eye-admission.mjs。两项新候选虽与参考体共享 EYE_Joy=17、ALL_Joy=3、EYE_Close=13，但实际面部 primitive 为 8 个、每个 57 morph，缺少 EyeExtra_01_EYE，不满足现有 9 primitive/56 morph adapter，因此表情能力仍为“已实现但未通过”；未生成 admission，未改 runtime。下一步应改共同 adapter 的结构版本契约并重新验证，不继续精修脸型。

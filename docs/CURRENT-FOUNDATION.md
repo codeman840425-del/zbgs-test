@@ -34,3 +34,7 @@
 2026-11-17 4196 fixed入口更新：`delivery/appearance-workbench.json` 当前指向技术候选 build `bda6fd250bb8`、source `1b643d7e53491296fc75c721dd1224d9b3a2d233`，目录 `experiments/native-parameter-runtime-final/prototype/dist`；旧1084指针已归档为 `delivery/history/appearance-workbench-1084ddeae27a-before-native-batch.json`。4196 当前服务进程已核实监听；该入口是待人工观看的技术候选，不代表 M2 或视觉验收完成。
 
 2026-11-17 CUSTOM-P01 批量记录接缝：新增 `scripts/production/native_record_batch.py`，从已登记角色目录读取身体、配方版本和精确道具 fit，自动生成稳定角色记录请求；未知握麦/眼镜 fit 按项省略并记录原因，不继承旧体配置。两项真实请求经 `character-production-cli.cjs` 创建后，构建 `bda6fd250bb8` 的双实例消费者完成 1× 记录回读、表情/讲话隔离、8 秒录像及浏览器关闭重开恢复。证据 `evidence/m2-native-record-plan-v4`。这解决了参数批产后最后一段手写记录接线，但仍只覆盖已登记的两份 FaceContour 女性候选。
+
+2026-11-17 生产闸门复核：scripts/production/native_batch_gate.py 读取同一批两个实际 package、provenance、recipe 和 D02 双恢复报告，输出 evidence/m2-native-production-gate-v1/report.json。两项的 authoring/coldReadback/export/dependencyDelta 已验证，bodyPackage/coverage 已准备，runtimeCatalog/record/restore 有双实例关闭恢复证据；但每项仍列出 dynamicMotion、facialExpressions、handAndMicrophone、headAttachments、runtimeRecordAndBudget、surfaceAndTexture 六类受影响适配任务，acceptedForRuntime 为空。闸门按差分生成适配任务并禁止按名称或新 SHA 继承旧 fit，不是继续精修单件模型。
+
+同日表情准入实测拒绝：evidence/m2-native-eye-admission-v9/cpu.json。两份新女性候选的 EYE_Joy/ALL_Joy/EYE_Close 索引分别为 17/3/13，面部 primitive 为 8 个、每个 57 个 morph；现有 eye-blink adapter 需要 9 个 primitive/56 morph，并依赖 EyeExtra_01_EYE，所以未生成 admission，也未改 runtime。该失败说明当前最大共同卡点是“原生导出结构 → 受影响适配器 → 准入”契约仍按旧脸部结构写死；修复方向是结构版本化的表情适配器和明确拒绝/回退路径，不是修改这两张脸的轮廓。

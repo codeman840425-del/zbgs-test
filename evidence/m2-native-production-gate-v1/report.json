@@ -1,0 +1,279 @@
+{
+  "schema": "native-production-readiness-v1",
+  "batch": {
+    "path": "assets-source/native-parameter-game-packages-v1/import-batch.json",
+    "sha256": "5d84424b0fc229a14990580ba164e6770650ef25d7d47209da4a8d926529baf7",
+    "bytes": 452
+  },
+  "items": [
+    {
+      "id": "contour-roundness-a",
+      "package": "native-contour-roundness-a-v1",
+      "bodyType": "native-contour-roundness-a-v1",
+      "bodySha256": "825a82c944636971304ce50b7526b1410ea6f1c6b58bd36f166515295696a547",
+      "recipeSha256": "1933b5f3cd5e3bdd8302dec8c89f24b4f91e31d2310876ec3ce359f4d13a0c7c",
+      "recipeValues": {
+        "Level2FaceContour_ChinRoundness": 0.78,
+        "Level2FaceContour_ChinFullCheeked": 0.3
+      },
+      "lanes": {
+        "authoring": "verified",
+        "coldReadback": "verified",
+        "export": "verified",
+        "dependencyDelta": "verified",
+        "bodyPackage": "prepared",
+        "coverage": "prepared",
+        "runtimeCatalog": "verified",
+        "record": "verified",
+        "restore": "verified"
+      },
+      "reusableChecks": [
+        "feetAndFloor",
+        "garmentsAndCoverage",
+        "seatContact"
+      ],
+      "adapterTasks": [
+        {
+          "check": "dynamicMotion",
+          "task": "recheck-hair-and-dynamic-simulation",
+          "status": "needs-recheck",
+          "reasons": [
+            "N00_000_00_HairBack_00_HAIR (Instance)"
+          ]
+        },
+        {
+          "check": "facialExpressions",
+          "task": "verify-face-expression-admission",
+          "status": "needs-recheck",
+          "reasons": [
+            "N00_000_00_FaceMouth_00_FACE (Instance)",
+            "N00_000_00_Face_00_SKIN (Instance)"
+          ]
+        },
+        {
+          "check": "handAndMicrophone",
+          "task": "rebuild-hand-grip-fit",
+          "status": "needs-recheck",
+          "reasons": [
+            "N00_000_00_FaceMouth_00_FACE (Instance)",
+            "N00_000_00_Face_00_SKIN (Instance)"
+          ]
+        },
+        {
+          "check": "headAttachments",
+          "task": "rebuild-head-attachment-fit",
+          "status": "needs-recheck",
+          "reasons": [
+            "N00_000_00_FaceMouth_00_FACE (Instance)",
+            "N00_000_00_Face_00_SKIN (Instance)",
+            "N00_000_00_HairBack_00_HAIR (Instance)"
+          ]
+        },
+        {
+          "check": "runtimeRecordAndBudget",
+          "task": "rerun-runtime-record-and-budget-check",
+          "status": "needs-recheck",
+          "reasons": [
+            "N00_000_00_FaceMouth_00_FACE (Instance)",
+            "N00_000_00_Face_00_SKIN (Instance)",
+            "N00_000_00_Body_00_SKIN (Instance)",
+            "N00_000_00_HairBack_00_HAIR (Instance)",
+            "Export byte identity changed"
+          ]
+        },
+        {
+          "check": "surfaceAndTexture",
+          "task": "rebuild-surface-palette-and-texture-admission",
+          "status": "needs-recheck",
+          "reasons": [
+            "N00_000_00_FaceMouth_00_FACE (Instance)",
+            "N00_000_00_Face_00_SKIN (Instance)",
+            "N00_000_00_Body_00_SKIN (Instance)",
+            "N00_000_00_HairBack_00_HAIR (Instance)"
+          ]
+        }
+      ],
+      "runtimeEvidence": {
+        "report": {
+          "path": "evidence/m2-native-record-plan-v4/runtime/dual-restore/report.json",
+          "sha256": "22a9a717ebad07a9c90d02f0942c3ba297836ce8331499b8f427769ff8910793",
+          "bytes": 90390
+        },
+        "recordSha256": "a7e68600e569dd1a17e5c0b7cec7be51bca91f1fc99bd7c57630a5e0181eed33",
+        "bodySha256": "825a82c944636971304ce50b7526b1410ea6f1c6b58bd36f166515295696a547",
+        "scope": "Two native batch records in the shared game consumer. Checks cover the recorded look, pair instance ownership, an expression and speaking control change, and browser restart on the development machine."
+      },
+      "blockers": [
+        "runtime admission is not granted by an offline package",
+        "visual acceptance is not granted by a source screenshot or CPU check",
+        "changed dependencies require exact adapter checks before fit reuse"
+      ],
+      "source": {
+        "spec": {
+          "path": "assets-source/native-parameter-game-packages-v1/contour-roundness-a/import-spec.json",
+          "sha256": "a1c87d22981ac1b32945c060a5466bb4a1eece64f44947d32c7023b99a13fc27",
+          "bytes": 1801
+        },
+        "body": {
+          "path": "assets-source/native-parameter-game-packages-v1/contour-roundness-a/body.vrm",
+          "sha256": "825a82c944636971304ce50b7526b1410ea6f1c6b58bd36f166515295696a547",
+          "bytes": 17127080
+        },
+        "provenance": {
+          "path": "assets-source/native-parameter-game-packages-v1/contour-roundness-a/provenance.json",
+          "sha256": "7c94290453078406d7b140117df6a06c0e6104b01d152c00128fefee0e74c2e6",
+          "bytes": 5856
+        },
+        "profile": {
+          "path": "assets-source/native-parameter-game-packages-v1/contour-roundness-a/profile-candidate.json",
+          "sha256": "d81e8d83d486f5e8674dc772f844c2e8b4a55ec40a1282cfc4272309b71327d6",
+          "bytes": 1571
+        },
+        "recipe": {
+          "path": "assets-source/native-parameter-game-packages-v1/contour-roundness-a/recipe.json",
+          "sha256": "1933b5f3cd5e3bdd8302dec8c89f24b4f91e31d2310876ec3ce359f4d13a0c7c",
+          "bytes": 143
+        }
+      }
+    },
+    {
+      "id": "contour-cheek-b",
+      "package": "native-contour-cheek-b-v1",
+      "bodyType": "native-contour-cheek-b-v1",
+      "bodySha256": "9592933507b3290100d82ac315e5ddac7b6e284f372a1368de9f424643846ddb",
+      "recipeSha256": "2fd63f7b90b22fd181b21c528d2682726457ea85569912adc736ff07917dce25",
+      "recipeValues": {
+        "Level2FaceContour_ChinRoundness": 0.6,
+        "Level2FaceContour_ChinFullCheeked": 0.48
+      },
+      "lanes": {
+        "authoring": "verified",
+        "coldReadback": "verified",
+        "export": "verified",
+        "dependencyDelta": "verified",
+        "bodyPackage": "prepared",
+        "coverage": "prepared",
+        "runtimeCatalog": "verified",
+        "record": "verified",
+        "restore": "verified"
+      },
+      "reusableChecks": [
+        "feetAndFloor",
+        "garmentsAndCoverage",
+        "seatContact"
+      ],
+      "adapterTasks": [
+        {
+          "check": "dynamicMotion",
+          "task": "recheck-hair-and-dynamic-simulation",
+          "status": "needs-recheck",
+          "reasons": [
+            "N00_000_00_HairBack_00_HAIR (Instance)"
+          ]
+        },
+        {
+          "check": "facialExpressions",
+          "task": "verify-face-expression-admission",
+          "status": "needs-recheck",
+          "reasons": [
+            "N00_000_00_FaceMouth_00_FACE (Instance)",
+            "N00_000_00_Face_00_SKIN (Instance)"
+          ]
+        },
+        {
+          "check": "handAndMicrophone",
+          "task": "rebuild-hand-grip-fit",
+          "status": "needs-recheck",
+          "reasons": [
+            "N00_000_00_FaceMouth_00_FACE (Instance)",
+            "N00_000_00_Face_00_SKIN (Instance)"
+          ]
+        },
+        {
+          "check": "headAttachments",
+          "task": "rebuild-head-attachment-fit",
+          "status": "needs-recheck",
+          "reasons": [
+            "N00_000_00_FaceMouth_00_FACE (Instance)",
+            "N00_000_00_Face_00_SKIN (Instance)",
+            "N00_000_00_HairBack_00_HAIR (Instance)"
+          ]
+        },
+        {
+          "check": "runtimeRecordAndBudget",
+          "task": "rerun-runtime-record-and-budget-check",
+          "status": "needs-recheck",
+          "reasons": [
+            "N00_000_00_FaceMouth_00_FACE (Instance)",
+            "N00_000_00_Face_00_SKIN (Instance)",
+            "N00_000_00_Body_00_SKIN (Instance)",
+            "N00_000_00_HairBack_00_HAIR (Instance)",
+            "Export byte identity changed"
+          ]
+        },
+        {
+          "check": "surfaceAndTexture",
+          "task": "rebuild-surface-palette-and-texture-admission",
+          "status": "needs-recheck",
+          "reasons": [
+            "N00_000_00_FaceMouth_00_FACE (Instance)",
+            "N00_000_00_Face_00_SKIN (Instance)",
+            "N00_000_00_Body_00_SKIN (Instance)",
+            "N00_000_00_HairBack_00_HAIR (Instance)"
+          ]
+        }
+      ],
+      "runtimeEvidence": {
+        "report": {
+          "path": "evidence/m2-native-record-plan-v4/runtime/dual-restore/report.json",
+          "sha256": "22a9a717ebad07a9c90d02f0942c3ba297836ce8331499b8f427769ff8910793",
+          "bytes": 90390
+        },
+        "recordSha256": "b1c8e0cbac2d249954eceb69b94ddc906401d78ac64f810b98d5e9e6df1e6e9a",
+        "bodySha256": "9592933507b3290100d82ac315e5ddac7b6e284f372a1368de9f424643846ddb",
+        "scope": "Two native batch records in the shared game consumer. Checks cover the recorded look, pair instance ownership, an expression and speaking control change, and browser restart on the development machine."
+      },
+      "blockers": [
+        "runtime admission is not granted by an offline package",
+        "visual acceptance is not granted by a source screenshot or CPU check",
+        "changed dependencies require exact adapter checks before fit reuse"
+      ],
+      "source": {
+        "spec": {
+          "path": "assets-source/native-parameter-game-packages-v1/contour-cheek-b/import-spec.json",
+          "sha256": "cdf015a76fc83d48cdbdb50813ff15e6e810bbc8054a170c1370824cf8851933",
+          "bytes": 1741
+        },
+        "body": {
+          "path": "assets-source/native-parameter-game-packages-v1/contour-cheek-b/body.vrm",
+          "sha256": "9592933507b3290100d82ac315e5ddac7b6e284f372a1368de9f424643846ddb",
+          "bytes": 17126644
+        },
+        "provenance": {
+          "path": "assets-source/native-parameter-game-packages-v1/contour-cheek-b/provenance.json",
+          "sha256": "98dcc6fbe1554b05b50f520fe01e51bad4376d3416535debcb17c1d0e238d087",
+          "bytes": 5844
+        },
+        "profile": {
+          "path": "assets-source/native-parameter-game-packages-v1/contour-cheek-b/profile-candidate.json",
+          "sha256": "e6c93e3834dc6d7aa6ee9904102d5b4f13a2fb21c154e273db59925b7cbfc5f0",
+          "bytes": 1542
+        },
+        "recipe": {
+          "path": "assets-source/native-parameter-game-packages-v1/contour-cheek-b/recipe.json",
+          "sha256": "2fd63f7b90b22fd181b21c528d2682726457ea85569912adc736ff07917dce25",
+          "bytes": 139
+        }
+      }
+    }
+  ],
+  "acceptedForRuntime": [],
+  "status": "adapter-work-required",
+  "summary": {
+    "items": 2,
+    "reusableCheckCount": 6,
+    "adapterTaskCount": 12,
+    "runtimeReadyCount": 2,
+    "reason": "The gate separates repeatable production from per-body fit and runtime admission."
+  }
+}
