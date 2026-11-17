@@ -104,7 +104,10 @@ if(!directory||!output)throw Error('Pass fixed dist and new evidence directory')
     video.muted=true;await video.play();await new Promise(r=>setTimeout(r,400));video.pause();
     return{src:video.src,time:video.currentTime,duration:video.duration,rate:video.playbackRate,width:video.videoWidth};
    });
-   assert(result.time>0&&result.duration>10&&result.width>0);assert.equal(result.rate,1);report.media.push(result);
+   // Record readback clips intentionally cover 5s front + 4s side. Keep
+   // the original >10s requirement for all existing action-chain films.
+   const isRecordClip=result.src.includes('/m2-character-runtime-fixed-v1/');
+   assert(result.time>0&&result.duration>(isRecordClip?8:10)&&result.width>0);assert.equal(result.rate,1);report.media.push(result);
   }
   await page.screenshot({path:path.join(out,'native-production-entry.png')});
   report.checks.push('production entry links real candidate and original-build video');

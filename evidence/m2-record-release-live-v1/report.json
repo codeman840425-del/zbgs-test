@@ -1,0 +1,1992 @@
+{
+  "status": "actual-controls-connected-visual-limits-retained",
+  "scope": "Actual controls and failure reproduction, not full motion or appearance acceptance",
+  "cases": [
+    {
+      "body": "female",
+      "errors": [],
+      "accessories": {
+        "mic": {
+          "state": {
+            "version": 1,
+            "requested": true,
+            "status": "on",
+            "loaded": true,
+            "error": null,
+            "sha256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c",
+            "identity": {
+              "bodySHA256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+              "accessorySHA256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c",
+              "fit": {
+                "id": "female-source-grip-v1",
+                "sha256": "0d145faa31461db369c3da644e42ef3818b92a6241b82784590f5ba30ff08a4c",
+                "fitVersion": "source-grip-v1",
+                "bodySHA256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+                "accessorySHA256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c"
+              }
+            },
+            "pending": null
+          },
+          "message": ""
+        },
+        "glasses": {
+          "state": {
+            "version": 1,
+            "requested": true,
+            "status": "on",
+            "loaded": true,
+            "error": null,
+            "sha256": "c8098a499434c384850a73e6c207fb6c5e85620e9012c4426cd989952e5bec52",
+            "identity": {
+              "bodySHA256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+              "accessorySHA256": "c8098a499434c384850a73e6c207fb6c5e85620e9012c4426cd989952e5bec52",
+              "fit": {
+                "status": "fitted-candidate",
+                "id": "female-temple-fit-v1",
+                "sha256": "cb56bd93a8f2719de813692dddea6f78ff399945dc45c2022f0fcf37ae012b5a",
+                "bodySHA256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+                "accessorySHA256": "c8098a499434c384850a73e6c207fb6c5e85620e9012c4426cd989952e5bec52",
+                "changedMeshes": [
+                  "Temple-1",
+                  "Temple1"
+                ],
+                "sourceGeometryUnmodified": true,
+                "verified": false
+              }
+            },
+            "pending": null
+          },
+          "message": ""
+        }
+      },
+      "initial": {
+        "build": "01a020d4e10d",
+        "body": "female",
+        "sha": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+        "dances": [
+          {
+            "id": "ual1-dance-reference",
+            "file": "dance-source-reference.glb",
+            "sha256": "b864ec5f440929133787791884e645a0bc73c323d107c9a9ef9937b4f1ca9744",
+            "clip": "Dance_Loop",
+            "duration": 1,
+            "playback": "loop",
+            "origin": "Unmodified Quaternius Dance_Loop reference",
+            "rootTranslationOwner": "clip hips only; no path locomotion",
+            "space": {
+              "kind": "local-footprint",
+              "radiusSourceM": 0.9,
+              "scaleBy": "target/sourceRestHipRatio",
+              "includes": "source body reservation; target clothes/hair need live envelope validation",
+              "navigationAllowedDuringPlayback": false
+            },
+            "heldPropsAllowed": false,
+            "rootPolicy": "local-displacement",
+            "key": "dance:ual1-dance-reference",
+            "radius": 0.8931593572453994
+          },
+          {
+            "id": "dance-technical-once-v1",
+            "file": "dance-technical-v1.glb",
+            "sha256": "2d785287de3c0187c76ed90ae6e0b76fed3008cb1a7a2ac75065720d3885304e",
+            "clip": "Dance_Technical_7s_Once_v1",
+            "duration": 7.2,
+            "playback": "once-then-idle",
+            "origin": "Original technical choreography, UAL1 idle reference/rig; not professional dance or mocap",
+            "rootTranslationOwner": "clip hips local weight-shift/jump; no path locomotion",
+            "space": {
+              "kind": "local-footprint",
+              "radiusSourceM": 0.9,
+              "scaleBy": "target/sourceRestHipRatio",
+              "includes": "source body reservation; target clothes/hair need live envelope validation",
+              "navigationAllowedDuringPlayback": false
+            },
+            "heldPropsAllowed": false,
+            "segments": [
+              {
+                "time": [
+                  0.6,
+                  2.4
+                ],
+                "intent": "raised arms, elbow bend, side bend"
+              },
+              {
+                "time": [
+                  2.4,
+                  3.9
+                ],
+                "intent": "right foot crosses in front of left then returns"
+              },
+              {
+                "time": [
+                  4.1,
+                  5.4
+                ],
+                "intent": "torso twist"
+              },
+              {
+                "time": [
+                  5.4,
+                  6.55
+                ],
+                "intent": "anticipate, small hop, land, absorb"
+              },
+              {
+                "time": [
+                  6.55,
+                  7.2
+                ],
+                "intent": "return to initial generated idle pose; runtime exit blend required"
+              }
+            ],
+            "contactWindows": {
+              "l": [
+                [
+                  0,
+                  5.85
+                ],
+                [
+                  6.13,
+                  7.2
+                ]
+              ],
+              "r": [
+                [
+                  0,
+                  2.4
+                ],
+                [
+                  3,
+                  3.3
+                ],
+                [
+                  3.9,
+                  5.85
+                ],
+                [
+                  6.13,
+                  7.2
+                ]
+              ]
+            },
+            "sourceQAOnly": true,
+            "limits": [
+              "No live avatar/garment or visual acceptance",
+              "Prop must be stowed before full-body choreography",
+              "Crossing is intentional; no never-cross constraint",
+              "Runtime must preserve genuine jump vertical motion and release both feet during flight"
+            ],
+            "rootPolicy": "local-displacement",
+            "key": "dance:dance-technical-once-v1",
+            "radius": 0.8931593572453994
+          },
+          {
+            "id": "rokoko-5359146-30s-v1",
+            "format": "normalized-vrm-motion.1",
+            "clip": "Rokoko_Pexels5359146_30s_v1",
+            "duration": 30,
+            "playback": "once-then-idle",
+            "rootPolicy": "local-displacement",
+            "origin": "Frozen original Rokoko/Pexels 5359146 target export; user accepted this recorded example as a usable video-to-motion result, with arm-contact limitations.",
+            "rootTranslationOwner": "clip hips only",
+            "heldPropsAllowed": false,
+            "space": {
+              "kind": "local-footprint",
+              "radiusTargetM": 1.5782715941550411,
+              "navigationAllowedDuringPlayback": false
+            },
+            "variants": [
+              {
+                "avatarSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+                "file": "frozen-rokoko-30s-v1/rokoko-5359146-female-v1.motion.json",
+                "sha256": "6d2f7a2e8b51238e4892c99424dbb52cbc566903413731be11f53e29dcc73d5f",
+                "bytes": 4543709
+              },
+              {
+                "avatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+                "file": "frozen-rokoko-30s-v1/rokoko-5359146-male-v1.motion.json",
+                "sha256": "1510d4470965b6ce651c08a7bfb830abbdf34794f06175d50b9a822b34a371bf",
+                "bytes": 4543583
+              }
+            ],
+            "label": "30 秒舞蹈 · 已认可原版",
+            "licenseBoundary": "Existing frozen project target export; Pexels reference is not CC0. No raw video/FBX redistribution. This installation makes no new commercial, provider API, or bulk-motion license claim.",
+            "workbenchRole": "default-30s",
+            "avatarSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+            "file": "frozen-rokoko-30s-v1/rokoko-5359146-female-v1.motion.json",
+            "sha256": "6d2f7a2e8b51238e4892c99424dbb52cbc566903413731be11f53e29dcc73d5f",
+            "bytes": 4543709,
+            "key": "dance:rokoko-5359146-30s-v1",
+            "radius": 1.5782715941550411
+          },
+          {
+            "id": "rokoko-5359146-30s-arm-local-v1",
+            "format": "normalized-vrm-motion.1",
+            "clip": "Rokoko_Pexels5359146_30s_v1",
+            "duration": 30,
+            "playback": "once-then-idle",
+            "rootPolicy": "local-displacement",
+            "origin": "Single bounded arm adaptation, two windows only; not user accepted; original retained.",
+            "rootTranslationOwner": "clip hips only",
+            "heldPropsAllowed": false,
+            "space": {
+              "kind": "local-footprint",
+              "radiusTargetM": 1.5782715941550411,
+              "navigationAllowedDuringPlayback": false
+            },
+            "variants": [
+              {
+                "avatarSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+                "file": "frozen-rokoko-30s-v1/rokoko-5359146-female-arm-local-v1.motion.json",
+                "sha256": "3677cb727b6025bec6be25f03824ca60da20e39c73fed0484890ee4ff7996e2e",
+                "bytes": 4543695
+              },
+              {
+                "avatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+                "file": "frozen-rokoko-30s-v1/rokoko-5359146-male-arm-local-v1.motion.json",
+                "sha256": "5fe55028a0c48e76ec6a506475656f9486512c86c1fdd4b1bea0226300c50702",
+                "bytes": 4543566
+              }
+            ],
+            "label": "30 秒舞蹈 · 唯一优化封存对照",
+            "licenseBoundary": "Existing frozen project target export; Pexels reference is not CC0. No raw video/FBX redistribution. This installation makes no new commercial, provider API, or bulk-motion license claim.",
+            "workbenchRole": "frozen-comparison",
+            "avatarSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+            "file": "frozen-rokoko-30s-v1/rokoko-5359146-female-arm-local-v1.motion.json",
+            "sha256": "3677cb727b6025bec6be25f03824ca60da20e39c73fed0484890ee4ff7996e2e",
+            "bytes": 4543695,
+            "key": "dance:rokoko-5359146-30s-arm-local-v1",
+            "radius": 1.5782715941550411
+          }
+        ],
+        "live": {
+          "eyeBlinkCompatibility": {
+            "available": true,
+            "mode": "fixed",
+            "avatarSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+            "method": "existing-eye-joy-negative-bind-per-primitive-v1",
+            "reason": null,
+            "skipped": null,
+            "coefficient": 0,
+            "expressionName": "workbenchJoyBlinkCompensationV1",
+            "eyeTargetIndex": 17,
+            "sourceTargetCount": 56,
+            "targetedMeshes": [
+              {
+                "name": "Facebaked_1",
+                "uuid": "7d830252-9a61-4e0e-b782-a3fc6ac2a640",
+                "materialRole": "EyeWhite_00_EYE"
+              },
+              {
+                "name": "Facebaked_2",
+                "uuid": "97c5c8a5-a5f4-4f0a-a531-0691f666b2d9",
+                "materialRole": "FaceEyeline_00_FACE"
+              },
+              {
+                "name": "Facebaked_3",
+                "uuid": "4e0b7962-9530-4923-92b1-fc6680521807",
+                "materialRole": "FaceEyelash_00_FACE"
+              },
+              {
+                "name": "Facebaked_7",
+                "uuid": "e5390ee7-8aea-43a5-9038-95d4c07be874",
+                "materialRole": "Face_00_SKIN"
+              }
+            ],
+            "protectedMeshes": [
+              {
+                "name": "Facebaked",
+                "uuid": "8ad5f36a-d3c3-4463-a219-6bbceddc797e",
+                "materialRole": "FaceMouth_00_FACE"
+              },
+              {
+                "name": "Facebaked_4",
+                "uuid": "8857297a-75e3-431e-b1b5-f75f1c054186",
+                "materialRole": "FaceBrow_00_FACE"
+              },
+              {
+                "name": "Facebaked_5",
+                "uuid": "b721e5cd-a79e-45ea-94c1-6738cfb02c72",
+                "materialRole": "EyeIris_00_EYE"
+              },
+              {
+                "name": "Facebaked_6",
+                "uuid": "dcfa264f-a231-4c35-b88c-a5f4dfd4f4ef",
+                "materialRole": "EyeHighlight_00_EYE"
+              },
+              {
+                "name": "Facebaked_8",
+                "uuid": "981f63e5-819d-451f-aa89-bc6aeb017d88",
+                "materialRole": "EyeExtra_01_EYE"
+              }
+            ]
+          },
+          "greeting": {
+            "id": "greeting-wave-left-v1",
+            "status": "idle",
+            "time": 0,
+            "weight": 0,
+            "requestId": null,
+            "error": null,
+            "sha256": null,
+            "duration": 2.8,
+            "layer": "left-arm-and-fingers-only",
+            "fadeSeconds": 0.2,
+            "endpointPolicy": "current-authored-pose-source-quintic-ramps"
+          },
+          "bodyType": "female",
+          "avatarSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+          "preset": "neutral",
+          "speaking": false,
+          "speakingMode": "procedural-vowel-demo-not-audio-lipsync",
+          "time": 0.049999999999999996,
+          "gaze": null,
+          "action": "idle",
+          "actionSupport": {
+            "allowed": true
+          },
+          "arm": null,
+          "fit": {
+            "glassesForward": 0.02298870337754488,
+            "glassesUp": 0,
+            "glassesScale": 1.2967676884727553,
+            "micScale": 1,
+            "eyeFitMethod": "rendered-iris-centers-and-face-front-band",
+            "glassesTempleProfile": null,
+            "eyeSpacing": 0.08299313206225634,
+            "armLengths": [
+              0.21925156702605944,
+              0.21430079574573263
+            ],
+            "gripProfile": null,
+            "verified": false
+          },
+          "accessories": {
+            "mic": {
+              "version": 0,
+              "requested": false,
+              "status": "off",
+              "loaded": false,
+              "error": null,
+              "sha256": null,
+              "identity": null,
+              "pending": null
+            },
+            "glasses": {
+              "version": 0,
+              "requested": false,
+              "status": "off",
+              "loaded": false,
+              "error": null,
+              "sha256": null,
+              "identity": null,
+              "pending": null
+            }
+          }
+        }
+      },
+      "speaking": true,
+      "gaze": [
+        -0.5052599222135632,
+        1.18212186748281,
+        2.9681887515461294
+      ],
+      "controls": [
+        {
+          "id": "appearance-hair-color",
+          "disabled": false,
+          "choices": [
+            {
+              "value": "original",
+              "label": "原色"
+            },
+            {
+              "value": "black",
+              "label": "黑色"
+            },
+            {
+              "value": "brown",
+              "label": "棕色"
+            },
+            {
+              "value": "blonde",
+              "label": "金色"
+            }
+          ]
+        },
+        {
+          "id": "appearance-skin-tone",
+          "disabled": false,
+          "choices": [
+            {
+              "value": "original",
+              "label": "原色"
+            },
+            {
+              "value": "warm",
+              "label": "暖色"
+            },
+            {
+              "value": "deep",
+              "label": "深色"
+            }
+          ]
+        },
+        {
+          "id": "appearance-eyebrow-color",
+          "disabled": true,
+          "choices": [
+            {
+              "value": "original",
+              "label": "原色"
+            }
+          ]
+        },
+        {
+          "id": "appearance-eye-color",
+          "disabled": false,
+          "choices": [
+            {
+              "value": "original",
+              "label": "原色"
+            },
+            {
+              "value": "brown",
+              "label": "棕色"
+            },
+            {
+              "value": "blue",
+              "label": "蓝色"
+            },
+            {
+              "value": "green",
+              "label": "绿色"
+            },
+            {
+              "value": "violet",
+              "label": "紫色"
+            }
+          ]
+        },
+        {
+          "id": "appearance-lip-color",
+          "disabled": false,
+          "choices": [
+            {
+              "value": "original",
+              "label": "原色"
+            },
+            {
+              "value": "rose",
+              "label": "玫瑰色"
+            },
+            {
+              "value": "coral",
+              "label": "珊瑚色"
+            },
+            {
+              "value": "mauve",
+              "label": "豆沙色"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "body": "native-female-843ac-v1",
+      "errors": [],
+      "accessories": {
+        "mic": {
+          "state": {
+            "version": 1,
+            "requested": true,
+            "status": "on",
+            "loaded": true,
+            "error": null,
+            "sha256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c",
+            "identity": {
+              "bodySHA256": "843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef",
+              "accessorySHA256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c",
+              "fit": {
+                "id": "native-female-843ac-grip-v1",
+                "sha256": "c2557d2a49eeb8aa1ae3061c96a517341156b7226b49d2232278c4a72a6e07b3",
+                "fitVersion": "native-vrm1-hand-source-v1",
+                "bodySHA256": "843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef",
+                "accessorySHA256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c"
+              }
+            },
+            "pending": null
+          },
+          "message": ""
+        },
+        "glasses": {
+          "state": {
+            "version": 1,
+            "requested": true,
+            "status": "on",
+            "loaded": true,
+            "error": null,
+            "sha256": "c8098a499434c384850a73e6c207fb6c5e85620e9012c4426cd989952e5bec52",
+            "identity": {
+              "bodySHA256": "843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef",
+              "accessorySHA256": "c8098a499434c384850a73e6c207fb6c5e85620e9012c4426cd989952e5bec52",
+              "fit": {
+                "status": "fitted-candidate",
+                "id": "native-female-843ac-v1-temple-v1",
+                "sha256": "7fa820bcae15a26cac551807cae7f3f19a67697835013b0ddd8854a36edf39c4",
+                "bodySHA256": "843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef",
+                "accessorySHA256": "c8098a499434c384850a73e6c207fb6c5e85620e9012c4426cd989952e5bec52",
+                "changedMeshes": [
+                  "Temple-1",
+                  "Temple1"
+                ],
+                "sourceGeometryUnmodified": true,
+                "verified": false
+              }
+            },
+            "pending": null
+          },
+          "message": ""
+        }
+      },
+      "initial": {
+        "build": "01a020d4e10d",
+        "body": "native-female-843ac-v1",
+        "sha": "843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef",
+        "dances": [
+          {
+            "id": "ual1-dance-reference",
+            "file": "dance-source-reference.glb",
+            "sha256": "b864ec5f440929133787791884e645a0bc73c323d107c9a9ef9937b4f1ca9744",
+            "clip": "Dance_Loop",
+            "duration": 1,
+            "playback": "loop",
+            "origin": "Unmodified Quaternius Dance_Loop reference",
+            "rootTranslationOwner": "clip hips only; no path locomotion",
+            "space": {
+              "kind": "local-footprint",
+              "radiusSourceM": 0.9,
+              "scaleBy": "target/sourceRestHipRatio",
+              "includes": "source body reservation; target clothes/hair need live envelope validation",
+              "navigationAllowedDuringPlayback": false
+            },
+            "heldPropsAllowed": false,
+            "rootPolicy": "local-displacement",
+            "key": "dance:ual1-dance-reference",
+            "radius": 0.8915343006105697
+          },
+          {
+            "id": "dance-technical-once-v1",
+            "file": "dance-technical-v1.glb",
+            "sha256": "2d785287de3c0187c76ed90ae6e0b76fed3008cb1a7a2ac75065720d3885304e",
+            "clip": "Dance_Technical_7s_Once_v1",
+            "duration": 7.2,
+            "playback": "once-then-idle",
+            "origin": "Original technical choreography, UAL1 idle reference/rig; not professional dance or mocap",
+            "rootTranslationOwner": "clip hips local weight-shift/jump; no path locomotion",
+            "space": {
+              "kind": "local-footprint",
+              "radiusSourceM": 0.9,
+              "scaleBy": "target/sourceRestHipRatio",
+              "includes": "source body reservation; target clothes/hair need live envelope validation",
+              "navigationAllowedDuringPlayback": false
+            },
+            "heldPropsAllowed": false,
+            "segments": [
+              {
+                "time": [
+                  0.6,
+                  2.4
+                ],
+                "intent": "raised arms, elbow bend, side bend"
+              },
+              {
+                "time": [
+                  2.4,
+                  3.9
+                ],
+                "intent": "right foot crosses in front of left then returns"
+              },
+              {
+                "time": [
+                  4.1,
+                  5.4
+                ],
+                "intent": "torso twist"
+              },
+              {
+                "time": [
+                  5.4,
+                  6.55
+                ],
+                "intent": "anticipate, small hop, land, absorb"
+              },
+              {
+                "time": [
+                  6.55,
+                  7.2
+                ],
+                "intent": "return to initial generated idle pose; runtime exit blend required"
+              }
+            ],
+            "contactWindows": {
+              "l": [
+                [
+                  0,
+                  5.85
+                ],
+                [
+                  6.13,
+                  7.2
+                ]
+              ],
+              "r": [
+                [
+                  0,
+                  2.4
+                ],
+                [
+                  3,
+                  3.3
+                ],
+                [
+                  3.9,
+                  5.85
+                ],
+                [
+                  6.13,
+                  7.2
+                ]
+              ]
+            },
+            "sourceQAOnly": true,
+            "limits": [
+              "No live avatar/garment or visual acceptance",
+              "Prop must be stowed before full-body choreography",
+              "Crossing is intentional; no never-cross constraint",
+              "Runtime must preserve genuine jump vertical motion and release both feet during flight"
+            ],
+            "rootPolicy": "local-displacement",
+            "key": "dance:dance-technical-once-v1",
+            "radius": 0.8915343006105697
+          },
+          {
+            "id": "native-rokoko-5359146-30s-v2",
+            "label": "30秒舞蹈 · 原生骨架接入候选",
+            "format": "normalized-vrm-motion.1",
+            "clip": "Rokoko_Pexels5359146_30s_v1",
+            "duration": 30,
+            "playback": "once-then-idle",
+            "rootPolicy": "local-displacement",
+            "origin": "Pinned Rokoko vendor trial converted for exact native targets; internal technical candidate only, no production/commercial license claim; source/runtime admission pending",
+            "rootTranslationOwner": "clip hips only; no path locomotion",
+            "heldPropsAllowed": false,
+            "space": {
+              "kind": "local-footprint",
+              "radiusTargetM": 2.0465379295679766,
+              "radiusBasis": {
+                "maxTargetHipHorizontalDisplacementM": 0.8217269742062281,
+                "maxTargetSkeletonRestRadiusM": 0.9748109553617484,
+                "safetyMarginM": 0.25,
+                "dynamicClothesHairIncluded": false
+              },
+              "navigationAllowedDuringPlayback": false
+            },
+            "variants": [
+              {
+                "avatarSha256": "843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef",
+                "file": "native-rokoko-target-v2/native-female-843ac-v1.motion.json",
+                "sha256": "49a14e5af28a16efdb948170e4cfaaf389724db43b8ceeb1f68d761b93c2e71e",
+                "bytes": 4533917
+              },
+              {
+                "avatarSha256": "cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce",
+                "file": "native-rokoko-target-v2/native-female-face-v1.motion.json",
+                "sha256": "c9742cc27094aebef5597848d5ccf7bf5bda6d50198db30abe4ba695da0fb200",
+                "bytes": 4533916
+              },
+              {
+                "avatarSha256": "cf1574b243b3eb1d5803928598f62809c30938bde67154d3956d346f39fa1ed5",
+                "file": "native-rokoko-target-v2/native-female-waist-v1.motion.json",
+                "sha256": "a2a47895bc5b603eb85c332cb95336e393350419ca18b5ae1fb37530a7a2aab4",
+                "bytes": 4533917
+              },
+              {
+                "avatarSha256": "7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81",
+                "file": "native-rokoko-target-v2/native-male-7586-v1.motion.json",
+                "sha256": "870db931721d91f5b3ab200162ef03810960e6fbe28db2f62a1942f27a1f05c0",
+                "bytes": 4533751
+              }
+            ],
+            "avatarSha256": "843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef",
+            "file": "native-rokoko-target-v2/native-female-843ac-v1.motion.json",
+            "sha256": "49a14e5af28a16efdb948170e4cfaaf389724db43b8ceeb1f68d761b93c2e71e",
+            "bytes": 4533917,
+            "key": "dance:native-rokoko-5359146-30s-v2",
+            "radius": 2.0465379295679766
+          }
+        ],
+        "live": {
+          "eyeBlinkCompatibility": {
+            "available": false,
+            "mode": "fixed",
+            "avatarSha256": "843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef",
+            "method": "existing-eye-joy-negative-bind-per-primitive-v1",
+            "reason": "Unregistered avatar source identity",
+            "skipped": null,
+            "coefficient": 0,
+            "expressionName": null,
+            "eyeTargetIndex": null,
+            "sourceTargetCount": null,
+            "targetedMeshes": [],
+            "protectedMeshes": []
+          },
+          "greeting": {
+            "id": "greeting-wave-left-v1",
+            "status": "idle",
+            "time": 0,
+            "weight": 0,
+            "requestId": null,
+            "error": null,
+            "sha256": null,
+            "duration": 2.8,
+            "layer": "left-arm-and-fingers-only",
+            "fadeSeconds": 0.2,
+            "endpointPolicy": "current-authored-pose-source-quintic-ramps"
+          },
+          "bodyType": "native-female-843ac-v1",
+          "avatarSha256": "843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef",
+          "preset": "neutral",
+          "speaking": false,
+          "speakingMode": "procedural-vowel-demo-not-audio-lipsync",
+          "time": 0.049999999999999996,
+          "gaze": null,
+          "action": "idle",
+          "actionSupport": {
+            "allowed": true
+          },
+          "arm": null,
+          "fit": {
+            "glassesForward": 0.02091553231440987,
+            "glassesUp": 0,
+            "glassesScale": 1.305831668796426,
+            "micScale": 1,
+            "eyeFitMethod": "rendered-iris-centers-and-face-front-band",
+            "glassesTempleProfile": null,
+            "eyeSpacing": 0.08357322680297126,
+            "armLengths": [
+              0.21985274562025797,
+              0.21468523102549925
+            ],
+            "gripProfile": null,
+            "verified": false
+          },
+          "accessories": {
+            "mic": {
+              "version": 0,
+              "requested": false,
+              "status": "off",
+              "loaded": false,
+              "error": null,
+              "sha256": null,
+              "identity": null,
+              "pending": null
+            },
+            "glasses": {
+              "version": 0,
+              "requested": false,
+              "status": "off",
+              "loaded": false,
+              "error": null,
+              "sha256": null,
+              "identity": null,
+              "pending": null
+            }
+          }
+        }
+      },
+      "speaking": true,
+      "gaze": [
+        -0.5038739264372094,
+        1.1807868327101507,
+        2.961051128977214
+      ],
+      "controls": [
+        {
+          "id": "appearance-hair-color",
+          "disabled": true,
+          "choices": [
+            {
+              "value": "original",
+              "label": "原色"
+            }
+          ]
+        },
+        {
+          "id": "appearance-skin-tone",
+          "disabled": true,
+          "choices": [
+            {
+              "value": "original",
+              "label": "原色"
+            }
+          ]
+        },
+        {
+          "id": "appearance-eyebrow-color",
+          "disabled": true,
+          "choices": [
+            {
+              "value": "original",
+              "label": "原色"
+            }
+          ]
+        },
+        {
+          "id": "appearance-eye-color",
+          "disabled": true,
+          "choices": [
+            {
+              "value": "original",
+              "label": "原色"
+            }
+          ]
+        },
+        {
+          "id": "appearance-lip-color",
+          "disabled": true,
+          "choices": [
+            {
+              "value": "original",
+              "label": "原色"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "body": "native-female-face-v1",
+      "errors": [],
+      "accessories": {
+        "mic": {
+          "state": {
+            "version": 1,
+            "requested": true,
+            "status": "on",
+            "loaded": true,
+            "error": null,
+            "sha256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c",
+            "identity": {
+              "bodySHA256": "cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce",
+              "accessorySHA256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c",
+              "fit": {
+                "id": "native-female-face-cc0843-grip-v1",
+                "sha256": "786b54bb0a9e9b91435cb2ac822fdf4c862a3de4538bd19684a54196b0ead7ea",
+                "fitVersion": "native-vrm1-hand-source-v1",
+                "bodySHA256": "cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce",
+                "accessorySHA256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c"
+              }
+            },
+            "pending": null
+          },
+          "message": ""
+        },
+        "glasses": {
+          "state": {
+            "version": 1,
+            "requested": true,
+            "status": "on",
+            "loaded": true,
+            "error": null,
+            "sha256": "c8098a499434c384850a73e6c207fb6c5e85620e9012c4426cd989952e5bec52",
+            "identity": {
+              "bodySHA256": "cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce",
+              "accessorySHA256": "c8098a499434c384850a73e6c207fb6c5e85620e9012c4426cd989952e5bec52",
+              "fit": {
+                "status": "fitted-candidate",
+                "id": "native-female-face-v1-temple-v1",
+                "sha256": "75d44cd87e753d5948d1e468aac1095c82931118cc07adcc0e52a3e7a9f65283",
+                "bodySHA256": "cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce",
+                "accessorySHA256": "c8098a499434c384850a73e6c207fb6c5e85620e9012c4426cd989952e5bec52",
+                "changedMeshes": [
+                  "Temple-1",
+                  "Temple1"
+                ],
+                "sourceGeometryUnmodified": true,
+                "verified": false
+              }
+            },
+            "pending": null
+          },
+          "message": ""
+        }
+      },
+      "initial": {
+        "build": "01a020d4e10d",
+        "body": "native-female-face-v1",
+        "sha": "cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce",
+        "dances": [
+          {
+            "id": "ual1-dance-reference",
+            "file": "dance-source-reference.glb",
+            "sha256": "b864ec5f440929133787791884e645a0bc73c323d107c9a9ef9937b4f1ca9744",
+            "clip": "Dance_Loop",
+            "duration": 1,
+            "playback": "loop",
+            "origin": "Unmodified Quaternius Dance_Loop reference",
+            "rootTranslationOwner": "clip hips only; no path locomotion",
+            "space": {
+              "kind": "local-footprint",
+              "radiusSourceM": 0.9,
+              "scaleBy": "target/sourceRestHipRatio",
+              "includes": "source body reservation; target clothes/hair need live envelope validation",
+              "navigationAllowedDuringPlayback": false
+            },
+            "heldPropsAllowed": false,
+            "rootPolicy": "local-displacement",
+            "key": "dance:ual1-dance-reference",
+            "radius": 0.8915343006105697
+          },
+          {
+            "id": "dance-technical-once-v1",
+            "file": "dance-technical-v1.glb",
+            "sha256": "2d785287de3c0187c76ed90ae6e0b76fed3008cb1a7a2ac75065720d3885304e",
+            "clip": "Dance_Technical_7s_Once_v1",
+            "duration": 7.2,
+            "playback": "once-then-idle",
+            "origin": "Original technical choreography, UAL1 idle reference/rig; not professional dance or mocap",
+            "rootTranslationOwner": "clip hips local weight-shift/jump; no path locomotion",
+            "space": {
+              "kind": "local-footprint",
+              "radiusSourceM": 0.9,
+              "scaleBy": "target/sourceRestHipRatio",
+              "includes": "source body reservation; target clothes/hair need live envelope validation",
+              "navigationAllowedDuringPlayback": false
+            },
+            "heldPropsAllowed": false,
+            "segments": [
+              {
+                "time": [
+                  0.6,
+                  2.4
+                ],
+                "intent": "raised arms, elbow bend, side bend"
+              },
+              {
+                "time": [
+                  2.4,
+                  3.9
+                ],
+                "intent": "right foot crosses in front of left then returns"
+              },
+              {
+                "time": [
+                  4.1,
+                  5.4
+                ],
+                "intent": "torso twist"
+              },
+              {
+                "time": [
+                  5.4,
+                  6.55
+                ],
+                "intent": "anticipate, small hop, land, absorb"
+              },
+              {
+                "time": [
+                  6.55,
+                  7.2
+                ],
+                "intent": "return to initial generated idle pose; runtime exit blend required"
+              }
+            ],
+            "contactWindows": {
+              "l": [
+                [
+                  0,
+                  5.85
+                ],
+                [
+                  6.13,
+                  7.2
+                ]
+              ],
+              "r": [
+                [
+                  0,
+                  2.4
+                ],
+                [
+                  3,
+                  3.3
+                ],
+                [
+                  3.9,
+                  5.85
+                ],
+                [
+                  6.13,
+                  7.2
+                ]
+              ]
+            },
+            "sourceQAOnly": true,
+            "limits": [
+              "No live avatar/garment or visual acceptance",
+              "Prop must be stowed before full-body choreography",
+              "Crossing is intentional; no never-cross constraint",
+              "Runtime must preserve genuine jump vertical motion and release both feet during flight"
+            ],
+            "rootPolicy": "local-displacement",
+            "key": "dance:dance-technical-once-v1",
+            "radius": 0.8915343006105697
+          },
+          {
+            "id": "native-rokoko-5359146-30s-v2",
+            "label": "30秒舞蹈 · 原生骨架接入候选",
+            "format": "normalized-vrm-motion.1",
+            "clip": "Rokoko_Pexels5359146_30s_v1",
+            "duration": 30,
+            "playback": "once-then-idle",
+            "rootPolicy": "local-displacement",
+            "origin": "Pinned Rokoko vendor trial converted for exact native targets; internal technical candidate only, no production/commercial license claim; source/runtime admission pending",
+            "rootTranslationOwner": "clip hips only; no path locomotion",
+            "heldPropsAllowed": false,
+            "space": {
+              "kind": "local-footprint",
+              "radiusTargetM": 2.0465379295679766,
+              "radiusBasis": {
+                "maxTargetHipHorizontalDisplacementM": 0.8217269742062281,
+                "maxTargetSkeletonRestRadiusM": 0.9748109553617484,
+                "safetyMarginM": 0.25,
+                "dynamicClothesHairIncluded": false
+              },
+              "navigationAllowedDuringPlayback": false
+            },
+            "variants": [
+              {
+                "avatarSha256": "843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef",
+                "file": "native-rokoko-target-v2/native-female-843ac-v1.motion.json",
+                "sha256": "49a14e5af28a16efdb948170e4cfaaf389724db43b8ceeb1f68d761b93c2e71e",
+                "bytes": 4533917
+              },
+              {
+                "avatarSha256": "cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce",
+                "file": "native-rokoko-target-v2/native-female-face-v1.motion.json",
+                "sha256": "c9742cc27094aebef5597848d5ccf7bf5bda6d50198db30abe4ba695da0fb200",
+                "bytes": 4533916
+              },
+              {
+                "avatarSha256": "cf1574b243b3eb1d5803928598f62809c30938bde67154d3956d346f39fa1ed5",
+                "file": "native-rokoko-target-v2/native-female-waist-v1.motion.json",
+                "sha256": "a2a47895bc5b603eb85c332cb95336e393350419ca18b5ae1fb37530a7a2aab4",
+                "bytes": 4533917
+              },
+              {
+                "avatarSha256": "7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81",
+                "file": "native-rokoko-target-v2/native-male-7586-v1.motion.json",
+                "sha256": "870db931721d91f5b3ab200162ef03810960e6fbe28db2f62a1942f27a1f05c0",
+                "bytes": 4533751
+              }
+            ],
+            "avatarSha256": "cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce",
+            "file": "native-rokoko-target-v2/native-female-face-v1.motion.json",
+            "sha256": "c9742cc27094aebef5597848d5ccf7bf5bda6d50198db30abe4ba695da0fb200",
+            "bytes": 4533916,
+            "key": "dance:native-rokoko-5359146-30s-v2",
+            "radius": 2.0465379295679766
+          }
+        ],
+        "live": {
+          "eyeBlinkCompatibility": {
+            "available": false,
+            "mode": "fixed",
+            "avatarSha256": "cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce",
+            "method": "existing-eye-joy-negative-bind-per-primitive-v1",
+            "reason": "Unregistered avatar source identity",
+            "skipped": null,
+            "coefficient": 0,
+            "expressionName": null,
+            "eyeTargetIndex": null,
+            "sourceTargetCount": null,
+            "targetedMeshes": [],
+            "protectedMeshes": []
+          },
+          "greeting": {
+            "id": "greeting-wave-left-v1",
+            "status": "idle",
+            "time": 0,
+            "weight": 0,
+            "requestId": null,
+            "error": null,
+            "sha256": null,
+            "duration": 2.8,
+            "layer": "left-arm-and-fingers-only",
+            "fadeSeconds": 0.2,
+            "endpointPolicy": "current-authored-pose-source-quintic-ramps"
+          },
+          "bodyType": "native-female-face-v1",
+          "avatarSha256": "cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce",
+          "preset": "neutral",
+          "speaking": false,
+          "speakingMode": "procedural-vowel-demo-not-audio-lipsync",
+          "time": 0.08119999992847443,
+          "gaze": null,
+          "action": "idle",
+          "actionSupport": {
+            "allowed": true
+          },
+          "arm": null,
+          "fit": {
+            "glassesForward": 0.02091553231440987,
+            "glassesUp": 0,
+            "glassesScale": 1.305831668796426,
+            "micScale": 1,
+            "eyeFitMethod": "rendered-iris-centers-and-face-front-band",
+            "glassesTempleProfile": null,
+            "eyeSpacing": 0.08357322680297126,
+            "armLengths": [
+              0.21985274562025797,
+              0.21468523102549925
+            ],
+            "gripProfile": null,
+            "verified": false
+          },
+          "accessories": {
+            "mic": {
+              "version": 0,
+              "requested": false,
+              "status": "off",
+              "loaded": false,
+              "error": null,
+              "sha256": null,
+              "identity": null,
+              "pending": null
+            },
+            "glasses": {
+              "version": 0,
+              "requested": false,
+              "status": "off",
+              "loaded": false,
+              "error": null,
+              "sha256": null,
+              "identity": null,
+              "pending": null
+            }
+          }
+        }
+      },
+      "speaking": true,
+      "gaze": [
+        -0.5039217445591763,
+        1.1807783717108302,
+        2.9611801520174765
+      ],
+      "controls": [
+        {
+          "id": "appearance-hair-color",
+          "disabled": true,
+          "choices": [
+            {
+              "value": "original",
+              "label": "原色"
+            }
+          ]
+        },
+        {
+          "id": "appearance-skin-tone",
+          "disabled": true,
+          "choices": [
+            {
+              "value": "original",
+              "label": "原色"
+            }
+          ]
+        },
+        {
+          "id": "appearance-eyebrow-color",
+          "disabled": true,
+          "choices": [
+            {
+              "value": "original",
+              "label": "原色"
+            }
+          ]
+        },
+        {
+          "id": "appearance-eye-color",
+          "disabled": true,
+          "choices": [
+            {
+              "value": "original",
+              "label": "原色"
+            }
+          ]
+        },
+        {
+          "id": "appearance-lip-color",
+          "disabled": true,
+          "choices": [
+            {
+              "value": "original",
+              "label": "原色"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "body": "native-female-waist-v1",
+      "errors": [],
+      "accessories": {
+        "mic": {
+          "state": {
+            "version": 1,
+            "requested": true,
+            "status": "on",
+            "loaded": true,
+            "error": null,
+            "sha256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c",
+            "identity": {
+              "bodySHA256": "cf1574b243b3eb1d5803928598f62809c30938bde67154d3956d346f39fa1ed5",
+              "accessorySHA256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c",
+              "fit": {
+                "id": "native-female-waist-cf1574-grip-v1",
+                "sha256": "e1d6c168727d9a9d1e3a0a595e08034723490ce943c52b2d0be0729c719fcd1d",
+                "fitVersion": "native-vrm1-hand-source-v1",
+                "bodySHA256": "cf1574b243b3eb1d5803928598f62809c30938bde67154d3956d346f39fa1ed5",
+                "accessorySHA256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c"
+              }
+            },
+            "pending": null
+          },
+          "message": ""
+        },
+        "glasses": {
+          "state": {
+            "version": 1,
+            "requested": true,
+            "status": "on",
+            "loaded": true,
+            "error": null,
+            "sha256": "c8098a499434c384850a73e6c207fb6c5e85620e9012c4426cd989952e5bec52",
+            "identity": {
+              "bodySHA256": "cf1574b243b3eb1d5803928598f62809c30938bde67154d3956d346f39fa1ed5",
+              "accessorySHA256": "c8098a499434c384850a73e6c207fb6c5e85620e9012c4426cd989952e5bec52",
+              "fit": {
+                "status": "fitted-candidate",
+                "id": "native-female-waist-v1-temple-v1",
+                "sha256": "fc62129b64b441cbf525ba8739ed13f9853b4fa56ca97ed924f7b9f9eacd2f59",
+                "bodySHA256": "cf1574b243b3eb1d5803928598f62809c30938bde67154d3956d346f39fa1ed5",
+                "accessorySHA256": "c8098a499434c384850a73e6c207fb6c5e85620e9012c4426cd989952e5bec52",
+                "changedMeshes": [
+                  "Temple-1",
+                  "Temple1"
+                ],
+                "sourceGeometryUnmodified": true,
+                "verified": false
+              }
+            },
+            "pending": null
+          },
+          "message": ""
+        }
+      },
+      "initial": {
+        "build": "01a020d4e10d",
+        "body": "native-female-waist-v1",
+        "sha": "cf1574b243b3eb1d5803928598f62809c30938bde67154d3956d346f39fa1ed5",
+        "dances": [
+          {
+            "id": "ual1-dance-reference",
+            "file": "dance-source-reference.glb",
+            "sha256": "b864ec5f440929133787791884e645a0bc73c323d107c9a9ef9937b4f1ca9744",
+            "clip": "Dance_Loop",
+            "duration": 1,
+            "playback": "loop",
+            "origin": "Unmodified Quaternius Dance_Loop reference",
+            "rootTranslationOwner": "clip hips only; no path locomotion",
+            "space": {
+              "kind": "local-footprint",
+              "radiusSourceM": 0.9,
+              "scaleBy": "target/sourceRestHipRatio",
+              "includes": "source body reservation; target clothes/hair need live envelope validation",
+              "navigationAllowedDuringPlayback": false
+            },
+            "heldPropsAllowed": false,
+            "rootPolicy": "local-displacement",
+            "key": "dance:ual1-dance-reference",
+            "radius": 0.8915343006105697
+          },
+          {
+            "id": "dance-technical-once-v1",
+            "file": "dance-technical-v1.glb",
+            "sha256": "2d785287de3c0187c76ed90ae6e0b76fed3008cb1a7a2ac75065720d3885304e",
+            "clip": "Dance_Technical_7s_Once_v1",
+            "duration": 7.2,
+            "playback": "once-then-idle",
+            "origin": "Original technical choreography, UAL1 idle reference/rig; not professional dance or mocap",
+            "rootTranslationOwner": "clip hips local weight-shift/jump; no path locomotion",
+            "space": {
+              "kind": "local-footprint",
+              "radiusSourceM": 0.9,
+              "scaleBy": "target/sourceRestHipRatio",
+              "includes": "source body reservation; target clothes/hair need live envelope validation",
+              "navigationAllowedDuringPlayback": false
+            },
+            "heldPropsAllowed": false,
+            "segments": [
+              {
+                "time": [
+                  0.6,
+                  2.4
+                ],
+                "intent": "raised arms, elbow bend, side bend"
+              },
+              {
+                "time": [
+                  2.4,
+                  3.9
+                ],
+                "intent": "right foot crosses in front of left then returns"
+              },
+              {
+                "time": [
+                  4.1,
+                  5.4
+                ],
+                "intent": "torso twist"
+              },
+              {
+                "time": [
+                  5.4,
+                  6.55
+                ],
+                "intent": "anticipate, small hop, land, absorb"
+              },
+              {
+                "time": [
+                  6.55,
+                  7.2
+                ],
+                "intent": "return to initial generated idle pose; runtime exit blend required"
+              }
+            ],
+            "contactWindows": {
+              "l": [
+                [
+                  0,
+                  5.85
+                ],
+                [
+                  6.13,
+                  7.2
+                ]
+              ],
+              "r": [
+                [
+                  0,
+                  2.4
+                ],
+                [
+                  3,
+                  3.3
+                ],
+                [
+                  3.9,
+                  5.85
+                ],
+                [
+                  6.13,
+                  7.2
+                ]
+              ]
+            },
+            "sourceQAOnly": true,
+            "limits": [
+              "No live avatar/garment or visual acceptance",
+              "Prop must be stowed before full-body choreography",
+              "Crossing is intentional; no never-cross constraint",
+              "Runtime must preserve genuine jump vertical motion and release both feet during flight"
+            ],
+            "rootPolicy": "local-displacement",
+            "key": "dance:dance-technical-once-v1",
+            "radius": 0.8915343006105697
+          },
+          {
+            "id": "native-rokoko-5359146-30s-v2",
+            "label": "30秒舞蹈 · 原生骨架接入候选",
+            "format": "normalized-vrm-motion.1",
+            "clip": "Rokoko_Pexels5359146_30s_v1",
+            "duration": 30,
+            "playback": "once-then-idle",
+            "rootPolicy": "local-displacement",
+            "origin": "Pinned Rokoko vendor trial converted for exact native targets; internal technical candidate only, no production/commercial license claim; source/runtime admission pending",
+            "rootTranslationOwner": "clip hips only; no path locomotion",
+            "heldPropsAllowed": false,
+            "space": {
+              "kind": "local-footprint",
+              "radiusTargetM": 2.0465379295679766,
+              "radiusBasis": {
+                "maxTargetHipHorizontalDisplacementM": 0.8217269742062281,
+                "maxTargetSkeletonRestRadiusM": 0.9748109553617484,
+                "safetyMarginM": 0.25,
+                "dynamicClothesHairIncluded": false
+              },
+              "navigationAllowedDuringPlayback": false
+            },
+            "variants": [
+              {
+                "avatarSha256": "843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef",
+                "file": "native-rokoko-target-v2/native-female-843ac-v1.motion.json",
+                "sha256": "49a14e5af28a16efdb948170e4cfaaf389724db43b8ceeb1f68d761b93c2e71e",
+                "bytes": 4533917
+              },
+              {
+                "avatarSha256": "cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce",
+                "file": "native-rokoko-target-v2/native-female-face-v1.motion.json",
+                "sha256": "c9742cc27094aebef5597848d5ccf7bf5bda6d50198db30abe4ba695da0fb200",
+                "bytes": 4533916
+              },
+              {
+                "avatarSha256": "cf1574b243b3eb1d5803928598f62809c30938bde67154d3956d346f39fa1ed5",
+                "file": "native-rokoko-target-v2/native-female-waist-v1.motion.json",
+                "sha256": "a2a47895bc5b603eb85c332cb95336e393350419ca18b5ae1fb37530a7a2aab4",
+                "bytes": 4533917
+              },
+              {
+                "avatarSha256": "7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81",
+                "file": "native-rokoko-target-v2/native-male-7586-v1.motion.json",
+                "sha256": "870db931721d91f5b3ab200162ef03810960e6fbe28db2f62a1942f27a1f05c0",
+                "bytes": 4533751
+              }
+            ],
+            "avatarSha256": "cf1574b243b3eb1d5803928598f62809c30938bde67154d3956d346f39fa1ed5",
+            "file": "native-rokoko-target-v2/native-female-waist-v1.motion.json",
+            "sha256": "a2a47895bc5b603eb85c332cb95336e393350419ca18b5ae1fb37530a7a2aab4",
+            "bytes": 4533917,
+            "key": "dance:native-rokoko-5359146-30s-v2",
+            "radius": 2.0465379295679766
+          }
+        ],
+        "live": {
+          "eyeBlinkCompatibility": {
+            "available": false,
+            "mode": "fixed",
+            "avatarSha256": "cf1574b243b3eb1d5803928598f62809c30938bde67154d3956d346f39fa1ed5",
+            "method": "existing-eye-joy-negative-bind-per-primitive-v1",
+            "reason": "Unregistered avatar source identity",
+            "skipped": null,
+            "coefficient": 0,
+            "expressionName": null,
+            "eyeTargetIndex": null,
+            "sourceTargetCount": null,
+            "targetedMeshes": [],
+            "protectedMeshes": []
+          },
+          "greeting": {
+            "id": "greeting-wave-left-v1",
+            "status": "idle",
+            "time": 0,
+            "weight": 0,
+            "requestId": null,
+            "error": null,
+            "sha256": null,
+            "duration": 2.8,
+            "layer": "left-arm-and-fingers-only",
+            "fadeSeconds": 0.2,
+            "endpointPolicy": "current-authored-pose-source-quintic-ramps"
+          },
+          "bodyType": "native-female-waist-v1",
+          "avatarSha256": "cf1574b243b3eb1d5803928598f62809c30938bde67154d3956d346f39fa1ed5",
+          "preset": "neutral",
+          "speaking": false,
+          "speakingMode": "procedural-vowel-demo-not-audio-lipsync",
+          "time": 0.049999999999999996,
+          "gaze": null,
+          "action": "idle",
+          "actionSupport": {
+            "allowed": true
+          },
+          "arm": null,
+          "fit": {
+            "glassesForward": 0.02091553231440987,
+            "glassesUp": 0,
+            "glassesScale": 1.305831668796426,
+            "micScale": 1,
+            "eyeFitMethod": "rendered-iris-centers-and-face-front-band",
+            "glassesTempleProfile": null,
+            "eyeSpacing": 0.08357322680297126,
+            "armLengths": [
+              0.21985274562025797,
+              0.21468523102549925
+            ],
+            "gripProfile": null,
+            "verified": false
+          },
+          "accessories": {
+            "mic": {
+              "version": 0,
+              "requested": false,
+              "status": "off",
+              "loaded": false,
+              "error": null,
+              "sha256": null,
+              "identity": null,
+              "pending": null
+            },
+            "glasses": {
+              "version": 0,
+              "requested": false,
+              "status": "off",
+              "loaded": false,
+              "error": null,
+              "sha256": null,
+              "identity": null,
+              "pending": null
+            }
+          }
+        }
+      },
+      "speaking": true,
+      "gaze": [
+        -0.5040313163165492,
+        1.180760149557113,
+        2.9614552835289416
+      ],
+      "controls": [
+        {
+          "id": "appearance-hair-color",
+          "disabled": true,
+          "choices": [
+            {
+              "value": "original",
+              "label": "原色"
+            }
+          ]
+        },
+        {
+          "id": "appearance-skin-tone",
+          "disabled": true,
+          "choices": [
+            {
+              "value": "original",
+              "label": "原色"
+            }
+          ]
+        },
+        {
+          "id": "appearance-eyebrow-color",
+          "disabled": true,
+          "choices": [
+            {
+              "value": "original",
+              "label": "原色"
+            }
+          ]
+        },
+        {
+          "id": "appearance-eye-color",
+          "disabled": true,
+          "choices": [
+            {
+              "value": "original",
+              "label": "原色"
+            }
+          ]
+        },
+        {
+          "id": "appearance-lip-color",
+          "disabled": true,
+          "choices": [
+            {
+              "value": "original",
+              "label": "原色"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "body": "native-male-7586-v1",
+      "errors": [],
+      "accessories": {
+        "mic": {
+          "state": {
+            "version": 1,
+            "requested": true,
+            "status": "on",
+            "loaded": true,
+            "error": null,
+            "sha256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c",
+            "identity": {
+              "bodySHA256": "7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81",
+              "accessorySHA256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c",
+              "fit": {
+                "id": "native-male-7586-grip-v3",
+                "sha256": "be8297dbe2f249541b4515ab25b7b0c9bdc1ae9309a34351514e701136273526",
+                "fitVersion": "native-vrm1-thumb-revision-v3",
+                "bodySHA256": "7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81",
+                "accessorySHA256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c"
+              }
+            },
+            "pending": null
+          },
+          "message": ""
+        },
+        "glasses": {
+          "state": {
+            "version": 1,
+            "requested": true,
+            "status": "on",
+            "loaded": true,
+            "error": null,
+            "sha256": "c8098a499434c384850a73e6c207fb6c5e85620e9012c4426cd989952e5bec52",
+            "identity": {
+              "bodySHA256": "7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81",
+              "accessorySHA256": "c8098a499434c384850a73e6c207fb6c5e85620e9012c4426cd989952e5bec52",
+              "fit": {
+                "status": "fitted-candidate",
+                "id": "native-male-7586-v1-temple-v1",
+                "sha256": "dad171703432b2916fe96f5644a6fda82c17c18215e72eb58ab00b7ce5b975b9",
+                "bodySHA256": "7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81",
+                "accessorySHA256": "c8098a499434c384850a73e6c207fb6c5e85620e9012c4426cd989952e5bec52",
+                "changedMeshes": [
+                  "Temple-1",
+                  "Temple1"
+                ],
+                "sourceGeometryUnmodified": true,
+                "verified": false
+              }
+            },
+            "pending": null
+          },
+          "message": ""
+        }
+      },
+      "initial": {
+        "build": "01a020d4e10d",
+        "body": "native-male-7586-v1",
+        "sha": "7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81",
+        "dances": [
+          {
+            "id": "ual1-dance-reference",
+            "file": "dance-source-reference.glb",
+            "sha256": "b864ec5f440929133787791884e645a0bc73c323d107c9a9ef9937b4f1ca9744",
+            "clip": "Dance_Loop",
+            "duration": 1,
+            "playback": "loop",
+            "origin": "Unmodified Quaternius Dance_Loop reference",
+            "rootTranslationOwner": "clip hips only; no path locomotion",
+            "space": {
+              "kind": "local-footprint",
+              "radiusSourceM": 0.9,
+              "scaleBy": "target/sourceRestHipRatio",
+              "includes": "source body reservation; target clothes/hair need live envelope validation",
+              "navigationAllowedDuringPlayback": false
+            },
+            "heldPropsAllowed": false,
+            "rootPolicy": "local-displacement",
+            "key": "dance:ual1-dance-reference",
+            "radius": 0.9942701421498108
+          },
+          {
+            "id": "dance-technical-once-v1",
+            "file": "dance-technical-v1.glb",
+            "sha256": "2d785287de3c0187c76ed90ae6e0b76fed3008cb1a7a2ac75065720d3885304e",
+            "clip": "Dance_Technical_7s_Once_v1",
+            "duration": 7.2,
+            "playback": "once-then-idle",
+            "origin": "Original technical choreography, UAL1 idle reference/rig; not professional dance or mocap",
+            "rootTranslationOwner": "clip hips local weight-shift/jump; no path locomotion",
+            "space": {
+              "kind": "local-footprint",
+              "radiusSourceM": 0.9,
+              "scaleBy": "target/sourceRestHipRatio",
+              "includes": "source body reservation; target clothes/hair need live envelope validation",
+              "navigationAllowedDuringPlayback": false
+            },
+            "heldPropsAllowed": false,
+            "segments": [
+              {
+                "time": [
+                  0.6,
+                  2.4
+                ],
+                "intent": "raised arms, elbow bend, side bend"
+              },
+              {
+                "time": [
+                  2.4,
+                  3.9
+                ],
+                "intent": "right foot crosses in front of left then returns"
+              },
+              {
+                "time": [
+                  4.1,
+                  5.4
+                ],
+                "intent": "torso twist"
+              },
+              {
+                "time": [
+                  5.4,
+                  6.55
+                ],
+                "intent": "anticipate, small hop, land, absorb"
+              },
+              {
+                "time": [
+                  6.55,
+                  7.2
+                ],
+                "intent": "return to initial generated idle pose; runtime exit blend required"
+              }
+            ],
+            "contactWindows": {
+              "l": [
+                [
+                  0,
+                  5.85
+                ],
+                [
+                  6.13,
+                  7.2
+                ]
+              ],
+              "r": [
+                [
+                  0,
+                  2.4
+                ],
+                [
+                  3,
+                  3.3
+                ],
+                [
+                  3.9,
+                  5.85
+                ],
+                [
+                  6.13,
+                  7.2
+                ]
+              ]
+            },
+            "sourceQAOnly": true,
+            "limits": [
+              "No live avatar/garment or visual acceptance",
+              "Prop must be stowed before full-body choreography",
+              "Crossing is intentional; no never-cross constraint",
+              "Runtime must preserve genuine jump vertical motion and release both feet during flight"
+            ],
+            "rootPolicy": "local-displacement",
+            "key": "dance:dance-technical-once-v1",
+            "radius": 0.9942701421498108
+          },
+          {
+            "id": "native-rokoko-5359146-30s-v2",
+            "label": "30秒舞蹈 · 原生骨架接入候选",
+            "format": "normalized-vrm-motion.1",
+            "clip": "Rokoko_Pexels5359146_30s_v1",
+            "duration": 30,
+            "playback": "once-then-idle",
+            "rootPolicy": "local-displacement",
+            "origin": "Pinned Rokoko vendor trial converted for exact native targets; internal technical candidate only, no production/commercial license claim; source/runtime admission pending",
+            "rootTranslationOwner": "clip hips only; no path locomotion",
+            "heldPropsAllowed": false,
+            "space": {
+              "kind": "local-footprint",
+              "radiusTargetM": 2.0465379295679766,
+              "radiusBasis": {
+                "maxTargetHipHorizontalDisplacementM": 0.8217269742062281,
+                "maxTargetSkeletonRestRadiusM": 0.9748109553617484,
+                "safetyMarginM": 0.25,
+                "dynamicClothesHairIncluded": false
+              },
+              "navigationAllowedDuringPlayback": false
+            },
+            "variants": [
+              {
+                "avatarSha256": "843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef",
+                "file": "native-rokoko-target-v2/native-female-843ac-v1.motion.json",
+                "sha256": "49a14e5af28a16efdb948170e4cfaaf389724db43b8ceeb1f68d761b93c2e71e",
+                "bytes": 4533917
+              },
+              {
+                "avatarSha256": "cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce",
+                "file": "native-rokoko-target-v2/native-female-face-v1.motion.json",
+                "sha256": "c9742cc27094aebef5597848d5ccf7bf5bda6d50198db30abe4ba695da0fb200",
+                "bytes": 4533916
+              },
+              {
+                "avatarSha256": "cf1574b243b3eb1d5803928598f62809c30938bde67154d3956d346f39fa1ed5",
+                "file": "native-rokoko-target-v2/native-female-waist-v1.motion.json",
+                "sha256": "a2a47895bc5b603eb85c332cb95336e393350419ca18b5ae1fb37530a7a2aab4",
+                "bytes": 4533917
+              },
+              {
+                "avatarSha256": "7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81",
+                "file": "native-rokoko-target-v2/native-male-7586-v1.motion.json",
+                "sha256": "870db931721d91f5b3ab200162ef03810960e6fbe28db2f62a1942f27a1f05c0",
+                "bytes": 4533751
+              }
+            ],
+            "avatarSha256": "7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81",
+            "file": "native-rokoko-target-v2/native-male-7586-v1.motion.json",
+            "sha256": "870db931721d91f5b3ab200162ef03810960e6fbe28db2f62a1942f27a1f05c0",
+            "bytes": 4533751,
+            "key": "dance:native-rokoko-5359146-30s-v2",
+            "radius": 2.0465379295679766
+          }
+        ],
+        "live": {
+          "eyeBlinkCompatibility": {
+            "available": false,
+            "mode": "fixed",
+            "avatarSha256": "7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81",
+            "method": "existing-eye-joy-negative-bind-per-primitive-v1",
+            "reason": "Unregistered avatar source identity",
+            "skipped": null,
+            "coefficient": 0,
+            "expressionName": null,
+            "eyeTargetIndex": null,
+            "sourceTargetCount": null,
+            "targetedMeshes": [],
+            "protectedMeshes": []
+          },
+          "greeting": {
+            "id": "greeting-wave-left-v1",
+            "status": "idle",
+            "time": 0,
+            "weight": 0,
+            "requestId": null,
+            "error": null,
+            "sha256": null,
+            "duration": 2.8,
+            "layer": "left-arm-and-fingers-only",
+            "fadeSeconds": 0.2,
+            "endpointPolicy": "current-authored-pose-source-quintic-ramps"
+          },
+          "bodyType": "native-male-7586-v1",
+          "avatarSha256": "7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81",
+          "preset": "neutral",
+          "speaking": false,
+          "speakingMode": "procedural-vowel-demo-not-audio-lipsync",
+          "time": 0.049999999999999996,
+          "gaze": null,
+          "action": "idle",
+          "actionSupport": {
+            "allowed": true
+          },
+          "arm": null,
+          "fit": {
+            "glassesForward": 0.0252609314823861,
+            "glassesUp": 0,
+            "glassesScale": 1.3145378114225155,
+            "micScale": 1,
+            "eyeFitMethod": "rendered-iris-centers-and-face-front-band",
+            "glassesTempleProfile": null,
+            "eyeSpacing": 0.08413041993104099,
+            "armLengths": [
+              0.21978901262051143,
+              0.24981913002687914
+            ],
+            "gripProfile": null,
+            "verified": false
+          },
+          "accessories": {
+            "mic": {
+              "version": 0,
+              "requested": false,
+              "status": "off",
+              "loaded": false,
+              "error": null,
+              "sha256": null,
+              "identity": null,
+              "pending": null
+            },
+            "glasses": {
+              "version": 0,
+              "requested": false,
+              "status": "off",
+              "loaded": false,
+              "error": null,
+              "sha256": null,
+              "identity": null,
+              "pending": null
+            }
+          }
+        }
+      },
+      "speaking": true,
+      "gaze": [
+        -0.5044957095857712,
+        1.3164930137987405,
+        2.9626485742889566
+      ],
+      "controls": [
+        {
+          "id": "appearance-hair-color",
+          "disabled": true,
+          "choices": [
+            {
+              "value": "original",
+              "label": "原色"
+            }
+          ]
+        },
+        {
+          "id": "appearance-skin-tone",
+          "disabled": true,
+          "choices": [
+            {
+              "value": "original",
+              "label": "原色"
+            }
+          ]
+        },
+        {
+          "id": "appearance-eyebrow-color",
+          "disabled": false,
+          "choices": [
+            {
+              "value": "original",
+              "label": "原色"
+            },
+            {
+              "value": "brown",
+              "label": "棕色"
+            }
+          ]
+        },
+        {
+          "id": "appearance-eye-color",
+          "disabled": false,
+          "choices": [
+            {
+              "value": "original",
+              "label": "原色"
+            },
+            {
+              "value": "green",
+              "label": "绿色"
+            }
+          ]
+        },
+        {
+          "id": "appearance-lip-color",
+          "disabled": true,
+          "choices": [
+            {
+              "value": "original",
+              "label": "原色"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

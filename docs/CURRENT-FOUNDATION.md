@@ -28,3 +28,11 @@
 - D01 root接入character-runtime-record/live-accessory-record，core独立记录和store put/CAS实际回读；旧appearance-recipe增live域与逆序rollback。root补齐异常清理，未接受agent曾删除断言的v1结论，失败证据保留。
 - ddae开发版m2-character-runtime-dev-v3男女两源均关闭恢复/完整道具身份/503保旧/错误fit实际拒绝/最后live commit故障整套恢复/重试过。m2-record-whole-look-cpu-v3 19组及face-current-regression全原属性回归过。接下来确切提交独立构建并重跑受影响浏览器路径，检查新增录像，再发布；4196仍07b。
 - 录制旧资源/新记录都不代表任意体型/外观/兼容通过。记录跨基模自动选择与完整依赖导出仍下一接缝，不标M2完成。
+
+
+## 最新固定增量（以此覆盖上方在制记录）
+- 4196已切为01a020d4e10d，source f072400be849d70fcfec437ea580ce76a31977f7，固定目录experiments/m2-character-record-fixed-v1/prototype/dist；07b回滚指针delivery/history/appearance-workbench-07bab15f3382.json。
+- 两确切检出build-v2逐文件一致。build-v1共享HTML换行差异保留失败；UI-v1 9秒回读片不满足旧10秒假设保留，v2仅修样本时长判断。正式录像m2-character-runtime-fixed-v1，UI-v2、四源道具m2-record-props-regression-v1通过技术回归，视觉限制保留。
+- D01已接入同体记录捕获/恢复、磁盘CAS、实际资源与适配身份核查、全域失败回滚。原生女脸与男实际关闭重开、故障恢复与重试验证；不是全依赖闭包或跨体自动选择完成。全部旧API语义保留。
+- 下一工作：复用switchFoundationBody离场准备机制，补记录自动选体/失败保旧，随后补用户可操作的完整记录入口。只读审查record_body_restore_review requested sol/high/fork none；实际provider和hook未证实。
+- 本地提交f072及本次发布记录待远程核实后更新；公司dirty文件不stage。
