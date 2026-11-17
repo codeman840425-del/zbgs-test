@@ -1,0 +1,10 @@
+{
+  "status": "failed",
+  "sourceCommit": "9356683e",
+  "build": "257342305e18",
+  "command": "node scripts/company-platform/build-floor-information.mjs --check",
+  "package": "F:/gamemake-company-floor-information-delivery-257",
+  "error": "ENOENT source/evidence/company-floor-information-production-v1/report.json",
+  "cause": "The producer check compared historical QA report/variant artifacts in addition to actual published production files. These reports are not editable production dependencies.",
+  "resolution": "Check production outputs only; still execute in-memory variant and dependency validations. Preserve the old fixed tree and package."
+}

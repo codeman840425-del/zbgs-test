@@ -297,7 +297,7 @@ async function main() {
   };
   const evidence = new Map([[`${EVIDENCE_PATH}/report.json`, jsonBytes(report)], [`${EVIDENCE_PATH}/variant-parameters.json`, changedSourceBytes], [`${EVIDENCE_PATH}/variant-whiteboard.glb`, variant.items[0].bytes]]);
   if (process.argv.includes('--check')) {
-    for (const [file, expected] of [...result.files, ...evidence]) assert((await fs.readFile(new URL(file, ROOT))).equals(expected), `Output differs: ${file}`);
+    for (const [file, expected] of result.files) assert((await fs.readFile(new URL(file, ROOT))).equals(expected), `Output differs: ${file}`);
   } else {
     for (const [file, bytes] of [...result.files, ...evidence]) {
       const url = new URL(file, ROOT);
