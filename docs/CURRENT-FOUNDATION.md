@@ -1,20 +1,21 @@
 # 当前角色基础工程恢复点
 
 ## 固定入口与备份
-- F:/gamemake / feat/m1-foundation-room。4196 build 7a03f033973d，source eb40ba45a3ecee4359f2ef77a53ef5c2d41d8b8c，独立目录 experiments/m2-character-material-release-v1/prototype/dist。delivery/appearance-workbench.json 为指针；回退64c在delivery/history/appearance-workbench-64c973eb5a11.json。
-- 4174历史证据；4195封存M1。不要新建常驻端口。公开新录像在4196/native-production.html#character-records。
-- 上个发布增量已核本地与origin同为d6376b068539e579e6329d309d509e52b0f8d33f（本轮git ls-remote实查）。公司副总工dirty文件不stage，禁止git add -A。
+- F:/gamemake / feat/m1-foundation-room。4196 build 65814ccb92c2，source d09c7b0300838d2632fb63674a7a9a9d4d92bb78；独立experiments/m2-record-consumer-release-v1/prototype/dist。delivery/appearance-workbench.json；回退7a03指针在delivery/history。4174历史证据、4195封存M1，不加常驻端口。
+- 上一发布备份已核origin=d6376b068539e579e6329d309d509e52b0f8d33f。本D03发布备份待最后提交推送核验。公司副总工dirty文件不stage，不用git add -A。
 
-## 刚完成的限定成果
-- D01/L02记录新增equipmentMaterials，完整已穿衣物原材质/配方身份、异步prepare与同步commit/逆序rollback，保旧clone至整套成功。明确错误与新操作抢占，不用当前值相同推断没新意图。
-- m2-character-material-fixed-v1：九项真实恢复/失败/连续操作/跨体取消、1×走路坐起。m2-material-record-ui-fixed-v1：实际保存/读取/跨体/坏索引/双标签页。实际4196与新录像检查见m2-material-release-live-v1。m2-material-fixed-build-v1从确切提交独立检出npm ci/build通过、git干净。
-- 旧native无材质变体记录明确返回materialMigration；旧短裤缺材质信息拒绝猜测。旧appearance配方不改语义。底层peer仍同体，主工作台自动选体；业务/动作时间不入角色最终记录。
-- P03 scripts/runtime-package/record-cli.mjs 及record-resources是新完整记录适配器；旧801不改pin。reviewed JSON钉source eb40/build7a03与编译产物。三个最终包在experiments/m2-record-transfer-v2：male-material/native-female/native-male；重建命令见README。evidence/m2-record-transfer-v2各inventory、CPU报告及浏览器原片。23/27/27实际HTTP文件SHA对账，冷启动/关闭恢复/走路坐起通过；不是性能/全部造型视觉接受。
-- m2-record-package-review-v1独立审查修了记录美化超512KiB、build-info过迟验证、bundle源归属错误。m2-record-transfer-v1保留早期blob/CDP缓存与-0测试错误；不覆盖失败记录或给旧录像换标签。
-- 本轮子任务material_record_transaction(gpt-6.1-sol/xhigh)、record_dependency_audit(gpt-6.2-sol/high)、material_record_review(gpt-6.2-astra/high)均已返回；root集成并实际验证。配置为请求参数，实际provider/hook拦截仍未证实。
+## 刚完成D03限定主包
+- character-record-consumer共用factory/motions/record，不读工作台DOM/草稿/制作机工具。先场景外准备完整造型再attach；game拥有时钟/位置/行为。独立入口record-consumer.html已链接4196检查→原生制作→完整记录，实际public-v1点击回归通过（原生女改脸、原生男、旧男麦克风眼镜）。
+- 四份固定最终记录：原生女改脸/男、同女体另一ID、旧男材质短裤。两人一组，实际503保先成功实例+只重试失败项、同体骨架/道具隔离、坏版本/hash、挂起加载取消、关闭恢复过；m2-record-consumer-fixed-v1有两段8.5秒1×讲话、全时段2fps辅助帧，人工观感不代判；不是新增路径/椅子实现。
+- character-record-batch逐项身份/修订/SHA与完成/失败/取消，maxConcurrency1默认/最多2。消费回调成功也带绑定本候选的release，处理fulfilled后取消窗口。独审修不可克隆单行不中断其他人，7CPU项；consumer.capture基于原记录生成候选下一修订，不自动保存或改绑定。
+- 源d09c精确检出npm ci/build；m2-record-consumer-rebuild-v1另新检出457文件逐字一致，git干净。不能从共享源码冻结。
+- scripts/runtime-package/game-record-cli.mjs为独立新适配器，game-record-runtime-reviewed.json钉d09c/build65814。旧801和7a03适配器pin不动。四记录union闭包，experiments/m2-game-record-package-v1有51声明文件+包manifest（约95.7MB声明字节非内存）。包不含工作台index；m2-game-record-package-browser-v1实际运行同一套回归已过。
+- 独立导出CPU5项+collector7项与审查：正式CLI使用仓库审定表，外部副本须完全相同。清单同目录临时写完硬链接原子新建，ENOSPC/并发重试保旧，要求文件系统支持hardlink，失败明确返回。审查证据m2-game-record-package-review-v1；没有新压缩/授权/性能结论。
+- 前包整套材质记录与三个选定包已有效保留：7a03/eb40证据m2-character-material-fixed-v1、m2-record-transfer-v2；其旧包有room DOM限制，D03新包另列，不能改历史标签。
 
 ## 下一主包与边界
-- 下一工作包D03最小确定性角色记录游戏消费：少量男女/同体不同ID与装备、部分失败独立重试、取消、双实例、关闭恢复；复用record与现有loader，P03仍有room DOM依赖不能冒称已实现。其余M2必需项仅查CAP，完整v2不缩范围、不进入M3。
-- 原生额外发型/配色/耳帽/妆容等按精确准入；包collector的CPU路径覆盖不等于这些组合实际运行已验。已有裙和30秒舞封板，不继续精修。普通电脑无设备缺口保留；开发机9950X3D/4090/Chrome157，不能代替普通机。
-- 只用脚本/后台浏览器；单GPU录像/重导出串行。不占用户桌面。
-- 顾问云端两条接缝回执写入HANDOFF，未向其他聊天发消息，不接管公司平台、不合并其main、不新建服务器。自由图片只算参考；可用贴图须UV/区域/色彩通道/源许可/处理与回读证据，不一律要求通过VRoid。
+- 下一共同缺口D02：核现有生产索引/appearance-candidates/character-record-store的完整记录查询、修改、生成合法组合入口，复用现有事务与真实原生适配；当前只具文件list/validate及UI捕获，不能冒称完整agent CLI。先读CAP对应D02/L01/P03与v2相关段，不重读全历史。M2未完成，不进随机M3。
+- 用户问新增两皮肤为何丢功能：已据实际源说明是整个人物VRM（体/脸/绑定/衣），不是仅贴图；把候选过早放菜单而遗漏握麦/眼镜是接入交付缺口。当前四native已补接，最新实际4196再次核女face/男，不能外推其他外观fit。
+- 女裙与原30秒舞封板不再调，普通电脑没有设备继续记未实测。开发机9950X3D/4090/Chrome157不等于目标机。统一制作的来源/资产ID/适配/许可沿既有合同。
+- 本轮只脚本和后台Playwright，不占桌面；单GPU录屏。子agent已回：deterministic_record_batch(astra/high)、material_record_review(astra/high)、game_record_package(sol/high)，请求配置与适配理由已记，实际provider/hook拦截未证明。
+- 公司平台由副总工负责，保其dirty文件，顾问云端接缝回执已在HANDOFF，不主动外发消息或合并公司main。

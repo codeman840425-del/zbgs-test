@@ -1,5 +1,5 @@
 import {createHash, randomUUID} from 'node:crypto';
-import {readFile, realpath, mkdir, writeFile, rename, rm, lstat} from 'node:fs/promises';
+import {readFile, realpath, mkdir, writeFile, rename, rm, lstat, open, link, unlink} from 'node:fs/promises';
 import path from 'node:path';
 
 export const digest = bytes => createHash('sha256').update(bytes).digest('hex');
@@ -39,16 +39,30 @@ export async function checkedBytes(root, row) {
 }
 
 export async function writeFresh(file, bytes) {
-  await mkdir(path.dirname(file), {recursive:true});
-  try { await writeFile(file, bytes, {flag:'wx'}); }
-  catch (error) { if (error.code === 'EEXIST') fail('output-conflict', `Output already exists: ${file}`); throw error; }
+  const directory = path.dirname(file);
+  await mkdir(directory, {recursive:true});
+  const temporary = path.join(directory, '.inventory-' + randomUUID() + '.tmp');
+  const handle = await open(temporary, 'wx');
+  try {
+    try { await handle.writeFile(bytes); }
+    finally { await handle.close(); }
+    // The final name becomes visible only when all bytes have been written.
+    // A hard link creates that name atomically and refuses an existing output.
+    try { await link(temporary, file); }
+    catch (error) { if (error.code === 'EEXIST') fail('output-conflict', `Output already exists: ${file}`); throw error; }
+  } finally {
+    await unlink(temporary);
+  }
 }
 
 export async function copyDeclaredFiles({inventory, dist, out}) {
   const recordPackage=inventory?.schema==='character-record-package-inventory-v1';
-  if ((!recordPackage&&inventory?.schema !== 'runtime-package-inventory-v1') || !Array.isArray(inventory.files) || !inventory.files.length)
+  const gameRecordPackage=inventory?.schema==='game-character-record-package-v1';
+  if ((!recordPackage&&!gameRecordPackage&&inventory?.schema !== 'runtime-package-inventory-v1') || !Array.isArray(inventory.files) || !inventory.files.length)
     fail('unsupported-inventory', 'Expected a reviewed runtime or character-record inventory');
-  const generatedPaths=recordPackage?['character-record.json']:['selected-appearance.recipe.json','material-selections.json'];
+  const generatedPaths=gameRecordPackage?[]:recordPackage?['character-record.json']:['selected-appearance.recipe.json','material-selections.json'];
+  const required=gameRecordPackage?['record-consumer.html','build-info.json','assets/record-consumer-v1/manifest.json']
+    :['index.html','build-info.json',...generatedPaths];
   const paths = new Set();
   for (const row of inventory.files) {
     if (typeof row.path !== 'string' || runtimePath('/' + row.path) !== row.path || paths.has(row.path) ||
@@ -59,8 +73,9 @@ export async function copyDeclaredFiles({inventory, dist, out}) {
     if (row.generated !== undefined && !generatedPaths.includes(row.path))
       fail('invalid-inventory', `Unsupported generated substitution ${row.path}`);
   }
-  for (const required of ['index.html','build-info.json',...generatedPaths])
-    if (!paths.has(required)) fail('invalid-inventory', `Missing required declaration ${required}`);
+  for (const relative of required)
+    if (!paths.has(relative)) fail('invalid-inventory', `Missing required declaration ${relative}`);
+  if (gameRecordPackage && paths.has('index.html')) fail('invalid-inventory', 'Room HTML cannot be exported in the game record package');
   if (paths.has('runtime-package.json')) fail('invalid-inventory', 'Package manifest path is reserved');
   const destination = path.resolve(out);
   if (await lstat(destination).catch(error => {if (error.code === 'ENOENT') return null; throw error;}))

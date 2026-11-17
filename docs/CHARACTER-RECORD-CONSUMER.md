@@ -13,3 +13,15 @@ consume 的成功返回应包含 `{applied:true,release}`。release 必须幂等
 样件输入：`prototype/public/assets/record-consumer-v1/manifest.json` 及四份版本化记录。通过 `node scripts/generate-record-consumer-fixtures.mjs` 从已归档记录重新生成，原资产不重做；产生新身份时 sourceRefs 记录来源哈希。固定输入不是批量随机生成。跨基模的衣物/道具仍需对应适配，不能把新身体加载等同于旧功能自动兼容。
 
 验证入口：4196 的既有“检查 → 原生制作/完整记录”页面链接到 record-consumer.html。页面不影响原工作台，按两人一组验证，技术通过范围以 CAPABILITIES 与具体构建证据为准。普通电脑尚无可用实测设备。
+
+## 固定独立资源包
+
+当前审定版本：source d09c7b0300838d2632fb63674a7a9a9d4d92bb78 / build65814ccb92c2。两份确切检出重建457文件一致。运行包仅使用 record-consumer.html，共51声明文件及一份包清单；原工作台和制作工具不在包内。
+
+```powershell
+node scripts/runtime-package/game-record-cli.mjs inventory --dist experiments/m2-record-consumer-release-v1/prototype/dist --source-root experiments/m2-record-consumer-release-v1 --out NEW_INVENTORY.json
+node scripts/runtime-package/game-record-cli.mjs export --inventory NEW_INVENTORY.json --dist experiments/m2-record-consumer-release-v1/prototype/dist --source-root experiments/m2-record-consumer-release-v1 --out NEW_PACKAGE
+node scripts/run-fixed-check.cjs NEW_PACKAGE scripts/qa-record-consumer.cjs NEW_EVIDENCE
+```
+
+输出路径必须尚不存在。正式CLI的版本来源为仓库 game-record-runtime-reviewed.json，外部自签表不能放行；升级须新的固定源、构建和实际检查。清单原子写入要求硬链接支持。源模型许可不因打包而改变。独立包验证不代替旧版7a03/801适配器；它们仍按原pin重建。
