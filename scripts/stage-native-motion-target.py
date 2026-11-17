@@ -21,7 +21,9 @@ def receipt(p:Path):
 def files(d:Path): return sorted(p for p in d.rglob('*') if p.is_file())
 def fail(msg): raise RuntimeError(msg)
 def main():
- ap=argparse.ArgumentParser();ap.add_argument('--check',action='store_true');a=ap.parse_args()
+ global ROOT,SOURCE,PUBLIC,DEST,MANIFEST
+ ap=argparse.ArgumentParser();ap.add_argument('--check',action='store_true');ap.add_argument('--project-root',default=str(ROOT));ap.add_argument('--fault-after-resources',action='store_true');a=ap.parse_args()
+ ROOT=Path(a.project_root).resolve();SOURCE=ROOT/'assets-source/native-motion-target-v1/generated-v2';PUBLIC=ROOT/'prototype/public/assets/motion/m1c';DEST=PUBLIC/'native-rokoko-target-v2';MANIFEST=PUBLIC/'dance-imports.json'
  if not SOURCE.is_dir(): fail('missing generated-v2 source')
  source_manifest=json.loads((SOURCE/'manifest.json').read_text(encoding='utf8'))
  if source_manifest.get('revision')!='generated-v2' or len(source_manifest.get('targets',[]))!=4: fail('unexpected source manifest')
@@ -73,7 +75,14 @@ def main():
     out_manifest=dict(manifest);out_manifest['entries']=manifest['entries']+[entry]
     tmp=stage/'dance-imports.json';tmp.write_text(json.dumps(out_manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
     if MANIFEST.read_bytes()!=old: fail('manifest changed during stage')
-    os.replace(tmp,MANIFEST);os.replace(staged,DEST);status='published'
+    published_resources=False
+    try:
+     os.replace(staged,DEST);published_resources=True
+     if a.fault_after_resources: raise RuntimeError('injected failure after resource publish')
+     os.replace(tmp,MANIFEST);status='published'
+    except Exception:
+     if published_resources and DEST.exists(): shutil.rmtree(DEST,ignore_errors=True)
+     raise
    finally:
     shutil.rmtree(stage,ignore_errors=True)
  prior_path=ROOT/'evidence/native-motion-reuse-audit-v1/native-motion-stage.json'; prior=json.loads(prior_path.read_text(encoding='utf8')) if prior_path.exists() else {}

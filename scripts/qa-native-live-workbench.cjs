@@ -3,7 +3,10 @@ const {chromium}=require('../prototype/node_modules/playwright');
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
 const [directory,output,...flags]=process.argv.slice(2);
 if(!directory||!output)throw Error('Require fixed dist, fresh evidence folder, optional --mic');
-const subjects=['native-female-843ac-v1','native-female-face-v1','native-female-waist-v1','native-male-7586-v1'];
+const allSubjects=['native-female-843ac-v1','native-female-face-v1','native-female-waist-v1','native-male-7586-v1'];
+const only=flags.find(x=>x.startsWith('--body='))?.slice(7);
+if(only&&!allSubjects.includes(only))throw Error('Unknown exact subject');
+const subjects=only?[only]:allSubjects;
 const kinds=flags.includes('--mic')?['glasses','mic']:['glasses'];
 (async()=>{
  const folder=path.resolve(directory),out=path.resolve(output),identity=JSON.parse(await fs.readFile(path.join(folder,'build-info.json'),'utf8'));
