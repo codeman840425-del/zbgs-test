@@ -96,7 +96,7 @@ export function createLivePresentation({vrm,root,bodyType='female',avatarSha256=
   if(!response.ok)throw Error('Grip manifest HTTP '+response.status);
   const manifest=await response.json();if(manifest.schema!=='zbgs-grip-profile-manifest-v1'||!Array.isArray(manifest.items))throw Error('Invalid grip manifest');
   const entry=manifest.items.find(x=>x.compatibleAvatarSha256===avatarSha256);
-  if(!entry)throw Error('当前基模尚无匹配的握麦姿态；麦克风暂不可用，眼镜不受影响。');
+  if(!entry)throw Error('当前基模尚未完成握麦姿态适配；麦克风暂不可用。');
   if(!Number.isInteger(entry.bytes)||!/^[a-f0-9]{64}$/.test(entry.sha256))throw Error('Invalid grip identity');
   const file=await fetch(entry.url,{signal});if(!file.ok)throw Error('Grip profile HTTP '+file.status);
   const bytes=await file.arrayBuffer(),hash=[...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(x=>x.toString(16).padStart(2,'0')).join('');

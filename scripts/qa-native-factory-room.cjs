@@ -11,6 +11,7 @@ const subjects={
 };
 const subject=subjects[bodyType];if(!subject)throw Error('Unknown exact factory subject');
 if(process.argv.includes('--original-outfit'))subject.alternate=null;
+const accessories=['glasses','mic'].filter(kind=>process.argv.includes('--'+kind));
 (async()=>{
  const folder=path.resolve(directory),out=path.resolve(output);
  await fs.mkdir(out,{recursive:false});await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
@@ -49,7 +50,7 @@ if(process.argv.includes('--original-outfit'))subject.alternate=null;
    assert.equal(await page.evaluate(()=>__debug.avatar().appearance.getState().hairStyle),hairStyle);
    report.hairRejectedFitPreservesLook=true;report.hairRapidSwitchLatestWins=true;
   }
-  const read=()=>page.evaluate(()=>({body:__debug.avatar().profile.sha256,debug:__debug.avatar().getDebugState(),appearance:__debug.avatar().appearance.getState(),outfit:__debug.avatar().getOutfitInfo(),snapshot:__debug.snapshot()}));
+  const read=()=>page.evaluate(()=>({body:__debug.avatar().profile.sha256,debug:__debug.avatar().getDebugState(),appearance:__debug.avatar().appearance.getState(),outfit:__debug.avatar().getOutfitInfo(),live:__debug.avatar().livePresentation.getState(),snapshot:__debug.snapshot()}));
   await page.evaluate(()=>{__debug.setPaused(true);__debug.camera('inspect-full-front');});
   report.states.push({name:'dressed',...(await read())});
   assert.equal(report.states[0].body,subject.sha);
@@ -97,6 +98,25 @@ if(process.argv.includes('--original-outfit'))subject.alternate=null;
   report.recipe.freshPageRestore=true;
   report.states.push({name:'freshPageRestored',...(await read())});
   await page.screenshot({path:path.join(out,'fresh-page-restored.png')});
+  if(accessories.length){
+   // Existing accessory buttons and normal fitted path, never glassesFit=legacy.
+   for(const kind of accessories){
+    await page.locator('[data-accessory-kind="'+kind+'"]').click();
+    await page.waitForFunction(k=>__debug.avatar().livePresentation.getState().accessories[k].status!=='loading',kind,{timeout:30000});
+    const state=await page.evaluate(k=>__debug.avatar().livePresentation.getState().accessories[k],kind);
+    assert.equal(state.loaded,true,state.error||kind+' did not load');
+   }
+   report.accessoryScope={selected:accessories,restoredFromRecipe:false,note:'Equipment toggled explicitly after appearance cold restore; current appearance recipe does not store live props.'};
+   await page.locator('#speaking-button').click();
+   await page.evaluate(()=>{__debug.camera('inspect-half-front');__debug.setPaused(false);});
+   await page.waitForTimeout(1200);
+   await page.screenshot({path:path.join(out,'live-speaking-front.png')});
+   await page.evaluate(()=>__debug.camera('inspect-face-side'));
+   await page.waitForTimeout(300);
+   await page.screenshot({path:path.join(out,'live-speaking-side.png')});
+   await page.evaluate(()=>__debug.setPaused(true));
+   report.states.push({name:'liveAccessories',...(await read())});
+  }
   await page.evaluate(()=>__debug.route('horizontal'));
   await page.evaluate(camera=>__debug.camera(camera),chainCamera);report.chainCamera=chainCamera;
   await page.waitForTimeout(350);
@@ -126,6 +146,13 @@ if(process.argv.includes('--original-outfit'))subject.alternate=null;
   await page.waitForFunction(()=>['completed','failed','cancelled'].includes(__debug.tasks().get('factory-dance-space')?.state),null,{timeout:25000});
   report.danceWalkResult=await page.evaluate(()=>__debug.tasks().get('factory-dance-space'));
   assert.equal(report.danceWalkResult.state,'completed');
+  if(accessories.includes('mic')){
+   const denied=await page.evaluate(()=>__debug.action('dance'));
+   report.heldDanceRejected=denied;
+   assert.notEqual(await page.evaluate(()=>__debug.snapshot().mode),'dance');
+   await page.locator('[data-accessory-kind="mic"]').click();
+   assert.equal(await page.evaluate(()=>__debug.avatar().livePresentation.getState().accessories.mic.loaded),false);
+  }
   report.danceRequest=await page.evaluate(()=>__debug.request({requestId:'factory-dance',kind:'dance'}));
   assert.notEqual(report.danceRequest.task?.state,'failed',report.danceRequest.task?.reason);
   await page.waitForFunction(()=>__debug.snapshot().mode==='dance'&&__debug.snapshot().motion.danceMix>.95,null,{timeout:10000});
