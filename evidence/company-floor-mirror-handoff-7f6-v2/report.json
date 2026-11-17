@@ -1,0 +1,70 @@
+{
+  "status": "passed",
+  "package": "F:\\gamemake-company-floor-mirror-delivery-7f6",
+  "checks": [
+    {
+      "name": "All standalone package files match the manifest",
+      "passed": true,
+      "result": {
+        "files": 753
+      }
+    },
+    {
+      "name": "Independent edit replaces a compatible mirror and rejects invalid mounting without output",
+      "passed": true,
+      "result": {
+        "rejection": "unsupported-height",
+        "edited": {
+          "ok": true,
+          "id": "appearance-floor-mirror",
+          "revision": 2,
+          "floors": [
+            "appearance-floor-mirror/floor-1"
+          ],
+          "output": "F:\\gamemake-company-platform-c1\\evidence\\company-floor-mirror-handoff-7f6-v2\\edited"
+        }
+      }
+    },
+    {
+      "name": "Independent viewer reflects its own scene and saves the edited resource without producer requests",
+      "passed": true,
+      "result": {
+        "rgbNonzero": 786432,
+        "requests": [
+          "http://127.0.0.1:61501/company-assets/floor-mirror-v1/grid/v1/model.glb",
+          "http://127.0.0.1:61501/company-assets/static-collection/plant-palm/v1/model.glb"
+        ],
+        "mirrors": [
+          {
+            "id": "floor-mirror/primary",
+            "ownerId": "floor-mirror/primary",
+            "active": true,
+            "fresh": true,
+            "disposed": 0,
+            "created": 1,
+            "updates": 19,
+            "live": 1,
+            "width": 512,
+            "height": 512,
+            "type": 1016,
+            "samples": 0
+          }
+        ]
+      }
+    },
+    {
+      "name": "Separate browser restart preserves the complete edited document",
+      "passed": true,
+      "result": {
+        "resource": {
+          "id": "floor-mirror-grid",
+          "version": 1
+        }
+      }
+    }
+  ],
+  "limits": [
+    "SwiftShader; not ordinary-PC, role or offline npm installation proof"
+  ],
+  "build": "7f650e194d2f"
+}

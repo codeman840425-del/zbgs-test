@@ -1,0 +1,35 @@
+落地镜固定候选采样等待条件独审
+2026-11-16。本次只读源码与已有报告，仅新增本文件，没有改运行实现或QA，没有运行浏览器或GPU。
+
+结论
+
+当前aim修正对本脚本的单活动镜、串行相机修改场景有效，不需要修改运行实现或降低红蓝像素断言。它补齐了“相机修改后至少完成一次normal reflection”的等待，而原fresh布尔只说明该owner此前某时产生过反射。
+
+读取的当前QA文件SHA256为16fc0c4308fdd72f38e81ffbdc8b73b7c50ae06a726b6e59b9adc1ae5cef2d2d。固定运行身份按本包source8ebf7286、build7f650e194d2f记录。
+
+因果顺序
+
+1. 当前aim在同一个page.evaluate内先读取normal reflectionPasses，随后设置相机位置/朝向、更新matrixWorld并设置full墙呈现。JS同一任务内没有另一Phaser帧插入到读取计数与修改相机之间。
+2. preflight使用独立preflightPasses计数，不能让normal reflectionPasses增加。因而仅有旧camera预热留下的fresh=true，已无法满足新条件。
+3. 相机修改后等待40ms，再主动drawHostFrame。暂停game仅停Phaser循环，公开drawHostFrame仍会以performance.now和新的hostFrame调用同一mirrorController.update。40ms跨过当前30Hz所需的33.333ms准入间隔。
+4. game仍运行时，40ms内可能已经产生新视角反射，紧接着的manual draw可能被频率门拒绝。此时passes已经增加，仍然满足相机修改后的normal更新条件。game暂停时没有这些自动帧，manual draw提供所需的新更新。
+5. waitForFunction要求normal passes增加且当前scene有fresh owner。update在一次renderer.render返回后才设置fresh。未知render异常会让selected owner失活并由宿主恢复，不能用失败后仍活动的旧目标直接通过该单镜路径。
+6. 随后的pixels从当前scene实际reflector目标调用readRenderTargetPixels。正常WebGL同一context命令顺序及同步readPixels完成此前提交的目标写入，当前问题不需要另加GPU fence来掩盖取样顺序。
+
+这些结论依赖本脚本在aim和pixels之间不再改变相机、当前场景或活动owner。现有布局和这些调用点满足该约束。全局passes加some(fresh)不应直接推广为任意多镜、并发换场景或其他owner预热的通用采样协议。若以后扩大到那些情形，最小扩展为捕获目标owner ID/target身份和该owner的updates，等待同一owner的新updates及fresh，再采其目标。当前有界修复无需增加这种框架。
+
+前后证据
+
+evidence/company-floor-mirror-fixed-7f6-v1/qa-before.cjs保留原aim只等待some(fresh)的源码，v1/report.json保留redPixels>before失败。原报告没有完整before/red像素诊断，因此不能声称已从v1数值单独证明旧camera是哪一帧。源码存在明确的提前满足路径，属于与失败一致的根因候选。
+
+v2/report.json保留前7组通过后第8组aim等待超时的结果。该次已要求passes增长，却在第7组pausePreview后缺少主动绘制，单等正常循环无法制造新反射。它是测试驱动缺口，没有产生角色或运行实现已失败的结论。
+
+当前v3/report.json已9组passed，pageErrors为空。第2组记录before/red/blue的normal reflectionPasses分别为21/30/47，目标owner均为floor-mirror/primary。红优势像素从72651增至75154，改蓝后回到72651，蓝优势像素从1024增至3527。该记录说明这次实际取样发生在不同的新normal pass之后，支持本次相机等待修复有效。第8组在暂停循环后也通过主动draw得到恢复图像。
+
+剩余边界
+
+第2组对象增加/改蓝/横移镜头仍各用120/120/100ms固定等待，没有把每次内容变更单独绑定到新owner update。正常运行game时通常会跨过多个帧，v3记录确实存在新pass，但这些固定时长本身不是任意暂停或调度受阻条件下的完成协议。如果以后在暂停状态复用第2组，应把同样的“记录计数、改内容、主动draw、等计数增加”步骤复用于每次像素读取，不应延长sleep或放松颜色断言。当前第2组在第7组暂停前执行，v3结果已有实际更新计数证据，不构成本轮新增阻断。
+
+本独审确认的是有界等待条件与现有记录，不宣布普通电脑性能、角色C3或人类视觉验收通过。原v1/v2失败和当前v3结果各保其原构建身份，不替旧记录换标签。
+
+本次沿已知gpt-6.1-sol/high请求配置，实际provider配置和宿主Hook拦截未独立核实。
