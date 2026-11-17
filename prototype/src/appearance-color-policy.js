@@ -1,3 +1,4 @@
+import {isNativeProductionBody} from './native-production-catalog.js';
 import {nativePaletteContract} from './native-palette-catalog.js';
 // Native sources expose only their separately registered baked colors. Existing
 // source families retain their prior color presets and resource preparation.
@@ -11,7 +12,7 @@ const sourcePolicies = Object.freeze({
 const labels = {hairColor:'发色',skinTone:'肤色',eyeColor:'瞳色',lipColor:'唇色',eyebrowColor:'眉色'};
 
 export function appearanceColorSupport(avatarSha256) {
-  const support={hairColor:true,skinTone:true,eyeColor:true,lipColor:true,...sourcePolicies[avatarSha256]};
+  const support={hairColor:true,skinTone:true,eyeColor:true,lipColor:true,...(sourcePolicies[avatarSha256] ?? (isNativeProductionBody(avatarSha256) ? originalOnly : {}))};
   for(const [field,values] of Object.entries(nativePaletteContract(avatarSha256)?.colors??{}))
     support[field]=Object.keys(values).some(value=>value!=='original');
   return support;

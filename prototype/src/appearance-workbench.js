@@ -1,3 +1,4 @@
+import {nativeProductionCatalog} from './native-production-catalog.js';
 import {captureAppearanceRecipe,applyAppearanceRecipe,appearanceDraftKey,exportAppearanceRecipe,readAppearanceRecipeFile} from './appearance-recipe.js';
 import {queryAppearanceCandidates} from './appearance-candidates.js';
 import {HAIRSTYLES} from './hairstyle-catalog.js';
@@ -39,6 +40,7 @@ export function bindAppearanceWorkbench({ controller }) {
       { id: 'native-male-7586-v1', label: '原生可编辑候选 · 接入验证' },
     ],
   };
+  for (const [group, rows] of Object.entries(nativeProductionCatalog().choices)) bodyGroups[group].push(...rows);
   const diagnosticPresets = new Map(REPRESENTATIVE_PRESETS.map(preset => [preset.id, preset]));
   for(const preset of REPRESENTATIVE_PRESETS)bodyGroups[preset.sex].push({id:preset.id,label:preset.previewLabel,diagnostic:true});
   const groupFor = bodyType => Object.keys(bodyGroups).find(group => bodyGroups[group].some(item => item.id === bodyType));

@@ -1,3 +1,4 @@
+import {nativeProductionCatalog} from './native-production-catalog.js';
 import {REPRESENTATIVE_PROFILES} from './representative-batch.js';
 import {appearanceColorSupport} from './appearance-color-policy.js';
 import layerOutfits from '../public/assets/m2-vest-layer-fit-v1/profiles.json' with {type:'json'};
@@ -256,3 +257,6 @@ FOUNDATION_PROFILES['native-female-waist-v1'] = {
   seatLayerThickness:0,
   fitStatus:'Same-source Waist fit, body mask and runtime rest floor measured; gameplay contact and visuals pending',
 };
+
+// Data-only native imports retain the same factory, equipment and actor interfaces.
+Object.assign(FOUNDATION_PROFILES, nativeProductionCatalog(FOUNDATION_PROFILES).profiles);
