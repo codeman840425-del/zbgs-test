@@ -56,6 +56,21 @@ if(!directory||!output)throw Error('Pass fixed dist and new evidence directory')
   assert.deepEqual(JSON.parse(reread),JSON.parse(recipe));
   report.recipe={bytes:Buffer.byteLength(recipe),exactParsedRestore:true};
   report.states.push({name:'recipeRestored',...(await read())});
+  // A new page must restore the complete recorded outfit without in-memory
+  // attachment state from the first instance.
+  const roomUrl=page.url();
+  await page.close();page=await context.newPage();
+  page.on('pageerror',e=>report.errors.push(String(e)));
+  page.on('console',m=>{if(m.type()==='error')report.errors.push(m.text());});
+  await page.goto(roomUrl);
+  await page.waitForFunction(()=>__debug.ready,null,{timeout:60000});
+  assert.equal(await page.evaluate(()=>__debug.buildInfo.shortId),identity.shortId);
+  await page.evaluate(()=>{__debug.setPaused(true);__debug.camera('inspect-full-front');});
+  assert.equal((await page.evaluate(text=>__debug.importAppearanceRecipe(text),recipe)).applied,true);
+  assert.deepEqual(JSON.parse(await page.evaluate(()=>__debug.exportAppearanceRecipe())),JSON.parse(recipe));
+  report.recipe.freshPageRestore=true;
+  report.states.push({name:'freshPageRestored',...(await read())});
+  await page.screenshot({path:path.join(out,'fresh-page-restored.png')});
   await page.evaluate(()=>__debug.route('horizontal'));
   await page.waitForTimeout(350);
   await page.evaluate(()=>{

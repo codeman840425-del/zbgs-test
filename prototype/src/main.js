@@ -1173,6 +1173,24 @@ class CharacterScene extends Phaser.Scene {
     this.seatAlign = false;
     this.pathTurn = null;
   }
+  recoverBlockedPath() {
+    // A clear waypoint segment does not guarantee the moving pursuit arc is
+    // clear. Keep its final intent when the collision guard vetoes that arc.
+    const destination = this.path.at(-1) || this.target, after = this.afterWalk;
+    this.speed = 0;
+    this.curveTurnSign = null;
+    if (destination && this.go(destination[0], destination[1], after)) {
+      // Let the rig finish stopping, then reuse the existing planted turn.
+      // This state is entered only at an obstacle, never on normal corners.
+      this.pathTurn = turnLegacy ? "settle" : "recover";
+      return;
+    }
+    this.clearPath();
+    this.setMode("idle");
+    const task = this.behaviorTasks.get(this.executingRequest);
+    if (task?.kind === "walk") this.behaviorTasks.fail(task.requestId, "path-blocked");
+    // go() already fails an unreachable sit and releases its reservation.
+  }
   action(name, options = {}) {
     const rotation = name === "turn" ? options.rotationRadians ?? Math.PI * 2 : 0;
     if (name === "turn" && (!Number.isFinite(rotation) || Math.abs(rotation) < 1e-6 || Math.abs(rotation) > Math.PI * 2))
@@ -1656,7 +1674,9 @@ class CharacterScene extends Phaser.Scene {
         // Only an already stationary character needs the planted turn phrase;
         // receiving a new target does not reset locomotion or zero velocity.
         if (!turnLegacy) {
-          if (this.turnPolicy.sample().active) {
+          if (this.pathTurn === "recover" && this.rig.getMetrics().moving) {
+            this.speed = 0;
+          } else if (this.turnPolicy.sample().active) {
             this.turnPolicy.requestHeading(heading);
             this.pathTurn = "turn";
           } else if (this.speed < .06 && !this.rig.getMetrics().moving && Math.abs(angle) > .27) {
@@ -1710,14 +1730,12 @@ class CharacterScene extends Phaser.Scene {
           const alongFacing = !turnLegacy && dist > .10 && Math.abs(angle) > .06;
           const x = root.position.x + (alongFacing ? Math.sin(this.yaw) : dx / dist) * moved,
             z = root.position.z + (alongFacing ? Math.cos(this.yaw) : dz / dist) * moved;
-          if (!blocked(x, z)) {
+          if (!blocked(x, z) && lineClear([root.position.x, root.position.z], [x, z])) {
             root.position.x = x;
             root.position.z = z;
           } else {
             moved = 0;
-            this.speed = 0;
-            this.clearPath();
-            this.setMode("idle");
+            this.recoverBlockedPath();
           }
           this.distance += moved;
         }
@@ -1859,6 +1877,7 @@ function snapshot() {
     appearance: avatar?.appearance?.getState(),
     facialGeometry: avatar?.facialGeometry?.getState(),
     speed: c?.actualSpeed,
+    navigationSpeed: c?.speed,
     maxSpeed: c?.maxSpeed,
     locomotionIntent: c?.locomotionIntent,
     distance: c?.distance,
@@ -1866,6 +1885,7 @@ function snapshot() {
     position: avatar?.root.position.toArray(),
     target: c?.target,
     path: c?.path,
+    afterWalk: c?.afterWalk,
     collision: avatar
       ? blocked(avatar.root.position.x, avatar.root.position.z)
       : null,

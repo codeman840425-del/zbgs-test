@@ -24,6 +24,7 @@ export function bindAppearanceWorkbench({ controller }) {
       { id: 'female', label: '原始脸型与身形' },
       { id: 'm1a-jaw-v1', label: '下颌变化' },
       { id: 'm1a-waisthip-v1', label: '腰胯变化' },
+      { id: 'native-female-843ac-v1', label: '原生可编辑候选 · 接入验证' },
     ],
     male: [
       { id: 'male', label: '原始脸型与身形' },
@@ -350,15 +351,18 @@ export function bindAppearanceWorkbench({ controller }) {
     style.value = actual.hairStyle;
     hair.value = actual.hairColor;
     skin.value = actual.skinTone;
-    eye.disabled = typeof actual.eyeColor !== 'string';
-    lip.disabled = typeof actual.lipColor !== 'string';
+    const previewSupport=actor().config?.previewAppearanceSupport;
+    hair.disabled=previewSupport?.hairColor===false;
+    skin.disabled=previewSupport?.skinTone===false;
+    eye.disabled = previewSupport?.eyeColor===false || typeof actual.eyeColor !== 'string';
+    lip.disabled = previewSupport?.lipColor===false || typeof actual.lipColor !== 'string';
     eye.value = actual.eyeColor || 'original';
     lip.value = actual.lipColor || 'original';
     colorNote.textContent = [
       eye.disabled ? '此人物瞳色暂不可用。' : '瞳色调整虹膜，保留瞳孔与高光。',
       lip.disabled ? '此人物唇色暂不可用。' : '唇色可独立选择。',
     ].join('');
-    note.textContent = actual.bodyMode==='base' ? '基础人体当前无发；返回穿衣模式后恢复所选发型。' : unavailable.length ? '标注“待适配”的发型已有素材，但尚未验证当前脸型或身体；可用项可直接选择。' : '当前列出的发型可用于此样件；无发保留眉毛与睫毛。';
+    note.textContent = actual.bodyMode==='base' ? (actual.effectiveHairStyle==='none'?'基础人体当前无发；返回穿衣模式后恢复所选发型。':'此候选的基础模式保留原发型与皮肤材质，用于检查卸衣后的真实身体。') : previewSupport ? '原生接入候选：目前检查原外观与独立换装。发型替换及配色尚待此基模验证。' : unavailable.length ? '标注“待适配”的发型已有素材，但尚未验证当前脸型或身体；可用项可直接选择。' : '当前列出的发型可用于此样件；无发保留眉毛与睫毛。';
     const geometry=actor().facialGeometry?.getState();
     mouth.disabled=!geometry?.available;mouth.value=String(Math.round((geometry?.mouthWidth||0)*1000)/10);
     const discrete=Array.isArray(geometry?.mouthSupportedValues);

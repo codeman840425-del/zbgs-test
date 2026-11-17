@@ -164,6 +164,7 @@ FOUNDATION_PROFILES['native-female-843ac-v1'] = {
   additionalEquipmentManifests:[{url:'/assets/native-factory-v1/sleeve56-runtime-equipment.json',sha256:'5e2612e32e7891ef6353aa80112c5e3200a0e10e08049e8e32652d4734e919b9'}],
   sourceFloorY:-8.449510756143027e-7,
   baseBodyDisplay:'source-with-hair',
+  previewAppearanceSupport:{hairColor:false,skinTone:false,eyeColor:false,lipColor:false},
   bodyTextureCoverage:{url:'/assets/native-factory-v1/native-vroid-body-texture-fit-v1/manifest.json',sha256:'003e98086ed67b6fcd5c57e0b3b13e9c4a4beff412b3b74683e7cefc049c8fb2'},
   ids:{top:'native-unmasked-843ac-top-v1',shorts:'native-unmasked-843ac-shorts-v1',shoes:'native-unmasked-843ac-shoes-v1',alternateTop:'native-unmasked-843ac-sleeve56-top-v1'},
   defaultOutfit:{index:0,role:'shorts',bottomRole:'shorts',label:'原生上衣／短裤／鞋',equipmentRoles:['top','shorts','shoes']},
