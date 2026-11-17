@@ -1,3 +1,4 @@
+import productionCatalog from './native-production-catalog.json' with {type:'json'};
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
@@ -108,14 +109,14 @@ test('lists exact body registrations and all outfits and material references fro
       }
     }
   }
-  assert.equal(registrations.length, 25);
-  assert.equal(outfitCount, 41);
+  assert.equal(registrations.length, 25 + productionCatalog.entries.length);
+  assert.equal(outfitCount, 41 + productionCatalog.entries.length);
   assert.equal(checkedRecipes.size, 1);
 });
 
 test('uses the actual shared accessory, exact grip and exact temple resources for each fitted registration', async () => {
   const expected = ['female', 'male', 'native-female-843ac-v1', 'native-female-face-v1',
-    'native-female-waist-v1', 'native-male-7586-v1'];
+    'native-female-waist-v1', 'native-male-7586-v1', ...productionCatalog.entries.map(row=>row.bodyType)];
   assert.deepEqual(expected.map(body => FOUNDATION_PROFILES[body].sha256).sort(), Object.keys(MICROPHONE_PRESENTATION_FITS).sort());
   for (const body of expected) {
     const {controller} = await fixture(body);

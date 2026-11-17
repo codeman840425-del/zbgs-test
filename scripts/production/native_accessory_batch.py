@@ -163,6 +163,16 @@ def microphone(body, path, target, target_sha, recipe, output, url):
     }
 
 
+def is_unfitted_glasses_capture(live, body_sha, accessory_sha):
+    fit = live['fit']['glassesTempleProfile']
+    # D01 added explicit source-fit identity to the existing legacy diagnostic.
+    # Neither form permits a previously deformed temple to become fitting input.
+    return fit is None or fit == {
+        'id': 'legacy-glasses-fit-v1', 'sha256': None,
+        'bodySHA256': body_sha, 'accessorySHA256': accessory_sha, 'verified': False,
+    }
+
+
 def glasses(body, target_sha, capture_pin, output, url):
     source_path, source, raw = pinned(capture_pin)
     capture = json.loads(gzip.decompress(raw))
@@ -171,7 +181,7 @@ def glasses(body, target_sha, capture_pin, output, url):
     check(capture['pose'] == 'stand' and live['bodyType'] == body
           and live['avatarSha256'] == target_sha
           and live['fit']['eyeFitMethod'] == 'rendered-iris-centers-and-face-front-band'
-          and live['fit']['glassesTempleProfile'] is None
+          and is_unfitted_glasses_capture(live, target_sha, builder.EXPECTED_ACCESSORY)
           and live['accessories']['glasses']['loaded']
           and live['accessories']['glasses']['sha256'] == builder.EXPECTED_ACCESSORY,
           'Expected measured, unfitted stand glasses for this exact body and accessory')

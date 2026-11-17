@@ -10,6 +10,7 @@ import sys
 import tempfile
 
 from native_import import ROOT, confined, digest
+from native_accessory_batch import is_unfitted_glasses_capture
 
 
 GRIPS = 'prototype/public/assets/m1c/grips/manifest.json'
@@ -118,7 +119,7 @@ def validate_glasses(root, folder, body, sha, row, asset):
     check(row['status'] == STATUS and capture['pose'] == 'stand'
           and live['avatarSha256'] == sha and live['bodyType'] == body
           and live['fit']['eyeFitMethod'] == 'rendered-iris-centers-and-face-front-band'
-          and live['fit']['glassesTempleProfile'] is None
+          and is_unfitted_glasses_capture(live, sha, glasses_sha)
           and live['accessories']['glasses']['loaded']
           and live['accessories']['glasses']['sha256'] == glasses_sha,
           'Glasses capture does not match the exact unfitted body and accessory')

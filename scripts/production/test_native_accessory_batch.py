@@ -3,13 +3,20 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from native_accessory_batch import ROOT, run
+from native_accessory_batch import ROOT, run, is_unfitted_glasses_capture
 
 
 EVIDENCE = ROOT / 'evidence/m2-native-batch-runtime-seam-v1'
 
 
 class NativeAccessoryBatchTests(unittest.TestCase):
+    def test_explicit_unfitted_identity_requires_exact_body_and_accessory(self):
+        live = {'fit': {'glassesTempleProfile': {'id':'legacy-glasses-fit-v1', 'sha256':None, 'bodySHA256':'a', 'accessorySHA256':'b', 'verified':False}}}
+        self.assertTrue(is_unfitted_glasses_capture(live, 'a', 'b'))
+        self.assertFalse(is_unfitted_glasses_capture(live, 'c', 'b'))
+        live['fit']['glassesTempleProfile']['sha256'] = 'fitted'
+        self.assertFalse(is_unfitted_glasses_capture(live, 'a', 'b'))
+
     def setUp(self):
         self.recipe = json.loads((EVIDENCE / 'accessory-smoke-recipe.json').read_bytes())
         scratch = tempfile.TemporaryDirectory()
