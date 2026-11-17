@@ -1,0 +1,266 @@
+{
+  "checks": [
+    {
+      "name": "round",
+      "passed": true,
+      "actual": {
+        "checked": true,
+        "profile": "side-table-v1",
+        "sourceDesign": "round",
+        "meshCount": 3,
+        "triangleCount": 250,
+        "materials": 1,
+        "support": {
+          "checked": true,
+          "surfaces": [
+            {
+              "mesh": "side-table-top",
+              "triangles": 2,
+              "area": 0.06600000226497649,
+              "topY": 0.5
+            }
+          ],
+          "bottomY": 0
+        },
+        "boards": [
+          {
+            "bottomY": 0.4296856224536896,
+            "topY": 0.5,
+            "thickness": 0.07031437754631042,
+            "capArea": 0.0027039988524318955,
+            "segments": 48,
+            "partitionArea": 0.066
+          }
+        ],
+        "ground": [
+          {
+            "id": "pedestal",
+            "areas": [
+              0.02044900190925597
+            ]
+          }
+        ],
+        "connections": [
+          {
+            "a": "board",
+            "b": "pedestal",
+            "area": 0.0027039988524318955
+          }
+        ],
+        "solids": [
+          {
+            "id": "board",
+            "triangles": 198,
+            "volume": 0.014890173085690106
+          },
+          {
+            "id": "pedestal",
+            "triangles": 52,
+            "volume": 0.002269384279842241
+          }
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "boundaryEdgeMetres": 0.000001,
+          "areaSquareMetres": 1e-8
+        },
+        "limitation": "Finite actual static source shells, complete board boundary, contact and independent ground checks. Source identity is additionally pinned by the producer original-vertex readback. No mechanical strength, dynamic nesting or character-use claim."
+      }
+    },
+    {
+      "name": "square",
+      "passed": true,
+      "actual": {
+        "checked": true,
+        "profile": "side-table-v1",
+        "sourceDesign": "square",
+        "meshCount": 4,
+        "triangleCount": 72,
+        "materials": 2,
+        "support": {
+          "checked": true,
+          "surfaces": [
+            {
+              "mesh": "side-table-top",
+              "triangles": 2,
+              "area": 0.22499999403953552,
+              "topY": 0.5
+            }
+          ],
+          "bottomY": 0
+        },
+        "boards": [
+          {
+            "bottomY": 0.45711835334476847,
+            "topY": 0.5,
+            "thickness": 0.04288164665523153
+          }
+        ],
+        "ground": [
+          {
+            "id": "cabinet",
+            "areas": [
+              0.198404453498231
+            ]
+          }
+        ],
+        "connections": [
+          {
+            "a": "cabinet",
+            "b": "door",
+            "area": 0.04953552442457655
+          }
+        ],
+        "solids": [
+          {
+            "id": "cabinet",
+            "triangles": 44,
+            "volume": 0.055693186330221724
+          },
+          {
+            "id": "door",
+            "triangles": 28,
+            "volume": 0.004578433072732059
+          }
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "boundaryEdgeMetres": 0.000001,
+          "areaSquareMetres": 1e-8
+        },
+        "limitation": "Finite actual static source shells, complete board boundary, contact and independent ground checks. Source identity is additionally pinned by the producer original-vertex readback. No mechanical strength, dynamic nesting or character-use claim."
+      }
+    },
+    {
+      "name": "nested",
+      "passed": true,
+      "actual": {
+        "checked": true,
+        "profile": "side-table-v1",
+        "sourceDesign": "nested",
+        "meshCount": 3,
+        "triangleCount": 236,
+        "materials": 1,
+        "support": {
+          "checked": true,
+          "surfaces": [
+            {
+              "mesh": "side-table-top",
+              "triangles": 2,
+              "area": 0.21119999413490298,
+              "topY": 0.5
+            }
+          ],
+          "bottomY": 0
+        },
+        "boards": [
+          {
+            "bottomY": 0.3913043478260869,
+            "topY": 0.5,
+            "thickness": 0.10869565217391308
+          },
+          {
+            "bottomY": 0.26608695652173914,
+            "topY": 0.34,
+            "thickness": 0.07391304347826089
+          }
+        ],
+        "ground": [
+          {
+            "id": "main",
+            "areas": [
+              0.002111999679088594,
+              0.0021119997386929157,
+              0.0021119990234375052,
+              0.0021120003943442267
+            ]
+          },
+          {
+            "id": "small",
+            "areas": [
+              0.0007799998235702432,
+              0.0007799998831747867,
+              0.0007799994361401552,
+              0.0007800002706050968
+            ]
+          }
+        ],
+        "connections": [],
+        "solids": [
+          {
+            "id": "main",
+            "triangles": 118,
+            "volume": 0.029200700989722928
+          },
+          {
+            "id": "small",
+            "triangles": 118,
+            "volume": 0.007333357473066432
+          }
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "boundaryEdgeMetres": 0.000001,
+          "areaSquareMetres": 1e-8
+        },
+        "limitation": "Finite actual static source shells, complete board boundary, contact and independent ground checks. Source identity is additionally pinned by the producer original-vertex readback. No mechanical strength, dynamic nesting or character-use claim."
+      }
+    },
+    {
+      "name": "low",
+      "passed": true,
+      "actual": {
+        "checked": true,
+        "profile": "side-table-v1",
+        "sourceDesign": "low",
+        "meshCount": 2,
+        "triangleCount": 116,
+        "materials": 1,
+        "support": {
+          "checked": true,
+          "surfaces": [
+            {
+              "mesh": "side-table-top",
+              "triangles": 2,
+              "area": 0.3374999910593033,
+              "topY": 0.5
+            }
+          ],
+          "bottomY": 0
+        },
+        "boards": [
+          {
+            "bottomY": 0.3913043478260869,
+            "topY": 0.5,
+            "thickness": 0.10869565217391308
+          }
+        ],
+        "ground": [
+          {
+            "id": "low",
+            "areas": [
+              0.002042371482555261,
+              0.0020423728351648407,
+              0.002042371482555261,
+              0.0020423728351648407
+            ]
+          }
+        ],
+        "connections": [],
+        "solids": [
+          {
+            "id": "low",
+            "triangles": 116,
+            "volume": 0.04388191696808873
+          }
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "boundaryEdgeMetres": 0.000001,
+          "areaSquareMetres": 1e-8
+        },
+        "limitation": "Finite actual static source shells, complete board boundary, contact and independent ground checks. Source identity is additionally pinned by the producer original-vertex readback. No mechanical strength, dynamic nesting or character-use claim."
+      }
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+Kenney 四款边几：固定交付
+
+源码：9f2297d9af490808494b3144fb0efbabf96b548f
+运行构建：e1b8bf6a6b7b
+固定目录：F:/gamemake-company-side-table-fixed-v1
+独立交付：F:/gamemake-company-side-table-delivery-e1b
+公开预览：http://127.0.0.1:60880/?sample=side-table&look=0
+第二布局：http://127.0.0.1:60880/?layout=sideTableAlternate
+录像：F:/gamemake-company-platform-c1/evidence/company-side-table-recording-e1b-v3/side-table-preview-normal1x.webm
+录像为28.12秒、1440×1000、25fps、正常1×；SHA256 10c37b21e48019f943c80f69995e64d4e5c2f6b331e51f9a86f17a450891c9c7。
+
+圆几、柜型方几、高低套几、长方低茶几是Kenney Furniture Kit 2.0真实原模型的适配产物；原GLB、可编辑DAE、原ZIP与CC0许可证随交付保留。圆几保原柱架并将原六边板加工成圆台板，其他三款保柜体/门把手及四腿系杆结构。套几参数smallOffsetX从.23改.24，实际重导出且其他三款字节不变。
+四款共用落地、阻挡、真实台面和子物接口；花瓶复用已有资源，不计入新的四款日用品。固定门和套几均为静态外观，没有新增开门或抽拉功能。
+
+已验证：真实GLB数据/几何门38项、数据/事务10组、旧承载回归22项；四款分别关闭浏览器重开；实际台面接触、父移转/复制、换款保局部调整、坏摆放与真实HTTP503保原、第二配置、下载SHA与登记相同、两循环资源计数回落。原149资源完整描述及功能签名保持。
+独立检出与交付包分别npm ci和构建，322个运行文件与浏览器实测dist逐字节一致；946个交付清单文件核验、独立修改/实际加载/重开四组通过。两个环境均以自己的源通过producer/library/examples --check。
+首次运行源码为c334dd511c165ba4295168e5fd65a6f7586a1a05；后续b28e3a36与9f2297d9只修改录像脚本取景，运行输入、资源及构建ID完全不变。rebuild.json保原独立构建身份与最终源码关系，不冒称重复执行了浏览器矩阵。
+
+重建（PowerShell，在固定目录的prototype执行）：
+  npm ci --no-audit --no-fund
+  node scripts/build-company-id.mjs
+  node node_modules/vite/bin/vite.js build --config vite.company.config.js
+生产/配置检查（在固定目录根执行）：
+  node scripts/company-platform/build-side-table.mjs --check
+  node scripts/company-platform/build-library.mjs --check
+  node scripts/company-platform/build-side-table-examples.mjs --check
+需要重新生成参数前后制作证据时，在自己的可写副本去掉producer的--check；不要改此固定交付目录。
+浏览器验收（在制作树根执行，输出目录必须全新）：
+  node scripts/company-platform/qa-side-table-preview.cjs F:/gamemake-company-side-table-fixed-v1/prototype/dist-company e1b8bf6a6b7b evidence/company-side-table-browser-recheck-new
+独立交付验证（在制作树根执行，输出目录必须全新）：
+  node scripts/company-platform/qa-side-table-handoff.cjs F:/gamemake-company-side-table-delivery-e1b evidence/company-side-table-handoff-recheck-new
+正常录像（在制作树根执行；先按运行窗口约定安排，输出目录必须全新）：
+  node scripts/company-platform/record-side-table-preview.cjs F:/gamemake-company-side-table-fixed-v1/prototype/dist-company e1b8bf6a6b7b evidence/company-side-table-recording-new
+独立包修改/查看入口见交付目录README.md及edit.mjs。QA临时服务自动关闭。公开只保60880一处；替换前核旧服务命令及HTTP构建，绝不停止角色服务。
+
+保留失败：几何坏例早期被开放边/板边界先拒，后来改成真实闭合穿插体命中穿插拒绝；首次录像被墙挡，第二次近端复制桌局部出画；最终按包围球与实际8角投影检查取景。旧报告/录像保原，最终录像已经抽看12均匀帧和完整分辨率第8帧，不等于用户连续观看验收。
+限制：SwiftShader功能检查，安装的4090不代表此测量使用物理GPU，也没有普通电脑性能结论；未新增C3角色验证、未改角色控制器或总工CAP/CURRENT。Poly Haven与Quaternius没有在本包成为运行素材。整个C1–C3仍未完成。
+下一项：side-table-life-items独立四款日用品，先查可复用原素材和安装规格，再沿现有台面承载链制作；本包不追加该交付条件。

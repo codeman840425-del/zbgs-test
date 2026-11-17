@@ -1,0 +1,3010 @@
+{
+  "build": "e1b8bf6a6b7b",
+  "status": "passed",
+  "checks": [
+    {
+      "name": "Four actual external looks load, support the ornament and independently survive browser shutdown",
+      "passed": true,
+      "result": [
+        {
+          "document": {
+            "schema": "company-layout",
+            "version": 1,
+            "id": "side-table-demo",
+            "name": "边几 · 四款与台面承载",
+            "revision": 1,
+            "scale": "single-room",
+            "catalog": {
+              "id": "company-facilities",
+              "version": 1
+            },
+            "nodes": [
+              {
+                "id": "side-table-demo/floor-1",
+                "kind": "floor",
+                "parentId": "side-table-demo",
+                "name": "一层",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "side-table-demo/room-1",
+                "kind": "room",
+                "parentId": "side-table-demo/floor-1",
+                "name": "直播间",
+                "purpose": "streaming",
+                "bounds": {
+                  "width": 7,
+                  "depth": 5.25
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "side-table/primary",
+                "kind": "facility",
+                "parentId": "side-table-demo/room-1",
+                "resource": {
+                  "id": "side-table-round",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    -0.5
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              },
+              {
+                "id": "side-table/primary/ornament",
+                "kind": "facility",
+                "parentId": "side-table/primary",
+                "resource": {
+                  "id": "tabletop-ornament-vase",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0.5,
+                    0
+                  ],
+                  "yaw": 0
+                },
+                "state": {},
+                "attachment": {
+                  "surfaceId": "top"
+                }
+              }
+            ]
+          },
+          "tables": [
+            {
+              "id": "side-table/primary",
+              "resource": {
+                "id": "side-table-round",
+                "version": 1
+              },
+              "asset": {
+                "format": "glb",
+                "url": "/company-assets/side-table-v1/round/v1/model.glb",
+                "sha256": "4c589b2c36676d119d282378c559b355b1e0778312604363256c4073ae30360d",
+                "bytes": 20956
+              },
+              "provenance": {
+                "sourceParameters": "assets-source/company-side-table-v1/parameters.json",
+                "sourceParametersSha256": "f01b025f1122bfd674f48accf3a9a536db6d0c3f9cb5e2434a46c40d2ad4d000",
+                "generator": "scripts/company-platform/build-side-table.mjs",
+                "generatorSha256": "53e7e18ce9b10b2ee79d76216607954ab5bdd481d25d2e103158b086d41c1c56",
+                "functionalContractSource": "docs/COMPANY-SIDE-TABLE-CONTRACT-v1.txt",
+                "functionalContractSourceSha256": "e1c56b23e52f837866598a4a280da1db3f7c60bb3f4e169b8acddda4d2d99e3d",
+                "dependencies": {
+                  "functionalContract": {
+                    "path": "docs/COMPANY-SIDE-TABLE-CONTRACT-v1.txt",
+                    "sha256": "e1c56b23e52f837866598a4a280da1db3f7c60bb3f4e169b8acddda4d2d99e3d"
+                  },
+                  "preflight": {
+                    "path": "docs/research/COMPANY-SIDE-TABLE-EXTERNAL-PREFLIGHT-2026-11-17.txt",
+                    "sha256": "c671157c1b631936d785829793913c752eca527e28b03aeb4a7827f2a04927b2"
+                  },
+                  "productionStandard": {
+                    "path": "docs/COMPANY-APPEARANCE-PRODUCTION-STANDARD.md",
+                    "sha256": "25d12677aa7b13eb5a6ff5b10324cb86bde17eaec16923279af8d6ad9e54836a"
+                  },
+                  "lockfile": {
+                    "path": "prototype/package-lock.json",
+                    "sha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7"
+                  },
+                  "threePackage": {
+                    "path": "prototype/node_modules/three/package.json",
+                    "sha256": "87f2c99a8718e5fdd6f5e51427fde52c6075f2f698ddf8f7b4e162882df93940"
+                  },
+                  "threeModule": {
+                    "path": "prototype/node_modules/three/build/three.module.js",
+                    "sha256": "104f56145899722094556490d787aae0617cc2fc3382f31df02d724ea1aee341"
+                  },
+                  "threeCore": {
+                    "path": "prototype/node_modules/three/build/three.core.js",
+                    "sha256": "613e370f76638fdef83926642bf256dc9615684922de1ce1f63a8583e5d78578"
+                  },
+                  "gltfExporter": {
+                    "path": "prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+                    "sha256": "569793baeba62baeb4ab0b3619b6b1495b45d4b2ba9690430497adb58307bdf2"
+                  },
+                  "gltfLoader": {
+                    "path": "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+                    "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1"
+                  },
+                  "bufferGeometryUtils": {
+                    "path": "prototype/node_modules/three/examples/jsm/utils/BufferGeometryUtils.js",
+                    "sha256": "7bda2a8ba836b2bcf67cb938d4b9e1bb5d1b1bc616817103ed858c0b58296ce7"
+                  },
+                  "skeletonUtils": {
+                    "path": "prototype/node_modules/three/examples/jsm/utils/SkeletonUtils.js",
+                    "sha256": "b1632a703206c3d830de9fcbe515696770d04b71a15ee6b50afa6d2c3298c86f"
+                  },
+                  "threeLicense": {
+                    "path": "prototype/node_modules/three/LICENSE",
+                    "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+                  },
+                  "supportVerifier": {
+                    "path": "prototype/src/company/support-geometry.js",
+                    "sha256": "132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68"
+                  },
+                  "original-cabinetBed.dae": {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.dae",
+                    "sha256": "eb5b3cac2b4c171bf33914cc3cbc338c2dc5b976142afeeb98b34a9b52133353"
+                  },
+                  "original-cabinetBed.glb": {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.glb",
+                    "sha256": "b651fafb9e2c8e4adcb8cad3d10dc94404b46fe039b26e66b2c9020df4e5301d"
+                  },
+                  "original-furniture-kit-2.0.zip": {
+                    "path": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+                    "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0"
+                  },
+                  "original-License.txt": {
+                    "path": "assets-source/company-side-table-v1/original/License.txt",
+                    "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+                  },
+                  "original-tableCoffee.dae": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.dae",
+                    "sha256": "a0cc2836f56e5794ec281e880897754068c855f5c92df9a207131a108bab488f"
+                  },
+                  "original-tableCoffee.glb": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.glb",
+                    "sha256": "e38bea760fbd514efbb75528d09b4752c91af44677bbb97e6d4386c263525179"
+                  },
+                  "original-tableCoffeeSquare.dae": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.dae",
+                    "sha256": "8fbb3776ad9678b09327eb4042782756f51fd429810f87cc58779f5af20b29cf"
+                  },
+                  "original-tableCoffeeSquare.glb": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.glb",
+                    "sha256": "bcc81d8919a3af9141c9c93b4520106dd0a90a7144346cd87928014018aac816"
+                  },
+                  "original-tableRound.dae": {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.dae",
+                    "sha256": "37f7e6505f6c87a6305a027baee08c79e78656e5288045a1dfeee6342324e6f6"
+                  },
+                  "original-tableRound.glb": {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.glb",
+                    "sha256": "f8daea9124a542a00b7bdacfddac82dc468573d43e44d7b54dd6316e9695754b"
+                  },
+                  "dataVerifier": {
+                    "path": "prototype/src/company/side-table-data.js",
+                    "sha256": "930f40499f249edeb56321cb6c1cf22e7115c66a475a37785880b554054bb85c"
+                  },
+                  "geometryVerifier": {
+                    "path": "prototype/src/company/side-table-geometry.js",
+                    "sha256": "9fda63f8aaed708d8cf233bb7ce040ce1697da082ef32811c92c265c4a0c28f7"
+                  }
+                },
+                "sourceFiles": [
+                  {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.dae",
+                    "sha256": "eb5b3cac2b4c171bf33914cc3cbc338c2dc5b976142afeeb98b34a9b52133353"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.glb",
+                    "sha256": "b651fafb9e2c8e4adcb8cad3d10dc94404b46fe039b26e66b2c9020df4e5301d"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+                    "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/License.txt",
+                    "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.dae",
+                    "sha256": "a0cc2836f56e5794ec281e880897754068c855f5c92df9a207131a108bab488f"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.glb",
+                    "sha256": "e38bea760fbd514efbb75528d09b4752c91af44677bbb97e6d4386c263525179"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.dae",
+                    "sha256": "8fbb3776ad9678b09327eb4042782756f51fd429810f87cc58779f5af20b29cf"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.glb",
+                    "sha256": "bcc81d8919a3af9141c9c93b4520106dd0a90a7144346cd87928014018aac816"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.dae",
+                    "sha256": "37f7e6505f6c87a6305a027baee08c79e78656e5288045a1dfeee6342324e6f6"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.glb",
+                    "sha256": "f8daea9124a542a00b7bdacfddac82dc468573d43e44d7b54dd6316e9695754b"
+                  }
+                ],
+                "sourceDesign": "round",
+                "license": "Kenney Furniture Kit 2.0 original models and solid-color materials are CC0. Author/distributor Kenney (https://kenney.nl/assets/furniture-kit). Project-authored finite adaptation recipe and circular tabletop. Three.js r187 is MIT licensed. Original package License.txt is preserved.",
+                "prompt": "Purpose: four side-table appearances with one fixed side-table-v1 floor/support function. Reuse and adapt the pinned Kenney Furniture Kit 2.0 original GLB/DAE inputs, preserve the original opaque wood/metal material and actual support structure, bake original world transforms once and normalize the bottom-centred dimensions in metres, +Y up and +Z front. Round retains the original pedestal/braces/base and replaces the six-sided slab with an actual 48-segment .26m-radius closed circular slab. Cabinet is fixed, nested is two independent grounded tables, and low is the original elongated four-leg tie-frame table. Keep a real .30 x .22m top patch at Y=.5 with non-overlapping surrounding top geometry, no floating decal. Validate the actual imported GLB through the fixed data, generic support and independent solid/source geometry gates. Budget 2500 triangles/32 meshes/four materials. Record source, license, all recipe changes, deterministic exports and failures. Design: Retain the original real pedestal/braces/base; replace only the measured six-sided tabletop region with a 48-sided circular slab and close the actual support cut. Radius .26m, top .5m, slab bottom from the original measured underside.",
+                "externalSource": {
+                  "author": "Kenney",
+                  "name": "Furniture Kit",
+                  "version": "2.0",
+                  "url": "https://kenney.nl/assets/furniture-kit",
+                  "archive": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+                  "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+                  "license": "CC0",
+                  "licensePath": "assets-source/company-side-table-v1/original/License.txt",
+                  "sourceModel": "tableRound",
+                  "files": [
+                    {
+                      "path": "assets-source/company-side-table-v1/original/tableRound.glb",
+                      "sha256": "f8daea9124a542a00b7bdacfddac82dc468573d43e44d7b54dd6316e9695754b",
+                      "archiveEntry": "Models/GLTF format/tableRound.glb"
+                    },
+                    {
+                      "path": "assets-source/company-side-table-v1/original/tableRound.dae",
+                      "sha256": "37f7e6505f6c87a6305a027baee08c79e78656e5288045a1dfeee6342324e6f6",
+                      "archiveEntry": "Models/DAE format/tableRound.dae"
+                    }
+                  ]
+                },
+                "limitations": [
+                  "Static furniture and fixed nested arrangement. No door or slide mechanism.",
+                  "Actual source/geometry admission is CPU evidence. Runtime contact, copying, closed-process restoration, ordinary-device performance and visual acceptance need separate evidence."
+                ]
+              },
+              "meshes": 8,
+              "triangles": 918,
+              "topY": 0.5,
+              "children": [
+                {
+                  "id": "side-table/primary/ornament",
+                  "attachment": {
+                    "surfaceId": "top"
+                  },
+                  "bottom": 0.49999999981373544,
+                  "world": [
+                    0,
+                    0.5,
+                    -0.5
+                  ]
+                }
+              ]
+            }
+          ],
+          "cache": {
+            "cachedAssets": 2,
+            "loadedAssets": 2
+          },
+          "memory": {
+            "geometries": 12,
+            "textures": 3
+          }
+        },
+        {
+          "document": {
+            "schema": "company-layout",
+            "version": 1,
+            "id": "side-table-demo",
+            "name": "边几 · 四款与台面承载",
+            "revision": 2,
+            "scale": "single-room",
+            "catalog": {
+              "id": "company-facilities",
+              "version": 1
+            },
+            "nodes": [
+              {
+                "id": "side-table-demo/floor-1",
+                "kind": "floor",
+                "parentId": "side-table-demo",
+                "name": "一层",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "side-table-demo/room-1",
+                "kind": "room",
+                "parentId": "side-table-demo/floor-1",
+                "name": "直播间",
+                "purpose": "streaming",
+                "bounds": {
+                  "width": 7,
+                  "depth": 5.25
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "side-table/primary",
+                "kind": "facility",
+                "parentId": "side-table-demo/room-1",
+                "resource": {
+                  "id": "side-table-square",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    -0.5
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              },
+              {
+                "id": "side-table/primary/ornament",
+                "kind": "facility",
+                "parentId": "side-table/primary",
+                "resource": {
+                  "id": "tabletop-ornament-vase",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0.5,
+                    0
+                  ],
+                  "yaw": 0
+                },
+                "state": {},
+                "attachment": {
+                  "surfaceId": "top"
+                }
+              }
+            ]
+          },
+          "tables": [
+            {
+              "id": "side-table/primary",
+              "resource": {
+                "id": "side-table-square",
+                "version": 1
+              },
+              "asset": {
+                "format": "glb",
+                "url": "/company-assets/side-table-v1/square/v1/model.glb",
+                "sha256": "aa3f605a019971e48061201ec3d4883ad8f2ad11420c0fe58f99b0da0fc084d5",
+                "bytes": 8892
+              },
+              "provenance": {
+                "sourceParameters": "assets-source/company-side-table-v1/parameters.json",
+                "sourceParametersSha256": "f01b025f1122bfd674f48accf3a9a536db6d0c3f9cb5e2434a46c40d2ad4d000",
+                "generator": "scripts/company-platform/build-side-table.mjs",
+                "generatorSha256": "53e7e18ce9b10b2ee79d76216607954ab5bdd481d25d2e103158b086d41c1c56",
+                "functionalContractSource": "docs/COMPANY-SIDE-TABLE-CONTRACT-v1.txt",
+                "functionalContractSourceSha256": "e1c56b23e52f837866598a4a280da1db3f7c60bb3f4e169b8acddda4d2d99e3d",
+                "dependencies": {
+                  "functionalContract": {
+                    "path": "docs/COMPANY-SIDE-TABLE-CONTRACT-v1.txt",
+                    "sha256": "e1c56b23e52f837866598a4a280da1db3f7c60bb3f4e169b8acddda4d2d99e3d"
+                  },
+                  "preflight": {
+                    "path": "docs/research/COMPANY-SIDE-TABLE-EXTERNAL-PREFLIGHT-2026-11-17.txt",
+                    "sha256": "c671157c1b631936d785829793913c752eca527e28b03aeb4a7827f2a04927b2"
+                  },
+                  "productionStandard": {
+                    "path": "docs/COMPANY-APPEARANCE-PRODUCTION-STANDARD.md",
+                    "sha256": "25d12677aa7b13eb5a6ff5b10324cb86bde17eaec16923279af8d6ad9e54836a"
+                  },
+                  "lockfile": {
+                    "path": "prototype/package-lock.json",
+                    "sha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7"
+                  },
+                  "threePackage": {
+                    "path": "prototype/node_modules/three/package.json",
+                    "sha256": "87f2c99a8718e5fdd6f5e51427fde52c6075f2f698ddf8f7b4e162882df93940"
+                  },
+                  "threeModule": {
+                    "path": "prototype/node_modules/three/build/three.module.js",
+                    "sha256": "104f56145899722094556490d787aae0617cc2fc3382f31df02d724ea1aee341"
+                  },
+                  "threeCore": {
+                    "path": "prototype/node_modules/three/build/three.core.js",
+                    "sha256": "613e370f76638fdef83926642bf256dc9615684922de1ce1f63a8583e5d78578"
+                  },
+                  "gltfExporter": {
+                    "path": "prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+                    "sha256": "569793baeba62baeb4ab0b3619b6b1495b45d4b2ba9690430497adb58307bdf2"
+                  },
+                  "gltfLoader": {
+                    "path": "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+                    "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1"
+                  },
+                  "bufferGeometryUtils": {
+                    "path": "prototype/node_modules/three/examples/jsm/utils/BufferGeometryUtils.js",
+                    "sha256": "7bda2a8ba836b2bcf67cb938d4b9e1bb5d1b1bc616817103ed858c0b58296ce7"
+                  },
+                  "skeletonUtils": {
+                    "path": "prototype/node_modules/three/examples/jsm/utils/SkeletonUtils.js",
+                    "sha256": "b1632a703206c3d830de9fcbe515696770d04b71a15ee6b50afa6d2c3298c86f"
+                  },
+                  "threeLicense": {
+                    "path": "prototype/node_modules/three/LICENSE",
+                    "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+                  },
+                  "supportVerifier": {
+                    "path": "prototype/src/company/support-geometry.js",
+                    "sha256": "132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68"
+                  },
+                  "original-cabinetBed.dae": {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.dae",
+                    "sha256": "eb5b3cac2b4c171bf33914cc3cbc338c2dc5b976142afeeb98b34a9b52133353"
+                  },
+                  "original-cabinetBed.glb": {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.glb",
+                    "sha256": "b651fafb9e2c8e4adcb8cad3d10dc94404b46fe039b26e66b2c9020df4e5301d"
+                  },
+                  "original-furniture-kit-2.0.zip": {
+                    "path": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+                    "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0"
+                  },
+                  "original-License.txt": {
+                    "path": "assets-source/company-side-table-v1/original/License.txt",
+                    "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+                  },
+                  "original-tableCoffee.dae": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.dae",
+                    "sha256": "a0cc2836f56e5794ec281e880897754068c855f5c92df9a207131a108bab488f"
+                  },
+                  "original-tableCoffee.glb": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.glb",
+                    "sha256": "e38bea760fbd514efbb75528d09b4752c91af44677bbb97e6d4386c263525179"
+                  },
+                  "original-tableCoffeeSquare.dae": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.dae",
+                    "sha256": "8fbb3776ad9678b09327eb4042782756f51fd429810f87cc58779f5af20b29cf"
+                  },
+                  "original-tableCoffeeSquare.glb": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.glb",
+                    "sha256": "bcc81d8919a3af9141c9c93b4520106dd0a90a7144346cd87928014018aac816"
+                  },
+                  "original-tableRound.dae": {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.dae",
+                    "sha256": "37f7e6505f6c87a6305a027baee08c79e78656e5288045a1dfeee6342324e6f6"
+                  },
+                  "original-tableRound.glb": {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.glb",
+                    "sha256": "f8daea9124a542a00b7bdacfddac82dc468573d43e44d7b54dd6316e9695754b"
+                  },
+                  "dataVerifier": {
+                    "path": "prototype/src/company/side-table-data.js",
+                    "sha256": "930f40499f249edeb56321cb6c1cf22e7115c66a475a37785880b554054bb85c"
+                  },
+                  "geometryVerifier": {
+                    "path": "prototype/src/company/side-table-geometry.js",
+                    "sha256": "9fda63f8aaed708d8cf233bb7ce040ce1697da082ef32811c92c265c4a0c28f7"
+                  }
+                },
+                "sourceFiles": [
+                  {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.dae",
+                    "sha256": "eb5b3cac2b4c171bf33914cc3cbc338c2dc5b976142afeeb98b34a9b52133353"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.glb",
+                    "sha256": "b651fafb9e2c8e4adcb8cad3d10dc94404b46fe039b26e66b2c9020df4e5301d"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+                    "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/License.txt",
+                    "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.dae",
+                    "sha256": "a0cc2836f56e5794ec281e880897754068c855f5c92df9a207131a108bab488f"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.glb",
+                    "sha256": "e38bea760fbd514efbb75528d09b4752c91af44677bbb97e6d4386c263525179"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.dae",
+                    "sha256": "8fbb3776ad9678b09327eb4042782756f51fd429810f87cc58779f5af20b29cf"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.glb",
+                    "sha256": "bcc81d8919a3af9141c9c93b4520106dd0a90a7144346cd87928014018aac816"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.dae",
+                    "sha256": "37f7e6505f6c87a6305a027baee08c79e78656e5288045a1dfeee6342324e6f6"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.glb",
+                    "sha256": "f8daea9124a542a00b7bdacfddac82dc468573d43e44d7b54dd6316e9695754b"
+                  }
+                ],
+                "sourceDesign": "square",
+                "license": "Kenney Furniture Kit 2.0 original models and solid-color materials are CC0. Author/distributor Kenney (https://kenney.nl/assets/furniture-kit). Project-authored finite adaptation recipe and circular tabletop. Three.js r187 is MIT licensed. Original package License.txt is preserved.",
+                "prompt": "Purpose: four side-table appearances with one fixed side-table-v1 floor/support function. Reuse and adapt the pinned Kenney Furniture Kit 2.0 original GLB/DAE inputs, preserve the original opaque wood/metal material and actual support structure, bake original world transforms once and normalize the bottom-centred dimensions in metres, +Y up and +Z front. Round retains the original pedestal/braces/base and replaces the six-sided slab with an actual 48-segment .26m-radius closed circular slab. Cabinet is fixed, nested is two independent grounded tables, and low is the original elongated four-leg tie-frame table. Keep a real .30 x .22m top patch at Y=.5 with non-overlapping surrounding top geometry, no floating decal. Validate the actual imported GLB through the fixed data, generic support and independent solid/source geometry gates. Budget 2500 triangles/32 meshes/four materials. Record source, license, all recipe changes, deterministic exports and failures. Design: Preserve the original cabinet body, separate fixed door and metal handle. Bake all original parent and door transforms. No hinge state.",
+                "externalSource": {
+                  "author": "Kenney",
+                  "name": "Furniture Kit",
+                  "version": "2.0",
+                  "url": "https://kenney.nl/assets/furniture-kit",
+                  "archive": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+                  "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+                  "license": "CC0",
+                  "licensePath": "assets-source/company-side-table-v1/original/License.txt",
+                  "sourceModel": "cabinetBed",
+                  "files": [
+                    {
+                      "path": "assets-source/company-side-table-v1/original/cabinetBed.glb",
+                      "sha256": "b651fafb9e2c8e4adcb8cad3d10dc94404b46fe039b26e66b2c9020df4e5301d",
+                      "archiveEntry": "Models/GLTF format/cabinetBed.glb"
+                    },
+                    {
+                      "path": "assets-source/company-side-table-v1/original/cabinetBed.dae",
+                      "sha256": "eb5b3cac2b4c171bf33914cc3cbc338c2dc5b976142afeeb98b34a9b52133353",
+                      "archiveEntry": "Models/DAE format/cabinetBed.dae"
+                    }
+                  ]
+                },
+                "limitations": [
+                  "Static furniture and fixed nested arrangement. No door or slide mechanism.",
+                  "Actual source/geometry admission is CPU evidence. Runtime contact, copying, closed-process restoration, ordinary-device performance and visual acceptance need separate evidence."
+                ]
+              },
+              "meshes": 9,
+              "triangles": 740,
+              "topY": 0.5,
+              "children": [
+                {
+                  "id": "side-table/primary/ornament",
+                  "attachment": {
+                    "surfaceId": "top"
+                  },
+                  "bottom": 0.49999999981373544,
+                  "world": [
+                    0,
+                    0.5,
+                    -0.5
+                  ]
+                }
+              ]
+            }
+          ],
+          "cache": {
+            "cachedAssets": 2,
+            "loadedAssets": 2
+          },
+          "memory": {
+            "geometries": 13,
+            "textures": 3
+          }
+        },
+        {
+          "document": {
+            "schema": "company-layout",
+            "version": 1,
+            "id": "side-table-demo",
+            "name": "边几 · 四款与台面承载",
+            "revision": 3,
+            "scale": "single-room",
+            "catalog": {
+              "id": "company-facilities",
+              "version": 1
+            },
+            "nodes": [
+              {
+                "id": "side-table-demo/floor-1",
+                "kind": "floor",
+                "parentId": "side-table-demo",
+                "name": "一层",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "side-table-demo/room-1",
+                "kind": "room",
+                "parentId": "side-table-demo/floor-1",
+                "name": "直播间",
+                "purpose": "streaming",
+                "bounds": {
+                  "width": 7,
+                  "depth": 5.25
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "side-table/primary",
+                "kind": "facility",
+                "parentId": "side-table-demo/room-1",
+                "resource": {
+                  "id": "side-table-nested",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    -0.5
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              },
+              {
+                "id": "side-table/primary/ornament",
+                "kind": "facility",
+                "parentId": "side-table/primary",
+                "resource": {
+                  "id": "tabletop-ornament-vase",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0.5,
+                    0
+                  ],
+                  "yaw": 0
+                },
+                "state": {},
+                "attachment": {
+                  "surfaceId": "top"
+                }
+              }
+            ]
+          },
+          "tables": [
+            {
+              "id": "side-table/primary",
+              "resource": {
+                "id": "side-table-nested",
+                "version": 1
+              },
+              "asset": {
+                "format": "glb",
+                "url": "/company-assets/side-table-v1/nested/v1/model.glb",
+                "sha256": "b62f5bc58e7634a5cd8d25dba40919ff585d665ca24fe271c9f33da6289bf28c",
+                "bytes": 19732
+              },
+              "provenance": {
+                "sourceParameters": "assets-source/company-side-table-v1/parameters.json",
+                "sourceParametersSha256": "f01b025f1122bfd674f48accf3a9a536db6d0c3f9cb5e2434a46c40d2ad4d000",
+                "generator": "scripts/company-platform/build-side-table.mjs",
+                "generatorSha256": "53e7e18ce9b10b2ee79d76216607954ab5bdd481d25d2e103158b086d41c1c56",
+                "functionalContractSource": "docs/COMPANY-SIDE-TABLE-CONTRACT-v1.txt",
+                "functionalContractSourceSha256": "e1c56b23e52f837866598a4a280da1db3f7c60bb3f4e169b8acddda4d2d99e3d",
+                "dependencies": {
+                  "functionalContract": {
+                    "path": "docs/COMPANY-SIDE-TABLE-CONTRACT-v1.txt",
+                    "sha256": "e1c56b23e52f837866598a4a280da1db3f7c60bb3f4e169b8acddda4d2d99e3d"
+                  },
+                  "preflight": {
+                    "path": "docs/research/COMPANY-SIDE-TABLE-EXTERNAL-PREFLIGHT-2026-11-17.txt",
+                    "sha256": "c671157c1b631936d785829793913c752eca527e28b03aeb4a7827f2a04927b2"
+                  },
+                  "productionStandard": {
+                    "path": "docs/COMPANY-APPEARANCE-PRODUCTION-STANDARD.md",
+                    "sha256": "25d12677aa7b13eb5a6ff5b10324cb86bde17eaec16923279af8d6ad9e54836a"
+                  },
+                  "lockfile": {
+                    "path": "prototype/package-lock.json",
+                    "sha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7"
+                  },
+                  "threePackage": {
+                    "path": "prototype/node_modules/three/package.json",
+                    "sha256": "87f2c99a8718e5fdd6f5e51427fde52c6075f2f698ddf8f7b4e162882df93940"
+                  },
+                  "threeModule": {
+                    "path": "prototype/node_modules/three/build/three.module.js",
+                    "sha256": "104f56145899722094556490d787aae0617cc2fc3382f31df02d724ea1aee341"
+                  },
+                  "threeCore": {
+                    "path": "prototype/node_modules/three/build/three.core.js",
+                    "sha256": "613e370f76638fdef83926642bf256dc9615684922de1ce1f63a8583e5d78578"
+                  },
+                  "gltfExporter": {
+                    "path": "prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+                    "sha256": "569793baeba62baeb4ab0b3619b6b1495b45d4b2ba9690430497adb58307bdf2"
+                  },
+                  "gltfLoader": {
+                    "path": "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+                    "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1"
+                  },
+                  "bufferGeometryUtils": {
+                    "path": "prototype/node_modules/three/examples/jsm/utils/BufferGeometryUtils.js",
+                    "sha256": "7bda2a8ba836b2bcf67cb938d4b9e1bb5d1b1bc616817103ed858c0b58296ce7"
+                  },
+                  "skeletonUtils": {
+                    "path": "prototype/node_modules/three/examples/jsm/utils/SkeletonUtils.js",
+                    "sha256": "b1632a703206c3d830de9fcbe515696770d04b71a15ee6b50afa6d2c3298c86f"
+                  },
+                  "threeLicense": {
+                    "path": "prototype/node_modules/three/LICENSE",
+                    "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+                  },
+                  "supportVerifier": {
+                    "path": "prototype/src/company/support-geometry.js",
+                    "sha256": "132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68"
+                  },
+                  "original-cabinetBed.dae": {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.dae",
+                    "sha256": "eb5b3cac2b4c171bf33914cc3cbc338c2dc5b976142afeeb98b34a9b52133353"
+                  },
+                  "original-cabinetBed.glb": {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.glb",
+                    "sha256": "b651fafb9e2c8e4adcb8cad3d10dc94404b46fe039b26e66b2c9020df4e5301d"
+                  },
+                  "original-furniture-kit-2.0.zip": {
+                    "path": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+                    "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0"
+                  },
+                  "original-License.txt": {
+                    "path": "assets-source/company-side-table-v1/original/License.txt",
+                    "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+                  },
+                  "original-tableCoffee.dae": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.dae",
+                    "sha256": "a0cc2836f56e5794ec281e880897754068c855f5c92df9a207131a108bab488f"
+                  },
+                  "original-tableCoffee.glb": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.glb",
+                    "sha256": "e38bea760fbd514efbb75528d09b4752c91af44677bbb97e6d4386c263525179"
+                  },
+                  "original-tableCoffeeSquare.dae": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.dae",
+                    "sha256": "8fbb3776ad9678b09327eb4042782756f51fd429810f87cc58779f5af20b29cf"
+                  },
+                  "original-tableCoffeeSquare.glb": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.glb",
+                    "sha256": "bcc81d8919a3af9141c9c93b4520106dd0a90a7144346cd87928014018aac816"
+                  },
+                  "original-tableRound.dae": {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.dae",
+                    "sha256": "37f7e6505f6c87a6305a027baee08c79e78656e5288045a1dfeee6342324e6f6"
+                  },
+                  "original-tableRound.glb": {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.glb",
+                    "sha256": "f8daea9124a542a00b7bdacfddac82dc468573d43e44d7b54dd6316e9695754b"
+                  },
+                  "dataVerifier": {
+                    "path": "prototype/src/company/side-table-data.js",
+                    "sha256": "930f40499f249edeb56321cb6c1cf22e7115c66a475a37785880b554054bb85c"
+                  },
+                  "geometryVerifier": {
+                    "path": "prototype/src/company/side-table-geometry.js",
+                    "sha256": "9fda63f8aaed708d8cf233bb7ce040ce1697da082ef32811c92c265c4a0c28f7"
+                  }
+                },
+                "sourceFiles": [
+                  {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.dae",
+                    "sha256": "eb5b3cac2b4c171bf33914cc3cbc338c2dc5b976142afeeb98b34a9b52133353"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.glb",
+                    "sha256": "b651fafb9e2c8e4adcb8cad3d10dc94404b46fe039b26e66b2c9020df4e5301d"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+                    "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/License.txt",
+                    "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.dae",
+                    "sha256": "a0cc2836f56e5794ec281e880897754068c855f5c92df9a207131a108bab488f"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.glb",
+                    "sha256": "e38bea760fbd514efbb75528d09b4752c91af44677bbb97e6d4386c263525179"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.dae",
+                    "sha256": "8fbb3776ad9678b09327eb4042782756f51fd429810f87cc58779f5af20b29cf"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.glb",
+                    "sha256": "bcc81d8919a3af9141c9c93b4520106dd0a90a7144346cd87928014018aac816"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.dae",
+                    "sha256": "37f7e6505f6c87a6305a027baee08c79e78656e5288045a1dfeee6342324e6f6"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.glb",
+                    "sha256": "f8daea9124a542a00b7bdacfddac82dc468573d43e44d7b54dd6316e9695754b"
+                  }
+                ],
+                "sourceDesign": "nested",
+                "license": "Kenney Furniture Kit 2.0 original models and solid-color materials are CC0. Author/distributor Kenney (https://kenney.nl/assets/furniture-kit). Project-authored finite adaptation recipe and circular tabletop. Three.js r187 is MIT licensed. Original package License.txt is preserved.",
+                "prompt": "Purpose: four side-table appearances with one fixed side-table-v1 floor/support function. Reuse and adapt the pinned Kenney Furniture Kit 2.0 original GLB/DAE inputs, preserve the original opaque wood/metal material and actual support structure, bake original world transforms once and normalize the bottom-centred dimensions in metres, +Y up and +Z front. Round retains the original pedestal/braces/base and replaces the six-sided slab with an actual 48-segment .26m-radius closed circular slab. Cabinet is fixed, nested is two independent grounded tables, and low is the original elongated four-leg tie-frame table. Keep a real .30 x .22m top patch at Y=.5 with non-overlapping surrounding top geometry, no floating decal. Validate the actual imported GLB through the fixed data, generic support and independent solid/source geometry gates. Budget 2500 triangles/32 meshes/four materials. Record source, license, all recipe changes, deterministic exports and failures. Design: Two real complete original square tables at different heights, with independent ground contact. Main table center -.05, small center from nested.smallOffsetX; retain each top/four legs/tie frame. Static arrangement.",
+                "externalSource": {
+                  "author": "Kenney",
+                  "name": "Furniture Kit",
+                  "version": "2.0",
+                  "url": "https://kenney.nl/assets/furniture-kit",
+                  "archive": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+                  "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+                  "license": "CC0",
+                  "licensePath": "assets-source/company-side-table-v1/original/License.txt",
+                  "sourceModel": "tableCoffeeSquare",
+                  "files": [
+                    {
+                      "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.glb",
+                      "sha256": "bcc81d8919a3af9141c9c93b4520106dd0a90a7144346cd87928014018aac816",
+                      "archiveEntry": "Models/GLTF format/tableCoffeeSquare.glb"
+                    },
+                    {
+                      "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.dae",
+                      "sha256": "8fbb3776ad9678b09327eb4042782756f51fd429810f87cc58779f5af20b29cf",
+                      "archiveEntry": "Models/DAE format/tableCoffeeSquare.dae"
+                    }
+                  ]
+                },
+                "limitations": [
+                  "Static furniture and fixed nested arrangement. No door or slide mechanism.",
+                  "Actual source/geometry admission is CPU evidence. Runtime contact, copying, closed-process restoration, ordinary-device performance and visual acceptance need separate evidence."
+                ]
+              },
+              "meshes": 8,
+              "triangles": 904,
+              "topY": 0.5,
+              "children": [
+                {
+                  "id": "side-table/primary/ornament",
+                  "attachment": {
+                    "surfaceId": "top"
+                  },
+                  "bottom": 0.49999999981373544,
+                  "world": [
+                    0,
+                    0.5,
+                    -0.5
+                  ]
+                }
+              ]
+            }
+          ],
+          "cache": {
+            "cachedAssets": 2,
+            "loadedAssets": 2
+          },
+          "memory": {
+            "geometries": 12,
+            "textures": 3
+          }
+        },
+        {
+          "document": {
+            "schema": "company-layout",
+            "version": 1,
+            "id": "side-table-demo",
+            "name": "边几 · 四款与台面承载",
+            "revision": 4,
+            "scale": "single-room",
+            "catalog": {
+              "id": "company-facilities",
+              "version": 1
+            },
+            "nodes": [
+              {
+                "id": "side-table-demo/floor-1",
+                "kind": "floor",
+                "parentId": "side-table-demo",
+                "name": "一层",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "side-table-demo/room-1",
+                "kind": "room",
+                "parentId": "side-table-demo/floor-1",
+                "name": "直播间",
+                "purpose": "streaming",
+                "bounds": {
+                  "width": 7,
+                  "depth": 5.25
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "side-table/primary",
+                "kind": "facility",
+                "parentId": "side-table-demo/room-1",
+                "resource": {
+                  "id": "side-table-low",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    -0.5
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              },
+              {
+                "id": "side-table/primary/ornament",
+                "kind": "facility",
+                "parentId": "side-table/primary",
+                "resource": {
+                  "id": "tabletop-ornament-vase",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0.5,
+                    0
+                  ],
+                  "yaw": 0
+                },
+                "state": {},
+                "attachment": {
+                  "surfaceId": "top"
+                }
+              }
+            ]
+          },
+          "tables": [
+            {
+              "id": "side-table/primary",
+              "resource": {
+                "id": "side-table-low",
+                "version": 1
+              },
+              "asset": {
+                "format": "glb",
+                "url": "/company-assets/side-table-v1/low/v1/model.glb",
+                "sha256": "8808760b9a36d7d39d84c2f9829fdb43bae86c65c0157cbd2983ef00ab1287bc",
+                "bytes": 10388
+              },
+              "provenance": {
+                "sourceParameters": "assets-source/company-side-table-v1/parameters.json",
+                "sourceParametersSha256": "f01b025f1122bfd674f48accf3a9a536db6d0c3f9cb5e2434a46c40d2ad4d000",
+                "generator": "scripts/company-platform/build-side-table.mjs",
+                "generatorSha256": "53e7e18ce9b10b2ee79d76216607954ab5bdd481d25d2e103158b086d41c1c56",
+                "functionalContractSource": "docs/COMPANY-SIDE-TABLE-CONTRACT-v1.txt",
+                "functionalContractSourceSha256": "e1c56b23e52f837866598a4a280da1db3f7c60bb3f4e169b8acddda4d2d99e3d",
+                "dependencies": {
+                  "functionalContract": {
+                    "path": "docs/COMPANY-SIDE-TABLE-CONTRACT-v1.txt",
+                    "sha256": "e1c56b23e52f837866598a4a280da1db3f7c60bb3f4e169b8acddda4d2d99e3d"
+                  },
+                  "preflight": {
+                    "path": "docs/research/COMPANY-SIDE-TABLE-EXTERNAL-PREFLIGHT-2026-11-17.txt",
+                    "sha256": "c671157c1b631936d785829793913c752eca527e28b03aeb4a7827f2a04927b2"
+                  },
+                  "productionStandard": {
+                    "path": "docs/COMPANY-APPEARANCE-PRODUCTION-STANDARD.md",
+                    "sha256": "25d12677aa7b13eb5a6ff5b10324cb86bde17eaec16923279af8d6ad9e54836a"
+                  },
+                  "lockfile": {
+                    "path": "prototype/package-lock.json",
+                    "sha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7"
+                  },
+                  "threePackage": {
+                    "path": "prototype/node_modules/three/package.json",
+                    "sha256": "87f2c99a8718e5fdd6f5e51427fde52c6075f2f698ddf8f7b4e162882df93940"
+                  },
+                  "threeModule": {
+                    "path": "prototype/node_modules/three/build/three.module.js",
+                    "sha256": "104f56145899722094556490d787aae0617cc2fc3382f31df02d724ea1aee341"
+                  },
+                  "threeCore": {
+                    "path": "prototype/node_modules/three/build/three.core.js",
+                    "sha256": "613e370f76638fdef83926642bf256dc9615684922de1ce1f63a8583e5d78578"
+                  },
+                  "gltfExporter": {
+                    "path": "prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+                    "sha256": "569793baeba62baeb4ab0b3619b6b1495b45d4b2ba9690430497adb58307bdf2"
+                  },
+                  "gltfLoader": {
+                    "path": "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+                    "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1"
+                  },
+                  "bufferGeometryUtils": {
+                    "path": "prototype/node_modules/three/examples/jsm/utils/BufferGeometryUtils.js",
+                    "sha256": "7bda2a8ba836b2bcf67cb938d4b9e1bb5d1b1bc616817103ed858c0b58296ce7"
+                  },
+                  "skeletonUtils": {
+                    "path": "prototype/node_modules/three/examples/jsm/utils/SkeletonUtils.js",
+                    "sha256": "b1632a703206c3d830de9fcbe515696770d04b71a15ee6b50afa6d2c3298c86f"
+                  },
+                  "threeLicense": {
+                    "path": "prototype/node_modules/three/LICENSE",
+                    "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+                  },
+                  "supportVerifier": {
+                    "path": "prototype/src/company/support-geometry.js",
+                    "sha256": "132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68"
+                  },
+                  "original-cabinetBed.dae": {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.dae",
+                    "sha256": "eb5b3cac2b4c171bf33914cc3cbc338c2dc5b976142afeeb98b34a9b52133353"
+                  },
+                  "original-cabinetBed.glb": {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.glb",
+                    "sha256": "b651fafb9e2c8e4adcb8cad3d10dc94404b46fe039b26e66b2c9020df4e5301d"
+                  },
+                  "original-furniture-kit-2.0.zip": {
+                    "path": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+                    "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0"
+                  },
+                  "original-License.txt": {
+                    "path": "assets-source/company-side-table-v1/original/License.txt",
+                    "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+                  },
+                  "original-tableCoffee.dae": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.dae",
+                    "sha256": "a0cc2836f56e5794ec281e880897754068c855f5c92df9a207131a108bab488f"
+                  },
+                  "original-tableCoffee.glb": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.glb",
+                    "sha256": "e38bea760fbd514efbb75528d09b4752c91af44677bbb97e6d4386c263525179"
+                  },
+                  "original-tableCoffeeSquare.dae": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.dae",
+                    "sha256": "8fbb3776ad9678b09327eb4042782756f51fd429810f87cc58779f5af20b29cf"
+                  },
+                  "original-tableCoffeeSquare.glb": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.glb",
+                    "sha256": "bcc81d8919a3af9141c9c93b4520106dd0a90a7144346cd87928014018aac816"
+                  },
+                  "original-tableRound.dae": {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.dae",
+                    "sha256": "37f7e6505f6c87a6305a027baee08c79e78656e5288045a1dfeee6342324e6f6"
+                  },
+                  "original-tableRound.glb": {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.glb",
+                    "sha256": "f8daea9124a542a00b7bdacfddac82dc468573d43e44d7b54dd6316e9695754b"
+                  },
+                  "dataVerifier": {
+                    "path": "prototype/src/company/side-table-data.js",
+                    "sha256": "930f40499f249edeb56321cb6c1cf22e7115c66a475a37785880b554054bb85c"
+                  },
+                  "geometryVerifier": {
+                    "path": "prototype/src/company/side-table-geometry.js",
+                    "sha256": "9fda63f8aaed708d8cf233bb7ce040ce1697da082ef32811c92c265c4a0c28f7"
+                  }
+                },
+                "sourceFiles": [
+                  {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.dae",
+                    "sha256": "eb5b3cac2b4c171bf33914cc3cbc338c2dc5b976142afeeb98b34a9b52133353"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.glb",
+                    "sha256": "b651fafb9e2c8e4adcb8cad3d10dc94404b46fe039b26e66b2c9020df4e5301d"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+                    "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/License.txt",
+                    "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.dae",
+                    "sha256": "a0cc2836f56e5794ec281e880897754068c855f5c92df9a207131a108bab488f"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.glb",
+                    "sha256": "e38bea760fbd514efbb75528d09b4752c91af44677bbb97e6d4386c263525179"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.dae",
+                    "sha256": "8fbb3776ad9678b09327eb4042782756f51fd429810f87cc58779f5af20b29cf"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.glb",
+                    "sha256": "bcc81d8919a3af9141c9c93b4520106dd0a90a7144346cd87928014018aac816"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.dae",
+                    "sha256": "37f7e6505f6c87a6305a027baee08c79e78656e5288045a1dfeee6342324e6f6"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.glb",
+                    "sha256": "f8daea9124a542a00b7bdacfddac82dc468573d43e44d7b54dd6316e9695754b"
+                  }
+                ],
+                "sourceDesign": "low",
+                "license": "Kenney Furniture Kit 2.0 original models and solid-color materials are CC0. Author/distributor Kenney (https://kenney.nl/assets/furniture-kit). Project-authored finite adaptation recipe and circular tabletop. Three.js r187 is MIT licensed. Original package License.txt is preserved.",
+                "prompt": "Purpose: four side-table appearances with one fixed side-table-v1 floor/support function. Reuse and adapt the pinned Kenney Furniture Kit 2.0 original GLB/DAE inputs, preserve the original opaque wood/metal material and actual support structure, bake original world transforms once and normalize the bottom-centred dimensions in metres, +Y up and +Z front. Round retains the original pedestal/braces/base and replaces the six-sided slab with an actual 48-segment .26m-radius closed circular slab. Cabinet is fixed, nested is two independent grounded tables, and low is the original elongated four-leg tie-frame table. Keep a real .30 x .22m top patch at Y=.5 with non-overlapping surrounding top geometry, no floating decal. Validate the actual imported GLB through the fixed data, generic support and independent solid/source geometry gates. Budget 2500 triangles/32 meshes/four materials. Record source, license, all recipe changes, deterministic exports and failures. Design: Preserve the original elongated rectangular slab, four legs and long lower tie frame; adapt the actual dimensions without replacing its structure with the cabinet or nested form.",
+                "externalSource": {
+                  "author": "Kenney",
+                  "name": "Furniture Kit",
+                  "version": "2.0",
+                  "url": "https://kenney.nl/assets/furniture-kit",
+                  "archive": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+                  "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+                  "license": "CC0",
+                  "licensePath": "assets-source/company-side-table-v1/original/License.txt",
+                  "sourceModel": "tableCoffee",
+                  "files": [
+                    {
+                      "path": "assets-source/company-side-table-v1/original/tableCoffee.glb",
+                      "sha256": "e38bea760fbd514efbb75528d09b4752c91af44677bbb97e6d4386c263525179",
+                      "archiveEntry": "Models/GLTF format/tableCoffee.glb"
+                    },
+                    {
+                      "path": "assets-source/company-side-table-v1/original/tableCoffee.dae",
+                      "sha256": "a0cc2836f56e5794ec281e880897754068c855f5c92df9a207131a108bab488f",
+                      "archiveEntry": "Models/DAE format/tableCoffee.dae"
+                    }
+                  ]
+                },
+                "limitations": [
+                  "Static furniture and fixed nested arrangement. No door or slide mechanism.",
+                  "Actual source/geometry admission is CPU evidence. Runtime contact, copying, closed-process restoration, ordinary-device performance and visual acceptance need separate evidence."
+                ]
+              },
+              "meshes": 7,
+              "triangles": 784,
+              "topY": 0.5,
+              "children": [
+                {
+                  "id": "side-table/primary/ornament",
+                  "attachment": {
+                    "surfaceId": "top"
+                  },
+                  "bottom": 0.49999999981373544,
+                  "world": [
+                    0,
+                    0.5,
+                    -0.5
+                  ]
+                }
+              ]
+            }
+          ],
+          "cache": {
+            "cachedAssets": 2,
+            "loadedAssets": 2
+          },
+          "memory": {
+            "geometries": 11,
+            "textures": 3
+          }
+        }
+      ]
+    },
+    {
+      "name": "Parent movement, quarter-turn, appearance replacement and subtree copying preserve real child contact and isolated IDs",
+      "passed": true,
+      "result": {
+        "before": {
+          "document": {
+            "schema": "company-layout",
+            "version": 1,
+            "id": "side-table-demo",
+            "name": "边几 · 四款与台面承载",
+            "revision": 6,
+            "scale": "single-room",
+            "catalog": {
+              "id": "company-facilities",
+              "version": 1
+            },
+            "nodes": [
+              {
+                "id": "side-table-demo/floor-1",
+                "kind": "floor",
+                "parentId": "side-table-demo",
+                "name": "一层",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "side-table-demo/room-1",
+                "kind": "room",
+                "parentId": "side-table-demo/floor-1",
+                "name": "直播间",
+                "purpose": "streaming",
+                "bounds": {
+                  "width": 7,
+                  "depth": 5.25
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "side-table/primary",
+                "kind": "facility",
+                "parentId": "side-table-demo/room-1",
+                "resource": {
+                  "id": "side-table-round",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0.7,
+                    0,
+                    -0.4
+                  ],
+                  "yaw": 1.5707963267948966
+                },
+                "state": {}
+              },
+              {
+                "id": "side-table/primary/ornament",
+                "kind": "facility",
+                "parentId": "side-table/primary",
+                "resource": {
+                  "id": "tabletop-ornament-vase",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0.04,
+                    0.5,
+                    0.02
+                  ],
+                  "yaw": 0
+                },
+                "state": {},
+                "attachment": {
+                  "surfaceId": "top"
+                }
+              },
+              {
+                "id": "side-table/copy",
+                "kind": "facility",
+                "parentId": "side-table-demo/room-1",
+                "resource": {
+                  "id": "side-table-round",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    -1.1,
+                    0,
+                    0.7
+                  ],
+                  "yaw": 0
+                },
+                "state": {},
+                "name": "side-table/copy"
+              },
+              {
+                "id": "side-table/copy/extra-1",
+                "kind": "facility",
+                "parentId": "side-table/copy",
+                "resource": {
+                  "id": "tabletop-ornament-vase",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0.04,
+                    0.5,
+                    0.02
+                  ],
+                  "yaw": 0
+                },
+                "state": {},
+                "attachment": {
+                  "surfaceId": "top"
+                }
+              }
+            ]
+          },
+          "tables": [
+            {
+              "id": "side-table/primary",
+              "resource": {
+                "id": "side-table-round",
+                "version": 1
+              },
+              "asset": {
+                "format": "glb",
+                "url": "/company-assets/side-table-v1/round/v1/model.glb",
+                "sha256": "4c589b2c36676d119d282378c559b355b1e0778312604363256c4073ae30360d",
+                "bytes": 20956
+              },
+              "provenance": {
+                "sourceParameters": "assets-source/company-side-table-v1/parameters.json",
+                "sourceParametersSha256": "f01b025f1122bfd674f48accf3a9a536db6d0c3f9cb5e2434a46c40d2ad4d000",
+                "generator": "scripts/company-platform/build-side-table.mjs",
+                "generatorSha256": "53e7e18ce9b10b2ee79d76216607954ab5bdd481d25d2e103158b086d41c1c56",
+                "functionalContractSource": "docs/COMPANY-SIDE-TABLE-CONTRACT-v1.txt",
+                "functionalContractSourceSha256": "e1c56b23e52f837866598a4a280da1db3f7c60bb3f4e169b8acddda4d2d99e3d",
+                "dependencies": {
+                  "functionalContract": {
+                    "path": "docs/COMPANY-SIDE-TABLE-CONTRACT-v1.txt",
+                    "sha256": "e1c56b23e52f837866598a4a280da1db3f7c60bb3f4e169b8acddda4d2d99e3d"
+                  },
+                  "preflight": {
+                    "path": "docs/research/COMPANY-SIDE-TABLE-EXTERNAL-PREFLIGHT-2026-11-17.txt",
+                    "sha256": "c671157c1b631936d785829793913c752eca527e28b03aeb4a7827f2a04927b2"
+                  },
+                  "productionStandard": {
+                    "path": "docs/COMPANY-APPEARANCE-PRODUCTION-STANDARD.md",
+                    "sha256": "25d12677aa7b13eb5a6ff5b10324cb86bde17eaec16923279af8d6ad9e54836a"
+                  },
+                  "lockfile": {
+                    "path": "prototype/package-lock.json",
+                    "sha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7"
+                  },
+                  "threePackage": {
+                    "path": "prototype/node_modules/three/package.json",
+                    "sha256": "87f2c99a8718e5fdd6f5e51427fde52c6075f2f698ddf8f7b4e162882df93940"
+                  },
+                  "threeModule": {
+                    "path": "prototype/node_modules/three/build/three.module.js",
+                    "sha256": "104f56145899722094556490d787aae0617cc2fc3382f31df02d724ea1aee341"
+                  },
+                  "threeCore": {
+                    "path": "prototype/node_modules/three/build/three.core.js",
+                    "sha256": "613e370f76638fdef83926642bf256dc9615684922de1ce1f63a8583e5d78578"
+                  },
+                  "gltfExporter": {
+                    "path": "prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+                    "sha256": "569793baeba62baeb4ab0b3619b6b1495b45d4b2ba9690430497adb58307bdf2"
+                  },
+                  "gltfLoader": {
+                    "path": "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+                    "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1"
+                  },
+                  "bufferGeometryUtils": {
+                    "path": "prototype/node_modules/three/examples/jsm/utils/BufferGeometryUtils.js",
+                    "sha256": "7bda2a8ba836b2bcf67cb938d4b9e1bb5d1b1bc616817103ed858c0b58296ce7"
+                  },
+                  "skeletonUtils": {
+                    "path": "prototype/node_modules/three/examples/jsm/utils/SkeletonUtils.js",
+                    "sha256": "b1632a703206c3d830de9fcbe515696770d04b71a15ee6b50afa6d2c3298c86f"
+                  },
+                  "threeLicense": {
+                    "path": "prototype/node_modules/three/LICENSE",
+                    "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+                  },
+                  "supportVerifier": {
+                    "path": "prototype/src/company/support-geometry.js",
+                    "sha256": "132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68"
+                  },
+                  "original-cabinetBed.dae": {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.dae",
+                    "sha256": "eb5b3cac2b4c171bf33914cc3cbc338c2dc5b976142afeeb98b34a9b52133353"
+                  },
+                  "original-cabinetBed.glb": {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.glb",
+                    "sha256": "b651fafb9e2c8e4adcb8cad3d10dc94404b46fe039b26e66b2c9020df4e5301d"
+                  },
+                  "original-furniture-kit-2.0.zip": {
+                    "path": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+                    "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0"
+                  },
+                  "original-License.txt": {
+                    "path": "assets-source/company-side-table-v1/original/License.txt",
+                    "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+                  },
+                  "original-tableCoffee.dae": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.dae",
+                    "sha256": "a0cc2836f56e5794ec281e880897754068c855f5c92df9a207131a108bab488f"
+                  },
+                  "original-tableCoffee.glb": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.glb",
+                    "sha256": "e38bea760fbd514efbb75528d09b4752c91af44677bbb97e6d4386c263525179"
+                  },
+                  "original-tableCoffeeSquare.dae": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.dae",
+                    "sha256": "8fbb3776ad9678b09327eb4042782756f51fd429810f87cc58779f5af20b29cf"
+                  },
+                  "original-tableCoffeeSquare.glb": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.glb",
+                    "sha256": "bcc81d8919a3af9141c9c93b4520106dd0a90a7144346cd87928014018aac816"
+                  },
+                  "original-tableRound.dae": {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.dae",
+                    "sha256": "37f7e6505f6c87a6305a027baee08c79e78656e5288045a1dfeee6342324e6f6"
+                  },
+                  "original-tableRound.glb": {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.glb",
+                    "sha256": "f8daea9124a542a00b7bdacfddac82dc468573d43e44d7b54dd6316e9695754b"
+                  },
+                  "dataVerifier": {
+                    "path": "prototype/src/company/side-table-data.js",
+                    "sha256": "930f40499f249edeb56321cb6c1cf22e7115c66a475a37785880b554054bb85c"
+                  },
+                  "geometryVerifier": {
+                    "path": "prototype/src/company/side-table-geometry.js",
+                    "sha256": "9fda63f8aaed708d8cf233bb7ce040ce1697da082ef32811c92c265c4a0c28f7"
+                  }
+                },
+                "sourceFiles": [
+                  {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.dae",
+                    "sha256": "eb5b3cac2b4c171bf33914cc3cbc338c2dc5b976142afeeb98b34a9b52133353"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.glb",
+                    "sha256": "b651fafb9e2c8e4adcb8cad3d10dc94404b46fe039b26e66b2c9020df4e5301d"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+                    "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/License.txt",
+                    "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.dae",
+                    "sha256": "a0cc2836f56e5794ec281e880897754068c855f5c92df9a207131a108bab488f"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.glb",
+                    "sha256": "e38bea760fbd514efbb75528d09b4752c91af44677bbb97e6d4386c263525179"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.dae",
+                    "sha256": "8fbb3776ad9678b09327eb4042782756f51fd429810f87cc58779f5af20b29cf"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.glb",
+                    "sha256": "bcc81d8919a3af9141c9c93b4520106dd0a90a7144346cd87928014018aac816"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.dae",
+                    "sha256": "37f7e6505f6c87a6305a027baee08c79e78656e5288045a1dfeee6342324e6f6"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.glb",
+                    "sha256": "f8daea9124a542a00b7bdacfddac82dc468573d43e44d7b54dd6316e9695754b"
+                  }
+                ],
+                "sourceDesign": "round",
+                "license": "Kenney Furniture Kit 2.0 original models and solid-color materials are CC0. Author/distributor Kenney (https://kenney.nl/assets/furniture-kit). Project-authored finite adaptation recipe and circular tabletop. Three.js r187 is MIT licensed. Original package License.txt is preserved.",
+                "prompt": "Purpose: four side-table appearances with one fixed side-table-v1 floor/support function. Reuse and adapt the pinned Kenney Furniture Kit 2.0 original GLB/DAE inputs, preserve the original opaque wood/metal material and actual support structure, bake original world transforms once and normalize the bottom-centred dimensions in metres, +Y up and +Z front. Round retains the original pedestal/braces/base and replaces the six-sided slab with an actual 48-segment .26m-radius closed circular slab. Cabinet is fixed, nested is two independent grounded tables, and low is the original elongated four-leg tie-frame table. Keep a real .30 x .22m top patch at Y=.5 with non-overlapping surrounding top geometry, no floating decal. Validate the actual imported GLB through the fixed data, generic support and independent solid/source geometry gates. Budget 2500 triangles/32 meshes/four materials. Record source, license, all recipe changes, deterministic exports and failures. Design: Retain the original real pedestal/braces/base; replace only the measured six-sided tabletop region with a 48-sided circular slab and close the actual support cut. Radius .26m, top .5m, slab bottom from the original measured underside.",
+                "externalSource": {
+                  "author": "Kenney",
+                  "name": "Furniture Kit",
+                  "version": "2.0",
+                  "url": "https://kenney.nl/assets/furniture-kit",
+                  "archive": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+                  "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+                  "license": "CC0",
+                  "licensePath": "assets-source/company-side-table-v1/original/License.txt",
+                  "sourceModel": "tableRound",
+                  "files": [
+                    {
+                      "path": "assets-source/company-side-table-v1/original/tableRound.glb",
+                      "sha256": "f8daea9124a542a00b7bdacfddac82dc468573d43e44d7b54dd6316e9695754b",
+                      "archiveEntry": "Models/GLTF format/tableRound.glb"
+                    },
+                    {
+                      "path": "assets-source/company-side-table-v1/original/tableRound.dae",
+                      "sha256": "37f7e6505f6c87a6305a027baee08c79e78656e5288045a1dfeee6342324e6f6",
+                      "archiveEntry": "Models/DAE format/tableRound.dae"
+                    }
+                  ]
+                },
+                "limitations": [
+                  "Static furniture and fixed nested arrangement. No door or slide mechanism.",
+                  "Actual source/geometry admission is CPU evidence. Runtime contact, copying, closed-process restoration, ordinary-device performance and visual acceptance need separate evidence."
+                ]
+              },
+              "meshes": 8,
+              "triangles": 918,
+              "topY": 0.5,
+              "children": [
+                {
+                  "id": "side-table/primary/ornament",
+                  "attachment": {
+                    "surfaceId": "top"
+                  },
+                  "bottom": 0.49999999981373544,
+                  "world": [
+                    0.72,
+                    0.5,
+                    -0.44
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "side-table/copy",
+              "resource": {
+                "id": "side-table-round",
+                "version": 1
+              },
+              "asset": {
+                "format": "glb",
+                "url": "/company-assets/side-table-v1/round/v1/model.glb",
+                "sha256": "4c589b2c36676d119d282378c559b355b1e0778312604363256c4073ae30360d",
+                "bytes": 20956
+              },
+              "provenance": {
+                "sourceParameters": "assets-source/company-side-table-v1/parameters.json",
+                "sourceParametersSha256": "f01b025f1122bfd674f48accf3a9a536db6d0c3f9cb5e2434a46c40d2ad4d000",
+                "generator": "scripts/company-platform/build-side-table.mjs",
+                "generatorSha256": "53e7e18ce9b10b2ee79d76216607954ab5bdd481d25d2e103158b086d41c1c56",
+                "functionalContractSource": "docs/COMPANY-SIDE-TABLE-CONTRACT-v1.txt",
+                "functionalContractSourceSha256": "e1c56b23e52f837866598a4a280da1db3f7c60bb3f4e169b8acddda4d2d99e3d",
+                "dependencies": {
+                  "functionalContract": {
+                    "path": "docs/COMPANY-SIDE-TABLE-CONTRACT-v1.txt",
+                    "sha256": "e1c56b23e52f837866598a4a280da1db3f7c60bb3f4e169b8acddda4d2d99e3d"
+                  },
+                  "preflight": {
+                    "path": "docs/research/COMPANY-SIDE-TABLE-EXTERNAL-PREFLIGHT-2026-11-17.txt",
+                    "sha256": "c671157c1b631936d785829793913c752eca527e28b03aeb4a7827f2a04927b2"
+                  },
+                  "productionStandard": {
+                    "path": "docs/COMPANY-APPEARANCE-PRODUCTION-STANDARD.md",
+                    "sha256": "25d12677aa7b13eb5a6ff5b10324cb86bde17eaec16923279af8d6ad9e54836a"
+                  },
+                  "lockfile": {
+                    "path": "prototype/package-lock.json",
+                    "sha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7"
+                  },
+                  "threePackage": {
+                    "path": "prototype/node_modules/three/package.json",
+                    "sha256": "87f2c99a8718e5fdd6f5e51427fde52c6075f2f698ddf8f7b4e162882df93940"
+                  },
+                  "threeModule": {
+                    "path": "prototype/node_modules/three/build/three.module.js",
+                    "sha256": "104f56145899722094556490d787aae0617cc2fc3382f31df02d724ea1aee341"
+                  },
+                  "threeCore": {
+                    "path": "prototype/node_modules/three/build/three.core.js",
+                    "sha256": "613e370f76638fdef83926642bf256dc9615684922de1ce1f63a8583e5d78578"
+                  },
+                  "gltfExporter": {
+                    "path": "prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+                    "sha256": "569793baeba62baeb4ab0b3619b6b1495b45d4b2ba9690430497adb58307bdf2"
+                  },
+                  "gltfLoader": {
+                    "path": "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+                    "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1"
+                  },
+                  "bufferGeometryUtils": {
+                    "path": "prototype/node_modules/three/examples/jsm/utils/BufferGeometryUtils.js",
+                    "sha256": "7bda2a8ba836b2bcf67cb938d4b9e1bb5d1b1bc616817103ed858c0b58296ce7"
+                  },
+                  "skeletonUtils": {
+                    "path": "prototype/node_modules/three/examples/jsm/utils/SkeletonUtils.js",
+                    "sha256": "b1632a703206c3d830de9fcbe515696770d04b71a15ee6b50afa6d2c3298c86f"
+                  },
+                  "threeLicense": {
+                    "path": "prototype/node_modules/three/LICENSE",
+                    "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+                  },
+                  "supportVerifier": {
+                    "path": "prototype/src/company/support-geometry.js",
+                    "sha256": "132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68"
+                  },
+                  "original-cabinetBed.dae": {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.dae",
+                    "sha256": "eb5b3cac2b4c171bf33914cc3cbc338c2dc5b976142afeeb98b34a9b52133353"
+                  },
+                  "original-cabinetBed.glb": {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.glb",
+                    "sha256": "b651fafb9e2c8e4adcb8cad3d10dc94404b46fe039b26e66b2c9020df4e5301d"
+                  },
+                  "original-furniture-kit-2.0.zip": {
+                    "path": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+                    "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0"
+                  },
+                  "original-License.txt": {
+                    "path": "assets-source/company-side-table-v1/original/License.txt",
+                    "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+                  },
+                  "original-tableCoffee.dae": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.dae",
+                    "sha256": "a0cc2836f56e5794ec281e880897754068c855f5c92df9a207131a108bab488f"
+                  },
+                  "original-tableCoffee.glb": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.glb",
+                    "sha256": "e38bea760fbd514efbb75528d09b4752c91af44677bbb97e6d4386c263525179"
+                  },
+                  "original-tableCoffeeSquare.dae": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.dae",
+                    "sha256": "8fbb3776ad9678b09327eb4042782756f51fd429810f87cc58779f5af20b29cf"
+                  },
+                  "original-tableCoffeeSquare.glb": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.glb",
+                    "sha256": "bcc81d8919a3af9141c9c93b4520106dd0a90a7144346cd87928014018aac816"
+                  },
+                  "original-tableRound.dae": {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.dae",
+                    "sha256": "37f7e6505f6c87a6305a027baee08c79e78656e5288045a1dfeee6342324e6f6"
+                  },
+                  "original-tableRound.glb": {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.glb",
+                    "sha256": "f8daea9124a542a00b7bdacfddac82dc468573d43e44d7b54dd6316e9695754b"
+                  },
+                  "dataVerifier": {
+                    "path": "prototype/src/company/side-table-data.js",
+                    "sha256": "930f40499f249edeb56321cb6c1cf22e7115c66a475a37785880b554054bb85c"
+                  },
+                  "geometryVerifier": {
+                    "path": "prototype/src/company/side-table-geometry.js",
+                    "sha256": "9fda63f8aaed708d8cf233bb7ce040ce1697da082ef32811c92c265c4a0c28f7"
+                  }
+                },
+                "sourceFiles": [
+                  {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.dae",
+                    "sha256": "eb5b3cac2b4c171bf33914cc3cbc338c2dc5b976142afeeb98b34a9b52133353"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.glb",
+                    "sha256": "b651fafb9e2c8e4adcb8cad3d10dc94404b46fe039b26e66b2c9020df4e5301d"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+                    "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/License.txt",
+                    "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.dae",
+                    "sha256": "a0cc2836f56e5794ec281e880897754068c855f5c92df9a207131a108bab488f"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.glb",
+                    "sha256": "e38bea760fbd514efbb75528d09b4752c91af44677bbb97e6d4386c263525179"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.dae",
+                    "sha256": "8fbb3776ad9678b09327eb4042782756f51fd429810f87cc58779f5af20b29cf"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.glb",
+                    "sha256": "bcc81d8919a3af9141c9c93b4520106dd0a90a7144346cd87928014018aac816"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.dae",
+                    "sha256": "37f7e6505f6c87a6305a027baee08c79e78656e5288045a1dfeee6342324e6f6"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.glb",
+                    "sha256": "f8daea9124a542a00b7bdacfddac82dc468573d43e44d7b54dd6316e9695754b"
+                  }
+                ],
+                "sourceDesign": "round",
+                "license": "Kenney Furniture Kit 2.0 original models and solid-color materials are CC0. Author/distributor Kenney (https://kenney.nl/assets/furniture-kit). Project-authored finite adaptation recipe and circular tabletop. Three.js r187 is MIT licensed. Original package License.txt is preserved.",
+                "prompt": "Purpose: four side-table appearances with one fixed side-table-v1 floor/support function. Reuse and adapt the pinned Kenney Furniture Kit 2.0 original GLB/DAE inputs, preserve the original opaque wood/metal material and actual support structure, bake original world transforms once and normalize the bottom-centred dimensions in metres, +Y up and +Z front. Round retains the original pedestal/braces/base and replaces the six-sided slab with an actual 48-segment .26m-radius closed circular slab. Cabinet is fixed, nested is two independent grounded tables, and low is the original elongated four-leg tie-frame table. Keep a real .30 x .22m top patch at Y=.5 with non-overlapping surrounding top geometry, no floating decal. Validate the actual imported GLB through the fixed data, generic support and independent solid/source geometry gates. Budget 2500 triangles/32 meshes/four materials. Record source, license, all recipe changes, deterministic exports and failures. Design: Retain the original real pedestal/braces/base; replace only the measured six-sided tabletop region with a 48-sided circular slab and close the actual support cut. Radius .26m, top .5m, slab bottom from the original measured underside.",
+                "externalSource": {
+                  "author": "Kenney",
+                  "name": "Furniture Kit",
+                  "version": "2.0",
+                  "url": "https://kenney.nl/assets/furniture-kit",
+                  "archive": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+                  "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+                  "license": "CC0",
+                  "licensePath": "assets-source/company-side-table-v1/original/License.txt",
+                  "sourceModel": "tableRound",
+                  "files": [
+                    {
+                      "path": "assets-source/company-side-table-v1/original/tableRound.glb",
+                      "sha256": "f8daea9124a542a00b7bdacfddac82dc468573d43e44d7b54dd6316e9695754b",
+                      "archiveEntry": "Models/GLTF format/tableRound.glb"
+                    },
+                    {
+                      "path": "assets-source/company-side-table-v1/original/tableRound.dae",
+                      "sha256": "37f7e6505f6c87a6305a027baee08c79e78656e5288045a1dfeee6342324e6f6",
+                      "archiveEntry": "Models/DAE format/tableRound.dae"
+                    }
+                  ]
+                },
+                "limitations": [
+                  "Static furniture and fixed nested arrangement. No door or slide mechanism.",
+                  "Actual source/geometry admission is CPU evidence. Runtime contact, copying, closed-process restoration, ordinary-device performance and visual acceptance need separate evidence."
+                ]
+              },
+              "meshes": 8,
+              "triangles": 918,
+              "topY": 0.5,
+              "children": [
+                {
+                  "id": "side-table/copy/extra-1",
+                  "attachment": {
+                    "surfaceId": "top"
+                  },
+                  "bottom": 0.49999999981373544,
+                  "world": [
+                    -1.06,
+                    0.5,
+                    0.72
+                  ]
+                }
+              ]
+            }
+          ],
+          "cache": {
+            "cachedAssets": 2,
+            "loadedAssets": 2
+          },
+          "memory": {
+            "geometries": 19,
+            "textures": 3
+          }
+        },
+        "after": {
+          "document": {
+            "schema": "company-layout",
+            "version": 1,
+            "id": "side-table-demo",
+            "name": "边几 · 四款与台面承载",
+            "revision": 7,
+            "scale": "single-room",
+            "catalog": {
+              "id": "company-facilities",
+              "version": 1
+            },
+            "nodes": [
+              {
+                "id": "side-table-demo/floor-1",
+                "kind": "floor",
+                "parentId": "side-table-demo",
+                "name": "一层",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "side-table-demo/room-1",
+                "kind": "room",
+                "parentId": "side-table-demo/floor-1",
+                "name": "直播间",
+                "purpose": "streaming",
+                "bounds": {
+                  "width": 7,
+                  "depth": 5.25
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "side-table/primary",
+                "kind": "facility",
+                "parentId": "side-table-demo/room-1",
+                "resource": {
+                  "id": "side-table-nested",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0.7,
+                    0,
+                    -0.4
+                  ],
+                  "yaw": 1.5707963267948966
+                },
+                "state": {}
+              },
+              {
+                "id": "side-table/primary/ornament",
+                "kind": "facility",
+                "parentId": "side-table/primary",
+                "resource": {
+                  "id": "tabletop-ornament-vase",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0.04,
+                    0.5,
+                    0.02
+                  ],
+                  "yaw": 0
+                },
+                "state": {},
+                "attachment": {
+                  "surfaceId": "top"
+                }
+              },
+              {
+                "id": "side-table/copy",
+                "kind": "facility",
+                "parentId": "side-table-demo/room-1",
+                "resource": {
+                  "id": "side-table-round",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    -1.1,
+                    0,
+                    0.7
+                  ],
+                  "yaw": 0
+                },
+                "state": {},
+                "name": "side-table/copy"
+              },
+              {
+                "id": "side-table/copy/extra-1",
+                "kind": "facility",
+                "parentId": "side-table/copy",
+                "resource": {
+                  "id": "tabletop-ornament-vase",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0.04,
+                    0.5,
+                    0.02
+                  ],
+                  "yaw": 0
+                },
+                "state": {},
+                "attachment": {
+                  "surfaceId": "top"
+                }
+              }
+            ]
+          },
+          "tables": [
+            {
+              "id": "side-table/primary",
+              "resource": {
+                "id": "side-table-nested",
+                "version": 1
+              },
+              "asset": {
+                "format": "glb",
+                "url": "/company-assets/side-table-v1/nested/v1/model.glb",
+                "sha256": "b62f5bc58e7634a5cd8d25dba40919ff585d665ca24fe271c9f33da6289bf28c",
+                "bytes": 19732
+              },
+              "provenance": {
+                "sourceParameters": "assets-source/company-side-table-v1/parameters.json",
+                "sourceParametersSha256": "f01b025f1122bfd674f48accf3a9a536db6d0c3f9cb5e2434a46c40d2ad4d000",
+                "generator": "scripts/company-platform/build-side-table.mjs",
+                "generatorSha256": "53e7e18ce9b10b2ee79d76216607954ab5bdd481d25d2e103158b086d41c1c56",
+                "functionalContractSource": "docs/COMPANY-SIDE-TABLE-CONTRACT-v1.txt",
+                "functionalContractSourceSha256": "e1c56b23e52f837866598a4a280da1db3f7c60bb3f4e169b8acddda4d2d99e3d",
+                "dependencies": {
+                  "functionalContract": {
+                    "path": "docs/COMPANY-SIDE-TABLE-CONTRACT-v1.txt",
+                    "sha256": "e1c56b23e52f837866598a4a280da1db3f7c60bb3f4e169b8acddda4d2d99e3d"
+                  },
+                  "preflight": {
+                    "path": "docs/research/COMPANY-SIDE-TABLE-EXTERNAL-PREFLIGHT-2026-11-17.txt",
+                    "sha256": "c671157c1b631936d785829793913c752eca527e28b03aeb4a7827f2a04927b2"
+                  },
+                  "productionStandard": {
+                    "path": "docs/COMPANY-APPEARANCE-PRODUCTION-STANDARD.md",
+                    "sha256": "25d12677aa7b13eb5a6ff5b10324cb86bde17eaec16923279af8d6ad9e54836a"
+                  },
+                  "lockfile": {
+                    "path": "prototype/package-lock.json",
+                    "sha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7"
+                  },
+                  "threePackage": {
+                    "path": "prototype/node_modules/three/package.json",
+                    "sha256": "87f2c99a8718e5fdd6f5e51427fde52c6075f2f698ddf8f7b4e162882df93940"
+                  },
+                  "threeModule": {
+                    "path": "prototype/node_modules/three/build/three.module.js",
+                    "sha256": "104f56145899722094556490d787aae0617cc2fc3382f31df02d724ea1aee341"
+                  },
+                  "threeCore": {
+                    "path": "prototype/node_modules/three/build/three.core.js",
+                    "sha256": "613e370f76638fdef83926642bf256dc9615684922de1ce1f63a8583e5d78578"
+                  },
+                  "gltfExporter": {
+                    "path": "prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+                    "sha256": "569793baeba62baeb4ab0b3619b6b1495b45d4b2ba9690430497adb58307bdf2"
+                  },
+                  "gltfLoader": {
+                    "path": "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+                    "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1"
+                  },
+                  "bufferGeometryUtils": {
+                    "path": "prototype/node_modules/three/examples/jsm/utils/BufferGeometryUtils.js",
+                    "sha256": "7bda2a8ba836b2bcf67cb938d4b9e1bb5d1b1bc616817103ed858c0b58296ce7"
+                  },
+                  "skeletonUtils": {
+                    "path": "prototype/node_modules/three/examples/jsm/utils/SkeletonUtils.js",
+                    "sha256": "b1632a703206c3d830de9fcbe515696770d04b71a15ee6b50afa6d2c3298c86f"
+                  },
+                  "threeLicense": {
+                    "path": "prototype/node_modules/three/LICENSE",
+                    "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+                  },
+                  "supportVerifier": {
+                    "path": "prototype/src/company/support-geometry.js",
+                    "sha256": "132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68"
+                  },
+                  "original-cabinetBed.dae": {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.dae",
+                    "sha256": "eb5b3cac2b4c171bf33914cc3cbc338c2dc5b976142afeeb98b34a9b52133353"
+                  },
+                  "original-cabinetBed.glb": {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.glb",
+                    "sha256": "b651fafb9e2c8e4adcb8cad3d10dc94404b46fe039b26e66b2c9020df4e5301d"
+                  },
+                  "original-furniture-kit-2.0.zip": {
+                    "path": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+                    "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0"
+                  },
+                  "original-License.txt": {
+                    "path": "assets-source/company-side-table-v1/original/License.txt",
+                    "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+                  },
+                  "original-tableCoffee.dae": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.dae",
+                    "sha256": "a0cc2836f56e5794ec281e880897754068c855f5c92df9a207131a108bab488f"
+                  },
+                  "original-tableCoffee.glb": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.glb",
+                    "sha256": "e38bea760fbd514efbb75528d09b4752c91af44677bbb97e6d4386c263525179"
+                  },
+                  "original-tableCoffeeSquare.dae": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.dae",
+                    "sha256": "8fbb3776ad9678b09327eb4042782756f51fd429810f87cc58779f5af20b29cf"
+                  },
+                  "original-tableCoffeeSquare.glb": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.glb",
+                    "sha256": "bcc81d8919a3af9141c9c93b4520106dd0a90a7144346cd87928014018aac816"
+                  },
+                  "original-tableRound.dae": {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.dae",
+                    "sha256": "37f7e6505f6c87a6305a027baee08c79e78656e5288045a1dfeee6342324e6f6"
+                  },
+                  "original-tableRound.glb": {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.glb",
+                    "sha256": "f8daea9124a542a00b7bdacfddac82dc468573d43e44d7b54dd6316e9695754b"
+                  },
+                  "dataVerifier": {
+                    "path": "prototype/src/company/side-table-data.js",
+                    "sha256": "930f40499f249edeb56321cb6c1cf22e7115c66a475a37785880b554054bb85c"
+                  },
+                  "geometryVerifier": {
+                    "path": "prototype/src/company/side-table-geometry.js",
+                    "sha256": "9fda63f8aaed708d8cf233bb7ce040ce1697da082ef32811c92c265c4a0c28f7"
+                  }
+                },
+                "sourceFiles": [
+                  {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.dae",
+                    "sha256": "eb5b3cac2b4c171bf33914cc3cbc338c2dc5b976142afeeb98b34a9b52133353"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.glb",
+                    "sha256": "b651fafb9e2c8e4adcb8cad3d10dc94404b46fe039b26e66b2c9020df4e5301d"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+                    "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/License.txt",
+                    "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.dae",
+                    "sha256": "a0cc2836f56e5794ec281e880897754068c855f5c92df9a207131a108bab488f"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.glb",
+                    "sha256": "e38bea760fbd514efbb75528d09b4752c91af44677bbb97e6d4386c263525179"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.dae",
+                    "sha256": "8fbb3776ad9678b09327eb4042782756f51fd429810f87cc58779f5af20b29cf"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.glb",
+                    "sha256": "bcc81d8919a3af9141c9c93b4520106dd0a90a7144346cd87928014018aac816"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.dae",
+                    "sha256": "37f7e6505f6c87a6305a027baee08c79e78656e5288045a1dfeee6342324e6f6"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.glb",
+                    "sha256": "f8daea9124a542a00b7bdacfddac82dc468573d43e44d7b54dd6316e9695754b"
+                  }
+                ],
+                "sourceDesign": "nested",
+                "license": "Kenney Furniture Kit 2.0 original models and solid-color materials are CC0. Author/distributor Kenney (https://kenney.nl/assets/furniture-kit). Project-authored finite adaptation recipe and circular tabletop. Three.js r187 is MIT licensed. Original package License.txt is preserved.",
+                "prompt": "Purpose: four side-table appearances with one fixed side-table-v1 floor/support function. Reuse and adapt the pinned Kenney Furniture Kit 2.0 original GLB/DAE inputs, preserve the original opaque wood/metal material and actual support structure, bake original world transforms once and normalize the bottom-centred dimensions in metres, +Y up and +Z front. Round retains the original pedestal/braces/base and replaces the six-sided slab with an actual 48-segment .26m-radius closed circular slab. Cabinet is fixed, nested is two independent grounded tables, and low is the original elongated four-leg tie-frame table. Keep a real .30 x .22m top patch at Y=.5 with non-overlapping surrounding top geometry, no floating decal. Validate the actual imported GLB through the fixed data, generic support and independent solid/source geometry gates. Budget 2500 triangles/32 meshes/four materials. Record source, license, all recipe changes, deterministic exports and failures. Design: Two real complete original square tables at different heights, with independent ground contact. Main table center -.05, small center from nested.smallOffsetX; retain each top/four legs/tie frame. Static arrangement.",
+                "externalSource": {
+                  "author": "Kenney",
+                  "name": "Furniture Kit",
+                  "version": "2.0",
+                  "url": "https://kenney.nl/assets/furniture-kit",
+                  "archive": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+                  "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+                  "license": "CC0",
+                  "licensePath": "assets-source/company-side-table-v1/original/License.txt",
+                  "sourceModel": "tableCoffeeSquare",
+                  "files": [
+                    {
+                      "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.glb",
+                      "sha256": "bcc81d8919a3af9141c9c93b4520106dd0a90a7144346cd87928014018aac816",
+                      "archiveEntry": "Models/GLTF format/tableCoffeeSquare.glb"
+                    },
+                    {
+                      "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.dae",
+                      "sha256": "8fbb3776ad9678b09327eb4042782756f51fd429810f87cc58779f5af20b29cf",
+                      "archiveEntry": "Models/DAE format/tableCoffeeSquare.dae"
+                    }
+                  ]
+                },
+                "limitations": [
+                  "Static furniture and fixed nested arrangement. No door or slide mechanism.",
+                  "Actual source/geometry admission is CPU evidence. Runtime contact, copying, closed-process restoration, ordinary-device performance and visual acceptance need separate evidence."
+                ]
+              },
+              "meshes": 8,
+              "triangles": 904,
+              "topY": 0.5,
+              "children": [
+                {
+                  "id": "side-table/primary/ornament",
+                  "attachment": {
+                    "surfaceId": "top"
+                  },
+                  "bottom": 0.49999999981373544,
+                  "world": [
+                    0.72,
+                    0.5,
+                    -0.44
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "side-table/copy",
+              "resource": {
+                "id": "side-table-round",
+                "version": 1
+              },
+              "asset": {
+                "format": "glb",
+                "url": "/company-assets/side-table-v1/round/v1/model.glb",
+                "sha256": "4c589b2c36676d119d282378c559b355b1e0778312604363256c4073ae30360d",
+                "bytes": 20956
+              },
+              "provenance": {
+                "sourceParameters": "assets-source/company-side-table-v1/parameters.json",
+                "sourceParametersSha256": "f01b025f1122bfd674f48accf3a9a536db6d0c3f9cb5e2434a46c40d2ad4d000",
+                "generator": "scripts/company-platform/build-side-table.mjs",
+                "generatorSha256": "53e7e18ce9b10b2ee79d76216607954ab5bdd481d25d2e103158b086d41c1c56",
+                "functionalContractSource": "docs/COMPANY-SIDE-TABLE-CONTRACT-v1.txt",
+                "functionalContractSourceSha256": "e1c56b23e52f837866598a4a280da1db3f7c60bb3f4e169b8acddda4d2d99e3d",
+                "dependencies": {
+                  "functionalContract": {
+                    "path": "docs/COMPANY-SIDE-TABLE-CONTRACT-v1.txt",
+                    "sha256": "e1c56b23e52f837866598a4a280da1db3f7c60bb3f4e169b8acddda4d2d99e3d"
+                  },
+                  "preflight": {
+                    "path": "docs/research/COMPANY-SIDE-TABLE-EXTERNAL-PREFLIGHT-2026-11-17.txt",
+                    "sha256": "c671157c1b631936d785829793913c752eca527e28b03aeb4a7827f2a04927b2"
+                  },
+                  "productionStandard": {
+                    "path": "docs/COMPANY-APPEARANCE-PRODUCTION-STANDARD.md",
+                    "sha256": "25d12677aa7b13eb5a6ff5b10324cb86bde17eaec16923279af8d6ad9e54836a"
+                  },
+                  "lockfile": {
+                    "path": "prototype/package-lock.json",
+                    "sha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7"
+                  },
+                  "threePackage": {
+                    "path": "prototype/node_modules/three/package.json",
+                    "sha256": "87f2c99a8718e5fdd6f5e51427fde52c6075f2f698ddf8f7b4e162882df93940"
+                  },
+                  "threeModule": {
+                    "path": "prototype/node_modules/three/build/three.module.js",
+                    "sha256": "104f56145899722094556490d787aae0617cc2fc3382f31df02d724ea1aee341"
+                  },
+                  "threeCore": {
+                    "path": "prototype/node_modules/three/build/three.core.js",
+                    "sha256": "613e370f76638fdef83926642bf256dc9615684922de1ce1f63a8583e5d78578"
+                  },
+                  "gltfExporter": {
+                    "path": "prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+                    "sha256": "569793baeba62baeb4ab0b3619b6b1495b45d4b2ba9690430497adb58307bdf2"
+                  },
+                  "gltfLoader": {
+                    "path": "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+                    "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1"
+                  },
+                  "bufferGeometryUtils": {
+                    "path": "prototype/node_modules/three/examples/jsm/utils/BufferGeometryUtils.js",
+                    "sha256": "7bda2a8ba836b2bcf67cb938d4b9e1bb5d1b1bc616817103ed858c0b58296ce7"
+                  },
+                  "skeletonUtils": {
+                    "path": "prototype/node_modules/three/examples/jsm/utils/SkeletonUtils.js",
+                    "sha256": "b1632a703206c3d830de9fcbe515696770d04b71a15ee6b50afa6d2c3298c86f"
+                  },
+                  "threeLicense": {
+                    "path": "prototype/node_modules/three/LICENSE",
+                    "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+                  },
+                  "supportVerifier": {
+                    "path": "prototype/src/company/support-geometry.js",
+                    "sha256": "132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68"
+                  },
+                  "original-cabinetBed.dae": {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.dae",
+                    "sha256": "eb5b3cac2b4c171bf33914cc3cbc338c2dc5b976142afeeb98b34a9b52133353"
+                  },
+                  "original-cabinetBed.glb": {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.glb",
+                    "sha256": "b651fafb9e2c8e4adcb8cad3d10dc94404b46fe039b26e66b2c9020df4e5301d"
+                  },
+                  "original-furniture-kit-2.0.zip": {
+                    "path": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+                    "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0"
+                  },
+                  "original-License.txt": {
+                    "path": "assets-source/company-side-table-v1/original/License.txt",
+                    "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+                  },
+                  "original-tableCoffee.dae": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.dae",
+                    "sha256": "a0cc2836f56e5794ec281e880897754068c855f5c92df9a207131a108bab488f"
+                  },
+                  "original-tableCoffee.glb": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.glb",
+                    "sha256": "e38bea760fbd514efbb75528d09b4752c91af44677bbb97e6d4386c263525179"
+                  },
+                  "original-tableCoffeeSquare.dae": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.dae",
+                    "sha256": "8fbb3776ad9678b09327eb4042782756f51fd429810f87cc58779f5af20b29cf"
+                  },
+                  "original-tableCoffeeSquare.glb": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.glb",
+                    "sha256": "bcc81d8919a3af9141c9c93b4520106dd0a90a7144346cd87928014018aac816"
+                  },
+                  "original-tableRound.dae": {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.dae",
+                    "sha256": "37f7e6505f6c87a6305a027baee08c79e78656e5288045a1dfeee6342324e6f6"
+                  },
+                  "original-tableRound.glb": {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.glb",
+                    "sha256": "f8daea9124a542a00b7bdacfddac82dc468573d43e44d7b54dd6316e9695754b"
+                  },
+                  "dataVerifier": {
+                    "path": "prototype/src/company/side-table-data.js",
+                    "sha256": "930f40499f249edeb56321cb6c1cf22e7115c66a475a37785880b554054bb85c"
+                  },
+                  "geometryVerifier": {
+                    "path": "prototype/src/company/side-table-geometry.js",
+                    "sha256": "9fda63f8aaed708d8cf233bb7ce040ce1697da082ef32811c92c265c4a0c28f7"
+                  }
+                },
+                "sourceFiles": [
+                  {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.dae",
+                    "sha256": "eb5b3cac2b4c171bf33914cc3cbc338c2dc5b976142afeeb98b34a9b52133353"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.glb",
+                    "sha256": "b651fafb9e2c8e4adcb8cad3d10dc94404b46fe039b26e66b2c9020df4e5301d"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+                    "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/License.txt",
+                    "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.dae",
+                    "sha256": "a0cc2836f56e5794ec281e880897754068c855f5c92df9a207131a108bab488f"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.glb",
+                    "sha256": "e38bea760fbd514efbb75528d09b4752c91af44677bbb97e6d4386c263525179"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.dae",
+                    "sha256": "8fbb3776ad9678b09327eb4042782756f51fd429810f87cc58779f5af20b29cf"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.glb",
+                    "sha256": "bcc81d8919a3af9141c9c93b4520106dd0a90a7144346cd87928014018aac816"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.dae",
+                    "sha256": "37f7e6505f6c87a6305a027baee08c79e78656e5288045a1dfeee6342324e6f6"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.glb",
+                    "sha256": "f8daea9124a542a00b7bdacfddac82dc468573d43e44d7b54dd6316e9695754b"
+                  }
+                ],
+                "sourceDesign": "round",
+                "license": "Kenney Furniture Kit 2.0 original models and solid-color materials are CC0. Author/distributor Kenney (https://kenney.nl/assets/furniture-kit). Project-authored finite adaptation recipe and circular tabletop. Three.js r187 is MIT licensed. Original package License.txt is preserved.",
+                "prompt": "Purpose: four side-table appearances with one fixed side-table-v1 floor/support function. Reuse and adapt the pinned Kenney Furniture Kit 2.0 original GLB/DAE inputs, preserve the original opaque wood/metal material and actual support structure, bake original world transforms once and normalize the bottom-centred dimensions in metres, +Y up and +Z front. Round retains the original pedestal/braces/base and replaces the six-sided slab with an actual 48-segment .26m-radius closed circular slab. Cabinet is fixed, nested is two independent grounded tables, and low is the original elongated four-leg tie-frame table. Keep a real .30 x .22m top patch at Y=.5 with non-overlapping surrounding top geometry, no floating decal. Validate the actual imported GLB through the fixed data, generic support and independent solid/source geometry gates. Budget 2500 triangles/32 meshes/four materials. Record source, license, all recipe changes, deterministic exports and failures. Design: Retain the original real pedestal/braces/base; replace only the measured six-sided tabletop region with a 48-sided circular slab and close the actual support cut. Radius .26m, top .5m, slab bottom from the original measured underside.",
+                "externalSource": {
+                  "author": "Kenney",
+                  "name": "Furniture Kit",
+                  "version": "2.0",
+                  "url": "https://kenney.nl/assets/furniture-kit",
+                  "archive": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+                  "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+                  "license": "CC0",
+                  "licensePath": "assets-source/company-side-table-v1/original/License.txt",
+                  "sourceModel": "tableRound",
+                  "files": [
+                    {
+                      "path": "assets-source/company-side-table-v1/original/tableRound.glb",
+                      "sha256": "f8daea9124a542a00b7bdacfddac82dc468573d43e44d7b54dd6316e9695754b",
+                      "archiveEntry": "Models/GLTF format/tableRound.glb"
+                    },
+                    {
+                      "path": "assets-source/company-side-table-v1/original/tableRound.dae",
+                      "sha256": "37f7e6505f6c87a6305a027baee08c79e78656e5288045a1dfeee6342324e6f6",
+                      "archiveEntry": "Models/DAE format/tableRound.dae"
+                    }
+                  ]
+                },
+                "limitations": [
+                  "Static furniture and fixed nested arrangement. No door or slide mechanism.",
+                  "Actual source/geometry admission is CPU evidence. Runtime contact, copying, closed-process restoration, ordinary-device performance and visual acceptance need separate evidence."
+                ]
+              },
+              "meshes": 8,
+              "triangles": 918,
+              "topY": 0.5,
+              "children": [
+                {
+                  "id": "side-table/copy/extra-1",
+                  "attachment": {
+                    "surfaceId": "top"
+                  },
+                  "bottom": 0.49999999981373544,
+                  "world": [
+                    -1.06,
+                    0.5,
+                    0.72
+                  ]
+                }
+              ]
+            }
+          ],
+          "cache": {
+            "cachedAssets": 3,
+            "loadedAssets": 3
+          },
+          "memory": {
+            "geometries": 19,
+            "textures": 3
+          }
+        },
+        "obstacle": {
+          "name": "side-table/primary",
+          "instanceId": "side-table/primary",
+          "kind": "facility",
+          "x": 0.7,
+          "z": -0.4,
+          "hw": 0.495,
+          "hd": 0.62,
+          "footprint": {
+            "center": [
+              0,
+              0
+            ],
+            "halfSize": [
+              0.4,
+              0.275
+            ],
+            "blocking": true
+          }
+        }
+      }
+    },
+    {
+      "name": "Illegal height, overhang, duplicate prop, wrong parent and missing asset preserve actual scene and saved bytes",
+      "passed": true,
+      "result": {
+        "rejected": [
+          {
+            "code": "invalid-support-fit",
+            "message": "invalid-support-fit at side-table/primary/ornament: Whole rotated prop must rest on the selected surface and fit its clear space",
+            "documentPreserved": true,
+            "savePreserved": true,
+            "scenePreserved": true
+          },
+          {
+            "code": "invalid-support-fit",
+            "message": "invalid-support-fit at side-table/primary/ornament: Whole rotated prop must rest on the selected surface and fit its clear space",
+            "documentPreserved": true,
+            "savePreserved": true,
+            "scenePreserved": true
+          },
+          {
+            "code": "overlapping-supported-props",
+            "message": "overlapping-supported-props at bad-duplicate: Supported motion envelope overlaps side-table/primary/ornament",
+            "documentPreserved": true,
+            "savePreserved": true,
+            "scenePreserved": true
+          },
+          {
+            "code": "invalid-support-attachment",
+            "message": "invalid-support-attachment at side-table/primary/ornament: Attach to a parent facility and select exactly one surfaceId",
+            "documentPreserved": true,
+            "savePreserved": true,
+            "scenePreserved": true
+          }
+        ],
+        "missing": {
+          "code": "asset-fetch-failed",
+          "message": "asset-fetch-failed at resources.side-table-low: HTTP 503",
+          "documentPreserved": true,
+          "savePreserved": true,
+          "scenePreserved": true
+        },
+        "intercepted": 1
+      }
+    },
+    {
+      "name": "Independent second layout, exact export dependency pins and resource disposal reuse the same chain",
+      "passed": true,
+      "result": {
+        "before": {
+          "document": {
+            "schema": "company-layout",
+            "version": 1,
+            "id": "side-table-alternate",
+            "name": "边几 · 转向布置",
+            "revision": 1,
+            "scale": "single-room",
+            "catalog": {
+              "id": "company-facilities",
+              "version": 1
+            },
+            "nodes": [
+              {
+                "id": "side-table-alternate/floor-1",
+                "kind": "floor",
+                "parentId": "side-table-alternate",
+                "name": "一层",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "side-table-alternate/room-1",
+                "kind": "room",
+                "parentId": "side-table-alternate/floor-1",
+                "name": "直播间",
+                "purpose": "streaming",
+                "bounds": {
+                  "width": 7,
+                  "depth": 5.25
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "side-table/primary",
+                "kind": "facility",
+                "parentId": "side-table-alternate/room-1",
+                "resource": {
+                  "id": "side-table-round",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    1,
+                    0,
+                    0.3
+                  ],
+                  "yaw": 1.5707963267948966
+                },
+                "state": {}
+              },
+              {
+                "id": "side-table/primary/ornament",
+                "kind": "facility",
+                "parentId": "side-table/primary",
+                "resource": {
+                  "id": "tabletop-ornament-vase",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0.5,
+                    0
+                  ],
+                  "yaw": 0
+                },
+                "state": {},
+                "attachment": {
+                  "surfaceId": "top"
+                }
+              }
+            ]
+          },
+          "tables": [
+            {
+              "id": "side-table/primary",
+              "resource": {
+                "id": "side-table-round",
+                "version": 1
+              },
+              "asset": {
+                "format": "glb",
+                "url": "/company-assets/side-table-v1/round/v1/model.glb",
+                "sha256": "4c589b2c36676d119d282378c559b355b1e0778312604363256c4073ae30360d",
+                "bytes": 20956
+              },
+              "provenance": {
+                "sourceParameters": "assets-source/company-side-table-v1/parameters.json",
+                "sourceParametersSha256": "f01b025f1122bfd674f48accf3a9a536db6d0c3f9cb5e2434a46c40d2ad4d000",
+                "generator": "scripts/company-platform/build-side-table.mjs",
+                "generatorSha256": "53e7e18ce9b10b2ee79d76216607954ab5bdd481d25d2e103158b086d41c1c56",
+                "functionalContractSource": "docs/COMPANY-SIDE-TABLE-CONTRACT-v1.txt",
+                "functionalContractSourceSha256": "e1c56b23e52f837866598a4a280da1db3f7c60bb3f4e169b8acddda4d2d99e3d",
+                "dependencies": {
+                  "functionalContract": {
+                    "path": "docs/COMPANY-SIDE-TABLE-CONTRACT-v1.txt",
+                    "sha256": "e1c56b23e52f837866598a4a280da1db3f7c60bb3f4e169b8acddda4d2d99e3d"
+                  },
+                  "preflight": {
+                    "path": "docs/research/COMPANY-SIDE-TABLE-EXTERNAL-PREFLIGHT-2026-11-17.txt",
+                    "sha256": "c671157c1b631936d785829793913c752eca527e28b03aeb4a7827f2a04927b2"
+                  },
+                  "productionStandard": {
+                    "path": "docs/COMPANY-APPEARANCE-PRODUCTION-STANDARD.md",
+                    "sha256": "25d12677aa7b13eb5a6ff5b10324cb86bde17eaec16923279af8d6ad9e54836a"
+                  },
+                  "lockfile": {
+                    "path": "prototype/package-lock.json",
+                    "sha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7"
+                  },
+                  "threePackage": {
+                    "path": "prototype/node_modules/three/package.json",
+                    "sha256": "87f2c99a8718e5fdd6f5e51427fde52c6075f2f698ddf8f7b4e162882df93940"
+                  },
+                  "threeModule": {
+                    "path": "prototype/node_modules/three/build/three.module.js",
+                    "sha256": "104f56145899722094556490d787aae0617cc2fc3382f31df02d724ea1aee341"
+                  },
+                  "threeCore": {
+                    "path": "prototype/node_modules/three/build/three.core.js",
+                    "sha256": "613e370f76638fdef83926642bf256dc9615684922de1ce1f63a8583e5d78578"
+                  },
+                  "gltfExporter": {
+                    "path": "prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+                    "sha256": "569793baeba62baeb4ab0b3619b6b1495b45d4b2ba9690430497adb58307bdf2"
+                  },
+                  "gltfLoader": {
+                    "path": "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+                    "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1"
+                  },
+                  "bufferGeometryUtils": {
+                    "path": "prototype/node_modules/three/examples/jsm/utils/BufferGeometryUtils.js",
+                    "sha256": "7bda2a8ba836b2bcf67cb938d4b9e1bb5d1b1bc616817103ed858c0b58296ce7"
+                  },
+                  "skeletonUtils": {
+                    "path": "prototype/node_modules/three/examples/jsm/utils/SkeletonUtils.js",
+                    "sha256": "b1632a703206c3d830de9fcbe515696770d04b71a15ee6b50afa6d2c3298c86f"
+                  },
+                  "threeLicense": {
+                    "path": "prototype/node_modules/three/LICENSE",
+                    "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+                  },
+                  "supportVerifier": {
+                    "path": "prototype/src/company/support-geometry.js",
+                    "sha256": "132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68"
+                  },
+                  "original-cabinetBed.dae": {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.dae",
+                    "sha256": "eb5b3cac2b4c171bf33914cc3cbc338c2dc5b976142afeeb98b34a9b52133353"
+                  },
+                  "original-cabinetBed.glb": {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.glb",
+                    "sha256": "b651fafb9e2c8e4adcb8cad3d10dc94404b46fe039b26e66b2c9020df4e5301d"
+                  },
+                  "original-furniture-kit-2.0.zip": {
+                    "path": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+                    "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0"
+                  },
+                  "original-License.txt": {
+                    "path": "assets-source/company-side-table-v1/original/License.txt",
+                    "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+                  },
+                  "original-tableCoffee.dae": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.dae",
+                    "sha256": "a0cc2836f56e5794ec281e880897754068c855f5c92df9a207131a108bab488f"
+                  },
+                  "original-tableCoffee.glb": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.glb",
+                    "sha256": "e38bea760fbd514efbb75528d09b4752c91af44677bbb97e6d4386c263525179"
+                  },
+                  "original-tableCoffeeSquare.dae": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.dae",
+                    "sha256": "8fbb3776ad9678b09327eb4042782756f51fd429810f87cc58779f5af20b29cf"
+                  },
+                  "original-tableCoffeeSquare.glb": {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.glb",
+                    "sha256": "bcc81d8919a3af9141c9c93b4520106dd0a90a7144346cd87928014018aac816"
+                  },
+                  "original-tableRound.dae": {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.dae",
+                    "sha256": "37f7e6505f6c87a6305a027baee08c79e78656e5288045a1dfeee6342324e6f6"
+                  },
+                  "original-tableRound.glb": {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.glb",
+                    "sha256": "f8daea9124a542a00b7bdacfddac82dc468573d43e44d7b54dd6316e9695754b"
+                  },
+                  "dataVerifier": {
+                    "path": "prototype/src/company/side-table-data.js",
+                    "sha256": "930f40499f249edeb56321cb6c1cf22e7115c66a475a37785880b554054bb85c"
+                  },
+                  "geometryVerifier": {
+                    "path": "prototype/src/company/side-table-geometry.js",
+                    "sha256": "9fda63f8aaed708d8cf233bb7ce040ce1697da082ef32811c92c265c4a0c28f7"
+                  }
+                },
+                "sourceFiles": [
+                  {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.dae",
+                    "sha256": "eb5b3cac2b4c171bf33914cc3cbc338c2dc5b976142afeeb98b34a9b52133353"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/cabinetBed.glb",
+                    "sha256": "b651fafb9e2c8e4adcb8cad3d10dc94404b46fe039b26e66b2c9020df4e5301d"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+                    "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/License.txt",
+                    "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.dae",
+                    "sha256": "a0cc2836f56e5794ec281e880897754068c855f5c92df9a207131a108bab488f"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffee.glb",
+                    "sha256": "e38bea760fbd514efbb75528d09b4752c91af44677bbb97e6d4386c263525179"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.dae",
+                    "sha256": "8fbb3776ad9678b09327eb4042782756f51fd429810f87cc58779f5af20b29cf"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.glb",
+                    "sha256": "bcc81d8919a3af9141c9c93b4520106dd0a90a7144346cd87928014018aac816"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.dae",
+                    "sha256": "37f7e6505f6c87a6305a027baee08c79e78656e5288045a1dfeee6342324e6f6"
+                  },
+                  {
+                    "path": "assets-source/company-side-table-v1/original/tableRound.glb",
+                    "sha256": "f8daea9124a542a00b7bdacfddac82dc468573d43e44d7b54dd6316e9695754b"
+                  }
+                ],
+                "sourceDesign": "round",
+                "license": "Kenney Furniture Kit 2.0 original models and solid-color materials are CC0. Author/distributor Kenney (https://kenney.nl/assets/furniture-kit). Project-authored finite adaptation recipe and circular tabletop. Three.js r187 is MIT licensed. Original package License.txt is preserved.",
+                "prompt": "Purpose: four side-table appearances with one fixed side-table-v1 floor/support function. Reuse and adapt the pinned Kenney Furniture Kit 2.0 original GLB/DAE inputs, preserve the original opaque wood/metal material and actual support structure, bake original world transforms once and normalize the bottom-centred dimensions in metres, +Y up and +Z front. Round retains the original pedestal/braces/base and replaces the six-sided slab with an actual 48-segment .26m-radius closed circular slab. Cabinet is fixed, nested is two independent grounded tables, and low is the original elongated four-leg tie-frame table. Keep a real .30 x .22m top patch at Y=.5 with non-overlapping surrounding top geometry, no floating decal. Validate the actual imported GLB through the fixed data, generic support and independent solid/source geometry gates. Budget 2500 triangles/32 meshes/four materials. Record source, license, all recipe changes, deterministic exports and failures. Design: Retain the original real pedestal/braces/base; replace only the measured six-sided tabletop region with a 48-sided circular slab and close the actual support cut. Radius .26m, top .5m, slab bottom from the original measured underside.",
+                "externalSource": {
+                  "author": "Kenney",
+                  "name": "Furniture Kit",
+                  "version": "2.0",
+                  "url": "https://kenney.nl/assets/furniture-kit",
+                  "archive": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+                  "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+                  "license": "CC0",
+                  "licensePath": "assets-source/company-side-table-v1/original/License.txt",
+                  "sourceModel": "tableRound",
+                  "files": [
+                    {
+                      "path": "assets-source/company-side-table-v1/original/tableRound.glb",
+                      "sha256": "f8daea9124a542a00b7bdacfddac82dc468573d43e44d7b54dd6316e9695754b",
+                      "archiveEntry": "Models/GLTF format/tableRound.glb"
+                    },
+                    {
+                      "path": "assets-source/company-side-table-v1/original/tableRound.dae",
+                      "sha256": "37f7e6505f6c87a6305a027baee08c79e78656e5288045a1dfeee6342324e6f6",
+                      "archiveEntry": "Models/DAE format/tableRound.dae"
+                    }
+                  ]
+                },
+                "limitations": [
+                  "Static furniture and fixed nested arrangement. No door or slide mechanism.",
+                  "Actual source/geometry admission is CPU evidence. Runtime contact, copying, closed-process restoration, ordinary-device performance and visual acceptance need separate evidence."
+                ]
+              },
+              "meshes": 8,
+              "triangles": 918,
+              "topY": 0.5,
+              "children": [
+                {
+                  "id": "side-table/primary/ornament",
+                  "attachment": {
+                    "surfaceId": "top"
+                  },
+                  "bottom": 0.49999999981373544,
+                  "world": [
+                    1,
+                    0.5,
+                    0.3
+                  ]
+                }
+              ]
+            }
+          ],
+          "cache": {
+            "cachedAssets": 2,
+            "loadedAssets": 2
+          },
+          "memory": {
+            "geometries": 10,
+            "textures": 3
+          }
+        },
+        "dependencies": {
+          "resources": [
+            {
+              "id": "side-table-round",
+              "version": 1,
+              "sha256": "82b25561a1afe5ae0037b6fad45f6f920e8b4fe169054213408560be6733ee6a"
+            },
+            {
+              "id": "tabletop-ornament-vase",
+              "version": 1,
+              "sha256": "e34d9128082c0e8d9f03d0889c2c0b0434a0231e9d5dd417585dfbdaa525a4dc"
+            }
+          ],
+          "templates": []
+        },
+        "cycles": [
+          {
+            "cache": {
+              "cachedAssets": 2,
+              "loadedAssets": 2
+            },
+            "memory": {
+              "geometries": 12,
+              "textures": 3
+            }
+          },
+          {
+            "cache": {
+              "cachedAssets": 2,
+              "loadedAssets": 2
+            },
+            "memory": {
+              "geometries": 13,
+              "textures": 3
+            }
+          },
+          {
+            "cache": {
+              "cachedAssets": 2,
+              "loadedAssets": 2
+            },
+            "memory": {
+              "geometries": 12,
+              "textures": 3
+            }
+          },
+          {
+            "cache": {
+              "cachedAssets": 2,
+              "loadedAssets": 2
+            },
+            "memory": {
+              "geometries": 11,
+              "textures": 3
+            }
+          },
+          {
+            "cache": {
+              "cachedAssets": 2,
+              "loadedAssets": 2
+            },
+            "memory": {
+              "geometries": 12,
+              "textures": 3
+            }
+          },
+          {
+            "cache": {
+              "cachedAssets": 2,
+              "loadedAssets": 2
+            },
+            "memory": {
+              "geometries": 13,
+              "textures": 3
+            }
+          },
+          {
+            "cache": {
+              "cachedAssets": 2,
+              "loadedAssets": 2
+            },
+            "memory": {
+              "geometries": 12,
+              "textures": 3
+            }
+          },
+          {
+            "cache": {
+              "cachedAssets": 2,
+              "loadedAssets": 2
+            },
+            "memory": {
+              "geometries": 11,
+              "textures": 3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Actual browser network bytes match registered Kenney-derived assets",
+      "passed": true,
+      "result": {
+        "resources": [
+          {
+            "id": "side-table-round",
+            "asset": {
+              "format": "glb",
+              "url": "/company-assets/side-table-v1/round/v1/model.glb",
+              "sha256": "4c589b2c36676d119d282378c559b355b1e0778312604363256c4073ae30360d",
+              "bytes": 20956
+            }
+          },
+          {
+            "id": "side-table-square",
+            "asset": {
+              "format": "glb",
+              "url": "/company-assets/side-table-v1/square/v1/model.glb",
+              "sha256": "aa3f605a019971e48061201ec3d4883ad8f2ad11420c0fe58f99b0da0fc084d5",
+              "bytes": 8892
+            }
+          },
+          {
+            "id": "side-table-nested",
+            "asset": {
+              "format": "glb",
+              "url": "/company-assets/side-table-v1/nested/v1/model.glb",
+              "sha256": "b62f5bc58e7634a5cd8d25dba40919ff585d665ca24fe271c9f33da6289bf28c",
+              "bytes": 19732
+            }
+          },
+          {
+            "id": "side-table-low",
+            "asset": {
+              "format": "glb",
+              "url": "/company-assets/side-table-v1/low/v1/model.glb",
+              "sha256": "8808760b9a36d7d39d84c2f9829fdb43bae86c65c0157cbd2983ef00ab1287bc",
+              "bytes": 10388
+            }
+          }
+        ],
+        "network": [
+          {
+            "url": "http://127.0.0.1:64134/company-assets/side-table-v1/round/v1/model.glb",
+            "bytes": 20956,
+            "sha256": "4c589b2c36676d119d282378c559b355b1e0778312604363256c4073ae30360d"
+          },
+          {
+            "url": "http://127.0.0.1:64134/company-assets/side-table-v1/round/v1/model.glb",
+            "bytes": 20956,
+            "sha256": "4c589b2c36676d119d282378c559b355b1e0778312604363256c4073ae30360d"
+          },
+          {
+            "url": "http://127.0.0.1:64134/company-assets/side-table-v1/square/v1/model.glb",
+            "bytes": 8892,
+            "sha256": "aa3f605a019971e48061201ec3d4883ad8f2ad11420c0fe58f99b0da0fc084d5"
+          },
+          {
+            "url": "http://127.0.0.1:64134/company-assets/side-table-v1/square/v1/model.glb",
+            "bytes": 8892,
+            "sha256": "aa3f605a019971e48061201ec3d4883ad8f2ad11420c0fe58f99b0da0fc084d5"
+          },
+          {
+            "url": "http://127.0.0.1:64134/company-assets/side-table-v1/nested/v1/model.glb",
+            "bytes": 19732,
+            "sha256": "b62f5bc58e7634a5cd8d25dba40919ff585d665ca24fe271c9f33da6289bf28c"
+          },
+          {
+            "url": "http://127.0.0.1:64134/company-assets/side-table-v1/nested/v1/model.glb",
+            "bytes": 19732,
+            "sha256": "b62f5bc58e7634a5cd8d25dba40919ff585d665ca24fe271c9f33da6289bf28c"
+          },
+          {
+            "url": "http://127.0.0.1:64134/company-assets/side-table-v1/low/v1/model.glb",
+            "bytes": 10388,
+            "sha256": "8808760b9a36d7d39d84c2f9829fdb43bae86c65c0157cbd2983ef00ab1287bc"
+          },
+          {
+            "url": "http://127.0.0.1:64134/company-assets/side-table-v1/low/v1/model.glb",
+            "bytes": 10388,
+            "sha256": "8808760b9a36d7d39d84c2f9829fdb43bae86c65c0157cbd2983ef00ab1287bc"
+          },
+          {
+            "url": "http://127.0.0.1:64134/company-assets/side-table-v1/round/v1/model.glb",
+            "bytes": 20956,
+            "sha256": "4c589b2c36676d119d282378c559b355b1e0778312604363256c4073ae30360d"
+          },
+          {
+            "url": "http://127.0.0.1:64134/company-assets/side-table-v1/nested/v1/model.glb",
+            "bytes": 19732,
+            "sha256": "b62f5bc58e7634a5cd8d25dba40919ff585d665ca24fe271c9f33da6289bf28c"
+          },
+          {
+            "url": "http://127.0.0.1:64134/company-assets/side-table-v1/nested/v1/model.glb",
+            "bytes": 19732,
+            "sha256": "b62f5bc58e7634a5cd8d25dba40919ff585d665ca24fe271c9f33da6289bf28c"
+          },
+          {
+            "url": "http://127.0.0.1:64134/company-assets/side-table-v1/round/v1/model.glb",
+            "bytes": 20956,
+            "sha256": "4c589b2c36676d119d282378c559b355b1e0778312604363256c4073ae30360d"
+          },
+          {
+            "url": "http://127.0.0.1:64134/company-assets/side-table-v1/round/v1/model.glb",
+            "bytes": 20956,
+            "sha256": "4c589b2c36676d119d282378c559b355b1e0778312604363256c4073ae30360d"
+          },
+          {
+            "url": "http://127.0.0.1:64134/company-assets/side-table-v1/square/v1/model.glb",
+            "bytes": 8892,
+            "sha256": "aa3f605a019971e48061201ec3d4883ad8f2ad11420c0fe58f99b0da0fc084d5"
+          },
+          {
+            "url": "http://127.0.0.1:64134/company-assets/side-table-v1/nested/v1/model.glb",
+            "bytes": 19732,
+            "sha256": "b62f5bc58e7634a5cd8d25dba40919ff585d665ca24fe271c9f33da6289bf28c"
+          },
+          {
+            "url": "http://127.0.0.1:64134/company-assets/side-table-v1/low/v1/model.glb",
+            "bytes": 10388,
+            "sha256": "8808760b9a36d7d39d84c2f9829fdb43bae86c65c0157cbd2983ef00ab1287bc"
+          },
+          {
+            "url": "http://127.0.0.1:64134/company-assets/side-table-v1/round/v1/model.glb",
+            "bytes": 20956,
+            "sha256": "4c589b2c36676d119d282378c559b355b1e0778312604363256c4073ae30360d"
+          },
+          {
+            "url": "http://127.0.0.1:64134/company-assets/side-table-v1/square/v1/model.glb",
+            "bytes": 8892,
+            "sha256": "aa3f605a019971e48061201ec3d4883ad8f2ad11420c0fe58f99b0da0fc084d5"
+          },
+          {
+            "url": "http://127.0.0.1:64134/company-assets/side-table-v1/nested/v1/model.glb",
+            "bytes": 19732,
+            "sha256": "b62f5bc58e7634a5cd8d25dba40919ff585d665ca24fe271c9f33da6289bf28c"
+          },
+          {
+            "url": "http://127.0.0.1:64134/company-assets/side-table-v1/low/v1/model.glb",
+            "bytes": 10388,
+            "sha256": "8808760b9a36d7d39d84c2f9829fdb43bae86c65c0157cbd2983ef00ab1287bc"
+          }
+        ]
+      }
+    }
+  ],
+  "limits": [
+    "Headless SwiftShader functional evidence, not ordinary-PC performance, real-character C3 or human acceptance"
+  ],
+  "harnessSha256": "0088f7a387644fb28a9660cdf4d8c3f3e328df76057d88178bbc31073f6a7df1",
+  "pageErrors": []
+}

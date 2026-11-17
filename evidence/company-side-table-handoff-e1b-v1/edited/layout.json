@@ -1,0 +1,86 @@
+{
+  "catalog": {
+    "id": "company-facilities",
+    "version": 1
+  },
+  "id": "side-table-demo",
+  "name": "边几 · 四款与台面承载",
+  "nodes": [
+    {
+      "id": "side-table-demo/floor-1",
+      "kind": "floor",
+      "name": "一层",
+      "parentId": "side-table-demo",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "bounds": {
+        "depth": 5.25,
+        "width": 7
+      },
+      "id": "side-table-demo/room-1",
+      "kind": "room",
+      "name": "直播间",
+      "parentId": "side-table-demo/floor-1",
+      "purpose": "streaming",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "side-table/primary",
+      "kind": "facility",
+      "parentId": "side-table-demo/room-1",
+      "resource": {
+        "id": "side-table-nested",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          0.7,
+          0,
+          -0.4
+        ],
+        "yaw": 1.5707963267948966
+      }
+    },
+    {
+      "attachment": {
+        "surfaceId": "top"
+      },
+      "id": "side-table/primary/ornament",
+      "kind": "facility",
+      "parentId": "side-table/primary",
+      "resource": {
+        "id": "tabletop-ornament-vase",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          0.04,
+          0.5,
+          0.02
+        ],
+        "yaw": 0
+      }
+    }
+  ],
+  "revision": 2,
+  "scale": "single-room",
+  "schema": "company-layout",
+  "version": 1
+}

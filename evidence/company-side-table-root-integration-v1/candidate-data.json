@@ -1,0 +1,212 @@
+{
+  "status": "passed",
+  "scope": "Candidate resource data only; no real mesh loader/browser assertion",
+  "inputs": [
+    {
+      "index": 0,
+      "alternate": false,
+      "id": "side-table-demo",
+      "target": "side-table/primary",
+      "resource": {
+        "id": "side-table-round",
+        "version": 1
+      }
+    },
+    {
+      "index": 0,
+      "alternate": true,
+      "id": "side-table-alternate",
+      "target": "side-table/primary",
+      "resource": {
+        "id": "side-table-round",
+        "version": 1
+      }
+    },
+    {
+      "index": 1,
+      "alternate": false,
+      "id": "side-table-demo",
+      "target": "side-table/primary",
+      "resource": {
+        "id": "side-table-square",
+        "version": 1
+      }
+    },
+    {
+      "index": 1,
+      "alternate": true,
+      "id": "side-table-alternate",
+      "target": "side-table/primary",
+      "resource": {
+        "id": "side-table-square",
+        "version": 1
+      }
+    },
+    {
+      "index": 2,
+      "alternate": false,
+      "id": "side-table-demo",
+      "target": "side-table/primary",
+      "resource": {
+        "id": "side-table-nested",
+        "version": 1
+      }
+    },
+    {
+      "index": 2,
+      "alternate": true,
+      "id": "side-table-alternate",
+      "target": "side-table/primary",
+      "resource": {
+        "id": "side-table-nested",
+        "version": 1
+      }
+    },
+    {
+      "index": 3,
+      "alternate": false,
+      "id": "side-table-demo",
+      "target": "side-table/primary",
+      "resource": {
+        "id": "side-table-low",
+        "version": 1
+      }
+    },
+    {
+      "index": 3,
+      "alternate": true,
+      "id": "side-table-alternate",
+      "target": "side-table/primary",
+      "resource": {
+        "id": "side-table-low",
+        "version": 1
+      }
+    }
+  ],
+  "copied": {
+    "schema": "company-layout",
+    "version": 1,
+    "id": "side-table-demo",
+    "name": "边几 · 四款与台面承载",
+    "revision": 2,
+    "scale": "single-room",
+    "catalog": {
+      "id": "company-facilities",
+      "version": 1
+    },
+    "nodes": [
+      {
+        "id": "side-table-demo/floor-1",
+        "kind": "floor",
+        "parentId": "side-table-demo",
+        "name": "一层",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "side-table-demo/room-1",
+        "kind": "room",
+        "parentId": "side-table-demo/floor-1",
+        "name": "直播间",
+        "purpose": "streaming",
+        "bounds": {
+          "width": 7,
+          "depth": 5.25
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "side-table/primary",
+        "kind": "facility",
+        "parentId": "side-table-demo/room-1",
+        "resource": {
+          "id": "side-table-round",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0.7,
+            0,
+            -0.4
+          ],
+          "yaw": 1.5707963267948966
+        },
+        "state": {}
+      },
+      {
+        "id": "side-table/primary/ornament",
+        "kind": "facility",
+        "parentId": "side-table/primary",
+        "resource": {
+          "id": "tabletop-ornament-vase",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0.04,
+            0.5,
+            0.02
+          ],
+          "yaw": 0
+        },
+        "state": {},
+        "attachment": {
+          "surfaceId": "top"
+        }
+      },
+      {
+        "id": "side-table/copy",
+        "kind": "facility",
+        "parentId": "side-table-demo/room-1",
+        "resource": {
+          "id": "side-table-round",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -1.1,
+            0,
+            0.7
+          ],
+          "yaw": 0
+        },
+        "state": {},
+        "name": "side-table/copy"
+      },
+      {
+        "id": "side-table/copy/extra-1",
+        "kind": "facility",
+        "parentId": "side-table/copy",
+        "resource": {
+          "id": "tabletop-ornament-vase",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0.04,
+            0.5,
+            0.02
+          ],
+          "yaw": 0
+        },
+        "state": {},
+        "attachment": {
+          "surfaceId": "top"
+        }
+      }
+    ]
+  }
+}

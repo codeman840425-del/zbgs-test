@@ -1,0 +1,1154 @@
+{
+  "status": "passed",
+  "scope": "CPU deterministic production and actual loaded geometry of four Kenney-derived side tables",
+  "provenance": {
+    "sourceParameters": "assets-source/company-side-table-v1/parameters.json",
+    "sourceParametersSha256": "f01b025f1122bfd674f48accf3a9a536db6d0c3f9cb5e2434a46c40d2ad4d000",
+    "generator": "scripts/company-platform/build-side-table.mjs",
+    "generatorSha256": "53e7e18ce9b10b2ee79d76216607954ab5bdd481d25d2e103158b086d41c1c56",
+    "functionalContractSource": "docs/COMPANY-SIDE-TABLE-CONTRACT-v1.txt",
+    "functionalContractSourceSha256": "e1c56b23e52f837866598a4a280da1db3f7c60bb3f4e169b8acddda4d2d99e3d",
+    "dependencies": {
+      "functionalContract": {
+        "path": "docs/COMPANY-SIDE-TABLE-CONTRACT-v1.txt",
+        "sha256": "e1c56b23e52f837866598a4a280da1db3f7c60bb3f4e169b8acddda4d2d99e3d"
+      },
+      "preflight": {
+        "path": "docs/research/COMPANY-SIDE-TABLE-EXTERNAL-PREFLIGHT-2026-11-17.txt",
+        "sha256": "c671157c1b631936d785829793913c752eca527e28b03aeb4a7827f2a04927b2"
+      },
+      "productionStandard": {
+        "path": "docs/COMPANY-APPEARANCE-PRODUCTION-STANDARD.md",
+        "sha256": "25d12677aa7b13eb5a6ff5b10324cb86bde17eaec16923279af8d6ad9e54836a"
+      },
+      "lockfile": {
+        "path": "prototype/package-lock.json",
+        "sha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7"
+      },
+      "threePackage": {
+        "path": "prototype/node_modules/three/package.json",
+        "sha256": "87f2c99a8718e5fdd6f5e51427fde52c6075f2f698ddf8f7b4e162882df93940"
+      },
+      "threeModule": {
+        "path": "prototype/node_modules/three/build/three.module.js",
+        "sha256": "104f56145899722094556490d787aae0617cc2fc3382f31df02d724ea1aee341"
+      },
+      "threeCore": {
+        "path": "prototype/node_modules/three/build/three.core.js",
+        "sha256": "613e370f76638fdef83926642bf256dc9615684922de1ce1f63a8583e5d78578"
+      },
+      "gltfExporter": {
+        "path": "prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+        "sha256": "569793baeba62baeb4ab0b3619b6b1495b45d4b2ba9690430497adb58307bdf2"
+      },
+      "gltfLoader": {
+        "path": "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+        "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1"
+      },
+      "bufferGeometryUtils": {
+        "path": "prototype/node_modules/three/examples/jsm/utils/BufferGeometryUtils.js",
+        "sha256": "7bda2a8ba836b2bcf67cb938d4b9e1bb5d1b1bc616817103ed858c0b58296ce7"
+      },
+      "skeletonUtils": {
+        "path": "prototype/node_modules/three/examples/jsm/utils/SkeletonUtils.js",
+        "sha256": "b1632a703206c3d830de9fcbe515696770d04b71a15ee6b50afa6d2c3298c86f"
+      },
+      "threeLicense": {
+        "path": "prototype/node_modules/three/LICENSE",
+        "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+      },
+      "supportVerifier": {
+        "path": "prototype/src/company/support-geometry.js",
+        "sha256": "132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68"
+      },
+      "original-cabinetBed.dae": {
+        "path": "assets-source/company-side-table-v1/original/cabinetBed.dae",
+        "sha256": "eb5b3cac2b4c171bf33914cc3cbc338c2dc5b976142afeeb98b34a9b52133353"
+      },
+      "original-cabinetBed.glb": {
+        "path": "assets-source/company-side-table-v1/original/cabinetBed.glb",
+        "sha256": "b651fafb9e2c8e4adcb8cad3d10dc94404b46fe039b26e66b2c9020df4e5301d"
+      },
+      "original-furniture-kit-2.0.zip": {
+        "path": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+        "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0"
+      },
+      "original-License.txt": {
+        "path": "assets-source/company-side-table-v1/original/License.txt",
+        "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+      },
+      "original-tableCoffee.dae": {
+        "path": "assets-source/company-side-table-v1/original/tableCoffee.dae",
+        "sha256": "a0cc2836f56e5794ec281e880897754068c855f5c92df9a207131a108bab488f"
+      },
+      "original-tableCoffee.glb": {
+        "path": "assets-source/company-side-table-v1/original/tableCoffee.glb",
+        "sha256": "e38bea760fbd514efbb75528d09b4752c91af44677bbb97e6d4386c263525179"
+      },
+      "original-tableCoffeeSquare.dae": {
+        "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.dae",
+        "sha256": "8fbb3776ad9678b09327eb4042782756f51fd429810f87cc58779f5af20b29cf"
+      },
+      "original-tableCoffeeSquare.glb": {
+        "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.glb",
+        "sha256": "bcc81d8919a3af9141c9c93b4520106dd0a90a7144346cd87928014018aac816"
+      },
+      "original-tableRound.dae": {
+        "path": "assets-source/company-side-table-v1/original/tableRound.dae",
+        "sha256": "37f7e6505f6c87a6305a027baee08c79e78656e5288045a1dfeee6342324e6f6"
+      },
+      "original-tableRound.glb": {
+        "path": "assets-source/company-side-table-v1/original/tableRound.glb",
+        "sha256": "f8daea9124a542a00b7bdacfddac82dc468573d43e44d7b54dd6316e9695754b"
+      },
+      "dataVerifier": {
+        "path": "prototype/src/company/side-table-data.js",
+        "sha256": "930f40499f249edeb56321cb6c1cf22e7115c66a475a37785880b554054bb85c"
+      },
+      "geometryVerifier": {
+        "path": "prototype/src/company/side-table-geometry.js",
+        "sha256": "9fda63f8aaed708d8cf233bb7ce040ce1697da082ef32811c92c265c4a0c28f7"
+      }
+    },
+    "sourceFiles": [
+      {
+        "path": "assets-source/company-side-table-v1/original/cabinetBed.dae",
+        "sha256": "eb5b3cac2b4c171bf33914cc3cbc338c2dc5b976142afeeb98b34a9b52133353"
+      },
+      {
+        "path": "assets-source/company-side-table-v1/original/cabinetBed.glb",
+        "sha256": "b651fafb9e2c8e4adcb8cad3d10dc94404b46fe039b26e66b2c9020df4e5301d"
+      },
+      {
+        "path": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+        "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0"
+      },
+      {
+        "path": "assets-source/company-side-table-v1/original/License.txt",
+        "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+      },
+      {
+        "path": "assets-source/company-side-table-v1/original/tableCoffee.dae",
+        "sha256": "a0cc2836f56e5794ec281e880897754068c855f5c92df9a207131a108bab488f"
+      },
+      {
+        "path": "assets-source/company-side-table-v1/original/tableCoffee.glb",
+        "sha256": "e38bea760fbd514efbb75528d09b4752c91af44677bbb97e6d4386c263525179"
+      },
+      {
+        "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.dae",
+        "sha256": "8fbb3776ad9678b09327eb4042782756f51fd429810f87cc58779f5af20b29cf"
+      },
+      {
+        "path": "assets-source/company-side-table-v1/original/tableCoffeeSquare.glb",
+        "sha256": "bcc81d8919a3af9141c9c93b4520106dd0a90a7144346cd87928014018aac816"
+      },
+      {
+        "path": "assets-source/company-side-table-v1/original/tableRound.dae",
+        "sha256": "37f7e6505f6c87a6305a027baee08c79e78656e5288045a1dfeee6342324e6f6"
+      },
+      {
+        "path": "assets-source/company-side-table-v1/original/tableRound.glb",
+        "sha256": "f8daea9124a542a00b7bdacfddac82dc468573d43e44d7b54dd6316e9695754b"
+      }
+    ]
+  },
+  "commands": [
+    "node scripts/company-platform/build-side-table.mjs",
+    "node scripts/company-platform/build-side-table.mjs --check"
+  ],
+  "items": [
+    {
+      "id": "side-table-round",
+      "sha256": "4c589b2c36676d119d282378c559b355b1e0778312604363256c4073ae30360d",
+      "bytes": 20956,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "support": {
+          "checked": true,
+          "surfaces": [
+            {
+              "mesh": "side-table-top",
+              "triangles": 2,
+              "area": 0.06600000226497649,
+              "topY": 0.5
+            }
+          ],
+          "bottomY": 0
+        },
+        "geometry": {
+          "checked": true,
+          "profile": "side-table-v1",
+          "sourceDesign": "round",
+          "meshCount": 3,
+          "triangleCount": 250,
+          "materials": 1,
+          "support": {
+            "checked": true,
+            "surfaces": [
+              {
+                "mesh": "side-table-top",
+                "triangles": 2,
+                "area": 0.06600000226497649,
+                "topY": 0.5
+              }
+            ],
+            "bottomY": 0
+          },
+          "boards": [
+            {
+              "bottomY": 0.4296856224536896,
+              "topY": 0.5,
+              "thickness": 0.07031437754631042,
+              "capArea": 0.0027039988524318955,
+              "segments": 48,
+              "partitionArea": 0.066
+            }
+          ],
+          "ground": [
+            {
+              "id": "pedestal",
+              "areas": [
+                0.02044900190925597
+              ]
+            }
+          ],
+          "connections": [
+            {
+              "a": "board",
+              "b": "pedestal",
+              "area": 0.0027039988524318955
+            }
+          ],
+          "solids": [
+            {
+              "id": "board",
+              "triangles": 198,
+              "volume": 0.014890173085690106
+            },
+            {
+              "id": "pedestal",
+              "triangles": 52,
+              "volume": 0.002269384279842241
+            }
+          ],
+          "tolerances": {
+            "positionMetres": 0.000001,
+            "boundaryEdgeMetres": 0.000001,
+            "areaSquareMetres": 1e-8
+          },
+          "limitation": "Finite actual static source shells, complete board boundary, contact and independent ground checks. Source identity is additionally pinned by the producer original-vertex readback. No mechanical strength, dynamic nesting or character-use claim."
+        },
+        "bounds": {
+          "min": [
+            -0.25999999046325684,
+            0,
+            -0.25999999046325684
+          ],
+          "max": [
+            0.25999999046325684,
+            0.5,
+            0.25999999046325684
+          ]
+        },
+        "triangleCount": 250,
+        "meshCount": 3,
+        "materialCount": 1,
+        "sourceVerticesMatch": true,
+        "sourceAdaptation": {
+          "units": "metres",
+          "up": "+Y",
+          "forward": "+Z",
+          "origin": "Bottom centre",
+          "sourceVersion": 1,
+          "originalSource": "tableRound",
+          "sourceParts": [
+            {
+              "name": "tableRound(Clone)",
+              "matrixWorld": [
+                1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                1
+              ],
+              "triangles": 80,
+              "removedZeroAreaTriangles": 2
+            }
+          ],
+          "sourceBounds": {
+            "min": [
+              0,
+              -0.26999998092651367,
+              -0.800000011920929
+            ],
+            "max": [
+              0.6928203105926514,
+              0.09673397988080978,
+              0
+            ]
+          },
+          "sourceRegions": {
+            "sourceNodes": [
+              "tableRound(Clone)"
+            ],
+            "retained": "Original positive-area source faces below measured tabletop underside, clipped at that plane. Original hexagonal slab and complete old underside are removed. Boundary loops at the actual cut are closed with upward triangles.",
+            "new": "48-sided circular slab at source-derived underside and top .5, with non-overlapping annular top plus rectangular two-triangle patch."
+          }
+        },
+        "identityAllNodes": true,
+        "geometrySha256": "0778685025abeb3a4ae9da2d8a75ca5df298959b91f4b52436c3b87cf67084c8",
+        "externalUris": 0,
+        "textures": 0,
+        "animations": 0
+      }
+    },
+    {
+      "id": "side-table-square",
+      "sha256": "aa3f605a019971e48061201ec3d4883ad8f2ad11420c0fe58f99b0da0fc084d5",
+      "bytes": 8892,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "support": {
+          "checked": true,
+          "surfaces": [
+            {
+              "mesh": "side-table-top",
+              "triangles": 2,
+              "area": 0.22499999403953552,
+              "topY": 0.5
+            }
+          ],
+          "bottomY": 0
+        },
+        "geometry": {
+          "checked": true,
+          "profile": "side-table-v1",
+          "sourceDesign": "square",
+          "meshCount": 4,
+          "triangleCount": 72,
+          "materials": 2,
+          "support": {
+            "checked": true,
+            "surfaces": [
+              {
+                "mesh": "side-table-top",
+                "triangles": 2,
+                "area": 0.22499999403953552,
+                "topY": 0.5
+              }
+            ],
+            "bottomY": 0
+          },
+          "boards": [
+            {
+              "bottomY": 0.45711835334476847,
+              "topY": 0.5,
+              "thickness": 0.04288164665523153
+            }
+          ],
+          "ground": [
+            {
+              "id": "cabinet",
+              "areas": [
+                0.198404453498231
+              ]
+            }
+          ],
+          "connections": [
+            {
+              "a": "cabinet",
+              "b": "door",
+              "area": 0.04953552442457655
+            }
+          ],
+          "solids": [
+            {
+              "id": "cabinet",
+              "triangles": 44,
+              "volume": 0.055693186330221724
+            },
+            {
+              "id": "door",
+              "triangles": 28,
+              "volume": 0.004578433072732059
+            }
+          ],
+          "tolerances": {
+            "positionMetres": 0.000001,
+            "boundaryEdgeMetres": 0.000001,
+            "areaSquareMetres": 1e-8
+          },
+          "limitation": "Finite actual static source shells, complete board boundary, contact and independent ground checks. Source identity is additionally pinned by the producer original-vertex readback. No mechanical strength, dynamic nesting or character-use claim."
+        },
+        "bounds": {
+          "min": [
+            -0.25,
+            0,
+            -0.22499999403953552
+          ],
+          "max": [
+            0.25,
+            0.5,
+            0.22499999403953552
+          ]
+        },
+        "triangleCount": 72,
+        "meshCount": 4,
+        "materialCount": 2,
+        "sourceVerticesMatch": true,
+        "sourceAdaptation": {
+          "units": "metres",
+          "up": "+Y",
+          "forward": "+Z",
+          "origin": "Bottom centre",
+          "sourceVersion": 1,
+          "originalSource": "cabinetBed",
+          "sourceParts": [
+            {
+              "name": "cabinetBed(Clone)",
+              "matrixWorld": [
+                1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                1
+              ],
+              "triangles": 44,
+              "removedZeroAreaTriangles": 0
+            },
+            {
+              "name": "Mesh_door",
+              "matrixWorld": [
+                1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0.0246,
+                0.0246,
+                -0.02,
+                1
+              ],
+              "triangles": 18,
+              "removedZeroAreaTriangles": 0
+            },
+            {
+              "name": "Mesh_door_1",
+              "matrixWorld": [
+                1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0.0246,
+                0.0246,
+                -0.02,
+                1
+              ],
+              "triangles": 10,
+              "removedZeroAreaTriangles": 0
+            }
+          ],
+          "sourceBounds": {
+            "min": [
+              -0.009999999776482582,
+              0,
+              -0.20500001311302185
+            ],
+            "max": [
+              0.25599998235702515,
+              0.23320001363754272,
+              0.009999999776482582
+            ]
+          },
+          "sourceRegions": {
+            "sourceNodes": [
+              "cabinetBed(Clone)",
+              "Mesh_door",
+              "Mesh_door_1"
+            ],
+            "retained": "All positive-area body, fixed door and handle faces. Original world matrices baked once; body top pair is split into side-table-top with no duplicate."
+          }
+        },
+        "identityAllNodes": true,
+        "geometrySha256": "20bbb6518d4254f71342c992da90db6f2595c2237ebdc9bb459da779fbbd4568",
+        "externalUris": 0,
+        "textures": 0,
+        "animations": 0
+      }
+    },
+    {
+      "id": "side-table-nested",
+      "sha256": "b62f5bc58e7634a5cd8d25dba40919ff585d665ca24fe271c9f33da6289bf28c",
+      "bytes": 19732,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "support": {
+          "checked": true,
+          "surfaces": [
+            {
+              "mesh": "side-table-top",
+              "triangles": 2,
+              "area": 0.21119999413490298,
+              "topY": 0.5
+            }
+          ],
+          "bottomY": 0
+        },
+        "geometry": {
+          "checked": true,
+          "profile": "side-table-v1",
+          "sourceDesign": "nested",
+          "meshCount": 3,
+          "triangleCount": 236,
+          "materials": 1,
+          "support": {
+            "checked": true,
+            "surfaces": [
+              {
+                "mesh": "side-table-top",
+                "triangles": 2,
+                "area": 0.21119999413490298,
+                "topY": 0.5
+              }
+            ],
+            "bottomY": 0
+          },
+          "boards": [
+            {
+              "bottomY": 0.3913043478260869,
+              "topY": 0.5,
+              "thickness": 0.10869565217391308
+            },
+            {
+              "bottomY": 0.26608695652173914,
+              "topY": 0.34,
+              "thickness": 0.07391304347826089
+            }
+          ],
+          "ground": [
+            {
+              "id": "main",
+              "areas": [
+                0.002111999679088594,
+                0.0021119997386929157,
+                0.0021119990234375052,
+                0.0021120003943442267
+              ]
+            },
+            {
+              "id": "small",
+              "areas": [
+                0.0007799998235702432,
+                0.0007799998831747867,
+                0.0007799994361401552,
+                0.0007800002706050968
+              ]
+            }
+          ],
+          "connections": [],
+          "solids": [
+            {
+              "id": "main",
+              "triangles": 118,
+              "volume": 0.029200700989722928
+            },
+            {
+              "id": "small",
+              "triangles": 118,
+              "volume": 0.007333357473066432
+            }
+          ],
+          "tolerances": {
+            "positionMetres": 0.000001,
+            "boundaryEdgeMetres": 0.000001,
+            "areaSquareMetres": 1e-8
+          },
+          "limitation": "Finite actual static source shells, complete board boundary, contact and independent ground checks. Source identity is additionally pinned by the producer original-vertex readback. No mechanical strength, dynamic nesting or character-use claim."
+        },
+        "bounds": {
+          "min": [
+            -0.28999999165534973,
+            0,
+            -0.2199999988079071
+          ],
+          "max": [
+            0.38999998569488525,
+            0.5,
+            0.2199999988079071
+          ]
+        },
+        "triangleCount": 236,
+        "meshCount": 3,
+        "materialCount": 1,
+        "sourceVerticesMatch": true,
+        "sourceAdaptation": {
+          "units": "metres",
+          "up": "+Y",
+          "forward": "+Z",
+          "origin": "Bottom centre",
+          "sourceVersion": 1,
+          "originalSource": "tableCoffeeSquare",
+          "sourceParts": [
+            {
+              "name": "tableCoffeeSquare(Clone)",
+              "matrixWorld": [
+                1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                1
+              ],
+              "triangles": 124,
+              "removedZeroAreaTriangles": 6
+            }
+          ],
+          "sourceBounds": {
+            "min": [
+              -0.4609960913658142,
+              -3.609557054039112e-16,
+              -0.30000001192092896
+            ],
+            "max": [
+              -0.06099608168005943,
+              0.23000000417232513,
+              0.10000000149011612
+            ]
+          },
+          "sourceRegions": {
+            "sourceNodes": [
+              "tableCoffeeSquare(Clone)"
+            ],
+            "retained": "Two complete positive-area copies, each independently bottom-centred and scaled. Only main top pair moves to side-table-top. Small table is a static complete grounded instance."
+          }
+        },
+        "identityAllNodes": true,
+        "geometrySha256": "94189127faecddf2704162e4abe1a3229bc9bcf3806d068bc317249230cc3196",
+        "externalUris": 0,
+        "textures": 0,
+        "animations": 0
+      }
+    },
+    {
+      "id": "side-table-low",
+      "sha256": "8808760b9a36d7d39d84c2f9829fdb43bae86c65c0157cbd2983ef00ab1287bc",
+      "bytes": 10388,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "support": {
+          "checked": true,
+          "surfaces": [
+            {
+              "mesh": "side-table-top",
+              "triangles": 2,
+              "area": 0.3374999910593033,
+              "topY": 0.5
+            }
+          ],
+          "bottomY": 0
+        },
+        "geometry": {
+          "checked": true,
+          "profile": "side-table-v1",
+          "sourceDesign": "low",
+          "meshCount": 2,
+          "triangleCount": 116,
+          "materials": 1,
+          "support": {
+            "checked": true,
+            "surfaces": [
+              {
+                "mesh": "side-table-top",
+                "triangles": 2,
+                "area": 0.3374999910593033,
+                "topY": 0.5
+              }
+            ],
+            "bottomY": 0
+          },
+          "boards": [
+            {
+              "bottomY": 0.3913043478260869,
+              "topY": 0.5,
+              "thickness": 0.10869565217391308
+            }
+          ],
+          "ground": [
+            {
+              "id": "low",
+              "areas": [
+                0.002042371482555261,
+                0.0020423728351648407,
+                0.002042371482555261,
+                0.0020423728351648407
+              ]
+            }
+          ],
+          "connections": [],
+          "solids": [
+            {
+              "id": "low",
+              "triangles": 116,
+              "volume": 0.04388191696808873
+            }
+          ],
+          "tolerances": {
+            "positionMetres": 0.000001,
+            "boundaryEdgeMetres": 0.000001,
+            "areaSquareMetres": 1e-8
+          },
+          "limitation": "Finite actual static source shells, complete board boundary, contact and independent ground checks. Source identity is additionally pinned by the producer original-vertex readback. No mechanical strength, dynamic nesting or character-use claim."
+        },
+        "bounds": {
+          "min": [
+            -0.375,
+            0,
+            -0.22499999403953552
+          ],
+          "max": [
+            0.375,
+            0.5,
+            0.22499999403953552
+          ]
+        },
+        "triangleCount": 116,
+        "meshCount": 2,
+        "materialCount": 1,
+        "sourceVerticesMatch": true,
+        "sourceAdaptation": {
+          "units": "metres",
+          "up": "+Y",
+          "forward": "+Z",
+          "origin": "Bottom centre",
+          "sourceVersion": 1,
+          "originalSource": "tableCoffee",
+          "sourceParts": [
+            {
+              "name": "tableCoffee(Clone)",
+              "matrixWorld": [
+                1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                1
+              ],
+              "triangles": 124,
+              "removedZeroAreaTriangles": 8
+            }
+          ],
+          "sourceBounds": {
+            "min": [
+              -0.4609960913658142,
+              -3.609557054039112e-16,
+              -0.30000001192092896
+            ],
+            "max": [
+              0.20000000298023224,
+              0.23000000417232513,
+              0.10000000149011612
+            ]
+          },
+          "sourceRegions": {
+            "sourceNodes": [
+              "tableCoffee(Clone)"
+            ],
+            "retained": "All positive-area elongated table source faces, original top pair split into side-table-top with no duplicate."
+          }
+        },
+        "identityAllNodes": true,
+        "geometrySha256": "78cc2f968ad1241c7dc9e4297058c27f91a1f14077a3a56897ce14fe25e99d3c",
+        "externalUris": 0,
+        "textures": 0,
+        "animations": 0
+      }
+    }
+  ],
+  "sourceModificationEvidence": {
+    "parameter": "nested.smallOffsetX",
+    "before": 0.23,
+    "after": 0.24,
+    "beforeParameters": "evidence/company-side-table-production-v1/before-parameters.json",
+    "beforeParametersSha256": "d5e806425feac0120dabde8738019de79809160986150d2117fb50a871dd4a07",
+    "beforeOutput": "evidence/company-side-table-production-v1/before-nested.glb",
+    "beforeSha256": "683c4cd3654f3c7f6ed6f26b50b1a58bb5c3856f999e7c4640717ad1bf1ae6b0",
+    "afterSha256": "b62f5bc58e7634a5cd8d25dba40919ff585d665ca24fe271c9f33da6289bf28c",
+    "otherThreeModelsByteIdentical": true,
+    "beforeActual": {
+      "support": {
+        "checked": true,
+        "surfaces": [
+          {
+            "mesh": "side-table-top",
+            "triangles": 2,
+            "area": 0.21119999413490298,
+            "topY": 0.5
+          }
+        ],
+        "bottomY": 0
+      },
+      "geometry": {
+        "checked": true,
+        "profile": "side-table-v1",
+        "sourceDesign": "nested",
+        "meshCount": 3,
+        "triangleCount": 236,
+        "materials": 1,
+        "support": {
+          "checked": true,
+          "surfaces": [
+            {
+              "mesh": "side-table-top",
+              "triangles": 2,
+              "area": 0.21119999413490298,
+              "topY": 0.5
+            }
+          ],
+          "bottomY": 0
+        },
+        "boards": [
+          {
+            "bottomY": 0.3913043478260869,
+            "topY": 0.5,
+            "thickness": 0.10869565217391308
+          },
+          {
+            "bottomY": 0.26608695652173914,
+            "topY": 0.34,
+            "thickness": 0.07391304347826089
+          }
+        ],
+        "ground": [
+          {
+            "id": "main",
+            "areas": [
+              0.002111999679088594,
+              0.0021119997386929157,
+              0.0021119990234375052,
+              0.0021120003943442267
+            ]
+          },
+          {
+            "id": "small",
+            "areas": [
+              0.0007799998235702432,
+              0.0007800000768899418,
+              0.0007799996298551992,
+              0.0007800002706050968
+            ]
+          }
+        ],
+        "connections": [],
+        "solids": [
+          {
+            "id": "main",
+            "triangles": 118,
+            "volume": 0.029200700989722928
+          },
+          {
+            "id": "small",
+            "triangles": 118,
+            "volume": 0.007333357919790353
+          }
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "boundaryEdgeMetres": 0.000001,
+          "areaSquareMetres": 1e-8
+        },
+        "limitation": "Finite actual static source shells, complete board boundary, contact and independent ground checks. Source identity is additionally pinned by the producer original-vertex readback. No mechanical strength, dynamic nesting or character-use claim."
+      },
+      "bounds": {
+        "min": [
+          -0.28999999165534973,
+          0,
+          -0.2199999988079071
+        ],
+        "max": [
+          0.3799999952316284,
+          0.5,
+          0.2199999988079071
+        ]
+      },
+      "triangleCount": 236,
+      "meshCount": 3,
+      "materialCount": 1,
+      "sourceVerticesMatch": true,
+      "sourceAdaptation": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Bottom centre",
+        "sourceVersion": 1,
+        "originalSource": "tableCoffeeSquare",
+        "sourceParts": [
+          {
+            "name": "tableCoffeeSquare(Clone)",
+            "matrixWorld": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            "triangles": 124,
+            "removedZeroAreaTriangles": 6
+          }
+        ],
+        "sourceBounds": {
+          "min": [
+            -0.4609960913658142,
+            -3.609557054039112e-16,
+            -0.30000001192092896
+          ],
+          "max": [
+            -0.06099608168005943,
+            0.23000000417232513,
+            0.10000000149011612
+          ]
+        },
+        "sourceRegions": {
+          "sourceNodes": [
+            "tableCoffeeSquare(Clone)"
+          ],
+          "retained": "Two complete positive-area copies, each independently bottom-centred and scaled. Only main top pair moves to side-table-top. Small table is a static complete grounded instance."
+        }
+      },
+      "identityAllNodes": true,
+      "geometrySha256": "21f10963ed5bdf8be61cf5382e278bf891919ecbd827bc47a2769aabf29368f4",
+      "externalUris": 0,
+      "textures": 0,
+      "animations": 0
+    },
+    "afterActual": {
+      "support": {
+        "checked": true,
+        "surfaces": [
+          {
+            "mesh": "side-table-top",
+            "triangles": 2,
+            "area": 0.21119999413490298,
+            "topY": 0.5
+          }
+        ],
+        "bottomY": 0
+      },
+      "geometry": {
+        "checked": true,
+        "profile": "side-table-v1",
+        "sourceDesign": "nested",
+        "meshCount": 3,
+        "triangleCount": 236,
+        "materials": 1,
+        "support": {
+          "checked": true,
+          "surfaces": [
+            {
+              "mesh": "side-table-top",
+              "triangles": 2,
+              "area": 0.21119999413490298,
+              "topY": 0.5
+            }
+          ],
+          "bottomY": 0
+        },
+        "boards": [
+          {
+            "bottomY": 0.3913043478260869,
+            "topY": 0.5,
+            "thickness": 0.10869565217391308
+          },
+          {
+            "bottomY": 0.26608695652173914,
+            "topY": 0.34,
+            "thickness": 0.07391304347826089
+          }
+        ],
+        "ground": [
+          {
+            "id": "main",
+            "areas": [
+              0.002111999679088594,
+              0.0021119997386929157,
+              0.0021119990234375052,
+              0.0021120003943442267
+            ]
+          },
+          {
+            "id": "small",
+            "areas": [
+              0.0007799998235702432,
+              0.0007799998831747867,
+              0.0007799994361401552,
+              0.0007800002706050968
+            ]
+          }
+        ],
+        "connections": [],
+        "solids": [
+          {
+            "id": "main",
+            "triangles": 118,
+            "volume": 0.029200700989722928
+          },
+          {
+            "id": "small",
+            "triangles": 118,
+            "volume": 0.007333357473066432
+          }
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "boundaryEdgeMetres": 0.000001,
+          "areaSquareMetres": 1e-8
+        },
+        "limitation": "Finite actual static source shells, complete board boundary, contact and independent ground checks. Source identity is additionally pinned by the producer original-vertex readback. No mechanical strength, dynamic nesting or character-use claim."
+      },
+      "bounds": {
+        "min": [
+          -0.28999999165534973,
+          0,
+          -0.2199999988079071
+        ],
+        "max": [
+          0.38999998569488525,
+          0.5,
+          0.2199999988079071
+        ]
+      },
+      "triangleCount": 236,
+      "meshCount": 3,
+      "materialCount": 1,
+      "sourceVerticesMatch": true,
+      "sourceAdaptation": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Bottom centre",
+        "sourceVersion": 1,
+        "originalSource": "tableCoffeeSquare",
+        "sourceParts": [
+          {
+            "name": "tableCoffeeSquare(Clone)",
+            "matrixWorld": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            "triangles": 124,
+            "removedZeroAreaTriangles": 6
+          }
+        ],
+        "sourceBounds": {
+          "min": [
+            -0.4609960913658142,
+            -3.609557054039112e-16,
+            -0.30000001192092896
+          ],
+          "max": [
+            -0.06099608168005943,
+            0.23000000417232513,
+            0.10000000149011612
+          ]
+        },
+        "sourceRegions": {
+          "sourceNodes": [
+            "tableCoffeeSquare(Clone)"
+          ],
+          "retained": "Two complete positive-area copies, each independently bottom-centred and scaled. Only main top pair moves to side-table-top. Small table is a static complete grounded instance."
+        }
+      },
+      "identityAllNodes": true,
+      "geometrySha256": "94189127faecddf2704162e4abe1a3229bc9bcf3806d068bc317249230cc3196",
+      "externalUris": 0,
+      "textures": 0,
+      "animations": 0
+    }
+  },
+  "limitations": [
+    "Actual game loading, parent/child transactions, process-closed restoration, fixed-source rebuild and visual acceptance require separate evidence.",
+    "No transparent glass, dynamic door or sliding/nesting mechanism is included."
+  ]
+}
