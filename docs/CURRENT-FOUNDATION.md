@@ -2,7 +2,7 @@
 
 ## 固定入口与备份
 - F:/gamemake / feat/m1-foundation-room。4196 build1084ddeae27a，source55d363fbb2fae96e3b2e571a4f00de825545f537；独立experiments/m2-production-release-v2/prototype/dist。delivery/appearance-workbench.json；回退65814指针在delivery/history。4174历史证据、4195封存M1，不加常驻端口。
-- 当前D02发布增量de2928b319917953cc8304029b85820a1778b766已推送；git ls-remote核与HEAD完全一致。公司副总工dirty文件不stage，不用git add -A。
+- 固定4196所属D02发布增量de2928b319917953cc8304029b85820a1778b766保留；最新生产主包代码与源/证据提交65310018381d1d40d26ba1f93a296153ea8c7b7e已推送，git ls-remote逐字核实。后续恢复说明独立提交，不冒称4196已换构建。公司副总工dirty文件不stage，不用git add -A。
 
 ## 刚完成D02限定主包
 - source55d363/build1084固定；character-production query/create/edit/validate使用真实factory/事务/完整记录，候选在场景外准备，失败不动当前角色。CLI scripts/character-production-cli.cjs后台浏览器，不占桌面；输出必须显式新路径且不在evidence目录，关闭/证据成功后才原子发布。
@@ -17,7 +17,7 @@
 - m2-record-budget-runtime-v1：1084四组(原生男/女/旧男/双例)各12秒讲话，无录屏，开发机Chrome157/4090，角色纹理增量51/47/36/98，销毁回ground1；frame p95约6.2ms，全部帧数组保留。静态图片48/40/28与renderer不同口径（bone/morph等明确未计），非GPU字节/普通机/长期泄漏通过。
 - 最新用户纠偏：暂停单件唇妆/模型精修，主包转CUSTOM-P01参数批产接缝。已确认原生MCP支持参数、D02支持已登记角色记录；卡在样件固定制作脚本→几何/装备/覆盖/挂点适配→编译进JS的登记。evidence/m2-next-native-mechanism-audit-v1/PIPELINE-GAPS.md分纹理、脸、躯干与拓扑依赖，不把两次换色当形体批产。旧女裙/30秒舞不动。
 - 已实施第一段：scripts/production/native_import.py读取两个JSON spec，复用旧stager与raw bind检查，实际body SHA/三槽/coverage引用/文件闭包/整体目录发布、失败兄弟隔离及精确重试；7回归通过，旧两个8文件包字节保持，evidence/m2-native-import-batch-v1实际两包prepared→reused。此为已生产包离线准备，不是新参数导出/自动fit/运行时准入完成；4196不变。
-- 参数批产制作已实际跑通：scripts/production/native_authoring/runner.py同一FaceContour模板两份数据，v2保存/冷开/截图/VRM原生导出成功，另外单项复跑VRM字节完全一致（.vroid容器不同，不承诺其字节确定）。12离线回归；v1缓存notice解析和迟开导出失败完整保留，经原生options离开导出屏恢复，无桌面/kill。evidence/m2-native-parameter-batch-v2，源assets-source/native-parameter-batch-v2与native-parameter-replay-v1。编辑器已回干净主菜单。
+- 参数批产制作已实际跑通：scripts/production/native_authoring/runner.py同一FaceContour模板两份数据，v2保存/冷开/截图/VRM原生导出成功，另外单项复跑VRM字节完全一致（.vroid容器不同，不承诺其字节确定）。12离线回归；v1缓存notice解析和迟开导出失败完整保留，经原生options离开导出屏恢复，无桌面/kill。evidence/m2-native-parameter-batch-v2，源assets-source/native-parameter-batch-v2与native-parameter-replay-v1。编辑器已回干净主菜单；源生成结束后通过官方vroid_exit(discard=false)正常退出，未使用桌面、未强杀，回执evidence/m2-native-authoring-session-close-v1。
 - native_dependency_delta.py实际核self/历史face/waist/异模板及本批两VRM，7回归含body/hair morph-only漏检修复；只给需重验/已核输入不变，不签发fit。新两脸有4材质组变化、无node/skin变化；来源/导出/接入不是同一步。
 - 下一主包仍CUSTOM-P01：用此批真实输出继续统一完整身体/独立装备/coverage提取，按差分触发眼镜/口型/头发等适配与共同注册，再走已有D02创建游戏记录/房间动作/恢复。不得再手写第二套按人物名字分支的控制器，不能只跑颜色两件或旧脸腰离线包就宣布几何批产完成。已有适配器优先复用参数化，失败只重做受影响环节。
 - 用户问两皮肤为何丢功能：实际输入整个人物VRM；遗漏精确握姿/镜腿是我们接入交付缺口，不能作为合理免责。四native已补接，当前UI回归确认，其他功能仍按query实际登记，不继承旧体通过。
