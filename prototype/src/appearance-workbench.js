@@ -203,6 +203,11 @@ export function bindAppearanceWorkbench({ controller }) {
     previewInfo.querySelector('#'+id).href=evidence.href;
   }
   inspectionPage.prepend(previewInfo);
+  const nativePreview=document.createElement('p');
+  const nativeLink=document.createElement('a');
+  nativeLink.href='/native-production.html';nativeLink.target='_blank';nativeLink.rel='noopener noreferrer';
+  nativeLink.textContent='原生制作：面部近景与正常速度对照';
+  nativePreview.append(nativeLink);previewInfo.append(nativePreview);
   const diagnosticPanel=document.createElement('details');diagnosticPanel.id='workbench-failed-presets';
   diagnosticPanel.innerHTML='<summary>未通过的批次与失败对照</summary><p class="appearance-hint">这些样件用于定位改形与服装适配缺陷，不能作为可用角色或已完成预设。保留原数据供复现；移到这里不代表模型已修好。</p><label for="workbench-diagnostic-body">选择失败／未通过样件</label><select id="workbench-diagnostic-body"><option value="">请选择诊断样件</option></select>';
   const diagnosticSelect=diagnosticPanel.querySelector('select');

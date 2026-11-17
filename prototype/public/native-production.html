@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>原生角色制作对照 · 青木工作台</title>
+<style>
+:root{color-scheme:light;--ink:#173d3a;--muted:#4b6560;--line:#d5e1d9;--paper:#f5f3eb;--panel:#fff;--accent:#e5efe8}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 system-ui,sans-serif}main{max-width:1240px;margin:auto;padding:24px}a{color:#225b4c}a:focus-visible,button:focus-visible,video:focus-visible{outline:3px solid #a04c12;outline-offset:4px}h1{font-size:26px;margin:16px 0 8px}h2{font-size:20px;margin:0 0 12px}p{margin:8px 0;color:var(--muted)}section{padding:20px;margin:20px 0;background:var(--panel);border:1px solid var(--line);border-radius:16px}.pair{display:grid;grid-template-columns:1fr 1fr;gap:20px}figure{margin:0;min-width:0}figcaption{padding:8px 0;font-weight:600}img,video{display:block;width:100%;height:auto;background:var(--accent);border-radius:10px}video{aspect-ratio:1440/1000}button{min-height:44px;padding:8px 16px;margin:4px 8px 4px 0;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);font:inherit;cursor:pointer}button[aria-pressed=true]{background:var(--accent);border-color:#517a68}.note{font-size:14px}.tag{font-weight:600;color:#815416}@media(max-width:760px){.pair{grid-template-columns:1fr}main{padding:14px}}
+</style>
+<main>
+<a href="/?workbench=appearance">← 返回角色工作台</a>
+<h1>原生角色制作对照</h1>
+<p>同一角色、同一房间光照和镜头。这里查看制作方法的实际结果；这些候选尚未进入正式换装与外观保存流程。</p>
+<section>
+<h2>修改表情定义，保存后带入游戏</h2>
+<p>只把欣喜表情的眉部幅度从 100 调到 65。关闭制作工具、重开并导出后，游戏里的眉毛上提幅度也随之减小。</p>
+<div role="group" aria-label="选择同一表情对比">
+<button type="button" data-pose="happy-1" aria-pressed="true">完整欣喜</button><button type="button" data-pose="happy-065" aria-pressed="false">部分欣喜</button><button type="button" data-pose="neutral" aria-pressed="false">自然表情</button><button type="button" data-pose="blink" aria-pressed="false">闭眼</button><button type="button" data-pose="aa" aria-pressed="false">张嘴</button>
+</div>
+<div class="pair">
+<figure><figcaption>修改前 · 原生表情</figcaption><img id="before" width="1040" height="814" alt="修改前的角色面部近景"></figure>
+<figure><figcaption>修改后 · 眉部幅度减小</figcaption><img id="after" width="1040" height="814" alt="修改后的同镜头角色面部近景"></figure>
+</div>
+<p class="note">前额头发遮住了部分眉毛。自然表情与张嘴画面相同；闭眼仅出现极少量渲染像素差异。此检查不代表所有表情组合都已通过。</p>
+</section>
+<section>
+<h2>正常速度：自然 → 欣喜 → 自然</h2>
+<p>点击各自的播放按钮观看，可全屏放大。两段都为 1 倍速原始录制，开头加载时间不同，未重新对齐或加速。</p>
+<div class="pair">
+<figure><figcaption>修改前</figcaption><video controls playsinline preload="none" data-evidence="runtime-close-v1/baseline/normal1x.webm" aria-label="修改前正常速度表情录像"></video></figure>
+<figure><figcaption>修改后</figcaption><video controls playsinline preload="none" data-evidence="runtime-close-v1/candidate/normal1x.webm" aria-label="修改后正常速度表情录像"></video></figure>
+</div>
+</section>
+<section>
+<h2>验证范围</h2>
+<p>VRoid Studio 2.16 原生源 → MCP 修改并保存 → 重新启动工具回读 → 原生 VRM 导出 → Three.js／VRM 同房间显示。</p>
+<p class="tag">已验证一个女性候选的一个表情定义。完整装备接入、八个代表预设和普通电脑性能仍未通过。</p>
+<p class="note">房间录像构建：83decd027116。原／新 VRM：48b08e05／b839ed14。单表达制作源与证据：4cf6a238。当前页面不是这两段历史录像的新构建身份。</p>
+<a id="report" target="_blank" rel="noopener noreferrer">查看完整验证记录</a>
+<p id="media-error" role="status" hidden>对照媒体加载失败。请保留本页，由技术负责人检查本地证据服务。</p>
+</section>
+</main>
+<script>
+const base=new URL('/evidence/vroid-expression-study-v1/',location.href);base.port='4174';
+const url=path=>new URL(path,base).href;
+function select(pose){document.querySelector('#before').src=url('runtime-close-v1/baseline/'+pose+'.png');document.querySelector('#after').src=url('runtime-close-v1/candidate/'+pose+'.png');document.querySelectorAll('[data-pose]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.pose===pose)));}
+document.querySelectorAll('[data-pose]').forEach(button=>button.addEventListener('click',()=>select(button.dataset.pose)));
+document.querySelectorAll('[data-evidence]').forEach(video=>{video.src=url(video.dataset.evidence);video.addEventListener('play',()=>{video.playbackRate=1;});});
+document.querySelectorAll('img,video').forEach(media=>media.addEventListener('error',()=>{document.querySelector('#media-error').hidden=false;}));
+document.querySelector('#report').href=url('runtime-close-v1/REVIEW.md');
+select('happy-1');
+</script>
+</html>

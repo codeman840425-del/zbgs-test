@@ -19,6 +19,7 @@ const inputs = [
   ...(await files("scripts")),
   ...(await files("public/assets")),
   "public/favicon.svg",
+  "public/native-production.html",
   "index.html",
   "foundation.html",
   "vite.config.js",
