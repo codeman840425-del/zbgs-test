@@ -8,6 +8,7 @@ import { GLTFExporter } from '../../prototype/node_modules/three/examples/jsm/ex
 import { GLTFLoader } from '../../prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js';
 import { validateSupportGeometry } from '../../prototype/src/company/support-geometry.js';
 import { validateWallShelfResource } from '../../prototype/src/company/wall-shelf-data.js';
+import { validateWallShelfGeometry } from '../../prototype/src/company/wall-shelf-geometry.js';
 
 globalThis.FileReader ??= class {
   readAsArrayBuffer(blob) {
@@ -217,6 +218,7 @@ export async function readback(bytes, design, source, resource) {
   scene.updateMatrixWorld(true);
   try {
     const support = validateSupportGeometry(scene, resource, fail);
+    const structuralGeometry = validateWallShelfGeometry(scene, resource, fail);
     const meshes = [];
     scene.traverse(node => { if (node.isMesh) meshes.push(node); });
     const bounds = new THREE.Box3().setFromObject(scene);
@@ -233,13 +235,17 @@ export async function readback(bytes, design, source, resource) {
     for (const mesh of meshes) {
       const positions = mesh.geometry.getAttribute('position');
       assert(positions && positions.count % 3 === 0, `Non-triangular mesh ${mesh.name}`);
-      triangles += positions.count / 3;
+      const indices = mesh.geometry.getIndex();
+      const count = indices ? indices.count : positions.count;
+      assert(count > 0 && count % 3 === 0, `Incomplete triangle indices ${mesh.name}`);
+      const vertexAt = offset => { const id = indices ? indices.getX(offset) : offset;
+        assert(Number.isInteger(id) && id >= 0 && id < positions.count, `Invalid triangle index ${mesh.name}`);
+        return new THREE.Vector3().fromBufferAttribute(positions, id); };
+      triangles += count / 3;
       materials.add(mesh.material);
       assert(mesh.material?.isMeshStandardMaterial && mesh.material.transparent === false && mesh.material.opacity === 1, `Invalid material ${mesh.name}`);
-      for (let index = 0; index < positions.count; index += 3) {
-        const a = new THREE.Vector3().fromBufferAttribute(positions, index);
-        const b = new THREE.Vector3().fromBufferAttribute(positions, index + 1);
-        const c = new THREE.Vector3().fromBufferAttribute(positions, index + 2);
+      for (let index = 0; index < count; index += 3) {
+        const a = vertexAt(index), b = vertexAt(index + 1), c = vertexAt(index + 2);
         assert(new THREE.Triangle(a, b, c).getArea() > 1e-10, `Zero-area triangle ${mesh.name}`);
       }
     }
@@ -250,7 +256,7 @@ export async function readback(bytes, design, source, resource) {
     if (design.id === 'frame') assert(structureNames.filter(name => name.includes('frame-post')).length === 4);
     if (design.id === 'back-panel') assert(structureNames.includes('back-panel-wall-sheet') && structureNames.filter(name => name.includes('ledge')).length === 3);
     return {
-      checked: true, support, bounds: { min: bounds.min.toArray(), max: bounds.max.toArray() },
+      checked: true, support, structuralGeometry, bounds: { min: bounds.min.toArray(), max: bounds.max.toArray() },
       triangleCount: triangles, meshCount: meshes.length, materialCount: materials.size,
       wallContactMeshes: wallContact, structureMeshes: structureNames, externalUris: 0, textures: 0, animations: 0
     };
@@ -315,10 +321,15 @@ async function main() {
     () => buildCollection({ source: unknownSource, sourceBytes: jsonBytes(unknownSource), contractBytes: result.contractBytes, generatorBytes: result.generatorBytes }),
     /cantilever has an unknown parameter/
   );
+  const disconnectedSource = structuredClone(result.source);
+  disconnectedSource.designs[3].differences.ledgeDepth = 0.24;
+  await assert.rejects(() => buildCollection({ source: disconnectedSource, sourceBytes: jsonBytes(disconnectedSource), contractBytes: result.contractBytes, generatorBytes: result.generatorBytes }),
+    error => error.code === 'wall-shelf-detached-component');
   const report = {
     status: 'passed', scope: 'Four project-authored wall-mounted multi-board shelves, CPU-only deterministic GLB production and loaded geometry readback',
     dispatch: { difficulty: 'complex', model: 'gpt-6.1-sol', reasoning_effort: 'high', reason: 'Four distinct connected wall shelf structures with deterministic geometry and dependency-pinned readback.', configurationEvidence: 'Parent-confirmed explicit configuration. Host hook interception unverified.' },
     commands: ['node scripts/company-platform/build-wall-shelf.mjs', 'node scripts/company-platform/build-wall-shelf.mjs --check'],
+    sourceGeometryAdmissionEvidence: { actualTenMillimetreGapRejectedBeforeWrite: true, code: 'wall-shelf-detached-component', retainedFailure: 'evidence/company-wall-shelf-production-v1/failures/back-panel-gap-0.24' },
     sourceParameters: SOURCE_PATH, sourceParametersSha256: result.sourceHash, functionalContractSource: CONTRACT_PATH, functionalContractSourceSha256: result.contractHash, generator: GENERATOR_PATH, generatorSha256: result.generatorHash, dependencyPins: result.source.dependencyPins,
     items: result.items.map(item => ({ id: item.resource.id, design: item.design.id, sha256: item.hash, bytes: item.bytes.length, repeatedExportByteIdentical: item.bytes.equals(item.repeat), actual: item.actual })),
     sourceModificationEvidence: { design: 'side-bracket', parameter: 'braceThickness', before: 0.04, after: result.source.designs[0].differences.braceThickness, initialSourceSha256: sha256(initialSourceBytes), initialOutputSha256: initial.items[0].hash, finalOutputSha256: result.items[0].hash, otherDesignsByteIdentical: IDS.slice(1).every((_, index) => initial.items[index + 1].hash === result.items[index + 1].hash) },

@@ -6,13 +6,68 @@
     "up": "+Y",
     "forward": "+Z",
     "origin": "Wall back bottom centre",
-    "mounting": { "origin": "bottom", "width": 1, "height": 1.8, "depth": 0.35 },
-    "footprint": { "center": [0, 0.175], "halfSize": [0.5, 0.175], "blocking": true },
-    "board": { "width": 0.92, "depth": 0.31, "thickness": 0.035 },
+    "mounting": {
+      "origin": "bottom",
+      "width": 1,
+      "height": 1.8,
+      "depth": 0.35
+    },
+    "footprint": {
+      "center": [
+        0,
+        0.175
+      ],
+      "halfSize": [
+        0.5,
+        0.175
+      ],
+      "blocking": true
+    },
+    "board": {
+      "width": 0.92,
+      "depth": 0.31,
+      "thickness": 0.035
+    },
     "supportSurfaces": [
-      { "id": "lower", "center": [0, 0.19], "topY": 0.35, "halfSize": [0.4, 0.1], "clearanceHeight": 0.45 },
-      { "id": "middle", "center": [0, 0.19], "topY": 0.95, "halfSize": [0.4, 0.1], "clearanceHeight": 0.45 },
-      { "id": "top", "center": [0, 0.19], "topY": 1.55, "halfSize": [0.4, 0.1], "clearanceHeight": 0.25 }
+      {
+        "id": "lower",
+        "center": [
+          0,
+          0.19
+        ],
+        "topY": 0.35,
+        "halfSize": [
+          0.4,
+          0.1
+        ],
+        "clearanceHeight": 0.45
+      },
+      {
+        "id": "middle",
+        "center": [
+          0,
+          0.19
+        ],
+        "topY": 0.95,
+        "halfSize": [
+          0.4,
+          0.1
+        ],
+        "clearanceHeight": 0.45
+      },
+      {
+        "id": "top",
+        "center": [
+          0,
+          0.19
+        ],
+        "topY": 1.55,
+        "halfSize": [
+          0.4,
+          0.1
+        ],
+        "clearanceHeight": 0.25
+      }
     ]
   },
   "designs": [
@@ -20,31 +75,63 @@
       "id": "side-bracket",
       "label": "侧托壁架",
       "prompt": "Project-authored wall-mounted three-board shelf with paired rear wall rails and side-mounted triangular brackets under each board.",
-      "differences": { "railWidth": 0.05, "railDepth": 0.04, "armWidth": 0.04, "braceThickness": 0.05 }
+      "differences": {
+        "railWidth": 0.05,
+        "railDepth": 0.04,
+        "armWidth": 0.04,
+        "braceThickness": 0.05
+      }
     },
     {
       "id": "cantilever",
       "label": "悬挑壁架",
       "prompt": "Project-authored wall-mounted shelf with three individual wall bars and paired forward cantilever arms under each board.",
-      "differences": { "wallBarHeight": 0.06, "armWidth": 0.05, "armDepth": 0.035, "railThickness": 0.04 }
+      "differences": {
+        "wallBarHeight": 0.06,
+        "armWidth": 0.05,
+        "armDepth": 0.035,
+        "railThickness": 0.04
+      }
     },
     {
       "id": "frame",
       "label": "框式壁架",
       "prompt": "Project-authored wall-mounted shelf with two complete side frames, rear and front posts, and board edges seated in the frames.",
-      "differences": { "postWidth": 0.05, "postDepth": 0.04, "railHeight": 0.045 }
+      "differences": {
+        "postWidth": 0.05,
+        "postDepth": 0.04,
+        "railHeight": 0.045
+      }
     },
     {
       "id": "back-panel",
       "label": "背板壁架",
       "prompt": "Project-authored wall-mounted shelf with a continuous wall-contact back panel and three forward support ledges.",
-      "differences": { "panelThickness": 0.03, "ledgeWidth": 0.04, "ledgeDepth": 0.26, "ledgeHeight": 0.04 }
+      "differences": {
+        "panelThickness": 0.03,
+        "ledgeWidth": 0.04,
+        "ledgeDepth": 0.26,
+        "ledgeHeight": 0.04
+      }
     }
   ],
   "dependencyPins": {
-    "functionalContract": { "path": "docs/COMPANY-WALL-SHELF-CONTRACT-v1.txt", "sha256": "b4cbd9a20d6dd620142bb782dc2683ed28550fffce6f36a2b9bb30b3d398aa10" },
-    "dataVerifier": { "path": "prototype/src/company/wall-shelf-data.js", "sha256": "20bdb76f9906577e403207f4da8af6e5f1710e2844b9f75a3003f8546c695586" },
-    "supportGeometry": { "path": "prototype/src/company/support-geometry.js", "sha256": "132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68" }
+    "functionalContract": {
+      "path": "docs/COMPANY-WALL-SHELF-CONTRACT-v1.txt",
+      "sha256": "b4cbd9a20d6dd620142bb782dc2683ed28550fffce6f36a2b9bb30b3d398aa10"
+    },
+    "dataVerifier": {
+      "path": "prototype/src/company/wall-shelf-data.js",
+      "sha256": "20bdb76f9906577e403207f4da8af6e5f1710e2844b9f75a3003f8546c695586"
+    },
+    "supportGeometry": {
+      "path": "prototype/src/company/support-geometry.js",
+      "sha256": "132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68"
+    },
+    "wallGeometry": {
+      "path": "prototype/src/company/wall-shelf-geometry.js",
+      "sha256": "7c953a2fed0251a34bd7789dbd1a8f5be2ffc22d692141a347e81632fe8dae48"
+    }
   },
   "promptStandard": "Purpose: authored static wall decor for three supported display boards. Units are metres, up is +Y, forward is +Z, and origin is the wall back bottom centre. The shelf is a wall-mounted blocking facility with three fixed support surfaces at declared board top heights. Keep support clearance prisms free of all structure except their named boards. Produce deterministic CPU-only solid Standard materials, binary GLB, no textures, no animation, and no external art assets."
 }

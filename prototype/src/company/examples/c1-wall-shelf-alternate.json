@@ -1,0 +1,149 @@
+{
+  "schema": "company-layout",
+  "version": 1,
+  "id": "wall-shelf-alternate",
+  "name": "墙装壁架 · 侧墙布置",
+  "revision": 1,
+  "scale": "single-room",
+  "catalog": {
+    "id": "company-facilities",
+    "version": 1
+  },
+  "nodes": [
+    {
+      "id": "wall-shelf-alternate/floor-1",
+      "kind": "floor",
+      "parentId": "wall-shelf-alternate",
+      "name": "一层",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "wall-shelf-alternate/room-1",
+      "kind": "room",
+      "parentId": "wall-shelf-alternate/floor-1",
+      "name": "直播间",
+      "purpose": "streaming",
+      "bounds": {
+        "width": 7,
+        "depth": 5.25
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "wall-shelf/primary",
+      "kind": "facility",
+      "parentId": "wall-shelf-alternate/room-1",
+      "resource": {
+        "id": "wall-shelf-side-bracket",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          3.4,
+          0.35,
+          0.4
+        ],
+        "yaw": 4.71238898038469
+      },
+      "state": {}
+    },
+    {
+      "id": "wall-shelf/cup",
+      "kind": "facility",
+      "parentId": "wall-shelf/primary",
+      "resource": {
+        "id": "side-table-life-cup",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.18,
+          0.35,
+          0.19
+        ],
+        "yaw": 0
+      },
+      "state": {},
+      "attachment": {
+        "surfaceId": "lower"
+      }
+    },
+    {
+      "id": "wall-shelf/bottle",
+      "kind": "facility",
+      "parentId": "wall-shelf/primary",
+      "resource": {
+        "id": "side-table-life-bottle",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0.18,
+          0.35,
+          0.19
+        ],
+        "yaw": 0
+      },
+      "state": {},
+      "attachment": {
+        "surfaceId": "lower"
+      }
+    },
+    {
+      "id": "wall-shelf/tissue",
+      "kind": "facility",
+      "parentId": "wall-shelf/primary",
+      "resource": {
+        "id": "side-table-life-tissue",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.95,
+          0.19
+        ],
+        "yaw": 0
+      },
+      "state": {},
+      "attachment": {
+        "surfaceId": "middle"
+      }
+    },
+    {
+      "id": "wall-shelf/pen-notebook",
+      "kind": "facility",
+      "parentId": "wall-shelf/primary",
+      "resource": {
+        "id": "side-table-life-pen-notebook",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          1.55,
+          0.19
+        ],
+        "yaw": 0
+      },
+      "state": {},
+      "attachment": {
+        "surfaceId": "top"
+      }
+    }
+  ]
+}

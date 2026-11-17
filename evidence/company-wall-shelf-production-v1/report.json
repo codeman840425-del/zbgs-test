@@ -12,12 +12,17 @@
     "node scripts/company-platform/build-wall-shelf.mjs",
     "node scripts/company-platform/build-wall-shelf.mjs --check"
   ],
+  "sourceGeometryAdmissionEvidence": {
+    "actualTenMillimetreGapRejectedBeforeWrite": true,
+    "code": "wall-shelf-detached-component",
+    "retainedFailure": "evidence/company-wall-shelf-production-v1/failures/back-panel-gap-0.24"
+  },
   "sourceParameters": "assets-source/company-wall-shelf-v1/parameters.json",
-  "sourceParametersSha256": "0ddfbaf5717f7702592249427407bd3eda59db627fb027bb9e2ea98a35fac406",
+  "sourceParametersSha256": "5114f92fb3828d6390f600c88b17de025838aed9b959f6cbc8667aca2cb863e4",
   "functionalContractSource": "docs/COMPANY-WALL-SHELF-CONTRACT-v1.txt",
   "functionalContractSourceSha256": "b4cbd9a20d6dd620142bb782dc2683ed28550fffce6f36a2b9bb30b3d398aa10",
   "generator": "scripts/company-platform/build-wall-shelf.mjs",
-  "generatorSha256": "40d5a66e87791c7316b59e794aef14410a86da3d06236a04b6de8034263ca0e6",
+  "generatorSha256": "5096a10e9ad3cce91613d4d5686b3d9e7198806c9d437e1079f6895343849797",
   "dependencyPins": {
     "functionalContract": {
       "path": "docs/COMPANY-WALL-SHELF-CONTRACT-v1.txt",
@@ -30,6 +35,10 @@
     "supportGeometry": {
       "path": "prototype/src/company/support-geometry.js",
       "sha256": "132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68"
+    },
+    "wallGeometry": {
+      "path": "prototype/src/company/wall-shelf-geometry.js",
+      "sha256": "7c953a2fed0251a34bd7789dbd1a8f5be2ffc22d692141a347e81632fe8dae48"
     }
   },
   "items": [
@@ -64,6 +73,326 @@
             }
           ]
         },
+        "structuralGeometry": {
+          "checked": true,
+          "wallMounted": true,
+          "sourceDesign": "side-bracket",
+          "meshCount": 17,
+          "triangleCount": 204,
+          "materials": 2,
+          "wallArea": 0.17999999791383736,
+          "wallExtents": {
+            "minX": -0.48500000037252905,
+            "maxX": 0.48500000037252905,
+            "minY": 2.384185793236071e-8,
+            "maxY": 1.799999976158142
+          },
+          "support": {
+            "checked": true,
+            "surfaces": [
+              {
+                "mesh": "wall-shelf-board-lower",
+                "triangles": 2,
+                "area": 0.28520000736713413,
+                "topY": 0.35
+              },
+              {
+                "mesh": "wall-shelf-board-middle",
+                "triangles": 2,
+                "area": 0.28520000736713413,
+                "topY": 0.95
+              },
+              {
+                "mesh": "wall-shelf-board-top",
+                "triangles": 2,
+                "area": 0.28520000736713413,
+                "topY": 1.55
+              }
+            ]
+          },
+          "connections": [
+            {
+              "a": "wall-shelf-board-lower",
+              "b": "side-bracket-wall-rail-left",
+              "kind": "volume",
+              "margin": 0.005000000745058061
+            },
+            {
+              "a": "wall-shelf-board-lower",
+              "b": "side-bracket-arm-lower-left",
+              "kind": "face"
+            },
+            {
+              "a": "wall-shelf-board-lower",
+              "b": "side-bracket-brace-lower-left",
+              "kind": "volume",
+              "margin": 0.02356567893787148
+            },
+            {
+              "a": "wall-shelf-board-lower",
+              "b": "side-bracket-wall-rail-right",
+              "kind": "volume",
+              "margin": 0.005000000745058061
+            },
+            {
+              "a": "wall-shelf-board-lower",
+              "b": "side-bracket-arm-lower-right",
+              "kind": "face"
+            },
+            {
+              "a": "wall-shelf-board-lower",
+              "b": "side-bracket-brace-lower-right",
+              "kind": "volume",
+              "margin": 0.02356567893787148
+            },
+            {
+              "a": "wall-shelf-board-middle",
+              "b": "side-bracket-wall-rail-left",
+              "kind": "volume",
+              "margin": 0.005000000745058061
+            },
+            {
+              "a": "wall-shelf-board-middle",
+              "b": "side-bracket-arm-middle-left",
+              "kind": "face"
+            },
+            {
+              "a": "wall-shelf-board-middle",
+              "b": "side-bracket-brace-middle-left",
+              "kind": "volume",
+              "margin": 0.023565678937871426
+            },
+            {
+              "a": "wall-shelf-board-middle",
+              "b": "side-bracket-wall-rail-right",
+              "kind": "volume",
+              "margin": 0.005000000745058061
+            },
+            {
+              "a": "wall-shelf-board-middle",
+              "b": "side-bracket-arm-middle-right",
+              "kind": "face"
+            },
+            {
+              "a": "wall-shelf-board-middle",
+              "b": "side-bracket-brace-middle-right",
+              "kind": "volume",
+              "margin": 0.023565678937871426
+            },
+            {
+              "a": "wall-shelf-board-top",
+              "b": "side-bracket-wall-rail-left",
+              "kind": "volume",
+              "margin": 0.005000000745058061
+            },
+            {
+              "a": "wall-shelf-board-top",
+              "b": "side-bracket-arm-top-left",
+              "kind": "face"
+            },
+            {
+              "a": "wall-shelf-board-top",
+              "b": "side-bracket-brace-top-left",
+              "kind": "volume",
+              "margin": 0.02356567893787176
+            },
+            {
+              "a": "wall-shelf-board-top",
+              "b": "side-bracket-wall-rail-right",
+              "kind": "volume",
+              "margin": 0.005000000745058061
+            },
+            {
+              "a": "wall-shelf-board-top",
+              "b": "side-bracket-arm-top-right",
+              "kind": "face"
+            },
+            {
+              "a": "wall-shelf-board-top",
+              "b": "side-bracket-brace-top-right",
+              "kind": "volume",
+              "margin": 0.02356567893787176
+            },
+            {
+              "a": "side-bracket-wall-rail-left",
+              "b": "side-bracket-arm-lower-left",
+              "kind": "face"
+            },
+            {
+              "a": "side-bracket-wall-rail-left",
+              "b": "side-bracket-brace-lower-left",
+              "kind": "volume",
+              "margin": 0.008346172256542897
+            },
+            {
+              "a": "side-bracket-wall-rail-left",
+              "b": "side-bracket-arm-middle-left",
+              "kind": "face"
+            },
+            {
+              "a": "side-bracket-wall-rail-left",
+              "b": "side-bracket-brace-middle-left",
+              "kind": "volume",
+              "margin": 0.008346172256542897
+            },
+            {
+              "a": "side-bracket-wall-rail-left",
+              "b": "side-bracket-arm-top-left",
+              "kind": "face"
+            },
+            {
+              "a": "side-bracket-wall-rail-left",
+              "b": "side-bracket-brace-top-left",
+              "kind": "volume",
+              "margin": 0.008346172256542897
+            },
+            {
+              "a": "side-bracket-arm-lower-left",
+              "b": "side-bracket-brace-lower-left",
+              "kind": "volume",
+              "margin": 0.03999999910593033
+            },
+            {
+              "a": "side-bracket-arm-middle-left",
+              "b": "side-bracket-brace-middle-left",
+              "kind": "volume",
+              "margin": 0.03999999910593033
+            },
+            {
+              "a": "side-bracket-arm-top-left",
+              "b": "side-bracket-brace-top-left",
+              "kind": "volume",
+              "margin": 0.03999999910593033
+            },
+            {
+              "a": "side-bracket-wall-rail-right",
+              "b": "side-bracket-arm-lower-right",
+              "kind": "face"
+            },
+            {
+              "a": "side-bracket-wall-rail-right",
+              "b": "side-bracket-brace-lower-right",
+              "kind": "volume",
+              "margin": 0.008346172256542897
+            },
+            {
+              "a": "side-bracket-wall-rail-right",
+              "b": "side-bracket-arm-middle-right",
+              "kind": "face"
+            },
+            {
+              "a": "side-bracket-wall-rail-right",
+              "b": "side-bracket-brace-middle-right",
+              "kind": "volume",
+              "margin": 0.008346172256542897
+            },
+            {
+              "a": "side-bracket-wall-rail-right",
+              "b": "side-bracket-arm-top-right",
+              "kind": "face"
+            },
+            {
+              "a": "side-bracket-wall-rail-right",
+              "b": "side-bracket-brace-top-right",
+              "kind": "volume",
+              "margin": 0.008346172256542897
+            },
+            {
+              "a": "side-bracket-arm-lower-right",
+              "b": "side-bracket-brace-lower-right",
+              "kind": "volume",
+              "margin": 0.03999999910593033
+            },
+            {
+              "a": "side-bracket-arm-middle-right",
+              "b": "side-bracket-brace-middle-right",
+              "kind": "volume",
+              "margin": 0.03999999910593033
+            },
+            {
+              "a": "side-bracket-arm-top-right",
+              "b": "side-bracket-brace-top-right",
+              "kind": "volume",
+              "margin": 0.03999999910593033
+            }
+          ],
+          "components": [
+            {
+              "name": "wall-shelf-board-lower",
+              "volume": 0.00998200030034781
+            },
+            {
+              "name": "wall-shelf-board-middle",
+              "volume": 0.009982000300347781
+            },
+            {
+              "name": "wall-shelf-board-top",
+              "volume": 0.0099820003003478
+            },
+            {
+              "name": "side-bracket-wall-rail-left",
+              "volume": 0.003599999877810481
+            },
+            {
+              "name": "side-bracket-arm-lower-left",
+              "volume": 0.00047999998569488655
+            },
+            {
+              "name": "side-bracket-brace-lower-left",
+              "volume": 0.0005092150531022574
+            },
+            {
+              "name": "side-bracket-arm-middle-left",
+              "volume": 0.0004799999856948763
+            },
+            {
+              "name": "side-bracket-brace-middle-left",
+              "volume": 0.0005092150531022562
+            },
+            {
+              "name": "side-bracket-arm-top-left",
+              "volume": 0.00047999998569489473
+            },
+            {
+              "name": "side-bracket-brace-top-left",
+              "volume": 0.0005092150531022504
+            },
+            {
+              "name": "side-bracket-wall-rail-right",
+              "volume": 0.0035999998778104823
+            },
+            {
+              "name": "side-bracket-arm-lower-right",
+              "volume": 0.00047999998569488704
+            },
+            {
+              "name": "side-bracket-brace-lower-right",
+              "volume": 0.0005092150531022626
+            },
+            {
+              "name": "side-bracket-arm-middle-right",
+              "volume": 0.00047999998569489034
+            },
+            {
+              "name": "side-bracket-brace-middle-right",
+              "volume": 0.000509215053102269
+            },
+            {
+              "name": "side-bracket-arm-top-right",
+              "volume": 0.0004799999856948914
+            },
+            {
+              "name": "side-bracket-brace-top-right",
+              "volume": 0.0005092150531022634
+            }
+          ],
+          "tolerances": {
+            "positionMetres": 0.000001,
+            "weldMetres": 1e-7,
+            "volumeCubicMetres": 1e-12
+          },
+          "limitation": "CPU triangle admission proves static wall contact, closed solids, support patches and structural connectivity. It does not prove anchor strength, runtime save/reopen, ordinary-computer performance or human visual acceptance."
+        },
         "bounds": {
           "min": [
             -0.48500000037252905,
@@ -76,7 +405,7 @@
             0.3450000011920929
           ]
         },
-        "triangleCount": 136,
+        "triangleCount": 204,
         "meshCount": 17,
         "materialCount": 2,
         "wallContactMeshes": [
@@ -135,6 +464,312 @@
             }
           ]
         },
+        "structuralGeometry": {
+          "checked": true,
+          "wallMounted": true,
+          "sourceDesign": "cantilever",
+          "meshCount": 18,
+          "triangleCount": 216,
+          "materials": 2,
+          "wallArea": 0.15119999189972888,
+          "wallExtents": {
+            "minX": -0.41999998688697815,
+            "maxX": 0.41999998688697815,
+            "minY": 0.27000000067055224,
+            "maxY": 1.5299999993294477
+          },
+          "support": {
+            "checked": true,
+            "surfaces": [
+              {
+                "mesh": "wall-shelf-board-lower",
+                "triangles": 2,
+                "area": 0.28520000736713413,
+                "topY": 0.35
+              },
+              {
+                "mesh": "wall-shelf-board-middle",
+                "triangles": 2,
+                "area": 0.28520000736713413,
+                "topY": 0.95
+              },
+              {
+                "mesh": "wall-shelf-board-top",
+                "triangles": 2,
+                "area": 0.28520000736713413,
+                "topY": 1.55
+              }
+            ]
+          },
+          "connections": [
+            {
+              "a": "wall-shelf-board-lower",
+              "b": "cantilever-wall-bar-lower",
+              "kind": "volume",
+              "margin": 0.005000000745058061
+            },
+            {
+              "a": "wall-shelf-board-lower",
+              "b": "cantilever-arm-lower-left",
+              "kind": "face"
+            },
+            {
+              "a": "wall-shelf-board-lower",
+              "b": "cantilever-underbrace-lower-left",
+              "kind": "volume",
+              "margin": 0.01697749253562053
+            },
+            {
+              "a": "wall-shelf-board-lower",
+              "b": "cantilever-arm-lower-right",
+              "kind": "face"
+            },
+            {
+              "a": "wall-shelf-board-lower",
+              "b": "cantilever-underbrace-lower-right",
+              "kind": "volume",
+              "margin": 0.01697749253562053
+            },
+            {
+              "a": "wall-shelf-board-middle",
+              "b": "cantilever-wall-bar-middle",
+              "kind": "volume",
+              "margin": 0.005000000745058061
+            },
+            {
+              "a": "wall-shelf-board-middle",
+              "b": "cantilever-arm-middle-left",
+              "kind": "face"
+            },
+            {
+              "a": "wall-shelf-board-middle",
+              "b": "cantilever-underbrace-middle-left",
+              "kind": "volume",
+              "margin": 0.01697749253562053
+            },
+            {
+              "a": "wall-shelf-board-middle",
+              "b": "cantilever-arm-middle-right",
+              "kind": "face"
+            },
+            {
+              "a": "wall-shelf-board-middle",
+              "b": "cantilever-underbrace-middle-right",
+              "kind": "volume",
+              "margin": 0.01697749253562053
+            },
+            {
+              "a": "wall-shelf-board-top",
+              "b": "cantilever-wall-bar-top",
+              "kind": "volume",
+              "margin": 0.005000000745058061
+            },
+            {
+              "a": "wall-shelf-board-top",
+              "b": "cantilever-arm-top-left",
+              "kind": "face"
+            },
+            {
+              "a": "wall-shelf-board-top",
+              "b": "cantilever-underbrace-top-left",
+              "kind": "volume",
+              "margin": 0.01697749253562053
+            },
+            {
+              "a": "wall-shelf-board-top",
+              "b": "cantilever-arm-top-right",
+              "kind": "face"
+            },
+            {
+              "a": "wall-shelf-board-top",
+              "b": "cantilever-underbrace-top-right",
+              "kind": "volume",
+              "margin": 0.01697749253562053
+            },
+            {
+              "a": "cantilever-wall-bar-lower",
+              "b": "cantilever-arm-lower-left",
+              "kind": "face"
+            },
+            {
+              "a": "cantilever-wall-bar-lower",
+              "b": "cantilever-underbrace-lower-left",
+              "kind": "volume",
+              "margin": 0.004244367554331843
+            },
+            {
+              "a": "cantilever-wall-bar-lower",
+              "b": "cantilever-arm-lower-right",
+              "kind": "face"
+            },
+            {
+              "a": "cantilever-wall-bar-lower",
+              "b": "cantilever-underbrace-lower-right",
+              "kind": "volume",
+              "margin": 0.004244367554331843
+            },
+            {
+              "a": "cantilever-arm-lower-left",
+              "b": "cantilever-underbrace-lower-left",
+              "kind": "volume",
+              "margin": 0.05000000074505806
+            },
+            {
+              "a": "cantilever-arm-lower-right",
+              "b": "cantilever-underbrace-lower-right",
+              "kind": "volume",
+              "margin": 0.05000000074505806
+            },
+            {
+              "a": "cantilever-wall-bar-middle",
+              "b": "cantilever-arm-middle-left",
+              "kind": "face"
+            },
+            {
+              "a": "cantilever-wall-bar-middle",
+              "b": "cantilever-underbrace-middle-left",
+              "kind": "volume",
+              "margin": 0.004244367554331871
+            },
+            {
+              "a": "cantilever-wall-bar-middle",
+              "b": "cantilever-arm-middle-right",
+              "kind": "face"
+            },
+            {
+              "a": "cantilever-wall-bar-middle",
+              "b": "cantilever-underbrace-middle-right",
+              "kind": "volume",
+              "margin": 0.004244367554331871
+            },
+            {
+              "a": "cantilever-arm-middle-left",
+              "b": "cantilever-underbrace-middle-left",
+              "kind": "volume",
+              "margin": 0.05000000074505806
+            },
+            {
+              "a": "cantilever-arm-middle-right",
+              "b": "cantilever-underbrace-middle-right",
+              "kind": "volume",
+              "margin": 0.05000000074505806
+            },
+            {
+              "a": "cantilever-wall-bar-top",
+              "b": "cantilever-arm-top-left",
+              "kind": "face"
+            },
+            {
+              "a": "cantilever-wall-bar-top",
+              "b": "cantilever-underbrace-top-left",
+              "kind": "volume",
+              "margin": 0.004244367554331843
+            },
+            {
+              "a": "cantilever-wall-bar-top",
+              "b": "cantilever-arm-top-right",
+              "kind": "face"
+            },
+            {
+              "a": "cantilever-wall-bar-top",
+              "b": "cantilever-underbrace-top-right",
+              "kind": "volume",
+              "margin": 0.004244367554331843
+            },
+            {
+              "a": "cantilever-arm-top-left",
+              "b": "cantilever-underbrace-top-left",
+              "kind": "volume",
+              "margin": 0.05000000074505806
+            },
+            {
+              "a": "cantilever-arm-top-right",
+              "b": "cantilever-underbrace-top-right",
+              "kind": "volume",
+              "margin": 0.05000000074505806
+            }
+          ],
+          "components": [
+            {
+              "name": "wall-shelf-board-lower",
+              "volume": 0.00998200030034781
+            },
+            {
+              "name": "wall-shelf-board-middle",
+              "volume": 0.009982000300347781
+            },
+            {
+              "name": "wall-shelf-board-top",
+              "volume": 0.0099820003003478
+            },
+            {
+              "name": "cantilever-wall-bar-lower",
+              "volume": 0.002015999846935276
+            },
+            {
+              "name": "cantilever-arm-lower-left",
+              "volume": 0.0004725000278279205
+            },
+            {
+              "name": "cantilever-underbrace-lower-left",
+              "volume": 0.00046900325421995234
+            },
+            {
+              "name": "cantilever-arm-lower-right",
+              "volume": 0.00047250002782791683
+            },
+            {
+              "name": "cantilever-underbrace-lower-right",
+              "volume": 0.0004690032542199544
+            },
+            {
+              "name": "cantilever-wall-bar-middle",
+              "volume": 0.0020159998469352763
+            },
+            {
+              "name": "cantilever-arm-middle-left",
+              "volume": 0.00047250002782792415
+            },
+            {
+              "name": "cantilever-underbrace-middle-left",
+              "volume": 0.0004690032542199558
+            },
+            {
+              "name": "cantilever-arm-middle-right",
+              "volume": 0.0004725000278279002
+            },
+            {
+              "name": "cantilever-underbrace-middle-right",
+              "volume": 0.00046900325421995624
+            },
+            {
+              "name": "cantilever-wall-bar-top",
+              "volume": 0.002015999846935282
+            },
+            {
+              "name": "cantilever-arm-top-left",
+              "volume": 0.0004725000278279105
+            },
+            {
+              "name": "cantilever-underbrace-top-left",
+              "volume": 0.0004690032542199415
+            },
+            {
+              "name": "cantilever-arm-top-right",
+              "volume": 0.00047250002782791314
+            },
+            {
+              "name": "cantilever-underbrace-top-right",
+              "volume": 0.0004690032542199593
+            }
+          ],
+          "tolerances": {
+            "positionMetres": 0.000001,
+            "weldMetres": 1e-7,
+            "volumeCubicMetres": 1e-12
+          },
+          "limitation": "CPU triangle admission proves static wall contact, closed solids, support patches and structural connectivity. It does not prove anchor strength, runtime save/reopen, ordinary-computer performance or human visual acceptance."
+        },
         "bounds": {
           "min": [
             -0.46000000834465027,
@@ -147,7 +782,7 @@
             0.3450000011920929
           ]
         },
-        "triangleCount": 144,
+        "triangleCount": 216,
         "meshCount": 18,
         "materialCount": 2,
         "wallContactMeshes": [
@@ -208,6 +843,296 @@
             }
           ]
         },
+        "structuralGeometry": {
+          "checked": true,
+          "wallMounted": true,
+          "sourceDesign": "frame",
+          "meshCount": 14,
+          "triangleCount": 168,
+          "materials": 2,
+          "wallArea": 0.2214000003099441,
+          "wallExtents": {
+            "minX": -0.48500000037252905,
+            "maxX": 0.48500000037252905,
+            "minY": 2.384185793236071e-8,
+            "maxY": 1.8000000008940698
+          },
+          "support": {
+            "checked": true,
+            "surfaces": [
+              {
+                "mesh": "wall-shelf-board-lower",
+                "triangles": 2,
+                "area": 0.28520000736713413,
+                "topY": 0.35
+              },
+              {
+                "mesh": "wall-shelf-board-middle",
+                "triangles": 2,
+                "area": 0.28520000736713413,
+                "topY": 0.95
+              },
+              {
+                "mesh": "wall-shelf-board-top",
+                "triangles": 2,
+                "area": 0.28520000736713413,
+                "topY": 1.55
+              }
+            ]
+          },
+          "connections": [
+            {
+              "a": "wall-shelf-board-lower",
+              "b": "frame-post-left-rear",
+              "kind": "volume",
+              "margin": 0.005000000745058061
+            },
+            {
+              "a": "wall-shelf-board-lower",
+              "b": "frame-post-left-front",
+              "kind": "volume",
+              "margin": 0.02500000871717928
+            },
+            {
+              "a": "wall-shelf-board-lower",
+              "b": "frame-side-rail-lower-left",
+              "kind": "face"
+            },
+            {
+              "a": "wall-shelf-board-lower",
+              "b": "frame-post-right-rear",
+              "kind": "volume",
+              "margin": 0.005000000745058061
+            },
+            {
+              "a": "wall-shelf-board-lower",
+              "b": "frame-post-right-front",
+              "kind": "volume",
+              "margin": 0.02500000871717928
+            },
+            {
+              "a": "wall-shelf-board-lower",
+              "b": "frame-side-rail-lower-right",
+              "kind": "face"
+            },
+            {
+              "a": "wall-shelf-board-middle",
+              "b": "frame-post-left-rear",
+              "kind": "volume",
+              "margin": 0.005000000745058061
+            },
+            {
+              "a": "wall-shelf-board-middle",
+              "b": "frame-post-left-front",
+              "kind": "volume",
+              "margin": 0.02500000871717928
+            },
+            {
+              "a": "wall-shelf-board-middle",
+              "b": "frame-side-rail-middle-left",
+              "kind": "face"
+            },
+            {
+              "a": "wall-shelf-board-middle",
+              "b": "frame-post-right-rear",
+              "kind": "volume",
+              "margin": 0.005000000745058061
+            },
+            {
+              "a": "wall-shelf-board-middle",
+              "b": "frame-post-right-front",
+              "kind": "volume",
+              "margin": 0.02500000871717928
+            },
+            {
+              "a": "wall-shelf-board-middle",
+              "b": "frame-side-rail-middle-right",
+              "kind": "face"
+            },
+            {
+              "a": "wall-shelf-board-top",
+              "b": "frame-post-left-rear",
+              "kind": "volume",
+              "margin": 0.005000000745058061
+            },
+            {
+              "a": "wall-shelf-board-top",
+              "b": "frame-post-left-front",
+              "kind": "volume",
+              "margin": 0.02500000871717928
+            },
+            {
+              "a": "wall-shelf-board-top",
+              "b": "frame-side-rail-top-left",
+              "kind": "face"
+            },
+            {
+              "a": "wall-shelf-board-top",
+              "b": "frame-post-right-rear",
+              "kind": "volume",
+              "margin": 0.005000000745058061
+            },
+            {
+              "a": "wall-shelf-board-top",
+              "b": "frame-post-right-front",
+              "kind": "volume",
+              "margin": 0.02500000871717928
+            },
+            {
+              "a": "wall-shelf-board-top",
+              "b": "frame-side-rail-top-right",
+              "kind": "face"
+            },
+            {
+              "a": "frame-post-left-rear",
+              "b": "frame-side-rail-lower-left",
+              "kind": "volume",
+              "margin": 0.005000000745058061
+            },
+            {
+              "a": "frame-post-left-rear",
+              "b": "frame-side-rail-middle-left",
+              "kind": "volume",
+              "margin": 0.005000000745058061
+            },
+            {
+              "a": "frame-post-left-rear",
+              "b": "frame-side-rail-top-left",
+              "kind": "volume",
+              "margin": 0.005000000745058061
+            },
+            {
+              "a": "frame-post-left-rear",
+              "b": "frame-rear-top-rail",
+              "kind": "volume",
+              "margin": 0.02500000871717928
+            },
+            {
+              "a": "frame-post-left-front",
+              "b": "frame-side-rail-lower-left",
+              "kind": "volume",
+              "margin": 0.035000000745058046
+            },
+            {
+              "a": "frame-post-left-front",
+              "b": "frame-side-rail-middle-left",
+              "kind": "volume",
+              "margin": 0.035000000745058046
+            },
+            {
+              "a": "frame-post-left-front",
+              "b": "frame-side-rail-top-left",
+              "kind": "volume",
+              "margin": 0.035000000745058046
+            },
+            {
+              "a": "frame-post-right-rear",
+              "b": "frame-side-rail-lower-right",
+              "kind": "volume",
+              "margin": 0.005000000745058061
+            },
+            {
+              "a": "frame-post-right-rear",
+              "b": "frame-side-rail-middle-right",
+              "kind": "volume",
+              "margin": 0.005000000745058061
+            },
+            {
+              "a": "frame-post-right-rear",
+              "b": "frame-side-rail-top-right",
+              "kind": "volume",
+              "margin": 0.005000000745058061
+            },
+            {
+              "a": "frame-post-right-rear",
+              "b": "frame-rear-top-rail",
+              "kind": "volume",
+              "margin": 0.02500000871717928
+            },
+            {
+              "a": "frame-post-right-front",
+              "b": "frame-side-rail-lower-right",
+              "kind": "volume",
+              "margin": 0.035000000745058046
+            },
+            {
+              "a": "frame-post-right-front",
+              "b": "frame-side-rail-middle-right",
+              "kind": "volume",
+              "margin": 0.035000000745058046
+            },
+            {
+              "a": "frame-post-right-front",
+              "b": "frame-side-rail-top-right",
+              "kind": "volume",
+              "margin": 0.035000000745058046
+            }
+          ],
+          "components": [
+            {
+              "name": "wall-shelf-board-lower",
+              "volume": 0.00998200030034781
+            },
+            {
+              "name": "wall-shelf-board-middle",
+              "volume": 0.009982000300347781
+            },
+            {
+              "name": "wall-shelf-board-top",
+              "volume": 0.0099820003003478
+            },
+            {
+              "name": "frame-post-left-rear",
+              "volume": 0.003599999877810481
+            },
+            {
+              "name": "frame-post-left-front",
+              "volume": 0.0035999998778104766
+            },
+            {
+              "name": "frame-side-rail-lower-left",
+              "volume": 0.000697500043474141
+            },
+            {
+              "name": "frame-side-rail-middle-left",
+              "volume": 0.0006975000434741193
+            },
+            {
+              "name": "frame-side-rail-top-left",
+              "volume": 0.000697500043474152
+            },
+            {
+              "name": "frame-post-right-rear",
+              "volume": 0.0035999998778104823
+            },
+            {
+              "name": "frame-post-right-front",
+              "volume": 0.003599999877810512
+            },
+            {
+              "name": "frame-side-rail-lower-right",
+              "volume": 0.0006975000434741302
+            },
+            {
+              "name": "frame-side-rail-middle-right",
+              "volume": 0.000697500043474126
+            },
+            {
+              "name": "frame-side-rail-top-right",
+              "volume": 0.000697500043474111
+            },
+            {
+              "name": "frame-rear-top-rail",
+              "volume": 0.001656000058829786
+            }
+          ],
+          "tolerances": {
+            "positionMetres": 0.000001,
+            "weldMetres": 1e-7,
+            "volumeCubicMetres": 1e-12
+          },
+          "limitation": "CPU triangle admission proves static wall contact, closed solids, support patches and structural connectivity. It does not prove anchor strength, runtime save/reopen, ordinary-computer performance or human visual acceptance."
+        },
         "bounds": {
           "min": [
             -0.48500000037252905,
@@ -220,7 +1145,7 @@
             0.3499999995529652
           ]
         },
-        "triangleCount": 112,
+        "triangleCount": 168,
         "meshCount": 14,
         "materialCount": 2,
         "wallContactMeshes": [
@@ -277,6 +1202,202 @@
             }
           ]
         },
+        "structuralGeometry": {
+          "checked": true,
+          "wallMounted": true,
+          "sourceDesign": "back-panel",
+          "meshCount": 13,
+          "triangleCount": 156,
+          "materials": 2,
+          "wallArea": 1.6559999861717216,
+          "wallExtents": {
+            "minX": -0.46000000834465027,
+            "maxX": 0.46000000834465027,
+            "minY": 2.384185793236071e-8,
+            "maxY": 1.799999976158142
+          },
+          "support": {
+            "checked": true,
+            "surfaces": [
+              {
+                "mesh": "wall-shelf-board-lower",
+                "triangles": 2,
+                "area": 0.28520000736713413,
+                "topY": 0.35
+              },
+              {
+                "mesh": "wall-shelf-board-middle",
+                "triangles": 2,
+                "area": 0.28520000736713413,
+                "topY": 0.95
+              },
+              {
+                "mesh": "wall-shelf-board-top",
+                "triangles": 2,
+                "area": 0.28520000736713413,
+                "topY": 1.55
+              }
+            ]
+          },
+          "connections": [
+            {
+              "a": "wall-shelf-board-lower",
+              "b": "back-panel-ledge-lower",
+              "kind": "face"
+            },
+            {
+              "a": "wall-shelf-board-lower",
+              "b": "back-panel-edge-lower-left",
+              "kind": "face"
+            },
+            {
+              "a": "wall-shelf-board-lower",
+              "b": "back-panel-edge-lower-right",
+              "kind": "face"
+            },
+            {
+              "a": "wall-shelf-board-middle",
+              "b": "back-panel-ledge-middle",
+              "kind": "face"
+            },
+            {
+              "a": "wall-shelf-board-middle",
+              "b": "back-panel-edge-middle-left",
+              "kind": "face"
+            },
+            {
+              "a": "wall-shelf-board-middle",
+              "b": "back-panel-edge-middle-right",
+              "kind": "face"
+            },
+            {
+              "a": "wall-shelf-board-top",
+              "b": "back-panel-ledge-top",
+              "kind": "face"
+            },
+            {
+              "a": "wall-shelf-board-top",
+              "b": "back-panel-edge-top-left",
+              "kind": "face"
+            },
+            {
+              "a": "wall-shelf-board-top",
+              "b": "back-panel-edge-top-right",
+              "kind": "face"
+            },
+            {
+              "a": "back-panel-wall-sheet",
+              "b": "back-panel-ledge-lower",
+              "kind": "face"
+            },
+            {
+              "a": "back-panel-wall-sheet",
+              "b": "back-panel-ledge-middle",
+              "kind": "face"
+            },
+            {
+              "a": "back-panel-wall-sheet",
+              "b": "back-panel-ledge-top",
+              "kind": "face"
+            },
+            {
+              "a": "back-panel-ledge-lower",
+              "b": "back-panel-edge-lower-left",
+              "kind": "volume",
+              "margin": 0.00999998643994332
+            },
+            {
+              "a": "back-panel-ledge-lower",
+              "b": "back-panel-edge-lower-right",
+              "kind": "volume",
+              "margin": 0.00999998643994332
+            },
+            {
+              "a": "back-panel-ledge-middle",
+              "b": "back-panel-edge-middle-left",
+              "kind": "volume",
+              "margin": 0.00999998643994332
+            },
+            {
+              "a": "back-panel-ledge-middle",
+              "b": "back-panel-edge-middle-right",
+              "kind": "volume",
+              "margin": 0.00999998643994332
+            },
+            {
+              "a": "back-panel-ledge-top",
+              "b": "back-panel-edge-top-left",
+              "kind": "volume",
+              "margin": 0.00999998643994332
+            },
+            {
+              "a": "back-panel-ledge-top",
+              "b": "back-panel-edge-top-right",
+              "kind": "volume",
+              "margin": 0.00999998643994332
+            }
+          ],
+          "components": [
+            {
+              "name": "wall-shelf-board-lower",
+              "volume": 0.00998200030034781
+            },
+            {
+              "name": "wall-shelf-board-middle",
+              "volume": 0.009982000300347781
+            },
+            {
+              "name": "wall-shelf-board-top",
+              "volume": 0.0099820003003478
+            },
+            {
+              "name": "back-panel-wall-sheet",
+              "volume": 0.049679998474717116
+            },
+            {
+              "name": "back-panel-ledge-lower",
+              "volume": 0.008735999211549782
+            },
+            {
+              "name": "back-panel-edge-lower-left",
+              "volume": 0.0004159999661445623
+            },
+            {
+              "name": "back-panel-edge-lower-right",
+              "volume": 0.00041599996614456747
+            },
+            {
+              "name": "back-panel-ledge-middle",
+              "volume": 0.008735999211549779
+            },
+            {
+              "name": "back-panel-edge-middle-left",
+              "volume": 0.0004159999661445717
+            },
+            {
+              "name": "back-panel-edge-middle-right",
+              "volume": 0.0004159999661445642
+            },
+            {
+              "name": "back-panel-ledge-top",
+              "volume": 0.008735999211549777
+            },
+            {
+              "name": "back-panel-edge-top-left",
+              "volume": 0.00041599996614458676
+            },
+            {
+              "name": "back-panel-edge-top-right",
+              "volume": 0.0004159999661445567
+            }
+          ],
+          "tolerances": {
+            "positionMetres": 0.000001,
+            "weldMetres": 1e-7,
+            "volumeCubicMetres": 1e-12
+          },
+          "limitation": "CPU triangle admission proves static wall contact, closed solids, support patches and structural connectivity. It does not prove anchor strength, runtime save/reopen, ordinary-computer performance or human visual acceptance."
+        },
         "bounds": {
           "min": [
             -0.46000000834465027,
@@ -289,7 +1410,7 @@
             0.3450000011920929
           ]
         },
-        "triangleCount": 104,
+        "triangleCount": 156,
         "meshCount": 13,
         "materialCount": 2,
         "wallContactMeshes": [
@@ -318,7 +1439,7 @@
     "parameter": "braceThickness",
     "before": 0.04,
     "after": 0.05,
-    "initialSourceSha256": "5b5d577ee450b8d0dcc23f13ac7382e80ef29bdb2b8ce8e1a4dcf02f15e548c5",
+    "initialSourceSha256": "0aedac630217f5fa385ec2e2f6a358f2e362400e8d5d7fc24dfa6369d48cb52c",
     "initialOutputSha256": "cbb632e925c63648f0542f5c506751e75827d92afd2f4248019ff5749be3ea72",
     "finalOutputSha256": "9e5beaf8d04a8320dea84c98643898828163faf2e4255804b3d28f54004f5852",
     "otherDesignsByteIdentical": true
