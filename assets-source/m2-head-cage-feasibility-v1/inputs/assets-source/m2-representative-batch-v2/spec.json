@@ -1,0 +1,252 @@
+{
+  "schema": "representative-body-batch-source-v2",
+  "version": 2,
+  "sources": {
+    "female": {
+      "body": {
+        "path": "prototype/public/assets/foundation/base-female-roundtrip.vrm",
+        "sha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95"
+      },
+      "equipmentManifest": "prototype/public/assets/m1/equipment.json",
+      "equipment": [
+        {
+          "id": "m1-uniform-top",
+          "slot": "top",
+          "path": "prototype/public/assets/m1/m1-uniform-top.glb",
+          "sha256": "27bcfe020828ad2603f618fabf7f21cf1b09f66035c8ecd740e78cfc3650b9d6"
+        },
+        {
+          "id": "m1-training-pants",
+          "slot": "bottom",
+          "path": "prototype/public/assets/m1/m1-training-pants.glb",
+          "sha256": "9e41d6df66a0917c2a4c09741c9f963fd05a347335854999d720d96ccee7aa92"
+        },
+        {
+          "id": "m1-uniform-shoes",
+          "slot": "shoes",
+          "path": "prototype/public/assets/m1/m1-uniform-shoes.glb",
+          "sha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf"
+        }
+      ]
+    },
+    "male": {
+      "body": {
+        "path": "prototype/public/assets/foundation/base-male-roundtrip.vrm",
+        "sha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff"
+      },
+      "equipmentManifest": "prototype/public/assets/m1b/equipment.json",
+      "equipment": [
+        {
+          "id": "m1b-uniform-top",
+          "slot": "top",
+          "path": "prototype/public/assets/m1b/m1b-uniform-top.glb",
+          "sha256": "393a2a97e9a933c4f8170720cf1d5792a18f282166abf7e5ffbba0d0de1fc32c"
+        },
+        {
+          "id": "m1b-uniform-shorts-v1",
+          "slot": "bottom",
+          "path": "prototype/public/assets/m1b/m1b-uniform-shorts-v1.glb",
+          "sha256": "c8a1afd0742cbb99302abc107673744751a8cfd77c6c89df039b068054a947d0"
+        },
+        {
+          "id": "m1b-uniform-shoes",
+          "slot": "shoes",
+          "path": "prototype/public/assets/m1b/m1b-uniform-shoes.glb",
+          "sha256": "3e855c7f39a183ab44b8aef3ac92898f6ebc36a7cbc0e6ccfdd485b85607fe2f"
+        }
+      ]
+    }
+  },
+  "parameterFields": [
+    "jawWidth",
+    "cheekWidth",
+    "chinLengthM",
+    "chinProjectionM",
+    "waistWidth",
+    "waistDepth",
+    "hipWidth",
+    "hipDepth",
+    "chestWidth",
+    "chestDepth",
+    "shoulderMass",
+    "upperArmRadius",
+    "thighRadius"
+  ],
+  "variants": [
+    {
+      "id": "female-round-full-v2",
+      "sex": "female",
+      "parameters": {
+        "jawWidth": 0.18,
+        "cheekWidth": 0.28,
+        "chinLengthM": -0.003,
+        "chinProjectionM": 0.002,
+        "waistWidth": 0.28,
+        "waistDepth": 0.24,
+        "hipWidth": 0.32,
+        "hipDepth": 0.26,
+        "chestWidth": 0.15,
+        "chestDepth": 0.18,
+        "shoulderMass": 0.1,
+        "upperArmRadius": 0.22,
+        "thighRadius": 0.28
+      },
+      "basePresetId": "female-round-full"
+    },
+    {
+      "id": "female-long-slender-v2",
+      "sex": "female",
+      "parameters": {
+        "jawWidth": -0.2,
+        "cheekWidth": -0.12,
+        "chinLengthM": 0.012,
+        "chinProjectionM": 0.003,
+        "waistWidth": -0.18,
+        "waistDepth": -0.15,
+        "hipWidth": -0.12,
+        "hipDepth": -0.1,
+        "chestWidth": -0.08,
+        "chestDepth": -0.08,
+        "shoulderMass": -0.04,
+        "upperArmRadius": -0.12,
+        "thighRadius": -0.12
+      },
+      "basePresetId": "female-long-slender"
+    },
+    {
+      "id": "female-square-athletic-v2",
+      "sex": "female",
+      "parameters": {
+        "jawWidth": 0.32,
+        "cheekWidth": 0.04,
+        "chinLengthM": 0.003,
+        "chinProjectionM": 0.004,
+        "waistWidth": -0.06,
+        "waistDepth": -0.04,
+        "hipWidth": 0.06,
+        "hipDepth": 0.02,
+        "chestWidth": 0.16,
+        "chestDepth": 0.1,
+        "shoulderMass": 0.24,
+        "upperArmRadius": 0.28,
+        "thighRadius": 0.2
+      },
+      "basePresetId": "female-square-athletic"
+    },
+    {
+      "id": "female-soft-wide-v2",
+      "sex": "female",
+      "parameters": {
+        "jawWidth": 0.2,
+        "cheekWidth": 0.3,
+        "chinLengthM": -0.001,
+        "chinProjectionM": 0,
+        "waistWidth": 0.12,
+        "waistDepth": 0.12,
+        "hipWidth": 0.22,
+        "hipDepth": 0.18,
+        "chestWidth": 0.1,
+        "chestDepth": 0.12,
+        "shoulderMass": 0.12,
+        "upperArmRadius": 0.1,
+        "thighRadius": 0.16
+      },
+      "basePresetId": "female-soft-wide"
+    },
+    {
+      "id": "male-wide-muscular-v2",
+      "sex": "male",
+      "parameters": {
+        "jawWidth": 0.32,
+        "cheekWidth": 0.1,
+        "chinLengthM": 0.002,
+        "chinProjectionM": 0.005,
+        "waistWidth": 0.08,
+        "waistDepth": 0.12,
+        "hipWidth": 0.16,
+        "hipDepth": 0.12,
+        "chestWidth": 0.3,
+        "chestDepth": 0.32,
+        "shoulderMass": 0.35,
+        "upperArmRadius": 0.42,
+        "thighRadius": 0.32
+      },
+      "basePresetId": "male-wide-muscular"
+    },
+    {
+      "id": "male-long-lean-v2",
+      "sex": "male",
+      "parameters": {
+        "jawWidth": -0.2,
+        "cheekWidth": -0.14,
+        "chinLengthM": 0.014,
+        "chinProjectionM": 0.004,
+        "waistWidth": -0.2,
+        "waistDepth": -0.18,
+        "hipWidth": -0.12,
+        "hipDepth": -0.1,
+        "chestWidth": -0.1,
+        "chestDepth": -0.1,
+        "shoulderMass": -0.04,
+        "upperArmRadius": -0.16,
+        "thighRadius": -0.18
+      },
+      "basePresetId": "male-long-lean"
+    },
+    {
+      "id": "male-round-stocky-v2",
+      "sex": "male",
+      "parameters": {
+        "jawWidth": 0.18,
+        "cheekWidth": 0.32,
+        "chinLengthM": -0.004,
+        "chinProjectionM": 0.001,
+        "waistWidth": 0.35,
+        "waistDepth": 0.3,
+        "hipWidth": 0.25,
+        "hipDepth": 0.22,
+        "chestWidth": 0.16,
+        "chestDepth": 0.2,
+        "shoulderMass": 0.15,
+        "upperArmRadius": 0.22,
+        "thighRadius": 0.25
+      },
+      "basePresetId": "male-round-stocky"
+    },
+    {
+      "id": "male-angular-athletic-v2",
+      "sex": "male",
+      "parameters": {
+        "jawWidth": 0.28,
+        "cheekWidth": -0.1,
+        "chinLengthM": 0.006,
+        "chinProjectionM": 0.005,
+        "waistWidth": -0.12,
+        "waistDepth": -0.1,
+        "hipWidth": 0.05,
+        "hipDepth": 0.02,
+        "chestWidth": 0.2,
+        "chestDepth": 0.18,
+        "shoulderMass": 0.24,
+        "upperArmRadius": 0.3,
+        "thighRadius": 0.2
+      },
+      "basePresetId": "male-angular-athletic"
+    }
+  ],
+  "policy": {
+    "skeleton": "unchanged",
+    "singleCaseEdits": 0,
+    "runtimeAccepted": false,
+    "referenceUpperFaceLimitM": 0.06,
+    "referenceFrontZLimitM": -0.025
+  },
+  "sourceSpec": {
+    "path": "assets-source/m2-representative-batch-v1/spec.json",
+    "sha256": "ce2d5054b14b9efab88131f1fdd3fc75b80e8d8f3f10208a4a3c00caa15d6afb"
+  },
+  "v1Manifest": {
+    "path": "assets-source/m2-representative-batch-v1/generated/manifest.json",
+    "sha256": "5a12e7ab55c50547f07371744dffa024c788582f3053197821927fd58f86ad24"
+  }
+}
