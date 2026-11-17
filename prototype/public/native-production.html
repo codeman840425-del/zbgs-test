@@ -11,6 +11,20 @@
 <h1>原生角色制作对照</h1>
 <p>同一角色、同一房间光照和镜头。这里查看制作方法的实际结果；这些候选尚未进入正式换装与外观保存流程。</p>
 <section>
+<h2>服装拆分后，在游戏中独立装配</h2>
+<p>同一人物的上衣、短裤和鞋，分别使用原模型内嵌部件与独立服装资源。保留原材质、贴图、骨架权重与描边。</p>
+<div class="pair">
+<figure><figcaption>原模型内嵌服装 · 暂停站立</figcaption><img data-equipment-image="standing-front-embedded.png" width="1040" height="814" alt="原模型内嵌上衣、短裤和鞋"></figure>
+<figure><figcaption>独立装配 · 暂停时首次显示</figcaption><img data-equipment-image="standing-front-independent.png" width="1040" height="814" alt="独立装配后，透明裁切与描边正常显示"></figure>
+</div>
+<p>以下两段只录制正常速度行走，各包含四个步态周期。可分别播放并全屏查看。这是固定位置的步态与衣物对照，尚不代表新基体的导航、坐姿和完整换装流程已通过。</p>
+<div class="pair">
+<figure><figcaption>内嵌服装 · 1 倍速</figcaption><video controls playsinline preload="none" data-equipment-video="embedded-1x.webm" aria-label="内嵌服装四周期正常速度录像"></video></figure>
+<figure><figcaption>独立服装 · 1 倍速</figcaption><video controls playsinline preload="none" data-equipment-video="independent-1x.webm" aria-label="独立服装四周期正常速度录像"></video></figure>
+</div>
+<p class="note">衣装录像构建：86d4da9716a7；人物：78912a7a。已修复独立衣物在暂停状态下首次显示时的透明裁切初始化问题。尚未完成完整工厂、恢复皮肤后的覆盖和普通电脑性能验收。</p>
+</section>
+<section>
 <h2>修改表情定义，保存后带入游戏</h2>
 <p>只把欣喜表情的眉部幅度从 100 调到 65。关闭制作工具、重开并导出后，游戏里的眉毛上提幅度也随之减小。</p>
 <div role="group" aria-label="选择同一表情对比">
@@ -33,7 +47,7 @@
 <section>
 <h2>验证范围</h2>
 <p>VRoid Studio 2.16 原生源 → MCP 修改并保存 → 重新启动工具回读 → 原生 VRM 导出 → Three.js／VRM 同房间显示。</p>
-<p class="tag">已验证一个女性候选的一个表情定义。完整装备接入、八个代表预设和普通电脑性能仍未通过。</p>
+<p class="tag">已实测一个女性候选的独立衣装接缝和一个表情定义。完整人物工厂、八个代表预设和普通电脑性能仍未通过。</p>
 <p class="note">房间录像构建：83decd027116。原／新 VRM：48b08e05／b839ed14。单表达制作源与证据：4cf6a238。当前页面不是这两段历史录像的新构建身份。</p>
 <a id="report" target="_blank" rel="noopener noreferrer">查看完整验证记录</a>
 <p id="media-error" role="status" hidden>对照媒体加载失败。请保留本页，由技术负责人检查本地证据服务。</p>
@@ -42,6 +56,9 @@
 <script>
 const base=new URL('/evidence/vroid-expression-study-v1/',location.href);base.port='4174';
 const url=path=>new URL(path,base).href;
+const equipmentBase=new URL('/evidence/native-vroid-equipment-runtime-v1/room-compare-v5/run-1/',location.href);equipmentBase.port='4174';
+document.querySelectorAll('[data-equipment-image]').forEach(img=>{img.src=new URL(img.dataset.equipmentImage,equipmentBase).href;});
+document.querySelectorAll('[data-equipment-video]').forEach(video=>{video.src=new URL(video.dataset.equipmentVideo,equipmentBase).href;video.addEventListener('play',()=>{video.playbackRate=1;});});
 function select(pose){document.querySelector('#before').src=url('runtime-close-v1/baseline/'+pose+'.png');document.querySelector('#after').src=url('runtime-close-v1/candidate/'+pose+'.png');document.querySelectorAll('[data-pose]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.pose===pose)));}
 document.querySelectorAll('[data-pose]').forEach(button=>button.addEventListener('click',()=>select(button.dataset.pose)));
 document.querySelectorAll('[data-evidence]').forEach(video=>{video.src=url(video.dataset.evidence);video.addEventListener('play',()=>{video.playbackRate=1;});});

@@ -46,11 +46,11 @@ const out = path.resolve(destination);
     await preview.waitForLoadState();
     for(const pose of ['happy-1','happy-065','neutral','blink','aa']) {
       await preview.locator(`[data-pose="${pose}"]`).click();
-      await preview.waitForFunction(pose=>[...document.querySelectorAll('img')].every(img=>img.complete&&img.naturalWidth>0&&img.src.endsWith('/'+pose+'.png')),pose);
+      await preview.waitForFunction(pose=>[...document.querySelectorAll('#before,#after')].every(img=>img.complete&&img.naturalWidth>0&&img.src.endsWith('/'+pose+'.png')),pose);
       result.poses.push(await preview.locator('img').evaluateAll(images=>images.map(img=>({src:img.src,width:img.naturalWidth,height:img.naturalHeight}))));
     }
     await preview.locator('[data-pose="happy-1"]').click();
-    await preview.waitForFunction(()=>[...document.querySelectorAll('img')].every(img=>img.complete&&img.src.endsWith('/happy-1.png')));
+    await preview.waitForFunction(()=>[...document.querySelectorAll('img')].every(img=>img.complete&&img.naturalWidth>0)&&[...document.querySelectorAll('#before,#after')].every(img=>img.src.endsWith('/happy-1.png')));
     await preview.screenshot({path:path.join(out,'native-close.png'),fullPage:true});
     for(const video of await preview.locator('video').all()) {
       await video.scrollIntoViewIfNeeded();
@@ -58,7 +58,7 @@ const out = path.resolve(destination);
       await preview.waitForFunction(src=>{const v=[...document.querySelectorAll('video')].find(v=>v.currentSrc===src);return v&&v.currentTime>2&&!v.error;},await video.evaluate(v=>v.currentSrc));
       result.videos.push(await video.evaluate(v=>{v.pause();return{src:v.currentSrc,time:v.currentTime,rate:v.playbackRate,width:v.videoWidth,height:v.videoHeight,error:v.error?.code??null};}));
     }
-    assert.equal(result.videos.length,2);
+    assert.equal(result.videos.length,4);
     assert.equal(await preview.locator('#media-error').isVisible(),false);
     await preview.setViewportSize({width:700,height:900});
     assert(await preview.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
