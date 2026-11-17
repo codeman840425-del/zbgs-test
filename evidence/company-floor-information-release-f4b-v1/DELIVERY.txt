@@ -1,0 +1,29 @@
+落地信息板固定交付（2026-11-16）
+源码：33fd619a654bc9b78f50930ec73301b14859c3f7
+构建：f4b353efaca1
+固定检出：F:/gamemake-company-floor-information-fixed-v2
+独立包：F:/gamemake-company-floor-information-delivery-f4b
+预览：http://127.0.0.1:51412/?sample=information-board-floor&look=0
+
+新增落地信息板四款，实际框体和支架不同，统一 1×1.7×0.6m 安装包络和 1.3m 信息面中心高度。底座真实接地、立柱与板体相接，登记实际阻挡；公共入口与房间通过 1.4m 门口连接。原114项资源定义不变，复用原两份中文内容，不新建信息/占用系统。目录118项不是所有分类完成。
+
+证据：production-v1 可编辑参数、真实四模型、重复导出和单件源修改；geometry-v1 为40合成、4真实正例及每件35损坏拒绝（共184检查，不是184机制）；data-dev-v1 五组和旧wall-data-v1五组；runtime-review-v1独立只读审查；fixed-f4b-v1六组真实浏览器；handoff-f4b-v1四组独立使用及rebuild.json完整698文件与246运行文件无排除重建。最终生产器、旧墙板生产器、目录和两个布局的--check均在独立source通过。
+录像：company-floor-information-recording-f4b-v1/floor-information-preview-normal1x.webm，56.76秒、1440×1000、25fps、1×、SwiftShader。已实际检查全时段每4秒抽帧和原尺寸支架、旋转图文图。不是最终人类验收。
+
+保留失败：早期生产变体验证期待了更晚的拒绝而实际先被合法拒绝；浏览器测试正则误改已修正。旧source9356683e/build257独立生产check错误依赖原验收报告；失败在handoff-257-v1/source-check-failure.json，旧源/报告保留production-v1/before-standalone-check-correction。现仅校验生产文件，仍在内存验证变体/依赖；四GLB字节未变。旧固定树和旧独立包不删除。
+
+复现：固定检出prototype目录
+npm ci --no-audit --no-fund
+node scripts/build-company-id.mjs
+npx vite build --config vite.company.config.js
+固定检出根目录
+node scripts/company-platform/build-floor-information.mjs --check
+node scripts/company-platform/build-information.mjs --check
+node scripts/company-platform/build-library.mjs --check
+node scripts/company-platform/build-floor-information-examples.mjs --check
+node scripts/company-platform/qa-floor-information-preview.cjs F:/gamemake-company-floor-information-fixed-v2/prototype/dist-company f4b353efaca1 NEW_EVIDENCE_DIR
+node scripts/company-platform/record-floor-information-preview.cjs F:/gamemake-company-floor-information-fixed-v2/prototype/dist-company f4b353efaca1 NEW_RECORDING_DIR
+node scripts/company-platform/serve-company.cjs prototype/dist-company f4b353efaca1
+独立包根目录：node serve.mjs；node edit.mjs validate data/save.json；node edit.mjs apply INPUT_SAVE OPS_JSON NEW_RESULT_DIRECTORY。
+
+限制：预制、版本化图文，不是实时业务消息。软件渲染不代表普通电脑；未做角色C3和最终用户验收。下一包为墙挂镜真实受限反射，先按研究锁定接缝和实际小样，再四款/恢复/独立交付，不把地面镜或化妆镜混为已验。

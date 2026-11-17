@@ -1,0 +1,53 @@
+{
+  "package": "F:\\gamemake-company-floor-information-delivery-f4b",
+  "status": "passed",
+  "checks": [
+    {
+      "name": "All standalone package files match their manifest",
+      "passed": true,
+      "result": {
+        "files": 698
+      }
+    },
+    {
+      "name": "Standalone edit rejects invalid state and sets independent content visibility using pinned dependencies",
+      "passed": true,
+      "result": {
+        "rejection": "invalid-device-state",
+        "edited": {
+          "ok": true,
+          "id": "appearance-information-board-floor",
+          "revision": 2,
+          "floors": [
+            "appearance-information-board-floor/floor-1"
+          ],
+          "output": "F:\\gamemake-company-platform-c1\\evidence\\company-floor-information-handoff-f4b-v1\\edited"
+        }
+      }
+    },
+    {
+      "name": "Independent viewer loads edited information content and saves without source-tree asset requests",
+      "passed": true,
+      "result": {
+        "requests": [
+          "http://127.0.0.1:56625/company-assets/floor-information-v1/whiteboard/v1/model.glb",
+          "http://127.0.0.1:56625/company-assets/information-v1/content/company-news-cn/v1/model.glb",
+          "http://127.0.0.1:56625/company-assets/floor-information-v1/notice/v1/model.glb",
+          "http://127.0.0.1:56625/company-assets/information-v1/content/company-live-cn/v1/model.glb"
+        ]
+      }
+    },
+    {
+      "name": "Separate browser restart restores exact content identity and hidden state",
+      "passed": true,
+      "result": {
+        "nodes": 14,
+        "contentNodes": 2
+      }
+    }
+  ],
+  "limits": [
+    "Software rendering; not ordinary-PC, character or offline npm-install proof"
+  ],
+  "build": "f4b353efaca1"
+}
