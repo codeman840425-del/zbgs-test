@@ -13,6 +13,7 @@ import {validateInformationGeometry} from './information-geometry.js';
 import {validateMirrorResource} from './mirror-data.js';
 import {validateVanityResource} from './vanity-data.js';
 import {validateVanityGeometry} from './vanity-geometry.js';
+import {validateMakeupMirrorGeometry} from './makeup-mirror-geometry.js';
 import {validateMirrorGeometry} from './mirror-geometry.js';
 import {trackTexture,trackTextures} from './image-ownership.js';
 
@@ -161,6 +162,7 @@ function validateResource(pack, description) {
   pack.scene.updateMatrixWorld(true);
   validateClockGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateInformationGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
+  validateMakeupMirrorGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateMirrorGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateSupportGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateVanityGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });

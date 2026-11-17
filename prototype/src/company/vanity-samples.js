@@ -1,12 +1,12 @@
 import {createCompany,prepareCompanyChange,composeTransform} from './document.js';
 
-export function createVanitySample(catalog,templates,{index=0,alternate=false}={}) {
+export function createVanitySample(catalog,templates,{index=0,alternate=false,id}={}) {
   const tables=catalog.resources.filter(r=>r.mountRole==='vanity-table'),selected=tables[index];
   const seat=catalog.resources.find(r=>r.id==='vanity-chair-side-entry');
   const clock=catalog.resources.find(r=>r.id==='digital-clock-shelf-flat');
   const props=catalog.resources.filter(r=>r.mountRole==='tabletop-ornament');
   if(!selected||!seat||!clock||props.length<2)throw Error('Vanity sample requires registered tables, explicit seat adapter, supported clock and ornaments');
-  let document=createCompany({id:alternate?'vanity-alternate':'appearance-vanity-table',name:alternate?'化妆台 · 两房转向布置':'化妆台 · 承载与留空',width:7,depth:5.25},catalog);
+  let document=createCompany({id:id??(alternate?'vanity-alternate':'appearance-vanity-table'),name:alternate?'化妆台 · 两房转向布置':'化妆台 · 承载与留空',width:7,depth:5.25},catalog);
   const floor=document.nodes[0],room=document.nodes[1];room.name='化妆准备间';room.purpose='work';
   const arrangements=[{roomId:room.id,id:'vanity/primary',table:selected,transform:{position:[-1,0,-1.3],yaw:0}}];
   if(alternate) {

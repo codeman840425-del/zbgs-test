@@ -10,7 +10,7 @@ import {applySurfaceFinish,describeSurfaceMeshes} from './surface-finish-render.
 import {partAngle,partOffset} from './moving-parts.js';
 import {bindClockDisplay,validatePresentationInputs} from './clock-display.js';
 import {applyInformationDisplay} from './information-display.js';
-import {createMirrorBinding,validateMirrorRenderProfile} from './mirror-render.js';
+import {createMirrorBindings,validateMirrorRenderProfile} from './mirror-render.js';
 import {inspectCompanyMotionSweep} from './placement.js';
 
 const geometryTypes={BoxGeometry:THREE.BoxGeometry,CylinderGeometry:THREE.CylinderGeometry,PlaneGeometry:THREE.PlaneGeometry,CapsuleGeometry:THREE.CapsuleGeometry,SphereGeometry:THREE.SphereGeometry};
@@ -151,8 +151,19 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
           }
         }
         const facility={...entry,root,parts,visual};
-        facility.mirror=createMirrorBinding(entry.resource,parts,entry.id,mirrorRenderProfile);
-        if(facility.mirror)visual.userData.companyMirrorBinding=facility.mirror;
+        facility.mirrors=createMirrorBindings(entry.resource,parts,entry.id,mirrorRenderProfile);
+        facility.mirror=facility.mirrors[0]||null;
+        if(facility.mirrors.length)visual.userData.companyMirrorBinding={dispose:()=>{for(const binding of facility.mirrors)binding.dispose();}};
+        const lamp=entry.resource.makeupLamp;
+        if(lamp) {
+          const mesh=parts.get(lamp.node);
+          if(!mesh?.isMesh)throw new CompanyError('missing-makeup-lamp',entry.id,'The mirror lamp must resolve to its physical diffuser');
+          for(const material of [mesh.material].flat()) {
+            if(!material?.emissive)throw new CompanyError('invalid-makeup-lamp-material',entry.id,'The diffuser requires an emissive-capable material');
+            material.emissive.set(entry.resource.light.color);
+            material.emissiveIntensity=entry.state.on?entry.state.intensity/10*lamp.maxEmissiveIntensity:0;
+          }
+        }
         applyInformationDisplay(entry.resource,parts,entry.state);
         facility.clock=bindClockDisplay(entry.resource,parts,entry.state);
         facility.clock?.apply(presentationInputs);
@@ -258,7 +269,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
     if(latestWallView)candidate.wallView=clone(latestWallView);
     // Validate the candidate while the old root and its GPU resources are still owned.
     // This synchronous host hook cannot publish a document or modify stored bytes.
-    const mirrors=[...candidate.facilities.values()].map(f=>f.mirror).filter(Boolean);
+    const mirrors=[...candidate.facilities.values()].flatMap(f=>f.mirrors||[]);
     try {
       if(mirrors.length) {
         if(typeof mirrorPreflight!=='function')throw new CompanyError('mirror-host-required','company','The host must provide mirror GPU preflight before installing mirror resources');
@@ -349,7 +360,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
       return current.derived.usePoints.filter(point=>floorId===undefined||point.floorId===floorId).map(point=>describeCompanyUsePoint(current.document,current.derived,point.id));
     },
     navigation,
-    mirrorBindings(){live();return [...current.facilities.values()].map(f=>f.mirror).filter(Boolean);},
+    mirrorBindings(){live();return [...current.facilities.values()].flatMap(f=>f.mirrors||[]);},
     get mirrorRenderProfile(){live();return mirrorRenderProfile;},
     setMirrorRenderProfile(profile) {
       live();validateMirrorRenderProfile(profile);
@@ -412,7 +423,11 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
       if(candidate.generation!==generation)throw new CompanyError('revision-conflict','company','Scene was committed or restored after this candidate was prepared');
       // Recheck authoritative leases/revision just before synchronously publishing.
       prepareCompanyChange(current.document,candidate.operations,{catalog,templates,...guards,isUsePointBusy:guardedBusy(guards),expectedRevision:candidate.previousRevision});
-      install(candidate);prepared.delete(handle);return this.snapshot();
+      // install() disposes a rejected candidate. Consume its handle even on
+      // failure so a retry cannot publish an already disposed mirror group.
+      try { install(candidate); }
+      finally { prepared.delete(handle); }
+      return this.snapshot();
     },
     discard(handle){const candidate=prepared.get(handle);if(candidate){prepared.delete(handle);disposeTree(candidate.root);}},
     save(){live();return serializeCompany(current.document,catalog,templates);},

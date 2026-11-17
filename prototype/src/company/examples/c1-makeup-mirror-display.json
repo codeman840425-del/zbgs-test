@@ -1,0 +1,149 @@
+{
+  "schema": "company-layout",
+  "version": 1,
+  "id": "appearance-makeup-mirror",
+  "name": "化妆镜 · 台面反射与补光",
+  "revision": 2,
+  "scale": "single-room",
+  "catalog": {
+    "id": "company-facilities",
+    "version": 1
+  },
+  "nodes": [
+    {
+      "id": "appearance-makeup-mirror/floor-1",
+      "kind": "floor",
+      "parentId": "appearance-makeup-mirror",
+      "name": "一层",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "appearance-makeup-mirror/room-1",
+      "kind": "room",
+      "parentId": "appearance-makeup-mirror/floor-1",
+      "name": "化妆准备间",
+      "purpose": "work",
+      "bounds": {
+        "width": 7,
+        "depth": 5.25
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "vanity/primary",
+      "kind": "facility",
+      "parentId": "appearance-makeup-mirror/room-1",
+      "resource": {
+        "id": "vanity-table-plain",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -1,
+          0,
+          -1.3
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "vanity/primary/seat",
+      "kind": "facility",
+      "parentId": "appearance-makeup-mirror/room-1",
+      "resource": {
+        "id": "vanity-chair-side-entry",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.98,
+          0,
+          -0.75
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "vanity/primary/ornament-0",
+      "kind": "facility",
+      "parentId": "vanity/primary",
+      "resource": {
+        "id": "tabletop-ornament-stacked-stones",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.2,
+          0.78,
+          0.08
+        ],
+        "yaw": 0
+      },
+      "state": {},
+      "attachment": {
+        "surfaceId": "top"
+      }
+    },
+    {
+      "id": "vanity/primary/ornament-1",
+      "kind": "facility",
+      "parentId": "vanity/primary",
+      "resource": {
+        "id": "tabletop-ornament-arched-sculpture",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0.22,
+          0.78,
+          0.08
+        ],
+        "yaw": 0
+      },
+      "state": {},
+      "attachment": {
+        "surfaceId": "top"
+      }
+    },
+    {
+      "id": "vanity/primary/mirror",
+      "kind": "facility",
+      "parentId": "vanity/primary",
+      "resource": {
+        "id": "makeup-mirror-round",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0.02,
+          0.78,
+          -0.135
+        ],
+        "yaw": 0
+      },
+      "state": {
+        "on": true,
+        "intensity": 7
+      },
+      "attachment": {
+        "surfaceId": "top"
+      }
+    }
+  ]
+}

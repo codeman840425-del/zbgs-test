@@ -1,0 +1,135 @@
+{
+  "id": "company-makeup-mirror-v1",
+  "version": 1,
+  "license": "Project-authored original parametric geometry and solid-color materials. No external art or model input. Three.js 0.187.0 is MIT licensed, copyright 2010–2026 three.js authors. Preserve prototype/node_modules/three/LICENSE and prototype/package-lock.json for offline rebuilds.",
+  "common": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Bottom centre",
+    "envelope": {
+      "width": 0.7,
+      "height": 0.6,
+      "depth": 0.16
+    },
+    "surface": {
+      "schema": "makeup-mirror-v1",
+      "profile": "single-512-v1",
+      "maxFaces": 3
+    },
+    "light": {
+      "kind": "spot",
+      "color": "#fff4df",
+      "position": [
+        0,
+        0.585,
+        0.065
+      ],
+      "target": [
+        0,
+        0.43,
+        0.72
+      ],
+      "distance": 1.5,
+      "angle": 0.55,
+      "penumbra": 0.6
+    },
+    "stateDefaults": {
+      "on": true,
+      "intensity": 5
+    },
+    "promptStandard": "Purpose: four real original tabletop makeup mirrors using the shared vanity top support, bounded planar reflection and warm-white local spotlight. Model in metres with +Y up, +Z toward the user and a bottom-centre origin, within a .70 x .60 x .16m envelope. Preserve the .24 x .03 x .14m closed base, real intersecting post/back support and actual upper lamp housing containing [0,.585,.065]. Each declared pane is a finite convex contour at its own exact plane, with thick backing, unobstructed interior and a closed frame. Bake every vertex into resource space with identity node transforms. Do not add textures, animations or external models. Keep at most 2500 triangles, 32 meshes and four materials. Rebuild deterministically with the pinned Three.js exporter and validate the actual loaded GLB through the independent geometry gate."
+  },
+  "mirrors": [
+    {
+      "id": "round",
+      "label": "圆形台面化妆镜",
+      "color": "#b9986b",
+      "frameWidth": 0.012,
+      "ringFront": 0.004,
+      "prompt": "A circular 48-sided .18m radius pane, solid curved back and a continuous metal ring frame. Central base/post and a supported overhead warm-white lamp.",
+      "limitations": [
+        "Circular silhouette uses an authored 48-segment polygon. Real reflection and scene illumination require runtime verification."
+      ]
+    },
+    {
+      "id": "lit-frame",
+      "label": "灯框台面化妆镜",
+      "color": "#e1d6c2",
+      "frameWidth": 0.022,
+      "ringFront": 0.004,
+      "prompt": "A real .40 x .36m rectangular pane surrounded by a broad cream metal light-fixture frame and a separate overhead diffuser. Closed back, central pedestal and actual lamp bridge.",
+      "limitations": [
+        "Broad fixed frame and overhead warm-white diffuser. No variable color temperature."
+      ]
+    },
+    {
+      "id": "arch",
+      "label": "拱形台面化妆镜",
+      "color": "#688275",
+      "frameWidth": 0.012,
+      "ringFront": 0.004,
+      "prompt": "An actual .34m wide arch with straight lower sides, bottom at Y=.18m, upper arc centre Y=.38m and top Y=.55m. Use 24 upper-arc segments, a matching solid back and continuous metal ring.",
+      "limitations": [
+        "Arched top is a finite 24-segment arc. No bending or deformation state."
+      ]
+    },
+    {
+      "id": "tri-fold",
+      "label": "三折台面化妆镜（固定展开）",
+      "color": "#667487",
+      "frameWidth": 0.007,
+      "ringFront": -0.009,
+      "prompt": "Three genuinely distinct mirror planes. Central .28 x .37m pane, two .14 x .37m side wings yawed inward by 30 degrees, real thick back plates, recessed rims and closed hinge supports. Fixed open pose preserves unobstructed reflection interiors.",
+      "limitations": [
+        "Fixed three-plane opening geometry. No movable hinge or folding state. Three real reflection passes require a host explicitly admitting three faces."
+      ]
+    }
+  ],
+  "editableRanges": {
+    "mirrors[0].frameWidth": {
+      "min": 0.009,
+      "max": 0.016,
+      "units": "metres"
+    },
+    "effect": "Changes the real round frame contour and volume while preserving its mirror plane and all shared functional fields. Other model bytes remain identical. Every variant must pass the same geometry admission."
+  },
+  "dependencyPins": {
+    "functionalContract": {
+      "path": "docs/COMPANY-MAKEUP-MIRROR-CONTRACT-v1.txt",
+      "sha256": "bcca9be7b7d8d7f66a7ebfdeb6e786891ee80be3e42002b60572caecc17dacf7"
+    },
+    "preflight": {
+      "path": "docs/research/COMPANY-MAKEUP-MIRROR-PREFLIGHT-2026-11-17.txt",
+      "sha256": "e6856f7fe0876d6b8ebc269818469de78d480cbd03211069113590f1886e18a0"
+    },
+    "lockfile": {
+      "path": "prototype/package-lock.json",
+      "sha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7"
+    },
+    "threePackage": {
+      "path": "prototype/node_modules/three/package.json",
+      "sha256": "87f2c99a8718e5fdd6f5e51427fde52c6075f2f698ddf8f7b4e162882df93940"
+    },
+    "threeModule": {
+      "path": "prototype/node_modules/three/build/three.module.js",
+      "sha256": "104f56145899722094556490d787aae0617cc2fc3382f31df02d724ea1aee341"
+    },
+    "gltfExporter": {
+      "path": "prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+      "sha256": "569793baeba62baeb4ab0b3619b6b1495b45d4b2ba9690430497adb58307bdf2"
+    },
+    "gltfLoader": {
+      "path": "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+      "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1"
+    },
+    "threeLicense": {
+      "path": "prototype/node_modules/three/LICENSE",
+      "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+    },
+    "geometryVerifier": {
+      "path": "prototype/src/company/makeup-mirror-geometry.js",
+      "sha256": "d72e4ba304a1027930722440aefae1eeb4cb99f812f4dd48a4b7a7910afc12b0"
+    }
+  }
+}

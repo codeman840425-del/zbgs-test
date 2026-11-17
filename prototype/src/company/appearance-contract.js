@@ -29,6 +29,7 @@ export function describeFacilityFunction(resource) {
     mount, mounting:normalized(resource.mounting??null), surface, supportSurfaces, movingParts, footprint, usePoints,
     capacity, clearance, clockDisplay:normalized(resource.clockDisplay??null),
     mirrorSurface:normalized(resource.mirrorSurface??null),
+    ...(resource.mountRole==='makeup-mirror'?{light:normalized(resource.light??null)}:{}),
     informationSurface:normalized(resource.informationSurface??null), informationContent:normalized(resource.informationContent??null),
     state: {fields: stateFields, schema: normalized(resource.stateSchema ?? null), semantics: normalized(resource.stateSemantics ?? null)},
   };

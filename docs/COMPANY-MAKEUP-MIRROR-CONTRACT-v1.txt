@@ -1,0 +1,36 @@
+台面化妆镜固定制作与运行合同 v1
+2026-11-17；本合同定义制作与准入，不是能力完成声明。
+
+输入与主包出口
+沿 COMPANY-MAKEUP-MIRROR-PREFLIGHT-2026-11-17.txt 的工程/官方 r187 核查，以当前四款化妆台、support-surface、共享保存事务和 Reflector 为基础。制作 round、lit-frame、arch、tri-fold 四款真实不同台面镜；新源修改/重复导出、登记、两输入、逐款替换与关闭恢复、真实反射和补光、固定交付及正常速度录像。墙装化妆镜和收纳另包；不触碰角色控制器与角色 M2。
+一次实现和一轮有依据修正；连续两轮同因无新证据或改善则停止扫参、重新定位。几何/CPU 不代替实际浏览器光照反射；开发机/SwiftShader 不代替普通电脑或 C3 角色受光。
+
+共同功能与字段
+资源 id 为 makeup-mirror-{round,lit-frame,arch,tri-fold}，version=1；category=dynamic，mount=support-surface，mountRole/productionBranch=makeup-mirror。米/+Y/+Z，bottom 原点，实例 scale 恒等；mounting={origin:'bottom',width:0.70,height:0.60,depth:0.16}。usePoints=[]，footprint 不阻挡地面；不能添加自己的占用/角色/时间系统。
+mirrorSurface={schema:'makeup-mirror-v1',profile:'single-512-v1',maxFaces:3} 为四款共同功能字段。mirrorPanels 为外观适配数组，条目精确字段 {id,node,backNode,position,yaw,polygons}；polygons 为面内相对 plane position 的二维凸 CCW 多边形。不同面和轮廓是外观数据，不能据此拒绝四款互换。实际几何仍逐面检查。
+makeupNodes={base:'makeup-base',post:'makeup-post',lamp:'makeup-lamp'}。所有实际 Mesh 坐标烘入资源空间，节点与其资产内祖先 transform 恒等；不靠节点缩放或偏移掩盖不兼容几何。mirrorPanels 的 node/backNode 名唯一且确实存在，不能把其他面指定为背板。
+round/lit-frame/arch 只有 id='center'，node='makeup-face-center'，backNode='makeup-back-center'，position=[0,.365,0]，yaw=0。圆片 radius=.18；矩形宽 .40 高 .36；拱形宽 .34，底 y=.18、上半圆中心 y=.38、顶 y=.55（资源坐标）。轮廓采用有限多边形，圆/弧分段和实际几何一致。
+tri-fold 三面：center 同上述平面但宽 .28 高 .37；left position=[-.14,.365,0],yaw=PI/6，面内 x=[-.14,0], y=[-.185,.185]；right position=[.14,.365,0],yaw=-PI/6，面内 x=[0,.14], y 同左。侧面 node/backNode 后缀 left/right。固定展开几何，不声明可动铰链/折叠状态。不能共面或复用一幅反射冒充三折。
+
+实体与承载
+完整包络 X±.35、Y[0,.60]、Z±.08m。底座闭合实体 X±.12、Y[0,.03]、Z±.07；底面有正面积接触桌面。柱 X±.025、Y[.03,.24]、Z[-.035,-.009]。每面厚背板位于其面内 Z[-.025,-.009]。圆/拱/矩形真实闭合厚背板和支柱必须实际相交，不能只比较 AABB。各实体连成到底座的接触网络；灯、侧翼和框不得悬空。框和灯罩不得挡住声明镜片内部，背面不漏出虚假透明孔；几何按真实三角/平面核实。
+制作纠正：实际网格检查发现预检候选柱前沿 +.005m 穿到镜片前方，故本合同将前沿固定为 -.009m，与厚背板前沿齐平；保留原失败网格，不放宽镜片无遮挡规则。
+灯罩为实际有厚度部件，包含共同灯源 [0,.585,.065]，位于镜片上方，以支架连接镜体。允许形态差异，完整包络/连接/出光点不变。
+只允许直接依附 mountRole=vanity-table 的 top 支持面，attachment={surfaceId:'top'}。沿共用完整包络/实际支承/净空/子物重叠检查，不改化妆台支持面。配方位置 [.02,.78,-.135]、yaw=0；新镜替代原后部数字钟，两个前侧摆件可保留。第二输入旋转父台和配对椅，子镜 local yaw 仍 0。单独子镜 90° 会超出台深，必须拒绝。
+
+补光及状态
+四款实际 light 完全一致：{kind:'spot',color:'#fff4df',position:[0,.585,.065],target:[0,.43,.72],distance:1.5,angle:.55,penumbra:.6}。渲染沿既有 decay=2、castShadow=false；颜色为固定暖白，不声明可调色温。光位/方向/范围均纳入功能兼容与严格准入，不能普通换外观暗改照明。
+stateDefaults={on:true,intensity:5}，stateSchema={on:{type:'boolean'},intensity:{type:'number',min:0,max:10}}；stateSemantics={on:'makeup-local-light-enabled-v1',intensity:'makeup-local-light-candela-v1'}。on 只开关灯，关灯镜面仍反射；0 强度无实际局部输出。保存既有设备状态，反射图/GPU 对象不存档。
+makeupLamp={node:'makeup-lamp',maxEmissiveIntensity:1.5} 是受限显示适配；灯罩 emissiveIntensity=on ? intensity/10*1.5 : 0。实际 SpotLight 和灯罩分别检查，以非发光物体像素证明受光，不用发光面自身作证明。
+共享场景 maxRealtimeLights 默认 2；化妆镜和既有补光灯同一名额池，显示抑制不修改保存状态；隐藏/其他房间不增无界实时灯。无阴影局部光存在穿墙限制，明确记录；C3 才验证真实角色受光。
+
+有界多面反射和旧合同兼容
+本合同明确采用同一被选镜子最多三面同时有效的反射，不采用预检建议的三面竞争一个目标。沿既有质量档 512/0、1024/0、1024/4；各面独立正确平面，旧 wall/floor 资源/默认宿主预算保持原义。
+createMirrorBindings(resource,parts,id,renderProfile) 返回该设施的绑定数组；旧资源返回零或一项。每项 ownerId=facility id，id 用稳定面 key 区分；旧绑定 id 不变。几何反变换到面内平面，再将 Reflector 变换回真实 plane position/yaw；可见性也用真实法向。
+createMirrorController({maxFacesPerMirror=1}={})：旧宿主默认 1，预览显式选 3；资源要求超宿主预算时明确拒绝，不静默丢翼面。一次稳定选择一个可见 owner，在其可见正面内更新所有合法面，≤30Hz，每次主帧 admission 最多 maxFacesPerMirror 次真实反射。其他镜子释放目标；不做递归镜中镜。
+常态最多 3 target；候选预热保留旧有效场景时短时最多 6 target。旧一面宿主仍为常态 1、交接 2。统计报告面数/真实 pass/target/主场景成本，不将三面称为一次反射。预算不足报具体原因，不通过降低画质或只更新中央面冒认通过。
+沿旧 shader/实际 framebuffer/GL/renderer 状态恢复门；任一候选面失败须释放整组候选且保旧场景。未知 renderer 私有状态异常仍要求宿主重建，不能仅恢复 JS 字段声称复原。每面资产替换、切层、discard 和 scene dispose 必须幂等释放。
+
+来源与生产
+原创建模参数、GLTFExporter/Loader/Reflector 复用锁定 Three r187 MIT；不下载商品图/未授权模型。四款目标 ≤2500 triangles、≤32 mesh、≤4 材质；实际连接/轮廓必要时先核成本原因，不以删反射面降标准。生产器 import 无写入；--check 不依赖 evidence；重复 GLB 字节相同；修改一款允许参数后另三款不变。源/合同/生产器/几何验证器和产物按 SHA 固定。
+实际最小运行：四款各自替换+关闭恢复，父变换后一致的模型/反射面/灯与 target，两不同房间身份隔离；三折三面各自可观察正确视差；混合镜组/两实时灯预算及释放；无效安装/网格/光参数/资源/着色器/目标失败保原。集中最终按固定提交构建和独立目录重建，不给旧影片换标签。

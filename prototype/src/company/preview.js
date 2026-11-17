@@ -28,6 +28,7 @@ import {createInformationSample} from './information-samples.js';
 import {createFloorInformationSample} from './floor-information-samples.js';
 import {createMirrorSample} from './mirror-samples.js';
 import {createFloorMirrorSample} from './floor-mirror-samples.js';
+import {createMakeupMirrorSample} from './makeup-mirror-samples.js';
 import {createVanitySample} from './vanity-samples.js';
 import {createMirrorController,selectMirrorRenderProfile} from './mirror-render.js';
 import {validatePresentationInputs} from './clock-display.js';
@@ -45,11 +46,11 @@ function configureRenderer(canvas,context) {
 }
 renderer=configureRenderer();stage.append(renderer.domElement);
 let mirrorRenderProfile=selectMirrorRenderProfile(renderer);
-const mirrorController=createMirrorController();
+const mirrorController=createMirrorController({maxFacesPerMirror:3});
 function updateMirrorQualityLabel() {
   const profile=session?.scene.mirrorRenderProfile||mirrorRenderProfile;
   const quality=profile==='detail-1024-msaa4-v1'?'清晰（抗锯齿）':profile==='detail-1024-v1'?'清晰':'基础';
-  const text=`镜面画质：${quality}。当前画面最多一面实时镜；其他镜面暂不显示反射。镜中使用当前墙体剖切结果。`;
+  const text=`镜面画质：${quality}。当前画面最多一件镜子实时反射，三折镜包含三个镜面；其他镜子暂不显示反射。镜中使用当前墙体剖切结果。`;
   if(element('mirror-limit').textContent!==text)element('mirror-limit').textContent=text;
 }
 let hostFrame=0,rendererRestarts=0,lastRenderError=null;
@@ -83,7 +84,7 @@ const sun=new THREE.DirectionalLight(0xfff0d6,2.3);sun.position.set(-3,8,5);sun.
 Object.assign(sun.shadow.camera,{left:-8,right:8,top:8,bottom:-8});sun.shadow.normalBias=.015;world.add(sun);
 const camera=new THREE.PerspectiveCamera(38,1,.05,300),orbit=new OrbitControls(camera,renderer.domElement);
 orbit.enableDamping=false;orbit.maxPolarAngle=Math.PI*.48;orbit.minDistance=2;orbit.maxDistance=160;
-const layouts={vanities:createVanitySample(catalog,templates).document,vanityAlternate:createVanitySample(catalog,templates,{alternate:true}).document,floorMirrors:createFloorMirrorSample(catalog,templates).document,floorMirrorAlternate:createFloorMirrorSample(catalog,templates,{alternate:true}).document,mirrors:createMirrorSample(catalog,templates).document,mirrorAlternate:createMirrorSample(catalog,templates,{alternate:true}).document,floorInformation:createFloorInformationSample(catalog,templates).document,floorInformationAlternate:createFloorInformationSample(catalog,templates,{alternate:true}).document,information:createInformationSample(catalog,templates).document,informationAlternate:createInformationSample(catalog,templates,{alternate:true}).document,supportedClocks:createSupportedClockSample(catalog,templates).document,supportedClockAlternate:createSupportedClockSample(catalog,templates,{alternate:true}).document,clocks:createClockSample(catalog,templates).document,clockAlternate:createClockSample(catalog,templates,{alternate:true}).document,sliding:createSlidingSample(catalog,templates).document,slidingAlternate:createSlidingSample(catalog,templates,{alternate:true}).document,hinged:createHingedSample(catalog,templates).document,hingedAlternate:createHingedSample(catalog,templates,{alternate:true}).document,base,alternate,studio,...createScaleExamples(catalog,templates),smallHome,rental:rentalHome,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome,ceilings:ceilingCompany,ceilingHome,
+const layouts={makeupMirrors:createMakeupMirrorSample(catalog,templates).document,makeupMirrorAlternate:createMakeupMirrorSample(catalog,templates,{alternate:true}).document,vanities:createVanitySample(catalog,templates).document,vanityAlternate:createVanitySample(catalog,templates,{alternate:true}).document,floorMirrors:createFloorMirrorSample(catalog,templates).document,floorMirrorAlternate:createFloorMirrorSample(catalog,templates,{alternate:true}).document,mirrors:createMirrorSample(catalog,templates).document,mirrorAlternate:createMirrorSample(catalog,templates,{alternate:true}).document,floorInformation:createFloorInformationSample(catalog,templates).document,floorInformationAlternate:createFloorInformationSample(catalog,templates,{alternate:true}).document,information:createInformationSample(catalog,templates).document,informationAlternate:createInformationSample(catalog,templates,{alternate:true}).document,supportedClocks:createSupportedClockSample(catalog,templates).document,supportedClockAlternate:createSupportedClockSample(catalog,templates,{alternate:true}).document,clocks:createClockSample(catalog,templates).document,clockAlternate:createClockSample(catalog,templates,{alternate:true}).document,sliding:createSlidingSample(catalog,templates).document,slidingAlternate:createSlidingSample(catalog,templates,{alternate:true}).document,hinged:createHingedSample(catalog,templates).document,hingedAlternate:createHingedSample(catalog,templates,{alternate:true}).document,base,alternate,studio,...createScaleExamples(catalog,templates),smallHome,rental:rentalHome,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome,ceilings:ceilingCompany,ceilingHome,
   supports:createSupportSample(catalog,templates).document,supportAlternate:createSupportSample(catalog,templates,{alternate:true}).document},assetLibrary=createCompanyAssetLibrary();let session,activeView='room',busy=false,game;
 let regionLabels=[],previewClockOverride=null;
 function setPreviewClock(seconds){if(seconds!==null)validatePresentationInputs({clockSeconds:seconds});previewClockOverride=seconds;if(seconds!==null)session.scene.setPresentationInputs({clockSeconds:seconds});return seconds;}
@@ -187,7 +188,7 @@ async function changeFinish(type){
 async function showAppearanceSample(branch,index){
   const sample=createAppearanceSample(branch,index,catalog,templates);
   if(session.document.id===sample.document.id){
-    const replacements=sample.document.nodes.filter(n=>n.resource&&(!['information-board','information-board-floor'].includes(branch)||catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.informationSurface)).map(n=>({type:'replace-resource',id:n.id,resource:n.resource}));
+    const replacements=sample.document.nodes.filter(n=>n.resource&&(branch!=='makeup-mirror'||catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.mountRole==='makeup-mirror')&&(!['information-board','information-board-floor'].includes(branch)||catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.informationSurface)).map(n=>({type:'replace-resource',id:n.id,resource:n.resource}));
     await session.apply(replacements);
   }else await session.load(sample.document);
   await showSpace('room',sample.document.nodes[0].id,sample.document.nodes[1].id);
@@ -239,6 +240,15 @@ function sync(){
     const node=facilities.find(n=>n.id===`${id}/${part}`),resource=catalog.resources.find(r=>r.id===node?.resource.id&&r.version===node?.resource.version);
     element(button).disabled=busy||!node||view.mode==='building';element(button).textContent=`${node?.state.on??resource?.stateDefaults.on?'关闭':'开启'}${label}`;
   }
+  const makeup=facilities.filter(n=>derived.floorIds.get(n.id)===view.floorId&&catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.mountRole==='makeup-mirror');
+  element('makeup-controls').hidden=!makeup.length;
+  fillOptions('makeup-mirror',makeup,element('makeup-mirror').value);
+  const selectedMakeup=makeup.find(n=>n.id===element('makeup-mirror').value),makeupState=selectedMakeup?derived.facilities.find(f=>f.id===selectedMakeup.id).state:null;
+  for(const key of ['makeup-mirror','makeup-power','makeup-intensity'])element(key).disabled=busy||!selectedMakeup||view.mode==='building';
+  element('makeup-power').textContent=makeupState?.on?'关闭镜前补光':'开启镜前补光';
+  element('makeup-intensity').value=String(makeupState?.intensity??5);
+  const enabledMakeup=selectedMakeup&&session.scene.snapshot().lights.find(l=>l.id===selectedMakeup.id)?.intensity>0;
+  element('makeup-status').textContent=!makeupState?'':!makeupState.on||makeupState.intensity===0?'补光已关闭；镜面仍可反射。':enabledMakeup?'镜前补光已开启。':'补光设置已保留，当前视图或灯光数量限制使它暂未点亮。';
   element('upgrade').disabled=busy||!id||doc.nodes.find(n=>n.id===id)?.template.version===2;
   element('building-view').disabled=busy||doc.scale!=='building';
   const building=view.mode==='building';element('building-stage').hidden=!building;stage.hidden=building;
@@ -317,6 +327,9 @@ async function start(){
   const selectedInformation=()=>session.document.nodes.find(n=>n.parentId===element('information-board').value&&catalog.resources.find(r=>r.id===n.resource?.id&&r.version===n.resource?.version)?.informationContent);
   element('information-content').onchange=()=>perform('正在更换图文…',()=>{const r=catalog.resources.find(r=>r.id===element('information-content').value);return session.apply([{type:'replace-resource',id:selectedInformation().id,resource:{id:r.id,version:r.version}}]);});
   element('information-visible').onclick=()=>perform('正在更新图文显示…',()=>{const n=selectedInformation();return session.apply([{type:'set-state',id:n.id,state:{visible:n.state?.visible===false}}]);});
+  element('makeup-mirror').onchange=sync;
+  element('makeup-power').onclick=()=>perform('正在更新镜前补光…',()=>{const n=session.document.nodes.find(n=>n.id===element('makeup-mirror').value);return session.apply([{type:'set-state',id:n.id,state:{on:!n.state.on}}]);});
+  element('makeup-intensity').onchange=()=>perform('正在调整镜前补光…',()=>session.apply([{type:'set-state',id:element('makeup-mirror').value,state:{intensity:Number(element('makeup-intensity').value)}}]));
   element('clock').onchange=sync;
   element('clock-time').onchange=()=>setPreviewClock(element('clock-time').value==='live'?null:Number(element('clock-time').value));
   element('clock-power').onclick=()=>perform('正在更新数字显示…',()=>{const node=session.document.nodes.find(n=>n.id===element('clock').value),resource=catalog.resources.find(r=>r.id===node.resource.id&&r.version===node.resource.version);return session.apply([{type:'set-state',id:node.id,state:{on:!(node.state.on??resource.stateDefaults.on)}}]);});

@@ -581,15 +581,16 @@
             "局部照明"
           ],
           "fixedFunctionAndInstall": {
-            "mount": "vanity-surface",
+            "mount": "support-surface",
             "dimensionsMeters": {
               "width": 0.7,
               "height": 0.6,
-              "depth": 0.08,
+              "depth": 0.16,
               "verification": "pending"
             },
             "parent": "vanity-table",
-            "state": "reflective-on-off"
+            "state": "on:boolean (lamp only), intensity:number[0,10]; reflection remains active when lamp off",
+            "contract": "docs/COMPANY-MAKEUP-MIRROR-CONTRACT-v1.txt"
           },
           "mechanismDependencies": [
             "support-surface-or-wall",

@@ -5,6 +5,7 @@ import {validateMovingResource, validateFacilityState, movingFootprint} from './
 import {validateClockResource} from './clock-display.js';
 import {validateInformationResource,validateInformationAttachments} from './information-display.js';
 import {validateMirrorResource} from './mirror-data.js';
+import {validateMakeupMirrorAttachments} from './makeup-mirror-data.js';
 import {validateVanityResource,validateVanityPlacement} from './vanity-data.js';
 export class CompanyError extends Error {
   constructor(code, path, message, details = {}) {
@@ -309,6 +310,7 @@ export function deriveCompany(document, catalog, templates) {
       fail('overlapping-facilities', a.id, `Blocking footprint overlaps ${b.id}`, { otherId: b.id });
   }
   validateSupportAttachments(nodes, resources, fail);
+  validateMakeupMirrorAttachments(nodes, resources, fail);
   validateInformationAttachments(nodes, resources, fail);
   const vanityClearances=validateVanityPlacement({nodes,worlds,floorIds,roomIds,facilities,obstacles},fail);
   return { nodes, worlds, floorIds, roomIds, facilities, usePoints, obstacles, surfaceFinishes,
