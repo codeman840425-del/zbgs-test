@@ -279,6 +279,9 @@ function cloneInstance(pack) {
         ? node.material.map(material => materials.get(material)) : materials.get(node.material);
       if (node.name) nodes.set(node.name, node);
     });
+    // GLTFLoader sanitizes animation binding names (for example decimal points).
+    // Resource slots refer to authored glTF node names retained in userData.name.
+    root.traverse(node=>{if(typeof node.userData?.name==='string'&&node.userData.name)nodes.set(node.userData.name,node);});
     return {root, nodes};
   } catch (cause) { release(owned); throw cause; }
 }

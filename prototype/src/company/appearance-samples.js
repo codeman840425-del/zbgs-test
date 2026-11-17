@@ -48,11 +48,16 @@ const names={'chair-cantilever':'悬臂滑橇椅','chair-pedestal':'中心底盘
  'lounge-sofa':'软包双人沙发','timber-sofa':'开放木框双人沙发','sofa-modular':'模块软包双人沙发','sofa-arch':'拱架双人沙发',
  'monitor-aurora':'圆角环框屏幕','monitor-ribbon':'双柱宽框屏幕','monitor-pillar':'立柱支撑屏幕','monitor-slate':'V形支架屏幕',
  'fill-light-orbit':'圆筒柔光系统','fill-light-wing':'双翼反光系统','fill-light-column':'立柱柔光系统','fill-light-panel':'悬臂面板补光'};
+// Catalog history stays available to saved documents; new authoring choices use one latest version per resource ID.
+export function latestAppearanceVersions(resources){
+ const latest=new Map();for(const resource of resources)if(!latest.has(resource.id)||latest.get(resource.id).version<resource.version)latest.set(resource.id,resource);
+ return [...latest.values()];
+}
 export function appearanceCandidates(catalog,branch) {
  if(branch==='stream-station')return [0,1,2,3].map(i=>({id:`station-look-${i+1}`,version:1,displayName:['横梁与悬臂','双柱与转椅','侧柜与栅背','金属框与交叉椅'][i]}));
  const selected=catalog.resources.filter(r=>(r.productionBranch||r.mountRole)===branch&&r.asset&&r.id!=='lounge-sofa');
  if(branch==='sofa')selected.unshift(catalog.resources.find(r=>r.id==='lounge-sofa'&&r.version===1));
- return selected.filter(Boolean).map(r=>({...r,displayName:r.displayName||names[r.id]||r.id}));
+ return latestAppearanceVersions(selected.filter(Boolean)).map(r=>({...r,displayName:r.displayName||names[r.id]||r.id}));
 }
 export function createAppearanceSample(branch,index,catalog,templates,options={}) {
  if(branch==='window-opening-and-glass')return createWindowSample(catalog,templates,{index,alternate:Boolean(options.alternate)});

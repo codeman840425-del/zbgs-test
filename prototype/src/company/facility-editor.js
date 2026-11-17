@@ -1,3 +1,4 @@
+import {latestAppearanceVersions} from './appearance-samples.js';
 import {planEntranceAndFrame} from './entrance-authoring.js';
 import * as THREE from 'three';
 import {createPlacementInteraction} from './placement-interaction.js';
@@ -128,11 +129,11 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
     const n=node(),r=resource(n),constraints=n?getFacilityEditConstraints(n,r):null;
     el('edit-empty').hidden=Boolean(n);el('edit-fields').hidden=!n;el('edit-focus').disabled=!n||isBusy()||view.mode==='building';outline.visible=false;
     if(n){
-      const candidates=r?catalog.resources.filter(c=>c.asset&&compareFacilityFunction(r,c).compatible):[];
+      const candidates=r?latestAppearanceVersions(catalog.resources.filter(c=>c.asset&&compareFacilityFunction(r,c).compatible)):[];
       if(r&&!candidates.some(c=>ref(c)===ref(r)))candidates.unshift(r);
-      options(el('edit-look'),candidates.map(c=>({value:ref(c),label:nice(c)})),r?ref(r):'');
+      options(el('edit-look'),candidates.map(c=>({value:ref(c),label:nice(c)+(candidates.some(other=>other.id===c.id&&other.version>c.version)?` (\u65e7\u7248 v${c.version})`:'')})),r?ref(r):'');
       el('edit-look').disabled=isBusy()||candidates.length<2;
-      el('edit-compatibility').textContent=r?`${candidates.length} 款符合当前安装与功能规格；更换不改变位置。`:'选中的是整体；移动、旋转和复制会带上内部部件。选中部件可单独换款。';
+      el('edit-compatibility').textContent=r?`${new Set(candidates.map(c=>c.id)).size} 种造型符合安装与功能规格；更换不改变位置。${candidates.length>new Set(candidates.map(c=>c.id)).size?' 当前旧版保留，可明确选择新版。':''}`:'选中的是整体；移动、旋转和复制会带上内部部件。选中部件可单独换款。';
       for(const [i,axis]of ['x','y','z'].entries()){el(`edit-${axis}`).value=Number(n.transform.position[i].toFixed(4));el(`edit-${axis}`).disabled=isBusy()||constraints.lockedAxes.includes(axis);}
       el('edit-yaw').value=String(angle(n.transform.yaw));el('edit-yaw').disabled=isBusy()||constraints.lockedAxes.includes('yaw');
       el('edit-rotate').disabled=el('edit-yaw').disabled;el('edit-position').disabled=isBusy()||constraints.lockedAxes.length===4;

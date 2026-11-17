@@ -1,3 +1,4 @@
+import {latestAppearanceVersions} from '../../prototype/src/company/appearance-samples.js';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import catalog from '../../prototype/src/company/library-catalog.json' with {type:'json'};
@@ -13,7 +14,7 @@ import {encodeCompanySave,decodeCompanySave} from '../../prototype/src/company/p
 const report={checks:[],scope:'Company data, topology and persistence integration, not actual model or character evidence'};
 const check=async(name,fn)=>{report.checks.push({name,observed:await fn(),passed:true});};
 const apply=(doc,ops)=>prepareCompanyChange(doc,ops,{catalog,templates}).document;
-const frames=catalog.resources.filter(r=>r.productionBranch==='door-frame');assert.equal(frames.length,4);
+const frames=latestAppearanceVersions(catalog.resources.filter(r=>r.productionBranch==='door-frame'));assert.equal(frames.length,4);
 const current=examples.smallHome;
 await check('New small home has one actual exterior doorway and a 0.6 metre wall header',()=>{
  const d=deriveCompany(current,catalog,templates);assert.equal(d.exteriorEntrances.size,1);const e=[...d.exteriorEntrances.values()][0],a=describeArchitecture(current,catalog,templates),header=a.walls.find(w=>w.openingId===e.id);
