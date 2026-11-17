@@ -2,7 +2,7 @@
 
 ## 固定入口与备份
 - F:/gamemake / feat/m1-foundation-room。4196 build 65814ccb92c2，source d09c7b0300838d2632fb63674a7a9a9d4d92bb78；独立experiments/m2-record-consumer-release-v1/prototype/dist。delivery/appearance-workbench.json；回退7a03指针在delivery/history。4174历史证据、4195封存M1，不加常驻端口。
-- 上一发布备份已核origin=d6376b068539e579e6329d309d509e52b0f8d33f。本D03发布备份待最后提交推送核验。公司副总工dirty文件不stage，不用git add -A。
+- 本D03发布增量10ad2c3a4d44e458727f51b349a164f1f54ffcae已推送并经git ls-remote核与HEAD一致。公司副总工dirty文件不stage，不用git add -A。
 
 ## 刚完成D03限定主包
 - character-record-consumer共用factory/motions/record，不读工作台DOM/草稿/制作机工具。先场景外准备完整造型再attach；game拥有时钟/位置/行为。独立入口record-consumer.html已链接4196检查→原生制作→完整记录，实际public-v1点击回归通过（原生女改脸、原生男、旧男麦克风眼镜）。
@@ -19,3 +19,5 @@
 - 女裙与原30秒舞封板不再调，普通电脑没有设备继续记未实测。开发机9950X3D/4090/Chrome157不等于目标机。统一制作的来源/资产ID/适配/许可沿既有合同。
 - 本轮只脚本和后台Playwright，不占桌面；单GPU录屏。子agent已回：deterministic_record_batch(astra/high)、material_record_review(astra/high)、game_record_package(sol/high)，请求配置与适配理由已记，实际provider/hook拦截未证明。
 - 公司平台由副总工负责，保其dirty文件，顾问云端接缝回执已在HANDOFF，不主动外发消息或合并公司main。
+
+当前D02独立任务：deterministic_record_batch（已知astra/high）在核现有store薄CLI的import/read/export，实际资源仍pending，文件边界scripts/character-record-transport.mjs及tests；root接真实浏览器查询/修改闭环。不得把文件校验当运行准入完成。
