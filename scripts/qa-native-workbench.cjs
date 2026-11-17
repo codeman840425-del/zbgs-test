@@ -83,11 +83,11 @@ if(!directory||!output)throw Error('Pass fixed dist and new evidence directory')
   assert.deepEqual(legacyColors.colors,['brown','warm','green','rose']);assert(Object.values(legacyColors.choices).every(n=>n>1));report.legacyColors=legacyColors;
   await page.goto(url+'/native-production.html');
   assert.equal(await page.locator('a[href*="body=native-female-843ac-v1"]').count(),2);
-  assert.equal(await page.locator('a[href*="body=native-male-7586-v1"]').count(),1);
-  assert.equal(await page.locator('[data-native-chain]').count(),5);
+  assert.equal(await page.locator('a[href*="body=native-male-7586-v1"]').count(),2);
+  assert.equal(await page.locator('[data-native-chain]').count(),7);
   assert((await page.locator('[data-factory-video]').getAttribute('src')).includes('7871-v2'));
   report.media=[];
-  for(let i=0;i<5;i++){
+  for(let i=0;i<7;i++){
    const result=await page.locator('[data-native-chain]').nth(i).evaluate(async video=>{
     video.muted=true;await video.play();await new Promise(r=>setTimeout(r,400));video.pause();
     return{src:video.src,time:video.currentTime,duration:video.duration,rate:video.playbackRate,width:video.videoWidth};

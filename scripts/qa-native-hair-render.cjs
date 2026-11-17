@@ -31,7 +31,7 @@ const repo=path.resolve(__dirname,'..'),digest=b=>crypto.createHash('sha256').up
   await page.goto(`http://127.0.0.1:${server.address().port}/?workbench=appearance&body=native-male-7586-v1`);
   await page.waitForFunction(()=>__debug.ready,null,{timeout:60000});
   assert.equal(await page.evaluate(()=>__debug.buildInfo.shortId),build.shortId);
-  await page.evaluate(()=>{__debug.setPaused(true);__debug.avatar().vrm.expressionManager.resetValues();});
+  await page.evaluate(()=>{__debug.setPaused(true);__debug.avatar().vrm.expressionManager.resetValues();__debug.avatar().vrm.expressionManager.update();});
   await page.locator('#appearance-hair-style').selectOption('native-male-hairset001-v1');
   await page.waitForFunction(()=>__debug.avatar().appearance.getState().hairStyle==='native-male-hairset001-v1'&&!__debug.avatar().appearance.getState().loading,null,{timeout:60000});
   report.appearance=await page.evaluate(()=>__debug.avatar().appearance.getState());

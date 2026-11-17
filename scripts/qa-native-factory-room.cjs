@@ -1,7 +1,7 @@
 // Fixed-build, actual room/factory smoke. No overlay or alternate motion driver.
 const {chromium}=require('../prototype/node_modules/playwright');
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
-const [directory,output,bodyType='native-female-843ac-v1',hairStyle='original']=process.argv.slice(2);
+const [directory,output,bodyType='native-female-843ac-v1',hairStyle='original',chainCamera='room']=process.argv.slice(2);
 if(!directory||!output)throw Error('Pass fixed dist and new evidence directory');
 const subjects={
  'native-female-843ac-v1':{sha:'843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef',alternate:3},
@@ -95,6 +95,7 @@ const subject=subjects[bodyType];if(!subject)throw Error('Unknown exact factory 
   report.states.push({name:'freshPageRestored',...(await read())});
   await page.screenshot({path:path.join(out,'fresh-page-restored.png')});
   await page.evaluate(()=>__debug.route('horizontal'));
+  await page.evaluate(camera=>__debug.camera(camera),chainCamera);report.chainCamera=chainCamera;
   await page.waitForTimeout(350);
   await page.evaluate(()=>{
    const canvas=__debug.renderer.domElement,stream=canvas.captureStream(30),chunks=[];
