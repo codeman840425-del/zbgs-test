@@ -334,3 +334,9 @@ head-only一次诊断原8请求已完成，8/8 diagnostic-failed，正式生产�
 2026-11-16 局部BMesh恢复补验：m2-boundary-refinement-api-recovery-v1已封23文件/root核，独审无新增前置阻断，范围仅male62b固定41边/39parent；Face复用7251点/54targets，实际新端点406701。未G/contacts/导出。m2-official-intersection-preflight-v1官方CGAL接口8合成测试通过，含新增子边界、共面/点边与cutoff非命中上限，未测人物。新inclusive检测合同与旧strict分开，source/候选必须同拓扑/编码；禁止用更换定义重标旧失败。m2-slim-tool-restore-v1已在全新目录实际恢复三锁定官方wheel，安装/import及负例通过，未修改在用环境；不是全工程重建结论。
 
 2026-11-17 用户明确否定当前怪异预设观感。root在公开14f73cbe1e26复现：male-long-lean-axial-head-v1下半脸尖锥，female-round-full-v2上衣腰部鼓包/露色；截图output/playwright/preset-triage。此批不能称可用预设，原数值门通过仅保技术事实。所有代表批次候选移入工作台检查区、观看时持续警示，原URL/资源/配方不删，分区不算模型修复。当前refined G唯一试验已完成只作机制证据，不推进旧尖脸导出；先复核造型目标及共同生产机制。8预设/M2仍未通过。
+
+2026-11-17 失败预设诊断分区已实际发布4196（sourcebfde7d79/build83decd027116），男女各3基础/有限样件与15失败候选分开，旧URL/配方仍可复现；455构建输入精确对应Git，公开浏览器回归通过。没有以分区宣称几何修复。9体27张实际静态分诊见m2-preset-visual-triage-v1：轴向男尖锥脸，丰满/柔宽女腹前青块与鼓摆，壮硕男左腋白缺口/黑尖片。衣物归属/原因仍在查，截图不能确定。
+
+造型目标审查m2-preset-shape-target-audit-v1确认旧jaw/cheek叠加最窄宽比.669216与14mm拉长是实现自拟，非用户造型要求；口底至颏proxy+43.14%。停止围绕旧目标继续精修。m2-refined-axial-evaluation-v1三例数值机制封存，m2-refined-contact-readback-v1只prepare/QA，真实CGAL候选调用0，未导出/通过。
+
+新m2-source-proportioned-face-v1为独立实验身份，male源62b→候选5120bd32：保持YZ和原口颏32.455mm，局部下脸X收窄，无旧jaw/cheek叠加。实际导出15消费者/54targets及属性读回，原55单独+10混合strict无新增pair（原模型已有交叉保留，不称零接触）；候选未经正式工厂/独立装备/动作验收。root实际同镜头静态查看原/拒绝/新正脸、新侧脸及blink/oh，尖锥纵向拉长已撤销，仍为原V形下颌与克制差异，不代表完整瘦体或八体达到。证据m2-source-proportioned-face-review-v2；v1微小相机不一致记录保留。原生编辑器核查未发现可用本机原工程或已验证批处理接口，不以此切换基模；安装器未安装、未执行，下载残片不纳入备份。

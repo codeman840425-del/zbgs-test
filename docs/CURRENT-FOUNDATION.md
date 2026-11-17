@@ -1,62 +1,41 @@
 # 当前角色工程：恢复入口
 
-2026-11-16，F:/gamemake，feat/m1-foundation-room。先读AGENTS和本页，再读当前包必要证据；不通读历史、不另建状态台账。CAPABILITIES是唯一能力事实，FOUNDATION-MILESTONES只安排阶段。
+2026-11-17，F:/gamemake，feat/m1-foundation-room。恢复只读AGENTS、本页和当前包必要证据。CAPABILITIES为唯一能力事实；FOUNDATION-MILESTONES安排阶段；不再通读全部历史。
 
-## 目标与公开版本
+## 目标和公开版本
 
-M2完整范围以research/M2-COMPLETE-CUSTOMIZATION-LONG-GOAL-v2-2026-11-16.txt为准（SHA309ae27289e81689d26a08f2704e887a9a882befad860e534f0779445efedc23）。当前主包仍是4女+4男代表预设共同生产：旧v2仅六个源成功，两lean失败；六体头部请求也未充分达到。不能称八体完成或M2结束。M3未授权开工。
+M2完整范围依据docs/research/M2-COMPLETE-CUSTOMIZATION-LONG-GOAL-v2-2026-11-16.txt（SHA309ae27289e81689d26a08f2704e887a9a882befad860e534f0779445efedc23）。主包仍4女+4男代表预设共同生产。用户明确拒绝鬼样预设；不能用单个男头部/数值门/诊断分区冒充8体完成。M2未完成，M3未授权。
 
-4196固定工作台：http://127.0.0.1:4196/?workbench=appearance 。source726fae4b24bb1625da9d12d22834fc88e4e2db8a / build14f73cbe1e26，目录experiments/m2-axial-head-fixed-v1/prototype/dist，指针delivery/appearance-workbench.json；f82回滚指针在delivery/history/appearance-workbench-f82.json。4174录像，4195保M1。新男lean仅头部诊断候选已入外观菜单，不是完整八体通过。
+4196固定工作台：http://127.0.0.1:4196/?workbench=appearance 。sourcebfde7d79bc6bce4eda42d3d06d870364f3f64818，build83decd027116，目录experiments/m2-preset-diagnostics-fixed-v1/prototype/dist，指针delivery/appearance-workbench.json。旧14f目录不动，回滚指针delivery/history/appearance-workbench-14f73cbe1e26.json。4174证据；4195保M1；临时4197已关闭。
 
-f82已独立重建376文件一致，公开编辑/移动/12影片烟测已验。腰部修订只适用原女、round-full-v2、soft-wide-v2；三体×房间/近腰六对完整1×在4174/evidence/m2-vest-layer-review-f82-v1/。原上衣形态、脸型及马尾椅背问题保留；数值/采样审查不替代连续人工观感。女裙和认可的30秒舞封存，不再修。
+当前普通菜单男女各3基础/有限样件，15失败候选移至检查区；持续警示和返回对应原人物、旧URL均已真实浏览器回归。455构建输入精确核Git；证据evidence/m2-preset-diagnostics-release-v1。分区不算几何修复。
 
-## 当前主包：连续轴向头部函数到完整源几何
+## 当前问题与新证据
 
-已有失败保留，禁止在原方法上继续扫参数：
-- 原整身/局部cage八请求失败；两批LP只拒固定材料点代理，不能证明正式101截面目标无解。
-- m2-head-attachment-slim-v1原23guide实际命中，但其他面成为新极值；完整101最大半宽误差9.379861/2.638866mm。独审m2-head-attachment-silhouette-diagnosis-v1已定位，不归因z筛选。
-- m2-head-surface-band-slim-v1扩为整个源101所穿600三角/363源顶点/343native，一次identity+两样仍失败：lean/round min tet det .005826535/.004797281，半宽3.776645/4.785467mm（lean缺3），fixed .390502/150.613651um。23.32秒/采样树RSS约1.017GB。独审m2-head-surface-band-root-cause-v1确认极值边现已受控、实际坏7/6全在exact风险8/10内；最坏并非极薄。不证明20步收敛或正式目标无解。没有导出/后验准入。
+- evidence/m2-preset-visual-triage-v1已9体27图实际查看：尖锥下脸、女round-full/soft-wide鼓摆与腹前青块、男wide-muscular左腋白缺口/黑尖片。仅静态默认衣装，不含动作通过；agent继续追实际资源/几何原因。
+- evidence/m2-preset-shape-target-audit-v1确认旧自拟14mm颏长+jaw/cheek叠加收窄，最窄宽比.669216，口底至颏+43.14%；不是用户不可变要求。已停止旧尖脸精修和细分后验。
+- assets-source/m2-source-proportioned-face-v1新独立实验male-source-proportioned-narrow-preview-v1，VRM SHA5120bd32b3491864d216f5a93810829f8f128f974a79824b3c911f62fa0810e5。保原YZ/口颏32.455mm，仅下脸X收窄；原骨架/贴图/54targets，15消费者读回。是方法试样，不是原lean目标达成，不是完整瘦体/八体。
+- evidence/m2-source-proportioned-face-audit-v1独立55单独+10混合实际源/新导出strict新增0，原非零保留；审计正在封包。已知旧oh新增pair不再出现在该新候选，不能改旧失败记录。
+- evidence/m2-source-proportioned-face-review-v2实际83de游戏世界/灯光中test-only VRM overlay，三源原/拒绝/新各7静态截图，相机与人物世界变换逐项exact。root查看6图：明显纵向尖锥拉长撤销，仍为原V形下颌、差异克制。v1约54µm相机差失败保留。未注册正式avatar工厂/新装备fit/整段表情或动作，未用户视觉验收。
+- evidence/m2-native-face-authoring-feasibility-v1：指定本机范围无VRoid/.vroid原工程，官方Hub不是建模批处理API，未证GUI保存/重开/导出。未安装/执行安装器，残片gitignore。不能默认改走手工制作或换基模。
 
-已先核官方实现与许可再实施：evidence/m2-axial-shape-method-review-v1/REVIEW.md、m2-axial-shape-formulation-review-v1/REVIEW.md。新表示只对应现有jaw/cheek/chin轴向目标：G=(Hx+s(y)x, Hy+y+d(y), Hz+z+h(y))，y为原head-local米制。它不是任意脸型/关节求解器，不更换游戏路线。新G有自己的实际J=s(1+d')，不能改标签声称旧tet通过。
+## 保留机制及失败，勿重做
 
-函数系数前置已完成：scripts与assets-source/m2-axial-shape-function-v1。共同knots为源带全uniqueY+原101sourceY+frame/L/U四保护层，共347knots/346段。L=完整fixed-neck maxY=-.09536004066467285，U=完整fixed-eye minY=.04140663146972656。只用官方SciPy PCHIP，对s/dY/h有常量护段，显式外段identity。identity+lean/round各唯一构造一次；存储Float64系数的精确Fraction/Bernstein检查每项692区间，无需细分，s>0，q下界lean .39386243383、round .976210641755。原23/202函数残差≤2.222e-16m，原101标量残差0；平台系数精确常量，数值C0/C1误差约1e-16/1e-15。1.28秒/采样树RSS约108MB。root核23文件SHA/字节一致。
+- m2-axial-body-compose-v1完整male lean 13参数F=G+B数值过，body-readback真实Face与旧head-only字节相同，mixed-oh仍新增[128,1020]，未完整人物导出或fit。旧尖锥已拒，勿继续精修旧目标。
+- m2-boundary-refinement-api-recovery-v1官方局部BMesh：原Body7855→7896点/12049面，41新点1骨，跨accessor闭合；独审无新增前置阻断。旧wrapper失败保留。
+- m2-refined-axial-evaluation-v1原两目标各一次406701端点数值已封，非造型/导出通过。m2-refined-contact-readback-v1只准备9消费者/12QA，候选CGAL执行0；独立合同审查已封。后续不再推进已拒目标。
+- scripts/m2-slim-tool-restore-v1：三锁定官方wheel干净新venv59.87s恢复/import成功，未改在用环境，非全工程/新OS恢复。工具现用experiments/tools/slim-core-2.6.3/.venv；目标存在拒覆盖。
+- m2-official-intersection-preflight-v1官方CGAL8合成过，inclusive与原strict定义不同、cutoff非命中上限。许可记录限离线工具，不随游戏分发二进制。
 
-函数独审m2-axial-shape-function-audit-v1已无阻断：原c→精确有理局部求值→Lagrange→独立Bernstein逐项一致，7反例/预算拒绝过。result SHAcd953c45352fa3e79652a53f791125fc1e8e71f6134959f72e43d94c6afe507d。证明仅针对各段存储系数实多项式；接缝有舍入级差，严格全局C1/注入和浮点全域执行界未证，不能夸大。此时还不是完整模型或实际101网格通过。
+## 接续与协作
 
-完整源求值m2-axial-head-evaluation-v1现已完成并由独审确认无阻断：identity全源0；lean/round完整101误差.825000032/.941696881mm（无缺片），实际Jmin .486337477/.976210642，fixed全0，Float32误差.118263/.106781µm。501三角诊断无新增退化/非正参考法向点积，不等于无碰撞。3.147秒/采样树RSS143654912B，首监控启动缺psutil失败保留、实际求值仅一次。独审result SHA58321fc546b32fa56868ce9ab531e38465c7d343151e8c2e671c3e3517f1659b，root核30包文件一致。仅数值候选，非人物通过。以下为执行约定：直接读取已封PPoly系数，不重造曲线；identity+两原男头部请求各一次完整源求值，600s/3GiB/2threads，无扫参。函数独审通过的执行条件已满足，producer准备核pin后直接跑，不等用户或再问root。全部9911实际引用base顶点必须覆盖：Body accessor7为7855base且无morph，Face accessor21为2056base+54真实targets，总120935 unique endpoints；不能虚构9911×55。Body在55面部状态复用base。
+1. 新静态对照和真实表达审计封包/root复核；不能只换标签结束。依据实际画面决定是否接共用profile/实际装备fit与运行链；不借旧83f适配身份。
+2. asset_budget执行m2-preset-garment-cause-v1，追女腹前/鼓摆与男腋下两代表的实际资源/几何共同原因，不重开封板裙。
+3. face_target_feasibility执行m2-batch-face-production-cause-v1，核三女颊角/V尖共同形变场/源拓扑/作者法线，先只读归因，不扫参/导出。
+4. 持续整批8体与M2共同生产闭环；普通机实测缺设备已获准记录缺口，不停独立工作。冻结裙/30秒舞不动。公司平台由副总工负责，其dirty/untracked不碰、不stage。
 
-完整源清单evidence/m2-axial-export-seam-review-v1/source-index-inventory.json SHA51f938f9c604e01020db9d95a7b987bd336741c5172ffa610059345cb35532b9，含全部primitive/material/隐藏源衣鞋及原属性/target身份。Body/Face mesh nodes67/68均scene根identity，共用原rest米制；无共享target冲突、无未引用buffer点。旧113713 tet records只覆盖Body7的633点，不能当新G全源覆盖。
+已知requested配置：face_target_feasibility=gpt-6-astra/high；asset_budget和http_transport_review=gpt-6.1-sol/high。followup不改模型，真实provider/hook未独立暴露。每次记录evidence/subagent-explicit-dispatch-2026-11-16.json；GPU录制与重导出互斥。
 
-evaluation将保存完整source/mapped/Float32 base+delta、新G实际J、原fixed-eye/neck/frame≤2um、完整101实际Face_SKIN切片≤2mm/无缺段及源三角退化/方向诊断。新records按positionAccessor/endpoint/targetPositionAccessor/references/sourceIndices/offset/count，不用单primitive假装覆盖全组；NPZ保mappedEndpointsM、float32BakeRoundTripM等。只应用四头部参数，原请求body参数仅溯源，非完整lean/stocky人物。此阶段不export或跑55strict；只有数值候选才接后验。
+## 备份
 
-## 并行接缝与尚未完成项
-
-m2-axial-head-readback-v1已完成prepare+13项合成QA，新spec pin后核对再执行。root已授权在独审/QA/pin齐后直接单次运行两例各55原strict，未将执行授权当作结果。其合同为：显式新schema/spec/曲线/独审身份，复用原contacts/segment_hits和55原strict baseline；拒旧SLIM身份、缺点、虚构Body targets及失败候选。真实strict已完成：lean55/55无新增，round三状态新增6pair失败且不导出；详见m2-axial-head-readback-v1及round-contact-diagnosis。round微米级交段并非可见穿透深度，不当作严重视觉判断。m2-axial-head-export-v1已仅导出identity和lean，复用原bake/normal_map，lean83f4907f3943940b90a8876ed79496b20476f0d38ecf31414fb8b94f3bacb8f9；属性/作者N与54NORMAL读回过。独立10混合审查有一个happy.65+blink1+oh.66新增口内pair，原门与已知缺陷保留，实际视觉仍待验。
-
-导出接缝审查m2-axial-export-seam-review-v1已完成，只读报告及inventory。应复用已有bake/normal_map，处理旧generator、zip截短和就地缓存风险，不造第二套导出器。几何法线必须为新表面退化/方向检查计算；着色法线须保作者风格，不能简单面积平均覆盖（原N与面积N最大差84°/113°）。可按实际J逆转置传输原作者N，endpoint N再减base；需identity方向/实际光照与glTF morph语义验收。原54面部targets只有POSITION，无NORMAL，不能错误保留旧几何法线或宣称shader自动完成。
-
-原HairBack审查m2-male-hair-attachment-source-audit-v1：250v/408tri，90索引边界含UV接缝；精确坐标诊断商图54几何rim/55原ID。完整rim距皮肤约.0085–3.408mm。只有几何边界，缺附着段/自由端及头皮对应标签；不能最近点挑子集冒充全部发根已验。后续由agent补标/验证，不交用户修模。
-
-还须实际原全部表达/中间组合、眼白覆盖、闭眼/口型/笑、发根、VRM属性/法线/衣物及游戏正常速度验证。连续G下界不能代替输出直三角或表情混合。女性和其余预设均不能继承男两例通过。普通电脑无设备，用户允许保留实测缺口继续。
-
-## 备份与协作
-
-最近一次已核远端3e6a588d0ec035145d04811c698ce8497d32b238，含真实strict/导出及独审、混合与round失败诊断、四装备实际适配和此前所有原始结果。回执assets-source/m2-axial-head-export-v1/remote-backup.json。runtime发布、原新正常速度影片与补录QA均已备份；body-compose及前两轮细分前置已在3b615d17备份；完整body独审、body-readback及局部BMesh首失败在3e6a588d备份；局部BMesh恢复、其独审与新工具恢复待本轮提交。
-
-当前接续：头部runtime和实际房间小包已交付（evidence/m2-axial-head-room-v1）。原/新十组真实manager边界、各34.7秒主片和42.05秒无暂停纯canvas补录：五元音/三blink、两裤走坐起、实际装备/forearm身份、非默认配色短裤关闭恢复、坏SHA保旧均技术通过；尖长颏形与已知oh口内pair、人工连续观感未过。455构建输入与源码一致，公开男女热切到新候选/链接烟测过。临时4197已关闭。能力范围与限制只查CAP及本包REVIEW，不能借此称八体完成。
-
-当前主包仍原8预设共同生产，最新进展：m2-axial-body-compose-v1实际identity+完整male-lean一次数值求值完成，JF/101/Float32门通过，原9身体实际最大28.693mm。新完整请求保护参考经m2-body-head-fixed-reference-audit-v1明确：head相对P+B保原neck/frame点与2µm，最终F-P实报身体B；眼绝对源固定。首准备差分误判保留/已因果修正。root逐58文件核；m2-axial-body-compose-audit-v1独立读回无新增数值阻断。m2-axial-body-readback-v1已封包，root核33文件/366611字节：Face POSITION/NORMAL全部base与54delta及55/10碰撞输入和旧head-only逐字节相同，依法复用确定性结果；known oh新增pair[128,1020]单对strict再次命中，整体failed-not-admissible。Body尚未碰撞覆盖，不称全身避碰。没有完整body VRM或衣物donor fit/游戏结果。
-
-成熟libigl细分前置两包已完成且保阻断：Face一级可消费但41跨accessor边不齐；全Body一级闭合41边但482点>4骨权且最大LBS差2.644mm，含G作用区，不截权或导出。全部原始数组/negative/索引已保存，root逐20/24文件核。官方Blender局部方法已经实测。m2-boundary-refinement-preflight-v1首轮因旧BMVert包装失效退出，未触碰真实Body；root核9文件/28894字节。恢复包m2-boundary-refinement-api-recovery-v1以官方geom_inner标记新点、从live容器重新获取并精确核旧点，已报三合成与一次原源通过，已封23文件/10842327字节并root核，独审result6d471ca9ffa08f3a776d871ab006d61087539ec961a29ab74845ee04dcd928d4无新增前置阻断：新增41点、Body7896点/12049三角、最大4骨，新点1骨，三姿LBS差约4.443e-16m。原失败保留。不扫参/不加密多级；Face新增内部边contact仍须原parent语义读回。
-
-当前代理已知requested配置：asset_budget=gpt-6.1-sol/high，装备已完成；face_target_feasibility=gpt-6-astra/high，export/混合独审收尾；http_transport_review=gpt-6.1-sol/high，既有房间候选注册。每次派工记录evidence/subagent-explicit-dispatch-2026-11-16.json；followup不改配置。真实provider与桌面hook拦截未独立暴露，不声称验证。
-
-当前角色录像已结束，GPU/录屏/重导出窗口空闲。fixed-v1确切726fae4b已构建/验证，不能在该目录切新源码重建而破坏已发布固定版。公司副总工最新台面钟source18880ef/build2dd87df94b61、72.60秒录像已通知结束释放；仅公司侧交付声明，未核角色集成。公司dirty/untracked不动、不stage，不git add -A。
-
-固定交付只能从exact commit独立检出构建，录像与构建同身份；不从并发dirty源码发布。保持动作控制器与既有失败记录；本包仅增加资源注册和工作台候选说明。阶段汇报不停止长目标；只在真实费用/授权/产品选择或无法自行解决阻碍时问用户。全部M2必需机制须有证据后交用户确认，再由用户决定M3。
-
-最新独立恢复任务：scripts/m2-slim-tool-restore-v1补已锁离线工具的干净安装入口；不改在用venv，独立全新目标通过官方三wheel下载、原SHA锁安装和import/API检查，59.87s；在用144选定文件未变。只证明工具恢复，不称完整游戏/新OS重建通过。关节避碰研究复用research/MOTION-CONTACT-ADAPTATION-OPTIONS-2026-11-16.md：Mink为离线小样候选，仍未接入；不重开冻结舞蹈，不将研究代替运行通过。
-
-接续包：face以已封共同拓扑准备m2-refined-axial-evaluation-v1，identity+原两男G每例一次，406701实际端点，known-oh另存A/B，待实测。root先核官方libigl/cgal源码并运行m2-official-intersection-preflight-v1八项合成API检查，官方闭域交不会漏新增子片边界；不等于旧strict，未角色contacts/无导出。asset准备m2-refined-contact-readback-v1，同拓扑原源/实际A/归因B逐child比较再parent归并；http独审合同，实际新碰撞仍未跑。既有oh失败不消除。
-
-2026-11-17 用户插入优先反馈：预览鬼样预设不能用。root实际复现尖锥下颌/宽腰上衣鼓包，先修失败样件分区与持续警示；保留全部历史资源/URL/配方，分区不算几何修复。face下一只读m2-preset-shape-target-audit-v1追溯自拟101目标与真实用户造型要求，先成熟方法研究，不围绕错误造型无限微调。refined G实际三例数值通过已封但未contacts/导出；asset只完成contact准备，当前不执行全量旧尖脸后验。
+最近已核远端49105da01d8cbf2d42c9677defcd0aa32507eec8，含局部BMesh恢复/独审/固定工具恢复和官方相交smoke。之后4a047c4b/bfde7d79 UI提交及当前新包尚待本轮统一push核验，不能提前声称全部备份。显式路径提交，精确pin包用局部.gitattributes * -text、已stage时renormalize并核index bytes；manifest日志强制纳入，安装器残片排除。固定发布必须exact独立检出，录像/资源/源码身份一致；公司文件绝不顺带提交。
