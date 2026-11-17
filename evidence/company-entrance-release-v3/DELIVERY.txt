@@ -1,0 +1,9 @@
+公司场景候选：真实民房入口、锁镜头摆放与门框共面修正版
+构建 8e7bf64f85a9；源码提交 14e8126f030ed1874b1f8b4161fc266f2ed00e74；公开预览 http://127.0.0.1:60880/。
+
+用户路径：物品→调整位置与摆放。镜头锁定，绿色为真实可放落点，红色为禁放区域；左键拖拽/点击落点，右键旋转、取消、移动、复制、删除，Esc取消。
+民房：新民房有真实外门洞；旧存档不会自动开墙，添加开放门框时提供明确的“创建真实入口并安装门框”原子操作。门洞保留2.2米净高和2.8米墙高。
+门框：plain@1继续可用；stepped/inset/crown使用v2修正版，基底前面z=.07、饰条z=.10，净口1.4×2.2米和1.7×2.4×.1安装包络不变。旧v1存档只有明确替换才升级。
+
+证据：frame-correction 7组、handoff 5组、placement 7组、window 7组；CPU导出/读回及source修改重导均通过。软件渲染，不宣称普通电脑性能或真实角色联调。独立包 F:/gamemake-company-entrance-delivery-v3，378个viewer运行文件与固定dist逐字节一致。
+重建：source/prototype执行 npm ci、node scripts/build-company-id.mjs、npx vite build --config vite.company.config.js；门框资源核验在source根执行 node scripts/company-platform/build-door-frame-correction-v2.mjs --verify。
