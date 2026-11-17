@@ -1,0 +1,21 @@
+Blender 4.5.9 LTS (hash 8bf95cbd38d1 built 2026-04-21 01:33:45)
+Traceback (most recent call last):
+  File "F:\gamemake\scripts\m2-boundary-refinement-preflight-v1\blender_worker.py", line 207, in <module>
+    try:main()
+        ^^^^^^
+  File "F:\gamemake\scripts\m2-boundary-refinement-preflight-v1\blender_worker.py", line 133, in main
+    api_tests()
+  File "F:\gamemake\scripts\m2-boundary-refinement-preflight-v1\blender_worker.py", line 116, in api_tests
+    r,a=refine(P,F,UV,W,np.arange(len(F)),selected,set(range(len(F))))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\gamemake\scripts\m2-boundary-refinement-preflight-v1\blender_worker.py", line 42, in refine
+    assert all(tuple(v.co)==before_co[v] and dict(v[deform])==before_weights[v] for v in verts)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\gamemake\scripts\m2-boundary-refinement-preflight-v1\blender_worker.py", line 42, in <genexpr>
+    assert all(tuple(v.co)==before_co[v] and dict(v[deform])==before_weights[v] for v in verts)
+                     ^^^^
+ReferenceError: BMesh data of type BMVert has been removed
+
+Error: script failed, file: 'F:\gamemake\scripts\m2-boundary-refinement-preflight-v1\blender_worker.py', exiting.
+
+Blender quit

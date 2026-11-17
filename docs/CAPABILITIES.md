@@ -328,3 +328,5 @@ head-only一次诊断原8请求已完成，8/8 diagnostic-failed，正式生产�
 2026-11-16 原男完整lean十三参数同源合成首次数值求值完成（assets-source/m2-axial-body-compose-v1）：F=G+B、JF=JG+JB-I，共120935端点、实际身体最大28.693mm；JFmin.486337、101误差.825000mm、所选distal0、Float32位置.118263µm/N7.542e-8、新退化/非正法线dot0。新组合schema按原neck/frame点的头部增量保2µm，同时实报身体贡献；neck最终173.986µm来自原B而head增量0，旧head-only合同不改。4.40s/采样树RSS168345600B仅离线工具；首准备割线/解析导数误判及修正依据保留。root逐58文件核，独审/新身份后验进行中，未导出/装备fit/游戏通过；原oh混合缺陷继续保留。
 
 2026-11-16 成熟细分工具的实际前置有界失败：m2-face-subdivision-preflight-v1实测官方libigl一级Face2056→7251、54共同targets及1骨权可消费，但20条Face–Body共同边在G区，单独细分Face未闭合。m2-source-subdivision-seam-v1同时细分Body闭合41边无T节点，却产生482点>4骨影响（不截断），显式源骨姿最大LBS差2.644mm，123 overflow边确在G区；不导出或运行G。parent strict负例证实子片边界可漏计，已保合成父语义检查而非替代完整检测器。两包分别1.69s/126MB、4.76s/166MB；root逐20/24文件核。当前仅研究官方局部接缝边细分，尚无新拓扑候选通过。
+
+2026-11-16 完整male-lean组合后验收尾：m2-axial-body-compose-audit-v1无新增数值阻断；m2-axial-body-readback-v1已封并root核33文件。Face base/54delta、作者N/54NORMAL及55/10检测坐标与旧头部精确一致；55无新增，mixed-oh仍新增[128,1020]且单对strict命中，整体failed-not-admissible，未导出完整人物。Body/独立装备/姿态碰撞未测。局部官方BMesh前置首轮包装对象失效已留档，恢复包报41边局部拓扑和一骨新点实际通过，尚待封包及独审；不等于口型穿插已解决，不等于八预设通过。

@@ -1,0 +1,103 @@
+{
+  "schema": "axial-body-contact-readback-result-v1",
+  "methodId": "m2-axial-body-readback-v1",
+  "candidateId": "male-long-lean-axial-body-v1",
+  "sourceRequestId": "male-long-lean-v2",
+  "status": "failed-not-admissible",
+  "spec": {
+    "path": "assets-source/m2-axial-body-readback-v1/spec.json",
+    "sha256": "3409b4b807dc4a8052cc0aed31911eb23c14e9b9e292bc63bb22b86c6f0dd527"
+  },
+  "compositionSpec": {
+    "path": "assets-source/m2-axial-body-compose-v1/spec.json",
+    "sha256": "c42ec8f7a7a8d5b5bba4dd8a4760eb3350ec79c422753f4cf8da37a96ca36fa9"
+  },
+  "compositeRaw": {
+    "path": "assets-source/m2-axial-body-compose-v1/generated/male-long-lean-v2/mapped-endpoints.npz",
+    "sha256": "dc58cdea7da867841563bb788958a2bf4c853634af14b2d9e94c068ae76e9b9a"
+  },
+  "compositionAudit": {
+    "path": "evidence/m2-axial-body-compose-audit-v1/result.json",
+    "sha256": "ce052ef152bc89cb11e379f0743fd68d31f195073b32a33ec3cb360e436aadf5"
+  },
+  "characterExported": false,
+  "runtimeAccepted": false,
+  "failures": [
+    "New strict pairs retained, including inherited mixed-oh; schema change cannot grant admission."
+  ],
+  "single55": {
+    "statesExpected": 55,
+    "statesCompleted": 55,
+    "newStrictPairCount": 0,
+    "report": {
+      "path": "assets-source/m2-axial-body-readback-v1/generated/single55.json",
+      "sha256": "dcf9e3840635c61754861ea135c9cc743986cf04567c6f6e31ea94ffdf9435b3"
+    }
+  },
+  "mixed10": {
+    "statesExpected": 10,
+    "statesCompleted": 10,
+    "newStrictPairCount": 1,
+    "report": {
+      "path": "assets-source/m2-axial-body-readback-v1/generated/mixed10.json",
+      "sha256": "0a652e68ea90545160a0017d04e1f0bcb77119555637230f441a783787d60da1"
+    }
+  },
+  "fullFaceCollisionInputsExactToHead": true,
+  "faceArrayProof": {
+    "path": "assets-source/m2-axial-body-readback-v1/generated/face-array-equality.json",
+    "sha256": "8c1c8f0bb74c15ba3a20ad73f8429f0d0a4a527051bc548504c725c3ae84db31"
+  },
+  "full55And10ContactSweepsRerun": false,
+  "originalFunctions": [
+    {
+      "path": "scripts/m2-hairstyle-v1/check-head-space.py",
+      "sha256": "3b51291499b17bfe756a4e1760522bd6117362bdb8b34ac989e1b5609695b2a8",
+      "function": "segment_hits",
+      "astSha256": "0535a55179a286ce6872c9f01c2adcfad03358eeae3c24f6c86f5f8bd3e72329"
+    },
+    {
+      "path": "scripts/m2-representative-head-cage-v1/head.py",
+      "sha256": "3d19e820102562813714e2a9e4d19a18842effb12e8a0715d3cc36de92d2774a",
+      "function": "contacts",
+      "astSha256": "a38ab8385ea94e0c7e2b6af90a56e1395c89432a83285bfe9829c320afe89d56"
+    }
+  ],
+  "collisionCoverage": {
+    "singleTargets": "FaceMouth_00_FACE vs Face_00_SKIN only",
+    "mixtures": [
+      [
+        "mouth-skin",
+        "FaceMouth_00_FACE",
+        "Face_00_SKIN"
+      ],
+      [
+        "white-skin",
+        "EyeWhite_00_EYE",
+        "Face_00_SKIN"
+      ],
+      [
+        "white-eyeline",
+        "EyeWhite_00_EYE",
+        "FaceEyeline_00_FACE"
+      ],
+      [
+        "white-eyelash",
+        "EyeWhite_00_EYE",
+        "FaceEyelash_00_FACE"
+      ]
+    ],
+    "notMeasured": [
+      "Body_SKIN self/body contact",
+      "Body_SKIN vs Tops/Tie/Bottoms/Shoes",
+      "Independent equipment fit/contact",
+      "Hair/body/clothing collisions",
+      "Posed or continuous-time collisions"
+    ],
+    "bodyChangedAndOutsideTheseContactInputs": true,
+    "wholeBodyCollisionClearanceClaimed": false
+  },
+  "admissibleForExport": false,
+  "originalKnownOhDefectPreserved": true,
+  "seconds": 7.66203070001211
+}

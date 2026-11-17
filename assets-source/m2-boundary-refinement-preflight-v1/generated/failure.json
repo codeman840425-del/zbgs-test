@@ -1,0 +1,6 @@
+{
+  "exception": "ReferenceError",
+  "message": "BMesh data of type BMVert has been removed",
+  "traceback": "Traceback (most recent call last):\n  File \"F:\\gamemake\\scripts\\m2-boundary-refinement-preflight-v1\\blender_worker.py\", line 207, in <module>\n    try:main()\n        ^^^^^^\n  File \"F:\\gamemake\\scripts\\m2-boundary-refinement-preflight-v1\\blender_worker.py\", line 133, in main\n    api_tests()\n  File \"F:\\gamemake\\scripts\\m2-boundary-refinement-preflight-v1\\blender_worker.py\", line 116, in api_tests\n    r,a=refine(P,F,UV,W,np.arange(len(F)),selected,set(range(len(F))))\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\gamemake\\scripts\\m2-boundary-refinement-preflight-v1\\blender_worker.py\", line 42, in refine\n    assert all(tuple(v.co)==before_co[v] and dict(v[deform])==before_weights[v] for v in verts)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\gamemake\\scripts\\m2-boundary-refinement-preflight-v1\\blender_worker.py\", line 42, in <genexpr>\n    assert all(tuple(v.co)==before_co[v] and dict(v[deform])==before_weights[v] for v in verts)\n                     ^^^^\nReferenceError: BMesh data of type BMVert has been removed\n",
+  "GCalled": false
+}
