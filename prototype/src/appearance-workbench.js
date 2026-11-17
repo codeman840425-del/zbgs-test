@@ -31,7 +31,8 @@ export function bindAppearanceWorkbench({ controller }) {
       { id: 'm2-male-lower-leg-v1', label: '小腿比例样件' },
     ],
   };
-  for(const preset of REPRESENTATIVE_PRESETS)bodyGroups[preset.sex].push({id:preset.id,label:preset.previewLabel});
+  const diagnosticPresets = new Map(REPRESENTATIVE_PRESETS.map(preset => [preset.id, preset]));
+  for(const preset of REPRESENTATIVE_PRESETS)bodyGroups[preset.sex].push({id:preset.id,label:preset.previewLabel,diagnostic:true});
   const groupFor = bodyType => Object.keys(bodyGroups).find(group => bodyGroups[group].some(item => item.id === bodyType));
   const style = panel.querySelector('#appearance-hair-style');
   const hair = panel.querySelector('#appearance-hair-color');
@@ -46,10 +47,12 @@ export function bindAppearanceWorkbench({ controller }) {
   geometryPanel.insertAdjacentHTML('beforeend','<label for="nose-sample">鼻尖位置对照</label><select id="nose-sample"><option value="none">原位</option><option value="tip-forward05-v1">鼻尖向前 0.5 mm</option></select><p class="appearance-hint">鼻尖使用已制作端点，切到侧面可比较轮廓。</p>');
   const shapePanel=document.createElement('section');shapePanel.id='appearance-shape-samples';
   const shapeLabel=identityFields.querySelector('label[for="appearance-body"]'),shapeNote=identityFields.querySelector('#appearance-body-note');
-  shapeLabel.textContent='脸型与身形样件';
+  shapeLabel.textContent='基础人物与有限改形样件';
   shapeNote.textContent='选择已制作的脸型或身形对照；当前样件分别验证，不能叠加为任意组合。';
   shapePanel.append(shapeLabel,body,shapeNote);
   fields.prepend(shapePanel,geometryPanel);
+  const diagnosticsLink=document.createElement('button');diagnosticsLink.type='button';diagnosticsLink.id='appearance-open-diagnostics';
+  diagnosticsLink.textContent='查看未通过的批次对照';shapePanel.append(diagnosticsLink);
   geometryPanel.insertAdjacentHTML('beforeend','<label for="eye-sample">眼裂宽度对照</label><select id="eye-sample"><option value="none">原位</option><option value="aperture-width101-v1">眼裂宽 +1%</option></select><p class="appearance-hint">眼裂宽度使用已制作端点，需结合眨眼和视线检查。</p>');
   const eyeGeometry=geometryPanel.querySelector('#eye-sample');
   const nose=geometryPanel.querySelector('#nose-sample');
@@ -97,6 +100,7 @@ export function bindAppearanceWorkbench({ controller }) {
     busy = value; fields.disabled = value; identityFields.disabled = value;
     form.setAttribute('aria-busy', String(value));
     identityFields.setAttribute('aria-busy', String(value));
+    diagnosticSelect.disabled=value;diagnosticReturn.disabled=value;
     for(const button of document.querySelectorAll('[data-outfit]'))button.disabled=value;
     syncSamples();
   };
@@ -116,6 +120,10 @@ export function bindAppearanceWorkbench({ controller }) {
   const viewport = document.querySelector('.viewport');
   const preview = document.createElement('div'); preview.className = 'workbench-preview';
   viewport.before(preview); preview.append(toolbar, viewport);
+  const diagnosticWarning=document.createElement('section');diagnosticWarning.id='workbench-diagnostic-warning';diagnosticWarning.hidden=true;
+  diagnosticWarning.innerHTML='<strong>未通过的诊断样件</strong><p id="workbench-diagnostic-reason"></p><button type="button" id="workbench-diagnostic-return">返回基础人物</button>';
+  preview.insertBefore(diagnosticWarning,viewport);
+  const diagnosticReturn=diagnosticWarning.querySelector('button');
   const roomButton = viewport.querySelector('[data-camera="room"]');
   roomButton.textContent = '房间移动';
   roomButton.title = '切到房间全景，点击地面选择移动目的地';
@@ -195,6 +203,20 @@ export function bindAppearanceWorkbench({ controller }) {
     previewInfo.querySelector('#'+id).href=evidence.href;
   }
   inspectionPage.prepend(previewInfo);
+  const diagnosticPanel=document.createElement('details');diagnosticPanel.id='workbench-failed-presets';
+  diagnosticPanel.innerHTML='<summary>未通过的批次与失败对照</summary><p class="appearance-hint">这些样件用于定位改形与服装适配缺陷，不能作为可用角色或已完成预设。保留原数据供复现；移到这里不代表模型已修好。</p><label for="workbench-diagnostic-body">选择失败／未通过样件</label><select id="workbench-diagnostic-body"><option value="">请选择诊断样件</option></select>';
+  const diagnosticSelect=diagnosticPanel.querySelector('select');
+  for(const sex of ['female','male']){
+    const group=document.createElement('optgroup');group.label=sex==='female'?'女性批次 · 未通过':'男性批次 · 未通过';
+    for(const preset of REPRESENTATIVE_PRESETS.filter(p=>p.sex===sex)){
+      const option=document.createElement('option');option.value=preset.id;option.textContent=preset.previewLabel;group.append(option);
+    }
+    diagnosticSelect.append(group);
+  }
+  inspectionPage.insertBefore(diagnosticPanel,previewInfo);
+  on(diagnosticsLink,'click',()=>{selectTab('inspection');diagnosticPanel.open=true;diagnosticSelect.focus();});
+  on(diagnosticSelect,'change',()=>{if(diagnosticSelect.value)selectBody(diagnosticSelect.value);});
+  on(diagnosticReturn,'click',()=>selectBody(groupFor(actor().profile.bodyType)));
   function syncPreviewBuild(){
     const info=window.__debug?.buildInfo;
     previewInfo.querySelector('#workbench-preview-build').textContent=info?.shortId
@@ -296,10 +318,19 @@ export function bindAppearanceWorkbench({ controller }) {
       for (const button of groupButtons) button.setAttribute('aria-pressed', 'false');
       throw Error('当前人物不在此工作台的已有样件中');
     }
-    body.replaceChildren(...bodyGroups[group].map(({ id, label }) => {
-      const option = document.createElement('option'); option.value = id; option.textContent = label; return option;
+    body.replaceChildren(...bodyGroups[group].filter(item=>!item.diagnostic||item.id===actualBody).map(({ id, label, diagnostic }) => {
+      const option = document.createElement('option'); option.value = id; option.textContent = diagnostic?'诊断中 · '+label:label; return option;
     }));
     body.value = actualBody;
+    const diagnostic=diagnosticPresets.get(actualBody);
+    diagnosticSelect.value=diagnostic?actualBody:'';
+    diagnosticWarning.hidden=!diagnostic;
+    if(diagnostic){
+      diagnosticWarning.querySelector('strong').textContent='未通过的诊断样件 · '+diagnostic.label;
+      diagnosticWarning.querySelector('p').textContent=actualBody==='male-long-lean-axial-head-v1'
+        ?'下半脸呈不合理尖锥，混合口型也有已知缺陷。数值改形完成不等于造型合格；此样件不作成品推荐。'
+        :'本批次的人物比例、脸部轮廓或衣服适配仍有缺陷，尚未达到可用预设标准。仅保留失败复现与前后对照。';
+    }
     for (const button of groupButtons) button.setAttribute('aria-pressed', String(button.dataset.appearanceGroup === group));
     const styles = (actual.availableStyles || ['original']).map(v => typeof v === 'string' ? v : v.id);
     const options = (actual.styleOptions || styles.map(id => ({ id, label: id === 'original' ? '原发型' : '可用发型' })))

@@ -332,3 +332,5 @@ head-only一次诊断原8请求已完成，8/8 diagnostic-failed，正式生产�
 2026-11-16 完整male-lean组合后验收尾：m2-axial-body-compose-audit-v1无新增数值阻断；m2-axial-body-readback-v1已封并root核33文件。Face base/54delta、作者N/54NORMAL及55/10检测坐标与旧头部精确一致；55无新增，mixed-oh仍新增[128,1020]且单对strict命中，整体failed-not-admissible，未导出完整人物。Body/独立装备/姿态碰撞未测。局部官方BMesh前置首轮包装对象失效已留档，恢复包报41边局部拓扑和一骨新点实际通过，尚待封包及独审；不等于口型穿插已解决，不等于八预设通过。
 
 2026-11-16 局部BMesh恢复补验：m2-boundary-refinement-api-recovery-v1已封23文件/root核，独审无新增前置阻断，范围仅male62b固定41边/39parent；Face复用7251点/54targets，实际新端点406701。未G/contacts/导出。m2-official-intersection-preflight-v1官方CGAL接口8合成测试通过，含新增子边界、共面/点边与cutoff非命中上限，未测人物。新inclusive检测合同与旧strict分开，source/候选必须同拓扑/编码；禁止用更换定义重标旧失败。m2-slim-tool-restore-v1已在全新目录实际恢复三锁定官方wheel，安装/import及负例通过，未修改在用环境；不是全工程重建结论。
+
+2026-11-17 用户明确否定当前怪异预设观感。root在公开14f73cbe1e26复现：male-long-lean-axial-head-v1下半脸尖锥，female-round-full-v2上衣腰部鼓包/露色；截图output/playwright/preset-triage。此批不能称可用预设，原数值门通过仅保技术事实。所有代表批次候选移入工作台检查区、观看时持续警示，原URL/资源/配方不删，分区不算模型修复。当前refined G唯一试验已完成只作机制证据，不推进旧尖脸导出；先复核造型目标及共同生产机制。8预设/M2仍未通过。

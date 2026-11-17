@@ -58,3 +58,5 @@ m2-axial-head-readback-v1已完成prepare+13项合成QA，新spec pin后核对�
 最新独立恢复任务：scripts/m2-slim-tool-restore-v1补已锁离线工具的干净安装入口；不改在用venv，独立全新目标通过官方三wheel下载、原SHA锁安装和import/API检查，59.87s；在用144选定文件未变。只证明工具恢复，不称完整游戏/新OS重建通过。关节避碰研究复用research/MOTION-CONTACT-ADAPTATION-OPTIONS-2026-11-16.md：Mink为离线小样候选，仍未接入；不重开冻结舞蹈，不将研究代替运行通过。
 
 接续包：face以已封共同拓扑准备m2-refined-axial-evaluation-v1，identity+原两男G每例一次，406701实际端点，known-oh另存A/B，待实测。root先核官方libigl/cgal源码并运行m2-official-intersection-preflight-v1八项合成API检查，官方闭域交不会漏新增子片边界；不等于旧strict，未角色contacts/无导出。asset准备m2-refined-contact-readback-v1，同拓扑原源/实际A/归因B逐child比较再parent归并；http独审合同，实际新碰撞仍未跑。既有oh失败不消除。
+
+2026-11-17 用户插入优先反馈：预览鬼样预设不能用。root实际复现尖锥下颌/宽腰上衣鼓包，先修失败样件分区与持续警示；保留全部历史资源/URL/配方，分区不算几何修复。face下一只读m2-preset-shape-target-audit-v1追溯自拟101目标与真实用户造型要求，先成熟方法研究，不围绕错误造型无限微调。refined G实际三例数值通过已封但未contacts/导出；asset只完成contact准备，当前不执行全量旧尖脸后验。
