@@ -1,0 +1,155 @@
+{
+  "build": "257342305e18",
+  "status": "passed",
+  "checks": [
+    {
+      "name": "Four real frames each accept both independent contents and survive separate browser restart",
+      "passed": true,
+      "result": [
+        {
+          "index": 0,
+          "resource": {
+            "id": "information-content-company-news-cn",
+            "version": 1
+          },
+          "visible": true,
+          "pixelChecksum": 262954796
+        },
+        {
+          "index": 0,
+          "resource": {
+            "id": "information-content-company-live-cn",
+            "version": 1
+          },
+          "visible": true,
+          "pixelChecksum": 733998968
+        },
+        {
+          "index": 1,
+          "resource": {
+            "id": "information-content-company-news-cn",
+            "version": 1
+          },
+          "visible": true,
+          "pixelChecksum": 262954796
+        },
+        {
+          "index": 1,
+          "resource": {
+            "id": "information-content-company-live-cn",
+            "version": 1
+          },
+          "visible": true,
+          "pixelChecksum": 733998968
+        },
+        {
+          "index": 2,
+          "resource": {
+            "id": "information-content-company-news-cn",
+            "version": 1
+          },
+          "visible": true,
+          "pixelChecksum": 262954796
+        },
+        {
+          "index": 2,
+          "resource": {
+            "id": "information-content-company-live-cn",
+            "version": 1
+          },
+          "visible": true,
+          "pixelChecksum": 733998968
+        },
+        {
+          "index": 3,
+          "resource": {
+            "id": "information-content-company-news-cn",
+            "version": 1
+          },
+          "visible": true,
+          "pixelChecksum": 262954796
+        },
+        {
+          "index": 3,
+          "resource": {
+            "id": "information-content-company-live-cn",
+            "version": 1
+          },
+          "visible": true,
+          "pixelChecksum": 733998968
+        }
+      ]
+    },
+    {
+      "name": "Actual preview frame choice preserves selected content; hide is isolated and persists",
+      "passed": true,
+      "result": {
+        "content": {
+          "id": "information-content-company-live-cn",
+          "version": 1
+        },
+        "isolated": true
+      }
+    },
+    {
+      "name": "Public-area parent rotation, atomic subtree copy and two-floor isolation preserve content",
+      "passed": true,
+      "result": {
+        "floors": 2,
+        "copiedIndependent": true
+      }
+    },
+    {
+      "name": "Bad install, invalid state, missing face and content network failure preserve scene and saved bytes",
+      "passed": true,
+      "result": {
+        "bad": {
+          "codes": [
+            "blocked-portal",
+            "unsupported-height",
+            "invalid-information-fit",
+            "invalid-device-state",
+            "invalid-information-contract"
+          ],
+          "unchanged": true
+        },
+        "fetch": {
+          "code": "asset-fetch-failed",
+          "unchanged": true
+        }
+      }
+    },
+    {
+      "name": "Actual missing mesh and corrupt embedded image fail after download without committing",
+      "passed": true,
+      "result": [
+        {
+          "kind": "missing-face",
+          "code": "information-mapping",
+          "unchanged": true
+        },
+        {
+          "kind": "bad-png",
+          "code": "asset-texture-load-failed",
+          "unchanged": true
+        },
+        {
+          "kind": "missing-base",
+          "code": "information-mapping",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "name": "Unload removes content rendering and retained assets",
+      "passed": true,
+      "result": {
+        "cachedAssets": 1,
+        "loadedAssets": 1
+      }
+    }
+  ],
+  "limits": [
+    "Software rendering, not ordinary-PC performance or role/human final acceptance"
+  ]
+}

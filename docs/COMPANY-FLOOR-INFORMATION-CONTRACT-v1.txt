@@ -1,0 +1,25 @@
+公司落地图文信息板合同 v1（首轮实现规格，待实际样板与固定交付验证）
+
+缺口：information-board-floor 尚无实际落地安装、支承与阻挡证据。复用已交付墙挂框体、两份 information-content GLB、父子实例、资源版本、事务与存档，不另建内容运行链。输入为墙挂四框固定资源及本包可编辑支架参数；产物为四款真实落地模型、两布局与完整生产/替换/恢复/独立交付证据。
+尝试预算：一次实现及一次依据具体失败的修正；同因两轮无新证据或改善先重定位，不扫参数或降低验收。最低验收为四款均实际加载两份内容并关闭恢复，父板移动/旋转/复制/换框保子内容，真实底座/立柱/背板连续支承、完整阻挡及非法安装/资源失败保旧，固定版本正常速度录像。
+
+依据：COMPANY-FLOOR-INFORMATION-PREFLIGHT-2026-11-16.txt 和现有 floor-surface/footprint/information-face-v1 合同。研究的0.75m低位总高仅为未验证候选，本包选择更适合站立观看的内容中心1.30m；不把原pending的1×.7×.05m板面尺寸误作落地支架总尺寸。此为本项目固定生产规格，不宣称无障碍法规或真实家具力学认证。
+
+资源：mountRole/productionBranch='information-board-floor'，mount='floor-surface'；mounting={origin:'bottom',width:1,height:1.7,depth:.6}。米制、+Y上、+Z正面、底部原点y=0，无缩放。footprint={center:[0,0],halfSize:[.5,.3],blocking:true}；四款相同，覆盖全部板面、支架和底座投影，走现有静态布局/通路检查。父级room或area，沿现有边界间距、四分之一旋转、y=0规则；本包不新增阅读交互点或占用机制。
+
+informationSurface={schema:'information-face-v1',width:.88,height:.56,position:[0,1.3,.031]}。现有内容两个资源原字节/ID/version不改，局部位置按新父槽精确设置，yaw=0。一个槽至多一份内容，state.visible仍仅属于内容。板框stateDefaults={}，无stateSchema/stateSemantics/usePoints/light/clockDisplay/movingParts/supportSurfaces。
+informationNodes={back:'information-back',base:'information-base',post:'information-post'}。三个节点必须唯一解析到真实网格，不用节点名或包围盒冒充实体。
+
+固定实体：
+- 背板沿原墙挂合同为.9×.58×.02，中心[0,1.3,.01]，六个完整外向面。原框体整体上移1.3m，其余轮廓保留；原墙挂资源不改。
+- 基础支承为.24×.06×.38实心底座，中心[0,.03,0]，底面真实接地y=0；六面完整。
+- 基础立柱为.08×1×.04实心柱，中心[0,.56,-.005]，y=.06至1.06；底端接底座，上端与背板下缘有实际交叠，z投影相接；六面完整。
+- 四款在共同核心支承外增加真实宽底盘、横脚/纵向撑、双脚鞋/横撑或阶梯底台等造型，且全部位于总包络与footprint内。新增部分不遮挡内容矩形，不引入轮子运动或质量/倾倒模拟。共同核心结构和固定槽保持兼容，不能只改颜色。
+
+几何检查：按实际变换后的有限顶点与有效三角验证底座/柱/背板的六面、完整角点与共享对角线；不能用一张顶面或退化三角通过。核接地、支承连续与总包络；复用现有矩形遮挡检查并将矩形平移到内容中心y=1.3。支架、装饰或斜三角进入内容平面前方的矩形则拒绝。原墙挂与内容面UV/sRGB/图片尺寸检查保持。
+
+数据/运行检查：四框×两内容，独立可见状态和逐款关闭恢复；父板平移/90度旋转/复制和换框保持子实例/局部安装/状态；两公共区或第二布局；错误y/边界/内容槽/重复子件、缺底座、坏资源等失败保旧。实际阻挡进入既有placement，不因房间/楼层观看切换而消失。布局提供可通行位置，并以门口/通路被占拒绝样例证明接线，不宣称真实角色C3通过。
+
+生产输出：assets-source/company-floor-information-v1、scripts/company-platform/build-floor-information.mjs、public/company-assets/floor-information-v1。新参数记录四个墙挂源资源ID/version/SHA及源文件，源/合同/生成器哈希固定；重复导出与源参数修改有证据。独立包包含新旧完整依赖，原114资源原定义保留。四款资源ID以information-board-floor-开头，内容仍引用旧两件，不复制凑数量。
+
+本包不改变角色M2/共享导航/任务/占用/时间，不实现直播业务消息、地面标牌物理或玩家装修。最终仍由总工集中接角色、用户观看验收；当前包完成不等于C1–C3全部完成。

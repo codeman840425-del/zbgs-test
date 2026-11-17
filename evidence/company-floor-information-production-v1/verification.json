@@ -1,0 +1,162 @@
+{
+  "status": "passed",
+  "generator": "scripts/company-platform/build-floor-information.mjs",
+  "generatorSha256": "3c13d79708022ae76477afc4169689ba094c58a13abac68fa75e53bc80f85d48",
+  "checks": [
+    {
+      "name": "CLI --check compares all production and variant evidence bytes",
+      "passed": true,
+      "output": {
+        "status": "passed",
+        "mode": "check",
+        "resources": [
+          {
+            "id": "information-board-floor-whiteboard",
+            "sha256": "291459c91c4965fc713319bb89b285a9c0e2b4e7e0b7fa59728440c3750d5c86",
+            "bytes": 21224
+          },
+          {
+            "id": "information-board-floor-notice",
+            "sha256": "33d5e23a203869b9d7bc414e02b299b4c801d49ba24d5a63e589b4e1cf6e1eb1",
+            "bytes": 24924
+          },
+          {
+            "id": "information-board-floor-doorplate",
+            "sha256": "a8ea3ede7eeec5331b3912fad62fc51744f9843233c3e0e7ee46131d2e6fe52a",
+            "bytes": 32440
+          },
+          {
+            "id": "information-board-floor-live",
+            "sha256": "a83ede19e97d0d0e04cf71fd2a7122a47ee5e79862d51ae89c27b2ce35d2e792",
+            "bytes": 19360
+          }
+        ]
+      }
+    },
+    {
+      "name": "Module import with filesystem write methods blocked",
+      "passed": true,
+      "attemptedFilesystemWrites": []
+    },
+    {
+      "name": "Wrong pinned wall model SHA rejected before export",
+      "passed": true,
+      "errorCode": "ERR_ASSERTION",
+      "message": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    asset: {\n      bytes: 11528,\n      format: 'glb',\n+     sha256: 'e5c9f9dab5abb9b0dd0f3834707848ebea12ecb8189fd04957edd797852cf398',\n-     sha256: '0000000000000000000000000000000000000000000000000000000000000000',\n      url: '/company-assets/information-v1/boards/whiteboard/v1/model.glb'\n    },\n    id: 'information-board-whiteboard',\n    version: 1\n  }\n"
+    },
+    {
+      "name": "Wrong pinned wall generator SHA rejected before export",
+      "passed": true
+    },
+    {
+      "name": "Supplied source object and source bytes mismatch rejected",
+      "passed": true
+    },
+    {
+      "name": "Original source and content dependency bytes preserved",
+      "passed": true,
+      "dependencies": [
+        {
+          "path": "prototype/public/company-assets/information-v1/collection.json",
+          "beforeSha256": "e042f9a8b60ba5e4875e55f926cde149189136745935098b0eda158d2f35e95d",
+          "afterSha256": "e042f9a8b60ba5e4875e55f926cde149189136745935098b0eda158d2f35e95d",
+          "byteIdentityVerified": true
+        },
+        {
+          "path": "assets-source/company-information-v1/parameters.json",
+          "beforeSha256": "2db1f06b5bc7bc787b64529852a7b468871b9a72dfe8d5d75ea7260cc987ba62",
+          "afterSha256": "2db1f06b5bc7bc787b64529852a7b468871b9a72dfe8d5d75ea7260cc987ba62",
+          "byteIdentityVerified": true
+        },
+        {
+          "path": "scripts/company-platform/build-information.mjs",
+          "beforeSha256": "cd6daef591e86096d82a90b625d52608cf7905f375a318f530bd073f17802d73",
+          "afterSha256": "cd6daef591e86096d82a90b625d52608cf7905f375a318f530bd073f17802d73",
+          "byteIdentityVerified": true
+        },
+        {
+          "path": "docs/COMPANY-FLOOR-INFORMATION-CONTRACT-v1.txt",
+          "beforeSha256": "ddb75bab8291e10d998d0dfb8cf3e849b6f3588b4560fb276848e5165021af5c",
+          "afterSha256": "ddb75bab8291e10d998d0dfb8cf3e849b6f3588b4560fb276848e5165021af5c",
+          "byteIdentityVerified": true
+        },
+        {
+          "path": "prototype/public/company-assets/information-v1/boards/whiteboard/v1/resource.json",
+          "beforeSha256": "76f1e5c2f043b1858953c11431f5b96278ead2141690cd34e76b778042a40a81",
+          "afterSha256": "76f1e5c2f043b1858953c11431f5b96278ead2141690cd34e76b778042a40a81",
+          "byteIdentityVerified": true
+        },
+        {
+          "path": "prototype/public/company-assets/information-v1/boards/whiteboard/v1/model.glb",
+          "beforeSha256": "e5c9f9dab5abb9b0dd0f3834707848ebea12ecb8189fd04957edd797852cf398",
+          "afterSha256": "e5c9f9dab5abb9b0dd0f3834707848ebea12ecb8189fd04957edd797852cf398",
+          "byteIdentityVerified": true
+        },
+        {
+          "path": "prototype/public/company-assets/information-v1/boards/notice/v1/resource.json",
+          "beforeSha256": "4033e516f2104072c48e9b7c4dabae8918f5015006b7d80272387c1337d2a988",
+          "afterSha256": "4033e516f2104072c48e9b7c4dabae8918f5015006b7d80272387c1337d2a988",
+          "byteIdentityVerified": true
+        },
+        {
+          "path": "prototype/public/company-assets/information-v1/boards/notice/v1/model.glb",
+          "beforeSha256": "5ff0098d7df89f86a78278ee6127dbe59b492c5fdfeb0d5a359c3760c5312f3d",
+          "afterSha256": "5ff0098d7df89f86a78278ee6127dbe59b492c5fdfeb0d5a359c3760c5312f3d",
+          "byteIdentityVerified": true
+        },
+        {
+          "path": "prototype/public/company-assets/information-v1/boards/doorplate/v1/resource.json",
+          "beforeSha256": "ba36901a653faa1ea348169099cc7832d25d0373f6585c0835bd44f99024ea29",
+          "afterSha256": "ba36901a653faa1ea348169099cc7832d25d0373f6585c0835bd44f99024ea29",
+          "byteIdentityVerified": true
+        },
+        {
+          "path": "prototype/public/company-assets/information-v1/boards/doorplate/v1/model.glb",
+          "beforeSha256": "7fc774a8666cb79047bf06832f07ec62f32cc6b2d10bbeb191fc5d6393978b16",
+          "afterSha256": "7fc774a8666cb79047bf06832f07ec62f32cc6b2d10bbeb191fc5d6393978b16",
+          "byteIdentityVerified": true
+        },
+        {
+          "path": "prototype/public/company-assets/information-v1/boards/live/v1/resource.json",
+          "beforeSha256": "aea5788a2c6b0a6f7ec3279d9c42bf79cd1dde25ab8f47b457d2673a7e57106a",
+          "afterSha256": "aea5788a2c6b0a6f7ec3279d9c42bf79cd1dde25ab8f47b457d2673a7e57106a",
+          "byteIdentityVerified": true
+        },
+        {
+          "path": "prototype/public/company-assets/information-v1/boards/live/v1/model.glb",
+          "beforeSha256": "c72eae30a52a6c1c1d033d0d3fe16ca2cf297394ea4ef9f01f83070ead2fd34d",
+          "afterSha256": "c72eae30a52a6c1c1d033d0d3fe16ca2cf297394ea4ef9f01f83070ead2fd34d",
+          "byteIdentityVerified": true
+        },
+        {
+          "path": "prototype/public/company-assets/information-v1/content/company-news-cn/v1/resource.json",
+          "beforeSha256": "e27032113ab3f073af830f9eeb2359e0da20dcb2bd6bad36df2286a4171ee31a",
+          "afterSha256": "e27032113ab3f073af830f9eeb2359e0da20dcb2bd6bad36df2286a4171ee31a",
+          "byteIdentityVerified": true
+        },
+        {
+          "path": "prototype/public/company-assets/information-v1/content/company-news-cn/v1/model.glb",
+          "beforeSha256": "7acbf664d826decd6154ed4aa67b1407aa071d49e62fbba7e60ce708585f298f",
+          "afterSha256": "7acbf664d826decd6154ed4aa67b1407aa071d49e62fbba7e60ce708585f298f",
+          "byteIdentityVerified": true
+        },
+        {
+          "path": "prototype/public/company-assets/information-v1/content/company-live-cn/v1/resource.json",
+          "beforeSha256": "7c7039ccc051026f5337fd6d63d296fcfbc325d49481dc9f4103f4faa98b864d",
+          "afterSha256": "7c7039ccc051026f5337fd6d63d296fcfbc325d49481dc9f4103f4faa98b864d",
+          "byteIdentityVerified": true
+        },
+        {
+          "path": "prototype/public/company-assets/information-v1/content/company-live-cn/v1/model.glb",
+          "beforeSha256": "ce3aa9ff3c929cc97b3675f0a1ba47bf6cc739085f5e9905cc0cd9fca812b96a",
+          "afterSha256": "ce3aa9ff3c929cc97b3675f0a1ba47bf6cc739085f5e9905cc0cd9fca812b96a",
+          "byteIdentityVerified": true
+        }
+      ]
+    }
+  ],
+  "previousHarnessFailure": "attempt-1-failure.json",
+  "limits": [
+    "CPU-only. No browser, GPU, image rendering, runtime transactions or restore exercised in this production verification."
+  ]
+}

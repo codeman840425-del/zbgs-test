@@ -2,23 +2,27 @@
 const object=v=>v&&typeof v==='object'&&!Array.isArray(v);
 const exact=(v,keys)=>object(v)&&Object.keys(v).sort().join(',')===[...keys].sort().join(',');
 const equal=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
-const noFunction=r=>!r.footprint?.blocking&&!r.usePoints?.length&&!r.light&&!r.display&&!r.clockDisplay&&!r.movingParts&&!r.supportSurfaces;
+const noFunction=(r,floor=false)=>(floor||!r.footprint?.blocking)&&!r.usePoints?.length&&!r.light&&!r.display&&!r.clockDisplay&&!r.movingParts&&!r.supportSurfaces;
 export function validateInformationResource(r,fail,path=r.id) {
   if(r.informationSurface===undefined&&r.informationContent===undefined) {
     if(r.informationNodes!==undefined||r.mount==='information-surface')fail('invalid-information-contract',path,'Information mappings and mount require a fixed contract');
     return;
   }
-  const board=r.informationSurface!==undefined, spec=board?r.informationSurface:r.informationContent;
-  if((board&&r.informationContent!==undefined)||!r.asset||!noFunction(r)||
+  const board=r.informationSurface!==undefined, floor=board&&r.mountRole==='information-board-floor', spec=board?r.informationSurface:r.informationContent;
+  if((board&&r.informationContent!==undefined)||!r.asset||!noFunction(r,floor)||
       !exact(spec,board?['schema','width','height','position']:['schema','width','height','pixels'])||
       spec.schema!=='information-face-v1'||spec.width!==.88||spec.height!==.56||
-      !equal(board?spec.position:spec.pixels,board?[0,0,.031]:[1100,700])||
-      r.mount!==(board?'wall':'information-surface')||r.mountRole!==(board?'information-board':'information-content')||
-      !exact(r.mounting,['origin','width','height','depth'])||r.mounting.origin!=='center'||
-      r.mounting.width!==(board?1:.88)||r.mounting.height!==(board?.7:.56)||r.mounting.depth!==(board?.05:.001)||
-      !exact(r.informationNodes,board?['back']:['face'])||
+      !equal(board?spec.position:spec.pixels,board?[0,floor?1.3:0,.031]:[1100,700])||
+      r.mount!==(board?(floor?'floor-surface':'wall'):'information-surface')||r.mountRole!==(board?(floor?'information-board-floor':'information-board'):'information-content')||
+      !exact(r.mounting,['origin','width','height','depth'])||r.mounting.origin!==(floor?'bottom':'center')||
+      r.mounting.width!==(board?1:.88)||r.mounting.height!==(board?(floor?1.7:.7):.56)||r.mounting.depth!==(board?(floor?.6:.05):.001)||
+      !exact(r.informationNodes,board?(floor?['back','base','post']:['back']):['face'])||
       r.informationNodes[board?'back':'face']!==(board?'information-back':'information-face'))
-    fail('invalid-information-contract',path,'Expected the fixed wall board or independent content face contract');
+    fail('invalid-information-contract',path,'Expected a fixed wall/floor board or independent content face contract');
+  if(floor&&(!exact(r.footprint,['center','halfSize','blocking'])||!equal(r.footprint.center,[0,0])||
+      !equal(r.footprint.halfSize,[.5,.3])||r.footprint.blocking!==true||
+      r.informationNodes.base!=='information-base'||r.informationNodes.post!=='information-post'))
+    fail('invalid-information-contract',path,'Floor board requires its fixed blocking footprint and solid stand mappings');
   if(board) {
     if(!exact(r.stateDefaults,[])||r.stateSchema!==undefined||r.stateSemantics!==undefined)
       fail('invalid-information-contract',path,'Board frame has no independent display state');

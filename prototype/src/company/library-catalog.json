@@ -11055,6 +11055,354 @@
         "sha256": "ce3aa9ff3c929cc97b3675f0a1ba47bf6cc739085f5e9905cc0cd9fca812b96a",
         "bytes": 26492
       }
+    },
+    {
+      "id": "information-board-floor-whiteboard",
+      "displayName": "落地白板",
+      "version": 1,
+      "category": "decor",
+      "mountRole": "information-board-floor",
+      "productionBranch": "information-board-floor",
+      "mount": "floor-surface",
+      "mounting": {
+        "origin": "bottom",
+        "width": 1,
+        "height": 1.7,
+        "depth": 0.6
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Bottom centre",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.5,
+          0.3
+        ],
+        "blocking": true
+      },
+      "informationSurface": {
+        "schema": "information-face-v1",
+        "width": 0.88,
+        "height": 0.56,
+        "position": [
+          0,
+          1.3,
+          0.031
+        ]
+      },
+      "informationNodes": {
+        "back": "information-back",
+        "base": "information-base",
+        "post": "information-post"
+      },
+      "stateDefaults": {},
+      "provenance": {
+        "sourceParameters": "assets-source/company-floor-information-v1/parameters.json",
+        "sourceParametersSha256": "f0b3e65895f65d7164f0af447d45641975f6fd1ce9d96776ffac597502f6e75c",
+        "functionalContractSource": "docs/COMPANY-FLOOR-INFORMATION-CONTRACT-v1.txt",
+        "functionalContractSourceSha256": "ddb75bab8291e10d998d0dfb8cf3e849b6f3588b4560fb276848e5165021af5c",
+        "generator": "scripts/company-platform/build-floor-information.mjs",
+        "generatorSha256": "3c13d79708022ae76477afc4169689ba094c58a13abac68fa75e53bc80f85d48",
+        "baseCollection": "prototype/public/company-assets/information-v1/collection.json",
+        "baseCollectionSha256": "e042f9a8b60ba5e4875e55f926cde149189136745935098b0eda158d2f35e95d",
+        "baseSourceParameters": "assets-source/company-information-v1/parameters.json",
+        "baseSourceParametersSha256": "2db1f06b5bc7bc787b64529852a7b468871b9a72dfe8d5d75ea7260cc987ba62",
+        "baseGenerator": "scripts/company-platform/build-information.mjs",
+        "baseGeneratorSha256": "cd6daef591e86096d82a90b625d52608cf7905f375a318f530bd073f17802d73",
+        "license": "Project-authored procedural support geometry reusing pinned project-authored wall board GLBs. No external artwork.",
+        "prompt": "Purpose: four project-authored floor-mounted information boards reusing four pinned wall board GLBs with independent original information-content children. Specification: 1.00m x 1.70m x 0.60m bottom-centred envelope, 0.88m x 0.56m content surface at [0,1.3,0.031], blocking footprint half-size [0.5,0.3]. Installation: floor-surface, +Y up, +Z front, identity scale. Support: real six-face solid base and continuous post with structurally distinct bounded support forms. State: empty board defaults, original content visibility only. Source/export: CPU GLTFLoader imports the whole pinned wall frame at +1.3m Y and BoxGeometry adds editable support shapes. GLTFExporter output is read back, geometry checked, and repeated bytes compared. No font rendering, network fetch, physics, or new content assets. Support difference: Wide raised sole with two narrow outer vertical braces, preserving the original marker shelf.",
+        "sourceDesign": "whiteboard",
+        "baseResource": {
+          "id": "information-board-whiteboard",
+          "version": 1,
+          "asset": {
+            "format": "glb",
+            "url": "/company-assets/information-v1/boards/whiteboard/v1/model.glb",
+            "sha256": "e5c9f9dab5abb9b0dd0f3834707848ebea12ecb8189fd04957edd797852cf398",
+            "bytes": 11528
+          }
+        },
+        "baseResourcePath": "prototype/public/company-assets/information-v1/boards/whiteboard/v1/resource.json",
+        "baseResourceSha256": "76f1e5c2f043b1858953c11431f5b96278ead2141690cd34e76b778042a40a81",
+        "baseModelPath": "prototype/public/company-assets/information-v1/boards/whiteboard/v1/model.glb",
+        "baseModelSha256": "e5c9f9dab5abb9b0dd0f3834707848ebea12ecb8189fd04957edd797852cf398",
+        "method": "CPU GLTFLoader imports complete pinned wall GLB, translates it +1.3m Y, and adds solid BoxGeometry supports. Original content is referenced by the existing runtime."
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/floor-information-v1/whiteboard/v1/model.glb",
+        "sha256": "291459c91c4965fc713319bb89b285a9c0e2b4e7e0b7fa59728440c3750d5c86",
+        "bytes": 21224
+      }
+    },
+    {
+      "id": "information-board-floor-notice",
+      "displayName": "落地公告板",
+      "version": 1,
+      "category": "decor",
+      "mountRole": "information-board-floor",
+      "productionBranch": "information-board-floor",
+      "mount": "floor-surface",
+      "mounting": {
+        "origin": "bottom",
+        "width": 1,
+        "height": 1.7,
+        "depth": 0.6
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Bottom centre",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.5,
+          0.3
+        ],
+        "blocking": true
+      },
+      "informationSurface": {
+        "schema": "information-face-v1",
+        "width": 0.88,
+        "height": 0.56,
+        "position": [
+          0,
+          1.3,
+          0.031
+        ]
+      },
+      "informationNodes": {
+        "back": "information-back",
+        "base": "information-base",
+        "post": "information-post"
+      },
+      "stateDefaults": {},
+      "provenance": {
+        "sourceParameters": "assets-source/company-floor-information-v1/parameters.json",
+        "sourceParametersSha256": "f0b3e65895f65d7164f0af447d45641975f6fd1ce9d96776ffac597502f6e75c",
+        "functionalContractSource": "docs/COMPANY-FLOOR-INFORMATION-CONTRACT-v1.txt",
+        "functionalContractSourceSha256": "ddb75bab8291e10d998d0dfb8cf3e849b6f3588b4560fb276848e5165021af5c",
+        "generator": "scripts/company-platform/build-floor-information.mjs",
+        "generatorSha256": "3c13d79708022ae76477afc4169689ba094c58a13abac68fa75e53bc80f85d48",
+        "baseCollection": "prototype/public/company-assets/information-v1/collection.json",
+        "baseCollectionSha256": "e042f9a8b60ba5e4875e55f926cde149189136745935098b0eda158d2f35e95d",
+        "baseSourceParameters": "assets-source/company-information-v1/parameters.json",
+        "baseSourceParametersSha256": "2db1f06b5bc7bc787b64529852a7b468871b9a72dfe8d5d75ea7260cc987ba62",
+        "baseGenerator": "scripts/company-platform/build-information.mjs",
+        "baseGeneratorSha256": "cd6daef591e86096d82a90b625d52608cf7905f375a318f530bd073f17802d73",
+        "license": "Project-authored procedural support geometry reusing pinned project-authored wall board GLBs. No external artwork.",
+        "prompt": "Purpose: four project-authored floor-mounted information boards reusing four pinned wall board GLBs with independent original information-content children. Specification: 1.00m x 1.70m x 0.60m bottom-centred envelope, 0.88m x 0.56m content surface at [0,1.3,0.031], blocking footprint half-size [0.5,0.3]. Installation: floor-surface, +Y up, +Z front, identity scale. Support: real six-face solid base and continuous post with structurally distinct bounded support forms. State: empty board defaults, original content visibility only. Source/export: CPU GLTFLoader imports the whole pinned wall frame at +1.3m Y and BoxGeometry adds editable support shapes. GLTFExporter output is read back, geometry checked, and repeated bytes compared. No font rendering, network fetch, physics, or new content assets. Support difference: Cross-shaped horizontal and longitudinal feet with a low horizontal mast brace.",
+        "sourceDesign": "notice",
+        "baseResource": {
+          "id": "information-board-notice",
+          "version": 1,
+          "asset": {
+            "format": "glb",
+            "url": "/company-assets/information-v1/boards/notice/v1/model.glb",
+            "sha256": "5ff0098d7df89f86a78278ee6127dbe59b492c5fdfeb0d5a359c3760c5312f3d",
+            "bytes": 15168
+          }
+        },
+        "baseResourcePath": "prototype/public/company-assets/information-v1/boards/notice/v1/resource.json",
+        "baseResourceSha256": "4033e516f2104072c48e9b7c4dabae8918f5015006b7d80272387c1337d2a988",
+        "baseModelPath": "prototype/public/company-assets/information-v1/boards/notice/v1/model.glb",
+        "baseModelSha256": "5ff0098d7df89f86a78278ee6127dbe59b492c5fdfeb0d5a359c3760c5312f3d",
+        "method": "CPU GLTFLoader imports complete pinned wall GLB, translates it +1.3m Y, and adds solid BoxGeometry supports. Original content is referenced by the existing runtime."
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/floor-information-v1/notice/v1/model.glb",
+        "sha256": "33d5e23a203869b9d7bc414e02b299b4c801d49ba24d5a63e589b4e1cf6e1eb1",
+        "bytes": 24924
+      }
+    },
+    {
+      "id": "information-board-floor-doorplate",
+      "displayName": "落地门牌",
+      "version": 1,
+      "category": "decor",
+      "mountRole": "information-board-floor",
+      "productionBranch": "information-board-floor",
+      "mount": "floor-surface",
+      "mounting": {
+        "origin": "bottom",
+        "width": 1,
+        "height": 1.7,
+        "depth": 0.6
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Bottom centre",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.5,
+          0.3
+        ],
+        "blocking": true
+      },
+      "informationSurface": {
+        "schema": "information-face-v1",
+        "width": 0.88,
+        "height": 0.56,
+        "position": [
+          0,
+          1.3,
+          0.031
+        ]
+      },
+      "informationNodes": {
+        "back": "information-back",
+        "base": "information-base",
+        "post": "information-post"
+      },
+      "stateDefaults": {},
+      "provenance": {
+        "sourceParameters": "assets-source/company-floor-information-v1/parameters.json",
+        "sourceParametersSha256": "f0b3e65895f65d7164f0af447d45641975f6fd1ce9d96776ffac597502f6e75c",
+        "functionalContractSource": "docs/COMPANY-FLOOR-INFORMATION-CONTRACT-v1.txt",
+        "functionalContractSourceSha256": "ddb75bab8291e10d998d0dfb8cf3e849b6f3588b4560fb276848e5165021af5c",
+        "generator": "scripts/company-platform/build-floor-information.mjs",
+        "generatorSha256": "3c13d79708022ae76477afc4169689ba094c58a13abac68fa75e53bc80f85d48",
+        "baseCollection": "prototype/public/company-assets/information-v1/collection.json",
+        "baseCollectionSha256": "e042f9a8b60ba5e4875e55f926cde149189136745935098b0eda158d2f35e95d",
+        "baseSourceParameters": "assets-source/company-information-v1/parameters.json",
+        "baseSourceParametersSha256": "2db1f06b5bc7bc787b64529852a7b468871b9a72dfe8d5d75ea7260cc987ba62",
+        "baseGenerator": "scripts/company-platform/build-information.mjs",
+        "baseGeneratorSha256": "cd6daef591e86096d82a90b625d52608cf7905f375a318f530bd073f17802d73",
+        "license": "Project-authored procedural support geometry reusing pinned project-authored wall board GLBs. No external artwork.",
+        "prompt": "Purpose: four project-authored floor-mounted information boards reusing four pinned wall board GLBs with independent original information-content children. Specification: 1.00m x 1.70m x 0.60m bottom-centred envelope, 0.88m x 0.56m content surface at [0,1.3,0.031], blocking footprint half-size [0.5,0.3]. Installation: floor-surface, +Y up, +Z front, identity scale. Support: real six-face solid base and continuous post with structurally distinct bounded support forms. State: empty board defaults, original content visibility only. Source/export: CPU GLTFLoader imports the whole pinned wall frame at +1.3m Y and BoxGeometry adds editable support shapes. GLTFExporter output is read back, geometry checked, and repeated bytes compared. No font rendering, network fetch, physics, or new content assets. Support difference: Two grounded shoe feet joined by a crossbar and paired narrow vertical supports.",
+        "sourceDesign": "doorplate",
+        "baseResource": {
+          "id": "information-board-doorplate",
+          "version": 1,
+          "asset": {
+            "format": "glb",
+            "url": "/company-assets/information-v1/boards/doorplate/v1/model.glb",
+            "sha256": "7fc774a8666cb79047bf06832f07ec62f32cc6b2d10bbeb191fc5d6393978b16",
+            "bytes": 18880
+          }
+        },
+        "baseResourcePath": "prototype/public/company-assets/information-v1/boards/doorplate/v1/resource.json",
+        "baseResourceSha256": "ba36901a653faa1ea348169099cc7832d25d0373f6585c0835bd44f99024ea29",
+        "baseModelPath": "prototype/public/company-assets/information-v1/boards/doorplate/v1/model.glb",
+        "baseModelSha256": "7fc774a8666cb79047bf06832f07ec62f32cc6b2d10bbeb191fc5d6393978b16",
+        "method": "CPU GLTFLoader imports complete pinned wall GLB, translates it +1.3m Y, and adds solid BoxGeometry supports. Original content is referenced by the existing runtime."
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/floor-information-v1/doorplate/v1/model.glb",
+        "sha256": "a8ea3ede7eeec5331b3912fad62fc51744f9843233c3e0e7ee46131d2e6fe52a",
+        "bytes": 32440
+      }
+    },
+    {
+      "id": "information-board-floor-live",
+      "displayName": "落地直播指示板",
+      "version": 1,
+      "category": "decor",
+      "mountRole": "information-board-floor",
+      "productionBranch": "information-board-floor",
+      "mount": "floor-surface",
+      "mounting": {
+        "origin": "bottom",
+        "width": 1,
+        "height": 1.7,
+        "depth": 0.6
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Bottom centre",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.5,
+          0.3
+        ],
+        "blocking": true
+      },
+      "informationSurface": {
+        "schema": "information-face-v1",
+        "width": 0.88,
+        "height": 0.56,
+        "position": [
+          0,
+          1.3,
+          0.031
+        ]
+      },
+      "informationNodes": {
+        "back": "information-back",
+        "base": "information-base",
+        "post": "information-post"
+      },
+      "stateDefaults": {},
+      "provenance": {
+        "sourceParameters": "assets-source/company-floor-information-v1/parameters.json",
+        "sourceParametersSha256": "f0b3e65895f65d7164f0af447d45641975f6fd1ce9d96776ffac597502f6e75c",
+        "functionalContractSource": "docs/COMPANY-FLOOR-INFORMATION-CONTRACT-v1.txt",
+        "functionalContractSourceSha256": "ddb75bab8291e10d998d0dfb8cf3e849b6f3588b4560fb276848e5165021af5c",
+        "generator": "scripts/company-platform/build-floor-information.mjs",
+        "generatorSha256": "3c13d79708022ae76477afc4169689ba094c58a13abac68fa75e53bc80f85d48",
+        "baseCollection": "prototype/public/company-assets/information-v1/collection.json",
+        "baseCollectionSha256": "e042f9a8b60ba5e4875e55f926cde149189136745935098b0eda158d2f35e95d",
+        "baseSourceParameters": "assets-source/company-information-v1/parameters.json",
+        "baseSourceParametersSha256": "2db1f06b5bc7bc787b64529852a7b468871b9a72dfe8d5d75ea7260cc987ba62",
+        "baseGenerator": "scripts/company-platform/build-information.mjs",
+        "baseGeneratorSha256": "cd6daef591e86096d82a90b625d52608cf7905f375a318f530bd073f17802d73",
+        "license": "Project-authored procedural support geometry reusing pinned project-authored wall board GLBs. No external artwork.",
+        "prompt": "Purpose: four project-authored floor-mounted information boards reusing four pinned wall board GLBs with independent original information-content children. Specification: 1.00m x 1.70m x 0.60m bottom-centred envelope, 0.88m x 0.56m content surface at [0,1.3,0.031], blocking footprint half-size [0.5,0.3]. Installation: floor-surface, +Y up, +Z front, identity scale. Support: real six-face solid base and continuous post with structurally distinct bounded support forms. State: empty board defaults, original content visibility only. Source/export: CPU GLTFLoader imports the whole pinned wall frame at +1.3m Y and BoxGeometry adds editable support shapes. GLTFExporter output is read back, geometry checked, and repeated bytes compared. No font rendering, network fetch, physics, or new content assets. Support difference: Stepped two-tier podium with a solid mast collar below the unchanged live indicator frame.",
+        "sourceDesign": "live",
+        "baseResource": {
+          "id": "information-board-live",
+          "version": 1,
+          "asset": {
+            "format": "glb",
+            "url": "/company-assets/information-v1/boards/live/v1/model.glb",
+            "sha256": "c72eae30a52a6c1c1d033d0d3fe16ca2cf297394ea4ef9f01f83070ead2fd34d",
+            "bytes": 9736
+          }
+        },
+        "baseResourcePath": "prototype/public/company-assets/information-v1/boards/live/v1/resource.json",
+        "baseResourceSha256": "aea5788a2c6b0a6f7ec3279d9c42bf79cd1dde25ab8f47b457d2673a7e57106a",
+        "baseModelPath": "prototype/public/company-assets/information-v1/boards/live/v1/model.glb",
+        "baseModelSha256": "c72eae30a52a6c1c1d033d0d3fe16ca2cf297394ea4ef9f01f83070ead2fd34d",
+        "method": "CPU GLTFLoader imports complete pinned wall GLB, translates it +1.3m Y, and adds solid BoxGeometry supports. Original content is referenced by the existing runtime."
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/floor-information-v1/live/v1/model.glb",
+        "sha256": "a83ede19e97d0d0e04cf71fd2a7122a47ee5e79862d51ae89c27b2ce35d2e792",
+        "bytes": 19360
+      }
     }
   ]
 }

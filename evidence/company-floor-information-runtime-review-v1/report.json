@@ -1,0 +1,35 @@
+{
+  "status": "no-blocking-defect-found",
+  "scope": "Bounded read-only review of floor information resource contracts, parent attachment, samples, preview integration and QA fixtures",
+  "configuration": {"difficulty":"standard","requestedModel":"gpt-6.1-sol","requestedReasoningEffort":"high","actualProviderConfiguration":"not independently verified","hostHookInterception":"not independently verified"},
+  "findings": [],
+  "reviewedBoundaries": [
+    "information-display.js identifies the floor variant by mountRole and enforces its bottom origin, 1x1.7x0.6 envelope, 0.5x0.3 blocking footprint, base/post mappings and 1.3m content center. Wall and content contracts retain their previous independent fields and state semantics.",
+    "information-samples.js filters wall frames by exact information-board mountRole, so the four floor resources cannot enter wall samples. appearance-samples.js offers separate floor and wall branches.",
+    "floor-information-samples.js parents floor boards directly to an area, retains a room and a public area sharing a real 1.4m portal, and places two stands outside the portal path. The public area touches the room at z=2.625m. Its first-region ordering allows the appearance sample entry point to focus the public area.",
+    "document.js floor-surface validation requires a direct room/area parent and local y=0. The existing footprint/navigation/placement chain consumes the complete floor-board footprint.",
+    "Preview layout loading counts both room and area when selecting room versus floor overview. Both information appearance branches replace frame resources only when the company identity matches, retaining content children and their state.",
+    "Copy coverage uses one existing add-facility transaction containing the parent and content operations. No new copy, group, controller or save mechanism is introduced.",
+    "The browser two-floor fixture remaps node IDs, parent IDs, station IDs and connection endpoint region IDs. The content visible state is changed only on the copied instance.",
+    "The corrected downloaded-asset fixture accepts information-* geometry errors for missing face/base and texture/load errors for a corrupt PNG. This matches the validators and does not rewrite production resource metadata."
+  ],
+  "checksExecutedByReviewer": {
+    "method": "Node CPU assertions in memory, without evidence or production mutation",
+    "status": "passed",
+    "floorLayoutVariants": 2,
+    "checkedPortalSidesPerVariant": 2,
+    "wallSampleIndicesWithOnlyWallFrames": 4,
+    "illegalDirectParentKindsRejected": ["floor","facility","assembly"],
+    "illegalParentErrorCode": "missing-mount-region"
+  },
+  "testCoverageNotes": [
+    "qa-floor-information-data covers exact floor contract rejection, both public-entry portals, four frames by both contents, hidden state/save round trips, quarter-turn parent movement, atomic parent/content copy, illegal ground/rotation/edge/content slot and real blocked-portal rejection.",
+    "qa-floor-information-preview covers each frame/content combination with browser restart, content-preserving frame choice, visibility isolation, rotation/copy/two-floor isolation, failure preservation, downloaded missing face/base and corrupt PNG, and unloading.",
+    "The new floor QA scripts do not directly assert defaultSpace chooses floor mode for room-plus-area layouts or directly test illegal parent kinds. Reviewer CPU checks cover the illegal parents and source inspection confirms the view selection. Browser view-default assertion remains unverified by this review."
+  ],
+  "limits": [
+    "No browser, GPU, recording or fixed-build acceptance was executed by this reviewer.",
+    "Root reported five data groups passed and was rerunning browser v2 after correcting a fixture error-code assertion. Those are root-owned results, not results established by this report.",
+    "Actual model support geometry, source-production pins, image lifecycle, C3 character use and final human appearance acceptance are outside this bounded runtime-wiring review."
+  ]
+}

@@ -25,6 +25,7 @@ import {createSlidingSample} from './sliding-samples.js';
 import {createClockSample} from './clock-samples.js';
 import {createSupportedClockSample} from './supported-clock-samples.js';
 import {createInformationSample} from './information-samples.js';
+import {createFloorInformationSample} from './floor-information-samples.js';
 import {validatePresentationInputs} from './clock-display.js';
 import './preview.css';
 
@@ -39,7 +40,7 @@ const sun=new THREE.DirectionalLight(0xfff0d6,2.3);sun.position.set(-3,8,5);sun.
 Object.assign(sun.shadow.camera,{left:-8,right:8,top:8,bottom:-8});sun.shadow.normalBias=.015;world.add(sun);
 const camera=new THREE.PerspectiveCamera(38,1,.05,300),orbit=new OrbitControls(camera,renderer.domElement);
 orbit.enableDamping=false;orbit.maxPolarAngle=Math.PI*.48;orbit.minDistance=2;orbit.maxDistance=160;
-const layouts={information:createInformationSample(catalog,templates).document,informationAlternate:createInformationSample(catalog,templates,{alternate:true}).document,supportedClocks:createSupportedClockSample(catalog,templates).document,supportedClockAlternate:createSupportedClockSample(catalog,templates,{alternate:true}).document,clocks:createClockSample(catalog,templates).document,clockAlternate:createClockSample(catalog,templates,{alternate:true}).document,sliding:createSlidingSample(catalog,templates).document,slidingAlternate:createSlidingSample(catalog,templates,{alternate:true}).document,hinged:createHingedSample(catalog,templates).document,hingedAlternate:createHingedSample(catalog,templates,{alternate:true}).document,base,alternate,studio,...createScaleExamples(catalog,templates),smallHome,rental:rentalHome,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome,ceilings:ceilingCompany,ceilingHome,
+const layouts={floorInformation:createFloorInformationSample(catalog,templates).document,floorInformationAlternate:createFloorInformationSample(catalog,templates,{alternate:true}).document,information:createInformationSample(catalog,templates).document,informationAlternate:createInformationSample(catalog,templates,{alternate:true}).document,supportedClocks:createSupportedClockSample(catalog,templates).document,supportedClockAlternate:createSupportedClockSample(catalog,templates,{alternate:true}).document,clocks:createClockSample(catalog,templates).document,clockAlternate:createClockSample(catalog,templates,{alternate:true}).document,sliding:createSlidingSample(catalog,templates).document,slidingAlternate:createSlidingSample(catalog,templates,{alternate:true}).document,hinged:createHingedSample(catalog,templates).document,hingedAlternate:createHingedSample(catalog,templates,{alternate:true}).document,base,alternate,studio,...createScaleExamples(catalog,templates),smallHome,rental:rentalHome,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome,ceilings:ceilingCompany,ceilingHome,
   supports:createSupportSample(catalog,templates).document,supportAlternate:createSupportSample(catalog,templates,{alternate:true}).document},assetLibrary=createCompanyAssetLibrary();let session,activeView='room',busy=false,game;
 let regionLabels=[],previewClockOverride=null;
 function setPreviewClock(seconds){if(seconds!==null)validatePresentationInputs({clockSeconds:seconds});previewClockOverride=seconds;if(seconds!==null)session.scene.setPresentationInputs({clockSeconds:seconds});return seconds;}
@@ -69,11 +70,11 @@ function setView(name){
   }
   if(name==='information'&&view.mode==='room') {
     const object=session.scene.root.getObjectByName(element('information-board').value);
-    if(object){const center=new THREE.Box3().setFromObject(object).getCenter(new THREE.Vector3());orbit.minDistance=.6;orbit.target.copy(center);camera.position.copy(center).add(new THREE.Vector3(0,.02,1.45).applyQuaternion(object.getWorldQuaternion(new THREE.Quaternion())));orbit.update();updateWallView();return;}
+    if(object){const center=new THREE.Box3().setFromObject(object).getCenter(new THREE.Vector3()),node=session.document.nodes.find(n=>n.id===object.name),resource=catalog.resources.find(r=>r.id===node?.resource?.id&&r.version===node?.resource?.version);if(resource?.mountRole==='information-board-floor')center.copy(object.localToWorld(new THREE.Vector3(...resource.informationSurface.position)));orbit.minDistance=.6;orbit.target.copy(center);camera.position.copy(center).add(new THREE.Vector3(0,.02,1.45).applyQuaternion(object.getWorldQuaternion(new THREE.Quaternion())));orbit.update();updateWallView();return;}
   }
   if(name==='clock'&&view.mode==='room') {
     const object=session.scene.root.getObjectByName(element('clock').value);
-    if(object){const center=new THREE.Box3().setFromObject(object).getCenter(new THREE.Vector3());orbit.minDistance=.6;orbit.target.copy(center);camera.position.copy(center).add(new THREE.Vector3(0,.03,.85).applyQuaternion(object.getWorldQuaternion(new THREE.Quaternion())));orbit.update();updateWallView();return;}
+    if(object){const center=new THREE.Box3().setFromObject(object).getCenter(new THREE.Vector3()),node=session.document.nodes.find(n=>n.id===object.name),resource=catalog.resources.find(r=>r.id===node?.resource?.id&&r.version===node?.resource?.version);if(resource?.mountRole==='information-board-floor')center.copy(object.localToWorld(new THREE.Vector3(...resource.informationSurface.position)));orbit.minDistance=.6;orbit.target.copy(center);camera.position.copy(center).add(new THREE.Vector3(0,.03,.85).applyQuaternion(object.getWorldQuaternion(new THREE.Quaternion())));orbit.update();updateWallView();return;}
   }
   orbit.minDistance=2;
   if(name==='ceiling'&&view.mode==='room') {
@@ -143,7 +144,7 @@ async function changeFinish(type){
 async function showAppearanceSample(branch,index){
   const sample=createAppearanceSample(branch,index,catalog,templates);
   if(session.document.id===sample.document.id){
-    const replacements=sample.document.nodes.filter(n=>n.resource&&(branch!=='information-board'||catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.informationSurface)).map(n=>({type:'replace-resource',id:n.id,resource:n.resource}));
+    const replacements=sample.document.nodes.filter(n=>n.resource&&(!['information-board','information-board-floor'].includes(branch)||catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.informationSurface)).map(n=>({type:'replace-resource',id:n.id,resource:n.resource}));
     await session.apply(replacements);
   }else await session.load(sample.document);
   await showSpace('room',sample.document.nodes[0].id,sample.document.nodes[1].id);
@@ -168,7 +169,7 @@ function updateRegionLabels(){
 async function showSpace(mode,floorId=element('floor').value,roomId=element('room').value,presentation='exterior'){
   await session.setView({mode,floorId,roomId:mode==='room'?roomId:null});if(mode==='building')buildingPresentation=presentation;sync();resize();setView(mode==='building'?'building':'room');
 }
-async function defaultSpace(){const doc=session.document,rooms=doc.nodes.filter(n=>n.kind==='room');await showSpace(doc.scale==='building'?'building':rooms.length===1?'room':'floor',session.scene.view.floorId,rooms[0]?.id);}
+async function defaultSpace(){const doc=session.document,rooms=doc.nodes.filter(n=>['room','area'].includes(n.kind));await showSpace(doc.scale==='building'?'building':rooms.length===1?'room':'floor',session.scene.view.floorId,rooms[0]?.id);}
 function sync(){
   if(!session)return;const doc=session.document,facilities=doc.nodes.filter(n=>n.kind==='facility'),previous=element('station').value,derived=deriveCompany(doc,catalog,templates),view=session.scene.view;
   fillOptions('floor',doc.nodes.filter(n=>n.kind==='floor'),view.floorId);

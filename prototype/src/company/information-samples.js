@@ -1,6 +1,6 @@
 import {createCompany,prepareCompanyChange} from './document.js';
 export function createInformationSample(catalog,templates,{index=0,alternate=false}={}) {
-  const boards=catalog.resources.filter(r=>r.informationSurface),contents=catalog.resources.filter(r=>r.informationContent);
+  const boards=catalog.resources.filter(r=>r.mountRole==='information-board'),contents=catalog.resources.filter(r=>r.informationContent);
   if(!boards[index]||contents.length<2)throw Error('Information sample requires four boards and two independent contents');
   let document=createCompany({id:alternate?'information-alternate':'appearance-information-board',name:alternate?'图文信息 · 侧墙布局':'图文信息 · 公司公告',width:7,depth:5.25},catalog);
   const room=document.nodes[1],ref=r=>({id:r.id,version:r.version}),ops=[];

@@ -1,0 +1,9 @@
+{
+  "status": "failed",
+  "scope": "First independent production-verification harness attempt",
+  "check": "Wrong pinned wall model SHA rejected before export",
+  "expected": "/Pinned dependency differs/",
+  "actual": "ERR_ASSERTION deepStrictEqual rejected the modified baseResource SHA while comparing the pinned original resource definition, before model loading.",
+  "cause": "The verification harness expected a later model-pin error message although the earlier resource-definition pin check correctly rejected the candidate.",
+  "correction": "Accept the actual ERR_ASSERTION rejection and retain its failing validation message. Production models and generator require no fix for this harness assertion."
+}

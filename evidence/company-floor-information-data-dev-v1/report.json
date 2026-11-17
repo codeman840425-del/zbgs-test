@@ -1,0 +1,50 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "name": "Four actual floor appearances share one function, preserve wall/content separation and require blocking support",
+      "passed": true
+    },
+    {
+      "name": "Both public-entry layouts retain real portal connectivity and two floor footprints",
+      "passed": true,
+      "result": [
+        {
+          "alternate": false,
+          "portals": 2
+        },
+        {
+          "alternate": true,
+          "portals": 2
+        }
+      ]
+    },
+    {
+      "name": "Four frames and two contents preserve independent identity and state through saves",
+      "passed": true
+    },
+    {
+      "name": "Quarter-turn movement and explicit atomic subtree copy retain local mount and separate content identity",
+      "passed": true,
+      "result": {
+        "copyMechanism": "One transaction with existing add-facility operations; no new copy/group runtime"
+      }
+    },
+    {
+      "name": "Bad ground/rotation/edge/slot and blocking the real portal reject before input changes",
+      "passed": true,
+      "result": {
+        "codes": [
+          "unsupported-height",
+          "unsupported-rotation",
+          "invalid-floor-fit",
+          "invalid-information-fit",
+          "blocked-portal"
+        ]
+      }
+    }
+  ],
+  "limits": [
+    "Data and static placement only; actual GLBs and browser recovery have separate evidence."
+  ]
+}

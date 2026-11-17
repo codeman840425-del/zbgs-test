@@ -32,19 +32,20 @@ function triangles(mesh, transform) {
   return result;
 }
 
-function requireBoxFaces(actual, dimensions, centerZ, path, fail) {
+function requireBoxFaces(actual, dimensions, center, path, fail, code = 'information-back-geometry') {
   const [width, height, depth] = dimensions;
-  const faces = [['x', -width / 2, 'x', -1], ['x', width / 2, 'x', 1], ['y', -height / 2, 'y', -1], ['y', height / 2, 'y', 1], ['z', centerZ - depth / 2, 'z', -1], ['z', centerZ + depth / 2, 'z', 1]];
+  const [centerX, centerY, centerZ] = center;
+  const faces = [['x', centerX - width / 2, 'x', -1], ['x', centerX + width / 2, 'x', 1], ['y', centerY - height / 2, 'y', -1], ['y', centerY + height / 2, 'y', 1], ['z', centerZ - depth / 2, 'z', -1], ['z', centerZ + depth / 2, 'z', 1]];
   for (const [planeAxis, plane, normalAxis, sign] of faces) {
     const candidates = actual.filter(triangle => triangle.points.every(point => near(point[planeAxis], plane)) && triangle.cross[normalAxis] * sign > 1e-7);
     const unique = [];
     for (const point of candidates.flatMap(triangle => triangle.points)) if (!unique.some(other => other.distanceToSquared(point) <= EPSILON * EPSILON)) unique.push(point);
     const coords = planeAxis === 'x' ? ['y', 'z'] : planeAxis === 'y' ? ['x', 'z'] : ['x', 'y'];
     const shared = candidates.length === 2 ? candidates[0].points.filter(point => candidates[1].points.some(other => other.distanceToSquared(point) <= EPSILON * EPSILON)) : [];
-    const ranges={x:[-width/2,width/2],y:[-height/2,height/2],z:[centerZ-depth/2,centerZ+depth/2]};
+    const ranges={x:[centerX-width/2,centerX+width/2],y:[centerY-height/2,centerY+height/2],z:[centerZ-depth/2,centerZ+depth/2]};
     const corners=ranges[coords[0]].flatMap(a=>ranges[coords[1]].map(b=>[a,b]));
     const fullCorners=corners.every(([a,b])=>unique.some(p=>near(p[coords[0]],a)&&near(p[coords[1]],b)));
-    if (candidates.length !== 2 || unique.length !== 4 || !fullCorners || shared.length !== 2 || near(shared[0][coords[0]], shared[1][coords[0]]) || near(shared[0][coords[1]], shared[1][coords[1]])) failWith(fail, 'information-back-geometry', path, 'Information back must expose six complete outward solid faces', {face: `${planeAxis}=${plane}`});
+    if (candidates.length !== 2 || unique.length !== 4 || !fullCorners || shared.length !== 2 || near(shared[0][coords[0]], shared[1][coords[0]]) || near(shared[0][coords[1]], shared[1][coords[1]])) failWith(fail, code, path, 'Information solid must expose six complete outward faces', {face: `${planeAxis}=${plane}`});
   }
 }
 
@@ -96,18 +97,60 @@ function validateBack(scene, resource, fail, path) {
     failWith(fail, 'information-back-geometry', `${path}.informationNodes.back`, 'Information back must match the .9 x .58 x .02 centered solid rectangle');
   const actual = triangles(mesh, transform);
   if (!actual || actual.some(triangle => triangle.area < 1e-7)) failWith(fail, 'information-back-geometry', `${path}.informationNodes.back`, 'Information back must contain nondegenerate triangles');
-  requireBoxFaces(actual, [.9, .58, .02], .01, `${path}.informationNodes.back`, fail);
+  requireBoxFaces(actual, [.9, .58, .02], [0, 0, .01], `${path}.informationNodes.back`, fail);
   return {mesh, box};
 }
 
-function validateBoard(scene, resource, fail, path) {
-  const back = validateBack(scene, resource, fail, path), slot = resource.informationSurface;
+function validateBoardSlot(scene, resource, back, fail, path, centerY) {
+  const slot = resource.informationSurface;
   if (!slot || slot.schema !== 'information-face-v1' || slot.width !== .88 || slot.height !== .56 || !Array.isArray(slot.position) || slot.position.length !== 3)
     failWith(fail, 'information-surface-contract', `${path}.informationSurface`, 'Information board surface contract is invalid');
   const slotMeshes = []; scene.traverse(node => { if (node.isMesh && node !== back.mesh) slotMeshes.push(node); });
   const inverse = new THREE.Matrix4().copy(scene.matrixWorld).invert();
-  for (const mesh of slotMeshes) { const actual = triangles(mesh, inverse.clone().multiply(mesh.matrixWorld)); if (!actual) failWith(fail, 'information-frame-geometry', `${path}.informationSurface`, 'Frame mesh must contain finite indexed triangles', {mesh: mesh.name}); for (const triangle of actual) if (polygonRectIntersects(clipToZ(triangle.points, .031 - EPSILON), -.44, .44, -.28, .28)) failWith(fail, 'information-surface-occluded', `${path}.informationSurface`, 'Frame geometry projects into the required information rectangle', {mesh: mesh.name}); }
+  for (const mesh of slotMeshes) { const actual = triangles(mesh, inverse.clone().multiply(mesh.matrixWorld)); if (!actual) failWith(fail, 'information-frame-geometry', `${path}.informationSurface`, 'Frame mesh must contain finite indexed triangles', {mesh: mesh.name}); for (const triangle of actual) if (polygonRectIntersects(clipToZ(triangle.points, .031 - EPSILON), -.44, .44, centerY - .28, centerY + .28)) failWith(fail, 'information-surface-occluded', `${path}.informationSurface`, 'Frame geometry projects into the required information rectangle', {mesh: mesh.name}); }
   return {kind: 'board', back: back.mesh.name, slot: [slot.width, slot.height]};
+}
+
+function validateBoard(scene, resource, fail, path) {
+  return validateBoardSlot(scene, resource, validateBack(scene, resource, fail, path), fail, path, 0);
+}
+
+function validateFloorSolid(scene, resource, role, dimensions, fail, path) {
+  const location = `${path}.informationNodes.${role}`, code = `information-${role}-geometry`;
+  const mesh = resolve(scene, resource.informationNodes?.[role], location, fail);
+  if (!mesh.isMesh) failWith(fail, code, location, 'Information support must resolve to an actual mesh');
+  const transform = new THREE.Matrix4().copy(scene.matrixWorld).invert().multiply(mesh.matrixWorld);
+  const box = transformBounds(mesh, transform), actual = triangles(mesh, transform);
+  if (!box || !actual || actual.length !== 12 || actual.some(triangle => triangle.area < 1e-7))
+    failWith(fail, code, location, 'Information solid requires twelve finite nondegenerate triangles');
+  const size = box.getSize(new THREE.Vector3()), center = box.getCenter(new THREE.Vector3());
+  if (!dimensions.every((dimension, index) => near(size.getComponent(index), dimension)))
+    failWith(fail, code, location, 'Information solid dimensions do not match the fixed contract', {expected: dimensions, actual: size.toArray()});
+  requireBoxFaces(actual, dimensions, center.toArray(), location, fail, code);
+  return {mesh, box, center};
+}
+
+function validateFloorBoard(scene, resource, fail, path) {
+  const back = validateFloorSolid(scene, resource, 'back', [.9, .58, .02], fail, path);
+  const base = validateFloorSolid(scene, resource, 'base', [.24, .06, .38], fail, path);
+  const post = validateFloorSolid(scene, resource, 'post', [.08, 1, .04], fail, path);
+  if (new Set([back.mesh, base.mesh, post.mesh]).size !== 3)
+    failWith(fail, 'information-mapping', `${path}.informationNodes`, 'Floor information board requires three distinct solid meshes');
+  if (!near(base.box.min.y, 0))
+    failWith(fail, 'information-floor-grounding', `${path}.informationNodes.base`, 'Base bottom face must touch local ground y=0', {actualBottom: base.box.min.y});
+  const overlap = (a, b, axis) => Math.min(a.box.max[axis], b.box.max[axis]) - Math.max(a.box.min[axis], b.box.min[axis]);
+  if (!near(post.box.min.y, base.box.max.y) || overlap(post, base, 'x') <= EPSILON || overlap(post, base, 'z') <= EPSILON)
+    failWith(fail, 'information-floor-support', `${path}.informationNodes.post`, 'Post bottom face must touch the base top with a shared XZ area');
+  if (['x', 'y', 'z'].some(axis => overlap(post, back, axis) <= EPSILON))
+    failWith(fail, 'information-floor-support', `${path}.informationNodes.back`, 'Post and back must overlap in all three dimensions');
+  for (const [role, solid, expected] of [['back', back, [0, 1.3, .01]], ['base', base, [0, .03, 0]], ['post', post, [0, .56, -.005]]]) {
+    if (!expected.every((coordinate, index) => near(solid.center.getComponent(index), coordinate)))
+      failWith(fail, `information-${role}-geometry`, `${path}.informationNodes.${role}`, 'Information solid center does not match the fixed contract', {expected, actual: solid.center.toArray()});
+  }
+  const position = resource.informationSurface?.position;
+  if (!Array.isArray(position) || position.length !== 3 || ![0, 1.3, .031].every((coordinate, index) => finite(position[index]) && near(position[index], coordinate)))
+    failWith(fail, 'information-surface-contract', `${path}.informationSurface.position`, 'Floor information surface must be centered at [0, 1.3, .031]');
+  return {...validateBoardSlot(scene, resource, back, fail, path, 1.3), kind: 'floor-board', base: base.mesh.name, post: post.mesh.name, grounded: true, continuousSupport: true};
 }
 
 function validateContent(scene, resource, fail, path) {
@@ -145,7 +188,8 @@ function validateContent(scene, resource, fail, path) {
 export function validateInformationGeometry(root, resource, fail) {
   if (typeof fail !== 'function') throw new TypeError('validateInformationGeometry requires a fail function');
   if (!root?.isObject3D) failWith(fail, 'invalid-information-scene', 'scene', 'Expected a loaded Three Object3D scene');
-  if (!['information-board', 'information-content'].includes(resource?.mountRole)) return {checked: false};
+  if (!['information-board', 'information-board-floor', 'information-content'].includes(resource?.mountRole)) return {checked: false};
   root.updateMatrixWorld(true);
+  if (resource.mountRole === 'information-board-floor') return {checked: true, ...validateFloorBoard(root, resource, fail, resource.id)};
   return resource.mountRole === 'information-board' ? {checked: true, ...validateBoard(root, resource, fail, resource.id)} : {checked: true, ...validateContent(root, resource, fail, resource.id)};
 }

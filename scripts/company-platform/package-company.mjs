@@ -26,6 +26,8 @@ const extraFiles=[
   'docs/COMPANY-CLOCK-CONTRACT-v1.txt',
   'docs/COMPANY-SUPPORTED-CLOCK-CONTRACT-v1.txt',
   'docs/COMPANY-INFORMATION-DISPLAY-CONTRACT-v1.txt',
+  'docs/COMPANY-FLOOR-INFORMATION-CONTRACT-v1.txt',
+  'scripts/company-platform/build-floor-information-examples.mjs',
   'scripts/company-platform/build-information-examples.mjs',
   'scripts/company-platform/build-supported-clock-examples.mjs',
   'assets-source/company-surface-finishes-v1/PRODUCTION.txt',

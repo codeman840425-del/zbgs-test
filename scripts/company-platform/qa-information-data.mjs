@@ -6,7 +6,7 @@ import {compareFacilityFunction} from '../../prototype/src/company/appearance-co
 import {encodeCompanySave,decodeCompanySave} from '../../prototype/src/company/persistence.js';
 const root=new URL('../../',import.meta.url),catalog=JSON.parse(await fs.readFile(new URL('prototype/src/company/library-catalog.json',root))),templates=JSON.parse(await fs.readFile(new URL('prototype/src/company/templates-extended.json',root)));
 const out=new URL(process.argv[2]||'evidence/company-information-data-v1/',root),checks=[];
-const boards=catalog.resources.filter(r=>r.informationSurface),contents=catalog.resources.filter(r=>r.informationContent),ref=r=>({id:r.id,version:r.version});
+const boards=catalog.resources.filter(r=>r.mountRole==='information-board'),contents=catalog.resources.filter(r=>r.informationContent),ref=r=>({id:r.id,version:r.version});
 let doc=createInformationSample(catalog,templates).document;
 const apply=(ops,c=catalog)=>prepareCompanyChange(doc,ops,{catalog:c,templates}).document;
 async function check(name,fn){checks.push({name,passed:true,result:await fn()});}
