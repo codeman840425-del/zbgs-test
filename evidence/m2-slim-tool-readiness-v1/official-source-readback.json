@@ -1,0 +1,225 @@
+{
+  "observedUtc": "2026-11-17T00:25:35.959057+00:00",
+  "bindingRelease": {
+    "tag": "2.6.3",
+    "commit": "1336e57322356b6b7fa66119bccd658c6a127cdf"
+  },
+  "corePinnedByRelease": "f68f01c23ac82351e2543ce8c529b6d4c89fdf16",
+  "files": [
+    {
+      "repository": "libigl/libigl-python-bindings",
+      "commit": "1336e57322356b6b7fa66119bccd658c6a127cdf",
+      "path": "src/slim.cpp",
+      "url": "https://raw.githubusercontent.com/libigl/libigl-python-bindings/1336e57322356b6b7fa66119bccd658c6a127cdf/src/slim.cpp",
+      "sha256": "60463db9631047e3801a51a620c00c93319757d7e98b14e90b6c836f75eec055",
+      "bytes": 2006,
+      "observedSymbols": [
+        "slim_precompute",
+        "slim_solve",
+        "SLIMData"
+      ],
+      "bindingObservations": {
+        "FColumnsDocumented": [
+          3,
+          4
+        ],
+        "directCoreCall": true,
+        "constraintInput": "Eigen::VectorXi b + Eigen::MatrixXd bc + scalar soft_p",
+        "generalBarycentricConstraintMatrixBinding": false,
+        "runtimeInvoked": false
+      }
+    },
+    {
+      "repository": "libigl/libigl-python-bindings",
+      "commit": "1336e57322356b6b7fa66119bccd658c6a127cdf",
+      "path": "src/MappingEnergyType.cpp",
+      "url": "https://raw.githubusercontent.com/libigl/libigl-python-bindings/1336e57322356b6b7fa66119bccd658c6a127cdf/src/MappingEnergyType.cpp",
+      "sha256": "18acab102ecde9011fb6780a9a681dec5cd8adc9ec8d049bd21112d77851f31c",
+      "bytes": 714,
+      "observedSymbols": [
+        "SYMMETRIC_DIRICHLET"
+      ]
+    },
+    {
+      "repository": "libigl/libigl-python-bindings",
+      "commit": "1336e57322356b6b7fa66119bccd658c6a127cdf",
+      "path": "CMakeLists.txt",
+      "url": "https://raw.githubusercontent.com/libigl/libigl-python-bindings/1336e57322356b6b7fa66119bccd658c6a127cdf/CMakeLists.txt",
+      "sha256": "e4666895806ae7a670f3dd6c3bb8df58b50f7d3951383d4c1b44136271e57c15",
+      "bytes": 7488,
+      "observedSymbols": [],
+      "dependencyLines": [
+        "cmake_minimum_required(VERSION 3.15...3.27)",
+        "set(CMAKE_CXX_STANDARD 17)",
+        "GIT_REPOSITORY https://github.com/wjakob/nanobind.git",
+        "GIT_TAG        v2.7.0",
+        "GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git",
+        "GIT_TAG        tags/3.4.0",
+        "GIT_REPOSITORY https://github.com/libigl/libigl.git",
+        "GIT_TAG f68f01c23ac82351e2543ce8c529b6d4c89fdf16"
+      ]
+    },
+    {
+      "repository": "libigl/libigl-python-bindings",
+      "commit": "1336e57322356b6b7fa66119bccd658c6a127cdf",
+      "path": "pyproject.toml",
+      "url": "https://raw.githubusercontent.com/libigl/libigl-python-bindings/1336e57322356b6b7fa66119bccd658c6a127cdf/pyproject.toml",
+      "sha256": "412bc76591c2e8ce0ec6fca1919bbf4a7a75856a5cf40bfe824d611a1a5f6fe0",
+      "bytes": 1636,
+      "observedSymbols": []
+    },
+    {
+      "repository": "libigl/libigl-python-bindings",
+      "commit": "1336e57322356b6b7fa66119bccd658c6a127cdf",
+      "path": "LICENSE.MPL2",
+      "url": "https://raw.githubusercontent.com/libigl/libigl-python-bindings/1336e57322356b6b7fa66119bccd658c6a127cdf/LICENSE.MPL2",
+      "sha256": "fab3dd6bdab226f1c08630b1dd917e11fcb4ec5e1e020e2c16f83a0a13863e85",
+      "bytes": 16726,
+      "observedSymbols": []
+    },
+    {
+      "repository": "libigl/libigl",
+      "commit": "f68f01c23ac82351e2543ce8c529b6d4c89fdf16",
+      "path": "include/igl/slim.h",
+      "url": "https://raw.githubusercontent.com/libigl/libigl/f68f01c23ac82351e2543ce8c529b6d4c89fdf16/include/igl/slim.h",
+      "sha256": "ebc60921487636d7ce8e50a07f2585b8d1a85d7d4f27f0613b19be0cc7e14193",
+      "bytes": 4511,
+      "observedSymbols": [
+        "slim_precompute",
+        "slim_solve",
+        "SLIMData",
+        "soft_const_p"
+      ]
+    },
+    {
+      "repository": "libigl/libigl",
+      "commit": "f68f01c23ac82351e2543ce8c529b6d4c89fdf16",
+      "path": "include/igl/slim.cpp",
+      "url": "https://raw.githubusercontent.com/libigl/libigl/f68f01c23ac82351e2543ce8c529b6d4c89fdf16/include/igl/slim.cpp",
+      "sha256": "a6c8a9352956d464253ee4664d6c3fa91f55f9c01238302c08fc3781dbf54401",
+      "bytes": 28416,
+      "observedSymbols": [
+        "slim_precompute",
+        "slim_solve",
+        "SLIMData",
+        "SYMMETRIC_DIRICHLET",
+        "F.cols() == 4",
+        "soft_const_p",
+        "flip_avoiding_line_search"
+      ]
+    },
+    {
+      "repository": "libigl/libigl",
+      "commit": "f68f01c23ac82351e2543ce8c529b6d4c89fdf16",
+      "path": "include/igl/flip_avoiding_line_search.cpp",
+      "url": "https://raw.githubusercontent.com/libigl/libigl/f68f01c23ac82351e2543ce8c529b6d4c89fdf16/include/igl/flip_avoiding_line_search.cpp",
+      "sha256": "6ea2d4c9beb9bef7f429a20ee125beb14fa2f992f9bf4162890815afbae9932c",
+      "bytes": 12880,
+      "observedSymbols": [
+        "flip_avoiding_line_search"
+      ]
+    },
+    {
+      "repository": "libigl/libigl",
+      "commit": "f68f01c23ac82351e2543ce8c529b6d4c89fdf16",
+      "path": "tutorial/709_SLIM/main.cpp",
+      "url": "https://raw.githubusercontent.com/libigl/libigl/f68f01c23ac82351e2543ce8c529b6d4c89fdf16/tutorial/709_SLIM/main.cpp",
+      "sha256": "8a1bbeee051f7a7526ce937867aad54bf025e5ca6f5c772bc00fa042afd0f113",
+      "bytes": 5384,
+      "observedSymbols": [
+        "slim_precompute",
+        "slim_solve",
+        "SLIMData",
+        "SYMMETRIC_DIRICHLET",
+        "soft_const_p"
+      ]
+    },
+    {
+      "repository": "libigl/libigl",
+      "commit": "f68f01c23ac82351e2543ce8c529b6d4c89fdf16",
+      "path": "LICENSE.MPL2",
+      "url": "https://raw.githubusercontent.com/libigl/libigl/f68f01c23ac82351e2543ce8c529b6d4c89fdf16/LICENSE.MPL2",
+      "sha256": "fab3dd6bdab226f1c08630b1dd917e11fcb4ec5e1e020e2c16f83a0a13863e85",
+      "bytes": 16726,
+      "observedSymbols": []
+    },
+    {
+      "repository": "libigl/libigl",
+      "commit": "f68f01c23ac82351e2543ce8c529b6d4c89fdf16",
+      "path": "include/igl/volume.cpp",
+      "url": "https://raw.githubusercontent.com/libigl/libigl/f68f01c23ac82351e2543ce8c529b6d4c89fdf16/include/igl/volume.cpp",
+      "sha256": "0a3a400c3f8e030ad532271c26d56a5d11aea37f89be07ab2e5a6fe6c98cc6e7",
+      "bytes": 7739,
+      "signedVolumeFormula": "-(a-d).dot((b-d).cross(c-d))/6"
+    }
+  ],
+  "pypiWindowsWheels": [
+    {
+      "filename": "libigl-2.6.3-cp310-cp310-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/fa/7d/5d1418b42ee82c247ee899810d40ae109ae6dca8905f54b25c809a4a7cec/libigl-2.6.3-cp310-cp310-win_amd64.whl",
+      "digests": {
+        "blake2b_256": "fa7d5d1418b42ee82c247ee899810d40ae109ae6dca8905f54b25c809a4a7cec",
+        "md5": "00e064a837ac031e3a9fc97306f8f627",
+        "sha256": "40ad24757603620b5e34b91bb9fa2990c47868844868547f03cf600251c49018"
+      },
+      "size": 20252481,
+      "requires_python": ">=3.8",
+      "upload_time_iso_8601": "2026-09-01T02:47:00.284171Z",
+      "yanked": false
+    },
+    {
+      "filename": "libigl-2.6.3-cp311-cp311-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/3b/3b/16cd0b55355de72fa4fba737765eb1a51b3034acb032adeaad19b9146ee8/libigl-2.6.3-cp311-cp311-win_amd64.whl",
+      "digests": {
+        "blake2b_256": "3b3b16cd0b55355de72fa4fba737765eb1a51b3034acb032adeaad19b9146ee8",
+        "md5": "3dc46a0ee2c9a5664427052e28f2995f",
+        "sha256": "65ac569fdc556a224c2d05ce265e0b0330c43c9787356dea5c6c26a92c6d6cd4"
+      },
+      "size": 20252199,
+      "requires_python": ">=3.8",
+      "upload_time_iso_8601": "2026-09-01T02:47:04.061521Z",
+      "yanked": false
+    },
+    {
+      "filename": "libigl-2.6.3-cp312-abi3-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/0c/13/6893321d8fc1a742a276a5de796e1818cae33a0589b46f487a6cba2547c5/libigl-2.6.3-cp312-abi3-win_amd64.whl",
+      "digests": {
+        "blake2b_256": "0c136893321d8fc1a742a276a5de796e1818cae33a0589b46f487a6cba2547c5",
+        "md5": "a32b8852d89a03138f5db29020b85f53",
+        "sha256": "1d91745ed0e78c56a04539e3231ce6faff49ae0dbe123caa2034e1886fcb2e7d"
+      },
+      "size": 20239839,
+      "requires_python": ">=3.8",
+      "upload_time_iso_8601": "2026-09-01T02:47:07.712717Z",
+      "yanked": false
+    },
+    {
+      "filename": "libigl-2.6.3-cp38-cp38-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/c8/40/0863cf2b10b15649528c7eaa3dea46e306932993c29faad20df3df37080d/libigl-2.6.3-cp38-cp38-win_amd64.whl",
+      "digests": {
+        "blake2b_256": "c8400863cf2b10b15649528c7eaa3dea46e306932993c29faad20df3df37080d",
+        "md5": "7cb8bbe31ec36a94f36c38f2d83d1bc9",
+        "sha256": "b19229cd51a9e1c67c99b299ff6d8a46827f5cc5e35b61001947424f712bd8c5"
+      },
+      "size": 20252295,
+      "requires_python": ">=3.8",
+      "upload_time_iso_8601": "2026-09-01T02:47:11.942330Z",
+      "yanked": false
+    },
+    {
+      "filename": "libigl-2.6.3-cp39-cp39-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/5e/a0/92f1a3283119ca5f9afcf5c8e802e926865fc916b8095000c68d58238c0a/libigl-2.6.3-cp39-cp39-win_amd64.whl",
+      "digests": {
+        "blake2b_256": "5ea092f1a3283119ca5f9afcf5c8e802e926865fc916b8095000c68d58238c0a",
+        "md5": "92e8434685d31ddc0f41e13531cead1b",
+        "sha256": "e8d3e8f27e361f5dd594a2563e80ec792ebbd3364229b437afd5e9a99c0ffc75"
+      },
+      "size": 20256573,
+      "requires_python": ">=3.8",
+      "upload_time_iso_8601": "2026-09-01T02:47:15.986183Z",
+      "yanked": false
+    }
+  ],
+  "wheelDownloadedOrImported": false,
+  "metadataRuntimeAgreementVerified": false
+}

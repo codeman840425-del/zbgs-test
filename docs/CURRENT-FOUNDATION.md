@@ -16,7 +16,9 @@
 
 新根因与刚完成的窄包：domain-audit确认原内嵌Tops_01_CLOTH袖点被Head.all_endpoints纳入，将bbox宽撑至女.54977/男.59887m；实际引用Body_SKIN+Face_SKIN+FaceMouth（含brow）端点加原20mm为.20820/.21252m。最初tuple成员判断误报unused已被推翻，实际索引全覆盖，不按误判删数据。skin-domain源已合cd639b1b（作者23d93449），只修bounds语义输入，逐原端点identity0/必要点outside0后一次两性response；原weights/保护/27controls/请求/body不改。独审m2-head-cage-skin-domain-audit-v1无新增阻断。新LP仍只拒附着点代理，未生成新形状。本cage尝试在预算处封存，不扫padding/ridge/cap；正式det/表达/实际半宽门保持。
 
-下一主包为目标表达与成熟工具接入的有界研究，未批准人物形状批次。官方入口核查完成后，已授权一次独立venv的libigl 2.6.3单tet API smoke，不改全局Python；实际结果待回读。face_target_feasibility新派明确gpt-6-astra/high，核几何目标/保护相容性并给下一最小验证；asset_budget复用gpt-6.1-sol/high，核已有libigl SLIM研究的实际Windows/API/工具可用性，不重复调研或安装。几何顾问已区分软guide和真实截面门，并发现23个源顶点可提供有量化误差的原生顶点软引导；具体附录待核。http_transport_review复用sol/high生成机器可读target-contract，不作求解。先验证工具/目标接口，未开始新八体导出。当前M2八预设仍未完成，已有六体技术候选保留。
+当前接续：官方libigl2.6.3独立venv的单tet smoke通过；不改全局Python。source/evidence在m2-slim-tool-smoke-v1，原始所有许可证/二进制SHA固定。identity误差0、1mm五步残差1.668nm；仅全4点软约束API证明，完整solver峰RSS未测。target-contract包完成两源/八请求/808正式截面，root实际build.py --check通过。几何审查明确23原顶点软guide回插原202点误差最高0.942mm，不是实际截面通过。
+
+一次male体积域前置已实际完成：scripts与assets-source/m2-head-volume-domain-v1，5742节点/37114tet，113713选中base/表达occurrences，控制缺失0、zero tet0、越界0，identity1.164e-15m/affine1.111e-15m；1.64秒、进程树采样RSS152326144字节。只数学接口；cond最大4.386e9/minvolume4.815e-17存在薄单元风险。face_target_feasibility(astra/high)独审源映射/节点/embedding；asset_budget(sol/high)准备同域原生SLIM identity及male lean+round一次固定配置，尚未授权实际solve。只新工具/产物，不改4196，不生成八体或重开旧cage。当前八预设仍未完成。
 
 动作自适应已完成方法调研research/MOTION-CONTACT-ADAPTATION-OPTIONS-2026-11-16.md（R2ET/Mink/CAMR源码/许可/限制）。Mink只是离线小试优先候选，未安装求解器/未完成VRM往返/无通用避碰通过；不插入本八体包准入，不重开封存舞。新机制必须先核可复用官方/原作者实现及实际输入输出再小试。
 
@@ -32,6 +34,6 @@ Phaser+Three+VRM保留；女性封板裙和30秒舞不再精修。普通电脑�
 
 - 当前有界代理：face_target_feasibility=gpt-6-astra/high，asset_budget=gpt-6.1-sol/high，均只读研究；http_transport_review与batch_v2_readback此前独审/LP已完成。requested配置明确，真实provider与桌面hook拦截未独立核验；新spawn成功不等于gate已证。
 - 角色侧单GPU/录像/编码/重导出窗口目前空闲，source修域probe与f82公开按钮检查均结束。已收到公司副总工多层承载4b3/source300e9及柜门940/source84ef交接，尚未核整合、不改CAP为角色已验。公司副总工已通知74.48秒柜门录像结束并释放窗口；该包仍为其声明，未核角色集成。角色侧本包仅CPU/隔离工具，无GPU或录制作业。
-- 下一项：收几何目标顾问与SLIM工具可执行性结论，选择单条可重现最小验证，不再盲试旧cage。固定4196=f82保持。最新已核远备d3d7f8a5，之后响应/LP/域与UI证据仍待再备。M2未完，不进入M3。
+- 下一项：收male体积域独审，审原生SLIM单域计划后做一次identity、两个相反方向head小样；不再盲试旧cage。固定4196=f82保持。最新已核远备f222bee42640261591161b4104c57a628eaeea35，覆盖响应/LP/域独审/纠正及f82。其后目标合同/SLIM/新域尚待本次备份。M2未完，不进入M3。
 - 固定交付按exact commit独立检出；录像与构建身份保持，旧failed不改标。只stage明确路径，不git add -A。公司平台副总工独立交付，未核的CAP-INCREMENT不当本角色集成通过。
 - docs/HANDOFF.md为恢复规则；完整范围见现行v2，生产索引scripts/production/和assets-source保输入/工具/许可/失败，不以目录存在当通过。

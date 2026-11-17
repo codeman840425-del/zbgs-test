@@ -300,3 +300,5 @@ head-only一次诊断原8请求已完成，8/8 diagnostic-failed，正式生产�
 2026-11-16 头部完整响应/必要可行性已实测：源820fbd28、LP afae69eb/b094d9af；原两性54探针复位零误差，cross-axis实测0，原8失败控制的实际附着点回读误差最高9.248µm。原8必要LP全部status2(proxy-infeasible)，无primal不能编造t/控制量；逐坐标2mm代理不等同原真实截面门。此后源域独审确认是实际引用内嵌袖部（非unused）撑宽头笼；人体/脸/口域比较宽约208/213mm而原约550/599mm。当前只允许一次bounds语义修正后的新响应/同条件LP，未生成任何新通过角色。见m2-head-cage-domain-audit-v1及各源包；不能据数学检查称视觉/表达/衣物通过。
 
 2026-11-16 数学结论边界纠正（原失败不重标）：两批LP的逐XYZ±2mm针对固定源边202附着点；正式门是在requestedY重求交的101水平截面半宽≤2mm。两者不等价，后者可由不同轮廓边/交点达到，LP约束不是正式半宽门的必要条件。8/8代理不可行不能证明正式目标或同一控制笼正式门无解。既有八shape的真实det/表达/意图失败仍成立；停止继续扫cage是失败/尝试预算决定。skin-domain响应只改善域选择并保完整identity，未有新角色准入。此澄清由独立几何顾问在新任务中核到，报告随后入同一证据链。
+
+2026-11-16 成熟工具与目标接口小试：evidence/m2-face-target-next-method-review-v1完成原23顶点guide与真实截面目标区分；新assets-source/m2-face-target-contract-v1固定两源/八请求/808正式截面，root实际--check通过，口内strict基线保留。libigl2.6.3独立venv三维tet API实测identity误差0、1mm软目标残差1.668nm（全4点受约束，仅入口证明）；实际solver峰RSS未测，不能使用启动器4MB作成本。男性头域一次SciPy/Qhull生成5742节点/37114tet，控制遗漏/零体积/端点越界均0；113713所选端点identity/affine最大约1.17e-15m。该域最大条件数4.386e9，薄单元数值风险仍待实际求解；没有新形状、女性域或游戏通过。源及结果见assets-source/m2-head-volume-domain-v1，独立审查进行中。

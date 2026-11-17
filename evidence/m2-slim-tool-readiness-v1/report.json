@@ -1,0 +1,33 @@
+{
+  "schema": "slim-tool-readiness-v1",
+  "status": "official-api-and-wheel-path-confirmed-runtime-not-tested",
+  "pythonAPI": {
+    "release": "2.6.3",
+    "bindingCommit": "1336e57322356b6b7fa66119bccd658c6a127cdf",
+    "coreCommit": "f68f01c23ac82351e2543ce8c529b6d4c89fdf16",
+    "functions": [
+      "slim_precompute(V,F,V_init,MappingEnergyType,b,bc,soft_p=1e5)",
+      "slim_solve(data,iter_num=1)"
+    ],
+    "tetrahedraSupportedByInspectedSource": true,
+    "directBarycentricConstraintAPI": false,
+    "hardEqualityAPI": false,
+    "executedHere": false
+  },
+  "toolPathProposed": "experiments/tools/slim-core-2.6.3/.venv",
+  "matchingWheelSha256": "1d91745ed0e78c56a04539e3231ce6faff49ae0dbe123caa2034e1886fcb2e7d",
+  "minimumTrial": "one unit tet identity solve(1), one fixed +1mm target solve(5), no tet generator/external assets",
+  "localBlockers": [
+    "igl not installed",
+    "C++ toolchain not found in recorded scopes",
+    "wheel DLL/runtime import not yet tested"
+  ],
+  "characterBridgeMissing": [
+    "valid tetrahedral volume and point/endpoint embedding",
+    "vertex-only soft constraints to real semantic target mapping",
+    "morph/normal/export/skin/contact verification"
+  ],
+  "runtimeAccepted": false,
+  "shapeGenerated": false,
+  "installationPerformed": false
+}

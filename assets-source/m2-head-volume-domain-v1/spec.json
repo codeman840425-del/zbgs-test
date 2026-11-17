@@ -1,0 +1,74 @@
+{
+  "schema": "head-volume-domain-source-v1",
+  "sex": "male",
+  "source": {
+    "path": "prototype/public/assets/foundation/base-male-roundtrip.vrm",
+    "sha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff"
+  },
+  "response": "assets-source/m2-head-cage-skin-domain-v1/generated/male.json",
+  "sourceReader": "scripts/m2-representative-batch-v1/deform.py",
+  "pointPlan": "evidence/m2-face-target-next-method-review-v1/domain-point-readback.json",
+  "nativeGuide": "evidence/m2-face-target-next-method-review-v1/native-vertex-guide.json",
+  "numpy": "2.4.2",
+  "scipy": "1.18.1",
+  "paddingM": 0.02,
+  "neckBelowM": 0.005,
+  "qhullOptions": "Qbb Qc Qz Q12",
+  "toleranceM": 2e-06,
+  "maxSeconds": 600,
+  "maxRssBytes": 3221225472,
+  "affineMatrix": [
+    [
+      1.02,
+      0.01,
+      0
+    ],
+    [
+      0,
+      0.98,
+      0.01
+    ],
+    [
+      0.005,
+      0,
+      1.01
+    ]
+  ],
+  "affineTranslationM": [
+    0.001,
+    -0.002,
+    0.003
+  ],
+  "pointRule": "Original head skin/mouth/brow base, Body_SKIN above neck-5mm base; every protected eye/hair endpoint; in-box neck below cut; eight corners. All original selected endpoints queried. Exact coordinate merge only. No QJ or proximity merge. Matches independent domain-point-readback.",
+  "attemptBudget": "One male domain, no density or Qhull sweep, no shape solve. One evidence-backed implementation fix only.",
+  "inputs": [
+    {
+      "path": "prototype/public/assets/foundation/base-male-roundtrip.vrm",
+      "sha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff"
+    },
+    {
+      "path": "evidence/m2-face-target-next-method-review-v1/domain-point-readback.json",
+      "sha256": "6993ca1b10c698e82ff2e9fc46592431643a81866c54fc49b95acce08b24d7a3"
+    },
+    {
+      "path": "evidence/m2-face-target-next-method-review-v1/native-vertex-guide.json",
+      "sha256": "df4e6984092d9cf6a2df3d53ab8555217a8d6518f02fd67d8e927b2c3b391b43"
+    },
+    {
+      "path": "assets-source/m2-head-cage-skin-domain-v1/generated/male.json",
+      "sha256": "054bd71a29107be7640873f6fad3723f474c2f318a28180cd5fa56738af19c4d"
+    },
+    {
+      "path": "scripts/m2-representative-batch-v1/deform.py",
+      "sha256": "58bbf5295d6532defd52bef270efe7a49ee78854b1737734a4eb8bb5b4b4c260"
+    },
+    {
+      "path": "scripts/production/flow.py",
+      "sha256": "d9b7d1b2ceb24622a92abe1af8737da08d93f00a3e51113f5155487af789b1ba"
+    },
+    {
+      "path": "scripts/m2-head-volume-domain-v1/run.py",
+      "sha256": "8f96a9a2bb637eae7ddb0f48d56236df0f4133e1355d6cb88384b5b62b9e9a48"
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "schema": "face-target-contract-build-report-v1",
+  "status": "source-backed-contracts-produced-no-domain-or-shape",
+  "requestedConfiguration": {
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "high",
+    "actualProviderAndHookIndependentlyVerified": false
+  },
+  "commands": [
+    "python -B scripts/m2-face-target-contract-v1/build.py",
+    "python -B scripts/m2-face-target-contract-v1/qa.py",
+    "python -B scripts/m2-face-target-contract-v1/build.py --check"
+  ],
+  "complete": {
+    "sourceContracts": 2,
+    "originalRequests": 8,
+    "materialSoftGuides": {
+      "pointsPerRequest": 202,
+      "sourceEdgeABTRecorded": true,
+      "notFormalAcceptance": true
+    },
+    "nativeVertexSoftGuides": {
+      "pointsPerSex": 23,
+      "reviewedSourceArtifactReferenced": true,
+      "sourceIndicesCoordinatesAndInterpolationErrorsReadBack": true,
+      "notFormalAcceptance": true
+    },
+    "formalSections": {
+      "countPerRequest": 101,
+      "total": 808,
+      "requestedYAndHalfWidthsExactFrozenReadback": true,
+      "sourceReCutFromActualOriginalFaceTriangles": true,
+      "maximumHalfWidthErrorM": 0.002,
+      "missingSectionsAllowed": 0,
+      "allRequestsStrictlyIncreasingY": true
+    },
+    "protectedSourceSets": [
+      {
+        "sex": "female",
+        "sourceBody": {
+          "path": "prototype/public/assets/foundation/base-female-roundtrip.vrm",
+          "sha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95"
+        },
+        "protectedPrimitiveCount": 7,
+        "protectedPrimitiveEndpointRecords": 343,
+        "strictBaselineFrames": 57
+      },
+      {
+        "sex": "male",
+        "sourceBody": {
+          "path": "prototype/public/assets/foundation/base-male-roundtrip.vrm",
+          "sha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff"
+        },
+        "protectedPrimitiveCount": 7,
+        "protectedPrimitiveEndpointRecords": 331,
+        "strictBaselineFrames": 55
+      }
+    ],
+    "contactBaseline": "Pinned original diagnostic reports with exact JSON pointers, pair array hashes, original face/mouth triangle identities and original failed-preflight/pair-diagnosis references. No contact recomputation or waiver.",
+    "chinIntent": "Original requested length/projection and source chin minimum recorded. New actual values remain null. Original version has no independent chin length/projection error threshold."
+  },
+  "readbacks": [
+    {
+      "id": "female-long-slender-v2",
+      "maximumSourceSectionDifferenceM": 1.3877787807814457e-17,
+      "nativeMaterialInterpolationMaximumCoordinateDifferenceM": 0.0005904556965246055
+    },
+    {
+      "id": "female-round-full-v2",
+      "maximumSourceSectionDifferenceM": 1.3877787807814457e-17,
+      "nativeMaterialInterpolationMaximumCoordinateDifferenceM": 0.0006537538821307642
+    },
+    {
+      "id": "female-soft-wide-v2",
+      "maximumSourceSectionDifferenceM": 1.3877787807814457e-17,
+      "nativeMaterialInterpolationMaximumCoordinateDifferenceM": 0.0007104106156075457
+    },
+    {
+      "id": "female-square-athletic-v2",
+      "maximumSourceSectionDifferenceM": 1.3877787807814457e-17,
+      "nativeMaterialInterpolationMaximumCoordinateDifferenceM": 0.0005037465492774423
+    },
+    {
+      "id": "male-angular-athletic-v2",
+      "maximumSourceSectionDifferenceM": 1.3877787807814457e-17,
+      "nativeMaterialInterpolationMaximumCoordinateDifferenceM": 0.00062252374422124
+    },
+    {
+      "id": "male-long-lean-v2",
+      "maximumSourceSectionDifferenceM": 1.3877787807814457e-17,
+      "nativeMaterialInterpolationMaximumCoordinateDifferenceM": 0.0007038418643714947
+    },
+    {
+      "id": "male-round-stocky-v2",
+      "maximumSourceSectionDifferenceM": 1.3877787807814457e-17,
+      "nativeMaterialInterpolationMaximumCoordinateDifferenceM": 0.0009417080745994094
+    },
+    {
+      "id": "male-wide-muscular-v2",
+      "maximumSourceSectionDifferenceM": 1.3877787807814457e-17,
+      "nativeMaterialInterpolationMaximumCoordinateDifferenceM": 0.0009291209562600072
+    }
+  ],
+  "pending": [
+    "No tetrahedral/volume domain or solver was created.",
+    "All source vertex, protected endpoint, native-guide-node and material-edge volume mappings remain explicit null/pending. No control point coverage or affine/identity volume readback is claimed.",
+    "No new face shape, achieved101-section/chin measurement, expression deformation, collision, visual or runtime acceptance.",
+    "Exact original source and expression attributes are referenced. A later exporter must independently verify topology, skin/IBM, UV/material/image and expression binding preservation."
+  ],
+  "progress": {
+    "existingBodySourcePassed": 6,
+    "existingBodySourceFailed": 2,
+    "newFaceCandidatesGenerated": 0,
+    "newFacePassed": 0,
+    "M2Complete": false
+  },
+  "validation": {
+    "passed": true,
+    "checkCount": 15,
+    "repeatOutputFiles": 11,
+    "repeatSHAAndMtimeUnchanged": true,
+    "missingAndMisusedOutputsRejected": true,
+    "inputChangeFailurePreserved": "validation/input-change-rejection.json retains the initial rejection when the advisor appended the addendum during pin preparation. It produced no output. Final advisor-provided SHA was then pinned before successful generation."
+  },
+  "manifestSHA256": "2986ef024d153c86b9bbad3bd5c0ddcd06d294f1b384b00a326326787e043625",
+  "specSHA256": "52281910e0cfe004cb8860fc9a504e3903005dbb21336a2355d728ea79464bc8",
+  "producerSHA256": "a0c1bd65790f67f571f1d6398eee52edc78f430d9a73a18a219cdc219f37693e",
+  "runtimeAccepted": false
+}
