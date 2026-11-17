@@ -1,0 +1,86 @@
+边几生活小物：来源、真实几何与接入预检
+2026-11-17
+
+核读树F:/gamemake-company-platform-c1，派工起点HEAD f7f48dd6951cb2b2fad0815250982a222ddf7586，落盘核对HEAD 2eab420c3879543cd06955303675e92bdd97f73a。边几固定交付source9f2297d9/build e1b8bf6a6b7b保原。本文只读取工程、官方来源与原素材，记录候选数值及后续制作决定。未制作新运行资源、修改runtime/catalog/CAP/CURRENT或开启服务/GPU。
+
+一、范围与已有覆盖
+
+side-table-life-items原branch为confirmed，四款精确为“杯子、水瓶、纸巾盒、笔筒与笔记本”，pending尺寸.18×.25×.18m、static，原用途安装标签side-table-surface、parent side-table。四款同时保留，笔筒与笔记本作为一款组合外观。当前153项catalog已有四款真实side-table和此前tabletop-ornament，但没有本角色四款日用品。原装饰物.16×.20×.12安装规格不等于此分支，不能直接改标签计数。
+
+已固定side-table共同top为center[0,0]、topY=.5、halfSize[.15,.11]、clearanceHeight=.35。本包沿现有support-surface，不新增side-table-surface运行挂载类型。新role/productionBranch保side-table-life-items，category decor、mount support-surface、底部中心、单位scale、footprint不阻挡、usePoints=[]、stateDefaults={}。拟锁共同mounting={origin:'bottom',width:.18,height:.25,depth:.18}，不加动态state/movingParts。
+
+实例必须直接parent到具有实际声明承载面的facility，attachment仅surfaceId。用途样例选side-table.top，但普通功能并不需要“只准边几父”的新限制，其他真实patch满足完整包络与净空时仍可沿通用链安装。现document只允许quarter-turn yaw，现support-data的旋转包络交换与此范围一致，无需扩任意角旋转。每边余量X=.06/Z=.02m，净高余量.10m。root的existing-support-entrypoints.json保源行号、原153catalog及真实入口探针，未改实现。
+
+二、有界来源核查与许可
+
+本次只在三个相关包范围内收敛来源。既有Kenney Furniture Kit 2.0原140GLB列表和books原源复核，不重下。新取得Kenney Food Kit 2.0一个原ZIP。Quaternius Ultimate House Interior只取得官方页指向的原公共下载目录和原License，读取其中可取得的有限OBJ目录。Poly Haven只进行一次官方模型metadata查询及许可/API条款核对，没有另取第四素材包。
+
+Food Kit官方页 https://kenney.nl/assets/food-kit 声明200项、CC0、2.0重制。web工具open受限后，正常HTTP读取官方HTML，沿网页自身公开下载入口取得原ZIP。原包4606270bytes，SHA256 cdad90853682499b94c9fda2f87678b24bfd8f3264e0ed323f6b6a27fd7c6f6f。原License.txt为Food Kit (2.0)，Kenney创建/分发，Creation date 26-06-2024 01:23，CC0，允许个人/教育/商业使用，署名非强制。来源页、原ZIP、完整条目列表、原License及选定GLB/OBJ/MTL/PNG均保本research目录。没有采购、上传或再取旧Furniture原包。
+
+在该Food Kit实际200个GLB清单中，cup/mug/soda-bottle为本任务相关源，未找到独立tissue-box/pen/notebook。没有把调味油瓶当水瓶或厨房咖啡机当杯子。清单缺少这些明确独立对象只证明本次取得包的范围，不能推断所有外部素材库都没有。
+
+Quaternius官方包页 https://quaternius.com/packs/ultimatehomeinterior.html 标123模型、FBX/OBJ/Blend、CC0。其公共Drive原License.txt实取364bytes，明确CC0 1.0，保在quaternius-license.txt。此旧包按其实际许可证核查，不将当前官网其他包的QAL泛套给它。当前OBJ目录只取得按名显示的前25模型/50个OBJ与MTL项，有卫浴/床/书架/椅柱等，不能当完整123模型扫描。可见ToiletPaper不是桌面纸巾盒，本轮未选其模型，也未继续无限翻目录。
+
+Poly Haven官方许可 https://polyhaven.com/license 明确资产CC0，网页/API使用另有条款。本次依据官方公开API条款，带独立User-Agent读取一次models metadata，共522项，名字相关筛选见polyhaven-related-catalog-filter.json，包含Binder Notebook及清洁剂/酒瓶等。未读完522个模型网格，未据此断言全库无杯/纸巾盒。现有Food源已与低面数风格适配，因此没有为凑外部占比再取高细节PBR本子，也没有把清洁瓶换名当水瓶。此次没有将实时Poly Haven API接入产品。
+
+三、实际源读取与可用性
+
+原GLTFLoader按实际index读取geometry，并烘焙真实matrixWorld。Food三个源各只有一个原mesh/node，坐标变换为恒等，无skin/animation。它们带外部PNG，Node CPU没有浏览器图像环境，本次LoadingManager仅给图像解析一个占位Texture来读取几何，原PNG像素另用只读采样。该结果计实际mesh/UV/原材质证据，不能计真实纹理解码、视觉或游戏准入通过。actual-original-mesh-inspection.json保逐三角position/normal/UV、原material/image/sampler、真实包络和垂向射线。
+
+杯子优先Food cup.glb，8008bytes、112tri、0零面积。实际范围X±.115、Y[0,.200000003]、Z[-.177116647,.115]，完整.230×.200×.29211665m，含真实把手。中央和x=.04的向下射线首先命中Y=.030000001的上向内底，再命中Y=0外底；杯口Y=.200000003，真实空腔深约.17m。顶圈内半径约.0852441、外半径.115，内底半径约.0724575，有实内壁、底和开放杯口。不能用白色实心圆柱替代。
+
+几何审查确认cup vessel是闭合杯体，把手的8个端口边界点埋入该杯体内，是有依据的隐藏嵌接，不能因每个edge-component都不是独立closed shell就重造原把手。后续保原壳/内腔/端口实际位置，检查可见外壳、接触与保留几何。
+
+mug.glb也有真实开口与内底，20236bytes、232tri、2零/近零面积tri，约.34366935×.27336001×.28512001m。中央射线内底Y=.045359999，顶Y=.273360014。原样为木桶/啤酒杯造型，额外箍圈且三角较多，本轮保候选，优先白色cup。
+
+水瓶优先Food soda-bottle.glb，11324bytes、100tri、0零面积，.18049200×.58041203×.15631066m。真实瓶身/肩/颈、collar与顶盖形态，不使用调味油瓶。原材质opaque、无透射，不含液体表达。原预览和原colormap实际只有色带渐变，无品牌文字、logo或可识别品牌标记，100tri轮廓也没有字模；无需去品牌或重绘原PNG。来源仍如实记soda-bottle，游戏用途为不透明带盖饮水瓶。本次只是带盖饮用瓶造型适配，水内容不做液体模拟，也不因形状像瓶而声称透明玻璃机制已过。
+
+实际原瓶一个mesh分3个edge-components。body64tri的6边颈口止于Y=.520411968；collar20tri闭壳，Y[.503811955,.540411949]；top-cover16tri下端6边开口，Y[.540412009,.580412030]。body rim各点严格在closed collar内，距collar边界约.014376m；cover下rim距collar顶仅5.96046e-8m，是既有微米级容差内Float32接头。它不等于“盖独立闭壳”或全source拓扑已焊成一体。后续应核装配接触/原接口保留、实际可见孔与悬空，允许有证据的隐藏嵌入接口，不能用全组件独立封壳计数引出无依据重造。
+
+既有Furniture books.glb为6864bytes、62tri、4材质，约.15044759×.10390226×.0945m，一原node下合并多个立书表面。DAE声明meter1/Y_UP，单geometry含37/4/11/10tri的材质段，原源可编辑，但没有独立notebook节点。按白色书区X[.074847594,.100047596]尝试的原三角选择只有5个表面，未得到独立闭合本子。原物件存在不证明可直接作A6笔记本。
+
+本轮决定不把立书整体压扁冒一个本子。继续切分并补封原混合书壳会增加与有限新制相近的适配成本，故笔记本采用少量原创盖/纸页/书脊几何，保原books为已核候选。它不计Kenney notebook使用。杯/瓶及杯式笔筒仍是真实外部原源复用，不为强制每件外部损害用途。
+
+四、纹理保留和既有工具接缝
+
+三个Food GLB实际images.uri都是Textures/colormap.png，尚非本工程要求的内嵌图像。各有一512×512原PNG图、baseColorTexture与TEXCOORD_0/TANGENT，KHR_texture_transform仅texCoord0；原sampler magFilter9728/minFilter9984，材质doubleSided=true、metallic0、roughness1、alpha默认OPAQUE。原PNG 10715bytes，SHA256 75baf74d9483a0fc56ac21ceba346fbe16fc24a2a1bf0524c53e6bbe802e1153，alpha全255。
+
+它不是逐面常色表。按实际UV的顶点/边中点/中心7点采样，cup112tri中100片有颜色变化，mug232中158片、bottle100中96片；最大通道差分别57/33/38。cup同u=.96875、v=.775与.975的原PNG像素从(250,250,252)到(193,193,216)。original-uv-png-sampling.json保坐标和样本。用每面纯色代替会丢掉原渐变，这个转换不作为选项。
+
+决定保原PNG字节、UV、原采样及sRGB颜色语义，仅做明确几何尺寸/基点适配。后续封装将原PNG放入BIN，对齐4字节，images改bufferView+mimeType image/png，图像bufferView保原PNG实际长度以便SHA比对。asset-library现第89行起拒外部URI，第213行起核解码，第296行只准blob请求。现image-ownership已有共享ImageBitmap引用和关闭机制，复用它。
+
+已有build-surface-finishes.mjs、build-ceiling-finishes.mjs和build-information.mjs具有BIN/image bufferView对齐封装模式。有限新producer可复用这些模式拼接适配后的position/normal/UV/index和原PNG，不需Node Canvas、专业工具UI、新图像加载框架或剥贴图。原OBJ/MTL保可编辑源，原GLB和PNG仍用于实际来源核对。非均匀尺寸适配须正确处理法线，UV和原像素不变。
+
+后续CPU可核原PNG嵌入字节、UV、material/sampler、实际geometry与重复导出，但占位解析不计decode通过。实际browser必须核原渐变/UV、图像正常解码、换款/复制/关闭恢复、纹理与ImageBitmap释放，以及坏PNG/迟到图像失败保旧。不能只看mesh存在就称Food源接入。
+
+五、四款制作决定与共同包络
+
+共同规格维持.18×.25×.18m，不压缩到不合理2cm笔筒。四款的实际尺寸可以不同，支持包络/功能签名相同。底部居中，完整quarter-turn后仍在真实side-table.top内。支持面只来自父几，子物不新增承载面、拿取、液体或抽纸状态。
+
+杯子沿原cup全部索引/把手/腔体保形，XZ同比.410794798，Y比.549999992，并用原完整XZ包络底部中心重定位。候选实际.09448281×.11×.12m，内底Y=.016500000、杯口.11，腔深.0935m。此为实源尺寸适配，不能声称原包单位错误。原OBJ未提供meter声明时以GLB真实数值和recipe记录目标米制，不猜作者单位。
+
+水瓶沿原soda-bottle统一缩放.396270215，候选实际.07152360×.23×.06194126m。保原颈口/collar/cover嵌接和UV着色。外观为opaque固定带盖饮用瓶，不提供开盖或液体状态，也不改变瓶的实际使用端。
+
+纸巾盒在本次取得范围未找到合适原源，采用有限原创紧凑抽纸盒。盒体.16×.075×.10m，底和侧壁厚.003，内底Y=.003；盖Y[.072,.075]，真实出口.056×.010m。盖为带孔实面，不能在实盖上画黑线冒出口。静态折纸可见顶初始.125、最终.135m，宽约.052m，从真实槽内穿出。候选纸厚.0002m，或明确双面薄片语义；按真实薄纸显示和折叠/夹接证明，不强制每片变厚砖。纸下端沿腔内折叠至内底或有据的口沿夹接，避免漂浮在实心盒上。无抽纸动画或可变纸量。
+
+笔筒与笔记本为一款真实静态组合。杯式笔筒复用原cup开放壳，可保把手，目标外直径.05m、Y高.075，XZ比.217391300/Y比.374999994，完整含把手约.05×.075×.06350362m，内底Y约.01125。杯体中心[.055,0,0]。三支静态笔半径.0025、长度.12/.13/.14，内底起放，平底或有限端面与内底接触；平面中心偏移[-.007,0]/[0,.006]/[.007,0]，实际能通过原内口和内底区域，再读回核穿插。笔上端最高约.15125，小笔筒和正常长笔都保用途。
+
+笔记本采用root建议的A6大小.105×.148m、厚.012，中心[-.0335,0,0]，实际范围X[-.086,.019]/Z±.074。上下盖、纸页块和书脊形成有接触的有限静态结构，封面与纸页可辨，非单色盒贴“本子”标签。其与笔筒最小左右间隙约.011m。组合全范围约X[-.086,.08]/Y[0,.15125]/Z±.074，完全在.18×.25×.18内。fixed-candidate-dimensions.json保数值推导；本次没有导出此组合。
+
+建议每件≤2500tri/32mesh/4材质，Food源每件保一张原512图。笔记本盖、纸页/笔杆、笔尖与源杯纹理可在四材质内分配。实际导出再读回，不预先把估算计通过。透明玻璃不纳本包，doubleSided薄纸/原不透明Food材质与透明是不同语义。
+
+六、最小实施与验收出口
+
+只需有限life-items资源validator接入现validateSupportResource，固定role/branch、mount、mounting、非阻挡、空状态和允许字段；独立actual geometry/source门按四个sourceDesign检查上述源保留、开口/内腔/底、瓶装配、真实出口及静态组合。普通同功能新ID/正整数version应沿同一合同合法，不永久锁四首批ID。document/render/copy/save机制无需预设改写。
+
+拟资源side-table-life-cup/bottle/tissue/pen-notebook@1，同一生产器/参数入口，源目录保原包/License/GLB/OBJ/MTL/PNG和补制recipe。输入一先做cup的原UV内嵌与实际开口，以及tissue的实槽薄纸；过真实loader/geometry后接瓶与组合。第二输入选tissue.paperTopY .125→.135，真实纸片几何改变，另三GLB字节不变；保before源/GLB/读回，重复导出byte-identical，import无写入、--check不读写evidence。新源、producer、合同、loader/packer及geometry字节固定，普通参数修改不改通用算法。
+
+输入A沿现有新sample的side-table-life-items-demo/room-1，parent ID为life-items/table，位置[0,0,-.5]/yaw0；日用品target ID为life-items/primary，rest local[0,.5,0]/attachment.top。输入B为独立side-table-life-items-alternate/room-1，沿同parent/target ID，parent位置[1,0,.3]/yawPI/2，四款仍同local与功能。两份company document身份彼此独立。单实例表面实际一个.18包络，XZ剩余宽度不足再挤第二同包络物件，不能为了显示四款一次重叠摆四件。逐款替换或另用独立桌。
+
+最小真实出口为四份有区分的实际GLB/侧录与完整源、Food图内嵌、实际GLTFLoader/新有限data/geometry门、正常游戏网络加载SHA与provenance、四款逐个关闭进程恢复、两输入与父移转/复制子身份隔离、兼容换款保resource/attachment/local、错父/错面/悬浮/完整包络越界/超高/重叠/错版本/坏图/候选迟到保旧，及确切源码独立重建和正常1×观看。原Food文件可读不等于这些运行验收已经发生。
+
+尝试预算一次基于已核源的实现加一轮有真实失败根因的修正。先保原源和首次真实导出，隐藏埋入接口的证明按源实情处理，不能以机械闭壳计数重造无缺陷原件。真实可见开洞、底漏、悬空、明显穿坏仍修。若同因两轮无新证据/改善，保失败并重定位具体源/封装/摆放，不扫更多包或降低功能。普通电脑性能、角色C3使用和视觉验收按独立证据，不在本预检冒认。
+
+七、研究证据
+
+本目录保原Food ZIP/License与选定cup/mug/soda-bottle原GLB/OBJ/MTL/预览/PNG、原Furniture books GLB/DAE、实际逐三角读取、原PNG/UV采样、有限book区选择、候选尺寸计算、原包清单、Quaternius原许可及有限目录、Poly Haven一次metadata与API条款。root另存existing-support-entrypoints.json，geometry审查另存geometry-entrypoint-audit.json。source-pins.json记录此次实际来源与工程字节。没有向assets-source/public写新产物，完整预检由本公司平台负责人核对后实施。

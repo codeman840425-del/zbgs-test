@@ -23,7 +23,7 @@ function disposeTree(root) {
   const geometries=new Set(),materials=new Set(),textures=new Set();
   root.traverse(object=>{
     if(object.geometry)geometries.add(object.geometry);
-    for(const material of object.material?[object.material].flat():[]) {
+    for(const material of [...(object.material?[object.material].flat():[]),object.customDepthMaterial,object.customDistanceMaterial].filter(Boolean)) {
       materials.add(material);for(const value of Object.values(material))if(value?.isTexture)textures.add(value);
     }
     if(object.isLight)object.dispose?.();
@@ -117,7 +117,14 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
         if(entry.resource.asset) {
           if(!assetLibrary)throw new CompanyError('asset-library-required',entry.id,'Preload this GLB resource before preparing its scene');
           const instance=assetLibrary.instantiate(entry.resource);parts=instance.nodes;visual=instance.root;root.add(instance.root);
-          instance.root.traverse(object=>{if(object.isMesh){object.castShadow=true;object.receiveShadow=true;}});
+          // Three's shared shadow material can retain a disposed map uniform when
+          // switching textured and untextured casters. Own these materials with
+          // the imported mesh so its shadow uniforms end with the same scene.
+          instance.root.traverse(object=>{if(object.isMesh){
+            object.castShadow=true;object.receiveShadow=true;
+            object.customDepthMaterial=new THREE.MeshDepthMaterial();
+            object.customDistanceMaterial=new THREE.MeshDistanceMaterial();
+          }});
         } else {parts=new Map();visual=buildResource(entry.resource.node,parts,entry.state);root.add(visual);}
         for(const part of entry.resource.movingParts||[]) {
           const pivot=parts.get(entry.resource.partNodes[part.id]);

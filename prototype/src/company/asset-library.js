@@ -18,6 +18,7 @@ import {validateMakeupStorageGeometry} from './makeup-storage-geometry.js';
 import {validateMakeupDrawerGeometry} from './makeup-drawer-geometry.js';
 import {validateMakeupWallMirrorGeometry} from './makeup-wall-mirror-geometry.js';
 import {validateSideTableGeometry} from './side-table-geometry.js';
+import {validateSideTableLifeItemsGeometry} from './side-table-life-items-geometry.js';
 import {validateMirrorGeometry} from './mirror-geometry.js';
 import {trackTexture,trackTextures} from './image-ownership.js';
 
@@ -171,6 +172,7 @@ function validateResource(pack, description) {
   validateMakeupDrawerGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateMakeupWallMirrorGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateSideTableGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
+  validateSideTableLifeItemsGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateMirrorGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateSupportGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateVanityGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });

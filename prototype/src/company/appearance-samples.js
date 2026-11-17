@@ -14,7 +14,9 @@ import {createMakeupDrawerSample} from './makeup-drawer-samples.js';
 import {createMakeupWallMirrorSample} from './makeup-wall-mirror-samples.js';
 import {createVanitySample} from './vanity-samples.js';
 import {createSideTableSample} from './side-table-samples.js';
+import {createSideTableLifeItemsSample} from './side-table-life-items-samples.js';
 export const appearanceBranches=[
+ ['side-table-life-items','边几日用品'],
  ['side-table','边几与茶几'],
  ['makeup-mirror-wall','挂墙化妆镜'],
  ['makeup-storage-drawer','抽屉内化妆收纳'],
@@ -44,7 +46,8 @@ export function appearanceCandidates(catalog,branch) {
  if(branch==='sofa')selected.unshift(catalog.resources.find(r=>r.id==='lounge-sofa'&&r.version===1));
  return selected.filter(Boolean).map(r=>({...r,displayName:r.displayName||names[r.id]||r.id}));
 }
-export function createAppearanceSample(branch,index,catalog,templates) {
+export function createAppearanceSample(branch,index,catalog,templates,options={}) {
+ if(branch==='side-table-life-items')return createSideTableLifeItemsSample(catalog,templates,{index,alternate:Boolean(options.alternate)});
  if(branch==='side-table')return createSideTableSample(catalog,templates,{index});
  if(branch==='makeup-mirror-wall')return createMakeupWallMirrorSample(catalog,templates,{index});
  if(branch==='makeup-storage-drawer')return createMakeupDrawerSample(catalog,templates,{index});

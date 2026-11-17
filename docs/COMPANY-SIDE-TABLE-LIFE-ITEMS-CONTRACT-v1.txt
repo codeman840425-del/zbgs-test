@@ -1,0 +1,35 @@
+边几生活小物固定制作与承载合同 v1
+2026-11-17。依据 docs/research/COMPANY-SIDE-TABLE-LIFE-ITEMS-PREFLIGHT-2026-11-17.txt 已接受的真实原源、许可、UV/PNG、几何及尺寸检查。本合同规定制作和准入，完成情况以独立证据为准。
+
+一、固定功能与身份
+首批 side-table-life-cup/bottle/tissue/pen-notebook@1，分别为杯子、水瓶、纸巾盒、笔筒与笔记本组合。四款共用 side-table-life-items-v1 几何/数据合同 profile，资源不增加顶层 schema/profile。mountRole 和 productionBranch 均为 side-table-life-items，category=decor，mount=support-surface。
+普通新稳定 ID 和正整数 version 可使用同合同。首批 ID 用于识别已知身份被篡改，不能成为永久白名单。实际造型由 provenance.sourceDesign 的 cup/bottle/tissue/pen-notebook 四值分派，独立几何门不从 ID 猜造型。
+共同 mounting={origin:'bottom',width:.18,height:.25,depth:.18}，footprint={blocking:false}，usePoints=[]，stateDefaults={}；单位 metres，+Y 向上，+Z 向前，单位 scale。四款实际外形可不同，完整实体必须在共同包络内并以底部接触安装平面。
+资源只允许 id/version、displayName/name/label/description/notes/limitations、category/mountRole/productionBranch、mount/mounting/coordinates、asset/provenance、footprint/usePoints/stateDefaults，以及按实际制作声明的 materialSlots。coordinates 只允许 units/up/forward 及描述性 origin/scale。asset 精确为 format/url/sha256/bytes，glb、非空 URL、64位 SHA256、完整字节数。provenance 保来源、recipe、原 SHA 与 sourceDesign。
+本包首批保原材质与贴图映射，不声明可编辑 materialSlots。后续普通外观可提供真实存在的命名材质槽，必须为非空 mesh 名数组，并经实际网格绑定检查。禁止未经实现的 stateSchema/stateSemantics、movingParts/movingProfile、灯/镜面/显示/信息、支持面/supportMotion、容量、使用点及未知功能字段。保存的实例 state 为空，额外状态操作沿现有状态校验拒绝。
+
+二、复用支持面、变换及事务
+目录 side-table-surface 是安装用途标签，运行资源统一使用 support-surface。实例必须直接 parent 到声明实际承载面的 facility，attachment 精确为 {surfaceId:'top'} 或其他父实际 surfaceId。实际样例必须安装到 side-table.top。其他真实支持面的完整 patch 与净空满足时仍可安装，不增加排斥其他父 role 的规则。
+沿 document/support-data 的 quarter-turn yaw、完整旋转 mounting 包络、rest Y 等于 topY、X/Z patch 内、净空高度及同父子物不重叠校验。侧桌共同 top 为 center[0,0]、topY=.5、halfSize[.15,.11]、clearanceHeight=.35。共同子包络居中时 X 中心余量±.06、Z±.02，高度余量.10；桌体 .8×.5×.55 不扩大承载 patch。单个面只展示一个本包完整包络，四款沿逐款替换或独立桌比较。
+持久化 parentId、attachment、resource ID/version 和 rest local transform；derive 与 renderer 沿既有祖先变换及 effectiveSupportTransform 消费，无新增挂点/骨骼/状态系统。父移转后子物 world 随父，保存局部位置不累计。复制沿 copy-facility/copySubtree 为父和所有子物分配新 ID，使用 parentId 查找复制子物，不依赖 extra-N 等内部命名。
+同功能新造型/版本保持全部功能签名，替换保原实例身份、attachment、局部调整与空 state；已有 tabletop-ornament 的 .16×.20×.12 不同包络不自动等价。原153资源功能签名不变。
+现 authoring 的预加载、generation/revision、候选构造和提交、完整依赖 SHA256 保存/恢复机制保持。坏字段、父/面/高度/越界/净空/重叠、错误版本、功能变更、重复 ID、迟到候选、取图/解析/实体门失败及同 ID/version 内容漂移必须保旧 live 场景与已有保存字节，不修改角色或 lease。
+
+三、真实来源与图像
+杯子与杯式笔筒沿 Kenney Food Kit 2.0 cup.glb，水瓶沿 soda-bottle.glb，保原可编辑 OBJ/MTL、原 GLB、License 与 ZIP SHA。Food 原包 SHA256 cdad90853682499b94c9fda2f87678b24bfd8f3264e0ed323f6b6a27fd7c6f6f，CC0。纸巾盒、静态纸、笔与笔记本为有限原创补制，不能称其为取得的 Kenney 原本子/纸巾盒。
+保原112tri cup、100tri bottle 的索引拓扑、原 UV、完整把手/内腔和瓶颈 collar/盖接口。保实际原 PNG 字节、sRGB、opaque、原 sampler 与 doubleSided 语义，不能改为逐面常色。原512×512 PNG SHA256 75baf74d9483a0fc56ac21ceba346fbe16fc24a2a1bf0524c53e6bbe802e1153。图片嵌入 GLB BIN，image bufferView 保实际 PNG 长度、4字节对齐封装且 mimeType=image/png；不留外部图像 URI。
+非均匀尺寸适配正确变换法线，UV及PNG不改。来源几何中已有的隐藏埋接和Float32接头按原证据检查，不能要求每个 edge-component 都独立闭壳而重造原把手或瓶盖。实际可见孔、漏底、漂浮、严重穿坏仍拒绝。原图占位解析仅证明网格/UV，不计浏览器真实解码或视觉通过。复用现 image ownership 生命周期，不增加图像框架。
+
+四、四形制作与语义
+cup 使用 life-cup-source 单源 mesh，原全 XZ 包络底部中心重定位，XZ 同比 .410794798、Y 比 .549999992；实际候选 .09448281×.11×.12，内底约Y=.0165、杯口Y=.11，开放杯腔深约.0935，保原把手。不能用实心圆柱替代。
+bottle 使用 life-bottle-source 单源 mesh，原 soda-bottle 统一缩放 .396270215，实际候选 .07152360×.23×.06194126；保 body64tri、collar20tri、cover16tri 的原装配。固定不透明带盖饮用瓶，来源实际没有透明液体与开盖功能。
+tissue 为原创盒体 .16×.075×.10，底/侧壁厚.003、内底Y=.003，带真实出口 .056×.010 的盖位于Y[.072,.075]。盒体命名 life-tissue-base、life-tissue-side-left/right/back/front、life-tissue-lid，纸命名 life-tissue-paper。纸宽约.052，最终可见顶Y=.135；从真实槽穿出并在腔内折至底或有据口沿夹接，采用.0002m真实薄挤出，保有限折纸语义并在 producer recipe 和独立几何证据中核读，不以实盖画黑线或漂浮纸片替代。
+pen-notebook 为一款组合。life-pen-holder 复用原 cup 开放壳，XZ比.217391300、Y比.374999994，杯体中心[.055,0,0]，实际含把手约.05×.075×.06350362，内底约Y=.01125。life-pen-1/2/3 半径.0025，长度.12/.13/.14，从内底接触，平面中心相对杯体[-.007,0]/[0,.006]/[.007,0]，最高约.15125。检查实际笔能穿过原内口且不穿坏壁。
+笔记本 .105×.012×.148，中心[-.0335,0,0]，X[-.086,.019]/Z±.074。life-notebook-cover-bottom、life-notebook-pages、life-notebook-cover-top、life-notebook-spine 为有接触的盖/纸页/书脊，封面和纸页可辨。组合实际约X[-.086,.08]/Y[0,.15125]/Z±.074，与杯体间保约.011间隙，不能用原多本立书整体压扁冒单本。所有语义 mesh 名由真实导出绑定，无新资源级节点框架。
+建议每件≤2500tri/32mesh/4材质，Food源每件一张原512图。实际几何门逐三角读取、核原源适配/真实槽/纸折叠接触/装配；通用支持门最低Y≈0不单独证明稳定实底接触。
+
+五、输入、修改与验收边界
+输入A为 side-table-life-items-demo/room-1，父 life-items/table 位于[0,0,-.5]/yaw0，子 life-items/primary local[0,.5,0]/yaw0/attachment.top。输入B为 side-table-life-items-alternate/room-1，父[1,0,.3]/yawPI/2，子local保持。替换后在合法余量内局部调整、父移转、复制子树与逐款保存重开都须实际验证。
+第二制作输入只把 tissue.paperTopY 从.125改.135，实际纸几何改变，另三GLB字节不变，保 before 源/GLB/读回。重复导出 byte-identical，import 无写入，--check 不读写 evidence。producer、封装、data/geometry/contract 与来源 pin 固定，普通参数变化走 recipe。
+最小出口为四份真实GLB与侧录、来源/许可/可读recipe、原PNG内嵌SHA与真实浏览器解码、独立data/geometry门、正式目录和同观看入口、实际网络资源SHA/provenance、两输入、四款逐个关闭恢复、复制ID隔离、兼容替换保调整及坏例失败保旧、确切提交独立构建与正常1×录像。CPU合成mesh仅证明数据与事务，不能计源保真、真实图像/网格加载、GPU或普通电脑达标。
+尝试预算一次实现加一轮有真实根因的修正；同因两轮无新证据/改善保失败并重定位，不扫参或降低功能。实际普通机性能、角色使用及用户观感按独立证据记录。
