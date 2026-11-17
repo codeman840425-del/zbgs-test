@@ -5,6 +5,7 @@ import {validateSupportResource} from './support-data.js';
 import {validateSupportGeometry} from './support-geometry.js';
 import {validateMovingResource} from './moving-parts.js';
 import {validateMovingPartGeometry} from './moving-part-geometry.js';
+import {validateSlidingPartGeometry} from './sliding-part-geometry.js';
 
 const compressionExtensions = new Set([
   'KHR_draco_mesh_compression', 'EXT_meshopt_compression',
@@ -140,7 +141,8 @@ async function releaseFailedParser(parser, json, pack) {
 function validateResource(pack, description) {
   pack.scene.updateMatrixWorld(true);
   validateSupportGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
-  validateMovingPartGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
+  const movingGeometry=description.resource.movingParts?.[0]?.kind==='slide'?validateSlidingPartGeometry:validateMovingPartGeometry;
+  movingGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   for (const target of description.targets) {
     const definitions = (pack.json.nodes || []).filter(node => node.name === target);
     const matches = [];

@@ -17,7 +17,7 @@ export function inspectCompanyMotionSweep(previous, candidate, catalog, template
   for(const [id,footprint]of swept) {
     const node=document.nodes.find(n=>n.id===id),source=validationCatalog.resources.find(r=>r.id===node.resource.id&&r.version===node.resource.version);
     const resource=structuredClone(source);resource.id=`motion-sweep:${id}`;while(validationCatalog.resources.some(r=>r.id===resource.id&&r.version===resource.version))resource.id+=':validation';resource.footprint=footprint;
-    delete resource.movingParts;delete resource.partNodes;delete resource.partPanels;
+    delete resource.movingParts;delete resource.partNodes;delete resource.partPanels;delete resource.partTrays;
     validationCatalog.resources.push(resource);node.resource={id:resource.id,version:resource.version};
     // Moving furniture is standalone in this first motion contract.
     if(node.stationId)throw new CompanyError('unsupported-moving-template',id,'Moving template parts require a separately verified template contract');

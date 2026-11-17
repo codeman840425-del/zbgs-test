@@ -1,0 +1,231 @@
+{
+  "schema": "company-layout",
+  "version": 1,
+  "id": "appearance-sliding-drawer-cabinet",
+  "name": "抽屉柜 · 陈列与工位",
+  "revision": 1,
+  "scale": "single-room",
+  "catalog": {
+    "id": "company-facilities",
+    "version": 1
+  },
+  "nodes": [
+    {
+      "id": "appearance-sliding-drawer-cabinet/floor-1",
+      "kind": "floor",
+      "parentId": "appearance-sliding-drawer-cabinet",
+      "name": "一层",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "appearance-sliding-drawer-cabinet/room-1",
+      "kind": "room",
+      "parentId": "appearance-sliding-drawer-cabinet/floor-1",
+      "name": "直播间",
+      "purpose": "streaming",
+      "bounds": {
+        "width": 7,
+        "depth": 5.25
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "entry": {
+        "position": [
+          2.5,
+          0,
+          1.9
+        ]
+      }
+    },
+    {
+      "id": "sliding/station",
+      "kind": "workstation",
+      "parentId": "appearance-sliding-drawer-cabinet/room-1",
+      "name": "sliding/station",
+      "transform": {
+        "position": [
+          -1.5,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "template": {
+        "id": "stream-station",
+        "version": 1
+      }
+    },
+    {
+      "id": "sliding/station/desk",
+      "kind": "facility",
+      "stationId": "sliding/station",
+      "partKey": "desk",
+      "parentId": "sliding/station",
+      "resource": {
+        "id": "desk",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -0.9
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "sliding/station/monitor",
+      "kind": "facility",
+      "stationId": "sliding/station",
+      "partKey": "monitor",
+      "parentId": "sliding/station/desk",
+      "resource": {
+        "id": "monitor",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          -0.25
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "sliding/station/keyboard",
+      "kind": "facility",
+      "stationId": "sliding/station",
+      "partKey": "keyboard",
+      "parentId": "sliding/station/desk",
+      "resource": {
+        "id": "keyboard",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          0.21
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "sliding/station/microphone",
+      "kind": "facility",
+      "stationId": "sliding/station",
+      "partKey": "microphone",
+      "parentId": "sliding/station/desk",
+      "resource": {
+        "id": "desk-microphone",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.8,
+          0.84,
+          0.18
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "sliding/station/chair",
+      "kind": "facility",
+      "stationId": "sliding/station",
+      "partKey": "chair",
+      "parentId": "sliding/station",
+      "resource": {
+        "id": "chair",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0.55
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "sliding/station/fill-light",
+      "kind": "facility",
+      "stationId": "sliding/station",
+      "partKey": "fill-light",
+      "parentId": "sliding/station",
+      "resource": {
+        "id": "fill-light",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.75,
+          0,
+          -0.15
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "sliding/cabinet",
+      "kind": "facility",
+      "parentId": "appearance-sliding-drawer-cabinet/room-1",
+      "resource": {
+        "id": "sliding-drawer-flat-panel",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1.5,
+          0,
+          -1.7
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "sliding/top-prop",
+      "kind": "facility",
+      "parentId": "sliding/cabinet",
+      "resource": {
+        "id": "tabletop-ornament-vase",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0.2,
+          1.2,
+          0
+        ],
+        "yaw": 0
+      },
+      "state": {},
+      "attachment": {
+        "surfaceId": "top"
+      }
+    }
+  ]
+}

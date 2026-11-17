@@ -21,6 +21,7 @@ import {createBuildingView} from './building-view.js';
 import {appearanceBranches,appearanceCandidates,createAppearanceSample} from './appearance-samples.js';
 import {createSupportSample} from './support-samples.js';
 import {createHingedSample} from './hinged-samples.js';
+import {createSlidingSample} from './sliding-samples.js';
 import './preview.css';
 
 const element=id=>document.getElementById(id),stage=element('stage');
@@ -34,7 +35,7 @@ const sun=new THREE.DirectionalLight(0xfff0d6,2.3);sun.position.set(-3,8,5);sun.
 Object.assign(sun.shadow.camera,{left:-8,right:8,top:8,bottom:-8});sun.shadow.normalBias=.015;world.add(sun);
 const camera=new THREE.PerspectiveCamera(38,1,.05,300),orbit=new OrbitControls(camera,renderer.domElement);
 orbit.enableDamping=false;orbit.maxPolarAngle=Math.PI*.48;orbit.minDistance=2;orbit.maxDistance=160;
-const layouts={hinged:createHingedSample(catalog,templates).document,hingedAlternate:createHingedSample(catalog,templates,{alternate:true}).document,base,alternate,studio,...createScaleExamples(catalog,templates),smallHome,rental:rentalHome,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome,ceilings:ceilingCompany,ceilingHome,
+const layouts={sliding:createSlidingSample(catalog,templates).document,slidingAlternate:createSlidingSample(catalog,templates,{alternate:true}).document,hinged:createHingedSample(catalog,templates).document,hingedAlternate:createHingedSample(catalog,templates,{alternate:true}).document,base,alternate,studio,...createScaleExamples(catalog,templates),smallHome,rental:rentalHome,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome,ceilings:ceilingCompany,ceilingHome,
   supports:createSupportSample(catalog,templates).document,supportAlternate:createSupportSample(catalog,templates,{alternate:true}).document},assetLibrary=createCompanyAssetLibrary();let session,activeView='room',busy=false,game;
 let regionLabels=[];
 let buildingPresentation='exterior';
@@ -180,9 +181,10 @@ function sync(){
   element('building-view').disabled=busy||doc.scale!=='building';
   const building=view.mode==='building';element('building-stage').hidden=!building;stage.hidden=building;
   element('wall-view').disabled=busy||building;element('wall-view').value=wallMode;updateWallView();
-  const hinged=facilities.filter(n=>derived.floorIds.get(n.id)===view.floorId&&catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.mountRole==='hinged-cabinet');
+  const hinged=facilities.filter(n=>derived.floorIds.get(n.id)===view.floorId&&['hinged-cabinet','sliding-drawer-cabinet'].includes(catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.mountRole));
   fillOptions('cabinet',hinged,element('cabinet').value);element('cabinet').disabled=busy||!hinged.length;
-  for(const button of document.querySelectorAll('[data-opening]'))button.disabled=busy||!hinged.length||view.mode==='building';
+  const selectedCabinet=hinged.find(n=>n.id===element('cabinet').value),sliding=catalog.resources.find(r=>r.id===selectedCabinet?.resource.id&&r.version===selectedCabinet?.resource.version)?.mountRole==='sliding-drawer-cabinet';
+  for(const button of document.querySelectorAll('[data-opening]')){button.disabled=busy||!hinged.length||view.mode==='building';button.textContent=(sliding?['收回','半拉','全拉']:['关门','半开','全开'])[Number(button.dataset.opening)*2];}
   syncFinishes();
   if(building)buildingView.render(doc,{presentation:buildingPresentation});
   element('camera-hint').textContent=building?'先进入侧剖面，再选择楼层。':view.mode==='room'?'单间可拖动旋转，滚轮缩放。':'当前为固定角度总览，点击房间进入三维查看。';
@@ -235,6 +237,7 @@ async function start(){
   element('floor-view').onclick=()=>perform('正在查看整层…',()=>showSpace('floor'));
   element('building-view').onclick=()=>perform('正在查看大楼…',()=>showSpace('building',element('floor').value,null,'section'));
   element('station').onchange=sync;
+  element('cabinet').onchange=sync;
   element('wall-view').onchange=()=>perform('正在调整墙体观看…',()=>{wallMode=element('wall-view').value;updateWallView();});
   element('sofa').onchange=()=>perform('正在替换沙发外观…',()=>{
     const resource=catalog.resources.find(r=>r.mountRole==='sofa'&&sofaChoice(r)===element('sofa').value);

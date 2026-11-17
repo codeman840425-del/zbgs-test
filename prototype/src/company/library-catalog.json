@@ -8335,6 +8335,530 @@
       "partPanels": {
         "door": "cabinet-door-leaf"
       }
+    },
+    {
+      "id": "sliding-drawer-flat-panel",
+      "displayName": "平面抽屉",
+      "version": 1,
+      "category": "dynamic",
+      "mountRole": "sliding-drawer-cabinet",
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Ground centre",
+        "scale": "Identity only"
+      },
+      "provenance": {
+        "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+        "prompt": "Purpose: authored company decor for a static ground cabinet with one state-driven sliding drawer. Specification: overall installation envelope 0.90m wide x 1.20m high x 0.55m deep, body outer depth 0.45m, top board 0.90m x 0.45m x 0.035m with top at 1.20m. Units are metres, up is +Y, forward is +Z, and the bottom-centred origin is the installation base. Installation and load bearing: ground-blocking dynamic facility with one bottom-centred sliding tray and one top support surface. Keep the drawer tray within its pivot bounds and leave the top clearance prism empty. Budget: deterministic CPU-only primitive geometry and binary GLB export with no external art. State: openFraction only, no animation clip, pickup or automatic clock. Source/export: project-authored Three.js 0.187.0 parameters, GLTFExporter and GLTFLoader readback. Design difference: Project-authored single-drawer cabinet with a continuous flat front and a slim cylindrical pull. Contract: one drawer uses pivot [0,0,0], local bounds x[-0.42,0.42], y[0.78,1.12], z[-0.205,0.275], and translates from 0 to +0.32m along Z.",
+        "tools": [
+          "Three.js 187",
+          "Object3D slide group",
+          "Box3 readback",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-sliding-drawer-v1/parameters.json",
+        "sourceParametersSha256": "ede484c7dd93a9169f16b918566129deb06eaa9123794f051b3efc78a5858cb7",
+        "sourceDesign": "flat-panel",
+        "functionalContractSource": "docs/COMPANY-SLIDING-DRAWER-CONTRACT-v1.txt",
+        "functionalContractSourceSha256": "3c9ebe413900f7e9d37b48df21af8df3773774fd078280e8f8fc5a95566c7f2d",
+        "generator": "scripts/company-platform/build-sliding-drawer.mjs",
+        "generatorSha256": "539d463d3047843fa2befb2c2246bbb66337185d8bb862871c1ccde40df063a4",
+        "method": "Project-authored single-drawer cabinet with a continuous flat front and a slim cylindrical pull."
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/sliding-drawer-v1/flat-panel/v1/model.glb",
+        "sha256": "467df33d81f0c132cfc8cd1c5c54cb1d267e0bb90b06f33a35cd22a366dd02e5",
+        "bytes": 28276
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.45,
+          0.275
+        ],
+        "blocking": true
+      },
+      "mounting": {
+        "origin": "bottom",
+        "width": 0.9,
+        "height": 1.2,
+        "depth": 0.55
+      },
+      "supportSurfaces": [
+        {
+          "id": "top",
+          "center": [
+            0,
+            0
+          ],
+          "topY": 1.2,
+          "halfSize": [
+            0.4,
+            0.18
+          ],
+          "clearanceHeight": 0.4
+        }
+      ],
+      "supportNodes": {
+        "top": "cabinet-top"
+      },
+      "usePoints": [],
+      "stateDefaults": {
+        "openFraction": 0
+      },
+      "stateSchema": {
+        "openFraction": {
+          "type": "number",
+          "min": 0,
+          "max": 1
+        }
+      },
+      "stateSemantics": {
+        "openFraction": "sliding-drawer-opening-fraction"
+      },
+      "movingParts": [
+        {
+          "id": "drawer",
+          "stateField": "openFraction",
+          "kind": "slide",
+          "axis": "z",
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "translationRange": [
+            0,
+            0.32
+          ],
+          "bounds": {
+            "min": [
+              -0.42,
+              0.78,
+              -0.205
+            ],
+            "max": [
+              0.42,
+              1.12,
+              0.275
+            ]
+          }
+        }
+      ],
+      "partNodes": {
+        "drawer": "cabinet-drawer-slide"
+      },
+      "partPanels": {
+        "drawer": "drawer-front"
+      },
+      "partTrays": {
+        "drawer": {
+          "bottom": "drawer-bottom",
+          "left": "drawer-left",
+          "right": "drawer-right",
+          "back": "drawer-back"
+        }
+      }
+    },
+    {
+      "id": "sliding-drawer-frame-panel",
+      "displayName": "框面抽屉",
+      "version": 1,
+      "category": "dynamic",
+      "mountRole": "sliding-drawer-cabinet",
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Ground centre",
+        "scale": "Identity only"
+      },
+      "provenance": {
+        "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+        "prompt": "Purpose: authored company decor for a static ground cabinet with one state-driven sliding drawer. Specification: overall installation envelope 0.90m wide x 1.20m high x 0.55m deep, body outer depth 0.45m, top board 0.90m x 0.45m x 0.035m with top at 1.20m. Units are metres, up is +Y, forward is +Z, and the bottom-centred origin is the installation base. Installation and load bearing: ground-blocking dynamic facility with one bottom-centred sliding tray and one top support surface. Keep the drawer tray within its pivot bounds and leave the top clearance prism empty. Budget: deterministic CPU-only primitive geometry and binary GLB export with no external art. State: openFraction only, no animation clip, pickup or automatic clock. Source/export: project-authored Three.js 0.187.0 parameters, GLTFExporter and GLTFLoader readback. Design difference: Project-authored single-drawer cabinet with a full tray front and raised rectangular face rails. Contract: one drawer uses pivot [0,0,0], local bounds x[-0.42,0.42], y[0.78,1.12], z[-0.205,0.275], and translates from 0 to +0.32m along Z.",
+        "tools": [
+          "Three.js 187",
+          "Object3D slide group",
+          "Box3 readback",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-sliding-drawer-v1/parameters.json",
+        "sourceParametersSha256": "ede484c7dd93a9169f16b918566129deb06eaa9123794f051b3efc78a5858cb7",
+        "sourceDesign": "frame-panel",
+        "functionalContractSource": "docs/COMPANY-SLIDING-DRAWER-CONTRACT-v1.txt",
+        "functionalContractSourceSha256": "3c9ebe413900f7e9d37b48df21af8df3773774fd078280e8f8fc5a95566c7f2d",
+        "generator": "scripts/company-platform/build-sliding-drawer.mjs",
+        "generatorSha256": "539d463d3047843fa2befb2c2246bbb66337185d8bb862871c1ccde40df063a4",
+        "method": "Project-authored single-drawer cabinet with a full tray front and raised rectangular face rails."
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/sliding-drawer-v1/frame-panel/v1/model.glb",
+        "sha256": "c96630646e1513f22d2f94cdde5b675f8c2816718c68dfdb8d8e361b7c9e0717",
+        "bytes": 35572
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.45,
+          0.275
+        ],
+        "blocking": true
+      },
+      "mounting": {
+        "origin": "bottom",
+        "width": 0.9,
+        "height": 1.2,
+        "depth": 0.55
+      },
+      "supportSurfaces": [
+        {
+          "id": "top",
+          "center": [
+            0,
+            0
+          ],
+          "topY": 1.2,
+          "halfSize": [
+            0.4,
+            0.18
+          ],
+          "clearanceHeight": 0.4
+        }
+      ],
+      "supportNodes": {
+        "top": "cabinet-top"
+      },
+      "usePoints": [],
+      "stateDefaults": {
+        "openFraction": 0
+      },
+      "stateSchema": {
+        "openFraction": {
+          "type": "number",
+          "min": 0,
+          "max": 1
+        }
+      },
+      "stateSemantics": {
+        "openFraction": "sliding-drawer-opening-fraction"
+      },
+      "movingParts": [
+        {
+          "id": "drawer",
+          "stateField": "openFraction",
+          "kind": "slide",
+          "axis": "z",
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "translationRange": [
+            0,
+            0.32
+          ],
+          "bounds": {
+            "min": [
+              -0.42,
+              0.78,
+              -0.205
+            ],
+            "max": [
+              0.42,
+              1.12,
+              0.275
+            ]
+          }
+        }
+      ],
+      "partNodes": {
+        "drawer": "cabinet-drawer-slide"
+      },
+      "partPanels": {
+        "drawer": "drawer-front"
+      },
+      "partTrays": {
+        "drawer": {
+          "bottom": "drawer-bottom",
+          "left": "drawer-left",
+          "right": "drawer-right",
+          "back": "drawer-back"
+        }
+      }
+    },
+    {
+      "id": "sliding-drawer-slatted",
+      "displayName": "条纹抽屉",
+      "version": 1,
+      "category": "dynamic",
+      "mountRole": "sliding-drawer-cabinet",
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Ground centre",
+        "scale": "Identity only"
+      },
+      "provenance": {
+        "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+        "prompt": "Purpose: authored company decor for a static ground cabinet with one state-driven sliding drawer. Specification: overall installation envelope 0.90m wide x 1.20m high x 0.55m deep, body outer depth 0.45m, top board 0.90m x 0.45m x 0.035m with top at 1.20m. Units are metres, up is +Y, forward is +Z, and the bottom-centred origin is the installation base. Installation and load bearing: ground-blocking dynamic facility with one bottom-centred sliding tray and one top support surface. Keep the drawer tray within its pivot bounds and leave the top clearance prism empty. Budget: deterministic CPU-only primitive geometry and binary GLB export with no external art. State: openFraction only, no animation clip, pickup or automatic clock. Source/export: project-authored Three.js 0.187.0 parameters, GLTFExporter and GLTFLoader readback. Design difference: Project-authored single-drawer cabinet with a full front and seven narrow vertical face slats. Contract: one drawer uses pivot [0,0,0], local bounds x[-0.42,0.42], y[0.78,1.12], z[-0.205,0.275], and translates from 0 to +0.32m along Z.",
+        "tools": [
+          "Three.js 187",
+          "Object3D slide group",
+          "Box3 readback",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-sliding-drawer-v1/parameters.json",
+        "sourceParametersSha256": "ede484c7dd93a9169f16b918566129deb06eaa9123794f051b3efc78a5858cb7",
+        "sourceDesign": "slatted",
+        "functionalContractSource": "docs/COMPANY-SLIDING-DRAWER-CONTRACT-v1.txt",
+        "functionalContractSourceSha256": "3c9ebe413900f7e9d37b48df21af8df3773774fd078280e8f8fc5a95566c7f2d",
+        "generator": "scripts/company-platform/build-sliding-drawer.mjs",
+        "generatorSha256": "539d463d3047843fa2befb2c2246bbb66337185d8bb862871c1ccde40df063a4",
+        "method": "Project-authored single-drawer cabinet with a full front and seven narrow vertical face slats."
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/sliding-drawer-v1/slatted/v1/model.glb",
+        "sha256": "b7005a9f27738bc7d7e51cf17a07cede6dddf0affe54c5467c99eb71232f5cfa",
+        "bytes": 41076
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.45,
+          0.275
+        ],
+        "blocking": true
+      },
+      "mounting": {
+        "origin": "bottom",
+        "width": 0.9,
+        "height": 1.2,
+        "depth": 0.55
+      },
+      "supportSurfaces": [
+        {
+          "id": "top",
+          "center": [
+            0,
+            0
+          ],
+          "topY": 1.2,
+          "halfSize": [
+            0.4,
+            0.18
+          ],
+          "clearanceHeight": 0.4
+        }
+      ],
+      "supportNodes": {
+        "top": "cabinet-top"
+      },
+      "usePoints": [],
+      "stateDefaults": {
+        "openFraction": 0
+      },
+      "stateSchema": {
+        "openFraction": {
+          "type": "number",
+          "min": 0,
+          "max": 1
+        }
+      },
+      "stateSemantics": {
+        "openFraction": "sliding-drawer-opening-fraction"
+      },
+      "movingParts": [
+        {
+          "id": "drawer",
+          "stateField": "openFraction",
+          "kind": "slide",
+          "axis": "z",
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "translationRange": [
+            0,
+            0.32
+          ],
+          "bounds": {
+            "min": [
+              -0.42,
+              0.78,
+              -0.205
+            ],
+            "max": [
+              0.42,
+              1.12,
+              0.275
+            ]
+          }
+        }
+      ],
+      "partNodes": {
+        "drawer": "cabinet-drawer-slide"
+      },
+      "partPanels": {
+        "drawer": "drawer-front"
+      },
+      "partTrays": {
+        "drawer": {
+          "bottom": "drawer-bottom",
+          "left": "drawer-left",
+          "right": "drawer-right",
+          "back": "drawer-back"
+        }
+      }
+    },
+    {
+      "id": "sliding-drawer-curved-detail",
+      "displayName": "曲边抽屉",
+      "version": 1,
+      "category": "dynamic",
+      "mountRole": "sliding-drawer-cabinet",
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Ground centre",
+        "scale": "Identity only"
+      },
+      "provenance": {
+        "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+        "prompt": "Purpose: authored company decor for a static ground cabinet with one state-driven sliding drawer. Specification: overall installation envelope 0.90m wide x 1.20m high x 0.55m deep, body outer depth 0.45m, top board 0.90m x 0.45m x 0.035m with top at 1.20m. Units are metres, up is +Y, forward is +Z, and the bottom-centred origin is the installation base. Installation and load bearing: ground-blocking dynamic facility with one bottom-centred sliding tray and one top support surface. Keep the drawer tray within its pivot bounds and leave the top clearance prism empty. Budget: deterministic CPU-only primitive geometry and binary GLB export with no external art. State: openFraction only, no animation clip, pickup or automatic clock. Source/export: project-authored Three.js 0.187.0 parameters, GLTFExporter and GLTFLoader readback. Design difference: Project-authored single-drawer cabinet with a full front and a curved raised arch trim. Contract: one drawer uses pivot [0,0,0], local bounds x[-0.42,0.42], y[0.78,1.12], z[-0.205,0.275], and translates from 0 to +0.32m along Z.",
+        "tools": [
+          "Three.js 187",
+          "Object3D slide group",
+          "Box3 readback",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-sliding-drawer-v1/parameters.json",
+        "sourceParametersSha256": "ede484c7dd93a9169f16b918566129deb06eaa9123794f051b3efc78a5858cb7",
+        "sourceDesign": "curved-detail",
+        "functionalContractSource": "docs/COMPANY-SLIDING-DRAWER-CONTRACT-v1.txt",
+        "functionalContractSourceSha256": "3c9ebe413900f7e9d37b48df21af8df3773774fd078280e8f8fc5a95566c7f2d",
+        "generator": "scripts/company-platform/build-sliding-drawer.mjs",
+        "generatorSha256": "539d463d3047843fa2befb2c2246bbb66337185d8bb862871c1ccde40df063a4",
+        "method": "Project-authored single-drawer cabinet with a full front and a curved raised arch trim."
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/sliding-drawer-v1/curved-detail/v1/model.glb",
+        "sha256": "20f664f9c1987f2470789159262d2fd64da646edb99f23d1b6beba0eb3ba02ca",
+        "bytes": 38744
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.45,
+          0.275
+        ],
+        "blocking": true
+      },
+      "mounting": {
+        "origin": "bottom",
+        "width": 0.9,
+        "height": 1.2,
+        "depth": 0.55
+      },
+      "supportSurfaces": [
+        {
+          "id": "top",
+          "center": [
+            0,
+            0
+          ],
+          "topY": 1.2,
+          "halfSize": [
+            0.4,
+            0.18
+          ],
+          "clearanceHeight": 0.4
+        }
+      ],
+      "supportNodes": {
+        "top": "cabinet-top"
+      },
+      "usePoints": [],
+      "stateDefaults": {
+        "openFraction": 0
+      },
+      "stateSchema": {
+        "openFraction": {
+          "type": "number",
+          "min": 0,
+          "max": 1
+        }
+      },
+      "stateSemantics": {
+        "openFraction": "sliding-drawer-opening-fraction"
+      },
+      "movingParts": [
+        {
+          "id": "drawer",
+          "stateField": "openFraction",
+          "kind": "slide",
+          "axis": "z",
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "translationRange": [
+            0,
+            0.32
+          ],
+          "bounds": {
+            "min": [
+              -0.42,
+              0.78,
+              -0.205
+            ],
+            "max": [
+              0.42,
+              1.12,
+              0.275
+            ]
+          }
+        }
+      ],
+      "partNodes": {
+        "drawer": "cabinet-drawer-slide"
+      },
+      "partPanels": {
+        "drawer": "drawer-front"
+      },
+      "partTrays": {
+        "drawer": {
+          "bottom": "drawer-bottom",
+          "left": "drawer-left",
+          "right": "drawer-right",
+          "back": "drawer-back"
+        }
+      }
     }
   ]
 }

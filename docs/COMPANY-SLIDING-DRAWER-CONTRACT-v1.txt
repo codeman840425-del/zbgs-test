@@ -1,0 +1,22 @@
+抽屉直线滑动：有界主包 v1（2026-11-16）
+
+基线source84ef4f7f/build940a78a9d829。缺口：铰接不能代替直线抽拉；需要真实中空抽屉、随状态移动的完整托盘、阻挡/扫掠和四款兼容外观。复用既有状态、支持面、父子、事务与保存，不新增时钟、物理或角色动作。
+一手核对：Three Object3D.position是局部坐标，matrixWorld合成父变换；Box3.applyMatrix4及真实顶点包络可检查变换。https://threejs.org/docs/pages/Object3D.html 和 https://threejs.org/docs/pages/Box3.html。沿锁定0.187版本的既有局部位置实现，无需AnimationMixer。直线运动在固定父坐标的完整扫掠由两端包络的并集精确覆盖，不能只检查目标端。
+
+固定单抽屉规格：宽.9、高1.2、深.55，底部居中；柜体宽.9/深.45，封闭坐标z±.225。一个上部真实抽屉；下部可为固定开放储物格但本包不登记新的内部承载面。顶板Box(.9,.035,.45)，topY1.2；同铰接柜的top支持面center[0,0],halfSize[.4,.18],clearanceHeight.4。category dynamic，mountRole sliding-drawer-cabinet，无mount；footprint blocking/center[0,0]/halfSize[.45,.275]。stateDefaults openFraction0，stateSchema number0..1，stateSemantics openFraction='sliding-drawer-opening-fraction'，usePoints[]。
+
+movingParts仅一个：{id:'drawer',stateField:'openFraction',kind:'slide',axis:'z',pivot:[0,0,0],translationRange:[0,.32],bounds:{min:[-.42,.78,-.205],max:[.42,1.12,.275]}}。pivot这里是闭合状态的活动组原点；partNodes:{drawer:'cabinet-drawer-slide'}。导入该组position=pivot、rotation0、scale1、资源空间恒等父包装；运行时position.z=pivot.z+openFraction*.32。0/.5/1实际位移0/.16/.32，前移+Z；其他构件及顶面不随抽屉移动。
+partPanels:{drawer:'drawer-front'}；partTrays:{drawer:{bottom:'drawer-bottom',left:'drawer-left',right:'drawer-right',back:'drawer-back'}}；supportNodes:{top:'cabinet-top'}。partNodes/partPanels/partTrays是外观网格映射，不属于功能身份。所有活动网格位于同一个活动组子树且包含在声明bounds，前板不是框线，抽屉不能是实心长方块。
+必需实体构件的活动组局部坐标：
+- front：Box(.84,.34,.035)，center[0,.95,.245]，完整前面z.2625、x[-.42,.42]、y[.78,1.12]。
+- bottom：Box(.76,.025,.4175)，center[0,.7925,.01875]，顶面y.805、x[-.38,.38]、z[-.19,.2275]。
+- left/right：Box(.025,.25,.4175)，center[±.3675,.93,.01875]，侧壁y[.805,1.055]、z[-.19,.2275]。
+- back：Box(.71,.25,.025)，center[0,.93,-.1775]，y[.805,1.055]、z[-.19,-.165]。
+抽屉内净空x[-.355,.355]、y[.805,1.055]、z[-.165,.2275]必须空，底板、左右、后板和前板相连。抽屉柄/装饰不得超出bounds或侵入内净空。柜体需要真实容纳腔和静态支承/滑轨；不得用实体柜体遮盖托盘或让全开后抽屉无支承悬空。全开保留.0975m的托盘深度在柜体前缘以内；滑轨可在声明固定功能包络内表现。
+
+四款同规格外观：平面、框面、条纹、曲边细节，实际几何不同，不靠单纯改色。统一提示模板和每款参数；修改一项真实源参数→重新导出→登记→实际加载/抽拉→保存关闭恢复，第二布局复用。原铰接柜及已有88资源定义保持原语义。
+数据准入识别hinge/slide分支，拒绝混用rotationRange与translationRange、错误轴/行程/语义；签名比较完整运动合同，不能把铰接皮肤替换成滑动。几何检查必须验证唯一活动组/实体前板/底和侧后构件、父变换、真实矩形面、相连及空腔；实际网格胜于元数据声明。
+显示及障碍使用同一状态、父世界变换；完整抽拉区间检查邻物/墙界/使用空间，失败保旧。恢复整份场景沿已有最终状态检查，不从旧场景执行隐式拉动。业务占用、角色移动与手部动作仍由总工C3集中处理。
+
+最小出口：四款×0/.5/1实际位移、换皮保状态、柜顶小物不动、转向/第二布局、实际顶点在功能阻挡内；非法状态/坏构件/缺资源/受阻保旧；每款另开浏览器进程恢复；既有铰接受影响回归；独立source重建/编辑、固定源码/构建/正常速度录像。无真实角色前置、无多抽屉互锁、无抽屉内取放或新的承重物理。
+尝试尺度：一次有依据实现+一轮证据修正；同因两轮无新证据或改善则重定位，不扫参、不降低验收，不无限精修。

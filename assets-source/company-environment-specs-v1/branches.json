@@ -3190,8 +3190,8 @@
             "dimensionsMeters": {
               "width": 0.9,
               "height": 1.2,
-              "depth": 0.45,
-              "verification": "pending"
+              "depth": 0.55,
+              "contract": "docs/COMPANY-SLIDING-DRAWER-CONTRACT-v1.txt"
             },
             "parent": "room.floor",
             "state": {
@@ -3201,7 +3201,7 @@
                 "max": 1
               },
               "mechanism": "slide",
-              "verification": "pending-production-contract"
+              "travelMetres": 0.32
             }
           },
           "mechanismDependencies": [
@@ -3217,7 +3217,28 @@
             "条纹造型抽屉柜",
             "曲边抽屉柜"
           ],
-          "reusableResources": [],
+          "reusableResources": [
+            {
+              "id": "sliding-drawer-flat-panel",
+              "version": 1,
+              "reuseKind": "same-fixed-spec"
+            },
+            {
+              "id": "sliding-drawer-frame-panel",
+              "version": 1,
+              "reuseKind": "same-fixed-spec"
+            },
+            {
+              "id": "sliding-drawer-slatted",
+              "version": 1,
+              "reuseKind": "same-fixed-spec"
+            },
+            {
+              "id": "sliding-drawer-curved-detail",
+              "version": 1,
+              "reuseKind": "same-fixed-spec"
+            }
+          ],
           "requiredIndependentMechanisms": [
             "抽屉平移与开放净空",
             "柜顶承载",

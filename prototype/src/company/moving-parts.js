@@ -27,7 +27,7 @@ export function validateFacilityState(resource, patch, fail, path) {
 export function validateMovingResource(resource, fail, path=resource.id) {
   if(resource.stateSchema!==undefined)validateFacilityState(resource,{},fail,path);
   if(resource.movingParts===undefined) {
-    if(resource.partNodes!==undefined||resource.partPanels!==undefined)
+    if(resource.partNodes!==undefined||resource.partPanels!==undefined||resource.partTrays!==undefined)
       fail('invalid-moving-parts',path,'Moving mesh mappings require a functional movingParts contract');
     return;
   }
@@ -38,14 +38,24 @@ export function validateMovingResource(resource, fail, path=resource.id) {
     fail('invalid-moving-parts',path,'This contract supports grounded blocking furniture with explicit parts and mesh mappings');
   const ids=new Set();
   for(const p of parts) {
-    if(!object(p)||Object.keys(p).some(k=>!['id','stateField','kind','axis','pivot','rotationRange','bounds'].includes(k))||
-        typeof p.id!=='string'||!idPattern.test(p.id)||ids.has(p.id)||p.kind!=='hinge'||p.axis!=='y'||!vector(p.pivot,3)||
-        !vector(p.rotationRange,2)||p.rotationRange[0]!==0||p.rotationRange[1]!==-Math.PI/2||
-        resource.stateSemantics?.[p.stateField]!=='hinged-door-opening-fraction'||
+    if(!object(p)||Object.keys(p).some(k=>!['id','stateField','kind','axis','pivot','rotationRange','translationRange','bounds'].includes(k))||
+        typeof p.id!=='string'||!idPattern.test(p.id)||ids.has(p.id)||!['hinge','slide'].includes(p.kind)||!vector(p.pivot,3)||
         !object(p.bounds)||Object.keys(p.bounds).some(k=>!['min','max'].includes(k))||!vector(p.bounds.min,3)||!vector(p.bounds.max,3)||
         p.bounds.min.some((n,i)=>n>=p.bounds.max[i])||resource.stateSchema?.[p.stateField]?.type!=='number'||
         resource.stateSchema[p.stateField].min!==0||resource.stateSchema[p.stateField].max!==1)
-      fail('invalid-moving-parts',path,'Hinge requires unique ID, +Y pivot, bounded quarter-turn range, envelope and 0..1 state field');
+      fail('invalid-moving-parts',path,'Moving part requires a unique ID, supported mechanism, envelope and 0..1 state field');
+    if(p.kind==='hinge') {
+      if(p.axis!=='y'||!vector(p.rotationRange,2)||p.rotationRange[0]!==0||p.rotationRange[1]!==-Math.PI/2||p.translationRange!==undefined||
+          resource.partTrays!==undefined||resource.stateSemantics?.[p.stateField]!=='hinged-door-opening-fraction')
+        fail('invalid-moving-parts',path,'Hinge requires the fixed negative quarter-turn contract');
+    } else {
+      const tray=resource.partTrays?.[p.id];
+      if(p.axis!=='z'||!vector(p.translationRange,2)||p.translationRange[0]!==0||p.translationRange[1]!==.32||p.rotationRange!==undefined||
+          resource.stateSemantics?.[p.stateField]!=='sliding-drawer-opening-fraction'||!object(resource.partTrays)||
+          Object.keys(resource.partTrays).length!==1||!object(tray)||Object.keys(tray).sort().join(',')!=='back,bottom,left,right'||
+          Object.values(tray).some(n=>typeof n!=='string'||!n)||new Set(Object.values(tray)).size!==4)
+        fail('invalid-moving-parts',path,'Slide requires the fixed +Z travel and four actual tray component mappings');
+    }
     ids.add(p.id);
   }
   for(const field of ['partNodes','partPanels']) {
@@ -59,6 +69,10 @@ export function partAngle(part,state) {
   return part.rotationRange[0]+(part.rotationRange[1]-part.rotationRange[0])*state[part.stateField];
 }
 
+export function partOffset(part,state) {
+  return part.translationRange[0]+(part.translationRange[1]-part.translationRange[0])*state[part.stateField];
+}
+
 // Union of body and moving projection. Range includes analytic extrema; not
 // a few pose samples. The conservative rectangle is also the navigation input.
 export function movingFootprint(resource,state,endState=null) {
@@ -66,6 +80,12 @@ export function movingFootprint(resource,state,endState=null) {
   if(!resource.movingParts?.length)return fp;
   const min=fp.center.map((n,i)=>n-fp.halfSize[i]),max=fp.center.map((n,i)=>n+fp.halfSize[i]);
   for(const p of resource.movingParts) {
+    if(p.kind==='slide') {
+      const a=partOffset(p,state),b=endState?partOffset(p,endState):a;
+      min[0]=Math.min(min[0],p.pivot[0]+p.bounds.min[0]);max[0]=Math.max(max[0],p.pivot[0]+p.bounds.max[0]);
+      min[1]=Math.min(min[1],p.pivot[2]+p.bounds.min[2]+Math.min(a,b));max[1]=Math.max(max[1],p.pivot[2]+p.bounds.max[2]+Math.max(a,b));
+      continue;
+    }
     const a=partAngle(p,state),b=endState?partAngle(p,endState):a,lo=Math.min(a,b),hi=Math.max(a,b);
     for(const x of [p.bounds.min[0],p.bounds.max[0]])for(const z of [p.bounds.min[2],p.bounds.max[2]]) {
       const angles=[lo,hi];

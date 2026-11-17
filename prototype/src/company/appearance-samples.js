@@ -1,8 +1,10 @@
 import {createCompany,prepareCompanyChange,identityTransform} from './document.js';
 import {createSupportSample} from './support-samples.js';
 import {createHingedSample} from './hinged-samples.js';
+import {createSlidingSample} from './sliding-samples.js';
 export const appearanceBranches=[
  ['hinged-cabinet','单扇开合柜'],
+ ['sliding-drawer-cabinet','单抽屉收纳柜'],
  ['storage-shelf','多层开放架'],['tabletop-ornament','台面陈列摆件'],
  ['desk','桌子'],['chair','单人座椅'],['sofa','双人沙发'],['monitor','屏幕'],['fill-light','补光系统'],
  ['keyboard','键盘'],['desk-microphone','桌面麦克风'],['plant','绿植'],['wall-art','挂画'],
@@ -20,6 +22,7 @@ export function appearanceCandidates(catalog,branch) {
 }
 export function createAppearanceSample(branch,index,catalog,templates) {
  if(branch==='hinged-cabinet')return createHingedSample(catalog,templates,{index});
+ if(branch==='sliding-drawer-cabinet')return createSlidingSample(catalog,templates,{index});
  if(['storage-shelf','tabletop-ornament'].includes(branch))return createSupportSample(catalog,templates,{branch,index});
  const candidates=appearanceCandidates(catalog,branch),selected=candidates[index];
  if(!selected)throw Error(`No appearance ${branch}[${index}]`);

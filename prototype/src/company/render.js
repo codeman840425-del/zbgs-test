@@ -7,7 +7,7 @@ import {describeCompanyUsePoint} from './use-point-data.js';
 import {createContactResourceStore} from './contact-resources.js';
 import {WALL_HEIGHT,WALL_CENTER_Y,evaluateWallVisibility,groupWallSegments,wallEdge} from './wall-visibility.js';
 import {applySurfaceFinish,describeSurfaceMeshes} from './surface-finish-render.js';
-import {partAngle} from './moving-parts.js';
+import {partAngle,partOffset} from './moving-parts.js';
 import {inspectCompanyMotionSweep} from './placement.js';
 
 const geometryTypes={BoxGeometry:THREE.BoxGeometry,CylinderGeometry:THREE.CylinderGeometry,PlaneGeometry:THREE.PlaneGeometry,CapsuleGeometry:THREE.CapsuleGeometry,SphereGeometry:THREE.SphereGeometry};
@@ -109,7 +109,8 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
         for(const part of entry.resource.movingParts||[]) {
           const pivot=parts.get(entry.resource.partNodes[part.id]);
           if(!pivot)throw new CompanyError('missing-moving-part',entry.id,'Moving part must resolve to its imported pivot');
-          pivot.rotation.y=partAngle(part,entry.state);
+          if(part.kind==='slide')pivot.position.z=part.pivot[2]+partOffset(part,entry.state);
+          else pivot.rotation.y=partAngle(part,entry.state);
         }
         for(const [slot,values]of Object.entries(entry.node.appearance?.materials||{})) {
           const targets=entry.resource.materialSlots?.[slot];

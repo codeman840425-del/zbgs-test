@@ -20,6 +20,8 @@ const extraFiles=[
   'scripts/company-platform/build-support-examples.mjs',
   'scripts/company-platform/build-hinged-examples.mjs',
   'docs/COMPANY-HINGED-CABINET-CONTRACT-v1.txt',
+  'docs/COMPANY-SLIDING-DRAWER-CONTRACT-v1.txt',
+  'scripts/company-platform/build-sliding-examples.mjs',
   'assets-source/company-surface-finishes-v1/PRODUCTION.txt',
   'scripts/company-platform/build-appearance-batch.mjs',
   'docs/COMPANY-APPEARANCE-PRODUCTION-STANDARD.md',
