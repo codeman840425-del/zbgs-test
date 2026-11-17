@@ -4,8 +4,8 @@
 
 ## 最新固定交付
 
-- 工作台固定http://127.0.0.1:4196/?workbench=appearance，source592ec663（确切SHA见delivery指针），buildc2721e32b6ed，experiments/native-hair-release-v1/prototype/dist。delivery/appearance-workbench.json；上版5db保delivery/history/appearance-workbench-5db2cd1ed50d.json；193b保delivery/history/appearance-workbench-193bbbf64323.json；f2df保delivery/history/appearance-workbench-f2df648c612b.json，c3e及更早树同样保留。4174历史媒体，4195封M1，不新增常驻端口。
-- 外观菜单男女各有“原生可编辑候选 · 接入验证”：female843ac/native-female-843ac-v1、male7586/native-male-7586-v1。各自独立三衣/原色，女有改袖Top；男新增独立HairSet001长直发（仅7586适配，原色，肩衣局部交叠/落座外扬保留，非最终画风）。未验发肤眼唇配色UI禁用。旧男女样件保留，15失败批次只在检查区，不称八预设完成。
+- 工作台固定http://127.0.0.1:4196/?workbench=appearance，sourcef13bb4a2（确切SHA见delivery指针），buildcb4272c3b10c，experiments/native-iris-fixed-v2/prototype/dist。delivery/appearance-workbench.json；上版5db保delivery/history/appearance-workbench-5db2cd1ed50d.json；193b保delivery/history/appearance-workbench-193bbbf64323.json；f2df保delivery/history/appearance-workbench-f2df648c612b.json，c3e及更早树同样保留。4174历史媒体，4195封M1，不新增常驻端口。
+- 外观菜单男女各有“原生可编辑候选 · 接入验证”：female843ac/native-female-843ac-v1、male7586/native-male-7586-v1。各自独立三衣/原色，女有改袖Top；男新增独立HairSet001长直发（仅7586适配，原色，肩衣局部交叠/落座外扬保留，非最终画风）。男7586虹膜已开放original/green，其他未验原生配色禁用。旧男女样件保留，15失败批次只在检查区，不称八预设完成。
 - 固定构建npm ci/build过。native-workbench-193b-v1真实菜单旧女→新女→旧男→新男→旧女，无新document加载；基础/穿回/衣装、禁用提示和证据入口过。最新c272实际UI/7段媒体检查native-hair-workbench-c272-v1通过，HTTP身份回读在native-hair-release-c272-v1。
 - native-{female,male}-room-193b-v1分别真实factory（非overlay）穿衣/基础保鞋原发/穿回、配方同页和关闭后恢复、走停/接近椅子/坐起/离开家具后短舞/idle，1×原片各约35秒。女配方136993B，男81119B。root看静态与男性全片71个0.5s帧；正常速度人工自然度、近景接触仍未验。女落座长发外扬保问题，基础不是裸足验收。不要据这两段说新源全部动作/表情/装备/双实例隔离通过。
 
@@ -51,3 +51,5 @@
 - 最新独立发型已从1f6a3148构建416b做真实换发/冷恢复/房间与近景两段35秒1×动作、原源同镜头材质对照。c272仅补native-production观看入口，全部运行源码/资源/锁文件与416b逐字相同（source-comparison.json），保录像原身份不改标。原片、局限见native-hair-room-416b-v1/README.md。CPU不重做；下一主包为原生双虹膜绿单色制作：asset_budget已实际MCP保存冷开导出且恢复窗口，CPU差异与提取进行中，尚未runtime接入/放开颜色准入。
 
 当前接续（优先于上文历史过程）：iris原生制作/独立PNG staging/runtime/CPU独审已完成，root核7源码与manifest SHA一致；待exact-commit实际WebGL/冷恢复/12s表情录像，然后发布4196。hair cost已封跨批次开发机短测，普通机仍缺。已核远端b09e5f3be3f7cbd61ea9baf0021cd2a125e547f5，回执native-hair-release-c272-v1/remote-backup.json。下一独立制作原生男发色+眉色单样件，asset_budget复用sol/high后台MCP，不占GPU。
+
+最新接续事实：4196现cb4272c3b10c/f13bb4a2，前c272指针保delivery/history。native-iris-room-v2+workbench-cb427-v2真实浏览器通过限定范围，12秒正常速与源同镜头眼区全等；失败V1保留，记录见CAP末条。实际HTTP三PNG/manifest/build字节已核（release-cb427）。下一主包原生发色+眉色源生产由asset_budget sol/high执行，不新建编辑器；本轮用户再次提醒平台目标，完整M2不缩减/不先开M3。Studio仍是可替换离线producer，游戏已独立；彻底替换不是新授权任务。

@@ -408,3 +408,5 @@ head-only一次诊断原8请求已完成，8/8 diagnostic-failed，正式生产�
 2026-11-17 原生虹膜增量（未发布）：native-vroid-iris-study-v1实际男c936原生双眼#4f7a4a保存/冷开/导出并恢复窗口，139accessors/91nodes/79骨/全部表情不变，仅iris与缩略图变；保源.vroid/VRM/命令。原生深色RGB也变化，不声称瞳孔全部像素不变。独立PNG+native-facial-palette事务与精确7586准入、两实例/取消/销毁/旧配方版本拒绝经CPU及独审通过；真实WebGL、表情组合、冷页恢复正在验，4196仍c272，未外推女性或其他颜色。
 
 原生长发成本短测：native-hair-cost-c272-v1保跨批次12s走/6s坐原始数据及失败。RTX4090开发机独立发updateDynamics平均约0.2435ms/render，原发约0.0007ms；渲染CPU提交约0.669/0.570ms，不是GPU时长。房间142draw/120458tri/56textures，卸载回47textures/83geometries。仅短测非普通机性能通过，不以此补视觉验收。
+
+2026-11-17 原生虹膜实际发布：f13bb4a2/buildcb4272c3b10c在4196，native-iris-room-v2真实UI独立绿、原源同镜头眼区262×63像素全等、两颜色往返、错误版本保旧、原生长发组合冷页恢复、12s正常速讲话/眨眼/微笑/视线同时更新已录。完整2fps辅助检查未见眼纹滑动/眼白染色；非人工自然度通过。native-iris-workbench-cb427-v2旧配色/男女/装备/UI与8视频解码通过；V1分别保跨基模准入期待错误与脚本作用域失败。仅男7586绿，原生女仍原色；带green切仅original身体会拒绝保旧，可恢复原色再切。原生发/眉颜色下一样件进行中，M2未完成。

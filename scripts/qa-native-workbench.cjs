@@ -76,7 +76,7 @@ if(!directory||!output)throw Error('Pass fixed dist and new evidence directory')
   assert.equal(navigations,0);assert.equal(await page.evaluate(()=>window.workbenchDocumentIdentity),documentIdentity);report.checks.push('male and female group switch remains in page');
   const legacyColors=await page.evaluate(async()=>{
    const q=__debug.queryAppearanceCandidates(),a=__debug.avatar().appearance;
-   const changed=await a.set({hairColor:'brown',skinTone:'warm',eyeColor:actor.profile.bodyType==='native-male-7586-v1'?'blue':'green',lipColor:'rose'});
+   const changed=await a.set({hairColor:'brown',skinTone:'warm',eyeColor:'green',lipColor:'rose'});
    const state=a.getState();const restored=await a.set({reset:true});
    return{choices:Object.fromEntries(['hairColor','skinTone','eyeColor','lipColor'].map(k=>[k,q.appearance[k].choices.length])),changed,colors:[state.hairColor,state.skinTone,state.eyeColor,state.lipColor],restored};
   });
