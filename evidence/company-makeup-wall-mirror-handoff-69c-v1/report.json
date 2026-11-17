@@ -1,0 +1,58 @@
+{
+  "status": "passed",
+  "package": "F:\\gamemake-company-wall-makeup-delivery-69c",
+  "checks": [
+    {
+      "name": "All standalone manifest bytes match before editing",
+      "passed": true,
+      "result": {
+        "files": 907
+      }
+    },
+    {
+      "name": "Standalone edit changes one mirror and one lamp state; off-wall movement is rejected without a partial output",
+      "passed": true,
+      "result": {
+        "rejection": "invalid-wall-fit",
+        "edited": {
+          "ok": true,
+          "id": "makeup-wall-mirror-alternate",
+          "revision": 3,
+          "floors": [
+            "makeup-wall-mirror-alternate/floor-1"
+          ],
+          "output": "F:\\gamemake-company-platform-c1\\evidence\\company-makeup-wall-mirror-handoff-69c-v1\\edited"
+        }
+      }
+    },
+    {
+      "name": "Imported independent two-room scene loads actual models, preserves child state and requests only package resources",
+      "passed": true,
+      "result": {
+        "actual": {
+          "tableMesh": true,
+          "mirrorPresent": true
+        },
+        "modelRequests": [
+          "http://127.0.0.1:64130/company-assets/vanity-table-v1/plain/v1/model.glb",
+          "http://127.0.0.1:64130/company-assets/support-collection-v1/ornaments/stacked-stones/v1/model.glb",
+          "http://127.0.0.1:64130/company-assets/support-collection-v1/ornaments/arched-sculpture/v1/model.glb",
+          "http://127.0.0.1:64130/company-assets/vanity-table-v1/drawer-style/v1/model.glb",
+          "http://127.0.0.1:64130/company-assets/makeup-wall-mirror-v1/tri-fold/v1/model.glb",
+          "http://127.0.0.1:64130/company-assets/makeup-wall-mirror-v1/lit-frame/v1/model.glb"
+        ]
+      }
+    },
+    {
+      "name": "Complete edited company survives a separate browser process and both room views",
+      "passed": true,
+      "result": {
+        "rooms": 2
+      }
+    }
+  ],
+  "limits": [
+    "SwiftShader independent package use; no C3 or ordinary-device claim"
+  ],
+  "build": "69c4a56e5189"
+}

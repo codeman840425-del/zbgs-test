@@ -1,0 +1,157 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "name": "four wall adapters and future positive version share function while adding exact light semantics",
+      "status": "passed",
+      "detail": {
+        "versions": [
+          1,
+          2
+        ],
+        "panelCounts": [
+          1,
+          1,
+          1,
+          3
+        ],
+        "wallAndTabletopSeparateFunctions": true
+      }
+    },
+    {
+      "name": "role/schema/unknown fields and light or geometry mappings cannot bypass wall admission",
+      "status": "passed",
+      "detail": {
+        "rejectedMutations": 25
+      }
+    },
+    {
+      "name": "three shared lights use two slots and hiding wall releases its actual output and slot without changing save",
+      "status": "passed",
+      "detail": {
+        "lights": 3,
+        "budget": 2,
+        "hiddenLampSlotReleased": true,
+        "desiredRestored": 7
+      }
+    },
+    {
+      "name": "ancestor hiding suppresses every descendant light and reflected face using the same visibility",
+      "status": "passed",
+      "detail": {
+        "hiddenAncestorReleasedLightsAndTargets": true
+      }
+    },
+    {
+      "name": "off and zero intensity control actual lamp and diffuser while retaining true reflection",
+      "status": "passed",
+      "detail": {
+        "offStillReflects": true,
+        "zeroStillReflects": true
+      }
+    },
+    {
+      "name": "wall yaw transforms real plane poses, virtual cameras, lamp and target together",
+      "status": "passed",
+      "detail": [
+        {
+          "position": [
+            -1,
+            1.145,
+            -2.525
+          ],
+          "yaw": 0,
+          "faces": 3,
+          "light": [
+            -1,
+            1.365,
+            -2.4219999999999997
+          ]
+        },
+        {
+          "position": [
+            3.4,
+            1.145,
+            0.5
+          ],
+          "yaw": 4.71238898038469,
+          "faces": 3,
+          "light": [
+            3.2969999999999997,
+            1.365,
+            0.5
+          ]
+        }
+      ]
+    },
+    {
+      "name": "shared default single-face budget refuses tri-fold and explicit three-face admission keeps the old throttle",
+      "status": "passed",
+      "detail": {
+        "passesPerAdmission": 3,
+        "hiddenOwnerReleased": true
+      }
+    },
+    {
+      "name": "four compatible appearances and a new version preserve installation and nondefault state through saves",
+      "status": "passed",
+      "detail": {
+        "appearances": 4,
+        "newVersion": 2,
+        "nondefaultIntensity": 7
+      }
+    },
+    {
+      "name": "wrong wall position, height, yaw, parent and state preserve old scene and saved bytes",
+      "status": "passed",
+      "detail": {
+        "cases": 7
+      }
+    },
+    {
+      "name": "failed candidate wall shader preflight releases the candidate group and preserves old targets and save",
+      "status": "passed",
+      "detail": {
+        "oldTargetsRetained": 3,
+        "candidateGroupReleased": true
+      }
+    },
+    {
+      "name": "two-room focus and building round trip retain independent saved states and reassign only visible lights",
+      "status": "passed",
+      "detail": {
+        "independentStates": [
+          7,
+          4
+        ],
+        "buildingLights": 0,
+        "portalInstallationRejected": true
+      }
+    },
+    {
+      "name": "all owned reflection targets released",
+      "status": "passed",
+      "resources": {
+        "created": 27,
+        "disposed": 27,
+        "live": 0,
+        "peak": 6
+      }
+    }
+  ],
+  "sourceHashes": {
+    "docs/COMPANY-MAKEUP-WALL-MIRROR-CONTRACT-v1.txt": "6a2e0c10d2fbba66aa1310179c491f8b42da64140ad89d01c46b75fd1ded28b1",
+    "prototype/src/company/makeup-wall-mirror-data.js": "12f08f9fd546208a57bd2ef21f50259487f9b24cdafe475b107b4d8d7fbaa4bc",
+    "prototype/src/company/makeup-mirror-data.js": "62c622b3599f2b903161c83a93ae4da10de94f9a7742d705a376e9f6152ec2f3",
+    "prototype/src/company/mirror-data.js": "4b1cd4dee8be8e910568cbf1893b123e82e34c27689e2c079bedcf5e1e63db4d",
+    "prototype/src/company/appearance-contract.js": "f7d1797e81c6ef18ddbcd73a51a10d8752d2c4b580551d47c3da1ee0028e1d51",
+    "prototype/src/company/mirror-render.js": "165d0a7e2e933791ea383b64bf23ae550408cb98ab7c399675ec5266265ba29d",
+    "prototype/src/company/render.js": "53c6d548f0062692ed6e7c73faf0ce164364e4b6747d7ad5fff405ab061a09a6",
+    "scripts/company-platform/test-makeup-wall-mirror-data.mjs": "be44e1db8722e4f8af960a730e836fc6847dc79383dcd81c19df313fe7fcfadb"
+  },
+  "limits": [
+    "New wall meshes are synthetic fixtures built from source contour data. Actual production GLBs, mounting-plate contact, geometry defects and source adaptation are validated separately.",
+    "CPU uses actual Three r187 Reflector with renderer/GL substitutes. No real shader link, framebuffer allocation, reflection pixels or non-emissive receiver lighting was verified.",
+    "Save serialization and scene restore are exercised, not a browser process restart. No GPU service, ordinary-computer performance or C3 character acceptance was exercised."
+  ]
+}

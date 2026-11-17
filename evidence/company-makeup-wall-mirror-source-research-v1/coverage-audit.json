@@ -1,0 +1,230 @@
+{
+  "status": "confirmed-uncovered-branch",
+  "registry": {
+    "branches": 107,
+    "confirmed": 106,
+    "target": {
+      "id": "makeup-mirror-wall",
+      "scope": "confirmed",
+      "purposeLabels": [
+        "化妆镜",
+        "受限反射",
+        "局部照明",
+        "墙面安装"
+      ],
+      "fixedFunctionAndInstall": {
+        "mount": "wall",
+        "dimensionsMeters": {
+          "width": 0.7,
+          "height": 0.6,
+          "depth": 0.08,
+          "verification": "pending"
+        },
+        "parent": "room.wall",
+        "state": "reflective-on-off"
+      },
+      "mechanismDependencies": [
+        "support-surface-or-wall",
+        "mirror-reflection",
+        "light-output",
+        "save-restore"
+      ],
+      "minimumCompatibleAppearances": [
+        "圆镜",
+        "带灯镜",
+        "拱镜",
+        "三折镜"
+      ],
+      "reusableResources": [],
+      "requiredIndependentMechanisms": [
+        "受限反射",
+        "灯光与发光面分离",
+        "安装面/包络",
+        "墙面安装"
+      ]
+    }
+  },
+  "catalog": {
+    "id": "company-facilities",
+    "version": 1,
+    "resources": 145,
+    "exactRoleMatches": [],
+    "wallMirrorResources": [
+      {
+        "id": "mirror-round",
+        "version": 1,
+        "mountRole": "mirror",
+        "light": null
+      },
+      {
+        "id": "mirror-full",
+        "version": 1,
+        "mountRole": "mirror",
+        "light": null
+      },
+      {
+        "id": "mirror-arch",
+        "version": 1,
+        "mountRole": "mirror",
+        "light": null
+      },
+      {
+        "id": "mirror-grid",
+        "version": 1,
+        "mountRole": "mirror",
+        "light": null
+      }
+    ],
+    "tabletopMakeupResources": [
+      {
+        "id": "makeup-mirror-round",
+        "version": 1,
+        "mount": "support-surface",
+        "sha256": "38d582f8ed21fe78fb4e719494331fefcd6d42d5a16af36b3406d65c242f9279"
+      },
+      {
+        "id": "makeup-mirror-lit-frame",
+        "version": 1,
+        "mount": "support-surface",
+        "sha256": "aa74d0e2f12640d43a365f115baaa36c055107029f8e75245c953d7e00575273"
+      },
+      {
+        "id": "makeup-mirror-arch",
+        "version": 1,
+        "mount": "support-surface",
+        "sha256": "424c6aa49dfcd08d3b9d82cb94cb0511d4a67088703a5d419360cf39e56b323a"
+      },
+      {
+        "id": "makeup-mirror-tri-fold",
+        "version": 1,
+        "mount": "support-surface",
+        "sha256": "da1dcbbe5587e4011be5861d9120f3ba5eb68dd69e750e20615892b3506db73c"
+      }
+    ]
+  },
+  "capabilityChecks": [
+    {
+      "path": "docs/CAPABILITIES.md",
+      "exactBranchTextPresent": false,
+      "mirrorRelevantLines": []
+    },
+    {
+      "path": "docs/CAPABILITY-AUDIT.md",
+      "exactBranchTextPresent": false,
+      "mirrorRelevantLines": []
+    },
+    {
+      "path": "docs/COMPANY-C3-INTEGRATION-HANDOFF-2026-11-16.md",
+      "exactBranchTextPresent": false,
+      "mirrorRelevantLines": []
+    }
+  ],
+  "evidence": [
+    {
+      "path": "evidence/company-mirror-fixed-93a-v1/report.json",
+      "status": "passed",
+      "build": "93a4a9b7c76f",
+      "checks": [
+        {
+          "name": "Four actual mirror contours render fresh host-scene pixels and survive separate browser restarts",
+          "passed": true
+        },
+        {
+          "name": "A changing host object behind the main camera appears in actual reflection pixels",
+          "passed": true
+        },
+        {
+          "name": "Side-wall mirror uses the same real plane and reflected host scene",
+          "passed": true
+        },
+        {
+          "name": "Hidden mirrors stop passes; building and two-floor views release targets without changing stored facts",
+          "passed": true
+        },
+        {
+          "name": "One host frame admits one reflection and multiple mirrors do not recursively allocate targets",
+          "passed": true
+        },
+        {
+          "name": "A real nested-render exception rejects the candidate, rebuilds the renderer and preserves document/save",
+          "passed": true
+        },
+        {
+          "name": "A broken real mirror shader is rejected before replacing the current scene or saved bytes",
+          "passed": true
+        },
+        {
+          "name": "Actual WebGL canvas and bound-target scissor states survive the reflection prepass exactly",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "path": "evidence/company-makeup-mirror-browser-fixed-v1/report.json",
+      "status": "passed",
+      "build": "5b86b5eede89",
+      "checks": [
+        {
+          "name": "Four actual looks reflect and recover exact nondefault lamp state after separate browser shutdowns",
+          "passed": true
+        },
+        {
+          "name": "Three folded planes render independent current pixels with moving real geometry behind the main camera",
+          "passed": true
+        },
+        {
+          "name": "Actual warm local light illuminates a nonemissive receiver, with measurable off/half/full output and lamp UI state",
+          "passed": true
+        },
+        {
+          "name": "Repeated swaps and lightweight building view release all mirror targets, preserving saved lamp state",
+          "passed": true
+        },
+        {
+          "name": "Second room uses its real rotated parent plane and keeps independent state through close and restore",
+          "passed": true
+        },
+        {
+          "name": "A real shader failure on the second candidate panel rejects the entire group while keeping old geometry and saved bytes",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "path": "evidence/company-makeup-mirror-handoff-5b8-v1/report.json",
+      "status": "passed",
+      "build": "5b86b5eede89",
+      "checks": [
+        {
+          "name": "All standalone manifest bytes match before editing",
+          "passed": true
+        },
+        {
+          "name": "Standalone edit changes one mirror and one lamp state; unpaired movement is rejected without a partial output",
+          "passed": true
+        },
+        {
+          "name": "Imported independent two-room scene loads actual models, preserves child state and requests only package resources",
+          "passed": true
+        },
+        {
+          "name": "Complete edited company survives a separate browser process and both room views",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "path": "evidence/company-makeup-mirror-production-v1/report.json",
+      "status": "passed",
+      "scope": "CPU deterministic production and actual GLTFLoader / independent geometry readback of four tabletop makeup mirrors",
+      "checks": [],
+      "resourceIds": [
+        "makeup-mirror-round",
+        "makeup-mirror-lit-frame",
+        "makeup-mirror-arch",
+        "makeup-mirror-tri-fold"
+      ]
+    }
+  ],
+  "conclusion": "Existing wall mirrors prove wall reflection with empty device state; tabletop makeup mirrors prove one/three planes and light output on vanity top. No actual catalog resource or identified evidence combines the confirmed wall makeup installation, bounded panels and local light contract."
+}

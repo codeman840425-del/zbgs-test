@@ -1,0 +1,54 @@
+挂墙化妆镜固定交付（2026-11-17）
+
+源码 49e7b4174b99835e7684505c2b1078ee54378e07；构建 69c4a56e5189。
+固定检出 F:/gamemake-company-wall-makeup-fixed-v1
+独立交付 F:/gamemake-company-wall-makeup-delivery-69c
+公开入口沿 http://127.0.0.1:60880/?sample=makeup-mirror-wall&look=0；实际切换回执见 port-receipt.json。
+两房输入 ?layout=makeupWallMirrorAlternate；四款通过“外观样件对照”切换，原补光控制共用。
+录像 evidence/company-makeup-wall-mirror-recording-69c-v1/makeup-wall-mirror-normal1x.webm，89.04秒，1440×1000、25fps、正常1×。
+录像SHA256 348a688da55dc8554fe6fe00acf780e9a648cdd632c905afa6f8467b85a19539。
+
+交付范围
+圆镜、灯框镜、拱镜、固定展开三折镜四款共同壁挂功能。独立room归属，北墙和东墙输入，不依附或暗随化妆台移动。
+复用原项目镜头部，删除底座/柱，加真实墙板；灯接头端面贴合，三折框沿15度角平分面拼接。保镜片平面、暖白光位与功能。
+圆镜源frameWidth .012→.014m实际修改/重导出，其余三款GLB字节不变。新外观按原合同和共享加载链使用。
+墙隐藏时实际灯归零并退出共享2灯名额；显示恢复后按原状态重新分配。关灯仍反射，三折三面分别使用真实平面，仍受一owner/最多三面/30Hz预算约束。
+同功能换款保身份/位置/状态，四款分别关闭浏览器恢复；缺资源、非法墙位和候选shader失败保旧。
+145项旧资源描述和功能签名保持。没有另建角色、占用或时钟系统。
+
+证据
+生产 report.json：evidence/company-makeup-wall-mirror-production-v1/。
+实际几何43项：evidence/company-makeup-wall-mirror-geometry-v1/run-2026-11-17T10-57-23-356Z/report.json。
+合同/渲染CPU12组及旧83项：evidence/company-makeup-wall-mirror-data-v1/。
+实际GLB场景3组：evidence/company-makeup-wall-mirror-actual-data-v1/report.json。
+真实浏览器8组：evidence/company-makeup-wall-mirror-browser-dev-v1/report.json。
+独立交付4组：evidence/company-makeup-wall-mirror-handoff-69c-v1/report.json。
+独立固定源码与独立包的313个运行文件逐字节一致：本目录rebuild.json。保留开发运行证据原名，不伪装另一场运行。
+实际编码视频12个均布帧及11.0/88.3秒大图已工程抽审；不是用户连续观看验收。
+初始接头重复面、三折框重复面、生产标准pin变化拒绝与双房夹具漏门户失败均保留，未给失败换标签。
+
+复现（PowerShell，固定检出）
+Set-Location F:/gamemake-company-wall-makeup-fixed-v1/prototype
+npm ci --no-audit --no-fund
+node scripts/build-company-id.mjs
+node node_modules/vite/bin/vite.js build --config vite.company.config.js
+Set-Location ..
+node scripts/company-platform/build-makeup-wall-mirror.mjs --check
+node scripts/company-platform/build-library.mjs --check
+node scripts/company-platform/build-makeup-wall-mirror-examples.mjs --check
+node scripts/company-platform/serve-company.cjs F:/gamemake-company-wall-makeup-fixed-v1/prototype/dist-company 69c4a56e5189
+60880已有自有公司服务时先按docs/COMPANY-PREVIEW-OPERATIONS.txt核身份再替换；不另开常驻端口。
+
+重新验证时使用新的证据目录，保留原证据：
+node scripts/company-platform/qa-makeup-wall-mirror-preview.cjs F:/gamemake-company-wall-makeup-fixed-v1/prototype/dist-company 69c4a56e5189 F:/gamemake-company-platform-c1/evidence/company-makeup-wall-mirror-browser-recheck
+node scripts/company-platform/record-makeup-wall-mirror-preview.cjs F:/gamemake-company-wall-makeup-fixed-v1/prototype/dist-company 69c4a56e5189 F:/gamemake-company-platform-c1/evidence/company-makeup-wall-mirror-recording-recheck
+录像按运行窗口安排。QA临时服务自动关闭。
+
+独立包内source/可npm ci、原生产器--check及重新构建；根目录edit.mjs、serve.mjs按README操作。已实际验证，不依赖制作目录或evidence目录。全新离线npm安装未验。
+回滚：同一60880入口重新服务F:/gamemake-company-drawer-fixed-v1/prototype/dist-company，期望7cbbe588eef1；该源码、独立包与录像保留。
+
+限制与后续
+本包为静态安装/反射/局部补光；三折不可动折叠，不含化妆角色动作。局部SpotLight不投影，仍可能穿墙漏光。
+实测为9950X3D/64GB开发机上Chromium145的SwiftShader；计数与CPU提交耗时不是普通电脑/4090实测帧率。
+C3真实男女使用、角色受光、普通机性能及用户最终观看未完成。本包不代表整个C1-C3结束。
+这四款使用已有项目源改造，不冒称采用外部素材。后续边几预检优先已下载Kenney真实原模，按圆几/方几/套几/低茶几核实际结构及承载，再完成真正导入闭环；研究文件不计入游戏外观数量。

@@ -1,0 +1,194 @@
+{
+  "id": "makeup-wall-mirror-tri-fold",
+  "displayName": "三折墙挂化妆镜（固定展开）",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "makeup-mirror-wall",
+  "productionBranch": "makeup-mirror-wall",
+  "mount": "wall",
+  "mounting": {
+    "origin": "center",
+    "width": 0.7,
+    "height": 0.6,
+    "depth": 0.12
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Centred wall back",
+    "scale": "Identity only"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.35,
+      0.06
+    ],
+    "blocking": false
+  },
+  "usePoints": [],
+  "mirrorSurface": {
+    "schema": "makeup-wall-mirror-v1",
+    "profile": "single-512-v1",
+    "maxFaces": 3
+  },
+  "mirrorPanels": [
+    {
+      "id": "center",
+      "node": "makeup-face-center",
+      "backNode": "makeup-back-center",
+      "position": [
+        0,
+        0,
+        0.038
+      ],
+      "yaw": 0,
+      "polygons": [
+        [
+          [
+            -0.14,
+            -0.185
+          ],
+          [
+            0.14,
+            -0.185
+          ],
+          [
+            0.14,
+            0.185
+          ],
+          [
+            -0.14,
+            0.185
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "left",
+      "node": "makeup-face-left",
+      "backNode": "makeup-back-left",
+      "position": [
+        -0.14,
+        0,
+        0.038
+      ],
+      "yaw": 0.5235987755982988,
+      "polygons": [
+        [
+          [
+            -0.14,
+            -0.185
+          ],
+          [
+            0,
+            -0.185
+          ],
+          [
+            0,
+            0.185
+          ],
+          [
+            -0.14,
+            0.185
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "right",
+      "node": "makeup-face-right",
+      "backNode": "makeup-back-right",
+      "position": [
+        0.14,
+        0,
+        0.038
+      ],
+      "yaw": -0.5235987755982988,
+      "polygons": [
+        [
+          [
+            0,
+            -0.185
+          ],
+          [
+            0.14,
+            -0.185
+          ],
+          [
+            0.14,
+            0.185
+          ],
+          [
+            0,
+            0.185
+          ]
+        ]
+      ]
+    }
+  ],
+  "makeupNodes": {
+    "mount": "makeup-wall-mount",
+    "lamp": "makeup-lamp"
+  },
+  "makeupLamp": {
+    "node": "makeup-lamp",
+    "maxEmissiveIntensity": 1.5
+  },
+  "light": {
+    "kind": "spot",
+    "color": "#fff4df",
+    "position": [
+      0,
+      0.22,
+      0.103
+    ],
+    "target": [
+      0,
+      0.065,
+      0.758
+    ],
+    "distance": 1.5,
+    "angle": 0.55,
+    "penumbra": 0.6
+  },
+  "stateDefaults": {
+    "on": true,
+    "intensity": 5
+  },
+  "stateSchema": {
+    "on": {
+      "type": "boolean"
+    },
+    "intensity": {
+      "type": "number",
+      "min": 0,
+      "max": 10
+    }
+  },
+  "stateSemantics": {
+    "on": "makeup-local-light-enabled-v1",
+    "intensity": "makeup-local-light-candela-v1"
+  },
+  "provenance": {
+    "status": "intermediate-unverified",
+    "license": "Project-authored original parametric source adaptation from company-makeup-mirror-v1. No external art/model input. Three.js 0.187.0 is MIT licensed.",
+    "prompt": "Purpose: four real wall-mounted makeup mirrors, targetProfileId makeup-mirror-wall, targetProfileVersion 1. Adapt the pinned project-authored tabletop heads in metres, +Y up and +Z toward the room. Remove base/post, translate retained vertices by [0,-.365,.038], add a closed .16 x .24 x .02m mounting plate with back Z=0, retain finite pane contours and fixed three-plane wings. Preserve wall mounting, warm-white spotlight and separate emissive housing. Bake identity transforms. Budget 2500 triangles/32 meshes/four materials. The measured Kenney candidate lacks the required pane and lamp mapping. Rebuild through the pinned exporter and validate actual loaded GLBs through the independent gate. Record source identities, frame edit, failures and limits. Design: Adapt pinned tri-fold mirror head, retain original contours and material, rigid transform plus closed wall plate. Three genuinely distinct mirror planes. Central .28 x .37m pane, two .14 x .37m side wings yawed inward by 30 degrees, real thick back plates, recessed rims and closed hinge supports. Fixed open pose preserves unobstructed reflection interiors.",
+    "sourceDesign": "tri-fold",
+    "method": "Adapted pinned original mirror head with base/post removed, rigidly translated vertices and a new closed wall mounting plate. Finite convex pane contours and distinct tri-fold plane transforms are baked into Float32 resource-space vertices. Deterministic GLTFExporter with actual GLTFLoader readback and independent makeup-mirror geometry admission.",
+    "limitations": [
+      "Fixed three-plane opening geometry. No movable hinge or folding state. Three real reflection passes require a host explicitly admitting three faces.",
+      "Wall-mounted source adaptation. Real wall/reflection/illumination require separate runtime evidence."
+    ]
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/makeup-wall-mirror-v1/tri-fold/v1/model.glb",
+    "sha256": "ed02ceb28716a7419ca27576c51a0d7b935a6a9532afb1e9fa1dfcf48f1d79b9",
+    "bytes": 28588
+  }
+}

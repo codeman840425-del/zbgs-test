@@ -1,0 +1,228 @@
+{
+  "id": "company-makeup-wall-mirror-v1",
+  "version": 1,
+  "license": "Project-authored original parametric source adaptation from company-makeup-mirror-v1. No external art/model input. Three.js 0.187.0 is MIT licensed.",
+  "common": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Centred wall back",
+    "envelope": {
+      "width": 0.7,
+      "height": 0.6,
+      "depth": 0.12
+    },
+    "surface": {
+      "schema": "makeup-wall-mirror-v1",
+      "profile": "single-512-v1",
+      "maxFaces": 3
+    },
+    "light": {
+      "kind": "spot",
+      "color": "#fff4df",
+      "position": [
+        0,
+        0.22,
+        0.103
+      ],
+      "target": [
+        0,
+        0.065,
+        0.758
+      ],
+      "distance": 1.5,
+      "angle": 0.55,
+      "penumbra": 0.6
+    },
+    "stateDefaults": {
+      "on": true,
+      "intensity": 5
+    },
+    "promptStandard": "Purpose: four real wall-mounted makeup mirrors, targetProfileId makeup-mirror-wall, targetProfileVersion 1. Adapt the pinned project-authored tabletop heads in metres, +Y up and +Z toward the room. Remove base/post, translate retained vertices by [0,-.365,.038], add a closed .16 x .24 x .02m mounting plate with back Z=0, retain finite pane contours and fixed three-plane wings. Preserve wall mounting, warm-white spotlight and separate emissive housing. Bake identity transforms. Budget 2500 triangles/32 meshes/four materials. The measured Kenney candidate lacks the required pane and lamp mapping. Rebuild through the pinned exporter and validate actual loaded GLBs through the independent gate. Record source identities, frame edit, failures and limits."
+  },
+  "mirrors": [
+    {
+      "id": "round",
+      "label": "圆形墙挂化妆镜",
+      "color": "#b9986b",
+      "frameWidth": 0.012,
+      "ringFront": 0.004,
+      "prompt": "A wall-mounted circular 48-sided .18m-radius pane with solid curved back and continuous metal ring. Closed wall plate carries the head and overhead lamp. The original tabletop base and post are removed.",
+      "limitations": [
+        "Circular silhouette uses an authored 48-segment polygon. Real reflection and scene illumination require runtime verification.",
+        "Wall-mounted source adaptation. Real wall/reflection/illumination require separate runtime evidence."
+      ]
+    },
+    {
+      "id": "lit-frame",
+      "label": "灯框墙挂化妆镜",
+      "color": "#e1d6c2",
+      "frameWidth": 0.022,
+      "ringFront": 0.004,
+      "prompt": "A wall-mounted .40 x .36m rectangular pane with broad cream metal ring, closed back and overhead diffuser. A real closed wall plate supports the full fixture.",
+      "limitations": [
+        "Broad fixed frame and overhead warm-white diffuser. No variable color temperature.",
+        "Wall-mounted source adaptation. Real wall/reflection/illumination require separate runtime evidence."
+      ]
+    },
+    {
+      "id": "arch",
+      "label": "拱形墙挂化妆镜",
+      "color": "#688275",
+      "frameWidth": 0.012,
+      "ringFront": 0.004,
+      "prompt": "A wall-mounted .34m-wide arch with straight lower sides, bottom Y=-.185, upper arc centre Y=.015 and top Y=.185 in final wall-local coordinates. Preserve 24 upper-arc segments, matching solid back and continuous metal ring.",
+      "limitations": [
+        "Arched top is a finite 24-segment arc. No bending or deformation state.",
+        "Wall-mounted source adaptation. Real wall/reflection/illumination require separate runtime evidence."
+      ]
+    },
+    {
+      "id": "tri-fold",
+      "label": "三折墙挂化妆镜（固定展开）",
+      "color": "#667487",
+      "frameWidth": 0.007,
+      "ringFront": -0.009,
+      "prompt": "Three real wall-mounted planes: central .28 x .37m pane and two .14 x .37m wings at fixed inward yaw 30 degrees. Thick backing, recessed rims and closed hinge support connect to a central wall plate. No folding state.",
+      "limitations": [
+        "Fixed three-plane opening geometry. No movable hinge or folding state. Three real reflection passes require a host explicitly admitting three faces.",
+        "Wall-mounted source adaptation. Real wall/reflection/illumination require separate runtime evidence."
+      ]
+    }
+  ],
+  "editableRanges": {
+    "mirrors[0].frameWidth": {
+      "min": 0.009,
+      "max": 0.016,
+      "units": "metres"
+    },
+    "effect": "Changes the real round frame contour and volume while preserving its mirror plane and all shared functional fields. Other model bytes remain identical. Every variant must pass the same geometry admission."
+  },
+  "dependencyPins": {
+    "lockfile": {
+      "path": "prototype/package-lock.json",
+      "sha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7"
+    },
+    "threePackage": {
+      "path": "prototype/node_modules/three/package.json",
+      "sha256": "87f2c99a8718e5fdd6f5e51427fde52c6075f2f698ddf8f7b4e162882df93940"
+    },
+    "threeModule": {
+      "path": "prototype/node_modules/three/build/three.module.js",
+      "sha256": "104f56145899722094556490d787aae0617cc2fc3382f31df02d724ea1aee341"
+    },
+    "gltfExporter": {
+      "path": "prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+      "sha256": "569793baeba62baeb4ab0b3619b6b1495b45d4b2ba9690430497adb58307bdf2"
+    },
+    "gltfLoader": {
+      "path": "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+      "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1"
+    },
+    "threeLicense": {
+      "path": "prototype/node_modules/three/LICENSE",
+      "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+    },
+    "preflight": {
+      "path": "docs/research/COMPANY-MAKEUP-WALL-MIRROR-PREFLIGHT-2026-11-17.txt",
+      "sha256": "7fb197541d947870b462e765d9c2c7518b81b46d4eec77e28dd49c794309017d"
+    },
+    "originalParameters": {
+      "path": "assets-source/company-makeup-mirror-v1/parameters.json",
+      "sha256": "2b73b48d164bbf4abea5366f62abfbaf4f09ec558e0b8f4caf6a07f56bc5b1d9"
+    },
+    "originalGenerator": {
+      "path": "scripts/company-platform/build-makeup-mirror.mjs",
+      "sha256": "1a0e2f740022a50fb1d744866d9dfdfa06d090bf6d26eb85af59340ceec5277b"
+    },
+    "originalContract": {
+      "path": "docs/COMPANY-MAKEUP-MIRROR-CONTRACT-v1.txt",
+      "sha256": "bcca9be7b7d8d7f66a7ebfdeb6e786891ee80be3e42002b60572caecc17dacf7"
+    },
+    "originalVerifier": {
+      "path": "prototype/src/company/makeup-mirror-geometry.js",
+      "sha256": "6b678a1bbda750b5b566ef6b37d5240d43d0e02f5693fd8be3f128aa856c792d"
+    },
+    "originalModel-round": {
+      "path": "prototype/public/company-assets/makeup-mirror-v1/round/v1/model.glb",
+      "sha256": "38d582f8ed21fe78fb4e719494331fefcd6d42d5a16af36b3406d65c242f9279"
+    },
+    "originalModel-lit-frame": {
+      "path": "prototype/public/company-assets/makeup-mirror-v1/lit-frame/v1/model.glb",
+      "sha256": "aa74d0e2f12640d43a365f115baaa36c055107029f8e75245c953d7e00575273"
+    },
+    "originalModel-arch": {
+      "path": "prototype/public/company-assets/makeup-mirror-v1/arch/v1/model.glb",
+      "sha256": "424c6aa49dfcd08d3b9d82cb94cb0511d4a67088703a5d419360cf39e56b323a"
+    },
+    "originalModel-tri-fold": {
+      "path": "prototype/public/company-assets/makeup-mirror-v1/tri-fold/v1/model.glb",
+      "sha256": "da1dcbbe5587e4011be5861d9120f3ba5eb68dd69e750e20615892b3506db73c"
+    },
+    "functionalContract": {
+      "path": "docs/COMPANY-MAKEUP-WALL-MIRROR-CONTRACT-v1.txt",
+      "sha256": "6a2e0c10d2fbba66aa1310179c491f8b42da64140ad89d01c46b75fd1ded28b1"
+    },
+    "threeCore": {
+      "path": "prototype/node_modules/three/build/three.core.js",
+      "sha256": "613e370f76638fdef83926642bf256dc9615684922de1ce1f63a8583e5d78578"
+    },
+    "bufferGeometryUtils": {
+      "path": "prototype/node_modules/three/examples/jsm/utils/BufferGeometryUtils.js",
+      "sha256": "7bda2a8ba836b2bcf67cb938d4b9e1bb5d1b1bc616817103ed858c0b58296ce7"
+    },
+    "skeletonUtils": {
+      "path": "prototype/node_modules/three/examples/jsm/utils/SkeletonUtils.js",
+      "sha256": "b1632a703206c3d830de9fcbe515696770d04b71a15ee6b50afa6d2c3298c86f"
+    },
+    "productionStandard": {
+      "path": "docs/COMPANY-APPEARANCE-PRODUCTION-STANDARD.md",
+      "sha256": "25d12677aa7b13eb5a6ff5b10324cb86bde17eaec16923279af8d6ad9e54836a"
+    },
+    "geometryVerifier": {
+      "path": "prototype/src/company/makeup-wall-mirror-geometry.js",
+      "sha256": "579c04243db363828ca97b27fa066a1ea6c2e87387b0cecfafd3ac1ba42ffc2b"
+    },
+    "dataVerifier": {
+      "path": "prototype/src/company/makeup-wall-mirror-data.js",
+      "sha256": "12f08f9fd546208a57bd2ef21f50259487f9b24cdafe475b107b4d8d7fbaa4bc"
+    }
+  },
+  "adaptation": {
+    "translation": [
+      0,
+      -0.365,
+      0.038
+    ],
+    "excludedNodes": [
+      "makeup-base",
+      "makeup-post"
+    ],
+    "wallPlate": {
+      "name": "makeup-wall-mount",
+      "min": [
+        -0.08,
+        -0.12,
+        0
+      ],
+      "max": [
+        0.08,
+        0.12,
+        0.02
+      ]
+    },
+    "lampRiserTop": 0.575,
+    "lampArmFront": 0.053,
+    "triFoldJoint": "angle-bisector-miter-v1"
+  },
+  "sourceModification": {
+    "parameter": "mirrors[0].frameWidth",
+    "before": 0.012,
+    "after": 0.014
+  },
+  "jointCorrection": {
+    "reason": "Initial actual new wall gate rejected same-facing duplicate outer surfaces at riser/arm and tri-fold rim seams. Preserve initial actual files and source under evidence initial-original-head.",
+    "lamp": "Riser top .588 to .575 and arm front .063 to .053 create full face contacts without coplanar exterior overlap.",
+    "triFold": "Keep original panes/back/plane poses and contour. At local ring z[-.025,-.009], trim hinge-side outer edges to fixed angle-bisector seams, yielding closed tapered seam caps. Center x bounds at each depth are [-.14+tan(PI/12)*z,.14-tan(PI/12)*z]; left maxX=-tan(PI/12)*z; right minX=tan(PI/12)*z."
+  }
+}
