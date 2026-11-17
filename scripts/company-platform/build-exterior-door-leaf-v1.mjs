@@ -13,7 +13,7 @@ globalThis.FileReader ??= class {
 
 const root = new URL('../../', import.meta.url);
 const sourcePath = 'assets-source/company-exterior-door-leaf-v1/parameters.json';
-const contractPath = 'docs/research/COMPANY-EXTERIOR-DOOR-LEAF-CONTRACT-v1.txt';
+const contractPath = 'docs/COMPANY-EXTERIOR-DOOR-LEAF-CONTRACT-v1.txt';
 const generatorPath = 'scripts/company-platform/build-exterior-door-leaf-v1.mjs';
 const source = JSON.parse(await fs.readFile(new URL(sourcePath, root), 'utf8'));
 const sourceBytes = await fs.readFile(new URL(sourcePath, root));
