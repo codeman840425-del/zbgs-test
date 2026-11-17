@@ -41,3 +41,21 @@ python scripts/production/qa-selected-look-budget.py
 material recipe 限定当前实际 `zbgs-garment-material-recipe-v1` 版本1与 `cloth-normal-v4-review1` 实现。检查实际 recipe JSON、已选 garment/body、manifest 内 recipe SHA/bytes/fit/style、真实材质名、数值范围，并核 `material-recipes.js` 与 `cloth-material.js` 的源码 SHA。该实现 clone 材质并沿用原 map 引用，额外纹理数为零。非空调用者 `textureFiles`、实际 recipe 中未知纹理引用或不支持实现均拒绝。支持范围没有外部纹理 recipe，不把调用者清单视为完整依赖证据。以后真实实现新增纹理读取须先扩展依赖解析与回归。依赖 JSON/实现源码的字节另列为 `dependencyBytes`，不混入 GLB 几何字节。
 
 聚合状态为 `legacy-observation` 时，至少一个选中资产超过现有单资产预算。`measured-unadmitted-temporary-limit` 表示数据已测但聚合临时上限没有普通目标机校准，不能作为准入或性能结论。`aggregateLimitExcesses` 列出实测累计超过临时上限的指标、实际值和限值。当前聚合临时值只用于报告，不能覆盖 body/garment 的既有 legacy 状态。浏览器纹理缓存、sampler、材质 clone 的实际分配、共享关系、GPU 显存和帧时延仍未测。
+
+
+## 完整最终记录的依赖与成本（D02/P04）
+
+```powershell
+python -B scripts/production/record_budget.py measure RECORD_OR_ARRAY.json --source-root EXACT_CHECKOUT --budget-version m2-technical-v1
+python -B scripts/production/record_budget_test.py --source-root EXACT_CHECKOUT
+```
+
+输入为一份完整角色记录或1–4份数组，必须带合法摘要、稳定身份和精确资源版本。共用 record collector 只读核实际依赖，source-root 须是 prototype 干净的确切 Git 检出；body、当前衣物、启动衣物、替换发型、左右附件、live道具与PNG分别识别。启动后被换下的服装仍记在启动驻留范围，最终已穿范围另列，不假称所有缓存都释放。
+
+退出0仅表示支持的静态指标未超当前阈值；退出1是超限，退出2是无效或不支持的输入。指标范围为文件中图片纹理及已支持派生图片估计，明确不包含骨骼Float纹理、morph DataArrayTexture和渲染器按source/sampler分配的全部开销。不能把RGBA8估算当实际显存或总GPU上界。没有普通电脑实测，不自动放宽临时阈值。
+
+原生覆盖/局部调色按当前源码的两材质×两map估计；颜色校验参考PNG不作为GPU纹理。旧材质布料复用原图。非原色旧染发的派生Canvas缓存尚未建立成本模型，明确返回 unsupported 而不输出低估数字；旧五官/表面及未识别独立图片同样不会无声忽略。马尾外部适配的6关节/3碰撞体计入单资产和整套，原生GLB嵌入动态不重复增加。实际环境碰撞代理额外对象单列，不等同纹理。
+
+实测输入与修正记录：evidence/m2-record-budget-v1/records.json，修正后报告m2-record-budget-v2；独审m2-record-budget-review-v1。当前三记录都存在单资产超限，不能按整套临时总量未超就视为准入。
+
+同构建1084的m2-record-budget-runtime-v1是RTX4090开发机headless Chrome、1440×1000、原生男/女/旧男/男女双例各12秒讲话的独立短测，无录屏干扰。角色纹理计数增量51/47/36/98，移除后纹理与几何都回ground基线1；该计数不提供GPU字节，也不证明长期无泄漏。单例纹理估计48/40/28与实测差异已明确，不用估计替代测量；本轮没有新压缩、减面或画质降级。

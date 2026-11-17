@@ -467,3 +467,8 @@ m2-production-fixed-v2：实际独立进程query原生男→create男（原生�
 P03外部完整记录：game-record-cli --records接1–4记录数组，保旧65814 pin，新增1084独立审定运行时图。两份新CLI记录导出包50文件（49声明+manifest）、65,813,899声明字节，生成records/manifest.json及稳定ID侧车，不改通用JS或原示例。m2-production-package-fixed-v1逐文件CPU核验；m2-production-package-browser-v3真实独立包首次加载/关闭重开、同身份造型一致、8.5秒1×双人讲话、重复清单参数及数组摘要错误拒绝且不退回示例通过。v1缺await、v2拦截器匹配HTML query的QA失败保留DIAGNOSIS，没有改资源掩盖失败。
 
 m2-production-rebuild-v2为新干净检出npm ci/build字节一致。m2-production-release-ui-v2及m2-production-public-v2核实际新入口、原生女改脸/男/旧男mic与glasses按钮。root全房间时段2fps辅助帧未见新增丢件，入座头发外扬仍有，完整自然度/细接触未代判；普通机未测。D02与P03仅这些登记机制/记录范围通过；新体型、未制外观/服装/配饰及资源预算缺口仍M2。下一包P04将实际完整记录的依赖与预算接通，避免只量旧默认服装。
+
+
+2026-11-17 P04完整记录预算增量：scripts/production/record_budget.py沿精确检出与record collector核1–4完整记录，分最终已穿/启动驻留/完整传输闭包，覆盖身体、衣物、替换头发、耳帽、live道具、原生覆盖/颜色PNG和既有布料材质。6 CPU与独立原色/染发/马尾反例通过。v1漏掉neutralTexture和外置hair dynamics已留证；v2对未建立成本模型的非原色染发明确unsupported/2，马尾计6关节3碰撞体，native embedded不重复加，textureEstimateScope排除骨/morph渲染器分配。原生男/女/旧材质男图片RGBA8估计229642920/211466920/168821416 bytes，图片对象48/40/28；三者都有单资产超限，整套暂定上限未超不算准入。报告evidence/m2-record-budget-v2，未实现颜色/动态/新格式模型仍P04缺口，不默默继承。
+
+m2-record-budget-runtime-v1实际1084/Chrome157/RTX4090/1440×1000 headless：3单例及原生男女双例各12秒idle/talking；加载约1484/726/1022/1572ms仅本机本轮，帧p95约6.2ms、max6.3/6.4/24.3/18.2ms，原始间隔/更新CPU/提交renderCPU数组保留。角色纹理数扣基线51/47/36/98，分别销毁后textures/geometries均回基线1。源图片静态估计不等于骨骼/morph等实际分配；GPU字节和普通机仍未测，也不代表持续房间裙装/长时内存验证。此包只补真实记录量化，不放宽预算、不新压缩/减面、不宣布P04或M2全完成。

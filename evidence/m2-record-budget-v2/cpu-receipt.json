@@ -1,0 +1,78 @@
+{
+  "status": "passed",
+  "scope": "CPU resource-cost regression only",
+  "sourceCommit": "55d363fbb2fae96e3b2e571a4f00de825545f537",
+  "command": [
+    "python",
+    "-B",
+    "scripts/production/record_budget.py",
+    "measure",
+    "evidence\\m2-record-budget-v1\\records.json",
+    "--source-root",
+    "experiments\\m2-production-release-v2",
+    "--budget-version",
+    "m2-technical-v1"
+  ],
+  "repeatCliByteIdentical": true,
+  "reportSha256": "6ff370fb3cca14302e101192a4cdf885f50a73bb68074545e07c3aa0ed12be4e",
+  "priorReportSha256": "5a8271e3d3eeef3547de922950e62de568246d610453e6a1a49fb53d26850134",
+  "textureEstimateScope": {
+    "included": [
+      "image textures declared by measured models",
+      "supported derived image textures"
+    ],
+    "metrics": [
+      "textureObjects",
+      "rgba8MipBytes"
+    ],
+    "unmodeledRendererAllocations": [
+      "bone data textures",
+      "morph data array textures",
+      "renderer-specific texture, source and sampler allocation"
+    ]
+  },
+  "sameSelectedAndStartupAggregateEstimatesForPriorThreeRecords": true,
+  "nativeHairModel": {
+    "colliders": 22,
+    "expectedRuntimeManagerJointCount": 59,
+    "source": "embedded-model",
+    "springJoints": 71
+  },
+  "focusedReview": {
+    "command": "node evidence/m2-record-budget-review-v1/review.mjs",
+    "cases": [
+      {
+        "id": "shorts-original",
+        "exit": 1,
+        "status": "over-budget",
+        "textures": 28,
+        "rgba8": 168821416
+      },
+      {
+        "id": "shorts-blonde",
+        "exit": 2,
+        "error": "shorts-blonde uses blonde hair color. This preset allocates derived Canvas/Texture cache entries for hair and eyebrow maps. A cost model for those entries is unavailable.",
+        "status": "unsupported"
+      },
+      {
+        "id": "ponytail",
+        "exit": 1,
+        "status": "over-budget",
+        "textures": 30,
+        "rgba8": 169520808,
+        "hairMetrics": 6,
+        "hairColliders": 3
+      }
+    ]
+  },
+  "tests": {
+    "command": "python -B scripts/production/record_budget_test.py experiments/m2-production-release-v2",
+    "passed": 6
+  },
+  "sourceSha256": {
+    "scripts/production/record_budget.py": "fb2c1c18a6d282a9e19512c8a6dd03836aed4e470cf5319dffad2ec31921a866",
+    "scripts/production/record_budget_test.py": "d8f33d665dedd8823c2f105fea81aae62b93b43068bcdbcb839a0ec80e18bab8",
+    "scripts/runtime-package/record-budget-input.mjs": "07baf59fd138629978d50fda9ad66d7d146709123ffef772255928ce55a55782"
+  },
+  "ordinaryPCPerformance": "unmeasured"
+}

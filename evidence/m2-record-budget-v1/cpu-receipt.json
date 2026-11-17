@@ -1,0 +1,91 @@
+{
+  "status": "passed",
+  "sourceCommit": "55d363fbb2fae96e3b2e571a4f00de825545f537",
+  "sourceInputs": {
+    "evidence/m2-production-fixed-v2/results/native-male-edited.json": "b93763943ea937641c959266eeb0e73f856bd1feeb21bb7cbcf65cd9a79d06b8",
+    "evidence/m2-production-fixed-v2/results/native-female-created.json": "2041df504c210f20a6e7ac3e36e6fab944d50db3e7d9e2a5b965195ea71849e1",
+    "prototype/public/assets/record-consumer-v1/male-material.json": "2179ebad6985a8e84696ebc04a86dd0fcb0c8e8ee4cb2f2a7f976a88393d81ac"
+  },
+  "execution": {
+    "command": [
+      "python",
+      "-B",
+      "scripts/production/record_budget.py",
+      "measure",
+      "evidence\\m2-record-budget-v1\\records.json",
+      "--source-root",
+      "experiments\\m2-production-release-v2",
+      "--budget-version",
+      "m2-technical-v1"
+    ],
+    "exitCode": 1,
+    "expectedStatus": "over-budget"
+  },
+  "reportSha256": "5a8271e3d3eeef3547de922950e62de568246d610453e6a1a49fb53d26850134",
+  "tests": {
+    "passed": 5,
+    "command": "python -B scripts/production/record_budget_test.py experiments/m2-production-release-v2"
+  },
+  "sourceSha256": {
+    "scripts/production/record_budget.py": "60560acfe98ba105737f474302e68c9ca8568dedcf6cdc69ed78b378c191f813",
+    "scripts/production/record_budget_test.py": "d1f98a84056bc5909ff240ab157f85067792f44e3014a0f0c16d030ce8a26c7b",
+    "scripts/runtime-package/record-budget-input.mjs": "75bccec2238f94a982286f094fbac1d82a57ed7e0b4818b6906ca75666ae5d5c"
+  },
+  "records": [
+    {
+      "id": "production-native-male-01",
+      "revision": 2,
+      "status": "over-budget",
+      "recordSha256": "c80040a63475b1d9b797a1b95fa7fc368b36331f59bd418fb7d0df03d3330c30",
+      "closureSourceBytes": 37940346,
+      "selectedModelAndTextureBytes": 19327172,
+      "startupAndSelectedModelAndTextureBytes": 19327172,
+      "selectedRgba8MipEstimateBytes": 229642920,
+      "selectedTextureObjectEstimate": 48,
+      "aggregateExcesses": [],
+      "individuallyOverBudgetModels": [
+        "studio-microphone-v1",
+        "hair",
+        "body"
+      ]
+    },
+    {
+      "id": "production-native-female-01",
+      "revision": 1,
+      "status": "over-budget",
+      "recordSha256": "39f5877d9979783e6d74a7423cc9d067a76446a6f7f453246d1d4349ba945011",
+      "closureSourceBytes": 39022055,
+      "selectedModelAndTextureBytes": 20330841,
+      "startupAndSelectedModelAndTextureBytes": 20330841,
+      "selectedRgba8MipEstimateBytes": 211466920,
+      "selectedTextureObjectEstimate": 40,
+      "aggregateExcesses": [],
+      "individuallyOverBudgetModels": [
+        "studio-microphone-v1",
+        "body",
+        "native-vroid-face-geometry-shoes-v1",
+        "native-vroid-face-geometry-shorts-v1",
+        "native-vroid-face-geometry-top-v1"
+      ]
+    },
+    {
+      "id": "d03-male-b",
+      "revision": 1,
+      "status": "over-budget",
+      "recordSha256": "54d71596fd4f2bd37c9920f81a7885930ba0bd6bd2269e9a97ac579751a556cb",
+      "closureSourceBytes": 45486205,
+      "selectedModelAndTextureBytes": 21618324,
+      "startupAndSelectedModelAndTextureBytes": 22438068,
+      "selectedRgba8MipEstimateBytes": 168821416,
+      "selectedTextureObjectEstimate": 28,
+      "aggregateExcesses": [],
+      "individuallyOverBudgetModels": [
+        "body",
+        "m1b-uniform-top"
+      ]
+    }
+  ],
+  "ordinaryPCPerformance": "unmeasured",
+  "preSortReportSha256": "610349b1aa738311f7a24cfbf09904bd7c1ee38115c5b941481407b601069114",
+  "repeatCliByteIdentical": true
+}

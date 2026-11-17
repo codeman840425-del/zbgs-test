@@ -1,0 +1,2195 @@
+{
+  "budgetFileSha256": "b5f792da80d061aa8dfac1045e2f69e699207dd5d4a05b5ea9959ef532dc9d63",
+  "budgetVersion": "m2-technical-v1",
+  "closureUnionFileCount": 46,
+  "closureUnionSourceBytes": 94566839,
+  "inputSha256": "643656eb8948a515a09ee3e0f59d4a996562ba795fca09934ae9a8c7806f4f73",
+  "limitations": [
+    "RGBA8 estimates use standalone model texture objects and full mip chains except for the reviewed linear-only native cover.",
+    "Native cover and palette additions allow up to four source texture clones per actor and field, derived from two materials and two maps. Source-only palette references contribute no texture objects.",
+    "All parsed model mesh definitions contribute to the estimate. Hidden source geometry, animation, renderer allocations, prior looks and in-flight preparation need runtime measurement.",
+    "Paired ear placements share their one parsed model and source textures by the rigid accessory implementation. Their placed triangles count both instances.",
+    "Transfer closure bytes count each path once. Actor texture estimates sum the per-record values.",
+    "Procedural legacy palette and surface texturing, compressed buffers and unrecognized standalone resources need another budget model."
+  ],
+  "ordinaryPCPerformance": "unmeasured",
+  "readOnly": true,
+  "records": [
+    {
+      "actions": [
+        "idle",
+        "walk",
+        "jog",
+        "talk",
+        "sitTalk",
+        "sitEnter",
+        "sitExit",
+        "sitIdle",
+        "turn",
+        "greeting",
+        "ual1-dance-reference",
+        "dance-technical-once-v1",
+        "native-rokoko-5359146-30s-v2"
+      ],
+      "avatarSha256": "7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81",
+      "bodyType": "native-male-7586-v1",
+      "closureSourceBytes": 37940346,
+      "earSelection": "none",
+      "equipmentIds": [
+        "native-unmasked-7586-top-v1",
+        "native-unmasked-7586-shorts-v1",
+        "native-unmasked-7586-shoes-v1"
+      ],
+      "files": [
+        {
+          "bytes": 2824,
+          "path": "assets/m1c/accessories.json",
+          "provenance": [],
+          "reasons": [
+            "Live accessory catalog"
+          ],
+          "sha256": "d8380d1a105bff48e1cf8ed9ec92efaac54318e767a6df5836d587152e11c2b1"
+        },
+        {
+          "bytes": 2863,
+          "path": "assets/m1c/grips/manifest.json",
+          "provenance": [],
+          "reasons": [
+            "Microphone grip catalog"
+          ],
+          "sha256": "6ae8393ca5e36c3dd356878042ad7890ebb7d13004515a36f25398d767a5a7a2"
+        },
+        {
+          "bytes": 106372,
+          "path": "assets/m1c/studio-microphone-v1.glb",
+          "provenance": [
+            {
+              "license": "CC0-1.0",
+              "sourceBlend": "assets-source/m1c-accessories/studio-microphone-v1.blend",
+              "sourcePath": "prototype/public/assets/m1c/accessories.json"
+            }
+          ],
+          "reasons": [
+            "Selected live prop: studio-microphone-v1"
+          ],
+          "sha256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c"
+        },
+        {
+          "bytes": 9195,
+          "path": "assets/motion/m1c/dance-imports.json",
+          "provenance": [],
+          "reasons": [
+            "Startup dance catalog"
+          ],
+          "sha256": "600f7ab75fce550f71d9be5f9240e83f6b58945d67804555feddfe1acf2d67da"
+        },
+        {
+          "bytes": 739436,
+          "path": "assets/motion/m1c/dance-source-reference.glb",
+          "provenance": [
+            {
+              "licenseBoundary": "CC0-1.0 source; project technical choreography derivative",
+              "motionId": "ual1-dance-reference",
+              "origin": "Unmodified Quaternius Dance_Loop reference",
+              "sourcePath": "prototype/public/assets/motion/m1c/dance-imports.json"
+            }
+          ],
+          "reasons": [
+            "Startup dance ual1-dance-reference"
+          ],
+          "sha256": "b864ec5f440929133787791884e645a0bc73c323d107c9a9ef9937b4f1ca9744"
+        },
+        {
+          "bytes": 2984076,
+          "path": "assets/motion/m1c/dance-technical-v1.glb",
+          "provenance": [
+            {
+              "licenseBoundary": "CC0-1.0 source; project technical choreography derivative",
+              "motionId": "dance-technical-once-v1",
+              "origin": "Original technical choreography, UAL1 idle reference/rig; not professional dance or mocap",
+              "sourcePath": "prototype/public/assets/motion/m1c/dance-imports.json"
+            }
+          ],
+          "reasons": [
+            "Startup dance dance-technical-once-v1"
+          ],
+          "sha256": "2d785287de3c0187c76ed90ae6e0b76fed3008cb1a7a2ac75065720d3885304e"
+        },
+        {
+          "bytes": 1566668,
+          "path": "assets/motion/m1c/greeting/greeting-wave-left-v1.glb",
+          "provenance": [
+            {
+              "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+            },
+            {
+              "sourcePath": "prototype/public/assets/motion/m1c/greeting/gesture-import.json"
+            }
+          ],
+          "reasons": [
+            "On-demand greeting"
+          ],
+          "sha256": "eec4ef8ab2fb073f7674cc6e839cbad7aea6931e4b19e8e70c0ee46c5fda2d06"
+        },
+        {
+          "bytes": 965540,
+          "path": "assets/motion/m1c/jog-ordinary-derived-v1.glb",
+          "provenance": [
+            {
+              "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+            }
+          ],
+          "reasons": [
+            "Startup jog model"
+          ],
+          "sha256": "6ec251d7611f22c6bf918d3401fcf438a8f2bc7b72f2826047dea8beef15c9e5"
+        },
+        {
+          "bytes": 1503,
+          "path": "assets/motion/m1c/jog-ordinary-derived-v1.profile.json",
+          "provenance": [
+            {
+              "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+            }
+          ],
+          "reasons": [
+            "Startup jog profile"
+          ],
+          "sha256": "2df4d6b86227b6bce60a5ea7ba97a982d974448044a46b903e413bd243e75ec0"
+        },
+        {
+          "bytes": 4533751,
+          "path": "assets/motion/m1c/native-rokoko-target-v2/native-male-7586-v1.motion.json",
+          "provenance": [
+            {
+              "licenseBoundary": "CC0-1.0 source; project technical choreography derivative",
+              "motionId": "native-rokoko-5359146-30s-v2",
+              "origin": "Pinned Rokoko vendor trial converted for exact native targets; internal technical candidate only, no production/commercial license claim; source/runtime admission pending",
+              "sourcePath": "prototype/public/assets/motion/m1c/dance-imports.json"
+            }
+          ],
+          "reasons": [
+            "Startup exact target dance native-rokoko-5359146-30s-v2"
+          ],
+          "sha256": "870db931721d91f5b3ab200162ef03810960e6fbe28db2f62a1942f27a1f05c0"
+        },
+        {
+          "bytes": 7618436,
+          "path": "assets/motion/UAL1_Standard.glb",
+          "provenance": [
+            {
+              "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+            }
+          ],
+          "reasons": [
+            "Startup shared motion library"
+          ],
+          "sha256": "69591853d817488edaa8fd9bf8fc1d821eaeaf789f8627b3cd23b41c4ed67997"
+        },
+        {
+          "bytes": 27918,
+          "path": "assets/native-hairset001-v1/fit.json",
+          "provenance": [],
+          "reasons": [
+            "Selected hairstyle body fit"
+          ],
+          "sha256": "c4b5f72aca522712256578cc30928ee80453945728e84e50411bed9954b0fb79"
+        },
+        {
+          "bytes": 1587516,
+          "path": "assets/native-hairset001-v1/hair.glb",
+          "provenance": [
+            {
+              "sourceBodySha256": "dab423674f42d3e6e79eb1b8aa1375e5b664e11bf130d093c14f78c5d3967238",
+              "sourceLicense": {
+                "sourceVRMMeta": {
+                  "allowAntisocialOrHateUsage": false,
+                  "allowExcessivelySexualUsage": false,
+                  "allowExcessivelyViolentUsage": false,
+                  "allowPoliticalOrReligiousUsage": false,
+                  "allowRedistribution": false,
+                  "authors": [
+                    "gamemake technical study"
+                  ],
+                  "avatarPermission": "onlyAuthor",
+                  "commercialUsage": "personalNonProfit",
+                  "creditNotation": "required",
+                  "licenseUrl": "https://vrm.dev/licenses/1.0/",
+                  "modification": "prohibited",
+                  "name": "Native male HairSet001 study",
+                  "thumbnailImage": 21,
+                  "version": "hairset001-study-v1"
+                },
+                "status": "author-internal-technical-candidate"
+              },
+              "sourcePath": "prototype/public/assets/native-hairset001-v1/manifest.json"
+            }
+          ],
+          "reasons": [
+            "Selected hairstyle model"
+          ],
+          "sha256": "cfa965e68d4f11ca1a93096edb43f5b7657862f10c40b9d88f5b0fd404ae5a02"
+        },
+        {
+          "bytes": 1673,
+          "path": "assets/native-hairset001-v1/manifest.json",
+          "provenance": [],
+          "reasons": [
+            "Selected hairstyle manifest"
+          ],
+          "sha256": "7e74eebe4d634eae8b2455715899d53e4ba25a677fc0f3de8841a1a4c5766046"
+        },
+        {
+          "bytes": 102611,
+          "path": "assets/native-iris-palette-v1/iris-green.png",
+          "provenance": [
+            {
+              "sourceManifestSha256": "714c0448c4aa4bade52a13c68115ea384b652c5710f44e4345cb48900465b9b8",
+              "sourcePath": "prototype/public/assets/native-iris-palette-v1/manifest.json"
+            }
+          ],
+          "reasons": [
+            "Selected native palette color PNG: eyeColor"
+          ],
+          "sha256": "9ae7830f3840c8bcc17047fe974eabf9090140c84b275a182ef75b6192076c2d"
+        },
+        {
+          "bytes": 998,
+          "path": "assets/native-iris-palette-v1/manifest.json",
+          "provenance": [],
+          "reasons": [
+            "Selected native palette catalog: eyeColor"
+          ],
+          "sha256": "909f1c8699d2dd0338854090dc4f534273e33a78d1c00c3f470eb2ff826d8b7a"
+        },
+        {
+          "bytes": 103091,
+          "path": "assets/native-iris-palette-v1/source-iris.png",
+          "provenance": [
+            {
+              "sourceManifestSha256": "714c0448c4aa4bade52a13c68115ea384b652c5710f44e4345cb48900465b9b8",
+              "sourcePath": "prototype/public/assets/native-iris-palette-v1/manifest.json"
+            }
+          ],
+          "reasons": [
+            "Selected native palette source PNG: eyeColor"
+          ],
+          "sha256": "9bdd32f2f6032e78dff1918bfc8e1cc9e631f9813de4c6c821d14e54bea3f510"
+        },
+        {
+          "bytes": 4102,
+          "path": "assets/native-live-accessory-fit-v3/male-7586.json",
+          "provenance": [
+            {
+              "license": "CC0-1.0",
+              "sourceBlend": "assets-source/m1c-accessories/studio-microphone-v1.blend",
+              "sourcePath": "prototype/public/assets/m1c/accessories.json"
+            }
+          ],
+          "reasons": [
+            "Selected microphone body grip"
+          ],
+          "sha256": "be8297dbe2f249541b4515ab25b7b0c9bdc1ae9309a34351514e701136273526"
+        },
+        {
+          "bytes": 1676,
+          "path": "assets/native-male-factory-v1/native-vroid-male-body-texture-fit-v1/generated/manifest.json",
+          "provenance": [],
+          "reasons": [
+            "Startup native body texture coverage manifest"
+          ],
+          "sha256": "c432a7cdd1f6f5e5af4bf07b79465b902f26c09b00f39254f206c2df24617143"
+        },
+        {
+          "bytes": 859870,
+          "path": "assets/native-male-factory-v1/native-vroid-male-body-texture-fit-v1/generated/native-tops-body.png",
+          "provenance": [
+            {
+              "source": {
+                "path": "assets-source/vroid-bridge-study-v1/generated/male-native-base-216.vrm",
+                "sha256": "a18a2d1138dbae7709b3fed3711a37b5b67888552655afe8a3dfd1398ffa58da"
+              },
+              "sourcePath": "prototype/public/assets/native-male-factory-v1/native-vroid-male-body-texture-fit-v1/generated/manifest.json"
+            }
+          ],
+          "reasons": [
+            "Startup native body coverage PNG"
+          ],
+          "sha256": "15ab2ecee54e10bfdb84a38be10e41fa7c7658e9a9f77b8293c2fd27569d7136"
+        },
+        {
+          "bytes": 152515,
+          "path": "assets/native-male-factory-v1/native-vroid-male-equipment-v1/generated/equipment.json",
+          "provenance": [],
+          "reasons": [
+            "Body equipment catalog"
+          ],
+          "sha256": "e412188206670c9bf84b7f2019aab8a60778a2d0f6ac29df9d92091fd18d80a8"
+        },
+        {
+          "bytes": 667976,
+          "path": "assets/native-male-factory-v1/native-vroid-male-equipment-v1/generated/native-unmasked-7586-shoes-v1.glb",
+          "provenance": [
+            {
+              "equipmentId": "native-unmasked-7586-shoes-v1",
+              "sourceLicense": {
+                "sourceVRMMeta": {
+                  "allowAntisocialOrHateUsage": false,
+                  "allowExcessivelySexualUsage": false,
+                  "allowExcessivelyViolentUsage": false,
+                  "allowPoliticalOrReligiousUsage": false,
+                  "allowRedistribution": false,
+                  "authors": [
+                    "gamemake technical study"
+                  ],
+                  "avatarPermission": "onlyAuthor",
+                  "commercialUsage": "personalNonProfit",
+                  "creditNotation": "required",
+                  "licenseUrl": "https://vrm.dev/licenses/1.0/",
+                  "modification": "prohibited",
+                  "name": "Native male production study",
+                  "thumbnailImage": 18,
+                  "version": "study-v1"
+                },
+                "status": "internal-study-only"
+              },
+              "sourcePath": "prototype/public/assets/native-male-factory-v1/native-vroid-male-equipment-v1/generated/equipment.json"
+            }
+          ],
+          "reasons": [
+            "Startup outfit: native-unmasked-7586-shoes-v1"
+          ],
+          "sha256": "e10770630ad50646c995b0b125af1ac3187649d60107b691f20a6e9dc92cca5f"
+        },
+        {
+          "bytes": 942240,
+          "path": "assets/native-male-factory-v1/native-vroid-male-equipment-v1/generated/native-unmasked-7586-shorts-v1.glb",
+          "provenance": [
+            {
+              "equipmentId": "native-unmasked-7586-shorts-v1",
+              "sourceLicense": {
+                "sourceVRMMeta": {
+                  "allowAntisocialOrHateUsage": false,
+                  "allowExcessivelySexualUsage": false,
+                  "allowExcessivelyViolentUsage": false,
+                  "allowPoliticalOrReligiousUsage": false,
+                  "allowRedistribution": false,
+                  "authors": [
+                    "gamemake technical study"
+                  ],
+                  "avatarPermission": "onlyAuthor",
+                  "commercialUsage": "personalNonProfit",
+                  "creditNotation": "required",
+                  "licenseUrl": "https://vrm.dev/licenses/1.0/",
+                  "modification": "prohibited",
+                  "name": "Native male production study",
+                  "thumbnailImage": 18,
+                  "version": "study-v1"
+                },
+                "status": "internal-study-only"
+              },
+              "sourcePath": "prototype/public/assets/native-male-factory-v1/native-vroid-male-equipment-v1/generated/equipment.json"
+            }
+          ],
+          "reasons": [
+            "Startup outfit: native-unmasked-7586-shorts-v1"
+          ],
+          "sha256": "1766826c44a0a8530caee223f29559c4ef5e462e372907db2e1b353a35252e71"
+        },
+        {
+          "bytes": 763240,
+          "path": "assets/native-male-factory-v1/native-vroid-male-equipment-v1/generated/native-unmasked-7586-top-v1.glb",
+          "provenance": [
+            {
+              "equipmentId": "native-unmasked-7586-top-v1",
+              "sourceLicense": {
+                "sourceVRMMeta": {
+                  "allowAntisocialOrHateUsage": false,
+                  "allowExcessivelySexualUsage": false,
+                  "allowExcessivelyViolentUsage": false,
+                  "allowPoliticalOrReligiousUsage": false,
+                  "allowRedistribution": false,
+                  "authors": [
+                    "gamemake technical study"
+                  ],
+                  "avatarPermission": "onlyAuthor",
+                  "commercialUsage": "personalNonProfit",
+                  "creditNotation": "required",
+                  "licenseUrl": "https://vrm.dev/licenses/1.0/",
+                  "modification": "prohibited",
+                  "name": "Native male production study",
+                  "thumbnailImage": 18,
+                  "version": "study-v1"
+                },
+                "status": "internal-study-only"
+              },
+              "sourcePath": "prototype/public/assets/native-male-factory-v1/native-vroid-male-equipment-v1/generated/equipment.json"
+            }
+          ],
+          "reasons": [
+            "Startup outfit: native-unmasked-7586-top-v1"
+          ],
+          "sha256": "9276dd1dd88f1ac8ebdab228441eeaf50a3148d8a448d43dcb5c1a369385f4ae"
+        },
+        {
+          "bytes": 14194256,
+          "path": "assets/native-male-factory-v1/native-vroid-male-unmasked-base-v1/generated/male-native-unmasked-79-v1.vrm",
+          "provenance": [
+            {
+              "source": "VRoid 2.16 original male editable source + exact native Tops-removed Body PNG",
+              "sourceLicense": {
+                "sourceVRMMeta": {
+                  "allowAntisocialOrHateUsage": false,
+                  "allowExcessivelySexualUsage": false,
+                  "allowExcessivelyViolentUsage": false,
+                  "allowPoliticalOrReligiousUsage": false,
+                  "allowRedistribution": false,
+                  "authors": [
+                    "gamemake technical study"
+                  ],
+                  "avatarPermission": "onlyAuthor",
+                  "commercialUsage": "personalNonProfit",
+                  "creditNotation": "required",
+                  "licenseUrl": "https://vrm.dev/licenses/1.0/",
+                  "modification": "prohibited",
+                  "name": "Native male production study",
+                  "thumbnailImage": 18,
+                  "version": "study-v1"
+                },
+                "status": "internal-study-only"
+              },
+              "sourcePath": "prototype/src/foundation-profiles.js"
+            }
+          ],
+          "reasons": [
+            "Exact foundation body"
+          ],
+          "sha256": "7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81"
+        }
+      ],
+      "id": "production-native-male-01",
+      "materialRecipes": [],
+      "models": [
+        {
+          "assetExcesses": [
+            {
+              "actual": 9,
+              "limit": 8,
+              "metric": "primitives"
+            }
+          ],
+          "class": "accessory",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 106372,
+              "images": 0,
+              "jointSlots": 0,
+              "materials": 3,
+              "maxImageDimension": 0,
+              "maxInfluences": 0,
+              "maxJointsPerSkin": 0,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 4644,
+              "primitiveVertices": 2822,
+              "primitives": 9,
+              "rgba8MipBytes": 0,
+              "skins": 0,
+              "springJoints": 0,
+              "textures": 0,
+              "triangles": 4644,
+              "uniquePositionVertices": 2822
+            }
+          },
+          "id": "studio-microphone-v1",
+          "path": "assets/m1c/studio-microphone-v1.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c"
+        },
+        {
+          "assetExcesses": [
+            {
+              "actual": 13741,
+              "limit": 6000,
+              "metric": "uniquePositionVertices"
+            },
+            {
+              "actual": 13741,
+              "limit": 12000,
+              "metric": "primitiveVertices"
+            },
+            {
+              "actual": 18232,
+              "limit": 8000,
+              "metric": "triangles"
+            },
+            {
+              "actual": 18232,
+              "limit": 8000,
+              "metric": "nodeTriangles"
+            },
+            {
+              "actual": 128,
+              "limit": 64,
+              "metric": "jointSlots"
+            },
+            {
+              "actual": 64,
+              "limit": 48,
+              "metric": "maxJointsPerSkin"
+            },
+            {
+              "actual": 7,
+              "limit": 6,
+              "metric": "textures"
+            },
+            {
+              "actual": 7,
+              "limit": 6,
+              "metric": "images"
+            },
+            {
+              "actual": 71,
+              "limit": 24,
+              "metric": "springJoints"
+            },
+            {
+              "actual": 22,
+              "limit": 8,
+              "metric": "colliders"
+            }
+          ],
+          "class": "hair",
+          "cost": {
+            "metrics": {
+              "colliders": 22,
+              "externalImageBytes": 0,
+              "fileBytes": 1587516,
+              "images": 7,
+              "jointSlots": 128,
+              "materials": 2,
+              "maxImageDimension": 1024,
+              "maxInfluences": 4,
+              "maxJointsPerSkin": 64,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 18232,
+              "primitiveVertices": 13741,
+              "primitives": 2,
+              "rgba8MipBytes": 15379796,
+              "skins": 2,
+              "springJoints": 71,
+              "textures": 7,
+              "triangles": 18232,
+              "uniquePositionVertices": 13741
+            }
+          },
+          "id": "hair",
+          "path": "assets/native-hairset001-v1/hair.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "cfa965e68d4f11ca1a93096edb43f5b7657862f10c40b9d88f5b0fd404ae5a02"
+        },
+        {
+          "assetExcesses": [],
+          "class": "garment",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 667976,
+              "images": 4,
+              "jointSlots": 79,
+              "materials": 1,
+              "maxImageDimension": 512,
+              "maxInfluences": 4,
+              "maxJointsPerSkin": 79,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 712,
+              "primitiveVertices": 9158,
+              "primitives": 1,
+              "rgba8MipBytes": 1399120,
+              "skins": 1,
+              "springJoints": 0,
+              "textures": 4,
+              "triangles": 712,
+              "uniquePositionVertices": 9158
+            }
+          },
+          "id": "native-unmasked-7586-shoes-v1",
+          "path": "assets/native-male-factory-v1/native-vroid-male-equipment-v1/generated/native-unmasked-7586-shoes-v1.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "e10770630ad50646c995b0b125af1ac3187649d60107b691f20a6e9dc92cca5f"
+        },
+        {
+          "assetExcesses": [],
+          "class": "garment",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 942240,
+              "images": 4,
+              "jointSlots": 79,
+              "materials": 1,
+              "maxImageDimension": 1024,
+              "maxInfluences": 4,
+              "maxJointsPerSkin": 79,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 1624,
+              "primitiveVertices": 9158,
+              "primitives": 1,
+              "rgba8MipBytes": 5593424,
+              "skins": 1,
+              "springJoints": 0,
+              "textures": 4,
+              "triangles": 1624,
+              "uniquePositionVertices": 9158
+            }
+          },
+          "id": "native-unmasked-7586-shorts-v1",
+          "path": "assets/native-male-factory-v1/native-vroid-male-equipment-v1/generated/native-unmasked-7586-shorts-v1.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "1766826c44a0a8530caee223f29559c4ef5e462e372907db2e1b353a35252e71"
+        },
+        {
+          "assetExcesses": [],
+          "class": "garment",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 763240,
+              "images": 4,
+              "jointSlots": 79,
+              "materials": 1,
+              "maxImageDimension": 2048,
+              "maxInfluences": 4,
+              "maxJointsPerSkin": 79,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 1296,
+              "primitiveVertices": 9158,
+              "primitives": 1,
+              "rgba8MipBytes": 11185832,
+              "skins": 1,
+              "springJoints": 0,
+              "textures": 4,
+              "triangles": 1296,
+              "uniquePositionVertices": 9158
+            }
+          },
+          "id": "native-unmasked-7586-top-v1",
+          "path": "assets/native-male-factory-v1/native-vroid-male-equipment-v1/generated/native-unmasked-7586-top-v1.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "9276dd1dd88f1ac8ebdab228441eeaf50a3148d8a448d43dcb5c1a369385f4ae"
+        },
+        {
+          "assetExcesses": [
+            {
+              "actual": 83462,
+              "limit": 80000,
+              "metric": "primitiveVertices"
+            },
+            {
+              "actual": 117791068,
+              "limit": 100663296,
+              "metric": "rgba8MipBytes"
+            }
+          ],
+          "class": "body",
+          "cost": {
+            "metrics": {
+              "colliders": 6,
+              "externalImageBytes": 0,
+              "fileBytes": 14194256,
+              "images": 21,
+              "jointSlots": 158,
+              "materials": 13,
+              "maxImageDimension": 2048,
+              "maxInfluences": 4,
+              "maxJointsPerSkin": 79,
+              "morphAccessorBytes": 6441912,
+              "morphTargetsPerPrimitive": 57,
+              "nodeTriangles": 23566,
+              "primitiveVertices": 83462,
+              "primitives": 13,
+              "rgba8MipBytes": 117791068,
+              "skins": 2,
+              "springJoints": 30,
+              "textures": 21,
+              "triangles": 23566,
+              "uniquePositionVertices": 13867
+            }
+          },
+          "id": "body",
+          "path": "assets/native-male-factory-v1/native-vroid-male-unmasked-base-v1/generated/male-native-unmasked-79-v1.vrm",
+          "placements": 1,
+          "selected": true,
+          "sha256": "7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81"
+        }
+      ],
+      "outfitIndex": 0,
+      "recordSha256": "c80040a63475b1d9b797a1b95fa7fc368b36331f59bd418fb7d0df03d3330c30",
+      "revision": 2,
+      "selectedCost": {
+        "aggregateExcesses": [],
+        "scope": "selected-look",
+        "totals": {
+          "colliders": 28,
+          "externalImageBytes": 0,
+          "fileBytes": 19327172,
+          "images": 40,
+          "jointSlots": 523,
+          "materials": 21,
+          "mergedExternalImageBytes": 1065572,
+          "morphAccessorBytes": 6441912,
+          "nodeTriangles": 50074,
+          "placedNodeTriangles": 50074,
+          "primitiveVertices": 127499,
+          "primitives": 27,
+          "rgba8MipBytes": 229642920,
+          "skins": 7,
+          "springJoints": 101,
+          "standaloneEncodedImageBytes": 1065572,
+          "textureObjects": 48,
+          "textures": 40,
+          "triangles": 50074,
+          "uniquePositionVertices": 57904
+        }
+      },
+      "standaloneImages": [
+        {
+          "addedRgba8EstimateBytes": 11184816,
+          "addedTextureObjectUpperBound": 4,
+          "decodedRgba8Bytes": 2097152,
+          "encodedBytes": 102611,
+          "height": 512,
+          "path": "assets/native-iris-palette-v1/iris-green.png",
+          "sha256": "9ae7830f3840c8bcc17047fe974eabf9090140c84b275a182ef75b6192076c2d",
+          "usage": "native-palette-color",
+          "width": 1024
+        },
+        {
+          "addedRgba8EstimateBytes": 0,
+          "addedTextureObjectUpperBound": 0,
+          "decodedRgba8Bytes": 2097152,
+          "encodedBytes": 103091,
+          "height": 512,
+          "path": "assets/native-iris-palette-v1/source-iris.png",
+          "sha256": "9bdd32f2f6032e78dff1918bfc8e1cc9e631f9813de4c6c821d14e54bea3f510",
+          "usage": "native-palette-reference",
+          "width": 1024
+        },
+        {
+          "addedRgba8EstimateBytes": 67108864,
+          "addedTextureObjectUpperBound": 4,
+          "decodedRgba8Bytes": 16777216,
+          "encodedBytes": 859870,
+          "height": 2048,
+          "path": "assets/native-male-factory-v1/native-vroid-male-body-texture-fit-v1/generated/native-tops-body.png",
+          "sha256": "15ab2ecee54e10bfdb84a38be10e41fa7c7658e9a9f77b8293c2fd27569d7136",
+          "usage": "native-body-coverage",
+          "width": 2048
+        }
+      ],
+      "startupAndSelectedCost": {
+        "aggregateExcesses": [],
+        "scope": "startup-and-selected-models",
+        "totals": {
+          "colliders": 28,
+          "externalImageBytes": 0,
+          "fileBytes": 19327172,
+          "images": 40,
+          "jointSlots": 523,
+          "materials": 21,
+          "mergedExternalImageBytes": 1065572,
+          "morphAccessorBytes": 6441912,
+          "nodeTriangles": 50074,
+          "placedNodeTriangles": 50074,
+          "primitiveVertices": 127499,
+          "primitives": 27,
+          "rgba8MipBytes": 229642920,
+          "skins": 7,
+          "springJoints": 101,
+          "standaloneEncodedImageBytes": 1065572,
+          "textureObjects": 48,
+          "textures": 40,
+          "triangles": 50074,
+          "uniquePositionVertices": 57904
+        }
+      },
+      "status": "over-budget",
+      "unsupportedActions": [
+        "rokoko-5359146-30s-v1",
+        "rokoko-5359146-30s-arm-local-v1"
+      ]
+    },
+    {
+      "actions": [
+        "idle",
+        "walk",
+        "jog",
+        "talk",
+        "sitTalk",
+        "sitEnter",
+        "sitExit",
+        "sitIdle",
+        "turn",
+        "greeting",
+        "ual1-dance-reference",
+        "dance-technical-once-v1",
+        "native-rokoko-5359146-30s-v2"
+      ],
+      "avatarSha256": "cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce",
+      "bodyType": "native-female-face-v1",
+      "closureSourceBytes": 39022055,
+      "earSelection": "none",
+      "equipmentIds": [
+        "native-vroid-face-geometry-top-v1",
+        "native-vroid-face-geometry-shorts-v1",
+        "native-vroid-face-geometry-shoes-v1"
+      ],
+      "files": [
+        {
+          "bytes": 2824,
+          "path": "assets/m1c/accessories.json",
+          "provenance": [],
+          "reasons": [
+            "Live accessory catalog"
+          ],
+          "sha256": "d8380d1a105bff48e1cf8ed9ec92efaac54318e767a6df5836d587152e11c2b1"
+        },
+        {
+          "bytes": 2863,
+          "path": "assets/m1c/grips/manifest.json",
+          "provenance": [],
+          "reasons": [
+            "Microphone grip catalog"
+          ],
+          "sha256": "6ae8393ca5e36c3dd356878042ad7890ebb7d13004515a36f25398d767a5a7a2"
+        },
+        {
+          "bytes": 54484,
+          "path": "assets/m1c/studio-glasses-v1.glb",
+          "provenance": [
+            {
+              "license": "CC0-1.0",
+              "sourceBlend": "assets-source/m1c-accessories/studio-glasses-v1.blend",
+              "sourcePath": "prototype/public/assets/m1c/accessories.json"
+            }
+          ],
+          "reasons": [
+            "Selected live prop: studio-glasses-v1"
+          ],
+          "sha256": "c8098a499434c384850a73e6c207fb6c5e85620e9012c4426cd989952e5bec52"
+        },
+        {
+          "bytes": 106372,
+          "path": "assets/m1c/studio-microphone-v1.glb",
+          "provenance": [
+            {
+              "license": "CC0-1.0",
+              "sourceBlend": "assets-source/m1c-accessories/studio-microphone-v1.blend",
+              "sourcePath": "prototype/public/assets/m1c/accessories.json"
+            }
+          ],
+          "reasons": [
+            "Selected live prop: studio-microphone-v1"
+          ],
+          "sha256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c"
+        },
+        {
+          "bytes": 9195,
+          "path": "assets/motion/m1c/dance-imports.json",
+          "provenance": [],
+          "reasons": [
+            "Startup dance catalog"
+          ],
+          "sha256": "600f7ab75fce550f71d9be5f9240e83f6b58945d67804555feddfe1acf2d67da"
+        },
+        {
+          "bytes": 739436,
+          "path": "assets/motion/m1c/dance-source-reference.glb",
+          "provenance": [
+            {
+              "licenseBoundary": "CC0-1.0 source; project technical choreography derivative",
+              "motionId": "ual1-dance-reference",
+              "origin": "Unmodified Quaternius Dance_Loop reference",
+              "sourcePath": "prototype/public/assets/motion/m1c/dance-imports.json"
+            }
+          ],
+          "reasons": [
+            "Startup dance ual1-dance-reference"
+          ],
+          "sha256": "b864ec5f440929133787791884e645a0bc73c323d107c9a9ef9937b4f1ca9744"
+        },
+        {
+          "bytes": 2984076,
+          "path": "assets/motion/m1c/dance-technical-v1.glb",
+          "provenance": [
+            {
+              "licenseBoundary": "CC0-1.0 source; project technical choreography derivative",
+              "motionId": "dance-technical-once-v1",
+              "origin": "Original technical choreography, UAL1 idle reference/rig; not professional dance or mocap",
+              "sourcePath": "prototype/public/assets/motion/m1c/dance-imports.json"
+            }
+          ],
+          "reasons": [
+            "Startup dance dance-technical-once-v1"
+          ],
+          "sha256": "2d785287de3c0187c76ed90ae6e0b76fed3008cb1a7a2ac75065720d3885304e"
+        },
+        {
+          "bytes": 1566668,
+          "path": "assets/motion/m1c/greeting/greeting-wave-left-v1.glb",
+          "provenance": [
+            {
+              "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+            },
+            {
+              "sourcePath": "prototype/public/assets/motion/m1c/greeting/gesture-import.json"
+            }
+          ],
+          "reasons": [
+            "On-demand greeting"
+          ],
+          "sha256": "eec4ef8ab2fb073f7674cc6e839cbad7aea6931e4b19e8e70c0ee46c5fda2d06"
+        },
+        {
+          "bytes": 965540,
+          "path": "assets/motion/m1c/jog-ordinary-derived-v1.glb",
+          "provenance": [
+            {
+              "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+            }
+          ],
+          "reasons": [
+            "Startup jog model"
+          ],
+          "sha256": "6ec251d7611f22c6bf918d3401fcf438a8f2bc7b72f2826047dea8beef15c9e5"
+        },
+        {
+          "bytes": 1503,
+          "path": "assets/motion/m1c/jog-ordinary-derived-v1.profile.json",
+          "provenance": [
+            {
+              "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+            }
+          ],
+          "reasons": [
+            "Startup jog profile"
+          ],
+          "sha256": "2df4d6b86227b6bce60a5ea7ba97a982d974448044a46b903e413bd243e75ec0"
+        },
+        {
+          "bytes": 4533916,
+          "path": "assets/motion/m1c/native-rokoko-target-v2/native-female-face-v1.motion.json",
+          "provenance": [
+            {
+              "licenseBoundary": "CC0-1.0 source; project technical choreography derivative",
+              "motionId": "native-rokoko-5359146-30s-v2",
+              "origin": "Pinned Rokoko vendor trial converted for exact native targets; internal technical candidate only, no production/commercial license claim; source/runtime admission pending",
+              "sourcePath": "prototype/public/assets/motion/m1c/dance-imports.json"
+            }
+          ],
+          "reasons": [
+            "Startup exact target dance native-rokoko-5359146-30s-v2"
+          ],
+          "sha256": "c9742cc27094aebef5597848d5ccf7bf5bda6d50198db30abe4ba695da0fb200"
+        },
+        {
+          "bytes": 7618436,
+          "path": "assets/motion/UAL1_Standard.glb",
+          "provenance": [
+            {
+              "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+            }
+          ],
+          "reasons": [
+            "Startup shared motion library"
+          ],
+          "sha256": "69591853d817488edaa8fd9bf8fc1d821eaeaf789f8627b3cd23b41c4ed67997"
+        },
+        {
+          "bytes": 252736,
+          "path": "assets/native-face-factory-v2/equipment.json",
+          "provenance": [],
+          "reasons": [
+            "Body equipment catalog"
+          ],
+          "sha256": "fad086771438070cb504c676d57d8679fc0a4237249e21b875f308a198911a8d"
+        },
+        {
+          "bytes": 17127172,
+          "path": "assets/native-face-factory-v2/generated/female-geometry-face-unmasked.vrm",
+          "provenance": [
+            {
+              "source": "VRoid native face-derived source with exact body mask and three independent equipment resources",
+              "sourceLicense": {
+                "sourceVRMMeta": {
+                  "allowAntisocialOrHateUsage": false,
+                  "allowExcessivelySexualUsage": false,
+                  "allowExcessivelyViolentUsage": false,
+                  "allowPoliticalOrReligiousUsage": false,
+                  "allowRedistribution": false,
+                  "authors": [
+                    "gamemake technical study"
+                  ],
+                  "avatarPermission": "onlyAuthor",
+                  "commercialUsage": "personalNonProfit",
+                  "creditNotation": "required",
+                  "licenseUrl": "https://vrm.dev/licenses/1.0/",
+                  "modification": "prohibited",
+                  "name": "Native female face derived correct",
+                  "thumbnailImage": 21,
+                  "version": "geometry-production-v1-face-correct"
+                },
+                "status": "internal-study-only"
+              },
+              "sourcePath": "prototype/src/foundation-profiles.js"
+            }
+          ],
+          "reasons": [
+            "Exact foundation body"
+          ],
+          "sha256": "cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce"
+        },
+        {
+          "bytes": 2006,
+          "path": "assets/native-face-factory-v2/manifest.json",
+          "provenance": [],
+          "reasons": [
+            "Startup native body texture coverage manifest"
+          ],
+          "sha256": "9fed8d43beef7149650d84dd6455bfae0a83029bb4a82899118ac93abd56d6a5"
+        },
+        {
+          "bytes": 859933,
+          "path": "assets/native-face-factory-v2/native-tops-body.png",
+          "provenance": [
+            {
+              "source": {
+                "oldMaskPath": "assets-source/native-vroid-body-texture-fit-v1/native-tops-body.png",
+                "oldMaskSha256": "dc375769e28d015bc70c3cef6be1dec3794b5b2430a9bf173d60584105f68a8c",
+                "reuseReason": "Face Body image11 base/shade consumer, UV, RGB and dimensions verified; old native alpha mask copied byte-exact"
+              },
+              "sourcePath": "prototype/public/assets/native-face-factory-v2/manifest.json"
+            }
+          ],
+          "reasons": [
+            "Startup native body coverage PNG"
+          ],
+          "sha256": "dc375769e28d015bc70c3cef6be1dec3794b5b2430a9bf173d60584105f68a8c"
+        },
+        {
+          "bytes": 682856,
+          "path": "assets/native-face-factory-v2/native-vroid-face-geometry-shoes-v1.glb",
+          "provenance": [
+            {
+              "equipmentId": "native-vroid-face-geometry-shoes-v1",
+              "sourceLicense": {
+                "sourceVRMMeta": {
+                  "allowAntisocialOrHateUsage": false,
+                  "allowExcessivelySexualUsage": false,
+                  "allowExcessivelyViolentUsage": false,
+                  "allowPoliticalOrReligiousUsage": false,
+                  "allowRedistribution": false,
+                  "authors": [
+                    "gamemake technical study"
+                  ],
+                  "avatarPermission": "onlyAuthor",
+                  "commercialUsage": "personalNonProfit",
+                  "creditNotation": "required",
+                  "licenseUrl": "https://vrm.dev/licenses/1.0/",
+                  "modification": "prohibited",
+                  "name": "Native female face derived correct",
+                  "thumbnailImage": 21,
+                  "version": "geometry-production-v1-face-correct"
+                },
+                "status": "internal-study-only"
+              },
+              "sourcePath": "prototype/public/assets/native-face-factory-v2/equipment.json"
+            }
+          ],
+          "reasons": [
+            "Startup outfit: native-vroid-face-geometry-shoes-v1"
+          ],
+          "sha256": "b92422c1ba7c018b04f80195d248f1ad46306a7fe7839ce2b44a9a1fbf26f3bc"
+        },
+        {
+          "bytes": 721904,
+          "path": "assets/native-face-factory-v2/native-vroid-face-geometry-shorts-v1.glb",
+          "provenance": [
+            {
+              "equipmentId": "native-vroid-face-geometry-shorts-v1",
+              "sourceLicense": {
+                "sourceVRMMeta": {
+                  "allowAntisocialOrHateUsage": false,
+                  "allowExcessivelySexualUsage": false,
+                  "allowExcessivelyViolentUsage": false,
+                  "allowPoliticalOrReligiousUsage": false,
+                  "allowRedistribution": false,
+                  "authors": [
+                    "gamemake technical study"
+                  ],
+                  "avatarPermission": "onlyAuthor",
+                  "commercialUsage": "personalNonProfit",
+                  "creditNotation": "required",
+                  "licenseUrl": "https://vrm.dev/licenses/1.0/",
+                  "modification": "prohibited",
+                  "name": "Native female face derived correct",
+                  "thumbnailImage": 21,
+                  "version": "geometry-production-v1-face-correct"
+                },
+                "status": "internal-study-only"
+              },
+              "sourcePath": "prototype/public/assets/native-face-factory-v2/equipment.json"
+            }
+          ],
+          "reasons": [
+            "Startup outfit: native-vroid-face-geometry-shorts-v1"
+          ],
+          "sha256": "b8725064bf99bc9ae45d6af5200e81baba9a95d1497e57149cd47e7481103f4d"
+        },
+        {
+          "bytes": 778120,
+          "path": "assets/native-face-factory-v2/native-vroid-face-geometry-top-v1.glb",
+          "provenance": [
+            {
+              "equipmentId": "native-vroid-face-geometry-top-v1",
+              "sourceLicense": {
+                "sourceVRMMeta": {
+                  "allowAntisocialOrHateUsage": false,
+                  "allowExcessivelySexualUsage": false,
+                  "allowExcessivelyViolentUsage": false,
+                  "allowPoliticalOrReligiousUsage": false,
+                  "allowRedistribution": false,
+                  "authors": [
+                    "gamemake technical study"
+                  ],
+                  "avatarPermission": "onlyAuthor",
+                  "commercialUsage": "personalNonProfit",
+                  "creditNotation": "required",
+                  "licenseUrl": "https://vrm.dev/licenses/1.0/",
+                  "modification": "prohibited",
+                  "name": "Native female face derived correct",
+                  "thumbnailImage": 21,
+                  "version": "geometry-production-v1-face-correct"
+                },
+                "status": "internal-study-only"
+              },
+              "sourcePath": "prototype/public/assets/native-face-factory-v2/equipment.json"
+            }
+          ],
+          "reasons": [
+            "Startup outfit: native-vroid-face-geometry-top-v1"
+          ],
+          "sha256": "12bb9600c329b191862f04c13883f518b3b9538ebcafe7392ec58df909d54042"
+        },
+        {
+          "bytes": 7952,
+          "path": "assets/native-glasses-fit-v1/native-female-face-v1.json",
+          "provenance": [
+            {
+              "license": "CC0-1.0",
+              "sourceBlend": "assets-source/m1c-accessories/studio-glasses-v1.blend",
+              "sourcePath": "prototype/public/assets/m1c/accessories.json"
+            }
+          ],
+          "reasons": [
+            "Selected glasses temple fit"
+          ],
+          "sha256": "75d44cd87e753d5948d1e468aac1095c82931118cc07adcc0e52a3e7a9f65283"
+        },
+        {
+          "bytes": 4063,
+          "path": "assets/native-live-accessory-fit-v1/female-face-cc0843.json",
+          "provenance": [
+            {
+              "license": "CC0-1.0",
+              "sourceBlend": "assets-source/m1c-accessories/studio-microphone-v1.blend",
+              "sourcePath": "prototype/public/assets/m1c/accessories.json"
+            }
+          ],
+          "reasons": [
+            "Selected microphone body grip"
+          ],
+          "sha256": "786b54bb0a9e9b91435cb2ac822fdf4c862a3de4538bd19684a54196b0ead7ea"
+        }
+      ],
+      "id": "production-native-female-01",
+      "materialRecipes": [],
+      "models": [
+        {
+          "assetExcesses": [],
+          "class": "accessory",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 54484,
+              "images": 0,
+              "jointSlots": 0,
+              "materials": 2,
+              "maxImageDimension": 0,
+              "maxInfluences": 0,
+              "maxJointsPerSkin": 0,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 2208,
+              "primitiveVertices": 1305,
+              "primitives": 7,
+              "rgba8MipBytes": 0,
+              "skins": 0,
+              "springJoints": 0,
+              "textures": 0,
+              "triangles": 2208,
+              "uniquePositionVertices": 1305
+            }
+          },
+          "id": "studio-glasses-v1",
+          "path": "assets/m1c/studio-glasses-v1.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "c8098a499434c384850a73e6c207fb6c5e85620e9012c4426cd989952e5bec52"
+        },
+        {
+          "assetExcesses": [
+            {
+              "actual": 9,
+              "limit": 8,
+              "metric": "primitives"
+            }
+          ],
+          "class": "accessory",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 106372,
+              "images": 0,
+              "jointSlots": 0,
+              "materials": 3,
+              "maxImageDimension": 0,
+              "maxInfluences": 0,
+              "maxJointsPerSkin": 0,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 4644,
+              "primitiveVertices": 2822,
+              "primitives": 9,
+              "rgba8MipBytes": 0,
+              "skins": 0,
+              "springJoints": 0,
+              "textures": 0,
+              "triangles": 4644,
+              "uniquePositionVertices": 2822
+            }
+          },
+          "id": "studio-microphone-v1",
+          "path": "assets/m1c/studio-microphone-v1.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c"
+        },
+        {
+          "assetExcesses": [
+            {
+              "actual": 38661,
+              "limit": 30000,
+              "metric": "uniquePositionVertices"
+            },
+            {
+              "actual": 108256,
+              "limit": 80000,
+              "metric": "primitiveVertices"
+            },
+            {
+              "actual": 54950,
+              "limit": 40000,
+              "metric": "triangles"
+            },
+            {
+              "actual": 54950,
+              "limit": 40000,
+              "metric": "nodeTriangles"
+            },
+            {
+              "actual": 390,
+              "limit": 256,
+              "metric": "jointSlots"
+            },
+            {
+              "actual": 130,
+              "limit": 128,
+              "metric": "maxJointsPerSkin"
+            },
+            {
+              "actual": 126179680,
+              "limit": 100663296,
+              "metric": "rgba8MipBytes"
+            },
+            {
+              "actual": 102,
+              "limit": 32,
+              "metric": "springJoints"
+            },
+            {
+              "actual": 28,
+              "limit": 16,
+              "metric": "colliders"
+            }
+          ],
+          "class": "body",
+          "cost": {
+            "metrics": {
+              "colliders": 28,
+              "externalImageBytes": 0,
+              "fileBytes": 17127172,
+              "images": 24,
+              "jointSlots": 390,
+              "materials": 14,
+              "maxImageDimension": 2048,
+              "maxInfluences": 4,
+              "maxJointsPerSkin": 130,
+              "morphAccessorBytes": 6441912,
+              "morphTargetsPerPrimitive": 57,
+              "nodeTriangles": 54950,
+              "primitiveVertices": 108256,
+              "primitives": 14,
+              "rgba8MipBytes": 126179680,
+              "skins": 3,
+              "springJoints": 102,
+              "textures": 24,
+              "triangles": 54950,
+              "uniquePositionVertices": 38661
+            }
+          },
+          "id": "body",
+          "path": "assets/native-face-factory-v2/generated/female-geometry-face-unmasked.vrm",
+          "placements": 1,
+          "selected": true,
+          "sha256": "cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce"
+        },
+        {
+          "assetExcesses": [
+            {
+              "actual": 130,
+              "limit": 128,
+              "metric": "jointSlots"
+            },
+            {
+              "actual": 130,
+              "limit": 96,
+              "metric": "maxJointsPerSkin"
+            }
+          ],
+          "class": "garment",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 682856,
+              "images": 4,
+              "jointSlots": 130,
+              "materials": 1,
+              "maxImageDimension": 512,
+              "maxInfluences": 4,
+              "maxJointsPerSkin": 130,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 712,
+              "primitiveVertices": 9158,
+              "primitives": 1,
+              "rgba8MipBytes": 1399120,
+              "skins": 1,
+              "springJoints": 0,
+              "textures": 4,
+              "triangles": 712,
+              "uniquePositionVertices": 9158
+            }
+          },
+          "id": "native-vroid-face-geometry-shoes-v1",
+          "path": "assets/native-face-factory-v2/native-vroid-face-geometry-shoes-v1.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "b92422c1ba7c018b04f80195d248f1ad46306a7fe7839ce2b44a9a1fbf26f3bc"
+        },
+        {
+          "assetExcesses": [
+            {
+              "actual": 130,
+              "limit": 128,
+              "metric": "jointSlots"
+            },
+            {
+              "actual": 130,
+              "limit": 96,
+              "metric": "maxJointsPerSkin"
+            }
+          ],
+          "class": "garment",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 721904,
+              "images": 4,
+              "jointSlots": 130,
+              "materials": 1,
+              "maxImageDimension": 1024,
+              "maxInfluences": 4,
+              "maxJointsPerSkin": 130,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 1624,
+              "primitiveVertices": 9158,
+              "primitives": 1,
+              "rgba8MipBytes": 5593424,
+              "skins": 1,
+              "springJoints": 0,
+              "textures": 4,
+              "triangles": 1624,
+              "uniquePositionVertices": 9158
+            }
+          },
+          "id": "native-vroid-face-geometry-shorts-v1",
+          "path": "assets/native-face-factory-v2/native-vroid-face-geometry-shorts-v1.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "b8725064bf99bc9ae45d6af5200e81baba9a95d1497e57149cd47e7481103f4d"
+        },
+        {
+          "assetExcesses": [
+            {
+              "actual": 130,
+              "limit": 128,
+              "metric": "jointSlots"
+            },
+            {
+              "actual": 130,
+              "limit": 96,
+              "metric": "maxJointsPerSkin"
+            }
+          ],
+          "class": "garment",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 778120,
+              "images": 4,
+              "jointSlots": 130,
+              "materials": 1,
+              "maxImageDimension": 2048,
+              "maxInfluences": 4,
+              "maxJointsPerSkin": 130,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 1296,
+              "primitiveVertices": 9158,
+              "primitives": 1,
+              "rgba8MipBytes": 11185832,
+              "skins": 1,
+              "springJoints": 0,
+              "textures": 4,
+              "triangles": 1296,
+              "uniquePositionVertices": 9158
+            }
+          },
+          "id": "native-vroid-face-geometry-top-v1",
+          "path": "assets/native-face-factory-v2/native-vroid-face-geometry-top-v1.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "12bb9600c329b191862f04c13883f518b3b9538ebcafe7392ec58df909d54042"
+        }
+      ],
+      "outfitIndex": 0,
+      "recordSha256": "39f5877d9979783e6d74a7423cc9d067a76446a6f7f453246d1d4349ba945011",
+      "revision": 1,
+      "selectedCost": {
+        "aggregateExcesses": [],
+        "scope": "selected-look",
+        "totals": {
+          "colliders": 28,
+          "externalImageBytes": 0,
+          "fileBytes": 20330841,
+          "images": 36,
+          "jointSlots": 780,
+          "materials": 22,
+          "mergedExternalImageBytes": 859933,
+          "morphAccessorBytes": 6441912,
+          "nodeTriangles": 65434,
+          "placedNodeTriangles": 65434,
+          "primitiveVertices": 139857,
+          "primitives": 33,
+          "rgba8MipBytes": 211466920,
+          "skins": 6,
+          "springJoints": 102,
+          "standaloneEncodedImageBytes": 859933,
+          "textureObjects": 40,
+          "textures": 36,
+          "triangles": 65434,
+          "uniquePositionVertices": 70262
+        }
+      },
+      "standaloneImages": [
+        {
+          "addedRgba8EstimateBytes": 67108864,
+          "addedTextureObjectUpperBound": 4,
+          "decodedRgba8Bytes": 16777216,
+          "encodedBytes": 859933,
+          "height": 2048,
+          "path": "assets/native-face-factory-v2/native-tops-body.png",
+          "sha256": "dc375769e28d015bc70c3cef6be1dec3794b5b2430a9bf173d60584105f68a8c",
+          "usage": "native-body-coverage",
+          "width": 2048
+        }
+      ],
+      "startupAndSelectedCost": {
+        "aggregateExcesses": [],
+        "scope": "startup-and-selected-models",
+        "totals": {
+          "colliders": 28,
+          "externalImageBytes": 0,
+          "fileBytes": 20330841,
+          "images": 36,
+          "jointSlots": 780,
+          "materials": 22,
+          "mergedExternalImageBytes": 859933,
+          "morphAccessorBytes": 6441912,
+          "nodeTriangles": 65434,
+          "placedNodeTriangles": 65434,
+          "primitiveVertices": 139857,
+          "primitives": 33,
+          "rgba8MipBytes": 211466920,
+          "skins": 6,
+          "springJoints": 102,
+          "standaloneEncodedImageBytes": 859933,
+          "textureObjects": 40,
+          "textures": 36,
+          "triangles": 65434,
+          "uniquePositionVertices": 70262
+        }
+      },
+      "status": "over-budget",
+      "unsupportedActions": [
+        "rokoko-5359146-30s-v1",
+        "rokoko-5359146-30s-arm-local-v1"
+      ]
+    },
+    {
+      "actions": [
+        "idle",
+        "walk",
+        "jog",
+        "talk",
+        "sitTalk",
+        "sitEnter",
+        "sitExit",
+        "sitIdle",
+        "turn",
+        "greeting",
+        "ual1-dance-reference",
+        "dance-technical-once-v1",
+        "rokoko-5359146-30s-v1",
+        "rokoko-5359146-30s-arm-local-v1"
+      ],
+      "avatarSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+      "bodyType": "male",
+      "closureSourceBytes": 45486205,
+      "earSelection": "none",
+      "equipmentIds": [
+        "m1b-uniform-top",
+        "m1b-uniform-shoes",
+        "m1b-uniform-shorts-v1"
+      ],
+      "files": [
+        {
+          "bytes": 25016,
+          "path": "assets/forearm-collision-v2/male.json",
+          "provenance": [],
+          "reasons": [
+            "Startup body profile: forearmCollision"
+          ],
+          "sha256": "f6ec1714c80e492bc129078e179d12c48a4f7e072e5d0249d52b4943b75fbf15"
+        },
+        {
+          "bytes": 17902644,
+          "path": "assets/foundation/base-male-roundtrip.vrm",
+          "provenance": [
+            {
+              "source": "Base_Male / reconstructed Blender source",
+              "sourceLicense": {
+                "attributedAuthor": "VRoid Project",
+                "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0.",
+                "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "publisher": "hecko",
+                "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "url": "https://opengameart.org/sites/default/files/base_male.zip",
+                "vrmBytes": 17914788,
+                "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+                "zipBytes": 14825707,
+                "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8"
+              },
+              "sourcePath": "prototype/src/foundation-profiles.js"
+            }
+          ],
+          "reasons": [
+            "Exact foundation body"
+          ],
+          "sha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff"
+        },
+        {
+          "bytes": 49832,
+          "path": "assets/m1b/equipment.json",
+          "provenance": [],
+          "reasons": [
+            "Body equipment catalog"
+          ],
+          "sha256": "baacba8b947cbbc4d4cb5658177e8449a95ff93b80555eedb62f2e0e576b70d2"
+        },
+        {
+          "bytes": 819744,
+          "path": "assets/m1b/m1b-uniform-pants.glb",
+          "provenance": [
+            {
+              "equipmentId": "m1b-uniform-pants",
+              "sourceLicense": {
+                "attributedAuthor": "VRoid Project",
+                "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0.",
+                "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "publisher": "hecko",
+                "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "url": "https://opengameart.org/sites/default/files/base_male.zip",
+                "vrmBytes": 17914788,
+                "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+                "zipBytes": 14825707,
+                "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8"
+              },
+              "sourcePath": "prototype/public/assets/m1b/equipment.json"
+            }
+          ],
+          "reasons": [
+            "Startup outfit: m1b-uniform-pants"
+          ],
+          "sha256": "e4e213c9eed7912ff7fa75b81c957b7e944036ffb81cdcbd63813c11bd7e168c"
+        },
+        {
+          "bytes": 157376,
+          "path": "assets/m1b/m1b-uniform-shoes.glb",
+          "provenance": [
+            {
+              "equipmentId": "m1b-uniform-shoes",
+              "sourceLicense": {
+                "attributedAuthor": "VRoid Project",
+                "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0.",
+                "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "publisher": "hecko",
+                "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "url": "https://opengameart.org/sites/default/files/base_male.zip",
+                "vrmBytes": 17914788,
+                "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+                "zipBytes": 14825707,
+                "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8"
+              },
+              "sourcePath": "prototype/public/assets/m1b/equipment.json"
+            }
+          ],
+          "reasons": [
+            "Startup outfit: m1b-uniform-shoes"
+          ],
+          "sha256": "3e855c7f39a183ab44b8aef3ac92898f6ebc36a7cbc0e6ccfdd485b85607fe2f"
+        },
+        {
+          "bytes": 795852,
+          "path": "assets/m1b/m1b-uniform-shorts-v1.glb",
+          "provenance": [
+            {
+              "equipmentId": "m1b-uniform-shorts-v1",
+              "sourceLicense": {
+                "attributedAuthor": "VRoid Project",
+                "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0.",
+                "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "publisher": "hecko",
+                "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "url": "https://opengameart.org/sites/default/files/base_male.zip",
+                "vrmBytes": 17914788,
+                "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+                "zipBytes": 14825707,
+                "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8"
+              },
+              "sourcePath": "prototype/public/assets/m1b/equipment.json",
+              "sourceSpec": "assets-source/m1b/shorts/spec.json"
+            }
+          ],
+          "reasons": [
+            "Selected outfit: m1b-uniform-shorts-v1"
+          ],
+          "sha256": "c8a1afd0742cbb99302abc107673744751a8cfd77c6c89df039b068054a947d0"
+        },
+        {
+          "bytes": 2762452,
+          "path": "assets/m1b/m1b-uniform-top.glb",
+          "provenance": [
+            {
+              "equipmentId": "m1b-uniform-top",
+              "sourceLicense": {
+                "attributedAuthor": "VRoid Project",
+                "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0.",
+                "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "publisher": "hecko",
+                "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "url": "https://opengameart.org/sites/default/files/base_male.zip",
+                "vrmBytes": 17914788,
+                "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+                "zipBytes": 14825707,
+                "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8"
+              },
+              "sourcePath": "prototype/public/assets/m1b/equipment.json"
+            }
+          ],
+          "reasons": [
+            "Startup outfit: m1b-uniform-top"
+          ],
+          "sha256": "393a2a97e9a933c4f8170720cf1d5792a18f282166abf7e5ffbba0d0de1fc32c"
+        },
+        {
+          "bytes": 1286,
+          "path": "assets/material-recipes/m1b-shorts-cloth-v4-review1.json",
+          "provenance": [
+            {
+              "equipmentId": "m1b-uniform-shorts-v1",
+              "sourceLicense": {
+                "attributedAuthor": "VRoid Project",
+                "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0.",
+                "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "publisher": "hecko",
+                "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "url": "https://opengameart.org/sites/default/files/base_male.zip",
+                "vrmBytes": 17914788,
+                "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+                "zipBytes": 14825707,
+                "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8"
+              },
+              "sourcePath": "prototype/public/assets/m1b/equipment.json"
+            }
+          ],
+          "reasons": [
+            "Selected garment material: m1b-uniform-shorts-v1"
+          ],
+          "sha256": "6307ada57e83d74a34305708e747f452c9bde9f4b18dc4caea150f83d9d32824"
+        },
+        {
+          "bytes": 9195,
+          "path": "assets/motion/m1c/dance-imports.json",
+          "provenance": [],
+          "reasons": [
+            "Startup dance catalog"
+          ],
+          "sha256": "600f7ab75fce550f71d9be5f9240e83f6b58945d67804555feddfe1acf2d67da"
+        },
+        {
+          "bytes": 739436,
+          "path": "assets/motion/m1c/dance-source-reference.glb",
+          "provenance": [
+            {
+              "licenseBoundary": "CC0-1.0 source; project technical choreography derivative",
+              "motionId": "ual1-dance-reference",
+              "origin": "Unmodified Quaternius Dance_Loop reference",
+              "sourcePath": "prototype/public/assets/motion/m1c/dance-imports.json"
+            }
+          ],
+          "reasons": [
+            "Startup dance ual1-dance-reference"
+          ],
+          "sha256": "b864ec5f440929133787791884e645a0bc73c323d107c9a9ef9937b4f1ca9744"
+        },
+        {
+          "bytes": 2984076,
+          "path": "assets/motion/m1c/dance-technical-v1.glb",
+          "provenance": [
+            {
+              "licenseBoundary": "CC0-1.0 source; project technical choreography derivative",
+              "motionId": "dance-technical-once-v1",
+              "origin": "Original technical choreography, UAL1 idle reference/rig; not professional dance or mocap",
+              "sourcePath": "prototype/public/assets/motion/m1c/dance-imports.json"
+            }
+          ],
+          "reasons": [
+            "Startup dance dance-technical-once-v1"
+          ],
+          "sha256": "2d785287de3c0187c76ed90ae6e0b76fed3008cb1a7a2ac75065720d3885304e"
+        },
+        {
+          "bytes": 4543566,
+          "path": "assets/motion/m1c/frozen-rokoko-30s-v1/rokoko-5359146-male-arm-local-v1.motion.json",
+          "provenance": [
+            {
+              "licenseBoundary": "Existing frozen project target export; Pexels reference is not CC0. No raw video/FBX redistribution. This installation makes no new commercial, provider API, or bulk-motion license claim.",
+              "motionId": "rokoko-5359146-30s-arm-local-v1",
+              "origin": "Single bounded arm adaptation, two windows only; not user accepted; original retained.",
+              "sourcePath": "prototype/public/assets/motion/m1c/dance-imports.json"
+            }
+          ],
+          "reasons": [
+            "Startup exact target dance rokoko-5359146-30s-arm-local-v1"
+          ],
+          "sha256": "5fe55028a0c48e76ec6a506475656f9486512c86c1fdd4b1bea0226300c50702"
+        },
+        {
+          "bytes": 4543583,
+          "path": "assets/motion/m1c/frozen-rokoko-30s-v1/rokoko-5359146-male-v1.motion.json",
+          "provenance": [
+            {
+              "licenseBoundary": "Existing frozen project target export; Pexels reference is not CC0. No raw video/FBX redistribution. This installation makes no new commercial, provider API, or bulk-motion license claim.",
+              "motionId": "rokoko-5359146-30s-v1",
+              "origin": "Frozen original Rokoko/Pexels 5359146 target export; user accepted this recorded example as a usable video-to-motion result, with arm-contact limitations.",
+              "sourcePath": "prototype/public/assets/motion/m1c/dance-imports.json"
+            }
+          ],
+          "reasons": [
+            "Startup exact target dance rokoko-5359146-30s-v1"
+          ],
+          "sha256": "1510d4470965b6ce651c08a7bfb830abbdf34794f06175d50b9a822b34a371bf"
+        },
+        {
+          "bytes": 1566668,
+          "path": "assets/motion/m1c/greeting/greeting-wave-left-v1.glb",
+          "provenance": [
+            {
+              "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+            },
+            {
+              "sourcePath": "prototype/public/assets/motion/m1c/greeting/gesture-import.json"
+            }
+          ],
+          "reasons": [
+            "On-demand greeting"
+          ],
+          "sha256": "eec4ef8ab2fb073f7674cc6e839cbad7aea6931e4b19e8e70c0ee46c5fda2d06"
+        },
+        {
+          "bytes": 965540,
+          "path": "assets/motion/m1c/jog-ordinary-derived-v1.glb",
+          "provenance": [
+            {
+              "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+            }
+          ],
+          "reasons": [
+            "Startup jog model"
+          ],
+          "sha256": "6ec251d7611f22c6bf918d3401fcf438a8f2bc7b72f2826047dea8beef15c9e5"
+        },
+        {
+          "bytes": 1503,
+          "path": "assets/motion/m1c/jog-ordinary-derived-v1.profile.json",
+          "provenance": [
+            {
+              "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+            }
+          ],
+          "reasons": [
+            "Startup jog profile"
+          ],
+          "sha256": "2df4d6b86227b6bce60a5ea7ba97a982d974448044a46b903e413bd243e75ec0"
+        },
+        {
+          "bytes": 7618436,
+          "path": "assets/motion/UAL1_Standard.glb",
+          "provenance": [
+            {
+              "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+            }
+          ],
+          "reasons": [
+            "Startup shared motion library"
+          ],
+          "sha256": "69591853d817488edaa8fd9bf8fc1d821eaeaf789f8627b3cd23b41c4ed67997"
+        }
+      ],
+      "id": "d03-male-b",
+      "materialRecipes": [
+        {
+          "additionalTextureObjects": 0,
+          "declaredMaterialClones": 2,
+          "equipmentId": "m1b-uniform-shorts-v1",
+          "id": "m1b-shorts-cloth-v4-review1",
+          "path": "assets/material-recipes/m1b-shorts-cloth-v4-review1.json",
+          "sha256": "6307ada57e83d74a34305708e747f452c9bde9f4b18dc4caea150f83d9d32824",
+          "sourceMaps": "shared with original garment material"
+        }
+      ],
+      "models": [
+        {
+          "assetExcesses": [
+            {
+              "actual": 139111768,
+              "limit": 100663296,
+              "metric": "rgba8MipBytes"
+            }
+          ],
+          "class": "body",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 17902644,
+              "images": 24,
+              "jointSlots": 134,
+              "materials": 15,
+              "maxImageDimension": 2048,
+              "maxInfluences": 4,
+              "maxJointsPerSkin": 67,
+              "morphAccessorBytes": 1332288,
+              "morphTargetsPerPrimitive": 54,
+              "nodeTriangles": 15176,
+              "primitiveVertices": 65634,
+              "primitives": 15,
+              "rgba8MipBytes": 139111768,
+              "skins": 2,
+              "springJoints": 0,
+              "textures": 24,
+              "triangles": 15176,
+              "uniquePositionVertices": 9911
+            }
+          },
+          "id": "body",
+          "path": "assets/foundation/base-male-roundtrip.vrm",
+          "placements": 1,
+          "selected": true,
+          "sha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff"
+        },
+        {
+          "assetExcesses": [],
+          "class": "garment",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 819744,
+              "images": 1,
+              "jointSlots": 9,
+              "materials": 1,
+              "maxImageDimension": 1024,
+              "maxInfluences": 4,
+              "maxJointsPerSkin": 9,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 1624,
+              "primitiveVertices": 1096,
+              "primitives": 1,
+              "rgba8MipBytes": 5592404,
+              "skins": 1,
+              "springJoints": 0,
+              "textures": 1,
+              "triangles": 1624,
+              "uniquePositionVertices": 1096
+            }
+          },
+          "id": "m1b-uniform-pants",
+          "path": "assets/m1b/m1b-uniform-pants.glb",
+          "placements": 1,
+          "selected": false,
+          "sha256": "e4e213c9eed7912ff7fa75b81c957b7e944036ffb81cdcbd63813c11bd7e168c"
+        },
+        {
+          "assetExcesses": [],
+          "class": "garment",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 157376,
+              "images": 1,
+              "jointSlots": 6,
+              "materials": 1,
+              "maxImageDimension": 512,
+              "maxInfluences": 2,
+              "maxJointsPerSkin": 6,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 540,
+              "primitiveVertices": 566,
+              "primitives": 1,
+              "rgba8MipBytes": 1398100,
+              "skins": 1,
+              "springJoints": 0,
+              "textures": 1,
+              "triangles": 540,
+              "uniquePositionVertices": 566
+            }
+          },
+          "id": "m1b-uniform-shoes",
+          "path": "assets/m1b/m1b-uniform-shoes.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "3e855c7f39a183ab44b8aef3ac92898f6ebc36a7cbc0e6ccfdd485b85607fe2f"
+        },
+        {
+          "assetExcesses": [],
+          "class": "garment",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 795852,
+              "images": 1,
+              "jointSlots": 7,
+              "materials": 2,
+              "maxImageDimension": 1024,
+              "maxInfluences": 4,
+              "maxJointsPerSkin": 7,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 928,
+              "primitiveVertices": 802,
+              "primitives": 2,
+              "rgba8MipBytes": 5592404,
+              "skins": 1,
+              "springJoints": 0,
+              "textures": 1,
+              "triangles": 928,
+              "uniquePositionVertices": 802
+            }
+          },
+          "id": "m1b-uniform-shorts-v1",
+          "path": "assets/m1b/m1b-uniform-shorts-v1.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "c8a1afd0742cbb99302abc107673744751a8cfd77c6c89df039b068054a947d0"
+        },
+        {
+          "assetExcesses": [
+            {
+              "actual": 22719144,
+              "limit": 16777216,
+              "metric": "rgba8MipBytes"
+            }
+          ],
+          "class": "garment",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 2762452,
+              "images": 2,
+              "jointSlots": 10,
+              "materials": 2,
+              "maxImageDimension": 2048,
+              "maxInfluences": 4,
+              "maxJointsPerSkin": 10,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 2096,
+              "primitiveVertices": 1476,
+              "primitives": 2,
+              "rgba8MipBytes": 22719144,
+              "skins": 1,
+              "springJoints": 0,
+              "textures": 2,
+              "triangles": 2096,
+              "uniquePositionVertices": 1476
+            }
+          },
+          "id": "m1b-uniform-top",
+          "path": "assets/m1b/m1b-uniform-top.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "393a2a97e9a933c4f8170720cf1d5792a18f282166abf7e5ffbba0d0de1fc32c"
+        }
+      ],
+      "outfitIndex": 2,
+      "recordSha256": "54d71596fd4f2bd37c9920f81a7885930ba0bd6bd2269e9a97ac579751a556cb",
+      "revision": 1,
+      "selectedCost": {
+        "aggregateExcesses": [],
+        "scope": "selected-look",
+        "totals": {
+          "colliders": 0,
+          "externalImageBytes": 0,
+          "fileBytes": 21618324,
+          "images": 28,
+          "jointSlots": 157,
+          "materials": 20,
+          "mergedExternalImageBytes": 0,
+          "morphAccessorBytes": 1332288,
+          "nodeTriangles": 18740,
+          "placedNodeTriangles": 18740,
+          "primitiveVertices": 68478,
+          "primitives": 20,
+          "rgba8MipBytes": 168821416,
+          "skins": 5,
+          "springJoints": 0,
+          "standaloneEncodedImageBytes": 0,
+          "textureObjects": 28,
+          "textures": 28,
+          "triangles": 18740,
+          "uniquePositionVertices": 12755
+        }
+      },
+      "standaloneImages": [],
+      "startupAndSelectedCost": {
+        "aggregateExcesses": [],
+        "scope": "startup-and-selected-models",
+        "totals": {
+          "colliders": 0,
+          "externalImageBytes": 0,
+          "fileBytes": 22438068,
+          "images": 29,
+          "jointSlots": 166,
+          "materials": 21,
+          "mergedExternalImageBytes": 0,
+          "morphAccessorBytes": 1332288,
+          "nodeTriangles": 20364,
+          "placedNodeTriangles": 20364,
+          "primitiveVertices": 69574,
+          "primitives": 21,
+          "rgba8MipBytes": 174413820,
+          "skins": 6,
+          "springJoints": 0,
+          "standaloneEncodedImageBytes": 0,
+          "textureObjects": 29,
+          "textures": 29,
+          "triangles": 20364,
+          "uniquePositionVertices": 13851
+        }
+      },
+      "status": "over-budget",
+      "unsupportedActions": [
+        "native-rokoko-5359146-30s-v2"
+      ]
+    }
+  ],
+  "schema": "zbgs-character-record-budget-result-v1",
+  "sourceCommit": "55d363fbb2fae96e3b2e571a4f00de825545f537",
+  "status": "over-budget",
+  "sumAcrossSelectedActors": {
+    "placedNodeTriangles": 134248,
+    "rgba8MipBytes": 609931256,
+    "textureObjects": 116
+  },
+  "temporaryAggregateLimits": {
+    "fileBytes": 67108864,
+    "ordinaryPCPerformance": "unmeasured",
+    "rgba8MipBytes": 268435456,
+    "status": "temporary-unmeasured",
+    "textureObjects": 96
+  }
+}
