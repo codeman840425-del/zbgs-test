@@ -1,0 +1,83 @@
+{
+  "schema": "axial-head-postreadback-source-v1",
+  "methodId": "m2-axial-head-readback-v1",
+  "inputs": {
+    "sourceContract": {
+      "path": "assets-source/m2-face-target-contract-v1/generated/source-male.json",
+      "sha256": "9f89671cfba1febc4ecc74f5922e78e75b1c23c8e67e386a1219d20a8fb8c87a"
+    },
+    "inventory": {
+      "path": "evidence/m2-axial-export-seam-review-v1/source-index-inventory.json",
+      "sha256": "51f938f9c604e01020db9d95a7b987bd336741c5172ffa610059345cb35532b9"
+    },
+    "oldPureHelpers": {
+      "path": "scripts/m2-head-attachment-readback-v1/readback.py",
+      "sha256": "a45058f2d9644e88bd7518bddb198ce417a148470bfe1ca71198a502032f7f84"
+    },
+    "head": {
+      "path": "scripts/m2-representative-head-cage-v1/head.py",
+      "sha256": "3d19e820102562813714e2a9e4d19a18842effb12e8a0715d3cc36de92d2774a"
+    },
+    "segment": {
+      "path": "scripts/m2-hairstyle-v1/check-head-space.py",
+      "sha256": "3b51291499b17bfe756a4e1760522bd6117362bdb8b34ac989e1b5609695b2a8"
+    },
+    "common": {
+      "path": "scripts/m2-head-volume-slim-v1/common.py",
+      "sha256": "f6fead75bcd8fe1fd2cd6cea22592b1fa87cdccda5d2db2875789608c02de0dc"
+    },
+    "neckSourceLabels": {
+      "path": "assets-source/m2-head-volume-domain-v1/generated/endpoint-records.json",
+      "sha256": "0b8a30c6d4eb9971ac80c5fa880cbc98fb0619260d2ae6b759a549e824c8f005"
+    },
+    "frameSource": {
+      "path": "assets-source/m2-head-volume-domain-v1/generated/domain.npz",
+      "sha256": "9f1966b378832f31ed0c201a8fe5fdd74a660d06689b78e6ae51a23c41879824"
+    },
+    "functionSpec": {
+      "path": "assets-source/m2-axial-shape-function-v1/spec.json",
+      "sha256": "8d6c138dfd61ec01d39158104dd8bc94c10d837f3353ce92bab0e6634ee9aa8f"
+    },
+    "coefficientAudit": {
+      "path": "evidence/m2-axial-shape-function-audit-v1/result.json",
+      "sha256": "cd953c45352fa3e79652a53f791125fc1e8e71f6134959f72e43d94c6afe507d"
+    },
+    "producerRecords": {
+      "path": "assets-source/m2-axial-head-evaluation-v1/prepared/endpoint-records.json",
+      "sha256": "7fe8cee1ae6bddab0c7efea9c73122c00807a0ddd9d43145eb1bcb8dcae7c3cb"
+    },
+    "producerMasks": {
+      "path": "assets-source/m2-axial-head-evaluation-v1/prepared/fixed-source-masks.json",
+      "sha256": "e711b7bf69278e27fb2acf32c7a68fa00463fc6c278d97ec34604d0f356118f9"
+    },
+    "evaluationAudit": {
+      "path": "evidence/m2-axial-head-evaluation-audit-v1/result.json",
+      "sha256": "58321fc546b32fa56868ce9ab531e38465c7d343151e8c2e671c3e3517f1659b"
+    }
+  },
+  "coefficients": {
+    "male-long-lean-v2": {
+      "path": "assets-source/m2-axial-shape-function-v1/generated/male-long-lean-v2/curves.json",
+      "sha256": "f5b7b656eacebcadeeed39b1ef7855ee9b37bb85f203313fd723df4089c77a1d"
+    },
+    "male-round-stocky-v2": {
+      "path": "assets-source/m2-axial-shape-function-v1/generated/male-round-stocky-v2/curves.json",
+      "sha256": "e69be5a1b6822c3c19a8ff91daec54223d84dc8de16b0ff1a81f48268d46e183"
+    }
+  },
+  "evaluationSpec": {
+    "path": "assets-source/m2-axial-head-evaluation-v1/spec.json",
+    "sha256": "93c8802e359a3655a81a3308f0f42f2eb05486d5809a0f332dc089851a0fa5d8"
+  },
+  "evaluationMethodId": "m2-axial-head-evaluation-v1",
+  "candidateReportSchema": "axial-head-evaluation-result-v1",
+  "successStatus": "axial-head-numerical-candidate-only",
+  "allowedRequests": [
+    "male-long-lean-v2",
+    "male-round-stocky-v2"
+  ],
+  "fixedToleranceM": 2e-06,
+  "minimumGJacobianDeterminant": 0.12,
+  "maximumHalfwidthErrorM": 0.002,
+  "policy": "Prepare only until producer passes numerical gates and root selects explicit candidate execution. Old SLIM method SHA/status/tet metrics never authorize this entry."
+}

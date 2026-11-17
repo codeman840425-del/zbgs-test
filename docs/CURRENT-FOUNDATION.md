@@ -31,7 +31,7 @@ evaluation将保存完整source/mapped/Float32 base+delta、新G实际J、原fix
 
 ## 并行接缝与尚未完成项
 
-m2-axial-head-readback-v1已完成prepare+13项合成QA，新spec pin后核对再执行。root已授权在独审/QA/pin齐后直接单次运行两例各55原strict，未将执行授权当作结果。其合同为：显式新schema/spec/曲线/独审身份，复用原contacts/segment_hits和55原strict baseline；拒旧SLIM身份、缺点、虚构Body targets及失败候选。未获数值候选时不实际求交；现已获两例数值候选，等待真实strict结果。m2-axial-head-export-v1由asset准备有界接缝，不改原bake/normal_map字节；strict未过不得实际导出。
+m2-axial-head-readback-v1已完成prepare+13项合成QA，新spec pin后核对再执行。root已授权在独审/QA/pin齐后直接单次运行两例各55原strict，未将执行授权当作结果。其合同为：显式新schema/spec/曲线/独审身份，复用原contacts/segment_hits和55原strict baseline；拒旧SLIM身份、缺点、虚构Body targets及失败候选。真实strict已完成：lean55/55无新增，round三状态新增6pair失败且不导出；详见m2-axial-head-readback-v1及round-contact-diagnosis。round微米级交段并非可见穿透深度，不当作严重视觉判断。m2-axial-head-export-v1已仅导出identity和lean，复用原bake/normal_map，lean83f4907f3943940b90a8876ed79496b20476f0d38ecf31414fb8b94f3bacb8f9；属性/作者N与54NORMAL读回过。独立10混合审查有一个happy.65+blink1+oh.66新增口内pair，原门与已知缺陷保留，实际视觉仍待验。
 
 导出接缝审查m2-axial-export-seam-review-v1已完成，只读报告及inventory。应复用已有bake/normal_map，处理旧generator、zip截短和就地缓存风险，不造第二套导出器。几何法线必须为新表面退化/方向检查计算；着色法线须保作者风格，不能简单面积平均覆盖（原N与面积N最大差84°/113°）。可按实际J逆转置传输原作者N，endpoint N再减base；需identity方向/实际光照与glTF morph语义验收。原54面部targets只有POSITION，无NORMAL，不能错误保留旧几何法线或宣称shader自动完成。
 
@@ -41,9 +41,11 @@ m2-axial-head-readback-v1已完成prepare+13项合成QA，新spec pin后核对�
 
 ## 备份与协作
 
-最新已核远端89a118364493b80db100eb1b1d99839cce0c951a，含轴向官方研究、函数系数/独审和完整源/导出接缝审查；回执assets-source/m2-axial-shape-function-v1/remote-backup.json。evaluation/readback仍在制作，未包含在该备份；此前band失败及独审已随c7ffecd2备份。
+最新已核远端4a5e7901d5392d5fe80fd5d0971c263561f0f04b，含完整源求值/raw/独审以及此前89a官方研究、函数系数和导出接缝审查；回执assets-source/m2-axial-head-evaluation-v1/remote-backup.json。真实strict与export尚在进行，未包含在该备份；此前band失败及独审已随c7ffecd2备份。
 
-当前代理已知requested配置：asset_budget=gpt-6.1-sol/high，导出接缝准备；face_target_feasibility=gpt-6-astra/high，evaluation独审已完成；http_transport_review=gpt-6.1-sol/high，新G真实55状态后验。每次派工记录evidence/subagent-explicit-dispatch-2026-11-16.json；followup不改配置。真实provider与桌面hook拦截未独立暴露，不声称验证。
+当前接续：m2-axial-head-equipment-v1四原男装备真实适配已完成，top/tie392点改变，裤/短裤/鞋全G/Jidentity；forearm按新源重算。http正准备m2-axial-head-runtime-v1生成发布器与独立配置，暂未写public/src或替换4196。root准备了qa-m2-axial-head-room.cjs但未运行；待资产/独审固定后从exact commit构建，用同房间front/side近景、1×混合讲话、走停/坐起和保存恢复检查候选，不借旧运行结果。
+
+当前代理已知requested配置：asset_budget=gpt-6.1-sol/high，装备已完成；face_target_feasibility=gpt-6-astra/high，export/混合独审收尾；http_transport_review=gpt-6.1-sol/high，既有房间候选注册。每次派工记录evidence/subagent-explicit-dispatch-2026-11-16.json；followup不改配置。真实provider与桌面hook拦截未独立暴露，不声称验证。
 
 角色侧本包CPU，GPU/录屏/重导出窗口当前空闲。公司副总工最新台面钟source18880ef/build2dd87df94b61、72.60秒录像已通知结束释放；仅公司侧交付声明，未核角色集成。公司dirty/untracked不动、不stage，不git add -A。
 

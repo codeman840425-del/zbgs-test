@@ -1,0 +1,60 @@
+"""Bounded one-shot export monitor; numeric worker stays in the pinned venv."""
+import argparse
+import json
+import os
+from pathlib import Path
+import subprocess
+import time
+
+import psutil
+
+from adapter import BASE, ROOT, io, require
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--execute-once', action='store_true', required=True)
+parser.add_argument('--request', required=True)
+args = parser.parse_args()
+folder = BASE / 'execution'
+require(not folder.exists(), 'Preserve first export execution receipt')
+folder.mkdir()
+command = [str(ROOT / 'experiments/tools/slim-core-2.6.3/.venv/Scripts/python.exe'), '-B',
+    str(Path(__file__).with_name('export.py')), '--execute-once', '--request', args.request]
+start, peak, maximum_single, stopped = time.monotonic(), 0, 0, None
+with (folder / 'execution.log').open('wb') as log:
+    process = subprocess.Popen(command, stdout=log, stderr=subprocess.STDOUT,
+        env={**os.environ, 'OMP_NUM_THREADS': '2', 'OPENBLAS_NUM_THREADS': '2', 'MKL_NUM_THREADS': '2'})
+    parent = psutil.Process(process.pid)
+    while process.poll() is None:
+        children = [parent]
+        try:
+            children += parent.children(recursive=True)
+        except psutil.NoSuchProcess:
+            pass
+        rss, single_limit = 0, False
+        for child in children:
+            try:
+                value = child.memory_info().rss
+                rss += value
+                maximum_single = max(maximum_single, value)
+                single_limit |= value > 3221225472
+            except psutil.NoSuchProcess:
+                pass
+        peak = max(peak, rss)
+        if single_limit or rss > 3221225472 or time.monotonic()-start > 600:
+            stopped = '600s-or-3GiB-process-tree-budget'
+            for child in reversed(children):
+                try:
+                    child.kill()
+                except psutil.NoSuchProcess:
+                    pass
+            break
+        time.sleep(.05)
+    code = process.wait(timeout=15)
+result = {'schema': 'axial-head-export-execution-v1', 'exitCode': code, 'stop': stopped,
+    'seconds': time.monotonic()-start, 'peakSampledProcessTreeRssBytes': peak,
+    'maximumSampledSingleProcessRssBytes': maximum_single, 'request': io.ref(ROOT / args.request),
+    'monitorPsutilVersion': psutil.__version__, 'childThreads': 2, 'maxSeconds': 600, 'maxRssBytes': 3221225472,
+    'samplingLimit': 'Recursive RSS sum every50ms; shared pages may repeat and instantaneous peaks may be missed.'}
+io.save(folder / 'report.json', result)
+print(json.dumps(result))
+raise SystemExit(2 if code or stopped else 0)

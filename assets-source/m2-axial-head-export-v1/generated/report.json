@@ -1,0 +1,57 @@
+{
+  "schema": "axial-head-export-run-v1",
+  "methodId": "m2-axial-head-export-v1",
+  "status": "export-readback-complete-not-runtime-acceptance",
+  "exportSpec": {
+    "path": "assets-source/m2-axial-head-export-v1/spec.json",
+    "sha256": "d533695d883d73c1c40dc871f2f1347c5467d0f07bfb025712ffe5c25a131a2c"
+  },
+  "requestPlan": {
+    "path": "assets-source/m2-axial-head-export-v1/request.json",
+    "sha256": "a0093ddf329b03bc75897358ef1870fee1bfade6fc32a4b736da501fcea05522"
+  },
+  "cases": [
+    {
+      "sourceRequestId": "identity",
+      "candidateId": "male-axial-head-identity-v1",
+      "status": "actual-container-and-normal-readback-passed-pending-semantic-runtime",
+      "resource": {
+        "path": "assets-source/m2-axial-head-export-v1/generated/male-axial-head-identity-v1.vrm",
+        "sha256": "1278357bfd3c0513af67f3e67760ec3d6063baebc1f5305de76d00a4e39041bf"
+      },
+      "readback": {
+        "allSharedConsumersChecked": 15,
+        "morphConsumerEndpointsChecked": 486,
+        "maximumPositionBakeErrorM": 2.3283064365386963e-10,
+        "maximumNormalBakeError": 0.0,
+        "maximumBaseNormalDifferenceFromOriginal": 0.0,
+        "maximumMorphNormalDelta": 0.0,
+        "binaryPrefixAndOriginalPropertiesPreserved": true,
+        "imagesPreserved": true,
+        "normalsMeaning": "Original authored shading N inverse-transpose by actual saved DG at each P and P+D. Geometric area normals remain a separate diagnostic."
+      }
+    },
+    {
+      "sourceRequestId": "male-long-lean-v2",
+      "candidateId": "male-long-lean-axial-head-v1",
+      "status": "actual-container-and-normal-readback-passed-pending-semantic-runtime",
+      "resource": {
+        "path": "assets-source/m2-axial-head-export-v1/generated/male-long-lean-axial-head-v1.vrm",
+        "sha256": "83f4907f3943940b90a8876ed79496b20476f0d38ecf31414fb8b94f3bacb8f9"
+      },
+      "readback": {
+        "allSharedConsumersChecked": 15,
+        "morphConsumerEndpointsChecked": 486,
+        "maximumPositionBakeErrorM": 1.1826318473439665e-07,
+        "maximumNormalBakeError": 7.541920699186882e-08,
+        "maximumBaseNormalDifferenceFromOriginal": 0.6259087920188904,
+        "maximumMorphNormalDelta": 0.35145679116249084,
+        "binaryPrefixAndOriginalPropertiesPreserved": true,
+        "imagesPreserved": true,
+        "normalsMeaning": "Original authored shading N inverse-transpose by actual saved DG at each P and P+D. Geometric area normals remain a separate diagnostic."
+      }
+    }
+  ],
+  "bodyParametersApplied": false,
+  "runtimeAccepted": false
+}
