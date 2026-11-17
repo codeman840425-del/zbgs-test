@@ -60,6 +60,10 @@ function structureMesh(width,height,depth,color) {
   const mesh=new THREE.Mesh(new THREE.BoxGeometry(width,height,depth),new THREE.MeshStandardMaterial({color,roughness:.9}));
   mesh.receiveShadow=true;return mesh;
 }
+function effectivelyVisible(object) {
+  for(let node=object;node;node=node.parent)if(!node.visible)return false;
+  return true;
+}
 
 // Presentation/provider only: no actor creation, movement, task or lease implementation.
 export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog,templates=defaultTemplates,visibleFloorId,maxRealtimeLights=2,assetLibrary,mirrorPreflight,mirrorRenderProfile='single-512-v1'}={}) {
@@ -331,7 +335,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
       ceiling.visible=Boolean(focused===region.id&&local&&local.y>.05&&local.y<WALL_HEIGHT-.05&&
         Math.abs(local.x)<region.bounds.width/2-.05&&Math.abs(local.z)<region.bounds.depth/2-.05);
     }
-    const eligible=target.lights.filter(l=>!focused||l.roomId===focused).sort((a,b)=>a.id.localeCompare(b.id));
+    const eligible=target.lights.filter(l=>(!focused||l.roomId===focused)&&effectivelyVisible(l.light)).sort((a,b)=>a.id.localeCompare(b.id));
     const enabled=new Set(eligible.filter(l=>l.desired>0).slice(0,maxRealtimeLights));
     for(const light of target.lights)light.light.intensity=enabled.has(light)?light.desired:0;
     target.root.updateMatrixWorld(true);

@@ -1,4 +1,5 @@
 // Fixed tabletop mirror function. Geometry/plane outlines remain separately verified.
+import {isMakeupWallMirrorResource,validateMakeupWallMirrorResource} from './makeup-wall-mirror-data.js';
 const object=v=>v&&typeof v==='object'&&!Array.isArray(v);
 const exact=(v,keys)=>object(v)&&Object.keys(v).sort().join(',')===[...keys].sort().join(',');
 const normalized=v=>Array.isArray(v)?v.map(normalized):object(v)?Object.fromEntries(Object.keys(v).sort().map(k=>[k,normalized(v[k])])):v;
@@ -7,6 +8,7 @@ export const MAKEUP_LIGHT={kind:'spot',color:'#fff4df',position:[0,.585,.065],ta
 export const MAKEUP_STATE_SCHEMA={on:{type:'boolean'},intensity:{type:'number',min:0,max:10}};
 export const MAKEUP_STATE_SEMANTICS={on:'makeup-local-light-enabled-v1',intensity:'makeup-local-light-candela-v1'};
 export function validateMakeupMirrorResource(r,fail,path=r.id) {
+  if(isMakeupWallMirrorResource(r)){validateMakeupWallMirrorResource(r,fail,path);return;}
   const active=r.mountRole==='makeup-mirror'||r.mirrorSurface?.schema==='makeup-mirror-v1';
   if(!active) {
     if(r.mirrorPanels!==undefined||r.makeupNodes!==undefined||r.makeupLamp!==undefined)

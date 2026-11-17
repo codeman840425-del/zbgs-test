@@ -31,7 +31,7 @@ export function describeFacilityFunction(resource) {
     ...(resource.movingProfile!==undefined?{movingProfile:resource.movingProfile}:{}),
     capacity, clearance, clockDisplay:normalized(resource.clockDisplay??null),
     mirrorSurface:normalized(resource.mirrorSurface??null),
-    ...(resource.mountRole==='makeup-mirror'?{light:normalized(resource.light??null)}:{}),
+    ...(['makeup-mirror','makeup-mirror-wall'].includes(resource.mountRole)?{light:normalized(resource.light??null)}:{}),
     informationSurface:normalized(resource.informationSurface??null), informationContent:normalized(resource.informationContent??null),
     state: {fields: stateFields, schema: normalized(resource.stateSchema ?? null), semantics: normalized(resource.stateSemantics ?? null)},
   };

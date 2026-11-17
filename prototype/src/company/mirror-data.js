@@ -3,7 +3,7 @@ const object=v=>v&&typeof v==='object'&&!Array.isArray(v);
 const exact=(v,keys)=>object(v)&&Object.keys(v).sort().join(',')===[...keys].sort().join(',');
 export function validateMirrorResource(r,fail,path=r.id) {
   validateMakeupMirrorResource(r,fail,path);
-  if(r.mountRole==='makeup-mirror')return;
+  if(['makeup-mirror','makeup-mirror-wall'].includes(r.mountRole))return;
   if(r.mirrorSurface===undefined) {
     if(r.mirrorNodes!==undefined||r.mirrorShape!==undefined)fail('invalid-mirror-contract',path,'Mirror mappings require a fixed reflection contract');
     return;

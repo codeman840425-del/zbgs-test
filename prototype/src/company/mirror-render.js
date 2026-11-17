@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import {Reflector} from 'three/addons/objects/Reflector.js';
+import {isMakeupWallMirrorResource,validateMakeupWallMirrorResource} from './makeup-wall-mirror-data.js';
 
 const noop = () => {};
 const FRAME_INTERVAL_MS = 1000 / 30;
@@ -64,7 +65,9 @@ function exactKeys(value, keys) {
 
 /** Validate all faces before marking meshes or allocating any reflection target. */
 export function createMirrorBindings(resource, parts, id = resource?.id, renderProfile = 'single-512-v1') {
-  if (resource?.mirrorSurface?.schema !== 'makeup-mirror-v1') {
+  const wall=isMakeupWallMirrorResource(resource);
+  if(wall)validateMakeupWallMirrorResource(resource,(code,path,message)=>{throw failure(code,path,message);},id);
+  if (!wall&&resource?.mirrorSurface?.schema !== 'makeup-mirror-v1') {
     const binding = createMirrorBinding(resource, parts, id, renderProfile);
     return binding ? [binding] : [];
   }
@@ -72,7 +75,7 @@ export function createMirrorBindings(resource, parts, id = resource?.id, renderP
   const invalid = message => failure('invalid-mirror-binding',id,message);
   const contract = resource.mirrorSurface, panels = resource.mirrorPanels;
   if (!exactKeys(contract,['schema','profile','maxFaces']) || contract.profile !== 'single-512-v1' || contract.maxFaces !== 3 ||
-      !Array.isArray(panels) || ![1,3].includes(panels.length) || resource.mountRole !== 'makeup-mirror')
+      !Array.isArray(panels) || ![1,3].includes(panels.length) || resource.mountRole !== (wall?'makeup-mirror-wall':'makeup-mirror'))
     throw invalid('Makeup mirrors require the common three-face contract and one or three baked panels');
   const expectedIds = panels.length === 3 ? ['center','left','right'] : ['center'];
   const namedParts = [...(parts?.values() || [])], surfaces = new Set(), names = new Set();
@@ -88,7 +91,8 @@ export function createMirrorBindings(resource, parts, id = resource?.id, renderP
         panel.node !== `makeup-face-${panel.id}` || panel.backNode !== `makeup-back-${panel.id}` ||
         names.has(panel.id)) throw invalid('Each makeup panel requires a unique stable face and its own named back');
     names.add(panel.id);
-    const position = panel.id === 'left' ? [-.14,.365,0] : panel.id === 'right' ? [.14,.365,0] : [0,.365,0];
+    const x=panel.id==='left'?-.14:panel.id==='right'?.14:0;
+    const position = wall ? [x,0,.038] : [x,.365,0];
     const yaw = panel.id === 'left' ? Math.PI/6 : panel.id === 'right' ? -Math.PI/6 : 0;
     const surface = parts?.get(panel.node), back = parts?.get(panel.backNode);
     if (!Array.isArray(panel.position) || panel.position.length !== 3 || panel.position.some((v,i) => v !== position[i]) || panel.yaw !== yaw ||

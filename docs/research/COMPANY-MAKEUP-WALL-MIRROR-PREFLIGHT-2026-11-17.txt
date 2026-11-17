@@ -1,0 +1,86 @@
+墙挂化妆镜：已有覆盖核对与有界制作预检
+2026-11-17
+
+核读树F:/gamemake-company-platform-c1，HEAD 7f2a826f0619279a40ae19a6399dfb02fc4aaaf9。当前抽屉安装固定源7f2a826f/build7cbbe588eef1由根代理收尾。本文仅核已有规范、证据、源码和真实GLB，提出后续候选。新模型、运行接入、GPU和恢复仍待后续主包实检。本次读取证据在evidence/company-makeup-wall-mirror-source-research-v1/。
+
+一、确认仍有真实缺口
+
+现行branches.json共107个分支，其中106个confirmed。makeup-mirror-wall明确confirmed，父用途room.wall、mount=wall，pending尺寸.70×.60×.08m，状态文字reflective-on-off。四款为圆镜、带灯镜、拱镜、三折镜，要求墙面安装、真实受限反射、实际局部光和发光面分离。
+
+实际library-catalog为company-facilities@1，共145资源。mirror-round/full/arch/grid@1是.8×1.8×.04m墙挂镜，使用planar-mirror-v1，状态为空且没有light。makeup-mirror-round/lit-frame/arch/tri-fold@1是.70×.60×.16m台面镜，要求直接vanity-table.top安装。另有四个floor-mirror，具有落地支承合同。145项中没有makeup-mirror-wall角色或productionBranch资源。
+
+已读CAPABILITIES、CAPABILITY-AUDIT及COMPANY-C3-INTEGRATION-HANDOFF中的相关记录，未见该独立分支完成记录。当前CAPABILITIES主要记角色M2，不能仅以该文件未出现名称推定公司能力缺失。继续核实际既有证据，墙镜固定93a4a9b7c76f的8组通过覆盖墙面轮廓、反射、恢复和显示；台镜固定5b86b5eede89的6组及独立包4组覆盖台面1/3面反射、补光、两房和恢复。两份原合同明确各自范围。
+
+综合资源、准入代码与原证据，墙安装+固定化妆头部+三折多面+局部灯这一组合仍需实际四款制作和运行。该结论来自上述交叉核对，reusableResources空数组仅作为目录输入。coverage-audit.json保具体资源、原报告路径与检查名。
+
+二、真实源和可复用几何
+
+优先复用已交付makeup-mirror的四个实际头部。真实GLTFLoader读取原文件后，仅排除makeup-base和makeup-post，保留原镜片/厚背板/框、三折铰接件、灯riser/arm和有厚度灯罩。实际source vertices及indices逐网格测量。
+
+四个保留头部的共同Z范围约[-.0379999988,.0769999996]，总深约.115m。该深度由真实灯支架与灯罩给出。三折仍有三种不同法向，不能将侧翼压平以迁就pending.08m。建议将新墙挂安装盒明确修订为width=.70、height=.60、depth=.12m，origin=center，所有实际Z位于[0,.12]。
+
+刚性源适配采用Y减.365、Z加.038，X及尺寸保持。共同镜面基准点变为center[0,0,.038]；三折left[-.14,0,.038]/yaw=π/6，right[.14,0,.038]/yaw=-π/6。有限局部polygons、48段圆片、24段上拱和三折矩形范围沿原制作源，最终轮廓和烘焙Float32实面一同核对。
+
+计算后的原头部实际范围为圆镜X±.192026/Y[-.192026,.230000]，灯框X±.222/Y[-.202,.230000]，拱镜X±.182/Y[-.197,.230000]，三折X±.279806/Y[-.192,.230000]，共同Z约[0,.115]。这些是对原GLB坐标的只读平移计算，未导出新模型。实际source-head测量及每个网格在actual-source-and-wall-candidate.json中。
+
+新增一个共同闭合安装板makeup-wall-mount，候选X±.08、Y±.12、Z[0,.020]，背面Z=0贴墙。四款原central back实际正面三角裁剪到此XY矩形后均覆盖.0384m²；平移后back深度为[.013,.029]，与候选板重叠.007m，候选正体积约.0002688m³。新板按此尺寸制作时可形成真实支承连接，后续仍须读取新GLB确认闭合、接墙和全分量连接。
+
+安装板从各原中央背板接入支承网络，三折两翼沿原真实铰接件连接。原lamp riser/arm和灯罩继续保形，避免重做已验灯位结构。所有部件坐标烘入资源空间，节点/包装恒等；近零Float32余量可沿已证1e-8m归零规则处理。全模型按墙后平面和固定范围检查。
+
+现有普通wall mirror的墙面定位、portal拒绝、剖切绑定和真实反射生命周期可复用。其长镜/圆镜源与.026m平面有自己的功能尺寸，新化妆头部使用明确的新资源身份、平面位置和状态合同。新四款可兼容替换，台面与墙挂之间的安装变化由显式配置操作处理。
+
+三、已下载Kenney原包的适配价值
+
+沿上包已经取得的Kenney Furniture Kit 2.0原ZIP，SHA e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0，包内License.txt明确CC0。此次只读取其中既有bathroomMirror.glb，原字节6792bytes，SHA 940b986894101ea59b50541554b6dc608a22b133057975849259009012984175，保原字节研究副本。
+
+实际loader读为72三角、三材质子网格、一个主模型节点，整体约.30134×.43463×.1444源跨度。glass材质透明度.5、roughness=1、metallicFactor=0，没有灯节点、实时反射合同或三折平面描述。原包提供DAE/FBX/OBJ/GLB可编辑输入。它可以提供框体样式，本包已有四个完成对应轮廓、灯和三面适配的项目原创源，更适合直接刚性适配。该候选保研究身份，现有原包/许可证在company-makeup-drawer-source-research-v1中；此次没有再次下载素材。
+
+旧项目制作源均为原创参数几何/solid-color材质，Three0.187.0及GLTFExporter/Loader/Reflector沿MIT。新源应记录原四资源id/version/SHA、原参数与生产器SHA、筛选部件、刚性适配、共同安装板和源许可，复用原材质。源参数真实修改后导出，其他三款字节保持的验收继续适用。
+
+按当前原头部计数加一个12三角安装板，候选预算分别约672/100/399/228三角、7/7/7/15mesh，四款各4材质。新板复用frame材质。每件仍锁≤2500三角、≤32mesh、≤4材质；实际新文件回读后记录最终值。
+
+四、拟锁定的墙挂化妆镜合同
+
+候选资源makeup-wall-mirror-round/lit-frame/arch/tri-fold@1，mountRole/productionBranch=makeup-mirror-wall，category=dynamic、mount=wall、mounting={origin:'center',width:.7,height:.6,depth:.12}，usePoints=[]，无地面阻挡。设施直接parent为room/area，沿现有墙面内侧平面、四分之一yaw、真实墙段和门洞准入。
+
+采用有界schema makeup-wall-mirror-v1，mirrorSurface={schema:'makeup-wall-mirror-v1',profile:'single-512-v1',maxFaces:3}。mirrorPanels继续为id/node/backNode/position/yaw/polygons，固定center或center/left/right集合，节点名沿原四头部，三个平面位置/角度如第二节。makeupNodes候选{mount:'makeup-wall-mount',lamp:'makeup-lamp'}，makeupLamp={node:'makeup-lamp',maxEmissiveIntensity:1.5}。安装板属于实体支承，反射条目保持固定1或3面。
+
+根代理已明确本预检技术选择，复用台镜on/intensity灯光语义。stateDefaults={on:true,intensity:5}，boolean on与number intensity[0,10]；语义仍makeup-local-light-enabled-v1及makeup-local-light-candela-v1。旧registry的reflective-on-off是待定候选文字，新合同须显式映射为灯状态和按可见性/预算工作的真实反射。关闭灯后继续真实反射，0强度局部光输出为0。
+
+刚性适配后四款实际光配置共同为spot、color='#fff4df'、position=[0,.22,.103]、target=[0,.065,.758]、distance=1.5、angle=.55、penumbra=.6，decay=2、castShadow=false。方向和距离保留原源，灯与target均挂设施root随墙yaw/world变换。灯罩emissiveIntensity仍on?intensity/10*1.5:0。严格准入/兼容比较包含整个light固定字段，受光证明使用非发光物体。
+
+五、宿主预算及确切共同接缝
+
+沿当前一个活动owner、该owner最多三面同时真实反射、≤30Hz、每主帧最多3pass、常态≤3target、旧+候选预热峰值≤6target。普通墙/落地镜的旧宿主默认maxFacesPerMirror=1，新预览已经显式采用3。legacy各面ID和默认语义保持对应资源合同。质量仍512/0、1024/0、1024/4三档，HalfFloat与真实FBO/GL/shader门、异常宿主renderer重建路线继续使用。
+
+mirror-render.js当前只在已知makeup-mirror-v1分支接受1/3面，数据及几何也固定台面base/post。新wall schema需要明确的有限分派及本节固定平面适配，再交同一createPlaneBinding/controller；旧控制器已按真实planePosition/yaw判断法向并沿祖先visible释放隐藏owner。不得静默舍弃侧翼或把三面更新记成一个pass。
+
+所有镜灯与既有fill-light继续共用maxRealtimeLights默认2。源码发现新墙灯路径的一处必要接缝，尚未运行验证。render.js的applyPresentation依据wallHidden把墙挂facility.root.visible设false，但灯名额eligible目前只按room和desired筛选。新增wall+light资源后，隐藏墙上的真实light会随root消失，而名额仍可能占用，抑制其他可见灯。
+
+该最小修改归prototype/src/company/render.js。应让灯的同一有效显示条件同时决定实际intensity和名额候选，结合房间聚焦、墙段隐藏与有效祖先可见性；隐藏墙灯实际intensity=0并退出名额池，saved state及desired保留，显示恢复后再稳定按ID入池。候选preflight也消费相同presentation结果。
+
+最小实际验收为同房墙镜灯、台镜灯及既有fill-light共至少3盏，共享2名额；隐藏墙前2盏输出、隐藏后被遮墙灯输出为0且后序可见灯进入，saved on/intensity字节保持。再核room/building/切层/回来、灯off与0强度、实际非发光表面RGB、剖切后三折目标释放及状态恢复。此接缝为计划项，未写成已通过。
+
+数据/导入归mirror-data.js的新增wall固定分派及独立makeup-wall-mirror-data.js；actual GLB新门可放makeup-wall-mirror-geometry.js，由asset-library调用，保原台镜/墙镜门。appearance-contract.js当前仅对makeup-mirror角色纳入light，需增加确切makeup-mirror-wall分支。document已有wall父/边界/portal准入可复用。新四款在同一既有catalog/样例/观看入口登记，后续制作可沿build-makeup-wall-mirror.mjs，专业参数仍由agent处理。
+
+六、两输入候选及实际最小出口
+
+7×5.25m房间的北墙内侧Z=-2.525，输入A墙镜room-local position[-1,1.145,-2.525]、yaw0，完整垂向盒Y[.845,1.445]。台体room-local[-1,0,-1.875]、yaw0，距墙法向.65m；配对椅[-.98,0,-1.325]、yawπ；侧柜沿既有相对[1,0,-.35]得room-local[0,0,-2.225]。
+
+该.65m法向位置为保留实际侧柜完整运动footprint而选，侧柜保守后沿离墙.025m，全开前沿仍离台前reserve约.005m。灯实际世界点约[-1,1.365,-2.422]、target[-1,1.21,-1.767]；灯到座位中心法向距离约1.097m，在固定1.5m范围内。该数值只核空间与光向，角色脸部受光留C3。
+
+输入B使用另一独立同尺寸房间的西墙，镜room-local[-3.4,1.145,.5]、yawπ/2；台体[-2.75,0,.5]、yawπ/2；椅[-2.2,0,.48]、yaw3π/2；侧柜[-3.1,0,-.5]、yawπ/2。灯实际root变换后约[-3.297,1.365,.5]，target[-2.642,1.21,.5]，光和各反射法向转为朝房间+X。
+
+墙镜、台体、侧柜及椅都是各自room的直接子设施。旧台面镜通过新输入显式移除，墙镜安装到真实房间墙。台体移动不应隐式搬墙镜；整个准备区需要转向时由配置同事务明确移动各独立设施。不同房间保存独立ID及非默认灯状态，沿同一入口完成四款换款与恢复。候选坐标计算用已有纯composeTransform，记录在suggested-layout-calculations.json；新资源尚未按这些坐标运行。
+
+最小制作出口是原源选择/参数修改→四个真实墙挂GLB与闭合安装板→独立loader几何/数据门→实际运行四款及墙面换向→各款独立关闭进程恢复→固定源码/完整依赖独立重建与正常1×录像。先以圆镜和三折验证新墙板连接、1/3面真实平面、灯的墙yaw和隐藏名额，再完成灯框与拱形。至少一款真实允许参数改导出，另三件模型字节不变，import无写入，--check不读取evidence。
+
+坏例涵盖back穿墙/浮墙、超包络、板与曲背板断连、虚假薄背板、框或新增板遮镜、翼面共面/法向错误、原base/post误留、透明镜片/重复同向外表面、灯或target偏移/非法值/颜色、wrong parent/墙线/yaw/高度/portal、挂墙隐藏名额不释放、质量/目标/着色器失败以及候选迟到。每例保旧文档/场景/存档；GPU私有异常仍沿已验宿主重建恢复。
+
+尝试预算为一次基于真实原源的实现和小样，加一轮有真实失败依据的修正。同因两轮无新证据或改善时保失败并重新定位。新墙资源、旧资源回归、CPU/实际GPU、普通电脑与C3分别记录证据。本预检不改变角色M2、C3或普通电脑验收范围。
+
+七、证据和许可身份
+
+coverage-audit.json记录107分支、145实际catalog及相关CAP/原固定运行证据。actual-source-and-wall-candidate.json记录四原GLB的实际索引顶点、所有保留mesh、候选变换、各面和光位、安装板的真实背板三角覆盖计算。kenney-mirror-inspection.json及原GLB研究副本记录已下载外部候选的72三角、材质和缺少的功能映射。source-pins.json记录核读源码/合同/参数/许可证/原资源身份。
+
+本次仅落本预检及只读研究证据，新wall资源、runtime和公开构建等待后续明确主包实施。

@@ -1,0 +1,37 @@
+墙挂化妆镜固定制作与运行合同 v1
+2026-11-17。依据 research/COMPANY-MAKEUP-WALL-MIRROR-PREFLIGHT-2026-11-17.txt；本合同定义新制作及准入，不是能力完成声明。
+
+一、身份与安装
+首批 makeup-wall-mirror-{round,lit-frame,arch,tri-fold}@1，mountRole/productionBranch=makeup-mirror-wall，category=dynamic，mount=wall。同功能新外观ID及正整数版本可复用，首批名称用于登记和识别被篡改的已知身份，不作永久白名单。
+mounting={origin:'center',width:.7,height:.6,depth:.12}。米制、+Y向上、+Z朝房内；原点是背面墙接触平面的中心。整个安装盒X±.35、Y±.30、Z[0,.12]，设施scale恒等。usePoints=[]，无地面阻挡。footprint可省略；存在时为{center:[0,0],halfSize:[.35,.06],blocking:false}。
+设施直接parent为room/area，沿现有墙线内侧、四分之一yaw、真实墙段、房间高度和portal拒绝检查。安装变化必须显式改配置，台镜与墙挂普通换外观不兼容。registry原reflective-on-off候选文字在本合同明确落为灯状态，反射依可见性与预算运行。
+
+二、真实源与墙支承
+复用已交付四款台面化妆镜的实际头部，剔除makeup-base/makeup-post。保留原实镜片、闭合厚背板、框、三折真实连接及灯支架/灯罩；X保持，Y减.365、Z加.038，尺寸不缩放。所有Mesh和资产内祖先transform恒等，顶点实际烘入资源空间。
+新GLB读回已定位灯支架接头及三折框的同向重复外表面，本轮允许一次同因接缝修正。灯riser顶截至arm底，arm前截至lamp背，去重叠而保持该组件实体并集；三折三个ring沿左右15°角平分竖直面做miter，形成正面积贴合。pane、back、plane、plate及实际light固定不变。制作provenance须逐件记录这些接缝适配及原源SHA，不能将最终全部头部描述为仅刚体平移保形。初始失败GLB和报告保原身份，旧合同及旧台面资产不改。
+新增闭合厚安装板makeup-wall-mount，X±.08、Y±.12、Z[0,.020]，背面有正面积贴墙。四款原中央背板平移后Z[.013,.029]，安装板须与其形成真实支承连接。三折翼面沿真实连接件连接中央背板，灯和框须连入同一网络。
+实际读回须检查完整包络、闭合厚度、安装板接墙、各部件真实连接、曲轮廓背板实面覆盖、镜片内部不被框或板遮挡、无同向重复外表面及严重穿插。近零Float32边界沿已证1e-8m归零规则处理，不能以宽容差接受破损。不能遗留台面底座/立柱或用透明镜片、共面翼面替代真实结构。新geometry门独立于旧pinned台镜门，旧源/门/证据各保身份。
+四款各目标≤2500三角、≤32mesh、≤4材质。至少一款允许源参数真实修改后重导出，另三款模型字节不变。源许可、原GLB/参数/生产器SHA和刚性适配配方保留，Three r187 GLTFExporter/Loader/Reflector沿MIT。import无写入，--check不依赖evidence。
+
+三、共同镜面和适配
+mirrorSurface={schema:'makeup-wall-mirror-v1',profile:'single-512-v1',maxFaces:3}。
+mirrorPanels每条精确字段为{id,node,backNode,position,yaw,polygons}。round/lit-frame/arch为center一面；tri-fold为center/left/right三面，节点仍为makeup-face-{id}/makeup-back-{id}。center position=[0,0,.038],yaw=0；left=[-.14,0,.038],yaw=PI/6；right=[.14,0,.038],yaw=-PI/6。
+polygons沿原四头部的面内相对平面坐标，有限严格凸CCW；圆/弧分段与实际三角轮廓一致。三个真实平面不能复用中央一幅反射，外观轮廓和面数差异不阻止同功能四款互换，实际几何逐面验证。
+makeupNodes={mount:'makeup-wall-mount',lamp:'makeup-lamp'}；makeupLamp={node:'makeup-lamp',maxEmissiveIntensity:1.5}。不得借台镜schema、base/post或旧mirrorNodes混入其他机制。资源及功能schema的未知字段、错误角色/分支、镜面/灯的未知映射或非法参数在导入和document入口拒绝。
+
+四、实际灯与保存
+light={kind:'spot',color:'#fff4df',position:[0,.22,.103],target:[0,.065,.758],distance:1.5,angle:.55,penumbra:.6}。真实SpotLight沿既有decay=2、castShadow=false，灯与target同挂设施root，随墙yaw和room变换。颜色固定暖白，不声明可调色温。
+stateDefaults={on:true,intensity:5}；stateSchema={on:{type:'boolean'},intensity:{type:'number',min:0,max:10}}；stateSemantics={on:'makeup-local-light-enabled-v1',intensity:'makeup-local-light-candela-v1'}。on只开关灯，关灯仍反射；0强度无局部输出。灯罩emissiveIntensity=on?intensity/10*1.5:0，实际非发光物体受光与灯罩发光分别验证。
+所有镜灯和既有fill-light共享maxRealtimeLights默认2。房间聚焦、墙段隐藏与有效祖先visible共同决定实际灯是否入名额池，wallHidden灯实际intensity=0且不占名额，desired与保存状态保持。恢复显示后按稳定设施ID重新分配；显示抑制不写回on/intensity。实际无阴影局部光仍有穿墙限制，C3才核角色受光。
+保存沿原状态/资源pin/prepare/commit/关闭恢复链，反射贴图与GPU对象不入存档。不同房间保独立ID与状态。
+
+五、共用反射预算和旧行为
+createMirrorBindings沿有限wall schema适配后复用createPlaneBinding和同一controller。每面ownerId为设施ID，面ID稳定；几何先反变换到真实平面，再将Reflector按position/yaw放回，祖先可见性与真实法向一致。
+一个owner最多三面、≤30Hz、每主帧最多配置的面数pass；旧默认maxFacesPerMirror=1，显式三面宿主为3。资源超过宿主预算明确拒绝，不能静默丢翼或降档。常态≤3 target、候选交接≤6；旧单面常态1/交接2。统计明确区分owner、face、pass和target。
+旧wall/floor/台镜接口、质量512/0、1024/0、1024/4、HalfFloat、真实FBO/GL/shader门、整组失败释放/保旧、幂等销毁及renderer-reset-required路线继续有效。不做递归镜中镜，隐藏墙后镜组由同一可见性规则释放目标。CPU替身不代替实际GPU证明。
+
+六、最小出口
+先圆镜和三折完成源适配/实际墙板连接、数据/几何门、共用1/3面反射及隐藏灯预算，再完成另两款。两输入采用下述北墙和东墙方案，墙镜、台体、侧柜和椅保持room/area直接子设施，联合变换由同事务显式提交。普通搬台体不暗移墙镜。
+正式输入A为7×5.25m房北墙镜[-1,1.145,-2.525]、yaw0，台[-1,0,-1.875]。输入B为另一房东墙镜[3.4,1.145,.5]、yaw3PI/2，台[2.75,0,.5]、同yaw；原西墙z=.5候选覆盖真实连通门洞offset0/width1.4，故本轮以东墙输入替换，保留预检原计算身份。配对椅按台体clearance.seat与台变换compose；本包配置直接复用化妆台样件，不强加抽屉包。镜实例ID为makeup-wall/primary与secondary，观看layout为makeupWallMirrors和makeupWallMirrorAlternate。
+四款逐个换款及各自独立关闭恢复，核墙yaw、灯和target、真实三折视差、on/off/0强度、两房/楼层/回来、同房至少3灯共用2名额、隐藏墙释放灯名额与反射目标。坏安装、门洞、几何、schema/role/未知字段/光语义/坏资源、shader/target和迟到候选均保旧场景、文档及存档字节。
+固定源码独立检出构建、完整依赖重建、正常1×录像及远备沿当前交付约定。普通电脑性能、C3受光与人物实际使用分别按证据记录。尝试预算一次实现加一次有根因的修正；两轮同因无新证据或改善则保失败并重新定位，不扫参或降低验收。
