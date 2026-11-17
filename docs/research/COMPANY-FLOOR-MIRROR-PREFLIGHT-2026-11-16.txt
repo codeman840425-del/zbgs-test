@@ -1,0 +1,86 @@
+公司平台落地镜有界预检
+2026-11-16。本文记录下一包候选输入与实现接缝，仅新增本文。已只读核对分支、墙镜生产与运行合同、落地信息板合同、源参数及现有源码，未制作落地镜、未改运行代码或资源、未运行浏览器或 GPU。本次工程核对基线为 5ec74d800b98d4eb732676ce8cd524bfc2af13d0，墙镜后续固定候选身份与验收以主包交付记录为准，落地镜各项仍需本包实际验证。
+
+本包建议只完成 floor-mirror 的圆镜、全身镜、拱镜、分格镜四种真实落地资源。输入为固定墙镜四款的参数、生成器与 GLB 身份，以及落地信息板已实现的底部原点、实体底座/立柱和静态阻挡机制。产物为一个固定落地镜合同、四款可编辑生产源与实际 GLB、同一公司运行链的两布局、损坏拒绝/换款/保存恢复/单目标成本证据。一次实现加一轮有具体失败依据的修正，同因两轮无新证据或改善时重新定位。本文中的尺寸和连接方法全部是首轮候选，需实际制作、回读和场景验证后锁定。
+
+branches.json 将 floor-mirror 列为 confirmed，mount 为 floor-surface，parent 为 room.floor，state 为 static-reflective，机制依赖为 wall-floor-mount、mirror-reflection、save-restore。四款最小造型为圆镜、全身镜、拱镜、分格镜，现有 .8×1.8×.04 m 尺寸仍是 verification=pending，reusableResources 为空。该 .04 m 深度足以容纳已制作镜板；有真实地面支承的完整物体还需要足深的底座。候选合同应显式登记总深度 .60 m，并在实际通过后更新分支事实，不能把伸到 .04 m 以外的脚架遗漏在安装与阻挡包络之外。
+
+建议候选资源固定如下。单位为米，原点为底部中心，+Y 上、+Z 镜面正向。四款共享功能与安装规格，几何坐标在导出前直接烘入模型，设施实例只有平移与四分之一 yaw。
+
+```
+category                         decor
+mount                            floor-surface
+mountRole / productionBranch      floor-mirror
+mounting                         {origin:'bottom',width:.8,height:1.8,depth:.6}
+完整模型包络                     x[-.4,.4], y[0,1.8], z[-.3,.3]
+footprint                        {center:[0,0],halfSize:[.4,.3],blocking:true}
+mirrorSurface                    {schema:'planar-mirror-v1',profile:'single-512-v1',position:[0,.92,.026]}
+mirrorNodes                      {face:'mirror-surface',back:'mirror-back',base:'mirror-base',post:'mirror-post'}
+mirrorShape                      {polygons:[有限逆时针凸轮廓，XY为资源实际局部坐标]}
+stateDefaults                    {}
+usePoints                        []
+```
+
+镜片、背板和框体沿墙镜的真实形状整体在顶点中加 .92 m 的 Y 偏移，Z 仍保持镜片 .026、背板 [0,.012]、框体 [.012,.04]。镜片节点及其资源祖先继续为 identity，不能用向上平移的镜片父组绕过当前变换规则。mirrorShape 的每个 XY 顶点同步平移并按最终 Float32 顶点登记。现有生产已出现 double 轮廓与 Float32 框边界不一致的数值边缘，因此应继续让轮廓、镜片和框内边使用同一最终坐标。
+
+选 .92 m 镜片中心的几何依据是给长镜下缘与底座留出明确空间。全身镜可反射面 y=.08 至 1.76，.028 m 框宽下外轮廓约为 y=.052 至 1.788，位于 1.8 m 总高内。圆镜保留 .70 m 真直径，镜面 y=.57 至 1.27，.022 m 框宽下背板底部约 .548 m。圆形保持等半径，四款不通过实例非均匀缩放凑共同包络。这里的数值来自当前参数的几何计算，最终偏移、轮廓、总高与接触仍须按实际 GLB 顶点核查。
+
+共同核心支承建议复用落地信息板的实体制作与六面核查方法，采用以下固定候选。
+
+```
+mirror-base   闭合长方体 .24×.06×.38，中心 [0,.03,0]，真实底面 y=0
+mirror-post   闭合长方体 .08×.52×.04，中心 [0,.32,-.005]，y=.06 至 .58
+mirror-back   固定墙镜的实际外轮廓闭合厚背板，Y加.92，z[0,.012]
+连接关系      post底端接base顶面，具有正面积XZ接触
+              post上端与back具有真实正体积交叠
+```
+
+上述 post 的 z 范围为 [-.025,.015]，与背板 [0,.012] 有厚度交叠，且仍处于镜片后方。圆镜是共同核心最关键的连接样件，其圆背板下缘比长镜高，post 顶部必须实际进入圆背板。可在生产时用 x约[-.035,.035]、y约[.56,.575]、z约[.001,.011] 的小体积作为候选连接见证，按圆背板真实凸轮廓和棱柱厚度核实其在 post 与 back 内，而不能只比较两个 AABB。长镜、拱镜和分格镜也逐款核实连接。该方法只证明网格连续支承与接地，不推定家具抗倾倒、配重、重心或真实物理稳定性。
+
+四款保留已经制作的独立镜片形状，并可在共同核心以外增加少量真实支承差异。新增部分保持闭合正体积，全部纳入总包络和 footprint，前方部件应低于镜面下缘，较高的撑件安排在镜片后方。
+
+- 圆镜保留 96 段、半径 .35 的圆形镜片和 .022 宽闭合环框。候选增加 .68×.04×.46 的低宽底盘，中心 [0,.02,0]，共同 post 从底盘中央接入圆背板。直径和圆度按实际顶点检查。
+- 全身镜保留 .68×1.68 矩形镜片和 .028 宽闭合框。候选增加左右两条 .10×.04×.52 的纵向脚，中心 [±.26,.02,0]，以及 .62×.04×.10 的低横梁连接共同底座，形成实际横脚轮廓。
+- 拱镜保留 .68 宽、1.68 高、48 段真半圆拱顶及 .025 宽框。候选增加左右 .14×.05×.46 的实体脚鞋，中心 [±.25,.025,0]，用 .64×.04×.10 的低横撑连接共同底座。拱顶依然由实际镜片轮廓形成。
+- 分格镜保留 2×3 六个分离凸矩形镜片轮廓，单一 mirror-surface mesh 和共面反射目标，外框宽 .026、实体格条宽 .025。候选增加 .72×.04×.50 的下层台和 .60×.02×.40 的上层台，中心分别 [0,.02,0] 与 [0,.05,0]，形成真实阶梯底台。
+
+这些附加底盘参数可按首轮样件的具体缺陷修正，共同安装、镜面位置与功能签名需维持四款兼容。四款名称已有独立几何机制，生产时无需为名称扩展额外反射算法或交互系统。
+
+父级 room.floor 在现有文档结构中落实为 facility.parentId 指向 room 节点，facility 自身 y=0，room 再归属 floor。现有 floor-surface 准入也支持 area 父级，首包两布局建议均先用 room，若另外采用 area 应补相应真实布局与观看检查。直接挂 floor 节点会被既有 room/area 要求拒绝。document.js 已按 mounting 的 width/depth、四分之一 yaw 和区域边界 .1 m 留距校验平面安装，blocking 资源还有世界高度接地校验。这些现有规则可直接用于候选。
+
+footprint 用 [.4,.3] 覆盖镜板、底座和所有支脚的完整 XZ 投影，保守包含支脚之间空隙。asset-library.js 已检查实际模型投影被 footprint 覆盖，document.js 会导出 obstacles 并拒绝同层阻挡重叠，placement.js 用 .25 m 静态角色半径和现有门口/路径检查做准入。首包需实际证明移动/旋转落地镜后障碍同步变化，以及堵门和挤占必经通路的请求失败保旧。该静态检查不构成角色 C3 走近或绕行证据。
+
+几何实现建议只扩展现有 mirror-geometry.js，以 mountRole 选择固定的墙挂或落地规格，将现有硬编码的镜片位置、轮廓边界和完整模型包络集中传入原检查函数。墙挂分支继续对应中心原点、y±.9 与 z[0,.04]；落地分支对应底部原点、y[0,1.8] 与 z±.3。镜片法向与共面检查、凸轮廓裁切、实际三角逐对交叠、空间差集验洞、框背前方遮挡、竖直薄片侵入、有限属性、正向可逆仿射变换和 identity 镜片祖先均沿用。保持已有容差及输入预算，新增分支不放宽这些拒绝条件。
+
+落地支承增加 back/base/post 唯一实际 mesh 映射与彼此独立检查。base/post 采用 information-geometry.js 中现有实际十二三角、六个完整外向面、四角与共享对角线的核查方法，并按落地镜固定尺寸和中心适配。可在两模块之间抽取一个小的无副作用实体核查辅助函数，或在当前包内按相同方法实施，选择以最少改动和两条原分支回归结果为准。背板是圆形、矩形、拱形或分格外轮廓棱柱，须沿现有凸轮廓厚背板闭合与正体积检查，连接核验使用实际轮廓/厚度。落地信息板的长方体背板 AABB 交叠不能直接证明圆背板接上了立柱。
+
+base 底面接地与 post/base 共面正面积接触，在二者完整实体通过后核验。post/back 核验实际正体积交叠。遮挡遍历纳入所有新增支架和底盘三角，覆盖 z≥镜片平面的部分，继续拒绝镜面内部零投影面积竖直薄片。底盘位于镜片下方时不与镜面发生遮挡，镜片后方较高的 post 可以保留。资源包络、真实接地与连续支承是三个独立检查结果，不能只让一个总包围盒通过。
+
+数据校验建议在 mirror-data.js 为 floor-mirror 增加精确固定分支，检查 bottom mounting、blocking footprint、固定 mirrorSurface 与四个节点映射，stateDefaults 仍为空。mirrorShape 只作外观适配，轮廓本身可以不同。appearance-contract.js 已比较 mirrorSurface、mount、mounting、footprint、坐标和状态，因此同分支四款可按现有 replace-resource 保留实例 ID、parentId、transform 和 state。墙挂与落地使用不同 mountRole、原点及 footprint，跨安装方式应走显式移除/添加或后续迁移流程。旧墙镜资源版本和旧存档含义沿当前合同回归。
+
+运行继续使用 mirror-render.js 的 createMirrorBinding 和同一个宿主 createMirrorController。当前 createMirrorBinding 将 position 限定为 [0,0,.026]，eligible 也直接构造该位置的平面锚点。这两处都需接入已按资源分支验证的 position，落地使用 [0,.92,.026]。绑定时复制镜片 geometry 并减去完整 position，再将 Reflector 放回完整 position；激活前后用于朝向/剔除的世界锚点和几何平面须一致。镜片 +Z 经设施 yaw 后成为世界法向。共享控制器的递归排除、事务 GPU 预热、异常恢复与宿主帧准入保持同一路径。
+
+floor-surface 没有 wallBinding。当前 render.js 对非聚焦房间的设施隐藏详细 visual，显示阻挡 proxy，控制器沿实际祖先 visible 判定是否可反射。落地镜在墙体 cutaway 时可以继续可见，镜中应反映宿主当前已呈现的剖切场景。零反射检查应使用落地镜详细模型真正被隐藏、切到另一楼层或 building 模式的情况，不能把墙镜随所属墙隐藏的行为套到落地镜。关闭重开、切层和重新聚焦后应从当前宿主场景生成新反射。
+
+wall mirror 和 floor-mirror 共享一个活动动态目标预算，不能按安装分支各分配一面活动镜。候选沿现有 single-512-v1，512×512 HalfFloat、MSAA0、不乘 DPR，宿主最多 30Hz、每次主显示帧最多一次反射。超预算镜面显示明确受限的非实时面。事务交接可保留旧目标并分配一个候选目标，峰值 2，实际反射并发仍为 1，预热统计单列。资源丢弃、换款、切层和场景销毁逐实例幂等释放，检查 WebGLRenderTarget 的真实 dispose 事件。
+
+保存仍记录公司文档的资源 ID/version、父级、transform 与空状态，GLB 继续在静态缓存，镜片像素和动态目标不进入存档。四款换入、复制及重开后，各实例重新绑定当前宿主，复制的实例拥有独立目标生命周期，并受同一控制器选出最多一面。绑定/预热失败在提交前释放候选并保持旧文档、旧场景与存档字节。实际 WebGL render 内部抛错沿当前墙镜合同终止该帧并由宿主重建 renderer，公开状态 finally 恢复与内部栈恢复仍分别核验。
+
+最小实施顺序建议先固定候选合同，再做圆镜与全身镜两个核心样件。圆镜用于确认短柱实际接入较高的圆背板，全身镜用于确认长镜底部、底盘与镜面前方关系。二者实际 GLB 回读及损坏拒绝通过后，再沿同参数生成器导出拱镜和分格镜。源参数应记录固定墙镜资源 ID/version/SHA、现有生成器和合同 SHA，新增资产使用 floor-mirror- 前缀及独立生产目录，保留重复导出和源参数修改真实改变模型的证据。
+
+下一包最小验收仍包含以下待运行内容。
+
+- 四款实际 GLB 的有限属性、安装包络、真实凸镜片、共面法向、重复/缺洞、框/格条/支架遮挡、base/post 六面、back 闭合厚度、接地与实际连接。损坏例覆盖缺底面、单顶面凑边界、悬空柱、柱只碰到圆背板 AABB、缩窄 footprint、非有限属性、祖先补偿反转及镜面内部竖直薄片。
+- 四款逐款在共用加载与渲染入口运行，移动、90 度旋转和兼容换款保持实例/状态。两种房间布局至少一处镜面 yaw=90 度，真实动态宿主物与主镜头画面外可被反射相机看到的物体出现在镜中，镜头变化产生正确视差。
+- 四款分别关闭重开，保存字节不含反射像素，重开从当前场景更新。隐藏详细模型、跨楼层和 building 模式释放或停用目标，返回后无旧楼层图像。落地镜与墙镜同场验证总活动目标最多 1。
+- 底座投影阻挡、转向后的区域边界、设施重叠、门口与通路拒绝实际走 prepare/preload/apply 事务，失败后旧场景和存档保留。观看隐藏不改变 obstacles。
+- 注入绑定与预热/渲染异常，核公开 renderer 状态恢复、帧终止/重建路径、候选释放和公司文档保留。重复换款/切层/复制丢弃核目标创建和 dispose，保留正常 1×录像及主 pass、反射 pass、预热、draw calls/triangles 和帧提交指标。
+- 从确切提交独立检出构建与打包，核新旧依赖完整、原墙镜与落地信息板回归、源参数可重建，并由总工继续实际用户路径与视觉验收。
+
+普通电脑性能、真实角色接近与绕行、家具抗倾倒和最终落地镜观感仍待相应实际证据。本文的 .60 m 总深、.92 m 镜片中心、.52 m 柱高、四款低底盘和具体布局均未制作或测定。化妆镜照明、三折/多法向镜面以及其他独立分支维持各自后续合同。
+
+本次主要依据均可在本地复核。墙镜合同为 docs/COMPANY-MIRROR-CONTRACT-v1.txt，SHA256 e41e2a0de8e5ae844798f4e376fc984a44d208bf3949be22d5ee5e46335902c3；落地信息板合同为 docs/COMPANY-FLOOR-INFORMATION-CONTRACT-v1.txt，SHA256 ddb75bab8291e10d998d0dfb8cf3e849b6f3588b4560fb276848e5165021af5c；分支表为 assets-source/company-environment-specs-v1/branches.json，SHA256 7a8b42af3adca66c6ba735d0b6dcd96230249df3adeaacc48c4f1180d11ba499。
+
+工程核对入口还包括 assets-source/company-mirror-v1/parameters.json、assets-source/company-floor-information-v1/parameters.json、prototype/src/company/{mirror-data,mirror-geometry,mirror-render,information-geometry,appearance-contract,asset-library,document,placement,render}.js，以及 docs/research/COMPANY-MIRROR-REFLECTION-RESEARCH-2026-11-16.txt。本次读到的 mirror-geometry.js SHA256 为 1b802ae17cfc95ef7e3d9ed1b74a9b85f94353bce7c38f2ce566b6f0c9354a91，mirror-render.js SHA256 为 2dcb769ac7d0160bb808c71b1fa3ace62c8b37de24b558488ac86e8bc635ad86。
+
+反射一手实现沿锁定 Three.js 0.187.0 的 prototype/node_modules/three/examples/jsm/objects/Reflector.js，许可为同包 LICENSE 的 MIT，版权 2010–2026 three.js authors。其构造器消费平面 geometry、目标宽高与 multisample，实例矩阵决定反射平面。落地安装对官方算法的输入差异仅是已验证局部平面位置与宿主实例矩阵，所需适配集中在现有 binding 的位置校验和 eligible 锚点。参考源码 https://github.com/mrdoob/three.js/blob/r187/examples/jsm/objects/Reflector.js ，许可 https://github.com/mrdoob/three.js/blob/r187/LICENSE 。本次依据已读取的锁定本地源码与现有研究，未新增联网调研、第三方资产或依赖。

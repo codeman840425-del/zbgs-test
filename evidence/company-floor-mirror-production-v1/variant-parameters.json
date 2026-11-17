@@ -1,0 +1,309 @@
+{
+  "id": "company-floor-mirror-v1",
+  "version": 1,
+  "license": "Original project-authored floor supports. Complete original project-authored wall mirror models retained from precisely pinned local resources. No external model or texture. Three.js 0.187.0 is MIT licensed, copyright 2010–2026 three.js authors, with the pinned local LICENSE retained.",
+  "common": {
+    "envelope": {
+      "width": 0.8,
+      "height": 1.8,
+      "depth": 0.6
+    },
+    "footprint": {
+      "center": [
+        0,
+        0
+      ],
+      "halfSize": [
+        0.4,
+        0.3
+      ],
+      "blocking": true
+    },
+    "surface": {
+      "schema": "planar-mirror-v1",
+      "profile": "single-512-v1",
+      "position": [
+        0,
+        0.92,
+        0.026
+      ]
+    },
+    "vertexTranslationY": 0.92,
+    "base": {
+      "name": "mirror-base",
+      "size": [
+        0.24,
+        0.06,
+        0.38
+      ],
+      "position": [
+        0,
+        0.03,
+        0
+      ]
+    },
+    "post": {
+      "name": "mirror-post",
+      "size": [
+        0.08,
+        0.52,
+        0.04
+      ],
+      "position": [
+        0,
+        0.32,
+        -0.005
+      ]
+    },
+    "promptStandard": "Purpose: project-authored free-standing floor mirrors with four real mirror contours, complete wall-mirror frame assemblies and connected physical floor supports. Specification: fixed total envelope .80m x 1.80m x .60m, bottom-centred origin, metres, +Y up and +Z forward. Installation: floor-surface in room/area, identity instance scale, fixed blocking footprint .80m x .60m and empty state/use points. Mirror contract: planar-mirror-v1 / single-512-v1 with face at [0,.92,.026], actual mirror-surface/back/base/post nodes, one coplanar face mesh and one runtime reflection target. Geometry: import the exact original wall GLB, bake +.92m into each Y vertex in Float32, retain original triangle topology and all frame/back/mullion geometry, keep every node identity and shift declared convex contours to the identical final Float32 coordinates. Supports: grounded closed .24 x .06 x .38 base, closed .08 x .52 x .04 post, actual positive-volume contact into convex thick backing, plus distinct solid low support feet. Production: editable parameters, exact source/contract/generator/model SHA256 pins, deterministic CPU GLTFExporter and actual GLTFLoader readback. No baked reflection image, new light, new clock, moving support or physics simulation. Actual host-scene reflection continues through the existing shared runtime."
+  },
+  "mirrors": [
+    {
+      "id": "round",
+      "label": "落地圆镜",
+      "color": "#ad8a4e",
+      "prompt": "The original .70m circular mirror and brass ring above a connected broad low plinth.",
+      "parts": [
+        {
+          "name": "mirror-platform",
+          "size": [
+            0.7,
+            0.04,
+            0.46
+          ],
+          "position": [
+            0,
+            0.02,
+            0
+          ]
+        }
+      ],
+      "baseResource": {
+        "id": "mirror-round",
+        "version": 1,
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/mirror-v1/round/v1/model.glb",
+          "sha256": "93d5322290dba6c3670310fd2519f042801ba46838a8763bc0eab7593c8527ba",
+          "bytes": 123240
+        }
+      },
+      "baseResourcePath": "prototype/public/company-assets/mirror-v1/round/v1/resource.json",
+      "baseResourceSha256": "043b177edbc74a4255120149aa0523a2d4c656898fc04ae8fdd5894dad813d9a",
+      "baseModelPath": "prototype/public/company-assets/mirror-v1/round/v1/model.glb",
+      "baseModelSha256": "93d5322290dba6c3670310fd2519f042801ba46838a8763bc0eab7593c8527ba"
+    },
+    {
+      "id": "full",
+      "label": "落地全身镜",
+      "color": "#303d48",
+      "prompt": "The original .68m by 1.68m full-length rectangular mirror on left/right long feet joined by a real crossbar.",
+      "parts": [
+        {
+          "name": "mirror-foot-left",
+          "size": [
+            0.1,
+            0.04,
+            0.52
+          ],
+          "position": [
+            -0.26,
+            0.02,
+            0
+          ]
+        },
+        {
+          "name": "mirror-foot-right",
+          "size": [
+            0.1,
+            0.04,
+            0.52
+          ],
+          "position": [
+            0.26,
+            0.02,
+            0
+          ]
+        },
+        {
+          "name": "mirror-crossbar",
+          "size": [
+            0.62,
+            0.04,
+            0.1
+          ],
+          "position": [
+            0,
+            0.02,
+            0
+          ]
+        }
+      ],
+      "baseResource": {
+        "id": "mirror-full",
+        "version": 1,
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/mirror-v1/full/v1/model.glb",
+          "sha256": "70f73fec7a76bd3136b038213e76d0c2a3bda69fe8310857c2bf1a42d33ca07d",
+          "bytes": 8256
+        }
+      },
+      "baseResourcePath": "prototype/public/company-assets/mirror-v1/full/v1/resource.json",
+      "baseResourceSha256": "e3a9056f45dbaaf16821997dfb74e009bb33e6eee899c6798946dc94b579d1e8",
+      "baseModelPath": "prototype/public/company-assets/mirror-v1/full/v1/model.glb",
+      "baseModelSha256": "70f73fec7a76bd3136b038213e76d0c2a3bda69fe8310857c2bf1a42d33ca07d"
+    },
+    {
+      "id": "arch",
+      "label": "落地拱镜",
+      "color": "#886447",
+      "prompt": "The original .68m by 1.68m semicircular arch mirror on two shoe-shaped low solid feet joined by a crossbrace.",
+      "parts": [
+        {
+          "name": "mirror-shoe-left",
+          "size": [
+            0.14,
+            0.05,
+            0.46
+          ],
+          "position": [
+            -0.25,
+            0.025,
+            0
+          ]
+        },
+        {
+          "name": "mirror-shoe-right",
+          "size": [
+            0.14,
+            0.05,
+            0.46
+          ],
+          "position": [
+            0.25,
+            0.025,
+            0
+          ]
+        },
+        {
+          "name": "mirror-crossbrace",
+          "size": [
+            0.64,
+            0.04,
+            0.1
+          ],
+          "position": [
+            0,
+            0.02,
+            0
+          ]
+        }
+      ],
+      "baseResource": {
+        "id": "mirror-arch",
+        "version": 1,
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/mirror-v1/arch/v1/model.glb",
+          "sha256": "b3372ff6ee243c8f34518ad09547ef87f72b85b7760e1a91171bd9f25a67dc06",
+          "bytes": 66960
+        }
+      },
+      "baseResourcePath": "prototype/public/company-assets/mirror-v1/arch/v1/resource.json",
+      "baseResourceSha256": "4bc8712a906c44dbecb1c231de3d9216d2cf4ddc2135882dc4bf1f9bfaaa9896",
+      "baseModelPath": "prototype/public/company-assets/mirror-v1/arch/v1/model.glb",
+      "baseModelSha256": "b3372ff6ee243c8f34518ad09547ef87f72b85b7760e1a91171bd9f25a67dc06"
+    },
+    {
+      "id": "grid",
+      "label": "落地分格镜",
+      "color": "#4b5056",
+      "prompt": "The original six actual coplanar panes and solid grid frame above a connected two-level stepped floor platform.",
+      "parts": [
+        {
+          "name": "mirror-step-lower",
+          "size": [
+            0.72,
+            0.04,
+            0.5
+          ],
+          "position": [
+            0,
+            0.02,
+            0
+          ]
+        },
+        {
+          "name": "mirror-step-upper",
+          "size": [
+            0.6,
+            0.02,
+            0.4
+          ],
+          "position": [
+            0,
+            0.05,
+            0
+          ]
+        }
+      ],
+      "baseResource": {
+        "id": "mirror-grid",
+        "version": 1,
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/mirror-v1/grid/v1/model.glb",
+          "sha256": "b71f70ec86e6715e7a30e015bf58491aa527c96513236987157dfaf0c8b4ea75",
+          "bytes": 21944
+        }
+      },
+      "baseResourcePath": "prototype/public/company-assets/mirror-v1/grid/v1/resource.json",
+      "baseResourceSha256": "90049d84b7bea19e83e189442c3205ab11b01f8a3e07b5269df1964c9bc02747",
+      "baseModelPath": "prototype/public/company-assets/mirror-v1/grid/v1/model.glb",
+      "baseModelSha256": "b71f70ec86e6715e7a30e015bf58491aa527c96513236987157dfaf0c8b4ea75"
+    }
+  ],
+  "dependencyPins": {
+    "functionalContract": {
+      "path": "docs/COMPANY-FLOOR-MIRROR-CONTRACT-v1.txt",
+      "sha256": "15a365476e810480cdd5e360508a7fbfa538fc434d941dabecea9ba555c508f7"
+    },
+    "research": {
+      "path": "docs/research/COMPANY-FLOOR-MIRROR-PREFLIGHT-2026-11-16.txt",
+      "sha256": "0f87e19a5accba81917de5f1fac9ff56e86b747a1bb337265e5a8dd4945032ff"
+    },
+    "wallCollection": {
+      "path": "prototype/public/company-assets/mirror-v1/collection.json",
+      "sha256": "f828de90577a81e30d54ad9f313b3607851fc28b0f7c4f46e151228599905594"
+    },
+    "wallSourceParameters": {
+      "path": "assets-source/company-mirror-v1/parameters.json",
+      "sha256": "666f89f822b776965aaff71db06f439ab0ce383c3f0c91a566f494a8a9ffab33"
+    },
+    "wallGenerator": {
+      "path": "scripts/company-platform/build-mirror.mjs",
+      "sha256": "a7ab4dea0c57a79ea93b3fccae7118f940e255e37a9062eaf21bd5d07bd0b078"
+    },
+    "wallContract": {
+      "path": "docs/COMPANY-MIRROR-CONTRACT-v1.txt",
+      "sha256": "e41e2a0de8e5ae844798f4e376fc984a44d208bf3949be22d5ee5e46335902c3"
+    },
+    "threePackage": {
+      "path": "prototype/node_modules/three/package.json",
+      "sha256": "87f2c99a8718e5fdd6f5e51427fde52c6075f2f698ddf8f7b4e162882df93940"
+    },
+    "threeLicense": {
+      "path": "prototype/node_modules/three/LICENSE",
+      "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+    },
+    "exporter": {
+      "path": "prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+      "sha256": "569793baeba62baeb4ab0b3619b6b1495b45d4b2ba9690430497adb58307bdf2"
+    },
+    "loader": {
+      "path": "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+      "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1"
+    }
+  }
+}

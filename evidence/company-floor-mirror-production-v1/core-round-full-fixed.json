@@ -1,0 +1,305 @@
+{
+  "status": "passed",
+  "scope": "Core pair after the single root-cause correction round",
+  "provenance": {
+    "sourceParameters": "assets-source/company-floor-mirror-v1/parameters.json",
+    "sourceParametersSha256": "90e64d3daf6924e7ec9e62c9265bee154b9cbeeb44de94a576d3a220fac80311",
+    "functionalContractSource": "docs/COMPANY-FLOOR-MIRROR-CONTRACT-v1.txt",
+    "functionalContractSourceSha256": "15a365476e810480cdd5e360508a7fbfa538fc434d941dabecea9ba555c508f7",
+    "generator": "scripts/company-platform/build-floor-mirror.mjs",
+    "generatorSha256": "73aea68cf672beb1f79c208dc8c7f7331d5679520fcf9ca759b9ffc58bb6e7d4",
+    "dependencies": {
+      "functionalContract": {
+        "path": "docs/COMPANY-FLOOR-MIRROR-CONTRACT-v1.txt",
+        "sha256": "15a365476e810480cdd5e360508a7fbfa538fc434d941dabecea9ba555c508f7"
+      },
+      "research": {
+        "path": "docs/research/COMPANY-FLOOR-MIRROR-PREFLIGHT-2026-11-16.txt",
+        "sha256": "0f87e19a5accba81917de5f1fac9ff56e86b747a1bb337265e5a8dd4945032ff"
+      },
+      "wallCollection": {
+        "path": "prototype/public/company-assets/mirror-v1/collection.json",
+        "sha256": "f828de90577a81e30d54ad9f313b3607851fc28b0f7c4f46e151228599905594"
+      },
+      "wallSourceParameters": {
+        "path": "assets-source/company-mirror-v1/parameters.json",
+        "sha256": "666f89f822b776965aaff71db06f439ab0ce383c3f0c91a566f494a8a9ffab33"
+      },
+      "wallGenerator": {
+        "path": "scripts/company-platform/build-mirror.mjs",
+        "sha256": "a7ab4dea0c57a79ea93b3fccae7118f940e255e37a9062eaf21bd5d07bd0b078"
+      },
+      "wallContract": {
+        "path": "docs/COMPANY-MIRROR-CONTRACT-v1.txt",
+        "sha256": "e41e2a0de8e5ae844798f4e376fc984a44d208bf3949be22d5ee5e46335902c3"
+      },
+      "threePackage": {
+        "path": "prototype/node_modules/three/package.json",
+        "sha256": "87f2c99a8718e5fdd6f5e51427fde52c6075f2f698ddf8f7b4e162882df93940"
+      },
+      "threeLicense": {
+        "path": "prototype/node_modules/three/LICENSE",
+        "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+      },
+      "exporter": {
+        "path": "prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+        "sha256": "569793baeba62baeb4ab0b3619b6b1495b45d4b2ba9690430497adb58307bdf2"
+      },
+      "loader": {
+        "path": "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+        "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1"
+      }
+    }
+  },
+  "items": [
+    {
+      "id": "floor-mirror-round",
+      "sha256": "2b4abb6e2eb52e0294a7dfabe3f9ef4b1e10afbd0aa08c8db79afca53ad26470",
+      "bytes": 128940,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "checked": true,
+        "kind": "floor-mirror",
+        "grounded": true,
+        "continuousSupport": true,
+        "supportMeshes": 3,
+        "back": "mirror-back",
+        "base": "mirror-base",
+        "post": "mirror-post",
+        "face": "mirror-surface",
+        "polygons": 1,
+        "faceTriangles": 96,
+        "bodyMeshes": 5,
+        "backingMeshes": 2,
+        "contourArea": 0.3845704068382916,
+        "bounds": {
+          "min": [
+            -0.37201178073883057,
+            0,
+            -0.23000000417232513
+          ],
+          "max": [
+            0.37201178073883057,
+            1.2920117378234863,
+            0.23000000417232513
+          ]
+        },
+        "meshCount": 6,
+        "triangleCount": 1284,
+        "identityAllNodes": true,
+        "originalMeshes": 3,
+        "preservedVertices": 3744,
+        "originalTopologyPreserved": true,
+        "vertexTranslationY": 0.92,
+        "basePostPositiveAreaContact": true,
+        "postBackWitness": {
+          "min": [
+            -0.035,
+            0.56,
+            0.001
+          ],
+          "max": [
+            0.035,
+            0.575,
+            0.011
+          ],
+          "volume": 0.000010500000000000001,
+          "strictlyInsideActualConvexBackAndPost": true,
+          "backingPerimeterVertices": 96
+        },
+        "solids": [
+          {
+            "name": "mirror-base",
+            "min": [
+              -0.11999999731779099,
+              0,
+              -0.1899999976158142
+            ],
+            "max": [
+              0.11999999731779099,
+              0.05999999865889549,
+              0.1899999976158142
+            ],
+            "triangles": 12,
+            "completeOutwardFaces": 6
+          },
+          {
+            "name": "mirror-post",
+            "min": [
+              -0.03999999910593033,
+              0.05999999865889549,
+              -0.02500000037252903
+            ],
+            "max": [
+              0.03999999910593033,
+              0.5799999833106995,
+              0.014999999664723873
+            ],
+            "triangles": 12,
+            "completeOutwardFaces": 6
+          },
+          {
+            "name": "mirror-platform",
+            "min": [
+              -0.3400000035762787,
+              0,
+              -0.23000000417232513
+            ],
+            "max": [
+              0.3400000035762787,
+              0.03999999910593033,
+              0.23000000417232513
+            ],
+            "triangles": 12,
+            "completeOutwardFaces": 6
+          }
+        ],
+        "geometrySha256": "14591729e0a5570df0b300c3644bd65a5e75251b6924fa671a97cf402401e6bc",
+        "externalUris": 0,
+        "textures": 0,
+        "animations": 0
+      }
+    },
+    {
+      "id": "floor-mirror-full",
+      "sha256": "02c3e52f438c20c6a7f8a434ba82a5c8ed0911058d39cc6e7f4ed41f8854e5b8",
+      "bytes": 17428,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "checked": true,
+        "kind": "floor-mirror",
+        "grounded": true,
+        "continuousSupport": true,
+        "supportMeshes": 5,
+        "back": "mirror-back",
+        "base": "mirror-base",
+        "post": "mirror-post",
+        "face": "mirror-surface",
+        "polygons": 1,
+        "faceTriangles": 4,
+        "bodyMeshes": 7,
+        "backingMeshes": 2,
+        "contourArea": 1.1423999864816663,
+        "bounds": {
+          "min": [
+            -0.36800000071525574,
+            0,
+            -0.25999999046325684
+          ],
+          "max": [
+            0.36800000071525574,
+            1.7879999876022339,
+            0.25999999046325684
+          ]
+        },
+        "meshCount": 8,
+        "triangleCount": 112,
+        "identityAllNodes": true,
+        "originalMeshes": 3,
+        "preservedVertices": 156,
+        "originalTopologyPreserved": true,
+        "vertexTranslationY": 0.92,
+        "basePostPositiveAreaContact": true,
+        "postBackWitness": {
+          "min": [
+            -0.035,
+            0.56,
+            0.001
+          ],
+          "max": [
+            0.035,
+            0.575,
+            0.011
+          ],
+          "volume": 0.000010500000000000001,
+          "strictlyInsideActualConvexBackAndPost": true,
+          "backingPerimeterVertices": 4
+        },
+        "solids": [
+          {
+            "name": "mirror-base",
+            "min": [
+              -0.11999999731779099,
+              0,
+              -0.1899999976158142
+            ],
+            "max": [
+              0.11999999731779099,
+              0.05999999865889549,
+              0.1899999976158142
+            ],
+            "triangles": 12,
+            "completeOutwardFaces": 6
+          },
+          {
+            "name": "mirror-post",
+            "min": [
+              -0.03999999910593033,
+              0.05999999865889549,
+              -0.02500000037252903
+            ],
+            "max": [
+              0.03999999910593033,
+              0.5799999833106995,
+              0.014999999664723873
+            ],
+            "triangles": 12,
+            "completeOutwardFaces": 6
+          },
+          {
+            "name": "mirror-foot-left",
+            "min": [
+              -0.3100000023841858,
+              0,
+              -0.25999999046325684
+            ],
+            "max": [
+              -0.20999999344348907,
+              0.03999999910593033,
+              0.25999999046325684
+            ],
+            "triangles": 12,
+            "completeOutwardFaces": 6
+          },
+          {
+            "name": "mirror-foot-right",
+            "min": [
+              0.20999999344348907,
+              0,
+              -0.25999999046325684
+            ],
+            "max": [
+              0.3100000023841858,
+              0.03999999910593033,
+              0.25999999046325684
+            ],
+            "triangles": 12,
+            "completeOutwardFaces": 6
+          },
+          {
+            "name": "mirror-crossbar",
+            "min": [
+              -0.3100000023841858,
+              0,
+              -0.05000000074505806
+            ],
+            "max": [
+              0.3100000023841858,
+              0.03999999910593033,
+              0.05000000074505806
+            ],
+            "triangles": 12,
+            "completeOutwardFaces": 6
+          }
+        ],
+        "geometrySha256": "f031b315e7cca77fcf36f26b80bcf900bac0924477485d21d92f201648583a17",
+        "externalUris": 0,
+        "textures": 0,
+        "animations": 0
+      }
+    }
+  ],
+  "limits": [
+    "CPU only."
+  ]
+}

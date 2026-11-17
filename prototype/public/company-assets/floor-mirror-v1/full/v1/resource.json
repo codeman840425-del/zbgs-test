@@ -1,0 +1,146 @@
+{
+  "id": "floor-mirror-full",
+  "displayName": "落地全身镜",
+  "version": 1,
+  "category": "decor",
+  "mountRole": "floor-mirror",
+  "productionBranch": "floor-mirror",
+  "mount": "floor-surface",
+  "mounting": {
+    "origin": "bottom",
+    "width": 0.8,
+    "height": 1.8,
+    "depth": 0.6
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Bottom centre",
+    "scale": "Identity only"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.4,
+      0.3
+    ],
+    "blocking": true
+  },
+  "mirrorSurface": {
+    "schema": "planar-mirror-v1",
+    "profile": "single-512-v1",
+    "position": [
+      0,
+      0.92,
+      0.026
+    ]
+  },
+  "mirrorNodes": {
+    "face": "mirror-surface",
+    "back": "mirror-back",
+    "base": "mirror-base",
+    "post": "mirror-post"
+  },
+  "mirrorShape": {
+    "polygons": [
+      [
+        [
+          -0.3400000035762787,
+          0.08000002801418304
+        ],
+        [
+          0.3400000035762787,
+          0.08000002801418304
+        ],
+        [
+          0.3400000035762787,
+          1.7599999904632568
+        ],
+        [
+          -0.3400000035762787,
+          1.7599999904632568
+        ]
+      ]
+    ]
+  },
+  "stateDefaults": {},
+  "usePoints": [],
+  "provenance": {
+    "sourceParameters": "assets-source/company-floor-mirror-v1/parameters.json",
+    "sourceParametersSha256": "90e64d3daf6924e7ec9e62c9265bee154b9cbeeb44de94a576d3a220fac80311",
+    "functionalContractSource": "docs/COMPANY-FLOOR-MIRROR-CONTRACT-v1.txt",
+    "functionalContractSourceSha256": "15a365476e810480cdd5e360508a7fbfa538fc434d941dabecea9ba555c508f7",
+    "generator": "scripts/company-platform/build-floor-mirror.mjs",
+    "generatorSha256": "73aea68cf672beb1f79c208dc8c7f7331d5679520fcf9ca759b9ffc58bb6e7d4",
+    "dependencies": {
+      "functionalContract": {
+        "path": "docs/COMPANY-FLOOR-MIRROR-CONTRACT-v1.txt",
+        "sha256": "15a365476e810480cdd5e360508a7fbfa538fc434d941dabecea9ba555c508f7"
+      },
+      "research": {
+        "path": "docs/research/COMPANY-FLOOR-MIRROR-PREFLIGHT-2026-11-16.txt",
+        "sha256": "0f87e19a5accba81917de5f1fac9ff56e86b747a1bb337265e5a8dd4945032ff"
+      },
+      "wallCollection": {
+        "path": "prototype/public/company-assets/mirror-v1/collection.json",
+        "sha256": "f828de90577a81e30d54ad9f313b3607851fc28b0f7c4f46e151228599905594"
+      },
+      "wallSourceParameters": {
+        "path": "assets-source/company-mirror-v1/parameters.json",
+        "sha256": "666f89f822b776965aaff71db06f439ab0ce383c3f0c91a566f494a8a9ffab33"
+      },
+      "wallGenerator": {
+        "path": "scripts/company-platform/build-mirror.mjs",
+        "sha256": "a7ab4dea0c57a79ea93b3fccae7118f940e255e37a9062eaf21bd5d07bd0b078"
+      },
+      "wallContract": {
+        "path": "docs/COMPANY-MIRROR-CONTRACT-v1.txt",
+        "sha256": "e41e2a0de8e5ae844798f4e376fc984a44d208bf3949be22d5ee5e46335902c3"
+      },
+      "threePackage": {
+        "path": "prototype/node_modules/three/package.json",
+        "sha256": "87f2c99a8718e5fdd6f5e51427fde52c6075f2f698ddf8f7b4e162882df93940"
+      },
+      "threeLicense": {
+        "path": "prototype/node_modules/three/LICENSE",
+        "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+      },
+      "exporter": {
+        "path": "prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+        "sha256": "569793baeba62baeb4ab0b3619b6b1495b45d4b2ba9690430497adb58307bdf2"
+      },
+      "loader": {
+        "path": "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+        "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1"
+      }
+    },
+    "license": "Original project-authored floor supports. Complete original project-authored wall mirror models retained from precisely pinned local resources. No external model or texture. Three.js 0.187.0 is MIT licensed, copyright 2010–2026 three.js authors, with the pinned local LICENSE retained.",
+    "prompt": "Purpose: project-authored free-standing floor mirrors with four real mirror contours, complete wall-mirror frame assemblies and connected physical floor supports. Specification: fixed total envelope .80m x 1.80m x .60m, bottom-centred origin, metres, +Y up and +Z forward. Installation: floor-surface in room/area, identity instance scale, fixed blocking footprint .80m x .60m and empty state/use points. Mirror contract: planar-mirror-v1 / single-512-v1 with face at [0,.92,.026], actual mirror-surface/back/base/post nodes, one coplanar face mesh and one runtime reflection target. Geometry: import the exact original wall GLB, bake +.92m into each Y vertex in Float32, retain original triangle topology and all frame/back/mullion geometry, keep every node identity and shift declared convex contours to the identical final Float32 coordinates. Supports: grounded closed .24 x .06 x .38 base, closed .08 x .52 x .04 post, actual positive-volume contact into convex thick backing, plus distinct solid low support feet. Production: editable parameters, exact source/contract/generator/model SHA256 pins, deterministic CPU GLTFExporter and actual GLTFLoader readback. No baked reflection image, new light, new clock, moving support or physics simulation. Actual host-scene reflection continues through the existing shared runtime. Support design: The original .68m by 1.68m full-length rectangular mirror on left/right long feet joined by a real crossbar.",
+    "sourceDesign": "full",
+    "baseResource": {
+      "id": "mirror-full",
+      "version": 1,
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/mirror-v1/full/v1/model.glb",
+        "sha256": "70f73fec7a76bd3136b038213e76d0c2a3bda69fe8310857c2bf1a42d33ca07d",
+        "bytes": 8256
+      }
+    },
+    "baseResourcePath": "prototype/public/company-assets/mirror-v1/full/v1/resource.json",
+    "baseResourceSha256": "e3a9056f45dbaaf16821997dfb74e009bb33e6eee899c6798946dc94b579d1e8",
+    "baseModelPath": "prototype/public/company-assets/mirror-v1/full/v1/model.glb",
+    "baseModelSha256": "70f73fec7a76bd3136b038213e76d0c2a3bda69fe8310857c2bf1a42d33ca07d",
+    "method": "CPU GLTFLoader imports the complete pinned wall-mirror GLB, bakes +.92m Y into every mesh vertex, preserves topology and material, and adds solid baked BoxGeometry core and support parts. Float32 contour coordinates match actual exported vertices."
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/floor-mirror-v1/full/v1/model.glb",
+    "sha256": "02c3e52f438c20c6a7f8a434ba82a5c8ed0911058d39cc6e7f4ed41f8854e5b8",
+    "bytes": 17428
+  }
+}

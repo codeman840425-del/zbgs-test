@@ -1,0 +1,13 @@
+落地镜生产与运行合同 v1（2026-11-16）
+本包验证floor-mirror四款落地安装，依据COMPANY-FLOOR-MIRROR-PREFLIGHT-2026-11-16.txt。墙镜5ec74d80/93a4a9b7c76f保持原资源和语义；不包括化妆镜照明、倾斜/折叠支架或任意物理稳定性。
+
+统一功能：category decor，mount floor-surface，mountRole/productionBranch floor-mirror；metres/+Y/+Z，底部中心原点。mounting {origin:bottom,width:.8,height:1.8,depth:.6}，footprint {center:[0,0],halfSize:[.4,.3],blocking:true}。完整网格x[-.4,.4]/y[0,1.8]/z[-.3,.3]，设施实例y=0、只平移和四分之一yaw。parent为room或area，首样两room布局；不直接挂floor。不缩放实例。
+mirrorSurface={schema:planar-mirror-v1,profile:single-512-v1,position:[0,.92,.026]}。mirrorNodes={face:mirror-surface,back:mirror-back,base:mirror-base,post:mirror-post}。mirrorShape.polygons是资源实际局部XY的有限逆时针凸轮廓。stateDefaults={}，usePoints=[]；无light/clock/information/movingParts/supportSurfaces。功能签名包含安装、阻挡、镜面机制/平面位置；墙与地安装不互作普通换皮。
+
+四款原墙镜镜片/框/背实体沿顶点加.92Y，所有几何最终Float32且轮廓同步，face及祖先identity，不用平移父组绕过实检。圆形仍真直径.70m，长矩.68×1.68m，拱形.68×1.68m，分格2×3共面片单mesh单目标。镜片/框体/背板实际三角检查沿墙镜的共面、+Z、无重叠/缺洞、包络、框/薄片不遮镜以及闭合厚背板。
+共同实体：mirror-base为.24×.06×.38，center[0,.03,0]；mirror-post为.08×.52×.04，center[0,.32,-.005]；mirror-back为各原墙镜真实闭合外轮廓背板、y+.92、z[0,.012]。base/post各12三角六完整外向面，底座底面y=0，post底.06与base顶.06正面积接触。post与指定back必须真实正体积相交，圆背板不能只核AABB。可选共同见证盒x[-.035,.035]/y[.56,.575]/z[.001,.011]应位于两实体内。所有附加脚架同样在总包络内、闭合、接到共同支承，不侵入镜片内部。
+四款附加支承：round低宽底盘.68×.04×.46 center[0,.02,0]；full左右脚.10×.04×.52 center[±.26,.02,0]及横梁.62×.04×.10 center[0,.02,0]；arch脚鞋.14×.05×.46 center[±.25,.025,0]及横撑.64×.04×.10 center[0,.02,0]；grid阶梯底台.72×.04×.50 center[0,.02,0]与.60×.02×.40 center[0,.05,0]。参数可编辑但必须过同合同，不因单件变体放松几何拒绝。
+
+复用同一Reflector绑定和控制器；几何减去完整mirrorSurface.position并将Reflector放回，激活前后世界平面一致。墙/落地混合仍总共1活动目标，512² HalfFloat/MSAA0/≤30Hz，每宿主帧最多1反射。预热保旧期间目标对象峰值2，主pass/反射/预热分别统计。落地镜不随某面墙被剖切就自动隐藏；详细模型隐藏、切层/building才停用/释放。资源/绑定/预热拒绝保旧；未知render异常按墙镜已验宿主重建路线。存档不含目标像素，重开/重新进入须反射当前场景。
+
+最小出口：四实际新GLB、可编辑参数修改重导出/登记；真实接地/柱与圆背板接触及恶意网格拒绝；两room布局含90度旋转、移动/复制/换款、阻挡同步/堵门拒绝、四款独立重开、动态屏幕外宿主物与镜头视差；墙地混合共享预算、切层/隐藏释放与失败保旧；固定源码/独立依赖重建、正常速度录像。CPU不等于角色C3，软件渲染不代表普通机。一次实现加一轮根因修正；同因两轮无新证据先重定位，不降低标准。

@@ -13,9 +13,10 @@ export function mirrorResourceSnapshot() { return {...targetStatistics}; }
 export function createMirrorBinding(resource, parts, id = resource?.id) {
   if (!resource?.mirrorSurface && !resource?.mirrorNodes) return null;
   const surface = parts?.get(resource.mirrorNodes?.face);
-  const position = resource.mirrorSurface?.position;
+  const position = Array.isArray(resource.mirrorSurface?.position) ? [...resource.mirrorSurface.position] : undefined;
+  const expectedPosition=resource.mountRole==='floor-mirror'?[0,.92,.026]:[0,0,.026];
   if (resource.mirrorSurface?.schema !== 'planar-mirror-v1' || resource.mirrorSurface?.profile !== 'single-512-v1' ||
-      !Array.isArray(position) || position.length !== 3 || position.some((value,index) => value !== [0,0,.026][index]) ||
+      !Array.isArray(position) || position.length !== 3 || position.some((value,index) => value !== expectedPosition[index]) ||
       !surface?.isMesh || !surface.parent || !surface.geometry?.getAttribute('position')?.count ||
       surface.position.lengthSq() > 1e-12 || surface.quaternion.angleTo(new THREE.Quaternion()) > 1e-6 ||
       surface.scale.distanceToSquared(new THREE.Vector3(1,1,1)) > 1e-12)
@@ -27,6 +28,7 @@ export function createMirrorBinding(resource, parts, id = resource?.id) {
   surface.userData.companyMirrorSurface = true;
   const binding = {
     id, surface,
+    get planePosition(){return [...position];},
     get reflector() { return reflector; },
     get disposed() { return disposed; },
     get fresh() { return fresh; },
@@ -104,7 +106,7 @@ function eligible(binding, camera, frustum) {
   const mesh = binding.reflector || binding.surface;
   for (let node = mesh; node; node = node.parent) if (!node.visible) return false;
   mesh.updateWorldMatrix(true, false);
-  const point = mesh.parent.localToWorld(new THREE.Vector3(0,0,.026));
+  const point = mesh.parent.localToWorld(new THREE.Vector3(...binding.planePosition));
   const normal = new THREE.Vector3(0,0,1).transformDirection(mesh.parent.matrixWorld);
   const cameraPosition = new THREE.Vector3().setFromMatrixPosition(camera.matrixWorld);
   return cameraPosition.sub(point).dot(normal) > 1e-7 && frustum.intersectsObject(mesh);

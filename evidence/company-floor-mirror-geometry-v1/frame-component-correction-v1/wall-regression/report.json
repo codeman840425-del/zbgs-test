@@ -1,0 +1,1976 @@
+{
+  "status": "passed",
+  "generatedAt": "2026-11-17T06:43:57.407Z",
+  "source": {
+    "geometrySha256": "7a975d5cf9a45f99c01e31c95445d2eccb0efda42f62eaa6947fee6eccf8bf36",
+    "qaSha256": "df15419b80d68d20a6a1cfa17be41a5c7160eb6835da1384556029a9dfa5feba",
+    "contractSha256": "e41e2a0de8e5ae844798f4e376fc984a44d208bf3949be22d5ee5e46335902c3"
+  },
+  "collectionPath": "F:\\gamemake-company-platform-c1\\prototype\\public\\company-assets\\mirror-v1\\collection.json",
+  "checks": [
+    {
+      "name": "unrelated resources skip without scene or side effects",
+      "passed": true
+    },
+    {
+      "name": "missing failure callback rejects",
+      "passed": true
+    },
+    {
+      "name": "valid rectangle with real solid back and frame",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "kind": "mirror",
+        "face": "mirror-surface",
+        "polygons": 1,
+        "faceTriangles": 2,
+        "bodyMeshes": 5,
+        "backingMeshes": 1,
+        "contourArea": 0.84
+      }
+    },
+    {
+      "name": "96-sided circle contour",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "kind": "mirror",
+        "face": "mirror-surface",
+        "polygons": 1,
+        "faceTriangles": 94,
+        "bodyMeshes": 5,
+        "backingMeshes": 1,
+        "contourArea": 0.24612505591887449
+      }
+    },
+    {
+      "name": "separated polygons with one actual face mesh",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "kind": "mirror",
+        "face": "mirror-surface",
+        "polygons": 4,
+        "faceTriangles": 8,
+        "bodyMeshes": 5,
+        "backingMeshes": 1,
+        "contourArea": 0.7616
+      }
+    },
+    {
+      "name": "front fin in declared pane gap remains allowed",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "kind": "mirror",
+        "face": "mirror-surface",
+        "polygons": 4,
+        "faceTriangles": 8,
+        "bodyMeshes": 6,
+        "backingMeshes": 1,
+        "contourArea": 0.7616
+      }
+    },
+    {
+      "name": "geometry strictly behind face remains allowed",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "kind": "mirror",
+        "face": "mirror-surface",
+        "polygons": 1,
+        "faceTriangles": 2,
+        "bodyMeshes": 6,
+        "backingMeshes": 2,
+        "contourArea": 0.84
+      }
+    },
+    {
+      "name": "synthetic / missing face",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mapping",
+        "path": "mirror-geometry-fixture.mirrorNodes.face",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "synthetic / duplicate named face",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mapping",
+        "path": "mirror-geometry-fixture.mirrorNodes.face",
+        "details": {
+          "matches": 2
+        }
+      }
+    },
+    {
+      "name": "synthetic / face is a group",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mapping",
+        "path": "mirror-geometry-fixture.mirrorNodes.face",
+        "details": {
+          "matches": 1
+        }
+      }
+    },
+    {
+      "name": "synthetic / NaN face vertex",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-geometry-fixture",
+        "details": {
+          "mesh": "mirror-surface",
+          "vertex": 0
+        }
+      }
+    },
+    {
+      "name": "synthetic / noncoplanar face",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-geometry",
+        "path": "mirror-geometry-fixture.mirrorNodes.face",
+        "details": {
+          "triangle": 0
+        }
+      }
+    },
+    {
+      "name": "synthetic / reversed triangle",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-geometry",
+        "path": "mirror-geometry-fixture.mirrorNodes.face",
+        "details": {
+          "triangle": 0
+        }
+      }
+    },
+    {
+      "name": "synthetic / degenerate triangle",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-geometry-fixture",
+        "details": {
+          "mesh": "mirror-surface",
+          "triangle": 0
+        }
+      }
+    },
+    {
+      "name": "synthetic / missing triangle leaves spatial hole",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-gap",
+        "path": "mirror-geometry-fixture.mirrorNodes.face",
+        "details": {
+          "polygon": 0,
+          "missingArea": 0.4200000071525574
+        }
+      }
+    },
+    {
+      "name": "synthetic / repeat triangle replaces equal area and leaves hole",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-overlap",
+        "path": "mirror-geometry-fixture.mirrorNodes.face",
+        "details": {
+          "triangles": [
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "name": "synthetic / face index outside vertex buffer",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-geometry-fixture",
+        "details": {
+          "mesh": "mirror-surface",
+          "offset": 0
+        }
+      }
+    },
+    {
+      "name": "synthetic / hidden face ancestor",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-geometry",
+        "path": "mirror-geometry-fixture.mirrorNodes.face",
+        "details": {
+          "node": ""
+        }
+      }
+    },
+    {
+      "name": "synthetic / face local translation",
+      "passed": true,
+      "observed": {
+        "code": "mirror-parent-transform",
+        "path": "mirror-geometry-fixture.mirrorNodes.face",
+        "details": {
+          "node": "mirror-surface"
+        }
+      }
+    },
+    {
+      "name": "synthetic / ancestor translated with compensated children",
+      "passed": true,
+      "observed": {
+        "code": "mirror-parent-transform",
+        "path": "mirror-geometry-fixture.mirrorNodes.face",
+        "details": {
+          "node": "mirror-surface"
+        }
+      }
+    },
+    {
+      "name": "synthetic / resource root rotation",
+      "passed": true,
+      "observed": {
+        "code": "mirror-parent-transform",
+        "path": "mirror-geometry-fixture.mirrorNodes.face",
+        "details": {
+          "node": ""
+        }
+      }
+    },
+    {
+      "name": "synthetic / double ancestor reversals cancel in world",
+      "passed": true,
+      "observed": {
+        "code": "mirror-transform",
+        "path": "mirror-geometry-fixture",
+        "details": {
+          "node": ""
+        }
+      }
+    },
+    {
+      "name": "synthetic / singular ancestor transform",
+      "passed": true,
+      "observed": {
+        "code": "mirror-transform",
+        "path": "mirror-geometry-fixture",
+        "details": {
+          "node": ""
+        }
+      }
+    },
+    {
+      "name": "synthetic / nonfinite ancestor transform",
+      "passed": true,
+      "observed": {
+        "code": "mirror-transform",
+        "path": "mirror-geometry-fixture",
+        "details": {
+          "node": ""
+        }
+      }
+    },
+    {
+      "name": "synthetic / projective local matrix",
+      "passed": true,
+      "observed": {
+        "code": "mirror-transform",
+        "path": "mirror-geometry-fixture",
+        "details": {
+          "node": "mirror-surface"
+        }
+      }
+    },
+    {
+      "name": "synthetic / partial draw range",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-geometry-fixture",
+        "details": {
+          "mesh": "mirror-surface"
+        }
+      }
+    },
+    {
+      "name": "synthetic / nonfinite UV attribute",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-geometry-fixture",
+        "details": {
+          "mesh": "mirror-surface",
+          "vertex": 0
+        }
+      }
+    },
+    {
+      "name": "synthetic / frame exceeds installation envelope",
+      "passed": true,
+      "observed": {
+        "code": "mirror-envelope",
+        "path": "mirror-geometry-fixture",
+        "details": {
+          "mesh": "outside",
+          "vertex": 0,
+          "point": [
+            0.4099999997764826,
+            0.009999999776482582,
+            0.029999999776482583
+          ]
+        }
+      }
+    },
+    {
+      "name": "synthetic / frame reaches mirror center",
+      "passed": true,
+      "observed": {
+        "code": "mirror-surface-occluded",
+        "path": "mirror-geometry-fixture.mirrorShape",
+        "details": {
+          "mesh": "blocker",
+          "triangle": 0,
+          "polygon": 0
+        }
+      }
+    },
+    {
+      "name": "synthetic / slope crosses mirror plane with no interior front vertices",
+      "passed": true,
+      "observed": {
+        "code": "mirror-surface-occluded",
+        "path": "mirror-geometry-fixture.mirrorShape",
+        "details": {
+          "mesh": "sloped-blocker",
+          "triangle": 0,
+          "polygon": 0
+        }
+      }
+    },
+    {
+      "name": "synthetic / enclosing front triangle without mirror interior vertices",
+      "passed": true,
+      "observed": {
+        "code": "mirror-surface-occluded",
+        "path": "mirror-geometry-fixture.mirrorShape",
+        "details": {
+          "mesh": "enclosing-blocker",
+          "triangle": 0,
+          "polygon": 0
+        }
+      }
+    },
+    {
+      "name": "synthetic / coplanar front triangle",
+      "passed": true,
+      "observed": {
+        "code": "mirror-surface-occluded",
+        "path": "mirror-geometry-fixture.mirrorShape",
+        "details": {
+          "mesh": "coplanar-blocker",
+          "triangle": 0,
+          "polygon": 0
+        }
+      }
+    },
+    {
+      "name": "synthetic / vertical fin with zero projected area in mirror interior",
+      "passed": true,
+      "observed": {
+        "code": "mirror-surface-occluded",
+        "path": "mirror-geometry-fixture.mirrorShape",
+        "details": {
+          "mesh": "vertical-blocker",
+          "triangle": 0,
+          "polygon": 0
+        }
+      }
+    },
+    {
+      "name": "synthetic / open back with thickness cannot substitute solid",
+      "passed": true,
+      "observed": {
+        "code": "mirror-back-geometry",
+        "path": "mirror-geometry-fixture"
+      }
+    },
+    {
+      "name": "synthetic / zero-thickness back",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-geometry-fixture",
+        "details": {
+          "mesh": "mirror-back",
+          "triangle": 0
+        }
+      }
+    },
+    {
+      "name": "clockwise polygon",
+      "passed": true,
+      "observed": {
+        "code": "mirror-shape",
+        "path": "mirror-geometry-fixture.mirrorShape.polygons[0]"
+      }
+    },
+    {
+      "name": "concave polygon",
+      "passed": true,
+      "observed": {
+        "code": "mirror-shape",
+        "path": "mirror-geometry-fixture.mirrorShape.polygons[0]"
+      }
+    },
+    {
+      "name": "self intersecting star",
+      "passed": true,
+      "observed": {
+        "code": "mirror-shape",
+        "path": "mirror-geometry-fixture.mirrorShape.polygons[0]"
+      }
+    },
+    {
+      "name": "duplicate contour point",
+      "passed": true,
+      "observed": {
+        "code": "mirror-shape",
+        "path": "mirror-geometry-fixture.mirrorShape.polygons[0]"
+      }
+    },
+    {
+      "name": "nonfinite contour",
+      "passed": true,
+      "observed": {
+        "code": "mirror-shape",
+        "path": "mirror-geometry-fixture.mirrorShape.polygons[0][0]"
+      }
+    },
+    {
+      "name": "overlapping contours",
+      "passed": true,
+      "observed": {
+        "code": "mirror-shape-overlap",
+        "path": "mirror-geometry-fixture.mirrorShape.polygons[1]",
+        "details": {
+          "other": 0
+        }
+      }
+    },
+    {
+      "name": "out of envelope contour",
+      "passed": true,
+      "observed": {
+        "code": "mirror-shape",
+        "path": "mirror-geometry-fixture.mirrorShape.polygons[0][0]"
+      }
+    },
+    {
+      "name": "triangle bridge across separated declared panes",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-outside",
+        "path": "mirror-geometry-fixture.mirrorNodes.face",
+        "details": {
+          "triangle": 0
+        }
+      }
+    },
+    {
+      "name": "face corner extends outside declared contour",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-outside",
+        "path": "mirror-geometry-fixture.mirrorNodes.face",
+        "details": {
+          "triangle": 0
+        }
+      }
+    },
+    {
+      "name": "interior hole despite matching outer bounds",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-gap",
+        "path": "mirror-geometry-fixture.mirrorNodes.face",
+        "details": {
+          "polygon": 0,
+          "missingArea": 0.0016000142335891943
+        }
+      }
+    },
+    {
+      "name": "many individually sub-tolerance duplicate triangles accumulate",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-overlap",
+        "path": "mirror-geometry-fixture.mirrorNodes.face",
+        "details": {
+          "triangles": [
+            3,
+            4
+          ]
+        }
+      }
+    },
+    {
+      "name": "many individually sub-tolerance blockers accumulate",
+      "passed": true,
+      "observed": {
+        "code": "mirror-surface-occluded",
+        "path": "mirror-geometry-fixture.mirrorShape",
+        "details": {
+          "mesh": "tiny-blocker-5",
+          "triangle": 0,
+          "polygon": 0
+        }
+      }
+    },
+    {
+      "name": "non-mesh scene",
+      "passed": true,
+      "observed": {
+        "code": "invalid-mirror-scene",
+        "path": "mirror-geometry-fixture"
+      }
+    },
+    {
+      "name": "wrong fixed reflection plane",
+      "passed": true,
+      "observed": {
+        "code": "mirror-surface-contract",
+        "path": "mirror-geometry-fixture.mirrorSurface"
+      }
+    },
+    {
+      "name": "production GLB / mirror-round",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "kind": "mirror",
+        "face": "mirror-surface",
+        "polygons": 1,
+        "faceTriangles": 96,
+        "bodyMeshes": 2,
+        "backingMeshes": 1,
+        "contourArea": 0.38457039886325894
+      }
+    },
+    {
+      "name": "production GLB mirror-round / missing face",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mapping",
+        "path": "mirror-round.mirrorNodes.face",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-round / duplicate named face",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mapping",
+        "path": "mirror-round.mirrorNodes.face",
+        "details": {
+          "matches": 2
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-round / face is a group",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mapping",
+        "path": "mirror-round.mirrorNodes.face",
+        "details": {
+          "matches": 1
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-round / NaN face vertex",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-round",
+        "details": {
+          "mesh": "mirror-surface",
+          "vertex": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-round / noncoplanar face",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-geometry",
+        "path": "mirror-round.mirrorNodes.face",
+        "details": {
+          "triangle": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-round / reversed triangle",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-geometry",
+        "path": "mirror-round.mirrorNodes.face",
+        "details": {
+          "triangle": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-round / degenerate triangle",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-round",
+        "details": {
+          "mesh": "mirror-surface",
+          "triangle": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-round / missing triangle leaves spatial hole",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-gap",
+        "path": "mirror-round.mirrorNodes.face",
+        "details": {
+          "polygon": 0,
+          "missingArea": 0.004005941540699923
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-round / repeat triangle replaces equal area and leaves hole",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-overlap",
+        "path": "mirror-round.mirrorNodes.face",
+        "details": {
+          "triangles": [
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-round / face index outside vertex buffer",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-round",
+        "details": {
+          "mesh": "mirror-surface",
+          "offset": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-round / hidden face ancestor",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-geometry",
+        "path": "mirror-round.mirrorNodes.face",
+        "details": {
+          "node": "mirror-round"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-round / face local translation",
+      "passed": true,
+      "observed": {
+        "code": "mirror-parent-transform",
+        "path": "mirror-round.mirrorNodes.face",
+        "details": {
+          "node": "mirror-surface"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-round / ancestor translated with compensated children",
+      "passed": true,
+      "observed": {
+        "code": "mirror-parent-transform",
+        "path": "mirror-round.mirrorNodes.face",
+        "details": {
+          "node": "mirror-surface"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-round / resource root rotation",
+      "passed": true,
+      "observed": {
+        "code": "mirror-parent-transform",
+        "path": "mirror-round.mirrorNodes.face",
+        "details": {
+          "node": "AuxScene"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-round / double ancestor reversals cancel in world",
+      "passed": true,
+      "observed": {
+        "code": "mirror-transform",
+        "path": "mirror-round",
+        "details": {
+          "node": "AuxScene"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-round / singular ancestor transform",
+      "passed": true,
+      "observed": {
+        "code": "mirror-transform",
+        "path": "mirror-round",
+        "details": {
+          "node": "AuxScene"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-round / nonfinite ancestor transform",
+      "passed": true,
+      "observed": {
+        "code": "mirror-transform",
+        "path": "mirror-round",
+        "details": {
+          "node": "AuxScene"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-round / projective local matrix",
+      "passed": true,
+      "observed": {
+        "code": "mirror-transform",
+        "path": "mirror-round",
+        "details": {
+          "node": "mirror-surface"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-round / partial draw range",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-round",
+        "details": {
+          "mesh": "mirror-surface"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-round / nonfinite UV attribute",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-round",
+        "details": {
+          "mesh": "mirror-surface",
+          "vertex": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-round / frame exceeds installation envelope",
+      "passed": true,
+      "observed": {
+        "code": "mirror-envelope",
+        "path": "mirror-round",
+        "details": {
+          "mesh": "outside",
+          "vertex": 0,
+          "point": [
+            0.4099999997764826,
+            0.009999999776482582,
+            0.029999999776482583
+          ]
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-round / frame reaches mirror center",
+      "passed": true,
+      "observed": {
+        "code": "mirror-surface-occluded",
+        "path": "mirror-round.mirrorShape",
+        "details": {
+          "mesh": "blocker",
+          "triangle": 0,
+          "polygon": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-round / slope crosses mirror plane with no interior front vertices",
+      "passed": true,
+      "observed": {
+        "code": "mirror-surface-occluded",
+        "path": "mirror-round.mirrorShape",
+        "details": {
+          "mesh": "sloped-blocker",
+          "triangle": 0,
+          "polygon": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-round / enclosing front triangle without mirror interior vertices",
+      "passed": true,
+      "observed": {
+        "code": "mirror-surface-occluded",
+        "path": "mirror-round.mirrorShape",
+        "details": {
+          "mesh": "enclosing-blocker",
+          "triangle": 0,
+          "polygon": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-round / coplanar front triangle",
+      "passed": true,
+      "observed": {
+        "code": "mirror-surface-occluded",
+        "path": "mirror-round.mirrorShape",
+        "details": {
+          "mesh": "coplanar-blocker",
+          "triangle": 0,
+          "polygon": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-round / vertical fin with zero projected area in mirror interior",
+      "passed": true,
+      "observed": {
+        "code": "mirror-surface-occluded",
+        "path": "mirror-round.mirrorShape",
+        "details": {
+          "mesh": "vertical-blocker",
+          "triangle": 0,
+          "polygon": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-round / open back with thickness cannot substitute solid",
+      "passed": true,
+      "observed": {
+        "code": "mirror-back-geometry",
+        "path": "mirror-round"
+      }
+    },
+    {
+      "name": "production GLB mirror-round / zero-thickness back",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-round",
+        "details": {
+          "mesh": "mirror-back",
+          "triangle": 192
+        }
+      }
+    },
+    {
+      "name": "production GLB / mirror-full",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "kind": "mirror",
+        "face": "mirror-surface",
+        "polygons": 1,
+        "faceTriangles": 4,
+        "bodyMeshes": 2,
+        "backingMeshes": 1,
+        "contourArea": 1.1423999763488766
+      }
+    },
+    {
+      "name": "production GLB mirror-full / missing face",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mapping",
+        "path": "mirror-full.mirrorNodes.face",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-full / duplicate named face",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mapping",
+        "path": "mirror-full.mirrorNodes.face",
+        "details": {
+          "matches": 2
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-full / face is a group",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mapping",
+        "path": "mirror-full.mirrorNodes.face",
+        "details": {
+          "matches": 1
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-full / NaN face vertex",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-full",
+        "details": {
+          "mesh": "mirror-surface",
+          "vertex": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-full / noncoplanar face",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-geometry",
+        "path": "mirror-full.mirrorNodes.face",
+        "details": {
+          "triangle": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-full / reversed triangle",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-geometry",
+        "path": "mirror-full.mirrorNodes.face",
+        "details": {
+          "triangle": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-full / degenerate triangle",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-full",
+        "details": {
+          "mesh": "mirror-surface",
+          "triangle": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-full / missing triangle leaves spatial hole",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-gap",
+        "path": "mirror-full.mirrorNodes.face",
+        "details": {
+          "polygon": 0,
+          "missingArea": 0.28559999408721914
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-full / repeat triangle replaces equal area and leaves hole",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-overlap",
+        "path": "mirror-full.mirrorNodes.face",
+        "details": {
+          "triangles": [
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-full / face index outside vertex buffer",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-full",
+        "details": {
+          "mesh": "mirror-surface",
+          "offset": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-full / hidden face ancestor",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-geometry",
+        "path": "mirror-full.mirrorNodes.face",
+        "details": {
+          "node": "mirror-full"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-full / face local translation",
+      "passed": true,
+      "observed": {
+        "code": "mirror-parent-transform",
+        "path": "mirror-full.mirrorNodes.face",
+        "details": {
+          "node": "mirror-surface"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-full / ancestor translated with compensated children",
+      "passed": true,
+      "observed": {
+        "code": "mirror-parent-transform",
+        "path": "mirror-full.mirrorNodes.face",
+        "details": {
+          "node": "mirror-surface"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-full / resource root rotation",
+      "passed": true,
+      "observed": {
+        "code": "mirror-parent-transform",
+        "path": "mirror-full.mirrorNodes.face",
+        "details": {
+          "node": "AuxScene"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-full / double ancestor reversals cancel in world",
+      "passed": true,
+      "observed": {
+        "code": "mirror-transform",
+        "path": "mirror-full",
+        "details": {
+          "node": "AuxScene"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-full / singular ancestor transform",
+      "passed": true,
+      "observed": {
+        "code": "mirror-transform",
+        "path": "mirror-full",
+        "details": {
+          "node": "AuxScene"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-full / nonfinite ancestor transform",
+      "passed": true,
+      "observed": {
+        "code": "mirror-transform",
+        "path": "mirror-full",
+        "details": {
+          "node": "AuxScene"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-full / projective local matrix",
+      "passed": true,
+      "observed": {
+        "code": "mirror-transform",
+        "path": "mirror-full",
+        "details": {
+          "node": "mirror-surface"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-full / partial draw range",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-full",
+        "details": {
+          "mesh": "mirror-surface"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-full / nonfinite UV attribute",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-full",
+        "details": {
+          "mesh": "mirror-surface",
+          "vertex": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-full / frame exceeds installation envelope",
+      "passed": true,
+      "observed": {
+        "code": "mirror-envelope",
+        "path": "mirror-full",
+        "details": {
+          "mesh": "outside",
+          "vertex": 0,
+          "point": [
+            0.4099999997764826,
+            0.009999999776482582,
+            0.029999999776482583
+          ]
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-full / frame reaches mirror center",
+      "passed": true,
+      "observed": {
+        "code": "mirror-surface-occluded",
+        "path": "mirror-full.mirrorShape",
+        "details": {
+          "mesh": "blocker",
+          "triangle": 0,
+          "polygon": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-full / slope crosses mirror plane with no interior front vertices",
+      "passed": true,
+      "observed": {
+        "code": "mirror-surface-occluded",
+        "path": "mirror-full.mirrorShape",
+        "details": {
+          "mesh": "sloped-blocker",
+          "triangle": 0,
+          "polygon": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-full / enclosing front triangle without mirror interior vertices",
+      "passed": true,
+      "observed": {
+        "code": "mirror-surface-occluded",
+        "path": "mirror-full.mirrorShape",
+        "details": {
+          "mesh": "enclosing-blocker",
+          "triangle": 0,
+          "polygon": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-full / coplanar front triangle",
+      "passed": true,
+      "observed": {
+        "code": "mirror-surface-occluded",
+        "path": "mirror-full.mirrorShape",
+        "details": {
+          "mesh": "coplanar-blocker",
+          "triangle": 0,
+          "polygon": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-full / vertical fin with zero projected area in mirror interior",
+      "passed": true,
+      "observed": {
+        "code": "mirror-surface-occluded",
+        "path": "mirror-full.mirrorShape",
+        "details": {
+          "mesh": "vertical-blocker",
+          "triangle": 0,
+          "polygon": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-full / open back with thickness cannot substitute solid",
+      "passed": true,
+      "observed": {
+        "code": "mirror-back-geometry",
+        "path": "mirror-full"
+      }
+    },
+    {
+      "name": "production GLB mirror-full / zero-thickness back",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-full",
+        "details": {
+          "mesh": "mirror-back",
+          "triangle": 8
+        }
+      }
+    },
+    {
+      "name": "production GLB / mirror-arch",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "kind": "mirror",
+        "face": "mirror-surface",
+        "polygons": 1,
+        "faceTriangles": 51,
+        "bodyMeshes": 2,
+        "backingMeshes": 1,
+        "contourArea": 1.0926544318055957
+      }
+    },
+    {
+      "name": "production GLB mirror-arch / missing face",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mapping",
+        "path": "mirror-arch.mirrorNodes.face",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-arch / duplicate named face",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mapping",
+        "path": "mirror-arch.mirrorNodes.face",
+        "details": {
+          "matches": 2
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-arch / face is a group",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mapping",
+        "path": "mirror-arch.mirrorNodes.face",
+        "details": {
+          "matches": 1
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-arch / NaN face vertex",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-arch",
+        "details": {
+          "mesh": "mirror-surface",
+          "vertex": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-arch / noncoplanar face",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-geometry",
+        "path": "mirror-arch.mirrorNodes.face",
+        "details": {
+          "triangle": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-arch / reversed triangle",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-geometry",
+        "path": "mirror-arch.mirrorNodes.face",
+        "details": {
+          "triangle": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-arch / degenerate triangle",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-arch",
+        "details": {
+          "mesh": "mirror-surface",
+          "triangle": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-arch / missing triangle leaves spatial hole",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-gap",
+        "path": "mirror-arch.mirrorNodes.face",
+        "details": {
+          "polygon": 0,
+          "missingArea": 0.5069728344360467
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-arch / repeat triangle replaces equal area and leaves hole",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-overlap",
+        "path": "mirror-arch.mirrorNodes.face",
+        "details": {
+          "triangles": [
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-arch / face index outside vertex buffer",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-arch",
+        "details": {
+          "mesh": "mirror-surface",
+          "offset": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-arch / hidden face ancestor",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-geometry",
+        "path": "mirror-arch.mirrorNodes.face",
+        "details": {
+          "node": "mirror-arch"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-arch / face local translation",
+      "passed": true,
+      "observed": {
+        "code": "mirror-parent-transform",
+        "path": "mirror-arch.mirrorNodes.face",
+        "details": {
+          "node": "mirror-surface"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-arch / ancestor translated with compensated children",
+      "passed": true,
+      "observed": {
+        "code": "mirror-parent-transform",
+        "path": "mirror-arch.mirrorNodes.face",
+        "details": {
+          "node": "mirror-surface"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-arch / resource root rotation",
+      "passed": true,
+      "observed": {
+        "code": "mirror-parent-transform",
+        "path": "mirror-arch.mirrorNodes.face",
+        "details": {
+          "node": "AuxScene"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-arch / double ancestor reversals cancel in world",
+      "passed": true,
+      "observed": {
+        "code": "mirror-transform",
+        "path": "mirror-arch",
+        "details": {
+          "node": "AuxScene"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-arch / singular ancestor transform",
+      "passed": true,
+      "observed": {
+        "code": "mirror-transform",
+        "path": "mirror-arch",
+        "details": {
+          "node": "AuxScene"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-arch / nonfinite ancestor transform",
+      "passed": true,
+      "observed": {
+        "code": "mirror-transform",
+        "path": "mirror-arch",
+        "details": {
+          "node": "AuxScene"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-arch / projective local matrix",
+      "passed": true,
+      "observed": {
+        "code": "mirror-transform",
+        "path": "mirror-arch",
+        "details": {
+          "node": "mirror-surface"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-arch / partial draw range",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-arch",
+        "details": {
+          "mesh": "mirror-surface"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-arch / nonfinite UV attribute",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-arch",
+        "details": {
+          "mesh": "mirror-surface",
+          "vertex": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-arch / frame exceeds installation envelope",
+      "passed": true,
+      "observed": {
+        "code": "mirror-envelope",
+        "path": "mirror-arch",
+        "details": {
+          "mesh": "outside",
+          "vertex": 0,
+          "point": [
+            0.4099999997764826,
+            0.009999999776482582,
+            0.029999999776482583
+          ]
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-arch / frame reaches mirror center",
+      "passed": true,
+      "observed": {
+        "code": "mirror-surface-occluded",
+        "path": "mirror-arch.mirrorShape",
+        "details": {
+          "mesh": "blocker",
+          "triangle": 0,
+          "polygon": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-arch / slope crosses mirror plane with no interior front vertices",
+      "passed": true,
+      "observed": {
+        "code": "mirror-surface-occluded",
+        "path": "mirror-arch.mirrorShape",
+        "details": {
+          "mesh": "sloped-blocker",
+          "triangle": 0,
+          "polygon": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-arch / enclosing front triangle without mirror interior vertices",
+      "passed": true,
+      "observed": {
+        "code": "mirror-surface-occluded",
+        "path": "mirror-arch.mirrorShape",
+        "details": {
+          "mesh": "enclosing-blocker",
+          "triangle": 0,
+          "polygon": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-arch / coplanar front triangle",
+      "passed": true,
+      "observed": {
+        "code": "mirror-surface-occluded",
+        "path": "mirror-arch.mirrorShape",
+        "details": {
+          "mesh": "coplanar-blocker",
+          "triangle": 0,
+          "polygon": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-arch / vertical fin with zero projected area in mirror interior",
+      "passed": true,
+      "observed": {
+        "code": "mirror-surface-occluded",
+        "path": "mirror-arch.mirrorShape",
+        "details": {
+          "mesh": "vertical-blocker",
+          "triangle": 0,
+          "polygon": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-arch / open back with thickness cannot substitute solid",
+      "passed": true,
+      "observed": {
+        "code": "mirror-back-geometry",
+        "path": "mirror-arch"
+      }
+    },
+    {
+      "name": "production GLB mirror-arch / zero-thickness back",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-arch",
+        "details": {
+          "mesh": "mirror-back",
+          "triangle": 102
+        }
+      }
+    },
+    {
+      "name": "production GLB / mirror-grid",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "kind": "mirror",
+        "face": "mirror-surface",
+        "polygons": 6,
+        "faceTriangles": 24,
+        "bodyMeshes": 7,
+        "backingMeshes": 1,
+        "contourArea": 1.0676500079281628
+      }
+    },
+    {
+      "name": "production GLB mirror-grid / missing face",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mapping",
+        "path": "mirror-grid.mirrorNodes.face",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-grid / duplicate named face",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mapping",
+        "path": "mirror-grid.mirrorNodes.face",
+        "details": {
+          "matches": 2
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-grid / face is a group",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mapping",
+        "path": "mirror-grid.mirrorNodes.face",
+        "details": {
+          "matches": 1
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-grid / NaN face vertex",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-grid",
+        "details": {
+          "mesh": "mirror-surface",
+          "vertex": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-grid / noncoplanar face",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-geometry",
+        "path": "mirror-grid.mirrorNodes.face",
+        "details": {
+          "triangle": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-grid / reversed triangle",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-geometry",
+        "path": "mirror-grid.mirrorNodes.face",
+        "details": {
+          "triangle": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-grid / degenerate triangle",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-grid",
+        "details": {
+          "mesh": "mirror-surface",
+          "triangle": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-grid / missing triangle leaves spatial hole",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-gap",
+        "path": "mirror-grid.mirrorNodes.face",
+        "details": {
+          "polygon": 0,
+          "missingArea": 0.04448541374285507
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-grid / repeat triangle replaces equal area and leaves hole",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-overlap",
+        "path": "mirror-grid.mirrorNodes.face",
+        "details": {
+          "triangles": [
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-grid / face index outside vertex buffer",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-grid",
+        "details": {
+          "mesh": "mirror-surface",
+          "offset": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-grid / hidden face ancestor",
+      "passed": true,
+      "observed": {
+        "code": "mirror-face-geometry",
+        "path": "mirror-grid.mirrorNodes.face",
+        "details": {
+          "node": "mirror-grid"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-grid / face local translation",
+      "passed": true,
+      "observed": {
+        "code": "mirror-parent-transform",
+        "path": "mirror-grid.mirrorNodes.face",
+        "details": {
+          "node": "mirror-surface"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-grid / ancestor translated with compensated children",
+      "passed": true,
+      "observed": {
+        "code": "mirror-parent-transform",
+        "path": "mirror-grid.mirrorNodes.face",
+        "details": {
+          "node": "mirror-surface"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-grid / resource root rotation",
+      "passed": true,
+      "observed": {
+        "code": "mirror-parent-transform",
+        "path": "mirror-grid.mirrorNodes.face",
+        "details": {
+          "node": "AuxScene"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-grid / double ancestor reversals cancel in world",
+      "passed": true,
+      "observed": {
+        "code": "mirror-transform",
+        "path": "mirror-grid",
+        "details": {
+          "node": "AuxScene"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-grid / singular ancestor transform",
+      "passed": true,
+      "observed": {
+        "code": "mirror-transform",
+        "path": "mirror-grid",
+        "details": {
+          "node": "AuxScene"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-grid / nonfinite ancestor transform",
+      "passed": true,
+      "observed": {
+        "code": "mirror-transform",
+        "path": "mirror-grid",
+        "details": {
+          "node": "AuxScene"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-grid / projective local matrix",
+      "passed": true,
+      "observed": {
+        "code": "mirror-transform",
+        "path": "mirror-grid",
+        "details": {
+          "node": "mirror-surface"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-grid / partial draw range",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-grid",
+        "details": {
+          "mesh": "mirror-surface"
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-grid / nonfinite UV attribute",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-grid",
+        "details": {
+          "mesh": "mirror-surface",
+          "vertex": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-grid / frame exceeds installation envelope",
+      "passed": true,
+      "observed": {
+        "code": "mirror-envelope",
+        "path": "mirror-grid",
+        "details": {
+          "mesh": "outside",
+          "vertex": 0,
+          "point": [
+            0.4099999997764826,
+            0.009999999776482582,
+            0.029999999776482583
+          ]
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-grid / frame reaches mirror center",
+      "passed": true,
+      "observed": {
+        "code": "mirror-surface-occluded",
+        "path": "mirror-grid.mirrorShape",
+        "details": {
+          "mesh": "blocker",
+          "triangle": 0,
+          "polygon": 4
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-grid / slope crosses mirror plane with no interior front vertices",
+      "passed": true,
+      "observed": {
+        "code": "mirror-surface-occluded",
+        "path": "mirror-grid.mirrorShape",
+        "details": {
+          "mesh": "sloped-blocker",
+          "triangle": 0,
+          "polygon": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-grid / enclosing front triangle without mirror interior vertices",
+      "passed": true,
+      "observed": {
+        "code": "mirror-surface-occluded",
+        "path": "mirror-grid.mirrorShape",
+        "details": {
+          "mesh": "enclosing-blocker",
+          "triangle": 0,
+          "polygon": 0
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-grid / coplanar front triangle",
+      "passed": true,
+      "observed": {
+        "code": "mirror-surface-occluded",
+        "path": "mirror-grid.mirrorShape",
+        "details": {
+          "mesh": "coplanar-blocker",
+          "triangle": 0,
+          "polygon": 1
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-grid / vertical fin with zero projected area in mirror interior",
+      "passed": true,
+      "observed": {
+        "code": "mirror-surface-occluded",
+        "path": "mirror-grid.mirrorShape",
+        "details": {
+          "mesh": "vertical-blocker",
+          "triangle": 0,
+          "polygon": 4
+        }
+      }
+    },
+    {
+      "name": "production GLB mirror-grid / open back with thickness cannot substitute solid",
+      "passed": true,
+      "observed": {
+        "code": "mirror-back-geometry",
+        "path": "mirror-grid"
+      }
+    },
+    {
+      "name": "production GLB mirror-grid / zero-thickness back",
+      "passed": true,
+      "observed": {
+        "code": "mirror-mesh-geometry",
+        "path": "mirror-grid",
+        "details": {
+          "mesh": "mirror-back",
+          "triangle": 8
+        }
+      }
+    }
+  ],
+  "realAssets": [
+    {
+      "id": "mirror-round",
+      "version": 1,
+      "resourcePath": "F:\\gamemake-company-platform-c1\\prototype\\public\\company-assets\\mirror-v1\\round\\v1\\resource.json",
+      "assetPath": "F:\\gamemake-company-platform-c1\\prototype\\public\\company-assets\\mirror-v1\\round\\v1\\model.glb",
+      "sha256": "93d5322290dba6c3670310fd2519f042801ba46838a8763bc0eab7593c8527ba",
+      "status": "passed-readback-and-geometry-mutations"
+    },
+    {
+      "id": "mirror-full",
+      "version": 1,
+      "resourcePath": "F:\\gamemake-company-platform-c1\\prototype\\public\\company-assets\\mirror-v1\\full\\v1\\resource.json",
+      "assetPath": "F:\\gamemake-company-platform-c1\\prototype\\public\\company-assets\\mirror-v1\\full\\v1\\model.glb",
+      "sha256": "70f73fec7a76bd3136b038213e76d0c2a3bda69fe8310857c2bf1a42d33ca07d",
+      "status": "passed-readback-and-geometry-mutations"
+    },
+    {
+      "id": "mirror-arch",
+      "version": 1,
+      "resourcePath": "F:\\gamemake-company-platform-c1\\prototype\\public\\company-assets\\mirror-v1\\arch\\v1\\resource.json",
+      "assetPath": "F:\\gamemake-company-platform-c1\\prototype\\public\\company-assets\\mirror-v1\\arch\\v1\\model.glb",
+      "sha256": "b3372ff6ee243c8f34518ad09547ef87f72b85b7760e1a91171bd9f25a67dc06",
+      "status": "passed-readback-and-geometry-mutations"
+    },
+    {
+      "id": "mirror-grid",
+      "version": 1,
+      "resourcePath": "F:\\gamemake-company-platform-c1\\prototype\\public\\company-assets\\mirror-v1\\grid\\v1\\resource.json",
+      "assetPath": "F:\\gamemake-company-platform-c1\\prototype\\public\\company-assets\\mirror-v1\\grid\\v1\\model.glb",
+      "sha256": "b71f70ec86e6715e7a30e015bf58491aa527c96513236987157dfaf0c8b4ea75",
+      "status": "passed-readback-and-geometry-mutations"
+    }
+  ],
+  "realAssetsPending": false,
+  "limits": [
+    "CPU Three.js mesh validation and actual GLTFLoader readback. This does not verify GPU reflection, appearance, save/reopen or ordinary-computer performance.",
+    "Face verification combines convex clipping, pairwise triangle intersections, actual uncovered polygon fragments, and triangle containment in the declared contour union. Equal area or matching bounds alone cannot pass.",
+    "Position tolerance is 1e-6 metres, aggregate area tolerance 1e-7 square metres per validation category, clipping arithmetic tolerance 1e-12. Features below these tolerances are not resolved. Many sub-tolerance overlapping/outside/occluding triangles are accumulated before accepting.",
+    "Static geometry only. Face plus resource ancestors must be identity. Orientation reversals are rejected at every local transform, including compensated double reversals.",
+    "Backing validation requires a closed oriented positive-volume mesh strictly behind the mirror, welded by 1e-6 metre coordinate cells. This verifies mesh closure and positive volume, without proving arbitrary mesh self-intersection freedom.",
+    "At most 64 polygons, 512 vertices per polygon, 2048 total contour vertices, 2048 face triangles and 8192 triangles per body mesh. The bounded profile limits CPU work on imported data.",
+    "Occlusion is evaluated by clipping actual frame/back triangles against z>=.026 minus position tolerance and each convex mirror contour. Boundary-only contact is allowed. Material transparency is not an exemption."
+  ]
+}

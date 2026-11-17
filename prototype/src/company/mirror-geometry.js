@@ -48,7 +48,7 @@ function subtract(subject, clip) {
   return outside;
 }
 
-function validatePolygons(resource, fail, path) {
+function validatePolygons(resource, fail, path, floor) {
   const polygons = resource.mirrorShape?.polygons;
   const location = `${path}.mirrorShape.polygons`;
   if (!Array.isArray(polygons) || !polygons.length || polygons.length > 64)
@@ -62,7 +62,7 @@ function validatePolygons(resource, fail, path) {
     vertices += polygon.length;
     for (const [pointIndex, point] of polygon.entries()) {
       if (!Array.isArray(point) || point.length !== 2 || !point.every(Number.isFinite) ||
-          Math.abs(point[0]) > .4 + POSITION_EPSILON || Math.abs(point[1]) > .9 + POSITION_EPSILON)
+          Math.abs(point[0]) > .4 + POSITION_EPSILON || point[1] < (floor ? 0 : -.9) - POSITION_EPSILON || point[1] > (floor ? 1.8 : .9) + POSITION_EPSILON)
         fail('mirror-shape', `${polygonPath}[${pointIndex}]`, 'Mirror polygon points must be finite and inside the installation envelope');
       if (polygon.slice(0, pointIndex).some(other => Math.hypot(point[0] - other[0], point[1] - other[1]) <= POSITION_EPSILON))
         fail('mirror-shape', polygonPath, 'Mirror polygon vertices must be distinct');
@@ -104,7 +104,7 @@ function validateTransforms(scene, face, fail, path) {
   }
 }
 
-function readMesh(mesh, transform, fail, path) {
+function readMesh(mesh, transform, fail, path, floor) {
   const geometry = mesh.geometry, positions = geometry?.getAttribute?.('position'), indices = geometry?.getIndex();
   const count = indices ? indices.count : positions?.count;
   if (!positions || positions.itemSize !== 3 || !positions.count || !count || count % 3 || count > 24576)
@@ -122,8 +122,8 @@ function readMesh(mesh, transform, fail, path) {
       fail('mirror-mesh-geometry', path, 'Mirror mesh vertices must be finite', {mesh: mesh.name, vertex});
     if (uv && ![uv.getX(vertex), uv.getY(vertex)].every(Number.isFinite))
       fail('mirror-mesh-geometry', path, 'Mirror mesh UVs must be finite', {mesh: mesh.name, vertex});
-    if (Math.abs(point.x) > .4 + POSITION_EPSILON || Math.abs(point.y) > .9 + POSITION_EPSILON ||
-        point.z < -POSITION_EPSILON || point.z > .04 + POSITION_EPSILON)
+    if (Math.abs(point.x) > .4 + POSITION_EPSILON || point.y < (floor ? 0 : -.9) - POSITION_EPSILON || point.y > (floor ? 1.8 : .9) + POSITION_EPSILON ||
+        point.z < (floor ? -.3 : 0) - POSITION_EPSILON || point.z > (floor ? .3 : .04) + POSITION_EPSILON)
       fail('mirror-envelope', path, 'Every mirror vertex must remain inside the fixed installation envelope', {mesh: mesh.name, vertex, point: point.toArray()});
     points.push(point);
     bounds.expandByPoint(point);
@@ -142,22 +142,17 @@ function readMesh(mesh, transform, fail, path) {
   return {mesh, triangles, bounds};
 }
 
-function validateFace(actual, polygons, fail, path) {
-  const location = `${path}.mirrorNodes.face`, triangles = actual.triangles;
+function validateCoverage(triangles, polygons, fail, location, code) {
   let outsideArea = 0, overlapArea = 0, missingTotal = 0;
-  if (triangles.length > 2048)
-    fail('mirror-face-geometry', location, 'Mirror face exceeds the bounded planar triangle validation budget');
   for (const [index, triangle] of triangles.entries()) {
-    if (triangle.points.some(point => Math.abs(point.z - PLANE_Z) > POSITION_EPSILON) || triangle.normal.z <= 2 * CLIP_EPSILON)
-      fail('mirror-face-geometry', location, 'Every mirror face triangle must be nondegenerate, coplanar at z=.026 and face +Z', {triangle: index});
     const covered = polygons.reduce((sum, polygon) => sum + area(intersect(triangle.projected, polygon)), 0);
     outsideArea += Math.max(0, area(triangle.projected) - covered);
     if (outsideArea > AREA_EPSILON)
-      fail('mirror-face-outside', location, 'Actual mirror triangles must remain inside the declared mirror contours', {triangle: index});
+      fail(code || 'mirror-face-outside', location, 'Actual triangles must remain inside the required contours', {triangle: index});
     for (let other = 0; other < index; other++) {
       overlapArea += area(intersect(triangle.projected, triangles[other].projected));
       if (overlapArea > AREA_EPSILON)
-        fail('mirror-face-overlap', location, 'Actual mirror triangles must not overlap or repeat', {triangles: [other, index]});
+        fail(code || 'mirror-face-overlap', location, 'Actual triangles must not overlap or repeat', {triangles: [other, index]});
     }
   }
   for (const [index, polygon] of polygons.entries()) {
@@ -166,13 +161,24 @@ function validateFace(actual, polygons, fail, path) {
       uncovered = uncovered.flatMap(fragment => subtract(fragment, triangle.projected));
       if (!uncovered.length) break;
       if (uncovered.length > 8192)
-        fail('mirror-face-geometry', location, 'Mirror coverage fragment budget exceeded', {polygon: index});
+        fail(code || 'mirror-face-geometry', location, 'Mirror coverage fragment budget exceeded', {polygon: index});
     }
     const missingArea = uncovered.reduce((sum, fragment) => sum + area(fragment), 0);
     missingTotal += missingArea;
     if (missingTotal > AREA_EPSILON)
-      fail('mirror-face-gap', location, 'Actual mirror triangles leave a hole in a declared contour', {polygon: index, missingArea});
+      fail(code || 'mirror-face-gap', location, 'Actual triangles leave a hole in a required contour', {polygon: index, missingArea});
   }
+}
+
+function validateFace(actual, polygons, fail, path) {
+  const location = `${path}.mirrorNodes.face`, triangles = actual.triangles;
+  if (triangles.length > 2048)
+    fail('mirror-face-geometry', location, 'Mirror face exceeds the bounded planar triangle validation budget');
+  for (const [index, triangle] of triangles.entries()) {
+    if (triangle.points.some(point => Math.abs(point.z - PLANE_Z) > POSITION_EPSILON) || triangle.normal.z <= 2 * CLIP_EPSILON)
+      fail('mirror-face-geometry', location, 'Every mirror face triangle must be nondegenerate, coplanar at z=.026 and face +Z', {triangle: index});
+  }
+  validateCoverage(triangles, polygons, fail, location);
 }
 
 function clipFront(points) {
@@ -244,14 +250,172 @@ function validateBody(body, polygons, fail, path) {
   return backing;
 }
 
+function resolveActual(scene, actual, resource, role, fail, path) {
+  const name = `mirror-${role}`, matches = [];
+  scene.traverse(node => { if (node.name === name) matches.push(node); });
+  if (resource.mirrorNodes?.[role] !== name || matches.length !== 1 || !matches[0].isMesh)
+    fail('mirror-mapping', `${path}.mirrorNodes.${role}`, 'Floor mirror support must uniquely resolve to its distinct actual mesh', {name, matches: matches.length});
+  return actual.find(entry => entry.mesh === matches[0]);
+}
+
+function requireBox(actual, fail, path, role, dimensions, center) {
+  const code = `mirror-${role}-geometry`, box = actual.bounds, fixed = dimensions !== undefined;
+  const size = box.getSize(new THREE.Vector3()), middle = box.getCenter(new THREE.Vector3());
+  if ((fixed ? actual.triangles.length !== 12 : actual.triangles.length < 12) || !closedPositiveVolume(actual) ||
+      dimensions?.some((value, index) => Math.abs(value - size.getComponent(index)) > POSITION_EPSILON) ||
+      center?.some((value, index) => Math.abs(value - middle.getComponent(index)) > POSITION_EPSILON))
+    fail(code, path, 'Floor mirror support requires the complete closed box and its fixed dimensions and center', {mesh: actual.mesh.name});
+  let assigned = 0;
+  for (const axis of ['x', 'y', 'z']) for (const sign of [-1, 1]) {
+    const plane = sign < 0 ? box.min[axis] : box.max[axis];
+    const candidates = actual.triangles.filter(triangle => triangle.normal[axis] * sign > CLIP_EPSILON &&
+      triangle.points.every(point => Math.abs(point[axis] - plane) <= POSITION_EPSILON));
+    const coordinates = ['x', 'y', 'z'].filter(value => value !== axis);
+    const [first, second] = coordinates;
+    const rectangle = [[box.min[first], box.min[second]], [box.max[first], box.min[second]], [box.max[first], box.max[second]], [box.min[first], box.max[second]]];
+    assigned += candidates.length;
+    if ((fixed ? candidates.length !== 2 : candidates.length < 2) || (fixed && candidates.some(triangle => triangle.points.some(point =>
+      coordinates.some(coordinate => Math.min(Math.abs(point[coordinate] - box.min[coordinate]), Math.abs(point[coordinate] - box.max[coordinate])) > POSITION_EPSILON)))))
+      fail(code, path, 'Floor mirror box must expose all six complete outward rectangular faces', {mesh: actual.mesh.name, axis, sign});
+    const projected = candidates.map(triangle => {
+      const points = triangle.points.map(point => [point[first], point[second]]);
+      return {projected: cross2(...points) < 0 ? points.reverse() : points};
+    });
+    validateCoverage(projected, [rectangle], fail, path, code);
+  }
+  if (assigned !== actual.triangles.length)
+    fail(code, path, 'Every support triangle must belong to a complete outward box face', {mesh: actual.mesh.name});
+}
+
+function convexHull(points) {
+  const unique = [...new Map(points.map(point => [`${point.x},${point.y}`, [point.x, point.y]])).values()]
+    .sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+  const half = input => {
+    const result = [];
+    for (const point of input) {
+      while (result.length > 1 && cross2(result[result.length - 2], result[result.length - 1], point) <= CLIP_EPSILON) result.pop();
+      result.push(point);
+    }
+    return result.slice(0, -1);
+  };
+  return [...half(unique), ...half(unique.slice().reverse())];
+}
+
+function requireBackPrism(back, polygons, fail, path) {
+  const code = 'mirror-back-geometry', location = `${path}.mirrorNodes.back`;
+  if (!closedPositiveVolume(back) || Math.abs(back.bounds.min.z) > POSITION_EPSILON || Math.abs(back.bounds.max.z - .012) > POSITION_EPSILON ||
+      back.triangles.some(triangle => triangle.points.some(point => Math.min(Math.abs(point.z), Math.abs(point.z - .012)) > POSITION_EPSILON)))
+    fail(code, location, 'The designated floor mirror back must be a closed thick XY prism spanning z=0 to .012');
+  const hull = convexHull(back.triangles.flatMap(triangle => triangle.points));
+  if (hull.length < 3 || hull.length > 512) fail(code, location, 'Mirror back requires a bounded convex outline');
+  for (const [plane, sign] of [[0, -1], [.012, 1]]) {
+    const caps = back.triangles.filter(triangle => triangle.normal.z * sign > CLIP_EPSILON &&
+      triangle.points.every(point => Math.abs(point.z - plane) <= POSITION_EPSILON));
+    if (caps.length > 2048) fail(code, location, 'Mirror back cap exceeds the planar triangle budget');
+    validateCoverage(caps.map(triangle => ({projected: sign < 0 ? triangle.projected.slice().reverse() : triangle.projected})), [hull], fail, location, code);
+  }
+  if (polygons.reduce((sum, polygon) => sum + Math.max(0, area(polygon) - area(intersect(polygon, hull))), 0) > AREA_EPSILON)
+    fail(code, location, 'The actual designated back must cover all declared mirror contours');
+  return hull;
+}
+
+function boxPolygon(box) {
+  return [[box.min.x, box.min.y], [box.max.x, box.min.y], [box.max.x, box.max.y], [box.min.x, box.max.y]];
+}
+
+function boxesConnected(first, second) {
+  const overlaps = ['x', 'y', 'z'].map(axis => Math.min(first.max[axis], second.max[axis]) - Math.max(first.min[axis], second.min[axis]));
+  // A face contact or volume is sufficient. Point/edge contact cannot support a part.
+  return overlaps.every(value => value >= -POSITION_EPSILON) && overlaps.filter(value => value > POSITION_EPSILON).length >= 2;
+}
+
+function boxBackConnected(box, back, hull, requireVolume = false) {
+  const overlap = Math.min(box.max.z, back.bounds.max.z) - Math.max(box.min.z, back.bounds.min.z);
+  return overlap > (requireVolume ? POSITION_EPSILON : -POSITION_EPSILON) && area(intersect(boxPolygon(box), hull)) > AREA_EPSILON;
+}
+
+function frameComponents(frame) {
+  const edges = new Map(), neighbors = frame.triangles.map(() => new Set());
+  for (const [index, triangle] of frame.triangles.entries()) {
+    const vertices = triangle.points.map(point => [point.x, point.y, point.z].map(value => Math.round(value / POSITION_EPSILON)).join(','));
+    for (let edge = 0; edge < 3; edge++) {
+      const key = [vertices[edge], vertices[(edge + 1) % 3]].sort().join('/');
+      const other = edges.get(key);
+      if (other === undefined) edges.set(key, index);
+      else { neighbors[index].add(other); neighbors[other].add(index); }
+    }
+  }
+  const visited = new Set(), result = [];
+  for (let start = 0; start < frame.triangles.length; start++) {
+    if (visited.has(start)) continue;
+    const pending = [start], triangles = [];
+    visited.add(start);
+    while (pending.length) {
+      const index = pending.pop();
+      triangles.push(frame.triangles[index]);
+      for (const neighbor of neighbors[index]) if (!visited.has(neighbor)) {
+        visited.add(neighbor);
+        pending.push(neighbor);
+      }
+    }
+    result.push({triangles});
+  }
+  return result;
+}
+
+function validateFloorSupport(scene, actual, resource, polygons, fail, path) {
+  const back = resolveActual(scene, actual, resource, 'back', fail, path);
+  const base = resolveActual(scene, actual, resource, 'base', fail, path);
+  const post = resolveActual(scene, actual, resource, 'post', fail, path);
+  if (Math.abs(base.bounds.min.y) > POSITION_EPSILON)
+    fail('mirror-floor-grounding', `${path}.mirrorNodes.base`, 'The actual mirror base bottom must touch y=0');
+  requireBox(base, fail, `${path}.mirrorNodes.base`, 'base', [.24, .06, .38], [0, .03, 0]);
+  requireBox(post, fail, `${path}.mirrorNodes.post`, 'post', [.08, .52, .04], [0, .32, -.005]);
+  const hull = requireBackPrism(back, polygons, fail, path);
+  if (Math.abs(post.bounds.min.y - base.bounds.max.y) > POSITION_EPSILON || !boxesConnected(post.bounds, base.bounds))
+    fail('mirror-floor-support', `${path}.mirrorNodes.post`, 'Mirror post bottom must share a real face with its solid base');
+  if (!boxBackConnected(post.bounds, back, hull, true))
+    fail('mirror-floor-support', `${path}.mirrorNodes.back`, 'Mirror post and designated back require actual positive-volume intersection');
+  const frames = actual.filter(entry => entry.mesh.name === 'mirror-frame');
+  if (frames.length !== 1 || !closedPositiveVolume(frames[0]))
+    fail('mirror-frame-geometry', path, 'Floor mirror requires its unique closed actual frame');
+  const frame = frames[0];
+  for (const [component, shell] of frameComponents(frame).entries()) {
+    if (!closedPositiveVolume(shell))
+      fail('mirror-frame-geometry', path, 'Each actual frame shell must be closed and outward-oriented with positive volume', {component});
+    const contactArea = shell.triangles.filter(triangle => triangle.points.every(point => Math.abs(point.z - .012) <= POSITION_EPSILON))
+      .reduce((sum, triangle) => sum + area(intersect(triangle.projected, hull)), 0);
+    if (contactArea <= AREA_EPSILON)
+      fail('mirror-floor-support', path, 'Every actual frame shell must have positive-area contact with its designated back', {component});
+  }
+  const supports = actual.filter(entry => ![back, frame].includes(entry) && entry.mesh.name !== 'mirror-surface');
+  for (const support of supports) if (![base, post].includes(support))
+    requireBox(support, fail, path, 'support');
+  const connected = new Set([base, post]);
+  let changed = true;
+  while (changed) {
+    changed = false;
+    for (const support of supports) if (!connected.has(support) &&
+        (boxBackConnected(support.bounds, back, hull) || [...connected].some(other => boxesConnected(support.bounds, other.bounds)))) {
+      connected.add(support);
+      changed = true;
+    }
+  }
+  const disconnected = supports.filter(support => !connected.has(support));
+  if (disconnected.length)
+    fail('mirror-floor-support', path, 'Every added solid support must connect through actual faces or volumes to the common support', {meshes: disconnected.map(entry => entry.mesh.name)});
+  return {grounded: true, continuousSupport: true, supportMeshes: supports.length, back: back.mesh.name, base: base.mesh.name, post: post.mesh.name};
+}
+
 export function validateMirrorGeometry(scene, resource, fail, path = resource?.id) {
   if (typeof fail !== 'function') throw new TypeError('validateMirrorGeometry requires a fail function');
-  if (resource?.mountRole !== 'mirror') return {checked: false};
+  const floor = resource?.mountRole === 'floor-mirror';
+  if (!floor && resource?.mountRole !== 'mirror') return {checked: false};
   if (!scene?.isObject3D) fail('invalid-mirror-scene', path || 'scene', 'Expected a loaded Three Object3D scene');
   const surface = resource.mirrorSurface;
   if (surface?.schema !== 'planar-mirror-v1' || surface.profile !== 'single-512-v1' ||
       !Array.isArray(surface.position) || surface.position.length !== 3 ||
-      surface.position.some((value, index) => value !== [0, 0, PLANE_Z][index]))
+      surface.position.some((value, index) => value !== [0, floor ? .92 : 0, PLANE_Z][index]))
     fail('mirror-surface-contract', `${path}.mirrorSurface`, 'Mirror surface must use the fixed planar schema, profile and position');
   if (resource.mirrorNodes?.face !== 'mirror-surface')
     fail('mirror-mapping', `${path}.mirrorNodes.face`, 'Mirror face must map to mirror-surface');
@@ -259,17 +423,18 @@ export function validateMirrorGeometry(scene, resource, fail, path = resource?.i
   scene.traverse(node => { if (node.name === 'mirror-surface') matches.push(node); });
   if (matches.length !== 1 || !matches[0].isMesh)
     fail('mirror-mapping', `${path}.mirrorNodes.face`, 'Mirror face must uniquely resolve to one actual mesh', {matches: matches.length});
-  const face = matches[0], polygons = validatePolygons(resource, fail, path);
+  const face = matches[0], polygons = validatePolygons(resource, fail, path, floor);
   scene.updateMatrixWorld(true);
   validateTransforms(scene, face, fail, path);
   const inverse = new THREE.Matrix4().copy(scene.matrixWorld).invert(), actual = [];
   scene.traverse(node => {
-    if (node.isMesh) actual.push(readMesh(node, inverse.clone().multiply(node.matrixWorld), fail, path));
+    if (node.isMesh) actual.push(readMesh(node, inverse.clone().multiply(node.matrixWorld), fail, path, floor));
   });
   const faceGeometry = actual.find(entry => entry.mesh === face);
   validateFace(faceGeometry, polygons, fail, path);
   const body = actual.filter(entry => entry.mesh !== face), backingMeshes = validateBody(body, polygons, fail, path);
-  return {checked: true, kind: 'mirror', face: face.name, polygons: polygons.length,
+  const support = floor ? validateFloorSupport(scene, actual, resource, polygons, fail, path) : {};
+  return {checked: true, kind: floor ? 'floor-mirror' : 'mirror', ...support, face: face.name, polygons: polygons.length,
     faceTriangles: faceGeometry.triangles.length, bodyMeshes: body.length, backingMeshes,
     contourArea: polygons.reduce((sum, polygon) => sum + area(polygon), 0)};
 }

@@ -1,0 +1,140 @@
+{
+  "status": "passed",
+  "commands": [
+    "node scripts/company-platform/build-floor-mirror.mjs",
+    "node scripts/company-platform/build-floor-mirror.mjs --check"
+  ],
+  "provenance": {
+    "sourceParameters": "assets-source/company-floor-mirror-v1/parameters.json",
+    "sourceParametersSha256": "90e64d3daf6924e7ec9e62c9265bee154b9cbeeb44de94a576d3a220fac80311",
+    "functionalContractSource": "docs/COMPANY-FLOOR-MIRROR-CONTRACT-v1.txt",
+    "functionalContractSourceSha256": "15a365476e810480cdd5e360508a7fbfa538fc434d941dabecea9ba555c508f7",
+    "generator": "scripts/company-platform/build-floor-mirror.mjs",
+    "generatorSha256": "73aea68cf672beb1f79c208dc8c7f7331d5679520fcf9ca759b9ffc58bb6e7d4",
+    "dependencies": {
+      "functionalContract": {
+        "path": "docs/COMPANY-FLOOR-MIRROR-CONTRACT-v1.txt",
+        "sha256": "15a365476e810480cdd5e360508a7fbfa538fc434d941dabecea9ba555c508f7"
+      },
+      "research": {
+        "path": "docs/research/COMPANY-FLOOR-MIRROR-PREFLIGHT-2026-11-16.txt",
+        "sha256": "0f87e19a5accba81917de5f1fac9ff56e86b747a1bb337265e5a8dd4945032ff"
+      },
+      "wallCollection": {
+        "path": "prototype/public/company-assets/mirror-v1/collection.json",
+        "sha256": "f828de90577a81e30d54ad9f313b3607851fc28b0f7c4f46e151228599905594"
+      },
+      "wallSourceParameters": {
+        "path": "assets-source/company-mirror-v1/parameters.json",
+        "sha256": "666f89f822b776965aaff71db06f439ab0ce383c3f0c91a566f494a8a9ffab33"
+      },
+      "wallGenerator": {
+        "path": "scripts/company-platform/build-mirror.mjs",
+        "sha256": "a7ab4dea0c57a79ea93b3fccae7118f940e255e37a9062eaf21bd5d07bd0b078"
+      },
+      "wallContract": {
+        "path": "docs/COMPANY-MIRROR-CONTRACT-v1.txt",
+        "sha256": "e41e2a0de8e5ae844798f4e376fc984a44d208bf3949be22d5ee5e46335902c3"
+      },
+      "threePackage": {
+        "path": "prototype/node_modules/three/package.json",
+        "sha256": "87f2c99a8718e5fdd6f5e51427fde52c6075f2f698ddf8f7b4e162882df93940"
+      },
+      "threeLicense": {
+        "path": "prototype/node_modules/three/LICENSE",
+        "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+      },
+      "exporter": {
+        "path": "prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+        "sha256": "569793baeba62baeb4ab0b3619b6b1495b45d4b2ba9690430497adb58307bdf2"
+      },
+      "loader": {
+        "path": "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+        "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1"
+      }
+    }
+  },
+  "importPerformsNoFilesystemWrites": true,
+  "independentPackageWithoutEvidence": {
+    "status": "passed",
+    "evidenceDirectoryAbsentBeforeAndAfter": true,
+    "completeThreePackageCopied": true,
+    "pinnedWallSourcesAndModelsCopied": true,
+    "requiredSourcePaths": [
+      "assets-source/company-floor-mirror-v1/parameters.json",
+      "assets-source/company-mirror-v1/parameters.json",
+      "docs/COMPANY-FLOOR-MIRROR-CONTRACT-v1.txt",
+      "docs/COMPANY-MIRROR-CONTRACT-v1.txt",
+      "docs/research/COMPANY-FLOOR-MIRROR-PREFLIGHT-2026-11-16.txt",
+      "docs/research/COMPANY-MIRROR-REFLECTION-RESEARCH-2026-11-16.txt",
+      "prototype/public/company-assets/mirror-v1/arch/v1/model.glb",
+      "prototype/public/company-assets/mirror-v1/arch/v1/resource.json",
+      "prototype/public/company-assets/mirror-v1/collection.json",
+      "prototype/public/company-assets/mirror-v1/full/v1/model.glb",
+      "prototype/public/company-assets/mirror-v1/full/v1/resource.json",
+      "prototype/public/company-assets/mirror-v1/grid/v1/model.glb",
+      "prototype/public/company-assets/mirror-v1/grid/v1/resource.json",
+      "prototype/public/company-assets/mirror-v1/round/v1/model.glb",
+      "prototype/public/company-assets/mirror-v1/round/v1/resource.json",
+      "prototype/src/company/mirror-geometry.js",
+      "scripts/company-platform/build-floor-mirror.mjs",
+      "scripts/company-platform/build-mirror.mjs"
+    ],
+    "output": {
+      "status": "passed",
+      "mode": "check",
+      "resources": [
+        {
+          "id": "floor-mirror-round",
+          "sha256": "2b4abb6e2eb52e0294a7dfabe3f9ef4b1e10afbd0aa08c8db79afca53ad26470",
+          "bytes": 128940
+        },
+        {
+          "id": "floor-mirror-full",
+          "sha256": "02c3e52f438c20c6a7f8a434ba82a5c8ed0911058d39cc6e7f4ed41f8854e5b8",
+          "bytes": 17428
+        },
+        {
+          "id": "floor-mirror-arch",
+          "sha256": "f099f73b8dd7cfc410247a6f48050cabdf15c40125129b00ee837e4504a7ca9d",
+          "bytes": 76160
+        },
+        {
+          "id": "floor-mirror-grid",
+          "sha256": "9f6968cf8d58075a80864a0891ae4ff346fca8bb8275d37583b90222147a1696",
+          "bytes": 29584
+        }
+      ]
+    }
+  },
+  "productionOrder": [
+    "First round/full GLBs validated before producing arch/grid",
+    "Full first pass retained a valid pinned 16-triangle grid-box cap rejection failure",
+    "One root-cause repair round corrected original box-fan support validation and baked support final corners directly",
+    "Fixed round/full core pair passed before final four-model production"
+  ],
+  "repairEvidence": {
+    "firstFailure": "attempt-1-failure.json",
+    "firstGenerator": "attempt-1-generator.mjs",
+    "firstSource": "attempt-1-parameters.json",
+    "firstGeometryVerifier": "attempt-1-mirror-geometry.js",
+    "firstModels": [
+      "attempt-1-round.glb",
+      "attempt-1-full.glb",
+      "attempt-1-arch.glb",
+      "attempt-1-grid.glb"
+    ],
+    "contactPrecision": "attempt-1-contact-precision.json",
+    "fixedCore": "core-round-full-fixed.json",
+    "exactGroundingAndBasePostFaceContact": true,
+    "allFourPreserveOriginalTopologyAndFloat32Translation": true
+  },
+  "verifier": {
+    "path": "prototype/src/company/mirror-geometry.js",
+    "sha256": "17849775166bb282d9550112b6100dd45afb29c4d6ffb4940ac21c9390c29018"
+  },
+  "limits": [
+    "CPU only. Independent geometry mutation QA, browser/host reflection, blocking and transaction integration, ordinary-device performance, role C3 and human visual acceptance belong to their separately recorded evidence.",
+    "Runtime/model identity and hook interception were not independently verified in this production task."
+  ]
+}

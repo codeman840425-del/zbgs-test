@@ -1,0 +1,150 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "name": "floor contract accepts its complete fixed position and wall remains unchanged",
+      "status": "passed"
+    },
+    {
+      "name": "floor binding is lazy and captures its full position independently",
+      "status": "passed"
+    },
+    {
+      "name": "floor complete-plane rebasing preserves world vertices at yaw 0",
+      "status": "passed",
+      "detail": {
+        "maximumWorldVertexDifference": 1.668930060816365e-8
+      }
+    },
+    {
+      "name": "floor complete-plane rebasing preserves world vertices at yaw 1.5707963267948966",
+      "status": "passed",
+      "detail": {
+        "maximumWorldVertexDifference": 1.668930060816365e-8
+      }
+    },
+    {
+      "name": "yaw 90 degree floor reflector uses the same world plane and reflected camera",
+      "status": "passed",
+      "detail": {
+        "worldPlane": [
+          1.026,
+          0.92,
+          -2
+        ],
+        "normal": [
+          1,
+          0,
+          2.220446049250313e-16
+        ],
+        "reflectionCamera": [
+          -1.9480000000000002,
+          0.92,
+          -2.0000000000000013
+        ]
+      }
+    },
+    {
+      "name": "wall and floor share one stable selection, token and 30Hz admission",
+      "status": "passed"
+    },
+    {
+      "name": "switching mixed installation type consumes the same existing frame budget",
+      "status": "passed"
+    },
+    {
+      "name": "hidden floor releases its target and re-entry produces a new fresh pass",
+      "status": "passed"
+    },
+    {
+      "name": "back-facing and off-frustum floor mirrors allocate no target",
+      "status": "passed"
+    },
+    {
+      "name": "mixed surfaces are excluded together and their original visibility is restored",
+      "status": "passed"
+    },
+    {
+      "name": "floor candidate preflight and discard retain the old wall target with peak two",
+      "status": "passed"
+    },
+    {
+      "name": "failed floor shader preflight releases candidate and preserves old wall owner",
+      "status": "passed"
+    },
+    {
+      "name": "discarded floor owner is ignored and cannot be activated again",
+      "status": "passed"
+    },
+    {
+      "name": "floor rejects incompatible fixed plane [0,0,0.026] before target allocation",
+      "status": "passed"
+    },
+    {
+      "name": "floor rejects incompatible fixed plane [0,0.92,0.027] before target allocation",
+      "status": "passed"
+    },
+    {
+      "name": "floor rejects incompatible fixed plane [0,null,0.026] before target allocation",
+      "status": "passed"
+    },
+    {
+      "name": "wall rejects incompatible fixed plane [0,0.92,0.026] before target allocation",
+      "status": "passed"
+    },
+    {
+      "name": "wall rejects incompatible fixed plane [0,0,0] before target allocation",
+      "status": "passed"
+    },
+    {
+      "name": "floor rejects missing plane with the domain error before allocation",
+      "status": "passed"
+    },
+    {
+      "name": "floor rejects null plane with the domain error before allocation",
+      "status": "passed"
+    },
+    {
+      "name": "floor rejects string plane with the domain error before allocation",
+      "status": "passed"
+    },
+    {
+      "name": "floor rejects object plane with the domain error before allocation",
+      "status": "passed"
+    },
+    {
+      "name": "floor rejects typed array plane with the domain error before allocation",
+      "status": "passed"
+    },
+    {
+      "name": "old wall rebasing, plane and reflected camera remain unchanged",
+      "status": "passed"
+    },
+    {
+      "name": "unknown floor renderer exception restores public state and requires host rebuild",
+      "status": "passed"
+    },
+    {
+      "name": "all floor and wall target objects released",
+      "status": "passed",
+      "resources": {
+        "created": 16,
+        "disposed": 16,
+        "live": 0,
+        "peak": 2
+      }
+    }
+  ],
+  "sourceHashes": {
+    "prototype/src/company/mirror-render.js": "3dd2ad987a6490c5dbc5fcd4c8a9fb88ec52595a5f7c2f5cf4faa393001da5a0",
+    "prototype/src/company/mirror-data.js": "f390a350f2dd194fe1378266753367cd38821c6d19a9339a674a25ae30e88bff",
+    "prototype/src/company/appearance-contract.js": "964ac37f150a86d46824bb35fe4e7c2bb568c70ebdee7e6679f393704757e5e7",
+    "prototype/node_modules/three/examples/jsm/objects/Reflector.js": "542861de2dea2e24729a1fa4962424214e1637368017bdd48d5f27eb64dda0fb"
+  },
+  "limits": [
+    "CPU uses the actual locked Three Reflector and a limited renderer substitute. No browser, GPU pixels or real shader compilation was exercised.",
+    "The fixture face is synthetic. Real floor mirror GLB geometry, support/contact, installation, persistence, cutaway and scene transactions require their own evidence.",
+    "Bad-plane checks cover the fixed data contract and binding position. Loaded vertex coplanarity belongs to the separate mirror geometry validator.",
+    "Target counts measure objects and dispose events. Public state restoration does not prove recovery of Three private render stacks or ordinary-computer performance."
+  ]
+}
