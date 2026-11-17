@@ -1,0 +1,143 @@
+{
+  "status": "passed",
+  "first": {
+    "schema": "company-batch-run",
+    "version": 1,
+    "ok": false,
+    "results": [
+      {
+        "key": "first",
+        "companyId": "batch-new-a",
+        "status": "created",
+        "directory": "F:\\gamemake-company-platform-c1\\evidence\\company-scale-v2-batch-v1\\run-lvAtR8\\first",
+        "files": {
+          "input.json": {
+            "bytes": 376,
+            "sha256": "26e9564a9b441a99f3eb5cc11a64eac3a5fde75b4f5cdee9aa46d9714c7bb851"
+          },
+          "layout.json": {
+            "bytes": 4226,
+            "sha256": "116f45d9092130c3a68750d7a465fd5caa70ba5bb66fb0c2c379db01fa24f340"
+          },
+          "save.json": {
+            "bytes": 5811,
+            "sha256": "a9d9f4ebdb52382e5164884151481ca496dc1c9cb3cb277350ad80c9468ee027"
+          }
+        }
+      },
+      {
+        "key": "second",
+        "companyId": "batch-new-b",
+        "status": "created",
+        "directory": "F:\\gamemake-company-platform-c1\\evidence\\company-scale-v2-batch-v1\\run-lvAtR8\\second",
+        "files": {
+          "input.json": {
+            "bytes": 378,
+            "sha256": "a40c74edcadb7f505ab5c0209d9b7325c5f2dc765f1867d3c580f375a2b7db60"
+          },
+          "layout.json": {
+            "bytes": 4224,
+            "sha256": "281687c2b46603fb3aa547fe381bae736f0882a02defc3a74f4ea11cdeea4530"
+          },
+          "save.json": {
+            "bytes": 5809,
+            "sha256": "2366e189a5ac4b3d025ebb34afcde96391d5969a695905b49edef86805c69512"
+          }
+        }
+      },
+      {
+        "key": "retry",
+        "status": "failed",
+        "code": "unsupported-space-profile",
+        "path": "input.spaceProfile",
+        "message": "unsupported-space-profile at input.spaceProfile: Expected pinned company-space-v2 version 1"
+      }
+    ]
+  },
+  "repeated": {
+    "schema": "company-batch-run",
+    "version": 1,
+    "ok": false,
+    "results": [
+      {
+        "key": "first",
+        "companyId": "batch-new-a",
+        "status": "idempotent",
+        "directory": "F:\\gamemake-company-platform-c1\\evidence\\company-scale-v2-batch-v1\\run-lvAtR8\\first",
+        "files": {
+          "input.json": {
+            "bytes": 376,
+            "sha256": "26e9564a9b441a99f3eb5cc11a64eac3a5fde75b4f5cdee9aa46d9714c7bb851"
+          },
+          "layout.json": {
+            "bytes": 4226,
+            "sha256": "116f45d9092130c3a68750d7a465fd5caa70ba5bb66fb0c2c379db01fa24f340"
+          },
+          "save.json": {
+            "bytes": 5811,
+            "sha256": "a9d9f4ebdb52382e5164884151481ca496dc1c9cb3cb277350ad80c9468ee027"
+          }
+        }
+      },
+      {
+        "key": "second",
+        "companyId": "batch-new-b",
+        "status": "idempotent",
+        "directory": "F:\\gamemake-company-platform-c1\\evidence\\company-scale-v2-batch-v1\\run-lvAtR8\\second",
+        "files": {
+          "input.json": {
+            "bytes": 378,
+            "sha256": "a40c74edcadb7f505ab5c0209d9b7325c5f2dc765f1867d3c580f375a2b7db60"
+          },
+          "layout.json": {
+            "bytes": 4224,
+            "sha256": "281687c2b46603fb3aa547fe381bae736f0882a02defc3a74f4ea11cdeea4530"
+          },
+          "save.json": {
+            "bytes": 5809,
+            "sha256": "2366e189a5ac4b3d025ebb34afcde96391d5969a695905b49edef86805c69512"
+          }
+        }
+      },
+      {
+        "key": "retry",
+        "status": "failed",
+        "code": "unsupported-space-profile",
+        "path": "input.spaceProfile",
+        "message": "unsupported-space-profile at input.spaceProfile: Expected pinned company-space-v2 version 1"
+      }
+    ]
+  },
+  "retry": {
+    "schema": "company-batch-run",
+    "version": 1,
+    "ok": true,
+    "results": [
+      {
+        "key": "retry",
+        "companyId": "batch-new-retry",
+        "status": "created",
+        "directory": "F:\\gamemake-company-platform-c1\\evidence\\company-scale-v2-batch-v1\\run-lvAtR8\\retry",
+        "files": {
+          "input.json": {
+            "bytes": 380,
+            "sha256": "a292fb20e6d3e685537a8bbd0c1fb20710c1faa3c37374b1fbda812923d914a9"
+          },
+          "layout.json": {
+            "bytes": 4334,
+            "sha256": "236a492b540b6487e2fe99197a99a50e87f281ed8d0f657833e8623c18a51c52"
+          },
+          "save.json": {
+            "bytes": 5919,
+            "sha256": "e2062f52d41e548a79ea8dfbf1eadd351258d09ec2a833f0d70e6c0890593735"
+          }
+        }
+      }
+    ]
+  },
+  "unchangedSuccessfulSaves": [
+    "a9d9f4ebdb52382e5164884151481ca496dc1c9cb3cb277350ad80c9468ee027",
+    "2366e189a5ac4b3d025ebb34afcde96391d5969a695905b49edef86805c69512"
+  ],
+  "scope": "Explicit v2 batch generation, deterministic repeats and single-item failure retry. Browser and legacy results are separate."
+}

@@ -1,0 +1,122 @@
+{
+  "schema": "company-scale-v2-audit",
+  "version": 1,
+  "scope": "只读核对 document/space/placement/persistence/building-view/preview/packaging 及既有空间 QA",
+  "workspace": "F:/gamemake-company-platform-c1",
+  "auditedOn": "2026-11-17",
+  "configuration": {
+    "difficulty": "complex",
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "reason": "核对规模准入、保存身份及观看/UI中的硬编码，避免只改生成器遗漏实际消费链",
+    "runtimeOrHookIndependentVerification": false
+  },
+  "workingTreeBoundary": {
+    "observedUncommittedChanges": [
+      "prototype/src/company/document.js",
+      "prototype/src/company/space.js",
+      "prototype/src/company/scale-profile.js"
+    ],
+    "interpretation": "以上为审计时当前草案，不代表已提交、已构建或已在浏览器运行。另一个agent负责scale-v2生成器，主代理负责document/space接缝。"
+  },
+  "currentContracts": [
+    {
+      "file": "prototype/src/company/document.js:25-31",
+      "finding": "无spaceProfile的旧scale仍使用small-home/single-room 1层1房、rental-home 1层3房、leased-floor 1层10房、building 5层50房旧capacity。"
+    },
+    {
+      "file": "prototype/src/company/scale-profile.js:1-35",
+      "finding": "当前草案接受精确spaceProfile={id:'company-space-v2',version:1}，将leased-floor/building设为16房/层，将building floor上限设为20，并把small-home/rental-home面积设为18、其余设为36；缺失profile返回legacy。"
+    },
+    {
+      "file": "prototype/src/company/document.js:161-162,319",
+      "finding": "deriveCompany优先使用草案profile capacity，完成节点/footprint校验后调用validateScaleProfile。旧文档没有profile时仍走legacy。"
+    },
+    {
+      "file": "prototype/src/company/scale-profile.js:19-35",
+      "finding": "草案按面积检查18或36，并要求leased-floor/building每层五类publicRole，但尚未检查A18的4.5×4边长，也未区分single-room必须为6×6。"
+    },
+    {
+      "file": "prototype/src/company/space.js:7-12,54-60",
+      "finding": "连接检查已读取profile的roomsPerFloor，但旧连接图仍是同层Y=0矩形、无楼梯/电梯/跨层。"
+    },
+    {
+      "file": "prototype/src/company/space.js:104-156",
+      "finding": "createScaledCompany仍只接受旧input字段，floor上限取旧limits，单层房间上限仍写死为single-room 1或其他10，房间仍生成9×7，公共通道9.2×3且不写publicRole，也不写spaceProfile。"
+    },
+    {
+      "file": "scripts/company-platform/qa-space.mjs:14-19,77-104",
+      "finding": "既有QA固定leased-floor 1/10、building 5层/50房及11房拒绝、6层拒绝。这些应保留为无profile legacy fixtures，并另加v2 fixtures。"
+    },
+    {
+      "file": "prototype/src/company/scale-examples.js:7-18",
+      "finding": "预览scale examples仍是旧flat 10房、twoFloors/building部分配置，未声明spaceProfile，直接调用createScaledCompany。"
+    },
+    {
+      "file": "scripts/company-platform/build-home-examples.mjs:12-16,149-157",
+      "finding": "住宅样例仍以旧参考A=31.5、small room 6×5.25=31.5、singleRoom=2A文字规则生成，并以旧面积断言；不能当作A18/2A v2证据。"
+    },
+    {
+      "file": "prototype/src/company/persistence.js:11-44",
+      "finding": "company-save仍为version 1，encodeCompanySave克隆整个document，decode先derive并校验依赖pin。因此可保留spaceProfile字段，但没有profile专用pin或迁移。缺失profile应继续按legacy解释。"
+    },
+    {
+      "file": "scripts/company-platform/batch.mjs:41-47,88-109",
+      "finding": "batch item可传完整document，之后clone、derive、encode save，理论上保留显式profile；scaled input的knownFields和createScaledCompany路径当前无法声明profile。"
+    },
+    {
+      "file": "scripts/company-platform/package-company.mjs:185-193,237-242",
+      "finding": "package流程读取save/layout并按完整JSON保存document，manifest只列savedCompany id/revision/floors及dependencies，没有显式profile字段或profile校验。"
+    },
+    {
+      "file": "prototype/src/company/preview.js:252,261-263,287-310,341-342",
+      "finding": "defaultSpace以doc.scale==='building'决定大楼视图，UI统计所有room并按floor显示；building按钮同样只看scale。显式profile不会自动选择新布局，超过旧5层的观看、楼层行和房间标注需单独验收。"
+    },
+    {
+      "file": "prototype/src/company/building-view.js:141-156",
+      "finding": "视图按传入floors逐行渲染并显示每层rooms/stations，没有5层容量判断；每层外立面窗格为固定4个，属于观看假设而非空间准入。"
+    }
+  ],
+  "profileCompatibility": {
+    "legacy": "spaceProfile缺失时保留旧scale capacity、旧10房/5层、旧存档schema和旧QA语义，不隐式迁移。",
+    "v2": "显式字段必须精确为{id:'company-space-v2',version:1}。建议由document/space入口校验profile，生成器写入profile，保存/导出原样携带。",
+    "dimensionChecks": {
+      "A18": {"requested": [4.5, 4], "area": 18, "currentRisk": "仅面积校验会错误接受6×3等非目标矩形；应允许四分之一转向等价边长并拒绝其它组合。"},
+      "singleRoom2A": {"requested": [6, 6], "area": 36, "currentRisk": "当前profile只按面积36检查，不能证明6×6。"}
+    },
+    "capacityAccounting": "16个business room/层应逐层检查。corridor/lobby/lift-access/stair-access/restroom-access等public area独立统计，不计入business-room数量，但仍须矩形边界、父floor、非重叠、portal graph和同层连接校验。"
+  },
+  "minimumAcceptance": [
+    "无profile旧single/rental/leased/building样例和旧save仍通过旧capacity与旧portal QA。",
+    "显式v2单层16 business rooms通过，17房在同层拒绝；每层计数独立，不以总房数替代。",
+    "显式v2多层样例通过profile允许的楼层数，跨层连接仍拒绝，公共区不吞掉16房配额。",
+    "A18使用4.5×4、single-room 2A使用6×6，含允许四分之一转向和错误边长拒绝。",
+    "每层五类publicRole的presence、矩形边界、连接图和portal对齐均有CPU证据。",
+    "encode/decode company-save后spaceProfile字节语义保留，旧无profile save仍按legacy加载，依赖pin仍完整。",
+    "batch explicit document和package data/layout/save/manifest均保留profile，scaled input路径明确拒绝或显式支持，不能静默降级。",
+    "preview building/floor rows、房间标签、16房层和超过5层样例有观看证据；不宣称角色导航或服务端完成。"
+  ],
+  "risks": [
+    "若只改createScaledCompany而不补document.validateScaleProfile、space.inspectCompanyConnections、persistence与preview，profile会在保存或观看时失配。",
+    "若给旧fixtures补profile会改变既有QA语义，必须复制为v2 fixtures而不是重标旧证据。",
+    "当前草案对leased-floor/building要求五类publicRole，但旧生成器只生成无角色corridor，直接加profile会触发missing-public-space。",
+    "当前room bounds通用范围为3..20m，面积门不足以实现精确A18/2A，需增加边长合同而不放宽通用bounds。",
+    "package manifest的savedCompany摘要没有profile，外部交接若只读manifest会丢失规模身份，至少应让data/layout或data/save成为权威并增加审计检查。",
+    "packageCompany把prototype/src/company全量实际文件与固定company-build-info.json的inputs逐项比较；新增scale-profile.js若未进入同一固定构建身份，会在package-source-inputs-mismatch处失败。"
+  ],
+  "filesNotWrittenByThisAudit": [
+    "prototype/src/company/document.js",
+    "prototype/src/company/space.js",
+    "prototype/src/company/persistence.js",
+    "prototype/src/company/preview.js",
+    "scripts/company-platform/qa-space.mjs",
+    "scripts/company-platform/build-home-examples.mjs",
+    "scripts/company-platform/batch.mjs",
+    "scripts/company-platform/package-company.mjs"
+  ],
+  "limitations": [
+    "本报告未启动服务、未运行全套测试、未做浏览器/GPU/角色导航验证。",
+    "数量与合同来自源码和既有静态QA，不能证明每种新规模已经生成、渲染或可玩。",
+    "当前工作树存在其他agent未提交改动，报告不把它们称为已发布runtime。"
+  ]
+}

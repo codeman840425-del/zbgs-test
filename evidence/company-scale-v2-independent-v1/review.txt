@@ -1,0 +1,11 @@
+独立 CPU 核对，2026-11-17
+
+当前生成器已补齐 rental-home 的 living publicRole。完整三房输入成功生成，living role 数量为1。
+
+本轮曾针对两个输入边界做复现，原始观察保留在 report.json 的 supersededObservations。当前实现已由 root 修正。不同楼层复用本地 room id `studio` 现在生成带 floor 前缀的独立节点，例如 company/one/studio 与 company/two/studio。room 输入的未知拼写字段也会在存在其它有效操作时以 invalid-space-input 拒绝，`statons:2` 不再静默丢失。此前 rental living role 缺失和打包脚本缺失也已补齐。
+
+batch.mjs 的 profile 路由和失败安全 CPU 核对通过。合法 good 首轮 created，错误 profile 的 bad 首轮 failed，修正后仅重试 bad 得到 created。再次用原错误输入时 good 为 idempotent、bad 仍 failed，good/save.json 字节保持不变。company-space-v2 字段在成功 layout/save 中保留。
+
+package-company.mjs 当前列出的 build-scale-v2-examples.mjs 已存在。此前缺文件风险不再成立。
+
+本核对没有运行旧 QA、浏览器、GPU、服务或 runtime hook。A18/2A 按面积约束处理，没有把生成样板边长提升为全局尺寸合同。两项修复由 root 当前工作树完成，不能据此声称独立 runtime 或 hook 已验证。

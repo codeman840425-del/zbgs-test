@@ -1,0 +1,26 @@
+公司界面与五档空间配置包
+固定源码 2157b83dbbd28542acc1874c79d7a5ca60d70463
+固定构建 95ff2c84ea86
+预览 http://127.0.0.1:60880/ ，沿用公司唯一常驻端口；公司布置中选择新空间方案。旧存档不自动改尺寸。
+
+入口：公司布置/设施样件分开；公司菜单仅真实房型，混合素材/饰面/顶部实验归样件。选中设施才显示适用换外观、布置与状态；保存与文件在页首，镜头在画面上方。房间近看可旋转，平层锁定俯视；真实矩形取景，缩窗自动容纳全层，窄窗口用房间编号避免标签挤压。
+空间：民房A=18㎡一工位+植物；单间2A=36㎡，提供工位+沙发、双工位和转向第二布局；整套3A房+真实沙发/植物客厅；整层2×8房、三段连续通道和公共区；大楼按配置层数生成。五层80房及六层96房通过，不把五层当产品上限。公共电梯/楼梯/卫生位置是服务预留，未冒称真实跨层交互或公共配套美术齐全。
+
+版本与失败：显式company-space-v2@1，无profile旧存档维持旧准入/尺寸；跨层同本地ID按父层隔离，未知输入字段拒绝。批量两有效输入+错误版本，成功字节保留、单份修复重试和重复幂等通过。新profile保存完整层级和设备状态；观看不改逻辑文档。
+检查：profile11项、旧space28项独立保留、生成9输入（8预览+6层）、独立CPU5组、固定浏览器6组。真实场景检查原位换外观、公司/样件往返不丢草稿、两不同楼层显示计数/缓存回落、完整保存后关闭浏览器重开、五层外观→剖面→实楼层、非法面积保旧。普通电脑性能及真实角色仍未验。
+独立移交 F:/gamemake-company-space-delivery-95f：1098清单文件hash通过；独立npm ci重建363运行文件逐字节一致；导入完整两层存档→改沙发外观→保存→关闭浏览器重开通过。
+录像 evidence/company-scale-v2-recording-95f-v1/space-normal1x.webm：1440×1000，25fps，41.08秒，正常1×；实际解码12帧接触表及固定原尺寸截图已检查。
+
+复现：
+公司工作树根：node scripts/company-platform/build-scale-v2-examples.mjs（--check核对）；node scripts/company-platform/test-scale-profile.mjs；node scripts/company-platform/test-scale-batch.mjs。
+固定检出prototype：npm ci --no-audit --no-fund；node scripts/build-company-id.mjs；npx vite build --config vite.company.config.js。
+浏览器：node scripts/company-platform/qa-scale-v2.cjs F:/gamemake-company-space-fixed-v2/prototype/dist-company NEW_EVIDENCE_DIRECTORY。
+独立包根：node serve.mjs；node edit.mjs validate data/save.json；node edit.mjs apply data/save.json OPERATIONS.json NEW_OUTPUT_DIRECTORY。重建进入 source/prototype 运行上述构建命令。
+
+保留失败与限制：
+- 18㎡同时塞当前工位和双人沙发时通路检查拒绝，民房样板不强塞、不缩家具。
+- 两站转向初次拒绝源于0.695m桌椅净距对0.2m四邻域网格相位敏感。保留输入/几何定位，最终整体布置平移0.1m通过；不放宽包络、不能宣称任意临界窄通路可导航。
+- dev-v1浏览器脚本误点已锁定的平层镜头按钮超时；修正fixture，保留原失败；dev-v2截图发现窄视口标签拥挤，固定95f简写后重验。
+- 楼层公共区域有实际等候沙发和植物，卫生/楼梯/电梯完整设施与角色行为不在本包完成。
+
+下一项：优先补常用镜头可见的真实窗洞/窗体与窗帘分支，复用已研究的许可明确资产；完成窗洞安装和替换闭环后再接成套风格。C1完整分类四款、成套配方及C3集中角色集成仍是当前长目标，不标记部门完成。

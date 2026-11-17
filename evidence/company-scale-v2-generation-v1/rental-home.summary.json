@@ -1,0 +1,52 @@
+{
+  "input": "rental-home.json",
+  "id": "company-space-v2-rental",
+  "scale": "rental-home",
+  "profile": {
+    "id": "company-space-v2",
+    "version": 1
+  },
+  "floors": [
+    {
+      "id": "company-space-v2-rental/ground",
+      "rooms": [
+        {
+          "id": "company-space-v2-rental/ground/live",
+          "purpose": "streaming",
+          "area": 18
+        },
+        {
+          "id": "company-space-v2-rental/ground/work",
+          "purpose": "work",
+          "area": 18
+        },
+        {
+          "id": "company-space-v2-rental/ground/rest",
+          "purpose": "rest",
+          "area": 18
+        }
+      ],
+      "publicAreas": [
+        {
+          "id": "company-space-v2-rental/ground/living",
+          "role": "living",
+          "width": 4.5,
+          "depth": 4
+        }
+      ],
+      "connectionCount": 3
+    }
+  ],
+  "counts": {
+    "floors": 1,
+    "rooms": 3,
+    "publicAreas": 1,
+    "workstations": 1,
+    "checkedPoints": 6,
+    "checkedPortals": 6
+  },
+  "limits": [
+    "Floors are viewing layers at Y=0. No stairs, lifts or cross-floor connections.",
+    "Coincident portals and interior samples do not prove obstacle clearance or character navigation."
+  ]
+}

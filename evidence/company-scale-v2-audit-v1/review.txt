@@ -1,0 +1,19 @@
+规模审计交接，2026-11-17
+
+审计范围是 company-layout 的 document、space、保存、批处理、交接打包和预览观看链。当前只读观察到 document.js、space.js 与新 scale-profile.js 有未提交草案改动，因此下面把它们称为当前草案，不称为已发布 runtime。
+
+旧合同仍由 document.js 的 capacities 和 space.js 的 limits 支撑。无 spaceProfile 的存档继续使用 small-home/single-room 1层1房、rental-home 1层3房、leased-floor 1层10房、building 5层50房。qa-space.mjs 对这些数字、11房拒绝和6层拒绝有固定静态检查，旧证据不应补字段后重标。
+
+当前草案 scale-profile.js 定义 company-space-v2 version 1。它把 leased-floor 和 building 设为16个business room/层，把building配置楼层上限设为20，并把房间面积映射为18或36平方米。deriveCompany 已先取该profile capacity，几何和设施检查后再调用validateScaleProfile。space.js 的连接检查也读取roomsPerFloor。
+
+草案仍有三个接缝需要主线确认。createScaledCompany 仍使用旧输入字段、旧10房和旧楼层limits、9×7房间、9.2×3通道，且未写profile或publicRole。scale-examples.js 和既有QA继续走旧样例。leased-floor/building 若直接加profile，会因缺少 corridor、lobby、lift-access、stair-access、restroom-access 五类publicRole而被拒。
+
+面积校验还不足以代表目标尺寸。A18要求4.5×4，single-room 的2A要求6×6。仅检查18或36会接受6×3等错误边长，建议按边长对和四分之一转向检查。公共区应独立计数，不消耗16个business room配额，但每块仍要有父floor、矩形边界、非重叠和对齐portal图。
+
+persistence.js 保存schema仍是version 1。encodeCompanySave克隆整个document，decode先derive再校验资源和模板pin，所以显式profile可原样保存，缺失profile可保留旧语义。当前没有profile专用pin或迁移。batch的完整document路径会保留字段，scaled input路径尚不能声明字段。package-company会把完整layout/save打包，但manifest摘要没有profile，交接检查不能只读摘要。
+
+preview.js 仍仅以 doc.scale==='building' 进入大楼视图，building-view按传入floor数组渲染且没有5层上限。超过旧5层、16房层的楼层行、房间标签和外观窗口需要观看验收。这里的静态检查不覆盖浏览器、GPU、角色导航或服务端。
+
+打包还要求固定构建身份与源码输入集合完全一致。新 scale-profile.js 若没有进入同一 company-build-info.json 输入和固定构建候选，package-company.mjs 会在 package-source-inputs-mismatch 失败，不能用旧dist给新profile换标签。
+
+最小验收应覆盖旧无profile存档恢复、显式v2 16房/层、A18和6×6边长、每层公共区独立统计、同层portal图、跨层拒绝、encode/decode字段保留、batch/package字段保留，以及preview按层显示。不得把源码数量登记、静态几何通过或当前草案改动说成新规模已经运行。

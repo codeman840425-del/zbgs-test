@@ -1,0 +1,101 @@
+{
+  "schema": "company-scale-v2-independent-check",
+  "version": 1,
+  "status": "passed",
+  "checks": [
+    {
+      "name": "rental generator admits complete three-room input",
+      "passed": true,
+      "classification": "control",
+      "observed": {
+        "rooms": 3,
+        "livingRoles": 1
+      }
+    },
+    {
+      "name": "same local room id across floors is accepted in floor namespaces",
+      "passed": true,
+      "classification": "control",
+      "observed": {
+        "rooms": 32,
+        "sampleIds": [
+          "independent-building/one/studio",
+          "independent-building/one/room-2"
+        ]
+      }
+    },
+    {
+      "name": "unknown stations spelling is rejected with another valid operation",
+      "passed": true,
+      "classification": "control",
+      "observed": {
+        "code": "invalid-space-input",
+        "path": "input.floors[0].rooms[0]",
+        "message": "invalid-space-input at input.floors[0].rooms[0]: Unknown field or invalid object; use the documented input grammar"
+      }
+    },
+    {
+      "name": "batch failure and retry preserve prior successful bytes",
+      "passed": true,
+      "classification": "control",
+      "observed": {
+        "first": [
+          "created",
+          "failed"
+        ],
+        "retry": [
+          "created"
+        ],
+        "repeated": [
+          "idempotent",
+          "failed"
+        ],
+        "goodSavePreserved": true
+      }
+    },
+    {
+      "name": "package extra file status at audit time",
+      "passed": true,
+      "classification": "control",
+      "observed": {
+        "listedInPackageExtraFiles": true,
+        "existsAtAudit": true
+      }
+    }
+  ],
+  "scope": "CPU-only profile input identity, generator failure, save-independent batch output safety, and packaging input presence.",
+  "supersededObservations": [
+    {
+      "snapshot": "before latest root fixes",
+      "issue": "rental living role",
+      "code": "missing-public-space",
+      "path": "chk-rental/ground",
+      "resolution": "generator now writes publicRole living"
+    },
+    {
+      "snapshot": "before latest root fixes",
+      "issue": "cross-floor local room id",
+      "code": "duplicate-id",
+      "path": "input.floors[1].rooms[0].id",
+      "resolution": "room IDs are now unique per floor namespace"
+    },
+    {
+      "snapshot": "before latest root fixes",
+      "issue": "unknown stations spelling",
+      "code": "accepted with zero workstations",
+      "path": "input.floors[0].rooms[0]",
+      "resolution": "knownFields now rejects unknown room fields"
+    },
+    {
+      "snapshot": "before scale-v2 build script appeared",
+      "issue": "package supplemental input",
+      "code": "missing file",
+      "path": "scripts/company-platform/build-scale-v2-examples.mjs",
+      "resolution": "build script now exists"
+    }
+  ],
+  "limitations": [
+    "Does not run old QA, browser, GPU, service or runtime hook checks.",
+    "The rental branch is recorded as a passing control after its living role was added."
+  ]
+}

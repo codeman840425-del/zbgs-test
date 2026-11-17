@@ -1,0 +1,2175 @@
+{
+  "status": "passed",
+  "generatedBy": "scripts/company-platform/build-scale-v2-examples.mjs",
+  "inputs": [
+    "small-home.json",
+    "studio.json",
+    "single-room.json",
+    "single-alternate.json",
+    "rental-home.json",
+    "leased-floor.json",
+    "two-floors.json",
+    "five-floors-16.json",
+    "six-floors-16.json"
+  ],
+  "examples": [
+    {
+      "stem": "small-home",
+      "summary": {
+        "input": "small-home.json",
+        "id": "company-space-v2-small",
+        "scale": "small-home",
+        "profile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "floors": [
+          {
+            "id": "company-space-v2-small/ground",
+            "rooms": [
+              {
+                "id": "company-space-v2-small/ground/live",
+                "purpose": "streaming",
+                "area": 18
+              }
+            ],
+            "publicAreas": [],
+            "connectionCount": 0
+          }
+        ],
+        "counts": {
+          "floors": 1,
+          "rooms": 1,
+          "publicAreas": 0,
+          "workstations": 1,
+          "checkedPoints": 1,
+          "checkedPortals": 0
+        },
+        "limits": [
+          "Floors are viewing layers at Y=0. No stairs, lifts or cross-floor connections.",
+          "Coincident portals and interior samples do not prove obstacle clearance or character navigation."
+        ]
+      },
+      "documentSha256": "d411f29bc2876f45a4f36a252060764782edbeca45a5357c0eb7bbf0bbde01b6"
+    },
+    {
+      "stem": "studio",
+      "summary": {
+        "input": "studio.json",
+        "id": "company-space-v2-studio",
+        "scale": "single-room",
+        "profile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "floors": [
+          {
+            "id": "company-space-v2-studio/ground",
+            "rooms": [
+              {
+                "id": "company-space-v2-studio/ground/live",
+                "purpose": "streaming",
+                "area": 36
+              }
+            ],
+            "publicAreas": [],
+            "connectionCount": 0
+          }
+        ],
+        "counts": {
+          "floors": 1,
+          "rooms": 1,
+          "publicAreas": 0,
+          "workstations": 1,
+          "checkedPoints": 3,
+          "checkedPortals": 0
+        },
+        "limits": [
+          "Floors are viewing layers at Y=0. No stairs, lifts or cross-floor connections.",
+          "Coincident portals and interior samples do not prove obstacle clearance or character navigation."
+        ]
+      },
+      "documentSha256": "75d5b751faba848f018ce40c8d0ace05d6353b33e2c04ef57c4db43e30256288"
+    },
+    {
+      "stem": "single-room",
+      "summary": {
+        "input": "single-room.json",
+        "id": "company-space-v2-parallel",
+        "scale": "single-room",
+        "profile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "floors": [
+          {
+            "id": "company-space-v2-parallel/ground",
+            "rooms": [
+              {
+                "id": "company-space-v2-parallel/ground/live",
+                "purpose": "streaming",
+                "area": 36
+              }
+            ],
+            "publicAreas": [],
+            "connectionCount": 0
+          }
+        ],
+        "counts": {
+          "floors": 1,
+          "rooms": 1,
+          "publicAreas": 0,
+          "workstations": 2,
+          "checkedPoints": 2,
+          "checkedPortals": 0
+        },
+        "limits": [
+          "Floors are viewing layers at Y=0. No stairs, lifts or cross-floor connections.",
+          "Coincident portals and interior samples do not prove obstacle clearance or character navigation."
+        ]
+      },
+      "documentSha256": "ee5f03217f07840e11c28903f60c2b15d9694a8332856a88077aa269168fc784"
+    },
+    {
+      "stem": "single-alternate",
+      "summary": {
+        "input": "single-alternate.json",
+        "id": "company-space-v2-turned",
+        "scale": "single-room",
+        "profile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "floors": [
+          {
+            "id": "company-space-v2-turned/ground",
+            "rooms": [
+              {
+                "id": "company-space-v2-turned/ground/live",
+                "purpose": "streaming",
+                "area": 36
+              }
+            ],
+            "publicAreas": [],
+            "connectionCount": 0
+          }
+        ],
+        "counts": {
+          "floors": 1,
+          "rooms": 1,
+          "publicAreas": 0,
+          "workstations": 2,
+          "checkedPoints": 2,
+          "checkedPortals": 0
+        },
+        "limits": [
+          "Floors are viewing layers at Y=0. No stairs, lifts or cross-floor connections.",
+          "Coincident portals and interior samples do not prove obstacle clearance or character navigation."
+        ]
+      },
+      "documentSha256": "14464c0e116edbf584c1b4cdec554fd2539566ce3e371b91a549af1ab6b16655"
+    },
+    {
+      "stem": "rental-home",
+      "summary": {
+        "input": "rental-home.json",
+        "id": "company-space-v2-rental",
+        "scale": "rental-home",
+        "profile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "floors": [
+          {
+            "id": "company-space-v2-rental/ground",
+            "rooms": [
+              {
+                "id": "company-space-v2-rental/ground/live",
+                "purpose": "streaming",
+                "area": 18
+              },
+              {
+                "id": "company-space-v2-rental/ground/work",
+                "purpose": "work",
+                "area": 18
+              },
+              {
+                "id": "company-space-v2-rental/ground/rest",
+                "purpose": "rest",
+                "area": 18
+              }
+            ],
+            "publicAreas": [
+              {
+                "id": "company-space-v2-rental/ground/living",
+                "role": "living",
+                "width": 4.5,
+                "depth": 4
+              }
+            ],
+            "connectionCount": 3
+          }
+        ],
+        "counts": {
+          "floors": 1,
+          "rooms": 3,
+          "publicAreas": 1,
+          "workstations": 1,
+          "checkedPoints": 6,
+          "checkedPortals": 6
+        },
+        "limits": [
+          "Floors are viewing layers at Y=0. No stairs, lifts or cross-floor connections.",
+          "Coincident portals and interior samples do not prove obstacle clearance or character navigation."
+        ]
+      },
+      "documentSha256": "695e6ee10f626a7dc7b68e8c3cec2f6f1ded787cb88ec5c989e1d180894b721f"
+    },
+    {
+      "stem": "leased-floor",
+      "summary": {
+        "input": "leased-floor.json",
+        "id": "company-space-v2-flat",
+        "scale": "leased-floor",
+        "profile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "floors": [
+          {
+            "id": "company-space-v2-flat/ground",
+            "rooms": [
+              {
+                "id": "company-space-v2-flat/ground/alpha-stream",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-flat/ground/alpha-work",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-flat/ground/alpha-rest",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-flat/ground/room-4",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-flat/ground/room-5",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-flat/ground/room-6",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-flat/ground/room-7",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-flat/ground/room-8",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-flat/ground/room-9",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-flat/ground/room-10",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-flat/ground/room-11",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-flat/ground/room-12",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-flat/ground/room-13",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-flat/ground/room-14",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-flat/ground/room-15",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-flat/ground/room-16",
+                "purpose": "training",
+                "area": 36
+              }
+            ],
+            "publicAreas": [
+              {
+                "id": "company-space-v2-flat/ground/corridor-1",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-flat/ground/corridor-2",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-flat/ground/corridor-3",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-flat/ground/lobby",
+                "role": "lobby",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-flat/ground/lift-access",
+                "role": "lift-access",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-flat/ground/stair-access",
+                "role": "stair-access",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-flat/ground/restroom-access",
+                "role": "restroom-access",
+                "width": 6,
+                "depth": 3
+              }
+            ],
+            "connectionCount": 22
+          }
+        ],
+        "counts": {
+          "floors": 1,
+          "rooms": 16,
+          "publicAreas": 7,
+          "workstations": 2,
+          "checkedPoints": 7,
+          "checkedPortals": 44
+        },
+        "limits": [
+          "Floors are viewing layers at Y=0. No stairs, lifts or cross-floor connections.",
+          "Coincident portals and interior samples do not prove obstacle clearance or character navigation."
+        ]
+      },
+      "documentSha256": "615eadca4e99433fd6bc38020576aa49ba8bf2eeacffbc249b65d3ef83c73183"
+    },
+    {
+      "stem": "two-floors",
+      "summary": {
+        "input": "two-floors.json",
+        "id": "company-space-v2-two-floors",
+        "scale": "building",
+        "profile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "floors": [
+          {
+            "id": "company-space-v2-two-floors/floor-alpha",
+            "rooms": [
+              {
+                "id": "company-space-v2-two-floors/floor-alpha/alpha-stream",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-alpha/alpha-work",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-alpha/alpha-rest",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-alpha/room-4",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-alpha/room-5",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-alpha/room-6",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-alpha/room-7",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-alpha/room-8",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-alpha/room-9",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-alpha/room-10",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-alpha/room-11",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-alpha/room-12",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-alpha/room-13",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-alpha/room-14",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-alpha/room-15",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-alpha/room-16",
+                "purpose": "training",
+                "area": 36
+              }
+            ],
+            "publicAreas": [
+              {
+                "id": "company-space-v2-two-floors/floor-alpha/corridor-1",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-alpha/corridor-2",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-alpha/corridor-3",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-alpha/lobby",
+                "role": "lobby",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-alpha/lift-access",
+                "role": "lift-access",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-alpha/stair-access",
+                "role": "stair-access",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-alpha/restroom-access",
+                "role": "restroom-access",
+                "width": 6,
+                "depth": 3
+              }
+            ],
+            "connectionCount": 22
+          },
+          {
+            "id": "company-space-v2-two-floors/floor-beta",
+            "rooms": [
+              {
+                "id": "company-space-v2-two-floors/floor-beta/beta-stream",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-beta/beta-training",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-beta/beta-rest",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-beta/room-4",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-beta/room-5",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-beta/room-6",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-beta/room-7",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-beta/room-8",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-beta/room-9",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-beta/room-10",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-beta/room-11",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-beta/room-12",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-beta/room-13",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-beta/room-14",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-beta/room-15",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-beta/room-16",
+                "purpose": "training",
+                "area": 36
+              }
+            ],
+            "publicAreas": [
+              {
+                "id": "company-space-v2-two-floors/floor-beta/corridor-1",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-beta/corridor-2",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-beta/corridor-3",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-beta/lobby",
+                "role": "lobby",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-beta/lift-access",
+                "role": "lift-access",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-beta/stair-access",
+                "role": "stair-access",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-two-floors/floor-beta/restroom-access",
+                "role": "restroom-access",
+                "width": 6,
+                "depth": 3
+              }
+            ],
+            "connectionCount": 22
+          }
+        ],
+        "counts": {
+          "floors": 2,
+          "rooms": 32,
+          "publicAreas": 14,
+          "workstations": 3,
+          "checkedPoints": 13,
+          "checkedPortals": 88
+        },
+        "limits": [
+          "Floors are viewing layers at Y=0. No stairs, lifts or cross-floor connections.",
+          "Coincident portals and interior samples do not prove obstacle clearance or character navigation."
+        ]
+      },
+      "documentSha256": "a8c8ffc23c8e8bd3b64ba835d549d73a43308461525ebe8c1071b16f518e5adc"
+    },
+    {
+      "stem": "five-floors-16",
+      "summary": {
+        "input": "five-floors-16.json",
+        "id": "company-space-v2-five-floors",
+        "scale": "building",
+        "profile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "floors": [
+          {
+            "id": "company-space-v2-five-floors/floor-01",
+            "rooms": [
+              {
+                "id": "company-space-v2-five-floors/floor-01/floor-01-live",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-01/floor-01-work",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-01/room-3",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-01/room-4",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-01/room-5",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-01/room-6",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-01/room-7",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-01/room-8",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-01/room-9",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-01/room-10",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-01/room-11",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-01/room-12",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-01/room-13",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-01/room-14",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-01/room-15",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-01/room-16",
+                "purpose": "training",
+                "area": 36
+              }
+            ],
+            "publicAreas": [
+              {
+                "id": "company-space-v2-five-floors/floor-01/corridor-1",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-01/corridor-2",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-01/corridor-3",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-01/lobby",
+                "role": "lobby",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-01/lift-access",
+                "role": "lift-access",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-01/stair-access",
+                "role": "stair-access",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-01/restroom-access",
+                "role": "restroom-access",
+                "width": 6,
+                "depth": 3
+              }
+            ],
+            "connectionCount": 22
+          },
+          {
+            "id": "company-space-v2-five-floors/floor-02",
+            "rooms": [
+              {
+                "id": "company-space-v2-five-floors/floor-02/floor-02-live",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-02/floor-02-work",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-02/room-3",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-02/room-4",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-02/room-5",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-02/room-6",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-02/room-7",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-02/room-8",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-02/room-9",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-02/room-10",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-02/room-11",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-02/room-12",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-02/room-13",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-02/room-14",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-02/room-15",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-02/room-16",
+                "purpose": "training",
+                "area": 36
+              }
+            ],
+            "publicAreas": [
+              {
+                "id": "company-space-v2-five-floors/floor-02/corridor-1",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-02/corridor-2",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-02/corridor-3",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-02/lobby",
+                "role": "lobby",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-02/lift-access",
+                "role": "lift-access",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-02/stair-access",
+                "role": "stair-access",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-02/restroom-access",
+                "role": "restroom-access",
+                "width": 6,
+                "depth": 3
+              }
+            ],
+            "connectionCount": 22
+          },
+          {
+            "id": "company-space-v2-five-floors/floor-03",
+            "rooms": [
+              {
+                "id": "company-space-v2-five-floors/floor-03/floor-03-live",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-03/floor-03-work",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-03/room-3",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-03/room-4",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-03/room-5",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-03/room-6",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-03/room-7",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-03/room-8",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-03/room-9",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-03/room-10",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-03/room-11",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-03/room-12",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-03/room-13",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-03/room-14",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-03/room-15",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-03/room-16",
+                "purpose": "training",
+                "area": 36
+              }
+            ],
+            "publicAreas": [
+              {
+                "id": "company-space-v2-five-floors/floor-03/corridor-1",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-03/corridor-2",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-03/corridor-3",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-03/lobby",
+                "role": "lobby",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-03/lift-access",
+                "role": "lift-access",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-03/stair-access",
+                "role": "stair-access",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-03/restroom-access",
+                "role": "restroom-access",
+                "width": 6,
+                "depth": 3
+              }
+            ],
+            "connectionCount": 22
+          },
+          {
+            "id": "company-space-v2-five-floors/floor-04",
+            "rooms": [
+              {
+                "id": "company-space-v2-five-floors/floor-04/floor-04-live",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-04/floor-04-work",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-04/room-3",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-04/room-4",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-04/room-5",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-04/room-6",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-04/room-7",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-04/room-8",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-04/room-9",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-04/room-10",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-04/room-11",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-04/room-12",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-04/room-13",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-04/room-14",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-04/room-15",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-04/room-16",
+                "purpose": "training",
+                "area": 36
+              }
+            ],
+            "publicAreas": [
+              {
+                "id": "company-space-v2-five-floors/floor-04/corridor-1",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-04/corridor-2",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-04/corridor-3",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-04/lobby",
+                "role": "lobby",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-04/lift-access",
+                "role": "lift-access",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-04/stair-access",
+                "role": "stair-access",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-04/restroom-access",
+                "role": "restroom-access",
+                "width": 6,
+                "depth": 3
+              }
+            ],
+            "connectionCount": 22
+          },
+          {
+            "id": "company-space-v2-five-floors/floor-05",
+            "rooms": [
+              {
+                "id": "company-space-v2-five-floors/floor-05/floor-05-live",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-05/floor-05-work",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-05/room-3",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-05/room-4",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-05/room-5",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-05/room-6",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-05/room-7",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-05/room-8",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-05/room-9",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-05/room-10",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-05/room-11",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-05/room-12",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-05/room-13",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-05/room-14",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-05/room-15",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-05/room-16",
+                "purpose": "training",
+                "area": 36
+              }
+            ],
+            "publicAreas": [
+              {
+                "id": "company-space-v2-five-floors/floor-05/corridor-1",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-05/corridor-2",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-05/corridor-3",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-05/lobby",
+                "role": "lobby",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-05/lift-access",
+                "role": "lift-access",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-05/stair-access",
+                "role": "stair-access",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-five-floors/floor-05/restroom-access",
+                "role": "restroom-access",
+                "width": 6,
+                "depth": 3
+              }
+            ],
+            "connectionCount": 22
+          }
+        ],
+        "counts": {
+          "floors": 5,
+          "rooms": 80,
+          "publicAreas": 35,
+          "workstations": 5,
+          "checkedPoints": 20,
+          "checkedPortals": 220
+        },
+        "limits": [
+          "Floors are viewing layers at Y=0. No stairs, lifts or cross-floor connections.",
+          "Coincident portals and interior samples do not prove obstacle clearance or character navigation."
+        ]
+      },
+      "documentSha256": "c762104453dedcaee0149fbb5239c53f9d360329d630161ef171695720fdf6ab"
+    },
+    {
+      "stem": "six-floors-16",
+      "summary": {
+        "input": "six-floors-16.json",
+        "id": "company-space-v2-six-floors",
+        "scale": "building",
+        "profile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "floors": [
+          {
+            "id": "company-space-v2-six-floors/floor-01",
+            "rooms": [
+              {
+                "id": "company-space-v2-six-floors/floor-01/floor-01-live",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-01/floor-01-work",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-01/room-3",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-01/room-4",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-01/room-5",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-01/room-6",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-01/room-7",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-01/room-8",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-01/room-9",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-01/room-10",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-01/room-11",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-01/room-12",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-01/room-13",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-01/room-14",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-01/room-15",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-01/room-16",
+                "purpose": "training",
+                "area": 36
+              }
+            ],
+            "publicAreas": [
+              {
+                "id": "company-space-v2-six-floors/floor-01/corridor-1",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-01/corridor-2",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-01/corridor-3",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-01/lobby",
+                "role": "lobby",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-01/lift-access",
+                "role": "lift-access",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-01/stair-access",
+                "role": "stair-access",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-01/restroom-access",
+                "role": "restroom-access",
+                "width": 6,
+                "depth": 3
+              }
+            ],
+            "connectionCount": 22
+          },
+          {
+            "id": "company-space-v2-six-floors/floor-02",
+            "rooms": [
+              {
+                "id": "company-space-v2-six-floors/floor-02/floor-02-live",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-02/floor-02-work",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-02/room-3",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-02/room-4",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-02/room-5",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-02/room-6",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-02/room-7",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-02/room-8",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-02/room-9",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-02/room-10",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-02/room-11",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-02/room-12",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-02/room-13",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-02/room-14",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-02/room-15",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-02/room-16",
+                "purpose": "training",
+                "area": 36
+              }
+            ],
+            "publicAreas": [
+              {
+                "id": "company-space-v2-six-floors/floor-02/corridor-1",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-02/corridor-2",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-02/corridor-3",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-02/lobby",
+                "role": "lobby",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-02/lift-access",
+                "role": "lift-access",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-02/stair-access",
+                "role": "stair-access",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-02/restroom-access",
+                "role": "restroom-access",
+                "width": 6,
+                "depth": 3
+              }
+            ],
+            "connectionCount": 22
+          },
+          {
+            "id": "company-space-v2-six-floors/floor-03",
+            "rooms": [
+              {
+                "id": "company-space-v2-six-floors/floor-03/floor-03-live",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-03/floor-03-work",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-03/room-3",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-03/room-4",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-03/room-5",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-03/room-6",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-03/room-7",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-03/room-8",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-03/room-9",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-03/room-10",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-03/room-11",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-03/room-12",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-03/room-13",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-03/room-14",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-03/room-15",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-03/room-16",
+                "purpose": "training",
+                "area": 36
+              }
+            ],
+            "publicAreas": [
+              {
+                "id": "company-space-v2-six-floors/floor-03/corridor-1",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-03/corridor-2",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-03/corridor-3",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-03/lobby",
+                "role": "lobby",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-03/lift-access",
+                "role": "lift-access",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-03/stair-access",
+                "role": "stair-access",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-03/restroom-access",
+                "role": "restroom-access",
+                "width": 6,
+                "depth": 3
+              }
+            ],
+            "connectionCount": 22
+          },
+          {
+            "id": "company-space-v2-six-floors/floor-04",
+            "rooms": [
+              {
+                "id": "company-space-v2-six-floors/floor-04/floor-04-live",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-04/floor-04-work",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-04/room-3",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-04/room-4",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-04/room-5",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-04/room-6",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-04/room-7",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-04/room-8",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-04/room-9",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-04/room-10",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-04/room-11",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-04/room-12",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-04/room-13",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-04/room-14",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-04/room-15",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-04/room-16",
+                "purpose": "training",
+                "area": 36
+              }
+            ],
+            "publicAreas": [
+              {
+                "id": "company-space-v2-six-floors/floor-04/corridor-1",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-04/corridor-2",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-04/corridor-3",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-04/lobby",
+                "role": "lobby",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-04/lift-access",
+                "role": "lift-access",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-04/stair-access",
+                "role": "stair-access",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-04/restroom-access",
+                "role": "restroom-access",
+                "width": 6,
+                "depth": 3
+              }
+            ],
+            "connectionCount": 22
+          },
+          {
+            "id": "company-space-v2-six-floors/floor-05",
+            "rooms": [
+              {
+                "id": "company-space-v2-six-floors/floor-05/floor-05-live",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-05/floor-05-work",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-05/room-3",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-05/room-4",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-05/room-5",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-05/room-6",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-05/room-7",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-05/room-8",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-05/room-9",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-05/room-10",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-05/room-11",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-05/room-12",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-05/room-13",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-05/room-14",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-05/room-15",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-05/room-16",
+                "purpose": "training",
+                "area": 36
+              }
+            ],
+            "publicAreas": [
+              {
+                "id": "company-space-v2-six-floors/floor-05/corridor-1",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-05/corridor-2",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-05/corridor-3",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-05/lobby",
+                "role": "lobby",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-05/lift-access",
+                "role": "lift-access",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-05/stair-access",
+                "role": "stair-access",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-05/restroom-access",
+                "role": "restroom-access",
+                "width": 6,
+                "depth": 3
+              }
+            ],
+            "connectionCount": 22
+          },
+          {
+            "id": "company-space-v2-six-floors/floor-06",
+            "rooms": [
+              {
+                "id": "company-space-v2-six-floors/floor-06/room-1",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-06/room-2",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-06/room-3",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-06/room-4",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-06/room-5",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-06/room-6",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-06/room-7",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-06/room-8",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-06/room-9",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-06/room-10",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-06/room-11",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-06/room-12",
+                "purpose": "training",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-06/room-13",
+                "purpose": "streaming",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-06/room-14",
+                "purpose": "work",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-06/room-15",
+                "purpose": "rest",
+                "area": 36
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-06/room-16",
+                "purpose": "training",
+                "area": 36
+              }
+            ],
+            "publicAreas": [
+              {
+                "id": "company-space-v2-six-floors/floor-06/corridor-1",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-06/corridor-2",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-06/corridor-3",
+                "role": "corridor",
+                "width": 16,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-06/lobby",
+                "role": "lobby",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-06/lift-access",
+                "role": "lift-access",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-06/stair-access",
+                "role": "stair-access",
+                "width": 6,
+                "depth": 3
+              },
+              {
+                "id": "company-space-v2-six-floors/floor-06/restroom-access",
+                "role": "restroom-access",
+                "width": 6,
+                "depth": 3
+              }
+            ],
+            "connectionCount": 22
+          }
+        ],
+        "counts": {
+          "floors": 6,
+          "rooms": 96,
+          "publicAreas": 42,
+          "workstations": 5,
+          "checkedPoints": 22,
+          "checkedPortals": 264
+        },
+        "limits": [
+          "Floors are viewing layers at Y=0. No stairs, lifts or cross-floor connections.",
+          "Coincident portals and interior samples do not prove obstacle clearance or character navigation."
+        ]
+      },
+      "documentSha256": "3ddf42224d7d42f78a3fd77600904cc820541a275c3d678311492a178c42b15c"
+    }
+  ],
+  "smallHomeRejection": {
+    "status": "rejected",
+    "code": "disconnected-use-space",
+    "path": "company-space-v2-small-home-combination/ground/room/station-1/chair#seat.approach",
+    "message": "disconnected-use-space at company-space-v2-small-home-combination/ground/room/station-1/chair#seat.approach: No conservative static grid route from this room test origin",
+    "details": {}
+  },
+  "sourceSha256": "0791d02749fff5cfc5c9bf438b4a83a94ff98e13d28a8b1b3125938ca65aab97",
+  "verification": [
+    "CPU createCompanyScaleV2 generation followed by deriveCompany, inspectCompanyConnections and inspectCompanyPlacement.",
+    "Two-floor example retains explicit floor and room identities while filling each floor to 16 rooms.",
+    "Five-floor example contains 5 x 16 business rooms without loading 100 character actors.",
+    "No browser, GPU, network service or rendering process is used by this script."
+  ],
+  "limitations": [
+    "Static placement and portal checks do not prove character navigation, vertical travel, elevator or stair behaviour.",
+    "Small-home 4.5 x 4 m with one workstation and an optional sofa is rejected by the conservative placement grid. The sofa-only and workstation-only variants pass without resizing furniture."
+  ]
+}

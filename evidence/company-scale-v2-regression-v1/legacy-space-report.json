@@ -1,0 +1,455 @@
+{
+  "status": "passed",
+  "configuration": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "reuseKnownConfiguration": true,
+    "difficulty": "complex",
+    "reason": "Four-tier common hierarchy and exact same-floor portal geometry",
+    "actualProviderConfiguration": "not independently verified",
+    "desktopHookInterception": "not independently verified"
+  },
+  "inputs": [
+    {
+      "path": "prototype/src/company/space.js",
+      "sha256": "8bb42cfa077e2514b9e35d8198e58a68feef59e11e424f34bcbd945dd1eb7dc6"
+    },
+    {
+      "path": "prototype/src/company/document.js",
+      "sha256": "14e380305fc836e6bdd5f12c32046d979ed6c87d374056ddd85bd45c3abe1177"
+    },
+    {
+      "path": "prototype/src/company/library-catalog.json",
+      "sha256": "b31e989e6a1a4ee0ea6f42826c34f9fbcd23f6996d2e4d5f3d111a9d7352053f"
+    },
+    {
+      "path": "prototype/src/company/templates.json",
+      "sha256": "c5d7e3c573df6b8f88c54c553f02dba3db96ae76c9c2bb8e677e2a67cb0dfa53"
+    }
+  ],
+  "examples": [
+    {
+      "name": "single-room",
+      "inputSha256": "8183f49ab214628abfc1f00f06a1b6348affb4773264a5934bdeffa7caa8081b",
+      "documentSha256": "919c655f9319fa4b8802d15f26293fde8ee474462ca51a62c1e113c9d8903d88",
+      "actual": {
+        "maximum": {
+          "floors": 1,
+          "rooms": 1,
+          "stations": 2
+        },
+        "installedStations": 2,
+        "businessRooms": 1,
+        "floors": 1
+      }
+    },
+    {
+      "name": "rental-home",
+      "inputSha256": "9677681d4d34003774dd0cb542702aeb9c84cb3acbcd80c57918fe33c3865be1",
+      "documentSha256": "f129c623c91f8171602d6ac4c6434f21a58a036b10b0e3e857536426ed30a690",
+      "actual": {
+        "maximum": {
+          "floors": 1,
+          "rooms": 3,
+          "stations": 6
+        },
+        "installedStations": 2,
+        "businessRooms": 3,
+        "floors": 1
+      }
+    },
+    {
+      "name": "leased-floor",
+      "inputSha256": "7d16aeb5aae96acaaba728e695ea9a3a2a251b7a5c33d4cca0e3102f6f4b746c",
+      "documentSha256": "80fdc41b6c06154096ef59ef165be444bf920196eb71f5482ec649f26bf87f36",
+      "actual": {
+        "maximum": {
+          "floors": 1,
+          "rooms": 10,
+          "stations": 20
+        },
+        "installedStations": 5,
+        "businessRooms": 10,
+        "floors": 1
+      }
+    },
+    {
+      "name": "building-two-floors",
+      "inputSha256": "1beaeb87ec0e08020017db21f83ab33fb90f002c1741d3096f0e90e4e5e7df3e",
+      "documentSha256": "233a4e6bae7033e21aa1efc7d1cd3b93719285acc1e636c0b0e0d38c916f0a4b",
+      "actual": {
+        "maximum": {
+          "floors": 5,
+          "rooms": 50,
+          "stations": 100
+        },
+        "installedStations": 4,
+        "businessRooms": 4,
+        "floors": 2
+      }
+    },
+    {
+      "name": "building",
+      "inputSha256": "9cce5d3163681794e012b9eb7483d3e4262ea306faa509419ff3331dd4011dd8",
+      "documentSha256": "d4bbc640c54311e8d318a363d183b5d4c7a47bda6b3f795a30bc2711b4abc9b1",
+      "actual": {
+        "maximum": {
+          "floors": 5,
+          "rooms": 50,
+          "stations": 100
+        },
+        "installedStations": 10,
+        "businessRooms": 15,
+        "floors": 5
+      }
+    },
+    {
+      "name": "maximum",
+      "inputSha256": "ca6e0961ef961124a184c872e072872ca22b38d50fab0bd85e44011f8d62fddf",
+      "documentSha256": "fee4ec2debb3f6877c11b7d0da4e1a6e1209d56611f15189aa451791d02de5f5",
+      "actual": {
+        "maximum": {
+          "floors": 5,
+          "rooms": 50,
+          "stations": 100
+        },
+        "installedStations": 100,
+        "businessRooms": 50,
+        "floors": 5
+      }
+    }
+  ],
+  "checks": [
+    {
+      "name": "single-room explicit input derives expected actual fitout and scoped identities",
+      "passed": true,
+      "observed": {
+        "actual": {
+          "maximum": {
+            "floors": 1,
+            "rooms": 1,
+            "stations": 2
+          },
+          "installedStations": 2,
+          "businessRooms": 1,
+          "floors": 1
+        },
+        "publicAreas": 0,
+        "connections": 0
+      }
+    },
+    {
+      "name": "rental-home explicit input derives expected actual fitout and scoped identities",
+      "passed": true,
+      "observed": {
+        "actual": {
+          "maximum": {
+            "floors": 1,
+            "rooms": 3,
+            "stations": 6
+          },
+          "installedStations": 2,
+          "businessRooms": 3,
+          "floors": 1
+        },
+        "publicAreas": 3,
+        "connections": 5
+      }
+    },
+    {
+      "name": "leased-floor explicit input derives expected actual fitout and scoped identities",
+      "passed": true,
+      "observed": {
+        "actual": {
+          "maximum": {
+            "floors": 1,
+            "rooms": 10,
+            "stations": 20
+          },
+          "installedStations": 5,
+          "businessRooms": 10,
+          "floors": 1
+        },
+        "publicAreas": 5,
+        "connections": 14
+      }
+    },
+    {
+      "name": "building-two-floors explicit input derives expected actual fitout and scoped identities",
+      "passed": true,
+      "observed": {
+        "actual": {
+          "maximum": {
+            "floors": 5,
+            "rooms": 50,
+            "stations": 100
+          },
+          "installedStations": 4,
+          "businessRooms": 4,
+          "floors": 2
+        },
+        "publicAreas": 4,
+        "connections": 6
+      }
+    },
+    {
+      "name": "building explicit input derives expected actual fitout and scoped identities",
+      "passed": true,
+      "observed": {
+        "actual": {
+          "maximum": {
+            "floors": 5,
+            "rooms": 50,
+            "stations": 100
+          },
+          "installedStations": 10,
+          "businessRooms": 15,
+          "floors": 5
+        },
+        "publicAreas": 15,
+        "connections": 25
+      }
+    },
+    {
+      "name": "maximum explicit input derives expected actual fitout and scoped identities",
+      "passed": true,
+      "observed": {
+        "actual": {
+          "maximum": {
+            "floors": 5,
+            "rooms": 50,
+            "stations": 100
+          },
+          "installedStations": 100,
+          "businessRooms": 50,
+          "floors": 5
+        },
+        "publicAreas": 25,
+        "connections": 70
+      }
+    },
+    {
+      "name": "Two actual floor layouts change station2 pose while retaining shared resources",
+      "passed": true,
+      "observed": {
+        "parallel": {
+          "position": [
+            1.5,
+            0,
+            0
+          ],
+          "yaw": 0
+        },
+        "turned": {
+          "position": [
+            1.6,
+            0,
+            -0.3
+          ],
+          "yaw": 1.5707963267948966
+        }
+      }
+    },
+    {
+      "name": "Ten-room floor has exact 3m corridor and 1.4m paired room portals",
+      "passed": true,
+      "observed": {
+        "regions": 15,
+        "connections": 14,
+        "north": [
+          -18.4,
+          0,
+          -1.5
+        ],
+        "south": [
+          -18.4,
+          0,
+          1.5
+        ]
+      }
+    },
+    {
+      "name": "Room purposes control actual resources instead of only labels",
+      "passed": true,
+      "observed": {
+        "streamingStations": 2,
+        "independentWorkFurniture": 2,
+        "restSofas": 1,
+        "missingStationsDefaultsTo": 0
+      }
+    },
+    {
+      "name": "Portal world intervals and interior samples rotate with the floor frame",
+      "passed": true,
+      "observed": {
+        "floorTransform": {
+          "position": [
+            12,
+            0,
+            -8
+          ],
+          "yaw": 1.5707963267948966
+        },
+        "worldCenter": [
+          10.499999999999998,
+          0,
+          10.399999999999999
+        ],
+        "normal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "name": "Reject six viewing floors",
+      "passed": true,
+      "observed": {
+        "code": "space-floor-capacity",
+        "inputUnchanged": true
+      }
+    },
+    {
+      "name": "Reject eleven rooms on one floor",
+      "passed": true,
+      "observed": {
+        "code": "floor-room-capacity",
+        "inputUnchanged": true
+      }
+    },
+    {
+      "name": "Reject third station in a room",
+      "passed": true,
+      "observed": {
+        "code": "room-capacity",
+        "inputUnchanged": true
+      }
+    },
+    {
+      "name": "Reject streaming stations in rest room",
+      "passed": true,
+      "observed": {
+        "code": "room-capacity",
+        "inputUnchanged": true
+      }
+    },
+    {
+      "name": "Reject unrecognized floor layout",
+      "passed": true,
+      "observed": {
+        "code": "unsupported-floor-layout",
+        "inputUnchanged": true
+      }
+    },
+    {
+      "name": "Reject rental business room number above three",
+      "passed": true,
+      "observed": {
+        "code": "space-room-capacity",
+        "inputUnchanged": true
+      }
+    },
+    {
+      "name": "Reject offset portals which only look close",
+      "passed": true,
+      "observed": {
+        "code": "portal-geometry-mismatch",
+        "inputUnchanged": true
+      }
+    },
+    {
+      "name": "Reject nonadjacent room boundary crossing",
+      "passed": true,
+      "observed": {
+        "code": "portal-geometry-mismatch",
+        "inputUnchanged": true
+      }
+    },
+    {
+      "name": "Reject corridor cell left disconnected",
+      "passed": true,
+      "observed": {
+        "code": "disconnected-regions",
+        "inputUnchanged": true
+      }
+    },
+    {
+      "name": "Reject an unconnected business room",
+      "passed": true,
+      "observed": {
+        "code": "disconnected-regions",
+        "inputUnchanged": true
+      }
+    },
+    {
+      "name": "Reject overlapping region interiors",
+      "passed": true,
+      "observed": {
+        "code": "overlapping-regions",
+        "inputUnchanged": true
+      }
+    },
+    {
+      "name": "Reject repeated portal interval with a distinct ID",
+      "passed": true,
+      "observed": {
+        "code": "overlapping-portals",
+        "inputUnchanged": true
+      }
+    },
+    {
+      "name": "Reject duplicate connection identity",
+      "passed": true,
+      "observed": {
+        "code": "duplicate-connection-id",
+        "inputUnchanged": true
+      }
+    },
+    {
+      "name": "Reject cross-floor target even when layers overlap visually",
+      "passed": true,
+      "observed": {
+        "code": "cross-floor-connection",
+        "inputUnchanged": true
+      }
+    },
+    {
+      "name": "Reject illegal room hierarchy",
+      "passed": true,
+      "observed": {
+        "code": "invalid-parent",
+        "inputUnchanged": true
+      }
+    },
+    {
+      "name": "Reject eleven business rooms on a floor within the building total limit",
+      "passed": true,
+      "observed": {
+        "code": "floor-room-capacity",
+        "inputUnchanged": true
+      }
+    },
+    {
+      "name": "Reject duplicate room IDs despite repeated display names being valid",
+      "passed": true,
+      "observed": {
+        "code": "duplicate-instance",
+        "inputUnchanged": true
+      }
+    },
+    {
+      "name": "Reject 101 installed stations at the shared document capacity gate",
+      "passed": true,
+      "observed": {
+        "code": "scale-capacity",
+        "inputUnchanged": true
+      }
+    }
+  ],
+  "limits": [
+    "CPU document and portal geometry only. No renderer, GPU, browser or character navigation.",
+    "Y=0 viewing layers do not provide vertical movement. Public corridor cells do not consume business-room capacity.",
+    "Portal interior samples await integration with static placement paths; coincident edges alone do not prove reachability."
+  ]
+}
