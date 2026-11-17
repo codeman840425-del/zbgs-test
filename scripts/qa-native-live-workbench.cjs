@@ -3,7 +3,10 @@ const {chromium}=require('../prototype/node_modules/playwright');
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
 const [directory,output,...flags]=process.argv.slice(2);
 if(!directory||!output)throw Error('Require fixed dist, fresh evidence folder, optional --mic');
-const allSubjects=['native-female-843ac-v1','native-female-face-v1','native-female-waist-v1','native-male-7586-v1'];
+const selectedCases=flags.find(x=>x.startsWith('--cases='))?.slice(8);
+const exactCases=selectedCases?JSON.parse(require('node:fs').readFileSync(selectedCases,'utf8')):null;
+if(exactCases&&(!Array.isArray(exactCases)||!exactCases.length||exactCases.some(r=>r.length!==3||!r.every(x=>typeof x==='string')||!/^[a-z0-9-]+$/.test(r[0])||!/^[a-f0-9]{64}$/.test(r[2]))))throw Error('Invalid explicit body cases');
+const allSubjects=exactCases?exactCases.map(r=>r[0]):['native-female-843ac-v1','native-female-face-v1','native-female-waist-v1','native-male-7586-v1'];
 const only=flags.find(x=>x.startsWith('--body='))?.slice(7);
 if(only&&!allSubjects.includes(only))throw Error('Unknown exact subject');
 const subjects=only?[only]:allSubjects;
@@ -21,6 +24,7 @@ const kinds=flags.includes('--mic')?['glasses','mic']:['glasses'];
    const page=await browser.newPage({viewport:report.viewport}),row={body,errors:[]};report.cases.push(row);page.on('pageerror',e=>row.errors.push(String(e)));
    await page.goto(`http://127.0.0.1:${server.address().port}/?workbench=appearance&body=${body}`);
    await page.waitForFunction(()=>window.__debug?.ready,null,{timeout:90000});assert.equal(await page.evaluate(()=>__debug.buildInfo.shortId),identity.shortId);
+   if(exactCases){const [,assetId,sha256]=exactCases.find(r=>r[0]===body);row.identity=await require('./qa-m1-common.cjs').verifyCandidate(page,{build:identity.shortId,assetId,sha256});}
    await page.locator('[data-workbench-tab="actions"]').click();
    for(const kind of kinds){
     const button=page.locator(`[data-accessory-kind="${kind}"]`);await button.click();

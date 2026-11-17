@@ -24,3 +24,9 @@
 - 女裙和原30秒舞封板；普通电脑没有设备继续标未测，开发9950X3D/4090/Chrome不代表普通机。此轮未新造形体/压缩/公司/服务器。
 - 后台脚本与Playwright；GPU录制一次一个。可继续复用的已知子agent：game_record_package(sol/high)、material_record_review(astra/high)、deterministic_record_batch(astra/high)。实际provider与hook interception未证明，不声称已强制拦截。
 - 公司平台由副总工负责；保留其dirty文件。不主动外发消息或合并公司main。
+
+2026-11-17 CUSTOM-P01 参数批产接缝已形成首个可重复闭环（技术候选）：同一 VRoid 2.16 FaceContour 模板的两份离散配方，经原生制作、冷开回读、VRM 导出、依赖差分、完整身体/上衣/短裤/鞋包、身体遮罩准入、精确握麦与镜腿数据登记后，进入共用角色目录。新增 `prepare_native_batch.py` 从 authoring result 自动生成打包配置；`native_body_package.py` 隔离重建两包逐文件一致。`register_native_packages.py` 与 `register_native_accessories.py` 均具备身份核对、幂等、冲突拒绝和失败回滚。证据：`evidence/m2-native-batch-config-v1`、`evidence/m2-native-registration-independent-v1`、`evidence/m2-native-batch-runtime-seam-v1`。
+
+同一批两份记录已由实际 D02 CLI 创建，固定构建 `bda6fd250bb8`（source `48bb9f5d4ac34d7ee8704f7912c850cef02e3418`）在共用游戏消费者中完成双实例加载、持麦/眼镜、房间走路→坐下→起身→离开、关闭重开恢复及状态隔离；正常速度影片与 1× 近景保留于 `evidence/m2-native-batch-runtime-final-v1`、`evidence/m2-native-batch-live-v1`。这只是两份女性 FaceContour 配方的技术候选，不能外推到任意身体/衣物/颜色/发型；动作自然度和普通电脑性能仍需分别验收。
+
+当前主卡点已从“每件模型手工接线”收敛为：不同几何/表情/发型/衣物仍需要按差分触发对应 fit 和覆盖复核；原生身体目前仅登记原色，眼睛/表情兼容尚未扩展到新 SHA；新增配方链已自动化，但生产结果必须经过共用运行链和记录恢复才可入库。4196 固定工作台仍保持 build1084ddeae27a，本候选尚未替换固定入口。

@@ -480,3 +480,9 @@ m2-record-budget-runtime-v1实际1084/Chrome157/RTX4090/1440×1000 headless：3�
 2026-11-17 CUSTOM-P01原生参数批产制作增量：scripts/production/native_authoring/runner.py接受同模板身份、语义groupType/key、已观察离散值及显式导出设置，重新查组、私有源副本、设值、保护同组另外21参数、另存冷开、官方截图及先准备导出屏再导出。两新FaceContour配置（.78/.30及.60/.48）已同入口真实成功，第二份不改程序；第一份重新执行VRM字节一致，保存的.vroid容器SHA不同，未声称其字节可重建。12离线检查；v1提示文字解析误判/导出迟开失败保留，经官方options接口恢复原菜单，未操作桌面。evidence/m2-native-parameter-batch-v2、assets-source/native-parameter-batch-v2及native-parameter-replay-v1保存源/回执/导出/来源。
 
 native_dependency_delta.py共用实际GLB差分核引用顶点、morph、骨/rest/IBM、材质/图和动态；异/歧义布局拒绝，不用新hash直接继承旧fit。7回归包含morph-only body/hair复验漏项修复，历史4报告复验集合一致，新两几何输出实际比较完成。范围仅原生制作与离线依赖判断；新输出尚未自动提取适配/注册到游戏或通过动作/记录恢复。4196仍1084，不让源截图替代游戏验收，整体P01及M2未完成。
+
+2026-11-17 CUSTOM-P01 首批同参数批产实证：两份真实 VRoid 2.16 FaceContour 配方（A `.78/.30`、B `.60/.48`）由同一原生制作入口分别导出，并由 `scripts/production/prepare_native_batch.py` 自动从制作回执生成下游配置；两件完整身体与三件嵌入装备包逐文件重建一致。共用注册器实际核对原生导出、冷开参数、游戏身体 SHA、三件装备 ID、遮罩 RGB/alpha 合同、鞋底测量和失败回滚，避免把 A 的源或 fit 错配给 B。
+
+新 SHA 的身体遮罩、握麦口部/手部和镜腿数据已登记到共用数据表；不修改角色控制器。初次运行暴露“新 body 未加入 BODY_TEXTURE_COVERAGE_ADMISSIONS”导致游戏加载拒绝，已补成独立数据文件并回归。实际固定候选构建 `48bb9f5d4ac34d7ee8704f7912c850cef02e3418` / `bda6fd250bb8` 通过双记录创建、1×房间动作、持麦眼镜、双实例状态隔离和浏览器关闭重开恢复；证据 `evidence/m2-native-batch-runtime-final-v1`。近景图片和正常速度影片属于技术候选，人工自然度仍待用户观看。
+
+能力边界：同模板离散参数的“制作→导出→导入→登记→角色记录→游戏恢复”已验证两项；任意新参数范围、男女新基模、服装版型自动适配、头发/颜色/眼睛表情自动继承、普通电脑性能、随机生成仍未通过。此项减少了批量生产的重复接线，但没有把有限样件扩大为通用兼容。
