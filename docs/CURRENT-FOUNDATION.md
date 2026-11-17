@@ -4,7 +4,7 @@
 
 ## 固定演示与保留项
 
-- 工作台固定 http://127.0.0.1:4196/?workbench=appearance ，source bfde7d79bc6bce4eda42d3d06d870364f3f64818，build 83decd027116，experiments/m2-preset-diagnostics-fixed-v1/prototype/dist，delivery/appearance-workbench.json。4174历史证据，4195 M1。未替换本轮原生VRoid实验。
+- 工作台固定 http://127.0.0.1:4196/?workbench=appearance ，source eae6c66414cf741bec09629e2143915601bcb3d1，build d0f9ab216e05，experiments/native-mtoon-fixed-v1/prototype/dist，delivery/appearance-workbench.json。4174历史证据，4195 M1。新增检查区原生制作近景/1×录像入口；未将原生候选放入正式人物菜单。83de旧树与history指针保留。
 - 普通菜单男女各3有限样件；15失败预设仅诊断区，分区不等于模型已修好。既有失败和来源证据不改标签。
 - 主交付仍4女+4男代表预设及可持续生产流程。女性裙装及30秒舞封存，不追加精修。普通电脑尚缺设备，用户允许保留缺口继续。
 - m2-semantic-female-face-v1、m2-continuous-garment-fit-v1自造形变试验已暂停，不据历史派工恢复。当前先学习原生成熟制作流程；原运行时保留。
@@ -37,4 +37,6 @@
 
 主窗口单GPU/导出互斥；最新房间录制已结束并释放。桌面操作仅缺接口兜底，操作后立即turn_ended释放。当前后台MCP不需要控制鼠标键盘。
 
-最近已核远端49a2ddc4184e50712d90061449bed06f73d6fc91，含原生Bridge源/导出、Mink、房间证据及2.14卸载；froz表达及独立衣物接缝为其后增量，未核push前不宣称备份完成。只stage明确owned路径；manifest精确字节用局部.gitattributes，ignore日志需显式-force并核index。公司副总工dirty/untracked绝不顺带提交；公司系统不在本轮角色职责内。
+最近已核远端4cf6a23842cffc9be2017aa8bfc013a0081eae7f，含原生Bridge、froz单表达、独立衣物及MToon公共接缝、Mink与2.14卸载。其后增量未核push前不宣称备份完成。只stage明确owned路径；manifest精确字节用局部.gitattributes，ignore日志需显式-force并核index。公司副总工dirty/untracked绝不顺带提交；公司系统不在本轮角色职责内。
+
+当前在途：4196新增原生表情对照入口已真实浏览器检查并发布，eae/d0固定树不可继续改。独立衣装eae/d0实际4周期录制完成但出现严重黑色描边外壳（位置差纳米级不等于材质通过），asset继续CPU因果定位；失败v1-v4保留。customitem单Top66→56保存/重用/冷开导出已过且提交8831af5e，尚非正式factory。原生只卸Tops试验已恢复Body胸部alpha，20衣物aux骨随之消失，face封读回，装备附骨接缝未做。http制作一件改袖Top的精确适配前置，不继承原78912身份。

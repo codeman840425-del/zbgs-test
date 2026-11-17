@@ -354,7 +354,7 @@ head-only一次诊断原8请求已完成，8/8 diagnostic-failed，正式生产�
 | --- | --- | --- |
 | VRoid 2.16 + Bridge 原生保存/VRM导出 | 已验证可用：assets-source/vroid-bridge-study-v1；请求/导出回执、源及VRM SHA，warnings空 | 一个女性原生技术源，非59工具全部通过，非八预设完成 |
 | 新原生角色房间回读 | 部分实测：evidence/native-vroid-room-78912-v1，固定83de房间、78912 VRM1、自身骨架与motion，站立/走路/4表达近景 | test overlay借旧根轨迹；完整factory、装备、覆盖、外观存档和接触未接入；普通机未测 |
-| froz3ncore表情定义制作 | 待验证：固定6469源码确有原生表达参数setter；本机2.16二进制双SHA准入通过 | 只准备一个表达持久化试验；模板叠加/妆容备用，不额外更换主工具 |
+| froz3ncore表情定义制作 | 限定实测：固定6469，单个Joy眉毛定义100→65、保存冷开、VRM导出及同房间近景通过，详见下方补测 | 仅该表达；其余工具不继承通过。customitem已只读枚举，保存复用待实际完成 |
 | 旧2.14退役 | 官方卸载通过、旧端口关闭、2.16仍ready；evidence/vroid-214-retirement-v1 | 有效源与证据保留；残留目录递归删除被执行策略拒绝，尚未清完 |
 | Mink作者碰撞IK前置 | 已验证作者CPU例子与独立碰撞测试；evidence/mink-author-study-v1 | 机器人/合成例子，不是人体舞蹈避碰 |
 | 原男性VRM坐标往返 | 已验证rest/zero/单骨30°，69 raw节点重载回读；assets-source/vrm-mink-roundtrip-v1 | 12骨固定根，无碰撞体/限位/solve，不推定自适应动作通过 |
@@ -366,3 +366,9 @@ head-only一次诊断原8请求已完成，8/8 diagnostic-failed，正式生产�
 原生表情补测（froz6469 / Studio2.16）：14表达真实枚举；Joy眉毛expressions/Joy/0/3从100改65，保存并退出独立进程再冷开仍65。两VRM仅preset/happy引用的真实morph数据变化，其他表达、face/body参数、许可未改。同83de房间近景happy1/.65眉部上提减小可见，neutral/aa像素相同、blink仅13px一级差；中性→happy→中性1×片已保。证据assets-source/vroid-expression-study-v1、evidence/vroid-expression-study-v1/runtime-close-v1。限一个女性候选/一个表情，非任意表达制作/八预设/factory全通过。其save_custom_items已核源码原生part+ZIP/registry回读，但未实际保存复用；其他重复入口不另开全工具验证。
 
 原生独立衣装接缝：78912自身上衣/短裤/鞋实际拆出，保原蒙皮/IBM/MToon/贴图；assets-source/native-vroid-equipment-v1可确定性重建。CPU三姿态最大18.74nm差已归因于Three共享权重重复归一化，原1nm实验门失败保留，不作视觉否决或视觉通过。公共MToon装备loader/单次材质时钟/uniform贴图释放已补，独审12项CPU过，真实衣物浏览器仍待测；不称factory/八体完成。旧unlit材质配方继续有效，MToon暂不支持旧MeshBasic专用改材质配方且会拒绝保原。男性原生基础源已2.16另存/VRM导出，尚未新男性游戏验证。
+
+原生新衣物首次真实加载（4cf/eeb）：被aux骨原名/GLTFLoader清理名差异阻断，run-1保失败，正在修公共名称映射并拒绝歧义；前述CPU12项不覆盖这次实际骨名。新男女Body核查已确认重点截面几何存在，但上躯干Body贴图含透明区域，delete_transparent=false不等于完整可见皮肤；独立衣物显示和基础人体不能据此预先通过。证据evidence/native-vroid-body-audit-v1。
+
+原生customitem已实测（froz6469 / 2.16）：唯一Tops/SleeveLong66→56，原生保存c8d507…，在新进程原source上应用、保存冷开，direct/reused VRM整文件同SHA6a32481e…。Body真实5103引用点与底裤/鞋/头发/脸属性不变，仅Top226点POSITION最大6.545mm改变，权重/130joint排序/IBM不变。导出实际delete_transparent=true、50799三角，不当78912完整基体或游戏换装通过。源与复建见assets-source/vroid-customitem-study-v1，37文件root逐SHA核。
+
+原生独立衣物实际画面（eae6c664/d0f9ab216e05，room-compare-v4）：原/独立各5.5025s、4cycles，applied与wall时间一致。8组同pose原/独立CPU位置误差≤30.25nm，但独立装配出现严重黑色外壳/描边；视觉未通过，不能把MToon材料存在/geometry一致当成功。前v1为原名映射缺陷、v2/v3为测试夹具接线/时钟/CSS失败，均保留。原生制作近景入口已放4196检查区，旧人脸/移动/男女切换及媒体实际用户路径通过；新原生角色仍非正式factory。

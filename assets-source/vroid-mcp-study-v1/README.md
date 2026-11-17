@@ -1,5 +1,7 @@
 # VRoid 受支持版本与 MCP 原生制作验证
 
+> 历史学习包，工具已退役（2026-11-17）。2.14 已官方卸载，日常制作只使用 2.16；下方恢复命令仅保存历史过程，不再作为当前安装或启动指令。原始 `.vroid` 与证据继续保留。当前环境见 `../vroid-bridge-study-v1/ENVIRONMENT.md`；旧工具残留的删除策略阻塞见 `../../evidence/vroid-214-retirement-v1/`。
+
 这是原作者工具学习与接入包，不代表八预设、正式基模或 M2 已通过。
 Studio 2.14.0、BepInEx 6 IL2CPP Windows x64 be.788、brainrom MCP 1.1.0 使用匹配版本。
 `study.json` 保存来源、实际文件身份与逐步验证状态。安装器及依赖工具保存在
