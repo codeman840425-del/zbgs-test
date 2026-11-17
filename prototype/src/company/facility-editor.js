@@ -82,6 +82,9 @@ export function createFacilityEditor({session,catalog,templates,world,camera,get
   function sync(){
     if(disposed)return;
     const doc=session.document,derived=deriveCompany(doc,catalog,templates),view=session.scene.view;
+    const knownLayout=Object.entries(layouts).find(([,d])=>d.id===doc.id)?.[0];
+    if(knownLayout)mode=roomLayouts.has(knownLayout)?'room':'sample';
+    else if(doc.id.startsWith('appearance-'))mode='sample';
     const visible=doc.nodes.filter(n=>['facility','workstation','assembly'].includes(n.kind)&&derived.floorIds.get(n.id)===view.floorId&&(!region()||derived.roomIds.get(n.id)===region()));
     if(!visible.some(n=>n.id===selected))selected='';
     options(el('edit-instance'),[{value:'',label:'选择场景里的物品'},...visible.map((n,i)=>({value:n.id,label:`${i+1} · ${nice(resource(n))||n.name||'组合工位'}`}))],selected);
