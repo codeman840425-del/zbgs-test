@@ -1,38 +1,26 @@
 # 当前角色基础工程恢复点
 
-## 版本与入口
-- 项目 F:/gamemake，分支 feat/m1-foundation-room。4196固定公开 build07bab15f3382/source06c416b3e0c99c00d328516c01d90045b4b07b7e；delivery/appearance-workbench.json为准。4174历史媒体，4195封存M1。
-- 本次 git ls-remote 已核远端等于7d48ec89207d7efbe67c799a095d10f86cde025c；已包含07b发布指针及最终live检查。公司副总工dirty文件不stage。
-- 固定树 experiments/native-feature-release-fixed-v1/prototype/dist；前版987指针保留于delivery/history。观看 /?workbench=appearance 与 /native-production.html#native-features。
+## 版本与备份
+- F:/gamemake，feat/m1-foundation-room。4196固定build01a020d4e10d，source f072400be849d70fcfec437ea580ce76a31977f7；以delivery/appearance-workbench.json为准。
+- 固定目录experiments/m2-character-record-fixed-v1/prototype/dist。07b回滚指针delivery/history/appearance-workbench-07bab15f3382.json；4174历史证据，4195封存M1。不要新建常驻端口。
+- 远端已核实a393bbcadb2a18a5d2b4818101ff2506062e5e42，包含f072完整源、01a发布及录像/检查。其后的在制修改尚未备份。公司副总工dirty文件不stage，禁止git add -A。
 
-## 刚完成：原生候选旧功能接入
-- 旧987四native缺mic/glasses注册已真实复现；不是仅贴图皮肤，新完整VRoid身体来源不同，但未补齐共用生产适配是工程缺口，不能要求用户逐项发现。
-- 四源女843ac/脸cc0843/腰cf1574/男7586已实际装卸眼镜、麦克风并完成讲话、持麦走坐起及30秒舞。四源影片有原始build身份，不改标签。发布07b仅比实录c64改观看HTML，runtime/resources逐文件相同。
-- 最新live evidence/native-feature-live-07b-v1：原female和四native均mic/glasses on、loaded，cases.errors空，build均07b。UI evidence/native-feature-release-ui-07b-v1包含22媒体实际播放/解码、男女/三女性与原色准入/换装检查。
-- 眼镜耳冠女≤0.678mm/男≤0.183mm有限交叉与刘海局部镜腿露点保留；不是零碰撞或人工自然度通过。b552四源房间/近景影片与独审保留。
-- 握麦生产修正VRM1 canonical thumb被VRM0 alias覆盖。female face/waist手部几何/权重/相关bind/rest等价后复用握姿，mouth分别测量。male v1拇指问题及被拒v2保留；v3真实锁非thumb，只调拇指，已实际c64近景/完整持麦房间链复查。零圆柱采样不等于完整碰撞或自然度通过。
-- 原封存30秒舞不改。留存FBX独立转四native目标generated-v2，a378四源完整1×30秒、退出任务技术通过，真实房间空间guard未绕过。源手臂/衣物局部接触、发动态、脚底仍保留；旧体人工接受不继承。元数据旧sourceRestSpace措辞错误仍有，实际按源hips94与目标米制比例。
+## 刚发布的限定成果
+- 原生女843ac、改脸cc0843、改腰cf1574、男7586已补接麦克风/眼镜与原生目标30秒舞。mic VRM1 canonical thumb被VRM0 alias覆盖已修；男性v3仅改thumb。眼镜耳冠女≤0.678mm/男≤0.183mm局部交叉和刘海镜腿露点保留。旧封存30秒舞未修改。
+- 01a D01完整记录包含独立identity/revision、appearanceRecipe、liveAccessories及实际引用身份。两源女脸/男实际磁盘保存、关页重开、同体恢复、503失败保旧、错误fit拒绝、最终commit故障逆序恢复及重试通过：evidence/m2-character-runtime-fixed-v1。正常速度9秒前/侧讲话片与全时段2fps诊断帧保留，未替代人类观感验收。
+- m2-record-props-regression-v1四原生体实际按钮装卸、讲话/携带、暂停恢复通过技术回归；m2-character-record-ui-v2切体/准入与24影片播放通过；m2-record-release-live-v1实际4196原female+四native无pageerror、mic/glasses实际on。
+- 两份确切提交独立检出build-v2逐文件一致。build-v1共享HTML CRLF与git LF不同的失败保留。UI-v1错误要求新9秒回读片>10秒，v2只修两新片时长门，原动作片门保持。
+- 当前公开API仍需先选同一身体；旧配方保持不含live道具的原语义。不是完整跨体消费或全部依赖包已完成。
 
-## 当前主工作包与并行
-- 接续M2 D01完整独立角色记录及保存恢复；旧appearance recipe不含live麦克风/眼镜，不能按先配方后道具的部分成功伪称整套原子恢复。
-- live_prop_transaction：显式requested gpt-6.1-sol/xhigh/fork none，complex，修改live-presentation.js及自身测试，实现prepare/validateCommit/commit/release，失败/过期保当前道具。源码已完成；其源码未进入07b固定发布。
-- D01 character-record/store源实现及并发测试尚未集成。Windows锁已改fail-closed，不按mtime夺锁；等待超时store-busy。需要补整套实际资源身份和共用游戏准入/恢复，不能相信调用者随填resourceIdentities。
-- root整合并审实际用户路径；GPU/录屏串行，无桌面接管。agent实际provider与hook拦截未独立证实；记录evidence/subagent-explicit-dispatch-2026-11-16.json。
+## 正在进行：D01自动选体与可操作记录入口
+- root已在main沿switchFoundationBody实现记录离场完整预备，再compile、同步换体；同体复用原事务。新isCurrent守卫统一body请求代数，失败时不先销毁旧角色。尚未固定、未公开，不继承01a通过结论。
+- record_body_restore_review：显式requested gpt-6.1-sol/high/fork none，complex；已完成只读链路审查，followup只写scripts/qa-character-cross-body.cjs，root执行GPU。
+- record_workbench_controls：显式requested gpt-6.1-sol/high/fork none，complex；独占appearance-workbench.js新增完整角色记录入口，调用controller.captureCharacterRecord/restoreCharacterRecord。不能自动把身份绑定到body/gender；手工切外观不自动写盘。
+- 两agent实际provider与hook拦截未独立证实；已记录evidence/subagent-explicit-dispatch-2026-11-16.json。
+- 下一步：集成两源跨体成功与body/prop/fit/compile失败保旧、竞争取消检查；实际UI保存/下载/读取/关页恢复；确切提交构建与证据后更新4196、核远端。完整传递依赖打包仍下一接缝，不标M2完成。
 
-## 边界与下一步
-- CAPABILITIES为唯一能力事实。完成单包不等于M2完成，依完整v2继续，M3未授权。
-- 原生其他配色/发型/附件/参数仍按query真实准入，不能声称新体全部旧功能恢复。头发落座外扬、白衬衫肤色层次、基础全链/所有速度组合与普通机未验保留。
-- 女裙与旧30秒舞封板不重开；普通电脑无设备，开发机不冒认目标实测。固定提交构建、保原失败证据、禁止git add -A，不stage公司资料。
-
-## 最新开发回读与固定候选准备
-- D01 root接入character-runtime-record/live-accessory-record，core独立记录和store put/CAS实际回读；旧appearance-recipe增live域与逆序rollback。root补齐异常清理，未接受agent曾删除断言的v1结论，失败证据保留。
-- ddae开发版m2-character-runtime-dev-v3男女两源均关闭恢复/完整道具身份/503保旧/错误fit实际拒绝/最后live commit故障整套恢复/重试过。m2-record-whole-look-cpu-v3 19组及face-current-regression全原属性回归过。接下来确切提交独立构建并重跑受影响浏览器路径，检查新增录像，再发布；4196仍07b。
-- 录制旧资源/新记录都不代表任意体型/外观/兼容通过。记录跨基模自动选择与完整依赖导出仍下一接缝，不标M2完成。
-
-
-## 最新固定增量（以此覆盖上方在制记录）
-- 4196已切为01a020d4e10d，source f072400be849d70fcfec437ea580ce76a31977f7，固定目录experiments/m2-character-record-fixed-v1/prototype/dist；07b回滚指针delivery/history/appearance-workbench-07bab15f3382.json。
-- 两确切检出build-v2逐文件一致。build-v1共享HTML换行差异保留失败；UI-v1 9秒回读片不满足旧10秒假设保留，v2仅修样本时长判断。正式录像m2-character-runtime-fixed-v1，UI-v2、四源道具m2-record-props-regression-v1通过技术回归，视觉限制保留。
-- D01已接入同体记录捕获/恢复、磁盘CAS、实际资源与适配身份核查、全域失败回滚。原生女脸与男实际关闭重开、故障恢复与重试验证；不是全依赖闭包或跨体自动选择完成。全部旧API语义保留。
-- 下一工作：复用switchFoundationBody离场准备机制，补记录自动选体/失败保旧，随后补用户可操作的完整记录入口。只读审查record_body_restore_review requested sol/high/fork none；实际provider和hook未证实。
-- 本地提交f072及本次发布记录待远程核实后更新；公司dirty文件不stage。
+## 有效边界
+- CAPABILITIES唯一能力事实；M2完整v2范围不缩减，M3未授权。素材与参数其余缺口仍按清单推进。
+- 原生其他配色/发型/耳帽/妆容/参数仍按真实准入，不能声称全部旧功能恢复。头发落座外扬、白上衣与肤色层次、所有速度组合及普通机未测保留。
+- 女裙与旧30秒舞封板不重开；单GPU/录像串行，不接管用户桌面。普通机无设备，开发机不冒认目标实测。
+- 最新用户追问“为什么新皮肤接入不完整”：完整VRoid含新身体/rig而非仅贴图，但未完成共用适配是工程缺口，不把工作推给用户、不为每体复制控制器。同体配色复用，几何修改仅重验受影响fit，新基模必须实际完成接入检查。

@@ -37,20 +37,26 @@ function revisionStamp(controller){
 }
 export async function captureRuntimeCharacterRecord(controller,{identity,previous,expectedRevision,producer='character-workbench',sourceRefs=[]}={}){
  const actor=controller.actor,stamp=revisionStamp(controller),look=capture(controller);
- const validateResources=record=>validateLoadedRecord(controller,record);
+ const prior=previous?structuredClone(previous):null;
+ // Updating one identity may deliberately change its body. The historical
+ // envelope must remain valid, but its old fit cannot be tested against the
+ // new actor. Only the newly captured look is admitted against this actor.
+ const validateResources=record=>prior&&record.integrity.recordSha256===prior.integrity.recordSha256
+  ?{status:'pending',scope:'historical envelope; new current resources validated separately'}
+  :validateLoadedRecord(controller,record);
  const resourceIdentities=deriveCharacterResourceIdentities(look.appearanceRecipe,look.liveAccessories);
- const record=previous?await updateCharacterRecord(previous,{...look,resourceIdentities},{expectedRevision},{validateResources}):
+ const record=prior?await updateCharacterRecord(prior,{...look,resourceIdentities},{expectedRevision},{validateResources}):
   await createCharacterRecord({identity,...look,resourceIdentities,provenance:{producer,sourceRefs}},{validateResources});
  if(controller.actor!==actor||stamp!==revisionStamp(controller)||canonicalJson(look)!==canonicalJson(capture(controller)))throw Error('保存期间人物或造型已改变，请重试');
  return record;
 }
-export async function restoreRuntimeCharacterRecord(controller,input){
+export async function restoreRuntimeCharacterRecord(controller,input,{isCurrent=()=>true}={}){
  const record=typeof input==='string'?parseRuntimeCharacterRecord(input):structuredClone(input),actor=controller.actor;
  const before=capture(controller),stamp=revisionStamp(controller),epoch=(restoreEpochs.get(controller)??0)+1;
  restoreEpochs.set(controller,epoch);
  await validateCharacterRecord(record,{validationCallback:value=>validateLoadedRecord(controller,value)});
- if(restoreEpochs.get(controller)!==epoch||controller.actor!==actor||stamp!==revisionStamp(controller)||canonicalJson(before)!==canonicalJson(capture(controller)))return{applied:false,cancelled:true};
- const result=await applyAppearanceRecipe(controller,record.appearanceRecipe,{liveAccessories:record.liveAccessories});
+ if(!isCurrent()||restoreEpochs.get(controller)!==epoch||controller.actor!==actor||stamp!==revisionStamp(controller)||canonicalJson(before)!==canonicalJson(capture(controller)))return{applied:false,cancelled:true};
+ const result=await applyAppearanceRecipe(controller,record.appearanceRecipe,{liveAccessories:record.liveAccessories,isCurrent:()=>isCurrent()&&restoreEpochs.get(controller)===epoch});
  return{...result,...(result.applied?{identity:structuredClone(record.identity),revision:record.revision,recordSha256:record.integrity.recordSha256}:{})};
 }
 export function parseRuntimeCharacterRecord(text){

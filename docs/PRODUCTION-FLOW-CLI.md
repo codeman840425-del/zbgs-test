@@ -54,10 +54,14 @@ CLI 不创建隔离工作区、不做发布、不更新能力状态；它把现�
 
 ## 独立角色记录接缝（D01）
 
-在已加载的对应人物上，agent调用 `__debug.captureCharacterRecord({identity:{id,name,gender}})` 保存完整记录；同基模可以保存多个不同ID。`__debug.restoreCharacterRecord(record)` 走共用外观/服装/道具prepare与同步提交，不直接写骨骼。输入来自已保存JSON也可以使用字符串。更新使用 `captureCharacterRecord({previous,expectedRevision})`，保留身份并递增revision。当前恢复要求已选择相同bodyType与SHA；不支持记录自动跨身体替换，也不把它说成完整游戏加载闭环已完成。
+在已加载的对应人物上，agent调用 `__debug.captureCharacterRecord({identity:{id,name,gender}})` 保存完整记录；同基模可以保存多个不同ID。`__debug.restoreCharacterRecord(record)` 走共用外观/服装/道具prepare与同步提交，不直接写骨骼。输入来自已保存JSON也可以使用字符串。更新使用 `captureCharacterRecord({previous,expectedRevision})`，保留身份并递增revision。当前源码的主工作台restore会按记录自动选择身体：先在离场候选上准备完整造型/道具，再编译与替换；失败保留旧人物。底层restoreRuntimeCharacterRecord仍只处理匹配身体，独立对照实例不自动换体。固定发布状态只查CURRENT与CAP。
 
 文件端 `scripts/character-record-store.mjs` 导出 `putCharacterRecord(absoluteRoot,record,{expectedRevision,validateResources})`、`readCharacterRecord`、`listCharacterRecords`；保留运行时导出的envelope而不重造时间戳。结构校验callback只返回pending，真实准入由游戏restore检查当前manifest及实际准备的资源/fit。CLI `list --root ABSOLUTE`、`validate --root ABSOLUTE --id ID`只做文件查询/结构hash校验，不声称已运行。磁盘同ID锁与CAS防覆盖；锁超时不自动夺锁，异常残锁由agent确认没有持有者后维护。
 
 记录额外保留liveAccessories（mic/glasses启用状态、资源SHA、身体适配SHA、握麦使用配置）与派生资源身份清单。修改或伪造fit内部版本即使重算record SHA，仍须通过实际资源准备的一致性比较。旧appearance配方保持原语义，不自动增加道具。早期未发布source-only character-record缺liveAccessories时runtime拒绝保旧，不默认清空装备。数据不含动作时间、讲话状态、摄像机、收益或账号。
 
 验证入口 `node scripts/run-fixed-check.cjs FIXED_DIST scripts/qa-character-runtime-record.cjs NEW_EVIDENCE_DIR`：两具原生体实际装备→独立记录/磁盘保存→关页回读→实际恢复→1倍速讲话、错误hash、错误fit、503、最后域提交异常与重试；旧控制器的回归见qa-whole-look-transaction.mjs。技术通过范围仅以CAPABILITIES和对应build报告为准。
+
+工作台外观底部“完整角色记录”调用同一controller.captureCharacterRecord/restoreCharacterRecord接口。新建稳定身份后保存、选择恢复、JSON下载/读取；姓名绑定后保持原身份，外观跨体可显式更新同ID。旧草稿/配方入口不改语义。浏览器索引zbgs:character-records:v1使用Web Locks与已见raw比较，索引损坏/旧标签页覆盖/旧版本JSON拒绝保原；无Locks不静默无锁保存。该浏览器索引不是联网存档。独立磁盘store仍负责agent文件CAS。
+
+跨体回归：qa-character-cross-body.cjs；按钮/文件/双标签页/坏索引：qa-character-record-ui.cjs，均通过run-fixed-check.cjs运行在指定固定目录。runtime资源清单是引用身份列表，不宣称完整传递依赖包；源码fixture必须随检出提供。

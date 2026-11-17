@@ -445,3 +445,5 @@ D01整套角色记录候选在制：共用runtime新增独立identity/revision�
 
 
 2026-11-17 D01固定增量：source f072400be849d70fcfec437ea580ce76a31977f7、build01a020d4e10d，4196固定入口。m2-character-runtime-fixed-v1：女改脸cc0843/男7586分别实际磁盘保存、关闭页面、重开恢复完整造型+麦克风眼镜；同体不同identity、破损记录拒绝、503失败保旧、错误适配版本拒绝、最终道具commit后故障逆序恢复、重试通过。1×9秒前/侧讲话原片与全时段2fps诊断帧保留；程序通过不代表人工自然度通过。m2-record-props-regression-v1四native实际按钮装卸/讲话携带/暂停恢复技术通过；m2-character-record-ui-v2共24片实际播放及既有切体/配色准入回归通过。首次构建比较因共享HTML CRLF与git LF不同失败，未覆盖；两份确切提交独立检出在fixed-build-v2逐字节重建通过。UI v1旧全片>10秒假设不适用新9秒回读片，v2只调整该两片长度门，既有动作片门保持。D01当前仍要求先选相同基模，API只恢复身份/最终造型不恢复业务与动作；完整传递依赖包、跨基模自动消费及交互入口未完成，未宣布M2结束。
+
+D01下一增量在制：跨体记录沿原switchFoundationBody离场准备/同一事务，guard贯穿记录与body请求；同ID更换body后保存仅重新准入新外观，不用新体校验历史旧fit。m2-character-cross-body-dev-v1十项实际检查通过（对应build见报告）。工作台完整记录入口实际按钮/下载/读取/跨体更新/关页恢复在ui-flow-dev-v2通过，初版与构建重叠无效记录保留；多页保存锁及最新UI仍需固定回归。不是公开01a已具备这些新入口。

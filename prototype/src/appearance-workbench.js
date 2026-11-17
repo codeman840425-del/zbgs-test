@@ -6,6 +6,7 @@ import {REPRESENTATIVE_PRESETS} from './representative-batch.js';
 import {appearanceColorPresets} from './appearance-color-policy.js';
 import {HAIR_COLORS,SKIN_TONES} from './character-appearance.js';
 import {EYE_COLORS,LIP_COLORS} from './facial-palette.js';
+import {CHARACTER_RECORD_MAX_BYTES,isSafeCharacterRecordId} from './character-record.js';
 import earManifest from '../public/assets/m2-paired-ear-accessory-v1/manifest.json' with {type:'json'};
 import hatFit from '../public/assets/m2-hat-hair-v1/fit.json' with {type:'json'};
 // DOM binding only: appearance ownership and camera framing stay in the controller.
@@ -95,6 +96,112 @@ export function bindAppearanceWorkbench({ controller }) {
   fields.append(filePanel);
   const fileNote=document.createElement('p');fileNote.className='appearance-hint';fileNote.textContent='文件仅含此外观、几何与服装的参数及资源版本，不含账户、动作、镜头或资源本体；读取前请选择对应基模。';fields.append(fileNote);
   const recipeFile=filePanel.querySelector('input');
+
+  const recordPanel=document.createElement('details');
+  recordPanel.id='appearance-character-records';
+  recordPanel.innerHTML=`<summary>完整角色记录</summary>
+    <p class="appearance-hint">记录包含当前外观、服装、几何与麦克风／眼镜状态，角色身份独立于基模。旧基模草稿和外观配方仍按原入口保存。</p>
+    <label for="appearance-character-record-name">记录姓名</label>
+    <input id="appearance-character-record-name" type="text" maxlength="160" placeholder="新角色" autocomplete="off">
+    <div class="appearance-pair">
+      <button type="button" id="appearance-character-record-new">新建记录身份</button>
+      <button type="button" id="appearance-character-record-save">保存当前完整角色</button>
+    </div>
+    <label for="appearance-character-record-select">本机已存记录</label>
+    <select id="appearance-character-record-select" aria-describedby="appearance-character-record-note"><option value="">请选择记录</option></select>
+    <div class="appearance-pair">
+      <button type="button" id="appearance-character-record-restore">恢复所选记录</button>
+      <button type="button" id="appearance-character-record-download">下载 JSON</button>
+    </div>
+    <div class="appearance-pair">
+      <button type="button" id="appearance-character-record-read">读取 JSON</button>
+      <input id="appearance-character-record-file" type="file" accept=".json,application/json" hidden aria-label="读取完整角色记录 JSON">
+    </div>
+    <p id="appearance-character-record-note" class="appearance-hint" role="status" aria-live="polite"></p>`;
+  fields.append(recordPanel);
+  const recordName=recordPanel.querySelector('#appearance-character-record-name');
+  const recordSelect=recordPanel.querySelector('#appearance-character-record-select');
+  const recordNew=recordPanel.querySelector('#appearance-character-record-new');
+  const recordSave=recordPanel.querySelector('#appearance-character-record-save');
+  const recordRestore=recordPanel.querySelector('#appearance-character-record-restore');
+  const recordDownload=recordPanel.querySelector('#appearance-character-record-download');
+  const recordRead=recordPanel.querySelector('#appearance-character-record-read');
+  const recordFile=recordPanel.querySelector('#appearance-character-record-file');
+  const recordNote=recordPanel.querySelector('#appearance-character-record-note');
+  const CHARACTER_RECORDS_KEY='zbgs:character-records:v1';
+  const CHARACTER_RECORDS_VERSION=1;
+  let characterRecords=[];
+  let characterRecordsStoreBlocked=false;
+  let characterRecordsNeedsReload=false;
+  let characterRecordsRaw=null;
+  let selectedRecordId='';
+  let boundRecordId='';
+  let pendingRecordIdentity=null;
+  const recordMessage=(text,error=false)=>{
+    recordNote.textContent=text;
+    recordNote.dataset.error=String(error);
+    recordNote.setAttribute('role',error?'alert':'status');
+  };
+  const defaultRecordName=()=>'新角色';
+  function loadCharacterRecords(){
+    try{
+      const raw=localStorage.getItem(CHARACTER_RECORDS_KEY);
+      characterRecordsRaw=raw;
+      if(!raw){characterRecords=[];characterRecordsStoreBlocked=false;characterRecordsNeedsReload=false;return;}
+      const parsed=JSON.parse(raw);
+      if(!parsed||parsed.version!==CHARACTER_RECORDS_VERSION||!Array.isArray(parsed.records))throw Error('本机记录索引格式损坏');
+      const ids=new Set();
+      for(const record of parsed.records){
+        if(!record||typeof record!=='object'||!record.identity||typeof record.identity!=='object'||!isSafeCharacterRecordId(record.identity.id)||typeof record.identity.name!=='string'||record.identity.name.length===0||typeof record.identity.gender!=='string'||record.identity.gender.length===0)throw Error('本机记录索引包含无法识别的身份');
+        if(ids.has(record.identity.id))throw Error(`本机记录索引包含重复身份：${record.identity.id}`);
+        ids.add(record.identity.id);
+      }
+      characterRecords=structuredClone(parsed.records);characterRecordsStoreBlocked=false;characterRecordsNeedsReload=false;
+    }catch(error){
+      characterRecords=[];
+      characterRecordsStoreBlocked=true;
+      characterRecordsRaw=null;
+      recordMessage(`无法读取本机角色记录：${error.message||error}。已保留原索引并停止写入，请由 agent 修复。`,true);
+    }
+  }
+  function renderCharacterRecords(){
+    const value=selectedRecordId;
+    const option=(label,value)=>{const node=document.createElement('option');node.textContent=label;node.value=value;return node;};
+    recordSelect.replaceChildren(option('请选择记录',''),...characterRecords.map(record=>option(`${record.identity.name} · ${record.identity.gender} · v${record.revision}`,record.identity.id)));
+    recordSelect.value=characterRecords.some(record=>record.identity.id===value)?value:'';
+    recordRestore.disabled=!recordSelect.value;
+    recordDownload.disabled=!recordSelect.value;
+    recordName.readOnly=Boolean(boundRecordId);
+    recordName.title=boundRecordId?'已绑定记录的姓名属于稳定身份，请新建记录后使用其他姓名。':'';
+  }
+  async function persistCharacterRecords(next){
+    if(characterRecordsStoreBlocked)throw Error('本机角色记录索引已锁定，原始内容未覆盖，请由 agent 修复');
+    if(characterRecordsNeedsReload)throw Error('本机角色记录已在其他标签页更新，请重新加载工作台');
+    if(!globalThis.navigator?.locks?.request)throw Error('当前浏览器不支持跨标签页保存锁，已拒绝写入');
+    const payload={version:CHARACTER_RECORDS_VERSION,records:next};
+    const serialized=JSON.stringify(payload);
+    await navigator.locks.request(`${CHARACTER_RECORDS_KEY}:write`,{mode:'exclusive'},async()=>{
+      const latestRaw=localStorage.getItem(CHARACTER_RECORDS_KEY);
+      if(latestRaw!==characterRecordsRaw){characterRecordsNeedsReload=true;throw Error('本机角色记录已在其他标签页更新，请重新加载工作台');}
+      localStorage.setItem(CHARACTER_RECORDS_KEY,serialized);
+      characterRecordsRaw=serialized;
+    });
+  }
+  async function upsertCharacterRecord(record){
+    const next=characterRecords.filter(item=>item.identity.id!==record.identity.id);
+    next.push(structuredClone(record));
+    await persistCharacterRecords(next);
+    characterRecords=next;
+  }
+  function selectedRecord(){return characterRecords.find(record=>record.identity.id===selectedRecordId)||null;}
+  function assertImportedRecordVersion(record){
+    const id=record?.identity?.id;
+    if(!id)return;
+    const stored=characterRecords.find(item=>item.identity.id===id);
+    if(!stored)return;
+    if(Number.isSafeInteger(record.revision)&&record.revision<stored.revision)throw Error(`此身份已有更高版本 v${stored.revision}，拒绝导入旧版本。请导入更新版本或另存新身份`);
+    if(record.revision===stored.revision&&record.integrity?.recordSha256!==stored.integrity?.recordSha256)throw Error('此身份同版本内容冲突，拒绝导入。请另存新身份或导入更新版本');
+  }
 
   const listeners = [];
   let disposed = false, busy = false;
@@ -206,7 +313,7 @@ export function bindAppearanceWorkbench({ controller }) {
   move('.sequence-progress', inspectionPage);
   move('#sequence-label', inspectionPage);
   move('.debug-controls', inspectionPage);
-  move('details:not(#appearance-geometry):not(#appearance-validation-samples)', inspectionPage);
+  move('details:not(#appearance-geometry):not(#appearance-validation-samples):not(#appearance-character-records)', inspectionPage);
   const previewInfo=document.createElement('section');previewInfo.id='workbench-preview-info';
   previewInfo.innerHTML='<h3>当前预览</h3><p id="workbench-preview-build" class="appearance-hint"></p><p class="appearance-hint">本批次尚未通过：脸部轮廓、人体比例和衣物适配仍有缺陷；尖锥下颌已明确不可用。这里保留初版、修订版与头部试验供复现，不作为成品造型推荐，也不代表八预设完成。</p><p><a id="workbench-hair-evidence" target="_blank" rel="noopener noreferrer">长发前后对照</a> · <a id="workbench-hat-evidence" target="_blank" rel="noopener noreferrer">帽发与动作证据</a> · <a id="workbench-accessory-record-evidence" target="_blank" rel="noopener noreferrer">整套造型保存与恢复</a> · <a id="workbench-batch-evidence" target="_blank" rel="noopener noreferrer">8预设初版对照（374，含未通过项）</a> · <a id="workbench-axial-evidence" target="_blank" rel="noopener noreferrer">头部近景与动作对照</a></p>';
   for(const [id,path] of [['workbench-hair-evidence','/evidence/m2-long-hair-review-e9b-v1/before-after.html'],['workbench-hat-evidence','/evidence/m2-hat-hair-review-6e0-v1/'],['workbench-accessory-record-evidence','/evidence/m2-accessory-record-review-v1/'],['workbench-batch-evidence','/evidence/m2-representative-review-374-v1/'],['workbench-axial-evidence','/evidence/m2-axial-head-room-v1/']]){
@@ -407,6 +514,7 @@ export function bindAppearanceWorkbench({ controller }) {
       ?'大幅对照：嘴宽 ±12%、眉位 3 mm、鼻尖 2 mm、眼裂宽 +5%。旧小幅样件保留；新幅度是离散样件，不代表任意组合已验收。'
       :discrete?'此下颌样件嘴宽仅原位 / +4%；眉、鼻、眼几何尚未适配。':'真实嘴宽几何 ±4%；眉、鼻、眼按已制作样件选择。';
     syncSamples(actual,geometry);
+    renderCharacterRecords();
   }
   const appearanceChanged = event => {
     if (disposed || event?.actor !== actor()) return;
@@ -522,6 +630,106 @@ export function bindAppearanceWorkbench({ controller }) {
     }catch(e){if(!disposed){sync();message(String(e.message||e),true);}}
     finally{if(!disposed)setBusy(false);}
   });
+  on(recordSelect,'change',()=>{
+    selectedRecordId=recordSelect.value;
+    const record=selectedRecord();
+    recordName.value=record?.identity.name||'';
+    recordRestore.disabled=!record;
+    recordDownload.disabled=!record;
+    if(record)recordMessage(`已选择 ${record.identity.name} · ${record.identity.id} · v${record.revision}。点击“恢复”后才会改变人物。`);
+  });
+  on(recordNew,'click',()=>{
+    if(busy||disposed)return;
+    const name=recordName.value.trim()||defaultRecordName();
+    pendingRecordIdentity={id:globalThis.crypto?.randomUUID?.(),name,gender:'unspecified'};
+    if(!pendingRecordIdentity.id) { recordMessage('当前浏览器不支持稳定角色 ID，无法新建记录。',true);pendingRecordIdentity=null;return; }
+    selectedRecordId='';boundRecordId='';recordName.value=name;renderCharacterRecords();
+    recordMessage(`已新建记录身份“${name}”，点击“保存当前完整角色”写入当前造型。`);
+  });
+  on(recordSave,'click',async()=>{
+    if(busy||disposed)return;
+    const previous=boundRecordId?characterRecords.find(record=>record.identity.id===boundRecordId):null;
+    const name=recordName.value.trim()||previous?.identity.name||pendingRecordIdentity?.name||defaultRecordName();
+    const identity=previous?.identity||(pendingRecordIdentity?{...pendingRecordIdentity,name}: {id:globalThis.crypto?.randomUUID?.(),name,gender:'unspecified'});
+    if(!identity.id){recordMessage('当前浏览器不支持稳定角色 ID，无法保存记录。',true);return;}
+    const captureOptions={identity,producer:'character-workbench'};
+    if(previous){captureOptions.previous=previous;captureOptions.expectedRevision=previous.revision;}
+    setBusy(true);recordMessage(previous?'正在保存当前角色并更新记录…':'正在保存当前角色并创建记录…');
+    try{
+      if(typeof controller.captureCharacterRecord!=='function')throw Error('当前人物运行时尚未提供完整角色记录接口');
+      const record=await controller.captureCharacterRecord(captureOptions);
+      if(disposed)return;
+      await upsertCharacterRecord(record);
+      selectedRecordId=record.identity.id;boundRecordId=record.identity.id;pendingRecordIdentity=null;
+      recordName.value=record.identity.name;renderCharacterRecords();
+      recordMessage(`${previous?'已更新':'已保存'}完整角色记录“${record.identity.name}” · v${record.revision}。`);
+    }catch(error){
+      if(!disposed)recordMessage(`完整角色记录保存失败：${error.message||error}。当前本机记录未改变。`,true);
+    }finally{if(!disposed)setBusy(false);}
+  });
+  on(recordRestore,'click',async()=>{
+    if(busy||disposed)return;
+    const record=selectedRecord();
+    if(!record){recordMessage('请先选择本机已存角色记录。',true);return;}
+    const previousSelection=selectedRecordId,previousName=recordName.value;
+    setBusy(true);recordMessage(`正在恢复角色记录“${record.identity.name}”，可能切换对应基模…`);
+    try{
+      if(typeof controller.restoreCharacterRecord!=='function')throw Error('当前人物运行时尚未提供完整角色记录接口');
+      const result=await controller.restoreCharacterRecord(record);
+      if(disposed)return;
+      if(!result?.applied){if(result?.cancelled)recordMessage('较新的操作已保留，角色记录恢复已停止。');else throw Error(result?.reason||'角色记录恢复未完成');return;}
+      selectedRecordId=record.identity.id;boundRecordId=record.identity.id;pendingRecordIdentity=null;recordName.value=record.identity.name;
+      sync();recordMessage(`已恢复完整角色记录“${record.identity.name}” · v${record.revision}。`);
+    }catch(error){
+      selectedRecordId=previousSelection;recordName.value=previousName;renderCharacterRecords();
+      if(!disposed)recordMessage(`完整角色记录恢复失败：${error.message||error}。当前人物与记录选择已保留。`,true);
+    }finally{if(!disposed)setBusy(false);}
+  });
+  on(recordDownload,'click',()=>{
+    if(busy||disposed)return;
+    const record=selectedRecord();
+    if(!record){recordMessage('请先选择要下载的本机角色记录。',true);return;}
+    let objectURL;
+    try{
+      const text=JSON.stringify(record,null,2);
+      if(new TextEncoder().encode(text).byteLength>CHARACTER_RECORD_MAX_BYTES)throw Error('角色记录超过512 KiB');
+      objectURL=URL.createObjectURL(new Blob([text],{type:'application/json'}));
+      const link=document.createElement('a');link.href=objectURL;link.download=`character-${record.identity.id}.json`;document.body.append(link);try{link.click();}finally{link.remove();}
+      recordMessage(`已下载角色记录“${record.identity.name}”。`);
+    }catch(error){recordMessage(`角色记录下载失败：${error.message||error}`,true);}
+    finally{if(objectURL)setTimeout(()=>URL.revokeObjectURL(objectURL),1000);}
+  });
+  on(recordRead,'click',()=>{if(!busy&&!disposed)recordFile.click();});
+  on(recordFile,'change',async()=>{
+    const file=recordFile.files?.[0];recordFile.value='';
+    if(!file||busy||disposed)return;
+    if(file.size>CHARACTER_RECORD_MAX_BYTES){recordMessage('角色记录文件超过512 KiB，已拒绝读取。',true);return;}
+    const previousSelection=selectedRecordId,previousName=recordName.value;
+    let restoreApplied=false;
+    setBusy(true);recordMessage('正在读取角色记录并核对资源版本…');
+    try{
+      const text=await file.text();
+      if(new TextEncoder().encode(text).byteLength>CHARACTER_RECORD_MAX_BYTES)throw Error('角色记录超过512 KiB');
+      if(typeof controller.restoreCharacterRecord!=='function')throw Error('当前人物运行时尚未提供完整角色记录接口');
+      const candidate=JSON.parse(text);
+      assertImportedRecordVersion(candidate);
+      const result=await controller.restoreCharacterRecord(text);
+      if(disposed)return;
+      if(!result?.applied){if(result?.cancelled){recordMessage('较新的操作已保留，文件恢复已停止。');return;}throw Error(result?.reason||'文件角色记录恢复未完成');}
+      restoreApplied=true;
+      await upsertCharacterRecord(candidate);
+      selectedRecordId=candidate.identity.id;boundRecordId=candidate.identity.id;pendingRecordIdentity=null;recordName.value=candidate.identity.name;
+      sync();recordMessage(`已读取并恢复角色记录“${candidate.identity.name}” · v${candidate.revision}。`);
+    }catch(error){
+      if(restoreApplied){
+        selectedRecordId='';boundRecordId='';pendingRecordIdentity=null;recordName.value='';renderCharacterRecords();
+        if(!disposed)recordMessage(`角色记录已应用，但本机索引保存失败：${error.message||error}。请重新下载或保存当前角色。`,true);
+      }else{
+        selectedRecordId=previousSelection;recordName.value=previousName;renderCharacterRecords();
+        if(!disposed)recordMessage(`角色记录读取失败：${error.message||error}。当前人物与本机记录未改变。`,true);
+      }
+    }finally{if(!disposed)setBusy(false);}
+  });
   async function restoreDraft(automatic=false){
     if(busy||disposed)return;
     let raw;
@@ -604,7 +812,8 @@ export function bindAppearanceWorkbench({ controller }) {
   }
   try {
     if (!actor()?.appearance?.getState) throw Error('当前人物尚未提供外观配置');
-    sync(); setBusy(false); message('选择外观，即时查看');
+    loadCharacterRecords();
+    sync(); renderCharacterRecords(); setBusy(false); message('选择外观，即时查看');
     camera();
     void restoreDraft(true);
   } catch (error) { message(`外观暂不可用：${error.message || error}`, true); }

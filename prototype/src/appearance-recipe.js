@@ -97,7 +97,7 @@ export function validateAppearanceRecipe(controller,record){
  if(!['original','none'].includes(style)&&!/^[a-f0-9]{64}$/.test(record.hairAssetSha256||''))throw appearanceAdmissionError('hairAssetSha256','missing-identity','发型资源身份缺失');
  return true;
 }
-export async function applyAppearanceRecipe(controller,record,{liveAccessories}={}){
+export async function applyAppearanceRecipe(controller,record,{liveAccessories,isCurrent=()=>true}={}){
  validateAppearanceRecipe(controller,record);
  // Snapshot the requested values before awaiting resource I/O. The caller may
  // reuse its JSON object, but it cannot change an in-flight transaction.
@@ -114,7 +114,7 @@ export async function applyAppearanceRecipe(controller,record,{liveAccessories}=
  const updates=[],attemptedCommits=[],cleanupErrors=[];
  const attachmentTransaction=accessoryVersion?createAccessoryTransactionContext(actor,record.accessories):null;
  let commitStarted=false;
- const superseded=()=>controller.actor!==actor||
+ const superseded=()=>!isCurrent()||controller.actor!==actor||
   actor.facialGeometry.getState().revision!==geometryRevision||
   actor.appearance.getState().revision!==appearanceRevision||
   (controller.outfitRevision||0)!==outfitRevision||
