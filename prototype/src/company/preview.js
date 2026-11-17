@@ -34,6 +34,7 @@ import {createMakeupDrawerSample} from './makeup-drawer-samples.js';
 import {createMakeupWallMirrorSample} from './makeup-wall-mirror-samples.js';
 import {createSideTableSample} from './side-table-samples.js';
 import {createSideTableLifeItemsSample} from './side-table-life-items-samples.js';
+import {createCeilingAcousticSample} from './ceiling-acoustic-samples.js';
 import {createWallShelfSample} from './wall-shelf-samples.js';
 import {createVanitySample} from './vanity-samples.js';
 import {createMirrorController,selectMirrorRenderProfile} from './mirror-render.js';
@@ -90,7 +91,7 @@ const sun=new THREE.DirectionalLight(0xfff0d6,2.3);sun.position.set(-3,8,5);sun.
 Object.assign(sun.shadow.camera,{left:-8,right:8,top:8,bottom:-8});sun.shadow.normalBias=.015;world.add(sun);
 const camera=new THREE.PerspectiveCamera(38,1,.05,300),orbit=new OrbitControls(camera,renderer.domElement);
 orbit.enableDamping=false;orbit.maxPolarAngle=Math.PI*.48;orbit.minDistance=2;orbit.maxDistance=160;
-const layouts={wallShelves:createWallShelfSample(catalog,templates).document,wallShelfAlternate:createWallShelfSample(catalog,templates,{alternate:true}).document,sideTableLifeItems:createSideTableLifeItemsSample(catalog,templates).document,sideTableLifeItemsAlternate:createSideTableLifeItemsSample(catalog,templates,{alternate:true}).document,sideTables:createSideTableSample(catalog,templates).document,sideTableAlternate:createSideTableSample(catalog,templates,{alternate:true}).document,makeupWallMirrors:createMakeupWallMirrorSample(catalog,templates).document,makeupWallMirrorAlternate:createMakeupWallMirrorSample(catalog,templates,{alternate:true}).document,makeupDrawer:createMakeupDrawerSample(catalog,templates).document,makeupDrawerAlternate:createMakeupDrawerSample(catalog,templates,{alternate:true}).document,makeupStorage:createMakeupStorageSample(catalog,templates).document,makeupStorageAlternate:createMakeupStorageSample(catalog,templates,{alternate:true}).document,makeupMirrors:createMakeupMirrorSample(catalog,templates).document,makeupMirrorAlternate:createMakeupMirrorSample(catalog,templates,{alternate:true}).document,vanities:createVanitySample(catalog,templates).document,vanityAlternate:createVanitySample(catalog,templates,{alternate:true}).document,floorMirrors:createFloorMirrorSample(catalog,templates).document,floorMirrorAlternate:createFloorMirrorSample(catalog,templates,{alternate:true}).document,mirrors:createMirrorSample(catalog,templates).document,mirrorAlternate:createMirrorSample(catalog,templates,{alternate:true}).document,floorInformation:createFloorInformationSample(catalog,templates).document,floorInformationAlternate:createFloorInformationSample(catalog,templates,{alternate:true}).document,information:createInformationSample(catalog,templates).document,informationAlternate:createInformationSample(catalog,templates,{alternate:true}).document,supportedClocks:createSupportedClockSample(catalog,templates).document,supportedClockAlternate:createSupportedClockSample(catalog,templates,{alternate:true}).document,clocks:createClockSample(catalog,templates).document,clockAlternate:createClockSample(catalog,templates,{alternate:true}).document,sliding:createSlidingSample(catalog,templates).document,slidingAlternate:createSlidingSample(catalog,templates,{alternate:true}).document,hinged:createHingedSample(catalog,templates).document,hingedAlternate:createHingedSample(catalog,templates,{alternate:true}).document,base,alternate,studio,...createScaleExamples(catalog,templates),smallHome,rental:rentalHome,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome,ceilings:ceilingCompany,ceilingHome,
+const layouts={ceilingAcoustic:createCeilingAcousticSample(catalog,templates).document,ceilingAcousticAlternate:createCeilingAcousticSample(catalog,templates,{alternate:true}).document,wallShelves:createWallShelfSample(catalog,templates).document,wallShelfAlternate:createWallShelfSample(catalog,templates,{alternate:true}).document,sideTableLifeItems:createSideTableLifeItemsSample(catalog,templates).document,sideTableLifeItemsAlternate:createSideTableLifeItemsSample(catalog,templates,{alternate:true}).document,sideTables:createSideTableSample(catalog,templates).document,sideTableAlternate:createSideTableSample(catalog,templates,{alternate:true}).document,makeupWallMirrors:createMakeupWallMirrorSample(catalog,templates).document,makeupWallMirrorAlternate:createMakeupWallMirrorSample(catalog,templates,{alternate:true}).document,makeupDrawer:createMakeupDrawerSample(catalog,templates).document,makeupDrawerAlternate:createMakeupDrawerSample(catalog,templates,{alternate:true}).document,makeupStorage:createMakeupStorageSample(catalog,templates).document,makeupStorageAlternate:createMakeupStorageSample(catalog,templates,{alternate:true}).document,makeupMirrors:createMakeupMirrorSample(catalog,templates).document,makeupMirrorAlternate:createMakeupMirrorSample(catalog,templates,{alternate:true}).document,vanities:createVanitySample(catalog,templates).document,vanityAlternate:createVanitySample(catalog,templates,{alternate:true}).document,floorMirrors:createFloorMirrorSample(catalog,templates).document,floorMirrorAlternate:createFloorMirrorSample(catalog,templates,{alternate:true}).document,mirrors:createMirrorSample(catalog,templates).document,mirrorAlternate:createMirrorSample(catalog,templates,{alternate:true}).document,floorInformation:createFloorInformationSample(catalog,templates).document,floorInformationAlternate:createFloorInformationSample(catalog,templates,{alternate:true}).document,information:createInformationSample(catalog,templates).document,informationAlternate:createInformationSample(catalog,templates,{alternate:true}).document,supportedClocks:createSupportedClockSample(catalog,templates).document,supportedClockAlternate:createSupportedClockSample(catalog,templates,{alternate:true}).document,clocks:createClockSample(catalog,templates).document,clockAlternate:createClockSample(catalog,templates,{alternate:true}).document,sliding:createSlidingSample(catalog,templates).document,slidingAlternate:createSlidingSample(catalog,templates,{alternate:true}).document,hinged:createHingedSample(catalog,templates).document,hingedAlternate:createHingedSample(catalog,templates,{alternate:true}).document,base,alternate,studio,...createScaleExamples(catalog,templates),smallHome,rental:rentalHome,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome,ceilings:ceilingCompany,ceilingHome,
   supports:createSupportSample(catalog,templates).document,supportAlternate:createSupportSample(catalog,templates,{alternate:true}).document},assetLibrary=createCompanyAssetLibrary();let session,activeView='room',busy=false,game;
 let regionLabels=[],previewClockOverride=null;
 function setPreviewClock(seconds){if(seconds!==null)validatePresentationInputs({clockSeconds:seconds});previewClockOverride=seconds;if(seconds!==null)session.scene.setPresentationInputs({clockSeconds:seconds});return seconds;}
@@ -142,6 +143,12 @@ function setView(name){
     const look=new THREE.Vector3(0,2.45,-room.bounds.depth*.25),axis=new THREE.Vector3(0,1,0);
     offset.applyAxisAngle(axis,frame.yaw);look.applyAxisAngle(axis,frame.yaw);
     camera.position.copy(origin).add(offset);orbit.target.copy(origin).add(look);
+    const mounts=derived.facilities.filter(f=>f.roomId===room.id&&f.resource.mount==='ceiling');
+    if(mounts.length){
+      const box=new THREE.Box3();for(const f of mounts)box.expandByObject(session.scene.root.getObjectByName(f.id));
+      const lowView=new THREE.Vector3(0,.2,room.bounds.depth*.45).applyAxisAngle(axis,frame.yaw);
+      camera.position.copy(origin).add(lowView);orbit.target.copy(box.getCenter(new THREE.Vector3()));
+    }
     orbit.update();updateWallView();
     document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.view===name)));
     return;
@@ -201,9 +208,9 @@ async function changeFinish(type){
     finish:resource?{...room.finishes?.[surface],resource:{id:resource.id,version:resource.version}}:null})));
 }
 async function showAppearanceSample(branch,index){
-  const sample=createAppearanceSample(branch,index,catalog,templates,{alternate:(branch==='side-table-life-items'&&session?.document?.id==='side-table-life-items-alternate')||(branch==='wall-shelf'&&session?.document?.id==='wall-shelf-alternate')});
+  const sample=createAppearanceSample(branch,index,catalog,templates,{alternate:(branch==='ceiling-acoustic-baffle'&&session?.document?.id==='ceiling-acoustic-alternate')||(branch==='side-table-life-items'&&session?.document?.id==='side-table-life-items-alternate')||(branch==='wall-shelf'&&session?.document?.id==='wall-shelf-alternate')});
   if(session.document.id===sample.document.id){
-    const replacements=sample.document.nodes.filter(n=>n.resource&&(!['wall-shelf','side-table-life-items','side-table','makeup-mirror','makeup-mirror-wall','makeup-storage','makeup-storage-drawer'].includes(branch)||catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.mountRole===branch)&&(!['information-board','information-board-floor'].includes(branch)||catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.informationSurface)).map(n=>({type:'replace-resource',id:n.id,resource:n.resource}));
+    const replacements=sample.document.nodes.filter(n=>n.resource&&(!['ceiling-acoustic-baffle','wall-shelf','side-table-life-items','side-table','makeup-mirror','makeup-mirror-wall','makeup-storage','makeup-storage-drawer'].includes(branch)||catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.mountRole===branch)&&(!['information-board','information-board-floor'].includes(branch)||catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.informationSurface)).map(n=>({type:'replace-resource',id:n.id,resource:n.resource}));
     await session.apply(replacements);
   }else await session.load(sample.document);
   await showSpace('room',sample.document.nodes[0].id,sample.document.nodes[1].id);
@@ -211,6 +218,12 @@ async function showAppearanceSample(branch,index){
   const object=session.scene.root.getObjectByName(sample.target),box=new THREE.Box3().setFromObject(object);
   if(branch==='vanity-table')box.expandByObject(session.scene.root.getObjectByName(sample.target+'/seat'));
   const target=box.getCenter(new THREE.Vector3()),size=box.getSize(new THREE.Vector3());
+  if(branch==='ceiling-acoustic-baffle'){
+    activeView='ceiling';orbit.maxPolarAngle=Math.PI*.96;orbit.minDistance=.4;
+    const offset=new THREE.Vector3(.45,-.65,1).normalize().applyQuaternion(object.getWorldQuaternion(new THREE.Quaternion()));
+    camera.position.copy(target).addScaledVector(offset,1.9);orbit.target.copy(target);orbit.update();updateWallView();
+    element('scene-name').textContent=sample.document.name;return sample;
+  }
   orbit.minDistance=['side-table-life-items','makeup-storage','makeup-storage-drawer'].includes(branch)?.25:['analog-clock','digital-clock','analog-clock-shelf','digital-clock-shelf'].includes(branch)?.6:2;
   const offset=branch==='side-table-life-items'?new THREE.Vector3(1,.8,-1):branch==='makeup-storage-drawer'?new THREE.Vector3(.25,1.7,.75):branch==='vanity-table'?new THREE.Vector3(-.8,.6,1):['floor-panel','rug'].includes(branch)?new THREE.Vector3(.15,1,.35):new THREE.Vector3(.5,.45,1);
   offset.normalize().applyQuaternion(object.getWorldQuaternion(new THREE.Quaternion()));
@@ -289,7 +302,7 @@ function sync(){
   syncFinishes();
   if(building)buildingView.render(doc,{presentation:buildingPresentation});
   element('camera-hint').textContent=building?'先进入侧剖面，再选择楼层。':view.mode==='room'?'单间可拖动旋转，滚轮缩放。':'当前为固定角度总览，点击房间进入三维查看。';
-  document.querySelectorAll('[data-view]').forEach(button=>{button.disabled=busy||view.mode!=='room'||(button.dataset.view==='ceiling'&&!currentFinishRoom()?.finishes?.ceiling);});
+  document.querySelectorAll('[data-view]').forEach(button=>{button.disabled=busy||view.mode!=='room'||(button.dataset.view==='ceiling'&&!currentFinishRoom()?.finishes?.ceiling&&!session.document.nodes.some(n=>n.parentId===currentFinishRoom()?.id&&catalog.resources.find(r=>r.id===n.resource?.id&&r.version===n.resource?.version)?.mount==='ceiling'));});
   regionLabels=[];element('region-labels').replaceChildren();
   const labelNodes=building?[]:doc.nodes.filter(n=>['room','area'].includes(n.kind)&&derived.floorIds.get(n.id)===view.floorId&&(!view.roomId||n.id===view.roomId));
   for(const [index,node]of labelNodes.entries()) {

@@ -19,6 +19,7 @@ import {validateMakeupDrawerGeometry} from './makeup-drawer-geometry.js';
 import {validateMakeupWallMirrorGeometry} from './makeup-wall-mirror-geometry.js';
 import {validateSideTableGeometry} from './side-table-geometry.js';
 import {validateSideTableLifeItemsGeometry} from './side-table-life-items-geometry.js';
+import {validateCeilingAcousticGeometry} from './ceiling-acoustic-geometry.js';
 import {validateWallShelfGeometry} from './wall-shelf-geometry.js';
 import {validateMirrorGeometry} from './mirror-geometry.js';
 import {trackTexture,trackTextures} from './image-ownership.js';
@@ -174,6 +175,7 @@ function validateResource(pack, description) {
   validateMakeupWallMirrorGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateSideTableGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateSideTableLifeItemsGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
+  validateCeilingAcousticGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateWallShelfGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateMirrorGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateSupportGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
@@ -198,7 +200,7 @@ function validateResource(pack, description) {
   }
   if(description.mounting) {
     const s=description.mounting,b=new THREE.Box3().setFromObject(pack.scene),wall=['wall','portal','information-surface'].includes(description.mount);
-    const lo=wall&&s.origin==='center'?-s.height/2:0;
+    const lo=description.mount==='ceiling'&&s.origin==='top'?-s.height:wall&&s.origin==='center'?-s.height/2:0;
     if(![s.width,s.height,s.depth].every(v=>Number.isFinite(v)&&v>0)||
       b.min.x < -s.width/2-.001||b.max.x > s.width/2+.001||b.min.y<lo-.001||b.max.y>lo+s.height+.001||
       b.min.z<(wall?0:-s.depth/2)-.001||b.max.z>(wall?s.depth:s.depth/2)+.001)

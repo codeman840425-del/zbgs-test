@@ -1,5 +1,5 @@
 import {deriveCompany,prepareCompanyChange,CompanyError} from './document.js';
-import {createCompanyScene} from './render.js';
+import {createCompanyScene,validateCeilingDocumentAssets} from './render.js';
 import {createCompanySaveStore,encodeCompanySave,decodeCompanySave} from './persistence.js';
 import {inspectCompanyPlacement} from './placement.js';
 import {prepareTemplateUpgrade} from './upgrade.js';
@@ -16,14 +16,18 @@ export async function createCompanyAuthoring(world,initialDocument,{catalog,temp
     return [...(view.mode==='building'?[]:derived.facilities.filter(f=>f.floorId===floorId).map(f=>f.resource)),...surfaceResources,...contacts];
   }
   function pendingResources() { return pendingPreloads.get(generation)||[]; }
-  async function preload(document,view={},token=null) {
-    const requested=resources(document,view);
+  async function preload(document,view={},token=null,checkInstallation=true) {
+    const derived=checkInstallation?deriveCompany(document,catalog,templates):null;
+    const ceilingFloors=new Set(derived?.facilities.filter(f=>f.resource.mount==='ceiling').map(f=>f.floorId));
+    const requested=[...resources(document,view),...(derived?.facilities.filter(f=>ceilingFloors.has(f.floorId)).map(f=>f.resource)||[])];
     if(token!==null)pendingPreloads.set(token,requested);
     inspectCompanyPlacement(document,catalog,templates); await assetLibrary?.preload(requested);
+    if(derived)validateCeilingDocumentAssets(derived,assetLibrary);
     return document;
   }
   await preload(initialDocument);
   const scene=createCompanyScene(world,initialDocument,{catalog,templates,assetLibrary,mirrorPreflight,mirrorRenderProfile});
+  assetLibrary?.retainOnly?.(resources(initialDocument));
   function intent(){if(disposed)throw new CompanyError('scene-disposed','authoring','Authoring session is closed');return ++generation;}
   function latest(token){if(disposed||generation!==token)throw new CompanyError('revision-conflict','authoring','A newer edit or load superseded this prepared scene');}
   function prune() {
@@ -73,7 +77,7 @@ export async function createCompanyAuthoring(world,initialDocument,{catalog,temp
     },
     async setView(view) {
       return transaction(async token=>{
-        const next={...scene.view,...view};await preload(scene.document,next,token);latest(token);return scene.setView(next);
+        const next={...scene.view,...view};await preload(scene.document,next,token,false);latest(token);return scene.setView(next);
       });
     },
     async retainUsePointContact(id) {

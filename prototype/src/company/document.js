@@ -1,4 +1,5 @@
 // Company authoring data. Actor tasks and seat leases remain in the character platform.
+import {validateCeilingAttachments} from './ceiling-acoustic-data.js';
 import {compareFacilityFunction} from './appearance-contract.js';
 import {validateSupportResource, validateSupportAttachments,effectiveSupportTransform} from './support-data.js';
 import {MAKEUP_STORAGE_PROFILE,validateMakeupStorageAttachments} from './makeup-storage-data.js';
@@ -313,6 +314,7 @@ export function deriveCompany(document, catalog, templates) {
     if (a.floorId === b.floorId && a.min[0] < b.max[0] - 1e-8 && a.max[0] > b.min[0] + 1e-8 && a.min[1] < b.max[1] - 1e-8 && a.max[1] > b.min[1] + 1e-8)
       fail('overlapping-facilities', a.id, `Blocking footprint overlaps ${b.id}`, { otherId: b.id });
   }
+  validateCeilingAttachments({nodes,facilities},fail);
   validateSupportAttachments(nodes, resources, fail);
   validateMakeupMirrorAttachments(nodes, resources, fail);
   validateMakeupStorageAttachments(nodes,resources,fail);

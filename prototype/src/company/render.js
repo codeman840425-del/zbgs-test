@@ -1,3 +1,4 @@
+import {validateCeilingVisualPlacement,ceilingVisibleForRegion} from './ceiling-placement.js';
 import * as THREE from 'three';
 import defaultCatalog from './facility-catalog.json' with {type:'json'};
 import defaultTemplates from './templates.json' with {type:'json'};
@@ -65,6 +66,24 @@ function effectivelyVisible(object) {
   return true;
 }
 
+// CPU preflight also covers hidden floors/building overview. Temporary instances
+// are never attached to the visible scene and own their cloned display resources.
+export function validateCeilingDocumentAssets(derived,assetLibrary){
+  const floors=new Set(derived.facilities.filter(f=>f.resource.mount==='ceiling').map(f=>f.floorId));
+  if(!floors.size)return;
+  const temporary=new Map();
+  try {
+    for(const f of derived.facilities.filter(f=>floors.has(f.floorId))){
+      const root=new THREE.Group();temporary.set(f.id,{...f,root});
+      if(f.resource.asset&&!assetLibrary)throw new CompanyError('asset-library-required',f.id,'Ceiling clearance requires actual geometry, including facilities on hidden floors');
+      const visual=f.resource.asset?assetLibrary.instantiate(f.resource).root:buildResource(f.resource.node,new Map(),f.state);
+      root.add(visual);root.position.fromArray(f.world.position);root.rotation.y=f.world.yaw;root.updateMatrixWorld(true);
+      temporary.get(f.id).visual=visual;
+    }
+    validateCeilingVisualPlacement(temporary,(code,path,message)=>{throw new CompanyError(code,path,message);});
+  }finally{for(const f of temporary.values())disposeTree(f.root);}
+}
+
 // Presentation/provider only: no actor creation, movement, task or lease implementation.
 export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog,templates=defaultTemplates,visibleFloorId,maxRealtimeLights=2,assetLibrary,mirrorPreflight,mirrorRenderProfile='single-512-v1'}={}) {
   validateMirrorRenderProfile(mirrorRenderProfile);
@@ -100,7 +119,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
           const floor=structureMesh(width,.12,depth,node.kind==='area'?'#c6c7bc':'#d7d5c7');floor.position.y=-.06;floor.name=`Floor:${node.id}`;parent.add(floor);floors.push(floor);
           floor.userData={roomId:node.id,floorId};
           applySurfaceFinish(floor,finishes.get(`${node.id}#finish:floor`),node,null,assetLibrary,finishMaterials);
-          if(finishes.has(`${node.id}#finish:ceiling`)) {
+          if(finishes.has(`${node.id}#finish:ceiling`)||derived.facilities.some(f=>f.roomId===node.id&&f.resource.mount==='ceiling')) {
             const ceiling=structureMesh(width,.08,depth,'#e2dfd5');ceiling.position.y=WALL_HEIGHT+.04;
             ceiling.name=`Ceiling:${node.id}`;ceiling.userData={roomId:node.id,floorId};
             parent.add(ceiling);ceilings.push(ceiling);
@@ -216,6 +235,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
           }
         }
       }
+      validateCeilingVisualPlacement(facilities,(code,path,message)=>{throw new CompanyError(code,path,message);});
       for(const point of derived.usePoints.filter(p=>p.floorId===floorId)) {
         const facility=facilities.get(point.facilityId),chairSeat=facility.parts.get(point.seatNodeId),chairBack=facility.parts.get(point.backNodeId);
         if(!chairSeat?.isMesh || !chairBack?.isMesh)throw new CompanyError('missing-contact-mesh',point.id,'Seat and back must resolve to actual resource meshes');
@@ -324,11 +344,13 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
     const wallVisibility=evaluateWallVisibility({walls:target.architecture.walls,document:target.document,derived:target.derived,
       floorId:target.floorId,view:target.view,mode:target.wallView?.mode,cameraPosition:target.wallView?.cameraPosition,groups:target.wallGroups});
     const hiddenGroups=wallVisibility.hiddenGroups;
+    const ceilingVisible=regionId=>ceilingVisibleForRegion({view:target.view,cameraPosition:target.wallView?.cameraPosition,region:target.derived.nodes.get(regionId),group:target.groups.get(regionId)});
     for(const facility of target.facilities.values()) {
       const detailed=!focused||facility.roomId===focused;
       const wallHidden=facility.wallBinding?.wallGroup&&hiddenGroups.has(facility.wallBinding.wallGroup);
       facility.visual.visible=detailed&&!wallHidden;if(facility.proxy)facility.proxy.visible=!detailed;
       if(['wall','portal'].includes(facility.resource.mount))facility.root.visible=detailed&&!wallHidden;
+      if(facility.resource.mount==='ceiling'){facility.root.visible=ceilingVisible(facility.roomId);if(facility.proxy)facility.proxy.visible=false;}
       // Wall-mounted assets retain their complete geometry.  Older cutaway
       // clipping planes must be cleared when a candidate is reused.
       facility.visual.traverse(object=>{for(const material of object.material?[object.material].flat():[])if(material.clippingPlanes?.length||material.clipShadows){material.clippingPlanes=[];material.clipShadows=false;material.needsUpdate=true;}});
@@ -337,10 +359,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
     // visibility only, preserving the real 2.8m height and center.
     for(const wall of target.walls){wall.scale.y=1;wall.position.y=WALL_CENTER_Y;wall.visible=!hiddenGroups.has(wall.userData.wallGroup);}
     for(const ceiling of target.ceilings) {
-      const camera=target.wallView?.cameraPosition,region=target.derived.nodes.get(ceiling.userData.roomId);
-      const local=camera?ceiling.parent.worldToLocal(new THREE.Vector3(...camera)):null;
-      ceiling.visible=Boolean(focused===region.id&&local&&local.y>.05&&local.y<WALL_HEIGHT-.05&&
-        Math.abs(local.x)<region.bounds.width/2-.05&&Math.abs(local.z)<region.bounds.depth/2-.05);
+      ceiling.visible=ceilingVisible(ceiling.userData.roomId);
     }
     const eligible=target.lights.filter(l=>(!focused||l.roomId===focused)&&effectivelyVisible(l.light)).sort((a,b)=>a.id.localeCompare(b.id));
     const enabled=new Set(eligible.filter(l=>l.desired>0).slice(0,maxRealtimeLights));

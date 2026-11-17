@@ -1,0 +1,83 @@
+{
+  "schema": "company-layout",
+  "version": 1,
+  "id": "ceiling-acoustic-demo",
+  "name": "顶部吸声 · 四款结构",
+  "revision": 1,
+  "scale": "single-room",
+  "catalog": {
+    "id": "company-facilities",
+    "version": 1
+  },
+  "nodes": [
+    {
+      "id": "ceiling-acoustic-demo/floor-1",
+      "kind": "floor",
+      "parentId": "ceiling-acoustic-demo",
+      "name": "一层",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "ceiling-acoustic-demo/room-1",
+      "kind": "room",
+      "parentId": "ceiling-acoustic-demo/floor-1",
+      "name": "直播间",
+      "purpose": "streaming",
+      "bounds": {
+        "width": 6,
+        "depth": 4
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "ceiling-acoustic/primary",
+      "kind": "facility",
+      "parentId": "ceiling-acoustic-demo/room-1",
+      "resource": {
+        "id": "ceiling-acoustic-cloud",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          2.8,
+          0
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "ceiling-acoustic/table",
+      "kind": "facility",
+      "parentId": "ceiling-acoustic-demo/room-1",
+      "resource": {
+        "id": "side-table-square",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "id": "company-ceiling-acoustic-v1",
+  "version": 1,
+  "common": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Ceiling mounting plane centre",
+    "mounting": {
+      "origin": "top",
+      "width": 1.2,
+      "height": 0.3,
+      "depth": 0.4
+    },
+    "footprint": {
+      "center": [
+        0,
+        0
+      ],
+      "halfSize": [
+        0.6,
+        0.2
+      ],
+      "blocking": false
+    },
+    "pads": {
+      "x": 0.42,
+      "z": 0.12,
+      "width": 0.05,
+      "height": 0.02,
+      "depth": 0.05
+    },
+    "rod": {
+      "width": 0.025,
+      "depth": 0.025
+    },
+    "limits": {
+      "maxMeshes": 60,
+      "maxTriangles": 1500,
+      "maxMaterials": 4
+    }
+  },
+  "designs": [
+    {
+      "id": "ceiling-acoustic-cloud",
+      "label": "Cloud baffle",
+      "prompt": "Project-authored suspended cloud acoustic baffle. Use one closed .06m-thick horizontal panel, four ceiling pads and four positive-thickness rods.",
+      "parameters": {
+        "width": 1.16,
+        "depth": 0.34,
+        "thickness": 0.06
+      }
+    },
+    {
+      "id": "ceiling-acoustic-linear",
+      "label": "Linear baffles",
+      "prompt": "Project-authored suspended linear acoustic baffle. Use two independent horizontal bars with a visible gap, each connected to the four ceiling pads through rods.",
+      "parameters": {
+        "barWidth": 0.96,
+        "barDepth": 0.09,
+        "barThickness": 0.06
+      }
+    },
+    {
+      "id": "ceiling-acoustic-felt",
+      "label": "Felt fins",
+      "prompt": "Project-authored suspended felt acoustic baffle. Use multiple parallel vertical fins joined by one closed top rail, four ceiling pads and rods.",
+      "parameters": {
+        "finCount": 6,
+        "finWidth": 0.075,
+        "finDepth": 0.22,
+        "finHeight": 0.22,
+        "railThickness": 0.025
+      }
+    },
+    {
+      "id": "ceiling-acoustic-timber-grid",
+      "label": "Timber grid",
+      "prompt": "Project-authored suspended timber grid acoustic baffle. Use a closed rear backing, crossing timber slats and a top rail that receives all four rods.",
+      "parameters": {
+        "backWidth": 0.96,
+        "backHeight": 0.24,
+        "backThickness": 0.03,
+        "slatWidth": 0.04,
+        "slatDepth": 0.035
+      }
+    }
+  ],
+  "promptStandard": "Purpose: authored static ceiling acoustic decor with four real top pads, positive-thickness rods and four distinct baffle structures. Units are metres, +Y is up, +Z is forward, and the origin is the ceiling mounting plane centre. Keep every component a closed axis-aligned box solid, use opaque untextured MeshStandardMaterial, binary GLB, no textures, lights or animation, and no external art assets. The game envelope is x [-.6,.6], y [-.3,0], z [-.2,.2].",
+  "dependencyPins": {}
+}

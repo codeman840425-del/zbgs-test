@@ -1,4 +1,5 @@
 // Horizontal rectangular support contracts. No physics, actors or occupancy state.
+import {validateCeilingAcousticResource} from './ceiling-acoustic-data.js';
 import {partOffset} from './moving-parts.js';
 import {MAKEUP_STORAGE_PROFILE,validateMakeupStorageResource} from './makeup-storage-data.js';
 import {validateSideTableResource} from './side-table-data.js';
@@ -10,6 +11,9 @@ const ID = /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/;
 const EPS = 1e-6;
 
 export function validateSupportResource(resource, fail, path = resource.id) {
+  if(resource.mount!=null&&!['desk-surface','floor-surface','wall','portal','support-surface','information-surface','ceiling'].includes(resource.mount))
+    fail('unsupported-mount',path,'The mounting adapter is not supported');
+  validateCeilingAcousticResource(resource,fail,path);
   validateSideTableResource(resource,fail,path);
   validateSideTableLifeItemsResource(resource,fail,path);
   validateWallShelfResource(resource,fail,path);
