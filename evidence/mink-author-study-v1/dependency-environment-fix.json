@@ -1,0 +1,72 @@
+{
+  "version": "1",
+  "pip_version": "25.3",
+  "install": [
+    {
+      "download_info": {
+        "url": "https://files.pythonhosted.org/packages/e2/6d/d56be57340baf2e6f6361386f4c21b8b5e001251c64af954787f8d01ec78/loop_rate_limiters-1.2.0-py3-none-any.whl",
+        "archive_info": {
+          "hash": "sha256=482f720f409e05dfca8b7b63df180217afa9a51564def681853cb7370a020b74",
+          "hashes": {
+            "sha256": "482f720f409e05dfca8b7b63df180217afa9a51564def681853cb7370a020b74"
+          }
+        }
+      },
+      "is_direct": false,
+      "is_yanked": false,
+      "requested": true,
+      "metadata": {
+        "metadata_version": "2.4",
+        "name": "loop-rate-limiters",
+        "version": "1.2.0",
+        "summary": "Loop rate limiters.",
+        "description": "# Loop rate limiters\n\n[![Build](https://img.shields.io/github/actions/workflow/status/stephane-caron/loop-rate-limiters/main.yml?branch=main)](https://github.com/stephane-caron/loop-rate-limiters/actions)\n[![Documentation](https://img.shields.io/github/actions/workflow/status/stephane-caron/loop-rate-limiters/docs.yml?branch=main&label=docs)](https://stephane-caron.github.io/loop-rate-limiters/)\n[![Coverage](https://coveralls.io/repos/github/stephane-caron/loop-rate-limiters/badge.svg?branch=main)](https://coveralls.io/github/stephane-caron/loop-rate-limiters?branch=main)\n[![Conda version](https://img.shields.io/conda/vn/conda-forge/loop-rate-limiters.svg)](https://anaconda.org/conda-forge/loop-rate-limiters)\n[![PyPI version](https://img.shields.io/pypi/v/loop-rate-limiters)](https://pypi.org/project/loop-rate-limiters/)\n\nSimple loop frequency regulators in Python with an API similar to ``rospy.Rate``:\n\n```python\nfrom loop_rate_limiters import RateLimiter\nfrom time import perf_counter\n\nrate = RateLimiter(frequency=400.0)\nwhile True:\n    print(f\"Hello from loop at {perf_counter():.3f} s\")\n    rate.sleep()\n```\n\nA similar ``AsyncRateLimiter`` class is available for [asynchronous code](https://github.com/stephane-caron/loop-rate-limiters#asynchronous-io).\n\n## Installation\n\n### From conda-forge\n\n```console\nconda install -c conda-forge loop-rate-limiters\n```\n\n### From PyPI\n\n```console\npip install loop-rate-limiters\n```\n\n## Usage\n\nWhile the example above is synchronous, this library also provides an ``AsyncRateLimiter`` class for [asyncio](https://docs.python.org/3/library/asyncio.html):\n\n```python\nimport asyncio\nfrom loop_rate_limiters import AsyncRateLimiter\n\nasync def main():\n    rate = AsyncRateLimiter(frequency=400.0)\n    while True:\n        loop_time = asyncio.get_event_loop().time()\n        print(f\"Hello from loop at {loop_time:.3f} s\")\n        await rate.sleep()\n\nasyncio.run(main())\n```\n\nThis can be used when there are several tasks executed in parallel at different frequencies.\n\n## See also\n\n- [ischedule](https://github.com/aleksve/ischedule): single-thread interval scheduler in Python\n\n",
+        "description_content_type": "text/markdown",
+        "keywords": [
+          "rate",
+          "loop",
+          "frequency",
+          "regulator",
+          "limiter"
+        ],
+        "author_email": "Stéphane Caron <stephane.caron@normalesup.org>",
+        "maintainer_email": "Stéphane Caron <stephane.caron@normalesup.org>",
+        "license_file": [
+          "LICENSE"
+        ],
+        "classifier": [
+          "Development Status :: 5 - Production/Stable",
+          "Intended Audience :: Developers",
+          "Intended Audience :: Science/Research",
+          "License :: OSI Approved :: Apache Software License",
+          "Operating System :: OS Independent",
+          "Programming Language :: Python :: 3.9",
+          "Programming Language :: Python :: 3.10",
+          "Programming Language :: Python :: 3.11",
+          "Programming Language :: Python :: 3.12",
+          "Topic :: Scientific/Engineering :: Mathematics"
+        ],
+        "requires_python": ">=3.8",
+        "project_url": [
+          "Changelog, https://github.com/stephane-caron/loop-rate-limiters/blob/master/CHANGELOG.md",
+          "Homepage, https://github.com/stephane-caron/loop-rate-limiters",
+          "Source, https://github.com/stephane-caron/loop-rate-limiters",
+          "Tracker, https://github.com/stephane-caron/loop-rate-limiters/issues"
+        ]
+      }
+    }
+  ],
+  "environment": {
+    "implementation_name": "cpython",
+    "implementation_version": "3.13.11",
+    "os_name": "nt",
+    "platform_machine": "AMD64",
+    "platform_release": "11",
+    "platform_system": "Windows",
+    "platform_version": "10.0.26100",
+    "python_full_version": "3.13.11",
+    "platform_python_implementation": "CPython",
+    "python_version": "3.13",
+    "sys_platform": "win32"
+  }
+}

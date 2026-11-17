@@ -1,0 +1,1561 @@
+{
+  "request": {
+    "method": "tools/list",
+    "params": {}
+  },
+  "responses": [
+    {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": {
+        "protocolVersion": "2025-06-18",
+        "capabilities": {
+          "tools": {},
+          "prompts": {},
+          "resources": {}
+        },
+        "serverInfo": {
+          "name": "vroid-studio",
+          "version": "0.15.0"
+        },
+        "instructions": "VRoid Studio MCP. Tool names and arguments are English. Call vroid_help('overview') before a complex task; vroid_help supports lang=en|fr|ja|zh-CN. VRoid Studio must be running with the bridge loaded. Only one model can be open at a time. Call vroid_status first. Save before vroid_main_menu, vroid_open or vroid_create. For visual work, use vroid_screenshot. For preset discovery, use vroid_preset_cache_search before applying presets. For sequences, use vroid_batch (up to 200 sequential operations, no automatic rollback). Do not assume that one preset replaces only one slot: whole outfits can replace several slots; verify with vroid_list_groups. Thumbnail generation strips all clothes, underwear and hair except the tested item. An English Agent Reference is exposed as MCP resources: vroid://agent/reference (full), plus vroid://agent/start, face, hairstyle, body, outfit, accessories, look, physical, presets, tools, workflows and troubleshooting. Read only the section needed; tools/list stays the authoritative schema list. MCP prompts: start (open a working session), character (build a character from a description), export_vrm (full/balanced/light VRM export), help. Reply in the user's language; never overwrite the user's .vroid file or discard changes without asking."
+      }
+    },
+    {
+      "jsonrpc": "2.0",
+      "id": 2,
+      "result": {
+        "tools": [
+          {
+            "name": "vroid_help",
+            "description": "Show the built-in manual. Topics: overview, tools, lifecycle, export, framing, thumbnails, colors, outfit, sessions, errors, languages, batch. lang=en|fr|ja. Call this first when unsure.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "topic": {
+                  "type": "string",
+                  "description": "help topic (default overview)"
+                },
+                "lang": {
+                  "type": "string",
+                  "enum": [
+                    "en",
+                    "fr",
+                    "ja",
+                    "zh",
+                    "zh-CN"
+                  ],
+                  "description": "manual language: en (default), fr, ja, zh-CN"
+                }
+              }
+            }
+          },
+          {
+            "name": "vroid_batch",
+            "description": "Run several vroid_* operations sequentially in one MCP call and return a text summary plus optional images. Up to 200 operations, no nested batches, no automatic rollback. stop_on_error defaults to true. Images are capped (8 images / 16 MiB); excess images are reported by path only. Save before destructive sequences.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "operations": {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 200,
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "tool": {
+                        "type": "string",
+                        "description": "vroid_* tool name"
+                      },
+                      "args": {
+                        "type": "object",
+                        "description": "arguments for that tool"
+                      }
+                    },
+                    "required": [
+                      "tool",
+                      "args"
+                    ]
+                  }
+                },
+                "stop_on_error": {
+                  "type": "boolean",
+                  "description": "stop at the first error (default true)"
+                },
+                "include_images": {
+                  "type": "boolean",
+                  "description": "include returned images in the same response (default true, capped)"
+                }
+              },
+              "required": [
+                "operations"
+              ]
+            }
+          },
+          {
+            "name": "vroid_status",
+            "description": "Report whether VRoid Studio responds, whether a model is open, its current file, whether it has unsaved changes (dirty) and whether the editor is ready.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "vroid_create",
+            "description": "Create a new model from the VRoid template (female or male), like the Create New Model dialog. VRoid must be at the model-select screen (no model open). Blocks until the model is ready. The new model has no file yet: use vroid_save with path to save it.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "gender": {
+                  "type": "string",
+                  "enum": [
+                    "female",
+                    "male"
+                  ],
+                  "description": "template to create"
+                }
+              },
+              "required": [
+                "gender"
+              ]
+            }
+          },
+          {
+            "name": "vroid_open",
+            "description": "Open a .vroid file and wait until the model is ready. VRoid must be at the model-select screen (no model open): save and call vroid_main_menu first if needed. path must be absolute.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "absolute path of the .vroid file"
+                }
+              },
+              "required": [
+                "path"
+              ]
+            }
+          },
+          {
+            "name": "vroid_save",
+            "description": "Save the open model. With path: Save As (creates the file). Without path: save in place, only if the model already has a .vroid file. A model created with vroid_create has no file yet: pass path.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "absolute path of the .vroid file to write (optional)"
+                }
+              }
+            }
+          },
+          {
+            "name": "vroid_export_vrm",
+            "description": "Export the open model as a .vrm file with VRoid's own exporter, without clicks or file dialog (same options as the 'Export as VRM' screen). Options left out use VRoid's defaults: VRM 1.0, transparent meshes deleted, no reduction. Takes about 10-40 s. Reduction sliders are 0..100. material_mode: 0 Default, 1 = 2 materials, 2 = 8, 3 = 12. Texture size: with material_mode 0 use texture_mode 1 (Shrunk); with material reduction VRoid uses the atlas instead, so use atlas_resolution 1 (2048) to shrink textures. Any option VRoid refused is listed in 'warnings'. The model itself is not modified.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "absolute path of the .vrm to write"
+                },
+                "version": {
+                  "type": "string",
+                  "enum": [
+                    "1",
+                    "0"
+                  ],
+                  "description": "1 = VRM 1.0 (default), 0 = VRM 0.x"
+                },
+                "title": {
+                  "type": "string",
+                  "description": "model name in the VRM meta (default: file name)"
+                },
+                "author": {
+                  "type": "string",
+                  "description": "author in the VRM meta"
+                },
+                "model_version": {
+                  "type": "string",
+                  "description": "model version in the VRM meta"
+                },
+                "delete_transparent": {
+                  "type": "boolean",
+                  "description": "Delete Transparent Meshes (default true)"
+                },
+                "hair_cross_section": {
+                  "type": "boolean",
+                  "description": "Edit Hair Cross-Section (default false)"
+                },
+                "hair_smoothness": {
+                  "type": "number",
+                  "description": "Hair Smoothness reduction 0..100"
+                },
+                "hair": {
+                  "type": "number",
+                  "description": "hair polygon reduction 0..100"
+                },
+                "face": {
+                  "type": "number",
+                  "description": "face polygon reduction 0..100"
+                },
+                "body": {
+                  "type": "number",
+                  "description": "body polygon reduction 0..100"
+                },
+                "outfit": {
+                  "type": "number",
+                  "description": "outfit polygon reduction 0..100"
+                },
+                "material_mode": {
+                  "type": "number",
+                  "description": "0 Default, 1 = 2 materials, 2 = 8 materials, 3 = 12 materials"
+                },
+                "combine_hair": {
+                  "type": "boolean",
+                  "description": "Combine Hair Mesh (default true)"
+                },
+                "texture_mode": {
+                  "type": "number",
+                  "description": "0 Original, 1 Shrunk (only without material reduction)"
+                },
+                "atlas_resolution": {
+                  "type": "number",
+                  "description": "with material reduction: 0 = 4096, 1 = 2048"
+                },
+                "hair_bones": {
+                  "type": "number",
+                  "description": "Reduce Bones: Hair 0..100"
+                },
+                "leave": {
+                  "type": "boolean",
+                  "description": "return to the editor after export (default true); false leaves the export screen open"
+                }
+              },
+              "required": [
+                "path"
+              ]
+            }
+          },
+          {
+            "name": "vroid_export_vrm_options",
+            "description": "Open VRoid's export screen and return its current export settings and the available material / texture / atlas choices. Close it again with vroid_export_vrm or by passing leave.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "leave": {
+                  "type": "boolean",
+                  "description": "close the export screen after reading (default true)"
+                }
+              }
+            }
+          },
+          {
+            "name": "vroid_main_menu",
+            "description": "Return to the model-select screen without quitting VRoid, so another model can be opened or created. Refuses when there are unsaved changes unless discard=true.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "discard": {
+                  "type": "boolean",
+                  "description": "discard unsaved changes"
+                }
+              }
+            }
+          },
+          {
+            "name": "vroid_exit",
+            "description": "Quit VRoid Studio gracefully. Refuses unsaved changes unless discard=true. The response is sent before the process exits; use it after a generation sequence.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "discard": {
+                  "type": "boolean",
+                  "description": "discard unsaved changes before quitting"
+                }
+              }
+            }
+          },
+          {
+            "name": "vroid_framing_get",
+            "description": "Read thumbnail framing profiles per category/body part (e.g. Clothing/Tops, Clothing/Shoes, Hair, Face, VRoid/ClothingSet), never per individual garment: garment facts stay in the cache. top/bottom are fractions from the top of the model (0 = top, 1 = feet), half is the half-width (null = full width), distance is the zoom-out factor, yaw is the orientation in degrees (0 = front, 90 = profile, 180 = back), fit=region|full-body. Without category: all known categories.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "category": {
+                  "type": "string",
+                  "description": "category (e.g. Clothing/Tops); empty = all"
+                }
+              }
+            }
+          },
+          {
+            "name": "vroid_framing_set",
+            "description": "Change the framing of a category/body part (e.g. Clothing/Tops, Clothing/Shoes, Hair, Face, VRoid/ClothingSet), never an individual garment: the override is local and does not modify committed defaults. top/bottom in 0..1, half null or 0.01..1, distance 1..10, yaw -180..180 (0 = front, 90 = profile, 180 = back), fit=region|full-body. vroid_framing_reset restores the defaults.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "category": {
+                  "type": "string",
+                  "description": "category (e.g. VRoid/ClothingSet)"
+                },
+                "top": {
+                  "type": "number",
+                  "description": "fraction from the top (0 = top)"
+                },
+                "bottom": {
+                  "type": "number",
+                  "description": "fraction from the top (1 = feet)"
+                },
+                "half": {
+                  "type": "number",
+                  "description": "half-width as a fraction of height"
+                },
+                "distance": {
+                  "type": "number",
+                  "description": "zoom-out factor (default 3.3; 4.2 for a whole outfit)"
+                },
+                "yaw": {
+                  "type": "number",
+                  "description": "orientation in degrees: 0 front, 90 profile, 180 back"
+                },
+                "fit": {
+                  "type": "string",
+                  "enum": [
+                    "region",
+                    "full-body"
+                  ]
+                }
+              },
+              "required": [
+                "category"
+              ]
+            }
+          },
+          {
+            "name": "vroid_framing_reset",
+            "description": "Clear framing overrides (all, or one category/body part) and return to the committed defaults in config/framing.json. Local overrides live in preset_cache/framing_overrides.json.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "category": {
+                  "type": "string",
+                  "description": "category to reset; empty = all"
+                }
+              }
+            }
+          },
+          {
+            "name": "vroid_list_groups",
+            "description": "List the editable groups of the open model (face, eyes, hair, body, outfits...). Each group has an id to pass to the other tools.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "vroid_get_params",
+            "description": "List the parameters of a group (blendshape sliders, bones, colors) with their current values.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "group": {
+                  "type": "string",
+                  "description": "group id"
+                }
+              },
+              "required": [
+                "group"
+              ]
+            }
+          },
+          {
+            "name": "vroid_get_item_params",
+            "description": "List every adjustable parameter of the model's items, including the shape sliders VRoid shows under Customize > Parameters for clothing and accessories (skirt tighter/wider/shorter/longer, sleeve thickness, width, length, hood...), which vroid_get_params does not return. Each group has 'pars' (regular parameters) and 'sliders' (key, label, value). Clothing sliders range 0..100 (not 0..1); the last word of the label says what they do (Narrow = tighter, Spread = wider, Short, Long...). Set one with vroid_set_blendshape group=<group> key=<slider key> value=<0..100>; undoable. 'type' filters by group type, e.g. TransferableGroupType.N00.Level1.Bottoms.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "optional group type filter, e.g. TransferableGroupType.N00.Level1.Bottoms"
+                }
+              }
+            }
+          },
+          {
+            "name": "vroid_sections",
+            "description": "List editable sections and their categories (Face, Hairstyle, Body, Outfit, Accessories, Look), with group counts. High-level companion to vroid_list_groups.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "vroid_categories",
+            "description": "List categories in a section (or all categories), with category key, label, section and group count. Use with vroid_enter / vroid_set_param.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "section": {
+                  "type": "string",
+                  "description": "section name (optional: Face, Hairstyle, Body, Outfit, Accessories, Look)"
+                }
+              }
+            }
+          },
+          {
+            "name": "vroid_enter",
+            "description": "Select a section/category by name and return its group and enriched parameters (labels + stable section/category/key paths). Equivalent in spirit to enter(), without changing VRoid's UI tab.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "section": {
+                  "type": "string",
+                  "description": "section, e.g. Face, Hairstyle, Body, Outfit"
+                },
+                "category": {
+                  "type": "string",
+                  "description": "category or human label from vroid_categories"
+                }
+              },
+              "required": [
+                "section",
+                "category"
+              ]
+            }
+          },
+          {
+            "name": "vroid_set_param",
+            "description": "Set a parameter by section/category and key or short label; dispatches to bone, blendshape or color. Accepts numbers, #RRGGBB or r,g,b for colors. Unified counterpart of vroid_set_bone / vroid_set_blendshape / vroid_set_color.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "section": {
+                  "type": "string",
+                  "description": "section, e.g. Face, Hairstyle, Body, Outfit"
+                },
+                "category": {
+                  "type": "string",
+                  "description": "category or human label from vroid_categories"
+                },
+                "param": {
+                  "type": "string",
+                  "description": "parameter key, path or short label from vroid_enter"
+                },
+                "value": {
+                  "type": [
+                    "number",
+                    "string"
+                  ],
+                  "description": "numeric value, #RRGGBB or r,g,b"
+                }
+              },
+              "required": [
+                "section",
+                "category",
+                "param",
+                "value"
+              ]
+            }
+          },
+          {
+            "name": "vroid_set_blendshape",
+            "description": "Set a shape slider (blendshape) of a group. Undoable in VRoid (Ctrl+Z). Also sets clothing/accessory preset sliders: pass a 'template:...' key from vroid_get_item_params (values 0..100). Returns the value read back from VRoid.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "group": {
+                  "type": "string",
+                  "description": "group id"
+                },
+                "key": {
+                  "type": "string",
+                  "description": "parameter key (see vroid_get_params), or the 'template:...' key of a clothing slider (see vroid_get_item_params)"
+                },
+                "value": {
+                  "type": "number",
+                  "description": "new value (0..1; 0..100 for a clothing slider)"
+                }
+              },
+              "required": [
+                "group",
+                "key",
+                "value"
+              ]
+            }
+          },
+          {
+            "name": "vroid_set_bone",
+            "description": "Set a bone transform parameter (body proportions, size...).",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "group": {
+                  "type": "string",
+                  "description": "group id"
+                },
+                "key": {
+                  "type": "string",
+                  "description": "parameter key"
+                },
+                "value": {
+                  "type": "number",
+                  "description": "new value"
+                }
+              },
+              "required": [
+                "group",
+                "key",
+                "value"
+              ]
+            }
+          },
+          {
+            "name": "vroid_set_color",
+            "description": "Set a color (components 0..1). Undoable in VRoid.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "group": {
+                  "type": "string",
+                  "description": "group id"
+                },
+                "key": {
+                  "type": "string",
+                  "description": "color parameter key"
+                },
+                "r": {
+                  "type": "number",
+                  "description": "red 0..1"
+                },
+                "g": {
+                  "type": "number",
+                  "description": "green 0..1"
+                },
+                "b": {
+                  "type": "number",
+                  "description": "blue 0..1"
+                },
+                "a": {
+                  "type": "number",
+                  "description": "alpha 0..1 (default 1)"
+                }
+              },
+              "required": [
+                "group",
+                "key",
+                "r",
+                "g",
+                "b"
+              ]
+            }
+          },
+          {
+            "name": "vroid_colorize",
+            "description": "Composite color pass: apply one color to both the global/material colors and the texture layers of a group (clothing or hair). target=global|texture|both. Fine-grained vroid_set_color / vroid_recolor_layer remain available. Undoable; hair textures may not be exposed, in which case a warning is returned.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "group": {
+                  "type": "string",
+                  "description": "group id"
+                },
+                "r": {
+                  "type": "number",
+                  "description": "red 0..1"
+                },
+                "g": {
+                  "type": "number",
+                  "description": "green 0..1"
+                },
+                "b": {
+                  "type": "number",
+                  "description": "blue 0..1"
+                },
+                "target": {
+                  "type": "string",
+                  "enum": [
+                    "global",
+                    "texture",
+                    "both"
+                  ],
+                  "description": "global colors, texture layers, or both (default)"
+                },
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "multiply",
+                    "colorize"
+                  ],
+                  "description": "texture recolor mode (default multiply)"
+                },
+                "strength": {
+                  "type": "number",
+                  "description": "texture strength 0..1 (default 1)"
+                },
+                "material": {
+                  "type": "string",
+                  "description": "hair material id (optional; default all)"
+                },
+                "layer": {
+                  "type": "string",
+                  "description": "texture layer node (optional; default all)"
+                }
+              },
+              "required": [
+                "group",
+                "r",
+                "g",
+                "b"
+              ]
+            }
+          },
+          {
+            "name": "vroid_list_layers",
+            "description": "List the editable textures of a group (e.g. skirt = Bottoms): items (transferable), images and layers (node, name, opacity, visibility, blend mode). Clothes have no color sliders: their color is changed through their texture layers.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "group": {
+                  "type": "string",
+                  "description": "group id"
+                }
+              },
+              "required": [
+                "group"
+              ]
+            }
+          },
+          {
+            "name": "vroid_recolor_layer",
+            "description": "Recolor a texture layer in place, preserving transparency; undoable. mode 'multiply': light fabric -> target color while keeping shadows and folds. mode 'colorize': keeps luminance, forces the hue (for already colored fabric).",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "transferable": {
+                  "type": "string",
+                  "description": "item id (vroid_list_layers)"
+                },
+                "image": {
+                  "type": "string",
+                  "description": "image id"
+                },
+                "node": {
+                  "type": "string",
+                  "description": "layer id"
+                },
+                "r": {
+                  "type": "number",
+                  "description": "red 0..1"
+                },
+                "g": {
+                  "type": "number",
+                  "description": "green 0..1"
+                },
+                "b": {
+                  "type": "number",
+                  "description": "blue 0..1"
+                },
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "multiply",
+                    "colorize"
+                  ]
+                },
+                "strength": {
+                  "type": "number",
+                  "description": "strength 0..1 (default 1)"
+                }
+              },
+              "required": [
+                "transferable",
+                "image",
+                "node",
+                "r",
+                "g",
+                "b"
+              ]
+            }
+          },
+          {
+            "name": "vroid_export_layer",
+            "description": "Export a texture layer as PNG (RGBA) to edit it with another tool.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "transferable": {
+                  "type": "string",
+                  "description": "item id"
+                },
+                "image": {
+                  "type": "string",
+                  "description": "image id"
+                },
+                "node": {
+                  "type": "string",
+                  "description": "layer id"
+                },
+                "path": {
+                  "type": "string",
+                  "description": "PNG output path (optional)"
+                }
+              },
+              "required": [
+                "transferable",
+                "image",
+                "node"
+              ]
+            }
+          },
+          {
+            "name": "vroid_import_layer",
+            "description": "Import a PNG into a layer (same size as the export) or as a new layer. Undoable.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "transferable": {
+                  "type": "string",
+                  "description": "item id"
+                },
+                "image": {
+                  "type": "string",
+                  "description": "image id"
+                },
+                "node": {
+                  "type": "string",
+                  "description": "layer id to replace (ignored if as_new_layer)"
+                },
+                "path": {
+                  "type": "string",
+                  "description": "PNG path"
+                },
+                "as_new_layer": {
+                  "type": "boolean",
+                  "description": "add as a new layer instead of replacing"
+                }
+              },
+              "required": [
+                "transferable",
+                "image",
+                "path"
+              ]
+            }
+          },
+          {
+            "name": "vroid_list_hair_materials",
+            "description": "List hair materials (hair color is not exposed by vroid_get_params): id, name, adjustable colors (key + value) and textures with their layers (transferable/image/node usable with vroid_recolor_layer).",
+            "inputSchema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "vroid_set_hair_color",
+            "description": "Set a color of a hair material (components 0..1). Undoable. 'base:<id>' keys are the overlay hair tint of a preset: change that key to recolor a preset hairstyle (material is optional in that case). For hair whose color is painted in the texture, recolor the layers instead (mode colorize).",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "material": {
+                  "type": "string",
+                  "description": "material id (vroid_list_hair_materials)"
+                },
+                "key": {
+                  "type": "string",
+                  "description": "color key"
+                },
+                "r": {
+                  "type": "number",
+                  "description": "red 0..1"
+                },
+                "g": {
+                  "type": "number",
+                  "description": "green 0..1"
+                },
+                "b": {
+                  "type": "number",
+                  "description": "blue 0..1"
+                },
+                "a": {
+                  "type": "number",
+                  "description": "alpha 0..1 (default 1)"
+                }
+              },
+              "required": [
+                "material",
+                "key",
+                "r",
+                "g",
+                "b"
+              ]
+            }
+          },
+          {
+            "name": "vroid_list_hair_groups",
+            "description": "List hair groups: 'procedural' (adjustable length and strand count) or 'brush' (drawn strands: count, average length, strandIds for the strand point/material tools).",
+            "inputSchema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "vroid_set_procedural_hair",
+            "description": "Set the length and/or strand count of a procedural hair group. Undoable.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "transferable": {
+                  "type": "string",
+                  "description": "item id (vroid_list_hair_groups)"
+                },
+                "group": {
+                  "type": "string",
+                  "description": "group id"
+                },
+                "length": {
+                  "type": "number",
+                  "description": "new length (optional)"
+                },
+                "hair_count": {
+                  "type": "number",
+                  "description": "strand count (optional)"
+                }
+              },
+              "required": [
+                "transferable",
+                "group"
+              ]
+            }
+          },
+          {
+            "name": "vroid_scale_brush_hair",
+            "description": "Lengthen (factor > 1) or shorten (factor < 1) all strands of a brush hair group from their root. Undoable (one step per point).",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "transferable": {
+                  "type": "string",
+                  "description": "item id"
+                },
+                "group": {
+                  "type": "string",
+                  "description": "group id"
+                },
+                "factor": {
+                  "type": "number",
+                  "description": "factor, e.g. 1.3"
+                }
+              },
+              "required": [
+                "transferable",
+                "group",
+                "factor"
+              ]
+            }
+          },
+          {
+            "name": "vroid_clone_brush_hair",
+            "description": "Duplicate a group of brush strands and offset the copy (in meters, model space) to add strands.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "transferable": {
+                  "type": "string",
+                  "description": "item id"
+                },
+                "group": {
+                  "type": "string",
+                  "description": "group id"
+                },
+                "dx": {
+                  "type": "number",
+                  "description": "X offset"
+                },
+                "dy": {
+                  "type": "number",
+                  "description": "Y offset"
+                },
+                "dz": {
+                  "type": "number",
+                  "description": "Z offset"
+                }
+              },
+              "required": [
+                "transferable",
+                "group"
+              ]
+            }
+          },
+          {
+            "name": "vroid_get_hair_strand_points",
+            "description": "List the control points of one hand-drawn (brush) hair strand. Each point has index, point (x,y,z), normal (nx,ny,nz) and uv (u,v). Brush groups from vroid_list_hair_groups return strandIds. Read-only.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "transferable": {
+                  "type": "string",
+                  "description": "item id (vroid_list_hair_groups)"
+                },
+                "group": {
+                  "type": "string",
+                  "description": "brush group id"
+                },
+                "strand": {
+                  "type": "string",
+                  "description": "strand id from strandIds"
+                }
+              },
+              "required": [
+                "transferable",
+                "group",
+                "strand"
+              ]
+            }
+          },
+          {
+            "name": "vroid_move_hair_strand_point",
+            "description": "Move one control point of a hand-drawn hair strand in local space (x,y,z). Optional nx,ny,nz and u,v update the normal and UV; omitted values are kept. Undoable.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "transferable": {
+                  "type": "string",
+                  "description": "item id"
+                },
+                "group": {
+                  "type": "string",
+                  "description": "brush group id"
+                },
+                "strand": {
+                  "type": "string",
+                  "description": "strand id"
+                },
+                "index": {
+                  "type": "number",
+                  "description": "control point index (0-based)"
+                },
+                "x": {
+                  "type": "number",
+                  "description": "local X"
+                },
+                "y": {
+                  "type": "number",
+                  "description": "local Y"
+                },
+                "z": {
+                  "type": "number",
+                  "description": "local Z"
+                },
+                "nx": {
+                  "type": "number",
+                  "description": "normal X (optional)"
+                },
+                "ny": {
+                  "type": "number",
+                  "description": "normal Y (optional)"
+                },
+                "nz": {
+                  "type": "number",
+                  "description": "normal Z (optional)"
+                },
+                "u": {
+                  "type": "number",
+                  "description": "UV u (optional)"
+                },
+                "v": {
+                  "type": "number",
+                  "description": "UV v (optional)"
+                }
+              },
+              "required": [
+                "transferable",
+                "group",
+                "strand",
+                "index",
+                "x",
+                "y",
+                "z"
+              ]
+            }
+          },
+          {
+            "name": "vroid_duplicate_hair_strand",
+            "description": "Duplicate one hand-drawn hair strand inside its group to add layering, optionally offsetting the copy in metres (dx,dy,dz). Undoable.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "transferable": {
+                  "type": "string",
+                  "description": "item id"
+                },
+                "group": {
+                  "type": "string",
+                  "description": "brush group id"
+                },
+                "strand": {
+                  "type": "string",
+                  "description": "source strand id"
+                },
+                "dx": {
+                  "type": "number",
+                  "description": "offset X (optional)"
+                },
+                "dy": {
+                  "type": "number",
+                  "description": "offset Y (optional)"
+                },
+                "dz": {
+                  "type": "number",
+                  "description": "offset Z (optional)"
+                }
+              },
+              "required": [
+                "transferable",
+                "group",
+                "strand"
+              ]
+            }
+          },
+          {
+            "name": "vroid_set_hair_material",
+            "description": "Assign a shared hair material to a brush hair group or to one strand. Get material ids from vroid_list_hair_materials. Undoable; the material is read back in the result.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "transferable": {
+                  "type": "string",
+                  "description": "item id"
+                },
+                "group": {
+                  "type": "string",
+                  "description": "brush group id"
+                },
+                "strand": {
+                  "type": "string",
+                  "description": "strand id (optional; omit for the whole group)"
+                },
+                "material": {
+                  "type": "string",
+                  "description": "shared hair material id"
+                }
+              },
+              "required": [
+                "transferable",
+                "group",
+                "material"
+              ]
+            }
+          },
+          {
+            "name": "vroid_list_hair_bones",
+            "description": "List hair physics bone groups: transferable, group, name, bone count, spring root rate, stiffness, gravity and collider radius. Optional transferable filter.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "transferable": {
+                  "type": "string",
+                  "description": "item id (optional)"
+                }
+              }
+            }
+          },
+          {
+            "name": "vroid_set_hair_bone",
+            "description": "Set parameters of a hair bone group (bone count 1..20, spring root rate, stiffness, gravity, collider radius 0..1). Omitted values are kept. Undoable.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "transferable": {
+                  "type": "string",
+                  "description": "item id"
+                },
+                "group": {
+                  "type": "string",
+                  "description": "bone group id (vroid_list_hair_bones)"
+                },
+                "bone_count": {
+                  "type": "number",
+                  "description": "bone count 1..20 (optional)"
+                },
+                "spring_root_rate": {
+                  "type": "number",
+                  "description": "spring root rate 0..1 (optional)"
+                },
+                "stiffness": {
+                  "type": "number",
+                  "description": "stiffness 0..1 (optional)"
+                },
+                "gravity": {
+                  "type": "number",
+                  "description": "gravity 0..1 (optional)"
+                },
+                "collider_radius": {
+                  "type": "number",
+                  "description": "collider radius 0..1 (optional)"
+                }
+              },
+              "required": [
+                "transferable",
+                "group"
+              ]
+            }
+          },
+          {
+            "name": "vroid_undo",
+            "description": "Undo the last change in VRoid Studio.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "vroid_redo",
+            "description": "Redo the last undone change.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "vroid_screenshot",
+            "description": "Capture a clean 3D preview of the avatar (no VRoid UI) and return the image. MSAA 4x and SSAA 2x by default; width/height override the output size; clean=false captures the whole window. Use it to inspect edits accurately.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "msaa": {
+                  "type": "number",
+                  "description": "MSAA samples 1..8 (default 4)"
+                },
+                "ssaa": {
+                  "type": "number",
+                  "description": "supersampling factor 1..3 (default 2)"
+                },
+                "width": {
+                  "type": "number",
+                  "description": "output width in pixels (0 = camera viewport)"
+                },
+                "height": {
+                  "type": "number",
+                  "description": "output height in pixels (0 = camera viewport)"
+                },
+                "clean": {
+                  "type": "boolean",
+                  "description": "true = 3D preview only (default), false = full window"
+                }
+              }
+            }
+          },
+          {
+            "name": "vroid_list_presets",
+            "description": "List VRoid presets (hairstyles, faces, outfits, bodies...). filter searches the resource path (e.g. 'Hair', 'Tops', 'Bottoms', 'Onepiece', 'Shoes', 'Face'). Also returns the list of categories. Only free or owned presets are listed unless include_locked.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "filter": {
+                  "type": "string",
+                  "description": "text to search for (optional)"
+                },
+                "include_locked": {
+                  "type": "boolean",
+                  "description": "include paid presets that are not owned"
+                },
+                "limit": {
+                  "type": "number",
+                  "description": "maximum number of results (default 200)"
+                }
+              }
+            }
+          },
+          {
+            "name": "vroid_apply_preset",
+            "description": "Apply a preset (replaces the item in the same category, like clicking its thumbnail). Undoable. Whole-set presets can replace several slots: verify with vroid_list_groups.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "preset id (vroid_list_presets)"
+                },
+                "preserve_material": {
+                  "type": "boolean",
+                  "description": "keep the current material (colors) if possible"
+                }
+              },
+              "required": [
+                "id"
+              ]
+            }
+          },
+          {
+            "name": "vroid_clothing_colors",
+            "description": "List the adjustable colors of a clothing item (same preset): group + key to pass to vroid_set_color.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "group": {
+                  "type": "string",
+                  "description": "clothing group id"
+                }
+              },
+              "required": [
+                "group"
+              ]
+            }
+          },
+          {
+            "name": "vroid_begin_clothing_edit",
+            "description": "Switch a preset clothing item to texture editing (like VRoid's Edit button): its layers become available to vroid_list_layers / vroid_recolor_layer. Undoable.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "group": {
+                  "type": "string",
+                  "description": "clothing group id"
+                }
+              },
+              "required": [
+                "group"
+              ]
+            }
+          },
+          {
+            "name": "vroid_measure",
+            "description": "Measure the current model height in cm (same as VRoid's size label) and its bounds.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "vroid_set_body_size",
+            "description": "Set the height (cm) directly through the gender silhouette slider (FigureHeight/FigureSlender, proportions preserved), and optionally weight (kg), converted to waist width via BMI (VRoid has no weight). gender: female, male or neutral. Undoable.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "height_cm": {
+                  "type": "number",
+                  "description": "target height in cm"
+                },
+                "weight_kg": {
+                  "type": "number",
+                  "description": "target weight in kg (optional)"
+                },
+                "gender": {
+                  "type": "string",
+                  "enum": [
+                    "female",
+                    "male",
+                    "neutral"
+                  ],
+                  "description": "default female"
+                }
+              },
+              "required": [
+                "height_cm"
+              ]
+            }
+          },
+          {
+            "name": "vroid_preset_cache_search",
+            "description": "Search the shared preset and custom-item cache (no VRoid needed): labels, descriptions, tags and colors (manual and auto-generated), plus the thumbnail path. Each result has label/labelSource/generated and preview: {kind, mannequin, clothing, underwear, hair, keptSlot, orientation, yaw, capturedAt, pixels, source}. Situation thumbnails are captured on a nude mannequin and framed front-on. All query words must match (e.g. 'short pleated blue skirt').",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "query": {
+                  "type": "string",
+                  "description": "words to search for (optional)"
+                },
+                "category": {
+                  "type": "string",
+                  "description": "e.g. Clothing/Tops (optional)"
+                },
+                "annotated_only": {
+                  "type": "boolean",
+                  "description": "only presets that already have a description"
+                },
+                "include_locked": {
+                  "type": "boolean",
+                  "description": "include paid presets that are not owned"
+                },
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "preset",
+                    "custom"
+                  ],
+                  "description": "built-in presets or custom items"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "new",
+                    "changed"
+                  ],
+                  "description": "new / changed in the last scan"
+                },
+                "include_removed": {
+                  "type": "boolean",
+                  "description": "include items absent from VRoid"
+                },
+                "limit": {
+                  "type": "number",
+                  "description": "default 50"
+                }
+              }
+            }
+          },
+          {
+            "name": "vroid_preset_cache_annotate",
+            "description": "Add or correct the label, description, tags and colors of a preset in the shared cache, for other AIs. A manual label overrides the generated one. Short lowercase tags (type, color, length, style).",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "description": "preset resource path or id"
+                },
+                "label": {
+                  "type": "string",
+                  "description": "manual label (overrides the generated label)"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "short text"
+                },
+                "tags": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "colors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "author": {
+                  "type": "string",
+                  "description": "who annotates (e.g. AI model name)"
+                },
+                "replace": {
+                  "type": "boolean",
+                  "description": "replace tags/colors instead of adding"
+                }
+              },
+              "required": [
+                "key",
+                "author"
+              ]
+            }
+          },
+          {
+            "name": "vroid_preset_thumbnail",
+            "description": "Return the thumbnail of a preset or custom item (image) to judge it without applying it: situation capture if available, otherwise VRoid's native icon (fetched on demand). Thumbnail metadata (mannequin, clothing, underwear, framing) is in the vroid_preset_cache_search result under preview.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "description": "resource path or id"
+                }
+              },
+              "required": [
+                "key"
+              ]
+            }
+          },
+          {
+            "name": "vroid_preset_cache_sync",
+            "description": "Scan what VRoid currently exposes: built-in presets AND custom items (with the name given in VRoid). Reports new, changed (renamed custom item or new revision) and removed items without erasing annotations; generates structural labels for new entries. Runs automatically on each VRoid start. icons=true also fetches native preset icons (fast, nothing is applied).",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "icons": {
+                  "type": "boolean",
+                  "description": "fetch missing native icons"
+                },
+                "icon_limit": {
+                  "type": "number",
+                  "description": "maximum number of icons to fetch"
+                }
+              }
+            }
+          },
+          {
+            "name": "vroid_preset_cache_build",
+            "description": "Create situation thumbnails for a category (presets, or Custom/<slot> for custom items). Removes ALL clothes, accessories, underwear (including default underwear, which shows through swimwear) and hair except BaseHair/the tested item; frames the character front-on and centered on its bounds; applies each item, checks that nothing else remains, captures, crops, then restores the original outfit. Writes thumbnailMeta (nude mannequin, clothing=tested-item-only, underwear=removed, strippedSlots, camera with fit, pixels, sha1) into catalog.json. Also generates a label and visual metadata (colors, brightness, plain/patterned) from the thumbnail; manual labels are never overwritten. Whole outfits pull the camera back so shoes stay visible; orientation (profile yaw: back for back hair, three-quarter for shoes/arm accessories) is applied. Save the model first: restoration is not guaranteed to be identical. About 3 s per preset; native icons (sync icons=true) are faster.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "category": {
+                  "type": "string",
+                  "description": "e.g. Clothing/Shoes"
+                },
+                "refresh": {
+                  "type": "boolean",
+                  "description": "also rebuild existing thumbnails"
+                },
+                "limit": {
+                  "type": "number",
+                  "description": "maximum number of presets to process"
+                }
+              },
+              "required": [
+                "category"
+              ]
+            }
+          },
+          {
+            "name": "vroid_camera",
+            "description": "Aim the VRoid 3D view at the model from another angle before a capture. action: get (state + preset rotations), angles (x,y in degrees), rotate (dx,dy), zoom (d), pan (x,y), reset (initial view), mode (VRoid preset rotation), projection (toggle perspective/orthographic), custom (px,py,pz,cx,cy,cz).",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "enum": [
+                    "get",
+                    "angles",
+                    "rotate",
+                    "zoom",
+                    "pan",
+                    "reset",
+                    "mode",
+                    "projection",
+                    "custom"
+                  ]
+                },
+                "x": {
+                  "type": "number",
+                  "description": "angle or X offset"
+                },
+                "y": {
+                  "type": "number",
+                  "description": "angle or Y offset"
+                },
+                "dx": {
+                  "type": "number",
+                  "description": "relative X rotation"
+                },
+                "dy": {
+                  "type": "number",
+                  "description": "relative Y rotation"
+                },
+                "d": {
+                  "type": "number",
+                  "description": "zoom"
+                },
+                "mode": {
+                  "type": "string",
+                  "description": "preset rotation name"
+                },
+                "px": {
+                  "type": "number",
+                  "description": ""
+                },
+                "py": {
+                  "type": "number",
+                  "description": ""
+                },
+                "pz": {
+                  "type": "number",
+                  "description": ""
+                },
+                "cx": {
+                  "type": "number",
+                  "description": ""
+                },
+                "cy": {
+                  "type": "number",
+                  "description": ""
+                },
+                "cz": {
+                  "type": "number",
+                  "description": ""
+                }
+              },
+              "required": [
+                "action"
+              ]
+            }
+          },
+          {
+            "name": "vroid_apply_custom",
+            "description": "Apply one of the user's custom items, like clicking it in VRoid's Custom tab: replaces the item in the same category. key = cache key (vroid_preset_cache_search kind=custom) or file = path to the .vroidcustomitem file. Undoable.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "description": "cache key (custom:...)"
+                },
+                "file": {
+                  "type": "string",
+                  "description": "path of the .vroidcustomitem file"
+                }
+              }
+            }
+          },
+          {
+            "name": "vroid_remove_item",
+            "description": "Remove an item from the model (clothing, accessory, shoes...). group = group id, or a short type to remove all groups of that type (Tops, Bottoms, Onepiece, Socks, Shoes, InnerTop, ArmAccessory, NeckAccessory...). Useful to start from a model without clothes before creating thumbnails.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "group": {
+                  "type": "string",
+                  "description": "id or short type"
+                }
+              },
+              "required": [
+                "group"
+              ]
+            }
+          },
+          {
+            "name": "vroid_face_preview",
+            "description": "Expression preview for a capture (open mouth to show teeth, smile, wink...): set the weight (0..100) of face blendshapes whose name ends with name (e.g. MTH_A, MTH_O, ALL_Joy, EYE_Close). Without name: list names (optional filter). Display only, nothing is saved; empty name with weight 0 resets everything.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "blendshape name suffix"
+                },
+                "weight": {
+                  "type": "number",
+                  "description": "0..100 (default 100)"
+                },
+                "filter": {
+                  "type": "string",
+                  "description": "filter for listing names"
+                }
+              }
+            }
+          },
+          {
+            "name": "vroid_begin_hair_edit",
+            "description": "Switch a hair material to texture editing (VRoid's Edit button): its texture becomes available to the layer tools. Useful for a preset hairstyle whose texture is not editable.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "material": {
+                  "type": "string",
+                  "description": "material id (vroid_list_hair_materials)"
+                }
+              },
+              "required": [
+                "material"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "wallSeconds": 0.351309199933894,
+  "exitCode": 0,
+  "stderr": "",
+  "images": []
+}

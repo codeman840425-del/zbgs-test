@@ -1,0 +1,638 @@
+{
+  "httpStatus": 200,
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 2,
+    "method": "tools/list",
+    "params": {}
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 2,
+    "result": {
+      "tools": [
+        {
+          "name": "state",
+          "description": "Report editor readiness. Returns {ready, updating, selectors, in_edit, section}. in_edit=true while a model is being edited (false at the model select / before any model); ready=true once the model has finished building; updating=true while a rebuild is in flight; selectors is the number of loaded category selectors (0 outside edit; >=4 once an editable model is open); section is the current UI section label or null. Read-only, no side effects.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {},
+            "required": []
+          }
+        },
+        {
+          "name": "sections",
+          "description": "List editable sections. Returns [{id,title}] where id is the stable label to pass to categories/enter: Face, Hairstyle, Body, Outfit. Accessories/Look are out of scope. Read-only.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {},
+            "required": []
+          }
+        },
+        {
+          "name": "open",
+          "description": "Open a .vroid model file. BLOCKS until the model is fully built and ready (can take several seconds): when it returns, state() is already meaningful and the editor can be queried right away - do NOT poll state() after open. path: a host path (e.g. C:\\Users\\user\\model.vroid). Returns the resolved host path. Only valid from the model select (like create): if a model is open, first call save then main_menu (keep), or main_menu (discard), then open. Unsaved edits are never discarded implicitly.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "Path to a .vroid file (e.g. C:\\Users\\user\\model.vroid)."
+              }
+            },
+            "required": [
+              "path"
+            ]
+          }
+        },
+        {
+          "name": "create",
+          "description": "Create a fresh model from the built-in Male/Female template (the choice shown by the editor's 'Create New Model' dialog). gender is required: 'female' or 'male'. BLOCKS until the model is fully built and ready, exactly like open (do NOT poll state() after it). Only valid from the model select: if a model is open, first call save then main_menu (keep), or main_menu (discard), then create. Returns {gender, variant}.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "gender": {
+                "type": "string",
+                "description": "Template to create.",
+                "enum": [
+                  "female",
+                  "male"
+                ]
+              }
+            },
+            "required": [
+              "gender"
+            ]
+          }
+        },
+        {
+          "name": "categories",
+          "description": "List the category tabs of a section. section: one of Face, Hairstyle, Body, Outfit. Returns {section, categories:[{name,kind,params,colors,presets,has_clear_preset}]}: `section` is the section the editor is now on (this call switches to it). kind is 'parametric' when the tab exposes any adjustable parameter (numeric or color), else 'preset-only'. params/colors/presets are counts, correct before the tab is entered (no warm-up needed). Outfit is the exception: clothing sliders belong to the currently selected item (the property panel), not the tab, so Outfit tabs read 'preset-only' here while enter() returns those sliders once an item is applied. has_clear_preset=true means the tab has a Clear slot that removes the element entirely; it is not the same as needs_preset (see enter). Side effect: switches the editor to that section (reported back as `section`). Section names are case-sensitive; tab names are listed exactly as returned.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "section": {
+                "type": "string",
+                "description": "Section label.",
+                "enum": [
+                  "Face",
+                  "Hairstyle",
+                  "Body",
+                  "Outfit"
+                ]
+              }
+            },
+            "required": [
+              "section"
+            ]
+          }
+        },
+        {
+          "name": "enter",
+          "description": "Open a category and return its parameters. Returns {category, kind, parameters:[{index,path,label,kind,value,min,max}], globals?}. parameter kind is 'float' | 'combined' | 'color'. Colors additionally expose {name,group}; a symmetric color whose two sides differ (e.g. Iris 'Both Eyes') reports value=null (it can still be set). 'globals' lists the section's shared colours (hair Main/Emission, the shared skin base) separately from the category's own parameters; they are addressed by their portable Section-level path with set_param from any tab. If the category is currently empty (has_clear_preset slot active) and no real preset is chosen yet, parameters is empty and needs_preset=true is returned - select a preset first; the parameter set is then identical for every preset. Use the stable global 'path' (Section/Category/Name; global hair colours use Section/Name) with set_param; it survives re-entry, while the short 'index' is only valid until you re-enter the category or the model changes. Names/labels are also accepted. For Outfit the parameters belong to the currently applied clothing item, not to the tab: every item exposes its own set (sizes vary widely, some include body/bodysuit fit sliders), and the result carries 'item' with the applied item's name. Switch the item with select_preset; with no item applied the list is empty and needs_preset=true. view (default 'auto') also frames the camera on the category's subject and reports it as 'view' (e.g. face -> close-up, back hair -> rear view); pass 'keep' to leave the camera untouched, 'reset' for the initial view, or an explicit <region>[:<angle>] (region body|face|head|upper|legs|feet, optional angle front|back|left|right|threequarter_left|threequarter_right). Side effect: selects the category tab and (blocking) waits for the preview to settle. Section/category names are case-sensitive.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "section": {
+                "type": "string",
+                "description": "Section label.",
+                "enum": [
+                  "Face",
+                  "Hairstyle",
+                  "Body",
+                  "Outfit"
+                ]
+              },
+              "category": {
+                "type": "string",
+                "description": "Category/tab name from categories()."
+              },
+              "view": {
+                "type": "string",
+                "description": "Camera framing: auto (default), keep, reset, or <region>[:<angle>] (body|face|head|upper|legs|feet, optional front|back|left|right|threequarter_left|threequarter_right)."
+              }
+            },
+            "required": [
+              "section",
+              "category"
+            ]
+          }
+        },
+        {
+          "name": "presets",
+          "description": "List the presets of a category as one continuous list. Returns [{id,index,name,kind}] in display order, where id == index is the value to pass to select_preset / preset_preview_*; kind is 'custom' | 'preset' | 'clear'. Custom presets (the user's saved items) come first, followed by the stock presets; a category may have neither. source (optional, default 'all') filters the result without changing any state: 'all' (custom + stock), 'presets' (stock only), 'custom' (custom only). 'name' is a human-readable label when known, otherwise the internal id; the empty/Clear slot is named '(clear)'. Read-only.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "section": {
+                "type": "string",
+                "description": "Section label.",
+                "enum": [
+                  "Face",
+                  "Hairstyle",
+                  "Body",
+                  "Outfit"
+                ]
+              },
+              "category": {
+                "type": "string",
+                "description": "Category/tab name from categories()."
+              },
+              "source": {
+                "type": "string",
+                "description": "Filter (stateless): all (default) | presets | custom.",
+                "enum": [
+                  "all",
+                  "presets",
+                  "custom"
+                ]
+              }
+            },
+            "required": [
+              "section",
+              "category"
+            ]
+          }
+        },
+        {
+          "name": "preset_preview_list",
+          "description": "Return preview thumbnails for a curated list of presets as inline images. Read presets() first (it gives each entry an index and a human label when known), pick the most promising ones, then pass their indexes here. 'indexes' is required: an array of preset indexes from presets() (numbers only, max 12 per call, duplicates are collapsed; an out-of-range index fails the whole call). Each returned item carries {index,name} (the same name as in presets), so no separate join is needed. mode='inline' (default) returns image blocks with no files; 'file' writes preset_<i>.png; 'both' does both. Blocking: each preview is generated, so responses take a few seconds per preset. Fidelity varies: outfit/hair/eye previews reflect the actual preset, but some Face overlays (lips/lashes/cheeks) render on a generic template head, not the current model.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "section": {
+                "type": "string",
+                "description": "Section label.",
+                "enum": [
+                  "Face",
+                  "Hairstyle",
+                  "Body",
+                  "Outfit"
+                ]
+              },
+              "category": {
+                "type": "string",
+                "description": "Category/tab name from categories()."
+              },
+              "indexes": {
+                "type": "array",
+                "description": "Preset indexes from presets() to render (max 12; clear index has no preview).",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "mode": {
+                "type": "string",
+                "description": "inline (default, no file) | file | both.",
+                "enum": [
+                  "inline",
+                  "file",
+                  "both"
+                ],
+                "default": "inline"
+              }
+            },
+            "required": [
+              "section",
+              "category",
+              "indexes"
+            ]
+          }
+        },
+        {
+          "name": "preset_preview_range",
+          "description": "Return preview thumbnails of a consecutive run of a category's presets as inline images. start = preset index from presets(); count = how many consecutive presets to return (1..12, default 1; any index past the category's presets, or count > 12, is an error - nothing is trimmed). Each returned item carries {index,name} (the same name as in presets), so no separate join is needed. mode='inline' (default) returns image blocks with no files; 'file' writes preset_<i>.png; 'both' does both. Prefer preset_preview_list when you already know which presets you want. Blocking. Fidelity varies: outfit/hair/eye previews reflect the actual preset, but some Face overlays (lips/lashes/cheeks) render on a generic template head, not the current model.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "section": {
+                "type": "string",
+                "description": "Section label.",
+                "enum": [
+                  "Face",
+                  "Hairstyle",
+                  "Body",
+                  "Outfit"
+                ]
+              },
+              "category": {
+                "type": "string",
+                "description": "Category/tab name from categories()."
+              },
+              "start": {
+                "type": "integer",
+                "description": "First preset index from presets() (default 0).",
+                "minimum": 0,
+                "default": 0
+              },
+              "count": {
+                "type": "integer",
+                "description": "How many consecutive previews (1..12, default 1).",
+                "minimum": 1,
+                "maximum": 12,
+                "default": 1
+              },
+              "mode": {
+                "type": "string",
+                "description": "inline (default, no file) | file | both.",
+                "enum": [
+                  "inline",
+                  "file",
+                  "both"
+                ],
+                "default": "inline"
+              }
+            },
+            "required": [
+              "section",
+              "category"
+            ]
+          }
+        },
+        {
+          "name": "select_preset",
+          "description": "Select a preset by the id from presets() (custom and stock share one id space). The clear/reset entry is the one whose kind is 'clear'/name '(clear)' (its id is not fixed). Blocks until the change is applied. Returns the applied preset's name (the same 'name' as in presets; or 'cleared'). Set params=true to instead return an object {name, category, kind, has_clear_preset, parameters, item?} - the same payload as enter() - so the new parameter set is available immediately (useful for Outfit, where the applied item's sliders change on every selection and would otherwise need a re-enter). Prefer this over manual group manipulation.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "section": {
+                "type": "string",
+                "description": "Section label.",
+                "enum": [
+                  "Face",
+                  "Hairstyle",
+                  "Body",
+                  "Outfit"
+                ]
+              },
+              "category": {
+                "type": "string",
+                "description": "Category/tab name from categories()."
+              },
+              "index": {
+                "type": "integer",
+                "description": "Preset id from presets() (custom and stock share one list); the clear entry has kind 'clear'."
+              },
+              "params": {
+                "type": "boolean",
+                "description": "When true, also return the refreshed parameter list (like enter()). Default false returns just the preset's name."
+              }
+            },
+            "required": [
+              "section",
+              "category",
+              "index"
+            ]
+          }
+        },
+        {
+          "name": "create_custom_preset",
+          "description": "Create a new custom preset (a Custom sub-tab item, the user's own reusable preset) with the given name, in one call. Custom presets are global (saved on disk) and appear in every model; they list, preview and apply exactly like a stock preset (see presets/select_preset). A freshly created item is an empty template (it has no strand geometry yet) until it is sculpted. Returns {section,category,id,name,kind:'custom',renamed}: id is the preset's id in presets() (custom first). Creating does not apply the preset to the model; select it with select_preset when you want to use it. Blocking.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "section": {
+                "type": "string",
+                "description": "Section label.",
+                "enum": [
+                  "Face",
+                  "Hairstyle",
+                  "Body",
+                  "Outfit"
+                ]
+              },
+              "category": {
+                "type": "string",
+                "description": "Category/tab name from categories()."
+              },
+              "name": {
+                "type": "string",
+                "description": "Meaningful identifier for the new custom preset (shown by presets())."
+              }
+            },
+            "required": [
+              "section",
+              "category",
+              "name"
+            ]
+          }
+        },
+        {
+          "name": "import_custom_preset",
+          "description": "Import a reusable custom item (*.vroidcustomitem) from a host path into the Custom tab of the matching Hairstyle or Outfit category. The target category is taken from the file, so a file imported from another tab in the same section lands in its own category (the result carries the actual category, plus requested_category when it differs). wear='now' applies the imported item to the model; wear='later' (default) only adds it to the library. name optionally renames the new item. Returns {imported, section, category, id, name, file, applied, wear_requested, type, count, renamed}. Blocking.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "section": {
+                "type": "string",
+                "description": "Section label (Hairstyle or Outfit).",
+                "enum": [
+                  "Face",
+                  "Hairstyle",
+                  "Body",
+                  "Outfit"
+                ]
+              },
+              "category": {
+                "type": "string",
+                "description": "Category/tab name from categories()."
+              },
+              "path": {
+                "type": "string",
+                "description": "Host path to a *.vroidcustomitem file (e.g. C:\\Users\\user\\model.vroid)."
+              },
+              "name": {
+                "type": "string",
+                "description": "Optional name for the imported item."
+              },
+              "wear": {
+                "type": "string",
+                "description": "Apply the imported item to the model now, or only add it to the library (default).",
+                "enum": [
+                  "now",
+                  "later"
+                ]
+              }
+            },
+            "required": [
+              "section",
+              "category",
+              "path"
+            ]
+          }
+        },
+        {
+          "name": "export_custom_preset",
+          "description": "Export a custom preset (a Custom-tab item, *.vroidcustomitem) from a Hairstyle or Outfit category to a host path. `id` is the preset id from presets(); the item may be worn or not. save=true (default) first saves the worn item's current design into its reusable file, so unsaved edits are included; for an unworn item that step is skipped (saved=false) and the stored file is exported as-is. save=false exports the stored file without touching the model. overwrite=false refuses to replace an existing file (default true). The .vroidcustomitem extension is appended when the path has none. Returns {exported, section, category, id, name, path, bytes, worn, saved, save_requested}. Blocking.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "section": {
+                "type": "string",
+                "description": "Section label (Hairstyle or Outfit).",
+                "enum": [
+                  "Face",
+                  "Hairstyle",
+                  "Body",
+                  "Outfit"
+                ]
+              },
+              "category": {
+                "type": "string",
+                "description": "Category/tab name from categories()."
+              },
+              "index": {
+                "type": "integer",
+                "description": "Preset id from presets() (kind 'custom')."
+              },
+              "path": {
+                "type": "string",
+                "description": "Host path for the exported file ('.vroidcustomitem' is appended when the path has no extension)."
+              },
+              "save": {
+                "type": "boolean",
+                "description": "Include the worn item's current design (default true; ignored for an unworn item)."
+              },
+              "overwrite": {
+                "type": "boolean",
+                "description": "Replace an existing file at path (default true; false refuses instead of overwriting)."
+              }
+            },
+            "required": [
+              "section",
+              "category",
+              "index",
+              "path"
+            ]
+          }
+        },
+        {
+          "name": "set_param",
+          "description": "Set one parameter of a category. Address it by its stable global 'path' from enter() (e.g. 'Face/Irises/L Eye'), or by its short name/label (numeric: 'Iris Size (X)'; colors: 'L Eye', 'Main Color'), or by its numeric 'index' (valid only for the category you just entered). value: a float as a string for 'float'/'combined', or a color as '#RRGGBB' (or 'r,g,b' in 0..1) for 'color'. Blocks until applied. Returns {index,label,value}.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "section": {
+                "type": "string",
+                "description": "Section label.",
+                "enum": [
+                  "Face",
+                  "Hairstyle",
+                  "Body",
+                  "Outfit"
+                ]
+              },
+              "category": {
+                "type": "string",
+                "description": "Category/tab name from categories()."
+              },
+              "index": {
+                "type": "string",
+                "description": "Global path from enter() (e.g. \"Face/Irises/L Eye\"), or a short name/label (e.g. \"L Eye\", \"Iris Size (X)\"), or a numeric index as a string."
+              },
+              "value": {
+                "description": "Float for numeric parameters, or '#RRGGBB' / 'r,g,b' (0..1) for color.",
+                "oneOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "section",
+              "category",
+              "index",
+              "value"
+            ]
+          }
+        },
+        {
+          "name": "camera",
+          "description": "Control the editor camera. action is required:\n  reset | frame | angles | zoom | pan | rotate | projection | view | probe\n  frame   -> region: body|face|head|upper|legs|feet; optional angle: front|back|left|right|threequarter_left|threequarter_right (left/right = viewer's side when facing the model). Primary inspection tool: frames the region (its orbit center and distance) at the angle.\n  angles  -> x=yaw, y=pitch (degrees; yaw 180 = front, pitch 0 = level); orbits the current center and KEEPS the current distance/pan (does not re-frame)\n  pan     -> x,y\n  zoom    -> value (positive zooms in)\n  rotate  -> value (CameraRotationMode enum index)\n  view    -> x=center fraction of height (0=feet,1=head), y=distance fraction (manual calibration)\n  reset/projection/probe -> no extra args; reset restores the initial framing (angles, pan and zoom)\nFraming uses avatar bounds, so frame regions work for any model. Every action blocks until the change is applied and returns the resulting state {angles:{yaw,pitch}, distance, position, rotation, projection, fov}. Requires an open model. Missing/invalid arguments are errors.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "action": {
+                "type": "string",
+                "description": "Camera action.",
+                "enum": [
+                  "reset",
+                  "frame",
+                  "angles",
+                  "zoom",
+                  "pan",
+                  "rotate",
+                  "projection",
+                  "view",
+                  "probe"
+                ]
+              },
+              "region": {
+                "type": "string",
+                "description": "Region for action=frame (the orbit center and framing).",
+                "enum": [
+                  "body",
+                  "face",
+                  "head",
+                  "upper",
+                  "legs",
+                  "feet"
+                ]
+              },
+              "angle": {
+                "type": "string",
+                "description": "Optional angle for action=frame (default front).",
+                "enum": [
+                  "front",
+                  "back",
+                  "left",
+                  "right",
+                  "threequarter_left",
+                  "threequarter_right"
+                ]
+              },
+              "x": {
+                "type": "number",
+                "description": "First value: yaw for angles (180=front), X for pan/view."
+              },
+              "y": {
+                "type": "number",
+                "description": "Second value: pitch for angles (0=level), Y for pan/view."
+              },
+              "value": {
+                "type": "number",
+                "description": "Value for zoom, or the CameraRotationMode index for rotate (0=Front, 1=Right, 2=Top, 3=Reverse, 4=RotateUp, 5=RotateLeft, 6=RotateRight, 7=RotateDown)."
+              }
+            },
+            "required": [
+              "action"
+            ]
+          }
+        },
+        {
+          "name": "screenshot",
+          "description": "Capture the 3D preview (no UI). mode='inline' (default) returns it as an MCP image content block (base64 PNG) with no file written; mode='file' writes screenshot.png in the app root and returns only text; mode='both' does both. Blocking; call only after a change has settled, never in a polling loop (it starves the rebuild). Requires an open model.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "mode": {
+                "type": "string",
+                "description": "inline (default, no file) | file | both.",
+                "enum": [
+                  "inline",
+                  "file",
+                  "both"
+                ],
+                "default": "inline"
+              }
+            },
+            "required": []
+          }
+        },
+        {
+          "name": "save",
+          "description": "Save the model (blocking, ~few seconds). With 'path' it does a save-as to that file (no dialog) and returns the resolved host path. Without 'path' it saves in place and returns 'saved' - but only if the model already has a file; for a freshly created (unsaved) model it fails with an error instead of opening the editor's native save dialog, so pass a path then. path is a host path (e.g. C:\\Users\\user\\model.vroid).",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "Optional target .vroid path for save-as (e.g. C:\\Users\\user\\model.vroid)."
+              }
+            },
+            "required": []
+          }
+        },
+        {
+          "name": "main_menu",
+          "description": "Return to the main menu without quitting; clears the unsaved flag so no dialog is shown.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {},
+            "required": []
+          }
+        },
+        {
+          "name": "help",
+          "description": "Detailed reference for a topic, when the concise tool descriptions are not enough. Call it whenever the semantics are unclear (Outfit item sliders, clear presets, hair colours, colours/values, camera, sessions, paths). help() with no topic lists the available topics. It is the authoritative reference.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "topic": {
+                "type": "string",
+                "description": "Topic (optional): outfit, presets, hair, colors, values, camera, sessions, paths."
+              }
+            },
+            "required": []
+          }
+        },
+        {
+          "name": "status",
+          "description": "Liveness/queue probe answered WITHOUT the main-thread queue, so it works while a mutation or batch is still running (unlike state/commands). Returns {inflight?, inflight_seconds?, queued, batch?}: the command currently executing (when it has run >3s), how many commands are queued behind it, and the position of an in-progress batch ({index,total,method}). Use it after a batch call times out to tell whether it is still applying, instead of retrying. Read-only, no side effects, no model required.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {},
+            "required": []
+          }
+        },
+        {
+          "name": "exit",
+          "description": "Quit the application. mode: 'save' or 'discard' (default 'discard'). Ends the session and stops the MCP/TCP servers; do not expect further calls to succeed. Unsaved-changes dialog is bypassed.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "mode": {
+                "type": "string",
+                "description": "Whether to save before quitting.",
+                "enum": [
+                  "save",
+                  "discard"
+                ]
+              }
+            },
+            "required": []
+          }
+        },
+        {
+          "name": "batch",
+          "description": "Run several operations sequentially in one call. operations is an array of {method, arguments}: method is any tool name (including help), and arguments is an OBJECT of named arguments using exactly the same keys as that tool's inputSchema (e.g. {\"method\":\"enter\",\"arguments\":{\"section\":\"Face\",\"category\":\"Irises\"}}, {\"method\":\"hair_group_add\",\"arguments\":{\"category\":\"Front\",\"from\":\"look/fringe\",\"name\":\"Bangs\"}}). Positional arrays are NOT supported: an array in `arguments` is rejected, an unknown key or a missing required argument is an error, so a call can never silently land on the wrong parameter. Array-valued arguments (e.g. preset_preview_list indexes) are passed as JSON arrays inside `arguments`. Returns one {ok,result|error} per operation, in order, followed by the frames captured by image-returning ops (screenshot/ui_screenshot/previews) as inline images with an [op N] marker. Use this for the visual loop: mutate + move the camera + screenshot in one call. Large batches of mutating ops can take a long time; prefer chunking them, and if a batch call times out, call status to see whether it is still running instead of blindly retrying. Blocks until all finish.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "operations": {
+                "type": "array",
+                "description": "Operations to run in order.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "method": {
+                      "type": "string",
+                      "description": "Tool/command name."
+                    },
+                    "arguments": {
+                      "type": "object",
+                      "additionalProperties": true,
+                      "description": "Named arguments, the same keys as the corresponding tool's inputSchema."
+                    }
+                  },
+                  "required": [
+                    "method"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "operations"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "images": []
+}

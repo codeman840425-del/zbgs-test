@@ -1,0 +1,32 @@
+{
+  "httpStatus": 200,
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "initialize",
+    "params": {
+      "protocolVersion": "2025-06-18",
+      "capabilities": {},
+      "clientInfo": {
+        "name": "gamemake-author-study",
+        "version": "1"
+      }
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+      "protocolVersion": "2025-06-18",
+      "capabilities": {
+        "tools": {}
+      },
+      "serverInfo": {
+        "name": "vroid-studio-mcp",
+        "version": "1.0.0"
+      },
+      "instructions": "vroid-studio-mcp drives a running VRoid Studio 2.14 editor through its own internal API. The editor, plugin and this endpoint are already running; you do NOT launch anything.\n\nWORKFLOW: open(path) or create(gender) -> sections() -> categories(section) -> enter(section, category) -> set_param/select_preset.\nSections are stable UI labels: Face, Hairstyle, Body, Outfit. A category is a tab inside a section. Section and category names are CASE-SENSITIVE: use them exactly as returned by sections()/categories(). enter returns its parameters as one list (numeric and colors), each with a stable global 'path' (Section/Category/Name, or Section/Name for global hair colours) and a short 'index' valid only for the category you just entered (re-enter to refresh). Shared section colours are returned separately under 'globals'. Prefer the path; set_param also accepts the short name or the index. By default enter also frames the camera on the category's subject (view='keep' to leave it; the applied view is reported as 'view').\nNumeric/combined values are floats passed as strings (clamped to the parameter's [min,max]; the result carries clamped:true when adjusted); colors take '#RRGGBB' or 'r,g,b' (0..1). Presets are addressed by index from presets(); the clear entry is named '(clear)'.\n\nSEMANTICS: every mutating call is BLOCKING for the client and runs on the editor's main thread; it resolves by waiting for the engine rebuild signal, so it may take a few seconds. Do not poll screenshots while a change is applied (that starves the rebuild); take one after it settles. Prefer chunking large batches instead of launching one huge batch (large batches take long and may not return). If a batch call times out, call status to see whether it is still running rather than blindly retrying. Errors come back as isError=true with a human-readable message (on the TCP channel: {ok:false,error}).\n\nHELP: the tool descriptions are intentionally concise. If ANY semantics are unclear - how a category's parameters behave, item-specific Outfit sliders, clear presets, colours, camera, values, sessions - call help(topic) before guessing; it is the detailed, authoritative reference. help() with no topic lists the topics.\n\nTOOLS: state, status, sections, open, create, categories, enter, presets, preset_preview_list, preset_preview_range, select_preset, create_custom_preset, import_custom_preset, export_custom_preset, set_param, camera, screenshot, save, main_menu, exit, batch, help. Use batch for several ordered operations + captures in one call (it returns captured frames inline and accepts any tool name, including help; each op takes named `arguments`, the same keys as tools/call). status is answered without the main-thread queue, so it works while a command or batch runs. (ui_screenshot is a dev-only tool, disabled when dev_tools=false in the servers config.)\n\nPATHS: this editor runs on Windows - use Windows paths (e.g. C:\\Users\\user\\model.vroid). open/save return Windows paths.\n"
+    }
+  },
+  "images": []
+}

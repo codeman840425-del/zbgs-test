@@ -1,0 +1,61 @@
+{
+  "httpStatus": 200,
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 45,
+    "method": "tools/call",
+    "params": {
+      "name": "batch",
+      "arguments": {
+        "operations": [
+          {
+            "method": "save",
+            "arguments": {
+              "path": "F:\\gamemake\\assets-source\\vroid-mcp-study-v1\\generated\\female-styled-base.vroid"
+            }
+          },
+          {
+            "method": "camera",
+            "arguments": {
+              "action": "frame",
+              "region": "body",
+              "angle": "front"
+            }
+          },
+          {
+            "method": "screenshot",
+            "arguments": {
+              "mode": "inline"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 45,
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "[{\"ok\":true,\"result\":\"F:\\\\gamemake\\\\assets-source\\\\vroid-mcp-study-v1\\\\generated\\\\female-styled-base.vroid\"},{\"ok\":true,\"result\":{\"angles\":{\"yaw\":180,\"pitch\":-5.711},\"distance\":5.186,\"position\":{\"x\":0,\"y\":0.281,\"z\":5.16},\"rotation\":{\"x\":-5.711,\"y\":180,\"z\":0},\"projection\":\"perspective\",\"fov\":20,\"orthographicSize\":5}},{\"ok\":true,\"result\":\"inline\"}]"
+        },
+        {
+          "type": "text",
+          "text": "[op 2] screenshot"
+        },
+        {
+          "type": "image",
+          "mimeType": "image/png",
+          "savedImage": "save-styled-base.image-2.png",
+          "sha256": "3a89c24356ed6a9d3d99605db08bb58393eec202467862d37dc74b7801771cce"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "images": [
+    "evidence\\vroid-mcp-study-v1\\save-styled-base.image-2.png"
+  ]
+}

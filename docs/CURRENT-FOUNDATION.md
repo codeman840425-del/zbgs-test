@@ -1,47 +1,40 @@
-# 当前角色工程：恢复入口
+# 当前角色基础工程恢复入口
 
-2026-11-17，F:/gamemake，feat/m1-foundation-room。恢复只读AGENTS、本页和当前包必要证据。CAPABILITIES为唯一能力事实；FOUNDATION-MILESTONES安排阶段；不再通读全部历史。
+更新：2026-11-17。当前 M2 未完成，M3 未授权；已拒的怪异预设不得借工具成功改为通过。完整目标见 AGENTS.md、docs/research/M2-COMPLETE-CUSTOMIZATION-LONG-GOAL-v2-2026-11-16.txt；能力事实只认 CAPABILITIES.md。
 
-## 用户最新优先纠正：先学成熟制作流程
+## 固定演示与保留项
 
-用户在2026-11-17明确说“别闭门造车了……不会就去学”。已中断新m2-semantic-female-face-v1与m2-continuous-garment-fit-v1制作，不继续新PCHIP/连续场试验。root进程核查无这两包worker；两agent确认目录未创建/求值导出0。现有83de工作台及8ff远端成果保留。下列原“接续”制作安排以此条暂停替代，不据旧派工自动恢复。
+- 工作台固定 http://127.0.0.1:4196/?workbench=appearance ，source bfde7d79bc6bce4eda42d3d06d870364f3f64818，build 83decd027116，experiments/m2-preset-diagnostics-fixed-v1/prototype/dist，delivery/appearance-workbench.json。4174历史证据，4195 M1。未替换本轮原生VRoid实验。
+- 普通菜单男女各3有限样件；15失败预设仅诊断区，分区不等于模型已修好。既有失败和来源证据不改标签。
+- 主交付仍4女+4男代表预设及可持续生产流程。女性裙装及30秒舞封存，不追加精修。普通电脑尚缺设备，用户允许保留缺口继续。
+- m2-semantic-female-face-v1、m2-continuous-garment-fit-v1自造形变试验已暂停，不据历史派工恢复。当前先学习原生成熟制作流程；原运行时保留。
 
-三线只读研究已完成：face核官方稳定VRoid原生编辑/表情/可重复操作；asset核成熟衣物随体型制作/版型/修正；http核MPFB/UMA真实源码和作者例子。输出docs/research下2026-11-17的NATIVE-ANIME-AUTHORING-WORKFLOW、MATURE-GARMENT-AUTHORING-WORKFLOW、MATURE-CHARACTER-PRODUCTION-CODE。root选择先做官方Studio2.16.0原版最小学习复现（原生源/表达/重开/导出），当前仅官方下载中，未安装/运行/接入；480MB级安装器在experiments/tools/vroid-2.16.0，不提交。不能借下载状态称样例通过。研究学习结论和一个原版最小复现，不以数学库API当成熟美术方案，不再先生成新自造形变。学习不等于批准换引擎/购买/替换正式基模；既有游戏运行链保留。
+## 当前有效工具和真实证据
 
-## 目标和公开版本
+- Windows VRoid Studio2.16.0 + BepInEx IL2CPP be.791 + mcjo79 Bridge0.15.0已真实打开、保存、预览和原生VRM1导出。工具副本 experiments/tools/vroid-mcp-bridge-0.15.0/app-2.16；7811是内部桥，不是工作台。59工具可枚举，不代表59项均已验证；未注册GPT宿主工具或改全局配置。
+- 源 assets-source/vroid-bridge-study-v1/generated/female-native-round-waist-216.vroid，SHA311a1bd0c9137a0c5783f9ff818b686ce61f132cd0f88eb63caf408a8a73b4de；VRM78912a7a48e114107ccf16ecd7896edff2fe2664bbc25fb4f8a807fca68c01b3。保存工具身份、请求和复建说明在该包/environment.json、ENVIRONMENT.md；原发布stdio调用脚本call.py。
+- evidence/native-vroid-room-78912-v1：同固定房间、真实VRM1 loader/共用motion/自身normalized骨架，站立+行走，blink/happy/aa/oh近景已实际运行。是test overlay，借旧实例根轨迹；未完整接factory/独立衣物/coverage/外观记录/碰撞。正常速度录像已存，不当8预设或完整角色通过。
+- 默认导出VRM下游metadata为onlyAuthor/personalNonProfit/noRedistribution/modification prohibited。自制默认素材的原始许可和给下游的VRM授权分开核；不据默认值说pixiv统一禁商用，也不静默改meta冒称完成授权。
+- 旧brainrom2.14源/原生参数读回仍保 assets-source/vroid-mcp-study-v1 与 evidence/vroid-mcp-study-v1。2026-11-17先另存男性源，再退出、官方卸载成功；17890/17891关闭，7811仍ready。旧安装包/插件/临时2.14副本递归清理被自动策略拒绝，残留仍在，见 evidence/vroid-214-retirement-v1。不要再启动2.14或称完全清理。
+- froz3ncore/VRoid-Character-MCP固定6469bd3a6d00fe5fac508d992f63b5a1a783d80e：确有原生表情定义编辑、模板叠加/局部妆容独有价值。优先只测一个表情定义保存重开/导出，不重复主Bridge功能；本机裸2.16二进制双SHA通过allowlist。assets-source/vroid-expression-study-v1正在准备，未实际运行。不要把静态审查当接通。
 
-M2完整范围依据docs/research/M2-COMPLETE-CUSTOMIZATION-LONG-GOAL-v2-2026-11-16.txt（SHA309ae27289e81689d26a08f2704e887a9a882befad860e534f0779445efedc23）。主包仍4女+4男代表预设共同生产。用户明确拒绝鬼样预设；不能用单个男头部/数值门/诊断分区冒充8体完成。M2未完成，M3未授权。
+## 自适应关节与其他学习成果
 
-4196固定工作台：http://127.0.0.1:4196/?workbench=appearance 。sourcebfde7d79bc6bce4eda42d3d06d870364f3f64818，build83decd027116，目录experiments/m2-preset-diagnostics-fixed-v1/prototype/dist，指针delivery/appearance-workbench.json。旧14f目录不动，回滚指针delivery/history/appearance-workbench-14f73cbe1e26.json。4174证据；4195保M1；临时4197已关闭。
+- Mink原作者CPU示例/自包含碰撞测试已真实复现：assets-source/mink-author-study-v1、evidence/mink-author-study-v1。机器人示例不是人体通过。
+- 原男性VRM→Mink/MuJoCo→VRM：assets-source/vrm-mink-roundtrip-v1，保69 raw/54 normalized，12骨、无碰撞体，无求解；rest/zero/单骨30°的真实FK回读通过。16文件manifest已root逐项SHA核。尚未人体限位、碰撞、短舞求解或避穿模；不能回答自适应已完成。
+- MPFB原作者02样例459点变形与独立重开、CPU静态图已保 assets-source/mpfb-author-study-v1 和 evidence/mpfb-author-study-{v1,visual-v1}。不是二次元新基模，不替换游戏。
 
-当前普通菜单男女各3基础/有限样件，15失败候选移至检查区；持续警示和返回对应原人物、旧URL均已真实浏览器回归。455构建输入精确核Git；证据evidence/m2-preset-diagnostics-release-v1。分区不算几何修复。
+## 接续工作顺序
 
-## 当前问题与新证据
+1. 完成froz原生表情窄试验：独立lab与保存源、精确allowlist、改一个表达→另存→冷开→原生导出与映射回读。有价值再纳入制作入口；失败保原因，不绕版本门。不要碰正在运行的Bridge实例，不占用户鼠标键盘。
+2. Bridge原生矩阵优先复用已证女性源，已补2.16女性25参数保存重开全等（parameter-reopen-result.json），继续男性源、必要模板/发束/表面接口；一次只操作一个编辑器，操作失败核真实嵌套结果。docs/research/VROID-BRIDGE-PLATFORM-FIT-2026-11-17.md区分工具与实测。
+3. 新原生候选完整factory接缝，先核独立装备/coverage/接触/外观记录，不复制旧基模SHA、蒙皮或补偿。最小样件通过后再8预设；不把overlay推到普通菜单冒充完成。
+4. 自适应路线下一步才是受限短动作的限位/代理与真实蒙皮接触，禁止改封存30秒舞。不要同时开启新自造外观算法。
 
-- evidence/m2-preset-visual-triage-v1已9体27图实际查看：尖锥下脸、女round-full/soft-wide鼓摆与腹前青块、男wide-muscular左腋白缺口/黑尖片。仅静态默认衣装，不含动作通过；agent继续追实际资源/几何原因。
-- evidence/m2-preset-shape-target-audit-v1确认旧自拟14mm颏长+jaw/cheek叠加收窄，最窄宽比.669216，口底至颏+43.14%；不是用户不可变要求。已停止旧尖脸精修和细分后验。
-- assets-source/m2-source-proportioned-face-v1新独立实验male-source-proportioned-narrow-preview-v1，VRM SHA5120bd32b3491864d216f5a93810829f8f128f974a79824b3c911f62fa0810e5。保原YZ/口颏32.455mm，仅下脸X收窄；原骨架/贴图/54targets，15消费者读回。是方法试样，不是原lean目标达成，不是完整瘦体/八体。
-- evidence/m2-source-proportioned-face-audit-v1独立55单独+10混合实际源/新导出strict新增0，原非零保留；审计已封83文件。已知旧oh新增pair不再出现在该新候选，不能改旧失败记录。
-- evidence/m2-source-proportioned-face-review-v2实际83de游戏世界/灯光中test-only VRM overlay，三源原/拒绝/新各7静态截图，相机与人物世界变换逐项exact。root查看6图：明显纵向尖锥拉长撤销，仍为原V形下颌、差异克制。v1约54µm相机差失败保留。未注册正式avatar工厂/新装备fit/整段表情或动作，未用户视觉验收。
-- evidence/m2-native-face-authoring-feasibility-v1：指定本机范围无VRoid/.vroid原工程，官方Hub不是建模批处理API，未证GUI保存/重开/导出。未安装/执行安装器，残片gitignore。不能默认改走手工制作或换基模。
+## 并行、备份与桌面纪律
 
-## 保留机制及失败，勿重做
+已知requested配置：face_target_feasibility=gpt-6-astra/high；asset_budget和http_transport_review=gpt-6.1-sol/high。每次followup明确任务难度/依据，不能声称修改模型。provider/hook实际拦截未独立暴露。派工记录 evidence/subagent-explicit-dispatch-2026-11-16.json。
 
-- m2-axial-body-compose-v1完整male lean 13参数F=G+B数值过，body-readback真实Face与旧head-only字节相同，mixed-oh仍新增[128,1020]，未完整人物导出或fit。旧尖锥已拒，勿继续精修旧目标。
-- m2-boundary-refinement-api-recovery-v1官方局部BMesh：原Body7855→7896点/12049面，41新点1骨，跨accessor闭合；独审无新增前置阻断。旧wrapper失败保留。
-- m2-refined-axial-evaluation-v1原两目标各一次406701端点数值已封，非造型/导出通过。m2-refined-contact-readback-v1只准备9消费者/12QA，候选CGAL执行0；独立合同审查已封。后续不再推进已拒目标。
-- scripts/m2-slim-tool-restore-v1：三锁定官方wheel干净新venv59.87s恢复/import成功，未改在用环境，非全工程/新OS恢复。工具现用experiments/tools/slim-core-2.6.3/.venv；目标存在拒覆盖。
-- m2-official-intersection-preflight-v1官方CGAL8合成过，inclusive与原strict定义不同、cutoff非命中上限。许可记录限离线工具，不随游戏分发二进制。
+主窗口单GPU/导出互斥；最新房间录制已结束并释放。桌面操作仅缺接口兜底，操作后立即turn_ended释放。当前后台MCP不需要控制鼠标键盘。
 
-## 接续与协作
-
-1. 新静态对照和真实表达审计封包/root复核；不能只换标签结束。依据实际画面决定是否接共用profile/实际装备fit与运行链；不借旧83f适配身份。
-2. asset_budget执行m2-preset-garment-cause-v1，追女腹前/鼓摆与男腋下两代表的实际资源/几何共同原因，不重开封板裙。
-3. face_target_feasibility已封m2-batch-face-production-cause-v1：旧共同投影使三目标几乎合一并放大颊角。接续m2-semantic-female-face-v1，一次identity+圆/柔宽/方，独立语义目标表/PCHIP、原身体B及真实morph/作者N，不扫参；实际静态先看再后验，不把旧fit直接借用。
-4. 持续整批8体与M2共同生产闭环；普通机实测缺设备已获准记录缺口，不停独立工作。冻结裙/30秒舞不动。公司平台由副总工负责，其dirty/untracked不碰、不stage。
-
-已知requested配置：face_target_feasibility=gpt-6-astra/high；asset_budget和http_transport_review=gpt-6.1-sol/high。followup不改模型，真实provider/hook未独立暴露。每次记录evidence/subagent-explicit-dispatch-2026-11-16.json；GPU录制与重导出互斥。
-
-## 备份
-
-最近已核远端8ffafe9374e5866ee523b391caee7267823de14b，含4196诊断分区、5120试样/独审/相机一致对照及此前机制封包；push和ls-remote已匹配。其后新共同根因/新三女试验仍在执行，不能提前声称全部备份。显式路径提交，精确pin包用局部.gitattributes * -text、已stage时renormalize并核index bytes；manifest日志强制纳入，安装器残片排除。固定发布必须exact独立检出，录像/资源/源码身份一致；公司文件绝不顺带提交。
+最近已核远端329e1856bdb4e2284035da1fa76f6514b8a4a24d。其后本轮原生源、导出、Mink与房间证据正封包，未核push前不宣称备份完成。只stage明确owned路径；manifest精确字节用局部.gitattributes，ignore日志需显式-force并核index。公司副总工dirty/untracked绝不顺带提交；公司系统不在本轮角色职责内。

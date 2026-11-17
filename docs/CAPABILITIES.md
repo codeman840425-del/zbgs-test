@@ -342,3 +342,23 @@ head-only一次诊断原8请求已完成，8/8 diagnostic-failed，正式生产�
 新m2-source-proportioned-face-v1为独立实验身份，male源62b→候选5120bd32：保持YZ和原口颏32.455mm，局部下脸X收窄，无旧jaw/cheek叠加。实际导出15消费者/54targets及属性读回，原55单独+10混合strict无新增pair（原模型已有交叉保留，不称零接触）；候选未经正式工厂/独立装备/动作验收。root实际同镜头静态查看原/拒绝/新正脸、新侧脸及blink/oh，尖锥纵向拉长已撤销，仍为原V形下颌与克制差异，不代表完整瘦体或八体达到。证据m2-source-proportioned-face-review-v2；v1微小相机不一致记录保留。原生编辑器核查未发现可用本机原工程或已验证批处理接口，不以此切换基模；安装器未安装、未执行，下载残片不纳入备份。
 
 2026-11-17 最新用户要求先学习成熟方法：m2-semantic-female-face-v1与m2-continuous-garment-fit-v1已中断，两个agent确认目录/新求值/导出均无，root查无相关worker。三份官方/原作者生产研究完成（NATIVE-ANIME-AUTHORING-WORKFLOW、MATURE-GARMENT-AUTHORING-WORKFLOW、MATURE-CHARACTER-PRODUCTION-CODE，均docs/research/*2026-11-17.md）。确认成熟形态/衣物链依赖预制形态、版型、分组与修正输入；不是现有VRM已拥有这些能力。尚未实际运行原作者样例，亦未批准换基模/引擎。root正在准备官方Studio2.16.0学习工具，下载不等于安装或流程通过。
+
+
+2026-11-17 原作者流程学习更新（不等于8体预设通过）：MPFB固定原版02实际执行、保存及独立重开，459点变化、target域外0；root查看CPU头部正面原/改对照，鼻翼变化可见。原包无rig/材质/衣物/表情，灰材质只是几何审查，不作为二次元游戏基模结论。证据assets-source/mpfb-author-study-v1、evidence/mpfb-author-study-v1与mpfb-author-study-visual-v1。
+
+同日工具发现纠正：官方未公开建模API不等于没有第三方自动化。用户提供brainrom/vroid-studio-mcp（Windows内部API插件，1.1.0声明VRoid2.14.0/BepInEx6 be.788）与nhodges/mcp-vroid（Linux/Wayland GUI包装）。本地skills和插件目录此次未发现现成VRoid项；已获得brainrom发布zip并核作者SHA，2.14官方包下载中。现有2.16已安装但暂停GUI制作；尚未将MCP协议可用、保存/重开或VRM导出标为通过。优先匹配受支持版本，桌面仅缺失步骤兜底，不更换游戏引擎。
+
+## 2026-11-17 原生制作与退役增量（不替换历史失败）
+
+| 能力 | 当前状态与证据 | 适用范围/限制 |
+| --- | --- | --- |
+| VRoid 2.16 + Bridge 原生保存/VRM导出 | 已验证可用：assets-source/vroid-bridge-study-v1；请求/导出回执、源及VRM SHA，warnings空 | 一个女性原生技术源，非59工具全部通过，非八预设完成 |
+| 新原生角色房间回读 | 部分实测：evidence/native-vroid-room-78912-v1，固定83de房间、78912 VRM1、自身骨架与motion，站立/走路/4表达近景 | test overlay借旧根轨迹；完整factory、装备、覆盖、外观存档和接触未接入；普通机未测 |
+| froz3ncore表情定义制作 | 待验证：固定6469源码确有原生表达参数setter；本机2.16二进制双SHA准入通过 | 只准备一个表达持久化试验；模板叠加/妆容备用，不额外更换主工具 |
+| 旧2.14退役 | 官方卸载通过、旧端口关闭、2.16仍ready；evidence/vroid-214-retirement-v1 | 有效源与证据保留；残留目录递归删除被执行策略拒绝，尚未清完 |
+| Mink作者碰撞IK前置 | 已验证作者CPU例子与独立碰撞测试；evidence/mink-author-study-v1 | 机器人/合成例子，不是人体舞蹈避碰 |
+| 原男性VRM坐标往返 | 已验证rest/zero/单骨30°，69 raw节点重载回读；assets-source/vrm-mink-roundtrip-v1 | 12骨固定根，无碰撞体/限位/solve，不推定自适应动作通过 |
+
+制作接口主组合候选为2.16 + Bridge0.15，原研究中的“未下载/未运行”保为当时只读快照，最新实测看以上证据。原生自制素材许可与VRM下游meta限制分别核验，未正式分发。当前M2未完成，冻结女裙/30秒舞和普通机实测缺口不改变。
+
+补测：evidence/vroid-bridge-study-v1/parameter-reopen-result.json 已核2.16同源菜单重开，FaceShape23项与Waist2项全等，源SHA未变；不是进程冷启动。客户端嵌套ok:false/非法回包/超时证据留存已修，12项离线测试及真实status回归通过。

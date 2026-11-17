@@ -1,0 +1,82 @@
+{
+  "httpStatus": 200,
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 45,
+    "method": "tools/call",
+    "params": {
+      "name": "batch",
+      "arguments": {
+        "operations": [
+          {
+            "method": "set_param",
+            "arguments": {
+              "section": "Face",
+              "category": "面部套组",
+              "index": "Face/面部套组/下巴变圆",
+              "value": "0.6"
+            }
+          },
+          {
+            "method": "set_param",
+            "arguments": {
+              "section": "Face",
+              "category": "面部套组",
+              "index": "Face/面部套组/面颊下部膨胀",
+              "value": "0.3"
+            }
+          },
+          {
+            "method": "set_param",
+            "arguments": {
+              "section": "Body",
+              "category": "全身",
+              "index": "Body/全身/腰部大小",
+              "value": "0.4"
+            }
+          },
+          {
+            "method": "camera",
+            "arguments": {
+              "action": "frame",
+              "region": "head",
+              "angle": "front"
+            }
+          },
+          {
+            "method": "screenshot",
+            "arguments": {
+              "mode": "inline"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 45,
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "[{\"ok\":true,\"result\":{\"index\":72,\"label\":\"下巴变圆\",\"value\":\"0.6\"}},{\"ok\":true,\"result\":{\"index\":71,\"label\":\"面颊下部膨胀\",\"value\":\"0.3\"}},{\"ok\":true,\"result\":{\"index\":20,\"label\":\"腰部大小\",\"value\":\"0.4\"}},{\"ok\":true,\"result\":{\"angles\":{\"yaw\":180,\"pitch\":-5.711},\"distance\":1.99,\"position\":{\"x\":0,\"y\":1.252,\"z\":1.98},\"rotation\":{\"x\":-5.711,\"y\":180,\"z\":0},\"projection\":\"perspective\",\"fov\":20,\"orthographicSize\":5}},{\"ok\":true,\"result\":\"inline\"}]"
+        },
+        {
+          "type": "text",
+          "text": "[op 4] screenshot"
+        },
+        {
+          "type": "image",
+          "mimeType": "image/png",
+          "savedImage": "modify-native-round-waist.image-2.png",
+          "sha256": "3291ce6328e3b7e1de1284ac1eed0ab50b0b90554d988b4c078e95a9d004a9bc"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "images": [
+    "evidence\\vroid-mcp-study-v1\\modify-native-round-waist.image-2.png"
+  ]
+}

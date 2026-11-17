@@ -1,0 +1,48 @@
+{
+  "request": {
+    "method": "tools/call",
+    "params": {
+      "name": "vroid_help",
+      "arguments": {
+        "topic": "export",
+        "lang": "en"
+      }
+    }
+  },
+  "responses": [
+    {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": {
+        "protocolVersion": "2025-06-18",
+        "capabilities": {
+          "tools": {},
+          "prompts": {},
+          "resources": {}
+        },
+        "serverInfo": {
+          "name": "vroid-studio",
+          "version": "0.15.0"
+        },
+        "instructions": "VRoid Studio MCP. Tool names and arguments are English. Call vroid_help('overview') before a complex task; vroid_help supports lang=en|fr|ja|zh-CN. VRoid Studio must be running with the bridge loaded. Only one model can be open at a time. Call vroid_status first. Save before vroid_main_menu, vroid_open or vroid_create. For visual work, use vroid_screenshot. For preset discovery, use vroid_preset_cache_search before applying presets. For sequences, use vroid_batch (up to 200 sequential operations, no automatic rollback). Do not assume that one preset replaces only one slot: whole outfits can replace several slots; verify with vroid_list_groups. Thumbnail generation strips all clothes, underwear and hair except the tested item. An English Agent Reference is exposed as MCP resources: vroid://agent/reference (full), plus vroid://agent/start, face, hairstyle, body, outfit, accessories, look, physical, presets, tools, workflows and troubleshooting. Read only the section needed; tools/list stays the authoritative schema list. MCP prompts: start (open a working session), character (build a character from a description), export_vrm (full/balanced/light VRM export), help. Reply in the user's language; never overwrite the user's .vroid file or discard changes without asking."
+      }
+    },
+    {
+      "jsonrpc": "2.0",
+      "id": 2,
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "<!-- lang=en topic=export -->\n# VRM export\n\n`vroid_export_vrm` uses VRoid's own exporter, without clicks or a file dialog. The open model is\nnot modified.\n\n    vroid_export_vrm path=D:\\out\\model.vrm version=1 delete_transparent=true hair=50 hair_bones=50\n\n- `path` is required; `.vrm` is appended when missing.\n- `version`: `1` = VRM 1.0 (default), `0` = VRM 0.x.\n- `delete_transparent` (default `true`) = VRoid's **Delete Transparent Meshes**.\n- `hair_smoothness`, `hair`, `face`, `body`, `outfit`: polygon reduction 0..100.\n- `material_mode`: 0 = Default, 1 = 2 materials, 2 = 8, 3 = 12.\n- `combine_hair` (default `true`) = Combine Hair Mesh.\n- `texture_mode`: 0 = Original, 1 = Shrunk. Shrunk is only accepted with `material_mode=0`.\n- `atlas_resolution` with material reduction: 0 = 4096, 1 = 2048.\n- `hair_bones`: Reduce Bones / Hair, 0..100.\n- The export opens VRoid's export screen and takes about 10-40 s; it returns to the editor\n  afterwards by default. `leave=false` leaves the export screen open for manual inspection.\n\nOptions refused by VRoid are reported in `warnings`; the response also contains the final\n`settings`, byte size and elapsed time. The `.vroid` file itself is not changed, so save before\nexporting only if you also want to keep model edits.\n\n`vroid_export_vrm_options` opens the same screen and returns its current settings and the\navailable material/texture/atlas choices. It closes the screen by default (`leave=true`); use\n`leave=false` only when you want to inspect it and continue manually.\n"
+          }
+        ],
+        "isError": false
+      }
+    }
+  ],
+  "wallSeconds": 0.09748510003555566,
+  "exitCode": 0,
+  "stderr": "",
+  "images": []
+}

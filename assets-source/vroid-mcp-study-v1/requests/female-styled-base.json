@@ -1,0 +1,34 @@
+{
+  "jsonrpc": "2.0",
+  "id": 42,
+  "method": "tools/call",
+  "params": {
+    "name": "batch",
+    "arguments": {
+      "operations": [
+        {
+          "method": "select_preset",
+          "arguments": {
+            "section": "Hairstyle",
+            "category": "头发套组",
+            "index": 2
+          }
+        },
+        {
+          "method": "camera",
+          "arguments": {
+            "action": "frame",
+            "region": "head",
+            "angle": "front"
+          }
+        },
+        {
+          "method": "screenshot",
+          "arguments": {
+            "mode": "inline"
+          }
+        }
+      ]
+    }
+  }
+}

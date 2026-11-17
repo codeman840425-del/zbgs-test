@@ -1,0 +1,53 @@
+{
+  "jsonrpc": "2.0",
+  "id": 45,
+  "method": "tools/call",
+  "params": {
+    "name": "batch",
+    "arguments": {
+      "operations": [
+        {
+          "method": "set_param",
+          "arguments": {
+            "section": "Face",
+            "category": "面部套组",
+            "index": "Face/面部套组/下巴变圆",
+            "value": "0.6"
+          }
+        },
+        {
+          "method": "set_param",
+          "arguments": {
+            "section": "Face",
+            "category": "面部套组",
+            "index": "Face/面部套组/面颊下部膨胀",
+            "value": "0.3"
+          }
+        },
+        {
+          "method": "set_param",
+          "arguments": {
+            "section": "Body",
+            "category": "全身",
+            "index": "Body/全身/腰部大小",
+            "value": "0.4"
+          }
+        },
+        {
+          "method": "camera",
+          "arguments": {
+            "action": "frame",
+            "region": "head",
+            "angle": "front"
+          }
+        },
+        {
+          "method": "screenshot",
+          "arguments": {
+            "mode": "inline"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "httpStatus": 200,
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 42,
+    "method": "tools/call",
+    "params": {
+      "name": "batch",
+      "arguments": {
+        "operations": [
+          {
+            "method": "select_preset",
+            "arguments": {
+              "section": "Hairstyle",
+              "category": "头发套组",
+              "index": 2
+            }
+          },
+          {
+            "method": "camera",
+            "arguments": {
+              "action": "frame",
+              "region": "head",
+              "angle": "front"
+            }
+          },
+          {
+            "method": "screenshot",
+            "arguments": {
+              "mode": "inline"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 42,
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "[{\"ok\":true,\"result\":\"Long Straight Hair with Bangs\"},{\"ok\":true,\"result\":{\"angles\":{\"yaw\":180,\"pitch\":-5.711},\"distance\":1.99,\"position\":{\"x\":0,\"y\":1.252,\"z\":1.98},\"rotation\":{\"x\":-5.711,\"y\":180,\"z\":0},\"projection\":\"perspective\",\"fov\":20,\"orthographicSize\":5}},{\"ok\":true,\"result\":\"inline\"}]"
+        },
+        {
+          "type": "text",
+          "text": "[op 2] screenshot"
+        },
+        {
+          "type": "image",
+          "mimeType": "image/png",
+          "savedImage": "female-styled-base.image-2.png",
+          "sha256": "9b5fad062ca0f71cda78086d41233468149c1abf0ff10cbc60d8e6fc916af136"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "images": [
+    "evidence\\vroid-mcp-study-v1\\female-styled-base.image-2.png"
+  ]
+}

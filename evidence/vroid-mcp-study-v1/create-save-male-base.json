@@ -1,0 +1,71 @@
+{
+  "httpStatus": 200,
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 61,
+    "method": "tools/call",
+    "params": {
+      "name": "batch",
+      "arguments": {
+        "operations": [
+          {
+            "method": "main_menu",
+            "arguments": {}
+          },
+          {
+            "method": "create",
+            "arguments": {
+              "gender": "male"
+            }
+          },
+          {
+            "method": "camera",
+            "arguments": {
+              "action": "frame",
+              "region": "body",
+              "angle": "front"
+            }
+          },
+          {
+            "method": "screenshot",
+            "arguments": {
+              "mode": "inline"
+            }
+          },
+          {
+            "method": "save",
+            "arguments": {
+              "path": "F:\\gamemake\\assets-source\\vroid-mcp-study-v1\\generated\\male-native-base.vroid"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 61,
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "[{\"ok\":true,\"result\":\"main menu\"},{\"ok\":true,\"result\":{\"gender\":\"male\",\"variant\":\"M00\"}},{\"ok\":true,\"result\":{\"angles\":{\"yaw\":180,\"pitch\":-5.711},\"distance\":5.186,\"position\":{\"x\":0,\"y\":0.364,\"z\":5.16},\"rotation\":{\"x\":-5.711,\"y\":180,\"z\":0},\"projection\":\"perspective\",\"fov\":20,\"orthographicSize\":5}},{\"ok\":true,\"result\":\"inline\"},{\"ok\":true,\"result\":\"F:\\\\gamemake\\\\assets-source\\\\vroid-mcp-study-v1\\\\generated\\\\male-native-base.vroid\"}]"
+        },
+        {
+          "type": "text",
+          "text": "[op 3] screenshot"
+        },
+        {
+          "type": "image",
+          "mimeType": "image/png",
+          "savedImage": "create-save-male-base.image-2.png",
+          "sha256": "55de8e13315cf80c011c17b965a9b0be7c83f671ce41cee63798f24861be8180"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "images": [
+    "evidence\\vroid-mcp-study-v1\\create-save-male-base.image-2.png"
+  ]
+}
