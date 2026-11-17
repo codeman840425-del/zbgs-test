@@ -1,0 +1,180 @@
+{
+  "tests": [
+    {
+      "name": "triangle-one-edge",
+      "passed": true,
+      "result": {
+        "oldVerticesExactInBackend": true,
+        "oldDeformLayerUnchangedInBackend": true,
+        "newVertices": 4,
+        "newTriangles": 2,
+        "newPointCount": 1,
+        "triangulateFaceMapCount": 0,
+        "intermediateNontriangles": [],
+        "maxBackendCoordinateErrorM": 0.0,
+        "maxBackendNewWeightError": 0.0,
+        "maxBackendLoopUVInterpolationError": 0.0,
+        "maxAreaCrossErrorM2": 0.0,
+        "parentAreasSumExactlyOne": true,
+        "allOldUnselectedEdgesRetained": true,
+        "newPointEdges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "normalSource": "sealed authored arrays via sparse lineage; never BMVert.normal",
+        "lineageRecovery": {
+          "originalWrapperValidAfterSubdivide": [
+            false,
+            false,
+            false
+          ],
+          "officialInsertedVertexCount": 1,
+          "newVertexInheritedIDs": [
+            {
+              "inheritedInteger": 2,
+              "sourceEdge": [
+                0,
+                1
+              ],
+              "assignedTag": -1
+            }
+          ],
+          "positiveOriginalIDsUniqueAndComplete": true,
+          "allOldCoordinatesWeightsExactAfterBothOperations": true,
+          "nearestCoordinateMatchingUsed": false
+        },
+        "bmeshOutputCounts": {
+          "geom_inner": 1,
+          "geom_split": 3,
+          "geom": 4
+        }
+      }
+    },
+    {
+      "name": "triangle-two-edges",
+      "passed": true,
+      "result": {
+        "oldVerticesExactInBackend": true,
+        "oldDeformLayerUnchangedInBackend": true,
+        "newVertices": 5,
+        "newTriangles": 3,
+        "newPointCount": 2,
+        "triangulateFaceMapCount": 2,
+        "intermediateNontriangles": [
+          {
+            "parent": 0,
+            "vertices": 4
+          }
+        ],
+        "maxBackendCoordinateErrorM": 0.0,
+        "maxBackendNewWeightError": 0.0,
+        "maxBackendLoopUVInterpolationError": 0.0,
+        "maxAreaCrossErrorM2": 0.0,
+        "parentAreasSumExactlyOne": true,
+        "allOldUnselectedEdgesRetained": true,
+        "newPointEdges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        "normalSource": "sealed authored arrays via sparse lineage; never BMVert.normal",
+        "lineageRecovery": {
+          "originalWrapperValidAfterSubdivide": [
+            false,
+            false,
+            false
+          ],
+          "officialInsertedVertexCount": 2,
+          "newVertexInheritedIDs": [
+            {
+              "inheritedInteger": 2,
+              "sourceEdge": [
+                0,
+                1
+              ],
+              "assignedTag": -1
+            },
+            {
+              "inheritedInteger": 3,
+              "sourceEdge": [
+                1,
+                2
+              ],
+              "assignedTag": -3
+            }
+          ],
+          "positiveOriginalIDsUniqueAndComplete": true,
+          "allOldCoordinatesWeightsExactAfterBothOperations": true,
+          "nearestCoordinateMatchingUsed": false
+        },
+        "bmeshOutputCounts": {
+          "geom_inner": 3,
+          "geom_split": 6,
+          "geom": 8
+        }
+      }
+    },
+    {
+      "name": "shared-edge-independent-loop-uv",
+      "passed": true,
+      "result": {
+        "oldVerticesExactInBackend": true,
+        "oldDeformLayerUnchangedInBackend": true,
+        "newVertices": 5,
+        "newTriangles": 4,
+        "newPointCount": 1,
+        "triangulateFaceMapCount": 0,
+        "intermediateNontriangles": [],
+        "maxBackendCoordinateErrorM": 0.0,
+        "maxBackendNewWeightError": 0.0,
+        "maxBackendLoopUVInterpolationError": 0.0,
+        "maxAreaCrossErrorM2": 0.0,
+        "parentAreasSumExactlyOne": true,
+        "allOldUnselectedEdgesRetained": true,
+        "newPointEdges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "normalSource": "sealed authored arrays via sparse lineage; never BMVert.normal",
+        "lineageRecovery": {
+          "originalWrapperValidAfterSubdivide": [
+            false,
+            false,
+            false,
+            false
+          ],
+          "officialInsertedVertexCount": 1,
+          "newVertexInheritedIDs": [
+            {
+              "inheritedInteger": 2,
+              "sourceEdge": [
+                0,
+                1
+              ],
+              "assignedTag": -1
+            }
+          ],
+          "positiveOriginalIDsUniqueAndComplete": true,
+          "allOldCoordinatesWeightsExactAfterBothOperations": true,
+          "nearestCoordinateMatchingUsed": false
+        },
+        "bmeshOutputCounts": {
+          "geom_inner": 1,
+          "geom_split": 3,
+          "geom": 5
+        }
+      }
+    }
+  ],
+  "passed": true,
+  "realSourceNotYetRun": true
+}

@@ -1,0 +1,32 @@
+{
+  "schema": "slim-restore-refusals-v1",
+  "checks": [
+    {
+      "command": [
+        "python",
+        "-B",
+        "scripts/m2-slim-tool-restore-v1/restore.py",
+        "--target",
+        "experiments/tools/slim-core-2.6.3"
+      ],
+      "exitCode": 2,
+      "stdout": "{\"status\": \"refused-before-write\", \"error\": \"ValueError: Destination already exists; preserve it and choose a new explicit target\"}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python",
+        "-B",
+        "scripts/m2-slim-tool-restore-v1/restore.py",
+        "--target",
+        "evidence/m2-slim-tool-restore-v1/negative-destination",
+        "--wheelhouse",
+        "F:\\gamemake\\evidence\\m2-slim-tool-restore-v1\\negative-wheelhouse"
+      ],
+      "exitCode": 2,
+      "stdout": "{\"status\": \"refused-before-write\", \"error\": \"ValueError: Local wheel missing/SHA mismatch: libigl-2.6.3-cp312-abi3-win_amd64.whl\"}\n",
+      "stderr": ""
+    }
+  ],
+  "invalidWheelDestinationCreated": false
+}

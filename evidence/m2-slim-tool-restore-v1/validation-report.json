@@ -1,0 +1,43 @@
+{
+  "schema": "slim-frozen-tool-restore-validation-v1",
+  "status": "fresh-target-network-restore-import-passed",
+  "target": "evidence/m2-slim-tool-restore-v1/validation-network-01",
+  "originalPreparationReceiptStillExists": true,
+  "downloadMode": "Exact recorded official URLs, no old wheelhouse/venv used.",
+  "actualRestoreReport": {
+    "path": "evidence/m2-slim-tool-restore-v1/validation-network-01/restore-report.json",
+    "sha256": "662fb2e91e68eac8eef468f70a0975c1a11fe271839cf11f3f68afc6d03ec021"
+  },
+  "actualImportReport": {
+    "path": "evidence/m2-slim-tool-restore-v1/validation-network-01/import-report.json",
+    "sha256": "607c0915c776441221026a21de9c2cf2019f23254812b6dedd4323ca34002c5f"
+  },
+  "versions": {
+    "libigl": "2.6.3",
+    "numpy": "2.4.2",
+    "scipy": "1.18.1"
+  },
+  "installedNativeBinariesExactToPriorFrozenWheels": 140,
+  "existingToolAndSourceFilesCheckedUnchanged": 144,
+  "changedExistingFiles": [],
+  "repeatExistingDestination": {
+    "command": [
+      "python",
+      "-B",
+      "scripts/m2-slim-tool-restore-v1/restore.py",
+      "--target",
+      "evidence/m2-slim-tool-restore-v1/validation-network-01"
+    ],
+    "exitCode": 2,
+    "stdout": "{\"status\": \"refused-before-write\", \"error\": \"ValueError: Destination already exists; preserve it and choose a new explicit target\"}\n",
+    "stderr": "",
+    "originalReportsUnchanged": true
+  },
+  "baseInterpreterImportObservation": {
+    "iglFound": false
+  },
+  "solverExecuted": false,
+  "characterSolved": false,
+  "globalPythonModified": false,
+  "scope": "Fresh empty target with existing tracked old receipt, official downloads and new isolated venv. Not a new-OS/CPython bootstrap or whole-repository rebuild."
+}

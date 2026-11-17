@@ -1,0 +1,90 @@
+--- sealed-first-failure/blender_worker.py
++++ recovery/blender_worker.py
+@@ -4,7 +4,7 @@
+ from collections import defaultdict
+ from pathlib import Path
+ import numpy as np
+-ROOT=Path(__file__).resolve().parents[2];BASE=ROOT/'assets-source/m2-boundary-refinement-preflight-v1';OUT=BASE/'generated'
++ROOT=Path(__file__).resolve().parents[2];BASE=ROOT/'assets-source/m2-boundary-refinement-api-recovery-v1';OUT=BASE/'generated'
+ OLD=ROOT/'assets-source/m2-source-subdivision-seam-v1/generated'
+ def clean(x):
+  if isinstance(x,np.ndarray):return clean(x.tolist())
+@@ -21,8 +21,10 @@
+  """One official operation pair; return actual topology and provenance, never normal data."""
+  bm=bmesh.new();pid=bm.faces.layers.int.new('source_parent_id');eid=bm.edges.layers.int.new('source_edge_id')
+  uv=bm.loops.layers.uv.new('original_loop_uv');deform=bm.verts.layers.deform.new('source_joint_weights')
++ vid=bm.verts.layers.int.new('stable_source_vertex_id')
+  verts=[bm.verts.new(p) for p in P];origin={v:i for i,v in enumerate(verts)}
+  for i,v in enumerate(verts):
++  v[vid]=i+1
+   for j in np.flatnonzero(W[i]):v[deform][int(j)]=float(W[i,j])
+  for i,f in enumerate(F):
+   face=bm.faces.new([verts[int(j)] for j in f]);face[pid]=i+1;face.material_index=int(materials[i])
+@@ -32,20 +34,40 @@
+  for key,e in edges.items():e[eid]=edge_ids[key]
+  required=[edges[tuple(sorted(e))] for e in selected]
+  selected_ids={edge_ids[tuple(sorted(e))] for e in selected}
+- before_weights={v:dict(v[deform]) for v in verts};before_co={v:tuple(v.co) for v in verts}
++ before_weights={i:dict(v[deform]) for i,v in enumerate(verts)};before_co={i:tuple(v.co) for i,v in enumerate(verts)}
+  op=bmesh.ops.subdivide_edges(bm,edges=required,cuts=1,smooth=0.0,fractal=0.0,along_normal=0.0,
+   use_single_edge=True,use_grid_fill=False,use_only_quads=False,use_sphere=False)
++ old_wrapper_valid=[bool(v.is_valid) for v in verts]
++ # Official output identifies newly inserted vertices before inherited integer IDs
++ # can be mistaken for original identity. No coordinate/nearest search is used.
++ inserted=[v for v in op['geom_inner'] if isinstance(v,bmesh.types.BMVert)]
++ assert len(inserted)==len(selected) and all(v.is_valid for v in inserted)
++ inherited=[]
++ for v in inserted:
++  source_ids={e[eid] for e in v.link_edges if e[eid] in selected_ids}
++  assert len(source_ids)==1,('ambiguous-official-new-vertex-edge',source_ids)
++  edge_id=next(iter(source_ids))
++  inherited.append({'inheritedInteger':int(v[vid]),'sourceEdge':id_edges[edge_id],'assignedTag':-edge_id})
++  v[vid]=-edge_id
++ def recover_live():
++  positive={};negative={}
++  for v in bm.verts:
++   tag=int(v[vid]);assert tag!=0
++   table=positive if tag>0 else negative
++   assert tag not in table,('ambiguous-source-ID',tag);table[tag]=v
++  assert set(positive)==set(range(1,len(P)+1))
++  assert set(negative)=={-i for i in selected_ids}
++  recovered=[positive[i+1] for i in range(len(P))]
++  assert all(tuple(v.co)==before_co[i] and dict(v[deform])==before_weights[i] for i,v in enumerate(recovered))
++  return recovered,{v:i for i,v in enumerate(recovered)},negative
++ verts,origin,_=recover_live()
+  intermediate=[{'parent':int(f[pid])-1,'vertices':len(f.verts)} for f in bm.faces if len(f.verts)>3]
+  assert all(x['parent'] in expected_parents for x in intermediate)
+  tri=bmesh.ops.triangulate(bm,faces=[f for f in bm.faces if len(f.verts)>3],quad_method='FIXED',ngon_method='EAR_CLIP')
+  for child,parent in tri['face_map'].items():assert child[pid]==parent[pid]
+- assert all(tuple(v.co)==before_co[v] and dict(v[deform])==before_weights[v] for v in verts)
++ verts,origin,negative=recover_live()
+  new=[]
+- for v in bm.verts:
+-  if v in origin:continue
+-  source_ids={e[eid] for e in v.link_edges if e[eid] in selected_ids}
+-  assert len(source_ids)==1,('ambiguous-new-vertex-edge',source_ids)
+-  new.append((id_edges[next(iter(source_ids))],v))
++ for tag,v in negative.items():new.append((id_edges[-tag],v))
+  new.sort(key=lambda x:x[0]);assert [x[0] for x in new]==sorted(tuple(sorted(e)) for e in selected)
+  out_id={**origin,**{v:len(P)+i for i,(_,v) in enumerate(new)}}
+  supports=[([i],[1.]) for i in range(len(P))]+[(list(edge),[.5,.5]) for edge,_ in new]
+@@ -100,6 +122,10 @@
+   'maxBackendNewWeightError':backend_weight_error,'maxBackendLoopUVInterpolationError':uv_error,
+   'maxAreaCrossErrorM2':area_error,'parentAreasSumExactlyOne':True,'allOldUnselectedEdgesRetained':True,
+   'newPointEdges':edge_array,'normalSource':'sealed authored arrays via sparse lineage; never BMVert.normal',
++  'lineageRecovery':{'originalWrapperValidAfterSubdivide':old_wrapper_valid,
++   'officialInsertedVertexCount':len(inserted),'newVertexInheritedIDs':inherited,
++   'positiveOriginalIDsUniqueAndComplete':True,'allOldCoordinatesWeightsExactAfterBothOperations':True,
++   'nearestCoordinateMatchingUsed':False},
+   'bmeshOutputCounts':{k:len(v) for k,v in op.items()}}
+  bm.free()
+  return result,{'P':points,'F':newF,'parents':parents,'bary':parentbary,'materials':actualmats,
+@@ -130,6 +156,8 @@
+   'background':bpy.app.background,'numpyVersion':np.__version__,'license':'Blender BMesh source GPL-2.0-or-later',
+   'sourceTag':'https://github.com/blender/blender/tree/v4.5.9','gpuOrRenderCalled':False}
+  save('tool-identity.json',version);assert list(bpy.app.version)==spec['expectedBlenderVersion']
++ diagnostic=json.loads((BASE/'diagnostic/result.json').read_bytes())
++ assert diagnostic['allOriginalCoordinatesStillPresent'] and diagnostic['sourceAssetRuns']==0
+  api_tests()
+  old=np.load(OLD/'group-7.npz',allow_pickle=False);face=np.load(OLD/'group-21.npz',allow_pickle=False)
+  P=old['sourcePosition'];F=old['sourceTriangles'];W=old['sourceDenseWeights'];UV=old['source_TEXCOORD_0']

@@ -41,13 +41,13 @@ m2-axial-head-readback-v1已完成prepare+13项合成QA，新spec pin后核对�
 
 ## 备份与协作
 
-最近一次已核远端3b615d176a7bedd699d4fed258e157ba6da12e72，含真实strict/导出及独审、混合与round失败诊断、四装备实际适配和此前所有原始结果。回执assets-source/m2-axial-head-export-v1/remote-backup.json。runtime发布、原新正常速度影片与补录QA均已备份；body-compose及前两轮细分前置已在3b615d17备份；最新独审、body-readback、局部BMesh失败/恢复待本轮提交。
+最近一次已核远端3e6a588d0ec035145d04811c698ce8497d32b238，含真实strict/导出及独审、混合与round失败诊断、四装备实际适配和此前所有原始结果。回执assets-source/m2-axial-head-export-v1/remote-backup.json。runtime发布、原新正常速度影片与补录QA均已备份；body-compose及前两轮细分前置已在3b615d17备份；完整body独审、body-readback及局部BMesh首失败在3e6a588d备份；局部BMesh恢复、其独审与新工具恢复待本轮提交。
 
 当前接续：头部runtime和实际房间小包已交付（evidence/m2-axial-head-room-v1）。原/新十组真实manager边界、各34.7秒主片和42.05秒无暂停纯canvas补录：五元音/三blink、两裤走坐起、实际装备/forearm身份、非默认配色短裤关闭恢复、坏SHA保旧均技术通过；尖长颏形与已知oh口内pair、人工连续观感未过。455构建输入与源码一致，公开男女热切到新候选/链接烟测过。临时4197已关闭。能力范围与限制只查CAP及本包REVIEW，不能借此称八体完成。
 
 当前主包仍原8预设共同生产，最新进展：m2-axial-body-compose-v1实际identity+完整male-lean一次数值求值完成，JF/101/Float32门通过，原9身体实际最大28.693mm。新完整请求保护参考经m2-body-head-fixed-reference-audit-v1明确：head相对P+B保原neck/frame点与2µm，最终F-P实报身体B；眼绝对源固定。首准备差分误判保留/已因果修正。root逐58文件核；m2-axial-body-compose-audit-v1独立读回无新增数值阻断。m2-axial-body-readback-v1已封包，root核33文件/366611字节：Face POSITION/NORMAL全部base与54delta及55/10碰撞输入和旧head-only逐字节相同，依法复用确定性结果；known oh新增pair[128,1020]单对strict再次命中，整体failed-not-admissible。Body尚未碰撞覆盖，不称全身避碰。没有完整body VRM或衣物donor fit/游戏结果。
 
-成熟libigl细分前置两包已完成且保阻断：Face一级可消费但41跨accessor边不齐；全Body一级闭合41边但482点>4骨权且最大LBS差2.644mm，含G作用区，不截权或导出。全部原始数组/negative/索引已保存，root逐20/24文件核。官方Blender局部方法已经实测。m2-boundary-refinement-preflight-v1首轮因旧BMVert包装失效退出，未触碰真实Body；root核9文件/28894字节。恢复包m2-boundary-refinement-api-recovery-v1以官方geom_inner标记新点、从live容器重新获取并精确核旧点，已报三合成与一次原源通过，尚在封包/独审：新增41点、Body7896点/12049三角、最大4骨，新点1骨，三姿LBS差约4.443e-16m。原失败保留。不扫参/不加密多级；Face新增内部边contact仍须原parent语义读回。
+成熟libigl细分前置两包已完成且保阻断：Face一级可消费但41跨accessor边不齐；全Body一级闭合41边但482点>4骨权且最大LBS差2.644mm，含G作用区，不截权或导出。全部原始数组/negative/索引已保存，root逐20/24文件核。官方Blender局部方法已经实测。m2-boundary-refinement-preflight-v1首轮因旧BMVert包装失效退出，未触碰真实Body；root核9文件/28894字节。恢复包m2-boundary-refinement-api-recovery-v1以官方geom_inner标记新点、从live容器重新获取并精确核旧点，已报三合成与一次原源通过，已封23文件/10842327字节并root核，独审result6d471ca9ffa08f3a776d871ab006d61087539ec961a29ab74845ee04dcd928d4无新增前置阻断：新增41点、Body7896点/12049三角、最大4骨，新点1骨，三姿LBS差约4.443e-16m。原失败保留。不扫参/不加密多级；Face新增内部边contact仍须原parent语义读回。
 
 当前代理已知requested配置：asset_budget=gpt-6.1-sol/high，装备已完成；face_target_feasibility=gpt-6-astra/high，export/混合独审收尾；http_transport_review=gpt-6.1-sol/high，既有房间候选注册。每次派工记录evidence/subagent-explicit-dispatch-2026-11-16.json；followup不改配置。真实provider与桌面hook拦截未独立暴露，不声称验证。
 
@@ -55,4 +55,6 @@ m2-axial-head-readback-v1已完成prepare+13项合成QA，新spec pin后核对�
 
 固定交付只能从exact commit独立检出构建，录像与构建同身份；不从并发dirty源码发布。保持动作控制器与既有失败记录；本包仅增加资源注册和工作台候选说明。阶段汇报不停止长目标；只在真实费用/授权/产品选择或无法自行解决阻碍时问用户。全部M2必需机制须有证据后交用户确认，再由用户决定M3。
 
-最新独立恢复任务：scripts/m2-slim-tool-restore-v1补已锁离线工具的干净安装入口；不改在用venv，独立实际import待验证。关节避碰研究复用research/MOTION-CONTACT-ADAPTATION-OPTIONS-2026-11-16.md：Mink为离线小样候选，仍未接入；不重开冻结舞蹈，不将研究代替运行通过。
+最新独立恢复任务：scripts/m2-slim-tool-restore-v1补已锁离线工具的干净安装入口；不改在用venv，独立全新目标通过官方三wheel下载、原SHA锁安装和import/API检查，59.87s；在用144选定文件未变。只证明工具恢复，不称完整游戏/新OS重建通过。关节避碰研究复用research/MOTION-CONTACT-ADAPTATION-OPTIONS-2026-11-16.md：Mink为离线小样候选，仍未接入；不重开冻结舞蹈，不将研究代替运行通过。
+
+接续包：face以已封共同拓扑准备m2-refined-axial-evaluation-v1，identity+原两男G每例一次，406701实际端点，known-oh另存A/B，待实测。root先核官方libigl/cgal源码并运行m2-official-intersection-preflight-v1八项合成API检查，官方闭域交不会漏新增子片边界；不等于旧strict，未角色contacts/无导出。asset准备m2-refined-contact-readback-v1，同拓扑原源/实际A/归因B逐child比较再parent归并；http独审合同，实际新碰撞仍未跑。既有oh失败不消除。

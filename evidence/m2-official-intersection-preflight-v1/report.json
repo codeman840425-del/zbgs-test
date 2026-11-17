@@ -1,0 +1,397 @@
+{
+  "schema": "official-cgal-intersection-preflight-v1",
+  "status": "api-smoke-passed-not-character-admission",
+  "packages": {
+    "libigl": "2.6.3",
+    "numpy": "2.4.2",
+    "scipy": "1.18.1"
+  },
+  "scriptSha256": "2dca0e20dbb586e950b4049b14d0b677813b0757a17c857c6d6b50a32efe702c",
+  "native": [
+    {
+      "name": "pyigl_copyleft_cgal.pyd",
+      "sha256": "43e7f5b1593b7b13ac1e0d15f09d65863dc67a148dcfab8abefff3d7ce04165e",
+      "bytes": 1895424
+    }
+  ],
+  "cases": [
+    {
+      "name": "separate",
+      "VA": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          2.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          2.0,
+          0.0
+        ]
+      ],
+      "VB": [
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          2.0,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          2.0,
+          1.0
+        ]
+      ],
+      "pairs": [],
+      "expectedHit": false,
+      "passed": true
+    },
+    {
+      "name": "transverse",
+      "VA": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          2.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          2.0,
+          0.0
+        ]
+      ],
+      "VB": [
+        [
+          0.5,
+          0.5,
+          -1.0
+        ],
+        [
+          0.5,
+          0.5,
+          1.0
+        ],
+        [
+          1.5,
+          0.5,
+          0.25
+        ]
+      ],
+      "pairs": [
+        [
+          0,
+          0
+        ]
+      ],
+      "expectedHit": true,
+      "passed": true
+    },
+    {
+      "name": "coplanar-area",
+      "VA": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          2.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          2.0,
+          0.0
+        ]
+      ],
+      "VB": [
+        [
+          0.25,
+          0.25,
+          0.0
+        ],
+        [
+          2.25,
+          0.25,
+          0.0
+        ],
+        [
+          0.25,
+          2.25,
+          0.0
+        ]
+      ],
+      "pairs": [
+        [
+          0,
+          0
+        ]
+      ],
+      "expectedHit": true,
+      "passed": true
+    },
+    {
+      "name": "edge-touch",
+      "VA": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          2.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          2.0,
+          0.0
+        ]
+      ],
+      "VB": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          2.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          -1.0,
+          0.0
+        ]
+      ],
+      "pairs": [
+        [
+          0,
+          0
+        ]
+      ],
+      "expectedHit": true,
+      "passed": true
+    },
+    {
+      "name": "point-touch",
+      "VA": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          2.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          2.0,
+          0.0
+        ]
+      ],
+      "VB": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          -1.0,
+          0.0
+        ]
+      ],
+      "pairs": [
+        [
+          0,
+          0
+        ]
+      ],
+      "expectedHit": true,
+      "passed": true
+    },
+    {
+      "name": "tiny-positive-gap",
+      "VA": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          2.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          2.0,
+          0.0
+        ]
+      ],
+      "VB": [
+        [
+          0.0,
+          0.0,
+          8.881784197001252e-16
+        ],
+        [
+          2.0,
+          0.0,
+          8.881784197001252e-16
+        ],
+        [
+          0.0,
+          2.0,
+          8.881784197001252e-16
+        ]
+      ],
+      "pairs": [],
+      "expectedHit": false,
+      "passed": true
+    },
+    {
+      "name": "crossing-on-added-child-boundary",
+      "coarsePairs": [
+        [
+          0,
+          0
+        ]
+      ],
+      "childPairs": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ]
+      ],
+      "mappedParentPairs": [
+        [
+          0,
+          0
+        ]
+      ],
+      "childParentBary": [
+        [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.5,
+            0.5,
+            0.0
+          ],
+          [
+            0.5,
+            0.0,
+            0.5
+          ]
+        ],
+        [
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5,
+            0.0
+          ]
+        ],
+        [
+          [
+            0.5,
+            0.5,
+            0.0
+          ],
+          [
+            0.0,
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.0,
+            0.5
+          ]
+        ],
+        [
+          [
+            0.0,
+            0.5,
+            0.5
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ],
+          [
+            0.5,
+            0.0,
+            0.5
+          ]
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "name": "cutoff-is-not-hit-count-cap",
+      "cutoff": 1,
+      "expectedPairs": 1100,
+      "actualPairs": 1100,
+      "passed": true
+    }
+  ],
+  "elapsedSeconds": 0.02756850002333522,
+  "kernel": "Pinned source: detect_only with double inputs selects CGAL::Epick",
+  "semantics": "Inclusive closed triangle intersection including coplanar, edge and point contact",
+  "limits": [
+    "No character input, no G, no export, no skin or runtime pass.",
+    "Source parent aggregation deduplicates labels only; it does not classify penetration.",
+    "Cross-mesh detection does not automatically discard geometrically matching seams.",
+    "Different semantics from legacy strict segment predicate; legacy evidence remains unchanged.",
+    "Exact predicates concern supplied floating-point geometry, not unrounded intended surfaces.",
+    "Offline tool only; no CGAL binary added to browser or distributed game."
+  ]
+}
