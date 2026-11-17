@@ -1,0 +1,22 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import catalog from '../../prototype/src/company/library-catalog.json' with {type:'json'};
+import templates from '../../prototype/src/company/templates-extended.json' with {type:'json'};
+import {createCompanyScaleV2} from '../../prototype/src/company/scale-v2.js';
+import {deriveCompany,prepareCompanyChange,CompanyError} from '../../prototype/src/company/document.js';
+import {encodeCompanySave,decodeCompanySave} from '../../prototype/src/company/persistence.js';
+
+const input={id:'public-facilities-contract',name:'公共服务设施合同样本',scale:'leased-floor',floors:[{id:'floor-1',rooms:[{id:'room-1',purpose:'streaming',stations:1}]}]};
+const document=createCompanyScaleV2(input,catalog,templates), derived=deriveCompany(document,catalog,templates);
+const areas=document.nodes.filter(node=>node.kind==='area'&&['corridor','lobby','lift-access','stair-access','restroom-access'].includes(node.publicRole));
+const signs=derived.facilities.filter(item=>item.node.id.endsWith('/service-sign'));
+assert.equal(areas.length,7); assert.equal(signs.length,5);
+assert.deepEqual(new Set(signs.map(item=>item.node.parentId)),new Set(['public-facilities-contract/floor-1/corridor-1','public-facilities-contract/floor-1/lift-access','public-facilities-contract/floor-1/stair-access','public-facilities-contract/floor-1/restroom-access','public-facilities-contract/floor-1/lobby']));
+assert.deepEqual(new Set(signs.map(item=>item.resource.id)),new Set(['information-board-floor-live','information-board-floor-notice','information-board-floor-doorplate','information-board-floor-whiteboard']));
+const replaced=prepareCompanyChange(document,[{type:'replace-resource',id:signs[0].id,resource:{id:'information-board-floor-notice',version:1}}],{catalog,templates}).document;
+const replacedSign=deriveCompany(replaced,catalog,templates).facilities.find(item=>item.id===signs[0].id);
+assert.equal(replacedSign.node.parentId,signs[0].node.parentId); assert.deepEqual(replacedSign.node.transform,signs[0].node.transform);
+const before=JSON.stringify(document); assert.throws(()=>prepareCompanyChange(document,[{type:'move',id:signs[0].id,transform:{position:[99,0,99],yaw:0}}],{catalog,templates}),e=>e instanceof CompanyError); assert.equal(JSON.stringify(document),before);
+const saved=await encodeCompanySave(document,catalog,templates),restored=await decodeCompanySave(saved,catalog,templates); assert.deepEqual(restored,document);
+const report={status:'passed',scope:'Public service signs on actual scale-v2 areas; resource identity, replacement, rejection and save/restore',checks:['five service signs on distinct public areas','four real registered appearances reused','in-place replacement preserves identity, parent and transform','invalid move preserves document','save and decode exact'],areas:areas.map(node=>({id:node.id,publicRole:node.publicRole})),signs:signs.map(item=>({id:item.id,parentId:item.node.parentId,resource:item.resource.id})),saveBytes:saved.length,limitations:['Signs are visual/service markers only; no elevator, restroom, stair traversal or business settlement.','CPU and browser evidence do not establish ordinary-device performance or C3 character activity.']};
+await fs.mkdir('evidence/company-public-facilities-v1',{recursive:true}); await fs.writeFile('evidence/company-public-facilities-v1/report.json',JSON.stringify(report,null,2)+'\n'); console.log(JSON.stringify({status:report.status,areas:areas.length,signs:signs.length,saveBytes:saved.length}));

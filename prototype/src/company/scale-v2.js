@@ -168,6 +168,32 @@ function publicFurnitureOperations(area, catalog) {
   ];
 }
 
+// Public service areas get one small, readable sign each.  These are ordinary
+// floor-mounted information boards, so they reuse the existing facility
+// placement, appearance replacement and save contracts instead of introducing
+// a second public-space object model.  The signs are deliberately kept out of
+// the corridor portals and leave the lift/stair/restroom areas usable as
+// future interaction targets.
+function publicServiceOperations(areas, catalog) {
+  const choices = [
+    ['corridor-1', 'information-board-floor-live', [0, 0, -0.9]],
+    ['lift-access', 'information-board-floor-notice', [1.6, 0, 0]],
+    ['stair-access', 'information-board-floor-doorplate', [1.6, 0, 0]],
+    ['restroom-access', 'information-board-floor-whiteboard', [1.6, 0, 0]],
+    ['lobby', 'information-board-floor-live', [2, 0, -0.8]],
+  ];
+  const operations = [];
+  for (const [areaKey, resourceId, position] of choices) {
+    const area = areaKey === 'corridor-1' ? areas.corridors[0] : areas[areaKey === 'lift-access' ? 'lift' : areaKey === 'stair-access' ? 'stair' : areaKey === 'restroom-access' ? 'restroom' : areaKey];
+    if (!area) fail('missing-public-area', areaKey, 'The scale profile must expose the public service area before adding its facility');
+    const resource = catalog.resources.find(value => value.id === resourceId && value.version === 1);
+    if (!resource) fail('missing-public-facility', area.id, `The configured catalog must include ${resourceId}@1`);
+    operations.push({ type: 'add-facility', id: `${area.id}/service-sign`, parentId: area.id,
+      resource: ref(resource), transform: transform(position) });
+  }
+  return operations;
+}
+
 function validateInput(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) fail('invalid-space-input', 'input', 'Expected a scale-v2 input object');
   knownFields(input,['id','name','scale','spaceProfile','floors'],'input');
@@ -232,7 +258,10 @@ export function createCompanyScaleV2(input, catalog, templates) {
       const living = document.nodes.find(node => node.id === `${floor.id}/living`);
       operations.push(...publicFurnitureOperations(living, catalog));
     }
-    if (areas) operations.push(...publicFurnitureOperations(areas.lobby, catalog));
+    if (areas) {
+      operations.push(...publicFurnitureOperations(areas.lobby, catalog));
+      operations.push(...publicServiceOperations(areas, catalog));
+    }
     if (floorIndex > 0 && input.scale !== 'building') fail('space-floor-capacity', `input.floors[${floorIndex}]`, 'This scale supports one floor');
   }
   const result = prepareCompanyChange(document, operations, { catalog, templates }).document;
