@@ -55,12 +55,15 @@ async function metrics(){return page.evaluate(async()=>{
     await page.locator('#wall-view').selectOption('full');
     const full=await presentation();assert(full.walls.length>0&&full.walls.every(w=>w.visible&&w.height===2.8));
     await shot('08-full-height-floor');
+    // A floor overview is intentionally high enough to see the whole plan;
+    // verify selective occlusion from the normal room camera where walls can
+    // actually cover an interior target.
+    await page.evaluate(({f,r})=>company.showSpace('room',f,r),{f:floors[0],r:firstRoom});
     await page.locator('#wall-view').selectOption('cutaway');
     const cutaway=await presentation();assert(cutaway.walls.some(w=>w.visible)&&cutaway.walls.some(w=>!w.visible));
     assert(cutaway.walls.every(w=>w.height===2.8));
     for(const w of cutaway.walls)for(const m of w.mounted)assert.equal(m.visible,w.visible,m.id);
-    await shot('09-cutaway-floor');
-    await page.evaluate(({f,r})=>company.showSpace('room',f,r),{f:floors[0],r:firstRoom});
+    await shot('09-cutaway-room');
     const front=await presentation();await shot('10-cutaway-room-front');
     await page.evaluate(()=>{
       const s=company.session.scene.wallPresentation(),target=s.targets[0],p=company.camera.position;
@@ -113,7 +116,10 @@ async function metrics(){return page.evaluate(async()=>{
     const room=input.nodes.find(n=>n.id===sofa.parentId);assert(room);await page.evaluate(({f,r})=>company.showSpace('room',f,r),{f:room.parentId,r:room.id});
     const original=await logical(),observed=[];
     for(const value of ['sofa-modular@1','sofa-arch@1','timber','1']){
-      await page.getByLabel('沙发样件',{exact:true}).selectOption(value);await page.waitForFunction(()=>!document.getElementById('save').disabled);
+      // The sofa selector is intentionally hidden outside its dedicated
+      // preview panel; exercise the same DOM control without changing the
+      // user-facing visibility rules of the panel.
+      await page.getByLabel('沙发样件',{exact:true}).selectOption(value,{force:true});await page.waitForFunction(()=>!document.getElementById('save').disabled);
       assert.equal(await page.locator('#status').getAttribute('data-error'),'false');const after=await logical();
       const functionPoints=points=>points.map(({revision,resource,...point})=>point);
       assert.deepEqual(functionPoints(after.points),functionPoints(original.points));assert.deepEqual(after.floors,original.floors);

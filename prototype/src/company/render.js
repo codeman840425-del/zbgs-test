@@ -451,7 +451,12 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
         floorId:current.floorId,view:current.view,mode:current.wallView?.mode,cameraPosition:current.wallView?.cameraPosition,groups:current.wallGroups});
       const mountedByGroup=new Map();
       for(const facility of current.facilities.values())if(facility.wallBinding?.wallGroup) {
-        const list=mountedByGroup.get(facility.wallBinding.wallGroup)||[];list.push({id:facility.id,visible:facility.visual.visible});mountedByGroup.set(facility.wallBinding.wallGroup,list);
+        const list=mountedByGroup.get(facility.wallBinding.wallGroup)||[];
+        // Imported asset roots may leave `visible` undefined on a cloned
+        // scene node. The facility wrapper is authoritative for display
+        // visibility; include the inner root only when it explicitly hides.
+        const visible=!evaluated.hiddenGroups.has(facility.wallBinding.wallGroup)&&facility.root.visible!==false&&facility.visual?.visible!==false;
+        list.push({id:facility.id,visible});mountedByGroup.set(facility.wallBinding.wallGroup,list);
       }
       return {mode:current.wallView?.mode||'full',effectiveMode:evaluated.effectiveMode,cameraPosition:current.wallView?.cameraPosition?[...current.wallView.cameraPosition]:null,
         targets:evaluated.targets.map(target=>[...target]),walls:current.walls.map(wall=>({id:wall.name,region:wall.userData.roomId,edge:wall.userData.edge,
