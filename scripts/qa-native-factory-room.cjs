@@ -1,8 +1,13 @@
 // Fixed-build, actual room/factory smoke. No overlay or alternate motion driver.
 const {chromium}=require('../prototype/node_modules/playwright');
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
-const [directory,output]=process.argv.slice(2);
+const [directory,output,bodyType='native-female-843ac-v1']=process.argv.slice(2);
 if(!directory||!output)throw Error('Pass fixed dist and new evidence directory');
+const subjects={
+ 'native-female-843ac-v1':{sha:'843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef',alternate:3},
+ 'native-male-7586-v1':{sha:'7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81',alternate:null},
+};
+const subject=subjects[bodyType];if(!subject)throw Error('Unknown exact factory subject');
 (async()=>{
  const folder=path.resolve(directory),out=path.resolve(output);
  await fs.mkdir(out,{recursive:false});await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
@@ -22,7 +27,7 @@ if(!directory||!output)throw Error('Pass fixed dist and new evidence directory')
   const context=await browser.newContext({viewport:{width:1440,height:1000}});page=await context.newPage();
   page.on('pageerror',e=>report.errors.push(String(e)));
   page.on('console',m=>{if(m.type()==='error')report.errors.push(m.text());});
-  await page.goto(`http://127.0.0.1:${server.address().port}/?body=native-female-843ac-v1`);
+  await page.goto(`http://127.0.0.1:${server.address().port}/?body=${bodyType}`);
   await page.waitForFunction(()=>__debug.ready||document.querySelector('#loading strong')?.textContent==='角色加载失败',null,{timeout:60000});
   const ready=await page.evaluate(()=>({ready:__debug.ready,error:document.querySelector('#loading')?.textContent}));
   assert(ready.ready,ready.error);
@@ -30,6 +35,7 @@ if(!directory||!output)throw Error('Pass fixed dist and new evidence directory')
   const read=()=>page.evaluate(()=>({body:__debug.avatar().profile.sha256,debug:__debug.avatar().getDebugState(),appearance:__debug.avatar().appearance.getState(),outfit:__debug.avatar().getOutfitInfo(),snapshot:__debug.snapshot()}));
   await page.evaluate(()=>{__debug.setPaused(true);__debug.camera('inspect-full-front');});
   report.states.push({name:'dressed',...(await read())});
+  assert.equal(report.states[0].body,subject.sha);
   assert.equal(report.states[0].outfit.equipment.bodyTextureCoverage.covered,true);
   await page.screenshot({path:path.join(out,'dressed.png')});
   await page.evaluate(()=>__debug.setBodyMode('base'));
@@ -43,11 +49,13 @@ if(!directory||!output)throw Error('Pass fixed dist and new evidence directory')
   report.states.push({name:'restored',...(await read())});
   assert.equal(report.states[2].outfit.equipment.bodyTextureCoverage.covered,true);
   await page.screenshot({path:path.join(out,'restored.png')});
-  assert.equal((await page.evaluate(()=>__debug.setOutfit(3))).applied,true);
-  report.states.push({name:'customTop',...(await read())});
-  const customItems=report.states.at(-1).outfit.equipment.items;
-  assert.equal(customItems.top.visible,false);assert.equal(customItems.alternateTop.visible,true);
-  await page.screenshot({path:path.join(out,'custom-top.png')});
+  if(subject.alternate!==null){
+   assert.equal((await page.evaluate(index=>__debug.setOutfit(index),subject.alternate)).applied,true);
+   report.states.push({name:'customTop',...(await read())});
+   const customItems=report.states.at(-1).outfit.equipment.items;
+   assert.equal(customItems.top.visible,false);assert.equal(customItems.alternateTop.visible,true);
+   await page.screenshot({path:path.join(out,'custom-top.png')});
+  }else report.additionalTop='not supplied or tested for this male source';
   const recipe=await page.evaluate(()=>__debug.exportAppearanceRecipe());
   await fs.writeFile(path.join(out,'appearance-recipe.json'),recipe);
   assert.equal((await page.evaluate(()=>__debug.setOutfit(0))).applied,true);

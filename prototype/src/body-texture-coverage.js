@@ -1,10 +1,8 @@
 import * as THREE from 'three';
+import {BODY_TEXTURE_COVERAGE_ADMISSIONS} from './body-texture-coverage-admissions.js';
 
-// This first contract admits one measured native base and two exact top resources.
+// Only separately admitted and profile-pinned native pixel contracts are loaded.
 // It owns map references only: no geometry, RGB tint, alphaTest or shader changes.
-const AVATAR = '843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef';
-const BASE_PNG = '5bf13646459131ce6455719c8be451eb71b04a53058293974f9ab9da8bdc585a';
-const MASK_PNG = 'dc375769e28d015bc70c3cef6be1dec3794b5b2430a9bf173d60584105f68a8c';
 const owners = new WeakMap();
 const check = (value, message) => { if (!value) throw Error(`Body texture coverage: ${message}`); };
 const digest = async bytes => [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))]
@@ -13,10 +11,13 @@ const materialsOf = mesh => Array.isArray(mesh.material) ? mesh.material : [mesh
 
 export async function createBodyTextureCoverage({body, avatarSha256, entries, descriptor}) {
   if (!descriptor) return null;
-  check(avatarSha256 === AVATAR, 'unsupported avatar identity');
+  check(BODY_TEXTURE_COVERAGE_ADMISSIONS.some(item => item.avatarSha256 === avatarSha256), 'unsupported avatar identity');
   check(Array.isArray(body) && body.length === 1, 'expected one exact Body primitive');
   check(Array.isArray(entries) && entries.length > 0, 'missing equipment catalog');
   check(typeof descriptor.url === 'string' && /^[a-f0-9]{64}$/.test(descriptor.sha256), 'invalid descriptor');
+  const admission = BODY_TEXTURE_COVERAGE_ADMISSIONS.find(item =>
+    item.avatarSha256 === avatarSha256 && item.manifestSha256 === descriptor.sha256);
+  check(admission, 'unadmitted manifest for avatar');
   const baseURL = new URL(descriptor.url, globalThis.location?.href ?? 'http://localhost/');
   const read = async (url, expected) => {
     const response = await fetch(url);
@@ -27,14 +28,14 @@ export async function createBodyTextureCoverage({body, avatarSha256, entries, de
   };
   const manifestBytes = await read(baseURL.href, descriptor.sha256);
   const manifest = JSON.parse(new TextDecoder().decode(manifestBytes));
-  check(manifest.schema === 'native-body-texture-coverage-v1' && manifest.avatarSha256 === AVATAR,
+  check(manifest.schema === 'native-body-texture-coverage-v1' && manifest.avatarSha256 === avatarSha256,
     'manifest/target identity mismatch');
-  check(manifest.basePngSha256 === BASE_PNG && manifest.covered?.sha256 === MASK_PNG &&
+  check(manifest.basePngSha256 === admission.basePngSha256 && manifest.covered?.sha256 === admission.maskedPngSha256 &&
     manifest.rgbPreserved === true && manifest.width === 2048 && manifest.height === 2048 &&
     manifest.alphaTest === 0.5, 'unverified native pixel contract');
-  check(manifest.materialName === 'N00_000_00_Body_00_SKIN (Instance)', 'unexpected Body material');
+  check(typeof manifest.materialName === 'string' && manifest.materialName.length > 0, 'missing Body material');
   const rules = new Map();
-  check(Array.isArray(manifest.equipment) && manifest.equipment.length === 4, 'unexpected equipment rules');
+  check(Array.isArray(manifest.equipment) && manifest.equipment.length > 0, 'missing equipment rules');
   for (const rule of manifest.equipment) {
     check(typeof rule.id === 'string' && !rules.has(rule.id) && /^[a-f0-9]{64}$/.test(rule.sha256) &&
       ['top', 'bottom', 'shoes'].includes(rule.slot) &&
@@ -44,7 +45,7 @@ export async function createBodyTextureCoverage({body, avatarSha256, entries, de
   const catalog = new Map();
   for (const entry of entries) {
     const rule = rules.get(entry.id);
-    check(rule && !catalog.has(entry.id) && entry.compatibleAvatarSha256 === AVATAR &&
+    check(rule && !catalog.has(entry.id) && entry.compatibleAvatarSha256 === avatarSha256 &&
       entry.sha256 === rule.sha256 && entry.slot === rule.slot, 'unknown or incompatible equipment');
     catalog.set(entry.id, rule);
   }
@@ -120,8 +121,9 @@ export async function createBodyTextureCoverage({body, avatarSha256, entries, de
   function prepareEquipmentSet(ids) {
     assertLiveState();
     check(Array.isArray(ids) && new Set(ids).size === ids.length, 'duplicate/invalid equipment set');
+    const selectedIds = [...ids];
     const slots = new Set();
-    const selected = ids.map(id => {
+    const selected = selectedIds.map(id => {
       const rule = catalog.get(id);
       check(rule && !slots.has(rule.slot), 'unknown equipment or conflicting slot');
       slots.add(rule.slot); return rule;
@@ -155,7 +157,7 @@ export async function createBodyTextureCoverage({body, avatarSha256, entries, de
           });
           live = false; pending.delete(update); throw error;
         }
-        covered = nextCovered; activeIds = [...ids]; live = false; pending.delete(update);
+        covered = nextCovered; activeIds = [...selectedIds]; live = false; pending.delete(update);
       },
       dispose() { live = false; pending.delete(update); },
     };
@@ -164,7 +166,7 @@ export async function createBodyTextureCoverage({body, avatarSha256, entries, de
   return {
     prepareEquipmentSet,
     getInfo: () => ({schema:manifest.schema, avatarSha256, covered, activeIds:[...activeIds],
-      maskedPngSha256:MASK_PNG, ownedTextures:textures.size, materialCount:records.length,
+      maskedPngSha256:admission.maskedPngSha256, ownedTextures:textures.size, materialCount:records.length,
       pendingUpdates:pending.size, disposed, cleanupErrors:[...cleanupErrors],
       scope:'Pinned native Body RGBA states; geometry/contact surfaces unchanged'}),
     dispose() {

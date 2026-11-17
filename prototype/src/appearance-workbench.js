@@ -30,6 +30,7 @@ export function bindAppearanceWorkbench({ controller }) {
       { id: 'male', label: '原始脸型与身形' },
       { id: 'm2-male-jaw-v1', label: '下颌变化' },
       { id: 'm2-male-lower-leg-v1', label: '小腿比例样件' },
+      { id: 'native-male-7586-v1', label: '原生可编辑候选 · 接入验证' },
     ],
   };
   const diagnosticPresets = new Map(REPRESENTATIVE_PRESETS.map(preset => [preset.id, preset]));

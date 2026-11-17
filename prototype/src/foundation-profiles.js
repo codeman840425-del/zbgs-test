@@ -201,3 +201,21 @@ export function foundationProfile(bodyType = "female") {
     throw Error(`Invalid or duplicate outfit identity for ${bodyType}`);
   return result;
 }
+
+// Exact native male source candidate. No legacy body/gear/contact fits inherited.
+FOUNDATION_PROFILES['native-male-7586-v1'] = {
+  id:'native-vroid-unmasked-male-79-v1',
+  label:'原生男性 · 完整皮肤接入验证',
+  source:'VRoid 2.16 original male editable source + exact native Tops-removed Body PNG',
+  url:'/assets/native-male-factory-v1/native-vroid-male-unmasked-base-v1/generated/male-native-unmasked-79-v1.vrm',
+  sha256:'7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81',
+  manifestUrl:'/assets/native-male-factory-v1/native-vroid-male-equipment-v1/generated/equipment.json',
+  sourceFloorY:-1.1503509525979781e-6,
+  baseBodyDisplay:'source-with-hair',
+  previewAppearanceSupport:{hairColor:false,skinTone:false,eyeColor:false,lipColor:false},
+  bodyTextureCoverage:{url:'/assets/native-male-factory-v1/native-vroid-male-body-texture-fit-v1/generated/manifest.json',sha256:'c432a7cdd1f6f5e5af4bf07b79465b902f26c09b00f39254f206c2df24617143'},
+  ids:{top:'native-unmasked-7586-top-v1',shorts:'native-unmasked-7586-shorts-v1',shoes:'native-unmasked-7586-shoes-v1'},
+  defaultOutfit:{index:0,role:'shorts',bottomRole:'shorts',label:'原生上衣／短裤／鞋',equipmentRoles:['top','shorts','shoes']},
+  seatLayerThickness:0,
+  fitStatus:'Technical candidate: own source/bind CPU verified; same-room contact, appearance and persistence pending',
+};
