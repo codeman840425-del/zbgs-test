@@ -1,0 +1,113 @@
+{
+  "schema": "head-cage-feasibility-summary-v1",
+  "status": "proxy-infeasible",
+  "sourceProbeCommit": "5309c95b6c3d81755b5f9da885a308c84158d66b",
+  "executionCommit": "18b883818ed4b00f7bbdbf2724434004a0283cae",
+  "planSha256": "ab3fb8cb3d9f4b2598437bc7ba84cf0a817d9779973390b83761f7ffa8d8fcaa",
+  "actualLPSolves": 8,
+  "sourceShapeAttempts": 0,
+  "actualSolverSeconds": 0.07059340015985072,
+  "batchSeconds": 0.2268408000236377,
+  "cases": [
+    {
+      "id": "female-round-full-v2",
+      "status": "proxy-infeasible",
+      "scipyStatus": 2,
+      "seconds": 0.01334639999549836,
+      "optimalT_M": null,
+      "actualEuclideanControlDisplacementM": null,
+      "primalResidualsM": null,
+      "metricLimit": "No primal vector returned for status 2. Values cannot be fabricated."
+    },
+    {
+      "id": "female-long-slender-v2",
+      "status": "proxy-infeasible",
+      "scipyStatus": 2,
+      "seconds": 0.002224900061264634,
+      "optimalT_M": null,
+      "actualEuclideanControlDisplacementM": null,
+      "primalResidualsM": null,
+      "metricLimit": "No primal vector returned for status 2. Values cannot be fabricated."
+    },
+    {
+      "id": "female-square-athletic-v2",
+      "status": "proxy-infeasible",
+      "scipyStatus": 2,
+      "seconds": 0.011336399940773845,
+      "optimalT_M": null,
+      "actualEuclideanControlDisplacementM": null,
+      "primalResidualsM": null,
+      "metricLimit": "No primal vector returned for status 2. Values cannot be fabricated."
+    },
+    {
+      "id": "female-soft-wide-v2",
+      "status": "proxy-infeasible",
+      "scipyStatus": 2,
+      "seconds": 0.011782500077970326,
+      "optimalT_M": null,
+      "actualEuclideanControlDisplacementM": null,
+      "primalResidualsM": null,
+      "metricLimit": "No primal vector returned for status 2. Values cannot be fabricated."
+    },
+    {
+      "id": "male-wide-muscular-v2",
+      "status": "proxy-infeasible",
+      "scipyStatus": 2,
+      "seconds": 0.010909000062383711,
+      "optimalT_M": null,
+      "actualEuclideanControlDisplacementM": null,
+      "primalResidualsM": null,
+      "metricLimit": "No primal vector returned for status 2. Values cannot be fabricated."
+    },
+    {
+      "id": "male-long-lean-v2",
+      "status": "proxy-infeasible",
+      "scipyStatus": 2,
+      "seconds": 0.0021126000210642815,
+      "optimalT_M": null,
+      "actualEuclideanControlDisplacementM": null,
+      "primalResidualsM": null,
+      "metricLimit": "No primal vector returned for status 2. Values cannot be fabricated."
+    },
+    {
+      "id": "male-round-stocky-v2",
+      "status": "proxy-infeasible",
+      "scipyStatus": 2,
+      "seconds": 0.010104999993927777,
+      "optimalT_M": null,
+      "actualEuclideanControlDisplacementM": null,
+      "primalResidualsM": null,
+      "metricLimit": "No primal vector returned for status 2. Values cannot be fabricated."
+    },
+    {
+      "id": "male-angular-athletic-v2",
+      "status": "proxy-infeasible",
+      "scipyStatus": 2,
+      "seconds": 0.008776600006967783,
+      "optimalT_M": null,
+      "actualEuclideanControlDisplacementM": null,
+      "primalResidualsM": null,
+      "metricLimit": "No primal vector returned for status 2. Values cannot be fabricated."
+    }
+  ],
+  "qa": {
+    "status": "pass",
+    "checks": 50,
+    "additionalSolves": 0
+  },
+  "supplementalRootReference": {
+    "path": "evidence/m2-head-response-linearity-v1/report.json",
+    "sha256": "f6ca0bf18a004b6afe9f6668cd8d13c5cd3a27a793bf44921579e946511e4ec3",
+    "status": "observed-not-admission",
+    "minimumMaximumCoordinateErrorM": 1.0691210723390299e-06,
+    "maximumMaximumCoordinateErrorM": 9.247787998489798e-06,
+    "scope": "Root independently measured original eight failed coefficients against actual achieved 202 attached landmarks. No recalculation or target subtraction by this worker."
+  },
+  "interpretation": [
+    "All eight frozen necessary linear proxy systems return numerical infeasible. A ridge fit using this same proxy and constraints cannot meet the fixed coordinate band if this numerical infeasibility is confirmed.",
+    "No feasible optimal t or new control displacement is available. No cap recommendation or cap/tolerance sweep follows.",
+    "This is a numerical HiGHS report without an independently verified exact-arithmetic infeasibility certificate. It does not establish global impossibility of the nonlinear geometry or other cage structures.",
+    "Full numerical rank and coordinate-ULP indicators are archived separately. Neither is silently promoted to a physical controllability conclusion."
+  ],
+  "geometryAccepted": false
+}
