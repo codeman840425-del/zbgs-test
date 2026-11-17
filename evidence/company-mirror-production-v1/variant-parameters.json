@@ -1,0 +1,100 @@
+{
+  "id": "company-mirror-v1",
+  "version": 1,
+  "license": "Original project-authored parametric geometry and design. No external model, texture or generated image. Three.js 0.187.0 GLTFExporter and GLTFLoader are MIT licensed, copyright 2010–2026 three.js authors, retained in the pinned local LICENSE.",
+  "common": {
+    "envelope": {
+      "width": 0.8,
+      "height": 1.8,
+      "depth": 0.04
+    },
+    "surface": {
+      "schema": "planar-mirror-v1",
+      "profile": "single-512-v1",
+      "position": [
+        0,
+        0,
+        0.026
+      ]
+    },
+    "backDepth": 0.012,
+    "frameFront": 0.04,
+    "promptStandard": "Purpose: four project-authored wall-mounted mirrors with distinct real mirror contours and solid frame geometry. Specification: fixed installation envelope 0.80m x 1.80m x 0.04m, metres, +Y up, +Z forward, centred wall-contact back at z=0 and identity scale. Functional contract: single planar-mirror-v1 / single-512-v1 reflective face at local z=0.026, node mirror-surface and no lights, occupancy, clock, information or use points. Geometry: finite convex counterclockwise polygons, one coplanar face mesh, complete positive-Z triangulation, closed thick back and closed frames wholly outside declared mirror interiors. Budget: deterministic CPU polygon geometry and Three.js GLB export with CPU GLTFLoader readback, no online dependency and no raster reflection baked into assets. Editable source: per-design contour sampling, frame width, color and surface parameters. Export and provenance: exact source, contract, generator and dependency SHA256 pins. Static GLB mirror face is an inspection surface. Actual host scene reflection is supplied only by the separately verified runtime binding."
+  },
+  "mirrors": [
+    {
+      "id": "round",
+      "label": "圆镜",
+      "radius": 0.35,
+      "segments": 96,
+      "frameWidth": 0.024999999999999998,
+      "color": "#ad8a4e",
+      "roughness": 0.36,
+      "metalness": 0.72,
+      "prompt": "A true .70m diameter circular mirror, regular 96-segment perimeter with equal radii and a continuous warm brass solid ring frame. No nonuniform scaling."
+    },
+    {
+      "id": "full",
+      "label": "全身镜",
+      "width": 0.68,
+      "height": 1.68,
+      "frameWidth": 0.028,
+      "color": "#303d48",
+      "roughness": 0.58,
+      "metalness": 0.35,
+      "prompt": "A .68m by 1.68m rectangular full-length mirror with a continuous deep blue-grey solid rectangular rail frame."
+    },
+    {
+      "id": "arch",
+      "label": "拱镜",
+      "width": 0.68,
+      "height": 1.68,
+      "arcSegments": 48,
+      "frameWidth": 0.025,
+      "color": "#886447",
+      "roughness": 0.72,
+      "metalness": 0.08,
+      "prompt": "A .68m wide and 1.68m high mirror with straight lower sides, a true semicircular top sampled in 48 equal angular segments, and a continuous brown solid offset arch frame."
+    },
+    {
+      "id": "grid",
+      "label": "分格镜",
+      "width": 0.68,
+      "height": 1.68,
+      "columns": 2,
+      "rows": 3,
+      "barWidth": 0.025,
+      "frameWidth": 0.026,
+      "color": "#4b5056",
+      "roughness": 0.42,
+      "metalness": 0.62,
+      "prompt": "Six genuinely separate coplanar rectangular mirror panes in a 2-column by 3-row grid, one face mesh and one reflector target, with a continuous outer steel-grey solid frame and physical vertical and horizontal mullions."
+    }
+  ],
+  "dependencyPins": {
+    "functionalContract": {
+      "path": "docs/COMPANY-MIRROR-CONTRACT-v1.txt",
+      "sha256": "e41e2a0de8e5ae844798f4e376fc984a44d208bf3949be22d5ee5e46335902c3"
+    },
+    "research": {
+      "path": "docs/research/COMPANY-MIRROR-REFLECTION-RESEARCH-2026-11-16.txt",
+      "sha256": "36b3e4f83be653959b672b1fdbf461de3ed681f031c0ffbab4681f411f36ba1a"
+    },
+    "threePackage": {
+      "path": "prototype/node_modules/three/package.json",
+      "sha256": "87f2c99a8718e5fdd6f5e51427fde52c6075f2f698ddf8f7b4e162882df93940"
+    },
+    "threeLicense": {
+      "path": "prototype/node_modules/three/LICENSE",
+      "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+    },
+    "exporter": {
+      "path": "prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+      "sha256": "569793baeba62baeb4ab0b3619b6b1495b45d4b2ba9690430497adb58307bdf2"
+    },
+    "loader": {
+      "path": "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+      "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1"
+    }
+  }
+}

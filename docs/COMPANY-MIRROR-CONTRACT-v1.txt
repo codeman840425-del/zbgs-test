@@ -1,0 +1,14 @@
+墙挂镜生产与运行合同 v1（2026-11-16）
+本包只验证 mirror 墙挂分支四款，不包含落地支承或化妆镜照明。依据 COMPANY-MIRROR-REFLECTION-RESEARCH-2026-11-16.txt；此合同定义候选输入，不是完成结论。
+
+统一功能：category decor，mount wall，mountRole/productionBranch mirror；coordinates metres/+Y/+Z；mounting {origin:center,width:0.8,height:1.8,depth:0.04}；stateDefaults {}，usePoints []，无light/clock/information/footprint阻挡。墙背面z=0，模型所有顶点在x±.4/y±.9/z[0,.04]内，不缩放实例。
+mirrorSurface 固定为 {schema:planar-mirror-v1,profile:single-512-v1,position:[0,0,0.026]}，纳入功能兼容比较。mirrorNodes 为 {face:mirror-surface}。mirrorShape 为外观适配数据 {polygons:[[[x,y],...],...]}：有限有界凸多边形，每个逆时针，无重复点，互不重叠；定义真实镜片轮廓。镜片几何各三角必须+Z正面、局部平面z=.026，完整覆盖声明多边形、无重叠/缺口。镜片平面节点为局部identity，几何坐标包含z=.026；运行绑定时几何减去position，Reflector放回position，让官方反射平面真正位于镜片上。
+框/背板为独立真实网格；背板有厚度，位于镜片后，实际框体不得遮住任何声明镜面内部。镜片可不同轮廓，不能用椭圆冒称圆。至少四款：直径.70m圆镜、.68×1.68m矩形全身镜、宽.68m且外高≤1.68m拱镜、在同包络内真实分格镜。分格镜多个共面矩形合为一个镜片mesh/反射目标。四款应有实际框体/轮廓差别，可编辑参数与统一提示词，源修改→重新导出→登记完整可复现。
+
+运行沿Three 0.187 Reflector；静态GLB缓存不含动态Reflector。当前详细可见/朝向相机镜片最多一个动态目标，512² HalfFloat、MSAA0、不乘DPR、clipBias候选.003；宿主最多30Hz/一次主显示帧最多一次反射，不自建游戏时钟。隐藏/非活动镜不执行反射，第二面显示明确受限的非实时表面，不冒认实时。镜片像素不保存；首次活动/换框/切层恢复须用当前宿主场景重新渲染，不沿用旧层内容。
+镜中反射当前宿主已呈现场景（含剖切）；不改变碰撞/导航/任务/占用。反射期间排除其他反射面、防递归，finally恢复render target（含face/mip）、XR、shadow.autoUpdate、viewport/scissor/可见性。失败给具体原因，旧公司数据/存档不变；GPU错误与JS事务能力分开说明。实例独占目标、专用材质与镜片clone；候选丢弃/换层/换框/场景销毁显式幂等释放，不靠Texture.dispose代替目标回收。
+
+最小验收：四款实际网格核查与损坏拒绝；新源参数真实改变模型；兼容换镜保持实例/变换/状态；动态宿主物与主相机屏幕外物体真实出现在镜中，侧墙90度第二布局；四款关闭重开；剖切隐藏0反射、切层不串图；异常恢复renderer状态；重复切换目标释放及单目标/频率/成本记录。CPU与SwiftShader不代替角色C3或普通机性能。
+尝试预算：一次基于官方实现的小样，一轮有依据修正；同因两轮无改善重新定位，不退化为静态贴图证明。落地信息板上一包交付保持。
+
+提交前真实GPU预热在旧场景释放前执行；交接瞬间可保留旧目标并分配一个候选目标（峰值2），但最多一面执行反射。预热统计单列。Three内部render抛错只能保证公开状态finally恢复，须终止该帧并由宿主重建renderer；不得将resetState声称为私有render栈修复。运行中像素失败不能回滚为原图，但公司文档/存档不变。

@@ -5,7 +5,7 @@ import {inspectCompanyPlacement} from './placement.js';
 import {prepareTemplateUpgrade} from './upgrade.js';
 
 // Agent-facing authoring transactions. No character, movement, task or lease state.
-export async function createCompanyAuthoring(world,initialDocument,{catalog,templates,storage,assetLibrary,isUsePointBusy=()=>false}={}) {
+export async function createCompanyAuthoring(world,initialDocument,{catalog,templates,storage,assetLibrary,mirrorPreflight,isUsePointBusy=()=>false}={}) {
   let generation=0,disposed=false;
   const pendingPreloads=new Map();
   const store=createCompanySaveStore({storage,catalog,templates});
@@ -23,7 +23,7 @@ export async function createCompanyAuthoring(world,initialDocument,{catalog,temp
     return document;
   }
   await preload(initialDocument);
-  const scene=createCompanyScene(world,initialDocument,{catalog,templates,assetLibrary});
+  const scene=createCompanyScene(world,initialDocument,{catalog,templates,assetLibrary,mirrorPreflight});
   function intent(){if(disposed)throw new CompanyError('scene-disposed','authoring','Authoring session is closed');return ++generation;}
   function latest(token){if(disposed||generation!==token)throw new CompanyError('revision-conflict','authoring','A newer edit or load superseded this prepared scene');}
   function prune() {

@@ -1,0 +1,82 @@
+公司平台镜面反射研究
+2026-11-16。只读源码与一手资料研究，未运行GPU、未改实现或资产，未建立实际反射通过结论。
+
+一、范围与现有分支
+
+branches.json 中 mirror 是确认的墙挂分支，待验证安装包络为 .8×1.8×.04 m，父级 room.wall，四款名为圆镜、全身镜、拱镜、分格镜，状态 static-reflective。floor-mirror 是独立落地确认分支，同一待核板体尺度，须另证落地支承、总安装包络与阻挡。makeup-mirror 是 vanity-surface 安装，makeup-mirror-wall 是墙面安装，待核 .7×.6×.08 m，四款圆/带灯/拱/三折，包含反射开关和局部照明。后两支的灯光、安装和三折表面不能由单面墙镜推定通过。
+
+第一候选包只生产 mirror 墙挂四款，floor/makeup 两种安装和三折等独立表现仍保留后续。用户要求实际宿主场景反射，灰板、预制图片和环境贴图不能作为此包反射证据。资源、实例、换框、保存与依赖仍沿现有公司链，不建立第二套镜子场景或角色运行系统。
+
+二、核过的本地实现
+
+prototype/package.json 和 node_modules/three/package.json 均锁定 Three.js 0.187.0。当前预览是 WebGLRenderer，localClippingEnabled=true，sRGB 输出、ACESFilmicToneMapping，devicePixelRatio 上限1.5，Phaser主循环目标30帧。preview.js 的主循环、resize 和样件切换均可能直接调用 renderer.render(world,camera)，没有 EffectComposer。
+
+本地 examples/jsm/objects/Reflector.js SHA256 为 542861de2dea2e24729a1fa4962424214e1637368017bdd48d5f27eb64dda0fb。其原理是把宿主相机位置/视线关于镜面反射，构造虚拟相机，使用 oblique clip plane 切去镜后空间，然后将同一个宿主 scene 渲染到 WebGLRenderTarget，再投影到镜片上。局部+Z是反射法向，原实现只隐藏自己，反射期间禁止XR相机修改和阴影自动重算，结束后恢复 render target、viewport 等状态。默认目标512×512、HalfFloatType、4次MSAA，可以显式设multisample=0。dispose()释放目标和材质，镜面geometry仍需拥有者释放。
+
+asset-library.js 预加载的是静态GLB，逐实例克隆geometry/material/texture并按SHA验证。动态 Reflector 不应放进解析缓存或GLB导出物，也不能期望clone(true)保留其构造闭包与onBeforeRender。正确接缝是在 render.js 实例化实际GLB后，按已核镜片节点几何构建一个实例拥有的Reflector，将它放在同一个设施坐标系下，保留框体及原安装根。GLB中镜片是可检查的制作几何，真实反射材质在实例绑定时建立。
+
+render.js 的 disposeTree 目前只收集材质直接属性中的纹理、几何和材质，只对Light调用object.dispose。Reflector的tDiffuse藏在uniform中，且render target还拥有framebuffer/depth等资源，现有遍历不足以回收它。新增镜面必须有明确的实例dispose入口，在候选失败、discard、场景替换、切层和最终scene.dispose时释放目标；共享几何/材质应避免重复释放。asset-library.retainOnly只负责静态缓存，不能代替Reflector目标释放。
+
+authoring.js已有generation、preload、独立候选和提交前校验，render.js只构建当前楼层，building模式不构建室内。镜面应沿此链绑定与销毁。其他楼层仅保存资源/状态，不能因为切层而保留旧反射目标、旧相机或显示上一层图像。镜片像素不写存档，恢复时从当前宿主场景重新渲染。
+
+三、方法比较与首选
+
+首选锁定r187官方Reflector，配一个小的实例适配层，限制单平面、单反射pass和当前显示层。它直接复用宿主world和相机，能反射主镜头屏幕外但虚拟相机可见的真实物体，适合本项目墙镜。无需新增后处理管线，且MIT许可可离线重建。必须实际处理其他镜面排除、失败恢复和资源生命周期，官方类不会替应用决定这些规则。
+
+手写镜像相机加WebGLRenderTarget也能实现相同方法，但需要自行维护相机反射、裁剪投影、纹理矩阵和渲染状态恢复。只有官方类在小样中出现可定位且无法通过薄适配解决的问题时再采用，不在首包另造完整反射器。
+
+CubeCamera产生的是位置中心的六面环境采样，成本和视差语义不适合此处平面镜验收。SSRPass需要EffectComposer和屏幕空间缓冲，增加与现有直绘管线的差异，屏幕外反射还需额外处理，本包不引入。静态环境贴图可服务其他金属材质，但不会建立本包要求的场景镜像机制。
+
+官方接口与方法出处
+https://threejs.org/docs/pages/Reflector.html
+https://github.com/mrdoob/three.js/blob/r187/examples/jsm/objects/Reflector.js
+https://threejs.org/docs/pages/WebGLRenderTarget.html
+https://threejs.org/docs/pages/CubeCamera.html
+https://threejs.org/docs/pages/SSRPass.html
+
+四、固定几何与四款生产候选
+
+建议首轮沿mirror分支 .8×1.8×.04 m 外包络，wall、center原点、米制+Y上/+Z前、墙接触背面z=0，完整外观无实例缩放。实际尺寸仍需样板锁定。GLB声明唯一 mirror-surface 节点，镜片平面候选为z=.026，位于框体与背板前方。每个镜片为真实有限、非退化、+Z朝向共面三角形，不接受空节点、仅包围盒、非有限UV或祖先补偿出的非法法向。背板、框体必须在安装包络内，前方框条不得穿入可反射区域。
+
+四款可以共用同一功能包络、墙面安装和反射机制，采用不同框体及共面镜片轮廓。圆镜在.8m宽包络内取圆形镜片，保留真实直径；全身镜用长矩形；拱镜用拱顶轮廓；分格镜在同一平面加框条分格，用单个反射相机/目标供同一共面镜片。不得因圆镜名义将资产非均匀拉成长椭圆。圆镜与全身镜可有不同可反射轮廓，资源登记须记录轮廓为外观适配数据，固定安装/状态/预算规格保持兼容。若首轮选择共同矩形镜片加四种真框体，也须如实标注样件轮廓，不能给矩形镜片冠名已完成圆面或拱面。
+
+镜面反射算法绑定属于功能合同，节点名、实际镜片三角形与框条属于资源适配。compareFacilityFunction需纳入镜面机制、安装、状态及固定预算profile，普通换框保实例身份与最终变换。四款各自做几何/遮挡核查并在游戏中实际更新，不以四张静态贴图计四款。
+
+五、宿主显示、剖切与更新预算
+
+当前 applyPresentation 按主相机计算墙体cutaway，并隐藏挂墙设施及非聚焦区域详细网格。首包推荐镜中反射当前宿主已经呈现的场景，保留同样的剖切结果。反射相机不调用setWallView、setView或applyPresentation，不修改真实墙体/导航，不临时恢复所有墙体。这样镜中可能看到被剖切开放的空间，需在界面限制说明与录像中如实展示。未来若要求镜中看到物理完整房间，须另加只在反射pass中临时恢复的显示状态协议并在finally恢复，不在本包默认为已做。
+
+候选预算为一个代表房间同时最多1面启用动态反射、512×512目标、multisample=0、默认clipBias先取官方示例.003并实测，当前宿主30帧内每个主显示帧最多1个反射pass。分辨率不乘devicePixelRatio，不为四款额外创建四个活动目标，不在隐藏楼层或building模式分配/更新。单个HalfFloat RGBA颜色目标约2MiB，加深度/驱动开销另计，此为分配估算与准入候选，不是实测显存或普通电脑性能结论。
+
+首轮先按每个宿主显示帧更新以验证动态正确性。若预算实测要求降频，再用宿主传入帧/时间控制最多15Hz，并记录镜头/对象运动时的延迟；不创建独立计时器。resize或切镜头的额外renderer.render也受同一预算约束，首次出现/恢复/换框必须在显示前得到一次新反射。forceUpdate不是节流参数，它只绕过背面提前退出，不可当每N帧更新开关使用。
+
+多个Reflector原样并存可能在彼此的反射pass里继续触发onBeforeRender。候选用显式反射pass guard，在目标镜面更新期间排除所有其他反射面并防止递归，保存/恢复这些面的临时可见状态。不能只选一面更新而让其他镜面在反射中隐式执行。超预算的第二镜面应有明确受限呈现与入口说明，不声称它正在实时反射，也不把停止更新的旧楼层纹理冒充新场景。首包四款逐款替换验收，代表场景只启用单镜。
+
+clipBias、近面掠视、镜背观看、镜片贴墙的Z冲突、反射相机与裁剪平面的奇异角度均需小样验证。官方shader包含tone mapping与颜色空间chunk，不能对render target纹理简单套用PNG的sRGB设置或再次手动做ACES。用实际非对称色块和现有灯光检查主画面与镜中的颜色，保留已有sRGB/ACES设置。
+
+六、失败保旧与清理接缝
+
+预加载GLB及镜片实际几何验证完成后才绑定Reflector。bind失败必须释放新目标/材质并抛出具体原因，沿authoring事务保留旧文档、旧镜子、存档字节。CPU候选build可验证几何和构造，GPU shader/目标可用性需要实际renderer小样或提交前预热验证，不能仅因JS构造成功就标记运行通过。
+
+Reflector r187的onBeforeRender对renderer和scope.visible的恢复没有try/finally。薄适配必须保证反射pass抛错时恢复render target、XR、shadowMap.autoUpdate、viewport和镜面/其他镜面的可见状态，释放失败候选，不让渲染器停留在离屏目标。实际运行期上下文丢失或帧内异常不能宣称可以凭场景事务完全回滚GPU，应给具体错误并验证主画面后续可恢复。镜子失败不改公司数据或角色任务。
+
+建议资源所有权为facility mirror binding拥有Reflector/目标/专用材质/镜片几何副本，静态asset-library缓存继续只拥有GLB。dispose幂等，释放后清除回调、目标和绑定引用。修改候选build失败、未提交discard、普通换框、room/floor往返、building、scene.dispose各有清理检查。只调用Texture.dispose无法释放整个WebGLRenderTarget，renderer.info.memory不能单独证明framebuffer/depth已清理，需跟踪实际目标dispose事件及后续回到稳定分配基线。
+
+七、最小验证与停止条件
+
+CPU阶段检查四款固定安装、实际镜片共面/法向/覆盖/无遮挡、换框保身份、非法镜片/版本拒绝、目标owner和dispose幂等、失败恢复renderer状态的测试替身。CPU不能代替实际反射。
+
+浏览器代表房间放一面镜和一个非对称可辨对象，沿已有apply移动/旋转该对象，并切换已有数字钟或图文显示状态。镜中须实时改变且位置方向符合平面镜关系，主镜头移动时反射视差变化。用一个主相机看不到而反射虚拟相机可见的物体证明不是屏幕截图或静态纹理。不得把预制镜像图片用于该证据。
+
+四款逐一加载/换框和关闭恢复，实际镜片可见区域正确，恢复后重新生成当前场景反射。第二布局包含侧墙90度镜面，检查相同局部法向转到世界后的镜像与裁剪。cutaway隐藏镜面后0反射pass，返回当前房间恢复；换楼层/building不保留旧目标或旧层画面，文档/导航/状态不随观看改变。
+
+代表预算记录主pass与reflection pass次数、目标宽高/MSAA、可见/活动镜面数、draw calls/triangles和帧提交指标。用至少一次可定位的绑定/反射pass异常证明保旧或renderer状态恢复，并重复切层/换框核目标释放。真实角色未来出现在同一个宿主world时自然进入反射候选，但C3及角色受光仍单独验证，本包不改角色系统。
+
+尝试预算一次基于官方实现的小样，加一轮按真实失败修正。两轮同因无新证据或改善则重新定位，不能用灰板、截图或删除确认分支降低验收。普通电脑性能、多个镜面互反、三折/曲面/粗糙反射和完整物理墙体反射均不由本次方案研究推定通过。
+
+八、许可与离线重建
+
+本地Three LICENSE为MIT，版权2010–2026 three.js authors，允许修改/再分发但需保留版权和许可文本。首选直接导入锁定0.187.0 addon，若复制小段作异常安全适配则记录原r187路径、摘要、修改差异并保留MIT。package-lock与既有源码/参数/GLB依赖进入现有独立包，运行无需在线请求官方源码或外部图片。Reflector文档对应当前接口，具体行为以本地r187与官方tag源码为准。目标/反射像素是运行资源，不是下载资产，也不保存为可伪造反射证据。
+
+许可主来源 https://github.com/mrdoob/three.js/blob/r187/LICENSE
+释放主来源 https://threejs.org/manual/pages/how-to-dispose-of-objects.html

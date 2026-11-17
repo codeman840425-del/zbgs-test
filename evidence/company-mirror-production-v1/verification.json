@@ -1,0 +1,81 @@
+{
+  "status": "passed",
+  "negativeGeometryCases": [
+    {
+      "name": "face absent",
+      "rejected": true
+    },
+    {
+      "name": "face moved off contract plane",
+      "rejected": true
+    },
+    {
+      "name": "face translated instead of baked identity",
+      "rejected": true
+    },
+    {
+      "name": "face triangle missing creates coverage gap",
+      "rejected": true
+    },
+    {
+      "name": "face triangle winding reversed",
+      "rejected": true
+    },
+    {
+      "name": "overlapping declared panes",
+      "rejected": true
+    },
+    {
+      "name": "open backing rejected",
+      "rejected": true
+    },
+    {
+      "name": "frame intrudes into mirror area",
+      "rejected": true
+    }
+  ],
+  "importPerformsNoFilesystemWrites": true,
+  "isolatedPackageCheck": {
+    "status": "passed",
+    "evidenceDirectoryAbsentBeforeAndAfter": true,
+    "output": {
+      "status": "passed",
+      "mode": "check",
+      "resources": [
+        {
+          "id": "mirror-round",
+          "sha256": "93d5322290dba6c3670310fd2519f042801ba46838a8763bc0eab7593c8527ba",
+          "bytes": 123240,
+          "geometrySha256": "f0d26c5e6437b44661c9e4cd76b1f0a96c95989ef2ec2953d0fa16a674188bdf"
+        },
+        {
+          "id": "mirror-full",
+          "sha256": "70f73fec7a76bd3136b038213e76d0c2a3bda69fe8310857c2bf1a42d33ca07d",
+          "bytes": 8256,
+          "geometrySha256": "a62c8c9aba25135fe2f5726c57db8caea1e0b645f3f94aec16220e3e6edfb526"
+        },
+        {
+          "id": "mirror-arch",
+          "sha256": "b3372ff6ee243c8f34518ad09547ef87f72b85b7760e1a91171bd9f25a67dc06",
+          "bytes": 66960,
+          "geometrySha256": "e895d0351b741d2e1cdd44218beb6d5ff3af4a89713ab8ea1c6d697e5656cd5c"
+        },
+        {
+          "id": "mirror-grid",
+          "sha256": "b71f70ec86e6715e7a30e015bf58491aa527c96513236987157dfaf0c8b4ea75",
+          "bytes": 21944,
+          "geometrySha256": "4bbc050cb20355f50dff579dbf50094b1e193509c05a34769a696f54f8fe440d"
+        }
+      ]
+    }
+  },
+  "repair": {
+    "attempts": 2,
+    "firstFailure": "Full and arch frame edge uses Float32 positions against double declared boundaries, producing 1.7833701e-8 m2 artificial edge overlap.",
+    "change": "Quantize declared and generated XY boundary positions with Math.fround before geometry construction. Shared boundaries now match exactly. Area rejection thresholds remain unchanged.",
+    "preserved": "attempt-1-failure.json, attempt-1-generator.mjs, attempt-1-parameters.json and attempt-1-{round,full,arch,grid}.glb"
+  },
+  "limits": [
+    "CPU-only production tests. GPU/browser and runtime/hook enforcement are not verified here."
+  ]
+}

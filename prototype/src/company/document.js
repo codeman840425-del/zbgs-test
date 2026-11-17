@@ -4,6 +4,7 @@ import {validateSupportResource, validateSupportAttachments} from './support-dat
 import {validateMovingResource, validateFacilityState, movingFootprint} from './moving-parts.js';
 import {validateClockResource} from './clock-display.js';
 import {validateInformationResource,validateInformationAttachments} from './information-display.js';
+import {validateMirrorResource} from './mirror-data.js';
 export class CompanyError extends Error {
   constructor(code, path, message, details = {}) {
     super(`${code} at ${path}: ${message}`);
@@ -156,7 +157,7 @@ export function deriveCompany(document, catalog, templates) {
     fail('catalog-version-mismatch', 'document.catalog', 'Load the pinned resource catalog');
   if (!Array.isArray(document.nodes)) fail('invalid-nodes', 'document.nodes', 'Expected an array');
   const { resources, combinations } = catalogMaps(catalog, templates);
-  for (const resource of resources.values()) { validateSupportResource(resource, fail); validateMovingResource(resource, fail); validateClockResource(resource, fail); validateInformationResource(resource, fail); }
+  for (const resource of resources.values()) { validateSupportResource(resource, fail); validateMovingResource(resource, fail); validateClockResource(resource, fail); validateInformationResource(resource, fail); validateMirrorResource(resource, fail); }
   const nodes = new Map(), worlds = new Map(), floorIds = new Map(), roomIds = new Map();
   for (const node of document.nodes) {
     checkId(node.id, 'nodes.id');

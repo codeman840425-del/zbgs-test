@@ -10,11 +10,16 @@ import {applySurfaceFinish,describeSurfaceMeshes} from './surface-finish-render.
 import {partAngle,partOffset} from './moving-parts.js';
 import {bindClockDisplay,validatePresentationInputs} from './clock-display.js';
 import {applyInformationDisplay} from './information-display.js';
+import {createMirrorBinding} from './mirror-render.js';
 import {inspectCompanyMotionSweep} from './placement.js';
 
 const geometryTypes={BoxGeometry:THREE.BoxGeometry,CylinderGeometry:THREE.CylinderGeometry,PlaneGeometry:THREE.PlaneGeometry,CapsuleGeometry:THREE.CapsuleGeometry,SphereGeometry:THREE.SphereGeometry};
 const clone=value=>structuredClone(value);
+const releasedTrees=new WeakSet();
 function disposeTree(root) {
+  if(releasedTrees.has(root))return;releasedTrees.add(root);
+  const mirrorOwners=[];root.traverse(object=>{if(object.userData.companyMirrorBinding)mirrorOwners.push(object.userData.companyMirrorBinding);});
+  for(const owner of mirrorOwners)owner.dispose();
   const geometries=new Set(),materials=new Set(),textures=new Set();
   root.traverse(object=>{
     if(object.geometry)geometries.add(object.geometry);
@@ -57,7 +62,7 @@ function structureMesh(width,height,depth,color) {
 }
 
 // Presentation/provider only: no actor creation, movement, task or lease implementation.
-export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog,templates=defaultTemplates,visibleFloorId,maxRealtimeLights=2,assetLibrary}={}) {
+export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog,templates=defaultTemplates,visibleFloorId,maxRealtimeLights=2,assetLibrary,mirrorPreflight}={}) {
   if(!world?.isObject3D)throw new TypeError('Company scene requires a Three world');
   let current,disposed=false,generation=0,presentationInputs={clockSeconds:0};
   const prepared=new Map();
@@ -145,6 +150,8 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
           }
         }
         const facility={...entry,root,parts,visual};
+        facility.mirror=createMirrorBinding(entry.resource,parts,entry.id);
+        if(facility.mirror)visual.userData.companyMirrorBinding=facility.mirror;
         applyInformationDisplay(entry.resource,parts,entry.state);
         facility.clock=bindClockDisplay(entry.resource,parts,entry.state);
         facility.clock?.apply(presentationInputs);
@@ -247,6 +254,19 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
     // camera/mode when a prepared document candidate is published so a camera
     // update cannot roll back a user's current cutaway.
     const latestWallView=current?.wallView;
+    if(latestWallView)candidate.wallView=clone(latestWallView);
+    // Validate the candidate while the old root and its GPU resources are still owned.
+    // This synchronous host hook cannot publish a document or modify stored bytes.
+    const mirrors=[...candidate.facilities.values()].map(f=>f.mirror).filter(Boolean);
+    try {
+      if(mirrors.length) {
+        if(typeof mirrorPreflight!=='function')throw new CompanyError('mirror-host-required','company','The host must provide mirror GPU preflight before installing mirror resources');
+        const previousVisible=current?.root.visible;
+        world.add(candidate.root);if(current)current.root.visible=false;
+        try {applyPresentation(candidate);mirrorPreflight({root:candidate.root,mirrors,view:candidate.view});}
+        finally {candidate.root.removeFromParent();if(current)current.root.visible=previousVisible;}
+      }
+    } catch(error) {disposeTree(candidate.root);throw error;}
     // Keep unchanged seat Object3Ds alive so an occupied actor's existing contact
     // references survive a screen/light edit elsewhere in the scene.
     if(current)for(const [id,nextFacility]of candidate.facilities) {
@@ -275,12 +295,12 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
     world.add(candidate.root);candidate.root.updateMatrixWorld(true);
     if(current)disposeTree(current.root);current=candidate;generation++;applyPresentation();
   }
-  function applyPresentation() {
-    const focused=current.view.mode==='room'?current.view.roomId:null;
-    const wallVisibility=evaluateWallVisibility({walls:current.architecture.walls,document:current.document,derived:current.derived,
-      floorId:current.floorId,view:current.view,mode:current.wallView?.mode,cameraPosition:current.wallView?.cameraPosition,groups:current.wallGroups});
+  function applyPresentation(target=current) {
+    const focused=target.view.mode==='room'?target.view.roomId:null;
+    const wallVisibility=evaluateWallVisibility({walls:target.architecture.walls,document:target.document,derived:target.derived,
+      floorId:target.floorId,view:target.view,mode:target.wallView?.mode,cameraPosition:target.wallView?.cameraPosition,groups:target.wallGroups});
     const hiddenGroups=wallVisibility.hiddenGroups;
-    for(const facility of current.facilities.values()) {
+    for(const facility of target.facilities.values()) {
       const detailed=!focused||facility.roomId===focused;
       const wallHidden=facility.wallBinding?.wallGroup&&hiddenGroups.has(facility.wallBinding.wallGroup);
       facility.visual.visible=detailed&&!wallHidden;if(facility.proxy)facility.proxy.visible=!detailed;
@@ -291,17 +311,17 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
     }
     // Wall geometry is always physically complete.  Cutaway changes display
     // visibility only, preserving the real 2.8m height and center.
-    for(const wall of current.walls){wall.scale.y=1;wall.position.y=WALL_CENTER_Y;wall.visible=!hiddenGroups.has(wall.userData.wallGroup);}
-    for(const ceiling of current.ceilings) {
-      const camera=current.wallView?.cameraPosition,region=current.derived.nodes.get(ceiling.userData.roomId);
+    for(const wall of target.walls){wall.scale.y=1;wall.position.y=WALL_CENTER_Y;wall.visible=!hiddenGroups.has(wall.userData.wallGroup);}
+    for(const ceiling of target.ceilings) {
+      const camera=target.wallView?.cameraPosition,region=target.derived.nodes.get(ceiling.userData.roomId);
       const local=camera?ceiling.parent.worldToLocal(new THREE.Vector3(...camera)):null;
       ceiling.visible=Boolean(focused===region.id&&local&&local.y>.05&&local.y<WALL_HEIGHT-.05&&
         Math.abs(local.x)<region.bounds.width/2-.05&&Math.abs(local.z)<region.bounds.depth/2-.05);
     }
-    const eligible=current.lights.filter(l=>!focused||l.roomId===focused).sort((a,b)=>a.id.localeCompare(b.id));
+    const eligible=target.lights.filter(l=>!focused||l.roomId===focused).sort((a,b)=>a.id.localeCompare(b.id));
     const enabled=new Set(eligible.filter(l=>l.desired>0).slice(0,maxRealtimeLights));
-    for(const light of current.lights)light.light.intensity=enabled.has(light)?light.desired:0;
-    current.root.updateMatrixWorld(true);
+    for(const light of target.lights)light.light.intensity=enabled.has(light)?light.desired:0;
+    target.root.updateMatrixWorld(true);
   }
   install(build(initialDocument,visibleFloorId));
   function live(){if(disposed)throw new CompanyError('scene-disposed','company','Scene has been disposed');}
@@ -328,6 +348,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
       return current.derived.usePoints.filter(point=>floorId===undefined||point.floorId===floorId).map(point=>describeCompanyUsePoint(current.document,current.derived,point.id));
     },
     navigation,
+    mirrorBindings(){live();return [...current.facilities.values()].map(f=>f.mirror).filter(Boolean);},
     setPresentationInputs(inputs) {
       live();const next=validatePresentationInputs(inputs);
       for(const facility of current.facilities.values())facility.clock?.apply(next);
@@ -380,7 +401,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
       if(candidate.generation!==generation)throw new CompanyError('revision-conflict','company','Scene was committed or restored after this candidate was prepared');
       // Recheck authoritative leases/revision just before synchronously publishing.
       prepareCompanyChange(current.document,candidate.operations,{catalog,templates,...guards,isUsePointBusy:guardedBusy(guards),expectedRevision:candidate.previousRevision});
-      prepared.delete(handle);install(candidate);return this.snapshot();
+      install(candidate);prepared.delete(handle);return this.snapshot();
     },
     discard(handle){const candidate=prepared.get(handle);if(candidate){prepared.delete(handle);disposeTree(candidate.root);}},
     save(){live();return serializeCompany(current.document,catalog,templates);},

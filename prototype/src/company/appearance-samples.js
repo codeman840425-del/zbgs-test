@@ -6,7 +6,9 @@ import {createClockSample} from './clock-samples.js';
 import {createSupportedClockSample} from './supported-clock-samples.js';
 import {createInformationSample} from './information-samples.js';
 import {createFloorInformationSample} from './floor-information-samples.js';
+import {createMirrorSample} from './mirror-samples.js';
 export const appearanceBranches=[
+ ['mirror','墙挂镜'],
  ['information-board-floor','落地图文板'],
  ['information-board','墙挂图文板'],
  ['analog-clock-shelf','台面指针钟'],['digital-clock-shelf','台面数字钟'],
@@ -29,6 +31,7 @@ export function appearanceCandidates(catalog,branch) {
  return selected.filter(Boolean).map(r=>({...r,displayName:r.displayName||names[r.id]||r.id}));
 }
 export function createAppearanceSample(branch,index,catalog,templates) {
+ if(branch==='mirror')return createMirrorSample(catalog,templates,{index});
  if(branch==='information-board-floor')return createFloorInformationSample(catalog,templates,{index});
  if(branch==='information-board')return createInformationSample(catalog,templates,{index});
  if(['analog-clock-shelf','digital-clock-shelf'].includes(branch))return createSupportedClockSample(catalog,templates,{branch,index});

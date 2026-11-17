@@ -1,0 +1,71 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "name": "binding is lazy and non-mirror resources are unchanged",
+      "status": "passed"
+    },
+    {
+      "name": "fixed plane is rebased without changing world vertices",
+      "status": "passed"
+    },
+    {
+      "name": "stable selection and host token / 30Hz budget",
+      "status": "passed"
+    },
+    {
+      "name": "hidden, behind-camera and off-frustum owners have no target",
+      "status": "passed"
+    },
+    {
+      "name": "all reflection surfaces are hidden and callbacks stay inert during prepass",
+      "status": "passed"
+    },
+    {
+      "name": "successful prepass restores renderer target/face/mip/XR/shadow/viewport/scissor",
+      "status": "passed"
+    },
+    {
+      "name": "unknown renderer exception restores public state and requires renderer rebuild",
+      "status": "passed"
+    },
+    {
+      "name": "shader diagnostic rejects only after render returned and releases candidate",
+      "status": "passed"
+    },
+    {
+      "name": "context loss before render does not claim a fresh pass",
+      "status": "passed"
+    },
+    {
+      "name": "candidate preflight preserves old owner target and separates counters",
+      "status": "passed"
+    },
+    {
+      "name": "failed candidate preflight leaves old target alive",
+      "status": "passed"
+    },
+    {
+      "name": "target/material/geometry disposal is once and reactivation allocates fresh",
+      "status": "passed"
+    },
+    {
+      "name": "invalid mirror binding rejects without allocating a target",
+      "status": "passed"
+    },
+    {
+      "name": "all owned reflection target objects released",
+      "status": "passed",
+      "resources": {
+        "created": 14,
+        "disposed": 14,
+        "live": 0,
+        "peak": 2
+      }
+    }
+  ],
+  "limits": [
+    "CPU uses the actual locked Three Reflector with a renderer substitute. No WebGL pixels, shader compilation, private-render-stack recovery, browser close/reopen or ordinary-computer performance was verified.",
+    "Preflight is a separately counted transaction validation phase. Target counters describe target objects and dispose events, not GPU bytes."
+  ]
+}

@@ -1,5 +1,7 @@
 import * as THREE from '../../prototype/node_modules/three/build/three.module.js';
 import fs from 'node:fs/promises';
+import path from 'node:path';
+import {pathToFileURL} from 'node:url';
 import assert from 'node:assert/strict';
 import document from '../../prototype/src/company/examples/c1-two-stations.json' with {type:'json'};
 import catalog from '../../prototype/src/company/facility-catalog.json' with {type:'json'};
@@ -11,7 +13,7 @@ const point=scene.resolveUsePoint('station-1/chair#seat'),other=scene.resolveUse
 check('Two independent actual contact meshes resolve by stable use-point identity',()=>{
  assert(point.chairSeat.isMesh&&other.chairSeat.isMesh);assert.notEqual(point.chairSeat,other.chairSeat);
  assert.deepEqual(point.chair.getWorldPosition(new THREE.Vector3()).toArray(),[-1.5,0,.55]);
- assert.equal(scene.navigation().obstacles.length,6);assert.equal(scene.listUsePoints().length,2);
+ assert.equal(scene.navigation().obstacles.filter(o=>o.kind!=='wall').length,6);assert.equal(scene.navigation().obstacles.filter(o=>o.kind==='wall').length,4);assert.equal(scene.listUsePoints().length,2);
 });
 check('Desk transform prepares off-scene then commits all attached real meshes',()=>{
  const previous=scene.save(),before=scene.root.getObjectByName('station-1/monitor').getWorldPosition(new THREE.Vector3());
@@ -55,6 +57,6 @@ check('Prepared preview document is isolated from the actual staged commit',()=>
 check('Scene disposal removes its resources and rejects further edits',()=>{
  scene.dispose();assert.equal(world.children.length,0);assert.throws(()=>scene.prepareChange([]),e=>e.code==='scene-disposed');
 });
-const out=new URL('../../evidence/company-c1-render-v1/',import.meta.url);await fs.mkdir(out,{recursive:true});
+const out=process.argv[2]?pathToFileURL(path.resolve(process.argv[2])+path.sep):new URL('../../evidence/company-c1-render-v1/',import.meta.url);await fs.mkdir(out,{recursive:true});
 await fs.writeFile(new URL('report.json',out),JSON.stringify({status:'passed',checks,limits:['Actual Three meshes/materials/lights under CPU only. No WebGL image, character usage, navigation or browser close/reopen proof yet.']},null,2)+'\n');
 console.log(`${checks.length} actual-Three provider checks passed`);

@@ -26,21 +26,52 @@ import {createClockSample} from './clock-samples.js';
 import {createSupportedClockSample} from './supported-clock-samples.js';
 import {createInformationSample} from './information-samples.js';
 import {createFloorInformationSample} from './floor-information-samples.js';
+import {createMirrorSample} from './mirror-samples.js';
+import {createMirrorController} from './mirror-render.js';
 import {validatePresentationInputs} from './clock-display.js';
 import './preview.css';
 
 const element=id=>document.getElementById(id),stage=element('stage');
 const world=new THREE.Scene();world.background=new THREE.Color('#e7ede3');
-const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:false});
-renderer.localClippingEnabled=true;
-renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFShadowMap;
-renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.08;stage.append(renderer.domElement);
+let renderer;
+function configureRenderer(canvas,context) {
+  const next=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:false,...(canvas?{canvas,context}:{})});
+  next.localClippingEnabled=true;next.setPixelRatio(Math.min(devicePixelRatio,1.5));
+  next.shadowMap.enabled=true;next.shadowMap.type=THREE.PCFShadowMap;
+  next.outputColorSpace=THREE.SRGBColorSpace;next.toneMapping=THREE.ACESFilmicToneMapping;next.toneMappingExposure=1.08;
+  return next;
+}
+renderer=configureRenderer();stage.append(renderer.domElement);
+const mirrorController=createMirrorController();
+let hostFrame=0,rendererRestarts=0,lastRenderError=null;
+function recoverRenderer(error) {
+  lastRenderError={code:error.code||'render-failed',message:error.message};
+  for(const binding of session?.scene.mirrorBindings()||[])binding.deactivate();
+  const canvas=renderer.domElement,context=renderer.getContext();
+  if(context.isContextLost()) {status('显示设备暂不可用，布局和存档已保留；等待浏览器恢复。',true);return;}
+  renderer.dispose();renderer=configureRenderer(canvas,context);renderer.resetState();
+  renderer.setSize(stage.clientWidth,stage.clientHeight);rendererRestarts++;
+  status('显示暂时中断，已重建渲染器；布局和存档未改变。',true);
+}
+function mirrorPreflight({mirrors}) {
+  try{return mirrorController.preflight(mirrors,renderer,world,camera,{frameId:hostFrame,timeMs:performance.now()});}
+  catch(error){if(error.code==='mirror-renderer-reset-required')recoverRenderer(error);throw error;}
+}
+function drawHostFrame(timeMs=performance.now()) {
+  if(!session||document.hidden||session.scene.view.mode==='building')return;
+  if(renderer.getContext().isContextLost())return;
+  camera.updateMatrixWorld();world.updateMatrixWorld(true);
+  try {
+    mirrorController.update(session.scene.mirrorBindings(),renderer,world,camera,{frameId:++hostFrame,timeMs});
+    renderer.render(world,camera);updateRegionLabels();
+  } catch(error) {recoverRenderer(error);}
+}
 world.add(new THREE.HemisphereLight(0xe9f4ff,0xa5aa94,2));
 const sun=new THREE.DirectionalLight(0xfff0d6,2.3);sun.position.set(-3,8,5);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);
 Object.assign(sun.shadow.camera,{left:-8,right:8,top:8,bottom:-8});sun.shadow.normalBias=.015;world.add(sun);
 const camera=new THREE.PerspectiveCamera(38,1,.05,300),orbit=new OrbitControls(camera,renderer.domElement);
 orbit.enableDamping=false;orbit.maxPolarAngle=Math.PI*.48;orbit.minDistance=2;orbit.maxDistance=160;
-const layouts={floorInformation:createFloorInformationSample(catalog,templates).document,floorInformationAlternate:createFloorInformationSample(catalog,templates,{alternate:true}).document,information:createInformationSample(catalog,templates).document,informationAlternate:createInformationSample(catalog,templates,{alternate:true}).document,supportedClocks:createSupportedClockSample(catalog,templates).document,supportedClockAlternate:createSupportedClockSample(catalog,templates,{alternate:true}).document,clocks:createClockSample(catalog,templates).document,clockAlternate:createClockSample(catalog,templates,{alternate:true}).document,sliding:createSlidingSample(catalog,templates).document,slidingAlternate:createSlidingSample(catalog,templates,{alternate:true}).document,hinged:createHingedSample(catalog,templates).document,hingedAlternate:createHingedSample(catalog,templates,{alternate:true}).document,base,alternate,studio,...createScaleExamples(catalog,templates),smallHome,rental:rentalHome,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome,ceilings:ceilingCompany,ceilingHome,
+const layouts={mirrors:createMirrorSample(catalog,templates).document,mirrorAlternate:createMirrorSample(catalog,templates,{alternate:true}).document,floorInformation:createFloorInformationSample(catalog,templates).document,floorInformationAlternate:createFloorInformationSample(catalog,templates,{alternate:true}).document,information:createInformationSample(catalog,templates).document,informationAlternate:createInformationSample(catalog,templates,{alternate:true}).document,supportedClocks:createSupportedClockSample(catalog,templates).document,supportedClockAlternate:createSupportedClockSample(catalog,templates,{alternate:true}).document,clocks:createClockSample(catalog,templates).document,clockAlternate:createClockSample(catalog,templates,{alternate:true}).document,sliding:createSlidingSample(catalog,templates).document,slidingAlternate:createSlidingSample(catalog,templates,{alternate:true}).document,hinged:createHingedSample(catalog,templates).document,hingedAlternate:createHingedSample(catalog,templates,{alternate:true}).document,base,alternate,studio,...createScaleExamples(catalog,templates),smallHome,rental:rentalHome,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome,ceilings:ceilingCompany,ceilingHome,
   supports:createSupportSample(catalog,templates).document,supportAlternate:createSupportSample(catalog,templates,{alternate:true}).document},assetLibrary=createCompanyAssetLibrary();let session,activeView='room',busy=false,game;
 let regionLabels=[],previewClockOverride=null;
 function setPreviewClock(seconds){if(seconds!==null)validatePresentationInputs({clockSeconds:seconds});previewClockOverride=seconds;if(seconds!==null)session.scene.setPresentationInputs({clockSeconds:seconds});return seconds;}
@@ -156,7 +187,7 @@ async function showAppearanceSample(branch,index){
   offset.normalize().applyQuaternion(object.getWorldQuaternion(new THREE.Quaternion()));
   const distance=Math.max(size.y,size.x/camera.aspect,size.z)*1.9+.35;
   camera.position.copy(target).addScaledVector(offset,distance);orbit.target.copy(target);orbit.update();
-  element('scene-name').textContent=sample.document.name;renderer.render(world,camera);
+  element('scene-name').textContent=sample.document.name;
   return sample;
 }
 function fillOptions(id,nodes,selected){const select=element(id);select.replaceChildren(...nodes.map((node,index)=>{const option=document.createElement('option');option.value=node.id;option.textContent=`${index+1} · ${node.name||node.id.split('/').at(-1)}`;return option;}));if(nodes.some(n=>n.id===selected))select.value=selected;}
@@ -171,6 +202,7 @@ async function showSpace(mode,floorId=element('floor').value,roomId=element('roo
 }
 async function defaultSpace(){const doc=session.document,rooms=doc.nodes.filter(n=>['room','area'].includes(n.kind));await showSpace(doc.scale==='building'?'building':rooms.length===1?'room':'floor',session.scene.view.floorId,rooms[0]?.id);}
 function sync(){
+  element('mirror-limit').hidden=!session.document.nodes.some(n=>catalog.resources.find(r=>r.id===n.resource?.id&&r.version===n.resource?.version)?.mirrorSurface);
   if(!session)return;const doc=session.document,facilities=doc.nodes.filter(n=>n.kind==='facility'),previous=element('station').value,derived=deriveCompany(doc,catalog,templates),view=session.scene.view;
   fillOptions('floor',doc.nodes.filter(n=>n.kind==='floor'),view.floorId);
   const rooms=doc.nodes.filter(n=>['room','area'].includes(n.kind)&&derived.floorIds.get(n.id)===view.floorId);
@@ -238,14 +270,14 @@ async function perform(label,action){
   }
   finally{busy=false;document.querySelectorAll('button,select').forEach(e=>e.disabled=false);sync();}
 }
-function resize(){const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();renderer.render(world,camera);updateRegionLabels();}
-class CompanyPreview extends Phaser.Scene {update(time){if(session)session.scene.setPresentationInputs({clockSeconds:previewClockOverride??(32400+time/1000)});if(!document.hidden&&session?.scene.view.mode!=='building'){renderer.render(world,camera);updateRegionLabels();}}}
+function resize(){const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();updateRegionLabels();}
+class CompanyPreview extends Phaser.Scene {update(time){if(session)session.scene.setPresentationInputs({clockSeconds:previewClockOverride??(32400+time/1000)});drawHostFrame(performance.now());}}
 async function start(){
-  session=await createCompanyAuthoring(world,smallHome,{catalog,templates,storage:localStorage,assetLibrary});
+  session=await createCompanyAuthoring(world,smallHome,{catalog,templates,storage:localStorage,assetLibrary,mirrorPreflight});
   let restored=false,restoreError;
   try{await session.restore(localStorage.getItem('company-preview:last-company')||session.document.id);restored=true;}catch(error){if(error.code!=='save-not-found')restoreError=error;}
   async function saveCurrent(){const result=await session.save();localStorage.setItem('company-preview:last-company',session.document.id);return result;}
-  window.company={ready:true,catalog,templates,session,assetLibrary,renderer,world,camera,setPreviewClock,pausePreview:()=>game?.loop.sleep(),view:setView,showSpace,layouts,showAppearanceSample,appearanceBranches,appearanceCandidates:branch=>appearanceCandidates(catalog,branch),
+  window.company={ready:true,catalog,templates,session,assetLibrary,get renderer(){return renderer;},world,camera,mirrorController,drawHostFrame,renderStatus:()=>({hostFrame,rendererRestarts,lastRenderError}),setPreviewClock,pausePreview:()=>game?.loop.sleep(),view:setView,showSpace,layouts,showAppearanceSample,appearanceBranches,appearanceCandidates:branch=>appearanceCandidates(catalog,branch),
     async apply(ops){const r=await session.apply(ops);sync();return r;},
     async load(doc){const r=await session.load(doc);await defaultSpace();return r;},
     snapshot:()=>session.snapshot(),save:saveCurrent,restore:async()=>{const r=await session.restore();await defaultSpace();return r;},export:()=>session.export()};
