@@ -2386,6 +2386,50 @@
       "reason": "Reuse transactional native palette for actual author hair/brow sample; source dependencies first, no per-color motion-controller change",
       "actualRuntimeConfiguration": "Not independently exposed",
       "hookInterception": "Not verified"
+    },
+    {
+      "task": "face_target_feasibility",
+      "difficulty": "complex",
+      "model": "gpt-6-astra",
+      "reasoning_effort": "high",
+      "configuration": "followup reuse of known explicit requested configuration",
+      "work": "native-geometry-reuse-review-v1",
+      "reason": "Find real already-produced geometry inputs and prevent redoing an already imported base",
+      "actualRuntimeConfiguration": "Not independently exposed",
+      "hookInterception": "Not verified"
+    },
+    {
+      "task": "face_target_feasibility",
+      "difficulty": "complex",
+      "model": "gpt-6-astra",
+      "reasoning_effort": "high",
+      "configuration": "followup reuse of known explicit requested configuration",
+      "work": "native-eyebrow-independent-v1",
+      "reason": "Independent original and changed brow plus combined palette transactions and migrations",
+      "actualRuntimeConfiguration": "Not independently exposed",
+      "hookInterception": "Not verified"
+    },
+    {
+      "task": "asset_budget",
+      "difficulty": "complex",
+      "model": "gpt-6.1-sol",
+      "reasoning_effort": "high",
+      "configuration": "followup reuse of known explicit requested configuration",
+      "work": "native-vroid-hair-color-base-v1",
+      "reason": "One evidence-based alternate native base-color command; preserve prior export failure",
+      "actualRuntimeConfiguration": "Not independently exposed",
+      "hookInterception": "Not verified"
+    },
+    {
+      "task": "asset_budget",
+      "difficulty": "complex",
+      "model": "gpt-6.1-sol",
+      "reasoning_effort": "high",
+      "configuration": "followup reuse of known explicit requested configuration",
+      "work": "native-vroid-geometry-production-v1",
+      "reason": "Actual baseline/face/waist source-to-export geometry contrast; same source, separate variables, no aesthetic parameter sweep",
+      "actualRuntimeConfiguration": "Not independently exposed",
+      "hookInterception": "Not verified"
     }
   ],
   "dispatchRecoveryLesson": "A message to a completed agent does not start a new task. Inspect status and use followup_task; asset task was actually restarted and acknowledged before rendering."

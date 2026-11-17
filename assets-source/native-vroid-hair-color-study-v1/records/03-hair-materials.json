@@ -1,0 +1,62 @@
+{
+  "request": {
+    "method": "tools/call",
+    "params": {
+      "name": "vroid_list_hair_materials",
+      "arguments": {
+        "include_layers": false
+      }
+    }
+  },
+  "responses": [
+    {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": {
+        "protocolVersion": "2025-06-18",
+        "capabilities": {
+          "tools": {},
+          "prompts": {},
+          "resources": {}
+        },
+        "serverInfo": {
+          "name": "vroid-studio",
+          "version": "0.15.0"
+        },
+        "instructions": "VRoid Studio MCP. Tool names and arguments are English. Call vroid_help('overview') before a complex task; vroid_help supports lang=en|fr|ja|zh-CN. VRoid Studio must be running with the bridge loaded. Only one model can be open at a time. Call vroid_status first. Save before vroid_main_menu, vroid_open or vroid_create. For visual work, use vroid_screenshot. For preset discovery, use vroid_preset_cache_search before applying presets. For sequences, use vroid_batch (up to 200 sequential operations, no automatic rollback). Do not assume that one preset replaces only one slot: whole outfits can replace several slots; verify with vroid_list_groups. Thumbnail generation strips all clothes, underwear and hair except the tested item. An English Agent Reference is exposed as MCP resources: vroid://agent/reference (full), plus vroid://agent/start, face, hairstyle, body, outfit, accessories, look, physical, presets, tools, workflows and troubleshooting. Read only the section needed; tools/list stays the authoritative schema list. MCP prompts: start (open a working session), character (build a character from a description), export_vrm (full/balanced/light VRM export), help. Reply in the user's language; never overwrite the user's .vroid file or discard changes without asking."
+      }
+    },
+    {
+      "jsonrpc": "2.0",
+      "id": 2,
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "[\n {\n  \"material\": \"283e41807fdb34cdf4b0280ccbe897bae6fda1b9\",\n  \"name\": \"Material\",\n  \"colors\": [\n   {\n    \"key\": \"base:388a671cd6920c61af4172818a056aad61d81f91\",\n    \"colorId\": \"388a671cd6920c61af4172818a056aad61d81f91\",\n    \"label\": \"Common.Color.HairMain\",\n    \"value\": null\n   },\n   {\n    \"key\": \"base:91173d860e279b35c7cc8dbae285939e1051fd5d\",\n    \"colorId\": \"91173d860e279b35c7cc8dbae285939e1051fd5d\",\n    \"label\": \"Common.Color.HairHighlight\",\n    \"value\": null\n   },\n   {\n    \"key\": \"OutlineColor\",\n    \"label\": \"Common.Color.Outline\",\n    \"value\": {\n     \"r\": 0.27450976,\n     \"g\": 0.09019602,\n     \"b\": 0.12549013,\n     \"a\": 1\n    }\n   },\n   {\n    \"key\": \"Color\",\n    \"label\": \"Common.Color.Base\",\n    \"value\": {\n     \"r\": 1,\n     \"g\": 1,\n     \"b\": 1,\n     \"a\": 1\n    }\n   },\n   {\n    \"key\": \"ShadeColor\",\n    \"label\": \"Common.Color.Shade\",\n    \"value\": {\n     \"r\": 1,\n     \"g\": 1,\n     \"b\": 1,\n     \"a\": 1\n    }\n   }\n  ],\n  \"textures\": [\n   {\n    \"label\": \"Common.Editable.MainTexture\",\n    \"transferable\": \"Base\",\n    \"image\": \"883cd33511cadfe0bf5b2775cd8b77a142db617d\",\n    \"layers\": {\n     \"error\": \"texture is not editable yet\",\n     \"detail\": \"System.InvalidOperationException: Operation is not valid due to the current state of the object.\"\n    }\n   },\n   {\n    \"label\": \"Common.Editable.HighlightTexture\",\n    \"transferable\": \"Base\",\n    \"image\": \"0b1890d4d177c259fc18a616c018d6c69d6a7d8f\",\n    \"layers\": {\n     \"error\": \"texture is not editable yet\",\n     \"detail\": \"System.InvalidOperationException: Operation is not valid due to the current state of the object.\"\n    }\n   }\n  ],\n  \"otherSections\": [\n   \"VRoidCore.Editing.Query.AdvancedEdit.MaterialFloat\"\n  ]\n }\n]"
+          }
+        ],
+        "isError": false
+      }
+    }
+  ],
+  "wallSeconds": 0.14951499993912876,
+  "exitCode": 0,
+  "stderr": "",
+  "images": [],
+  "ok": false,
+  "failures": [
+    "content[0][0].textures[0].layers: error",
+    "content[0][0].textures[1].layers: error"
+  ],
+  "rawStdout": {
+    "path": "03-hair-materials.json.stdout.bin",
+    "bytes": 3504,
+    "sha256": "8c8a652ca37c13d57d931dc4be141c78c2da0196cdb1f3108e515442c070e792"
+  },
+  "rawStderr": {
+    "path": "03-hair-materials.json.stderr.bin",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

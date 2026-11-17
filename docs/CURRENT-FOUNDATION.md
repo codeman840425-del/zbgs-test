@@ -1,55 +1,44 @@
 # 当前角色基础工程恢复入口
 
-更新2026-11-17。M2未完成，M3未授权。完整规格docs/research/M2-COMPLETE-CUSTOMIZATION-LONG-GOAL-v2-2026-11-16.txt；CAPABILITIES是唯一能力事实。不要重做已验源/衣物，拒绝的怪异批次不得换标签通过。
+更新2026-11-17。F:/gamemake，feat/m1-foundation-room。M2未完成，M3未授权。恢复读本文件、AGENTS及本工作包相关CAP条目即可；不重读历史流水。
 
-## 最新固定交付
+## 目标与边界
 
-- 工作台固定http://127.0.0.1:4196/?workbench=appearance，sourcef13bb4a2（确切SHA见delivery指针），buildcb4272c3b10c，experiments/native-iris-fixed-v2/prototype/dist。delivery/appearance-workbench.json；上版5db保delivery/history/appearance-workbench-5db2cd1ed50d.json；193b保delivery/history/appearance-workbench-193bbbf64323.json；f2df保delivery/history/appearance-workbench-f2df648c612b.json，c3e及更早树同样保留。4174历史媒体，4195封M1，不新增常驻端口。
-- 外观菜单男女各有“原生可编辑候选 · 接入验证”：female843ac/native-female-843ac-v1、male7586/native-male-7586-v1。各自独立三衣/原色，女有改袖Top；男新增独立HairSet001长直发（仅7586适配，原色，肩衣局部交叠/落座外扬保留，非最终画风）。男7586虹膜已开放original/green，其他未验原生配色禁用。旧男女样件保留，15失败批次只在检查区，不称八预设完成。
-- 固定构建npm ci/build过。native-workbench-193b-v1真实菜单旧女→新女→旧男→新男→旧女，无新document加载；基础/穿回/衣装、禁用提示和证据入口过。最新c272实际UI/7段媒体检查native-hair-workbench-c272-v1通过，HTTP身份回读在native-hair-release-c272-v1。
-- native-{female,male}-room-193b-v1分别真实factory（非overlay）穿衣/基础保鞋原发/穿回、配方同页和关闭后恢复、走停/接近椅子/坐起/离开家具后短舞/idle，1×原片各约35秒。女配方136993B，男81119B。root看静态与男性全片71个0.5s帧；正常速度人工自然度、近景接触仍未验。女落座长发外扬保问题，基础不是裸足验收。不要据这两段说新源全部动作/表情/装备/双实例隔离通过。
+- 完整目标：docs/research/M2-COMPLETE-CUSTOMIZATION-LONG-GOAL-v2-2026-11-16.txt；CAPABILITIES是唯一能力状态，FOUNDATION-MILESTONES管范围/退出条件。
+- 交付agent可持续制作/修改/转换/验证的角色平台，游戏直接消费；不是无限精修展示人物，也不是重做VRoid。用户再次提醒目标，完整M2不能缩为几个样件。
+- Phaser + Three.js + VRM。原生制作工具可替换，游戏不连接Studio；生产仍依赖离线Studio的具体功能。导出VRM不保完整原生编辑参数。公司平台由副总工负责，不stage其dirty。
+- 封板女性裙装和30秒舞不重开。普通电脑无设备，开发机不代替实测。八代表/完整M2未通过；被拒怪异批次只在检查区留失败，不换标签准入。
 
-## 已实际跑通的制作链
+## 固定交付与证据
 
-- Studio2.16.0+BepInEx IL2CPP be.791+mcjo79 Bridge0.15，experiments/tools/vroid-mcp-bridge-0.15.0/app-2.16，7811内部桥。后台call.py已证，不需桌面。froz6469独立lab只补表情/customitem，不替主桥。
-- 女原.vroid311a1bd0/VRM78912a7a，男原.vroidc936b241/VRMa18a2d11在assets-source/vroid-bridge-study-v1/generated。源25女参数保存冷开已核；其余工具枚举不当全部可用。源/许可meta不静默改，当前仅内部技术候选，VRoid内置素材不是CC0。
-- vroid-expression-study-v1：Joy眉毛100→65保存/冷开/导出且同房间表情证据已封。vroid-customitem-study-v1：袖长66→56保存customitem、新进程应用与冷开，direct/reused VRM同6a32481e。不要重复这些原生操作。
-- 原生独立衣物v5已修骨名清理映射/MToon首次update(0)，86d4各4cycles1×与原嵌衣对照通过限定检查。新袖GLB75c113在原78912和新843ac各自fit，不共用假SHA。
-- 女完整皮肤843acca：保原160nodes/130skin，只换原生卸Tops恢复Body PNG5bf136；男7586d3bc：保91nodes/79skin，换男原生PNGcfd186。两者都有原source+donor.vroid与离线build、独立读回/重建/错源拒绝；没有合并后的单一.vroid，不声称原生工具可直接重开派生资源。
-- 新男包native-vroid-male-{preflight,skin-recovery,unmasked-base,equipment,body-texture-fit}-v1已封。实际原生卸Tops保存/冷开/导出18请求完成后恢复原窗口。男独立三衣79骨/IBM/材质实际loader三姿CPU最大约21nm、误源/坏绑定拒绝；sourceFloorY=-1.1503509525979781e-6。原生PNG与三衣CPU包root逐核159文件SHA/index字节。
-- 公共body-texture-coverage与独立admissions数据只放女843ac+003e/男7586+c432两对；保持sampler/MASK/装备规则/owner/prepare提交检查，男女CPU隔离/延迟/过期prepared/未知清单拒绝过。独审发现旧调用方ids数组别名，已复制快照修复；原失败和修后结果在native-body-texture-multi-source-v1/ids-snapshot-fix-v1。模块新SHAb102d83c，admissions f97da841。不是任意新图可进。
-- stage-native-factory.py女、stage-native-male-factory.py男固定SHA导出public，相对URL保持原manifest，错源/冲突写前拒绝，重复执行不改一致产物。普通衣物没有新增人物控制器。
+- 4196工作台：source f13bb4a2 / build cb4272c3b10c，experiments/native-iris-fixed-v2/prototype/dist；delivery/appearance-workbench.json为准。原c272指针/树保留，可回滚。4174历史媒体，4195封板M1，不新增常驻端口。
+- 新女843ac、新男7586已在外观菜单，均独立三衣；女另有改袖Top。真实factory走坐起短舞/基础保鞋/关闭页配方恢复见native-{female,male}-room-193b-v1，保录像身份。新源细节接触/全部速度/普通机未通过。
+- 男7586独立HairSet001长直发：native-hair-{room,close}-416b-v1两段35秒1×，原源同镜头材质对照render-v2。原生2材质/59动态骨/12spring，只有一个人物；保肩衣交叠、落座前发外扬和侧面家具遮挡，非人工自然度通过。c272仅加入口，不改旧录像身份。
+- 男7586原生虹膜original/green已发布：native-iris-room-v2，12秒1×讲话/眨眼/微笑/视线，原源同镜头眼区262×63逐像素全等，原生长发+绿眼配方冷页恢复。native-iris-workbench-cb427-v2实际菜单/旧配色/8媒体检查通过。V1测试跨体准入预期错误与脚本作用域错误保留，不是删失败换标签。
+- 绿色不能带入仅允许original的新女；切换会拒绝并保原人物，恢复原色后可切。其余原生发肤唇色未放开。原生绿也改变瞳孔深色RGB，不声称每个瞳孔像素不变。
+- HTTP固定build与三配色资源字节已核：native-iris-release-cb427-v1。远端已核7d5e283e15fb197ec4d4c69561afedcc12a8bf2d；remote-backup.json记录在该目录（随后纳入下一提交）。
 
-## 已修问题与保留失败
+## 当前主工作包：原生眉色与发色生产接缝
 
-- a462/build58f坐入失败：曲线碰椅角clearPath吞afterWalk。dcf/build7871首修可坐入，但独审发现桌边浅角度10s/1200次无进展。f749/buildf2df及当前b27/193b补recover小角度pivot与无进展失败退出，独审反例一次恢复约2.77s完成，失败/取消释放、新请求、开放960子步等值过。原报告和录像都保，不能把CPU当脚步视觉通过。
-- 7871-v1舞蹈在椅旁被拒而旧脚本未断言；v2改真实任务先离开家具再确认dance状态，保失败而不改空间门。
-- UI f2df-v1误把history.replaceState的framenavigated当页面刷新；v2和193b以document请求+window身份核，未改产品来迎合测试。
+- native-vroid-hair-color-study-v1封包：眉色真实烘入FaceBrow，发Color/Shade/Outline保存冷开但导出HAIR未变，状态failed-hair-export-not-represented-brow-exported。不得以setter成功当发色通过。
+- scripts/stage-native-eyebrow.py已将眉色原/棕PNG与精确7586 manifest stage到public/native-eyebrow-palette-v1；重复mtime与冲突无副写检查通过。manifest acd3ec4703cac152890dda313f9b535d3efc5da3770fb4be28a4338e418e223a；源manifest62905d。尚未发布运行时。
+- http_transport_review（已知请求sol/high）负责共用native palette事务+eyebrowColor、character-appearance/query/recipe v9、旧版本迁移、CPU回归。root负责index/appearance-workbench和staging/实际浏览器；不碰main运动控制。manifest保旧iris字节，眉色新增独立字段，不伪装hairColor。
+- asset_budget（sol/high）核原生Hair.cs明确不同的base:命令，新包native-vroid-hair-color-base-v1唯一base主色实验也未进入导出，失败已封不重扫。当前接续native-vroid-geometry-production-v1做同源baseline/脸/腰三份导出及CPU差异。后台MCP，无桌面接管，完成恢复进入模型。
+- face_target_feasibility（astra/high）独审眉色实际源/组合事务/旧配方/两实例，输出native-eyebrow-independent-v1；GPU只由root使用。
+- root UI已增加有标签独立眉色（旧模型仍跟随发色、原生未知禁用），新qa-native-eyebrow-room.cjs已写未运行，等待runtime封口后exact-commit独立构建、同源近景、12秒组合/冷恢复/实际页面。当前4196仍已验cb427。
 
-## 接续主包
+## 下一真实缺口与避免重复
 
-1. 新男女factory基础入口已可用，双实例GPU代表隔离已观察到（native-pair-isolation-193b-v1；末段dance断言失败，两次raw报告保failed，不重录掩盖），继续补本次新源自己的近景表情/实际接触，保既定轻微穿插尺度，不重开封女裙与原30秒舞。
-2. 以已验原生可编辑源继续真实面部/体型/发型/配色制作样件和衣物适配，优先解决共用接口，不恢复自拟截面批量怪预设。完整八代表及M2 v2其它必需项仍欠，不缩范围、不直接开M3。
-3. 自适应关节：Mink原作者例与VRM69raw/54normalized CPU FK回读过；还没有人体限位/碰撞代理/短舞优化通过，不改封30秒舞。
-4. 原生编辑工具是可替换离线producer，游戏运行不需要Studio。关闭工具后自主修改能力逐项验证，VRM不等于完整捏人参数。官方guidelines的生成输出应用许可与个人自用例外分开核，不为旁问重写编辑器。
+- native-geometry-reuse-review-v1核查：78912→843ac与a18→7586仅Body PNG变化；Joy候选仅表情morph。没有一份与当前基模不同、可直接进入factory的未用原生脸体候选；参数回执不等于参数前后导出几何对照。78912本身源于round-waist制作，不能倒推其未接受参数；缺的是可核的前后VRM证据。
+- 后续几何包需一对真实原生参数前后导出与相关fit/coverage/表情读回，不再制作自拟怪异批次。已有源/骨架/装备拆分代码复用，别重复原男女导入。
+- 原生独立衣物MToon/名称映射/update(0)、男女性Body原生卸Tops PNG恢复、body-texture-coverage两源所有权均已有证据；源码/源包见CAP相应条，不重做。
+- 当前新源双实例原报告native-pair-isolation-193b-v1保failed末段dance，已观察到骨材质装备/椅占用隔离，不算全套通过。浅角度路径恢复已f749修，不重开。
+- 自适应关节只到Mink例与VRM FK CPU读回，尚无限位/碰撞短舞优化通过，禁改封30秒舞。
 
-## 恢复、并行与备份
+## 工具与性能限制
 
-- 当前已核远端f454594b9f9338961ca9311b67d9b21a50f974c0，包含5db源码/浏览器准入和媒体检查、193b双实例原报告/录像，以及HairSet001源/原生导出/读回；ls-remote与本地一致。核验回执随后记录于native-workbench-release-5db-v1/remote-backup.json。
-- 已知requested配置：face_target_feasibility=gpt-6-astra/high；asset_budget/http_transport_review=gpt-6.1-sol/high；派工JSON保难度理由，provider/hook实际拦截未独立暴露。已交生产包保留；face_target_feasibility已封native-pair-isolation-193b-v1并释放GPU。asset_budget已完成原生appearance只读核查和一个作者免费HairSet001保存冷开/导出/CPU读回，已恢复进入文件并释放窗口；http_transport_review已修复颜色query/recipe/实际变更入口一致性，face独审8+4检查无新增阻断；root固定构建实际浏览器检查已过。4196以新固定树5db发布，旧193b树完整保留。
-- 桌面未接管；MCP导出窗口已释放。2.14卸载成功且17890/17891关闭，3旧目录清理被自动策略拒绝约2.09GB残留，保evidence/vroid-214-retirement-v1，不绕过或称全清。
-- 公司副总工边几e1b独立交付已收，角色本轮不stage公司dirty，不改公司职责；C3/普通机未验。普通电脑目前无设备，不用4090或限速代替通过。
-
-## 当前在制增量
-
-- 原生颜色准入缺口已确认：UI禁用不代表query/调用会拒绝。最小共同source策略已实现，5db真实浏览器验证两新源query/直接set/导入拒绝且原色恢复成功；旧女四配色与reset实际解码/WebGL入口过。不放开未验配色。
-- 原生发型native-vroid-hairset-study-v1已封，root109文件SHA核过；VRMdab42367、.vroidfd027844，5组38束，新增59skin骨/12spring，原12非发面和57morph语义等价。尚未游戏/动态/性能验收，下一工作包为同房间原/新真实观察和独立发型接缝验证，不继承旧fit；现loader的单sourceMaterial+克隆源材质合同不能直接承接新2材质/138骨发型。准备与源码核查在assets-source/native-vroid-appearance-producer-v1（包含一次texture layer不可编辑partial失败）。
-- native-production页面补193b男女1倍速与隔离失败片，已随5db发布；三段媒体解码与1倍速实际播放检查通过。当前源码5db只修准入与展示，不将193b动作证据改为5db。
-
-- 当前独立发型接缝源码/CPU/独审已封：native-hair-attachment-runtime-v11、native-hair-v3-independent-v1，生产3文件a19e/fab97/b9af。原生2材质/59动态骨独立包已stage；正在从确切提交建native-hair-fixed-v1并做真实换发、原源同镜头、完整动作和关页恢复。未替4196，未声称视觉或家具接触通过。源23文件hash已核，所有失败保留；下一独立准备为原生配色生产入口只读核查，不抢Studio/GPU。
-
-- 最新独立发型已从1f6a3148构建416b做真实换发/冷恢复/房间与近景两段35秒1×动作、原源同镜头材质对照。c272仅补native-production观看入口，全部运行源码/资源/锁文件与416b逐字相同（source-comparison.json），保录像原身份不改标。原片、局限见native-hair-room-416b-v1/README.md。CPU不重做；下一主包为原生双虹膜绿单色制作：asset_budget已实际MCP保存冷开导出且恢复窗口，CPU差异与提取进行中，尚未runtime接入/放开颜色准入。
-
-当前接续（优先于上文历史过程）：iris原生制作/独立PNG staging/runtime/CPU独审已完成，root核7源码与manifest SHA一致；待exact-commit实际WebGL/冷恢复/12s表情录像，然后发布4196。hair cost已封跨批次开发机短测，普通机仍缺。已核远端b09e5f3be3f7cbd61ea9baf0021cd2a125e547f5，回执native-hair-release-c272-v1/remote-backup.json。下一独立制作原生男发色+眉色单样件，asset_budget复用sol/high后台MCP，不占GPU。
-
-最新接续事实：4196现cb4272c3b10c/f13bb4a2，前c272指针保delivery/history。native-iris-room-v2+workbench-cb427-v2真实浏览器通过限定范围，12秒正常速与源同镜头眼区全等；失败V1保留，记录见CAP末条。实际HTTP三PNG/manifest/build字节已核（release-cb427）。下一主包原生发色+眉色源生产由asset_budget sol/high执行，不新建编辑器；本轮用户再次提醒平台目标，完整M2不缩减/不先开M3。Studio仍是可替换离线producer，游戏已独立；彻底替换不是新授权任务。
+- Studio2.16 + BepInEx IL2CPP be.791 + mcjo79 Bridge0.15，experiments/tools/vroid-mcp-bridge-0.15.0/app-2.16；7811内部桥。call.py复用assets-source/vroid-bridge-study-v1。froz6469独立lab用于表达/customitem，不取代主桥。
+- 女原源311a/VRM78912、男c936/VRMa18及完整皮肤843ac/7586来源保包；组合PNG派生无合并单一.vroid，不能称原生重开派生完整工程。内置素材与原meta许可分开，MCP MIT不扩大素材许可；对外角色生成工具另核官方授权。
+- 发型成本native-hair-cost-c272-v1：跨批次12s走/6s坐，RTX4090/9950X3D，独立发updateDynamics约0.2435ms/render，渲染CPU提交约0.669ms，房间142draw/120458tri/56textures；卸载回47textures/83geometries。不是GPU时长/普通机/长期性能结论，保失败原始采样。
+- 不使用桌面。2.14已卸载、旧桥关闭；3旧目录删除被自动策略拒绝的约2.09GB残留未清，见vroid-214-retirement-v1，不绕过。
+- 派工均复用明确requested配置，实际provider/hook未独立暴露；记录subagent-explicit-dispatch-2026-11-16.json。不从host400推断独审文件不存在，也不称host成功。

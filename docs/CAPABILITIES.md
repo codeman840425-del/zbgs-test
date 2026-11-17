@@ -410,3 +410,7 @@ head-only一次诊断原8请求已完成，8/8 diagnostic-failed，正式生产�
 原生长发成本短测：native-hair-cost-c272-v1保跨批次12s走/6s坐原始数据及失败。RTX4090开发机独立发updateDynamics平均约0.2435ms/render，原发约0.0007ms；渲染CPU提交约0.669/0.570ms，不是GPU时长。房间142draw/120458tri/56textures，卸载回47textures/83geometries。仅短测非普通机性能通过，不以此补视觉验收。
 
 2026-11-17 原生虹膜实际发布：f13bb4a2/buildcb4272c3b10c在4196，native-iris-room-v2真实UI独立绿、原源同镜头眼区262×63像素全等、两颜色往返、错误版本保旧、原生长发组合冷页恢复、12s正常速讲话/眨眼/微笑/视线同时更新已录。完整2fps辅助检查未见眼纹滑动/眼白染色；非人工自然度通过。native-iris-workbench-cb427-v2旧配色/男女/装备/UI与8视频解码通过；V1分别保跨基模准入期待错误与脚本作用域失败。仅男7586绿，原生女仍原色；带green切仅original身体会拒绝保旧，可恢复原色再切。原生发/眉颜色下一样件进行中，M2未完成。
+
+2026-11-17 原生发/眉色制作结果分离：native-vroid-hair-color-study-v1实际保存/菜单重开/导出，FaceBrow image8变色（alpha与透明像素保留），发材质Color/Shade/Outline虽保存但导出HAIR未变。另基于官方Hair.cs的独立base:主色命令实验native-vroid-hair-color-base-v1导出21图/139accessor仍全等。两条具体失败保留，发色不准入，停止同因重试。独立眉色已提取stage精确7586/manifest acd3ec，尚待运行时与浏览器验，不代表发色或任意基模支持。
+
+原生几何复用核查：native-geometry-reuse-review-v1确认当前78912(round-waist导出)已经进入843ac，仅换Body PNG；不能再次作为未用新几何样件。不是否认已接受参数，缺少的是同原生源参数前后成对VRM导出证据；Joy眉毛样件仅表情morph。下一制作补脸型/局部腰形的独立几何对照，受影响fit/覆盖依实际依赖重验，不把所有旧fit全作废或直接继承。
