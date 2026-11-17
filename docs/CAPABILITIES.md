@@ -308,3 +308,7 @@ head-only一次诊断原8请求已完成，8/8 diagnostic-failed，正式生产�
 2026-11-16 已确认的SLIM局部冲突：独审m2-head-volume-slim-diagnosis-v1核坏tet与原材料/骨权/表达；固定HairBack、表情Eyeline及EyeExtra与原guide会产生局部翻转，需6.77–9.29mm偏离精确guide，坏tet不是最高条件数单元。仅证明同域控制合同局部冲突，不证明正式101截面目标无解。下一新版本将软附着部件沿共同G(P+D)适配；眼Iris/Highlight/White、颈/框保护与原det/真实半宽门不降，发根/闭眼/Joy/口型/眼白覆盖新增实际验收待做。原固定眼发试验失败继续保留，当前未有新人物准入。
 
 2026-11-16 附件语义SLIM唯一小样已执行并封存（assets-source/m2-head-attachment-slim-v1）：1343固定/3104随动的分类独审30项通过；同域同参数lean与round各20步一次，min det .223621/.206280、固定端点24.058nm/397.729nm及Float32拟烘焙门通过，但101真实截面最大半宽误差9.379861/2.638866mm仍超原2mm，两项failed-not-admissible。16.58秒/进程树采样RSS约1.01GB仅离线工具。33文件清单root逐SHA与字节数核对通过，172输入未改；无新VRM或人物准入。后验入口m2-head-attachment-readback-v1已核498记录/113713端点/55原基线，8项合成QA由root在临时目录复跑结果一致；未对失败候选运行真实55帧后验。当前继续只读诊断实际极值与23软guide的差异，并核成熟轮廓约束实现，不扫权重/迭代；八预设仍未完成。
+
+2026-11-16 实际轮廓根因已由m2-head-attachment-silhouette-diagnosis-v1确认：23guide残差82.36nm/1.540674µm，原22条carrier的101截面全部≤.704/.943mm；但完整Face_SKIN有其他边成为极值，59/5片仍超2mm。最坏两处非z筛选伪影，取消过滤不解决。root已查看最坏切面诊断图（非游戏图）。纯目标前置m2-head-surface-target-preflight-v1将原式应用全784skin点可得.825/.942mm截面，却与20个固定眼节点目标冲突；这不是候选或求解结果，不能直接采用。正在核语义支持区域与成熟约束接口；不重复提高23guide精度、不改变正式门。
+
+2026-11-16 完整目标语义复核（m2-head-surface-target-semantic-audit-v1）：20非零共点冲突均为Face_SKIN/EyeWhite、只在正式最高切面上方；固定语义优先后101逐项不变、23guide不变。正式源101切面穿过的全部600三角可定义共同363源顶点/343native目标带，无fixed重合，避免整Face材质不必要的上脸外推。全精确目标仍有tet兼容风险，不等于实际soft解失败；已研究官方b/bc原生入口可复用，下一次有界输入试验待执行。原HairBack窄审m2-male-hair-attachment-source-audit-v1核250v/408tri、90索引边界及54几何rim；完整rim到皮肤约.0085–3.408mm，但缺附着段/自由端与头皮对应标注，发根适配未通过。

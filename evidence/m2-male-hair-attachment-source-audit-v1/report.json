@@ -1,0 +1,256 @@
+{
+  "schema": "male-hair-attachment-source-audit-v1",
+  "status": "complete-geometric-rim-identifiable-semantic-attachment-labels-unresolved",
+  "requestedConfiguration": {
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "high",
+    "actualProviderAndHookIndependentlyVerified": false
+  },
+  "source": {
+    "path": "prototype/public/assets/foundation/base-male-roundtrip.vrm",
+    "sha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff"
+  },
+  "sourcePrimitive": {
+    "mesh": 0,
+    "primitive": 5,
+    "material": "M00_000_HairBack_00_HAIR",
+    "sourcePositionAccessor": 7,
+    "sourceIndexAccessor": 6
+  },
+  "findings": [
+    {
+      "finding": "Complete raw HairBack is one connected component with250 referenced vertices and408 triangles. All raw boundary vertices have degree2, forming one closed90-edge loop. No edge has more than2 incident triangles.",
+      "measured": {
+        "vertices": 250,
+        "triangles": 408,
+        "edges": 657,
+        "components": 1,
+        "componentVertexCounts": [
+          250
+        ],
+        "EulerCharacteristic": 1,
+        "boundaryEdgeCount": 90,
+        "boundaryVertexCount": 90,
+        "boundaryComponents": 1,
+        "boundaryComponentVertexCounts": [
+          90
+        ],
+        "allBoundaryDegreesTwo": true,
+        "nonmanifoldEdges": []
+      }
+    },
+    {
+      "finding": "Exact coordinate equality reveals18 duplicated-position groups.17 have differing UVs. An exact-coordinate quotient used only for diagnosis gives232 positions and one54-edge closed geometric rim. This removes coincident index seams while retaining all source IDs.",
+      "measured": {
+        "vertices": 232,
+        "triangles": 408,
+        "edges": 639,
+        "components": 1,
+        "componentVertexCounts": [
+          232
+        ],
+        "EulerCharacteristic": 1,
+        "boundaryEdgeCount": 54,
+        "boundaryVertexCount": 54,
+        "boundaryComponents": 1,
+        "boundaryComponentVertexCounts": [
+          54
+        ],
+        "allBoundaryDegreesTwo": true,
+        "nonmanifoldEdges": []
+      },
+      "geometryModified": false
+    },
+    {
+      "finding": "Every positive skin weight resolves to J_Bip_C_Head, and every vertex weight sum is exactly1. HairBack has no original morph targets. These bindings establish rigid head follow and provide no root/free-tip classification.",
+      "headIBM": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        -0.0005088170291855931,
+        -1.5453999042510986,
+        0.006267889402806759,
+        1.0
+      ]
+    },
+    {
+      "finding": "All250 hair vertices and all90 raw-boundary edge midpoints were compared against all8700 actual Body_SKIN and Face_SKIN triangles by the existing frozen closest-triangle mapper. No distance or Y threshold selected a root subset.",
+      "measured": {
+        "method": "Exact AST reuse of existing Source.bind, all actual Body_SKIN and Face_SKIN triangles, no Y/nearest subset selection.",
+        "skinTriangles": 8700,
+        "allHairVertexDistance": {
+          "minimumM": 8.525678987066462e-06,
+          "medianM": 0.004284631114850418,
+          "p95M": 0.007950891170247994,
+          "maximumM": 0.008872189005353817
+        },
+        "allRawBoundaryVertexDistance": {
+          "minimumM": 8.525678987066462e-06,
+          "medianM": 0.0018090350252748639,
+          "p95M": 0.007696585932412167,
+          "maximumM": 0.00842763939920626
+        },
+        "allRawBoundaryEdgeMidpointDistance": {
+          "minimumM": 0.00016308831599365277,
+          "medianM": 0.002098729619022534,
+          "p95M": 0.007055477142707673,
+          "maximumM": 0.007734595743389562
+        },
+        "allGeometricBoundaryCoordinateDistance": {
+          "minimumM": 8.525678987066462e-06,
+          "medianM": 0.0012251836393706653,
+          "p95M": 0.002694024988227395,
+          "maximumM": 0.0034075876536846053
+        },
+        "geometricBoundaryCoordinateCount": 54,
+        "allGeometricBoundarySourceVertexIds": [
+          7638,
+          7639,
+          7647,
+          7648,
+          7671,
+          7672,
+          7677,
+          7679,
+          7689,
+          7691,
+          7692,
+          7693,
+          7694,
+          7695,
+          7698,
+          7699,
+          7701,
+          7704,
+          7705,
+          7706,
+          7743,
+          7744,
+          7752,
+          7753,
+          7776,
+          7777,
+          7782,
+          7784,
+          7794,
+          7796,
+          7797,
+          7798,
+          7799,
+          7800,
+          7803,
+          7804,
+          7806,
+          7809,
+          7810,
+          7811,
+          7813,
+          7814,
+          7815,
+          7820,
+          7823,
+          7824,
+          7826,
+          7832,
+          7833,
+          7835,
+          7840,
+          7847,
+          7848,
+          7849,
+          7851
+        ],
+        "exactHairVertexToSkinVertexCoincidences": 0,
+        "scope": "Unsigned nearest distance only. This is not scalp annotation, attachment proof, signed penetration or continuous edge/triangle clearance."
+      }
+    },
+    {
+      "finding": "No hair vertex exactly coincides with a referenced skin vertex. The complete54-position geometric rim has source skin distances8.526um minimum,1.225mm median and3.408mm maximum. Bone weights, open-boundary membership and these unsigned distances do not encode which arcs are attached hairline or free hair ends."
+    }
+  ],
+  "answer": {
+    "completeGeometricBoundaryAvailable": true,
+    "geometricBoundaryCoordinateCount": 54,
+    "allGeometricBoundarySourceVertexCount": 55,
+    "semanticFullRootBoundaryAutomaticallyEstablished": false,
+    "missingEvidence": [
+      "Authored root-attachment versus free-edge labels for the complete geometric rim and any intended interior root region.",
+      "A versioned source-to-scalp correspondence and intended offset/orientation for the labelled attachment set.",
+      "Treatment of17 UV-split coincident groups and the remaining exact duplicate group, with preserved original source IDs.",
+      "A justified relation between geometric edges and the BLEND material visible hairline. Texture alpha was not evaluated here."
+    ],
+    "existingBuilderLimitation": "The male sidepart builder fixes lowerPreservedY1.665 in its own authored crown operation. That operation uses a height threshold for its deformation support, and supplies neither full semantic roots nor a scalp map. It cannot authorize a future complete-root attachment pass."
+  },
+  "repeatableAgentAnnotationProposal": [
+    "Start from the exact62b source SHA and all54 geometric-rim edges, preserving the55 associated original source IDs and all90 raw edges. Assign every geometric edge an explicit attachment/free-edge/unresolved label in a versioned source sidecar. Record any additional intended interior root set separately.",
+    "Have the agent inspect the full original topology/UV/material around forehead, temples, ear cutouts and nape once. Save labels as exact source index arcs plus reasons. Exact-coordinate seam groups are retained as groups rather than welded in the source.",
+    "For every labelled attachment point or edge, record an explicit skin primitive/triangle index and barycentric coordinate, original offset vector and source identities. The complete nearest-triangle observations in readback.json are proposed references for annotation, with unresolved/tied semantic choices retained. Distance ranking does not select which roots exist.",
+    "A later candidate can compare mapped hair to the same original skin triangle/barycentric correspondence and source offset along all authored attachment arcs. Record all measured changes and omissions. Tolerances need a separate justified contract, and this audit adds none.",
+    "Coverage must account for every source rim edge and any authored interior roots. An unresolved segment stays unresolved. Geometry measures and fixed-camera original/new material views and actions provide separate evidence before an attachment claim."
+  ],
+  "diagnosticImage": {
+    "path": "source-topology.png",
+    "kind": "single-CPU-source-geometry-diagnostic",
+    "inspected": true,
+    "observations": "The three projections show the full cap and one geometric rim around forehead, ear cutouts and nape. Coincident raw-index seams extend over the crown/back and are distinct from that rim.",
+    "limits": "Orthographic geometry only. The head display crop does not change the complete8700-triangle distance query. No alpha texture, lighting, game visibility or appearance acceptance is represented."
+  },
+  "limits": [
+    "The exact-coordinate quotient is a diagnostic view. Original indices, UVs, normals and geometry remain unchanged.",
+    "Unsigned point/triangle proximity does not determine signed penetration or continuous edge/triangle clearance. Vertex and edge-midpoint samples do not prove all between-sample locations.",
+    "Skin references comprise all actual source Body_SKIN/Face_SKIN triangles and have no authored scalp-region labels.",
+    "The audit establishes edge multiplicities and graph connectivity, without a global self-intersection or full manifold-vertex-link proof.",
+    "No new hair/body asset, fit, label sidecar, deformation, Blender/GPU run, normal-speed playback or visual acceptance was produced."
+  ],
+  "tools": {
+    "numpy": "2.4.2",
+    "scipy": "1.18.1",
+    "topology": "scipy.sparse.csgraph.connected_components plus exact index edge multiplicity",
+    "trimeshInstalled": false,
+    "packagesInstalledByThisAudit": false
+  },
+  "sourcePins": [
+    {
+      "path": "prototype/public/assets/foundation/base-male-roundtrip.vrm",
+      "sha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff"
+    },
+    {
+      "path": "scripts/m2-representative-batch-v2/deform.py",
+      "sha256": "9eaede97e6d4c6cb5d95259f4a009a80ecd1980f387f7ddd325dc5486cc2e8d2"
+    },
+    {
+      "path": "scripts/production/flow.py",
+      "sha256": "d9b7d1b2ceb24622a92abe1af8737da08d93f00a3e51113f5155487af789b1ba"
+    },
+    {
+      "path": "scripts/m2-male-hairstyle-v1/build.py",
+      "sha256": "5c7f35391dfab525203ef6d7a3f91f3ddb2e087099068a302324724668209e40"
+    },
+    {
+      "path": "assets-source/m2-male-hairstyle-v1/build-report.json",
+      "sha256": "44f2c7149fde798e0889ad94fde0f8bb2feb1110eea1d610da227646ec3ae649"
+    },
+    {
+      "path": "assets-source/m2-male-hairstyle-v1/fit.json",
+      "sha256": "9ebd91eb74aa13a4fae6678a86b5489c776b0eaded2e635493f5058906c04220"
+    }
+  ],
+  "artifacts": {
+    "probe.py": "08405d43ea541c636f3df84f41dc640f95aef93d77bcec3b9e3b425ebdbf6c74",
+    "readback.json": "61f57e078c97deecf310417313cfd45b1ab5b8e4ffa2f0d5602257c2e4fb24eb",
+    "source-diagnostic-arrays.npz": "f22e3d9cf32a16b2778fca8c8997c89f62b4eb23a6f0ea1b55d6f877c2e15a62",
+    "plot.py": "9f8b896bb368f79d6fae6de00f181bff59beaf96016694faedb8f2d093953fc0",
+    "source-topology.png": "4f6aad950df8828b83ff3c913e964236848ea24055fe1d4a03266ebb728ae9f0"
+  },
+  "rootAttachmentAccepted": false,
+  "runtimeAccepted": false
+}
