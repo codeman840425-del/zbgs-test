@@ -1,0 +1,63 @@
+{
+  "schema": "company-image-ownership-qa-v1",
+  "scope": "CPU Three actual company asset chain plus ownership module",
+  "status": "passed",
+  "threeVersion": "0.187.0",
+  "implementation": {
+    "files": [
+      "src/company/image-ownership.js",
+      "src/company/asset-library.js",
+      "src/company/surface-finish-render.js"
+    ],
+    "behavior": "Module-level decoded-image ownership counts are incremented for every pack, instance, and surface-finish texture. Texture dispose listeners decrement once and close only the final close-capable image. Release registers all discovered textures before disposal."
+  },
+  "sourceIdentity": {
+    "sha256": {
+      "src/company/image-ownership.js": "c69bb22bcc3c569c663582d583ab064401d42f836a17743b523f217128362c1b",
+      "src/company/asset-library.js": "4ea84322e46911ee612fe312f4db8bccf8c1825a645e5adf25fafcd397cf5de4",
+      "src/company/surface-finish-render.js": "7805843284296ae90d7f97912c3b00b47ac04a881595eef673884a384e42d908",
+      "node_modules/three/examples/jsm/loaders/GLTFLoader.js": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1",
+      "node_modules/three/src/loaders/ImageBitmapLoader.js": "8efb8bbc44e8531a95f82afb7c66f16dc9baf7f1cda060f7baa2613ac8c596f0"
+    }
+  },
+  "orphanImageAnalysis": {
+    "result": "No successful standalone ImageBitmap owner was found in the locked path. ImageBitmapLoader wraps each successful decode in a Texture before resolving, and images without a referenced texture are never requested. Parser cache cleanup still awaits texture dependencies.",
+    "evidence": [
+      "node_modules/three/examples/jsm/loaders/GLTFLoader.js:3401-3507",
+      "node_modules/three/src/loaders/ImageBitmapLoader.js:175-192",
+      "src/company/asset-library.js:120-142"
+    ]
+  },
+  "cases": [
+    {
+      "name": "one decoded image shared by multiple textures closes once at final dispose",
+      "passed": true
+    },
+    {
+      "name": "actual GLB clone survives cache eviction until its final texture owner disposes",
+      "passed": true,
+      "decodedImages": 1
+    },
+    {
+      "name": "surface-finish texture clone is registered and survives source instance release",
+      "passed": true
+    },
+    {
+      "name": "late decode after library disposal is cleaned by parser failure path",
+      "passed": true
+    },
+    {
+      "name": "post-decode validation failure releases parser-owned texture",
+      "passed": true
+    },
+    {
+      "name": "THREE.Cache enabled does not retain current embedded blob image",
+      "passed": true
+    }
+  ],
+  "limits": [
+    "CPU/Node only with a synthetic close-capable ImageBitmap stand-in",
+    "No browser or GPU renderer run",
+    "Current GLB contract uses embedded bufferView images and blob URLs"
+  ]
+}

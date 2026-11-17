@@ -1,0 +1,109 @@
+{
+  "id": "company-information-v1",
+  "version": 1,
+  "common": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "envelope": {
+      "width": 1,
+      "height": 0.7,
+      "depth": 0.05
+    },
+    "surface": {
+      "schema": "information-face-v1",
+      "width": 0.88,
+      "height": 0.56,
+      "position": [
+        0,
+        0,
+        0.031
+      ]
+    },
+    "content": {
+      "schema": "information-face-v1",
+      "width": 0.88,
+      "height": 0.56,
+      "pixels": [
+        1100,
+        700
+      ]
+    },
+    "font": {
+      "file": "assets-source/company-information-v1/NotoSansSC-VF.ttf",
+      "license": "SIL Open Font License 1.1",
+      "sourceUrl": "https://raw.githubusercontent.com/google/fonts/main/ofl/notosanssc/NotoSansSC%5Bwght%5D.ttf",
+      "licenseUrl": "https://raw.githubusercontent.com/google/fonts/main/ofl/notosanssc/OFL.txt",
+      "sha256": "a3041811a78c361b1de50f953c805e0244951c21c5bd412f7232ef0d899af0da",
+      "licenseFile": "assets-source/company-information-v1/OFL.txt",
+      "licenseSha256": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9",
+      "titleWeight": 500,
+      "bodyWeight": 400
+    },
+    "promptStandard": "Purpose: project-authored wall information board and replaceable Chinese graphic content. Specification: wall board envelope 1.00m x 0.70m x 0.05m with fixed 0.88m x 0.56m information face, and 1100 x 700 sRGB content images. Units are metres, up is +Y, forward is +Z, wall contact is the centred back. Installation: board is wall-mounted information-board, content is an information-surface child with centred origin and no blocking/use points. Budget: deterministic CPU-only BoxGeometry frames and Pillow PNG content with no network fetch. State: content visibility only, no timer. Source/export: project-authored parameters, local Noto Sans SC font, Pillow 12.1.0 and Three.js GLTFExporter/GLTFLoader readback."
+  },
+  "boards": [
+    {
+      "id": "whiteboard",
+      "label": "白板",
+      "prompt": "Continuous whiteboard face with a rounded rail frame and a lower marker shelf.",
+      "differences": {
+        "rail": 0.035,
+        "shelf": 0.018
+      }
+    },
+    {
+      "id": "notice",
+      "label": "公告板",
+      "prompt": "Notice board with layered top and bottom rails and two side clamp blocks.",
+      "differences": {
+        "rail": 0.045,
+        "clamp": 0.03
+      }
+    },
+    {
+      "id": "doorplate",
+      "label": "门牌",
+      "prompt": "Doorplate with a stepped outer surround and four corner fastener caps.",
+      "differences": {
+        "step": 0.025,
+        "cap": 0.022
+      }
+    },
+    {
+      "id": "live",
+      "label": "直播中指示板",
+      "prompt": "Live indicator board with a raised top visor, side rails and a lower status strip.",
+      "differences": {
+        "visor": 0.04,
+        "strip": 0.028
+      }
+    }
+  ],
+  "contents": [
+    {
+      "id": "company-news-cn",
+      "title": "公司公告",
+      "lines": [
+        "新季度计划",
+        "周一 09:00",
+        "请查看运营安排"
+      ],
+      "accent": "#2d756a",
+      "background": "#f4efe2",
+      "graphic": "bars"
+    },
+    {
+      "id": "company-live-cn",
+      "title": "直播中",
+      "lines": [
+        "欢迎进入演示",
+        "时间 18:30",
+        "信号稳定"
+      ],
+      "accent": "#b14c46",
+      "background": "#edf3f0",
+      "graphic": "signal"
+    }
+  ]
+}

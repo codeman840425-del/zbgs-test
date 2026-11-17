@@ -9,6 +9,7 @@ import {WALL_HEIGHT,WALL_CENTER_Y,evaluateWallVisibility,groupWallSegments,wallE
 import {applySurfaceFinish,describeSurfaceMeshes} from './surface-finish-render.js';
 import {partAngle,partOffset} from './moving-parts.js';
 import {bindClockDisplay,validatePresentationInputs} from './clock-display.js';
+import {applyInformationDisplay} from './information-display.js';
 import {inspectCompanyMotionSweep} from './placement.js';
 
 const geometryTypes={BoxGeometry:THREE.BoxGeometry,CylinderGeometry:THREE.CylinderGeometry,PlaneGeometry:THREE.PlaneGeometry,CapsuleGeometry:THREE.CapsuleGeometry,SphereGeometry:THREE.SphereGeometry};
@@ -144,6 +145,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
           }
         }
         const facility={...entry,root,parts,visual};
+        applyInformationDisplay(entry.resource,parts,entry.state);
         facility.clock=bindClockDisplay(entry.resource,parts,entry.state);
         facility.clock?.apply(presentationInputs);
         if(['wall','portal'].includes(entry.resource.mount)) {

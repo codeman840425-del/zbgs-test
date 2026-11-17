@@ -1,0 +1,86 @@
+{
+  "status": "passed-with-runtime-limitation",
+  "scope": "CPU data and contract review of information-board parent/content runtime wiring",
+  "configuration": {
+    "difficulty": "complex",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "high",
+    "actualProviderConfiguration": "not independently verified",
+    "hostHookInterception": "not independently verified"
+  },
+  "inputs": [
+    "docs/COMPANY-INFORMATION-DISPLAY-CONTRACT-v1.txt",
+    "prototype/src/company/information-display.js",
+    "prototype/src/company/information-geometry.js",
+    "prototype/src/company/document.js",
+    "prototype/src/company/appearance-contract.js",
+    "prototype/src/company/render.js",
+    "prototype/src/company/asset-library.js",
+    "prototype/src/company/information-samples.js",
+    "scripts/company-platform/qa-information-data.mjs",
+    "scripts/company-platform/qa-information-geometry.mjs",
+    "scripts/company-platform/qa-information-preview.cjs",
+    "scripts/company-platform/qa-information-handoff.cjs"
+  ],
+  "checks": [
+    {
+      "name": "Data contract covers four frame resources and two independent content resources",
+      "status": "passed",
+      "evidence": "qa-information-data.mjs: Four actual frame resources share fixed function; content is independently compatible"
+    },
+    {
+      "name": "Content replacement preserves board identity and frame replacement preserves content resource and hidden state",
+      "status": "passed",
+      "evidence": "qa-information-data.mjs: Content replacement preserves frame identity, frame replacement preserves child content and hidden state"
+    },
+    {
+      "name": "Side-wall transform composes parent yaw and content slot offset while preserving child local transform",
+      "status": "passed",
+      "evidence": "qa-information-data.mjs: Side-wall placement composes actual content position and yaw without changing child local transform"
+    },
+    {
+      "name": "Illegal content transform, duplicate slot, board/content mismatch, invalid state and missing resource reject before mutation",
+      "status": "passed",
+      "evidence": "qa-information-data.mjs: Illegal mounting, duplicate slot, incompatible frame, extra state and missing versions reject before modifying input"
+    },
+    {
+      "name": "Save pins content as ordinary resource dependency and rejects changed content bytes",
+      "status": "passed",
+      "evidence": "qa-information-data.mjs: Save pins content as ordinary dependency; changed content bytes under same version reject; parent removal removes child"
+    },
+    {
+      "name": "Synthetic geometry contract catches frame occlusion, missing back, content UV/orientation/material/image-size and duplicate-mesh failures",
+      "status": "passed",
+      "evidence": "qa-information-geometry.mjs: 15/15 checks passed"
+    },
+    {
+      "name": "Four current board GLBs pass CPU geometry readback",
+      "status": "passed",
+      "evidence": "qa-information-geometry.mjs realAssets: information-board-whiteboard, notice, doorplate and live"
+    }
+  ],
+  "fixture_review": {
+    "qa-information-preview.cjs": {
+      "status": "no-obvious-fixture-error",
+      "notes": [
+        "The two-floor fixture prefixes copied node identities and retains separate parent/content state.",
+        "The frame-choice path uses replace-resource on board nodes only when the information sample shares the current company identity, so child content remains in the document.",
+        "Bitmap ownership checks retain an external cloned instance before cache eviction and dispose that instance explicitly before asserting the final close.",
+        "Finish lifetime checks use a separate ceiling layout and retain scene image clones before cache eviction."
+      ]
+    },
+    "qa-information-handoff.cjs": {
+      "status": "no-obvious-fixture-error",
+      "notes": [
+        "The standalone package test edits the pinned save, reloads it through the package viewer, then restarts the browser context and compares the full document."
+      ]
+    }
+  },
+  "new_defects": [],
+  "runtime_limits": [
+    "No browser or GPU run was performed by this review.",
+    "The CPU geometry script defers decoding the two PNG-bearing content GLBs because Node lacks the browser image decoder. The current browser content-asset parse correction remains producer-owned and is not counted as a runtime pass here.",
+    "The library catalog and production output may be changing during integration. This report does not claim fixed-build or final source/asset identity.",
+    "No new information-specific lifecycle defect was found in the inspected ownership wiring. Existing ImageBitmap close coverage is owned by the separate lifecycle review."
+  ]
+}

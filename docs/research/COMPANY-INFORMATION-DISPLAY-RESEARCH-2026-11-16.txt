@@ -1,0 +1,93 @@
+公司平台 C1 图文信息面研究
+2026-11-16｜只读研究，未修改实现、资源、CAP/CURRENT，也未运行浏览器或 GPU。
+
+一、研究边界与分支事实
+
+本包只研究 `assets-source/company-environment-specs-v1/branches.json` 中的两个确认分支。`information-board` 是墙面安装，固定功能包络为宽 1.0 m、高 0.7 m、深 0.05 m，父级为 `room.wall`，状态为 `content-driven`。`information-board-floor` 使用相同待核尺寸，父级为 `floor.public-area`，需要独立地面安装检查。地面安装的最终尺寸和承载规格仍是 pending，不能由墙面规格推定，也不能从本包删除。
+
+四款最低外观沿墙面分支落地，分别对应白板、公告板、门牌、直播中指示牌。它们应是四个真实可替换的框体/面板资源，内容槽保持兼容。把四段不同文字预先烘进四个模型，或只调颜色、改 ID、复制同一 GLB，均不构成四款外观或可换图文证明。四款外观共享内容绘制、安装、显示状态、保存恢复和资源释放机制。地面支路复用该内容机制，但单独核验地面包络、底面接触、重心留空和父级变换，不能把它作为墙挂安装的普通外观替换。
+
+二、现有工程接缝与缺口
+
+1. 公司运行链已提供可复用的资源和文档合同。`prototype/src/company/document.js` 通过资源 `id@version` 解析设施和父子变换，`persistence.js` 的 `company-save@1` 保存完整文档，并对每个资源、模板计算内容 SHA-256。`authoring.js` 先异步预加载，再构造候选，过期事务和失败候选不会提交。信息面应沿此事务路径接入，不能在显示层直接改当前文档。
+
+2. `prototype/src/company/render.js` 已有三类可复用逻辑。设施根节点按实例身份构造，场景替换前构造完整候选，`disposeTree` 遍历释放纹理、几何和材质。内置 `display.screen` 只切换 mesh 的颜色与 emissive，不是图文内容槽。要显示文字或图片，需新增命名显示面和内容绘制绑定，不应把 `display.screen` 的 on/off 颜色机制误认成图文能力。
+
+3. `prototype/src/company/asset-library.js` 负责 GLB SHA/字节数校验、内嵌 PNG/JPEG 解码、UV 检查、异步加载取消和失败释放。它禁止外部 URI、骨骼、动画和未配置压缩扩展。信息面若采用图片内容，应使用本地或交付包内的固定文件，记录 URL、字节数和 SHA，复用该加载边界。信息内容若直接由离线配方生成 Canvas，可不新增 GLB 图片依赖，但生成配方、字体依赖和输出摘要必须进入可重建源。
+
+4. `prototype/src/company/surface-finish-render.js` 已把 GLB 的颜色纹理复制成实例材质，设置重复、偏移和旋转，并在失败时释放临时资源。复制纹理继承 GLTFLoader 载入纹理的 `colorSpace`，所以是否为 sRGB 要用实际资源和运行时检查确认，不能只凭代码中没有赋值就判定错误。信息面专用纹理仍应在生产读回和浏览器检查中明确记录颜色空间，并在实例释放时只释放该实例拥有的纹理。
+
+5. 旧的 `prototype/src/company/room.js` 已有可复用的小样例。它用 `CanvasTexture` 从注入的 canvas 生成房间标签，设为 `THREE.SRGBColorSpace`，并支持 CPU 检查注入的 canvas 工厂。该路径属于旧房间构造，`company/render.js` 当前不会读取 `resources.json` 的 `material.label` 字段，因此不能声称公司平台已经有可更换图文面。后续应抽出与旧标签相同的绘制原则，接入公司资源合同和 authoring 事务，而不是把旧标签重新命名为信息面。
+
+6. 当前监视器资源只登记 `display.screen`，运行时根据 `state.on` 改颜色和 emissive。它们可复用显示状态的验证习惯，不能复用为带文字内容的图文面。当前资源状态校验 (`moving-parts.js`) 只接受声明过的布尔或有限数字字段，不能把任意字符串正文塞进通用 `state`。图文内容需要专用内容引用字段或独立信息内容合同，并由 `document.js`、`prepareCompanyChange` 和持久化入口字段级校验。
+
+三、推荐的最小兼容生产分支
+
+建议首包只实现墙挂 `information-board`，不改变地面分支的确认状态。资源仍是静态 GLB，四个资源 ID 可为 `information-board-whiteboard`、`information-board-notice`、`information-board-doorplate`、`information-board-live`，每个版本从同一墙面安装合同派生。四者都声明米制、+Y 向上、+Z 朝前、墙面接触中心、包络 1.0×0.7×0.05 m、命名显示面 `information-surface` 和命名框体/背板节点。四款的功能签名必须一致，真实几何差异放在框体、边框、夹条、支脚或面板分层，不用四套内容逻辑。
+
+内容槽建议独立于 `resource` 的模型身份。最小字段如下，字段名可在实现时沿项目命名调整，但语义必须保留。
+
+```
+informationDisplay: {
+  kind: "information-face",
+  surfaceNode: "information-surface",
+  canvas: { width: 1024, height: 716, colorSpace: "srgb" },
+  contentSchema: "company-information-content@1"
+}
+node.information: {
+  contentRef: { id, version, sha256 },
+  displayState: "on" | "off"
+}
+```
+
+`contentRef` 指向内容清单中的一份可编辑输入和确定性输出。`displayState` 只控制显示面是否显示或发光，不改变墙体、包络、父子关系或安装身份。资源替换必须先比较安装包络、显示面方向和内容槽规格，四款墙挂资源可互换，墙挂与地面资源不互换。换框时保留实例 ID、变换和 `contentRef`，换内容时保留实例 ID、资源和安装状态。
+
+由于现行 `company-save@1` 已 pin 所有被文档引用的 resources/templates，信息内容不必强制引入新的纹理清单。更小的兼容方案是把图文面做成板体下面的独立具名 `facility` 子部件。板体资源声明固定的垂直内容槽 `surfaceId: "information-surface"`。内容资源使用新合同的 `mount: "information-surface"`，不要复用只表达水平桌面/层板承载的 `support-surface`。GLB 只含固定平面、UV 和嵌入 PNG/JPEG，内容输入由 agent 离线配方生成，随后注册为新的真实 `id@version` 资源。板体四款只替换父设施资源，内容子部件可单独 `replace-resource`，实例身份、父子关系和局部变换保留。这样现有 `persistence.js` 的 resource SHA pin、`authoring.js` 的异步 preload/过期取消、`asset-library.js` 的 GLB 图片校验与释放和独立打包都直接复用，不需要改存档信封。信息面内容不是自动经营状态，`displayState` 可作为内容子部件声明的单一布尔状态；正文或图片变化通过内容资源替换完成。
+
+该方案仍需一次明确的安装关系增量。新增 `information-surface` 合同，表达板体上垂直内容面的位置、法向、宽高、厚度和允许父子变换。它与已有水平 `support-surface` 合同分开，不能把桌面/层板的 topY、水平半尺寸或净空规则套到墙面图文面。内容子部件的完整包络、UV、朝向和遮挡必须实际落在该面内，且不声明 blocking、usePoints 或独立交互。不能用无约束 parentId 或静态偏移冒充适配。
+
+四、两个真实输入验证方案
+
+两种输入应走同一个内容槽、预加载、候选提交和保存恢复入口。输入 A 是离线文字配方，输入 B 是本地图像内容。两者都要在四个墙挂外观上切换一次，证明框体和内容是正交的。
+
+输入 A：`company-information-content@1` 的文字配方。固定 `title`、有限 `lines`、`accent`、`background`、`fontRef`、`textAlign`、`padding` 和 `layout` 字段。仅接受有限长度、有限行数、合法颜色、有限字号/边距和白名单字体引用。内容生成器在 agent 侧用确定性 canvas 绘制，输出 PNG 和标准化像素摘要，再把 PNG 嵌入一个内容子件 GLB，保存源 JSON、字体摘要、GLB 字节数和输出 SHA。第二次输入改标题、正文和强调色，沿同一入口重新生成，四款框体的尺寸、挂点和显示面节点保持不变。
+
+输入 B：本地 PNG/JPEG 图像配方。输入只包含制作工作区内的相对路径、期望宽高、裁切模式、背景填充和内容 SHA，不接受网络 URL、data URL 或隐式浏览器缓存。agent 生成器等待图像解码，再按固定尺寸绘制到受控 canvas，校验像素尺寸、颜色空间和输出摘要，把结果嵌入内容子件 GLB。第二次输入替换另一份本地图像，保持同一显示面和墙挂资源。图像源、许可、字节数、SHA 和生成/裁切参数随内容资源源文件保存，浏览器运行阶段只加载已经 pin 的 GLB。
+
+两种输入的最小验收顺序如下。先加载四个真实 GLB，检查四个 `information-surface` 节点和固定墙面包络。再分别输入 A、B，观察面板内容确实改变而框体身份、墙面挂接和显示朝向不变。保存后关闭页面并在独立交付目录恢复，比较公司 ID、实例 ID、资源 `id@version`、内容 `id@version@sha256` 和显示状态。故意提交缺少字体、坏图像、错误 SHA、越界尺寸和外部 URL，必须在候选提交前失败并保留旧场景。
+
+五、Three.js 官方实现依据与具体接法
+
+1. 官方 `CanvasTexture` 会在构造时将 `needsUpdate` 置为 true，适合由 canvas 直接提供图文内容。内容重绘可复用同一个 `CanvasTexture`，完成绘制后设置 `needsUpdate = true`，避免每次文字输入都新建材质。源文档：https://threejs.org/docs/pages/CanvasTexture.html 。
+
+2. Three `Texture.colorSpace` 默认是 `NoColorSpace`，颜色纹理必须最终被确认标注为 `SRGBColorSpace`。本项目预览已设置 `renderer.outputColorSpace = THREE.SRGBColorSpace`，因此文字背景、PNG/JPEG 信息面颜色应在 GLB 读回和运行检查中确认 sRGB，法线/粗糙度等非颜色数据才保留 `NoColorSpace`。源文档：https://threejs.org/docs/pages/Texture.html 与 https://threejs.org/manual/pages/color-management.html 。
+
+3. Three 的 `TextureLoader`/`ImageLoader` 支持 `loadAsync`，纹理图片异步完成前不会得到最终图像。若需要一次性确认全部内容，再把资源加入 `LoadingManager`，等待所有输入完成后才构造场景候选。官方手册说明 `TextureLoader.load` 的图像异步到达和 `LoadingManager` 等待方式，见 https://threejs.org/manual/pages/textures.html 。现有 `authoring.js` 的 generation token、`asset-library.js` 的 AbortController 和失败保旧逻辑可直接作为事务外壳。
+
+4. Three `ImageBitmapLoader` 适合异步、资源效率较高的图像准备，但官方特别说明 `Texture.flipY` 和 `premultiplyAlpha` 对 ImageBitmap 不生效，需在 `setOptions` 时配置，且 `ImageBitmap.close()` 不会由 `Texture.dispose()` 自动调用。为减少交付分支，首包推荐 `ImageLoader.loadAsync` 或先加载后绘制到受控 canvas。若后续采用 ImageBitmap，必须把 `close()` 纳入拥有者释放协议。源文档：https://threejs.org/docs/pages/ImageBitmapLoader.html 。
+
+5. 2D 图文不需要 Three `FontLoader`。`FontLoader` 适用于把 typeface JSON 解析成 3D 字体形状，需显式导入 addon，并且同样是异步加载。若未来要做凸起立体字，字体应作为独立许可明确、SHA 固定的内容依赖，不能让系统字体决定存档结果。源文档：https://threejs.org/docs/pages/FontLoader.html 。首包采用 canvas 文字纹理更符合 1.0×0.7 m 平面内容槽，也能与旧 `room.js` 的注入 canvas 检查接缝。
+
+6. Three 不会自动释放用户创建的几何、材质和纹理。官方要求分别调用 `BufferGeometry.dispose()`、`Material.dispose()`、`Texture.dispose()`，移除 mesh 也不会自动释放这些对象。当前 `render.js`、`asset-library.js` 和 `surface-finish-render.js` 已有遍历释放实现，信息面必须把内容纹理、材质和临时 canvas/image owner 加入同一生命周期。源文档：https://threejs.org/manual/pages/how-to-dispose-of-objects.html 。
+
+六、两种内容接入方案对比
+
+方案 A 是独立内容子部件 GLB，方案 B 是独立 `texture-ref` 清单加运行时纹理加载。方案 A 的优点是完整复用现有资源 `id@version`、GLB SHA、内嵌图片、异步预加载、save pin、失败保旧和交付打包，并在新增的垂直 `information-surface` 安装合同上复用父子校验。内容与框体可分别替换，四款框体不需要各烘一份正文。代价是每次内容变化都要由 agent 生成、登记并重新打包一个小 GLB，资源目录会增长，且需要新增内容子部件的承载关系和父子变换检查。对首包两个输入，这个成本是可控的，且能保留离线重建事实。
+
+方案 B 可让浏览器直接把文字或 PNG 绘制到 CanvasTexture，内容字段更灵活，输入修改不必生成 GLB。代价是必须新增内容清单、异步图片/字体依赖、save pin 或显式存档版本、Canvas/字体回退规则和纹理生命周期。ImageBitmap 路径还要求应用层调用 `ImageBitmap.close()`，并处理共享 image 的所有权。当前资源库只释放 Texture/Material/Geometry，不能据 `renderer.info.memory` 或 texture 数量下降就宣称 ImageBitmap CPU 内存已释放。方案 B 适合后续大量内容快速变更，但首包会扩大共享合同和离线依赖面。
+
+建议首包选方案 A。它满足真实可换图文、四款框体与内容解耦、两输入复用同一生产链及现有资源版本绑定，同时把纹理释放责任留在已经有失败/取消/释放证据的 GLB 资源库中。方案 B 保留为后续需要运行时高频正文更新时的有界增量，不能在本包把它的未实现能力写成已完成。
+
+七、离线许可、重建与风险
+
+四个框体可沿现有 project-authored 参数化 GLB 流程制作，登记源参数、生成器、Three 版本、GLB SHA、字节数、许可和固定安装合同，不引入外部商品下载。文字输入使用项目保存的配方。字体不应依赖 `Microsoft YaHei` 或其他本机字体名称，因为系统字体版本会造成像素和换行漂移。若文字必须跨机器一致，应随内容源提供许可明确的本地字体文件和 SHA，或由 agent 离线生成 PNG 并将 PNG 与源配方一起交付。浏览器仅负责读取已 pin 的内容，不临时访问网络字体或图片。
+
+主要风险有四类。第一，当前 generic `state` 不允许字符串，直接把正文写入会被状态校验拒绝或绕过合同，因此本包将内容作为版本化子资源替换，正文保留在离线生产配方中，不放入 generic state。第二，GLTFLoader 能校验内嵌图片，但当前公司渲染器没有图文内容绑定，旧 `room.js` 的 `label` 不能被假定为新链路。第三，Canvas/ImageBitmap 的颜色空间、Y 翻转和字体回退不一致会导致同一存档观感漂移，必须固定绘制尺寸、颜色空间、字体摘要和裁切规则。第四，切层或替换期间的迟到图像加载可能覆盖新候选，必须沿 authoring generation token 检查，过期加载释放其纹理并保留当前场景。
+
+八、后续实现文件接缝与最小验收
+
+实现时只需沿现有模块补接，不另建通用编排器。资源合同和四款登记落在 `assets-source/company-environment-specs-v1` 对应生产输入、`scripts/company-platform` 生成器和 `prototype/src/company/library-catalog.json`。板体资源增加固定垂直 informationSurface，内容资源沿已有 GLB、材质槽、`asset-library` 和 `replace-resource` 入口登记。父子安装和内容专用校验接在 `prototype/src/company/document.js`、`support-data.js` 或信息面专用合同模块。GLB 图片加载、颜色空间、显示面材质和候选释放接在 `prototype/src/company/render.js`，异步内容依赖由 `authoring.js` 统一预加载和取消。由于内容已经是 resource pin，不应另建 texture catalog 或绕过现有 save/import 的失败保旧。预览入口只提供四款切换、两个已登记内容输入、开关和限制说明，不把字体或图像专业参数暴露成复杂人工编辑器。
+
+最小生产出口是四个墙挂板体 GLB 的真实几何差异、至少两个内容子部件 GLB 输入的实际替换、一次参数或配方修改后的重新导出/登记、四款框体与内容正交替换、显示状态、保存关闭恢复、缺依赖失败保旧和独立交付目录离线重建。重复替换和切层时必须检查实际 GLB 纹理实例、材质、几何及解析缓存的释放，若采用 ImageBitmap 则另查 `close()` 所有权，不能只看 renderer 纹理计数。地面 `information-board-floor` 作为下一包独立安装分支保留，不能用墙挂证据替代地面接触或地面留空检查。
+
+官方来源均为 Three.js 官方文档或官方仓库页面，Three.js 本身为 MIT 许可。该许可只覆盖 Three.js 代码，信息面字体、PNG/JPEG、生成脚本和外部参考素材仍须逐项记录其自身许可。

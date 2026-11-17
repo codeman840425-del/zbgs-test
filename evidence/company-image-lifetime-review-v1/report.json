@@ -1,0 +1,162 @@
+{
+  "schema": "company-image-lifetime-review-v1",
+  "reviewedAt": "2026-11-17T01:45:15.3278117Z",
+  "scope": {
+    "workspace": "F:/gamemake-company-platform-c1",
+    "mode": "read-only CPU/Node source review",
+    "gpuOrBrowserRun": false,
+    "implementationChanged": false,
+    "baseline": "source18880ef4/build2dd context was not rerun"
+  },
+  "sourceIdentity": {
+    "gitHead": "b08270ff04b3cface1009bf8cbfe3f1641a0fb5a",
+    "threeVersion": "0.187.0",
+    "sha256": {
+      "prototype/src/company/asset-library.js": "8f9c092f1869794a92679c81f410243dd1cb4b4b9710073819902238766c18f1",
+      "prototype/src/company/authoring.js": "01ca258ca73600ba09a46909131d1b77f4b6b17948987069cd79cbddc1d98b7b",
+      "prototype/src/company/render.js": "49d3853264c83238db177a2435beb0d6ea7b1828feda89e055a4cfe74232fee1",
+      "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1",
+      "prototype/node_modules/three/src/loaders/ImageBitmapLoader.js": "8efb8bbc44e8531a95f82afb7c66f16dc9baf7f1cda060f7baa2613ac8c596f0",
+      "prototype/node_modules/three/src/textures/Texture.js": "b84dfe7dfd1a69565e3dff3e7ff178faed642e5a4a2371c9204422bdd9f5b461",
+      "prototype/node_modules/three/src/textures/TextureSource.js": "5e8ddf1c5b1df1378260251bd19b0a2a3cc2307fe5035da89a55ec74962cc0c5"
+    }
+  },
+  "findings": [
+    {
+      "id": "loader-selection",
+      "severity": "fact",
+      "result": "GLTFLoader selects ImageBitmapLoader when createImageBitmap exists and TextureLoader otherwise.",
+      "evidence": [
+        "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js:80-82",
+        "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js:2686-2720"
+      ],
+      "nodeProbe": {
+        "withoutCreateImageBitmap": "TextureLoader",
+        "withCreateImageBitmapStub": "ImageBitmapLoader",
+        "parserCacheOption": "default"
+      }
+    },
+    {
+      "id": "shared-decoded-image",
+      "severity": "high",
+      "result": "The current release path disposes Three textures but never closes ImageBitmap data. Texture.dispose only dispatches an event. Texture.clone copies the same TextureSource, and cloneInstance deliberately creates a new TextureSource whose data is the same decoded image.",
+      "evidence": [
+        "prototype/src/company/asset-library.js:111-118",
+        "prototype/src/company/asset-library.js:206-238",
+        "prototype/src/company/render.js:16-26",
+        "prototype/node_modules/three/src/textures/Texture.js:483-500",
+        "prototype/node_modules/three/src/textures/Texture.js:665-685",
+        "prototype/node_modules/three/src/textures/TextureSource.js:49-53"
+      ],
+      "impact": "ImageBitmap-backed assets can retain decoded CPU resources for the life of the cache or until browser process cleanup. texture count or GPU disposal is not evidence that the bitmap was closed."
+    },
+    {
+      "id": "cache-owner-boundary",
+      "severity": "high",
+      "result": "A future close-on-texture-dispose implementation must count every texture that references one decoded image. The pack texture and each clone texture are separate Texture owners while sharing image data.",
+      "evidence": [
+        "prototype/src/company/asset-library.js:208-216",
+        "prototype/src/company/render.js:103-109",
+        "prototype/src/company/render.js:225-232",
+        "prototype/src/company/contact-resources.js:63-76"
+      ],
+      "impact": "Closing when the cache pack is evicted would invalidate a live scene instance or a pending logical contact capture. Closing only when the last tracked texture is disposed preserves all consumers."
+    },
+    {
+      "id": "failure-and-late-load",
+      "severity": "medium",
+      "result": "Parser failure cleanup waits for fulfilled and rejected parser dependencies, then collects and releases scenes, materials, geometries and textures. retainOnly aborts the outer fetch and releases an already assigned pack. A parse that is still in flight is cleaned by the later load catch after the entry identity check fails. Library disposal follows the same catch path for a late completion.",
+      "evidence": [
+        "prototype/src/company/asset-library.js:120-142",
+        "prototype/src/company/asset-library.js:246-299",
+        "prototype/src/company/asset-library.js:325-338"
+      ],
+      "impact": "The proposed tracker must register all textures before each release, be idempotent when a pack is released and then parser cleanup runs, and register a clone before it can be returned to render or contact code."
+    },
+    {
+      "id": "authoring-and-render-ownership",
+      "severity": "medium",
+      "result": "Authoring retainOnly keeps current scene resources and pending preload resources. render.disposeTree releases textures in visible scene roots, prepared candidates, and contact-capture roots. authoring.dispose disposes the scene but does not dispose the shared asset library, so the library remains the cache owner until retainOnly or library.dispose.",
+      "evidence": [
+        "prototype/src/company/authoring.js:18-35",
+        "prototype/src/company/authoring.js:79-100",
+        "prototype/src/company/render.js:16-26",
+        "prototype/src/company/render.js:245-275",
+        "prototype/src/company/render.js:383-396"
+      ]
+    },
+    {
+      "id": "three-cache-boundary",
+      "severity": "fact",
+      "result": "THREE.Cache is disabled by default. This project rejects external image URIs and requires GLB images to use bufferView. GLTFLoader converts those bufferViews to blob URLs. ImageBitmapLoader does not add blob URL keys to THREE.Cache even when Cache.enabled is true, so current embedded-image assets do not acquire a global image-bitmap cache owner. An external URI policy change would change this boundary.",
+      "evidence": [
+        "prototype/node_modules/three/src/loaders/Cache.js:7-16",
+        "prototype/node_modules/three/src/loaders/Cache.js:34-42",
+        "prototype/node_modules/three/src/loaders/Cache.js:97-105",
+        "prototype/node_modules/three/src/loaders/ImageBitmapLoader.js:121-206",
+        "prototype/src/company/asset-library.js:74-78",
+        "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js:3437-3445"
+      ],
+      "nodeProbe": {
+        "Cache.enabled": true,
+        "image-bitmap:blob:synthetic": "not stored",
+        "image-bitmap:https://example.test/x": "stored"
+      }
+    }
+  ],
+  "lifecycleMatrix": [
+    {
+      "case": "successful preload",
+      "currentOwner": "entries[key].pack textures",
+      "currentClose": "none",
+      "requiredAfterFix": "register every pack texture before the pack can be released"
+    },
+    {
+      "case": "instantiate and live scene",
+      "currentOwner": "pack textures plus clone textures returned to render",
+      "currentClose": "none",
+      "requiredAfterFix": "clone texture registration increments the shared image owner count"
+    },
+    {
+      "case": "retainOnly or library.dispose with a live scene/contact",
+      "currentOwner": "pack is released while clone/contact roots may remain",
+      "currentClose": "none",
+      "requiredAfterFix": "pack release decrements only pack owners and does not close until all clone owners dispose"
+    },
+    {
+      "case": "scene, prepared candidate, or logical contact disposal",
+      "currentOwner": "render-owned clone texture",
+      "currentClose": "none",
+      "requiredAfterFix": "dispose listener decrements once per texture and closes only the last ImageBitmap owner"
+    },
+    {
+      "case": "parser failure or late completion after retainOnly/dispose",
+      "currentOwner": "parser cache promises and/or returned pack until catch cleanup",
+      "currentClose": "none",
+      "requiredAfterFix": "await dependencies, register all discovered textures before dispose, and tolerate repeated release calls"
+    }
+  ],
+  "minimalFixRecommendation": {
+    "status": "recommendation only; not implemented",
+    "steps": [
+      "Add module-level WeakMap<ImageBitmap, number> plus WeakSet<Texture> tracking in asset-library.js.",
+      "Register a texture once. Capture its current image and attach a dispose listener. Decrement the image count once, and call image.close() only when the count reaches zero and close is callable.",
+      "Register every texture in a parsed pack before assigning it to an entry or allowing release. In release and releaseFailedParser, collect/register all owned textures before calling any texture.dispose().",
+      "Register each clone texture immediately after its TextureSource is assigned and before returning the clone root. This covers visible facilities and logical contact captures.",
+      "Leave non-ImageBitmap images alone. Do not infer bitmap release from renderer.info texture counts or from Texture.dispose alone.",
+      "Keep the current embedded-bufferView contract or add an explicit global Cache owner policy before accepting external image URIs."
+    ]
+  },
+  "acceptancePlan": [
+    "CPU/Node unit fixture with one synthetic close-capable image object shared by two pack textures and two clone textures. Evict pack first and assert close count remains zero. Dispose clones one by one and assert close count becomes exactly one after the final owner.",
+    "Repeat releasePack and releaseFailedParser on the same texture objects and assert no second close and no thrown error.",
+    "Exercise parser rejection after texture dependency fulfillment and a late completion after retainOnly or library.dispose. Assert all discovered textures are registered before release and close exactly once per decoded image.",
+    "Exercise authoring pending preload and contact capture. Assert retainOnly does not close the image while the pending or captured clone is live, and that final contact release closes it.",
+    "Run the fixture with THREE.Cache.enabled false and true. For the current GLB contract assert no image-bitmap:blob cache key is created. If external URI loading is ever enabled, add explicit Cache ownership and clear/retention assertions before release is accepted."
+  ],
+  "limitations": [
+    "No browser or GPU run was performed, so actual platform ImageBitmap allocation and renderer upload behavior remain unmeasured.",
+    "No implementation was changed and no claim of repair or visual acceptance is made.",
+    "The report does not treat a texture count as evidence of ImageBitmap closure."
+  ]
+}

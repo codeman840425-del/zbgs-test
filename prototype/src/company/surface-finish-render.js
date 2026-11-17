@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import {CompanyError} from './document.js';
+import {trackTexture} from './image-ownership.js';
 
 function releaseTree(root) {
   const geometries=new Set(),materials=new Set(),textures=new Set();
@@ -29,6 +30,7 @@ function ownedFinishMaterial(finish,assetLibrary) {
       if(!textures.has(texture)) {
         const copy=texture.clone();
         copy.source=new THREE.TextureSource(texture.image);
+        trackTexture(copy);
         copy.wrapS=THREE.RepeatWrapping;copy.wrapT=THREE.RepeatWrapping;
         copy.offset.set(0,0);copy.center.set(0,0);
         copy.repeat.set(1/finish.tileMeters[0],1/finish.tileMeters[1]);

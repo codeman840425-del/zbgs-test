@@ -1,0 +1,51 @@
+{
+  "id": "information-board-live",
+  "displayName": "直播中指示板",
+  "version": 1,
+  "category": "decor",
+  "mountRole": "information-board",
+  "productionBranch": "information-board",
+  "mount": "wall",
+  "mounting": {
+    "origin": "center",
+    "width": 1,
+    "height": 0.7,
+    "depth": 0.05
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Wall back centre",
+    "scale": "Identity only"
+  },
+  "informationSurface": {
+    "schema": "information-face-v1",
+    "width": 0.88,
+    "height": 0.56,
+    "position": [
+      0,
+      0,
+      0.031
+    ]
+  },
+  "informationNodes": {
+    "back": "information-back"
+  },
+  "stateDefaults": {},
+  "usePoints": [],
+  "provenance": {
+    "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+    "prompt": "Purpose: project-authored wall information board and replaceable Chinese graphic content. Specification: wall board envelope 1.00m x 0.70m x 0.05m with fixed 0.88m x 0.56m information face, and 1100 x 700 sRGB content images. Units are metres, up is +Y, forward is +Z, wall contact is the centred back. Installation: board is wall-mounted information-board, content is an information-surface child with centred origin and no blocking/use points. Budget: deterministic CPU-only BoxGeometry frames and Pillow PNG content with no network fetch. State: content visibility only, no timer. Source/export: project-authored parameters, local Noto Sans SC font, Pillow 12.1.0 and Three.js GLTFExporter/GLTFLoader readback. Frame difference: Live indicator board with a raised top visor, side rails and a lower status strip.",
+    "sourceParameters": "assets-source/company-information-v1/parameters.json",
+    "sourceParametersSha256": "cc696fe8a59028dae9da6d4bdcaab13d25ef3f6dd33c003ce93cb199dd040e2f",
+    "generator": "scripts/company-platform/build-information.mjs",
+    "generatorSha256": "8dc2eb184d8f8900d6c2b4fb6a6fd8829501bb2e9ad384295277fa2d122c136e"
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/information-v1/boards/live/v1/model.glb",
+    "sha256": "067df309bcfbf882364acc788bb3b1a5dce1a8956ae8f18792593185ad6dbf13",
+    "bytes": 9736
+  }
+}

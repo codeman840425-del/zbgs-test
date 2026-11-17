@@ -8,6 +8,9 @@ import {validateMovingPartGeometry} from './moving-part-geometry.js';
 import {validateSlidingPartGeometry} from './sliding-part-geometry.js';
 import {validateClockResource} from './clock-display.js';
 import {validateClockGeometry} from './clock-geometry.js';
+import {validateInformationResource} from './information-display.js';
+import {validateInformationGeometry} from './information-geometry.js';
+import {trackTexture,trackTextures} from './image-ownership.js';
 
 const compressionExtensions = new Set([
   'KHR_draco_mesh_compression', 'EXT_meshopt_compression',
@@ -24,6 +27,7 @@ function describe(resource) {
   validateSupportResource(resource, (code, location, message) => { throw error(code, location, message); }, path);
   validateMovingResource(resource, (code, location, message) => { throw error(code, location, message); }, path);
   validateClockResource(resource, (code, location, message) => { throw error(code, location, message); }, path);
+  validateInformationResource(resource, (code, location, message) => { throw error(code, location, message); }, path);
   const asset = resource.asset;
   if (!asset || asset.format !== 'glb' || typeof asset.url !== 'string' || !asset.url.trim() ||
       !/^[a-fA-F0-9]{64}$/.test(asset.sha256 || '') || !Number.isSafeInteger(asset.bytes) || asset.bytes < 20)
@@ -109,12 +113,18 @@ function collect(value, owned) {
 }
 function ownedResources() { return {geometries: new Set(), materials: new Set(), textures: new Set()}; }
 function release(owned) {
+  // Register before the first dispose event. Parser cleanup and retainOnly can
+  // discover the same texture more than once, so registration is idempotent.
+  trackTextures(owned.textures);
   for (const texture of owned.textures) texture.dispose();
   for (const material of owned.materials) material.dispose();
   for (const geometry of owned.geometries) geometry.dispose();
 }
 function releasePack(pack) {
   const owned = ownedResources(); collect(pack.scenes, owned); release(owned);
+}
+function trackPack(pack) {
+  const owned = ownedResources(); collect(pack?.scenes, owned); trackTextures(owned.textures);
 }
 
 // Failed GLTF parsing can leave fulfilled dependencies outside the returned scene.
@@ -144,6 +154,7 @@ async function releaseFailedParser(parser, json, pack) {
 function validateResource(pack, description) {
   pack.scene.updateMatrixWorld(true);
   validateClockGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
+  validateInformationGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateSupportGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   const movingGeometry=description.resource.movingParts?.[0]?.kind==='slide'?validateSlidingPartGeometry:validateMovingPartGeometry;
   movingGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
@@ -163,7 +174,7 @@ function validateResource(pack, description) {
       throw error('asset-footprint-mismatch', `${description.path}.footprint`, 'Declared blocking footprint must enclose the default scene XZ bounds within 1mm');
   }
   if(description.mounting) {
-    const s=description.mounting,b=new THREE.Box3().setFromObject(pack.scene),wall=['wall','portal'].includes(description.mount);
+    const s=description.mounting,b=new THREE.Box3().setFromObject(pack.scene),wall=['wall','portal','information-surface'].includes(description.mount);
     const lo=wall&&s.origin==='center'?-s.height/2:0;
     if(![s.width,s.height,s.depth].every(v=>Number.isFinite(v)&&v>0)||
       b.min.x < -s.width/2-.001||b.max.x > s.width/2+.001||b.min.y<lo-.001||b.max.y>lo+s.height+.001||
@@ -212,6 +223,7 @@ function cloneInstance(pack) {
       // remain shared read-only; Texture and Source state are instance-owned.
       next.source = new THREE.TextureSource(image?.data && ArrayBuffer.isView(image.data)
         ? {...image, data: image.data.slice()} : image);
+      trackTexture(next);
       textures.set(texture, next); owned.textures.add(next);
     }
     return textures.get(texture);
@@ -267,7 +279,7 @@ export function createCompanyAssetLibrary({fetchImpl = globalThis.fetch} = {}) {
       });
       const loader = new GLTFLoader(manager);
       loader.register(value => { parser = value; return {name: 'CompanyAssetOwnership'}; });
-      pack = await loader.parseAsync(bytes, ''); pack.json = json;
+      pack = await loader.parseAsync(bytes, ''); pack.json = json; trackPack(pack);
       await validateTextures(pack, parser, textureFailures, description.path);
       let meshes = 0;
       for (const scene of pack.scenes) {

@@ -1,0 +1,66 @@
+{
+  "id": "information-content-company-news-cn",
+  "displayName": "公司公告",
+  "version": 1,
+  "category": "decor",
+  "mountRole": "information-content",
+  "mount": "information-surface",
+  "mounting": {
+    "origin": "center",
+    "width": 0.88,
+    "height": 0.56,
+    "depth": 0.001
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Surface centre",
+    "scale": "Identity only"
+  },
+  "informationContent": {
+    "schema": "information-face-v1",
+    "width": 0.88,
+    "height": 0.56,
+    "pixels": [
+      1100,
+      700
+    ]
+  },
+  "informationNodes": {
+    "face": "information-face"
+  },
+  "stateDefaults": {
+    "visible": true
+  },
+  "stateSchema": {
+    "visible": {
+      "type": "boolean"
+    }
+  },
+  "stateSemantics": {
+    "visible": "information-content-visible"
+  },
+  "usePoints": [],
+  "provenance": {
+    "license": "Project-authored content recipe and PNG. Noto Sans SC is bundled under SIL Open Font License 1.1.",
+    "prompt": "Purpose: project-authored wall information board and replaceable Chinese graphic content. Specification: wall board envelope 1.00m x 0.70m x 0.05m with fixed 0.88m x 0.56m information face, and 1100 x 700 sRGB content images. Units are metres, up is +Y, forward is +Z, wall contact is the centred back. Installation: board is wall-mounted information-board, content is an information-surface child with centred origin and no blocking/use points. Budget: deterministic CPU-only BoxGeometry frames and Pillow PNG content with no network fetch. State: content visibility only, no timer. Source/export: project-authored parameters, local Noto Sans SC font, Pillow 12.1.0 and Three.js GLTFExporter/GLTFLoader readback. Content recipe: 公司公告",
+    "sourceParameters": "assets-source/company-information-v1/parameters.json",
+    "sourceParametersSha256": "cc696fe8a59028dae9da6d4bdcaab13d25ef3f6dd33c003ce93cb199dd040e2f",
+    "generator": "scripts/company-platform/build-information.mjs",
+    "generatorSha256": "8dc2eb184d8f8900d6c2b4fb6a6fd8829501bb2e9ad384295277fa2d122c136e",
+    "contentHelper": "assets-source/company-information-v1/generate-content.py",
+    "fontFile": "assets-source/company-information-v1/NotoSansSC-VF.ttf",
+    "fontSourceUrl": "https://fonts.google.com/specimen/Noto+Sans+SC",
+    "fontLicense": "SIL Open Font License 1.1",
+    "fontSha256": "763146584cf0710223441356b4395e279021b0806c196614377a7a0174ae074a",
+    "contentPngSha256": "9f9bf30170322e84602d40f2457c580ba41d35d9c82a96a30b7d5542f19b2fa6",
+    "contentPngBytes": 20881
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/information-v1/content/company-news-cn/v1/model.glb",
+    "sha256": "392e145f9dee3ebde9f74e523b736304f374d0379a05d112d9fde6502e230bdf",
+    "bytes": 22136
+  }
+}

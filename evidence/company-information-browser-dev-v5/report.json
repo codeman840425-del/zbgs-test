@@ -1,0 +1,183 @@
+{
+  "build": "16b0d98175f5",
+  "status": "failed",
+  "checks": [
+    {
+      "name": "Four real frames each accept both independent contents and survive separate browser restart",
+      "passed": true,
+      "result": [
+        {
+          "index": 0,
+          "resource": {
+            "id": "information-content-company-news-cn",
+            "version": 1
+          },
+          "visible": true,
+          "pixelChecksum": 545621804
+        },
+        {
+          "index": 0,
+          "resource": {
+            "id": "information-content-company-live-cn",
+            "version": 1
+          },
+          "visible": true,
+          "pixelChecksum": 3003585400
+        },
+        {
+          "index": 1,
+          "resource": {
+            "id": "information-content-company-news-cn",
+            "version": 1
+          },
+          "visible": true,
+          "pixelChecksum": 545621804
+        },
+        {
+          "index": 1,
+          "resource": {
+            "id": "information-content-company-live-cn",
+            "version": 1
+          },
+          "visible": true,
+          "pixelChecksum": 3003585400
+        },
+        {
+          "index": 2,
+          "resource": {
+            "id": "information-content-company-news-cn",
+            "version": 1
+          },
+          "visible": true,
+          "pixelChecksum": 545621804
+        },
+        {
+          "index": 2,
+          "resource": {
+            "id": "information-content-company-live-cn",
+            "version": 1
+          },
+          "visible": true,
+          "pixelChecksum": 3003585400
+        },
+        {
+          "index": 3,
+          "resource": {
+            "id": "information-content-company-news-cn",
+            "version": 1
+          },
+          "visible": true,
+          "pixelChecksum": 545621804
+        },
+        {
+          "index": 3,
+          "resource": {
+            "id": "information-content-company-live-cn",
+            "version": 1
+          },
+          "visible": true,
+          "pixelChecksum": 3003585400
+        }
+      ]
+    },
+    {
+      "name": "Actual preview frame choice preserves selected content; hide is isolated and persists",
+      "passed": true,
+      "result": {
+        "content": {
+          "id": "information-content-company-live-cn",
+          "version": 1
+        },
+        "isolated": true
+      }
+    },
+    {
+      "name": "Side wall parent movement, view cutaway and two-floor restore keep content identity and exact mount",
+      "passed": true,
+      "result": {
+        "floors": 2,
+        "sideWorld": [
+          2.220446049250313e-16,
+          0,
+          -1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          2.220446049250313e-16,
+          0,
+          -3.3689999999999998,
+          1.7,
+          -0.8,
+          1
+        ]
+      }
+    },
+    {
+      "name": "Bad install, invalid state, missing face and content network failure preserve scene and saved bytes",
+      "passed": true,
+      "result": {
+        "bad": {
+          "codes": [
+            "invalid-information-fit",
+            "invalid-device-state",
+            "invalid-information-contract"
+          ],
+          "unchanged": true
+        },
+        "fetch": {
+          "code": "asset-fetch-failed",
+          "unchanged": true
+        }
+      }
+    },
+    {
+      "name": "Actual missing mesh and corrupt embedded image fail after download without committing",
+      "passed": true,
+      "result": [
+        {
+          "kind": "missing-face",
+          "code": "information-mapping",
+          "unchanged": true
+        },
+        {
+          "kind": "bad-png",
+          "code": "asset-texture-load-failed",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "name": "Actual decoded bitmaps remain valid until the last external instance releases them",
+      "passed": true,
+      "result": {
+        "decoded": 8,
+        "lastImageWidth": 0,
+        "closes": 1
+      }
+    },
+    {
+      "name": "Existing wall floor and ceiling finish clones remain valid after cache eviction and close on final release",
+      "passed": true,
+      "result": {
+        "finishImages": 12,
+        "allClosedOnce": true
+      }
+    },
+    {
+      "name": "Unload removes content rendering and retained assets",
+      "passed": true,
+      "result": {
+        "cachedAssets": 1,
+        "loadedAssets": 1
+      }
+    }
+  ],
+  "limits": [
+    "Software rendering, not ordinary-PC performance or role/human final acceptance"
+  ],
+  "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   'scene-disposed at company: Scene has been disposed'\n+ ]\n- []\n\n    at F:\\gamemake-company-platform-c1\\scripts\\company-platform\\qa-information-preview.cjs:118:9"
+}

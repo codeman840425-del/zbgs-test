@@ -1,0 +1,224 @@
+{
+  "status": "passed",
+  "generatedAt": "2026-11-17T02:25:57.019Z",
+  "configuration": {
+    "difficulty": "complex",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "high",
+    "actualProviderConfiguration": "not independently verified",
+    "hostHookInterception": "not independently verified"
+  },
+  "api": "validateInformationGeometry(root, resource, fail)",
+  "checks": [
+    {
+      "name": "information board back and visible slot pass",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "kind": "board",
+        "back": "information-back",
+        "slot": [
+          0.88,
+          0.56
+        ]
+      }
+    },
+    {
+      "name": "information content plane and texture pass",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "kind": "content",
+        "face": "information-face",
+        "pixels": [
+          1100,
+          700
+        ]
+      }
+    },
+    {
+      "name": "unrelated resource is ignored",
+      "passed": true,
+      "observed": {
+        "checked": false
+      }
+    },
+    {
+      "name": "wrong back geometry is rejected",
+      "passed": true,
+      "observed": {
+        "code": "information-back-geometry",
+        "path": "information-board.informationNodes.back",
+        "message": "Information back must match the .9 x .58 x .02 centered solid rectangle"
+      }
+    },
+    {
+      "name": "missing back face is rejected",
+      "passed": true,
+      "observed": {
+        "code": "information-back-geometry",
+        "path": "information-board.informationNodes.back",
+        "message": "Information back must expose six complete outward solid faces"
+      }
+    },
+    {
+      "name": "front frame occlusion is rejected",
+      "passed": true,
+      "observed": {
+        "code": "information-surface-occluded",
+        "path": "information-board.informationSurface",
+        "message": "Frame geometry projects into the required information rectangle"
+      }
+    },
+    {
+      "name": "nonintersecting collinear frame edge remains allowed",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "kind": "board",
+        "back": "information-back",
+        "slot": [
+          0.88,
+          0.56
+        ]
+      }
+    },
+    {
+      "name": "tilted frame triangle crossing content plane is rejected",
+      "passed": true,
+      "observed": {
+        "code": "information-surface-occluded",
+        "path": "information-board.informationSurface",
+        "message": "Frame geometry projects into the required information rectangle"
+      }
+    },
+    {
+      "name": "duplicate back mapping is rejected",
+      "passed": true,
+      "observed": {
+        "code": "information-mapping",
+        "path": "information-board.informationNodes.back",
+        "message": "Information node must uniquely resolve to one actual node"
+      }
+    },
+    {
+      "name": "wrong content UV is rejected",
+      "passed": true,
+      "observed": {
+        "code": "information-face-uv",
+        "path": "information-content.informationNodes.face",
+        "message": "Information face vertices or UV orientation do not match the fixed rectangle contract"
+      }
+    },
+    {
+      "name": "reverse content triangles are rejected",
+      "passed": true,
+      "observed": {
+        "code": "information-face-geometry",
+        "path": "information-content.informationNodes.face",
+        "message": "Information face must be two nondegenerate +Z triangles"
+      }
+    },
+    {
+      "name": "repeated content triangle is rejected",
+      "passed": true,
+      "observed": {
+        "code": "information-face-geometry",
+        "path": "information-content.informationNodes.face",
+        "message": "Information face triangles must cover all four rectangle corners across one shared diagonal"
+      }
+    },
+    {
+      "name": "wrong content image dimensions are rejected",
+      "passed": true,
+      "observed": {
+        "code": "information-face-texture",
+        "path": "information-content.informationNodes.face",
+        "message": "Information texture must be sRGB 1100x700"
+      }
+    },
+    {
+      "name": "emissive content is rejected",
+      "passed": true,
+      "observed": {
+        "code": "information-face-material",
+        "path": "information-content.informationNodes.face",
+        "message": "Information face requires a white opaque nonemissive textured material"
+      }
+    },
+    {
+      "name": "duplicate content mesh is rejected",
+      "passed": true,
+      "observed": {
+        "code": "information-face-geometry",
+        "path": "information-content.informationNodes.face",
+        "message": "Content resource must contain exactly one actual mesh"
+      }
+    }
+  ],
+  "realAssets": [
+    {
+      "id": "information-board-whiteboard",
+      "result": {
+        "checked": true,
+        "kind": "board",
+        "back": "information-back",
+        "slot": [
+          0.88,
+          0.56
+        ]
+      }
+    },
+    {
+      "id": "information-board-notice",
+      "result": {
+        "checked": true,
+        "kind": "board",
+        "back": "information-back",
+        "slot": [
+          0.88,
+          0.56
+        ]
+      }
+    },
+    {
+      "id": "information-board-doorplate",
+      "result": {
+        "checked": true,
+        "kind": "board",
+        "back": "information-back",
+        "slot": [
+          0.88,
+          0.56
+        ]
+      }
+    },
+    {
+      "id": "information-board-live",
+      "result": {
+        "checked": true,
+        "kind": "board",
+        "back": "information-back",
+        "slot": [
+          0.88,
+          0.56
+        ]
+      }
+    },
+    {
+      "id": "information-content-company-news-cn",
+      "status": "deferred-browser-image-decode",
+      "images": 1
+    },
+    {
+      "id": "information-content-company-live-cn",
+      "status": "deferred-browser-image-decode",
+      "images": 1
+    }
+  ],
+  "limits": [
+    "CPU-only synthetic Three scenes and optional GLTFLoader readback. No browser, GPU, image decode claim or runtime integration.",
+    "Board occlusion uses actual triangle projection against the content rectangle. Content checks require one mesh, exact two-triangle geometry, UV orientation, sRGB 1100x700 texture and opaque nonemissive material.",
+    "Wall installation, parent facility transactions and image lifecycle remain owned by existing runtime validators."
+  ]
+}

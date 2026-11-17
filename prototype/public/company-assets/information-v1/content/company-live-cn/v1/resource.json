@@ -1,0 +1,74 @@
+{
+  "id": "information-content-company-live-cn",
+  "displayName": "直播中",
+  "version": 1,
+  "category": "decor",
+  "mountRole": "information-content",
+  "mount": "information-surface",
+  "mounting": {
+    "origin": "center",
+    "width": 0.88,
+    "height": 0.56,
+    "depth": 0.001
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Surface centre",
+    "scale": "Identity only"
+  },
+  "informationContent": {
+    "schema": "information-face-v1",
+    "width": 0.88,
+    "height": 0.56,
+    "pixels": [
+      1100,
+      700
+    ]
+  },
+  "informationNodes": {
+    "face": "information-face"
+  },
+  "stateDefaults": {
+    "visible": true
+  },
+  "stateSchema": {
+    "visible": {
+      "type": "boolean"
+    }
+  },
+  "stateSemantics": {
+    "visible": "information-content-visible"
+  },
+  "usePoints": [],
+  "provenance": {
+    "license": "Project-authored content recipe and PNG. Noto Sans SC is bundled under SIL Open Font License 1.1.",
+    "prompt": "Purpose: project-authored wall information board and replaceable Chinese graphic content. Specification: wall board envelope 1.00m x 0.70m x 0.05m with fixed 0.88m x 0.56m information face, and 1100 x 700 sRGB content images. Units are metres, up is +Y, forward is +Z, wall contact is the centred back. Installation: board is wall-mounted information-board, content is an information-surface child with centred origin and no blocking/use points. Budget: deterministic CPU-only BoxGeometry frames and Pillow PNG content with no network fetch. State: content visibility only, no timer. Source/export: project-authored parameters, local Noto Sans SC font, Pillow 12.1.0 and Three.js GLTFExporter/GLTFLoader readback. Content recipe: 直播中",
+    "sourceParameters": "assets-source/company-information-v1/parameters.json",
+    "sourceParametersSha256": "2db1f06b5bc7bc787b64529852a7b468871b9a72dfe8d5d75ea7260cc987ba62",
+    "generator": "scripts/company-platform/build-information.mjs",
+    "generatorSha256": "cd6daef591e86096d82a90b625d52608cf7905f375a318f530bd073f17802d73",
+    "contentHelper": "assets-source/company-information-v1/generate-content.py",
+    "contentHelperSha256": "a2c50c68a399b7891095b3a5f6dcca46076d03eeaa959f5ee92ca127b520cc5b",
+    "requirements": "assets-source/company-information-v1/requirements.txt",
+    "requirementsSha256": "0ef33a43c91b2c79a2940a32a95064f2c9368c7fa69dc8f0d6749015c7a328f1",
+    "functionalContractSource": "docs/COMPANY-INFORMATION-DISPLAY-CONTRACT-v1.txt",
+    "functionalContractSourceSha256": "364fe8b32db9adab546d511675970b3408ac6922fd398d633fc435263b59980d",
+    "fontFile": "assets-source/company-information-v1/NotoSansSC-VF.ttf",
+    "fontSourceUrl": "https://raw.githubusercontent.com/google/fonts/main/ofl/notosanssc/NotoSansSC%5Bwght%5D.ttf",
+    "fontLicenseUrl": "https://raw.githubusercontent.com/google/fonts/main/ofl/notosanssc/OFL.txt",
+    "fontLicense": "SIL Open Font License 1.1",
+    "fontSha256": "a3041811a78c361b1de50f953c805e0244951c21c5bd412f7232ef0d899af0da",
+    "fontLicenseFile": "assets-source/company-information-v1/OFL.txt",
+    "fontLicenseSha256": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9",
+    "contentPngSha256": "395cd4021e90b484a5a9df827080a7788b2a26edba8ab78cf384509557c89157",
+    "contentPngBytes": 25134
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/information-v1/content/company-live-cn/v1/model.glb",
+    "sha256": "ce3aa9ff3c929cc97b3675f0a1ba47bf6cc739085f5e9905cc0cd9fca812b96a",
+    "bytes": 26492
+  }
+}

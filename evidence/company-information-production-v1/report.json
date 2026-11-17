@@ -1,0 +1,79 @@
+{
+  "status": "passed",
+  "scope": "Four wall information boards and two independent Chinese content GLBs",
+  "commands": [
+    "python assets-source/company-information-v1/generate-content.py --input assets-source/company-information-v1/parameters.json --output-dir TEMP_DIR",
+    "node scripts/company-platform/build-information.mjs",
+    "node scripts/company-platform/build-information.mjs --check"
+  ],
+  "sourceParameters": "assets-source/company-information-v1/parameters.json",
+  "sourceParametersSha256": "2db1f06b5bc7bc787b64529852a7b468871b9a72dfe8d5d75ea7260cc987ba62",
+  "functionalContractSource": "docs/COMPANY-INFORMATION-DISPLAY-CONTRACT-v1.txt",
+  "functionalContractSourceSha256": "364fe8b32db9adab546d511675970b3408ac6922fd398d633fc435263b59980d",
+  "generator": "scripts/company-platform/build-information.mjs",
+  "generatorSha256": "cd6daef591e86096d82a90b625d52608cf7905f375a318f530bd073f17802d73",
+  "contentHelper": "assets-source/company-information-v1/generate-content.py",
+  "contentHelperSha256": "a2c50c68a399b7891095b3a5f6dcca46076d03eeaa959f5ee92ca127b520cc5b",
+  "requirements": "assets-source/company-information-v1/requirements.txt",
+  "requirementsSha256": "0ef33a43c91b2c79a2940a32a95064f2c9368c7fa69dc8f0d6749015c7a328f1",
+  "python": "3.13.11",
+  "pillow": "12.1.0",
+  "fonttools": "4.64.0",
+  "font": {
+    "file": "assets-source/company-information-v1/NotoSansSC-VF.ttf",
+    "license": "SIL Open Font License 1.1",
+    "sourceUrl": "https://raw.githubusercontent.com/google/fonts/main/ofl/notosanssc/NotoSansSC%5Bwght%5D.ttf",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/main/ofl/notosanssc/OFL.txt",
+    "sha256": "a3041811a78c361b1de50f953c805e0244951c21c5bd412f7232ef0d899af0da",
+    "licenseFile": "assets-source/company-information-v1/OFL.txt",
+    "licenseSha256": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9",
+    "titleWeight": 500,
+    "bodyWeight": 400
+  },
+  "boards": [
+    {
+      "id": "whiteboard",
+      "sha256": "e5c9f9dab5abb9b0dd0f3834707848ebea12ecb8189fd04957edd797852cf398",
+      "bytes": 11528,
+      "repeatedExportByteIdentical": true
+    },
+    {
+      "id": "notice",
+      "sha256": "5ff0098d7df89f86a78278ee6127dbe59b492c5fdfeb0d5a359c3760c5312f3d",
+      "bytes": 15168,
+      "repeatedExportByteIdentical": true
+    },
+    {
+      "id": "doorplate",
+      "sha256": "7fc774a8666cb79047bf06832f07ec62f32cc6b2d10bbeb191fc5d6393978b16",
+      "bytes": 18880,
+      "repeatedExportByteIdentical": true
+    },
+    {
+      "id": "live",
+      "sha256": "c72eae30a52a6c1c1d033d0d3fe16ca2cf297394ea4ef9f01f83070ead2fd34d",
+      "bytes": 9736,
+      "repeatedExportByteIdentical": true
+    }
+  ],
+  "contents": [
+    {
+      "id": "company-news-cn",
+      "pngSha256": "d9f028ba3d5e5ceabae280cc4894a9186b07557bc5921179f08aee45408472f4",
+      "glbSha256": "7acbf664d826decd6154ed4aa67b1407aa071d49e62fbba7e60ce708585f298f",
+      "bytes": 26148,
+      "repeatedExportByteIdentical": true
+    },
+    {
+      "id": "company-live-cn",
+      "pngSha256": "395cd4021e90b484a5a9df827080a7788b2a26edba8ab78cf384509557c89157",
+      "glbSha256": "ce3aa9ff3c929cc97b3675f0a1ba47bf6cc739085f5e9905cc0cd9fca812b96a",
+      "bytes": 26492,
+      "repeatedExportByteIdentical": true
+    }
+  ],
+  "limits": [
+    "Wall-mounted information-board only. Ground information-board-floor remains a later installation branch.",
+    "Text recipes are bounded to the bundled Noto Sans SC font and fixed title/three-line layout."
+  ]
+}

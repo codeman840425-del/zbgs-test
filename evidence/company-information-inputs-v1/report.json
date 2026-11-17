@@ -1,0 +1,75 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "name": "Second content source edit changes only its actual PNG",
+      "passed": true,
+      "beforeSha256": "9de5d62839fcd04dc617f06b1fee7066acf64ff67d05274cace04d2a27f0d3dd",
+      "afterSha256": "8ae12315f2e6b3a5f4959e404480e0d21c6455bcfb440965cf768da42d5c7e58"
+    },
+    {
+      "name": "unsafe-id",
+      "passed": true,
+      "exitCode": 1,
+      "diagnostic": "ValueError: invalid or duplicate content id: '../escaped'",
+      "noPartialPng": true
+    },
+    {
+      "name": "duplicate-id",
+      "passed": true,
+      "exitCode": 1,
+      "diagnostic": "ValueError: invalid or duplicate content id: 'company-news-cn'",
+      "noPartialPng": true
+    },
+    {
+      "name": "four-lines",
+      "passed": true,
+      "exitCode": 1,
+      "diagnostic": "ValueError: content lines must be one to three single-line strings for company-live-cn",
+      "noPartialPng": true
+    },
+    {
+      "name": "newline",
+      "passed": true,
+      "exitCode": 1,
+      "diagnostic": "ValueError: invalid title for company-live-cn",
+      "noPartialPng": true
+    },
+    {
+      "name": "unknown-graphic",
+      "passed": true,
+      "exitCode": 1,
+      "diagnostic": "ValueError: unsupported graphic for company-live-cn: 'external-image'",
+      "noPartialPng": true
+    },
+    {
+      "name": "invalid-color",
+      "passed": true,
+      "exitCode": 1,
+      "diagnostic": "ValueError: invalid accent color for company-live-cn",
+      "noPartialPng": true
+    },
+    {
+      "name": "missing-glyph",
+      "passed": true,
+      "exitCode": 1,
+      "diagnostic": "ValueError: font missing glyphs for company-live-cn: ['\\U0010ffff']",
+      "noPartialPng": true
+    },
+    {
+      "name": "text-overflow",
+      "passed": true,
+      "exitCode": 1,
+      "diagnostic": "ValueError: title overflows company-live-cn",
+      "noPartialPng": true
+    }
+  ],
+  "limits": [
+    "Offline producer only; actual rendering is checked separately."
+  ],
+  "tools": {
+    "python": "3.13.11",
+    "pillow": "12.1.0",
+    "fonttools": "4.64.0"
+  }
+}

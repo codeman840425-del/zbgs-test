@@ -1,0 +1,21 @@
+公司墙挂图文信息面合同 v1
+
+主包缺口：information-board 四款真实几何与独立可换图文尚缺。输入为现有静态GLB、版本存档/父子设施/异步事务及离线图文配方。产物为四款板框、至少两份含文字与图形的独立内容资源、二布局、实际替换/状态/恢复/失败保旧、固定交付与正常速度录像。
+最小验收：四框各自实际换内容并关闭恢复；换框保持内容身份/版本/状态，换内容保持框与位置；父板变换、侧墙与观看遮挡正常；缺图、错误摘要/UV/显示面/安装关系失败保旧；独立包可重建源、生产与游戏输入。地面 information-board-floor 仍为下一独立安装分支，不在本包假称通过。
+尝试预算：一次实现及一轮根据真实证据修正；同因两轮无新证据/改善则重定位，不扫参或降门。先解决可复现基础缺陷，不扩大美术款式。
+
+选择离线配方生成图文PNG，封装为独立GLB子部件，复用现有resource id/version/SHA、preload、事务、保存和完整依赖打包。板框和内容分别是facility实例，内容parentId指向板框；不是四框各烘一份不可替换文字。无需新增存档版本、通用内容服务器、实时字体网络请求或角色/经营时钟。
+
+板框：productionBranch/mountRole='information-board'，mount='wall'，mounting={origin:'center',width:1,height:.7,depth:.05}。米制+Y上+Z正面，资源原点为墙面背面中心；stateDefaults={}，无阻挡/使用点/灯/clockDisplay/movingParts。
+informationSurface={schema:'information-face-v1',width:.88,height:.56,position:[0,0,.031]}，是固定功能签名。informationNodes={back:'information-back'}为显示绑定。back为原点附近实际矩形实体背板，宽.9、高.58、厚.02，中心[0,0,.01]；四框共有该面，其余框条/夹条/侧装饰位于可视内容矩形之外，不能遮挡内容。板框全几何仍在安装包络内。四款白板/公告板/门牌/直播指示板通过不同真实框体形状实现，不只改色。
+
+内容：mountRole='information-content'，mount='information-surface'，mounting={origin:'center',width:.88,height:.56,depth:.001}；informationContent={schema:'information-face-v1',width:.88,height:.56,pixels:[1100,700]}为固定功能签名，informationNodes={face:'information-face'}为显示绑定。资源是一个固定正面平面，四顶点(-.44,-.28,0)、(.44,-.28,0)、(.44,.28,0)、(-.44,.28,0)，两实际三角，正面+Z，glTF UV对应左下(0,1)、右下(1,1)、右上(1,0)、左上(0,0)。一个非透明、白色因子、无发光的PBR颜色纹理（sRGB），PNG内嵌GLB。真实显示检查必须识别方向、像素尺寸、完整覆盖、UV和正面，不能只比metadata。
+stateDefaults={visible:true}，stateSchema={visible:{type:'boolean'}}，stateSemantics={visible:'information-content-visible'}。visible只控制内容mesh，不改变板框/导航/任务。换内容使用既有replace-resource操作，必须兼容相同informationContent合同，保留内容实例状态；换框保留子内容实例。宿主可用既有apply操作选择已登记内容/显示状态，不新增独立业务状态机。
+
+内容只能属于一个声明informationSurface的facility；局部position必须恰为父槽position，yaw=0，无缩放，不能通过祖先补偿非法局部变换。一个槽至多一份内容；板框可为空白，移除/复制按现有父子规则。墙挂板框的观看隐藏自然传播到子内容；不能按内容节点本身的wall mount重新绑定。
+
+图文输入由agent提供有限配方：固定本地许可字体与哈希，有限标题/行数/字号/颜色/边距，项目自制 bars/signal 两种图形；当前入口不支持外部图片导入，拒绝溢出/缺字/坏路径。至少两份不同实际文字和图形通过同一生产入口；保留源修改→重新导出→登记→游戏加载→关闭恢复证据。正文与图形是内容数据，不属于板框功能签名。所有本地字体、图像、工具版本和源文件随生产依赖完整移交，不依赖系统字体或制作机缓存。支持范围在生产入口明确，不把有限样件称为任意排版。
+
+本包不做3D文字、滚动字幕、视频播放、浏览器富文本编辑器或经营消息推送。保持原108资源语义。图像生命周期需核实际GLTFLoader的ImageBitmap共享与最后拥有者释放，texture.dispose计数不能代替位图释放证据。
+
+依据：docs/research/COMPANY-INFORMATION-DISPLAY-RESEARCH-2026-11-16.txt；Three官方 https://threejs.org/docs/pages/GLTFLoader.html 、https://threejs.org/docs/pages/Texture.html 与 https://threejs.org/manual/pages/how-to-dispose-of-objects.html 。本方案在已有GLB身份和父子机制上实现离线图文，不采用研究中的额外information存档字段备选方案。

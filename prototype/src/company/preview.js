@@ -24,6 +24,7 @@ import {createHingedSample} from './hinged-samples.js';
 import {createSlidingSample} from './sliding-samples.js';
 import {createClockSample} from './clock-samples.js';
 import {createSupportedClockSample} from './supported-clock-samples.js';
+import {createInformationSample} from './information-samples.js';
 import {validatePresentationInputs} from './clock-display.js';
 import './preview.css';
 
@@ -38,7 +39,7 @@ const sun=new THREE.DirectionalLight(0xfff0d6,2.3);sun.position.set(-3,8,5);sun.
 Object.assign(sun.shadow.camera,{left:-8,right:8,top:8,bottom:-8});sun.shadow.normalBias=.015;world.add(sun);
 const camera=new THREE.PerspectiveCamera(38,1,.05,300),orbit=new OrbitControls(camera,renderer.domElement);
 orbit.enableDamping=false;orbit.maxPolarAngle=Math.PI*.48;orbit.minDistance=2;orbit.maxDistance=160;
-const layouts={supportedClocks:createSupportedClockSample(catalog,templates).document,supportedClockAlternate:createSupportedClockSample(catalog,templates,{alternate:true}).document,clocks:createClockSample(catalog,templates).document,clockAlternate:createClockSample(catalog,templates,{alternate:true}).document,sliding:createSlidingSample(catalog,templates).document,slidingAlternate:createSlidingSample(catalog,templates,{alternate:true}).document,hinged:createHingedSample(catalog,templates).document,hingedAlternate:createHingedSample(catalog,templates,{alternate:true}).document,base,alternate,studio,...createScaleExamples(catalog,templates),smallHome,rental:rentalHome,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome,ceilings:ceilingCompany,ceilingHome,
+const layouts={information:createInformationSample(catalog,templates).document,informationAlternate:createInformationSample(catalog,templates,{alternate:true}).document,supportedClocks:createSupportedClockSample(catalog,templates).document,supportedClockAlternate:createSupportedClockSample(catalog,templates,{alternate:true}).document,clocks:createClockSample(catalog,templates).document,clockAlternate:createClockSample(catalog,templates,{alternate:true}).document,sliding:createSlidingSample(catalog,templates).document,slidingAlternate:createSlidingSample(catalog,templates,{alternate:true}).document,hinged:createHingedSample(catalog,templates).document,hingedAlternate:createHingedSample(catalog,templates,{alternate:true}).document,base,alternate,studio,...createScaleExamples(catalog,templates),smallHome,rental:rentalHome,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome,ceilings:ceilingCompany,ceilingHome,
   supports:createSupportSample(catalog,templates).document,supportAlternate:createSupportSample(catalog,templates,{alternate:true}).document},assetLibrary=createCompanyAssetLibrary();let session,activeView='room',busy=false,game;
 let regionLabels=[],previewClockOverride=null;
 function setPreviewClock(seconds){if(seconds!==null)validatePresentationInputs({clockSeconds:seconds});previewClockOverride=seconds;if(seconds!==null)session.scene.setPresentationInputs({clockSeconds:seconds});return seconds;}
@@ -65,6 +66,10 @@ function setView(name){
       box.expandByPoint(new THREE.Vector3(frame.position[0]-half,0,frame.position[2]-half));box.expandByPoint(new THREE.Vector3(frame.position[0]+half,2.8,frame.position[2]+half));
     }
     target=box.getCenter(new THREE.Vector3());
+  }
+  if(name==='information'&&view.mode==='room') {
+    const object=session.scene.root.getObjectByName(element('information-board').value);
+    if(object){const center=new THREE.Box3().setFromObject(object).getCenter(new THREE.Vector3());orbit.minDistance=.6;orbit.target.copy(center);camera.position.copy(center).add(new THREE.Vector3(0,.02,1.45).applyQuaternion(object.getWorldQuaternion(new THREE.Quaternion())));orbit.update();updateWallView();return;}
   }
   if(name==='clock'&&view.mode==='room') {
     const object=session.scene.root.getObjectByName(element('clock').value);
@@ -138,7 +143,7 @@ async function changeFinish(type){
 async function showAppearanceSample(branch,index){
   const sample=createAppearanceSample(branch,index,catalog,templates);
   if(session.document.id===sample.document.id){
-    const replacements=sample.document.nodes.filter(n=>n.resource).map(n=>({type:'replace-resource',id:n.id,resource:n.resource}));
+    const replacements=sample.document.nodes.filter(n=>n.resource&&(branch!=='information-board'||catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.informationSurface)).map(n=>({type:'replace-resource',id:n.id,resource:n.resource}));
     await session.apply(replacements);
   }else await session.load(sample.document);
   await showSpace('room',sample.document.nodes[0].id,sample.document.nodes[1].id);
@@ -202,6 +207,12 @@ function sync(){
   element('clock-power').textContent=(selectedClock?.state?.on??clockResource?.stateDefaults?.on)?'关闭数字显示':'开启数字显示';
   element('clock-brightness').disabled=element('clock-power').disabled;element('clock-brightness').value=String(selectedClock?.state?.brightness??clockResource?.stateDefaults?.brightness??1);
   element('clock-time').disabled=busy||!clocks.length;
+  const boards=facilities.filter(n=>derived.floorIds.get(n.id)===view.floorId&&catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.informationSurface);
+  fillOptions('information-board',boards,element('information-board').value);element('information-board').disabled=busy||building||!boards.length;
+  const content=facilities.find(n=>n.parentId===element('information-board').value&&catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.informationContent);
+  fillOptions('information-content',catalog.resources.filter(r=>r.informationContent).map(r=>({id:r.id,name:r.displayName})),content?.resource.id);
+  element('information-content').disabled=busy||building||!content;element('information-visible').disabled=busy||building||!content;
+  element('information-visible').textContent=content?.state?.visible===false?'显示图文':'隐藏图文';
   syncFinishes();
   if(building)buildingView.render(doc,{presentation:buildingPresentation});
   element('camera-hint').textContent=building?'先进入侧剖面，再选择楼层。':view.mode==='room'?'单间可拖动旋转，滚轮缩放。':'当前为固定角度总览，点击房间进入三维查看。';
@@ -233,7 +244,7 @@ async function start(){
   let restored=false,restoreError;
   try{await session.restore(localStorage.getItem('company-preview:last-company')||session.document.id);restored=true;}catch(error){if(error.code!=='save-not-found')restoreError=error;}
   async function saveCurrent(){const result=await session.save();localStorage.setItem('company-preview:last-company',session.document.id);return result;}
-  window.company={ready:true,catalog,templates,session,assetLibrary,renderer,world,camera,setPreviewClock,view:setView,showSpace,layouts,showAppearanceSample,appearanceBranches,appearanceCandidates:branch=>appearanceCandidates(catalog,branch),
+  window.company={ready:true,catalog,templates,session,assetLibrary,renderer,world,camera,setPreviewClock,pausePreview:()=>game?.loop.sleep(),view:setView,showSpace,layouts,showAppearanceSample,appearanceBranches,appearanceCandidates:branch=>appearanceCandidates(catalog,branch),
     async apply(ops){const r=await session.apply(ops);sync();return r;},
     async load(doc){const r=await session.load(doc);await defaultSpace();return r;},
     snapshot:()=>session.snapshot(),save:saveCurrent,restore:async()=>{const r=await session.restore();await defaultSpace();return r;},export:()=>session.export()};
@@ -255,6 +266,10 @@ async function start(){
   element('building-view').onclick=()=>perform('正在查看大楼…',()=>showSpace('building',element('floor').value,null,'section'));
   element('station').onchange=sync;
   element('cabinet').onchange=sync;
+  element('information-board').onchange=sync;
+  const selectedInformation=()=>session.document.nodes.find(n=>n.parentId===element('information-board').value&&catalog.resources.find(r=>r.id===n.resource?.id&&r.version===n.resource?.version)?.informationContent);
+  element('information-content').onchange=()=>perform('正在更换图文…',()=>{const r=catalog.resources.find(r=>r.id===element('information-content').value);return session.apply([{type:'replace-resource',id:selectedInformation().id,resource:{id:r.id,version:r.version}}]);});
+  element('information-visible').onclick=()=>perform('正在更新图文显示…',()=>{const n=selectedInformation();return session.apply([{type:'set-state',id:n.id,state:{visible:n.state?.visible===false}}]);});
   element('clock').onchange=sync;
   element('clock-time').onchange=()=>setPreviewClock(element('clock-time').value==='live'?null:Number(element('clock-time').value));
   element('clock-power').onclick=()=>perform('正在更新数字显示…',()=>{const node=session.document.nodes.find(n=>n.id===element('clock').value),resource=catalog.resources.find(r=>r.id===node.resource.id&&r.version===node.resource.version);return session.apply([{type:'set-state',id:node.id,state:{on:!(node.state.on??resource.stateDefaults.on)}}]);});
