@@ -1,0 +1,69 @@
+{
+  "status": "passed",
+  "package": "F:\\gamemake-company-mirror-delivery-93a",
+  "checks": [
+    {
+      "name": "All standalone package files match the manifest",
+      "passed": true,
+      "result": {
+        "files": 727
+      }
+    },
+    {
+      "name": "Independent edit replaces a compatible mirror and rejects invalid mounting without output",
+      "passed": true,
+      "result": {
+        "rejection": "invalid-wall-fit",
+        "edited": {
+          "ok": true,
+          "id": "appearance-mirror",
+          "revision": 2,
+          "floors": [
+            "appearance-mirror/floor-1"
+          ],
+          "output": "F:\\gamemake-company-platform-c1\\evidence\\company-mirror-handoff-93a-v1\\edited"
+        }
+      }
+    },
+    {
+      "name": "Independent viewer reflects its own scene and saves the edited resource without producer requests",
+      "passed": true,
+      "result": {
+        "requests": [
+          "http://127.0.0.1:54004/company-assets/mirror-v1/grid/v1/model.glb",
+          "http://127.0.0.1:54004/company-assets/static-collection/plant-palm/v1/model.glb"
+        ],
+        "mirrors": [
+          {
+            "id": "mirror/primary",
+            "ownerId": "mirror/primary",
+            "active": true,
+            "fresh": true,
+            "disposed": 0,
+            "created": 1,
+            "updates": 10,
+            "live": 1,
+            "width": 512,
+            "height": 512,
+            "type": 1016,
+            "samples": 0
+          }
+        ]
+      }
+    },
+    {
+      "name": "Separate browser restart preserves the complete edited document",
+      "passed": true,
+      "result": {
+        "resource": {
+          "id": "mirror-grid",
+          "version": 1
+        }
+      }
+    }
+  ],
+  "limits": [
+    "SwiftShader; not ordinary-PC, role or offline npm installation proof"
+  ],
+  "build": "93a4a9b7c76f"
+}

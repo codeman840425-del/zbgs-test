@@ -1,0 +1,34 @@
+墙挂镜真实反射固定交付（2026-11-16）
+源码：5ec74d800b98d4eb732676ce8cd524bfc2af13d0
+构建：93a4a9b7c76f
+固定检出：F:/gamemake-company-mirror-fixed-v1
+独立包：F:/gamemake-company-mirror-delivery-93a
+预览：http://127.0.0.1:57417/?sample=mirror&look=0
+
+新增mirror圆镜、全身镜、拱镜、分格镜四款实际几何。固定.8×1.8×.04m墙面安装包络，镜片真实平面z=.026，圆96边/拱48段；运行使用锁定Three0.187 Reflector，同一宿主world真实反射，没有预制镜像或另建角色系统。原118项资源定义逐项未变，目录122项不代表全分类完成。参数、提示词、生产器及36来源/依赖pin核对见catalog-retention.json。
+
+每个详细画面最多一面动态镜，512² HalfFloat、MSAA0、≤30Hz、每宿主帧最多一反射pass。不活动镜面显示中性表面，进入可见范围至下个准入帧前可能短暂等待；不冒认多镜互反。预热允许旧+候选目标对象峰值2，活跃反射仍1；切层/building/隐藏释放目标。镜中沿当前墙体剖切，不改导航或占用。
+
+提交前真实shader首用诊断和反射预热在旧根释放前完成。坏shader保旧；未知renderer内部异常终止当前帧并重建renderer，再续绘旧场景。scissor/viewport/XR/shadow/target公开状态finally恢复。shader首用依赖锁定r187 renderer.properties内部接缝，升级Three须重验，不承诺任意版本或任意设备故障恢复。
+
+证据：production-v1可编辑源/重复输出/单件源改动和独立无evidence --check；geometry-v1最终165项（包括四真GLB及破坏检查，不是165机制）；render-v1/scissor-correction-v1保旧四失败及新23通过，独审integration-review-v1复核闭合；data-final-v2三组；provider-regression-v1九组；floor-regression-v1六组原落地板回归；fixed-93a-v1八组真实浏览器；handoff-93a-v1四组独立编辑/保存/重开以及727文件清单、255运行文件无排除字节一致重建。
+录像recording-93a-v1/mirror-preview-normal1x.webm：40.16秒、1440×1000、25fps、1×。已核全时段抽帧和原尺寸分格/移动/侧墙/概览图；最终人类验收仍待。
+
+成本cost.json：10个受控正常提交采样，反射31draw calls/3864triangles，主画面41draw calls；CPU提交约2.04ms含反射，反射CPU提交约.34ms。不是GPU完成查询、FPS达标或普通机证据；目标计数不是显存测量。宿主主pass和反射pass分别记录。
+
+失败保留：生产Float32边界产生假遮挡，统一边界精度修复；几何QA clone污染与grid框条定位错误；侧墙绿植重叠被布局检查拒绝；旧provider QA未计算四物理墙体；scissor配置与实际state不同的独审发现。没有通过降低几何标准或忽略页错误过关。
+
+复现：固定检出prototype目录
+npm ci --no-audit --no-fund
+node scripts/build-company-id.mjs
+npx vite build --config vite.company.config.js
+固定检出根目录
+node scripts/company-platform/build-mirror.mjs --check
+node scripts/company-platform/build-library.mjs --check
+node scripts/company-platform/build-mirror-examples.mjs --check
+node scripts/company-platform/qa-mirror-preview.cjs F:/gamemake-company-mirror-fixed-v1/prototype/dist-company 93a4a9b7c76f NEW_EVIDENCE_DIR
+node scripts/company-platform/record-mirror-preview.cjs F:/gamemake-company-mirror-fixed-v1/prototype/dist-company 93a4a9b7c76f NEW_RECORDING_DIR
+node scripts/company-platform/serve-company.cjs prototype/dist-company 93a4a9b7c76f
+独立包：node serve.mjs；node edit.mjs validate data/save.json；node edit.mjs apply INPUT_SAVE OPS_JSON NEW_RESULT_DIRECTORY。
+
+角色接入：同步mirrorPreflight由宿主注入authoring/scene；主绘制前controller.update消费同一宿主world/camera/frameId/timeMs。未知嵌套错误由宿主重建renderer。角色、任务、占用、时钟由总工保有；本包未角色联调、未人类终验，不宣布C1–C3完成。下一包候选为落地镜安装支承，独立预检中，不能继承本包当作已验。
