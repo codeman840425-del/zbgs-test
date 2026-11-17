@@ -17,7 +17,7 @@
 <figure><figcaption>原色 · 同镜头近景</figcaption><img data-iris-image="original-close.png" alt="男性候选原棕色虹膜近景" loading="lazy"></figure>
 <figure><figcaption>原生绿色 · 独立配色</figcaption><img data-iris-image="green-independent-close.png" alt="同一男性候选加载原生绿色虹膜贴图" loading="lazy"></figure>
 </div>
-<figure><figcaption>绿色虹膜与独立长发 · 眨眼、讲话、视线 · 1 倍速</figcaption><video controls playsinline preload="none" data-native-chain="native-iris-room-v1/live-face-1x.webm" aria-label="绿色虹膜和独立发型配方冷恢复后正常速度面部动作"></video></figure>
+<figure><figcaption>绿色虹膜与独立长发 · 眨眼、讲话、视线 · 1 倍速</figcaption><video controls playsinline preload="none" data-native-chain="native-iris-room-v2/live-face-1x.webm" aria-label="绿色虹膜和独立发型配方冷恢复后正常速度面部动作"></video></figure>
 <p class="note">原生配色保留瞳孔图案与透明边界，深色区域也会随作者配色改变；独立眼白和高光资源保持。面部动作原片及确切构建保存在随片报告。没有用换整个人物代替换色。</p>
 <p class="tag">仅验证这一男性基模和一个绿色样件；其他瞳色、女性配色、肤色和外唇色不继承通过。正常速度观感仍待观看。</p>
 </section>
@@ -114,7 +114,7 @@ const url=path=>new URL(path,base).href;
 const chainBase=new URL('/evidence/',location.href);chainBase.port='4174';
 document.querySelectorAll('[data-native-chain]').forEach(video=>{video.src=new URL(video.dataset.nativeChain,chainBase).href;video.addEventListener('play',()=>{video.playbackRate=1;});});
 document.querySelectorAll('[data-hair-reference]').forEach(img=>{img.src=new URL('native-hair-reference-5db-v2/'+img.dataset.hairReference,chainBase).href;});
-document.querySelectorAll('[data-iris-image]').forEach(img=>{img.src=new URL('native-iris-room-v1/'+img.dataset.irisImage,chainBase).href;});
+document.querySelectorAll('[data-iris-image]').forEach(img=>{img.src=new URL('native-iris-room-v2/'+img.dataset.irisImage,chainBase).href;});
 const equipmentBase=new URL('/evidence/native-vroid-equipment-runtime-v1/room-compare-v5/run-1/',location.href);equipmentBase.port='4174';
 const factoryVideo=new URL('/evidence/native-factory-room-7871-v2/native-factory-chain-1x.webm',location.href);factoryVideo.port='4174';
 const factoryPlayer=document.querySelector('[data-factory-video]');factoryPlayer.src=factoryVideo.href;factoryPlayer.addEventListener('play',()=>{factoryPlayer.playbackRate=1;});

@@ -88,7 +88,16 @@ const repo=path.resolve(__dirname,'..'),digest=b=>crypto.createHash('sha256').up
   assert.equal((await page.evaluate(r=>__debug.importAppearanceRecipe(r),greenRecipe)).applied,true);
   await page.locator('[data-appearance-group="female"]').click();await page.waitForFunction(()=>__debug.avatar().profile.bodyType==='female',null,{timeout:60000});
   assert.equal(await page.locator('#appearance-eye-color option').count(),5);
-  await page.locator('#appearance-body').selectOption('native-female-843ac-v1');await page.waitForFunction(()=>__debug.avatar().profile.bodyType==='native-female-843ac-v1',null,{timeout:60000});
+  // A green legacy color cannot silently become an admitted native-female color.
+  await page.locator('#appearance-body').selectOption('native-female-843ac-v1');
+  await page.waitForFunction(()=>!document.querySelector('#appearance-body').disabled,null,{timeout:60000});
+  assert.equal(await page.evaluate(()=>__debug.avatar().profile.bodyType),'female');
+  assert.equal(await page.evaluate(()=>__debug.avatar().appearance.getState().eyeColor),'green');
+  report.checks.push('Unsupported cross-body color retains the old whole actor and reports rejection');
+  await page.locator('#appearance-eye-color').selectOption('original');
+  await page.waitForFunction(()=>__debug.avatar().appearance.getState().eyeColor==='original');
+  await page.locator('#appearance-body').selectOption('native-female-843ac-v1');
+  await page.waitForFunction(()=>__debug.avatar().profile.bodyType==='native-female-843ac-v1',null,{timeout:60000});
   assert(await page.locator('#appearance-eye-color').isDisabled());assert.deepEqual(await page.locator('#appearance-eye-color option').evaluateAll(o=>o.map(x=>x.value)),['original']);
   assert.deepEqual(report.errors,[]);report.status='native-iris-technical-flow-passed-visual-review-pending';
  }catch(error){report.status='failed';report.error=String(error.stack||error);process.exitCode=1;if(page)await page.screenshot({path:path.join(out,'failure.png')}).catch(()=>{});}
