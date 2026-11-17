@@ -1,0 +1,37 @@
+墙挂图文信息板固定交付（2026-11-16）
+源码：b10af46a036335a0df7342a7afcf9561b323d7df
+构建：bf3e3531a5b8
+固定检出：F:/gamemake-company-information-fixed-v1
+独立包：F:/gamemake-company-information-delivery-bf3
+预览：http://127.0.0.1:54680/?sample=information-board&look=0
+
+实际新增：information-board 四款不同几何板框，以及两份独立中文图文内容。板框和内容分别保有resource版本与facility实例；换框不换内容，换内容不改框，隐藏状态独立保存。共用既有父子关系、事务、保存、预加载和完整依赖移交，不新增角色或业务系统。原108资源定义逐项保持，新目录114项不代表全部环境分类完成。
+
+最小证据：
+- company-information-production-v1：可编辑源、字体及官方OFL、四模型与两份嵌入PNG内容、重复导出。
+- company-information-inputs-final-v1：9项，第二份内容标题修改只改变该PNG；危险/重复ID、四行、换行、未知图形、颜色、缺字、越界在正式PNG写出前拒绝。该修改样件属离线输入检查；实际游戏闭环使用目录内A/B两份内容。
+- company-information-inputs-v1/official-source-verification.json：真实官方font/OFL下载字节核对；保留来源声明不匹配的旧字体并采用官方可核字节。新字体SHA a3041811a78c361b1de50f953c805e0244951c21c5bd412f7232ef0d899af0da。
+- company-information-data-final-v1：5组数据合同、存档依赖pin、旧108资源未变及新增6项的42个来源/依赖pin核对。
+- company-information-geometry-root-v1：15组合成几何拒绝及4真实板框；Node图片内容明确延后到浏览器解码，不冒认Node图片通过。
+- company-information-fixed-bf3-v1：8组固定浏览器，4框×2内容独立进程恢复、两层隔离、实际墙体剖切隐藏/恢复子图文、网络与内容损坏失败保旧、实际ImageBitmap最后释放及既有墙地顶饰面共享回归。
+- company-information-handoff-bf3-v1：独立包4组；673清单文件核验，237运行文件独立npm ci/build重建，无排除逐字节一致。独立source生产器、目录、布局生成--check通过。
+- company-information-production-review-v1、company-information-runtime-review-v1：独立CPU/源码与pin审查，未冒称浏览器或人类验收。
+- company-information-recording-bf3-v1/information-preview-normal1x.webm：45.72秒、1440×1000、25fps、1×、SwiftShader；已核全时段每4秒抽帧及原尺寸侧墙图。
+
+保留失败：初始框体遮挡、GLB typed-array按元素截字节、字体来源声明与实际字节不符；生产源和初始产物/旧字体保留。开发浏览器v2–v5的生命周期fixture问题保留：未选择实际楼层、主动销毁场景后仍让Phaser原循环更新；最终采用既有loop.sleep停止预览后再验释放，不过滤异常。独立生产check曾早于npm ci完成，真实ERR_MODULE_NOT_FOUND与随后完成安装后的通过记录在rebuild.json。
+
+复现：固定检出prototype目录
+npm ci --no-audit --no-fund
+node scripts/build-company-id.mjs
+npx vite build --config vite.company.config.js
+固定检出根目录
+python -m pip install -r assets-source/company-information-v1/requirements.txt
+node scripts/company-platform/build-information.mjs --check
+node scripts/company-platform/build-library.mjs --check
+node scripts/company-platform/build-information-examples.mjs --check
+node scripts/company-platform/qa-information-preview.cjs F:/gamemake-company-information-fixed-v1/prototype/dist-company bf3e3531a5b8 NEW_EVIDENCE_DIR
+node scripts/company-platform/record-information-preview.cjs F:/gamemake-company-information-fixed-v1/prototype/dist-company bf3e3531a5b8 NEW_RECORDING_DIR
+node scripts/company-platform/serve-company.cjs prototype/dist-company bf3e3531a5b8
+独立包根目录：node serve.mjs；node edit.mjs validate data/save.json；node edit.mjs apply INPUT_SAVE OPS_JSON NEW_RESULT_DIRECTORY。
+
+限制：固定本地字体、标题与1至3行正文、bars/signal内置图形；不是任意富文本或外部图片导入。软件渲染不证明普通电脑性能；尚未角色C3集成和最终用户验收，不宣布C1–C3完成。下一有界分支为地面信息板，已有只读预检，安装尺寸和真实支承仍待本包验证。

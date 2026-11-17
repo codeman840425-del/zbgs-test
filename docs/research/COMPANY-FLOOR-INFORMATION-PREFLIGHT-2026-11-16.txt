@@ -1,0 +1,81 @@
+公司平台 C1 地面图文信息面预检
+2026-11-16｜下一包技术准备，只读研究，未改代码、资源、既有报告，也未运行浏览器或 GPU。
+
+一、分支边界与现有合同
+
+`assets-source/company-environment-specs-v1/branches.json` 将 `information-board-floor` 列为确认分支。其父级是 `floor.public-area`，安装类型为 `floor-surface`，状态为 `content-driven`，当前登记尺寸为宽 1.0 m、高 0.7 m、深 0.05 m，且明确标记 `verification: pending`。最小外观仍是白板、公告板、门牌、直播中指示牌四款。该分支不能被墙挂 `information-board` 的证据代替。
+
+墙挂合同已经固定板体资源和内容子件资源的身份关系。四个板框资源使用 `mount:'wall'`、`mountRole:'information-board'`、1.0×0.7×0.05 m 包络。内容资源使用 `mount:'information-surface'`、`mountRole:'information-content'`、0.88×0.56×0.001 m 面片、1100×700 sRGB PNG 和 `state.visible`。内容父节点指向板框，换框保留内容实例，换内容保留板框和局部安装，资源版本、SHA、保存和异步预加载继续沿现有链路。地面包只应新增板框安装与几何合同，不能新增第二套内容资源、存档或运行状态。
+
+现有工程给出四个重要边界。
+
+- `document.js` 对 `floor-surface` 只接受房间或公共区域父级，要求实例局部 y=0、离区域边界至少 0.1 m，并按 mounting width/depth 和四分之一 yaw 检查平面包络。它不检查实体底座、完整视觉包络或通路占用。
+- `asset-library.js` 对 `floor-surface` 资源按 mounting 包络验证 GLB 实际网格，落地资源应采用底部原点，局部 y 从 0 起。现有 `floor-panel-*` 是这种语义的参考资源。
+- `support-data.js` 的 `support-surface` 只表达父设施上的水平 topY、XZ 半尺寸和上方净空。它不适用于落地板的竖直内容面，不能把地面图文板伪装成层板子物。
+- `placement.js` 将 blocking footprint 加入静态路径检查，采用半径 0.25 m 的保守角色预留和连续扫掠。图文板若实际站在公共通道，应声明真实阻挡包络并让布局检查拒绝挤占通路。该检查仍是 C1/C2 静态准入，不是 C3 角色通过。
+
+二、固定候选与待确认参数
+
+建议把分支现有 1.0×0.7×0.05 m 解释为可见板体包络，先保留其功能身份。落地支撑需要实体底座或脚架，不能只把一块薄平面放在 y=0 后宣称通过。下一包可采用以下有界候选，最终数值在地面样板和布局检查后锁定。
+
+```
+可见板体包络       width 1.00 m × height 0.70 m × depth 0.05 m
+总安装包络候选     width 1.00 m × height 0.75 m × depth 0.20 m
+局部原点           floor contact centre, y=0, +Y up, +Z front
+阻挡 footprint      center [0,0], halfSize [0.50,0.10]
+内容面             0.88 m × 0.56 m, center [0,0.37,0.031]
+内容子件           仍为 mount:'information-surface', centered, depth .001 m
+```
+
+这里的 0.75 m 和 0.20 m 是带 0.05 m 底座/脚架的生产候选，不是对 `branches.json` pending 数值的静默改写。若产品坚持总物体必须严格 1.0×0.7×0.05 m，则必须制作能在该包络内真实接地的底座，并把 footprint 重新实测登记。不得同时把 0.05 m 当总深度又在外部放置未登记的配重或支脚。
+
+内容面中心 y=0.37 m 是以 0.05 m 底座、0.70 m 板体为基准的候选。它保留 0.88×0.56 m 内容合同和 +Z 正面，内容子件的局部 position 必须恰为父板的 `informationSurface.position`，yaw=0、无缩放。当前墙挂校验把 informationSurface 固定在 [0,0,0.031]，地面包需要将板框合同扩展为明确的 floor variant，允许垂直偏移并继续校验同一内容 schema。不能把地面板的父根移到 y=0.37 后继续声称旧墙挂几何合同已覆盖。
+
+实体支承建议由一个或多个实际网格组成。候选是连续底座、左右脚或窄 T 形底脚，全部位于总安装包络内，底面 y=0，与板体有真实接连。支承网格不进入 0.88×0.56 m 内容矩形，不遮挡内容面，不引入 movingParts、usePoints 或真实物理质量。若采用左右脚，两个脚之间的空隙仍属于板体 footprint，不能让静态路径检查只看到脚而忽略板体和读牌站位。
+
+三、安装、阻挡和内容检查
+
+地面板资源建议独立使用 `mountRole:'information-board-floor'` 和 `mount:'floor-surface'`，不要覆盖墙挂资源的 mountRole。固定功能签名至少应包括可见板体尺寸、总安装 envelope、底部原点、`informationSurface` schema/width/height/position、内容槽方向、`informationNodes` 和四款可替换所需的材质槽。内容资源保持现有 `information-content` 资源身份和 `information-surface` mount，不复制或重烘内容 PNG。
+
+资源加载和实际网格至少核验以下事实。
+
+1. GLB 的底部实际顶点落在 y=0，板体和底座完整包络不越 `mounting`。视觉网格不能只依赖 resource metadata。
+2. footprint 覆盖底座、支脚和板体在 XZ 的完整投影，旋转 90° 后仍按实际包络检查。与房间边界、门洞和公共区域边界的最小间距沿现有 floor-surface 规则保留。
+3. 板框的可见面、内容面和内容子件局部矩阵关系保持 +Z 正面，内容面不被支架、边框、遮挡三角形或底座投影穿过。可复用 `information-geometry.js` 的三角形/矩形遮挡算法，但把内容矩形平移到 floor variant 的 y 中心。
+4. 板体或底座的 blocking footprint 进入 `deriveCompany` 和 `placement.js`，板前应保留一个独立阅读留空。最小 0.25 m 静态角色半径只是现有保守准入，不应写成用户最终站位或无障碍标准。
+5. 图文子件仍只能挂在声明 `informationSurface` 的父 facility 上，一个槽最多一份内容。父板移动、旋转、复制和换框时子件世界矩阵重建，切层或观看隐藏只改变显示对象，不改变父子关系、阻挡和资源版本。
+6. 失败的底座包络、footprint、内容偏移、重复子件、错误 content schema、缺少显示面或资源 SHA 必须在候选提交前失败，并保留原公司文档、原场景和原存档字节。
+
+地面板不是水平承载物，因此不应声明 `supportSurfaces`、`supportNodes` 或 `attachment.surfaceId`。如果将来要在底座上再放装饰物，应另建水平 support-surface 组合设施，由下一独立分支处理。地面信息板自身只提供 floor mount、内容槽和静态阻挡。
+
+四、四款造型的复用方法
+
+四款地面外观应沿墙挂四款共享内容槽和内容 GLB，新增的差异集中在底座/脚架与框体轮廓。推荐生产参数按同一生成器分支，板体和内容仍分成两个资源。
+
+- 白板地面款：保留白板四边框和下沿 marker shelf，增加连续底座或两侧脚。脚和底座必须在内容矩形之外，白板面保持同一 0.88×0.56 m 内容槽。
+- 公告板地面款：保留公告板夹条、上沿和下沿，增加较宽的配重底座。夹条只能位于内容矩形边界外，不能用夹条遮挡图文。
+- 门牌地面款：保留简洁薄框和角部 caps，增加窄柱或低底座。若门牌内容需要站立阅读，内容仍按统一面片尺寸生产，不为门牌单独造文字系统。
+- 直播中指示牌地面款：保留 visor/底边条和侧轨，增加稳定 plinth。发光或直播状态仍只由内容可见状态和已有显示语义表达，不新增经营消息或计时器。
+
+四款都必须在同一 floor variant 的 mounting、总包络、footprint、内容面位置、content schema、显示方向和状态语义上兼容。只改色、换材质、复制墙挂 GLB 或把四款内容分别烘在板框内不计数。内容 A/B 两个现有 GLB 应分别装到四款地面板上，证明地面框体和内容资源仍正交替换。
+
+五、一手资料与适用边界
+
+美国 Access Board 的 ADA Chapter 7 将永久房间标识、方向标识和信息标识区分为不同要求。其官方说明中，视觉字符通常从成品地面 40 in（约 1015 mm）起算，触觉字符基线为 48–60 in（约 1220–1525 mm），并要求触觉标识前保留至少 18×18 in（约 455×455 mm）的清晰地面空间。官方还指出，方向信息牌可以是视觉标识，地面放置的冗余方向牌不能自动替代规定高度的视觉标识。来源：https://www.access-board.gov/ada/guides/chapter-7-signs/ 。
+
+这些是无障碍标识设计的权威参考，不是本项目自动采用的法规验收或产品承诺。当前 0.70 m 板体候选更接近低位公告/展示板，不应宣称满足触觉门牌或无障碍导视。若产品日后要让 `information-board-floor` 承担正式导视，应另定更高板体、文字基线、阅读留空和门摆扫掠合同，不把本包有限地面样件改名为合规标牌。
+
+六、实现接缝与最小预检
+
+下一包只需扩展现有模块，不新建运行或存档系统。
+
+- `branches.json` 保留原分支身份和 pending 标记，待样板决定后新增 floor 合同输入与四款 productionBranch。
+- `information-display.js` 增加 floor board 的 mountRole、floor mounting 原点、floor surface 偏移和内容附件校验。现有墙挂 `information-board` 合同与两份 `information-content` GLB 语义不变。
+- `information-geometry.js` 复用板框/内容面/三角形遮挡检查，加入 floor variant 的板体局部 y 参考、底座实体和内容面偏移。墙挂资源继续按当前固定中心合同检查。
+- `document.js` 复用 `floor-surface` 的房间/公共区边界和 y=0 准入，并把地面板 footprint 送入现有静态阻挡检查。不要调用 `support-data.js` 的水平承载路径。
+- `render.js` 复用现有父子组和墙体/房间观看逻辑。父板切层或隐藏时子内容随父组显示，真实阻挡不因 cutaway 改变。
+- `asset-library.js` 继续按资源 `id@version`、GLB SHA、实际 envelope、内嵌 PNG 和释放生命周期检查。内容资源不另建纹理清单或存档字段。
+
+最小预检出口是四款地面板真实几何和底座，至少两个现有内容 GLB 分别安装到四款，二布局或两处公共区位置，父板移动/旋转/复制，内容换入/换框保身份，底座和板体 footprint 的通路拒绝，错误高度/越界/遮挡/重复内容/坏资源失败保旧，以及关闭恢复和独立打包源可重建。最终视觉观感、普通电脑性能、真实角色接近和无障碍产品承诺仍需后续固定构建与用户验收。
+
+未验证参数包括总安装深度 0.20 m、底座高度 0.05 m、footprint 半深 0.10 m、内容中心 y=0.37 m、阅读留空大小及最终公共区位置。这些值是可实施的首轮候选，必须在地面样板和静态布局检查后锁定，不能在没有样板的情况下写入正式能力清单。

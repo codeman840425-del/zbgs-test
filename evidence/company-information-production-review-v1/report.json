@@ -1,0 +1,67 @@
+{
+  "status": "no-blocking-defect-found",
+  "scope": "Read-only review of the current wall information-board producer, bounded content input contract, six resource records and local provenance pins",
+  "configuration": {
+    "difficulty": "standard",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "high",
+    "actualProviderConfiguration": "not independently verified",
+    "hostHookInterception": "not independently verified"
+  },
+  "sourceHashes": {
+    "assets-source/company-information-v1/parameters.json": "2db1f06b5bc7bc787b64529852a7b468871b9a72dfe8d5d75ea7260cc987ba62",
+    "docs/COMPANY-INFORMATION-DISPLAY-CONTRACT-v1.txt": "364fe8b32db9adab546d511675970b3408ac6922fd398d633fc435263b59980d",
+    "scripts/company-platform/build-information.mjs": "cd6daef591e86096d82a90b625d52608cf7905f375a318f530bd073f17802d73",
+    "assets-source/company-information-v1/generate-content.py": "a2c50c68a399b7891095b3a5f6dcca46076d03eeaa959f5ee92ca127b520cc5b",
+    "assets-source/company-information-v1/requirements.txt": "0ef33a43c91b2c79a2940a32a95064f2c9368c7fa69dc8f0d6749015c7a328f1",
+    "assets-source/company-information-v1/NotoSansSC-VF.ttf": "a3041811a78c361b1de50f953c805e0244951c21c5bd412f7232ef0d899af0da",
+    "assets-source/company-information-v1/OFL.txt": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9"
+  },
+  "verifiedByThisReview": [
+    {
+      "name": "Typed-array packing preserves original bytes",
+      "method": "Source inspection",
+      "result": "glbForContent add passes typed arrays directly to align, which reads value.buffer with byteOffset and byteLength. The fixed position, normal, UV and index arrays retain their Float32/Uint16 byte representation."
+    },
+    {
+      "name": "Bounded recipe rejection precedes output publication",
+      "method": "Source inspection",
+      "result": "Node and Python reject malformed or duplicate IDs, empty/multiline titles, invalid line counts or line shapes, unsupported graphics and invalid hex colors. Python checks glyph coverage and measured title/body overflow before writing any output image because every recipe is first rendered to an in-memory list."
+    },
+    {
+      "name": "Font, license and tool-version checks are aligned",
+      "method": "Source and byte hash inspection",
+      "result": "Python enforces Pillow 12.1.0 and fonttools 4.64.0, fixed font-axis weights and the declared font/OFL SHA values. Local font and OFL bytes match parameters.json. The complete license is in OFL.txt and font-license.txt points to the same official source and license URLs."
+    },
+    {
+      "name": "Six resource provenance records match the actual current dependencies",
+      "method": "SHA-256 comparison of local files",
+      "result": "All six resource.json files match the actual parameters, generator, contract, helper, requirements, font and OFL file hashes."
+    },
+    {
+      "name": "Collection and six GLB identities match",
+      "method": "Local file SHA-256 and byte-length comparison",
+      "result": "The six collection entries refer to the same IDs and asset SHA values as their resource.json files. Every registered GLB SHA and byte length matches its current local file."
+    },
+    {
+      "name": "Content remains separate from board and instance identity",
+      "method": "Resource record inspection",
+      "result": "Four wall frame resources keep mountRole information-board and an empty state. Two independent content resources keep mount information-surface, information-face-v1, 1100x700 pixels and the visible boolean semantics. Content source and PNG hashes belong to content resources, not frame-specific baked text."
+    }
+  ],
+  "resources": [
+    "information-board-whiteboard@1",
+    "information-board-notice@1",
+    "information-board-doorplate@1",
+    "information-board-live@1",
+    "information-content-company-news-cn@1",
+    "information-content-company-live-cn@1"
+  ],
+  "remainingDefects": [],
+  "limits": [
+    "This review did not run browser or GPU checks and does not independently establish visual or fixed-build acceptance.",
+    "The root reported dev c69677ce9625 browser 8/8 and source-input 9/9 passes. Those are root-owned results and were not repeated by this reviewer.",
+    "Official font URL bytes were verified and corrected by root. This reviewer verified the local corrected font/OFL hashes and provenance consistency, without repeating the network download.",
+    "This is a bounded review of the current validated source and six generated outputs, not a claim of arbitrary text/image-layout support or an atomic filesystem transaction for all possible write failures."
+  ]
+}

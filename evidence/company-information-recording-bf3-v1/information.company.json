@@ -1,0 +1,319 @@
+{
+  "schema": "company-save",
+  "version": 1,
+  "document": {
+    "schema": "company-layout",
+    "version": 1,
+    "id": "appearance-information-board",
+    "name": "图文信息 · 公司公告",
+    "revision": 7,
+    "scale": "single-room",
+    "catalog": {
+      "id": "company-facilities",
+      "version": 1
+    },
+    "nodes": [
+      {
+        "id": "appearance-information-board/floor-1",
+        "kind": "floor",
+        "parentId": "appearance-information-board",
+        "name": "一层",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "appearance-information-board/room-1",
+        "kind": "room",
+        "parentId": "appearance-information-board/floor-1",
+        "name": "直播间",
+        "purpose": "streaming",
+        "bounds": {
+          "width": 7,
+          "depth": 5.25
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "information/station",
+        "kind": "workstation",
+        "parentId": "appearance-information-board/room-1",
+        "name": "information/station",
+        "transform": {
+          "position": [
+            -1.2,
+            0,
+            0.2
+          ],
+          "yaw": 0
+        },
+        "template": {
+          "id": "stream-station",
+          "version": 1
+        }
+      },
+      {
+        "id": "information/station/desk",
+        "kind": "facility",
+        "stationId": "information/station",
+        "partKey": "desk",
+        "parentId": "information/station",
+        "resource": {
+          "id": "desk",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            -0.9
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "information/station/monitor",
+        "kind": "facility",
+        "stationId": "information/station",
+        "partKey": "monitor",
+        "parentId": "information/station/desk",
+        "resource": {
+          "id": "monitor",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0.84,
+            -0.25
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "information/station/keyboard",
+        "kind": "facility",
+        "stationId": "information/station",
+        "partKey": "keyboard",
+        "parentId": "information/station/desk",
+        "resource": {
+          "id": "keyboard",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0.84,
+            0.21
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "information/station/microphone",
+        "kind": "facility",
+        "stationId": "information/station",
+        "partKey": "microphone",
+        "parentId": "information/station/desk",
+        "resource": {
+          "id": "desk-microphone",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.8,
+            0.84,
+            0.18
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "information/station/chair",
+        "kind": "facility",
+        "stationId": "information/station",
+        "partKey": "chair",
+        "parentId": "information/station",
+        "resource": {
+          "id": "chair",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0.55
+          ],
+          "yaw": 3.141592653589793
+        },
+        "state": {}
+      },
+      {
+        "id": "information/station/fill-light",
+        "kind": "facility",
+        "stationId": "information/station",
+        "partKey": "fill-light",
+        "parentId": "information/station",
+        "resource": {
+          "id": "fill-light",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.75,
+            0,
+            -0.15
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "information/primary",
+        "kind": "facility",
+        "parentId": "appearance-information-board/room-1",
+        "resource": {
+          "id": "information-board-whiteboard",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0.4,
+            1.7,
+            -2.525
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "information/primary/content",
+        "kind": "facility",
+        "parentId": "information/primary",
+        "resource": {
+          "id": "information-content-company-live-cn",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0.031
+          ],
+          "yaw": 0
+        },
+        "state": {
+          "visible": false
+        }
+      },
+      {
+        "id": "information/secondary",
+        "kind": "facility",
+        "parentId": "appearance-information-board/room-1",
+        "resource": {
+          "id": "information-board-notice",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            1.65,
+            1.7,
+            -2.525
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "information/secondary/content",
+        "kind": "facility",
+        "parentId": "information/secondary",
+        "resource": {
+          "id": "information-content-company-live-cn",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0.031
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      }
+    ]
+  },
+  "dependencies": {
+    "resources": [
+      {
+        "id": "chair",
+        "version": 1,
+        "sha256": "85593a00831a465019d57cf167cb7728bea6eb8b4df921f637f6720247d48c07"
+      },
+      {
+        "id": "desk-microphone",
+        "version": 1,
+        "sha256": "c519d0db034673cdc1d02de653ee8a5e6540d9aee355b7668a62629d2d27e853"
+      },
+      {
+        "id": "desk",
+        "version": 1,
+        "sha256": "938b3904b32bb89d6fe18518b50619adeb93fe0b1e9408a4b1e3d400735163d8"
+      },
+      {
+        "id": "fill-light",
+        "version": 1,
+        "sha256": "52a149c6017acf6ca35b5987c651870c353bc036f299e1fdbc1e037955d3bd4b"
+      },
+      {
+        "id": "information-board-notice",
+        "version": 1,
+        "sha256": "a8b694400d7239f6c2949d022019dd2fb1248cfbc4d72eacd5fa84eee63521b7"
+      },
+      {
+        "id": "information-board-whiteboard",
+        "version": 1,
+        "sha256": "4c6d6b2e66c535824128482ff811141748897a52784a9350d8771680102e187d"
+      },
+      {
+        "id": "information-content-company-live-cn",
+        "version": 1,
+        "sha256": "7b3c33575115230eb2d17308c2949d2195b7f34ec01e4a6638dd4c742dc01397"
+      },
+      {
+        "id": "keyboard",
+        "version": 1,
+        "sha256": "52423572c215536ef73c6daf96157912893f661000b9ca741dc35051a4b7d9d9"
+      },
+      {
+        "id": "monitor",
+        "version": 1,
+        "sha256": "cc761bf4e4fc786e1cccdfef1af1f4ec01a4f0049a3b142733091c0bf66f4fd0"
+      }
+    ],
+    "templates": [
+      {
+        "id": "stream-station",
+        "version": 1,
+        "sha256": "47dc0c9ae9e042c8e36a728022536ad2abbded2c7afebf314e8cf8105a74bdbc"
+      }
+    ]
+  }
+}
