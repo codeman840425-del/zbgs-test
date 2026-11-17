@@ -1,0 +1,29 @@
+公司场景验收界面整理（2026-11-17）
+
+入口：http://127.0.0.1:60880/
+源码：f9b2d2d0e0919fe6eb0e7a8d6e07a2dd924f8786
+构建：71a668592df1
+
+左：公司方案 / 设施分类、楼层及房间；公司与样件独立。
+中：场景、当前观看位置、适用镜头和墙体观看控件。
+右：物品 / 添加 / 装修三个互斥页签；选中物品外观与状态直接展示，位置参数折叠。
+顶：保存公司或样件、恢复当前方案、文件导入导出；保存状态可见。
+整层与大楼先进入房间再编辑；样件近看不再被默认总览覆盖。
+
+8组实际浏览器检查通过，包含添加、移动旋转、原位换款、开合、饰面、公司样件草稿/存档隔离、重开恢复及1024/820/390宽度。
+录像 workspace-normal1x.webm，41.04秒，25fps，正常1倍；已查看实际抽帧，不替代用户验收。
+
+复现：
+cd F:/gamemake-company-ui-fixed-v2/prototype
+npm ci --no-audit --no-fund
+node scripts/build-company-id.mjs
+npx vite build --config vite.company.config.js
+
+浏览器检查（最后一个参数使用新的输出目录）：
+cd F:/gamemake-company-platform-c1
+node scripts/company-platform/qa-ui-workspace.cjs F:/gamemake-company-ui-fixed-v2/prototype/dist-company output/playwright/company-ui-rerun
+
+仅在60880空闲时运行固定预览：
+node scripts/company-platform/serve-company.cjs F:/gamemake-company-ui-fixed-v2/prototype/dist-company 71a668592df1
+
+没有改动总工角色代码、角色M2或设施数据合同。窗口包源预检、窗洞纯函数和未接入的window-data继续保留，不包含本次固定交付。C1-C3长目标仍未完成。

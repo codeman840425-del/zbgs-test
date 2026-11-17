@@ -1,0 +1,66 @@
+{
+  "schema": "company-ui-review-v2",
+  "version": 2,
+  "auditedOn": "2026-11-17",
+  "workspace": "F:/gamemake-company-platform-c1",
+  "scope": "当前 company.html、preview.js、preview.css、facility-editor.js 与 qa-ui-workspace.cjs 的最终差异审查",
+  "configuration": {
+    "difficulty": "standard",
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "reason": "最终检查信息架构改动有无功能入口丢失及保存身份误导",
+    "runtimeOrHookIndependentVerification": false
+  },
+  "verifiedCurrentStructure": [
+    "左侧 browser-panel 负责公司/样件模式、公司方案或组合验证场景、楼层和房间选择。",
+    "右侧 tool tabs 在物品、添加、装修之间切换，样件模式只保留物品检查，sample-look 只对 stream-station 组合工位显示。",
+    "building view 隐藏 view-toolbar、禁用 tool tabs、隐藏物品列表并显示 inspector-unavailable。facility-editor.pointer 只在 room view 处理拾取和放置。",
+    "顶部保存按钮和恢复按钮按公司/样件模式显示不同文案，save-state 对完整 document JSON 显示已保存、未保存修改或本次未保存。",
+    "启动恢复和恢复按钮都会把当前 document JSON登记到 savedDocuments。恢复按钮调用 session.restore()，默认使用当前 document.id。",
+    "qa-ui-workspace.cjs 覆盖公司布局、添加设施、移动/旋转、原位换款、样件状态、组合场景入口、房间装修、大楼轻量视图、楼层进入、保存重启和1024/820/390宽度。"
+  ],
+  "remainingFindings": [
+    {
+      "severity": "low",
+      "kind": "acceptance-gap",
+      "file": "scripts/company-platform/qa-ui-workspace.cjs",
+      "finding": "当前 UI QA 验证了保存后浏览器重启恢复，但没有直接点击恢复按钮覆盖未保存修改，也没有覆盖导出后再导入另一份公司/样件 document。两条路径应在最终用户验收中补测。"
+    },
+    {
+      "severity": "low",
+      "kind": "acceptance-gap",
+      "file": "prototype/src/company/preview.js:332,prototype/src/company/facility-editor.js:30",
+      "finding": "错误提示覆盖常见设施重叠、资产加载和外观兼容错误。profile、portal、support、state、busy、revision-conflict 等错误仍可能回退到通用提示。当前事务仍保留有效方案，提示可行动性需要最终 UI 验收确认。"
+    },
+    {
+      "severity": "low",
+      "kind": "product-choice-to-confirm",
+      "file": "prototype/src/company/preview.js:342-350",
+      "finding": "company-preview:last-company 仍作为启动时最近 document 指针。恢复按钮本身按当前 document.id 工作，样件保存不会改变当前公司的恢复语义；若产品需要分别记忆公司和样件最近方案，应另行定义两个指针。"
+    }
+  ],
+  "fixedPreviousFindings": [
+    "启动恢复后 savedDocuments 基线已登记，save-state 不再把刚恢复内容标为本次未保存。",
+    "公司/样件按钮和保存/恢复文案已按当前模式更新。",
+    "整层/大楼 inspector 与工具入口已隐藏或禁用，pointer 不在 floor/building view 处理设施拾取。",
+    "sample-look 仅对组合工位 stream-station 显示，普通设施沿右侧 inspector 做同规格外观切换。"
+  ],
+  "minimalFinalAcceptance": [
+    "启动已有公司存档后检查 save-state=已保存，修改、保存、恢复按钮和重启后的 document JSON一致。",
+    "样件模式检查 sample-look 只对组合工位出现，其他设施从右侧 inspector 换同功能外观，返回公司后草稿仍保留。",
+    "整层和大楼视图检查 inspector 与拾取均不可编辑，进入房间后物品/添加/装修 tabs 恢复。",
+    "直接点击恢复覆盖未保存修改，导出后导入公司和样件 document，检查身份、父子关系、状态和视图。",
+    "非法移动、换款和资产失败检查状态提示与原 document/scene 保留。",
+    "在1024、820、390宽度检查楼层/房间导航、tool tabs、保存状态和错误信息不被截断。"
+  ],
+  "filesNotWritten": [
+    "prototype/company.html",
+    "prototype/src/company/preview.js",
+    "prototype/src/company/preview.css",
+    "prototype/src/company/facility-editor.js"
+  ],
+  "limitations": [
+    "本轮未启动服务、未执行 qa-ui-workspace.cjs、未使用浏览器或 GPU。",
+    "配置沿用请求的 gpt-6.1-sol/high，runtime 与 hook 拦截未独立验证。"
+  ]
+}
