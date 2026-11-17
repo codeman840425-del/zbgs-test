@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "checks": [
+    "actual two-part source and core commit/rollback; invalid request preserves prepared; same-material second owner denied",
+    "part dispose restores originals, closes owned bitmaps/disposes textures once and retains borrowed source",
+    "two synthetic named keys use distinct mutable caches/bitmaps, reuse cached color, rollback and dispose both once",
+    "dispose during actual bitmap decode closes late bitmap and releases owner for fresh palette",
+    "actual borrowed source pixel mismatch rejects before publication and repaired source can retry"
+  ],
+  "pins": {
+    "native-palette-part.js": "5dc94c4bd1028db53020ac2f8d348b8b24599e99af49655ba01f4eb89c1d39b6",
+    "native-facial-palette.js": "a759074c9f08fa0346e7dcbf38165f5f8bc0bfc005908b559cc3d242826c9994",
+    "native-eyebrow-palette.js": "d5bea1eea25f2e254036740d9f930f51b3e62be068166772b26bb5ebfc95d716"
+  },
+  "limits": [
+    "CPU actual VRM/PNG bytes and official MToon; Canvas/Pillow fixture",
+    "Core rollback is explicitly invoked by this test coordinator; caller integration not inferred",
+    "greenTwin is a fixture alias of the same real PNG, not production multi-color admission"
+  ]
+}

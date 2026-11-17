@@ -416,3 +416,7 @@ head-only一次诊断原8请求已完成，8/8 diagnostic-failed，正式生产�
 原生几何复用核查：native-geometry-reuse-review-v1确认当前78912(round-waist导出)已经进入843ac，仅换Body PNG；不能再次作为未用新几何样件。不是否认已接受参数，缺少的是同原生源参数前后成对VRM导出证据；Joy眉毛样件仅表情morph。下一制作补脸型/局部腰形的独立几何对照，受影响fit/覆盖依实际依赖重验，不把所有旧fit全作废或直接继承。
 
 原生独立眉色接缝在制：共用native-palette-part已从虹膜实现抽取，薄眼/眉包装共享真实来源像素、sampler/MToon、按需颜色cache、owner与回滚。修复新眉色被旧hair tint覆盖的域冲突；native v9保存实际iris+brow组合资源版本及附件/皮肤字段，旧真实v8绿眼+长发配方恢复眉original。root整合CPU虹膜5组/眉query保存通过，独审7caller反例过（含提交故障回滚）；尚待固定构建WebGL/12秒组合与页面验收，不替4196。
+
+原生眉色固定发布（2026-11-17）：3ead0c0e/buildcd3c55ef101b已发布4196。native-eyebrow-room-v1实际棕眉、错资源保旧、快速切换、与绿眼/独立长发组合v9冷页恢复、真实旧v8配方恢复眉original通过；原生完整源/独立眉眼区域280×110像素全等；12秒1×讲话/眨眼/微笑/视线已录，全片2fps辅助检查未见丢眉或旧发色覆盖。workbench-cd3-v1旧配色/男女/装备与9媒体实际解码通过；仅男7586眉棕/眼绿、开发机，人工自然度/普通机未通过。独审公共core5组、caller8反例保故障/夹具失败；发色制作失败仍封存未准入。M2未完成。
+
+真实原生脸/腰几何生产增量：native-vroid-geometry-production-v1同源三份实际VRM对照已独审。Face实际引用点变化为Face_SKIN737/Mouth976/HairBack38，其他共享accessor消费者不冒称均变；Waist影响Body/Tops/Bottoms、18服装辅助骨、3IBM accessor与12spring hitRadius，非humanoid骨修改。原报告错误exact字段已纠正并保旧。三个各自完整Body PNG派生已独审；仅Face cc0843三衣独立提取及三姿CPU读回完成，目标coverage/游戏表情接触/冷恢复未通过。Waist不继承旧fit，不扩大菜单。

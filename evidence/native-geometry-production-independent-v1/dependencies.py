@@ -1,0 +1,32 @@
+from pathlib import Path
+import json,struct,hashlib
+R=Path(__file__).resolve().parents[2];O=Path(__file__).resolve().parent
+h=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+def doc(p):
+ b=p.read_bytes();n=struct.unpack_from('<I',b,12)[0];return json.loads(b[20:20+n])
+def diff(a,b,path=''):
+ if type(a)!=type(b):return [{'path':path,'before':a,'after':b}]
+ if isinstance(a,dict):return sum((diff(a.get(k),b.get(k),path+'/'+k)for k in sorted(set(a)|set(b))),[])
+ if isinstance(a,list):
+  assert len(a)==len(b)
+  return sum((diff(x,y,path+'/'+str(i))for i,(x,y)in enumerate(zip(a,b))),[])
+ return []if a==b else [{'path':path,'before':a,'after':b}]
+r=json.loads((O/'result.json').read_text(encoding='utf8'));base=doc(R/r['inputs']['baseline']['path']);waist=doc(R/r['inputs']['waist']['path'])
+changes=diff(base['extensions'],waist['extensions'])
+for x in changes:
+ if '/VRMC_springBone/springs/' in x['path']:
+  bits=x['path'].split('/');si,ji=int(bits[3]),int(bits[5]);ni=base['extensions']['VRMC_springBone']['springs'][si]['joints'][ji]['node'];x['node']=ni;x['name']=base['nodes'][ni]['name']
+packages=[]
+for name in ['native-vroid-geometry-production-v1','native-vroid-geometry-factory-input-v1']:
+ p=R/'assets-source'/name/'package-files.json';d=json.loads(p.read_text(encoding='utf8'))
+ for f in d['files']:assert h(R/f['path'])==f['sha256'],f['path']
+ packages.append({'path':p.relative_to(R).as_posix(),'sha256':h(p),'verifiedFileCount':len(d['files'])})
+vroids=[]
+for path in ['assets-source/vroid-bridge-study-v1/generated/female-native-round-waist-216.vroid','assets-source/native-vroid-geometry-production-v1/generated/female-face-derived-correct.vroid','assets-source/native-vroid-geometry-production-v1/generated/female-waist-derived.vroid']:
+ p=R/path;vroids.append({'path':path,'sha256':h(p),'bytes':p.stat().st_size})
+exports=[r['receipts'][n]['payload']for n in ['11-export-baseline.json','29-export-face-correct.json','37-export-waist.json']]
+settings=[{k:v for k,v in e['settings'].items()if k!='vrm1Meta'}for e in exports]
+assert settings[0]==settings[1]==settings[2]
+out={'schema':'native-geometry-dependency-details-v1','waistExtensionDifferences':changes,'thumbnailImage':base['extensions']['VRMC_vrm']['meta']['thumbnailImage'],'packagesVerified':packages,'nativeFiles':vroids,'sameExportSettingsExceptMeta':True,'exportMeta':[e['settings']['vrm1Meta']for e in exports],'reopenScope':'same editor main-menu/open, not process restart','producerCaveats':['allNonPositionAttributeAccessorsExact uses all over empty iterable; not a measured invariant','allExpressionsAndExtensionsOtherThanMetaExact is assigned exprExact, but waist has 12 spring hitRadius changes','changedPositionGroups compares full shared accessor, not material actual referenced vertices']}
+with(O/'dependencies.json').open('x',encoding='utf8')as f:json.dump(out,f,ensure_ascii=False,indent=2);f.write('\n')
+print(json.dumps({'packageCounts':[p['verifiedFileCount']for p in packages],'springChanges':len(changes)-2,'nativeFiles':vroids},ensure_ascii=False))

@@ -11,21 +11,22 @@
 
 ## 固定交付与证据
 
-- 4196工作台：source f13bb4a2 / build cb4272c3b10c，experiments/native-iris-fixed-v2/prototype/dist；delivery/appearance-workbench.json为准。原c272指针/树保留，可回滚。4174历史媒体，4195封板M1，不新增常驻端口。
+- 4196工作台：source 3ead0c0e / build cd3c55ef101b，experiments/native-eyebrow-fixed-v1/prototype/dist；delivery/appearance-workbench.json为准。原c272指针/树保留，可回滚。4174历史媒体，4195封板M1，不新增常驻端口。
 - 新女843ac、新男7586已在外观菜单，均独立三衣；女另有改袖Top。真实factory走坐起短舞/基础保鞋/关闭页配方恢复见native-{female,male}-room-193b-v1，保录像身份。新源细节接触/全部速度/普通机未通过。
 - 男7586独立HairSet001长直发：native-hair-{room,close}-416b-v1两段35秒1×，原源同镜头材质对照render-v2。原生2材质/59动态骨/12spring，只有一个人物；保肩衣交叠、落座前发外扬和侧面家具遮挡，非人工自然度通过。c272仅加入口，不改旧录像身份。
 - 男7586原生虹膜original/green已发布：native-iris-room-v2，12秒1×讲话/眨眼/微笑/视线，原源同镜头眼区262×63逐像素全等，原生长发+绿眼配方冷页恢复。native-iris-workbench-cb427-v2实际菜单/旧配色/8媒体检查通过。V1测试跨体准入预期错误与脚本作用域错误保留，不是删失败换标签。
 - 绿色不能带入仅允许original的新女；切换会拒绝并保原人物，恢复原色后可切。其余原生发肤唇色未放开。原生绿也改变瞳孔深色RGB，不声称每个瞳孔像素不变。
 - HTTP固定build与三配色资源字节已核：native-iris-release-cb427-v1。远端已核7d5e283e15fb197ec4d4c69561afedcc12a8bf2d；remote-backup.json记录在该目录（随后纳入下一提交）。
 
-## 当前主工作包：原生眉色与发色生产接缝
+## 当前主工作包：原生真实脸型派生进入共用factory
 
-- native-vroid-hair-color-study-v1封包：眉色真实烘入FaceBrow，发Color/Shade/Outline保存冷开但导出HAIR未变，状态failed-hair-export-not-represented-brow-exported。不得以setter成功当发色通过。
-- scripts/stage-native-eyebrow.py已将眉色原/棕PNG与精确7586 manifest stage到public/native-eyebrow-palette-v1；重复mtime与冲突无副写检查通过。manifest acd3ec4703cac152890dda313f9b535d3efc5da3770fb4be28a4338e418e223a；源manifest62905d。尚未发布运行时。
-- http_transport_review（已知请求sol/high）负责共用native palette事务+eyebrowColor、character-appearance/query/recipe v9、旧版本迁移、CPU回归。root负责index/appearance-workbench和staging/实际浏览器；不碰main运动控制。manifest保旧iris字节，眉色新增独立字段，不伪装hairColor。
-- asset_budget（sol/high）核原生Hair.cs明确不同的base:命令，新包native-vroid-hair-color-base-v1唯一base主色实验也未进入导出，失败已封不重扫。当前接续native-vroid-geometry-production-v1做同源baseline/脸/腰三份导出及CPU差异。后台MCP，无桌面接管，完成恢复进入模型。
-- face_target_feasibility（astra/high）独审眉色实际源/组合事务/旧配方/两实例，输出native-eyebrow-independent-v1；GPU只由root使用。
-- root UI已增加有标签独立眉色（旧模型仍跟随发色、原生未知禁用），新qa-native-eyebrow-room.cjs已写未运行，等待runtime封口后exact-commit独立构建、同源近景、12秒组合/冷恢复/实际页面。当前4196仍已验cb427。
+- 眉色已完成固定交付cd3c。native-eyebrow-room-v1和workbench-cd3-v1分别实际组合/冷恢复和9视频；native-eyebrow-independent-v1公共core5组、caller8反例通过。原生发色两次导出未生效封失败，不再同因扫参。
+- native-vroid-geometry-production-v1：同源baseline1924、Face89aa、Waist2244已实际参数保存/菜单重开/导出。独审以实际indices确认Face_SKIN737、Mouth976、HairBack38点变；Waist连同Body/衣物、18辅助骨、3IBM/12spring半径变。旧错误过度exact报告保副本，最新脚本已纠正；不能称18个humanoid骨变化。
+- native-vroid-geometry-factory-input-v1：baseline6726/Facecc0843/Waistcf1574三源只换原生完整Body PNG，其他各自资产数据保留；不把unmask的几何不变误解成Face/Waist彼此不变。
+- 本包先只接Face cc0843，保当前843ac原对照，不同时扩大Waist菜单。Face独立Top/Shorts/Shoes已native-vroid-face-factory-equipment-v1生成，确定性/错源/三姿CPU读回过；sourceFloor/coverage与真实游戏尚未验。
+- asset_budget（已知sol/high）正完成native-vroid-face-body-texture-fit-v1，新目标精确原生mask与鞋底profile；不GPU/Studio、不加额外衣物。
+- http_transport_review（sol/high）准备stage-native-face-factory.py、foundation-profiles/body-texture-coverage-admissions/appearance-color-policy数据注册，bodyType native-female-face-v1。原衣三件/原发/原色，不继承843ac袖/发/配色fits；不写main/UI/文档。root负责UI和固定GPU完整近景表情/动作/配方。
+- face_target_feasibility（astra/high）已封native-geometry-production-independent-v1与眉独审；暂无GPU任务。源码/generator部分经过独审不等于游戏接触通过。
 
 ## 下一真实缺口与避免重复
 
@@ -44,3 +45,5 @@
 - 派工均复用明确requested配置，实际provider/hook未独立暴露；记录subagent-explicit-dispatch-2026-11-16.json。不从host400推断独审文件不存在，也不称host成功。
 
 最新工作衔接：原生眉色通用core由root完成抽取，http调用方经root集成修正v9/旧hair染色冲突；root整合CPU与face实际caller7反例过。正在精确提交固定构建、实际近景/1×/冷恢复。原生几何源及完整皮肤派生已封，asset_budget继续仅face cc0843的原三衣确定性拆分/新fit CPU，不写运行时。
+
+最新发布：cd3c55ef101b眉色+绿眼+独立长发已实际UI/12秒1×/旧v8迁移与v9冷恢复，9媒体回读通过；前cb427独立树/指针保留。HTTP眉包三资源及iris manifest相同字节核过。主包转为真实原生face cc0843与其三衣/覆盖接缝；waist只源生产，不同时扩界面。详见CAP末条，未宣布M2完成。

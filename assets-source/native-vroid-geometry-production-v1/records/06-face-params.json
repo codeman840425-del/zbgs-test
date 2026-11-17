@@ -1,0 +1,63 @@
+{
+  "request": {
+    "method": "tools/call",
+    "params": {
+      "name": "vroid_get_params",
+      "arguments": {
+        "group": "e3cd9e18cd96ad300dc0499848df874e19b428b7.transferablegroup"
+      }
+    }
+  },
+  "responses": [
+    {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": {
+        "protocolVersion": "2025-06-18",
+        "capabilities": {
+          "tools": {},
+          "prompts": {},
+          "resources": {}
+        },
+        "serverInfo": {
+          "name": "vroid-studio",
+          "version": "0.15.0"
+        },
+        "instructions": "VRoid Studio MCP. Tool names and arguments are English. Call vroid_help('overview') before a complex task; vroid_help supports lang=en|fr|ja|zh-CN. VRoid Studio must be running with the bridge loaded. Only one model can be open at a time. Call vroid_status first. Save before vroid_main_menu, vroid_open or vroid_create. For visual work, use vroid_screenshot. For preset discovery, use vroid_preset_cache_search before applying presets. For sequences, use vroid_batch (up to 200 sequential operations, no automatic rollback). Do not assume that one preset replaces only one slot: whole outfits can replace several slots; verify with vroid_list_groups. Thumbnail generation strips all clothes, underwear and hair except the tested item. An English Agent Reference is exposed as MCP resources: vroid://agent/reference (full), plus vroid://agent/start, face, hairstyle, body, outfit, accessories, look, physical, presets, tools, workflows and troubleshooting. Read only the section needed; tools/list stays the authoritative schema list. MCP prompts: start (open a working session), character (build a character from a description), export_vrm (full/balanced/light VRM export), help. Reply in the user's language; never overwrite the user's .vroid file or discard changes without asking."
+      }
+    },
+    {
+      "jsonrpc": "2.0",
+      "id": 2,
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n \"error\": \"Il2CppException\",\n \"message\": \"System.Collections.Generic.KeyNotFoundException: The given key 'e3cd9e18cd96ad300dc0499848df874e19b428b7.transferablegroup' was not present in the dictionary.\\n--- BEGIN IL2CPP STACK TRACE ---\\nSystem.Collections.Generic.KeyNotFoundException: The given key 'e3cd9e18cd96ad300dc0499848df874e19b428b7.transferablegroup' was not present in the dictionary.\\r\\n  at System.Collections.Generic.Dictionary`2[TKey,TValue].get_Item (TKey key) [0x00000] in <00000000000000000000000000000000>:0 \\r\\n  at VRoidCore.Common.SpecificTypes.Model.GetParametersForTransferableGroup (System.String transferableGroupId) [0x00000] in <00000000000000000000000000000000>:0 \\n--- END IL2CPP STACK TRACE ---\\n\",\n \"http_status\": 500\n}"
+          }
+        ],
+        "isError": true
+      }
+    }
+  ],
+  "wallSeconds": 0.14323329995386302,
+  "exitCode": 0,
+  "stderr": "",
+  "images": [],
+  "ok": false,
+  "failures": [
+    "response 2: isError",
+    "content[0]: error",
+    "content[0]: HTTP failure"
+  ],
+  "rawStdout": {
+    "path": "06-face-params.json.stdout.bin",
+    "bytes": 2377,
+    "sha256": "ee35bdbe04bd424a4f3d4ed1b255529a9d95dc4ffc008dd9939f8ac4b44f5806"
+  },
+  "rawStderr": {
+    "path": "06-face-params.json.stderr.bin",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

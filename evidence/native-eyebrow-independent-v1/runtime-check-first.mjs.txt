@@ -1,0 +1,126 @@
+// Real source PNGs, native VRM and imported runtime modules. Pillow decodes the
+// PNG bytes for CPU bitmap/Canvas transport fixtures. No browser or GPU.
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
+import * as THREE from '../../prototype/node_modules/three/build/three.module.js';
+import {GLTFLoader} from '../../prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js';
+import {VRMLoaderPlugin} from '../../prototype/node_modules/@pixiv/three-vrm/lib/three-vrm.module.js';
+import {createFacialPalette,EYE_COLORS} from '../../prototype/src/facial-palette.js';
+import {createCharacterAppearance} from '../../prototype/src/character-appearance.js';
+import {createFacialGeometry} from '../../prototype/src/facial-geometry.js';
+import {foundationProfile} from '../../prototype/src/foundation-profiles.js';
+import {appearanceColorSupport,appearanceColorPresets} from '../../prototype/src/appearance-color-policy.js';
+import {facialPaletteContract,FACIAL_PALETTE_VERSION,LEGACY_FACIAL_PALETTE_VERSION} from '../../prototype/src/facial-palette-contract.js';
+import {queryAppearanceCandidates,admitAppearanceCandidate} from '../../prototype/src/appearance-candidates.js';
+import {validateAppearanceRecipe,captureAppearanceRecipe,applyAppearanceRecipe} from '../../prototype/src/appearance-recipe.js';
+
+const out=path.resolve(process.argv[2]??'evidence/native-eyebrow-independent-v1/runtime-v1');await fs.mkdir(out);
+const publicRoot=path.resolve('prototype/public'),body='native-male-7586-v1',config=foundationProfile(body);
+const contract=facialPaletteContract(config.sha256),sha=b=>createHash('sha256').update(b).digest('hex');
+const files=new Map(),images=new Map();
+for(const name of ['manifest.json','source-iris.png','iris-green.png']) {
+  const url='/assets/native-iris-palette-v1/'+name,file=path.join(publicRoot,url),bytes=await fs.readFile(file);files.set(url,bytes);
+  if(name.endsWith('.png'))images.set(sha(bytes),{width:bytes.readUInt32BE(16),height:bytes.readUInt32BE(20),
+    pixels:new Uint8ClampedArray(execFileSync('python',['-c','from PIL import Image; import sys; sys.stdout.buffer.write(Image.open(sys.argv[1]).convert("RGBA").tobytes())',file],{maxBuffer:8*1024*1024}))});
+}
+assert.equal(sha(files.get('/assets/native-iris-palette-v1/manifest.json')),'909f1c8699d2dd0338854090dc4f534273e33a78d1c00c3f470eb2ff826d8b7a');
+const manifest=JSON.parse(files.get('/assets/native-iris-palette-v1/manifest.json'));
+const browManifest=JSON.parse(await fs.readFile(path.join(publicRoot,'/assets/native-eyebrow-palette-v1/manifest.json')));
+for(const name of ['manifest.json','source-brow.png','brow-brown.png']) {const url='/assets/native-eyebrow-palette-v1/'+name,file=path.join(publicRoot,url),bytes=await fs.readFile(file);files.set(url,bytes);if(name.endsWith('.png'))images.set(sha(bytes),{width:bytes.readUInt32BE(16),height:bytes.readUInt32BE(20),pixels:new Uint8ClampedArray(execFileSync('python',['-c','from PIL import Image; import sys; sys.stdout.buffer.write(Image.open(sys.argv[1]).convert("RGBA").tobytes())',file],{maxBuffer:8*1024*1024}))});}
+assert.equal(sha(files.get('/assets/native-eyebrow-palette-v1/manifest.json')),'acd3ec4703cac152890dda313f9b535d3efc5da3770fb4be28a4338e418e223a');
+assert.equal(sha(files.get(manifest.iris.source.url)),manifest.iris.source.sha256);
+const original=images.get(manifest.iris.source.sha256),colored=images.get(manifest.iris.colors.green.sha256);
+const originalFetch=globalThis.fetch,originalBitmap=globalThis.createImageBitmap,originalDocument=globalThis.document;
+const originalParse=GLTFLoader.prototype.parseAsync;
+let corruptURL=null,held=null,bitmapGate=null,fetches=0;const bitmaps=[];
+globalThis.fetch=async input=>{
+  const url=new URL(input,'http://localhost/').pathname;fetches++;
+  if(held?.url===url){const gate=held;held=null;gate.enter();await gate.promise;}
+  let data=files.get(url);if(!data){try{data=await fs.readFile(path.join(publicRoot,url));}catch{}}return new Response(corruptURL===url?Buffer.from('wrong source bytes'):data,{status:data?200:404});
+};
+globalThis.createImageBitmap=async(blob,options)=>{
+  assert.deepEqual(options,{premultiplyAlpha:'none',colorSpaceConversion:'none',imageOrientation:'none'});
+  const bytes=Buffer.from(await blob.arrayBuffer()),image=images.get(sha(bytes));assert(image);
+  const bitmap={...image,pixels:new Uint8ClampedArray(image.pixels),closed:0,close(){this.closed++;assert.equal(this.closed,1);}};
+  bitmaps.push(bitmap);if(bitmapGate&&bitmapGate.sha===sha(bytes)){const gate=bitmapGate;bitmapGate=null;gate.enter();await gate.promise;}return bitmap;
+};
+globalThis.document={createElement:()=>{
+  let data;return{width:0,height:0,getContext:()=>({drawImage:image=>{data=new Uint8ClampedArray(image.pixels);},getImageData:()=>({data})})};
+}};
+GLTFLoader.prototype.parseAsync=function(...args){
+  this.register(parser=>({name:'IrisCpuImageTransport',loadTexture:async index=>{
+    const src=parser.json.textures[index].source===8?images.get(browManifest.parts.eyebrowColor.source.sha256):original;
+    const texture=new THREE.Texture({...src,pixels:new Uint8ClampedArray(src.pixels)});
+    Object.assign(texture,{flipY:false,colorSpace:THREE.SRGBColorSpace,minFilter:THREE.LinearFilter,magFilter:THREE.LinearFilter,
+      wrapS:THREE.RepeatWrapping,wrapT:THREE.RepeatWrapping,generateMipmaps:false});return texture;
+  }}));return originalParse.apply(this,args);
+};
+const fixtures=[],checks=[];
+async function fixture(type=body,character=true) {
+  const profile=foundationProfile(type),bytes=await fs.readFile(path.join(publicRoot,profile.url));assert.equal(sha(bytes),profile.sha256);
+  const loader=new GLTFLoader();loader.register(parser=>new VRMLoaderPlugin(parser));
+  const gltf=await loader.parseAsync(bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength),'');
+  const vrm=gltf.userData.vrm;vrm.update(0);
+  const materials=[];vrm.scene.traverse(mesh=>{
+    if(!mesh.isMesh)return;for(const m of Array.isArray(mesh.material)?mesh.material:[mesh.material])if(m.name===manifest.iris.materialName)materials.push(m);
+  });
+  const material=materials[0];assert(material);
+  const owner=character?createCharacterAppearance({vrm,avatarSha256:profile.sha256,preserveHairInBaseMode:true}):createFacialPalette({vrm,avatarSha256:profile.sha256});
+  let brow;vrm.scene.traverse(mesh=>{if(mesh.isMesh)for(const m of Array.isArray(mesh.material)?mesh.material:[mesh.material])if(m.name===browManifest.parts.eyebrowColor.materialName)brow=m;});assert(brow);const f={vrm,profile,owner,material,brow,map:material.map,shade:material.shadeMultiplyTexture,browMap:brow.map,browShade:brow.shadeMultiplyTexture};fixtures.push(f);return f;
+}
+function parameters(material) {
+  const values={};for(const [key,uniform] of Object.entries(material.uniforms)) {
+    const value=uniform.value;if(value?.isTexture)continue;
+    values[key]=value?.toArray?value.toArray():value;
+  }
+  return {values,opacity:material.opacity,transparent:material.transparent,alphaTest:material.alphaTest,
+    side:material.side,depthWrite:material.depthWrite,blending:material.blending};
+}
+function originalMaps(f){assert.equal(f.material.map,f.map);assert.equal(f.material.shadeMultiplyTexture,f.shade);}
+function hold(url){let enter,release;const started=new Promise(r=>enter=r),promise=new Promise(r=>release=r);held={url,enter,promise};return{started,release};}
+function originals(f){originalMaps(f);assert.equal(f.brow.map,f.browMap);assert.equal(f.brow.shadeMultiplyTexture,f.browShade);}
+function mapState(f){return [f.material.map,f.material.shadeMultiplyTexture,f.brow.map,f.brow.shadeMultiplyTexture];}
+function heldBitmap(sha){let enter,release;const started=new Promise(r=>enter=r);bitmapGate={sha,enter,promise:new Promise(r=>release=r)};return{started,release};}
+try {
+ const f=await fixture(),before=mapState(f),baseParams=[parameters(f.material),parameters(f.brow)];
+ const prepared=await f.owner.prepareUpdate({eyeColor:'green',eyebrowColor:'brown'});assert(prepared.commit,JSON.stringify(prepared));originals(f);
+ const update=f.material.update;let failed=false;f.material.update=function(dt){if(!failed){failed=true;throw Error('independent injected second iris commit failure');}return update.call(this,dt);};
+ assert.throws(()=>prepared.commit(),/independent injected/);prepared.dispose();f.material.update=update;
+ assert.deepEqual(mapState(f),before);assert.equal(f.owner.getState().eyeColor,'original');assert.equal(f.owner.getState().eyebrowColor,'original');assert.deepEqual([parameters(f.material),parameters(f.brow)],baseParams);
+ assert((await f.owner.set({eyeColor:'green',eyebrowColor:'brown'})).applied);assert.deepEqual(f.material.map.image.pixels,colored.pixels);assert.deepEqual(f.brow.map.image.pixels,images.get(browManifest.parts.eyebrowColor.colors.brown.sha256).pixels);
+ assert.deepEqual([parameters(f.material),parameters(f.brow)],baseParams);
+ checks.push('second iris actual material commit failure rolls earlier brow and both original maps/shades/state back; retry uses exact authored two PNGs');
+ const pending=await f.owner.prepareUpdate({reset:true});assert(pending.isCurrent());
+ for(const wrong of [{eyeColor:'blue'},{eyebrowColor:'blue'},{lipColor:'rose'}]){const state=f.owner.getState();assert.equal((await f.owner.set(wrong)).applied,false);assert(pending.isCurrent());assert.deepEqual(f.owner.getState(),state);}
+ pending.commit();pending.dispose();originals(f);
+ checks.push('invalid eye/brow/lip does not invalidate prior legal prepared reset or change state');
+ const a=await fixture(),b=await fixture();await Promise.all([a.owner.set({eyeColor:'green',eyebrowColor:'brown'}),b.owner.set({eyeColor:'green',eyebrowColor:'brown'})]);
+ const aOwned=new Set(mapState(a)),bOwned=new Set(mapState(b)),disposals=new Map();for(const tex of aOwned){assert(!bOwned.has(tex));disposals.set(tex,0);tex.addEventListener('dispose',()=>disposals.set(tex,disposals.get(tex)+1));}
+ a.owner.dispose();a.owner.dispose();originals(a);for(const [t,count]of disposals){assert.equal(count,1);assert.equal(t.image.closed,1);}for(const t of bOwned)assert.equal(t.image.closed,0);
+ checks.push('two two-part actors have distinct textures/bitmaps; own disposal exactly once preserves other actor');
+ const late=await fixture(),gate=heldBitmap(browManifest.parts.eyebrowColor.colors.brown.sha256),start=bitmaps.length;const job=late.owner.set({eyeColor:'green',eyebrowColor:'brown'});await gate.started;late.owner.dispose();gate.release();assert.equal((await job).applied,false);originals(late);for(const bitmap of bitmaps.slice(start))assert.equal(bitmap.closed,1);
+ checks.push('dispose during actual brown bitmap decode closes every late/staged bitmap and does not resurrect maps');
+ const bad=await fixture();corruptURL=browManifest.parts.eyebrowColor.colors.brown.url;assert.equal((await bad.owner.set({eyeColor:'green',eyebrowColor:'brown'})).applied,false);originals(bad);assert.equal(bad.owner.getState().eyeColor,'original');assert.equal(bad.owner.getState().eyebrowColor,'original');corruptURL=null;
+ assert((await bad.owner.set({eyeColor:'green',eyebrowColor:'brown'})).applied);
+ checks.push('bad second PNG prevents first iris publication; clean retry succeeds');
+ const sameOwner=createCharacterAppearance({vrm:b.vrm,avatarSha256:b.profile.sha256,preserveHairInBaseMode:true});assert.equal((await sameOwner.set({eyebrowColor:'brown'})).applied,false);sameOwner.dispose();assert.equal(b.owner.getState().eyeColor,'green');assert.equal(b.owner.getState().eyebrowColor,'brown');
+ checks.push('second palette on same material is refused without damaging first owner');
+ const actualRecipeBytes=await fs.readFile('evidence/native-iris-room-v2/combined-recipe.json'),actualRecipe=JSON.parse(actualRecipeBytes);
+ const actor=await fixture(body,true),catalog=JSON.parse(await fs.readFile(path.join(publicRoot,config.manifestUrl))),geometry=createFacialGeometry({vrm:actor.vrm,avatarSha256:config.sha256});
+ const noneDomain=()=>{let revision=0;return{getState:()=>({selection:'none',status:'ready',revision}),async prepareUpdate(selection){assert.equal(selection,'none');const prior=revision;let live=true;return{isCurrent:()=>live&&revision===prior,commit(){assert(live);revision++;live=false;},dispose(){live=false;}};}};};
+ const controller={outfit:0,outfitRevision:0,actor:{config,profile:{bodyType:body,sha256:config.sha256},vrm:actor.vrm,appearance:actor.owner,facialGeometry:geometry,rigidAccessories:noneDomain(),headwear:noneDomain(),getEquipmentRecipe:()=>Object.fromEntries(['top','shorts','shoes'].map(role=>[role,catalog.items.find(e=>e.id===config.ids[role])]))},async prepareOutfit(){let live=true;return{isCurrent:()=>live,commit(){live=false;},dispose(){live=false;}};}};
+ assert.equal(actualRecipe.schema,'workbench-appearance-recipe-v8');assert.equal(actualRecipe.appearance.eyeColor,'green');assert(!Object.hasOwn(actualRecipe.appearance,'eyebrowColor'));
+ assert(validateAppearanceRecipe(controller,actualRecipe));assert((await applyAppearanceRecipe(controller,actualRecipe)).applied);
+ assert.equal(actor.owner.getState().eyeColor,'green');assert.equal(actor.owner.getState().eyebrowColor,'original');assert.equal(actor.owner.getState().hairStyle,'native-male-hairset001-v1');
+ const captured=captureAppearanceRecipe(controller);assert.equal(captured.schema,'workbench-appearance-recipe-v9');assert.equal(captured.appearance.eyebrowColor,'original');assert.equal(captured.appearance.eyeColor,'green');assert.deepEqual(captured.equipment,actualRecipe.equipment);assert.deepEqual(captured.hairFit,actualRecipe.hairFit);
+ const oldBrown=structuredClone(actualRecipe);oldBrown.appearance.eyebrowColor='brown';const safe=actor.owner.getState();assert.throws(()=>validateAppearanceRecipe(controller,oldBrown));await assert.rejects(applyAppearanceRecipe(controller,oldBrown));assert.deepEqual(actor.owner.getState(),safe);
+ const newBrown=structuredClone(captured);newBrown.appearance.eyebrowColor='brown';assert(validateAppearanceRecipe(controller,newBrown));assert((await applyAppearanceRecipe(controller,newBrown)).applied);assert.equal(actor.owner.getState().eyebrowColor,'brown');
+ assert((await applyAppearanceRecipe(controller,actualRecipe)).applied);assert.equal(actor.owner.getState().eyeColor,'green');assert.equal(actor.owner.getState().eyebrowColor,'original');geometry.dispose();
+ checks.push({name:'actual sealed v8 iris+nativehair recipe migrates to v9 eyebroworiginal; oldv8 brown refuses without state changes; restoring same old file clears existing brown',recipeSHA256:sha(actualRecipeBytes),accessoryAndOutfitPresentation:'none-only CPU transaction stubs; real VRM/palette/hair/geometry modules and real equipment manifest identity'});
+ const hashes={};for(const file of ['native-facial-palette.js','native-palette-catalog.js','facial-palette.js','facial-palette-contract.js','appearance-color-policy.js','appearance-candidates.js','appearance-recipe.js','character-appearance.js'])hashes[file]=sha(await fs.readFile('prototype/src/'+file));
+ await fs.writeFile(path.join(out,'result.json'),JSON.stringify({passed:true,checks,runtimeSHA:hashes,limits:'Actual VRM/PNG data with Pillow/CPU Canvas transport. No WebGL/Studio/GPU acceptance.'},null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({passed:true,checks:checks.length}));
+}catch(error){await fs.writeFile(path.join(out,'failure.json'),JSON.stringify({checks,error:error.stack},null,2)+'\n',{flag:'wx'});throw error;}
+finally{for(const f of fixtures)f.owner.dispose();globalThis.fetch=originalFetch;globalThis.createImageBitmap=originalBitmap;globalThis.document=originalDocument;GLTFLoader.prototype.parseAsync=originalParse;}
