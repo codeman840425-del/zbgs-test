@@ -37,3 +37,6 @@
 
 
 2026-11-17 D03接续：固定工作台65814（d09c7b03）与独立四记录运行包已实际验证。最新短恢复点为CURRENT-FOUNDATION，接口说明CHARACTER-RECORD-CONSUMER，唯一能力事实CAP。新原生人物导入不等于贴图替换；旧麦克风/眼镜缺口已补并实际4196再次核，不把任何新体加载视作自动继承全部能力。后续D02仍用共用资源准入与记录事务，M2未结束。公司分支文件未纳入本包。
+
+
+2026-11-17 D02交接：4196固定1084ddeae27a/source55d363fb。真实完整记录制作CLI与独立输入包已接通；全部事实/失败只看CAP与CURRENT；生产方法docs/PRODUCTION-FLOW-CLI，源码scripts/character-production-cli.cjs、prototype/src/character-production.js，最终证据m2-production-fixed-v2/guards/room/package-browser-v3。保留65814回退。当前接P04整套记录资源预算，不重录封板舞、不启动随机M3或公司系统。用户“两个皮肤”疑问已说明模型适配应由平台承担，不应暴露成新人物功能缺失。

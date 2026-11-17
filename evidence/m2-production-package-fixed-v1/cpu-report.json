@@ -1,0 +1,44 @@
+{
+  "schema": "production-game-package-cpu-report-v1",
+  "status": "passed",
+  "scope": "固定构建来源、角色记录原件及独立包字节校验。浏览器运行证据另记。",
+  "runtime": {
+    "sourceCommit": "55d363fbb2fae96e3b2e571a4f00de825545f537",
+    "sourceDigest": "1084ddeae27ae925c6a05f6ea7e7417ff2c3cf42205029ed5593822dee1a02c3",
+    "buildId": "1084ddeae27a",
+    "entry": "record-consumer.html",
+    "entryUrl": "record-consumer.html?records=/records/manifest.json"
+  },
+  "inventorySha256": "d07f54684dc79e445d21b2ada4d67f04640945f187529f46caa6294827be443e",
+  "recordArraySha256": "7014eb6e190fc1fd67bae73bb54db3d096a6cad595ed3be04d6ea6bd98cc74fc",
+  "runtimeReviewSha256": "9b0fcd07ba44a96362778309375f2348a777576b08c13206b6ac8ec2a7f09558",
+  "pinnedCompiledFiles": 10,
+  "declaredFiles": 49,
+  "exportedFiles": 50,
+  "totalDeclaredBytes": 65813899,
+  "records": [
+    {
+      "id": "production-native-male-01",
+      "revision": 2,
+      "recordSha256": "c80040a63475b1d9b797a1b95fa7fc368b36331f59bd418fb7d0df03d3330c30",
+      "file": "records/production-native-male-01.json",
+      "bodyType": "native-male-7586-v1",
+      "bytes": 86482
+    },
+    {
+      "id": "production-native-female-01",
+      "revision": 1,
+      "recordSha256": "39f5877d9979783e6d74a7423cc9d067a76446a6f7f453246d1d4349ba945011",
+      "file": "records/production-native-female-01.json",
+      "bodyType": "native-female-face-v1",
+      "bytes": 142307
+    }
+  ],
+  "checks": [
+    "包内文件与清单逐条核对路径、SHA-256和长度，固定运行文件逐字节比对固定dist。",
+    "两份紧凑JSON记录按输入顺序导出，其值与实际制作CLI产出一致。",
+    "原生男长发GLB、绿色虹膜PNG在依赖闭包内。",
+    "工作台入口与示例记录未被声明为所选包文件。",
+    "外部记录路径拒绝用旧审定表替换当前审定表。"
+  ]
+}
