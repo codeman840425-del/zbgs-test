@@ -1,0 +1,209 @@
+{
+  "schema": "head-cage-skin-domain-independent-audit-v1",
+  "status": "no-new-blocker-in-bounded-bounds-only-response-preflight-review",
+  "requestedConfiguration": {
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "high",
+    "actualProviderAndHookIndependentlyVerified": false
+  },
+  "reviewedRootCommit": "cd639b1b5b0a91d7ebfa34ba47f2127ff50b9e23",
+  "authorCommit": "23d934497d50afa4b21002f551a11d624ab75e1b",
+  "originalResponseCommit": "5309c95b6c3d81755b5f9da885a308c84158d66b",
+  "checks": [
+    {
+      "id": "actual-AST-transform-and-generated-diff",
+      "passed": true,
+      "detail": "Executed only the actual corrected_constructor AST function with an uninstantiated fake Head class. Its diff exactly matches the independently constructed one-call replacement and generated/bounds-only.diff bytes. The original Head constructor is otherwise unchanged. No constructor or Blender object evaluation occurred."
+    },
+    {
+      "id": "actual-domain-selector-on-source-indices",
+      "passed": true,
+      "detail": "Executed only the actual domain_endpoints function on real source GLB primitives/endpoints. Every returned endpoint equals independently selected union indices for Body_00_SKIN, Face_00_SKIN, FaceMouth and FaceBrow. All original source arrays remain present."
+    },
+    {
+      "id": "original-requests-setup-and-exact-input-fields",
+      "passed": true,
+      "detail": "Requests and setup exactly equal the parent spec. New source points/face triangles/landmarks, actual endpoint weights in landmarks, requests, controls/signs/vertex IDs, nominal probe and axis semantics equal the original5309 response JSON values. Original response files match5309 Git blobs."
+    },
+    {
+      "id": "tensor-probe-and-flatten-axis-order",
+      "passed": true,
+      "detail": "Full tensor shape3x202x9x3. Every actual probe displacement reproduces its tensor slice exactly. Same-axis matrices reproduce the diagonal axis slices. Full flatten is tensor.transpose(3,1,0,2).reshape(606,27), meaning outputXYZ/landmark rows and inputXYZ/control columns."
+    },
+    {
+      "id": "endpoint-source-identity-and-necessary-coverage",
+      "passed": true,
+      "detail": "Independent original GLB endpoint concatenation reproduces recorded source hash. Every endpoint point count, necessary index count, active necessary count and outside set matches CPU index/weight readback. Recorded identity error is zero for every source base and individual original morph endpoint, plus before/after probe restoration."
+    },
+    {
+      "id": "retained-other-active-outside-materials",
+      "passed": true,
+      "detail": "Each sex retains10 positive-weight outside vertices in accessor7 base target−1,20 total across both sources. All are original Tops_01_CLOTH. They were not deleted or promoted to necessary head-domain points. No other outside material was found."
+    }
+  ],
+  "cases": [
+    {
+      "sex": "female",
+      "endpointCount": 58,
+      "widthM": 0.20819881558418274,
+      "necessaryActiveOutsideCount": 0,
+      "recordedIdentityErrorM": 0,
+      "necessaryMaterials": [
+        {
+          "mesh": 0,
+          "primitive": 0,
+          "material": "F00_001_01_Body_00_SKIN",
+          "indexAccessor": 1,
+          "indexCount": 4648
+        },
+        {
+          "mesh": 1,
+          "primitive": 0,
+          "material": "F00_000_00_FaceMouth_00_FACE",
+          "indexAccessor": 12,
+          "indexCount": 387
+        },
+        {
+          "mesh": 1,
+          "primitive": 4,
+          "material": "F00_000_00_FaceBrow_00_FACE",
+          "indexAccessor": 16,
+          "indexCount": 110
+        },
+        {
+          "mesh": 1,
+          "primitive": 7,
+          "material": "F00_000_00_Face_00_SKIN",
+          "indexAccessor": 19,
+          "indexCount": 780
+        }
+      ],
+      "retainedOutsideCount": 10,
+      "retainedOutsideVertexIds": [
+        4731,
+        4770,
+        4771,
+        4842,
+        4843,
+        4998,
+        5037,
+        5038,
+        5148,
+        5152
+      ],
+      "retainedOutsideMaterialNames": [
+        "F00_001_01_Tops_01_CLOTH"
+      ]
+    },
+    {
+      "sex": "male",
+      "endpointCount": 56,
+      "widthM": 0.21251821517944336,
+      "necessaryActiveOutsideCount": 0,
+      "recordedIdentityErrorM": 0,
+      "necessaryMaterials": [
+        {
+          "mesh": 0,
+          "primitive": 0,
+          "material": "M00_001_01_Body_00_SKIN",
+          "indexAccessor": 1,
+          "indexCount": 4467
+        },
+        {
+          "mesh": 1,
+          "primitive": 0,
+          "material": "M00_000_00_FaceBrow_00_FACE",
+          "indexAccessor": 12,
+          "indexCount": 110
+        },
+        {
+          "mesh": 1,
+          "primitive": 1,
+          "material": "M00_000_00_FaceMouth_00_FACE",
+          "indexAccessor": 13,
+          "indexCount": 384
+        },
+        {
+          "mesh": 1,
+          "primitive": 5,
+          "material": "M00_000_00_Face_00_SKIN",
+          "indexAccessor": 17,
+          "indexCount": 784
+        }
+      ],
+      "retainedOutsideCount": 10,
+      "retainedOutsideVertexIds": [
+        4550,
+        4589,
+        4590,
+        4667,
+        4669,
+        4817,
+        4856,
+        4857,
+        4935,
+        4937
+      ],
+      "retainedOutsideMaterialNames": [
+        "M00_001_01_Tops_01_CLOTH"
+      ]
+    }
+  ],
+  "domainAuditConsistency": "Female width.20819881558418274m and male width.21251821517944336m exactly equal the prior independently reported Body/Face/Mouth/Brow range comparison. Necessary source roles and primitive index counts match the domain provenance audit. The original sleeve extrema remain among retained outside vertices.",
+  "sourceBlobChecks": [
+    {
+      "path": "assets-source/m2-head-cage-response-probe-v1/generated/female.json",
+      "matchesAuthorBlob": true
+    },
+    {
+      "path": "assets-source/m2-head-cage-response-probe-v1/generated/male.json",
+      "matchesAuthorBlob": true
+    },
+    {
+      "path": "assets-source/m2-head-cage-skin-domain-v1/generated/bounds-only.diff",
+      "matchesAuthorBlob": true
+    },
+    {
+      "path": "assets-source/m2-head-cage-skin-domain-v1/generated/female.json",
+      "matchesAuthorBlob": true
+    },
+    {
+      "path": "assets-source/m2-head-cage-skin-domain-v1/generated/male.json",
+      "matchesAuthorBlob": true
+    },
+    {
+      "path": "assets-source/m2-head-cage-skin-domain-v1/spec.json",
+      "matchesAuthorBlob": true
+    },
+    {
+      "path": "prototype/public/assets/foundation/base-female-roundtrip.vrm",
+      "matchesAuthorBlob": true
+    },
+    {
+      "path": "prototype/public/assets/foundation/base-male-roundtrip.vrm",
+      "matchesAuthorBlob": true
+    },
+    {
+      "path": "scripts/m2-head-cage-skin-domain-v1/probe.py",
+      "matchesAuthorBlob": true
+    },
+    {
+      "path": "scripts/m2-representative-head-cage-v1/head.py",
+      "matchesAuthorBlob": true
+    }
+  ],
+  "limits": [
+    "No new shape solve, Blender/export, GPU/browser, LP/SVD or source/public modification was performed.",
+    "Identity with the cage at rest across individual source endpoints proves rest restoration for those endpoint inputs. It does not prove the response fit produces valid changed expressions, mixtures, positive spatial Jacobians or acceptable visual shape.",
+    "Recorded identity errors are read from the pinned actual Blender output. This CPU audit verifies inputs, count/set coverage and tensor consistency, without independently rerunning the modifier.",
+    "The10 outside vertices per sex belong to retained source clothing. Their rest identity does not validate future deformed outside-cage behaviour. Existing body-donor clothing adaptation and runtime source-clothes policies retain their separate responsibilities.",
+    "No claim that narrower bounds resolves the original eight failed requests. All production/runtime acceptance flags remain false."
+  ],
+  "probeCorrection": "An initial exact-width assertion subtracted serialized coordinates as Float64, while producer width uses Float32 rest coordinates. It was corrected to the producer Float32 subtraction. This affected only the independent probe arithmetic and did not change producer data or any geometry threshold.",
+  "evidence": {
+    "readbackSHA256": "0b25363740d2460e5c8216d155a374993db4ab63ff5b7337a8e969f4ebc24ce4",
+    "probeSHA256": "60281920033eeb39fabd700c4fbb411ad19c4f3fb467650b9de32a2bf190a83d"
+  },
+  "productionAdmitted": false,
+  "runtimeAccepted": false
+}

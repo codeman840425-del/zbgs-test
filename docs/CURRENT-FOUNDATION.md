@@ -12,13 +12,15 @@
 
 层间修复是资产适配和装备依赖，未改6个共用动作控制器。源m2-vest-layer-fit-v1+body-coverage-v1，publisher新增13文件；真实top/pants身份和fit/mask精确绑定。原女错误bottom编号已在4771fd58修正，原失败留history。运行独审m2-vest-layer-runtime-review-v1：附加目录/依赖/普通race通过；发现旧childadded同步dispose漏洞并在71081be修，长期回归scripts/qa-equipment-attach-dispose.mjs，修前后失败/成功均保。publication独审已合1de8595e。普通电脑未测，f82的开发机短测不冒认目标机。
 
-头部方法：整身cage与head-only原8失败已封存（head主树4a0a52c0/独审908bc74c）；正式strict门仍拒绝，没有生产/游戏准入。完整response已一次提取并合820fbd28：原男女各27个2mmprobe、完整606×27响应，4.27s/RSS232.57MB、identity前后0、跨轴0。root用它回算原8失败coeff，最大逐坐标差1.069–9.248µm，仅原202附着点；evidence/m2-head-response-linearity-v1。原八LP已合afae69eb/b094d9af，8/8 HiGHS status2(proxy-infeasible)，无primal/t/解残差，不造数据。这只是固定线性代理，不推所有非线性几何无解，也不再调原ridge/cap。
+头部方法：整身cage与head-only原8失败已封存（head主树4a0a52c0/独审908bc74c）；正式strict门仍拒绝，没有生产/游戏准入。完整response已一次提取并合820fbd28：原男女各27个2mmprobe、完整606×27响应，4.27s/RSS232.57MB、identity前后0、跨轴0。root用它回算原8失败coeff，最大逐坐标差1.069–9.248µm，仅原202附着点；evidence/m2-head-response-linearity-v1。原八LP已合afae69eb/b094d9af，修域后的同条件八LP已合25bb0938/627cde52，均8/8 status2(proxy-infeasible)，无primal/t/解残差。新独立几何审阅明确：固定源边202点逐XYZ±2mm是额外代理条件，并非正式requestedY的101截面半宽≤2mm的必要条件（极值边和交点可换）。因此这些结果不能证明原正式门、甚至同一cage正式门无解。停止继续形状试验依据为实际失败和预算；不得将LP夸成不可能性证明。
 
-新根因与当前唯一窄包：domain-audit确认原内嵌Tops_01_CLOTH袖点被Head.all_endpoints纳入，将bbox宽撑至女.54977/男.59887m；实际引用Body_SKIN+Face_SKIN+FaceMouth（含brow）端点加原20mm为.20820/.21252m。最初tuple成员判断误报unused已被推翻，实际索引全覆盖，不按误判删数据。root授权asset在独立m2-head-cage-skin-domain-v1仅修bounds的语义输入，不改原weights/保护/27controls/请求/body/原失败实现；逐全部morph identity与必要域覆盖后只取一次两性响应，无新角色/衣物。batch薄复用原LP，对新的确切响应做同条件原8必要可行性一次，目录m2-head-cage-skin-domain-feasibility-v1；未知结果不预设成功。无证据不再批产形状；正式det/表达/实际半宽门保持。
+新根因与刚完成的窄包：domain-audit确认原内嵌Tops_01_CLOTH袖点被Head.all_endpoints纳入，将bbox宽撑至女.54977/男.59887m；实际引用Body_SKIN+Face_SKIN+FaceMouth（含brow）端点加原20mm为.20820/.21252m。最初tuple成员判断误报unused已被推翻，实际索引全覆盖，不按误判删数据。skin-domain源已合cd639b1b（作者23d93449），只修bounds语义输入，逐原端点identity0/必要点outside0后一次两性response；原weights/保护/27controls/请求/body不改。独审m2-head-cage-skin-domain-audit-v1无新增阻断。新LP仍只拒附着点代理，未生成新形状。本cage尝试在预算处封存，不扫padding/ridge/cap；正式det/表达/实际半宽门保持。
+
+下一主包为目标表达与成熟工具接入的有界研究，未批准人物形状批次。官方入口核查完成后，已授权一次独立venv的libigl 2.6.3单tet API smoke，不改全局Python；实际结果待回读。face_target_feasibility新派明确gpt-6-astra/high，核几何目标/保护相容性并给下一最小验证；asset_budget复用gpt-6.1-sol/high，核已有libigl SLIM研究的实际Windows/API/工具可用性，不重复调研或安装。几何顾问已区分软guide和真实截面门，并发现23个源顶点可提供有量化误差的原生顶点软引导；具体附录待核。http_transport_review复用sol/high生成机器可读target-contract，不作求解。先验证工具/目标接口，未开始新八体导出。当前M2八预设仍未完成，已有六体技术候选保留。
 
 动作自适应已完成方法调研research/MOTION-CONTACT-ADAPTATION-OPTIONS-2026-11-16.md（R2ET/Mink/CAMR源码/许可/限制）。Mink只是离线小试优先候选，未安装求解器/未完成VRM往返/无通用避碰通过；不插入本八体包准入，不重开封存舞。新机制必须先核可复用官方/原作者实现及实际输入输出再小试。
 
-最新已核远备d39bd253c0bacc20a5b0fcd31062163291ec7060，push后ls-remote精确一致，覆盖f82源码、覆盖源及本轮证据；回执evidence/m2-vest-layer-review-f82-v1/remote-backup.json。后续head诊断另备，不冒认已覆盖未提交产物。当前HEAD实际用git核。公司副总工相关dirty/untracked不动、不stage。
+f82固定候选已核远备d39bd253c0bacc20a5b0fcd31062163291ec7060；后续head失败/独审/研究已核d3d7f8a5b64a32efb7f7a48332075e14e00ca277，两次push后均ls-remote精确一致。回执分别在m2-vest-layer-review-f82-v1和m2-head-cage-diagnostic-independent-v1；其后response/LP与域审查尚待再备，不冒认已覆盖。当前HEAD实际用git核。公司副总工相关dirty/untracked不动、不stage。
 
 ## 当前授权与边界
 
@@ -28,8 +30,8 @@ Phaser+Three+VRM保留；女性封板裙和30秒舞不再精修。普通电脑�
 
 ## 恢复与协作边界
 
-- 当前有界代理均复用已明确请求gpt-6.1-sol/high：asset_budget准备/执行一次skin-domain响应，batch_v2_readback等待精确新输入并准备一次同条件LP；http_transport_review已完成域独审。真实provider配置和桌面hook拦截未独立核验。
-- 单GPU/录像/编码/重导出窗口预留asset；root公开按钮补验已结束。不要因压缩恢复重跑f82六片/独立重建或原head响应/八LP。新的两性响应与LP在各自包中最多一次，先看真实回执。
-- 下一项：收新域响应/同条件LP，判此共同源域修正是否值得实际形状候选；没有可行证据就不八体导出。f82原按钮、全链、配方、376文件重建和公开视频播放已验；普通电脑、人类连续视觉与部分衣形限制保持。最新已核远备d3d7f8a5（失败源/研究），后续820/b094和本轮root脚本证据待备。M2未完，不进入M3。
+- 当前有界代理：face_target_feasibility=gpt-6-astra/high，asset_budget=gpt-6.1-sol/high，均只读研究；http_transport_review与batch_v2_readback此前独审/LP已完成。requested配置明确，真实provider与桌面hook拦截未独立核验；新spawn成功不等于gate已证。
+- 角色侧单GPU/录像/编码/重导出窗口目前空闲，source修域probe与f82公开按钮检查均结束。已收到公司副总工多层承载4b3/source300e9及柜门940/source84ef交接，尚未核整合、不改CAP为角色已验。公司副总工已通知74.48秒柜门录像结束并释放窗口；该包仍为其声明，未核角色集成。角色侧本包仅CPU/隔离工具，无GPU或录制作业。
+- 下一项：收几何目标顾问与SLIM工具可执行性结论，选择单条可重现最小验证，不再盲试旧cage。固定4196=f82保持。最新已核远备d3d7f8a5，之后响应/LP/域与UI证据仍待再备。M2未完，不进入M3。
 - 固定交付按exact commit独立检出；录像与构建身份保持，旧failed不改标。只stage明确路径，不git add -A。公司平台副总工独立交付，未核的CAP-INCREMENT不当本角色集成通过。
 - docs/HANDOFF.md为恢复规则；完整范围见现行v2，生产索引scripts/production/和assets-source保输入/工具/许可/失败，不以目录存在当通过。
