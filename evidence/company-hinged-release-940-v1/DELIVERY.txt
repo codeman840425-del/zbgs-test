@@ -1,0 +1,41 @@
+四款单扇开合柜：固定交付（2026-11-16）
+
+源码：84ef4f7f819ee2155252914350b23a10aab325bf
+构建：940a78a9d829
+独立检出：F:/gamemake-company-hinged-fixed-v1
+独立交付：F:/gamemake-company-hinged-delivery-940
+观看：http://127.0.0.1:64461/?sample=hinged-cabinet&look=0
+外观分类“单扇开合柜”有四款；设施状态区提供关门、半开、全开和柜体近景；布局有陈列与工位/转向两种输入。
+
+本包在同一功能合同下实现平板、框板、条纹面、曲边装饰四款实际模型。openFraction字段明确0..1；真实实体门板与铰轴、顶面承载逐网格验证。状态驱动显示及阻挡，整个旋转区间按解析极值检查邻物、墙界和使用空间。兼容换外观保身份/状态/柜顶小物；移动转向保父子关系。旧84个资源定义保持，新增4款，目录88个版本。未改角色平台、占用或导航执行。
+
+证据：
+- company-hinged-production-v1：统一提示标准、可编辑参数、确定性导出与回读；正式flat-panel把手宽度由.08改.10，初始源/GLB保留。
+- company-moving-part-data-dev-v6：8组CPU合同检查，含非法schema/方向/语义、旧boolean和0–100范围、扫掠中间极值、换外观同时开门、墙界及仅扫掠阻断使用点、多实例隔离。
+- company-moving-part-geometry-v1：13组CPU真实几何检查，含错误铰轴/父坐标、缺门板、假矩形共享边、薄片和活动子树超界。
+- company-hinged-fixed-940-v1：5组固定浏览器检查；4款×3状态真实显示/另开进程恢复；换皮状态保留；转向第二布局；无效state/真实坏绑定/HTTP503/阻挡失败保旧；显示资源释放。
+- company-hinged-transform-940-v1：2组补验；转向柜门172个实际顶点逐状态在未膨胀功能包络内，柜顶物世界位置恒定；第二布局另开进程恢复；坏门板保整份localStorage。
+- company-hinged-handoff-940-v1：4组独立包检查；519文件清单核验，CLI拒绝非法状态不留半产物、半开编辑、包内真实加载保存及进程关闭恢复。
+- company-hinged-rebuild-940-v1：独立source执行npm ci/build，viewer全部181个文件逐字节一致，无排除项；生产/登记/两布局--check在不含evidence的独立source也通过。
+- company-hinged-recording-940-v1/hinged-preview-normal1x.webm：实际74.48秒、1440×1000、25fps、正常1×；root已看覆盖全时段的间隔抽帧及全尺寸图。recording.json中的65.364秒是脚本阶段耗时，不替代媒体时长。
+- company-hinged-review-v1：旧84个定义保持及已处理审查项。开发bb0证据保原身份；移除源码EOF空行后固定为940，录像与交付均对应940。
+
+操作与恢复语义：set-state是当前设施开合，必须验证整段扫掠；load/restore是原子替换已保存布局，检查候选最终状态/实际模型/使用空间，不假定从另一份当前布局执行开门。不会将旧场景的邻物带入合法存档判断。
+
+复现（固定检出prototype目录）：
+npm ci --no-audit --no-fund
+node scripts/build-company-id.mjs
+npx vite build --config vite.company.config.js
+
+固定检出根目录：
+node scripts/company-platform/serve-company.cjs prototype/dist-company 940a78a9d829
+node scripts/company-platform/qa-hinged-preview.cjs prototype/dist-company 940a78a9d829 NEW_EVIDENCE_DIR
+node scripts/company-platform/record-hinged-preview.cjs prototype/dist-company 940a78a9d829 NEW_RECORDING_DIR
+node scripts/company-platform/build-hinged-cabinet.mjs --check
+node scripts/company-platform/build-library.mjs --check
+node scripts/company-platform/build-hinged-examples.mjs --check
+
+独立包：node serve.mjs；node edit.mjs validate data/save.json；node edit.mjs apply INPUT_SAVE OPS_JSON NEW_RESULT_DIRECTORY。source包含参数、合同、生产工具、资源、公司运行链与锁文件。npm安装使用可用网络/缓存，不冒称离线依赖安装。
+
+限制：单扇负向90度铰接、0..1显式姿态；无独立时钟、自动动画、门物理或角色开门动作。保守XZ包络可拒绝转角空隙里的紧贴摆放，不声称精确凹面碰撞。四分之一父旋转沿当前布局规则。普通电脑与真实角色C3未验；不是全部C1–C3或部门完成。
+下一主包继续独立的抽屉滑动机制及四款素材；不以铰接柜门代替滑动，也不重开本包无关装饰。

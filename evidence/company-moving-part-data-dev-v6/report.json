@@ -1,0 +1,40 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "name": "Fixed hinge direction and semantics reject malformed definitions; legacy boolean and numeric states retain their range",
+      "passed": true
+    },
+    {
+      "name": "numeric schema rejects unknown/nonfinite/wrong-type/out-of-range state and preserves input",
+      "passed": true
+    },
+    {
+      "name": "closed, half and open obstacles are driven by the same angle and parent transform",
+      "passed": true
+    },
+    {
+      "name": "appearance replacement preserves half-open state while a different joint contract is incompatible",
+      "passed": true
+    },
+    {
+      "name": "opening into another facility rejects without changing valid closed scene",
+      "passed": true
+    },
+    {
+      "name": "analytic sweep catches an interior angular extremum absent at both endpoints",
+      "passed": true
+    },
+    {
+      "name": "wall sweep and closed-to-open static use-space are checked",
+      "passed": true
+    },
+    {
+      "name": "each scene instance can have its own state and sweep without catalog mutation",
+      "passed": true
+    }
+  ],
+  "limits": [
+    "Pure state/placement contract only; actual meshes, browser and C3 verified separately"
+  ]
+}

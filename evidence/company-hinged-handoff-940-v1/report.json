@@ -1,0 +1,51 @@
+{
+  "package": "F:\\gamemake-company-hinged-delivery-940",
+  "status": "passed",
+  "checks": [
+    {
+      "name": "All standalone package files match their manifest",
+      "passed": true,
+      "result": {
+        "files": 519
+      }
+    },
+    {
+      "name": "Standalone edit rejects invalid state and opens a cabinet using pinned dependencies",
+      "passed": true,
+      "result": {
+        "rejection": "invalid-device-state",
+        "edited": {
+          "ok": true,
+          "id": "appearance-hinged-cabinet",
+          "revision": 2,
+          "floors": [
+            "appearance-hinged-cabinet/floor-1"
+          ],
+          "output": "F:\\gamemake-company-platform-c1\\evidence\\company-hinged-handoff-940-v1\\edited"
+        }
+      }
+    },
+    {
+      "name": "Independent viewer loads edited hinged geometry and saves without source-tree asset requests",
+      "passed": true,
+      "result": {
+        "requests": [
+          "http://127.0.0.1:58876/company-assets/hinged-cabinet-v1/flat-panel/v1/model.glb",
+          "http://127.0.0.1:58876/company-assets/support-collection-v1/ornaments/vase/v1/model.glb"
+        ]
+      }
+    },
+    {
+      "name": "Separate browser restart restores exact attachment IDs and transforms",
+      "passed": true,
+      "result": {
+        "nodes": 11,
+        "attachments": 1
+      }
+    }
+  ],
+  "limits": [
+    "Software rendering; not ordinary-PC, character or offline npm-install proof"
+  ],
+  "build": "940a78a9d829"
+}

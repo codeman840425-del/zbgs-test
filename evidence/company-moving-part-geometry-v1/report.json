@@ -1,0 +1,157 @@
+{
+  "status": "passed",
+  "generatedAt": "2026-11-17T00:10:01.946Z",
+  "configuration": {
+    "difficulty": "complex",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "high",
+    "actualProviderConfiguration": "not independently verified",
+    "hostHookInterception": "not independently verified"
+  },
+  "api": "validateMovingPartGeometry(scene, resource, fail)",
+  "checks": [
+    {
+      "name": "valid hinged panel with nested identity wrapper and transformed scene root",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "parts": [
+          {
+            "id": "door",
+            "pivot": "cabinet-door-pivot",
+            "panel": "cabinet-door-leaf",
+            "bounds": {
+              "min": [
+                0,
+                0.1,
+                -0.02
+              ],
+              "max": [
+                0.84,
+                1.12,
+                0.03
+              ]
+            },
+            "panelGeometry": {
+              "mesh": "cabinet-door-leaf",
+              "frontTriangles": 2,
+              "thickness": 0.03500000014901161
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "missing pivot is rejected",
+      "passed": true,
+      "observed": {
+        "code": "missing-moving-part-node",
+        "path": "resource.movingParts[0].id",
+        "message": "Pivot name must uniquely resolve to one actual node"
+      }
+    },
+    {
+      "name": "duplicate pivot names are rejected",
+      "passed": true,
+      "observed": {
+        "code": "missing-moving-part-node",
+        "path": "resource.movingParts[0].id",
+        "message": "Pivot name must uniquely resolve to one actual node"
+      }
+    },
+    {
+      "name": "missing panel is rejected",
+      "passed": true,
+      "observed": {
+        "code": "missing-moving-part-panel",
+        "path": "resource.movingParts[0].id",
+        "message": "Panel name must uniquely resolve to one actual mesh"
+      }
+    },
+    {
+      "name": "duplicate panel names are rejected",
+      "passed": true,
+      "observed": {
+        "code": "missing-moving-part-panel",
+        "path": "resource.movingParts[0].id",
+        "message": "Panel name must uniquely resolve to one actual mesh"
+      }
+    },
+    {
+      "name": "wrong pivot position is rejected",
+      "passed": true,
+      "observed": {
+        "code": "invalid-moving-part-pivot",
+        "path": "resource.movingParts[0].pivot",
+        "message": "Pivot node must match the declared resource-space pivot with identity rotation and scale"
+      }
+    },
+    {
+      "name": "nonidentity parent wrapper is rejected",
+      "passed": true,
+      "observed": {
+        "code": "moving-part-parent-transform",
+        "path": "resource.movingParts[0].parent",
+        "message": "Pivot parent wrappers must use identity position, rotation and scale"
+      }
+    },
+    {
+      "name": "panel outside pivot subtree is rejected",
+      "passed": true,
+      "observed": {
+        "code": "moving-part-panel-parent",
+        "path": "resource.movingParts[0].panel",
+        "message": "Door panel mesh must be a descendant of its pivot node"
+      }
+    },
+    {
+      "name": "moving subtree envelope overrun is rejected",
+      "passed": true,
+      "observed": {
+        "code": "moving-part-bounds",
+        "path": "resource.movingParts[0].bounds",
+        "message": "Moving subtree geometry exceeds its declared pivot-local bounds"
+      }
+    },
+    {
+      "name": "shared rectangle edge is rejected",
+      "passed": true,
+      "observed": {
+        "code": "moving-part-panel-front",
+        "path": "resource.movingParts[0].panel",
+        "message": "Door panel front triangles must share the rectangle diagonal, not an edge"
+      }
+    },
+    {
+      "name": "thin plane panel is rejected",
+      "passed": true,
+      "observed": {
+        "code": "moving-part-panel-thickness",
+        "path": "resource.movingParts[0].panel",
+        "message": "Door panel must have at least 0.01m actual thickness"
+      }
+    },
+    {
+      "name": "static top geometry mixed into pivot is rejected",
+      "passed": true,
+      "observed": {
+        "code": "moving-part-bounds",
+        "path": "resource.movingParts[0].bounds",
+        "message": "Moving subtree geometry exceeds its declared pivot-local bounds"
+      }
+    },
+    {
+      "name": "resource without movingParts is ignored",
+      "passed": true,
+      "observed": {
+        "checked": false,
+        "parts": []
+      }
+    }
+  ],
+  "limits": [
+    "CPU-only Three synthetic scenes. No browser, GPU, GLB decode, state transaction or animation clock was used.",
+    "Geometry validation is limited to one static hinge part with a rectangular +Z front and conservative pivot-local bounds.",
+    "This does not prove runtime opening animation, blocking sweeps, persistence or visual acceptance."
+  ]
+}

@@ -1,0 +1,620 @@
+{
+  "status": "passed",
+  "scope": "Four single-door hinged cabinets with authored cavity, pivot and top support readback",
+  "dispatch": {
+    "difficulty": "complex",
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "reason": "Four compatible hinged cabinets require exact authored joint hierarchy, visible cavities and support contacts.",
+    "configurationEvidence": "Parent-confirmed explicit configuration. Host hook interception unverified."
+  },
+  "commands": [
+    "node scripts/company-platform/build-hinged-cabinet.mjs",
+    "node scripts/company-platform/build-hinged-cabinet.mjs --check"
+  ],
+  "sourceParameters": "assets-source/company-hinged-cabinet-v1/parameters.json",
+  "sourceParametersSha256": "dcafe4b956da7d1922a0450c63346dc97270fd394127d0cc99c5565255eb579f",
+  "functionalContractSource": "docs/COMPANY-HINGED-CABINET-CONTRACT-v1.txt",
+  "functionalContractSourceSha256": "a6f630e5d232f69f33553737e6a912a4999d50b64d2a712ababb96297221ea32",
+  "generator": "scripts/company-platform/build-hinged-cabinet.mjs",
+  "generatorSha256": "a4c22e5d25dac46c8f65f5f9081d583924804d59981c7dbaaa4546baf6a34d0c",
+  "items": [
+    {
+      "id": "flat-panel",
+      "sha256": "800e425069498633679c895b748c0978a32fe2f183693f7786988928bdcbcf7e",
+      "bytes": 23916,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "bounds": {
+          "min": [
+            -0.44999999932944773,
+            -1.490116086078075e-10,
+            -0.2250000000745058
+          ],
+          "max": [
+            0.44999999932944773,
+            1.200000000074506,
+            0.27200000010430814
+          ]
+        },
+        "topNode": "cabinet-top",
+        "pivot": "cabinet-door-pivot",
+        "panel": {
+          "mesh": "cabinet-door-leaf",
+          "frontTriangles": 2,
+          "bounds": {
+            "min": [
+              1.3113021835042815e-8,
+              0.10000000953674315,
+              -0.020000000074505808
+            ],
+            "max": [
+              0.8399999868869781,
+              1.1199999904632567,
+              0.015000000074505804
+            ]
+          },
+          "frontZ": 0.015000000074505804
+        },
+        "cavity": {
+          "backNode": "cabinet-inner-back",
+          "backMaxZ": -0.18999999992549418,
+          "openFront": true
+        },
+        "poses": [
+          {
+            "openFraction": 0,
+            "bounds": {
+              "min": [
+                -0.4200000001862645,
+                0.10000000953674315,
+                0.2249999999254942
+              ],
+              "max": [
+                0.41999998688697815,
+                1.1199999904632567,
+                0.27200000010430814
+              ]
+            },
+            "hinge": [
+              -0.42,
+              0,
+              0.245
+            ]
+          },
+          {
+            "openFraction": 0.5,
+            "bounds": {
+              "min": [
+                -0.4341421354393385,
+                0.10000000953674315,
+                0.23085786456066149
+              ],
+              "max": [
+                0.18811182260080772,
+                1.1199999904632567,
+                0.849576288694875
+              ]
+            },
+            "hinge": [
+              -0.42,
+              0,
+              0.245
+            ]
+          },
+          {
+            "openFraction": 1,
+            "bounds": {
+              "min": [
+                -0.44700000010430796,
+                0.10000000953674315,
+                0.2449999998137355
+              ],
+              "max": [
+                -0.39999999992549395,
+                1.1199999904632567,
+                1.0849999868869782
+              ]
+            },
+            "hinge": [
+              -0.42,
+              0,
+              0.245
+            ]
+          }
+        ],
+        "meshCount": 11,
+        "identityScale": true,
+        "externalUris": 0
+      }
+    },
+    {
+      "id": "frame-panel",
+      "sha256": "9bcf56b80c18456aa151a4446df6e400f00856acfa65b2bc543a6f6a1e817fb1",
+      "bytes": 31204,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "bounds": {
+          "min": [
+            -0.44999999932944773,
+            -1.490116086078075e-10,
+            -0.2250000000745058
+          ],
+          "max": [
+            0.44999999932944773,
+            1.200000000074506,
+            0.27200000010430814
+          ]
+        },
+        "topNode": "cabinet-top",
+        "pivot": "cabinet-door-pivot",
+        "panel": {
+          "mesh": "cabinet-door-leaf",
+          "frontTriangles": 2,
+          "bounds": {
+            "min": [
+              1.3113021835042815e-8,
+              0.10000000953674315,
+              -0.020000000074505808
+            ],
+            "max": [
+              0.8399999868869781,
+              1.1199999904632567,
+              0.015000000074505804
+            ]
+          },
+          "frontZ": 0.015000000074505804
+        },
+        "cavity": {
+          "backNode": "cabinet-inner-back",
+          "backMaxZ": -0.18999999992549418,
+          "openFront": true
+        },
+        "poses": [
+          {
+            "openFraction": 0,
+            "bounds": {
+              "min": [
+                -0.420000000372529,
+                0.09999999962747097,
+                0.2249999999254942
+              ],
+              "max": [
+                0.420000000372529,
+                1.120000000372529,
+                0.27200000010430814
+              ]
+            },
+            "hinge": [
+              -0.42,
+              0,
+              0.245
+            ]
+          },
+          {
+            "openFraction": 0.5,
+            "bounds": {
+              "min": [
+                -0.43909188308150005,
+                0.09999999962747097,
+                0.23085786456066149
+              ],
+              "max": [
+                0.18811182260080772,
+                1.120000000372529,
+                0.8580615792782
+              ]
+            },
+            "hinge": [
+              -0.42,
+              0,
+              0.245
+            ]
+          },
+          {
+            "openFraction": 1,
+            "bounds": {
+              "min": [
+                -0.44700000010430796,
+                0.09999999962747097,
+                0.244999999627471
+              ],
+              "max": [
+                -0.39999999992549395,
+                1.120000000372529,
+                1.085000000372529
+              ]
+            },
+            "hinge": [
+              -0.42,
+              0,
+              0.245
+            ]
+          }
+        ],
+        "meshCount": 15,
+        "identityScale": true,
+        "externalUris": 0
+      }
+    },
+    {
+      "id": "slatted",
+      "sha256": "f1e3ee7892ea22f5f4256f3926530cc83e690b6ab995287bcdf6172ff5b2831e",
+      "bytes": 36652,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "bounds": {
+          "min": [
+            -0.44999999932944773,
+            -1.490116086078075e-10,
+            -0.2250000000745058
+          ],
+          "max": [
+            0.44999999932944773,
+            1.200000000074506,
+            0.27200000010430814
+          ]
+        },
+        "topNode": "cabinet-top",
+        "pivot": "cabinet-door-pivot",
+        "panel": {
+          "mesh": "cabinet-door-leaf",
+          "frontTriangles": 2,
+          "bounds": {
+            "min": [
+              1.3113021835042815e-8,
+              0.10000000953674315,
+              -0.020000000074505808
+            ],
+            "max": [
+              0.8399999868869781,
+              1.1199999904632567,
+              0.015000000074505804
+            ]
+          },
+          "frontZ": 0.015000000074505804
+        },
+        "cavity": {
+          "backNode": "cabinet-inner-back",
+          "backMaxZ": -0.18999999992549418,
+          "openFront": true
+        },
+        "poses": [
+          {
+            "openFraction": 0,
+            "bounds": {
+              "min": [
+                -0.4200000001862645,
+                0.10000000953674315,
+                0.2249999999254942
+              ],
+              "max": [
+                0.41999998688697815,
+                1.1199999904632567,
+                0.27200000010430814
+              ]
+            },
+            "hinge": [
+              -0.42,
+              0,
+              0.245
+            ]
+          },
+          {
+            "openFraction": 0.5,
+            "bounds": {
+              "min": [
+                -0.4341421354393385,
+                0.10000000953674315,
+                0.23085786456066149
+              ],
+              "max": [
+                0.18811182260080772,
+                1.1199999904632567,
+                0.849576288694875
+              ]
+            },
+            "hinge": [
+              -0.42,
+              0,
+              0.245
+            ]
+          },
+          {
+            "openFraction": 1,
+            "bounds": {
+              "min": [
+                -0.44700000010430796,
+                0.10000000953674315,
+                0.2449999998137355
+              ],
+              "max": [
+                -0.39999999992549395,
+                1.1199999904632567,
+                1.0849999868869782
+              ]
+            },
+            "hinge": [
+              -0.42,
+              0,
+              0.245
+            ]
+          }
+        ],
+        "meshCount": 18,
+        "identityScale": true,
+        "externalUris": 0
+      }
+    },
+    {
+      "id": "curved-detail",
+      "sha256": "2f5f0c99e3904f7df0a83628cfde784b24119504119fc4c10bcbbba8dde85a4c",
+      "bytes": 34396,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "bounds": {
+          "min": [
+            -0.44999999932944773,
+            -1.490116086078075e-10,
+            -0.2250000000745058
+          ],
+          "max": [
+            0.44999999932944773,
+            1.200000000074506,
+            0.27200000070035457
+          ]
+        },
+        "topNode": "cabinet-top",
+        "pivot": "cabinet-door-pivot",
+        "panel": {
+          "mesh": "cabinet-door-leaf",
+          "frontTriangles": 2,
+          "bounds": {
+            "min": [
+              1.3113021835042815e-8,
+              0.10000000953674315,
+              -0.020000000074505808
+            ],
+            "max": [
+              0.8399999868869781,
+              1.1199999904632567,
+              0.015000000074505804
+            ]
+          },
+          "frontZ": 0.015000000074505804
+        },
+        "cavity": {
+          "backNode": "cabinet-inner-back",
+          "backMaxZ": -0.18999999992549418,
+          "openFront": true
+        },
+        "poses": [
+          {
+            "openFraction": 0,
+            "bounds": {
+              "min": [
+                -0.4200000001862645,
+                0.10000000953674315,
+                0.2249999999254942
+              ],
+              "max": [
+                0.41999998688697815,
+                1.1199999904632567,
+                0.27200000070035457
+              ]
+            },
+            "hinge": [
+              -0.42,
+              0,
+              0.245
+            ]
+          },
+          {
+            "openFraction": 0.5,
+            "bounds": {
+              "min": [
+                -0.4341421354393385,
+                0.10000000953674315,
+                0.23085786456066149
+              ],
+              "max": [
+                0.18811182260080772,
+                1.1199999904632567,
+                0.849576288694875
+              ]
+            },
+            "hinge": [
+              -0.42,
+              0,
+              0.245
+            ]
+          },
+          {
+            "openFraction": 1,
+            "bounds": {
+              "min": [
+                -0.44700000070035456,
+                0.10000000953674315,
+                0.2449999998137355
+              ],
+              "max": [
+                -0.39999999992549395,
+                1.1199999904632567,
+                1.0849999868869782
+              ]
+            },
+            "hinge": [
+              -0.42,
+              0,
+              0.245
+            ]
+          }
+        ],
+        "meshCount": 12,
+        "identityScale": true,
+        "externalUris": 0
+      }
+    }
+  ],
+  "sourceModificationEvidence": {
+    "design": "flat-panel",
+    "formalHandleWidth": 0.1,
+    "initialHandleWidth": 0.08,
+    "parametersPath": "evidence/company-hinged-production-v1/variant-flat-panel.parameters.json",
+    "parametersSha256": "ad79c132ed562af310b337ad0a7ec0f43a7d536166c648e8d648b96e4bb5b21c",
+    "outputPath": "evidence/company-hinged-production-v1/variant-flat-panel.glb",
+    "sha256": "3f36a8c8cb8b3af97070fce2d70278ebcd031f99231360c10b5faf4bdcee1142",
+    "bytes": 23916,
+    "repeatedExportByteIdentical": true,
+    "actual": {
+      "bounds": {
+        "min": [
+          -0.44999999932944773,
+          -1.490116086078075e-10,
+          -0.2250000000745058
+        ],
+        "max": [
+          0.44999999932944773,
+          1.200000000074506,
+          0.27200000010430814
+        ]
+      },
+      "topNode": "cabinet-top",
+      "pivot": "cabinet-door-pivot",
+      "panel": {
+        "mesh": "cabinet-door-leaf",
+        "frontTriangles": 2,
+        "bounds": {
+          "min": [
+            1.3113021835042815e-8,
+            0.10000000953674315,
+            -0.020000000074505808
+          ],
+          "max": [
+            0.8399999868869781,
+            1.1199999904632567,
+            0.015000000074505804
+          ]
+        },
+        "frontZ": 0.015000000074505804
+      },
+      "cavity": {
+        "backNode": "cabinet-inner-back",
+        "backMaxZ": -0.18999999992549418,
+        "openFront": true
+      },
+      "poses": [
+        {
+          "openFraction": 0,
+          "bounds": {
+            "min": [
+              -0.4200000001862645,
+              0.10000000953674315,
+              0.2249999999254942
+            ],
+            "max": [
+              0.41999998688697815,
+              1.1199999904632567,
+              0.27200000010430814
+            ]
+          },
+          "hinge": [
+            -0.42,
+            0,
+            0.245
+          ]
+        },
+        {
+          "openFraction": 0.5,
+          "bounds": {
+            "min": [
+              -0.4341421354393385,
+              0.10000000953674315,
+              0.23085786456066149
+            ],
+            "max": [
+              0.18811182260080772,
+              1.1199999904632567,
+              0.849576288694875
+            ]
+          },
+          "hinge": [
+            -0.42,
+            0,
+            0.245
+          ]
+        },
+        {
+          "openFraction": 1,
+          "bounds": {
+            "min": [
+              -0.44700000010430796,
+              0.10000000953674315,
+              0.2449999998137355
+            ],
+            "max": [
+              -0.39999999992549395,
+              1.1199999904632567,
+              1.0849999868869782
+            ]
+          },
+          "hinge": [
+            -0.42,
+            0,
+            0.245
+          ]
+        }
+      ],
+      "meshCount": 11,
+      "identityScale": true,
+      "externalUris": 0
+    }
+  },
+  "initialCandidateEvidence": {
+    "parametersPath": "evidence/company-hinged-production-v1/initial-flat-panel.parameters.json",
+    "parametersSha256": "ad79c132ed562af310b337ad0a7ec0f43a7d536166c648e8d648b96e4bb5b21c",
+    "outputPath": "evidence/company-hinged-production-v1/initial-flat-panel.glb",
+    "sha256": "3f36a8c8cb8b3af97070fce2d70278ebcd031f99231360c10b5faf4bdcee1142",
+    "bytes": 23916
+  },
+  "contract": {
+    "envelope": [
+      0.9,
+      1.2,
+      0.55
+    ],
+    "body": [
+      0.9,
+      0.45
+    ],
+    "pivot": [
+      -0.42,
+      0,
+      0.245
+    ],
+    "doorBounds": {
+      "min": [
+        0,
+        0.1,
+        -0.02
+      ],
+      "max": [
+        0.84,
+        1.12,
+        0.03
+      ]
+    },
+    "support": {
+      "topY": 1.2,
+      "halfSize": [
+        0.4,
+        0.18
+      ],
+      "clearanceHeight": 0.4
+    }
+  },
+  "limitations": [
+    "Project-authored schematic geometry. Browser visual acceptance and character interaction remain outside this CPU-only package.",
+    "Door blocking uses the fixed pivot bounds and state semantics. No animation clips, physics or drawers are represented."
+  ]
+}
