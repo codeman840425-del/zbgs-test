@@ -1,0 +1,79 @@
+{
+  "schema": "native-unmasked-custom-top-package-receipt-v1",
+  "status": "source-fit-and-actual843ac-adapter-cpu-verified-runtime-pending",
+  "id": "native-unmasked-843ac-sleeve56-top-v1",
+  "targetAvatarSha256": "843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef",
+  "garmentSha256": "75c113d68a7eab1e9f09178b4ddf5c03a9f9d237e0a66d79b0984f45bd5538b7",
+  "sourceFitSha256": "c4b6a6899e63c3f511f24cc0beaa3993190a722eb5e46192dd355faf00d9269f",
+  "manifestSha256": "9cba67346ad2ed8f7d9af0af5fa941dec273e60330ca8f2616faa533eeab2edb",
+  "cpuVerificationSha256": "a95999c5df82b7e2cd751fc92c82ecb455d398fb0b1564a4604907038185a722",
+  "rebuild": {
+    "command": [
+      "python",
+      "-B",
+      "assets-source/native-vroid-custom-top-unmasked-fit-v1/build.py",
+      "--check"
+    ],
+    "exitCode": 0,
+    "result": {
+      "mode": "check",
+      "repeatedBytesIdentical": true,
+      "outputs": {
+        "equipment.json": {
+          "sha256": "9cba67346ad2ed8f7d9af0af5fa941dec273e60330ca8f2616faa533eeab2edb",
+          "bytes": 84829
+        },
+        "source-fit.json": {
+          "sha256": "c4b6a6899e63c3f511f24cc0beaa3993190a722eb5e46192dd355faf00d9269f",
+          "bytes": 22179
+        },
+        "indexed-skin.json": {
+          "sha256": "4dbbf11d17ca40bf20602c1e39b671bb7093cb0ac49f505a4f84fc7f1379b967",
+          "bytes": 160572
+        },
+        "input-pins.json": {
+          "sha256": "83c4f25524052d78a0e1470b1e948e7e10fb81f96d3b96d131af9cc9187a487c",
+          "bytes": 2733
+        }
+      }
+    }
+  },
+  "existingOutputRefusal": {
+    "exitCode": 1,
+    "stderr": "Traceback (most recent call last):\n  File \"F:\\gamemake\\assets-source\\native-vroid-custom-top-unmasked-fit-v1\\build.py\", line 172, in <module>\n    assert not (OUT / name).exists(), 'Output conflict: ' + name\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Output conflict: equipment.json\n",
+    "allFourGeneratedOutputsUnchanged": true
+  },
+  "actualCpuStatus": "loaded-on-exact843ac-technical-candidate-only",
+  "actualCpuPoses": [
+    {
+      "pose": "rest",
+      "drawnVertices": 700,
+      "maximumWorldDifferenceM": 1.3822037208144912e-08,
+      "sourceAndTargetCoordinateSha256": "26c25fdb110b3ea0310c56a03b1a22a3adf6b4c9aae6a43b627c9101d7248554",
+      "finite": true
+    },
+    {
+      "pose": "raw-arm-bend",
+      "drawnVertices": 700,
+      "maximumWorldDifferenceM": 1.3822037208144912e-08,
+      "sourceAndTargetCoordinateSha256": "9cf676df8b917bf9b208785d5df288c79ba8acb146a1cd34aeff2585d5801a03",
+      "finite": true
+    },
+    {
+      "pose": "raw-thigh-bend",
+      "drawnVertices": 700,
+      "maximumWorldDifferenceM": 1.5367957340557963e-08,
+      "sourceAndTargetCoordinateSha256": "b6f2dd1e5c0c504ea786eb7899bb2930012631be706e161b9ed9b47a109c9a3c",
+      "finite": true
+    }
+  ],
+  "negativeCases": {
+    "old78912AvatarIdentityRejected": true,
+    "damagedInverseBindRejected": true
+  },
+  "geometryExportCalls": 0,
+  "gpuOrStudioCalls": 0,
+  "publicOrRuntimeEdited": false,
+  "runtimeAccepted": false,
+  "crossPlatformByteDeterminismVerified": false
+}

@@ -37,10 +37,12 @@
 
 主窗口单GPU/导出互斥；最新房间录制已结束并释放。桌面操作仅缺接口兜底，操作后立即turn_ended释放。当前后台MCP不需要控制鼠标键盘。
 
-最近已核远端484ad44ba8cd45bbcc4982aad1d3cfc7aa56a8d6；此后9b9/fb572/8d718及新factory增量尚待统一核备份，未核push前不宣称完成。只stage明确owned路径；manifest精确字节保留，ignore日志显式-force并核index。公司副总工dirty/untracked绝不顺带提交；公司系统不在本轮角色职责内。
+2026-11-17本轮push已成功，ls-remote实核4e9a83664ed5d57636fe75b85432a7d6d7417da1，包含9dd原生factory代码/输入和266c实际录像/失败/独审证据；后续提交以再次核验为准。只stage明确owned路径；manifest精确字节保留，ignore日志显式-force并核index。公司副总工dirty/untracked绝不顺带提交；公司系统不在本轮角色职责内。
 
 当前在途：完整843acca派生保130joint，只用原生卸Tops后完整Body PNG；原几何/权重/表达未动，双.vroid+离线生成脚本保留，无合并后的单一原生源。unmasked-base独审/重复构建通过；factory-fit原三衣新身份CPU核过。root正在接foundationProfile默认shorts、可恢复textureCoverage及保原材质/原发基础模式；face负责coverage模块/事务独审；http只读factory准入缺口；asset制作新袖Top在843ac上的实际重新适配。当前新增代码未固定发布，4196仍c3e。冻结裙/30秒舞不动，8预设仍未完成。
 
 用户关于独立制作端的旁问：已解释运行时无需VRoid，MCP制作仍调用原生引擎；平台管理标准资源和可替换离线producer，逐项验证自身修改能力，不现在重写编辑器。官方guidelines的公开角色生成/输出工具许可与内部制作用途分开核。公司副总工挂墙镜69c阶段交付仅作收悉，不引入角色M2范围。
 
 最新实际接入：source9ddf5794 / build148d21ba74e5，独立检出experiments/native-factory-fixed-v1，npm ci/build成功。evidence/native-factory-room-148d-v1记录真正loadFoundationAvatar/同房间/controller：843ac穿衣→原材质原发基础→恢复，texture covered状态正确、原生MToon保留、13秒路径1×录像完成；root看三截图及3fps全片联系表，完整接触和正常速视觉验收仍未通过，不改4196。基础有原生内衣贴图，不是身体缺面。暂停站姿碰到眨眼闭合帧，未当脸部验收。下一项：将asset的新843ac改袖Top真实fit纳入stage生成catalog，验证同人物两套衣物+外观保存恢复，再补坐起；新工作台分组尚未注册，测试URL只用?body=native-female-843ac-v1。旧面部配色/五官/附件准入仍拒新源，通用发肤色虽可调用但未验证。独审在native-body-texture-glue-audit-v1和native-vroid-factory-seam-review-v1。
+
+新袖Top对843ac重新适配已封：assets-source/native-vroid-custom-top-unmasked-fit-v1，equipment.json SHA9cba67346ad2ed8f7d9af0af5fa941dec273e60330ca8f2616faa533eeab2edb，entry native-unmasked-843ac-sleeve56-top-v1。12文件root逐SHA/bytes核过，700点/1226tri、25使用骨及祖先精确；4未用Foot/Toe IBM微差记录，loader3姿最大15.37nm。仍仅CPU适配，未放public。注意现additionalManifests要求绝对/assets资源URL；stage应明确生成运行目录映射与新manifest身份，不能直接把离线相对路径送给扩展入口。无需再次造Top或再开原生编辑器。
