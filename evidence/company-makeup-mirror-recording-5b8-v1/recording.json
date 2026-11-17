@@ -1,0 +1,128 @@
+{
+  "sourceCommit": "b3a8e25d085d3db50708904d7daf7b1fefde81d9",
+  "build": "5b86b5eede89",
+  "playbackSpeed": 1,
+  "steps": [
+    {
+      "name": "mirror-1",
+      "text": "圆镜：真实厚背板、台面支承及镜前补光。",
+      "seconds": 6.083
+    },
+    {
+      "name": "mirror-2",
+      "text": "灯框镜：不同结构的兼容外观，保留补光状态。",
+      "seconds": 12.279
+    },
+    {
+      "name": "mirror-3",
+      "text": "拱镜：弧顶轮廓，沿相同接口替换。",
+      "seconds": 18.364
+    },
+    {
+      "name": "mirror-4",
+      "text": "三折镜：固定展开，三块不同朝向的真实反射。",
+      "seconds": 27.948
+    },
+    {
+      "name": "folded-close",
+      "text": "三面近看：各镜面使用自身朝向，反射当前场景。",
+      "seconds": 37.778
+    },
+    {
+      "name": "three-reflections",
+      "text": "反射验证：红色样块位于主镜头后方，三面分别映出它。",
+      "seconds": 47.617
+    },
+    {
+      "name": "changed-reflections",
+      "text": "样块移动并变蓝：三面反射随当前几何和镜头更新。",
+      "seconds": 57.662
+    },
+    {
+      "name": "light-off",
+      "text": "关闭镜前补光后，镜面仍反射；灯与反射分别管理。",
+      "seconds": 67.787
+    },
+    {
+      "name": "state-retained",
+      "text": "改为圆镜：保持原安装位置和关闭补光的状态。",
+      "seconds": 75.102
+    },
+    {
+      "name": "restored",
+      "text": "重新加载：恢复同一镜体、父子关系与非默认补光状态。",
+      "seconds": 83.381
+    },
+    {
+      "name": "two-rooms",
+      "text": "第二输入：同名两房、不同朝向的台面镜，各自保持身份。",
+      "seconds": 89.329
+    }
+  ],
+  "limits": [
+    "SwiftShader; not ordinary-PC performance or character C3",
+    "Tri-fold geometry is fixed open; no character makeup motion is implemented"
+  ],
+  "recordingTool": {
+    "path": "scripts/company-platform/record-makeup-mirror-preview.cjs",
+    "sha256": "e342954c7b03eba046b835397e601ab838aa5e4ad108d52ac0b547476e80fdf8"
+  },
+  "cost": {
+    "mirrors": {
+      "reflectionPasses": 116,
+      "preflightPasses": 2,
+      "shaderChecks": 3,
+      "failures": 0,
+      "skipped": 53,
+      "groupUpdates": 116,
+      "preflightGroupUpdates": 2,
+      "lastAdmissionFacePasses": 1,
+      "lastReflection": {
+        "ownerId": "vanity/primary/mirror",
+        "faceId": "vanity/primary/mirror#center",
+        "preflight": false,
+        "completed": true,
+        "cpuSubmissionMs": 0.5,
+        "calls": 61,
+        "triangles": 4492
+      },
+      "activeId": "vanity/primary/mirror",
+      "activeOwnerId": "vanity/primary/mirror",
+      "activeFaceIds": [
+        "vanity/primary/mirror#center"
+      ],
+      "activeFaceCount": 1,
+      "candidateOwnerId": null,
+      "candidateFaceCount": 0,
+      "maxFacesPerMirror": 3,
+      "maxLiveTargets": 3,
+      "maxHandoffTargets": 6,
+      "inPass": false,
+      "resources": {
+        "created": 3,
+        "disposed": 2,
+        "live": 1,
+        "peak": 2
+      },
+      "hostFrameId": 169,
+      "hostTimeMs": 14183.799999952316
+    },
+    "cache": {
+      "cachedAssets": 6,
+      "loadedAssets": 6
+    },
+    "memory": {
+      "geometries": 64,
+      "textures": 5
+    },
+    "render": {
+      "frame": 287,
+      "calls": 63,
+      "triangles": 4544,
+      "points": 0,
+      "lines": 0
+    }
+  },
+  "status": "recorded",
+  "scriptSeconds": 89.431
+}

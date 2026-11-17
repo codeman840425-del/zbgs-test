@@ -1,0 +1,89 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "name": "legacy singular API stays strict and plural API keeps empty/single result",
+      "status": "passed"
+    },
+    {
+      "name": "three baked planes inverse-transform and reapply parent world pose without moving vertices",
+      "status": "passed"
+    },
+    {
+      "name": "three distinct reflected cameras match their world planes after a rotated parent",
+      "status": "passed"
+    },
+    {
+      "name": "stable one-owner selection admits all three faces at 30Hz and reports real face passes",
+      "status": "passed"
+    },
+    {
+      "name": "actual wing normal rejects its back side and no invisible wing target survives",
+      "status": "passed"
+    },
+    {
+      "name": "default one-face host rejects tri-fold even behind an earlier selected single-face owner",
+      "status": "passed"
+    },
+    {
+      "name": "three-face candidate handoff retains six targets at peak and releases previous candidate and owner",
+      "status": "passed"
+    },
+    {
+      "name": "shader-second-face releases whole candidate and preserves old targets and renderer state",
+      "status": "passed"
+    },
+    {
+      "name": "target-second-face releases whole candidate and preserves old targets and renderer state",
+      "status": "passed"
+    },
+    {
+      "name": "draw-second-face releases whole candidate and preserves old targets and renderer state",
+      "status": "passed"
+    },
+    {
+      "name": "failed normal admission consumes the frame and cannot retry another three passes",
+      "status": "passed"
+    },
+    {
+      "name": "all owners and wings stay hidden during reflection and recursive update stays guarded",
+      "status": "passed"
+    },
+    {
+      "name": "controller disposal during second attachment cannot leave or resurrect any face target",
+      "status": "passed"
+    },
+    {
+      "name": "face disposal during drawing fails and releases its whole owner group once",
+      "status": "passed"
+    },
+    {
+      "name": "invalid plane/transform/contour or missing back fails before target allocation or mesh marking",
+      "status": "passed"
+    },
+    {
+      "name": "all three targets materials and private plane geometries dispose exactly once",
+      "status": "passed"
+    },
+    {
+      "name": "all reflection targets released",
+      "status": "passed",
+      "resources": {
+        "created": 57,
+        "disposed": 57,
+        "live": 0,
+        "peak": 6
+      }
+    }
+  ],
+  "sourceHashes": {
+    "prototype/src/company/mirror-render.js": "63f592ef8df6cc0acaf358d3baa3511831dd5c06b0bae54a07b131a9b81c63d6",
+    "scripts/company-platform/verify-makeup-mirror-render.mjs": "7860b90c1ac501522b5b0ccfe540361e9defdd06141195c4003ae8785974aab2",
+    "prototype/node_modules/three/examples/jsm/objects/Reflector.js": "542861de2dea2e24729a1fa4962424214e1637368017bdd48d5f27eb64dda0fb"
+  },
+  "limits": [
+    "Actual locked Three r187 Reflector with synthetic planar geometry and a limited renderer substitute. This does not verify loaded production GLBs, WebGL shader links/framebuffers, visible reflections, browser close/reopen or ordinary-computer performance.",
+    "Target counts describe target objects and dispose events. Unknown renderer exceptions still require the host to rebuild its renderer. Public state restoration does not establish private Three render-stack recovery.",
+    "Main-scene rendering is owned by the host. This script measures the distinct reflection face passes and does not claim a main-scene GPU timing."
+  ]
+}

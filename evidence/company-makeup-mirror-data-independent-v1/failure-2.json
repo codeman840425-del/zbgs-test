@@ -1,0 +1,9 @@
+{
+  "name": "Stale prepared candidate and discarded replacement cannot publish after a view change or mutate another mirror instance",
+  "status": "failed",
+  "message": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 1.0499999999999998\n- 1.05\n     ^\n",
+  "code": "ERR_ASSERTION",
+  "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 1.0499999999999998\n- 1.05\n     ^\n\n    at file:///F:/gamemake-company-platform-c1/scripts/company-platform/verify-makeup-mirror-data-independent.mjs:253:120\n    at check (file:///F:/gamemake-company-platform-c1/scripts/company-platform/verify-makeup-mirror-data-independent.mjs:75:55)\n    at file:///F:/gamemake-company-platform-c1/scripts/company-platform/verify-makeup-mirror-data-independent.mjs:246:9",
+  "classification": "verification-harness-precision-error",
+  "resolution": "Expected arithmetic 7/10*1.5 equals 1.0499999999999998 in JavaScript. Corrected the verifier to compare emissive intensity within 1e-12; the product rendering calculation was correct. Final eight groups all pass."
+}

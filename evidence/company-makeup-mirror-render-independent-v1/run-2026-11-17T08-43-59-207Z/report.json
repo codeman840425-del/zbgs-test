@@ -1,0 +1,180 @@
+{
+  "status": "failed",
+  "checks": [
+    {
+      "name": "candidate failure after prior preflight-only commit preserves old target identities",
+      "status": "passed",
+      "detail": {
+        "failedPanel": 3,
+        "retainedTargetIdentities": 3
+      }
+    },
+    {
+      "name": "discarded warmed candidate leaves current owner and no ghost candidate targets",
+      "status": "passed",
+      "detail": {
+        "currentFaces": 3,
+        "liveAfterDiscard": 3
+      }
+    },
+    {
+      "name": "owner release callback cannot reenter update and orphan another owner",
+      "status": "failed",
+      "detail": {
+        "nestedUpdated": true,
+        "outerReason": "host-budget-awaiting-fresh",
+        "controller": {
+          "reflectionPasses": 6,
+          "preflightPasses": 0,
+          "shaderChecks": 6,
+          "failures": 0,
+          "skipped": 1,
+          "groupUpdates": 2,
+          "preflightGroupUpdates": 0,
+          "lastAdmissionFacePasses": 3,
+          "lastReflection": {
+            "ownerId": "nested",
+            "faceId": "nested#right",
+            "preflight": false,
+            "completed": true,
+            "cpuSubmissionMs": 0.00030000000000995897,
+            "calls": 1,
+            "triangles": 0
+          },
+          "activeId": null,
+          "activeOwnerId": null,
+          "activeFaceIds": [],
+          "activeFaceCount": 0,
+          "candidateOwnerId": null,
+          "candidateFaceCount": 0,
+          "maxFacesPerMirror": 3,
+          "maxLiveTargets": 3,
+          "maxHandoffTargets": 6,
+          "inPass": false,
+          "resources": {
+            "created": 18,
+            "disposed": 15,
+            "live": 3,
+            "peak": 6
+          },
+          "hostFrameId": 99,
+          "hostTimeMs": 1000
+        },
+        "owners": [
+          {
+            "id": "old",
+            "active": 0
+          },
+          {
+            "id": "next",
+            "active": 0
+          },
+          {
+            "id": "nested",
+            "active": 3
+          }
+        ]
+      },
+      "error": {
+        "code": "ERR_ASSERTION",
+        "message": "Expected values to be strictly equal:\n+ actual - expected\n\n+ undefined\n- 'reflection-pass-guard'\n",
+        "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ undefined\n- 'reflection-pass-guard'\n\n    at file:///F:/gamemake-company-platform-c1/scripts/company-platform/verify-makeup-mirror-render-independent.mjs:85:12\n    at async check (file:///F:/gamemake-company-platform-c1/scripts/company-platform/verify-makeup-mirror-render-independent.mjs:51:16)\n    at async file:///F:/gamemake-company-platform-c1/scripts/company-platform/verify-makeup-mirror-render-independent.mjs:74:1"
+      }
+    },
+    {
+      "name": "subset group rejection retains a previously warmed candidate for later discard",
+      "status": "passed",
+      "detail": {
+        "subsetRefused": true,
+        "currentFaces": 3
+      }
+    },
+    {
+      "name": "candidate release callback cannot bypass six-target handoff bound",
+      "status": "failed",
+      "detail": {
+        "nestedUpdated": true,
+        "live": 9,
+        "controller": {
+          "reflectionPasses": 3,
+          "preflightPasses": 9,
+          "shaderChecks": 12,
+          "failures": 0,
+          "skipped": 0,
+          "groupUpdates": 1,
+          "preflightGroupUpdates": 3,
+          "lastAdmissionFacePasses": 3,
+          "lastReflection": {
+            "ownerId": "next-candidate",
+            "faceId": "next-candidate#right",
+            "preflight": true,
+            "completed": true,
+            "cpuSubmissionMs": 0.00010000000000331966,
+            "calls": 1,
+            "triangles": 0
+          },
+          "activeId": "old",
+          "activeOwnerId": "old",
+          "activeFaceIds": [
+            "old#center",
+            "old#left",
+            "old#right"
+          ],
+          "activeFaceCount": 3,
+          "candidateOwnerId": "next-candidate",
+          "candidateFaceCount": 3,
+          "maxFacesPerMirror": 3,
+          "maxLiveTargets": 3,
+          "maxHandoffTargets": 6,
+          "inPass": false,
+          "resources": {
+            "created": 36,
+            "disposed": 27,
+            "live": 9,
+            "peak": 9
+          },
+          "hostFrameId": 1,
+          "hostTimeMs": 0
+        },
+        "owners": [
+          {
+            "id": "old",
+            "active": 3
+          },
+          {
+            "id": "first-candidate",
+            "active": 0
+          },
+          {
+            "id": "next-candidate",
+            "active": 3
+          },
+          {
+            "id": "nested-candidate",
+            "active": 3
+          }
+        ]
+      },
+      "error": {
+        "code": "ERR_ASSERTION",
+        "message": "Expected values to be strictly equal:\n+ actual - expected\n\n+ undefined\n- 'mirror-preflight-reentrant'\n",
+        "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ undefined\n- 'mirror-preflight-reentrant'\n\n    at file:///F:/gamemake-company-platform-c1/scripts/company-platform/verify-makeup-mirror-render-independent.mjs:114:12\n    at async check (file:///F:/gamemake-company-platform-c1/scripts/company-platform/verify-makeup-mirror-render-independent.mjs:51:16)\n    at async file:///F:/gamemake-company-platform-c1/scripts/company-platform/verify-makeup-mirror-render-independent.mjs:102:1"
+      }
+    }
+  ],
+  "sourceHashes": {
+    "prototype/src/company/mirror-render.js": "74e8cc6519a6be73cf22b65ef230dcda61c02164d137abaa28fe6d450f797384",
+    "prototype/src/company/render.js": "1620982f685ae2d607b3103769599d3f959a62ace7124c8ca2f8fcf513a0956e",
+    "scripts/company-platform/verify-makeup-mirror-render-independent.mjs": "c969794ad31312332f727fd819c5ba31a936ba2e6bcdcb8cabb5e6ba258abb63"
+  },
+  "actualAssetSha256": "da1dcbbe5587e4011be5861d9120f3ba5eb68dd69e750e20615892b3506db73c",
+  "resources": {
+    "created": 36,
+    "disposed": 36,
+    "live": 0,
+    "peak": 9
+  },
+  "limitations": [
+    "Independent CPU lifecycle checks use actual production GLBs and the real locked Three Reflector with a renderer substitute. They do not establish GPU shader/framebuffer correctness, browser rendering or performance."
+  ]
+}

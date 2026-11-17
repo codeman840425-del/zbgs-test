@@ -1,0 +1,65 @@
+{
+  "status": "failed",
+  "generatedAt": "2026-11-17T08:34:50.676Z",
+  "checks": [
+    {
+      "name": "candidate target gate / missing-fbo",
+      "status": "failed",
+      "error": "TypeError: Cannot read properties of null (reading 'getRenderTarget')\n    at file:///F:/gamemake-company-platform-c1/scripts/company-platform/qa-mirror-target.mjs:117:90\n    at check (file:///F:/gamemake-company-platform-c1/scripts/company-platform/qa-mirror-target.mjs:15:54)\n    at file:///F:/gamemake-company-platform-c1/scripts/company-platform/qa-mirror-target.mjs:104:4"
+    },
+    {
+      "name": "candidate target gate / incomplete-fbo",
+      "status": "failed",
+      "error": "TypeError: Cannot read properties of null (reading 'getRenderTarget')\n    at file:///F:/gamemake-company-platform-c1/scripts/company-platform/qa-mirror-target.mjs:117:90\n    at check (file:///F:/gamemake-company-platform-c1/scripts/company-platform/qa-mirror-target.mjs:15:54)\n    at file:///F:/gamemake-company-platform-c1/scripts/company-platform/qa-mirror-target.mjs:104:4"
+    },
+    {
+      "name": "candidate target gate / sample-mismatch",
+      "status": "failed",
+      "error": "TypeError: Cannot read properties of null (reading 'getRenderTarget')\n    at file:///F:/gamemake-company-platform-c1/scripts/company-platform/qa-mirror-target.mjs:117:90\n    at check (file:///F:/gamemake-company-platform-c1/scripts/company-platform/qa-mirror-target.mjs:15:54)\n    at file:///F:/gamemake-company-platform-c1/scripts/company-platform/qa-mirror-target.mjs:104:4"
+    },
+    {
+      "name": "candidate target gate / allocation-error",
+      "status": "failed",
+      "error": "TypeError: Cannot read properties of null (reading 'getRenderTarget')\n    at file:///F:/gamemake-company-platform-c1/scripts/company-platform/qa-mirror-target.mjs:117:90\n    at check (file:///F:/gamemake-company-platform-c1/scripts/company-platform/qa-mirror-target.mjs:15:54)\n    at file:///F:/gamemake-company-platform-c1/scripts/company-platform/qa-mirror-target.mjs:104:4"
+    },
+    {
+      "name": "candidate target gate / draw-error",
+      "status": "failed",
+      "error": "TypeError: Cannot read properties of null (reading 'getRenderTarget')\n    at file:///F:/gamemake-company-platform-c1/scripts/company-platform/qa-mirror-target.mjs:117:90\n    at check (file:///F:/gamemake-company-platform-c1/scripts/company-platform/qa-mirror-target.mjs:15:54)\n    at file:///F:/gamemake-company-platform-c1/scripts/company-platform/qa-mirror-target.mjs:104:4"
+    },
+    {
+      "name": "candidate target gate / preexisting-host-error",
+      "status": "failed",
+      "error": "TypeError: Cannot read properties of null (reading 'getRenderTarget')\n    at file:///F:/gamemake-company-platform-c1/scripts/company-platform/qa-mirror-target.mjs:117:90\n    at check (file:///F:/gamemake-company-platform-c1/scripts/company-platform/qa-mirror-target.mjs:15:54)\n    at file:///F:/gamemake-company-platform-c1/scripts/company-platform/qa-mirror-target.mjs:104:4"
+    },
+    {
+      "name": "candidate target gate / unknown-draw-throw",
+      "status": "failed",
+      "error": "TypeError: Cannot read properties of null (reading 'getRenderTarget')\n    at file:///F:/gamemake-company-platform-c1/scripts/company-platform/qa-mirror-target.mjs:117:90\n    at check (file:///F:/gamemake-company-platform-c1/scripts/company-platform/qa-mirror-target.mjs:15:54)\n    at file:///F:/gamemake-company-platform-c1/scripts/company-platform/qa-mirror-target.mjs:104:4"
+    },
+    {
+      "name": "healthy matching MSAA target commits and releases its previous owner",
+      "status": "passed"
+    },
+    {
+      "name": "all reflection target objects disposed exactly once",
+      "status": "passed",
+      "resources": {
+        "created": 16,
+        "disposed": 16,
+        "live": 0,
+        "peak": 1
+      }
+    }
+  ],
+  "sourceHashes": {
+    "prototype/src/company/mirror-render.js": "63f592ef8df6cc0acaf358d3baa3511831dd5c06b0bae54a07b131a9b81c63d6",
+    "prototype/src/company/render.js": "7490748adbb08de62fd902b10a8a394ddbe788ba83d238cbb72ca0aa3311e420",
+    "scripts/company-platform/qa-mirror-target.mjs": "922d34e2dbaff9c75e9c320138890ba8545d22c238ae8f54da4e4cba04ca9beb"
+  },
+  "limits": [
+    "Actual pinned Three Reflector, target objects, scene prepare/commit/discard and disposal events execute on CPU with renderer/GL substitutes and synthetic face geometry.",
+    "The substitute injects framebuffer status, actual sample count and WebGL error results. It does not establish real GPU allocation, multisampling or image quality.",
+    "Unknown renderer exceptions require host renderer reconstruction. Retaining old target objects and restoring public state does not prove recovery of Three private render stacks."
+  ]
+}

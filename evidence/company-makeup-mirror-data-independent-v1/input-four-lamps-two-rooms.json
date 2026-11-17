@@ -1,0 +1,428 @@
+{
+  "schema": "company-layout",
+  "version": 1,
+  "id": "makeup-mirror-alternate",
+  "name": "化妆镜 · 两房转向与补光",
+  "revision": 3,
+  "scale": "rental-home",
+  "catalog": {
+    "id": "company-facilities",
+    "version": 1
+  },
+  "nodes": [
+    {
+      "id": "makeup-mirror-alternate/floor-1",
+      "kind": "floor",
+      "parentId": "makeup-mirror-alternate",
+      "name": "一层",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "connections": [
+        {
+          "id": "makeup-mirror-alternate/door",
+          "from": {
+            "regionId": "makeup-mirror-alternate/room-1",
+            "edge": "east",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "makeup-mirror-alternate/room-2",
+            "edge": "west",
+            "offset": 0,
+            "width": 1.4
+          }
+        }
+      ]
+    },
+    {
+      "id": "makeup-mirror-alternate/room-1",
+      "kind": "room",
+      "parentId": "makeup-mirror-alternate/floor-1",
+      "name": "化妆准备间",
+      "purpose": "work",
+      "bounds": {
+        "width": 7,
+        "depth": 5.25
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "makeup-mirror-alternate/room-2",
+      "kind": "room",
+      "parentId": "makeup-mirror-alternate/floor-1",
+      "name": "化妆准备间",
+      "purpose": "work",
+      "bounds": {
+        "width": 7,
+        "depth": 5.25
+      },
+      "transform": {
+        "position": [
+          7,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "vanity/primary",
+      "kind": "facility",
+      "parentId": "makeup-mirror-alternate/room-1",
+      "resource": {
+        "id": "vanity-table-mobile",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -1,
+          0,
+          -1.3
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "vanity/primary/seat",
+      "kind": "facility",
+      "parentId": "makeup-mirror-alternate/room-1",
+      "resource": {
+        "id": "vanity-chair-side-entry",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.98,
+          0,
+          -0.75
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "vanity/primary/ornament-0",
+      "kind": "facility",
+      "parentId": "vanity/primary",
+      "resource": {
+        "id": "tabletop-ornament-stacked-stones",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.2,
+          0.78,
+          0.08
+        ],
+        "yaw": 0
+      },
+      "state": {},
+      "attachment": {
+        "surfaceId": "top"
+      }
+    },
+    {
+      "id": "vanity/primary/ornament-1",
+      "kind": "facility",
+      "parentId": "vanity/primary",
+      "resource": {
+        "id": "tabletop-ornament-arched-sculpture",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0.22,
+          0.78,
+          0.08
+        ],
+        "yaw": 0
+      },
+      "state": {},
+      "attachment": {
+        "surfaceId": "top"
+      }
+    },
+    {
+      "id": "vanity/secondary",
+      "kind": "facility",
+      "parentId": "makeup-mirror-alternate/room-2",
+      "resource": {
+        "id": "vanity-table-plain",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1,
+          0,
+          -1
+        ],
+        "yaw": 1.5707963267948966
+      },
+      "state": {}
+    },
+    {
+      "id": "vanity/secondary/seat",
+      "kind": "facility",
+      "parentId": "makeup-mirror-alternate/room-2",
+      "resource": {
+        "id": "vanity-chair-side-entry",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1.55,
+          0,
+          -1.02
+        ],
+        "yaw": 4.71238898038469
+      },
+      "state": {}
+    },
+    {
+      "id": "vanity/secondary/ornament-0",
+      "kind": "facility",
+      "parentId": "vanity/secondary",
+      "resource": {
+        "id": "tabletop-ornament-stacked-stones",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.2,
+          0.78,
+          0.08
+        ],
+        "yaw": 0
+      },
+      "state": {},
+      "attachment": {
+        "surfaceId": "top"
+      }
+    },
+    {
+      "id": "vanity/secondary/ornament-1",
+      "kind": "facility",
+      "parentId": "vanity/secondary",
+      "resource": {
+        "id": "tabletop-ornament-arched-sculpture",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0.22,
+          0.78,
+          0.08
+        ],
+        "yaw": 0
+      },
+      "state": {},
+      "attachment": {
+        "surfaceId": "top"
+      }
+    },
+    {
+      "id": "vanity/primary/mirror",
+      "kind": "facility",
+      "parentId": "vanity/primary",
+      "resource": {
+        "id": "makeup-mirror-tri-fold",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0.02,
+          0.78,
+          -0.135
+        ],
+        "yaw": 0
+      },
+      "state": {
+        "on": true,
+        "intensity": 7
+      },
+      "attachment": {
+        "surfaceId": "top"
+      }
+    },
+    {
+      "id": "vanity/secondary/mirror",
+      "kind": "facility",
+      "parentId": "vanity/secondary",
+      "resource": {
+        "id": "makeup-mirror-round",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0.02,
+          0.78,
+          -0.135
+        ],
+        "yaw": 0
+      },
+      "state": {
+        "on": false,
+        "intensity": 3
+      },
+      "attachment": {
+        "surfaceId": "top"
+      }
+    },
+    {
+      "id": "vanity/second",
+      "kind": "facility",
+      "parentId": "makeup-mirror-alternate/room-1",
+      "resource": {
+        "id": "vanity-table-plain",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1,
+          0,
+          -1.3
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "vanity/second/seat",
+      "kind": "facility",
+      "parentId": "makeup-mirror-alternate/room-1",
+      "resource": {
+        "id": "vanity-chair-side-entry",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1.02,
+          0,
+          -0.75
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "vanity/second/mirror",
+      "kind": "facility",
+      "parentId": "vanity/second",
+      "resource": {
+        "id": "makeup-mirror-round",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0.02,
+          0.78,
+          -0.135
+        ],
+        "yaw": 0
+      },
+      "state": {
+        "on": true,
+        "intensity": 7
+      },
+      "attachment": {
+        "surfaceId": "top"
+      }
+    },
+    {
+      "id": "vanity/third",
+      "kind": "facility",
+      "parentId": "makeup-mirror-alternate/room-1",
+      "resource": {
+        "id": "vanity-table-plain",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1,
+          0,
+          0.8
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "vanity/third/seat",
+      "kind": "facility",
+      "parentId": "makeup-mirror-alternate/room-1",
+      "resource": {
+        "id": "vanity-chair-side-entry",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1.02,
+          0,
+          1.35
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "vanity/third/mirror",
+      "kind": "facility",
+      "parentId": "vanity/third",
+      "resource": {
+        "id": "makeup-mirror-lit-frame",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0.02,
+          0.78,
+          -0.135
+        ],
+        "yaw": 0
+      },
+      "state": {
+        "on": true,
+        "intensity": 5
+      },
+      "attachment": {
+        "surfaceId": "top"
+      }
+    },
+    {
+      "id": "a-fill",
+      "kind": "facility",
+      "parentId": "makeup-mirror-alternate/room-1",
+      "resource": {
+        "id": "fill-light",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -2.5,
+          0,
+          1.5
+        ],
+        "yaw": 0
+      },
+      "state": {
+        "on": true,
+        "intensity": 2
+      }
+    }
+  ]
+}

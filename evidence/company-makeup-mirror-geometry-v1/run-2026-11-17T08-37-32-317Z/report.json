@@ -1,0 +1,1757 @@
+{
+  "status": "failed",
+  "checkedAt": "2026-11-17T08:37:32.624Z",
+  "collectionPath": "F:\\gamemake-company-platform-c1\\prototype\\public\\company-assets\\makeup-mirror-v1\\collection.json",
+  "checks": [
+    {
+      "name": "Legacy resources skip the new gate",
+      "passed": true
+    },
+    {
+      "name": "makeup-mirror-round / actual GLB full geometry admission",
+      "passed": true
+    },
+    {
+      "name": "makeup-mirror-round / missing makeup-base",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-node",
+        "path": "makeup-mirror-round.scene.makeup-base",
+        "message": "The required node must uniquely resolve to one actual mesh",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-mirror-round / missing makeup-post",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-node",
+        "path": "makeup-mirror-round.scene.makeup-post",
+        "message": "The required node must uniquely resolve to one actual mesh",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-mirror-round / missing makeup-lamp",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-node",
+        "path": "makeup-mirror-round.scene.makeup-lamp",
+        "message": "The required node must uniquely resolve to one actual mesh",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-mirror-round / missing makeup-face-center",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-node",
+        "path": "makeup-mirror-round.scene.makeup-face-center",
+        "message": "The required node must uniquely resolve to one actual mesh",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-mirror-round / missing makeup-back-center",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-node",
+        "path": "makeup-mirror-round.scene.makeup-back-center",
+        "message": "The required node must uniquely resolve to one actual mesh",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-mirror-round / missing makeup-frame-center",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-node",
+        "path": "makeup-mirror-round.scene.makeup-frame-center",
+        "message": "The required node must uniquely resolve to one actual mesh",
+        "details": {
+          "matches": 0
+        }
+      }
+    },
+    {
+      "name": "makeup-mirror-round / duplicate required node",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-node",
+        "path": "makeup-mirror-round.scene.makeup-base",
+        "message": "The required node must uniquely resolve to one actual mesh",
+        "details": {
+          "matches": 2
+        }
+      }
+    },
+    {
+      "name": "makeup-mirror-round / node offset cannot disguise unbaked mesh",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-transform",
+        "path": "makeup-mirror-round.scene.makeup-base",
+        "message": "All resource nodes require baked identity transforms and visible geometry"
+      }
+    },
+    {
+      "name": "makeup-mirror-round / hidden solid cannot be counted as support",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-transform",
+        "path": "makeup-mirror-round.scene.makeup-post",
+        "message": "All resource nodes require baked identity transforms and visible geometry"
+      }
+    },
+    {
+      "name": "makeup-mirror-round / fake central plane",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-face-geometry",
+        "path": "makeup-mirror-round.scene.makeup-face-center",
+        "message": "Every actual face triangle must lie on its own declared plane and face its true +Z normal"
+      }
+    },
+    {
+      "name": "makeup-mirror-round / reversed face normals",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-face-geometry",
+        "path": "makeup-mirror-round.scene.makeup-face-center",
+        "message": "Every actual face triangle must lie on its own declared plane and face its true +Z normal"
+      }
+    },
+    {
+      "name": "makeup-mirror-round / face triangle missing",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-face-coverage",
+        "path": "makeup-mirror-round.scene.makeup-face-center",
+        "message": "Actual triangles leave a hole in a required contour",
+        "details": {
+          "polygon": 0,
+          "missingArea": 0.0021145226969349886
+        }
+      }
+    },
+    {
+      "name": "makeup-mirror-round / repeated face triangle",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-face-coverage",
+        "path": "makeup-mirror-round.scene.makeup-face-center",
+        "message": "Actual triangles must not overlap or repeat",
+        "details": {
+          "triangles": [
+            0,
+            48
+          ]
+        }
+      }
+    },
+    {
+      "name": "makeup-mirror-round / flat makeup-base",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-degenerate-face",
+        "path": "makeup-mirror-round.scene.makeup-base",
+        "message": "Each triangle must have three distinct vertices and real area"
+      }
+    },
+    {
+      "name": "makeup-mirror-round / flat makeup-post",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-degenerate-face",
+        "path": "makeup-mirror-round.scene.makeup-post",
+        "message": "Each triangle must have three distinct vertices and real area"
+      }
+    },
+    {
+      "name": "makeup-mirror-round / flat makeup-back-center",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-degenerate-face",
+        "path": "makeup-mirror-round.scene.makeup-back-center",
+        "message": "Each triangle must have three distinct vertices and real area"
+      }
+    },
+    {
+      "name": "makeup-mirror-round / base full dimensions are required",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-support-box",
+        "path": "makeup-mirror-round.scene.makeup-base",
+        "message": "Base and post must be their full fixed rectangular solid geometry"
+      }
+    },
+    {
+      "name": "makeup-mirror-round / post cannot float above base",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-support-box",
+        "path": "makeup-mirror-round.scene.makeup-post",
+        "message": "Base and post must be their full fixed rectangular solid geometry"
+      }
+    },
+    {
+      "name": "makeup-mirror-round / curved AABB overlap is not actual contact",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-detached-component",
+        "path": "makeup-mirror-round.resource",
+        "message": "Every real solid, side wing, frame and lamp must connect to the base through actual positive face or volume contact",
+        "details": {
+          "detached": [
+            "curved-disconnected-solid#7"
+          ]
+        }
+      }
+    },
+    {
+      "name": "makeup-mirror-round / lamp source must be inside actual housing",
+      "passed": true,
+      "rejection": {
+        "code": "makeup-lamp-geometry",
+        "path": "makeup-mirror-round.scene.makeup-lamp",
+        "message": "The real thick lamp must contain the common light source position"
+      }
+    }
+  ],
+  "realAssets": [
+    {
+      "id": "makeup-mirror-round",
+      "resourcePath": "F:\\gamemake-company-platform-c1\\prototype\\public\\company-assets\\makeup-mirror-v1\\round\\v1\\resource.json",
+      "assetPath": "F:\\gamemake-company-platform-c1\\prototype\\public\\company-assets\\makeup-mirror-v1\\round\\v1\\model.glb",
+      "sha256": "38d582f8ed21fe78fb4e719494331fefcd6d42d5a16af36b3406d65c242f9279",
+      "bytes": 56688,
+      "observed": {
+        "checked": true,
+        "sourceDesign": "round",
+        "meshCount": 8,
+        "triangleCount": 684,
+        "materials": 4,
+        "grounded": true,
+        "groundArea": 0.03359999939203262,
+        "panels": [
+          {
+            "id": "center",
+            "triangles": 48,
+            "position": [
+              0,
+              0.365,
+              0
+            ],
+            "yaw": 0,
+            "backingVolume": 0.0016239547953397133
+          }
+        ],
+        "components": [
+          {
+            "id": "makeup-base#0",
+            "mesh": "makeup-base",
+            "volume": 0.0010079999592304233
+          },
+          {
+            "id": "makeup-post#1",
+            "mesh": "makeup-post",
+            "volume": 0.0002730000035986303
+          },
+          {
+            "id": "makeup-back-center#2",
+            "mesh": "makeup-back-center",
+            "volume": 0.0016239547953397133
+          },
+          {
+            "id": "makeup-lamp-riser#4",
+            "mesh": "makeup-lamp-riser",
+            "volume": 0.00005304001061439414
+          },
+          {
+            "id": "makeup-lamp-arm#5",
+            "mesh": "makeup-lamp-arm",
+            "volume": 0.00006060012132972179
+          },
+          {
+            "id": "makeup-lamp#6",
+            "mesh": "makeup-lamp",
+            "volume": 0.00007680015459060454
+          },
+          {
+            "id": "makeup-frame-center#3/cap-0",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370561123210348
+          },
+          {
+            "id": "makeup-frame-center#3/cap-1",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370558157941371
+          },
+          {
+            "id": "makeup-frame-center#3/cap-2",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096848380463605
+          },
+          {
+            "id": "makeup-frame-center#3/cap-3",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096856751596887
+          },
+          {
+            "id": "makeup-frame-center#3/cap-4",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096851642146148
+          },
+          {
+            "id": "makeup-frame-center#3/cap-5",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370569391572503
+          },
+          {
+            "id": "makeup-frame-center#3/cap-6",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370565245259795
+          },
+          {
+            "id": "makeup-frame-center#3/cap-7",
+            "mesh": "makeup-frame-center",
+            "volume": 0.00000409685739127632
+          },
+          {
+            "id": "makeup-frame-center#3/cap-8",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096853692558916
+          },
+          {
+            "id": "makeup-frame-center#3/cap-9",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370564881252964
+          },
+          {
+            "id": "makeup-frame-center#3/cap-10",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370564182248319
+          },
+          {
+            "id": "makeup-frame-center#3/cap-11",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096850961461293
+          },
+          {
+            "id": "makeup-frame-center#3/cap-12",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096856505641626
+          },
+          {
+            "id": "makeup-frame-center#3/cap-13",
+            "mesh": "makeup-frame-center",
+            "volume": 0.00000437055666903501
+          },
+          {
+            "id": "makeup-frame-center#3/cap-14",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370561987015836
+          },
+          {
+            "id": "makeup-frame-center#3/cap-15",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096852260897877
+          },
+          {
+            "id": "makeup-frame-center#3/cap-16",
+            "mesh": "makeup-frame-center",
+            "volume": 0.0000040968509619120436
+          },
+          {
+            "id": "makeup-frame-center#3/cap-17",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370564072368211
+          },
+          {
+            "id": "makeup-frame-center#3/cap-18",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370564880802214
+          },
+          {
+            "id": "makeup-frame-center#3/cap-19",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096851290534956
+          },
+          {
+            "id": "makeup-frame-center#3/cap-20",
+            "mesh": "makeup-frame-center",
+            "volume": 0.0000040968546444410635
+          },
+          {
+            "id": "makeup-frame-center#3/cap-21",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370563154910529
+          },
+          {
+            "id": "makeup-frame-center#3/cap-22",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370565968611411
+          },
+          {
+            "id": "makeup-frame-center#3/cap-23",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096853971418968
+          },
+          {
+            "id": "makeup-frame-center#3/cap-24",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096857805361539
+          },
+          {
+            "id": "makeup-frame-center#3/cap-25",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370559789851565
+          },
+          {
+            "id": "makeup-frame-center#3/cap-26",
+            "mesh": "makeup-frame-center",
+            "volume": 0.00000437055907452331
+          },
+          {
+            "id": "makeup-frame-center#3/cap-27",
+            "mesh": "makeup-frame-center",
+            "volume": 0.0000040968492197096275
+          },
+          {
+            "id": "makeup-frame-center#3/cap-28",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096847936232833
+          },
+          {
+            "id": "makeup-frame-center#3/cap-29",
+            "mesh": "makeup-frame-center",
+            "volume": 0.0000043705600561034796
+          },
+          {
+            "id": "makeup-frame-center#3/cap-30",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370557865755201
+          },
+          {
+            "id": "makeup-frame-center#3/cap-31",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096842788181748
+          },
+          {
+            "id": "makeup-frame-center#3/cap-32",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096849275528645
+          },
+          {
+            "id": "makeup-frame-center#3/cap-33",
+            "mesh": "makeup-frame-center",
+            "volume": 0.0000043705490362247
+          },
+          {
+            "id": "makeup-frame-center#3/cap-34",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370559684227831
+          },
+          {
+            "id": "makeup-frame-center#3/cap-35",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096853496897759
+          },
+          {
+            "id": "makeup-frame-center#3/cap-36",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096852260456785
+          },
+          {
+            "id": "makeup-frame-center#3/cap-37",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370566517477486
+          },
+          {
+            "id": "makeup-frame-center#3/cap-38",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370560014021086
+          },
+          {
+            "id": "makeup-frame-center#3/cap-39",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096862481254636
+          },
+          {
+            "id": "makeup-frame-center#3/cap-40",
+            "mesh": "makeup-frame-center",
+            "volume": 0.00000409684892075254
+          },
+          {
+            "id": "makeup-frame-center#3/cap-41",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370571528205802
+          },
+          {
+            "id": "makeup-frame-center#3/cap-42",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370559424057829
+          },
+          {
+            "id": "makeup-frame-center#3/cap-43",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096840514901804
+          },
+          {
+            "id": "makeup-frame-center#3/cap-44",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096851200175971
+          },
+          {
+            "id": "makeup-frame-center#3/cap-45",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370549275547491
+          },
+          {
+            "id": "makeup-frame-center#3/cap-46",
+            "mesh": "makeup-frame-center",
+            "volume": 0.0000043705618239886164
+          },
+          {
+            "id": "makeup-frame-center#3/cap-47",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096862767560122
+          },
+          {
+            "id": "makeup-frame-center#3/cap-48",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096851936392898
+          },
+          {
+            "id": "makeup-frame-center#3/cap-49",
+            "mesh": "makeup-frame-center",
+            "volume": 0.0000043705728089861435
+          },
+          {
+            "id": "makeup-frame-center#3/cap-50",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370560106714725
+          },
+          {
+            "id": "makeup-frame-center#3/cap-51",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096856189745978
+          },
+          {
+            "id": "makeup-frame-center#3/cap-52",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096850667759468
+          },
+          {
+            "id": "makeup-frame-center#3/cap-53",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370565235745739
+          },
+          {
+            "id": "makeup-frame-center#3/cap-54",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370561375348128
+          },
+          {
+            "id": "makeup-frame-center#3/cap-55",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096837297376719
+          },
+          {
+            "id": "makeup-frame-center#3/cap-56",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096852502114623
+          },
+          {
+            "id": "makeup-frame-center#3/cap-57",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370549284646211
+          },
+          {
+            "id": "makeup-frame-center#3/cap-58",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370560522049965
+          },
+          {
+            "id": "makeup-frame-center#3/cap-59",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096853559639016
+          },
+          {
+            "id": "makeup-frame-center#3/cap-60",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096850024573041
+          },
+          {
+            "id": "makeup-frame-center#3/cap-61",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370557085863368
+          },
+          {
+            "id": "makeup-frame-center#3/cap-62",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370558320237328
+          },
+          {
+            "id": "makeup-frame-center#3/cap-63",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096851923697825
+          },
+          {
+            "id": "makeup-frame-center#3/cap-64",
+            "mesh": "makeup-frame-center",
+            "volume": 0.00000409685091919216
+          },
+          {
+            "id": "makeup-frame-center#3/cap-65",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370563527925932
+          },
+          {
+            "id": "makeup-frame-center#3/cap-66",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370561355285711
+          },
+          {
+            "id": "makeup-frame-center#3/cap-67",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096853598403564
+          },
+          {
+            "id": "makeup-frame-center#3/cap-68",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096850518891859
+          },
+          {
+            "id": "makeup-frame-center#3/cap-69",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370566327569837
+          },
+          {
+            "id": "makeup-frame-center#3/cap-70",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370558440864617
+          },
+          {
+            "id": "makeup-frame-center#3/cap-71",
+            "mesh": "makeup-frame-center",
+            "volume": 0.0000040968490353333324
+          },
+          {
+            "id": "makeup-frame-center#3/cap-72",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096848564785166
+          },
+          {
+            "id": "makeup-frame-center#3/cap-73",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370559938225769
+          },
+          {
+            "id": "makeup-frame-center#3/cap-74",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370557237202868
+          },
+          {
+            "id": "makeup-frame-center#3/cap-75",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096848991707117
+          },
+          {
+            "id": "makeup-frame-center#3/cap-76",
+            "mesh": "makeup-frame-center",
+            "volume": 0.0000040968497735532755
+          },
+          {
+            "id": "makeup-frame-center#3/cap-77",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370555579519401
+          },
+          {
+            "id": "makeup-frame-center#3/cap-78",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370567106331573
+          },
+          {
+            "id": "makeup-frame-center#3/cap-79",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096860263194857
+          },
+          {
+            "id": "makeup-frame-center#3/cap-80",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096857913631823
+          },
+          {
+            "id": "makeup-frame-center#3/cap-81",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370570277207197
+          },
+          {
+            "id": "makeup-frame-center#3/cap-82",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370562699420651
+          },
+          {
+            "id": "makeup-frame-center#3/cap-83",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096856505641626
+          },
+          {
+            "id": "makeup-frame-center#3/cap-84",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096850961087814
+          },
+          {
+            "id": "makeup-frame-center#3/cap-85",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370564182248319
+          },
+          {
+            "id": "makeup-frame-center#3/cap-86",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370564881626444
+          },
+          {
+            "id": "makeup-frame-center#3/cap-87",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096853692558916
+          },
+          {
+            "id": "makeup-frame-center#3/cap-88",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096854120746188
+          },
+          {
+            "id": "makeup-frame-center#3/cap-89",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370560092987754
+          },
+          {
+            "id": "makeup-frame-center#3/cap-90",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370564371911274
+          },
+          {
+            "id": "makeup-frame-center#3/cap-91",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096846445417222
+          },
+          {
+            "id": "makeup-frame-center#3/cap-92",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096856751596887
+          },
+          {
+            "id": "makeup-frame-center#3/cap-93",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370563354670297
+          },
+          {
+            "id": "makeup-frame-center#3/cap-94",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004370561123210348
+          },
+          {
+            "id": "makeup-frame-center#3/cap-95",
+            "mesh": "makeup-frame-center",
+            "volume": 0.000004096853532735647
+          }
+        ],
+        "connections": [
+          {
+            "a": "makeup-base#0",
+            "b": "makeup-post#1",
+            "kind": "face",
+            "area": 0.0013000000461936
+          },
+          {
+            "a": "makeup-post#1",
+            "b": "makeup-back-center#2",
+            "kind": "volume",
+            "volume": 0.00004333973057186491
+          },
+          {
+            "a": "makeup-post#1",
+            "b": "makeup-frame-center#3/cap-44",
+            "kind": "volume",
+            "volume": 8.463448673583177e-9
+          },
+          {
+            "a": "makeup-post#1",
+            "b": "makeup-frame-center#3/cap-46",
+            "kind": "volume",
+            "volume": 1.328310543935576e-7
+          },
+          {
+            "a": "makeup-post#1",
+            "b": "makeup-frame-center#3/cap-48",
+            "kind": "volume",
+            "volume": 0.0000022600939677621048
+          },
+          {
+            "a": "makeup-post#1",
+            "b": "makeup-frame-center#3/cap-50",
+            "kind": "volume",
+            "volume": 0.0000024113276609364602
+          },
+          {
+            "a": "makeup-post#1",
+            "b": "makeup-frame-center#3/cap-52",
+            "kind": "volume",
+            "volume": 0.0000022603314664176535
+          },
+          {
+            "a": "makeup-post#1",
+            "b": "makeup-frame-center#3/cap-54",
+            "kind": "volume",
+            "volume": 0.000002411090162280895
+          },
+          {
+            "a": "makeup-post#1",
+            "b": "makeup-frame-center#3/cap-56",
+            "kind": "volume",
+            "volume": 1.412945030671428e-7
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-lamp-riser#4",
+            "kind": "volume",
+            "volume": 0.000009558296738010991
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-2",
+            "kind": "face",
+            "area": 0.00037672166600758437
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-3",
+            "kind": "face",
+            "area": 0.0003767221134121433
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-4",
+            "kind": "face",
+            "area": 0.0003767221418238118
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-7",
+            "kind": "face",
+            "area": 0.00037672209355145913
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-8",
+            "kind": "face",
+            "area": 0.0003767221134121434
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-11",
+            "kind": "face",
+            "area": 0.00037672227348206486
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-12",
+            "kind": "face",
+            "area": 0.00037672209355145886
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-15",
+            "kind": "face",
+            "area": 0.000376722143156996
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-16",
+            "kind": "face",
+            "area": 0.0003767218458197198
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-19",
+            "kind": "face",
+            "area": 0.0003767219424117869
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-20",
+            "kind": "face",
+            "area": 0.0003767221431569962
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-23",
+            "kind": "face",
+            "area": 0.00037672209961208845
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-24",
+            "kind": "face",
+            "area": 0.0003767221216644429
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-27",
+            "kind": "face",
+            "area": 0.00037672187824047037
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-28",
+            "kind": "face",
+            "area": 0.00037672194241178674
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-31",
+            "kind": "face",
+            "area": 0.00037672227055065964
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-32",
+            "kind": "face",
+            "area": 0.0003767220106986811
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-35",
+            "kind": "face",
+            "area": 0.0003767218273946041
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-36",
+            "kind": "face",
+            "area": 0.0003767221651007079
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-39",
+            "kind": "face",
+            "area": 0.0003767220841824642
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-40",
+            "kind": "face",
+            "area": 0.00037672198066858003
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-43",
+            "kind": "face",
+            "area": 0.0003767220682017236
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-44",
+            "kind": "face",
+            "area": 0.0003767220841824642
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-47",
+            "kind": "face",
+            "area": 0.0003767220682017239
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-48",
+            "kind": "face",
+            "area": 0.000376722037014965
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-51",
+            "kind": "face",
+            "area": 0.0003767220841824642
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-52",
+            "kind": "face",
+            "area": 0.00037672203701496386
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-55",
+            "kind": "face",
+            "area": 0.0003767218273946041
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-56",
+            "kind": "face",
+            "area": 0.0003767220841824642
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-59",
+            "kind": "face",
+            "area": 0.00037672227055065964
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-60",
+            "kind": "face",
+            "area": 0.00037672198066858003
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-63",
+            "kind": "face",
+            "area": 0.00037672187824047037
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-64",
+            "kind": "face",
+            "area": 0.0003767221651007079
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-67",
+            "kind": "face",
+            "area": 0.00037672209961208775
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-68",
+            "kind": "face",
+            "area": 0.0003767220106986811
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-71",
+            "kind": "face",
+            "area": 0.0003767219424117869
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-72",
+            "kind": "face",
+            "area": 0.0003767219424117869
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-75",
+            "kind": "face",
+            "area": 0.000376722143156996
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-76",
+            "kind": "face",
+            "area": 0.0003767221216644429
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-79",
+            "kind": "face",
+            "area": 0.00037672227348206486
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-80",
+            "kind": "face",
+            "area": 0.0003767221431569962
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-83",
+            "kind": "face",
+            "area": 0.00037672209355145913
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-84",
+            "kind": "face",
+            "area": 0.0003767218458197198
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-87",
+            "kind": "face",
+            "area": 0.0003767221134121433
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-88",
+            "kind": "face",
+            "area": 0.00037672209355145886
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-91",
+            "kind": "face",
+            "area": 0.00037672166600758437
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-92",
+            "kind": "face",
+            "area": 0.0003767221134121434
+          },
+          {
+            "a": "makeup-back-center#2",
+            "b": "makeup-frame-center#3/cap-95",
+            "kind": "face",
+            "area": 0.0003767221418238118
+          },
+          {
+            "a": "makeup-lamp-riser#4",
+            "b": "makeup-lamp-arm#5",
+            "kind": "volume",
+            "volume": 0.000010140008182524992
+          },
+          {
+            "a": "makeup-lamp-riser#4",
+            "b": "makeup-frame-center#3/cap-41",
+            "kind": "volume",
+            "volume": 7.485809395588959e-7
+          },
+          {
+            "a": "makeup-lamp-riser#4",
+            "b": "makeup-frame-center#3/cap-43",
+            "kind": "volume",
+            "volume": 0.0000015964370823064463
+          },
+          {
+            "a": "makeup-lamp-riser#4",
+            "b": "makeup-frame-center#3/cap-45",
+            "kind": "volume",
+            "volume": 0.0000016433172580196757
+          },
+          {
+            "a": "makeup-lamp-riser#4",
+            "b": "makeup-frame-center#3/cap-47",
+            "kind": "volume",
+            "volume": 7.017007638456216e-7
+          },
+          {
+            "a": "makeup-lamp-arm#5",
+            "b": "makeup-lamp#6",
+            "kind": "volume",
+            "volume": 0.000006000013008715422
+          },
+          {
+            "a": "makeup-frame-center#3/cap-0",
+            "b": "makeup-frame-center#3/cap-2",
+            "kind": "face",
+            "area": 0.0003487467501841646
+          },
+          {
+            "a": "makeup-frame-center#3/cap-0",
+            "b": "makeup-frame-center#3/cap-3",
+            "kind": "face",
+            "area": 0.000786766046055443
+          },
+          {
+            "a": "makeup-frame-center#3/cap-1",
+            "b": "makeup-frame-center#3/cap-2",
+            "kind": "face",
+            "area": 0.000786765494280357
+          },
+          {
+            "a": "makeup-frame-center#3/cap-1",
+            "b": "makeup-frame-center#3/cap-4",
+            "kind": "face",
+            "area": 0.0003487465747292612
+          },
+          {
+            "a": "makeup-frame-center#3/cap-3",
+            "b": "makeup-frame-center#3/cap-5",
+            "kind": "face",
+            "area": 0.0003487470249204756
+          },
+          {
+            "a": "makeup-frame-center#3/cap-4",
+            "b": "makeup-frame-center#3/cap-6",
+            "kind": "face",
+            "area": 0.0007867660132019433
+          },
+          {
+            "a": "makeup-frame-center#3/cap-5",
+            "b": "makeup-frame-center#3/cap-7",
+            "kind": "face",
+            "area": 0.0007867665952855063
+          },
+          {
+            "a": "makeup-frame-center#3/cap-6",
+            "b": "makeup-frame-center#3/cap-8",
+            "kind": "face",
+            "area": 0.00034874675018416445
+          },
+          {
+            "a": "makeup-frame-center#3/cap-7",
+            "b": "makeup-frame-center#3/cap-9",
+            "kind": "face",
+            "area": 0.0003487471375104896
+          },
+          {
+            "a": "makeup-frame-center#3/cap-8",
+            "b": "makeup-frame-center#3/cap-10",
+            "kind": "face",
+            "area": 0.0007867657192846129
+          },
+          {
+            "a": "makeup-frame-center#3/cap-9",
+            "b": "makeup-frame-center#3/cap-11",
+            "kind": "face",
+            "area": 0.0007867659188947623
+          },
+          {
+            "a": "makeup-frame-center#3/cap-10",
+            "b": "makeup-frame-center#3/cap-12",
+            "kind": "face",
+            "area": 0.0003487470249204756
+          },
+          {
+            "a": "makeup-frame-center#3/cap-11",
+            "b": "makeup-frame-center#3/cap-13",
+            "kind": "face",
+            "area": 0.0003487463789771467
+          },
+          {
+            "a": "makeup-frame-center#3/cap-12",
+            "b": "makeup-frame-center#3/cap-14",
+            "kind": "face",
+            "area": 0.0007867660474795476
+          },
+          {
+            "a": "makeup-frame-center#3/cap-13",
+            "b": "makeup-frame-center#3/cap-15",
+            "kind": "face",
+            "area": 0.0007867652499653964
+          },
+          {
+            "a": "makeup-frame-center#3/cap-14",
+            "b": "makeup-frame-center#3/cap-16",
+            "kind": "face",
+            "area": 0.00034874680676957317
+          },
+          {
+            "a": "makeup-frame-center#3/cap-15",
+            "b": "makeup-frame-center#3/cap-17",
+            "kind": "face",
+            "area": 0.00034874656847509906
+          },
+          {
+            "a": "makeup-frame-center#3/cap-16",
+            "b": "makeup-frame-center#3/cap-18",
+            "kind": "face",
+            "area": 0.0007867658584383071
+          },
+          {
+            "a": "makeup-frame-center#3/cap-17",
+            "b": "makeup-frame-center#3/cap-19",
+            "kind": "face",
+            "area": 0.0007867660417522737
+          },
+          {
+            "a": "makeup-frame-center#3/cap-18",
+            "b": "makeup-frame-center#3/cap-20",
+            "kind": "face",
+            "area": 0.0003487468111108046
+          },
+          {
+            "a": "makeup-frame-center#3/cap-19",
+            "b": "makeup-frame-center#3/cap-21",
+            "kind": "face",
+            "area": 0.00034874674948298136
+          },
+          {
+            "a": "makeup-frame-center#3/cap-20",
+            "b": "makeup-frame-center#3/cap-22",
+            "kind": "face",
+            "area": 0.0007867658963155805
+          },
+          {
+            "a": "makeup-frame-center#3/cap-21",
+            "b": "makeup-frame-center#3/cap-23",
+            "kind": "face",
+            "area": 0.000786766330036677
+          },
+          {
+            "a": "makeup-frame-center#3/cap-22",
+            "b": "makeup-frame-center#3/cap-24",
+            "kind": "face",
+            "area": 0.0003487470946071652
+          },
+          {
+            "a": "makeup-frame-center#3/cap-23",
+            "b": "makeup-frame-center#3/cap-25",
+            "kind": "face",
+            "area": 0.0003487468315409636
+          },
+          {
+            "a": "makeup-frame-center#3/cap-24",
+            "b": "makeup-frame-center#3/cap-26",
+            "kind": "face",
+            "area": 0.0007867659307919711
+          },
+          {
+            "a": "makeup-frame-center#3/cap-25",
+            "b": "makeup-frame-center#3/cap-27",
+            "kind": "face",
+            "area": 0.0007867653638792718
+          },
+          {
+            "a": "makeup-frame-center#3/cap-26",
+            "b": "makeup-frame-center#3/cap-28",
+            "kind": "face",
+            "area": 0.00034874644391818984
+          },
+          {
+            "a": "makeup-frame-center#3/cap-27",
+            "b": "makeup-frame-center#3/cap-29",
+            "kind": "face",
+            "area": 0.0003487465950437753
+          },
+          {
+            "a": "makeup-frame-center#3/cap-28",
+            "b": "makeup-frame-center#3/cap-30",
+            "kind": "face",
+            "area": 0.0007867656243396354
+          },
+          {
+            "a": "makeup-frame-center#3/cap-29",
+            "b": "makeup-frame-center#3/cap-31",
+            "kind": "face",
+            "area": 0.0007867656471230952
+          },
+          {
+            "a": "makeup-frame-center#3/cap-30",
+            "b": "makeup-frame-center#3/cap-32",
+            "kind": "face",
+            "area": 0.00034874648870614303
+          },
+          {
+            "a": "makeup-frame-center#3/cap-31",
+            "b": "makeup-frame-center#3/cap-33",
+            "kind": "face",
+            "area": 0.00034874569173637605
+          },
+          {
+            "a": "makeup-frame-center#3/cap-32",
+            "b": "makeup-frame-center#3/cap-34",
+            "kind": "face",
+            "area": 0.0007867656784038935
+          },
+          {
+            "a": "makeup-frame-center#3/cap-33",
+            "b": "makeup-frame-center#3/cap-35",
+            "kind": "face",
+            "area": 0.0007867653599422192
+          },
+          {
+            "a": "makeup-frame-center#3/cap-34",
+            "b": "makeup-frame-center#3/cap-36",
+            "kind": "face",
+            "area": 0.00034874659504377487
+          },
+          {
+            "a": "makeup-frame-center#3/cap-35",
+            "b": "makeup-frame-center#3/cap-37",
+            "kind": "face",
+            "area": 0.00034874699695938965
+          },
+          {
+            "a": "makeup-frame-center#3/cap-36",
+            "b": "makeup-frame-center#3/cap-38",
+            "kind": "face",
+            "area": 0.0007867659188811147
+          },
+          {
+            "a": "makeup-frame-center#3/cap-37",
+            "b": "makeup-frame-center#3/cap-39",
+            "kind": "face",
+            "area": 0.0007867665025590983
+          },
+          {
+            "a": "makeup-frame-center#3/cap-38",
+            "b": "makeup-frame-center#3/cap-40",
+            "kind": "face",
+            "area": 0.000348746490215134
+          },
+          {
+            "a": "makeup-frame-center#3/cap-39",
+            "b": "makeup-frame-center#3/cap-41",
+            "kind": "face",
+            "area": 0.00034874755770324437
+          },
+          {
+            "a": "makeup-frame-center#3/cap-40",
+            "b": "makeup-frame-center#3/cap-42",
+            "kind": "face",
+            "area": 0.000786765681997267
+          },
+          {
+            "a": "makeup-frame-center#3/cap-41",
+            "b": "makeup-frame-center#3/cap-43",
+            "kind": "face",
+            "area": 0.0007867656567863483
+          },
+          {
+            "a": "makeup-frame-center#3/cap-42",
+            "b": "makeup-frame-center#3/cap-44",
+            "kind": "face",
+            "area": 0.0003487465795502837
+          },
+          {
+            "a": "makeup-frame-center#3/cap-43",
+            "b": "makeup-frame-center#3/cap-45",
+            "kind": "face",
+            "area": 0.0003487457104618952
+          },
+          {
+            "a": "makeup-frame-center#3/cap-44",
+            "b": "makeup-frame-center#3/cap-46",
+            "kind": "face",
+            "area": 0.0007867657776707439
+          },
+          {
+            "a": "makeup-frame-center#3/cap-45",
+            "b": "makeup-frame-center#3/cap-47",
+            "kind": "face",
+            "area": 0.0007867659590891182
+          },
+          {
+            "a": "makeup-frame-center#3/cap-46",
+            "b": "makeup-frame-center#3/cap-48",
+            "kind": "face",
+            "area": 0.00034874670082978893
+          },
+          {
+            "a": "makeup-frame-center#3/cap-47",
+            "b": "makeup-frame-center#3/cap-49",
+            "kind": "face",
+            "area": 0.00034874755770324437
+          },
+          {
+            "a": "makeup-frame-center#3/cap-48",
+            "b": "makeup-frame-center#3/cap-50",
+            "kind": "face",
+            "area": 0.0007867659590891188
+          },
+          {
+            "a": "makeup-frame-center#3/cap-49",
+            "b": "makeup-frame-center#3/cap-51",
+            "kind": "face",
+            "area": 0.0007867658895283728
+          },
+          {
+            "a": "makeup-frame-center#3/cap-50",
+            "b": "makeup-frame-center#3/cap-52",
+            "kind": "face",
+            "area": 0.0003487465747292612
+          },
+          {
+            "a": "makeup-frame-center#3/cap-51",
+            "b": "makeup-frame-center#3/cap-53",
+            "kind": "face",
+            "area": 0.00034874699695938965
+          },
+          {
+            "a": "makeup-frame-center#3/cap-52",
+            "b": "makeup-frame-center#3/cap-54",
+            "kind": "face",
+            "area": 0.0007867656567863476
+          },
+          {
+            "a": "makeup-frame-center#3/cap-53",
+            "b": "makeup-frame-center#3/cap-55",
+            "kind": "face",
+            "area": 0.0007867656819972672
+          },
+          {
+            "a": "makeup-frame-center#3/cap-54",
+            "b": "makeup-frame-center#3/cap-56",
+            "kind": "face",
+            "area": 0.00034874670082978893
+          },
+          {
+            "a": "makeup-frame-center#3/cap-55",
+            "b": "makeup-frame-center#3/cap-57",
+            "kind": "face",
+            "area": 0.00034874569173637605
+          },
+          {
+            "a": "makeup-frame-center#3/cap-56",
+            "b": "makeup-frame-center#3/cap-58",
+            "kind": "face",
+            "area": 0.0007867659764043323
+          },
+          {
+            "a": "makeup-frame-center#3/cap-57",
+            "b": "makeup-frame-center#3/cap-59",
+            "kind": "face",
+            "area": 0.0007867659188677044
+          },
+          {
+            "a": "makeup-frame-center#3/cap-58",
+            "b": "makeup-frame-center#3/cap-60",
+            "kind": "face",
+            "area": 0.0003487465795502837
+          },
+          {
+            "a": "makeup-frame-center#3/cap-59",
+            "b": "makeup-frame-center#3/cap-61",
+            "kind": "face",
+            "area": 0.0003487465950437753
+          },
+          {
+            "a": "makeup-frame-center#3/cap-60",
+            "b": "makeup-frame-center#3/cap-62",
+            "kind": "face",
+            "area": 0.0007867656655164606
+          },
+          {
+            "a": "makeup-frame-center#3/cap-61",
+            "b": "makeup-frame-center#3/cap-63",
+            "kind": "face",
+            "area": 0.0007867655656218715
+          },
+          {
+            "a": "makeup-frame-center#3/cap-62",
+            "b": "makeup-frame-center#3/cap-64",
+            "kind": "face",
+            "area": 0.000348746490215134
+          },
+          {
+            "a": "makeup-frame-center#3/cap-63",
+            "b": "makeup-frame-center#3/cap-65",
+            "kind": "face",
+            "area": 0.0003487468315409636
+          },
+          {
+            "a": "makeup-frame-center#3/cap-64",
+            "b": "makeup-frame-center#3/cap-66",
+            "kind": "face",
+            "area": 0.000786765989966044
+          },
+          {
+            "a": "makeup-frame-center#3/cap-65",
+            "b": "makeup-frame-center#3/cap-67",
+            "kind": "face",
+            "area": 0.0007867656243396354
+          },
+          {
+            "a": "makeup-frame-center#3/cap-66",
+            "b": "makeup-frame-center#3/cap-68",
+            "kind": "face",
+            "area": 0.00034874659504377487
+          },
+          {
+            "a": "makeup-frame-center#3/cap-67",
+            "b": "makeup-frame-center#3/cap-69",
+            "kind": "face",
+            "area": 0.00034874674948298136
+          },
+          {
+            "a": "makeup-frame-center#3/cap-68",
+            "b": "makeup-frame-center#3/cap-70",
+            "kind": "face",
+            "area": 0.0007867657381248122
+          },
+          {
+            "a": "makeup-frame-center#3/cap-69",
+            "b": "makeup-frame-center#3/cap-71",
+            "kind": "face",
+            "area": 0.0007867660961498624
+          },
+          {
+            "a": "makeup-frame-center#3/cap-70",
+            "b": "makeup-frame-center#3/cap-72",
+            "kind": "face",
+            "area": 0.00034874648870614303
+          },
+          {
+            "a": "makeup-frame-center#3/cap-71",
+            "b": "makeup-frame-center#3/cap-73",
+            "kind": "face",
+            "area": 0.00034874656847509906
+          },
+          {
+            "a": "makeup-frame-center#3/cap-72",
+            "b": "makeup-frame-center#3/cap-74",
+            "kind": "face",
+            "area": 0.0007867655315473
+          },
+          {
+            "a": "makeup-frame-center#3/cap-73",
+            "b": "makeup-frame-center#3/cap-75",
+            "kind": "face",
+            "area": 0.0007867663284254219
+          },
+          {
+            "a": "makeup-frame-center#3/cap-74",
+            "b": "makeup-frame-center#3/cap-76",
+            "kind": "face",
+            "area": 0.00034874644391818984
+          },
+          {
+            "a": "makeup-frame-center#3/cap-75",
+            "b": "makeup-frame-center#3/cap-77",
+            "kind": "face",
+            "area": 0.0003487463789771467
+          },
+          {
+            "a": "makeup-frame-center#3/cap-76",
+            "b": "makeup-frame-center#3/cap-78",
+            "kind": "face",
+            "area": 0.0007867660417522737
+          },
+          {
+            "a": "makeup-frame-center#3/cap-77",
+            "b": "makeup-frame-center#3/cap-79",
+            "kind": "face",
+            "area": 0.0007867658584383071
+          },
+          {
+            "a": "makeup-frame-center#3/cap-78",
+            "b": "makeup-frame-center#3/cap-80",
+            "kind": "face",
+            "area": 0.0003487470946071652
+          },
+          {
+            "a": "makeup-frame-center#3/cap-79",
+            "b": "makeup-frame-center#3/cap-81",
+            "kind": "face",
+            "area": 0.0003487471375104896
+          },
+          {
+            "a": "makeup-frame-center#3/cap-80",
+            "b": "makeup-frame-center#3/cap-82",
+            "kind": "face",
+            "area": 0.0007867661068423948
+          },
+          {
+            "a": "makeup-frame-center#3/cap-81",
+            "b": "makeup-frame-center#3/cap-83",
+            "kind": "face",
+            "area": 0.0007867660474795469
+          },
+          {
+            "a": "makeup-frame-center#3/cap-82",
+            "b": "makeup-frame-center#3/cap-84",
+            "kind": "face",
+            "area": 0.0003487468111108046
+          },
+          {
+            "a": "makeup-frame-center#3/cap-83",
+            "b": "makeup-frame-center#3/cap-85",
+            "kind": "face",
+            "area": 0.0003487470249204756
+          },
+          {
+            "a": "makeup-frame-center#3/cap-84",
+            "b": "makeup-frame-center#3/cap-86",
+            "kind": "face",
+            "area": 0.0007867659188947623
+          },
+          {
+            "a": "makeup-frame-center#3/cap-85",
+            "b": "makeup-frame-center#3/cap-87",
+            "kind": "face",
+            "area": 0.0007867657192846133
+          },
+          {
+            "a": "makeup-frame-center#3/cap-86",
+            "b": "makeup-frame-center#3/cap-88",
+            "kind": "face",
+            "area": 0.00034874680676957317
+          },
+          {
+            "a": "makeup-frame-center#3/cap-87",
+            "b": "makeup-frame-center#3/cap-89",
+            "kind": "face",
+            "area": 0.0003487467501841646
+          },
+          {
+            "a": "makeup-frame-center#3/cap-88",
+            "b": "makeup-frame-center#3/cap-90",
+            "kind": "face",
+            "area": 0.0007867657384156858
+          },
+          {
+            "a": "makeup-frame-center#3/cap-89",
+            "b": "makeup-frame-center#3/cap-91",
+            "kind": "face",
+            "area": 0.0007867652647382419
+          },
+          {
+            "a": "makeup-frame-center#3/cap-90",
+            "b": "makeup-frame-center#3/cap-92",
+            "kind": "face",
+            "area": 0.0003487470249204756
+          },
+          {
+            "a": "makeup-frame-center#3/cap-91",
+            "b": "makeup-frame-center#3/cap-93",
+            "kind": "face",
+            "area": 0.0003487465747292612
+          },
+          {
+            "a": "makeup-frame-center#3/cap-92",
+            "b": "makeup-frame-center#3/cap-94",
+            "kind": "face",
+            "area": 0.000786766046055443
+          },
+          {
+            "a": "makeup-frame-center#3/cap-93",
+            "b": "makeup-frame-center#3/cap-95",
+            "kind": "face",
+            "area": 0.000786766292748885
+          },
+          {
+            "a": "makeup-frame-center#3/cap-94",
+            "b": "makeup-frame-center#3/cap-95",
+            "kind": "face",
+            "area": 0.00034874675018416445
+          }
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "coverageSquareMetres": 1e-7,
+          "contactSquareMetres": 1e-8,
+          "volumeCubicMetres": 1e-12
+        },
+        "limitation": "Static source-local geometry and support connectivity only. Browser reflection, light transport, visual suitability and physical tipping stability require separate validation."
+      }
+    }
+  ],
+  "failure": {
+    "message": "Actual asset must contain rear riser",
+    "code": "ERR_ASSERTION",
+    "stack": "AssertionError [ERR_ASSERTION]: Actual asset must contain rear riser\n    at file:///F:/gamemake-company-platform-c1/scripts/company-platform/verify-makeup-mirror-geometry.mjs:106:74\n    at mutate (file:///F:/gamemake-company-platform-c1/scripts/company-platform/verify-makeup-mirror-geometry.mjs:46:3)\n    at file:///F:/gamemake-company-platform-c1/scripts/company-platform/verify-makeup-mirror-geometry.mjs:105:5"
+  },
+  "verifier": {
+    "path": "prototype/src/company/makeup-mirror-geometry.js",
+    "sha256": "a906bfed9b01c1a193e41b6c603c1226eab0eaf06698b278f0dba71c034309d3"
+  },
+  "originalFailedBatch": "evidence/company-makeup-mirror-production-v1/failures/post-front-occlusion",
+  "limits": [
+    "CPU actual imported geometry only. Runtime GPU reflection, real illumination, visual acceptance and physical tipping stability need separate evidence.",
+    "Connectivity proves static positive face area or positive intersection volume between closed convex components and proven ring decompositions. It does not model hinges or rigid-body strength."
+  ]
+}

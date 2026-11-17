@@ -1,0 +1,26 @@
+台面化妆镜固定交付
+
+源码 b3a8e25d085d3db50708904d7daf7b1fefde81d9；构建 5b86b5eede89。
+公开入口 http://127.0.0.1:60880/?sample=makeup-mirror&look=0 ，公司仅保留60880一个常驻预览。固定源 F:/gamemake-company-makeup-fixed-v1；独立交付目录 F:/gamemake-company-makeup-delivery-5b8。
+正常1×录像 evidence/company-makeup-mirror-recording-5b8-v1/makeup-mirror-normal1x.webm，90.36秒、1440×1000、25fps、SwiftShader。录像工具与确切源码/build见 identity.json 和 recording.json。
+
+实际内容：圆镜、矩形灯框、拱镜、固定三折镜四款。完整实体底座/支柱/厚背板/框灯，化妆台 top 支承、父子跟随和严格准入；三折面分别按实际法向反射。暖白 SpotLight与灯罩显示分离，关灯仍保反射；真实非发光样块在0/5/10强度有实际像素差异。135资源目录中旧131定义完全保留。
+
+单宿主只选择一件镜子、最多三面，最多30Hz admission，常态3目标/交接6；仍共用场景两盏实时灯。不声明台镜动态折叠、局部阴影、普通机性能或角色化妆动作。旧墙/落地镜和默认单面宿主语义保留。
+
+真实失败及修复：候选柱前沿侵入镜片，改为背板前沿并保原GLB；释放回调重入产生孤立目标/超预算，改整次生命周期保护；失败候选的已销毁句柄可重试发布，改为消费失败句柄。反例与原失败保留，不以重新命名抹除。
+
+固定生产与预览复现（前3条在固定源根运行）：
+node scripts/company-platform/build-makeup-mirror.mjs --check
+node scripts/company-platform/build-library.mjs --check
+node scripts/company-platform/build-makeup-mirror-examples.mjs --check
+在固定源/prototype：npm ci --ignore-scripts --no-audit --no-fund
+node scripts/build-company-id.mjs
+node node_modules/vite/bin/vite.js build --config vite.company.config.js
+验收主树入口：node scripts/company-platform/qa-makeup-mirror-preview.cjs F:/gamemake-company-makeup-fixed-v1/prototype/dist-company 5b86b5eede89 新证据目录
+临时QA默认随机端口、结束关闭。公开服务使用 serve-company.cjs 固定60880；不要与现有公开服务再开一个并存实例。
+
+独立交付813文件校验通过；source/prototype重新 npm ci + Vite 后282运行文件全部与固定原版和viewer字节一致，未排除任何文件。独立source里生产器/目录/第二布局 --check 也通过。独立edit.mjs更换镜体、修改状态、非法移动失败保旧及浏览器重开全部通过。无本机缓存的完全离线npm安装仍未测。
+
+固定证据：company-makeup-mirror-browser-fixed-v1、company-makeup-mirror-handoff-5b8-v1、company-makeup-mirror-geometry-fixed-v1；独立数据8组、独立生命周期6项、作者生命周期28项、数据6组、固定浏览器6组、独立移交4组。根已检查全时段14帧及原尺寸关键图，连续人工最终观看尚待验。
+CAP-INCREMENT.json 是给总工合并唯一能力清单的阶段增量，不另建正式能力台账。C1–C3长目标继续；下一独立缺口先核化妆收纳规格，C3真实男女最终接入仍归总工。

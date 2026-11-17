@@ -1,0 +1,194 @@
+{
+  "id": "makeup-mirror-tri-fold",
+  "displayName": "三折台面化妆镜（固定展开）",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "makeup-mirror",
+  "productionBranch": "makeup-mirror",
+  "mount": "support-surface",
+  "mounting": {
+    "origin": "bottom",
+    "width": 0.7,
+    "height": 0.6,
+    "depth": 0.16
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Bottom centre",
+    "scale": "Identity only"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.35,
+      0.08
+    ],
+    "blocking": false
+  },
+  "usePoints": [],
+  "mirrorSurface": {
+    "schema": "makeup-mirror-v1",
+    "profile": "single-512-v1",
+    "maxFaces": 3
+  },
+  "mirrorPanels": [
+    {
+      "id": "center",
+      "node": "makeup-face-center",
+      "backNode": "makeup-back-center",
+      "position": [
+        0,
+        0.365,
+        0
+      ],
+      "yaw": 0,
+      "polygons": [
+        [
+          [
+            -0.14,
+            -0.185
+          ],
+          [
+            0.14,
+            -0.185
+          ],
+          [
+            0.14,
+            0.185
+          ],
+          [
+            -0.14,
+            0.185
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "left",
+      "node": "makeup-face-left",
+      "backNode": "makeup-back-left",
+      "position": [
+        -0.14,
+        0.365,
+        0
+      ],
+      "yaw": 0.5235987755982988,
+      "polygons": [
+        [
+          [
+            -0.14,
+            -0.185
+          ],
+          [
+            0,
+            -0.185
+          ],
+          [
+            0,
+            0.185
+          ],
+          [
+            -0.14,
+            0.185
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "right",
+      "node": "makeup-face-right",
+      "backNode": "makeup-back-right",
+      "position": [
+        0.14,
+        0.365,
+        0
+      ],
+      "yaw": -0.5235987755982988,
+      "polygons": [
+        [
+          [
+            0,
+            -0.185
+          ],
+          [
+            0.14,
+            -0.185
+          ],
+          [
+            0.14,
+            0.185
+          ],
+          [
+            0,
+            0.185
+          ]
+        ]
+      ]
+    }
+  ],
+  "makeupNodes": {
+    "base": "makeup-base",
+    "post": "makeup-post",
+    "lamp": "makeup-lamp"
+  },
+  "makeupLamp": {
+    "node": "makeup-lamp",
+    "maxEmissiveIntensity": 1.5
+  },
+  "light": {
+    "kind": "spot",
+    "color": "#fff4df",
+    "position": [
+      0,
+      0.585,
+      0.065
+    ],
+    "target": [
+      0,
+      0.43,
+      0.72
+    ],
+    "distance": 1.5,
+    "angle": 0.55,
+    "penumbra": 0.6
+  },
+  "stateDefaults": {
+    "on": true,
+    "intensity": 5
+  },
+  "stateSchema": {
+    "on": {
+      "type": "boolean"
+    },
+    "intensity": {
+      "type": "number",
+      "min": 0,
+      "max": 10
+    }
+  },
+  "stateSemantics": {
+    "on": "makeup-local-light-enabled-v1",
+    "intensity": "makeup-local-light-candela-v1"
+  },
+  "provenance": {
+    "intermediate": true,
+    "license": "Project-authored original parametric geometry and solid-color materials. No external art or model input. Three.js 0.187.0 is MIT licensed, copyright 2010–2026 three.js authors. Preserve prototype/node_modules/three/LICENSE and prototype/package-lock.json for offline rebuilds.",
+    "prompt": "Purpose: four real original tabletop makeup mirrors using the shared vanity top support, bounded planar reflection and warm-white local spotlight. Model in metres with +Y up, +Z toward the user and a bottom-centre origin, within a .70 x .60 x .16m envelope. Preserve the .24 x .03 x .14m closed base, real intersecting post/back support and actual upper lamp housing containing [0,.585,.065]. Each declared pane is a finite convex contour at its own exact plane, with thick backing, unobstructed interior and a closed frame. Bake every vertex into resource space with identity node transforms. Do not add textures, animations or external models. Keep at most 2500 triangles, 32 meshes and four materials. Rebuild deterministically with the pinned Three.js exporter and validate the actual loaded GLB through the independent geometry gate. Design: Three genuinely distinct mirror planes. Central .28 x .37m pane, two .14 x .37m side wings yawed inward by 30 degrees, real thick back plates, recessed rims and closed hinge supports. Fixed open pose preserves unobstructed reflection interiors.",
+    "sourceDesign": "tri-fold",
+    "method": "Original closed parametric base/post/back/frame/lamp geometry. Finite convex pane contours and distinct tri-fold plane transforms are baked into Float32 resource-space vertices. Deterministic GLTFExporter with actual GLTFLoader readback and independent makeup-mirror geometry admission.",
+    "limitations": [
+      "Fixed three-plane opening geometry. No movable hinge or folding state. Three real reflection passes require a host explicitly admitting three faces."
+    ]
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/makeup-mirror-v1/tri-fold/v1/model.glb",
+    "sha256": "cc7ad2b44356efde971680e0cd420ffc5d0039bfc105f086924b78a5bfed9d9c",
+    "bytes": 30284
+  }
+}

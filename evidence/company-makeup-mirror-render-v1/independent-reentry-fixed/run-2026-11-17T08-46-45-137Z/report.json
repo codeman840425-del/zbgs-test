@@ -1,0 +1,260 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "name": "candidate failure after prior preflight-only commit preserves old target identities",
+      "status": "passed",
+      "detail": {
+        "failedPanel": 3,
+        "retainedTargetIdentities": 3
+      }
+    },
+    {
+      "name": "discarded warmed candidate leaves current owner and no ghost candidate targets",
+      "status": "passed",
+      "detail": {
+        "currentFaces": 3,
+        "liveAfterDiscard": 3
+      }
+    },
+    {
+      "name": "owner release callback cannot reenter update and orphan another owner",
+      "status": "passed",
+      "detail": {
+        "nestedReason": "reflection-pass-guard",
+        "nestedUpdated": false,
+        "controller": {
+          "reflectionPasses": 6,
+          "preflightPasses": 0,
+          "shaderChecks": 6,
+          "failures": 0,
+          "skipped": 0,
+          "groupUpdates": 2,
+          "preflightGroupUpdates": 0,
+          "lastAdmissionFacePasses": 3,
+          "lastReflection": {
+            "ownerId": "next",
+            "faceId": "next#right",
+            "preflight": false,
+            "completed": true,
+            "cpuSubmissionMs": 0.00010000000000331966,
+            "calls": 1,
+            "triangles": 0
+          },
+          "activeId": "next",
+          "activeOwnerId": "next",
+          "activeFaceIds": [
+            "next#center",
+            "next#left",
+            "next#right"
+          ],
+          "activeFaceCount": 3,
+          "candidateOwnerId": null,
+          "candidateFaceCount": 0,
+          "maxFacesPerMirror": 3,
+          "maxLiveTargets": 3,
+          "maxHandoffTargets": 6,
+          "inPass": false,
+          "resources": {
+            "created": 18,
+            "disposed": 15,
+            "live": 3,
+            "peak": 6
+          },
+          "hostFrameId": 2,
+          "hostTimeMs": 34
+        },
+        "owners": [
+          {
+            "id": "old",
+            "active": 0
+          },
+          {
+            "id": "next",
+            "active": 3
+          },
+          {
+            "id": "nested",
+            "active": 0
+          }
+        ]
+      }
+    },
+    {
+      "name": "subset group rejection retains a previously warmed candidate for later discard",
+      "status": "passed",
+      "detail": {
+        "subsetRefused": true,
+        "currentFaces": 3
+      }
+    },
+    {
+      "name": "candidate release callback cannot bypass six-target handoff bound",
+      "status": "passed",
+      "detail": {
+        "nestedError": "mirror-preflight-reentrant",
+        "live": 6,
+        "controller": {
+          "reflectionPasses": 3,
+          "preflightPasses": 6,
+          "shaderChecks": 9,
+          "failures": 0,
+          "skipped": 0,
+          "groupUpdates": 1,
+          "preflightGroupUpdates": 2,
+          "lastAdmissionFacePasses": 3,
+          "lastReflection": {
+            "ownerId": "next-candidate",
+            "faceId": "next-candidate#right",
+            "preflight": true,
+            "completed": true,
+            "cpuSubmissionMs": 0.0010000000000047748,
+            "calls": 1,
+            "triangles": 0
+          },
+          "activeId": "old",
+          "activeOwnerId": "old",
+          "activeFaceIds": [
+            "old#center",
+            "old#left",
+            "old#right"
+          ],
+          "activeFaceCount": 3,
+          "candidateOwnerId": "next-candidate",
+          "candidateFaceCount": 3,
+          "maxFacesPerMirror": 3,
+          "maxLiveTargets": 3,
+          "maxHandoffTargets": 6,
+          "inPass": false,
+          "resources": {
+            "created": 33,
+            "disposed": 27,
+            "live": 6,
+            "peak": 6
+          },
+          "hostFrameId": 1,
+          "hostTimeMs": 0
+        },
+        "owners": [
+          {
+            "id": "old",
+            "active": 3
+          },
+          {
+            "id": "first-candidate",
+            "active": 0
+          },
+          {
+            "id": "next-candidate",
+            "active": 3
+          },
+          {
+            "id": "nested-candidate",
+            "active": 0
+          }
+        ]
+      }
+    },
+    {
+      "name": "retry after failed real scene preflight cannot publish a disposed candidate",
+      "status": "passed",
+      "detail": {
+        "retryError": "unknown-candidate",
+        "rootRetained": true,
+        "documentRetained": true,
+        "bindings": [
+          {
+            "id": "vanity/primary/mirror#center",
+            "ownerId": "vanity/primary/mirror",
+            "panelId": "center",
+            "requiredFaces": 3,
+            "planePosition": [
+              0,
+              0.365,
+              0
+            ],
+            "planeYaw": 0,
+            "active": true,
+            "fresh": true,
+            "disposed": 0,
+            "created": 1,
+            "updates": 1,
+            "live": 1,
+            "renderProfile": "single-512-v1",
+            "width": 512,
+            "height": 512,
+            "type": 1016,
+            "samples": 0
+          },
+          {
+            "id": "vanity/primary/mirror#left",
+            "ownerId": "vanity/primary/mirror",
+            "panelId": "left",
+            "requiredFaces": 3,
+            "planePosition": [
+              -0.14,
+              0.365,
+              0
+            ],
+            "planeYaw": 0.5235987755982988,
+            "active": true,
+            "fresh": true,
+            "disposed": 0,
+            "created": 1,
+            "updates": 1,
+            "live": 1,
+            "renderProfile": "single-512-v1",
+            "width": 512,
+            "height": 512,
+            "type": 1016,
+            "samples": 0
+          },
+          {
+            "id": "vanity/primary/mirror#right",
+            "ownerId": "vanity/primary/mirror",
+            "panelId": "right",
+            "requiredFaces": 3,
+            "planePosition": [
+              0.14,
+              0.365,
+              0
+            ],
+            "planeYaw": -0.5235987755982988,
+            "active": true,
+            "fresh": true,
+            "disposed": 0,
+            "created": 1,
+            "updates": 1,
+            "live": 1,
+            "renderProfile": "single-512-v1",
+            "width": 512,
+            "height": 512,
+            "type": 1016,
+            "samples": 0
+          }
+        ],
+        "targets": {
+          "created": 39,
+          "disposed": 36,
+          "live": 3,
+          "peak": 6
+        }
+      }
+    }
+  ],
+  "sourceHashes": {
+    "prototype/src/company/mirror-render.js": "60ad0e686ab96dc758c933b34714d83adf089cb4759383381b9ec484b2791619",
+    "prototype/src/company/render.js": "307242589845a82f0fa9622ee4744acbc7fd4f8d831d65b14ce2415c4c438575",
+    "scripts/company-platform/verify-makeup-mirror-render-independent.mjs": "3114da0d9e29792f269e63370f436813e9dcaea86854109908a14d33de72bc37"
+  },
+  "actualAssetSha256": "da1dcbbe5587e4011be5861d9120f3ba5eb68dd69e750e20615892b3506db73c",
+  "resources": {
+    "created": 39,
+    "disposed": 39,
+    "live": 0,
+    "peak": 6
+  },
+  "limitations": [
+    "Independent CPU lifecycle checks use actual production GLBs and the real locked Three Reflector with a renderer substitute. They do not establish GPU shader/framebuffer correctness, browser rendering or performance."
+  ]
+}

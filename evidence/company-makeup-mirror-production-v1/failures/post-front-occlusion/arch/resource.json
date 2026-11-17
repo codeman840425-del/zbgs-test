@@ -1,0 +1,224 @@
+{
+  "id": "makeup-mirror-arch",
+  "displayName": "拱形台面化妆镜",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "makeup-mirror",
+  "productionBranch": "makeup-mirror",
+  "mount": "support-surface",
+  "mounting": {
+    "origin": "bottom",
+    "width": 0.7,
+    "height": 0.6,
+    "depth": 0.16
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Bottom centre",
+    "scale": "Identity only"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.35,
+      0.08
+    ],
+    "blocking": false
+  },
+  "usePoints": [],
+  "mirrorSurface": {
+    "schema": "makeup-mirror-v1",
+    "profile": "single-512-v1",
+    "maxFaces": 3
+  },
+  "mirrorPanels": [
+    {
+      "id": "center",
+      "node": "makeup-face-center",
+      "backNode": "makeup-back-center",
+      "position": [
+        0,
+        0.365,
+        0
+      ],
+      "yaw": 0,
+      "polygons": [
+        [
+          [
+            -0.17,
+            -0.185
+          ],
+          [
+            0.17,
+            -0.185
+          ],
+          [
+            0.17,
+            0.015
+          ],
+          [
+            0.16854562643354778,
+            0.037189452677408766
+          ],
+          [
+            0.16420739046914162,
+            0.058999237667428525
+          ],
+          [
+            0.15705952052691877,
+            0.08005618350206527
+          ],
+          [
+            0.14722431864335458,
+            0.09999999999999999
+          ],
+          [
+            0.13487006784951,
+            0.11848944293148252
+          ],
+          [
+            0.1202081528017131,
+            0.13520815280171308
+          ],
+          [
+            0.10348944293148252,
+            0.14987006784951
+          ],
+          [
+            0.08500000000000002,
+            0.16222431864335457
+          ],
+          [
+            0.06505618350206528,
+            0.17205952052691875
+          ],
+          [
+            0.043999237667428526,
+            0.17920739046914164
+          ],
+          [
+            0.022189452677408794,
+            0.18354562643354777
+          ],
+          [
+            1.0409497792752502e-17,
+            0.185
+          ],
+          [
+            -0.022189452677408773,
+            0.18354562643354777
+          ],
+          [
+            -0.04399923766742851,
+            0.17920739046914164
+          ],
+          [
+            -0.06505618350206523,
+            0.17205952052691875
+          ],
+          [
+            -0.08499999999999996,
+            0.16222431864335457
+          ],
+          [
+            -0.10348944293148252,
+            0.14987006784951
+          ],
+          [
+            -0.12020815280171308,
+            0.1352081528017131
+          ],
+          [
+            -0.13487006784950997,
+            0.11848944293148256
+          ],
+          [
+            -0.14722431864335458,
+            0.09999999999999999
+          ],
+          [
+            -0.15705952052691877,
+            0.08005618350206528
+          ],
+          [
+            -0.1642073904691416,
+            0.058999237667428574
+          ],
+          [
+            -0.16854562643354778,
+            0.037189452677408835
+          ],
+          [
+            -0.17,
+            0.01500000000000002
+          ]
+        ]
+      ]
+    }
+  ],
+  "makeupNodes": {
+    "base": "makeup-base",
+    "post": "makeup-post",
+    "lamp": "makeup-lamp"
+  },
+  "makeupLamp": {
+    "node": "makeup-lamp",
+    "maxEmissiveIntensity": 1.5
+  },
+  "light": {
+    "kind": "spot",
+    "color": "#fff4df",
+    "position": [
+      0,
+      0.585,
+      0.065
+    ],
+    "target": [
+      0,
+      0.43,
+      0.72
+    ],
+    "distance": 1.5,
+    "angle": 0.55,
+    "penumbra": 0.6
+  },
+  "stateDefaults": {
+    "on": true,
+    "intensity": 5
+  },
+  "stateSchema": {
+    "on": {
+      "type": "boolean"
+    },
+    "intensity": {
+      "type": "number",
+      "min": 0,
+      "max": 10
+    }
+  },
+  "stateSemantics": {
+    "on": "makeup-local-light-enabled-v1",
+    "intensity": "makeup-local-light-candela-v1"
+  },
+  "provenance": {
+    "intermediate": true,
+    "license": "Project-authored original parametric geometry and solid-color materials. No external art or model input. Three.js 0.187.0 is MIT licensed, copyright 2010–2026 three.js authors. Preserve prototype/node_modules/three/LICENSE and prototype/package-lock.json for offline rebuilds.",
+    "prompt": "Purpose: four real original tabletop makeup mirrors using the shared vanity top support, bounded planar reflection and warm-white local spotlight. Model in metres with +Y up, +Z toward the user and a bottom-centre origin, within a .70 x .60 x .16m envelope. Preserve the .24 x .03 x .14m closed base, real intersecting post/back support and actual upper lamp housing containing [0,.585,.065]. Each declared pane is a finite convex contour at its own exact plane, with thick backing, unobstructed interior and a closed frame. Bake every vertex into resource space with identity node transforms. Do not add textures, animations or external models. Keep at most 2500 triangles, 32 meshes and four materials. Rebuild deterministically with the pinned Three.js exporter and validate the actual loaded GLB through the independent geometry gate. Design: An actual .34m wide arch with straight lower sides, bottom at Y=.18m, upper arc centre Y=.38m and top Y=.55m. Use 24 upper-arc segments, a matching solid back and continuous metal ring.",
+    "sourceDesign": "arch",
+    "method": "Original closed parametric base/post/back/frame/lamp geometry. Finite convex pane contours and distinct tri-fold plane transforms are baked into Float32 resource-space vertices. Deterministic GLTFExporter with actual GLTFLoader readback and independent makeup-mirror geometry admission.",
+    "limitations": [
+      "Arched top is a finite 24-segment arc. No bending or deformation state."
+    ]
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/makeup-mirror-v1/arch/v1/model.glb",
+    "sha256": "9198eb7bc67b5e8f6a9abe840af63ca2d061c67085197764e5d569abc2f0ff6e",
+    "bytes": 36904
+  }
+}
