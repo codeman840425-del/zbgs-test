@@ -4,7 +4,8 @@ const maleIris=Object.freeze({
   url:'/assets/native-iris-palette-v1/manifest.json',sha256,
   version:'native-iris-palette-v1:'+sha256,
   sourceManifestSha256:'714c0448c4aa4bade52a13c68115ea384b652c5710f44e4345cb48900465b9b8',
-  colors:Object.freeze({eyeColor:Object.freeze({original:null,green:'#4f7a4a'})}),
+  colors:Object.freeze({eyeColor:Object.freeze({original:null,green:'#4f7a4a'}),eyebrowColor:Object.freeze({original:null,brown:'#3a241e'})}),
+  eyebrow:Object.freeze({url:'/assets/native-eyebrow-palette-v1/manifest.json',sha256:'acd3ec4703cac152890dda313f9b535d3efc5da3770fb4be28a4338e418e223a',version:'native-eyebrow-palette-v1:acd3ec4703cac152890dda313f9b535d3efc5da3770fb4be28a4338e418e223a',sourceManifestSha256:'62905d3336598164f31c6d3ed29443e9cf713562f47d08205e95145f26d8ae88'}),
 });
 
 export function nativePaletteContract(bodySha256) {

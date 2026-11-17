@@ -42,3 +42,5 @@
 - 发型成本native-hair-cost-c272-v1：跨批次12s走/6s坐，RTX4090/9950X3D，独立发updateDynamics约0.2435ms/render，渲染CPU提交约0.669ms，房间142draw/120458tri/56textures；卸载回47textures/83geometries。不是GPU时长/普通机/长期性能结论，保失败原始采样。
 - 不使用桌面。2.14已卸载、旧桥关闭；3旧目录删除被自动策略拒绝的约2.09GB残留未清，见vroid-214-retirement-v1，不绕过。
 - 派工均复用明确requested配置，实际provider/hook未独立暴露；记录subagent-explicit-dispatch-2026-11-16.json。不从host400推断独审文件不存在，也不称host成功。
+
+最新工作衔接：原生眉色通用core由root完成抽取，http调用方经root集成修正v9/旧hair染色冲突；root整合CPU与face实际caller7反例过。正在精确提交固定构建、实际近景/1×/冷恢复。原生几何源及完整皮肤派生已封，asset_budget继续仅face cc0843的原三衣确定性拆分/新fit CPU，不写运行时。

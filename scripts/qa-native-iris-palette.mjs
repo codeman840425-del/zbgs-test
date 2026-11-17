@@ -79,7 +79,7 @@ function originalMaps(f){assert.equal(f.material.map,f.map);assert.equal(f.mater
 function hold(url){let enter,release;const started=new Promise(r=>enter=r),promise=new Promise(r=>release=r);held={url,enter,promise};return{started,release};}
 try {
   assert.deepEqual(appearanceColorPresets(config.sha256,'eyeColor',EYE_COLORS),{original:null,green:'#4f7a4a'});
-  assert.deepEqual(appearanceColorSupport(config.sha256),{hairColor:false,skinTone:false,eyeColor:true,lipColor:false});
+  assert.deepEqual(appearanceColorSupport(config.sha256),{hairColor:false,skinTone:false,eyeColor:true,lipColor:false,eyebrowColor:true});
   const f=await fixture(),before=parameters(f.material);let sourceDisposals=0;
   for(const texture of new Set([f.map,f.shade]))texture.addEventListener('dispose',()=>sourceDisposals++);
   const prepared=await f.owner.prepareUpdate({eyeColor:'green'});assert(prepared.isCurrent,JSON.stringify(prepared));assert(prepared.isCurrent());originalMaps(f);

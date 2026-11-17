@@ -1,5 +1,5 @@
 import {ACCESSORY_SCHEMA,queryAccessoryCandidates} from './accessory-recipe.js';
-import {SCHEMA,RULES,SURFACE_SCHEMA,SURFACE_RULES,validateAppearanceRecipe} from './appearance-recipe.js';
+import {SCHEMA,RULES,SURFACE_SCHEMA,SURFACE_RULES,NATIVE_SCHEMA,NATIVE_RULES,validateAppearanceRecipe} from './appearance-recipe.js';
 import {facialPaletteContract} from './facial-palette-contract.js';
 import {HAIR_COLORS,SKIN_TONES} from './character-appearance.js';
 import {EYE_COLORS,LIP_COLORS} from './facial-palette.js';
@@ -11,12 +11,13 @@ import {queryFacialGeometry,appearanceAdmissionError} from './facial-geometry-se
 import {SURFACE_LAYER_PACKAGE} from './surface-layer-catalog.js';
 import surfaceManifest from '../public/assets/m2-surface-layer-v1/manifest.json' with {type:'json'};
 import {appearanceColorPresets} from './appearance-color-policy.js';
+import {nativePaletteContract} from './native-palette-catalog.js';
 
 const preparationChecks=['resource bytes and digest','source geometry and expressions','skin weights and rest binds','actual head attachment and registered fit'];
 const surfacePreparationChecks=['surface manifest and overlay bytes and digests','surface source pixels, material and UV identity','surface dimensions and actual texture composition'];
 const recordFields={
   '':['schema','rulesVersion','paletteVersion','base','appearance','hairAssetSha256','hairFit','geometry','equipment'],
-  base:['bodyType','sha256'],appearance:['hairStyle','hairColor','skinTone','eyeColor','lipColor'],
+  base:['bodyType','sha256'],appearance:['hairStyle','hairColor','skinTone','eyeColor','lipColor','eyebrowColor'],
   geometry:['mouthWidth','recipeSha256','browSample','browRecipeSha256','noseSample','noseRecipeSha256','eyeSample','eyeRecipeSha256'],
   equipment:['index','role','manifestUrl','resources'],
 };
@@ -56,25 +57,29 @@ export function queryAppearanceCandidates(controller){
   for(const [field,presets] of Object.entries({hairColor:HAIR_COLORS,skinTone:SKIN_TONES,eyeColor:EYE_COLORS,lipColor:LIP_COLORS}))
     appearance[field]={default:'original',unit:'preset',choices:Object.entries(appearanceColorPresets(base.sha256,field,presets))
       .map(([value,color])=>({value,color}))};
-  const defaultRecipe={schema:SCHEMA,rulesVersion:RULES,paletteVersion:facialPaletteContract(base.sha256).version,base,
-    appearance:Object.fromEntries(Object.keys(appearance).map(field=>[field,appearance[field].default])),
+  appearance.eyebrowColor={default:'original',unit:'preset',choices:Object.entries(nativePaletteContract(base.sha256)?.colors?.eyebrowColor??{original:null})
+    .map(([value,color])=>({value,color}))};
+  const nativeRecipe=Boolean(nativePaletteContract(base.sha256)?.colors?.eyebrowColor);
+  const defaultRecipe={schema:nativeRecipe?NATIVE_SCHEMA:SCHEMA,rulesVersion:nativeRecipe?NATIVE_RULES:RULES,paletteVersion:facialPaletteContract(base.sha256).version,base,
+    appearance:Object.fromEntries(Object.keys(appearance).filter(field=>nativeRecipe||field!=='eyebrowColor').map(field=>[field,appearance[field].default])),
     hairAssetSha256:null,hairFit:null,geometry:{mouthWidth:0,recipeSha256:null,browSample:'none',browRecipeSha256:null,
       noseSample:'none',noseRecipeSha256:null,eyeSample:'none',eyeRecipeSha256:null},
     equipment:{index:0,role:sets.find(set=>set.index===0).role,manifestUrl:actor.config.manifestUrl,resources:actor.getEquipmentRecipe(0)}};
   return structuredClone({schema:'workbench-appearance-candidates-v1',base,defaultRecipe,appearance,
     geometry:queryFacialGeometry(base.sha256),equipment:{defaultIndex:0,sets},surface:querySurfaceCandidates(base),accessories:queryAccessoryCandidates(base.sha256),
-    limitations:{scope:'same loaded base; default v6 recipe, registered v7 surface/v8 accessory metadata and configured equipment sets',
+    limitations:{scope:'same loaded base; versioned recipe including admitted native v9 colors, registered surface/accessory metadata and configured equipment sets',
       geometryFit:'Only registered resources are listed. Geometry choices do not certify new attachment or garment fits.',
       surfaceFit:'Surface choices require the exact registered body SHA. Preparation still verifies the published resources and current face pixels.',
-      colorCoupling:'hairColor also tints authored eyebrows; independent eyebrow color is not implemented',
+      colorCoupling:nativeRecipe?'Native eyebrow colors are independent; unsupported hair colors remain closed':'hairColor also tints authored eyebrows; separate eyebrow colors are unavailable on this body',
       requiresPreparation:preparationChecks}});
 }
 
 // A successful result admits metadata only. Applying still enters the existing
 // prepare/commit path, which verifies the actual resource bytes and geometry.
 export function admitAppearanceCandidate(controller,record){
-  const accessoryVersion=record?.schema===ACCESSORY_SCHEMA;
-  const surfaceVersion=record?.schema===SURFACE_SCHEMA||(accessoryVersion&&Object.hasOwn(record,'surface'));
+  const nativeVersion=record?.schema===NATIVE_SCHEMA;
+  const accessoryVersion=record?.schema===ACCESSORY_SCHEMA||(nativeVersion&&Object.hasOwn(record,'accessories'));
+  const surfaceVersion=record?.schema===SURFACE_SCHEMA||((accessoryVersion||nativeVersion)&&Object.hasOwn(record,'surface'));
   const requiresPreparation=[...preparationChecks,...(surfaceVersion?surfacePreparationChecks:[])];
   try{
     const fields={...recordFields,'':[...recordFields[''],...(surfaceVersion?['surface']:[]),...(accessoryVersion?['accessories']:[])],...(surfaceVersion?{surface:['manifestSha256','layers']}:{}),...(accessoryVersion?{accessories:['ears','hat']}:{})};

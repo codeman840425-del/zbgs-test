@@ -11,6 +11,16 @@
 <h1>原生角色制作对照</h1>
 <p>在游戏房间里查看制作结果。男女原生候选已接入共用人物流程、独立换装和外观保存恢复；每组录像保留录制时的构建身份。</p>
 <section>
+<h2>独立眉色与组合恢复 · 男性候选</h2>
+<p>眉色可单独切换为棕色，并与绿色虹膜、长直发一起保存。此样件的发色导出未生效，仍保留原发色。</p>
+<div class="pair">
+<figure><figcaption>原眉色 · 同镜头</figcaption><img data-brow-image="original-close.png" alt="男性候选原眉色近景" loading="lazy"></figure>
+<figure><figcaption>独立棕眉 · 同镜头</figcaption><img data-brow-image="brown-independent-close.png" alt="男性候选独立棕眉近景" loading="lazy"></figure>
+</div>
+<video controls playsinline preload="none" data-native-chain="native-eyebrow-room-v1/live-face-1x.webm" aria-label="独立棕眉绿色虹膜长发组合，讲话眨眼与视线一倍速"></video>
+<p class="note">12秒、1倍速，共用游戏的表情和视线更新。仅适配此男性候选，未验证的女性及其他颜色保持禁用。新的发色制作失败保留，不算此眉色样件的成功范围。</p>
+</section>
+<section>
 <h2>原生虹膜配色 · 男性候选</h2>
 <p>在男性“原生可编辑候选”的外观区，将瞳色切为绿色。使用制作端导出的独立虹膜贴图，原人物、衣服和发型保持独立；此样件只开放原色和绿色。</p>
 <div class="pair">
@@ -115,6 +125,7 @@ const chainBase=new URL('/evidence/',location.href);chainBase.port='4174';
 document.querySelectorAll('[data-native-chain]').forEach(video=>{video.src=new URL(video.dataset.nativeChain,chainBase).href;video.addEventListener('play',()=>{video.playbackRate=1;});});
 document.querySelectorAll('[data-hair-reference]').forEach(img=>{img.src=new URL('native-hair-reference-5db-v2/'+img.dataset.hairReference,chainBase).href;});
 document.querySelectorAll('[data-iris-image]').forEach(img=>{img.src=new URL('native-iris-room-v2/'+img.dataset.irisImage,chainBase).href;});
+document.querySelectorAll('[data-brow-image]').forEach(img=>{img.src=new URL('native-eyebrow-room-v1/'+img.dataset.browImage,chainBase).href;});
 const equipmentBase=new URL('/evidence/native-vroid-equipment-runtime-v1/room-compare-v5/run-1/',location.href);equipmentBase.port='4174';
 const factoryVideo=new URL('/evidence/native-factory-room-7871-v2/native-factory-chain-1x.webm',location.href);factoryVideo.port='4174';
 const factoryPlayer=document.querySelector('[data-factory-video]');factoryPlayer.src=factoryVideo.href;factoryPlayer.addEventListener('play',()=>{factoryPlayer.playbackRate=1;});

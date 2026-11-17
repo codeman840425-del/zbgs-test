@@ -6,7 +6,7 @@ const sourcePolicies = Object.freeze({
   '843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef':originalOnly,
   '7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81':originalOnly,
 });
-const labels = {hairColor:'发色',skinTone:'肤色',eyeColor:'瞳色',lipColor:'唇色'};
+const labels = {hairColor:'发色',skinTone:'肤色',eyeColor:'瞳色',lipColor:'唇色',eyebrowColor:'眉色'};
 
 export function appearanceColorSupport(avatarSha256) {
   const support={hairColor:true,skinTone:true,eyeColor:true,lipColor:true,...sourcePolicies[avatarSha256]};

@@ -414,3 +414,5 @@ head-only一次诊断原8请求已完成，8/8 diagnostic-failed，正式生产�
 2026-11-17 原生发/眉色制作结果分离：native-vroid-hair-color-study-v1实际保存/菜单重开/导出，FaceBrow image8变色（alpha与透明像素保留），发材质Color/Shade/Outline虽保存但导出HAIR未变。另基于官方Hair.cs的独立base:主色命令实验native-vroid-hair-color-base-v1导出21图/139accessor仍全等。两条具体失败保留，发色不准入，停止同因重试。独立眉色已提取stage精确7586/manifest acd3ec，尚待运行时与浏览器验，不代表发色或任意基模支持。
 
 原生几何复用核查：native-geometry-reuse-review-v1确认当前78912(round-waist导出)已经进入843ac，仅换Body PNG；不能再次作为未用新几何样件。不是否认已接受参数，缺少的是同原生源参数前后成对VRM导出证据；Joy眉毛样件仅表情morph。下一制作补脸型/局部腰形的独立几何对照，受影响fit/覆盖依实际依赖重验，不把所有旧fit全作废或直接继承。
+
+原生独立眉色接缝在制：共用native-palette-part已从虹膜实现抽取，薄眼/眉包装共享真实来源像素、sampler/MToon、按需颜色cache、owner与回滚。修复新眉色被旧hair tint覆盖的域冲突；native v9保存实际iris+brow组合资源版本及附件/皮肤字段，旧真实v8绿眼+长发配方恢复眉original。root整合CPU虹膜5组/眉query保存通过，独审7caller反例过（含提交故障回滚）；尚待固定构建WebGL/12秒组合与页面验收，不替4196。

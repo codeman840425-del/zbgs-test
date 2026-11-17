@@ -44,7 +44,9 @@ export function bindAppearanceWorkbench({ controller }) {
   const skin = panel.querySelector('#appearance-skin-tone');
   const eye = panel.querySelector('#appearance-eye-color');
   const lip = panel.querySelector('#appearance-lip-color');
-  const colorFields=[[hair,'hairColor',HAIR_COLORS],[skin,'skinTone',SKIN_TONES],[eye,'eyeColor',EYE_COLORS],[lip,'lipColor',LIP_COLORS]];
+  const eyebrow = panel.querySelector('#appearance-eyebrow-color');
+  const eyebrowNote = panel.querySelector('#appearance-eyebrow-note');
+  const colorFields=[[hair,'hairColor',HAIR_COLORS],[skin,'skinTone',SKIN_TONES],[eye,'eyeColor',EYE_COLORS],[lip,'lipColor',LIP_COLORS],[eyebrow,'eyebrowColor',{original:null}]];
   const colorLabels={original:'原色',black:'黑色',brown:'棕色',blonde:'金色',warm:'暖色',deep:'深色',blue:'蓝色',green:'绿色',violet:'紫色',rose:'玫瑰色',coral:'珊瑚色',mauve:'豆沙色'};
   const colorNote = panel.querySelector('#appearance-face-color-note');
   const note = panel.querySelector('#appearance-style-note');
@@ -364,6 +366,7 @@ export function bindAppearanceWorkbench({ controller }) {
       select.value=actual[field]||'original';
       select.disabled=previewSupport?.[field]===false||Object.keys(choices).length<2||typeof actual[field]!=='string';
     }
+    eyebrowNote.textContent = eyebrow.disabled ? (previewSupport ? '此人物尚未开放独立眉色。' : '此人物眉色随发色变化，暂不单独调整。') : '眉色独立保存；当前发色仍保留原色。';
     colorNote.textContent = [
       eye.disabled ? '此人物瞳色暂不可用。' : previewSupport ? '原生虹膜配色样件；眼白与独立高光保留。' : '瞳色调整虹膜，保留瞳孔与高光。',
       lip.disabled ? '此人物唇色暂不可用。' : '唇色可独立选择。',
@@ -533,11 +536,13 @@ export function bindAppearanceWorkbench({ controller }) {
   on(skin, 'change', () => apply({ skinTone: skin.value }));
   on(eye, 'change', () => apply({ eyeColor: eye.value }));
   on(lip, 'change', () => apply({ lipColor: lip.value }));
+  on(eyebrow, 'change', () => apply({ eyebrowColor: eyebrow.value }));
   on(panel.querySelector('#appearance-reset'), 'click', () => {
     const actual = state();
     apply({ hairStyle: 'original', hairColor: 'original', skinTone: 'original',
       ...(typeof actual.eyeColor === 'string' ? { eyeColor: 'original' } : {}),
       ...(typeof actual.lipColor === 'string' ? { lipColor: 'original' } : {}),
+      ...(typeof actual.eyebrowColor === 'string' ? { eyebrowColor: 'original' } : {}),
     });
   });
   async function selectBody(requestedBody) {
