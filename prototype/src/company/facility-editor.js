@@ -73,9 +73,9 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
     el('add-entrance').hidden=!entrancePlan;el('add-entrance').disabled=isBusy()||session.scene.view.mode!=='room';
     el('entrance-note').hidden=!entrancePlan;el('entrance-note').textContent=entrancePlan?`将改变墙体并安装当前门框：${entrancePlan.label}。保存后保留此入口。`:'';
 
-    const noTarget=r?.mount==='portal'?`当前房间没有匹配的真实门洞（此门框需要 ${r.mounting.apertureWidth} 米宽）。门框只能装到已有门洞；添加门框不会在墙上开门。`:r?.mount==='ceiling'?'当前房间没有能容纳此设施的顶部安装空间。':r&&['wall','wall-opening'].includes(r.mount)?'当前墙面没有足够的安装空间，或门洞与边界限制了摆放。':'当前空间没有合适的安装位置或承载物。请先添加对应的桌、柜架或信息板。';
+    const noTarget=r?.mount==='portal'?`当前房间没有匹配的真实门洞（此门框需要 ${r.mounting.apertureWidth} 米宽）。门框只能装到已有门洞；添加门框不会在墙上开门。`:r?.mount==='portal-door'?`当前房间没有匹配的真实外部门洞（门扇需要 ${r.mounting.apertureWidth}×${r.mounting.apertureHeight} 米）。请先创建真实入口。`:r?.mount==='ceiling'?'当前房间没有能容纳此设施的顶部安装空间。':r&&['wall','wall-opening'].includes(r.mount)?'当前墙面没有足够的安装空间，或门洞与边界限制了摆放。':'当前空间没有合适的安装位置或承载物。请先添加对应的桌、柜架或信息板。';
     el('add-note').textContent=target?.note||(!targets.length?noTarget:'点击场景放置，也可使用所选位置的默认点。');
-    document.querySelector('label[for="add-target"]').textContent=r?.mount==='portal'?'已有门洞':r&&['wall','wall-opening'].includes(r.mount)?'安装墙面':'摆放位置 / 承载物';
+    document.querySelector('label[for="add-target"]').textContent=r?.mount==='portal'?'已有门洞':r?.mount==='portal-door'?'真实外部门洞':r&&['wall','wall-opening'].includes(r.mount)?'安装墙面':'摆放位置 / 承载物';
     el('add-place').disabled=el('add-center').disabled=isBusy()||!target||session.scene.view.mode==='building';
     if(r?.mount==='parent-device-endpoints'){
       el('add-place').disabled=true;
@@ -139,7 +139,7 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
       el('edit-rotate').disabled=el('edit-yaw').disabled;el('edit-position').disabled=isBusy()||constraints.lockedAxes.length===4;
       el('edit-move').disabled=isBusy()||constraints.lockedAxes.length===4||view.mode==='building';
       el('edit-rule').textContent=constraints.note;
-      const installable=r&&['wall','wall-opening','portal','support-surface'].includes(r.mount);
+      const installable=r&&['wall','wall-opening','portal','portal-door','support-surface'].includes(r.mount);
       const targets=installable?listPlacementTargets(doc,catalog,r,derived.roomIds.get(n.id),{templates}):[];
       el('edit-installation').hidden=!installable;
       options(el('edit-target'),targets.map(t=>({value:t.id,label:t.label})),el('edit-target').value);

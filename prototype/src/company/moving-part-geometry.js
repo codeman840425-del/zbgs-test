@@ -192,3 +192,39 @@ export function validateMovingPartGeometry(scene, resource, fail) {
   }
   return {checked: true, parts};
 }
+
+// Exterior portal leaves use the same state transform machinery but have a
+// different geometric envelope from grounded cabinets. Keep this gate
+// dedicated so cabinet dimensions can never silently validate a door leaf.
+export function validateExteriorDoorLeafGeometry(scene, resource, fail) {
+  if (!scene?.isObject3D) failWith(fail,'invalid-moving-part-scene','scene','Expected a loaded Three Object3D scene');
+  const part=resource?.movingParts?.[0];
+  if (!part||part.kind!=='hinge'||part.axis!=='y'||part.id!=='door')
+    failWith(fail,'invalid-exterior-door-contract','resource.movingParts','Expected one exterior hinge leaf');
+  scene.updateMatrixWorld(true);
+  const all=[];scene.traverse(node=>{if(node.isObject3D)all.push(node);});
+  const pivot=all.filter(node=>node.name===resource.partNodes?.door)[0];
+  const panel=all.filter(node=>node.name===resource.partPanels?.door&&node.isMesh)[0];
+  if (!pivot||pivot.isMesh) failWith(fail,'missing-moving-part-node','resource.partNodes.door','Exterior pivot must resolve to a group');
+  if (!panel) failWith(fail,'missing-moving-part-panel','resource.partPanels.door','Exterior leaf must resolve to a mesh');
+  let descendant=false;for(let parent=panel.parent;parent;parent=parent.parent)if(parent===pivot)descendant=true;
+  if(!descendant)failWith(fail,'moving-part-panel-parent','resource.partPanels.door','Leaf mesh must be under its pivot');
+  const pivotInverse=new THREE.Matrix4().copy(pivot.matrixWorld).invert();
+  const declared=new THREE.Box3().setFromArray(part.bounds.min.concat(part.bounds.max));
+  const meshes=[];pivot.traverse(node=>{if(node.isMesh)meshes.push(node);});
+  if(!meshes.length)failWith(fail,'missing-moving-part-geometry','resource.partNodes.door','Pivot subtree must contain actual geometry');
+  for(const mesh of meshes){
+    const actual=meshBounds(mesh,pivotInverse.clone().multiply(mesh.matrixWorld));
+    if(!actual||actual.min.x<declared.min.x-POSITION_EPSILON||actual.max.x>declared.max.x+POSITION_EPSILON||
+       actual.min.y<declared.min.y-POSITION_EPSILON||actual.max.y>declared.max.y+POSITION_EPSILON||
+       actual.min.z<declared.min.z-POSITION_EPSILON||actual.max.z>declared.max.z+POSITION_EPSILON)
+      failWith(fail,'moving-part-bounds','resource.movingParts[0].bounds','Exterior leaf geometry exceeds its pivot envelope');
+  }
+  const panelBounds=meshBounds(panel,pivotInverse.clone().multiply(panel.matrixWorld));
+  const position=panel.geometry?.getAttribute?.('position');
+  if(!panelBounds||!position||position.count<3||position.count%3)
+    failWith(fail,'moving-part-panel-geometry','resource.partPanels.door','Exterior leaf must contain complete triangle geometry');
+  if(panelBounds.max.x-panelBounds.min.x<1.30||panelBounds.max.y-panelBounds.min.y<2.10||panelBounds.max.z-panelBounds.min.z<.01)
+    failWith(fail,'moving-part-panel-geometry','resource.partPanels.door','Exterior leaf actual dimensions are below the fixed contract');
+  return {checked:true,pivot:pivot.name,panel:panel.name,triangles:position.count/3,bounds:{min:panelBounds.min.toArray(),max:panelBounds.max.toArray()}};
+}

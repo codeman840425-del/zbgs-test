@@ -1,0 +1,11 @@
+外部门扇资源合同 v1（2026-11-17）
+
+本包提供配合已验证 exteriorEntrances 与 door-frame 资源的四款单扇门叶源和 GLB。门洞净口固定为 1.4×2.2 米，门叶固定为宽 1.36 米、高 2.16 米、厚 0.04 米，底部中心，+Y 向上，+Z 朝室内。四款 plain、glass-panel、slatted、solid-panel 必须存在实际几何差异。
+
+门叶资源坐标原点是外部门洞地面中心。门叶活动子树由 `exterior-door-pivot` 枢轴承载，枢轴为 [-.68,0,.02]，绕 Y 轴从 rotationRange [0,-PI/2] 变换。`openFraction` 在 0..1 之间，stateSemantics 为 `exterior-door-opening-fraction`。`partNodes.door` 与 `partPanels.door` 分别指向实际枢轴组和实体门板网格。关闭状态门叶完整落在门洞净口内并保持至少 0.02 米水平余量和 0.04 米顶余量。
+
+门板必须是实际三角形几何。装饰部件处于同一活动子树并保持在宽 1.36、高 2.16、厚 0.04 的门叶包络内。装饰差异不能通过 metadata 或材质颜色冒充。玻璃面可以使用透明材质，但仍需有实际实体边界和可读的 panel 节点。
+
+本包复用 Three.js 0.187、GLTFExporter 和 GLTFLoader。生成脚本保存完整参数、源码哈希、导出器哈希、资源哈希和实际读回摘要，并执行重复导出字节一致、门洞净空、活动子树层级、枢轴、实体门板三角形、包络和四款不同几何检查。负例覆盖枢轴偏移、门板越界和净空侵入。
+
+本合同只定义资源与状态字段。当前不接入 exteriorEntrances 的运行时状态、墙段切片、导航、保存恢复、角色开门动作、碰撞物理、动画时钟或浏览器视觉验收。现有 moving-parts.js 仍主要约束 grounded blocking furniture，因此本资源的独立合同不能冒称已接入该运行链。

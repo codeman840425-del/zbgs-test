@@ -1,0 +1,158 @@
+{
+  "id": "exterior-door-leaf-slatted",
+  "version": 1,
+  "displayName": "竖向格栅门扇",
+  "category": "dynamic",
+  "mountRole": "exterior-door-leaf",
+  "mount": "portal-door",
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Ground centre at the exterior doorway; +Z inward"
+  },
+  "mounting": {
+    "width": 1.36,
+    "height": 2.16,
+    "depth": 0.04,
+    "origin": "bottom",
+    "apertureWidth": 1.4,
+    "apertureHeight": 2.2
+  },
+  "stateDefaults": {
+    "openFraction": 0
+  },
+  "stateSchema": {
+    "openFraction": {
+      "type": "number",
+      "min": 0,
+      "max": 1
+    }
+  },
+  "stateSemantics": {
+    "openFraction": "exterior-door-opening-fraction"
+  },
+  "movingProfile": "exterior-door-leaf-v1",
+  "productionBranch": "exterior-door-leaf",
+  "footprint": {
+    "blocking": true,
+    "center": [
+      0,
+      0.019
+    ],
+    "halfSize": [
+      0.68,
+      0.021
+    ]
+  },
+  "movingParts": [
+    {
+      "id": "door",
+      "stateField": "openFraction",
+      "kind": "hinge",
+      "axis": "y",
+      "pivot": [
+        -0.68,
+        0,
+        0.02
+      ],
+      "rotationRange": [
+        0,
+        -1.5707963267948966
+      ],
+      "bounds": {
+        "min": [
+          0,
+          0,
+          -0.021
+        ],
+        "max": [
+          1.36,
+          2.16,
+          0.021
+        ]
+      }
+    }
+  ],
+  "partNodes": {
+    "door": "exterior-door-pivot"
+  },
+  "partPanels": {
+    "door": "exterior-door-leaf"
+  },
+  "usePoints": [],
+  "provenance": {
+    "license": "Project-authored construction geometry and solid materials. No external assets.",
+    "sourceParameters": "assets-source/company-exterior-door-leaf-v1/parameters.json",
+    "sourceParametersSha256": "f08e7e2f9caaaf0b575d74c289a72225260821e73118d84e9c4a3adda06f1476",
+    "functionalContractSource": "docs/research/COMPANY-EXTERIOR-DOOR-LEAF-CONTRACT-v1.txt",
+    "functionalContractSourceSha256": "02256c2c1b82231affeee6511c2b23824292a6e18a6f13090c2d7948dd286afc",
+    "generator": "scripts/company-platform/build-exterior-door-leaf-v1.mjs",
+    "generatorSha256": "f35ebc6c718d0797acef6f10dedcd4f6a0ff9965fa117cff37425fda01b3e97c",
+    "tools": [
+      "Three.js 187",
+      "Object3D pivot group",
+      "GLTFExporter",
+      "GLTFLoader"
+    ],
+    "method": "A solid leaf with seven raised vertical front slats",
+    "sourceDesign": "slatted",
+    "reference": "exterior-door-leaf-v1"
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/exterior-door-leaf-v1/slatted/v1/model.glb",
+    "sha256": "311f5a75a6af711d006958f829237adc2862f6bd46a701f51998b3b3414f24d8",
+    "bytes": 19332
+  },
+  "materialSlots": {
+    "construction": [
+      "exterior-door-leaf",
+      "slat-1",
+      "slat-2",
+      "slat-3",
+      "slat-4",
+      "slat-5",
+      "slat-6",
+      "slat-7",
+      "slatted-rail-top",
+      "slatted-rail-bottom"
+    ]
+  },
+  "checks": {
+    "id": "slatted",
+    "geometryHash": "909607720ba6c401305c5b34a7ea8f96b6e5a256770e6447deee52a001744fc5",
+    "meshCount": 10,
+    "panelTriangles": 12,
+    "localBounds": {
+      "min": [
+        -7.152557324197062e-9,
+        -4.2915344167226976e-8,
+        -0.019999999776482584
+      ],
+      "max": [
+        1.3600000071525575,
+        2.1600000429153443,
+        -2.2351741811588166e-10
+      ]
+    },
+    "worldBounds": {
+      "min": [
+        -0.6800000071525574,
+        -4.2915344167226976e-8,
+        2.2351741811588166e-10
+      ],
+      "max": [
+        0.6800000071525574,
+        2.1600000429153443,
+        0.03799999961256981
+      ]
+    },
+    "pivot": [
+      -0.68,
+      0,
+      0.02
+    ],
+    "panel": "exterior-door-leaf"
+  }
+}

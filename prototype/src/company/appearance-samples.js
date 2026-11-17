@@ -21,6 +21,7 @@ import {createWallShelfSample} from './wall-shelf-samples.js';
 import {createCableSample} from './cable-samples.js';
 export const appearanceBranches=[
  ['window-opening-and-glass','窗体与真实洞口'],
+ ['exterior-door-leaf','外部门扇'],
  ['cable-route','设备连接线'],
  ['ceiling-acoustic-baffle','顶部吸声构件'],
  ['wall-shelf','墙装多层壁架'],
@@ -46,6 +47,7 @@ export const appearanceBranches=[
 ];
 const names={'chair-cantilever':'悬臂滑橇椅','chair-pedestal':'中心底盘椅','chair-ladder':'梯架靠背椅','chair-crossbeam':'交叉梁椅',
  'lounge-sofa':'软包双人沙发','timber-sofa':'开放木框双人沙发','sofa-modular':'模块软包双人沙发','sofa-arch':'拱架双人沙发',
+ 'exterior-door-leaf-plain':'平板外部门扇','exterior-door-leaf-glass-panel':'玻璃外部门扇','exterior-door-leaf-slatted':'格栅外部门扇','exterior-door-leaf-solid-panel':'实芯面板外部门扇',
  'monitor-aurora':'圆角环框屏幕','monitor-ribbon':'双柱宽框屏幕','monitor-pillar':'立柱支撑屏幕','monitor-slate':'V形支架屏幕',
  'fill-light-orbit':'圆筒柔光系统','fill-light-wing':'双翼反光系统','fill-light-column':'立柱柔光系统','fill-light-panel':'悬臂面板补光'};
 // Catalog history stays available to saved documents; new authoring choices use one latest version per resource ID.

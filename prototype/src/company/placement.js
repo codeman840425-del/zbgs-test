@@ -30,7 +30,7 @@ export function inspectCompanyMotionSweep(previous, candidate, catalog, template
   }
   for(const obstacle of obstacles.filter(o=>swept.has(o.id))) {
     const room=derived.nodes.get(derived.roomIds.get(obstacle.id));
-    if(room)for(const corner of obstacle.corners){const local=roomLocal(derived.worlds.get(room.id),corner);
+    if(room&&obstacle.resource?.mount!=='portal-door')for(const corner of obstacle.corners){const local=roomLocal(derived.worlds.get(room.id),corner);
       if(Math.abs(local[0])>room.bounds.width/2-.1+EPSILON||Math.abs(local[2])>room.bounds.depth/2-.1+EPSILON)
         fail('outside-room',obstacle.id,`Movement reserve lies outside ${room.id}`);
     }
@@ -162,9 +162,9 @@ function inspectDerivedPlacement(document,catalog,templates,derived) {
       fail('invalid-entry', `${room.id}.entry`, 'Expected finite room-local ground position[3] inside rectangular bounds');
     if (!inside(entry, room.bounds, RADIUS))
       fail('blocked-entry', `${room.id}.entry`, 'Entry envelope intersects the room boundary');
-    const obstacles = derived.obstacles.filter(obstacle => obstacle.floorId === derived.floorIds.get(room.id)).map(obstacle => {
+    const obstacles = derived.obstacles.filter(obstacle => obstacle.floorId === derived.floorIds.get(room.id) && obstacle.resource?.mount!=='portal-door').map(obstacle => {
       const corners = obstacle.corners.map(corner => roomLocal(world, corner));
-      return { id: obstacle.id,
+      return { id: obstacle.id, resource: obstacle.resource,
         min: [Math.min(...corners.map(corner => corner[0])), Math.min(...corners.map(corner => corner[2]))],
         max: [Math.max(...corners.map(corner => corner[0])), Math.max(...corners.map(corner => corner[2]))] };
     });
@@ -181,7 +181,7 @@ function inspectDerivedPlacement(document,catalog,templates,derived) {
         fail('outside-portal-interior', connectionId, 'Portal interior envelope extends beyond its region bounds');
       // Include all obstacles on this floor, also those authored on the opposite
       // side of the shared edge. Only the wall opening exempts the room boundary.
-      const blocker = obstacles.find(obstacle => intersects(interior, center, obstacle, RADIUS + PORTAL_MARGIN / 2));
+      const blocker = obstacles.find(obstacle => obstacle.resource?.mount!=='portal-door' && intersects(interior, center, obstacle, RADIUS + PORTAL_MARGIN / 2));
       if (blocker) fail('blocked-portal', connectionId, 'Portal interior-to-boundary segment lacks the static envelope and width margin',
         { regionId: room.id, side, obstacleId: blocker.id });
       if (!grid.connected(interior))

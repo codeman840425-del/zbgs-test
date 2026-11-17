@@ -1,0 +1,88 @@
+{
+  "status": "passed",
+  "scope": "Exterior door leaf catalog, entrance binding, state, replacement and save/recovery CPU integration",
+  "checks": [
+    {
+      "name": "Four latest door leaf resources expose one common portal state contract",
+      "observed": [
+        "exterior-door-leaf-glass-panel",
+        "exterior-door-leaf-plain",
+        "exterior-door-leaf-slatted",
+        "exterior-door-leaf-solid-panel"
+      ],
+      "passed": true
+    },
+    {
+      "name": "A leaf can only be added at the explicit exterior entrance target",
+      "observed": {
+        "target": "company-space-v2-small/ground/live:exterior-door:company-space-v2-small/ground/live/exterior-entry",
+        "leafId": "company-space-v2-small/ground/live/exterior-door-leaf-glass-panel",
+        "transform": {
+          "position": [
+            -1.2,
+            0,
+            1.9
+          ],
+          "yaw": 3.141592653589793
+        }
+      },
+      "passed": true
+    },
+    {
+      "name": "Closed, half-open and fully open states derive without changing identity or entrance geometry",
+      "observed": [
+        {
+          "openFraction": 0,
+          "obstacle": true
+        },
+        {
+          "openFraction": 0.5,
+          "obstacle": true
+        },
+        {
+          "openFraction": 1,
+          "obstacle": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "name": "Four appearances replace in place and preserve the saved opening state",
+      "observed": {
+        "resource": {
+          "id": "exterior-door-leaf-solid-panel",
+          "version": 1
+        },
+        "state": {
+          "openFraction": 0.5
+        }
+      },
+      "passed": true
+    },
+    {
+      "name": "Wrong portal, duplicate leaf and invalid state reject while preserving the prior document",
+      "observed": {
+        "rejected": [
+          "invalid-portal-door-fit",
+          "duplicate-portal-door",
+          "invalid-device-state"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "name": "Save and decode restore leaf identity, appearance, state and entrance binding",
+      "observed": {
+        "leafId": "company-space-v2-small/ground/live/exterior-door-leaf-glass-panel",
+        "resource": {
+          "id": "exterior-door-leaf-solid-panel",
+          "version": 1
+        },
+        "state": {
+          "openFraction": 0.5
+        }
+      },
+      "passed": true
+    }
+  ]
+}

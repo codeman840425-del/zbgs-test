@@ -146,6 +146,20 @@ function portalTargets(region, floor, resource) {
   return result;
 }
 
+function exteriorDoorTargets(region, floor, resource) {
+  const m=mounting(resource);
+  if(!m||m.origin!=='bottom'||!Number.isFinite(m.apertureWidth)||!Number.isFinite(m.apertureHeight))return [];
+  const result=[];
+  for(const edge of ['north','west','south','east'])for(const entry of portalEntries(floor,region.id,edge)){
+    if(entry.height===undefined||Math.abs(entry.width-m.apertureWidth)>EPS||Math.abs(entry.height-m.apertureHeight)>EPS)continue;
+    const {position,yaw}=wallPosition(region,edge,m,entry.offset),label={north:'北侧',west:'西侧',south:'南侧',east:'东侧'}[edge];
+    result.push(target(`${region.id}:exterior-door:${entry.id}`,region.id,`${region.name||region.id} · ${label}外部门洞`,position,yaw,'portal-door',{
+      lockedAxes:['x','y','z','yaw'],note:'外部门扇只能安装到真实外部入口；位置和朝向固定，开合状态单独保存',edge,portalId:entry.id,
+    }));
+  }
+  return result;
+}
+
 function informationTargets(region, derived, resource) {
   const result = [];
   for (const facility of derived.facilities.filter(entry => entry.roomId === region.id && entry.resource.informationSurface)) {
@@ -210,6 +224,7 @@ export function listPlacementTargets(document, catalog, resource, regionId, opti
   if (selected.mount === 'parent-device-endpoints') result.push(...cableTargets(region,derived,selected));
   else if (['wall','wall-opening'].includes(selected.mount)) result.push(...wallTargets(region, floor, selected));
   else if (selected.mount === 'portal') result.push(...portalTargets(region, floor, selected));
+  else if (selected.mount === 'portal-door') result.push(...exteriorDoorTargets(region, floor, selected));
   else if (selected.mount === 'floor-surface') { const value = floorTarget(region, selected); if (value) result.push(value); }
   else if (selected.mount === 'ceiling') { const value = ceilingTarget(region, selected); if (value) result.push(value); }
   else if (selected.mount === 'desk-surface') {
@@ -261,6 +276,7 @@ export function getFacilityEditConstraints(node, resource) {
     return {lockedAxes: [horizontal ? 'z' : 'x', 'yaw'], note: '沿墙移动，法向坐标和朝向固定'};
   }
   if (mount === 'portal') return {lockedAxes: ['x', 'y', 'z', 'yaw'], note: '门洞位置和朝向固定，只能更换真实门洞目标'};
+  if (mount === 'portal-door') return {lockedAxes: ['x', 'y', 'z', 'yaw'], note: '外部门扇绑定真实外部门洞，位置和朝向固定；开合状态单独保存'};
   if (mount === 'information-surface') return {lockedAxes: ['x', 'y', 'z', 'yaw'], note: '信息内容固定在宿主槽位，移动或转向请操作宿主'};
   if (mount === 'ceiling') return {lockedAxes: ['y'], note: '顶面 Y 固定在 2.8m'};
   if (mount === 'support-surface') return {lockedAxes: ['y'], note: '承载面 Y 固定，X/Z 与朝向须满足完整包络'};

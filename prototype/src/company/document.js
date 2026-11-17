@@ -267,21 +267,31 @@ export function deriveCompany(document, catalog, templates) {
           Math.abs(node.transform.position[0]) > surface.halfSize[0] || Math.abs(node.transform.position[2]) > surface.halfSize[1])
         fail('invalid-surface-fit', node.id, 'Device mount origin must be on the declared parent surface');
     }
-    if (['wall','wall-opening','portal','floor-surface'].includes(resource.mount)) {
+    if (['wall','wall-opening','portal','portal-door','floor-surface'].includes(resource.mount)) {
       const region=nodes.get(node.parentId),spec=resource.mounting;
       if(!['room','area'].includes(region?.kind)||!spec||
         ![spec.width,spec.height,spec.depth].every(v=>Number.isFinite(v)&&v>0))
         fail('missing-mount-region',node.id,'Architectural display needs a room/area parent and finite mounting envelope');
       const [x,y,z]=node.transform.position,angle=((node.transform.yaw%(Math.PI*2))+Math.PI*2)%(Math.PI*2);
+      const edge=Math.abs(angle)<1e-6?'north':Math.abs(angle-Math.PI/2)<1e-6?'west':Math.abs(angle-Math.PI)<1e-6?'south':'east';
+      const horizontal=['north','south'].includes(edge),span=horizontal?region.bounds.width:region.bounds.depth;
+      const along=horizontal?x:z,normal=horizontal?z:x;
       if(resource.mount==='floor-surface') {
         const swapped=Math.abs(Math.sin(angle))>.5,halfX=(swapped?spec.depth:spec.width)/2,halfZ=(swapped?spec.width:spec.depth)/2;
         if(Math.abs(y)>.001||Math.abs(x)+halfX>region.bounds.width/2-.1+.001||Math.abs(z)+halfZ>region.bounds.depth/2-.1+.001)
           fail('invalid-floor-fit',node.id,'Floor covering must be grounded and fit inside the existing walls');
-      } else {
-        const edge=Math.abs(angle)<1e-6?'north':Math.abs(angle-Math.PI/2)<1e-6?'west':Math.abs(angle-Math.PI)<1e-6?'south':'east';
-        const horizontal=['north','south'].includes(edge),span=horizontal?region.bounds.width:region.bounds.depth;
+      } else if(resource.mount==='portal-door') {
+        const floor=nodes.get(floorIds.get(node.id)), portals=floorPortalSides(floor).filter(p=>p.regionId===region.id&&p.edge===edge&&p.height!==undefined);
+        const portal=portals.find(p=>Math.abs(p.offset-along)<.001&&Math.abs(p.width-spec.apertureWidth)<.001&&Math.abs(p.height-spec.apertureHeight)<.001);
         const plane=(['north','west'].includes(edge)?-1:1)*((horizontal?region.bounds.depth:region.bounds.width)/2-.1);
-        const along=horizontal?x:z,normal=horizontal?z:x,low=spec.origin==='center'?y-spec.height/2:y;
+        if(Math.abs(y)>.001||Math.abs(normal-plane)>.001||!portal)fail('invalid-portal-door-fit',node.id,'Door leaf must match an explicit exterior entrance and its clear size');
+        const duplicate=facilities.some(entry=>entry.resource.mount==='portal-door'&&entry.roomId===region.id&&
+          Math.abs(entry.node.transform.position[0]-x)<.001&&Math.abs(entry.node.transform.position[2]-z)<.001&&
+          Math.abs(entry.node.transform.yaw-node.transform.yaw)<.001);
+        if(duplicate)fail('duplicate-portal-door',node.id,'One door leaf may be installed per exterior entrance');
+      } else {
+        const plane=(['north','west'].includes(edge)?-1:1)*((horizontal?region.bounds.depth:region.bounds.width)/2-.1);
+        const low=spec.origin==='center'?y-spec.height/2:y;
         if(Math.abs(normal-plane)>.001||Math.abs(along)+spec.width/2>span/2-.001||low<-.001||low+spec.height>2.8+.001)
           fail('invalid-wall-fit',node.id,'Display back plane, height and width must fit its wall interior face');
         const floor=nodes.get(floorIds.get(node.id)),portals=floorPortalSides(floor).filter(p=>p.regionId===region.id&&p.edge===edge);
@@ -308,9 +318,9 @@ export function deriveCompany(document, catalog, templates) {
       const corners = [-1, 1].flatMap(x => [-1, 1].map(z => pointInTransform(world, [fp.center[0] + x * fp.halfSize[0], 0, fp.center[1] + z * fp.halfSize[1]])));
       const min = [Math.min(...corners.map(p => p[0])), Math.min(...corners.map(p => p[2]))];
       const max = [Math.max(...corners.map(p => p[0])), Math.max(...corners.map(p => p[2]))];
-      obstacles.push({ id: node.id, floorId: entry.floorId, min, max, corners, world, footprint: fp });
+      obstacles.push({ id: node.id, floorId: entry.floorId, min, max, corners, world, resource, footprint: fp });
       const room = nodes.get(entry.roomId);
-      if (room) for (const corner of corners) {
+      if (room && resource.mount!=='portal-door') for (const corner of corners) {
         const local = localPoint(worlds.get(room.id), corner);
         if (Math.abs(local[0]) > room.bounds.width / 2 + 1e-8 || Math.abs(local[2]) > room.bounds.depth / 2 + 1e-8)
           fail('outside-room', node.id, `Footprint lies outside ${room.id}`);
@@ -564,7 +574,7 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
     for(const other of derived.obstacles)if(other.id!==current.id&&other.floorId===current.floorId&&min.every((n,i)=>n<other.max[i]-1e-8&&max[i]>other.min[i]+1e-8))
       fail('blocked-moving-part',current.id,`Movement sweep overlaps ${other.id}`,{otherId:other.id});
     const room=derived.nodes.get(current.roomId);
-    if(room)for(const corner of corners){const p=localPoint(derived.worlds.get(room.id),corner);if(Math.abs(p[0])>room.bounds.width/2-.1+1e-8||Math.abs(p[2])>room.bounds.depth/2-.1+1e-8)
+    if(room&&current.resource.mount!=='portal-door')for(const corner of corners){const p=localPoint(derived.worlds.get(room.id),corner);if(Math.abs(p[0])>room.bounds.width/2-.1+1e-8||Math.abs(p[2])>room.bounds.depth/2-.1+1e-8)
       fail('blocked-moving-part',current.id,'Movement sweep reaches the room wall');}
   }
   return { document: next, derived, previousRevision: document.revision };

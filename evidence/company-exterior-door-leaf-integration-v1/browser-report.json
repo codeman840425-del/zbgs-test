@@ -1,0 +1,55 @@
+{
+  "checks": [
+    {
+      "name": "Small home exposes four real external door looks at the entrance target",
+      "passed": true,
+      "observed": {
+        "doorId": "company-space-v2-small/ground/live/exterior-door-leaf-glass-panel",
+        "looks": [
+          "exterior-door-leaf-glass-panel@1",
+          "exterior-door-leaf-plain@1",
+          "exterior-door-leaf-slatted@1",
+          "exterior-door-leaf-solid-panel@1"
+        ]
+      }
+    },
+    {
+      "name": "Open fraction drives the actual imported pivot and persists through appearance replacement",
+      "passed": true,
+      "observed": {
+        "values": [
+          0,
+          0.5,
+          1
+        ],
+        "resource": {
+          "id": "exterior-door-leaf-solid-panel",
+          "version": 1
+        }
+      }
+    },
+    {
+      "name": "Invalid movement and duplicate installation preserve the document",
+      "passed": true,
+      "observed": {
+        "rejected": [
+          "invalid-device-state",
+          "duplicate-portal-door"
+        ]
+      }
+    },
+    {
+      "name": "Save, reload and restart keep the selected door state and camera-view geometry",
+      "passed": true,
+      "observed": {
+        "doorId": "company-space-v2-small/ground/live/exterior-door-leaf-glass-panel",
+        "state": {
+          "openFraction": 1
+        }
+      }
+    }
+  ],
+  "scope": "Real imported exterior door leaf UI, state, appearance replacement and save/restart; no character traversal claim.",
+  "status": "passed",
+  "errors": []
+}

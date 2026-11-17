@@ -8,7 +8,7 @@ import {CompanyError} from './document.js';
 import {validateSupportResource} from './support-data.js';
 import {validateSupportGeometry} from './support-geometry.js';
 import {validateMovingResource} from './moving-parts.js';
-import {validateMovingPartGeometry} from './moving-part-geometry.js';
+import {validateMovingPartGeometry,validateExteriorDoorLeafGeometry} from './moving-part-geometry.js';
 import {validateSlidingPartGeometry} from './sliding-part-geometry.js';
 import {validateClockResource} from './clock-display.js';
 import {validateClockGeometry} from './clock-geometry.js';
@@ -188,7 +188,8 @@ function validateResource(pack, description) {
   validateMirrorGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateSupportGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateVanityGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
-  const movingGeometry=description.resource.movingParts?.[0]?.kind==='slide'?validateSlidingPartGeometry:validateMovingPartGeometry;
+  const movingGeometry=description.resource.movingProfile==='exterior-door-leaf-v1'?validateExteriorDoorLeafGeometry:
+    description.resource.movingParts?.[0]?.kind==='slide'?validateSlidingPartGeometry:validateMovingPartGeometry;
   if(!['supported-slide-v1','makeup-drawer-host-v1'].includes(description.resource.movingProfile))
     movingGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   for (const target of description.targets) {
@@ -207,7 +208,7 @@ function validateResource(pack, description) {
       throw error('asset-footprint-mismatch', `${description.path}.footprint`, 'Declared blocking footprint must enclose the default scene XZ bounds within 1mm');
   }
   if(description.mounting) {
-    const s=description.mounting,b=new THREE.Box3().setFromObject(pack.scene),wall=['wall','wall-opening','portal','information-surface'].includes(description.mount);
+    const s=description.mounting,b=new THREE.Box3().setFromObject(pack.scene),wall=['wall','wall-opening','portal','portal-door','information-surface'].includes(description.mount);
     const lo=description.mount==='ceiling'&&s.origin==='top'?-s.height:wall&&s.origin==='center'?-s.height/2:0;
     if(![s.width,s.height,s.depth].every(v=>Number.isFinite(v)&&v>0)||
       b.min.x < -s.width/2-.001||b.max.x > s.width/2+.001||b.min.y<lo-.001||b.max.y>lo+s.height+.001||

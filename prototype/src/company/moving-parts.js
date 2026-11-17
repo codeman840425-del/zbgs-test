@@ -1,5 +1,6 @@
 // State-driven facility transforms only. Host owns time, actors and tasks.
 import {MAKEUP_STORAGE_PROFILE,validateMakeupStorageResource} from './makeup-storage-data.js';
+export const EXTERIOR_DOOR_LEAF_PROFILE='exterior-door-leaf-v1';
 const object = v => v && typeof v === 'object' && !Array.isArray(v);
 const vector = (v, n) => Array.isArray(v) && v.length === n && v.every(Number.isFinite);
 const idPattern = /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/;
@@ -26,6 +27,25 @@ export function validateFacilityState(resource, patch, fail, path) {
 }
 
 export function validateMovingResource(resource, fail, path=resource.id) {
+  if (resource.movingProfile===EXTERIOR_DOOR_LEAF_PROFILE) {
+    const part=resource.movingParts?.[0];
+    if (resource.category!=='dynamic'||resource.mountRole!=='exterior-door-leaf'||resource.mount!=='portal-door'||
+        resource.mounting?.origin!=='bottom'||resource.mounting?.width!==1.36||resource.mounting?.height!==2.16||resource.mounting?.depth!==.04||
+        resource.mounting?.apertureWidth!==1.4||resource.mounting?.apertureHeight!==2.2||
+        JSON.stringify(resource.stateDefaults)!==JSON.stringify({openFraction:0})||
+        JSON.stringify(resource.stateSchema)!==JSON.stringify({openFraction:{type:'number',min:0,max:1}})||
+        resource.stateSemantics?.openFraction!=='exterior-door-opening-fraction'||
+        !part||part.id!=='door'||part.stateField!=='openFraction'||part.kind!=='hinge'||part.axis!=='y'||
+        JSON.stringify(part.pivot)!==JSON.stringify([-.68,0,.02])||
+        JSON.stringify(part.rotationRange)!==JSON.stringify([0,-Math.PI/2])||
+        JSON.stringify(part.bounds)!==JSON.stringify({min:[0,0,-.021],max:[1.36,2.16,.021]})||
+        JSON.stringify(resource.partNodes)!==JSON.stringify({door:'exterior-door-pivot'})||
+        JSON.stringify(resource.partPanels)!==JSON.stringify({door:'exterior-door-leaf'})||
+        !Array.isArray(resource.usePoints)||resource.usePoints.length) {
+      fail('invalid-exterior-door-contract',path,'Exterior door leaves require the fixed portal hinge contract');
+    }
+    return;
+  }
   validateMakeupStorageResource(resource,fail,path);
   if(resource.stateSchema!==undefined)validateFacilityState(resource,{},fail,path);
   if(resource.movingParts===undefined) {
