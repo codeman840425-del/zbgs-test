@@ -1,0 +1,74 @@
+{
+  "schema": "native-factory-original-recipe-cpu-review-v1",
+  "status": "bounded-compact-recipe-checks-passed",
+  "avatarSha256": "843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef",
+  "bodyType": "native-female-843ac-v1",
+  "assetId": "native-vroid-unmasked-female-130-v1",
+  "recipeSchema": "workbench-appearance-recipe-v8",
+  "paletteVersion": "appearance-color-v3:2eff13c1d3837c4f8f76b7d97007b219059c212c1031d77e27a2f824715af321",
+  "outfitRole": "shorts",
+  "resourceRoles": [
+    "top",
+    "shorts",
+    "shoes"
+  ],
+  "bindingCounts": {
+    "top": 130,
+    "shorts": 130,
+    "shoes": 130
+  },
+  "prettyBytes": 267340,
+  "compactBytes": 136659,
+  "parsedJsonValueDeepEqual": true,
+  "originalSignedNegativeZeroCount": 165,
+  "unsupportedValuesRemovedByJson": 0,
+  "paletteResourcesFetched": false,
+  "neutralGeometryResourcesFetched": false,
+  "emptyAccessoryResourcesFetched": false,
+  "checks": [
+    "Actual native original/neutral/none record validates with native bodyType, shorts role and resource identities",
+    "Actual compact export/parser deep equality, all130 bindings per resource retained",
+    "Actual transaction imports original colors/neutral geometry/empty ear+hat with actual loaded equipment",
+    "Idempotent same-instance import has no palette, surface, accessory or geometry resource fetch",
+    "Five exact identity negatives reject and preserve complete current export"
+  ],
+  "negatives": [
+    {
+      "name": "wrong-resource-sha",
+      "rejection": "服装资源或绑定版本已变化",
+      "oldFullRecipeUnchanged": true
+    },
+    {
+      "name": "wrong-binding",
+      "rejection": "服装资源或绑定版本已变化",
+      "oldFullRecipeUnchanged": true
+    },
+    {
+      "name": "asset-id-used-as-body-type",
+      "rejection": "此配方属于未知基模，请先选择对应人物；若已选中，说明素材版本不一致。当前人物未改变",
+      "oldFullRecipeUnchanged": true
+    },
+    {
+      "name": "wrong-palette-version",
+      "rejection": "外观配方版本不兼容，已保留当前外观",
+      "oldFullRecipeUnchanged": true
+    },
+    {
+      "name": "wrong-outfit-role",
+      "rejection": "服装版型版本不兼容",
+      "oldFullRecipeUnchanged": true
+    }
+  ],
+  "fetches": [
+    "/assets/native-factory-v1/native-vroid-factory-fit-v1/equipment.json",
+    "/assets/native-factory-v1/native-vroid-equipment-v1/native-vroid-78912-top-v1.glb",
+    "/assets/native-factory-v1/native-vroid-equipment-v1/native-vroid-78912-shorts-v1.glb",
+    "/assets/native-factory-v1/native-vroid-equipment-v1/native-vroid-78912-shoes-v1.glb"
+  ],
+  "limits": [
+    "Actual recipe/domain/GLTFLoader/equipment adapter. Controller prepare bridge omits M1 Body texture coverage, Phaser/UI and movement",
+    "CPU texture decode only, no GPU/visuals. Same-instance repeat is not cold-page restoration",
+    "Only selected index0 three-resource set tested; root later actual custom outfit/cold-page restore remains pending",
+    "JS negative zero serializes as zero in both pretty and compact JSON; all resource fields and numerical identity comparison preserved"
+  ]
+}

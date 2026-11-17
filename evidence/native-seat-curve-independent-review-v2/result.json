@@ -1,0 +1,1327 @@
+{
+  "schema": "native-seat-curve-independent-review-v2",
+  "status": "no-new-blocker-in-bounded-cpu-retest",
+  "inputs": {
+    "prototype/src/main.js": {
+      "sha256": "cd075d9a683cf1828782f7b6aea0e1bcf6adb4c79d5f6a9e57cabe063e08e7c3",
+      "bytes": 106666
+    },
+    "scripts/qa-native-seat-curve-recovery.mjs": {
+      "sha256": "1dca13ca8268fdbab08d22711698bf3761826e625b25737b98a5b0ef6d24bd07",
+      "bytes": 9347
+    },
+    "scripts/qa-native-seat-curve-recovery-v2.mjs": {
+      "sha256": "13c0a4c08cf8dac44b322c8b27b4ca89d8d517cf1b5bb8b536af7ac8b7e95bde",
+      "bytes": 14220
+    },
+    "prototype/src/behavior-tasks.js": {
+      "sha256": "48bea3db65a6e78bb5444916d004c188eac1c26e7928d58c337addf7512f53a8",
+      "bytes": 5798
+    },
+    "prototype/src/seat-lease.js": {
+      "sha256": "7bfde9e1db1631d4f387347c986cd367c22280cf74245bf2416e1da6690c6048",
+      "bytes": 3897
+    },
+    "prototype/src/turn-policy.js": {
+      "sha256": "e4fb53de78708e537a0981ad44cc6c02ace2b744d974a91c010b7878f5ef10b1",
+      "bytes": 5444
+    },
+    "evidence/native-seat-curve-recovery-v2/result.json": {
+      "sha256": "a43e5d15960f5ff2ba5b281dcd59ee985071319c0a53470e66d28cd2352a925b",
+      "bytes": 48134
+    }
+  },
+  "checks": [
+    {
+      "name": "unchanged shallow-wall counterexample reaches destination, direct and task",
+      "passed": true
+    },
+    {
+      "name": "preserved v1 snapshot still reproduces 1200 stationary recoveries",
+      "passed": true
+    },
+    {
+      "name": "test-only removal of recovered pivot proves real collision loop is bounded",
+      "passed": true
+    },
+    {
+      "name": "same-goal guard retains progress above .5mm and terminates sub-tolerance net motion",
+      "passed": true
+    },
+    {
+      "name": "directly exercised no-progress sit fails/releases and fresh real route completes",
+      "passed": true
+    },
+    {
+      "name": "open-space 960 substeps unchanged from independent v1 snapshot",
+      "passed": true,
+      "traceSha256": "47da32f7b04a9baa4b008bfa9655eacf15e79dda800d96ae43fb65d3ffec87c8"
+    }
+  ],
+  "direct": {
+    "start": [
+      -0.07000100000000006,
+      -1.6
+    ],
+    "goal": [
+      -0.12000000000000006,
+      -0.6
+    ],
+    "desk": {
+      "name": "desk",
+      "x": 1.15,
+      "z": -1.95,
+      "hw": 1.22,
+      "hd": 0.72
+    },
+    "recoveries": 1,
+    "events": [
+      {
+        "t": 0.008333333333333333,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0.8474999999999999,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "afterWalk": null
+      }
+    ],
+    "samples": [
+      {
+        "t": 0.008333333333333333,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": null
+      },
+      {
+        "t": 0.9999999999999989,
+        "position": [
+          -0.07309603013602815,
+          0,
+          -1.5380981592426237
+        ],
+        "yaw": -0.04995739821565856,
+        "speed": 0.4250000000000002,
+        "mode": "walk",
+        "pathTurn": null,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": null
+      },
+      {
+        "t": 1.9999999999999953,
+        "position": [
+          -0.11247059127046145,
+          0,
+          -0.750591186414501
+        ],
+        "yaw": -0.04995739821565856,
+        "speed": 0.7519060193468564,
+        "mode": "walk",
+        "pathTurn": null,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": null
+      },
+      {
+        "t": 2.999999999999992,
+        "position": [
+          -0.11914268246614965,
+          0,
+          -0.6171466936108804
+        ],
+        "yaw": -0.04995739821565856,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": null
+      },
+      {
+        "t": 3.9999999999999885,
+        "position": [
+          -0.11914268246614965,
+          0,
+          -0.6171466936108804
+        ],
+        "yaw": -0.04995739821565856,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": null
+      },
+      {
+        "t": 5.000000000000038,
+        "position": [
+          -0.11914268246614965,
+          0,
+          -0.6171466936108804
+        ],
+        "yaw": -0.04995739821565856,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": null
+      },
+      {
+        "t": 6.000000000000088,
+        "position": [
+          -0.11914268246614965,
+          0,
+          -0.6171466936108804
+        ],
+        "yaw": -0.04995739821565856,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": null
+      },
+      {
+        "t": 7.000000000000138,
+        "position": [
+          -0.11914268246614965,
+          0,
+          -0.6171466936108804
+        ],
+        "yaw": -0.04995739821565856,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": null
+      },
+      {
+        "t": 8.000000000000187,
+        "position": [
+          -0.11914268246614965,
+          0,
+          -0.6171466936108804
+        ],
+        "yaw": -0.04995739821565856,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": null
+      },
+      {
+        "t": 9.00000000000013,
+        "position": [
+          -0.11914268246614965,
+          0,
+          -0.6171466936108804
+        ],
+        "yaw": -0.04995739821565856,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": null
+      },
+      {
+        "t": 10.000000000000073,
+        "position": [
+          -0.11914268246614965,
+          0,
+          -0.6171466936108804
+        ],
+        "yaw": -0.04995739821565856,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": null
+      }
+    ],
+    "unsafeSegments": 0,
+    "pivotSeen": true,
+    "final": {
+      "mode": "idle",
+      "target": null,
+      "position": [
+        -0.11914268246614965,
+        0,
+        -0.6171466936108804
+      ],
+      "yaw": -0.04995739821565856,
+      "task": null
+    }
+  },
+  "task": {
+    "start": [
+      -0.07000100000000006,
+      -1.6
+    ],
+    "goal": [
+      -0.12000000000000006,
+      -0.6
+    ],
+    "desk": {
+      "name": "desk",
+      "x": 1.15,
+      "z": -1.95,
+      "hw": 1.22,
+      "hd": 0.72
+    },
+    "recoveries": 1,
+    "events": [
+      {
+        "t": 0.008333333333333333,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0.8474999999999999,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "afterWalk": null
+      }
+    ],
+    "samples": [
+      {
+        "t": 0.008333333333333333,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 0.9999999999999989,
+        "position": [
+          -0.07309603013602815,
+          0,
+          -1.5380981592426237
+        ],
+        "yaw": -0.04995739821565856,
+        "speed": 0.4250000000000002,
+        "mode": "walk",
+        "pathTurn": null,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 1.9999999999999953,
+        "position": [
+          -0.11247059127046145,
+          0,
+          -0.750591186414501
+        ],
+        "yaw": -0.04995739821565856,
+        "speed": 0.7519060193468564,
+        "mode": "walk",
+        "pathTurn": null,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 2.999999999999992,
+        "position": [
+          -0.11914268246614965,
+          0,
+          -0.6171466936108804
+        ],
+        "yaw": -0.04995739821565856,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "completed",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": 2.7666666666666595,
+          "deadline": 60,
+          "reason": null,
+          "result": {
+            "mode": "idle",
+            "position": [
+              -0.11914268246614965,
+              0,
+              -0.6171466936108804
+            ],
+            "seatToken": null
+          }
+        }
+      },
+      {
+        "t": 3.9999999999999885,
+        "position": [
+          -0.11914268246614965,
+          0,
+          -0.6171466936108804
+        ],
+        "yaw": -0.04995739821565856,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "completed",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": 2.7666666666666595,
+          "deadline": 60,
+          "reason": null,
+          "result": {
+            "mode": "idle",
+            "position": [
+              -0.11914268246614965,
+              0,
+              -0.6171466936108804
+            ],
+            "seatToken": null
+          }
+        }
+      },
+      {
+        "t": 5.000000000000038,
+        "position": [
+          -0.11914268246614965,
+          0,
+          -0.6171466936108804
+        ],
+        "yaw": -0.04995739821565856,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "completed",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": 2.7666666666666595,
+          "deadline": 60,
+          "reason": null,
+          "result": {
+            "mode": "idle",
+            "position": [
+              -0.11914268246614965,
+              0,
+              -0.6171466936108804
+            ],
+            "seatToken": null
+          }
+        }
+      },
+      {
+        "t": 6.000000000000088,
+        "position": [
+          -0.11914268246614965,
+          0,
+          -0.6171466936108804
+        ],
+        "yaw": -0.04995739821565856,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "completed",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": 2.7666666666666595,
+          "deadline": 60,
+          "reason": null,
+          "result": {
+            "mode": "idle",
+            "position": [
+              -0.11914268246614965,
+              0,
+              -0.6171466936108804
+            ],
+            "seatToken": null
+          }
+        }
+      },
+      {
+        "t": 7.000000000000138,
+        "position": [
+          -0.11914268246614965,
+          0,
+          -0.6171466936108804
+        ],
+        "yaw": -0.04995739821565856,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "completed",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": 2.7666666666666595,
+          "deadline": 60,
+          "reason": null,
+          "result": {
+            "mode": "idle",
+            "position": [
+              -0.11914268246614965,
+              0,
+              -0.6171466936108804
+            ],
+            "seatToken": null
+          }
+        }
+      },
+      {
+        "t": 8.000000000000187,
+        "position": [
+          -0.11914268246614965,
+          0,
+          -0.6171466936108804
+        ],
+        "yaw": -0.04995739821565856,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "completed",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": 2.7666666666666595,
+          "deadline": 60,
+          "reason": null,
+          "result": {
+            "mode": "idle",
+            "position": [
+              -0.11914268246614965,
+              0,
+              -0.6171466936108804
+            ],
+            "seatToken": null
+          }
+        }
+      },
+      {
+        "t": 9.00000000000013,
+        "position": [
+          -0.11914268246614965,
+          0,
+          -0.6171466936108804
+        ],
+        "yaw": -0.04995739821565856,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "completed",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": 2.7666666666666595,
+          "deadline": 60,
+          "reason": null,
+          "result": {
+            "mode": "idle",
+            "position": [
+              -0.11914268246614965,
+              0,
+              -0.6171466936108804
+            ],
+            "seatToken": null
+          }
+        }
+      },
+      {
+        "t": 10.000000000000073,
+        "position": [
+          -0.11914268246614965,
+          0,
+          -0.6171466936108804
+        ],
+        "yaw": -0.04995739821565856,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "completed",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": 2.7666666666666595,
+          "deadline": 60,
+          "reason": null,
+          "result": {
+            "mode": "idle",
+            "position": [
+              -0.11914268246614965,
+              0,
+              -0.6171466936108804
+            ],
+            "seatToken": null
+          }
+        }
+      }
+    ],
+    "unsafeSegments": 0,
+    "pivotSeen": true,
+    "final": {
+      "mode": "idle",
+      "target": null,
+      "position": [
+        -0.11914268246614965,
+        0,
+        -0.6171466936108804
+      ],
+      "yaw": -0.04995739821565856,
+      "task": {
+        "requestId": "shallow-wall-walk",
+        "ownerId": "cpu-seat-owner",
+        "kind": "walk",
+        "payload": {
+          "x": -0.12000000000000006,
+          "z": -0.6
+        },
+        "admission": "accepted",
+        "state": "completed",
+        "requestedAt": 0,
+        "startedAt": 0,
+        "endedAt": 2.7666666666666595,
+        "deadline": 60,
+        "reason": null,
+        "result": {
+          "mode": "idle",
+          "position": [
+            -0.11914268246614965,
+            0,
+            -0.6171466936108804
+          ],
+          "seatToken": null
+        }
+      }
+    }
+  },
+  "prior": {
+    "start": [
+      -0.07000100000000006,
+      -1.6
+    ],
+    "goal": [
+      -0.12000000000000006,
+      -0.6
+    ],
+    "desk": {
+      "name": "desk",
+      "x": 1.15,
+      "z": -1.95,
+      "hw": 1.22,
+      "hd": 0.72
+    },
+    "recoveries": 1200,
+    "events": [
+      {
+        "t": 0.008333333333333333,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0.8474999999999999,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "afterWalk": null
+      },
+      {
+        "t": 0.016666666666666666,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0.0125,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "afterWalk": null
+      },
+      {
+        "t": 0.025,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0.0125,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "afterWalk": null
+      },
+      {
+        "t": 0.03333333333333333,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0.0125,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "afterWalk": null
+      },
+      {
+        "t": 0.041666666666666664,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0.0125,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "afterWalk": null
+      },
+      {
+        "t": 0.049999999999999996,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0.0125,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "afterWalk": null
+      }
+    ],
+    "samples": [
+      {
+        "t": 0.008333333333333333,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": null
+      },
+      {
+        "t": 0.9999999999999989,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": null
+      },
+      {
+        "t": 1.9999999999999953,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": null
+      },
+      {
+        "t": 2.999999999999992,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": null
+      },
+      {
+        "t": 3.9999999999999885,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": null
+      },
+      {
+        "t": 5.000000000000038,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": null
+      },
+      {
+        "t": 6.000000000000088,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": null
+      },
+      {
+        "t": 7.000000000000138,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": null
+      },
+      {
+        "t": 8.000000000000187,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": null
+      },
+      {
+        "t": 9.00000000000013,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": null
+      },
+      {
+        "t": 10.000000000000073,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": null
+      }
+    ],
+    "unsafeSegments": 0,
+    "pivotSeen": false,
+    "final": {
+      "mode": "walk",
+      "target": [
+        -0.12000000000000006,
+        -0.6
+      ],
+      "position": [
+        -0.07000100000000006,
+        0,
+        -1.6
+      ],
+      "yaw": 0.09740113192806199,
+      "task": null
+    }
+  },
+  "bounded": {
+    "start": [
+      -0.07000100000000006,
+      -1.6
+    ],
+    "goal": [
+      -0.12000000000000006,
+      -0.6
+    ],
+    "desk": {
+      "name": "desk",
+      "x": 1.15,
+      "z": -1.95,
+      "hw": 1.22,
+      "hd": 0.72
+    },
+    "recoveries": 2,
+    "events": [
+      {
+        "t": 0.008333333333333333,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0.8474999999999999,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "afterWalk": null
+      },
+      {
+        "t": 0.016666666666666666,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0.0125,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "afterWalk": null
+      }
+    ],
+    "samples": [
+      {
+        "t": 0.008333333333333333,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 0.9999999999999989,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "failed",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": 0.008333333333333333,
+          "deadline": 60,
+          "reason": "path-recovery-no-progress",
+          "result": null
+        }
+      },
+      {
+        "t": 1.9999999999999953,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "failed",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": 0.008333333333333333,
+          "deadline": 60,
+          "reason": "path-recovery-no-progress",
+          "result": null
+        }
+      }
+    ],
+    "unsafeSegments": 0,
+    "pivotSeen": false,
+    "final": {
+      "mode": "idle",
+      "target": null,
+      "position": [
+        -0.07000100000000006,
+        0,
+        -1.6
+      ],
+      "yaw": 0.09740113192806199,
+      "task": {
+        "requestId": "shallow-wall-walk",
+        "ownerId": "cpu-seat-owner",
+        "kind": "walk",
+        "payload": {
+          "x": -0.12000000000000006,
+          "z": -0.6
+        },
+        "admission": "accepted",
+        "state": "failed",
+        "requestedAt": 0,
+        "startedAt": 0,
+        "endedAt": 0.008333333333333333,
+        "deadline": 60,
+        "reason": "path-recovery-no-progress",
+        "result": null
+      }
+    }
+  },
+  "progressRows": [
+    {
+      "progressM": 0,
+      "mode": "idle",
+      "target": null,
+      "recovery": null
+    },
+    {
+      "progressM": 0.00049,
+      "mode": "idle",
+      "target": null,
+      "recovery": null
+    },
+    {
+      "progressM": 0.00051,
+      "mode": "walk",
+      "target": [
+        -1,
+        2
+      ],
+      "recovery": {
+        "destination": [
+          -1,
+          2
+        ],
+        "position": [
+          -1,
+          1.00051
+        ]
+      }
+    },
+    {
+      "progressM": 0.01,
+      "mode": "walk",
+      "target": [
+        -1,
+        2
+      ],
+      "recovery": {
+        "destination": [
+          -1,
+          2
+        ],
+        "position": [
+          -1,
+          1.01
+        ]
+      }
+    }
+  ],
+  "failedSit": {
+    "requestId": "forced-stalled-sit",
+    "ownerId": "cpu-seat-owner",
+    "kind": "sit",
+    "payload": {},
+    "admission": "accepted",
+    "state": "failed",
+    "requestedAt": 0,
+    "startedAt": 0,
+    "endedAt": 0,
+    "deadline": 60,
+    "reason": "path-recovery-no-progress",
+    "result": null
+  },
+  "freshSit": {
+    "requestId": "fresh-sit",
+    "ownerId": "cpu-seat-owner",
+    "kind": "sit",
+    "payload": {},
+    "admission": "accepted",
+    "state": "completed",
+    "requestedAt": 0,
+    "startedAt": 0,
+    "endedAt": 5.658333333333404,
+    "deadline": 60,
+    "reason": null,
+    "result": {
+      "mode": "sit",
+      "position": [
+        2.649676992037374,
+        0,
+        1.2883106363652765
+      ],
+      "seatToken": "seat-lease:2"
+    }
+  },
+  "limitation": "Real controller/task/turn/lease, minimal author motion fixture. Recovery-progress branch tested by explicit recovery calls; no physical collision inferred for those branch tests. No GPU, foot, skin or visual acceptance."
+}

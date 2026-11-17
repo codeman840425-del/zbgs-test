@@ -245,3 +245,9 @@ delivery/history/appearance-workbench-f82.json -text
 evidence/native-vroid-custom-top-room-v1/capture-v1/overlay.mjs -whitespace
 evidence/native-vroid-equipment-runtime-v1/room-compare-v*/overlay.mjs -whitespace
 evidence/native-vroid-factory-seam-review-v1/*bundled.mjs -whitespace
+
+# Preserve pinned source/audit bytes and upstream generated comment formatting.
+assets-source/native-vroid-male-*/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+delivery/history/appearance-workbench-c3e35248dc55.json -text whitespace=cr-at-eol
+evidence/native-factory-recipe-review-v1/probe-bundled.mjs -whitespace
+evidence/native-seat-curve-independent-review-v2/probe.mjs whitespace=-blank-at-eof,cr-at-eol

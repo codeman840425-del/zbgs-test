@@ -1,0 +1,452 @@
+{
+  "passed": true,
+  "fixture": {
+    "position": [
+      0.652778461871779,
+      0,
+      1.7999856548464466
+    ],
+    "yaw": -1.570791384924979,
+    "internalSpeed": 0.8350000000000001,
+    "seatBack": 0.1767497103447637,
+    "seatApproach": 0.2382278704646815,
+    "chair": {
+      "position": [
+        2.65,
+        0,
+        0.8732502896552363
+      ],
+      "yaw": 0,
+      "seatedAnchor": [
+        2.65,
+        0,
+        1.05
+      ],
+      "approach": [
+        2.65,
+        0,
+        1.2882278704646815
+      ],
+      "exit": [
+        2.65,
+        0,
+        1.2882278704646815
+      ]
+    }
+  },
+  "baselineSHA": "489d3fd11714ffea0b98b267f3d92f31f1bcb22061c928cd5c19bcd56052e073",
+  "testedSHA": "57929faca7e6b371bfaa4954e820966dc9d6e41f563689de81a1394fe6a579b2",
+  "inputReportSHA": "a6b35c612821e4b80d6b93ca56c4926b01b92da11d056acd2cbb0cf2f62bd429",
+  "before": {
+    "initialPath": [
+      [
+        2.65,
+        1.2882278704646815
+      ]
+    ],
+    "events": [
+      {
+        "t": 0,
+        "type": "clear",
+        "position": [
+          0.652778461871779,
+          0,
+          1.7999856548464466
+        ],
+        "target": null,
+        "path": [],
+        "afterWalk": null
+      },
+      {
+        "t": 3.466666666666657,
+        "type": "clear",
+        "position": [
+          2.2745825286771124,
+          0,
+          1.1655870735919387
+        ],
+        "target": [
+          2.65,
+          1.2882278704646815
+        ],
+        "path": [],
+        "afterWalk": "sit"
+      }
+    ],
+    "unsafeSegments": 0,
+    "stoppedEarly": true,
+    "position": [
+      2.2745825286771124,
+      0,
+      1.1655870735919387
+    ],
+    "mode": "idle",
+    "target": null,
+    "afterWalk": null,
+    "time": 24.999999999999222,
+    "task": null,
+    "lease": {
+      "token": "seat-lease:1",
+      "seatId": "room-chair-1",
+      "ownerId": "cpu-seat-owner",
+      "requestId": "cpu-seat-owner:direct-seat:1",
+      "state": "reserved",
+      "releaseRequested": false,
+      "releaseReason": null
+    }
+  },
+  "after": {
+    "initialPath": [
+      [
+        2.65,
+        1.2882278704646815
+      ]
+    ],
+    "events": [
+      {
+        "t": 0,
+        "type": "clear",
+        "position": [
+          0.652778461871779,
+          0,
+          1.7999856548464466
+        ],
+        "target": null,
+        "path": [],
+        "afterWalk": null
+      },
+      {
+        "t": 3.466666666666657,
+        "type": "collision-veto-replan",
+        "position": [
+          2.2745825286771124,
+          0,
+          1.1655870735919387
+        ],
+        "target": [
+          2.65,
+          1.2882278704646815
+        ],
+        "path": [],
+        "afterWalk": "sit"
+      }
+    ],
+    "unsafeSegments": 0,
+    "stoppedEarly": false,
+    "position": [
+      2.6496347486035696,
+      0,
+      1.288304941713089
+    ],
+    "mode": "sit",
+    "target": null,
+    "afterWalk": null,
+    "time": 8.466666666666827,
+    "task": null,
+    "lease": {
+      "token": "seat-lease:1",
+      "seatId": "room-chair-1",
+      "ownerId": "cpu-seat-owner",
+      "requestId": "cpu-seat-owner:direct-seat:1",
+      "state": "occupied",
+      "releaseRequested": false,
+      "releaseReason": null
+    }
+  },
+  "taskCases": [
+    {
+      "initialPath": [
+        [
+          2.65,
+          1.2882278704646815
+        ]
+      ],
+      "events": [
+        {
+          "t": 0,
+          "type": "clear",
+          "position": [
+            0.652778461871779,
+            0,
+            1.7999856548464466
+          ],
+          "target": null,
+          "path": [],
+          "afterWalk": null
+        },
+        {
+          "t": 3.466666666666657,
+          "type": "collision-veto-replan",
+          "position": [
+            2.2745825286771124,
+            0,
+            1.1655870735919387
+          ],
+          "target": [
+            2.65,
+            1.2882278704646815
+          ],
+          "path": [],
+          "afterWalk": "sit"
+        }
+      ],
+      "unsafeSegments": 0,
+      "stoppedEarly": false,
+      "position": [
+        2.6496347486035696,
+        0,
+        1.288304941713089
+      ],
+      "mode": "sit",
+      "target": null,
+      "afterWalk": null,
+      "time": 8.466666666666827,
+      "task": {
+        "requestId": "sit-case",
+        "ownerId": "cpu-seat-owner",
+        "kind": "sit",
+        "payload": {},
+        "admission": "accepted",
+        "state": "completed",
+        "requestedAt": 0,
+        "startedAt": 0,
+        "endedAt": 8.466666666666827,
+        "deadline": 60,
+        "reason": null,
+        "result": {
+          "mode": "sit",
+          "position": [
+            2.6496347486035696,
+            0,
+            1.288304941713089
+          ],
+          "seatToken": "seat-lease:1"
+        }
+      },
+      "lease": {
+        "token": "seat-lease:1",
+        "seatId": "room-chair-1",
+        "ownerId": "cpu-seat-owner",
+        "requestId": "sit-case",
+        "state": "occupied",
+        "releaseRequested": false,
+        "releaseReason": null
+      }
+    },
+    {
+      "initialPath": [
+        [
+          2.65,
+          1.2882278704646815
+        ]
+      ],
+      "events": [
+        {
+          "t": 0,
+          "type": "clear",
+          "position": [
+            0.652778461871779,
+            0,
+            1.7999856548464466
+          ],
+          "target": null,
+          "path": [],
+          "afterWalk": null
+        },
+        {
+          "t": 3.4619999999999487,
+          "type": "collision-veto-replan",
+          "position": [
+            2.2705500466078465,
+            0,
+            1.1639034534498056
+          ],
+          "target": [
+            2.65,
+            1.2882278704646815
+          ],
+          "path": [],
+          "afterWalk": "sit"
+        }
+      ],
+      "unsafeSegments": 0,
+      "stoppedEarly": false,
+      "position": [
+        2.649604855790813,
+        0,
+        1.2883192076916625
+      ],
+      "mode": "sit",
+      "target": null,
+      "afterWalk": null,
+      "time": 8.430000000000097,
+      "task": {
+        "requestId": "sit-case",
+        "ownerId": "cpu-seat-owner",
+        "kind": "sit",
+        "payload": {},
+        "admission": "accepted",
+        "state": "completed",
+        "requestedAt": 0,
+        "startedAt": 0,
+        "endedAt": 8.430000000000097,
+        "deadline": 60,
+        "reason": null,
+        "result": {
+          "mode": "sit",
+          "position": [
+            2.649604855790813,
+            0,
+            1.2883192076916625
+          ],
+          "seatToken": "seat-lease:1"
+        }
+      },
+      "lease": {
+        "token": "seat-lease:1",
+        "seatId": "room-chair-1",
+        "ownerId": "cpu-seat-owner",
+        "requestId": "sit-case",
+        "state": "occupied",
+        "releaseRequested": false,
+        "releaseReason": null
+      }
+    },
+    {
+      "initialPath": [
+        [
+          2.65,
+          1.2882278704646815
+        ]
+      ],
+      "events": [
+        {
+          "t": 0,
+          "type": "clear",
+          "position": [
+            0.652778461871779,
+            0,
+            1.7999856548464466
+          ],
+          "target": null,
+          "path": [],
+          "afterWalk": null
+        },
+        {
+          "t": 3.4499999999999926,
+          "type": "collision-veto-replan",
+          "position": [
+            2.2620889015848964,
+            0,
+            1.16249249281025
+          ],
+          "target": [
+            2.65,
+            1.2882278704646815
+          ],
+          "path": [],
+          "afterWalk": "sit"
+        }
+      ],
+      "unsafeSegments": 0,
+      "stoppedEarly": false,
+      "position": [
+        2.65,
+        0,
+        1.2882278704646815
+      ],
+      "mode": "sit",
+      "target": null,
+      "afterWalk": null,
+      "time": 8.299999999999992,
+      "task": {
+        "requestId": "sit-case",
+        "ownerId": "cpu-seat-owner",
+        "kind": "sit",
+        "payload": {},
+        "admission": "accepted",
+        "state": "completed",
+        "requestedAt": 0,
+        "startedAt": 0,
+        "endedAt": 8.299999999999992,
+        "deadline": 60,
+        "reason": null,
+        "result": {
+          "mode": "sit",
+          "position": [
+            2.65,
+            0,
+            1.2882278704646815
+          ],
+          "seatToken": "seat-lease:1"
+        }
+      },
+      "lease": {
+        "token": "seat-lease:1",
+        "seatId": "room-chair-1",
+        "ownerId": "cpu-seat-owner",
+        "requestId": "sit-case",
+        "state": "occupied",
+        "releaseRequested": false,
+        "releaseReason": null
+      }
+    }
+  ],
+  "checks": [
+    {
+      "name": "actual input reproduces swallowed sit; one recovery reaches seat",
+      "passed": true
+    },
+    {
+      "name": "task concludes completed and seat occupied across actual/substep clocks",
+      "passed": true,
+      "times": [
+        8.466666666666827,
+        8.430000000000097,
+        8.299999999999992
+      ]
+    },
+    {
+      "name": "unreachable during collision recovery preserves explicit task conclusion and releases lease",
+      "passed": true,
+      "task": {
+        "requestId": "controlled-sit",
+        "ownerId": "cpu-seat-owner",
+        "kind": "sit",
+        "payload": {},
+        "admission": "accepted",
+        "state": "failed",
+        "requestedAt": 0,
+        "startedAt": 0,
+        "endedAt": 3.4583333333333237,
+        "deadline": 60,
+        "reason": "seat-path-unreachable",
+        "result": null
+      }
+    },
+    {
+      "name": "cancel during collision recovery preserves explicit task conclusion and releases lease",
+      "passed": true,
+      "task": {
+        "requestId": "controlled-sit",
+        "ownerId": "cpu-seat-owner",
+        "kind": "sit",
+        "payload": {},
+        "admission": "accepted",
+        "state": "cancelled",
+        "requestedAt": 0,
+        "startedAt": 0,
+        "endedAt": 3.4583333333333237,
+        "deadline": 60,
+        "reason": "superseded",
+        "result": null
+      }
+    },
+    {
+      "name": "open-space turning trace unchanged for all 960 substeps; no recovery stop",
+      "passed": true,
+      "traceSHA": "47da32f7b04a9baa4b008bfa9655eacf15e79dda800d96ae43fb65d3ffec87c8"
+    }
+  ],
+  "scope": "Actual CharacterScene simulate/navigation/turn/task/lease; motion pose update is a minimal CPU fixture. Internal speed reconstructed from last .85m/s minus 2.5m/s2 * recorded idle .006s. GPU variable dt unavailable, so not bit-identical replay. No skin/foot/visual claim."
+}

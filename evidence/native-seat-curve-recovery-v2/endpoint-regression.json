@@ -1,0 +1,115 @@
+{
+  "passed": true,
+  "baselineCommit": "47e2c1f8cf7df3658ce94b25f215639f9172470b",
+  "sourceCommitOfFailure": "4fac2499813bbe36132f8340dd518f71f50436e5",
+  "baselineMainSha256": "a06fef0498588fbc05a3db4045f5e3609fe77c4cf5bffe7961342c66357ea198",
+  "testedMainSha256": "cd075d9a683cf1828782f7b6aea0e1bcf6adb4c79d5f6a9e57cabe063e08e7c3",
+  "failureInputSha256": "f93998e39453af88cc7e75679fd5b3ad1dbf53861e02df80c2434dd084d1f309",
+  "checks": [
+    {
+      "name": "actual failure reproduces rounded blocked goal and lost false",
+      "passed": true,
+      "roundedGoal": [
+        2.6,
+        1.2000000000000002
+      ],
+      "actualGoal": [
+        2.65,
+        1.2881239836487242
+      ],
+      "oldTask": "running",
+      "oldLease": "reserved"
+    },
+    {
+      "name": "exact failing start reaches actual approach with all segments clear",
+      "passed": true,
+      "path": [
+        [
+          0.2,
+          1
+        ],
+        [
+          2.65,
+          1.2881239836487242
+        ]
+      ]
+    },
+    {
+      "name": "clear actual start with blocked rounded start connects safely",
+      "passed": true,
+      "path": [
+        [
+          2.4000000000000004,
+          1.4000000000000001
+        ],
+        [
+          -1.3923669997210397,
+          -0.5851580550131326
+        ]
+      ]
+    },
+    {
+      "name": "clear quantized start across a thin wall cannot inject an unsafe first segment",
+      "passed": true,
+      "oldUnsafeFirst": [
+        -0.2,
+        0
+      ],
+      "path": [
+        [
+          0.2,
+          -0.2
+        ],
+        [
+          0,
+          -0.4
+        ],
+        [
+          -0.8,
+          0
+        ]
+      ]
+    },
+    {
+      "name": "moved rotated chair uses the same checked target connection",
+      "passed": true,
+      "path": [
+        [
+          2,
+          1.2000000000000002
+        ],
+        [
+          2.2,
+          1
+        ],
+        [
+          2.35922440744735,
+          0.7807256753092114
+        ]
+      ]
+    },
+    {
+      "name": "direct routes remain exact and actual blocked start/goal reject",
+      "passed": true
+    },
+    {
+      "name": "normal sit request enters walk then completes while seat remains occupied",
+      "passed": true
+    },
+    {
+      "name": "genuinely unreachable sit fails immediately, releases lease and permits a new request",
+      "passed": true
+    },
+    {
+      "name": "direct and deferred sit path failures both release reservations",
+      "passed": true
+    },
+    {
+      "name": "another owner seat reservation stays intact on rejection",
+      "passed": true
+    }
+  ],
+  "CPUOnly": true,
+  "actualBrowserRun": false,
+  "limit": "Actual functions/class lifecycle with real Three geometry and pure task/lease modules. Physical gait and sitting remain root browser verification."
+}

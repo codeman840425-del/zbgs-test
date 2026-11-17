@@ -1,0 +1,81 @@
+{
+  "schema": "native-vroid-extraction-input-v1",
+  "status": "cpu-preflight-only-no-extraction",
+  "source": {
+    "path": "assets-source/vroid-bridge-study-v1/generated/male-native-base-216.vrm",
+    "sha256": "a18a2d1138dbae7709b3fed3711a37b5b67888552655afe8a3dfd1398ffa58da"
+  },
+  "editableSource": {
+    "path": "assets-source/vroid-bridge-study-v1/generated/male-native-base-216.vroid",
+    "sha256": "c936b24182e8bb9951f94fd0aec91db1995eb73938ff496a0614fccadd3e0e6a"
+  },
+  "avatarSha256": "a18a2d1138dbae7709b3fed3711a37b5b67888552655afe8a3dfd1398ffa58da",
+  "extractionMethod": "Exact original primitive/buffer extraction; retain original node and joint ordering",
+  "items": [
+    {
+      "id": "native-vroid-a18a-top-v1",
+      "slot": "top",
+      "node": 80,
+      "mesh": 1,
+      "primitive": 3,
+      "skin": 1,
+      "materialName": "N00_004_01_Tops_01_CLOTH (Instance)",
+      "materialIndex": 11,
+      "attributes": {
+        "POSITION": 127,
+        "NORMAL": 128,
+        "TEXCOORD_0": 129,
+        "JOINTS_0": 131,
+        "WEIGHTS_0": 130
+      },
+      "indexAccessor": 135,
+      "inverseBindAccessor": 138
+    },
+    {
+      "id": "native-vroid-a18a-shorts-v1",
+      "slot": "bottom",
+      "node": 80,
+      "mesh": 1,
+      "primitive": 1,
+      "skin": 1,
+      "materialName": "N00_001_01_Bottoms_01_CLOTH (Instance)",
+      "materialIndex": 9,
+      "attributes": {
+        "POSITION": 127,
+        "NORMAL": 128,
+        "TEXCOORD_0": 129,
+        "JOINTS_0": 131,
+        "WEIGHTS_0": 130
+      },
+      "indexAccessor": 133,
+      "inverseBindAccessor": 138
+    },
+    {
+      "id": "native-vroid-a18a-shoes-v1",
+      "slot": "shoes",
+      "node": 80,
+      "mesh": 1,
+      "primitive": 2,
+      "skin": 1,
+      "materialName": "N00_004_01_Shoes_01_CLOTH (Instance)",
+      "materialIndex": 10,
+      "attributes": {
+        "POSITION": 127,
+        "NORMAL": 128,
+        "TEXCOORD_0": 129,
+        "JOINTS_0": 131,
+        "WEIGHTS_0": 130
+      },
+      "indexAccessor": 134,
+      "inverseBindAccessor": 138
+    }
+  ],
+  "requirements": [
+    "Resolve source selections by unique exact material and verify pinned node/mesh/primitive",
+    "Fresh bindings must use this male skin IBM and exact names; preserve userData.name aliases",
+    "Keep MToon surface and outline and initialize each new material update(0)",
+    "Future output preflight must verify all planned destinations before writes"
+  ],
+  "equipmentGenerated": false,
+  "createEquipmentLoaded": false
+}

@@ -1,0 +1,1 @@
+原脚本把replaceState产生的framenavigated当新页面，导致误报2次刷新。未改生产代码。v2改用document导航请求+window唯一标识，实际各切换0次文档加载且标识不变；原失败快照保留。

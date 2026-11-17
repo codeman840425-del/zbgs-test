@@ -1,0 +1,2975 @@
+{
+  "schema": "native-seat-curve-independent-review-v1",
+  "status": "reproduced-navigation-livelock",
+  "inputs": {
+    "prototype/src/main.js": {
+      "sha256": "57929faca7e6b371bfaa4954e820966dc9d6e41f563689de81a1394fe6a579b2",
+      "bytes": 105763
+    },
+    "scripts/qa-native-seat-curve-recovery.mjs": {
+      "sha256": "1dca13ca8268fdbab08d22711698bf3761826e625b25737b98a5b0ef6d24bd07",
+      "bytes": 9347
+    },
+    "prototype/src/behavior-tasks.js": {
+      "sha256": "48bea3db65a6e78bb5444916d004c188eac1c26e7928d58c337addf7512f53a8",
+      "bytes": 5798
+    },
+    "prototype/src/seat-lease.js": {
+      "sha256": "7bfde9e1db1631d4f387347c986cd367c22280cf74245bf2416e1da6690c6048",
+      "bytes": 3897
+    },
+    "prototype/src/turn-policy.js": {
+      "sha256": "e4fb53de78708e537a0981ad44cc6c02ace2b744d974a91c010b7878f5ef10b1",
+      "bytes": 5444
+    },
+    "evidence/native-seat-curve-recovery-v1/result.json": {
+      "sha256": "f178fb6609d56015ec452f40a5c11db2b74b29e0385e493e8da2c17ca39d18d0",
+      "bytes": 10504
+    }
+  },
+  "baselineSHA": "489d3fd11714ffea0b98b267f3d92f31f1bcb22061c928cd5c19bcd56052e073",
+  "direct": {
+    "start": [
+      -0.07000100000000006,
+      -1.6
+    ],
+    "goal": [
+      -0.12000000000000006,
+      -0.6
+    ],
+    "desk": {
+      "name": "desk",
+      "x": 1.15,
+      "z": -1.95,
+      "hw": 1.22,
+      "hd": 0.72
+    },
+    "recoveries": 1200,
+    "events": [
+      {
+        "t": 0.008333333333333333,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0.8474999999999999,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "afterWalk": null
+      },
+      {
+        "t": 0.016666666666666666,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0.0125,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "afterWalk": null
+      },
+      {
+        "t": 0.025,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0.0125,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "afterWalk": null
+      },
+      {
+        "t": 0.03333333333333333,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0.0125,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "afterWalk": null
+      },
+      {
+        "t": 0.041666666666666664,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0.0125,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "afterWalk": null
+      },
+      {
+        "t": 0.049999999999999996,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0.0125,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "afterWalk": null
+      }
+    ],
+    "samples": [
+      {
+        "t": 0.008333333333333333,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": null
+      },
+      {
+        "t": 0.9999999999999989,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": null
+      },
+      {
+        "t": 1.9999999999999953,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": null
+      },
+      {
+        "t": 2.999999999999992,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": null
+      },
+      {
+        "t": 3.9999999999999885,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": null
+      },
+      {
+        "t": 5.000000000000038,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": null
+      },
+      {
+        "t": 6.000000000000088,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": null
+      },
+      {
+        "t": 7.000000000000138,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": null
+      },
+      {
+        "t": 8.000000000000187,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": null
+      },
+      {
+        "t": 9.00000000000013,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": null
+      },
+      {
+        "t": 10.000000000000073,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": null
+      }
+    ],
+    "final": {
+      "mode": "walk",
+      "target": [
+        -0.12000000000000006,
+        -0.6
+      ],
+      "position": [
+        -0.07000100000000006,
+        0,
+        -1.6
+      ],
+      "yaw": 0.09740113192806199,
+      "task": null
+    }
+  },
+  "task": {
+    "start": [
+      -0.07000100000000006,
+      -1.6
+    ],
+    "goal": [
+      -0.12000000000000006,
+      -0.6
+    ],
+    "desk": {
+      "name": "desk",
+      "x": 1.15,
+      "z": -1.95,
+      "hw": 1.22,
+      "hd": 0.72
+    },
+    "recoveries": 7201,
+    "events": [
+      {
+        "t": 0.008333333333333333,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0.8474999999999999,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "afterWalk": null
+      },
+      {
+        "t": 0.016666666666666666,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0.0125,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "afterWalk": null
+      },
+      {
+        "t": 0.025,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0.0125,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "afterWalk": null
+      },
+      {
+        "t": 0.03333333333333333,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0.0125,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "afterWalk": null
+      },
+      {
+        "t": 0.041666666666666664,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0.0125,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "afterWalk": null
+      },
+      {
+        "t": 0.049999999999999996,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0.0125,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "afterWalk": null
+      }
+    ],
+    "samples": [
+      {
+        "t": 0.008333333333333333,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 0.9999999999999989,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 1.9999999999999953,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 2.999999999999992,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 3.9999999999999885,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 5.000000000000038,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 6.000000000000088,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 7.000000000000138,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 8.000000000000187,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 9.00000000000013,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 10.000000000000073,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 11.000000000000016,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 11.99999999999996,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 12.999999999999902,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 13.999999999999845,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 14.999999999999789,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 15.999999999999732,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 16.999999999999677,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 17.99999999999962,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 18.999999999999563,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 19.999999999999506,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 20.99999999999945,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 21.999999999999392,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 22.999999999999336,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 23.99999999999928,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 24.999999999999222,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 25.999999999999165,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 26.99999999999911,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 27.99999999999905,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 28.999999999998995,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 29.999999999998938,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 30.99999999999888,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 31.999999999998824,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 32.99999999999877,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 33.999999999998714,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 34.99999999999866,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 35.9999999999986,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 36.99999999999854,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 37.99999999999849,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 38.99999999999843,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 39.99999999999837,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 40.999999999998316,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 41.99999999999826,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 42.9999999999982,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 43.999999999998145,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 44.99999999999809,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 45.99999999999803,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 46.999999999997975,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 47.99999999999792,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 48.99999999999786,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 49.999999999997804,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 50.99999999999775,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 51.99999999999769,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 52.999999999997634,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 53.99999999999758,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 54.99999999999752,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 55.99999999999746,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 56.99999999999741,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 57.99999999999735,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 58.99999999999729,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 59.999999999997236,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 60.99999999999718,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "failed",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": 60.00833333333057,
+          "deadline": 60,
+          "reason": "timeout",
+          "result": null
+        }
+      }
+    ],
+    "final": {
+      "mode": "idle",
+      "target": null,
+      "position": [
+        -0.07000100000000006,
+        0,
+        -1.6
+      ],
+      "yaw": 0.09740113192806199,
+      "task": {
+        "requestId": "shallow-wall-walk",
+        "ownerId": "cpu-seat-owner",
+        "kind": "walk",
+        "payload": {
+          "x": -0.12000000000000006,
+          "z": -0.6
+        },
+        "admission": "accepted",
+        "state": "failed",
+        "requestedAt": 0,
+        "startedAt": 0,
+        "endedAt": 60.00833333333057,
+        "deadline": 60,
+        "reason": "timeout",
+        "result": null
+      }
+    }
+  },
+  "cancel": {
+    "start": [
+      -0.07000100000000006,
+      -1.6
+    ],
+    "goal": [
+      -0.12000000000000006,
+      -0.6
+    ],
+    "desk": {
+      "name": "desk",
+      "x": 1.15,
+      "z": -1.95,
+      "hw": 1.22,
+      "hd": 0.72
+    },
+    "recoveries": 240,
+    "events": [
+      {
+        "t": 0.008333333333333333,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0.8474999999999999,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "afterWalk": null
+      },
+      {
+        "t": 0.016666666666666666,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0.0125,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "afterWalk": null
+      },
+      {
+        "t": 0.025,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0.0125,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "afterWalk": null
+      },
+      {
+        "t": 0.03333333333333333,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0.0125,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "afterWalk": null
+      },
+      {
+        "t": 0.041666666666666664,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0.0125,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "afterWalk": null
+      },
+      {
+        "t": 0.049999999999999996,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0.0125,
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "afterWalk": null
+      }
+    ],
+    "samples": [
+      {
+        "t": 0.008333333333333333,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 0.9999999999999989,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      },
+      {
+        "t": 1.9999999999999953,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "walk",
+        "pathTurn": "recover",
+        "target": [
+          -0.12000000000000006,
+          -0.6
+        ],
+        "task": {
+          "requestId": "shallow-wall-walk",
+          "ownerId": "cpu-seat-owner",
+          "kind": "walk",
+          "payload": {
+            "x": -0.12000000000000006,
+            "z": -0.6
+          },
+          "admission": "accepted",
+          "state": "running",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": null,
+          "deadline": 60,
+          "reason": null,
+          "result": null
+        }
+      }
+    ],
+    "final": {
+      "mode": "walk",
+      "target": [
+        -0.12000000000000006,
+        -0.6
+      ],
+      "position": [
+        -0.07000100000000006,
+        0,
+        -1.6
+      ],
+      "yaw": 0.09740113192806199,
+      "task": {
+        "requestId": "shallow-wall-walk",
+        "ownerId": "cpu-seat-owner",
+        "kind": "walk",
+        "payload": {
+          "x": -0.12000000000000006,
+          "z": -0.6
+        },
+        "admission": "accepted",
+        "state": "running",
+        "requestedAt": 0,
+        "startedAt": 0,
+        "endedAt": null,
+        "deadline": 60,
+        "reason": null,
+        "result": null
+      }
+    },
+    "afterCancel": {
+      "target": null,
+      "mode": "idle",
+      "task": {
+        "requestId": "shallow-wall-walk",
+        "ownerId": "cpu-seat-owner",
+        "kind": "walk",
+        "payload": {
+          "x": -0.12000000000000006,
+          "z": -0.6
+        },
+        "admission": "accepted",
+        "state": "cancelled",
+        "requestedAt": 0,
+        "startedAt": 0,
+        "endedAt": 1.9999999999999953,
+        "deadline": 60,
+        "reason": "superseded",
+        "result": null
+      }
+    }
+  },
+  "before": {
+    "start": [
+      -0.07000100000000006,
+      -1.6
+    ],
+    "goal": [
+      -0.12000000000000006,
+      -0.6
+    ],
+    "desk": {
+      "name": "desk",
+      "x": 1.15,
+      "z": -1.95,
+      "hw": 1.22,
+      "hd": 0.72
+    },
+    "recoveries": 0,
+    "events": [],
+    "samples": [
+      {
+        "t": 0.008333333333333333,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": null
+      },
+      {
+        "t": 0.9999999999999989,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": null
+      },
+      {
+        "t": 1.9999999999999953,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": null
+      },
+      {
+        "t": 2.999999999999992,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": null
+      },
+      {
+        "t": 3.9999999999999885,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": null
+      },
+      {
+        "t": 5.000000000000038,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": null
+      },
+      {
+        "t": 6.000000000000088,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": null
+      },
+      {
+        "t": 7.000000000000138,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": null
+      },
+      {
+        "t": 8.000000000000187,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": null
+      },
+      {
+        "t": 9.00000000000013,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": null
+      },
+      {
+        "t": 10.000000000000073,
+        "position": [
+          -0.07000100000000006,
+          0,
+          -1.6
+        ],
+        "yaw": 0.09740113192806199,
+        "speed": 0,
+        "mode": "idle",
+        "pathTurn": null,
+        "target": null,
+        "task": null
+      }
+    ],
+    "final": {
+      "mode": "idle",
+      "target": null,
+      "position": [
+        -0.07000100000000006,
+        0,
+        -1.6
+      ],
+      "yaw": 0.09740113192806199,
+      "task": null
+    }
+  },
+  "limitation": "Real main.js controller/navigation/tasks execute, but motion pose is author CPU fixture. No GPU, skin, foot or visual claim."
+}

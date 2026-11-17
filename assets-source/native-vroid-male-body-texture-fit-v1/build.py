@@ -1,0 +1,62 @@
+"""Male exact native two-state Body PNG data; no runtime or raster edits."""
+from pathlib import Path
+import argparse,hashlib,importlib.util,io,json,sys
+sys.dont_write_bytecode=True
+import numpy as np
+from PIL import Image
+ROOT=Path(__file__).resolve().parents[2]
+BASE=Path(__file__).resolve().parent
+sha=lambda b:hashlib.sha256(b).hexdigest()
+encoded=lambda x:(json.dumps(x,ensure_ascii=False,indent=2,allow_nan=False)+'\n').encode()
+
+def plan():
+    sp=importlib.util.spec_from_file_location('original_glb',ROOT/'scripts/m2-male-face-v1/glb.py')
+    reader=importlib.util.module_from_spec(sp);sp.loader.exec_module(reader)
+    source_path=ROOT/'assets-source/vroid-bridge-study-v1/generated/male-native-base-216.vrm'
+    target_path=ROOT/'assets-source/native-vroid-male-unmasked-base-v1/generated/male-native-unmasked-79-v1.vrm'
+    source_pin='a18a2d1138dbae7709b3fed3711a37b5b67888552655afe8a3dfd1398ffa58da'
+    target_pin='7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81'
+    assert sha(source_path.read_bytes())==source_pin and sha(target_path.read_bytes())==target_pin
+    def read_png(path):
+        g=reader.GLB(path)
+        matches=[(i,m) for i,m in enumerate(g.doc['materials']) if '_Body_' in m['name'] and '_SKIN' in m['name']]
+        assert len(matches)==1
+        mi,m=matches[0];t=m['pbrMetallicRoughness']['baseColorTexture'];s=m['extensions']['VRMC_materials_mtoon']['shadeMultiplyTexture']
+        # glTF omits default texCoord=0 in shade; compare its actual semantics.
+        assert t['index']==s['index'] and t.get('texCoord',0)==s.get('texCoord',0) and t.get('extensions',{})==s.get('extensions',{})
+        image=g.doc['images'][g.doc['textures'][t['index']]['source']]
+        view=g.doc['bufferViews'][image['bufferView']]
+        raw=g.bin[view.get('byteOffset',0):view.get('byteOffset',0)+view['byteLength']]
+        return raw,np.array(Image.open(io.BytesIO(raw)).convert('RGBA')),m['name']
+    masked,pixels,name=read_png(source_path);full,base,other=read_png(target_path)
+    assert name==other and pixels.shape==base.shape==(2048,2048,4)
+    assert np.array_equal(pixels[:,:,:3],base[:,:,:3]) and (base[:,:,3]==255).all()
+    assert sha(masked)=='15ab2ecee54e10bfdb84a38be10e41fa7c7658e9a9f77b8293c2fd27569d7136'
+    assert sha(full)=='cfd1860d2d6c04e33b5636c029dac535a69e35eacf30f6f4d66729a4fc2e1368'
+    equipment_path=ROOT/'assets-source/native-vroid-male-equipment-v1/generated/equipment.json'
+    expected='e412188206670c9bf84b7f2019aab8a60778a2d0f6ac29df9d92091fd18d80a8'
+    assert sha(equipment_path.read_bytes())==expected
+    items=json.loads(equipment_path.read_bytes())['items']
+    rules=[dict(id=e['id'],sha256=e['sha256'],slot=e['slot'],covered=e['slot']=='top',required=True) for e in items]
+    manifest=dict(schema='native-body-texture-coverage-v1',avatarSha256=target_pin,materialName=name,width=2048,height=2048,alphaTest=.5,
+        basePngSha256=sha(full),covered=dict(url='native-tops-body.png',sha256=sha(masked)),rgbPreserved=True,equipment=rules,
+        source=dict(path=source_path.relative_to(ROOT).as_posix(),sha256=source_pin),
+        sourceEquipmentManifest=dict(path=equipment_path.relative_to(ROOT).as_posix(),sha256=expected),
+        scope='Exact original male Top native mask for this three-piece set; no arbitrary coverage combinations, controller or fit authority')
+    pixels_report=dict(schema='male-native-body-two-state-pixel-readback-v1',targetAvatarSha256=target_pin,
+        originalNativePNGsha256=sha(masked),fullNativePNGsha256=sha(full),all4194304RGBTexelsExact=True,
+        baseAlphaAll255=True,maskedAlphaZero=int((pixels[:,:,3]==0).sum()),maskedAlphaPartial=int(((pixels[:,:,3]>0)&(pixels[:,:,3]<255)).sum()),
+        restorationMethod='Use exact full base when top absent, original native masked PNG only when approved exact top present',
+        bodyGeometryChanged=False,triangleMaskGenerated=False,visualOrRuntimeAccepted=False)
+    return {'native-tops-body.png':masked,'manifest.json':encoded(manifest),'pixel-readback.json':encoded(pixels_report)}
+
+def main():
+    p=argparse.ArgumentParser();p.add_argument('--out',type=Path,default=BASE/'generated');args=p.parse_args()
+    files=plan();assert files==plan()
+    assert not args.out.exists(),'Fresh output directory required'
+    args.out.mkdir(parents=True)
+    for name,raw in files.items():
+        with (args.out/name).open('xb') as f:f.write(raw)
+    print(json.dumps({n:{'sha256':sha(b),'bytes':len(b)} for n,b in files.items()}))
+
+if __name__=='__main__':main()

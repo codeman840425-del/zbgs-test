@@ -1,0 +1,15 @@
+原生843ac默认配方独审
+
+发现一个真实保存阻断，root已定点修复。旧export使用JSON.stringify(record,null,2)，实际native3资源、每件130bind的完整v8记录为267340字节，超过原262144字节门。即使只看equipment.resources也已超过门。pretty-native-recipe-failure.json保存实际record经旧序列化/原parser的拒绝，不给失败换标签。
+
+root改为紧凑序列化后，实际exportAppearanceRecipe生成136659字节。原parser/256KiB门保持，完整record按JSON值深等，资源3件各130binding均保留，没有undefined或非finite字段被静默丢弃。原内存有165个IEEE -0，标准JSON会写0，旧pretty也同；首次strict JS对象断言因此失败，probe-source-before-json-equality.mjs保留。此符号规范化没有改GLB/IBM，运行时资源身份检查本来就使用JSON.stringify。
+
+paletteVersion仍是fallback appearance-color-v3，它表示当前配方协议/清单版本，不表示843ac已获得瞳唇遮罩适配。所有配色original、表层为空时，facialPalette.prepareUpdate不加载该清单；实际import两次没有palette/surface/五官或附件资源fetch。neutral geometry/reset可用，ear/hat none的resource为null，不需要它们的非空fit。因此原色、中性、无附件默认记录可保存与恢复，不需要虚构palette新body variant。
+
+实际捕获base.bodyType为native-female-843ac-v1，SHA为843ac。assetId native-vroid-unmasked-female-130-v1与bodyType是不同字段，不能混填。equipment index0/role shorts和resources top/shorts/shoes被原验证器保真消费，没有硬写pants。profile的bottomRole/roles仍通过既有outfitSelection约束。
+
+CPU使用实际843ac官方VRM loader、appearance/facialGeometry/ear/hat、原capture/export/parser/validate/import和真实equipment adapter加载/commit。controller的prepare桥接只接真实adapter事务，不含M1 Body texture coverage、Phaser、UI或动作，因此不声称完整factory/cold-page恢复通过。二次同实例import成功且完整capture与原内存record相同。
+
+5个负例分别改Top SHA、IBM值、把assetId当bodyType、paletteVersion及服装role，均拒绝，当前完整导出保持不变。没有弱化身份或删除binding。当前被测为真实index0三件组合，没有伪造未来custom-short profile。新合并catalog的实际custom角色与冷开仍由root当前房间链验证。
+
+结论为修后在此默认配方CPU范围内无剩余阻断。不是新颜色、五官、发型、附件或整套动作验收。源码及实际JSON见source-pins.json/cpu-report.json/native-original-recipe.json，未编辑生产代码或资产，未启动GPU。
