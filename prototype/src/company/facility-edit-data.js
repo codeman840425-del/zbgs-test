@@ -207,7 +207,7 @@ export function listPlacementTargets(document, catalog, resource, regionId, opti
   const region = regionFor(derived, regionId), floor = floorFor(derived, regionId);
   const result = [];
   if (selected.mount === 'parent-device-endpoints') result.push(...cableTargets(region,derived,selected));
-  else if (selected.mount === 'wall') result.push(...wallTargets(region, floor, selected));
+  else if (['wall','wall-opening'].includes(selected.mount)) result.push(...wallTargets(region, floor, selected));
   else if (selected.mount === 'portal') result.push(...portalTargets(region, floor, selected));
   else if (selected.mount === 'floor-surface') { const value = floorTarget(region, selected); if (value) result.push(value); }
   else if (selected.mount === 'ceiling') { const value = ceilingTarget(region, selected); if (value) result.push(value); }
@@ -254,7 +254,7 @@ export function getFacilityEditConstraints(node, resource) {
   const selected = resource || node?.resource || {};
   const mount = selected.mount;
   if (mount === 'parent-device-endpoints') return {lockedAxes:['x','y','z','yaw'],note:'连接线由设备接口确定位置；移动或复制请选所属桌子。'};
-  if (mount === 'wall') {
+  if (['wall','wall-opening'].includes(mount)) {
     const yaw = node?.transform?.yaw ?? 0;
     const horizontal = Math.abs(Math.sin(yaw)) < .5;
     return {lockedAxes: [horizontal ? 'z' : 'x', 'yaw'], note: '沿墙移动，法向坐标和朝向固定'};

@@ -30,6 +30,7 @@ export function describeFacilityFunction(resource) {
     ...(resource.supportMotion!==undefined?{supportMotion:normalized(resource.supportMotion)}:{}),
     ...(resource.movingProfile!==undefined?{movingProfile:resource.movingProfile}:{}),
     ...(resource.cablePorts!==undefined?{cablePorts:normalized(resource.cablePorts)}:{}),
+    ...(resource.windowSystem!==undefined?{windowSystem:normalized(resource.windowSystem)}:{}),
     ...(resource.cableConnection!==undefined?{cableConnection:normalized(resource.cableConnection)}:{}),
     capacity, clearance, clockDisplay:normalized(resource.clockDisplay??null),
     mirrorSurface:normalized(resource.mirrorSurface??null),

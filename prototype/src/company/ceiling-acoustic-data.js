@@ -26,7 +26,7 @@ export function validateCeilingAcousticResource(r,fail,path=r?.id){
 }
 export function envelopeInWorld(resource,world){
   const m=resource.mounting;if(!m)return null;
-  const wall=['wall','portal','information-surface'].includes(resource.mount);
+  const wall=['wall','wall-opening','portal','information-surface'].includes(resource.mount);
   const lo=m.origin==='top'?-m.height:wall&&m.origin==='center'?-m.height/2:0;
   const corners=[];
   for(const x of [-m.width/2,m.width/2])for(const z of wall?[0,m.depth]:[-m.depth/2,m.depth/2]){

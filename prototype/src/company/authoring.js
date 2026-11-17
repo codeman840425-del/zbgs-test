@@ -18,7 +18,7 @@ export async function createCompanyAuthoring(world,initialDocument,{catalog,temp
   function pendingResources() { return pendingPreloads.get(generation)||[]; }
   async function preload(document,view={},token=null,checkInstallation=true) {
     const derived=checkInstallation?deriveCompany(document,catalog,templates):null;
-    const ceilingFloors=new Set(derived?.facilities.filter(f=>['ceiling','parent-device-endpoints'].includes(f.resource.mount)).map(f=>f.floorId));
+    const ceilingFloors=new Set(derived?.facilities.filter(f=>['ceiling','parent-device-endpoints','wall-opening'].includes(f.resource.mount)).map(f=>f.floorId));
     const requested=[...resources(document,view),...(derived?.facilities.filter(f=>ceilingFloors.has(f.floorId)).map(f=>f.resource)||[])];
     if(token!==null)pendingPreloads.set(token,requested);
     inspectCompanyPlacement(document,catalog,templates); await assetLibrary?.preload(requested);

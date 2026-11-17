@@ -1,3 +1,4 @@
+import {createWindowSample} from './window-samples.js';
 import {createCompany,prepareCompanyChange,identityTransform} from './document.js';
 import {createSupportSample} from './support-samples.js';
 import {createHingedSample} from './hinged-samples.js';
@@ -19,6 +20,7 @@ import {createCeilingAcousticSample} from './ceiling-acoustic-samples.js';
 import {createWallShelfSample} from './wall-shelf-samples.js';
 import {createCableSample} from './cable-samples.js';
 export const appearanceBranches=[
+ ['window-opening-and-glass','窗体与真实洞口'],
  ['cable-route','设备连接线'],
  ['ceiling-acoustic-baffle','顶部吸声构件'],
  ['wall-shelf','墙装多层壁架'],
@@ -53,6 +55,7 @@ export function appearanceCandidates(catalog,branch) {
  return selected.filter(Boolean).map(r=>({...r,displayName:r.displayName||names[r.id]||r.id}));
 }
 export function createAppearanceSample(branch,index,catalog,templates,options={}) {
+ if(branch==='window-opening-and-glass')return createWindowSample(catalog,templates,{index,alternate:Boolean(options.alternate)});
  if(branch==='cable-route')return createCableSample(catalog,templates,{index,alternate:Boolean(options.alternate)});
  if(branch==='ceiling-acoustic-baffle')return createCeilingAcousticSample(catalog,templates,{index,alternate:Boolean(options.alternate)});
  if(branch==='wall-shelf')return createWallShelfSample(catalog,templates,{index,alternate:Boolean(options.alternate)});

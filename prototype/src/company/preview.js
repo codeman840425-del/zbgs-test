@@ -1,3 +1,4 @@
+import {createWindowSample} from './window-samples.js';
 import {createFacilityEditor} from './facility-editor.js';
 import * as THREE from 'three';
 import Phaser from 'phaser';
@@ -88,9 +89,9 @@ const sun=new THREE.DirectionalLight(0xfff0d6,2.3);sun.position.set(-3,8,5);sun.
 Object.assign(sun.shadow.camera,{left:-8,right:8,top:8,bottom:-8});sun.shadow.normalBias=.015;world.add(sun);
 const camera=new THREE.PerspectiveCamera(38,1,.05,300),orbit=new OrbitControls(camera,renderer.domElement);
 orbit.enableDamping=false;orbit.maxPolarAngle=Math.PI*.48;orbit.minDistance=2;orbit.maxDistance=160;
-const layouts={cables:createCableSample(catalog,templates).document,cableAlternate:createCableSample(catalog,templates,{alternate:true}).document,ceilingAcoustic:createCeilingAcousticSample(catalog,templates).document,ceilingAcousticAlternate:createCeilingAcousticSample(catalog,templates,{alternate:true}).document,wallShelves:createWallShelfSample(catalog,templates).document,wallShelfAlternate:createWallShelfSample(catalog,templates,{alternate:true}).document,sideTableLifeItems:createSideTableLifeItemsSample(catalog,templates).document,sideTableLifeItemsAlternate:createSideTableLifeItemsSample(catalog,templates,{alternate:true}).document,sideTables:createSideTableSample(catalog,templates).document,sideTableAlternate:createSideTableSample(catalog,templates,{alternate:true}).document,makeupWallMirrors:createMakeupWallMirrorSample(catalog,templates).document,makeupWallMirrorAlternate:createMakeupWallMirrorSample(catalog,templates,{alternate:true}).document,makeupDrawer:createMakeupDrawerSample(catalog,templates).document,makeupDrawerAlternate:createMakeupDrawerSample(catalog,templates,{alternate:true}).document,makeupStorage:createMakeupStorageSample(catalog,templates).document,makeupStorageAlternate:createMakeupStorageSample(catalog,templates,{alternate:true}).document,makeupMirrors:createMakeupMirrorSample(catalog,templates).document,makeupMirrorAlternate:createMakeupMirrorSample(catalog,templates,{alternate:true}).document,vanities:createVanitySample(catalog,templates).document,vanityAlternate:createVanitySample(catalog,templates,{alternate:true}).document,floorMirrors:createFloorMirrorSample(catalog,templates).document,floorMirrorAlternate:createFloorMirrorSample(catalog,templates,{alternate:true}).document,mirrors:createMirrorSample(catalog,templates).document,mirrorAlternate:createMirrorSample(catalog,templates,{alternate:true}).document,floorInformation:createFloorInformationSample(catalog,templates).document,floorInformationAlternate:createFloorInformationSample(catalog,templates,{alternate:true}).document,information:createInformationSample(catalog,templates).document,informationAlternate:createInformationSample(catalog,templates,{alternate:true}).document,supportedClocks:createSupportedClockSample(catalog,templates).document,supportedClockAlternate:createSupportedClockSample(catalog,templates,{alternate:true}).document,clocks:createClockSample(catalog,templates).document,clockAlternate:createClockSample(catalog,templates,{alternate:true}).document,sliding:createSlidingSample(catalog,templates).document,slidingAlternate:createSlidingSample(catalog,templates,{alternate:true}).document,hinged:createHingedSample(catalog,templates).document,hingedAlternate:createHingedSample(catalog,templates,{alternate:true}).document,...scaleV2Examples,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome,ceilings:ceilingCompany,ceilingHome,
+const layouts={windows:createWindowSample(catalog,templates).document,windowAlternate:createWindowSample(catalog,templates,{alternate:true}).document,cables:createCableSample(catalog,templates).document,cableAlternate:createCableSample(catalog,templates,{alternate:true}).document,ceilingAcoustic:createCeilingAcousticSample(catalog,templates).document,ceilingAcousticAlternate:createCeilingAcousticSample(catalog,templates,{alternate:true}).document,wallShelves:createWallShelfSample(catalog,templates).document,wallShelfAlternate:createWallShelfSample(catalog,templates,{alternate:true}).document,sideTableLifeItems:createSideTableLifeItemsSample(catalog,templates).document,sideTableLifeItemsAlternate:createSideTableLifeItemsSample(catalog,templates,{alternate:true}).document,sideTables:createSideTableSample(catalog,templates).document,sideTableAlternate:createSideTableSample(catalog,templates,{alternate:true}).document,makeupWallMirrors:createMakeupWallMirrorSample(catalog,templates).document,makeupWallMirrorAlternate:createMakeupWallMirrorSample(catalog,templates,{alternate:true}).document,makeupDrawer:createMakeupDrawerSample(catalog,templates).document,makeupDrawerAlternate:createMakeupDrawerSample(catalog,templates,{alternate:true}).document,makeupStorage:createMakeupStorageSample(catalog,templates).document,makeupStorageAlternate:createMakeupStorageSample(catalog,templates,{alternate:true}).document,makeupMirrors:createMakeupMirrorSample(catalog,templates).document,makeupMirrorAlternate:createMakeupMirrorSample(catalog,templates,{alternate:true}).document,vanities:createVanitySample(catalog,templates).document,vanityAlternate:createVanitySample(catalog,templates,{alternate:true}).document,floorMirrors:createFloorMirrorSample(catalog,templates).document,floorMirrorAlternate:createFloorMirrorSample(catalog,templates,{alternate:true}).document,mirrors:createMirrorSample(catalog,templates).document,mirrorAlternate:createMirrorSample(catalog,templates,{alternate:true}).document,floorInformation:createFloorInformationSample(catalog,templates).document,floorInformationAlternate:createFloorInformationSample(catalog,templates,{alternate:true}).document,information:createInformationSample(catalog,templates).document,informationAlternate:createInformationSample(catalog,templates,{alternate:true}).document,supportedClocks:createSupportedClockSample(catalog,templates).document,supportedClockAlternate:createSupportedClockSample(catalog,templates,{alternate:true}).document,clocks:createClockSample(catalog,templates).document,clockAlternate:createClockSample(catalog,templates,{alternate:true}).document,sliding:createSlidingSample(catalog,templates).document,slidingAlternate:createSlidingSample(catalog,templates,{alternate:true}).document,hinged:createHingedSample(catalog,templates).document,hingedAlternate:createHingedSample(catalog,templates,{alternate:true}).document,...scaleV2Examples,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome,ceilings:ceilingCompany,ceilingHome,
   supports:createSupportSample(catalog,templates).document,supportAlternate:createSupportSample(catalog,templates,{alternate:true}).document},assetLibrary=createCompanyAssetLibrary();let session,activeView='room',busy=false,game;
-let regionLabels=[],previewClockOverride=null,facilityEditor;
+let regionLabels=[],previewClockOverride=null,facilityEditor,sampleSelectionDocument=null;
 const savedDocuments=new Map();
 function syncSaveState(){if(!session)return;const saved=savedDocuments.get(session.document.id),same=saved===JSON.stringify(session.document);element('save-state').textContent=same?'已保存':saved?'有未保存修改':'本次未保存';element('save-state').dataset.dirty=String(!same);}
 function setPreviewClock(seconds){if(seconds!==null)validatePresentationInputs({clockSeconds:seconds});previewClockOverride=seconds;if(seconds!==null)session.scene.setPresentationInputs({clockSeconds:seconds});return seconds;}
@@ -104,6 +105,7 @@ const buildingView=createBuildingView(element('building-stage'),{
 });
 function status(text,error=false){element('status').textContent=text;element('status').dataset.error=String(error);}
 function setView(name){
+  facilityEditor?.cancel();
   activeView=name;orbit.maxPolarAngle=name==='ceiling'?Math.PI*.96:Math.PI*.48;
   const doc=session.document,derived=deriveCompany(doc,catalog,templates),view=session.scene.view;
   orbit.enableRotate=view.mode==='room';orbit.enablePan=view.mode==='room';orbit.enableZoom=view.mode==='room';
@@ -213,7 +215,7 @@ async function changeFinish(type){
 }
 async function showAppearanceSample(branch,index){
   facilityEditor?.beforeSample();
-  const sample=createAppearanceSample(branch,index,catalog,templates,{alternate:(branch==='cable-route'&&session?.document?.id==='cable-alternate')||(branch==='ceiling-acoustic-baffle'&&session?.document?.id==='ceiling-acoustic-alternate')||(branch==='side-table-life-items'&&session?.document?.id==='side-table-life-items-alternate')||(branch==='wall-shelf'&&session?.document?.id==='wall-shelf-alternate')});
+  const sample=createAppearanceSample(branch,index,catalog,templates,{alternate:(branch==='window-opening-and-glass'&&session?.document?.id==='window-opening-alternate')||(branch==='cable-route'&&session?.document?.id==='cable-alternate')||(branch==='ceiling-acoustic-baffle'&&session?.document?.id==='ceiling-acoustic-alternate')||(branch==='side-table-life-items'&&session?.document?.id==='side-table-life-items-alternate')||(branch==='wall-shelf'&&session?.document?.id==='wall-shelf-alternate')});
   const savedSample=facilityEditor?.getDraft(sample.document.id),sameSample=session.document.id===sample.document.id;
   if(sameSample||savedSample){
     const replacements=sample.document.nodes.filter(n=>n.resource&&(!['cable-route','ceiling-acoustic-baffle','wall-shelf','side-table-life-items','side-table','makeup-mirror','makeup-mirror-wall','makeup-storage','makeup-storage-drawer'].includes(branch)||catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.mountRole===branch)&&(!['information-board','information-board-floor'].includes(branch)||catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.informationSurface)).map(n=>({type:'replace-resource',id:n.id,resource:n.resource}));
@@ -252,6 +254,7 @@ function updateRegionLabels(){
   }
 }
 async function showSpace(mode,floorId=element('floor').value,roomId=element('room').value,presentation='exterior'){
+  facilityEditor?.cancel();
   await session.setView({mode,floorId,roomId:mode==='room'?roomId:null});if(mode==='building')buildingPresentation=presentation;sync();resize();setView(mode==='building'?'building':mode==='floor'&&['leased-floor','building'].includes(session.document.scale)?'top':'room');
 }
 async function defaultSpace(){const doc=session.document,rooms=doc.nodes.filter(n=>['room','area'].includes(n.kind));await showSpace(doc.scale==='building'?'building':rooms.length===1?'room':'floor',session.scene.view.floorId,rooms[0]?.id);}
@@ -327,6 +330,13 @@ function sync(){
     regionLabels.push({label,position,name:label.textContent,shortName});
   }
   updateRegionLabels();facilityEditor?.sync();syncSaveState();
+  if(facilityEditor?.mode==='sample'&&sampleSelectionDocument!==doc.id&&element('sample-branch').options.length){
+    const windowScene=[layouts.windows.id,layouts.windowAlternate.id].includes(doc.id);
+    const appearance=doc.id.startsWith('appearance-')?doc.id.slice('appearance-'.length):null;
+    const branch=windowScene?'window-opening-and-glass':appearance;
+    if(branch&&appearanceBranches.some(([key])=>key===branch)){element('sample-branch').value=branch;fillSampleLooks();}
+    sampleSelectionDocument=doc.id;
+  }
 }
 async function perform(label,action){
   if(busy)return;busy=true;document.querySelectorAll('button,select,input').forEach(e=>e.disabled=true);status(label);
@@ -348,7 +358,7 @@ async function start(){
     async apply(ops){const r=await session.apply(ops);sync();return r;},
     async load(doc){const r=await session.load(doc);await defaultSpace();return r;},
     snapshot:()=>session.snapshot(),save:saveCurrent,restore:async()=>{const r=await session.restore();savedDocuments.set(session.document.id,JSON.stringify(session.document));await defaultSpace();return r;},export:()=>session.export()};
-  facilityEditor=createFacilityEditor({session,catalog,templates,world,camera,getCanvas:()=>renderer.domElement,perform,refresh:sync,isBusy:()=>busy,showSpace,defaultSpace,layouts,showSample:showAppearanceSample});
+  facilityEditor=createFacilityEditor({session,catalog,templates,world,camera,orbit,assetLibrary,getCanvas:()=>renderer.domElement,perform,refresh:sync,isBusy:()=>busy,showSpace,defaultSpace,layouts,showSample:showAppearanceSample});
   window.company.editor=facilityEditor;
   element('edit-focus').onclick=()=>{const object=facilityEditor.focus();if(!object)return;const box=new THREE.Box3().setFromObject(object),center=box.getCenter(new THREE.Vector3());orbit.minDistance=.25;orbit.target.copy(center);camera.position.copy(center).addScaledVector(new THREE.Vector3(.6,.7,1).normalize().applyQuaternion(object.getWorldQuaternion(new THREE.Quaternion())),Math.max(.5,box.getSize(new THREE.Vector3()).length()*1.6));orbit.update();updateWallView();};
   game=new Phaser.Game({type:Phaser.CANVAS,parent:'phaser-stage',width:1,height:1,transparent:true,audio:{noAudio:true},fps:{target:30},scene:CompanyPreview});
@@ -402,8 +412,17 @@ async function start(){
   element('import').onclick=()=>element('file').click();
   element('file').onchange=()=>{const file=element('file').files[0];if(file)perform('正在检查并加载文件…',async()=>{await session.import(await file.text());sync();await defaultSpace();});element('file').value='';};
   const raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2();let down;
-  renderer.domElement.addEventListener('pointerdown',event=>{down=[event.clientX,event.clientY];});
+  renderer.domElement.addEventListener('pointerdown',event=>{
+    if(event.button===2&&session.scene.view.mode==='room'){event.stopImmediatePropagation();return;}
+    down=[event.clientX,event.clientY];
+    if(event.button===0&&facilityEditor?.placement.active){event.stopImmediatePropagation();facilityEditor.placement.down(event);}
+  },true);
+  renderer.domElement.addEventListener('pointermove',event=>{if(facilityEditor?.placement.active)facilityEditor.placement.hover(event);});
+  renderer.domElement.addEventListener('pointercancel',()=>facilityEditor?.cancel());
+  renderer.domElement.addEventListener('contextmenu',event=>facilityEditor?.contextMenu(event));
   renderer.domElement.addEventListener('pointerup',event=>{
+    if(event.button!==0)return;
+    if(facilityEditor?.placement.active){facilityEditor.placement.up(event);return;}
     if(busy||!down||Math.hypot(event.clientX-down[0],event.clientY-down[1])>5)return;
     if(facilityEditor?.pointer(event))return;
     const rect=renderer.domElement.getBoundingClientRect();pointer.set((event.clientX-rect.left)/rect.width*2-1,-(event.clientY-rect.top)/rect.height*2+1);raycaster.setFromCamera(pointer,camera);

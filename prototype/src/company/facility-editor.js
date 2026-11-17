@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import {createPlacementInteraction} from './placement-interaction.js';
 import {deriveCompany,CompanyError} from './document.js';
 import {compareFacilityFunction} from './appearance-contract.js';
 import {appearanceBranches,appearanceCandidates} from './appearance-samples.js';
@@ -12,7 +13,7 @@ function options(select,rows,value){
   if(rows.some(r=>r.value===value))select.value=value;
 }
 
-export function createFacilityEditor({session,catalog,templates,world,camera,getCanvas,perform,refresh,isBusy,showSpace,defaultSpace,layouts,showSample}){
+export function createFacilityEditor({session,catalog,templates,world,camera,orbit,assetLibrary,getCanvas,perform,refresh,isBusy,showSpace,defaultSpace,layouts,showSample}){
   let selected='',armed=null,mode='room',disposed=false,tool='selection';
   const drafts={room:null,sample:null},documents=new Map(),allLayouts=[...el('layout').options].map(o=>({value:o.value,label:o.textContent,disabled:o.disabled}));
   const roomLayouts=new Set(['smallHome','studio','base','alternate','rental','flat','twoFloors','building']);
@@ -25,20 +26,48 @@ export function createFacilityEditor({session,catalog,templates,world,camera,get
   };
   const message=(text,error=false)=>{el('edit-message').textContent=text;el('edit-message').dataset.error=String(error);};
   const remember=()=>documents.set(session.document.id,structuredClone(session.document));
-  const execute=(label,fn)=>perform(label,async()=>{try{remember();await fn();message('已更新当前布置。保存后可关闭并继续。');}catch(e){message(explain(e),true);throw e;}});
+  const execute=(label,fn)=>{cancel();return perform(label,async()=>{try{remember();await fn();message('已更新当前布置。保存后可关闭并继续。');}catch(e){message(explain(e),true);throw e;}});};
   function explain(error){
-    const messages={'invalid-support-fit':'所选物品超出承载面的宽度、高度或深度。','overlapping-supported-props':'这个承载面上已有物品，位置发生重叠。','overlapping-facilities':'这里已有设施，请换一个位置。','blocked-use-point':'该位置挡住了设施的使用空间。','invalid-wall-fit':'物品必须贴合墙面，并避开边界。','wall-display-over-portal':'这里是门口，不能覆盖。','missing-placement-target':'当前房间没有合适的承载物，请先添加桌、柜架或信息板。','incompatible-appearance':'此造型的功能或安装规格不同，不能作为原位外观替换。','required-template-part':'这是工位的必要部件；可换外观，移除请选所属整体。','visual-outside-room':'物品超出房间边界，请放回房间内。','visual-surface-overhang':'物品超出了桌面，请调整位置。','invalid-edit-value':'请输入有效的位置数值。'};
+    const messages={'outside-room':'物品超出房间可用边界。','blocked-entry':'这里会堵住入口。','disconnected-entry':'入口与房间通路将不再连通。','blocked-portal':'这里会堵住门口。','disconnected-portal':'这里会隔断房间之间的通路。','outside-use-space':'设施使用点超出房间。','blocked-use-space':'这里会挡住使用或离开空间。','disconnected-use-space':'这里会使设施无法经通路接近。','no-placement-target':'当前房间没有适合该设施的安装位置，请查看添加面板中的安装要求。','overlapping-windows':'这里已有窗体，请移到另一段墙面。','wall-display-over-window':'墙饰不能覆盖真实窗洞。','invalid-window-sill':'请保留窗台高度，窗洞不能接地或越过墙顶。','window-obstructed':'窗体与家具相交，请调整摆放位置。','window-crosses-region-seam':'窗体必须完整位于相邻两侧的同一段墙内。','invalid-support-fit':'所选物品超出承载面的宽度、高度或深度。','overlapping-supported-props':'这个承载面上已有物品，位置发生重叠。','overlapping-facilities':'这里已有设施，请换一个位置。','blocked-use-point':'该位置挡住了设施的使用空间。','invalid-wall-fit':'物品必须贴合墙面，并避开边界。','wall-display-over-portal':'这里是门口，不能覆盖。','missing-placement-target':'当前房间没有合适的承载物，请先添加桌、柜架或信息板。','incompatible-appearance':'此造型的功能或安装规格不同，不能作为原位外观替换。','required-template-part':'这是工位的必要部件；可换外观，移除请选所属整体。','visual-outside-room':'物品超出房间边界，请放回房间内。','visual-surface-overhang':'物品超出了桌面，请调整位置。','invalid-edit-value':'请输入有效的位置数值。'};
     return `${messages[error.code]||'这个位置或操作不符合安装要求。'} 原布置已保留。`;
   }
   function select(id){if(selected!==id)el('placement-tools').open=false;selected=id;tool='selection';cancel();sync();}
-  function cancel(){armed=null;el('placement-banner').hidden=true;getCanvas().style.cursor='';}
-  function arm(action){armed=action;el('placement-instruction').textContent=action.kind==='add'?'点击所选区域放置设施；拖动仍可调整镜头。':action.kind==='copy'?'点击新位置放置副本；原物品保留。':'点击目标位置移动；拖动仍可调整镜头。';el('placement-banner').hidden=false;getCanvas().style.cursor='crosshair';}
+  const placement=createPlacementInteraction({session,catalog,templates,assetLibrary,world,camera,orbit,canvas:getCanvas(),explain,
+    onCancel:()=>{armed=null;},commit:operation=>execute('正在检查并放置…',async()=>{await session.apply([operation]);selected=operation.newId||operation.id;cancel();})});
+  const menu=document.createElement('div');menu.id='facility-context-menu';menu.className='facility-context-menu';menu.hidden=true;menu.setAttribute('role','menu');menu.setAttribute('aria-label','物品操作');document.body.append(menu);
+  function hideMenu(){menu.hidden=true;}
+  function cancel(){armed=null;placement.clear();hideMenu();}
+  function copyId(n){let count=1,id;do{id=`${n.id}-copy-${count++}`;}while(session.document.nodes.some(n=>n.id===id));return id;}
+  function contextMenu(event){
+    if(isBusy()||session.scene.view.mode!=='room')return false;event.preventDefault();
+    if(!placement.active){pointer(event);if(!node())return true;}
+    menu.replaceChildren();const n=node(),inPlacement=placement.active;
+    const actions=inPlacement?[
+      ['旋转 90°',()=>placement.rotate(),placement.lockedRotation],['取消放置',cancel,false]
+    ]:[['移动物品',()=>arm({kind:'move'}),el('edit-move').disabled],['旋转 90°',()=>el('edit-rotate').click(),el('edit-rotate').disabled],['复制物品',()=>el('edit-copy').click(),el('edit-copy').disabled],['选择所属整体',()=>el('edit-parent').click(),el('edit-parent').disabled],['删除物品',()=>el('edit-remove').click(),el('edit-remove').disabled]];
+    for(const [label,action,disabled]of actions){const b=document.createElement('button');b.textContent=label;b.setAttribute('role','menuitem');b.disabled=Boolean(disabled);b.onclick=()=>{hideMenu();action();};menu.append(b);}
+    menu.hidden=false;menu.style.left=`${Math.max(8,Math.min(event.clientX,innerWidth-menu.offsetWidth-8))}px`;menu.style.top=`${Math.max(8,Math.min(event.clientY,innerHeight-menu.offsetHeight-8))}px`;menu.querySelector('button:not(:disabled)')?.focus();return true;
+  }
+  const outsideMenu=e=>{if(!menu.contains(e.target))hideMenu();};document.addEventListener('pointerdown',outsideMenu);
+  function arm(action){
+    if(isBusy()||session.scene.view.mode!=='room')return;
+    const n=node(),r=action.kind==='add'?chosenResource():resource(n),t=action.kind==='add'?refreshTargets():null;
+    if(action.kind==='add'&&!t||action.kind!=='add'&&!n)return;
+    const derived=deriveCompany(session.document,catalog,templates),id=action.kind==='copy'?copyId(n):n?.id;
+    const config={parentId:t?.parentId||n.parentId,roomId:t?region():derived.roomIds.get(n.id),resource:r,position:[...(t?.position||n.transform.position)],yaw:t?.yaw??n.transform.yaw,
+      locks:t?.lockedAxes||getFacilityEditConstraints(n,r).lockedAxes,attachment:t?.attachment||n?.attachment,source:action.kind!=='add'&&n&&session.scene.root.getObjectByName(n.id),
+      operation:transform=>action.kind==='add'?createFacilityPlacement(session.document,catalog,r,t.id,{x:transform.position[0],height:transform.position[1],z:transform.position[2],yaw:transform.yaw},region(),{templates}).operation:
+        action.kind==='copy'?{type:n.kind==='facility'?'copy-facility':n.kind==='workstation'?'copy-workstation':'copy-group',id:n.id,newId:id,transform}:{type:'move',id:n.id,transform}};
+    armed=action;placement.start(config);
+  }
   function chosenResource(){return catalog.resources.find(r=>ref(r)===el('add-look').value);}
   function refreshTargets(){
     const r=chosenResource(),targets=r?listPlacementTargets(session.document,catalog,r,region(),{templates}):[];
     options(el('add-target'),targets.map(t=>({value:t.id,label:t.label})),el('add-target').value);
     const target=targets.find(t=>t.id===el('add-target').value);
-    el('add-note').textContent=target?.note||(!targets.length?'当前空间没有合适的安装位置或承载物。请先添加对应的桌、柜架或信息板。':'点击场景放置，也可使用所选位置的默认点。');
+    const noTarget=r?.mount==='portal'?`当前房间没有匹配的真实门洞（此门框需要 ${r.mounting.apertureWidth} 米宽）。门框只能装到已有门洞；添加门框不会在墙上开门。`:r?.mount==='ceiling'?'当前房间没有能容纳此设施的顶部安装空间。':r&&['wall','wall-opening'].includes(r.mount)?'当前墙面没有足够的安装空间，或门洞与边界限制了摆放。':'当前空间没有合适的安装位置或承载物。请先添加对应的桌、柜架或信息板。';
+    el('add-note').textContent=target?.note||(!targets.length?noTarget:'点击场景放置，也可使用所选位置的默认点。');
+    document.querySelector('label[for="add-target"]').textContent=r?.mount==='portal'?'已有门洞':r&&['wall','wall-opening'].includes(r.mount)?'安装墙面':'摆放位置 / 承载物';
     el('add-place').disabled=el('add-center').disabled=isBusy()||!target||session.scene.view.mode==='building';
     if(r?.mount==='parent-device-endpoints'){
       el('add-place').disabled=true;
@@ -81,6 +110,7 @@ export function createFacilityEditor({session,catalog,templates,world,camera,get
   }
   function sync(){
     if(disposed)return;
+    if(placement.active&&(session.scene.view.mode!=='room'||isBusy()))cancel();
     const doc=session.document,derived=deriveCompany(doc,catalog,templates),view=session.scene.view;
     const knownLayout=Object.entries(layouts).find(([,d])=>d.id===doc.id)?.[0];
     if(knownLayout)mode=roomLayouts.has(knownLayout)?'room':'sample';
@@ -101,7 +131,7 @@ export function createFacilityEditor({session,catalog,templates,world,camera,get
       el('edit-rotate').disabled=el('edit-yaw').disabled;el('edit-position').disabled=isBusy()||constraints.lockedAxes.length===4;
       el('edit-move').disabled=isBusy()||constraints.lockedAxes.length===4||view.mode==='building';
       el('edit-rule').textContent=constraints.note;
-      const installable=r&&['wall','portal','support-surface'].includes(r.mount);
+      const installable=r&&['wall','wall-opening','portal','support-surface'].includes(r.mount);
       const targets=installable?listPlacementTargets(doc,catalog,r,derived.roomIds.get(n.id),{templates}):[];
       el('edit-installation').hidden=!installable;
       options(el('edit-target'),targets.map(t=>({value:t.id,label:t.label})),el('edit-target').value);
@@ -168,6 +198,7 @@ export function createFacilityEditor({session,catalog,templates,world,camera,get
     await session.apply([{type:n.kind==='facility'?'copy-facility':n.kind==='workstation'?'copy-workstation':'copy-group',id:n.id,newId,transform}]);selected=newId;cancel();
   }
   function focus(){
+    cancel();
     const object=session.scene.root.getObjectByName(selected);if(!object)return;
     // Host camera helper owns orbit target and camera constraints.
     return object;
@@ -175,21 +206,7 @@ export function createFacilityEditor({session,catalog,templates,world,camera,get
   function pointer(event){
     if(isBusy()||session.scene.view.mode!=='room')return false;
     const rect=getCanvas().getBoundingClientRect(),ndc=new THREE.Vector2((event.clientX-rect.left)/rect.width*2-1,-(event.clientY-rect.top)/rect.height*2+1),ray=new THREE.Raycaster();ray.setFromCamera(ndc,camera);
-    if(armed){
-      const n=node(),r=armed.kind==='add'?chosenResource():resource(n),t=armed.kind==='add'?refreshTargets():null;
-      const parentId=armed.kind==='add'?t?.parentId:n?.parentId,parent=session.scene.root.getObjectByName(parentId);
-      if(!parent){message('请先进入要布置的楼层或房间。',true);return true;}
-      const localRay=ray.ray.clone().applyMatrix4(parent.matrixWorld.clone().invert());
-      const base=armed.kind==='add'?t.position:n.transform.position,yaw=armed.kind==='add'?t.yaw:n.transform.yaw;
-      const wall=r&&['wall','portal'].includes(r.mount),normal=wall?new THREE.Vector3(Math.sin(yaw),0,Math.cos(yaw)):new THREE.Vector3(0,1,0);
-      const hit=localRay.intersectPlane(new THREE.Plane().setFromNormalAndCoplanarPoint(normal,new THREE.Vector3(...base)),new THREE.Vector3());
-      if(!hit){message('请调整镜头，让摆放面出现在画面里。',true);return true;}
-      const position=hit.toArray().map(v=>Math.round(v*10)/10),locks=armed.kind==='add'?(t.lockedAxes||[]):getFacilityEditConstraints(n,r).lockedAxes;
-      for(const [i,axis]of ['x','y','z'].entries())if(locks.includes(axis))position[i]=base[i];
-      if(!wall)position[1]=base[1];
-      const kind=armed.kind;
-      execute('正在检查摆放位置…',()=>kind==='add'?add({x:position[0],height:position[1],z:position[2],yaw}):kind==='copy'?copyAt({position,yaw}):move({position,yaw}));return true;
-    }
+    if(placement.active)return true;
     for(const hit of ray.intersectObject(session.scene.root,true)){
       let visible=true;for(let p=hit.object;p;p=p.parent)if(!p.visible){visible=false;break;}if(!visible)continue;
       for(let p=hit.object;p;p=p.parent){if(session.document.nodes.some(n=>n.id===p.name&&n.kind==='facility')){select(p.name);return true;}}
@@ -199,7 +216,7 @@ export function createFacilityEditor({session,catalog,templates,world,camera,get
   el('edit-instance').onchange=()=>select(el('edit-instance').value);
   el('edit-look').onchange=()=>execute('正在原位替换外观…',async()=>{const r=catalog.resources.find(r=>ref(r)===el('edit-look').value);await session.apply([{type:'replace-resource',id:selected,resource:{id:r.id,version:r.version}}]);});
   el('edit-position').onclick=()=>execute('正在更新位置…',()=>move(readTransform()));
-  el('edit-rotate').onclick=()=>execute('正在检查转向空间…',()=>{const n=node();return move({position:[...n.transform.position],yaw:(angle(n.transform.yaw)+90)%360*Math.PI/180});});
+  el('edit-rotate').onclick=()=>{cancel();return execute('正在检查转向空间…',()=>{const n=node();return move({position:[...n.transform.position],yaw:(angle(n.transform.yaw)+90)%360*Math.PI/180});});};
   el('edit-move').onclick=()=>arm({kind:'move'});el('placement-cancel').onclick=cancel;
   el('edit-parent').onclick=()=>select(node().parentId);
   el('edit-remove').onclick=()=>execute('正在移除物品…',async()=>{await session.apply([{type:'remove',id:selected}]);selected='';cancel();});
@@ -217,13 +234,13 @@ export function createFacilityEditor({session,catalog,templates,world,camera,get
   el('sample-scenarios').onclick=()=>{el('sample-scenarios').setAttribute('aria-expanded',String(el('sample-scenarios').getAttribute('aria-expanded')!=='true'));sync();};
   for(const key of ['selection','add','finish'])el(`tool-${key}`).onclick=()=>{tool=key;cancel();sync();};
   for(const m of ['room','sample'])el(`mode-${m}`).onclick=()=>execute('正在切换工作区域…',()=>setMode(m));
-  const escape=e=>{if(e.key==='Escape')cancel();};document.addEventListener('keydown',escape);
+  const escape=e=>{if(e.key==='Escape')cancel();if(e.key==='r'&&placement.active&&!['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)){e.preventDefault();placement.rotate();}};document.addEventListener('keydown',escape);
   const sampleIds=new Set(Object.entries(layouts).filter(([k])=>!roomLayouts.has(k)).map(([,d])=>d.id));
   if(sampleIds.has(session.document.id)||session.document.id.startsWith('appearance-'))mode='sample';
   refreshAddLooks();
-  return{sync,select,pointer,focus,setMode,openLayout,get mode(){return mode;},get selected(){return selected;},cancel,
+  return{sync,select,pointer,contextMenu,placement,focus,setMode,openLayout,get mode(){return mode;},get selected(){return selected;},cancel,
     sampleLoaded(sample){mode='sample';tool='selection';selected=sample.target;el('placement-tools').open=false;sync();},
     beforeSample(){remember();if(mode==='room')drafts.room=structuredClone(session.document);},
     getDraft(id){return documents.get(id);},
-    dispose(){disposed=true;document.removeEventListener('keydown',escape);world.remove(outline);outline.geometry.dispose();outline.material.dispose();}};
+    dispose(){cancel();menu.remove();document.removeEventListener('pointerdown',outsideMenu);disposed=true;document.removeEventListener('keydown',escape);world.remove(outline);outline.geometry.dispose();outline.material.dispose();}};
 }

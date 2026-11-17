@@ -1,0 +1,116 @@
+{
+  "id": "window-opening-wide-square",
+  "displayName": "宽幅方窗",
+  "version": 1,
+  "category": "stateful",
+  "mount": "wall-opening",
+  "mountRole": "window-opening-and-glass",
+  "productionBranch": "window-opening-and-glass",
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Opening centre",
+    "scale": "Identity only"
+  },
+  "provenance": {
+    "license": "CC0 1.0 Universal, Kenney Building Kit source frame geometry",
+    "sourceArchive": "original/kenney_building-kit-official.zip",
+    "sourceArchiveSha256": "2740ef5772fb5fb3d7aab881db22d129f6b68afe711b1a79e6d5e9e19cf3eec6",
+    "sourceLicense": "original/official-extracted/License.txt",
+    "sourceParameters": "assets-source/company-window-source-v1/production-parameters.json",
+    "sourceParametersSha256": "0e5f61ec0b55f1b94893a3d03f76301fe0312a8163cee849daad4ffe7b9f9362",
+    "sourceDesign": "wide-square",
+    "sourceModel": "original/official-extracted/Models/GLB format/wall-window-wide-square.glb",
+    "sourceModelSha256": "7561a3279b2ff0e2ea21e25e3db5f285a8f204683e8d0148cdd1de5cf1ea9624",
+    "generator": "scripts/company-platform/build-window-opening.mjs",
+    "generatorSha256": "cd9b4eb786bc64014d2e45514b4841ead1bc455979d98161a01732987e624790",
+    "method": "Source frame geometry extracted and axis-adapted into fixed bars, with project-authored sash and alpha-blended pane assembly."
+  },
+  "windowSystem": {
+    "id": "horizontal-window-v1",
+    "version": 1,
+    "apertureWidth": 1.44,
+    "apertureHeight": 1.04,
+    "sashTravel": 0.72,
+    "minimumSill": 0.6
+  },
+  "mounting": {
+    "id": "window-opening-mount-v1",
+    "width": 1.6,
+    "height": 1.2,
+    "depth": 0.12,
+    "origin": "center"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.8,
+      0.06
+    ],
+    "blocking": false
+  },
+  "usePoints": [],
+  "stateDefaults": {
+    "openFraction": 0
+  },
+  "stateSchema": {
+    "openFraction": {
+      "type": "number",
+      "min": 0,
+      "max": 1
+    }
+  },
+  "stateSemantics": {
+    "openFraction": "horizontal-window-opening-fraction"
+  },
+  "windowParts": {
+    "sash": "sash",
+    "fixedGlass": "fixedGlass",
+    "movingGlass": "movingGlass"
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/window-opening-v1/wide-square/v1/model.glb",
+    "sha256": "173a2d0005a1ea873068dd756806dfdae5d1f07dce4e61f8e3333773bca06cf6",
+    "bytes": 34340
+  },
+  "checks": {
+    "envelope": {
+      "min": [
+        -0.800000011920929,
+        -0.6000000238418579,
+        0
+      ],
+      "max": [
+        0.800000011920929,
+        0.6000000238418579,
+        0.11999999865889549
+      ],
+      "size": [
+        1.600000023841858,
+        1.2000000476837158,
+        0.11999999865889549
+      ]
+    },
+    "meshCount": 17,
+    "triangles": 198,
+    "windowParts": {
+      "sash": "sash",
+      "fixedGlass": "fixedGlass",
+      "movingGlass": "movingGlass"
+    },
+    "sashPosition": [
+      -0.36,
+      0,
+      0.085
+    ],
+    "fixedGlassTransparent": true,
+    "movingGlassTransparent": true,
+    "fixedGlassParent": "window-wide-square",
+    "movingGlassParent": "sash"
+  }
+}

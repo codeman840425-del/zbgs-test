@@ -1,3 +1,4 @@
+import {validateWindowResource,deriveWindowOpenings} from './window-data.js';
 import {deriveCableConnections} from './cable-data.js';
 import {companyScaleProfile,validateScaleProfile} from './scale-profile.js';
 // Company authoring data. Actor tasks and seat leases remain in the character platform.
@@ -164,7 +165,7 @@ export function deriveCompany(document, catalog, templates) {
     fail('catalog-version-mismatch', 'document.catalog', 'Load the pinned resource catalog');
   if (!Array.isArray(document.nodes)) fail('invalid-nodes', 'document.nodes', 'Expected an array');
   const { resources, combinations } = catalogMaps(catalog, templates);
-  for (const resource of resources.values()) { validateSupportResource(resource, fail); validateMovingResource(resource, fail); validateClockResource(resource, fail); validateInformationResource(resource, fail); validateMirrorResource(resource, fail); validateVanityResource(resource, fail); }
+  for (const resource of resources.values()) { validateSupportResource(resource, fail); validateMovingResource(resource, fail); validateClockResource(resource, fail); validateInformationResource(resource, fail); validateMirrorResource(resource, fail); validateVanityResource(resource, fail); validateWindowResource(resource,fail); }
   const nodes = new Map(), worlds = new Map(), localTransforms = new Map(), floorIds = new Map(), roomIds = new Map();
   for (const node of document.nodes) {
     checkId(node.id, 'nodes.id');
@@ -262,7 +263,7 @@ export function deriveCompany(document, catalog, templates) {
           Math.abs(node.transform.position[0]) > surface.halfSize[0] || Math.abs(node.transform.position[2]) > surface.halfSize[1])
         fail('invalid-surface-fit', node.id, 'Device mount origin must be on the declared parent surface');
     }
-    if (['wall','portal','floor-surface'].includes(resource.mount)) {
+    if (['wall','wall-opening','portal','floor-surface'].includes(resource.mount)) {
       const region=nodes.get(node.parentId),spec=resource.mounting;
       if(!['room','area'].includes(region?.kind)||!spec||
         ![spec.width,spec.height,spec.depth].every(v=>Number.isFinite(v)&&v>0))
@@ -317,6 +318,7 @@ export function deriveCompany(document, catalog, templates) {
       fail('overlapping-facilities', a.id, `Blocking footprint overlaps ${b.id}`, { otherId: b.id });
   }
   validateScaleProfile(document,{floors,rooms,stations,floorIds,roomIds},fail);
+  const windowOpenings=deriveWindowOpenings({nodes,worlds,floorIds,facilities},fail);
   const cableConnections=deriveCableConnections({nodes,facilities},fail);
   validateCeilingAttachments({nodes,facilities},fail);
   validateSupportAttachments(nodes, resources, fail);
@@ -326,7 +328,7 @@ export function deriveCompany(document, catalog, templates) {
   validateInformationAttachments(nodes, resources, fail);
   const vanityClearances=validateVanityPlacement({nodes,worlds,floorIds,roomIds,facilities,obstacles},fail);
   return { nodes, worlds, localTransforms, floorIds, roomIds, facilities, usePoints, obstacles, surfaceFinishes,
-    vanityClearances,cableConnections,
+    vanityClearances,cableConnections,windowOpenings,
     capacity: { maximum: capacity, installedStations: stations.length, businessRooms: rooms.length, floors: floors.length } };
 }
 

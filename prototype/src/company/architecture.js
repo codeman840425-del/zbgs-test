@@ -1,4 +1,5 @@
 import {deriveCompany,pointInTransform} from './document.js';
+import {cutWallForWindows} from './window-wall-slices.js';
 import {inspectCompanyConnections} from './space.js';
 
 // Physical boundaries are data. Cutaway heights and visibility never alter them.
@@ -24,5 +25,10 @@ export function describeArchitecture(document,catalog,templates) {
       }
     }
   }
-  return {topology,walls};
+  const physicalWalls=walls.flatMap(wall=>{
+    const axis=['north','south'].includes(wall.edge)?0:2;
+    const openings=[...derived.windowOpenings.values()].flatMap(o=>o.regions).filter(o=>o.regionId===wall.regionId&&o.edge===wall.edge&&Math.abs(o.offset-wall.position[axis])<(wall.size[axis]+o.width)/2-1e-6);
+    return cutWallForWindows(wall,openings,derived.worlds.get(wall.regionId));
+  });
+  return {topology,walls:physicalWalls,navigationWalls:walls,visibilityWalls:walls};
 }

@@ -12,7 +12,7 @@ const ID = /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/;
 const EPS = 1e-6;
 
 export function validateSupportResource(resource, fail, path = resource.id) {
-  if(resource.mount!=null&&!['desk-surface','floor-surface','wall','portal','support-surface','information-surface','ceiling','parent-device-endpoints'].includes(resource.mount))
+  if(resource.mount!=null&&!['desk-surface','floor-surface','wall','wall-opening','portal','support-surface','information-surface','ceiling','parent-device-endpoints'].includes(resource.mount))
     fail('unsupported-mount',path,'The mounting adapter is not supported');
   validateCableResource(resource,fail,path);
   validateCeilingAcousticResource(resource,fail,path);

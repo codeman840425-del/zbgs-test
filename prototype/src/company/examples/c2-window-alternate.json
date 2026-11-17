@@ -1,0 +1,364 @@
+{
+  "schema": "company-layout",
+  "version": 1,
+  "id": "window-opening-alternate",
+  "name": "窗体 · 转向与共享墙",
+  "revision": 0,
+  "scale": "building",
+  "catalog": {
+    "id": "company-facilities",
+    "version": 1
+  },
+  "nodes": [
+    {
+      "id": "window-opening-alternate/floor-1",
+      "kind": "floor",
+      "parentId": "window-opening-alternate",
+      "name": "1层",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "connections": [
+        {
+          "id": "window-opening-alternate/floor-1/door",
+          "from": {
+            "regionId": "window-opening-alternate/floor-1/live",
+            "edge": "east",
+            "offset": -1.5,
+            "width": 1.2
+          },
+          "to": {
+            "regionId": "window-opening-alternate/floor-1/work",
+            "edge": "west",
+            "offset": -1.5,
+            "width": 1.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "window-opening-alternate/floor-1/live",
+      "kind": "room",
+      "parentId": "window-opening-alternate/floor-1",
+      "name": "窗体展示间",
+      "purpose": "streaming",
+      "bounds": {
+        "width": 6,
+        "depth": 5
+      },
+      "transform": {
+        "position": [
+          -3,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "finishes": {
+        "north": {
+          "resource": {
+            "id": "wall-fine-stripes",
+            "version": 1
+          },
+          "quarterTurns": 0
+        }
+      }
+    },
+    {
+      "id": "window-opening-alternate/floor-1/work",
+      "kind": "room",
+      "parentId": "window-opening-alternate/floor-1",
+      "name": "相邻房间",
+      "purpose": "work",
+      "bounds": {
+        "width": 6,
+        "depth": 5
+      },
+      "transform": {
+        "position": [
+          3,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "window-opening-alternate/floor-1/live/window-1",
+      "kind": "facility",
+      "parentId": "window-opening-alternate/floor-1/live",
+      "resource": {
+        "id": "window-opening-square-basic",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1.2,
+          1.5,
+          -2.4
+        ],
+        "yaw": 0
+      },
+      "state": {
+        "openFraction": 0
+      }
+    },
+    {
+      "id": "window-opening-alternate/floor-1/live/window-2",
+      "kind": "facility",
+      "parentId": "window-opening-alternate/floor-1/live",
+      "resource": {
+        "id": "window-opening-square-detailed",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -2.9,
+          1.5,
+          0
+        ],
+        "yaw": 1.5707963267948966
+      },
+      "state": {
+        "openFraction": 0.5
+      }
+    },
+    {
+      "id": "window-opening-alternate/floor-1/live/window-3",
+      "kind": "facility",
+      "parentId": "window-opening-alternate/floor-1/live",
+      "resource": {
+        "id": "window-opening-wide-square",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -1.2,
+          1.5,
+          2.4
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {
+        "openFraction": 1
+      }
+    },
+    {
+      "id": "window-opening-alternate/floor-1/live/window-4",
+      "kind": "facility",
+      "parentId": "window-opening-alternate/floor-1/live",
+      "resource": {
+        "id": "window-opening-round-detailed",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          2.9,
+          1.5,
+          1
+        ],
+        "yaw": 4.71238898038469
+      },
+      "state": {
+        "openFraction": 0
+      }
+    },
+    {
+      "id": "window-opening-alternate/floor-1/work/plant",
+      "kind": "facility",
+      "parentId": "window-opening-alternate/floor-1/work",
+      "resource": {
+        "id": "plant",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -1.5,
+          0,
+          1
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "window-opening-alternate/floor-2",
+      "kind": "floor",
+      "parentId": "window-opening-alternate",
+      "name": "2层",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 1.5707963267948966
+      },
+      "connections": [
+        {
+          "id": "window-opening-alternate/floor-2/door",
+          "from": {
+            "regionId": "window-opening-alternate/floor-2/live",
+            "edge": "east",
+            "offset": -1.5,
+            "width": 1.2
+          },
+          "to": {
+            "regionId": "window-opening-alternate/floor-2/work",
+            "edge": "west",
+            "offset": -1.5,
+            "width": 1.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "window-opening-alternate/floor-2/live",
+      "kind": "room",
+      "parentId": "window-opening-alternate/floor-2",
+      "name": "窗体展示间",
+      "purpose": "streaming",
+      "bounds": {
+        "width": 6,
+        "depth": 5
+      },
+      "transform": {
+        "position": [
+          -3,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "finishes": {
+        "north": {
+          "resource": {
+            "id": "wall-fine-stripes",
+            "version": 1
+          },
+          "quarterTurns": 0
+        }
+      }
+    },
+    {
+      "id": "window-opening-alternate/floor-2/work",
+      "kind": "room",
+      "parentId": "window-opening-alternate/floor-2",
+      "name": "相邻房间",
+      "purpose": "work",
+      "bounds": {
+        "width": 6,
+        "depth": 5
+      },
+      "transform": {
+        "position": [
+          3,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "window-opening-alternate/floor-2/live/window-1",
+      "kind": "facility",
+      "parentId": "window-opening-alternate/floor-2/live",
+      "resource": {
+        "id": "window-opening-square-basic",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1.2,
+          1.5,
+          -2.4
+        ],
+        "yaw": 0
+      },
+      "state": {
+        "openFraction": 1
+      }
+    },
+    {
+      "id": "window-opening-alternate/floor-2/live/window-2",
+      "kind": "facility",
+      "parentId": "window-opening-alternate/floor-2/live",
+      "resource": {
+        "id": "window-opening-square-detailed",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -2.9,
+          1.5,
+          0
+        ],
+        "yaw": 1.5707963267948966
+      },
+      "state": {
+        "openFraction": 0
+      }
+    },
+    {
+      "id": "window-opening-alternate/floor-2/live/window-3",
+      "kind": "facility",
+      "parentId": "window-opening-alternate/floor-2/live",
+      "resource": {
+        "id": "window-opening-wide-square",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -1.2,
+          1.5,
+          2.4
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {
+        "openFraction": 0.5
+      }
+    },
+    {
+      "id": "window-opening-alternate/floor-2/live/window-4",
+      "kind": "facility",
+      "parentId": "window-opening-alternate/floor-2/live",
+      "resource": {
+        "id": "window-opening-round-detailed",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          2.9,
+          1.5,
+          1
+        ],
+        "yaw": 4.71238898038469
+      },
+      "state": {
+        "openFraction": 1
+      }
+    },
+    {
+      "id": "window-opening-alternate/floor-2/work/plant",
+      "kind": "facility",
+      "parentId": "window-opening-alternate/floor-2/work",
+      "resource": {
+        "id": "plant",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -1.5,
+          0,
+          1
+        ],
+        "yaw": 0
+      }
+    }
+  ]
+}
