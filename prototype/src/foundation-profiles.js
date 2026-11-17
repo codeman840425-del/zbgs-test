@@ -220,3 +220,21 @@ FOUNDATION_PROFILES['native-male-7586-v1'] = {
   seatLayerThickness:0,
   fitStatus:'Technical candidate: own source/bind CPU verified; same-room contact, appearance and persistence pending',
 };
+
+FOUNDATION_PROFILES['native-female-face-v1'] = {
+  id:'native-vroid-face-geometry-unmasked-v1',
+  label:'原生女性 Face 派生 · 皮肤接缝',
+  source:'VRoid native face-derived source with exact body mask and three independent equipment resources',
+  url:'/assets/native-face-factory-v2/generated/female-geometry-face-unmasked.vrm',
+  sha256:'cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce',
+  manifestUrl:'/assets/native-face-factory-v2/equipment.json',
+  sourceFloorY:-8.449510756150829e-7,
+  sourceRawFloorY:-7.442453409112204e-8,
+  baseBodyDisplay:'source-with-hair',
+  previewAppearanceSupport:appearanceColorSupport('cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce'),
+  bodyTextureCoverage:{url:'/assets/native-face-factory-v2/manifest.json',sha256:'9fed8d43beef7149650d84dd6455bfae0a83029bb4a82899118ac93abd56d6a5'},
+  ids:{top:'native-vroid-face-geometry-top-v1',shorts:'native-vroid-face-geometry-shorts-v1',shoes:'native-vroid-face-geometry-shoes-v1'},
+  defaultOutfit:{index:0,role:'shorts',bottomRole:'shorts',label:'原生上衣／短裤／鞋',equipmentRoles:['top','shorts','shoes']},
+  seatLayerThickness:0,
+  fitStatus:'CPU source/body mask and equipment identity only; runtime, expression, contact and visual validation pending',
+};

@@ -28,6 +28,7 @@ export function bindAppearanceWorkbench({ controller }) {
       { id: 'm1a-jaw-v1', label: '下颌变化' },
       { id: 'm1a-waisthip-v1', label: '腰胯变化' },
       { id: 'native-female-843ac-v1', label: '原生可编辑候选 · 接入验证' },
+      { id: 'native-female-face-v1', label: '原生脸型修改 · 制作回读' },
     ],
     male: [
       { id: 'male', label: '原始脸型与身形' },

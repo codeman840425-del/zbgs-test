@@ -3,6 +3,13 @@
 // admission, never a new controller or an arbitrary image supplied at runtime.
 export const BODY_TEXTURE_COVERAGE_ADMISSIONS = Object.freeze([
   Object.freeze({
+    avatarSha256:'cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce',
+    manifestSha256:'9fed8d43beef7149650d84dd6455bfae0a83029bb4a82899118ac93abd56d6a5',
+    basePngSha256:'5bf13646459131ce6455719c8be451eb71b04a53058293974f9ab9da8bdc585a',
+    maskedPngSha256:'dc375769e28d015bc70c3cef6be1dec3794b5b2430a9bf173d60584105f68a8c',
+    evidence:'assets-source/native-vroid-face-body-texture-fit-v1/manifest.json',
+  }),
+  Object.freeze({
     avatarSha256:'843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef',
     manifestSha256:'003e98086ed67b6fcd5c57e0b3b13e9c4a4beff412b3b74683e7cefc049c8fb2',
     basePngSha256:'5bf13646459131ce6455719c8be451eb71b04a53058293974f9ab9da8bdc585a',

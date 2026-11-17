@@ -6,6 +6,7 @@ if(!directory||!output)throw Error('Pass fixed dist and new evidence directory')
 const subjects={
  'native-female-843ac-v1':{sha:'843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef',alternate:3},
  'native-male-7586-v1':{sha:'7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81',alternate:null},
+ 'native-female-face-v1':{sha:'cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce',alternate:null},
 };
 const subject=subjects[bodyType];if(!subject)throw Error('Unknown exact factory subject');
 (async()=>{
@@ -69,7 +70,7 @@ const subject=subjects[bodyType];if(!subject)throw Error('Unknown exact factory 
    const customItems=report.states.at(-1).outfit.equipment.items;
    assert.equal(customItems.top.visible,false);assert.equal(customItems.alternateTop.visible,true);
    await page.screenshot({path:path.join(out,'custom-top.png')});
-  }else report.additionalTop='not supplied or tested for this male source';
+  }else report.additionalTop='not supplied or tested for this exact source';
   const recipe=await page.evaluate(()=>__debug.exportAppearanceRecipe());
   await fs.writeFile(path.join(out,'appearance-recipe.json'),recipe);
   assert.equal((await page.evaluate(()=>__debug.setOutfit(0))).applied,true);
