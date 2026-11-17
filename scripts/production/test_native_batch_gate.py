@@ -38,6 +38,16 @@ class NativeBatchGateTests(unittest.TestCase):
             self.assertIsNotNone(row['runtimeEvidence'])
             self.assertEqual(report['acceptedForRuntime'], [])
 
+    def test_shared_adapter_evidence_removes_only_the_expression_task(self):
+        report = evaluate(
+            Path('assets-source/native-parameter-game-packages-v1/import-batch.json'),
+            adapter_report=Path('evidence/m2-native-eye-admission-v9/adapter-regression.json'),
+        )
+        for row in report['items']:
+            self.assertEqual(row['adapterEvidence']['targetCount'], 57)
+            self.assertNotIn('facialExpressions', {item['check'] for item in row['adapterTasks']})
+            self.assertIn('handAndMicrophone', {item['check'] for item in row['adapterTasks']})
+
 
 if __name__ == '__main__':
     unittest.main()

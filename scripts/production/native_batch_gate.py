@@ -77,7 +77,8 @@ def status_of(value: Any) -> str:
 
 
 def package_item(batch: dict[str, Any], item: dict[str, Any], root: Path,
-                 runtime_by_body: dict[str, dict[str, Any]] | None = None) -> dict[str, Any]:
+                 runtime_by_body: dict[str, dict[str, Any]] | None = None,
+                 adapter_by_body: dict[str, dict[str, Any]] | None = None) -> dict[str, Any]:
     item_id = item.get("id")
     package = item.get("package")
     spec_ref = item.get("spec")
@@ -112,6 +113,9 @@ def package_item(batch: dict[str, Any], item: dict[str, Any], root: Path,
             reasons = follow_up.get(check_name, {}).get("reasons", []) if isinstance(follow_up.get(check_name), dict) else []
             adapters.append({"check": check_name, "task": CHECK_TO_ADAPTER[check_name], "status": state,
                              "reasons": list(reasons)})
+    adapter_evidence = (adapter_by_body or {}).get(spec.get("bodySha256"))
+    if adapter_evidence:
+        adapters = [row for row in adapters if row["check"] != "facialExpressions"]
 
     lanes = {lane: "unverified" for lane in REQUIRED_LANES}
     # These are package facts only. Runtime admission is deliberately separate.
@@ -141,6 +145,7 @@ def package_item(batch: dict[str, Any], item: dict[str, Any], root: Path,
         "lanes": lanes,
         "reusableChecks": reusable,
         "adapterTasks": adapters,
+        "adapterEvidence": adapter_evidence,
         "runtimeEvidence": runtime_evidence,
         "blockers": blockers,
         "source": {
@@ -170,8 +175,25 @@ def runtime_index(path: Path, root: Path = ROOT) -> dict[str, dict[str, Any]]:
     return result
 
 
+def adapter_index(path: Path, root: Path = ROOT) -> dict[str, dict[str, Any]]:
+    """Read a shared adapter regression and index it by exact body SHA."""
+    path = path.resolve()
+    require(path.is_file() and path.is_relative_to(root), "Adapter report must be inside repository")
+    report = read_json(path)
+    require(report.get("status") == "passed", "Adapter report is not a pass")
+    result = {}
+    for item in report.get("native", []):
+        body_sha = item.get("sourceSha256")
+        if isinstance(body_sha, str) and SHA.fullmatch(body_sha):
+            result[body_sha] = {"report": pin(path), "bodyType": item.get("bodyType"),
+                                "targetCount": item.get("targetCount"), "targetedMeshes": item.get("targetedMeshes"),
+                                "protectedMeshes": item.get("protectedMeshes"), "scope": report.get("scope")}
+    return result
+
+
 def evaluate(batch_path: Path, root: Path = ROOT,
-             runtime_report: Path | None = None) -> dict[str, Any]:
+             runtime_report: Path | None = None,
+             adapter_report: Path | None = None) -> dict[str, Any]:
     root = root.resolve()
     batch_path = batch_path.resolve()
     require(batch_path.is_file() and batch_path.is_relative_to(root), "Batch must be inside repository")
@@ -180,7 +202,8 @@ def evaluate(batch_path: Path, root: Path = ROOT,
     items = batch.get("items")
     require(isinstance(items, list) and items, "Batch is empty")
     runtime_by_body = runtime_index(runtime_report, root) if runtime_report else {}
-    rows = [package_item(batch, item, root, runtime_by_body) for item in items]
+    adapter_by_body = adapter_index(adapter_report, root) if adapter_report else {}
+    rows = [package_item(batch, item, root, runtime_by_body, adapter_by_body) for item in items]
     ids = [row["id"] for row in rows]
     require(len(ids) == len(set(ids)), "Duplicate batch item")
     return {
@@ -208,9 +231,10 @@ def main() -> int:
     parser.add_argument("--batch", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--runtime-report", type=Path)
+    parser.add_argument("--adapter-report", type=Path)
     args = parser.parse_args()
     try:
-        report = evaluate(args.batch, runtime_report=args.runtime_report)
+        report = evaluate(args.batch, runtime_report=args.runtime_report, adapter_report=args.adapter_report)
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
         print(json.dumps(report, ensure_ascii=False))

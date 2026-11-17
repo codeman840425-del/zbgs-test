@@ -4,7 +4,7 @@ import fs from 'node:fs';import path from 'node:path';import assert from 'node:a
 registerHooks({load(url,context,next){if(url.endsWith('.json'))return{format:'module',source:'export default '+fs.readFileSync(new URL(url),'utf8'),shortCircuit:true};return next(url,context)}});
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),oi=process.argv.indexOf('--out'),out=oi<0?path.join(root,'evidence/eye-blink-compatibility-v1'):path.resolve(root,process.argv[oi+1]);
 if(fs.existsSync(path.join(out,'cpu.json')))throw Error('Refuse overwrite');fs.mkdirSync(out,{recursive:true});
-await import('./headless-avatar-node.mjs');globalThis.location={search:''};
+await import('./headless-avatar-node.mjs');globalThis.location={search:'',href:'http://geometry.local/'};
 const {THREE}=await import('./headless-avatar-node.mjs'),{loadFoundationAvatar}=await import('../prototype/src/foundation-avatar.js'),{createEyeBlinkCompatibility}=await import('../prototype/src/eye-blink-compatibility.js');
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex'),NAME='workbenchJoyBlinkCompensationV1',rows=[];
 const renderer={compileAsync:async()=>{}};
@@ -18,11 +18,14 @@ function appearanceSamples(meshes){return meshes.map(m=>{
  return{uuid:m.uuid,p,n};
  });}
 function weights(a,h,b,aa){const e=a.vrm.expressionManager;e.resetValues();e.setValue('happy',h);e.setValue('blink',b);e.setValue('aa',aa);}
+const bodiesArg=process.argv.indexOf('--bodies');
+const bodyTypes=bodiesArg>=0?process.argv[bodiesArg+1].split(',').filter(Boolean):['female','male','m1a-jaw-v1','m1a-waisthip-v1','m2-male-jaw-v1'];
+if(!bodyTypes.length)throw Error('Expected at least one body in --bodies');
 const baseEye={};
-for(const bodyType of ['female','male','m1a-jaw-v1','m1a-waisthip-v1','m2-male-jaw-v1']){
+for(const bodyType of bodyTypes){
  const a=await load(bodyType),f=faces(a),state=a.livePresentation.getState().eyeBlinkCompatibility,e=a.vrm.expressionManager;
- assert.equal(state.available,true,JSON.stringify(state));assert.equal(f.length,9);assert.equal(new Set(f.map(m=>m.morphTargetInfluences)).size,9);
- const target=new Set(state.targetedMeshes.map(x=>x.uuid)),protectedMeshes=f.filter(m=>!target.has(m.uuid));assert.equal(protectedMeshes.length,5);
+ assert.equal(state.available,true,JSON.stringify(state));assert.equal(f.length,state.targetedMeshes.length+state.protectedMeshes.length);assert.equal(new Set(f.map(m=>m.morphTargetInfluences)).size,f.length);
+ const target=new Set(state.targetedMeshes.map(x=>x.uuid)),protectedMeshes=f.filter(m=>!target.has(m.uuid));assert.equal(protectedMeshes.length,state.protectedMeshes.length);
  const peer=await load(bodyType),pf=faces(peer);assert(f.every(m=>pf.every(p=>m.morphTargetInfluences!==p.morphTargetInfluences)));
  const initial=fingerprint(f),counts=f.map(m=>m.geometry.morphAttributes.position.length);const scenarios=[];
  const family=a.config.referenceBody||bodyType,eye=packed(f[0].geometry.morphAttributes.position[state.eyeTargetIndex]);

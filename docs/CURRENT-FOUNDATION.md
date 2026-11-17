@@ -38,3 +38,5 @@
 2026-11-17 生产闸门复核：scripts/production/native_batch_gate.py 读取同一批两个实际 package、provenance、recipe 和 D02 双恢复报告，输出 evidence/m2-native-production-gate-v1/report.json。两项的 authoring/coldReadback/export/dependencyDelta 已验证，bodyPackage/coverage 已准备，runtimeCatalog/record/restore 有双实例关闭恢复证据；但每项仍列出 dynamicMotion、facialExpressions、handAndMicrophone、headAttachments、runtimeRecordAndBudget、surfaceAndTexture 六类受影响适配任务，acceptedForRuntime 为空。闸门按差分生成适配任务并禁止按名称或新 SHA 继承旧 fit，不是继续精修单件模型。
 
 同日表情准入实测拒绝：evidence/m2-native-eye-admission-v9/cpu.json。两份新女性候选的 EYE_Joy/ALL_Joy/EYE_Close 索引分别为 17/3/13，面部 primitive 为 8 个、每个 57 个 morph；现有 eye-blink adapter 需要 9 个 primitive/56 morph，并依赖 EyeExtra_01_EYE，所以未生成 admission，也未改 runtime。该失败说明当前最大共同卡点是“原生导出结构 → 受影响适配器 → 准入”契约仍按旧脸部结构写死；修复方向是结构版本化的表情适配器和明确拒绝/回退路径，不是修改这两张脸的轮廓。
+
+2026-11-17 表情结构适配已修共同链路：v9 的旧硬编码检查曾把新体 8 primitive/57 morph 拒绝为 9/56 不同结构；实际运行 adapter 已改为精确 profile，保留旧 female 9/56，并通过 `node scripts/test-native-eye-admission.mjs` 的旧体、新体 happy×blink 与双实例 owner 隔离。未改模型，未做 GPU/视觉宣称。生产闸门 v2 `evidence/m2-native-production-gate-v2/report.json` 已移除两项的 facialExpressions 任务；剩余五类受影响适配仍需逐条准入，当前 `acceptedForRuntime` 仍为空。
