@@ -1,0 +1,217 @@
+{
+  "checks": [
+    {
+      "name": "New small home has one actual exterior doorway and a 0.6 metre wall header",
+      "observed": {
+        "entrance": {
+          "id": "company-space-v2-small/ground/live/exterior-entry",
+          "regionId": "company-space-v2-small/ground/live",
+          "edge": "south",
+          "offset": -1.2,
+          "width": 1.4,
+          "height": 2.2,
+          "floorId": "company-space-v2-small/ground",
+          "local": {
+            "start": [
+              -1.9,
+              0,
+              2
+            ],
+            "end": [
+              -0.5,
+              0,
+              2
+            ],
+            "center": [
+              -1.2,
+              0,
+              2
+            ],
+            "interior": [
+              -1.2,
+              0,
+              1.65
+            ]
+          },
+          "world": {
+            "start": [
+              -1.9,
+              0,
+              2
+            ],
+            "end": [
+              -0.5,
+              0,
+              2
+            ],
+            "center": [
+              -1.2,
+              0,
+              2
+            ],
+            "interior": [
+              -1.2,
+              0,
+              1.65
+            ],
+            "normal": [
+              0,
+              0,
+              1
+            ]
+          }
+        },
+        "header": {
+          "id": "company-space-v2-small/ground/live/exterior-entry/header",
+          "floorId": "company-space-v2-small/ground",
+          "regionId": "company-space-v2-small/ground/live",
+          "edge": "south",
+          "position": [
+            -1.2,
+            2.5,
+            1.95
+          ],
+          "size": [
+            1.4,
+            0.5999999999999996,
+            0.1
+          ],
+          "center": [
+            -1.2,
+            2.5,
+            1.95
+          ],
+          "halfSize": [
+            0.7,
+            0.05
+          ],
+          "openingId": "company-space-v2-small/ground/live/exterior-entry"
+        }
+      },
+      "passed": true
+    },
+    {
+      "name": "Old document remains unchanged until explicit atomic entry and frame installation",
+      "observed": {
+        "operations": [
+          {
+            "type": "set-exterior-entrances",
+            "id": "company-space-v2-small/ground",
+            "entrances": [
+              {
+                "id": "company-space-v2-small/ground/live/exterior-entry",
+                "regionId": "company-space-v2-small/ground/live",
+                "edge": "south",
+                "offset": -1.2,
+                "width": 1.4,
+                "height": 2.2
+              }
+            ]
+          },
+          {
+            "type": "add-facility",
+            "id": "company-space-v2-small/ground/live/door-frame-plain",
+            "parentId": "company-space-v2-small/ground/live",
+            "resource": {
+              "id": "door-frame-plain",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                -1.2,
+                0,
+                1.9
+              ],
+              "yaw": 3.141592653589793
+            }
+          }
+        ],
+        "frameId": "company-space-v2-small/ground/live/door-frame-plain"
+      },
+      "passed": true
+    },
+    {
+      "name": "Four frame appearances retain identity and match explicit aperture height and width",
+      "observed": [
+        "door-frame-plain",
+        "door-frame-stepped",
+        "door-frame-inset",
+        "door-frame-crown"
+      ],
+      "passed": true
+    },
+    {
+      "name": "Second rotated room uses transformed doorway geometry and a real reachable interior",
+      "observed": {
+        "start": [
+          1.9999999999999998,
+          0,
+          1.9000000000000001
+        ],
+        "end": [
+          2,
+          0,
+          0.5000000000000001
+        ],
+        "center": [
+          2,
+          0,
+          1.2000000000000002
+        ],
+        "interior": [
+          1.65,
+          0,
+          1.2
+        ],
+        "normal": [
+          1,
+          0,
+          6.123233995736766e-17
+        ]
+      },
+      "passed": true
+    },
+    {
+      "name": "Doorway ownership, window conflicts, duplicate frames and busy floor changes reject",
+      "observed": {
+        "rejected": [
+          "duplicate-door-frame",
+          "wall-display-over-portal",
+          "facility-busy"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "name": "Adjacent aperture intrusion and misplaced owner fail without altering valid input",
+      "observed": {
+        "rejected": [
+          "portal-frame-overlap",
+          "invalid-exterior-entrance-owner"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "name": "Legacy interior duplicate frames can restore and remove; new duplicate edits reject",
+      "observed": {
+        "legacyRestores": true,
+        "newDuplicateRejected": true
+      },
+      "passed": true
+    },
+    {
+      "name": "Complete save and decode retain explicit openings and pinned frame resource",
+      "observed": {
+        "document": "company-space-v2-small",
+        "resource": {
+          "id": "door-frame-plain",
+          "version": 1
+        }
+      },
+      "passed": true
+    }
+  ],
+  "scope": "Company data, topology and persistence integration, not actual model or character evidence",
+  "status": "passed"
+}

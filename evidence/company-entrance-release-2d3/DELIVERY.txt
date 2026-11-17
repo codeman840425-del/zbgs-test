@@ -1,0 +1,18 @@
+公司场景候选：民房真实入口与开放门框
+源码 be599914322447629bbfa33fa7ace280e22275e8；构建 2d3ad751267c。
+入口 http://127.0.0.1:60880/；刷新核右下角构建。
+
+摆放入口：选择物品 → 调整位置与摆放 → 拖放/移动；镜头锁定，绿色可放基点、红色禁放、灰色待检查；左键拖放或点击落点；放置中右键旋转/取消，普通查看时右键移动/旋转/复制/删除，Esc取消。固定安装与必要工位部件沿约束禁用，失败保原。
+门框入口：公司空间 → 民房 → 添加 → 开放门框。新民房有真实门洞，直接安装；旧存档没有门洞时，显示“创建真实入口并安装门框”，明确同时修改墙体。加载旧存档不自动开洞。
+外门和内门连接分别保存；门洞净高2.2米、真实墙高2.8米，门上梁不堵地面导航。切观看不改阻挡。没有室外漫游或角色穿门验收。
+
+验证：外门数据8组，集成8组，四款GLB真实三角净空与门柱；固定浏览器门洞6组、拖放7组、窗体7组；独立移交5组。软件渲染，仅功能/几何证据。
+独立包 F:/gamemake-company-entrance-delivery-2d3，1140文件；fresh npm ci/build后372运行文件逐字节一致。独立包命令：node serve.mjs；node edit.mjs validate data/save.json。完整依赖见transfer-manifest.json。
+重建：在source/prototype执行 npm ci；node scripts/build-company-id.mjs；npx vite build --config vite.company.config.js。
+复现：node scripts/company-platform/qa-exterior-entrance.cjs F:/gamemake-company-entrance-fixed-v1/prototype/dist-company NEW_OUTPUT。
+录像：browser-final/normal-speed-video/ac2f4cae7b177ede47778746cfca2c2b.webm，12.20秒、25fps、1440×1000、正常1×，完整元数据见recording.json；重开片也保留。
+常驻服务仅60880：node scripts/company-platform/serve-company.cjs F:/gamemake-company-entrance-fixed-v1/prototype/dist-company 2d3ad751267c。
+回滚保留6ef：F:/gamemake-company-placement-fixed-v2/prototype/dist-company。先核实当前60880是本部门服务后替换，不操作总工4196。
+
+保留失败：dev1镜头落墙外；dev2新增回归夹具误从已编辑草稿删除洞口而保留门框，运行正确拒绝，改从干净配置创建同ID/revision输入后dev3通过。固定browser首次截图选择器同时匹配两个旧/新按钮而失败，改限定.view-toolbar，browser-final通过；运行源未改。
+已知外观缺陷：原有冠饰门框@1近看饰条/门梁共面闪纹，源参数确认存在共面面片。未把四款机制通过称作四款视觉全部验收。下一有界包做版本化修正，保旧资源/存档，再推进门扇等尚缺机制。总工角色M2、最终C3及普通电脑性能未验，长目标仍进行中。

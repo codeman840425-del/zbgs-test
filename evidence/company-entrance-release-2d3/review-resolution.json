@@ -1,0 +1,30 @@
+{
+  "reviewer": "exterior_entrance_data",
+  "requestedConfiguration": {
+    "model": "gpt-6.2-sol",
+    "reasoning_effort": "high"
+  },
+  "runtimeAndHookEnforcement": "Not independently verified by this tool interface",
+  "findings": [
+    {
+      "issue": "Frame jamb intrudes adjacent aperture",
+      "fix": "portal-frame-overlap checks full frame envelope against other portal widths",
+      "evidence": "company-exterior-entrance-integration-v1/report.json"
+    },
+    {
+      "issue": "Same id/revision imported layout uses stale entrance plan",
+      "fix": "Cache complete document snapshot; recompute before explicit apply",
+      "evidence": "browser-final/report.json"
+    },
+    {
+      "issue": "New duplicate check rejects legacy interior frame saves",
+      "fix": "Legacy pairs load and remove; reject newly created pairs in prepared changes; new exterior entries have strict one-frame rule",
+      "evidence": "company-exterior-entrance-integration-v1/report.json"
+    },
+    {
+      "issue": "Entrances on non-floor owner silently ignored",
+      "fix": "invalid-exterior-entrance-owner rejects",
+      "evidence": "company-exterior-entrance-integration-v1/report.json"
+    }
+  ]
+}

@@ -24,7 +24,7 @@ let frameId;
 await check('New minimum home exposes a real doorway and installs an existing frame',async()=>{
  await choose('layout','smallHome');const before=await doc();assert.equal(before.nodes.find(n=>n.kind==='floor').exteriorEntrances.length,1);
  await click('tool-add');await choose('add-branch','door-frame');assert.equal(await page.locator('#add-target option').count(),1);assert(!await page.locator('#add-center').isDisabled());assert(!await page.locator('#add-entrance').isVisible());await click('add-center');
- frameId=(await doc()).nodes.find(n=>!before.nodes.some(p=>p.id===n.id)).id;await click('tool-selection');await choose('edit-instance',frameId);await choose('wall-view','full');await click('edit-focus');await shot('01-installed-frame');await page.locator('[data-view=room]').click();await shot('01-room-with-real-entrance');await click('edit-focus');return{frameId};
+ frameId=(await doc()).nodes.find(n=>!before.nodes.some(p=>p.id===n.id)).id;await click('tool-selection');await choose('edit-instance',frameId);await choose('wall-view','full');await click('edit-focus');await shot('01-installed-frame');await page.locator('.view-toolbar [data-view=room]').click();await shot('01-room-with-real-entrance');await click('edit-focus');return{frameId};
 });
 await check('Four real frame looks preserve clear aperture, header and ground passage',async()=>{
  const before=(await doc()).nodes.find(n=>n.id===frameId),looks=await page.locator('#edit-look option').evaluateAll(ns=>ns.map(n=>n.value));assert.equal(looks.length,4);const observations=[];
