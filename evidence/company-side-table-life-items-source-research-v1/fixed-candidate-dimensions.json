@@ -1,0 +1,181 @@
+{
+  "scope": "Read-only arithmetic from actual source bounds/cavity vertices, no adapted GLB or source model exported",
+  "common": {
+    "mount": "support-surface",
+    "mounting": {
+      "origin": "bottom",
+      "width": 0.18,
+      "height": 0.25,
+      "depth": 0.18
+    },
+    "footprint": {
+      "blocking": false
+    },
+    "parentTop": {
+      "id": "top",
+      "center": [
+        0,
+        0
+      ],
+      "topY": 0.5,
+      "halfSize": [
+        0.15,
+        0.11
+      ],
+      "clearanceHeight": 0.35
+    },
+    "restLocal": [
+      0,
+      0.5,
+      0
+    ]
+  },
+  "cup": {
+    "source": "Food Kit 2.0/cup.glb",
+    "scale": [
+      0.4107947979904626,
+      0.5499999918043614,
+      0.4107947979904626
+    ],
+    "recenterXZ": [
+      0,
+      -0.03105832263827324
+    ],
+    "actualCandidateSize": [
+      0.09448280525177585,
+      0.11,
+      0.12
+    ],
+    "sourceTopY": 0.20000000298023224,
+    "sourceFloorY": 0.030000001192092896,
+    "sourceTopRadii": [
+      0.0852441,
+      0.0852442,
+      0.115
+    ],
+    "sourceFloorRadii": [
+      0.0724575
+    ],
+    "innerFloorY": 0.016500000409781924,
+    "depthBelowRim": 0.09349999959021807
+  },
+  "bottle": {
+    "source": "Food Kit 2.0/soda-bottle.glb",
+    "uniformScale": 0.3962702149933177,
+    "actualCandidateSize": [
+      0.07152360316575848,
+      0.22999999999999998,
+      0.06194125988503648
+    ],
+    "material": "Original opaque PNG palette and UV. No liquid/transparent-glass claim."
+  },
+  "tissue": {
+    "source": "Project-authored bounded supplement after the obtained package scope lacks a compatible dispenser",
+    "bodySize": [
+      0.16,
+      0.075,
+      0.1
+    ],
+    "wallThickness": 0.003,
+    "slotSize": [
+      0.056,
+      0.01
+    ],
+    "lidY": [
+      0.072,
+      0.075
+    ],
+    "paperThickness": 0.0002,
+    "paperTopBefore": 0.125,
+    "paperTopAfter": 0.135,
+    "requirement": "Real slot/cavity/bottom and an actual folded thin sheet. Candidate .0002m thin extrusion, explicit double-sided thin surface semantic also acceptable if accurately declared. Internal fold or lip assembly must visibly retain it; no arbitrary thick brick or universal closed-shell count."
+  },
+  "penNotebook": {
+    "containerSource": "Reuse the actual open cup as a cup-style pen holder, preserve handle and cavity",
+    "holderScale": [
+      0.21739130040422963,
+      0.3749999944120646,
+      0.21739130040422963
+    ],
+    "holderActualSize": [
+      0.05,
+      0.075,
+      0.06350361829341669
+    ],
+    "holderBodyCenter": [
+      0.055,
+      0,
+      0
+    ],
+    "holderFloorY": 0.011250000279396767,
+    "notebook": {
+      "source": "Bounded original A6-like closed notebook. Existing Furniture books is a fused standing set; isolated source notebook not proved.",
+      "size": [
+        0.105,
+        0.012,
+        0.148
+      ],
+      "center": [
+        -0.0335,
+        0,
+        0
+      ],
+      "bounds": {
+        "min": [
+          -0.086,
+          0,
+          -0.074
+        ],
+        "max": [
+          0.019,
+          0.012,
+          0.074
+        ]
+      }
+    },
+    "pens": {
+      "radius": 0.0025,
+      "lengths": [
+        0.12,
+        0.13,
+        0.14
+      ],
+      "baseY": 0.011250000279396767,
+      "centersRelativeToHolder": [
+        [
+          -0.007,
+          0
+        ],
+        [
+          0,
+          0.006
+        ],
+        [
+          0.007,
+          0
+        ]
+      ],
+      "requirement": "Three closed static pen forms resting on real inner floor with small flat end contact, no hand animation."
+    },
+    "combinedEnvelopeBound": [
+      [
+        -0.086,
+        0,
+        -0.074
+      ],
+      [
+        0.08,
+        0.15125,
+        0.074
+      ]
+    ],
+    "sideGap": 0.011,
+    "sourceBookCandidateLimit": "Original region selection only retrieved five surface triangles, not an independent closed notebook; cannot count that as a source-adapted notebook."
+  },
+  "minimumParentMarginsAtYaw0": {
+    "x": 0.06,
+    "z": 0.020000000000000004,
+    "height": 0.09999999999999998
+  },
+  "minimumParentMarginsAtQuarterTurn": "Same .18 square envelope, same margins. Current document rejects arbitrary yaw; no rotation API extension."
+}

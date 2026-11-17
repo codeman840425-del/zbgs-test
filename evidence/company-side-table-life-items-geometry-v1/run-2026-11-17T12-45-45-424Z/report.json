@@ -1,0 +1,307 @@
+{
+  "status": "failed",
+  "checks": [
+    {
+      "name": "cup actual GLB finite geometry and generic support",
+      "passed": true
+    },
+    {
+      "name": "bottle actual GLB finite geometry and generic support",
+      "passed": true
+    },
+    {
+      "name": "tissue actual GLB finite geometry and generic support",
+      "passed": true
+    },
+    {
+      "name": "pen-notebook actual GLB finite geometry and generic support",
+      "passed": true
+    },
+    {
+      "name": "Pinned side-table geometry keeps its original path",
+      "passed": true
+    },
+    {
+      "name": "Same function accepts a new stable ID and version 2",
+      "passed": true
+    },
+    {
+      "name": "Cup inner floor lifted to block the real cavity",
+      "passed": true,
+      "artifact": "mutation-6.json",
+      "rejection": {
+        "code": "life-items-cup-floor",
+        "path": "scene.life-cup-source",
+        "message": "The real unobstructed inner floor must remain at its finite source height"
+      }
+    },
+    {
+      "name": "Deleted actual outer bottom leaves a visible leak",
+      "passed": true,
+      "artifact": "mutation-7.json",
+      "rejection": {
+        "code": "life-items-cup-shell",
+        "path": "scene.life-cup-source",
+        "message": "The actual source needs its closed hollow vessel and embedded open-ended handle"
+      }
+    },
+    {
+      "name": "Actual source handle loses buried end contact",
+      "passed": true,
+      "artifact": "mutation-8.json",
+      "rejection": {
+        "code": "life-items-handle-contact",
+        "path": "scene.life-cup-source",
+        "message": "Every actual handle-end boundary must remain buried in the closed vessel material"
+      }
+    },
+    {
+      "name": "A closed added plug cannot fill the mouth",
+      "passed": true,
+      "artifact": "mutation-9.json",
+      "rejection": {
+        "code": "life-items-extra-node",
+        "path": "resource",
+        "message": "Finite life-item recipe cannot contain unverified extra geometry"
+      }
+    },
+    {
+      "name": "Food source cannot drop its actual UV mapping",
+      "passed": true,
+      "artifact": "mutation-10.json",
+      "rejection": {
+        "code": "life-items-source-texture",
+        "path": "scene.life-cup-source",
+        "message": "The Food source requires its real opaque colormap, original UV channel and double-sided material semantics"
+      }
+    },
+    {
+      "name": "Food gradient cannot collapse to one UV swatch",
+      "passed": true,
+      "artifact": "mutation-11.json",
+      "rejection": {
+        "code": "life-items-source-uv",
+        "path": "scene.life-cup-source",
+        "message": "The original gradient mapping cannot collapse to a single swatch"
+      }
+    },
+    {
+      "name": "Food source requires its textured material",
+      "passed": true,
+      "artifact": "mutation-12.json",
+      "rejection": {
+        "code": "life-items-source-texture",
+        "path": "scene.life-cup-source",
+        "message": "The Food source requires its real opaque colormap, original UV channel and double-sided material semantics"
+      }
+    },
+    {
+      "name": "Transparent cup cannot substitute for opaque Food source",
+      "passed": true,
+      "artifact": "mutation-13.json",
+      "rejection": {
+        "code": "life-items-material",
+        "path": "scene.life-cup-source",
+        "message": "Life items require actual opaque visible source materials"
+      }
+    },
+    {
+      "name": "Bottle cover lower rim lifted off the actual collar",
+      "passed": true,
+      "artifact": "mutation-14.json",
+      "rejection": {
+        "code": "life-items-bottle-cover",
+        "path": "scene.life-bottle-source",
+        "message": "The actual cover boundary must touch the collar top within Float32 source tolerance"
+      }
+    },
+    {
+      "name": "Actual bottle bottom cannot be removed",
+      "passed": true,
+      "artifact": "mutation-15.json",
+      "rejection": {
+        "code": "life-items-bottle-neck",
+        "path": "scene.life-bottle-source",
+        "message": "Every actual open neck boundary must be sealed by its original collar embed"
+      }
+    },
+    {
+      "name": "Painted solid lid cannot substitute for a real tissue slot",
+      "passed": true,
+      "artifact": "mutation-16.json",
+      "rejection": {
+        "code": "life-items-recipe-coverage",
+        "path": "scene.life-tissue-lid",
+        "message": "Actual triangles must remain inside the required contours",
+        "details": {
+          "triangle": 0
+        }
+      }
+    },
+    {
+      "name": "Static thin paper cannot float above the inner floor",
+      "passed": true,
+      "artifact": "mutation-17.json",
+      "rejection": {
+        "code": "life-items-paper-height",
+        "path": "scene.life-tissue-paper",
+        "message": "The finite second input permits paper tops from .125 to .135 metres"
+      }
+    },
+    {
+      "name": "A thick slab cannot substitute for folded thin paper",
+      "passed": true,
+      "artifact": "mutation-18.json",
+      "rejection": {
+        "code": "life-items-recipe-surface",
+        "path": "scene.life-tissue-paper",
+        "message": "Actual boundary must preserve the finite extrusion, folds and hole"
+      }
+    },
+    {
+      "name": "Actual tissue wall cannot disappear",
+      "passed": true,
+      "artifact": "mutation-19.json",
+      "rejection": {
+        "code": "life-items-node",
+        "path": "scene.life-tissue-side-left",
+        "message": "Required semantic mesh is missing"
+      }
+    },
+    {
+      "name": "Actual tissue base cannot be a suspended foil",
+      "passed": true,
+      "artifact": "mutation-20.json",
+      "rejection": {
+        "code": "life-items-part-bounds",
+        "path": "scene.life-tissue-base",
+        "message": "Actual semantic-part geometry must fit its finite recipe dimensions"
+      }
+    },
+    {
+      "name": "Repeated visible tissue lid triangles are rejected",
+      "passed": true,
+      "artifact": "mutation-21.json",
+      "rejection": {
+        "code": "life-items-winding",
+        "path": "scene.life-tissue-lid",
+        "message": "Actual shared boundary edges require consistent orientation"
+      }
+    },
+    {
+      "name": "Real finite paper recipe accepts the .125 second-input endpoint",
+      "passed": true
+    },
+    {
+      "name": "The combination must include its real notebook",
+      "passed": true,
+      "artifact": "mutation-23.json",
+      "rejection": {
+        "code": "life-items-node",
+        "path": "scene.life-notebook-pages",
+        "message": "Required semantic mesh is missing"
+      }
+    }
+  ],
+  "realAssets": [
+    {
+      "design": "cup",
+      "modelPath": "evidence/company-side-table-life-items-production-v1/complete-candidate/cup.glb",
+      "sha256": "677b028517aab674f70489e1eeb0dfabee2afb7c2cbf1ec5a8b8e6d362e12129",
+      "actual": {
+        "checked": true,
+        "profile": "side-table-life-items-v1",
+        "design": "cup",
+        "triangleCount": 112,
+        "meshCount": 1,
+        "materialCount": 1,
+        "groundArea": 0.003866160398982958,
+        "openDepth": 0.0935,
+        "embeddedHandle": true
+      }
+    },
+    {
+      "design": "bottle",
+      "modelPath": "evidence/company-side-table-life-items-production-v1/complete-candidate/bottle.glb",
+      "sha256": "0f50a9591d152f20fcb34ea21cd369816f179247a2d551ef090f29f9b98a2843",
+      "actual": {
+        "checked": true,
+        "profile": "side-table-life-items-v1",
+        "design": "bottle",
+        "triangleCount": 100,
+        "meshCount": 1,
+        "materialCount": 1,
+        "groundArea": 0.0019849061401235393,
+        "sourceInterface": "Embedded body rim and cover rim against closed collar"
+      }
+    },
+    {
+      "design": "tissue",
+      "modelPath": "evidence/company-side-table-life-items-production-v1/complete-candidate/tissue.glb",
+      "sha256": "45058b0ec3664f08df6a2ee96713d7d0e2a436bff507859dba65b04b0d5693e9",
+      "actual": {
+        "checked": true,
+        "profile": "side-table-life-items-v1",
+        "design": "tissue",
+        "triangleCount": 120,
+        "meshCount": 7,
+        "materialCount": 2,
+        "groundArea": 0.015999999880790705,
+        "paperTopY": 0.13500000536441803,
+        "actualSlot": [
+          0.056,
+          0.01
+        ],
+        "paperThickness": 0.0002,
+        "paperBaseContact": 0.000010399999951850767
+      }
+    },
+    {
+      "design": "pen-notebook",
+      "modelPath": "evidence/company-side-table-life-items-production-v1/complete-candidate/pen-notebook.glb",
+      "sha256": "205d9321446428bc94a55a3e13ddbba8f8146c3a3b675e5c2b4b7f25fe5aa9f7",
+      "actual": {
+        "checked": true,
+        "profile": "side-table-life-items-v1",
+        "design": "pen-notebook",
+        "triangleCount": 352,
+        "meshCount": 8,
+        "materialCount": 4,
+        "holderGroundArea": 0.0010827154431970534,
+        "notebookGroundArea": 0.015540000542104249,
+        "pens": [
+          {
+            "name": "life-pen-1",
+            "floorContactArea": 0.0000013859310903593381,
+            "topY": 0.13124999403953552
+          },
+          {
+            "name": "life-pen-2",
+            "floorContactArea": 0.0000013859310088685378,
+            "topY": 0.14124999940395355
+          },
+          {
+            "name": "life-pen-3",
+            "floorContactArea": 0.0000013859303265807595,
+            "topY": 0.15125000476837158
+          }
+        ],
+        "notebookHolderGap": 0.010999999940395355
+      }
+    }
+  ],
+  "failure": {
+    "message": "Pen cannot float above the real cup floor expected life-items-recipe-surface/life-items-recipe-coverage, got life-items-budget: Actual life items require at most 2500 triangles, 32 meshes and four materials",
+    "code": "ERR_ASSERTION",
+    "stack": "AssertionError [ERR_ASSERTION]: Pen cannot float above the real cup floor expected life-items-recipe-surface/life-items-recipe-coverage, got life-items-budget: Actual life items require at most 2500 triangles, 32 meshes and four materials\n    at mutate (file:///F:/gamemake-company-platform-c1/scripts/company-platform/test-side-table-life-items-geometry.mjs:66:3)\n    at async file:///F:/gamemake-company-platform-c1/scripts/company-platform/test-side-table-life-items-geometry.mjs:145:5"
+  },
+  "sourceHashes": {
+    "prototype/src/company/side-table-life-items-geometry.js": "25e6f065de693223ab07ad88ddb5c8fadb2512f675f639fa32f4c2fd5d8e9a39",
+    "prototype/src/company/asset-library.js": "c37ac463e3f3cba67de533531177cfe230920725a94dca4668ef27fe191f4a17",
+    "scripts/company-platform/test-side-table-life-items-geometry.mjs": "1a3043c02d92e3dc3dc7ff0eea9c6da7aa1927ed77f0cd8dfb64cbb09b08da0a"
+  },
+  "limits": [
+    "CPU GLTFLoader uses texture placeholders only. Native PNG decoding, browser transaction/lifecycle and GPU appearance are separate checks.",
+    "Finite recipe geometry only, no general rigid-body or strength analysis. Source attributes/PNG byte identity is verified independently by the producer."
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "status": "passed",
+  "build": "5d260122791d",
+  "sourceSha256": "c34f9f67f63a1fb6f9577ba028e684fdb7bc6b4c0e90b5adecef011965bf439d",
+  "checks": [
+    {
+      "name": "per-imported-mesh shadow material ownership",
+      "passed": true,
+      "detail": "render.js creates customDepthMaterial and customDistanceMaterial for every imported mesh before candidate installation. Synthetic static resources are unchanged and continue to use their existing primitive materials."
+    },
+    {
+      "name": "candidate failure cleanup",
+      "passed": true,
+      "detail": "build catch calls disposeTree on the candidate root. disposeTree traverses ordinary, custom depth and custom distance materials, collects referenced textures/geometries and releases each once through Sets and a released root WeakSet."
+    },
+    {
+      "name": "scene and cache disposal",
+      "passed": true,
+      "detail": "Native trace observed each captured custom depth/distance material dispose once, all bitmap clones closed once, geometry count zero, and renderer texture count zero after renderer disposal."
+    },
+    {
+      "name": "shadow presentation",
+      "passed": true,
+      "detail": "shadow-on.png and shadow-off.png were captured from the fixed build. The scene stayed drawable with no page errors while toggling the directional shadow."
+    },
+    {
+      "name": "eight-swap native trace",
+      "passed": true,
+      "detail": "The original eight-look sequence no longer creates the stale shared-depth map texture. Settled texture counts repeat 4,4,3,4 across both halves. Remaining 3 textures before renderer disposal are the global shadow pair plus DFG LUT."
+    }
+  ],
+  "artifacts": {
+    "report": "report.json",
+    "diagnosticScript": "review-native.cjs",
+    "shadowOn": "shadow-on.png",
+    "shadowOff": "shadow-off.png"
+  },
+  "limitations": [
+    "SwiftShader browser only, no physical-GPU or ordinary-PC performance claim.",
+    "The root owns runtime and main QA integration. This review did not modify runtime or QA."
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "name": "cup actual GLB finite geometry and generic support",
+      "passed": true
+    },
+    {
+      "name": "bottle actual GLB finite geometry and generic support",
+      "passed": true
+    },
+    {
+      "name": "tissue actual GLB finite geometry and generic support",
+      "passed": true
+    },
+    {
+      "name": "pen-notebook actual GLB finite geometry and generic support",
+      "passed": true
+    }
+  ],
+  "realAssets": [
+    {
+      "design": "cup",
+      "modelPath": "evidence/company-side-table-life-items-production-v1/complete-candidate/cup.glb",
+      "sha256": "677b028517aab674f70489e1eeb0dfabee2afb7c2cbf1ec5a8b8e6d362e12129",
+      "actual": {
+        "checked": true,
+        "profile": "side-table-life-items-v1",
+        "design": "cup",
+        "triangleCount": 112,
+        "meshCount": 1,
+        "materialCount": 1,
+        "groundArea": 0.003866160398982958,
+        "openDepth": 0.0935,
+        "embeddedHandle": true
+      }
+    },
+    {
+      "design": "bottle",
+      "modelPath": "evidence/company-side-table-life-items-production-v1/complete-candidate/bottle.glb",
+      "sha256": "0f50a9591d152f20fcb34ea21cd369816f179247a2d551ef090f29f9b98a2843",
+      "actual": {
+        "checked": true,
+        "profile": "side-table-life-items-v1",
+        "design": "bottle",
+        "triangleCount": 100,
+        "meshCount": 1,
+        "materialCount": 1,
+        "groundArea": 0.0019849061401235393,
+        "sourceInterface": "Embedded body rim and cover rim against closed collar"
+      }
+    },
+    {
+      "design": "tissue",
+      "modelPath": "evidence/company-side-table-life-items-production-v1/complete-candidate/tissue.glb",
+      "sha256": "45058b0ec3664f08df6a2ee96713d7d0e2a436bff507859dba65b04b0d5693e9",
+      "actual": {
+        "checked": true,
+        "profile": "side-table-life-items-v1",
+        "design": "tissue",
+        "triangleCount": 120,
+        "meshCount": 7,
+        "materialCount": 2,
+        "groundArea": 0.015999999880790705,
+        "paperTopY": 0.13500000536441803,
+        "actualSlot": [
+          0.056,
+          0.01
+        ],
+        "paperThickness": 0.0002,
+        "paperBaseContact": 0.000010399999951850767
+      }
+    },
+    {
+      "design": "pen-notebook",
+      "modelPath": "evidence/company-side-table-life-items-production-v1/complete-candidate/pen-notebook.glb",
+      "sha256": "205d9321446428bc94a55a3e13ddbba8f8146c3a3b675e5c2b4b7f25fe5aa9f7",
+      "actual": {
+        "checked": true,
+        "profile": "side-table-life-items-v1",
+        "design": "pen-notebook",
+        "triangleCount": 352,
+        "meshCount": 8,
+        "materialCount": 4,
+        "holderGroundArea": 0.0010827154431970534,
+        "notebookGroundArea": 0.015540000542104249,
+        "pens": [
+          {
+            "name": "life-pen-1",
+            "floorContactArea": 0.0000013859310903593381,
+            "topY": 0.13124999403953552
+          },
+          {
+            "name": "life-pen-2",
+            "floorContactArea": 0.0000013859310088685378,
+            "topY": 0.14124999940395355
+          },
+          {
+            "name": "life-pen-3",
+            "floorContactArea": 0.0000013859303265807595,
+            "topY": 0.15125000476837158
+          }
+        ],
+        "notebookHolderGap": 0.010999999940395355
+      }
+    }
+  ],
+  "sourceHashes": {
+    "prototype/src/company/side-table-life-items-geometry.js": "25e6f065de693223ab07ad88ddb5c8fadb2512f675f639fa32f4c2fd5d8e9a39",
+    "prototype/src/company/asset-library.js": "c37ac463e3f3cba67de533531177cfe230920725a94dca4668ef27fe191f4a17",
+    "scripts/company-platform/test-side-table-life-items-geometry.mjs": "152304d50257489e327d90725ccf25179d01b96e76aef6872d565dbe343d6061"
+  },
+  "limits": [
+    "CPU GLTFLoader uses texture placeholders only. Native PNG decoding, browser transaction/lifecycle and GPU appearance are separate checks.",
+    "Finite recipe geometry only, no general rigid-body or strength analysis. Source attributes/PNG byte identity is verified independently by the producer."
+  ]
+}

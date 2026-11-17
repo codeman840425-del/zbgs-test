@@ -1,0 +1,105 @@
+{
+  "schema": "company-save",
+  "version": 1,
+  "document": {
+    "schema": "company-layout",
+    "version": 1,
+    "id": "side-table-life-items-alternate",
+    "name": "台面日用品 · 转向布置",
+    "revision": 1,
+    "scale": "single-room",
+    "catalog": {
+      "id": "company-facilities",
+      "version": 1
+    },
+    "nodes": [
+      {
+        "id": "side-table-life-items-alternate/floor-1",
+        "kind": "floor",
+        "parentId": "side-table-life-items-alternate",
+        "name": "一层",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "side-table-life-items-alternate/room-1",
+        "kind": "room",
+        "parentId": "side-table-life-items-alternate/floor-1",
+        "name": "直播间",
+        "purpose": "streaming",
+        "bounds": {
+          "width": 7,
+          "depth": 5.25
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "life-items/table",
+        "kind": "facility",
+        "parentId": "side-table-life-items-alternate/room-1",
+        "resource": {
+          "id": "side-table-low",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            1,
+            0,
+            0.3
+          ],
+          "yaw": 1.5707963267948966
+        },
+        "state": {}
+      },
+      {
+        "id": "life-items/primary",
+        "kind": "facility",
+        "parentId": "life-items/table",
+        "resource": {
+          "id": "side-table-life-cup",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0.5,
+            0
+          ],
+          "yaw": 0
+        },
+        "state": {},
+        "attachment": {
+          "surfaceId": "top"
+        }
+      }
+    ]
+  },
+  "dependencies": {
+    "resources": [
+      {
+        "id": "side-table-life-cup",
+        "version": 1,
+        "sha256": "0d2273a7a5179493a77f8c157c69f9c10d62d94fe37f2fd201241443a66be853"
+      },
+      {
+        "id": "side-table-low",
+        "version": 1,
+        "sha256": "472aa84a31a24632d9982b27b2a4dac93b2d4ee001fc54fa36587cb071795f20"
+      }
+    ],
+    "templates": []
+  }
+}

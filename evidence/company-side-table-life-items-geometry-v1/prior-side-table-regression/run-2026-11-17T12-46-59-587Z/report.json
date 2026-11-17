@@ -1,0 +1,749 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "name": "Other pinned geometry profiles keep their original paths",
+      "passed": true
+    },
+    {
+      "name": "round actual external-derived GLB has complete board, closed source solids and real grounded support",
+      "passed": true
+    },
+    {
+      "name": "square actual external-derived GLB has complete board, closed source solids and real grounded support",
+      "passed": true
+    },
+    {
+      "name": "nested actual external-derived GLB has complete board, closed source solids and real grounded support",
+      "passed": true
+    },
+    {
+      "name": "low actual external-derived GLB has complete board, closed source solids and real grounded support",
+      "passed": true
+    },
+    {
+      "name": "Same-function new ID and explicit version 2 remain supported",
+      "passed": true
+    },
+    {
+      "name": "Missing real side-table-top",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-node",
+        "path": "side-table-round.scene.side-table-top",
+        "message": "The finite source adaptation requires its actual named part"
+      }
+    },
+    {
+      "name": "Missing real side-table-round-board",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-node",
+        "path": "side-table-round.scene.side-table-round-board",
+        "message": "The finite source adaptation requires its actual named part"
+      }
+    },
+    {
+      "name": "Missing real side-table-round-support",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-node",
+        "path": "side-table-round.scene.side-table-round-support",
+        "message": "The finite source adaptation requires its actual named part"
+      }
+    },
+    {
+      "name": "Missing real side-table-square-body",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-node",
+        "path": "side-table-square.scene.side-table-square-body",
+        "message": "The finite source adaptation requires its actual named part"
+      }
+    },
+    {
+      "name": "Missing real side-table-square-door",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-node",
+        "path": "side-table-square.scene.side-table-square-door",
+        "message": "The finite source adaptation requires its actual named part"
+      }
+    },
+    {
+      "name": "Missing real side-table-square-handle",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-node",
+        "path": "side-table-square.scene.side-table-square-handle",
+        "message": "The finite source adaptation requires its actual named part"
+      }
+    },
+    {
+      "name": "Missing real side-table-nested-main",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-node",
+        "path": "side-table-nested.scene.side-table-nested-main",
+        "message": "The finite source adaptation requires its actual named part"
+      }
+    },
+    {
+      "name": "Missing real side-table-nested-small",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-node",
+        "path": "side-table-nested.scene.side-table-nested-small",
+        "message": "The finite source adaptation requires its actual named part"
+      }
+    },
+    {
+      "name": "Thin planar circle cannot replace the solid board",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-degenerate-face",
+        "path": "side-table-round.scene.side-table-round-board",
+        "message": "Zero-area source triangles must be cleaned instead of counted as real boundary"
+      }
+    },
+    {
+      "name": "Circle support cannot lose its true closed cut cap",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-open-boundary",
+        "path": "side-table-round.scene.pedestal",
+        "message": "Every real atomic boundary edge needs exactly two opposite triangle uses",
+        "details": {
+          "edge": "0/1",
+          "uses": [
+            {
+              "from": 0,
+              "to": 1,
+              "faceIndex": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Circle annulus cannot lose a real triangle",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-open-boundary",
+        "path": "side-table-round.scene.board",
+        "message": "Every real atomic boundary edge needs exactly two opposite triangle uses",
+        "details": {
+          "edge": "2/51",
+          "uses": [
+            {
+              "from": 2,
+              "to": 51,
+              "faceIndex": 25
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Shared patch cannot float above the real board",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-envelope",
+        "path": "side-table-round.scene.side-table-top",
+        "message": "Every referenced source vertex must fit the complete installation box",
+        "details": {
+          "point": [
+            0.15000000596046448,
+            0.5019999742507935,
+            0.10999999940395355
+          ]
+        }
+      }
+    },
+    {
+      "name": "A duplicate coplanar closed patch cannot conceal an uncut original top",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-duplicate-face",
+        "path": "side-table-round.scene.side-table-top",
+        "message": "Actual equally oriented coplanar table faces overlap over positive area",
+        "details": {
+          "other": "duplicate-top",
+          "triangles": [
+            248,
+            254
+          ]
+        }
+      }
+    },
+    {
+      "name": "Original column must actually meet the circle underside",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-round-board",
+        "path": "side-table-round.scene.board",
+        "message": "The thick circle and retained source support must meet at the actual original slab cut"
+      }
+    },
+    {
+      "name": "Circle profile cannot become an oval under the same metadata",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-board",
+        "path": "side-table-round.scene.board",
+        "message": "Actual triangles leave a hole in a required contour",
+        "details": {
+          "polygon": 0,
+          "missingArea": 0.010588285554695185
+        }
+      }
+    },
+    {
+      "name": "Open real low-table body is rejected",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-open-boundary",
+        "path": "side-table-low.scene.low",
+        "message": "Every real atomic boundary edge needs exactly two opposite triangle uses",
+        "details": {
+          "edge": "4/5",
+          "uses": [
+            {
+              "from": 4,
+              "to": 5,
+              "faceIndex": 2
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Low table must keep four actual ground contacts",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-ground-contact",
+        "path": "side-table-low.scene.low",
+        "message": "Each actual table needs its own complete positive-area ground contacts",
+        "details": {
+          "required": 4,
+          "areas": [
+            0.0020423728351648407
+          ]
+        }
+      }
+    },
+    {
+      "name": "Nested small table cannot borrow the main table ground",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-ground-contact",
+        "path": "side-table-nested.scene.small",
+        "message": "Each actual table needs its own complete positive-area ground contacts",
+        "details": {
+          "required": 4,
+          "areas": [
+            0.0007799998831747867
+          ]
+        }
+      }
+    },
+    {
+      "name": "A closed added solid cannot penetrate the two real nested tables",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-intersection",
+        "path": "side-table-nested.scene.main",
+        "message": "Actual independently closed source solids penetrate each other",
+        "details": {
+          "other": "nested-penetrating-bridge",
+          "overlap": {
+            "kind": "inside"
+          }
+        }
+      }
+    },
+    {
+      "name": "Nested small table cannot silently move outside the validated source range",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-nested-position",
+        "path": "side-table-nested.scene.small",
+        "message": "The finite static nested offset must retain the validated .23m to .24m source range"
+      }
+    },
+    {
+      "name": "The source cabinet door and handle need a genuinely closed body",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-open-boundary",
+        "path": "side-table-square.scene.door",
+        "message": "Every real atomic boundary edge needs exactly two opposite triangle uses",
+        "details": {
+          "edge": "9/10",
+          "uses": [
+            {
+              "from": 10,
+              "to": 9,
+              "faceIndex": 9
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "A real nested slab cannot be shortened into a thin unsupported foil",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-board",
+        "path": "side-table-nested.scene.small",
+        "message": "Actual triangles leave a hole in a required contour",
+        "details": {
+          "polygon": 0,
+          "missingArea": 0.014962721612103467
+        }
+      }
+    },
+    {
+      "name": "Named body cannot hide a disconnected closed block",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-components",
+        "path": "side-table-low.scene.low",
+        "message": "A declared source solid must be one connected actual closed shell"
+      }
+    },
+    {
+      "name": "An unknown extra mesh must still have a grounded contact path",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-detached",
+        "path": "side-table-round.resource",
+        "message": "Every actual closed solid needs a continuous positive-area contact path to its table ground",
+        "details": {
+          "detached": [
+            "floating-extra"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Transparent source material cannot fake a real board",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-material",
+        "path": "side-table-round.scene.side-table-round-board",
+        "message": "The table requires actual opaque visible source materials"
+      }
+    },
+    {
+      "name": "Unbaked source transforms are rejected",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-transform",
+        "path": "side-table-square.scene.side-table-square-body",
+        "message": "Actual source geometry requires visible static baked identity nodes and wrappers"
+      }
+    },
+    {
+      "name": "Hidden source supports are rejected",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-transform",
+        "path": "side-table-round.scene.side-table-round-support",
+        "message": "Actual source geometry requires visible static baked identity nodes and wrappers"
+      }
+    },
+    {
+      "name": "Unknown source form cannot be inferred from bounds",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-source-form",
+        "path": "side-table-low.resource",
+        "message": "The finite source design must match one of the four actual structural forms"
+      }
+    },
+    {
+      "name": "Every actual referenced triangle must fit the complete installation box",
+      "passed": true,
+      "rejection": {
+        "code": "side-table-envelope",
+        "path": "side-table-low.scene.outside",
+        "message": "Every referenced source vertex must fit the complete installation box",
+        "details": {
+          "point": [
+            0.4099999964237213,
+            0.2199999988079071,
+            0.019999999552965164
+          ]
+        }
+      }
+    },
+    {
+      "name": "Shared support node metadata must point to an actual usable two-triangle top",
+      "passed": true,
+      "rejection": {
+        "code": "invalid-support-topology",
+        "path": "side-table-low.resource.supportSurfaces[0].supportNodes",
+        "message": "Support top must be exactly two upward coplanar triangles"
+      }
+    },
+    {
+      "name": "Real prior .23m source-offset GLB also passes actual solids and independent ground checks",
+      "passed": true,
+      "sha256": "683c4cd3654f3c7f6ed6f26b50b1a58bb5c3856f999e7c4640717ad1bf1ae6b0",
+      "actual": {
+        "checked": true,
+        "profile": "side-table-v1",
+        "sourceDesign": "nested",
+        "meshCount": 3,
+        "triangleCount": 236,
+        "materials": 1,
+        "support": {
+          "checked": true,
+          "surfaces": [
+            {
+              "mesh": "side-table-top",
+              "triangles": 2,
+              "area": 0.21119999413490298,
+              "topY": 0.5
+            }
+          ],
+          "bottomY": 0
+        },
+        "boards": [
+          {
+            "bottomY": 0.3913043478260869,
+            "topY": 0.5,
+            "thickness": 0.10869565217391308
+          },
+          {
+            "bottomY": 0.26608695652173914,
+            "topY": 0.34,
+            "thickness": 0.07391304347826089
+          }
+        ],
+        "ground": [
+          {
+            "id": "main",
+            "areas": [
+              0.002111999679088594,
+              0.0021119997386929157,
+              0.0021119990234375052,
+              0.0021120003943442267
+            ]
+          },
+          {
+            "id": "small",
+            "areas": [
+              0.0007799998235702432,
+              0.0007800000768899418,
+              0.0007799996298551992,
+              0.0007800002706050968
+            ]
+          }
+        ],
+        "connections": [],
+        "solids": [
+          {
+            "id": "main",
+            "triangles": 118,
+            "volume": 0.029200700989722928
+          },
+          {
+            "id": "small",
+            "triangles": 118,
+            "volume": 0.007333357919790353
+          }
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "boundaryEdgeMetres": 0.000001,
+          "areaSquareMetres": 1e-8
+        },
+        "limitation": "Finite actual static source shells, complete board boundary, contact and independent ground checks. Source identity is additionally pinned by the producer original-vertex readback. No mechanical strength, dynamic nesting or character-use claim."
+      }
+    },
+    {
+      "name": "Shared actual asset-library admits four external-derived assets and new identity/version through the dedicated gate",
+      "passed": true
+    }
+  ],
+  "realAssets": [
+    {
+      "design": "round",
+      "modelPath": "prototype/public/company-assets/side-table-v1/round/v1/model.glb",
+      "sha256": "4c589b2c36676d119d282378c559b355b1e0778312604363256c4073ae30360d",
+      "actual": {
+        "checked": true,
+        "profile": "side-table-v1",
+        "sourceDesign": "round",
+        "meshCount": 3,
+        "triangleCount": 250,
+        "materials": 1,
+        "support": {
+          "checked": true,
+          "surfaces": [
+            {
+              "mesh": "side-table-top",
+              "triangles": 2,
+              "area": 0.06600000226497649,
+              "topY": 0.5
+            }
+          ],
+          "bottomY": 0
+        },
+        "boards": [
+          {
+            "bottomY": 0.4296856224536896,
+            "topY": 0.5,
+            "thickness": 0.07031437754631042,
+            "capArea": 0.0027039988524318955,
+            "segments": 48,
+            "partitionArea": 0.066
+          }
+        ],
+        "ground": [
+          {
+            "id": "pedestal",
+            "areas": [
+              0.02044900190925597
+            ]
+          }
+        ],
+        "connections": [
+          {
+            "a": "board",
+            "b": "pedestal",
+            "area": 0.0027039988524318955
+          }
+        ],
+        "solids": [
+          {
+            "id": "board",
+            "triangles": 198,
+            "volume": 0.014890173085690106
+          },
+          {
+            "id": "pedestal",
+            "triangles": 52,
+            "volume": 0.002269384279842241
+          }
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "boundaryEdgeMetres": 0.000001,
+          "areaSquareMetres": 1e-8
+        },
+        "limitation": "Finite actual static source shells, complete board boundary, contact and independent ground checks. Source identity is additionally pinned by the producer original-vertex readback. No mechanical strength, dynamic nesting or character-use claim."
+      }
+    },
+    {
+      "design": "square",
+      "modelPath": "prototype/public/company-assets/side-table-v1/square/v1/model.glb",
+      "sha256": "aa3f605a019971e48061201ec3d4883ad8f2ad11420c0fe58f99b0da0fc084d5",
+      "actual": {
+        "checked": true,
+        "profile": "side-table-v1",
+        "sourceDesign": "square",
+        "meshCount": 4,
+        "triangleCount": 72,
+        "materials": 2,
+        "support": {
+          "checked": true,
+          "surfaces": [
+            {
+              "mesh": "side-table-top",
+              "triangles": 2,
+              "area": 0.22499999403953552,
+              "topY": 0.5
+            }
+          ],
+          "bottomY": 0
+        },
+        "boards": [
+          {
+            "bottomY": 0.45711835334476847,
+            "topY": 0.5,
+            "thickness": 0.04288164665523153
+          }
+        ],
+        "ground": [
+          {
+            "id": "cabinet",
+            "areas": [
+              0.198404453498231
+            ]
+          }
+        ],
+        "connections": [
+          {
+            "a": "cabinet",
+            "b": "door",
+            "area": 0.04953552442457655
+          }
+        ],
+        "solids": [
+          {
+            "id": "cabinet",
+            "triangles": 44,
+            "volume": 0.055693186330221724
+          },
+          {
+            "id": "door",
+            "triangles": 28,
+            "volume": 0.004578433072732059
+          }
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "boundaryEdgeMetres": 0.000001,
+          "areaSquareMetres": 1e-8
+        },
+        "limitation": "Finite actual static source shells, complete board boundary, contact and independent ground checks. Source identity is additionally pinned by the producer original-vertex readback. No mechanical strength, dynamic nesting or character-use claim."
+      }
+    },
+    {
+      "design": "nested",
+      "modelPath": "prototype/public/company-assets/side-table-v1/nested/v1/model.glb",
+      "sha256": "b62f5bc58e7634a5cd8d25dba40919ff585d665ca24fe271c9f33da6289bf28c",
+      "actual": {
+        "checked": true,
+        "profile": "side-table-v1",
+        "sourceDesign": "nested",
+        "meshCount": 3,
+        "triangleCount": 236,
+        "materials": 1,
+        "support": {
+          "checked": true,
+          "surfaces": [
+            {
+              "mesh": "side-table-top",
+              "triangles": 2,
+              "area": 0.21119999413490298,
+              "topY": 0.5
+            }
+          ],
+          "bottomY": 0
+        },
+        "boards": [
+          {
+            "bottomY": 0.3913043478260869,
+            "topY": 0.5,
+            "thickness": 0.10869565217391308
+          },
+          {
+            "bottomY": 0.26608695652173914,
+            "topY": 0.34,
+            "thickness": 0.07391304347826089
+          }
+        ],
+        "ground": [
+          {
+            "id": "main",
+            "areas": [
+              0.002111999679088594,
+              0.0021119997386929157,
+              0.0021119990234375052,
+              0.0021120003943442267
+            ]
+          },
+          {
+            "id": "small",
+            "areas": [
+              0.0007799998235702432,
+              0.0007799998831747867,
+              0.0007799994361401552,
+              0.0007800002706050968
+            ]
+          }
+        ],
+        "connections": [],
+        "solids": [
+          {
+            "id": "main",
+            "triangles": 118,
+            "volume": 0.029200700989722928
+          },
+          {
+            "id": "small",
+            "triangles": 118,
+            "volume": 0.007333357473066432
+          }
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "boundaryEdgeMetres": 0.000001,
+          "areaSquareMetres": 1e-8
+        },
+        "limitation": "Finite actual static source shells, complete board boundary, contact and independent ground checks. Source identity is additionally pinned by the producer original-vertex readback. No mechanical strength, dynamic nesting or character-use claim."
+      }
+    },
+    {
+      "design": "low",
+      "modelPath": "prototype/public/company-assets/side-table-v1/low/v1/model.glb",
+      "sha256": "8808760b9a36d7d39d84c2f9829fdb43bae86c65c0157cbd2983ef00ab1287bc",
+      "actual": {
+        "checked": true,
+        "profile": "side-table-v1",
+        "sourceDesign": "low",
+        "meshCount": 2,
+        "triangleCount": 116,
+        "materials": 1,
+        "support": {
+          "checked": true,
+          "surfaces": [
+            {
+              "mesh": "side-table-top",
+              "triangles": 2,
+              "area": 0.3374999910593033,
+              "topY": 0.5
+            }
+          ],
+          "bottomY": 0
+        },
+        "boards": [
+          {
+            "bottomY": 0.3913043478260869,
+            "topY": 0.5,
+            "thickness": 0.10869565217391308
+          }
+        ],
+        "ground": [
+          {
+            "id": "low",
+            "areas": [
+              0.002042371482555261,
+              0.0020423728351648407,
+              0.002042371482555261,
+              0.0020423728351648407
+            ]
+          }
+        ],
+        "connections": [],
+        "solids": [
+          {
+            "id": "low",
+            "triangles": 116,
+            "volume": 0.04388191696808873
+          }
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "boundaryEdgeMetres": 0.000001,
+          "areaSquareMetres": 1e-8
+        },
+        "limitation": "Finite actual static source shells, complete board boundary, contact and independent ground checks. Source identity is additionally pinned by the producer original-vertex readback. No mechanical strength, dynamic nesting or character-use claim."
+      }
+    }
+  ],
+  "sourceHashes": {
+    "prototype/src/company/side-table-geometry.js": "9fda63f8aaed708d8cf233bb7ce040ce1697da082ef32811c92c265c4a0c28f7",
+    "prototype/src/company/support-geometry.js": "132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68",
+    "prototype/src/company/asset-library.js": "c37ac463e3f3cba67de533531177cfe230920725a94dca4668ef27fe191f4a17",
+    "scripts/company-platform/test-side-table-geometry.mjs": "4e1f1c36bb5d366271a1c0ea1f9b11b12494e4519916ed334500b125cb56d8b9"
+  },
+  "limits": [
+    "Actual external-derived imported GLBs with controlled real mesh mutations. Finite static closed shells, board coverage, contact and independent ground checks. The pinned producer separately proves original source-vertex adaptation and license identity.",
+    "No mechanical strength, dynamic nesting, ordinary-computer performance or character-use acceptance."
+  ]
+}

@@ -1,0 +1,38 @@
+四款台面日用品：固定交付
+
+源码：9aa10e36bed6128e869c3c246b4c563330456985
+运行构建：5d260122791d
+固定目录：F:/gamemake-company-life-items-fixed-v1
+独立交付：F:/gamemake-company-life-items-delivery-5d2
+预览：http://127.0.0.1:60880/?sample=side-table-life-items&look=0
+第二输入：http://127.0.0.1:60880/?layout=sideTableLifeItemsAlternate
+录像：F:/gamemake-company-platform-c1/evidence/company-side-table-life-items-recording-5d2-v1/life-items-preview-normal1x.webm
+32.48秒，1440×1000，25fps，正常1×。SHA256见identity.json。
+
+真实使用Kenney Food Kit 2.0 CC0杯/瓶/杯式笔筒原模型及原PNG，保留源、UV与许可；纸巾盒、薄纸、笔记本和笔为本项目参数化补件，不能声称四件完全外部原作。杯、瓶、纸巾盒、笔筒加本子四种造型满足同一台面安装规格。纸巾paperTopY实际从.125修改为.135并重导出，其他三个GLB字节不变。
+四款合计105072字节；登记资源由153增至157，旧153完整描述和功能签名未变。不是新增饮水/抽纸/拿笔角色动作。
+
+完成生产与数据门、真实GLB几何检查31项、浏览器8组（四款各自关闭重开）、旧图文/饰面回归8组、独立交付4组。实际PNG像素、原贴图/UV、台面接触、父移转复制、局部调整、第二输入、真实坏资源和迟到回调保原均有证据。证据路径汇总见identity.json。
+实际发现并修复共享阴影深度材质仍引用已释放贴图：公司导入网格自持depth/distance材质并在scene释放，不改Three或角色链。原8次换款纹理计数4/4/3/4重复，最终bitmap均关闭一次；失败和原生GL诊断保留。
+固定检出与独立包各自npm ci、生产检查、构建，331个运行文件与实测版本逐字节一致；交付包984清单文件已核，独立编辑/加载/保存/重开已验。
+
+重建（固定目录或交付包source的prototype）：
+  npm ci --no-audit --no-fund
+  node scripts/build-company-id.mjs
+  node node_modules/vite/bin/vite.js build --config vite.company.config.js
+生产/配置检查（固定目录或source根）：
+  node scripts/company-platform/build-side-table-life-items.mjs --check
+  node scripts/company-platform/build-library.mjs --check
+  node scripts/company-platform/build-side-table-life-items-examples.mjs --check
+重新制作使用可写副本，去掉producer的--check；不要改固定源码。
+浏览器验收（制作树根，输出目录必须全新）：
+  node scripts/company-platform/qa-side-table-life-items-preview.cjs F:/gamemake-company-life-items-fixed-v1/prototype/dist-company 5d260122791d evidence/life-items-recheck-new
+独立交付验收：
+  node scripts/company-platform/qa-side-table-life-items-handoff.cjs F:/gamemake-company-life-items-delivery-5d2 evidence/life-items-handoff-new
+录像（遵守窗口）：
+  node scripts/company-platform/record-side-table-life-items-preview.cjs F:/gamemake-company-life-items-fixed-v1/prototype/dist-company 5d260122791d evidence/life-items-recording-new
+独立包编辑入口见其README.md及edit.mjs。
+
+保留失败：初次Uint8索引类型遗漏；几何坏例误先命中材质预算；首轮浏览器共享shadow map释放失败；第二布局换款重置被修复；初始取景遮杯把手。未删除旧报告或改其身份。最终录像抽查实际编码12帧，不等于连续人工验收。
+公开只使用原60880；旧F:/gamemake-company-side-table-fixed-v1 / e1b8bf6a6b7b保留回滚，切换时核进程命令和HTTP身份。短录像窗口已释放。
+限制：SwiftShader功能证据不是实际GPU/普通电脑达标；Poly Haven和Quaternius本包没有运行素材；C3及最终用户验收未完成。CAP-INCREMENT交总工合并，不改总工CAP/CURRENT/角色控制器。整个C1–C3目标继续，按既定分支和依赖补齐后续缺口，不因本包交付停止。

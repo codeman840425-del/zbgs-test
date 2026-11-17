@@ -1,0 +1,300 @@
+{
+  "schema": "company-side-table-life-items-existing-support-preflight-v1",
+  "status": "passed",
+  "createdAt": "2026-11-17T12:03:23.842Z",
+  "head": "2eab420c3879543cd06955303675e92bdd97f73a",
+  "catalogResources": 153,
+  "scope": "Read-only code inspection and in-memory synthetic metadata probes. No product implementation or new resource integration.",
+  "sourceHashes": {
+    "assets-source/company-environment-specs-v1/branches.json": "55ff437217b1fcd15a2bd3baf486a59eeb5e42b0306d79c1bf3d52594c6f5a31",
+    "prototype/src/company/library-catalog.json": "76ed6759cb15b86c599351b5d0fd40b8fd1903e892247b1196bf58989d0e6d23",
+    "prototype/src/company/side-table-data.js": "930f40499f249edeb56321cb6c1cf22e7115c66a475a37785880b554054bb85c",
+    "prototype/src/company/support-data.js": "24f310fc5830fb0f4248e69aa68653c3f4383db0d0321ef0ee8025470a9c14ff",
+    "prototype/src/company/document.js": "45b3376bee07fca60f64ea6f157dffb8ca764cbaf58bd15116077207fc16380c",
+    "prototype/src/company/render.js": "53c6d548f0062692ed6e7c73faf0ce164364e4b6747d7ad5fff405ab061a09a6",
+    "prototype/src/company/persistence.js": "6bf3db3673cb1ab93aeb1d485aeee8e5997fc41d422dc77f7d0f87310f3c71b4",
+    "prototype/src/company/authoring.js": "338435eaf24fa44b53654f5102491927d2e93fa3ccf27421d61f652f38c99ffd",
+    "prototype/src/company/appearance-contract.js": "f7d1797e81c6ef18ddbcd73a51a10d8752d2c4b580551d47c3da1ee0028e1d51",
+    "prototype/src/company/asset-library.js": "9062b1540b61c34dca45ae47e2355076e2f0b893d93121441f4eaec5af5bc924",
+    "prototype/src/company/support-geometry.js": "132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68",
+    "prototype/src/company/support-samples.js": "972eaf5d2f87d9f14add77331edceded093440311f90553c23027c1d317e1edd",
+    "prototype/src/company/vanity-samples.js": "463dfc177ea414fc4ad75ae3b5ae0cd4a8c3fb85ba6c66fb509fda9821fc1630",
+    "docs/COMPANY-SIDE-TABLE-CONTRACT-v1.txt": "e1c56b23e52f837866598a4a280da1db3f7c60bb3f4e169b8acddda4d2d99e3d"
+  },
+  "confirmedByRoot": {
+    "mountRole": "side-table-life-items",
+    "productionBranch": "side-table-life-items",
+    "sampleParent": "side-table",
+    "runtimeMount": "support-surface",
+    "attachment": {
+      "surfaceId": "top"
+    },
+    "exclusiveParentRestriction": false
+  },
+  "directoryMeaning": {
+    "label": "side-table-surface",
+    "meaning": "Installation purpose and required actual sample coverage. It is not a runtime mount or an exclusive parent compatibility rule.",
+    "mapping": "Production resource uses support-surface. Instance directly parents to a supporting facility and selects attachment.surfaceId=top.",
+    "currentStrictBoundary": "Direct facility parent with matching surface. Entire rotated mounting envelope rests at topY and fits surface halfSize/clearance. Same-parent supported envelopes may not overlap."
+  },
+  "existingEntryPoints": {
+    "resourceAdmission": "support-data.js validateSupportResource:10, document.js deriveCompany:164, asset-library.js:36",
+    "attachmentAdmission": "support-data.js validateSupportAttachments:60, document.js:316",
+    "effectiveTransform": "support-data.js effectiveSupportTransform:53, document.js:185, render.js:86",
+    "operations": "document.js prepareCompanyChange:426, attach-surface:472, copySubtree:347, copy-facility:510",
+    "appearance": "appearance-contract.js compareFacilityFunction:41, document.js replace-resource:500",
+    "persistence": "persistence.js encodeCompanySave:26, decodeCompanySave:30 and createCompanySaveStore:49",
+    "geometry": "support-geometry.js validateSupportGeometry:182, asset-library.js:175"
+  },
+  "minimalFutureChange": {
+    "production": "Translate directory purpose to existing runtime mount and instance attachment. No new mount system, render transform, persistence format or copying operation is needed.",
+    "finiteResourceGate": "If the final static family contract fixes dimensions/allowed fields, add a bounded family resource validator through existing validateSupportResource. Validate positive integer version and ordinary new IDs. Enforce agreed role/branch, support-surface, bottom mounting, nonblocking footprint, empty usePoints/state and agreed finite fields.",
+    "sampleSelection": "Use the separate family role to avoid old support/vanity samples that enumerate tabletop-ornament resources.",
+    "compatibility": "Four looks and future IDs/versions can share an identical functional signature. Existing tabletop-ornament mounting .16 x .20 x .12 differs from pending .18 x .25 x .18 and is not automatically replacement-compatible.",
+    "parentAdmission": "Reuse generic parent support fit. No side-table-only rejection was requested by the root."
+  },
+  "provisionalInterface": {
+    "resource": {
+      "id": "<ordinary-stable-id>",
+      "version": "positive integer",
+      "category": "decor",
+      "mountRole": "side-table-life-items",
+      "productionBranch": "side-table-life-items",
+      "mount": "support-surface",
+      "mounting": {
+        "origin": "bottom",
+        "width": 0.18,
+        "height": 0.25,
+        "depth": 0.18
+      },
+      "footprint": {
+        "blocking": false
+      },
+      "usePoints": [],
+      "stateDefaults": {},
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z"
+      },
+      "asset": "Actual GLB URL/SHA256/bytes after source selection"
+    },
+    "instance": {
+      "parentId": "<side-table-instance>",
+      "attachment": {
+        "surfaceId": "top"
+      },
+      "transform": {
+        "position": [
+          0,
+          0.5,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    "dimensionsStatus": "Pending actual source review. The fourth appearance is one pen-holder-and-notebook combination."
+  },
+  "pendingFitMath": {
+    "hostMounting": [
+      0.8,
+      0.5,
+      0.55
+    ],
+    "supportPatch": {
+      "center": [
+        0,
+        0
+      ],
+      "topY": 0.5,
+      "halfSize": [
+        0.15,
+        0.11
+      ],
+      "clearanceHeight": 0.35
+    },
+    "childPendingMounting": [
+      0.18,
+      0.25,
+      0.18
+    ],
+    "centerMargin": [
+      0.06,
+      0.02
+    ],
+    "heightSpare": 0.1,
+    "limitation": "Only the named .30 x .22 patch counts as the guaranteed child support. Body envelope does not enlarge it. Final source geometry may require an explicitly reconsidered common envelope."
+  },
+  "preservedMechanisms": {
+    "identity": "ID and positive version refs, globally unique instance IDs, catalog identity, parent existence/cycle checks.",
+    "hierarchy": "Derived recursive ancestor transforms and shared effective local adapter. Static support has no motion accumulation.",
+    "copy": "Find copied children by parentId and resource/attachment. Opaque generated IDs must not be assumed.",
+    "save": "Complete resource/template definition SHA256 dependency pins preserve rest transforms, hierarchy, attachment and static state. Same ID/version content drift is rejected.",
+    "transaction": "prepareCompanyChange clones and derives before return. Authoring and save store generation/revision/write intent gates remain the existing path. No actor/lease changes needed."
+  },
+  "necessaryFutureBadCases": [
+    "Wrong role/branch/runtime mount, invalid version, unknown functional fields, accidental state/light/moving/support capability.",
+    "Wrong structural parent, unknown or malformed attachment, missing parent, parent cycle, and missing resource/version.",
+    "Rest height mismatch, rotated mounting overhang, excessive height, same-parent overlap and duplicate copied IDs.",
+    "Changed function replacement, stale prepared commit, asset fetch/hash/parse/geometry failure, and same-version dependency drift must preserve prior live scene and stored save.",
+    "Correctly sized compatible support on a different parent role remains allowed. The actual package sample still installs on a side table."
+  ],
+  "pendingActualSourceWork": [
+    "Verify exact original source/license/archive paths/SHA and adaptation recipe for all four appearances.",
+    "Set actual bottom origin, common envelope, source geometry preservation and real positive-area support/contact. Generic lowest-Y check alone does not prove stable contact.",
+    "Validate cup/bottle thickness and openings, tissue opening/contents, pen holder/notebook composition, internal component contact and any textures/material/transparency requirements from actual sources.",
+    "Run actual GLB envelope and geometry gates, byte/hash fetch evidence, authoring replacement/adjustment/copy/save/reopen, and browser lighting/material rendering after production.",
+    "Record actual source/runtime limits without treating metadata probes or mocked meshes/fetch as external asset integration."
+  ],
+  "evidenceLimits": [
+    "All probes below are synthetic metadata only. No GLB fetch/load, geometry gate, mesh construction, renderer, browser, GPU or external source verification was performed.",
+    "No existing regression suite was rerun. Source code, contracts, CAP/CURRENT and asset/catalog/sample/preview files were not edited.",
+    "Only this report file is written. Geometry, dimensions and materials remain pending actual asset research."
+  ],
+  "probes": [
+    {
+      "name": "new family ordinary ID and explicit version use generic support and compatible replacement",
+      "status": "passed",
+      "detail": {
+        "newRole": "side-table-life-items",
+        "future": {
+          "id": "preflight-life-item-future",
+          "version": 2
+        },
+        "oldOrnamentCompatible": false,
+        "geometryLoaded": false
+      }
+    },
+    {
+      "name": "parent quarter-turn and local support offset compose through existing adapter",
+      "status": "passed",
+      "detail": {
+        "world": [
+          1.01,
+          0.5,
+          0.26
+        ],
+        "local": [
+          0.04,
+          0.5,
+          0.01
+        ],
+        "rendererVerified": false
+      }
+    },
+    {
+      "name": "copy subtree allocates opaque child identity and keeps attachment and rest transform",
+      "status": "passed",
+      "detail": {
+        "childFoundByParentId": true,
+        "opaqueChildId": "copied-table/extra-1"
+      }
+    },
+    {
+      "name": "complete used definition dependency pins preserve save and reject content drift",
+      "status": "passed",
+      "detail": {
+        "schema": "company-save",
+        "usedDependencyCount": 2,
+        "dependencyDrift": "dependency-content-mismatch",
+        "browserStorageExercised": false
+      }
+    },
+    {
+      "name": "compatible existing shelf is allowed by role-independent support admission",
+      "status": "passed",
+      "detail": {
+        "parentResource": {
+          "id": "support-shelf-frame-posts",
+          "version": 1
+        },
+        "surfaceId": "lower",
+        "childRole": "side-table-life-items",
+        "exclusiveSideTableParent": false
+      }
+    },
+    {
+      "name": "X overhang rejects",
+      "status": "passed",
+      "detail": {
+        "code": "invalid-support-fit",
+        "inputDocumentUnchanged": true
+      }
+    },
+    {
+      "name": "Z overhang rejects",
+      "status": "passed",
+      "detail": {
+        "code": "invalid-support-fit",
+        "inputDocumentUnchanged": true
+      }
+    },
+    {
+      "name": "wrong resting height rejects",
+      "status": "passed",
+      "detail": {
+        "code": "invalid-support-fit",
+        "inputDocumentUnchanged": true
+      }
+    },
+    {
+      "name": "unknown surface rejects",
+      "status": "passed",
+      "detail": {
+        "code": "missing-support-surface",
+        "inputDocumentUnchanged": true
+      }
+    },
+    {
+      "name": "same-parent envelope overlap rejects",
+      "status": "passed",
+      "detail": {
+        "code": "overlapping-supported-props",
+        "inputDocumentUnchanged": true
+      }
+    },
+    {
+      "name": "room cannot be direct support parent",
+      "status": "passed",
+      "detail": {
+        "code": "invalid-support-attachment",
+        "inputDocumentUnchanged": true
+      }
+    },
+    {
+      "name": "non-quarter-turn yaw rejects",
+      "status": "passed",
+      "detail": {
+        "code": "unsupported-rotation",
+        "inputDocumentUnchanged": true
+      }
+    },
+    {
+      "name": "overheight metadata rejects",
+      "status": "passed",
+      "detail": {
+        "attemptedHeight": 0.351,
+        "limit": 0.35,
+        "code": "invalid-support-fit"
+      }
+    },
+    {
+      "name": "directory mount label cannot substitute runtime support attachment",
+      "status": "passed",
+      "detail": {
+        "withAttachment": "invalid-support-attachment",
+        "withoutAttachment": "generic support fit is not invoked",
+        "futureFiniteValidatorMustRequireRuntimeMount": true
+      }
+    },
+    {
+      "name": "generic support contract leaves family-specific unknown/static fields unbounded",
+      "status": "passed",
+      "detail": {
+        "admission": "generic support only accepts these metadata additions",
+        "futureFiniteValidator": "Require agreed static empty state/usePoints, no additional functional fields and allowed top-level fields through validateSupportResource dispatch",
+        "doesNotClaimFullDocumentOrAssetAdmission": true
+      }
+    }
+  ]
+}

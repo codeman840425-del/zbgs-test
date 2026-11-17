@@ -1,0 +1,32 @@
+{
+  "build": "86a68778d4c6",
+  "scope": "Root visually inspected four actual 1440x1000 browser screenshots; not video or human acceptance.",
+  "images": [
+    {
+      "path": "evidence/company-side-table-life-items-browser-dev-v1/look-1.png",
+      "sha256": "94c4515e311111d35d4ebbaa882fe33f3942ff4d58db388d61ec2e352ccb118e"
+    },
+    {
+      "path": "evidence/company-side-table-life-items-browser-dev-v1/look-2.png",
+      "sha256": "4865d874532fd0c7ba68be711b67492c05efda647bf04dbefdcc15889b3d6ac0"
+    },
+    {
+      "path": "evidence/company-side-table-life-items-browser-dev-v1/look-3.png",
+      "sha256": "7ad992451252633408186ca7ad52d67abac912a01ad2022a9211771d5d2c31b2"
+    },
+    {
+      "path": "evidence/company-side-table-life-items-browser-dev-v1/look-4.png",
+      "sha256": "e0b001ab9493fb3549efb1f07ff89da49dc9018f9e3ddb4631ac85ea78f04a94"
+    }
+  ],
+  "observations": [
+    "Cup has visible open rim and interior, rests on real table. Original handle is behind the chosen view and should be shown from the opposite side.",
+    "Opaque bottle has a distinguishable neck, collar and cap. Original model textures and palette are visibly used; screenshot alone does not establish color fidelity.",
+    "Tissue box has a visible slot and thin folded paper emerging from it.",
+    "Pen-holder/notebook image shows three separate pens, open holder and notebook covers/pages on the table."
+  ],
+  "notPassed": [
+    "Full browser suite failed on same-look repeated texture-count equality (4 versus 5). Native RGBA, four restarts, placement/copy, bad image and late decode checks passed separately. Exact allocation cause is under diagnosis."
+  ],
+  "next": "Change only this branch camera to expose back-facing handle; keep failed evidence and diagnose allocations before final browser pass."
+}

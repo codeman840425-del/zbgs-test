@@ -1,0 +1,8 @@
+{
+  "status": "failed-real-readback",
+  "input": "cup.glb",
+  "sha256": "ce5e4b8ad7d3cf81f2694f07f39f9d93fbfe6c25fb3c104345ad74f8ce953ca6",
+  "error": "RangeError: Invalid typed array length: 336 at GLTFLoader new Float32Array",
+  "rootCause": "Original Food cup indices are Uint8Array. The local finite packer only dispatched Uint16/Uint32 and fell through to FLOAT5126. Correct required index componentType is UNSIGNED_BYTE5121. Original geometry/UV/PNG bytes were not changed.",
+  "correction": "Add explicit supported TypedArray constructor-to-glTF component dispatch and reject unknown typed arrays; keep this actual failed GLB/source/producer snapshot unchanged."
+}

@@ -1,0 +1,644 @@
+{
+  "schema": "company-side-table-life-items-geometry-entrypoint-audit-v1",
+  "status": "read-only-audit-complete",
+  "checkedAt": "2026-11-17T12:07:57.383Z",
+  "authorization": {
+    "scope": "只读核现有支持面、真实GLB加载及材质链，抽查已取得三个候选的最小结构。",
+    "writtenArtifact": "evidence/company-side-table-life-items-source-research-v1/geometry-entrypoint-audit.json",
+    "finalSourceAndDimensions": "待真实源预检与后续合同确定。pending .18×.25×.18m 不作为本审查已锁制作尺寸。"
+  },
+  "outcome": [
+    "现有普通supported prop入口核完整安装盒、parent支持面、底高和图片/UV资源，物体真实底面积、杯口、容器壁厚、组件支承需要新包有限实际几何证明。",
+    "已取得Food Kit三GLB均含外部Textures/colormap.png，当前真实asset-library按既有自包含GLB合同拒绝。现成colormap需要内嵌为bufferView image，原UV/颜色分布与材质采样沿现有链保留。",
+    "原瓶是body、closed collar和开底top-cover三部分。颈口埋入collar，cover下沿与collar顶面的60nm间距属于源Float32接缝。实际证据支持有限装配核查，尚未构成独立厚壁瓶盖或机械密封验收。",
+    "新几何门应按容器实体、盖/把手接口、纸片、笔和本子的实际角色分组，纸张使用有限薄片/开曲面合同，组件连接形式取实际来源。"
+  ],
+  "currentEntryPoints": [
+    {
+      "file": "prototype/src/company/support-data.js",
+      "functions": [
+        "validateSupportResource",
+        "validateSupportAttachments",
+        "effectiveSupportTransform"
+      ],
+      "checks": [
+        "supported prop为bottom原点正尺寸包络、无地面blocking/usePoints。",
+        "真实document依附必须选择parent facility已声明surface；底部rest Y等于topY；完整四分之一旋转包络落入patch及clearanceHeight；同parent子物按完整三维盒拒绝重叠。"
+      ],
+      "gap": [
+        "任意有合法支持面的facility均可被generic接受；本包允许的父类型/面集合需后续合同明确。",
+        "数据包络与实际物体底面积、开口、内壁、纸张/笔的支承没有等价关系。"
+      ]
+    },
+    {
+      "file": "prototype/src/company/support-geometry.js",
+      "functions": [
+        "validateSupportGeometry",
+        "groundContact",
+        "verifyTop",
+        "checkClearance"
+      ],
+      "currentToleranceMetres": 0.001,
+      "checks": [
+        "普通supported prop不声明自身supportSurfaces时，只合并各mesh AABB并检查最低Y≈0。返回checked=false及bottomY。",
+        "提供自身支持面时，命名mesh的top必须恰有两个上向共面三角、四矩形角并覆盖声明patch；其它mesh按AABB检查上方净空。"
+      ],
+      "gap": [
+        "最低点可来自一个点/薄片，独立浮部件仍可能随同通过。",
+        "未证明闭合底、正面积落桌、壁厚、空心容积、可见开口或每个组件连接。",
+        "AABB净空会覆盖杯内空区，容器孔腔需按实际三角或有限轮廓处理。"
+      ],
+      "applicability": "本包物品首先是parent top的消费者。杯口是开口几何，不能凭空新增自身矩形supportSurface来证明杯口。"
+    },
+    {
+      "file": "prototype/src/company/asset-library.js",
+      "functions": [
+        "describe",
+        "inspectGlb",
+        "load",
+        "validateResource",
+        "validateTextures",
+        "cloneInstance"
+      ],
+      "checks": [
+        "SHA256/bytes实际校验、GLB容器及BIN/图片bufferView要求、外部URI拒绝、未配置压缩拒绝、skin/animation拒绝。",
+        "实际矩阵/position有限、非空default scene、可选接触mesh命名、声明footprint及mounting的1mm实际bounds检查。",
+        "真实图片/纹理依赖成功、解码图像有正宽高、对应UV通道数量匹配position且数值有限。",
+        "加载失败清理、迟到候选拒绝、独立实例geometry/material/Texture/TextureSource及缓存生命周期。"
+      ],
+      "gap": [
+        "未为尚无专用role/schema的日用品自动证明空心、容器口、薄壁、分件支承或具名形态。",
+        "decode与UV有效只证明可用映射，纹理颜色分布和物品近景仍需实际浏览器画面。"
+      ]
+    },
+    {
+      "files": [
+        "prototype/src/company/image-ownership.js",
+        "prototype/src/company/render.js",
+        "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js"
+      ],
+      "checks": [
+        "保留原glTF PBR材质和baseColor map；KHR_texture_transform、UV及标准sRGB baseColor加载沿锁定r187。",
+        "实例材质/纹理状态独立，decoded ImageBitmap只读共享并按最后一个texture owner关闭；render.disposeTree释放实例。"
+      ],
+      "application": "Food Kit为opaque colormap+doubleSided，新增内容集中在原图内嵌、保UV与几何适配。现有renderer已提供该材质路线。"
+    }
+  ],
+  "actualReadOnlyDiagnostics": {
+    "rawLoader": [
+      {
+        "name": "cup",
+        "accepted": false,
+        "code": "external-asset-uri",
+        "path": "resources.audit-cup.images[0]",
+        "message": "external-asset-uri at resources.audit-cup.images[0]: Use GLB BIN buffers and bufferView images",
+        "images": [
+          {
+            "uri": "Textures/colormap.png",
+            "name": "colormap"
+          }
+        ]
+      },
+      {
+        "name": "mug",
+        "accepted": false,
+        "code": "external-asset-uri",
+        "path": "resources.audit-mug.images[0]",
+        "message": "external-asset-uri at resources.audit-mug.images[0]: Use GLB BIN buffers and bufferView images",
+        "images": [
+          {
+            "uri": "Textures/colormap.png",
+            "name": "colormap"
+          }
+        ]
+      },
+      {
+        "name": "soda-bottle",
+        "accepted": false,
+        "code": "external-asset-uri",
+        "path": "resources.audit-soda-bottle.images[0]",
+        "message": "external-asset-uri at resources.audit-soda-bottle.images[0]: Use GLB BIN buffers and bufferView images",
+        "images": [
+          {
+            "uri": "Textures/colormap.png",
+            "name": "colormap"
+          }
+        ]
+      }
+    ],
+    "minimalComponents": [
+      {
+        "name": "cup",
+        "method": "Raw welded-position source triangle edge connectivity after omitting only source zero-area faces. Diagnostic, not final manifold admission; source T-junctions may need atomic-edge validation.",
+        "zeroAreaOmitted": 0,
+        "components": [
+          {
+            "triangleCount": 60,
+            "volume": 0.0029765893713666336,
+            "bounds": {
+              "min": [
+                -0.11500000208616257,
+                0,
+                -0.11500000208616257
+              ],
+              "max": [
+                0.11500000208616257,
+                0.20000000298023224,
+                0.11500000208616257
+              ]
+            },
+            "rawBadEdges": 0
+          },
+          {
+            "triangleCount": 52,
+            "volume": 0.00031787980771641754,
+            "bounds": {
+              "min": [
+                -0.021250000223517418,
+                0.02986038848757744,
+                -0.17711664736270905
+              ],
+              "max": [
+                0.021250000223517418,
+                0.1828603893518448,
+                -0.07598437368869781
+              ]
+            },
+            "rawBadEdges": 8
+          }
+        ]
+      },
+      {
+        "name": "mug",
+        "method": "Raw welded-position source triangle edge connectivity after omitting only source zero-area faces. Diagnostic, not final manifold admission; source T-junctions may need atomic-edge validation.",
+        "zeroAreaOmitted": 2,
+        "components": [
+          {
+            "triangleCount": 230,
+            "volume": 0.006679739248444414,
+            "bounds": {
+              "min": [
+                -0.12346058338880539,
+                1.5002518935182916e-18,
+                -0.14256000518798828
+              ],
+              "max": [
+                0.2202087640762329,
+                0.273360013961792,
+                0.14256000518798828
+              ]
+            },
+            "rawBadEdges": 6
+          }
+        ]
+      },
+      {
+        "name": "soda-bottle",
+        "method": "Raw welded-position source triangle edge connectivity after omitting only source zero-area faces. Diagnostic, not final manifold admission; source T-junctions may need atomic-edge validation.",
+        "zeroAreaOmitted": 0,
+        "components": [
+          {
+            "triangleCount": 64,
+            "volume": 0.006492791180222995,
+            "bounds": {
+              "min": [
+                -0.09024599939584732,
+                0,
+                -0.07815533131361008
+              ],
+              "max": [
+                0.09024599939584732,
+                0.5204119682312012,
+                0.07815533131361008
+              ]
+            },
+            "rawBadEdges": 6
+          },
+          {
+            "triangleCount": 20,
+            "volume": 0.00021257093523240989,
+            "bounds": {
+              "min": [
+                -0.049746379256248474,
+                0.5038119554519653,
+                -0.043081626296043396
+              ],
+              "max": [
+                0.049746379256248474,
+                0.5404119491577148,
+                0.043081626296043396
+              ]
+            },
+            "rawBadEdges": 0
+          },
+          {
+            "triangleCount": 16,
+            "volume": 0.000765227826645925,
+            "bounds": {
+              "min": [
+                -0.036578219383955,
+                0.5404120087623596,
+                -0.031677667051553726
+              ],
+              "max": [
+                0.036578219383955,
+                0.5804120302200317,
+                0.031677667051553726
+              ]
+            },
+            "rawBadEdges": 6
+          }
+        ]
+      }
+    ],
+    "genericBaseOnlyDiagnostic": {
+      "description": "Synthetic supported-prop scene with one triangle touching y=0 at one point and a separate floating box; no declared supportSurfaces.",
+      "result": {
+        "checked": false,
+        "surfaces": [],
+        "bottomY": 0
+      },
+      "productionOrCandidateAcceptance": false
+    }
+  },
+  "actualInterfaceRimDiagnostics": [
+    {
+      "name": "cup",
+      "referenceComponent": 0,
+      "tests": [
+        {
+          "index": 0,
+          "rimVertices": 0
+        },
+        {
+          "index": 1,
+          "boundaryEdges": 8,
+          "rimVertices": 8,
+          "referenceComponent": 0,
+          "minDistance": 0.008760477933305389,
+          "maxDistance": 0.011774559159753482,
+          "insideReference": 8,
+          "withinMicrometre": 0,
+          "rimPoints": [
+            [
+              -0.021250000223517418,
+              0.04006340727210045,
+              -0.07598437368869781
+            ],
+            [
+              -0.021250000223517418,
+              0.06766071915626526,
+              -0.07599329203367233
+            ],
+            [
+              -0.021250000223517418,
+              0.14894716441631317,
+              -0.08537757396697998
+            ],
+            [
+              -0.021250000223517418,
+              0.17654815316200256,
+              -0.08537757396697998
+            ],
+            [
+              0.021250000223517418,
+              0.04006340727210045,
+              -0.07598437368869781
+            ],
+            [
+              0.021250000223517418,
+              0.17654815316200256,
+              -0.08537757396697998
+            ],
+            [
+              0.021250000223517418,
+              0.14894716441631317,
+              -0.08537757396697998
+            ],
+            [
+              0.021250000223517418,
+              0.06766071915626526,
+              -0.07599329203367233
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "soda-bottle",
+      "referenceComponent": 1,
+      "tests": [
+        {
+          "index": 0,
+          "boundaryEdges": 6,
+          "rimVertices": 6,
+          "referenceComponent": 1,
+          "minDistance": 0.014375988903857597,
+          "maxDistance": 0.014375990032902937,
+          "insideReference": 6,
+          "withinMicrometre": 0,
+          "rimPoints": [
+            [
+              -0.015156716108322144,
+              0.5204119682312012,
+              0.026252202689647675
+            ],
+            [
+              -0.030313432216644287,
+              0.5204119682312012,
+              2.1657342853630265e-15
+            ],
+            [
+              0.015156716108322144,
+              0.5204119682312012,
+              0.026252202689647675
+            ],
+            [
+              -0.015156716108322144,
+              0.5204119682312012,
+              -0.026252202689647675
+            ],
+            [
+              0.015156716108322144,
+              0.5204119682312012,
+              -0.026252202689647675
+            ],
+            [
+              0.030313432216644287,
+              0.5204119682312012,
+              2.1657342853630265e-15
+            ]
+          ]
+        },
+        {
+          "index": 1,
+          "rimVertices": 0
+        },
+        {
+          "index": 2,
+          "boundaryEdges": 6,
+          "rimVertices": 6,
+          "referenceComponent": 1,
+          "minDistance": 5.960464477539063e-8,
+          "maxDistance": 5.960464477539063e-8,
+          "insideReference": 0,
+          "withinMicrometre": 6,
+          "rimPoints": [
+            [
+              -0.0182891096919775,
+              0.5404120087623596,
+              0.031677667051553726
+            ],
+            [
+              0.0182891096919775,
+              0.5404120087623596,
+              0.031677667051553726
+            ],
+            [
+              0.036578219383955,
+              0.5404120087623596,
+              2.1657342853630265e-15
+            ],
+            [
+              0.0182891096919775,
+              0.5404120087623596,
+              -0.031677667051553726
+            ],
+            [
+              -0.036578219383955,
+              0.5404120087623596,
+              2.1657342853630265e-15
+            ],
+            [
+              -0.0182891096919775,
+              0.5404120087623596,
+              -0.031677667051553726
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "minimalSourceInterpretation": {
+    "provenance": "三件GLB的JSON/外部图引用与真实loader拒绝由本审查独立读取。几何诊断复用资产任务已落的actual-original-mesh-inspection.json中实际索引三角，未重复全源扫描。",
+    "sourceGeometryReadMethod": "资产任务GLTFLoader采用texture placeholder仅提取CPU几何。本审查的闭合分组/开放rim/点到实际三角距离/closed collar solid-angle包含测试均为CPU。图片解码与游戏渲染留实际后续验证。",
+    "cup": {
+      "rawSizeMetres": [
+        0.23000000417232513,
+        0.20000000298023224,
+        0.2921166494488716
+      ],
+      "vessel": {
+        "triangles": 60,
+        "rawBoundaryErrors": 0,
+        "positiveSignedVolume": 0.0029765893713666336,
+        "floorY": 0.030000001192092896,
+        "mouthY": 0.20000000298023224
+      },
+      "handle": {
+        "triangles": 52,
+        "openBoundaryEdges": 8,
+        "allEightRimVerticesInsideClosedVessel": true,
+        "boundaryToVesselDistanceMetres": [
+          0.008760477933305389,
+          0.011774559159753482
+        ]
+      },
+      "interpretation": "真实中心射线支持可见空腔与实底候选。把手开端埋入闭合杯体，连接应以实际埋接与开口覆盖证明；逐材质mesh必须各自闭壳的规则会误解此源结构。"
+    },
+    "mug": {
+      "rawSizeMetres": [
+        0.3436693474650383,
+        0.273360013961792,
+        0.28512001037597656
+      ],
+      "triangles": 232,
+      "zeroAreaTriangles": 2,
+      "rawBoundaryErrorsAfterOmittingZeroFaces": 6,
+      "floorY": 0.04535999894142151,
+      "mouthY": 0.273360013961792,
+      "interpretation": "两源退化面与共线/T-junction边须在适配后作几何原子边检查再判断。单根中心射线与doubleSided材质不足以宣布全部杯壁/把手闭合。"
+    },
+    "sodaBottle": {
+      "rawSizeMetres": [
+        0.18049199879169464,
+        0.5804120302200317,
+        0.15631066262722015
+      ],
+      "body": {
+        "triangles": 64,
+        "openNeckEdges": 6,
+        "topY": 0.5204119682312012
+      },
+      "collar": {
+        "triangles": 20,
+        "rawBoundaryErrors": 0,
+        "volume": 0.00021257093523240989,
+        "minY": 0.5038119554519653,
+        "maxY": 0.5404119491577148
+      },
+      "topCover": {
+        "triangles": 16,
+        "openLowerEdges": 6,
+        "minY": 0.5404120087623596,
+        "maxY": 0.5804120302200317
+      },
+      "neckRimContainedInCollar": {
+        "count": 6,
+        "minimumActualBoundaryDistanceMetres": 0.014375988903857597
+      },
+      "coverRimContact": {
+        "count": 6,
+        "actualPointToCollarDistanceMetres": 5.960464477539063e-8
+      },
+      "interpretation": "单mesh包含三个连接表面组。closed collar覆盖颈口，cover下沿在源Float32容差内贴合collar顶。存在真实分件与嵌接，没有可见量级悬空证据；body和top-cover单独是开放表面，整体外壳需后续有限合装边界证明。"
+    },
+    "sizeDecision": "三原源都需明确重定位/尺寸适配后再与最终安装盒比对。当前数据不锁缩放系数或最终物品尺寸。"
+  },
+  "boundedProposedAdmission": {
+    "disposition": "本审查只提出下一步方案，未新增实现或最终schema。",
+    "shared": [
+      "复用现有support-surface、静态rest transform、完整parent patch/clearance与保存事务。",
+      "新有限role/profile只对已确认四形态分派，接受同功能新ID和正版本。",
+      "实际引用三角有限/非退化、烘焙变换与全包络、材料/UV/嵌图、底部支承和同向重复表面纳入读回。",
+      "按实际sourceParts将容器、把手/盖接口、纸片、笔和笔记本分别核实，开放source组件可由真实有限埋接/贴合形成完整装配。"
+    ],
+    "forms": [
+      {
+        "form": "杯子",
+        "proof": [
+          "实际内壁与外壁、带厚度真实底、口沿轮廓和从上方进入的可见空区。",
+          "把手埋接/闭环接缝按选定源的实际三角覆盖；doubleSided不能补缺失内壁。"
+        ],
+        "badGeometry": [
+          "新增盖面堵口",
+          "删底或留漏孔",
+          "单表面假内壁",
+          "把手浮离杯体"
+        ]
+      },
+      {
+        "form": "水瓶",
+        "proof": [
+          "真实底、瓶身/肩/颈与盖/圈的有限形态区域。",
+          "本soda-bottle可采用颈口由collar覆盖、cover rim贴collar的实际连接模式，具体容差由最终适配尺寸和Float32误差确定。"
+        ],
+        "badGeometry": [
+          "盖/圈明显浮开",
+          "颈口未被实际封接",
+          "删底",
+          "cap形态只剩颜色标记"
+        ]
+      },
+      {
+        "form": "纸巾盒",
+        "proof": [
+          "承载盒体有真实底，出口在实际盒面有开口轮廓。",
+          "静态纸片以有限薄片/开曲面呈现，有限端部进入出口或依附源接触区，保留正确双面材质、有限三角和实际可见姿态。"
+        ],
+        "badGeometry": [
+          "盒顶完整封死而仅画出口",
+          "纸片浮离盒体",
+          "出口被非预期实体填满",
+          "同向重复纸面造成闪烁"
+        ],
+        "paperPolicy": "纸片的真实用途允许薄片表面，不给每张纸强加闭合正体积或厚砖要求。"
+      },
+      {
+        "form": "笔筒与笔记本",
+        "proof": [
+          "完整组合包络包含实际开放笔筒、笔记本和约定静态笔。",
+          "笔筒有真实口、壁与底；笔记本及笔筒各有实际支承，可直接落桌或按最终真实配方形成叠放支承路径。",
+          "纸页可为薄片；笔尖/细笔接触按真实端点与筒底/壁约束描述，避免将每个小部件都强制为正面积接触。"
+        ],
+        "badGeometry": [
+          "笔筒实心堵口",
+          "缺本子仍靠metadata叫组合",
+          "本子/笔筒/静态笔漂浮",
+          "组合局部穿插或超最终盒"
+        ]
+      }
+    ],
+    "minimumChecksAfterSourceLock": [
+      "四件实际GLB逐件走真实asset-library与有限几何门，CPU图像替身和几何placeholder分开标记。",
+      "嵌入原colormap后实际浏览器解码/UV色区与近景开口/纸片/盖/本子核验。",
+      "以上关键实际mesh坏例和坏PNG/缺图/缺UV须失败保原；既有数据父约束、错高/越界/重叠、保存恢复继续沿原入口。",
+      "真实第二输入参数导出、其它三件字节保持及固定依赖重建由后续生产合同安排。"
+    ]
+  },
+  "necessaryUnknowns": [
+    "资产任务当前预检方向选Food Kit cup和soda-bottle，mug留候选；纸巾盒、纸片及笔筒组合的有限补制方案待锁最终源与规格。",
+    "笔筒/笔记本/笔的最终几何、原型适配与组合摆位尚未锁定；Furniture books候选本身不自动等同独立A6笔记本。",
+    "最终共同安装盒、origin、整体尺寸适配和原材质保留配方须以实际源确定。",
+    "本包合法父类型及surfaceId集合由后续数据合同明确，现generic支持入口没有该分支用途限制。",
+    "有限语义节点/区域映射、source清理与合装闭合证明、源Float32容差以最后实际导出物核证。",
+    "真实Food Kit嵌图后的native decode/近景与GPU没有在此次只读审查中运行。"
+  ],
+  "existingEvidence": [
+    {
+      "path": "evidence/company-asset-library-v1/report.json",
+      "status": "historical-passed-19-cases",
+      "coverage": "真实GLTFLoader CPU内嵌纹理、缺UV/坏PNG/外部URI/失败清理；报告明确原生浏览器由root另验。"
+    },
+    {
+      "path": "evidence/company-image-ownership-v1/report.json",
+      "status": "historical-passed",
+      "coverage": "CPU image所有权/缓存实例隔离，使用可close替身。"
+    },
+    {
+      "path": "evidence/company-image-ownership-root-v1/report.json",
+      "status": "historical-passed",
+      "coverage": "root独立CPU image所有权复核，保原限制。"
+    }
+  ],
+  "sourceIdentity": {
+    "prototype/src/company/support-data.js": {
+      "sha256": "24f310fc5830fb0f4248e69aa68653c3f4383db0d0321ef0ee8025470a9c14ff",
+      "bytes": 6886
+    },
+    "prototype/src/company/support-geometry.js": {
+      "sha256": "132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68",
+      "bytes": 13472
+    },
+    "prototype/src/company/asset-library.js": {
+      "sha256": "9062b1540b61c34dca45ae47e2355076e2f0b893d93121441f4eaec5af5bc924",
+      "bytes": 23154
+    },
+    "prototype/src/company/image-ownership.js": {
+      "sha256": "c69bb22bcc3c569c663582d583ab064401d42f836a17743b523f217128362c1b",
+      "bytes": 1410
+    },
+    "prototype/src/company/render.js": {
+      "sha256": "53c6d548f0062692ed6e7c73faf0ce164364e4b6747d7ad5fff405ab061a09a6",
+      "bytes": 34888
+    },
+    "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js": {
+      "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1",
+      "bytes": 119861
+    },
+    "evidence/company-side-table-life-items-source-research-v1/actual-original-mesh-inspection.json": {
+      "sha256": "ff9b6178663b879175c03a7fa1b607b0d20c5c43134ff4d0143b28c16b999cd5",
+      "bytes": 547877
+    },
+    "evidence/company-side-table-life-items-source-research-v1/food-kit-colormap.png": {
+      "sha256": "75baf74d9483a0fc56ac21ceba346fbe16fc24a2a1bf0524c53e6bbe802e1153",
+      "bytes": 10715
+    },
+    "evidence/company-side-table-life-items-source-research-v1/cup.glb": {
+      "sha256": "f9d6786fe9836f16ebb10cc1cb5a8ea8d512c7ae6cfa22394af653e5a5b05f09",
+      "bytes": 8008
+    },
+    "evidence/company-side-table-life-items-source-research-v1/mug.glb": {
+      "sha256": "5215ef74dbbc3a1c0ecf8d0937adde745bbcbd65d8facd228d9f3371991da435",
+      "bytes": 20236
+    },
+    "evidence/company-side-table-life-items-source-research-v1/soda-bottle.glb": {
+      "sha256": "879a49cec70fed49244256c9250e72fdf27dcdc5d2dbb093c9ac9c9a08170f4d",
+      "bytes": 11324
+    }
+  },
+  "limits": [
+    "只读接口和原候选诊断，没有制作适配模型、修改配置/材质、编写新geometry实现或运行浏览器/GPU。",
+    "原来源许可与最终造型选择由资产源预检及后续合同合并，此文件不宣布side-table-life-items分支完成。"
+  ]
+}
