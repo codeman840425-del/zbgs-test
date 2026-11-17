@@ -1,0 +1,39 @@
+挂墙钟表八款：固定交付（2026-11-16）
+
+源码：93e1339901f174da59ed1fb7046b891001359e62
+构建：5c1451b072ae
+独立检出：F:/gamemake-company-clock-fixed-v1
+独立包：F:/gamemake-company-clock-delivery-5c1
+观看：http://127.0.0.1:58804/?sample=analog-clock&look=0
+数字钟：http://127.0.0.1:58804/?sample=digital-clock&look=0
+
+四款挂墙指针钟及四款挂墙数字钟，实际模型差异沿同一安装/显示规格替换。各款真实源参数及重复导出、加载、状态和单独浏览器进程关闭恢复已验。新增8项资源，旧92项定义保持；现目录100项，不代表全部107生产分支已完成。
+scene.setPresentationInputs({clockSeconds})只消费宿主时间；不设定时器、不读系统时间、不改文档修订号或保存值。未输入时显示00:00:00。实际运行时间与任务归总工。保存timeOffsetSeconds，数字钟另存on和brightness。换外观、准备后提交、重开和两实际楼层观看都使用最新宿主输入。预览正常走时取Phaser既有时间，从演示9点开始；不是经营时钟已接入。
+
+证据与边界：
+- company-clock-production-v1：统一prompt、参数、8真实GLB、4+4几何差异、静态预算、源圆框厚度参数修改及重复导出；initial-before-visual保留修正前源/报告/8模型与hash。
+- company-clock-geometry-final-v1：14组检查（含8实际GLB聚合）；三指针实际实体/+Z面/长度/旋转包络及父变换，42段和4点的实际位置/实体/正面和静态前方遮挡。不是任意复杂钟体的精密物理证明。
+- company-clock-data-final-v1：6组实际GLB数据/渲染CPU检查；类型/偏移/跨日/分数秒、事务期间最新输入、无存档变化、材质隔离、错误保旧。catalog-retention证明旧92项未变。
+- company-clock-runtime-review-v1：独立运行审查未发现具体缺陷，含无状态旧文档恢复；其资源证据属于视觉修正前阶段，不重新标为固定版。
+- company-clock-fixed-5c1-v1：6组固定浏览器检查；八款逐项替换及独立进程恢复，午夜/开关/亮度、侧墙/剖切、两真实楼层隔离及进程恢复、坏状态/实际缺节点/503保旧、卸载。
+- company-clock-handoff-5c1-v1：4组独立包manifest、无效编辑不留输出、合法offset编辑与真实显示、关闭恢复检查。
+- company-clock-rebuild-5c1-v1：590清单文件全部符合摘要；独立source npm ci/build与viewer的207文件逐字节相同，无排除项。独立生产/登记/两个布局--check通过且不依赖evidence目录。
+- company-clock-recording-5c1-v1/clock-preview-normal1x.webm：实际61.60秒/1440×1000/25fps/正常1×。root查看覆盖全时段每4秒抽帧表和完整午夜/指针图；截图抽审不是用户连续观感验收。
+- company-clock-hinge-regression-v1与company-clock-slide-regression-v1：原数字状态/legacy boolean及受影响开合合同回归通过。
+
+首轮发现保留：冒号点数组顺序检查过度约束（四点同语义，改核位置集合）；生产过程中未刷新目录的字节不匹配被正确拒绝，等待源稳定后重登记；真实画面发现圆面露方角、八角底色遮住表盘、半圈辐条、数字缺显示背板，按画面修正一轮。初始开发a454证据保原身份；最终5c1包含图形修正与EOF规范化，不给旧证据换标签。
+
+复现（固定检出prototype目录）：
+npm ci --no-audit --no-fund
+node scripts/build-company-id.mjs
+npx vite build --config vite.company.config.js
+固定检出根目录：
+node scripts/company-platform/serve-company.cjs prototype/dist-company 5c1451b072ae
+node scripts/company-platform/qa-clock-preview.cjs prototype/dist-company 5c1451b072ae NEW_EVIDENCE_DIR
+node scripts/company-platform/record-clock-preview.cjs prototype/dist-company 5c1451b072ae NEW_RECORDING_DIR
+node scripts/company-platform/build-clocks.mjs --check
+node scripts/company-platform/build-library.mjs --check
+node scripts/company-platform/build-clock-examples.mjs --check
+独立包：node serve.mjs；node edit.mjs validate data/save.json；node edit.mjs apply INPUT_SAVE OPS_JSON NEW_RESULT_DIRECTORY。
+
+限制：仅挂墙两分支；台面指针钟和数字钟仍在下一包。七段数字并非机械翻页或日历。未接业务/角色时钟、不控制收益/任务；未新增角色系统。角色C3、普通电脑性能及用户最终观看未验。下一主包继续台面/层板钟表，复用宿主显示与既有承载关系。

@@ -1,0 +1,51 @@
+{
+  "package": "F:\\gamemake-company-clock-delivery-5c1",
+  "status": "passed",
+  "checks": [
+    {
+      "name": "All standalone package files match their manifest",
+      "passed": true,
+      "result": {
+        "files": 590
+      }
+    },
+    {
+      "name": "Standalone edit rejects invalid state and sets a clock offset using pinned dependencies",
+      "passed": true,
+      "result": {
+        "rejection": "invalid-device-state",
+        "edited": {
+          "ok": true,
+          "id": "appearance-analog-clock",
+          "revision": 2,
+          "floors": [
+            "appearance-analog-clock/floor-1"
+          ],
+          "output": "F:\\gamemake-company-platform-c1\\evidence\\company-clock-handoff-5c1-v1\\edited"
+        }
+      }
+    },
+    {
+      "name": "Independent viewer loads edited clock display and saves without source-tree asset requests",
+      "passed": true,
+      "result": {
+        "requests": [
+          "http://127.0.0.1:51874/company-assets/clock-v1/analog-round/v1/model.glb",
+          "http://127.0.0.1:51874/company-assets/clock-v1/digital-flat/v1/model.glb"
+        ]
+      }
+    },
+    {
+      "name": "Separate browser restart restores exact clock identity and saved offset",
+      "passed": true,
+      "result": {
+        "nodes": 11,
+        "attachments": 0
+      }
+    }
+  ],
+  "limits": [
+    "Software rendering; not ordinary-PC, character or offline npm-install proof"
+  ],
+  "build": "5c1451b072ae"
+}
