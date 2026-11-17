@@ -5,7 +5,7 @@ import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import * as THREE from '../prototype/node_modules/three/build/three.module.js';
 import { VRM, MToonMaterial } from '../prototype/node_modules/@pixiv/three-vrm/lib/three-vrm.module.js';
-import { createEquipmentLoader, updateEquipmentMaterials } from '../prototype/src/equipment-material-loader.js';
+import { createEquipmentLoader, initializeEquipmentMaterials, updateEquipmentMaterials } from '../prototype/src/equipment-material-loader.js';
 import { createEquipment } from '../prototype/src/equipment.js';
 import { createGarmentMaterialRecipes } from '../prototype/src/material-recipes.js';
 
@@ -50,6 +50,7 @@ function fixture(kind, boneName = 'Head') {
     extensionsUsed.push('KHR_materials_unlit');
   }
   if (kind === 'mtoon') {
+    material.alphaMode = 'MASK'; material.alphaCutoff = .5;
     material.extensions.VRMC_materials_mtoon = { specVersion: '1.0',
       shadeColorFactor: [.2, .3, .4], outlineWidthMode: 'worldCoordinates', outlineWidthFactor: .001,
       uvAnimationScrollXSpeedFactor: .2, uvAnimationScrollYSpeedFactor: .1 };
@@ -102,7 +103,18 @@ try {
   assert.notEqual(toon[0], toon[1]); assert.ok(toon[1].isOutline);
   checks.push({ name: 'actual-loader-plain-unlit-mtoon-plus-outline', passed: true });
   const counts = [0, 0];
-  toon.forEach((material, i) => { const update = material.update.bind(material); material.update = delta => { counts[i]++; update(delta); }; });
+  const initializationDeltas = [];
+  toon.forEach((material, i) => { const update = material.update.bind(material); material.update = delta => { counts[i]++; initializationDeltas.push(delta); update(delta); }; });
+  toon.forEach(material => { near(material.alphaTest, .5); near(material.uniforms.alphaTest.value, 0); });
+  initializeEquipmentMaterials([loaded.mtoon, loaded.mtoon]);
+  assert.deepEqual(counts, [1, 1]); assert.deepEqual(initializationDeltas, [0, 0]);
+  toon.forEach(material => { near(material.uniforms.alphaTest.value, .5); near(material.uvAnimationScrollXOffset, 0); });
+  counts.fill(0);
+  checks.push({ name: 'official-zero-update-initializes-unique-surface-and-outline-alpha-without-animation-time', passed: true });
+  const unlitBefore = JSON.stringify(loaded.unlit.material.toJSON());
+  initializeEquipmentMaterials([loaded.unlit, loaded.plain]);
+  assert.equal(JSON.stringify(loaded.unlit.material.toJSON()), unlitBefore);
+  checks.push({ name: 'default-unlit-material-unchanged-by-preparation', passed: true });
   const item = { container: new THREE.Group(), meshes: [loaded.mtoon, loaded.mtoon] };
   updateEquipmentMaterials([item, item], .25);
   assert.deepEqual(counts, [1, 1]); toon.forEach(material => near(material.uvAnimationScrollXOffset, .05));
@@ -147,7 +159,11 @@ try {
   adapter = await createEquipment({ vrm, avatarSha256: bodySHA, manifestUrl: '/manifest.json' });
   const garment = await adapter.load('mtoon');
   const originals = garment.meshes[0].material;
+  assert.equal(garment.container.visible, false);
+  originals.forEach(material => { near(material.alphaTest, .5); near(material.uniforms.alphaTest.value, .5); near(material.uvAnimationScrollXOffset, 0); });
   adapter.applyLoadedSet(['mtoon']);
+  originals.forEach(material => { near(material.uniforms.alphaTest.value, .5); near(material.uvAnimationScrollXOffset, 0); });
+  checks.push({ name: 'actual-adapter-hidden-load-and-paused-first-visible-frame-have-initialized-alpha', passed: true });
   vrm.update(.25); originals.forEach(material => near(material.uvAnimationScrollXOffset, 0));
   near(avatarMaterial.uvAnimationScrollXOffset, .05);
   adapter.update(.25); originals.forEach(material => near(material.uvAnimationScrollXOffset, .05));

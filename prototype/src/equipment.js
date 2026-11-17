@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { createGarmentMaterialRecipes } from "./material-recipes.js";
 import { resolveEquipmentSet, commitLoadedEquipmentSet, prepareLoadedEquipmentSet } from "./equipment-set.js";
-import { createEquipmentLoader, updateEquipmentMaterials, collectEquipmentTextures } from './equipment-material-loader.js';
+import { createEquipmentLoader, initializeEquipmentMaterials, updateEquipmentMaterials, collectEquipmentTextures } from './equipment-material-loader.js';
 import { shapeFitDescriptor } from './shape-fit-registry.js';
 import { layerFitRequirement, validateLayerFit, assertLayerFitSet } from './garment-layer-fit.js';
 
@@ -223,6 +223,7 @@ export async function createEquipment({
       mesh.receiveShadow = false;
       vertices += geometry.getAttribute("position").count;
     }
+    initializeEquipmentMaterials(meshes);
     if (disposed) throw new Error("Equipment disposed while loading");
     // Loading prepares a resource; only an explicit selection makes it visible.
     container.visible = false;

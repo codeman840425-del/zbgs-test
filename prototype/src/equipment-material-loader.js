@@ -9,6 +9,17 @@ export function createEquipmentLoader() {
   return loader;
 }
 
+// The loader assigns textures and alphaTest after MToon's constructor. Prepare
+// its uniforms before a paused actor can show the new resource's first frame.
+export function initializeEquipmentMaterials(meshes) {
+  const materials = new Set();
+  for (const mesh of meshes) {
+    for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material])
+      if (material?.isMToonMaterial) materials.add(material);
+  }
+  for (const material of materials) material.update(0);
+}
+
 // These materials are not owned by the avatar's VRM.update(). Outline and
 // surface meshes may share a material; advance each visible instance once.
 export function updateEquipmentMaterials(items, deltaSeconds) {
