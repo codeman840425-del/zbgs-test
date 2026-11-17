@@ -91,6 +91,8 @@ orbit.enableDamping=false;orbit.maxPolarAngle=Math.PI*.48;orbit.minDistance=2;or
 const layouts={cables:createCableSample(catalog,templates).document,cableAlternate:createCableSample(catalog,templates,{alternate:true}).document,ceilingAcoustic:createCeilingAcousticSample(catalog,templates).document,ceilingAcousticAlternate:createCeilingAcousticSample(catalog,templates,{alternate:true}).document,wallShelves:createWallShelfSample(catalog,templates).document,wallShelfAlternate:createWallShelfSample(catalog,templates,{alternate:true}).document,sideTableLifeItems:createSideTableLifeItemsSample(catalog,templates).document,sideTableLifeItemsAlternate:createSideTableLifeItemsSample(catalog,templates,{alternate:true}).document,sideTables:createSideTableSample(catalog,templates).document,sideTableAlternate:createSideTableSample(catalog,templates,{alternate:true}).document,makeupWallMirrors:createMakeupWallMirrorSample(catalog,templates).document,makeupWallMirrorAlternate:createMakeupWallMirrorSample(catalog,templates,{alternate:true}).document,makeupDrawer:createMakeupDrawerSample(catalog,templates).document,makeupDrawerAlternate:createMakeupDrawerSample(catalog,templates,{alternate:true}).document,makeupStorage:createMakeupStorageSample(catalog,templates).document,makeupStorageAlternate:createMakeupStorageSample(catalog,templates,{alternate:true}).document,makeupMirrors:createMakeupMirrorSample(catalog,templates).document,makeupMirrorAlternate:createMakeupMirrorSample(catalog,templates,{alternate:true}).document,vanities:createVanitySample(catalog,templates).document,vanityAlternate:createVanitySample(catalog,templates,{alternate:true}).document,floorMirrors:createFloorMirrorSample(catalog,templates).document,floorMirrorAlternate:createFloorMirrorSample(catalog,templates,{alternate:true}).document,mirrors:createMirrorSample(catalog,templates).document,mirrorAlternate:createMirrorSample(catalog,templates,{alternate:true}).document,floorInformation:createFloorInformationSample(catalog,templates).document,floorInformationAlternate:createFloorInformationSample(catalog,templates,{alternate:true}).document,information:createInformationSample(catalog,templates).document,informationAlternate:createInformationSample(catalog,templates,{alternate:true}).document,supportedClocks:createSupportedClockSample(catalog,templates).document,supportedClockAlternate:createSupportedClockSample(catalog,templates,{alternate:true}).document,clocks:createClockSample(catalog,templates).document,clockAlternate:createClockSample(catalog,templates,{alternate:true}).document,sliding:createSlidingSample(catalog,templates).document,slidingAlternate:createSlidingSample(catalog,templates,{alternate:true}).document,hinged:createHingedSample(catalog,templates).document,hingedAlternate:createHingedSample(catalog,templates,{alternate:true}).document,...scaleV2Examples,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome,ceilings:ceilingCompany,ceilingHome,
   supports:createSupportSample(catalog,templates).document,supportAlternate:createSupportSample(catalog,templates,{alternate:true}).document},assetLibrary=createCompanyAssetLibrary();let session,activeView='room',busy=false,game;
 let regionLabels=[],previewClockOverride=null,facilityEditor;
+const savedDocuments=new Map();
+function syncSaveState(){if(!session)return;const saved=savedDocuments.get(session.document.id),same=saved===JSON.stringify(session.document);element('save-state').textContent=same?'已保存':saved?'有未保存修改':'本次未保存';element('save-state').dataset.dirty=String(!same);}
 function setPreviewClock(seconds){if(seconds!==null)validatePresentationInputs({clockSeconds:seconds});previewClockOverride=seconds;if(seconds!==null)session.scene.setPresentationInputs({clockSeconds:seconds});return seconds;}
 let buildingPresentation='exterior';
 let wallMode='cutaway';
@@ -181,6 +183,7 @@ function sofaNode(){
 }
 function fillSampleLooks(){
   const branch=element('sample-branch').value;
+  element('sample-look-field').hidden=branch!=='stream-station';
   fillOptions('sample-look',appearanceCandidates(catalog,branch).map((r,i)=>({id:String(i),name:r.displayName||r.name||r.id})),'0');
 }
 const finishChoice=finish=>finish?`${finish.resource.id}@${finish.resource.version}`:'';
@@ -233,8 +236,9 @@ async function showAppearanceSample(branch,index){
   const offset=branch==='cable-route'?new THREE.Vector3(-.7,1,.7):branch==='side-table-life-items'?new THREE.Vector3(1,.8,-1):branch==='makeup-storage-drawer'?new THREE.Vector3(.25,1.7,.75):branch==='vanity-table'?new THREE.Vector3(-.8,.6,1):['floor-panel','rug'].includes(branch)?new THREE.Vector3(.15,1,.35):new THREE.Vector3(.5,.45,1);
   offset.normalize().applyQuaternion(object.getWorldQuaternion(new THREE.Quaternion()));
   const halfFov=Math.min(THREE.MathUtils.degToRad(camera.fov/2),Math.atan(Math.tan(THREE.MathUtils.degToRad(camera.fov/2))*camera.aspect));
-  const distance=branch==='vanity-table'?box.getBoundingSphere(new THREE.Sphere()).radius/Math.sin(halfFov)*1.05:Math.max(size.y,size.x/camera.aspect,size.z)*1.9+.35;
+  const distance=Math.max(.5,box.getBoundingSphere(new THREE.Sphere()).radius/Math.sin(halfFov)*1.2);
   camera.position.copy(target).addScaledVector(offset,distance);orbit.target.copy(target);orbit.update();
+  activeView='detail';document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed','false'));
   element('scene-name').textContent=sample.document.name;
   return sample;
 }
@@ -322,7 +326,7 @@ function sync(){
     const shortName=node.kind==='room'?String(++roomNumber):({corridor:'通道',lobby:'入口厅','lift-access':'电梯','stair-access':'楼梯','restroom-access':'卫生',living:'客厅'}[node.publicRole]||node.name||'公共区');
     regionLabels.push({label,position,name:label.textContent,shortName});
   }
-  updateRegionLabels();facilityEditor?.sync();
+  updateRegionLabels();facilityEditor?.sync();syncSaveState();
 }
 async function perform(label,action){
   if(busy)return;busy=true;document.querySelectorAll('button,select,input').forEach(e=>e.disabled=true);status(label);
@@ -338,11 +342,12 @@ async function start(){
   session=await createCompanyAuthoring(world,layouts.smallHome,{catalog,templates,storage:localStorage,assetLibrary,mirrorPreflight,mirrorRenderProfile});
   let restored=false,restoreError;
   try{await session.restore(localStorage.getItem('company-preview:last-company')||session.document.id);restored=true;}catch(error){if(error.code!=='save-not-found')restoreError=error;}
-  async function saveCurrent(){const result=await session.save();localStorage.setItem('company-preview:last-company',session.document.id);return result;}
+  async function saveCurrent(){const result=await session.save();localStorage.setItem('company-preview:last-company',session.document.id);savedDocuments.set(session.document.id,JSON.stringify(session.document));syncSaveState();return result;}
+  if(restored)savedDocuments.set(session.document.id,JSON.stringify(session.document));
   window.company={ready:true,catalog,templates,session,assetLibrary,get renderer(){return renderer;},get mirrorRenderProfile(){return session?.scene.mirrorRenderProfile||mirrorRenderProfile;},world,camera,mirrorController,drawHostFrame,renderStatus:()=>({hostFrame,rendererRestarts,lastRenderError}),setPreviewClock,pausePreview:()=>game?.loop.sleep(),view:setView,showSpace,layouts,showAppearanceSample,appearanceBranches,appearanceCandidates:branch=>appearanceCandidates(catalog,branch),
     async apply(ops){const r=await session.apply(ops);sync();return r;},
     async load(doc){const r=await session.load(doc);await defaultSpace();return r;},
-    snapshot:()=>session.snapshot(),save:saveCurrent,restore:async()=>{const r=await session.restore();await defaultSpace();return r;},export:()=>session.export()};
+    snapshot:()=>session.snapshot(),save:saveCurrent,restore:async()=>{const r=await session.restore();savedDocuments.set(session.document.id,JSON.stringify(session.document));await defaultSpace();return r;},export:()=>session.export()};
   facilityEditor=createFacilityEditor({session,catalog,templates,world,camera,getCanvas:()=>renderer.domElement,perform,refresh:sync,isBusy:()=>busy,showSpace,defaultSpace,layouts,showSample:showAppearanceSample});
   window.company.editor=facilityEditor;
   element('edit-focus').onclick=()=>{const object=facilityEditor.focus();if(!object)return;const box=new THREE.Box3().setFromObject(object),center=box.getCenter(new THREE.Vector3());orbit.minDistance=.25;orbit.target.copy(center);camera.position.copy(center).addScaledVector(new THREE.Vector3(.6,.7,1).normalize().applyQuaternion(object.getWorldQuaternion(new THREE.Quaternion())),Math.max(.5,box.getSize(new THREE.Vector3()).length()*1.6));orbit.update();updateWallView();};

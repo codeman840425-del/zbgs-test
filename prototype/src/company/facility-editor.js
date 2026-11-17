@@ -13,7 +13,7 @@ function options(select,rows,value){
 }
 
 export function createFacilityEditor({session,catalog,templates,world,camera,getCanvas,perform,refresh,isBusy,showSpace,defaultSpace,layouts,showSample}){
-  let selected='',armed=null,mode='room',disposed=false;
+  let selected='',armed=null,mode='room',disposed=false,tool='selection';
   const drafts={room:null,sample:null},documents=new Map(),allLayouts=[...el('layout').options].map(o=>({value:o.value,label:o.textContent,disabled:o.disabled}));
   const roomLayouts=new Set(['smallHome','studio','base','alternate','rental','flat','twoFloors','building']);
   const outline=new THREE.Box3Helper(new THREE.Box3(),0xd58b28);outline.material.depthTest=false;outline.renderOrder=100;outline.visible=false;world.add(outline);
@@ -30,7 +30,7 @@ export function createFacilityEditor({session,catalog,templates,world,camera,get
     const messages={'invalid-support-fit':'所选物品超出承载面的宽度、高度或深度。','overlapping-supported-props':'这个承载面上已有物品，位置发生重叠。','overlapping-facilities':'这里已有设施，请换一个位置。','blocked-use-point':'该位置挡住了设施的使用空间。','invalid-wall-fit':'物品必须贴合墙面，并避开边界。','wall-display-over-portal':'这里是门口，不能覆盖。','missing-placement-target':'当前房间没有合适的承载物，请先添加桌、柜架或信息板。','incompatible-appearance':'此造型的功能或安装规格不同，不能作为原位外观替换。','required-template-part':'这是工位的必要部件；可换外观，移除请选所属整体。','visual-outside-room':'物品超出房间边界，请放回房间内。','visual-surface-overhang':'物品超出了桌面，请调整位置。','invalid-edit-value':'请输入有效的位置数值。'};
     return `${messages[error.code]||'这个位置或操作不符合安装要求。'} 原布置已保留。`;
   }
-  function select(id){selected=id;cancel();sync();}
+  function select(id){if(selected!==id)el('placement-tools').open=false;selected=id;tool='selection';cancel();sync();}
   function cancel(){armed=null;el('placement-banner').hidden=true;getCanvas().style.cursor='';}
   function arm(action){armed=action;el('placement-instruction').textContent=action.kind==='add'?'点击所选区域放置设施；拖动仍可调整镜头。':action.kind==='copy'?'点击新位置放置副本；原物品保留。':'点击目标位置移动；拖动仍可调整镜头。';el('placement-banner').hidden=false;getCanvas().style.cursor='crosshair';}
   function chosenResource(){return catalog.resources.find(r=>ref(r)===el('add-look').value);}
@@ -114,8 +114,39 @@ export function createFacilityEditor({session,catalog,templates,world,camera,get
     }
     refreshTargets();
     for(const type of ['room','sample'])el(`mode-${type}`).setAttribute('aria-pressed',String(mode===type));
-    el('sample-browser').hidden=mode!=='sample';el('add-panel').hidden=mode!=='room';el('finish-panel').hidden=mode!=='room';
-    el('layout-heading').textContent=mode==='room'?'房间布局':'样件场景';el('layout-label').textContent=mode==='room'?'选择空间方案':'选择测试布置';
+    el('sample-browser').hidden=mode!=='sample';
+    if(mode==='sample'||view.mode==='building')tool='selection';
+    const building=view.mode==='building',overview=view.mode!=='room';
+    el('workspace-description').textContent=mode==='sample'?'检查单件外观与功能；不修改公司方案。':'选择公司方案，再进入楼层或房间查看。';
+    el('sample-scenarios').hidden=mode!=='sample';
+    el('layout-picker').hidden=mode==='sample'&&el('sample-scenarios').getAttribute('aria-expanded')!=='true';
+    el('inspector-unavailable').hidden=!overview;
+    el('inspector-unavailable').textContent=building?'先选择楼层，再进入房间查看物品。':'点击画面中的房间，或在左侧选择房间，再检查外观与布置。';
+    for(const [key,panel]of [['selection','selection-panel'],['add','add-panel'],['finish','finish-panel']]){
+      el(`tool-${key}`).hidden=mode==='sample'&&key!=='selection';
+      el(`tool-${key}`).disabled=isBusy()||overview;
+      el(`tool-${key}`).setAttribute('aria-pressed',String(tool===key));
+      el(panel).hidden=overview||tool!==key;
+    }
+    el('selection-scope').textContent=`所在空间：${derived.nodes.get(region())?.name||'当前房间'}`;
+    el('save').textContent=mode==='sample'?'保存当前样件':'保存公司方案';
+    el('restore').textContent=mode==='sample'?'恢复此样件存档':'恢复此公司存档';
+    el('restore').title='重新载入此方案最后一次保存的内容，覆盖当前未保存修改';
+    el('view-context').textContent=building?'大楼概览':`${derived.nodes.get(view.floorId)?.name||'当前层'}${view.mode==='room'?' / '+(derived.nodes.get(view.roomId)?.name||'当前房间'):' / 整层总览'}`;
+    el('floor-view').hidden=building||view.mode==='floor'||doc.nodes.filter(x=>['room','area'].includes(x.kind)).length===1;
+    el('building-view').hidden=building||doc.scale!=='building';
+    el('wall-view').hidden=building;
+    document.querySelectorAll('.view-toolbar [data-view]').forEach(b=>b.hidden=view.mode!=='room'||(b.dataset.view==='ceiling'&&b.disabled));
+    document.querySelector('.view-toolbar').hidden=building;
+    el('floor').disabled=isBusy()||doc.nodes.filter(x=>x.kind==='floor').length<2;
+    el('room').disabled=isBusy()||building;
+    el('edit-instance').disabled=isBusy()||building;
+    el('edit-focus').hidden=!n;
+    el('edit-parent').hidden=el('edit-parent').disabled;
+    if(n)el('edit-look').hidden=!r;
+    el('placement-tools').hidden=!n;
+    if(n)el('edit-empty').hidden=true;
+    el('layout-heading').textContent=mode==='room'?'公司方案':'组合验证场景';el('layout-label').textContent=mode==='room'?'切换公司方案':'选择已配置的组合场景';
     const matched=Object.entries(layouts).find(([,d])=>d.id===doc.id)?.[0]||'custom';
     options(el('layout'),allLayouts.filter(o=>o.value==='custom'||(roomLayouts.has(o.value)===(mode==='room'))),matched);
     el('selection-panel').classList.toggle('sample-selection',mode==='sample');
@@ -123,9 +154,9 @@ export function createFacilityEditor({session,catalog,templates,world,camera,get
   async function setMode(next){
     if(next===mode)return;
     remember();
-    drafts[mode]=structuredClone(session.document);cancel();selected='';
+    drafts[mode]=structuredClone(session.document);cancel();selected='';el('placement-tools').open=false;
     const previous=mode,previousDocument=structuredClone(session.document);
-    try{if(drafts[next])await session.load(drafts[next]);else if(next==='sample')await showSample(el('sample-branch').value||'desk',0);else await session.load(layouts.smallHome);mode=next;await defaultSpace();}
+    try{if(drafts[next])await session.load(drafts[next]);else if(next==='sample')await showSample(el('sample-branch').value||'desk',0);else await session.load(layouts.smallHome);mode=next;if(drafts[next]||next==='room')await defaultSpace();}
     catch(e){await session.load(previousDocument);mode=previous;throw e;}sync();
   }
   async function openLayout(key){
@@ -142,7 +173,7 @@ export function createFacilityEditor({session,catalog,templates,world,camera,get
     return object;
   }
   function pointer(event){
-    if(isBusy()||session.scene.view.mode==='building')return false;
+    if(isBusy()||session.scene.view.mode!=='room')return false;
     const rect=getCanvas().getBoundingClientRect(),ndc=new THREE.Vector2((event.clientX-rect.left)/rect.width*2-1,-(event.clientY-rect.top)/rect.height*2+1),ray=new THREE.Raycaster();ray.setFromCamera(ndc,camera);
     if(armed){
       const n=node(),r=armed.kind==='add'?chosenResource():resource(n),t=armed.kind==='add'?refreshTargets():null;
@@ -183,13 +214,15 @@ export function createFacilityEditor({session,catalog,templates,world,camera,get
   options(el('add-branch'),appearanceBranches.filter(([b])=>b!=='stream-station'&&appearanceCandidates(catalog,b).length).sort(([a],[b])=>(order.includes(a)?order.indexOf(a):100)-(order.includes(b)?order.indexOf(b):100)).map(([value,label])=>({value,label})),'desk');
   el('add-branch').onchange=refreshAddLooks;el('add-look').onchange=refreshTargets;el('add-target').onchange=refreshTargets;
   el('add-place').onclick=()=>arm({kind:'add'});el('add-center').onclick=()=>execute('正在添加设施…',()=>add());
+  el('sample-scenarios').onclick=()=>{el('sample-scenarios').setAttribute('aria-expanded',String(el('sample-scenarios').getAttribute('aria-expanded')!=='true'));sync();};
+  for(const key of ['selection','add','finish'])el(`tool-${key}`).onclick=()=>{tool=key;cancel();sync();};
   for(const m of ['room','sample'])el(`mode-${m}`).onclick=()=>execute('正在切换工作区域…',()=>setMode(m));
   const escape=e=>{if(e.key==='Escape')cancel();};document.addEventListener('keydown',escape);
   const sampleIds=new Set(Object.entries(layouts).filter(([k])=>!roomLayouts.has(k)).map(([,d])=>d.id));
   if(sampleIds.has(session.document.id)||session.document.id.startsWith('appearance-'))mode='sample';
   refreshAddLooks();
   return{sync,select,pointer,focus,setMode,openLayout,get mode(){return mode;},get selected(){return selected;},cancel,
-    sampleLoaded(sample){mode='sample';selected=sample.target;sync();},
+    sampleLoaded(sample){mode='sample';tool='selection';selected=sample.target;el('placement-tools').open=false;sync();},
     beforeSample(){remember();if(mode==='room')drafts.room=structuredClone(session.document);},
     getDraft(id){return documents.get(id);},
     dispose(){disposed=true;document.removeEventListener('keydown',escape);world.remove(outline);outline.geometry.dispose();outline.material.dispose();}};
