@@ -9,7 +9,15 @@
 <main>
 <a href="/?workbench=appearance">← 返回角色工作台</a>
 <h1>原生角色制作对照</h1>
-<p>同一角色、同一房间光照和镜头。这里查看制作方法的实际结果；这些候选尚未进入正式换装与外观保存流程。</p>
+<p>在游戏房间里查看制作结果。新的女性候选已接入共用人物流程、独立换装和外观保存恢复；每组历史录像保留原构建身份。</p>
+<section>
+<h2>完整皮肤与独立换装 · 新女性候选</h2>
+<p><a href="/?workbench=appearance&amp;body=native-female-843ac-v1&amp;view=inspect-full-front">打开原生候选，查看人物与两套上衣</a></p>
+<p>上衣、短裤和鞋独立加载。基础模式保留原发型及原皮肤；穿回上衣后恢复对应遮盖规则。改袖样件已完成制作、导出和游戏回读，外观配方也经过关闭页面后的恢复检查。</p>
+<figure><figcaption>同房间实际走停、坐起、离开家具后短舞 · 1 倍速</figcaption><video controls playsinline preload="none" data-factory-video aria-label="新原生女性独立衣物正常速度动作链"></video></figure>
+<p class="note">录像构建：78717fc659c9。原生女性843ac，改袖上衣与原短裤、鞋；录像不是当前页面的新构建。原始素材仍为技术候选。</p>
+<p class="tag">尚未通过：完整接触及动作自然度、落座时长发短暂外扬、此基模的其他发型配色、普通电脑性能。该录像构建另有桌边小角度导航缺陷，保留为修复前证据；菜单中的最新候选以工作台显示版本为准。</p>
+</section>
 <section>
 <h2>服装拆分后，在游戏中独立装配</h2>
 <p>同一人物的上衣、短裤和鞋，分别使用原模型内嵌部件与独立服装资源。保留原材质、贴图、骨架权重与描边。</p>
@@ -57,6 +65,8 @@
 const base=new URL('/evidence/vroid-expression-study-v1/',location.href);base.port='4174';
 const url=path=>new URL(path,base).href;
 const equipmentBase=new URL('/evidence/native-vroid-equipment-runtime-v1/room-compare-v5/run-1/',location.href);equipmentBase.port='4174';
+const factoryVideo=new URL('/evidence/native-factory-room-7871-v2/native-factory-chain-1x.webm',location.href);factoryVideo.port='4174';
+const factoryPlayer=document.querySelector('[data-factory-video]');factoryPlayer.src=factoryVideo.href;factoryPlayer.addEventListener('play',()=>{factoryPlayer.playbackRate=1;});
 document.querySelectorAll('[data-equipment-image]').forEach(img=>{img.src=new URL(img.dataset.equipmentImage,equipmentBase).href;});
 document.querySelectorAll('[data-equipment-video]').forEach(video=>{video.src=new URL(video.dataset.equipmentVideo,equipmentBase).href;video.addEventListener('play',()=>{video.playbackRate=1;});});
 function select(pose){document.querySelector('#before').src=url('runtime-close-v1/baseline/'+pose+'.png');document.querySelector('#after').src=url('runtime-close-v1/candidate/'+pose+'.png');document.querySelectorAll('[data-pose]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.pose===pose)));}

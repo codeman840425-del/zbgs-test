@@ -1165,6 +1165,7 @@ class CharacterScene extends Phaser.Scene {
   }
   clearPath() {
     this.curveTurnSign = null;
+    this.blockedPathRecovery = null;
     if (!turnLegacy && this.turnPolicy.sample().active) this.turnPolicy.stop();
     this.path = [];
     this.target = null;
@@ -1177,9 +1178,14 @@ class CharacterScene extends Phaser.Scene {
     // A clear waypoint segment does not guarantee the moving pursuit arc is
     // clear. Keep its final intent when the collision guard vetoes that arc.
     const destination = this.path.at(-1) || this.target, after = this.afterWalk;
+    const previous = this.blockedPathRecovery, position = this.actor.root.position;
+    const stalled = previous && destination && previous.destination[0] === destination[0] &&
+      previous.destination[1] === destination[1] &&
+      Math.hypot(position.x - previous.position[0], position.z - previous.position[1]) < .0005;
     this.speed = 0;
     this.curveTurnSign = null;
-    if (destination && this.go(destination[0], destination[1], after)) {
+    if (!stalled && destination && this.go(destination[0], destination[1], after)) {
+      this.blockedPathRecovery = {destination:[...destination], position:[position.x,position.z]};
       // Let the rig finish stopping, then reuse the existing planted turn.
       // This state is entered only at an obstacle, never on normal corners.
       this.pathTurn = turnLegacy ? "settle" : "recover";
@@ -1187,8 +1193,10 @@ class CharacterScene extends Phaser.Scene {
     }
     this.clearPath();
     this.setMode("idle");
+    const reason = stalled ? "path-recovery-no-progress" : "path-blocked";
+    if (after === "sit") this.releaseSeatRequest(reason);
     const task = this.behaviorTasks.get(this.executingRequest);
-    if (task?.kind === "walk") this.behaviorTasks.fail(task.requestId, "path-blocked");
+    if (task?.kind === "walk" || task?.kind === "sit") this.behaviorTasks.fail(task.requestId, reason);
     // go() already fails an unreachable sit and releases its reservation.
   }
   action(name, options = {}) {
@@ -1255,6 +1263,7 @@ class CharacterScene extends Phaser.Scene {
   }
   go(x, z, after = null) {
     this.curveTurnSign = null;
+    this.blockedPathRecovery = null;
     if (after !== "sit") this.releaseSeatRequest("movement-requested");
     if (![x, z].every(Number.isFinite))
       throw new TypeError("Walk target must be finite");
@@ -1679,7 +1688,10 @@ class CharacterScene extends Phaser.Scene {
           } else if (this.turnPolicy.sample().active) {
             this.turnPolicy.requestHeading(heading);
             this.pathTurn = "turn";
-          } else if (this.speed < .06 && !this.rig.getMetrics().moving && Math.abs(angle) > .27) {
+          } else if (this.speed < .06 && !this.rig.getMetrics().moving &&
+            (Math.abs(angle) > .27 || (this.pathTurn === "recover" && dist > .10 && Math.abs(angle) > .06))) {
+            // Recovery must also align shallow angles that would use
+            // alongFacing below. The turn policy supports its small pivot.
             this.beginTurn();this.turnPolicy.requestHeading(heading);
             this.pathTurn="turn";this.speed=0;
           } else this.pathTurn=null;

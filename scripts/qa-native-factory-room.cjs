@@ -93,7 +93,15 @@ if(!directory||!output)throw Error('Pass fixed dist and new evidence directory')
   await page.evaluate(()=>__debug.action('stand'));
   await page.waitForFunction(()=>__debug.snapshot().motion.sitProgress<.001&&__debug.snapshot().motion.transitionComplete,null,{timeout:12000});
   report.states.push({name:'standingAgain',...(await read())});
-  await page.evaluate(()=>__debug.action('dance'));
+  // Leave furniture before requesting a dance; a rejected request is not a
+  // successful playback. Keep the actual task outcomes in this evidence.
+  report.danceWalk=await page.evaluate(()=>__debug.request({requestId:'factory-dance-space',kind:'walk',payload:{x:-.5,z:1.6}}));
+  await page.waitForFunction(()=>['completed','failed','cancelled'].includes(__debug.tasks().get('factory-dance-space')?.state),null,{timeout:25000});
+  report.danceWalkResult=await page.evaluate(()=>__debug.tasks().get('factory-dance-space'));
+  assert.equal(report.danceWalkResult.state,'completed');
+  report.danceRequest=await page.evaluate(()=>__debug.request({requestId:'factory-dance',kind:'dance'}));
+  assert.notEqual(report.danceRequest.task?.state,'failed',report.danceRequest.task?.reason);
+  await page.waitForFunction(()=>__debug.snapshot().mode==='dance'&&__debug.snapshot().motion.danceMix>.95,null,{timeout:10000});
   await page.waitForTimeout(4500);
   report.states.push({name:'dance',...(await read())});
   await page.evaluate(()=>__debug.action('idle'));
