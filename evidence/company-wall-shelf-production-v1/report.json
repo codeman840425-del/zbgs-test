@@ -1,0 +1,404 @@
+{
+  "status": "passed",
+  "scope": "Four project-authored wall-mounted multi-board shelves, CPU-only deterministic GLB production and loaded geometry readback",
+  "dispatch": {
+    "difficulty": "complex",
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "reason": "Four distinct connected wall shelf structures with deterministic geometry and dependency-pinned readback.",
+    "configurationEvidence": "Parent-confirmed explicit configuration. Host hook interception unverified."
+  },
+  "commands": [
+    "node scripts/company-platform/build-wall-shelf.mjs",
+    "node scripts/company-platform/build-wall-shelf.mjs --check"
+  ],
+  "sourceParameters": "assets-source/company-wall-shelf-v1/parameters.json",
+  "sourceParametersSha256": "0ddfbaf5717f7702592249427407bd3eda59db627fb027bb9e2ea98a35fac406",
+  "functionalContractSource": "docs/COMPANY-WALL-SHELF-CONTRACT-v1.txt",
+  "functionalContractSourceSha256": "b4cbd9a20d6dd620142bb782dc2683ed28550fffce6f36a2b9bb30b3d398aa10",
+  "generator": "scripts/company-platform/build-wall-shelf.mjs",
+  "generatorSha256": "40d5a66e87791c7316b59e794aef14410a86da3d06236a04b6de8034263ca0e6",
+  "dependencyPins": {
+    "functionalContract": {
+      "path": "docs/COMPANY-WALL-SHELF-CONTRACT-v1.txt",
+      "sha256": "b4cbd9a20d6dd620142bb782dc2683ed28550fffce6f36a2b9bb30b3d398aa10"
+    },
+    "dataVerifier": {
+      "path": "prototype/src/company/wall-shelf-data.js",
+      "sha256": "20bdb76f9906577e403207f4da8af6e5f1710e2844b9f75a3003f8546c695586"
+    },
+    "supportGeometry": {
+      "path": "prototype/src/company/support-geometry.js",
+      "sha256": "132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68"
+    }
+  },
+  "items": [
+    {
+      "id": "wall-shelf-side-bracket",
+      "design": "side-bracket",
+      "sha256": "9e5beaf8d04a8320dea84c98643898828163faf2e4255804b3d28f54004f5852",
+      "bytes": 32464,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "checked": true,
+        "support": {
+          "checked": true,
+          "surfaces": [
+            {
+              "mesh": "wall-shelf-board-lower",
+              "triangles": 2,
+              "area": 0.28520000736713413,
+              "topY": 0.35
+            },
+            {
+              "mesh": "wall-shelf-board-middle",
+              "triangles": 2,
+              "area": 0.28520000736713413,
+              "topY": 0.95
+            },
+            {
+              "mesh": "wall-shelf-board-top",
+              "triangles": 2,
+              "area": 0.28520000736713413,
+              "topY": 1.55
+            }
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.48500000037252905,
+            2.384185793236071e-8,
+            4.470348362317633e-10
+          ],
+          "max": [
+            0.48500000037252905,
+            1.799999976158142,
+            0.3450000011920929
+          ]
+        },
+        "triangleCount": 136,
+        "meshCount": 17,
+        "materialCount": 2,
+        "wallContactMeshes": [
+          "side-bracket-wall-rail-left",
+          "side-bracket-wall-rail-right"
+        ],
+        "structureMeshes": [
+          "side-bracket-wall-rail-left",
+          "side-bracket-arm-lower-left",
+          "side-bracket-brace-lower-left",
+          "side-bracket-arm-middle-left",
+          "side-bracket-brace-middle-left",
+          "side-bracket-arm-top-left",
+          "side-bracket-brace-top-left",
+          "side-bracket-wall-rail-right",
+          "side-bracket-arm-lower-right",
+          "side-bracket-brace-lower-right",
+          "side-bracket-arm-middle-right",
+          "side-bracket-brace-middle-right",
+          "side-bracket-arm-top-right",
+          "side-bracket-brace-top-right"
+        ],
+        "externalUris": 0,
+        "textures": 0,
+        "animations": 0
+      }
+    },
+    {
+      "id": "wall-shelf-cantilever",
+      "design": "cantilever",
+      "sha256": "34ef3454cc40f70b09ce160610cec8aa1bbf8724009a4e54573f075caedfd4c1",
+      "bytes": 34260,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "checked": true,
+        "support": {
+          "checked": true,
+          "surfaces": [
+            {
+              "mesh": "wall-shelf-board-lower",
+              "triangles": 2,
+              "area": 0.28520000736713413,
+              "topY": 0.35
+            },
+            {
+              "mesh": "wall-shelf-board-middle",
+              "triangles": 2,
+              "area": 0.28520000736713413,
+              "topY": 0.95
+            },
+            {
+              "mesh": "wall-shelf-board-top",
+              "triangles": 2,
+              "area": 0.28520000736713413,
+              "topY": 1.55
+            }
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.46000000834465027,
+            0.23302250753888526,
+            4.470348362317633e-10
+          ],
+          "max": [
+            0.46000000834465027,
+            1.5500000000745058,
+            0.3450000011920929
+          ]
+        },
+        "triangleCount": 144,
+        "meshCount": 18,
+        "materialCount": 2,
+        "wallContactMeshes": [
+          "cantilever-wall-bar-lower",
+          "cantilever-wall-bar-middle",
+          "cantilever-wall-bar-top"
+        ],
+        "structureMeshes": [
+          "cantilever-wall-bar-lower",
+          "cantilever-arm-lower-left",
+          "cantilever-underbrace-lower-left",
+          "cantilever-arm-lower-right",
+          "cantilever-underbrace-lower-right",
+          "cantilever-wall-bar-middle",
+          "cantilever-arm-middle-left",
+          "cantilever-underbrace-middle-left",
+          "cantilever-arm-middle-right",
+          "cantilever-underbrace-middle-right",
+          "cantilever-wall-bar-top",
+          "cantilever-arm-top-left",
+          "cantilever-underbrace-top-left",
+          "cantilever-arm-top-right",
+          "cantilever-underbrace-top-right"
+        ],
+        "externalUris": 0,
+        "textures": 0,
+        "animations": 0
+      }
+    },
+    {
+      "id": "wall-shelf-frame",
+      "design": "frame",
+      "sha256": "41e675ec63c889ec08d6b087ed954a448e692c0d3c1f7016682a5fc878253f86",
+      "bytes": 26300,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "checked": true,
+        "support": {
+          "checked": true,
+          "surfaces": [
+            {
+              "mesh": "wall-shelf-board-lower",
+              "triangles": 2,
+              "area": 0.28520000736713413,
+              "topY": 0.35
+            },
+            {
+              "mesh": "wall-shelf-board-middle",
+              "triangles": 2,
+              "area": 0.28520000736713413,
+              "topY": 0.95
+            },
+            {
+              "mesh": "wall-shelf-board-top",
+              "triangles": 2,
+              "area": 0.28520000736713413,
+              "topY": 1.55
+            }
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.48500000037252905,
+            2.384185793236071e-8,
+            4.470348362317633e-10
+          ],
+          "max": [
+            0.48500000037252905,
+            1.8000000008940698,
+            0.3499999995529652
+          ]
+        },
+        "triangleCount": 112,
+        "meshCount": 14,
+        "materialCount": 2,
+        "wallContactMeshes": [
+          "frame-post-left-rear",
+          "frame-post-right-rear",
+          "frame-rear-top-rail"
+        ],
+        "structureMeshes": [
+          "frame-post-left-rear",
+          "frame-post-left-front",
+          "frame-side-rail-lower-left",
+          "frame-side-rail-middle-left",
+          "frame-side-rail-top-left",
+          "frame-post-right-rear",
+          "frame-post-right-front",
+          "frame-side-rail-lower-right",
+          "frame-side-rail-middle-right",
+          "frame-side-rail-top-right",
+          "frame-rear-top-rail"
+        ],
+        "externalUris": 0,
+        "textures": 0,
+        "animations": 0
+      }
+    },
+    {
+      "id": "wall-shelf-back-panel",
+      "design": "back-panel",
+      "sha256": "157ea76301a633130f0359c9e27191b5a37d92fbb776f27dcbce856766a7418a",
+      "bytes": 24580,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "checked": true,
+        "support": {
+          "checked": true,
+          "surfaces": [
+            {
+              "mesh": "wall-shelf-board-lower",
+              "triangles": 2,
+              "area": 0.28520000736713413,
+              "topY": 0.35
+            },
+            {
+              "mesh": "wall-shelf-board-middle",
+              "triangles": 2,
+              "area": 0.28520000736713413,
+              "topY": 0.95
+            },
+            {
+              "mesh": "wall-shelf-board-top",
+              "triangles": 2,
+              "area": 0.28520000736713413,
+              "topY": 1.55
+            }
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.46000000834465027,
+            2.384185793236071e-8,
+            3.3527612630646075e-10
+          ],
+          "max": [
+            0.46000000834465027,
+            1.799999976158142,
+            0.3450000011920929
+          ]
+        },
+        "triangleCount": 104,
+        "meshCount": 13,
+        "materialCount": 2,
+        "wallContactMeshes": [
+          "back-panel-wall-sheet"
+        ],
+        "structureMeshes": [
+          "back-panel-wall-sheet",
+          "back-panel-ledge-lower",
+          "back-panel-edge-lower-left",
+          "back-panel-edge-lower-right",
+          "back-panel-ledge-middle",
+          "back-panel-edge-middle-left",
+          "back-panel-edge-middle-right",
+          "back-panel-ledge-top",
+          "back-panel-edge-top-left",
+          "back-panel-edge-top-right"
+        ],
+        "externalUris": 0,
+        "textures": 0,
+        "animations": 0
+      }
+    }
+  ],
+  "sourceModificationEvidence": {
+    "design": "side-bracket",
+    "parameter": "braceThickness",
+    "before": 0.04,
+    "after": 0.05,
+    "initialSourceSha256": "5b5d577ee450b8d0dcc23f13ac7382e80ef29bdb2b8ce8e1a4dcf02f15e548c5",
+    "initialOutputSha256": "cbb632e925c63648f0542f5c506751e75827d92afd2f4248019ff5749be3ea72",
+    "finalOutputSha256": "9e5beaf8d04a8320dea84c98643898828163faf2e4255804b3d28f54004f5852",
+    "otherDesignsByteIdentical": true
+  },
+  "parameterAdmissionEvidence": {
+    "allowedRanges": {
+      "side-bracket": {
+        "railWidth": [
+          0.03,
+          0.08
+        ],
+        "railDepth": [
+          0.02,
+          0.08
+        ],
+        "armWidth": [
+          0.025,
+          0.07
+        ],
+        "braceThickness": [
+          0.04,
+          0.07
+        ]
+      },
+      "cantilever": {
+        "wallBarHeight": [
+          0.035,
+          0.1
+        ],
+        "armWidth": [
+          0.03,
+          0.08
+        ],
+        "armDepth": [
+          0.025,
+          0.06
+        ],
+        "railThickness": [
+          0.025,
+          0.06
+        ]
+      },
+      "frame": {
+        "postWidth": [
+          0.03,
+          0.08
+        ],
+        "postDepth": [
+          0.025,
+          0.08
+        ],
+        "railHeight": [
+          0.03,
+          0.07
+        ]
+      },
+      "back-panel": {
+        "panelThickness": [
+          0.02,
+          0.05
+        ],
+        "ledgeWidth": [
+          0.03,
+          0.08
+        ],
+        "ledgeDepth": [
+          0.18,
+          0.28
+        ],
+        "ledgeHeight": [
+          0.03,
+          0.07
+        ]
+      }
+    },
+    "rejectedNegativeWidth": true,
+    "rejectedUnknownParameter": true
+  },
+  "limitations": [
+    "CPU production and loaded geometry only. Browser visual acceptance, wall placement transactions, child-object persistence and ordinary-device performance remain unverified.",
+    "The supports are structural geometry and do not claim a physics or load-rating simulation."
+  ]
+}

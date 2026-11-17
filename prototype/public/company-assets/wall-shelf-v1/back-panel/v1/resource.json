@@ -1,0 +1,112 @@
+{
+  "id": "wall-shelf-back-panel",
+  "displayName": "背板壁架",
+  "version": 1,
+  "category": "decor",
+  "mountRole": "wall-shelf",
+  "productionBranch": "wall-shelf",
+  "mount": "wall",
+  "mounting": {
+    "origin": "bottom",
+    "width": 1,
+    "height": 1.8,
+    "depth": 0.35
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Wall back bottom centre",
+    "scale": "Identity only"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0.175
+    ],
+    "halfSize": [
+      0.5,
+      0.175
+    ],
+    "blocking": true
+  },
+  "usePoints": [],
+  "stateDefaults": {},
+  "supportSurfaces": [
+    {
+      "id": "lower",
+      "center": [
+        0,
+        0.19
+      ],
+      "topY": 0.35,
+      "halfSize": [
+        0.4,
+        0.1
+      ],
+      "clearanceHeight": 0.45
+    },
+    {
+      "id": "middle",
+      "center": [
+        0,
+        0.19
+      ],
+      "topY": 0.95,
+      "halfSize": [
+        0.4,
+        0.1
+      ],
+      "clearanceHeight": 0.45
+    },
+    {
+      "id": "top",
+      "center": [
+        0,
+        0.19
+      ],
+      "topY": 1.55,
+      "halfSize": [
+        0.4,
+        0.1
+      ],
+      "clearanceHeight": 0.25
+    }
+  ],
+  "supportNodes": {
+    "lower": "wall-shelf-board-lower",
+    "middle": "wall-shelf-board-middle",
+    "top": "wall-shelf-board-top"
+  },
+  "provenance": {
+    "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+    "sourceDesign": "back-panel",
+    "method": "Project-authored wall-mounted shelf with a continuous wall-contact back panel and three forward support ledges.",
+    "sourceParameters": "assets-source/company-wall-shelf-v1/parameters.json",
+    "sourceParametersSha256": "0ddfbaf5717f7702592249427407bd3eda59db627fb027bb9e2ea98a35fac406",
+    "generator": "scripts/company-platform/build-wall-shelf.mjs",
+    "generatorSha256": "40d5a66e87791c7316b59e794aef14410a86da3d06236a04b6de8034263ca0e6",
+    "functionalContractSource": "docs/COMPANY-WALL-SHELF-CONTRACT-v1.txt",
+    "functionalContractSourceSha256": "b4cbd9a20d6dd620142bb782dc2683ed28550fffce6f36a2b9bb30b3d398aa10",
+    "dependencies": {
+      "functionalContract": {
+        "path": "docs/COMPANY-WALL-SHELF-CONTRACT-v1.txt",
+        "sha256": "b4cbd9a20d6dd620142bb782dc2683ed28550fffce6f36a2b9bb30b3d398aa10"
+      },
+      "dataVerifier": {
+        "path": "prototype/src/company/wall-shelf-data.js",
+        "sha256": "20bdb76f9906577e403207f4da8af6e5f1710e2844b9f75a3003f8546c695586"
+      },
+      "supportGeometry": {
+        "path": "prototype/src/company/support-geometry.js",
+        "sha256": "132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68"
+      }
+    }
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/wall-shelf-v1/back-panel/v1/model.glb",
+    "sha256": "157ea76301a633130f0359c9e27191b5a37d92fbb776f27dcbce856766a7418a",
+    "bytes": 24580
+  }
+}
