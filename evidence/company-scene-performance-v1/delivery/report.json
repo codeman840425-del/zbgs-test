@@ -1,0 +1,532 @@
+{
+  "build": "d3c889c6c75e",
+  "status": "passed",
+  "checks": [
+    {
+      "name": "Building exterior keeps detailed indoor resources unloaded",
+      "passed": true,
+      "result": {
+        "view": {
+          "mode": "building",
+          "roomId": null,
+          "floorId": "mixed-company-c2/floor-1"
+        },
+        "cache": {
+          "cachedAssets": 0,
+          "loadedAssets": 0
+        },
+        "memory": {
+          "geometries": 0,
+          "textures": 3
+        },
+        "render": {
+          "frame": 21,
+          "calls": 0,
+          "triangles": 0,
+          "points": 0,
+          "lines": 0
+        },
+        "programs": 1,
+        "lights": 0,
+        "displayedFacilities": 0,
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "pixelRatio": 1
+      }
+    },
+    {
+      "name": "Each selected floor loads only its real current-floor scene with bounded realtime lights",
+      "passed": true,
+      "result": [
+        {
+          "floorId": "mixed-company-c2/floor-1",
+          "view": {
+            "mode": "floor",
+            "roomId": null,
+            "floorId": "mixed-company-c2/floor-1"
+          },
+          "cache": {
+            "cachedAssets": 36,
+            "loadedAssets": 36
+          },
+          "memory": {
+            "geometries": 461,
+            "textures": 3
+          },
+          "render": {
+            "frame": 24,
+            "calls": 461,
+            "triangles": 32270,
+            "points": 0,
+            "lines": 0
+          },
+          "programs": 2,
+          "lights": 2,
+          "displayedFacilities": 43,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "pixelRatio": 1
+        },
+        {
+          "floorId": "mixed-company-c2/floor-2",
+          "view": {
+            "mode": "floor",
+            "roomId": null,
+            "floorId": "mixed-company-c2/floor-2"
+          },
+          "cache": {
+            "cachedAssets": 36,
+            "loadedAssets": 36
+          },
+          "memory": {
+            "geometries": 490,
+            "textures": 3
+          },
+          "render": {
+            "frame": 29,
+            "calls": 490,
+            "triangles": 33418,
+            "points": 0,
+            "lines": 0
+          },
+          "programs": 2,
+          "lights": 2,
+          "displayedFacilities": 43,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "pixelRatio": 1
+        }
+      ]
+    },
+    {
+      "name": "Room focus preserves the document while keeping current floor resources measurable",
+      "passed": true,
+      "result": {
+        "view": {
+          "mode": "room",
+          "roomId": "mixed-company-c2/floor-1/room-1",
+          "floorId": "mixed-company-c2/floor-1"
+        },
+        "cache": {
+          "cachedAssets": 36,
+          "loadedAssets": 36
+        },
+        "memory": {
+          "geometries": 386,
+          "textures": 3
+        },
+        "render": {
+          "frame": 35,
+          "calls": 614,
+          "triangles": 38688,
+          "points": 0,
+          "lines": 0
+        },
+        "programs": 3,
+        "lights": 2,
+        "displayedFacilities": 43,
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "pixelRatio": 1
+      }
+    },
+    {
+      "name": "Returning to building releases detailed resources without changing logical state",
+      "passed": true,
+      "result": {
+        "view": {
+          "mode": "building",
+          "roomId": null,
+          "floorId": "mixed-company-c2/floor-1"
+        },
+        "cache": {
+          "cachedAssets": 0,
+          "loadedAssets": 0
+        },
+        "memory": {
+          "geometries": 0,
+          "textures": 3
+        },
+        "render": {
+          "frame": 37,
+          "calls": 0,
+          "triangles": 0,
+          "points": 0,
+          "lines": 0
+        },
+        "programs": 1,
+        "lights": 0,
+        "displayedFacilities": 0,
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "pixelRatio": 1
+      }
+    },
+    {
+      "name": "Repeated floor/building cycles return to warmed per-view allocation baselines",
+      "passed": true,
+      "result": {
+        "cycles": [
+          [
+            {
+              "floorId": "mixed-company-c2/floor-1",
+              "view": {
+                "mode": "floor",
+                "roomId": null,
+                "floorId": "mixed-company-c2/floor-1"
+              },
+              "cache": {
+                "cachedAssets": 36,
+                "loadedAssets": 36
+              },
+              "memory": {
+                "geometries": 461,
+                "textures": 3
+              },
+              "render": {
+                "frame": 40,
+                "calls": 461,
+                "triangles": 32270,
+                "points": 0,
+                "lines": 0
+              },
+              "programs": 2,
+              "lights": 2,
+              "displayedFacilities": 43,
+              "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+              "pixelRatio": 1
+            },
+            {
+              "floorId": "mixed-company-c2/floor-2",
+              "view": {
+                "mode": "floor",
+                "roomId": null,
+                "floorId": "mixed-company-c2/floor-2"
+              },
+              "cache": {
+                "cachedAssets": 36,
+                "loadedAssets": 36
+              },
+              "memory": {
+                "geometries": 490,
+                "textures": 3
+              },
+              "render": {
+                "frame": 45,
+                "calls": 490,
+                "triangles": 33418,
+                "points": 0,
+                "lines": 0
+              },
+              "programs": 2,
+              "lights": 2,
+              "displayedFacilities": 43,
+              "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+              "pixelRatio": 1
+            },
+            {
+              "floorId": null,
+              "view": {
+                "mode": "building",
+                "roomId": null,
+                "floorId": "mixed-company-c2/floor-2"
+              },
+              "cache": {
+                "cachedAssets": 0,
+                "loadedAssets": 0
+              },
+              "memory": {
+                "geometries": 0,
+                "textures": 3
+              },
+              "render": {
+                "frame": 46,
+                "calls": 0,
+                "triangles": 0,
+                "points": 0,
+                "lines": 0
+              },
+              "programs": 1,
+              "lights": 0,
+              "displayedFacilities": 0,
+              "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+              "pixelRatio": 1
+            }
+          ],
+          [
+            {
+              "floorId": "mixed-company-c2/floor-1",
+              "view": {
+                "mode": "floor",
+                "roomId": null,
+                "floorId": "mixed-company-c2/floor-1"
+              },
+              "cache": {
+                "cachedAssets": 36,
+                "loadedAssets": 36
+              },
+              "memory": {
+                "geometries": 461,
+                "textures": 3
+              },
+              "render": {
+                "frame": 49,
+                "calls": 461,
+                "triangles": 32270,
+                "points": 0,
+                "lines": 0
+              },
+              "programs": 2,
+              "lights": 2,
+              "displayedFacilities": 43,
+              "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+              "pixelRatio": 1
+            },
+            {
+              "floorId": "mixed-company-c2/floor-2",
+              "view": {
+                "mode": "floor",
+                "roomId": null,
+                "floorId": "mixed-company-c2/floor-2"
+              },
+              "cache": {
+                "cachedAssets": 36,
+                "loadedAssets": 36
+              },
+              "memory": {
+                "geometries": 490,
+                "textures": 3
+              },
+              "render": {
+                "frame": 55,
+                "calls": 490,
+                "triangles": 33418,
+                "points": 0,
+                "lines": 0
+              },
+              "programs": 2,
+              "lights": 2,
+              "displayedFacilities": 43,
+              "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+              "pixelRatio": 1
+            },
+            {
+              "floorId": null,
+              "view": {
+                "mode": "building",
+                "roomId": null,
+                "floorId": "mixed-company-c2/floor-2"
+              },
+              "cache": {
+                "cachedAssets": 0,
+                "loadedAssets": 0
+              },
+              "memory": {
+                "geometries": 0,
+                "textures": 3
+              },
+              "render": {
+                "frame": 56,
+                "calls": 0,
+                "triangles": 0,
+                "points": 0,
+                "lines": 0
+              },
+              "programs": 1,
+              "lights": 0,
+              "displayedFacilities": 0,
+              "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+              "pixelRatio": 1
+            }
+          ],
+          [
+            {
+              "floorId": "mixed-company-c2/floor-1",
+              "view": {
+                "mode": "floor",
+                "roomId": null,
+                "floorId": "mixed-company-c2/floor-1"
+              },
+              "cache": {
+                "cachedAssets": 36,
+                "loadedAssets": 36
+              },
+              "memory": {
+                "geometries": 461,
+                "textures": 3
+              },
+              "render": {
+                "frame": 59,
+                "calls": 461,
+                "triangles": 32270,
+                "points": 0,
+                "lines": 0
+              },
+              "programs": 2,
+              "lights": 2,
+              "displayedFacilities": 43,
+              "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+              "pixelRatio": 1
+            },
+            {
+              "floorId": "mixed-company-c2/floor-2",
+              "view": {
+                "mode": "floor",
+                "roomId": null,
+                "floorId": "mixed-company-c2/floor-2"
+              },
+              "cache": {
+                "cachedAssets": 36,
+                "loadedAssets": 36
+              },
+              "memory": {
+                "geometries": 490,
+                "textures": 3
+              },
+              "render": {
+                "frame": 67,
+                "calls": 490,
+                "triangles": 33418,
+                "points": 0,
+                "lines": 0
+              },
+              "programs": 2,
+              "lights": 2,
+              "displayedFacilities": 43,
+              "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+              "pixelRatio": 1
+            },
+            {
+              "floorId": null,
+              "view": {
+                "mode": "building",
+                "roomId": null,
+                "floorId": "mixed-company-c2/floor-2"
+              },
+              "cache": {
+                "cachedAssets": 0,
+                "loadedAssets": 0
+              },
+              "memory": {
+                "geometries": 0,
+                "textures": 3
+              },
+              "render": {
+                "frame": 69,
+                "calls": 0,
+                "triangles": 0,
+                "points": 0,
+                "lines": 0
+              },
+              "programs": 1,
+              "lights": 0,
+              "displayedFacilities": 0,
+              "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+              "pixelRatio": 1
+            }
+          ],
+          [
+            {
+              "floorId": "mixed-company-c2/floor-1",
+              "view": {
+                "mode": "floor",
+                "roomId": null,
+                "floorId": "mixed-company-c2/floor-1"
+              },
+              "cache": {
+                "cachedAssets": 36,
+                "loadedAssets": 36
+              },
+              "memory": {
+                "geometries": 461,
+                "textures": 3
+              },
+              "render": {
+                "frame": 72,
+                "calls": 461,
+                "triangles": 32270,
+                "points": 0,
+                "lines": 0
+              },
+              "programs": 2,
+              "lights": 2,
+              "displayedFacilities": 43,
+              "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+              "pixelRatio": 1
+            },
+            {
+              "floorId": "mixed-company-c2/floor-2",
+              "view": {
+                "mode": "floor",
+                "roomId": null,
+                "floorId": "mixed-company-c2/floor-2"
+              },
+              "cache": {
+                "cachedAssets": 36,
+                "loadedAssets": 36
+              },
+              "memory": {
+                "geometries": 490,
+                "textures": 3
+              },
+              "render": {
+                "frame": 77,
+                "calls": 490,
+                "triangles": 33418,
+                "points": 0,
+                "lines": 0
+              },
+              "programs": 2,
+              "lights": 2,
+              "displayedFacilities": 43,
+              "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+              "pixelRatio": 1
+            },
+            {
+              "floorId": null,
+              "view": {
+                "mode": "building",
+                "roomId": null,
+                "floorId": "mixed-company-c2/floor-2"
+              },
+              "cache": {
+                "cachedAssets": 0,
+                "loadedAssets": 0
+              },
+              "memory": {
+                "geometries": 0,
+                "textures": 3
+              },
+              "render": {
+                "frame": 78,
+                "calls": 0,
+                "triangles": 0,
+                "points": 0,
+                "lines": 0
+              },
+              "programs": 1,
+              "lights": 0,
+              "displayedFacilities": 0,
+              "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+              "pixelRatio": 1
+            }
+          ]
+        ],
+        "warmupCycles": 1,
+        "stableAfterWarmup": true
+      }
+    }
+  ],
+  "limits": [
+    "SwiftShader browser measurements describe this environment only; they are not ordinary-PC performance acceptance.",
+    "Renderer allocation counts are not GPU VRAM, long-duration stability, or frame-rate benchmarks.",
+    "No character, occupancy, navigation execution, or business simulation is measured."
+  ],
+  "inputs": {
+    "layoutSha256": "028be92f450e7596f3b00fd613a4b5789ad0002345a1b5070a97d8d3449a0a09",
+    "harnessSha256": "1ddd37b760029fccad1cd9d13fff6954820fbdcaf66fab0e179de9b43e8af2c6",
+    "node": "v24.13.0"
+  },
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+    "hardwareConcurrency": 8,
+    "devicePixelRatio": 1,
+    "renderer": "WebKit WebGL"
+  },
+  "errors": []
+}
