@@ -1,0 +1,135 @@
+台面化妆镜有界工程预检
+2026-11-17
+
+本次仅核源码、当前合同、生产分支与官方一手实现，提出下一包输入。未制作台镜、未执行模型或 CPU 验收、未运行浏览器/GPU，也未建立新能力完成状态。核读时 HEAD 为 602ee7d7c6204dbc95ab1a7073fe02c6a86cf86d，化妆台固定交付仍由主代理收尾，不能把该 HEAD 当作下一包固定发布身份。本文候选须由主代理锁新合同，再经小样和真实运行确认。
+
+一、完整需求与具名分支
+
+已全文核读 COMPANY-PLATFORM-COMPLETE-LONG-GOAL-v3-2026-11-16.txt。C1-A 第 11 组明确化妆台镜/收纳，C1-B 要求真实承载依附、实际反射、实际灯光方向/强度及所支持颜色，C1-C 要求每个确认分支至少四款真实兼容外观与源修改、导出、游戏消费、关闭恢复。C2-E 要求照明/阴影/反射预算，C3 才集中验证真实角色受光和化妆身体动作。
+
+branches.json 中 makeup-mirror 为 confirmed，parent 为 vanity-table，候选 mount 为 vanity-surface，候选包络 .70×.60×.08m 且 verification=pending，state 字符串为 reflective-on-off。四款明确为圆镜、带灯镜、拱镜、三折镜，独立机制为受限反射、灯光与发光面分离、安装面/包络。该字符串尚未规定字段级开关语义，.08m 深也尚未证明有合格底座。makeup-mirror-wall、makeup-storage、makeup-storage-drawer 继续各有独立安装或状态验收，不能用本包代记。
+
+下一包缺口为台面受支承镜体、真实平面反射和受预算控制的实际局部补光及保存。输入沿当前化妆台、墙/落地镜反射器、fill-light 实际聚光链和公司保存事务。预期产物为新合同、四套可编辑源与 GLB、登记和几何/灯光准入、两布局、换款与关闭恢复、独立重建和正常速度录像。角色接入由 C3 保留。
+
+二、已有工程与实际接缝
+
+support-data.js 已支持 mount=support-surface、bottom 原点、直接以设施为 parentId、attachment={surfaceId:'top'}。检查完整四分之一旋转包络、底高、净空及同父子物三维重叠。support-geometry.js 复核真实父板面、上方净空和实际子物底部接触安装面。应将目录中的用途词 vanity-surface 显式适配到此运行安装规格，保留 productionBranch/mountRole=makeup-mirror，不新增第二套承载系统。若要求只能挂 vanity-table，应在新分支 attachment 准入中明确父 mountRole 和 top 合同，当前通用 support-surface 本身允许挂其他有足够支持面的设施。
+
+mirror-data.js 当前仅接受 wall/mirror 或 floor-surface/floor-mirror，固定 .8×1.8m、z=.026、空状态，明确拒绝 light/display/supportSurfaces 等组合。mirror-geometry.js 将 .4 半宽、wall/floor Y 范围、Z 范围和 PLANE_Z=.026 写死；floor 支承还固定 .24×.06×.38m 底座、.08×.52×.04m 柱，不能直接缩放冒用为台镜证据。圆轮廓真实覆盖、闭合厚背板、框不遮反射内部、反例及实际连接检查可复用算法。
+
+mirror-render.js 的 createMirrorBinding 也只承认两种固定平面位置，要求 face 及祖先恒等变换。其激活已做几何减完整 plane position，再把 Reflector 放回。控制器已实现单活动目标、30Hz、每宿主帧至多一次反射、预热失败保旧、剖切显示共用、目标释放及 framebuffer/shader 预热。宿主画质选择为 512/0、1024/0、1024/4 三档，资源默认 profile 仍 single-512-v1，沿 COMPANY-MIRROR-HOST-QUALITY-v1.txt 处理。该控制器应复用。
+
+render.js 已按设施最终父子层级构建 root，真实 SpotLight 和其 target 都挂设施 root。父台移动/转向自然带动镜体、镜面绑定、灯和目标。当前读取 light.kind 后仍始终 new SpotLight，不能给新资源写 kind=point 然后宣称点光生效。display.screen 能把命名灯罩网格随 on 改色/发光，实际照明由 entry.state.on 与 intensity 独立驱动 SpotLight。
+
+light 当前缺专门有限值/方向/灯位验证，appearance-contract.js 也没有纳入 light 的位置、目标、颜色、范围、锥角等功能字段。只依靠现有 state 字段类型相同，会允许普通换外观暗改实际照明方向或范围。新包必须补其固定功能比较和资源准入，不能把有实际光源构造等同灯光合同已完整。
+
+moving-parts.js 的 validateFacilityState 已支持 boolean 和有 min/max 的 number，未知字段/非有限值/越界会拒绝。无须为镜灯另设状态存储。persistence.js 会对整份使用资源和模板作 canonical SHA256 pin，保存完整节点、资源引用、attachment、局部 transform 和 state。authoring.js 走 preload/prepare/commit、迟到候选拒绝和 retainOnly。反射纹理、GPU target 和光源对象应继续由运行重建。
+
+三、固定候选包络与承载计算
+
+建议首次小样采用 width=.70、height=.60、depth=.16m，bottom centre，米制/+Y/+Z，identity 实例缩放，category=dynamic，mount=support-surface，mountRole/productionBranch=makeup-mirror，usePoints=[]，无地面 blocking。深度从 pending 的 .08m 调整为 .16m，给真实底座、背板/支柱、折角侧翼和灯罩留实体空间。此为技术候选调整，需要主代理锁合同和分支参数，不能直接改目录为 verified。
+
+当前四款化妆台共同支持面为 X[-.38,.42]、Z[-.22,.22]、topY=.78、上方净空 .65m。台镜以父局部 position=[.02,.78,-.13]、yaw=0、attachment.top 放置，完整候选包络为 X[-.33,.37]、Y[.78,1.38]、Z[-.21,-.05]，完全在支持区内，左右余量各 .05m、后余量 .01m，上方余量 .05m。转角主板 X[-.40,.55] 也覆盖该区，真实左前凹缺不受侵入。
+
+若保留未来 .45×.25×.25m 收纳候选，中心 [.02,.78,.075] 会占 X[-.205,.245]、Z[-.05,.20]、Y[.78,1.03]，与台镜包络仅在 Z=-.05 相接，按当前严格内部重叠规则不重叠。此只证明候选安装盒计算，收纳实体/状态仍未制作。两者恰相接没有制作余量，下一包样件可把台镜中心后移至 -.135（包络后沿 -.215、前沿 -.055）留下 .005m，仍有后余量 .005m。建议实际配方使用 -.135，固定安装位置属配方，不写死为所有布局唯一位置。
+
+现 vanity 样件数字钟在 [.02,.78,-.15]，其 X[-.23,.27]、Z[-.18,-.12] 与台镜包络真实重叠，必须在新输入中移走或另挂其他承载物，不能原地叠放。两个小摆件若仍按 X=-.20/.22、Z=.08 放置则各 Z[.02,.14]，可以与镜包络分离，仍须走实际共同准入。
+
+独立子镜 local yaw=90° 会把 .70m 宽变成 .70m 深，超过 .44m 支持深度，应拒绝。第二布局的 90° 应旋转父台及配对椅整套，子镜相对父台仍 yaw=0。只旋转外观而不变灯目标/反射法向/附件包络会产生错误。
+
+四、实体支承、四款结构与有限反射面
+
+共同底座候选为 .24×.03×.14m 完整闭合实体，X[-.12,.12]、Y[0,.03]、Z[-.07,.07]。共同柱 X[-.025,.025]、Y[.03,.24]、Z[-.035,.005]，与底座正面积面接触。各款指定厚背板必须从 Y≤.24 开始，在该柱的真实内部有正体积相交，不能只用圆背板 AABB 与柱重叠作为连接证明。框、灯罩、灯支架及侧翼的每个闭合实体须连接到指定背板/柱/底座网络。底座完整底面在 Y=0 接触父桌面，所有部件在 .70×.60×.16 包络内。
+
+中央镜面候选为竖直 +Z 平面 Z=0，基准点 [0,.365,0]，面轮廓顶点在各自声明范围内并烘入 Float32。背板可占 Z[-.025,-.009]，镜前框沿轮廓外围布置，灯罩与前框不得遮入任何声明镜片内部。中央反射头部轮廓约 Y[.18,.55]，全结构最高 .60。此与旧 wall/floor 的 z=.026 明确分支化，不改旧资源语义。
+
+圆镜采用真实圆片，候选直径 .36m、圆心 [0,.365]，背板/环框有厚度，支柱实际接入圆背板下部。带灯镜采用独立矩形镜体和更宽的实体灯框/扩散条，中央片候选 .40×.36m，不能仅给圆镜改颜色凑一款。拱镜采用实际弧顶轮廓及相应厚背板/框，中央头部底 .18、顶 .55m，框体有真实拱形外缘。四款共享安装、补光输出和最大活动反射面数，实际镜片轮廓继续作为外观适配核验。
+
+三折镜需真实三面结构。建议固定展开姿态，中央片宽 .28m、高 .37m，左右翼各宽 .14m、高 .37m，围绕 Y 轴向前折 30°，通过真实厚铰接柱/背部支架连接中央背板。左翼绕 X=-.14 的竖边转 +π/6，右翼绕 X=.14 的竖边转 -π/6。侧翼前探约 .07m，外半宽约 .14+.14*cos(π/6)=.2613m，加入 .01m 框/厚度仍能落在半深 .08/半宽 .35 候选内，但必须按实际三角及转角精确核包络。固定铰接造型不声明开合状态或可变折角。
+
+一个 Reflector 的同一投影不能正确覆盖这三个不同法向的镜面。建议新台镜允许 1–3 个真实平面适配条目，每个条目包含稳定 face key、面/背/框节点、固定 plane position/yaw 与其平面内轮廓。每面分别建立现有 Reflector binding 候选，所有候选仍交同一控制器，整个宿主当前最多一个活动目标和一次反射。三折镜左右翼分别实际激活过才有对应反射证据。非活动面按现有受限表面处理并明确显示预算限制。
+
+这需要主代理在新合同中决定是否采用该有界多面适配。若只做中央镜片实时、两翼永不具备真实反射候选，必须标明其限制并由主代理确定是否满足本确认分支，不能用共面分格镜改名顶替三折镜。本预检推荐 1–3 面候选共享一目标，保留三折真实结构与每面正确反射机会。
+
+五、反射器最小扩展方案
+
+资源层为 makeup-mirror 单独定义受限 schema 和几何配置，固定安装包络、support-surface、最多 3 面/全宿主最多 1 面活动、默认 single-512-v1、灯光及状态。旧 wall/floor 路径保留原严格字段和值。可使用独立 makeup-mirror-data.js，或在 mirror-data.js 入口分派专用校验，避免放宽 wall/floor 的边界来接受新资源。
+
+几何层抽出当前已核的有限平面、轮廓覆盖、厚背板、遮挡检查所用 profile 参数，旧 profile 仍给原尺寸和 z=.026。新台镜每个面先把实际资源空间顶点投到声明平面的局部基底，再运行同一共面/+Z/覆盖算法。资源整体包络始终在资源空间核对。底座/柱与背板、侧翼框、灯支承的逐实体连接沿现有闭合实体方法复用，有界参数必须实际检查，不能凭节点名称过门。
+
+绑定层可继续复用 createMirrorBinding 的单面生命周期，把新资源的一个面描述归一成单绑定输入。对烘入资源坐标的侧翼，clone 后用该面 transform 的 inverse 变换到 Z=0，再将 Reflector 放回该 transform。父台/设施 root 的最终世界变换仍由 Object3D 共用。当前 eligible() 的法向取父节点 +Z，且镜片/Reflector 假定无局部 rotation，侧翼扩展时必须改为每面基底组合出的真实世界平面点和法向。不能只改允许位置就把侧翼当中央平面。
+
+render.js 当前 facility.mirror 为单 owner，镜片枚举、disposeTree、preflight、profile 切换、mirrorBindings() 和统计均以单绑定为单位。新台镜可提供 owner 集合并在枚举时 flatMap，或提供一个拥有 1–3 子绑定的 facility owner，统一幂等释放。不能只把第三面绑定加入 scene 而漏掉预热/销毁/候选回收。全宿主 controller 仍唯一，不给化妆镜新增控制器或常驻目标。
+
+当前 choose() 按绑定 id 排序后取首个可见正面镜。同一三折镜中央面若始终可见，翼面可能一直落选。合同需明确可复现的面选择规则，例如保持当前单目标规则并用镜头只纳入目标翼面，或给现有观看入口一个明确的优先面选择（纯显示策略）。不能把轮流更新三面、保留三张旧图当成同一活动目标预算。主代理需在小样阶段解决此点，然后固定四款共同适用的选择语义。
+
+官方 Reflector 支持平面真实反射及目标分辨率/采样控制，本地 r187 基于自身 matrixWorld 的位置与 +Z 法向构造虚拟相机和斜裁剪面。上述方案只做有限平面坐标适配与 owner 列表扩展，继续调用原 Reflector，不重写反射算法。来源 https://threejs.org/docs/pages/Reflector.html 与 https://github.com/mrdoob/three.js/blob/r187/examples/jsm/objects/Reflector.js
+
+六、实际补光、状态与共用预算
+
+建议每台镜只创建一个实际 SpotLight，固定有厚度的上沿灯罩和扩散条均包含该实际出光点。候选灯源为镜局部 [0,.585,.065]、目标 [0,.43,.72]，方向向 +Z 并略向下，位于反射头部上方，不从镜背向墙照。目标转入桌面局部约 Z=.585（采用镜 Z=-.135），Y=1.21m；该点只用于有限照明方向，不证明真实男女脸部已适配。
+
+候选 light.kind=spot、color=#fff4df、distance=1.5m、angle=.55rad、penumbra=.6、decay=2、castShadow=false。所有四款实际灯位、目标、颜色与范围相同，灯罩可改变外围结构但出光点始终位于真实扩散孔。建议 stateDefaults={on:true,intensity:5}，stateSchema.on boolean，intensity number [0,10]，stateSemantics 分别明确局部补光开关和 candela 强度。此强度为沿既有 fill-light 的初始候选，未作光度或屏幕效果验证，不能写成达到化妆照度标准。
+
+候选将 on 解释为灯开关，关灯后镜面仍反射，intensity=0 同样不输出实际局部光。branches 的 reflective-on-off 字符串须由新合同明确采用此语义，若主代理要求独立关闭反射，则再给 reflectionOn 独立 boolean 并接入 controller eligible，不把灯灭误当反射功能已关闭。本包建议固定暖白色参数并真实驱动 Three.Color，不声明可调色温。如果主代理选择色温能力，需增加有界数字状态与固定转换/颜色空间定义、实际 RGB 变化及保存证据，当前 fill-light 没有这条动态链。
+
+当前 display.screen 的 onIntensity 固定，改变 intensity 只改变实际 SpotLight，发光材质强度不会同步渐变。若新款承诺调光同时改变可见灯罩，需为新镜灯明确受限映射，不改变旧屏幕字段语义。无论是否调灯罩，关灯和调 intensity 的证明都必须来自受光物体实际像素或同镜头可观察光照差异，灯罩自身变亮不足以证明场景受光。
+
+SpotLight 现有 position/target/range/angle 路径可直接复用。PointLight 向所有方向发光，当前 renderer 没有按 kind 分派，无须本包新增点光路径来完成前向台镜补光。SpotLight target 必须随光源加入场景并跟随同一父变换，沿目前设施 root 挂载即可。来源 https://threejs.org/docs/pages/SpotLight.html 与 https://threejs.org/docs/pages/PointLight.html
+
+公司 createCompanyScene 默认 maxRealtimeLights=2，applyPresentation 在所聚焦房间内按稳定 id 选 desired>0 的前两盏，关灯者不占活动名额。台镜灯应加入同一 lights 列表，与既有 fill-light 共用两个名额，不每台另开预算或给每个外观独享实时灯。补光关掉后须证明后排候选能进入名额，第三盏应明确显示受预算抑制而非保存状态被改成 off。保留 state on 与当前实际 enabled 的区别。
+
+局部灯仍 castShadow=false，不新增局部阴影 target/pass。当前预览宿主另有 HemisphereLight 和一个 1024² DirectionalLight 阴影，sun 在单房/room 聚焦才启阴影。台镜不顺带提高阴影分辨率，也不把“场景开了阴影”写成台镜有遮挡阴影。无阴影 SpotLight 可能穿过薄墙照到近邻表面，有限 distance 与房间聚焦缩小影响，实际跨墙限制必须如实保留。原 Reflector 更新期间复用宿主既有阴影，不为反射另算新阴影。
+
+实时反射与 wall/floor 共用 1 个活动 owner、≤30Hz、每主帧一次，沿能力检测选宿主 profile。旧+候选 preflight 交接允许目标峰值 2，仍不能同帧叠加三折各面的常态 pass。补光参与主场景和反射场景的真实受光，反射预热须在候选实际灯和预算已经应用的状态下执行。对象数/逻辑名额与实际 GPU shader/绘制成本需分别记录。
+
+七、需要主代理锁定的跨模块增量
+
+1 将 vanity-surface 用途适配到 support-surface 及严格 vanity-table/top 父限制，锁 .70×.60×.16m 候选和实际底座/柱接口。改变 pending 候选尺寸要更新具名目录及新合同，不修改已验化妆台支持面来凑通过。
+2 为 makeup-mirror 设独立 schema/profile，决定三折镜 1–3 面候选与全局单面选择策略，继承旧镜 profile 默认与宿主画质。选择需要在 source/geometry/binding/controller 枚举/销毁/观看入口同时落实。
+3 增补新镜 light 的有限值、固定位置/target、灯罩节点和实际出光点准入，将其照明字段纳入功能比较。可只对新分支收紧，若同时收紧旧 fill-light 比较需做受影响兼容回归，不能无证扩张本包修复范围。
+4 明确 on 的灯语义、反射是否独立关闭、固定暖白与是否需可调色温，以及 intensity 对灯罩的显示映射。状态沿既有数值/boolean schema，保存沿旧公司 envelope，不另建反射截图或灯光状态文件。
+5 asset-library 和 document 均要调用新资源验证，实际 GLB 几何检查在 preload 阶段执行。appearance/library input/collection、example recipe、preview 四款入口和主代理固定打包依赖列表均接同一版本。GPU preflight 必须覆盖新 owner 集合和灯光状态。
+
+这些为主代理内部技术合同选择，已有授权允许有界实施，无需用户逐项决定技术数值。本文提出具体接口缺口，没有据此生产或修改运行实现。
+
+八、最小制作、运行与恢复验收
+
+先做圆镜和真实折角三折镜核心小样，实际回读分别核共同底座接触、柱与曲背板相交、每面世界法向、轮廓/厚度/遮挡和完整安装包络。再完成带灯镜、拱镜，四款结构真实不同。每件候选先约束 ≤2500 三角、≤32mesh、≤4 材质，无纹理也可完成本包；若真实框灯结构超预算，先定位实际构件成本，不能降低几何准入。
+
+统一制作输入沿已有参数化生产器结构，记录用途/规格/方向/基点/承载/留空/状态/节点/材质/预算/来源。import 无写入，--check 不依赖 evidence，重复导出逐字节一致。至少一款实际修改框宽或底座宽的允许参数重导出，经真实 GLTFLoader/新几何门后登记，另三款 GLB 字节不变。固定合同、源、生产器、依赖、验证器与模型 SHA 均进入输出，保失败源/网格/错误和回滚点。
+
+输入 A 使用当前一房化妆台与正确配对椅，替换掉与台镜冲突的后部数字钟。输入 B 使用另一房和独立台镜/台体 ID，父台 yaw=π/2，子镜 local yaw=0，设不同非默认灯强度/on。两输入共用生产/登记/配置/apply 入口，四款普通换款保台体和子镜身份、attachment、局部变换、灯状态及其他子物状态。移动父台时镜体、每个反射面、真实灯和 target 全部随同最终变换，椅子按既有显式同事务规则移动。
+
+实际 GPU 验收以非对称、主相机屏幕外但反射相机可见的活动宿主物验证真实反射，中央/三折两翼逐面验证法向和视差。用前方已存在非角色物体的同材质受光区核灯开/关、强度变化和实际颜色参数，保持相机/曝光/ambient 相同，不能只比较发光灯罩。角色、男女脸位置/手部动作和真实受光留 C3。
+
+混合 wall/floor/makeup 镜及 fill-light/镜灯验证一反射目标/两实时灯名额，隐藏、切层、building、聚焦另一房时实际停用并释放。重复换款、切层、丢弃候选和 dispose 检查目标/几何/材质归属及稳定回收。当前/候选 preflight 的目标峰值和反射 pass 单列，实际画质档/采样/颜色深度格式可查。记录主pass/反射calls、triangles、CPU submission 和测试设备，普通电脑无证据就保未测。
+
+坏例应覆盖薄片假底座、断开的柱/圆背板、悬空翼/灯、框遮镜、侧翼错误法向、伪造共面、完整包络越界、错误父/surfaceId、与钟/收纳重叠、子镜错误90°、过高、非法光参数/NaN/零方向/未知状态/越界强度、改变光向的“兼容”替换、缺节点/坏 GLB/版本与依赖错配。每种沿事务拒绝且旧文档、场景和已保存字节保持原值。
+
+四款分别保存并关闭浏览器进程重开，检查最终资源版本/节点身份/attachment/父子变换/非默认灯状态。恢复后的反射必须从当前场景新绘制，无旧层像素或旧目标。坏 shader/FBO/未知 render 异常沿既有失败保旧与宿主 renderer 重建路线验，不能把 JS 公共状态恢复声称 GPU 私有栈已修复。最后从确切独立检出构建、完整锁依赖离线重建、同版本正常1×录像并交用户观看。
+
+尝试预算为一次有依据实现，加一轮有真实失败证据的修正。同根因两轮无新证据或改善时重新定位，保原失败，不用静态图/共面改名/只发光材质降低反射或照明标准。
+
+九、一手来源、许可与核读身份
+
+Object3D 的局部/世界层级变换适合父台/台镜/灯源/target 共同变换。实际接入沿既有 group(entry.id) 和设施 root，不需要另建家具/角色控制系统。来源 https://threejs.org/docs/pages/Object3D.html
+
+Three.js r187 的 Reflector、SpotLight、PointLight、GLTFExporter/Loader 及几何实现均可复用，MIT 许可，版权 2010–2026 three.js authors。离线包保留锁文件及 LICENSE，不下载外部镜体/灯具模型，不采用商品图片作为已授权素材。来源 https://github.com/mrdoob/three.js/blob/r187/LICENSE
+
+浏览时 Three 官方旧 manual/en/shadows.html 返回404，本预检阴影结论来自当前锁定源码、render.js 和 preview.js，未用缺失网页推定实现能力。在线当前文档仅用于核 API，具体行为以本地0.187.0及官方r187 tag为准。
+
+v3全文 SHA256 3c60b745d9979f76e4d07a6ba913d5093372ab9aca039cc1fc5ef3fb152fc071
+branches.json SHA256 7a8b42af3adca66c6ba735d0b6dcd96230249df3adeaacc48c4f1180d11ba499
+化妆台合同 SHA256 72baa52d7d3dbfc34ffed4150f6624d025df461439ea5a3f1482a8622ef3fa34
+mirror-data.js SHA256 f390a350f2dd194fe1378266753367cd38821c6d19a9339a674a25ae30e88bff
+mirror-geometry.js SHA256 7a975d5cf9a45f99c01e31c95445d2eccb0efda42f62eaa6947fee6eccf8bf36
+mirror-render.js SHA256 80e84755559235415cd954d320727fff3b06fb4faa256a0d66acc9661a3b3a6e
+render.js SHA256 73ce019532889f72badd2b9155df04c7176ef4cdd873d578523e0e8426c0e344
+appearance-contract.js SHA256 964ac37f150a86d46824bb35fe4e7c2bb568c70ebdee7e6679f393704757e5e7
+moving-parts.js SHA256 38a66b628e3793d43d6fe41d9d1cb45dc1339a4b5f97ac982c51149a2ab58fff
+support-data.js SHA256 0bab087323796e5ccba452f5d0b0a45adc5db99190224c17e2dc4960b95aa67c
+persistence.js SHA256 6bf3db3673cb1ab93aeb1d485aeee8e5997fc41d422dc77f7d0f87310f3c71b4
+Three LICENSE SHA256 8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc
+
+以上是核读时的当前文件身份，下一包固定候选须重新核对实际提交及依赖，不给本预检补贴未来运行结论。
