@@ -1,0 +1,18 @@
+化妆台静态合同独立反例审查 v1
+2026-11-17
+
+本轮结论为两个实际静态准入缺陷均经作者修复并同样本复查。最终有界 CPU 探针 16 项通过，0 项失败，源码运行前后哈希稳定。生产源码由 root 修改，本审查仅写本目录。
+
+首个缺陷为台前区域可侵入真实墙体内侧。6×6 房间中，台体 z=1.49，正确配椅，台前预留 z=1.74..2.99 被接收，与真实 south 墙 z=2.9..3 重叠 9 厘米。原失败为 report-2026-11-17T07-52-53-587Z.json，非法输入保存在 wall-strip-accepted.company.json。作者把台前边界按墙内侧 0.10m 内缩，原输入现被 outside-vanity-clearance 拒绝且原文档字节保持。
+
+第二个缺陷为椅子可挂在台体 facility 下，单独移动或转向台体会隐式带走椅子，绕过合同要求的独立椅子与显式同事务变换。原失败为 report-2026-11-17T07-55-04-251Z.json，非法最终文档保存在 attached-chair-accepted.company.json。作者增加所有 side-entry 椅的 node.parentId===roomId 门，原输入现被 invalid-vanity-seat-parent 拒绝且原文档字节保持。
+
+最终报告为 report-2026-11-17T07-56-12-779Z.json。复现命令为 node evidence/company-vanity-contract-review-v1/probe.mjs。最终 vanity-data.js SHA256 为 c1ed19bf487a545acd9836ae4b5b8bba655a232ce499a4c5ba0bfce9850fb1e9。
+
+其余已覆盖空台、正确配椅、错误位姿和朝向、孤椅、多椅、旧椅身份替换、单独移台拒绝与组合转向成功、台前越房、同层阻挡、同层他房阻挡谓词、不同楼层隔离、旋转房间最终变换、保存恢复、现有保守侧向接近和离开连通。用于隔离同层他房谓词的房间 fixture 故意重叠，不将该 fixture 称为合法完整布局。
+
+adapter 保留 chair@1 原几何、材质槽及原 approach/exit。新身份 vanity-chair-side-entry@1 的来源完整对象 SHA pin 通过。deriveCompany 接入资源及放置门，asset-library 现已接入资源及 vanity 几何门，四个实际台体 asset 路径进入 library-inputs 集合和 library-catalog。模型实际几何由另一独立门负责，本轮没有重复宣称其结论。
+
+已向 root 告知固定移交的常规接入待办。package-company.mjs 的 extraFiles 白名单须加入新合同，否则资源 functionalContractSource 指向新合同会触发 unsafe-production-source。root 接续该项及浏览器、固定构建、录像和完整移交验收。
+
+本轮使用明确标记的 review-vanity 数据合同 fixture，占位 asset 不参与加载。结论仅为 CPU 合同、最终变换、静态准入与文档原子保旧。浏览器场景/存档提交、真实角色 C3、GPU、普通机性能与人类观感不在本次结论内。

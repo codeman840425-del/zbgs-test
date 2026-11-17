@@ -8,7 +8,9 @@ import {createInformationSample} from './information-samples.js';
 import {createFloorInformationSample} from './floor-information-samples.js';
 import {createMirrorSample} from './mirror-samples.js';
 import {createFloorMirrorSample} from './floor-mirror-samples.js';
+import {createVanitySample} from './vanity-samples.js';
 export const appearanceBranches=[
+ ['vanity-table','化妆台'],
  ['floor-mirror','落地镜'],
  ['mirror','墙挂镜'],
  ['information-board-floor','落地图文板'],
@@ -33,6 +35,7 @@ export function appearanceCandidates(catalog,branch) {
  return selected.filter(Boolean).map(r=>({...r,displayName:r.displayName||names[r.id]||r.id}));
 }
 export function createAppearanceSample(branch,index,catalog,templates) {
+ if(branch==='vanity-table')return createVanitySample(catalog,templates,{index});
  if(branch==='floor-mirror')return createFloorMirrorSample(catalog,templates,{index});
  if(branch==='mirror')return createMirrorSample(catalog,templates,{index});
  if(branch==='information-board-floor')return createFloorInformationSample(catalog,templates,{index});

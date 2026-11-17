@@ -1,0 +1,15 @@
+化妆台原创参数生产 v1
+
+输入为本目录 parameters.json、docs/COMPANY-VANITY-TABLE-CONTRACT-v1.txt、锁定 Three.js 0.187.0 及生产器 scripts/company-platform/build-vanity-table.mjs。来源为项目原创构件、实体色材料，无外部家具模型或图片。Three.js 为 MIT，2010–2026 three.js authors，保留 prototype/node_modules/three/LICENSE。源参数保存合同与依赖的 SHA256，输出元数据另记源参数和生产器 SHA256。预检及官方实现依据见 docs/research/COMPANY-VANITY-TABLE-PREFLIGHT-2026-11-16.txt。
+
+从仓库根目录执行 node scripts/company-platform/build-vanity-table.mjs。输出 prototype/public/company-assets/vanity-table-v1/collection.json 和 plain、drawer-style、corner、mobile 各自 v1/model.glb 与 resource.json。evidence/company-vanity-production-v1/report.json 保存实际回读、三角/网格/材质预算、源及合同/生成器/验证器身份和变体证据。所有顶点按源的最终边界烘入 Float32，节点均为恒等变换。构件接触共享最终坐标，轮叉与轮体实体相交。
+
+执行 node scripts/company-platform/build-vanity-table.mjs --check 独立重建并比较全部生产文件，不读取 evidence，不写磁盘。导入模块只暴露函数，不执行生产或落盘。重复导出的 GLB 须逐字节一致。
+
+支持真实修改 tables[0..2].frameWidth 的 .045–.065m 范围，以及 tables[3].frameWidth 的 .040–.055m 范围。默认仅把 plain 从 .055 改到 .060m，重建变体 GLB 和元数据并经真实 GLTFLoader 及共同门回读。其余三款 GLB 须逐字节一致。变体保存在证据目录，正式四款输出保留源默认值。超出范围的参数拒绝，源文件修改后重跑时正式输出才替换。
+
+vanity-top 是唯一命名承载板。转角款还有完整有厚度的 vanity-wing，与主板侧面相接，并真实保留前左凹口。所有 legs、cabinet、fixed-panel、fixed-handle、back-brace、caster-bridge、caster-fork 和 caster-wheel 都为实际闭合凸实体。drawer-style 的实体柜/面板固定闭合。mobile 四轮为静态外观。台体 usePoints 和 stateDefaults 均为空，配对椅另由集成资源处理。
+
+实际回读调用 shared validateSupportGeometry 和 validateVanityGeometry，检查承载面、上方净空、闭合实体、逐体连接、实际接地、膝部净空和安装包络。额外逐部件比较实际源顶点/索引，不依靠网格命名代替真实结构准入。每款最多 2500 三角、32 网格、4 材质，自包含 GLB，无贴图、外链或动画。失败由正常制作命令保存到证据 failures，后续成功保留原记录。
+
+本生产记录限 CPU 制作和实际模型回读。台前布局、配对椅、换款事务、保存关闭恢复、固定版本浏览器展示、正常速度录像、角色 C3、普通电脑性能和用户观感验收分别由其对应集成证据负责。支承连接不证明家具物理抗倾倒。

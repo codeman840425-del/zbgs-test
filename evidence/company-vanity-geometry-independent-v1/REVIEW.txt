@@ -1,0 +1,16 @@
+化妆台几何门独立反例审查 v1
+2026-11-17
+
+本轮发现一个实际绕过，原作者已修复，同例独立复查通过。审查仅写本 evidence 目录，生产代码由原几何作者修改。
+
+原几何门 SHA256 为 893bca2d4a5336e27d7c67d9d8c0bde82fd83a19df24c216ca3ba6baa43509ec。门从待验主板 bounds.min.x 推断是否转角款，使非法模型能自行选择较宽整板规则。探针读取真实 corner GLB，把实际 vanity-top 左边界从 -0.40 加宽至 -0.55，再删除 vanity-wing。资源仍为 vanity-table-corner，provenance.sourceDesign 仍为 corner。0.15×0.25m 凹缺被完整填平，但新几何门与已有承载门均接收。
+
+原失败保存在 run-2026-11-17T08-00-05-627Z/report.json。该目录保留原源码快照、突变 scene JSON 与未修改资源记录。资源 asset SHA 只标识原始输入 GLB，未声称其标识突变后的内存场景。
+
+原作者修复为按固定 provenance.sourceDesign 选择四款显示几何规则，缺失或未知规格拒绝，实际待验 bounds 仅用于验算。未改变功能兼容签名、合同或生产模型。
+
+最终几何门 SHA256 为 79fa7879b0c3c2436061e0665f52d626340b9d29344a89fd669648ef65c97c80。同脚本复查 5 项通过，包含四款真实 GLTFLoader 回读基线与同一转角反例。原反例现于 vanity-top 拒绝。最终报告在 run-2026-11-17T08-02-22-425Z/report.json，运行前后源码哈希稳定。asset-library 的 validateResource 路径已调用该几何门。
+
+复现命令为 node evidence/company-vanity-geometry-independent-v1/probe.mjs。
+
+本轮聚焦一个有源码依据的形状规格绕过，没有重复作者闭合、悬空、膝部侵入和实际接触的大矩阵。没有另发现已实证未关闭阻断。结论限定为 CPU 几何门及四个已 pin GLB 的实际回读，不包括浏览器/GPU、真实角色、物理抗倾倒或视觉验收。

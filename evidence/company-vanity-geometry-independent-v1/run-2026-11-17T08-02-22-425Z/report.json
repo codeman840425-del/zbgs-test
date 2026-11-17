@@ -1,0 +1,89 @@
+{
+  "command": "node evidence/company-vanity-geometry-independent-v1/probe.mjs",
+  "createdAt": "2026-11-17T08:02:22.451Z",
+  "geometrySha256": "79fa7879b0c3c2436061e0665f52d626340b9d29344a89fd669648ef65c97c80",
+  "sourceUnchangedDuringRun": true,
+  "assets": [
+    {
+      "id": "vanity-table-plain",
+      "version": 1,
+      "resourcePath": "prototype/public/company-assets/vanity-table-v1/plain/v1/resource.json",
+      "assetUrl": "/company-assets/vanity-table-v1/plain/v1/model.glb",
+      "sha256": "2dec81b0be405c3671daa3522dbbbd122bdfc0f6bc2b364642faa2f0d7e68917",
+      "bytes": 11084
+    },
+    {
+      "id": "vanity-table-drawer-style",
+      "version": 1,
+      "resourcePath": "prototype/public/company-assets/vanity-table-v1/drawer-style/v1/resource.json",
+      "assetUrl": "/company-assets/vanity-table-v1/drawer-style/v1/model.glb",
+      "sha256": "ff070959aa63dedcea178b984352ce21bb98739b87d764ac04a85ee14e8f9a07",
+      "bytes": 20036
+    },
+    {
+      "id": "vanity-table-corner",
+      "version": 1,
+      "resourcePath": "prototype/public/company-assets/vanity-table-v1/corner/v1/resource.json",
+      "assetUrl": "/company-assets/vanity-table-v1/corner/v1/model.glb",
+      "sha256": "a6d3b621d8fe7368ad49acbacd9a5a2b1c999c913b93f75d010ecdb1db76dd24",
+      "bytes": 12804
+    },
+    {
+      "id": "vanity-table-mobile",
+      "version": 1,
+      "resourcePath": "prototype/public/company-assets/vanity-table-v1/mobile/v1/resource.json",
+      "assetUrl": "/company-assets/vanity-table-v1/mobile/v1/model.glb",
+      "sha256": "c32340709fdcd4bddf9faa01ed650a0f56b778877cdde9bcd9e7180449a725fd",
+      "bytes": 47564
+    }
+  ],
+  "checks": [
+    {
+      "name": "actual GLB baseline plain",
+      "passed": true,
+      "meshCount": 6,
+      "components": 6
+    },
+    {
+      "name": "actual GLB baseline drawer-style",
+      "passed": true,
+      "meshCount": 11,
+      "components": 11
+    },
+    {
+      "name": "actual GLB baseline corner",
+      "passed": true,
+      "meshCount": 7,
+      "components": 7
+    },
+    {
+      "name": "actual GLB baseline mobile",
+      "passed": true,
+      "meshCount": 22,
+      "components": 22
+    },
+    {
+      "name": "actual corner identity cannot silently become full rectangular table",
+      "passed": true,
+      "mutation": {
+        "identity": "vanity-table-corner",
+        "sourceDesign": "corner",
+        "mainSlabMinX": -0.55,
+        "removedWing": true,
+        "notchFilledSquareMetres": 0.0375
+      },
+      "denied": {
+        "code": "vanity-top",
+        "path": "scene.vanity-top#0",
+        "message": "The real tabletop slabs must be the specified full rectangular prisms with uniform .035m thickness"
+      }
+    }
+  ],
+  "passed": 5,
+  "failed": 0,
+  "limits": [
+    "CPU GLTFLoader readback and actual source geometry only. No browser/GPU or actor claim.",
+    "One directed shape-profile counterexample on the actual corner GLB. Existing author topology/knee/contact matrix is not repeated.",
+    "Mutated scene and unchanged resource are evidence fixtures. Their original asset SHA is retained to identify the source GLB, not claimed to hash the mutated in-memory scene."
+  ]
+}

@@ -1,0 +1,1710 @@
+{
+  "build": "a959acbb33a7",
+  "status": "passed",
+  "checks": [
+    {
+      "name": "All four real tables use one display flow and retain supported state through separate browser restarts",
+      "passed": true,
+      "result": [
+        {
+          "index": 0,
+          "resource": {
+            "id": "vanity-table-plain",
+            "version": 1
+          },
+          "document": {
+            "schema": "company-layout",
+            "version": 1,
+            "id": "appearance-vanity-table",
+            "name": "化妆台 · 承载与留空",
+            "revision": 2,
+            "scale": "single-room",
+            "catalog": {
+              "id": "company-facilities",
+              "version": 1
+            },
+            "nodes": [
+              {
+                "id": "appearance-vanity-table/floor-1",
+                "kind": "floor",
+                "parentId": "appearance-vanity-table",
+                "name": "一层",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "appearance-vanity-table/room-1",
+                "kind": "room",
+                "parentId": "appearance-vanity-table/floor-1",
+                "name": "化妆准备间",
+                "purpose": "work",
+                "bounds": {
+                  "width": 7,
+                  "depth": 5.25
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "vanity/primary",
+                "kind": "facility",
+                "parentId": "appearance-vanity-table/room-1",
+                "resource": {
+                  "id": "vanity-table-plain",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    -1,
+                    0,
+                    -1.3
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              },
+              {
+                "id": "vanity/primary/seat",
+                "kind": "facility",
+                "parentId": "appearance-vanity-table/room-1",
+                "resource": {
+                  "id": "vanity-chair-side-entry",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    -0.98,
+                    0,
+                    -0.75
+                  ],
+                  "yaw": 3.141592653589793
+                },
+                "state": {}
+              },
+              {
+                "id": "vanity/primary/clock",
+                "kind": "facility",
+                "parentId": "vanity/primary",
+                "resource": {
+                  "id": "digital-clock-shelf-flat",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0.02,
+                    0.78,
+                    -0.15
+                  ],
+                  "yaw": 0
+                },
+                "state": {
+                  "timeOffsetSeconds": 4500,
+                  "on": true,
+                  "brightness": 0.35
+                },
+                "attachment": {
+                  "surfaceId": "top"
+                }
+              },
+              {
+                "id": "vanity/primary/ornament-0",
+                "kind": "facility",
+                "parentId": "vanity/primary",
+                "resource": {
+                  "id": "tabletop-ornament-stacked-stones",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    -0.2,
+                    0.78,
+                    0.08
+                  ],
+                  "yaw": 0
+                },
+                "state": {},
+                "attachment": {
+                  "surfaceId": "top"
+                }
+              },
+              {
+                "id": "vanity/primary/ornament-1",
+                "kind": "facility",
+                "parentId": "vanity/primary",
+                "resource": {
+                  "id": "tabletop-ornament-arched-sculpture",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0.22,
+                    0.78,
+                    0.08
+                  ],
+                  "yaw": 0
+                },
+                "state": {},
+                "attachment": {
+                  "surfaceId": "top"
+                }
+              }
+            ]
+          },
+          "objects": [
+            {
+              "id": "vanity/primary",
+              "position": [
+                -1,
+                0,
+                -1.3
+              ],
+              "geometryPresent": true
+            },
+            {
+              "id": "vanity/primary/seat",
+              "position": [
+                -0.98,
+                0,
+                -0.75
+              ],
+              "geometryPresent": true
+            },
+            {
+              "id": "vanity/primary/clock",
+              "position": [
+                -0.98,
+                0.78,
+                -1.45
+              ],
+              "geometryPresent": true
+            },
+            {
+              "id": "vanity/primary/ornament-0",
+              "position": [
+                -1.2,
+                0.78,
+                -1.22
+              ],
+              "geometryPresent": true
+            },
+            {
+              "id": "vanity/primary/ornament-1",
+              "position": [
+                -0.78,
+                0.78,
+                -1.22
+              ],
+              "geometryPresent": true
+            }
+          ],
+          "cache": {
+            "cachedAssets": 4,
+            "loadedAssets": 4
+          },
+          "memory": {
+            "geometries": 64,
+            "textures": 3
+          }
+        },
+        {
+          "index": 1,
+          "resource": {
+            "id": "vanity-table-drawer-style",
+            "version": 1
+          },
+          "document": {
+            "schema": "company-layout",
+            "version": 1,
+            "id": "appearance-vanity-table",
+            "name": "化妆台 · 承载与留空",
+            "revision": 4,
+            "scale": "single-room",
+            "catalog": {
+              "id": "company-facilities",
+              "version": 1
+            },
+            "nodes": [
+              {
+                "id": "appearance-vanity-table/floor-1",
+                "kind": "floor",
+                "parentId": "appearance-vanity-table",
+                "name": "一层",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "appearance-vanity-table/room-1",
+                "kind": "room",
+                "parentId": "appearance-vanity-table/floor-1",
+                "name": "化妆准备间",
+                "purpose": "work",
+                "bounds": {
+                  "width": 7,
+                  "depth": 5.25
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "vanity/primary",
+                "kind": "facility",
+                "parentId": "appearance-vanity-table/room-1",
+                "resource": {
+                  "id": "vanity-table-drawer-style",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    -1,
+                    0,
+                    -1.3
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              },
+              {
+                "id": "vanity/primary/seat",
+                "kind": "facility",
+                "parentId": "appearance-vanity-table/room-1",
+                "resource": {
+                  "id": "vanity-chair-side-entry",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    -0.98,
+                    0,
+                    -0.75
+                  ],
+                  "yaw": 3.141592653589793
+                },
+                "state": {}
+              },
+              {
+                "id": "vanity/primary/clock",
+                "kind": "facility",
+                "parentId": "vanity/primary",
+                "resource": {
+                  "id": "digital-clock-shelf-flat",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0.02,
+                    0.78,
+                    -0.15
+                  ],
+                  "yaw": 0
+                },
+                "state": {
+                  "timeOffsetSeconds": 4500,
+                  "on": true,
+                  "brightness": 0.35
+                },
+                "attachment": {
+                  "surfaceId": "top"
+                }
+              },
+              {
+                "id": "vanity/primary/ornament-0",
+                "kind": "facility",
+                "parentId": "vanity/primary",
+                "resource": {
+                  "id": "tabletop-ornament-stacked-stones",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    -0.2,
+                    0.78,
+                    0.08
+                  ],
+                  "yaw": 0
+                },
+                "state": {},
+                "attachment": {
+                  "surfaceId": "top"
+                }
+              },
+              {
+                "id": "vanity/primary/ornament-1",
+                "kind": "facility",
+                "parentId": "vanity/primary",
+                "resource": {
+                  "id": "tabletop-ornament-arched-sculpture",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0.22,
+                    0.78,
+                    0.08
+                  ],
+                  "yaw": 0
+                },
+                "state": {},
+                "attachment": {
+                  "surfaceId": "top"
+                }
+              }
+            ]
+          },
+          "objects": [
+            {
+              "id": "vanity/primary",
+              "position": [
+                -1,
+                0,
+                -1.3
+              ],
+              "geometryPresent": true
+            },
+            {
+              "id": "vanity/primary/seat",
+              "position": [
+                -0.98,
+                0,
+                -0.75
+              ],
+              "geometryPresent": true
+            },
+            {
+              "id": "vanity/primary/clock",
+              "position": [
+                -0.98,
+                0.78,
+                -1.45
+              ],
+              "geometryPresent": true
+            },
+            {
+              "id": "vanity/primary/ornament-0",
+              "position": [
+                -1.2,
+                0.78,
+                -1.22
+              ],
+              "geometryPresent": true
+            },
+            {
+              "id": "vanity/primary/ornament-1",
+              "position": [
+                -0.78,
+                0.78,
+                -1.22
+              ],
+              "geometryPresent": true
+            }
+          ],
+          "cache": {
+            "cachedAssets": 4,
+            "loadedAssets": 4
+          },
+          "memory": {
+            "geometries": 69,
+            "textures": 3
+          }
+        },
+        {
+          "index": 2,
+          "resource": {
+            "id": "vanity-table-corner",
+            "version": 1
+          },
+          "document": {
+            "schema": "company-layout",
+            "version": 1,
+            "id": "appearance-vanity-table",
+            "name": "化妆台 · 承载与留空",
+            "revision": 6,
+            "scale": "single-room",
+            "catalog": {
+              "id": "company-facilities",
+              "version": 1
+            },
+            "nodes": [
+              {
+                "id": "appearance-vanity-table/floor-1",
+                "kind": "floor",
+                "parentId": "appearance-vanity-table",
+                "name": "一层",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "appearance-vanity-table/room-1",
+                "kind": "room",
+                "parentId": "appearance-vanity-table/floor-1",
+                "name": "化妆准备间",
+                "purpose": "work",
+                "bounds": {
+                  "width": 7,
+                  "depth": 5.25
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "vanity/primary",
+                "kind": "facility",
+                "parentId": "appearance-vanity-table/room-1",
+                "resource": {
+                  "id": "vanity-table-corner",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    -1,
+                    0,
+                    -1.3
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              },
+              {
+                "id": "vanity/primary/seat",
+                "kind": "facility",
+                "parentId": "appearance-vanity-table/room-1",
+                "resource": {
+                  "id": "vanity-chair-side-entry",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    -0.98,
+                    0,
+                    -0.75
+                  ],
+                  "yaw": 3.141592653589793
+                },
+                "state": {}
+              },
+              {
+                "id": "vanity/primary/clock",
+                "kind": "facility",
+                "parentId": "vanity/primary",
+                "resource": {
+                  "id": "digital-clock-shelf-flat",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0.02,
+                    0.78,
+                    -0.15
+                  ],
+                  "yaw": 0
+                },
+                "state": {
+                  "timeOffsetSeconds": 4500,
+                  "on": true,
+                  "brightness": 0.35
+                },
+                "attachment": {
+                  "surfaceId": "top"
+                }
+              },
+              {
+                "id": "vanity/primary/ornament-0",
+                "kind": "facility",
+                "parentId": "vanity/primary",
+                "resource": {
+                  "id": "tabletop-ornament-stacked-stones",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    -0.2,
+                    0.78,
+                    0.08
+                  ],
+                  "yaw": 0
+                },
+                "state": {},
+                "attachment": {
+                  "surfaceId": "top"
+                }
+              },
+              {
+                "id": "vanity/primary/ornament-1",
+                "kind": "facility",
+                "parentId": "vanity/primary",
+                "resource": {
+                  "id": "tabletop-ornament-arched-sculpture",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0.22,
+                    0.78,
+                    0.08
+                  ],
+                  "yaw": 0
+                },
+                "state": {},
+                "attachment": {
+                  "surfaceId": "top"
+                }
+              }
+            ]
+          },
+          "objects": [
+            {
+              "id": "vanity/primary",
+              "position": [
+                -1,
+                0,
+                -1.3
+              ],
+              "geometryPresent": true
+            },
+            {
+              "id": "vanity/primary/seat",
+              "position": [
+                -0.98,
+                0,
+                -0.75
+              ],
+              "geometryPresent": true
+            },
+            {
+              "id": "vanity/primary/clock",
+              "position": [
+                -0.98,
+                0.78,
+                -1.45
+              ],
+              "geometryPresent": true
+            },
+            {
+              "id": "vanity/primary/ornament-0",
+              "position": [
+                -1.2,
+                0.78,
+                -1.22
+              ],
+              "geometryPresent": true
+            },
+            {
+              "id": "vanity/primary/ornament-1",
+              "position": [
+                -0.78,
+                0.78,
+                -1.22
+              ],
+              "geometryPresent": true
+            }
+          ],
+          "cache": {
+            "cachedAssets": 4,
+            "loadedAssets": 4
+          },
+          "memory": {
+            "geometries": 65,
+            "textures": 3
+          }
+        },
+        {
+          "index": 3,
+          "resource": {
+            "id": "vanity-table-mobile",
+            "version": 1
+          },
+          "document": {
+            "schema": "company-layout",
+            "version": 1,
+            "id": "appearance-vanity-table",
+            "name": "化妆台 · 承载与留空",
+            "revision": 8,
+            "scale": "single-room",
+            "catalog": {
+              "id": "company-facilities",
+              "version": 1
+            },
+            "nodes": [
+              {
+                "id": "appearance-vanity-table/floor-1",
+                "kind": "floor",
+                "parentId": "appearance-vanity-table",
+                "name": "一层",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "appearance-vanity-table/room-1",
+                "kind": "room",
+                "parentId": "appearance-vanity-table/floor-1",
+                "name": "化妆准备间",
+                "purpose": "work",
+                "bounds": {
+                  "width": 7,
+                  "depth": 5.25
+                },
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "vanity/primary",
+                "kind": "facility",
+                "parentId": "appearance-vanity-table/room-1",
+                "resource": {
+                  "id": "vanity-table-mobile",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    -1,
+                    0,
+                    -1.3
+                  ],
+                  "yaw": 0
+                },
+                "state": {}
+              },
+              {
+                "id": "vanity/primary/seat",
+                "kind": "facility",
+                "parentId": "appearance-vanity-table/room-1",
+                "resource": {
+                  "id": "vanity-chair-side-entry",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    -0.98,
+                    0,
+                    -0.75
+                  ],
+                  "yaw": 3.141592653589793
+                },
+                "state": {}
+              },
+              {
+                "id": "vanity/primary/clock",
+                "kind": "facility",
+                "parentId": "vanity/primary",
+                "resource": {
+                  "id": "digital-clock-shelf-flat",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0.02,
+                    0.78,
+                    -0.15
+                  ],
+                  "yaw": 0
+                },
+                "state": {
+                  "timeOffsetSeconds": 4500,
+                  "on": true,
+                  "brightness": 0.35
+                },
+                "attachment": {
+                  "surfaceId": "top"
+                }
+              },
+              {
+                "id": "vanity/primary/ornament-0",
+                "kind": "facility",
+                "parentId": "vanity/primary",
+                "resource": {
+                  "id": "tabletop-ornament-stacked-stones",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    -0.2,
+                    0.78,
+                    0.08
+                  ],
+                  "yaw": 0
+                },
+                "state": {},
+                "attachment": {
+                  "surfaceId": "top"
+                }
+              },
+              {
+                "id": "vanity/primary/ornament-1",
+                "kind": "facility",
+                "parentId": "vanity/primary",
+                "resource": {
+                  "id": "tabletop-ornament-arched-sculpture",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0.22,
+                    0.78,
+                    0.08
+                  ],
+                  "yaw": 0
+                },
+                "state": {},
+                "attachment": {
+                  "surfaceId": "top"
+                }
+              }
+            ]
+          },
+          "objects": [
+            {
+              "id": "vanity/primary",
+              "position": [
+                -1,
+                0,
+                -1.3
+              ],
+              "geometryPresent": true
+            },
+            {
+              "id": "vanity/primary/seat",
+              "position": [
+                -0.98,
+                0,
+                -0.75
+              ],
+              "geometryPresent": true
+            },
+            {
+              "id": "vanity/primary/clock",
+              "position": [
+                -0.98,
+                0.78,
+                -1.45
+              ],
+              "geometryPresent": true
+            },
+            {
+              "id": "vanity/primary/ornament-0",
+              "position": [
+                -1.2,
+                0.78,
+                -1.22
+              ],
+              "geometryPresent": true
+            },
+            {
+              "id": "vanity/primary/ornament-1",
+              "position": [
+                -0.78,
+                0.78,
+                -1.22
+              ],
+              "geometryPresent": true
+            }
+          ],
+          "cache": {
+            "cachedAssets": 4,
+            "loadedAssets": 4
+          },
+          "memory": {
+            "geometries": 80,
+            "textures": 3
+          }
+        }
+      ]
+    },
+    {
+      "name": "Explicit quarter-turn changes visible child positions, seat direction and blocking from the same final transform",
+      "passed": true,
+      "result": {
+        "document": {
+          "schema": "company-layout",
+          "version": 1,
+          "id": "appearance-vanity-table",
+          "name": "化妆台 · 承载与留空",
+          "revision": 10,
+          "scale": "single-room",
+          "catalog": {
+            "id": "company-facilities",
+            "version": 1
+          },
+          "nodes": [
+            {
+              "id": "appearance-vanity-table/floor-1",
+              "kind": "floor",
+              "parentId": "appearance-vanity-table",
+              "name": "一层",
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            {
+              "id": "appearance-vanity-table/room-1",
+              "kind": "room",
+              "parentId": "appearance-vanity-table/floor-1",
+              "name": "化妆准备间",
+              "purpose": "work",
+              "bounds": {
+                "width": 7,
+                "depth": 5.25
+              },
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            {
+              "id": "vanity/primary",
+              "kind": "facility",
+              "parentId": "appearance-vanity-table/room-1",
+              "resource": {
+                "id": "vanity-table-plain",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0.5,
+                  0,
+                  -1.3
+                ],
+                "yaw": 1.5707963267948966
+              },
+              "state": {}
+            },
+            {
+              "id": "vanity/primary/seat",
+              "kind": "facility",
+              "parentId": "appearance-vanity-table/room-1",
+              "resource": {
+                "id": "vanity-chair-side-entry",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  1.05,
+                  0,
+                  -1.32
+                ],
+                "yaw": 4.71238898038469
+              },
+              "state": {}
+            },
+            {
+              "id": "vanity/primary/clock",
+              "kind": "facility",
+              "parentId": "vanity/primary",
+              "resource": {
+                "id": "digital-clock-shelf-flat",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0.02,
+                  0.78,
+                  -0.15
+                ],
+                "yaw": 0
+              },
+              "state": {
+                "timeOffsetSeconds": 4500,
+                "on": true,
+                "brightness": 0.35
+              },
+              "attachment": {
+                "surfaceId": "top"
+              }
+            },
+            {
+              "id": "vanity/primary/ornament-0",
+              "kind": "facility",
+              "parentId": "vanity/primary",
+              "resource": {
+                "id": "tabletop-ornament-stacked-stones",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  -0.2,
+                  0.78,
+                  0.08
+                ],
+                "yaw": 0
+              },
+              "state": {},
+              "attachment": {
+                "surfaceId": "top"
+              }
+            },
+            {
+              "id": "vanity/primary/ornament-1",
+              "kind": "facility",
+              "parentId": "vanity/primary",
+              "resource": {
+                "id": "tabletop-ornament-arched-sculpture",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0.22,
+                  0.78,
+                  0.08
+                ],
+                "yaw": 0
+              },
+              "state": {},
+              "attachment": {
+                "surfaceId": "top"
+              }
+            }
+          ]
+        },
+        "objects": [
+          {
+            "id": "vanity/primary",
+            "position": [
+              0.5,
+              0,
+              -1.3
+            ],
+            "geometryPresent": true
+          },
+          {
+            "id": "vanity/primary/seat",
+            "position": [
+              1.05,
+              0,
+              -1.32
+            ],
+            "geometryPresent": true
+          },
+          {
+            "id": "vanity/primary/clock",
+            "position": [
+              0.35,
+              0.78,
+              -1.32
+            ],
+            "geometryPresent": true
+          },
+          {
+            "id": "vanity/primary/ornament-0",
+            "position": [
+              0.58,
+              0.78,
+              -1.1
+            ],
+            "geometryPresent": true
+          },
+          {
+            "id": "vanity/primary/ornament-1",
+            "position": [
+              0.5800000000000001,
+              0.78,
+              -1.52
+            ],
+            "geometryPresent": true
+          }
+        ],
+        "cache": {
+          "cachedAssets": 4,
+          "loadedAssets": 4
+        },
+        "memory": {
+          "geometries": 64,
+          "textures": 3
+        },
+        "obstacle": {
+          "name": "vanity/primary",
+          "instanceId": "vanity/primary",
+          "kind": "facility",
+          "x": 0.5,
+          "z": -1.3,
+          "hw": 0.47,
+          "hd": 0.77,
+          "footprint": {
+            "center": [
+              0,
+              0
+            ],
+            "halfSize": [
+              0.55,
+              0.25
+            ],
+            "blocking": true
+          }
+        }
+      }
+    },
+    {
+      "name": "Bad mounting, blocked front reserve, wrong seat and missing asset reject without changing live document or saved bytes",
+      "passed": true,
+      "result": {
+        "rejected": [
+          {
+            "code": "overlapping-facilities",
+            "ops": [
+              {
+                "type": "move",
+                "id": "vanity/primary",
+                "transform": {
+                  "position": [
+                    -1,
+                    0,
+                    -1
+                  ],
+                  "yaw": 0
+                }
+              }
+            ]
+          },
+          {
+            "code": "invalid-support-fit",
+            "ops": [
+              {
+                "type": "move",
+                "id": "vanity/primary/clock",
+                "transform": {
+                  "position": [
+                    0.02,
+                    0.8,
+                    -0.15
+                  ],
+                  "yaw": 0
+                }
+              }
+            ]
+          },
+          {
+            "code": "blocked-vanity-clearance",
+            "ops": [
+              {
+                "type": "add-facility",
+                "id": "bad-front",
+                "parentId": "appearance-vanity-table/room-1",
+                "resource": {
+                  "id": "chair",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    -0.25,
+                    0,
+                    -0.15
+                  ],
+                  "yaw": 0
+                }
+              }
+            ]
+          },
+          {
+            "code": "incompatible-replacement",
+            "ops": [
+              {
+                "type": "replace-resource",
+                "id": "vanity/primary/seat",
+                "resource": {
+                  "id": "chair",
+                  "version": 1
+                }
+              }
+            ]
+          }
+        ],
+        "missingAsset": "asset-fetch-failed"
+      }
+    },
+    {
+      "name": "Two same-name rooms retain independent rotated sets and nondefault state after browser shutdown",
+      "passed": true,
+      "result": {
+        "document": {
+          "schema": "company-layout",
+          "version": 1,
+          "id": "vanity-alternate",
+          "name": "化妆台 · 两房转向布置",
+          "revision": 2,
+          "scale": "rental-home",
+          "catalog": {
+            "id": "company-facilities",
+            "version": 1
+          },
+          "nodes": [
+            {
+              "id": "vanity-alternate/floor-1",
+              "kind": "floor",
+              "parentId": "vanity-alternate",
+              "name": "一层",
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              },
+              "connections": [
+                {
+                  "id": "vanity-alternate/door",
+                  "from": {
+                    "regionId": "vanity-alternate/room-1",
+                    "edge": "east",
+                    "offset": 0,
+                    "width": 1.4
+                  },
+                  "to": {
+                    "regionId": "vanity-alternate/room-2",
+                    "edge": "west",
+                    "offset": 0,
+                    "width": 1.4
+                  }
+                }
+              ]
+            },
+            {
+              "id": "vanity-alternate/room-1",
+              "kind": "room",
+              "parentId": "vanity-alternate/floor-1",
+              "name": "化妆准备间",
+              "purpose": "work",
+              "bounds": {
+                "width": 7,
+                "depth": 5.25
+              },
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            {
+              "id": "vanity-alternate/room-2",
+              "kind": "room",
+              "parentId": "vanity-alternate/floor-1",
+              "name": "化妆准备间",
+              "purpose": "work",
+              "bounds": {
+                "width": 7,
+                "depth": 5.25
+              },
+              "transform": {
+                "position": [
+                  7,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            {
+              "id": "vanity/primary",
+              "kind": "facility",
+              "parentId": "vanity-alternate/room-1",
+              "resource": {
+                "id": "vanity-table-plain",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  -1,
+                  0,
+                  -1.3
+                ],
+                "yaw": 0
+              },
+              "state": {}
+            },
+            {
+              "id": "vanity/primary/seat",
+              "kind": "facility",
+              "parentId": "vanity-alternate/room-1",
+              "resource": {
+                "id": "vanity-chair-side-entry",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  -0.98,
+                  0,
+                  -0.75
+                ],
+                "yaw": 3.141592653589793
+              },
+              "state": {}
+            },
+            {
+              "id": "vanity/primary/clock",
+              "kind": "facility",
+              "parentId": "vanity/primary",
+              "resource": {
+                "id": "digital-clock-shelf-flat",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0.02,
+                  0.78,
+                  -0.15
+                ],
+                "yaw": 0
+              },
+              "state": {
+                "timeOffsetSeconds": 3600,
+                "on": false,
+                "brightness": 0.4
+              },
+              "attachment": {
+                "surfaceId": "top"
+              }
+            },
+            {
+              "id": "vanity/primary/ornament-0",
+              "kind": "facility",
+              "parentId": "vanity/primary",
+              "resource": {
+                "id": "tabletop-ornament-stacked-stones",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  -0.2,
+                  0.78,
+                  0.08
+                ],
+                "yaw": 0
+              },
+              "state": {},
+              "attachment": {
+                "surfaceId": "top"
+              }
+            },
+            {
+              "id": "vanity/primary/ornament-1",
+              "kind": "facility",
+              "parentId": "vanity/primary",
+              "resource": {
+                "id": "tabletop-ornament-arched-sculpture",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0.22,
+                  0.78,
+                  0.08
+                ],
+                "yaw": 0
+              },
+              "state": {},
+              "attachment": {
+                "surfaceId": "top"
+              }
+            },
+            {
+              "id": "vanity/secondary",
+              "kind": "facility",
+              "parentId": "vanity-alternate/room-2",
+              "resource": {
+                "id": "vanity-table-drawer-style",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  1,
+                  0,
+                  -1
+                ],
+                "yaw": 1.5707963267948966
+              },
+              "state": {}
+            },
+            {
+              "id": "vanity/secondary/seat",
+              "kind": "facility",
+              "parentId": "vanity-alternate/room-2",
+              "resource": {
+                "id": "vanity-chair-side-entry",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  1.55,
+                  0,
+                  -1.02
+                ],
+                "yaw": 4.71238898038469
+              },
+              "state": {}
+            },
+            {
+              "id": "vanity/secondary/clock",
+              "kind": "facility",
+              "parentId": "vanity/secondary",
+              "resource": {
+                "id": "digital-clock-shelf-flat",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0.02,
+                  0.78,
+                  -0.15
+                ],
+                "yaw": 0
+              },
+              "state": {
+                "timeOffsetSeconds": 7200,
+                "on": true,
+                "brightness": 0.7
+              },
+              "attachment": {
+                "surfaceId": "top"
+              }
+            },
+            {
+              "id": "vanity/secondary/ornament-0",
+              "kind": "facility",
+              "parentId": "vanity/secondary",
+              "resource": {
+                "id": "tabletop-ornament-stacked-stones",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  -0.2,
+                  0.78,
+                  0.08
+                ],
+                "yaw": 0
+              },
+              "state": {},
+              "attachment": {
+                "surfaceId": "top"
+              }
+            },
+            {
+              "id": "vanity/secondary/ornament-1",
+              "kind": "facility",
+              "parentId": "vanity/secondary",
+              "resource": {
+                "id": "tabletop-ornament-arched-sculpture",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0.22,
+                  0.78,
+                  0.08
+                ],
+                "yaw": 0
+              },
+              "state": {},
+              "attachment": {
+                "surfaceId": "top"
+              }
+            }
+          ]
+        },
+        "objects": [
+          {
+            "id": "vanity/primary",
+            "position": [
+              -1,
+              0,
+              -1.3
+            ],
+            "geometryPresent": true
+          },
+          {
+            "id": "vanity/primary/seat",
+            "position": [
+              -0.98,
+              0,
+              -0.75
+            ],
+            "geometryPresent": true
+          },
+          {
+            "id": "vanity/primary/clock",
+            "position": [
+              -0.98,
+              0.78,
+              -1.45
+            ],
+            "geometryPresent": true
+          },
+          {
+            "id": "vanity/primary/ornament-0",
+            "position": [
+              -1.2,
+              0.78,
+              -1.22
+            ],
+            "geometryPresent": true
+          },
+          {
+            "id": "vanity/primary/ornament-1",
+            "position": [
+              -0.78,
+              0.78,
+              -1.22
+            ],
+            "geometryPresent": true
+          },
+          {
+            "id": "vanity/secondary",
+            "position": [
+              8,
+              0,
+              -1
+            ],
+            "geometryPresent": true
+          },
+          {
+            "id": "vanity/secondary/seat",
+            "position": [
+              8.55,
+              0,
+              -1.02
+            ],
+            "geometryPresent": true
+          },
+          {
+            "id": "vanity/secondary/clock",
+            "position": [
+              7.85,
+              0.78,
+              -1.02
+            ],
+            "geometryPresent": true
+          },
+          {
+            "id": "vanity/secondary/ornament-0",
+            "position": [
+              8.08,
+              0.78,
+              -0.7999999999999999
+            ],
+            "geometryPresent": true
+          },
+          {
+            "id": "vanity/secondary/ornament-1",
+            "position": [
+              8.08,
+              0.78,
+              -1.22
+            ],
+            "geometryPresent": true
+          }
+        ],
+        "cache": {
+          "cachedAssets": 5,
+          "loadedAssets": 5
+        },
+        "memory": {
+          "geometries": 89,
+          "textures": 3
+        }
+      }
+    },
+    {
+      "name": "Repeated replacement releases old geometry and retains only current view dependencies",
+      "passed": true,
+      "result": [
+        {
+          "cache": {
+            "cachedAssets": 4,
+            "loadedAssets": 4
+          },
+          "memory": {
+            "geometries": 60,
+            "textures": 3
+          },
+          "pass": {
+            "frame": 33,
+            "calls": 115,
+            "triangles": 4564,
+            "points": 0,
+            "lines": 0
+          }
+        },
+        {
+          "cache": {
+            "cachedAssets": 4,
+            "loadedAssets": 4
+          },
+          "memory": {
+            "geometries": 65,
+            "textures": 3
+          },
+          "pass": {
+            "frame": 54,
+            "calls": 125,
+            "triangles": 4684,
+            "points": 0,
+            "lines": 0
+          }
+        },
+        {
+          "cache": {
+            "cachedAssets": 4,
+            "loadedAssets": 4
+          },
+          "memory": {
+            "geometries": 61,
+            "textures": 3
+          },
+          "pass": {
+            "frame": 66,
+            "calls": 117,
+            "triangles": 4588,
+            "points": 0,
+            "lines": 0
+          }
+        },
+        {
+          "cache": {
+            "cachedAssets": 4,
+            "loadedAssets": 4
+          },
+          "memory": {
+            "geometries": 76,
+            "textures": 3
+          },
+          "pass": {
+            "frame": 82,
+            "calls": 147,
+            "triangles": 5236,
+            "points": 0,
+            "lines": 0
+          }
+        },
+        {
+          "cache": {
+            "cachedAssets": 4,
+            "loadedAssets": 4
+          },
+          "memory": {
+            "geometries": 60,
+            "textures": 3
+          },
+          "pass": {
+            "frame": 89,
+            "calls": 115,
+            "triangles": 4564,
+            "points": 0,
+            "lines": 0
+          }
+        },
+        {
+          "cache": {
+            "cachedAssets": 4,
+            "loadedAssets": 4
+          },
+          "memory": {
+            "geometries": 65,
+            "textures": 3
+          },
+          "pass": {
+            "frame": 94,
+            "calls": 125,
+            "triangles": 4684,
+            "points": 0,
+            "lines": 0
+          }
+        },
+        {
+          "cache": {
+            "cachedAssets": 4,
+            "loadedAssets": 4
+          },
+          "memory": {
+            "geometries": 61,
+            "textures": 3
+          },
+          "pass": {
+            "frame": 101,
+            "calls": 117,
+            "triangles": 4588,
+            "points": 0,
+            "lines": 0
+          }
+        },
+        {
+          "cache": {
+            "cachedAssets": 4,
+            "loadedAssets": 4
+          },
+          "memory": {
+            "geometries": 76,
+            "textures": 3
+          },
+          "pass": {
+            "frame": 107,
+            "calls": 147,
+            "triangles": 5236,
+            "points": 0,
+            "lines": 0
+          }
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "SwiftShader browser; no role C3, ordinary-PC or final human acceptance"
+  ],
+  "pageErrors": []
+}

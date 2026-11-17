@@ -28,6 +28,16 @@ for(const name of resourcePaths){
   if(!resource.provenance?.license||!resource.provenance?.sourceParameters)throw Error(`Missing source or usage information: ${name}`);
   catalog.resources.push(resource);
 }
+// Explicit functional adapter identity, pinned to the complete existing source.
+// This reuses display geometry and is not a newly produced appearance.
+for(const adapter of plan.adapters||[]) {
+  if(Object.keys(adapter).sort().join(',')!=='id,mountRole,source,usePoints,version')throw Error('Unsupported resource adapter fields');
+  const source=catalog.resources.find(r=>r.id===adapter.source.id&&r.version===adapter.source.version);
+  if(!source||createHash('sha256').update(JSON.stringify(source)).digest('hex')!==adapter.source.sha256)throw Error(`Resource adapter source differs: ${adapter.id}`);
+  if(catalog.resources.some(r=>r.id===adapter.id&&r.version===adapter.version))throw Error(`Duplicate adapter identity: ${adapter.id}`);
+  catalog.resources.push({...structuredClone(source),id:adapter.id,version:adapter.version,mountRole:adapter.mountRole,usePoints:structuredClone(adapter.usePoints),
+    provenance:{...structuredClone(source.provenance),functionalAdapter:{source:adapter.source,input:'scripts/company-platform/library-inputs.json',scope:'Explicit approach/exit adaptation; same source geometry, not a new appearance.'}}});
+}
 catalogMaps(catalog,{templates:[]});
 const output=path.join(root,plan.output),text=JSON.stringify(catalog,null,2)+'\n';
 if(process.argv.includes('--check')){if(await fs.readFile(output,'utf8')!==text)throw Error('Registered catalog is stale');}

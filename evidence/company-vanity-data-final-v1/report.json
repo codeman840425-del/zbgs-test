@@ -1,0 +1,285 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "name": "Four real distinct models and both layouts share fixed function and connected side-entry seats",
+      "passed": true,
+      "result": [
+        {
+          "index": 0,
+          "alternate": false,
+          "checkedSeats": [
+            "vanity/primary/seat#seat"
+          ]
+        },
+        {
+          "index": 0,
+          "alternate": true,
+          "checkedSeats": [
+            "vanity/primary/seat#seat",
+            "vanity/secondary/seat#seat"
+          ]
+        },
+        {
+          "index": 1,
+          "alternate": false,
+          "checkedSeats": [
+            "vanity/primary/seat#seat"
+          ]
+        },
+        {
+          "index": 1,
+          "alternate": true,
+          "checkedSeats": [
+            "vanity/primary/seat#seat",
+            "vanity/secondary/seat#seat"
+          ]
+        },
+        {
+          "index": 2,
+          "alternate": false,
+          "checkedSeats": [
+            "vanity/primary/seat#seat"
+          ]
+        },
+        {
+          "index": 2,
+          "alternate": true,
+          "checkedSeats": [
+            "vanity/primary/seat#seat",
+            "vanity/secondary/seat#seat"
+          ]
+        },
+        {
+          "index": 3,
+          "alternate": false,
+          "checkedSeats": [
+            "vanity/primary/seat#seat"
+          ]
+        },
+        {
+          "index": 3,
+          "alternate": true,
+          "checkedSeats": [
+            "vanity/primary/seat#seat",
+            "vanity/secondary/seat#seat"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Each actual table appearance retains its real supported children and nondefault clock state through scene restore",
+      "passed": true,
+      "result": [
+        {
+          "resource": {
+            "id": "vanity-table-plain",
+            "version": 1
+          },
+          "clockState": {
+            "timeOffsetSeconds": 3600,
+            "on": true,
+            "brightness": 0.4
+          }
+        },
+        {
+          "resource": {
+            "id": "vanity-table-drawer-style",
+            "version": 1
+          },
+          "clockState": {
+            "timeOffsetSeconds": 3600,
+            "on": true,
+            "brightness": 0.4
+          }
+        },
+        {
+          "resource": {
+            "id": "vanity-table-corner",
+            "version": 1
+          },
+          "clockState": {
+            "timeOffsetSeconds": 3600,
+            "on": true,
+            "brightness": 0.4
+          }
+        },
+        {
+          "resource": {
+            "id": "vanity-table-mobile",
+            "version": 1
+          },
+          "clockState": {
+            "timeOffsetSeconds": 3600,
+            "on": true,
+            "brightness": 0.4
+          }
+        }
+      ]
+    },
+    {
+      "name": "Explicit table-and-seat quarter-turn moves real supported geometry together while preserving logical identity",
+      "passed": true,
+      "result": [
+        {
+          "id": "vanity/primary/clock",
+          "actual": [
+            0.35,
+            0.78,
+            -1.32
+          ],
+          "expected": [
+            0.35,
+            0.78,
+            -1.32
+          ]
+        },
+        {
+          "id": "vanity/primary/ornament-0",
+          "actual": [
+            0.58,
+            0.78,
+            -1.1
+          ],
+          "expected": [
+            0.58,
+            0.78,
+            -1.1
+          ]
+        },
+        {
+          "id": "vanity/primary/ornament-1",
+          "actual": [
+            0.5800000000000001,
+            0.78,
+            -1.52
+          ],
+          "expected": [
+            0.58,
+            0.78,
+            -1.52
+          ]
+        },
+        {
+          "id": "vanity/primary/seat",
+          "actual": [
+            1.05,
+            0,
+            -1.32
+          ],
+          "expected": [
+            1.05,
+            0,
+            -1.32
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Invalid clearance, mounting, seat pairing and parent changes preserve live scene and serialized document",
+      "passed": true,
+      "result": [
+        {
+          "ops": [
+            {
+              "type": "move",
+              "id": "vanity/primary",
+              "transform": {
+                "position": [
+                  0.6,
+                  0,
+                  -1.3
+                ],
+                "yaw": 1.5707963267948966
+              }
+            }
+          ],
+          "code": "overlapping-facilities"
+        },
+        {
+          "ops": [
+            {
+              "type": "move",
+              "id": "vanity/primary/seat",
+              "transform": {
+                "position": [
+                  2,
+                  0,
+                  1
+                ],
+                "yaw": 0
+              }
+            }
+          ],
+          "code": "unpaired-vanity-seat"
+        },
+        {
+          "ops": [
+            {
+              "type": "move",
+              "id": "vanity/primary/clock",
+              "transform": {
+                "position": [
+                  0.02,
+                  0.8,
+                  -0.15
+                ],
+                "yaw": 0
+              }
+            }
+          ],
+          "code": "invalid-support-fit"
+        },
+        {
+          "ops": [
+            {
+              "type": "move",
+              "id": "vanity/primary/ornament-0",
+              "transform": {
+                "position": [
+                  0.02,
+                  0.78,
+                  -0.15
+                ],
+                "yaw": 0
+              }
+            }
+          ],
+          "code": "overlapping-supported-props"
+        },
+        {
+          "ops": [
+            {
+              "type": "set-state",
+              "id": "vanity/primary",
+              "state": {
+                "open": 1
+              }
+            }
+          ],
+          "code": "invalid-device-state"
+        },
+        {
+          "ops": [
+            {
+              "type": "replace-resource",
+              "id": "vanity/primary/seat",
+              "resource": {
+                "id": "chair",
+                "version": 1
+              }
+            }
+          ],
+          "code": "incompatible-replacement"
+        }
+      ]
+    },
+    {
+      "name": "Two rooms with identical display names retain independent tables, chair targets and clock states",
+      "passed": true
+    }
+  ],
+  "limits": [
+    "CPU real GLB/scene verification; browser restart, role C3 and ordinary-PC performance require separate evidence"
+  ]
+}

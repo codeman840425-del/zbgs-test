@@ -1,0 +1,1854 @@
+{
+  "status": "passed",
+  "scope": "CPU production and actual GLTFLoader readback of four original static vanity tables",
+  "commands": [
+    "node scripts/company-platform/build-vanity-table.mjs",
+    "node scripts/company-platform/build-vanity-table.mjs --check"
+  ],
+  "provenance": {
+    "sourceParameters": "assets-source/company-vanity-table-v1/parameters.json",
+    "sourceParametersSha256": "44296ef38208eea4515905ac88d2eefd747b03a55ea1d2c892411aa66166b3c6",
+    "functionalContractSource": "docs/COMPANY-VANITY-TABLE-CONTRACT-v1.txt",
+    "functionalContractSourceSha256": "ca1e2347b91d19be42943f93bb88cdf1180b430bf203d59664836cb1d1cabee1",
+    "generator": "scripts/company-platform/build-vanity-table.mjs",
+    "generatorSha256": "4c64e44eda2f0f01bcedc9eb19825b0c06675c62da77cdd1a1b7727956e96cd1",
+    "dependencies": {
+      "functionalContract": {
+        "path": "docs/COMPANY-VANITY-TABLE-CONTRACT-v1.txt",
+        "sha256": "ca1e2347b91d19be42943f93bb88cdf1180b430bf203d59664836cb1d1cabee1"
+      },
+      "preflight": {
+        "path": "docs/research/COMPANY-VANITY-TABLE-PREFLIGHT-2026-11-16.txt",
+        "sha256": "316e24c4eb3df6e5789f221ae4c2a6304a116dc2e2992fb6ec342968c0475220"
+      },
+      "lockfile": {
+        "path": "prototype/package-lock.json",
+        "sha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7"
+      },
+      "threePackage": {
+        "path": "prototype/node_modules/three/package.json",
+        "sha256": "87f2c99a8718e5fdd6f5e51427fde52c6075f2f698ddf8f7b4e162882df93940"
+      },
+      "threeModule": {
+        "path": "prototype/node_modules/three/build/three.module.js",
+        "sha256": "104f56145899722094556490d787aae0617cc2fc3382f31df02d724ea1aee341"
+      },
+      "gltfExporter": {
+        "path": "prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+        "sha256": "569793baeba62baeb4ab0b3619b6b1495b45d4b2ba9690430497adb58307bdf2"
+      },
+      "gltfLoader": {
+        "path": "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+        "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1"
+      },
+      "threeLicense": {
+        "path": "prototype/node_modules/three/LICENSE",
+        "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+      }
+    }
+  },
+  "geometryVerifier": {
+    "path": "prototype/src/company/vanity-geometry.js",
+    "sha256": "8c07bf492896d8c83254fa73be244b0b9758c055f3f3ea0763a87ad52c15e379"
+  },
+  "supportVerifier": {
+    "path": "prototype/src/company/support-geometry.js",
+    "sha256": "132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68"
+  },
+  "items": [
+    {
+      "id": "vanity-table-plain",
+      "sha256": "2dec81b0be405c3671daa3522dbbbd122bdfc0f6bc2b364642faa2f0d7e68917",
+      "bytes": 11084,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "support": {
+          "checked": true,
+          "surfaces": [
+            {
+              "mesh": "vanity-top",
+              "triangles": 2,
+              "area": 0.550000011920929,
+              "topY": 0.78
+            }
+          ],
+          "bottomY": 0
+        },
+        "vanity": {
+          "checked": true,
+          "meshCount": 6,
+          "triangleCount": 72,
+          "materials": 2,
+          "components": [
+            {
+              "id": "vanity-top#0",
+              "volume": 0.019249982059001525,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-leg-left-back#1",
+              "volume": 0.0022536237688512836,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-leg-left-front#2",
+              "volume": 0.0022536237688512836,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-leg-right-back#3",
+              "volume": 0.0022536237688512836,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-leg-right-front#4",
+              "volume": 0.0022536237688512836,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-back-brace#5",
+              "volume": 0.004000001609325565,
+              "triangles": 12
+            }
+          ],
+          "connections": [
+            {
+              "a": "vanity-top#0",
+              "b": "vanity-leg-left-back#1",
+              "kind": "face",
+              "area": 0.0030249983280898896
+            },
+            {
+              "a": "vanity-top#0",
+              "b": "vanity-leg-left-front#2",
+              "kind": "face",
+              "area": 0.0030249983280898896
+            },
+            {
+              "a": "vanity-top#0",
+              "b": "vanity-leg-right-back#3",
+              "kind": "face",
+              "area": 0.0030249983280898896
+            },
+            {
+              "a": "vanity-top#0",
+              "b": "vanity-leg-right-front#4",
+              "kind": "face",
+              "area": 0.0030249983280898896
+            },
+            {
+              "a": "vanity-leg-left-back#1",
+              "b": "vanity-back-brace#5",
+              "kind": "volume",
+              "volume": 0.00008937502965331232
+            },
+            {
+              "a": "vanity-leg-right-back#3",
+              "b": "vanity-back-brace#5",
+              "kind": "volume",
+              "volume": 0.00008937502965331236
+            }
+          ],
+          "grounded": [
+            "vanity-leg-left-back#1",
+            "vanity-leg-left-front#2",
+            "vanity-leg-right-back#3",
+            "vanity-leg-right-front#4"
+          ],
+          "tolerances": {
+            "positionMetres": 0.000001,
+            "weldMetres": 1e-7,
+            "minimumThicknessMetres": 0.00001,
+            "contactAreaSquareMetres": 1e-8,
+            "positiveVolumeCubicMetres": 1e-12
+          },
+          "limitation": "Static convex connectivity and clearance only. Character use and physical tipping stability require separate validation."
+        },
+        "bounds": {
+          "min": [
+            -0.550000011920929,
+            0,
+            -0.25
+          ],
+          "max": [
+            0.550000011920929,
+            0.7799999713897705,
+            0.25
+          ]
+        },
+        "meshCount": 6,
+        "triangleCount": 72,
+        "materialCount": 2,
+        "identityAllNodes": true,
+        "sourceVerticesAndTopologyMatch": true,
+        "geometrySha256": "498ff8e07f46240995a3ca64e7b53cbd846f42b6fa2cf0c6fe226810efd6703f",
+        "externalUris": 0,
+        "textures": 0,
+        "animations": 0,
+        "solids": [
+          {
+            "name": "vanity-top",
+            "kind": "box",
+            "min": [
+              -0.550000011920929,
+              0.7450000047683716,
+              -0.25
+            ],
+            "max": [
+              0.550000011920929,
+              0.7799999713897705,
+              0.25
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-leg-left-back",
+            "kind": "box",
+            "min": [
+              -0.5274999737739563,
+              0,
+              -0.23749999701976776
+            ],
+            "max": [
+              -0.4724999964237213,
+              0.7450000047683716,
+              -0.18250000476837158
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-leg-left-front",
+            "kind": "box",
+            "min": [
+              -0.5274999737739563,
+              0,
+              0.18250000476837158
+            ],
+            "max": [
+              -0.4724999964237213,
+              0.7450000047683716,
+              0.23749999701976776
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-leg-right-back",
+            "kind": "box",
+            "min": [
+              0.4724999964237213,
+              0,
+              -0.23749999701976776
+            ],
+            "max": [
+              0.5274999737739563,
+              0.7450000047683716,
+              -0.18250000476837158
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-leg-right-front",
+            "kind": "box",
+            "min": [
+              0.4724999964237213,
+              0,
+              0.18250000476837158
+            ],
+            "max": [
+              0.5274999737739563,
+              0.7450000047683716,
+              0.23749999701976776
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-back-brace",
+            "kind": "box",
+            "min": [
+              -0.5,
+              0.6299999952316284,
+              -0.24500000476837158
+            ],
+            "max": [
+              0.5,
+              0.7300000190734863,
+              -0.20499999821186066
+            ],
+            "triangles": 12
+          }
+        ]
+      }
+    },
+    {
+      "id": "vanity-table-drawer-style",
+      "sha256": "ff070959aa63dedcea178b984352ce21bb98739b87d764ac04a85ee14e8f9a07",
+      "bytes": 20036,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "support": {
+          "checked": true,
+          "surfaces": [
+            {
+              "mesh": "vanity-top",
+              "triangles": 2,
+              "area": 0.550000011920929,
+              "topY": 0.78
+            }
+          ],
+          "bottomY": 0
+        },
+        "vanity": {
+          "checked": true,
+          "meshCount": 11,
+          "triangleCount": 132,
+          "materials": 3,
+          "components": [
+            {
+              "id": "vanity-top#0",
+              "volume": 0.019249982059001525,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-cabinet#1",
+              "volume": 0.05140500330418354,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-fixed-panel-1#2",
+              "volume": 0.0005506200798100009,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-fixed-handle-1#3",
+              "volume": 0.000024049994999166355,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-fixed-panel-2#4",
+              "volume": 0.0005506201014017877,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-fixed-handle-2#5",
+              "volume": 0.000024050009334085573,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-fixed-panel-3#6",
+              "volume": 0.0005506201014017877,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-fixed-handle-3#7",
+              "volume": 0.000024049980664247148,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-leg-right-back#8",
+              "volume": 0.0018624992348254075,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-leg-right-front#9",
+              "volume": 0.0018624992348254075,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-back-brace#10",
+              "volume": 0.004000001609325565,
+              "triangles": 12
+            }
+          ],
+          "connections": [
+            {
+              "a": "vanity-top#0",
+              "b": "vanity-cabinet#1",
+              "kind": "face",
+              "area": 0.06900000399351125
+            },
+            {
+              "a": "vanity-top#0",
+              "b": "vanity-leg-right-back#8",
+              "kind": "face",
+              "area": 0.0024999989569187697
+            },
+            {
+              "a": "vanity-top#0",
+              "b": "vanity-leg-right-front#9",
+              "kind": "face",
+              "area": 0.0024999989569187697
+            },
+            {
+              "a": "vanity-cabinet#1",
+              "b": "vanity-fixed-panel-1#2",
+              "kind": "volume",
+              "volume": 0.00020976008621931597
+            },
+            {
+              "a": "vanity-cabinet#1",
+              "b": "vanity-fixed-panel-2#4",
+              "kind": "volume",
+              "volume": 0.00020976009444476082
+            },
+            {
+              "a": "vanity-cabinet#1",
+              "b": "vanity-fixed-panel-3#6",
+              "kind": "volume",
+              "volume": 0.0002097600944447608
+            },
+            {
+              "a": "vanity-cabinet#1",
+              "b": "vanity-back-brace#10",
+              "kind": "volume",
+              "volume": 0.0002500001043081352
+            },
+            {
+              "a": "vanity-fixed-panel-1#2",
+              "b": "vanity-fixed-handle-1#3",
+              "kind": "volume",
+              "volume": 0.000012949999427793414
+            },
+            {
+              "a": "vanity-fixed-panel-2#4",
+              "b": "vanity-fixed-handle-2#5",
+              "kind": "volume",
+              "volume": 0.000012950007146597323
+            },
+            {
+              "a": "vanity-fixed-panel-3#6",
+              "b": "vanity-fixed-handle-3#7",
+              "kind": "volume",
+              "volume": 0.000012949991708989486
+            },
+            {
+              "a": "vanity-leg-right-back#8",
+              "b": "vanity-back-brace#10",
+              "kind": "volume",
+              "volume": 0.00007500003874302477
+            }
+          ],
+          "grounded": [
+            "vanity-cabinet#1",
+            "vanity-leg-right-back#8",
+            "vanity-leg-right-front#9"
+          ],
+          "tolerances": {
+            "positionMetres": 0.000001,
+            "weldMetres": 1e-7,
+            "minimumThicknessMetres": 0.00001,
+            "contactAreaSquareMetres": 1e-8,
+            "positiveVolumeCubicMetres": 1e-12
+          },
+          "limitation": "Static convex connectivity and clearance only. Character use and physical tipping stability require separate validation."
+        },
+        "bounds": {
+          "min": [
+            -0.550000011920929,
+            0,
+            -0.25
+          ],
+          "max": [
+            0.550000011920929,
+            0.7799999713897705,
+            0.25
+          ]
+        },
+        "meshCount": 11,
+        "triangleCount": 132,
+        "materialCount": 3,
+        "identityAllNodes": true,
+        "sourceVerticesAndTopologyMatch": true,
+        "geometrySha256": "f7b762223338f289c853be27182e1034bb31fe078a4c7a9bb10025bf495396e0",
+        "externalUris": 0,
+        "textures": 0,
+        "animations": 0,
+        "solids": [
+          {
+            "name": "vanity-top",
+            "kind": "box",
+            "min": [
+              -0.550000011920929,
+              0.7450000047683716,
+              -0.25
+            ],
+            "max": [
+              0.550000011920929,
+              0.7799999713897705,
+              0.25
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-cabinet",
+            "kind": "box",
+            "min": [
+              -0.550000011920929,
+              0,
+              -0.23000000417232513
+            ],
+            "max": [
+              -0.4000000059604645,
+              0.7450000047683716,
+              0.23000000417232513
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-fixed-panel-1",
+            "kind": "box",
+            "min": [
+              -0.5440000295639038,
+              0.10000000149011612,
+              0.22200000286102295
+            ],
+            "max": [
+              -0.4059999883174896,
+              0.28999999165534973,
+              0.24300000071525574
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-fixed-handle-1",
+            "kind": "box",
+            "min": [
+              -0.5120000243186951,
+              0.18000000715255737,
+              0.23600000143051147
+            ],
+            "max": [
+              -0.43799999356269836,
+              0.20499999821186066,
+              0.24899999797344208
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-fixed-panel-2",
+            "kind": "box",
+            "min": [
+              -0.5440000295639038,
+              0.3100000023841858,
+              0.22200000286102295
+            ],
+            "max": [
+              -0.4059999883174896,
+              0.5,
+              0.24300000071525574
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-fixed-handle-2",
+            "kind": "box",
+            "min": [
+              -0.5120000243186951,
+              0.38999998569488525,
+              0.23600000143051147
+            ],
+            "max": [
+              -0.43799999356269836,
+              0.41499999165534973,
+              0.24899999797344208
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-fixed-panel-3",
+            "kind": "box",
+            "min": [
+              -0.5440000295639038,
+              0.5199999809265137,
+              0.22200000286102295
+            ],
+            "max": [
+              -0.4059999883174896,
+              0.7099999785423279,
+              0.24300000071525574
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-fixed-handle-3",
+            "kind": "box",
+            "min": [
+              -0.5120000243186951,
+              0.6000000238418579,
+              0.23600000143051147
+            ],
+            "max": [
+              -0.43799999356269836,
+              0.625,
+              0.24899999797344208
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-leg-right-back",
+            "kind": "box",
+            "min": [
+              0.4749999940395355,
+              0,
+              -0.23499999940395355
+            ],
+            "max": [
+              0.5249999761581421,
+              0.7450000047683716,
+              -0.1850000023841858
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-leg-right-front",
+            "kind": "box",
+            "min": [
+              0.4749999940395355,
+              0,
+              0.1850000023841858
+            ],
+            "max": [
+              0.5249999761581421,
+              0.7450000047683716,
+              0.23499999940395355
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-back-brace",
+            "kind": "box",
+            "min": [
+              -0.5,
+              0.6299999952316284,
+              -0.24500000476837158
+            ],
+            "max": [
+              0.5,
+              0.7300000190734863,
+              -0.20499999821186066
+            ],
+            "triangles": 12
+          }
+        ]
+      }
+    },
+    {
+      "id": "vanity-table-corner",
+      "sha256": "a6d3b621d8fe7368ad49acbacd9a5a2b1c999c913b93f75d010ecdb1db76dd24",
+      "bytes": 12804,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "support": {
+          "checked": true,
+          "surfaces": [
+            {
+              "mesh": "vanity-top",
+              "triangles": 2,
+              "area": 0.4750000089406967,
+              "topY": 0.78
+            }
+          ],
+          "bottomY": 0
+        },
+        "vanity": {
+          "checked": true,
+          "meshCount": 7,
+          "triangleCount": 84,
+          "materials": 2,
+          "components": [
+            {
+              "id": "vanity-top#0",
+              "volume": 0.016624984458088576,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-wing#1",
+              "volume": 0.0013124988004564742,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-leg-left-back#2",
+              "volume": 0.0022536237688512836,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-leg-left-front#3",
+              "volume": 0.0022536249900012794,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-leg-right-back#4",
+              "volume": 0.0022536237688512836,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-leg-right-front#5",
+              "volume": 0.0022536237688512836,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-back-brace#6",
+              "volume": 0.004000001609325565,
+              "triangles": 12
+            }
+          ],
+          "connections": [
+            {
+              "a": "vanity-top#0",
+              "b": "vanity-wing#1",
+              "kind": "face",
+              "area": 0.008749991655349731
+            },
+            {
+              "a": "vanity-top#0",
+              "b": "vanity-leg-left-front#3",
+              "kind": "face",
+              "area": 0.00302499996721739
+            },
+            {
+              "a": "vanity-top#0",
+              "b": "vanity-leg-right-back#4",
+              "kind": "face",
+              "area": 0.0030249983280898896
+            },
+            {
+              "a": "vanity-top#0",
+              "b": "vanity-leg-right-front#5",
+              "kind": "face",
+              "area": 0.0030249983280898896
+            },
+            {
+              "a": "vanity-wing#1",
+              "b": "vanity-leg-left-back#2",
+              "kind": "face",
+              "area": 0.0030249983280898896
+            },
+            {
+              "a": "vanity-leg-left-back#2",
+              "b": "vanity-back-brace#6",
+              "kind": "volume",
+              "volume": 0.00008937502965331232
+            },
+            {
+              "a": "vanity-leg-right-back#4",
+              "b": "vanity-back-brace#6",
+              "kind": "volume",
+              "volume": 0.00008937502965331236
+            }
+          ],
+          "grounded": [
+            "vanity-leg-left-back#2",
+            "vanity-leg-left-front#3",
+            "vanity-leg-right-back#4",
+            "vanity-leg-right-front#5"
+          ],
+          "tolerances": {
+            "positionMetres": 0.000001,
+            "weldMetres": 1e-7,
+            "minimumThicknessMetres": 0.00001,
+            "contactAreaSquareMetres": 1e-8,
+            "positiveVolumeCubicMetres": 1e-12
+          },
+          "limitation": "Static convex connectivity and clearance only. Character use and physical tipping stability require separate validation."
+        },
+        "bounds": {
+          "min": [
+            -0.550000011920929,
+            0,
+            -0.25
+          ],
+          "max": [
+            0.550000011920929,
+            0.7799999713897705,
+            0.25
+          ]
+        },
+        "meshCount": 7,
+        "triangleCount": 84,
+        "materialCount": 2,
+        "identityAllNodes": true,
+        "sourceVerticesAndTopologyMatch": true,
+        "geometrySha256": "3e08e6101aa0e27d18a9c5278ef51bb8c1a46324e47eaaad79a43781592d9f8d",
+        "externalUris": 0,
+        "textures": 0,
+        "animations": 0,
+        "solids": [
+          {
+            "name": "vanity-top",
+            "kind": "box",
+            "min": [
+              -0.4000000059604645,
+              0.7450000047683716,
+              -0.25
+            ],
+            "max": [
+              0.550000011920929,
+              0.7799999713897705,
+              0.25
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-wing",
+            "kind": "box",
+            "min": [
+              -0.550000011920929,
+              0.7450000047683716,
+              -0.25
+            ],
+            "max": [
+              -0.4000000059604645,
+              0.7799999713897705,
+              0
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-leg-left-back",
+            "kind": "box",
+            "min": [
+              -0.5274999737739563,
+              0,
+              -0.23749999701976776
+            ],
+            "max": [
+              -0.4724999964237213,
+              0.7450000047683716,
+              -0.18250000476837158
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-leg-left-front",
+            "kind": "box",
+            "min": [
+              -0.39750000834465027,
+              0,
+              0.18250000476837158
+            ],
+            "max": [
+              -0.3425000011920929,
+              0.7450000047683716,
+              0.23749999701976776
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-leg-right-back",
+            "kind": "box",
+            "min": [
+              0.4724999964237213,
+              0,
+              -0.23749999701976776
+            ],
+            "max": [
+              0.5274999737739563,
+              0.7450000047683716,
+              -0.18250000476837158
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-leg-right-front",
+            "kind": "box",
+            "min": [
+              0.4724999964237213,
+              0,
+              0.18250000476837158
+            ],
+            "max": [
+              0.5274999737739563,
+              0.7450000047683716,
+              0.23749999701976776
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-back-brace",
+            "kind": "box",
+            "min": [
+              -0.5,
+              0.6299999952316284,
+              -0.24500000476837158
+            ],
+            "max": [
+              0.5,
+              0.7300000190734863,
+              -0.20499999821186066
+            ],
+            "triangles": 12
+          }
+        ]
+      }
+    },
+    {
+      "id": "vanity-table-mobile",
+      "sha256": "c32340709fdcd4bddf9faa01ed650a0f56b778877cdde9bcd9e7180449a725fd",
+      "bytes": 47564,
+      "repeatedExportByteIdentical": true,
+      "actual": {
+        "support": {
+          "checked": true,
+          "surfaces": [
+            {
+              "mesh": "vanity-top",
+              "triangles": 2,
+              "area": 0.550000011920929,
+              "topY": 0.78
+            }
+          ],
+          "bottomY": 0
+        },
+        "vanity": {
+          "checked": true,
+          "meshCount": 22,
+          "triangleCount": 408,
+          "materials": 4,
+          "components": [
+            {
+              "id": "vanity-top#0",
+              "volume": 0.019249982059001525,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-leg-left-back#1",
+              "volume": 0.0013061246779337357,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-caster-bridge-left-back#2",
+              "volume": 0.00007830002211928124,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-caster-fork-left-back-a#3",
+              "volume": 0.00003120005736349811,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-caster-fork-left-back-b#4",
+              "volume": 0.00003120005736349811,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-caster-wheel-left-back#5",
+              "volume": 0.00021262498386552945,
+              "triangles": 48
+            },
+            {
+              "id": "vanity-leg-left-front#6",
+              "volume": 0.0013061246779337357,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-caster-bridge-left-front#7",
+              "volume": 0.00007830002211928124,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-caster-fork-left-front-a#8",
+              "volume": 0.00003120005736349811,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-caster-fork-left-front-b#9",
+              "volume": 0.00003120005736349811,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-caster-wheel-left-front#10",
+              "volume": 0.00021262498386552943,
+              "triangles": 48
+            },
+            {
+              "id": "vanity-leg-right-back#11",
+              "volume": 0.0013061246779337357,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-caster-bridge-right-back#12",
+              "volume": 0.00007830002211928124,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-caster-fork-right-back-a#13",
+              "volume": 0.00003120005736349811,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-caster-fork-right-back-b#14",
+              "volume": 0.00003120005736349811,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-caster-wheel-right-back#15",
+              "volume": 0.00021262498386552945,
+              "triangles": 48
+            },
+            {
+              "id": "vanity-leg-right-front#16",
+              "volume": 0.0013061246779337357,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-caster-bridge-right-front#17",
+              "volume": 0.00007830002211928124,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-caster-fork-right-front-a#18",
+              "volume": 0.00003120005736349811,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-caster-fork-right-front-b#19",
+              "volume": 0.00003120005736349811,
+              "triangles": 12
+            },
+            {
+              "id": "vanity-caster-wheel-right-front#20",
+              "volume": 0.00021262498386552943,
+              "triangles": 48
+            },
+            {
+              "id": "vanity-back-brace#21",
+              "volume": 0.004000001609325565,
+              "triangles": 12
+            }
+          ],
+          "connections": [
+            {
+              "a": "vanity-top#0",
+              "b": "vanity-leg-left-back#1",
+              "kind": "face",
+              "area": 0.0020249994903802637
+            },
+            {
+              "a": "vanity-top#0",
+              "b": "vanity-leg-left-front#6",
+              "kind": "face",
+              "area": 0.0020249994903802637
+            },
+            {
+              "a": "vanity-top#0",
+              "b": "vanity-leg-right-back#11",
+              "kind": "face",
+              "area": 0.0020249994903802637
+            },
+            {
+              "a": "vanity-top#0",
+              "b": "vanity-leg-right-front#16",
+              "kind": "face",
+              "area": 0.0020249994903802637
+            },
+            {
+              "a": "vanity-leg-left-back#1",
+              "b": "vanity-caster-bridge-left-back#2",
+              "kind": "volume",
+              "volume": 0.000030374993562697723
+            },
+            {
+              "a": "vanity-leg-left-back#1",
+              "b": "vanity-caster-fork-left-back-a#3",
+              "kind": "face",
+              "area": 0.00029999965131288775
+            },
+            {
+              "a": "vanity-leg-left-back#1",
+              "b": "vanity-caster-fork-left-back-b#4",
+              "kind": "face",
+              "area": 0.0003000008434055346
+            },
+            {
+              "a": "vanity-leg-left-back#1",
+              "b": "vanity-back-brace#21",
+              "kind": "volume",
+              "volume": 0.00005062504962088269
+            },
+            {
+              "a": "vanity-caster-bridge-left-back#2",
+              "b": "vanity-caster-fork-left-back-a#3",
+              "kind": "volume",
+              "volume": 0.000006720011529918394
+            },
+            {
+              "a": "vanity-caster-bridge-left-back#2",
+              "b": "vanity-caster-fork-left-back-b#4",
+              "kind": "volume",
+              "volume": 0.000006720011529918396
+            },
+            {
+              "a": "vanity-caster-bridge-left-back#2",
+              "b": "vanity-caster-wheel-left-back#5",
+              "kind": "volume",
+              "volume": 0.0000020899476279690728
+            },
+            {
+              "a": "vanity-caster-fork-left-back-a#3",
+              "b": "vanity-caster-wheel-left-back#5",
+              "kind": "volume",
+              "volume": 0.000005232044958891445
+            },
+            {
+              "a": "vanity-caster-fork-left-back-b#4",
+              "b": "vanity-caster-wheel-left-back#5",
+              "kind": "volume",
+              "volume": 0.000005232107329787171
+            },
+            {
+              "a": "vanity-leg-left-front#6",
+              "b": "vanity-caster-bridge-left-front#7",
+              "kind": "volume",
+              "volume": 0.000030374993562697723
+            },
+            {
+              "a": "vanity-leg-left-front#6",
+              "b": "vanity-caster-fork-left-front-a#8",
+              "kind": "face",
+              "area": 0.00029999965131288775
+            },
+            {
+              "a": "vanity-leg-left-front#6",
+              "b": "vanity-caster-fork-left-front-b#9",
+              "kind": "face",
+              "area": 0.00030000084340553457
+            },
+            {
+              "a": "vanity-caster-bridge-left-front#7",
+              "b": "vanity-caster-fork-left-front-a#8",
+              "kind": "volume",
+              "volume": 0.000006720011529918394
+            },
+            {
+              "a": "vanity-caster-bridge-left-front#7",
+              "b": "vanity-caster-fork-left-front-b#9",
+              "kind": "volume",
+              "volume": 0.000006720011529918394
+            },
+            {
+              "a": "vanity-caster-bridge-left-front#7",
+              "b": "vanity-caster-wheel-left-front#10",
+              "kind": "volume",
+              "volume": 0.0000020899476279690677
+            },
+            {
+              "a": "vanity-caster-fork-left-front-a#8",
+              "b": "vanity-caster-wheel-left-front#10",
+              "kind": "volume",
+              "volume": 0.000005232044958891445
+            },
+            {
+              "a": "vanity-caster-fork-left-front-b#9",
+              "b": "vanity-caster-wheel-left-front#10",
+              "kind": "volume",
+              "volume": 0.000005232107329787171
+            },
+            {
+              "a": "vanity-leg-right-back#11",
+              "b": "vanity-caster-bridge-right-back#12",
+              "kind": "volume",
+              "volume": 0.000030374993562698048
+            },
+            {
+              "a": "vanity-leg-right-back#11",
+              "b": "vanity-caster-fork-right-back-a#13",
+              "kind": "face",
+              "area": 0.00030000084340553457
+            },
+            {
+              "a": "vanity-leg-right-back#11",
+              "b": "vanity-caster-fork-right-back-b#14",
+              "kind": "face",
+              "area": 0.00029999965131288775
+            },
+            {
+              "a": "vanity-leg-right-back#11",
+              "b": "vanity-back-brace#21",
+              "kind": "volume",
+              "volume": 0.000050625049620882704
+            },
+            {
+              "a": "vanity-caster-bridge-right-back#12",
+              "b": "vanity-caster-fork-right-back-a#13",
+              "kind": "volume",
+              "volume": 0.000006720011529918394
+            },
+            {
+              "a": "vanity-caster-bridge-right-back#12",
+              "b": "vanity-caster-fork-right-back-b#14",
+              "kind": "volume",
+              "volume": 0.000006720011529918395
+            },
+            {
+              "a": "vanity-caster-bridge-right-back#12",
+              "b": "vanity-caster-wheel-right-back#15",
+              "kind": "volume",
+              "volume": 0.000002089947627969065
+            },
+            {
+              "a": "vanity-caster-fork-right-back-a#13",
+              "b": "vanity-caster-wheel-right-back#15",
+              "kind": "volume",
+              "volume": 0.0000052321073297871715
+            },
+            {
+              "a": "vanity-caster-fork-right-back-b#14",
+              "b": "vanity-caster-wheel-right-back#15",
+              "kind": "volume",
+              "volume": 0.000005232044958891444
+            },
+            {
+              "a": "vanity-leg-right-front#16",
+              "b": "vanity-caster-bridge-right-front#17",
+              "kind": "volume",
+              "volume": 0.000030374993562698048
+            },
+            {
+              "a": "vanity-leg-right-front#16",
+              "b": "vanity-caster-fork-right-front-a#18",
+              "kind": "face",
+              "area": 0.0003000008434055345
+            },
+            {
+              "a": "vanity-leg-right-front#16",
+              "b": "vanity-caster-fork-right-front-b#19",
+              "kind": "face",
+              "area": 0.0002999996513128883
+            },
+            {
+              "a": "vanity-caster-bridge-right-front#17",
+              "b": "vanity-caster-fork-right-front-a#18",
+              "kind": "volume",
+              "volume": 0.000006720011529918394
+            },
+            {
+              "a": "vanity-caster-bridge-right-front#17",
+              "b": "vanity-caster-fork-right-front-b#19",
+              "kind": "volume",
+              "volume": 0.000006720011529918394
+            },
+            {
+              "a": "vanity-caster-bridge-right-front#17",
+              "b": "vanity-caster-wheel-right-front#20",
+              "kind": "volume",
+              "volume": 0.0000020899476279690885
+            },
+            {
+              "a": "vanity-caster-fork-right-front-a#18",
+              "b": "vanity-caster-wheel-right-front#20",
+              "kind": "volume",
+              "volume": 0.000005232107329787174
+            },
+            {
+              "a": "vanity-caster-fork-right-front-b#19",
+              "b": "vanity-caster-wheel-right-front#20",
+              "kind": "volume",
+              "volume": 0.000005232044958891445
+            }
+          ],
+          "grounded": [
+            "vanity-caster-wheel-left-back#5",
+            "vanity-caster-wheel-left-front#10",
+            "vanity-caster-wheel-right-back#15",
+            "vanity-caster-wheel-right-front#20"
+          ],
+          "tolerances": {
+            "positionMetres": 0.000001,
+            "weldMetres": 1e-7,
+            "minimumThicknessMetres": 0.00001,
+            "contactAreaSquareMetres": 1e-8,
+            "positiveVolumeCubicMetres": 1e-12
+          },
+          "limitation": "Static convex connectivity and clearance only. Character use and physical tipping stability require separate validation."
+        },
+        "bounds": {
+          "min": [
+            -0.550000011920929,
+            0,
+            -0.25
+          ],
+          "max": [
+            0.550000011920929,
+            0.7799999713897705,
+            0.25
+          ]
+        },
+        "meshCount": 22,
+        "triangleCount": 408,
+        "materialCount": 4,
+        "identityAllNodes": true,
+        "sourceVerticesAndTopologyMatch": true,
+        "geometrySha256": "5cb98576908305c55ec2f12240056ab79f99d4955756aece2c7bab6ec481116c",
+        "externalUris": 0,
+        "textures": 0,
+        "animations": 0,
+        "solids": [
+          {
+            "name": "vanity-top",
+            "kind": "box",
+            "min": [
+              -0.550000011920929,
+              0.7450000047683716,
+              -0.25
+            ],
+            "max": [
+              0.550000011920929,
+              0.7799999713897705,
+              0.25
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-leg-left-back",
+            "kind": "box",
+            "min": [
+              -0.5224999785423279,
+              0.10000000149011612,
+              -0.22750000655651093
+            ],
+            "max": [
+              -0.47749999165534973,
+              0.7450000047683716,
+              -0.18250000476837158
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-caster-bridge-left-back",
+            "kind": "box",
+            "min": [
+              -0.5270000100135803,
+              0.0860000029206276,
+              -0.23000000417232513
+            ],
+            "max": [
+              -0.4729999899864197,
+              0.11500000208616257,
+              -0.18000000715255737
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-caster-fork-left-back-a",
+            "kind": "box",
+            "min": [
+              -0.5270000100135803,
+              0.03500000014901161,
+              -0.22499999403953552
+            ],
+            "max": [
+              -0.5149999856948853,
+              0.10000000149011612,
+              -0.1850000023841858
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-caster-fork-left-back-b",
+            "kind": "box",
+            "min": [
+              -0.48500001430511475,
+              0.03500000014901161,
+              -0.22499999403953552
+            ],
+            "max": [
+              -0.4729999899864197,
+              0.10000000149011612,
+              -0.1850000023841858
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-caster-wheel-left-back",
+            "kind": "cylinder-x",
+            "min": [
+              -0.5174999833106995,
+              0,
+              -0.25
+            ],
+            "max": [
+              -0.48249998688697815,
+              0.09000000357627869,
+              -0.1599999964237213
+            ],
+            "triangles": 48
+          },
+          {
+            "name": "vanity-leg-left-front",
+            "kind": "box",
+            "min": [
+              -0.5224999785423279,
+              0.10000000149011612,
+              0.18250000476837158
+            ],
+            "max": [
+              -0.47749999165534973,
+              0.7450000047683716,
+              0.22750000655651093
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-caster-bridge-left-front",
+            "kind": "box",
+            "min": [
+              -0.5270000100135803,
+              0.0860000029206276,
+              0.18000000715255737
+            ],
+            "max": [
+              -0.4729999899864197,
+              0.11500000208616257,
+              0.23000000417232513
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-caster-fork-left-front-a",
+            "kind": "box",
+            "min": [
+              -0.5270000100135803,
+              0.03500000014901161,
+              0.1850000023841858
+            ],
+            "max": [
+              -0.5149999856948853,
+              0.10000000149011612,
+              0.22499999403953552
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-caster-fork-left-front-b",
+            "kind": "box",
+            "min": [
+              -0.48500001430511475,
+              0.03500000014901161,
+              0.1850000023841858
+            ],
+            "max": [
+              -0.4729999899864197,
+              0.10000000149011612,
+              0.22499999403953552
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-caster-wheel-left-front",
+            "kind": "cylinder-x",
+            "min": [
+              -0.5174999833106995,
+              0,
+              0.1599999964237213
+            ],
+            "max": [
+              -0.48249998688697815,
+              0.09000000357627869,
+              0.25
+            ],
+            "triangles": 48
+          },
+          {
+            "name": "vanity-leg-right-back",
+            "kind": "box",
+            "min": [
+              0.47749999165534973,
+              0.10000000149011612,
+              -0.22750000655651093
+            ],
+            "max": [
+              0.5224999785423279,
+              0.7450000047683716,
+              -0.18250000476837158
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-caster-bridge-right-back",
+            "kind": "box",
+            "min": [
+              0.4729999899864197,
+              0.0860000029206276,
+              -0.23000000417232513
+            ],
+            "max": [
+              0.5270000100135803,
+              0.11500000208616257,
+              -0.18000000715255737
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-caster-fork-right-back-a",
+            "kind": "box",
+            "min": [
+              0.4729999899864197,
+              0.03500000014901161,
+              -0.22499999403953552
+            ],
+            "max": [
+              0.48500001430511475,
+              0.10000000149011612,
+              -0.1850000023841858
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-caster-fork-right-back-b",
+            "kind": "box",
+            "min": [
+              0.5149999856948853,
+              0.03500000014901161,
+              -0.22499999403953552
+            ],
+            "max": [
+              0.5270000100135803,
+              0.10000000149011612,
+              -0.1850000023841858
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-caster-wheel-right-back",
+            "kind": "cylinder-x",
+            "min": [
+              0.48249998688697815,
+              0,
+              -0.25
+            ],
+            "max": [
+              0.5174999833106995,
+              0.09000000357627869,
+              -0.1599999964237213
+            ],
+            "triangles": 48
+          },
+          {
+            "name": "vanity-leg-right-front",
+            "kind": "box",
+            "min": [
+              0.47749999165534973,
+              0.10000000149011612,
+              0.18250000476837158
+            ],
+            "max": [
+              0.5224999785423279,
+              0.7450000047683716,
+              0.22750000655651093
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-caster-bridge-right-front",
+            "kind": "box",
+            "min": [
+              0.4729999899864197,
+              0.0860000029206276,
+              0.18000000715255737
+            ],
+            "max": [
+              0.5270000100135803,
+              0.11500000208616257,
+              0.23000000417232513
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-caster-fork-right-front-a",
+            "kind": "box",
+            "min": [
+              0.4729999899864197,
+              0.03500000014901161,
+              0.1850000023841858
+            ],
+            "max": [
+              0.48500001430511475,
+              0.10000000149011612,
+              0.22499999403953552
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-caster-fork-right-front-b",
+            "kind": "box",
+            "min": [
+              0.5149999856948853,
+              0.03500000014901161,
+              0.1850000023841858
+            ],
+            "max": [
+              0.5270000100135803,
+              0.10000000149011612,
+              0.22499999403953552
+            ],
+            "triangles": 12
+          },
+          {
+            "name": "vanity-caster-wheel-right-front",
+            "kind": "cylinder-x",
+            "min": [
+              0.48249998688697815,
+              0,
+              0.1599999964237213
+            ],
+            "max": [
+              0.5174999833106995,
+              0.09000000357627869,
+              0.25
+            ],
+            "triangles": 48
+          },
+          {
+            "name": "vanity-back-brace",
+            "kind": "box",
+            "min": [
+              -0.5,
+              0.6299999952316284,
+              -0.24500000476837158
+            ],
+            "max": [
+              0.5,
+              0.7300000190734863,
+              -0.20499999821186066
+            ],
+            "triangles": 12
+          }
+        ]
+      }
+    }
+  ],
+  "sourceModificationEvidence": {
+    "parameter": "tables[0].frameWidth",
+    "before": 0.055,
+    "after": 0.06,
+    "parameters": "evidence/company-vanity-production-v1/variant-parameters.json",
+    "parametersSha256": "b6768b9ea207a506bc3245bbc26aade12e0de85ae16855642de15a453a76aa94",
+    "output": "evidence/company-vanity-production-v1/variant-plain.glb",
+    "beforeSha256": "2dec81b0be405c3671daa3522dbbbd122bdfc0f6bc2b364642faa2f0d7e68917",
+    "afterSha256": "dfdaf1b1b4a3cfc7d0308e071baa29dcb138a4d0a99da29beb499268a6ee0fef",
+    "beforeGeometrySha256": "498ff8e07f46240995a3ca64e7b53cbd846f42b6fa2cf0c6fe226810efd6703f",
+    "afterGeometrySha256": "9ee15d1c4e93b4de48327a08e75a89d6498ac621aa9896cac928d2ddb5e9964c",
+    "actual": {
+      "support": {
+        "checked": true,
+        "surfaces": [
+          {
+            "mesh": "vanity-top",
+            "triangles": 2,
+            "area": 0.550000011920929,
+            "topY": 0.78
+          }
+        ],
+        "bottomY": 0
+      },
+      "vanity": {
+        "checked": true,
+        "meshCount": 6,
+        "triangleCount": 72,
+        "materials": 2,
+        "components": [
+          {
+            "id": "vanity-top#0",
+            "volume": 0.019249982059001525,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-leg-left-back#1",
+            "volume": 0.002681998232066875,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-leg-left-front#2",
+            "volume": 0.002681998232066875,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-leg-right-back#3",
+            "volume": 0.002681998232066875,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-leg-right-front#4",
+            "volume": 0.002681998232066875,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-back-brace#5",
+            "volume": 0.004000001609325565,
+            "triangles": 12
+          }
+        ],
+        "connections": [
+          {
+            "a": "vanity-top#0",
+            "b": "vanity-leg-left-back#1",
+            "kind": "face",
+            "area": 0.0035999976038936232
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "vanity-leg-left-front#2",
+            "kind": "face",
+            "area": 0.0035999976038936232
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "vanity-leg-right-back#3",
+            "kind": "face",
+            "area": 0.0035999976038936232
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "vanity-leg-right-front#4",
+            "kind": "face",
+            "area": 0.0035999976038936232
+          },
+          {
+            "a": "vanity-leg-left-back#1",
+            "b": "vanity-back-brace#5",
+            "kind": "volume",
+            "volume": 0.00010500001847743787
+          },
+          {
+            "a": "vanity-leg-right-back#3",
+            "b": "vanity-back-brace#5",
+            "kind": "volume",
+            "volume": 0.00010500001847743786
+          }
+        ],
+        "grounded": [
+          "vanity-leg-left-back#1",
+          "vanity-leg-left-front#2",
+          "vanity-leg-right-back#3",
+          "vanity-leg-right-front#4"
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "weldMetres": 1e-7,
+          "minimumThicknessMetres": 0.00001,
+          "contactAreaSquareMetres": 1e-8,
+          "positiveVolumeCubicMetres": 1e-12
+        },
+        "limitation": "Static convex connectivity and clearance only. Character use and physical tipping stability require separate validation."
+      },
+      "bounds": {
+        "min": [
+          -0.550000011920929,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.550000011920929,
+          0.7799999713897705,
+          0.25
+        ]
+      },
+      "meshCount": 6,
+      "triangleCount": 72,
+      "materialCount": 2,
+      "identityAllNodes": true,
+      "sourceVerticesAndTopologyMatch": true,
+      "geometrySha256": "9ee15d1c4e93b4de48327a08e75a89d6498ac621aa9896cac928d2ddb5e9964c",
+      "externalUris": 0,
+      "textures": 0,
+      "animations": 0,
+      "solids": [
+        {
+          "name": "vanity-top",
+          "kind": "box",
+          "min": [
+            -0.550000011920929,
+            0.7450000047683716,
+            -0.25
+          ],
+          "max": [
+            0.550000011920929,
+            0.7799999713897705,
+            0.25
+          ],
+          "triangles": 12
+        },
+        {
+          "name": "vanity-leg-left-back",
+          "kind": "box",
+          "min": [
+            -0.5299999713897705,
+            0,
+            -0.23999999463558197
+          ],
+          "max": [
+            -0.4699999988079071,
+            0.7450000047683716,
+            -0.18000000715255737
+          ],
+          "triangles": 12
+        },
+        {
+          "name": "vanity-leg-left-front",
+          "kind": "box",
+          "min": [
+            -0.5299999713897705,
+            0,
+            0.18000000715255737
+          ],
+          "max": [
+            -0.4699999988079071,
+            0.7450000047683716,
+            0.23999999463558197
+          ],
+          "triangles": 12
+        },
+        {
+          "name": "vanity-leg-right-back",
+          "kind": "box",
+          "min": [
+            0.4699999988079071,
+            0,
+            -0.23999999463558197
+          ],
+          "max": [
+            0.5299999713897705,
+            0.7450000047683716,
+            -0.18000000715255737
+          ],
+          "triangles": 12
+        },
+        {
+          "name": "vanity-leg-right-front",
+          "kind": "box",
+          "min": [
+            0.4699999988079071,
+            0,
+            0.18000000715255737
+          ],
+          "max": [
+            0.5299999713897705,
+            0.7450000047683716,
+            0.23999999463558197
+          ],
+          "triangles": 12
+        },
+        {
+          "name": "vanity-back-brace",
+          "kind": "box",
+          "min": [
+            -0.5,
+            0.6299999952316284,
+            -0.24500000476837158
+          ],
+          "max": [
+            0.5,
+            0.7300000190734863,
+            -0.20499999821186066
+          ],
+          "triangles": 12
+        }
+      ]
+    },
+    "otherThreeModelsByteIdentical": true
+  },
+  "limits": [
+    "Static closed drawer-style exterior and static casters. No pulling, rolling or furniture anti-tip simulation.",
+    "CPU production evidence. Browser layout, loading/transactions, close/reopen, normal-speed recording, ordinary-device performance, role C3 and human visual acceptance need their own evidence.",
+    "The corner top has the required real left-front notch. A conservative rectangular footprint covers that notch for layout."
+  ]
+}

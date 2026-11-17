@@ -1,0 +1,135 @@
+{
+  "status": "passed",
+  "sourceParametersSha256": "8e221b87129218611efbbbb4fa1f0f36c5b0b1846a4ee2de6472841256bc7a7b",
+  "importSideEffects": {
+    "code": "import assert from 'node:assert/strict'; import fs from 'node:fs/promises'; for (const name of ['writeFile','mkdir','rename','rm','unlink','copyFile','appendFile']) fs[name] = async () => { throw new Error('Unexpected import mutation '+name); }; process.argv=[process.execPath,'import-only']; const module=await import('./scripts/company-platform/build-vanity-table.mjs'); assert.equal(typeof module.buildCollection,'function'); console.log('passed import with filesystem mutations blocked');",
+    "result": {
+      "exitCode": 0,
+      "stdout": "passed import with filesystem mutations blocked",
+      "stderr": ""
+    }
+  },
+  "checkWithoutEvidenceAndWrites": {
+    "code": "import fs from 'node:fs/promises'; import path from 'node:path'; const read=fs.readFile.bind(fs); fs.readFile=async(file,...args)=>{if(String(file).replaceAll(String.fromCharCode(92),'/').includes('/evidence/'))throw new Error('Unexpected evidence dependency');return read(file,...args);}; for(const name of ['writeFile','mkdir','rename','rm','unlink','copyFile','appendFile'])fs[name]=async()=>{throw new Error('Unexpected check mutation '+name);}; process.argv=[process.execPath,path.resolve('scripts/company-platform/build-vanity-table.mjs'),'--check']; await import('./scripts/company-platform/build-vanity-table.mjs');",
+    "result": {
+      "exitCode": 0,
+      "stdout": "{\"status\":\"passed\",\"mode\":\"check\",\"resources\":[{\"id\":\"vanity-table-plain\",\"sha256\":\"2dec81b0be405c3671daa3522dbbbd122bdfc0f6bc2b364642faa2f0d7e68917\",\"bytes\":11084},{\"id\":\"vanity-table-drawer-style\",\"sha256\":\"ff070959aa63dedcea178b984352ce21bb98739b87d764ac04a85ee14e8f9a07\",\"bytes\":20036},{\"id\":\"vanity-table-corner\",\"sha256\":\"a6d3b621d8fe7368ad49acbacd9a5a2b1c999c913b93f75d010ecdb1db76dd24\",\"bytes\":12804},{\"id\":\"vanity-table-mobile\",\"sha256\":\"c32340709fdcd4bddf9faa01ed650a0f56b778877cdde9bcd9e7180449a725fd\",\"bytes\":47564}]}",
+      "stderr": ""
+    }
+  },
+  "editableRangeEndpoints": [
+    {
+      "id": "vanity-table-plain",
+      "frameWidth": 0.045,
+      "sha256": "3430b927718d0ea4a25146a63df0d322cd670253d285c484a248256c7cc57f79",
+      "meshCount": 6,
+      "triangleCount": 72,
+      "materialCount": 2,
+      "supportChecked": true,
+      "vanityChecked": true
+    },
+    {
+      "id": "vanity-table-plain",
+      "frameWidth": 0.065,
+      "sha256": "ee8ab5c6da366bc8f18da10be29088a8aa26ee14f758b7d22e2b0a2ed676dcbb",
+      "meshCount": 6,
+      "triangleCount": 72,
+      "materialCount": 2,
+      "supportChecked": true,
+      "vanityChecked": true
+    },
+    {
+      "id": "vanity-table-drawer-style",
+      "frameWidth": 0.045,
+      "sha256": "06d088fdb50bf6ac07ce3e050fb182c13224b387dfc1001b0382b9a5a3bf432e",
+      "meshCount": 11,
+      "triangleCount": 132,
+      "materialCount": 3,
+      "supportChecked": true,
+      "vanityChecked": true
+    },
+    {
+      "id": "vanity-table-drawer-style",
+      "frameWidth": 0.065,
+      "sha256": "ded74944232f5f7e93a8e2c7dfdad5378d32aea61e4c7bb38fe70fa45d809a9c",
+      "meshCount": 11,
+      "triangleCount": 132,
+      "materialCount": 3,
+      "supportChecked": true,
+      "vanityChecked": true
+    },
+    {
+      "id": "vanity-table-corner",
+      "frameWidth": 0.045,
+      "sha256": "e748ced5b9efad5857c8f964eb798a41d2eb7be3b827914a3fcb045490155647",
+      "meshCount": 7,
+      "triangleCount": 84,
+      "materialCount": 2,
+      "supportChecked": true,
+      "vanityChecked": true
+    },
+    {
+      "id": "vanity-table-corner",
+      "frameWidth": 0.065,
+      "sha256": "6865e84b7ee8834cbb659a5c568adc72835beda70c3d0aaae65b6fa962a869d0",
+      "meshCount": 7,
+      "triangleCount": 84,
+      "materialCount": 2,
+      "supportChecked": true,
+      "vanityChecked": true
+    },
+    {
+      "id": "vanity-table-mobile",
+      "frameWidth": 0.04,
+      "sha256": "6ef3e41cdbb7074f19bcec724ac3dd5a6e78f0e2d0d89a47c8635cfb0565ab55",
+      "meshCount": 22,
+      "triangleCount": 408,
+      "materialCount": 4,
+      "supportChecked": true,
+      "vanityChecked": true
+    },
+    {
+      "id": "vanity-table-mobile",
+      "frameWidth": 0.055,
+      "sha256": "e09184758f1ce883a336d8b2d1460a9560a98dfb1e8a35bd6cf057775d21375d",
+      "meshCount": 22,
+      "triangleCount": 408,
+      "materialCount": 4,
+      "supportChecked": true,
+      "vanityChecked": true
+    }
+  ],
+  "outsideAuthoredRangeRejections": [
+    {
+      "id": "plain",
+      "attemptedFrameWidth": 0.066,
+      "rejected": true
+    },
+    {
+      "id": "drawer-style",
+      "attemptedFrameWidth": 0.066,
+      "rejected": true
+    },
+    {
+      "id": "corner",
+      "attemptedFrameWidth": 0.066,
+      "rejected": true
+    },
+    {
+      "id": "mobile",
+      "attemptedFrameWidth": 0.056,
+      "rejected": true
+    }
+  ],
+  "limits": [
+    "CPU-only export/readback tests. Parameter range acceptance does not establish physical furniture stability or C3 character use."
+  ],
+  "generator": {
+    "path": "scripts/company-platform/build-vanity-table.mjs",
+    "sha256": "4c64e44eda2f0f01bcedc9eb19825b0c06675c62da77cdd1a1b7727956e96cd1"
+  },
+  "geometryVerifier": {
+    "path": "prototype/src/company/vanity-geometry.js",
+    "sha256": "8c07bf492896d8c83254fa73be244b0b9758c055f3f3ea0763a87ad52c15e379"
+  }
+}

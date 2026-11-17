@@ -1,0 +1,1 @@
+首轮浏览器QA在重开时先等company.ready，再立即读后续异步填入的buildInfo，产生undefined.shortId。原report和第一款截图保留。修复QA显式等待ready与buildInfo均存在，再断言实际构建身份；没有降低资源、状态或恢复断言。待验运行源码未因该夹具修正改变。

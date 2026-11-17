@@ -1,0 +1,1887 @@
+{
+  "status": "passed",
+  "generatedAt": "2026-11-17T07:56:23.757Z",
+  "source": {
+    "geometrySha256": "893bca2d4a5336e27d7c67d9d8c0bde82fd83a19df24c216ca3ba6baa43509ec",
+    "qaSha256": "b7d6c3de15f8d0a7dc489a0f59a91fc3f8f531692a84a6e047092f1bd19ac6e4",
+    "contractSha256": "72baa52d7d3dbfc34ffed4150f6624d025df461439ea5a3f1482a8622ef3fa34"
+  },
+  "collectionPath": "F:\\gamemake-company-platform-c1\\prototype\\public\\company-assets\\vanity-table-v1\\collection.json",
+  "checks": [
+    {
+      "name": "closed convex four-leg table with real positive-area contacts",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "meshCount": 5,
+        "triangleCount": 60,
+        "materials": 1,
+        "components": [
+          {
+            "id": "vanity-top#0",
+            "volume": 0.019249982059001525,
+            "triangles": 12
+          },
+          {
+            "id": "leg--0.5--0.2#1",
+            "volume": 0.0011919995141029829,
+            "triangles": 12
+          },
+          {
+            "id": "leg--0.5-0.2#2",
+            "volume": 0.0011919995141029829,
+            "triangles": 12
+          },
+          {
+            "id": "leg-0.5--0.2#3",
+            "volume": 0.0011919995141029829,
+            "triangles": 12
+          },
+          {
+            "id": "leg-0.5-0.2#4",
+            "volume": 0.0011919995141029829,
+            "triangles": 12
+          }
+        ],
+        "connections": [
+          {
+            "a": "vanity-top#0",
+            "b": "leg--0.5--0.2#1",
+            "kind": "face",
+            "area": 0.0015999993324280481
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "leg--0.5-0.2#2",
+            "kind": "face",
+            "area": 0.0015999993324280481
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "leg-0.5--0.2#3",
+            "kind": "face",
+            "area": 0.0015999993324280481
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "leg-0.5-0.2#4",
+            "kind": "face",
+            "area": 0.0015999993324280481
+          }
+        ],
+        "grounded": [
+          "leg--0.5--0.2#1",
+          "leg--0.5-0.2#2",
+          "leg-0.5--0.2#3",
+          "leg-0.5-0.2#4"
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "weldMetres": 1e-7,
+          "minimumThicknessMetres": 0.00001,
+          "contactAreaSquareMetres": 1e-8,
+          "positiveVolumeCubicMetres": 1e-12
+        },
+        "limitation": "Static convex connectivity and clearance only. Character use and physical tipping stability require separate validation."
+      },
+      "support": {
+        "checked": true,
+        "surfaces": [
+          {
+            "mesh": "vanity-top",
+            "triangles": 2,
+            "area": 0.550000011920929,
+            "topY": 0.78
+          }
+        ],
+        "bottomY": -2.38418573772492e-9
+      }
+    },
+    {
+      "name": "validation uses resource scene coordinates under transformed root",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "meshCount": 5,
+        "triangleCount": 60,
+        "materials": 1,
+        "components": [
+          {
+            "id": "vanity-top#0",
+            "volume": 0.019249982059001528,
+            "triangles": 12
+          },
+          {
+            "id": "leg--0.5--0.2#1",
+            "volume": 0.0011919995141029835,
+            "triangles": 12
+          },
+          {
+            "id": "leg--0.5-0.2#2",
+            "volume": 0.0011919995141029835,
+            "triangles": 12
+          },
+          {
+            "id": "leg-0.5--0.2#3",
+            "volume": 0.0011919995141029835,
+            "triangles": 12
+          },
+          {
+            "id": "leg-0.5-0.2#4",
+            "volume": 0.0011919995141029835,
+            "triangles": 12
+          }
+        ],
+        "connections": [
+          {
+            "a": "vanity-top#0",
+            "b": "leg--0.5--0.2#1",
+            "kind": "face",
+            "area": 0.0015999993324280464
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "leg--0.5-0.2#2",
+            "kind": "face",
+            "area": 0.0015999993324280486
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "leg-0.5--0.2#3",
+            "kind": "face",
+            "area": 0.001599999332428046
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "leg-0.5-0.2#4",
+            "kind": "face",
+            "area": 0.001599999332428047
+          }
+        ],
+        "grounded": [
+          "leg--0.5--0.2#1",
+          "leg--0.5-0.2#2",
+          "leg-0.5--0.2#3",
+          "leg-0.5-0.2#4"
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "weldMetres": 1e-7,
+          "minimumThicknessMetres": 0.00001,
+          "contactAreaSquareMetres": 1e-8,
+          "positiveVolumeCubicMetres": 1e-12
+        },
+        "limitation": "Static convex connectivity and clearance only. Character use and physical tipping stability require separate validation."
+      },
+      "support": {
+        "checked": true,
+        "surfaces": [
+          {
+            "mesh": "vanity-top",
+            "triangles": 2,
+            "area": 0.5500000119209291,
+            "topY": 0.78
+          }
+        ],
+        "bottomY": -2.384185524423321e-9
+      }
+    },
+    {
+      "name": "actual nested static meshes remain supported",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "meshCount": 5,
+        "triangleCount": 60,
+        "materials": 1,
+        "components": [
+          {
+            "id": "vanity-top#0",
+            "volume": 0.019249982059001525,
+            "triangles": 12
+          },
+          {
+            "id": "leg--0.5--0.2#1",
+            "volume": 0.0011919995141029829,
+            "triangles": 12
+          },
+          {
+            "id": "leg--0.5-0.2#2",
+            "volume": 0.0011919995141029829,
+            "triangles": 12
+          },
+          {
+            "id": "leg-0.5--0.2#3",
+            "volume": 0.0011919995141029829,
+            "triangles": 12
+          },
+          {
+            "id": "leg-0.5-0.2#4",
+            "volume": 0.0011919995141029829,
+            "triangles": 12
+          }
+        ],
+        "connections": [
+          {
+            "a": "vanity-top#0",
+            "b": "leg--0.5--0.2#1",
+            "kind": "face",
+            "area": 0.0015999993324280481
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "leg--0.5-0.2#2",
+            "kind": "face",
+            "area": 0.0015999993324280481
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "leg-0.5--0.2#3",
+            "kind": "face",
+            "area": 0.0015999993324280481
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "leg-0.5-0.2#4",
+            "kind": "face",
+            "area": 0.0015999993324280481
+          }
+        ],
+        "grounded": [
+          "leg--0.5--0.2#1",
+          "leg--0.5-0.2#2",
+          "leg-0.5--0.2#3",
+          "leg-0.5-0.2#4"
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "weldMetres": 1e-7,
+          "minimumThicknessMetres": 0.00001,
+          "contactAreaSquareMetres": 1e-8,
+          "positiveVolumeCubicMetres": 1e-12
+        },
+        "limitation": "Static convex connectivity and clearance only. Character use and physical tipping stability require separate validation."
+      },
+      "support": {
+        "checked": true,
+        "surfaces": [
+          {
+            "mesh": "vanity-top",
+            "triangles": 2,
+            "area": 0.550000011920929,
+            "topY": 0.78
+          }
+        ],
+        "bottomY": -2.38418573772492e-9
+      }
+    },
+    {
+      "name": "real L-top with positive-area wing interface",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "meshCount": 5,
+        "triangleCount": 60,
+        "materials": 1,
+        "components": [
+          {
+            "id": "leg--0.5--0.2#0",
+            "volume": 0.0011919995141029829,
+            "triangles": 12
+          },
+          {
+            "id": "leg-0.5--0.2#1",
+            "volume": 0.0011919995141029829,
+            "triangles": 12
+          },
+          {
+            "id": "leg-0.5-0.2#2",
+            "volume": 0.0011919995141029829,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-top#3",
+            "volume": 0.016624984458088576,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-wing#4",
+            "volume": 0.0013124988004564742,
+            "triangles": 12
+          }
+        ],
+        "connections": [
+          {
+            "a": "leg--0.5--0.2#0",
+            "b": "vanity-wing#4",
+            "kind": "face",
+            "area": 0.0015999993324280481
+          },
+          {
+            "a": "leg-0.5--0.2#1",
+            "b": "vanity-top#3",
+            "kind": "face",
+            "area": 0.0015999993324280481
+          },
+          {
+            "a": "leg-0.5-0.2#2",
+            "b": "vanity-top#3",
+            "kind": "face",
+            "area": 0.0015999993324280481
+          },
+          {
+            "a": "vanity-top#3",
+            "b": "vanity-wing#4",
+            "kind": "face",
+            "area": 0.008749991655349731
+          }
+        ],
+        "grounded": [
+          "leg--0.5--0.2#0",
+          "leg-0.5--0.2#1",
+          "leg-0.5-0.2#2"
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "weldMetres": 1e-7,
+          "minimumThicknessMetres": 0.00001,
+          "contactAreaSquareMetres": 1e-8,
+          "positiveVolumeCubicMetres": 1e-12
+        },
+        "limitation": "Static convex connectivity and clearance only. Character use and physical tipping stability require separate validation."
+      },
+      "support": {
+        "checked": true,
+        "surfaces": [
+          {
+            "mesh": "vanity-top",
+            "triangles": 2,
+            "area": 0.4750000089406967,
+            "topY": 0.78
+          }
+        ],
+        "bottomY": -2.38418573772492e-9
+      }
+    },
+    {
+      "name": "synthetic / missing real board",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-top",
+        "path": "resource",
+        "message": "vanity-top must name exactly one connected closed board"
+      }
+    },
+    {
+      "name": "synthetic / real board missing triangle",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-open-or-inconsistent",
+        "path": "scene.vanity-top",
+        "message": "Every welded edge must have exactly two oppositely directed face uses"
+      }
+    },
+    {
+      "name": "synthetic / floating leg despite other grounded legs",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-detached-component",
+        "path": "resource",
+        "message": "Every actual connected component must join the table board through real face or volume contact",
+        "details": {
+          "detached": [
+            "leg--0.5--0.2#1"
+          ]
+        }
+      }
+    },
+    {
+      "name": "synthetic / one mesh contains hidden floating closed block",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-detached-component",
+        "path": "resource",
+        "message": "Every actual connected component must join the table board through real face or volume contact",
+        "details": {
+          "detached": [
+            "leg--0.5--0.2#2"
+          ]
+        }
+      }
+    },
+    {
+      "name": "synthetic / real knee intruder",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-knee-occupied",
+        "path": "scene.knee-intruder#5",
+        "message": "Actual convex geometry enters the knee-clearance interior",
+        "details": {
+          "separatingAxisMargin": 0.050000023841857866
+        }
+      }
+    },
+    {
+      "name": "synthetic / reverse one real board face",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-open-or-inconsistent",
+        "path": "scene.vanity-top",
+        "message": "Every welded edge must have exactly two oppositely directed face uses"
+      }
+    },
+    {
+      "name": "synthetic / fully inward real board",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-nonpositive-volume",
+        "path": "scene.vanity-top#0",
+        "message": "Each connected component must enclose positive outward-oriented volume",
+        "details": {
+          "volume": -0.019249982059001525
+        }
+      }
+    },
+    {
+      "name": "synthetic / out of installation envelope",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-envelope",
+        "path": "scene.outside#5",
+        "message": "Actual component exceeds the fixed 1.10 × .78 × .50m installation envelope",
+        "details": {
+          "min": [
+            0.5400000214576721,
+            0.699999988079071,
+            -0.05000000074505806
+          ],
+          "max": [
+            0.5699999928474426,
+            0.7450000047683716,
+            0.05000000074505806
+          ]
+        }
+      }
+    },
+    {
+      "name": "zero thickness board",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-degenerate-face",
+        "path": "scene.vanity-top",
+        "message": "Each triangle must have three distinct vertices and real area"
+      }
+    },
+    {
+      "name": "closed component below resolved thickness",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-no-thickness",
+        "path": "scene.paper-component#5",
+        "message": "Each component must have positive thickness along every face normal",
+        "details": {
+          "thickness": 0.000001996755599975586
+        }
+      }
+    },
+    {
+      "name": "floating entire support network",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-ground-support",
+        "path": "resource",
+        "message": "The table board must have a continuous connected path to a real ground contact of positive length"
+      }
+    },
+    {
+      "name": "grounded decoration cannot hide floating table network",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-detached-component",
+        "path": "resource",
+        "message": "Every actual connected component must join the table board through real face or volume contact",
+        "details": {
+          "detached": [
+            "unconnected-ground-decoration#5"
+          ]
+        }
+      }
+    },
+    {
+      "name": "real closed positive-volume support with only one ground point",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-ground-support",
+        "path": "resource",
+        "message": "The table board must have a continuous connected path to a real ground contact of positive length"
+      }
+    },
+    {
+      "name": "closed outward shell with an inward dent is outside convex profile",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-nonconvex",
+        "path": "scene.dented-shell#5",
+        "message": "Each connected component must be a closed convex polyhedron"
+      }
+    },
+    {
+      "name": "edge contact with a leg has no real contact area",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-detached-component",
+        "path": "resource",
+        "message": "Every actual connected component must join the table board through real face or volume contact",
+        "details": {
+          "detached": [
+            "edge-only-decoration#5"
+          ]
+        }
+      }
+    },
+    {
+      "name": "overlapping AABB corner cannot establish solid contact",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-detached-component",
+        "path": "resource",
+        "message": "Every actual connected component must join the table board through real face or volume contact",
+        "details": {
+          "detached": [
+            "aabb-overlap-without-solid-contact#5"
+          ]
+        }
+      }
+    },
+    {
+      "name": "actual convex test preserves a legal slanted component near knee corner",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "meshCount": 6,
+        "triangleCount": 72,
+        "materials": 1,
+        "components": [
+          {
+            "id": "vanity-top#0",
+            "volume": 0.019249982059001525,
+            "triangles": 12
+          },
+          {
+            "id": "leg--0.5--0.2#1",
+            "volume": 0.0011919995141029829,
+            "triangles": 12
+          },
+          {
+            "id": "leg--0.5-0.2#2",
+            "volume": 0.0011919995141029829,
+            "triangles": 12
+          },
+          {
+            "id": "leg-0.5--0.2#3",
+            "volume": 0.0011919995141029829,
+            "triangles": 12
+          },
+          {
+            "id": "leg-0.5-0.2#4",
+            "volume": 0.0011919995141029829,
+            "triangles": 12
+          },
+          {
+            "id": "outside-knee-despite-aabb-overlap#5",
+            "volume": 0.00015999999184999737,
+            "triangles": 12
+          }
+        ],
+        "connections": [
+          {
+            "a": "vanity-top#0",
+            "b": "leg--0.5--0.2#1",
+            "kind": "face",
+            "area": 0.0015999993324280481
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "leg--0.5-0.2#2",
+            "kind": "face",
+            "area": 0.0015999993324280481
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "leg-0.5--0.2#3",
+            "kind": "face",
+            "area": 0.0015999993324280481
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "leg-0.5-0.2#4",
+            "kind": "face",
+            "area": 0.0015999993324280481
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "outside-knee-despite-aabb-overlap#5",
+            "kind": "face",
+            "area": 0.0031999997893162363
+          }
+        ],
+        "grounded": [
+          "leg--0.5--0.2#1",
+          "leg--0.5-0.2#2",
+          "leg-0.5--0.2#3",
+          "leg-0.5-0.2#4"
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "weldMetres": 1e-7,
+          "minimumThicknessMetres": 0.00001,
+          "contactAreaSquareMetres": 1e-8,
+          "positiveVolumeCubicMetres": 1e-12
+        },
+        "limitation": "Static convex connectivity and clearance only. Character use and physical tipping stability require separate validation."
+      },
+      "support": {
+        "checked": true,
+        "surfaces": [
+          {
+            "mesh": "vanity-top",
+            "triangles": 2,
+            "area": 0.550000011920929,
+            "topY": 0.78
+          }
+        ],
+        "bottomY": -2.38418573772492e-9
+      }
+    },
+    {
+      "name": "altered knee contract cannot weaken checking",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-clearance-contract",
+        "path": "resource",
+        "message": "Vanity geometry requires the fixed v1 knee-clearance contract"
+      }
+    },
+    {
+      "name": "full support top over tapered underside is not a uniform .035m board",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-top",
+        "path": "scene.vanity-top#0",
+        "message": "The real tabletop slabs must be the specified full rectangular prisms with uniform .035m thickness"
+      }
+    },
+    {
+      "name": "unrelated resources skip the new vanity gate",
+      "passed": true
+    },
+    {
+      "name": "production GLB / vanity-table-plain",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "meshCount": 6,
+        "triangleCount": 72,
+        "materials": 2,
+        "components": [
+          {
+            "id": "vanity-top#0",
+            "volume": 0.019249982059001525,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-leg-left-back#1",
+            "volume": 0.0022536237688512836,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-leg-left-front#2",
+            "volume": 0.0022536237688512836,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-leg-right-back#3",
+            "volume": 0.0022536237688512836,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-leg-right-front#4",
+            "volume": 0.0022536237688512836,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-back-brace#5",
+            "volume": 0.004000001609325565,
+            "triangles": 12
+          }
+        ],
+        "connections": [
+          {
+            "a": "vanity-top#0",
+            "b": "vanity-leg-left-back#1",
+            "kind": "face",
+            "area": 0.0030249983280898896
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "vanity-leg-left-front#2",
+            "kind": "face",
+            "area": 0.0030249983280898896
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "vanity-leg-right-back#3",
+            "kind": "face",
+            "area": 0.0030249983280898896
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "vanity-leg-right-front#4",
+            "kind": "face",
+            "area": 0.0030249983280898896
+          },
+          {
+            "a": "vanity-leg-left-back#1",
+            "b": "vanity-back-brace#5",
+            "kind": "volume",
+            "volume": 0.00008937502965331232
+          },
+          {
+            "a": "vanity-leg-right-back#3",
+            "b": "vanity-back-brace#5",
+            "kind": "volume",
+            "volume": 0.00008937502965331236
+          }
+        ],
+        "grounded": [
+          "vanity-leg-left-back#1",
+          "vanity-leg-left-front#2",
+          "vanity-leg-right-back#3",
+          "vanity-leg-right-front#4"
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "weldMetres": 1e-7,
+          "minimumThicknessMetres": 0.00001,
+          "contactAreaSquareMetres": 1e-8,
+          "positiveVolumeCubicMetres": 1e-12
+        },
+        "limitation": "Static convex connectivity and clearance only. Character use and physical tipping stability require separate validation."
+      },
+      "support": {
+        "checked": true,
+        "surfaces": [
+          {
+            "mesh": "vanity-top",
+            "triangles": 2,
+            "area": 0.550000011920929,
+            "topY": 0.78
+          }
+        ],
+        "bottomY": 0
+      }
+    },
+    {
+      "name": "production GLB vanity-table-plain / missing real board",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-top",
+        "path": "resource",
+        "message": "vanity-top must name exactly one connected closed board"
+      }
+    },
+    {
+      "name": "production GLB vanity-table-plain / real board missing triangle",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-open-or-inconsistent",
+        "path": "scene.vanity-top",
+        "message": "Every welded edge must have exactly two oppositely directed face uses"
+      }
+    },
+    {
+      "name": "production GLB vanity-table-plain / floating leg despite other grounded legs",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-detached-component",
+        "path": "resource",
+        "message": "Every actual connected component must join the table board through real face or volume contact",
+        "details": {
+          "detached": [
+            "vanity-leg-left-back#1"
+          ]
+        }
+      }
+    },
+    {
+      "name": "production GLB vanity-table-plain / one mesh contains hidden floating closed block",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-detached-component",
+        "path": "resource",
+        "message": "Every actual connected component must join the table board through real face or volume contact",
+        "details": {
+          "detached": [
+            "vanity-leg-left-back#2"
+          ]
+        }
+      }
+    },
+    {
+      "name": "production GLB vanity-table-plain / real knee intruder",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-knee-occupied",
+        "path": "scene.knee-intruder#6",
+        "message": "Actual convex geometry enters the knee-clearance interior",
+        "details": {
+          "separatingAxisMargin": 0.050000023841857866
+        }
+      }
+    },
+    {
+      "name": "production GLB vanity-table-plain / reverse one real board face",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-open-or-inconsistent",
+        "path": "scene.vanity-top",
+        "message": "Every welded edge must have exactly two oppositely directed face uses"
+      }
+    },
+    {
+      "name": "production GLB vanity-table-plain / fully inward real board",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-nonpositive-volume",
+        "path": "scene.vanity-top#0",
+        "message": "Each connected component must enclose positive outward-oriented volume",
+        "details": {
+          "volume": -0.019249982059001525
+        }
+      }
+    },
+    {
+      "name": "production GLB vanity-table-plain / out of installation envelope",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-envelope",
+        "path": "scene.outside#6",
+        "message": "Actual component exceeds the fixed 1.10 × .78 × .50m installation envelope",
+        "details": {
+          "min": [
+            0.5400000214576721,
+            0.699999988079071,
+            -0.05000000074505806
+          ],
+          "max": [
+            0.5699999928474426,
+            0.7450000047683716,
+            0.05000000074505806
+          ]
+        }
+      }
+    },
+    {
+      "name": "production GLB / vanity-table-drawer-style",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "meshCount": 11,
+        "triangleCount": 132,
+        "materials": 3,
+        "components": [
+          {
+            "id": "vanity-top#0",
+            "volume": 0.019249982059001525,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-cabinet#1",
+            "volume": 0.05140500330418354,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-fixed-panel-1#2",
+            "volume": 0.0005506200798100009,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-fixed-handle-1#3",
+            "volume": 0.000024049994999166355,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-fixed-panel-2#4",
+            "volume": 0.0005506201014017877,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-fixed-handle-2#5",
+            "volume": 0.000024050009334085573,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-fixed-panel-3#6",
+            "volume": 0.0005506201014017877,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-fixed-handle-3#7",
+            "volume": 0.000024049980664247148,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-leg-right-back#8",
+            "volume": 0.0018624992348254075,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-leg-right-front#9",
+            "volume": 0.0018624992348254075,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-back-brace#10",
+            "volume": 0.004000001609325565,
+            "triangles": 12
+          }
+        ],
+        "connections": [
+          {
+            "a": "vanity-top#0",
+            "b": "vanity-cabinet#1",
+            "kind": "face",
+            "area": 0.06900000399351125
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "vanity-leg-right-back#8",
+            "kind": "face",
+            "area": 0.0024999989569187697
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "vanity-leg-right-front#9",
+            "kind": "face",
+            "area": 0.0024999989569187697
+          },
+          {
+            "a": "vanity-cabinet#1",
+            "b": "vanity-fixed-panel-1#2",
+            "kind": "volume",
+            "volume": 0.00020976008621931597
+          },
+          {
+            "a": "vanity-cabinet#1",
+            "b": "vanity-fixed-panel-2#4",
+            "kind": "volume",
+            "volume": 0.00020976009444476082
+          },
+          {
+            "a": "vanity-cabinet#1",
+            "b": "vanity-fixed-panel-3#6",
+            "kind": "volume",
+            "volume": 0.0002097600944447608
+          },
+          {
+            "a": "vanity-cabinet#1",
+            "b": "vanity-back-brace#10",
+            "kind": "volume",
+            "volume": 0.0002500001043081352
+          },
+          {
+            "a": "vanity-fixed-panel-1#2",
+            "b": "vanity-fixed-handle-1#3",
+            "kind": "volume",
+            "volume": 0.000012949999427793414
+          },
+          {
+            "a": "vanity-fixed-panel-2#4",
+            "b": "vanity-fixed-handle-2#5",
+            "kind": "volume",
+            "volume": 0.000012950007146597323
+          },
+          {
+            "a": "vanity-fixed-panel-3#6",
+            "b": "vanity-fixed-handle-3#7",
+            "kind": "volume",
+            "volume": 0.000012949991708989486
+          },
+          {
+            "a": "vanity-leg-right-back#8",
+            "b": "vanity-back-brace#10",
+            "kind": "volume",
+            "volume": 0.00007500003874302477
+          }
+        ],
+        "grounded": [
+          "vanity-cabinet#1",
+          "vanity-leg-right-back#8",
+          "vanity-leg-right-front#9"
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "weldMetres": 1e-7,
+          "minimumThicknessMetres": 0.00001,
+          "contactAreaSquareMetres": 1e-8,
+          "positiveVolumeCubicMetres": 1e-12
+        },
+        "limitation": "Static convex connectivity and clearance only. Character use and physical tipping stability require separate validation."
+      },
+      "support": {
+        "checked": true,
+        "surfaces": [
+          {
+            "mesh": "vanity-top",
+            "triangles": 2,
+            "area": 0.550000011920929,
+            "topY": 0.78
+          }
+        ],
+        "bottomY": 0
+      }
+    },
+    {
+      "name": "production GLB vanity-table-drawer-style / missing real board",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-top",
+        "path": "resource",
+        "message": "vanity-top must name exactly one connected closed board"
+      }
+    },
+    {
+      "name": "production GLB vanity-table-drawer-style / real board missing triangle",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-open-or-inconsistent",
+        "path": "scene.vanity-top",
+        "message": "Every welded edge must have exactly two oppositely directed face uses"
+      }
+    },
+    {
+      "name": "production GLB vanity-table-drawer-style / floating leg despite other grounded legs",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-detached-component",
+        "path": "resource",
+        "message": "Every actual connected component must join the table board through real face or volume contact",
+        "details": {
+          "detached": [
+            "vanity-leg-right-back#8"
+          ]
+        }
+      }
+    },
+    {
+      "name": "production GLB vanity-table-drawer-style / one mesh contains hidden floating closed block",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-detached-component",
+        "path": "resource",
+        "message": "Every actual connected component must join the table board through real face or volume contact",
+        "details": {
+          "detached": [
+            "vanity-leg-right-back#9"
+          ]
+        }
+      }
+    },
+    {
+      "name": "production GLB vanity-table-drawer-style / real knee intruder",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-knee-occupied",
+        "path": "scene.knee-intruder#11",
+        "message": "Actual convex geometry enters the knee-clearance interior",
+        "details": {
+          "separatingAxisMargin": 0.050000023841857866
+        }
+      }
+    },
+    {
+      "name": "production GLB vanity-table-drawer-style / reverse one real board face",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-open-or-inconsistent",
+        "path": "scene.vanity-top",
+        "message": "Every welded edge must have exactly two oppositely directed face uses"
+      }
+    },
+    {
+      "name": "production GLB vanity-table-drawer-style / fully inward real board",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-nonpositive-volume",
+        "path": "scene.vanity-top#0",
+        "message": "Each connected component must enclose positive outward-oriented volume",
+        "details": {
+          "volume": -0.019249982059001525
+        }
+      }
+    },
+    {
+      "name": "production GLB vanity-table-drawer-style / out of installation envelope",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-envelope",
+        "path": "scene.outside#11",
+        "message": "Actual component exceeds the fixed 1.10 × .78 × .50m installation envelope",
+        "details": {
+          "min": [
+            0.5400000214576721,
+            0.699999988079071,
+            -0.05000000074505806
+          ],
+          "max": [
+            0.5699999928474426,
+            0.7450000047683716,
+            0.05000000074505806
+          ]
+        }
+      }
+    },
+    {
+      "name": "production GLB / vanity-table-corner",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "meshCount": 7,
+        "triangleCount": 84,
+        "materials": 2,
+        "components": [
+          {
+            "id": "vanity-top#0",
+            "volume": 0.016624984458088576,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-wing#1",
+            "volume": 0.0013124988004564742,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-leg-left-back#2",
+            "volume": 0.0022536237688512836,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-leg-left-front#3",
+            "volume": 0.0022536249900012794,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-leg-right-back#4",
+            "volume": 0.0022536237688512836,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-leg-right-front#5",
+            "volume": 0.0022536237688512836,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-back-brace#6",
+            "volume": 0.004000001609325565,
+            "triangles": 12
+          }
+        ],
+        "connections": [
+          {
+            "a": "vanity-top#0",
+            "b": "vanity-wing#1",
+            "kind": "face",
+            "area": 0.008749991655349731
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "vanity-leg-left-front#3",
+            "kind": "face",
+            "area": 0.00302499996721739
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "vanity-leg-right-back#4",
+            "kind": "face",
+            "area": 0.0030249983280898896
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "vanity-leg-right-front#5",
+            "kind": "face",
+            "area": 0.0030249983280898896
+          },
+          {
+            "a": "vanity-wing#1",
+            "b": "vanity-leg-left-back#2",
+            "kind": "face",
+            "area": 0.0030249983280898896
+          },
+          {
+            "a": "vanity-leg-left-back#2",
+            "b": "vanity-back-brace#6",
+            "kind": "volume",
+            "volume": 0.00008937502965331232
+          },
+          {
+            "a": "vanity-leg-right-back#4",
+            "b": "vanity-back-brace#6",
+            "kind": "volume",
+            "volume": 0.00008937502965331236
+          }
+        ],
+        "grounded": [
+          "vanity-leg-left-back#2",
+          "vanity-leg-left-front#3",
+          "vanity-leg-right-back#4",
+          "vanity-leg-right-front#5"
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "weldMetres": 1e-7,
+          "minimumThicknessMetres": 0.00001,
+          "contactAreaSquareMetres": 1e-8,
+          "positiveVolumeCubicMetres": 1e-12
+        },
+        "limitation": "Static convex connectivity and clearance only. Character use and physical tipping stability require separate validation."
+      },
+      "support": {
+        "checked": true,
+        "surfaces": [
+          {
+            "mesh": "vanity-top",
+            "triangles": 2,
+            "area": 0.4750000089406967,
+            "topY": 0.78
+          }
+        ],
+        "bottomY": 0
+      }
+    },
+    {
+      "name": "production GLB vanity-table-corner / missing real board",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-top",
+        "path": "resource",
+        "message": "vanity-top must name exactly one connected closed board"
+      }
+    },
+    {
+      "name": "production GLB vanity-table-corner / real board missing triangle",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-open-or-inconsistent",
+        "path": "scene.vanity-top",
+        "message": "Every welded edge must have exactly two oppositely directed face uses"
+      }
+    },
+    {
+      "name": "production GLB vanity-table-corner / floating leg despite other grounded legs",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-detached-component",
+        "path": "resource",
+        "message": "Every actual connected component must join the table board through real face or volume contact",
+        "details": {
+          "detached": [
+            "vanity-leg-left-back#2"
+          ]
+        }
+      }
+    },
+    {
+      "name": "production GLB vanity-table-corner / one mesh contains hidden floating closed block",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-detached-component",
+        "path": "resource",
+        "message": "Every actual connected component must join the table board through real face or volume contact",
+        "details": {
+          "detached": [
+            "vanity-leg-left-back#3"
+          ]
+        }
+      }
+    },
+    {
+      "name": "production GLB vanity-table-corner / real knee intruder",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-knee-occupied",
+        "path": "scene.knee-intruder#7",
+        "message": "Actual convex geometry enters the knee-clearance interior",
+        "details": {
+          "separatingAxisMargin": 0.050000023841857866
+        }
+      }
+    },
+    {
+      "name": "production GLB vanity-table-corner / reverse one real board face",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-open-or-inconsistent",
+        "path": "scene.vanity-top",
+        "message": "Every welded edge must have exactly two oppositely directed face uses"
+      }
+    },
+    {
+      "name": "production GLB vanity-table-corner / fully inward real board",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-nonpositive-volume",
+        "path": "scene.vanity-top#0",
+        "message": "Each connected component must enclose positive outward-oriented volume",
+        "details": {
+          "volume": -0.016624984458088576
+        }
+      }
+    },
+    {
+      "name": "production GLB vanity-table-corner / out of installation envelope",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-envelope",
+        "path": "scene.outside#7",
+        "message": "Actual component exceeds the fixed 1.10 × .78 × .50m installation envelope",
+        "details": {
+          "min": [
+            0.5400000214576721,
+            0.699999988079071,
+            -0.05000000074505806
+          ],
+          "max": [
+            0.5699999928474426,
+            0.7450000047683716,
+            0.05000000074505806
+          ]
+        }
+      }
+    },
+    {
+      "name": "production GLB / vanity-table-mobile",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "meshCount": 22,
+        "triangleCount": 408,
+        "materials": 4,
+        "components": [
+          {
+            "id": "vanity-top#0",
+            "volume": 0.019249982059001525,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-leg-left-back#1",
+            "volume": 0.0013061246779337357,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-caster-bridge-left-back#2",
+            "volume": 0.00007830002211928124,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-caster-fork-left-back-a#3",
+            "volume": 0.00003120005736349811,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-caster-fork-left-back-b#4",
+            "volume": 0.00003120005736349811,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-caster-wheel-left-back#5",
+            "volume": 0.00021262498386552945,
+            "triangles": 48
+          },
+          {
+            "id": "vanity-leg-left-front#6",
+            "volume": 0.0013061246779337357,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-caster-bridge-left-front#7",
+            "volume": 0.00007830002211928124,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-caster-fork-left-front-a#8",
+            "volume": 0.00003120005736349811,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-caster-fork-left-front-b#9",
+            "volume": 0.00003120005736349811,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-caster-wheel-left-front#10",
+            "volume": 0.00021262498386552943,
+            "triangles": 48
+          },
+          {
+            "id": "vanity-leg-right-back#11",
+            "volume": 0.0013061246779337357,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-caster-bridge-right-back#12",
+            "volume": 0.00007830002211928124,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-caster-fork-right-back-a#13",
+            "volume": 0.00003120005736349811,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-caster-fork-right-back-b#14",
+            "volume": 0.00003120005736349811,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-caster-wheel-right-back#15",
+            "volume": 0.00021262498386552945,
+            "triangles": 48
+          },
+          {
+            "id": "vanity-leg-right-front#16",
+            "volume": 0.0013061246779337357,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-caster-bridge-right-front#17",
+            "volume": 0.00007830002211928124,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-caster-fork-right-front-a#18",
+            "volume": 0.00003120005736349811,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-caster-fork-right-front-b#19",
+            "volume": 0.00003120005736349811,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-caster-wheel-right-front#20",
+            "volume": 0.00021262498386552943,
+            "triangles": 48
+          },
+          {
+            "id": "vanity-back-brace#21",
+            "volume": 0.004000001609325565,
+            "triangles": 12
+          }
+        ],
+        "connections": [
+          {
+            "a": "vanity-top#0",
+            "b": "vanity-leg-left-back#1",
+            "kind": "face",
+            "area": 0.0020249994903802637
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "vanity-leg-left-front#6",
+            "kind": "face",
+            "area": 0.0020249994903802637
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "vanity-leg-right-back#11",
+            "kind": "face",
+            "area": 0.0020249994903802637
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "vanity-leg-right-front#16",
+            "kind": "face",
+            "area": 0.0020249994903802637
+          },
+          {
+            "a": "vanity-leg-left-back#1",
+            "b": "vanity-caster-bridge-left-back#2",
+            "kind": "volume",
+            "volume": 0.000030374993562697723
+          },
+          {
+            "a": "vanity-leg-left-back#1",
+            "b": "vanity-caster-fork-left-back-a#3",
+            "kind": "face",
+            "area": 0.00029999965131288775
+          },
+          {
+            "a": "vanity-leg-left-back#1",
+            "b": "vanity-caster-fork-left-back-b#4",
+            "kind": "face",
+            "area": 0.0003000008434055346
+          },
+          {
+            "a": "vanity-leg-left-back#1",
+            "b": "vanity-back-brace#21",
+            "kind": "volume",
+            "volume": 0.00005062504962088269
+          },
+          {
+            "a": "vanity-caster-bridge-left-back#2",
+            "b": "vanity-caster-fork-left-back-a#3",
+            "kind": "volume",
+            "volume": 0.000006720011529918394
+          },
+          {
+            "a": "vanity-caster-bridge-left-back#2",
+            "b": "vanity-caster-fork-left-back-b#4",
+            "kind": "volume",
+            "volume": 0.000006720011529918396
+          },
+          {
+            "a": "vanity-caster-bridge-left-back#2",
+            "b": "vanity-caster-wheel-left-back#5",
+            "kind": "volume",
+            "volume": 0.0000020899476279690728
+          },
+          {
+            "a": "vanity-caster-fork-left-back-a#3",
+            "b": "vanity-caster-wheel-left-back#5",
+            "kind": "volume",
+            "volume": 0.000005232044958891445
+          },
+          {
+            "a": "vanity-caster-fork-left-back-b#4",
+            "b": "vanity-caster-wheel-left-back#5",
+            "kind": "volume",
+            "volume": 0.000005232107329787171
+          },
+          {
+            "a": "vanity-leg-left-front#6",
+            "b": "vanity-caster-bridge-left-front#7",
+            "kind": "volume",
+            "volume": 0.000030374993562697723
+          },
+          {
+            "a": "vanity-leg-left-front#6",
+            "b": "vanity-caster-fork-left-front-a#8",
+            "kind": "face",
+            "area": 0.00029999965131288775
+          },
+          {
+            "a": "vanity-leg-left-front#6",
+            "b": "vanity-caster-fork-left-front-b#9",
+            "kind": "face",
+            "area": 0.00030000084340553457
+          },
+          {
+            "a": "vanity-caster-bridge-left-front#7",
+            "b": "vanity-caster-fork-left-front-a#8",
+            "kind": "volume",
+            "volume": 0.000006720011529918394
+          },
+          {
+            "a": "vanity-caster-bridge-left-front#7",
+            "b": "vanity-caster-fork-left-front-b#9",
+            "kind": "volume",
+            "volume": 0.000006720011529918394
+          },
+          {
+            "a": "vanity-caster-bridge-left-front#7",
+            "b": "vanity-caster-wheel-left-front#10",
+            "kind": "volume",
+            "volume": 0.0000020899476279690677
+          },
+          {
+            "a": "vanity-caster-fork-left-front-a#8",
+            "b": "vanity-caster-wheel-left-front#10",
+            "kind": "volume",
+            "volume": 0.000005232044958891445
+          },
+          {
+            "a": "vanity-caster-fork-left-front-b#9",
+            "b": "vanity-caster-wheel-left-front#10",
+            "kind": "volume",
+            "volume": 0.000005232107329787171
+          },
+          {
+            "a": "vanity-leg-right-back#11",
+            "b": "vanity-caster-bridge-right-back#12",
+            "kind": "volume",
+            "volume": 0.000030374993562698048
+          },
+          {
+            "a": "vanity-leg-right-back#11",
+            "b": "vanity-caster-fork-right-back-a#13",
+            "kind": "face",
+            "area": 0.00030000084340553457
+          },
+          {
+            "a": "vanity-leg-right-back#11",
+            "b": "vanity-caster-fork-right-back-b#14",
+            "kind": "face",
+            "area": 0.00029999965131288775
+          },
+          {
+            "a": "vanity-leg-right-back#11",
+            "b": "vanity-back-brace#21",
+            "kind": "volume",
+            "volume": 0.000050625049620882704
+          },
+          {
+            "a": "vanity-caster-bridge-right-back#12",
+            "b": "vanity-caster-fork-right-back-a#13",
+            "kind": "volume",
+            "volume": 0.000006720011529918394
+          },
+          {
+            "a": "vanity-caster-bridge-right-back#12",
+            "b": "vanity-caster-fork-right-back-b#14",
+            "kind": "volume",
+            "volume": 0.000006720011529918395
+          },
+          {
+            "a": "vanity-caster-bridge-right-back#12",
+            "b": "vanity-caster-wheel-right-back#15",
+            "kind": "volume",
+            "volume": 0.000002089947627969065
+          },
+          {
+            "a": "vanity-caster-fork-right-back-a#13",
+            "b": "vanity-caster-wheel-right-back#15",
+            "kind": "volume",
+            "volume": 0.0000052321073297871715
+          },
+          {
+            "a": "vanity-caster-fork-right-back-b#14",
+            "b": "vanity-caster-wheel-right-back#15",
+            "kind": "volume",
+            "volume": 0.000005232044958891444
+          },
+          {
+            "a": "vanity-leg-right-front#16",
+            "b": "vanity-caster-bridge-right-front#17",
+            "kind": "volume",
+            "volume": 0.000030374993562698048
+          },
+          {
+            "a": "vanity-leg-right-front#16",
+            "b": "vanity-caster-fork-right-front-a#18",
+            "kind": "face",
+            "area": 0.0003000008434055345
+          },
+          {
+            "a": "vanity-leg-right-front#16",
+            "b": "vanity-caster-fork-right-front-b#19",
+            "kind": "face",
+            "area": 0.0002999996513128883
+          },
+          {
+            "a": "vanity-caster-bridge-right-front#17",
+            "b": "vanity-caster-fork-right-front-a#18",
+            "kind": "volume",
+            "volume": 0.000006720011529918394
+          },
+          {
+            "a": "vanity-caster-bridge-right-front#17",
+            "b": "vanity-caster-fork-right-front-b#19",
+            "kind": "volume",
+            "volume": 0.000006720011529918394
+          },
+          {
+            "a": "vanity-caster-bridge-right-front#17",
+            "b": "vanity-caster-wheel-right-front#20",
+            "kind": "volume",
+            "volume": 0.0000020899476279690885
+          },
+          {
+            "a": "vanity-caster-fork-right-front-a#18",
+            "b": "vanity-caster-wheel-right-front#20",
+            "kind": "volume",
+            "volume": 0.000005232107329787174
+          },
+          {
+            "a": "vanity-caster-fork-right-front-b#19",
+            "b": "vanity-caster-wheel-right-front#20",
+            "kind": "volume",
+            "volume": 0.000005232044958891445
+          }
+        ],
+        "grounded": [
+          "vanity-caster-wheel-left-back#5",
+          "vanity-caster-wheel-left-front#10",
+          "vanity-caster-wheel-right-back#15",
+          "vanity-caster-wheel-right-front#20"
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "weldMetres": 1e-7,
+          "minimumThicknessMetres": 0.00001,
+          "contactAreaSquareMetres": 1e-8,
+          "positiveVolumeCubicMetres": 1e-12
+        },
+        "limitation": "Static convex connectivity and clearance only. Character use and physical tipping stability require separate validation."
+      },
+      "support": {
+        "checked": true,
+        "surfaces": [
+          {
+            "mesh": "vanity-top",
+            "triangles": 2,
+            "area": 0.550000011920929,
+            "topY": 0.78
+          }
+        ],
+        "bottomY": 0
+      }
+    },
+    {
+      "name": "production GLB vanity-table-mobile / missing real board",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-top",
+        "path": "resource",
+        "message": "vanity-top must name exactly one connected closed board"
+      }
+    },
+    {
+      "name": "production GLB vanity-table-mobile / real board missing triangle",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-open-or-inconsistent",
+        "path": "scene.vanity-top",
+        "message": "Every welded edge must have exactly two oppositely directed face uses"
+      }
+    },
+    {
+      "name": "production GLB vanity-table-mobile / floating leg despite other grounded legs",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-detached-component",
+        "path": "resource",
+        "message": "Every actual connected component must join the table board through real face or volume contact",
+        "details": {
+          "detached": [
+            "vanity-leg-left-back#1",
+            "vanity-caster-bridge-left-back#2",
+            "vanity-caster-fork-left-back-a#3",
+            "vanity-caster-fork-left-back-b#4",
+            "vanity-caster-wheel-left-back#5"
+          ]
+        }
+      }
+    },
+    {
+      "name": "production GLB vanity-table-mobile / one mesh contains hidden floating closed block",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-detached-component",
+        "path": "resource",
+        "message": "Every actual connected component must join the table board through real face or volume contact",
+        "details": {
+          "detached": [
+            "vanity-leg-left-back#2"
+          ]
+        }
+      }
+    },
+    {
+      "name": "production GLB vanity-table-mobile / real knee intruder",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-knee-occupied",
+        "path": "scene.knee-intruder#22",
+        "message": "Actual convex geometry enters the knee-clearance interior",
+        "details": {
+          "separatingAxisMargin": 0.050000023841857866
+        }
+      }
+    },
+    {
+      "name": "production GLB vanity-table-mobile / reverse one real board face",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-open-or-inconsistent",
+        "path": "scene.vanity-top",
+        "message": "Every welded edge must have exactly two oppositely directed face uses"
+      }
+    },
+    {
+      "name": "production GLB vanity-table-mobile / fully inward real board",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-nonpositive-volume",
+        "path": "scene.vanity-top#0",
+        "message": "Each connected component must enclose positive outward-oriented volume",
+        "details": {
+          "volume": -0.019249982059001525
+        }
+      }
+    },
+    {
+      "name": "production GLB vanity-table-mobile / out of installation envelope",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-envelope",
+        "path": "scene.outside#22",
+        "message": "Actual component exceeds the fixed 1.10 × .78 × .50m installation envelope",
+        "details": {
+          "min": [
+            0.5400000214576721,
+            0.699999988079071,
+            -0.05000000074505806
+          ],
+          "max": [
+            0.5699999928474426,
+            0.7450000047683716,
+            0.05000000074505806
+          ]
+        }
+      }
+    }
+  ],
+  "realAssets": [
+    {
+      "id": "vanity-table-plain",
+      "version": 1,
+      "resourcePath": "F:\\gamemake-company-platform-c1\\prototype\\public\\company-assets\\vanity-table-v1\\plain\\v1\\resource.json",
+      "assetPath": "F:\\gamemake-company-platform-c1\\prototype\\public\\company-assets\\vanity-table-v1\\plain\\v1\\model.glb",
+      "sha256": "2dec81b0be405c3671daa3522dbbbd122bdfc0f6bc2b364642faa2f0d7e68917",
+      "status": "passed-real-readback-support-and-geometry-mutations"
+    },
+    {
+      "id": "vanity-table-drawer-style",
+      "version": 1,
+      "resourcePath": "F:\\gamemake-company-platform-c1\\prototype\\public\\company-assets\\vanity-table-v1\\drawer-style\\v1\\resource.json",
+      "assetPath": "F:\\gamemake-company-platform-c1\\prototype\\public\\company-assets\\vanity-table-v1\\drawer-style\\v1\\model.glb",
+      "sha256": "ff070959aa63dedcea178b984352ce21bb98739b87d764ac04a85ee14e8f9a07",
+      "status": "passed-real-readback-support-and-geometry-mutations"
+    },
+    {
+      "id": "vanity-table-corner",
+      "version": 1,
+      "resourcePath": "F:\\gamemake-company-platform-c1\\prototype\\public\\company-assets\\vanity-table-v1\\corner\\v1\\resource.json",
+      "assetPath": "F:\\gamemake-company-platform-c1\\prototype\\public\\company-assets\\vanity-table-v1\\corner\\v1\\model.glb",
+      "sha256": "a6d3b621d8fe7368ad49acbacd9a5a2b1c999c913b93f75d010ecdb1db76dd24",
+      "status": "passed-real-readback-support-and-geometry-mutations"
+    },
+    {
+      "id": "vanity-table-mobile",
+      "version": 1,
+      "resourcePath": "F:\\gamemake-company-platform-c1\\prototype\\public\\company-assets\\vanity-table-v1\\mobile\\v1\\resource.json",
+      "assetPath": "F:\\gamemake-company-platform-c1\\prototype\\public\\company-assets\\vanity-table-v1\\mobile\\v1\\model.glb",
+      "sha256": "c32340709fdcd4bddf9faa01ed650a0f56b778877cdde9bcd9e7180449a725fd",
+      "status": "passed-real-readback-support-and-geometry-mutations"
+    }
+  ],
+  "realAssetsPending": false,
+  "limits": [
+    "CPU validation of closed convex static components, including multiple independent closed shells merged into one mesh. No arbitrary concave or articulated bodies.",
+    "Coordinate weld 1e-7m, geometric boundary 1e-6m, triangle area 1e-10m², face-contact area >1e-8m², positive-volume intersection >1e-12m³, resolved thickness >1e-5m. Features below these bounds are unresolved.",
+    "Ground requires at least two actual boundary vertices separated by more than 1e-5m at y=0 within 1e-6m. This supports faceted wheel line contact and rejects isolated point contact.",
+    "Connectivity measures clipped real surface area or real convex intersection volume. Knee clearance uses complete convex SAT axes. Total bounds are used only for the installation envelope and early separation.",
+    "The existing support validator independently verifies the actual rectangular bearing face and clearance for every passing vanity fixture and production GLB.",
+    "Static geometric connectivity does not prove physical stability, ordinary-computer performance, character sitting/reaching, browser save/reopen or C3 acceptance."
+  ]
+}

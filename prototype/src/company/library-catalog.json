@@ -13687,6 +13687,925 @@
         "sha256": "9f6968cf8d58075a80864a0891ae4ff346fca8bb8275d37583b90222147a1696",
         "bytes": 29584
       }
+    },
+    {
+      "id": "vanity-table-plain",
+      "displayName": "单台化妆台",
+      "version": 1,
+      "category": "decor",
+      "mountRole": "vanity-table",
+      "productionBranch": "vanity-table",
+      "mount": "floor-surface",
+      "mounting": {
+        "origin": "bottom",
+        "width": 1.1,
+        "height": 0.78,
+        "depth": 0.5
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Bottom centre",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.55,
+          0.25
+        ],
+        "blocking": true
+      },
+      "supportSurfaces": [
+        {
+          "id": "top",
+          "center": [
+            0.02,
+            0
+          ],
+          "topY": 0.78,
+          "halfSize": [
+            0.4,
+            0.22
+          ],
+          "clearanceHeight": 0.65
+        }
+      ],
+      "supportNodes": {
+        "top": "vanity-top"
+      },
+      "clearance": {
+        "schema": "vanity-clearance-v1",
+        "knee": {
+          "min": [
+            -0.33,
+            0,
+            -0.12
+          ],
+          "max": [
+            0.37,
+            0.7,
+            0.25
+          ]
+        },
+        "front": {
+          "min": [
+            -1,
+            0.25
+          ],
+          "max": [
+            1,
+            1.5
+          ]
+        },
+        "seat": {
+          "mountRole": "vanity-chair-side-entry",
+          "position": [
+            0.02,
+            0,
+            0.55
+          ],
+          "yaw": 3.141592653589793
+        }
+      },
+      "stateDefaults": {},
+      "usePoints": [],
+      "provenance": {
+        "sourceParameters": "assets-source/company-vanity-table-v1/parameters.json",
+        "sourceParametersSha256": "8e221b87129218611efbbbb4fa1f0f36c5b0b1846a4ee2de6472841256bc7a7b",
+        "functionalContractSource": "docs/COMPANY-VANITY-TABLE-CONTRACT-v1.txt",
+        "functionalContractSourceSha256": "72baa52d7d3dbfc34ffed4150f6624d025df461439ea5a3f1482a8622ef3fa34",
+        "generator": "scripts/company-platform/build-vanity-table.mjs",
+        "generatorSha256": "4c64e44eda2f0f01bcedc9eb19825b0c06675c62da77cdd1a1b7727956e96cd1",
+        "dependencies": {
+          "functionalContract": {
+            "path": "docs/COMPANY-VANITY-TABLE-CONTRACT-v1.txt",
+            "sha256": "72baa52d7d3dbfc34ffed4150f6624d025df461439ea5a3f1482a8622ef3fa34"
+          },
+          "preflight": {
+            "path": "docs/research/COMPANY-VANITY-TABLE-PREFLIGHT-2026-11-16.txt",
+            "sha256": "316e24c4eb3df6e5789f221ae4c2a6304a116dc2e2992fb6ec342968c0475220"
+          },
+          "lockfile": {
+            "path": "prototype/package-lock.json",
+            "sha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7"
+          },
+          "threePackage": {
+            "path": "prototype/node_modules/three/package.json",
+            "sha256": "87f2c99a8718e5fdd6f5e51427fde52c6075f2f698ddf8f7b4e162882df93940"
+          },
+          "threeModule": {
+            "path": "prototype/node_modules/three/build/three.module.js",
+            "sha256": "104f56145899722094556490d787aae0617cc2fc3382f31df02d724ea1aee341"
+          },
+          "gltfExporter": {
+            "path": "prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+            "sha256": "569793baeba62baeb4ab0b3619b6b1495b45d4b2ba9690430497adb58307bdf2"
+          },
+          "gltfLoader": {
+            "path": "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+            "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1"
+          },
+          "threeLicense": {
+            "path": "prototype/node_modules/three/LICENSE",
+            "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+          }
+        },
+        "license": "Project-authored original procedural geometry and solid-color materials. No external art or model input. Three.js 0.187.0 is MIT licensed, copyright 2010–2026 three.js authors. Preserve prototype/node_modules/three/LICENSE and the prototype lockfile in offline rebuilds.",
+        "prompt": "Purpose: original static vanity tables for the existing company room/floor installation and tabletop support chain. Each table stays within 1.10m width x 0.78m height x 0.50m depth, in metres, +Y up, +Z toward the user, origin at bottom centre. The real top board is 0.035m thick, with top at Y=0.78. Preserve the fixed support patch, knee clearance and front operation area from the functional contract. Use closed convex solid parts connected to the top/ground support network. Keep all structure out of the knee prism. Build four true structural designs with bounded editable frame width, solid materials, no textures, no animations and at most 2500 triangles, 32 meshes and four materials. Export deterministic self-contained GLB using pinned Three.js 0.187.0 and read the actual file back through GLTFLoader, support geometry and vanity solid checks. Design: Full rectangular wooden top, four slender painted square legs and a solid rear brace, with an open knee area.",
+        "sourceDesign": "plain",
+        "method": "Original bounded boxes and closed 12-segment cylinders. Final source bounds are baked into Float32 vertices, with identity nodes. Actual GLTFLoader readback passes shared support and independent vanity solid/connection/knee checks.",
+        "limitations": [
+          "Static tabletop facility. No makeup mirror, light or storage mechanism."
+        ]
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/vanity-table-v1/plain/v1/model.glb",
+        "sha256": "2dec81b0be405c3671daa3522dbbbd122bdfc0f6bc2b364642faa2f0d7e68917",
+        "bytes": 11084
+      }
+    },
+    {
+      "id": "vanity-table-drawer-style",
+      "displayName": "抽屉式化妆台（固定闭合）",
+      "version": 1,
+      "category": "decor",
+      "mountRole": "vanity-table",
+      "productionBranch": "vanity-table",
+      "mount": "floor-surface",
+      "mounting": {
+        "origin": "bottom",
+        "width": 1.1,
+        "height": 0.78,
+        "depth": 0.5
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Bottom centre",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.55,
+          0.25
+        ],
+        "blocking": true
+      },
+      "supportSurfaces": [
+        {
+          "id": "top",
+          "center": [
+            0.02,
+            0
+          ],
+          "topY": 0.78,
+          "halfSize": [
+            0.4,
+            0.22
+          ],
+          "clearanceHeight": 0.65
+        }
+      ],
+      "supportNodes": {
+        "top": "vanity-top"
+      },
+      "clearance": {
+        "schema": "vanity-clearance-v1",
+        "knee": {
+          "min": [
+            -0.33,
+            0,
+            -0.12
+          ],
+          "max": [
+            0.37,
+            0.7,
+            0.25
+          ]
+        },
+        "front": {
+          "min": [
+            -1,
+            0.25
+          ],
+          "max": [
+            1,
+            1.5
+          ]
+        },
+        "seat": {
+          "mountRole": "vanity-chair-side-entry",
+          "position": [
+            0.02,
+            0,
+            0.55
+          ],
+          "yaw": 3.141592653589793
+        }
+      },
+      "stateDefaults": {},
+      "usePoints": [],
+      "provenance": {
+        "sourceParameters": "assets-source/company-vanity-table-v1/parameters.json",
+        "sourceParametersSha256": "8e221b87129218611efbbbb4fa1f0f36c5b0b1846a4ee2de6472841256bc7a7b",
+        "functionalContractSource": "docs/COMPANY-VANITY-TABLE-CONTRACT-v1.txt",
+        "functionalContractSourceSha256": "72baa52d7d3dbfc34ffed4150f6624d025df461439ea5a3f1482a8622ef3fa34",
+        "generator": "scripts/company-platform/build-vanity-table.mjs",
+        "generatorSha256": "4c64e44eda2f0f01bcedc9eb19825b0c06675c62da77cdd1a1b7727956e96cd1",
+        "dependencies": {
+          "functionalContract": {
+            "path": "docs/COMPANY-VANITY-TABLE-CONTRACT-v1.txt",
+            "sha256": "72baa52d7d3dbfc34ffed4150f6624d025df461439ea5a3f1482a8622ef3fa34"
+          },
+          "preflight": {
+            "path": "docs/research/COMPANY-VANITY-TABLE-PREFLIGHT-2026-11-16.txt",
+            "sha256": "316e24c4eb3df6e5789f221ae4c2a6304a116dc2e2992fb6ec342968c0475220"
+          },
+          "lockfile": {
+            "path": "prototype/package-lock.json",
+            "sha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7"
+          },
+          "threePackage": {
+            "path": "prototype/node_modules/three/package.json",
+            "sha256": "87f2c99a8718e5fdd6f5e51427fde52c6075f2f698ddf8f7b4e162882df93940"
+          },
+          "threeModule": {
+            "path": "prototype/node_modules/three/build/three.module.js",
+            "sha256": "104f56145899722094556490d787aae0617cc2fc3382f31df02d724ea1aee341"
+          },
+          "gltfExporter": {
+            "path": "prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+            "sha256": "569793baeba62baeb4ab0b3619b6b1495b45d4b2ba9690430497adb58307bdf2"
+          },
+          "gltfLoader": {
+            "path": "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+            "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1"
+          },
+          "threeLicense": {
+            "path": "prototype/node_modules/three/LICENSE",
+            "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+          }
+        },
+        "license": "Project-authored original procedural geometry and solid-color materials. No external art or model input. Three.js 0.187.0 is MIT licensed, copyright 2010–2026 three.js authors. Preserve prototype/node_modules/three/LICENSE and the prototype lockfile in offline rebuilds.",
+        "prompt": "Purpose: original static vanity tables for the existing company room/floor installation and tabletop support chain. Each table stays within 1.10m width x 0.78m height x 0.50m depth, in metres, +Y up, +Z toward the user, origin at bottom centre. The real top board is 0.035m thick, with top at Y=0.78. Preserve the fixed support patch, knee clearance and front operation area from the functional contract. Use closed convex solid parts connected to the top/ground support network. Keep all structure out of the knee prism. Build four true structural designs with bounded editable frame width, solid materials, no textures, no animations and at most 2500 triangles, 32 meshes and four materials. Export deterministic self-contained GLB using pinned Three.js 0.187.0 and read the actual file back through GLTFLoader, support geometry and vanity solid checks. Design: Full rectangular top with a narrow left cabinet, three real fixed closed front panels and projecting metal handles, and two right legs. The cabinet stays entirely left of the knee prism.",
+        "sourceDesign": "drawer-style",
+        "method": "Original bounded boxes and closed 12-segment cylinders. Final source bounds are baked into Float32 vertices, with identity nodes. Actual GLTFLoader readback passes shared support and independent vanity solid/connection/knee checks.",
+        "limitations": [
+          "Fixed closed drawer-style exterior. The panels and handles have solid geometry. There is no drawer opening or dynamic storage state."
+        ]
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/vanity-table-v1/drawer-style/v1/model.glb",
+        "sha256": "ff070959aa63dedcea178b984352ce21bb98739b87d764ac04a85ee14e8f9a07",
+        "bytes": 20036
+      }
+    },
+    {
+      "id": "vanity-table-corner",
+      "displayName": "转角化妆台",
+      "version": 1,
+      "category": "decor",
+      "mountRole": "vanity-table",
+      "productionBranch": "vanity-table",
+      "mount": "floor-surface",
+      "mounting": {
+        "origin": "bottom",
+        "width": 1.1,
+        "height": 0.78,
+        "depth": 0.5
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Bottom centre",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.55,
+          0.25
+        ],
+        "blocking": true
+      },
+      "supportSurfaces": [
+        {
+          "id": "top",
+          "center": [
+            0.02,
+            0
+          ],
+          "topY": 0.78,
+          "halfSize": [
+            0.4,
+            0.22
+          ],
+          "clearanceHeight": 0.65
+        }
+      ],
+      "supportNodes": {
+        "top": "vanity-top"
+      },
+      "clearance": {
+        "schema": "vanity-clearance-v1",
+        "knee": {
+          "min": [
+            -0.33,
+            0,
+            -0.12
+          ],
+          "max": [
+            0.37,
+            0.7,
+            0.25
+          ]
+        },
+        "front": {
+          "min": [
+            -1,
+            0.25
+          ],
+          "max": [
+            1,
+            1.5
+          ]
+        },
+        "seat": {
+          "mountRole": "vanity-chair-side-entry",
+          "position": [
+            0.02,
+            0,
+            0.55
+          ],
+          "yaw": 3.141592653589793
+        }
+      },
+      "stateDefaults": {},
+      "usePoints": [],
+      "provenance": {
+        "sourceParameters": "assets-source/company-vanity-table-v1/parameters.json",
+        "sourceParametersSha256": "8e221b87129218611efbbbb4fa1f0f36c5b0b1846a4ee2de6472841256bc7a7b",
+        "functionalContractSource": "docs/COMPANY-VANITY-TABLE-CONTRACT-v1.txt",
+        "functionalContractSourceSha256": "72baa52d7d3dbfc34ffed4150f6624d025df461439ea5a3f1482a8622ef3fa34",
+        "generator": "scripts/company-platform/build-vanity-table.mjs",
+        "generatorSha256": "4c64e44eda2f0f01bcedc9eb19825b0c06675c62da77cdd1a1b7727956e96cd1",
+        "dependencies": {
+          "functionalContract": {
+            "path": "docs/COMPANY-VANITY-TABLE-CONTRACT-v1.txt",
+            "sha256": "72baa52d7d3dbfc34ffed4150f6624d025df461439ea5a3f1482a8622ef3fa34"
+          },
+          "preflight": {
+            "path": "docs/research/COMPANY-VANITY-TABLE-PREFLIGHT-2026-11-16.txt",
+            "sha256": "316e24c4eb3df6e5789f221ae4c2a6304a116dc2e2992fb6ec342968c0475220"
+          },
+          "lockfile": {
+            "path": "prototype/package-lock.json",
+            "sha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7"
+          },
+          "threePackage": {
+            "path": "prototype/node_modules/three/package.json",
+            "sha256": "87f2c99a8718e5fdd6f5e51427fde52c6075f2f698ddf8f7b4e162882df93940"
+          },
+          "threeModule": {
+            "path": "prototype/node_modules/three/build/three.module.js",
+            "sha256": "104f56145899722094556490d787aae0617cc2fc3382f31df02d724ea1aee341"
+          },
+          "gltfExporter": {
+            "path": "prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+            "sha256": "569793baeba62baeb4ab0b3619b6b1495b45d4b2ba9690430497adb58307bdf2"
+          },
+          "gltfLoader": {
+            "path": "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+            "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1"
+          },
+          "threeLicense": {
+            "path": "prototype/node_modules/three/LICENSE",
+            "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+          }
+        },
+        "license": "Project-authored original procedural geometry and solid-color materials. No external art or model input. Three.js 0.187.0 is MIT licensed, copyright 2010–2026 three.js authors. Preserve prototype/node_modules/three/LICENSE and the prototype lockfile in offline rebuilds.",
+        "prompt": "Purpose: original static vanity tables for the existing company room/floor installation and tabletop support chain. Each table stays within 1.10m width x 0.78m height x 0.50m depth, in metres, +Y up, +Z toward the user, origin at bottom centre. The real top board is 0.035m thick, with top at Y=0.78. Preserve the fixed support patch, knee clearance and front operation area from the functional contract. Use closed convex solid parts connected to the top/ground support network. Keep all structure out of the knee prism. Build four true structural designs with bounded editable frame width, solid materials, no textures, no animations and at most 2500 triangles, 32 meshes and four materials. Export deterministic self-contained GLB using pinned Three.js 0.187.0 and read the actual file back through GLTFLoader, support geometry and vanity solid checks. Design: A true L-shaped top assembled from a main rectangle X[-0.40,0.55] and rear-left wing X[-0.55,-0.40], Z[-0.25,0], both 0.035m thick and joined by a real side face. Preserve the 0.15 x 0.25m front-left notch. The wing has a rear-left grounded leg and the main board has a left-front leg and two right legs.",
+        "sourceDesign": "corner",
+        "method": "Original bounded boxes and closed 12-segment cylinders. Final source bounds are baked into Float32 vertices, with identity nodes. Actual GLTFLoader readback passes shared support and independent vanity solid/connection/knee checks.",
+        "limitations": [
+          "The real front-left top notch remains empty. The shared layout footprint conservatively covers the full outer rectangle."
+        ]
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/vanity-table-v1/corner/v1/model.glb",
+        "sha256": "a6d3b621d8fe7368ad49acbacd9a5a2b1c999c913b93f75d010ecdb1db76dd24",
+        "bytes": 12804
+      }
+    },
+    {
+      "id": "vanity-table-mobile",
+      "displayName": "移动化妆台（静态脚轮）",
+      "version": 1,
+      "category": "decor",
+      "mountRole": "vanity-table",
+      "productionBranch": "vanity-table",
+      "mount": "floor-surface",
+      "mounting": {
+        "origin": "bottom",
+        "width": 1.1,
+        "height": 0.78,
+        "depth": 0.5
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Bottom centre",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.55,
+          0.25
+        ],
+        "blocking": true
+      },
+      "supportSurfaces": [
+        {
+          "id": "top",
+          "center": [
+            0.02,
+            0
+          ],
+          "topY": 0.78,
+          "halfSize": [
+            0.4,
+            0.22
+          ],
+          "clearanceHeight": 0.65
+        }
+      ],
+      "supportNodes": {
+        "top": "vanity-top"
+      },
+      "clearance": {
+        "schema": "vanity-clearance-v1",
+        "knee": {
+          "min": [
+            -0.33,
+            0,
+            -0.12
+          ],
+          "max": [
+            0.37,
+            0.7,
+            0.25
+          ]
+        },
+        "front": {
+          "min": [
+            -1,
+            0.25
+          ],
+          "max": [
+            1,
+            1.5
+          ]
+        },
+        "seat": {
+          "mountRole": "vanity-chair-side-entry",
+          "position": [
+            0.02,
+            0,
+            0.55
+          ],
+          "yaw": 3.141592653589793
+        }
+      },
+      "stateDefaults": {},
+      "usePoints": [],
+      "provenance": {
+        "sourceParameters": "assets-source/company-vanity-table-v1/parameters.json",
+        "sourceParametersSha256": "8e221b87129218611efbbbb4fa1f0f36c5b0b1846a4ee2de6472841256bc7a7b",
+        "functionalContractSource": "docs/COMPANY-VANITY-TABLE-CONTRACT-v1.txt",
+        "functionalContractSourceSha256": "72baa52d7d3dbfc34ffed4150f6624d025df461439ea5a3f1482a8622ef3fa34",
+        "generator": "scripts/company-platform/build-vanity-table.mjs",
+        "generatorSha256": "4c64e44eda2f0f01bcedc9eb19825b0c06675c62da77cdd1a1b7727956e96cd1",
+        "dependencies": {
+          "functionalContract": {
+            "path": "docs/COMPANY-VANITY-TABLE-CONTRACT-v1.txt",
+            "sha256": "72baa52d7d3dbfc34ffed4150f6624d025df461439ea5a3f1482a8622ef3fa34"
+          },
+          "preflight": {
+            "path": "docs/research/COMPANY-VANITY-TABLE-PREFLIGHT-2026-11-16.txt",
+            "sha256": "316e24c4eb3df6e5789f221ae4c2a6304a116dc2e2992fb6ec342968c0475220"
+          },
+          "lockfile": {
+            "path": "prototype/package-lock.json",
+            "sha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7"
+          },
+          "threePackage": {
+            "path": "prototype/node_modules/three/package.json",
+            "sha256": "87f2c99a8718e5fdd6f5e51427fde52c6075f2f698ddf8f7b4e162882df93940"
+          },
+          "threeModule": {
+            "path": "prototype/node_modules/three/build/three.module.js",
+            "sha256": "104f56145899722094556490d787aae0617cc2fc3382f31df02d724ea1aee341"
+          },
+          "gltfExporter": {
+            "path": "prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+            "sha256": "569793baeba62baeb4ab0b3619b6b1495b45d4b2ba9690430497adb58307bdf2"
+          },
+          "gltfLoader": {
+            "path": "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+            "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1"
+          },
+          "threeLicense": {
+            "path": "prototype/node_modules/three/LICENSE",
+            "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+          }
+        },
+        "license": "Project-authored original procedural geometry and solid-color materials. No external art or model input. Three.js 0.187.0 is MIT licensed, copyright 2010–2026 three.js authors. Preserve prototype/node_modules/three/LICENSE and the prototype lockfile in offline rebuilds.",
+        "prompt": "Purpose: original static vanity tables for the existing company room/floor installation and tabletop support chain. Each table stays within 1.10m width x 0.78m height x 0.50m depth, in metres, +Y up, +Z toward the user, origin at bottom centre. The real top board is 0.035m thick, with top at Y=0.78. Preserve the fixed support patch, knee clearance and front operation area from the functional contract. Use closed convex solid parts connected to the top/ground support network. Keep all structure out of the knee prism. Build four true structural designs with bounded editable frame width, solid materials, no textures, no animations and at most 2500 triangles, 32 meshes and four materials. Export deterministic self-contained GLB using pinned Three.js 0.187.0 and read the actual file back through GLTFLoader, support geometry and vanity solid checks. Design: Rectangular top supported by four legs with four solid metal caster bridges, twin fork plates and thick closed twelve-segment wheels with their axes along X. Fork plates intersect the actual wheel side volumes and bridges, and the lowest wheel edge is at ground Y=0.",
+        "sourceDesign": "mobile",
+        "method": "Original bounded boxes and closed 12-segment cylinders. Final source bounds are baked into Float32 vertices, with identity nodes. Actual GLTFLoader readback passes shared support and independent vanity solid/connection/knee checks.",
+        "limitations": [
+          "Static caster appearance. Repositioning uses the existing facility transform. No physical rolling, steering, braking or simulation state."
+        ]
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/vanity-table-v1/mobile/v1/model.glb",
+        "sha256": "c32340709fdcd4bddf9faa01ed650a0f56b778877cdde9bcd9e7180449a725fd",
+        "bytes": 47564
+      }
+    },
+    {
+      "id": "vanity-chair-side-entry",
+      "version": 1,
+      "category": "seat",
+      "mountRole": "vanity-chair-side-entry",
+      "provenance": {
+        "sourceCommit": "af47b6a7ff37d542bfb1b55247a923d7f98cf4a9",
+        "sourceFile": "prototype/src/main.js",
+        "extractedFile": "prototype/src/company/resources.json",
+        "sourceSha256": "9a55c30df1c4492e1e470b6b1e5e988b4f67024ac9979c85bfc4050437b7f22e",
+        "sourceResourceId": "chair",
+        "sourceNodeIds": [
+          "chair-seat",
+          "chair-back",
+          "chair-leg-1",
+          "chair-leg-2",
+          "chair-leg-3",
+          "chair-leg-4"
+        ],
+        "originalOrigin": [
+          0,
+          0,
+          0
+        ],
+        "method": "Existing project procedural geometry translated into a reusable local frame.",
+        "productionScope": "C1 procedural graybox. Independent C3 model production is unverified.",
+        "authoringAdaptation": "scripts/company-platform/library-inputs.json",
+        "functionalAdapter": {
+          "source": {
+            "id": "chair",
+            "version": 1,
+            "sha256": "87227189a8b4b82434794a3241e758494b1b94dea52fc564aea239d1cefb651d"
+          },
+          "input": "scripts/company-platform/library-inputs.json",
+          "scope": "Explicit approach/exit adaptation; same source geometry, not a new appearance."
+        }
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Ground centre of resource."
+      },
+      "node": {
+        "id": "chair-root",
+        "type": "group",
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "children": [
+          {
+            "id": "chair-seat",
+            "type": "mesh",
+            "position": [
+              0,
+              0.44,
+              0
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ],
+            "scale": [
+              1,
+              1,
+              1
+            ],
+            "geometry": {
+              "type": "BoxGeometry",
+              "parameters": [
+                0.55,
+                0.07,
+                0.5,
+                1,
+                1,
+                1
+              ]
+            },
+            "material": {
+              "type": "MeshStandardMaterial",
+              "color": "#c1b197",
+              "roughness": 0.85
+            },
+            "castShadow": true,
+            "receiveShadow": true
+          },
+          {
+            "id": "chair-back",
+            "type": "mesh",
+            "position": [
+              0,
+              0.73,
+              -0.22
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ],
+            "scale": [
+              1,
+              1,
+              1
+            ],
+            "geometry": {
+              "type": "BoxGeometry",
+              "parameters": [
+                0.55,
+                0.5,
+                0.07,
+                1,
+                1,
+                1
+              ]
+            },
+            "material": {
+              "type": "MeshStandardMaterial",
+              "color": "#cabda5",
+              "roughness": 0.85
+            },
+            "castShadow": true,
+            "receiveShadow": true
+          },
+          {
+            "id": "chair-leg-1",
+            "type": "mesh",
+            "position": [
+              -0.22,
+              0.21,
+              -0.19
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ],
+            "scale": [
+              1,
+              1,
+              1
+            ],
+            "geometry": {
+              "type": "BoxGeometry",
+              "parameters": [
+                0.035,
+                0.42,
+                0.035,
+                1,
+                1,
+                1
+              ]
+            },
+            "material": {
+              "type": "MeshStandardMaterial",
+              "color": "#a1aea0",
+              "roughness": 0.85
+            },
+            "castShadow": true,
+            "receiveShadow": true
+          },
+          {
+            "id": "chair-leg-2",
+            "type": "mesh",
+            "position": [
+              -0.22,
+              0.21,
+              0.19
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ],
+            "scale": [
+              1,
+              1,
+              1
+            ],
+            "geometry": {
+              "type": "BoxGeometry",
+              "parameters": [
+                0.035,
+                0.42,
+                0.035,
+                1,
+                1,
+                1
+              ]
+            },
+            "material": {
+              "type": "MeshStandardMaterial",
+              "color": "#a1aea0",
+              "roughness": 0.85
+            },
+            "castShadow": true,
+            "receiveShadow": true
+          },
+          {
+            "id": "chair-leg-3",
+            "type": "mesh",
+            "position": [
+              0.22,
+              0.21,
+              -0.19
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ],
+            "scale": [
+              1,
+              1,
+              1
+            ],
+            "geometry": {
+              "type": "BoxGeometry",
+              "parameters": [
+                0.035,
+                0.42,
+                0.035,
+                1,
+                1,
+                1
+              ]
+            },
+            "material": {
+              "type": "MeshStandardMaterial",
+              "color": "#a1aea0",
+              "roughness": 0.85
+            },
+            "castShadow": true,
+            "receiveShadow": true
+          },
+          {
+            "id": "chair-leg-4",
+            "type": "mesh",
+            "position": [
+              0.22,
+              0.21,
+              0.19
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ],
+            "scale": [
+              1,
+              1,
+              1
+            ],
+            "geometry": {
+              "type": "BoxGeometry",
+              "parameters": [
+                0.035,
+                0.42,
+                0.035,
+                1,
+                1,
+                1
+              ]
+            },
+            "material": {
+              "type": "MeshStandardMaterial",
+              "color": "#a1aea0",
+              "roughness": 0.85
+            },
+            "castShadow": true,
+            "receiveShadow": true
+          }
+        ]
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.275,
+          0.255
+        ],
+        "blocking": true
+      },
+      "usePoints": [
+        {
+          "id": "seat",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0,
+          "seatHeight": 0.47,
+          "seatNodeId": "chair-seat",
+          "backNodeId": "chair-back",
+          "capacity": 1,
+          "approach": [
+            -0.65,
+            0,
+            0
+          ],
+          "exit": [
+            0.65,
+            0,
+            0
+          ],
+          "clearance": {
+            "width": 0.7,
+            "depth": 0.65
+          },
+          "limits": [
+            "Static side-entry vanity reserve only; real body fitting, entry and sitting remain C3."
+          ]
+        }
+      ],
+      "stateDefaults": {},
+      "materialSlots": {
+        "chair-seat": [
+          "chair-seat"
+        ],
+        "chair-back": [
+          "chair-back"
+        ],
+        "chair-leg-1": [
+          "chair-leg-1"
+        ],
+        "chair-leg-2": [
+          "chair-leg-2"
+        ],
+        "chair-leg-3": [
+          "chair-leg-3"
+        ],
+        "chair-leg-4": [
+          "chair-leg-4"
+        ]
+      }
     }
   ]
 }

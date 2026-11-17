@@ -11,6 +11,8 @@ import {validateClockGeometry} from './clock-geometry.js';
 import {validateInformationResource} from './information-display.js';
 import {validateInformationGeometry} from './information-geometry.js';
 import {validateMirrorResource} from './mirror-data.js';
+import {validateVanityResource} from './vanity-data.js';
+import {validateVanityGeometry} from './vanity-geometry.js';
 import {validateMirrorGeometry} from './mirror-geometry.js';
 import {trackTexture,trackTextures} from './image-ownership.js';
 
@@ -31,6 +33,7 @@ function describe(resource) {
   validateClockResource(resource, (code, location, message) => { throw error(code, location, message); }, path);
   validateInformationResource(resource, (code, location, message) => { throw error(code, location, message); }, path);
   validateMirrorResource(resource, (code, location, message) => { throw error(code, location, message); }, path);
+  validateVanityResource(resource, (code, location, message) => { throw error(code, location, message); }, path);
   const asset = resource.asset;
   if (!asset || asset.format !== 'glb' || typeof asset.url !== 'string' || !asset.url.trim() ||
       !/^[a-fA-F0-9]{64}$/.test(asset.sha256 || '') || !Number.isSafeInteger(asset.bytes) || asset.bytes < 20)
@@ -160,6 +163,7 @@ function validateResource(pack, description) {
   validateInformationGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateMirrorGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateSupportGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
+  validateVanityGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   const movingGeometry=description.resource.movingParts?.[0]?.kind==='slide'?validateSlidingPartGeometry:validateMovingPartGeometry;
   movingGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   for (const target of description.targets) {

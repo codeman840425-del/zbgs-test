@@ -1,0 +1,83 @@
+{
+  "schema": "company-layout",
+  "version": 1,
+  "id": "review-company",
+  "name": "双工位公司",
+  "revision": 1,
+  "scale": "single-room",
+  "catalog": {
+    "id": "company-facilities",
+    "version": 1
+  },
+  "nodes": [
+    {
+      "id": "review-company/floor-1",
+      "kind": "floor",
+      "parentId": "review-company",
+      "name": "一层",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "review-company/room-1",
+      "kind": "room",
+      "parentId": "review-company/floor-1",
+      "name": "直播间",
+      "purpose": "streaming",
+      "bounds": {
+        "width": 6,
+        "depth": 6
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "vanity",
+      "kind": "facility",
+      "parentId": "review-company/room-1",
+      "resource": {
+        "id": "review-vanity",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          1.49
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "seat",
+      "kind": "facility",
+      "parentId": "review-company/room-1",
+      "resource": {
+        "id": "vanity-chair-side-entry",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0.02,
+          0,
+          2.04
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    }
+  ]
+}

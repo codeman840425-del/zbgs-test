@@ -1,0 +1,165 @@
+{
+  "scope": "CPU contract and placement only. review-vanity is an explicit data fixture with placeholder asset. No geometry, browser, actor or C3 claim.",
+  "command": "node evidence/company-vanity-contract-review-v1/probe.mjs",
+  "createdAt": "2026-11-17T07:56:12.779Z",
+  "beforeHashes": {
+    "docs/COMPANY-VANITY-TABLE-CONTRACT-v1.txt": "72baa52d7d3dbfc34ffed4150f6624d025df461439ea5a3f1482a8622ef3fa34",
+    "prototype/src/company/vanity-data.js": "c1ed19bf487a545acd9836ae4b5b8bba655a232ce499a4c5ba0bfce9850fb1e9",
+    "prototype/src/company/document.js": "28e0171756a5ac62ea640a281773bdb0941e87d0b09b98e891231d166486a53b",
+    "prototype/src/company/asset-library.js": "88f69f392571e01f7dac718882f3df0f4549b6fe60537312841c2b8ef60741d1",
+    "scripts/company-platform/build-library.mjs": "a9076880c31ae1f51f3333d9e220afce9af6560cd1dc1ca68e3878bbec76f44d",
+    "scripts/company-platform/library-inputs.json": "8450fc4ca65476cc727511892f30c4c2094fe7f76cc98268d1f18fadd5c59cfe",
+    "prototype/src/company/library-catalog.json": "b4214f6ffb38a43361c2504928f8da05e92d5102b004c25cfbfe9c62d88a25d0"
+  },
+  "afterHashes": {
+    "docs/COMPANY-VANITY-TABLE-CONTRACT-v1.txt": "72baa52d7d3dbfc34ffed4150f6624d025df461439ea5a3f1482a8622ef3fa34",
+    "prototype/src/company/vanity-data.js": "c1ed19bf487a545acd9836ae4b5b8bba655a232ce499a4c5ba0bfce9850fb1e9",
+    "prototype/src/company/document.js": "28e0171756a5ac62ea640a281773bdb0941e87d0b09b98e891231d166486a53b",
+    "prototype/src/company/asset-library.js": "88f69f392571e01f7dac718882f3df0f4549b6fe60537312841c2b8ef60741d1",
+    "scripts/company-platform/build-library.mjs": "a9076880c31ae1f51f3333d9e220afce9af6560cd1dc1ca68e3878bbec76f44d",
+    "scripts/company-platform/library-inputs.json": "8450fc4ca65476cc727511892f30c4c2094fe7f76cc98268d1f18fadd5c59cfe",
+    "prototype/src/company/library-catalog.json": "b4214f6ffb38a43361c2504928f8da05e92d5102b004c25cfbfe9c62d88a25d0"
+  },
+  "sourceChangedDuringRun": false,
+  "checks": [
+    {
+      "name": "side-entry adapter preserves old chair geometry, material slots and original use points",
+      "status": "passed",
+      "observed": {
+        "sourceIdentity": "chair@1",
+        "adapterIdentity": "vanity-chair-side-entry@1",
+        "sameGeometry": true,
+        "sourceDigestVerified": true
+      }
+    },
+    {
+      "name": "empty table and correctly paired chair derive and serialize/restore",
+      "status": "passed",
+      "observed": {
+        "emptyAllowed": true,
+        "pairAllowed": true
+      }
+    },
+    {
+      "name": "wrong chair position rejects atomically",
+      "status": "passed",
+      "observed": {
+        "code": "blocked-vanity-clearance",
+        "originalPreserved": true
+      }
+    },
+    {
+      "name": "wrong chair facing rejects atomically",
+      "status": "passed",
+      "observed": {
+        "code": "blocked-vanity-clearance",
+        "originalPreserved": true
+      }
+    },
+    {
+      "name": "orphan side-entry chair rejects",
+      "status": "passed",
+      "observed": {
+        "code": "unpaired-vanity-seat",
+        "originalPreserved": true
+      }
+    },
+    {
+      "name": "chair cannot be attached to table and implicitly follow a table-only move",
+      "status": "passed",
+      "observed": {
+        "rejected": true,
+        "code": "invalid-vanity-seat-parent",
+        "originalPreserved": true
+      }
+    },
+    {
+      "name": "second matching chair rejects",
+      "status": "passed",
+      "observed": {
+        "code": "overlapping-facilities",
+        "originalPreserved": true
+      }
+    },
+    {
+      "name": "ordinary chair cannot substitute adapter identity",
+      "status": "passed",
+      "observed": {
+        "code": "incompatible-replacement",
+        "originalPreserved": true
+      }
+    },
+    {
+      "name": "table-only move rejects and combined quarter turn succeeds atomically",
+      "status": "passed",
+      "observed": {
+        "rejected": {
+          "code": "unpaired-vanity-seat",
+          "originalPreserved": true
+        },
+        "combinedPairAllowed": true
+      }
+    },
+    {
+      "name": "front reserve outside own room rejects",
+      "status": "passed",
+      "observed": {
+        "code": "outside-vanity-clearance",
+        "originalPreserved": true
+      }
+    },
+    {
+      "name": "third-party same-floor blocking facility rejects",
+      "status": "passed",
+      "observed": {
+        "code": "blocked-vanity-clearance",
+        "originalPreserved": true
+      }
+    },
+    {
+      "name": "rotated room and table compose matching chair correctly",
+      "status": "passed",
+      "observed": {
+        "roomYaw": 1.5707963267948966,
+        "tableLocalYaw": 1.5707963267948966,
+        "pairVerified": true
+      }
+    },
+    {
+      "name": "same-floor facility from another room cannot intrude into reserve",
+      "status": "passed",
+      "observed": {
+        "code": "blocked-vanity-clearance",
+        "originalPreserved": true
+      }
+    },
+    {
+      "name": "same coordinates on another floor do not block reserve",
+      "status": "passed",
+      "observed": {
+        "otherFloorIgnored": true
+      }
+    },
+    {
+      "name": "complete side-entry pair passes existing conservative placement",
+      "status": "passed",
+      "observed": {
+        "checkedPoints": [
+          "seat#seat"
+        ],
+        "staticPlacementPassed": true
+      }
+    },
+    {
+      "name": "front reserve must exclude actual solid wall strip",
+      "status": "passed",
+      "observed": {
+        "rejected": true,
+        "code": "outside-vanity-clearance",
+        "originalPreserved": true
+      }
+    }
+  ],
+  "passed": 16,
+  "failed": 0
+}

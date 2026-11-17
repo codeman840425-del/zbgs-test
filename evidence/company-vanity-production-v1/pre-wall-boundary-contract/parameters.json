@@ -1,0 +1,173 @@
+{
+  "id": "company-vanity-table-v1",
+  "version": 1,
+  "license": "Project-authored original procedural geometry and solid-color materials. No external art or model input. Three.js 0.187.0 is MIT licensed, copyright 2010–2026 three.js authors. Preserve prototype/node_modules/three/LICENSE and the prototype lockfile in offline rebuilds.",
+  "common": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Bottom centre",
+    "envelope": {
+      "width": 1.1,
+      "height": 0.78,
+      "depth": 0.5
+    },
+    "boardThickness": 0.035,
+    "footprint": {
+      "center": [
+        0,
+        0
+      ],
+      "halfSize": [
+        0.55,
+        0.25
+      ],
+      "blocking": true
+    },
+    "supportSurfaces": [
+      {
+        "id": "top",
+        "center": [
+          0.02,
+          0
+        ],
+        "topY": 0.78,
+        "halfSize": [
+          0.4,
+          0.22
+        ],
+        "clearanceHeight": 0.65
+      }
+    ],
+    "supportNodes": {
+      "top": "vanity-top"
+    },
+    "clearance": {
+      "schema": "vanity-clearance-v1",
+      "knee": {
+        "min": [
+          -0.33,
+          0,
+          -0.12
+        ],
+        "max": [
+          0.37,
+          0.7,
+          0.25
+        ]
+      },
+      "front": {
+        "min": [
+          -1,
+          0.25
+        ],
+        "max": [
+          1,
+          1.5
+        ]
+      },
+      "seat": {
+        "mountRole": "vanity-chair-side-entry",
+        "position": [
+          0.02,
+          0,
+          0.55
+        ],
+        "yaw": 3.141592653589793
+      }
+    },
+    "promptStandard": "Purpose: original static vanity tables for the existing company room/floor installation and tabletop support chain. Each table stays within 1.10m width x 0.78m height x 0.50m depth, in metres, +Y up, +Z toward the user, origin at bottom centre. The real top board is 0.035m thick, with top at Y=0.78. Preserve the fixed support patch, knee clearance and front operation area from the functional contract. Use closed convex solid parts connected to the top/ground support network. Keep all structure out of the knee prism. Build four true structural designs with bounded editable frame width, solid materials, no textures, no animations and at most 2500 triangles, 32 meshes and four materials. Export deterministic self-contained GLB using pinned Three.js 0.187.0 and read the actual file back through GLTFLoader, support geometry and vanity solid checks."
+  },
+  "tables": [
+    {
+      "id": "plain",
+      "label": "单台化妆台",
+      "color": "#667d78",
+      "frameWidth": 0.055,
+      "prompt": "Full rectangular wooden top, four slender painted square legs and a solid rear brace, with an open knee area.",
+      "limitations": [
+        "Static tabletop facility. No makeup mirror, light or storage mechanism."
+      ]
+    },
+    {
+      "id": "drawer-style",
+      "label": "抽屉式化妆台（固定闭合）",
+      "color": "#927b9e",
+      "frameWidth": 0.05,
+      "prompt": "Full rectangular top with a narrow left cabinet, three real fixed closed front panels and projecting metal handles, and two right legs. The cabinet stays entirely left of the knee prism.",
+      "limitations": [
+        "Fixed closed drawer-style exterior. The panels and handles have solid geometry. There is no drawer opening or dynamic storage state."
+      ]
+    },
+    {
+      "id": "corner",
+      "label": "转角化妆台",
+      "color": "#8b6c50",
+      "frameWidth": 0.055,
+      "prompt": "A true L-shaped top assembled from a main rectangle X[-0.40,0.55] and rear-left wing X[-0.55,-0.40], Z[-0.25,0], both 0.035m thick and joined by a real side face. Preserve the 0.15 x 0.25m front-left notch. The wing has a rear-left grounded leg and the main board has a left-front leg and two right legs.",
+      "limitations": [
+        "The real front-left top notch remains empty. The shared layout footprint conservatively covers the full outer rectangle."
+      ]
+    },
+    {
+      "id": "mobile",
+      "label": "移动化妆台（静态脚轮）",
+      "color": "#6c839b",
+      "frameWidth": 0.045,
+      "wheelRadius": 0.045,
+      "wheelWidth": 0.035,
+      "wheelSegments": 12,
+      "prompt": "Rectangular top supported by four legs with four solid metal caster bridges, twin fork plates and thick closed twelve-segment wheels with their axes along X. Fork plates intersect the actual wheel side volumes and bridges, and the lowest wheel edge is at ground Y=0.",
+      "limitations": [
+        "Static caster appearance. Repositioning uses the existing facility transform. No physical rolling, steering, braking or simulation state."
+      ]
+    }
+  ],
+  "editableRanges": {
+    "tables[0..2].frameWidth": {
+      "min": 0.045,
+      "max": 0.065,
+      "units": "metres"
+    },
+    "tables[3].frameWidth": {
+      "min": 0.04,
+      "max": 0.055,
+      "units": "metres"
+    },
+    "effect": "Rebuilds the corresponding real leg cross sections without changing the fixed installation, support or clearance contract. All outputs must pass the same actual-geometry admission gate."
+  },
+  "dependencyPins": {
+    "functionalContract": {
+      "path": "docs/COMPANY-VANITY-TABLE-CONTRACT-v1.txt",
+      "sha256": "ca1e2347b91d19be42943f93bb88cdf1180b430bf203d59664836cb1d1cabee1"
+    },
+    "preflight": {
+      "path": "docs/research/COMPANY-VANITY-TABLE-PREFLIGHT-2026-11-16.txt",
+      "sha256": "316e24c4eb3df6e5789f221ae4c2a6304a116dc2e2992fb6ec342968c0475220"
+    },
+    "lockfile": {
+      "path": "prototype/package-lock.json",
+      "sha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7"
+    },
+    "threePackage": {
+      "path": "prototype/node_modules/three/package.json",
+      "sha256": "87f2c99a8718e5fdd6f5e51427fde52c6075f2f698ddf8f7b4e162882df93940"
+    },
+    "threeModule": {
+      "path": "prototype/node_modules/three/build/three.module.js",
+      "sha256": "104f56145899722094556490d787aae0617cc2fc3382f31df02d724ea1aee341"
+    },
+    "gltfExporter": {
+      "path": "prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+      "sha256": "569793baeba62baeb4ab0b3619b6b1495b45d4b2ba9690430497adb58307bdf2"
+    },
+    "gltfLoader": {
+      "path": "prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+      "sha256": "532ac726e120039acbcd6cf54328c57acbf7b438176afaa6951257126d11bff1"
+    },
+    "threeLicense": {
+      "path": "prototype/node_modules/three/LICENSE",
+      "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+    }
+  }
+}

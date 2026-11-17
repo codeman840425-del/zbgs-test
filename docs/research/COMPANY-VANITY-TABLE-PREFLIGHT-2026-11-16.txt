@@ -1,0 +1,120 @@
+公司平台化妆台有界预检
+2026-11-16。本次读取完整长目标v3、化妆台及相邻分支、现有承载/安装/使用点/换款/保存实现，并核官方一手资料。本文提供下一包候选输入。具体尺寸、四款网格、留空检查、两布局和恢复结果均须在实际制作包建立证据。当前工程HEAD为9fb09fe2b11c722469b74628a7de0c59dee4019d，工作树仍有当前落地镜包增量，本文不将HEAD等同下一包固定构建身份。
+
+一、范围与需求依据
+
+完整长目标v3的C1-A第11组包含化妆/更衣与主题直播。C1-B要求实际依附承载、使用空间与通路、共同实例变换。C1-C要求每个确认分支至少四款真实兼容外观、可编辑源修改后重导出、第二输入复用及保存关闭恢复。v3明确把化妆动作与真实角色接触留给C3集中联调。下一有界主包建议完成vanity-table的静态台体、桌面承载和使用留空，围绕该主包复用已验子物与座椅。
+
+branches.json中的vanity-table为confirmed，父类room.floor，mount floor-surface，候选尺寸1.10×.78×.50m，verification仍为pending，state为static。必需机制为桌面承载、镜/收纳父子关系和使用留空。四款名称为单台化妆台、抽屉化妆台、转角化妆台、移动化妆台。相邻makeup-mirror、makeup-mirror-wall及makeup-storage具有各自的反射、局部照明、多法向/开合或抽屉关系，必须在各自包中保留实际验收项。
+
+本包四款采用相同静态功能合同。抽屉式款的登记和观看入口标明固定闭合外观，真实抽拉需要活动托盘、容纳腔、滑轨、行程状态、运动阻挡与恢复证据。现有sliding-drawer柜体为.9×1.2×.55m、行程.32m，直接缩放或改高会改变其已验合同。应复用制作和校验方法，为真正的化妆台抽屉另定适配合同。移动式款提供真实轮架/脚轮几何，重新布置沿现有move变换操作，滚动、转向、刹车或物理运动须有对应机制证据。
+
+二、已核可复用工程与实际缺口
+
+support-data.js已经检查supportSurfaces/supportNodes、support-surface子物的完整四分之一转向包络、底部高度、净空和同父子物之间三维重叠。子物通过parentId指向台体，attachment.surfaceId指向声明承载面。父子局部变换、移动、单件兼容替换、preload/prepare/commit、保存依赖pin和失败保旧可沿现有链复用。
+
+support-geometry.js读取实际GLB三角，要求命名承载网格有两个朝上的矩形共面顶面三角，四角和共享对角线完整，真实板覆盖声明可用区。它检查上方净空、实际底部接地，并使用1mm位置容差。现有检查尚需补台体闭合厚度、各支承实体连接和台下膝部留空。总AABB和最低点不足以证明腿连到桌板，也不足以证明L形台面或膝部空间。
+
+document.js的floor-surface准入要求直接room/area父级、底部y=0、四分之一yaw、完整安装包络在区域墙内留距。blocking footprint进入同层障碍，placement.js已有半径.25m、.20m四邻域网格、门口和使用点接近/离开检查。这些为静态保守准入，真实角色体型和运动适配需C3证据。
+
+appearance-contract.js已经把mount、mounting、footprint、supportSurfaces、resource.clearance、状态与使用点纳入功能比较。supportNodes和材料映射仍为显示适配。四款应固定共同承载面和留空合同，分别保有真实网格。改变承载面ID、位置、尺寸、净空或脚下阻挡属于功能变化，需要显式重布置或升级。
+
+render.js会把每个usePoints条目绑定到真实seatNodeId和backNodeId，缺任一座面/靠背网格即拒绝。因此建议台体usePoints保持空数组，真实座椅复用独立chair资源及其已验使用点。台下和台前留空以窄的台体合同校验，后续C3从配对座椅接入，避免把桌面误绑定为座椅接触。
+
+另有两处组合接缝须在开包前明确。当前floor-surface只允许直接room/area父级，放入assembly/workstation会在安装校验拒绝。expandStation也不会把模板中的attachment复制给support-surface部件。首包可用可读配方创建直接挂room的台体和椅子，台面子物直接挂台体，整套变更通过显式同事务操作表达。整套复制由配方重新分配所有ID并保留父子关系。后续若要求通用group/template嵌套，需要一份明确的安装/attachment适配增量和回归证据。
+
+三、尺寸候选与四款共用功能
+
+建议维持分支给出的1.10m宽、.78m高和.50m深，底部中心原点，米制、+Y上、+Z朝使用者，静态设施不使用实例缩放。IKEA官方MALM化妆台尺寸为1.20×.41×.78m，可作为本候选桌高与家具量级的实物参照。本项目的宽深、承载区和留空数值来自工程适配候选，须由实际样件和布局核验。产品网页仅作尺寸参考，建模采用项目原创参数。来源 https://www.ikea.gr/en/products/malm-dressing-table-120x41x78-cm/70620346/
+
+建议候选公共字段如下，最终数值由新合同锁定。
+
+category                      decor
+mountRole / productionBranch   vanity-table
+mount                         floor-surface
+mounting                      {origin:'bottom',width:1.1,height:.78,depth:.5}
+coordinates                   metres / +Y / +Z / bottom centre / identity instance scale
+footprint                     {center:[0,0],halfSize:[.55,.25],blocking:true}
+supportSurfaces               [{id:'top',center:[.02,0],topY:.78,halfSize:[.40,.22],clearanceHeight:.65}]
+supportNodes                  {top:'vanity-top'}
+stateDefaults                 {}
+usePoints                     []
+
+共同可用承载区为X[-.38,.42]、Z[-.22,.22]，顶高.78，上方净空至1.43m。完整实体顶板厚度候选.035，底面y=.745。单台、抽屉式和移动式可用1.10×.50m整板。转角款的vanity-top使用X[-.40,.55]、Z[-.25,.25]的完整右侧矩形主板，在后左增加X[-.55,-.40]、Z[-.25,0]的独立同高实体翼板，实际顶面构成L轮廓，前左保留.15×.25m凹缺。承载映射仍落在真实矩形主板，共同可用区完整落在该板上。翼板与主板有真实正面积侧面连接，顶面不重叠，以避免共面闪烁。
+
+承载区的X偏移.02m是四款共用的技术候选，为L形外轮廓保留实际凹缺，同时容纳相邻分支的候选子物。按branch原候选包络计算，未来.70×.60×.08m化妆镜可放在台面局部[.02,.78,-.15]，占Z[-.19,-.11]。未来.45×.25×.25m收纳可放[.02,.78,.075]，占Z[-.05,.20]。两者完整包络均在可用区内，Z不重叠，镜高.60也小于.65净空。这是预留尺寸计算，实际化妆镜、收纳、反射和照明仍由对应资源包验证。
+
+四、使用留空的最小新增合同
+
+建议把以下候选留空放入已经参与功能比较的resource.clearance，并为vanity-table做精确字段校验。该语义当前尚未实现，应作为本包明确增量，不能把已有support clearanceHeight当成完成证据。
+
+- 台下膝部净空取X[-.33,.37]、Y[0,.70]、Z[-.12,.25]。所有腿、柜、横撑、把手及脚轮都应实际避开其内部。桌板底.745与膝部顶.70之间有.045m空间。侧柜可放左侧X[-.55,-.40]，右腿靠X=.50，后横撑放Z约-.23。该盒为代表性的制作/适配空间，真实男女膝腿、手臂与镜前姿态由C3验证。
+- 台前静态操作区取X[-.38,.42]、Z[.25,1.50]，地面平面按台体实例变换。建议配对椅子中心在台体局部[.02,0,.55]，yaw与台体相同。现有chair坐高.47、footprint半尺寸[.275,.255]，接近点与离开点分别在椅子局部+Z的.60/.65m。坐席、接近/离开点及.25m静态半径均能放入该区域，具体布局仍走现有网格与门口准入。
+- 台前区域允许一把处于上述约定相对位姿且功能合规的配对chair，其他阻挡家具不得侵入。该配对可从最终实例变换和chair功能合同确定，若后来需要用户选择多坐席或可调椅距，应另设有版本的对应规则。移动台体与椅子采用同一显式事务，避免单件移动后留下错误配对。单独台体可作为静态家具使用。
+
+几何检查建议沿现有CPU GLTFLoader链增加一个仅针对vanity-table的有界校验器。完整顶板、侧柜、支腿、翼板和轮架检查闭合、厚度、完整面和正向体积，再核实际面/体接触及地面接触。膝部区域使用真实三角或已核实闭合简单实体的相交检查，保留凹缺和空腔。支承连接与留空各给独立结果。非法几何不能仅靠声明clearance、total bounds或一个落地装饰点通过。
+
+布局检查在inspectCompanyPlacement沿现有最终世界变换处理台前区域、配对椅与第三方阻挡，继续检查入口/门户连通。清晰区分静态台体留空和正式角色使用点，实际占用、动作、坐起、手部接触、拿取及化妆任务由角色系统负责。
+
+五、四款真实兼容外观与制作输入
+
+四款共同保持上述完整安装、footprint、承载区、留空及空状态合同。建议每款有可辨的真实结构，支持面位置固定。
+
+- 单台款采用完整矩形桌板、四根细腿和后横撑，实际腿接到桌板，前方与膝部保持通畅。
+- 抽屉式款采用完整矩形桌板、左侧窄柜体和右侧腿架，固定闭合面板、把手和柜体层次形成真实造型差异。登记显示固定闭合，状态保持空。真实抽拉将需要相应活动合同与四款兼容数量验收。
+- 转角款采用上述真实L顶面、后左翼板支承和右侧腿架，保留前左凹缺。完整保守footprint仍为1.10×.50m，导航可以保守覆盖凹缺，几何展示和可用承载区必须按真实网格核验。
+- 移动款采用矩形桌板、实体轮架和四个有厚度脚轮。脚轮实际接地，轮架接腿、腿接台面，所有部件位于共同包络内。轮体与支架应在X两侧，后横撑避开膝部区域。
+
+统一制作输入应含用途、固定尺寸、米制与基点朝向、安装/阻挡、supportSurfaces/supportNodes、膝部和前方留空、状态/限制、材质槽、网格预算、来源许可和版本。差异参数可记录腿截面、固定柜体宽度、框条宽度、翼板宽度、轮径/轮架厚度。受限参数变化须过同一功能合同。真实尺寸变化可在允许区内，但共同安装、承载与留空不能随普通换款漂移。
+
+建议产物沿既有目录习惯组织为assets-source/company-vanity-table-v1/parameters.json、scripts/company-platform/build-vanity-table.mjs和prototype/public/company-assets/vanity-table-v1/{plain,drawer-style,corner,mobile}/v1/{model.glb,resource.json}，集合company-vanity-table-v1，资源前缀vanity-table-。这些路径为候选，当前尚无该包资源。
+
+生产器复用build-support-collection.mjs中的参数/材质/GLTFExporter结构，采用最近镜面生产已核的main入口保护、导入无写入和无evidence独立--check模式。实体顶点直接按最终源参数边界烘入Float32，接触界面用相同最终坐标，避免先四舍五入半尺寸再平移产生微小缝隙。至少修改一款腿/框/轮架的允许源参数，实际重新导出并登记新模型，另三款GLB应逐字节相同。重复导出、真实GLTFLoader回读、源/合同/生成器/依赖hash及失败快照形成闭环。
+
+首轮预算候选为每台≤2500三角、≤32个mesh、≤4个材质，静态台体使用现有标准材质。首样可采用纯几何与实体色，模型差异由结构体现。此预算为制作准入候选，代表场景仍需记录实际calls/triangles、提交耗时和反复切换资源释放，普通电脑结论须有相应设备证据。
+
+六、最小双输入、状态和恢复验收
+
+输入A可用7×5.25m单房，台体候选位置[-1,0,-1.3]、yaw=0，椅子按上述局部位姿换算为room内独立设施。输入B用两间房和明确门户，第二台位于另一房间，候选局部位置[1,0,-1]、yaw=π/2。两输入复用同一生产、登记、配方和公司apply/load入口，布局先经过区域边界、门口、使用空间与静态连通实检。
+
+首包承载实际样件可复用tabletop-ornament四款和digital-clock-shelf已验资源。数字钟候选位置为台体局部[.02,.78,-.15]，其.50×.18×.06m完整安装包络在共同承载区与净空内。两件.16×.20×.12m小物可放在局部X=-.20/.22、Z=.08，完整包络互不重叠。它们为承载和状态试件，登记仍使用原有用途名称。
+
+- 四台体逐款真实加载、兼容换款，保持台体ID/父级/最终变换、承载子物ID及局部变换。分别检查同一可用面实际接触、膝部净空、前方椅子/通路、真实接地与结构相连。
+- 将数字钟设为非默认的timeOffsetSeconds、on和brightness，经台体换款与两输入保留。台体自身stateDefaults始终为空，未知开合/移动状态明确拒绝。固定闭合面板不登记为动态抽屉。
+- 父台移动与90度转向带动台面子物，配对椅子的世界变换由同事务明确更新。第二配方生成独立台体、椅子和子物ID，单件状态变化不得串用。复制、修改和删除须保留正确父子依赖。
+- 每款保存并完全关闭浏览器进程重开，核公司最终配置、台体款式、父子关系、子物非默认状态及坐席数据，重新加载相应资源。两房/两实例采用不同款式或不同钟状态证明身份隔离。
+- 真实坏板、缺脚/悬空支承、腿/柜/轮侵入膝部、上方净空被占、伪造支持面、错误surfaceId、子物悬浮/越界/超高/互重叠、台前第三方阻挡、堵门和不兼容替换应走既有事务拒绝，保持原文档、场景和已保存字节。相应非法输入应有可定位原因。
+- 固定源码独立检出、完整参数/GLB/合同/许可/锁文件打包，离线重建并沿实际公司目录加载。观看入口提供四款、两输入和限制，录像为同版本正常1×。台体接入现有公司预览的外观样件、布局和钟状态控件，发布身份与视觉接受分别记录。
+
+化妆镜生产后，仍需用其真实底座、反射/局部灯光/开关和保存测试填入该父子链。makeup-storage生产后，仍需验证其静态或开合合同、承载/抽屉关系和相应状态。当前留出尺寸和使用已验小物能先完成本台体主包的承载与父子入口，不能给相邻分支提前记完成。
+
+七、一手实现、输入输出与许可
+
+Three Object3D的局部位置、局部矩阵和matrixWorld随父子层级计算，适合现有台体与台面子物的输入关系。接入差异集中在新台体资源和静态留空数据，不需另建角色树或家具变换系统。官方资料 https://threejs.org/docs/pages/Object3D.html
+
+Three BoxGeometry以给定宽高深创建轴对齐居中长方体，修改parameters对象不会自动修改既有几何。生产应消费源参数重新创建网格并导出。L形台面可由两个有厚度的相接矩形实体组成，承载映射选择其中完整主板。官方资料 https://threejs.org/docs/pages/BoxGeometry.html
+
+GLTFExporter.parseAsync消费Three场景/对象和binary选项，产出二进制GLB。实际回读继续用本地锁定0.187.0 GLTFLoader，真实网格核验沿既有asset-library路径，运行使用静态缓存的独立实例克隆。官方资料 https://threejs.org/docs/pages/GLTFExporter.html
+
+当前Three.js LICENSE为MIT，版权2010–2026 three.js authors。本地离线源、导出依赖和移交包保留其版权及许可文本。新台体选择项目原创参数化几何，无需下载第三方家具模型或图片。厂商尺寸页面用于工程量级参考，其照片、CAD或模型若将来成为素材输入，需单独核对应使用许可。官方许可 https://github.com/mrdoob/three.js/blob/r187/LICENSE
+
+已核本地入口还包括scripts/company-platform/build-support-collection.mjs、build-sliding-drawer.mjs、build-floor-mirror.mjs，assets-source/company-support-collection-v1/parameters.json，以及prototype/src/company/{support-data,support-geometry,appearance-contract,document,placement,asset-library,render,use-point-data,support-samples}.js。核心事实均可直接从这些文件复核。
+
+八、恢复与尝试预算
+
+下一包开始先锁新合同和两输入，再制作单台/转角两件核心样件，优先验证矩形承载面与真实L形顶面共用一份功能合同，以及膝部和台前留空。核心实际GLB回读与坏例拒绝通过后完成固定闭合抽屉式、轮架式两款。制作和独立几何/布局审查可按独立文件并行，集成与用户路径由当前包负责人统一处理。
+
+尝试预算为一次有依据实现，加一轮按真实失败根因修正。保留首轮源、输入、失败网格和原因。两轮同因没有新证据或改善时先重定位，保持功能、几何、状态和恢复标准。已验承载、数字钟和座椅仅按本包受影响范围回归，不将通过次数或厂商尺寸参照作为真实使用结论。
+
+本文核对时的本地关键身份如下。后续开包应重新核当前合同/实现身份，再写入实际生产pin。
+
+v3全文 SHA256 3c60b745d9979f76e4d07a6ba913d5093372ab9aca039cc1fc5ef3fb152fc071
+branches.json SHA256 7a8b42af3adca66c6ba735d0b6dcd96230249df3adeaacc48c4f1180d11ba499
+COMPANY-SUPPORT-SURFACE-CONTRACT-v1.txt SHA256 97cd43c11e3a37b0cd03f11ceae295d5f6e1539f540c888076a1fd85d8d26aca
+support-data.js SHA256 0bab087323796e5ccba452f5d0b0a45adc5db99190224c17e2dc4960b95aa67c
+support-geometry.js SHA256 132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68
+document.js SHA256 0560c89956bf61d6b571d5adae02d8a6bf91fb3ca6a578f4c2a68b2c10bc34e4
+render.js SHA256 80154841816556726d2eed6fd4d864fbe96d7699feacb19d170528480bd52a16
+appearance-contract.js SHA256 964ac37f150a86d46824bb35fe4e7c2bb568c70ebdee7e6679f393704757e5e7
+placement.js SHA256 c2eabbc9376d39f69f3783c5663ba4816e0a32b2d05ef0b17d393262b46b0145
+Three LICENSE SHA256 8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc

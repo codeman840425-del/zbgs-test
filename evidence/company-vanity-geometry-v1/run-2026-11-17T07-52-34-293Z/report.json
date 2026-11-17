@@ -1,0 +1,414 @@
+{
+  "status": "failed",
+  "generatedAt": "2026-11-17T07:52:34.306Z",
+  "source": {
+    "geometrySha256": "a3497f6bfced5ccb5ff014a32931f4bbbf9e6dacfe7ec55009e164fa473eae8e",
+    "qaSha256": "307e7113c4c29b376fbba89b4b03ae251fbba54dcf957af22cd97aae582d26f6",
+    "contractSha256": "ca1e2347b91d19be42943f93bb88cdf1180b430bf203d59664836cb1d1cabee1"
+  },
+  "collectionPath": "F:\\gamemake-company-platform-c1\\prototype\\public\\company-assets\\vanity-table-v1\\collection.json",
+  "checks": [
+    {
+      "name": "closed convex four-leg table with real positive-area contacts",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "meshCount": 5,
+        "triangleCount": 60,
+        "materials": 1,
+        "components": [
+          {
+            "id": "vanity-top#0",
+            "volume": 0.019249982059001525,
+            "triangles": 12
+          },
+          {
+            "id": "leg--0.5--0.2#1",
+            "volume": 0.0011919995141029829,
+            "triangles": 12
+          },
+          {
+            "id": "leg--0.5-0.2#2",
+            "volume": 0.0011919995141029829,
+            "triangles": 12
+          },
+          {
+            "id": "leg-0.5--0.2#3",
+            "volume": 0.0011919995141029829,
+            "triangles": 12
+          },
+          {
+            "id": "leg-0.5-0.2#4",
+            "volume": 0.0011919995141029829,
+            "triangles": 12
+          }
+        ],
+        "connections": [
+          {
+            "a": "vanity-top#0",
+            "b": "leg--0.5--0.2#1",
+            "kind": "face",
+            "area": 0.0015999993324280481
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "leg--0.5-0.2#2",
+            "kind": "face",
+            "area": 0.0015999993324280481
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "leg-0.5--0.2#3",
+            "kind": "face",
+            "area": 0.0015999993324280481
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "leg-0.5-0.2#4",
+            "kind": "face",
+            "area": 0.0015999993324280481
+          }
+        ],
+        "grounded": [
+          "leg--0.5--0.2#1",
+          "leg--0.5-0.2#2",
+          "leg-0.5--0.2#3",
+          "leg-0.5-0.2#4"
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "weldMetres": 1e-7,
+          "minimumThicknessMetres": 0.00001,
+          "contactAreaSquareMetres": 1e-8,
+          "positiveVolumeCubicMetres": 1e-12
+        },
+        "limitation": "Static convex connectivity and clearance only. Character use and physical tipping stability require separate validation."
+      },
+      "support": {
+        "checked": true,
+        "surfaces": [
+          {
+            "mesh": "vanity-top",
+            "triangles": 2,
+            "area": 0.550000011920929,
+            "topY": 0.78
+          }
+        ],
+        "bottomY": -2.38418573772492e-9
+      }
+    },
+    {
+      "name": "validation uses resource scene coordinates under transformed root",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "meshCount": 5,
+        "triangleCount": 60,
+        "materials": 1,
+        "components": [
+          {
+            "id": "vanity-top#0",
+            "volume": 0.019249982059001528,
+            "triangles": 12
+          },
+          {
+            "id": "leg--0.5--0.2#1",
+            "volume": 0.0011919995141029835,
+            "triangles": 12
+          },
+          {
+            "id": "leg--0.5-0.2#2",
+            "volume": 0.0011919995141029835,
+            "triangles": 12
+          },
+          {
+            "id": "leg-0.5--0.2#3",
+            "volume": 0.0011919995141029835,
+            "triangles": 12
+          },
+          {
+            "id": "leg-0.5-0.2#4",
+            "volume": 0.0011919995141029835,
+            "triangles": 12
+          }
+        ],
+        "connections": [
+          {
+            "a": "vanity-top#0",
+            "b": "leg--0.5--0.2#1",
+            "kind": "face",
+            "area": 0.0015999993324280464
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "leg--0.5-0.2#2",
+            "kind": "face",
+            "area": 0.0015999993324280486
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "leg-0.5--0.2#3",
+            "kind": "face",
+            "area": 0.001599999332428046
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "leg-0.5-0.2#4",
+            "kind": "face",
+            "area": 0.001599999332428047
+          }
+        ],
+        "grounded": [
+          "leg--0.5--0.2#1",
+          "leg--0.5-0.2#2",
+          "leg-0.5--0.2#3",
+          "leg-0.5-0.2#4"
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "weldMetres": 1e-7,
+          "minimumThicknessMetres": 0.00001,
+          "contactAreaSquareMetres": 1e-8,
+          "positiveVolumeCubicMetres": 1e-12
+        },
+        "limitation": "Static convex connectivity and clearance only. Character use and physical tipping stability require separate validation."
+      },
+      "support": {
+        "checked": true,
+        "surfaces": [
+          {
+            "mesh": "vanity-top",
+            "triangles": 2,
+            "area": 0.5500000119209291,
+            "topY": 0.78
+          }
+        ],
+        "bottomY": -2.384185524423321e-9
+      }
+    },
+    {
+      "name": "actual nested static meshes remain supported",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "meshCount": 5,
+        "triangleCount": 60,
+        "materials": 1,
+        "components": [
+          {
+            "id": "vanity-top#0",
+            "volume": 0.019249982059001525,
+            "triangles": 12
+          },
+          {
+            "id": "leg--0.5--0.2#1",
+            "volume": 0.0011919995141029829,
+            "triangles": 12
+          },
+          {
+            "id": "leg--0.5-0.2#2",
+            "volume": 0.0011919995141029829,
+            "triangles": 12
+          },
+          {
+            "id": "leg-0.5--0.2#3",
+            "volume": 0.0011919995141029829,
+            "triangles": 12
+          },
+          {
+            "id": "leg-0.5-0.2#4",
+            "volume": 0.0011919995141029829,
+            "triangles": 12
+          }
+        ],
+        "connections": [
+          {
+            "a": "vanity-top#0",
+            "b": "leg--0.5--0.2#1",
+            "kind": "face",
+            "area": 0.0015999993324280481
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "leg--0.5-0.2#2",
+            "kind": "face",
+            "area": 0.0015999993324280481
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "leg-0.5--0.2#3",
+            "kind": "face",
+            "area": 0.0015999993324280481
+          },
+          {
+            "a": "vanity-top#0",
+            "b": "leg-0.5-0.2#4",
+            "kind": "face",
+            "area": 0.0015999993324280481
+          }
+        ],
+        "grounded": [
+          "leg--0.5--0.2#1",
+          "leg--0.5-0.2#2",
+          "leg-0.5--0.2#3",
+          "leg-0.5-0.2#4"
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "weldMetres": 1e-7,
+          "minimumThicknessMetres": 0.00001,
+          "contactAreaSquareMetres": 1e-8,
+          "positiveVolumeCubicMetres": 1e-12
+        },
+        "limitation": "Static convex connectivity and clearance only. Character use and physical tipping stability require separate validation."
+      },
+      "support": {
+        "checked": true,
+        "surfaces": [
+          {
+            "mesh": "vanity-top",
+            "triangles": 2,
+            "area": 0.550000011920929,
+            "topY": 0.78
+          }
+        ],
+        "bottomY": -2.38418573772492e-9
+      }
+    },
+    {
+      "name": "real L-top with positive-area wing interface",
+      "passed": true,
+      "observed": {
+        "checked": true,
+        "meshCount": 5,
+        "triangleCount": 60,
+        "materials": 1,
+        "components": [
+          {
+            "id": "leg--0.5--0.2#0",
+            "volume": 0.0011919995141029829,
+            "triangles": 12
+          },
+          {
+            "id": "leg-0.5--0.2#1",
+            "volume": 0.0011919995141029829,
+            "triangles": 12
+          },
+          {
+            "id": "leg-0.5-0.2#2",
+            "volume": 0.0011919995141029829,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-top#3",
+            "volume": 0.016624984458088576,
+            "triangles": 12
+          },
+          {
+            "id": "vanity-wing#4",
+            "volume": 0.0013124988004564742,
+            "triangles": 12
+          }
+        ],
+        "connections": [
+          {
+            "a": "leg--0.5--0.2#0",
+            "b": "vanity-wing#4",
+            "kind": "face",
+            "area": 0.0015999993324280481
+          },
+          {
+            "a": "leg-0.5--0.2#1",
+            "b": "vanity-top#3",
+            "kind": "face",
+            "area": 0.0015999993324280481
+          },
+          {
+            "a": "leg-0.5-0.2#2",
+            "b": "vanity-top#3",
+            "kind": "face",
+            "area": 0.0015999993324280481
+          },
+          {
+            "a": "vanity-top#3",
+            "b": "vanity-wing#4",
+            "kind": "face",
+            "area": 0.008749991655349731
+          }
+        ],
+        "grounded": [
+          "leg--0.5--0.2#0",
+          "leg-0.5--0.2#1",
+          "leg-0.5-0.2#2"
+        ],
+        "tolerances": {
+          "positionMetres": 0.000001,
+          "weldMetres": 1e-7,
+          "minimumThicknessMetres": 0.00001,
+          "contactAreaSquareMetres": 1e-8,
+          "positiveVolumeCubicMetres": 1e-12
+        },
+        "limitation": "Static convex connectivity and clearance only. Character use and physical tipping stability require separate validation."
+      },
+      "support": {
+        "checked": true,
+        "surfaces": [
+          {
+            "mesh": "vanity-top",
+            "triangles": 2,
+            "area": 0.4750000089406967,
+            "topY": 0.78
+          }
+        ],
+        "bottomY": -2.38418573772492e-9
+      }
+    },
+    {
+      "name": "synthetic / missing real board",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-top",
+        "path": "resource",
+        "message": "vanity-top must name exactly one connected closed board"
+      }
+    },
+    {
+      "name": "synthetic / real board missing triangle",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-open-or-inconsistent",
+        "path": "scene.vanity-top",
+        "message": "Every welded edge must have exactly two oppositely directed face uses"
+      }
+    },
+    {
+      "name": "synthetic / floating leg despite other grounded legs",
+      "passed": true,
+      "rejected": {
+        "code": "vanity-detached-component",
+        "path": "resource",
+        "message": "Every actual connected component must join the table board through real face or volume contact",
+        "details": {
+          "detached": [
+            "leg--0.5--0.2#1"
+          ]
+        }
+      }
+    }
+  ],
+  "realAssets": [],
+  "failure": {
+    "message": "synthetic / one mesh contains hidden floating closed block expected vanity-detached-component, received vanity-top: vanity-top must name exactly one connected closed board",
+    "code": "ERR_ASSERTION",
+    "stack": "AssertionError [ERR_ASSERTION]: synthetic / one mesh contains hidden floating closed block expected vanity-detached-component, received vanity-top: vanity-top must name exactly one connected closed board\n    at reject (file:///F:/gamemake-company-platform-c1/scripts/company-platform/qa-vanity-geometry.mjs:64:3)\n    at file:///F:/gamemake-company-platform-c1/scripts/company-platform/qa-vanity-geometry.mjs:118:84"
+  },
+  "realAssetsPending": false,
+  "limits": [
+    "CPU validation of closed convex static components, including multiple independent closed shells merged into one mesh. No arbitrary concave or articulated bodies.",
+    "Coordinate weld 1e-7m, geometric boundary 1e-6m, triangle area 1e-10m², face-contact area >1e-8m², positive-volume intersection >1e-12m³, resolved thickness >1e-5m. Features below these bounds are unresolved.",
+    "Ground requires at least two actual boundary vertices separated by more than 1e-5m at y=0 within 1e-6m. This supports faceted wheel line contact and rejects isolated point contact.",
+    "Connectivity measures clipped real surface area or real convex intersection volume. Knee clearance uses complete convex SAT axes. Total bounds are used only for the installation envelope and early separation.",
+    "The existing support validator independently verifies the actual rectangular bearing face and clearance for every passing vanity fixture and production GLB.",
+    "Static geometric connectivity does not prove physical stability, ordinary-computer performance, character sitting/reaching, browser save/reopen or C3 acceptance."
+  ]
+}
