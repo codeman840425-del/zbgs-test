@@ -54,5 +54,113 @@ export const MICROPHONE_PRESENTATION_FITS = {
       0.24
     ],
     "transitionRate": 10
+  },
+  "843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef": {
+    "id": "native-microphone-use-female-843ac-v1",
+    "bodySha256": "843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef",
+    "microphoneSha256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c",
+    "anchorSourceSha256": "855c91f2cdca8ba8f992c3d41300b5a6b9203a1b223b80540638522d7ca1a79f",
+    "mouthRawHeadLocal": [
+      2.6157606051125043e-06,
+      -0.0005837714187284931,
+      0.09605047155296037
+    ],
+    "capsuleLocal": [
+      4.649162388403738e-09,
+      0.14799999818205833,
+      -3.874301990336448e-09
+    ],
+    "speakingTipOffset": [
+      -0.035,
+      -0.055,
+      0.09
+    ],
+    "carryWristChestOffset": [
+      -0.22,
+      -0.18,
+      0.24
+    ],
+    "transitionRate": 10
+  },
+  "cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce": {
+    "id": "native-microphone-use-female-face-cc0843-v1",
+    "bodySha256": "cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce",
+    "microphoneSha256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c",
+    "anchorSourceSha256": "40c0fc09fb3a7ecff3301a550963de129f969a9fc422466245a5a3db17ac1678",
+    "mouthRawHeadLocal": [
+      2.6157606051125043e-06,
+      -0.0005837714187284931,
+      0.09605047155296037
+    ],
+    "capsuleLocal": [
+      4.649162388403738e-09,
+      0.14799999818205833,
+      -3.874301990336448e-09
+    ],
+    "speakingTipOffset": [
+      -0.035,
+      -0.055,
+      0.09
+    ],
+    "carryWristChestOffset": [
+      -0.22,
+      -0.18,
+      0.24
+    ],
+    "transitionRate": 10
+  },
+  "cf1574b243b3eb1d5803928598f62809c30938bde67154d3956d346f39fa1ed5": {
+    "id": "native-microphone-use-female-waist-cf1574-v1",
+    "bodySha256": "cf1574b243b3eb1d5803928598f62809c30938bde67154d3956d346f39fa1ed5",
+    "microphoneSha256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c",
+    "anchorSourceSha256": "71ee638ce2c85d12c7bf3afabde932a9dab0cf567ecc98d22ae54c464b6e6a3a",
+    "mouthRawHeadLocal": [
+      2.6157606051125043e-06,
+      -0.0005837714187284931,
+      0.09605047155296037
+    ],
+    "capsuleLocal": [
+      4.649162388403738e-09,
+      0.14799999818205833,
+      -3.874301990336448e-09
+    ],
+    "speakingTipOffset": [
+      -0.035,
+      -0.055,
+      0.09
+    ],
+    "carryWristChestOffset": [
+      -0.22,
+      -0.18,
+      0.24
+    ],
+    "transitionRate": 10
+  },
+  "7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81": {
+    "id": "native-microphone-use-male-7586-v1",
+    "bodySha256": "7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81",
+    "microphoneSha256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c",
+    "anchorSourceSha256": "041396c646c7406f675ee20e63254f666448768cbd23f9a16125cc7fc104cf84",
+    "mouthRawHeadLocal": [
+      -2.7708357309873596e-06,
+      -0.01022866860677428,
+      0.08841032302878936
+    ],
+    "capsuleLocal": [
+      4.649162388403738e-09,
+      0.14799999818205833,
+      -3.874301990336448e-09
+    ],
+    "speakingTipOffset": [
+      -0.035,
+      -0.055,
+      0.09
+    ],
+    "carryWristChestOffset": [
+      -0.22,
+      -0.18,
+      0.24
+    ],
+    "transitionRate": 10
   }
 };

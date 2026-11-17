@@ -1,0 +1,14 @@
+{
+  "schema": "native-motion-target-v1",
+  "version": 2,
+  "revision": "generated-v2",
+  "sourceMotion": "analysis/rokoko-pilot-archive-v1/vendor-output/5359146-frames0000-0719-1080p-end30.fbx",
+  "sourceFormat": "Rokoko FBX, 30 seconds, source rest-world positions in authoring centimetres",
+  "targets": ["native-female-843ac-v1", "native-female-face-v1", "native-female-waist-v1", "native-male-7586-v1"],
+  "conversion": "one source rest-world conversion into three-vrm-3.5.5 normalized-local-absolute tracks; the measured facing correction is applied to hips displacement and every world quaternion delta",
+  "output": "generated-v2/<target>/motion.json and target-rig.json",
+  "sourceSampleRule": "sample FBX at 1/30 for the first held sample, then every 1/30 through 899/30 and repeat the final sample at 30s",
+  "unitRule": "source hips rest is 94.00000000000125 authoring units; each target uses measured target rest hip and configured shoe floor to derive metres-per-source-unit",
+  "runtimeAdmission": false,
+  "limitations": ["No browser playback, floor/contact, garment, expression, visual, or game acceptance was run", "The archived motion remains unchanged", "Exact avatar SHA and footwear SHA are embedded in each normalized clip"]
+}
