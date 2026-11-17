@@ -12,7 +12,9 @@
 
 层间修复是资产适配和装备依赖，未改6个共用动作控制器。源m2-vest-layer-fit-v1+body-coverage-v1，publisher新增13文件；真实top/pants身份和fit/mask精确绑定。原女错误bottom编号已在4771fd58修正，原失败留history。运行独审m2-vest-layer-runtime-review-v1：附加目录/依赖/普通race通过；发现旧childadded同步dispose漏洞并在71081be修，长期回归scripts/qa-equipment-attach-dispose.mjs，修前后失败/成功均保。publication独审已合1de8595e。普通电脑未测，f82的开发机短测不冒认目标机。
 
-头部方法：整身cage已封存失败，不能重跑。head-only源62f80c7c的正式strict预检仍拒绝；独审判口内纳米pair数值边界不确定。经明确隔离的diagnostic-only入口，原8请求一次批次现已完成且8/8均failed：负det、实际半宽误差11.56–47.17mm和新增strict表达pair。没有生产准入/游戏发布。asset_budget正封存隔离树F:/gamemake-representative-head-cage的diagnostic-v1源与产物。独立读回已确认8/8控制笼Y链反序、6/8宽度符号翻转、控制位移0.713–2.483m，单位/重复body叠加未见错误。现有202个地标未证完全锁死与target直接矛盾。完整response未落盘，故condition尚未知。已授权asset封存后仅一次逐性别2mm响应提取（无新角色/衣物输出），http独审源与子空间，batch核官方SciPy约束求解和必要可行性接口。禁止扫参、改门或将诊断变生产；先用实际矩阵判共同结构可行性，再定是否值得下一次形状尝试。
+头部方法：整身cage与head-only原8失败已封存（head主树4a0a52c0/独审908bc74c）；正式strict门仍拒绝，没有生产/游戏准入。完整response已一次提取并合820fbd28：原男女各27个2mmprobe、完整606×27响应，4.27s/RSS232.57MB、identity前后0、跨轴0。root用它回算原8失败coeff，最大逐坐标差1.069–9.248µm，仅原202附着点；evidence/m2-head-response-linearity-v1。原八LP已合afae69eb/b094d9af，8/8 HiGHS status2(proxy-infeasible)，无primal/t/解残差，不造数据。这只是固定线性代理，不推所有非线性几何无解，也不再调原ridge/cap。
+
+新根因与当前唯一窄包：domain-audit确认原内嵌Tops_01_CLOTH袖点被Head.all_endpoints纳入，将bbox宽撑至女.54977/男.59887m；实际引用Body_SKIN+Face_SKIN+FaceMouth（含brow）端点加原20mm为.20820/.21252m。最初tuple成员判断误报unused已被推翻，实际索引全覆盖，不按误判删数据。root授权asset在独立m2-head-cage-skin-domain-v1仅修bounds的语义输入，不改原weights/保护/27controls/请求/body/原失败实现；逐全部morph identity与必要域覆盖后只取一次两性响应，无新角色/衣物。batch薄复用原LP，对新的确切响应做同条件原8必要可行性一次，目录m2-head-cage-skin-domain-feasibility-v1；未知结果不预设成功。无证据不再批产形状；正式det/表达/实际半宽门保持。
 
 动作自适应已完成方法调研research/MOTION-CONTACT-ADAPTATION-OPTIONS-2026-11-16.md（R2ET/Mink/CAMR源码/许可/限制）。Mink只是离线小试优先候选，未安装求解器/未完成VRM往返/无通用避碰通过；不插入本八体包准入，不重开封存舞。新机制必须先核可复用官方/原作者实现及实际输入输出再小试。
 
@@ -26,8 +28,8 @@ Phaser+Three+VRM保留；女性封板裙和30秒舞不再精修。普通电脑�
 
 ## 恢复与协作边界
 
-- 当前有界代理：asset_budget与http_transport_review均复用已明确请求gpt-6.1-sol/high，前者封存一次head诊断，后者独审共同失败原因；batch_v2_readback已完成房间审图，现只读核官方约束求解选项。真实provider配置和桌面hook拦截未独立核验，不冒认。
-- 单GPU/录像/编码/重导出窗口当前空闲。f82六片、公开烟测和第二独立构建已结束，不因压缩恢复而重录。CPU文档/源码诊断可并行；没有根因依据不再触发head导出。
-- 下一项：完成本轮固定候选证据和远备；收head-only失败封存与独审，选有证据的下一窄包，持续推进完整M2。M2未完，不进入M3。
+- 当前有界代理均复用已明确请求gpt-6.1-sol/high：asset_budget准备/执行一次skin-domain响应，batch_v2_readback等待精确新输入并准备一次同条件LP；http_transport_review已完成域独审。真实provider配置和桌面hook拦截未独立核验。
+- 单GPU/录像/编码/重导出窗口预留asset；root公开按钮补验已结束。不要因压缩恢复重跑f82六片/独立重建或原head响应/八LP。新的两性响应与LP在各自包中最多一次，先看真实回执。
+- 下一项：收新域响应/同条件LP，判此共同源域修正是否值得实际形状候选；没有可行证据就不八体导出。f82原按钮、全链、配方、376文件重建和公开视频播放已验；普通电脑、人类连续视觉与部分衣形限制保持。最新已核远备d3d7f8a5（失败源/研究），后续820/b094和本轮root脚本证据待备。M2未完，不进入M3。
 - 固定交付按exact commit独立检出；录像与构建身份保持，旧failed不改标。只stage明确路径，不git add -A。公司平台副总工独立交付，未核的CAP-INCREMENT不当本角色集成通过。
 - docs/HANDOFF.md为恢复规则；完整范围见现行v2，生产索引scripts/production/和assets-source保输入/工具/许可/失败，不以目录存在当通过。
