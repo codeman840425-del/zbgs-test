@@ -30,3 +30,5 @@
 同一批两份记录已由实际 D02 CLI 创建，固定构建 `bda6fd250bb8`（source `48bb9f5d4ac34d7ee8704f7912c850cef02e3418`）在共用游戏消费者中完成双实例加载、持麦/眼镜、房间走路→坐下→起身→离开、关闭重开恢复及状态隔离；正常速度影片与 1× 近景保留于 `evidence/m2-native-batch-runtime-final-v1`、`evidence/m2-native-batch-live-v1`。这只是两份女性 FaceContour 配方的技术候选，不能外推到任意身体/衣物/颜色/发型；动作自然度和普通电脑性能仍需分别验收。
 
 当前主卡点已从“每件模型手工接线”收敛为：不同几何/表情/发型/衣物仍需要按差分触发对应 fit 和覆盖复核；原生身体目前仅登记原色，眼睛/表情兼容尚未扩展到新 SHA；新增配方链已自动化，但生产结果必须经过共用运行链和记录恢复才可入库。4196 固定工作台仍保持 build1084ddeae27a，本候选尚未替换固定入口。
+
+2026-11-17 4196 fixed入口更新：`delivery/appearance-workbench.json` 当前指向技术候选 build `bda6fd250bb8`、source `1b643d7e53491296fc75c721dd1224d9b3a2d233`，目录 `experiments/native-parameter-runtime-final/prototype/dist`；旧1084指针已归档为 `delivery/history/appearance-workbench-1084ddeae27a-before-native-batch.json`。4196 当前服务进程已核实监听；该入口是待人工观看的技术候选，不代表 M2 或视觉验收完成。
