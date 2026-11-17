@@ -11,6 +11,18 @@
 <h1>原生角色制作对照</h1>
 <p>在游戏房间里查看制作结果。男女原生候选已接入共用人物流程、独立换装和外观保存恢复；每组录像保留录制时的构建身份。</p>
 <section>
+<h2>原生发型制作参考</h2>
+<p>同一男性基模应用作者提供的长直发，保存、重新打开并导出后，放入游戏房间比较。这里检查制作与播放机制，长直发不是已确定的男性造型方向。</p>
+<div class="pair">
+<figure><figcaption>原发型 · 面部近景</figcaption><img data-hair-reference="original/inspect-face-front.png" alt="原生男性原发型近景" loading="lazy"></figure>
+<figure><figcaption>作者长直发 · 面部近景</figcaption><img data-hair-reference="hairset001/inspect-face-front.png" alt="同一基模应用作者长直发后的近景" loading="lazy"></figure>
+<figure><figcaption>原发型 · 房间行走 1 倍速</figcaption><video controls playsinline preload="none" data-native-chain="native-hair-reference-5db-v2/original/normal1x.webm" aria-label="原生原发型房间行走参考"></video></figure>
+<figure><figcaption>作者长直发 · 房间行走 1 倍速</figcaption><video controls playsinline preload="none" data-native-chain="native-hair-reference-5db-v2/hairset001/normal1x.webm" aria-label="原生长直发房间行走参考"></video></figure>
+</div>
+<p class="note">两段参考录像构建5db2cd1ed50d，各约12秒。它们显示完整原生导出模型，由房间角色的同一套骨姿和模拟时钟驱动；不代表独立换发已通过。</p>
+<p class="tag">保留问题：近景发尾与肩部、上衣存在局部接触。动态自然度、家具接触与普通电脑性能尚未通过。</p>
+</section>
+<section>
 <h2>男女原生候选 · 当前制作流程回读</h2>
 <p>两段均为同一房间的正常速度录像，包括换装恢复、行走、坐起和离开家具后的短舞。可以全屏观看；新基模的细节接触和动作自然度仍待验收。</p>
 <div class="pair">
@@ -80,6 +92,7 @@ const base=new URL('/evidence/vroid-expression-study-v1/',location.href);base.po
 const url=path=>new URL(path,base).href;
 const chainBase=new URL('/evidence/',location.href);chainBase.port='4174';
 document.querySelectorAll('[data-native-chain]').forEach(video=>{video.src=new URL(video.dataset.nativeChain,chainBase).href;video.addEventListener('play',()=>{video.playbackRate=1;});});
+document.querySelectorAll('[data-hair-reference]').forEach(img=>{img.src=new URL('native-hair-reference-5db-v2/'+img.dataset.hairReference,chainBase).href;});
 const equipmentBase=new URL('/evidence/native-vroid-equipment-runtime-v1/room-compare-v5/run-1/',location.href);equipmentBase.port='4174';
 const factoryVideo=new URL('/evidence/native-factory-room-7871-v2/native-factory-chain-1x.webm',location.href);factoryVideo.port='4174';
 const factoryPlayer=document.querySelector('[data-factory-video]');factoryPlayer.src=factoryVideo.href;factoryPlayer.addEventListener('play',()=>{factoryPlayer.playbackRate=1;});

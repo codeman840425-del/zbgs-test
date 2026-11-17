@@ -1,0 +1,27 @@
+{
+  "baseline": {
+    "maximumAllPoseDifferenceM": 0.0004687755580165623,
+    "maximumOfficialDynamicDifferenceM": 0.0004687755580165623
+  },
+  "source-refresh": {
+    "maximumAllPoseDifferenceM": 2.0183475960220235e-15,
+    "maximumOfficialDynamicDifferenceM": 2.0183475960220235e-15
+  },
+  "nonrecursive": {
+    "maximumAllPoseDifferenceM": 0.06408908424018148,
+    "maximumOfficialDynamicDifferenceM": 0.004896992784437647
+  },
+  "runtime-frame-probe": {
+    "maximumDynamicM": 0.5740548690491056,
+    "maximumProxyMatrixElementError": 0.39225725527716304
+  },
+  "runtime-dirty-probe": {
+    "maximumDynamicM": 1.9215600145140428e-15,
+    "maximumProxyMatrixElementError": 6.661338147750939e-16
+  },
+  "causes": [
+    "Asset recursive proxy refresh vs full-source nonrecursive official spring prephase: same-phase source recursive refresh removes difference.",
+    "Runtime manual proxy matrix writes do not dirty matrixWorld in Three0.187; forced proxy-only world refresh removes frame accumulation."
+  ],
+  "scope": "Diagnostic interventions only; old failed source and runtime reports retained. No production, physics, asset or threshold changes."
+}

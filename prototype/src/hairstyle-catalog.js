@@ -4,6 +4,18 @@ import presetPonytail from '../public/assets/m2-preset-ponytail-fits-v1/catalog.
 import presetShortHair from '../public/assets/m2-preset-short-hair-fits-v1/catalog.json' with {type:'json'};
 // Exact body + resource + fit admissions; no motion-controller branches.
 export const HAIRSTYLES = [
+  {
+    id:'native-male-hairset001-v1',label:'原生长直发 · 独立动态验证',
+    manifestUrl:'/assets/native-hairset001-v1/manifest.json',
+    manifestSha256:'7e74eebe4d634eae8b2455715899d53e4ba25a677fc0f3de8841a1a4c5766046',
+    assetSha256:'cfa965e68d4f11ca1a93096edb43f5b7657862f10c40b9d88f5b0fd404ae5a02',
+    sourceBodySha256:'dab423674f42d3e6e79eb1b8aa1375e5b664e11bf130d093c14f78c5d3967238',
+    sourceMaterials:['N00_000_00_HairBack_00_HAIR (Instance)','N00_000_Hair_00_HAIR (Instance)'],
+    compatibleBodies:['7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81'],
+    legacyImplicitFit:false,
+    fit:{id:'native-male-hairset001-7586-fit-v1',version:1,url:'/assets/native-hairset001-v1/fit.json',
+      sha256:'c4b5f72aca522712256578cc30928ee80453945728e84e50411bed9954b0fb79'},
+  },
   ...revisedShortHair,
   ...revisedPonytail,
   ...presetShortHair,

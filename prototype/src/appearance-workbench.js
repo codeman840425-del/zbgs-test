@@ -363,7 +363,7 @@ export function bindAppearanceWorkbench({ controller }) {
       eye.disabled ? '此人物瞳色暂不可用。' : '瞳色调整虹膜，保留瞳孔与高光。',
       lip.disabled ? '此人物唇色暂不可用。' : '唇色可独立选择。',
     ].join('');
-    note.textContent = actual.bodyMode==='base' ? (actual.effectiveHairStyle==='none'?'基础人体当前无发；返回穿衣模式后恢复所选发型。':'此候选的基础模式保留原发型与皮肤材质，用于检查卸衣后的真实身体。') : previewSupport ? '原生接入候选：目前检查原外观与独立换装。发型替换及配色尚待此基模验证。' : unavailable.length ? '标注“待适配”的发型已有素材，但尚未验证当前脸型或身体；可用项可直接选择。' : '当前列出的发型可用于此样件；无发保留眉毛与睫毛。';
+    note.textContent = actual.bodyMode==='base' ? (actual.effectiveHairStyle==='none'?'基础人体当前无发；返回穿衣模式后恢复所选发型。':'此候选的基础模式保留当前发型与皮肤材质，用于检查卸衣后的真实身体。') : previewSupport ? (options.some(option=>!['original','none'].includes(option.id))?'原生发型替换为技术验证候选；配色仍未适配。可切回原发型对照。':'原生接入候选：目前检查原外观与独立换装。发型替换及配色尚待此基模验证。') : unavailable.length ? '标注“待适配”的发型已有素材，但尚未验证当前脸型或身体；可用项可直接选择。' : '当前列出的发型可用于此样件；无发保留眉毛与睫毛。';
     const geometry=actor().facialGeometry?.getState();
     mouth.disabled=!geometry?.available;mouth.value=String(Math.round((geometry?.mouthWidth||0)*1000)/10);
     const discrete=Array.isArray(geometry?.mouthSupportedValues);

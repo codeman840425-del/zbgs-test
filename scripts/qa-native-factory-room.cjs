@@ -1,7 +1,7 @@
 // Fixed-build, actual room/factory smoke. No overlay or alternate motion driver.
 const {chromium}=require('../prototype/node_modules/playwright');
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
-const [directory,output,bodyType='native-female-843ac-v1']=process.argv.slice(2);
+const [directory,output,bodyType='native-female-843ac-v1',hairStyle='original']=process.argv.slice(2);
 if(!directory||!output)throw Error('Pass fixed dist and new evidence directory');
 const subjects={
  'native-female-843ac-v1':{sha:'843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef',alternate:3},
@@ -27,11 +27,25 @@ const subject=subjects[bodyType];if(!subject)throw Error('Unknown exact factory 
   const context=await browser.newContext({viewport:{width:1440,height:1000}});page=await context.newPage();
   page.on('pageerror',e=>report.errors.push(String(e)));
   page.on('console',m=>{if(m.type()==='error')report.errors.push(m.text());});
-  await page.goto(`http://127.0.0.1:${server.address().port}/?body=${bodyType}`);
+  await page.goto(`http://127.0.0.1:${server.address().port}/?body=${bodyType}${hairStyle!=='original'?'&workbench=appearance':''}`);
   await page.waitForFunction(()=>__debug.ready||document.querySelector('#loading strong')?.textContent==='角色加载失败',null,{timeout:60000});
   const ready=await page.evaluate(()=>({ready:__debug.ready,error:document.querySelector('#loading')?.textContent}));
   assert(ready.ready,ready.error);
   assert.equal(await page.evaluate(()=>__debug.buildInfo.shortId),identity.shortId);
+  if(hairStyle!=='original'){
+   await page.evaluate(()=>__debug.setPaused(true));
+   const style=await page.evaluate(id=>__debug.queryAppearanceCandidates().appearance.hairStyle.choices.find(c=>c.value===id),hairStyle);
+   assert(style?.assetSha256,'Hair style not admitted for this exact body');report.hairCandidate=style;
+   await page.locator('#appearance-hair-style').selectOption(hairStyle);
+   await page.waitForFunction(id=>__debug.avatar().appearance.getState().hairStyle===id&&!__debug.avatar().appearance.getState().loading,hairStyle,{timeout:60000});
+   assert.equal(await page.evaluate(()=>__debug.avatar().appearance.getState().replacementSHA256),style.assetSha256);
+   const stable=await page.evaluate(()=>__debug.exportAppearanceRecipe());
+   const failure=await page.evaluate(async text=>{const r=JSON.parse(text);r.hairFit.sha256='0'.repeat(64);try{await __debug.importAppearanceRecipe(JSON.stringify(r));return false;}catch{return true;}},stable);
+   assert(failure);assert.equal(await page.evaluate(()=>__debug.exportAppearanceRecipe()),stable);
+   await page.evaluate(async id=>{await Promise.all([__debug.avatar().appearance.set({hairStyle:'original'}),__debug.avatar().appearance.set({hairStyle:id})]);},hairStyle);
+   assert.equal(await page.evaluate(()=>__debug.avatar().appearance.getState().hairStyle),hairStyle);
+   report.hairRejectedFitPreservesLook=true;report.hairRapidSwitchLatestWins=true;
+  }
   const read=()=>page.evaluate(()=>({body:__debug.avatar().profile.sha256,debug:__debug.avatar().getDebugState(),appearance:__debug.avatar().appearance.getState(),outfit:__debug.avatar().getOutfitInfo(),snapshot:__debug.snapshot()}));
   await page.evaluate(()=>{__debug.setPaused(true);__debug.camera('inspect-full-front');});
   report.states.push({name:'dressed',...(await read())});
@@ -41,7 +55,7 @@ const subject=subjects[bodyType];if(!subject)throw Error('Unknown exact factory 
   await page.evaluate(()=>__debug.setBodyMode('base'));
   report.states.push({name:'base',...(await read())});
   assert.equal(report.states[1].outfit.equipment.bodyTextureCoverage.covered,false);
-  assert.equal(report.states[1].appearance.effectiveHairStyle,'original');
+  assert.equal(report.states[1].appearance.effectiveHairStyle,hairStyle);
   const nativeMaterials=await page.evaluate(()=>{let names=[];__debug.avatar().vrm.scene.traverse(o=>{if(o.isMesh)for(const m of Array.isArray(o.material)?o.material:[o.material])if(/Body.*SKIN/.test(m.name))names.push({name:m.name,mtoon:!!m.isMToonMaterial,alpha:m.alphaTest});});return names;});
   assert(nativeMaterials.length&&nativeMaterials.every(m=>m.mtoon&&m.alpha===.5));report.baseMaterials=nativeMaterials;
   await page.screenshot({path:path.join(out,'base.png')});
@@ -62,6 +76,7 @@ const subject=subjects[bodyType];if(!subject)throw Error('Unknown exact factory 
   assert.equal((await page.evaluate(text=>__debug.importAppearanceRecipe(text),recipe)).applied,true);
   const reread=await page.evaluate(()=>__debug.exportAppearanceRecipe());
   assert.deepEqual(JSON.parse(reread),JSON.parse(recipe));
+  if(hairStyle!=='original')assert.equal(JSON.parse(reread).appearance.hairStyle,hairStyle);
   report.recipe={bytes:Buffer.byteLength(recipe),exactParsedRestore:true};
   report.states.push({name:'recipeRestored',...(await read())});
   // A new page must restore the complete recorded outfit without in-memory

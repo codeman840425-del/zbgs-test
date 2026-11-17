@@ -1,5 +1,6 @@
 import { HAIRSTYLES } from './hairstyle-catalog.js';
 import { validateHairSpringConfig } from './hair-spring.js';
+import { validateNativeHairFit } from './native-hair-attachment.js';
 
 export function hairEntry(body, style) {
   const entries = HAIRSTYLES.filter(e => e.id === style && e.compatibleBodies.includes(body));
@@ -28,6 +29,7 @@ export function validateHairSelection(body, style, options = {}) {
   return entry;
 }
 export function validateHairFitData(fit, entry, body, manifest) {
+  if(fit?.schema==='character-hair-fit-v3')return validateNativeHairFit(fit,entry,body,manifest);
   const a = fit?.attachment;
   const rigid=fit?.schema==='character-hair-fit-v1'&&fit.physics==='rigid'&&manifest.physics==='rigid';
   const spring=fit?.schema==='character-hair-fit-v2'&&fit.physics==='vrm-spring'&&manifest.physics==='vrm-spring'&&manifest.skinned===true;

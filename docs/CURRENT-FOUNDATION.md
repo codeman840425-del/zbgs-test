@@ -45,3 +45,5 @@
 - 原生颜色准入缺口已确认：UI禁用不代表query/调用会拒绝。最小共同source策略已实现，5db真实浏览器验证两新源query/直接set/导入拒绝且原色恢复成功；旧女四配色与reset实际解码/WebGL入口过。不放开未验配色。
 - 原生发型native-vroid-hairset-study-v1已封，root109文件SHA核过；VRMdab42367、.vroidfd027844，5组38束，新增59skin骨/12spring，原12非发面和57morph语义等价。尚未游戏/动态/性能验收，下一工作包为同房间原/新真实观察和独立发型接缝验证，不继承旧fit；现loader的单sourceMaterial+克隆源材质合同不能直接承接新2材质/138骨发型。准备与源码核查在assets-source/native-vroid-appearance-producer-v1（包含一次texture layer不可编辑partial失败）。
 - native-production页面补193b男女1倍速与隔离失败片，已随5db发布；三段媒体解码与1倍速实际播放检查通过。当前源码5db只修准入与展示，不将193b动作证据改为5db。
+
+- 当前独立发型接缝源码/CPU/独审已封：native-hair-attachment-runtime-v11、native-hair-v3-independent-v1，生产3文件a19e/fab97/b9af。原生2材质/59动态骨独立包已stage；正在从确切提交建native-hair-fixed-v1并做真实换发、原源同镜头、完整动作和关页恢复。未替4196，未声称视觉或家具接触通过。源23文件hash已核，所有失败保留；下一独立准备为原生配色生产入口只读核查，不抢Studio/GPU。

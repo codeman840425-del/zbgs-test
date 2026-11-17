@@ -7,6 +7,7 @@ import { NO_HAIR_BODIES } from './no-hair-bodies.js';
 import { hairFitIdentity, validateHairSelection, validateHairFitData } from './hair-fit-contract.js';
 import { createHairSpring, validateHairSkin, validateHairEnvironmentColliders } from './hair-spring.js';
 import { assertAppearanceColorSelection } from './appearance-color-policy.js';
+import { loadNativeHairAttachment } from './native-hair-attachment.js';
 
 export const HAIR_COLORS = { original: null, black: '#343139', brown: '#805039', blonde: '#dab77a' };
 // Presets inspected under the actual room's warm key light and ACES exposure.
@@ -49,7 +50,7 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
     if(!same)environmentColliders=validateHairEnvironmentColliders(proxies).slice();
     for(const value of replacements.values()){
       if(disposed)break;
-      value.dynamics?.setEnvironmentColliders(environmentColliders);
+      value.dynamics?.setEnvironmentColliders?.(environmentColliders);
     }
   }
 
@@ -109,7 +110,7 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
   }
   function applyColors() {
     for (const m of hair) tintHair(m, originals.get(m));
-    for (const value of replacements.values()) value.scene.traverse(mesh => {
+    for (const value of replacements.values()) if(!value.native)value.scene.traverse(mesh => {
       if (mesh.isMesh) for (const m of materialsOf(mesh)) tintHair(m, value.materialBase.get(m));
     });
     for (const m of skin) {
@@ -120,6 +121,7 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
   }
   function releaseReplacement(value) {
     if (!value) return;
+    if(value.native){value.dispose();return;}
     value.dynamics?.dispose();
     value.scene.removeFromParent();
     const skeletons=new Set();value.scene.traverse(mesh=>{if(mesh.isSkinnedMesh)skeletons.add(mesh.skeleton);});
@@ -136,6 +138,19 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
   }
   async function loadReplacement(entry) {
     const manifest = await pinnedJson(entry.manifestUrl,entry.manifestSha256);
+    if(manifest.schema==='character-hairstyle-v2') {
+      if(!entry.fit)throw Error('原生发型缺少独立版型');
+      const fit=await pinnedJson(entry.fit.url,entry.fit.sha256);
+      validateHairFitData(fit,entry,avatarSha256,manifest);
+      const hidden=fit.hideOriginal.materialNames;
+      if(!hairMeshes.length||mixedHairMesh||hairMeshes.some(({mesh})=>materialsOf(mesh).some(m=>!hidden.includes(m.name.replace(/ \(Outline\)$/,'')))))
+        throw Error('原生发型原网格隐藏范围不匹配');
+      const response=await fetch(manifest.url);
+      if(!response.ok)throw Error(`发型资源加载失败 (${response.status})`);
+      const bytes=await response.arrayBuffer();
+      if(await digest(bytes)!==entry.assetSha256)throw Error('原生发型资源身份不一致');
+      return loadNativeHairAttachment({vrm,bytes,url:manifest.url,fit,sha256:entry.assetSha256,hairFit:hairFitIdentity(entry)});
+    }
     if (manifest.schema !== 'character-hairstyle-v1' || manifest.id !== entry.id ||
         manifest.mount !== 'head' || manifest.headLocal !== true || !['rigid','vrm-spring'].includes(manifest.physics) ||
         manifest.sha256 !== entry.assetSha256 || manifest.sourceMaterial !== entry.sourceMaterial ||
@@ -233,7 +248,9 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
         if (!replacementPromises.has(desiredStyle)) replacementPromises.set(desiredStyle, loadReplacement(admittedStyles.find(entry => entry.id === desiredStyle)).then(value => {
           if (disposed) { releaseReplacement(value); return null; }
           try {
-            value.scene.visible = false;vrm.humanoid.getRawBoneNode('head').add(value.scene);
+            value.scene.visible = false;
+            if(value.native)value.attach();
+            else vrm.humanoid.getRawBoneNode('head').add(value.scene);
             if(disposed){releaseReplacement(value);return null;}
             if(value.springConfig)value.dynamics=createHairSpring({vrm,scene:value.scene,config:value.springConfig,environmentColliders});
             value.dynamics?.reset();

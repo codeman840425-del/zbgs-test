@@ -398,3 +398,5 @@ head-only一次诊断原8请求已完成，8/8 diagnostic-failed，正式生产�
 2026-11-17原生颜色准入修复：ca6d1360/build5db2cd1ed50d已发布4196。原生两源UI/query/recipe/实际set&prepare共用精确source策略，只允许original；8组CPU、独立4反例及真实浏览器两源拒绝保原/原色配方恢复通过，旧女性四配色实际加载/恢复通过。未知SHA沿旧兼容行为不证明任意新源配色支持。证据native-color-admission-v1、native-color-admission-independent-v1、native-workbench-5db-v1。native-production补193b男女及失败边界录像，保各自录制身份；新发型/配色制作尚未游戏准入。
 
 2026-11-17作者原生发型样件：native-vroid-hairset-study-v1已对固定男性c936b应用唯一免费HairSet001，保存/重开/VRM1导出warnings空并恢复编辑器进入状态。真实5组38束、VRMdab42367新增59skin发骨/12spring，原12非发primitive和57morph语义数据等价；root逐核109文件SHA。两次纹理层not-editable查询失败保留。尚未游戏显示/动态/性能/独立装备验证，不能记为新发型可用；源素材许可不扩大。下一步先复用共用loader作同房间真实观察，独立发型仍需多材质/原生骨链适配，不能塞入旧刚性单材质合同。
+
+2026-11-17原生独立发型接缝：HairSet001已提取为仅两个HAIR网格的1,587,516B独立GLB，保原2 MToon/7图/59动态骨/12spring，15身体代理以原Root为中心；没有第二完整人物。source23文件hash逐核，确定性重建及误源拒绝通过。native-hair-attachment-runtime-v11与native-hair-v3-independent-v1在固定a19e/fab97/b9af源码下同相36步全引用顶点误差约1.92e-15m，动画中加载/过期prepared/双实例/私有资源释放通过。真实0.574m失败来自代理matrix写入未置matrixWorldNeedsUpdate，已修；源夹具0.468mm时相失败独立保留。5db整模型参考有12秒1×片且长直发局部接肩，不能作为独立装备视觉通过。当前新接缝尚待独立固定构建、实际材质与动作/冷恢复；只适配男7586、原色，不含家具碰撞或普通机性能结论。

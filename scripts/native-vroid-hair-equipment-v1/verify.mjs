@@ -1,0 +1,170 @@
+// Official native plugins/solver, source and target raw-frame CPU equivalence.
+import fs from 'node:fs/promises';
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import * as T from '../../prototype/node_modules/three/build/three.module.js';
+import { GLTFLoader } from '../../prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js';
+import { VRMLoaderPlugin, MToonMaterialLoaderPlugin, VRMSpringBoneLoaderPlugin, VRMUtils } from '../../prototype/node_modules/@pixiv/three-vrm/lib/three-vrm.module.js';
+const root = new URL('../../', import.meta.url), pkg = new URL('assets-source/native-vroid-hair-equipment-v1/', root);
+const read = p => fs.readFile(new URL(p, root));
+const hash = b => createHash('sha256').update(b).digest('hex');
+const fit = JSON.parse(await fs.readFile(new URL('generated/fit.json', pkg)));
+const dependency = JSON.parse(await fs.readFile(new URL('dependency.json', pkg)));
+const sourceBytes = await read(dependency.source.path), targetBytes = await read(dependency.target.path);
+const gearBytes = await fs.readFile(new URL('generated/hair.glb', pkg));
+assert.equal(hash(sourceBytes), fit.sourceVrmSha256); assert.equal(hash(targetBytes), fit.targetBodySha256); assert.equal(hash(gearBytes), fit.assetSha256);
+const fixture = () => ({ name: 'CPUTextureDecodeOnly', loadTexture: async () => new T.DataTexture(new Uint8Array([255,255,255,255]),1,1) });
+const loaded = [];
+const diagnose = process.argv.includes('--diagnose');
+const matchedPhase = process.argv.includes('--matched-phase');
+async function load(bytes, nativeHair = false) {
+  const loader = new GLTFLoader(); loader.register(fixture);
+  if (nativeHair) { loader.register(p => new MToonMaterialLoaderPlugin(p)); loader.register(p => new VRMSpringBoneLoaderPlugin(p)); }
+  else loader.register(p => new VRMLoaderPlugin(p));
+  const gltf = await loader.parseAsync(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset+bytes.byteLength),'');
+  loaded.push(gltf); gltf.scene.updateMatrixWorld(true); return gltf;
+}
+try {
+  const source = await load(sourceBytes), target = await load(targetBytes), gear = await load(gearBytes,true);
+  const sourceVRM = source.userData.vrm, targetVRM = target.userData.vrm;
+  assert.equal(gear.userData.vrm,undefined); const manager = gear.userData.vrmSpringBoneManager;
+  assert.ok(manager); assert.equal(manager.joints.size,59); assert.equal(manager.colliders.length,22); assert.equal(manager.colliderGroups.length,10);
+  target.scene.add(gear.scene);
+  const proxies = [];
+  for (const row of fit.externalFrames) {
+    const proxy = await gear.parser.getDependency('node',row.node);
+    const raw = await target.parser.getDependency('node',row.targetNode);
+    assert.equal(gear.parser.json.nodes[row.node].name,row.name);
+    assert.equal(target.parser.json.nodes[row.targetNode].name,row.targetRawNode);
+    if (row.humanoidSemantic) assert.equal(targetVRM.humanoid.getRawBoneNode(row.humanoidSemantic),raw);
+    proxies.push({proxy,raw,row});
+  }
+  function sync() {
+    target.scene.updateMatrixWorld(true);
+    for (const {proxy,raw} of proxies) {
+      raw.updateWorldMatrix(true,false); proxy.parent.updateWorldMatrix(true,false);
+      proxy.matrix.copy(proxy.parent.matrixWorld).invert().multiply(raw.matrixWorld);
+      proxy.matrix.decompose(proxy.position,proxy.quaternion,proxy.scale); proxy.matrixAutoUpdate=false;
+      proxy.updateMatrixWorld(true);
+    }
+  }
+  sync(); manager.setInitState();
+  const pairs = [], materials = [];
+  for (const row of fit.meshes) {
+    const container = await gear.parser.getDependency('node',row.node);
+    const meshes = [];container.traverse(n => { if(n.isSkinnedMesh)meshes.push(n); }); assert.equal(meshes.length,1);
+    const mesh = meshes[0]; let original;
+    source.scene.traverse(n => {
+      if(n.isSkinnedMesh && (Array.isArray(n.material)?n.material:[n.material]).some(m => m.name===row.materialName)) {assert.equal(original,undefined);original=n;}
+    });assert.ok(original);
+    const c = dependency.consumers.find(c => c.meshName===row.name), ids=c.sourceVertexIds;
+    assert.equal(mesh.geometry.attributes.position.count,ids.length);
+    const surface = Array.isArray(mesh.material)?mesh.material:[mesh.material];
+    const originalMaterials=Array.isArray(original.material)?original.material:[original.material];
+    assert.equal(surface.length,originalMaterials.length);assert.ok(surface.every(m=>m.isMToonMaterial));
+    assert.deepEqual(surface.map(m=>m.name),originalMaterials.map(m=>m.name));
+    surface.forEach(m=>m.update(0));
+    materials.push({mesh:row.name,names:surface.map(m=>m.name),mtoon:surface.every(m=>m.isMToonMaterial),alpha:surface.map(m=>({property:m.alphaTest,uniform:m.uniforms.alphaTest.value}))});
+    pairs.push({name:row.name,mesh,original,ids});
+  }
+  const allMeshes=[];gear.scene.traverse(n=>{if(n.isMesh)allMeshes.push(n);});assert.equal(allMeshes.length,2);
+  const rawRest=new Map();for(const vrm of [sourceVRM,targetVRM])vrm.scene.traverse(n=>{if(n.isBone)rawRest.set(n,{p:n.position.clone(),q:n.quaternion.clone()});});
+  const results=[];
+  function compare(label) {
+    const rows=[];
+    source.scene.updateMatrixWorld(true);target.scene.updateMatrixWorld(true);
+    for(const {name,mesh,original,ids} of pairs){
+      mesh.skeleton.update();original.skeleton.update();let maximumWorldDifferenceM=0;
+      for(let i=0;i<ids.length;i++){
+        const a=original.getVertexPosition(ids[i],new T.Vector3()).applyMatrix4(original.matrixWorld);
+        const b=mesh.getVertexPosition(i,new T.Vector3()).applyMatrix4(mesh.matrixWorld);
+        const e=a.distanceTo(b);assert.ok([...a,...b,e].every(Number.isFinite));maximumWorldDifferenceM=Math.max(maximumWorldDifferenceM,e);
+      }
+      rows.push({name,vertices:ids.length,maximumWorldDifferenceM,finite:true});
+    }
+    results.push({label,meshes:rows});return rows;
+  }
+  for(const pose of ['rest','head-neck-bend','shoulder-arm-bend','placed-root']){
+    for(const [node,r]of rawRest){node.position.copy(r.p);node.quaternion.copy(r.q);}
+    for(const vrm of [sourceVRM,targetVRM]){
+      vrm.scene.position.set(0,0,0);vrm.scene.quaternion.identity();
+      if(pose==='head-neck-bend'){vrm.humanoid.getRawBoneNode('head').rotateY(.35);vrm.humanoid.getRawBoneNode('neck').rotateX(.2);}
+      if(pose==='shoulder-arm-bend'){vrm.humanoid.getRawBoneNode('leftShoulder').rotateZ(.15);vrm.humanoid.getRawBoneNode('leftUpperArm').rotateZ(.4);vrm.humanoid.getRawBoneNode('rightShoulder').rotateX(.12);}
+      if(pose==='placed-root'){vrm.scene.position.set(.7,.2,-.3);vrm.scene.rotateY(.4);}
+      vrm.scene.updateMatrixWorld(true);
+    }
+    sync();compare(pose);
+  }
+  // Compare official full-source springs against the separately imported native manager.
+  for(const [node,r]of rawRest){node.position.copy(r.p);node.quaternion.copy(r.q);}
+  const normRest=new Map();
+  for(const vrm of [sourceVRM,targetVRM]){
+    vrm.scene.position.set(0,0,0);vrm.scene.quaternion.identity();
+    for(const semantic of ['head','neck','leftShoulder','rightShoulder','leftUpperArm','rightUpperArm']){
+      const node=vrm.humanoid.getNormalizedBoneNode(semantic);normRest.set(node,node.quaternion.clone());
+    }
+    vrm.scene.updateMatrixWorld(true);
+  }
+  sync();sourceVRM.springBoneManager.setInitState();targetVRM.springBoneManager.setInitState();manager.setInitState();
+  if(matchedPhase){
+    // The proxy side already refreshes descendants in sync(). Put the full
+    // source reference at the same world-matrix boundary before its solver.
+    // This fixture wrapper changes no official solver or resource bytes.
+    const originalSourceUpdate=sourceVRM.springBoneManager.update.bind(sourceVRM.springBoneManager);
+    sourceVRM.springBoneManager.update=delta=>{source.scene.updateMatrixWorld(true);originalSourceUpdate(delta);};
+  }
+  const boneName = joint => joint.bone.userData.name ?? joint.bone.name;
+  const originalHairJoints = new Map([...sourceVRM.springBoneManager.joints].filter(j=>boneName(j).startsWith('J_Sec_Hair')).map(j=>[boneName(j),j]));
+  const diagnosticFrames = [];
+  let maximumOfficialDynamicDifferenceM=0;
+  for(let step=0;step<36;step++){
+    for(const vrm of [sourceVRM,targetVRM]){
+      for(const semantic of ['head','neck','leftShoulder','rightShoulder','leftUpperArm','rightUpperArm']){
+        const n=vrm.humanoid.getNormalizedBoneNode(semantic);n.quaternion.copy(normRest.get(n));
+      }
+      vrm.humanoid.getNormalizedBoneNode('head').rotateY(.15*Math.sin(step/12));
+      vrm.humanoid.getNormalizedBoneNode('leftUpperArm').rotateZ(.08*Math.sin(step/9));
+      vrm.update(1/60);
+    }
+    sync();
+    let colliderMatrixMaximumDifference=0;
+    if(diagnose) for(const joint of manager.joints){
+      const other=originalHairJoints.get(boneName(joint));assert.ok(other);
+      assert.equal(joint.colliderGroups.length,other.colliderGroups.length);
+      joint.colliderGroups.forEach((group,g)=>group.colliders.forEach((collider,c)=>{
+        const a=collider.colliderMatrix.elements,b=other.colliderGroups[g].colliders[c].colliderMatrix.elements;
+        colliderMatrixMaximumDifference=Math.max(colliderMatrixMaximumDifference,...a.map((v,i)=>Math.abs(v-b[i])));
+      }));
+    }
+    if(matchedPhase)gear.scene.updateMatrixWorld(true);
+    manager.update(1/60);
+    if(diagnose){
+      const joints=[];
+      for(const joint of manager.joints){
+        const other=originalHairJoints.get(boneName(joint));
+        const error=joint._currentTail.distanceTo(other._currentTail);
+        if(error>1e-10)joints.push({bone:boneName(joint),tailErrorM:error,sourceTail:other._currentTail.toArray(),ownTail:joint._currentTail.toArray(),
+          ownBoneLength:joint._worldSpaceBoneLength,sourceBoneLength:other._worldSpaceBoneLength});
+      }
+      diagnosticFrames.push({step,colliderMatrixMaximumDifference,joints});
+    }
+    for(const row of compare('official-dynamics-'+step))maximumOfficialDynamicDifferenceM=Math.max(maximumOfficialDynamicDifferenceM,row.maximumWorldDifferenceM);
+  }
+  const maximumAllPoseDifferenceM=Math.max(...results.flatMap(r=>r.meshes.map(m=>m.maximumWorldDifferenceM)));
+  const passed=maximumAllPoseDifferenceM<1e-5;
+  const report={schema:'native-hair-equipment-official-loader-CPU-v1',status:passed?'official-native-loader-and-source-pose-equivalence':'failed-source-pose-equivalence',
+    sourceVrmSha256:hash(sourceBytes),targetAvatarSha256:hash(targetBytes),assetSha256:hash(gearBytes),
+    sourceHasFullVRM:true,independentHasVRM:false,onlyTwoHairMeshes:true,materials,
+    nativeJointCount:manager.joints.size,colliderCount:manager.colliders.length,colliderGroupCount:manager.colliderGroups.length,
+    externalFrames:proxies.length,maximumAllPoseDifferenceM,maximumOfficialDynamicDifferenceM,results,
+    diagnosticFrames:diagnose?diagnosticFrames:undefined,
+    referenceSchedulingAdjusted:matchedPhase,
+    matrixPhase:matchedPhase?'Both full-source and independent scene world matrices fully refreshed immediately before each official spring-manager step':'Original full-source VRM.update sequence versus recursive proxy sync; retained baseline mismatch',
+    fullSourceSpringManagerUnchangedByExtraction:true,officialNativeSteps:36,
+    limits:['1px CPU texture fixture; encoded images checked separately','CPU source-equivalence under bounded poses, not visual/hair contact or performance admission',
+      'No shared runtime changes, factory or recipe integration','Own proxy world sync does not mutate target bones; original center remains owned Root proxy']};
+  const output=matchedPhase?'cpu-phase-matched.json':diagnose?'cpu-diagnostic.json':'cpu-verification.json';
+  await fs.writeFile(new URL(output,pkg),JSON.stringify(report,null,2)+'\n',{flag:'wx'});
+  console.log(JSON.stringify({status:report.status,maximumAllPoseDifferenceM,maximumOfficialDynamicDifferenceM,nativeJoints:manager.joints.size}));
+  if(!passed)process.exitCode=1;
+} finally {loaded.forEach(g=>VRMUtils.deepDispose(g.scene));}

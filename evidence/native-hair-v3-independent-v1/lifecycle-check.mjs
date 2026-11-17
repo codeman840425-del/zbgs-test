@@ -1,0 +1,57 @@
+import fs from 'node:fs/promises';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import * as T from '../../prototype/node_modules/three/build/three.module.js';
+import {GLTFLoader} from '../../prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js';
+import {VRMLoaderPlugin} from '../../prototype/node_modules/@pixiv/three-vrm/lib/three-vrm.module.js';
+import {loadNativeHairAttachment,validateNativeHairFit} from '../../prototype/src/native-hair-attachment.js';
+import {createCharacterAppearance} from '../../prototype/src/character-appearance.js';
+import {HAIRSTYLES} from '../../prototype/src/hairstyle-catalog.js';
+const out=new URL('./',import.meta.url), dir='assets-source/native-vroid-hair-equipment-v1/generated/';
+const sha=b=>createHash('sha256').update(b).digest('hex'),ab=b=>b.buffer.slice(b.byteOffset,b.byteOffset+b.byteLength);
+const bytes=await fs.readFile(dir+'hair.glb'),fb=await fs.readFile(dir+'fit.json'),mb=await fs.readFile(dir+'manifest.json');
+const fit=JSON.parse(fb),manifest=JSON.parse(mb),entry={id:manifest.id,label:'independent CPU fixture',manifestUrl:'/assets/native-hairset001-v1/manifest.json',manifestSha256:sha(mb),assetSha256:sha(bytes),sourceBodySha256:manifest.sourceBodySha256,sourceMaterials:manifest.sourceMaterials,compatibleBodies:manifest.compatibleBodies,fit:manifest.fit};
+const targetBytes=await fs.readFile('assets-source/native-vroid-male-unmasked-base-v1/generated/male-native-unmasked-79-v1.vrm');
+assert.equal(sha(targetBytes),fit.targetBodySha256);
+const originalParse=GLTFLoader.prototype.parseAsync,originalFetch=globalThis.fetch;
+const resources=new Map(),loaded=[],owned=[],actors=[],appearances=[],checks=[];
+function track(r,kind){if(!r||resources.has(r))return;const rec={kind,count:0};resources.set(r,rec);const original=r.dispose.bind(r);r.dispose=()=>{rec.count++;return original();};}
+function trackObject(scene){const set=new Set();scene.traverse(n=>{if(!n.isMesh)return;track(n.geometry,'geometry');set.add(n.geometry);if(n.skeleton){track(n.skeleton,'skeleton');set.add(n.skeleton);}for(const m of(Array.isArray(n.material)?n.material:[n.material])){track(m,'material');set.add(m);for(const x of [...Object.values(m),...Object.values(m.uniforms??{}).map(u=>u?.value)])if(x?.isTexture){track(x,'texture');set.add(x);}}});return set;}
+GLTFLoader.prototype.parseAsync=async function(...args){this.register(()=>({name:'IndependentTextureFixture',loadTexture:async()=>{const t=new T.DataTexture(new Uint8Array([255,255,255,255]),1,1);track(t,'texture');return t;}}));const g=await originalParse.apply(this,args);const r=trackObject(g.scene);loaded.push({g,resources:r});return g;};
+let gate=null;
+globalThis.fetch=async input=>{const u=String(input);if(gate&&u===manifest.url){const g=gate;gate=null;g.started();await g.promise;}const b=u===entry.manifestUrl?mb:u===entry.fit.url?fb:u===manifest.url?bytes:null;return new Response(b,{status:b?200:404});};
+async function actor(x){const l=new GLTFLoader();l.register(p=>new VRMLoaderPlugin(p));const g=await l.parseAsync(ab(targetBytes),'');const v=g.userData.vrm;v.scene.position.set(x,.2,-.4);v.scene.rotation.y=.31;v.humanoid.setNormalizedPose({head:{rotation:new T.Quaternion().setFromEuler(new T.Euler(.12,.3,.05)).toArray()},chest:{rotation:new T.Quaternion().setFromEuler(new T.Euler(.04,0,.08)).toArray()},leftUpperArm:{rotation:new T.Quaternion().setFromEuler(new T.Euler(0,0,.23)).toArray()}});v.update(0);v.scene.updateMatrixWorld(true);actors.push({v,resources:loaded.at(-1).resources});return v;}
+const snapshot=v=>{const rows=[];v.scene.traverse(n=>{if(n.isBone)rows.push([n,n.position.toArray(),n.quaternion.toArray(),n.scale.toArray()]);});return rows;};
+const unchanged=rows=>rows.forEach(([n,p,q,s])=>{assert.deepEqual(n.position.toArray(),p);assert.deepEqual(n.quaternion.toArray(),q);assert.deepEqual(n.scale.toArray(),s);});
+function checkProxy(a,v){let max=0;for(const f of fit.externalFrames){const proxy=a.scene.getObjectByName(f.name),target=f.humanoidSemantic?v.humanoid.getRawBoneNode(f.humanoidSemantic):v.scene.children.find(n=>n.name===f.name);max=Math.max(max,...proxy.matrixWorld.elements.map((x,i)=>Math.abs(x-target.matrixWorld.elements[i])));}assert(max<1e-12,`proxy max ${max}`);return max;}
+async function attachment(v,f=fit){const a=await loadNativeHairAttachment({vrm:v,bytes:ab(bytes),url:manifest.url,fit:f,sha256:sha(bytes),hairFit:{id:fit.id,version:fit.version,sha256:sha(fb)}});owned.push({a,resources:loaded.at(-1).resources});return a;}
+try{
+ validateNativeHairFit(fit,entry,fit.targetBodySha256,manifest);
+ const v=await actor(.7),before=snapshot(v),a=await attachment(v);a.attach();a.scene.visible=true;unchanged(before);const posedLoadMax=checkProxy(a,v);
+ const v2=await actor(-.6),b=await attachment(v2);b.attach();b.scene.visible=true;const bBefore=snapshot(v2);const bState=b.dynamics.getState();
+ let materialUpdates=0;const mats=[...owned[0].resources].filter(x=>x.isMToonMaterial);for(const m of mats){const fn=m.update.bind(m);m.update=dt=>{if(dt>0)materialUpdates++;fn(dt);};}
+ const state=a.dynamics.getState();a.dynamics.update(1/60,true);assert.equal(a.dynamics.getState().updates,state.updates+1);assert.equal(materialUpdates,mats.length);unchanged(before);unchanged(bBefore);assert.deepEqual(b.dynamics.getState(),bState);
+ checkProxy(a,v);a.dynamics.update(0,true);a.scene.visible=false;a.dynamics.update(1/60,true);assert.equal(a.dynamics.getState().updates,state.updates+1);
+ a.scene.visible=true;a.dynamics.update(1/60,false);assert.equal(a.dynamics.getState().updates,state.updates+1);
+ v.scene.position.x+=.3;v.scene.updateMatrixWorld(true);a.dynamics.reset();checkProxy(a,v);
+ checks.push({name:'posed-load/nonidentity-scene/proxy-world/no-target-writes/two-instance-isolation/one-step-one-material-clock/zero-hidden-disabled/reset',passed:true,posedLoadMax});
+ a.dispose();a.dispose();assert.equal(a.scene.parent,null);assert.equal(a.dynamics.getState().jointCount,0);for(const r of owned[0].resources)assert.equal(resources.get(r).count,1);for(const {resources:rr}of actors)for(const r of rr)assert.equal(resources.get(r).count,0);b.dynamics.update(1/60,true);assert.equal(b.dynamics.getState().updates,1);
+ checks.push({name:'owned-geometry-skeleton-material-uniformtexture-disposed-once; targets-and-second-instance-live',passed:true,ownedResources:owned[0].resources.size});
+ const bad=structuredClone(fit);bad.externalFrames[1].restLocal.position[1]+=.01;const count=loaded.length;await assert.rejects(attachment(v2,bad),/静止参考/);assert.equal(loaded.length,count+1);for(const r of loaded.at(-1).resources)assert.equal(resources.get(r).count,1);
+ for(const mutation of [f=>f.targetBodySha256='0'.repeat(64),f=>f.sourceMaterials.pop(),f=>f.attachment.parent='head',f=>f.externalFrames[1].targetRawNode=f.externalFrames[0].targetRawNode]){const bad=structuredClone(fit);mutation(bad);assert.throws(()=>validateNativeHairFit(bad,entry,fit.targetBodySha256,manifest));}
+ checks.push({name:'identity-material-mount-duplicate-target rejection; postparse-rest-rejection cleanup once',passed:true});
+ assert.equal(HAIRSTYLES.filter(e=>e.id===entry.id&&e.compatibleBodies.includes(fit.targetBodySha256)).length,1);
+ const av=await actor(0),appearance=createCharacterAppearance({vrm:av,avatarSha256:fit.targetBodySha256,preserveHairInBaseMode:true});appearances.push(appearance);
+ const originalHair=[];av.scene.traverse(n=>{if(n.isMesh&&(Array.isArray(n.material)?n.material:[n.material]).some(m=>m.name.includes('_HAIR')))originalHair.push([n,n.visible]);});
+ const prepared=await appearance.prepareUpdate({hairStyle:entry.id});assert(prepared.commit,JSON.stringify(prepared));assert(originalHair.every(([n,vis])=>n.visible===vis));
+ await appearance.set({hairStyle:'original'});assert.equal(prepared.isCurrent(),false);assert.throws(()=>prepared.commit(),/过期/);prepared.dispose();
+ assert((await appearance.set({hairStyle:entry.id})).applied);appearance.updateDynamics(1/60,true);assert.equal(appearance.getState().hairDynamics.updates,1);
+ await appearance.set({hairStyle:'original'});appearance.updateDynamics(1/60,true);await appearance.set({hairStyle:entry.id});assert.equal(appearance.getState().hairDynamics.updates,1);appearance.updateDynamics(1/60,true);assert.equal(appearance.getState().hairDynamics.updates,2);
+ appearance.dispose();assert(originalHair.every(([n,vis])=>n.visible===vis));
+ const lateV=await actor(0),late=createCharacterAppearance({vrm:lateV,avatarSha256:fit.targetBodySha256,preserveHairInBaseMode:true});appearances.push(late);let start,release;const started=new Promise(r=>start=r);gate={started:start,promise:new Promise(r=>release=r)};const job=late.set({hairStyle:entry.id});await started;late.dispose();release();const result=await job;assert.equal(result.applied,false);assert.equal(late.getState().hairStyle,'original');
+ checks.push({name:'actual appearance stale prepared rejection/hidden clocks/show reset/dispose while request pending',passed:true});
+ for(const {a}of owned)a.dispose();for(const {resources:rr}of actors)for(const r of rr)assert.equal(resources.get(r).count,0);
+ const hashes={};for(const p of ['prototype/src/native-hair-attachment.js','prototype/src/character-appearance.js','prototype/src/hair-fit-contract.js',dir+'fit.json',dir+'manifest.json',dir+'hair.glb'])hashes[p]=sha(await fs.readFile(p));
+ await fs.writeFile(new URL('lifecycle-result.json',out),JSON.stringify({passed:true,checks,hashes,limits:['CPU real geometry/skin/official spring, placeholder image decode, no GPU appearance/contact/performance admission','Actual appearance uses current real catalog registration and mocked pinned resource fetch; GPU staging root-owned']},null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({passed:true,checks:checks.length}));
+}catch(error){await fs.writeFile(new URL('lifecycle-failure-3.json',out),JSON.stringify({checks,error:error.stack},null,2)+'\n',{flag:'wx'});throw error;}
+finally{for(const a of appearances)a.dispose();for(const {a}of owned)a.dispose();GLTFLoader.prototype.parseAsync=originalParse;globalThis.fetch=originalFetch;}
