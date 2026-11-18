@@ -35,12 +35,11 @@ async function open(record=false) {
   assert.equal(await page.evaluate(()=>company.buildInfo.shortId),build);
 }
 async function close(videoName) {
-  const video=videoName && page.video();
+  const recordingPath=videoName && await page.video().path();
   await context.close();
   context=null;
-  if (video) {
-    await video.saveAs(path.join(out,videoName));
-    await video.delete();
+  if (recordingPath) {
+    await fs.rename(recordingPath,path.join(out,videoName));
     report.video=videoName;
   }
 }
