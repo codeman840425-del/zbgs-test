@@ -450,6 +450,11 @@ export async function collectRecordResources({record, sourceRoot, add}) {
   requireDependency(typeof bodyType === 'string' && Object.hasOwn(contracts.FOUNDATION_PROFILES, bodyType), 'Unknown record body');
   const config = contracts.foundationProfile(bodyType);
   requireDependency(avatarSha256 === config.sha256, 'Record body SHA differs from its profile');
+  const coldOutfitPolicy = contracts.RECORD_COLD_OUTFIT_POLICY;
+  requireDependency(coldOutfitPolicy === undefined || coldOutfitPolicy === 'selected-outfit-v1', 'Unknown record cold outfit policy');
+  const selectedIndex = coldOutfitPolicy === 'selected-outfit-v1'
+    ? contracts.recordedOutfitIndex(config, recipe.equipment)
+    : recipe.equipment?.index;
   const catalog = await equipmentCatalog(io, config);
   const equipment = index => {
     const look = contracts.outfitSelection(config, index);
@@ -474,8 +479,11 @@ export async function collectRecordResources({record, sourceRoot, add}) {
   contracts.validateLiveAccessories(actor, record.liveAccessories);
   const {record:materials} = contracts.resolveGarmentMaterials(actor, recipe, record.equipmentMaterials);
 
-  const {entries:startup} = equipment(0);
-  const {entries:selected} = equipment(recipe.equipment.index);
+  // Reviewed runtimes built before this policy still cold-load outfit 0.
+  const startup = coldOutfitPolicy === undefined ? equipment(0).entries : [];
+  const {entries:selected} = equipment(selectedIndex);
+  if (coldOutfitPolicy !== undefined && config.garmentCoverage && selected.some(entry => entry.id === config.ids.outer))
+    requireDependency(selected.some(entry => entry.id === config.ids.top), 'Garment coverage requires the registered inner top in the selected outfit');
   const body = await io.model(config.url, 'Exact foundation body', {
     sha256:avatarSha256, parseDirectory:'/assets/foundation/',
     provenance:[{
@@ -501,5 +509,5 @@ export async function collectRecordResources({record, sourceRoot, add}) {
   await addHeadAttachments(io, contracts, avatarSha256, recipe, hairManifest);
   await addLiveAccessories(io, contracts, avatarSha256, record.liveAccessories);
   await addMaterials(io, catalog, materials);
-  return {bodyType, avatarSha256, outfitIndex:recipe.equipment.index, equipmentIds:selected.map(entry => entry.id), ...motion};
+  return {bodyType, avatarSha256, outfitIndex:selectedIndex, equipmentIds:selected.map(entry => entry.id), ...motion};
 }

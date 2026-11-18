@@ -19,3 +19,14 @@ export function outfitSelection(config, value) {
     throw Error('Configured outfit must identify its actual lower-body garment');
   return { selection, roles: [...roles], ids, bottomRole };
 }
+
+// The game packager reads this from the fixed runtime's source, which is
+// included in its build digest. Runtimes without the policy still load look 0.
+export const RECORD_COLD_OUTFIT_POLICY = 'selected-outfit-v1';
+
+export function recordedOutfitIndex(config, equipment) {
+  const selection = config.outfits.find(look => look.index === equipment?.index);
+  if (!selection || selection.role !== equipment.role || equipment.manifestUrl !== config.manifestUrl)
+    throw Error('Recorded outfit does not match a registered body outfit and equipment catalog');
+  return selection.index;
+}

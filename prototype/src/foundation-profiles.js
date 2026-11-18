@@ -14,13 +14,16 @@ export const FOUNDATION_PROFILES = {
     url: "/assets/foundation/base-female-roundtrip.vrm",
     sha256: "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
     manifestUrl: "/assets/m1/equipment.json",
+    additionalEquipmentManifests: [{url:'/assets/garment-basecolor-release-v1/female/equipment.json',sha256:'8a9c814ec42f968982940952423d62d29ae411c1ac9db39eafe6610ddb5f6dc7'}],
+    additionalBodyCoverage: [{role:'topFar',descriptor:{url:'/assets/garment-basecolor-release-v1/female/body-coverage.json',sha256:'fab2830ae2a47d79f19a265bdec60431b6fbc5f67916004215651e355a147c36'}}],
     forearmCollision: { url: "/assets/forearm-collision-v2/female.json", sha256: "b2ef32aa1566b6ef4b2b3796649cd732602da9788898264fff15dcb7afd4103e" },
     source: "Base_Female / reconstructed Blender source",
     label: "M1A 女性候选",
     pantsLabel: "独立及膝裤",
-    ids: { top: "m1-uniform-top", shoes: "m1-uniform-shoes", skirt: "m1-uniform-skirt-open-waist-v1", pants: "m1-training-pants", socks: "female-plain-crew-socks-v1" },
+    ids: { top: "m1-uniform-top", topFar: "m1-female-uniform-top-1k-v1", shoes: "m1-uniform-shoes", skirt: "m1-uniform-skirt-open-waist-v1", pants: "m1-training-pants", socks: "female-plain-crew-socks-v1" },
     extraOutfits: [
       { index: 3, role: 'pants-socks', bottomRole: 'pants', equipmentRoles: ['top','shoes','pants','socks'], label: '及膝裤＋独立薄袜', description: '技术候选：原身体长袜贴图仍保留，检查独立袜层与鞋口' },
+      { index: 5, role: 'pants-top-far', bottomRole:'pants', equipmentRoles:['topFar','shoes','pants'], label:'1K 上衣、及膝裤和平底鞋' },
     ],
     // Measured only for the female generated 6 mm training-pants shell.
     seatLayerThickness: 0.006 / 0.61,
@@ -192,9 +195,9 @@ export function foundationProfile(bodyType = "female") {
     if(layer.bodySha256!==result.sha256||layer.bottomId!==result.ids.pants||layer.sourceManifestUrl!==result.manifestUrl||result.ids.fitTop)
       throw Error('Layer outfit requires its exact body, original catalog and lower garment');
     result.ids.fitTop=layer.topId;
-    result.additionalEquipmentManifests=[...(result.additionalEquipmentManifests??[]),layer.manifest];
-    result.additionalBodyCoverage=[...(result.additionalBodyCoverage??[]),{role:'fitTop',descriptor:layer.bodyCoverage}];
-    result.extraOutfits=[...(result.extraOutfits??[]),layer.outfit];
+    result.additionalEquipmentManifests=[layer.manifest,...(result.additionalEquipmentManifests??[])];
+    result.additionalBodyCoverage=[{role:'fitTop',descriptor:layer.bodyCoverage},...(result.additionalBodyCoverage??[])];
+    result.extraOutfits=[...(result.extraOutfits??[]),layer.outfit].sort((a,b)=>a.index-b.index);
   }
   const initialLook = {
     ...(result.defaultOutfit ?? { index: 0, role: "pants" }),

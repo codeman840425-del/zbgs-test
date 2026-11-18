@@ -11,8 +11,9 @@ export const M1_AVATAR_SHA256 =
   "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95";
 /** Equipment composition and reversible rendering coverage. Complete body
  * source geometry remains available for diagnostics and contact calibration. */
-export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female" }) {
+export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female", initialOutfit = 0 }) {
   const config = foundationProfile(bodyType), IDS = config.ids;
+  const initial = outfitSelection(config, initialOutfit);
   const embeddedClothing = config.embeddedClothing === undefined ? true : config.embeddedClothing;
   if (typeof embeddedClothing !== 'boolean') throw Error('Invalid embedded clothing policy');
   // This measured native mask owner replaces index coverage for this candidate.
@@ -32,13 +33,6 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     manifestSha256: config.manifestSha256,
     additionalManifests: config.additionalEquipmentManifests,
   });
-  try {
-    const initial = outfitSelection(config, 0);
-    await Promise.all(initial.ids.map((id) => adapter.load(id)));
-  } catch (error) {
-    adapter.dispose();
-    throw error;
-  }
   const sourceClothes = [],
     body = [],
     face = [],
@@ -61,8 +55,8 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     adapter.dispose();
     throw new Error("Body or embedded clothing primitives differ from the registered body layout");
   }
-  let outfit = 0,
-    lowerBodyRole = outfitSelection(config, 0).bottomRole,
+  let outfit = initial.selection.index,
+    lowerBodyRole = initial.bottomRole,
     debugBody = false,
     disposed = false;
   const item = (role) => adapter.get(IDS[role]);
@@ -167,13 +161,16 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     if(disposed)throw Error('Equipment is disposed');
     const request=++intentRevision;
     const look=outfitSelection(config,nextOutfit);
+    const needsGarmentCoverage = config.garmentCoverage && look.ids.includes(IDS.outer);
+    if (needsGarmentCoverage && !look.ids.includes(IDS.top))
+      throw Error('Garment coverage requires the registered inner top in the selected outfit');
     // Diagnostic body mode hides the chosen look; it does not discard it.
     // Prepare the chosen outfit so returning to dressed mode remains atomic.
     const missing=look.ids.filter(id=>!adapter.get(id));
     if(missing.length)await Promise.all(missing.map(id=>adapter.load(id)));
     if(disposed)throw Error('Equipment is disposed');
     if(request!==intentRevision)throw Error('Outfit preparation cancelled by a newer selection');
-    if(config.garmentCoverage&&look.ids.includes(IDS.outer))await ensureGarmentCoverage();
+    if(needsGarmentCoverage)await ensureGarmentCoverage();
     if(disposed)throw Error('Equipment is disposed');
     if(request!==intentRevision)throw Error('Outfit preparation cancelled by a newer selection');
     if(IDS.skirt&&look.bottomRole==='skirt'&&!skirtCorrective)
@@ -195,7 +192,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
   }
   try {
     const coverageBindings = [
-      ...(config.bodyCoverage ? [{entry:item("top").entry, descriptor:config.bodyCoverage}] : []),
+      ...(config.bodyCoverage ? [{entry:adapter.describe(IDS.top), descriptor:config.bodyCoverage}] : []),
       ...(config.additionalBodyCoverage ?? []).map(({role,descriptor}) => {
         if (!Object.hasOwn(IDS, role)) throw Error(`Unknown coverage equipment role: ${role}`);
         // Metadata only; an unselected garment remains unloaded.
@@ -206,7 +203,8 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     if(config.bodyTextureCoverage)textureCoverage=await createBodyTextureCoverage({
       body,avatarSha256,entries:Object.values(IDS).map(id=>adapter.describe(id)),descriptor:config.bodyTextureCoverage,
     });
-    apply();
+    const update = await prepareOutfit();
+    try { update.commit(); } finally { update.dispose(); }
     // These are exact duplicated clothing surfaces, not body coverage removal.
     sourceClothes.forEach(({ mesh }) => (mesh.visible = false));
   } catch (error) {

@@ -24,6 +24,14 @@ NORMAL_REVIEW = '/reviews/native-body-cost/'
 RAW_OUTFIT_REVIEW = '/reviews/raw-source-outfit/'
 RAW_OUTFIT_FILES = {'index.html', 'room-1x/room-produced-1x.webm', 'posed-check/seated.png'}
 RELEASE_REVIEW = '/reviews/source-outfit-release/'
+UNIFORM_REVIEW = '/reviews/uniform-texture/'
+UNIFORM_FILES = {'index.html', *(
+    f'room/{gender}-{pose}-{view}-near-left-far-right.png'
+    for gender in ('male', 'female') for pose in ('standing', 'seated') for view in ('front', 'room')
+), *(
+    f'film-{gender}-{tier}/room-produced-1x.webm'
+    for gender in ('female', 'male') for tier in ('near', 'far')
+)}
 RELEASE_FILES = {'index.html', 'room-fixed/room-produced-1x.webm', 'room-original-fixed/room-produced-1x.webm',
                  'comparison-v2/report.json',
                  'comparison-v2/standing-dressed-front-figure-source-left-release-right.png',
@@ -67,6 +75,10 @@ def make_server(config, *, verification=False):
         def translate_path(self, path):
             # Review recordings stay outside the game build and its download budget.
             name = urlsplit(path).path
+            if config.get('uniformTextureReview') and name.startswith(UNIFORM_REVIEW):
+                member = name[len(UNIFORM_REVIEW):] or 'index.html'
+                if member in UNIFORM_FILES:
+                    return str(ROOT / 'evidence/m2-garment-texture-game-v1' / member)
             if config.get('sourceOutfitReleaseReview') and name.startswith(RELEASE_REVIEW):
                 member = name[len(RELEASE_REVIEW):] or 'index.html'
                 if member in RELEASE_FILES:

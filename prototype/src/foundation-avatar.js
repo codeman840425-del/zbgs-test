@@ -88,9 +88,10 @@ export function createFaceGeometryWarmup(renderer,scene) {
 }
 
 export async function loadFoundationAvatar({
-  scene, renderer, bodyType = "female", attachToScene = true, nativeHairCenter: requestedHairCenter,
+  scene, renderer, bodyType = "female", attachToScene = true, nativeHairCenter: requestedHairCenter, initialOutfit = 0,
 }) {
   const config = foundationProfile(bodyType), url = config.url;
+  const initial = outfitSelection(config, initialOutfit);
   const nativeHairCenter = requestedHairCenter == null
     ? undefined : Object.freeze(structuredClone(requestedHairCenter));
   if (nativeHairCenter !== undefined) await validateNativeHairCenterPin(nativeHairCenter, {bodyType, sha256: config.sha256});
@@ -158,8 +159,8 @@ export async function loadFoundationAvatar({
     shoes = [],
     size = new THREE.Vector2();
   let debugBody = false,
-    outfit = 0,
-    lowerBodyRole = outfitSelection(config, 0).bottomRole,
+    outfit = initial.selection.index,
+    lowerBodyRole = initial.bottomRole,
     dynamics = true;
   let equipment, livePresentation, rigidAccessories, headwear, appearance, facialGeometry, faceRenderCompaction;
   // This candidate was fitted only against neutral face geometry. Expressions
@@ -225,7 +226,7 @@ export async function loadFoundationAvatar({
     if (materials.some((m) => /Shoes/i.test(m.name))) shoes.push(mesh);
     else if (materials.some((m) => /_CLOTH/.test(m.name))) clothes.push(mesh);
   });
-  equipment = await createM1Equipment({ vrm, avatarSha256: sha256, bodyType });
+  equipment = await createM1Equipment({ vrm, avatarSha256: sha256, bodyType, initialOutfit: outfit });
   const surfaces = equipment.getAssetProfile();
   appearance = createCharacterAppearance({ vrm, avatarSha256: sha256, preserveHairInBaseMode: sourceBodyDisplay,
     bodyTextureCoverage:equipment.bodyTextureCoverage,

@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
-import {readFile} from 'node:fs/promises';
+import {execFileSync} from 'node:child_process';
+import {mkdtemp, readFile, rm, symlink} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import test from 'node:test';
@@ -29,7 +30,7 @@ const neutralGeometry = {
   noseSample:'none', noseRecipeSha256:null, eyeSample:'none', eyeRecipeSha256:null,
 };
 
-async function collect(record, {tamper, omit} = {}) {
+async function collect(record, {tamper, omit, sourceRoot = root} = {}) {
   const files = new Map();
   const add = async (url, reason, {sha256, bytes:size, parent, provenance}) => {
     const relative = runtimePath(url, parent);
@@ -44,7 +45,7 @@ async function collect(record, {tamper, omit} = {}) {
     files.set('/' + relative, {reason, provenance});
     return {path:relative, bytes, value:relative.endsWith('.json') ? JSON.parse(bytes) : null};
   };
-  const result = await collectRecordResources({record, sourceRoot:root, add});
+  const result = await collectRecordResources({record, sourceRoot, add});
   return {result, files};
 }
 
@@ -136,7 +137,7 @@ test('native 7586 adds the independent sock model only to the selected shorts-so
   assert(!plain.files.has(sock.url));
 });
 
-test('old male outfit 4 requires explicit material selection and brings startup trousers', async () => {
+test('old male outfit 4 requires explicit material selection and ships only its selected layered look', async () => {
   const historical = await json('scripts/runtime-package/fixtures/male-outer-shorts.json');
   const recipe = await template(historical.bodyType, historical.outfitIndex);
   const {equipmentId, recipeId} = historical.materialSelections[0];
@@ -153,12 +154,14 @@ test('old male outfit 4 requires explicit material selection and brings startup 
       equipmentId:entry.id, garmentSha256:entry.sha256, selection:entry.id === equipmentId ? selection : null,
     })),
   };
-  const {files, result} = await collect(await recordFor(recipe, materials));
+  const trousers = '/assets/m1b/m1b-uniform-pants.glb';
+  const {files, result} = await collect(await recordFor(recipe, materials), {omit:trousers.slice(1)});
   assert.equal(result.outfitIndex, 4);
   contains(files, [
-    '/assets/m1b/m1b-uniform-pants.glb', '/assets/m1b/m1b-uniform-shorts-v1.glb',
+    '/assets/m1b/m1b-uniform-shorts-v1.glb',
     '/assets/m2-outer-panels-v2/author-export.glb', '/assets/m2-garment-coverage-v1/coverage-mask.json', ref.url,
   ]);
+  assert(!files.has(trousers));
   assert(!files.has('/assets/m1c/accessories.json'));
   await assert.rejects(collect(await recordFor(recipe)), /旧角色记录未保存服装材质/);
 });
@@ -207,18 +210,33 @@ test('hat and paired ears include shared models and the exact hat hair fit', asy
   ]);
 });
 
-test('native female alternate top keeps the eager primary top and its sibling-directory model', async () => {
+test('new sourceRoot ships the native alternate top alone and a fixed legacy sourceRoot requires both tops', async t => {
   const config = foundationProfile('native-female-843ac-v1');
   const recipe = await template('native-female-843ac-v1', 3);
-  const {files} = await collect(await recordFor(recipe));
+  const record = await recordFor(recipe);
   const primary = await publicJson(config.manifestUrl);
   const top = primary.items.find(entry => entry.id === config.ids.top);
   assert(top.url.startsWith('../'));
-  contains(files, [
-    new URL(top.url, 'https://local.invalid' + config.manifestUrl).pathname,
-    config.additionalEquipmentManifests[0].url,
-    recipe.equipment.resources.alternateTop.url,
-  ]);
+  const defaultModel = new URL(top.url, 'https://local.invalid' + config.manifestUrl).pathname;
+  const selectedFiles = [config.manifestUrl, config.additionalEquipmentManifests[0].url, recipe.equipment.resources.alternateTop.url];
+  const {files} = await collect(record, {omit:defaultModel.slice(1)});
+  contains(files, selectedFiles);
+  assert(!files.has(defaultModel));
+
+  const experimentRoot = path.resolve(root, 'experiments');
+  const legacyRoot = await mkdtemp(path.join(experimentRoot, 'record-resources-legacy-'));
+  assert.equal(path.dirname(legacyRoot), experimentRoot);
+  t.after(() => rm(legacyRoot, {recursive:true, force:true}));
+  const historical = '797516d2187abcc519edb850399f636b5d022cb4';
+  const archive = execFileSync('git', ['archive', historical, 'prototype/src', 'prototype/package.json'], {
+    cwd:root, maxBuffer:16 * 1024 * 1024,
+  });
+  execFileSync('tar', ['-xf', '-', '-C', legacyRoot], {input:archive});
+  await symlink(publicRoot, path.join(legacyRoot, 'prototype/public'), 'junction');
+  await symlink(path.join(root, 'prototype/node_modules'), path.join(legacyRoot, 'prototype/node_modules'), 'junction');
+  const legacy = await collect(record, {sourceRoot:legacyRoot});
+  contains(legacy.files, [...selectedFiles, defaultModel]);
+  await assert.rejects(collect(record, {sourceRoot:legacyRoot, omit:defaultModel.slice(1)}), /Missing test dependency/);
 });
 
 test('rejects mismatched record metadata, missing dependency and changed bytes', async () => {

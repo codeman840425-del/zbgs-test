@@ -4,6 +4,7 @@ const fs = require('node:fs/promises');
 const os = require('node:os');
 const path = require('node:path');
 const {productionRoot, projectOutput} = require('./project-output.cjs');
+const {observeNetwork} = require('./qa-cold-assets.cjs');
 const {seatedContact} = require('./qa-seated-outfit-contact.cjs');
 
 const SOURCE = 'source-male-ab9a-v1';
@@ -16,41 +17,6 @@ const ROLES = ['body', 'top', 'pants', 'shoes'];
 const POSE_VIEWS = ['dressed-front', 'dressed-side', 'base-front'];
 const TOLERANCE = 1e-7;
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
-
-async function observeNetwork(context, page) {
-  const session = await context.newCDPSession(page);
-  await session.send('Network.enable', {maxTotalBufferSize: 96 * 1024 * 1024, maxResourceBufferSize: 32 * 1024 * 1024});
-  await session.send('Network.setCacheDisabled', {cacheDisabled: true});
-  await session.send('Network.setBypassServiceWorker', {bypass: true});
-  const responses = [], finished = new Map(), cached = new Set(), failed = [];
-  session.on('Network.responseReceived', row => responses.push(row));
-  session.on('Network.loadingFinished', row => finished.set(row.requestId, row));
-  session.on('Network.requestServedFromCache', row => cached.add(row.requestId));
-  session.on('Network.loadingFailed', row => failed.push(row));
-
-  async function read(url) {
-    const matches = responses.filter(row => row.response.url === url);
-    assert.equal(matches.length, 1, `Expected one cold response for ${url}, got ${matches.length}`);
-    const [{requestId, response}] = matches;
-    const done = finished.get(requestId);
-    assert.equal(response.status, 200, `Unexpected status for ${url}`);
-    assert.ok(done && !failed.some(row => row.requestId === requestId), `Incomplete network response for ${url}`);
-    assert.ok(!cached.has(requestId) && !response.fromDiskCache && !response.fromServiceWorker && !response.fromPrefetchCache,
-      `Cache or service worker served ${url}`);
-    const headers = Object.fromEntries(Object.entries(response.headers).map(([name, value]) => [name.toLowerCase(), value]));
-    const contentEncoding = headers['content-encoding'] ?? 'identity';
-    assert.equal(contentEncoding, 'identity', `Use the uncompressed fixed-build HTTP harness for ${url}`);
-    const body = await session.send('Network.getResponseBody', {requestId});
-    const bytes = Buffer.from(body.body, body.base64Encoded ? 'base64' : 'utf8');
-    if (headers['content-length'] !== undefined) assert.equal(bytes.length, Number(headers['content-length']), url);
-    assert.ok(bytes.length > 0 && done.encodedDataLength >= bytes.length, `Missing measured transfer bytes for ${url}`);
-    return {bytes, status:response.status, protocol:response.protocol, contentEncoding, transferBytes:done.encodedDataLength};
-  }
-  return {read, diagnostics: () => ({
-    httpErrors:responses.filter(row => row.response.status >= 400).map(({response}) => ({url:response.url, status:response.status})),
-    failed:failed.map(({requestId, type, errorText, canceled}) => ({requestId, type, errorText, canceled})),
-  })};
-}
 
 function readIdentity() {
   const debug = window.__debug, actor = debug.avatar();
@@ -277,6 +243,7 @@ async function main() {
   const out = await projectOutput(directory, await productionRoot());
   await fs.mkdir(out);
   await fs.copyFile(__filename, path.join(out, 'executed-script.cjs'));
+  await fs.copyFile(require.resolve('./qa-cold-assets.cjs'), path.join(out, 'qa-cold-assets.cjs'));
   await fs.copyFile(require.resolve('./qa-seated-outfit-contact.cjs'), path.join(out, 'qa-seated-outfit-contact.cjs'));
   const report = {schema:'ab9a-outfit-release-browser-comparison-v1', build, viewport:VIEWPORT,
     host:{platform:os.platform(), version:os.version(), architecture:os.arch(), cpu:os.cpus()[0]?.model},

@@ -150,7 +150,7 @@ test('lists exact body registrations and all outfits and material references fro
     }
   }
   assert.equal(registrations.length, 27 + productionCatalog.entries.length);
-  assert.equal(outfitCount, 44 + productionCatalog.entries.length);
+  assert.equal(outfitCount, 46 + productionCatalog.entries.length);
   assert.equal(checkedRecipes.size, 1);
 });
 
@@ -164,6 +164,35 @@ test('publisher VRM0 wears only its own three bindings in the source outfit', as
   for (const item of outfits[0].equipment) assert.equal(item.materials.binding.bodySha256, body.sha256);
   assert.equal(liveAccessories.mic.status, 'unavailable');
   assert.equal(liveAccessories.glasses.status, 'unavailable');
+});
+
+test('1K tops are exact additions to the existing female and stripped male pants looks', async () => {
+  for (const [body,index,folder] of [['female',5,'female'],['source-male-ab9a-release-v1',1,'male']]) {
+    const config = foundationProfile(body);
+    assert.deepEqual(outfitSelection(config,0).roles, ['top','shoes','pants']);
+    const look = config.outfits.find(row => row.role === 'pants-top-far');
+    assert.equal(look.index,index);
+    assert.deepEqual(look.equipmentRoles,['topFar','shoes','pants']);
+    assert.equal(look.bottomRole,'pants');
+    const url = '/assets/garment-basecolor-release-v1/'+folder+'/equipment.json';
+    const pin = config.additionalEquipmentManifests.find(row => row.url === url);
+    const catalog = await readFile(publicFile(pin.url));
+    assert.equal(sha256(catalog),pin.sha256);
+    const {items} = JSON.parse(catalog);
+    assert.equal(items.length,1);
+    const [entry] = items;
+    assert.equal(entry.id,config.ids.topFar);
+    assert.notEqual(entry.id,config.ids.top);
+    assert.equal(entry.compatibleAvatarSha256,config.sha256);
+    await pinnedBytes(entry);
+    const coverage = config.additionalBodyCoverage?.find(row => row.role === 'topFar');
+    if(body === 'female') {
+      const bytes = await readFile(publicFile(coverage.descriptor.url));
+      assert.equal(sha256(bytes),coverage.descriptor.sha256);
+      const fit = JSON.parse(bytes);
+      assert.deepEqual([fit.avatarSha256,fit.topId,fit.topSha256],[config.sha256,entry.id,entry.sha256]);
+    } else assert.equal(coverage,undefined);
+  }
 });
 
 test('release and source outfits share the clothes but have separate exact fits', async () => {

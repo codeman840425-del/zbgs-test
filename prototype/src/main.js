@@ -2140,6 +2140,8 @@ function syncFoundationControls(a) {
   if (!a.config) return;
   document.querySelectorAll('[data-configured-outfit]').forEach(button => button.remove());
   for (const look of a.config.extraOutfits ?? []) {
+    const existing = document.querySelector(`[data-outfit="${look.index}"]`);
+    if (existing) continue;
     const button = document.createElement('button');
     button.type = 'button'; button.dataset.outfit = String(look.index);
     button.dataset.configuredOutfit = 'true';
@@ -2158,7 +2160,14 @@ function syncFoundationControls(a) {
     const button=document.querySelector(`[data-outfit="${index}"]`);
     const look=a.config.outfits.find(item=>item.index===index);
     button.hidden=!look;
-    if(look)button.querySelector('b').textContent=look.label;
+    if (look) {
+      button.querySelector('b').textContent=look.label;
+      const note=button.querySelector('small'), swatch=button.querySelector('.swatch');
+      note.dataset.originalText ??= note.textContent;
+      const extra=a.config.extraOutfits?.find(item=>item.index===index);
+      note.textContent=extra ? (extra.description || '检查组合穿着与动作') : note.dataset.originalText;
+      if (swatch) swatch.className='swatch '+(look.role==='skirt'?'skirt':'trousers');
+    }
   }
   document.querySelector("#foundation-legend").textContent = `${a.config.label}：同一房间与控制器，当前基模独立验证。`;
 }

@@ -5,12 +5,13 @@ import {foundationProfile} from './foundation-profiles.js';
 import {loadFoundationAvatar} from './foundation-avatar.js';
 import {loadRetargetedMotions} from './motion-source.js';
 import {createMotion} from './motion.js';
+import {recordedOutfitIndex} from './outfit-selection.js';
 
 // Shared by a room controller and a bare game consumer. No workbench fields,
 // local drafts, UI events or separate animation clock are involved.
 export function createRecordAppearanceController(actor) {
   return {
-    actor, outfit: 0, outfitRevision: 0, isPeer: true,
+    actor, outfit: actor.getOutfitInfo().index, outfitRevision: 0, isPeer: true,
     async prepareOutfit(selection) {
       const previous = this.outfit, revision = this.outfitRevision;
       const update = await actor.prepareOutfit(selection);
@@ -44,6 +45,7 @@ export async function prepareRecordedCharacter(input, {
   const base = record.appearanceRecipe?.base;
   const profile = foundationProfile(base?.bodyType);
   if (profile.sha256 !== base?.sha256) throw new Error('Recorded body resource version unavailable');
+  const outfitIndex = recordedOutfitIndex(profile, record.appearanceRecipe.equipment);
   ensureCurrent();
   let avatar, motion, controller, disposed = false, attached = false;
   const dispose = () => {
@@ -56,7 +58,7 @@ export async function prepareRecordedCharacter(input, {
   };
   try {
     avatar = await loadFoundationAvatar({
-      scene, renderer, bodyType: base.bodyType, attachToScene: false,
+      scene, renderer, bodyType: base.bodyType, attachToScene: false, initialOutfit: outfitIndex,
       nativeHairCenter: record.nativeHairCenter ?? null,
     });
     ensureCurrent();
@@ -67,7 +69,7 @@ export async function prepareRecordedCharacter(input, {
     });
     ensureCurrent();
     motion = createMotion(avatar.vrm, avatar.root, clips, avatar.profile.motion);
-    controller = createController({avatar, motion, actorId: record.identity.id, position: worldPosition});
+    controller = createController({avatar, motion, actorId: record.identity.id, position: worldPosition, outfitIndex});
     const restored = await restoreRuntimeCharacterRecord(controller, record, {isCurrent: current});
     ensureCurrent();
     if (!restored.applied) throw new Error(restored.reason || 'Complete character restoration failed');
