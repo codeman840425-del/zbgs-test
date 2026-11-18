@@ -1,0 +1,3356 @@
+{
+  "schema": "signed-hair-cache-lifecycle-v1",
+  "readback": {
+    "schema": "character-production-handoff-readback-v1",
+    "status": "verified",
+    "handoffStatus": "diagnostic-candidate",
+    "formalAdmission": false,
+    "operatorCommit": "27ebb18fbee9591c88af671db3c8ebf94f99519d",
+    "runtime": {
+      "sourceCommit": "80fb16b7c6df3a7c85724c757969c6e3e6fb2b2c",
+      "sourceDigest": "5859bd00da8bcba953c70df771de6c2c1d294f0228e23867d071ec332a3f0fa7",
+      "buildId": "5859bd00da8b",
+      "entry": "record-consumer.html",
+      "entryUrl": "record-consumer.html?records=/records/manifest.json"
+    },
+    "files": 48,
+    "inventorySha256": "4f1fdc5c85dbb428996a0efd6c3f2a9bb7546ebf3fdce560ec2508e245a404cb",
+    "records": [
+      {
+        "id": "uniform-1k-female",
+        "revision": 1,
+        "recordSha256": "6ec80b232118136b4cab29eac504a20a0a919ceadd9b4040600cf68fd07229e8"
+      },
+      {
+        "id": "uniform-1k-male",
+        "revision": 1,
+        "recordSha256": "b89c9549dbc9ac73ee0fa96f1c770b12210642f9d716a194ab66fc44a9528ae8"
+      }
+    ]
+  },
+  "peer": {
+    "id": "uniform-1k-female-qa-peer",
+    "recordSha256": "d7fd2ce9ba56826c1b84cf100bc2f50ecfce1b0d60cd23717f1290b383eebb82",
+    "recipeSha256": "797b619d8723be80e5c30c1f02f2c1f4f32e9001bc9930717dd78fa92a6dee58",
+    "purpose": "Deterministic second identity for the same signed look. QA only."
+  },
+  "runnerSha256": "0d1ffcb60e42ea24f2b9e81fd124627eb1e817d0b1d8558d860764d643732214",
+  "errors": [],
+  "limits": [
+    "Developer Chrome session; Three texture and WebGL handle identities are observable, allocated VRAM bytes are not.",
+    "Observer retains object references for event and handle checks. JavaScript garbage collection is not measured."
+  ],
+  "browser": "157.0.8103.79",
+  "observed": {
+    "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 4090 (0x00002684) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "webgl2": true,
+    "build": "5859bd00da8b",
+    "baseline": {
+      "textures": 1,
+      "geometries": 1
+    },
+    "first": {
+      "phase": "signed-first",
+      "id": "uniform-1k-female",
+      "recordSha256": "6ec80b232118136b4cab29eac504a20a0a919ceadd9b4040600cf68fd07229e8",
+      "root": "c80eaf42-ea27-44d7-9019-2af8b529e91a",
+      "hairStyle": "female-bob-v1",
+      "hairColor": "blonde",
+      "cacheEntries": 4,
+      "skinTone": "warm",
+      "eyeColor": "brown",
+      "lipColor": "coral",
+      "facialCacheEntries": 4,
+      "facialMasks": {
+        "iris": "d6178bb05f53d5dde9186614c2f4019a535cfb15ceec40a1e8ad46343e2eebfe",
+        "lips": "b7f1de3847c7bd89b8c50c14f192c77236fd91031b76783583a51a73a91492ed"
+      },
+      "nativeEyebrowCache": 0,
+      "materials": [
+        {
+          "material": "be132659-210a-4672-aeb5-46faf7b79576",
+          "name": "F00_000_HairBack_00_HAIR",
+          "part": "hair",
+          "outline": false,
+          "color": [
+            0.7011018919268015,
+            0.4735314961384573,
+            0.19461783043107173
+          ],
+          "shadeColor": [
+            0.2836243460498896,
+            0.19156282770424743,
+            0.07873085998093984
+          ],
+          "slots": {
+            "map": "16d1fc78-75a0-4714-8585-95a833e07bda",
+            "shadeMultiplyTexture": "a9a86d3f-9ed0-47ce-a91a-1424c412d5c5"
+          },
+          "uses": [
+            {
+              "mesh": "m2-female-neck-bob-v1",
+              "meshId": "8c8b58c7-8cf5-4e39-bd57-a796561ce147",
+              "visible": true,
+              "role": "replacement"
+            }
+          ]
+        },
+        {
+          "material": "230677f0-9983-40f6-a616-f2ea2b934329",
+          "name": "F00_001_01_Body_00_SKIN",
+          "part": "body",
+          "outline": false,
+          "color": [
+            0.7230551289161951,
+            0.5583403896257968,
+            0.45641102317066595
+          ],
+          "shadeColor": [
+            0.6761907527015052,
+            0.3512093549135366,
+            0.32753123600014444
+          ],
+          "slots": {
+            "map": "aeee2fed-8f33-4ae0-ae7a-b61bfbd81972",
+            "shadeMultiplyTexture": "51b9ce3b-fcdc-4b56-b9e9-18a3cd761dcd"
+          },
+          "uses": [
+            {
+              "mesh": "Bodybaked",
+              "meshId": "82503365-d334-42e6-bfa4-b940d25e4a70",
+              "visible": true,
+              "role": "body"
+            }
+          ]
+        },
+        {
+          "material": "2cd2ae17-d325-4201-af35-6ad009754325",
+          "name": "F00_001_01_Body_00_SKIN (Outline)",
+          "part": "body",
+          "outline": true,
+          "color": [
+            0.7230551289161951,
+            0.5583403896257968,
+            0.45641102317066595
+          ],
+          "shadeColor": [
+            0.6761907527015052,
+            0.3512093549135366,
+            0.32753123600014444
+          ],
+          "slots": {
+            "map": "aeee2fed-8f33-4ae0-ae7a-b61bfbd81972",
+            "shadeMultiplyTexture": "51b9ce3b-fcdc-4b56-b9e9-18a3cd761dcd"
+          },
+          "uses": [
+            {
+              "mesh": "Bodybaked",
+              "meshId": "82503365-d334-42e6-bfa4-b940d25e4a70",
+              "visible": true,
+              "role": "body"
+            }
+          ]
+        },
+        {
+          "material": "247d8605-c25a-42af-a9f3-1af36f837de4",
+          "name": "F00_000_HairBack_00_HAIR",
+          "part": "hair",
+          "outline": false,
+          "color": [
+            0.7011018919268015,
+            0.4735314961384573,
+            0.19461783043107173
+          ],
+          "shadeColor": [
+            0.2836243460498896,
+            0.19156282770424743,
+            0.07873085998093984
+          ],
+          "slots": {
+            "map": "16d1fc78-75a0-4714-8585-95a833e07bda",
+            "shadeMultiplyTexture": "a9a86d3f-9ed0-47ce-a91a-1424c412d5c5"
+          },
+          "uses": [
+            {
+              "mesh": "Bodybaked_5",
+              "meshId": "2b367ac6-ff82-48a1-b079-797f0b48b15c",
+              "visible": false,
+              "role": "original-hair"
+            }
+          ]
+        },
+        {
+          "material": "a4638ce1-b57f-4261-ae5b-e0ae8208b012",
+          "name": "F00_000_00_FaceBrow_00_FACE",
+          "part": "eyebrow",
+          "outline": false,
+          "color": [
+            0.7011018919268015,
+            0.4735314961384573,
+            0.19461783043107173
+          ],
+          "shadeColor": [
+            0.02697331470503491,
+            0.018218056769160974,
+            0.0074874822730851935
+          ],
+          "slots": {
+            "map": "6ae1412d-cfc6-4107-bed7-6b8528f6bada",
+            "shadeMultiplyTexture": "b3c95bc6-2fbc-4e18-a238-7c3c5a8eda0a"
+          },
+          "uses": [
+            {
+              "mesh": "Facebaked_4",
+              "meshId": "fcb011af-c7ac-4155-a68b-d0249e304e33",
+              "visible": true,
+              "role": "eyebrow"
+            }
+          ]
+        },
+        {
+          "material": "76c23524-9847-449d-b000-b5390f6a1d47",
+          "name": "F00_000_00_EyeIris_00_EYE",
+          "part": "iris",
+          "outline": false,
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "shadeColor": [
+            1,
+            1,
+            1
+          ],
+          "slots": {
+            "map": "a3cb3fe6-fdd3-45bf-9f79-2f8befa444c3",
+            "shadeMultiplyTexture": "1180bc94-0907-4578-b1b5-78ca37b3d8d8"
+          },
+          "uses": [
+            {
+              "mesh": "Facebaked_5",
+              "meshId": "4f72d86d-d028-460d-999c-9f37456199d1",
+              "visible": true,
+              "role": "iris"
+            }
+          ]
+        },
+        {
+          "material": "59ab9787-efe7-4f7a-bfd1-716086f872ed",
+          "name": "F00_000_00_Face_00_SKIN",
+          "part": "lips",
+          "outline": false,
+          "color": [
+            0.7230551289161951,
+            0.5583403896257968,
+            0.45641102317066595
+          ],
+          "shadeColor": [
+            0.6761907527015052,
+            0.3512093549135366,
+            0.32753123600014444
+          ],
+          "slots": {
+            "map": "35e32dfa-14cc-4cb4-a336-99c7ca45e70d",
+            "shadeMultiplyTexture": "bb531190-2361-44b2-affd-304047ba20fc"
+          },
+          "uses": [
+            {
+              "mesh": "Facebaked_7",
+              "meshId": "c09790d8-50fa-414f-9f22-9957b92de130",
+              "visible": true,
+              "role": "lips"
+            }
+          ]
+        },
+        {
+          "material": "d61e970e-47dd-415e-9e86-5ca3f381a1d8",
+          "name": "F00_000_00_Face_00_SKIN (Outline)",
+          "part": "lips",
+          "outline": true,
+          "color": [
+            0.7230551289161951,
+            0.5583403896257968,
+            0.45641102317066595
+          ],
+          "shadeColor": [
+            0.6761907527015052,
+            0.3512093549135366,
+            0.32753123600014444
+          ],
+          "slots": {
+            "map": "35e32dfa-14cc-4cb4-a336-99c7ca45e70d",
+            "shadeMultiplyTexture": "bb531190-2361-44b2-affd-304047ba20fc"
+          },
+          "uses": [
+            {
+              "mesh": "Facebaked_7",
+              "meshId": "c09790d8-50fa-414f-9f22-9957b92de130",
+              "visible": true,
+              "role": "lips"
+            }
+          ]
+        }
+      ],
+      "textures": {
+        "16d1fc78-75a0-4714-8585-95a833e07bda": {
+          "texture": "16d1fc78-75a0-4714-8585-95a833e07bda",
+          "source": "725d1e1c-d3db-46a3-9af5-36105a90f8c2",
+          "image": 1,
+          "imageKind": "HTMLCanvasElement",
+          "width": 1024,
+          "height": 1024,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 1,
+          "live": true
+        },
+        "a9a86d3f-9ed0-47ce-a91a-1424c412d5c5": {
+          "texture": "a9a86d3f-9ed0-47ce-a91a-1424c412d5c5",
+          "source": "2146d6a6-471f-49e0-9dd3-c966fc47d123",
+          "image": 2,
+          "imageKind": "HTMLCanvasElement",
+          "width": 1024,
+          "height": 1024,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 2,
+          "live": true
+        },
+        "aeee2fed-8f33-4ae0-ae7a-b61bfbd81972": {
+          "texture": "aeee2fed-8f33-4ae0-ae7a-b61bfbd81972",
+          "source": "a9c487df-2ec9-4f3b-a4f5-0f872c27bca1",
+          "image": 3,
+          "imageKind": "ImageBitmap",
+          "width": 2048,
+          "height": 2048,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 3,
+          "live": true
+        },
+        "51b9ce3b-fcdc-4b56-b9e9-18a3cd761dcd": {
+          "texture": "51b9ce3b-fcdc-4b56-b9e9-18a3cd761dcd",
+          "source": "a9c487df-2ec9-4f3b-a4f5-0f872c27bca1",
+          "image": 3,
+          "imageKind": "ImageBitmap",
+          "width": 2048,
+          "height": 2048,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 3,
+          "live": true
+        },
+        "6ae1412d-cfc6-4107-bed7-6b8528f6bada": {
+          "texture": "6ae1412d-cfc6-4107-bed7-6b8528f6bada",
+          "source": "039e16ca-2efa-4b69-adbb-9f984345a806",
+          "image": 4,
+          "imageKind": "HTMLCanvasElement",
+          "width": 1024,
+          "height": 256,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 4,
+          "live": true
+        },
+        "b3c95bc6-2fbc-4e18-a238-7c3c5a8eda0a": {
+          "texture": "b3c95bc6-2fbc-4e18-a238-7c3c5a8eda0a",
+          "source": "e8eae38b-2473-45c9-b913-0e49cce6dcf1",
+          "image": 5,
+          "imageKind": "HTMLCanvasElement",
+          "width": 1024,
+          "height": 256,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 5,
+          "live": true
+        },
+        "a3cb3fe6-fdd3-45bf-9f79-2f8befa444c3": {
+          "texture": "a3cb3fe6-fdd3-45bf-9f79-2f8befa444c3",
+          "source": "62e4a456-fa40-4e3c-894d-0e37eae8a46e",
+          "image": 6,
+          "imageKind": "HTMLCanvasElement",
+          "width": 1024,
+          "height": 512,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 6,
+          "live": true
+        },
+        "1180bc94-0907-4578-b1b5-78ca37b3d8d8": {
+          "texture": "1180bc94-0907-4578-b1b5-78ca37b3d8d8",
+          "source": "44c10d99-a9d4-4685-81ef-ab46dc20f8d5",
+          "image": 7,
+          "imageKind": "HTMLCanvasElement",
+          "width": 1024,
+          "height": 512,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 7,
+          "live": true
+        },
+        "35e32dfa-14cc-4cb4-a336-99c7ca45e70d": {
+          "texture": "35e32dfa-14cc-4cb4-a336-99c7ca45e70d",
+          "source": "5858d590-4a39-4da0-b847-231d5773dd11",
+          "image": 8,
+          "imageKind": "HTMLCanvasElement",
+          "width": 1024,
+          "height": 1024,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 8,
+          "live": true
+        },
+        "bb531190-2361-44b2-affd-304047ba20fc": {
+          "texture": "bb531190-2361-44b2-affd-304047ba20fc",
+          "source": "7ff3ae15-3151-4533-acb6-5dddc9e667cd",
+          "image": 9,
+          "imageKind": "HTMLCanvasElement",
+          "width": 1024,
+          "height": 1024,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 9,
+          "live": true
+        }
+      }
+    },
+    "maleControl": {
+      "phase": "signed-first",
+      "id": "uniform-1k-male",
+      "recordSha256": "b89c9549dbc9ac73ee0fa96f1c770b12210642f9d716a194ab66fc44a9528ae8",
+      "root": "660d8b6f-450a-41d2-9f10-d2cd901601e0",
+      "hairStyle": "original",
+      "hairColor": "original",
+      "cacheEntries": 0,
+      "skinTone": "original",
+      "eyeColor": "original",
+      "lipColor": "original",
+      "facialCacheEntries": 0,
+      "facialMasks": null,
+      "nativeEyebrowCache": 0,
+      "materials": [
+        {
+          "material": "e96a9971-047d-47b7-8850-5060fbb35723",
+          "name": "M00_000_00_FaceBrow_00_FACE",
+          "part": "eyebrow",
+          "outline": false,
+          "color": [
+            0.11129942015163974,
+            0.05818718357253304,
+            0.05637410383401526
+          ],
+          "shadeColor": [
+            0.11129942015163974,
+            0.05818718357253304,
+            0.05637410383401526
+          ],
+          "slots": {
+            "map": "953a5a08-b487-4995-a8ef-73581f432359",
+            "shadeMultiplyTexture": "3d046979-e909-4f33-a887-079b1364bf6c"
+          },
+          "uses": [
+            {
+              "mesh": "Facebaked",
+              "meshId": "8f56de44-f56a-40f1-b487-2a648b4107f0",
+              "visible": true,
+              "role": "eyebrow"
+            }
+          ]
+        },
+        {
+          "material": "ad8cbead-7afb-4537-9419-86e2f06d63e5",
+          "name": "M00_001_01_Body_00_SKIN",
+          "part": "body",
+          "outline": false,
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "shadeColor": [
+            0.9351856095878439,
+            0.6290237473288554,
+            0.7176234019070601
+          ],
+          "slots": {
+            "map": "17d4d77a-b23c-444f-9cc4-b9c853da5ccb",
+            "shadeMultiplyTexture": "92852926-a1e6-41cf-93d8-b7f9a6e30ade"
+          },
+          "uses": [
+            {
+              "mesh": "Bodybaked",
+              "meshId": "98da8c0b-ae1e-4175-b3cf-b72646635d1a",
+              "visible": true,
+              "role": "body"
+            },
+            {
+              "mesh": "Bodybaked_1",
+              "meshId": "1b066281-e412-4868-9d0c-24e92958c90e",
+              "visible": true,
+              "role": "body"
+            },
+            {
+              "mesh": "Bodybaked_2",
+              "meshId": "1f33e8d5-a2d9-40fd-91dd-0198903082a8",
+              "visible": true,
+              "role": "body"
+            },
+            {
+              "mesh": "Bodybaked_3",
+              "meshId": "e76b4ef7-ab3e-4117-a488-021c0ec5a356",
+              "visible": true,
+              "role": "body"
+            }
+          ]
+        },
+        {
+          "material": "207cf137-ee87-46cd-b54b-86a9d99ba9d3",
+          "name": "M00_001_01_Body_00_SKIN (Outline)",
+          "part": "body",
+          "outline": true,
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "shadeColor": [
+            0.9351856095878439,
+            0.6290237473288554,
+            0.7176234019070601
+          ],
+          "slots": {
+            "map": "17d4d77a-b23c-444f-9cc4-b9c853da5ccb",
+            "shadeMultiplyTexture": "92852926-a1e6-41cf-93d8-b7f9a6e30ade"
+          },
+          "uses": [
+            {
+              "mesh": "Bodybaked",
+              "meshId": "98da8c0b-ae1e-4175-b3cf-b72646635d1a",
+              "visible": true,
+              "role": "body"
+            }
+          ]
+        },
+        {
+          "material": "f4e14097-99de-461d-a49c-454c57f7dcf9",
+          "name": "M00_001_01_Body_00_SKIN (Outline)",
+          "part": "body",
+          "outline": true,
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "shadeColor": [
+            0.9351856095878439,
+            0.6290237473288554,
+            0.7176234019070601
+          ],
+          "slots": {
+            "map": "17d4d77a-b23c-444f-9cc4-b9c853da5ccb",
+            "shadeMultiplyTexture": "92852926-a1e6-41cf-93d8-b7f9a6e30ade"
+          },
+          "uses": [
+            {
+              "mesh": "Bodybaked_1",
+              "meshId": "1b066281-e412-4868-9d0c-24e92958c90e",
+              "visible": true,
+              "role": "body"
+            }
+          ]
+        },
+        {
+          "material": "e18e4ad7-aa82-4f88-b8ac-e63ff38d4361",
+          "name": "M00_001_01_Body_00_SKIN (Outline)",
+          "part": "body",
+          "outline": true,
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "shadeColor": [
+            0.9351856095878439,
+            0.6290237473288554,
+            0.7176234019070601
+          ],
+          "slots": {
+            "map": "17d4d77a-b23c-444f-9cc4-b9c853da5ccb",
+            "shadeMultiplyTexture": "92852926-a1e6-41cf-93d8-b7f9a6e30ade"
+          },
+          "uses": [
+            {
+              "mesh": "Bodybaked_2",
+              "meshId": "1f33e8d5-a2d9-40fd-91dd-0198903082a8",
+              "visible": true,
+              "role": "body"
+            }
+          ]
+        },
+        {
+          "material": "f7ba1801-c2c4-4e94-9c38-1532b341d2fe",
+          "name": "M00_001_01_Body_00_SKIN (Outline)",
+          "part": "body",
+          "outline": true,
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "shadeColor": [
+            0.9351856095878439,
+            0.6290237473288554,
+            0.7176234019070601
+          ],
+          "slots": {
+            "map": "17d4d77a-b23c-444f-9cc4-b9c853da5ccb",
+            "shadeMultiplyTexture": "92852926-a1e6-41cf-93d8-b7f9a6e30ade"
+          },
+          "uses": [
+            {
+              "mesh": "Bodybaked_3",
+              "meshId": "e76b4ef7-ab3e-4117-a488-021c0ec5a356",
+              "visible": true,
+              "role": "body"
+            }
+          ]
+        },
+        {
+          "material": "08db689b-1283-40b4-9e06-569dac859a9e",
+          "name": "M00_000_HairBack_00_HAIR",
+          "part": "hair",
+          "outline": false,
+          "color": [
+            0,
+            0.40454082520106777,
+            0.6120655998656237
+          ],
+          "shadeColor": [
+            0.025371278649009902,
+            0.007155037161983848,
+            0.40454082520106777
+          ],
+          "slots": {
+            "map": "24bf8212-7981-4ca1-9db8-36f9e34cba98",
+            "shadeMultiplyTexture": "9d54b3c2-f869-437a-9cc0-19672699f2df"
+          },
+          "uses": [
+            {
+              "mesh": "Bodybaked_4",
+              "meshId": "4f69e6e8-d9e0-43e8-b59c-b0376df9d9b1",
+              "visible": true,
+              "role": "original-hair"
+            }
+          ]
+        }
+      ],
+      "textures": {
+        "953a5a08-b487-4995-a8ef-73581f432359": {
+          "texture": "953a5a08-b487-4995-a8ef-73581f432359",
+          "source": "e57492f2-48a8-4a0a-839e-c3cad43ab028",
+          "image": 10,
+          "imageKind": "ImageBitmap",
+          "width": 1024,
+          "height": 256,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 10,
+          "live": true
+        },
+        "3d046979-e909-4f33-a887-079b1364bf6c": {
+          "texture": "3d046979-e909-4f33-a887-079b1364bf6c",
+          "source": "e57492f2-48a8-4a0a-839e-c3cad43ab028",
+          "image": 10,
+          "imageKind": "ImageBitmap",
+          "width": 1024,
+          "height": 256,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 10,
+          "live": true
+        },
+        "17d4d77a-b23c-444f-9cc4-b9c853da5ccb": {
+          "texture": "17d4d77a-b23c-444f-9cc4-b9c853da5ccb",
+          "source": "74399a01-17f3-4921-9ffb-036385ecf7ed",
+          "image": 11,
+          "imageKind": "ImageBitmap",
+          "width": 2048,
+          "height": 2048,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 11,
+          "live": true
+        },
+        "92852926-a1e6-41cf-93d8-b7f9a6e30ade": {
+          "texture": "92852926-a1e6-41cf-93d8-b7f9a6e30ade",
+          "source": "74399a01-17f3-4921-9ffb-036385ecf7ed",
+          "image": 11,
+          "imageKind": "ImageBitmap",
+          "width": 2048,
+          "height": 2048,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 11,
+          "live": true
+        },
+        "24bf8212-7981-4ca1-9db8-36f9e34cba98": {
+          "texture": "24bf8212-7981-4ca1-9db8-36f9e34cba98",
+          "source": "d36f6f75-328b-4f3a-a637-8bdea81a2745",
+          "image": 12,
+          "imageKind": "ImageBitmap",
+          "width": 1024,
+          "height": 1024,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 12,
+          "live": true
+        },
+        "9d54b3c2-f869-437a-9cc0-19672699f2df": {
+          "texture": "9d54b3c2-f869-437a-9cc0-19672699f2df",
+          "source": "d36f6f75-328b-4f3a-a637-8bdea81a2745",
+          "image": 12,
+          "imageKind": "ImageBitmap",
+          "width": 1024,
+          "height": 1024,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 12,
+          "live": true
+        }
+      }
+    },
+    "firstMemory": {
+      "textures": 79,
+      "geometries": 35
+    },
+    "skinControl": {
+      "phase": "only-skin-original",
+      "id": "uniform-1k-female",
+      "recordSha256": "6ec80b232118136b4cab29eac504a20a0a919ceadd9b4040600cf68fd07229e8",
+      "root": "c80eaf42-ea27-44d7-9019-2af8b529e91a",
+      "hairStyle": "female-bob-v1",
+      "hairColor": "blonde",
+      "cacheEntries": 4,
+      "skinTone": "original",
+      "eyeColor": "brown",
+      "lipColor": "coral",
+      "facialCacheEntries": 4,
+      "facialMasks": {
+        "iris": "d6178bb05f53d5dde9186614c2f4019a535cfb15ceec40a1e8ad46343e2eebfe",
+        "lips": "b7f1de3847c7bd89b8c50c14f192c77236fd91031b76783583a51a73a91492ed"
+      },
+      "nativeEyebrowCache": 0,
+      "materials": [
+        {
+          "material": "be132659-210a-4672-aeb5-46faf7b79576",
+          "name": "F00_000_HairBack_00_HAIR",
+          "part": "hair",
+          "outline": false,
+          "color": [
+            0.7011018919268015,
+            0.4735314961384573,
+            0.19461783043107173
+          ],
+          "shadeColor": [
+            0.2836243460498896,
+            0.19156282770424743,
+            0.07873085998093984
+          ],
+          "slots": {
+            "map": "16d1fc78-75a0-4714-8585-95a833e07bda",
+            "shadeMultiplyTexture": "a9a86d3f-9ed0-47ce-a91a-1424c412d5c5"
+          },
+          "uses": [
+            {
+              "mesh": "m2-female-neck-bob-v1",
+              "meshId": "8c8b58c7-8cf5-4e39-bd57-a796561ce147",
+              "visible": true,
+              "role": "replacement"
+            }
+          ]
+        },
+        {
+          "material": "230677f0-9983-40f6-a616-f2ea2b934329",
+          "name": "F00_001_01_Body_00_SKIN",
+          "part": "body",
+          "outline": false,
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "shadeColor": [
+            0.9351856112480164,
+            0.6290237307548524,
+            0.7176234126091003
+          ],
+          "slots": {
+            "map": "aeee2fed-8f33-4ae0-ae7a-b61bfbd81972",
+            "shadeMultiplyTexture": "51b9ce3b-fcdc-4b56-b9e9-18a3cd761dcd"
+          },
+          "uses": [
+            {
+              "mesh": "Bodybaked",
+              "meshId": "82503365-d334-42e6-bfa4-b940d25e4a70",
+              "visible": true,
+              "role": "body"
+            }
+          ]
+        },
+        {
+          "material": "2cd2ae17-d325-4201-af35-6ad009754325",
+          "name": "F00_001_01_Body_00_SKIN (Outline)",
+          "part": "body",
+          "outline": true,
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "shadeColor": [
+            0.9351856112480164,
+            0.6290237307548524,
+            0.7176234126091003
+          ],
+          "slots": {
+            "map": "aeee2fed-8f33-4ae0-ae7a-b61bfbd81972",
+            "shadeMultiplyTexture": "51b9ce3b-fcdc-4b56-b9e9-18a3cd761dcd"
+          },
+          "uses": [
+            {
+              "mesh": "Bodybaked",
+              "meshId": "82503365-d334-42e6-bfa4-b940d25e4a70",
+              "visible": true,
+              "role": "body"
+            }
+          ]
+        },
+        {
+          "material": "247d8605-c25a-42af-a9f3-1af36f837de4",
+          "name": "F00_000_HairBack_00_HAIR",
+          "part": "hair",
+          "outline": false,
+          "color": [
+            0.7011018919268015,
+            0.4735314961384573,
+            0.19461783043107173
+          ],
+          "shadeColor": [
+            0.2836243460498896,
+            0.19156282770424743,
+            0.07873085998093984
+          ],
+          "slots": {
+            "map": "16d1fc78-75a0-4714-8585-95a833e07bda",
+            "shadeMultiplyTexture": "a9a86d3f-9ed0-47ce-a91a-1424c412d5c5"
+          },
+          "uses": [
+            {
+              "mesh": "Bodybaked_5",
+              "meshId": "2b367ac6-ff82-48a1-b079-797f0b48b15c",
+              "visible": false,
+              "role": "original-hair"
+            }
+          ]
+        },
+        {
+          "material": "a4638ce1-b57f-4261-ae5b-e0ae8208b012",
+          "name": "F00_000_00_FaceBrow_00_FACE",
+          "part": "eyebrow",
+          "outline": false,
+          "color": [
+            0.7011018919268015,
+            0.4735314961384573,
+            0.19461783043107173
+          ],
+          "shadeColor": [
+            0.02697331470503491,
+            0.018218056769160974,
+            0.0074874822730851935
+          ],
+          "slots": {
+            "map": "6ae1412d-cfc6-4107-bed7-6b8528f6bada",
+            "shadeMultiplyTexture": "b3c95bc6-2fbc-4e18-a238-7c3c5a8eda0a"
+          },
+          "uses": [
+            {
+              "mesh": "Facebaked_4",
+              "meshId": "fcb011af-c7ac-4155-a68b-d0249e304e33",
+              "visible": true,
+              "role": "eyebrow"
+            }
+          ]
+        },
+        {
+          "material": "76c23524-9847-449d-b000-b5390f6a1d47",
+          "name": "F00_000_00_EyeIris_00_EYE",
+          "part": "iris",
+          "outline": false,
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "shadeColor": [
+            1,
+            1,
+            1
+          ],
+          "slots": {
+            "map": "a3cb3fe6-fdd3-45bf-9f79-2f8befa444c3",
+            "shadeMultiplyTexture": "1180bc94-0907-4578-b1b5-78ca37b3d8d8"
+          },
+          "uses": [
+            {
+              "mesh": "Facebaked_5",
+              "meshId": "4f72d86d-d028-460d-999c-9f37456199d1",
+              "visible": true,
+              "role": "iris"
+            }
+          ]
+        },
+        {
+          "material": "59ab9787-efe7-4f7a-bfd1-716086f872ed",
+          "name": "F00_000_00_Face_00_SKIN",
+          "part": "lips",
+          "outline": false,
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "shadeColor": [
+            0.9351856112480164,
+            0.6290237307548524,
+            0.7176234126091003
+          ],
+          "slots": {
+            "map": "35e32dfa-14cc-4cb4-a336-99c7ca45e70d",
+            "shadeMultiplyTexture": "bb531190-2361-44b2-affd-304047ba20fc"
+          },
+          "uses": [
+            {
+              "mesh": "Facebaked_7",
+              "meshId": "c09790d8-50fa-414f-9f22-9957b92de130",
+              "visible": true,
+              "role": "lips"
+            }
+          ]
+        },
+        {
+          "material": "d61e970e-47dd-415e-9e86-5ca3f381a1d8",
+          "name": "F00_000_00_Face_00_SKIN (Outline)",
+          "part": "lips",
+          "outline": true,
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "shadeColor": [
+            0.9351856112480164,
+            0.6290237307548524,
+            0.7176234126091003
+          ],
+          "slots": {
+            "map": "35e32dfa-14cc-4cb4-a336-99c7ca45e70d",
+            "shadeMultiplyTexture": "bb531190-2361-44b2-affd-304047ba20fc"
+          },
+          "uses": [
+            {
+              "mesh": "Facebaked_7",
+              "meshId": "c09790d8-50fa-414f-9f22-9957b92de130",
+              "visible": true,
+              "role": "lips"
+            }
+          ]
+        }
+      ],
+      "textures": {
+        "16d1fc78-75a0-4714-8585-95a833e07bda": {
+          "texture": "16d1fc78-75a0-4714-8585-95a833e07bda",
+          "source": "725d1e1c-d3db-46a3-9af5-36105a90f8c2",
+          "image": 1,
+          "imageKind": "HTMLCanvasElement",
+          "width": 1024,
+          "height": 1024,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 1,
+          "live": true
+        },
+        "a9a86d3f-9ed0-47ce-a91a-1424c412d5c5": {
+          "texture": "a9a86d3f-9ed0-47ce-a91a-1424c412d5c5",
+          "source": "2146d6a6-471f-49e0-9dd3-c966fc47d123",
+          "image": 2,
+          "imageKind": "HTMLCanvasElement",
+          "width": 1024,
+          "height": 1024,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 2,
+          "live": true
+        },
+        "aeee2fed-8f33-4ae0-ae7a-b61bfbd81972": {
+          "texture": "aeee2fed-8f33-4ae0-ae7a-b61bfbd81972",
+          "source": "a9c487df-2ec9-4f3b-a4f5-0f872c27bca1",
+          "image": 3,
+          "imageKind": "ImageBitmap",
+          "width": 2048,
+          "height": 2048,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 3,
+          "live": true
+        },
+        "51b9ce3b-fcdc-4b56-b9e9-18a3cd761dcd": {
+          "texture": "51b9ce3b-fcdc-4b56-b9e9-18a3cd761dcd",
+          "source": "a9c487df-2ec9-4f3b-a4f5-0f872c27bca1",
+          "image": 3,
+          "imageKind": "ImageBitmap",
+          "width": 2048,
+          "height": 2048,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 3,
+          "live": true
+        },
+        "6ae1412d-cfc6-4107-bed7-6b8528f6bada": {
+          "texture": "6ae1412d-cfc6-4107-bed7-6b8528f6bada",
+          "source": "039e16ca-2efa-4b69-adbb-9f984345a806",
+          "image": 4,
+          "imageKind": "HTMLCanvasElement",
+          "width": 1024,
+          "height": 256,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 4,
+          "live": true
+        },
+        "b3c95bc6-2fbc-4e18-a238-7c3c5a8eda0a": {
+          "texture": "b3c95bc6-2fbc-4e18-a238-7c3c5a8eda0a",
+          "source": "e8eae38b-2473-45c9-b913-0e49cce6dcf1",
+          "image": 5,
+          "imageKind": "HTMLCanvasElement",
+          "width": 1024,
+          "height": 256,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 5,
+          "live": true
+        },
+        "a3cb3fe6-fdd3-45bf-9f79-2f8befa444c3": {
+          "texture": "a3cb3fe6-fdd3-45bf-9f79-2f8befa444c3",
+          "source": "62e4a456-fa40-4e3c-894d-0e37eae8a46e",
+          "image": 6,
+          "imageKind": "HTMLCanvasElement",
+          "width": 1024,
+          "height": 512,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 6,
+          "live": true
+        },
+        "1180bc94-0907-4578-b1b5-78ca37b3d8d8": {
+          "texture": "1180bc94-0907-4578-b1b5-78ca37b3d8d8",
+          "source": "44c10d99-a9d4-4685-81ef-ab46dc20f8d5",
+          "image": 7,
+          "imageKind": "HTMLCanvasElement",
+          "width": 1024,
+          "height": 512,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 7,
+          "live": true
+        },
+        "35e32dfa-14cc-4cb4-a336-99c7ca45e70d": {
+          "texture": "35e32dfa-14cc-4cb4-a336-99c7ca45e70d",
+          "source": "5858d590-4a39-4da0-b847-231d5773dd11",
+          "image": 8,
+          "imageKind": "HTMLCanvasElement",
+          "width": 1024,
+          "height": 1024,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 8,
+          "live": true
+        },
+        "bb531190-2361-44b2-affd-304047ba20fc": {
+          "texture": "bb531190-2361-44b2-affd-304047ba20fc",
+          "source": "7ff3ae15-3151-4533-acb6-5dddc9e667cd",
+          "image": 9,
+          "imageKind": "HTMLCanvasElement",
+          "width": 1024,
+          "height": 1024,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 9,
+          "live": true
+        }
+      }
+    },
+    "restored": {
+      "phase": "all-colors-original",
+      "id": "uniform-1k-female",
+      "recordSha256": "6ec80b232118136b4cab29eac504a20a0a919ceadd9b4040600cf68fd07229e8",
+      "root": "c80eaf42-ea27-44d7-9019-2af8b529e91a",
+      "hairStyle": "female-bob-v1",
+      "hairColor": "original",
+      "cacheEntries": 4,
+      "skinTone": "original",
+      "eyeColor": "original",
+      "lipColor": "original",
+      "facialCacheEntries": 4,
+      "facialMasks": {
+        "iris": "d6178bb05f53d5dde9186614c2f4019a535cfb15ceec40a1e8ad46343e2eebfe",
+        "lips": "b7f1de3847c7bd89b8c50c14f192c77236fd91031b76783583a51a73a91492ed"
+      },
+      "nativeEyebrowCache": 0,
+      "materials": [
+        {
+          "material": "be132659-210a-4672-aeb5-46faf7b79576",
+          "name": "F00_000_HairBack_00_HAIR",
+          "part": "hair",
+          "outline": false,
+          "color": [
+            0,
+            0.4045408368110657,
+            0.6120656132698059
+          ],
+          "shadeColor": [
+            0.025371279567480087,
+            0.007155037019401787,
+            0.4045408368110657
+          ],
+          "slots": {
+            "map": "fa48e400-2287-4d67-874a-b8e7e7b0663e",
+            "shadeMultiplyTexture": "6c626cb0-026b-4c93-903f-b68b97180d76"
+          },
+          "uses": [
+            {
+              "mesh": "m2-female-neck-bob-v1",
+              "meshId": "8c8b58c7-8cf5-4e39-bd57-a796561ce147",
+              "visible": true,
+              "role": "replacement"
+            }
+          ]
+        },
+        {
+          "material": "230677f0-9983-40f6-a616-f2ea2b934329",
+          "name": "F00_001_01_Body_00_SKIN",
+          "part": "body",
+          "outline": false,
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "shadeColor": [
+            0.9351856112480164,
+            0.6290237307548524,
+            0.7176234126091003
+          ],
+          "slots": {
+            "map": "aeee2fed-8f33-4ae0-ae7a-b61bfbd81972",
+            "shadeMultiplyTexture": "51b9ce3b-fcdc-4b56-b9e9-18a3cd761dcd"
+          },
+          "uses": [
+            {
+              "mesh": "Bodybaked",
+              "meshId": "82503365-d334-42e6-bfa4-b940d25e4a70",
+              "visible": true,
+              "role": "body"
+            }
+          ]
+        },
+        {
+          "material": "2cd2ae17-d325-4201-af35-6ad009754325",
+          "name": "F00_001_01_Body_00_SKIN (Outline)",
+          "part": "body",
+          "outline": true,
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "shadeColor": [
+            0.9351856112480164,
+            0.6290237307548524,
+            0.7176234126091003
+          ],
+          "slots": {
+            "map": "aeee2fed-8f33-4ae0-ae7a-b61bfbd81972",
+            "shadeMultiplyTexture": "51b9ce3b-fcdc-4b56-b9e9-18a3cd761dcd"
+          },
+          "uses": [
+            {
+              "mesh": "Bodybaked",
+              "meshId": "82503365-d334-42e6-bfa4-b940d25e4a70",
+              "visible": true,
+              "role": "body"
+            }
+          ]
+        },
+        {
+          "material": "247d8605-c25a-42af-a9f3-1af36f837de4",
+          "name": "F00_000_HairBack_00_HAIR",
+          "part": "hair",
+          "outline": false,
+          "color": [
+            0,
+            0.4045408368110657,
+            0.6120656132698059
+          ],
+          "shadeColor": [
+            0.025371279567480087,
+            0.007155037019401787,
+            0.4045408368110657
+          ],
+          "slots": {
+            "map": "fa48e400-2287-4d67-874a-b8e7e7b0663e",
+            "shadeMultiplyTexture": "6c626cb0-026b-4c93-903f-b68b97180d76"
+          },
+          "uses": [
+            {
+              "mesh": "Bodybaked_5",
+              "meshId": "2b367ac6-ff82-48a1-b079-797f0b48b15c",
+              "visible": false,
+              "role": "original-hair"
+            }
+          ]
+        },
+        {
+          "material": "a4638ce1-b57f-4261-ae5b-e0ae8208b012",
+          "name": "F00_000_00_FaceBrow_00_FACE",
+          "part": "eyebrow",
+          "outline": false,
+          "color": [
+            0.022012997418642037,
+            0.03287591785192489,
+            0.17343904078006744
+          ],
+          "shadeColor": [
+            0.008373118005692957,
+            0.009696329012513159,
+            0.03847274556756018
+          ],
+          "slots": {
+            "map": "3b8b1ffd-4efe-4b05-a676-7f760a3f6055",
+            "shadeMultiplyTexture": "a8d5bd9a-f8f5-441e-911a-347875a2d44d"
+          },
+          "uses": [
+            {
+              "mesh": "Facebaked_4",
+              "meshId": "fcb011af-c7ac-4155-a68b-d0249e304e33",
+              "visible": true,
+              "role": "eyebrow"
+            }
+          ]
+        },
+        {
+          "material": "76c23524-9847-449d-b000-b5390f6a1d47",
+          "name": "F00_000_00_EyeIris_00_EYE",
+          "part": "iris",
+          "outline": false,
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "shadeColor": [
+            1,
+            1,
+            1
+          ],
+          "slots": {
+            "map": "1c971609-4ad9-4c04-9b1c-8a74c820fd11",
+            "shadeMultiplyTexture": "c4a8f749-34ef-43a9-aecb-81005b2604c2"
+          },
+          "uses": [
+            {
+              "mesh": "Facebaked_5",
+              "meshId": "4f72d86d-d028-460d-999c-9f37456199d1",
+              "visible": true,
+              "role": "iris"
+            }
+          ]
+        },
+        {
+          "material": "59ab9787-efe7-4f7a-bfd1-716086f872ed",
+          "name": "F00_000_00_Face_00_SKIN",
+          "part": "lips",
+          "outline": false,
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "shadeColor": [
+            0.9351856112480164,
+            0.6290237307548524,
+            0.7176234126091003
+          ],
+          "slots": {
+            "map": "2f0fe1fa-f0c7-45d8-b72e-d67406046315",
+            "shadeMultiplyTexture": "ed29cc8d-5495-4acf-96b4-a04876b1d13c"
+          },
+          "uses": [
+            {
+              "mesh": "Facebaked_7",
+              "meshId": "c09790d8-50fa-414f-9f22-9957b92de130",
+              "visible": true,
+              "role": "lips"
+            }
+          ]
+        },
+        {
+          "material": "d61e970e-47dd-415e-9e86-5ca3f381a1d8",
+          "name": "F00_000_00_Face_00_SKIN (Outline)",
+          "part": "lips",
+          "outline": true,
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "shadeColor": [
+            0.9351856112480164,
+            0.6290237307548524,
+            0.7176234126091003
+          ],
+          "slots": {
+            "map": "2f0fe1fa-f0c7-45d8-b72e-d67406046315",
+            "shadeMultiplyTexture": "ed29cc8d-5495-4acf-96b4-a04876b1d13c"
+          },
+          "uses": [
+            {
+              "mesh": "Facebaked_7",
+              "meshId": "c09790d8-50fa-414f-9f22-9957b92de130",
+              "visible": true,
+              "role": "lips"
+            }
+          ]
+        }
+      ],
+      "textures": {
+        "fa48e400-2287-4d67-874a-b8e7e7b0663e": {
+          "texture": "fa48e400-2287-4d67-874a-b8e7e7b0663e",
+          "source": "65655b68-8846-4fc2-9ffe-fb4bb581b2bc",
+          "image": 13,
+          "imageKind": "ImageBitmap",
+          "width": 1024,
+          "height": 1024,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 13,
+          "live": true
+        },
+        "6c626cb0-026b-4c93-903f-b68b97180d76": {
+          "texture": "6c626cb0-026b-4c93-903f-b68b97180d76",
+          "source": "65655b68-8846-4fc2-9ffe-fb4bb581b2bc",
+          "image": 13,
+          "imageKind": "ImageBitmap",
+          "width": 1024,
+          "height": 1024,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 13,
+          "live": true
+        },
+        "aeee2fed-8f33-4ae0-ae7a-b61bfbd81972": {
+          "texture": "aeee2fed-8f33-4ae0-ae7a-b61bfbd81972",
+          "source": "a9c487df-2ec9-4f3b-a4f5-0f872c27bca1",
+          "image": 3,
+          "imageKind": "ImageBitmap",
+          "width": 2048,
+          "height": 2048,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 3,
+          "live": true
+        },
+        "51b9ce3b-fcdc-4b56-b9e9-18a3cd761dcd": {
+          "texture": "51b9ce3b-fcdc-4b56-b9e9-18a3cd761dcd",
+          "source": "a9c487df-2ec9-4f3b-a4f5-0f872c27bca1",
+          "image": 3,
+          "imageKind": "ImageBitmap",
+          "width": 2048,
+          "height": 2048,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 3,
+          "live": true
+        },
+        "3b8b1ffd-4efe-4b05-a676-7f760a3f6055": {
+          "texture": "3b8b1ffd-4efe-4b05-a676-7f760a3f6055",
+          "source": "7b0bae9b-7bff-4f9d-8dd8-1d40d86aa764",
+          "image": 14,
+          "imageKind": "ImageBitmap",
+          "width": 1024,
+          "height": 256,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 14,
+          "live": true
+        },
+        "a8d5bd9a-f8f5-441e-911a-347875a2d44d": {
+          "texture": "a8d5bd9a-f8f5-441e-911a-347875a2d44d",
+          "source": "7b0bae9b-7bff-4f9d-8dd8-1d40d86aa764",
+          "image": 14,
+          "imageKind": "ImageBitmap",
+          "width": 1024,
+          "height": 256,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 14,
+          "live": true
+        },
+        "1c971609-4ad9-4c04-9b1c-8a74c820fd11": {
+          "texture": "1c971609-4ad9-4c04-9b1c-8a74c820fd11",
+          "source": "4dd5a766-5998-412e-9851-0e6c48a678e8",
+          "image": 15,
+          "imageKind": "ImageBitmap",
+          "width": 1024,
+          "height": 512,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 15,
+          "live": true
+        },
+        "c4a8f749-34ef-43a9-aecb-81005b2604c2": {
+          "texture": "c4a8f749-34ef-43a9-aecb-81005b2604c2",
+          "source": "4dd5a766-5998-412e-9851-0e6c48a678e8",
+          "image": 15,
+          "imageKind": "ImageBitmap",
+          "width": 1024,
+          "height": 512,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 15,
+          "live": true
+        },
+        "2f0fe1fa-f0c7-45d8-b72e-d67406046315": {
+          "texture": "2f0fe1fa-f0c7-45d8-b72e-d67406046315",
+          "source": "c94a975f-a445-44a2-9f0b-72a65eeb1cd1",
+          "image": 16,
+          "imageKind": "ImageBitmap",
+          "width": 1024,
+          "height": 1024,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 16,
+          "live": true
+        },
+        "ed29cc8d-5495-4acf-96b4-a04876b1d13c": {
+          "texture": "ed29cc8d-5495-4acf-96b4-a04876b1d13c",
+          "source": "c94a975f-a445-44a2-9f0b-72a65eeb1cd1",
+          "image": 16,
+          "imageKind": "ImageBitmap",
+          "width": 1024,
+          "height": 1024,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 16,
+          "live": true
+        }
+      }
+    },
+    "retainedAfterRestore": [
+      {
+        "texture": "16d1fc78-75a0-4714-8585-95a833e07bda",
+        "disposals": 0,
+        "hasRendererProperties": true
+      },
+      {
+        "texture": "a9a86d3f-9ed0-47ce-a91a-1424c412d5c5",
+        "disposals": 0,
+        "hasRendererProperties": true
+      },
+      {
+        "texture": "6ae1412d-cfc6-4107-bed7-6b8528f6bada",
+        "disposals": 0,
+        "hasRendererProperties": true
+      },
+      {
+        "texture": "b3c95bc6-2fbc-4e18-a238-7c3c5a8eda0a",
+        "disposals": 0,
+        "hasRendererProperties": true
+      },
+      {
+        "texture": "a3cb3fe6-fdd3-45bf-9f79-2f8befa444c3",
+        "disposals": 0,
+        "hasRendererProperties": true
+      },
+      {
+        "texture": "1180bc94-0907-4578-b1b5-78ca37b3d8d8",
+        "disposals": 0,
+        "hasRendererProperties": true
+      },
+      {
+        "texture": "35e32dfa-14cc-4cb4-a336-99c7ca45e70d",
+        "disposals": 0,
+        "hasRendererProperties": true
+      },
+      {
+        "texture": "bb531190-2361-44b2-affd-304047ba20fc",
+        "disposals": 0,
+        "hasRendererProperties": true
+      }
+    ],
+    "again": {
+      "phase": "signed-colors-again",
+      "id": "uniform-1k-female",
+      "recordSha256": "6ec80b232118136b4cab29eac504a20a0a919ceadd9b4040600cf68fd07229e8",
+      "root": "c80eaf42-ea27-44d7-9019-2af8b529e91a",
+      "hairStyle": "female-bob-v1",
+      "hairColor": "blonde",
+      "cacheEntries": 4,
+      "skinTone": "warm",
+      "eyeColor": "brown",
+      "lipColor": "coral",
+      "facialCacheEntries": 4,
+      "facialMasks": {
+        "iris": "d6178bb05f53d5dde9186614c2f4019a535cfb15ceec40a1e8ad46343e2eebfe",
+        "lips": "b7f1de3847c7bd89b8c50c14f192c77236fd91031b76783583a51a73a91492ed"
+      },
+      "nativeEyebrowCache": 0,
+      "materials": [
+        {
+          "material": "be132659-210a-4672-aeb5-46faf7b79576",
+          "name": "F00_000_HairBack_00_HAIR",
+          "part": "hair",
+          "outline": false,
+          "color": [
+            0.7011018919268015,
+            0.4735314961384573,
+            0.19461783043107173
+          ],
+          "shadeColor": [
+            0.2836243460498896,
+            0.19156282770424743,
+            0.07873085998093984
+          ],
+          "slots": {
+            "map": "16d1fc78-75a0-4714-8585-95a833e07bda",
+            "shadeMultiplyTexture": "a9a86d3f-9ed0-47ce-a91a-1424c412d5c5"
+          },
+          "uses": [
+            {
+              "mesh": "m2-female-neck-bob-v1",
+              "meshId": "8c8b58c7-8cf5-4e39-bd57-a796561ce147",
+              "visible": true,
+              "role": "replacement"
+            }
+          ]
+        },
+        {
+          "material": "230677f0-9983-40f6-a616-f2ea2b934329",
+          "name": "F00_001_01_Body_00_SKIN",
+          "part": "body",
+          "outline": false,
+          "color": [
+            0.7230551289161951,
+            0.5583403896257968,
+            0.45641102317066595
+          ],
+          "shadeColor": [
+            0.6761907527015052,
+            0.3512093549135366,
+            0.32753123600014444
+          ],
+          "slots": {
+            "map": "aeee2fed-8f33-4ae0-ae7a-b61bfbd81972",
+            "shadeMultiplyTexture": "51b9ce3b-fcdc-4b56-b9e9-18a3cd761dcd"
+          },
+          "uses": [
+            {
+              "mesh": "Bodybaked",
+              "meshId": "82503365-d334-42e6-bfa4-b940d25e4a70",
+              "visible": true,
+              "role": "body"
+            }
+          ]
+        },
+        {
+          "material": "2cd2ae17-d325-4201-af35-6ad009754325",
+          "name": "F00_001_01_Body_00_SKIN (Outline)",
+          "part": "body",
+          "outline": true,
+          "color": [
+            0.7230551289161951,
+            0.5583403896257968,
+            0.45641102317066595
+          ],
+          "shadeColor": [
+            0.6761907527015052,
+            0.3512093549135366,
+            0.32753123600014444
+          ],
+          "slots": {
+            "map": "aeee2fed-8f33-4ae0-ae7a-b61bfbd81972",
+            "shadeMultiplyTexture": "51b9ce3b-fcdc-4b56-b9e9-18a3cd761dcd"
+          },
+          "uses": [
+            {
+              "mesh": "Bodybaked",
+              "meshId": "82503365-d334-42e6-bfa4-b940d25e4a70",
+              "visible": true,
+              "role": "body"
+            }
+          ]
+        },
+        {
+          "material": "247d8605-c25a-42af-a9f3-1af36f837de4",
+          "name": "F00_000_HairBack_00_HAIR",
+          "part": "hair",
+          "outline": false,
+          "color": [
+            0.7011018919268015,
+            0.4735314961384573,
+            0.19461783043107173
+          ],
+          "shadeColor": [
+            0.2836243460498896,
+            0.19156282770424743,
+            0.07873085998093984
+          ],
+          "slots": {
+            "map": "16d1fc78-75a0-4714-8585-95a833e07bda",
+            "shadeMultiplyTexture": "a9a86d3f-9ed0-47ce-a91a-1424c412d5c5"
+          },
+          "uses": [
+            {
+              "mesh": "Bodybaked_5",
+              "meshId": "2b367ac6-ff82-48a1-b079-797f0b48b15c",
+              "visible": false,
+              "role": "original-hair"
+            }
+          ]
+        },
+        {
+          "material": "a4638ce1-b57f-4261-ae5b-e0ae8208b012",
+          "name": "F00_000_00_FaceBrow_00_FACE",
+          "part": "eyebrow",
+          "outline": false,
+          "color": [
+            0.7011018919268015,
+            0.4735314961384573,
+            0.19461783043107173
+          ],
+          "shadeColor": [
+            0.02697331470503491,
+            0.018218056769160974,
+            0.0074874822730851935
+          ],
+          "slots": {
+            "map": "6ae1412d-cfc6-4107-bed7-6b8528f6bada",
+            "shadeMultiplyTexture": "b3c95bc6-2fbc-4e18-a238-7c3c5a8eda0a"
+          },
+          "uses": [
+            {
+              "mesh": "Facebaked_4",
+              "meshId": "fcb011af-c7ac-4155-a68b-d0249e304e33",
+              "visible": true,
+              "role": "eyebrow"
+            }
+          ]
+        },
+        {
+          "material": "76c23524-9847-449d-b000-b5390f6a1d47",
+          "name": "F00_000_00_EyeIris_00_EYE",
+          "part": "iris",
+          "outline": false,
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "shadeColor": [
+            1,
+            1,
+            1
+          ],
+          "slots": {
+            "map": "a3cb3fe6-fdd3-45bf-9f79-2f8befa444c3",
+            "shadeMultiplyTexture": "1180bc94-0907-4578-b1b5-78ca37b3d8d8"
+          },
+          "uses": [
+            {
+              "mesh": "Facebaked_5",
+              "meshId": "4f72d86d-d028-460d-999c-9f37456199d1",
+              "visible": true,
+              "role": "iris"
+            }
+          ]
+        },
+        {
+          "material": "59ab9787-efe7-4f7a-bfd1-716086f872ed",
+          "name": "F00_000_00_Face_00_SKIN",
+          "part": "lips",
+          "outline": false,
+          "color": [
+            0.7230551289161951,
+            0.5583403896257968,
+            0.45641102317066595
+          ],
+          "shadeColor": [
+            0.6761907527015052,
+            0.3512093549135366,
+            0.32753123600014444
+          ],
+          "slots": {
+            "map": "35e32dfa-14cc-4cb4-a336-99c7ca45e70d",
+            "shadeMultiplyTexture": "bb531190-2361-44b2-affd-304047ba20fc"
+          },
+          "uses": [
+            {
+              "mesh": "Facebaked_7",
+              "meshId": "c09790d8-50fa-414f-9f22-9957b92de130",
+              "visible": true,
+              "role": "lips"
+            }
+          ]
+        },
+        {
+          "material": "d61e970e-47dd-415e-9e86-5ca3f381a1d8",
+          "name": "F00_000_00_Face_00_SKIN (Outline)",
+          "part": "lips",
+          "outline": true,
+          "color": [
+            0.7230551289161951,
+            0.5583403896257968,
+            0.45641102317066595
+          ],
+          "shadeColor": [
+            0.6761907527015052,
+            0.3512093549135366,
+            0.32753123600014444
+          ],
+          "slots": {
+            "map": "35e32dfa-14cc-4cb4-a336-99c7ca45e70d",
+            "shadeMultiplyTexture": "bb531190-2361-44b2-affd-304047ba20fc"
+          },
+          "uses": [
+            {
+              "mesh": "Facebaked_7",
+              "meshId": "c09790d8-50fa-414f-9f22-9957b92de130",
+              "visible": true,
+              "role": "lips"
+            }
+          ]
+        }
+      ],
+      "textures": {
+        "16d1fc78-75a0-4714-8585-95a833e07bda": {
+          "texture": "16d1fc78-75a0-4714-8585-95a833e07bda",
+          "source": "725d1e1c-d3db-46a3-9af5-36105a90f8c2",
+          "image": 1,
+          "imageKind": "HTMLCanvasElement",
+          "width": 1024,
+          "height": 1024,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 1,
+          "live": true
+        },
+        "a9a86d3f-9ed0-47ce-a91a-1424c412d5c5": {
+          "texture": "a9a86d3f-9ed0-47ce-a91a-1424c412d5c5",
+          "source": "2146d6a6-471f-49e0-9dd3-c966fc47d123",
+          "image": 2,
+          "imageKind": "HTMLCanvasElement",
+          "width": 1024,
+          "height": 1024,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 2,
+          "live": true
+        },
+        "aeee2fed-8f33-4ae0-ae7a-b61bfbd81972": {
+          "texture": "aeee2fed-8f33-4ae0-ae7a-b61bfbd81972",
+          "source": "a9c487df-2ec9-4f3b-a4f5-0f872c27bca1",
+          "image": 3,
+          "imageKind": "ImageBitmap",
+          "width": 2048,
+          "height": 2048,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 3,
+          "live": true
+        },
+        "51b9ce3b-fcdc-4b56-b9e9-18a3cd761dcd": {
+          "texture": "51b9ce3b-fcdc-4b56-b9e9-18a3cd761dcd",
+          "source": "a9c487df-2ec9-4f3b-a4f5-0f872c27bca1",
+          "image": 3,
+          "imageKind": "ImageBitmap",
+          "width": 2048,
+          "height": 2048,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 3,
+          "live": true
+        },
+        "6ae1412d-cfc6-4107-bed7-6b8528f6bada": {
+          "texture": "6ae1412d-cfc6-4107-bed7-6b8528f6bada",
+          "source": "039e16ca-2efa-4b69-adbb-9f984345a806",
+          "image": 4,
+          "imageKind": "HTMLCanvasElement",
+          "width": 1024,
+          "height": 256,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 4,
+          "live": true
+        },
+        "b3c95bc6-2fbc-4e18-a238-7c3c5a8eda0a": {
+          "texture": "b3c95bc6-2fbc-4e18-a238-7c3c5a8eda0a",
+          "source": "e8eae38b-2473-45c9-b913-0e49cce6dcf1",
+          "image": 5,
+          "imageKind": "HTMLCanvasElement",
+          "width": 1024,
+          "height": 256,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 5,
+          "live": true
+        },
+        "a3cb3fe6-fdd3-45bf-9f79-2f8befa444c3": {
+          "texture": "a3cb3fe6-fdd3-45bf-9f79-2f8befa444c3",
+          "source": "62e4a456-fa40-4e3c-894d-0e37eae8a46e",
+          "image": 6,
+          "imageKind": "HTMLCanvasElement",
+          "width": 1024,
+          "height": 512,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 6,
+          "live": true
+        },
+        "1180bc94-0907-4578-b1b5-78ca37b3d8d8": {
+          "texture": "1180bc94-0907-4578-b1b5-78ca37b3d8d8",
+          "source": "44c10d99-a9d4-4685-81ef-ab46dc20f8d5",
+          "image": 7,
+          "imageKind": "HTMLCanvasElement",
+          "width": 1024,
+          "height": 512,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 7,
+          "live": true
+        },
+        "35e32dfa-14cc-4cb4-a336-99c7ca45e70d": {
+          "texture": "35e32dfa-14cc-4cb4-a336-99c7ca45e70d",
+          "source": "5858d590-4a39-4da0-b847-231d5773dd11",
+          "image": 8,
+          "imageKind": "HTMLCanvasElement",
+          "width": 1024,
+          "height": 1024,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 8,
+          "live": true
+        },
+        "bb531190-2361-44b2-affd-304047ba20fc": {
+          "texture": "bb531190-2361-44b2-affd-304047ba20fc",
+          "source": "7ff3ae15-3151-4533-acb6-5dddc9e667cd",
+          "image": 9,
+          "imageKind": "HTMLCanvasElement",
+          "width": 1024,
+          "height": 1024,
+          "generateMipmaps": false,
+          "minFilter": 1006,
+          "magFilter": 1006,
+          "explicitMipLevels": 0,
+          "format": 1023,
+          "type": 1009,
+          "colorSpace": "srgb",
+          "webglTexture": 9,
+          "live": true
+        }
+      }
+    },
+    "sourceToDerived": [
+      {
+        "part": "hair",
+        "original": "fa48e400-2287-4d67-874a-b8e7e7b0663e",
+        "derived": "16d1fc78-75a0-4714-8585-95a833e07bda"
+      },
+      {
+        "part": "hair",
+        "original": "6c626cb0-026b-4c93-903f-b68b97180d76",
+        "derived": "a9a86d3f-9ed0-47ce-a91a-1424c412d5c5"
+      },
+      {
+        "part": "eyebrow",
+        "original": "3b8b1ffd-4efe-4b05-a676-7f760a3f6055",
+        "derived": "6ae1412d-cfc6-4107-bed7-6b8528f6bada"
+      },
+      {
+        "part": "eyebrow",
+        "original": "a8d5bd9a-f8f5-441e-911a-347875a2d44d",
+        "derived": "b3c95bc6-2fbc-4e18-a238-7c3c5a8eda0a"
+      },
+      {
+        "part": "iris",
+        "original": "1c971609-4ad9-4c04-9b1c-8a74c820fd11",
+        "derived": "a3cb3fe6-fdd3-45bf-9f79-2f8befa444c3"
+      },
+      {
+        "part": "iris",
+        "original": "c4a8f749-34ef-43a9-aecb-81005b2604c2",
+        "derived": "1180bc94-0907-4578-b1b5-78ca37b3d8d8"
+      },
+      {
+        "part": "lips",
+        "original": "2f0fe1fa-f0c7-45d8-b72e-d67406046315",
+        "derived": "35e32dfa-14cc-4cb4-a336-99c7ca45e70d"
+      },
+      {
+        "part": "lips",
+        "original": "ed29cc8d-5495-4acf-96b4-a04876b1d13c",
+        "derived": "bb531190-2361-44b2-affd-304047ba20fc"
+      }
+    ],
+    "afterReplacingPair": [
+      {
+        "texture": "16d1fc78-75a0-4714-8585-95a833e07bda",
+        "disposals": 1,
+        "hasRendererProperties": false
+      },
+      {
+        "texture": "a9a86d3f-9ed0-47ce-a91a-1424c412d5c5",
+        "disposals": 1,
+        "hasRendererProperties": false
+      },
+      {
+        "texture": "6ae1412d-cfc6-4107-bed7-6b8528f6bada",
+        "disposals": 1,
+        "hasRendererProperties": false
+      },
+      {
+        "texture": "b3c95bc6-2fbc-4e18-a238-7c3c5a8eda0a",
+        "disposals": 1,
+        "hasRendererProperties": false
+      },
+      {
+        "texture": "a3cb3fe6-fdd3-45bf-9f79-2f8befa444c3",
+        "disposals": 1,
+        "hasRendererProperties": false
+      },
+      {
+        "texture": "1180bc94-0907-4578-b1b5-78ca37b3d8d8",
+        "disposals": 1,
+        "hasRendererProperties": false
+      },
+      {
+        "texture": "35e32dfa-14cc-4cb4-a336-99c7ca45e70d",
+        "disposals": 1,
+        "hasRendererProperties": false
+      },
+      {
+        "texture": "bb531190-2361-44b2-affd-304047ba20fc",
+        "disposals": 1,
+        "hasRendererProperties": false
+      }
+    ],
+    "twins": {
+      "primary": {
+        "phase": "two-independent-actors",
+        "id": "uniform-1k-female",
+        "recordSha256": "6ec80b232118136b4cab29eac504a20a0a919ceadd9b4040600cf68fd07229e8",
+        "root": "04689e22-2571-408c-b12f-4b6b39e8492b",
+        "hairStyle": "female-bob-v1",
+        "hairColor": "blonde",
+        "cacheEntries": 4,
+        "skinTone": "warm",
+        "eyeColor": "brown",
+        "lipColor": "coral",
+        "facialCacheEntries": 4,
+        "facialMasks": {
+          "iris": "d6178bb05f53d5dde9186614c2f4019a535cfb15ceec40a1e8ad46343e2eebfe",
+          "lips": "b7f1de3847c7bd89b8c50c14f192c77236fd91031b76783583a51a73a91492ed"
+        },
+        "nativeEyebrowCache": 0,
+        "materials": [
+          {
+            "material": "b298cf4e-729a-4df3-b9c0-1a3f626ba88e",
+            "name": "F00_000_HairBack_00_HAIR",
+            "part": "hair",
+            "outline": false,
+            "color": [
+              0.7011018919268015,
+              0.4735314961384573,
+              0.19461783043107173
+            ],
+            "shadeColor": [
+              0.2836243460498896,
+              0.19156282770424743,
+              0.07873085998093984
+            ],
+            "slots": {
+              "map": "a73cfdd4-96aa-480d-875f-01a4045f0cca",
+              "shadeMultiplyTexture": "8742cc96-9329-4917-8f4f-303da7c69ce0"
+            },
+            "uses": [
+              {
+                "mesh": "m2-female-neck-bob-v1",
+                "meshId": "c51d306e-0591-4c99-8c40-560cbf7909ed",
+                "visible": true,
+                "role": "replacement"
+              }
+            ]
+          },
+          {
+            "material": "b1be9c57-24f0-482c-802e-9583295c1242",
+            "name": "F00_001_01_Body_00_SKIN",
+            "part": "body",
+            "outline": false,
+            "color": [
+              0.7230551289161951,
+              0.5583403896257968,
+              0.45641102317066595
+            ],
+            "shadeColor": [
+              0.6761907527015052,
+              0.3512093549135366,
+              0.32753123600014444
+            ],
+            "slots": {
+              "map": "5dfde870-e33e-496d-9a58-54cfd1c330f4",
+              "shadeMultiplyTexture": "7e3b0c49-cbd9-446d-88eb-3e671f5e1420"
+            },
+            "uses": [
+              {
+                "mesh": "Bodybaked",
+                "meshId": "5933a6c0-82ba-4616-aee8-82840f7cae34",
+                "visible": true,
+                "role": "body"
+              }
+            ]
+          },
+          {
+            "material": "729e1796-1fdb-4e16-ae99-5bb77e7e07f0",
+            "name": "F00_001_01_Body_00_SKIN (Outline)",
+            "part": "body",
+            "outline": true,
+            "color": [
+              0.7230551289161951,
+              0.5583403896257968,
+              0.45641102317066595
+            ],
+            "shadeColor": [
+              0.6761907527015052,
+              0.3512093549135366,
+              0.32753123600014444
+            ],
+            "slots": {
+              "map": "5dfde870-e33e-496d-9a58-54cfd1c330f4",
+              "shadeMultiplyTexture": "7e3b0c49-cbd9-446d-88eb-3e671f5e1420"
+            },
+            "uses": [
+              {
+                "mesh": "Bodybaked",
+                "meshId": "5933a6c0-82ba-4616-aee8-82840f7cae34",
+                "visible": true,
+                "role": "body"
+              }
+            ]
+          },
+          {
+            "material": "bc4a4754-fb1d-4b8e-bab7-3ede82047355",
+            "name": "F00_000_HairBack_00_HAIR",
+            "part": "hair",
+            "outline": false,
+            "color": [
+              0.7011018919268015,
+              0.4735314961384573,
+              0.19461783043107173
+            ],
+            "shadeColor": [
+              0.2836243460498896,
+              0.19156282770424743,
+              0.07873085998093984
+            ],
+            "slots": {
+              "map": "a73cfdd4-96aa-480d-875f-01a4045f0cca",
+              "shadeMultiplyTexture": "8742cc96-9329-4917-8f4f-303da7c69ce0"
+            },
+            "uses": [
+              {
+                "mesh": "Bodybaked_5",
+                "meshId": "2f02d8ea-1bd6-460c-acdd-1d193c5a281f",
+                "visible": false,
+                "role": "original-hair"
+              }
+            ]
+          },
+          {
+            "material": "23fc3598-d676-4d12-9001-9b8ca6993bf1",
+            "name": "F00_000_00_FaceBrow_00_FACE",
+            "part": "eyebrow",
+            "outline": false,
+            "color": [
+              0.7011018919268015,
+              0.4735314961384573,
+              0.19461783043107173
+            ],
+            "shadeColor": [
+              0.02697331470503491,
+              0.018218056769160974,
+              0.0074874822730851935
+            ],
+            "slots": {
+              "map": "494759b4-0376-4175-b836-430c7288c094",
+              "shadeMultiplyTexture": "f4e1348b-ce9e-43a6-a8b5-360f585d08e0"
+            },
+            "uses": [
+              {
+                "mesh": "Facebaked_4",
+                "meshId": "ed98ee17-aa70-4790-bc72-e0ff3639f518",
+                "visible": true,
+                "role": "eyebrow"
+              }
+            ]
+          },
+          {
+            "material": "21c9bdd9-6bd6-49bf-9733-97566b35f3c3",
+            "name": "F00_000_00_EyeIris_00_EYE",
+            "part": "iris",
+            "outline": false,
+            "color": [
+              1,
+              1,
+              1
+            ],
+            "shadeColor": [
+              1,
+              1,
+              1
+            ],
+            "slots": {
+              "map": "833a0948-d0e6-42d7-84c7-67518cb8d493",
+              "shadeMultiplyTexture": "04e4bb4a-bef7-4505-ac8b-75bd0f337558"
+            },
+            "uses": [
+              {
+                "mesh": "Facebaked_5",
+                "meshId": "28311faf-a7fa-450a-8d03-7feeeb9b8970",
+                "visible": true,
+                "role": "iris"
+              }
+            ]
+          },
+          {
+            "material": "1ef4c038-4bee-44e8-ac5a-35a008a670d1",
+            "name": "F00_000_00_Face_00_SKIN",
+            "part": "lips",
+            "outline": false,
+            "color": [
+              0.7230551289161951,
+              0.5583403896257968,
+              0.45641102317066595
+            ],
+            "shadeColor": [
+              0.6761907527015052,
+              0.3512093549135366,
+              0.32753123600014444
+            ],
+            "slots": {
+              "map": "e5677fb1-62f4-4099-8056-72133e94aa6f",
+              "shadeMultiplyTexture": "3243d197-d3bd-4d99-b41e-762b51c6bfc7"
+            },
+            "uses": [
+              {
+                "mesh": "Facebaked_7",
+                "meshId": "4105f96e-342b-4b3c-b8d4-7e2f3602756c",
+                "visible": true,
+                "role": "lips"
+              }
+            ]
+          },
+          {
+            "material": "e0ff4f15-a471-469e-89a8-aa4c9cd0d5f3",
+            "name": "F00_000_00_Face_00_SKIN (Outline)",
+            "part": "lips",
+            "outline": true,
+            "color": [
+              0.7230551289161951,
+              0.5583403896257968,
+              0.45641102317066595
+            ],
+            "shadeColor": [
+              0.6761907527015052,
+              0.3512093549135366,
+              0.32753123600014444
+            ],
+            "slots": {
+              "map": "e5677fb1-62f4-4099-8056-72133e94aa6f",
+              "shadeMultiplyTexture": "3243d197-d3bd-4d99-b41e-762b51c6bfc7"
+            },
+            "uses": [
+              {
+                "mesh": "Facebaked_7",
+                "meshId": "4105f96e-342b-4b3c-b8d4-7e2f3602756c",
+                "visible": true,
+                "role": "lips"
+              }
+            ]
+          }
+        ],
+        "textures": {
+          "a73cfdd4-96aa-480d-875f-01a4045f0cca": {
+            "texture": "a73cfdd4-96aa-480d-875f-01a4045f0cca",
+            "source": "679ddf9a-9662-4228-bc0e-58597b269674",
+            "image": 17,
+            "imageKind": "HTMLCanvasElement",
+            "width": 1024,
+            "height": 1024,
+            "generateMipmaps": false,
+            "minFilter": 1006,
+            "magFilter": 1006,
+            "explicitMipLevels": 0,
+            "format": 1023,
+            "type": 1009,
+            "colorSpace": "srgb",
+            "webglTexture": 17,
+            "live": true
+          },
+          "8742cc96-9329-4917-8f4f-303da7c69ce0": {
+            "texture": "8742cc96-9329-4917-8f4f-303da7c69ce0",
+            "source": "7c5d851f-f3cb-45a2-8d9d-3100b824c863",
+            "image": 18,
+            "imageKind": "HTMLCanvasElement",
+            "width": 1024,
+            "height": 1024,
+            "generateMipmaps": false,
+            "minFilter": 1006,
+            "magFilter": 1006,
+            "explicitMipLevels": 0,
+            "format": 1023,
+            "type": 1009,
+            "colorSpace": "srgb",
+            "webglTexture": 18,
+            "live": true
+          },
+          "5dfde870-e33e-496d-9a58-54cfd1c330f4": {
+            "texture": "5dfde870-e33e-496d-9a58-54cfd1c330f4",
+            "source": "7421cb13-6d2e-40db-b8b3-8a25e858ef90",
+            "image": 19,
+            "imageKind": "ImageBitmap",
+            "width": 2048,
+            "height": 2048,
+            "generateMipmaps": false,
+            "minFilter": 1006,
+            "magFilter": 1006,
+            "explicitMipLevels": 0,
+            "format": 1023,
+            "type": 1009,
+            "colorSpace": "srgb",
+            "webglTexture": 19,
+            "live": true
+          },
+          "7e3b0c49-cbd9-446d-88eb-3e671f5e1420": {
+            "texture": "7e3b0c49-cbd9-446d-88eb-3e671f5e1420",
+            "source": "7421cb13-6d2e-40db-b8b3-8a25e858ef90",
+            "image": 19,
+            "imageKind": "ImageBitmap",
+            "width": 2048,
+            "height": 2048,
+            "generateMipmaps": false,
+            "minFilter": 1006,
+            "magFilter": 1006,
+            "explicitMipLevels": 0,
+            "format": 1023,
+            "type": 1009,
+            "colorSpace": "srgb",
+            "webglTexture": 19,
+            "live": true
+          },
+          "494759b4-0376-4175-b836-430c7288c094": {
+            "texture": "494759b4-0376-4175-b836-430c7288c094",
+            "source": "94233f63-9c72-48ef-9e61-a4e2538b349e",
+            "image": 20,
+            "imageKind": "HTMLCanvasElement",
+            "width": 1024,
+            "height": 256,
+            "generateMipmaps": false,
+            "minFilter": 1006,
+            "magFilter": 1006,
+            "explicitMipLevels": 0,
+            "format": 1023,
+            "type": 1009,
+            "colorSpace": "srgb",
+            "webglTexture": 20,
+            "live": true
+          },
+          "f4e1348b-ce9e-43a6-a8b5-360f585d08e0": {
+            "texture": "f4e1348b-ce9e-43a6-a8b5-360f585d08e0",
+            "source": "20cebbdf-3450-46bb-a10f-89caa6752915",
+            "image": 21,
+            "imageKind": "HTMLCanvasElement",
+            "width": 1024,
+            "height": 256,
+            "generateMipmaps": false,
+            "minFilter": 1006,
+            "magFilter": 1006,
+            "explicitMipLevels": 0,
+            "format": 1023,
+            "type": 1009,
+            "colorSpace": "srgb",
+            "webglTexture": 21,
+            "live": true
+          },
+          "833a0948-d0e6-42d7-84c7-67518cb8d493": {
+            "texture": "833a0948-d0e6-42d7-84c7-67518cb8d493",
+            "source": "8ad014b7-2699-470e-8d3d-e619f44e26bd",
+            "image": 22,
+            "imageKind": "HTMLCanvasElement",
+            "width": 1024,
+            "height": 512,
+            "generateMipmaps": false,
+            "minFilter": 1006,
+            "magFilter": 1006,
+            "explicitMipLevels": 0,
+            "format": 1023,
+            "type": 1009,
+            "colorSpace": "srgb",
+            "webglTexture": 22,
+            "live": true
+          },
+          "04e4bb4a-bef7-4505-ac8b-75bd0f337558": {
+            "texture": "04e4bb4a-bef7-4505-ac8b-75bd0f337558",
+            "source": "750d5535-60a6-45a7-acdd-dfc691c8d26e",
+            "image": 23,
+            "imageKind": "HTMLCanvasElement",
+            "width": 1024,
+            "height": 512,
+            "generateMipmaps": false,
+            "minFilter": 1006,
+            "magFilter": 1006,
+            "explicitMipLevels": 0,
+            "format": 1023,
+            "type": 1009,
+            "colorSpace": "srgb",
+            "webglTexture": 23,
+            "live": true
+          },
+          "e5677fb1-62f4-4099-8056-72133e94aa6f": {
+            "texture": "e5677fb1-62f4-4099-8056-72133e94aa6f",
+            "source": "0a0f42a2-a555-4c86-a683-975d2c3254c8",
+            "image": 24,
+            "imageKind": "HTMLCanvasElement",
+            "width": 1024,
+            "height": 1024,
+            "generateMipmaps": false,
+            "minFilter": 1006,
+            "magFilter": 1006,
+            "explicitMipLevels": 0,
+            "format": 1023,
+            "type": 1009,
+            "colorSpace": "srgb",
+            "webglTexture": 24,
+            "live": true
+          },
+          "3243d197-d3bd-4d99-b41e-762b51c6bfc7": {
+            "texture": "3243d197-d3bd-4d99-b41e-762b51c6bfc7",
+            "source": "d1fdb9a7-ced8-49e9-8d6c-c67ca8a0632b",
+            "image": 25,
+            "imageKind": "HTMLCanvasElement",
+            "width": 1024,
+            "height": 1024,
+            "generateMipmaps": false,
+            "minFilter": 1006,
+            "magFilter": 1006,
+            "explicitMipLevels": 0,
+            "format": 1023,
+            "type": 1009,
+            "colorSpace": "srgb",
+            "webglTexture": 25,
+            "live": true
+          }
+        }
+      },
+      "peer": {
+        "phase": "two-independent-actors",
+        "id": "uniform-1k-female-qa-peer",
+        "recordSha256": "d7fd2ce9ba56826c1b84cf100bc2f50ecfce1b0d60cd23717f1290b383eebb82",
+        "root": "6a563963-8cad-4a9d-a32b-dc8344090730",
+        "hairStyle": "female-bob-v1",
+        "hairColor": "blonde",
+        "cacheEntries": 4,
+        "skinTone": "warm",
+        "eyeColor": "brown",
+        "lipColor": "coral",
+        "facialCacheEntries": 4,
+        "facialMasks": {
+          "iris": "d6178bb05f53d5dde9186614c2f4019a535cfb15ceec40a1e8ad46343e2eebfe",
+          "lips": "b7f1de3847c7bd89b8c50c14f192c77236fd91031b76783583a51a73a91492ed"
+        },
+        "nativeEyebrowCache": 0,
+        "materials": [
+          {
+            "material": "b87c8b29-6698-4233-8308-a6269fbf88e4",
+            "name": "F00_000_HairBack_00_HAIR",
+            "part": "hair",
+            "outline": false,
+            "color": [
+              0.7011018919268015,
+              0.4735314961384573,
+              0.19461783043107173
+            ],
+            "shadeColor": [
+              0.2836243460498896,
+              0.19156282770424743,
+              0.07873085998093984
+            ],
+            "slots": {
+              "map": "f5fff00b-66d2-4d7d-bdbf-1b7b00d492ca",
+              "shadeMultiplyTexture": "cf3b7087-e007-4873-9e07-0ae465361180"
+            },
+            "uses": [
+              {
+                "mesh": "m2-female-neck-bob-v1",
+                "meshId": "908d2dc0-cb8d-427d-9ec4-b804ae3e05ad",
+                "visible": true,
+                "role": "replacement"
+              }
+            ]
+          },
+          {
+            "material": "805e266e-b3bc-4050-a470-75226fc47e29",
+            "name": "F00_001_01_Body_00_SKIN",
+            "part": "body",
+            "outline": false,
+            "color": [
+              0.7230551289161951,
+              0.5583403896257968,
+              0.45641102317066595
+            ],
+            "shadeColor": [
+              0.6761907527015052,
+              0.3512093549135366,
+              0.32753123600014444
+            ],
+            "slots": {
+              "map": "086c034c-3cf9-44ae-b339-f65e2ae395cf",
+              "shadeMultiplyTexture": "d800a9b0-9d36-4ae2-9cdb-490665dea5d3"
+            },
+            "uses": [
+              {
+                "mesh": "Bodybaked",
+                "meshId": "84c0ce2b-1324-4678-a1b6-6a192e6d54b7",
+                "visible": true,
+                "role": "body"
+              }
+            ]
+          },
+          {
+            "material": "ebf22a98-d2c0-4804-a70c-39e28c591d34",
+            "name": "F00_001_01_Body_00_SKIN (Outline)",
+            "part": "body",
+            "outline": true,
+            "color": [
+              0.7230551289161951,
+              0.5583403896257968,
+              0.45641102317066595
+            ],
+            "shadeColor": [
+              0.6761907527015052,
+              0.3512093549135366,
+              0.32753123600014444
+            ],
+            "slots": {
+              "map": "086c034c-3cf9-44ae-b339-f65e2ae395cf",
+              "shadeMultiplyTexture": "d800a9b0-9d36-4ae2-9cdb-490665dea5d3"
+            },
+            "uses": [
+              {
+                "mesh": "Bodybaked",
+                "meshId": "84c0ce2b-1324-4678-a1b6-6a192e6d54b7",
+                "visible": true,
+                "role": "body"
+              }
+            ]
+          },
+          {
+            "material": "8a3164f5-8e66-4d60-bfd0-6da94d92ed85",
+            "name": "F00_000_HairBack_00_HAIR",
+            "part": "hair",
+            "outline": false,
+            "color": [
+              0.7011018919268015,
+              0.4735314961384573,
+              0.19461783043107173
+            ],
+            "shadeColor": [
+              0.2836243460498896,
+              0.19156282770424743,
+              0.07873085998093984
+            ],
+            "slots": {
+              "map": "f5fff00b-66d2-4d7d-bdbf-1b7b00d492ca",
+              "shadeMultiplyTexture": "cf3b7087-e007-4873-9e07-0ae465361180"
+            },
+            "uses": [
+              {
+                "mesh": "Bodybaked_5",
+                "meshId": "45af0efb-86da-4f9c-9839-2cf510b4289d",
+                "visible": false,
+                "role": "original-hair"
+              }
+            ]
+          },
+          {
+            "material": "e4a2cf5c-e0c0-4bb1-9a41-3402a7a34ae0",
+            "name": "F00_000_00_FaceBrow_00_FACE",
+            "part": "eyebrow",
+            "outline": false,
+            "color": [
+              0.7011018919268015,
+              0.4735314961384573,
+              0.19461783043107173
+            ],
+            "shadeColor": [
+              0.02697331470503491,
+              0.018218056769160974,
+              0.0074874822730851935
+            ],
+            "slots": {
+              "map": "a33f3645-f5eb-491b-b51c-d0c38565b49c",
+              "shadeMultiplyTexture": "ee13994a-ea54-4c22-82a9-e2a0ab0bdec9"
+            },
+            "uses": [
+              {
+                "mesh": "Facebaked_4",
+                "meshId": "78016b8e-17f9-4fe8-ab88-438e28af2421",
+                "visible": true,
+                "role": "eyebrow"
+              }
+            ]
+          },
+          {
+            "material": "3e8f5bc0-6fdf-413d-96a8-619d3673fcd7",
+            "name": "F00_000_00_EyeIris_00_EYE",
+            "part": "iris",
+            "outline": false,
+            "color": [
+              1,
+              1,
+              1
+            ],
+            "shadeColor": [
+              1,
+              1,
+              1
+            ],
+            "slots": {
+              "map": "0dbf6226-b04e-414c-a6ab-caad61ab6b99",
+              "shadeMultiplyTexture": "9e93c072-9731-4720-9db3-feddc652de71"
+            },
+            "uses": [
+              {
+                "mesh": "Facebaked_5",
+                "meshId": "d7a02c9d-826b-4afb-8ce3-77eabb863125",
+                "visible": true,
+                "role": "iris"
+              }
+            ]
+          },
+          {
+            "material": "d77f4a11-fbf8-4786-a6f4-a979e7479871",
+            "name": "F00_000_00_Face_00_SKIN",
+            "part": "lips",
+            "outline": false,
+            "color": [
+              0.7230551289161951,
+              0.5583403896257968,
+              0.45641102317066595
+            ],
+            "shadeColor": [
+              0.6761907527015052,
+              0.3512093549135366,
+              0.32753123600014444
+            ],
+            "slots": {
+              "map": "3e59fbbd-b56d-487d-a392-f420d5d09a86",
+              "shadeMultiplyTexture": "5ddcfff1-0354-42ef-9f36-802e8e29b940"
+            },
+            "uses": [
+              {
+                "mesh": "Facebaked_7",
+                "meshId": "cec02d4c-1c5d-412b-b687-bb47fa2d6c8d",
+                "visible": true,
+                "role": "lips"
+              }
+            ]
+          },
+          {
+            "material": "a1c7ed8c-eec1-4c58-9dd2-925c97f4790b",
+            "name": "F00_000_00_Face_00_SKIN (Outline)",
+            "part": "lips",
+            "outline": true,
+            "color": [
+              0.7230551289161951,
+              0.5583403896257968,
+              0.45641102317066595
+            ],
+            "shadeColor": [
+              0.6761907527015052,
+              0.3512093549135366,
+              0.32753123600014444
+            ],
+            "slots": {
+              "map": "3e59fbbd-b56d-487d-a392-f420d5d09a86",
+              "shadeMultiplyTexture": "5ddcfff1-0354-42ef-9f36-802e8e29b940"
+            },
+            "uses": [
+              {
+                "mesh": "Facebaked_7",
+                "meshId": "cec02d4c-1c5d-412b-b687-bb47fa2d6c8d",
+                "visible": true,
+                "role": "lips"
+              }
+            ]
+          }
+        ],
+        "textures": {
+          "f5fff00b-66d2-4d7d-bdbf-1b7b00d492ca": {
+            "texture": "f5fff00b-66d2-4d7d-bdbf-1b7b00d492ca",
+            "source": "7598f70d-85c7-4d42-9a81-0b794335e371",
+            "image": 26,
+            "imageKind": "HTMLCanvasElement",
+            "width": 1024,
+            "height": 1024,
+            "generateMipmaps": false,
+            "minFilter": 1006,
+            "magFilter": 1006,
+            "explicitMipLevels": 0,
+            "format": 1023,
+            "type": 1009,
+            "colorSpace": "srgb",
+            "webglTexture": 26,
+            "live": true
+          },
+          "cf3b7087-e007-4873-9e07-0ae465361180": {
+            "texture": "cf3b7087-e007-4873-9e07-0ae465361180",
+            "source": "d146097d-ffa1-40b9-817c-ef6504831eac",
+            "image": 27,
+            "imageKind": "HTMLCanvasElement",
+            "width": 1024,
+            "height": 1024,
+            "generateMipmaps": false,
+            "minFilter": 1006,
+            "magFilter": 1006,
+            "explicitMipLevels": 0,
+            "format": 1023,
+            "type": 1009,
+            "colorSpace": "srgb",
+            "webglTexture": 27,
+            "live": true
+          },
+          "086c034c-3cf9-44ae-b339-f65e2ae395cf": {
+            "texture": "086c034c-3cf9-44ae-b339-f65e2ae395cf",
+            "source": "2cc69063-bc1c-4d04-8cd9-7031e1f8e8cb",
+            "image": 28,
+            "imageKind": "ImageBitmap",
+            "width": 2048,
+            "height": 2048,
+            "generateMipmaps": false,
+            "minFilter": 1006,
+            "magFilter": 1006,
+            "explicitMipLevels": 0,
+            "format": 1023,
+            "type": 1009,
+            "colorSpace": "srgb",
+            "webglTexture": 28,
+            "live": true
+          },
+          "d800a9b0-9d36-4ae2-9cdb-490665dea5d3": {
+            "texture": "d800a9b0-9d36-4ae2-9cdb-490665dea5d3",
+            "source": "2cc69063-bc1c-4d04-8cd9-7031e1f8e8cb",
+            "image": 28,
+            "imageKind": "ImageBitmap",
+            "width": 2048,
+            "height": 2048,
+            "generateMipmaps": false,
+            "minFilter": 1006,
+            "magFilter": 1006,
+            "explicitMipLevels": 0,
+            "format": 1023,
+            "type": 1009,
+            "colorSpace": "srgb",
+            "webglTexture": 28,
+            "live": true
+          },
+          "a33f3645-f5eb-491b-b51c-d0c38565b49c": {
+            "texture": "a33f3645-f5eb-491b-b51c-d0c38565b49c",
+            "source": "3e4c954d-3347-4280-a43f-d31310a3f6b0",
+            "image": 29,
+            "imageKind": "HTMLCanvasElement",
+            "width": 1024,
+            "height": 256,
+            "generateMipmaps": false,
+            "minFilter": 1006,
+            "magFilter": 1006,
+            "explicitMipLevels": 0,
+            "format": 1023,
+            "type": 1009,
+            "colorSpace": "srgb",
+            "webglTexture": 29,
+            "live": true
+          },
+          "ee13994a-ea54-4c22-82a9-e2a0ab0bdec9": {
+            "texture": "ee13994a-ea54-4c22-82a9-e2a0ab0bdec9",
+            "source": "38ad2364-c3bc-4bd0-8d73-b88f7e367421",
+            "image": 30,
+            "imageKind": "HTMLCanvasElement",
+            "width": 1024,
+            "height": 256,
+            "generateMipmaps": false,
+            "minFilter": 1006,
+            "magFilter": 1006,
+            "explicitMipLevels": 0,
+            "format": 1023,
+            "type": 1009,
+            "colorSpace": "srgb",
+            "webglTexture": 30,
+            "live": true
+          },
+          "0dbf6226-b04e-414c-a6ab-caad61ab6b99": {
+            "texture": "0dbf6226-b04e-414c-a6ab-caad61ab6b99",
+            "source": "eb2135f1-94b6-4828-88d1-4e30277c975e",
+            "image": 31,
+            "imageKind": "HTMLCanvasElement",
+            "width": 1024,
+            "height": 512,
+            "generateMipmaps": false,
+            "minFilter": 1006,
+            "magFilter": 1006,
+            "explicitMipLevels": 0,
+            "format": 1023,
+            "type": 1009,
+            "colorSpace": "srgb",
+            "webglTexture": 31,
+            "live": true
+          },
+          "9e93c072-9731-4720-9db3-feddc652de71": {
+            "texture": "9e93c072-9731-4720-9db3-feddc652de71",
+            "source": "71d9b8ff-5e1d-4337-8964-f5eea8cda2e7",
+            "image": 32,
+            "imageKind": "HTMLCanvasElement",
+            "width": 1024,
+            "height": 512,
+            "generateMipmaps": false,
+            "minFilter": 1006,
+            "magFilter": 1006,
+            "explicitMipLevels": 0,
+            "format": 1023,
+            "type": 1009,
+            "colorSpace": "srgb",
+            "webglTexture": 32,
+            "live": true
+          },
+          "3e59fbbd-b56d-487d-a392-f420d5d09a86": {
+            "texture": "3e59fbbd-b56d-487d-a392-f420d5d09a86",
+            "source": "8d4844a1-7330-423c-8973-5dd2956d85cf",
+            "image": 33,
+            "imageKind": "HTMLCanvasElement",
+            "width": 1024,
+            "height": 1024,
+            "generateMipmaps": false,
+            "minFilter": 1006,
+            "magFilter": 1006,
+            "explicitMipLevels": 0,
+            "format": 1023,
+            "type": 1009,
+            "colorSpace": "srgb",
+            "webglTexture": 33,
+            "live": true
+          },
+          "5ddcfff1-0354-42ef-9f36-802e8e29b940": {
+            "texture": "5ddcfff1-0354-42ef-9f36-802e8e29b940",
+            "source": "8716c890-cd0b-4abc-9fe1-0f70837329cc",
+            "image": 34,
+            "imageKind": "HTMLCanvasElement",
+            "width": 1024,
+            "height": 1024,
+            "generateMipmaps": false,
+            "minFilter": 1006,
+            "magFilter": 1006,
+            "explicitMipLevels": 0,
+            "format": 1023,
+            "type": 1009,
+            "colorSpace": "srgb",
+            "webglTexture": 34,
+            "live": true
+          }
+        }
+      },
+      "memory": {
+        "textures": 81,
+        "geometries": 31
+      }
+    },
+    "disposePrimary": {
+      "phase": "primary-disposed-peer-live",
+      "primaryId": "uniform-1k-female",
+      "primarySha": "6ec80b232118136b4cab29eac504a20a0a919ceadd9b4040600cf68fd07229e8",
+      "peerId": "uniform-1k-female-qa-peer",
+      "peerSha": "d7fd2ce9ba56826c1b84cf100bc2f50ecfce1b0d60cd23717f1290b383eebb82",
+      "primary": [
+        {
+          "texture": "a73cfdd4-96aa-480d-875f-01a4045f0cca",
+          "disposals": 1,
+          "hasRendererProperties": false
+        },
+        {
+          "texture": "8742cc96-9329-4917-8f4f-303da7c69ce0",
+          "disposals": 1,
+          "hasRendererProperties": false
+        },
+        {
+          "texture": "494759b4-0376-4175-b836-430c7288c094",
+          "disposals": 1,
+          "hasRendererProperties": false
+        },
+        {
+          "texture": "f4e1348b-ce9e-43a6-a8b5-360f585d08e0",
+          "disposals": 1,
+          "hasRendererProperties": false
+        },
+        {
+          "texture": "833a0948-d0e6-42d7-84c7-67518cb8d493",
+          "disposals": 1,
+          "hasRendererProperties": false
+        },
+        {
+          "texture": "04e4bb4a-bef7-4505-ac8b-75bd0f337558",
+          "disposals": 1,
+          "hasRendererProperties": false
+        },
+        {
+          "texture": "e5677fb1-62f4-4099-8056-72133e94aa6f",
+          "disposals": 1,
+          "hasRendererProperties": false
+        },
+        {
+          "texture": "3243d197-d3bd-4d99-b41e-762b51c6bfc7",
+          "disposals": 1,
+          "hasRendererProperties": false
+        }
+      ],
+      "peer": [
+        {
+          "texture": "f5fff00b-66d2-4d7d-bdbf-1b7b00d492ca",
+          "disposals": 0,
+          "hasRendererProperties": true
+        },
+        {
+          "texture": "cf3b7087-e007-4873-9e07-0ae465361180",
+          "disposals": 0,
+          "hasRendererProperties": true
+        },
+        {
+          "texture": "a33f3645-f5eb-491b-b51c-d0c38565b49c",
+          "disposals": 0,
+          "hasRendererProperties": true
+        },
+        {
+          "texture": "ee13994a-ea54-4c22-82a9-e2a0ab0bdec9",
+          "disposals": 0,
+          "hasRendererProperties": true
+        },
+        {
+          "texture": "0dbf6226-b04e-414c-a6ab-caad61ab6b99",
+          "disposals": 0,
+          "hasRendererProperties": true
+        },
+        {
+          "texture": "9e93c072-9731-4720-9db3-feddc652de71",
+          "disposals": 0,
+          "hasRendererProperties": true
+        },
+        {
+          "texture": "3e59fbbd-b56d-487d-a392-f420d5d09a86",
+          "disposals": 0,
+          "hasRendererProperties": true
+        },
+        {
+          "texture": "5ddcfff1-0354-42ef-9f36-802e8e29b940",
+          "disposals": 0,
+          "hasRendererProperties": true
+        }
+      ],
+      "primaryFaceCache": 0,
+      "peerFaceCache": 4,
+      "peerCache": 4,
+      "primaryCache": 0,
+      "memory": {
+        "textures": 41,
+        "geometries": 16
+      }
+    },
+    "disposePeer": {
+      "phase": "both-disposed",
+      "peerId": "uniform-1k-female-qa-peer",
+      "peerSha": "d7fd2ce9ba56826c1b84cf100bc2f50ecfce1b0d60cd23717f1290b383eebb82",
+      "peer": [
+        {
+          "texture": "f5fff00b-66d2-4d7d-bdbf-1b7b00d492ca",
+          "disposals": 1,
+          "hasRendererProperties": false
+        },
+        {
+          "texture": "cf3b7087-e007-4873-9e07-0ae465361180",
+          "disposals": 1,
+          "hasRendererProperties": false
+        },
+        {
+          "texture": "a33f3645-f5eb-491b-b51c-d0c38565b49c",
+          "disposals": 1,
+          "hasRendererProperties": false
+        },
+        {
+          "texture": "ee13994a-ea54-4c22-82a9-e2a0ab0bdec9",
+          "disposals": 1,
+          "hasRendererProperties": false
+        },
+        {
+          "texture": "0dbf6226-b04e-414c-a6ab-caad61ab6b99",
+          "disposals": 1,
+          "hasRendererProperties": false
+        },
+        {
+          "texture": "9e93c072-9731-4720-9db3-feddc652de71",
+          "disposals": 1,
+          "hasRendererProperties": false
+        },
+        {
+          "texture": "3e59fbbd-b56d-487d-a392-f420d5d09a86",
+          "disposals": 1,
+          "hasRendererProperties": false
+        },
+        {
+          "texture": "5ddcfff1-0354-42ef-9f36-802e8e29b940",
+          "disposals": 1,
+          "hasRendererProperties": false
+        }
+      ],
+      "peerCache": 0,
+      "peerFaceCache": 0,
+      "memory": {
+        "textures": 1,
+        "geometries": 1
+      },
+      "handles": [
+        {
+          "id": 1,
+          "live": false
+        },
+        {
+          "id": 2,
+          "live": false
+        },
+        {
+          "id": 3,
+          "live": false
+        },
+        {
+          "id": 4,
+          "live": false
+        },
+        {
+          "id": 5,
+          "live": false
+        },
+        {
+          "id": 6,
+          "live": false
+        },
+        {
+          "id": 7,
+          "live": false
+        },
+        {
+          "id": 8,
+          "live": false
+        },
+        {
+          "id": 9,
+          "live": false
+        },
+        {
+          "id": 10,
+          "live": false
+        },
+        {
+          "id": 11,
+          "live": false
+        },
+        {
+          "id": 12,
+          "live": false
+        },
+        {
+          "id": 13,
+          "live": false
+        },
+        {
+          "id": 14,
+          "live": false
+        },
+        {
+          "id": 15,
+          "live": false
+        },
+        {
+          "id": 16,
+          "live": false
+        },
+        {
+          "id": 17,
+          "live": false
+        },
+        {
+          "id": 18,
+          "live": false
+        },
+        {
+          "id": 19,
+          "live": false
+        },
+        {
+          "id": 20,
+          "live": false
+        },
+        {
+          "id": 21,
+          "live": false
+        },
+        {
+          "id": 22,
+          "live": false
+        },
+        {
+          "id": 23,
+          "live": false
+        },
+        {
+          "id": 24,
+          "live": false
+        },
+        {
+          "id": 25,
+          "live": false
+        },
+        {
+          "id": 26,
+          "live": false
+        },
+        {
+          "id": 27,
+          "live": false
+        },
+        {
+          "id": 28,
+          "live": false
+        },
+        {
+          "id": 29,
+          "live": false
+        },
+        {
+          "id": 30,
+          "live": false
+        },
+        {
+          "id": 31,
+          "live": false
+        },
+        {
+          "id": 32,
+          "live": false
+        },
+        {
+          "id": 33,
+          "live": false
+        },
+        {
+          "id": 34,
+          "live": false
+        }
+      ]
+    }
+  },
+  "status": "measured",
+  "requested": [
+    "assets/appearance-color-v3/female-iris-mask.png",
+    "assets/appearance-color-v3/female-iris-neutral.png",
+    "assets/appearance-color-v3/female-outer-lip-mask.png",
+    "assets/appearance-color-v3/runtime-manifest.json",
+    "assets/body-coverage-risk-v1/female-top.json",
+    "assets/character-production-query-C692Kxc8.js",
+    "assets/character-record-consumer-nN8D0rGz.js",
+    "assets/character-runtime-record-el0jovSE.js",
+    "assets/forearm-collision-v2/female.json",
+    "assets/foundation-avatar-1d_oBGlz.js",
+    "assets/foundation/base-female-roundtrip.vrm",
+    "assets/garment-basecolor-release-v1/female/body-coverage.json",
+    "assets/garment-basecolor-release-v1/female/equipment.json",
+    "assets/garment-basecolor-release-v1/female/m1-female-uniform-top-1k-v1.glb",
+    "assets/garment-basecolor-release-v1/male/equipment.json",
+    "assets/garment-basecolor-release-v1/male/raw-male-uniform-top-1k-v1.glb",
+    "assets/hand-joint-contact-v1/female.json",
+    "assets/m1/equipment.json",
+    "assets/m1/m1-training-pants.glb",
+    "assets/m1/m1-uniform-shoes.glb",
+    "assets/m2-hairstyle-v1/female-bob.glb",
+    "assets/m2-hairstyle-v1/manifest.json",
+    "assets/m2-vest-body-coverage-v1/female/coverage-fit.json",
+    "assets/m2-vest-layer-fit-v1/female/equipment.json",
+    "assets/modulepreload-polyfill-B5Qt9EMX.js",
+    "assets/motion-source-DiHnsvO-.js",
+    "assets/motion/UAL1_Standard.glb",
+    "assets/motion/m1c/dance-imports.json",
+    "assets/motion/m1c/dance-source-reference.glb",
+    "assets/motion/m1c/dance-technical-v1.glb",
+    "assets/motion/m1c/frozen-rokoko-30s-v1/rokoko-5359146-female-arm-local-v1.motion.json",
+    "assets/motion/m1c/frozen-rokoko-30s-v1/rokoko-5359146-female-v1.motion.json",
+    "assets/motion/m1c/jog-ordinary-derived-v1.glb",
+    "assets/motion/m1c/jog-ordinary-derived-v1.profile.json",
+    "assets/native-hair-center-record-BaaBiD40.js",
+    "assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb",
+    "assets/raw-male-equipment-v1/raw-male-ab9a-uniform-pants-v1.glb",
+    "assets/recordConsumer-48TuViFR.js",
+    "assets/source-outfit-release-v1/body.vrm",
+    "assets/source-outfit-release-v1/equipment.json",
+    "assets/three-vrm.module-C42wnGjh.js",
+    "build-info.json",
+    "record-consumer.html"
+  ]
+}

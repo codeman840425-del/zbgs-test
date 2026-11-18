@@ -1,0 +1,75 @@
+{
+  "schema": "character-production-handoff-v1",
+  "operator": {
+    "commit": "27ebb18fbee9591c88af671db3c8ebf94f99519d",
+    "planner": "scripts/production/variant_batch.py",
+    "create": "scripts/character-production-cli.cjs",
+    "createSchema": "character-production-batch-create-v1",
+    "package": "scripts/runtime-package/game-record-cli.mjs"
+  },
+  "runtime": {
+    "sourceCommit": "80fb16b7c6df3a7c85724c757969c6e3e6fb2b2c",
+    "sourceDigest": "5859bd00da8bcba953c70df771de6c2c1d294f0228e23867d071ec332a3f0fa7",
+    "buildId": "5859bd00da8b",
+    "entry": "record-consumer.html",
+    "entryUrl": "record-consumer.html?records=/records/manifest.json"
+  },
+  "inputs": {
+    "variantMatrix": {
+      "path": "assets-source/variant-matrix-v1/uniform-top-texture-matrix.json",
+      "bytes": 2901,
+      "sha256": "5f2584ce85365684e2cb4f2526857b9447f23148b927118ade8df94d0cac449e"
+    },
+    "candidateRequest": {
+      "path": "assets-source/variant-matrix-v1/uniform-personal-appearance-request.json",
+      "bytes": 769,
+      "sha256": "66c3354b0912f4ada24a228657416df45708d81d8e3ebb6a5c0e1e04e6750d2b"
+    },
+    "signedRecords": {
+      "path": "evidence/m2-uniform-agent-handoff-v1/records.json",
+      "bytes": 34209,
+      "sha256": "e09b600f353647e4f2a8d73713b1fdc7303d6bbce125312897dbc8c17b7b4394"
+    },
+    "authoredPlan": {
+      "path": "evidence/m2-uniform-agent-handoff-v1/plan/plan.json",
+      "bytes": 5308,
+      "sha256": "5963344fd98ac0a8f7650ae5673dff152b4701eb14b34dddcbdfbff2007173da"
+    },
+    "authoredRequests": {
+      "path": "evidence/m2-uniform-agent-handoff-v1/plan/diagnostic-requests/create-001.batch.json",
+      "bytes": 2708,
+      "sha256": "62e54c10343664537fe64a47dc991553ce08b7ffb99fa4ed4fd802ca400d58d1"
+    }
+  },
+  "fixedGamePackage": {
+    "files": 48,
+    "inventory": {
+      "path": "evidence/m2-uniform-agent-handoff-v1/inventory.json",
+      "bytes": 79219,
+      "sha256": "4f1fdc5c85dbb428996a0efd6c3f2a9bb7546ebf3fdce560ec2508e245a404cb"
+    }
+  },
+  "receiverEvidence": {
+    "path": "evidence/m2-uniform-agent-handoff-v1/game/report.json",
+    "bytes": 57552,
+    "sha256": "1140a2d438d0c2cbce5aabd0794eb53f4d6eac679eae40cd56b04e4324ca4bb6"
+  },
+  "freshBuildEvidence": {
+    "path": "evidence/m2-garment-texture-game-v1/rebuild/report.json",
+    "bytes": 406526,
+    "sha256": "352f379488da0ff01e229f050317cd97e7c60f457241213fdb22aecaabd6a032"
+  },
+  "status": "diagnostic-candidate",
+  "limits": [
+    "Internal production and testing. Both exact outfits are technical candidates. See input-rights.md for bundled motion restrictions.",
+    "Female registered hair and palette verified for this record; this male body supports original appearance only.",
+    "Both bodies exceed the current static texture budget. Ordinary PC performance and public redistribution remain unverified.",
+    "The exact signed blonde record returns unsupported-hair-color-budget. Hair and eyebrow Canvas/Texture cache costs still need measurement.",
+    "4196 is the human preview. Consumers use record-consumer.html with records/manifest.json. Real company facility behavior is a separate integration."
+  ],
+  "previousHandoff": {
+    "path": "delivery/history/character-production-handoff-e8dc4eb2.json",
+    "bytes": 3215,
+    "sha256": "d4e72b345aaffa9457f49d03cd6dfc6c2d9b06f986a8bbf9acc5ff57c3762f5f"
+  }
+}
