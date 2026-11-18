@@ -343,10 +343,15 @@ async function checkManagedOutput(output) {
     if (error.code === 'ENOENT') return;
     throw error;
   }
-  const location = path.relative(project, output);
-  if (path.isAbsolute(location) || location.startsWith('..' + path.sep) || !location.includes(path.sep))
+  const releases = path.join(project, 'company-workspace', 'deliveries');
+  if (path.relative(releases, path.dirname(output)) === '') return;
+  const managed = ['output', 'company-workspace/production-trials'].some(folder => {
+    const location = path.relative(path.join(project, folder), output);
+    return location !== '' && location !== '..' && !location.startsWith('..' + path.sep) && !path.isAbsolute(location);
+  });
+  if (!managed)
     fail('outside-managed-package-directory', output,
-      '请使用主目录下的 output、company-workspace/production-trials 或 company-workspace/deliveries 子目录。');
+      '临时包和试制包请放入 output 或 company-workspace/production-trials。正式版本请直接放入 company-workspace/deliveries/<版本名>。');
 }
 
 export async function packageCompany({distDirectory,buildId,inputPath,outputDirectory,sourceRoot=defaultSource,rooms=[],seatContacts=false}){

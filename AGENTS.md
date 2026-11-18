@@ -8,7 +8,7 @@
 - 浏览器用户目录、缓存、失败重试和中间录像先放在项目内 `output/`。验收后只把报告、代表画面及最终录像归入 `evidence/`。本机验收预览复用正式包的产物，只存运行和观看所需文件。
 - 正式交付目录封存时核对清单及完整文件集合。候选打包、录像和失败重试先在试制目录或 `output/` 完成，验证通过后归档正式版本；同一问题重试时复用已有工作树。接收方或本机独立复验在试制目录的副本安装依赖和重新构建，保留正式目录的原始文件集合。
 - 本机路径用 `scripts/company-platform/local-workspace.ps1` 取得（例如 `-Kind deliveries -Name studio-v1`，返回可传给打包工具的绝对路径）。分配路径前自动检查盘根及 Git 登记，收尾用 `-Check` 复核。日常固定版本验证优先复用 `company-workspace/worktrees/release-check`，以源码提交和移交包清单标识版本。交付给其他 agent 的包内命令继续支持接收方自选工作目录。
-- 在本机主开发目录或其登记的固定检出直接执行打包命令时，写入前也要校验目标位置。每次正式交付后更新 `company-workspace/README.md` 的最近版本、回执和录像链接。
+- 本机打包在写入前检查目录。一个正式版本直接占用 `company-workspace/deliveries/<版本名>`，候选和复产使用 `output/` 或 `company-workspace/production-trials/`，避免往已封存的包里再塞一份。每次正式交付后更新 `company-workspace/README.md` 的最近版本、回执和录像链接。
 
 目标：保留 Phaser 经营、界面和场景，验证可维护的角色表现生产流程。
 

@@ -27,11 +27,17 @@ try {
     buildId: '0123456789ab', distDirectory: missing, inputPath: missing, sourceRoot: missing, outputDirectory,
   });
   const outside = path.join(scratch, 'studio-old', 'bundle');
+  const misplaced = [
+    'loose-bundle', 'docs/old-package', 'output-archive/candidate',
+    'company-workspace/preview/package', 'company-workspace/worktrees/release-check/package',
+    'company-workspace/deliveries', 'company-workspace/production-trials',
+    'company-workspace/deliveries-old/demo', 'company-workspace/deliveries/sealed/new-copy',
+  ];
   for (const pack of [main, fixed]) {
-    for (const target of [outside, project, path.join(project, 'loose-bundle')]) {
+    for (const target of [outside, project, ...misplaced.map(name => path.join(project, name))]) {
       await assert.rejects(run(pack, target), { code: 'outside-managed-package-directory' });
     }
-    for (const target of ['output/trial', 'company-workspace/deliveries/demo', 'company-workspace/production-trials/check']) {
+    for (const target of ['output/trial', 'output/trial/candidate', 'company-workspace/deliveries/demo', 'company-workspace/production-trials/check/derived']) {
       await assert.rejects(run(pack, path.join(project, target)), { code: 'ENOENT', path: missing });
     }
   }
