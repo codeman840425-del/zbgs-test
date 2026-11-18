@@ -1,0 +1,191 @@
+{
+  "build": "ab245df6488c",
+  "status": "passed",
+  "browser": "Headless Chromium with SwiftShader",
+  "checks": [
+    {
+      "name": "Import the room and verify the exact PNG in the real wall print",
+      "passed": true,
+      "evidence": {
+        "room": "concept-dance-training-rental/ground/dance-training",
+        "facility": {
+          "id": "concept-dance-training-rental/ground/dance-training/reference-print",
+          "kind": "facility",
+          "parentId": "concept-dance-training-rental/ground/dance-training",
+          "resource": {
+            "id": "studio-reference-print",
+            "version": 1
+          },
+          "state": {},
+          "transform": {
+            "position": [
+              1.05,
+              1.5,
+              -1.9
+            ],
+            "yaw": 0
+          }
+        },
+        "file": "01-wall-print.png",
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/wall-prints-v1/studio-reference-print/v1/model.glb",
+          "bytes": 1069984,
+          "sha256": "bd2e878a0d34a882a88e00d2118c5f55a292eb4528d12b3cd1bc08e0efc645c2"
+        },
+        "embedded": {
+          "images": [
+            0
+          ],
+          "materials": [
+            "wall-print-image"
+          ],
+          "sha256": "e9831c156633d7a1259138886102dab7319eca2c0fdc9abb2c8b8dc6d5d9c39d",
+          "bytes": 1063587
+        },
+        "pixels": {
+          "width": 1280,
+          "height": 720,
+          "expectedHash": "de83a02972a8faae31d492512f581101c2a7060021ef0e8c4926ea5a9b2af6ea",
+          "maps": [
+            {
+              "name": "wall-print-image",
+              "material": "wall-print-image",
+              "decoded": "de83a02972a8faae31d492512f581101c2a7060021ef0e8c4926ea5a9b2af6ea"
+            }
+          ],
+          "viewport": {
+            "x": 338,
+            "y": 259,
+            "width": 415,
+            "height": 341,
+            "changedPixels": 68690
+          },
+          "camera": [
+            6.349726529436506,
+            2.43301428434259,
+            -0.5361224516469623
+          ]
+        }
+      }
+    },
+    {
+      "name": "Replace with the existing triptych, then restore the print in place",
+      "passed": true,
+      "evidence": {
+        "triptych": {
+          "format": "glb",
+          "url": "/company-assets/static-collection/wall-art-triptych/v1/model.glb",
+          "sha256": "0af57d87470cd9aacff40fa4741b9e7cb2b9380f4d0db5f694611785779fcfc9",
+          "bytes": 38444
+        },
+        "mounted": 9,
+        "pin": {
+          "id": "studio-reference-print",
+          "version": 1,
+          "sha256": "3261018d44398d2a5bf5353bd3bbdb418367cc8584d860883223344b66207fc0"
+        },
+        "restoredAppearance": {
+          "file": "03-wall-print-replaced.png",
+          "asset": {
+            "format": "glb",
+            "url": "/company-assets/wall-prints-v1/studio-reference-print/v1/model.glb",
+            "bytes": 1069984,
+            "sha256": "bd2e878a0d34a882a88e00d2118c5f55a292eb4528d12b3cd1bc08e0efc645c2"
+          },
+          "embedded": {
+            "images": [
+              0
+            ],
+            "materials": [
+              "wall-print-image"
+            ],
+            "sha256": "e9831c156633d7a1259138886102dab7319eca2c0fdc9abb2c8b8dc6d5d9c39d",
+            "bytes": 1063587
+          },
+          "pixels": {
+            "width": 1280,
+            "height": 720,
+            "expectedHash": "de83a02972a8faae31d492512f581101c2a7060021ef0e8c4926ea5a9b2af6ea",
+            "maps": [
+              {
+                "name": "wall-print-image",
+                "material": "wall-print-image",
+                "decoded": "de83a02972a8faae31d492512f581101c2a7060021ef0e8c4926ea5a9b2af6ea"
+              }
+            ],
+            "viewport": {
+              "x": 338,
+              "y": 259,
+              "width": 415,
+              "height": 341,
+              "changedPixels": 68690
+            },
+            "camera": [
+              6.349726529436506,
+              2.43301428434259,
+              -0.5361224516469623
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "Close Chromium and automatically recover the same wall print",
+      "passed": true,
+      "evidence": {
+        "documentId": "concept-dance-training-rental",
+        "revision": 5,
+        "file": "04-wall-print-restored.png",
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/wall-prints-v1/studio-reference-print/v1/model.glb",
+          "bytes": 1069984,
+          "sha256": "bd2e878a0d34a882a88e00d2118c5f55a292eb4528d12b3cd1bc08e0efc645c2"
+        },
+        "embedded": {
+          "images": [
+            0
+          ],
+          "materials": [
+            "wall-print-image"
+          ],
+          "sha256": "e9831c156633d7a1259138886102dab7319eca2c0fdc9abb2c8b8dc6d5d9c39d",
+          "bytes": 1063587
+        },
+        "pixels": {
+          "width": 1280,
+          "height": 720,
+          "expectedHash": "de83a02972a8faae31d492512f581101c2a7060021ef0e8c4926ea5a9b2af6ea",
+          "maps": [
+            {
+              "name": "wall-print-image",
+              "material": "wall-print-image",
+              "decoded": "de83a02972a8faae31d492512f581101c2a7060021ef0e8c4926ea5a9b2af6ea"
+            }
+          ],
+          "viewport": {
+            "x": 338,
+            "y": 259,
+            "width": 415,
+            "height": 341,
+            "changedPixels": 68690
+          },
+          "camera": [
+            6.349726529436506,
+            2.43301428434259,
+            -0.5361224516469623
+          ]
+        }
+      }
+    }
+  ],
+  "browserErrors": [],
+  "video": {
+    "enabled": true,
+    "playbackSpeed": 1,
+    "file": "video\\wall-print-normal.webm",
+    "bytes": 1175108
+  },
+  "sourceDigest": "ab245df6488cf03b619ac58df7d95db53f8b3dcbce76562bb007e557e8bae92f"
+}
