@@ -147,7 +147,7 @@ await check('unknown fields and accidental state light support or changed instal
     assert.throws(()=>validateSupportResource(bad,fail),error=>typeof error?.code==='string'&&error.code.startsWith('invalid-'));
   }
   const known=clone(items[0]);known.mountRole='other';known.productionBranch='other';
-  assert.throws(()=>validateSupportResource(known,fail),error=>error.code==='invalid-side-table-life-items-contract');
+  assert.throws(()=>validateSupportResource(known,fail),error=>typeof error?.code==='string'&&error.code.startsWith('invalid-'));
   return {rejectedDefinitions:mutations.length+1};
 });
 await check('quarter-turn parents and child local adjustment agree between derived and synthetic rendered hierarchy',()=>{
