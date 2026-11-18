@@ -1,5 +1,7 @@
 # 角色系统能力清单（唯一当前状态依据）
 
+**染发后的整条角色记录预算待补。** 对交付单中的男女签名运行 `record_budget.py measure`，女体金发记录返回退出码 2 和 `unsupported-hair-color-budget`。身体静态纹理已有测量；染发及染眉派生画布与纹理还缺按缓存键去重的成本模型。游戏加载、关闭恢复已验证。[固定签名实算](../evidence/m2-uniform-agent-handoff-v1/signed-record-budget.json)
+
 **同批制服与个人外观。** 制作工具 `e8dc4eb2` 按每具身体询问固定游戏的实际选项。女体 `female` 用短发、金发色、暖肤、棕瞳与珊瑚唇，男体 `source-male-ab9a-release-v1` 保留其支持的原生外观；两人分别解析同款 1K 制服的精确版型。角色独立签名和关闭恢复均通过。新旧各两条记录在构建 `5859bd00da8b` 的独立游戏包检查通过；已验衣物不会自动放行新的个人外观。新包 48 文件、60,301,447 B，仅用于内部技术验证。普通电脑性能、公开分发条件及更多身体的发型版型仍有缺口。[制作输入](../assets-source/variant-matrix-v1/uniform-personal-appearance-request.json) · [独立复算](../evidence/m2-uniform-agent-handoff-v1/clean-repeat.json) · [资源来源](../evidence/m2-uniform-agent-handoff-v1/input-rights.md)
 
 **原生批次接收范围。** 融合测试构建 `89bb64fabca4` 的七条不同签名角色记录各有两次单人冷开证据，14 次都恢复了对应身体与三件装备。其余十三人的原生服装结构超出当前三件打包规则，均缺本人的去衣供体证据。其中十二人有多个上衣图元，五人有显式连体衣材质名，分组和遮挡归属仍需制作端证实。七人样件的授权仅覆盖内部试验。主工程交付单和技术准入分别核定。[逐人复核和未支持结构](../evidence/m2-body-intake-v1/seven-receiver-observations.md)
