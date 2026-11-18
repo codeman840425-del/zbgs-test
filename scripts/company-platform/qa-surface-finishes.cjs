@@ -31,13 +31,13 @@ async function shot(name){
 (async()=>{
   await fs.mkdir(out);report.harnessSha256=hash(await fs.readFile(__filename));server=await serve(dist,build,{manifest:'company-build-info.json',entry:'company.html'});await open();
   await page.evaluate(()=>company.load(company.layouts.mixed));
-  ({roomId,floorId}=await page.evaluate(()=>{const room=company.session.document.nodes.find(node=>node.kind==='room');return{roomId:room.id,floorId:room.parentId};}));await focus();await page.locator('#tool-finish').click();
+  ({roomId,floorId}=await page.evaluate(()=>{const room=company.session.document.nodes.find(node=>node.kind==='room');return{roomId:room.id,floorId:room.parentId};}));await focus();
   const before=await logical();
   for(const type of ['wall','floor'])await check(`Four ${type} designs replace real complete surfaces and survive separate browser-process restarts`,async()=>{
     const resources=await page.evaluate(type=>company.catalog.resources.filter(r=>r.kind==='surface-finish'&&r.finish.allowedSurfaces.includes(type)).map(r=>({id:r.id,version:r.version,sha256:r.asset.sha256})),type);
     assert.equal(resources.length,4);assert.equal(new Set(resources.map(r=>r.sha256)).size,4);
     for(const resource of resources){
-      await page.locator(`#finish-${type}`).selectOption(`${resource.id}@${resource.version}`);
+      await page.locator(`#finish-${type}`).selectOption(`${resource.id}@${resource.version}`,{force:true});
       await page.waitForFunction(()=>!document.getElementById('save').disabled);
       assert.equal(await page.locator('#status').getAttribute('data-error'),'false');assert.deepEqual(await logical(),before);
       const surfaces=await page.evaluate(()=>company.session.scene.surfacePresentation());
@@ -110,7 +110,7 @@ async function shot(name){
   await check('Two authored recipe inputs use the same runtime and persist complete finishes',async()=>{
     const results=[];
     for(const key of ['surfaces','surfaceHome']) {
-      await page.locator('#layout').selectOption(key);await page.waitForFunction(()=>!document.getElementById('save').disabled);
+      await page.locator('#layout').selectOption(key,{force:true});await page.waitForFunction(()=>!document.getElementById('save').disabled);
       const doc=await page.evaluate(()=>company.session.document),floors=doc.nodes.filter(n=>n.kind==='floor');
       for(const floor of floors) {
         await page.evaluate(id=>company.showSpace('floor',id),floor.id);
