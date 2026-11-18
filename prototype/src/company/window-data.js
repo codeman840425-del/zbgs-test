@@ -1,3 +1,4 @@
+import {wallEnvelopeBottom} from './camera-mount-data.js';
 import {floorPortalSides} from './exterior-entrance-data.js';
 // Window installation and state are scene data. A raised sill is not a portal.
 export const WINDOW_SYSTEM=Object.freeze({id:'horizontal-window-v1',version:1,apertureWidth:1.44,apertureHeight:1.04,sashTravel:.72,minimumSill:.6});
@@ -59,7 +60,7 @@ export function deriveWindowOpenings({nodes,worlds,floorIds,facilities},fail){
     for(const f of facilities.filter(f=>f.node.parentId===side.regionId&&f.resource.mount==='wall')){
       if(edgeOf(f.node.transform.yaw)!==side.edge)continue;
       const m=f.resource.mounting,position=f.node.transform.position,axis=['north','south'].includes(side.edge)?0:2;
-      const panel={offset:position[axis],bottom:m.origin==='center'?position[1]-m.height/2:position[1],width:m.width,height:m.height};
+      const panel={offset:position[axis],bottom:wallEnvelopeBottom(f.resource,position[1]),width:m.width,height:m.height};
       if(overlaps(side,panel))fail('wall-display-over-window',f.id,`Wall-mounted object covers the window opening ${opening.id}`);
     }
   }

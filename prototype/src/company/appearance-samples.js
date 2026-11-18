@@ -1,3 +1,4 @@
+import {listPlacementTargets} from './facility-edit-data.js';
 import {createWindowSample} from './window-samples.js';
 import {createCompany,prepareCompanyChange,identityTransform} from './document.js';
 import {createSupportSample} from './support-samples.js';
@@ -121,16 +122,20 @@ export function createAppearanceSample(branch,index,catalog,templates,options={}
  if(['storage-shelf','tabletop-ornament'].includes(branch))return createSupportSample(catalog,templates,{branch,index});
  const candidates=appearanceCandidates(catalog,branch),selected=candidates[index];
  if(!selected)throw Error(`No appearance ${branch}[${index}]`);
- let doc=createCompany({id:`appearance-${branch}`,name:`${appearanceBranches.find(([key])=>key===branch)?.[1]} · ${selected.displayName||selected.name||selected.id}`,width:9,depth:7},catalog);
+ const sampleId=branch==='camera-mount' ? `appearance-camera-mount-${selected.mount}` : `appearance-${branch}`;
+ let doc=createCompany({id:sampleId,name:`${appearanceBranches.find(([key])=>key===branch)?.[1]} · ${selected.displayName||selected.name||selected.id}`,width:9,depth:7},catalog);
  const floor=doc.nodes[0],room=doc.nodes[1],area=`${doc.id}/public`;
  if(branch==='camera-mount'){
-   const station='sample/station',desk=`${station}/desk`,deskResource=catalog.resources.find(r=>r.id==='desk-trestle'&&r.version===1);
-   const ops=[{type:'add-workstation',id:station,parentId:room.id,template:{id:'stream-station',version:1},transform:identityTransform()}];
-   const position=selected.mount==='desk-edge-clamp'?[0,deskResource.surface.topY,-.1,0]:selected.mount==='floor-surface'?[2.6,0,1.5,0]:[0,1.4,-3.4,0];
-   const parentId=selected.mount==='desk-edge-clamp'?desk:room.id;
-   ops.push({type:'add-facility',id:'sample/object',parentId,resource:{id:selected.id,version:selected.version},transform:{position:position.slice(0,3),yaw:position[3]}});
-   doc=prepareCompanyChange(doc,ops,{catalog,templates}).document;
-   return {document:doc,target:'sample/object',branch,index,resource:{id:selected.id,version:selected.version}};
+   if(selected.mount==='desk-edge-clamp'){
+     doc=prepareCompanyChange(doc,[{type:'add-workstation',id:'sample/station',parentId:room.id,
+       template:{id:'stream-station',version:1},transform:identityTransform()}],{catalog,templates}).document;
+   }
+   const [slot]=listPlacementTargets(doc,catalog,selected,room.id,{templates});
+   if(!slot)throw Error(`Missing installation target for ${selected.id}`);
+   const target='sample/object',resource={id:selected.id,version:selected.version};
+   doc=prepareCompanyChange(doc,[{type:'add-facility',id:target,parentId:slot.parentId,resource,
+     transform:{position:slot.position,yaw:slot.yaw}}],{catalog,templates}).document;
+   return {document:doc,target,branch,index,resource};
  }
  floor.connections=[{id:`${doc.id}/entry`,from:{regionId:room.id,edge:'south',offset:0,width:1.4},to:{regionId:area,edge:'north',offset:0,width:1.4}}];
  doc.nodes.push({id:area,kind:'area',parentId:floor.id,name:'公共入口',bounds:{width:9,depth:3},transform:{position:[0,0,5],yaw:0}});

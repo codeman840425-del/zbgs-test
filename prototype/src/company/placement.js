@@ -1,3 +1,4 @@
+import {sharesCameraDeskContact} from './camera-mount-data.js';
 import { CompanyError, deriveCompany, pointInTransform } from './document.js';
 import { inspectCompanyConnections } from './space.js';
 import {movingFootprint} from './moving-parts.js';
@@ -25,6 +26,7 @@ export function inspectCompanyMotionSweep(previous, candidate, catalog, template
   const derived={...after,obstacles};
   for(let i=0;i<obstacles.length;i++)for(let j=i+1;j<obstacles.length;j++){
     const a=obstacles[i],b=obstacles[j];
+    if (sharesCameraDeskContact(a,b)) continue;
     if(a.floorId===b.floorId&&a.min.every((value,axis)=>value<b.max[axis]-EPSILON&&a.max[axis]>b.min[axis]+EPSILON))
       fail('overlapping-facilities',a.id,`Movement reserves overlap ${b.id}`,{otherId:b.id});
   }

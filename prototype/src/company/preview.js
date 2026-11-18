@@ -9,11 +9,12 @@ import ceilingCompany from './examples/c2-ceiling-company.json' with {type:'json
 import ceilingHome from './examples/c1-ceiling-home.json' with {type:'json'};
 import surfaceCompany from './examples/c2-surface-company.json' with {type:'json'};
 import surfaceHome from './examples/c1-surface-home.json' with {type:'json'};
+import conceptStudio from './examples/c1-concept-streaming-desk.json' with {type:'json'};
 import mixedCompany from './examples/c2-mixed-company.json' with {type:'json'};
 import {createCompanyAuthoring} from './authoring.js';
 import {createCompanyAssetLibrary} from './asset-library.js';
 import scaleV2Examples from './examples/c2-scale-v2.json' with {type:'json'};
-import {deriveCompany,prepareCompanyChange} from './document.js';
+import {migrateLegacyCameraMountSave,deriveCompany,prepareCompanyChange} from './document.js';
 import {createBuildingView} from './building-view.js';
 import {appearanceBranches,appearanceCandidates,createAppearanceSample} from './appearance-samples.js';
 import {createSupportSample} from './support-samples.js';
@@ -89,7 +90,7 @@ const sun=new THREE.DirectionalLight(0xfff0d6,2.3);sun.position.set(-3,8,5);sun.
 Object.assign(sun.shadow.camera,{left:-8,right:8,top:8,bottom:-8});sun.shadow.normalBias=.015;world.add(sun);
 const camera=new THREE.PerspectiveCamera(38,1,.05,300),orbit=new OrbitControls(camera,renderer.domElement);
 orbit.enableDamping=false;orbit.maxPolarAngle=Math.PI*.48;orbit.minDistance=2;orbit.maxDistance=160;
-const layouts={windows:createWindowSample(catalog,templates).document,windowAlternate:createWindowSample(catalog,templates,{alternate:true}).document,windowCovers:createAppearanceSample('window-cover',0,catalog,templates).document,windowCoverAlternate:createAppearanceSample('window-cover',0,catalog,templates,{alternate:true}).document,cables:createCableSample(catalog,templates).document,cableAlternate:createCableSample(catalog,templates,{alternate:true}).document,ceilingAcoustic:createCeilingAcousticSample(catalog,templates).document,ceilingAcousticAlternate:createCeilingAcousticSample(catalog,templates,{alternate:true}).document,wallShelves:createWallShelfSample(catalog,templates).document,wallShelfAlternate:createWallShelfSample(catalog,templates,{alternate:true}).document,sideTableLifeItems:createSideTableLifeItemsSample(catalog,templates).document,sideTableLifeItemsAlternate:createSideTableLifeItemsSample(catalog,templates,{alternate:true}).document,sideTables:createSideTableSample(catalog,templates).document,sideTableAlternate:createSideTableSample(catalog,templates,{alternate:true}).document,makeupWallMirrors:createMakeupWallMirrorSample(catalog,templates).document,makeupWallMirrorAlternate:createMakeupWallMirrorSample(catalog,templates,{alternate:true}).document,makeupDrawer:createMakeupDrawerSample(catalog,templates).document,makeupDrawerAlternate:createMakeupDrawerSample(catalog,templates,{alternate:true}).document,makeupStorage:createMakeupStorageSample(catalog,templates).document,makeupStorageAlternate:createMakeupStorageSample(catalog,templates,{alternate:true}).document,makeupMirrors:createMakeupMirrorSample(catalog,templates).document,makeupMirrorAlternate:createMakeupMirrorSample(catalog,templates,{alternate:true}).document,vanities:createVanitySample(catalog,templates).document,vanityAlternate:createVanitySample(catalog,templates,{alternate:true}).document,floorMirrors:createFloorMirrorSample(catalog,templates).document,floorMirrorAlternate:createFloorMirrorSample(catalog,templates,{alternate:true}).document,mirrors:createMirrorSample(catalog,templates).document,mirrorAlternate:createMirrorSample(catalog,templates,{alternate:true}).document,floorInformation:createFloorInformationSample(catalog,templates).document,floorInformationAlternate:createFloorInformationSample(catalog,templates,{alternate:true}).document,information:createInformationSample(catalog,templates).document,informationAlternate:createInformationSample(catalog,templates,{alternate:true}).document,supportedClocks:createSupportedClockSample(catalog,templates).document,supportedClockAlternate:createSupportedClockSample(catalog,templates,{alternate:true}).document,clocks:createClockSample(catalog,templates).document,clockAlternate:createClockSample(catalog,templates,{alternate:true}).document,sliding:createSlidingSample(catalog,templates).document,slidingAlternate:createSlidingSample(catalog,templates,{alternate:true}).document,hinged:createHingedSample(catalog,templates).document,hingedAlternate:createHingedSample(catalog,templates,{alternate:true}).document,...scaleV2Examples,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome,ceilings:ceilingCompany,ceilingHome,
+const layouts={conceptStudio,windows:createWindowSample(catalog,templates).document,windowAlternate:createWindowSample(catalog,templates,{alternate:true}).document,windowCovers:createAppearanceSample('window-cover',0,catalog,templates).document,windowCoverAlternate:createAppearanceSample('window-cover',0,catalog,templates,{alternate:true}).document,cables:createCableSample(catalog,templates).document,cableAlternate:createCableSample(catalog,templates,{alternate:true}).document,ceilingAcoustic:createCeilingAcousticSample(catalog,templates).document,ceilingAcousticAlternate:createCeilingAcousticSample(catalog,templates,{alternate:true}).document,wallShelves:createWallShelfSample(catalog,templates).document,wallShelfAlternate:createWallShelfSample(catalog,templates,{alternate:true}).document,sideTableLifeItems:createSideTableLifeItemsSample(catalog,templates).document,sideTableLifeItemsAlternate:createSideTableLifeItemsSample(catalog,templates,{alternate:true}).document,sideTables:createSideTableSample(catalog,templates).document,sideTableAlternate:createSideTableSample(catalog,templates,{alternate:true}).document,makeupWallMirrors:createMakeupWallMirrorSample(catalog,templates).document,makeupWallMirrorAlternate:createMakeupWallMirrorSample(catalog,templates,{alternate:true}).document,makeupDrawer:createMakeupDrawerSample(catalog,templates).document,makeupDrawerAlternate:createMakeupDrawerSample(catalog,templates,{alternate:true}).document,makeupStorage:createMakeupStorageSample(catalog,templates).document,makeupStorageAlternate:createMakeupStorageSample(catalog,templates,{alternate:true}).document,makeupMirrors:createMakeupMirrorSample(catalog,templates).document,makeupMirrorAlternate:createMakeupMirrorSample(catalog,templates,{alternate:true}).document,vanities:createVanitySample(catalog,templates).document,vanityAlternate:createVanitySample(catalog,templates,{alternate:true}).document,floorMirrors:createFloorMirrorSample(catalog,templates).document,floorMirrorAlternate:createFloorMirrorSample(catalog,templates,{alternate:true}).document,mirrors:createMirrorSample(catalog,templates).document,mirrorAlternate:createMirrorSample(catalog,templates,{alternate:true}).document,floorInformation:createFloorInformationSample(catalog,templates).document,floorInformationAlternate:createFloorInformationSample(catalog,templates,{alternate:true}).document,information:createInformationSample(catalog,templates).document,informationAlternate:createInformationSample(catalog,templates,{alternate:true}).document,supportedClocks:createSupportedClockSample(catalog,templates).document,supportedClockAlternate:createSupportedClockSample(catalog,templates,{alternate:true}).document,clocks:createClockSample(catalog,templates).document,clockAlternate:createClockSample(catalog,templates,{alternate:true}).document,sliding:createSlidingSample(catalog,templates).document,slidingAlternate:createSlidingSample(catalog,templates,{alternate:true}).document,hinged:createHingedSample(catalog,templates).document,hingedAlternate:createHingedSample(catalog,templates,{alternate:true}).document,...scaleV2Examples,mixed:mixedCompany,surfaces:surfaceCompany,surfaceHome,ceilings:ceilingCompany,ceilingHome,
   supports:createSupportSample(catalog,templates).document,supportAlternate:createSupportSample(catalog,templates,{alternate:true}).document},assetLibrary=createCompanyAssetLibrary();let session,activeView='room',busy=false,game;
 let regionLabels=[],previewClockOverride=null,facilityEditor,sampleSelectionDocument=null;
 const savedDocuments=new Map();
@@ -219,7 +220,7 @@ async function showAppearanceSample(branch,index){
   const sample=createAppearanceSample(branch,index,catalog,templates,{alternate:(branch==='window-opening-and-glass'&&session?.document?.id==='window-opening-alternate')||(branch==='window-cover'&&session?.document?.id==='window-cover-alternate')||(branch==='cable-route'&&session?.document?.id==='cable-alternate')||(branch==='ceiling-acoustic-baffle'&&session?.document?.id==='ceiling-acoustic-alternate')||(branch==='side-table-life-items'&&session?.document?.id==='side-table-life-items-alternate')||(branch==='wall-shelf'&&session?.document?.id==='wall-shelf-alternate')});
   const savedSample=facilityEditor?.getDraft(sample.document.id),sameSample=session.document.id===sample.document.id;
   if(sameSample||savedSample){
-    const replacements=sample.document.nodes.filter(n=>n.resource&&(!['cable-route','ceiling-acoustic-baffle','wall-shelf','side-table-life-items','side-table','makeup-mirror','makeup-mirror-wall','makeup-storage','makeup-storage-drawer'].includes(branch)||catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.mountRole===branch)&&(!['information-board','information-board-floor'].includes(branch)||catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.informationSurface)).map(n=>({type:'replace-resource',id:n.id,resource:n.resource}));
+    const replacements=sample.document.nodes.filter(n=>n.resource&&(branch!=='camera-mount'||n.id===sample.target)&&(!['cable-route','ceiling-acoustic-baffle','wall-shelf','side-table-life-items','side-table','makeup-mirror','makeup-mirror-wall','makeup-storage','makeup-storage-drawer'].includes(branch)||catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.mountRole===branch)&&(!['information-board','information-board-floor'].includes(branch)||catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.informationSurface)).map(n=>({type:'replace-resource',id:n.id,resource:n.resource}));
     if(sameSample)await session.apply(replacements);
     else await session.load(prepareCompanyChange(savedSample,replacements,{catalog,templates}).document);
   }else await session.load(sample.document);
@@ -352,13 +353,39 @@ class CompanyPreview extends Phaser.Scene {update(time){if(session)session.scene
 async function start(){
   session=await createCompanyAuthoring(world,layouts.smallHome,{catalog,templates,storage:localStorage,assetLibrary,mirrorPreflight,mirrorRenderProfile});
   let restored=false,restoreError;
-  try{await session.restore(localStorage.getItem('company-preview:last-company')||session.document.id);restored=true;}catch(error){if(error.code!=='save-not-found')restoreError=error;}
+  const recoveryButton=element('recover-clamps');
+  let pendingRecovery;
+  function offerRecovery(error,text,id) {
+    if(error.code!=='invalid-camera-mount-fit')return;
+    const file=JSON.parse(text),envelope=file.schema==='company-save',source=envelope?file.document:file;
+    if(id && source.id!==id)return;
+    const {document:updated,migrations}=migrateLegacyCameraMountSave(JSON.stringify(source),catalog,templates);
+    if(!migrations.length)return;
+    pendingRecovery=JSON.stringify(envelope?{...file,document:updated}:updated);
+    recoveryButton.textContent=`将旧方案的 ${migrations.length} 个桌夹对齐桌边并载入`;
+    recoveryButton.hidden=false;
+  }
+  async function restoreWithRecovery(id) {
+    try{return await session.restore(id);}
+    catch(error){
+      if(error.code==='invalid-camera-mount-fit')offerRecovery(error,session.readSavedText(id),id);
+      throw error;
+    }
+  }
+  recoveryButton.onclick=()=>perform('正在校验旧方案的资源与桌夹位置…',async()=>{
+    await session.import(pendingRecovery);
+    recoveryButton.hidden=true;
+    pendingRecovery=null;
+    await defaultSpace();
+  });
+  try{await restoreWithRecovery(localStorage.getItem('company-preview:last-company')||session.document.id);restored=true;}
+  catch(error){if(error.code!=='save-not-found')restoreError=error;}
   async function saveCurrent(){const result=await session.save();localStorage.setItem('company-preview:last-company',session.document.id);savedDocuments.set(session.document.id,JSON.stringify(session.document));syncSaveState();return result;}
   if(restored)savedDocuments.set(session.document.id,JSON.stringify(session.document));
   window.company={ready:true,catalog,templates,session,assetLibrary,get renderer(){return renderer;},get mirrorRenderProfile(){return session?.scene.mirrorRenderProfile||mirrorRenderProfile;},world,camera,mirrorController,drawHostFrame,renderStatus:()=>({hostFrame,rendererRestarts,lastRenderError}),setPreviewClock,pausePreview:()=>game?.loop.sleep(),view:setView,showSpace,layouts,showAppearanceSample,appearanceBranches,appearanceCandidates:branch=>appearanceCandidates(catalog,branch),
     async apply(ops){const r=await session.apply(ops);sync();return r;},
     async load(doc){const r=await session.load(doc);await defaultSpace();return r;},
-    snapshot:()=>session.snapshot(),save:saveCurrent,restore:async()=>{const r=await session.restore();savedDocuments.set(session.document.id,JSON.stringify(session.document));await defaultSpace();return r;},export:()=>session.export()};
+    snapshot:()=>session.snapshot(),save:saveCurrent,restore:async()=>{const r=await restoreWithRecovery(session.document.id);savedDocuments.set(session.document.id,JSON.stringify(session.document));await defaultSpace();return r;},export:()=>session.export()};
   facilityEditor=createFacilityEditor({session,catalog,templates,world,camera,orbit,assetLibrary,getCanvas:()=>renderer.domElement,perform,refresh:sync,isBusy:()=>busy,showSpace,defaultSpace,layouts,showSample:showAppearanceSample});
   window.company.editor=facilityEditor;
   element('edit-focus').onclick=()=>{
@@ -422,7 +449,7 @@ async function start(){
     const url=URL.createObjectURL(new Blob([await session.export()],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download=`${session.document.id.replaceAll('/','-')}.company.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   });
   element('import').onclick=()=>element('file').click();
-  element('file').onchange=()=>{const file=element('file').files[0];if(file)perform('正在检查并加载文件…',async()=>{await session.import(await file.text());sync();await defaultSpace();});element('file').value='';};
+  element('file').onchange=()=>{const file=element('file').files[0];if(file)perform('正在检查并加载文件…',async()=>{const text=await file.text();recoveryButton.hidden=true;pendingRecovery=null;try{await session.import(text);}catch(error){offerRecovery(error,text);throw error;}sync();await defaultSpace();});element('file').value='';};
   const raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2();let down;
   renderer.domElement.addEventListener('pointerdown',event=>{
     if(event.button===2&&session.scene.view.mode==='room'){event.stopImmediatePropagation();return;}
@@ -444,7 +471,7 @@ async function start(){
   fetch('/company-build-info.json').then(r=>r.ok?r.json():null).then(info=>{if(info){element('build-label').textContent=`构建 ${info.shortId}`;window.company.buildInfo=info;}}).catch(()=>{});
   const query=new URLSearchParams(location.search),requested=query.get('sample');
   if(requested&&appearanceBranches.some(([branch])=>branch===requested))await showAppearanceSample(requested,Number(query.get('look')||0));
-  else if(Object.hasOwn(layouts,query.get('layout'))){await window.company.load(layouts[query.get('layout')]);if(!['smallHome','studio','base','alternate','rental','flat','twoFloors','building'].includes(query.get('layout')))facilityEditor.sampleLoaded({target:''});}
+  else if(Object.hasOwn(layouts,query.get('layout'))){const key=query.get('layout');if(!(key==='conceptStudio'&&restored&&session.document.id===conceptStudio.id))await window.company.load(layouts[key]);if(key==='conceptStudio')setView('station');if(!['smallHome','conceptStudio','studio','base','alternate','rental','flat','twoFloors','building'].includes(query.get('layout')))facilityEditor.sampleLoaded({target:''});}
   facilityEditor.sync();
 }
 start().catch(error=>{status(`场景加载失败：${error.message}`,true);console.error(error);});

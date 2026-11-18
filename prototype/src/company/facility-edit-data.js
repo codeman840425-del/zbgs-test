@@ -1,3 +1,4 @@
+import {cameraDeskEdgePlacement, wallEnvelopeBottom} from './camera-mount-data.js';
 import {floorPortalSides} from './exterior-entrance-data.js';
 import {CompanyError, deriveCompany} from './document.js';
 import {deriveCableConnections} from './cable-data.js';
@@ -44,7 +45,7 @@ function wallPosition(region, edge, m, along = 0) {
   const horizontal = edge === 'north' || edge === 'south';
   const normal = (edge === 'north' || edge === 'west' ? -1 : 1) * ((horizontal ? region.bounds.depth : region.bounds.width) / 2 - .1);
   const position = horizontal ? [along, 0, normal] : [normal, 0, along];
-  position[1] = m?.origin === 'center' ? 1.4 : 0;
+  position[1] = m?.origin === 'center' || m?.origin === 'parent anchor plane centre' ? 1.4 : 0;
   const yaw = {north: 0, west: Math.PI / 2, south: Math.PI, east: Math.PI * 1.5}[edge];
   return {position, yaw};
 }
@@ -108,32 +109,27 @@ function deskTarget(parent, parentResource, resource) {
   });
 }
 
-function cameraMountTargets(region, derived, resource) {
-  const m = mounting(resource), result = [];
-  if (!m) return result;
-  if (resource.mount === 'desk-edge-clamp') {
-    for (const parent of derived.facilities.filter(entry => entry.roomId === region.id && parentResourceIsDesk(entry.resource))) {
-      const surface = parent.resource.surface, halfX = m.width / 2, halfZ = m.depth / 2;
-      if (halfX > surface.halfSize[0] + EPS || halfZ > surface.halfSize[1] + EPS) continue;
-      result.push(target(`${parent.id}:camera-mount`, parent.id, `${parent.node.name || parent.id} · 桌边相机挂载`, [0, surface.topY, -surface.halfSize[1] + halfZ], 0, 'desk-edge-clamp', {
-        lockedAxes: ['y'], note: '桌夹随桌子移动，Y 固定在桌面；X/Z 与朝向须保持完整包络在桌面边界内',
-      }));
-    }
-  } else if (resource.mount === 'floor-surface') {
-    const value = floorTarget(region, resource); if (value) result.push(value);
-  } else if (resource.mount === 'wall') {
-    for (const edge of ['north', 'west', 'south', 'east']) {
-      const {position, yaw} = wallPosition(region, edge, {...m, origin: 'center'}, 0);
-      position[1] = 1.4;
-      result.push(target(`${region.id}:camera-wall:${edge}`, region.id, `${region.name || region.id} · 相机墙臂`, position, yaw, 'wall', {
-        lockedAxes: [(edge === 'north' || edge === 'south') ? 'z' : 'x', 'yaw'], note: '墙臂法向和朝向固定，Y 可调整且需保持安装包络在墙内', edge,
-      }));
+function deskClampConstraints(yaw) {
+  const normal = Math.abs(Math.sin(yaw)) < .5 ? 'z' : 'x';
+  return {lockedAxes: ['y', normal, 'yaw'], note: '夹口贴住桌沿，可沿选定桌边移动'};
+}
+
+function deskClampTargets(region, derived, resource) {
+  const result = [];
+  for (const parent of derived.facilities.filter(f => f.roomId === region.id && parentResourceIsDesk(f.resource))) {
+    for (const [index, yaw] of quarterTurns.entries()) {
+      const surface = parent.resource.surface, edge = cameraDeskEdgePlacement(surface, yaw);
+      if (resource.mounting.width / 2 > surface.halfSize[edge.alongAxis / 2] + EPS) continue;
+      const side = ['north', 'west', 'south', 'east'][index], label = ['后', '左', '前', '右'][index];
+      const id = index === 0 ? `${parent.id}:camera-mount` : `${parent.id}:camera-mount:${side}`;
+      result.push(target(id, parent.id, `${parent.node.name || parent.id} · ${label}桌边`, edge.position, yaw,
+        'desk-edge-clamp', deskClampConstraints(yaw)));
     }
   }
   return result;
 }
 
-function wallTargets(region, floor, resource) {
+function wallTargets(region, floor, resource, windowOpenings) {
   const m = mounting(resource);
   if (!m || !Number.isFinite(m.width) || !Number.isFinite(m.height)) return [];
   const result = [];
@@ -141,10 +137,17 @@ function wallTargets(region, floor, resource) {
     const horizontal = edge === 'north' || edge === 'south';
     const span = horizontal ? region.bounds.width : region.bounds.depth;
     if (m.width > span - .2 + EPS || m.height > 2.8 + EPS) continue;
-    const portal = portalEntries(floor, region.id, edge);
+    const blockedSpans = portalEntries(floor, region.id, edge);
+    if (resource.mountRole === 'camera-mount') {
+      const bottom = wallEnvelopeBottom(resource, 1.4);
+      for (const opening of windowOpenings.values()) for (const side of opening.regions) {
+        if (side.regionId === region.id && side.edge === edge && bottom < side.bottom + side.height - EPS &&
+            bottom + m.height > side.bottom + EPS) blockedSpans.push(side);
+      }
+    }
     const low = -span / 2 + .1 + m.width / 2, high = span / 2 - .1 - m.width / 2;
-    const blocked = value => portal.some(entry => Math.abs(entry.offset - value) < (entry.width + m.width) / 2 - EPS);
-    const candidates = [0, ...portal.flatMap(entry => [entry.offset - (entry.width + m.width) / 2 - .01, entry.offset + (entry.width + m.width) / 2 + .01])].filter(value => value >= low - EPS && value <= high + EPS && !blocked(value));
+    const blocked = value => blockedSpans.some(entry => Math.abs(entry.offset - value) < (entry.width + m.width) / 2 - EPS);
+    const candidates = [0, ...blockedSpans.flatMap(entry => [entry.offset - (entry.width + m.width) / 2 - .01, entry.offset + (entry.width + m.width) / 2 + .01])].filter(value => value >= low - EPS && value <= high + EPS && !blocked(value));
     const along = candidates[0];
     if (along === undefined) continue;
     const {position, yaw} = wallPosition(region, edge, m, along);
@@ -210,7 +213,7 @@ function windowCoverTargets(region, derived, resource) {
 
 function floorTarget(region, resource) {
   const m = mounting(resource);
-  if (!m || m.origin !== 'bottom') return null;
+  if (!m || (m.origin !== 'bottom' && resource.mountRole !== 'camera-mount')) return null;
   if (m.width > region.bounds.width - .2 + EPS || m.depth > region.bounds.depth - .2 + EPS) return null;
   return target(`${region.id}:floor`, region.id, `${region.name || region.id} · 地面`, [0, 0, 0], 0, 'floor-surface', {
     lockedAxes: ['y'], note: '地面安装，Y 固定在楼层面，X/Z 和四向朝向可编辑',
@@ -260,12 +263,12 @@ export function listPlacementTargets(document, catalog, resource, regionId, opti
   const region = regionFor(derived, regionId), floor = floorFor(derived, regionId);
   const result = [];
   if (selected.mount === 'parent-device-endpoints') result.push(...cableTargets(region,derived,selected));
-  else if (['wall','wall-opening'].includes(selected.mount)) result.push(...wallTargets(region, floor, selected));
+  else if (['wall','wall-opening'].includes(selected.mount)) result.push(...wallTargets(region, floor, selected, derived.windowOpenings));
   else if (selected.mount === 'portal') result.push(...portalTargets(region, floor, selected));
   else if (selected.mount === 'portal-door') result.push(...exteriorDoorTargets(region, floor, selected));
   else if (selected.mount === 'floor-surface') { const value = floorTarget(region, selected); if (value) result.push(value); }
   else if (selected.mount === 'ceiling') { const value = ceilingTarget(region, selected); if (value) result.push(value); }
-  else if (selected.mount === 'desk-edge-clamp' || selected.mountRole === 'camera-mount') result.push(...cameraMountTargets(region, derived, selected));
+  else if (selected.mount === 'desk-edge-clamp') result.push(...deskClampTargets(region, derived, selected));
   else if (selected.mount === 'desk-surface') {
     for (const parent of derived.facilities.filter(entry => entry.roomId === region.id && parentResourceIsDesk(entry.resource))) {
       const value = deskTarget(parent.node, parent.resource, selected); if (value) result.push(value);
@@ -310,6 +313,7 @@ export function getFacilityEditConstraints(node, resource) {
   const selected = resource || node?.resource || {};
   const mount = selected.mount;
   if (mount === 'parent-device-endpoints') return {lockedAxes:['x','y','z','yaw'],note:'连接线由设备接口确定位置；移动或复制请选所属桌子。'};
+  if (mount === 'desk-edge-clamp') return deskClampConstraints(node?.transform?.yaw ?? 0);
   if (['wall','wall-opening'].includes(mount)) {
     const yaw = node?.transform?.yaw ?? 0;
     const horizontal = Math.abs(Math.sin(yaw)) < .5;

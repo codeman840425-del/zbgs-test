@@ -19,7 +19,7 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
   let selected='',armed=null,mode='room',disposed=false,tool='selection',entrancePlan=null;
   let entrancePlanKey='';
   const drafts={room:null,sample:null},documents=new Map(),allLayouts=[...el('layout').options].map(o=>({value:o.value,label:o.textContent,disabled:o.disabled}));
-  const roomLayouts=new Set(['smallHome','studio','base','alternate','rental','flat','twoFloors','building']);
+  const roomLayouts=new Set(['smallHome','conceptStudio','studio','base','alternate','rental','flat','twoFloors','building']);
   const outline=new THREE.Box3Helper(new THREE.Box3(),0xd58b28);outline.material.depthTest=false;outline.renderOrder=100;outline.visible=false;world.add(outline);
   const resource=n=>catalog.resources.find(r=>n?.resource?.id===r.id&&n.resource.version===r.version);
   const node=()=>session.document.nodes.find(n=>n.id===selected);

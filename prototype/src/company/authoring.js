@@ -72,6 +72,7 @@ export async function createCompanyAuthoring(world,initialDocument,{catalog,temp
       const token=generation,document=scene.document;
       return store.save(document,{isCurrent:revision=>!disposed&&generation===token&&scene.document.id===document.id&&scene.revision===revision});
     },
+    readSavedText(id) { return store.export(id); },
     async restore(id=scene.document.id) {
       return transaction(async token=>replace(await store.load(id),token));
     },

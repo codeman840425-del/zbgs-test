@@ -390,7 +390,9 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
     for(const facility of target.facilities.values()) {
       const detailed=!focused||facility.roomId===focused||target.derived.windowOpenings.get(facility.id)?.regions.some(s=>s.regionId===focused);
       const wallHidden=facility.wallBinding?.wallGroup&&hiddenGroups.has(facility.wallBinding.wallGroup);
-      facility.visual.visible=detailed&&!wallHidden;if(facility.proxy)facility.proxy.visible=!detailed;
+      const mounted = facility.resource.mountRole !== 'camera-mount' || facility.state.mounted;
+      facility.visual.visible = mounted && detailed && !wallHidden;
+      if (facility.proxy) facility.proxy.visible = mounted && !detailed;
       if(['wall','portal','wall-opening'].includes(facility.resource.mount))facility.root.visible=detailed&&!wallHidden;
       if(facility.resource.mount==='ceiling'){facility.root.visible=ceilingVisible(facility.roomId);if(facility.proxy)facility.proxy.visible=false;}
       // Wall-mounted assets retain their complete geometry.  Older cutaway

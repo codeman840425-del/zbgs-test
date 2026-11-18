@@ -1,0 +1,313 @@
+{
+  "schema": "company-layout",
+  "version": 1,
+  "id": "concept-streaming-desk",
+  "name": "概念图二 · 直播工位",
+  "revision": 1,
+  "scale": "single-room",
+  "catalog": {
+    "id": "company-facilities",
+    "version": 1
+  },
+  "nodes": [
+    {
+      "id": "concept-streaming-desk/floor-1",
+      "kind": "floor",
+      "parentId": "concept-streaming-desk",
+      "name": "一层",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "concept-streaming-desk/room-1",
+      "kind": "room",
+      "parentId": "concept-streaming-desk/floor-1",
+      "name": "直播间",
+      "purpose": "streaming",
+      "bounds": {
+        "width": 5.8,
+        "depth": 4.2
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "finishes": {
+        "floor": {
+          "resource": {
+            "id": "floor-offset-plank",
+            "version": 1
+          },
+          "tileMeters": [
+            2,
+            2
+          ]
+        }
+      }
+    },
+    {
+      "id": "concept-streaming-desk/station",
+      "kind": "workstation",
+      "parentId": "concept-streaming-desk/room-1",
+      "name": "双屏直播工位",
+      "transform": {
+        "position": [
+          -1.06,
+          0,
+          -0.56
+        ],
+        "yaw": 0
+      },
+      "template": {
+        "id": "stream-station",
+        "version": 1
+      }
+    },
+    {
+      "id": "concept-streaming-desk/station/desk",
+      "kind": "facility",
+      "stationId": "concept-streaming-desk/station",
+      "partKey": "desk",
+      "parentId": "concept-streaming-desk/station",
+      "resource": {
+        "id": "desk-trestle",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -0.9
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "concept-streaming-desk/station/monitor",
+      "kind": "facility",
+      "stationId": "concept-streaming-desk/station",
+      "partKey": "monitor",
+      "parentId": "concept-streaming-desk/station/desk",
+      "resource": {
+        "id": "monitor-slate",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.44,
+          0.84,
+          -0.25
+        ],
+        "yaw": 0
+      },
+      "state": {
+        "on": true
+      }
+    },
+    {
+      "id": "concept-streaming-desk/station/keyboard",
+      "kind": "facility",
+      "stationId": "concept-streaming-desk/station",
+      "partKey": "keyboard",
+      "parentId": "concept-streaming-desk/station/desk",
+      "resource": {
+        "id": "keyboard-compact",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          0.21
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "concept-streaming-desk/station/microphone",
+      "kind": "facility",
+      "stationId": "concept-streaming-desk/station",
+      "partKey": "microphone",
+      "parentId": "concept-streaming-desk/station/desk",
+      "resource": {
+        "id": "desk-microphone-broadcast",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.57,
+          0.84,
+          0.15
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "concept-streaming-desk/station/chair",
+      "kind": "facility",
+      "stationId": "concept-streaming-desk/station",
+      "partKey": "chair",
+      "parentId": "concept-streaming-desk/station",
+      "resource": {
+        "id": "chair-pedestal",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0.66
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {},
+      "appearance": {
+        "materials": {
+          "seat": {
+            "color": "#84B9AA"
+          },
+          "back": {
+            "color": "#99C9B8"
+          },
+          "structure": {
+            "color": "#637774"
+          }
+        }
+      }
+    },
+    {
+      "id": "concept-streaming-desk/station/fill-light",
+      "kind": "facility",
+      "stationId": "concept-streaming-desk/station",
+      "partKey": "fill-light",
+      "parentId": "concept-streaming-desk/station",
+      "resource": {
+        "id": "fill-light-panel",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -1.26,
+          0,
+          -0.56
+        ],
+        "yaw": 0
+      },
+      "state": {
+        "on": true,
+        "intensity": 5
+      }
+    },
+    {
+      "id": "concept-streaming-desk/station/desk/secondary-monitor",
+      "kind": "facility",
+      "parentId": "concept-streaming-desk/station/desk",
+      "resource": {
+        "id": "monitor-slate",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0.44,
+          0.84,
+          -0.25
+        ],
+        "yaw": 0
+      },
+      "state": {
+        "on": true
+      }
+    },
+    {
+      "id": "concept-streaming-desk/acoustic-panel",
+      "kind": "facility",
+      "parentId": "concept-streaming-desk/room-1",
+      "resource": {
+        "id": "concept-acoustic-panel",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -1.06,
+          1.79,
+          -2
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "concept-streaming-desk/wall-shelf",
+      "kind": "facility",
+      "parentId": "concept-streaming-desk/room-1",
+      "resource": {
+        "id": "wall-shelf-cantilever",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0.78,
+          0.55,
+          -2
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "concept-streaming-desk/wall-shelf/cup",
+      "kind": "facility",
+      "parentId": "concept-streaming-desk/wall-shelf",
+      "resource": {
+        "id": "side-table-life-cup",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.12,
+          0.35,
+          0.19
+        ],
+        "yaw": 0
+      },
+      "state": {},
+      "attachment": {
+        "surfaceId": "lower"
+      }
+    },
+    {
+      "id": "concept-streaming-desk/wall-shelf/notebook",
+      "kind": "facility",
+      "parentId": "concept-streaming-desk/wall-shelf",
+      "resource": {
+        "id": "side-table-life-pen-notebook",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0.05,
+          0.95,
+          0.19
+        ],
+        "yaw": 0
+      },
+      "state": {},
+      "attachment": {
+        "surfaceId": "middle"
+      }
+    }
+  ]
+}
