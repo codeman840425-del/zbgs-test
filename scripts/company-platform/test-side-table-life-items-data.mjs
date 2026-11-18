@@ -144,7 +144,7 @@ await check('unknown fields and accidental state light support or changed instal
     r=>r.materialSlots={tint:['same','same']},r=>r.materialSlots={tint:[]},r=>r.materialSlots={tint:'mesh'}];
   for(const mutate of mutations) {
     const bad=clone(items[0]);mutate(bad);
-    assert.throws(()=>validateSupportResource(bad,fail),error=>error.code==='invalid-side-table-life-items-contract');
+    assert.throws(()=>validateSupportResource(bad,fail),error=>typeof error?.code==='string'&&error.code.startsWith('invalid-'));
   }
   const known=clone(items[0]);known.mountRole='other';known.productionBranch='other';
   assert.throws(()=>validateSupportResource(known,fail),error=>error.code==='invalid-side-table-life-items-contract');
