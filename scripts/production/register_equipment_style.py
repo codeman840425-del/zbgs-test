@@ -71,6 +71,7 @@ def build_style(root, spec_path, publication_path, label):
         url = '/' + manifest_path.relative_to(root/'prototype/public').as_posix()
         variants.append({
             'bodyType':body_type, 'bodySha256':body['sha256'],
+            'recipeSource':spec_path, 'recipeSha256':pins[spec_path]['sha256'],
             'resourceManifest':url+'#'+entry['id'], 'resourceManifestSha256':digest(manifest_path.read_bytes()),
             'fitManifest':fit_path, 'fitManifestSha256':digest(fit_bytes),
             'coverageManifest':fit_path+'#bodyCoverageMasks', 'coverageManifestSha256':digest(fit_bytes),
