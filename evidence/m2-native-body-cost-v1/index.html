@@ -13,5 +13,5 @@ body{font:16px/1.55 system-ui,sans-serif;background:#f6f5ef;color:#213b38;max-wi
 <figure><a href="old/0-face-1.png"><img src="old/0-face-1.png" alt="原版游戏实际渲染脸部"></a><figcaption>原版，点击查看原尺寸</figcaption></figure>
 <figure><a href="new/0-face-1.png"><img src="new/0-face-1.png" alt="新版游戏实际渲染脸部"></a><figcaption>新版，点击查看原尺寸</figcaption></figure></section>
 <p>两人同屏时，脸部与身体法线贴图少分配 25,165,816 字节 RGBA8 纹素。两种退出顺序分别验证，十张固定姿势图逐像素一致。测量范围为开发机上的这两份记录。源 VRM 的下载大小和静态预算仍和原来相同。</p>
-<p><a href="game/produced-pair-1x.webm">独立游戏包双人录像</a> · <a href="comparison.json">逐帧与分配数据</a></p></main>
+<p><a href="game/produced-pair-1x.webm">独立游戏包双人录像</a> · <a href="comparison.json">逐帧与分配数据</a> · <a href="../m2-native-mesh-room-v1/index.html">讲话嘴部网格对照</a></p></main>
 <script>document.getElementById('play').onclick=async()=>{const videos=[...document.querySelectorAll('video')];for(const v of videos){v.currentTime=0;v.playbackRate=1;}await Promise.all(videos.map(v=>v.play()));};</script></html>

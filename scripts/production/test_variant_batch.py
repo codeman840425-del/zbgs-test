@@ -1,6 +1,7 @@
 import hashlib
 import io
 import json
+import os
 import struct
 import subprocess
 import unittest
@@ -9,7 +10,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
-from variant_batch import FIXED_MATRIX, QUERY_SCRIPT, SCHEMA, OUT_SCHEMA, main, plan
+from variant_batch import FIXED_MATRIX, QUERY_SCRIPT, SCHEMA, OUT_SCHEMA, main, plan, run
 from outfit_admission import binding_key, evidence_pin, outfit_binding
 
 
@@ -232,11 +233,48 @@ class VariantBatchTests(unittest.TestCase):
         self.assertEqual(result["acceptedCount"], 0)
         self.assertIn("exact body, version and equipment", result["items"][0]["reason"])
 
+    def test_rejects_drive_root_traversal_and_linked_destinations_before_writing(self):
+        workspace = Path(__file__).resolve().parents[2]
+        with TemporaryDirectory(dir=workspace / 'experiments') as temp:
+            fixture = Path(temp).resolve()
+            operator = fixture / 'operator'
+            outside = fixture / 'outside'
+            subprocess.run(['git', 'init', '-q', str(operator)], check=True)
+            outside.mkdir()
+            redirect = operator / 'redirect'
+            if os.name == 'nt':
+                subprocess.run(['cmd.exe', '/d', '/c', 'mklink', '/j', str(redirect), str(outside)],
+                               check=True, capture_output=True)
+            else:
+                redirect.symlink_to(outside, target_is_directory=True)
+            script = operator / 'scripts' / 'production' / 'variant_batch.py'
+            matrix_path = operator / 'unused-matrix.json'
+            request_path = operator / 'unused-request.json'
+            drive_target = Path(workspace.anchor) / ('gamemake-variant-negative-' + fixture.name)
+            for output in (drive_target / 'plan', operator / '..' / 'escaped', redirect / 'plan'):
+                with self.subTest(output=output), patch('variant_batch.__file__', str(script)), \
+                     patch.object(Path, 'mkdir', side_effect=AssertionError('write before boundary check')):
+                    self.assertFalse(output.exists())
+                    with self.assertRaisesRegex(ValueError, 'inside the production tool main checkout'):
+                        run(matrix_path, request_path, output, operator)
+                    args = [str(script), str(matrix_path), str(request_path), '--root', str(operator),
+                            '--output', str(output)]
+                    with patch('sys.argv', args), redirect_stdout(io.StringIO()) as stdout:
+                        self.assertEqual(main(), 1)
+                    self.assertIn('inside the production tool main checkout', stdout.getvalue())
+                    self.assertFalse(output.exists())
+            self.assertFalse(drive_target.exists())
+            self.assertEqual(list(outside.iterdir()), [])
+
     def test_cli_uses_synthetic_external_review_without_touching_fixed_candidate(self):
         # No real catalogue, record, authority index or production asset is changed.
         workspace = Path(__file__).resolve().parents[2]
-        with TemporaryDirectory(dir=workspace, prefix="synthetic-variant-batch-") as temp:
+        with (
+            TemporaryDirectory(dir=workspace / 'experiments', prefix='synthetic-variant-batch-') as temp,
+            TemporaryDirectory(dir=workspace / 'experiments', prefix='synthetic-variant-output-') as output_dir,
+        ):
             root = Path(temp).resolve()
+            operator_output = Path(output_dir).resolve()
 
             def write(relative, value):
                 path = root / relative
@@ -305,7 +343,7 @@ class VariantBatchTests(unittest.TestCase):
 
             def cli(output, index, matrix_input=fixed_matrix):
                 args = ["variant_batch.py", str(matrix_input), str(request), "--root", str(root),
-                        "--output", str(root / output)]
+                        "--output", str(operator_output / output)]
                 with patch("sys.argv", args), patch("variant_batch.load_reviewed_admissions", return_value=index), \
                      redirect_stdout(io.StringIO()) as stdout:
                     status = main()
@@ -321,7 +359,7 @@ class VariantBatchTests(unittest.TestCase):
             self.assertIsNone(result["items"][0]["selection"]["admissionEvidence"])
             self.assertEqual(result["items"][0]["selection"]["wholeOutfitAdmission"]["approval"],
                              {"syntheticTestOnly": True})
-            batch = root / "after-review" / result["creationBatches"][0]["path"]
+            batch = operator_output / "after-review" / result["creationBatches"][0]["path"]
             self.assertEqual(json.loads(batch.read_bytes())["requests"][0]["edits"][0]["selection"]["equipment"], [member])
             # The normal D02 batch parser consumes the generated file without a browser.
             parsed = subprocess.run(["node", "-e", """
@@ -341,7 +379,7 @@ batchCreates(parseRequest(fs.readFileSync(process.argv[1])))
             status, stdout = cli("changed-recipe", synthetic_index)
             self.assertEqual(status, 1, stdout)
             self.assertIn("recipeSource", stdout)
-            self.assertFalse((root / "changed-recipe").exists())
+            self.assertFalse((operator_output / "changed-recipe").exists())
 
 
 if __name__ == "__main__":

@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 import subprocess
 import time
@@ -30,6 +31,24 @@ FIXED_MATRIX = "assets-source/variant-matrix-v1/representative-matrix.json"
 def check(condition: bool, message: str) -> None:
     if not condition:
         raise ValueError(message)
+
+
+def production_checkout() -> Path:
+    script_checkout = Path(__file__).resolve().parents[2]
+    git_env = os.environ.copy()
+    try:
+        local_vars = subprocess.check_output(['git', 'rev-parse', '--local-env-vars'], cwd=script_checkout)
+        for name in local_vars.splitlines():
+            git_env.pop(os.fsdecode(name), None)
+        listing = subprocess.check_output(
+            ['git', 'worktree', 'list', '--porcelain', '-z'], cwd=script_checkout, env=git_env,
+        )
+    except (OSError, subprocess.CalledProcessError) as error:
+        raise ValueError('Cannot locate the production tool Git checkout') from error
+    # Git lists the main checkout first, even when the tool runs from a linked checkout.
+    first = listing.split(b'\0', 1)[0]
+    check(first.startswith(b'worktree '), 'Cannot locate the production tool main checkout')
+    return Path(os.fsdecode(first[9:])).resolve()
 
 
 def read_json(path: Path) -> dict:
@@ -284,6 +303,10 @@ def publish_plan(package: Path, output: Path):
 
 
 def run(matrix_path: Path, request_path: Path, output: Path, root: Path, diagnostic=False) -> dict:
+    output = output.resolve()
+    checkout = production_checkout()
+    check(output != checkout and output.is_relative_to(checkout),
+          'Output must be inside the production tool main checkout')
     matrix = read_json(matrix_path)
     errors = validate_matrix_files(matrix, root)
     check(not errors, "; ".join(errors))
@@ -348,7 +371,7 @@ def main() -> int:
     parser.add_argument("--diagnostic", action="store_true", help="Emit explicitly mapped test requests without granting runtime admission")
     args = parser.parse_args()
     try:
-        print(json.dumps(run(args.matrix.resolve(), args.request.resolve(), args.output.resolve(), args.root.resolve(),
+        print(json.dumps(run(args.matrix.resolve(), args.request.resolve(), args.output, args.root.resolve(),
                              diagnostic=args.diagnostic), ensure_ascii=False))
         return 0
     except (OSError, ValueError, KeyError, TypeError) as error:

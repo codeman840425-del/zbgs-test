@@ -2,6 +2,15 @@
 
 ## 游戏接收方复算当前交付
 
+从当前工具源码运行时，批产计划、角色记录、浏览器证据与游戏包都应输出在生产工具所在主工程内。独立游戏源码可由 `--root` 或 `--source-root` 指定。历史固定交付继续按自己的提交复算。首次接收整具 VRM 时可运行如下只读检查，取得精确的源身份、骨架/蒙皮信息和未满足项。
+
+```powershell
+python -B scripts/production/native_body_intake.py evidence/m2-body-intake-v1/native-template-request.json --check evidence/m2-body-intake-v1/native-template-report.json
+python -B scripts/production/native_body_intake.py evidence/m2-body-intake-v1/published-cc0-request.json --check evidence/m2-body-intake-v1/published-cc0-report.json
+```
+
+男性 CC0 样件可复用既有制作成果。原文件 `ab9af434a229`、从它还原的可编辑 Blender 文件 `c076d81ce83b`、重新导出的游戏身体 `62b44b037257` 三个实际文件均已按导出回执核对。原始 .vroid 缺失；已制作的衣物及游戏表现对应重新导出的身体身份。收到新的体型或异构模型时须生成自己的适配证据。[原制作入口](../assets-source/m1b/README.md) · [导出回执](../assets-source/m1b/body-export-report.json)
+
 `delivery/character-production-handoff.json` 分别固定生产工具和游戏运行时。旧游戏源码附带的制作工具可能早于批量请求协议。复算机从交付单读取两个提交，分别检出；工具检出需要自己的 `prototype/node_modules`，游戏检出按锁文件构建。下面的 `$operatorRoot`、`$runtimeRoot` 分别是这两份检出的绝对路径，`$runRoot` 是主工程内新建且未使用的输出目录。完整普通检出可直接运行。稀疏检出需同时取协议引用的源配方、矩阵、已签角色记录和发布资源。
 
 ```powershell
@@ -149,3 +158,22 @@ python -B scripts/production/native_authoring/runner.py --execute-native --batch
 必须新输出目录；VRoid MCP 0.15.0已运行且入口为干净已保存文档或主菜单。runner不启动/关闭应用、不占桌面，发现未知状态拒绝恢复。具体说明和测试在scripts/production/native_authoring/README.md。两份配方共用一份模板与参数定义，不是每人一个生成脚本。需新增参数机制或合法范围时以真实工具数据补模板声明，不能直接放开任意浮点值。
 
 真实v2已完成两参数配方，另复跑一项VRM字节一致；原生保存容器并非字节相同。输出中的result/manifest保留实际身份，原始失败目录不会覆盖。接着用scripts/production/native_dependency_delta.py显式baseline/candidate路径及SHA生成变化清单；它不签发装备fit、许可或游戏准入。完整身体和装备适配/运行时登记仍需下一段执行，不能将这些源VRM直接当正式人物库。
+
+
+## 接收一具以前没有登记的完整身体
+
+固定游戏 `cfca0dd1 / fe2e58489bbb` 的 D02 接口用已登记的 `bodyType` 创建记录。外来完整 VRM、编辑源和 `vrmPath` 由美术制作端处理。接收方实测新 ID 返回 `Unknown foundation body type`，直接交 `vrmPath` 返回 `Unsupported field vrmPath`。在当前角色分支，这两个接口的边界仍然成立。
+
+现有离线完整制作流程已经验证同一女性 VRoid 2.16 FaceShape 模板的两份配方。模板、基础导出、身体贴图供体、遮罩以及衣、裤、鞋的来源均要精确匹配。以下为工程根目录下的调用形状，所有输出路径应为项目内新目录；登记报告的父目录须已存在。
+
+```powershell
+python -B scripts/production/native_authoring/runner.py --execute-native --batch <参数配方.json> --output <原生制作目录>
+python -B scripts/production/prepare_native_batch.py --authoring-result <原生制作目录>/result.json --template-config scripts/production/native-body-package-v1.json --output <准备目录>
+python -B scripts/production/native_body_package.py --config <准备目录>/config.json --output <完整资产包目录>
+python -B scripts/production/native_import.py --batch <完整资产包目录>/import-batch.json --output <离线校验目录>
+python -B scripts/production/register_native_packages.py --batch <完整资产包目录>/import-batch.json --group female --report <证据目录>/registration.json
+```
+
+登记会改变游戏使用的资源及编译目录。制作方固定新提交，独立重建，在新构建中取得受影响的装备、头部附件、表面、动作、预算与记录恢复证据。用 [准入命令及证据参数](../scripts/production/README.md) 执行 `native_admission_cycle.py`。只有在 `acceptedForRuntime` 中且身体 SHA 精确相符的项才产生正式的 `<bodyType>.request.json`。随后 `character-production-cli.cjs` 读取该请求生成记录，收集为 1–4 项的 JSON 数组后，使用本页的 `inventory` 和 `export` 命令交付独立游戏包。增加已登记身体的记录可沿用原构建。添加新身体或适配资源需要新构建。当前回归中 38 文件诊断包的实际接收回执记录 `formalAdmission=false`。
+
+对异构的新 CC0 VRM，骨数、skin 数或扩展名不足以证明可沿用这套模板。制作端仍需获取来源与使用范围、完整身体、独立装备和遮罩、真实材质及 UV、骨骼语义与权重、表情和必要的适配数据，再走登记链。现有工具尚未证明可以直接把任意新完整 VRM 转成正式游戏角色。保留原样固定构建的拒绝结果，以后用正式新增的生产接口及新构建复测。

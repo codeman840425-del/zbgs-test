@@ -93,6 +93,10 @@ def registration(item, prepared, group):
 
 
 def register(batch_path, group, report_path):
+    report_path = report_path.resolve()
+    root = ROOT.resolve()
+    if report_path == root or not report_path.is_relative_to(root):
+        raise ValueError('Report output must be inside the project')
     if report_path.exists():
         raise FileExistsError('Refuse existing report')
     if not report_path.parent.is_dir():
@@ -146,7 +150,7 @@ def register(batch_path, group, report_path):
             for item in batch['items']:
                 src = ROOT / 'output/native-production-registration' / item['package']
                 dest = public / item['package']
-                if report_path.resolve().is_relative_to(dest.resolve()):
+                if report_path.is_relative_to(dest.resolve()):
                     raise ValueError('Report cannot be written inside a candidate package')
                 files = {p.relative_to(src).as_posix():p.read_bytes() for p in src.rglob('*') if p.is_file()}
                 if dest.exists():

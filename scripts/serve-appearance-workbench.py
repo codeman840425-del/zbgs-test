@@ -22,6 +22,9 @@ CREW_FILES = {'index.html', 'close/original.png', 'close/socks.png',
               'game-restore/produced-pair.png', 'game-restore/produced-pair-1x.webm'}
 NORMAL_REVIEW = '/reviews/native-body-cost/'
 NORMAL_MEDIA = {
+    **{'/reviews/m2-native-mesh-room-v1/' + f: 'm2-native-mesh-room-v1/' + f for f in (
+        'index.html', 'pixel-boundaries/speech-1x.webm', 'pixel-boundaries/open-mouth.png',
+        'pixel-boundaries/report.json', 'texture-export/report.json')},
     NORMAL_REVIEW: 'm2-native-body-cost-v1/index.html',
     **{NORMAL_REVIEW + f: 'm2-native-body-cost-v1/' + f for f in (
         'index.html', 'room/room-produced-1x.webm', 'game/produced-pair-1x.webm',

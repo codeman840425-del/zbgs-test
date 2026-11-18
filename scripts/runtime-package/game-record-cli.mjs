@@ -1,5 +1,6 @@
 import {readFile} from 'node:fs/promises';
 import path from 'node:path';
+import projectOutputs from '../project-output.cjs';
 import {fileURLToPath} from 'node:url';
 import {digest, fail, jsonBytes, writeFresh} from './files.mjs';
 import {createGameRecordInventory, exportGameRecordInventory} from './game-record-inventory.mjs';
@@ -20,6 +21,7 @@ async function main() {
     options.set(option, value);
   }
   if (['--dist', '--out', ...(command === 'export' ? ['--inventory'] : [])].some(name => !options.has(name))) throw Error(usage);
+  const out = await projectOutputs.projectOutput(options.get('--out'), await projectOutputs.productionRoot());
   const external = options.has('--records');
   const {sourceDigest} = await readJson(path.join(options.get('--dist'), 'build-info.json'));
   const index = JSON.parse(await readFile(new URL('./game-runtime-reviews.json', import.meta.url)));
@@ -40,7 +42,6 @@ async function main() {
     reviewed:JSON.parse(reviewedBytes),
     records:external ? await readJson(options.get('--records')) : undefined,
   };
-  const out = path.resolve(options.get('--out'));
   if (command === 'export') {
     const inventory = await readJson(options.get('--inventory'));
     console.log(JSON.stringify({ok:true, ...await exportGameRecordInventory({...common, inventory, out})}));

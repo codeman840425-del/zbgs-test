@@ -3,26 +3,12 @@ const fs=require('node:fs/promises'),path=require('node:path'),{spawn}=require('
 const {parseArgs}=require('node:util');
 const {createInterface}=require('node:readline');
 
-async function destination(value){
- const absolute=path.resolve(value);
- if(process.platform==='win32'){
-  const parts=absolute.slice(path.parse(absolute).root.length).split(path.sep);
-  if(absolute.startsWith('\\\\?\\')||absolute.startsWith('\\\\.\\')||
-     parts.some(part=>/[.: ]$/.test(part)||part.includes(':')||/^(?:con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(part)))
-   throw Error('Unsupported Windows output path');
- }
- try{return await fs.realpath(absolute);}
- catch(error){
-  if(error.code!=='ENOENT')throw error;
-  const parent=path.dirname(absolute);
-  if(parent===absolute)throw error;
-  return path.join(await destination(parent),path.basename(absolute));
- }
-}
+const {productionRoot,projectOutput}=require('./project-output.cjs');
 
 async function outputPaths(output,evidence){
- const out=await destination(output);
- const dir=evidence?await destination(evidence):'';
+ const root=await productionRoot();
+ const out=await projectOutput(output,root);
+ const dir=evidence?await projectOutput(evidence,root):'';
  if(dir){
   const relative=path.relative(dir,out);
   if(relative===''||(!path.isAbsolute(relative)&&relative!=='..'&&!relative.startsWith('..'+path.sep)))

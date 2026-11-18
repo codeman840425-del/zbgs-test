@@ -1,9 +1,13 @@
 """Offline editor-state regressions; this module never constructs a live transport."""
 import copy
 import json
+import os
+import shutil
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 import runner
 
@@ -97,7 +101,7 @@ class Editor:
 
 class Tests(unittest.TestCase):
     def setUp(self):
-        self.tmp = tempfile.TemporaryDirectory()
+        self.tmp = tempfile.TemporaryDirectory(dir=runner.ROOT / "experiments")
         self.addCleanup(self.tmp.cleanup)
         self.path = Path(self.tmp.name)
         self.recipe = json.loads((runner.HERE/"facecontour-pair.json").read_bytes())
@@ -190,6 +194,37 @@ class Tests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     runner.run(batch,self.path/modification,editor)
                 self.assertEqual(editor.transport_calls,[])
+
+    def test_output_cannot_leave_the_explicit_fixture_root(self):
+        root = self.path / 'checkout'
+        outside = self.path / 'outside'
+        root.mkdir()
+        outside.mkdir()
+        redirect = root / 'redirect'
+        if os.name == 'nt':
+            subprocess.run(['cmd.exe', '/d', '/c', 'mklink', '/j', str(redirect), str(outside)],
+                           check=True, capture_output=True)
+        else:
+            redirect.symlink_to(outside, target_is_directory=True)
+
+        editor = Editor(self.recipe)
+        with patch.object(Path, 'mkdir', side_effect=AssertionError('output written before validation')):
+            for output in (outside / 'absolute', root / '..' / 'traversal', redirect / 'linked'):
+                with self.subTest(output=output):
+                    with self.assertRaisesRegex(ValueError, 'Output must be inside the project'):
+                        runner.run(self.recipe, output, editor, root=root)
+                    self.assertFalse(output.exists())
+        self.assertEqual(editor.transport_calls, [])
+
+        inputs = [self.recipe['template'], *(ref for param in self.recipe['parameters'] for ref in param['observations'])]
+        for name in {ref['path'] for ref in inputs}:
+            target = root / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(runner.ROOT / name, target)
+        report = runner.run(self.recipe, root / 'batch', editor, root=root)
+        self.assertTrue(report['passed'], report)
+        self.assertTrue((root / 'batch' / 'result.json').is_file())
+        self.assertEqual(list(outside.iterdir()), [])
 
     def test_nested_response_failure(self):
         record = dict(ok=True,responses=[dict(id=2,result=dict(content=[dict(type="text",text='{"ok":true,"data":{"ok":false}}')]))])

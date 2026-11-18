@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 import re
 import shutil
+import subprocess
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -12,6 +13,32 @@ import register_native_packages as registrar
 
 REPO = registrar.ROOT
 SOURCE = Path("assets-source/native-parameter-game-packages-v1")
+
+
+class RegistrationReportPathTests(unittest.TestCase):
+    def test_report_paths_cannot_escape_before_staging(self):
+        with tempfile.TemporaryDirectory(dir=REPO / 'experiments') as directory:
+            fixture = Path(directory)
+            root = fixture / 'checkout'
+            outside = fixture / 'outside'
+            root.mkdir()
+            outside.mkdir()
+            redirect = root / 'redirect'
+            if os.name == 'nt':
+                subprocess.run(['cmd.exe', '/d', '/c', 'mklink', '/j', str(redirect), str(outside)],
+                               check=True, capture_output=True)
+            else:
+                redirect.symlink_to(outside, target_is_directory=True)
+            batch = root / 'import-batch.json'
+            batch.write_text('{}', encoding='utf-8')
+            with patch.object(registrar, 'ROOT', root), patch.object(registrar.importer, 'execute') as stage:
+                for report in (outside / 'absolute.json', root / '..' / 'traversal.json', redirect / 'linked.json'):
+                    with self.subTest(report=report):
+                        with self.assertRaisesRegex(ValueError, 'Report output must be inside the project'):
+                            registrar.register(batch, 'female', report)
+                        self.assertFalse(report.exists())
+                stage.assert_not_called()
+            self.assertEqual(list(outside.iterdir()), [])
 
 
 class RegistrationTests(unittest.TestCase):
@@ -35,6 +62,12 @@ class RegistrationTests(unittest.TestCase):
         self.catalog.write_text('{"schema":"native-production-catalog-v1","entries":[]}',encoding="utf8")
         self.coverage = self.catalog.with_name("native-body-texture-coverage-admissions.json")
         self.coverage.write_bytes(b"[]\n")
+        # These optional surfaces depend on the native body coverage this fixture starts without.
+        for package in ('native-skin-tone-package-v1', 'native-facecontour-lip-package-v1'):
+            registry = self.public / package / 'registry.json'
+            data = json.loads(registry.read_bytes())
+            data['entries'] = []
+            registry.write_text(json.dumps(data), encoding='utf-8')
         self.original = self.catalog.read_bytes()
         self.public.mkdir(exist_ok=True,parents=True)
         for owner,key,new in [(registrar,"ROOT",self.root),(registrar,"CATALOG",self.catalog),(registrar.importer,"ROOT",self.root)]:

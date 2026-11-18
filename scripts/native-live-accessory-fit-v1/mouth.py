@@ -4,7 +4,7 @@ The result is a source contract only.  It records the welded lip seam, its
 FaceMouth AA morph displacement, and the adjacent Face_SKIN normal.  It does
 not modify a VRM, solve a microphone pose, or register a runtime accessory.
 """
-import argparse, hashlib, importlib.util, json, pathlib, numpy as np
+import argparse, importlib.util, json, pathlib, numpy as np
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 FIT = ROOT / "scripts/native-live-accessory-fit-v1/fit.py"
@@ -45,12 +45,8 @@ def skin(g, primitive, ids, world, mesh_index, delta=None):
                             np.c_[points, np.ones(len(points))]) * weights[:, k, None]
     return result
 
-def one(body, source_path=None, output_name=None):
-    path = pathlib.Path(source_path) if source_path else SOURCES[body]
-    if not path.is_absolute():
-        path = ROOT / path
-    path = path.resolve()
-    g = mod.GLB(path)
+def measure(g):
+    """Find the welded mouth boundary and measure its adjoining referenced facial skin."""
     doc = g.doc
     world = worlds(g)
     human = {name: item["node"] for name, item in
@@ -70,6 +66,7 @@ def one(body, source_path=None, output_name=None):
     mouth_ids = np.unique(triangles)
     face_triangles = g.acc(face["indices"]).reshape(-1, 3)
     face_ids = np.unique(face_triangles)
+    face_positions = g.acc(face["attributes"]["POSITION"])[face_ids].astype(float)
     welded = {}
     groups = []
     mapping = {}
@@ -102,7 +99,7 @@ def one(body, source_path=None, output_name=None):
                     todo.append(nxt)
         ids = [groups[i][0] for i in sorted(seen)]
         seam = positions[ids]
-        distance = np.linalg.norm(seam[:, None, :] - positions[face_ids][None, :, :], axis=2).min(1)
+        distance = np.linalg.norm(seam[:, None, :] - face_positions[None, :, :], axis=2).min(1)
         loops.append({"ids": ids, "count": len(ids),
                       "skinCoincidenceMaxMetres": float(distance.max())})
         for item in seen:
@@ -116,25 +113,25 @@ def one(body, source_path=None, output_name=None):
         return (np.c_[points, np.ones(len(points))] @ inverse_head.T)[:, :3]
     neutral = head_local(skin(g, mouth, ring_ids, world, mesh_index))
     preset = doc["extensions"]["VRMC_vrm"]["expressions"]["preset"]
-    aa_bind = preset["aa"]["morphTargetBinds"][0]
+    aa_bind, = preset["aa"]["morphTargetBinds"]
+    if doc["nodes"][aa_bind["node"]].get("mesh") != mesh_index or aa_bind["weight"] != 1:
+        raise ValueError("Expected a full-weight aa bind on the measured mouth mesh")
     aa_index = aa_bind["index"]
     aa_delta = g.acc(mouth["targets"][aa_index]["POSITION"])
     aa_points = head_local(skin(g, mouth, ring_ids, world, mesh_index, aa_delta))
-    # The Face primitive shares the same source mesh and skin.  Use the ring's
-    # adjacent Face_SKIN triangles to report its authored local outward normal.
+    # Face and mouth may have separate vertex numbering even within a single skin.
     ring_points = positions[ring_ids]
-    near = np.linalg.norm(positions[:, None, :] - ring_points[None, :, :], axis=2).min(1) < 1e-6
-    adjacent = face_triangles[np.any(near[face_triangles], axis=1)]
-    face_points = head_local(skin(g, face, np.arange(len(positions)), world, mesh_index))
-    cross = np.cross(face_points[adjacent[:, 1]] - face_points[adjacent[:, 0]],
-                     face_points[adjacent[:, 2]] - face_points[adjacent[:, 0]])
+    near = np.linalg.norm(face_positions[:, None, :] - ring_points[None, :, :], axis=2).min(1) < 1e-6
+    adjacent = face_triangles[np.any(np.isin(face_triangles, face_ids[near]), axis=1)]
+    used, mapping = np.unique(adjacent, return_inverse=True)
+    points = head_local(skin(g, face, used, world, mesh_index))[mapping.reshape(adjacent.shape)]
+    cross = np.cross(points[:, 1] - points[:, 0], points[:, 2] - points[:, 0])
     normal = cross.sum(0)
-    normal = normal / max(1e-12, np.linalg.norm(normal))
-    row = {
-        "schema": "native-live-accessory-mouth-v1",
-        "body": body,
-        "avatarSha256": g.sha,
-        "source": str(path.relative_to(ROOT)).replace("\\", "/"),
+    norm = np.linalg.norm(normal)
+    if not np.isfinite(norm) or norm <= 1e-12:
+        raise ValueError("Expected a nondegenerate adjacent Face_SKIN surface")
+    normal = normal / norm
+    return {
         "rawHeadNode": head,
         "rawHeadName": doc["nodes"][head].get("name"),
         "meshIndex": mesh_index,
@@ -154,8 +151,23 @@ def one(body, source_path=None, output_name=None):
                     "Mouth anchor is neutral lip-rim centroid; aa displacement is retained separately.",
                     "This does not prove microphone grille clearance, speech ergonomics, or runtime mapping."]
     }
-    out = ROOT / "assets-source/native-live-accessory-fit-v1" / (output_name or f"{body}-mouth.json")
-    out.write_text(json.dumps(row, indent=2) + "\n", encoding="utf8")
+
+
+def one(body, source_path=None, output_name=None):
+    out = (ROOT / "assets-source/native-live-accessory-fit-v1" / (output_name or f"{body}-mouth.json")).resolve()
+    if not out.is_relative_to(ROOT.resolve()):
+        raise ValueError("Mouth evidence must stay inside the project")
+    path = (ROOT / source_path if source_path else SOURCES[body]).resolve()
+    g = mod.GLB(path)
+    row = {"schema": "native-live-accessory-mouth-v1", "body": body, "avatarSha256": g.sha,
+           "source": path.relative_to(ROOT).as_posix(), **measure(g)}
+    try:
+        # Historical Windows production JSON pins include CRLF.
+        with out.open("x", encoding="utf8", newline="\r\n") as stream:
+            stream.write(json.dumps(row, indent=2, allow_nan=False) + "\n")
+    except FileExistsError:
+        if json.loads(out.read_bytes()) != row:
+            raise ValueError(f"Existing mouth evidence differs; choose a new output path: {out}")
     return row
 
 if __name__ == "__main__":

@@ -19,9 +19,15 @@ class NativeAccessoryBatchTests(unittest.TestCase):
 
     def setUp(self):
         self.recipe = json.loads((EVIDENCE / 'accessory-smoke-recipe.json').read_bytes())
-        scratch = tempfile.TemporaryDirectory()
+        scratch = tempfile.TemporaryDirectory(dir=EVIDENCE)
         self.addCleanup(scratch.cleanup)
         self.output = Path(scratch.name) / 'candidate'
+
+    def test_outside_output_rejected_before_creating_the_batch(self):
+        from unittest.mock import patch
+        with patch.object(Path, 'mkdir', side_effect=AssertionError('Unexpected filesystem write')):
+            with self.assertRaisesRegex(ValueError, 'inside the project'):
+                run(self.recipe, ROOT.parent / 'outside-accessory-test')
 
     def test_archived_face_uses_original_temple_solver_and_target_mouth(self):
         target = self.recipe['targets'][0]

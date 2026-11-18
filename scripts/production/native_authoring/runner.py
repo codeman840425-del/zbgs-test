@@ -245,8 +245,10 @@ def author(call, batch, item, directory, template):
 
 
 def run(batch, output, transport=live_transport, root=ROOT):
-    template = checked_recipe(batch, root)
+    root = root.resolve()
     output = output.resolve()
+    require(output != root and output.is_relative_to(root), "Output must be inside the project")
+    template = checked_recipe(batch, root)
     output.mkdir(parents=True, exist_ok=False)
     write(output / "batch.json", batch)
     calls = output / "calls"

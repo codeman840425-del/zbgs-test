@@ -209,6 +209,8 @@ def run(recipe, output):
     check(names and len(names) == len(set(names)) and all(re.fullmatch('[a-z0-9-]+', name) for name in names),
           'Expected unique URL-safe body IDs')
     output = output.resolve()
+    if not output.is_relative_to(ROOT) or output == ROOT:
+        raise ValueError('Accessory batch output must stay inside the project')
     output.mkdir(exist_ok=False)
     rows = []
     for item in targets:
