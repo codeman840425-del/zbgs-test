@@ -24,6 +24,9 @@ class NativeReleaseManifestTests(unittest.TestCase):
             self.assertEqual(len(entry['sourceModelSha256']), 64)
             self.assertEqual(len(entry['derivedTextureSha256']), 64)
             self.assertEqual(len(entry['fallbackPngSha256']), 64)
+            self.assertEqual(entry['target']['materialName'], 'N00_000_00_Body_00_SKIN (Instance)')
+            self.assertEqual((entry['target']['width'], entry['target']['height']), (2048, 2048))
+            self.assertEqual(entry['target']['materialContract']['alphaMode'], 'MASK')
 
     def test_changed_sidecar_identity_is_rejected(self):
         source = json.loads(SIDECAR.read_text(encoding='utf8'))

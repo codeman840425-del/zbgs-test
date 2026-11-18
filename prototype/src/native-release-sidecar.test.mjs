@@ -9,6 +9,8 @@ test('resolves only exact candidate sidecar and preserves PNG fallback', () => {
   const result = resolveNativeReleaseSidecar(manifest, body.bodyType, body.sourceModelSha256);
   assert.equal(result.status, 'candidate-only');
   assert.equal(result.fallbackPng, body.fallbackPng);
+  assert.equal(result.target.materialName, 'N00_000_00_Body_00_SKIN (Instance)');
+  assert.equal(result.target.materialContract.alphaMode, 'MASK');
 });
 
 test('falls back when body identity is not registered', () => {
@@ -18,4 +20,10 @@ test('falls back when body identity is not registered', () => {
 
 test('rejects malformed candidate identity', () => {
   assert.throws(() => resolveNativeReleaseSidecar(manifest, body.bodyType, 'bad'), /incomplete/);
+});
+
+test('rejects a candidate with a missing material target contract', () => {
+  const malformed = structuredClone(manifest);
+  delete malformed.entries[0].target.materialName;
+  assert.throws(() => resolveNativeReleaseSidecar(malformed, body.bodyType, body.sourceModelSha256), /material target contract/);
 });

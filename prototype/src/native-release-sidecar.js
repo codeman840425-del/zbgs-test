@@ -16,12 +16,31 @@ export function resolveNativeReleaseSidecar(manifest, bodyType, bodySha256) {
   for (const key of ['derivedTextureSha256', 'fallbackPngSha256']) {
     if (!SHA256.test(String(entry[key] ?? ''))) throw new Error(`Invalid sidecar identity: ${key}`);
   }
+  const target = entry.target;
+  if (!target || !Number.isInteger(target.materialIndex) || target.materialIndex < 0 ||
+      !Number.isInteger(target.imageIndex) || target.imageIndex < 0 ||
+      typeof target.materialName !== 'string' || !target.materialName ||
+      target.width !== 2048 || target.height !== 2048 ||
+      target.materialContract?.baseColorTextureIndex !== target.imageIndex ||
+      target.materialContract?.shadeMultiplyTextureIndex !== target.imageIndex ||
+      target.materialContract?.alphaMode !== 'MASK' ||
+      target.materialContract?.transformIdentity !== true) {
+    throw new Error('Invalid sidecar material target contract');
+  }
   return {
     status: 'candidate-only',
     bodyType: entry.bodyType,
     sourceModelSha256: entry.sourceModelSha256,
     derivedTexture: entry.derivedTexture,
     fallbackPng: entry.fallbackPng,
+    target: {
+      materialIndex: target.materialIndex,
+      materialName: target.materialName,
+      imageIndex: target.imageIndex,
+      width: target.width,
+      height: target.height,
+      materialContract: target.materialContract,
+    },
     runtimePolicy: entry.runtimePolicy,
   };
 }

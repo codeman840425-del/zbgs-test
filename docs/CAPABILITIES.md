@@ -545,6 +545,8 @@ native_dependency_delta.py共用实际GLB差分核引用顶点、morph、骨/res
 
 2026-11-18 准入周期 v14：以当前动态、表面、预算分类、头部附件/持麦候选及房间回放重新汇总批产证据。两份女性 FaceContour 候选均解析 `facialExpressions` 与 `handAndMicrophone`，保留 `dynamicMotion`、`headAttachments`、`runtimeRecordAndBudget`、`surfaceAndTexture` 四项阻塞，记录规划输出两条 `runtime admission pending` 拒绝行，`acceptedForRuntime=[]`。v14 只修正证据汇总接缝，不代表运行时或视觉准入通过。
 
+旁车资源合同增量：`native_release_manifest.py` 与 `native-release-sidecar.js` 现在同时保存并校验精确材质目标、图像索引、尺寸和 MToon alpha/纹理索引合同。缺失材质目标会拒绝候选，完整旁车清单重建与4项解析测试通过。该信息为未来 KTX2 loader 的安全挂接输入，不改变当前 PNG 默认路径或准入状态。
+
 2026-11-18 矩阵查询接缝复核：`character-production-query.js` 直接读取 `assets-source/variant-matrix-v1/representative-matrix.json`，Node/Vite 生产构建可重复，无需生成运行时副本。女性和男性查询各返回 `uniform-top-v1`、`lower-shorts-v1` 两个 `candidate` 款式，`runtimeVariants=[]`；深层数据脱离性回归通过，证据 `evidence/m2-variant-query-runtime-seam-v1/report.json`，提交 `dc6067e4`。这只证明统一资源矩阵可以被查询层消费，不证明服装、动作、预算、附件或视觉准入。
 
 2026-11-18 预览边界：4196 角色工作台和公司平台当前实际端口 60880 只用于人类观看、比较和验收。它们不等于游戏内交付，游戏交付仍以可加载场景/角色配置、资源、适配数据、状态及保存恢复链的版本化证据为准。副总工边几与生活小物包已在其独立分支发布，但真实角色 C3 联调仍待双方固定接口后进行。
