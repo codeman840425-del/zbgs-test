@@ -23,7 +23,7 @@ if __name__ == '__main__':
             # Review recordings stay outside the game build and its download budget.
             name = urlsplit(path).path
             review = '/reviews/native-hair-motion/'
-            if config['evidence'] == 'evidence/m2-native-hair-record-v1':
+            if config['evidence'] == 'evidence/m2-native-hair-record-v1' or config.get('nativeHairRecordReview'):
                 current_files = {
                     review: 'index.html',
                     review + 'room.webm': 'room/room-produced-1x.webm',
@@ -31,7 +31,14 @@ if __name__ == '__main__':
                     review + 'cheek.json': 'contour-cheek-b.json',
                 }
                 if name in current_files:
-                    return str(ROOT / config['evidence'] / current_files[name])
+                    return str(ROOT / 'evidence/m2-native-hair-record-v1' / current_files[name])
+            surface = '/reviews/native-surfaces/'
+            if config.get('nativeSurfaceReview') and name.startswith(surface):
+                file = name[len(surface):] or 'index.html'
+                bodies = ('native-contour-roundness-a-v1', 'native-contour-cheek-b-v1')
+                media = ('neutral.png', 'mouth.png', 'back.png', 'room.png', 'half-light-diagnostic.png', 'speech-1x.webm')
+                if file == 'index.html' or any(file == body + '/' + asset for body in bodies for asset in media):
+                    return str(ROOT / 'evidence/m2-native-surface-room-v1' / file)
             files = {
                 review: 'index.html',
                 review + 'before-trial.mp4': 'before-trial.mp4',
