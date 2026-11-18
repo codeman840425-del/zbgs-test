@@ -11,7 +11,8 @@ import {describeArchitecture} from './architecture.js';
 import {describeCompanyUsePoint} from './use-point-data.js';
 import {createContactResourceStore} from './contact-resources.js';
 import {WALL_HEIGHT,WALL_CENTER_Y,evaluateWallVisibility,groupWallSegments,wallEdge} from './wall-visibility.js';
-import {applySurfaceFinish,describeSurfaceMeshes} from './surface-finish-render.js';
+import {applySurfaceFinish,describeSurfaceMeshes,surfaceMaterialFor} from './surface-finish-render.js';
+import {describeBaseboardRuns,createBaseboardGeometry} from './baseboard-geometry.js';
 import {partAngle,partOffset} from './moving-parts.js';
 import {bindClockDisplay,validatePresentationInputs} from './clock-display.js';
 import {applyInformationDisplay} from './information-display.js';
@@ -158,9 +159,27 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
             parent.add(ceiling);ceilings.push(ceiling);
             applySurfaceFinish(ceiling,finishes.get(`${node.id}#finish:ceiling`),node,null,assetLibrary,finishMaterials);
           }
-          for(const boundary of architecture.walls.filter(w=>w.regionId===node.id)) {
+          const boundaries=architecture.walls.filter(w=>w.regionId===node.id);
+          const baseboard=finishes.get(`${node.id}#finish:baseboard`);
+          const boundaryMeshes=baseboard ? new Map() : null;
+          for(const boundary of boundaries) {
             const wall=structureMesh(...boundary.size,node.kind==='area'?'#b5c4b8':'#c4d1c1');wall.position.fromArray(boundary.position);wall.name=boundary.id;wall.userData={roomId:node.id,edge:boundary.edge,physicalBoundary:boundary.sourceWallId||boundary.id,height:boundary.size[1]};parent.add(wall);walls.push(wall);
             applySurfaceFinish(wall,finishes.get(`${node.id}#finish:${boundary.edge}`),node,boundary,assetLibrary,finishMaterials);
+            if(baseboard && boundary.position[1]-boundary.size[1]/2<1e-7) boundaryMeshes.set(wall.userData.physicalBoundary,wall);
+          }
+          if(baseboard) {
+            for(const run of describeBaseboardRuns(node,boundaries,derived.facilities)) {
+              const wall=boundaryMeshes.get(run.physicalBoundary);
+              if(!wall) throw new CompanyError('missing-baseboard-wall',node.id,run.physicalBoundary);
+              const geometry=createBaseboardGeometry(run,baseboard.resource.finish.profile);
+              const trim=new THREE.Mesh(geometry,surfaceMaterialFor(baseboard,assetLibrary,finishMaterials));
+              trim.name=run.id;
+              trim.userData={roomId:node.id,baseboard:baseboard.resource.id,edge:run.edge,physicalBoundary:run.physicalBoundary};
+              // The profile is in room coordinates. Inherit the cutaway visibility of its wall.
+              trim.position.copy(wall.position).negate();
+              trim.receiveShadow=true;
+              wall.add(trim);
+            }
           }
         }
       }

@@ -55,6 +55,10 @@ node scripts/company-platform/build-library.mjs --check
 
 在批次的设施 `resource` 或 `replace-resource` 操作里引用 `desk-lamp-a-frame@1`、`screen-partition-acoustic-narrow-tiles@2` 对应的 ID 和整数版本。运行批处理后，在 `source/prototype` 依次运行 `node scripts/build-company-id.mjs` 和 `node node_modules/vite/bin/vite.js build --config vite.company.config.js`，再用新构建和该批次房间生成交付包。
 
+## 按房间布置踢脚线
+
+带有 `baseboard-rooms.json` 的版本可制作墙脚造型。在工作副本的 `source` 目录运行 `node scripts/company-platform/batch.mjs scripts/company-platform/batch-inputs/baseboard-rooms.json ../my-baseboard-rooms`。把房间的 `finishes.baseboard` 绑定到所需版本，制作工具会按门洞、窗台与墙角重新生成收边。在预览的“装修”面板可直接换款。两份独立输入与制作方式见 `source/docs/research/COMPANY-BASEBOARD-PRODUCTION.md`。
+
 ## 布置沙发与软装
 
 在工作副本的 `source` 目录生成两间朝向不同的房间。输入把沙发写在房间的 `furniture` 中，把抱枕或搭毯作为它的子物件写在 `operations` 中。

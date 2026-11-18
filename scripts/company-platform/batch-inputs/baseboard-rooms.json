@@ -1,0 +1,163 @@
+{
+  "schema": "company-batch",
+  "version": 1,
+  "items": [
+    {
+      "key": "baseboard-studio",
+      "input": {
+        "id": "baseboard-studio",
+        "name": "民房直播间 · 门窗与墙脚",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "furnishingVersion": 2,
+        "scale": "small-home",
+        "floors": [
+          {
+            "id": "ground",
+            "exteriorEntrances": [
+              {
+                "id": "door",
+                "regionId": "live",
+                "edge": "south",
+                "offset": -0.35,
+                "width": 1.4,
+                "height": 2.2
+              }
+            ],
+            "rooms": [
+              {
+                "id": "live",
+                "name": "直播间",
+                "purpose": "streaming",
+                "stations": 0,
+                "furniture": [
+                  {
+                    "id": "window",
+                    "resource": {
+                      "id": "window-opening-square-basic",
+                      "version": 1
+                    },
+                    "transform": {
+                      "position": [
+                        0.55,
+                        1.42,
+                        -1.9
+                      ],
+                      "yaw": 0
+                    }
+                  },
+                  {
+                    "id": "frame",
+                    "resource": {
+                      "id": "door-frame-plain",
+                      "version": 1
+                    },
+                    "transform": {
+                      "position": [
+                        -0.35,
+                        0,
+                        1.9
+                      ],
+                      "yaw": 3.141592653589793
+                    }
+                  }
+                ]
+              }
+            ],
+            "name": "一层"
+          }
+        ]
+      },
+      "operations": [
+        {
+          "type": "set-surface-finish",
+          "id": "baseboard-studio/ground/live",
+          "surface": "baseboard",
+          "finish": {
+            "resource": {
+              "id": "baseboard-timber",
+              "version": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "key": "baseboard-rental",
+      "input": {
+        "id": "baseboard-rental",
+        "name": "整套出租屋 · 客厅与工作间收边",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "scale": "rental-home",
+        "floors": [
+          {
+            "id": "ground",
+            "name": "一层",
+            "rooms": [
+              {
+                "id": "live",
+                "name": "直播间",
+                "purpose": "streaming",
+                "stations": 1
+              },
+              {
+                "id": "work",
+                "name": "工作间",
+                "purpose": "work",
+                "furniture": "desk-chair"
+              },
+              {
+                "id": "rest",
+                "name": "休息间",
+                "purpose": "rest",
+                "sofaVersion": 1
+              }
+            ]
+          }
+        ],
+        "furnishingVersion": 2
+      },
+      "operations": [
+        {
+          "type": "move",
+          "id": "baseboard-rental/ground",
+          "transform": {
+            "position": [
+              1.25,
+              0,
+              -0.75
+            ],
+            "yaw": 1.5707963267948966
+          }
+        },
+        {
+          "type": "set-surface-finish",
+          "id": "baseboard-rental/ground/work",
+          "surface": "baseboard",
+          "finish": {
+            "resource": {
+              "id": "baseboard-reveal",
+              "version": 1
+            }
+          }
+        },
+        {
+          "type": "set-surface-finish",
+          "id": "baseboard-rental/ground/living",
+          "surface": "baseboard",
+          "finish": {
+            "resource": {
+              "id": "baseboard-stone",
+              "version": 1
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

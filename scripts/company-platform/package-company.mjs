@@ -456,6 +456,13 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   add('data/library-catalog.json',catalogBytes,'complete-catalog');
   add('data/templates.json',templateBytes,'complete-templates');
   const supplemental=new Set(extraFiles);
+  if (catalog.resources.some(resource => resource.finish?.allowedSurfaces?.includes('baseboard'))) {
+    supplemental.add('docs/research/COMPANY-BASEBOARD-PRODUCTION.md');
+    supplemental.add('scripts/company-platform/test-baseboard-geometry.mjs');
+    supplemental.add('scripts/company-platform/test-baseboard-assets.mjs');
+    supplemental.add('scripts/company-platform/test-baseboard-data.mjs');
+    supplemental.add('scripts/company-platform/qa-baseboard-rooms.cjs');
+  }
   if (hasSeatChecker) {
     supplemental.add(seatCheckerPath);
     supplemental.add('scripts/company-platform/qa-seat-contact-rooms.cjs');

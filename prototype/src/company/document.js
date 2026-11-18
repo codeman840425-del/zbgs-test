@@ -2,6 +2,7 @@ import {cameraDeskEdgePlacement, cameraWallFootprint, sharesCameraDeskContact, v
 import {deriveExteriorEntrances,floorPortalSides} from './exterior-entrance-data.js';
 import {validateWindowResource,deriveWindowOpenings} from './window-data.js';
 import {deriveCableConnections} from './cable-data.js';
+import {validateBaseboardProfile} from './baseboard-profile.js';
 import {companyScaleProfile,validateScaleProfile} from './scale-profile.js';
 // Company authoring data. Actor tasks and seat leases remain in the character platform.
 import {validateCeilingAttachments} from './ceiling-acoustic-data.js';
@@ -88,7 +89,8 @@ function validateAppearance(appearance, resource, path) {
   }
 }
 
-const surfaceKeys = new Set(['floor', 'ceiling', 'north', 'south', 'west', 'east']);
+const surfaceKeys = new Set(['floor', 'ceiling', 'baseboard', 'north', 'south', 'west', 'east']);
+const surfaceTypes = new Set(['floor', 'wall', 'ceiling', 'baseboard']);
 function validateSurfaceResource(resource, path, surface) {
   if (!resource || typeof resource !== 'object' || Array.isArray(resource))
     fail('invalid-surface-resource', path, 'Expected a catalog surface-finish resource');
@@ -100,15 +102,19 @@ function validateSurfaceResource(resource, path, surface) {
     fail('invalid-surface-resource', `${path}.asset`, 'Surface resources require a static GLB asset with a content hash');
   const finish = resource.finish;
   if (!finish || typeof finish !== 'object' || Array.isArray(finish) ||
-      Object.keys(finish).some(field => !['allowedSurfaces', 'materialNode', 'tileMeters'].includes(field)) ||
+      Object.keys(finish).some(field => !['allowedSurfaces', 'materialNode', 'tileMeters', 'profile'].includes(field)) ||
       !Array.isArray(finish.allowedSurfaces) ||
-      (finish.allowedSurfaces.length !== 1 || !['floor', 'wall', 'ceiling'].includes(finish.allowedSurfaces[0])) ||
+      (finish.allowedSurfaces.length !== 1 || !surfaceTypes.has(finish.allowedSurfaces[0])) ||
       finish.materialNode !== 'finish-surface' || !Array.isArray(finish.tileMeters))
     fail('invalid-surface-resource', path, 'Surface resource finish contract is invalid');
+  if (finish.allowedSurfaces[0] === 'baseboard')
+    validateBaseboardProfile(finish.profile, `${path}.finish.profile`, fail);
+  else if (Object.hasOwn(finish, 'profile'))
+    fail('invalid-surface-resource', `${path}.finish.profile`, 'Only baseboard finishes define a cross section');
   const defaultTile = finish.tileMeters;
   if (defaultTile.length !== 2 || !defaultTile.every(Number.isFinite) || defaultTile.some(n => n < 0.1 || n > 4))
     fail('invalid-surface-resource', `${path}.finish.tileMeters`, 'Default tileMeters must contain two finite values from 0.1 to 4 metres');
-  const expectedSurface = surface === 'ceiling' ? 'ceiling' : surface === 'floor' ? 'floor' : 'wall';
+  const expectedSurface = surfaceTypes.has(surface) ? surface : 'wall';
   if (!finish.allowedSurfaces.includes(expectedSurface))
     fail('incompatible-surface-finish', path, `Resource is not allowed on ${expectedSurface}`);
   if (!resource.materialSlots || typeof resource.materialSlots !== 'object' || Array.isArray(resource.materialSlots) ||
@@ -220,9 +226,9 @@ export function deriveCompany(document, catalog, templates) {
   for (const region of document.nodes.filter(n => ['room', 'area'].includes(n.kind))) {
     if (region.finishes === undefined) continue;
     if (!region.finishes || typeof region.finishes !== 'object' || Array.isArray(region.finishes))
-      fail('invalid-surface-finishes', `${region.id}.finishes`, 'Expected an object keyed by floor or wall direction');
+      fail('invalid-surface-finishes', `${region.id}.finishes`, 'Expected an object keyed by surface');
     for (const surface of Object.keys(region.finishes)) {
-      if (!surfaceKeys.has(surface)) fail('invalid-surface-key', `${region.id}.finishes.${surface}`, 'Use floor, ceiling, north, south, west or east');
+      if (!surfaceKeys.has(surface)) fail('invalid-surface-key', `${region.id}.finishes.${surface}`, 'Use floor, ceiling, baseboard, north, south, west or east');
       const checked = validateSurfaceFinish(region.finishes[surface], resources, `${region.id}.finishes.${surface}`, surface);
       surfaceFinishes.push({ id: `${region.id}#finish:${surface}`, regionId: region.id,
         floorId: floorIds.get(region.id), surface, resource: checked.resource,
@@ -512,7 +518,7 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
     if (!node) fail('missing-instance', op.id, 'Operation target does not exist');
     if (op.type === 'set-surface-finish') {
       if (!['room', 'area'].includes(node.kind)) fail('invalid-operation', node.id, 'Surface finishes belong to a room or area');
-      if (!surfaceKeys.has(op.surface)) fail('invalid-surface-key', `${node.id}.finishes`, 'Use floor, ceiling, north, south, west or east');
+      if (!surfaceKeys.has(op.surface)) fail('invalid-surface-key', `${node.id}.finishes`, 'Use floor, ceiling, baseboard, north, south, west or east');
       if (!Object.hasOwn(op, 'finish')) fail('invalid-surface-finish', `${node.id}.finishes.${op.surface}`, 'Provide a finish value or null to clear it');
       if (op.finish === null) {
         if (node.finishes) {

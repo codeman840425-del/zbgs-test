@@ -46,6 +46,11 @@ function ownedFinishMaterial(finish,assetLibrary) {
   } finally {releaseTree(instance.root);}
 }
 
+export function surfaceMaterialFor(finish, assetLibrary, materials) {
+  if (!materials.has(finish.id)) materials.set(finish.id, ownedFinishMaterial(finish, assetLibrary));
+  return materials.get(finish.id);
+}
+
 // Structure retains its original geometry and collision. Meter-based UVs are
 // anchored to the entire room side, so portal-separated segments do not restart.
 export function applySurfaceFinish(mesh,finish,region,boundary,assetLibrary,materials) {
@@ -64,8 +69,7 @@ export function applySurfaceFinish(mesh,finish,region,boundary,assetLibrary,mate
     uv.setXY(index,u,v);
   }
   uv.needsUpdate=true;
-  let material=materials.get(finish.id);
-  if(!material) {material=ownedFinishMaterial(finish,assetLibrary);materials.set(finish.id,material);}
+  const material=surfaceMaterialFor(finish,assetLibrary,materials);
   const faces=Array.isArray(mesh.material)?[...mesh.material]:Array(6).fill(mesh.material);
   faces[face]=material;mesh.material=faces;
   mesh.userData.finish={id:finish.id,surface,resource:{id:finish.resource.id,version:finish.resource.version},

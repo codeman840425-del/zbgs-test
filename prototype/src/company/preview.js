@@ -196,11 +196,11 @@ function currentFinishRoom(){return session.document.nodes.find(node=>node.id===
 function syncFinishes(){
   const room=currentFinishRoom(),unavailable=busy||!room||session.scene.view.mode==='building';
   element('finish-scope').textContent=room?`适用于：${room.name||room.id}`:'先选择一个房间';
-  for(const type of ['floor','wall','ceiling']) {
+  for(const type of ['floor','wall','ceiling','baseboard']) {
     const select=element(`finish-${type}`),surfaces=type==='wall'?['north','south','west','east']:[type];
     const choices=new Set(surfaces.map(surface=>finishChoice(room?.finishes?.[surface])));
     const selected=choices.size===1?[...choices][0]:'mixed';
-    select.replaceChildren(...[{value:'',name:'结构原材质'},...finishResources(type).map(resource=>({value:`${resource.id}@${resource.version}`,name:resource.displayName||resource.id})),...(selected==='mixed'?[{value:'mixed',name:'各面分别配置',disabled:true}]:[])].map(item=>{
+    select.replaceChildren(...[{value:'',name:type==='baseboard'?'无踢脚线':'结构原材质'},...finishResources(type).map(resource=>({value:`${resource.id}@${resource.version}`,name:resource.displayName||resource.id})),...(selected==='mixed'?[{value:'mixed',name:'各面分别配置',disabled:true}]:[])].map(item=>{
       const option=document.createElement('option');option.value=item.value;option.textContent=item.name;option.disabled=Boolean(item.disabled);return option;
     }));
     select.value=selected;select.disabled=unavailable||!finishResources(type).length;
@@ -406,7 +406,7 @@ async function start(){
   fillOptions('sample-branch',appearanceBranches.filter(([branch])=>appearanceCandidates(catalog,branch).length).map(([id,name])=>({id,name})),'desk');fillSampleLooks();
   element('sample-branch').onchange=fillSampleLooks;
   element('sample-show').onclick=()=>perform('正在替换并检查外观…',()=>showAppearanceSample(element('sample-branch').value,Number(element('sample-look').value)));
-  for(const type of ['wall','floor','ceiling'])element(`finish-${type}`).onchange=()=>perform('正在准备整面饰材…',()=>changeFinish(type));
+  for(const type of ['wall','floor','ceiling','baseboard'])element(`finish-${type}`).onchange=()=>perform('正在准备整面饰材…',()=>changeFinish(type));
   element('finish-turn').onclick=()=>perform('正在调整地板铺设方向…',()=>{
     const room=currentFinishRoom(),finish=room?.finishes?.floor;
     if(!finish)throw Error('Choose a floor finish first');
