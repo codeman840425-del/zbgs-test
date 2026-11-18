@@ -1,0 +1,98 @@
+{
+  "schema": "native-release-sidecar-diagnostic-v1",
+  "status": "technical-pass-diagnostic-only",
+  "sourceManifest": "evidence/m2-native-release-sidecar-v1/manifest.json",
+  "loader": "deterministic injected KTX2/PNG fakes; browser/WebGL loader is not exercised",
+  "bodies": [
+    {
+      "bodyType": "native-contour-roundness-a-v1",
+      "bodySha256": "825a82c944636971304ce50b7526b1410ea6f1c6b58bd36f166515295696a547",
+      "resolution": {
+        "status": "candidate-only",
+        "derivedTexture": "assets-source/m2-ktx-pilot-v1/native-facecontour-sidecar-v1/encoded/native-contour-roundness-a-v1-body-color.ktx2",
+        "derivedTextureSha256": "d944fd97178d3682621ea9653ffa21a9b28da8d93758d019aadf5e990349d120",
+        "fallbackPng": "assets-source/m2-ktx-pilot-v1/native-facecontour-sidecar-v1/images/contour-roundness-a-body-color.png",
+        "fallbackPngSha256": "5bf13646459131ce6455719c8be451eb71b04a53058293974f9ab9da8bdc585a",
+        "target": {
+          "materialIndex": 8,
+          "materialName": "N00_000_00_Body_00_SKIN (Instance)",
+          "imageIndex": 11,
+          "width": 2048,
+          "height": 2048,
+          "materialContract": {
+            "baseColorTextureIndex": 11,
+            "shadeMultiplyTextureIndex": 11,
+            "alphaMode": "MASK",
+            "alphaCutoff": 0.5,
+            "texCoord": 0,
+            "transformIdentity": true,
+            "sourceImageSha256": "5bf13646459131ce6455719c8be451eb71b04a53058293974f9ab9da8bdc585a"
+          }
+        }
+      },
+      "checks": {
+        "exactBodySha": true,
+        "materialContract": true,
+        "pngFallback": true,
+        "candidateLoad": true,
+        "loadFailurePreservesOld": true,
+        "closeReopen": true
+      },
+      "runtimeAdmissionChanged": false,
+      "materialApplied": false,
+      "restoredOriginalMaterial": true
+    },
+    {
+      "bodyType": "native-contour-cheek-b-v1",
+      "bodySha256": "9592933507b3290100d82ac315e5ddac7b6e284f372a1368de9f424643846ddb",
+      "resolution": {
+        "status": "candidate-only",
+        "derivedTexture": "assets-source/m2-ktx-pilot-v1/native-facecontour-sidecar-v1/encoded/native-contour-cheek-b-v1-body-color.ktx2",
+        "derivedTextureSha256": "d944fd97178d3682621ea9653ffa21a9b28da8d93758d019aadf5e990349d120",
+        "fallbackPng": "assets-source/m2-ktx-pilot-v1/native-facecontour-sidecar-v1/images/contour-cheek-b-body-color.png",
+        "fallbackPngSha256": "5bf13646459131ce6455719c8be451eb71b04a53058293974f9ab9da8bdc585a",
+        "target": {
+          "materialIndex": 8,
+          "materialName": "N00_000_00_Body_00_SKIN (Instance)",
+          "imageIndex": 11,
+          "width": 2048,
+          "height": 2048,
+          "materialContract": {
+            "baseColorTextureIndex": 11,
+            "shadeMultiplyTextureIndex": 11,
+            "alphaMode": "MASK",
+            "alphaCutoff": 0.5,
+            "texCoord": 0,
+            "transformIdentity": true,
+            "sourceImageSha256": "5bf13646459131ce6455719c8be451eb71b04a53058293974f9ab9da8bdc585a"
+          }
+        }
+      },
+      "checks": {
+        "exactBodySha": true,
+        "materialContract": true,
+        "pngFallback": true,
+        "candidateLoad": true,
+        "loadFailurePreservesOld": true,
+        "closeReopen": true
+      },
+      "runtimeAdmissionChanged": false,
+      "materialApplied": false,
+      "restoredOriginalMaterial": true
+    }
+  ],
+  "checks": [
+    "exact body SHA resolves only its own candidate",
+    "candidate material target preserves MASK alpha cutoff 0.5, texCoord 0 and source image identity",
+    "candidate load failure leaves the previously active material references unchanged",
+    "close/reopen loads the same exact candidate twice and restores the caller material",
+    "PNG fallback is selected after decode failure without changing runtime admission"
+  ],
+  "runtimeAdmissionChanged": false,
+  "acceptedForRuntime": [],
+  "limits": [
+    "This diagnostic does not import KTX2Loader or exercise WebGL/GPU, ordinary-PC performance or visual acceptance.",
+    "The default VRM material path and native admission registry are untouched.",
+    "The two candidate identities remain separate even when encoded bytes are equal."
+  ]
+}

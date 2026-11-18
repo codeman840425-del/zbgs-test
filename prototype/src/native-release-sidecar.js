@@ -24,6 +24,9 @@ export function resolveNativeReleaseSidecar(manifest, bodyType, bodySha256) {
       target.materialContract?.baseColorTextureIndex !== target.imageIndex ||
       target.materialContract?.shadeMultiplyTextureIndex !== target.imageIndex ||
       target.materialContract?.alphaMode !== 'MASK' ||
+      target.materialContract?.alphaCutoff !== 0.5 ||
+      target.materialContract?.texCoord !== 0 ||
+      target.materialContract?.sourceImageSha256 !== entry.fallbackPngSha256 ||
       target.materialContract?.transformIdentity !== true) {
     throw new Error('Invalid sidecar material target contract');
   }

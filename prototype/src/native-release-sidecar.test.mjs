@@ -27,3 +27,15 @@ test('rejects a candidate with a missing material target contract', () => {
   delete malformed.entries[0].target.materialName;
   assert.throws(() => resolveNativeReleaseSidecar(malformed, body.bodyType, body.sourceModelSha256), /material target contract/);
 });
+
+test('rejects a candidate whose alpha or source-image contract drifts', () => {
+  for (const mutate of [
+    value => { value.entries[0].target.materialContract.alphaCutoff = 0.25; },
+    value => { value.entries[0].target.materialContract.texCoord = 1; },
+    value => { value.entries[0].target.materialContract.sourceImageSha256 = '0'.repeat(64); },
+  ]) {
+    const malformed = structuredClone(manifest);
+    mutate(malformed);
+    assert.throws(() => resolveNativeReleaseSidecar(malformed, body.bodyType, body.sourceModelSha256), /material target contract/);
+  }
+});
