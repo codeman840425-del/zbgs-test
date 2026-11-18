@@ -91,3 +91,5 @@
 - 角色侧随后在同一 4196 预览构建 `c5ce1f7126ab` 对两份精确记录完成动态开关诊断回放，覆盖走路、坐下、起身和离开，226/232 个采样均无页面错误。证据 `evidence/m2-native-dynamic-runtime-trace-v3a/summary.json`，仍为诊断候选，不能清除 `dynamicMotion` 或人工视觉/预算/普通电脑门。
 
 2026-11-18 动态共同适配接缝：native_batch_gate.py 新增 dynamic_trace_index，严格绑定两份新身体 SHA、记录 SHA、报告路径和构建，接入 v3a 真实走/坐/站/离开采样。证据现在显示在每个批产行中，但其 technical-pass-diagnostic-only 状态的 clears 为空，因此 dynamicMotion 仍待显式适配准入，acceptedForRuntime 仍为空。新增 gate v6 报告 evidence/m2-native-production-gate-v6/report.json，17 项闸门测试通过。
+
+2026-11-18 预算共同接缝：native_batch_gate.py 与 native_admission_cycle.py 现在可接收四层 budget-classification-v1 报告，按精确身体 SHA 展示 transport、decodeCanvas、gpu、ordinaryPC、资源超限和未测项。v7 报告已实际生成，两个候选仍为 acceptedForRuntime=[]，预算分类只作为诊断输入，不授予准入。22 项闸门/周期回归通过。
