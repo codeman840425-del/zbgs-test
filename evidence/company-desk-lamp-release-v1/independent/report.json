@@ -1,0 +1,2295 @@
+{
+  "build": "5bfe97a233ec",
+  "status": "passed",
+  "browser": "Headless Chromium with SwiftShader",
+  "checks": [
+    {
+      "name": "Visible desk-lamp Add category offers four compatible looks on the actual desktop",
+      "passed": true,
+      "evidence": {
+        "category": "桌面台灯",
+        "hosts": [
+          {
+            "resource": {
+              "id": "desk-lamp-gooseneck",
+              "version": 1
+            },
+            "options": [
+              "desk-lamp-home/ground/live/station-1/desk:desktop"
+            ]
+          },
+          {
+            "resource": {
+              "id": "desk-lamp-bar",
+              "version": 1
+            },
+            "options": [
+              "desk-lamp-home/ground/live/station-1/desk:desktop"
+            ]
+          },
+          {
+            "resource": {
+              "id": "desk-lamp-shade",
+              "version": 1
+            },
+            "options": [
+              "desk-lamp-home/ground/live/station-1/desk:desktop"
+            ]
+          },
+          {
+            "resource": {
+              "id": "desk-lamp-column",
+              "version": 1
+            },
+            "options": [
+              "desk-lamp-home/ground/live/station-1/desk:desktop"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Measured desktop lighting, fixed on/off view, dimmer and real angle change",
+      "passed": true,
+      "evidence": {
+        "actual": {
+          "node": {
+            "id": "desk-lamp-home/ground/live/station-1/desk-lamp",
+            "kind": "facility",
+            "parentId": "desk-lamp-home/ground/live/station-1/desk",
+            "resource": {
+              "id": "desk-lamp-shade",
+              "version": 1
+            },
+            "state": {},
+            "transform": {
+              "position": [
+                0.67,
+                0.84,
+                -0.2
+              ],
+              "yaw": 0
+            }
+          },
+          "state": {
+            "on": true,
+            "intensity": 4,
+            "angle": 0
+          },
+          "asset": {
+            "format": "glb",
+            "url": "/company-assets/desk-lamp-v1/desk-lamp-shade/v1/model.glb",
+            "sha256": "775d7f4b55f6161759e1ac4dede8422925280c31dc9394019f0c66bfdb3c009e",
+            "bytes": 18620
+          },
+          "view": {
+            "mode": "room",
+            "roomId": "desk-lamp-home/ground/live",
+            "floorId": "desk-lamp-home/ground"
+          },
+          "hasArticulatedDiffuser": true,
+          "head": [
+            0.5372996083468239,
+            0,
+            0,
+            0.8433914458128856
+          ],
+          "materialContract": {
+            "nodes": [
+              "desk-lamp-diffuser"
+            ],
+            "stateField": "on",
+            "onColor": "#fff3de",
+            "offColor": "#d5ccc0",
+            "emissive": "#fff1d5",
+            "onIntensity": 1.5
+          },
+          "materials": [
+            {
+              "color": "fff3de",
+              "emissive": "fff1d5",
+              "strength": 0.6000000000000001
+            }
+          ],
+          "lights": [
+            {
+              "id": "desk-lamp-home/ground/live/station-1/desk-lamp",
+              "intensity": 4,
+              "castsShadow": false,
+              "desired": 4
+            },
+            {
+              "id": "desk-lamp-home/ground/live/station-1/fill-light",
+              "intensity": 5,
+              "castsShadow": false,
+              "desired": 5
+            }
+          ],
+          "visibleMeshes": [
+            {
+              "name": "lamp-head-shell",
+              "vertices": 144
+            },
+            {
+              "name": "desk-lamp-diffuser",
+              "vertices": 26
+            },
+            {
+              "name": "lamp-base-and-post",
+              "vertices": 84
+            },
+            {
+              "name": "lamp-hinge-bracket",
+              "vertices": 24
+            },
+            {
+              "name": "lamp-hinge",
+              "vertices": 100
+            }
+          ],
+          "visibleSpotlights": [
+            {
+              "id": "desk-lamp-home/ground/live/station-1/desk-lamp",
+              "intensity": 4
+            },
+            {
+              "id": "desk-lamp-home/ground/live/station-1/fill-light",
+              "intensity": 5
+            }
+          ],
+          "parent": "desk-lamp-home/ground/live/station-1/desk",
+          "deskYaw": 0,
+          "spot": {
+            "intensity": 4,
+            "distance": 1.4,
+            "angle": 0.55,
+            "penumbra": 0.65,
+            "castsShadow": false,
+            "expected": {
+              "distance": 1.4,
+              "angle": 0.55,
+              "penumbra": 0.65
+            },
+            "origin": [
+              -0.07999999999999996,
+              1.1107060406879852,
+              -1.5236149262975616
+            ],
+            "direction": [
+              0,
+              -0.9063077870366502,
+              0.4226182617406993
+            ],
+            "directionInDesk": [
+              0,
+              -0.9063077870366502,
+              0.4226182617406993
+            ],
+            "emissionAlignment": 1,
+            "originError": 0,
+            "hit": [
+              0.67,
+              0.8400000007450581,
+              0.002617373236638104
+            ]
+          }
+        },
+        "camera": {
+          "position": [
+            0.8,
+            2.22,
+            0.16000000000000014
+          ],
+          "quaternion": [
+            -0.24609262272518026,
+            0.33408833174220465,
+            0.09081662393271596,
+            0.9053042297766074
+          ]
+        },
+        "off": "01-desktop-off.png",
+        "bright": "02-desktop-on.png",
+        "middle": {
+          "samples": 1245,
+          "changed": 92,
+          "positiveLumaGain": 3007.7989999999995,
+          "peak": 47.968999999999994,
+          "centroid": [
+            0.6702719826025619,
+            0.05470364642052235
+          ]
+        },
+        "full": {
+          "samples": 1245,
+          "changed": 92,
+          "positiveLumaGain": 3590.7238,
+          "peak": 49.688199999999966,
+          "centroid": [
+            0.6703948724766867,
+            0.062280560537683494
+          ]
+        },
+        "anglePairs": [
+          {
+            "angle": -0.35,
+            "gain": {
+              "samples": 1245,
+              "changed": 199,
+              "positiveLumaGain": 7240.5758000000005,
+              "peak": 49.615999999999985,
+              "centroid": [
+                0.6705407833725057,
+                0.24369939763630422
+              ]
+            },
+            "spot": {
+              "intensity": 10,
+              "distance": 1.4,
+              "angle": 0.55,
+              "penumbra": 0.65,
+              "castsShadow": false,
+              "expected": {
+                "distance": 1.4,
+                "angle": 0.55,
+                "penumbra": 0.65
+              },
+              "origin": [
+                -0.07999999999999996,
+                1.122238069882748,
+                -1.5071618431719025
+              ],
+              "direction": [
+                0,
+                -0.7064459292418026,
+                0.7077670160848739
+              ],
+              "directionInDesk": [
+                0,
+                -0.7064459292418026,
+                0.7077670160848739
+              ],
+              "emissionAlignment": 1,
+              "originError": 0,
+              "hit": [
+                0.67,
+                0.8400000007450581,
+                0.17560402432135558
+              ]
+            },
+            "head": [
+              0.38225186978949244,
+              0,
+              0,
+              0.9240581735163845
+            ],
+            "file": "03-desktop-angle-up.png"
+          },
+          {
+            "angle": 0.35,
+            "gain": {
+              "samples": 1249,
+              "changed": 43,
+              "positiveLumaGain": 1826.1713999999997,
+              "peak": 49.688199999999966,
+              "centroid": [
+                0.6706701238448933,
+                -0.07472352759439754
+              ]
+            },
+            "spot": {
+              "intensity": 10,
+              "distance": 1.4,
+              "angle": 0.55,
+              "penumbra": 0.65,
+              "castsShadow": false,
+              "expected": {
+                "distance": 1.4,
+                "angle": 0.55,
+                "penumbra": 0.65
+              },
+              "origin": [
+                -0.07999999999999996,
+                1.1055148932683365,
+                -1.5430248111544116
+              ],
+              "direction": [
+                0,
+                -0.9962756799248424,
+                0.08622510997553513
+              ],
+              "directionInDesk": [
+                0,
+                -0.9962756799248424,
+                0.08622510997553513
+              ],
+              "emissionAlignment": 1.0000000000000002,
+              "originError": 2.220446049250313e-16,
+              "hit": [
+                0.67,
+                0.8400000007450581,
+                -0.12004517683302669
+              ]
+            },
+            "head": [
+              0.6759344975751959,
+              0,
+              0,
+              0.7369617052383165
+            ],
+            "file": "04-desktop-angle-down.png"
+          }
+        ],
+        "shiftMetres": [
+          0.00012934047238766233,
+          -0.31842292523070176
+        ]
+      }
+    },
+    {
+      "name": "Select and automatically recover desk-lamp-gooseneck@1 and its exact light state",
+      "passed": true,
+      "evidence": {
+        "before": {
+          "node": {
+            "id": "desk-lamp-home/ground/live/station-1/desk-lamp",
+            "kind": "facility",
+            "parentId": "desk-lamp-home/ground/live/station-1/desk",
+            "resource": {
+              "id": "desk-lamp-gooseneck",
+              "version": 1
+            },
+            "state": {
+              "on": true,
+              "intensity": 4.5,
+              "angle": -0.175
+            },
+            "transform": {
+              "position": [
+                0.67,
+                0.84,
+                -0.2
+              ],
+              "yaw": 0
+            }
+          },
+          "state": {
+            "on": true,
+            "intensity": 4.5,
+            "angle": -0.175
+          },
+          "asset": {
+            "format": "glb",
+            "url": "/company-assets/desk-lamp-v1/desk-lamp-gooseneck/v1/model.glb",
+            "sha256": "ba10f89bf80833aa4e50ec91a0e914b8f092f6ca9a31f0de1102e8b9d4a96837",
+            "bytes": 45580
+          },
+          "view": {
+            "mode": "room",
+            "roomId": "desk-lamp-home/ground/live",
+            "floorId": "desk-lamp-home/ground"
+          },
+          "hasArticulatedDiffuser": true,
+          "head": [
+            0.46154145044109385,
+            0,
+            0,
+            0.8871186445593009
+          ],
+          "materialContract": {
+            "nodes": [
+              "desk-lamp-diffuser"
+            ],
+            "stateField": "on",
+            "onColor": "#fff3de",
+            "offColor": "#d5ccc0",
+            "emissive": "#fff1d5",
+            "onIntensity": 1.5
+          },
+          "materials": [
+            {
+              "color": "fff3de",
+              "emissive": "fff1d5",
+              "strength": 0.675
+            }
+          ],
+          "lights": [
+            {
+              "id": "desk-lamp-home/ground/live/station-1/desk-lamp",
+              "intensity": 4.5,
+              "castsShadow": false,
+              "desired": 4.5
+            },
+            {
+              "id": "desk-lamp-home/ground/live/station-1/fill-light",
+              "intensity": 5,
+              "castsShadow": false,
+              "desired": 5
+            }
+          ],
+          "visibleMeshes": [
+            {
+              "name": "lamp-head-shell",
+              "vertices": 148
+            },
+            {
+              "name": "lamp-head-rim",
+              "vertices": 148
+            },
+            {
+              "name": "desk-lamp-diffuser",
+              "vertices": 26
+            },
+            {
+              "name": "lamp-base",
+              "vertices": 148
+            },
+            {
+              "name": "lamp-base-ring",
+              "vertices": 148
+            },
+            {
+              "name": "lamp-gooseneck",
+              "vertices": 275
+            },
+            {
+              "name": "lamp-hinge",
+              "vertices": 100
+            }
+          ],
+          "visibleSpotlights": [
+            {
+              "id": "desk-lamp-home/ground/live/station-1/desk-lamp",
+              "intensity": 4.5
+            },
+            {
+              "id": "desk-lamp-home/ground/live/station-1/fill-light",
+              "intensity": 5
+            }
+          ],
+          "parent": "desk-lamp-home/ground/live/station-1/desk",
+          "deskYaw": 0,
+          "spot": {
+            "intensity": 4.5,
+            "distance": 1.4,
+            "angle": 0.55,
+            "penumbra": 0.65,
+            "castsShadow": false,
+            "expected": {
+              "distance": 1.4,
+              "angle": 0.55,
+              "penumbra": 0.65
+            },
+            "origin": [
+              -0.07999999999999996,
+              1.1374257538742947,
+              -1.504467681858972
+            ],
+            "direction": [
+              0,
+              -0.8188840518464738,
+              0.5739589790494627
+            ],
+            "directionInDesk": [
+              0,
+              -0.8188840518464738,
+              0.5739589790494627
+            ],
+            "emissionAlignment": 1,
+            "originError": 0,
+            "hit": [
+              0.67,
+              0.8400000007450581,
+              0.10399917156691355
+            ]
+          }
+        },
+        "after": {
+          "node": {
+            "id": "desk-lamp-home/ground/live/station-1/desk-lamp",
+            "kind": "facility",
+            "parentId": "desk-lamp-home/ground/live/station-1/desk",
+            "resource": {
+              "id": "desk-lamp-gooseneck",
+              "version": 1
+            },
+            "state": {
+              "on": true,
+              "intensity": 4.5,
+              "angle": -0.175
+            },
+            "transform": {
+              "position": [
+                0.67,
+                0.84,
+                -0.2
+              ],
+              "yaw": 0
+            }
+          },
+          "state": {
+            "on": true,
+            "intensity": 4.5,
+            "angle": -0.175
+          },
+          "asset": {
+            "format": "glb",
+            "url": "/company-assets/desk-lamp-v1/desk-lamp-gooseneck/v1/model.glb",
+            "sha256": "ba10f89bf80833aa4e50ec91a0e914b8f092f6ca9a31f0de1102e8b9d4a96837",
+            "bytes": 45580
+          },
+          "view": {
+            "mode": "room",
+            "roomId": "desk-lamp-home/ground/live",
+            "floorId": "desk-lamp-home/ground"
+          },
+          "hasArticulatedDiffuser": true,
+          "head": [
+            0.46154145044109385,
+            0,
+            0,
+            0.8871186445593009
+          ],
+          "materialContract": {
+            "nodes": [
+              "desk-lamp-diffuser"
+            ],
+            "stateField": "on",
+            "onColor": "#fff3de",
+            "offColor": "#d5ccc0",
+            "emissive": "#fff1d5",
+            "onIntensity": 1.5
+          },
+          "materials": [
+            {
+              "color": "fff3de",
+              "emissive": "fff1d5",
+              "strength": 0.675
+            }
+          ],
+          "lights": [
+            {
+              "id": "desk-lamp-home/ground/live/station-1/desk-lamp",
+              "intensity": 4.5,
+              "castsShadow": false,
+              "desired": 4.5
+            },
+            {
+              "id": "desk-lamp-home/ground/live/station-1/fill-light",
+              "intensity": 5,
+              "castsShadow": false,
+              "desired": 5
+            }
+          ],
+          "visibleMeshes": [
+            {
+              "name": "lamp-head-shell",
+              "vertices": 148
+            },
+            {
+              "name": "lamp-head-rim",
+              "vertices": 148
+            },
+            {
+              "name": "desk-lamp-diffuser",
+              "vertices": 26
+            },
+            {
+              "name": "lamp-base",
+              "vertices": 148
+            },
+            {
+              "name": "lamp-base-ring",
+              "vertices": 148
+            },
+            {
+              "name": "lamp-gooseneck",
+              "vertices": 275
+            },
+            {
+              "name": "lamp-hinge",
+              "vertices": 100
+            }
+          ],
+          "visibleSpotlights": [
+            {
+              "id": "desk-lamp-home/ground/live/station-1/desk-lamp",
+              "intensity": 4.5
+            },
+            {
+              "id": "desk-lamp-home/ground/live/station-1/fill-light",
+              "intensity": 5
+            }
+          ],
+          "parent": "desk-lamp-home/ground/live/station-1/desk",
+          "deskYaw": 0,
+          "spot": {
+            "intensity": 4.5,
+            "distance": 1.4,
+            "angle": 0.55,
+            "penumbra": 0.65,
+            "castsShadow": false,
+            "expected": {
+              "distance": 1.4,
+              "angle": 0.55,
+              "penumbra": 0.65
+            },
+            "origin": [
+              -0.07999999999999996,
+              1.1374257538742947,
+              -1.504467681858972
+            ],
+            "direction": [
+              0,
+              -0.8188840518464738,
+              0.5739589790494627
+            ],
+            "directionInDesk": [
+              0,
+              -0.8188840518464738,
+              0.5739589790494627
+            ],
+            "emissionAlignment": 1,
+            "originError": 0,
+            "hit": [
+              0.67,
+              0.8400000007450581,
+              0.10399917156691355
+            ]
+          }
+        },
+        "image": "look-desk-lamp-gooseneck.png",
+        "pin": {
+          "id": "desk-lamp-gooseneck",
+          "version": 1,
+          "sha256": "79917c992b9919d85c8a7f1468ec1130813580354070870be66e3909eb4ac6c8"
+        }
+      }
+    },
+    {
+      "name": "Select and automatically recover desk-lamp-bar@1 and its exact light state",
+      "passed": true,
+      "evidence": {
+        "before": {
+          "node": {
+            "id": "desk-lamp-home/ground/live/station-1/desk-lamp",
+            "kind": "facility",
+            "parentId": "desk-lamp-home/ground/live/station-1/desk",
+            "resource": {
+              "id": "desk-lamp-bar",
+              "version": 1
+            },
+            "state": {
+              "on": true,
+              "intensity": 6,
+              "angle": 0.175
+            },
+            "transform": {
+              "position": [
+                0.67,
+                0.84,
+                -0.2
+              ],
+              "yaw": 0
+            }
+          },
+          "state": {
+            "on": true,
+            "intensity": 6,
+            "angle": 0.175
+          },
+          "asset": {
+            "format": "glb",
+            "url": "/company-assets/desk-lamp-v1/desk-lamp-bar/v1/model.glb",
+            "sha256": "7c0d3ad130eac1948758be593e50c983689018ea88e4775df87c9c0847fff5f2",
+            "bytes": 21448
+          },
+          "view": {
+            "mode": "room",
+            "roomId": "desk-lamp-home/ground/live",
+            "floorId": "desk-lamp-home/ground"
+          },
+          "hasArticulatedDiffuser": true,
+          "head": [
+            0.6089466900827963,
+            0,
+            0,
+            0.7932111500963706
+          ],
+          "materialContract": {
+            "nodes": [
+              "desk-lamp-diffuser"
+            ],
+            "stateField": "on",
+            "onColor": "#fff3de",
+            "offColor": "#d5ccc0",
+            "emissive": "#fff1d5",
+            "onIntensity": 1.5
+          },
+          "materials": [
+            {
+              "color": "fff3de",
+              "emissive": "fff1d5",
+              "strength": 0.8999999999999999
+            }
+          ],
+          "lights": [
+            {
+              "id": "desk-lamp-home/ground/live/station-1/desk-lamp",
+              "intensity": 6,
+              "castsShadow": false,
+              "desired": 6
+            },
+            {
+              "id": "desk-lamp-home/ground/live/station-1/fill-light",
+              "intensity": 5,
+              "castsShadow": false,
+              "desired": 5
+            }
+          ],
+          "visibleMeshes": [
+            {
+              "name": "lamp-head-shell",
+              "vertices": 24
+            },
+            {
+              "name": "lamp-head-rim",
+              "vertices": 24
+            },
+            {
+              "name": "desk-lamp-diffuser",
+              "vertices": 4
+            },
+            {
+              "name": "lamp-base",
+              "vertices": 24
+            },
+            {
+              "name": "lamp-base-trim",
+              "vertices": 24
+            },
+            {
+              "name": "lamp-riser-lower",
+              "vertices": 76
+            },
+            {
+              "name": "lamp-riser-upper",
+              "vertices": 76
+            },
+            {
+              "name": "lamp-hinge",
+              "vertices": 100
+            }
+          ],
+          "visibleSpotlights": [
+            {
+              "id": "desk-lamp-home/ground/live/station-1/desk-lamp",
+              "intensity": 6
+            },
+            {
+              "id": "desk-lamp-home/ground/live/station-1/fill-light",
+              "intensity": 5
+            }
+          ],
+          "parent": "desk-lamp-home/ground/live/station-1/desk",
+          "deskYaw": 0,
+          "spot": {
+            "intensity": 6,
+            "distance": 1.4,
+            "angle": 0.55,
+            "penumbra": 0.65,
+            "castsShadow": false,
+            "expected": {
+              "distance": 1.4,
+              "angle": 0.55,
+              "penumbra": 0.65
+            },
+            "origin": [
+              -0.07999999999999996,
+              1.1898411589533517,
+              -1.5577944696376604
+            ],
+            "direction": [
+              0,
+              -0.966046608775906,
+              0.25836785727441347
+            ],
+            "directionInDesk": [
+              0,
+              -0.966046608775906,
+              0.25836785727441347
+            ],
+            "emissionAlignment": 1,
+            "originError": 0,
+            "hit": [
+              0.67,
+              0.8400000007450581,
+              -0.06422992563785526
+            ]
+          }
+        },
+        "after": {
+          "node": {
+            "id": "desk-lamp-home/ground/live/station-1/desk-lamp",
+            "kind": "facility",
+            "parentId": "desk-lamp-home/ground/live/station-1/desk",
+            "resource": {
+              "id": "desk-lamp-bar",
+              "version": 1
+            },
+            "state": {
+              "on": true,
+              "intensity": 6,
+              "angle": 0.175
+            },
+            "transform": {
+              "position": [
+                0.67,
+                0.84,
+                -0.2
+              ],
+              "yaw": 0
+            }
+          },
+          "state": {
+            "on": true,
+            "intensity": 6,
+            "angle": 0.175
+          },
+          "asset": {
+            "format": "glb",
+            "url": "/company-assets/desk-lamp-v1/desk-lamp-bar/v1/model.glb",
+            "sha256": "7c0d3ad130eac1948758be593e50c983689018ea88e4775df87c9c0847fff5f2",
+            "bytes": 21448
+          },
+          "view": {
+            "mode": "room",
+            "roomId": "desk-lamp-home/ground/live",
+            "floorId": "desk-lamp-home/ground"
+          },
+          "hasArticulatedDiffuser": true,
+          "head": [
+            0.6089466900827963,
+            0,
+            0,
+            0.7932111500963706
+          ],
+          "materialContract": {
+            "nodes": [
+              "desk-lamp-diffuser"
+            ],
+            "stateField": "on",
+            "onColor": "#fff3de",
+            "offColor": "#d5ccc0",
+            "emissive": "#fff1d5",
+            "onIntensity": 1.5
+          },
+          "materials": [
+            {
+              "color": "fff3de",
+              "emissive": "fff1d5",
+              "strength": 0.8999999999999999
+            }
+          ],
+          "lights": [
+            {
+              "id": "desk-lamp-home/ground/live/station-1/desk-lamp",
+              "intensity": 6,
+              "castsShadow": false,
+              "desired": 6
+            },
+            {
+              "id": "desk-lamp-home/ground/live/station-1/fill-light",
+              "intensity": 5,
+              "castsShadow": false,
+              "desired": 5
+            }
+          ],
+          "visibleMeshes": [
+            {
+              "name": "lamp-head-shell",
+              "vertices": 24
+            },
+            {
+              "name": "lamp-head-rim",
+              "vertices": 24
+            },
+            {
+              "name": "desk-lamp-diffuser",
+              "vertices": 4
+            },
+            {
+              "name": "lamp-base",
+              "vertices": 24
+            },
+            {
+              "name": "lamp-base-trim",
+              "vertices": 24
+            },
+            {
+              "name": "lamp-riser-lower",
+              "vertices": 76
+            },
+            {
+              "name": "lamp-riser-upper",
+              "vertices": 76
+            },
+            {
+              "name": "lamp-hinge",
+              "vertices": 100
+            }
+          ],
+          "visibleSpotlights": [
+            {
+              "id": "desk-lamp-home/ground/live/station-1/desk-lamp",
+              "intensity": 6
+            },
+            {
+              "id": "desk-lamp-home/ground/live/station-1/fill-light",
+              "intensity": 5
+            }
+          ],
+          "parent": "desk-lamp-home/ground/live/station-1/desk",
+          "deskYaw": 0,
+          "spot": {
+            "intensity": 6,
+            "distance": 1.4,
+            "angle": 0.55,
+            "penumbra": 0.65,
+            "castsShadow": false,
+            "expected": {
+              "distance": 1.4,
+              "angle": 0.55,
+              "penumbra": 0.65
+            },
+            "origin": [
+              -0.07999999999999996,
+              1.1898411589533517,
+              -1.5577944696376604
+            ],
+            "direction": [
+              0,
+              -0.966046608775906,
+              0.25836785727441347
+            ],
+            "directionInDesk": [
+              0,
+              -0.966046608775906,
+              0.25836785727441347
+            ],
+            "emissionAlignment": 1,
+            "originError": 0,
+            "hit": [
+              0.67,
+              0.8400000007450581,
+              -0.06422992563785526
+            ]
+          }
+        },
+        "image": "look-desk-lamp-bar.png",
+        "pin": {
+          "id": "desk-lamp-bar",
+          "version": 1,
+          "sha256": "4e08da3713a5b6ccd502643c51307fe11372fefb107d8975ce1bda8336ba03cb"
+        }
+      }
+    },
+    {
+      "name": "Select and automatically recover desk-lamp-shade@1 and its exact light state",
+      "passed": true,
+      "evidence": {
+        "before": {
+          "node": {
+            "id": "desk-lamp-home/ground/live/station-1/desk-lamp",
+            "kind": "facility",
+            "parentId": "desk-lamp-home/ground/live/station-1/desk",
+            "resource": {
+              "id": "desk-lamp-shade",
+              "version": 1
+            },
+            "state": {
+              "on": false,
+              "intensity": 7.5,
+              "angle": -0.175
+            },
+            "transform": {
+              "position": [
+                0.67,
+                0.84,
+                -0.2
+              ],
+              "yaw": 0
+            }
+          },
+          "state": {
+            "on": false,
+            "intensity": 7.5,
+            "angle": -0.175
+          },
+          "asset": {
+            "format": "glb",
+            "url": "/company-assets/desk-lamp-v1/desk-lamp-shade/v1/model.glb",
+            "sha256": "775d7f4b55f6161759e1ac4dede8422925280c31dc9394019f0c66bfdb3c009e",
+            "bytes": 18620
+          },
+          "view": {
+            "mode": "room",
+            "roomId": "desk-lamp-home/ground/live",
+            "floorId": "desk-lamp-home/ground"
+          },
+          "hasArticulatedDiffuser": true,
+          "head": [
+            0.46154145044109385,
+            0,
+            0,
+            0.8871186445593009
+          ],
+          "materialContract": {
+            "nodes": [
+              "desk-lamp-diffuser"
+            ],
+            "stateField": "on",
+            "onColor": "#fff3de",
+            "offColor": "#d5ccc0",
+            "emissive": "#fff1d5",
+            "onIntensity": 1.5
+          },
+          "materials": [
+            {
+              "color": "d5ccc0",
+              "emissive": "000000",
+              "strength": 0
+            }
+          ],
+          "lights": [
+            {
+              "id": "desk-lamp-home/ground/live/station-1/desk-lamp",
+              "intensity": 0,
+              "castsShadow": false,
+              "desired": 0
+            },
+            {
+              "id": "desk-lamp-home/ground/live/station-1/fill-light",
+              "intensity": 5,
+              "castsShadow": false,
+              "desired": 5
+            }
+          ],
+          "visibleMeshes": [
+            {
+              "name": "lamp-head-shell",
+              "vertices": 144
+            },
+            {
+              "name": "desk-lamp-diffuser",
+              "vertices": 26
+            },
+            {
+              "name": "lamp-base-and-post",
+              "vertices": 84
+            },
+            {
+              "name": "lamp-hinge-bracket",
+              "vertices": 24
+            },
+            {
+              "name": "lamp-hinge",
+              "vertices": 100
+            }
+          ],
+          "visibleSpotlights": [
+            {
+              "id": "desk-lamp-home/ground/live/station-1/fill-light",
+              "intensity": 5
+            }
+          ],
+          "parent": "desk-lamp-home/ground/live/station-1/desk",
+          "deskYaw": 0,
+          "spot": {
+            "intensity": 0,
+            "distance": 1.4,
+            "angle": 0.55,
+            "penumbra": 0.65,
+            "castsShadow": false,
+            "expected": {
+              "distance": 1.4,
+              "angle": 0.55,
+              "penumbra": 0.65
+            },
+            "origin": [
+              -0.07999999999999996,
+              1.1157503902084585,
+              -1.514882566908846
+            ],
+            "direction": [
+              0,
+              -0.8188840518464738,
+              0.5739589790494627
+            ],
+            "directionInDesk": [
+              0,
+              -0.8188840518464738,
+              0.5739589790494627
+            ],
+            "emissionAlignment": 1,
+            "originError": 0,
+            "hit": [
+              0.67,
+              0.8400000007450581,
+              0.07839194082155693
+            ]
+          }
+        },
+        "after": {
+          "node": {
+            "id": "desk-lamp-home/ground/live/station-1/desk-lamp",
+            "kind": "facility",
+            "parentId": "desk-lamp-home/ground/live/station-1/desk",
+            "resource": {
+              "id": "desk-lamp-shade",
+              "version": 1
+            },
+            "state": {
+              "on": false,
+              "intensity": 7.5,
+              "angle": -0.175
+            },
+            "transform": {
+              "position": [
+                0.67,
+                0.84,
+                -0.2
+              ],
+              "yaw": 0
+            }
+          },
+          "state": {
+            "on": false,
+            "intensity": 7.5,
+            "angle": -0.175
+          },
+          "asset": {
+            "format": "glb",
+            "url": "/company-assets/desk-lamp-v1/desk-lamp-shade/v1/model.glb",
+            "sha256": "775d7f4b55f6161759e1ac4dede8422925280c31dc9394019f0c66bfdb3c009e",
+            "bytes": 18620
+          },
+          "view": {
+            "mode": "room",
+            "roomId": "desk-lamp-home/ground/live",
+            "floorId": "desk-lamp-home/ground"
+          },
+          "hasArticulatedDiffuser": true,
+          "head": [
+            0.46154145044109385,
+            0,
+            0,
+            0.8871186445593009
+          ],
+          "materialContract": {
+            "nodes": [
+              "desk-lamp-diffuser"
+            ],
+            "stateField": "on",
+            "onColor": "#fff3de",
+            "offColor": "#d5ccc0",
+            "emissive": "#fff1d5",
+            "onIntensity": 1.5
+          },
+          "materials": [
+            {
+              "color": "d5ccc0",
+              "emissive": "000000",
+              "strength": 0
+            }
+          ],
+          "lights": [
+            {
+              "id": "desk-lamp-home/ground/live/station-1/desk-lamp",
+              "intensity": 0,
+              "castsShadow": false,
+              "desired": 0
+            },
+            {
+              "id": "desk-lamp-home/ground/live/station-1/fill-light",
+              "intensity": 5,
+              "castsShadow": false,
+              "desired": 5
+            }
+          ],
+          "visibleMeshes": [
+            {
+              "name": "lamp-head-shell",
+              "vertices": 144
+            },
+            {
+              "name": "desk-lamp-diffuser",
+              "vertices": 26
+            },
+            {
+              "name": "lamp-base-and-post",
+              "vertices": 84
+            },
+            {
+              "name": "lamp-hinge-bracket",
+              "vertices": 24
+            },
+            {
+              "name": "lamp-hinge",
+              "vertices": 100
+            }
+          ],
+          "visibleSpotlights": [
+            {
+              "id": "desk-lamp-home/ground/live/station-1/fill-light",
+              "intensity": 5
+            }
+          ],
+          "parent": "desk-lamp-home/ground/live/station-1/desk",
+          "deskYaw": 0,
+          "spot": {
+            "intensity": 0,
+            "distance": 1.4,
+            "angle": 0.55,
+            "penumbra": 0.65,
+            "castsShadow": false,
+            "expected": {
+              "distance": 1.4,
+              "angle": 0.55,
+              "penumbra": 0.65
+            },
+            "origin": [
+              -0.07999999999999996,
+              1.1157503902084585,
+              -1.514882566908846
+            ],
+            "direction": [
+              0,
+              -0.8188840518464738,
+              0.5739589790494627
+            ],
+            "directionInDesk": [
+              0,
+              -0.8188840518464738,
+              0.5739589790494627
+            ],
+            "emissionAlignment": 1,
+            "originError": 0,
+            "hit": [
+              0.67,
+              0.8400000007450581,
+              0.07839194082155693
+            ]
+          }
+        },
+        "image": "look-desk-lamp-shade.png",
+        "pin": {
+          "id": "desk-lamp-shade",
+          "version": 1,
+          "sha256": "b7077d3036d9d68b7119c1d3cc44bd5c0df8cb5a7f53794f97df855bd59981ba"
+        }
+      }
+    },
+    {
+      "name": "Select and automatically recover desk-lamp-column@1 and its exact light state",
+      "passed": true,
+      "evidence": {
+        "before": {
+          "node": {
+            "id": "desk-lamp-home/ground/live/station-1/desk-lamp",
+            "kind": "facility",
+            "parentId": "desk-lamp-home/ground/live/station-1/desk",
+            "resource": {
+              "id": "desk-lamp-column",
+              "version": 1
+            },
+            "state": {
+              "on": true,
+              "intensity": 9,
+              "angle": 0.175
+            },
+            "transform": {
+              "position": [
+                0.67,
+                0.84,
+                -0.2
+              ],
+              "yaw": 0
+            }
+          },
+          "state": {
+            "on": true,
+            "intensity": 9,
+            "angle": 0.175
+          },
+          "asset": {
+            "format": "glb",
+            "url": "/company-assets/desk-lamp-v1/desk-lamp-column/v1/model.glb",
+            "sha256": "ccb573b1fc0ff28f7edecc3c360a32c3170c477de13b624cf3c75163234fd602",
+            "bytes": 16200
+          },
+          "view": {
+            "mode": "room",
+            "roomId": "desk-lamp-home/ground/live",
+            "floorId": "desk-lamp-home/ground"
+          },
+          "hasArticulatedDiffuser": true,
+          "head": [
+            0.6089466900827963,
+            0,
+            0,
+            0.7932111500963706
+          ],
+          "materialContract": {
+            "nodes": [
+              "desk-lamp-diffuser"
+            ],
+            "stateField": "on",
+            "onColor": "#fff3de",
+            "offColor": "#d5ccc0",
+            "emissive": "#fff1d5",
+            "onIntensity": 1.5
+          },
+          "materials": [
+            {
+              "color": "fff3de",
+              "emissive": "fff1d5",
+              "strength": 1.35
+            }
+          ],
+          "lights": [
+            {
+              "id": "desk-lamp-home/ground/live/station-1/desk-lamp",
+              "intensity": 9,
+              "castsShadow": false,
+              "desired": 9
+            },
+            {
+              "id": "desk-lamp-home/ground/live/station-1/fill-light",
+              "intensity": 5,
+              "castsShadow": false,
+              "desired": 5
+            }
+          ],
+          "visibleMeshes": [
+            {
+              "name": "lamp-head-shell",
+              "vertices": 96
+            },
+            {
+              "name": "desk-lamp-diffuser",
+              "vertices": 4
+            },
+            {
+              "name": "lamp-base-and-post",
+              "vertices": 84
+            },
+            {
+              "name": "lamp-hinge-bracket",
+              "vertices": 24
+            },
+            {
+              "name": "lamp-hinge",
+              "vertices": 100
+            }
+          ],
+          "visibleSpotlights": [
+            {
+              "id": "desk-lamp-home/ground/live/station-1/desk-lamp",
+              "intensity": 9
+            },
+            {
+              "id": "desk-lamp-home/ground/live/station-1/fill-light",
+              "intensity": 5
+            }
+          ],
+          "parent": "desk-lamp-home/ground/live/station-1/desk",
+          "deskYaw": 0,
+          "spot": {
+            "intensity": 9,
+            "distance": 1.4,
+            "angle": 0.55,
+            "penumbra": 0.65,
+            "castsShadow": false,
+            "expected": {
+              "distance": 1.4,
+              "angle": 0.55,
+              "penumbra": 0.65
+            },
+            "origin": [
+              -0.07999999999999996,
+              1.0782591106736301,
+              -1.5390921746352662
+            ],
+            "direction": [
+              0,
+              -0.966046608775906,
+              0.25836785727441347
+            ],
+            "directionInDesk": [
+              0,
+              -0.966046608775906,
+              0.25836785727441347
+            ],
+            "emissionAlignment": 1,
+            "originError": 0,
+            "hit": [
+              0.67,
+              0.8400000007450581,
+              -0.0753700983408772
+            ]
+          }
+        },
+        "after": {
+          "node": {
+            "id": "desk-lamp-home/ground/live/station-1/desk-lamp",
+            "kind": "facility",
+            "parentId": "desk-lamp-home/ground/live/station-1/desk",
+            "resource": {
+              "id": "desk-lamp-column",
+              "version": 1
+            },
+            "state": {
+              "on": true,
+              "intensity": 9,
+              "angle": 0.175
+            },
+            "transform": {
+              "position": [
+                0.67,
+                0.84,
+                -0.2
+              ],
+              "yaw": 0
+            }
+          },
+          "state": {
+            "on": true,
+            "intensity": 9,
+            "angle": 0.175
+          },
+          "asset": {
+            "format": "glb",
+            "url": "/company-assets/desk-lamp-v1/desk-lamp-column/v1/model.glb",
+            "sha256": "ccb573b1fc0ff28f7edecc3c360a32c3170c477de13b624cf3c75163234fd602",
+            "bytes": 16200
+          },
+          "view": {
+            "mode": "room",
+            "roomId": "desk-lamp-home/ground/live",
+            "floorId": "desk-lamp-home/ground"
+          },
+          "hasArticulatedDiffuser": true,
+          "head": [
+            0.6089466900827963,
+            0,
+            0,
+            0.7932111500963706
+          ],
+          "materialContract": {
+            "nodes": [
+              "desk-lamp-diffuser"
+            ],
+            "stateField": "on",
+            "onColor": "#fff3de",
+            "offColor": "#d5ccc0",
+            "emissive": "#fff1d5",
+            "onIntensity": 1.5
+          },
+          "materials": [
+            {
+              "color": "fff3de",
+              "emissive": "fff1d5",
+              "strength": 1.35
+            }
+          ],
+          "lights": [
+            {
+              "id": "desk-lamp-home/ground/live/station-1/desk-lamp",
+              "intensity": 9,
+              "castsShadow": false,
+              "desired": 9
+            },
+            {
+              "id": "desk-lamp-home/ground/live/station-1/fill-light",
+              "intensity": 5,
+              "castsShadow": false,
+              "desired": 5
+            }
+          ],
+          "visibleMeshes": [
+            {
+              "name": "lamp-head-shell",
+              "vertices": 96
+            },
+            {
+              "name": "desk-lamp-diffuser",
+              "vertices": 4
+            },
+            {
+              "name": "lamp-base-and-post",
+              "vertices": 84
+            },
+            {
+              "name": "lamp-hinge-bracket",
+              "vertices": 24
+            },
+            {
+              "name": "lamp-hinge",
+              "vertices": 100
+            }
+          ],
+          "visibleSpotlights": [
+            {
+              "id": "desk-lamp-home/ground/live/station-1/desk-lamp",
+              "intensity": 9
+            },
+            {
+              "id": "desk-lamp-home/ground/live/station-1/fill-light",
+              "intensity": 5
+            }
+          ],
+          "parent": "desk-lamp-home/ground/live/station-1/desk",
+          "deskYaw": 0,
+          "spot": {
+            "intensity": 9,
+            "distance": 1.4,
+            "angle": 0.55,
+            "penumbra": 0.65,
+            "castsShadow": false,
+            "expected": {
+              "distance": 1.4,
+              "angle": 0.55,
+              "penumbra": 0.65
+            },
+            "origin": [
+              -0.07999999999999996,
+              1.0782591106736301,
+              -1.5390921746352662
+            ],
+            "direction": [
+              0,
+              -0.966046608775906,
+              0.25836785727441347
+            ],
+            "directionInDesk": [
+              0,
+              -0.966046608775906,
+              0.25836785727441347
+            ],
+            "emissionAlignment": 1,
+            "originError": 0,
+            "hit": [
+              0.67,
+              0.8400000007450581,
+              -0.0753700983408772
+            ]
+          }
+        },
+        "image": "look-desk-lamp-column.png",
+        "pin": {
+          "id": "desk-lamp-column",
+          "version": 1,
+          "sha256": "a7bcb858b95d44cb8411607659ca1087dcb17523d28b16654a5a171174b2ec23"
+        }
+      }
+    },
+    {
+      "name": "Turned desk keeps emitter alignment and obeys the shared two-light budget",
+      "passed": true,
+      "evidence": {
+        "on": {
+          "node": {
+            "id": "desk-lamp-studio/ground/live/station-left/desk-lamp",
+            "kind": "facility",
+            "parentId": "desk-lamp-studio/ground/live/station-left/desk",
+            "resource": {
+              "id": "desk-lamp-shade",
+              "version": 1
+            },
+            "state": {},
+            "transform": {
+              "position": [
+                0.67,
+                0.84,
+                -0.2
+              ],
+              "yaw": 0
+            }
+          },
+          "state": {
+            "on": true,
+            "intensity": 4,
+            "angle": 0
+          },
+          "asset": {
+            "format": "glb",
+            "url": "/company-assets/desk-lamp-v1/desk-lamp-shade/v1/model.glb",
+            "sha256": "775d7f4b55f6161759e1ac4dede8422925280c31dc9394019f0c66bfdb3c009e",
+            "bytes": 18620
+          },
+          "view": {
+            "mode": "room",
+            "roomId": "desk-lamp-studio/ground/live",
+            "floorId": "desk-lamp-studio/ground"
+          },
+          "hasArticulatedDiffuser": true,
+          "head": [
+            0.5372996083468239,
+            0,
+            0,
+            0.8433914458128856
+          ],
+          "materialContract": {
+            "nodes": [
+              "desk-lamp-diffuser"
+            ],
+            "stateField": "on",
+            "onColor": "#fff3de",
+            "offColor": "#d5ccc0",
+            "emissive": "#fff1d5",
+            "onIntensity": 1.5
+          },
+          "materials": [
+            {
+              "color": "fff3de",
+              "emissive": "fff1d5",
+              "strength": 0.6000000000000001
+            }
+          ],
+          "lights": [
+            {
+              "id": "desk-lamp-studio/ground/live/station-left/desk-lamp",
+              "intensity": 4,
+              "castsShadow": false,
+              "desired": 4
+            },
+            {
+              "id": "desk-lamp-studio/ground/live/station-left/fill-light",
+              "intensity": 5,
+              "castsShadow": false,
+              "desired": 5
+            },
+            {
+              "id": "desk-lamp-studio/ground/live/station-right/fill-light",
+              "intensity": 0,
+              "castsShadow": false,
+              "desired": 5
+            }
+          ],
+          "visibleMeshes": [
+            {
+              "name": "lamp-head-shell",
+              "vertices": 144
+            },
+            {
+              "name": "desk-lamp-diffuser",
+              "vertices": 26
+            },
+            {
+              "name": "lamp-base-and-post",
+              "vertices": 84
+            },
+            {
+              "name": "lamp-hinge-bracket",
+              "vertices": 24
+            },
+            {
+              "name": "lamp-hinge",
+              "vertices": 100
+            }
+          ],
+          "visibleSpotlights": [
+            {
+              "id": "desk-lamp-studio/ground/live/station-left/desk-lamp",
+              "intensity": 4
+            },
+            {
+              "id": "desk-lamp-studio/ground/live/station-left/fill-light",
+              "intensity": 5
+            }
+          ],
+          "parent": "desk-lamp-studio/ground/live/station-left/desk",
+          "deskYaw": 3.141592653589793,
+          "spot": {
+            "intensity": 4,
+            "distance": 1.4,
+            "angle": 0.55,
+            "penumbra": 0.65,
+            "castsShadow": false,
+            "expected": {
+              "distance": 1.4,
+              "angle": 0.55,
+              "penumbra": 0.65
+            },
+            "origin": [
+              -1.9700000000000002,
+              1.1107060406879852,
+              1.4236149262975617
+            ],
+            "direction": [
+              0,
+              -0.9063077870366499,
+              -0.4226182617406994
+            ],
+            "directionInDesk": [
+              5.1755810150196594e-17,
+              -0.9063077870366502,
+              0.4226182617406995
+            ],
+            "emissionAlignment": 0.9999999999999999,
+            "originError": 0,
+            "hit": [
+              0.6700000000000002,
+              0.8400000007450581,
+              0.0026173732366381874
+            ]
+          }
+        },
+        "off": {
+          "node": {
+            "id": "desk-lamp-studio/ground/live/station-left/desk-lamp",
+            "kind": "facility",
+            "parentId": "desk-lamp-studio/ground/live/station-left/desk",
+            "resource": {
+              "id": "desk-lamp-shade",
+              "version": 1
+            },
+            "state": {
+              "on": false
+            },
+            "transform": {
+              "position": [
+                0.67,
+                0.84,
+                -0.2
+              ],
+              "yaw": 0
+            }
+          },
+          "state": {
+            "on": false,
+            "intensity": 4,
+            "angle": 0
+          },
+          "asset": {
+            "format": "glb",
+            "url": "/company-assets/desk-lamp-v1/desk-lamp-shade/v1/model.glb",
+            "sha256": "775d7f4b55f6161759e1ac4dede8422925280c31dc9394019f0c66bfdb3c009e",
+            "bytes": 18620
+          },
+          "view": {
+            "mode": "room",
+            "roomId": "desk-lamp-studio/ground/live",
+            "floorId": "desk-lamp-studio/ground"
+          },
+          "hasArticulatedDiffuser": true,
+          "head": [
+            0.5372996083468239,
+            0,
+            0,
+            0.8433914458128856
+          ],
+          "materialContract": {
+            "nodes": [
+              "desk-lamp-diffuser"
+            ],
+            "stateField": "on",
+            "onColor": "#fff3de",
+            "offColor": "#d5ccc0",
+            "emissive": "#fff1d5",
+            "onIntensity": 1.5
+          },
+          "materials": [
+            {
+              "color": "d5ccc0",
+              "emissive": "000000",
+              "strength": 0
+            }
+          ],
+          "lights": [
+            {
+              "id": "desk-lamp-studio/ground/live/station-left/desk-lamp",
+              "intensity": 0,
+              "castsShadow": false,
+              "desired": 0
+            },
+            {
+              "id": "desk-lamp-studio/ground/live/station-left/fill-light",
+              "intensity": 5,
+              "castsShadow": false,
+              "desired": 5
+            },
+            {
+              "id": "desk-lamp-studio/ground/live/station-right/fill-light",
+              "intensity": 5,
+              "castsShadow": false,
+              "desired": 5
+            }
+          ],
+          "visibleMeshes": [
+            {
+              "name": "lamp-head-shell",
+              "vertices": 144
+            },
+            {
+              "name": "desk-lamp-diffuser",
+              "vertices": 26
+            },
+            {
+              "name": "lamp-base-and-post",
+              "vertices": 84
+            },
+            {
+              "name": "lamp-hinge-bracket",
+              "vertices": 24
+            },
+            {
+              "name": "lamp-hinge",
+              "vertices": 100
+            }
+          ],
+          "visibleSpotlights": [
+            {
+              "id": "desk-lamp-studio/ground/live/station-left/fill-light",
+              "intensity": 5
+            },
+            {
+              "id": "desk-lamp-studio/ground/live/station-right/fill-light",
+              "intensity": 5
+            }
+          ],
+          "parent": "desk-lamp-studio/ground/live/station-left/desk",
+          "deskYaw": 3.141592653589793,
+          "spot": {
+            "intensity": 0,
+            "distance": 1.4,
+            "angle": 0.55,
+            "penumbra": 0.65,
+            "castsShadow": false,
+            "expected": {
+              "distance": 1.4,
+              "angle": 0.55,
+              "penumbra": 0.65
+            },
+            "origin": [
+              -1.9700000000000002,
+              1.1107060406879852,
+              1.4236149262975617
+            ],
+            "direction": [
+              0,
+              -0.9063077870366499,
+              -0.4226182617406994
+            ],
+            "directionInDesk": [
+              5.1755810150196594e-17,
+              -0.9063077870366502,
+              0.4226182617406995
+            ],
+            "emissionAlignment": 0.9999999999999999,
+            "originError": 0,
+            "hit": [
+              0.6700000000000002,
+              0.8400000007450581,
+              0.0026173732366381874
+            ]
+          }
+        },
+        "before": {
+          "node": {
+            "id": "desk-lamp-studio/ground/live/station-left/desk-lamp",
+            "kind": "facility",
+            "parentId": "desk-lamp-studio/ground/live/station-left/desk",
+            "resource": {
+              "id": "desk-lamp-shade",
+              "version": 1
+            },
+            "state": {
+              "on": true,
+              "intensity": 6,
+              "angle": 0.35
+            },
+            "transform": {
+              "position": [
+                0.67,
+                0.84,
+                -0.2
+              ],
+              "yaw": 0
+            }
+          },
+          "state": {
+            "on": true,
+            "intensity": 6,
+            "angle": 0.35
+          },
+          "asset": {
+            "format": "glb",
+            "url": "/company-assets/desk-lamp-v1/desk-lamp-shade/v1/model.glb",
+            "sha256": "775d7f4b55f6161759e1ac4dede8422925280c31dc9394019f0c66bfdb3c009e",
+            "bytes": 18620
+          },
+          "view": {
+            "mode": "room",
+            "roomId": "desk-lamp-studio/ground/live",
+            "floorId": "desk-lamp-studio/ground"
+          },
+          "hasArticulatedDiffuser": true,
+          "head": [
+            0.6759344975751959,
+            0,
+            0,
+            0.7369617052383165
+          ],
+          "materialContract": {
+            "nodes": [
+              "desk-lamp-diffuser"
+            ],
+            "stateField": "on",
+            "onColor": "#fff3de",
+            "offColor": "#d5ccc0",
+            "emissive": "#fff1d5",
+            "onIntensity": 1.5
+          },
+          "materials": [
+            {
+              "color": "fff3de",
+              "emissive": "fff1d5",
+              "strength": 0.8999999999999999
+            }
+          ],
+          "lights": [
+            {
+              "id": "desk-lamp-studio/ground/live/station-left/desk-lamp",
+              "intensity": 6,
+              "castsShadow": false,
+              "desired": 6
+            },
+            {
+              "id": "desk-lamp-studio/ground/live/station-left/fill-light",
+              "intensity": 5,
+              "castsShadow": false,
+              "desired": 5
+            },
+            {
+              "id": "desk-lamp-studio/ground/live/station-right/fill-light",
+              "intensity": 0,
+              "castsShadow": false,
+              "desired": 5
+            }
+          ],
+          "visibleMeshes": [
+            {
+              "name": "lamp-head-shell",
+              "vertices": 144
+            },
+            {
+              "name": "desk-lamp-diffuser",
+              "vertices": 26
+            },
+            {
+              "name": "lamp-base-and-post",
+              "vertices": 84
+            },
+            {
+              "name": "lamp-hinge-bracket",
+              "vertices": 24
+            },
+            {
+              "name": "lamp-hinge",
+              "vertices": 100
+            }
+          ],
+          "visibleSpotlights": [
+            {
+              "id": "desk-lamp-studio/ground/live/station-left/desk-lamp",
+              "intensity": 6
+            },
+            {
+              "id": "desk-lamp-studio/ground/live/station-left/fill-light",
+              "intensity": 5
+            }
+          ],
+          "parent": "desk-lamp-studio/ground/live/station-left/desk",
+          "deskYaw": 3.141592653589793,
+          "spot": {
+            "intensity": 6,
+            "distance": 1.4,
+            "angle": 0.55,
+            "penumbra": 0.65,
+            "castsShadow": false,
+            "expected": {
+              "distance": 1.4,
+              "angle": 0.55,
+              "penumbra": 0.65
+            },
+            "origin": [
+              -1.9700000000000002,
+              1.1055148932683365,
+              1.4430248111544117
+            ],
+            "direction": [
+              0,
+              -0.9962756799248424,
+              -0.08622510997553536
+            ],
+            "directionInDesk": [
+              1.0559530493766789e-17,
+              -0.9962756799248424,
+              0.08622510997553536
+            ],
+            "emissionAlignment": 1.0000000000000002,
+            "originError": 2.220446049250313e-16,
+            "hit": [
+              0.6700000000000002,
+              0.8400000007450581,
+              -0.12004517683302664
+            ]
+          }
+        },
+        "after": {
+          "node": {
+            "id": "desk-lamp-studio/ground/live/station-left/desk-lamp",
+            "kind": "facility",
+            "parentId": "desk-lamp-studio/ground/live/station-left/desk",
+            "resource": {
+              "id": "desk-lamp-shade",
+              "version": 1
+            },
+            "state": {
+              "on": true,
+              "intensity": 6,
+              "angle": 0.35
+            },
+            "transform": {
+              "position": [
+                0.67,
+                0.84,
+                -0.2
+              ],
+              "yaw": 0
+            }
+          },
+          "state": {
+            "on": true,
+            "intensity": 6,
+            "angle": 0.35
+          },
+          "asset": {
+            "format": "glb",
+            "url": "/company-assets/desk-lamp-v1/desk-lamp-shade/v1/model.glb",
+            "sha256": "775d7f4b55f6161759e1ac4dede8422925280c31dc9394019f0c66bfdb3c009e",
+            "bytes": 18620
+          },
+          "view": {
+            "mode": "room",
+            "roomId": "desk-lamp-studio/ground/live",
+            "floorId": "desk-lamp-studio/ground"
+          },
+          "hasArticulatedDiffuser": true,
+          "head": [
+            0.6759344975751959,
+            0,
+            0,
+            0.7369617052383165
+          ],
+          "materialContract": {
+            "nodes": [
+              "desk-lamp-diffuser"
+            ],
+            "stateField": "on",
+            "onColor": "#fff3de",
+            "offColor": "#d5ccc0",
+            "emissive": "#fff1d5",
+            "onIntensity": 1.5
+          },
+          "materials": [
+            {
+              "color": "fff3de",
+              "emissive": "fff1d5",
+              "strength": 0.8999999999999999
+            }
+          ],
+          "lights": [
+            {
+              "id": "desk-lamp-studio/ground/live/station-left/desk-lamp",
+              "intensity": 6,
+              "castsShadow": false,
+              "desired": 6
+            },
+            {
+              "id": "desk-lamp-studio/ground/live/station-left/fill-light",
+              "intensity": 5,
+              "castsShadow": false,
+              "desired": 5
+            },
+            {
+              "id": "desk-lamp-studio/ground/live/station-right/fill-light",
+              "intensity": 0,
+              "castsShadow": false,
+              "desired": 5
+            }
+          ],
+          "visibleMeshes": [
+            {
+              "name": "lamp-head-shell",
+              "vertices": 144
+            },
+            {
+              "name": "desk-lamp-diffuser",
+              "vertices": 26
+            },
+            {
+              "name": "lamp-base-and-post",
+              "vertices": 84
+            },
+            {
+              "name": "lamp-hinge-bracket",
+              "vertices": 24
+            },
+            {
+              "name": "lamp-hinge",
+              "vertices": 100
+            }
+          ],
+          "visibleSpotlights": [
+            {
+              "id": "desk-lamp-studio/ground/live/station-left/desk-lamp",
+              "intensity": 6
+            },
+            {
+              "id": "desk-lamp-studio/ground/live/station-left/fill-light",
+              "intensity": 5
+            }
+          ],
+          "parent": "desk-lamp-studio/ground/live/station-left/desk",
+          "deskYaw": 3.141592653589793,
+          "spot": {
+            "intensity": 6,
+            "distance": 1.4,
+            "angle": 0.55,
+            "penumbra": 0.65,
+            "castsShadow": false,
+            "expected": {
+              "distance": 1.4,
+              "angle": 0.55,
+              "penumbra": 0.65
+            },
+            "origin": [
+              -1.9700000000000002,
+              1.1055148932683365,
+              1.4430248111544117
+            ],
+            "direction": [
+              0,
+              -0.9962756799248424,
+              -0.08622510997553536
+            ],
+            "directionInDesk": [
+              1.0559530493766789e-17,
+              -0.9962756799248424,
+              0.08622510997553536
+            ],
+            "emissionAlignment": 1.0000000000000002,
+            "originError": 2.220446049250313e-16,
+            "hit": [
+              0.6700000000000002,
+              0.8400000007450581,
+              -0.12004517683302664
+            ]
+          }
+        },
+        "image": "turned-studio-desk.png",
+        "pin": {
+          "id": "desk-lamp-shade",
+          "version": 1,
+          "sha256": "b7077d3036d9d68b7119c1d3cc44bd5c0df8cb5a7f53794f97df855bd59981ba"
+        }
+      }
+    }
+  ],
+  "browserErrors": [],
+  "video": {
+    "enabled": false,
+    "playbackSpeed": 1
+  },
+  "sourceDigest": "5bfe97a233ecbbe01e5f94287144e9002c9b588bb976fa8534731362fe633e94",
+  "looks": [
+    {
+      "id": "desk-lamp-gooseneck",
+      "version": 1
+    },
+    {
+      "id": "desk-lamp-bar",
+      "version": 1
+    },
+    {
+      "id": "desk-lamp-shade",
+      "version": 1
+    },
+    {
+      "id": "desk-lamp-column",
+      "version": 1
+    }
+  ],
+  "lightingDiagnostics": {
+    "mid": {
+      "samples": 1245,
+      "changed": 92,
+      "positiveLumaGain": 3007.7989999999995,
+      "peak": 47.968999999999994,
+      "centroid": [
+        0.6702719826025619,
+        0.05470364642052235
+      ]
+    },
+    "full": {
+      "samples": 1245,
+      "changed": 92,
+      "positiveLumaGain": 3590.7238,
+      "peak": 49.688199999999966,
+      "centroid": [
+        0.6703948724766867,
+        0.062280560537683494
+      ]
+    },
+    "anglePairs": [
+      {
+        "angle": -0.35,
+        "gain": {
+          "samples": 1245,
+          "changed": 199,
+          "positiveLumaGain": 7240.5758000000005,
+          "peak": 49.615999999999985,
+          "centroid": [
+            0.6705407833725057,
+            0.24369939763630422
+          ]
+        },
+        "hit": [
+          0.67,
+          0.8400000007450581,
+          0.17560402432135558
+        ]
+      },
+      {
+        "angle": 0.35,
+        "gain": {
+          "samples": 1249,
+          "changed": 43,
+          "positiveLumaGain": 1826.1713999999997,
+          "peak": 49.688199999999966,
+          "centroid": [
+            0.6706701238448933,
+            -0.07472352759439754
+          ]
+        },
+        "hit": [
+          0.67,
+          0.8400000007450581,
+          -0.12004517683302669
+        ]
+      }
+    ]
+  }
+}

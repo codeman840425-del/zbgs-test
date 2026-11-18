@@ -1,0 +1,20 @@
+{
+  "developmentFailures": {
+    "desk-lamps-development": {
+      "stage": "Measured desktop lighting, fixed on/off view, dimmer and real angle change",
+      "message": "The real nonemissive desktop must show an on/off light footprint"
+    },
+    "desk-lamps-development-v2": {
+      "stage": "Measured desktop lighting, fixed on/off view, dimmer and real angle change",
+      "message": "The expression evaluated to a falsy value:\n\n  assert(full.positiveLumaGain > mid.positiveLumaGain)\n"
+    },
+    "desk-lamps-development-v3": {
+      "stage": "Turned desk keeps emitter alignment and obeys the shared two-light budget",
+      "message": "Second desk must have a genuinely different yaw"
+    }
+  },
+  "fixes": [
+    "Desk mask drawn in a separate pass with no scene lighting, original rendered frames used for brightness and spot movement.",
+    "Wrapped yaw difference handles the 180-degree workstation in the second input."
+  ]
+}
