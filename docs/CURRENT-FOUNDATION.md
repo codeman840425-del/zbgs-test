@@ -123,3 +123,5 @@
 2026-11-18 共性候选复核：眼镜生命周期和纹理发布旁车已补充可重复诊断，均保持 candidate-only/diagnostic-only，不改变批产闸门结论。当前两份 FaceContour 候选仍未进入 `acceptedForRuntime`，四类待办仍为 `dynamicMotion`、`headAttachments`、`runtimeRecordAndBudget`、`surfaceAndTexture`。
 
 2026-11-18 admission cycle v18：共同闸门消费眼镜生命周期候选后重新生成 `evidence/m2-native-admission-cycle-v18/`。两份 FaceContour 候选仍为 `acceptedForRuntime=[]`，未完成项仍为 `dynamicMotion`、`headAttachments`、`runtimeRecordAndBudget`、`surfaceAndTexture`；新增生命周期证据只强化可追溯性，不改变准入标准。
+
+2026-11-18 资源预算主包回执：FaceContour KTX2 旁车通过两体各 9/9 合同检查，旁车仍是 `safe-candidate-only`。v18 的两项静态预算决策仍为 `reject-static-over-budget`，ordinary-PC 为 `unmeasured`，没有改变 `acceptedForRuntime=[]`。下一最小输入已写入报告，包括固定构建的浏览器/WebGL 解码与关闭重开、普通电脑测量，以及清除静态超限的资源规格或新导出。

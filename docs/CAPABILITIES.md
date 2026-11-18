@@ -568,3 +568,5 @@ native_dependency_delta.py共用实际GLB差分核引用顶点、morph、骨/res
 2026-11-18 4196 入口修正并重建：固定交付指针的入口为 `/?body=female&workbench=appearance&view=inspect-face-front`，就绪条件为 `body.appearance-workbench`。当前源码重建 build `21984326d5e5`，来源提交 `d47c0e96`；根路径仍是房间展示页。
 
 2026-11-18 眼镜候选生命周期进入共同闸门：`native_batch_gate.py` 接受 `native-glasses-candidate-lifecycle-v1`，要求站立/坐姿/起身/重载及取消卸载保旧、卸载回滚、身份错误回滚均有明确布尔证据。`evidence/m2-native-admission-cycle-v18/summary.json` 实际结果仍为 `blocked`，`acceptedForRuntime=[]`，候选不会清除 `headAttachments`。
+
+2026-11-18 FaceContour 发布旁车预算审查：`scripts/production/qa_facecontour_sidecar_release_candidate.py` 对两份新身体各完成 9/9 精确身份、源导出链、2048 RGBA PNG 回退、材质索引/alpha/UV、KTX2 哈希和预算绑定检查。报告 `evidence/m2-native-release-sidecar-budget-review-v1/report.json` 为 `technical-pass-candidate-only`，决定 `reject-runtime-admission`；两项均静态超预算，普通电脑未测，运行时继续 PNG 回退。
