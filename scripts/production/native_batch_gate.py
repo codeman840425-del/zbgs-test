@@ -548,7 +548,8 @@ def glasses_candidate_index(path: Path, root: Path = ROOT) -> dict[str, dict[str
             "body": item.get("body"),
             "bodySha256": body_sha,
             "standApplied": item.get("stand", {}).get("result", {}).get("applied"),
-            "sitApplied": item.get("sit", {}).get("result", {}).get("applied"),
+            "sitApplied": item.get("sit", {}).get("state", {}).get("accessories", {})
+                .get("glasses", {}).get("loaded") is True,
             "fitStatus": "fitted-candidate",
             "verified": False,
             "clears": [],
