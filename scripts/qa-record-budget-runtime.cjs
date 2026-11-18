@@ -1,7 +1,7 @@
 // Bounded real-loader cost sampling, separate from recording and static RGBA estimates.
 const {chromium}=require('../prototype/node_modules/playwright');
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
-const [base,recordFile,folder]=process.argv.slice(2),out=path.resolve(folder);
+const [base,recordFile,folder,inspectBuild]=process.argv.slice(2),out=path.resolve(folder);
 (async()=>{
  await fs.mkdir(out,{recursive:false});await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
  const records=JSON.parse(await fs.readFile(recordFile,'utf8'));
@@ -14,8 +14,9 @@ const browser=await chromium.launch({channel:'chrome',headless:true}),report={sc
    page.on('pageerror',error=>report.errors.push(error.message));page.on('response',response=>network.push({url:response.url(),status:response.status(),bytes:Number(response.headers()['content-length']??0)}));
    const cdp=await context.newCDPSession(page);await cdp.send('Network.enable');await cdp.send('Network.setCacheDisabled',{cacheDisabled:true});
    await page.goto(base+'record-consumer.html?production=1');await page.waitForFunction(()=>window.__recordConsumer?.ready,null,{timeout:60000});
-   const row=await page.evaluate(async inputs=>{
+   const row=await page.evaluate(async ({inputs,inspectBuild})=>{
     const d=__recordConsumer,renderer=d.renderer,gl=renderer.getContext(),ext=gl.getExtension('WEBGL_debug_renderer_info');
+    if(inspectBuild && d.buildInfo.shortId!==inspectBuild)throw Error('Unexpected fixed build: '+d.buildInfo.shortId);
     const stats=()=>({textures:renderer.info.memory.textures,geometries:renderer.info.memory.geometries,programs:renderer.info.programs.length,drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles});
     const tick=()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
     await tick();const baseline=stats(),started=performance.now(),result=await d.selectGroup(0,inputs);await tick();
@@ -32,9 +33,30 @@ const browser=await chromium.launch({channel:'chrome',headless:true}),report={sc
     try{await new Promise(resolve=>{const start=performance.now();function sample(t){if(last!==null)frames.push({frameMs:t-last,updateMs,renderMs});last=t;updateMs=0;renderMs=0;if(t-start<12000)requestAnimationFrame(sample);else resolve();}requestAnimationFrame(sample);});}
     finally{for(const restore of restores)restore();}
     const summarize=key=>{const values=frames.map(r=>r[key]).sort((a,b)=>a-b);return{count:values.length,min:values[0],p50:values[Math.floor(values.length*.5)],p95:values[Math.floor(values.length*.95)],p99:values[Math.floor(values.length*.99)],max:values.at(-1),over33:values.filter(v=>v>33.34).length,over50:values.filter(v=>v>50).length};};
-    const afterSample=stats();for(const actor of d.actors.values())actor.dispose();d.actors.clear();await tick();const released=stats();
-    return{build:d.buildInfo.shortId,ids:inputs.map(r=>r.identity.id),baseline,loaded,loadMs,afterSample,released,frames,summary:{frame:summarize('frameMs'),update:summarize('updateMs'),render:summarize('renderMs')},gpu:ext?gl.getParameter(ext.UNMASKED_RENDERER_WEBGL):'unavailable'};
-   },group);
+    const afterSample=stats();
+    // Observe already-uploaded Three/WebGL2 resources after the timed sample, without
+    // initializing textures, rendering extra passes or changing renderer ownership.
+    const handles=new Map(),images=new Map(),bindings=[];
+    function identity(map,object){if(!object)return null;if(!map.has(object))map.set(object,map.size+1);return map.get(object);}
+    if(inspectBuild)for(const actor of d.actors.values()){
+      const materials=new Set();
+      actor.avatar.root.traverseVisible(o=>{if(o.isMesh)for(const material of [].concat(o.material))materials.add(material);});
+      for(const m of materials){
+        if(!/_(Face_\d+_SKIN|Body_\d+_SKIN|FaceEyeline_)/.test(m.name))continue;
+        for(const slot of ['map','shadeMultiplyTexture','normalMap']){
+          const t=m[slot];if(!t?.isTexture)continue;
+          const h=renderer.properties.has(t)?renderer.properties.get(t).__webglTexture:null;
+          bindings.push({actor:actor.identity.id,material:m.name,outline:Boolean(m.isOutline),slot,
+            texture:t.uuid,source:t.source.uuid,image:identity(images,t.image),width:t.image.width,height:t.image.height,
+            imageBitmap:t.image instanceof ImageBitmap,handle:identity(handles,h),live:h?gl.isTexture(h):false});
+        }
+      }
+    }
+    for(const actor of d.actors.values())actor.dispose();d.actors.clear();await tick();const released=stats();
+    const handleProbe=inspectBuild?{webgl2:gl instanceof WebGL2RenderingContext,bindings,
+      afterRelease:[...handles].map(([h,id])=>({id,live:gl.isTexture(h)}))}:undefined;
+    return{build:d.buildInfo.shortId,ids:inputs.map(r=>r.identity.id),baseline,loaded,loadMs,afterSample,released,frames,handleProbe,summary:{frame:summarize('frameMs'),update:summarize('updateMs'),render:summarize('renderMs')},gpu:ext?gl.getParameter(ext.UNMASKED_RENDERER_WEBGL):'unavailable'};
+   },{inputs:group,inspectBuild});
    const inputIdentity=group.map(record=>report.input.records.find(item=>item.id===record.identity?.id));
    report.cases.push({...row,inputs:inputIdentity,network});assert.equal(row.released.textures,row.baseline.textures);assert.equal(row.released.geometries,row.baseline.geometries);
    await context.close();console.log(JSON.stringify({case:row.ids,loadMs:row.loadMs,frame:row.summary.frame,loaded:row.loaded,released:row.released}));
