@@ -381,6 +381,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   const catalogBytes=await read(prototype,runtimeInputs.catalog),templateBytes=await read(prototype,runtimeInputs.templates);
   const catalog=decode(catalogBytes,runtimeInputs.catalog),templates=decode(templateBytes,runtimeInputs.templates);
   const persistence=await import(pathToFileURL(path.join(prototype,'src/company/persistence.js')).href);
+  const hasDesktopReservations=catalog.resources.some(resource=>resource.mounting?.reserveDesktopArea===true);
   const seatCheckerPath = 'scripts/company-platform/check-seat-contacts.mjs';
   const seatCheckerFile = path.join(source, seatCheckerPath);
   const hasSeatChecker = await fs.stat(seatCheckerFile).then(stat => stat.isFile(), error => {
@@ -429,6 +430,11 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
       const {checkTrainingClearance}=await import(pathToFileURL(path.join(source,'scripts/company-platform/check-training-clearance.mjs')).href);
       await checkTrainingClearance(document,trainingClearance,{catalog,templates});
     }
+    if (hasDesktopReservations) {
+      const {deriveCompany}=await import(pathToFileURL(path.join(prototype,'src/company/document.js')).href);
+      const {preflightDesktopAreas}=await import(pathToFileURL(path.join(source,'scripts/company-platform/preflight-library-assets.mjs')).href);
+      await preflightDesktopAreas(source,deriveCompany(document,catalog,templates));
+    }
     if (seatContacts) {
       const {inspectSeatContacts} = await import(pathToFileURL(seatCheckerFile).href);
       const points = await inspectSeatContacts(document, {catalog, templates, publicDirectory: path.join(prototype, 'public')});
@@ -460,6 +466,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     supplemental.add('docs/research/COMPANY-MOUSE-PAD-PRODUCTION.md');
     supplemental.add('scripts/company-platform/test-mouse-pad-assets.mjs');
     supplemental.add('scripts/company-platform/test-mouse-pad-installation.mjs');
+    supplemental.add('scripts/company-platform/test-mouse-pad-offline.mjs');
     supplemental.add('scripts/company-platform/qa-mouse-pad-rooms.cjs');
   }
   if (catalog.resources.some(resource => resource.finish?.allowedSurfaces?.includes('baseboard'))) {

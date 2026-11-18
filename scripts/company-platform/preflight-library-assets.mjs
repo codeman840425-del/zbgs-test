@@ -42,7 +42,7 @@ function localAssetPath(root, url) {
  * catalog is being built. This prevents a bad GLB or mount declaration from
  * entering the registered catalog and only then failing in a preview.
  */
-export async function preflightLibraryAssets({root, resources}) {
+export async function preflightLibraryAssets({root, resources, validate}) {
   if (!Array.isArray(resources)) throw new Error('asset-preflight-list: resources must be an array');
   const createCompanyAssetLibrary = await getLibrary();
   const library = createCompanyAssetLibrary({
@@ -57,8 +57,19 @@ export async function preflightLibraryAssets({root, resources}) {
   });
   try {
     await library.preload(resources);
+    if (validate) await validate(library);
   } finally {
     library.dispose();
   }
   return {resources: resources.length};
+}
+
+/** Use the game's installation geometry for offline room acceptance, including hidden floors. */
+export async function preflightDesktopAreas(root, derived) {
+  if (!derived.facilities.some(f => f.resource.mounting?.reserveDesktopArea === true)) return;
+  const {installationGeometryFacilities} = await import('../../prototype/src/company/desktop-placement.js');
+  const {validateCeilingDocumentAssets} = await import('../../prototype/src/company/render.js');
+  const entries = installationGeometryFacilities(derived);
+  await preflightLibraryAssets({root, resources:entries.map(f=>f.resource),
+    validate:library => validateCeilingDocumentAssets(derived,library,entries)});
 }

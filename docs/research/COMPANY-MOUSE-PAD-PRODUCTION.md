@@ -18,6 +18,7 @@
 node scripts/company-platform/build-mouse-pads.mjs --check
 node scripts/company-platform/build-library.mjs --check
 node scripts/company-platform/test-mouse-pad-installation.mjs
+node scripts/company-platform/test-mouse-pad-offline.mjs ../viewer ../trial-offline
 node scripts/company-platform/batch.mjs scripts/company-platform/batch-inputs/mouse-pad-rooms.json ../rooms
 node scripts/company-platform/qa-mouse-pad-rooms.cjs .. BUILD_ID ../review --record
 ```

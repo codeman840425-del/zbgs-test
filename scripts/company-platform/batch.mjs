@@ -10,6 +10,7 @@ import {createCompanyScaleV2} from '../../prototype/src/company/scale-v2.js';
 import {inspectCompanyPlacement,inspectCompanyMotionSweep} from '../../prototype/src/company/placement.js';
 import {resolveWorkstationLook,workstationLookOperations} from '../../prototype/src/company/workstation-looks.js';
 import {encodeCompanySave} from '../../prototype/src/company/persistence.js';
+import {preflightDesktopAreas} from './preflight-library-assets.mjs';
 
 const workspace=new URL('../../',import.meta.url);
 const sourceFiles=[
@@ -21,7 +22,8 @@ const sourceFiles=[
   'prototype/src/company/appearance-contract.js','prototype/src/company/workstation-looks.js',
   'prototype/src/company/workstation-looks.json',
   'prototype/src/company/persistence.js','prototype/src/company/library-catalog.json',
-  'prototype/src/company/templates-extended.json',
+  'prototype/src/company/templates-extended.json','prototype/src/company/desktop-placement.js',
+  'prototype/src/company/render.js','scripts/company-platform/preflight-library-assets.mjs',
 ];
 const styleSourceFiles=[
   'scripts/company-platform/apply-style-recipe.mjs',
@@ -140,6 +142,7 @@ async function prepare(item,sourceHashes){
       fail('asset-source-mismatch',resource.id,'Actual GLB bytes differ from the pinned resource metadata');
     assetDependencies.push({id:resource.id,version:resource.version,path:relative,bytes:bytes.length,sha256:hash(bytes)});
   }
+  await preflightDesktopAreas(fileURLToPath(workspace),derived);
   const saved=JSON.parse(await encodeCompanySave(document,catalog,templates));
   const files={'input.json':jsonBytes(item),'layout.json':jsonBytes(document),'save.json':jsonBytes(saved)};
   const report={schema:'company-batch-result',version:1,key:item.key,companyId:document.id,

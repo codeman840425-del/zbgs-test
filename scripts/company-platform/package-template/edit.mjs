@@ -22,6 +22,16 @@ try{
     placement.inspectCompanyMotionSweep(previous,document,catalog,templates);
     space.inspectCompanyConnections(document,catalog,templates);placement.inspectCompanyPlacement(document,catalog,templates);
   }else if(command!=='validate')throw Error('Use validate INPUT_SAVE or apply INPUT_SAVE OPS_JSON NEW_RESULT_DIRECTORY');
+  const derived=documentTools.deriveCompany(document,catalog,templates);
+  if(derived.facilities.some(f=>f.resource.mounting?.reserveDesktopArea===true)){
+    const {preflightDesktopAreas}=await import('./source/scripts/company-platform/preflight-library-assets.mjs');
+    try{await preflightDesktopAreas(path.join(root,'source'),derived);}
+    catch(error){
+      if(error.code==='ERR_MODULE_NOT_FOUND' && /three/.test(error.message))
+        throw Object.assign(Error('Run npm ci in source/prototype of a working copy to check physical desktop clearance'),{code:'desktop-check-requires-dependencies'});
+      throw error;
+    }
+  }
   const constraint=manifest.savedCompany?.trainingClearance;
   if(document.id===manifest.savedCompany?.id && constraint){
     const {checkTrainingClearance}=await import('./source/scripts/company-platform/check-training-clearance.mjs');

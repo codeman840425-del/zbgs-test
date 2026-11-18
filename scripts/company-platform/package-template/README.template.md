@@ -107,6 +107,8 @@ node edit.mjs apply data/save.json OPS.json NEW_RESULT_DIRECTORY
 
 OPS.json使用现有prepareCompanyChange操作。新目录包含完整layout.json与带依赖pin的save.json，可在预览里继续导入。该入口使用固定preview声明的完整catalog及templates，包括保存依赖的历史版本。原有source/scripts/company-platform/company.mjs、batch.mjs及其输入也保留，可在source目录执行。
 
+房间包含预留桌面使用区域的设施时，批次、打包和这两个编辑命令都会读取设备真实网格。请先在工作副本根目录执行 `npm ci --prefix source/prototype`。设备越出桌沿或与键盘等设备重叠时，命令返回对应设施和原因，保留原存档。
+
 ## 批量生成不同外观的工位
 
 在工作副本根目录执行下面的命令，会生成四份具有独立公司身份的成品。每份包含可继续编辑的布局、带依赖版本的存档和验证报告。
