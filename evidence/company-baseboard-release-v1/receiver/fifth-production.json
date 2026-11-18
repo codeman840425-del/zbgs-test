@@ -1,0 +1,318 @@
+{
+  "status": "passed",
+  "sealed": {
+    "directory": "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\baseboards-v1",
+    "build": "64518e160ea1",
+    "sourceDigest": "64518e160ea1fd941742837c5feaedb1426218120c224e3899db84d2e5b58423",
+    "manifestHash": "27c38767ee309797b920870cc5ce85e6d98e6b711df3c2fc3383030de0225c55",
+    "files": 1784,
+    "roomSaves": {
+      "baseboard-studio": "7ac8ab061103d59866f92bc32dcf4b201b69942fd0c1dd591c04b40daba7d716",
+      "baseboard-rental": "4210212b70b1c9700f2682e35bb3ae014f2a9dee265d386de4c891eef1fe5f09"
+    },
+    "publisher": "c334c73bb85982e3719c0a9d4e2bccc9c613ec64b823a02d9333865205dff032",
+    "recipe": "fa7bd8301a2f4e73ce721b61ad8da4aee55e95811127aedcda44e287ab0c3914"
+  },
+  "trial": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\baseboard-sage-receiver-v1\\attempt-01",
+  "delivery": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\baseboard-sage-receiver-v1\\attempt-01\\derived-delivery",
+  "steps": [
+    {
+      "command": "verify.mjs",
+      "args": [
+        ".",
+        "27c38767ee309797b920870cc5ce85e6d98e6b711df3c2fc3383030de0225c55"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\baseboards-v1",
+      "stdout": "{\n  \"ok\": true,\n  \"build\": \"64518e160ea1\",\n  \"manifestSha256\": \"27c38767ee309797b920870cc5ce85e6d98e6b711df3c2fc3383030de0225c55\",\n  \"declaredFiles\": 1784,\n  \"checkedFiles\": 1784,\n  \"extraFiles\": 0,\n  \"changedFiles\": 0,\n  \"missingFiles\": 0\n}"
+    },
+    {
+      "command": "verify.mjs",
+      "args": [
+        ".",
+        "27c38767ee309797b920870cc5ce85e6d98e6b711df3c2fc3383030de0225c55"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\baseboard-sage-receiver-v1\\attempt-01\\received",
+      "stdout": "{\n  \"ok\": true,\n  \"build\": \"64518e160ea1\",\n  \"manifestSha256\": \"27c38767ee309797b920870cc5ce85e6d98e6b711df3c2fc3383030de0225c55\",\n  \"declaredFiles\": 1784,\n  \"checkedFiles\": 1784,\n  \"extraFiles\": 0,\n  \"changedFiles\": 0,\n  \"missingFiles\": 0\n}"
+    },
+    {
+      "command": "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js",
+      "args": [
+        "ci",
+        "--prefix",
+        "source/prototype",
+        "--no-audit",
+        "--no-fund",
+        "--cache",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\baseboard-sage-receiver-v1\\attempt-01\\npm-cache"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\baseboard-sage-receiver-v1\\attempt-01\\received",
+      "stdout": "added 35 packages in 36s",
+      "stderr": "npm notice\nnpm notice New minor version of npm available! 11.6.2 -> 11.21.3\nnpm notice Changelog: https://github.com/npm/cli/releases/tag/v11.21.3\nnpm notice To update run: npm install -g npm@11.21.3\nnpm notice"
+    },
+    {
+      "command": "scripts/build-company-id.mjs",
+      "args": [],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\baseboard-sage-receiver-v1\\attempt-01\\received\\source\\prototype",
+      "stdout": "64518e160ea1"
+    },
+    {
+      "command": "node_modules/vite/bin/vite.js",
+      "args": [
+        "build",
+        "--config",
+        "vite.company.config.js"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\baseboard-sage-receiver-v1\\attempt-01\\received\\source\\prototype",
+      "stdout": "vite v7.3.8 building client environment for production...\ntransforming...\n✓ 118 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist-company/company.html                    15.87 kB │ gzip:   5.06 kB\ndist-company/assets/company-DDdND_a6.css     14.86 kB │ gzip:   4.05 kB\ndist-company/assets/company-DU6jox1Z.js   3,463.58 kB │ gzip: 779.34 kB\n✓ built in 5.05s",
+      "stderr": "(!) Some chunks are larger than 500 kB after minification. Consider:\n- Using dynamic import() to code-split the application\n- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks\n- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit."
+    },
+    {
+      "command": "scripts/company-platform/batch.mjs",
+      "args": [
+        "scripts/company-platform/batch-inputs/baseboard-rooms.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\baseboard-sage-receiver-v1\\attempt-01\\unchanged-rooms"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\baseboard-sage-receiver-v1\\attempt-01\\received\\source",
+      "stdout": "{\n  \"schema\": \"company-batch-run\",\n  \"version\": 1,\n  \"ok\": true,\n  \"results\": [\n    {\n      \"key\": \"baseboard-studio\",\n      \"companyId\": \"baseboard-studio\",\n      \"status\": \"created\",\n      \"directory\": \"F:\\\\gamemake-company-platform-c1\\\\company-workspace\\\\production-trials\\\\baseboard-sage-receiver-v1\\\\attempt-01\\\\unchanged-rooms\\\\baseboard-studio\",\n      \"files\": {\n        \"input.json\": {\n          \"bytes\": 1877,\n          \"sha256\": \"daa4584ee239df9e028bdef77665304d4a9368d9d4e7d297af08177f920ae6b6\"\n        },\n        \"layout.json\": {\n          \"bytes\": 2255,\n          \"sha256\": \"0b05cf28b5c3afe6a03337b7f66d5f0b786c72b75b8315eed78e5fcef912d841\"\n        },\n        \"save.json\": {\n          \"bytes\": 3096,\n          \"sha256\": \"7ac8ab061103d59866f92bc32dcf4b201b69942fd0c1dd591c04b40daba7d716\"\n        }\n      }\n    },\n    {\n      \"key\": \"baseboard-rental\",\n      \"companyId\": \"baseboard-rental\",\n      \"status\": \"created\",\n      \"directory\": \"F:\\\\gamemake-company-platform-c1\\\\company-workspace\\\\production-trials\\\\baseboard-sage-receiver-v1\\\\attempt-01\\\\unchanged-rooms\\\\baseboard-rental\",\n      \"files\": {\n        \"input.json\": {\n          \"bytes\": 1552,\n          \"sha256\": \"94637e9f1393de4948e70b04319ec3063a2979cb48f49320dc226ae534f70c77\"\n        },\n        \"layout.json\": {\n          \"bytes\": 9138,\n          \"sha256\": \"6618d4bcf59c7b09d98fcd1eca59085a68f681a525a406d3877cea6da378e6da\"\n        },\n        \"save.json\": {\n          \"bytes\": 11805,\n          \"sha256\": \"4210212b70b1c9700f2682e35bb3ae014f2a9dee265d386de4c891eef1fe5f09\"\n        }\n      }\n    }\n  ]\n}"
+    },
+    {
+      "command": "scripts/company-platform/publish-room-appearance.mjs",
+      "args": [
+        "--publish",
+        "assets-source/company-baseboard-v1/examples/reveal-sage-v2.json"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\baseboard-sage-receiver-v1\\attempt-01\\received\\source",
+      "stdout": "{\n  \"status\": \"published\",\n  \"family\": \"baseboard\",\n  \"sourceParameters\": \"assets-source/company-baseboard-v1/examples/recipe-fa7bd8301a2f4e73ce721b61ad8da4aee55e95811127aedcda44e287ab0c3914.json\",\n  \"sourceParametersSha256\": \"fa7bd8301a2f4e73ce721b61ad8da4aee55e95811127aedcda44e287ab0c3914\",\n  \"items\": [\n    {\n      \"id\": \"baseboard-reveal-sage\",\n      \"version\": 2,\n      \"resourcePath\": \"prototype/public/company-assets/baseboard-v1/baseboard-reveal-sage/v2/resource.json\",\n      \"sha256\": \"63701b9f8d942c734e81ec9c9f17e99026a4242ffa65d012ea74f75498deeaaf\",\n      \"texturePath\": \"prototype/public/company-assets/baseboard-v1/baseboard-reveal-sage/v2/texture.png\",\n      \"textureSha256\": \"029337d5b013eeb1a6ccc71973550bcea3239e1b8843afc4307c095118a960fe\"\n    }\n  ]\n}"
+    },
+    {
+      "command": "scripts/company-platform/publish-room-appearance.mjs",
+      "args": [
+        "--check",
+        "assets-source/company-baseboard-v1/examples/reveal-sage-v2.json"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\baseboard-sage-receiver-v1\\attempt-01\\received\\source",
+      "stdout": "{\n  \"status\": \"unchanged\",\n  \"family\": \"baseboard\",\n  \"sourceParameters\": \"assets-source/company-baseboard-v1/examples/recipe-fa7bd8301a2f4e73ce721b61ad8da4aee55e95811127aedcda44e287ab0c3914.json\",\n  \"sourceParametersSha256\": \"fa7bd8301a2f4e73ce721b61ad8da4aee55e95811127aedcda44e287ab0c3914\",\n  \"items\": [\n    {\n      \"id\": \"baseboard-reveal-sage\",\n      \"version\": 2,\n      \"resourcePath\": \"prototype/public/company-assets/baseboard-v1/baseboard-reveal-sage/v2/resource.json\",\n      \"sha256\": \"63701b9f8d942c734e81ec9c9f17e99026a4242ffa65d012ea74f75498deeaaf\",\n      \"texturePath\": \"prototype/public/company-assets/baseboard-v1/baseboard-reveal-sage/v2/texture.png\",\n      \"textureSha256\": \"029337d5b013eeb1a6ccc71973550bcea3239e1b8843afc4307c095118a960fe\"\n    }\n  ]\n}"
+    },
+    {
+      "command": "scripts/company-platform/batch.mjs",
+      "args": [
+        "scripts/company-platform/batch-inputs/baseboard-rooms-receiver.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\baseboard-sage-receiver-v1\\attempt-01\\rooms"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\baseboard-sage-receiver-v1\\attempt-01\\received\\source",
+      "stdout": "{\n  \"schema\": \"company-batch-run\",\n  \"version\": 1,\n  \"ok\": true,\n  \"results\": [\n    {\n      \"key\": \"baseboard-studio\",\n      \"companyId\": \"baseboard-studio\",\n      \"status\": \"created\",\n      \"directory\": \"F:\\\\gamemake-company-platform-c1\\\\company-workspace\\\\production-trials\\\\baseboard-sage-receiver-v1\\\\attempt-01\\\\rooms\\\\baseboard-studio\",\n      \"files\": {\n        \"input.json\": {\n          \"bytes\": 1882,\n          \"sha256\": \"96e8f404e38d42175c21ba3190ba97db0371139e7dbdb159c8b39e063857f7df\"\n        },\n        \"layout.json\": {\n          \"bytes\": 2260,\n          \"sha256\": \"ed5497cf9f1764b77037b9dd548103e3ab21fc9e6f40a23845cc4ad2b3cfcdd3\"\n        },\n        \"save.json\": {\n          \"bytes\": 3106,\n          \"sha256\": \"414af6abe2465fa690d1deaa37b751b873e2c22ed71d393ba3fb315b8d233fe8\"\n        }\n      }\n    },\n    {\n      \"key\": \"baseboard-rental\",\n      \"companyId\": \"baseboard-rental\",\n      \"status\": \"created\",\n      \"directory\": \"F:\\\\gamemake-company-platform-c1\\\\company-workspace\\\\production-trials\\\\baseboard-sage-receiver-v1\\\\attempt-01\\\\rooms\\\\baseboard-rental\",\n      \"files\": {\n        \"input.json\": {\n          \"bytes\": 1552,\n          \"sha256\": \"94637e9f1393de4948e70b04319ec3063a2979cb48f49320dc226ae534f70c77\"\n        },\n        \"layout.json\": {\n          \"bytes\": 9138,\n          \"sha256\": \"6618d4bcf59c7b09d98fcd1eca59085a68f681a525a406d3877cea6da378e6da\"\n        },\n        \"save.json\": {\n          \"bytes\": 11805,\n          \"sha256\": \"4210212b70b1c9700f2682e35bb3ae014f2a9dee265d386de4c891eef1fe5f09\"\n        }\n      }\n    }\n  ]\n}"
+    },
+    {
+      "command": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\baseboard-sage-receiver-v1\\attempt-01\\rooms\\baseboard-studio\\save.json"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\baseboard-sage-receiver-v1\\attempt-01\\received",
+      "stdout": "{\n  \"ok\": true,\n  \"id\": \"baseboard-studio\",\n  \"revision\": 2,\n  \"floors\": [\n    \"baseboard-studio/ground\"\n  ]\n}"
+    },
+    {
+      "command": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\baseboard-sage-receiver-v1\\attempt-01\\rooms\\baseboard-rental\\save.json"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\baseboard-sage-receiver-v1\\attempt-01\\received",
+      "stdout": "{\n  \"ok\": true,\n  \"id\": \"baseboard-rental\",\n  \"revision\": 2,\n  \"floors\": [\n    \"baseboard-rental/ground\"\n  ]\n}"
+    },
+    {
+      "command": "scripts/build-company-id.mjs",
+      "args": [],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\baseboard-sage-receiver-v1\\attempt-01\\received\\source\\prototype",
+      "stdout": "4a5186d5f82a"
+    },
+    {
+      "command": "node_modules/vite/bin/vite.js",
+      "args": [
+        "build",
+        "--config",
+        "vite.company.config.js"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\baseboard-sage-receiver-v1\\attempt-01\\received\\source\\prototype",
+      "stdout": "vite v7.3.8 building client environment for production...\ntransforming...\n✓ 118 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist-company/company.html                    15.87 kB │ gzip:   5.06 kB\ndist-company/assets/company-DDdND_a6.css     14.86 kB │ gzip:   4.05 kB\ndist-company/assets/company-Dt5fz0-o.js   3,464.99 kB │ gzip: 779.71 kB\n✓ built in 4.59s",
+      "stderr": "(!) Some chunks are larger than 500 kB after minification. Consider:\n- Using dynamic import() to code-split the application\n- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks\n- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit."
+    },
+    {
+      "command": "scripts/company-platform/package-company.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\baseboard-sage-receiver-v1\\attempt-01\\received\\source\\prototype\\dist-company",
+        "4a5186d5f82a",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\baseboard-sage-receiver-v1\\attempt-01\\rooms\\baseboard-studio",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\baseboard-sage-receiver-v1\\attempt-01\\derived-delivery",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\baseboard-sage-receiver-v1\\attempt-01\\received\\source",
+        "--seat-contacts",
+        "--room",
+        "baseboard-studio",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\baseboard-sage-receiver-v1\\attempt-01\\rooms\\baseboard-studio",
+        "--room",
+        "baseboard-rental",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\baseboard-sage-receiver-v1\\attempt-01\\rooms\\baseboard-rental"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\baseboard-sage-receiver-v1\\attempt-01\\received\\source",
+      "stdout": "{\n  \"ok\": true,\n  \"buildId\": \"4a5186d5f82a\",\n  \"companyId\": \"baseboard-studio\",\n  \"rooms\": [\n    \"baseboard-studio\",\n    \"baseboard-rental\"\n  ],\n  \"files\": 1784,\n  \"output\": \"F:\\\\gamemake-company-platform-c1\\\\company-workspace\\\\production-trials\\\\baseboard-sage-receiver-v1\\\\attempt-01\\\\derived-delivery\"\n}"
+    },
+    {
+      "command": "verify.mjs",
+      "args": [
+        ".",
+        "8b49534c29f652fecf4118f39c5a971f025727d1f3bdeb6c8cb15c296881489a"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\baseboard-sage-receiver-v1\\attempt-01\\derived-delivery",
+      "stdout": "{\n  \"ok\": true,\n  \"build\": \"4a5186d5f82a\",\n  \"manifestSha256\": \"8b49534c29f652fecf4118f39c5a971f025727d1f3bdeb6c8cb15c296881489a\",\n  \"declaredFiles\": 1784,\n  \"checkedFiles\": 1784,\n  \"extraFiles\": 0,\n  \"changedFiles\": 0,\n  \"missingFiles\": 0\n}"
+    },
+    {
+      "command": "verify.mjs",
+      "args": [
+        ".",
+        "27c38767ee309797b920870cc5ce85e6d98e6b711df3c2fc3383030de0225c55"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\baseboards-v1",
+      "stdout": "{\n  \"ok\": true,\n  \"build\": \"64518e160ea1\",\n  \"manifestSha256\": \"27c38767ee309797b920870cc5ce85e6d98e6b711df3c2fc3383030de0225c55\",\n  \"declaredFiles\": 1784,\n  \"checkedFiles\": 1784,\n  \"extraFiles\": 0,\n  \"changedFiles\": 0,\n  \"missingFiles\": 0\n}"
+    }
+  ],
+  "installedPackageLockSha256": "36d6c687709e0e614c8e286770b7efb2f8f49134d45b87cb290a998da455335b",
+  "pristineReplay": {
+    "build": "64518e160ea1",
+    "viewerFiles": 519,
+    "batchFiles": {
+      "baseboard-studio/input.json": "daa4584ee239df9e028bdef77665304d4a9368d9d4e7d297af08177f920ae6b6",
+      "baseboard-studio/layout.json": "0b05cf28b5c3afe6a03337b7f66d5f0b786c72b75b8315eed78e5fcef912d841",
+      "baseboard-studio/save.json": "7ac8ab061103d59866f92bc32dcf4b201b69942fd0c1dd591c04b40daba7d716",
+      "baseboard-studio/report.json": "b1ab979d87b64cd7fa987f405286663aa53fa131af00ab5ba925cc030ec21bbb",
+      "baseboard-rental/input.json": "94637e9f1393de4948e70b04319ec3063a2979cb48f49320dc226ae534f70c77",
+      "baseboard-rental/layout.json": "6618d4bcf59c7b09d98fcd1eca59085a68f681a525a406d3877cea6da378e6da",
+      "baseboard-rental/save.json": "4210212b70b1c9700f2682e35bb3ae014f2a9dee265d386de4c891eef1fe5f09",
+      "baseboard-rental/report.json": "af040a17c3173efb75c5e0d47f7c279b12b6f09f4b593b3a45eb9bd986c762f5"
+    }
+  },
+  "production": {
+    "published": {
+      "status": "published",
+      "family": "baseboard",
+      "sourceParameters": "assets-source/company-baseboard-v1/examples/recipe-fa7bd8301a2f4e73ce721b61ad8da4aee55e95811127aedcda44e287ab0c3914.json",
+      "sourceParametersSha256": "fa7bd8301a2f4e73ce721b61ad8da4aee55e95811127aedcda44e287ab0c3914",
+      "items": [
+        {
+          "id": "baseboard-reveal-sage",
+          "version": 2,
+          "resourcePath": "prototype/public/company-assets/baseboard-v1/baseboard-reveal-sage/v2/resource.json",
+          "sha256": "63701b9f8d942c734e81ec9c9f17e99026a4242ffa65d012ea74f75498deeaaf",
+          "texturePath": "prototype/public/company-assets/baseboard-v1/baseboard-reveal-sage/v2/texture.png",
+          "textureSha256": "029337d5b013eeb1a6ccc71973550bcea3239e1b8843afc4307c095118a960fe"
+        }
+      ]
+    },
+    "repeated": {
+      "status": "unchanged",
+      "family": "baseboard",
+      "sourceParameters": "assets-source/company-baseboard-v1/examples/recipe-fa7bd8301a2f4e73ce721b61ad8da4aee55e95811127aedcda44e287ab0c3914.json",
+      "sourceParametersSha256": "fa7bd8301a2f4e73ce721b61ad8da4aee55e95811127aedcda44e287ab0c3914",
+      "items": [
+        {
+          "id": "baseboard-reveal-sage",
+          "version": 2,
+          "resourcePath": "prototype/public/company-assets/baseboard-v1/baseboard-reveal-sage/v2/resource.json",
+          "sha256": "63701b9f8d942c734e81ec9c9f17e99026a4242ffa65d012ea74f75498deeaaf",
+          "texturePath": "prototype/public/company-assets/baseboard-v1/baseboard-reveal-sage/v2/texture.png",
+          "textureSha256": "029337d5b013eeb1a6ccc71973550bcea3239e1b8843afc4307c095118a960fe"
+        }
+      ]
+    },
+    "resource": {
+      "id": "baseboard-reveal-sage",
+      "version": 2,
+      "kind": "surface-finish",
+      "mountRole": "surface-finish",
+      "displayName": "灰绿踢脚线 · 宽上口退槽",
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z"
+      },
+      "materialSlots": {
+        "finish": [
+          "finish-surface"
+        ]
+      },
+      "stateDefaults": {},
+      "finish": {
+        "allowedSurfaces": [
+          "baseboard"
+        ],
+        "materialNode": "finish-surface",
+        "tileMeters": [
+          0.94,
+          0.12
+        ],
+        "profile": [
+          [
+            0,
+            0
+          ],
+          [
+            0.02,
+            0
+          ],
+          [
+            0.02,
+            0.086
+          ],
+          [
+            0.014,
+            0.086
+          ],
+          [
+            0.014,
+            0.12
+          ],
+          [
+            0,
+            0.12
+          ]
+        ]
+      },
+      "provenance": {
+        "license": "Project-authored procedural material and solid profile geometry.",
+        "sourceParameters": "assets-source/company-baseboard-v1/examples/recipe-fa7bd8301a2f4e73ce721b61ad8da4aee55e95811127aedcda44e287ab0c3914.json",
+        "sourceParametersSha256": "fa7bd8301a2f4e73ce721b61ad8da4aee55e95811127aedcda44e287ab0c3914",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "environmentBranch": "baseboard-and-edge",
+        "generator": "scripts/company-platform/build-baseboards.mjs",
+        "generatorSha256": "b45e6066dc62d6920a11cd55f6bf81838c29c94df0ec8c5724a1950d678ef23f",
+        "sourceDesign": "mineral",
+        "tools": [
+          "Three.js 187 GLTFExporter",
+          "pngjs 7.0.0"
+        ]
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/baseboard-v1/baseboard-reveal-sage/v2/model.glb",
+        "sha256": "63701b9f8d942c734e81ec9c9f17e99026a4242ffa65d012ea74f75498deeaaf",
+        "bytes": 37160
+      }
+    }
+  },
+  "batch": {
+    "changedRoom": "baseboard-studio/ground/live",
+    "originalInputSha256": "7c0e994bb75fa5f89a5b3fee1e0b907fc8117051b80ce5c9e2acdc3f05e4bdef",
+    "newInputSha256": "d67aab3a5089e9b115307eb962f864ffc22d95f7fca17e2081e0bca590188994",
+    "rentalUnchanged": true,
+    "studioSaveSha256": "414af6abe2465fa690d1deaa37b751b873e2c22ed71d393ba3fb315b8d233fe8",
+    "rentalSaveSha256": "4210212b70b1c9700f2682e35bb3ae014f2a9dee265d386de4c891eef1fe5f09"
+  },
+  "derived": {
+    "build": "4a5186d5f82a",
+    "sourceDigest": "4a5186d5f82a8ca3c720430267bf61451d492fddccf59cd9a6144f9d74a84cfd",
+    "manifestSha256": "8b49534c29f652fecf4118f39c5a971f025727d1f3bdeb6c8cb15c296881489a",
+    "checkedFiles": 1784
+  },
+  "originalVerifiedAfterProduction": true
+}

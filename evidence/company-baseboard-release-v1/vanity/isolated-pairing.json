@@ -1,0 +1,1871 @@
+{
+  "status": "passed",
+  "scope": "Read-only isolated adapter trial",
+  "inputs": {
+    "scripts/company-platform/library-inputs.json": "5020f02ba80cf8d4f1aa13ca1914fb03da0e51e3b60bca0e04da353d2edc1961",
+    "prototype/public/company-assets/seat-collection/collection.json": "df96ec17a928adb6efb4328919d6514d8d5b1515aec51ef4b3310867e291eafb",
+    "prototype/public/company-assets/seat-collection/chair-ladder/v1/resource.json": "2b1444970c35c7f47b5a4597cba1b5025b7a0c227a0a71e94241486be6049b68",
+    "prototype/public/company-assets/seat-collection/chair-ladder/v1/model.glb": "1e207a753a5d46371076a1e616366fa24ab3223becf1261f67013fdd7484100c",
+    "prototype/src/company/templates-extended.json": "627087dfd216881565f4d232da9b83a0c8bdccb6404f5830ed11672ca7b050e9",
+    "company-workspace/deliveries/gamemake-company-vanity-delivery-b36-v2/transfer-manifest.json": "6f38a03d50b7be9c5528a0b3f999731331e0202969d5abc660bee04fe5173e6c",
+    "prototype/src/company/examples/c1-vanity-display.json": "b31853004a7eb5ba579349b3e4dbedbf7210957f487d3e0fa011e0c27fae2e60",
+    "company-workspace/deliveries/gamemake-company-vanity-delivery-b36-v2/data/save.json": "37fdf235aa29506579a80c62c34b61b49097941b74f28a986f9e81fa55673f4b"
+  },
+  "runs": [
+    {
+      "name": "single-room",
+      "source": "prototype/src/company/examples/c1-vanity-display.json",
+      "sourceSha256": "b31853004a7eb5ba579349b3e4dbedbf7210957f487d3e0fa011e0c27fae2e60",
+      "initialFile": "output/vanity-seat-contact-v2/trial-hrqTmJ/single-room/original.save.json",
+      "initialSha256": "923c2e73ea958639b335964cf4173a9e59d66cd5ce5c1ee12f857c2e10ef401e",
+      "finalFile": "output/vanity-seat-contact-v2/trial-hrqTmJ/single-room/save.json",
+      "finalSha256": "d1db5774bef43e9ef4321e29eb895f2b1cf9f0391a1260dd0a63e5b77d9cf444",
+      "seats": [
+        "vanity/primary/seat"
+      ],
+      "initialCpuRays": [
+        {
+          "instanceId": "vanity/primary/seat",
+          "resource": {
+            "id": "vanity-chair-side-entry",
+            "version": 1
+          },
+          "floorId": "appearance-vanity-table/floor-1",
+          "roomId": "appearance-vanity-table/room-1",
+          "pointId": "seat",
+          "usePointId": "vanity/primary/seat#seat",
+          "seatNodeId": "chair-seat",
+          "expectedHeight": 0.47,
+          "status": "failed",
+          "geometry": "procedural",
+          "transform": {
+            "position": [
+              -0.98,
+              0,
+              -0.75
+            ],
+            "yaw": 3.141592653589793
+          },
+          "expectedWorldY": 0.47,
+          "actualHeight": 0.4750000001490116,
+          "error": 0.005000000149011641,
+          "failures": [
+            "seat-height-mismatch"
+          ],
+          "samples": [
+            {
+              "name": "centre",
+              "offset": [
+                0,
+                0,
+                0
+              ],
+              "rayOrigin": [
+                -0.98,
+                0.5750000001490116,
+                -0.75
+              ],
+              "hit": [
+                -0.98,
+                0.4750000001490116,
+                -0.75
+              ],
+              "actualHeight": 0.4750000001490116,
+              "error": 0.005000000149011641,
+              "code": "seat-height-mismatch"
+            },
+            {
+              "name": "left",
+              "offset": [
+                -0.02,
+                0,
+                0
+              ],
+              "rayOrigin": [
+                -0.96,
+                0.5750000001490116,
+                -0.75
+              ],
+              "hit": [
+                -0.96,
+                0.4750000001490116,
+                -0.75
+              ],
+              "actualHeight": 0.4750000001490116,
+              "error": 0.005000000149011641,
+              "code": "seat-height-mismatch"
+            },
+            {
+              "name": "right",
+              "offset": [
+                0.02,
+                0,
+                0
+              ],
+              "rayOrigin": [
+                -1,
+                0.5750000001490116,
+                -0.75
+              ],
+              "hit": [
+                -0.9999999999999999,
+                0.4750000001490116,
+                -0.75
+              ],
+              "actualHeight": 0.4750000001490116,
+              "error": 0.005000000149011641,
+              "code": "seat-height-mismatch"
+            },
+            {
+              "name": "rear",
+              "offset": [
+                0,
+                0,
+                -0.02
+              ],
+              "rayOrigin": [
+                -0.98,
+                0.5750000001490116,
+                -0.73
+              ],
+              "hit": [
+                -0.98,
+                0.4750000001490116,
+                -0.73
+              ],
+              "actualHeight": 0.4750000001490116,
+              "error": 0.005000000149011641,
+              "code": "seat-height-mismatch"
+            },
+            {
+              "name": "front",
+              "offset": [
+                0,
+                0,
+                0.02
+              ],
+              "rayOrigin": [
+                -0.98,
+                0.5750000001490116,
+                -0.77
+              ],
+              "hit": [
+                -0.98,
+                0.4750000001490116,
+                -0.77
+              ],
+              "actualHeight": 0.4750000001490116,
+              "error": 0.005000000149011641,
+              "code": "seat-height-mismatch"
+            }
+          ]
+        }
+      ],
+      "correctedCpuRays": [
+        {
+          "instanceId": "vanity/primary/seat",
+          "resource": {
+            "id": "vanity-chair-side-entry",
+            "version": 2
+          },
+          "floorId": "appearance-vanity-table/floor-1",
+          "roomId": "appearance-vanity-table/room-1",
+          "pointId": "seat",
+          "usePointId": "vanity/primary/seat#seat",
+          "seatNodeId": "chair-seat",
+          "expectedHeight": 0.47,
+          "status": "passed",
+          "geometry": "glb",
+          "transform": {
+            "position": [
+              -0.98,
+              0,
+              -0.75
+            ],
+            "yaw": 3.141592653589793
+          },
+          "expectedWorldY": 0.47,
+          "actualHeight": 0.4700000001490116,
+          "error": 1.490116363633831e-10,
+          "failures": [],
+          "samples": [
+            {
+              "name": "centre",
+              "offset": [
+                0,
+                0,
+                0
+              ],
+              "rayOrigin": [
+                -0.98,
+                0.5700000001490116,
+                -0.75
+              ],
+              "hit": [
+                -0.98,
+                0.4700000001490116,
+                -0.75
+              ],
+              "actualHeight": 0.4700000001490116,
+              "error": 1.490116363633831e-10
+            },
+            {
+              "name": "left",
+              "offset": [
+                -0.02,
+                0,
+                0
+              ],
+              "rayOrigin": [
+                -0.96,
+                0.5700000001490116,
+                -0.75
+              ],
+              "hit": [
+                -0.96,
+                0.4700000001490116,
+                -0.75
+              ],
+              "actualHeight": 0.4700000001490116,
+              "error": 1.490116363633831e-10
+            },
+            {
+              "name": "right",
+              "offset": [
+                0.02,
+                0,
+                0
+              ],
+              "rayOrigin": [
+                -1,
+                0.5700000001490116,
+                -0.75
+              ],
+              "hit": [
+                -0.9999999999999999,
+                0.4700000001490116,
+                -0.75
+              ],
+              "actualHeight": 0.4700000001490116,
+              "error": 1.490116363633831e-10
+            },
+            {
+              "name": "rear",
+              "offset": [
+                0,
+                0,
+                -0.02
+              ],
+              "rayOrigin": [
+                -0.98,
+                0.5700000001490116,
+                -0.73
+              ],
+              "hit": [
+                -0.98,
+                0.4700000001490116,
+                -0.73
+              ],
+              "actualHeight": 0.4700000001490116,
+              "error": 1.490116363633831e-10
+            },
+            {
+              "name": "front",
+              "offset": [
+                0,
+                0,
+                0.02
+              ],
+              "rayOrigin": [
+                -0.98,
+                0.5700000001490116,
+                -0.77
+              ],
+              "hit": [
+                -0.98,
+                0.4700000001490116,
+                -0.77
+              ],
+              "actualHeight": 0.4700000001490116,
+              "error": 1.490116363633831e-10
+            }
+          ]
+        }
+      ],
+      "vanillaPlacementIdentical": true,
+      "pairedTables": [
+        {
+          "facilityId": "vanity/primary",
+          "roomId": "appearance-vanity-table/room-1",
+          "floorId": "appearance-vanity-table/floor-1",
+          "seatId": "vanity/primary/seat",
+          "reserve": {
+            "min": [
+              -2,
+              -1.05
+            ],
+            "max": [
+              0,
+              0.19999999999999996
+            ]
+          }
+        }
+      ],
+      "browser": [
+        {
+          "oldImage": "output/vanity-seat-contact-v2/trial-hrqTmJ/single-room/room-1-old.png",
+          "image": "output/vanity-seat-contact-v2/trial-hrqTmJ/single-room/room-1-corrected.png",
+          "before": {
+            "contact": {
+              "id": "vanity/primary/seat#seat",
+              "companyId": "appearance-vanity-table",
+              "revision": 1,
+              "facilityId": "vanity/primary/seat",
+              "floorId": "appearance-vanity-table/floor-1",
+              "roomId": "appearance-vanity-table/room-1",
+              "resource": {
+                "id": "vanity-chair-side-entry",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  -0.98,
+                  0,
+                  -0.75
+                ],
+                "yaw": 3.141592653589793
+              },
+              "facilityTransform": {
+                "position": [
+                  -0.98,
+                  0,
+                  -0.75
+                ],
+                "yaw": 3.141592653589793
+              },
+              "local": {
+                "coordinateSpace": "facility",
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0,
+                "approach": [
+                  -0.65,
+                  0,
+                  0
+                ],
+                "exit": [
+                  0.65,
+                  0,
+                  0
+                ]
+              },
+              "approachPosition": [
+                -0.32999999999999996,
+                0,
+                -0.7499999999999999
+              ],
+              "exitPosition": [
+                -1.63,
+                0,
+                -0.7500000000000001
+              ],
+              "seatHeight": 0.47,
+              "capacity": 1,
+              "clearance": {
+                "width": 0.7,
+                "depth": 0.65
+              },
+              "footprint": {
+                "center": [
+                  0,
+                  0
+                ],
+                "halfSize": [
+                  0.275,
+                  0.255
+                ],
+                "blocking": true
+              },
+              "contact": {
+                "seatNodeId": "chair-seat",
+                "backNodeId": "chair-back"
+              },
+              "missingFields": [],
+              "limitations": [
+                "Static side-entry vanity reserve only; real body fitting, entry and sitting remain C3."
+              ]
+            },
+            "parent": "appearance-vanity-table/room-1",
+            "seatMesh": "chair-seat",
+            "backMesh": "chair-back",
+            "chairInTable": [
+              0.020000000000000018,
+              0,
+              0.55
+            ],
+            "approachInTable": [
+              0.67,
+              0,
+              0.5500000000000002
+            ],
+            "exitInTable": [
+              -0.6299999999999999,
+              0,
+              0.5499999999999999
+            ],
+            "orientation": -1,
+            "clearance": 0.04999999999999999,
+            "tabletop": 0.7799999713897705,
+            "samples": [
+              {
+                "offset": [
+                  0,
+                  0
+                ],
+                "height": 0.47500000014901156,
+                "triangle": 4
+              },
+              {
+                "offset": [
+                  -0.1,
+                  0
+                ],
+                "height": 0.47500000014901156,
+                "triangle": 4
+              },
+              {
+                "offset": [
+                  0.1,
+                  0
+                ],
+                "height": 0.47500000014901156,
+                "triangle": 5
+              },
+              {
+                "offset": [
+                  0,
+                  -0.08
+                ],
+                "height": 0.47500000014901167,
+                "triangle": 4
+              },
+              {
+                "offset": [
+                  0,
+                  0.08
+                ],
+                "height": 0.47500000014901156,
+                "triangle": 5
+              }
+            ],
+            "renderError": null
+          },
+          "after": {
+            "contact": {
+              "id": "vanity/primary/seat#seat",
+              "companyId": "appearance-vanity-table",
+              "revision": 2,
+              "facilityId": "vanity/primary/seat",
+              "floorId": "appearance-vanity-table/floor-1",
+              "roomId": "appearance-vanity-table/room-1",
+              "resource": {
+                "id": "vanity-chair-side-entry",
+                "version": 2
+              },
+              "transform": {
+                "position": [
+                  -0.98,
+                  0,
+                  -0.75
+                ],
+                "yaw": 3.141592653589793
+              },
+              "facilityTransform": {
+                "position": [
+                  -0.98,
+                  0,
+                  -0.75
+                ],
+                "yaw": 3.141592653589793
+              },
+              "local": {
+                "coordinateSpace": "facility",
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0,
+                "approach": [
+                  -0.65,
+                  0,
+                  0
+                ],
+                "exit": [
+                  0.65,
+                  0,
+                  0
+                ]
+              },
+              "approachPosition": [
+                -0.32999999999999996,
+                0,
+                -0.7499999999999999
+              ],
+              "exitPosition": [
+                -1.63,
+                0,
+                -0.7500000000000001
+              ],
+              "seatHeight": 0.47,
+              "capacity": 1,
+              "clearance": {
+                "width": 0.7,
+                "depth": 0.65
+              },
+              "footprint": {
+                "center": [
+                  0,
+                  0
+                ],
+                "halfSize": [
+                  0.275,
+                  0.255
+                ],
+                "blocking": true
+              },
+              "contact": {
+                "seatNodeId": "chair-seat",
+                "backNodeId": "chair-back"
+              },
+              "missingFields": [],
+              "limitations": [
+                "Static side-entry vanity reserve only; real body fitting, entry and sitting remain C3."
+              ]
+            },
+            "parent": "appearance-vanity-table/room-1",
+            "seatMesh": "chair-seat",
+            "backMesh": "chair-back",
+            "chairInTable": [
+              0.020000000000000018,
+              0,
+              0.55
+            ],
+            "approachInTable": [
+              0.67,
+              0,
+              0.5500000000000002
+            ],
+            "exitInTable": [
+              -0.6299999999999999,
+              0,
+              0.5499999999999999
+            ],
+            "orientation": -1,
+            "clearance": 0.04999999999999999,
+            "tabletop": 0.7799999713897705,
+            "samples": [
+              {
+                "offset": [
+                  0,
+                  0
+                ],
+                "height": 0.4700000001490116,
+                "triangle": 244
+              },
+              {
+                "offset": [
+                  -0.1,
+                  0
+                ],
+                "height": 0.47000000014901155,
+                "triangle": 244
+              },
+              {
+                "offset": [
+                  0.1,
+                  0
+                ],
+                "height": 0.4700000001490116,
+                "triangle": 245
+              },
+              {
+                "offset": [
+                  0,
+                  -0.08
+                ],
+                "height": 0.47000000014901167,
+                "triangle": 244
+              },
+              {
+                "offset": [
+                  0,
+                  0.08
+                ],
+                "height": 0.47000000014901167,
+                "triangle": 245
+              }
+            ],
+            "renderError": null
+          },
+          "restored": "output/vanity-seat-contact-v2/trial-hrqTmJ/single-room/room-1-restored.png"
+        }
+      ],
+      "browserRestarted": true
+    },
+    {
+      "name": "two-rooms",
+      "source": "company-workspace/deliveries/gamemake-company-vanity-delivery-b36-v2/data/save.json",
+      "sourceSha256": "37fdf235aa29506579a80c62c34b61b49097941b74f28a986f9e81fa55673f4b",
+      "initialFile": "output/vanity-seat-contact-v2/trial-hrqTmJ/two-rooms/original.save.json",
+      "initialSha256": "37fdf235aa29506579a80c62c34b61b49097941b74f28a986f9e81fa55673f4b",
+      "finalFile": "output/vanity-seat-contact-v2/trial-hrqTmJ/two-rooms/save.json",
+      "finalSha256": "9d7b3937c0529230735222dc6781a8de14daa99050007833f8ef904144d9d62e",
+      "seats": [
+        "vanity/primary/seat",
+        "vanity/secondary/seat"
+      ],
+      "initialCpuRays": [
+        {
+          "instanceId": "vanity/primary/seat",
+          "resource": {
+            "id": "vanity-chair-side-entry",
+            "version": 1
+          },
+          "floorId": "vanity-alternate/floor-1",
+          "roomId": "vanity-alternate/room-1",
+          "pointId": "seat",
+          "usePointId": "vanity/primary/seat#seat",
+          "seatNodeId": "chair-seat",
+          "expectedHeight": 0.47,
+          "status": "failed",
+          "geometry": "procedural",
+          "transform": {
+            "position": [
+              -0.98,
+              0,
+              -0.75
+            ],
+            "yaw": 3.141592653589793
+          },
+          "expectedWorldY": 0.47,
+          "actualHeight": 0.4750000001490116,
+          "error": 0.005000000149011641,
+          "failures": [
+            "seat-height-mismatch"
+          ],
+          "samples": [
+            {
+              "name": "centre",
+              "offset": [
+                0,
+                0,
+                0
+              ],
+              "rayOrigin": [
+                -0.98,
+                0.5750000001490116,
+                -0.75
+              ],
+              "hit": [
+                -0.98,
+                0.4750000001490116,
+                -0.75
+              ],
+              "actualHeight": 0.4750000001490116,
+              "error": 0.005000000149011641,
+              "code": "seat-height-mismatch"
+            },
+            {
+              "name": "left",
+              "offset": [
+                -0.02,
+                0,
+                0
+              ],
+              "rayOrigin": [
+                -0.96,
+                0.5750000001490116,
+                -0.75
+              ],
+              "hit": [
+                -0.96,
+                0.4750000001490116,
+                -0.75
+              ],
+              "actualHeight": 0.4750000001490116,
+              "error": 0.005000000149011641,
+              "code": "seat-height-mismatch"
+            },
+            {
+              "name": "right",
+              "offset": [
+                0.02,
+                0,
+                0
+              ],
+              "rayOrigin": [
+                -1,
+                0.5750000001490116,
+                -0.75
+              ],
+              "hit": [
+                -0.9999999999999999,
+                0.4750000001490116,
+                -0.75
+              ],
+              "actualHeight": 0.4750000001490116,
+              "error": 0.005000000149011641,
+              "code": "seat-height-mismatch"
+            },
+            {
+              "name": "rear",
+              "offset": [
+                0,
+                0,
+                -0.02
+              ],
+              "rayOrigin": [
+                -0.98,
+                0.5750000001490116,
+                -0.73
+              ],
+              "hit": [
+                -0.98,
+                0.4750000001490116,
+                -0.73
+              ],
+              "actualHeight": 0.4750000001490116,
+              "error": 0.005000000149011641,
+              "code": "seat-height-mismatch"
+            },
+            {
+              "name": "front",
+              "offset": [
+                0,
+                0,
+                0.02
+              ],
+              "rayOrigin": [
+                -0.98,
+                0.5750000001490116,
+                -0.77
+              ],
+              "hit": [
+                -0.98,
+                0.4750000001490116,
+                -0.77
+              ],
+              "actualHeight": 0.4750000001490116,
+              "error": 0.005000000149011641,
+              "code": "seat-height-mismatch"
+            }
+          ]
+        },
+        {
+          "instanceId": "vanity/secondary/seat",
+          "resource": {
+            "id": "vanity-chair-side-entry",
+            "version": 1
+          },
+          "floorId": "vanity-alternate/floor-1",
+          "roomId": "vanity-alternate/room-2",
+          "pointId": "seat",
+          "usePointId": "vanity/secondary/seat#seat",
+          "seatNodeId": "chair-seat",
+          "expectedHeight": 0.47,
+          "status": "failed",
+          "geometry": "procedural",
+          "transform": {
+            "position": [
+              8.55,
+              0,
+              -1.02
+            ],
+            "yaw": 4.71238898038469
+          },
+          "expectedWorldY": 0.47,
+          "actualHeight": 0.4750000001490116,
+          "error": 0.005000000149011641,
+          "failures": [
+            "seat-height-mismatch"
+          ],
+          "samples": [
+            {
+              "name": "centre",
+              "offset": [
+                0,
+                0,
+                0
+              ],
+              "rayOrigin": [
+                8.55,
+                0.5750000001490116,
+                -1.02
+              ],
+              "hit": [
+                8.55,
+                0.4750000001490116,
+                -1.02
+              ],
+              "actualHeight": 0.4750000001490116,
+              "error": 0.005000000149011641,
+              "code": "seat-height-mismatch"
+            },
+            {
+              "name": "left",
+              "offset": [
+                -0.02,
+                0,
+                0
+              ],
+              "rayOrigin": [
+                8.55,
+                0.5750000001490116,
+                -1.04
+              ],
+              "hit": [
+                8.55,
+                0.4750000001490116,
+                -1.04
+              ],
+              "actualHeight": 0.4750000001490116,
+              "error": 0.005000000149011641,
+              "code": "seat-height-mismatch"
+            },
+            {
+              "name": "right",
+              "offset": [
+                0.02,
+                0,
+                0
+              ],
+              "rayOrigin": [
+                8.55,
+                0.5750000001490116,
+                -1
+              ],
+              "hit": [
+                8.55,
+                0.4750000001490116,
+                -1
+              ],
+              "actualHeight": 0.4750000001490116,
+              "error": 0.005000000149011641,
+              "code": "seat-height-mismatch"
+            },
+            {
+              "name": "rear",
+              "offset": [
+                0,
+                0,
+                -0.02
+              ],
+              "rayOrigin": [
+                8.57,
+                0.5750000001490116,
+                -1.02
+              ],
+              "hit": [
+                8.57,
+                0.4750000001490116,
+                -1.02
+              ],
+              "actualHeight": 0.4750000001490116,
+              "error": 0.005000000149011641,
+              "code": "seat-height-mismatch"
+            },
+            {
+              "name": "front",
+              "offset": [
+                0,
+                0,
+                0.02
+              ],
+              "rayOrigin": [
+                8.530000000000001,
+                0.5750000001490116,
+                -1.02
+              ],
+              "hit": [
+                8.530000000000001,
+                0.4750000001490116,
+                -1.02
+              ],
+              "actualHeight": 0.4750000001490116,
+              "error": 0.005000000149011641,
+              "code": "seat-height-mismatch"
+            }
+          ]
+        }
+      ],
+      "correctedCpuRays": [
+        {
+          "instanceId": "vanity/primary/seat",
+          "resource": {
+            "id": "vanity-chair-side-entry",
+            "version": 2
+          },
+          "floorId": "vanity-alternate/floor-1",
+          "roomId": "vanity-alternate/room-1",
+          "pointId": "seat",
+          "usePointId": "vanity/primary/seat#seat",
+          "seatNodeId": "chair-seat",
+          "expectedHeight": 0.47,
+          "status": "passed",
+          "geometry": "glb",
+          "transform": {
+            "position": [
+              -0.98,
+              0,
+              -0.75
+            ],
+            "yaw": 3.141592653589793
+          },
+          "expectedWorldY": 0.47,
+          "actualHeight": 0.4700000001490116,
+          "error": 1.490116363633831e-10,
+          "failures": [],
+          "samples": [
+            {
+              "name": "centre",
+              "offset": [
+                0,
+                0,
+                0
+              ],
+              "rayOrigin": [
+                -0.98,
+                0.5700000001490116,
+                -0.75
+              ],
+              "hit": [
+                -0.98,
+                0.4700000001490116,
+                -0.75
+              ],
+              "actualHeight": 0.4700000001490116,
+              "error": 1.490116363633831e-10
+            },
+            {
+              "name": "left",
+              "offset": [
+                -0.02,
+                0,
+                0
+              ],
+              "rayOrigin": [
+                -0.96,
+                0.5700000001490116,
+                -0.75
+              ],
+              "hit": [
+                -0.96,
+                0.4700000001490116,
+                -0.75
+              ],
+              "actualHeight": 0.4700000001490116,
+              "error": 1.490116363633831e-10
+            },
+            {
+              "name": "right",
+              "offset": [
+                0.02,
+                0,
+                0
+              ],
+              "rayOrigin": [
+                -1,
+                0.5700000001490116,
+                -0.75
+              ],
+              "hit": [
+                -0.9999999999999999,
+                0.4700000001490116,
+                -0.75
+              ],
+              "actualHeight": 0.4700000001490116,
+              "error": 1.490116363633831e-10
+            },
+            {
+              "name": "rear",
+              "offset": [
+                0,
+                0,
+                -0.02
+              ],
+              "rayOrigin": [
+                -0.98,
+                0.5700000001490116,
+                -0.73
+              ],
+              "hit": [
+                -0.98,
+                0.4700000001490116,
+                -0.73
+              ],
+              "actualHeight": 0.4700000001490116,
+              "error": 1.490116363633831e-10
+            },
+            {
+              "name": "front",
+              "offset": [
+                0,
+                0,
+                0.02
+              ],
+              "rayOrigin": [
+                -0.98,
+                0.5700000001490116,
+                -0.77
+              ],
+              "hit": [
+                -0.98,
+                0.4700000001490116,
+                -0.77
+              ],
+              "actualHeight": 0.4700000001490116,
+              "error": 1.490116363633831e-10
+            }
+          ]
+        },
+        {
+          "instanceId": "vanity/secondary/seat",
+          "resource": {
+            "id": "vanity-chair-side-entry",
+            "version": 2
+          },
+          "floorId": "vanity-alternate/floor-1",
+          "roomId": "vanity-alternate/room-2",
+          "pointId": "seat",
+          "usePointId": "vanity/secondary/seat#seat",
+          "seatNodeId": "chair-seat",
+          "expectedHeight": 0.47,
+          "status": "passed",
+          "geometry": "glb",
+          "transform": {
+            "position": [
+              8.55,
+              0,
+              -1.02
+            ],
+            "yaw": 4.71238898038469
+          },
+          "expectedWorldY": 0.47,
+          "actualHeight": 0.4700000001490116,
+          "error": 1.490116363633831e-10,
+          "failures": [],
+          "samples": [
+            {
+              "name": "centre",
+              "offset": [
+                0,
+                0,
+                0
+              ],
+              "rayOrigin": [
+                8.55,
+                0.5700000001490116,
+                -1.02
+              ],
+              "hit": [
+                8.55,
+                0.4700000001490116,
+                -1.02
+              ],
+              "actualHeight": 0.4700000001490116,
+              "error": 1.490116363633831e-10
+            },
+            {
+              "name": "left",
+              "offset": [
+                -0.02,
+                0,
+                0
+              ],
+              "rayOrigin": [
+                8.55,
+                0.5700000001490116,
+                -1.04
+              ],
+              "hit": [
+                8.55,
+                0.4700000001490116,
+                -1.04
+              ],
+              "actualHeight": 0.4700000001490116,
+              "error": 1.490116363633831e-10
+            },
+            {
+              "name": "right",
+              "offset": [
+                0.02,
+                0,
+                0
+              ],
+              "rayOrigin": [
+                8.55,
+                0.5700000001490116,
+                -1
+              ],
+              "hit": [
+                8.55,
+                0.4700000001490116,
+                -1
+              ],
+              "actualHeight": 0.4700000001490116,
+              "error": 1.490116363633831e-10
+            },
+            {
+              "name": "rear",
+              "offset": [
+                0,
+                0,
+                -0.02
+              ],
+              "rayOrigin": [
+                8.57,
+                0.5700000001490116,
+                -1.02
+              ],
+              "hit": [
+                8.57,
+                0.4700000001490116,
+                -1.02
+              ],
+              "actualHeight": 0.4700000001490116,
+              "error": 1.490116363633831e-10
+            },
+            {
+              "name": "front",
+              "offset": [
+                0,
+                0,
+                0.02
+              ],
+              "rayOrigin": [
+                8.530000000000001,
+                0.5700000001490116,
+                -1.02
+              ],
+              "hit": [
+                8.530000000000001,
+                0.4700000001490116,
+                -1.02
+              ],
+              "actualHeight": 0.4700000001490116,
+              "error": 1.490116363633831e-10
+            }
+          ]
+        }
+      ],
+      "vanillaPlacementIdentical": true,
+      "pairedTables": [
+        {
+          "facilityId": "vanity/primary",
+          "roomId": "vanity-alternate/room-1",
+          "floorId": "vanity-alternate/floor-1",
+          "seatId": "vanity/primary/seat",
+          "reserve": {
+            "min": [
+              -2,
+              -1.05
+            ],
+            "max": [
+              0,
+              0.19999999999999996
+            ]
+          }
+        },
+        {
+          "facilityId": "vanity/secondary",
+          "roomId": "vanity-alternate/room-2",
+          "floorId": "vanity-alternate/floor-1",
+          "seatId": "vanity/secondary/seat",
+          "reserve": {
+            "min": [
+              8.25,
+              -2
+            ],
+            "max": [
+              9.5,
+              9.184850993605148e-17
+            ]
+          }
+        }
+      ],
+      "browser": [
+        {
+          "oldImage": "output/vanity-seat-contact-v2/trial-hrqTmJ/two-rooms/room-1-old.png",
+          "image": "output/vanity-seat-contact-v2/trial-hrqTmJ/two-rooms/room-1-corrected.png",
+          "before": {
+            "contact": {
+              "id": "vanity/primary/seat#seat",
+              "companyId": "vanity-alternate",
+              "revision": 1,
+              "facilityId": "vanity/primary/seat",
+              "floorId": "vanity-alternate/floor-1",
+              "roomId": "vanity-alternate/room-1",
+              "resource": {
+                "id": "vanity-chair-side-entry",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  -0.98,
+                  0,
+                  -0.75
+                ],
+                "yaw": 3.141592653589793
+              },
+              "facilityTransform": {
+                "position": [
+                  -0.98,
+                  0,
+                  -0.75
+                ],
+                "yaw": 3.141592653589793
+              },
+              "local": {
+                "coordinateSpace": "facility",
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0,
+                "approach": [
+                  -0.65,
+                  0,
+                  0
+                ],
+                "exit": [
+                  0.65,
+                  0,
+                  0
+                ]
+              },
+              "approachPosition": [
+                -0.32999999999999996,
+                0,
+                -0.7499999999999999
+              ],
+              "exitPosition": [
+                -1.63,
+                0,
+                -0.7500000000000001
+              ],
+              "seatHeight": 0.47,
+              "capacity": 1,
+              "clearance": {
+                "width": 0.7,
+                "depth": 0.65
+              },
+              "footprint": {
+                "center": [
+                  0,
+                  0
+                ],
+                "halfSize": [
+                  0.275,
+                  0.255
+                ],
+                "blocking": true
+              },
+              "contact": {
+                "seatNodeId": "chair-seat",
+                "backNodeId": "chair-back"
+              },
+              "missingFields": [],
+              "limitations": [
+                "Static side-entry vanity reserve only; real body fitting, entry and sitting remain C3."
+              ]
+            },
+            "parent": "vanity-alternate/room-1",
+            "seatMesh": "chair-seat",
+            "backMesh": "chair-back",
+            "chairInTable": [
+              0.020000000000000018,
+              0,
+              0.55
+            ],
+            "approachInTable": [
+              0.67,
+              0,
+              0.5500000000000002
+            ],
+            "exitInTable": [
+              -0.6299999999999999,
+              0,
+              0.5499999999999999
+            ],
+            "orientation": -1,
+            "clearance": 0.04999999999999999,
+            "tabletop": 0.7799999713897705,
+            "samples": [
+              {
+                "offset": [
+                  0,
+                  0
+                ],
+                "height": 0.47500000014901156,
+                "triangle": 4
+              },
+              {
+                "offset": [
+                  -0.1,
+                  0
+                ],
+                "height": 0.47500000014901156,
+                "triangle": 4
+              },
+              {
+                "offset": [
+                  0.1,
+                  0
+                ],
+                "height": 0.47500000014901156,
+                "triangle": 5
+              },
+              {
+                "offset": [
+                  0,
+                  -0.08
+                ],
+                "height": 0.47500000014901167,
+                "triangle": 4
+              },
+              {
+                "offset": [
+                  0,
+                  0.08
+                ],
+                "height": 0.47500000014901156,
+                "triangle": 5
+              }
+            ],
+            "renderError": null
+          },
+          "after": {
+            "contact": {
+              "id": "vanity/primary/seat#seat",
+              "companyId": "vanity-alternate",
+              "revision": 2,
+              "facilityId": "vanity/primary/seat",
+              "floorId": "vanity-alternate/floor-1",
+              "roomId": "vanity-alternate/room-1",
+              "resource": {
+                "id": "vanity-chair-side-entry",
+                "version": 2
+              },
+              "transform": {
+                "position": [
+                  -0.98,
+                  0,
+                  -0.75
+                ],
+                "yaw": 3.141592653589793
+              },
+              "facilityTransform": {
+                "position": [
+                  -0.98,
+                  0,
+                  -0.75
+                ],
+                "yaw": 3.141592653589793
+              },
+              "local": {
+                "coordinateSpace": "facility",
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0,
+                "approach": [
+                  -0.65,
+                  0,
+                  0
+                ],
+                "exit": [
+                  0.65,
+                  0,
+                  0
+                ]
+              },
+              "approachPosition": [
+                -0.32999999999999996,
+                0,
+                -0.7499999999999999
+              ],
+              "exitPosition": [
+                -1.63,
+                0,
+                -0.7500000000000001
+              ],
+              "seatHeight": 0.47,
+              "capacity": 1,
+              "clearance": {
+                "width": 0.7,
+                "depth": 0.65
+              },
+              "footprint": {
+                "center": [
+                  0,
+                  0
+                ],
+                "halfSize": [
+                  0.275,
+                  0.255
+                ],
+                "blocking": true
+              },
+              "contact": {
+                "seatNodeId": "chair-seat",
+                "backNodeId": "chair-back"
+              },
+              "missingFields": [],
+              "limitations": [
+                "Static side-entry vanity reserve only; real body fitting, entry and sitting remain C3."
+              ]
+            },
+            "parent": "vanity-alternate/room-1",
+            "seatMesh": "chair-seat",
+            "backMesh": "chair-back",
+            "chairInTable": [
+              0.020000000000000018,
+              0,
+              0.55
+            ],
+            "approachInTable": [
+              0.67,
+              0,
+              0.5500000000000002
+            ],
+            "exitInTable": [
+              -0.6299999999999999,
+              0,
+              0.5499999999999999
+            ],
+            "orientation": -1,
+            "clearance": 0.04999999999999999,
+            "tabletop": 0.7799999713897705,
+            "samples": [
+              {
+                "offset": [
+                  0,
+                  0
+                ],
+                "height": 0.4700000001490116,
+                "triangle": 244
+              },
+              {
+                "offset": [
+                  -0.1,
+                  0
+                ],
+                "height": 0.47000000014901155,
+                "triangle": 244
+              },
+              {
+                "offset": [
+                  0.1,
+                  0
+                ],
+                "height": 0.4700000001490116,
+                "triangle": 245
+              },
+              {
+                "offset": [
+                  0,
+                  -0.08
+                ],
+                "height": 0.47000000014901167,
+                "triangle": 244
+              },
+              {
+                "offset": [
+                  0,
+                  0.08
+                ],
+                "height": 0.47000000014901167,
+                "triangle": 245
+              }
+            ],
+            "renderError": null
+          },
+          "restored": "output/vanity-seat-contact-v2/trial-hrqTmJ/two-rooms/room-1-restored.png"
+        },
+        {
+          "oldImage": "output/vanity-seat-contact-v2/trial-hrqTmJ/two-rooms/room-2-old.png",
+          "image": "output/vanity-seat-contact-v2/trial-hrqTmJ/two-rooms/room-2-corrected.png",
+          "before": {
+            "contact": {
+              "id": "vanity/secondary/seat#seat",
+              "companyId": "vanity-alternate",
+              "revision": 2,
+              "facilityId": "vanity/secondary/seat",
+              "floorId": "vanity-alternate/floor-1",
+              "roomId": "vanity-alternate/room-2",
+              "resource": {
+                "id": "vanity-chair-side-entry",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  8.55,
+                  0,
+                  -1.02
+                ],
+                "yaw": 4.71238898038469
+              },
+              "facilityTransform": {
+                "position": [
+                  8.55,
+                  0,
+                  -1.02
+                ],
+                "yaw": 4.71238898038469
+              },
+              "local": {
+                "coordinateSpace": "facility",
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0,
+                "approach": [
+                  -0.65,
+                  0,
+                  0
+                ],
+                "exit": [
+                  0.65,
+                  0,
+                  0
+                ]
+              },
+              "approachPosition": [
+                8.55,
+                0,
+                -1.67
+              ],
+              "exitPosition": [
+                8.55,
+                0,
+                -0.37
+              ],
+              "seatHeight": 0.47,
+              "capacity": 1,
+              "clearance": {
+                "width": 0.7,
+                "depth": 0.65
+              },
+              "footprint": {
+                "center": [
+                  0,
+                  0
+                ],
+                "halfSize": [
+                  0.275,
+                  0.255
+                ],
+                "blocking": true
+              },
+              "contact": {
+                "seatNodeId": "chair-seat",
+                "backNodeId": "chair-back"
+              },
+              "missingFields": [],
+              "limitations": [
+                "Static side-entry vanity reserve only; real body fitting, entry and sitting remain C3."
+              ]
+            },
+            "parent": "vanity-alternate/room-2",
+            "seatMesh": "chair-seat",
+            "backMesh": "chair-back",
+            "chairInTable": [
+              0.02000000000000024,
+              0,
+              0.5500000000000007
+            ],
+            "approachInTable": [
+              0.6700000000000002,
+              0,
+              0.5500000000000007
+            ],
+            "exitInTable": [
+              -0.6299999999999999,
+              0,
+              0.5500000000000007
+            ],
+            "orientation": -1,
+            "clearance": 0.05000000000000071,
+            "tabletop": 0.7799999713897705,
+            "samples": [
+              {
+                "offset": [
+                  0,
+                  0
+                ],
+                "height": 0.47500000014901156,
+                "triangle": 4
+              },
+              {
+                "offset": [
+                  -0.1,
+                  0
+                ],
+                "height": 0.47500000014901156,
+                "triangle": 4
+              },
+              {
+                "offset": [
+                  0.1,
+                  0
+                ],
+                "height": 0.47500000014901167,
+                "triangle": 5
+              },
+              {
+                "offset": [
+                  0,
+                  -0.08
+                ],
+                "height": 0.47500000014901156,
+                "triangle": 4
+              },
+              {
+                "offset": [
+                  0,
+                  0.08
+                ],
+                "height": 0.47500000014901156,
+                "triangle": 5
+              }
+            ],
+            "renderError": null
+          },
+          "after": {
+            "contact": {
+              "id": "vanity/secondary/seat#seat",
+              "companyId": "vanity-alternate",
+              "revision": 3,
+              "facilityId": "vanity/secondary/seat",
+              "floorId": "vanity-alternate/floor-1",
+              "roomId": "vanity-alternate/room-2",
+              "resource": {
+                "id": "vanity-chair-side-entry",
+                "version": 2
+              },
+              "transform": {
+                "position": [
+                  8.55,
+                  0,
+                  -1.02
+                ],
+                "yaw": 4.71238898038469
+              },
+              "facilityTransform": {
+                "position": [
+                  8.55,
+                  0,
+                  -1.02
+                ],
+                "yaw": 4.71238898038469
+              },
+              "local": {
+                "coordinateSpace": "facility",
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0,
+                "approach": [
+                  -0.65,
+                  0,
+                  0
+                ],
+                "exit": [
+                  0.65,
+                  0,
+                  0
+                ]
+              },
+              "approachPosition": [
+                8.55,
+                0,
+                -1.67
+              ],
+              "exitPosition": [
+                8.55,
+                0,
+                -0.37
+              ],
+              "seatHeight": 0.47,
+              "capacity": 1,
+              "clearance": {
+                "width": 0.7,
+                "depth": 0.65
+              },
+              "footprint": {
+                "center": [
+                  0,
+                  0
+                ],
+                "halfSize": [
+                  0.275,
+                  0.255
+                ],
+                "blocking": true
+              },
+              "contact": {
+                "seatNodeId": "chair-seat",
+                "backNodeId": "chair-back"
+              },
+              "missingFields": [],
+              "limitations": [
+                "Static side-entry vanity reserve only; real body fitting, entry and sitting remain C3."
+              ]
+            },
+            "parent": "vanity-alternate/room-2",
+            "seatMesh": "chair-seat",
+            "backMesh": "chair-back",
+            "chairInTable": [
+              0.02000000000000024,
+              0,
+              0.5500000000000007
+            ],
+            "approachInTable": [
+              0.6700000000000002,
+              0,
+              0.5500000000000007
+            ],
+            "exitInTable": [
+              -0.6299999999999999,
+              0,
+              0.5500000000000007
+            ],
+            "orientation": -1,
+            "clearance": 0.05000000000000071,
+            "tabletop": 0.7799999713897705,
+            "samples": [
+              {
+                "offset": [
+                  0,
+                  0
+                ],
+                "height": 0.4700000001490116,
+                "triangle": 244
+              },
+              {
+                "offset": [
+                  -0.1,
+                  0
+                ],
+                "height": 0.47000000014901167,
+                "triangle": 244
+              },
+              {
+                "offset": [
+                  0.1,
+                  0
+                ],
+                "height": 0.47000000014901167,
+                "triangle": 245
+              },
+              {
+                "offset": [
+                  0,
+                  -0.08
+                ],
+                "height": 0.47000000014901155,
+                "triangle": 244
+              },
+              {
+                "offset": [
+                  0,
+                  0.08
+                ],
+                "height": 0.47000000014901167,
+                "triangle": 245
+              }
+            ],
+            "renderError": null
+          },
+          "restored": "output/vanity-seat-contact-v2/trial-hrqTmJ/two-rooms/room-2-restored.png"
+        }
+      ],
+      "browserRestarted": true
+    }
+  ],
+  "errors": [],
+  "adapter": {
+    "source": {
+      "id": "chair-ladder",
+      "version": 1,
+      "sha256": "5696c74a04d68338e3c416f326cca4c3bb9ea30cddc053875de4a4d731932dde"
+    },
+    "after": "vanity-chair-side-entry@1",
+    "id": "vanity-chair-side-entry",
+    "version": 2,
+    "mountRole": "vanity-chair-side-entry",
+    "usePoints": [
+      {
+        "id": "seat",
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0,
+        "seatHeight": 0.47,
+        "seatNodeId": "chair-seat",
+        "backNodeId": "chair-back",
+        "capacity": 1,
+        "approach": [
+          -0.65,
+          0,
+          0
+        ],
+        "exit": [
+          0.65,
+          0,
+          0
+        ],
+        "clearance": {
+          "width": 0.7,
+          "depth": 0.65
+        },
+        "limits": [
+          "Static side-entry vanity reserve only; real body fitting, entry and sitting remain C3."
+        ]
+      }
+    ],
+    "inputResourceFile": "prototype/public/company-assets/seat-collection/chair-ladder/v1/resource.json",
+    "inputResourceFileSha256": "2b1444970c35c7f47b5a4597cba1b5025b7a0c227a0a71e94241486be6049b68",
+    "asset": {
+      "format": "glb",
+      "url": "/company-assets/seat-collection/chair-ladder/v1/model.glb",
+      "sha256": "1e207a753a5d46371076a1e616366fa24ab3223becf1261f67013fdd7484100c",
+      "bytes": 142784
+    },
+    "sameFunction": true,
+    "order": [
+      1,
+      2
+    ],
+    "sourcePinRule": "SHA256 of UTF-8 JSON.stringify(JSON.parse(resource source file)), original property order"
+  },
+  "build": {
+    "shortId": "95d5e3fa2850",
+    "sourceDigest": "95d5e3fa2850f6cd801f0202da1dc41c9092f1663ccf9cc4270b24c65bf87f87",
+    "files": 161,
+    "note": "Isolated Vite viewer source snapshot with trial catalog. Assets are read from pinned project public GLBs."
+  }
+}
