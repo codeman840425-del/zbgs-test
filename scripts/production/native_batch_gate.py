@@ -558,6 +558,37 @@ def glasses_candidate_index(path: Path, root: Path = ROOT) -> dict[str, dict[str
     return result
 
 
+def microphone_candidate_index(path: Path, root: Path = ROOT) -> dict[str, dict[str, Any]]:
+    """Attach exact-body CPU microphone fits without granting browser admission."""
+    path = path.resolve()
+    require(path.is_file() and path.is_relative_to(root),
+            "Microphone candidate report must be inside repository")
+    report = read_json(path)
+    require(report.get("schema") == "native-accessory-batch-result-v1",
+            "Unsupported microphone candidate report")
+    result: dict[str, dict[str, Any]] = {}
+    for item in report.get("targets", []):
+        body = item.get("body", {})
+        body_sha = body.get("sha256")
+        require(isinstance(body_sha, str) and SHA.fullmatch(body_sha),
+                "Microphone candidate body identity is incomplete")
+        require(item.get("status") == "cpu-candidate-only" and
+                item.get("microphone", {}).get("status") == "cpu-candidate-only",
+                "Microphone candidate is not explicitly CPU-only")
+        require(body_sha not in result, "Duplicate microphone candidate body")
+        result[body_sha] = {
+            "report": pin(path),
+            "bodySha256": body_sha,
+            "presentation": item.get("microphone", {}).get("presentation"),
+            "gripEntry": item.get("microphone", {}).get("gripEntry"),
+            "status": "cpu-candidate-only",
+            "verified": False,
+            "clears": [],
+        }
+    require(result, "Microphone candidate report has no targets")
+    return result
+
+
 def evaluate(batch_path: Path, root: Path = ROOT,
              runtime_report: Path | None = None,
              adapter_report: Path | None = None,
@@ -569,7 +600,8 @@ def evaluate(batch_path: Path, root: Path = ROOT,
              dynamic_trace: Path | None = None,
              budget_classification: Path | None = None,
              surface_admission: Path | None = None,
-             glasses_candidate: Path | None = None) -> dict[str, Any]:
+             glasses_candidate: Path | None = None,
+             microphone_candidate: Path | None = None) -> dict[str, Any]:
     root = root.resolve()
     batch_path = batch_path.resolve()
     require(batch_path.is_file() and batch_path.is_relative_to(root), "Batch must be inside repository")
@@ -588,6 +620,7 @@ def evaluate(batch_path: Path, root: Path = ROOT,
     budget_classification_by_body = budget_classification_index(budget_classification, root) if budget_classification else {}
     surface_by_body = surface_admission_index(surface_admission, root) if surface_admission else {}
     glasses_candidate_by_body = glasses_candidate_index(glasses_candidate, root) if glasses_candidate else {}
+    microphone_candidate_by_body = microphone_candidate_index(microphone_candidate, root) if microphone_candidate else {}
     combined_adapter = dict(adapter_by_body)
     for evidence_map in (glasses_by_body, budget_by_body):
         for body_sha, evidence in evidence_map.items():
@@ -619,6 +652,8 @@ def evaluate(batch_path: Path, root: Path = ROOT,
             row["surfaceAdmissionEvidence"] = surface_by_body[body_sha]
         if body_sha in glasses_candidate_by_body:
             row["glassesCandidateEvidence"] = glasses_candidate_by_body[body_sha]
+        if body_sha in microphone_candidate_by_body:
+            row["microphoneCandidateEvidence"] = microphone_candidate_by_body[body_sha]
     for row in rows:
         if row["bodyType"] in microphone_by_body:
             row["accessoryEvidence"] = {"microphone": microphone_by_body[row["bodyType"]]}
@@ -670,6 +705,7 @@ def main() -> int:
     parser.add_argument("--budget-classification", type=Path)
     parser.add_argument("--surface-admission", type=Path)
     parser.add_argument("--glasses-candidate", type=Path)
+    parser.add_argument("--microphone-candidate", type=Path)
     args = parser.parse_args()
     try:
         report = evaluate(args.batch, runtime_report=args.runtime_report, adapter_report=args.adapter_report,
@@ -678,7 +714,8 @@ def main() -> int:
                           budget_report=args.budget_report, dynamic_trace=args.dynamic_trace,
                           budget_classification=args.budget_classification,
                           surface_admission=args.surface_admission,
-                          glasses_candidate=args.glasses_candidate)
+                          glasses_candidate=args.glasses_candidate,
+                          microphone_candidate=args.microphone_candidate)
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
         print(json.dumps(report, ensure_ascii=False))
